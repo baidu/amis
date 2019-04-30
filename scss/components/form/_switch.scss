@@ -107,4 +107,8 @@
 
 .#{$ns}SwitchControl {
     padding-top: ($Form-input-height - $Switch-height) / 2;
+
+    &.is-inline {
+        display: inline-block;
+    }
 }
