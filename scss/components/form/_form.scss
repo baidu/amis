@@ -103,24 +103,28 @@
 @include media-breakpoint-up(sm) {
     .#{$ns}Form-control--sizeXs {
         min-width: $Form-control-widthXs;
+        width: auto;
         display: inline-block;
         vertical-align: top;
     }
     
     .#{$ns}Form-control--sizeSm {
         min-width: $Form-control-widthSm;
+        width: auto;
         display: inline-block;
         vertical-align: top;
     }
     
     .#{$ns}Form-control--sizeMd {
         min-width: $Form-control-widthMd;
+        width: auto;
         display: inline-block;
         vertical-align: top;
     }
     
     .#{$ns}Form-control--sizeLg {
         min-width: $Form-control-widthLg;
+        width: auto;
         display: inline-block;
         vertical-align: top;
     }
