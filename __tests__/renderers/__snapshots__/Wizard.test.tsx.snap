@@ -1671,7 +1671,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
                 name="email"
                 placeholder=""
                 type="email"
-                value="fex@xxx.com"
+                value="xxx@xxx.com"
               />
             </div>
           </div>
