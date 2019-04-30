@@ -1,0 +1,49 @@
+.#{$ns}Picker {
+
+    &-values {
+        display: inline-block;
+        margin-top: -$gap-xs;
+        padding: ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px))/2 0;
+    }
+
+    &-value {
+        cursor: pointer;
+        user-select: none;
+        line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+        display: inline-block;
+        font-size: $Form-selectValue-fontSize;
+        color: $Form-selectValue-color;
+        background: $Form-selectValue-bg;
+        border: px2rem(1px) solid $Form-selectValue-borderColor;
+        border-radius: 2px;
+        margin-right: $gap-xs;
+        margin-top: $gap-xs;
+
+        &:hover {
+            background-color: darken($Form-selectValue-bg, 5%);
+        }
+
+        &.is-disabled {
+            pointer-events: none;
+            opacity: $Button-onDisabled-opacity;
+        }
+    }
+
+    &-valueIcon {
+        cursor: pointer;
+        border-right: px2rem(1px) solid $Form-selectValue-borderColor;
+        padding: 1px 5px;
+
+        &:hover {
+            background-color: darken($Form-selectValue-bg, 5%);
+        }
+    }
+
+    &-valueLabel {
+        padding: 0 $gap-xs;
+    }
+}
+
+.#{$ns}PickerControl {
+    padding-top: $Form-input-height - px2rem(30px);
+}

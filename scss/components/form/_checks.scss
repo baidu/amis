@@ -1,0 +1,221 @@
+
+.#{$ns}Checkbox {
+    margin: 0 $gap-sm 0 0;
+    cursor: pointer;
+    font-weight: $fontWeightNormal;
+    user-select: none;
+
+    input {
+        opacity: 0;
+        position: absolute;
+    }
+
+    &:hover input:not(:disabled) + i {
+        border-color: $Checkbox-onHover-color;
+        // box-shadow: 0 0 px2rem(1px) $Checkbox-onHover-color inset;
+    }
+
+    > i {
+        line-height: 1;
+        background-color: #fff;
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        
+        + span {
+            margin-left: $Checkbox-gap;
+            
+            &:empty {
+                display: none;
+            }
+        }
+
+        &:before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 0px;
+            height: 0px;
+            background-color: transparent;
+            transition: all 0.2s;
+        }
+    }
+
+    &--checkbox {
+        padding-left: $Checkbox-size;
+    
+        input {
+            margin-left: -$Checkbox-size;
+
+            &:checked + i {
+                border-color: $Checkbox-onHover-color;
+    
+                &:before {
+                    left: ($Checkbox-size - px2rem(2px) - $Checkbox-inner-size) / 2;
+                    top: ($Checkbox-size - px2rem(2px) - $Checkbox-inner-size) / 2;
+                    width: $Checkbox-inner-size;
+                    height: $Checkbox-inner-size;
+                    background-color: $Checkbox-onHover-color;
+                }
+            }
+    
+            &[disabled] + i {
+                border-color: lighten($Checkbox-color, 5%);
+    
+                &:before {
+                    background-color: lighten($Checkbox-color, 5%);
+                }
+            }
+        }
+
+        > i {
+            width: $Checkbox-size;
+            height: $Checkbox-size;
+            border: px2rem(1px) solid $Checkbox-color;
+            margin-left: -$Checkbox-size;
+            margin-top: px2rem(-3px);
+        }
+    }
+
+    &--full.#{$ns}Checkbox--checkbox {
+        &:not(:disabled) + i:hover {
+            border-color: $Checkbox-color;
+        }
+
+        input {
+            &:checked + i {
+                border-color: $Checkbox-onHover-color;
+                background-color: $Checkbox-onHover-color;
+    
+                &:before {
+                    // todo 后面自动计算
+                    @if $ns == 'cxd-' {
+                        top: px2rem(2px);
+                        left: px2rem(1px);
+                    } @else {
+                        top: px2rem(5px);
+                        left: ($Checkbox-size - $Checkbox--full-inner-size) /2;
+                    }
+
+                    width: $Checkbox--full-inner-size;
+                    height: $Checkbox--full-inner-size / 2;
+                    border-color: $white;
+                }
+            }
+
+            // &[disabled] + i {
+            //     border-color: lighten($Checkbox-color, 5%);
+    
+            //     &:before {
+            //         background-color: lighten($Checkbox-color, 5%);
+            //     }
+            // }
+
+            &:checked[disabled] + i {
+                border-color: lighten($Checkbox-color, 5%);
+                background-color: lighten($Checkbox-color, 5%);
+            }
+        }
+
+        > i {
+            position: relative;
+
+            &:before {
+                content: "";
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                width: 0;
+                height: 0;
+                border-color: transparent;
+                transition: all 0.2s;
+                border-width: 0 0 px2rem(2px) px2rem(2px);
+                transform: rotate(-40deg);
+                border-style: solid;
+            }
+        }
+    }
+
+    &--radio {
+        padding-left: $Radio-size;
+    
+        input {
+            margin-left: -$Radio-size;
+
+            &:checked + i {
+                border-color: $Radio-onHover-color;
+                
+    
+                &:before {
+                    left: ($Radio-size - px2rem(2px) - $Radio-inner-size) / 2;
+                    top: ($Radio-size - px2rem(2px) - $Radio-inner-size) / 2;
+                    width: $Radio-inner-size;
+                    height: $Radio-inner-size;
+                    background-color: $Radio-onHover-color;
+                    border-radius: 50%;
+                }
+            }
+            
+            &[disabled] + i {
+                border-color: lighten($Radio-color, 5%);
+    
+                &:before {
+                    background-color: lighten($Radio-color, 5%);
+                }
+            }
+        }
+
+        > i {
+            width: $Radio-size;
+            height: $Radio-size;
+            border: px2rem(1px) solid $Radio-color;
+            margin-left: -$Radio-size;
+            margin-top: px2rem(-2px);
+            border-radius: 50%;
+        }
+    }
+
+    &--sm {
+        margin-right: px2rem(5px);
+        
+        input {
+            &:checked + i {
+                &:before {
+                    left: $Checkbox--sm-size / 4 - px2rem(1px);
+                    top: $Checkbox--sm-size / 4 - px2rem(1px);
+                    width: $Checkbox--sm-size / 2;
+                    height: $Checkbox--sm-size / 2;
+                }
+            }
+        }
+        > i {
+            width: $Checkbox--sm-size;
+            height: $Checkbox--sm-size;
+            margin-left: -$Checkbox--sm-size;
+
+            + span {
+                margin-left: $gap-xs;
+            }
+        }
+    }
+}
+
+.#{$ns}CheckboxControl, 
+.#{$ns}RadiosControl, 
+.#{$ns}CheckboxesControl {
+    padding-top: ($Form-input-height - $Checkbox-size) / 2;
+}
+
+.#{$ns}RadiosControl,
+.#{$ns}CheckboxesControl {
+    .#{$ns}Checkbox {
+        display: block;
+        margin-bottom: $Form-label-paddingTop;
+    }
+
+    &.is-inline .#{$ns}Checkbox {
+        display: inline-block;
+        margin-right: $gap-md;
+    }
+}

@@ -1,0 +1,159 @@
+{
+    "status": 0,
+    "msg": "ok",
+    "data": {
+        "count": 0,
+        "rows": [
+            {
+                "id": 1,
+                "name": "admin:permission",
+                "description": "权限(Resource)管理能力",
+                "is_readonly": true
+            },
+            {
+                "id": 2,
+                "name": "admin:role",
+                "description": "角色管理能力",
+                "is_readonly": true
+            },
+            {
+                "id": 4,
+                "name": "admin:acl",
+                "description": "Acl 配置能力",
+                "is_readonly": true
+            },
+            {
+                "id": 5,
+                "name": "admin:page",
+                "description": "页面管理能力",
+                "is_readonly": true
+            },
+            {
+                "id": 6,
+                "name": "page:readAll",
+                "description": "所有页面查看能力",
+                "is_readonly": true
+            },
+            {
+                "id": 71,
+                "name": "admin:settings",
+                "description": "群配置",
+                "is_readonly": true
+            },
+            {
+                "id": 3308,
+                "name": "1111",
+                "description": "",
+                "is_readonly": false
+            },
+            {
+                "id": 3639,
+                "name": "admin:permission",
+                "description": "权限(Resource)管理能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3640,
+                "name": "admin:role",
+                "description": "角色管理能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3641,
+                "name": "admin:user:view",
+                "description": "用户查看能力(相同角色)",
+                "is_readonly": true
+            },
+            {
+                "id": 3642,
+                "name": "admin:user:viewAll",
+                "description": "用户查看能力(所有角色)",
+                "is_readonly": true
+            },
+            {
+                "id": 3643,
+                "name": "admin:user:edit",
+                "description": "用户编辑能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3644,
+                "name": "admin:user:delete",
+                "description": "用户删除能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3645,
+                "name": "admin:acl",
+                "description": "Acl 配置能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3646,
+                "name": "admin:page",
+                "description": "页面管理能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3647,
+                "name": "admin:settings",
+                "description": "系统配置管理能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3648,
+                "name": "admin:mock",
+                "description": "管理假数据能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3649,
+                "name": "admin:component",
+                "description": "管理组件的能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3650,
+                "name": "admin:record",
+                "description": "查看记录的能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3651,
+                "name": "page:view:codesdfsdfs",
+                "description": "查看页面源码能力",
+                "is_readonly": true
+            },
+            {
+                "id": 3652,
+                "name": "debug:api",
+                "description": "查看 api 的 Debug 信息",
+                "is_readonly": true
+            },
+            {
+                "id": 6430,
+                "name": "admin:user:external:view",
+                "description": "外部用户查看能力",
+                "is_readonly": true
+            },
+            {
+                "id": 6431,
+                "name": "admin:user:external:edit",
+                "description": "外部用户编辑能力",
+                "is_readonly": true
+            },
+            {
+                "id": 6432,
+                "name": "admin:user:external:delete",
+                "description": "外部用户删除能力",
+                "is_readonly": true
+            },
+            {
+                "id": 6433,
+                "name": "admin:organization",
+                "description": "群组管理能力(只对机构群组有效)",
+                "is_readonly": true
+            }
+        ]
+    }
+}

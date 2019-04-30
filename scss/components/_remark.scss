@@ -1,0 +1,23 @@
+.#{$ns}Remark {
+    display: inline-block;
+    margin-left: $Remark-marginLeft;
+    color: $Remark-iconColor;
+    font-size: $fontSizeBase;
+    line-height: 1;
+    cursor: pointer;
+    background-color: $Remark-bg;
+    border: $Remark-borderWidth solid $Remark-borderColor;
+    text-align: center;
+    width: $Remark-width;
+
+    &-icon {
+        color: inherit;
+        font-size: $Remark-icon-fontSize;
+    }
+
+    &:hover {
+        color: $Remark-onHover-iconColor;
+        background-color: $Remark-onHover-bg;
+        border-color: $Remark-onHover-borderColor;
+    }
+}

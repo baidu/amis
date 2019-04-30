@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Components:404 Custom code & messages 1`] = `
+<div
+  className="container w-xxl w-auto-xs"
+>
+  <div
+    className="text-center m-b-lg"
+  >
+    <h1
+      className="text-shadow text-white"
+    >
+      500
+    </h1>
+    <div
+      className="text-danger"
+    >
+      Internal Error
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Components:404 default View 1`] = `
+<div
+  className="container w-xxl w-auto-xs"
+>
+  <div
+    className="text-center m-b-lg"
+  >
+    <h1
+      className="text-shadow text-white"
+    >
+      404
+    </h1>
+  </div>
+</div>
+`;

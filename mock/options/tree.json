@@ -1,0 +1,34 @@
+{
+    "status": 0,
+    "msg": "ok",
+    "data": {
+        "options": [
+            {
+                "label": "Folder A",
+                "value": "a",
+                "children": [
+                    { "label": "Sub File A", "value": "a-a" },
+                    { "label": "Sub File B", "value": "a-b" }
+                ]
+            },
+            {
+                "label": "Folder B",
+                "value": "b",
+                "children": [
+                    { "label": "Sub File A", "value": "b-a" },
+                    {
+                        "label": "Sub Folder B",
+                        "value": "b-b",
+                        "children": [
+                            { "label": "Sub File A", "value": "b-b-a" },
+                            { "label": "Sub File B", "value": "b-b-b" }
+                        ]
+                    }
+                ]
+            },
+            { "label": "File C", "value": "c" },
+            { "label": "File D", "value": "d" },
+            { "label": "File E", "value": "e" }
+        ]
+    }
+}

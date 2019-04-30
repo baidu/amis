@@ -1,0 +1,42 @@
+.#{$ns}Collapse {
+    padding: 0;
+    margin-bottom: $Form-item-gap;
+
+    &-header {
+        font-size: $fontSizeMd;
+        font-weight: $fontWeightNormal;
+        color: $text--loud-color;
+        padding: px2rem(5px) 0;
+        border-bottom: $borderWidth solid lighten($borderColor, 5%);
+    }
+
+    &-arrow {
+        display: inline-block;
+        width: px2rem(16px);
+        text-align: center;
+        margin-left: $gap-xs;
+        cursor: pointer;
+        
+        &:before {
+            content: '';
+            position: relative;
+            display: inline-block;
+            width: px2rem(6px);
+            height: px2rem(6px);
+            top: px2rem(-4px);
+            border-color: $text-color;
+            border-style: solid;
+            border-width: px2rem(1px) px2rem(1px) 0 0;
+            transform: rotate(135deg);
+            transform-origin: center;
+        }
+    }
+
+    &.is-collapsed &-arrow:before {
+        transform: rotate(45deg);
+    }
+
+    &--collapsable &-header {
+        user-select: none;
+    }
+}

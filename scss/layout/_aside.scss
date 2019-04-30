@@ -1,0 +1,289 @@
+
+.#{$ns}AsideNav {
+    @include clearfix();
+
+    &-label {
+        color: $Layout-asideLabel-color;
+        margin-top: $gap-base;
+        margin-bottom: $gap-sm;
+        font-size: $fontSizeXs;
+        padding-left: $gap-base;
+        padding-right: $gap-base;
+    }
+
+    &-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    
+
+    &-itemArrow {
+        float: right;
+        display: block;
+        width: px2rem(20px);
+        text-align: center;
+        line-height: px2rem(17px);
+        
+
+        &::before {
+            content: $Layout-asideLink-arrowIcon;
+            display: inline-block;
+            font-family: $Layout-asideLink-arrowVendor;
+            transform-origin: center;
+            color: $Layout-asideLink-arrowColor;
+            font-size: $Layout-asideLink-arrowFontSize;
+        }
+        
+        .#{$ns}AsideNav-item.is-active > a > &::before {
+            transform: rotate(90deg);
+            color: $Layout-asideLink-onActive-arrowColor;
+        }
+    }
+
+    &-itemBadge {
+        padding: px2rem(2px) px2rem(5px);
+        margin-top: px2rem(2px);
+        font-size: $fontSizeXs;
+        text-shadow: 0 px2rem(1px) 0 rgba(0, 0, 0, 0.2);
+        float: right;
+        min-width: px2rem(1px);
+        line-height: 1;
+        font-weight: $fontWeightBold;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: px2rem(10px);
+    }
+
+    &-itemIcon {
+        margin: ($Layout-nav-height - $lineHeightBase * $Layout-asideLink-fontSize)/-2 px2rem(-10px);
+        line-height: $Layout-nav-height;
+        width: $Layout-nav-height;
+        vertical-align: middle;
+        float: left;
+        margin-right: 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        color: $Layout-asideLink-iconColor;
+        font-size: $Layout-asideLink-onHover-iconSize;
+
+        &:before {
+            position: relative;
+            z-index: 2;
+        }
+    }
+
+    &-subList {
+        margin: 0;
+        padding: 0;
+        opacity: 0;
+        height: 0;
+        overflow: hidden;
+        margin-left: px2rem(-20px);
+        transition: all .2s ease-in-out 0s;
+        background-color: $Layout-aside-onAcitve-bg;
+
+        .is-active > &,
+        .#{$ns}Layout--folded .#{$ns}AsideNav-item:hover > &, 
+        .#{$ns}Layout--folded .#{$ns}AsideNav-item:focus > &, 
+        .#{$ns}Layout--folded .#{$ns}AsideNav-item:active > & {
+            opacity: 1;
+            margin-left: 0;
+            height: auto !important;
+            overflow: visible;
+        }
+
+        .#{$ns}Layout--folded .#{$ns}AsideNav-item.is-active > & {
+            overflow: hidden;
+        }
+    }
+
+    &-item {
+        position: relative;
+        display: block;
+
+        a {
+            font-weight: normal;
+            cursor: pointer;
+            text-transform: none;
+            display: block;
+            font-size: $Layout-asideLink-fontSize;
+            padding: ($Layout-nav-height - $lineHeightBase*$Layout-asideLink-fontSize)/2 px2rem(15px);
+            position: relative;
+            transition: background-color .2s ease-in-out 0s;
+            color: $Layout-asideLink-color;
+            text-decoration: none;
+            user-select: none;
+            
+
+            &:hover {
+                color: $Layout-asideLink-onHover-color;
+                text-decoration: none;
+                background-color: $Layout-aside-onHover-bg;
+
+                .#{$ns}AsideNav-itemIcon {
+                    color: $Layout-asideLink-onHover-iconColor;
+                }
+            }
+        }
+
+        &.is-active {
+            > a {
+                background-color: $Layout-aside-onAcitve-bg;
+                color: $Layout-asideLink-onActive-color;
+
+                &:hover {
+                    background-color: $Layout-aside-onHover-bg;
+                }
+            }
+        }
+
+        .#{$ns}AsideNav-item {
+            a {
+                padding-left: $Layout-nav-height + px2rem(5px);
+            }
+    
+            .#{$ns}AsideNav-item a {
+                padding-left: $Layout-nav-height + px2rem(35px);
+            }
+
+            .#{$ns}AsideNav-item .#{$ns}AsideNav-item a {
+                padding-left: $Layout-nav-height + px2rem(65px);
+            }
+
+            .#{$ns}AsideNav-subList {
+                display: none;
+            }
+
+            &.is-active .#{$ns}AsideNav-subList {
+                display: block;
+            }
+        }
+
+    }
+
+    &-subHeader {
+        display: none;
+
+        a {
+            cursor: default;
+            background: transparent;
+            color: darken($Layout-aside-color, 10%);
+            padding: ($Layout-nav--folded-height - $lineHeightBase * $Layout-asideLink-fontSize)/2 px2rem(20px);
+
+            &:hover {
+                color: darken($Layout-aside-color, 10%);
+                background: transparent;
+            }
+        }
+    }
+
+    &-tooltip {
+        pointer-events: none;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        position: absolute;
+        font-size: $Tooltip--attr-fontSize;
+        line-height: $Tooltip--attr-lineHeigt;
+        text-align: left;
+        white-space: nowrap;
+        background: $Tooltip--attr-bg;
+        border: $Tooltip--attr-borderWidth solid $Tooltip--attr-borderColor;
+        border-radius: $Tooltip--attr-borderRadius;
+        box-shadow: $Tooltip--attr-boxShadow;
+        left: 100%;
+        color: $Tooltip--attr-color;
+        padding: $Tooltip--attr-paddingY $Tooltip--attr-paddingX;
+        opacity: 0;
+        transition: $Tooltip--attr-transition;
+    }
+
+    &-divider {
+        width: auto;
+        height: px2rem(1px);
+        margin: $Layout-asideDivider-margin;
+        overflow: hidden;
+        font-size: 0;
+        background-color: $Layout-asideDivider-bg;
+    }
+}
+
+@include media-breakpoint-up(md) {
+    .#{$ns}Layout--folded {
+        .#{$ns}AsideNav-label {
+            display: none;
+        }
+
+        .#{$ns}AsideNav-subHeader {
+            display: block;
+        }
+
+        .#{$ns}AsideNav-item:hover > .#{$ns}AsideNav-tooltip {
+            opacity: 1;
+            z-index: $zindex-tooltip;
+            margin: 0 0 0 $Tooltip--attr-gap;
+            opacity: 1;
+        }
+
+        .#{$ns}AsideNav-list > .#{$ns}AsideNav-item > a {
+            text-align: center;
+            position: relative;
+            padding: 0;
+            text-align: center;
+            height: $Layout-nav--folded-height;
+            border: none;
+
+            .#{$ns}AsideNav-itemArrow,
+            .#{$ns}AsideNav-itemLabel {
+                display: none;
+            }
+
+            .#{$ns}AsideNav-itemIcon {
+                width: auto;
+                float: none !important;
+                display: block;
+                font-size: px2rem(16px);
+                margin: 0;
+                line-height: $Layout-nav--folded-height;
+                border: none !important;
+            }
+
+            .#{$ns}AsideNav-itemBadge {
+                position: absolute;
+                right: px2rem(12px);
+                top: px2rem(8px);
+                z-index: 3;
+            }
+        }
+
+        .#{$ns}AsideNav-item .#{$ns}AsideNav-item a {
+            padding-left: px2rem(20px) !important;
+        }
+
+        .#{$ns}AsideNav-subList {
+            height: 0 !important;
+            position: absolute;
+            left: 100%;
+            top: 0 !important;
+            z-index: 1050;
+            width: $Layout-aside-width;
+            box-shadow: 0 px2rem(2px) px2rem(6px) rgba(0, 0, 0, 0.1);
+        }
+
+        &.#{$ns}Layout--sm .#{$ns}AsideNav-subList {
+            width: $Layout-aside--sm-width;
+        }
+
+        &.#{$ns}Layout--md .#{$ns}AsideNav-subList {
+            width: $Layout-aside--md-width;
+        }
+
+        &.#{$ns}Layout--lg .#{$ns}AsideNav-subList {
+            width: $Layout-aside--lg-width;
+        }
+    }
+}

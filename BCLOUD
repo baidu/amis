@@ -1,0 +1,1 @@
+BUILD_SUBMITTER -x -e FIS -m baidu/amis/renderer -c "cd baidu/amis/renderer && sh build.sh" -u ./

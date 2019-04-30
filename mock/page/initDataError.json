@@ -1,0 +1,8 @@
+{
+    "status": 404,
+    "msg": "Node is Not Found",
+    "data": {
+        "title": "Test Page Component",
+        "date": "2017-10-13"
+    }
+}

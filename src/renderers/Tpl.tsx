@@ -1,0 +1,109 @@
+import * as React from 'react';
+import {
+    Renderer,
+    RendererProps
+} from '../factory';
+import {
+    filter
+} from '../utils/tpl';
+import * as cx from 'classnames';
+import { anyChanged } from '../utils/helper';
+import { escapeHtml } from '../utils/tpl-builtin';
+
+export interface TplProps extends RendererProps {
+    className?: string;
+    tpl?: string;
+    html?: string;
+    text?: string;
+    raw?: string;
+    value?: string;
+    wrapperComponent?: any;
+    inline?: boolean;
+}
+
+export class Tpl extends React.Component<TplProps, object> {
+    static defaultProps:Partial<TplProps> = {
+        inline: true,
+        placeholder: '',
+        value: ''
+    };
+
+    dom:any;
+
+    constructor(props:TplProps) {
+        super(props);
+        this.htmlRef = this.htmlRef.bind(this);
+    }
+
+
+    componentDidUpdate(prevProps:TplProps) {
+        if (anyChanged([
+            'data',
+            'tpl',
+            'html',
+            'text',
+            'raw',
+            'value'
+        ], this.props, prevProps)) {
+            this._render();
+        }
+    }
+
+    htmlRef(dom:any) {
+        this.dom = dom;
+        this._render();
+    }
+
+    getContent() {
+        const {
+            tpl,
+            html,
+            text,
+            raw,
+            value,
+            data,
+            placeholder
+        } = this.props;
+
+        if (raw) {
+            return raw;
+        } else if (html) {
+            return filter(html, data);
+        } else if (tpl) {
+            return filter(tpl, data);
+        } else if (text) {
+            return escapeHtml(filter(text, data));
+        } else {
+            return (value == null || value === '' ? `<span class="text-muted">${placeholder}</span>` : (typeof value === 'string' ? value: JSON.stringify(value)));
+        }
+    }
+
+    _render() {
+        if (!this.dom) {
+            return;
+        }
+
+        this.dom.innerHTML = this.getContent();
+    }
+
+    render() {
+        const {
+            className,
+            wrapperComponent,
+            inline,
+            classnames: cx
+        } = this.props;
+
+        const Component = wrapperComponent || (inline ? 'span' : 'div');
+
+        return (
+            <Component children={this.getContent()} ref={this.htmlRef} className={cx('TplField', className)} />
+        );
+    }
+}
+
+@Renderer({
+    test: /(^|\/)(?:tpl|html)$/,
+    name: 'tpl'
+})
+export class TplRenderer extends Tpl {};

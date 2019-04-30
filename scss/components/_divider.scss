@@ -1,0 +1,6 @@
+.#{$ns}Divider {
+    margin: ($gap-base) (-$gap-base);
+    border-bottom: $borderWidth dashed $borderColor;
+    height: px2rem(2px);
+    font-size: 0;
+}

@@ -1,0 +1,176 @@
+.#{$ns}List {
+    border: $List-borderWidth solid $List-borderColor;
+    border-radius: $List-borderRadius;
+    background-color: $List-bg;
+    margin-bottom: $gap-md;
+    position: relative;
+
+    &-toolbar {
+        @include clearfix();
+        display: flex;
+        flex-wrap: nowrap;
+        padding: $List-toolbar-paddingY $List-toolbar-paddingX;
+    }
+
+    &-actions {
+        display: inline-block;
+        
+        > * {
+            margin-right: $Crud-toolbar-gap;
+        }
+    }
+
+    &-header {
+        padding: $List-toolbar-paddingY $List-toolbar-paddingX;
+
+        > * + .#{$ns}Button,
+        > * + .#{$ns}ButtonGroup,
+        > * + .#{$ns}ButtonToolbar {
+            margin-left: $Crud-toolbar-gap;
+        }
+    }
+
+    &-header + &-toolbar {
+        padding-top: 0;
+    }
+
+    &-heading {
+        padding: $gap-xs 0;
+    }
+
+    &-fixedTop {
+        position: absolute;
+        background: $white;
+        z-index: -1;
+        opacity: 0;
+        box-shadow: $List-fixedTop-boxShadow;
+        padding: $gap-sm;
+
+        &.in {
+            position: fixed;
+            opacity: 1;
+            z-index: $zindex-affix;
+        }
+
+        .#{$ns}Cards-toolbar {
+            margin-bottom: 0;
+        }
+
+        &:empty {
+            display: none;
+        }
+    }
+
+    &--unsaved &-heading {
+        background: $List--unsaved-heading-bg;
+        color: $List--unsaved-heading-color;
+        padding: $gap-xs $gap-sm;
+        margin-bottom: $gap-sm;
+    }
+
+    &-dragTip {
+        color: $text--loud-color;
+        clear: both;
+        margin-top: $gap-xs;
+    }
+
+    &-placeholder {
+        color: $text--muted-color;
+        text-align: center;
+        height: $List-placeholder-height;
+        line-height: $List-placeholder-height;
+    }
+}
+
+.#{$ns}ListItem {
+    @include clearfix();
+    
+    & + & {
+        border-top: $ListItem-borderWidth solid $ListItem-borderColor;
+    }
+
+    position: relative;
+    display: block;
+    padding: $ListItem-paddingY $ListItem-paddingX;
+
+    &:nth-child(even) {
+        background-color: $ListItem--strip-bg;
+    }
+
+    &-checkBtn {
+        float: left;
+        margin-right: $gap-sm;
+    }
+
+    &-dragBtn {
+        cursor: pointer;
+        float: left;
+        margin-right: $gap-sm;
+    }
+
+    &-actions {
+        float: right;
+    }
+
+    &-title {
+        margin: 0;
+        padding: 0;
+        font-size: $fontSizeBase;
+        color: $text--loud-color;
+        font-weight: $fontWeightNormal;
+    }
+
+    &-content {
+        overflow: hidden;
+    }
+
+    &-field {
+        position: relative;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    &-fieldValue {
+        position: relative;
+        flex-basis: 0;
+        flex-grow: 1;
+    }
+
+    &-fieldLabel {
+        width: px2rem(150px);
+        color: $text--muted-color;
+    }
+
+    &.is-checked {
+        background-color: $ListItem-onChecked-bg;
+        border-color: $ListItem-onChecked-borderColor;
+        color: $ListItem-onChecked-color;
+
+        + .#{$ns}ListItem {
+            border-color: $ListItem-onChecked-borderColor;
+        }
+
+        .#{$ns}ListItem-fieldLabel {
+            color: lighten($ListItem-onChecked-color, 20%);
+        }
+    }
+
+    &.is-modified,
+    &.is-moved {
+        background-color: $ListItem-onModified-bg;
+        border-color: $ListItem-onModified-borderColor;
+        color: $ListItem-onModified-color;
+
+        + .#{$ns}ListItem {
+            border-color: $ListItem-onModified-borderColor;
+        }
+
+        .#{$ns}ListItem-fieldLabel {
+            color: lighten($ListItem-onModified-color, 20%);
+        }
+    }
+
+    &.is-dragging {
+        opacity: $ListItem-onDragging-opacity;
+    }
+}
