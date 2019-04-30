@@ -430,6 +430,8 @@
                 height: $TableCell-filterPopOver-dropDownItem-height;
                 line-height: $TableCell-filterPopOver-dropDownItem-height;
                 padding: $TableCell-filterPopOver-dropDownItem-padding;
+                background-color: $white;
+                margin: 0;
 
                 &:hover {
                     background-color: $light;
