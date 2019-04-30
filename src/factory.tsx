@@ -7,7 +7,7 @@ import {
 } from "./store/index";
 import {
     getEnv
-} from 'mobx-state-tree/';
+} from 'mobx-state-tree';
 import {
     Location
 } from 'history';
