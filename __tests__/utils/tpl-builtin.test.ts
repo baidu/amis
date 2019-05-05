@@ -1,7 +1,8 @@
 import {
     prettyBytes,
     escapeHtml,
-    formatDuration
+    formatDuration,
+    resolveVariableAndFilter
 } from '../../src/utils/tpl-builtin';
 
 test('tpl-builtin:prettyBytes', () => {
@@ -18,5 +19,20 @@ test('tpl-builtin:formatDuration', () => {
     expect(formatDuration(1)).toEqual('1秒');
     expect(formatDuration(61)).toEqual('1分1秒');
     expect(formatDuration(233233)).toEqual('3天17时47分13秒');
-
 })
+
+test('tpl-bultin:resolveVariableAndFilter', () => {
+    const data = {
+        a: 1,
+        b: '2',
+        c: {
+            '1': 'first',
+            '2': 'second'
+        }
+    };
+
+    expect(resolveVariableAndFilter('${a}', data, '| raw')).toEqual(1);
+    expect(resolveVariableAndFilter('${b}', data, '| raw')).toEqual('2');
+    expect(resolveVariableAndFilter('${c.${a}}', data, '| raw')).toEqual('first');
+    expect(resolveVariableAndFilter('${c.${b}}', data, '| raw')).toEqual('second');
+});
