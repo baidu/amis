@@ -141,6 +141,7 @@ import './renderers/Chart';
 import './renderers/Container';
 import './renderers/Service';
 import './renderers/Video';
+import './renderers/Audio';
 import './renderers/Nav';
 import './renderers/Tasks';
 import './renderers/Drawer';
