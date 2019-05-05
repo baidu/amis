@@ -57,6 +57,7 @@ export default class Remark extends React.Component<RemarkProps> {
                 rootClose={tooltip && tooltip.rootClose || rootClose}
                 trigger={tooltip && tooltip.trigger || trigger}
                 container={container}
+                delay={tooltip && tooltip.delay}
             >
                 <div className={cx(`Remark`, tooltip && tooltip.className || className || `Remark--warning`)}>
                     <i className={cx('Remark-icon', tooltip && tooltip.icon || icon)} />

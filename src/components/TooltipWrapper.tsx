@@ -98,12 +98,13 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
     }
 
     handleShow() {
-        clearTimeout(this.timer);
-        const {
-            delay
-        } = this.props;
+        // clearTimeout(this.timer);
+        // const {
+        //     delay
+        // } = this.props;
 
-        this.timer = setTimeout(this.show, delay);
+        // this.timer = setTimeout(this.show, delay);
+        this.show();
     }
 
     handleHide() {
