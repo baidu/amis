@@ -8,6 +8,7 @@ import { volumeIcon, muteIcon, playIcon, pauseIcon} from '../components/icons';
 
 export interface AudioProps extends RendererProps {
     className?: string;
+    inline?: boolean,
     src?: string,
     autoPlay?: boolean,
     loop?: boolean,
@@ -32,7 +33,8 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     audio: any;
     progressTimeout: any;
 
-    static defaultProps:Partial<AudioProps> = {
+    static defaultProps:Pick<AudioProps, 'inline' | 'autoPlay' | 'playbackRate' | 'loop' | 'rates' | 'progressInterval'> = {
+        inline: true,
         autoPlay: false,
         playbackRate: 1,
         loop: false,
@@ -215,6 +217,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     render() {
         const {
             className,
+            inline,
             src,
             autoPlay,
             loop,
@@ -233,7 +236,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         } = this.state;
 
         return (
-            <div>
+            <div className={cx(inline ? 'Audio--inline' : '')}>
                 <audio
                     className={cx('Audio-original')}
                     ref={this.audioRef}
@@ -244,21 +247,21 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                     loop={loop}>
                     <source src={src}/>
                 </audio>
-                {isReady ? <div className={cx('Audio', className)}>
-                    {rates ? <div className={cx('Audio-rates')}>
+                {isReady ? (<div className={cx('Audio', className)}>
+                    {rates ? (<div className={cx('Audio-rates')}>
                                 <div className={cx('Audio-rate')}
                                      onClick={this.toggleHandlePlaybackRate}>
                                     x{playbackRate.toFixed(1)}
                                 </div>
-                                {showHandlePlaybackRate ? <div className={cx('Audio-rateControl')}>
+                                {showHandlePlaybackRate ? (<div className={cx('Audio-rateControl')}>
                                     {rates.map((rate, index) =>
                                         <span className={cx('Audio-rateControlItem')}
                                             key={index}
                                             onClick={() => this.handlePlaybackRate(rate)}>
                                             x{rate.toFixed(1)}
                                         </span>
-                                )} </div> : null}
-                            </div>
+                                )} </div>) : null}
+                            </div>)
                         : null }
                     <div className={cx('Audio-play')} onClick={this.handlePlaying}>
                         {playing ? pauseIcon : playIcon}
@@ -277,7 +280,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                          onMouseEnter={() => this.toggleHandleVolume(true)}
                          onMouseLeave={() => this.toggleHandleVolume(false)}>
                         {showHandleVolume ?
-                            <div className={cx('Audio-volumeControl')}>
+                            (<div className={cx('Audio-volumeControl')}>
                                 <input
                                     type='range' min={0} max={1} step='any'
                                     value={volume}
@@ -285,10 +288,10 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                                 <div className={cx('Audio-volumeControlIcon')}
                                      onClick={this.handleMute}>
                                     {volume > 0 ? volumeIcon : muteIcon}
-                                    </div></div>
+                                    </div></div>)
                             : volume > 0 ? volumeIcon : muteIcon}
                     </div>
-                </div> : null}
+                </div>) : null}
             </div>
         );
     }

@@ -35,11 +35,16 @@
     display: none;
 }
 
+.#{$ns}Audio--inline {
+    display: inline;
+}
+
 .#{$ns}Audio {
     width: $Audio-width;
     height: $Audio-height;
     line-height: $Audio-lineHeight;
     border: $Audio-border;
+    display: inline-block;
     &-rates {
         display: inline-block;
         position: relative;
