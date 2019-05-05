@@ -1,0 +1,143 @@
+@mixin input-range {
+    width: $Audio-input-width;
+    display: inline-block;
+    -webkit-appearance: none;
+    vertical-align: middle;
+    outline: none;
+    border: none;
+    padding: 0;
+    background: none;
+
+    &::-webkit-slider-runnable-track {
+        background-color: $Audio-track-bg;
+        height: $Audio-track-height;
+        border-radius: $Audio-track-borderRadius;
+        border: $Audio-track-border;
+    }
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none !important;
+        border-radius: 100%;
+        cursor: pointer;
+        background: $Audio-thumb-bg;
+        height: $Audio-thumb-width;
+        width: $Audio-thumb-height;
+        margin-top: $Audio-thumb-marginTop;
+    }
+}
+
+@mixin svg {
+    width: $Audio-svg-width;
+    height: $Audio-svg-height;
+}
+
+.#{$ns}Audio-original {
+    display: none;
+}
+
+.#{$ns}Audio {
+    width: $Audio-width;
+    height: $Audio-height;
+    line-height: $Audio-lineHeight;
+    border: $Audio-border;
+    &-rates {
+        display: inline-block;
+        position: relative;
+
+        .#{$ns}Audio-rate {
+            display: block;
+            padding: $Audio-rate-padding;
+            width: $Audio-rate-width;
+            height: $Audio-rate-height;
+            line-height: $Audio-rate-lineHeight;
+            text-align: center;
+            background: $Audio-rate-bg;
+            cursor: pointer;
+        }
+
+        .#{$ns}Audio-rateControl {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+
+            .#{$ns}Audio-rateControlItem {
+                padding: $Audio-rateControlItem-padding;
+                background: $Audio-rateControlItem-bg;
+                cursor: pointer;
+                user-select: none;
+                border-right: $Audio-rateControlItem-borderRight;
+            }
+        }
+    }
+    &-play {
+        display: inline-block;
+        width: $Audio-play-width;
+        position: relative;
+        top: $Audio-play-top;
+        cursor: pointer;
+        margin-left: $Audio-play-marginLeft;
+
+        svg {
+            @include svg();
+        }
+    }
+    &-times {
+        display: inline-block;
+        width: $Audio-times-width;
+        margin: $Audio-times-margin;
+        cursor: default;
+    }
+    &-process {
+        display: inline-block;
+        width: $Audio-process-width;
+        cursor: pointer;
+
+        input[type=range] {
+            @include input-range();
+        }
+    }
+    &-volume {
+        display: inline-block;
+        width: $Audio-volume-width;
+        height: $Audio-volume-height;
+        line-height: $Audio-volume-lineHeight;
+        border-radius: $Audio-volume-borderRadius;
+        position: relative;
+        top: $Audio-volume-top;
+        left: $Audio-volume-left;
+        cursor: pointer;
+
+        svg {
+            @include svg();
+        }
+
+        .#{$ns}Audio-volumeControl {
+            position: absolute;
+            right: $Audio-volumeControl-right;
+            top: $Audio-volumeControl-top;
+            padding-left: $Audio-volumeControl-paddingLeft;
+            height: $Audio-volumeControl-height;
+            line-height: $Audio-volumeControl-lineHeight;
+            border-radius: $Audio-volumeControl-borderRadius;
+            background: $Audio-volumeControl-bg;
+            border: $Audio-volumeControl-border;
+            width: $Audio-volumeControl-width;
+            input[type=range] {
+                margin: $Audio-volumeControl-input-margin;
+                @include input-range();
+            }
+
+            .#{$ns}Audio-volumeControlIcon {
+                display: inline-block;
+                cursor: pointer;
+            }
+
+            svg {
+                position: relative;
+                top: $Audio-svg-top;
+                @include svg();
+            }
+        }
+    }
+}
