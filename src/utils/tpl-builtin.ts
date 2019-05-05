@@ -312,7 +312,7 @@ export const resolveVariableAndFilter = (
         return undefined;
     }
 
-    const m = /^(\\)?\$(?:([a-z0-9_.]+)|{([^}{]+)})$/i.exec(path);
+    const m = /^(\\)?\$(?:([a-z0-9_.]+)|{([\s\S]+)})$/i.exec(path);
 
     if (!m) {
         return undefined;
