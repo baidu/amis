@@ -3479,11 +3479,11 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | autoPlay | `boolean` | false |  是否自动播放 |
 | rates | `array` | `[1.0, 2.0, 4.0]` | 加速播放 |
 
-```schema:height="500" scope="body"
+```schema:height="200" scope="body"
 {
     "type": "audio",
     "autoPlay": false,
-    "src": ""
+    "src": "http://www.ytmp3.cn/down/32791.mp3"
 }
 ```
 

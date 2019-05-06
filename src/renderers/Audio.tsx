@@ -32,6 +32,7 @@ export interface AudioState {
 export class Audio extends React.Component<AudioProps, AudioState> {
     audio: any;
     progressTimeout: any;
+    durationTimeout: any;
 
     static defaultProps:Pick<AudioProps, 'inline' | 'autoPlay' | 'playbackRate' | 'loop' | 'rates' | 'progressInterval'> = {
         inline: true,
@@ -108,6 +109,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     handleMute() {
+        if (!this.props.src) {
+            return;
+        }
         const {muted, prevVolume} = this.state;
         const curVolume = !muted ? 0 : prevVolume;
         this.audio.muted = !muted;
@@ -119,6 +123,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     handlePlaying() {
+        if (!this.props.src) {
+            return;
+        }
         let playing = this.state.playing;
         playing ? this.audio.pause() : this.audio.play();
         this.setState({
@@ -128,15 +135,23 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     getCurrentTime() {
-        if (!this.audio || !this.state.isReady) return 0;
+        if (!this.audio || !this.props.src || !this.state.isReady) {
+            return '0:00';
+        }
         const duration = this.audio.duration;
         const played = this.state.played;
         return this.formatTime(duration * (played || 0));
     }
 
     @autobind
-    getDuration() {
-        if (!this.audio || !this.state.isReady) return 0;
+    getDuration () {
+        if (!this.audio || !this.props.src) {
+            return '0:00';
+        }
+        if (!this.state.isReady) {
+            this.onDurationCheck();
+            return '0:00';
+        }
         const { duration, seekable } = this.audio;
         // on iOS, live streams return Infinity for the duration
         // so instead we use the end of the seekable timerange
@@ -147,7 +162,20 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     }
 
     @autobind
+    onDurationCheck() {
+        clearTimeout(this.durationTimeout);
+        const duration = this.audio && this.audio.duration;
+        if (!duration) {
+            this.audio.load();
+            this.durationTimeout = setTimeout(this.onDurationCheck, 500);
+        }
+    }
+
+    @autobind
     onSeekChange(e:any) {
+        if (!this.props.src) {
+            return;
+        }
         const played = e.target.value;
         this.setState({ played: played });
     }
@@ -159,7 +187,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     onSeekMouseUp(e:any) {
-        if (!this.state.seeking) return;
+        if (!this.state.seeking) {
+            return;
+        }
         const played = e.target.value;
         const duration = this.audio.duration;
         this.audio.currentTime = duration * played;
@@ -175,6 +205,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     setVolume(e:any) {
+        if (!this.props.src) {
+            return;
+        }
         const volume = e.target.value;
         this.audio.volume = volume;
         this.setState({
@@ -202,6 +235,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     toggleHandlePlaybackRate() {
+        if (!this.props.src) {
+            return;
+        }
         this.setState({
             showHandlePlaybackRate: !this.state.showHandlePlaybackRate
         });
@@ -209,6 +245,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     toggleHandleVolume(type:boolean) {
+        if (!this.props.src) {
+            return;
+        }
         this.setState({
             showHandleVolume: type
         });
@@ -229,7 +268,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
             played,
             volume,
             muted,
-            isReady,
             playbackRate,
             showHandlePlaybackRate,
             showHandleVolume
@@ -247,22 +285,25 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                     loop={loop}>
                     <source src={src}/>
                 </audio>
-                {isReady ? (<div className={cx('Audio', className)}>
-                    {rates ? (<div className={cx('Audio-rates')}>
-                                <div className={cx('Audio-rate')}
-                                     onClick={this.toggleHandlePlaybackRate}>
-                                    x{playbackRate.toFixed(1)}
-                                </div>
-                                {showHandlePlaybackRate ? (<div className={cx('Audio-rateControl')}>
+                <div className={cx('Audio', className)}>
+                    {rates && rates.length ?
+                        (<div className={cx('Audio-rates')}>
+                            <div className={cx('Audio-rate')}
+                                 onClick={this.toggleHandlePlaybackRate}>
+                                x{playbackRate.toFixed(1)}
+                            </div>
+                            {showHandlePlaybackRate ?
+                                (<div className={cx('Audio-rateControl')}>
                                     {rates.map((rate, index) =>
                                         <span className={cx('Audio-rateControlItem')}
-                                            key={index}
-                                            onClick={() => this.handlePlaybackRate(rate)}>
+                                              key={index}
+                                              onClick={() => this.handlePlaybackRate(rate)}>
                                             x{rate.toFixed(1)}
-                                        </span>
-                                )} </div>) : null}
+                                            </span>
+                                    )} </div>)
+                                : null}
                             </div>)
-                        : null }
+                        : (<div className={cx('Audio-rates-holder')}></div>) }
                     <div className={cx('Audio-play')} onClick={this.handlePlaying}>
                         {playing ? pauseIcon : playIcon}
                     </div>
@@ -291,7 +332,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                                     </div></div>)
                             : volume > 0 ? volumeIcon : muteIcon}
                     </div>
-                </div>) : null}
+                </div>
             </div>
         );
     }

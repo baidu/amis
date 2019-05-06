@@ -36,7 +36,9 @@
 }
 
 .#{$ns}Audio--inline {
-    display: inline;
+    display: inline-block;
+    height: $Audio-height;
+    overflow: hidden;
 }
 
 .#{$ns}Audio {
@@ -45,6 +47,10 @@
     line-height: $Audio-lineHeight;
     border: $Audio-border;
     display: inline-block;
+    &-rates-holder {
+        display: inline-block;
+        width: $Audio-rate-width / 2;
+    }
     &-rates {
         display: inline-block;
         position: relative;
