@@ -147,14 +147,10 @@ export default class IconPickerControl extends React.PureComponent<IconPickerPro
         }
 
         const {
-            formItem,
             onChange
         } = this.props;
-        const selectedOptions = formItem ? formItem.selectedOptions : [];
-        if (!this.state.inputValue) {
-            const newValue = selectedOptions.concat();
-            newValue.pop();
 
+        if (!this.state.inputValue) {
             onChange('');
             this.setState({
                 inputValue: ''
