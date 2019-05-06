@@ -23,7 +23,6 @@ import {
     setVariable,
     deleteVariable,
     cloneObject,
-    extendObject,
     createObject,
     difference,
     guid
@@ -98,7 +97,7 @@ export const FormStore = ServiceStore
 
         function setValues(values:object, tag?:object) {
             self.updateData(values, tag);
-            
+
             // 同步 options
             syncOptions();
         }
@@ -132,7 +131,7 @@ export const FormStore = ServiceStore
                     writable: false,
                 });
             }
-            
+
             setVariable(data, name, value);
             self.data = data;
 
@@ -168,7 +167,7 @@ export const FormStore = ServiceStore
                     writable: false,
                 });
             }
-            
+
             deleteVariable(data, name);
             self.data = data;
         }
@@ -198,7 +197,7 @@ export const FormStore = ServiceStore
 
                 self.markSaving(true);
                 const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
-                
+
 
                 if (!json.ok) {
                     // 验证错误
@@ -243,7 +242,7 @@ export const FormStore = ServiceStore
                     // 已经销毁了，不管这些数据了。
                     return;
                 }
-                
+
                 self.markSaving(false);
                 // console.error(e.stack);`
                 (getRoot(self) as IRendererStore).notify('error', e.message);
@@ -254,7 +253,7 @@ export const FormStore = ServiceStore
         const submit:(fn?:(values:object) => Promise<any>, hooks?: Array<() => Promise<any>>) => Promise<any> = flow(function *submit(fn:any, hooks?: Array<() => Promise<any>>) {
             self.submited = true;
             self.submiting = true;
-            
+
             try {
                 let valid = yield validate(hooks);
 
