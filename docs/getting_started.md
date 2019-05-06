@@ -19,20 +19,20 @@ title: 快速开始
 }
 ```
 
->  PS: 可以通过编辑器实时修改预览
+> PS: 可以通过编辑器实时修改预览
 
 从上面的内容可以看出，一个简单页面框架已经基本出来了，这是 AMis 渲染器配置的入口。从 `page` 渲染器开始出发，通过在容器中放置不同的渲染器来配置不同性质的页面。
 
 简单说明以上配置信息。
 
-* `$schema` 这个字段可以忽略，他是指定当前 JSON 配置是符合指定路径 http://amis.baidu.com/v2/schemas/page.json 的 JSON SCHEMA 文件描述的。PS: 编辑器就是靠这个描述文件提示的，可以 hover 到字段上看效果。
-* `type` 指定渲染器类型，这里指定的类型为 `page`。 更多渲染器类型可以去[这里面查看](/v2/docs/renderers)。
-* `title` 从 title 开始就是对应的渲染模型上的属性了。这里用来指定标题内容。
-* `subTitle` 副标题.
-* `remark` 标题上面的提示信息
-* `aside` 边栏区域内容
-* `body` 内容区域的内容
-* `toolbar` 工具栏部分的内容
+- `$schema` 这个字段可以忽略，他是指定当前 JSON 配置是符合指定路径 http://amis.baidu.com/v2/schemas/page.json 的 JSON SCHEMA 文件描述的。PS: 编辑器就是靠这个描述文件提示的，可以 hover 到字段上看效果。
+- `type` 指定渲染器类型，这里指定的类型为 `page`。 更多渲染器类型可以去[这里面查看](/v2/docs/renderers)。
+- `title` 从 title 开始就是对应的渲染模型上的属性了。这里用来指定标题内容。
+- `subTitle` 副标题.
+- `remark` 标题上面的提示信息
+- `aside` 边栏区域内容
+- `body` 内容区域的内容
+- `toolbar` 工具栏部分的内容
 
 这里有三个配置都是容器类型的。`aside`、`body` 和 `toolbar`。什么是容器类型？容器类型表示，他能够把其他渲染类型放进来。以上的例子为了简单，直接放了个字符串。字符串类型内部是把他当成了 [tpl](/v2/docs/renderers#tpl) 渲染器来处理，在这里也可以通过对象的形式指定，如以下的例子的 body 区域是完全等价的。
 
@@ -70,7 +70,6 @@ title: 快速开始
 ```
 
 再来看一个表单页面的列子
-
 
 ```schema:height="440"
 {
@@ -185,8 +184,8 @@ title: 快速开始
                   "value": "3"
                 },
                 {
-                  "label": "漂亮",
-                  "value": "紧张"
+                  "label": "紧张",
+                  "value": "4"
                 }
               ]
             }
