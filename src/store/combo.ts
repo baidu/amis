@@ -10,20 +10,9 @@ import {
     iRendererStore,
 } from './iRenderer';
 import {
-    IRendererStore
-} from './index';
-import {
     FormItemStore,
     IFormItemStore
 } from './formItem';
-import {
-    Api,
-    Payload,
-    fetchOptions
-} from '../types';
-import {
-    extendObject
-} from '../utils/helper';
 import {FormStore, IFormStore} from './form';
 
 export const UniqueGroup = types

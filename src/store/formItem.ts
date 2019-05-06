@@ -6,7 +6,6 @@ import {
     getRoot
 } from "mobx-state-tree";
 import {
-    FormStore,
     IFormStore
 } from './form';
 import {
@@ -165,10 +164,10 @@ export const FormItemStore = types
                     return [];
                 }
 
-                const selected = Array.isArray(value) ? value.map(item=>item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item) 
+                const selected = Array.isArray(value) ? value.map(item=>item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item)
                 : typeof value === 'string' ? value.split(self.delimiter || ',') : [value && value.hasOwnProperty(self.valueField || 'value') ? value[self.valueField || 'value'] : value];
                 const selectedOptions:Array<any> = [];
-                
+
                 self.filteredOptions.forEach((item:any) => {
                     let idx = findIndex(selected, seleced => {
                         return isObject(seleced) ? seleced === item[self.valueField || 'value'] :String(item[self.valueField || 'value']) === String(seleced)
@@ -179,7 +178,7 @@ export const FormItemStore = types
                         selectedOptions.push(item);
                     }
                 });
-                
+
                 selected.forEach((item, index) => {
                     let unMatched = value && value[index] || item;
 
@@ -189,7 +188,7 @@ export const FormItemStore = types
                             [self.labelField || 'label']: item,
                         }
                     }
-                    
+
                     unMatched && selectedOptions.push(unMatched);
                 });
 
@@ -355,7 +354,7 @@ export const FormItemStore = types
                     let options:Array<IOption> = json.data.options || json.data.items || json.data.rows || json.data || [];
                     options = normalizeOptions(options as any);
                     setOptions(options);
-                    
+
                     if (json.data && typeof (json.data as any).value !== "undefined") {
                         onChange && onChange((json.data as any).value);
                     } else if (clearValue) {
@@ -392,26 +391,26 @@ export const FormItemStore = types
 
             const form = self.form;
             const value = self.value;
-            const selected = Array.isArray(value) ? value.map(item=>item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item) 
+            const selected = Array.isArray(value) ? value.map(item=>item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item)
                 : typeof value === 'string' ? value.split(self.delimiter || ',') : [value && value.hasOwnProperty(self.valueField || 'value') ? value[self.valueField || 'value'] : value];
             let filteredOptions = self.options
-                .filter((item:any) => 
+                .filter((item:any) =>
                     item.visibleOn ? evalExpression(item.visibleOn, form.data) !== false
                     : item.hiddenOn ? evalExpression(item.hiddenOn, form.data) !== true
                     : (item.visible !== false || item.hidden !== true)
                 )
                 .map((item:any, index) => {
-                    
+
                     const disabled = evalExpression(item.disabledOn, form.data);
                     const newItem = item.disabledOn
                     ? (
-                        self.filteredOptions.length > index && self.filteredOptions[index].disabled === disabled 
+                        self.filteredOptions.length > index && self.filteredOptions[index].disabled === disabled
                         ? self.filteredOptions[index]
                         : {
                             ...item,
                             disabled: disabled
                         }
-                    ) 
+                    )
                     : item;
 
                     return newItem;
@@ -419,7 +418,7 @@ export const FormItemStore = types
 
             const flattened:Array<any> = flattenTree(filteredOptions);
             const selectedOptions:Array<any> = [];
-            
+
             selected.forEach((item, index) => {
                 let idx = findIndex(flattened, target => {
                     return isObject(item) ? item === target[self.valueField || 'value'] : String(target[self.valueField || 'value']) === String(item)
@@ -437,7 +436,7 @@ export const FormItemStore = types
                             __unmatched: true
                         }
                     }
-                    
+
                     unMatched && selectedOptions.push(unMatched);
                 }
             });

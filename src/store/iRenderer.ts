@@ -5,13 +5,10 @@ import {
     SnapshotIn
 } from "mobx-state-tree";
 import {
-    cloneObject,
     extendObject,
-    createObject,
-    isObjectShallowModified
+    createObject
 } from '../utils/helper';
 import {IRendererStore} from './index';
-import { Action } from "../types";
 import { dataMapping } from "../utils/tpl-builtin";
 
 export const iRendererStore = types
@@ -47,11 +44,11 @@ export const iRendererStore = types
                 self.pristine = data;
                 self.data = data;
             },
-    
+
             reset() {
                 self.data = self.pristine;
             },
-    
+
             updateData(data:object = {}, tag?: object) {
                 const prev = self.data;
                 let newData;
@@ -64,32 +61,32 @@ export const iRendererStore = types
                 } else {
                     newData = extendObject(self.data, data);
                 }
-    
+
                 Object.defineProperty(newData, '__prev', {
                     value: {...prev},
                     enumerable: false,
                     configurable: false,
                     writable: false,
                 });
-    
+
                 self.data = newData;
             },
-    
+
             setCurrentAction(action:object) {
                 self.action = action;
             },
-    
+
             openDialog(ctx: any, additonal?:object, callback?: (ret:any) => void) {
                 let proto = ctx.__super ? ctx.__super : self.data;
-    
+
                 if (additonal) {
                     proto = createObject(proto, additonal);
                 }
-    
+
                 const data = createObject(proto, {
                     ...ctx
                 });
-    
+
                 if (self.action.dialog && self.action.dialog.data) {
                     self.dialogData = createObject(proto, {
                         ...dataMapping(self.action.dialog.data, data)
@@ -103,7 +100,7 @@ export const iRendererStore = types
                     dialogCallbacks.set(self.dialogData, callback);
                 }
             },
-    
+
             closeDialog(result?:any) {
                 const callback = dialogCallbacks.get(self.dialogData);
 
@@ -114,18 +111,18 @@ export const iRendererStore = types
                     setTimeout(() => callback(result), 200);
                 }
             },
-    
+
             openDrawer(ctx: any, additonal?:object, callback?: (ret:any) => void) {
                 let proto = ctx.__super ? ctx.__super : self.data;
-    
+
                 if (additonal) {
                     proto = createObject(proto, additonal);
                 }
-    
+
                 const data = createObject(proto, {
                     ...ctx
                 });
-    
+
                 if (self.action.drawer.data) {
                     self.drawerData = dataMapping(self.action.drawer.data, data);
                 } else {
@@ -137,7 +134,7 @@ export const iRendererStore = types
                     dialogCallbacks.set(self.drawerData, callback);
                 }
             },
-    
+
             closeDrawer(result?:any) {
                 const callback = dialogCallbacks.get(self.drawerData);
                 self.drawerOpen = false;
