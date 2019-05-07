@@ -1,61 +1,56 @@
-import {
-    Position,
-    Overlay as BaseOverlay
-} from 'react-overlays';
-import {findDOMNode} from 'react-dom';
-import * as React from 'react';
-import {
-    calculatePosition,
-    getContainer,
-    ownerDocument
-} from '../utils/dom';
+/**
+ * @file Overlay
+ * @description
+ * @author fex
+ */
 
-Position.propTypes.placement = BaseOverlay.propTypes.placement = () => null;
+import { Position, Overlay as BaseOverlay } from 'react-overlays'
+import { findDOMNode } from 'react-dom'
+import * as React from 'react'
+import { calculatePosition, getContainer, ownerDocument } from '../utils/dom'
 
-Position.prototype.updatePosition = function(target:any) {
-    this._lastTarget = target;
+Position.propTypes.placement = BaseOverlay.propTypes.placement = () => null
 
-    if (!target) {
-        return this.setState({
-            positionLeft: 0,
-            positionTop: 0,
-            arrowOffsetLeft: null,
-            arrowOffsetTop: null
-        });
-    }
+Position.prototype.updatePosition = function(target: any) {
+  this._lastTarget = target
 
-    const overlay = findDOMNode(this);
-    const container = getContainer(
-        this.props.container, ownerDocument(this).body
-    );
+  if (!target) {
+    return this.setState({
+      positionLeft: 0,
+      positionTop: 0,
+      arrowOffsetLeft: null,
+      arrowOffsetTop: null
+    })
+  }
 
-    this.setState(calculatePosition(
-        this.props.placement,
-        overlay,
-        target,
-        container,
-        this.props.containerPadding
-    ));
-};
+  const overlay = findDOMNode(this)
+  const container = getContainer(this.props.container, ownerDocument(this).body)
 
+  this.setState(
+    calculatePosition(
+      this.props.placement,
+      overlay,
+      target,
+      container,
+      this.props.containerPadding
+    )
+  )
+}
 
 interface OverlayProps {
-    placement?: string;
-    show?: boolean;
-    rootClose?: boolean;
-    onHide?(props: any, ...args: any[]): any;
-    container?: React.ReactNode | Function;
-    target?: React.ReactNode | Function;
+  placement?: string
+  show?: boolean
+  rootClose?: boolean
+  onHide?(props: any, ...args: any[]): any
+  container?: React.ReactNode | Function
+  target?: React.ReactNode | Function
 }
 export default class Overlay extends React.Component<OverlayProps> {
-    constructor(props:OverlayProps) {
-        super(props as any);
-    }
+  constructor(props: OverlayProps) {
+    super(props as any)
+  }
 
-    render() {
-        return (
-            <BaseOverlay {...this.props as any} />
-        )
-    }
-};
-
+  render() {
+    return <BaseOverlay {...this.props as any} />
+  }
+}

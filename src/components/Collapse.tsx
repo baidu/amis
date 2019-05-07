@@ -1,3 +1,3 @@
-import {Collapse} from 'react-bootstrap';
+import { Collapse } from 'react-bootstrap'
 
-export default Collapse;
+export default Collapse
