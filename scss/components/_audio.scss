@@ -29,6 +29,8 @@
 @mixin svg {
     width: $Audio-svg-width;
     height: $Audio-svg-height;
+    position: relative;
+    top: $Audio-svg-top;
 }
 
 .#{$ns}Audio-original {
@@ -42,52 +44,47 @@
 }
 
 .#{$ns}Audio {
-    width: $Audio-width;
+    box-sizing: border-box;
     height: $Audio-height;
     line-height: $Audio-lineHeight;
     border: $Audio-border;
     display: inline-block;
-    &-rates-holder {
-        display: inline-block;
-        width: $Audio-rate-width / 2;
-    }
+    padding-left: $Audio-item-margin;
     &-rates {
         display: inline-block;
-        position: relative;
-
-        .#{$ns}Audio-rate {
-            display: block;
-            padding: $Audio-rate-padding;
-            width: $Audio-rate-width;
-            height: $Audio-rate-height;
-            line-height: $Audio-rate-lineHeight;
-            text-align: center;
-            background: $Audio-rate-bg;
-            cursor: pointer;
+        width: $Audio-rate-width;
+        height: $Audio-rate-height;
+        text-align: center;
+        background: $Audio-rate-bg;
+        cursor: pointer;
+        margin-right: $Audio-item-margin;
+    }
+    &-rateControl {
+        display: inline-block;
+        margin-right: $Audio-item-margin;
+        &::after {
+            display: inline-block;
+            clear: both;
+            content: "";
         }
 
-        .#{$ns}Audio-rateControl {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-
-            .#{$ns}Audio-rateControlItem {
-                padding: $Audio-rateControlItem-padding;
-                background: $Audio-rateControlItem-bg;
-                cursor: pointer;
-                user-select: none;
-                border-right: $Audio-rateControlItem-borderRight;
-            }
+        .#{$ns}Audio-rateControlItem {
+            display: inline-block;
+            width: $Audio-rate-width;
+            height: $Audio-rate-height;
+            background: $Audio-rate-bg;
+            cursor: pointer;
+            text-align: center;
+            float: left;
+            box-sizing: border-box;
+            border-right: $Audio-rateControlItem-borderRight;
         }
     }
     &-play {
         display: inline-block;
         width: $Audio-play-width;
-        position: relative;
-        top: $Audio-play-top;
         cursor: pointer;
-        margin-left: $Audio-play-marginLeft;
+        margin-right: $Audio-item-margin;
 
         svg {
             @include svg();
@@ -96,13 +93,14 @@
     &-times {
         display: inline-block;
         width: $Audio-times-width;
-        margin: $Audio-times-margin;
+        margin-right: $Audio-item-margin;
         cursor: default;
     }
     &-process {
         display: inline-block;
         width: $Audio-process-width;
         cursor: pointer;
+        margin-right: $Audio-item-margin;
 
         input[type=range] {
             @include input-range();
@@ -112,43 +110,31 @@
         display: inline-block;
         width: $Audio-volume-width;
         height: $Audio-volume-height;
-        line-height: $Audio-volume-lineHeight;
-        border-radius: $Audio-volume-borderRadius;
-        position: relative;
-        top: $Audio-volume-top;
-        left: $Audio-volume-left;
         cursor: pointer;
+        margin-right: $Audio-item-margin;
 
         svg {
             @include svg();
         }
+    }
+    &-volumeControl {
+        display: inline-block;
+        width: $Audio-volumeControl-width;
+        height: $Audio-volumeControl-height;
+        line-height: $Audio-volumeControl-lineHeight;
+        margin-right: $Audio-item-margin;
+        input[type=range] {
+            @include input-range();
+        }
 
-        .#{$ns}Audio-volumeControl {
-            position: absolute;
-            right: $Audio-volumeControl-right;
-            top: $Audio-volumeControl-top;
-            padding-left: $Audio-volumeControl-paddingLeft;
-            height: $Audio-volumeControl-height;
-            line-height: $Audio-volumeControl-lineHeight;
-            border-radius: $Audio-volumeControl-borderRadius;
-            background: $Audio-volumeControl-bg;
-            border: $Audio-volumeControl-border;
-            width: $Audio-volumeControl-width;
-            input[type=range] {
-                margin: $Audio-volumeControl-input-margin;
-                @include input-range();
-            }
+        .#{$ns}Audio-volumeControlIcon {
+            margin-right: $Audio-item-margin;
+            display: inline-block;
+            cursor: pointer;
+        }
 
-            .#{$ns}Audio-volumeControlIcon {
-                display: inline-block;
-                cursor: pointer;
-            }
-
-            svg {
-                position: relative;
-                top: $Audio-svg-top;
-                @include svg();
-            }
+        svg {
+            @include svg();
         }
     }
 }

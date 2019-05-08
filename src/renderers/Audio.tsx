@@ -1,4 +1,5 @@
 import * as React from 'react';
+import upperFirst = require('lodash/upperFirst');
 import {Renderer, RendererProps} from '../factory';
 import {autobind} from '../utils/helper';
 import {volumeIcon, muteIcon, playIcon, pauseIcon} from '../components/icons';
@@ -10,6 +11,7 @@ export interface AudioProps extends RendererProps {
     autoPlay?: boolean;
     loop?: boolean;
     rates?: number[];
+    controls?: string[];
 }
 
 export interface AudioState {
@@ -33,14 +35,15 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     static defaultProps: Pick<
         AudioProps,
-        'inline' | 'autoPlay' | 'playbackRate' | 'loop' | 'rates' | 'progressInterval'
+        'inline' | 'autoPlay' | 'playbackRate' | 'loop' | 'rates' | 'progressInterval' | 'controls'
     > = {
         inline: true,
         autoPlay: false,
         playbackRate: 1,
         loop: false,
-        rates: [1.0, 2.0, 4.0],
+        rates: [],
         progressInterval: 1000,
+        controls: ['rates', 'play', 'time', 'process', 'volume']
     };
 
     state: AudioState = {
@@ -59,6 +62,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     componentWillUnmount() {
         clearTimeout(this.progressTimeout);
+        clearTimeout(this.durationTimeout);
     }
 
     componentDidMount() {
@@ -256,9 +260,123 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         });
     }
 
+    renderRates() {
+        const {
+            rates,
+            classnames: cx
+        } = this.props;
+        const {
+            showHandlePlaybackRate,
+            playbackRate
+        } = this.state;
+
+        return (
+            rates && rates.length ?
+                showHandlePlaybackRate ? (
+                    <div className={cx('Audio-rateControl')}>
+                        {rates.map((rate, index) =>
+                            <div
+                                key={index}
+                                className={cx('Audio-rateControlItem')}
+                                onClick={() => this.handlePlaybackRate(rate)}>
+                                x{rate.toFixed(1)}
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div
+                        className={cx('Audio-rates')}
+                        onClick={this.toggleHandlePlaybackRate}>
+                        x{playbackRate.toFixed(1)}
+                    </div>
+                )
+                : null
+        )
+    }
+
+    renderPlay() {
+        const {classnames: cx} = this.props;
+        const {playing} = this.state;
+
+        return (
+            <div
+                className={cx('Audio-play')}
+                onClick={this.handlePlaying}>
+                {playing ? pauseIcon : playIcon}
+            </div>
+        )
+    }
+
+    renderTime() {
+        const {classnames: cx} = this.props;
+
+        return (
+            <div className={cx('Audio-times')}>
+                {this.getCurrentTime()} / {this.getDuration()}
+            </div>
+        )
+    }
+
+    renderProcess() {
+        const {classnames: cx} = this.props;
+        const {played} = this.state;
+
+        return (
+            <div className={cx('Audio-process')}>
+                <input
+                    type="range"
+                    min={0} max={1} step="any"
+                    value={played || 0}
+                    onMouseDown={this.onSeekMouseDown}
+                    onChange={this.onSeekChange}
+                    onMouseUp={this.onSeekMouseUp} />
+            </div>
+        )
+    }
+
+    renderVolume() {
+        const {classnames: cx} = this.props;
+        const {
+            volume,
+            showHandleVolume
+        } = this.state;
+
+        return (
+            showHandleVolume ? (
+                <div
+                    className={cx('Audio-volumeControl')}
+                    onMouseLeave={() => this.toggleHandleVolume(false)}>
+                    <div
+                        className={cx('Audio-volumeControlIcon')}
+                        onClick={this.handleMute}>
+                        {volume > 0 ? volumeIcon : muteIcon}
+                    </div>
+                    <input
+                        type='range' min={0} max={1} step='any'
+                        value={volume}
+                        onChange={this.setVolume} />
+                </div>
+            ) : (
+                <div
+                    className={cx('Audio-volume')}
+                    onMouseEnter={() => this.toggleHandleVolume(true)}>
+                    {volume > 0 ? volumeIcon : muteIcon}
+                </div>
+            )
+        )
+    }
+
     render() {
-        const {className, inline, src, autoPlay, loop, rates, classnames: cx} = this.props;
-        const {playing, played, volume, muted, playbackRate, showHandlePlaybackRate, showHandleVolume} = this.state;
+        const {
+            className,
+            inline,
+            src,
+            autoPlay,
+            loop,
+            controls,
+            classnames: cx
+        } = this.props;
+        const {muted} = this.state;
 
         return (
             <div className={cx(inline ? 'Audio--inline' : '')}>
@@ -269,76 +387,19 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                     autoPlay={autoPlay}
                     controls
                     muted={muted}
-                    loop={loop}
-                >
+                    loop={loop}>
                     <source src={src} />
                 </audio>
                 <div className={cx('Audio', className)}>
-                    {rates && rates.length ? (
-                        <div className={cx('Audio-rates')}>
-                            <div className={cx('Audio-rate')} onClick={this.toggleHandlePlaybackRate}>
-                                x{playbackRate.toFixed(1)}
-                            </div>
-                            {showHandlePlaybackRate ? (
-                                <div className={cx('Audio-rateControl')}>
-                                    {rates.map((rate, index) => (
-                                        <span
-                                            className={cx('Audio-rateControlItem')}
-                                            key={index}
-                                            onClick={() => this.handlePlaybackRate(rate)}
-                                        >
-                                            x{rate.toFixed(1)}
-                                        </span>
-                                    ))}{' '}
-                                </div>
-                            ) : null}
-                        </div>
-                    ) : (
-                        <div className={cx('Audio-rates-holder')} />
-                    )}
-                    <div className={cx('Audio-play')} onClick={this.handlePlaying}>
-                        {playing ? pauseIcon : playIcon}
-                    </div>
-                    <div className={cx('Audio-times')}>
-                        {this.getCurrentTime()} / {this.getDuration()}
-                    </div>
-                    <div className={cx('Audio-process')}>
-                        <input
-                            type="range"
-                            min={0}
-                            max={1}
-                            step="any"
-                            value={played || 0}
-                            onMouseDown={this.onSeekMouseDown}
-                            onChange={this.onSeekChange}
-                            onMouseUp={this.onSeekMouseUp}
-                        />
-                    </div>
-                    <div
-                        className={cx('Audio-volume')}
-                        onMouseEnter={() => this.toggleHandleVolume(true)}
-                        onMouseLeave={() => this.toggleHandleVolume(false)}
-                    >
-                        {showHandleVolume ? (
-                            <div className={cx('Audio-volumeControl')}>
-                                <input
-                                    type="range"
-                                    min={0}
-                                    max={1}
-                                    step="any"
-                                    value={volume}
-                                    onChange={this.setVolume}
-                                />
-                                <div className={cx('Audio-volumeControlIcon')} onClick={this.handleMute}>
-                                    {volume > 0 ? volumeIcon : muteIcon}
-                                </div>
-                            </div>
-                        ) : volume > 0 ? (
-                            volumeIcon
-                        ) : (
-                            muteIcon
-                        )}
-                    </div>
+                    {controls && controls.map((control:string, index:number) => {
+                        control = 'render' + upperFirst(control);
+                        const method:'renderRates'|'renderPlay'|'renderTime'|'renderProcess'|'renderVolume'|'render' = control as any;
+                        return (
+                            <React.Fragment key={index}>
+                                {this[method]()}
+                            </React.Fragment>
+                        )
+                    })}
                 </div>
             </div>
         );
