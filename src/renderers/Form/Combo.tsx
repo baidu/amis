@@ -102,20 +102,22 @@ export default class ComboControl extends React.Component<ComboProps> {
     componentWillMount() {
         const {
             store,
+            value,
             minLength,
             maxLength
         } = this.props;
 
         store.config({
             minLength,
-            maxLength
+            maxLength,
+            length: this.getValueAsArray().length
         });
     }
 
     componentWillReceiveProps(nextProps:ComboProps) {
         const props = this.props;
 
-        if (anyChanged(['minLength', 'maxLength'], props, nextProps)) {
+        if (anyChanged(['minLength', 'maxLength', 'value'], props, nextProps)) {
             const {
                 store,
                 minLength,
@@ -124,9 +126,28 @@ export default class ComboControl extends React.Component<ComboProps> {
     
             store.config({
                 minLength,
-                maxLength
+                maxLength,
+                length: this.getValueAsArray(nextProps).length
             });
         }
+    }
+
+    getValueAsArray(props = this.props) {
+        const {
+            flat,
+            joinValues,
+            delimiter,
+        } = props;
+        let value = props.value;
+
+        if (joinValues && flat && typeof value === 'string') {
+            value = value.split(delimiter || ',');
+        } else if (!Array.isArray(value)) {
+            value = [];
+        } else {
+            value = value.concat();
+        }
+        return value;
     }
 
     addItem() {
@@ -137,19 +158,12 @@ export default class ComboControl extends React.Component<ComboProps> {
             scaffold,
             disabled
         } = this.props;
-        let value = this.props.value;
 
         if (disabled) {
             return;
         }
 
-        if (joinValues && flat && typeof value === 'string') {
-            value = value.split(delimiter || ',');
-        } else if (!Array.isArray(value)) {
-            value = [];
-        } else {
-            value = value.concat();
-        }
+        let value = this.getValueAsArray();
 
         value.push(flat ? scaffold || '' : {
             ...scaffold
@@ -179,15 +193,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             return;
         }
 
-        let value = this.props.value;
-
-        if (joinValues && flat && typeof value === 'string') {
-            value = value.split(delimiter || ',');
-        } else if (!Array.isArray(value)) {
-            value = [];
-        } else {
-            value = value.concat();
-        }
+        let value = this.getValueAsArray();
         
         if (deleteApi) {
             const ctx = createObject(data, value[key]);
@@ -220,18 +226,15 @@ export default class ComboControl extends React.Component<ComboProps> {
             flat,
             store,
             joinValues,
-            delimiter
+            delimiter,
+            disabled
         } = this.props;
-        let value = this.props.value;
 
-        if (joinValues && flat && typeof value === 'string') {
-            value = value.split(delimiter || ',');
-        } else if (!Array.isArray(value)) {
-            value = [];
-        } else {
-            value = value.concat();
+        if (disabled) {
+            return;
         }
 
+        let value = this.getValueAsArray();
         value[index] = flat ? values.flat : {...values};
 
         if (flat && joinValues) {
@@ -357,7 +360,8 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     formatValue(value:any) {
         const {
-            flat        } = this.props;
+            flat
+        } = this.props;
 
         if (flat) {
             return {
@@ -401,6 +405,10 @@ export default class ComboControl extends React.Component<ComboProps> {
             value = value.split(delimiter || ',');
         }
 
+        const finnalRemovable = store.removable !== false // minLength ?
+            && !disabled // 控件自身是否禁用
+            && removable !== false; // 是否可以删除
+
         return (
             <div 
                 className={cx(`Combo Combo--multi`, multiLine ? `Combo--ver` : `Combo--hor`, noBorder ? `Combo--noBorder` : '')}
@@ -423,8 +431,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                         }
 
                         if (
-                            !disabled // 控件自身是否禁用
-                            && removable !== false // 是否可以删除
+                            finnalRemovable
                             && ( // 表达式判断单条是否可删除
                                 !itemRemovableOn 
                                 || evalExpression(itemRemovableOn, value) !== false

@@ -29,11 +29,12 @@ export const ComboStore = iRendererStore
         uniques: types.map(UniqueGroup),
         forms: types.array(types.reference(types.late(() => FormStore))),
         minLength: 0,
-        maxLength: 0
+        maxLength: 0,
+        length: 0
     })
     .views(self => ({
         get addable() {
-            if (self.maxLength && self.forms.length >= self.maxLength) {
+            if (self.maxLength && self.length >= self.maxLength) {
                 return false;
             }
 
@@ -61,7 +62,7 @@ export const ComboStore = iRendererStore
         },
 
         get removable() {
-            if (self.minLength && self.minLength >= self.forms.length) {
+            if (self.minLength && self.minLength >= self.length) {
                 return false;
             }
 
@@ -69,9 +70,14 @@ export const ComboStore = iRendererStore
         }
     }))
     .actions(self => {
-        function config(setting:Partial<SComboStore>) {
+        function config(setting: {
+            minLength?: number;
+            maxLength?: number;
+            length?: number;
+        }) {
             typeof setting.minLength !== 'undefined' && (self.minLength = setting.minLength);
             typeof setting.maxLength !== 'undefined' && (self.maxLength = setting.maxLength);
+            typeof setting.length !== 'undefined' && (self.length = setting.length);
         }
 
         function bindUniuqueItem(item:IFormItemStore) {
