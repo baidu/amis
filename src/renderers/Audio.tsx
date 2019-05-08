@@ -1,8 +1,8 @@
 import * as React from 'react';
 import upperFirst = require('lodash/upperFirst');
 import {Renderer, RendererProps} from '../factory';
-import { autobind } from '../utils/helper';
-import { volumeIcon, muteIcon, playIcon, pauseIcon} from '../components/icons';
+import {autobind} from '../utils/helper';
+import {volumeIcon, muteIcon, playIcon, pauseIcon} from '../components/icons';
 
 export interface AudioProps extends RendererProps {
     className?: string;
@@ -36,7 +36,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     static defaultProps: Pick<
         AudioProps,
         'inline' | 'autoPlay' | 'playbackRate' | 'loop' | 'rates' | 'progressInterval' | 'controls'
-        > = {
+    > = {
         inline: true,
         autoPlay: false,
         playbackRate: 1,

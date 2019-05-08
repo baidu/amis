@@ -69,6 +69,11 @@
             white-space: nowrap;
             align-items: flex-start;
             padding-top: $Form-label-paddingTop;
+
+            > .is-disabled {
+                pointer-events: none;
+                opacity: $Button-onDisabled-opacity;
+            }
         }
     }
 
