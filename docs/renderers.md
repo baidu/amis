@@ -3477,7 +3477,8 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | src | `string` |  |  音频地址 |
 | loop | `boolean` | false |  是否循环播放 |
 | autoPlay | `boolean` | false |  是否自动播放 |
-| rates | `array` | `[1.0, 2.0, 4.0]` | 加速播放 |
+| rates | `array` | `[]` | 加速播放 |
+| controls | `array` | `['rates', 'play', 'time', 'process', 'volume']` | 内部模块定制化 |
 
 ```schema:height="200" scope="body"
 {
