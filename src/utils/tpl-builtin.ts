@@ -176,17 +176,17 @@ export const filters: {
     },
     url_encode: input => encodeURIComponent(input),
     url_decode: input => decodeURIComponent(input),
-    default: (input, ...rest) => input || rest.map((item: any) => {
+    default: (input, defaultValue) => input || (() => {
         try {
-            if (item === 'undefined') {
+            if (defaultValue === 'undefined') {
                 return undefined;
             }
 
-            return JSON.parse(item);
+            return JSON.parse(defaultValue);
         } catch (e) {
-            return item;
+            return defaultValue;
         }
-    }).join(":"),
+    })(),
     join: (input, glue) => (input && input.join ? input.join(glue) : input),
     split: (input, delimiter = ",") =>
         typeof input === "string" ? input.split(delimiter) : input,
