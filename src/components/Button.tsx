@@ -3,31 +3,31 @@
  * @author fex
  */
 
-import * as React from 'react'
-import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper'
-import {pickEventsProps} from '../utils/helper'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
+import {pickEventsProps} from '../utils/helper';
+import {ClassNamesFn, themeable} from '../theme';
 
 interface ButtonProps
     extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-    id?: string
-    className?: string
-    size?: 'xs' | 'sm' | 'md' | 'lg'
-    type: 'button' | 'reset' | 'submit'
-    level: string // 'link' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'light' | 'dark' | 'default';
-    tooltip?: string | TooltipObject
-    placement: 'top' | 'right' | 'bottom' | 'left'
-    tooltipContainer?: any
-    tooltipTrigger: Trigger | Array<Trigger>
-    tooltipRootClose: boolean
-    disabled?: boolean
-    active?: boolean
-    block?: boolean
-    iconOnly?: boolean
-    disabledTip?: string | TooltipObject
-    classPrefix: string
-    classnames: ClassNamesFn
-    componentClass: React.ReactType
+    id?: string;
+    className?: string;
+    size?: 'xs' | 'sm' | 'md' | 'lg';
+    type: 'button' | 'reset' | 'submit';
+    level: string; // 'link' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'light' | 'dark' | 'default';
+    tooltip?: string | TooltipObject;
+    placement: 'top' | 'right' | 'bottom' | 'left';
+    tooltipContainer?: any;
+    tooltipTrigger: Trigger | Array<Trigger>;
+    tooltipRootClose: boolean;
+    disabled?: boolean;
+    active?: boolean;
+    block?: boolean;
+    iconOnly?: boolean;
+    disabledTip?: string | TooltipObject;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    componentClass: React.ReactType;
 }
 
 export class Button extends React.Component<ButtonProps> {
@@ -41,7 +41,7 @@ export class Button extends React.Component<ButtonProps> {
         placement: 'top',
         tooltipTrigger: ['hover', 'focus'],
         tooltipRootClose: false,
-    }
+    };
 
     renderButton() {
         const {
@@ -58,7 +58,7 @@ export class Button extends React.Component<ButtonProps> {
             active,
             iconOnly,
             ...rest
-        } = this.props
+        } = this.props;
 
         return (
             <Comp
@@ -80,7 +80,7 @@ export class Button extends React.Component<ButtonProps> {
             >
                 {children}
             </Comp>
-        )
+        );
     }
 
     render() {
@@ -94,7 +94,7 @@ export class Button extends React.Component<ButtonProps> {
             disabledTip,
             classPrefix,
             classnames: cx,
-        } = this.props
+        } = this.props;
 
         return (
             <TooltipWrapper
@@ -110,8 +110,8 @@ export class Button extends React.Component<ButtonProps> {
                     this.renderButton()
                 )}
             </TooltipWrapper>
-        )
+        );
     }
 }
 
-export default themeable(Button)
+export default themeable(Button);

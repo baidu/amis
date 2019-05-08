@@ -1,2 +1,2 @@
-import * as Textarea from 'react-textarea-autosize'
-export default Textarea
+import * as Textarea from 'react-textarea-autosize';
+export default Textarea;

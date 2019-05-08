@@ -4,12 +4,12 @@
  * @author fex
  */
 
-import * as React from 'react'
-import * as $ from 'jquery'
+import * as React from 'react';
+import * as $ from 'jquery';
 
 // Require Editor JS files.
 // import 'froala-editor/js/froala_editor.pkgd.min.js';
-;[
+[
     require('froala-editor/js/froala_editor.min.js'),
     require('froala-editor/js/plugins/align.min'),
     require('froala-editor/js/plugins/colors.min'),
@@ -30,160 +30,160 @@ import * as $ from 'jquery'
     // require('froala-editor/js/plugins/emotion'),
     require('froala-editor/js/plugins/fullscreen.min'),
     require('froala-editor/js/plugins/video.min'),
-].forEach(init => init())
+].forEach(init => init());
 
 // Require Editor CSS files.
-import 'froala-editor/css/froala_style.min.css'
-import 'froala-editor/css/froala_editor.pkgd.min.css'
+import 'froala-editor/css/froala_style.min.css';
+import 'froala-editor/css/froala_editor.pkgd.min.css';
 
 export default class FroalaEditor extends React.Component<any, any> {
-    listeningEvents: Array<any> = []
-    $element: any = null
-    $editor: any = null
+    listeningEvents: Array<any> = [];
+    $element: any = null;
+    $editor: any = null;
     config: any = {
         immediateReactModelUpdate: false,
         reactIgnoreAttrs: null,
-    }
-    editorInitialized: boolean = false
-    oldModel: any = null
+    };
+    editorInitialized: boolean = false;
+    oldModel: any = null;
 
     constructor(props: any) {
-        super(props)
-        this.textareaRef = this.textareaRef.bind(this)
+        super(props);
+        this.textareaRef = this.textareaRef.bind(this);
     }
 
     componentDidUpdate() {
         if (JSON.stringify(this.oldModel) == JSON.stringify(this.props.model)) {
-            return
+            return;
         }
 
-        this.setContent()
+        this.setContent();
     }
 
     textareaRef(ref: any) {
-        ref ? this.createEditor(ref) : this.destroyEditor()
+        ref ? this.createEditor(ref) : this.destroyEditor();
     }
 
     createEditor(ref: any) {
         if (this.editorInitialized) {
-            return
+            return;
         }
 
-        this.config = this.props.config || this.config
-        this.$element = $(ref)
-        this.setContent(true)
-        this.registerEvents()
-        this.$editor = this.$element.froalaEditor(this.config).data('froala.editor').$el
-        this.initListeners()
-        this.editorInitialized = true
+        this.config = this.props.config || this.config;
+        this.$element = $(ref);
+        this.setContent(true);
+        this.registerEvents();
+        this.$editor = this.$element.froalaEditor(this.config).data('froala.editor').$el;
+        this.initListeners();
+        this.editorInitialized = true;
     }
 
     setContent(firstTime: boolean = false) {
         if (!this.editorInitialized && !firstTime) {
-            return
+            return;
         }
 
         if (this.props.model || this.props.model == '') {
-            this.oldModel = this.props.model
+            this.oldModel = this.props.model;
 
-            this.setNormalTagContent(firstTime)
+            this.setNormalTagContent(firstTime);
         }
     }
 
     setNormalTagContent(firstTime: boolean) {
-        let self = this
+        let self = this;
 
         function htmlSet() {
-            self.$element.froalaEditor('html.set', self.props.model || '', true)
+            self.$element.froalaEditor('html.set', self.props.model || '', true);
             //This will reset the undo stack everytime the model changes externally. Can we fix this?
-            self.$element.froalaEditor('undo.reset')
-            self.$element.froalaEditor('undo.saveStep')
+            self.$element.froalaEditor('undo.reset');
+            self.$element.froalaEditor('undo.saveStep');
         }
 
         if (firstTime) {
-            this.registerEvent(this.$element, 'froalaEditor.initialized', htmlSet)
+            this.registerEvent(this.$element, 'froalaEditor.initialized', htmlSet);
         } else {
-            htmlSet()
+            htmlSet();
         }
     }
 
     getEditor() {
         if (this.$element) {
-            return this.$element.froalaEditor.bind(this.$element)
+            return this.$element.froalaEditor.bind(this.$element);
         }
 
-        return null
+        return null;
     }
     updateModel() {
         if (!this.props.onModelChange) {
-            return
+            return;
         }
 
-        let modelContent = ''
+        let modelContent = '';
 
-        let returnedHtml = this.$element.froalaEditor('html.get')
+        let returnedHtml = this.$element.froalaEditor('html.get');
         if (typeof returnedHtml === 'string') {
-            modelContent = returnedHtml
+            modelContent = returnedHtml;
         }
 
-        this.oldModel = modelContent
-        this.props.onModelChange(modelContent)
+        this.oldModel = modelContent;
+        this.props.onModelChange(modelContent);
     }
 
     initListeners() {
-        let self = this
+        let self = this;
 
         // bind contentChange and keyup event to froalaModel
         this.registerEvent(this.$element, 'froalaEditor.contentChanged', function() {
-            self.updateModel()
-        })
+            self.updateModel();
+        });
         if (this.config.immediateReactModelUpdate) {
             this.registerEvent(this.$editor, 'keyup', function() {
-                self.updateModel()
-            })
+                self.updateModel();
+            });
         }
     }
 
     // register event on jquery editor element
     registerEvent(element: any, eventName: any, callback: any) {
         if (!element || !eventName || !callback) {
-            return
+            return;
         }
 
-        this.listeningEvents.push(eventName)
-        element.on(eventName, callback)
+        this.listeningEvents.push(eventName);
+        element.on(eventName, callback);
     }
 
     registerEvents() {
-        let events = this.config.events
+        let events = this.config.events;
         if (!events) {
-            return
+            return;
         }
 
         for (let event in events) {
             if (events.hasOwnProperty(event)) {
-                this.registerEvent(this.$element, event, events[event])
+                this.registerEvent(this.$element, event, events[event]);
             }
         }
     }
 
     destroyEditor() {
         if (this.$element) {
-            this.listeningEvents && this.$element.off(this.listeningEvents.join(' '))
-            this.$editor.off('keyup')
-            this.$element.froalaEditor('destroy')
-            this.listeningEvents.length = 0
-            this.$element = null
-            this.editorInitialized = false
+            this.listeningEvents && this.$element.off(this.listeningEvents.join(' '));
+            this.$editor.off('keyup');
+            this.$element.froalaEditor('destroy');
+            this.listeningEvents.length = 0;
+            this.$element = null;
+            this.editorInitialized = false;
         }
     }
 
     render() {
-        return <textarea ref={this.textareaRef} />
+        return <textarea ref={this.textareaRef} />;
     }
 }
 
-;($ as any).FE.VIDEO_PROVIDERS = [
+($ as any).FE.VIDEO_PROVIDERS = [
     {
         test_regex: /^.+(bcebos.com)\/[^_&]+/,
         url_regex: '',
@@ -191,8 +191,8 @@ export default class FroalaEditor extends React.Component<any, any> {
         html:
             '<span class="fr-video fr-dvb fr-draggable" contenteditable="false" draggable="true"><video class="fr-draggable" controls="" data-msg="ok" data-status="0" src="{url}" style="width: 600px;"></video></span>',
     },
-]
-;($ as any).FE.LANGUAGE['zh_cn'] = {
+];
+($ as any).FE.LANGUAGE['zh_cn'] = {
     translation: {
         // Place holder
         'Type something': '\u8f93\u5165\u4e00\u4e9b\u5185\u5bb9',
@@ -419,4 +419,4 @@ export default class FroalaEditor extends React.Component<any, any> {
         'Quick Insert': '\u5feb\u63d2',
     },
     direction: 'ltr',
-}
+};

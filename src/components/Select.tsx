@@ -5,84 +5,84 @@
  * @date 2017-11-07
  */
 
-import uncontrollable = require('uncontrollable')
-import * as React from 'react'
-import 'react-datetime/css/react-datetime.css'
-import Overlay from './Overlay'
-import PopOver from './PopOver'
-import Downshift, {ControllerStateAndHelpers} from 'downshift'
-import * as cx from 'classnames'
-import {closeIcon} from './icons'
-import * as matchSorter from 'match-sorter'
-import {noop, anyChanged} from '../utils/helper'
-import find = require('lodash/find')
-import isPlainObject = require('lodash/isPlainObject')
-import {highlight} from '../renderers/Form/Options'
-import {findDOMNode} from 'react-dom'
-import {ClassNamesFn, themeable} from '../theme'
+import uncontrollable = require('uncontrollable');
+import * as React from 'react';
+import 'react-datetime/css/react-datetime.css';
+import Overlay from './Overlay';
+import PopOver from './PopOver';
+import Downshift, {ControllerStateAndHelpers} from 'downshift';
+import * as cx from 'classnames';
+import {closeIcon} from './icons';
+import * as matchSorter from 'match-sorter';
+import {noop, anyChanged} from '../utils/helper';
+import find = require('lodash/find');
+import isPlainObject = require('lodash/isPlainObject');
+import {highlight} from '../renderers/Form/Options';
+import {findDOMNode} from 'react-dom';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface Option {
-    label?: string
-    value?: any
-    disabled?: boolean
-    children?: Options
-    visible?: boolean
-    hidden?: boolean
-    [propName: string]: any
+    label?: string;
+    value?: any;
+    disabled?: boolean;
+    children?: Options;
+    visible?: boolean;
+    hidden?: boolean;
+    [propName: string]: any;
 }
 export interface Options extends Array<Option> {}
 
 export interface OptionProps {
-    multi?: boolean
-    multiple?: boolean
-    valueField?: string
-    options: Options
-    joinValues?: boolean
-    extractValue?: boolean
-    delimiter?: string
-    clearable?: boolean
-    placeholder?: string
+    multi?: boolean;
+    multiple?: boolean;
+    valueField?: string;
+    options: Options;
+    joinValues?: boolean;
+    extractValue?: boolean;
+    delimiter?: string;
+    clearable?: boolean;
+    placeholder?: string;
 }
 
-export type OptionValue = string | number | null | undefined | Option
+export type OptionValue = string | number | null | undefined | Option;
 
 export function value2array(value: OptionValue | Array<OptionValue>, props: Partial<OptionProps>): Array<Option> {
     if (props.multi || props.multiple) {
         if (typeof value === 'string') {
-            value = value.split(props.delimiter || ',')
+            value = value.split(props.delimiter || ',');
         }
 
         if (!Array.isArray(value)) {
             if (value === null || value === undefined) {
-                return []
+                return [];
             }
 
-            value = [value]
+            value = [value];
         }
 
-        return value.map((value: any) => expandValue(value, props)).filter((item: any) => item) as Array<Option>
+        return value.map((value: any) => expandValue(value, props)).filter((item: any) => item) as Array<Option>;
     } else if (Array.isArray(value)) {
-        value = value[0]
+        value = value[0];
     }
 
-    let expandedValue = expandValue(value as OptionValue, props)
-    return expandedValue ? [expandedValue] : []
+    let expandedValue = expandValue(value as OptionValue, props);
+    return expandedValue ? [expandedValue] : [];
 }
 
 export function expandValue(value: OptionValue, props: Partial<OptionProps>): Option | null {
-    const valueType = typeof value
+    const valueType = typeof value;
 
     if (valueType !== 'string' && valueType !== 'number' && valueType !== 'boolean') {
-        return value as Option
+        return value as Option;
     }
 
-    let {options} = props
+    let {options} = props;
 
     if (!options) {
-        return null
+        return null;
     }
 
-    return find(options, item => String(item[props.valueField || 'value']) === String(value)) as Option
+    return find(options, item => String(item[props.valueField || 'value']) === String(value)) as Option;
 }
 
 export function normalizeOptions(options: string | {[propName: string]: string} | Array<string> | Options): Options {
@@ -90,72 +90,72 @@ export function normalizeOptions(options: string | {[propName: string]: string} 
         return options.split(',').map(item => ({
             label: item,
             value: item,
-        }))
+        }));
     } else if (Array.isArray(options as Array<string>) && typeof (options as Array<string>)[0] === 'string') {
         return (options as Array<string>).map(item => ({
             label: item,
             value: item,
-        }))
+        }));
     } else if (Array.isArray(options as Options)) {
         return (options as Options).map(item => {
             let option = {
                 ...item,
                 value: item && item.value,
-            }
+            };
 
             if (typeof option.children !== 'undefined') {
-                option.children = normalizeOptions(option.children)
+                option.children = normalizeOptions(option.children);
             }
 
-            return option
-        })
+            return option;
+        });
     } else if (isPlainObject(options)) {
         return Object.keys(options).map(key => ({
             label: (options as {[propName: string]: string})[key] as string,
             value: key,
-        }))
+        }));
     }
 
-    return []
+    return [];
 }
 
 interface SelectProps {
-    classPrefix: string
-    classnames: ClassNamesFn
-    className: string
-    creatable: boolean
-    multiple: boolean
-    valueField: string
-    labelField: string
-    searchable: boolean
-    options: Array<Option>
-    value: Option | Array<Option>
-    loadOptions?: Function
-    searchPromptText: string
-    loading?: boolean
-    loadingPlaceholder: string
-    spinnerClassName?: string
-    noResultsText: string
-    clearable: boolean
-    clearAllText: string
-    clearValueText: string
-    placeholder: string
-    inline: boolean
-    disabled: boolean
-    popOverContainer?: any
-    promptTextCreator: (label: string) => string
-    onChange: (value: void | string | Option | Array<Option>) => void
-    onNewOptionClick: (value: Option) => void
-    onFocus?: Function
-    onBlur?: Function
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    className: string;
+    creatable: boolean;
+    multiple: boolean;
+    valueField: string;
+    labelField: string;
+    searchable: boolean;
+    options: Array<Option>;
+    value: Option | Array<Option>;
+    loadOptions?: Function;
+    searchPromptText: string;
+    loading?: boolean;
+    loadingPlaceholder: string;
+    spinnerClassName?: string;
+    noResultsText: string;
+    clearable: boolean;
+    clearAllText: string;
+    clearValueText: string;
+    placeholder: string;
+    inline: boolean;
+    disabled: boolean;
+    popOverContainer?: any;
+    promptTextCreator: (label: string) => string;
+    onChange: (value: void | string | Option | Array<Option>) => void;
+    onNewOptionClick: (value: Option) => void;
+    onFocus?: Function;
+    onBlur?: Function;
 }
 
 interface SelectState {
-    isOpen: boolean
-    isFocused: boolean
-    inputValue: string
-    highlightedIndex: number
-    selection: Array<Option>
+    isOpen: boolean;
+    isFocused: boolean;
+    inputValue: string;
+    highlightedIndex: number;
+    selection: Array<Option>;
 }
 
 export class Select extends React.Component<SelectProps, SelectState> {
@@ -175,26 +175,26 @@ export class Select extends React.Component<SelectProps, SelectState> {
         promptTextCreator: (label: string) => `新增：${label}`,
         onNewOptionClick: noop,
         inline: false,
-    }
+    };
 
-    input: HTMLInputElement
-    target: HTMLElement
+    input: HTMLInputElement;
+    target: HTMLElement;
     constructor(props: SelectProps) {
-        super(props)
+        super(props);
 
-        this.open = this.open.bind(this)
-        this.close = this.close.bind(this)
-        this.toggle = this.toggle.bind(this)
-        this.onBlur = this.onBlur.bind(this)
-        this.onFocus = this.onFocus.bind(this)
-        this.focus = this.focus.bind(this)
-        this.inputRef = this.inputRef.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handleInputChange = this.handleInputChange.bind(this)
-        this.clearValue = this.clearValue.bind(this)
-        this.handleStateChange = this.handleStateChange.bind(this)
-        this.handleKeyPress = this.handleKeyPress.bind(this)
-        this.getTarget = this.getTarget.bind(this)
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
+        this.toggle = this.toggle.bind(this);
+        this.onBlur = this.onBlur.bind(this);
+        this.onFocus = this.onFocus.bind(this);
+        this.focus = this.focus.bind(this);
+        this.inputRef = this.inputRef.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.clearValue = this.clearValue.bind(this);
+        this.handleStateChange = this.handleStateChange.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.getTarget = this.getTarget.bind(this);
 
         this.state = {
             isOpen: false,
@@ -202,22 +202,22 @@ export class Select extends React.Component<SelectProps, SelectState> {
             inputValue: '',
             highlightedIndex: -1,
             selection: value2array(props.value, props),
-        }
+        };
     }
 
     componentDidMount() {
-        const {loadOptions} = this.props
+        const {loadOptions} = this.props;
 
-        loadOptions && loadOptions('')
+        loadOptions && loadOptions('');
     }
 
     componentWillReceiveProps(nextProps: SelectProps) {
-        const props = this.props
+        const props = this.props;
 
         if (props.value !== nextProps.value || JSON.stringify(props.options) !== JSON.stringify(nextProps.options)) {
             this.setState({
                 selection: value2array(nextProps.value, nextProps),
-            })
+            });
         }
     }
 
@@ -225,20 +225,20 @@ export class Select extends React.Component<SelectProps, SelectState> {
         this.props.disabled ||
             this.setState({
                 isOpen: true,
-            })
+            });
     }
 
     close() {
         this.setState({
             isOpen: false,
-        })
+        });
     }
 
     toggle() {
         this.props.disabled ||
             this.setState({
                 isOpen: !this.state.isOpen,
-            })
+            });
     }
 
     onFocus(e: any) {
@@ -248,95 +248,95 @@ export class Select extends React.Component<SelectProps, SelectState> {
                     isFocused: true,
                 },
                 this.focus
-            )
+            );
 
-        this.props.onFocus && this.props.onFocus(e)
+        this.props.onFocus && this.props.onFocus(e);
     }
 
     onBlur(e: any) {
         this.setState({
             isFocused: false,
             inputValue: '',
-        })
+        });
 
-        this.props.onBlur && this.props.onBlur(e)
+        this.props.onBlur && this.props.onBlur(e);
     }
 
     focus() {
-        this.input ? this.input.focus() : this.getTarget() && this.getTarget().focus()
+        this.input ? this.input.focus() : this.getTarget() && this.getTarget().focus();
     }
 
     blur() {
-        this.input ? this.input.blur() : this.getTarget() && this.getTarget().blur()
+        this.input ? this.input.blur() : this.getTarget() && this.getTarget().blur();
     }
 
     getTarget() {
         if (!this.target) {
-            this.target = findDOMNode(this) as HTMLElement
+            this.target = findDOMNode(this) as HTMLElement;
         }
-        return this.target as HTMLElement
+        return this.target as HTMLElement;
     }
 
     inputRef(ref: HTMLInputElement) {
-        this.input = ref
+        this.input = ref;
     }
 
     removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
-        let value = this.props.value
-        const onChange = this.props.onChange
+        let value = this.props.value;
+        const onChange = this.props.onChange;
 
-        e && e.stopPropagation()
-        value = Array.isArray(value) ? value.concat() : [value]
-        value.splice(index, 1)
-        onChange(value)
+        e && e.stopPropagation();
+        value = Array.isArray(value) ? value.concat() : [value];
+        value.splice(index, 1);
+        onChange(value);
     }
 
     handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
-        const {loadOptions} = this.props
+        const {loadOptions} = this.props;
 
         this.setState(
             {
                 inputValue: evt.currentTarget.value,
             },
             () => loadOptions && loadOptions(this.state.inputValue)
-        )
+        );
     }
 
     handleChange(selectItem: any) {
-        const {onChange, multiple, onNewOptionClick} = this.props
+        const {onChange, multiple, onNewOptionClick} = this.props;
 
-        let selection = this.state.selection
+        let selection = this.state.selection;
 
         if (selectItem.isNew) {
-            delete selectItem.isNew
-            onNewOptionClick(selectItem)
+            delete selectItem.isNew;
+            onNewOptionClick(selectItem);
         }
 
         if (multiple) {
-            selection = selection.concat()
-            const idx = selection.indexOf(selectItem)
+            selection = selection.concat();
+            const idx = selection.indexOf(selectItem);
             if (~idx) {
-                selection.splice(idx, 1)
+                selection.splice(idx, 1);
             } else {
-                selection.push(selectItem)
+                selection.push(selectItem);
             }
-            onChange(selection)
+            onChange(selection);
         } else {
-            onChange(selectItem)
+            onChange(selectItem);
         }
     }
 
     handleStateChange(changes: any) {
-        let update: any = {}
-        const loadOptions = this.props.loadOptions
-        let doLoad = false
+        let update: any = {};
+        const loadOptions = this.props.loadOptions;
+        let doLoad = false;
 
         if (changes.isOpen !== void 0) {
-            update.isOpen = changes.isOpen
+            update.isOpen = changes.isOpen;
         }
 
         if (changes.highlightedIndex !== void 0) {
-            update.highlightedIndex = changes.highlightedIndex
+            update.highlightedIndex = changes.highlightedIndex;
         }
 
         switch (changes.type) {
@@ -347,39 +347,39 @@ export class Select extends React.Component<SelectProps, SelectState> {
                     inputValue: '',
                     isOpen: false,
                     isFocused: false,
-                }
-                doLoad = true
-                break
+                };
+                doLoad = true;
+                break;
             case Downshift.stateChangeTypes.changeInput:
-                update.highlightedIndex = 0
-                break
+                update.highlightedIndex = 0;
+                break;
         }
 
         if (Object.keys(update).length) {
-            this.setState(update, doLoad && loadOptions ? () => loadOptions('') : undefined)
+            this.setState(update, doLoad && loadOptions ? () => loadOptions('') : undefined);
         }
     }
 
     handleKeyPress(e: React.KeyboardEvent) {
         if (e.key === ' ') {
-            this.toggle()
+            this.toggle();
         }
     }
 
     clearValue(e: React.MouseEvent<any>) {
-        const onChange = this.props.onChange
-        e.preventDefault()
-        e.stopPropagation()
-        onChange('')
+        const onChange = this.props.onChange;
+        e.preventDefault();
+        e.stopPropagation();
+        onChange('');
     }
 
     renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
-        const {multiple, placeholder, classPrefix: ns, labelField, searchable, creatable} = this.props
+        const {multiple, placeholder, classPrefix: ns, labelField, searchable, creatable} = this.props;
 
-        const selection = this.state.selection
+        const selection = this.state.selection;
 
         if (searchable && !creatable && inputValue && (multiple ? !selection.length : true)) {
-            return null
+            return null;
         }
 
         if (!selection.length) {
@@ -387,7 +387,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 <div key="placeholder" className={`${ns}Select-placeholder`}>
                     {placeholder}
                 </div>
-            )
+            );
         }
 
         return selection.map((item, index) =>
@@ -403,7 +403,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                     {item.label}
                 </div>
             )
-        )
+        );
     }
 
     renderOuter({selectedItem, getItemProps, highlightedIndex, inputValue, isOpen}: ControllerStateAndHelpers<any>) {
@@ -418,17 +418,17 @@ export class Select extends React.Component<SelectProps, SelectState> {
             promptTextCreator,
             multiple,
             classnames: cx,
-        } = this.props
+        } = this.props;
 
         let filtedOptions: Array<Option> =
             inputValue && isOpen && !loadOptions
                 ? matchSorter(options, inputValue, {
                       keys: [labelField || 'label', valueField || 'value'],
                   })
-                : options.concat()
+                : options.concat();
 
         if (multiple) {
-            filtedOptions = filtedOptions.filter((option: any) => !~selectedItem.indexOf(option))
+            filtedOptions = filtedOptions.filter((option: any) => !~selectedItem.indexOf(option));
         }
 
         if (
@@ -445,7 +445,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 [labelField]: inputValue,
                 [valueField]: inputValue,
                 isNew: true,
-            })
+            });
         }
 
         const menu = (
@@ -478,7 +478,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                     <div className={cx('Select-option Select-option--placeholder')}>{noResultsText}</div>
                 )}
             </div>
-        )
+        );
 
         if (popOverContainer) {
             return (
@@ -490,9 +490,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                         {menu}
                     </PopOver>
                 </Overlay>
-            )
+            );
         } else {
-            return <div className={cx('Select-menuOuter')}>{menu}</div>
+            return <div className={cx('Select-menuOuter')}>{menu}</div>;
         }
     }
 
@@ -509,10 +509,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
             clearable,
             labelField,
             disabled,
-        } = this.props
+        } = this.props;
 
-        const selection = this.state.selection
-        const inputValue = this.state.inputValue
+        const selection = this.state.selection;
+        const inputValue = this.state.inputValue;
 
         return (
             <Downshift
@@ -526,7 +526,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 itemToString={item => (item ? item[labelField] : '')}
             >
                 {(options: ControllerStateAndHelpers<any>) => {
-                    const {isOpen, getInputProps} = options
+                    const {isOpen, getInputProps} = options;
                     return (
                         <div
                             tabIndex={searchable || disabled ? -1 : 0}
@@ -557,7 +557,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                                             onBlur: this.onBlur,
                                             onKeyDown: event => {
                                                 if (event.key === 'Backspace' && !inputValue) {
-                                                    this.removeItem(value.length - 1)
+                                                    this.removeItem(value.length - 1);
                                                 }
                                             },
                                             onChange: this.handleInputChange,
@@ -580,10 +580,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
                             <span className={cx('Select-arrow')} />
                             {isOpen ? this.renderOuter(options) : null}
                         </div>
-                    )
+                    );
                 }}
             </Downshift>
-        )
+        );
     }
 }
 
@@ -591,4 +591,4 @@ export default themeable(
     uncontrollable(Select, {
         value: 'onChange',
     })
-)
+);

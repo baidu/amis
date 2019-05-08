@@ -3,38 +3,38 @@
  * @author fex
  */
 
-import * as React from 'react'
-import * as cx from 'classnames'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import * as cx from 'classnames';
+import {ClassNamesFn, themeable} from '../theme';
 
 const sizeMap = {
     sm: 'i-checks-sm',
     lg: 'i-checks-lg',
     small: 'i-checks-sm',
     large: 'i-checks-lg',
-}
+};
 
 interface CheckboxProps {
-    id?: string
-    key?: string | number
-    style?: React.CSSProperties
-    type?: string
-    size?: 'sm' | 'lg' | 'small' | 'large'
-    label?: string
-    className?: string
-    onChange?: (value: any) => void
-    value?: any
-    containerClass?: string
-    inline?: boolean
-    trueValue?: boolean
-    falseValue?: boolean
-    disabled?: boolean
-    readOnly?: boolean
-    checked?: boolean
-    name?: string
-    classPrefix: string
-    classnames: ClassNamesFn
-    partial?: boolean
+    id?: string;
+    key?: string | number;
+    style?: React.CSSProperties;
+    type?: string;
+    size?: 'sm' | 'lg' | 'small' | 'large';
+    label?: string;
+    className?: string;
+    onChange?: (value: any) => void;
+    value?: any;
+    containerClass?: string;
+    inline?: boolean;
+    trueValue?: boolean;
+    falseValue?: boolean;
+    disabled?: boolean;
+    readOnly?: boolean;
+    checked?: boolean;
+    name?: string;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    partial?: boolean;
 }
 
 export class Checkbox extends React.Component<CheckboxProps, any> {
@@ -42,22 +42,22 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         trueValue: true,
         falseValue: false,
         type: 'checkbox',
-    }
+    };
 
     constructor(props: CheckboxProps) {
-        super(props)
+        super(props);
 
-        this.hanldeCheck = this.hanldeCheck.bind(this)
+        this.hanldeCheck = this.hanldeCheck.bind(this);
     }
 
     hanldeCheck(e: React.ChangeEvent<any>) {
-        const {trueValue, falseValue, onChange} = this.props
+        const {trueValue, falseValue, onChange} = this.props;
 
         if (!onChange) {
-            return
+            return;
         }
 
-        onChange(e.currentTarget.checked ? trueValue : falseValue)
+        onChange(e.currentTarget.checked ? trueValue : falseValue);
     }
 
     render() {
@@ -75,9 +75,9 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
             checked,
             type,
             name,
-        } = this.props
+        } = this.props;
 
-        className = (className ? className : '') + (size && sizeMap[size] ? ` ${sizeMap[size]}` : '')
+        className = (className ? className : '') + (size && sizeMap[size] ? ` ${sizeMap[size]}` : '');
 
         return (
             <label
@@ -106,8 +106,8 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
                 <i />
                 <span>{children || label}</span>
             </label>
-        )
+        );
     }
 }
 
-export default themeable(Checkbox)
+export default themeable(Checkbox);

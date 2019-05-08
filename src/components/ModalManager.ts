@@ -4,46 +4,46 @@
  * @author fex
  */
 
-import * as keycode from 'keycode'
+import * as keycode from 'keycode';
 
 interface ModalComponent
     extends React.Component<{
-        onHide: () => void
-        disabled?: boolean
-        closeOnEsc?: boolean
+        onHide: () => void;
+        disabled?: boolean;
+        closeOnEsc?: boolean;
     }> {}
 
-let modals: Array<ModalComponent> = []
+let modals: Array<ModalComponent> = [];
 
 export function current() {
-    return modals.length
+    return modals.length;
 }
 
 export function currentModal(): ModalComponent | void {
-    return modals[modals.length - 1]
+    return modals[modals.length - 1];
 }
 
 export function addModal(modal: ModalComponent) {
-    modals.push(modal)
+    modals.push(modal);
 }
 
 export function removeModal() {
-    modals.pop()
+    modals.pop();
 }
 
-window.addEventListener('keydown', handleWindowKeyDown)
+window.addEventListener('keydown', handleWindowKeyDown);
 
 function handleWindowKeyDown(e: Event) {
-    const code = keycode(e)
+    const code = keycode(e);
     if (code !== 'esc') {
-        return
+        return;
     }
-    let modal = currentModal()
+    let modal = currentModal();
     if (!modal) {
-        return
+        return;
     }
-    const {disabled, closeOnEsc} = modal.props
+    const {disabled, closeOnEsc} = modal.props;
     if (closeOnEsc && !disabled) {
-        modal.props.onHide()
+        modal.props.onHide();
     }
 }

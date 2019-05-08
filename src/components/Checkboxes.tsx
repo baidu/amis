@@ -4,51 +4,51 @@
  * @author fex
  */
 
-import * as React from 'react'
-import uncontrollable = require('uncontrollable')
-import Checkbox from './Checkbox'
-import find = require('lodash/find')
-import chunk = require('lodash/chunk')
-import {flattenTree} from '../utils/helper'
-import {Option} from './Checkboxes'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import uncontrollable = require('uncontrollable');
+import Checkbox from './Checkbox';
+import find = require('lodash/find');
+import chunk = require('lodash/chunk');
+import {flattenTree} from '../utils/helper';
+import {Option} from './Checkboxes';
+import {ClassNamesFn, themeable} from '../theme';
 // import isPlainObject = require('lodash/isPlainObject');
 
 export interface Option {
-    label?: string
-    value?: any
-    disabled?: boolean
-    children?: Options
-    [propName: string]: any
+    label?: string;
+    value?: any;
+    disabled?: boolean;
+    children?: Options;
+    [propName: string]: any;
 }
 export interface Options extends Array<Option> {}
 
 export interface OptionProps {
-    multi?: boolean
-    multiple?: boolean
-    valueField?: string
-    options?: Options
-    joinValues: boolean
-    extractValue: boolean
-    delimiter: string
-    clearable: boolean
-    placeholder?: string
+    multi?: boolean;
+    multiple?: boolean;
+    valueField?: string;
+    options?: Options;
+    joinValues: boolean;
+    extractValue: boolean;
+    delimiter: string;
+    clearable: boolean;
+    placeholder?: string;
 }
 
-export type OptionValue = string | number | null | undefined | Option
+export type OptionValue = string | number | null | undefined | Option;
 
 export function value2array(value: OptionValue | Array<OptionValue>, props: Partial<OptionProps>): Array<Option> {
     if (props.multi || props.multiple) {
         if (typeof value === 'string') {
-            value = value.split(props.delimiter || ',')
+            value = value.split(props.delimiter || ',');
         }
 
         if (!Array.isArray(value)) {
             if (value === null || value === undefined) {
-                return []
+                return [];
             }
 
-            value = [value]
+            value = [value];
         }
 
         return (value as Array<OptionValue>)
@@ -60,31 +60,31 @@ export function value2array(value: OptionValue | Array<OptionValue>, props: Part
                     props
                 )
             )
-            .filter((item: Option) => item) as Array<Option>
+            .filter((item: Option) => item) as Array<Option>;
     }
 
-    let expandedValue = expandValue(value as OptionValue, props)
-    return expandedValue ? [expandedValue] : []
+    let expandedValue = expandValue(value as OptionValue, props);
+    return expandedValue ? [expandedValue] : [];
 }
 
 export function expandValue(value: OptionValue, props: Partial<OptionProps>): Option | null {
-    const valueType = typeof value
+    const valueType = typeof value;
 
     if (valueType !== 'string' && valueType !== 'number' && valueType !== 'boolean' && valueType !== 'object') {
-        return null
+        return null;
     }
 
-    let {options, valueField} = props
+    let {options, valueField} = props;
 
     if (!options) {
-        return null
+        return null;
     }
 
     if (valueType === 'object') {
-        value = (value as Option)[valueField || 'value'] || ''
+        value = (value as Option)[valueField || 'value'] || '';
     }
 
-    return find(flattenTree(options), item => String(item[valueField || 'value']) === String(value)) as Option
+    return find(flattenTree(options), item => String(item[valueField || 'value']) === String(value)) as Option;
 }
 
 /**
@@ -99,19 +99,19 @@ export function expandValue(value: OptionValue, props: Partial<OptionProps>): Op
  * ]
  */
 interface CheckboxesProps extends OptionProps {
-    id?: string
-    key?: string
-    className?: string
-    type: string
-    placeholder?: string
-    disabled?: boolean
-    value?: string
-    onChange?: Function
-    inline?: boolean
-    columnsCount?: number
-    checked?: boolean
-    classPrefix: string
-    classnames: ClassNamesFn
+    id?: string;
+    key?: string;
+    className?: string;
+    type: string;
+    placeholder?: string;
+    disabled?: boolean;
+    value?: string;
+    onChange?: Function;
+    inline?: boolean;
+    columnsCount?: number;
+    checked?: boolean;
+    classPrefix: string;
+    classnames: ClassNamesFn;
 }
 
 export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
@@ -121,18 +121,18 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
         inline: false,
         delimiter: ',',
         columnsCount: 1, // 一行显示一个
-    }
+    };
 
     toggleOption(option: Option) {
-        const {value, onChange, joinValues, extractValue, delimiter, valueField, options} = this.props
+        const {value, onChange, joinValues, extractValue, delimiter, valueField, options} = this.props;
 
         let valueArray = value2array(value, {
             multiple: true,
             valueField,
             delimiter,
             options,
-        })
-        let idx = valueArray.indexOf(option)
+        });
+        let idx = valueArray.indexOf(option);
 
         if (!~idx) {
             option =
@@ -141,25 +141,25 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
                     valueField,
                     delimiter,
                     options,
-                })[0] || option
-            idx = valueArray.indexOf(option)
+                })[0] || option;
+            idx = valueArray.indexOf(option);
         }
 
         if (~idx) {
-            valueArray.splice(idx, 1)
+            valueArray.splice(idx, 1);
         } else {
-            valueArray.push(option)
+            valueArray.push(option);
         }
 
-        let newValue: string | Array<Option> = valueArray
+        let newValue: string | Array<Option> = valueArray;
 
         if (joinValues) {
-            newValue = newValue.map(item => item[valueField || 'value']).join(delimiter)
+            newValue = newValue.map(item => item[valueField || 'value']).join(delimiter);
         } else if (extractValue) {
-            newValue = newValue.map(item => item[valueField || 'value'])
+            newValue = newValue.map(item => item[valueField || 'value']);
         }
 
-        onChange && onChange(newValue)
+        onChange && onChange(newValue);
     }
 
     render() {
@@ -173,15 +173,15 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
             columnsCount,
             disabled,
             inline,
-        } = this.props
+        } = this.props;
 
         let valueArray = value2array(value, {
             multiple: true,
             valueField,
             delimiter,
             options,
-        })
-        let body: Array<React.ReactNode> = []
+        });
+        let body: Array<React.ReactNode> = [];
 
         if (options) {
             body = options.map((option, key) => (
@@ -194,14 +194,14 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
                 >
                     {option.label}
                 </Checkbox>
-            ))
+            ));
         }
 
         if (!inline && (columnsCount as number) > 1) {
             let cellClassName = `col-sm-${(12 / (columnsCount as number))
                 .toFixed(1)
                 .replace(/\.0$/, '')
-                .replace(/\./, '-')}`
+                .replace(/\./, '-')}`;
             body = chunk(body, columnsCount).map((group, groupIndex) => (
                 <div className="row" key={groupIndex}>
                     {group.map((item, index) => (
@@ -210,10 +210,10 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
                         </div>
                     ))}
                 </div>
-            ))
+            ));
         }
 
-        return <div className={className}>{body && body.length ? body : placeholder}</div>
+        return <div className={className}>{body && body.length ? body : placeholder}</div>;
     }
 }
 
@@ -221,4 +221,4 @@ export default themeable(
     uncontrollable(Checkboxes, {
         value: 'onChange',
     })
-)
+);

@@ -4,55 +4,55 @@
  * @author fex
  */
 
-import Transition, {ENTERED, ENTERING, EXITING, EXITED} from 'react-transition-group/Transition'
-import * as React from 'react'
-import * as cx from 'classnames'
-import Html from './Html'
-import {uuid, autobind} from '../utils/helper'
-import {ClassNamesFn, themeable} from '../theme'
+import Transition, {ENTERED, ENTERING, EXITING, EXITED} from 'react-transition-group/Transition';
+import * as React from 'react';
+import * as cx from 'classnames';
+import Html from './Html';
+import {uuid, autobind} from '../utils/helper';
+import {ClassNamesFn, themeable} from '../theme';
 
 const fadeStyles: {
-    [propName: string]: string
+    [propName: string]: string;
 } = {
     [ENTERING]: 'in',
     [ENTERED]: '',
     [EXITING]: 'out',
     [EXITED]: 'hidden',
-}
+};
 
-let toastRef: any = null
+let toastRef: any = null;
 let config: {
-    closeButton?: boolean
-    timeOut?: number
-    extendedTimeOut?: number
-} = {}
+    closeButton?: boolean;
+    timeOut?: number;
+    extendedTimeOut?: number;
+} = {};
 
 const show = (content: string, title: string = '', conf: any = {}, method: string) => {
     if (!toastRef || !toastRef[method]) {
-        return
+        return;
     }
-    toastRef[method](content, title || '', {...config, ...conf})
-}
+    toastRef[method](content, title || '', {...config, ...conf});
+};
 
 interface ToastComponentProps {
-    position: 'top-right' | 'top-center' | 'top-left' | 'bottom-center' | 'bottom-left' | 'bottom-right'
-    closeButton: boolean
-    timeOut: number
-    extendedTimeOut: number
-    classPrefix: string
-    classnames: ClassNamesFn
-    className?: string
+    position: 'top-right' | 'top-center' | 'top-left' | 'bottom-center' | 'bottom-left' | 'bottom-right';
+    closeButton: boolean;
+    timeOut: number;
+    extendedTimeOut: number;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    className?: string;
 }
 
 interface Item {
-    title?: string
-    body: string
-    level: 'info' | 'success' | 'error' | 'warning'
-    id: string
+    title?: string;
+    body: string;
+    level: 'info' | 'success' | 'error' | 'warning';
+    id: string;
 }
 
 interface ToastComponentState {
-    items: Array<Item>
+    items: Array<Item>;
 }
 
 export class ToastComponent extends React.PureComponent<ToastComponentProps, ToastComponentState> {
@@ -61,83 +61,83 @@ export class ToastComponent extends React.PureComponent<ToastComponentProps, Toa
         closeButton: false,
         timeOut: 5000,
         extendedTimeOut: 3000,
-    }
+    };
 
     // 当前ToastComponent是否真正render了
-    hasRendered = false
+    hasRendered = false;
     state: ToastComponentState = {
         items: [],
-    }
+    };
 
     componentWillMount() {
-        const {closeButton, timeOut, extendedTimeOut} = this.props
+        const {closeButton, timeOut, extendedTimeOut} = this.props;
         config = {
             closeButton,
             timeOut,
             extendedTimeOut,
-        }
+        };
     }
 
     componentDidMount() {
-        this.hasRendered = true
-        toastRef = this
+        this.hasRendered = true;
+        toastRef = this;
     }
 
     componentWillUnmount() {
         if (this.hasRendered) {
-            toastRef = null
+            toastRef = null;
         }
     }
 
     notifiy(level: string, content: string, title?: string, config?: any) {
-        const items = this.state.items.concat()
+        const items = this.state.items.concat();
         items.push({
             title: title,
             body: content,
             level,
             ...config,
             id: uuid(),
-        })
+        });
         this.setState({
             items,
-        })
+        });
     }
 
     @autobind
     success(content: string, title?: string, config?: any) {
-        this.notifiy('success', content, title, config)
+        this.notifiy('success', content, title, config);
     }
 
     @autobind
     error(content: string, title?: string, config?: any) {
-        this.notifiy('error', content, title, config)
+        this.notifiy('error', content, title, config);
     }
 
     @autobind
     info(content: string, title?: string, config?: any) {
-        this.notifiy('info', content, title, config)
+        this.notifiy('info', content, title, config);
     }
 
     @autobind
     warning(content: string, title?: string, config?: any) {
-        this.notifiy('warning', content, title, config)
+        this.notifiy('warning', content, title, config);
     }
 
     handleDismissed(index: number) {
-        const items = this.state.items.concat()
-        items.splice(index, 1)
+        const items = this.state.items.concat();
+        items.splice(index, 1);
         this.setState({
             items: items,
-        })
+        });
     }
 
     render() {
         if (toastRef && !this.hasRendered) {
-            return null
+            return null;
         }
 
-        const {classPrefix: ns, className, timeOut, position} = this.props
-        const items = this.state.items
+        const {classPrefix: ns, className, timeOut, position} = this.props;
+        const items = this.state.items;
 
         return (
             <div
@@ -158,25 +158,25 @@ export class ToastComponent extends React.PureComponent<ToastComponentProps, Toa
                     />
                 ))}
             </div>
-        )
+        );
     }
 }
 
-export default themeable(ToastComponent as React.ComponentType<ToastComponentProps>)
+export default themeable(ToastComponent as React.ComponentType<ToastComponentProps>);
 
 interface ToastMessageProps {
-    title?: string
-    body: string
-    level: 'info' | 'success' | 'error' | 'warning'
-    timeOut: number
-    position: 'top-right' | 'top-center' | 'top-left' | 'bottom-center' | 'bottom-left' | 'bottom-right'
-    onDismiss?: () => void
-    classPrefix: string
-    allowHtml: boolean
+    title?: string;
+    body: string;
+    level: 'info' | 'success' | 'error' | 'warning';
+    timeOut: number;
+    position: 'top-right' | 'top-center' | 'top-left' | 'bottom-center' | 'bottom-left' | 'bottom-right';
+    onDismiss?: () => void;
+    classPrefix: string;
+    allowHtml: boolean;
 }
 
 interface ToastMessageState {
-    visible: boolean
+    visible: boolean;
 }
 
 export class ToastMessage extends React.Component<ToastMessageProps> {
@@ -186,56 +186,56 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
         position: 'top-right',
         allowHtml: true,
         level: 'info',
-    }
+    };
 
     state = {
         visible: false,
-    }
+    };
 
-    content: React.RefObject<HTMLDivElement>
-    timer: NodeJS.Timeout
+    content: React.RefObject<HTMLDivElement>;
+    timer: NodeJS.Timeout;
     constructor(props: ToastMessageProps) {
-        super(props)
+        super(props);
 
-        this.content = React.createRef()
-        this.handleMouseEnter = this.handleMouseEnter.bind(this)
-        this.handleMouseLeave = this.handleMouseLeave.bind(this)
-        this.handleEntered = this.handleEntered.bind(this)
-        this.close = this.close.bind(this)
+        this.content = React.createRef();
+        this.handleMouseEnter = this.handleMouseEnter.bind(this);
+        this.handleMouseLeave = this.handleMouseLeave.bind(this);
+        this.handleEntered = this.handleEntered.bind(this);
+        this.close = this.close.bind(this);
     }
 
     componentWillUnmount() {
-        clearTimeout(this.timer)
+        clearTimeout(this.timer);
     }
 
     componentDidMount() {
         this.setState({
             visible: true,
-        })
+        });
     }
 
     handleMouseEnter() {
-        clearTimeout(this.timer)
+        clearTimeout(this.timer);
     }
 
     handleMouseLeave() {
-        this.handleEntered()
+        this.handleEntered();
     }
 
     handleEntered() {
-        const timeOut = this.props.timeOut
-        this.timer = setTimeout(this.close, timeOut)
+        const timeOut = this.props.timeOut;
+        this.timer = setTimeout(this.close, timeOut);
     }
 
     close() {
-        clearTimeout(this.timer)
+        clearTimeout(this.timer);
         this.setState({
             visible: false,
-        })
+        });
     }
 
     render() {
-        const {onDismiss, classPrefix: ns, position, title, body, allowHtml, level} = this.props
+        const {onDismiss, classPrefix: ns, position, title, body, allowHtml, level} = this.props;
 
         return (
             <Transition
@@ -251,7 +251,7 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
                         // force reflow
                         // 由于从 mount 进来到加上 in 这个 class 估计是时间太短，上次的样式还没应用进去，所以这里强制reflow一把。
                         // 否则看不到动画。
-                        this.content.current && this.content.current.offsetWidth
+                        this.content.current && this.content.current.offsetWidth;
                     }
 
                     return (
@@ -265,10 +265,10 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
                             {title ? <div className={`${ns}Toast-title`}>{title}</div> : null}
                             <div className={`${ns}Toast-body`}>{allowHtml ? <Html html={body} /> : body}</div>
                         </div>
-                    )
+                    );
                 }}
             </Transition>
-        )
+        );
     }
 }
 
@@ -278,4 +278,4 @@ export const toast = {
     error: (content: string, title?: string, conf?: any) => show(content, title, conf, 'error'),
     info: (content: string, title?: string, conf?: any) => show(content, title, conf, 'info'),
     warning: (content: string, title?: string, conf?: any) => show(content, title, conf, 'warning'),
-}
+};

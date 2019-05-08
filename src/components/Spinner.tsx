@@ -5,18 +5,18 @@
  * @date 2017-11-07
  */
 
-import * as React from 'react'
-import {Renderer, RendererProps} from '../factory'
-import {ClassNamesFn, themeable} from '../theme'
-import {classPrefix, classnames} from '../themes/default'
+import * as React from 'react';
+import {Renderer, RendererProps} from '../factory';
+import {ClassNamesFn, themeable} from '../theme';
+import {classPrefix, classnames} from '../themes/default';
 
 interface SpinnerProps extends RendererProps {
-    overlay: boolean
-    spinnerClassName: string
-    mode: string
-    size: string
-    classPrefix: string
-    classnames: ClassNamesFn
+    overlay: boolean;
+    spinnerClassName: string;
+    mode: string;
+    size: string;
+    classPrefix: string;
+    classnames: ClassNamesFn;
 }
 
 export class Spinner extends React.Component<SpinnerProps, object> {
@@ -25,10 +25,10 @@ export class Spinner extends React.Component<SpinnerProps, object> {
         spinnerClassName: '',
         mode: '',
         size: '',
-    }
+    };
 
     render() {
-        const {mode, overlay, spinnerClassName, classPrefix: ns, classnames: cx, size} = this.props
+        const {mode, overlay, spinnerClassName, classPrefix: ns, classnames: cx, size} = this.props;
 
         const spinner = (
             <div
@@ -37,14 +37,14 @@ export class Spinner extends React.Component<SpinnerProps, object> {
                     [`Spinner--${size}`]: !!size,
                 })}
             />
-        )
+        );
 
         if (overlay) {
-            return <div className={cx(`Spinner-overlay`)}>{spinner}</div>
+            return <div className={cx(`Spinner-overlay`)}>{spinner}</div>;
         }
 
-        return spinner
+        return spinner;
     }
 }
 
-export default themeable(Spinner)
+export default themeable(Spinner);

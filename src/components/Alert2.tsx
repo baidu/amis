@@ -3,20 +3,20 @@
  * @author fex
  */
 
-import * as React from 'react'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface AlertProps {
-    level: 'danger' | 'info' | 'success' | 'warning'
-    className: string
-    showCloseButton: boolean
-    onClose?: () => void
-    classnames: ClassNamesFn
-    classPrefix: string
+    level: 'danger' | 'info' | 'success' | 'warning';
+    className: string;
+    showCloseButton: boolean;
+    onClose?: () => void;
+    classnames: ClassNamesFn;
+    classPrefix: string;
 }
 
 export interface AlertState {
-    show: boolean
+    show: boolean;
 }
 
 export class Alert extends React.Component<AlertProps, AlertState> {
@@ -24,16 +24,16 @@ export class Alert extends React.Component<AlertProps, AlertState> {
         level: 'info',
         className: '',
         showCloseButton: false,
-    }
-    static propsList: Array<string> = ['level', 'className', 'showCloseButton', 'onClose']
+    };
+    static propsList: Array<string> = ['level', 'className', 'showCloseButton', 'onClose'];
 
     constructor(props: AlertProps) {
-        super(props)
+        super(props);
 
-        this.handleClick = this.handleClick.bind(this)
+        this.handleClick = this.handleClick.bind(this);
         this.state = {
             show: true,
-        }
+        };
     }
 
     handleClick() {
@@ -42,11 +42,11 @@ export class Alert extends React.Component<AlertProps, AlertState> {
                 show: false,
             },
             this.props.onClose
-        )
+        );
     }
 
     render() {
-        const {classnames: cx, className, level, children, showCloseButton} = this.props
+        const {classnames: cx, className, level, children, showCloseButton} = this.props;
 
         return this.state.show ? (
             <div className={cx('Alert', level ? `Alert--${level}` : '', className)}>
@@ -57,8 +57,8 @@ export class Alert extends React.Component<AlertProps, AlertState> {
                 ) : null}
                 {children}
             </div>
-        ) : null
+        ) : null;
     }
 }
 
-export default themeable(Alert)
+export default themeable(Alert);

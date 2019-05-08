@@ -4,81 +4,81 @@
  * @author fex
  */
 
-import * as React from 'react'
-import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition'
-import {Portal} from 'react-overlays'
-import * as cx from 'classnames'
-import {current, addModal, removeModal} from './ModalManager'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
+import {Portal} from 'react-overlays';
+import * as cx from 'classnames';
+import {current, addModal, removeModal} from './ModalManager';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface ModalProps {
-    className?: string
-    size?: any
-    overlay?: boolean
-    onHide: () => void
-    closeOnEsc?: boolean
-    container?: any
-    show?: boolean
-    disabled?: boolean
-    classPrefix: string
-    classnames: ClassNamesFn
-    onExited?: () => void
-    onEntered?: () => void
+    className?: string;
+    size?: any;
+    overlay?: boolean;
+    onHide: () => void;
+    closeOnEsc?: boolean;
+    container?: any;
+    show?: boolean;
+    disabled?: boolean;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    onExited?: () => void;
+    onEntered?: () => void;
 }
 export interface ModalState {}
 const fadeStyles: {
-    [propName: string]: string
+    [propName: string]: string;
 } = {
     [ENTERING]: 'in',
     [ENTERED]: 'in',
-}
+};
 export class Modal extends React.Component<ModalProps, ModalState> {
     static defaultProps = {
         container: document.body,
         size: '',
         overlay: true,
-    }
+    };
 
-    contentDom: any
+    contentDom: any;
 
     componentDidMount() {
         if (this.props.show) {
-            this.handleEntered()
+            this.handleEntered();
         }
     }
 
     componentWillUnmount() {
         if (this.props.show) {
-            this.handleExited()
+            this.handleExited();
         }
     }
 
-    contentRef = (ref: any) => (this.contentDom = ref)
+    contentRef = (ref: any) => (this.contentDom = ref);
     handleEntered = () => {
-        const onEntered = this.props.onEntered
-        document.body.classList.add(`is-modalOpened`)
-        onEntered && onEntered()
-    }
+        const onEntered = this.props.onEntered;
+        document.body.classList.add(`is-modalOpened`);
+        onEntered && onEntered();
+    };
     handleExited = () => {
-        const onExited = this.props.onExited
-        onExited && onExited()
+        const onExited = this.props.onExited;
+        onExited && onExited();
         setTimeout(() => {
-            document.querySelector('.amis-dialog-widget') || document.body.classList.remove(`is-modalOpened`)
-        }, 200)
-    }
+            document.querySelector('.amis-dialog-widget') || document.body.classList.remove(`is-modalOpened`);
+        }, 200);
+    };
 
     modalRef = (ref: any) => {
-        const {classPrefix: ns} = this.props
+        const {classPrefix: ns} = this.props;
         if (ref) {
-            addModal(this)
-            ;(ref as HTMLElement).classList.add(`${ns}Modal--${current()}th`)
+            addModal(this);
+            (ref as HTMLElement).classList.add(`${ns}Modal--${current()}th`);
         } else {
-            removeModal()
+            removeModal();
         }
-    }
+    };
 
     render() {
-        const {className, children, container, show, size, overlay, classPrefix: ns} = this.props
+        const {className, children, container, show, size, overlay, classPrefix: ns} = this.props;
 
         return (
             <Portal container={container}>
@@ -95,7 +95,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                             // force reflow
                             // 由于从 mount 进来到加上 in 这个 class 估计是时间太短，上次的样式还没应用进去，所以这里强制reflow一把。
                             // 否则看不到动画。
-                            this.contentDom.offsetWidth
+                            this.contentDom.offsetWidth;
                         }
 
                         return (
@@ -115,12 +115,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                                     {children}
                                 </div>
                             </div>
-                        )
+                        );
                     }}
                 </Transition>
             </Portal>
-        )
+        );
     }
 }
 
-export default themeable(Modal)
+export default themeable(Modal);

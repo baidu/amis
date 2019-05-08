@@ -4,15 +4,15 @@
  * @author fex
  */
 
-import {Position, Overlay as BaseOverlay} from 'react-overlays'
-import {findDOMNode} from 'react-dom'
-import * as React from 'react'
-import {calculatePosition, getContainer, ownerDocument} from '../utils/dom'
+import {Position, Overlay as BaseOverlay} from 'react-overlays';
+import {findDOMNode} from 'react-dom';
+import * as React from 'react';
+import {calculatePosition, getContainer, ownerDocument} from '../utils/dom';
 
-Position.propTypes.placement = BaseOverlay.propTypes.placement = () => null
+Position.propTypes.placement = BaseOverlay.propTypes.placement = () => null;
 
 Position.prototype.updatePosition = function(target: any) {
-    this._lastTarget = target
+    this._lastTarget = target;
 
     if (!target) {
         return this.setState({
@@ -20,29 +20,29 @@ Position.prototype.updatePosition = function(target: any) {
             positionTop: 0,
             arrowOffsetLeft: null,
             arrowOffsetTop: null,
-        })
+        });
     }
 
-    const overlay = findDOMNode(this)
-    const container = getContainer(this.props.container, ownerDocument(this).body)
+    const overlay = findDOMNode(this);
+    const container = getContainer(this.props.container, ownerDocument(this).body);
 
-    this.setState(calculatePosition(this.props.placement, overlay, target, container, this.props.containerPadding))
-}
+    this.setState(calculatePosition(this.props.placement, overlay, target, container, this.props.containerPadding));
+};
 
 interface OverlayProps {
-    placement?: string
-    show?: boolean
-    rootClose?: boolean
-    onHide?(props: any, ...args: any[]): any
-    container?: React.ReactNode | Function
-    target?: React.ReactNode | Function
+    placement?: string;
+    show?: boolean;
+    rootClose?: boolean;
+    onHide?(props: any, ...args: any[]): any;
+    container?: React.ReactNode | Function;
+    target?: React.ReactNode | Function;
 }
 export default class Overlay extends React.Component<OverlayProps> {
     constructor(props: OverlayProps) {
-        super(props as any)
+        super(props as any);
     }
 
     render() {
-        return <BaseOverlay {...this.props as any} />
+        return <BaseOverlay {...this.props as any} />;
     }
 }

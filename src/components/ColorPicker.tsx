@@ -4,35 +4,35 @@
  * @author fex
  */
 
-import * as React from 'react'
-import * as cx from 'classnames'
-import {findDOMNode} from 'react-dom'
-import {SketchPicker, ColorResult} from 'react-color'
-import {closeIcon} from './icons'
-import Overlay from './Overlay'
-import uncontrollable = require('uncontrollable')
-import PopOver from './PopOver'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import * as cx from 'classnames';
+import {findDOMNode} from 'react-dom';
+import {SketchPicker, ColorResult} from 'react-color';
+import {closeIcon} from './icons';
+import Overlay from './Overlay';
+import uncontrollable = require('uncontrollable');
+import PopOver from './PopOver';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface ColorProps {
-    placeholder?: string
-    format: string
+    placeholder?: string;
+    format: string;
     // closeOnSelect:boolean;
-    clearable: boolean
-    className?: string
-    disabled?: boolean
-    popOverContainer?: any
-    placement?: string
-    value: any
-    classPrefix: string
-    classnames: ClassNamesFn
-    onChange: (value: any) => void
+    clearable: boolean;
+    className?: string;
+    disabled?: boolean;
+    popOverContainer?: any;
+    placement?: string;
+    value: any;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    onChange: (value: any) => void;
 }
 
 export interface ColorControlState {
-    isOpened: boolean
-    isFocused: boolean
-    inputValue: string
+    isOpened: boolean;
+    isFocused: boolean;
+    inputValue: string;
 }
 
 export class ColorControl extends React.PureComponent<ColorProps, ColorControlState> {
@@ -41,107 +41,107 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
         clearable: true,
         placeholder: '请选择颜色',
         // closeOnSelect: true
-    }
+    };
     state = {
         isOpened: false,
         isFocused: false,
         inputValue: this.props.value || '',
-    }
-    popover: any
-    closeTimer: number
-    preview: React.RefObject<HTMLElement>
-    input: React.RefObject<HTMLInputElement>
+    };
+    popover: any;
+    closeTimer: number;
+    preview: React.RefObject<HTMLElement>;
+    input: React.RefObject<HTMLInputElement>;
     constructor(props: ColorProps) {
-        super(props)
+        super(props);
 
-        this.open = this.open.bind(this)
-        this.close = this.close.bind(this)
-        this.focus = this.focus.bind(this)
-        this.blur = this.blur.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handleFocus = this.handleFocus.bind(this)
-        this.handleBlur = this.handleBlur.bind(this)
-        this.clearValue = this.clearValue.bind(this)
-        this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleClick = this.handleClick.bind(this)
-        this.preview = React.createRef()
-        this.input = React.createRef()
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
+        this.focus = this.focus.bind(this);
+        this.blur = this.blur.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleFocus = this.handleFocus.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+        this.clearValue = this.clearValue.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.preview = React.createRef();
+        this.input = React.createRef();
     }
 
     componentWillReceiveProps(nextProps: ColorProps) {
-        const props = this.props
+        const props = this.props;
 
         if (props.value !== nextProps.value) {
             this.setState({
                 inputValue: nextProps.value || '',
-            })
+            });
         }
     }
 
     handleFocus() {
         this.setState({
             isFocused: true,
-        })
+        });
     }
 
     handleBlur() {
         this.setState({
             isFocused: false,
             inputValue: this.props.value,
-        })
+        });
     }
 
     focus() {
-        this.input.current && this.input.current.focus()
+        this.input.current && this.input.current.focus();
     }
 
     blur() {
-        this.input.current && this.input.current.blur()
+        this.input.current && this.input.current.blur();
     }
 
     open(fn?: () => void) {
         if (this.props.disabled) {
-            return
+            return;
         }
         this.setState(
             {
                 isOpened: true,
             },
             fn
-        )
+        );
     }
 
     close() {
         this.setState({
             isOpened: false,
-        })
+        });
     }
 
     clearValue() {
-        const onChange = this.props.onChange
-        onChange('')
+        const onChange = this.props.onChange;
+        onChange('');
     }
 
     handleClick() {
-        this.state.isOpened ? this.close() : this.open(this.focus)
+        this.state.isOpened ? this.close() : this.open(this.focus);
     }
 
     handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const onChange = this.props.onChange
+        const onChange = this.props.onChange;
 
         this.setState(
             {
                 inputValue: e.currentTarget.value,
             },
             () => {
-                const dom: HTMLElement = this.preview.current as HTMLElement
+                const dom: HTMLElement = this.preview.current as HTMLElement;
 
                 // 通过读取dom上到值，确认当前输入值是否有效。
                 if (dom && dom.style.backgroundColor === this.state.inputValue) {
-                    onChange(this.state.inputValue)
+                    onChange(this.state.inputValue);
                 }
             }
-        )
+        );
     }
 
     handleChange(color: ColorResult) {
@@ -149,18 +149,18 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
             onChange,
             format,
             // closeOnSelect
-        } = this.props
+        } = this.props;
 
         if (format === 'rgba') {
-            onChange(`rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`)
+            onChange(`rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`);
         } else if (format === 'rgb') {
-            onChange(`rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`)
+            onChange(`rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`);
         } else if (format === 'hsl') {
             onChange(
                 `hsl(${Math.round(color.hsl.h)}, ${Math.round(color.hsl.s * 100)}%, ${Math.round(color.hsl.l * 100)}%)`
-            )
+            );
         } else {
-            onChange(color.hex)
+            onChange(color.hex);
         }
 
         // closeOnSelect && this.close();
@@ -178,10 +178,10 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
             clearable,
             placement,
             classnames: cx,
-        } = this.props
+        } = this.props;
 
-        const isOpened = this.state.isOpened
-        const isFocused = this.state.isFocused
+        const isOpened = this.state.isOpened;
+        const isFocused = this.state.isFocused;
 
         return (
             <div
@@ -242,7 +242,7 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
                     </Overlay>
                 ) : null}
             </div>
-        )
+        );
     }
 }
 
@@ -250,4 +250,4 @@ export default themeable(
     uncontrollable(ColorControl, {
         value: 'onChange',
     })
-)
+);

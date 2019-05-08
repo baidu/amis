@@ -3,21 +3,21 @@
  * @author fex
  */
 
-import * as React from 'react'
-import {themeable, ClassNamesFn} from '../theme'
+import * as React from 'react';
+import {themeable, ClassNamesFn} from '../theme';
 
 interface NotFoundProps {
-    code?: string | number
-    description?: string
-    links?: React.ReactNode
-    footerText?: React.ReactNode
-    classPrefix: string
-    classnames: ClassNamesFn
+    code?: string | number;
+    description?: string;
+    links?: React.ReactNode;
+    footerText?: React.ReactNode;
+    classPrefix: string;
+    classnames: ClassNamesFn;
 }
 
 export class NotFound extends React.Component<NotFoundProps, any> {
     render() {
-        const {links, footerText, description, children, code} = this.props
+        const {links, footerText, description, children, code} = this.props;
 
         return (
             <div className="container w-xxl w-auto-xs">
@@ -38,8 +38,8 @@ export class NotFound extends React.Component<NotFoundProps, any> {
                     </div>
                 ) : null}
             </div>
-        )
+        );
     }
 }
 
-export default themeable(NotFound)
+export default themeable(NotFound);

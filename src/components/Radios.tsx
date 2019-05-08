@@ -13,25 +13,25 @@
  * ]
  */
 
-import * as React from 'react'
-import uncontrollable = require('uncontrollable')
-import Checkbox from './Checkbox'
-import {value2array, OptionProps, Option} from './Checkboxes'
-import chunk = require('lodash/chunk')
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import uncontrollable = require('uncontrollable');
+import Checkbox from './Checkbox';
+import {value2array, OptionProps, Option} from './Checkboxes';
+import chunk = require('lodash/chunk');
+import {ClassNamesFn, themeable} from '../theme';
 
 interface RadioProps extends OptionProps {
-    id?: string
-    type: string
-    value?: string
-    className?: string
-    style?: React.CSSProperties
-    inline?: boolean
-    disabled?: boolean
-    onChange?: Function
-    columnsCount: number
-    classPrefix: string
-    classnames: ClassNamesFn
+    id?: string;
+    type: string;
+    value?: string;
+    className?: string;
+    style?: React.CSSProperties;
+    inline?: boolean;
+    disabled?: boolean;
+    onChange?: Function;
+    columnsCount: number;
+    classPrefix: string;
+    classnames: ClassNamesFn;
 }
 
 export class Radios extends React.Component<RadioProps, any> {
@@ -39,36 +39,36 @@ export class Radios extends React.Component<RadioProps, any> {
         joinValues: true,
         clearable: false,
         columnsCount: 1, // 一行显示一个
-    }
+    };
 
     toggleOption(option: Option) {
-        const {value, onChange, joinValues, extractValue, valueField, clearable, delimiter, options} = this.props
+        const {value, onChange, joinValues, extractValue, valueField, clearable, delimiter, options} = this.props;
 
         let valueArray = value2array(value, {
             multiple: false,
             delimiter,
             valueField,
             options,
-        })
-        const idx = valueArray.indexOf(option)
+        });
+        const idx = valueArray.indexOf(option);
 
         if (~idx) {
-            clearable && valueArray.splice(idx, 1)
+            clearable && valueArray.splice(idx, 1);
         } else {
-            valueArray = [option]
+            valueArray = [option];
         }
 
-        let newValue = valueArray[0]
+        let newValue = valueArray[0];
 
         if (newValue && (joinValues || extractValue)) {
-            newValue = newValue[valueField || 'value']
+            newValue = newValue[valueField || 'value'];
         }
 
         // if (joinValues && newValue) {
         //     newValue = newValue[valueField || 'value'];
         // }
 
-        onChange && onChange(newValue)
+        onChange && onChange(newValue);
     }
 
     render() {
@@ -84,15 +84,15 @@ export class Radios extends React.Component<RadioProps, any> {
             delimiter,
             valueField,
             classPrefix,
-        } = this.props
+        } = this.props;
 
         let valueArray = value2array(value, {
             multiple: false,
             delimiter,
             valueField,
             options,
-        })
-        let body: Array<React.ReactNode> = []
+        });
+        let body: Array<React.ReactNode> = [];
 
         if (options) {
             body = options.map((option, key) => (
@@ -108,12 +108,12 @@ export class Radios extends React.Component<RadioProps, any> {
                 >
                     {option.label}
                 </Checkbox>
-            ))
+            ));
         }
 
         if (!inline && columnsCount > 1) {
-            let weight = 12 / (columnsCount as number)
-            let cellClassName = `Grid-col--sm${weight === Math.round(weight) ? weight : ''}`
+            let weight = 12 / (columnsCount as number);
+            let cellClassName = `Grid-col--sm${weight === Math.round(weight) ? weight : ''}`;
             body = chunk(body, columnsCount).map((group, groupIndex) => (
                 <div className={cx('Grid')} key={groupIndex}>
                     {group.map((item, index) => (
@@ -122,10 +122,10 @@ export class Radios extends React.Component<RadioProps, any> {
                         </div>
                     ))}
                 </div>
-            ))
+            ));
         }
 
-        return <div className={className}>{body && body.length ? body : placeholder}</div>
+        return <div className={className}>{body && body.length ? body : placeholder}</div>;
     }
 }
 
@@ -133,4 +133,4 @@ export default themeable(
     uncontrollable(Radios, {
         value: 'onChange',
     })
-)
+);

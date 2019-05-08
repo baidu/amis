@@ -4,63 +4,63 @@
  * @author fex
  */
 
-import * as React from 'react'
-import * as cx from 'classnames'
-import {classPrefix, classnames} from '../themes/default'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import * as cx from 'classnames';
+import {classPrefix, classnames} from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface HtmlProps {
-    className?: string
-    html?: string
-    wrapperComponent?: any
-    inline: boolean
-    classPrefix: string
-    classnames: ClassNamesFn
+    className?: string;
+    html?: string;
+    wrapperComponent?: any;
+    inline: boolean;
+    classPrefix: string;
+    classnames: ClassNamesFn;
 }
 
 export class Html extends React.Component<HtmlProps> {
     static defaultProps = {
         inline: true,
-    }
+    };
 
-    dom: any
+    dom: any;
 
     constructor(props: HtmlProps) {
-        super(props)
-        this.htmlRef = this.htmlRef.bind(this)
+        super(props);
+        this.htmlRef = this.htmlRef.bind(this);
     }
 
     componentDidUpdate(prevProps: HtmlProps) {
         if (this.props.html !== prevProps.html) {
-            this._render()
+            this._render();
         }
     }
 
     htmlRef(dom: any) {
-        this.dom = dom
+        this.dom = dom;
 
         if (!dom) {
-            return
+            return;
         }
 
-        this._render()
+        this._render();
     }
 
     _render() {
-        const {html} = this.props
+        const {html} = this.props;
 
         if (html) {
-            this.dom.innerHTML = html
+            this.dom.innerHTML = html;
         }
     }
 
     render() {
-        const {className, wrapperComponent, inline, classPrefix: ns} = this.props
+        const {className, wrapperComponent, inline, classPrefix: ns} = this.props;
 
-        const Component = wrapperComponent || (inline ? 'span' : 'div')
+        const Component = wrapperComponent || (inline ? 'span' : 'div');
 
-        return <Component ref={this.htmlRef} className={cx(`${ns}Html`, className)} />
+        return <Component ref={this.htmlRef} className={cx(`${ns}Html`, className)} />;
     }
 }
 
-export default themeable(Html)
+export default themeable(Html);

@@ -16,26 +16,26 @@
  * * contentClassName 内容区域附加样式名称
  */
 
-import * as React from 'react'
-import * as cx from 'classnames'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import * as cx from 'classnames';
+import {ClassNamesFn, themeable} from '../theme';
 
 interface LayoutProps {
-    id: string
-    header?: boolean | React.ReactNode
-    aside?: boolean | React.ReactNode
-    asideClassName: string
-    folded?: boolean
-    asideFixed: boolean
-    headerFixed: boolean
-    className?: string
-    contentClassName?: string
-    footer: boolean | React.ReactNode
-    asideWide: boolean
-    offScreen: boolean
-    classPrefix: string
-    classnames: ClassNamesFn
-    size?: 'sm' | 'base' | 'md' | 'lg'
+    id: string;
+    header?: boolean | React.ReactNode;
+    aside?: boolean | React.ReactNode;
+    asideClassName: string;
+    folded?: boolean;
+    asideFixed: boolean;
+    headerFixed: boolean;
+    className?: string;
+    contentClassName?: string;
+    footer: boolean | React.ReactNode;
+    asideWide: boolean;
+    offScreen: boolean;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    size?: 'sm' | 'base' | 'md' | 'lg';
 }
 
 export class Layout extends React.Component<LayoutProps, any> {
@@ -46,7 +46,7 @@ export class Layout extends React.Component<LayoutProps, any> {
         headerFixed: true,
         offScreen: false,
         footer: false,
-    }
+    };
 
     render() {
         const {
@@ -65,16 +65,16 @@ export class Layout extends React.Component<LayoutProps, any> {
             size,
             classPrefix,
             classnames: cx,
-        } = this.props
+        } = this.props;
 
-        let body = <div className={cx(`Layout-body`, contentClassName)}>{children}</div>
+        let body = <div className={cx(`Layout-body`, contentClassName)}>{children}</div>;
 
         if (aside) {
             body = (
                 <div className={cx('Layout-content')} role="main">
                     {body}
                 </div>
-            )
+            );
         }
 
         return (
@@ -107,8 +107,8 @@ export class Layout extends React.Component<LayoutProps, any> {
                     </footer>
                 ) : null}
             </div>
-        )
+        );
     }
 }
 
-export default themeable(Layout)
+export default themeable(Layout);

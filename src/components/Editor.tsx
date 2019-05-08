@@ -4,12 +4,12 @@
  * @author fex
  */
 
-import * as React from 'react'
-import * as cx from 'classnames'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import * as cx from 'classnames';
+import {ClassNamesFn, themeable} from '../theme';
 
 function noJsExt(raw: string) {
-    return raw.replace(/\.js$/, '')
+    return raw.replace(/\.js$/, '');
 }
 
 const defaultConfig = {
@@ -20,11 +20,11 @@ const defaultConfig = {
         },
     },
     paths: {},
-}
+};
 
 try {
     // fis 编译的话，能正确赋值上，如果不是，那请通过外部参数传递。
-    defaultConfig.url = __uri('monaco-editor/min/vs/loader.js')
+    defaultConfig.url = __uri('monaco-editor/min/vs/loader.js');
     defaultConfig.paths = {
         vs: noJsExt(__uri('monaco-editor/min/vs/editor/editor.main.js')).replace(/\/vs\/.*$/, ''),
         'vs/base/worker/workerMain': noJsExt(__uri('monaco-editor/min/vs/base/worker/workerMain.js')),
@@ -115,10 +115,10 @@ try {
 
         'vs/language/css/cssMode': noJsExt(__uri('monaco-editor/min/vs/language/css/cssMode.js')),
         'vs/language/css/cssWorker': noJsExt(__uri('monaco-editor/min/vs/language/css/cssWorker.js')),
-    }
+    };
 
     // cdn 支持
-    ;/^(https?:)?\/\//.test(defaultConfig.paths.vs) &&
+    /^(https?:)?\/\//.test(defaultConfig.paths.vs) &&
         ((window as any).MonacoEnvironment = {
             getWorkerUrl: function() {
                 return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
@@ -126,9 +126,9 @@ try {
                     baseUrl: '${defaultConfig.paths.vs}',
                     paths: ${JSON.stringify(defaultConfig.paths)}
                 };
-                importScripts('${__uri('monaco-editor/min/vs/base/worker/workerMain.js')}');`)}`
+                importScripts('${__uri('monaco-editor/min/vs/base/worker/workerMain.js')}');`)}`;
             },
-        })
+        });
 } catch (e) {}
 
 export function monacoFactory(containerElement, monaco, options) {
@@ -143,35 +143,35 @@ export function monacoFactory(containerElement, monaco, options) {
             enabled: false,
         },
         ...options,
-    })
+    });
 }
 
 export interface EditorProps {
-    value?: string
-    defaultValue?: string
-    width?: number | string
-    height?: number | string
-    onChange?: (value: string, event: any) => void
-    language?: string
-    editorTheme?: string
+    value?: string;
+    defaultValue?: string;
+    width?: number | string;
+    height?: number | string;
+    onChange?: (value: string, event: any) => void;
+    language?: string;
+    editorTheme?: string;
     options: {
-        [propName: string]: any
-    }
-    classPrefix: string
-    className?: string
-    classnames: ClassNamesFn
-    context?: any
-    style?: any
-    onFocus?: () => void
-    onBlur?: () => void
-    editorDidMount?: (editor: any, monaco: any) => void
-    editorWillMount?: (monaco: any) => void
-    editorFactory?: (conatainer: HTMLElement, monaco: any, options: any) => any
+        [propName: string]: any;
+    };
+    classPrefix: string;
+    className?: string;
+    classnames: ClassNamesFn;
+    context?: any;
+    style?: any;
+    onFocus?: () => void;
+    onBlur?: () => void;
+    editorDidMount?: (editor: any, monaco: any) => void;
+    editorWillMount?: (monaco: any) => void;
+    editorFactory?: (conatainer: HTMLElement, monaco: any, options: any) => any;
     requireConfig: {
-        url: string
-        paths?: any
-        [propName: string]: any
-    }
+        url: string;
+        paths?: any;
+        [propName: string]: any;
+    };
 }
 
 export class Editor extends React.Component<EditorProps, any> {
@@ -182,60 +182,60 @@ export class Editor extends React.Component<EditorProps, any> {
         width: '100%',
         height: '100%',
         options: {},
-    }
+    };
 
-    editor: any
-    container: any
-    currentValue: any
-    preventTriggerChangeEvent: boolean
-    disposes: Array<{dispose: () => void}> = []
+    editor: any;
+    container: any;
+    currentValue: any;
+    preventTriggerChangeEvent: boolean;
+    disposes: Array<{dispose: () => void}> = [];
     constructor(props: EditorProps) {
-        super(props)
+        super(props);
 
-        this.wrapperRef = this.wrapperRef.bind(this)
-        this.currentValue = props.value
+        this.wrapperRef = this.wrapperRef.bind(this);
+        this.currentValue = props.value;
     }
 
     componentWillReceiveProps(nextProps: EditorProps) {
         if (this.props.options.readOnly !== nextProps.options.readOnly && this.editor) {
-            this.editor.updateOptions && this.editor.updateOptions(nextProps.options)
+            this.editor.updateOptions && this.editor.updateOptions(nextProps.options);
         }
     }
 
     componentDidUpdate() {
         if (this.props.value !== this.currentValue && this.editor) {
-            let value = String(this.props.value)
+            let value = String(this.props.value);
 
             if (this.props.language === 'json') {
                 try {
-                    value = JSON.stringify(JSON.parse(value), null, 4)
+                    value = JSON.stringify(JSON.parse(value), null, 4);
                 } catch (e) {}
             }
 
-            this.preventTriggerChangeEvent = true
-            this.editor.setValue && this.editor.setValue(value)
-            this.preventTriggerChangeEvent = false
+            this.preventTriggerChangeEvent = true;
+            this.editor.setValue && this.editor.setValue(value);
+            this.preventTriggerChangeEvent = false;
         }
     }
 
     componentWillUnmount() {
-        this.disposes.forEach(({dispose}) => dispose())
-        this.disposes = []
+        this.disposes.forEach(({dispose}) => dispose());
+        this.disposes = [];
     }
 
     wrapperRef(ref: any) {
-        this.container = ref
+        this.container = ref;
         if (ref) {
-            this.loadMonaco()
+            this.loadMonaco();
         } else {
             try {
-                this.disposes.forEach(({dispose}) => dispose())
-                this.disposes = []
+                this.disposes.forEach(({dispose}) => dispose());
+                this.disposes = [];
                 if (this.editor) {
-                    this.editor.getModel().dispose()
-                    this.editor.dispose()
+                    this.editor.getModel().dispose();
+                    this.editor.dispose();
                 }
-                this.editor = null
+                this.editor = null;
             } catch (e) {
                 // ignore
             }
@@ -243,86 +243,86 @@ export class Editor extends React.Component<EditorProps, any> {
     }
 
     loadMonaco() {
-        const {requireConfig} = this.props
-        const loaderUrl = requireConfig.url || 'vs/loader.js'
+        const {requireConfig} = this.props;
+        const loaderUrl = requireConfig.url || 'vs/loader.js';
         const context =
             (window as any).monacaAmd ||
             ((window as any).monacaAmd = {
                 document: window.document,
-            })
+            });
 
         const onGotAmdLoader = () => {
             if (context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__) {
                 // Do not use webpack
                 if (requireConfig.paths && requireConfig.paths.vs) {
-                    context.require.config(requireConfig)
+                    context.require.config(requireConfig);
                 }
             }
 
             // Load monaco
             context['require'](['vs/editor/editor.main', 'vs/editor/editor.main.nls.zh-cn'], () => {
-                this.initMonaco()
-            })
+                this.initMonaco();
+            });
 
             // Call the delayed callbacks when AMD loader has been loaded
             if (context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__) {
-                context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__ = false
-                let loaderCallbacks = context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__
+                context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__ = false;
+                let loaderCallbacks = context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__;
                 if (loaderCallbacks && loaderCallbacks.length) {
-                    let currentCallback = loaderCallbacks.shift()
+                    let currentCallback = loaderCallbacks.shift();
                     while (currentCallback) {
-                        currentCallback.fn.call(currentCallback.context)
-                        currentCallback = loaderCallbacks.shift()
+                        currentCallback.fn.call(currentCallback.context);
+                        currentCallback = loaderCallbacks.shift();
                     }
                 }
             }
-        }
+        };
 
         // Load AMD loader if necessary
         if (context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__) {
             // We need to avoid loading multiple loader.js when there are multiple editors loading concurrently
             //  delay to call callbacks except the first one
-            context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__ = context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__ || []
+            context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__ = context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__ || [];
             context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__.push({
                 context: this,
                 fn: onGotAmdLoader,
-            })
+            });
         } else {
             if (typeof context.require === 'undefined') {
-                var loaderScript = context.document.createElement('script')
-                loaderScript.type = 'text/javascript'
-                loaderScript.src = loaderUrl
-                loaderScript.addEventListener('load', onGotAmdLoader)
-                context.document.body.appendChild(loaderScript)
-                context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__ = true
+                var loaderScript = context.document.createElement('script');
+                loaderScript.type = 'text/javascript';
+                loaderScript.src = loaderUrl;
+                loaderScript.addEventListener('load', onGotAmdLoader);
+                context.document.body.appendChild(loaderScript);
+                context.__REACT_MONACO_EDITOR_LOADER_ISPENDING__ = true;
             } else {
-                onGotAmdLoader()
+                onGotAmdLoader();
             }
         }
     }
 
     initMonaco() {
-        let value = this.props.value !== null ? this.props.value : this.props.defaultValue
-        const {language, editorTheme, options, editorFactory} = this.props
-        const containerElement = this.container
+        let value = this.props.value !== null ? this.props.value : this.props.defaultValue;
+        const {language, editorTheme, options, editorFactory} = this.props;
+        const containerElement = this.container;
         if (!containerElement) {
-            return
+            return;
         }
-        const context = this.props.context || window
-        const monaco = context.monaco || (window as any).monaco
+        const context = this.props.context || window;
+        const monaco = context.monaco || (window as any).monaco;
         if (typeof monaco !== 'undefined') {
             // Before initializing monaco editor
-            this.editorWillMount(monaco)
+            this.editorWillMount(monaco);
 
             if (this.props.language === 'json') {
                 try {
-                    value = JSON.stringify(typeof value === 'string' ? JSON.parse(value) : value, null, 4)
+                    value = JSON.stringify(typeof value === 'string' ? JSON.parse(value) : value, null, 4);
                 } catch (e) {
                     // ignore
                 }
             }
 
-            const factory = editorFactory || monacoFactory
+            const factory = editorFactory || monacoFactory;
             this.editor = factory(containerElement, monaco, {
                 ...options,
                 automaticLayout: true,
@@ -330,45 +330,45 @@ export class Editor extends React.Component<EditorProps, any> {
                 language,
                 editorTheme,
                 theme: editorTheme,
-            })
+            });
 
             // After initializing monaco editor
-            this.editorDidMount(this.editor, monaco)
+            this.editorDidMount(this.editor, monaco);
         }
     }
 
     editorWillMount(monaco: any) {
-        const {editorWillMount} = this.props
-        editorWillMount && editorWillMount(monaco)
+        const {editorWillMount} = this.props;
+        editorWillMount && editorWillMount(monaco);
     }
     editorDidMount(editor: any, monaco: any) {
-        const {editorDidMount, onChange, onFocus, onBlur} = this.props
-        editorDidMount && editorDidMount(editor, monaco)
+        const {editorDidMount, onChange, onFocus, onBlur} = this.props;
+        editorDidMount && editorDidMount(editor, monaco);
         editor.onDidChangeModelContent &&
             this.disposes.push(
                 editor.onDidChangeModelContent((event: any) => {
-                    const value = editor.getValue()
+                    const value = editor.getValue();
                     // Always refer to the latest value
-                    this.currentValue = value
+                    this.currentValue = value;
 
                     // Only invoking when user input changed
                     if (!this.preventTriggerChangeEvent && onChange) {
-                        onChange(value, event)
+                        onChange(value, event);
                     }
                 })
-            )
-        onFocus && editor.onDidFocusEditorWidget && this.disposes.push(editor.onDidFocusEditorWidget(onFocus))
-        onBlur && editor.onDidBlurEditorWidget && this.disposes.push(editor.onDidBlurEditorWidget(onBlur))
+            );
+        onFocus && editor.onDidFocusEditorWidget && this.disposes.push(editor.onDidFocusEditorWidget(onFocus));
+        onBlur && editor.onDidBlurEditorWidget && this.disposes.push(editor.onDidBlurEditorWidget(onBlur));
     }
 
     render() {
-        const {className, classPrefix: ns, width, height} = this.props
-        let style = this.props.style || {}
-        style.width = width
-        style.height = height
+        const {className, classPrefix: ns, width, height} = this.props;
+        let style = this.props.style || {};
+        style.width = width;
+        style.height = height;
 
-        return <div className={cx(`${ns}MonacoEditor`, className)} style={style} ref={this.wrapperRef} />
+        return <div className={cx(`${ns}MonacoEditor`, className)} style={style} ref={this.wrapperRef} />;
     }
 }
 
-export default themeable(Editor)
+export default themeable(Editor);

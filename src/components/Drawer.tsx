@@ -4,44 +4,44 @@
  * @author fex
  */
 
-import * as React from 'react'
-import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition'
-import {Portal} from 'react-overlays'
-import {closeIcon} from './icons'
-import * as cx from 'classnames'
-import {current, addModal, removeModal} from './ModalManager'
-import onClickOutside from 'react-onclickoutside'
-import {classPrefix, classnames} from '../themes/default'
-import {ClassNamesFn, themeable} from '../theme'
-import {noop} from '../utils/helper'
+import * as React from 'react';
+import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition';
+import {Portal} from 'react-overlays';
+import {closeIcon} from './icons';
+import * as cx from 'classnames';
+import {current, addModal, removeModal} from './ModalManager';
+import onClickOutside from 'react-onclickoutside';
+import {classPrefix, classnames} from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
+import {noop} from '../utils/helper';
 
-type DrawerPosition = 'top' | 'right' | 'bottom' | 'left'
+type DrawerPosition = 'top' | 'right' | 'bottom' | 'left';
 
 export interface DrawerProps {
-    className?: string
-    size: any
-    overlay: boolean
-    onHide: () => void
-    closeOnEsc?: boolean
-    container: any
-    show?: boolean
-    position: DrawerPosition
-    disabled?: boolean
-    closeOnOutside?: boolean
-    classPrefix: string
-    classnames: ClassNamesFn
-    onExited?: () => void
-    onEntered?: () => void
-    disableOnClickOutside: () => void
-    enableOnClickOutside: () => void
+    className?: string;
+    size: any;
+    overlay: boolean;
+    onHide: () => void;
+    closeOnEsc?: boolean;
+    container: any;
+    show?: boolean;
+    position: DrawerPosition;
+    disabled?: boolean;
+    closeOnOutside?: boolean;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    onExited?: () => void;
+    onEntered?: () => void;
+    disableOnClickOutside: () => void;
+    enableOnClickOutside: () => void;
 }
 export interface DrawerState {}
 const fadeStyles: {
-    [propName: string]: string
+    [propName: string]: string;
 } = {
     [ENTERING]: 'in',
     [ENTERED]: 'in',
-}
+};
 export class Drawer extends React.Component<DrawerProps, DrawerState> {
     static defaultProps: Pick<
         DrawerProps,
@@ -53,48 +53,48 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
         overlay: true,
         disableOnClickOutside: noop,
         enableOnClickOutside: noop,
-    }
+    };
 
-    contentDom: any
+    contentDom: any;
 
     componentDidMount() {
         if (this.props.show) {
-            this.handleEntered()
+            this.handleEntered();
         }
     }
 
     componentWillUnmount() {
         if (this.props.show) {
-            this.handleExited()
+            this.handleExited();
         }
     }
 
-    contentRef = (ref: any) => (this.contentDom = ref)
+    contentRef = (ref: any) => (this.contentDom = ref);
     handleEntered = () => {
-        const onEntered = this.props.onEntered
-        document.body.classList.add(`is-modalOpened`)
-        onEntered && onEntered()
-    }
+        const onEntered = this.props.onEntered;
+        document.body.classList.add(`is-modalOpened`);
+        onEntered && onEntered();
+    };
     handleExited = () => {
-        const onExited = this.props.onExited
-        onExited && onExited()
+        const onExited = this.props.onExited;
+        onExited && onExited();
         setTimeout(() => {
-            document.querySelector('.amis-dialog-widget') || document.body.classList.remove(`is-modalOpened`)
-        }, 200)
-    }
+            document.querySelector('.amis-dialog-widget') || document.body.classList.remove(`is-modalOpened`);
+        }, 200);
+    };
 
     modalRef = (ref: any) => {
         if (ref) {
-            addModal(this)
-            ;(ref as HTMLElement).classList.add(`${this.props.classPrefix}Modal--${current()}th`)
+            addModal(this);
+            (ref as HTMLElement).classList.add(`${this.props.classPrefix}Modal--${current()}th`);
         } else {
-            removeModal()
+            removeModal();
         }
-    }
+    };
 
     handleClickOutside() {
-        const {closeOnOutside, onHide} = this.props
-        closeOnOutside && onHide && onHide()
+        const {closeOnOutside, onHide} = this.props;
+        closeOnOutside && onHide && onHide();
     }
 
     render() {
@@ -109,7 +109,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
             onHide,
             disabled,
             overlay,
-        } = this.props
+        } = this.props;
 
         return (
             <Portal container={container}>
@@ -126,7 +126,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                             // force reflow
                             // 由于从 mount 进来到加上 in 这个 class 估计是时间太短，上次的样式还没应用进去，所以这里强制reflow一把。
                             // 否则看不到动画。
-                            this.contentDom.offsetWidth
+                            this.contentDom.offsetWidth;
                         }
 
                         return (
@@ -151,12 +151,12 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                                     {children}
                                 </div>
                             </div>
-                        )
+                        );
                     }}
                 </Transition>
             </Portal>
-        )
+        );
     }
 }
 
-export default themeable(onClickOutside(Drawer))
+export default themeable(onClickOutside(Drawer));

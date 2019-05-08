@@ -8,17 +8,17 @@
  * right 可以传入右侧节点, 当有右侧时自动采用 hbox 来左右布局。
  */
 
-import * as React from 'react'
-import {classPrefix, classnames} from '../themes/default'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import {classPrefix, classnames} from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
 
 interface TitleBarProps {
-    className?: string
-    title: React.ReactNode
-    titleClassName?: string
-    right?: boolean
-    classPrefix: string
-    classnames: ClassNamesFn
+    className?: string;
+    title: React.ReactNode;
+    titleClassName?: string;
+    right?: boolean;
+    classPrefix: string;
+    classnames: ClassNamesFn;
 }
 
 export class TitleBar extends React.PureComponent<TitleBarProps, any> {
@@ -27,14 +27,14 @@ export class TitleBar extends React.PureComponent<TitleBarProps, any> {
         title: '标题',
         titleClassName: 'm-n font-thin h3',
         right: false,
-    }
+    };
 
     render(): JSX.Element {
-        const {className, title, titleClassName, right} = this.props
+        const {className, title, titleClassName, right} = this.props;
 
-        let left = title ? <div className={titleClassName}>{title}</div> : null
+        let left = title ? <div className={titleClassName}>{title}</div> : null;
 
-        let body = left
+        let body = left;
 
         if (right) {
             body = (
@@ -42,13 +42,13 @@ export class TitleBar extends React.PureComponent<TitleBarProps, any> {
                     <div className="col bg-light b-b wrapper">{left}</div>
                     <div className="col v-middle padder-md text-right bg-light b-b wrapper-sm">{right}</div>
                 </div>
-            )
+            );
         } else {
-            body = <div className="wrapper">{left}</div>
+            body = <div className="wrapper">{left}</div>;
         }
 
-        return <div className={className}>{body}</div>
+        return <div className={className}>{body}</div>;
     }
 }
 
-export default themeable(TitleBar)
+export default themeable(TitleBar);

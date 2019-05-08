@@ -4,27 +4,27 @@
  * @author fex
  */
 
-import * as React from 'react'
-import * as cx from 'classnames'
-import {classPrefix, classnames} from '../themes/default'
-import {ClassNamesFn, themeable} from '../theme'
+import * as React from 'react';
+import * as cx from 'classnames';
+import {classPrefix, classnames} from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
 
 interface TooltipProps extends React.HTMLProps<HTMLDivElement> {
-    title?: string
-    classPrefix: string
-    classnames: ClassNamesFn
-    theme?: string
-    className?: string
-    style?: any
-    arrowProps?: any
-    placement?: string
-    [propName: string]: any
+    title?: string;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    theme?: string;
+    className?: string;
+    style?: any;
+    arrowProps?: any;
+    placement?: string;
+    [propName: string]: any;
 }
 
 export class Tooltip extends React.Component<TooltipProps> {
     static defaultProps = {
         className: '',
-    }
+    };
 
     render() {
         const {
@@ -41,7 +41,7 @@ export class Tooltip extends React.Component<TooltipProps> {
             positionTop,
             classnames: cx,
             ...rest
-        } = this.props
+        } = this.props;
 
         return (
             <div
@@ -54,8 +54,8 @@ export class Tooltip extends React.Component<TooltipProps> {
                 {title ? <div className={cx('Tooltip-title')}>{title}</div> : null}
                 <div className={cx('Tooltip-body')}>{children}</div>
             </div>
-        )
+        );
     }
 }
 
-export default themeable(Tooltip)
+export default themeable(Tooltip);

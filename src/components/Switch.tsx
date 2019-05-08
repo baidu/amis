@@ -4,61 +4,61 @@
  * @author fex
  */
 
-import * as React from 'react'
-import * as cx from 'classnames'
-import {ClassNamesFn, themeable} from '../theme'
-import {classPrefix, classnames} from '../themes/default'
+import * as React from 'react';
+import * as cx from 'classnames';
+import {ClassNamesFn, themeable} from '../theme';
+import {classPrefix, classnames} from '../themes/default';
 
 const sizeMap = {
     md: 'i-switch-md',
     lg: 'i-switch-lg',
     middle: 'i-switch-md',
     large: 'i-switch-lg',
-}
+};
 
 const levelMap = {
     info: 'bg-info',
     primary: 'bg-primary',
     danger: 'bg-danger',
-}
+};
 
 interface SwitchProps {
-    id?: string
-    size?: 'md' | 'lg' | 'middle' | 'large'
-    level?: 'info' | 'primary' | 'danger'
-    className?: string
-    classPrefix: string
-    classnames: ClassNamesFn
-    onChange?: (checked: boolean) => void
-    value?: any
-    inline?: boolean
-    trueValue?: any
-    falseValue?: any
-    disabled?: boolean
-    readOnly?: boolean
-    checked?: boolean
+    id?: string;
+    size?: 'md' | 'lg' | 'middle' | 'large';
+    level?: 'info' | 'primary' | 'danger';
+    className?: string;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    onChange?: (checked: boolean) => void;
+    value?: any;
+    inline?: boolean;
+    trueValue?: any;
+    falseValue?: any;
+    disabled?: boolean;
+    readOnly?: boolean;
+    checked?: boolean;
 }
 
 export class Switch extends React.PureComponent<SwitchProps, any> {
     static defaultProps = {
         trueValue: true,
         falseValue: false,
-    }
+    };
 
     constructor(props: SwitchProps) {
-        super(props)
+        super(props);
 
-        this.hanldeCheck = this.hanldeCheck.bind(this)
+        this.hanldeCheck = this.hanldeCheck.bind(this);
     }
 
     hanldeCheck(e: React.ChangeEvent<HTMLInputElement>) {
-        const {trueValue, falseValue, onChange} = this.props
+        const {trueValue, falseValue, onChange} = this.props;
 
         if (!onChange) {
-            return
+            return;
         }
 
-        onChange(e.currentTarget.checked ? trueValue : falseValue)
+        onChange(e.currentTarget.checked ? trueValue : falseValue);
     }
 
     render() {
@@ -77,12 +77,12 @@ export class Switch extends React.PureComponent<SwitchProps, any> {
             checked,
             classnames: cx,
             ...rest
-        } = this.props
+        } = this.props;
 
         className =
             (className ? className : '') +
             (size && sizeMap[size] ? ` ${sizeMap[size]}` : '') +
-            (level && levelMap[level] ? ` ${levelMap[level]}` : '')
+            (level && levelMap[level] ? ` ${levelMap[level]}` : '');
 
         return (
             <label className={cx(`Switch`, disabled ? 'is-disabled' : '', className)}>
@@ -102,8 +102,8 @@ export class Switch extends React.PureComponent<SwitchProps, any> {
                 />
                 <i />
             </label>
-        )
+        );
     }
 }
 
-export default themeable(Switch)
+export default themeable(Switch);
