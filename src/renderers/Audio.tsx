@@ -260,7 +260,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         });
     }
 
-    @autobind
     renderRates() {
         const {
             rates,
@@ -295,7 +294,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         )
     }
 
-    @autobind
     renderPlay() {
         const {classnames: cx} = this.props;
         const {playing} = this.state;
@@ -309,7 +307,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         )
     }
 
-    @autobind
     renderTime() {
         const {classnames: cx} = this.props;
 
@@ -320,7 +317,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         )
     }
 
-    @autobind
     renderProcess() {
         const {classnames: cx} = this.props;
         const {played} = this.state;
@@ -338,7 +334,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         )
     }
 
-    @autobind
     renderVolume() {
         const {classnames: cx} = this.props;
         const {
