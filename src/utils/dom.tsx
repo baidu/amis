@@ -11,35 +11,35 @@ const bsMapping: {
 } = {
     level: 'bsStyle',
     classPrefix: 'bsClass',
-    size: 'bsSize'
+    size: 'bsSize',
 };
 
 /**
-* 主要目的是希望在是用 bootstrap 组件的时候不需要带 bs 前缀。
-*
-* @param {Object} rawProps 原始属性对象。
-* @return {Object}
-*/
-export const props2BsProps = (rawProps: { [propName: string]: any; }) => {
-    let props: { [propName: string]: any; } = {};
+ * 主要目的是希望在是用 bootstrap 组件的时候不需要带 bs 前缀。
+ *
+ * @param {Object} rawProps 原始属性对象。
+ * @return {Object}
+ */
+export const props2BsProps = (rawProps: {[propName: string]: any}) => {
+    let props: {[propName: string]: any} = {};
 
-    Object.keys(rawProps).forEach(key => props[bsMapping[key] || key] = rawProps[key]);
+    Object.keys(rawProps).forEach(key => (props[bsMapping[key] || key] = rawProps[key]));
 
     return props;
 };
 
 /**
-* props2BsProps 的 hoc 版本
-*
-* @param {*} ComposedComponent 组合组件
-* @return {Component}
-*/
-export const props2BsPropsHoc: (ComposedComponent: React.ComponentType<any>) => React.ComponentType<any> = (ComposedComponent) => {
+ * props2BsProps 的 hoc 版本
+ *
+ * @param {*} ComposedComponent 组合组件
+ * @return {Component}
+ */
+export const props2BsPropsHoc: (
+    ComposedComponent: React.ComponentType<any>
+) => React.ComponentType<any> = ComposedComponent => {
     class BsComponent extends React.Component<any> {
         render() {
-            return (
-                <ComposedComponent {...props2BsProps(this.props)} />
-            );
+            return <ComposedComponent {...props2BsProps(this.props)} />;
         }
     }
 
@@ -63,15 +63,13 @@ function getContainerDimensions(containerNode: any) {
         width = window.innerWidth;
         height = window.innerHeight;
 
-        scroll =
-            getScrollTop(ownerDocument(containerNode).documentElement) ||
-            getScrollTop(containerNode);
+        scroll = getScrollTop(ownerDocument(containerNode).documentElement) || getScrollTop(containerNode);
     } else {
-        ({ width, height } = getOffset(containerNode));
+        ({width, height} = getOffset(containerNode));
         scroll = getScrollTop(containerNode);
     }
 
-    return { width, height, scroll };
+    return {width, height, scroll};
 }
 
 function getTopDelta(top: any, overlayHeight: any, container: any, padding: any) {
@@ -107,16 +105,14 @@ function getLeftDelta(left: any, overlayWidth: any, container: any, padding: any
     return 0;
 }
 
-export function calculatePosition(
-    placement: any, overlayNode: any, target: any, container: any, padding: any
-) {
+export function calculatePosition(placement: any, overlayNode: any, target: any, container: any, padding: any) {
     const childOffset = container.tagName === 'BODY' ? getOffset(target) : getPosition(target, container);
-    const {
-        height: overlayHeight,
-        width: overlayWidth
-    } = getOffset(overlayNode);
+    const {height: overlayHeight, width: overlayWidth} = getOffset(overlayNode);
 
-    let positionLeft = 0, positionTop = 0, arrowOffsetLeft: any = '', arrowOffsetTop: any = '';
+    let positionLeft = 0,
+        positionTop = 0,
+        arrowOffsetLeft: any = '',
+        arrowOffsetTop: any = '';
 
     if (~placement.indexOf('-')) {
         const tests = placement.split(/\s+/);
@@ -127,14 +123,18 @@ export function calculatePosition(
             myX = myX || atX;
             myY = myY || atY;
 
-            positionLeft = atX === 'left'
-                ? childOffset.left : atX === 'right'
-                    ? (childOffset.left + childOffset.width)
-                    : (childOffset.left + childOffset.width / 2);
-            positionTop = atY === 'top'
-                ? childOffset.top : atY === 'bottom'
-                    ? (childOffset.top + childOffset.height)
-                    : (childOffset.top + childOffset.height / 2);
+            positionLeft =
+                atX === 'left'
+                    ? childOffset.left
+                    : atX === 'right'
+                    ? childOffset.left + childOffset.width
+                    : childOffset.left + childOffset.width / 2;
+            positionTop =
+                atY === 'top'
+                    ? childOffset.top
+                    : atY === 'bottom'
+                    ? childOffset.top + childOffset.height
+                    : childOffset.top + childOffset.height / 2;
 
             positionLeft -= myX === 'left' ? 0 : myX === 'right' ? overlayWidth : overlayWidth / 2;
             positionTop -= myY === 'top' ? 0 : myY === 'bottom' ? overlayHeight : overlayHeight / 2;
@@ -146,12 +146,14 @@ export function calculatePosition(
                     x: clip.x + positionLeft - childOffset.left,
                     y: clip.y + positionTop - childOffset.top,
                     width: overlayWidth,
-                    height: overlayHeight
-                }
+                    height: overlayHeight,
+                };
 
                 if (
-                    transformed.x > 0 && (transformed.x + transformed.width) < window.innerWidth
-                    && transformed.y > 0 && (transformed.y + transformed.height) < window.innerHeight
+                    transformed.x > 0 &&
+                    transformed.x + transformed.width < window.innerWidth &&
+                    transformed.y > 0 &&
+                    transformed.y + transformed.height < window.innerHeight
                 ) {
                     break;
                 }
@@ -170,12 +172,10 @@ export function calculatePosition(
         }
 
         positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;
-        const topDelta = getTopDelta(
-            positionTop, overlayHeight, container, padding
-        );
+        const topDelta = getTopDelta(positionTop, overlayHeight, container, padding);
 
         positionTop += topDelta;
-        arrowOffsetTop = 50 * (1 - 2 * topDelta / overlayHeight) + '%';
+        arrowOffsetTop = 50 * (1 - (2 * topDelta) / overlayHeight) + '%';
     } else if (placement === 'top' || placement === 'bottom') {
         // atY = placement;
         // atX = myX = 'center';
@@ -187,22 +187,18 @@ export function calculatePosition(
         }
 
         positionLeft = childOffset.left + (childOffset.width - overlayWidth) / 2;
-        const leftDelta = getLeftDelta(
-            positionLeft, overlayWidth, container, padding
-        );
+        const leftDelta = getLeftDelta(positionLeft, overlayWidth, container, padding);
 
         positionLeft += leftDelta;
-        arrowOffsetLeft = 50 * (1 - 2 * leftDelta / overlayHeight) + '%';
-    } else if (placement = 'center') {
+        arrowOffsetLeft = 50 * (1 - (2 * leftDelta) / overlayHeight) + '%';
+    } else if ((placement = 'center')) {
         // atX = atY = myX = myY = 'center';
         positionLeft = childOffset.left + (childOffset.width - overlayWidth) / 2;
         positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;
         arrowOffsetLeft = arrowOffsetTop = void 0;
     } else {
-        throw new Error(
-            `calcOverlayPosition(): No such placement of "${placement}" found.`
-        );
+        throw new Error(`calcOverlayPosition(): No such placement of "${placement}" found.`);
     }
 
-    return { positionLeft, positionTop, arrowOffsetLeft, arrowOffsetTop };
+    return {positionLeft, positionTop, arrowOffsetLeft, arrowOffsetTop};
 }

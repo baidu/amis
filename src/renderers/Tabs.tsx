@@ -1,31 +1,12 @@
 import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
-import { ServiceStore, IServiceStore } from '../store/service';
-import {
-    Api,
-    SchemaNode,
-    Schema,
-    Action
-} from '../types';
-import {
-    filter,
-    evalExpression
-} from '../utils/tpl';
-import {
-    Tabs as BsTabs,
-    TabContainer,
-    TabContent,
-    TabPane,
-    NavItem,
-    Nav,
-    Tab
-} from 'react-bootstrap';
+import {Renderer, RendererProps} from '../factory';
+import {ServiceStore, IServiceStore} from '../store/service';
+import {Api, SchemaNode, Schema, Action} from '../types';
+import {filter, evalExpression} from '../utils/tpl';
+import {Tabs as BsTabs, TabContainer, TabContent, TabPane, NavItem, Nav, Tab} from 'react-bootstrap';
 import cx = require('classnames');
 import find = require('lodash/find');
-import { isVisible } from '../utils/helper';
+import {isVisible} from '../utils/helper';
 import findIndex = require('lodash/findIndex');
 
 export type TabProps = Schema & {
@@ -50,12 +31,11 @@ export interface TabsState {
 }
 
 export default class Tabs extends React.Component<TabsProps, TabsState> {
-
     static defaultProps: Partial<TabsProps> = {
         className: '',
         mode: '',
         mountOnEnter: true,
-        unmountOnExit: false
+        unmountOnExit: false,
     };
 
     id = Date.now() + '';
@@ -71,13 +51,13 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         } else if (location && Array.isArray(tabs)) {
             const hash = location.hash.substring(1);
             const tab: TabProps = find(tabs, tab => tab.hash === hash) as TabProps;
-            activeKey = tab && tab.hash ? tab.hash : (tabs[0] && tabs[0].hash || 0);
+            activeKey = tab && tab.hash ? tab.hash : (tabs[0] && tabs[0].hash) || 0;
         }
 
         this.state = {
             prevKey: undefined,
-            activeKey: activeKey
-        }
+            activeKey: activeKey,
+        };
 
         this.handleSelect = this.handleSelect.bind(this);
         this.currentIndex = this.currentIndex.bind(this);
@@ -97,7 +77,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             if (tab && tab.hash && tab.hash !== this.state.activeKey) {
                 this.setState({
                     activeKey: tab.hash,
-                    prevKey: this.state.activeKey
+                    prevKey: this.state.activeKey,
                 });
             }
         } else if (props.tabs !== nextProps.tabs) {
@@ -111,53 +91,54 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             }
 
             if (tab) {
-                activeKey = tab.hash
-            } else if (!nextProps.tabs || !nextProps.tabs.some((item, index) => item.hash ? item.hash === activeKey : index === activeKey)) {
-                activeKey = nextProps.tabs && nextProps.tabs[0] && nextProps.tabs[0].hash || 0;
+                activeKey = tab.hash;
+            } else if (
+                !nextProps.tabs ||
+                !nextProps.tabs.some((item, index) => (item.hash ? item.hash === activeKey : index === activeKey))
+            ) {
+                activeKey = (nextProps.tabs && nextProps.tabs[0] && nextProps.tabs[0].hash) || 0;
             }
 
             this.setState({
                 prevKey: undefined,
-                activeKey: activeKey
+                activeKey: activeKey,
             });
         }
     }
 
     handleSelect(key: any) {
-        const {
-            env
-        } = this.props;
+        const {env} = this.props;
 
         // 是 hash，需要更新到地址栏
         if (typeof key === 'string' && env) {
-            env.updateLocation(`#${key}`)
+            env.updateLocation(`#${key}`);
         } else if (typeof this.state.prevKey === 'string' && env) {
             env.updateLocation(`#`);
         }
 
         this.setState({
             activeKey: key,
-            prevKey: this.state.activeKey
+            prevKey: this.state.activeKey,
         });
     }
 
     switchTo(index: number) {
-        const {
-            tabs
-        } = this.props;
+        const {tabs} = this.props;
 
-        Array.isArray(tabs) && tabs[index] && this.setState({
-            activeKey: tabs[index].hash || index
-        })
+        Array.isArray(tabs) &&
+            tabs[index] &&
+            this.setState({
+                activeKey: tabs[index].hash || index,
+            });
     }
 
     currentIndex(): number {
-        const {
-            tabs
-        } = this.props;
+        const {tabs} = this.props;
 
         return Array.isArray(tabs)
-            ? findIndex(tabs, (tab: TabProps, index) => tab.hash ? tab.hash === this.state.activeKey : index === this.state.activeKey)
+            ? findIndex(tabs, (tab: TabProps, index) =>
+                  tab.hash ? tab.hash === this.state.activeKey : index === this.state.activeKey
+              )
             : -1;
     }
 
@@ -173,7 +154,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             render,
             data,
             mode: dMode,
-            tabsMode
+            tabsMode,
         } = this.props;
 
         if (!Array.isArray(tabs)) {
@@ -186,9 +167,13 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         return (
             <TabContainer
                 id={this.id}
-                className={cx(`Tabs`, {
-                    [`Tabs--${mode}`]: mode
-                }, className)}
+                className={cx(
+                    `Tabs`,
+                    {
+                        [`Tabs--${mode}`]: mode,
+                    },
+                    className
+                )}
                 activeKey={this.state.activeKey}
                 onSelect={this.handleSelect}
             >
@@ -199,9 +184,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                                 className={cx('Tabs-link')}
                                 key={index}
                                 eventKey={tab.hash || index}
-                                disabled={tab.disabled || tab.disabledOn && evalExpression(tab.disabledOn, data)}
+                                disabled={tab.disabled || (tab.disabledOn && evalExpression(tab.disabledOn, data))}
                             >
-                                {tab.icon ? (<div><i className={tab.icon} /> {tab.title}</div>) : tab.title}
+                                {tab.icon ? (
+                                    <div>
+                                        <i className={tab.icon} /> {tab.title}
+                                    </div>
+                                ) : (
+                                    tab.title
+                                )}
                             </NavItem>
                         ))}
                     </Nav>
@@ -218,7 +209,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                                 mountOnEnter={mountOnEnter}
                                 unmountOnExit={typeof tab.reload === 'boolean' ? tab.reload : tab.unmountOnExit}
                             >
-                                {tabRender ? tabRender(tab, this.props) : render(`tab/${index}`, tab.tab || tab.body || '')}
+                                {tabRender
+                                    ? tabRender(tab, this.props)
+                                    : render(`tab/${index}`, tab.tab || tab.body || '')}
                             </TabPane>
                         ))}
                     </TabContent>
@@ -230,6 +223,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
 @Renderer({
     test: /(^|\/)tabs$/,
-    name: 'tabs'
+    name: 'tabs',
 })
-export class TabsRenderer extends Tabs { }
+export class TabsRenderer extends Tabs {}

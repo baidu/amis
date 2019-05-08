@@ -1,12 +1,9 @@
 import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
-import { ServiceStore, IServiceStore } from '../store/service';
+import {Renderer, RendererProps} from '../factory';
+import {ServiceStore, IServiceStore} from '../store/service';
 import * as cx from 'classnames';
 import getExprProperties from '../utils/filter-schema';
-import { Api, Payload } from '../types';
+import {Api, Payload} from '../types';
 import update = require('react-addons-update');
 
 export interface TaskProps extends RendererProps {
@@ -15,7 +12,7 @@ export interface TaskProps extends RendererProps {
     checkApi: Api;
     submitApi: Api;
     reSubmitApi: Api;
-    
+
     tableClassName?: string;
     taskNameLabel?: string;
     operationLabel?: string;
@@ -40,12 +37,12 @@ export interface TaskItem {
     label?: string;
     key?: string;
     remark?: string;
-    status?:any;
+    status?: any;
 }
 
 export interface TaskState {
     error?: string;
-    items: Array<TaskItem>
+    items: Array<TaskItem>;
 }
 
 export default class Task extends React.Component<TaskProps, TaskState> {
@@ -68,141 +65,150 @@ export default class Task extends React.Component<TaskProps, TaskState> {
         errorStatusCode: 3,
         finishStatusCode: 4,
         canRetryStatusCode: 5,
-        interval: 3000
+        interval: 3000,
     };
-    
-    timer:any;
-    
-    constructor(props:TaskProps) {
+
+    timer: any;
+
+    constructor(props: TaskProps) {
         super(props);
         this.state = {
-            items: props.items ? props.items.concat() : []
+            items: props.items ? props.items.concat() : [],
         };
-        
+
         this.handleLoaded = this.handleLoaded.bind(this);
         this.tick = this.tick.bind(this);
     }
-    
-    componentWillReceiveProps(nextProps:TaskProps) {
+
+    componentWillReceiveProps(nextProps: TaskProps) {
         const props = this.props;
-        
+
         if (props.items !== nextProps.items) {
             this.setState({
-                items: nextProps.items ? nextProps.items.concat() : []
+                items: nextProps.items ? nextProps.items.concat() : [],
             });
         }
     }
-    
+
     componentDidMount() {
         this.tick(!!this.props.checkApi);
     }
-    
+
     componentWillUnmount() {
         clearTimeout(this.timer);
     }
-    
+
     tick(force = false) {
-        const {
-            loadingStatusCode,
-            data,
-            interval,
-            checkApi,
-            env
-        } = this.props;
+        const {loadingStatusCode, data, interval, checkApi, env} = this.props;
         const items = this.state.items;
-        
+
         // 如果每个 task 都完成了, 则不需要取查看状态.
         if (!force && !items.some(item => item.status === loadingStatusCode)) {
             return;
         }
-        
+
         if (interval && !checkApi) {
             return alert('checkApi 没有设置, 不能及时获取任务状态');
         }
-        
-        env && env.fetcher(checkApi, data)
-            .then(this.handleLoaded)
-            .catch(e => this.setState({ error: e }))
+
+        env &&
+            env
+                .fetcher(checkApi, data)
+                .then(this.handleLoaded)
+                .catch(e => this.setState({error: e}));
     }
-    
-    handleLoaded(ret:Payload) {
+
+    handleLoaded(ret: Payload) {
         if (!Array.isArray(ret.data)) {
             return alert('返回格式不正确, 期望 response.data 为数组, 包含每个 task 的状态信息');
         }
-        
+
         this.setState({
-            items: ret.data
+            items: ret.data,
         });
-        
+
         const interval = this.props.interval;
         clearTimeout(this.timer);
         this.timer = setTimeout(this.tick, interval);
     }
-    
-    submitTask(item:TaskItem, index:number, retry = false) {
-        const {
-            submitApi,
-            reSubmitApi,
-            loadingStatusCode,
-            errorStatusCode,
-            data,
-            env
-        } = this.props;
-        
+
+    submitTask(item: TaskItem, index: number, retry = false) {
+        const {submitApi, reSubmitApi, loadingStatusCode, errorStatusCode, data, env} = this.props;
+
         if (!retry && !submitApi) {
             return alert('submitApi 没有配置');
         } else if (retry && !reSubmitApi) {
             return alert('reSubmitApi 没有配置');
         }
-        
-        this.setState(update(this.state, {
-            items: {
-                $splice: [
-                    [index, 1, {
-                        ...item,
-                        status: loadingStatusCode
-                    }]
-                ]
-            }
-        } as any));
-        
-        env && env.fetcher(retry ? reSubmitApi : submitApi, {
-            ...data,
-            ...item
-        })
-        .then((ret:Payload) => {
-            if (ret && ret.data) {
-                if (Array.isArray(ret.data)) {
-                    this.handleLoaded(ret);
-                } else {
-                    const items = this.state.items.map(item => item.key === ret.data.key ? {
-                        ...item,
-                        ...ret.data
-                    } : item);
-                    this.handleLoaded({
-                        ...ret,
-                        data: items 
-                    });
-                }
-                return;
-            }
-            
-            clearTimeout(this.timer);
-            this.timer = setTimeout(this.tick, 4);
-        })
-        .catch(e => this.setState(update(this.state, {
-            items: {
-                $splice: [
-                    [index, 1, {
-                        ...item,
-                        status: errorStatusCode,
-                        remark: e.message || e
-                    }]
-                ]
-            }
-        } as any)))
+
+        this.setState(
+            update(this.state, {
+                items: {
+                    $splice: [
+                        [
+                            index,
+                            1,
+                            {
+                                ...item,
+                                status: loadingStatusCode,
+                            },
+                        ],
+                    ],
+                },
+            } as any)
+        );
+
+        env &&
+            env
+                .fetcher(retry ? reSubmitApi : submitApi, {
+                    ...data,
+                    ...item,
+                })
+                .then((ret: Payload) => {
+                    if (ret && ret.data) {
+                        if (Array.isArray(ret.data)) {
+                            this.handleLoaded(ret);
+                        } else {
+                            const items = this.state.items.map(item =>
+                                item.key === ret.data.key
+                                    ? {
+                                          ...item,
+                                          ...ret.data,
+                                      }
+                                    : item
+                            );
+                            this.handleLoaded({
+                                ...ret,
+                                data: items,
+                            });
+                        }
+                        return;
+                    }
+
+                    clearTimeout(this.timer);
+                    this.timer = setTimeout(this.tick, 4);
+                })
+                .catch(e =>
+                    this.setState(
+                        update(this.state, {
+                            items: {
+                                $splice: [
+                                    [
+                                        index,
+                                        1,
+                                        {
+                                            ...item,
+                                            status: errorStatusCode,
+                                            remark: e.message || e,
+                                        },
+                                    ],
+                                ],
+                            },
+                        } as any)
+                    )
+                );
     }
-    
+
     render() {
         const {
             className,
@@ -220,11 +226,11 @@ export default class Task extends React.Component<TaskProps, TaskState> {
             readyStatusCode,
             loadingStatusCode,
             canRetryStatusCode,
-            render
+            render,
         } = this.props;
         const items = this.state.items;
         const error = this.state.error;
-        
+
         return (
             <div className={className}>
                 <table className={tableClassName}>
@@ -237,36 +243,48 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                         </tr>
                     </thead>
                     <tbody>
-                    {error ? (
-                        <tr>
-                            <td colSpan={4}><div className="text-danger">{error}</div></td>
-                        </tr>
-                    ) : items.map((item, key) => (
-                        <tr key={key}>
-                            <td>{item.label}</td>
-                            <td>
-                            {item.status == loadingStatusCode ? (
-                                <i className="fa fa-spinner fa-spin fa-2x fa-fw" />
-                            ) : item.status == canRetryStatusCode ? (
-                                <a
-                                onClick={() => this.submitTask(item, key, true)}
-                                className={cx('btn', retryBtnClassName || btnClassName)}
-                                >
-                                {retryBtnText || btnText}
-                                </a>
-                            ) : (
-                                <a
-                                onClick={() => this.submitTask(item, key)}
-                                className={cx('btn', btnClassName, { disabled: item.status !== readyStatusCode })}
-                                >
-                                {btnText}
-                                </a>
-                            )}
-                            </td>
-                            <td><span className={cx('label', statusLabelMap && statusLabelMap[item.status || 0])}>{statusTextMap && statusTextMap[item.status || 0]}</span></td>
-                            <td>{item.remark ? render(`${key}/remark`, item.remark): null}</td>
-                        </tr>
-                    ))}
+                        {error ? (
+                            <tr>
+                                <td colSpan={4}>
+                                    <div className="text-danger">{error}</div>
+                                </td>
+                            </tr>
+                        ) : (
+                            items.map((item, key) => (
+                                <tr key={key}>
+                                    <td>{item.label}</td>
+                                    <td>
+                                        {item.status == loadingStatusCode ? (
+                                            <i className="fa fa-spinner fa-spin fa-2x fa-fw" />
+                                        ) : item.status == canRetryStatusCode ? (
+                                            <a
+                                                onClick={() => this.submitTask(item, key, true)}
+                                                className={cx('btn', retryBtnClassName || btnClassName)}
+                                            >
+                                                {retryBtnText || btnText}
+                                            </a>
+                                        ) : (
+                                            <a
+                                                onClick={() => this.submitTask(item, key)}
+                                                className={cx('btn', btnClassName, {
+                                                    disabled: item.status !== readyStatusCode,
+                                                })}
+                                            >
+                                                {btnText}
+                                            </a>
+                                        )}
+                                    </td>
+                                    <td>
+                                        <span
+                                            className={cx('label', statusLabelMap && statusLabelMap[item.status || 0])}
+                                        >
+                                            {statusTextMap && statusTextMap[item.status || 0]}
+                                        </span>
+                                    </td>
+                                    <td>{item.remark ? render(`${key}/remark`, item.remark) : null}</td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>
@@ -276,6 +294,6 @@ export default class Task extends React.Component<TaskProps, TaskState> {
 
 @Renderer({
     test: /(^|\/)tasks$/,
-    name: 'tasks'
+    name: 'tasks',
 })
-export class TaskRenderer extends Task { }
+export class TaskRenderer extends Task {}

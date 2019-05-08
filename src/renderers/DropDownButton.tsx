@@ -1,15 +1,11 @@
 import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
+import {Renderer, RendererProps} from '../factory';
 import {RootCloseWrapper} from 'react-overlays';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import * as cx from 'classnames';
-import { isVisible } from '../utils/helper';
-import { filter } from '../utils/tpl';
-
+import {isVisible} from '../utils/helper';
+import {filter} from '../utils/tpl';
 
 export interface DropDownButtonProps extends RendererProps {
     block?: boolean;
@@ -18,24 +14,23 @@ export interface DropDownButtonProps extends RendererProps {
     buttons?: Array<any>;
     caretIcon?: string;
     iconOnly?: boolean;
-};
+}
 
 export interface DropDownButtonState {
     isOpened: boolean;
-};
+}
 
 export default class DropDownButton extends React.Component<DropDownButtonProps, DropDownButtonState> {
-
-    state:DropDownButtonState = {
-        isOpened: false
+    state: DropDownButtonState = {
+        isOpened: false,
     };
 
     static defaultProps = {
-        caretIcon: 'fa fa-angle-down'
+        caretIcon: 'fa fa-angle-down',
     };
 
-    target:any;
-    constructor(props:DropDownButtonProps) {
+    target: any;
+    constructor(props: DropDownButtonProps) {
         super(props);
 
         this.open = this.open.bind(this);
@@ -44,69 +39,57 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
         this.domRef = this.domRef.bind(this);
     }
 
-    domRef(ref:any) {
+    domRef(ref: any) {
         this.target = ref;
     }
 
-    toogle(e:React.MouseEvent<any>) {
+    toogle(e: React.MouseEvent<any>) {
         e.preventDefault();
 
         this.setState({
-            isOpened: !this.state.isOpened
+            isOpened: !this.state.isOpened,
         });
     }
 
     open() {
         this.setState({
-            isOpened: true
+            isOpened: true,
         });
     }
 
     close() {
         this.setState({
-            isOpened: false
+            isOpened: false,
         });
     }
 
     renderOuter() {
-        const {
-            render,
-            buttons,
-            data,
-            popOverContainer,
-            classnames: cx,
-            classPrefix: ns,
-            children,
-            align
-        } = this.props;
+        const {render, buttons, data, popOverContainer, classnames: cx, classPrefix: ns, children, align} = this.props;
 
         let body = (
-            <RootCloseWrapper
-                disabled={!this.state.isOpened}
-                onRootClose={this.close}
-            >
-                <ul
-                    className={cx("DropDown-menu")}
-                >
-                    {children ? children : Array.isArray(buttons) ? buttons.map((button, index) => {
-                        if (!isVisible(button, data)) {
-                            return null;
-                        } else if (button === 'divider' || button.type === 'divider') {
-                            return (
-                                <li key={index} className={cx("DropDown-divider")} />
-                            );
-                        }
+            <RootCloseWrapper disabled={!this.state.isOpened} onRootClose={this.close}>
+                <ul className={cx('DropDown-menu')}>
+                    {children
+                        ? children
+                        : Array.isArray(buttons)
+                        ? buttons.map((button, index) => {
+                              if (!isVisible(button, data)) {
+                                  return null;
+                              } else if (button === 'divider' || button.type === 'divider') {
+                                  return <li key={index} className={cx('DropDown-divider')} />;
+                              }
 
-                        return (
-                            <li key={index}>
-                                {render(`button/${index}`, {
-                                    type: 'button',
-                                    ...button,
-                                    isMenuItem: true
-                                })}
-                            </li>
-                        );
-                    }) : null}
+                              return (
+                                  <li key={index}>
+                                      {render(`button/${index}`, {
+                                          type: 'button',
+                                          ...button,
+                                          isMenuItem: true,
+                                      })}
+                                  </li>
+                              );
+                          })
+                        : null}
                 </ul>
             </RootCloseWrapper>
         );
@@ -119,11 +102,11 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
                     target={() => this.target}
                     show
                 >
-                    <PopOver 
+                    <PopOver
                         overlay
                         onHide={this.close}
                         classPrefix={ns}
-                        className={cx("DropDown-popover")} 
+                        className={cx('DropDown-popover')}
                         style={{minWidth: this.target.offsetWidth}}
                     >
                         {body}
@@ -149,7 +132,7 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
             caretIcon,
             align,
             iconOnly,
-            data
+            data,
         } = this.props;
 
         return (
@@ -157,18 +140,24 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
                 className={cx('DropDown ', {
                     'DropDown--block': block,
                     'DropDown--alignRight': align === 'right',
-                    'is-opened': this.state.isOpened
+                    'is-opened': this.state.isOpened,
                 })}
                 ref={this.domRef}
             >
                 <button
                     onClick={this.toogle}
                     disabled={disabled || btnDisabled}
-                    className={cx('Button', className, (typeof level === 'undefined' ? 'Button--default' : level ? `Button--${level}` : ''), {
-                        'Button--block': block,
-                        'Button--primary': primary,
-                        'Button--iconOnly': iconOnly
-                    }, size ? `Button--${size}` : '')}
+                    className={cx(
+                        'Button',
+                        className,
+                        typeof level === 'undefined' ? 'Button--default' : level ? `Button--${level}` : '',
+                        {
+                            'Button--block': block,
+                            'Button--primary': primary,
+                            'Button--iconOnly': iconOnly,
+                        },
+                        size ? `Button--${size}` : ''
+                    )}
                 >
                     {typeof label === 'string' ? filter(label, data) : label}
                     <i className={cx('DropDown-caret', caretIcon)} />
@@ -182,8 +171,6 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
 
 @Renderer({
     test: /(^|\/)dropdown-button$/,
-    name: 'dropdown-button'
+    name: 'dropdown-button',
 })
-export class DropDownButtonRenderer extends DropDownButton {
-
-}
+export class DropDownButtonRenderer extends DropDownButton {}

@@ -1,28 +1,16 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
-import { observer } from "mobx-react";
-import { ServiceStore, IServiceStore } from '../store/service';
-import {
-    Api,
-    SchemaNode,
-    Action,
-    Location,
-    ApiObject,
-    FunctionPropertyNames
-} from '../types';
-import {
-    filter, evalExpression
-} from '../utils/tpl';
+import {Renderer, RendererProps} from '../factory';
+import {observer} from 'mobx-react';
+import {ServiceStore, IServiceStore} from '../store/service';
+import {Api, SchemaNode, Action, Location, ApiObject, FunctionPropertyNames} from '../types';
+import {filter, evalExpression} from '../utils/tpl';
 import * as cx from 'classnames';
 import * as qs from 'qs';
-import { isVisible, autobind, bulkBindFunctions } from '../utils/helper';
-import { ScopedContext, IScopedContext } from '../Scoped';
+import {isVisible, autobind, bulkBindFunctions} from '../utils/helper';
+import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
-import { isApiOutdated } from '../utils/api';
+import {isApiOutdated} from '../utils/api';
 
 export interface PageProps extends RendererProps {
     title?: string; // 标题
@@ -57,7 +45,7 @@ export interface PageProps extends RendererProps {
 export default class Page extends React.Component<PageProps> {
     timer: NodeJS.Timer;
     mounted: boolean;
-    
+
     static defaultProps = {
         asideClassName: '',
         bodyClassName: '',
@@ -65,8 +53,7 @@ export default class Page extends React.Component<PageProps> {
         initFetch: true,
         // primaryField: 'id',
         toolbarClassName: '',
-        messages: {
-        },
+        messages: {},
     };
 
     static propsList: Array<string> = [
@@ -83,27 +70,23 @@ export default class Page extends React.Component<PageProps> {
         'body',
         'aside',
         'messages',
-        'style'
+        'style',
     ];
 
-
     componentWillMount() {
-        const {
-            store,
-            location        
-        } = this.props;
+        const {store, location} = this.props;
 
         // autobind 会让继承里面的 super 指向有问题，所以先这样！
-        bulkBindFunctions<Page/*为毛 this 的类型自动识别不出来？*/>(this, [
-            "handleAction",
-            "handleDialogConfirm",
-            "handleDialogClose",
-            "handleDrawerConfirm",
-            "handleDrawerClose",
-            "handleClick",
-            "reload",
-            "silentReload",
-            "initInterval"
+        bulkBindFunctions<Page /*为毛 this 的类型自动识别不出来？*/>(this, [
+            'handleAction',
+            'handleDialogConfirm',
+            'handleDialogClose',
+            'handleDrawerConfirm',
+            'handleDrawerClose',
+            'handleClick',
+            'reload',
+            'silentReload',
+            'initInterval',
         ]);
 
         if (location && location.search) {
@@ -124,20 +107,21 @@ export default class Page extends React.Component<PageProps> {
     }
 
     componentDidMount() {
-        const {
-            initApi,
-            initFetch,
-            store,
-            messages
-        } = this.props;
+        const {initApi, initFetch, store, messages} = this.props;
 
         this.mounted = true;
 
-        if (initApi && initFetch && (!(initApi as ApiObject).sendOn || evalExpression((initApi as ApiObject).sendOn as string, store.data))) {
-            store.fetchInitData(initApi, store.data, {
-                successMessage: messages && messages.fetchSuccess,
-                errorMessage: messages && messages.fetchFailed
-            }).then(this.initInterval);
+        if (
+            initApi &&
+            initFetch &&
+            (!(initApi as ApiObject).sendOn || evalExpression((initApi as ApiObject).sendOn as string, store.data))
+        ) {
+            store
+                .fetchInitData(initApi, store.data, {
+                    successMessage: messages && messages.fetchSuccess,
+                    errorMessage: messages && messages.fetchFailed,
+                })
+                .then(this.initInterval);
         }
     }
 
@@ -145,11 +129,11 @@ export default class Page extends React.Component<PageProps> {
         const props = this.props;
         const store = props.store;
 
-        if (
-            nextProps.location
-            && (!props.location || props.location.search !== nextProps.location.search)
-        ) {
-            const query = nextProps.location.query || nextProps.location.search && qs.parse(nextProps.location.search.substring(1)) || {};
+        if (nextProps.location && (!props.location || props.location.search !== nextProps.location.search)) {
+            const query =
+                nextProps.location.query ||
+                (nextProps.location.search && qs.parse(nextProps.location.search.substring(1))) ||
+                {};
             store.updateData({
                 ...query,
                 query: query,
@@ -164,17 +148,18 @@ export default class Page extends React.Component<PageProps> {
 
         if (
             // 前一次不构成条件，这次更新构成了条件，则需要重新拉取
-            props.initFetchOn && props.initFetch && !prevProps.initFetch
-
+            (props.initFetchOn && props.initFetch && !prevProps.initFetch) ||
             // 构成了条件，同时 url 里面有变量，且上次和这次还不一样，则需要重新拉取。
-            || props.initFetch !== false && isApiOutdated(prevProps.initApi, initApi, prevProps.data, props.data)
+            (props.initFetch !== false && isApiOutdated(prevProps.initApi, initApi, prevProps.data, props.data))
         ) {
             const messages = props.messages;
-            (!(initApi as ApiObject).sendOn || evalExpression((initApi as ApiObject).sendOn as string, store.data))
-            && store.fetchData(initApi as Api, store.data, {
-                successMessage: messages && messages.fetchSuccess,
-                errorMessage: messages && messages.fetchFailed
-            }).then(this.initInterval);
+            (!(initApi as ApiObject).sendOn || evalExpression((initApi as ApiObject).sendOn as string, store.data)) &&
+                store
+                    .fetchData(initApi as Api, store.data, {
+                        successMessage: messages && messages.fetchSuccess,
+                        errorMessage: messages && messages.fetchFailed,
+                    })
+                    .then(this.initInterval);
         }
     }
 
@@ -183,16 +168,12 @@ export default class Page extends React.Component<PageProps> {
         clearTimeout(this.timer);
     }
 
-    reloadTarget(target:string, data?:any) {
+    reloadTarget(target: string, data?: any) {
         // 会被覆写
     }
 
-    handleAction(e:React.UIEvent<any> | void, action:Action, ctx: object, delegate?: boolean) {
-        const {
-            env,
-            store,
-            messages
-        } = this.props;
+    handleAction(e: React.UIEvent<any> | void, action: Action, ctx: object, delegate?: boolean) {
+        const {env, store, messages} = this.props;
 
         // delegate 表示不是当前层的事件，而是孩子节点的。
         delegate || store.setCurrentAction(action);
@@ -208,28 +189,27 @@ export default class Page extends React.Component<PageProps> {
         } else if (action.actionType === 'drawer') {
             store.openDrawer(ctx);
         } else if (action.actionType === 'ajax') {
-            store.saveRemote(action.api as string, ctx, {
-                successMessage: action.messages && action.messages.success || messages && messages.saveSuccess,
-                errorMessage: action.messages && action.messages.failed || messages && messages.saveSuccess
-            })
-            .then(async () => {
-                if (action.feedback && isVisible(action.feedback, store.data)) {
-                    await this.openFeedback(action.feedback, store.data);
-                }
+            store
+                .saveRemote(action.api as string, ctx, {
+                    successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
+                    errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveSuccess),
+                })
+                .then(async () => {
+                    if (action.feedback && isVisible(action.feedback, store.data)) {
+                        await this.openFeedback(action.feedback, store.data);
+                    }
 
-                action.redirect && env.jumpTo(filter(action.redirect, store.data), action);
-                action.reload && this.reloadTarget(action.reload, store.data);
-            })
-            .catch(() => { });;
+                    action.redirect && env.jumpTo(filter(action.redirect, store.data), action);
+                    action.reload && this.reloadTarget(action.reload, store.data);
+                })
+                .catch(() => {});
         } else if (action.actionType === 'copy' && (action.content || action.copy)) {
             env.copy && env.copy(filter(action.content || action.copy, ctx));
         }
     }
 
     handleDialogConfirm(values: object[], action: Action, ...args: Array<any>) {
-        const {
-            store
-        } = this.props;
+        const {store} = this.props;
 
         if (action.mergeData && values.length === 1 && values[0]) {
             store.updateData(values[0]);
@@ -243,18 +223,13 @@ export default class Page extends React.Component<PageProps> {
         store.closeDialog();
     }
 
-    
     handleDialogClose() {
-        const {
-            store
-        } = this.props;
+        const {store} = this.props;
         store.closeDialog();
     }
 
-    handleDrawerConfirm(values: object[], action: Action, ...args:Array<any>) {
-        const {
-            store
-        } = this.props;
+    handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
+        const {store} = this.props;
 
         if (action.mergeData && values.length === 1 && values[0]) {
             store.updateData(values[0]);
@@ -269,80 +244,68 @@ export default class Page extends React.Component<PageProps> {
     }
 
     handleDrawerClose() {
-        const {
-            store
-        } = this.props;
+        const {store} = this.props;
         store.closeDrawer();
     }
 
     handleClick(e: any) {
         const target: HTMLElement = e.target as HTMLElement;
-        const { env } = this.props;
+        const {env} = this.props;
 
         if (env && target.tagName === 'A' && target.hasAttribute('data-link')) {
             env.jumpTo(target.getAttribute('data-link') as string);
             e.preventDefault();
         }
-    };
+    }
 
-    openFeedback(dialog:any, ctx:any) {
-        return new Promise((resolve) => {
-            const {
-                store
-            } = this.props;
+    openFeedback(dialog: any, ctx: any) {
+        return new Promise(resolve => {
+            const {store} = this.props;
             store.setCurrentAction({
                 type: 'button',
                 actionType: 'dialog',
-                dialog: dialog
+                dialog: dialog,
             });
-            store.openDialog(ctx, undefined, (confirmed) => {
-                resolve(confirmed)
+            store.openDialog(ctx, undefined, confirmed => {
+                resolve(confirmed);
             });
-        })
+        });
     }
 
-    reload(subpath?: any, query?:any, ctx?: any, silent?: boolean) {
-
+    reload(subpath?: any, query?: any, ctx?: any, silent?: boolean) {
         if (query) {
             return this.receive(query);
         }
-        
-        const {
-            store,
-            initApi
-        } = this.props;
+
+        const {store, initApi} = this.props;
 
         clearTimeout(this.timer);
-        initApi && store.fetchData(initApi, store.data, {
-            silent
-        }).then(this.initInterval);
+        initApi &&
+            store
+                .fetchData(initApi, store.data, {
+                    silent,
+                })
+                .then(this.initInterval);
     }
 
     receive(values: object) {
-        const {
-            store
-        } = this.props;
+        const {store} = this.props;
 
         store.updateData(values);
         this.reload();
     }
 
-    silentReload(target?:string, query?:any) {
+    silentReload(target?: string, query?: any) {
         this.reload(query, undefined, undefined, true);
     }
 
     initInterval(value: any) {
-        const {
-            interval,
-            silentPolling,
-            stopAutoRefreshWhen,
-            data
-        } = this.props;
+        const {interval, silentPolling, stopAutoRefreshWhen, data} = this.props;
 
-        interval
-            && this.mounted
-            && (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data))
-            && (this.timer = setTimeout(silentPolling ? this.silentReload : this.reload, Math.max(interval, 3000)));
+        interval &&
+            this.mounted &&
+            (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data)) &&
+            (this.timer = setTimeout(silentPolling ? this.silentReload : this.reload, Math.max(interval, 3000)));
         return value;
     }
 
@@ -357,11 +320,11 @@ export default class Page extends React.Component<PageProps> {
             render,
             store,
             env,
-            classnames: cx
+            classnames: cx,
         } = this.props;
 
         const subProps = {
-            onAction: this.handleAction
+            onAction: this.handleAction,
         };
         let header, right;
 
@@ -371,24 +334,24 @@ export default class Page extends React.Component<PageProps> {
                     {title ? (
                         <h2 className={cx('Page-title')}>
                             {render('title', title, subProps)}
-                            {remark ? render('remark', {
-                                type: 'remark',
-                                tooltip: remark,
-                                container: env && env.getModalContainer ? env.getModalContainer() : undefined
-                            }) : null}
+                            {remark
+                                ? render('remark', {
+                                      type: 'remark',
+                                      tooltip: remark,
+                                      container: env && env.getModalContainer ? env.getModalContainer() : undefined,
+                                  })
+                                : null}
                         </h2>
                     ) : null}
-                    {subTitle && (<small className={cx('Page-subTitle')}>{render('subTitle', subTitle, subProps)}</small>)}
+                    {subTitle && (
+                        <small className={cx('Page-subTitle')}>{render('subTitle', subTitle, subProps)}</small>
+                    )}
                 </div>
             );
         }
 
         if (toolbar) {
-            right = (
-                <div className={cx(`Page-toolbar`, toolbarClassName)}>
-                    {render('toolbar', toolbar, subProps)}
-                </div>
-            );
+            right = <div className={cx(`Page-toolbar`, toolbarClassName)}>{render('toolbar', toolbar, subProps)}</div>;
         }
 
         if (header && right) {
@@ -417,42 +380,42 @@ export default class Page extends React.Component<PageProps> {
         } = this.props;
 
         const subProps = {
-            onAction: this.handleAction
+            onAction: this.handleAction,
         };
 
         const hasAside = aside && (!Array.isArray(aside) || aside.length);
 
         return (
-            <div
-                className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)}
-                onClick={this.handleClick}
-            >
-                {hasAside ? <div className={cx(`Page-aside`, asideClassName)}>
-                    {render('aside', aside as any, {
-                        ...subProps,
-                        ...(typeof aside === 'string' ? {
-                            inline: false,
-                            className: `Page-asideTplWrapper`
-                        } : null)
-                    })}
-                </div> : null}
+            <div className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)} onClick={this.handleClick}>
+                {hasAside ? (
+                    <div className={cx(`Page-aside`, asideClassName)}>
+                        {render('aside', aside as any, {
+                            ...subProps,
+                            ...(typeof aside === 'string'
+                                ? {
+                                      inline: false,
+                                      className: `Page-asideTplWrapper`,
+                                  }
+                                : null),
+                        })}
+                    </div>
+                ) : null}
 
                 <div className={cx('Page-content')}>
                     {header ? render('header', header, subProps) : null}
                     <div className={cx('Page-main')}>
                         {this.renderHeader()}
                         <div className={cx(`Page-body`, bodyClassName)}>
-                            {store.loading ? render('spinner', {
-                                type: 'spinner',
-                                overlay: true,
-                                size: 'lg'
-                            }) : null}
+                            {store.loading
+                                ? render('spinner', {
+                                      type: 'spinner',
+                                      overlay: true,
+                                      size: 'lg',
+                                  })
+                                : null}
 
                             {store.error ? (
-                                <Alert 
-                                    level="danger"
-                                    showCloseButton
-                                    onClose={store.clearMessage}>
+                                <Alert level="danger" showCloseButton onClose={store.clearMessage}>
                                     {store.msg}
                                 </Alert>
                             ) : null}
@@ -462,39 +425,47 @@ export default class Page extends React.Component<PageProps> {
                     </div>
                 </div>
 
-                {render('dialog', {
-                    ...(store.action as Action) && (store.action as Action).dialog as object,
-                    type: 'dialog'
-                }, {
-                    key: 'dialog',
-                    data: store.dialogData,
-                    onConfirm: this.handleDialogConfirm,
-                    onClose: this.handleDialogClose,
-                    show: store.dialogOpen,
-                    onAction: this.handleAction
-                })}
+                {render(
+                    'dialog',
+                    {
+                        ...((store.action as Action) && ((store.action as Action).dialog as object)),
+                        type: 'dialog',
+                    },
+                    {
+                        key: 'dialog',
+                        data: store.dialogData,
+                        onConfirm: this.handleDialogConfirm,
+                        onClose: this.handleDialogClose,
+                        show: store.dialogOpen,
+                        onAction: this.handleAction,
+                    }
+                )}
 
-                {render('drawer', {
-                    ...(store.action as Action) && (store.action as Action).drawer as object,
-                    type: 'drawer'
-                }, {
-                    key: 'drawer',
-                    data: store.drawerData,
-                    onConfirm: this.handleDrawerConfirm,
-                    onClose: this.handleDrawerClose,
-                    show: store.drawerOpen,
-                    onAction: this.handleAction
-                })}
+                {render(
+                    'drawer',
+                    {
+                        ...((store.action as Action) && ((store.action as Action).drawer as object)),
+                        type: 'drawer',
+                    },
+                    {
+                        key: 'drawer',
+                        data: store.drawerData,
+                        onConfirm: this.handleDrawerConfirm,
+                        onClose: this.handleDrawerClose,
+                        show: store.drawerOpen,
+                        onAction: this.handleAction,
+                    }
+                )}
             </div>
         );
     }
-};
+}
 
 @Renderer({
     test: /(?:^|\/)page$/,
     name: 'page',
     storeType: ServiceStore.name,
-    isolateScope: true
+    isolateScope: true,
 })
 export class PageRenderer extends Page {
     static contextType = ScopedContext;
@@ -512,12 +483,12 @@ export class PageRenderer extends Page {
         super.componentWillUnmount();
     }
 
-    reloadTarget(target:string, data?:any) {
+    reloadTarget(target: string, data?: any) {
         const scoped = this.context as IScopedContext;
         scoped.reload(target, data);
     }
 
-    handleAction(e:React.UIEvent<any>, action:Action, ctx:object, throwErrors: boolean = false, delegate?: boolean) {
+    handleAction(e: React.UIEvent<any>, action: Action, ctx: object, throwErrors: boolean = false, delegate?: boolean) {
         const scoped = this.context as IScopedContext;
 
         if (action.actionType === 'reload') {
@@ -525,10 +496,15 @@ export class PageRenderer extends Page {
         } else if (action.target) {
             action.target.split(',').forEach(name => {
                 let target = scoped.getComponentByName(name);
-                target && target.doAction && target.doAction({
-                    ...action,
-                    target: undefined
-                }, ctx);
+                target &&
+                    target.doAction &&
+                    target.doAction(
+                        {
+                            ...action,
+                            target: undefined,
+                        },
+                        ctx
+                    );
             });
         } else {
             super.handleAction(e, action, ctx, delegate);
@@ -552,7 +528,6 @@ export class PageRenderer extends Page {
                 .filter((item: any) => item.props.type === 'crud')
                 .forEach((item: any) => item.reload && item.reload());
         }
-
     }
 
     handleDrawerConfirm(values: object[], action: Action, ...rest: Array<any>) {
@@ -576,4 +551,4 @@ export class PageRenderer extends Page {
             }
         }, 300);
     }
-};
+}

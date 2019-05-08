@@ -1,34 +1,25 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import Scoped, { ScopedContext, IScopedContext } from '../Scoped';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
+import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
+import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import { observer } from "mobx-react";
-import {
-    SchemaNode,
-    Schema,
-    Action
-} from '../types';
-import {
-    filter
-} from '../utils/tpl';
+import {observer} from 'mobx-react';
+import {SchemaNode, Schema, Action} from '../types';
+import {filter} from '../utils/tpl';
 import Modal from '../components/Modal';
 import findLast = require('lodash/findLast');
-import {guid} from '../utils/helper'
+import {guid} from '../utils/helper';
 import {reaction} from 'mobx';
-import { closeIcon } from '../components/icons';
-import { ModalStore, IModalStore } from '../store/modal';
+import {closeIcon} from '../components/icons';
+import {ModalStore, IModalStore} from '../store/modal';
 
 export interface DialogProps extends RendererProps {
     title?: string; // 标题
     size?: 'md' | 'lg' | 'sm' | 'xl';
     closeOnEsc?: boolean;
     onClose: () => void;
-    onConfirm: (values:Array<object>, action: Action, ctx: object, targets: Array<any>) => void;
-    children?: React.ReactNode | ((props?:any) => React.ReactNode);
+    onConfirm: (values: Array<object>, action: Action, ctx: object, targets: Array<any>) => void;
+    children?: React.ReactNode | ((props?: any) => React.ReactNode);
     store: IModalStore;
     className?: string;
     header?: SchemaNode;
@@ -41,7 +32,6 @@ export interface DialogProps extends RendererProps {
     lazyRender?: boolean;
     wrapperComponent: React.ReactType;
     showCloseButton?: boolean;
-
 }
 
 export interface DialogState {
@@ -50,20 +40,20 @@ export interface DialogState {
 
 export default class Dialog extends React.Component<DialogProps, DialogState> {
     static propsList: Array<string> = [
-        "title",
-        "size",
-        "closeOnEsc",
-        "children",
-        "bodyClassName",
-        "headerClassName",
-        "confirm",
-        "onClose",
-        "onConfirm",
-        "show",
-        "showCloseButton",
-        "actions"
+        'title',
+        'size',
+        'closeOnEsc',
+        'children',
+        'bodyClassName',
+        'headerClassName',
+        'confirm',
+        'onClose',
+        'onConfirm',
+        'show',
+        'showCloseButton',
+        'actions',
     ];
-    static defaultProps:Partial<DialogProps>= {
+    static defaultProps: Partial<DialogProps> = {
         title: '弹框',
         bodyClassName: '',
         confirm: true,
@@ -71,17 +61,17 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         lazyRender: false,
         showCloseButton: true,
         wrapperComponent: Modal,
-        closeOnEsc: false
+        closeOnEsc: false,
     };
 
-    reaction:any;
+    reaction: any;
     $$id: string = guid();
-    constructor(props:DialogProps) {
+    constructor(props: DialogProps) {
         super(props);
 
         this.state = {
-            entered: !!this.props.show
-        }
+            entered: !!this.props.show,
+        };
         this.handleSelfClose = this.handleSelfClose.bind(this);
         this.handleAction = this.handleAction.bind(this);
         this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
@@ -117,21 +107,18 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         this.reaction && this.reaction();
     }
 
-    buildActions():Array<Action> {
-        const {
-            actions,
-            confirm
-        } = this.props;
+    buildActions(): Array<Action> {
+        const {actions, confirm} = this.props;
 
         if (typeof actions !== 'undefined') {
             return actions;
         }
 
-        let ret:Array<Action> = [];
+        let ret: Array<Action> = [];
         ret.push({
             type: 'button',
             actionType: 'cancel',
-            label: '取消'
+            label: '取消',
         });
 
         if (confirm) {
@@ -139,7 +126,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                 type: 'button',
                 actionType: 'confirm',
                 label: '确认',
-                primary: true
+                primary: true,
             });
         }
 
@@ -147,10 +134,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleSelfClose() {
-        const {
-            onClose,
-            store
-        } = this.props;
+        const {onClose, store} = this.props;
 
         // clear error
         store.updateMessage();
@@ -158,10 +142,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleAction(e: React.UIEvent<any>, action: Action, data: object) {
-        const {
-            store,
-            onAction
-        } = this.props;
+        const {store, onAction} = this.props;
 
         if (action.type === 'reset') {
             store.reset();
@@ -172,10 +153,8 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         }
     }
 
-    handleDialogConfirm(values: object[], action:Action, ...args:Array<any>) {
-        const {
-            store
-        } = this.props;
+    handleDialogConfirm(values: object[], action: Action, ...args: Array<any>) {
+        const {store} = this.props;
 
         if (action.mergeData && values.length === 1 && values[0]) {
             store.updateData(values[0]);
@@ -190,10 +169,8 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         store.closeDialog();
     }
 
-    handleDialogClose(...args:Array<any>) {
-        const {
-            store
-        } = this.props;
+    handleDialogClose(...args: Array<any>) {
+        const {store} = this.props;
 
         const action = store.action as Action;
         const dialog = action.dialog as any;
@@ -204,11 +181,9 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
         store.closeDialog();
     }
-   
-    handleDrawerConfirm(values: object[], action:Action, ...args:Array<any>) {
-        const {
-            store
-        } = this.props;
+
+    handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
+        const {store} = this.props;
 
         if (action.mergeData && values.length === 1 && values[0]) {
             store.updateData(values[0]);
@@ -223,10 +198,8 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         store.closeDrawer();
     }
 
-    handleDrawerClose(...args:Array<any>) {
-        const {
-            store
-        } = this.props;
+    handleDrawerClose(...args: Array<any>) {
+        const {store} = this.props;
 
         const action = store.action as Action;
         const drawer = action.drawer as any;
@@ -239,79 +212,72 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleEntered() {
-        this.state.entered || this.setState({
-            entered: true
-        })
+        this.state.entered ||
+            this.setState({
+                entered: true,
+            });
     }
 
     handleExited() {
         const {store} = this.props;
         store.reset();
-        this.state.entered && this.setState({
-            entered: false
-        })
+        this.state.entered &&
+            this.setState({
+                entered: false,
+            });
     }
 
-    handleFormInit(data:any) {
-        const {
-            store
-        } = this.props;
+    handleFormInit(data: any) {
+        const {store} = this.props;
 
         store.setFormData(data);
     }
 
-    handleFormChange(data:any) {
-        const {
-            store
-        } = this.props;
+    handleFormChange(data: any) {
+        const {store} = this.props;
 
         store.setFormData(data);
     }
 
-    handleFormSaved(data:any, response:any) {
-        const {
-            store
-        } = this.props;
+    handleFormSaved(data: any, response: any) {
+        const {store} = this.props;
 
         store.setFormData({
             ...data,
-            ...response
+            ...response,
         });
     }
 
-    handleChildFinished(value:any, action:Action) {
+    handleChildFinished(value: any, action: Action) {
         // 下面会覆盖
     }
 
-    renderBody(body:SchemaNode, key?:any):React.ReactNode {
-        let {
-            render,
-            store,
-        } = this.props;
+    renderBody(body: SchemaNode, key?: any): React.ReactNode {
+        let {render, store} = this.props;
 
         if (Array.isArray(body)) {
             return body.map((body, key) => this.renderBody(body, key));
         }
 
-        let subProps:any = {
+        let subProps: any = {
             key,
             disabled: store.loading,
             onAction: this.handleAction,
-            onFinished: this.handleChildFinished
+            onFinished: this.handleChildFinished,
         };
 
         if (!(body as Schema).type) {
             return render(`body${key ? `/${key}` : ''}`, body, subProps);
         }
 
-        let schema:Schema = body as Schema;
+        let schema: Schema = body as Schema;
 
         if (schema.type === 'form') {
             schema = {
                 mode: 'horizontal',
                 wrapWithPanel: false,
                 submitText: null,
-                ...schema
+                ...schema,
             };
 
             // 同步数据到 Dialog 层，方便 actions 根据表单数据联动。
@@ -330,31 +296,35 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
             return null;
         }
 
-        const {
-            store,
-            render,
-            classnames: cx
-        } = this.props;
+        const {store, render, classnames: cx} = this.props;
 
         return (
             <div className={cx('Modal-footer')}>
                 {store.loading || store.error ? (
-                    <div className={cx("Dialog-info")} key="info">
-                        {store.loading ? render('info', {
-                            type: 'spinner'
-                        }, {
-                            key: 'info',
-                            size: 'sm'
-                        }) : null}
-                        {store.error ? (<span className={cx("Dialog-error")}>{store.msg}</span>) : null}
+                    <div className={cx('Dialog-info')} key="info">
+                        {store.loading
+                            ? render(
+                                  'info',
+                                  {
+                                      type: 'spinner',
+                                  },
+                                  {
+                                      key: 'info',
+                                      size: 'sm',
+                                  }
+                              )
+                            : null}
+                        {store.error ? <span className={cx('Dialog-error')}>{store.msg}</span> : null}
                     </div>
                 ) : null}
-                {actions.map((action, key) => render(`action/${key}`, action, {
-                    data: store.formData,
-                    onAction: this.handleAction,
-                    key,
-                    disabled: action.disabled || store.loading
-                }))}
+                {actions.map((action, key) =>
+                    render(`action/${key}`, action, {
+                        data: store.formData,
+                        onAction: this.handleAction,
+                        key,
+                        disabled: action.disabled || store.loading,
+                    })
+                )}
             </div>
         );
     }
@@ -377,7 +347,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
             showCloseButton,
             env,
             classnames: cx,
-            classPrefix
+            classPrefix,
         } = this.props;
 
         // console.log('Render Dialog');
@@ -401,60 +371,82 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                 disabled={store.loading}
             >
                 {title && typeof title === 'string' ? (
-                    <div className={cx("Modal-header", headerClassName)}>
-                        {showCloseButton !== false && !store.loading ? (<a data-tooltip="关闭弹窗" onClick={this.handleSelfClose} className={cx("Modal-close")}>{closeIcon}</a>) : null}
-                        <div className={cx("Modal-title")}>{filter(title, store.formData)}</div>
+                    <div className={cx('Modal-header', headerClassName)}>
+                        {showCloseButton !== false && !store.loading ? (
+                            <a data-tooltip="关闭弹窗" onClick={this.handleSelfClose} className={cx('Modal-close')}>
+                                {closeIcon}
+                            </a>
+                        ) : null}
+                        <div className={cx('Modal-title')}>{filter(title, store.formData)}</div>
                     </div>
                 ) : title ? (
-                    <div className={cx("Modal-header", headerClassName)}>
-                        {showCloseButton !== false && !store.loading ? (<a  data-tooltip="关闭弹窗" onClick={this.handleSelfClose} className={cx("Modal-close")}>{closeIcon}</a>) : null}
+                    <div className={cx('Modal-header', headerClassName)}>
+                        {showCloseButton !== false && !store.loading ? (
+                            <a data-tooltip="关闭弹窗" onClick={this.handleSelfClose} className={cx('Modal-close')}>
+                                {closeIcon}
+                            </a>
+                        ) : null}
                         {render('title', title, {
-                            data: store.formData
+                            data: store.formData,
                         })}
                     </div>
                 ) : showCloseButton !== false && !store.loading ? (
-                    <a  data-tooltip="关闭弹窗" onClick={this.handleSelfClose} className={cx("Modal-close")}>{closeIcon}</a>
+                    <a data-tooltip="关闭弹窗" onClick={this.handleSelfClose} className={cx('Modal-close')}>
+                        {closeIcon}
+                    </a>
                 ) : null}
 
-                {header ? render('header', header, {
-                    data: store.formData
-                }) : null}
+                {header
+                    ? render('header', header, {
+                          data: store.formData,
+                      })
+                    : null}
 
                 {!this.state.entered && lazyRender ? (
-                    <div className={cx("Modal-body", bodyClassName)}>
-                        
-                    </div>
-                ) :  body ? (
-                    <div className={cx("Modal-body", bodyClassName)}>
-                        {this.renderBody(body, 'body')}
-                    </div>
+                    <div className={cx('Modal-body', bodyClassName)} />
+                ) : body ? (
+                    <div className={cx('Modal-body', bodyClassName)}>{this.renderBody(body, 'body')}</div>
                 ) : null}
 
                 {this.renderFooter()}
 
-                {body ? render('drawer', { // 支持嵌套
-                    ...(store.action as Action) && (store.action as Action).drawer as object,
-                    type: 'drawer'
-                }, {
-                    key: 'drawer',
-                    data: store.drawerData,
-                    onConfirm: this.handleDrawerConfirm,
-                    onClose: this.handleDrawerClose,
-                    show: store.drawerOpen,
-                    onAction: this.handleAction
-                }) : null}
+                {body
+                    ? render(
+                          'drawer',
+                          {
+                              // 支持嵌套
+                              ...((store.action as Action) && ((store.action as Action).drawer as object)),
+                              type: 'drawer',
+                          },
+                          {
+                              key: 'drawer',
+                              data: store.drawerData,
+                              onConfirm: this.handleDrawerConfirm,
+                              onClose: this.handleDrawerClose,
+                              show: store.drawerOpen,
+                              onAction: this.handleAction,
+                          }
+                      )
+                    : null}
 
-                {body ? render('dialog', { // 支持嵌套
-                    ...(store.action as Action) && (store.action as Action).dialog as object,
-                    type: 'dialog'
-                }, {
-                    key: 'dialog',
-                    data: store.dialogData,
-                    onConfirm: this.handleDialogConfirm,
-                    onClose: this.handleDialogClose,
-                    show: store.dialogOpen,
-                    onAction: this.handleAction
-                }) : null}
+                {body
+                    ? render(
+                          'dialog',
+                          {
+                              // 支持嵌套
+                              ...((store.action as Action) && ((store.action as Action).dialog as object)),
+                              type: 'dialog',
+                          },
+                          {
+                              key: 'dialog',
+                              data: store.dialogData,
+                              onConfirm: this.handleDialogConfirm,
+                              onClose: this.handleDialogClose,
+                              show: store.dialogOpen,
+                              onAction: this.handleAction,
+                          }
+                      )
+                    : null}
             </Wrapper>
         );
     }
@@ -465,7 +457,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     storeType: ModalStore.name,
     storeExtendsData: false,
     name: 'dialog',
-    isolateScope: true
+    isolateScope: true,
 })
 export class DialogRenderer extends Dialog {
     static contextType = ScopedContext;
@@ -490,14 +482,16 @@ export class DialogRenderer extends Dialog {
         }
 
         const components = scoped.getComponents();
-        const targets:Array<any> = [];
-        const {
-            onConfirm,
-            store
-        } = this.props;
+        const targets: Array<any> = [];
+        const {onConfirm, store} = this.props;
 
         if (action.target) {
-            targets.push(...action.target.split(',').map(name => scoped.getComponentByName(name)).filter(item => item && item.doAction));
+            targets.push(
+                ...action.target
+                    .split(',')
+                    .map(name => scoped.getComponentByName(name))
+                    .filter(item => item && item.doAction)
+            );
         }
 
         if (!targets.length) {
@@ -511,21 +505,27 @@ export class DialogRenderer extends Dialog {
         if (targets.length) {
             store.markBusying(true);
             store.updateMessage();
-            
-            Promise
-                .all(targets.map(target => target.doAction({
-                    ...action,
-                    from: this.$$id
-                }, ctx, true)))
+
+            Promise.all(
+                targets.map(target =>
+                    target.doAction(
+                        {
+                            ...action,
+                            from: this.$$id,
+                        },
+                        ctx,
+                        true
+                    )
+                )
+            )
                 .then(values => {
                     if (
-                        (action.type === 'submit' 
-                        || action.actionType === 'submit'
-                        || action.actionType === 'confirm')
-                        && action.close !== false
+                        (action.type === 'submit' ||
+                            action.actionType === 'submit' ||
+                            action.actionType === 'confirm') &&
+                        action.close !== false
                     ) {
-                        onConfirm 
-                        && onConfirm(values, rawAction || action, ctx, targets)
+                        onConfirm && onConfirm(values, rawAction || action, ctx, targets);
                     } else if (action.close) {
                         this.handleSelfClose();
                     }
@@ -539,17 +539,17 @@ export class DialogRenderer extends Dialog {
             return true;
         }
 
-
         return false;
     }
 
-    handleAction(e: React.UIEvent<any>, action: Action, data: object, throwErrors: boolean = false, delegate?:boolean) {
-        const {
-            onAction,
-            store,
-            onConfirm,
-
-        } = this.props;
+    handleAction(
+        e: React.UIEvent<any>,
+        action: Action,
+        data: object,
+        throwErrors: boolean = false,
+        delegate?: boolean
+    ) {
+        const {onAction, store, onConfirm} = this.props;
 
         if (action.from === this.$$id) {
             return onAction ? onAction(e, action, data, throwErrors, true) : false;
@@ -563,16 +563,24 @@ export class DialogRenderer extends Dialog {
         } else if (action.actionType === 'close' || action.actionType === 'cancel') {
             this.handleSelfClose();
         } else if (action.actionType === 'confirm') {
-            this.tryChildrenToHandle({
-                ...action,
-                actionType: 'submit'
-            }, data, action) || this.handleSelfClose();
+            this.tryChildrenToHandle(
+                {
+                    ...action,
+                    actionType: 'submit',
+                },
+                data,
+                action
+            ) || this.handleSelfClose();
         } else if (action.actionType === 'next' || action.actionType === 'prev') {
             if (action.type === 'submit') {
-                this.tryChildrenToHandle({
-                    ...action,
-                    actionType: 'submit'
-                }, data, action) || this.handleSelfClose();
+                this.tryChildrenToHandle(
+                    {
+                        ...action,
+                        actionType: 'submit',
+                    },
+                    data,
+                    action
+                ) || this.handleSelfClose();
             } else {
                 onConfirm([data], action, data, []);
             }
@@ -588,20 +596,22 @@ export class DialogRenderer extends Dialog {
         }
     }
 
-    handleChildFinished(value:any, action:Action) {
-        if (action && action.from === this.$$id || action.close === false) {
+    handleChildFinished(value: any, action: Action) {
+        if ((action && action.from === this.$$id) || action.close === false) {
             return;
         }
 
         const scoped = this.context as IScopedContext;
-        const components = scoped.getComponents().filter((item:any) => !~['drawer', 'dialog'].indexOf(item.props.type));
+        const components = scoped
+            .getComponents()
+            .filter((item: any) => !~['drawer', 'dialog'].indexOf(item.props.type));
         const onConfirm = this.props.onConfirm;
         const onClose = this.props.onClose;
 
         if (
-            components.length === 1 
-            && (components[0].props.type === 'form' ||  components[0].props.type === 'wizard')
-            && (action.close === true || components[0].props.closeDialogOnSubmit !== false)
+            components.length === 1 &&
+            (components[0].props.type === 'form' || components[0].props.type === 'wizard') &&
+            (action.close === true || components[0].props.closeDialogOnSubmit !== false)
         ) {
             onConfirm && onConfirm([value], action, {}, components);
         } else if (action.close === true) {
@@ -621,11 +631,11 @@ export class DialogRenderer extends Dialog {
             scoped.reload(action.reload, store.data);
         } else {
             // 没有设置，则自动让页面中 crud 刷新。
-            scoped.getComponents()
+            scoped
+                .getComponents()
                 .filter((item: any) => item.props.type === 'crud')
                 .forEach((item: any) => item.reload && item.reload());
         }
-
     }
 
     handleDrawerConfirm(values: object[], action: Action, ...rest: Array<any>) {
@@ -642,10 +652,11 @@ export class DialogRenderer extends Dialog {
                 scoped.reload(action.reload, store.data);
             } else {
                 // 没有设置，则自动让页面中 crud 刷新。
-                scoped.getComponents()
+                scoped
+                    .getComponents()
                     .filter((item: any) => item.props.type === 'crud')
                     .forEach((item: any) => item.reload && item.reload());
             }
         }, 300);
     }
-};
+}

@@ -1,12 +1,7 @@
 import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
+import {Renderer, RendererProps} from '../factory';
 import * as cx from 'classnames';
-import {
-    Collapse as BasicCollapse
-} from 'react-bootstrap';
+import {Collapse as BasicCollapse} from 'react-bootstrap';
 
 export interface CollapseProps extends RendererProps {
     title?: string; // 标题
@@ -17,7 +12,7 @@ export interface CollapseProps extends RendererProps {
     bodyClassName?: string;
     headingClassName?: string;
     // 内容口子
-    children?: JSX.Element | ((props?:any) => JSX.Element);
+    children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
 export interface CollapseState {
@@ -26,24 +21,24 @@ export interface CollapseState {
 
 export default class Collapse extends React.Component<CollapseProps, CollapseState> {
     static propsList: Array<string> = [
-        "wrapperComponent",
-        "headingComponent",
-        "bodyClassName",
-        "collapsed",
-        "headingClassName"
+        'wrapperComponent',
+        'headingComponent',
+        'bodyClassName',
+        'collapsed',
+        'headingClassName',
     ];
 
-    static defaultProps:Partial<CollapseProps>= {
+    static defaultProps: Partial<CollapseProps> = {
         wrapperComponent: 'div',
         headingComponent: 'h4',
         className: '',
         headingClassName: '',
         bodyClassName: '',
-        collapsable: true
+        collapsable: true,
     };
 
     state = {
-        collapsed: false
+        collapsed: false,
     };
 
     constructor(props: CollapseProps) {
@@ -53,19 +48,19 @@ export default class Collapse extends React.Component<CollapseProps, CollapseSta
         this.state.collapsed = !!props.collapsed;
     }
 
-    componentWillReceiveProps(nextProps:CollapseProps) {
+    componentWillReceiveProps(nextProps: CollapseProps) {
         const props = this.props;
 
         if (props.collapsed !== nextProps.collapsed) {
             this.setState({
-                collapsed: !!nextProps.collapsed
+                collapsed: !!nextProps.collapsed,
             });
         }
     }
 
     toggleCollapsed() {
         this.setState({
-            collapsed: !this.state.collapsed
+            collapsed: !this.state.collapsed,
         });
     }
 
@@ -83,36 +78,39 @@ export default class Collapse extends React.Component<CollapseProps, CollapseSta
             body,
             bodyClassName,
             render,
-            collapsable
+            collapsable,
         } = this.props;
 
         // todo 换掉 bootstrap 的 collapse
 
         return (
-            <WrapperComponent className={cx(`Collapse`, {
-                'is-collapsed': this.state.collapsed,
-                [`Collapse--${size}`]: size,
-                'Collapse--collapsable': collapsable
-            }, className)}>
+            <WrapperComponent
+                className={cx(
+                    `Collapse`,
+                    {
+                        'is-collapsed': this.state.collapsed,
+                        [`Collapse--${size}`]: size,
+                        'Collapse--collapsable': collapsable,
+                    },
+                    className
+                )}
+            >
                 {title ? (
                     <HeadingComponent className={cx(`Collapse-header`, headingClassName)}>
                         {render('heading', title)}
-                        {collapsable && (
-                            <span
-                                onClick={this.toggleCollapsed}
-                                className={cx('Collapse-arrow')}
-                            ></span>
-                        )}
+                        {collapsable && <span onClick={this.toggleCollapsed} className={cx('Collapse-arrow')} />}
                     </HeadingComponent>
                 ) : null}
 
                 <BasicCollapse in={collapsable ? !this.state.collapsed : true}>
                     <div className={cx(`Collapse-body`, bodyClassName)}>
-                        {children ? (
-                            typeof children === 'function' ? children(this.props) : children
-                        ) : body ? (
-                            render('body', body)
-                        ) : null}
+                        {children
+                            ? typeof children === 'function'
+                                ? children(this.props)
+                                : children
+                            : body
+                            ? render('body', body)
+                            : null}
                     </div>
                 </BasicCollapse>
             </WrapperComponent>
@@ -122,6 +120,6 @@ export default class Collapse extends React.Component<CollapseProps, CollapseSta
 
 @Renderer({
     test: /(^|\/)collapse$/,
-    name: 'collapse'
+    name: 'collapse',
 })
-export class CollapseRenderer extends Collapse {};
+export class CollapseRenderer extends Collapse {}

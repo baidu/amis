@@ -1,33 +1,32 @@
 import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
+import {Renderer, RendererProps} from '../factory';
 
 export interface IconProps extends RendererProps {
     icon: string;
 }
 
 export class Icon extends React.Component<IconProps, object> {
-    static defaultProps:Partial<IconProps> = {
+    static defaultProps: Partial<IconProps> = {
         icon: '',
-        vendor: 'fa'
+        vendor: 'fa',
     };
 
     render() {
-        const {
-            icon,
-            vendor,
-            classnames: cx,
-            className
-        } = this.props;
+        const {icon, vendor, classnames: cx, className} = this.props;
 
-        return (<i className={cx(vendor === 'iconfont' ? `iconfont icon-${icon}` : `${vendor} ${vendor}-${icon}`, className)} />);
+        return (
+            <i
+                className={cx(
+                    vendor === 'iconfont' ? `iconfont icon-${icon}` : `${vendor} ${vendor}-${icon}`,
+                    className
+                )}
+            />
+        );
     }
 }
 
 @Renderer({
     test: /(^|\/)icon$/,
-    name: 'icon'
+    name: 'icon',
 })
-export class TplRenderer extends Icon {};
+export class TplRenderer extends Icon {}

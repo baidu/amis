@@ -1,30 +1,22 @@
 import * as React from 'react';
-import {
-    findDOMNode
-} from 'react-dom';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
-import {
-    SchemaNode,
-    Action
-} from '../types';
+import {findDOMNode} from 'react-dom';
+import {Renderer, RendererProps} from '../factory';
+import {SchemaNode, Action} from '../types';
 import * as cx from 'classnames';
 import Button from '../components/Button';
-import { ListStore, IListStore, IItem} from '../store/list';
-import { observer } from 'mobx-react';
-import { anyChanged, getScrollParent, difference, ucFirst } from '../utils/helper';
-import { resolveVariable } from '../utils/tpl-builtin';
+import {ListStore, IListStore, IItem} from '../store/list';
+import {observer} from 'mobx-react';
+import {anyChanged, getScrollParent, difference, ucFirst} from '../utils/helper';
+import {resolveVariable} from '../utils/tpl-builtin';
 import Sortable = require('sortablejs');
-import { filter } from '../utils/tpl';
+import {filter} from '../utils/tpl';
 import debounce = require('lodash/debounce');
-import { resizeSensor } from '../utils/resize-sensor';
+import {resizeSensor} from '../utils/resize-sensor';
 
 export interface Column {
     type: string;
-    [propName:string]: any;
-};
+    [propName: string]: any;
+}
 
 export interface GridProps extends RendererProps {
     title?: string; // 标题
@@ -37,16 +29,21 @@ export interface GridProps extends RendererProps {
     footerClassName?: string;
     itemClassName?: string;
     card?: any;
-    source?:string;
+    source?: string;
     selectable?: boolean;
     selected?: Array<any>;
     multiple?: boolean;
     valueField?: string;
-    draggable?:boolean;
-    onSelect: (selectedItems:Array<object>, unSelectedItems:Array<object>) => void;
-    onSave?: (items:Array<object> | object, diff: Array<object> | object, rowIndexes: Array<number> | number, unModifiedItems?:Array<object>) => void;
-    onSaveOrder?: (moved: Array<object>, items:Array<object>) => void;
-    onQuery: (values:object) => void;
+    draggable?: boolean;
+    onSelect: (selectedItems: Array<object>, unSelectedItems: Array<object>) => void;
+    onSave?: (
+        items: Array<object> | object,
+        diff: Array<object> | object,
+        rowIndexes: Array<number> | number,
+        unModifiedItems?: Array<object>
+    ) => void;
+    onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
+    onQuery: (values: object) => void;
     hideCheckToggler?: boolean;
     itemCheckableOn?: string;
     itemDraggableOn?: string;
@@ -71,10 +68,10 @@ export default class Cards extends React.Component<GridProps, object> {
         'itemCheckableOn',
         'itemDraggableOn',
         'masonryLayout',
-        "items",
-        "valueField"
+        'items',
+        'valueField',
     ];
-    static defaultProps:Partial<GridProps>= {
+    static defaultProps: Partial<GridProps> = {
         className: '',
         placeholder: '没有数据',
         source: '$items',
@@ -86,7 +83,7 @@ export default class Cards extends React.Component<GridProps, object> {
         hideCheckToggler: false,
         masonryLayout: false,
         affixHeader: true,
-        itemsClassName: ''
+        itemsClassName: '',
     };
 
     dragTip?: HTMLElement;
@@ -95,7 +92,7 @@ export default class Cards extends React.Component<GridProps, object> {
     body?: any;
     // fixAlignmentLazy: Function;
     unSensor: Function;
-    constructor(props:GridProps) {
+    constructor(props: GridProps) {
         super(props);
 
         this.handleAction = this.handleAction.bind(this);
@@ -115,10 +112,10 @@ export default class Cards extends React.Component<GridProps, object> {
         // })
     }
 
-    static syncItems(store:IListStore, props:GridProps, prevProps?:GridProps) {
+    static syncItems(store: IListStore, props: GridProps, prevProps?: GridProps) {
         const source = props.source;
         const value = props.value || props.items;
-        let items:Array<object> = [];
+        let items: Array<object> = [];
         let updateItems = true;
 
         if (Array.isArray(value)) {
@@ -148,7 +145,7 @@ export default class Cards extends React.Component<GridProps, object> {
             multiple,
             hideCheckToggler,
             itemCheckableOn,
-            itemDraggableOn
+            itemDraggableOn,
         } = this.props;
 
         store.update({
@@ -159,7 +156,7 @@ export default class Cards extends React.Component<GridProps, object> {
             multiple,
             hideCheckToggler,
             itemCheckableOn,
-            itemDraggableOn
+            itemDraggableOn,
         });
 
         Cards.syncItems(store, this.props);
@@ -167,7 +164,7 @@ export default class Cards extends React.Component<GridProps, object> {
     }
 
     componentDidMount() {
-        let parent:HTMLElement | Window | null = getScrollParent(findDOMNode(this) as HTMLElement);
+        let parent: HTMLElement | Window | null = getScrollParent(findDOMNode(this) as HTMLElement);
         if (!parent || parent === document.body) {
             parent = window;
         }
@@ -178,20 +175,26 @@ export default class Cards extends React.Component<GridProps, object> {
         window.addEventListener('resize', this.affixDetect);
     }
 
-    componentWillReceiveProps(nextProps:GridProps) {
+    componentWillReceiveProps(nextProps: GridProps) {
         const props = this.props;
         const store = nextProps.store;
 
-        if (anyChanged([
-            'selectable',
-            'draggable',
-            'orderBy',
-            'orderDir',
-            'multiple',
-            'hideCheckToggler',
-            'itemCheckableOn',
-            'itemDraggableOn'
-        ], props, nextProps)) {
+        if (
+            anyChanged(
+                [
+                    'selectable',
+                    'draggable',
+                    'orderBy',
+                    'orderDir',
+                    'multiple',
+                    'hideCheckToggler',
+                    'itemCheckableOn',
+                    'itemDraggableOn',
+                ],
+                props,
+                nextProps
+            )
+        ) {
             store.update({
                 selectable: nextProps.selectable,
                 draggable: nextProps.draggable,
@@ -200,15 +203,14 @@ export default class Cards extends React.Component<GridProps, object> {
                 multiple: nextProps.multiple,
                 hideCheckToggler: nextProps.hideCheckToggler,
                 itemCheckableOn: nextProps.itemCheckableOn,
-                itemDraggableOn: nextProps.itemDraggableOn
-            })
+                itemDraggableOn: nextProps.itemDraggableOn,
+            });
         }
 
-        if (anyChanged([
-            'source',
-            'value',
-            'items'
-        ], props, nextProps) || !nextProps.value && !nextProps.items && nextProps.data !== props.data) {
+        if (
+            anyChanged(['source', 'value', 'items'], props, nextProps) ||
+            (!nextProps.value && !nextProps.items && nextProps.data !== props.data)
+        ) {
             Cards.syncItems(store, nextProps, props);
             this.syncSelected();
         } else if (props.selected !== nextProps.selected) {
@@ -239,11 +241,11 @@ export default class Cards extends React.Component<GridProps, object> {
     //     cards.forEach((item: HTMLElement) => item.style.cssText += `min-height: ${maxHeight}px;`);
     // }
 
-    bodyRef(ref:HTMLDivElement) {
+    bodyRef(ref: HTMLDivElement) {
         this.body = ref;
     }
 
-    itemsRef(ref:HTMLDivElement) {
+    itemsRef(ref: HTMLDivElement) {
         if (ref) {
             // this.unSensor = resizeSensor(ref.parentNode as HTMLElement, this.fixAlignmentLazy);
         } else {
@@ -261,7 +263,7 @@ export default class Cards extends React.Component<GridProps, object> {
         const dom = findDOMNode(this) as HTMLElement;
         const clip = (this.body as HTMLElement).getBoundingClientRect();
         const offsetY = this.props.env.affixOffsetTop || 0;
-        const affixed = clip.top < offsetY && (clip.top + clip.height - 40) > offsetY;
+        const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
         const afixedDom = dom.querySelector(`.${ns}Cards-fixedTop`) as HTMLElement;
 
         this.body.offsetWidth && (afixedDom.style.cssText = `top: ${offsetY}px;width: ${this.body.offsetWidth}px;`);
@@ -269,10 +271,8 @@ export default class Cards extends React.Component<GridProps, object> {
         // store.markHeaderAffix(clip.top < offsetY && (clip.top + clip.height - 40) > offsetY);
     }
 
-    handleAction(e:React.UIEvent<any>, action: Action, ctx: object) {
-        const {
-            onAction
-        } = this.props;
+    handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
+        const {onAction} = this.props;
 
         // 需要支持特殊事件吗？
         onAction(e, action, ctx);
@@ -284,24 +284,19 @@ export default class Cards extends React.Component<GridProps, object> {
     }
 
     handleCheckAll() {
-        const {
-            store,
-        } = this.props;
+        const {store} = this.props;
 
         store.toggleAll();
         this.syncSelected();
     }
 
     syncSelected() {
-        const {
-            store,
-            onSelect
-        } = this.props;
-        
+        const {store, onSelect} = this.props;
+
         onSelect && onSelect(store.selectedItems.map(item => item.data), store.unSelectedItems.map(item => item.data));
     }
 
-    handleQuickChange(item: IItem, values:object, saveImmediately?: boolean | any, saveSilent?: boolean) {
+    handleQuickChange(item: IItem, values: object, saveImmediately?: boolean | any, saveSilent?: boolean) {
         item.change(values, saveSilent);
 
         if (!saveImmediately || saveSilent) {
@@ -309,16 +304,18 @@ export default class Cards extends React.Component<GridProps, object> {
         }
 
         if (saveImmediately && saveImmediately.api) {
-            this.props.onAction(null, {
-                actionType: 'ajax',
-                api: saveImmediately.api
-            }, values);
+            this.props.onAction(
+                null,
+                {
+                    actionType: 'ajax',
+                    api: saveImmediately.api,
+                },
+                values
+            );
             return;
         }
 
-        const {
-            onSave
-        } = this.props;
+        const {onSave} = this.props;
 
         if (!onSave) {
             return;
@@ -328,10 +325,7 @@ export default class Cards extends React.Component<GridProps, object> {
     }
 
     handleSave() {
-        const {
-            store,
-            onSave
-        } = this.props;
+        const {store, onSave} = this.props;
 
         if (!onSave || !store.modifiedItems.length) {
             return;
@@ -345,10 +339,7 @@ export default class Cards extends React.Component<GridProps, object> {
     }
 
     handleSaveOrder() {
-        const {
-            store,
-            onSaveOrder
-        } = this.props;
+        const {store, onSaveOrder} = this.props;
 
         if (!onSaveOrder || !store.movedItems.length) {
             return;
@@ -358,40 +349,33 @@ export default class Cards extends React.Component<GridProps, object> {
     }
 
     reset() {
-        const {
-            store
-        } = this.props;
+        const {store} = this.props;
 
         store.reset();
     }
 
-    bulkUpdate(value:object, items:Array<object>) {
-        const {
-            store
-        } = this.props;
+    bulkUpdate(value: object, items: Array<object>) {
+        const {store} = this.props;
 
         const items2 = store.items.filter(item => ~items.indexOf(item.pristine));
         items2.forEach(item => item.change(value));
     }
 
     getSelected() {
-        const {
-            store
-        } = this.props;
+        const {store} = this.props;
 
         return store.selectedItems.map(item => item.data);
     }
 
-    dragTipRef(ref:any) {
+    dragTipRef(ref: any) {
         if (!this.dragTip && ref) {
             this.initDragging();
         } else if (this.dragTip && !ref) {
-            this.destroyDragging()
+            this.destroyDragging();
         }
 
         this.dragTip = ref;
     }
-
 
     initDragging() {
         const store = this.props.store;
@@ -401,21 +385,21 @@ export default class Cards extends React.Component<GridProps, object> {
             group: 'table',
             handle: `.${ns}Card-dragBtn`,
             ghostClass: `is-dragging`,
-            onEnd: (e:any) => {
+            onEnd: (e: any) => {
                 // 没有移动
                 if (e.newIndex === e.oldIndex) {
                     return;
                 }
 
                 const parent = e.to as HTMLElement;
-                if (e.oldIndex < parent.childNodes.length -1) {
+                if (e.oldIndex < parent.childNodes.length - 1) {
                     parent.insertBefore(e.item, parent.childNodes[e.oldIndex]);
                 } else {
                     parent.appendChild(e.item);
                 }
 
                 store.exchange(e.oldIndex, e.newIndex);
-            }
+            },
         });
     }
 
@@ -423,19 +407,8 @@ export default class Cards extends React.Component<GridProps, object> {
         this.sortable && this.sortable.destroy();
     }
 
-
-
-    renderActions(region:string) {
-        let {
-            actions,
-            render,
-            store,
-            multiple,
-            selectable,
-            classnames: cx,
-            classPrefix: ns,
-            env
-        } = this.props;
+    renderActions(region: string) {
+        let {actions, render, store, multiple, selectable, classnames: cx, classPrefix: ns, env} = this.props;
 
         actions = Array.isArray(actions) ? actions.concat() : [];
 
@@ -443,15 +416,17 @@ export default class Cards extends React.Component<GridProps, object> {
             actions.unshift({
                 type: 'button',
                 children: (
-                    <Button 
+                    <Button
                         key="checkall"
                         classPrefix={ns}
-                        tooltip="切换全选" 
-                        onClick={this.handleCheckAll} 
-                        size="sm" 
+                        tooltip="切换全选"
+                        onClick={this.handleCheckAll}
+                        size="sm"
                         level={store.allChecked ? 'info' : 'default'}
-                    >全选</Button>
-                )
+                    >
+                        全选
+                    </Button>
+                ),
             });
         }
 
@@ -467,7 +442,7 @@ export default class Cards extends React.Component<GridProps, object> {
                         tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
                         size="sm"
                         active={store.dragging}
-                        onClick={(e:React.MouseEvent<any>) => {
+                        onClick={(e: React.MouseEvent<any>) => {
                             e.preventDefault();
                             store.toggleDragging();
                             store.dragging && store.clear();
@@ -475,61 +450,81 @@ export default class Cards extends React.Component<GridProps, object> {
                     >
                         <i className="fa fa-exchange" />
                     </Button>
-                )
+                ),
             });
         }
 
         return Array.isArray(actions) && actions.length ? (
-            <div className={cx("Cards-actions")}>
-                {actions.map((action, key) => render(`action/${key}`, {
-                    type: 'button',
-                    ...action
-                }, {
-                    onAction: this.handleAction,
-                    key,
-                    btnDisabled: store.dragging
-                }))}
+            <div className={cx('Cards-actions')}>
+                {actions.map((action, key) =>
+                    render(
+                        `action/${key}`,
+                        {
+                            type: 'button',
+                            ...action,
+                        },
+                        {
+                            onAction: this.handleAction,
+                            key,
+                            btnDisabled: store.dragging,
+                        }
+                    )
+                )}
             </div>
         ) : null;
     }
 
     renderHeading() {
-        let {
-            title,
-            store,
-            hideQuickSaveBtn,
-            classnames: cx,
-            data
-        } = this.props;
+        let {title, store, hideQuickSaveBtn, classnames: cx, data} = this.props;
 
-        if (title || store.modified && !hideQuickSaveBtn || store.moved) {
+        if (title || (store.modified && !hideQuickSaveBtn) || store.moved) {
             return (
-                <div className={cx("Cards-heading")}>
+                <div className={cx('Cards-heading')}>
                     {store.modified && !hideQuickSaveBtn ? (
                         <span>
                             {`当前有 ${store.modified} 条记录修改了内容, 但并没有提交。请选择:`}
-                            <button type="button" className={cx("Button Button--xs Button--success m-l-sm")} onClick={this.handleSave}>
+                            <button
+                                type="button"
+                                className={cx('Button Button--xs Button--success m-l-sm')}
+                                onClick={this.handleSave}
+                            >
                                 <i className="fa fa-check m-r-xs" />
                                 提交
                             </button>
-                            <button type="button" className={cx("Button Button--xs Button--danger m-l-sm")}  onClick={this.reset}>
+                            <button
+                                type="button"
+                                className={cx('Button Button--xs Button--danger m-l-sm')}
+                                onClick={this.reset}
+                            >
                                 <i className="fa fa-times m-r-xs" />
                                 放弃
                             </button>
                         </span>
-                    ) : store.moved ?  (
+                    ) : store.moved ? (
                         <span>
                             {`当前有 ${store.moved} 条记录修改了顺序, 但并没有提交。请选择:`}
-                            <button type="button" className={cx("Button Button--xs Button--success m-l-sm")} onClick={this.handleSaveOrder}>
+                            <button
+                                type="button"
+                                className={cx('Button Button--xs Button--success m-l-sm')}
+                                onClick={this.handleSaveOrder}
+                            >
                                 <i className="fa fa-check m-r-xs" />
                                 提交
                             </button>
-                            <button type="button" className={cx("Button Button--xs Button--danger m-l-sm")}  onClick={this.reset}>
+                            <button
+                                type="button"
+                                className={cx('Button Button--xs Button--danger m-l-sm')}
+                                onClick={this.reset}
+                            >
                                 <i className="fa fa-times m-r-xs" />
                                 放弃
                             </button>
                         </span>
-                    ) : title ? filter(title, data) : ''}
+                    ) : title ? (
+                        filter(title, data)
+                    ) : (
+                        ''
+                    )}
                 </div>
             );
         }
@@ -546,33 +541,40 @@ export default class Cards extends React.Component<GridProps, object> {
             showHeader,
             render,
             store,
-            classnames: cx
-        }  = this.props;
+            classnames: cx,
+        } = this.props;
 
         if (showHeader === false) {
             return null;
         }
 
         const actions = this.renderActions('header');
-        const child = headerToolbarRender ? headerToolbarRender({
-            ...this.props,
-            selectedItems: store.selectedItems.map(item => item.data),
-            items: store.items.map(item => item.data),
-            unSelectedItems: store.unSelectedItems.map(item => item.data),
-        }) : null;
-        const toolbarNode = actions || child || store.dragging ? (
-            <div className={cx('Cards-toolbar')} key="header-toolbar">
-                {actions}
-                {child}
-                {store.dragging ? <div className={cx("Cards-dragTip")} ref={this.dragTipRef}>请拖动右边的按钮进行排序</div> : null}
-            </div>
-        ) : null;
+        const child = headerToolbarRender
+            ? headerToolbarRender({
+                  ...this.props,
+                  selectedItems: store.selectedItems.map(item => item.data),
+                  items: store.items.map(item => item.data),
+                  unSelectedItems: store.unSelectedItems.map(item => item.data),
+              })
+            : null;
+        const toolbarNode =
+            actions || child || store.dragging ? (
+                <div className={cx('Cards-toolbar')} key="header-toolbar">
+                    {actions}
+                    {child}
+                    {store.dragging ? (
+                        <div className={cx('Cards-dragTip')} ref={this.dragTipRef}>
+                            请拖动右边的按钮进行排序
+                        </div>
+                    ) : null}
+                </div>
+            ) : null;
         const headerNode = header ? (
             <div className={cx('Cards-header', headerClassName)} key="header">
                 {render('header', header)}
             </div>
         ) : null;
-        return headerNode && toolbarNode ? [headerNode, toolbarNode] : (headerNode || toolbarNode || null);
+        return headerNode && toolbarNode ? [headerNode, toolbarNode] : headerNode || toolbarNode || null;
     }
 
     renderFooter() {
@@ -584,33 +586,36 @@ export default class Cards extends React.Component<GridProps, object> {
             render,
             showFooter,
             store,
-            classnames: cx
-        }  = this.props;
+            classnames: cx,
+        } = this.props;
 
         if (showFooter === false) {
             return null;
         }
 
         const actions = this.renderActions('footer');
-        const child = footerToolbarRender ? footerToolbarRender({
-            ...this.props,
-            selectedItems: store.selectedItems.map(item => item.data),
-            items: store.items.map(item => item.data),
-            unSelectedItems: store.unSelectedItems.map(item => item.data),
-        }) : null;
+        const child = footerToolbarRender
+            ? footerToolbarRender({
+                  ...this.props,
+                  selectedItems: store.selectedItems.map(item => item.data),
+                  items: store.items.map(item => item.data),
+                  unSelectedItems: store.unSelectedItems.map(item => item.data),
+              })
+            : null;
 
-        const toolbarNode = actions || child ? (
-            <div className={cx('Cards-toolbar')} key="footer-toolbar">
-                {actions}
-                {child}
-            </div>
-        ) : null;
+        const toolbarNode =
+            actions || child ? (
+                <div className={cx('Cards-toolbar')} key="footer-toolbar">
+                    {actions}
+                    {child}
+                </div>
+            ) : null;
         const footerNode = footer ? (
             <div className={cx('Cards-footer', footerClassName)} key="footer">
                 {render('footer', footer)}
             </div>
         ) : null;
-        return footerNode && toolbarNode ? [toolbarNode, footerNode] : (footerNode || toolbarNode || null);
+        return footerNode && toolbarNode ? [toolbarNode, footerNode] : footerNode || toolbarNode || null;
     }
 
     render() {
@@ -629,36 +634,41 @@ export default class Cards extends React.Component<GridProps, object> {
             checkOnItemClick,
             masonryLayout,
             itemsClassName,
-            classnames: cx
+            classnames: cx,
         } = this.props;
 
-        let itemFinalClassName:string = columnsCount ? `Grid-col--sm${Math.round(12/columnsCount)}` : itemClassName || '';
+        let itemFinalClassName: string = columnsCount
+            ? `Grid-col--sm${Math.round(12 / columnsCount)}`
+            : itemClassName || '';
         const header = this.renderHeader();
         const heading = this.renderHeading();
         const footer = this.renderFooter();
-        let masonryClassName = ''; 
+        let masonryClassName = '';
 
         if (masonryLayout) {
-            masonryClassName = 'Cards--masonry ' + itemFinalClassName.split(/\s/).map(item => {
-                if (/^Grid-col--(xs|sm|md|lg)(\d+)/.test(item)) {
-                    return `Cards--masonry${ucFirst(RegExp.$1)}${RegExp.$2}`;
-                }
+            masonryClassName =
+                'Cards--masonry ' +
+                itemFinalClassName
+                    .split(/\s/)
+                    .map(item => {
+                        if (/^Grid-col--(xs|sm|md|lg)(\d+)/.test(item)) {
+                            return `Cards--masonry${ucFirst(RegExp.$1)}${RegExp.$2}`;
+                        }
 
-                return item;
-            }).join(' ');
+                        return item;
+                    })
+                    .join(' ');
         }
 
         return (
             <div
                 ref={this.bodyRef}
                 className={cx('Cards', className, {
-                    'Cards--unsaved': !!store.modified || !!store.moved
+                    'Cards--unsaved': !!store.modified || !!store.moved,
                 })}
             >
                 {affixHeader ? (
-                    <div
-                        className={cx("Cards-fixedTop")}
-                    >   
+                    <div className={cx('Cards-fixedTop')}>
                         {heading}
                         {header}
                     </div>
@@ -669,13 +679,15 @@ export default class Cards extends React.Component<GridProps, object> {
                     <div ref={this.itemsRef} className={cx('Cards-body Grid', itemsClassName, masonryClassName)}>
                         {store.items.map((item, index) => {
                             return (
-                                (
-                                    <div key={item.index} className={cx(itemFinalClassName)}>
-                                        {render(`${index}`, {
+                                <div key={item.index} className={cx(itemFinalClassName)}>
+                                    {render(
+                                        `${index}`,
+                                        {
                                             type: 'card',
-                                            ...card
-                                        }, {
-                                            className: cx(card && card.className || '', {
+                                            ...card,
+                                        },
+                                        {
+                                            className: cx((card && card.className) || '', {
                                                 'is-checked': item.checked,
                                                 'is-modified': item.modified,
                                                 'is-moved': item.moved,
@@ -693,17 +705,15 @@ export default class Cards extends React.Component<GridProps, object> {
                                             checkOnItemClick,
                                             onAction,
                                             onCheck: this.handleCheck,
-                                            onQuickChange: store.dragging ? null : this.handleQuickChange
-                                        })}
-                                    </div>
-                                )
+                                            onQuickChange: store.dragging ? null : this.handleQuickChange,
+                                        }
+                                    )}
+                                </div>
                             );
                         })}
                     </div>
                 ) : (
-                    <div className={cx("Cards-placeholder")}>
-                        {placeholder}
-                    </div>
+                    <div className={cx('Cards-placeholder')}>{placeholder}</div>
                 )}
 
                 {footer}
@@ -716,7 +726,7 @@ export default class Cards extends React.Component<GridProps, object> {
     test: /(^|\/)(?:crud\/body\/grid|cards)$/,
     name: 'cards',
     storeType: ListStore.name,
-    weight: -100 // 默认的 grid 不是这样，这个只识别 crud 下面的 grid
+    weight: -100, // 默认的 grid 不是这样，这个只识别 crud 下面的 grid
 })
 export class CardsRenderer extends Cards {
     dragging: boolean;
@@ -730,5 +740,4 @@ export class CardsRenderer extends Cards {
     avatarClassName?: string;
     body?: SchemaNode;
     actions?: Array<Action>;
-};
-
+}

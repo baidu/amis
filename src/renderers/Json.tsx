@@ -1,16 +1,8 @@
 import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
+import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import {
-    Api,
-    SchemaNode
-} from '../types';
-import {
-    filter
-} from '../utils/tpl';
+import {Api, SchemaNode} from '../types';
+import {filter} from '../utils/tpl';
 import * as cx from 'classnames';
 
 import JSONTree from 'react-json-tree';
@@ -53,36 +45,34 @@ const twilight = {
         WebkitUserSelect: 'none',
         backgroundColor: 'rgba(255, 255, 255, 0.4)',
         whiteSpace: 'nowrap',
-        display: 'inline-block'
-    }
-}
+        display: 'inline-block',
+    },
+};
 
 export class JSONField extends React.Component<JSONProps, object> {
-    static defaultProps:Partial<JSONProps> = {
+    static defaultProps: Partial<JSONProps> = {
         placeholder: '-',
-        levelExpand: 1
+        levelExpand: 1,
     };
 
-    valueRenderer(raw:any) {
+    valueRenderer(raw: any) {
         if (typeof raw === 'string' && /^\"?https?:\/\//.test(raw)) {
-          return (<a href={raw.replace(/^\"(.*)\"$/, '$1')} target="_blank">{raw}</a>);
+            return (
+                <a href={raw.replace(/^\"(.*)\"$/, '$1')} target="_blank">
+                    {raw}
+                </a>
+            );
         }
         return raw;
     }
 
-    shouldExpandNode = (keyName:any, data:any, level:any) => {
-        const {
-            levelExpand
-        } = this.props;
+    shouldExpandNode = (keyName: any, data: any, level: any) => {
+        const {levelExpand} = this.props;
         return level < levelExpand;
     };
 
     render() {
-        const {
-            className,
-            value,
-            classnames: cx
-        } = this.props;
+        const {className, value, classnames: cx} = this.props;
 
         let data = value;
 
@@ -91,7 +81,7 @@ export class JSONField extends React.Component<JSONProps, object> {
                 data = JSON.parse(value);
             } catch (e) {
                 data = {
-                    error: e.message
+                    error: e.message,
                 };
             }
         }
@@ -111,6 +101,6 @@ export class JSONField extends React.Component<JSONProps, object> {
 
 @Renderer({
     test: /(^|\/)json$/,
-    name: 'json'
+    name: 'json',
 })
 export class JSONFieldRenderer extends JSONField {}

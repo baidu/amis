@@ -1,17 +1,8 @@
 import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
+import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import {
-    Api,
-    SchemaNode,
-    PlainObject
-} from '../types';
-import {
-    filter
-} from '../utils/tpl';
+import {Api, SchemaNode, PlainObject} from '../types';
+import {filter} from '../utils/tpl';
 import * as cx from 'classnames';
 import Switch from '../components/Switch';
 
@@ -24,34 +15,32 @@ export interface SwitchProps extends RendererProps {
 }
 
 export class SwitchField extends React.Component<SwitchProps, object> {
-    static defaultProps:Partial<SwitchProps> = {
+    static defaultProps: Partial<SwitchProps> = {
         placeholder: '-',
         trueValue: true,
         falseValue: false,
         readOnly: true,
-        saveImmediately: false
+        saveImmediately: false,
     };
 
-    constructor(props:SwitchProps) {
+    constructor(props: SwitchProps) {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(checked:boolean) {
-        const {
-            onQuickChange, 
-            name, 
-            trueValue, 
-            falseValue,
-            saveImmediately,
-            readOnly,
-            disabled
-        } = this.props;
+    handleChange(checked: boolean) {
+        const {onQuickChange, name, trueValue, falseValue, saveImmediately, readOnly, disabled} = this.props;
 
-        onQuickChange && !readOnly && !disabled && onQuickChange({
-            [name as string]: checked ? trueValue : falseValue
-        }, saveImmediately);
+        onQuickChange &&
+            !readOnly &&
+            !disabled &&
+            onQuickChange(
+                {
+                    [name as string]: checked ? trueValue : falseValue,
+                },
+                saveImmediately
+            );
     }
 
     render() {
@@ -64,19 +53,19 @@ export class SwitchField extends React.Component<SwitchProps, object> {
             falseValue,
             onQuickChange,
             option,
-            disabled
+            disabled,
         } = this.props;
 
-        let viewValue:React.ReactNode = <span className="text-muted">{placeholder}</span>;
+        let viewValue: React.ReactNode = <span className="text-muted">{placeholder}</span>;
         let showOption = false;
 
         if (value == trueValue || value == falseValue) {
             showOption = !!option;
             viewValue = (
-                <Switch 
+                <Switch
                     inline
                     classPrefix={ns}
-                    checked={value == trueValue} 
+                    checked={value == trueValue}
                     onChange={this.handleChange}
                     disabled={disabled || !onQuickChange}
                 />
@@ -94,6 +83,6 @@ export class SwitchField extends React.Component<SwitchProps, object> {
 
 @Renderer({
     test: /(^|\/)switch$/,
-    name: 'switch'
+    name: 'switch',
 })
-export class SwitchFieldRenderer extends SwitchField {};
+export class SwitchFieldRenderer extends SwitchField {}

@@ -1,14 +1,9 @@
 import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
-import {
-    filter
-} from '../utils/tpl';
+import {Renderer, RendererProps} from '../factory';
+import {filter} from '../utils/tpl';
 import * as cx from 'classnames';
-import { anyChanged } from '../utils/helper';
-import { escapeHtml } from '../utils/tpl-builtin';
+import {anyChanged} from '../utils/helper';
+import {escapeHtml} from '../utils/tpl-builtin';
 
 export interface TplProps extends RendererProps {
     className?: string;
@@ -22,48 +17,32 @@ export interface TplProps extends RendererProps {
 }
 
 export class Tpl extends React.Component<TplProps, object> {
-    static defaultProps:Partial<TplProps> = {
+    static defaultProps: Partial<TplProps> = {
         inline: true,
         placeholder: '',
-        value: ''
+        value: '',
     };
 
-    dom:any;
+    dom: any;
 
-    constructor(props:TplProps) {
+    constructor(props: TplProps) {
         super(props);
         this.htmlRef = this.htmlRef.bind(this);
     }
 
-
-    componentDidUpdate(prevProps:TplProps) {
-        if (anyChanged([
-            'data',
-            'tpl',
-            'html',
-            'text',
-            'raw',
-            'value'
-        ], this.props, prevProps)) {
+    componentDidUpdate(prevProps: TplProps) {
+        if (anyChanged(['data', 'tpl', 'html', 'text', 'raw', 'value'], this.props, prevProps)) {
             this._render();
         }
     }
 
-    htmlRef(dom:any) {
+    htmlRef(dom: any) {
         this.dom = dom;
         this._render();
     }
 
     getContent() {
-        const {
-            tpl,
-            html,
-            text,
-            raw,
-            value,
-            data,
-            placeholder
-        } = this.props;
+        const {tpl, html, text, raw, value, data, placeholder} = this.props;
 
         if (raw) {
             return raw;
@@ -74,7 +53,11 @@ export class Tpl extends React.Component<TplProps, object> {
         } else if (text) {
             return escapeHtml(filter(text, data));
         } else {
-            return (value == null || value === '' ? `<span class="text-muted">${placeholder}</span>` : (typeof value === 'string' ? value: JSON.stringify(value)));
+            return value == null || value === ''
+                ? `<span class="text-muted">${placeholder}</span>`
+                : typeof value === 'string'
+                ? value
+                : JSON.stringify(value);
         }
     }
 
@@ -87,23 +70,16 @@ export class Tpl extends React.Component<TplProps, object> {
     }
 
     render() {
-        const {
-            className,
-            wrapperComponent,
-            inline,
-            classnames: cx
-        } = this.props;
+        const {className, wrapperComponent, inline, classnames: cx} = this.props;
 
         const Component = wrapperComponent || (inline ? 'span' : 'div');
 
-        return (
-            <Component children={this.getContent()} ref={this.htmlRef} className={cx('TplField', className)} />
-        );
+        return <Component children={this.getContent()} ref={this.htmlRef} className={cx('TplField', className)} />;
     }
 }
 
 @Renderer({
     test: /(^|\/)(?:tpl|html)$/,
-    name: 'tpl'
+    name: 'tpl',
 })
-export class TplRenderer extends Tpl {};
+export class TplRenderer extends Tpl {}

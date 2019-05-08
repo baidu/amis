@@ -1,33 +1,25 @@
 import * as React from 'react';
 import * as cx from 'classnames';
-import {
-    Renderer,
-    RendererProps,
-} from '../factory';
-import {
-    FormItem,
-    FormControlProps
-} from './Form/Item';
-import {
-    filter
-} from '../utils/tpl';
+import {Renderer, RendererProps} from '../factory';
+import {FormItem, FormControlProps} from './Form/Item';
+import {filter} from '../utils/tpl';
 import QrCode = require('qrcode.react');
 
 export interface QRCodeProps extends FormControlProps {
     codeSize?: number;
     backgroundColor?: string;
     foregroundColor?: string;
-    level?: string
+    level?: string;
     placeholder: string;
 }
 
-export default class QRCode extends React.Component<QRCodeProps, any>{
+export default class QRCode extends React.Component<QRCodeProps, any> {
     static defaultProps: Partial<QRCodeProps> = {
         codeSize: 128,
         backgroundColor: '#fff',
         foregroundColor: '#000',
         level: 'L',
-        placeholder: '-'
+        placeholder: '-',
     };
 
     render() {
@@ -40,7 +32,7 @@ export default class QRCode extends React.Component<QRCodeProps, any>{
             level,
             value,
             data,
-            classPrefix: ns
+            classPrefix: ns,
         } = this.props;
 
         return (
@@ -52,20 +44,23 @@ export default class QRCode extends React.Component<QRCodeProps, any>{
                         bgColor={backgroundColor}
                         fgColor={foregroundColor}
                         level={level || 'L'}
-                    />) : <span className={`${ns}QrCode--placeholder`}>{placeholder}</span>}
+                    />
+                ) : (
+                    <span className={`${ns}QrCode--placeholder`}>{placeholder}</span>
+                )}
             </div>
-        )
+        );
     }
 }
 
 @Renderer({
     test: /(^|\/)qr\-?code$/,
-    name: 'qrcode'
+    name: 'qrcode',
 })
-export class QRCodeRenderer extends QRCode { }
+export class QRCodeRenderer extends QRCode {}
 
 @FormItem({
     type: 'qr-code',
-    sizeMutable: false
+    sizeMutable: false,
 })
 export class QRCodeControlRenderer extends QRCode {}

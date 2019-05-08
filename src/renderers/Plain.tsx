@@ -1,11 +1,6 @@
 import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
-import {
-    filter
-} from '../utils/tpl';
+import {Renderer, RendererProps} from '../factory';
+import {filter} from '../utils/tpl';
 import * as cx from 'classnames';
 
 export interface PlainProps extends RendererProps {
@@ -19,30 +14,26 @@ export interface PlainProps extends RendererProps {
 }
 
 export class Plain extends React.Component<PlainProps, object> {
-    static defaultProps:Partial<PlainProps> = {
+    static defaultProps: Partial<PlainProps> = {
         wrapperComponent: '',
         inline: true,
-        placeholder: '-'
+        placeholder: '-',
     };
 
     render() {
-        const {
-            className,
-            wrapperComponent,
-            value,
-            text,
-            data,
-            tpl,
-            inline,
-            placeholder,
-            classnames: cx
-        } = this.props;
+        const {className, wrapperComponent, value, text, data, tpl, inline, placeholder, classnames: cx} = this.props;
 
         const Component = wrapperComponent || (inline ? 'span' : 'div');
 
         return (
             <Component className={cx('PlainField', className)}>
-                {tpl || text ? filter((tpl || text as string), data) : (typeof value === 'undefined' || value === '' || value === null ? <span className="text-muted">{placeholder}</span> : String(value))}
+                {tpl || text ? (
+                    filter(tpl || (text as string), data)
+                ) : typeof value === 'undefined' || value === '' || value === null ? (
+                    <span className="text-muted">{placeholder}</span>
+                ) : (
+                    String(value)
+                )}
             </Component>
         );
     }
@@ -50,6 +41,6 @@ export class Plain extends React.Component<PlainProps, object> {
 
 @Renderer({
     test: /(^|\/)(?:plain|text)$/,
-    name: 'plain'
+    name: 'plain',
 })
-export class PlainRenderer extends Plain {};
+export class PlainRenderer extends Plain {}

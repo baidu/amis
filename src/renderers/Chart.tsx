@@ -1,28 +1,19 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
+import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import {
-    Api,
-    ApiObject,
-    Action
-} from '../types';
-import {
-    filter, evalExpression} from '../utils/tpl';
+import {Api, ApiObject, Action} from '../types';
+import {filter, evalExpression} from '../utils/tpl';
 import * as cx from 'classnames';
 import LazyComponent from '../components/LazyComponent';
 import {resizeSensor} from '../utils/resize-sensor';
-import { resolveVariableAndFilter } from '../utils/tpl-builtin';
-import { isApiOutdated } from '../utils/api';
-import { ScopedContext, IScopedContext } from '../Scoped';
-
+import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {isApiOutdated} from '../utils/api';
+import {ScopedContext, IScopedContext} from '../Scoped';
 
 export interface ChartProps extends RendererProps {
-    chartRef?: (echart:any) => void;
-    onDataFilter?: (config:any) => any;
+    chartRef?: (echart: any) => void;
+    onDataFilter?: (config: any) => any;
     api?: Api;
     source?: string;
     config?: object;
@@ -32,24 +23,22 @@ export interface ChartProps extends RendererProps {
     replaceChartOption: boolean;
 }
 export class Chart extends React.Component<ChartProps> {
-
-    static defaultProps:Partial<ChartProps> = {
+    static defaultProps: Partial<ChartProps> = {
         offsetY: 50,
-        replaceChartOption: false
+        replaceChartOption: false,
     };
 
-    static propsList:Array<string> = [
-    ];
+    static propsList: Array<string> = [];
 
-    ref:any;
-    echarts:any;
-    unSensor:Function;
-    pending?:object;
+    ref: any;
+    echarts: any;
+    unSensor: Function;
+    pending?: object;
     timer: number;
     mounted: boolean;
     reloadCancel: Function;
 
-    constructor(props:ChartProps) {
+    constructor(props: ChartProps) {
         super(props);
 
         this.refFn = this.refFn.bind(this);
@@ -58,13 +47,7 @@ export class Chart extends React.Component<ChartProps> {
     }
 
     componentWillMount() {
-        const {
-            config,
-            api,
-            data,
-            initFetch,
-            source
-        }  = this.props;
+        const {config, api, data, initFetch, source} = this.props;
 
         this.mounted = true;
 
@@ -74,18 +57,20 @@ export class Chart extends React.Component<ChartProps> {
         } else if (api && initFetch !== false) {
             this.reload();
         }
-        
+
         config && this.renderChart(config);
     }
 
-    componentDidUpdate(prevProps:ChartProps) {
+    componentDidUpdate(prevProps: ChartProps) {
         const props = this.props;
-        const api:string = props.api && (props.api as ApiObject).url || (props.api as string);
-        
+        const api: string = (props.api && (props.api as ApiObject).url) || (props.api as string);
+
         if (isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)) {
             this.reload();
         } else if (props.source && /^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source)) {
-            const prevRet = prevProps.source ? resolveVariableAndFilter(prevProps.source, prevProps.data, '| raw') : null;
+            const prevRet = prevProps.source
+                ? resolveVariableAndFilter(prevProps.source, prevProps.data, '| raw')
+                : null;
             const ret = resolveVariableAndFilter(props.source, props.data, '| raw');
 
             if (prevRet !== ret) {
@@ -101,28 +86,25 @@ export class Chart extends React.Component<ChartProps> {
         clearTimeout(this.timer);
     }
 
-    handleClick(ctx:object) {
-        const {
-            onAction,
-            clickAction,
-        } = this.props;
+    handleClick(ctx: object) {
+        const {onAction, clickAction} = this.props;
 
         clickAction && onAction && onAction(null, clickAction, ctx);
     }
 
-    refFn(ref:any) {
+    refFn(ref: any) {
         const chartRef = this.props.chartRef;
         if (ref) {
-            (require as any)(['echarts', 'echarts/map/js/china', 'echarts/map/js/world'], (echarts:any) => {
+            (require as any)(['echarts', 'echarts/map/js/china', 'echarts/map/js/world'], (echarts: any) => {
                 (window as any).echarts = echarts;
                 this.echarts = echarts.init(ref);
-                this.echarts.on('click', this.handleClick)
+                this.echarts.on('click', this.handleClick);
                 this.unSensor = resizeSensor(ref, () => {
                     const width = ref.offsetWidth;
                     const height = ref.offsetHeight;
                     this.echarts.resize({
                         width,
-                        height
+                        height,
                     });
                 });
 
@@ -137,13 +119,8 @@ export class Chart extends React.Component<ChartProps> {
         this.ref = ref;
     }
 
-    reload(query?:any) {
-        const {
-            api,
-            env,
-            store,
-            interval
-        } = this.props;
+    reload(query?: any) {
+        const {api, env, store, interval} = this.props;
 
         if (query) {
             return this.receive(query);
@@ -162,12 +139,10 @@ export class Chart extends React.Component<ChartProps> {
             this.echarts && this.echarts.hideLoading();
         }
         this.echarts && this.echarts.showLoading();
-        
 
-        env
-            .fetcher(api, store.data, {
-                cancelExecutor: (executor:Function) => this.reloadCancel = executor
-            })
+        env.fetcher(api, store.data, {
+            cancelExecutor: (executor: Function) => (this.reloadCancel = executor),
+        })
             .then(result => {
                 delete this.reloadCancel;
                 this.renderChart(result.data || {});
@@ -185,7 +160,7 @@ export class Chart extends React.Component<ChartProps> {
             });
     }
 
-    receive(data:object) {
+    receive(data: object) {
         const store = this.props.store;
 
         store.updateData(data);
@@ -201,7 +176,7 @@ export class Chart extends React.Component<ChartProps> {
 
         config = config || this.pending;
         if (typeof config === 'string') {
-            config = (new Function("return " + config))();
+            config = new Function('return ' + config)();
         }
         onDataFilter && (config = onDataFilter(config) || config);
 
@@ -215,41 +190,24 @@ export class Chart extends React.Component<ChartProps> {
     }
 
     render() {
-        const {
-            className,
-            width,
-            height,
-            classPrefix: ns
-        } = this.props;
+        const {className, width, height, classPrefix: ns} = this.props;
         let style = this.props.style || {};
 
         width && (style.width = width);
         height && (style.height = height);
 
         return (
-
             <LazyComponent
                 unMountOnHidden
-                placeholder={(
-                    <div 
-                        className={cx(`${ns}Chart`, className)}
-                        style={style}
-                    >
+                placeholder={
+                    <div className={cx(`${ns}Chart`, className)} style={style}>
                         <div className={`${ns}Chart-placeholder`}>
                             <i key="loading" className="fa fa-spinner fa-spin fa-2x fa-fw" />
                         </div>
                     </div>
-                )}
-                component={() => (
-                    <div
-                        className={cx(`${ns}Chart`, className)}
-                        style={style}
-                        ref={this.refFn}
-                    />
-                )}
+                }
+                component={() => <div className={cx(`${ns}Chart`, className)} style={style} ref={this.refFn} />}
             />
-            
-            
         );
     }
 }
@@ -273,4 +231,4 @@ export class ChartRenderer extends Chart {
         const scoped = this.context as IScopedContext;
         scoped.unRegisterComponent(this);
     }
-};
+}
