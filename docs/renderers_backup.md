@@ -2492,14 +2492,14 @@ formItem 还可以是子表单类型。
 
 PS: 当用作纯展示时，可以通过`value`配置项，设置右侧编辑器的值
 
-```schema:height="350" scope="form-item"
+````schema:height="350" scope="form-item"
 {
   "type": "diff-editor",
   "name": "diff",
   "diffValue": "hello world",
   "label": "Diff-Editor"
 }
-```
+```Wizard支持用 JS 模板引擎来组织输出
 
 ### Static
 
@@ -2528,7 +2528,7 @@ PS: 当用作纯展示时，可以通过`value`配置项，设置右侧编辑器
   "label": "Label",
   "value": "A"
 }
-```
+````
 
 ### Static-XXX
 
