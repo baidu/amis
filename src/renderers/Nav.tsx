@@ -16,6 +16,7 @@ export interface Link {
     to?: string;
     icon?: string;
     active?: boolean;
+    activeOn?: string;
     unfolded?: boolean;
     children?: Links;
     [propName: string]: any;
@@ -181,8 +182,10 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
                     ...link,
                     ...getExprProperties(link, data as object),
                     active:
-                        (!clearActive && link.active) ||
-                        !!(link.hasOwnProperty('to') && env && env.isCurrentUrl(filter(link.to as string, data))),
+                        (!clearActive && link.active)
+                        || link.activeOn
+                            ? evalExpression(link.activeOn as string, data)
+                            : !!(link.hasOwnProperty('to') && env && env.isCurrentUrl(filter(link.to as string, data))),
                     unfolded: link.unfolded || (link.children && link.children.some(link => !!link.active)),
                 };
             },
