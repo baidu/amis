@@ -1,7 +1,13 @@
+/**
+ * @file Tooltip
+ * @description
+ * @author fex
+ */
+
 import * as React from 'react';
 import * as cx from 'classnames';
-import { classPrefix, classnames } from '../themes/default';
-import { ClassNamesFn, themeable } from '../theme';
+import {classPrefix, classnames} from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
 
 interface TooltipProps extends React.HTMLProps<HTMLDivElement> {
     title?: string;
@@ -12,13 +18,12 @@ interface TooltipProps extends React.HTMLProps<HTMLDivElement> {
     style?: any;
     arrowProps?: any;
     placement?: string;
-    [propName:string]: any;
-};
+    [propName: string]: any;
+}
 
 export class Tooltip extends React.Component<TooltipProps> {
-
     static defaultProps = {
-        className: ''
+        className: '',
     };
 
     render() {
@@ -39,21 +44,17 @@ export class Tooltip extends React.Component<TooltipProps> {
         } = this.props;
 
         return (
-            <div 
+            <div
                 {...rest}
                 className={cx(`Tooltip`, placement ? `Tooltip--${placement}` : '', className)}
                 style={style}
                 role="tooltip"
             >
                 <div className={cx(`Tooltip-arrow`)} {...arrowProps} />
-                {title ? (
-                    <div className={cx('Tooltip-title')}>{title}</div>
-                ) : null}
-                <div className={cx('Tooltip-body')}>
-                    {children}
-                </div>
+                {title ? <div className={cx('Tooltip-title')}>{title}</div> : null}
+                <div className={cx('Tooltip-body')}>{children}</div>
             </div>
-        )
+        );
     }
 }
 

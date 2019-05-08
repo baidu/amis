@@ -1,5 +1,10 @@
+/**
+ * @file Alert2
+ * @author fex
+ */
+
 import * as React from 'react';
-import { ClassNamesFn, themeable } from '../theme';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface AlertProps {
     level: 'danger' | 'info' | 'success' | 'warning';
@@ -12,53 +17,43 @@ export interface AlertProps {
 
 export interface AlertState {
     show: boolean;
-};
+}
 
 export class Alert extends React.Component<AlertProps, AlertState> {
-    static defaultProps:Pick<AlertProps, "level" | "className" | "showCloseButton"> = {
+    static defaultProps: Pick<AlertProps, 'level' | 'className' | 'showCloseButton'> = {
         level: 'info',
         className: '',
-        showCloseButton: false
+        showCloseButton: false,
     };
-    static propsList: Array<string> = [
-        "level",
-        "className",
-        "showCloseButton",
-        "onClose"
-    ];
+    static propsList: Array<string> = ['level', 'className', 'showCloseButton', 'onClose'];
 
-    constructor(props:AlertProps) {
+    constructor(props: AlertProps) {
         super(props);
 
         this.handleClick = this.handleClick.bind(this);
         this.state = {
-            show: true
-        }
+            show: true,
+        };
     }
 
     handleClick() {
-        this.setState({
-            show: false
-        }, this.props.onClose);
+        this.setState(
+            {
+                show: false,
+            },
+            this.props.onClose
+        );
     }
 
     render() {
-        const {
-            classnames: cx,
-            className,
-            level,
-            children,
-            showCloseButton
-        } = this.props;
+        const {classnames: cx, className, level, children, showCloseButton} = this.props;
 
         return this.state.show ? (
-            <div className={cx("Alert", level ? `Alert--${level}` : '', className)}>
+            <div className={cx('Alert', level ? `Alert--${level}` : '', className)}>
                 {showCloseButton ? (
-                    <button 
-                        className={cx("Alert-close")} 
-                        onClick={this.handleClick} 
-                        type="button"
-                    ><span>×</span></button>
+                    <button className={cx('Alert-close')} onClick={this.handleClick} type="button">
+                        <span>×</span>
+                    </button>
                 ) : null}
                 {children}
             </div>

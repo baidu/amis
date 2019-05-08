@@ -1,30 +1,28 @@
 /**
- * @file tooltip
+ * @file TooltipWrapper
+ * @description
  * @author fex
  */
-/* eslint fecs-indent: [0, "space", 2, 2] */
 
 import React = require('react');
-import {
-    Overlay
-} from 'react-overlays';
+import {Overlay} from 'react-overlays';
 import Html from './Html';
 import uncontrollable = require('uncontrollable');
-import { findDOMNode } from 'react-dom';
+import {findDOMNode} from 'react-dom';
 import Tooltip from './Tooltip';
-import { ClassNamesFn, themeable } from '../theme';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface TooltipObject {
     title?: string;
     content?: string;
-};
+}
 
 export type Trigger = 'hover' | 'click' | 'focus';
 
 export interface TooltipWrapperProps {
     classPrefix: string;
     classnames: ClassNamesFn;
-    placement: "top" | "right" | "bottom" | "left";
+    placement: 'top' | 'right' | 'bottom' | 'left';
     tooltip?: string | TooltipObject;
     container?: React.ReactNode;
     trigger: Trigger | Array<Trigger>;
@@ -39,11 +37,11 @@ interface TooltipWrapperState {
 }
 
 export class TooltipWrapper extends React.Component<TooltipWrapperProps, TooltipWrapperState> {
-    static defaultProps:Pick<TooltipWrapperProps, 'placement' | 'trigger' | 'rootClose' | 'delay'> = {
+    static defaultProps: Pick<TooltipWrapperProps, 'placement' | 'trigger' | 'rootClose' | 'delay'> = {
         placement: 'top',
         trigger: ['hover', 'focus'],
         rootClose: false,
-        delay: 200
+        delay: 200,
     };
 
     target: HTMLElement;
@@ -64,7 +62,7 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
         this.handleMouseOut = this.handleMouseOut.bind(this);
 
         this.state = {
-            show: false
+            show: false,
         };
     }
 
@@ -76,19 +74,19 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
         return this.target ? findDOMNode(this.target) : null;
     }
 
-    targetRef(ref:HTMLElement) {
+    targetRef(ref: HTMLElement) {
         this.target = ref;
     }
 
     show() {
         this.setState({
-            show: true
+            show: true,
         });
     }
 
     hide() {
         this.setState({
-            show: false
+            show: false,
         });
     }
 
@@ -109,58 +107,48 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
 
     handleHide() {
         clearTimeout(this.timer);
-        const {
-            delay
-        } = this.props;
+        const {delay} = this.props;
 
         this.timer = setTimeout(this.hide, delay);
     }
-    
 
-    handleFocus(e:any) {
-        const { onFocus } = this.getChildProps();
+    handleFocus(e: any) {
+        const {onFocus} = this.getChildProps();
         this.handleShow();
         onFocus && onFocus(e);
     }
 
-    handleBlur(e:any) {
-        const { onBlur } = this.getChildProps();
+    handleBlur(e: any) {
+        const {onBlur} = this.getChildProps();
         this.handleHide();
         onBlur && onBlur(e);
     }
 
-    handleMouseOver(e:any) {
+    handleMouseOver(e: any) {
         this.handleMouseOverOut(this.handleShow, e, 'fromElement');
     }
 
-    handleMouseOut(e:any) {
+    handleMouseOut(e: any) {
         this.handleMouseOverOut(this.handleHide, e, 'toElement');
     }
 
-    handleMouseOverOut(handler:Function, e:React.MouseEvent<HTMLElement>, relatedNative:string) {
+    handleMouseOverOut(handler: Function, e: React.MouseEvent<HTMLElement>, relatedNative: string) {
         const target = e.currentTarget;
-        const related:any = e.relatedTarget || (e as any).nativeEvent[relatedNative];
-    
+        const related: any = e.relatedTarget || (e as any).nativeEvent[relatedNative];
+
         if ((!related || related !== target) && !target.contains(related)) {
             handler(e);
         }
     }
 
-    handleClick(e:any) {
-        const { onClick } = this.getChildProps();
+    handleClick(e: any) {
+        const {onClick} = this.getChildProps();
         this.state.show ? this.hide() : this.show();
         onClick && onClick(e);
     }
 
     render() {
-        const {
-            tooltip,
-            children,
-            placement,
-            container,
-            trigger,
-            rootClose,
-        } = this.props;
+        const {tooltip, children, placement, container, trigger, rootClose} = this.props;
 
         const child = React.Children.only(children);
 
@@ -168,9 +156,9 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
             return child;
         }
 
-        const childProps:any = {
+        const childProps: any = {
             ref: this.targetRef,
-            key: 'target'
+            key: 'target',
         };
 
         const triggers = Array.isArray(trigger) ? trigger.concat() : [trigger];
@@ -201,18 +189,16 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
                 placement={placement}
                 container={container}
             >
-                <Tooltip
-                    title={typeof tooltip !== 'string' ? tooltip.title : undefined}
-                >
-                    <Html
-                        html={typeof tooltip === 'string' ? tooltip : tooltip.content}
-                    />
+                <Tooltip title={typeof tooltip !== 'string' ? tooltip.title : undefined}>
+                    <Html html={typeof tooltip === 'string' ? tooltip : tooltip.content} />
                 </Tooltip>
-            </Overlay>
+            </Overlay>,
         ];
     }
 }
 
-export default themeable(uncontrollable(TooltipWrapper, {
-    show: 'onVisibleChange'
-}));
+export default themeable(
+    uncontrollable(TooltipWrapper, {
+        show: 'onVisibleChange',
+    })
+);

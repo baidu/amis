@@ -4,7 +4,7 @@
  */
 
 import * as React from 'react';
-import { themeable, ClassNamesFn } from '../theme';
+import {themeable, ClassNamesFn} from '../theme';
 
 interface NotFoundProps {
     code?: string | number;
@@ -17,28 +17,18 @@ interface NotFoundProps {
 
 export class NotFound extends React.Component<NotFoundProps, any> {
     render() {
-        const {
-            links,
-            footerText,
-            description,
-            children,
-            code
-        } = this.props;
+        const {links, footerText, description, children, code} = this.props;
 
         return (
             <div className="container w-xxl w-auto-xs">
                 <div className="text-center m-b-lg">
                     <h1 className="text-shadow text-white">{code || '404'}</h1>
-                    {description ? (<div className="text-danger">{description}</div>) : null}
+                    {description ? <div className="text-danger">{description}</div> : null}
                 </div>
 
                 {children}
 
-                {links ? (
-                    <div className="list-group bg-info auto m-b-sm m-b-lg">
-                        {links}
-                    </div>
-                ) : null}
+                {links ? <div className="list-group bg-info auto m-b-sm m-b-lg">{links}</div> : null}
 
                 {footerText ? (
                     <div className="text-center">

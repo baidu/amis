@@ -1,16 +1,14 @@
 /**
  * @file AsideNav
- * 左侧导航。
+ * @description 左侧导航。
  * @author fex
  */
 
 import * as React from 'react';
 import * as cx from 'classnames';
-import {
-    mapTree
-} from '../utils/helper';
-import { classPrefix, classnames } from '../themes/default';
-import { ClassNamesFn, themeable } from '../theme';
+import {mapTree} from '../utils/helper';
+import {classPrefix, classnames} from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
 
 export type LinkItem = LinkItemProps;
 interface LinkItemProps {
@@ -29,8 +27,8 @@ interface Navigation {
     prefix?: JSX.Element;
     affix?: JSX.Element;
     className?: string;
-    [propName:string]: any;
-};
+    [propName: string]: any;
+}
 
 interface AsideNavProps {
     id?: string;
@@ -39,12 +37,10 @@ interface AsideNavProps {
     classnames: ClassNamesFn;
     renderLink: Function;
     isActive: Function;
-    isOpen: (link:LinkItemProps) => boolean;
+    isOpen: (link: LinkItemProps) => boolean;
     navigations: Array<Navigation>;
-    renderSubLinks: (link: LinkItemProps, renderLink: Function, depth: number, props:AsideNavProps) => React.ReactNode;
+    renderSubLinks: (link: LinkItemProps, renderLink: Function, depth: number, props: AsideNavProps) => React.ReactNode;
 }
-
-
 
 interface AsideNavState {
     navigations: Array<Navigation>;
@@ -52,21 +48,22 @@ interface AsideNavState {
 
 export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
     static defaultProps = {
-        renderLink: (item: LinkItemProps) => (
-            <a>{item.label}</a>
-        ),
-        renderSubLinks: (link:LinkItemProps, renderLink: Function, depth: number, {
-            classnames: cx
-        }: AsideNavProps) => link.children && link.children.length ? (
-            <ul className={cx('AsideNav-subList')}>
-                {link.label ? <li key="subHeader" className={cx('AsideNav-subHeader')}><a>{link.label}</a></li> : null}
-                {link.children.map((link, key) => renderLink(link, key, {}, depth + 1))}
-            </ul>
-        ) : link.label && depth === 1 ? (
-            <div className={cx('AsideNav-tooltip')}>{link.label}</div> 
-        ) : null,
+        renderLink: (item: LinkItemProps) => <a>{item.label}</a>,
+        renderSubLinks: (link: LinkItemProps, renderLink: Function, depth: number, {classnames: cx}: AsideNavProps) =>
+            link.children && link.children.length ? (
+                <ul className={cx('AsideNav-subList')}>
+                    {link.label ? (
+                        <li key="subHeader" className={cx('AsideNav-subHeader')}>
+                            <a>{link.label}</a>
+                        </li>
+                    ) : null}
+                    {link.children.map((link, key) => renderLink(link, key, {}, depth + 1))}
+                </ul>
+            ) : link.label && depth === 1 ? (
+                <div className={cx('AsideNav-tooltip')}>{link.label}</div>
+            ) : null,
         isActive: (link: LinkItem) => link.open,
-        isOpen: (item:LinkItemProps) => item.children ? item.children.some(item => item.open) : false
+        isOpen: (item: LinkItemProps) => (item.children ? item.children.some(item => item.open) : false),
     };
 
     constructor(props: AsideNavProps) {
@@ -75,16 +72,22 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
         const isOpen = props.isOpen;
         let id = 1;
         this.state = {
-            navigations: mapTree(props.navigations, (item: Navigation) => {
-                const isActive = typeof item.active === 'undefined' ? (props.isActive as Function)(item) : item.active;
+            navigations: mapTree(
+                props.navigations,
+                (item: Navigation) => {
+                    const isActive =
+                        typeof item.active === 'undefined' ? (props.isActive as Function)(item) : item.active;
 
-                return {
-                    ...item,
-                    id: id++,
-                    active: isActive,
-                    open: isActive || isOpen(item as LinkItemProps)
-                }
-            }, 1, true)
+                    return {
+                        ...item,
+                        id: id++,
+                        active: isActive,
+                        open: isActive || isOpen(item as LinkItemProps),
+                    };
+                },
+                1,
+                true
+            ),
         };
 
         this.renderLink = this.renderLink.bind(this);
@@ -94,42 +97,46 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
     componentWillReceiveProps(nextProps: AsideNavProps) {
         const props = this.props;
         const isOpen = props.isOpen;
-        
-        if (props.navigations !== nextProps.navigations || props.isActive !== nextProps.isActive) {
 
+        if (props.navigations !== nextProps.navigations || props.isActive !== nextProps.isActive) {
             let id = 1;
             this.setState({
-                navigations: mapTree(nextProps.navigations, (item: Navigation) => {
-                    const isActive = typeof item.active === 'undefined' ? (nextProps.isActive as Function)(item) : item.active;
+                navigations: mapTree(
+                    nextProps.navigations,
+                    (item: Navigation) => {
+                        const isActive =
+                            typeof item.active === 'undefined' ? (nextProps.isActive as Function)(item) : item.active;
 
-                    return {
-                        ...item,
-                        id: id++,
-                        active: isActive,
-                        open: isActive || isOpen(item as LinkItemProps)
-                    }
-                }, 1, true)
+                        return {
+                            ...item,
+                            id: id++,
+                            active: isActive,
+                            open: isActive || isOpen(item as LinkItemProps),
+                        };
+                    },
+                    1,
+                    true
+                ),
             });
         }
     }
 
     toggleExpand(link: LinkItemProps) {
         this.setState({
-            navigations: mapTree(this.state.navigations, (item: Navigation) => ({
-                ...item,
-                open: link.id === item.id ? !item.open : item.open
-            }), 1, true)
+            navigations: mapTree(
+                this.state.navigations,
+                (item: Navigation) => ({
+                    ...item,
+                    open: link.id === item.id ? !item.open : item.open,
+                }),
+                1,
+                true
+            ),
         });
     }
 
-    renderLink(link: LinkItemProps, key: any, props:Partial<AsideNavProps> = {}, depth = 1):React.ReactNode {
-        const {
-            renderLink,
-            isActive,
-            renderSubLinks,
-            classnames: cx,
-            ...others
-        } = this.props;
+    renderLink(link: LinkItemProps, key: any, props: Partial<AsideNavProps> = {}, depth = 1): React.ReactNode {
+        const {renderLink, isActive, renderSubLinks, classnames: cx, ...others} = this.props;
 
         const dom = (renderLink as Function)({
             link,
@@ -138,7 +145,7 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
             toggleExpand: this.toggleExpand,
             depth,
             classnames: cx,
-            ...others
+            ...others,
         });
 
         if (!dom) {
@@ -150,7 +157,7 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
                 {...props}
                 key={key}
                 className={cx(`AsideNav-item`, link.className, {
-                    [`is-active`]: link.active || link.open
+                    [`is-active`]: link.active || link.open,
                 })}
             >
                 {dom}
@@ -161,29 +168,29 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
 
     render() {
         const navigations = this.state.navigations;
-        let links:Array<React.ReactNode> = [];
-        const {
-            className,
-            classnames: cx
-        } = this.props;
+        let links: Array<React.ReactNode> = [];
+        const {className, classnames: cx} = this.props;
 
         navigations.forEach((navigation, index) => {
             if (navigation.prefix) {
-                const prefix:JSX.Element = typeof navigation.prefix === 'function' ? (navigation.prefix as any)(this.props) : navigation.prefix;
-                links.push(React.cloneElement(prefix, {
-                    ...prefix.props,
-                    key: `${index}-prefix`
-                }))
+                const prefix: JSX.Element =
+                    typeof navigation.prefix === 'function'
+                        ? (navigation.prefix as any)(this.props)
+                        : navigation.prefix;
+                links.push(
+                    React.cloneElement(prefix, {
+                        ...prefix.props,
+                        key: `${index}-prefix`,
+                    })
+                );
             }
 
-            navigation.label && links.push(
-                <li
-                    key={`${index}-label`}
-                    className={cx(`AsideNav-label`, navigation.className)}
-                >
-                    <span>{navigation.label}</span>
-                </li>
-            );
+            navigation.label &&
+                links.push(
+                    <li key={`${index}-label`} className={cx(`AsideNav-label`, navigation.className)}>
+                        <span>{navigation.label}</span>
+                    </li>
+                );
 
             navigation.children.forEach((item, key) => {
                 const link = this.renderLink(item, `${index}-${key}`);
@@ -191,19 +198,20 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
             });
 
             if (navigation.affix) {
-                const affix:JSX.Element = typeof navigation.affix === 'function' ? (navigation.affix as any)(this.props) : navigation.affix;
-                links.push(React.cloneElement(affix, {
-                    ...affix.props,
-                    key: `${index}-affix`
-                }))
+                const affix: JSX.Element =
+                    typeof navigation.affix === 'function' ? (navigation.affix as any)(this.props) : navigation.affix;
+                links.push(
+                    React.cloneElement(affix, {
+                        ...affix.props,
+                        key: `${index}-affix`,
+                    })
+                );
             }
         });
 
         return (
             <nav className={cx(`AsideNav`, className)}>
-                <ul className={cx(`AsideNav-list`)}>
-                    {links}
-                </ul>
+                <ul className={cx(`AsideNav-list`)}>{links}</ul>
             </nav>
         );
     }

@@ -1,36 +1,37 @@
 /**
- * @file switch组件
+ * @file Switch
+ * @description
  * @author fex
  */
 
 import * as React from 'react';
 import * as cx from 'classnames';
-import { ClassNamesFn, themeable } from '../theme';
-import { classPrefix, classnames } from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
+import {classPrefix, classnames} from '../themes/default';
 
 const sizeMap = {
     md: 'i-switch-md',
     lg: 'i-switch-lg',
     middle: 'i-switch-md',
-    large: 'i-switch-lg'
+    large: 'i-switch-lg',
 };
 
 const levelMap = {
     info: 'bg-info',
     primary: 'bg-primary',
-    danger: 'bg-danger'
+    danger: 'bg-danger',
 };
 
 interface SwitchProps {
     id?: string;
-    size?: 'md' | 'lg' | 'middle' | 'large',
-    level?: 'info' | 'primary' | 'danger',
-    className?: string,
+    size?: 'md' | 'lg' | 'middle' | 'large';
+    level?: 'info' | 'primary' | 'danger';
+    className?: string;
     classPrefix: string;
     classnames: ClassNamesFn;
-    onChange?: (checked:boolean) => void,
-    value?: any,
-    inline?: boolean,
+    onChange?: (checked: boolean) => void;
+    value?: any;
+    inline?: boolean;
     trueValue?: any;
     falseValue?: any;
     disabled?: boolean;
@@ -41,21 +42,17 @@ interface SwitchProps {
 export class Switch extends React.PureComponent<SwitchProps, any> {
     static defaultProps = {
         trueValue: true,
-        falseValue: false
+        falseValue: false,
     };
 
-    constructor(props:SwitchProps) {
+    constructor(props: SwitchProps) {
         super(props);
 
         this.hanldeCheck = this.hanldeCheck.bind(this);
     }
 
-    hanldeCheck(e:React.ChangeEvent<HTMLInputElement>) {
-        const {
-            trueValue,
-            falseValue,
-            onChange
-        } = this.props;
+    hanldeCheck(e: React.ChangeEvent<HTMLInputElement>) {
+        const {trueValue, falseValue, onChange} = this.props;
 
         if (!onChange) {
             return;
@@ -82,22 +79,27 @@ export class Switch extends React.PureComponent<SwitchProps, any> {
             ...rest
         } = this.props;
 
-        className = (className ? className : '')
-            + (size && sizeMap[size] ? ` ${sizeMap[size]}` : '')
-            + (level && levelMap[level] ? ` ${levelMap[level]}` : '');
+        className =
+            (className ? className : '') +
+            (size && sizeMap[size] ? ` ${sizeMap[size]}` : '') +
+            (level && levelMap[level] ? ` ${levelMap[level]}` : '');
 
         return (
-            <label
-                className={cx(`Switch`, disabled ? 'is-disabled' : '', className)}
-            >
+            <label className={cx(`Switch`, disabled ? 'is-disabled' : '', className)}>
                 <input
                     type="checkbox"
-                    checked={typeof checked !== 'undefined' ? checked : typeof value === 'undefined' ? false : value == trueValue}
+                    checked={
+                        typeof checked !== 'undefined'
+                            ? checked
+                            : typeof value === 'undefined'
+                            ? false
+                            : value == trueValue
+                    }
                     onChange={this.hanldeCheck}
                     disabled={disabled}
                     readOnly={readOnly}
                     {...rest}
-                 />
+                />
                 <i />
             </label>
         );

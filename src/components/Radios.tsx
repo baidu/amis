@@ -1,19 +1,9 @@
 /**
- * @file checkboxes 多选输入框
- *
+ * @file Radios
+ * @description
  * @author fex
- */
-
-import * as React from 'react';
-import uncontrollable = require('uncontrollable');
-import Checkbox from './Checkbox';
-import {value2array, OptionProps, Option} from './Checkboxes';
-import chunk = require('lodash/chunk');
-import { ClassNamesFn, themeable } from '../theme';
-
-/**
- * 参数说明：
  *
+ * @param 参数说明：
  * options: [
  *   {
  *      label: '显示的名字',
@@ -23,45 +13,42 @@ import { ClassNamesFn, themeable } from '../theme';
  * ]
  */
 
- interface RadioProps extends OptionProps {
-     id?: string;
-     type: string;
-     value?: string;
-     className?: string;
-     style?: React.CSSProperties;
-     inline?: boolean;
-     disabled?: boolean;
-     onChange?: Function;
-     columnsCount: number;
-     classPrefix: string;
-     classnames: ClassNamesFn;
- }
+import * as React from 'react';
+import uncontrollable = require('uncontrollable');
+import Checkbox from './Checkbox';
+import {value2array, OptionProps, Option} from './Checkboxes';
+import chunk = require('lodash/chunk');
+import {ClassNamesFn, themeable} from '../theme';
+
+interface RadioProps extends OptionProps {
+    id?: string;
+    type: string;
+    value?: string;
+    className?: string;
+    style?: React.CSSProperties;
+    inline?: boolean;
+    disabled?: boolean;
+    onChange?: Function;
+    columnsCount: number;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+}
 
 export class Radios extends React.Component<RadioProps, any> {
-
     static defaultProps = {
         joinValues: true,
         clearable: false,
-        columnsCount: 1 // 一行显示一个
+        columnsCount: 1, // 一行显示一个
     };
 
     toggleOption(option: Option) {
-        const {
-            value,
-            onChange,
-            joinValues,
-            extractValue,
-            valueField,
-            clearable,
-            delimiter,
-            options
-        } = this.props;
+        const {value, onChange, joinValues, extractValue, valueField, clearable, delimiter, options} = this.props;
 
         let valueArray = value2array(value, {
             multiple: false,
             delimiter,
             valueField,
-            options
+            options,
         });
         const idx = valueArray.indexOf(option);
 
@@ -96,14 +83,14 @@ export class Radios extends React.Component<RadioProps, any> {
             inline,
             delimiter,
             valueField,
-            classPrefix
+            classPrefix,
         } = this.props;
 
         let valueArray = value2array(value, {
             multiple: false,
             delimiter,
             valueField,
-            options
+            options,
         });
         let body: Array<React.ReactNode> = [];
 
@@ -125,25 +112,25 @@ export class Radios extends React.Component<RadioProps, any> {
         }
 
         if (!inline && columnsCount > 1) {
-            let weight = 12/(columnsCount as number);
+            let weight = 12 / (columnsCount as number);
             let cellClassName = `Grid-col--sm${weight === Math.round(weight) ? weight : ''}`;
             body = chunk(body, columnsCount).map((group, groupIndex) => (
                 <div className={cx('Grid')} key={groupIndex}>
                     {group.map((item, index) => (
-                        <div key={index} className={cx(cellClassName)}>{item}</div>
+                        <div key={index} className={cx(cellClassName)}>
+                            {item}
+                        </div>
                     ))}
                 </div>
             ));
         }
 
-        return (
-            <div className={className}>
-                {body && body.length ? body : placeholder}
-            </div>
-        );
+        return <div className={className}>{body && body.length ? body : placeholder}</div>;
     }
 }
 
-export default themeable(uncontrollable(Radios, {
-    value: 'onChange'
-}));
+export default themeable(
+    uncontrollable(Radios, {
+        value: 'onChange',
+    })
+);

@@ -1,21 +1,22 @@
 /**
- * @file 按钮
+ * @file Button
  * @author fex
- *         fex
  */
-import * as React from 'react';
-import TooltipWrapper, { TooltipObject, Trigger } from './TooltipWrapper';
-import { pickEventsProps } from '../utils/helper';
-import { ClassNamesFn, themeable } from '../theme';
 
-interface ButtonProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+import * as React from 'react';
+import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
+import {pickEventsProps} from '../utils/helper';
+import {ClassNamesFn, themeable} from '../theme';
+
+interface ButtonProps
+    extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
     id?: string;
     className?: string;
     size?: 'xs' | 'sm' | 'md' | 'lg';
-    type: "button" | "reset" | "submit";
+    type: 'button' | 'reset' | 'submit';
     level: string; // 'link' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'light' | 'dark' | 'default';
     tooltip?: string | TooltipObject;
-    placement: "top" | "right" | "bottom" | "left";
+    placement: 'top' | 'right' | 'bottom' | 'left';
     tooltipContainer?: any;
     tooltipTrigger: Trigger | Array<Trigger>;
     tooltipRootClose: boolean;
@@ -30,13 +31,16 @@ interface ButtonProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes
 }
 
 export class Button extends React.Component<ButtonProps> {
-    static defaultProps:Pick<ButtonProps, "componentClass" | "level" | "type" | "placement" | "tooltipTrigger" | "tooltipRootClose"> = {
+    static defaultProps: Pick<
+        ButtonProps,
+        'componentClass' | 'level' | 'type' | 'placement' | 'tooltipTrigger' | 'tooltipRootClose'
+    > = {
         componentClass: 'button',
         level: 'default',
         type: 'button',
         placement: 'top',
         tooltipTrigger: ['hover', 'focus'],
-        tooltipRootClose: false
+        tooltipRootClose: false,
     };
 
     renderButton() {
@@ -60,14 +64,18 @@ export class Button extends React.Component<ButtonProps> {
             <Comp
                 type={Comp === 'a' ? undefined : type}
                 {...pickEventsProps(rest)}
-                className={cx(`Button`, {
-                    [`Button--${level}`]: level,
-                    [`Button--${size}`]: size,
-                    [`Button--block`]: block,
-                    [`Button--iconOnly`]: iconOnly,
-                    'is-disabled': disabled,
-                    'is-active': active
-                }, className)}
+                className={cx(
+                    `Button`,
+                    {
+                        [`Button--${level}`]: level,
+                        [`Button--${size}`]: size,
+                        [`Button--block`]: block,
+                        [`Button--iconOnly`]: iconOnly,
+                        'is-disabled': disabled,
+                        'is-active': active,
+                    },
+                    className
+                )}
                 disabled={disabled}
             >
                 {children}
@@ -85,7 +93,7 @@ export class Button extends React.Component<ButtonProps> {
             disabled,
             disabledTip,
             classPrefix,
-            classnames: cx
+            classnames: cx,
         } = this.props;
 
         return (
@@ -96,12 +104,11 @@ export class Button extends React.Component<ButtonProps> {
                 trigger={tooltipTrigger}
                 rootClose={tooltipRootClose}
             >
-                {disabled && disabledTip ?
-                    <div className={cx('Button--disabled-wrap')}>
-                        {this.renderButton()}
-                    </div>
-                    : this.renderButton()
-                }
+                {disabled && disabledTip ? (
+                    <div className={cx('Button--disabled-wrap')}>{this.renderButton()}</div>
+                ) : (
+                    this.renderButton()
+                )}
             </TooltipWrapper>
         );
     }

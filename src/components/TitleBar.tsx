@@ -1,17 +1,16 @@
 /**
- * @file 页面标题组件。
- *
- * 参数说明：
+ * @file TitleBar。
+ * @description
+ * @author fex
+ * @param 参数说明：
  * title 标题内容
  * titleClassName 标题类名，默认为 bg-light lter b-b
  * right 可以传入右侧节点, 当有右侧时自动采用 hbox 来左右布局。
- *
- *
- * @author fex
  */
+
 import * as React from 'react';
-import { classPrefix, classnames } from '../themes/default';
-import { ClassNamesFn, themeable } from '../theme';
+import {classPrefix, classnames} from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
 
 interface TitleBarProps {
     className?: string;
@@ -23,27 +22,17 @@ interface TitleBarProps {
 }
 
 export class TitleBar extends React.PureComponent<TitleBarProps, any> {
-
     static defaultProps = {
         className: 'bg-light lter b-b',
         title: '标题',
         titleClassName: 'm-n font-thin h3',
-        right: false
+        right: false,
     };
 
-    render() : JSX.Element {
-        const {
-            className,
-            title,
-            titleClassName,
-            right
-        } = this.props;
+    render(): JSX.Element {
+        const {className, title, titleClassName, right} = this.props;
 
-        let left = title ? (
-            <div className={titleClassName}>
-                {title}
-            </div>
-        ) : null;
+        let left = title ? <div className={titleClassName}>{title}</div> : null;
 
         let body = left;
 
@@ -55,16 +44,10 @@ export class TitleBar extends React.PureComponent<TitleBarProps, any> {
                 </div>
             );
         } else {
-            body = (
-                <div className="wrapper">{left}</div>
-            );
+            body = <div className="wrapper">{left}</div>;
         }
 
-        return (
-            <div className={className}>
-                {body}
-            </div>
-        );
+        return <div className={className}>{body}</div>;
     }
 }
 

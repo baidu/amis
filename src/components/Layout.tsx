@@ -1,8 +1,9 @@
 /**
- * @file 页面布局，支持左边栏、顶部、内容区域布局。
+ * @file Layout
+ * @description 页面布局，支持左边栏、顶部、内容区域布局。
+ * @author fex
  *
- * 参数说明：
- *
+ * @param 参数说明：
  * * children 会渲染在内容区。
  * * header 头部区域
  * * aside 边栏
@@ -13,12 +14,11 @@
  * * asideFixed 边栏是否为固定模式，如果是会用 position:fixed 来定位.
  * * className 附件的样式名
  * * contentClassName 内容区域附加样式名称
- *
- * @author fex
  */
+
 import * as React from 'react';
 import * as cx from 'classnames';
-import { ClassNamesFn, themeable } from '../theme';
+import {ClassNamesFn, themeable} from '../theme';
 
 interface LayoutProps {
     id: string;
@@ -39,14 +39,13 @@ interface LayoutProps {
 }
 
 export class Layout extends React.Component<LayoutProps, any> {
-
     static defaultProps = {
         // asideWide: false,
         asideFixed: true,
         asideClassName: '',
         headerFixed: true,
         offScreen: false,
-        footer: false
+        footer: false,
     };
 
     render() {
@@ -65,16 +64,10 @@ export class Layout extends React.Component<LayoutProps, any> {
             offScreen,
             size,
             classPrefix,
-            classnames: cx
+            classnames: cx,
         } = this.props;
 
-        let body = (
-            <div
-                className={cx(`Layout-body`, contentClassName)}
-            >
-                {children}
-            </div>
-        );
+        let body = <div className={cx(`Layout-body`, contentClassName)}>{children}</div>;
 
         if (aside) {
             body = (
@@ -94,12 +87,10 @@ export class Layout extends React.Component<LayoutProps, any> {
                     'Layout--folded': folded,
                     'Layout--offScreen': offScreen,
                     [`Layout--${size}`]: size,
-                    'Layout--noFooter': !footer
+                    'Layout--noFooter': !footer,
                 })}
             >
-                {header ? (
-                    <div className={cx('Layout-header')}>{header}</div>
-                ) : null}
+                {header ? <div className={cx('Layout-header')}>{header}</div> : null}
                 {aside ? (
                     <div className={cx(`Layout-aside`, asideClassName)}>
                         <div className={cx('Layout-asideWrap')}>
@@ -111,10 +102,7 @@ export class Layout extends React.Component<LayoutProps, any> {
                 ) : null}
                 {body}
                 {footer ? (
-                    <footer
-                        className={cx('Layout-footer')}
-                        role="footer"
-                    >
+                    <footer className={cx('Layout-footer')} role="footer">
                         {footer}
                     </footer>
                 ) : null}

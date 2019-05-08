@@ -1,3 +1,9 @@
+/**
+ * @file DatePicker
+ * @description 时间选择器组件
+ * @author fex
+ */
+
 import * as React from 'react';
 import * as cx from 'classnames';
 import * as moment from 'moment';
@@ -7,16 +13,16 @@ import 'moment/locale/zh-cn';
 import * as CalendarContainer from 'react-datetime/src/CalendarContainer';
 import * as ReactDatePicker from 'react-datetime';
 import Select from './Select';
-import { closeIcon } from './icons';
+import {closeIcon} from './icons';
 import PopOver from './PopOver';
 import Overlay from './Overlay';
-import { classPrefix, classnames } from '../themes/default';
-import { ClassNamesFn, themeable } from '../theme';
-import { findDOMNode } from 'react-dom';
-CalendarContainer.prototype.render = (function (_super) {
-    return function () {
+import {classPrefix, classnames} from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
+import {findDOMNode} from 'react-dom';
+CalendarContainer.prototype.render = (function(_super) {
+    return function() {
         if (this.props.view === 'days') {
-            return (<CustomDaysView {...this.props.viewProps} />);
+            return <CustomDaysView {...this.props.viewProps} />;
         }
 
         return _super.apply(this, arguments);
@@ -32,18 +38,12 @@ class BaseDatePicker extends ReactDatePicker {
             this.__hacked = true;
             const origin = (this as any).getComponentProps;
             const setState = this.setState.bind(this);
-            (this as any).getComponentProps = function () {
+            (this as any).getComponentProps = function() {
                 const props = origin.apply(this);
                 props.setDateTimeState = setState;
-                [
-                    'onChange', 
-                    'onClose', 
-                    'requiredConfirm', 
-                    'classPrefix', 
-                    'prevIcon', 
-                    'nextIcon',
-                    'isEndDate'
-                ].forEach(key => props[key] = (this.props as any)[key]);
+                ['onChange', 'onClose', 'requiredConfirm', 'classPrefix', 'prevIcon', 'nextIcon', 'isEndDate'].forEach(
+                    key => (props[key] = (this.props as any)[key])
+                );
 
                 return props;
             };
@@ -72,11 +72,11 @@ interface CustomDaysViewProps {
     showView: (view: string) => () => void;
     updateSelectedDate: (event: React.MouseEvent<any>, close?: boolean) => void;
     handleClickOutside: () => void;
-};
+}
 
 class CustomDaysView extends React.Component<CustomDaysViewProps> {
     static defaultProps = {
-        classPrefix: 'a-'
+        classPrefix: 'a-',
     };
 
     constructor(props: CustomDaysViewProps) {
@@ -95,8 +95,8 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
         const dow: Array<string> = [];
         let i = 0;
 
-        days.forEach(function (day) {
-            dow[(7 + (i++) - first) % 7] = day;
+        days.forEach(function(day) {
+            dow[(7 + i++ - first) % 7] = day;
         });
 
         return dow;
@@ -117,7 +117,8 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
             if (~target.className.indexOf('rdtNew')) {
                 modifier = 1;
-            } if (~target.className.indexOf('rdtOld')) {
+            }
+            if (~target.className.indexOf('rdtOld')) {
                 modifier = -1;
             }
 
@@ -127,11 +128,11 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
                 .hours(currentDate.hours())
                 .minutes(currentDate.minutes())
                 .seconds(currentDate.seconds())
-                .milliseconds(currentDate.milliseconds())
+                .milliseconds(currentDate.milliseconds());
 
             this.props.setDateTimeState({
                 viewDate,
-                selectedDate: viewDate.clone()
+                selectedDate: viewDate.clone(),
             });
             return;
         }
@@ -151,7 +152,10 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
         const viewDate = this.props.viewDate;
         this.props.setDateTimeState({
-            viewDate: viewDate.clone().month(option.value).startOf('month')
+            viewDate: viewDate
+                .clone()
+                .month(option.value)
+                .startOf('month'),
         });
     }
 
@@ -168,7 +172,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
         const viewDate = this.props.viewDate;
         const newDate = viewDate.clone().year(option.value);
         this.props.setDateTimeState({
-            viewDate: newDate[newDate.isBefore(viewDate) ? 'endOf' : 'startOf']('year')
+            viewDate: newDate[newDate.isBefore(viewDate) ? 'endOf' : 'startOf']('year'),
         });
     }
 
@@ -178,7 +182,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
         this.props.setDateTimeState({
             viewDate: date.clone(),
-            selectedDate: date.clone()
+            selectedDate: date.clone(),
         });
 
         if (!this.props.requiredConfirm) {
@@ -190,7 +194,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
         const date = this.props.viewDate.clone();
 
         this.props.setDateTimeState({
-            selectedDate: date
+            selectedDate: date,
         });
         this.props.onChange(date);
         this.props.onClose && this.props.onClose();
@@ -221,12 +225,15 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
             let currentYear = date.clone().set({
                 year: year,
                 month: irrelevantMonth,
-                date: irrelevantDate
+                date: irrelevantDate,
             });
             const noOfDaysInYear = parseInt(currentYear.endOf('year').format('DDD'), 10);
-            const daysInYear = Array.from({
-                length: noOfDaysInYear
-            }, (e, i) => i + 1);
+            const daysInYear = Array.from(
+                {
+                    length: noOfDaysInYear,
+                },
+                (e, i) => i + 1
+            );
             const validDay = daysInYear.find(d => isValid(currentYear.clone().dayOfYear(d)));
 
             if (!validDay) {
@@ -245,12 +252,15 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
             let currentYear = date.clone().set({
                 year: year,
                 month: irrelevantMonth,
-                date: irrelevantDate
+                date: irrelevantDate,
             });
             const noOfDaysInYear = parseInt(currentYear.endOf('year').format('DDD'), 10);
-            const daysInYear = Array.from({
-                length: noOfDaysInYear
-            }, (e, i) => i + 1);
+            const daysInYear = Array.from(
+                {
+                    length: noOfDaysInYear,
+                },
+                (e, i) => i + 1
+            );
             const validDay = daysInYear.find(d => isValid(currentYear.clone().dayOfYear(d)));
 
             if (!validDay) {
@@ -266,7 +276,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
                 value={date.year()}
                 options={years.map(year => ({
                     label: `${year}`,
-                    value: year
+                    value: year,
                 }))}
                 onChange={this.handleYearChange}
                 clearable={false}
@@ -287,15 +297,15 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
             const currentMonth = date.clone().set({
                 year,
                 month: i,
-                date: 1
+                date: 1,
             });
 
             const noOfDaysInMonth = parseInt(currentMonth.endOf('month').format('D'), 10);
-            const daysInMonth = Array.from({ length: noOfDaysInMonth }, function (e, i) {
+            const daysInMonth = Array.from({length: noOfDaysInMonth}, function(e, i) {
                 return i + 1;
             });
 
-            const validDay = daysInMonth.find((d) => isValid(currentMonth.clone().set('date', d)));
+            const validDay = daysInMonth.find(d => isValid(currentMonth.clone().set('date', d)));
             if (validDay) {
                 days.push(i);
             }
@@ -308,7 +318,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
                 value={date.month()}
                 options={days.map(day => ({
                     label: `${day + 1}`,
-                    value: day
+                    value: day,
                 }))}
                 onChange={this.handleMonthChange}
                 clearable={false}
@@ -318,18 +328,11 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
     }
 
     renderDay(props: any, currentDate: moment.Moment) {
-        return (
-            <td {...props}>{currentDate.date()}</td>
-        );
+        return <td {...props}>{currentDate.date()}</td>;
     }
 
     renderTimes() {
-        const {
-            timeFormat,
-            selectedDate,
-            viewDate,
-            isEndDate
-        } = this.props;
+        const {timeFormat, selectedDate, viewDate, isEndDate} = this.props;
 
         const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
         const inputs: Array<React.ReactNode> = [];
@@ -346,22 +349,21 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
                     value={date.format(format)}
                     min={min}
                     max={max}
-                    onChange={(e) => this.setTime(type, Math.max(min, Math.min(parseInt(e.currentTarget.value.replace(/\D/g, ''), 10) || 0, max)))}
+                    onChange={e =>
+                        this.setTime(
+                            type,
+                            Math.max(min, Math.min(parseInt(e.currentTarget.value.replace(/\D/g, ''), 10) || 0, max))
+                        )
+                    }
                 />
             );
 
-            inputs.push(
-                <span key={i + 'divider'}>:</span>
-            );
+            inputs.push(<span key={i + 'divider'}>:</span>);
         });
 
         inputs.length && inputs.pop();
 
-        return (
-            <div>
-                {inputs}
-            </div>
-        );
+        return <div>{inputs}</div>;
     }
 
     renderFooter() {
@@ -376,8 +378,12 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
                         {this.props.timeFormat ? this.renderTimes() : null}
                         {this.props.requiredConfirm ? (
                             <div key="button" className="rdtActions">
-                                <a className="rdtBtn rdtBtnConfirm" onClick={this.confirm}>确认</a>
-                                <a className="rdtBtn rdtBtnCancel" onClick={this.cancel}>取消</a>
+                                <a className="rdtBtn rdtBtnConfirm" onClick={this.confirm}>
+                                    确认
+                                </a>
+                                <a className="rdtBtn rdtBtnCancel" onClick={this.cancel}>
+                                    取消
+                                </a>
                             </div>
                         ) : null}
                     </td>
@@ -406,36 +412,36 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
             classes = 'rdtDay';
             currentDate = prevMonth.clone();
 
-            if ((prevMonth.year() === currentYear && prevMonth.month() < currentMonth) || (prevMonth.year() < currentYear))
+            if (
+                (prevMonth.year() === currentYear && prevMonth.month() < currentMonth) ||
+                prevMonth.year() < currentYear
+            )
                 classes += ' rdtOld';
-            else if ((prevMonth.year() === currentYear && prevMonth.month() > currentMonth) || (prevMonth.year() > currentYear))
+            else if (
+                (prevMonth.year() === currentYear && prevMonth.month() > currentMonth) ||
+                prevMonth.year() > currentYear
+            )
                 classes += ' rdtNew';
 
-            if (selected && prevMonth.isSame(selected, 'day'))
-                classes += ' rdtActive';
+            if (selected && prevMonth.isSame(selected, 'day')) classes += ' rdtActive';
 
-            if (prevMonth.isSame(moment(), 'day'))
-                classes += ' rdtToday';
+            if (prevMonth.isSame(moment(), 'day')) classes += ' rdtToday';
 
             isDisabled = !isValid(currentDate, selected);
-            if (isDisabled)
-                classes += ' rdtDisabled';
+            if (isDisabled) classes += ' rdtDisabled';
 
             dayProps = {
                 key: prevMonth.format('M_D'),
                 'data-value': prevMonth.date(),
-                className: classes
+                className: classes,
             };
 
-            if (!isDisabled)
-                dayProps.onClick = this.handleDayChange;
+            if (!isDisabled) dayProps.onClick = this.handleDayChange;
 
             days.push(renderer(dayProps, currentDate, selected));
 
             if (days.length === 7) {
-                weeks.push(
-                    <tr key={prevMonth.format('M_D')}>{days}</tr>
-                );
+                weeks.push(<tr key={prevMonth.format('M_D')}>{days}</tr>);
                 days = [];
             }
 
@@ -455,21 +461,27 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
                 <tr>
                     <th colSpan={7}>
                         <div className="rdtHeader">
-                            <a className="rdtBtn" onClick={this.props.subtractTime(1, 'months')}><i className="rdtBtnPrev" /></a>
+                            <a className="rdtBtn" onClick={this.props.subtractTime(1, 'months')}>
+                                <i className="rdtBtnPrev" />
+                            </a>
                             <div className="rdtSelect">{this.renderYearsSelect()}</div>
                             <div className="rdtSelect">{this.renderMonthsSelect()}</div>
-                            <a className="rdtBtn" onClick={this.props.addTime(1, 'months')}><i className="rdtBtnNext" /></a>
+                            <a className="rdtBtn" onClick={this.props.addTime(1, 'months')}>
+                                <i className="rdtBtnNext" />
+                            </a>
                         </div>
                     </th>
                 </tr>
                 <tr>
                     {this.getDaysOfWeek(locale).map((day, index) => (
-                        <th key={day + index} className="dow">{day}</th>
+                        <th key={day + index} className="dow">
+                            {day}
+                        </th>
                     ))}
                 </tr>
             </thead>,
 
-            <tbody key="tb">{this.renderDays()}</tbody>
+            <tbody key="tb">{this.renderDays()}</tbody>,
         ];
 
         footer && tableChildren.push(footer);
@@ -483,7 +495,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
 }
 
 export interface DateProps {
-    viewMode: "years" | "months" | "days" | "time";
+    viewMode: 'years' | 'months' | 'days' | 'time';
     className?: string;
     classPrefix: string;
     classnames: ClassNamesFn;
@@ -499,26 +511,26 @@ export interface DateProps {
     minTime?: moment.Moment;
     maxTime?: moment.Moment;
     clearable?: boolean;
-    defaultValue?: any; 
-    onChange: (value:any) => void;
+    defaultValue?: any;
+    onChange: (value: any) => void;
     value: any;
-    [propName:string]: any;
-};
+    [propName: string]: any;
+}
 
 export interface DatePickerState {
     isOpened: boolean;
     isFocused: boolean;
     value: moment.Moment | undefined;
-};
+}
 
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
-    static defaultProps:Pick<DateProps, 'viewMode'> = {
-        viewMode: 'days'
+    static defaultProps: Pick<DateProps, 'viewMode'> = {
+        viewMode: 'days',
     };
     state: DatePickerState = {
         isOpened: false,
         isFocused: false,
-        value: this.props.value ? moment(this.props.value, this.props.format) : undefined
+        value: this.props.value ? moment(this.props.value, this.props.format) : undefined,
     };
     constructor(props: DateProps) {
         super(props);
@@ -539,14 +551,14 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
     dom: HTMLDivElement;
 
-    componentWillReceiveProps(nextProps:DateProps) {
+    componentWillReceiveProps(nextProps: DateProps) {
         if (this.props.value !== nextProps.value) {
             this.setState({
-                value: nextProps.value ?  moment(nextProps.value, nextProps.format) : undefined
+                value: nextProps.value ? moment(nextProps.value, nextProps.format) : undefined,
             });
         }
     }
-    
+
     focus() {
         if (!this.dom) {
             return;
@@ -557,17 +569,17 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
     handleFocus() {
         this.setState({
-            isFocused: true
+            isFocused: true,
         });
     }
 
     handleBlur() {
         this.setState({
-            isFocused: false
+            isFocused: false,
         });
     }
 
-    handleKeyPress(e:React.KeyboardEvent) {
+    handleKeyPress(e: React.KeyboardEvent) {
         if (e.key === ' ') {
             this.handleClick();
         }
@@ -583,14 +595,18 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     }
 
     open(fn?: () => void) {
-        this.props.disabled || this.setState({
-            isOpened: true
-        }, fn);
+        this.props.disabled ||
+            this.setState(
+                {
+                    isOpened: true,
+                },
+                fn
+            );
     }
 
     close() {
         this.setState({
-            isOpened: false
+            isOpened: false,
         });
     }
 
@@ -602,14 +618,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     }
 
     handleChange(value: moment.Moment) {
-        const {
-            onChange,
-            format,
-            minTime,
-            maxTime,
-            dateFormat,
-            timeFormat
-        } = this.props;
+        const {onChange, format, minTime, maxTime, dateFormat, timeFormat} = this.props;
 
         if (!moment.isMoment(value)) {
             return;
@@ -629,10 +638,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     }
 
     checkIsValidDate(currentDate: moment.Moment) {
-        const {
-            minDate,
-            maxDate
-        } = this.props;
+        const {minDate, maxDate} = this.props;
 
         if (minDate && currentDate.isBefore(minDate, 'day')) {
             return false;
@@ -651,9 +657,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         return this.dom;
     }
 
-    domRef = (ref:HTMLDivElement) => {
+    domRef = (ref: HTMLDivElement) => {
         this.dom = ref;
-    }
+    };
 
     render() {
         const {
@@ -669,22 +675,26 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             viewMode,
             timeConstraints,
             popOverContainer,
-            clearable
+            clearable,
         } = this.props;
 
         const isOpened = this.state.isOpened;
         let date: moment.Moment | undefined = this.state.value;
 
         return (
-            <div 
-                tabIndex={0} 
+            <div
+                tabIndex={0}
                 onKeyPress={this.handleKeyPress}
-                onFocus={this.handleFocus} 
+                onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
-                className={cx(`${ns}DatePicker`, {
-                    'is-disabled': disabled,
-                    'is-focused': this.state.isFocused
-                }, className)} 
+                className={cx(
+                    `${ns}DatePicker`,
+                    {
+                        'is-disabled': disabled,
+                        'is-focused': this.state.isFocused,
+                    },
+                    className
+                )}
                 ref={this.domRef}
                 onClick={this.handleClick}
             >
@@ -695,10 +705,12 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 )}
 
                 {clearable && value ? (
-                    <a  className={`${ns}DatePicker-clear`} onClick={this.clearValue}>{closeIcon}</a>
+                    <a className={`${ns}DatePicker-clear`} onClick={this.clearValue}>
+                        {closeIcon}
+                    </a>
                 ) : null}
 
-                <a className={`${ns}DatePicker-toggler`}></a>
+                <a className={`${ns}DatePicker-toggler`} />
 
                 {isOpened ? (
                     <Overlay
@@ -739,6 +751,4 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
 export default themeable(DatePicker);
 
-export {
-    BaseDatePicker
-};
+export {BaseDatePicker};

@@ -1,25 +1,25 @@
 /**
- * @file Select Component
- * @author FEX
+ * @file Select
+ * @description
+ * @author fex
  * @date 2017-11-07
- *
  */
+
 import uncontrollable = require('uncontrollable');
 import * as React from 'react';
 import 'react-datetime/css/react-datetime.css';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
-import Downshift, { ControllerStateAndHelpers } from 'downshift';
+import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import * as cx from 'classnames';
-import { closeIcon } from './icons';
+import {closeIcon} from './icons';
 import * as matchSorter from 'match-sorter';
-import { noop, anyChanged } from '../utils/helper';
+import {noop, anyChanged} from '../utils/helper';
 import find = require('lodash/find');
 import isPlainObject = require('lodash/isPlainObject');
-import { highlight } from '../renderers/Form/Options';
-import { findDOMNode } from 'react-dom';
-import { ClassNamesFn, themeable } from '../theme';
-
+import {highlight} from '../renderers/Form/Options';
+import {findDOMNode} from 'react-dom';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface Option {
     label?: string;
@@ -28,9 +28,9 @@ export interface Option {
     children?: Options;
     visible?: boolean;
     hidden?: boolean;
-    [propName:string]: any;
-};
-export interface Options extends Array<Option> {};
+    [propName: string]: any;
+}
+export interface Options extends Array<Option> {}
 
 export interface OptionProps {
     multi?: boolean;
@@ -42,11 +42,11 @@ export interface OptionProps {
     delimiter?: string;
     clearable?: boolean;
     placeholder?: string;
-};
+}
 
 export type OptionValue = string | number | null | undefined | Option;
 
-export function value2array(value:OptionValue | Array<OptionValue>, props:Partial<OptionProps>):Array<Option> {
+export function value2array(value: OptionValue | Array<OptionValue>, props: Partial<OptionProps>): Array<Option> {
     if (props.multi || props.multiple) {
         if (typeof value === 'string') {
             value = value.split(props.delimiter || ',');
@@ -60,9 +60,7 @@ export function value2array(value:OptionValue | Array<OptionValue>, props:Partia
             value = [value];
         }
 
-        return value
-            .map((value:any) => expandValue(value, props))
-            .filter((item:any) => item) as Array<Option>;
+        return value.map((value: any) => expandValue(value, props)).filter((item: any) => item) as Array<Option>;
     } else if (Array.isArray(value)) {
         value = value[0];
     }
@@ -71,16 +69,14 @@ export function value2array(value:OptionValue | Array<OptionValue>, props:Partia
     return expandedValue ? [expandedValue] : [];
 }
 
-export function expandValue(value:OptionValue, props: Partial<OptionProps>):Option | null {
+export function expandValue(value: OptionValue, props: Partial<OptionProps>): Option | null {
     const valueType = typeof value;
 
     if (valueType !== 'string' && valueType !== 'number' && valueType !== 'boolean') {
         return value as Option;
     }
 
-    let {
-        options    
-    } = props;
+    let {options} = props;
 
     if (!options) {
         return null;
@@ -89,22 +85,22 @@ export function expandValue(value:OptionValue, props: Partial<OptionProps>):Opti
     return find(options, item => String(item[props.valueField || 'value']) === String(value)) as Option;
 }
 
-export function normalizeOptions(options:string|{[propName:string]: string} | Array<string> | Options):Options {
+export function normalizeOptions(options: string | {[propName: string]: string} | Array<string> | Options): Options {
     if (typeof options === 'string') {
         return options.split(',').map(item => ({
             label: item,
-            value: item
+            value: item,
         }));
     } else if (Array.isArray(options as Array<string>) && typeof (options as Array<string>)[0] === 'string') {
         return (options as Array<string>).map(item => ({
             label: item,
-            value: item
-        }))
+            value: item,
+        }));
     } else if (Array.isArray(options as Options)) {
         return (options as Options).map(item => {
             let option = {
                 ...item,
-                value: item && item.value
+                value: item && item.value,
             };
 
             if (typeof option.children !== 'undefined') {
@@ -115,8 +111,8 @@ export function normalizeOptions(options:string|{[propName:string]: string} | Ar
         });
     } else if (isPlainObject(options)) {
         return Object.keys(options).map(key => ({
-            label: (options as {[propName:string]: string})[key] as string,
-            value: key
+            label: (options as {[propName: string]: string})[key] as string,
+            value: key,
         }));
     }
 
@@ -147,9 +143,9 @@ interface SelectProps {
     inline: boolean;
     disabled: boolean;
     popOverContainer?: any;
-    promptTextCreator: (label:string) => string;
+    promptTextCreator: (label: string) => string;
     onChange: (value: void | string | Option | Array<Option>) => void;
-    onNewOptionClick: (value:Option) => void;
+    onNewOptionClick: (value: Option) => void;
     onFocus?: Function;
     onBlur?: Function;
 }
@@ -176,14 +172,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
         valueField: 'value',
         labelField: 'label',
         spinnerClassName: 'fa fa-spinner fa-spin fa-1x fa-fw',
-        promptTextCreator: (label:string) => `新增：${label}`,
+        promptTextCreator: (label: string) => `新增：${label}`,
         onNewOptionClick: noop,
-        inline: false
-    }
+        inline: false,
+    };
 
-    input:HTMLInputElement;
+    input: HTMLInputElement;
     target: HTMLElement;
-    constructor(props:SelectProps) {
+    constructor(props: SelectProps) {
         super(props);
 
         this.open = this.open.bind(this);
@@ -205,58 +201,62 @@ export class Select extends React.Component<SelectProps, SelectState> {
             isFocused: false,
             inputValue: '',
             highlightedIndex: -1,
-            selection: value2array(props.value, props)
+            selection: value2array(props.value, props),
         };
     }
 
     componentDidMount() {
-        const {
-            loadOptions
-        } = this.props;
+        const {loadOptions} = this.props;
 
         loadOptions && loadOptions('');
     }
 
-    componentWillReceiveProps(nextProps:SelectProps) {
+    componentWillReceiveProps(nextProps: SelectProps) {
         const props = this.props;
 
         if (props.value !== nextProps.value || JSON.stringify(props.options) !== JSON.stringify(nextProps.options)) {
             this.setState({
-                selection: value2array(nextProps.value, nextProps)
+                selection: value2array(nextProps.value, nextProps),
             });
         }
     }
 
     open() {
-        this.props.disabled || this.setState({
-            isOpen: true
-        });
+        this.props.disabled ||
+            this.setState({
+                isOpen: true,
+            });
     }
 
     close() {
         this.setState({
-            isOpen: false
+            isOpen: false,
         });
     }
 
     toggle() {
-        this.props.disabled || this.setState({
-            isOpen: !this.state.isOpen
-        });
+        this.props.disabled ||
+            this.setState({
+                isOpen: !this.state.isOpen,
+            });
     }
 
-    onFocus(e:any) {
-        this.props.disabled || this.setState({
-            isFocused: true,
-        }, this.focus);
+    onFocus(e: any) {
+        this.props.disabled ||
+            this.setState(
+                {
+                    isFocused: true,
+                },
+                this.focus
+            );
 
         this.props.onFocus && this.props.onFocus(e);
     }
 
-    onBlur(e:any) {
+    onBlur(e: any) {
         this.setState({
             isFocused: false,
-            inputValue: ''
+            inputValue: '',
         });
 
         this.props.onBlur && this.props.onBlur(e);
@@ -277,11 +277,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
         return this.target as HTMLElement;
     }
 
-    inputRef(ref:HTMLInputElement) {
+    inputRef(ref: HTMLInputElement) {
         this.input = ref;
     }
 
-    removeItem(index:number, e?: React.MouseEvent<HTMLElement>) {
+    removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
         let value = this.props.value;
         const onChange = this.props.onChange;
 
@@ -291,22 +291,19 @@ export class Select extends React.Component<SelectProps, SelectState> {
         onChange(value);
     }
 
-    handleInputChange(evt:React.ChangeEvent<HTMLInputElement>) {
-        const {
-            loadOptions
-        } = this.props;
+    handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
+        const {loadOptions} = this.props;
 
-        this.setState({
-            inputValue: evt.currentTarget.value
-        }, () => loadOptions && loadOptions(this.state.inputValue));
+        this.setState(
+            {
+                inputValue: evt.currentTarget.value,
+            },
+            () => loadOptions && loadOptions(this.state.inputValue)
+        );
     }
 
-    handleChange(selectItem:any) {
-        const {
-            onChange,
-            multiple,
-            onNewOptionClick,
-        } = this.props;
+    handleChange(selectItem: any) {
+        const {onChange, multiple, onNewOptionClick} = this.props;
 
         let selection = this.state.selection;
 
@@ -330,7 +327,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     handleStateChange(changes: any) {
-        let update:any = {};
+        let update: any = {};
         const loadOptions = this.props.loadOptions;
         let doLoad = false;
 
@@ -349,46 +346,35 @@ export class Select extends React.Component<SelectProps, SelectState> {
                     ...update,
                     inputValue: '',
                     isOpen: false,
-                    isFocused: false
-                }
+                    isFocused: false,
+                };
                 doLoad = true;
                 break;
             case Downshift.stateChangeTypes.changeInput:
-                update.highlightedIndex = 0
+                update.highlightedIndex = 0;
                 break;
         }
-        
-          
+
         if (Object.keys(update).length) {
             this.setState(update, doLoad && loadOptions ? () => loadOptions('') : undefined);
         }
     }
 
-    handleKeyPress(e:React.KeyboardEvent) {
+    handleKeyPress(e: React.KeyboardEvent) {
         if (e.key === ' ') {
             this.toggle();
         }
     }
 
-    clearValue(e:React.MouseEvent<any>) {
+    clearValue(e: React.MouseEvent<any>) {
         const onChange = this.props.onChange;
         e.preventDefault();
         e.stopPropagation();
         onChange('');
     }
 
-    renderValue({
-        inputValue,
-        isOpen
-    }:ControllerStateAndHelpers<any>) {
-        const {
-            multiple,
-            placeholder,
-            classPrefix: ns,
-            labelField,
-            searchable,
-            creatable
-        } = this.props;
+    renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
+        const {multiple, placeholder, classPrefix: ns, labelField, searchable, creatable} = this.props;
 
         const selection = this.state.selection;
 
@@ -397,30 +383,30 @@ export class Select extends React.Component<SelectProps, SelectState> {
         }
 
         if (!selection.length) {
-            return creatable && inputValue ?  null : (
-                <div key="placeholder" className={`${ns}Select-placeholder`}>{placeholder}</div>
+            return creatable && inputValue ? null : (
+                <div key="placeholder" className={`${ns}Select-placeholder`}>
+                    {placeholder}
+                </div>
             );
         }
 
-        return selection.map((item, index) => multiple ? (
-            <div className={`${ns}Select-value`} key={index}>
-                <span className={`${ns}Select-valueIcon`} onClick={this.removeItem.bind(this, index)}>×</span>
-                <span className={`${ns}Select-valueLabel`}>{item[labelField||'label']}</span>
-            </div>
-        ) : inputValue && isOpen ? null : (
-            <div className={`${ns}Select-value`} key={index}>
-                {item.label}
-            </div>
-        ));
+        return selection.map((item, index) =>
+            multiple ? (
+                <div className={`${ns}Select-value`} key={index}>
+                    <span className={`${ns}Select-valueIcon`} onClick={this.removeItem.bind(this, index)}>
+                        ×
+                    </span>
+                    <span className={`${ns}Select-valueLabel`}>{item[labelField || 'label']}</span>
+                </div>
+            ) : inputValue && isOpen ? null : (
+                <div className={`${ns}Select-value`} key={index}>
+                    {item.label}
+                </div>
+            )
+        );
     }
 
-    renderOuter({
-        selectedItem,
-        getItemProps,
-        highlightedIndex,
-        inputValue,
-        isOpen
-    }:ControllerStateAndHelpers<any>) {
+    renderOuter({selectedItem, getItemProps, highlightedIndex, inputValue, isOpen}: ControllerStateAndHelpers<any>) {
         const {
             popOverContainer,
             options,
@@ -431,52 +417,64 @@ export class Select extends React.Component<SelectProps, SelectState> {
             creatable,
             promptTextCreator,
             multiple,
-            classnames: cx
+            classnames: cx,
         } = this.props;
 
-        let filtedOptions:Array<Option> = inputValue && isOpen && !loadOptions ? matchSorter(options, inputValue, {keys: [labelField || 'label', valueField || 'value']}) : options.concat();
-        
+        let filtedOptions: Array<Option> =
+            inputValue && isOpen && !loadOptions
+                ? matchSorter(options, inputValue, {
+                      keys: [labelField || 'label', valueField || 'value'],
+                  })
+                : options.concat();
+
         if (multiple) {
-            filtedOptions = filtedOptions.filter((option:any) => !~selectedItem.indexOf(option));
+            filtedOptions = filtedOptions.filter((option: any) => !~selectedItem.indexOf(option));
         }
 
-        if (inputValue && creatable 
-            && (
-                !filtedOptions.length 
-                || isOpen && loadOptions 
-                    && !matchSorter(options, inputValue, {
-                        keys: [labelField || 'label',
-                        valueField || 'value']
-                    }).length
-            )) {
+        if (
+            inputValue &&
+            creatable &&
+            (!filtedOptions.length ||
+                (isOpen &&
+                    loadOptions &&
+                    !matchSorter(options, inputValue, {
+                        keys: [labelField || 'label', valueField || 'value'],
+                    }).length))
+        ) {
             filtedOptions.push({
                 [labelField]: inputValue,
                 [valueField]: inputValue,
-                isNew: true
+                isNew: true,
             });
         }
 
         const menu = (
             <div className={cx('Select-menu')}>
-                {filtedOptions.length ? filtedOptions.map((item, index) => (
-                    <div
-                        {...getItemProps({
-                            key: index,
-                            index,
-                            item,
-                            disabled: item.disabled
-                        })}
-                        className={cx(`Select-option`, {
-                            'is-disabled': item.disabled,
-                            'is-highlight': highlightedIndex === index,
-                            'is-active': selectedItem === item || Array.isArray(selectedItem) && ~selectedItem.indexOf(item)
-                        })}
-                    >
-                        {item.isNew ? (
-                            promptTextCreator(item.label as string)
-                        ) : item.disabled ? item[labelField] : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))}
-                    </div>
-                )) : (
+                {filtedOptions.length ? (
+                    filtedOptions.map((item, index) => (
+                        <div
+                            {...getItemProps({
+                                key: index,
+                                index,
+                                item,
+                                disabled: item.disabled,
+                            })}
+                            className={cx(`Select-option`, {
+                                'is-disabled': item.disabled,
+                                'is-highlight': highlightedIndex === index,
+                                'is-active':
+                                    selectedItem === item ||
+                                    (Array.isArray(selectedItem) && ~selectedItem.indexOf(item)),
+                            })}
+                        >
+                            {item.isNew
+                                ? promptTextCreator(item.label as string)
+                                : item.disabled
+                                ? item[labelField]
+                                : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))}
+                        </div>
+                    ))
+                ) : (
                     <div className={cx('Select-option Select-option--placeholder')}>{noResultsText}</div>
                 )}
             </div>
@@ -484,13 +482,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
         if (popOverContainer) {
             return (
-                <Overlay
-                    container={popOverContainer}
-                    placement="left-bottom-left-top"
-                    target={this.getTarget}
-                    show
-                >
-                    <PopOver 
+                <Overlay container={popOverContainer} placement="left-bottom-left-top" target={this.getTarget} show>
+                    <PopOver
                         className={cx('Select-popover')}
                         style={{width: this.target ? this.target.offsetWidth : 'auto'}}
                     >
@@ -499,13 +492,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 </Overlay>
             );
         } else {
-            return (
-                <div
-                    className={cx('Select-menuOuter')}
-                >
-                    {menu}
-                </div>
-            );
+            return <div className={cx('Select-menuOuter')}>{menu}</div>;
         }
     }
 
@@ -536,64 +523,72 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 onChange={this.handleChange}
                 onStateChange={this.handleStateChange}
                 onOuterClick={this.close}
-                itemToString={(item) => item ? item[labelField] : ''}
-            >{(options:ControllerStateAndHelpers<any>) => {
-                const {
-                    isOpen,
-                    getInputProps
-                } = options;
-                return (
-                    <div
-                        tabIndex={searchable || disabled ? -1 : 0}
-                        onKeyPress={this.handleKeyPress}
-                        onClick={this.toggle}
-                        onFocus={this.onFocus}
-                        onBlur={this.onBlur}
-                        className={cx(`Select`, {
-                            [`Select--multi`]: multiple,
-                            [`Select--inline`]: inline,
-                            [`Select--searchable`]: searchable,
-                            'is-opened': isOpen,
-                            'is-focused': this.state.isFocused,
-                            'is-disabled': disabled
-                        }, className)}
-                    >
-                        <div className={cx(`Select-valueWrap`)}>
-                            {this.renderValue(options)}
-                            {searchable ? (
-                                <input
-                                    {...getInputProps({
-                                        className: cx(`Select-input`),
-                                        onFocus: this.onFocus,
-                                        onBlur: this.onBlur,
-                                        onKeyDown: (event) => {
-                                            if (event.key === 'Backspace' && !inputValue) {
-                                                this.removeItem(value.length - 1);
-                                            }
-                                        },
-                                        onChange: this.handleInputChange,
-                                        ref: this.inputRef
-                                    })}
-                                />
+                itemToString={item => (item ? item[labelField] : '')}
+            >
+                {(options: ControllerStateAndHelpers<any>) => {
+                    const {isOpen, getInputProps} = options;
+                    return (
+                        <div
+                            tabIndex={searchable || disabled ? -1 : 0}
+                            onKeyPress={this.handleKeyPress}
+                            onClick={this.toggle}
+                            onFocus={this.onFocus}
+                            onBlur={this.onBlur}
+                            className={cx(
+                                `Select`,
+                                {
+                                    [`Select--multi`]: multiple,
+                                    [`Select--inline`]: inline,
+                                    [`Select--searchable`]: searchable,
+                                    'is-opened': isOpen,
+                                    'is-focused': this.state.isFocused,
+                                    'is-disabled': disabled,
+                                },
+                                className
+                            )}
+                        >
+                            <div className={cx(`Select-valueWrap`)}>
+                                {this.renderValue(options)}
+                                {searchable ? (
+                                    <input
+                                        {...getInputProps({
+                                            className: cx(`Select-input`),
+                                            onFocus: this.onFocus,
+                                            onBlur: this.onBlur,
+                                            onKeyDown: event => {
+                                                if (event.key === 'Backspace' && !inputValue) {
+                                                    this.removeItem(value.length - 1);
+                                                }
+                                            },
+                                            onChange: this.handleInputChange,
+                                            ref: this.inputRef,
+                                        })}
+                                    />
+                                ) : null}
+                            </div>
+                            {clearable && !disabled && value && value.length ? (
+                                <a onClick={this.clearValue} className={cx('Select-clear')}>
+                                    {closeIcon}
+                                </a>
                             ) : null}
+                            {loading ? (
+                                <span className={cx('Select-spinner')}>
+                                    <i className={spinnerClassName} />
+                                </span>
+                            ) : null}
+
+                            <span className={cx('Select-arrow')} />
+                            {isOpen ? this.renderOuter(options) : null}
                         </div>
-                        {clearable && !disabled && value && value.length ? (<a onClick={this.clearValue} className={cx('Select-clear')}>{closeIcon}</a>) : null}
-                        {loading ? (
-                            <span className={cx('Select-spinner')}>
-                                <i className={spinnerClassName} />
-                            </span>
-                        ) : null}
-                    
-                        <span className={cx('Select-arrow')}></span>
-                        {isOpen ? this.renderOuter(options) : null}
-                    </div>
-                );
-            }}</Downshift>
+                    );
+                }}
+            </Downshift>
         );
     }
 }
 
-
-export default themeable(uncontrollable(Select, {
-    value: 'onChange'
-}));
+export default themeable(
+    uncontrollable(Select, {
+        value: 'onChange',
+    })
+);

@@ -1,15 +1,18 @@
+/**
+ * @file ColorPicker
+ * @description 颜色选择器组件
+ * @author fex
+ */
+
 import * as React from 'react';
 import * as cx from 'classnames';
-import {
-    findDOMNode
-} from 'react-dom';
-import { SketchPicker, ColorResult } from 'react-color';
+import {findDOMNode} from 'react-dom';
+import {SketchPicker, ColorResult} from 'react-color';
 import {closeIcon} from './icons';
 import Overlay from './Overlay';
 import uncontrollable = require('uncontrollable');
 import PopOver from './PopOver';
-import { ClassNamesFn, themeable } from '../theme';
-
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface ColorProps {
     placeholder?: string;
@@ -23,32 +26,32 @@ export interface ColorProps {
     value: any;
     classPrefix: string;
     classnames: ClassNamesFn;
-    onChange: (value:any) => void;
-};
+    onChange: (value: any) => void;
+}
 
 export interface ColorControlState {
     isOpened: boolean;
     isFocused: boolean;
     inputValue: string;
-};
+}
 
 export class ColorControl extends React.PureComponent<ColorProps, ColorControlState> {
     static defaultProps = {
         format: 'hex',
         clearable: true,
-        placeholder: '请选择颜色'
+        placeholder: '请选择颜色',
         // closeOnSelect: true
     };
     state = {
         isOpened: false,
         isFocused: false,
-        inputValue: this.props.value || ''
+        inputValue: this.props.value || '',
     };
-    popover:any;
+    popover: any;
     closeTimer: number;
     preview: React.RefObject<HTMLElement>;
     input: React.RefObject<HTMLInputElement>;
-    constructor(props:ColorProps) {
+    constructor(props: ColorProps) {
         super(props);
 
         this.open = this.open.bind(this);
@@ -65,26 +68,26 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
         this.input = React.createRef();
     }
 
-    componentWillReceiveProps(nextProps:ColorProps) {
+    componentWillReceiveProps(nextProps: ColorProps) {
         const props = this.props;
 
         if (props.value !== nextProps.value) {
             this.setState({
-                inputValue: nextProps.value || ''
+                inputValue: nextProps.value || '',
             });
         }
     }
 
     handleFocus() {
         this.setState({
-            isFocused: true
+            isFocused: true,
         });
     }
 
     handleBlur() {
         this.setState({
             isFocused: false,
-            inputValue: this.props.value
+            inputValue: this.props.value,
         });
     }
 
@@ -96,18 +99,21 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
         this.input.current && this.input.current.blur();
     }
 
-    open(fn?:() => void) {
+    open(fn?: () => void) {
         if (this.props.disabled) {
             return;
         }
-        this.setState({
-            isOpened: true
-        }, fn);
+        this.setState(
+            {
+                isOpened: true,
+            },
+            fn
+        );
     }
-    
+
     close() {
         this.setState({
-            isOpened: false
+            isOpened: false,
         });
     }
 
@@ -123,31 +129,36 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
     handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         const onChange = this.props.onChange;
 
-        this.setState({
-            inputValue: e.currentTarget.value
-        }, () => {
-            const dom:HTMLElement = this.preview.current as HTMLElement;
-            
-            // 通过读取dom上到值，确认当前输入值是否有效。
-            if (dom && dom.style.backgroundColor === this.state.inputValue) {
-                onChange(this.state.inputValue);
+        this.setState(
+            {
+                inputValue: e.currentTarget.value,
+            },
+            () => {
+                const dom: HTMLElement = this.preview.current as HTMLElement;
+
+                // 通过读取dom上到值，确认当前输入值是否有效。
+                if (dom && dom.style.backgroundColor === this.state.inputValue) {
+                    onChange(this.state.inputValue);
+                }
             }
-        });
+        );
     }
 
-    handleChange(color:ColorResult) {
+    handleChange(color: ColorResult) {
         const {
             onChange,
             format,
             // closeOnSelect
-          } = this.props;
-      
+        } = this.props;
+
         if (format === 'rgba') {
             onChange(`rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`);
         } else if (format === 'rgb') {
             onChange(`rgb(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b})`);
-        }  else if (format === 'hsl') {
-            onChange(`hsl(${Math.round(color.hsl.h)}, ${Math.round(color.hsl.s * 100)}%, ${Math.round(color.hsl.l * 100)}%)`);
+        } else if (format === 'hsl') {
+            onChange(
+                `hsl(${Math.round(color.hsl.h)}, ${Math.round(color.hsl.s * 100)}%, ${Math.round(color.hsl.l * 100)}%)`
+            );
         } else {
             onChange(color.hex);
         }
@@ -166,20 +177,24 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
             format,
             clearable,
             placement,
-            classnames: cx
+            classnames: cx,
         } = this.props;
 
         const isOpened = this.state.isOpened;
         const isFocused = this.state.isFocused;
 
         return (
-            <div 
-                className={cx(`ColorPicker`, {
-                    'is-disabled': disabled,
-                    'is-focused': isFocused
-                }, className)}
+            <div
+                className={cx(
+                    `ColorPicker`,
+                    {
+                        'is-disabled': disabled,
+                        'is-focused': isFocused,
+                    },
+                    className
+                )}
             >
-                <input 
+                <input
                     size={10}
                     ref={this.input}
                     type="text"
@@ -195,10 +210,18 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
                 />
 
                 {clearable && !disabled && value ? (
-                    <a onClick={this.clearValue} className={cx('ColorPicker-clear')}>{closeIcon}</a>
+                    <a onClick={this.clearValue} className={cx('ColorPicker-clear')}>
+                        {closeIcon}
+                    </a>
                 ) : null}
-                
-                <span onClick={this.handleClick} className={cx('ColorPicker-preview')}><i ref={this.preview} className={`${ns}ColorPicker-previewIcon`} style={{background: this.state.inputValue || '#ccc'}} /></span>
+
+                <span onClick={this.handleClick} className={cx('ColorPicker-preview')}>
+                    <i
+                        ref={this.preview}
+                        className={`${ns}ColorPicker-previewIcon`}
+                        style={{background: this.state.inputValue || '#ccc'}}
+                    />
+                </span>
 
                 {isOpened ? (
                     <Overlay
@@ -209,13 +232,12 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
                         rootClose={false}
                         show
                     >
-                        <PopOver
-                            classPrefix={ns}
-                            className={cx('ColorPicker-popover')}
-                            onHide={this.close}
-                            overlay
-                        >
-                            <SketchPicker disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)} color={value} onChangeComplete={this.handleChange} />
+                        <PopOver classPrefix={ns} className={cx('ColorPicker-popover')} onHide={this.close} overlay>
+                            <SketchPicker
+                                disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
+                                color={value}
+                                onChangeComplete={this.handleChange}
+                            />
                         </PopOver>
                     </Overlay>
                 ) : null}
@@ -224,6 +246,8 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
     }
 }
 
-export default themeable(uncontrollable(ColorControl, {
-    value: 'onChange'
-}));
+export default themeable(
+    uncontrollable(ColorControl, {
+        value: 'onChange',
+    })
+);

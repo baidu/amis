@@ -1,3 +1,9 @@
+/**
+ * @file Index
+ * @description
+ * @author fex
+ */
+
 import NotFound from './404';
 import {default as Alert, alert, confirm} from './Alert';
 import AsideNav from './AsideNav';
@@ -31,8 +37,6 @@ import {default as ToastComponent, toast} from './Toast';
 import Tooltip from './Tooltip';
 import TooltipWrapper from './TooltipWrapper';
 import Tree from './Tree';
-
-
 
 export {
     NotFound,
@@ -70,5 +74,5 @@ export {
     toast,
     Tooltip,
     TooltipWrapper,
-    Tree
+    Tree,
 };

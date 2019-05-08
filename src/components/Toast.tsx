@@ -1,18 +1,15 @@
 /**
- * @file toast提示组件, 单例模式，App级别只需要一个ToastComponent，引入了多个会兼容，也只有第一个生效
+ * @file Toast
+ * @description toast提示组件, 单例模式，App级别只需要一个ToastComponent，引入了多个会兼容，也只有第一个生效
  * @author fex
  */
-import Transition, {
-    ENTERED,
-    ENTERING,
-    EXITING,
-    EXITED
-} from 'react-transition-group/Transition';
+
+import Transition, {ENTERED, ENTERING, EXITING, EXITED} from 'react-transition-group/Transition';
 import * as React from 'react';
 import * as cx from 'classnames';
 import Html from './Html';
-import { uuid, autobind } from '../utils/helper';
-import { ClassNamesFn, themeable } from '../theme';
+import {uuid, autobind} from '../utils/helper';
+import {ClassNamesFn, themeable} from '../theme';
 
 const fadeStyles: {
     [propName: string]: string;
@@ -20,11 +17,15 @@ const fadeStyles: {
     [ENTERING]: 'in',
     [ENTERED]: '',
     [EXITING]: 'out',
-    [EXITED]: 'hidden'
+    [EXITED]: 'hidden',
 };
 
 let toastRef: any = null;
-let config: {closeButton?: boolean; timeOut?: number; extendedTimeOut?: number;} = {};
+let config: {
+    closeButton?: boolean;
+    timeOut?: number;
+    extendedTimeOut?: number;
+} = {};
 
 const show = (content: string, title: string = '', conf: any = {}, method: string) => {
     if (!toastRef || !toastRef[method]) {
@@ -48,36 +49,32 @@ interface Item {
     body: string;
     level: 'info' | 'success' | 'error' | 'warning';
     id: string;
-};
+}
 
 interface ToastComponentState {
     items: Array<Item>;
 }
 
-export class ToastComponent extends React.PureComponent<ToastComponentProps, ToastComponentState>  {
+export class ToastComponent extends React.PureComponent<ToastComponentProps, ToastComponentState> {
     static defaultProps = {
         position: 'top-right',
         closeButton: false,
         timeOut: 5000,
-        extendedTimeOut: 3000
+        extendedTimeOut: 3000,
     };
 
     // 当前ToastComponent是否真正render了
     hasRendered = false;
-    state:ToastComponentState = {
-        items: []
+    state: ToastComponentState = {
+        items: [],
     };
 
     componentWillMount() {
-        const {
-            closeButton,
-            timeOut,
-            extendedTimeOut
-        } = this.props;
+        const {closeButton, timeOut, extendedTimeOut} = this.props;
         config = {
             closeButton,
             timeOut,
-            extendedTimeOut
+            extendedTimeOut,
         };
     }
 
@@ -89,7 +86,7 @@ export class ToastComponent extends React.PureComponent<ToastComponentProps, Toa
     componentWillUnmount() {
         if (this.hasRendered) {
             toastRef = null;
-        } 
+        }
     }
 
     notifiy(level: string, content: string, title?: string, config?: any) {
@@ -99,10 +96,10 @@ export class ToastComponent extends React.PureComponent<ToastComponentProps, Toa
             body: content,
             level,
             ...config,
-            id: uuid()
+            id: uuid(),
         });
         this.setState({
-            items
+            items,
         });
     }
 
@@ -126,11 +123,11 @@ export class ToastComponent extends React.PureComponent<ToastComponentProps, Toa
         this.notifiy('warning', content, title, config);
     }
 
-    handleDismissed(index:number) {
+    handleDismissed(index: number) {
         const items = this.state.items.concat();
         items.splice(index, 1);
         this.setState({
-            items: items
+            items: items,
         });
     }
 
@@ -139,18 +136,18 @@ export class ToastComponent extends React.PureComponent<ToastComponentProps, Toa
             return null;
         }
 
-        const {
-            classPrefix: ns,
-            className,
-            timeOut,
-            position
-        } = this.props;
+        const {classPrefix: ns, className, timeOut, position} = this.props;
         const items = this.state.items;
 
         return (
-            <div className={cx(`${ns}Toast-wrap ${ns}Toast-wrap--${position.replace(/\-(\w)/g, (_, l) => l.toUpperCase())}`, className)}>
+            <div
+                className={cx(
+                    `${ns}Toast-wrap ${ns}Toast-wrap--${position.replace(/\-(\w)/g, (_, l) => l.toUpperCase())}`,
+                    className
+                )}
+            >
                 {items.map((item, index) => (
-                    <ToastMessage 
+                    <ToastMessage
                         key={item.id}
                         classPrefix={ns}
                         title={item.title}
@@ -180,7 +177,7 @@ interface ToastMessageProps {
 
 interface ToastMessageState {
     visible: boolean;
-};
+}
 
 export class ToastMessage extends React.Component<ToastMessageProps> {
     static defaultProps = {
@@ -188,14 +185,14 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
         classPrefix: '',
         position: 'top-right',
         allowHtml: true,
-        level: 'info'
+        level: 'info',
     };
 
     state = {
-        visible: false
+        visible: false,
     };
 
-    content:React.RefObject<HTMLDivElement>;
+    content: React.RefObject<HTMLDivElement>;
     timer: NodeJS.Timeout;
     constructor(props: ToastMessageProps) {
         super(props);
@@ -213,7 +210,7 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
 
     componentDidMount() {
         this.setState({
-            visible: true
+            visible: true,
         });
     }
 
@@ -224,7 +221,7 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
     handleMouseLeave() {
         this.handleEntered();
     }
-    
+
     handleEntered() {
         const timeOut = this.props.timeOut;
         this.timer = setTimeout(this.close, timeOut);
@@ -233,20 +230,12 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
     close() {
         clearTimeout(this.timer);
         this.setState({
-            visible: false
+            visible: false,
         });
     }
 
     render() {
-        const  {
-            onDismiss,
-            classPrefix: ns,
-            position,
-            title,
-            body,
-            allowHtml,
-            level
-        } = this.props;
+        const {onDismiss, classPrefix: ns, position, title, body, allowHtml, level} = this.props;
 
         return (
             <Transition
@@ -266,22 +255,20 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
                     }
 
                     return (
-                        <div 
+                        <div
                             ref={this.content}
                             className={cx(`${ns}Toast ${ns}Toast--${level}`, fadeStyles[status])}
                             onMouseEnter={this.handleMouseEnter}
                             onMouseLeave={this.handleMouseLeave}
                             onClick={this.close}
                         >
-                            {title ? (<div className={`${ns}Toast-title`}>{title}</div>) : null}
-                            <div className={`${ns}Toast-body`}>
-                                {allowHtml ? (<Html html={body} />) : body}
-                            </div>
+                            {title ? <div className={`${ns}Toast-title`}>{title}</div> : null}
+                            <div className={`${ns}Toast-body`}>{allowHtml ? <Html html={body} /> : body}</div>
                         </div>
-                    )
+                    );
                 }}
             </Transition>
-        )
+        );
     }
 }
 
@@ -290,6 +277,5 @@ export const toast = {
     success: (content: string, title?: string, conf?: any) => show(content, title, conf, 'success'),
     error: (content: string, title?: string, conf?: any) => show(content, title, conf, 'error'),
     info: (content: string, title?: string, conf?: any) => show(content, title, conf, 'info'),
-    warning: (content: string, title?: string, conf?: any) => show(content, title, conf, 'warning')
+    warning: (content: string, title?: string, conf?: any) => show(content, title, conf, 'warning'),
 };
-

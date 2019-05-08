@@ -1,6 +1,6 @@
 /**
- * @file checkboxes 多选输入框
- *
+ * @file Checkboxes
+ * @description 多选输入框
  * @author fex
  */
 
@@ -9,9 +9,9 @@ import uncontrollable = require('uncontrollable');
 import Checkbox from './Checkbox';
 import find = require('lodash/find');
 import chunk = require('lodash/chunk');
-import { flattenTree } from '../utils/helper';
-import { Option } from './Checkboxes';
-import { ClassNamesFn, themeable } from '../theme';
+import {flattenTree} from '../utils/helper';
+import {Option} from './Checkboxes';
+import {ClassNamesFn, themeable} from '../theme';
 // import isPlainObject = require('lodash/isPlainObject');
 
 export interface Option {
@@ -20,8 +20,8 @@ export interface Option {
     disabled?: boolean;
     children?: Options;
     [propName: string]: any;
-};
-export interface Options extends Array<Option> { };
+}
+export interface Options extends Array<Option> {}
 
 export interface OptionProps {
     multi?: boolean;
@@ -33,7 +33,7 @@ export interface OptionProps {
     delimiter: string;
     clearable: boolean;
     placeholder?: string;
-};
+}
 
 export type OptionValue = string | number | null | undefined | Option;
 
@@ -52,7 +52,14 @@ export function value2array(value: OptionValue | Array<OptionValue>, props: Part
         }
 
         return (value as Array<OptionValue>)
-            .map((value: OptionValue) => expandValue(!props.joinValues && value && value.hasOwnProperty(props.valueField || 'value') ? (value as any)[props.valueField || 'value'] : value, props))
+            .map((value: OptionValue) =>
+                expandValue(
+                    !props.joinValues && value && value.hasOwnProperty(props.valueField || 'value')
+                        ? (value as any)[props.valueField || 'value']
+                        : value,
+                    props
+                )
+            )
             .filter((item: Option) => item) as Array<Option>;
     }
 
@@ -67,10 +74,7 @@ export function expandValue(value: OptionValue, props: Partial<OptionProps>): Op
         return null;
     }
 
-    let {
-        options,
-        valueField
-    } = props;
+    let {options, valueField} = props;
 
     if (!options) {
         return null;
@@ -116,35 +120,28 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
         extractValue: false,
         inline: false,
         delimiter: ',',
-        columnsCount: 1 // 一行显示一个
+        columnsCount: 1, // 一行显示一个
     };
 
     toggleOption(option: Option) {
-        const {
-            value,
-            onChange,
-            joinValues,
-            extractValue,
-            delimiter,
-            valueField,
-            options
-        } = this.props;
+        const {value, onChange, joinValues, extractValue, delimiter, valueField, options} = this.props;
 
         let valueArray = value2array(value, {
             multiple: true,
             valueField,
             delimiter,
-            options
+            options,
         });
         let idx = valueArray.indexOf(option);
 
         if (!~idx) {
-            option = value2array(option[valueField || 'value'], {
-                multiple: true,
-                valueField,
-                delimiter,
-                options
-            })[0] || option;
+            option =
+                value2array(option[valueField || 'value'], {
+                    multiple: true,
+                    valueField,
+                    delimiter,
+                    options,
+                })[0] || option;
             idx = valueArray.indexOf(option);
         }
 
@@ -182,7 +179,7 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
             multiple: true,
             valueField,
             delimiter,
-            options
+            options,
         });
         let body: Array<React.ReactNode> = [];
 
@@ -201,24 +198,27 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
         }
 
         if (!inline && (columnsCount as number) > 1) {
-            let cellClassName = `col-sm-${(12 / (columnsCount as number)).toFixed(1).replace(/\.0$/, '').replace(/\./, '-')}`;
+            let cellClassName = `col-sm-${(12 / (columnsCount as number))
+                .toFixed(1)
+                .replace(/\.0$/, '')
+                .replace(/\./, '-')}`;
             body = chunk(body, columnsCount).map((group, groupIndex) => (
                 <div className="row" key={groupIndex}>
                     {group.map((item, index) => (
-                        <div key={index} className={cellClassName}>{item}</div>
+                        <div key={index} className={cellClassName}>
+                            {item}
+                        </div>
                     ))}
                 </div>
             ));
         }
 
-        return (
-            <div className={className}>
-                {body && body.length ? body : placeholder}
-            </div>
-        );
+        return <div className={className}>{body && body.length ? body : placeholder}</div>;
     }
 }
 
-export default themeable(uncontrollable(Checkboxes, {
-    value: 'onChange'
-}));
+export default themeable(
+    uncontrollable(Checkboxes, {
+        value: 'onChange',
+    })
+);

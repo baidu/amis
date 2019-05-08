@@ -1,3 +1,9 @@
+/**
+ * @file LazyComponent
+ * @description
+ * @author fex
+ */
+
 import * as React from 'react';
 import VisibilitySensor = require('react-visibility-sensor');
 
@@ -8,7 +14,7 @@ export interface LazyComponentProps {
     unMountOnHidden?: boolean;
     childProps?: object;
     visiblilityProps?: object;
-    [propName:string]: any;
+    [propName: string]: any;
 }
 
 export interface LazyComponentState {
@@ -20,57 +26,47 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
     static defaultProps = {
         placeholder: '加载中...',
         unMountOnHidden: false,
-        partialVisibility: true
+        partialVisibility: true,
     };
 
-    constructor(props:LazyComponentProps) {
+    constructor(props: LazyComponentProps) {
         super(props);
 
         this.handleVisibleChange = this.handleVisibleChange.bind(this);
 
         this.state = {
             visible: false,
-            component: props.component as React.ReactType
+            component: props.component as React.ReactType,
         };
     }
 
-    handleVisibleChange(visible:boolean) {
+    handleVisibleChange(visible: boolean) {
         this.setState({
-            visible: visible
+            visible: visible,
         });
 
         if (!visible || this.state.component || !this.props.getComponent) {
             return;
         }
 
-        this.props.getComponent()
-            .then(component => this.setState({
-                component: component
-            }))
-            .catch(reason => this.setState({
-                component: () => (
-                    <div className="alert alert-danger">
-                        {String(reason)}
-                    </div>
-                )
-            }))
-
+        this.props
+            .getComponent()
+            .then(component =>
+                this.setState({
+                    component: component,
+                })
+            )
+            .catch(reason =>
+                this.setState({
+                    component: () => <div className="alert alert-danger">{String(reason)}</div>,
+                })
+            );
     }
 
     render() {
-        const {
-            placeholder,
-            unMountOnHidden,
-            childProps,
-            visiblilityProps,
-            partialVisibility,
-            ...rest
-        } = this.props;
+        const {placeholder, unMountOnHidden, childProps, visiblilityProps, partialVisibility, ...rest} = this.props;
 
-        const {
-            visible,
-            component: Component
-        } = this.state;
+        const {visible, component: Component} = this.state;
 
         // 需要监听从可见到不可见。
         if (unMountOnHidden) {
@@ -81,12 +77,7 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
                     onChange={this.handleVisibleChange}
                 >
                     <div className="visibility-sensor">
-                        {Component && visible ? (
-                            <Component
-                                {...rest}
-                                {...childProps}
-                            />
-                        ) : placeholder}
+                        {Component && visible ? <Component {...rest} {...childProps} /> : placeholder}
                     </div>
                 </VisibilitySensor>
             );
@@ -94,7 +85,7 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
 
         if (!visible) {
             return (
-                <VisibilitySensor 
+                <VisibilitySensor
                     {...visiblilityProps}
                     partialVisibility={partialVisibility}
                     onChange={this.handleVisibleChange}
@@ -102,15 +93,11 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
                     <div className="visibility-sensor">{placeholder}</div>
                 </VisibilitySensor>
             );
-        } else if (Component) { 
+        } else if (Component) {
             // 只监听不可见到可见，一旦可见了，就销毁检查。
-            return (
-                <Component {...rest} {...childProps} />
-            );
+            return <Component {...rest} {...childProps} />;
         }
 
-        return (
-            <div>{placeholder}</div>
-        );
+        return <div>{placeholder}</div>;
     }
 }

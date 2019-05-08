@@ -1,13 +1,15 @@
 /**
- * @file Input Range
+ * @file Range
+ * @description
  * @author fex
  */
+
 import * as React from 'react';
 import * as InputRange from 'react-input-range';
 import uncontrollable = require('uncontrollable');
 import * as cx from 'classnames';
-import { RendererProps } from '../factory';
-import { ClassNamesFn, themeable } from '../theme';
+import {RendererProps} from '../factory';
+import {ClassNamesFn, themeable} from '../theme';
 
 interface RangeProps extends RendererProps {
     id?: string;
@@ -22,17 +24,11 @@ interface RangeProps extends RendererProps {
 export class Range extends React.Component<RangeProps, any> {
     static defaultProps: Partial<RangeProps> = {
         min: 1,
-        max: 100
+        max: 100,
     };
 
     render() {
-        const {
-            min,
-            max,
-            value,
-            className,
-            classPrefix: ns
-        } = this.props;
+        const {min, max, value, className, classPrefix: ns} = this.props;
 
         const classNames = {
             activeTrack: `${ns}InputRange-track is-active`,
@@ -45,14 +41,23 @@ export class Range extends React.Component<RangeProps, any> {
             sliderContainer: `${ns}InputRange-sliderContainer`,
             track: `${ns}InputRange-track ${ns}InputRange-track--background`,
             valueLabel: `${ns}InputRange-label ${ns}InputRange-label--value`,
-        }
+        };
 
         return (
-            <InputRange {...this.props} className={className} classNames={classNames} minValue={min} maxValue={max} value={typeof value === 'number' ? value : min}  />
-        )
+            <InputRange
+                {...this.props}
+                className={className}
+                classNames={classNames}
+                minValue={min}
+                maxValue={max}
+                value={typeof value === 'number' ? value : min}
+            />
+        );
     }
 }
 
-export default themeable(uncontrollable(Range, {
-    value: 'onChange'
-}));
+export default themeable(
+    uncontrollable(Range, {
+        value: 'onChange',
+    })
+);

@@ -1,18 +1,14 @@
 /**
- * @file 树形组件
+ * @file Tree
+ * @description 树形组件
  * @author fex
  */
-/* eslint fecs-indent: [2, "space", 2, 0] */
 
 import * as React from 'react';
-import { eachTree, isVisible } from '../utils/helper';
-import {
-    Option,
-    Options,
-    value2array,
-} from './Checkboxes';
-import { ClassNamesFn, themeable } from '../theme';
-import { highlight } from '../renderers/Form/Options';
+import {eachTree, isVisible} from '../utils/helper';
+import {Option, Options, value2array} from './Checkboxes';
+import {ClassNamesFn, themeable} from '../theme';
+import {highlight} from '../renderers/Form/Options';
 
 interface TreeSelectorProps {
     classPrefix: string;
@@ -59,7 +55,7 @@ interface TreeSelectorProps {
 
 interface TreeSelectorState {
     value: Array<any>;
-    unfolded: { [propName: string]: string };
+    unfolded: {[propName: string]: string};
 }
 
 export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelectorState> {
@@ -85,7 +81,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         rootLabel: '顶级',
         rootValue: 0,
         cascade: false,
-        selfDisabledAffectChildren: true
+        selfDisabledAffectChildren: true,
     };
 
     componentWillMount() {
@@ -97,7 +93,6 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
 
         const props = this.props;
 
-
         this.setState({
             value: value2array(props.value, {
                 joinValues: props.joinValues,
@@ -105,9 +100,9 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                 multiple: props.multiple,
                 delimiter: props.delimiter,
                 valueField: props.valueField,
-                options: props.data
+                options: props.data,
             }),
-            unfolded: this.syncUnFolded(props)
+            unfolded: this.syncUnFolded(props),
         });
     }
 
@@ -121,12 +116,12 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                 multiple: nextProps.multiple,
                 delimiter: nextProps.delimiter,
                 valueField: nextProps.valueField,
-                options: nextProps.data
+                options: nextProps.data,
             });
         }
 
         if (this.props.data !== nextProps.data) {
-            toUpdate.unfolded = this.syncUnFolded(nextProps)
+            toUpdate.unfolded = this.syncUnFolded(nextProps);
         }
 
         this.setState(toUpdate);
@@ -134,11 +129,8 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
 
     syncUnFolded(props: TreeSelectorProps) {
         // 初始化树节点的展开状态
-        let unfolded: { [propName: string]: string } = {};
-        const {
-            foldedField,
-            unfoldedField
-        } = this.props;
+        let unfolded: {[propName: string]: string} = {};
+        const {foldedField, unfoldedField} = this.props;
 
         eachTree(props.data, (node: Option, index, level) => {
             if (node.children && node.children.length) {
@@ -165,37 +157,35 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         this.setState({
             unfolded: {
                 ...this.state.unfolded,
-                [node[this.props.valueField as string]]: !this.state.unfolded[node[this.props.valueField as string]]
-            }
+                [node[this.props.valueField as string]]: !this.state.unfolded[node[this.props.valueField as string]],
+            },
         });
     }
 
     clearSelect() {
-        this.setState({
-            value: []
-        }, () => {
-            const {
-                joinValues,
-                rootValue,
-                onChange
-            } = this.props;
+        this.setState(
+            {
+                value: [],
+            },
+            () => {
+                const {joinValues, rootValue, onChange} = this.props;
 
-            onChange(joinValues ? rootValue : []);
-        });
+                onChange(joinValues ? rootValue : []);
+            }
+        );
     }
 
     handleSelect(node: any, value?: any) {
-        this.setState({
-            value: [node]
-        }, () => {
-            const {
-                joinValues,
-                valueField,
-                onChange
-            } = this.props;
+        this.setState(
+            {
+                value: [node],
+            },
+            () => {
+                const {joinValues, valueField, onChange} = this.props;
 
-            onChange(joinValues ? node[valueField as string] : node);
-        });
+                onChange(joinValues ? node[valueField as string] : node);
+            }
+        );
     }
 
     handleCheck(item: any, checked: boolean) {
@@ -263,22 +253,29 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
             }
         }
 
-        this.setState({
-            value
-        }, () => {
-            const {
-                joinValues,
-                extractValue,
-                valueField,
-                delimiter,
-                onChange
-            } = this.props;
+        this.setState(
+            {
+                value,
+            },
+            () => {
+                const {joinValues, extractValue, valueField, delimiter, onChange} = this.props;
 
-            onChange(joinValues ? value.map(item => item[valueField as string]).join(delimiter) : extractValue ? value.map(item => item[valueField as string]) : value);
-        });
+                onChange(
+                    joinValues
+                        ? value.map(item => item[valueField as string]).join(delimiter)
+                        : extractValue
+                        ? value.map(item => item[valueField as string])
+                        : value
+                );
+            }
+        );
     }
 
-    renderList(list: Options, value: Option[], uncheckable: boolean): { dom: Array<JSX.Element | null>; childrenChecked: number } {
+    renderList(
+        list: Options,
+        value: Option[],
+        uncheckable: boolean
+    ): {dom: Array<JSX.Element | null>; childrenChecked: number} {
         const {
             itemClassName,
             showIcon,
@@ -310,7 +307,13 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
             let childrenItems = null;
             let tmpChildrenChecked = false;
             if (item.children && item.children.length) {
-                childrenItems = this.renderList(item.children, value, cascade ? false : uncheckable || (selfDisabledAffectChildren ? selfDisabled : false) || multiple && checked);
+                childrenItems = this.renderList(
+                    item.children,
+                    value,
+                    cascade
+                        ? false
+                        : uncheckable || (selfDisabledAffectChildren ? selfDisabled : false) || (multiple && checked)
+                );
                 tmpChildrenChecked = !!childrenItems.childrenChecked;
                 if (!selfChecked && onlyChildren && item.children.length === childrenItems.childrenChecked) {
                     selfChecked = true;
@@ -324,7 +327,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
 
             let nodeDisabled = !!uncheckable || !!disabled || selfDisabled;
 
-            const checkbox: JSX.Element|null = (multiple ? (
+            const checkbox: JSX.Element | null = multiple ? (
                 <label className={cx(`Checkbox Checkbox--checkbox Checkbox--sm`)}>
                     <input
                         type="checkbox"
@@ -334,116 +337,114 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                     />
                     <i />
                 </label>
-            ) : (
-                    showRadio ? (
-                        <label className={cx(`Checkbox Checkbox--radio Checkbox--sm`)}>
-                            <input
-                                type="radio"
-                                disabled={nodeDisabled}
-                                checked={checked}
-                                onChange={() => this.handleSelect(item)}
-                            />
-                            <i />
-                        </label>
-                    ) : null
-                )
-            );
+            ) : showRadio ? (
+                <label className={cx(`Checkbox Checkbox--radio Checkbox--sm`)}>
+                    <input
+                        type="radio"
+                        disabled={nodeDisabled}
+                        checked={checked}
+                        onChange={() => this.handleSelect(item)}
+                    />
+                    <i />
+                </label>
+            ) : null;
 
             const isLeaf = !item.children || !item.children.length;
 
             return (
-                <li key={key} className={cx(`Tree-item ${itemClassName || ''}`, {'Tree-item--isLeaf': isLeaf})}>
+                <li
+                    key={key}
+                    className={cx(`Tree-item ${itemClassName || ''}`, {
+                        'Tree-item--isLeaf': isLeaf,
+                    })}
+                >
                     <a>
                         {!isLeaf ? (
                             <i
                                 onClick={() => this.toggleUnfolded(item)}
-                                className={cx("Tree-itemArrow", {
-                                    'is-folded': !this.state.unfolded[item[valueField]]
+                                className={cx('Tree-itemArrow', {
+                                    'is-folded': !this.state.unfolded[item[valueField]],
                                 })}
                             />
                         ) : null}
 
                         {showIcon ? (
-                            <i className={cx(`Tree-itemIcon ${item[iconField] || (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')}`)} />
+                            <i
+                                className={cx(
+                                    `Tree-itemIcon ${item[iconField] ||
+                                        (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')}`
+                                )}
+                            />
                         ) : null}
 
                         {checkbox}
-                        
+
                         <span
                             className={cx('Tree-itemText', {
                                 'is-children-checked': multiple && !cascade && tmpChildrenChecked && !nodeDisabled,
                                 'is-checked': checked,
-                                'is-disabled': nodeDisabled
+                                'is-disabled': nodeDisabled,
                             })}
-                            onClick={() => !nodeDisabled && (multiple ? this.handleCheck(item, !selfChecked) : this.handleSelect(item))}
+                            onClick={() =>
+                                !nodeDisabled &&
+                                (multiple ? this.handleCheck(item, !selfChecked) : this.handleSelect(item))
+                            }
                         >
                             {highlightTxt ? highlight(item[nameField], highlightTxt) : item[nameField]}
                         </span>
                     </a>
-                    {
-                        childrenItems ? (
-                            <ul 
-                                className={cx('Tree-sublist', {
-                                    'is-folded': !this.state.unfolded[item[valueField]]
-                                })}
-                            >
-                                {childrenItems}
-                            </ul>
-                        ) : null
-                    }
+                    {childrenItems ? (
+                        <ul
+                            className={cx('Tree-sublist', {
+                                'is-folded': !this.state.unfolded[item[valueField]],
+                            })}
+                        >
+                            {childrenItems}
+                        </ul>
+                    ) : null}
                 </li>
             );
         });
 
         return {
             dom: ret,
-            childrenChecked
+            childrenChecked,
         };
     }
 
     render() {
-        const {
-            className,
-            placeholder,
-            hideRoot,
-            rootLabel,
-            showIcon,
-            classnames: cx,
-        } = this.props;
+        const {className, placeholder, hideRoot, rootLabel, showIcon, classnames: cx} = this.props;
         let data = this.props.data;
 
         const value = this.state.value;
         return (
             <div className={cx(`Tree ${className || ''}`)}>
                 {data && data.length ? (
-                    <ul className={cx("Tree-list")}>
-                        {hideRoot ? this.renderList(data, value, false).dom : (
-                            <li className={cx("Tree-item Tree-rootItem")}>
+                    <ul className={cx('Tree-list')}>
+                        {hideRoot ? (
+                            this.renderList(data, value, false).dom
+                        ) : (
+                            <li className={cx('Tree-item Tree-rootItem')}>
                                 <a>
-                                    {showIcon ? (
-                                        <i className={cx('Tree-itemIcon Tree-rootIcon')} />
-                                    ) : null}
+                                    {showIcon ? <i className={cx('Tree-itemIcon Tree-rootIcon')} /> : null}
 
                                     <label
                                         className={cx('Tree-itemLabel', {
                                             'is-checked': !value || !value.length,
                                         })}
                                     >
-                                        <span
-                                            className={cx("Tree-itemText")}
-                                            onClick={this.clearSelect}
-                                        >
+                                        <span className={cx('Tree-itemText')} onClick={this.clearSelect}>
                                             {rootLabel}
                                         </span>
                                     </label>
                                 </a>
-                                <ul className={cx("Tree-sublist")}>{this.renderList(data, value, false).dom}</ul>
+                                <ul className={cx('Tree-sublist')}>{this.renderList(data, value, false).dom}</ul>
                             </li>
                         )}
                     </ul>
                 ) : (
-                        <div className={cx("Tree-placeholder")}>{placeholder}</div>
-                    )}
+                    <div className={cx('Tree-placeholder')}>{placeholder}</div>
+                )}
             </div>
         );
     }

@@ -1,18 +1,15 @@
+/**
+ * @file Modal
+ * @description
+ * @author fex
+ */
+
 import * as React from 'react';
-import Transition, {
-    ENTERED,
-    ENTERING
-} from 'react-transition-group/Transition';
-import {
-    Portal
-} from 'react-overlays';
+import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
+import {Portal} from 'react-overlays';
 import * as cx from 'classnames';
-import {
-    current,
-    addModal,
-    removeModal
-} from './ModalManager';
-import { ClassNamesFn, themeable } from '../theme';
+import {current, addModal, removeModal} from './ModalManager';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface ModalProps {
     className?: string;
@@ -27,21 +24,19 @@ export interface ModalProps {
     classnames: ClassNamesFn;
     onExited?: () => void;
     onEntered?: () => void;
-};
-export interface ModalState {
 }
+export interface ModalState {}
 const fadeStyles: {
     [propName: string]: string;
 } = {
     [ENTERING]: 'in',
-    [ENTERED]: 'in'
+    [ENTERED]: 'in',
 };
 export class Modal extends React.Component<ModalProps, ModalState> {
-
     static defaultProps = {
         container: document.body,
         size: '',
-        overlay: true
+        overlay: true,
     };
 
     contentDom: any;
@@ -58,7 +53,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         }
     }
 
-    contentRef = (ref: any) => this.contentDom = ref;
+    contentRef = (ref: any) => (this.contentDom = ref);
     handleEntered = () => {
         const onEntered = this.props.onEntered;
         document.body.classList.add(`is-modalOpened`);
@@ -68,37 +63,25 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         const onExited = this.props.onExited;
         onExited && onExited();
         setTimeout(() => {
-            document.querySelector('.amis-dialog-widget') || (document.body.classList.remove(`is-modalOpened`));
+            document.querySelector('.amis-dialog-widget') || document.body.classList.remove(`is-modalOpened`);
         }, 200);
     };
 
     modalRef = (ref: any) => {
-        const {
-            classPrefix: ns
-        } = this.props;
+        const {classPrefix: ns} = this.props;
         if (ref) {
             addModal(this);
             (ref as HTMLElement).classList.add(`${ns}Modal--${current()}th`);
         } else {
             removeModal();
         }
-    }
+    };
 
     render() {
-        const {
-            className,
-            children,
-            container,
-            show,
-            size,
-            overlay,
-            classPrefix: ns
-        } = this.props;
+        const {className, children, container, show, size, overlay, classPrefix: ns} = this.props;
 
         return (
-            <Portal
-                container={container}
-            >
+            <Portal container={container}>
                 <Transition
                     mountOnEnter
                     unmountOnExit
@@ -116,15 +99,23 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         }
 
                         return (
-                            <div ref={this.modalRef} role="dialog" className={cx(`amis-dialog-widget ${ns}Modal`, {
-                                [`${ns}Modal--${size}`]: size
-                            }, className)}>
-                                {overlay ? (<div className={cx(`${ns}Modal-overlay`, fadeStyles[status])} />) : null}
+                            <div
+                                ref={this.modalRef}
+                                role="dialog"
+                                className={cx(
+                                    `amis-dialog-widget ${ns}Modal`,
+                                    {
+                                        [`${ns}Modal--${size}`]: size,
+                                    },
+                                    className
+                                )}
+                            >
+                                {overlay ? <div className={cx(`${ns}Modal-overlay`, fadeStyles[status])} /> : null}
                                 <div ref={this.contentRef} className={cx(`${ns}Modal-content`, fadeStyles[status])}>
                                     {children}
                                 </div>
                             </div>
-                        )
+                        );
                     }}
                 </Transition>
             </Portal>

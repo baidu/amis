@@ -1,7 +1,13 @@
+/**
+ * @file Html
+ * @description
+ * @author fex
+ */
+
 import * as React from 'react';
 import * as cx from 'classnames';
-import { classPrefix, classnames } from '../themes/default';
-import { ClassNamesFn, themeable } from '../theme';
+import {classPrefix, classnames} from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface HtmlProps {
     className?: string;
@@ -14,24 +20,23 @@ export interface HtmlProps {
 
 export class Html extends React.Component<HtmlProps> {
     static defaultProps = {
-        inline: true
+        inline: true,
     };
 
-    dom:any;
+    dom: any;
 
-    constructor(props:HtmlProps) {
+    constructor(props: HtmlProps) {
         super(props);
         this.htmlRef = this.htmlRef.bind(this);
     }
 
-
-    componentDidUpdate(prevProps:HtmlProps) {
+    componentDidUpdate(prevProps: HtmlProps) {
         if (this.props.html !== prevProps.html) {
             this._render();
         }
     }
 
-    htmlRef(dom:any) {
+    htmlRef(dom: any) {
         this.dom = dom;
 
         if (!dom) {
@@ -42,9 +47,7 @@ export class Html extends React.Component<HtmlProps> {
     }
 
     _render() {
-        const {
-            html,
-        } = this.props;
+        const {html} = this.props;
 
         if (html) {
             this.dom.innerHTML = html;
@@ -52,18 +55,11 @@ export class Html extends React.Component<HtmlProps> {
     }
 
     render() {
-        const {
-            className,
-            wrapperComponent,
-            inline,
-            classPrefix: ns
-        } = this.props;
+        const {className, wrapperComponent, inline, classPrefix: ns} = this.props;
 
         const Component = wrapperComponent || (inline ? 'span' : 'div');
 
-        return (
-            <Component ref={this.htmlRef} className={cx(`${ns}Html`, className)} />
-        );
+        return <Component ref={this.htmlRef} className={cx(`${ns}Html`, className)} />;
     }
 }
 

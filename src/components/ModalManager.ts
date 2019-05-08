@@ -1,10 +1,17 @@
-import * as keycode from "keycode";
+/**
+ * @file ModalManager
+ * @description
+ * @author fex
+ */
 
-interface ModalComponent extends React.Component<{
-    onHide: () => void;
-    disabled?: boolean;
-    closeOnEsc?: boolean;
-}> {}
+import * as keycode from 'keycode';
+
+interface ModalComponent
+    extends React.Component<{
+        onHide: () => void;
+        disabled?: boolean;
+        closeOnEsc?: boolean;
+    }> {}
 
 let modals: Array<ModalComponent> = [];
 
@@ -12,11 +19,11 @@ export function current() {
     return modals.length;
 }
 
-export function currentModal():ModalComponent | void {
+export function currentModal(): ModalComponent | void {
     return modals[modals.length - 1];
 }
 
-export function addModal(modal:ModalComponent) {
+export function addModal(modal: ModalComponent) {
     modals.push(modal);
 }
 
@@ -26,7 +33,7 @@ export function removeModal() {
 
 window.addEventListener('keydown', handleWindowKeyDown);
 
-function handleWindowKeyDown(e:Event) {
+function handleWindowKeyDown(e: Event) {
     const code = keycode(e);
     if (code !== 'esc') {
         return;

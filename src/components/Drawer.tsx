@@ -1,25 +1,19 @@
+/**
+ * @file Drawer
+ * @description
+ * @author fex
+ */
+
 import * as React from 'react';
-import Transition, {
-    ENTERED,
-    ENTERING,
-    EXITING
-} from 'react-transition-group/Transition';
-import {
-    Portal
-} from 'react-overlays';
-import {
-    closeIcon
-} from './icons';
+import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition';
+import {Portal} from 'react-overlays';
+import {closeIcon} from './icons';
 import * as cx from 'classnames';
-import {
-    current,
-    addModal,
-    removeModal
-} from './ModalManager';
-import onClickOutside from "react-onclickoutside";
-import { classPrefix, classnames } from '../themes/default';
-import { ClassNamesFn, themeable } from '../theme';
-import { noop } from '../utils/helper';
+import {current, addModal, removeModal} from './ModalManager';
+import onClickOutside from 'react-onclickoutside';
+import {classPrefix, classnames} from '../themes/default';
+import {ClassNamesFn, themeable} from '../theme';
+import {noop} from '../utils/helper';
 
 type DrawerPosition = 'top' | 'right' | 'bottom' | 'left';
 
@@ -40,24 +34,25 @@ export interface DrawerProps {
     onEntered?: () => void;
     disableOnClickOutside: () => void;
     enableOnClickOutside: () => void;
-};
-export interface DrawerState {
 }
+export interface DrawerState {}
 const fadeStyles: {
     [propName: string]: string;
 } = {
     [ENTERING]: 'in',
-    [ENTERED]: 'in'
+    [ENTERED]: 'in',
 };
 export class Drawer extends React.Component<DrawerProps, DrawerState> {
-
-    static defaultProps:Pick<DrawerProps, "container" | "position" | "size" | "overlay" | "disableOnClickOutside" | "enableOnClickOutside"> = {
+    static defaultProps: Pick<
+        DrawerProps,
+        'container' | 'position' | 'size' | 'overlay' | 'disableOnClickOutside' | 'enableOnClickOutside'
+    > = {
         container: document.body,
         position: 'left',
         size: 'md',
         overlay: true,
         disableOnClickOutside: noop,
-        enableOnClickOutside: noop
+        enableOnClickOutside: noop,
     };
 
     contentDom: any;
@@ -74,7 +69,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
         }
     }
 
-    contentRef = (ref: any) => this.contentDom = ref;
+    contentRef = (ref: any) => (this.contentDom = ref);
     handleEntered = () => {
         const onEntered = this.props.onEntered;
         document.body.classList.add(`is-modalOpened`);
@@ -84,7 +79,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
         const onExited = this.props.onExited;
         onExited && onExited();
         setTimeout(() => {
-            document.querySelector('.amis-dialog-widget') || (document.body.classList.remove(`is-modalOpened`));
+            document.querySelector('.amis-dialog-widget') || document.body.classList.remove(`is-modalOpened`);
         }, 200);
     };
 
@@ -95,13 +90,10 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
         } else {
             removeModal();
         }
-    }
+    };
 
     handleClickOutside() {
-        const {
-            closeOnOutside,
-            onHide
-        } = this.props;
+        const {closeOnOutside, onHide} = this.props;
         closeOnOutside && onHide && onHide();
     }
 
@@ -116,13 +108,11 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
             size,
             onHide,
             disabled,
-            overlay
+            overlay,
         } = this.props;
 
         return (
-            <Portal
-                container={container}
-            >
+            <Portal container={container}>
                 <Transition
                     mountOnEnter
                     unmountOnExit
@@ -140,12 +130,20 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                         }
 
                         return (
-                            <div ref={this.modalRef} role="dialog" className={cx(`amis-dialog-widget ${ns}Drawer`, {
-                                [`${ns}Drawer--${position}`]: position,
-                                [`${ns}Drawer--${size}`]: size,
-                                [`${ns}Drawer--noOverlay`]: !overlay,
-                            }, className)}>
-                                {overlay ? (<div className={cx(`${ns}Drawer-overlay`, fadeStyles[status])} />) : null}
+                            <div
+                                ref={this.modalRef}
+                                role="dialog"
+                                className={cx(
+                                    `amis-dialog-widget ${ns}Drawer`,
+                                    {
+                                        [`${ns}Drawer--${position}`]: position,
+                                        [`${ns}Drawer--${size}`]: size,
+                                        [`${ns}Drawer--noOverlay`]: !overlay,
+                                    },
+                                    className
+                                )}
+                            >
+                                {overlay ? <div className={cx(`${ns}Drawer-overlay`, fadeStyles[status])} /> : null}
                                 <div ref={this.contentRef} className={cx(`${ns}Drawer-content`, fadeStyles[status])}>
                                     <a onClick={disabled ? undefined : onHide} className={`${ns}Drawer-close`}>
                                         {closeIcon}
@@ -153,7 +151,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                                     {children}
                                 </div>
                             </div>
-                        )
+                        );
                     }}
                 </Transition>
             </Portal>
