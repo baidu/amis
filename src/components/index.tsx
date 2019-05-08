@@ -5,7 +5,7 @@
  */
 
 import NotFound from './404'
-import { default as Alert, alert, confirm } from './Alert'
+import {default as Alert, alert, confirm} from './Alert'
 import AsideNav from './AsideNav'
 import Button from './Button'
 import Checkbox from './Checkbox'
@@ -33,46 +33,46 @@ import Spinner from './Spinner'
 import Switch from './Switch'
 import Textarea from './Textarea'
 import TitleBar from './TitleBar'
-import { default as ToastComponent, toast } from './Toast'
+import {default as ToastComponent, toast} from './Toast'
 import Tooltip from './Tooltip'
 import TooltipWrapper from './TooltipWrapper'
 import Tree from './Tree'
 
 export {
-  NotFound,
-  Alert as AlertComponent,
-  alert,
-  confirm,
-  AsideNav,
-  Button,
-  Checkbox,
-  Checkboxes,
-  Collapse,
-  ColorPicker,
-  DatePicker,
-  DateRangePicker,
-  Drawer,
-  DropdownButton,
-  // Editor,
-  Html,
-  Icons,
-  Layout,
-  LazyComponent,
-  Modal,
-  Overlay,
-  PopOver,
-  Radios,
-  Range,
-  Rating,
-  // RichText,
-  Select,
-  Spinner,
-  Switch,
-  Textarea,
-  TitleBar,
-  ToastComponent,
-  toast,
-  Tooltip,
-  TooltipWrapper,
-  Tree
+    NotFound,
+    Alert as AlertComponent,
+    alert,
+    confirm,
+    AsideNav,
+    Button,
+    Checkbox,
+    Checkboxes,
+    Collapse,
+    ColorPicker,
+    DatePicker,
+    DateRangePicker,
+    Drawer,
+    DropdownButton,
+    // Editor,
+    Html,
+    Icons,
+    Layout,
+    LazyComponent,
+    Modal,
+    Overlay,
+    PopOver,
+    Radios,
+    Range,
+    Rating,
+    // RichText,
+    Select,
+    Spinner,
+    Switch,
+    Textarea,
+    TitleBar,
+    ToastComponent,
+    toast,
+    Tooltip,
+    TooltipWrapper,
+    Tree,
 }

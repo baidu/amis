@@ -1,3 +1,3 @@
-import { DropdownButton } from 'react-bootstrap'
+import {DropdownButton} from 'react-bootstrap'
 
 export default DropdownButton
