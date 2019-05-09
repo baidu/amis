@@ -13,6 +13,7 @@ node_modules
 /dist
 /lib
 /public
+/gh-pages
 /.vscode
 /output
 /toolkit/amis-renderer
