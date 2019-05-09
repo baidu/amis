@@ -28,7 +28,7 @@
 -   `steps[x].initApi` 当前步骤数据初始化接口。
 -   `steps[x].initFetch` 当前步骤数据初始化接口是否初始拉取。
 -   `steps[x].initFetchOn` 当前步骤数据初始化接口是否初始拉取，用表达式来决定。
--   `steps[x].controls` 当前步骤的表单项集合，请参考 [FormItem](#formitem)。
+-   `steps[x].controls` 当前步骤的表单项集合，请参考 [FormItem](./formitem.md)。
 
 ```schema:height="400" scope="body"
 {

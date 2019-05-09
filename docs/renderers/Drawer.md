@@ -1,6 +1,6 @@
 ### Drawer
 
-Drawer 由 [Action](#action) 触发。
+Drawer 由 [Action](./action.md) 触发。
 
 | 属性名        | 类型                                            | 默认值       | 说明                                             |
 | ------------- | ----------------------------------------------- | ------------ | ------------------------------------------------ |
@@ -12,7 +12,7 @@ Drawer 由 [Action](#action) 触发。
 | closeOnEsc    | `boolean`                                       | `false`      | 是否支持按 `Esc` 关闭 Dialog                     |
 | overlay       | `boolean`                                       | `true`       | 是否显示蒙层                                     |
 | resizable     | `boolean`                                       | `false`      | 是否可通过拖拽改变 Drawer 大小                   |
-| actions       | Array Of [Action](#action)                      |              | 可以不设置，默认只有【确认】和【取消】两个按钮。 |
+| actions       | Array Of [Action](./action.md)                  |              | 可以不设置，默认只有【确认】和【取消】两个按钮。 |
 
 ```schema:height="200"
 {

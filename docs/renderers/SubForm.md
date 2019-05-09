@@ -12,7 +12,7 @@ formItem 还可以是子表单类型。
 -   `editButtonClassName` 修改按钮 CSS 类名 默认：`btn-info btn-addon btn-sm`。
 -   `form` 字表单的配置
     `title` 标题
-    `controls` 请参考 [Form](#/form) 中的配置说明。
+    `controls` 请参考 [Form](./form.md) 中的配置说明。
 -   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="400" scope="form"

@@ -16,7 +16,7 @@
 -   `hiddenOn` 通过[表达式](./Types.md#表达式)来配置当前表单项是否隐藏。
 -   `inputClassName` 表单控制器类名。
 -   `labelClassName` label 的类名。
--   `tpl` 如果想一次展示多条数据，可以考虑用 `tpl`，模板引擎是 lodash template，同时你还可以简单用 `$` 取值。 具体请查看 [tpl](#tpl)
+-   `tpl` 如果想一次展示多条数据，可以考虑用 `tpl`，模板引擎是 lodash template，同时你还可以简单用 `$` 取值。 具体请查看 [tpl](./tpl.md)
 
 ```schema:height="250" scope="form-item"
 {

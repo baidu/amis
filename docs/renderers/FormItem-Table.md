@@ -1,6 +1,6 @@
 ### Table(FormItem)
 
-可以用来展现数据的,可以用来展示数组类型的数据，比如 multiple 的[子 form](#SubForm)。
+可以用来展现数据的,可以用来展示数组类型的数据，比如 multiple 的[子 form](./SubForm.md)。
 
 -   `type` 请设置成 `table`
 -   `columns` 数组类型，用来定义列信息。
