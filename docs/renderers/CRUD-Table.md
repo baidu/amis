@@ -6,7 +6,7 @@
 
 ```schema:height="800" scope="body"
 {
-    "type": "crud",
+    "type": "Action.md",
     "api": "/api/sample",
     "syncLocation": false,
     "title": null,

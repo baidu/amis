@@ -11,7 +11,7 @@ Action 是一种特殊的渲染器，它本身是一个按钮，同时它能触�
 -   `dialog` 当 `actionType` 为 `dialog` 时用来指定弹框内容。
 -   `dawer` 当 `actionType` 为 `drawer` 时用来指定抽出式弹框内容。
 -   `copy` 当 `actionType` 为 `copy` 时用来指定复制的内容。
--   `nextCondition` 当 `actionType` 为 `dialog` 时可以用来设置下一条数据的条件，默认为 `true`。详情请见 [Demo](/docs/demo/crud/next)。
+-   `nextCondition` 当 `actionType` 为 `dialog` 时可以用来设置下一条数据的条件，默认为 `true`。
 -   `confirmText` 当设置 `confirmText` 后，操作在开始前会询问用户。
 -   `reload` 指定此次操作完后，需要刷新的目标组件名字（组件的 name 指，自己配置的），多个请用 `,` 号隔开。
 -   `feedback` 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。
