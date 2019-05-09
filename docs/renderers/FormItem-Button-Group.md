@@ -64,7 +64,7 @@ button-group 有两种模式，除了能让按钮组合在一起，还能做类�
     -   `label` 文字
     -   `value` 值
     -   `image` 图片的 http 地址。
--   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。[详情](/docs/api#select)
+-   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。
 -   `multiple` 默认为 `false`, 设置成 `true` 表示可多选。
 -   `joinValues` 默认为 `true`
 -   单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。

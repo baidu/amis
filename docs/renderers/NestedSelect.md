@@ -4,7 +4,7 @@
 
 -   `type` 请设置成 `nested-select`
 -   `options` 类似于 [select](#select) 中 `options`, 并且支持通过 `children` 无限嵌套。
--   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。[详情](/docs/api#tree)
+-   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。
 -   `multiple` 默认为 `false`, 设置成 `true` 表示可多选。
 -   `joinValues` 默认为 `true`
 -   单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。
