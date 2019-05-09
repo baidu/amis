@@ -4,19 +4,18 @@ title: AMis 渲染器手册
 
 AMis 页面是通过 Json 配置出来的，是由一个一个渲染模型组成的，掌握他们规则，就能灵活配置出各种页面。
 
-
 -   [Page](./renderers/Page.md): JSON 配置最外层的 Page 渲染器
 -   [Form](./renderers/Form.md): 表单渲染器
 
     -   [FormItem](./renderers/FormItem.md): Form 中主要是由各种 FormItem 组成
-    -   [FormItem-List](./renderers/FormItem-List.md): 简单的列表选择框
-    -   [FormItem-Button-Group](./renderers/FormItem-Button-Group.md): 按钮集合
-    -   [FormItem-Service](./renderers/FormItem-Service.md): 动态配置，配置项由接口决定
-    -   [FormItem-Tabs](./renderers/FormItem-Tabs.md): 多个输入框通过选项卡来分组
-    -   [FormItem-Table](./renderers/FormItem-Table.md): 可以用来展示数组类型的数据
-    -   [FormItem-HBox](./renderers/FormItem-HBox.md): 支持 form 内部再用 HBox 布局
-    -   [FormItem-Grid](./renderers/FormItem-Grid.md): 支持 form 内部再用 grid 布局
-    -   [FormItem-Panel](./renderers/FormItem-Panel.md): 还是为了布局，可以把一部分 FormItem 合并到一个 panel 里面单独展示
+        -   [FormItem-List](./renderers/FormItem-List.md): 简单的列表选择框
+        -   [FormItem-Button-Group](./renderers/FormItem-Button-Group.md): 按钮集合
+        -   [FormItem-Service](./renderers/FormItem-Service.md): 动态配置，配置项由接口决定
+        -   [FormItem-Tabs](./renderers/FormItem-Tabs.md): 多个输入框通过选项卡来分组
+        -   [FormItem-Table](./renderers/FormItem-Table.md): 可以用来展示数组类型的数据
+        -   [FormItem-HBox](./renderers/FormItem-HBox.md): 支持 form 内部再用 HBox 布局
+        -   [FormItem-Grid](./renderers/FormItem-Grid.md): 支持 form 内部再用 grid 布局
+        -   [FormItem-Panel](./renderers/FormItem-Panel.md): 还是为了布局，可以把一部分 FormItem 合并到一个 panel 里面单独展示
     -   [Hidden](./renderers/Hidden.md): 隐藏字段类型
     -   [Text](./renderers/Text.md): 普通的文本输入框
     -   [Textarea](./renderers/Textarea.md): 多行文本输入框
@@ -89,4 +88,4 @@ AMis 页面是通过 Json 配置出来的，是由一个一个渲染模型组成
 -   [Nav](./renderers/Nav.md): 菜单栏
 -   [Tasks](./renderers/Tasks.md): 任务操作集合，类似于 orp 上线
 -   [QRCode](./renderers/QRCode.md): 二维码显示组件
--   [类型说明](./renderers/Types.md): 类型说明文档
+-   [Types](./renderers/Types.md): 类型说明文档
