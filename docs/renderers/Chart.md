@@ -7,7 +7,7 @@
 | type      | `string`                          | `"chart"` | 指定为 chart 渲染器                                                |
 | className | `string`                          |           | 外层 Dom 的类名                                                    |
 | body      | [Container](./Types.md#container) |           | 内容容器                                                           |
-| api       | [api](#api)                       |           | 配置项远程地址                                                     |
+| api       | [api](./Types.md#Api)             |           | 配置项远程地址                                                     |
 | initFetch | `boolean`                         |           | 是否默认拉取                                                       |
 | interval  | `number`                          |           | 刷新时间(最低 3000)                                                |
 | config    | `object/string`                   |           | 设置 eschars 的配置项,当为`string`的时候可以设置 function 等配置项 |

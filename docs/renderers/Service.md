@@ -9,9 +9,9 @@
 | type                | `string`                          | `"service"` | 指定为 service 渲染器                     |
 | className           | `string`                          |             | 外层 Dom 的类名                           |
 | body                | [Container](./Types.md#container) |             | 内容容器                                  |
-| api                 | [api](#api)                       |             | 数据源 API 地址                           |
+| api                 | [api](./Types.md#Api)             |             | 数据源 API 地址                           |
 | initFetch           | `boolean`                         |             | 是否默认拉取                              |
-| schemaApi           | [api](#api)                       |             | 用来获取远程 Schema 的 api                |
+| schemaApi           | [api](./Types.md#Api)             |             | 用来获取远程 Schema 的 api                |
 | initFetchSchema     | `boolean`                         |             | 是否默认拉取 Schema                       |
 | interval            | `number`                          | `3000`      | 刷新时间(最低 3000)                       |
 | silentPolling       | `boolean`                         | `false`     | 配置刷新时是否显示加载动画                |
