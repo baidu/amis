@@ -10,7 +10,7 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | mode                      | `string`                   | `"table"`                       | `"table" 、 "cards" 或者 "list"`                                                          |
 | title                     | `string`                   | `""`                            | 可设置成空，当设置成空时，没有标题栏                                                      |
 | className                 | `string`                   |                                 | 表格外层 Dom 的类名                                                                       |
-| api                       | [Api](#api)                |                                 | CRUD 用来获取列表数据的 api。[详情](/docs/api#crud)                                       |
+| api                       | [Api](#api)                |                                 | CRUD 用来获取列表数据的 api。                                                             |
 | filter                    | [Form](#form)              |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 crud 刷新列表。                              |
 | initFetch                 | `boolean`                  | `true`                          | 是否初始化的时候拉取数据, 只针对有 filter 的情况, 没有 filter 初始都会拉取数据            |
 | interval                  | `number`                   | `3000`                          | 刷新时间(最低 3000)                                                                       |
@@ -19,9 +19,9 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | syncLocation              | `boolean`                  | `true`                          | 是否将过滤条件的参数同步到地址栏                                                          |
 | draggable                 | `boolean`                  | `false`                         | 是否可通过拖拽排序                                                                        |
 | itemDraggableOn           | `boolean`                  |                                 | 用[表达式](#表达式)来配置是否可拖拽排序                                                   |
-| saveOrderApi              | [Api](#api)                |                                 | 保存排序的 api。[详情](/docs/api#crud)                                                    |
-| quickSaveApi              | [Api](#api)                |                                 | 快速编辑后用来批量保存的 API。[详情](/docs/api#crud)                                      |
-| quickSaveItemApi          | [Api](#api)                |                                 | 快速编辑配置成及时保存时使用的 API。[详情](/docs/api#crud)                                |
+| saveOrderApi              | [Api](#api)                |                                 | 保存排序的 api。                                                                          |
+| quickSaveApi              | [Api](#api)                |                                 | 快速编辑后用来批量保存的 API。                                                            |
+| quickSaveItemApi          | [Api](#api)                |                                 | 快速编辑配置成及时保存时使用的 API。                                                      |
 | bulkActions               | Array Of [Action](#action) |                                 | 批量操作列表，配置后，表格可进行选中操作。                                                |
 | defaultChecked            | `boolean`                  | `false`                         | 当可批量操作时，默认是否全部勾选。                                                        |
 | messages                  | `Object`                   |                                 | 覆盖消息提示，如果不指定，将采用 api 返回的 message                                       |
