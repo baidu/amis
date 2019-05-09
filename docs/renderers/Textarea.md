@@ -3,7 +3,7 @@
 多行文本输入框。
 
 -   `type` 请设置成 `textarea`
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="200" scope="form-item"
 {
