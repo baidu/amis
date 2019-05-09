@@ -15,7 +15,7 @@
 -   `delimiter` 默认为 `,`
 -   `modalMode` 设置 `dialog` 或者 `drawer`，用来配置弹出方式。
 -   `pickerSchema` 默认为 `{mode: 'list', listItem: {title: '${label}'}}`, 即用 List 类型的渲染，来展示列表信息。更多的玩法请参考 [CRUD](#crud) 的配置。
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="300" scope="form-item"
 {

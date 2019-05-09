@@ -71,7 +71,7 @@
 | columns[x].quickEdit         | `boolean` 或者 `object` | -                | 配合 editable 为 true 一起使用           |
 | columns[x].quickEditOnUpdate | `boolean` 或者 `object` | -                | 可以用来区分新建模式和更新模式的编辑配置 |
 
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 -   更多 Demo 详情请参考 [表格编辑](/docs/examples/form/table)
 
 ```schema:height="250" scope="form-item"

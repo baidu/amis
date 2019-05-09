@@ -7,7 +7,7 @@
 -   `rows` 行信息， 数组中 `label` 字段是必须给出的
 -   `rowLabel` 行标题说明
 -   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。[详情](/docs/api#matrix)
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="250" scope="form-item"
 {
