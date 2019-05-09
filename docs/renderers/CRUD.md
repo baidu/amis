@@ -11,7 +11,7 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | title                     | `string`                   | `""`                            | 可设置成空，当设置成空时，没有标题栏                                                      |
 | className                 | `string`                   |                                 | 表格外层 Dom 的类名                                                                       |
 | api                       | [Api](#api)                |                                 | CRUD 用来获取列表数据的 api。                                                             |
-| filter                    | [Form](#form)              |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 crud 刷新列表。                              |
+| filter                    | [Form](./Form.md)          |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 crud 刷新列表。                              |
 | initFetch                 | `boolean`                  | `true`                          | 是否初始化的时候拉取数据, 只针对有 filter 的情况, 没有 filter 初始都会拉取数据            |
 | interval                  | `number`                   | `3000`                          | 刷新时间(最低 3000)                                                                       |
 | silentPolling             | `boolean`                  | `false`                         | 配置刷新时是否显示加载动画                                                                |
