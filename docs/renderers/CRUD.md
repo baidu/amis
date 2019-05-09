@@ -15,10 +15,10 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | initFetch                 | `boolean`                  | `true`                          | 是否初始化的时候拉取数据, 只针对有 filter 的情况, 没有 filter 初始都会拉取数据            |
 | interval                  | `number`                   | `3000`                          | 刷新时间(最低 3000)                                                                       |
 | silentPolling             | `boolean`                  | `false`                         | 配置刷新时是否显示加载动画                                                                |
-| stopAutoRefreshWhen       | `string`                   | `""`                            | 通过[表达式](#表达式)来配置停止刷新的条件                                                 |
+| stopAutoRefreshWhen       | `string`                   | `""`                            | 通过[表达式](./Types.md#表达式)来配置停止刷新的条件                                       |
 | syncLocation              | `boolean`                  | `true`                          | 是否将过滤条件的参数同步到地址栏                                                          |
 | draggable                 | `boolean`                  | `false`                         | 是否可通过拖拽排序                                                                        |
-| itemDraggableOn           | `boolean`                  |                                 | 用[表达式](#表达式)来配置是否可拖拽排序                                                   |
+| itemDraggableOn           | `boolean`                  |                                 | 用[表达式](./Types.md#表达式)来配置是否可拖拽排序                                         |
 | saveOrderApi              | [Api](#api)                |                                 | 保存排序的 api。                                                                          |
 | quickSaveApi              | [Api](#api)                |                                 | 快速编辑后用来批量保存的 API。                                                            |
 | quickSaveItemApi          | [Api](#api)                |                                 | 快速编辑配置成及时保存时使用的 API。                                                      |
