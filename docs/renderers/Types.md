@@ -128,7 +128,7 @@ AMis 所有值为 url 的如： `"http://www.baidu.com"` 都会被替换成 prox
 ### 表达式
 
 配置项中，所有 `boolean` 类型的配置，都可以用 JS 表达式来配置。所有`boolean` 配置项，后面加个 `On` 则是表达式配置方式，可以用 js 语法来根据当前模型中的数据来决定是否启用。
-如：[FormItem](./FormItem.md) 中的 `disabledOn`、`hiddenOn`、`visibleOn`、[CRUD](#CRUD) 中的 `itemDraggableOn` 等等。
+如：[FormItem](./FormItem.md) 中的 `disabledOn`、`hiddenOn`、`visibleOn`、[CRUD](./CRUD.md) 中的 `itemDraggableOn` 等等。
 
 ```schema:height="300" scope="form"
 [

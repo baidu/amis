@@ -9,7 +9,7 @@
 -   `size` 按钮大小。 包含： `xs`、`sm`、`md`和`lg`
 -   `className` 按钮的类名。
 
-如果按钮是 `button` 类型，则还需要配置 [Action](#action) 中定义的属性，否则，AMis 不知道如何响应当前按钮点击。
+如果按钮是 `button` 类型，则还需要配置 [Action](./action.md) 中定义的属性，否则，AMis 不知道如何响应当前按钮点击。
 
 ```schema:height="300" scope="form"
 [

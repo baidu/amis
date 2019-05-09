@@ -1,6 +1,6 @@
 ### Cards(CRUD)
 
-请参考[Cards](#cards)
+请参考[Cards](./Cards.md)
 
 ```schema:height="800" scope="body"
 {
