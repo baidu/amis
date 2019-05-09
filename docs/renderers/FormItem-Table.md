@@ -54,9 +54,9 @@
 | addable                      | `boolean`               | false            | 是否可增加一行                           |
 | editable                     | `boolean`               | false            | 是否可编辑                               |
 | removable                    | `boolean`               | false            | 是否可删除                               |
-| addApi                       | [api](#api)             | -                | 新增时提交的 API                         |
-| updateApi                    | [api](#api)             | -                | 修改时提交的 API                         |
-| deleteApi                    | [api](#api)             | -                | 删除时提交的 API                         |
+| addApi                       | [api](./Types.md#Api)   | -                | 新增时提交的 API                         |
+| updateApi                    | [api](./Types.md#Api)   | -                | 修改时提交的 API                         |
+| deleteApi                    | [api](./Types.md#Api)   | -                | 删除时提交的 API                         |
 | addBtnLabel                  | `string`                |                  | 增加按钮名称                             |
 | addBtnIcon                   | `string`                | `"fa fa-plus"`   | 增加按钮图标                             |
 | updateBtnLabel               | `string`                | `""`             | 更新按钮名称                             |

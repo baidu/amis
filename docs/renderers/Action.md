@@ -4,7 +4,7 @@ Action 是一种特殊的渲染器，它本身是一个按钮，同时它能触�
 
 -   `type` 指定为 `button`。
 -   `actionType` 【必填】 选项：`ajax`、`link`、`url`、`dawer`、`dialog`、`confirm`、`cancel`、`prev`、`next`、`copy` 或者 `close`。
--   `api` 当 `actionType` 为 `ajax` 时，必须指定，参考 [api](#api) 格式说明。
+-   `api` 当 `actionType` 为 `ajax` 时，必须指定，参考 [api](./Types.md#Api) 格式说明。
 -   `link` 当 `actionType` 为 `link` 时必须指定，用来指定跳转地址，跟 url 不同的是，这是单页跳转方式，不会渲染浏览器，请指定 AMis 平台内的页面。
 -   `url` 当 `actionType` 为 `url` 时必须指定，按钮点击后，会打开指定页面。
 -   `blank` 当 `actionType` 为 `url` 时可选，如果为 false 将在本页面打开。
