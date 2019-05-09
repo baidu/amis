@@ -9,4 +9,4 @@
 -   `addOn.xxx` 其他参数请参考按钮配置部分。
 -   `clearable` 在有值的时候是否显示一个删除图标在右侧。
 -   `resetValue` 默认为 `""`, 删除后设置此配置项给定的值。
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
