@@ -1,12 +1,9 @@
----
-title: AMis 渲染器手册
----
+### AMis 渲染器手册
 
 AMis 页面是通过 Json 配置出来的，是由一个一个渲染模型组成的，掌握他们规则，就能灵活配置出各种页面。
 
 -   [Page](./renderers/Page.md): JSON 配置最外层的 Page 渲染器
 -   [Form](./renderers/Form.md): 表单渲染器
-
     -   [FormItem](./renderers/FormItem.md): Form 中主要是由各种 FormItem 组成
         -   [FormItem-List](./renderers/FormItem-List.md): 简单的列表选择框
         -   [FormItem-Button-Group](./renderers/FormItem-Button-Group.md): 按钮集合
@@ -55,7 +52,6 @@ AMis 页面是通过 Json 配置出来的，是由一个一个渲染模型组成
     -   [Rich-Text](./renderers/Rich-Text.md): 富文本编辑器
     -   [Editor](./renderers/Editor.md): 编辑器
     -   [Static](./renderers/Static.md): 纯用来展现数据的
-
 -   [Wizard](./renderers/Wizard.md): 表单向导
 -   [Tpl](./renderers/Tpl.md): 支持用 JS 模板引擎来组织输出
 -   [Plain](./renderers/Plain.md): 单纯的文字输出
