@@ -4,7 +4,7 @@
 
 -   `type` 请设置成 `combo`
 -   `multiple` 默认为 `false` 配置是否为多选模式
--   `controls` 配置组合成员，所有成员都是横向展示，可以是任意 [FormItem](#FormItem)
+-   `controls` 配置组合成员，所有成员都是横向展示，可以是任意 [FormItem](./FormItem.md)
 -   `controls[x].columnClassName` 列的类名，可以用它配置列宽度。默认平均分配。
 -   `controls[x].unique` 设置当前列值是否唯一，即不允许重复选择。
 -   `maxLength` 当 multiple 为 true 的时候启用，设置可以最大项数。
@@ -22,7 +22,7 @@
 -   `minLength` 限制最小长度。
 -   `maxLength` 限制最大长度。
 -   `scaffold` 单条初始值。默认为 `{}`。
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="450" scope="form"
 [

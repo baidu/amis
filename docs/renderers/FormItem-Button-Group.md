@@ -71,7 +71,7 @@ button-group 有两种模式，除了能让按钮组合在一起，还能做类�
 -   多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。
 -   `delimiter` 默认为 `,`
 -   `clearable` 默认为 `true`, 表示可以取消选中。
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="250" scope="form"
 [

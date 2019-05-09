@@ -8,7 +8,7 @@
     -   `value` 值
 -   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。[详情](/docs/api#select)
 -   `columnsCount` 默认为 `1` 可以配置成一行显示多个。
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="330" scope="form"
 [

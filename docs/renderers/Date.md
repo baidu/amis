@@ -15,7 +15,7 @@
 
     可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。
 
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="250" scope="form"
 [

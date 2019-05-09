@@ -6,7 +6,7 @@
 -   `options` 选项配置，类型为数组，成员格式如下。
     -   `label` 文字
     -   `value` 值
--   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。[详情](/docs/api#select) 另外也可以用 `$xxxx` 来获取当前作用域中的变量。
+-   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。另外也可以用 `$xxxx` 来获取当前作用域中的变量。
 -   `autoComplete` 跟 source 不同的是，每次用户输入都会去接口获取提示。
 -   `multiple` 默认为 `false`, 设置成 `true` 表示可多选。
 -   `joinValues` 默认为 `true`
@@ -16,7 +16,7 @@
 -   `delimiter` 默认为 `,`
 -   `clearable` 默认为 `false`, 当设置为 `true` 时，已选中的选项右侧会有个小 `X` 用来取消设置。
 -   `searchable` 默认为 `false`，表示可以通过输入部分内容检索出选项。
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 单选
 
