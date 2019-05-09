@@ -256,7 +256,7 @@ if (fis.project.currentMedia() === 'publish') {
     ghPages.match('::package', {
         packager: fis.plugin('deps-pack', {
             'pkg/npm.js': [
-                '/mod.js',
+                '/examples/mod.js',
                 'node_modules/**.js',
                 '!monaco-editor/**',
                 '!flv.js/**',
@@ -281,8 +281,8 @@ if (fis.project.currentMedia() === 'publish') {
                 'mock/*.ts'
             ],
             'pkg/app.js': [
-                '/app.tsx',
-                '/app.tsx:deps'
+                '/examples/components/App.jsx',
+                '/examples/components/App.jsx:deps'
             ],
             'pkg/rest.js': [
                 '**.{js,jsx,ts,tsx}',
