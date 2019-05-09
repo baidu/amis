@@ -299,10 +299,10 @@ export default class Form extends React.Component<FormProps, object> {
             submitOnInit
         } = this.props;
 
+        store.setInited(true);
         const hooks:Array<(data:any) => Promise<any>> = this.hooks['init'] || [];
         await Promise.all(hooks.map(hook => hook(store.data)));
 
-        store.setInited(true);
         onInit && onInit(store.data);
 
         submitOnInit && this.handleAction(undefined, {
