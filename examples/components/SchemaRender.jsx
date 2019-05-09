@@ -13,7 +13,7 @@ function loadEditor() {
 export default function(schema) {
     if (!schema['$schema']) {
         schema = {
-            '$schema': 'http://amis.baidu.com/v2/schemas/page.json',
+            '$schema': 'https://houtai.baidu.com/v2/schemas/page.json',
             ...schema
         };
     }

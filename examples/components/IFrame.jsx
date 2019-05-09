@@ -1,5 +1,5 @@
 export default {
-    "$schema": "http://amis.baidu.com/v2/schemas/page.json#",
+    "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",
     "title": "IFrame 可以用来嵌入其他网站",
     "body": [
         {

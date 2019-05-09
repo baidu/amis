@@ -1,5 +1,5 @@
 export default {
-    $schema: "http://amis.baidu.com/v2/schemas/page.json#",
+    $schema: "https://houtai.baidu.com/v2/schemas/page.json#",
     title: "支持多层嵌套，列数据中有 children 字段即可。（建议不超过10层）",
     body: {
         type: "crud",

@@ -1,5 +1,5 @@
 export default {
-    $schema: "http://amis.baidu.com/v2/schemas/page.json#",
+    $schema: "https://houtai.baidu.com/v2/schemas/page.json#",
     title: "所有 Form 元素列举",
     data: {
         id: 1,

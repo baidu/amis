@@ -1,5 +1,5 @@
 export default {
-    $schema: "http://amis.baidu.com/v2/schemas/page.json#",
+    $schema: "https://houtai.baidu.com/v2/schemas/page.json#",
     title: "表单验证示例",
     toolbar: "<a target='_blank' href='/docs/renderers#formitem'>文档</a>",
     body: [

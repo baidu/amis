@@ -7,9 +7,8 @@ import {
     mapTree
 } from '../../src/utils/helper';
 import { Router, Route, IndexRoute, browserHistory, Link, Redirect } from 'react-router';
-import * as cx from 'classnames';
 import makeSchemaRenderer from './SchemaRender';
-import makeMarkdownRenderer from './MdRenderer';
+
 
 import SimplePageSchema from './Page/Simple';
 import ErrorPageSchema from './Page/Error';
@@ -34,6 +33,7 @@ import PickerFormSchema from './Form/Picker';
 import FormulaFormSchema from './Form/Formula';
 import CustomFormSchema from './Form/Custom';
 import FormLayoutTestSchema from './Form/layoutTest';
+import Docs from './Doc';
 
 import TableCrudSchema from './CRUD/Table';
 import ItemActionsSchema from './CRUD/ItemActions';
@@ -489,65 +489,7 @@ const navigations = [
         ]
     },
 
-    {
-        prefix: ({classnames: cx}) => (<li className={cx('AsideNav-divider')}></li>),
-        label: '文档',
-        children: [
-            {
-                label: '快速开始',
-                icon: 'fa fa-flash',
-                path: '/v2/docs/getting-started',
-                getComponent: (location, cb) => require(['../../docs/getting_started.md'], (doc) => {
-                    cb(null, makeMarkdownRenderer(doc));
-                })
-            },
-
-            {
-                label: '高级用法',
-                icon: 'fa fa-rocket',
-                path: '/v2/docs/advanced',
-                getComponent: (location, cb) => require(['../../docs/advanced.md'], (doc) => {
-                    cb(null, makeMarkdownRenderer(doc));
-                })
-            },
-
-            {
-                label: '渲染器手册',
-                icon: 'fa fa-diamond',
-                path: '/v2/docs/renderers',
-                getComponent: (location, cb) => require(['../../docs/renderers.md'], (doc) => {
-                    cb(null, makeMarkdownRenderer(doc));
-                })
-            },
-
-            {
-                label: '开源渲染器',
-                path: '/v2/docs/sdk',
-                icon: 'fa fa-cubes',
-                getComponent: (location, cb) => require(['../../docs/sdk.md'], (doc) => {
-                    cb(null, makeMarkdownRenderer(doc));
-                })
-            },
-
-            {
-                label: '自定义组件',
-                path: '/v2/docs/dev',
-                icon: 'fa fa-code',
-                getComponent: (location, cb) => require(['../../docs/dev.md'], (doc) => {
-                    cb(null, makeMarkdownRenderer(doc));
-                })
-            },
-
-            {
-                label: '样式说明',
-                path: '/v2/docs/style',
-                icon: 'fa fa-laptop',
-                getComponent: (location, cb) => require(['../../docs/style.md'], (doc) => {
-                    cb(null, makeMarkdownRenderer(doc));
-                })
-            }
-        ]
-    }
+    Docs
 ];
 
 function isActive(link, location) {

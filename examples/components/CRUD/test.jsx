@@ -1,5 +1,5 @@
 export default {
-    $schema: "http://amis.baidu.com/v2/schemas/page.json#",
+    $schema: "https://houtai.baidu.com/v2/schemas/page.json#",
     title: "Test 信息：${page}",
     body: {
         "type": "crud",

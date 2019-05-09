@@ -3,22 +3,7 @@ title: 自定义组件
 shortname: dev
 ---
 
-AMis 平台中，支持了大部分的[通用组件](./renderers)，基本需求都能满足。针对比较定制的需求，则需要通过在群组内添加自定义组件来实现。
-
-## 如何添加
-
-1. 自定义组件是群级别的，先进入你想要添加的自定义组件的群组。
-2. 然后进入【组件管理】页面。（你需要拥有管理权限，一般管理员自带这个权限）
-3. 然后点击右上角添加【新建】
-
-![图片](http://bos.nj.bpc.baidu.com/v1/agroup/e3619506735bbec17ea83da71944fc447d709de4)
-
--   `组件名` 随意。
--   `组件代码` React Component 代码。
-
-## 如何开发?
-
-AMis 中自定义组件主要分两类。表单类和非表单类。
+自定义组件主要分两类。表单类和非表单类。
 
 ### FormItem
 
@@ -60,7 +45,7 @@ export default class CustomCheckbox extends React.PureComponent {
 }
 ```
 
-有了这个代码后，页面配置 form 的 controls 里面就可以通过这样的配置启动了。[在线 Demo](http://amis.baidu.com/group/demo/custom)。
+有了这个代码后，页面配置 form 的 controls 里面就可以通过这样的配置启动了。
 
 ```js
 {

@@ -1,5 +1,5 @@
 export default {
-    $schema: "http://amis.baidu.com/v2/schemas/page.json#",
+    $schema: "https://houtai.baidu.com/v2/schemas/page.json#",
     title: "增删改查列类型汇总",
     body: {
         type: "crud",

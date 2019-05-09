@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export default {
-    $schema: "http://amis.baidu.com/v2/schemas/page.json#",
+    $schema: "https://houtai.baidu.com/v2/schemas/page.json#",
     title: "Editor",
     body: [
         {

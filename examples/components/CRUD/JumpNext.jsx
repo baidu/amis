@@ -1,5 +1,5 @@
 export default {
-    "$schema": "http://amis.baidu.com/v2/schemas/page.json#",
+    "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",
     "title": "操作并下一个",
     "remark": "当存在下一条时，支持直接打开下一条操作。",
     "body": {

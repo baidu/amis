@@ -3,11 +3,11 @@ title: 高级用法
 shortname: advanced
 ---
 
-在开始阅读之前，希望你已经阅读 [快速开始文档](./getting-started) 。
+在开始阅读之前，希望你已经阅读 [快速开始文档](./getting-started.md) 。
 
 ## 数据作用域
 
-配置中很多地方都可以用变量如： [tpl](./renderers#tpl) 类型的渲染器、API 中的 Url、FormItem 中的 source 配置、visibleOn、disabledOn 以及 Form 中的 `redirect` 配置等等。
+配置中很多地方都可以用变量如： [tpl](./renderers/Tpl.md) 类型的渲染器、API 中的 Url、FormItem 中的 source 配置、visibleOn、disabledOn 以及 Form 中的 `redirect` 配置等等。
 
 那么都有哪些数据可以用？这取决于在哪个容器，关于容器中的数据说明如下：
 
@@ -172,7 +172,7 @@ shortname: advanced
 }
 ```
 
-注意，source 中的传参是通过 source 中的 data 关联的，不能写在 source 的 url 中，因为如果写了，就会自动监控值的变化而自动刷新，写在 data 里面关联则不会。如果对 source 中的配置规则不了解，请前往 [API 说明](./renderers#api)
+注意，source 中的传参是通过 source 中的 data 关联的，不能写在 source 的 url 中，因为如果写了，就会自动监控值的变化而自动刷新，写在 data 里面关联则不会。如果对 source 中的配置规则不了解，请前往 [API 说明](./renderers/类型说明.md#api)
 
 另外注意 button 的 target 值，正好是这个 form 的 name 值 `lidong` 的 formItem 的 name 值 `select`。当按钮的对象是一个 formItem 时，会出发 formItem 的数据重新拉取。
 

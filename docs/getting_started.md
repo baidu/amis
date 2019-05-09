@@ -8,7 +8,7 @@ title: 快速开始
 
 ```schema:height="300"
 {
-    "$schema": "http://amis.baidu.com/v2/schemas/page.json#",
+    "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",
     "type": "page",
     "title": "这是标题部分",
     "subTitle": "这是子标题",
@@ -25,7 +25,7 @@ title: 快速开始
 
 简单说明以上配置信息。
 
--   `$schema` 这个字段可以忽略，他是指定当前 JSON 配置是符合指定路径 http://amis.baidu.com/v2/schemas/page.json 的 JSON SCHEMA 文件描述的。PS: 编辑器就是靠这个描述文件提示的，可以 hover 到字段上看效果。
+-   `$schema` 这个字段可以忽略，他是指定当前 JSON 配置是符合指定路径 https://houtai.baidu.com/v2/schemas/page.json 的 JSON SCHEMA 文件描述的。PS: 编辑器就是靠这个描述文件提示的，可以 hover 到字段上看效果。
 -   `type` 指定渲染器类型，这里指定的类型为 `page`。 更多渲染器类型可以去[这里面查看](./renderers)。
 -   `title` 从 title 开始就是对应的渲染模型上的属性了。这里用来指定标题内容。
 -   `subTitle` 副标题.
@@ -34,11 +34,11 @@ title: 快速开始
 -   `body` 内容区域的内容
 -   `toolbar` 工具栏部分的内容
 
-这里有三个配置都是容器类型的。`aside`、`body` 和 `toolbar`。什么是容器类型？容器类型表示，他能够把其他渲染类型放进来。以上的例子为了简单，直接放了个字符串。字符串类型内部是把他当成了 [tpl](./renderers#tpl) 渲染器来处理，在这里也可以通过对象的形式指定，如以下的例子的 body 区域是完全等价的。
+这里有三个配置都是容器类型的。`aside`、`body` 和 `toolbar`。什么是容器类型？容器类型表示，他能够把其他渲染类型放进来。以上的例子为了简单，直接放了个字符串。字符串类型内部是把他当成了 [tpl](./renderers/Tpl.md) 渲染器来处理，在这里也可以通过对象的形式指定，如以下的例子的 body 区域是完全等价的。
 
 ```schema:height="100"
 {
-    "$schema": "http://amis.baidu.com/v2/schemas/page.json",
+    "$schema": "https://houtai.baidu.com/v2/schemas/page.json",
     "type": "page",
     "body": {
         "type": "tpl",
@@ -51,7 +51,7 @@ title: 快速开始
 
 ```schema:height="130"
 {
-    "$schema": "http://amis.baidu.com/v2/schemas/page.json",
+    "$schema": "https://houtai.baidu.com/v2/schemas/page.json",
     "type": "page",
     "body": [
         {
@@ -73,7 +73,7 @@ title: 快速开始
 
 ```schema:height="440"
 {
-    "$schema": "http://amis.baidu.com/v2/schemas/page.json#",
+    "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",
     "type": "page",
     "body": {
         "api": "/api/mock2/form/saveForm",
@@ -117,7 +117,7 @@ title: 快速开始
 
 ```schema:height="600"
 {
-  "$schema": "http://amis.baidu.com/v2/schemas/page.json#",
+  "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",
   "type": "page",
   "title": "增删改查示例",
   "toolbar": [
@@ -403,6 +403,6 @@ title: 快速开始
 
 这个栗子最主要的渲染器就是 CRUD 渲染器了，他的作用是配置了个 API，把数据拉取过来后，根据配置 columns 信息完成列表展示，列类型可以是静态文本、图片、映射或者日期等等。 `columns` 通过 `name` 与行数据关联。除了展示外还可以放置操作按钮。
 
-这里相对复杂一点配置就是按钮了，按钮主要是通过 `actionType`来决定用户点下的行为。可以配置成 弹框、发送 ajax、页面跳转、复制内容到剪切板、刷新目标组件等等。具体请参考：[Action 渲染器说明](./renderers#action)
+这里相对复杂一点配置就是按钮了，按钮主要是通过 `actionType`来决定用户点下的行为。可以配置成 弹框、发送 ajax、页面跳转、复制内容到剪切板、刷新目标组件等等。具体请参考：[Action 渲染器说明](./renderers/Action.md)
 
 更多用法请参考[渲染器手册](./renderers)和示例。

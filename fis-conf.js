@@ -1,6 +1,7 @@
 /**
  * @file fis-conf.js 配置
  */
+const path = require('path');
 const parserMarkdown = require('./build/md-parser');
 fis.get('project.ignore').push(
     'public/**',
@@ -36,7 +37,22 @@ fis.match('/node_modules/**.js', {
 
 fis.match('/docs/**.md', {
     rExt: 'js',
-    parser: parserMarkdown,
+    parser: [parserMarkdown, function(contents, file) {
+        return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function(_, quota, link) {
+            if (/\.md($|#)/.test(link)) {
+                let parts = link.split('#');
+                parts[0] = parts[0].replace('.md', '');
+
+                if (parts[0][0] !== '/') {
+                    parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
+                }
+
+                return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+            }
+
+            return _;
+        });
+    }],
     isMod: true
 });
 

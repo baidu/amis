@@ -9,7 +9,7 @@ import * as stripJsonComments from 'strip-json-comments';
 import CodeEditor from '../../src/components/Editor';
 
 const DEFAULT_CONTENT = `{
-    "$schema": "http://amis.baidu.com/v2/schemas/page.json#",
+    "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",
     "type": "page",
     "title": "Title",
     "body": "Body",
