@@ -82,6 +82,10 @@ import Button from '../../src/components/Button';
 
 let PathPrefix = '/examples';
 
+if (process.env.NODE_ENV === 'production') {
+    PathPrefix = ''
+}
+
 const navigations = [
     {
         label: '示例',
@@ -690,7 +694,7 @@ export class App extends React.PureComponent {
         }
     }
 
-    function navigations2route(pathPrefix = '/examples') {
+    function navigations2route(pathPrefix = PathPrefix) {
         let routes = [];
 
         navigations.forEach(root => {
@@ -711,7 +715,7 @@ export class App extends React.PureComponent {
     }
 
     export default function entry({pathPrefix}) {
-        PathPrefix = pathPrefix || '/examples';
+        PathPrefix = pathPrefix || PathPrefix;
         let history = browserHistory;
 
         if (process.env.NODE_ENV === 'production') {
@@ -721,6 +725,7 @@ export class App extends React.PureComponent {
         return (
             <Router history={ history }>
                 <Route component={App}>
+                    <Redirect from={`/`} to={`${PathPrefix}/pages/simple`} />
                     <Redirect from={`${PathPrefix}/`} to={`${PathPrefix}/pages/simple`} />
                     {navigations2route(PathPrefix)}
                     <Route path="*" component={NotFound} />
