@@ -6,7 +6,7 @@ import {AlertComponent, ToastComponent} from '../../src/components/index';
 import {
     mapTree
 } from '../../src/utils/helper';
-import { Router, Route, IndexRoute, browserHistory, Link, Redirect } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, hashHistory, Link, Redirect } from 'react-router';
 import makeSchemaRenderer from './SchemaRender';
 
 
@@ -712,9 +712,14 @@ export class App extends React.PureComponent {
 
     export default function entry({pathPrefix}) {
         PathPrefix = pathPrefix || '/examples';
+        let history = browserHistory;
+
+        if (process.env.NODE_ENV === 'production') {
+            history = hashHistory;
+        }
 
         return (
-            <Router history={ browserHistory }>
+            <Router history={ history }>
                 <Route component={App}>
                     <Redirect from={`${PathPrefix}/`} to={`${PathPrefix}/pages/simple`} />
                     {navigations2route(PathPrefix)}
