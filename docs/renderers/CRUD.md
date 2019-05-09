@@ -22,7 +22,7 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | saveOrderApi              | [Api](./Types#Api)             |                                 | 保存排序的 api。                                                                          |
 | quickSaveApi              | [Api](./Types#Api)             |                                 | 快速编辑后用来批量保存的 API。                                                            |
 | quickSaveItemApi          | [Api](./Types#Api)             |                                 | 快速编辑配置成及时保存时使用的 API。                                                      |
-| bulkActions               | Array Of [Action](./action.md) |                                 | 批量操作列表，配置后，表格可进行选中操作。                                                |
+| bulkActions               | Array Of [Action](./Action.md) |                                 | 批量操作列表，配置后，表格可进行选中操作。                                                |
 | defaultChecked            | `boolean`                      | `false`                         | 当可批量操作时，默认是否全部勾选。                                                        |
 | messages                  | `Object`                       |                                 | 覆盖消息提示，如果不指定，将采用 api 返回的 message                                       |
 | messages.fetchFailed      | `string`                       |                                 | 获取失败时提示                                                                            |
