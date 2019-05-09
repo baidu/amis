@@ -14,7 +14,7 @@
 -   `extractValue` 默认为 `false`, `joinValues`设置为`false`时生效, 开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。
 -   `delimiter` 默认为 `,`
 -   `modalMode` 设置 `dialog` 或者 `drawer`，用来配置弹出方式。
--   `pickerSchema` 默认为 `{mode: 'list', listItem: {title: '${label}'}}`, 即用 List 类型的渲染，来展示列表信息。更多的玩法请参考 [CRUD](./crud.md) 的配置。
+-   `pickerSchema` 默认为 `{mode: 'list', listItem: {title: '${label}'}}`, 即用 List 类型的渲染，来展示列表信息。更多的玩法请参考 [CRUD](./CRUD.md) 的配置。
 -   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="300" scope="form-item"

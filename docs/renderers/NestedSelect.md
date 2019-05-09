@@ -3,7 +3,7 @@
 树形结构选择框。
 
 -   `type` 请设置成 `nested-select`
--   `options` 类似于 [select](./select.md) 中 `options`, 并且支持通过 `children` 无限嵌套。
+-   `options` 类似于 [select](./Select.md) 中 `options`, 并且支持通过 `children` 无限嵌套。
 -   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。
 -   `multiple` 默认为 `false`, 设置成 `true` 表示可多选。
 -   `joinValues` 默认为 `true`

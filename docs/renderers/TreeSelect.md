@@ -3,7 +3,7 @@
 树形结构选择框。
 
 -   `type` 请设置成 `tree-select`
--   `options` 类似于 [select](./select.md) 中 `options`, 并且支持通过 `children` 无限嵌套。
+-   `options` 类似于 [select](./Select.md) 中 `options`, 并且支持通过 `children` 无限嵌套。
 -   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。
 -   `hideRoot` 默认是会显示一个顶级，如果不想显示，请设置 `false`
 -   `rootLabel` 默认为 `顶级`，当 hideRoot 不为 `false` 时有用，用来设置顶级节点的文字。
