@@ -3,7 +3,7 @@ title: 自定义组件
 shortname: dev
 ---
 
-AMis 平台中，支持了大部分的[通用组件](/docs/renderers)，基本需求都能满足。针对比较定制的需求，则需要通过在群组内添加自定义组件来实现。
+AMis 平台中，支持了大部分的[通用组件](./renderers)，基本需求都能满足。针对比较定制的需求，则需要通过在群组内添加自定义组件来实现。
 
 ## 如何添加
 
@@ -13,8 +13,8 @@ AMis 平台中，支持了大部分的[通用组件](/docs/renderers)，基本�
 
 ![图片](http://bos.nj.bpc.baidu.com/v1/agroup/e3619506735bbec17ea83da71944fc447d709de4)
 
-* `组件名` 随意。
-* `组件代码` React Component 代码。
+-   `组件名` 随意。
+-   `组件代码` React Component 代码。
 
 ## 如何开发?
 
@@ -30,35 +30,32 @@ import {FormItem} from 'amis';
 import * as cx from 'classnames';
 
 @FormItem({
-  type:'custom-checkbox'
+    type: 'custom-checkbox',
 })
-export default class CustomCheckbox extends React.PureComponent{
+export default class CustomCheckbox extends React.PureComponent {
     toggle = () => {
-        const {
-            value,
-            onChange
-        } = this.props;
+        const {value, onChange} = this.props;
 
         onChange(!value);
     };
 
     render() {
-        const {
-            value
-        } = this.props;
+        const {value} = this.props;
         const checked = !!value;
 
         return (
             <div>
-                <a 
+                <a
                     className={cx('btn btn-default', {
                         'btn-success': checked,
-                    })} 
+                    })}
                     onClick={this.toggle}
-                >{checked ? '已勾选' : '请勾选'}</a>
+                >
+                    {checked ? '已勾选' : '请勾选'}
+                </a>
                 <div className="inline m-l-xs">{checked ? '已勾选' : '请勾选'}</div>
             </div>
-        )
+        );
     }
 }
 ```
@@ -88,24 +85,18 @@ export default class CustomCheckbox extends React.PureComponent{
 
 ### Renderer
 
-非表单类的组件自定义，主要通过 `Renderer` 实现。在开始阅读之前，请先阅读 [AMis 工作原理](/docs/sdk#工作原理)。
+非表单类的组件自定义，主要通过 `Renderer` 实现。在开始阅读之前，请先阅读 [AMis 工作原理](./sdk#工作原理)。
 
 ```jsx
 import * as React from 'react';
-import {
-    Renderer
-} from 'amis';
+import {Renderer} from 'amis';
 
 @Renderer({
     test: /(^|\/)my\-renderer$/,
 })
 class CustomRenderer extends React.Component {
     render() {
-        const  {
-            tip,
-            body,
-            render
-        } = this.props;
+        const {tip, body, render} = this.props;
 
         return (
             <div>
@@ -127,7 +118,6 @@ class CustomRenderer extends React.Component {
 
 请注意 `this.props` 中的 `render` 方法，它用来实现容器功能，通过它可以让使用者动态的配置其他渲染模型。
 
-
 ## 工具
 
 目前主要提供以下工具。
@@ -135,47 +125,39 @@ class CustomRenderer extends React.Component {
 ### fetch
 
 ```jsx
-import {
-    fetch
-} from 'amis/utils';
+import {fetch} from 'amis/utils';
 ```
 
 用来做 ajax 请求。参数说明
 
-* `api` 字符串或者 api 对象，如： {url: 'http://www.baidu.com', method: 'get'}, api 地址支持变量。
-* `data` 数据体
+-   `api` 字符串或者 api 对象，如： {url: 'http://www.baidu.com', method: 'get'}, api 地址支持变量。
+-   `data` 数据体
 
 返回一个 Promise。
 
-如： 
+如：
 
 ```js
-import {
-    fetch
-} from 'amis/utils';
+import {fetch} from 'amis/utils';
 
 fetch('http://www.baidu.com/api/xxx?a=${a}&b=${b}', {
     a: 'aa',
-    b: 'bb'
+    b: 'bb',
 }).then(function(result) {
     console.log(result);
 });
 ```
 
-### filter 
+### filter
 
 ```jsx
-import {
-    filter
-} from 'amis/utils';
+import {filter} from 'amis/utils';
 ```
 
 主要用来做字符替换，如：
 
 ```js
-import {
-    filter
-} from 'amis/utils';
+import {filter} from 'amis/utils';
 
 filter('blabla?a={a}', {a: 123}); // => 'blabla?a=123'
 ```

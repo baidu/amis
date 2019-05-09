@@ -3,42 +3,39 @@ title: 高级用法
 shortname: advanced
 ---
 
-在开始阅读之前，希望你已经对阅读 [快速开始文档](/docs/getting-started) 。
+在开始阅读之前，希望你已经阅读 [快速开始文档](./getting-started) 。
 
 ## 数据作用域
 
-
-配置中很多地方都可以用变量如： [tpl](#/docs/renderers#tpl) 类型的渲染器、API 中的 Url、FormItem 中的 source 配置、visibleOn、disabledOn 以及 Form 中的 `redirect` 配置等等。
+配置中很多地方都可以用变量如： [tpl](./renderers#tpl) 类型的渲染器、API 中的 Url、FormItem 中的 source 配置、visibleOn、disabledOn 以及 Form 中的 `redirect` 配置等等。
 
 那么都有哪些数据可以用？这取决于在哪个容器，关于容器中的数据说明如下：
 
-* `page` 等价于全局变量，因为顶级渲染器就是它，所以下面的所有组件都能用到这个里面的数据。
-    
-    * `amisPage` 当前页面的数据信息，包含标题，id，key 之类的信息。
-    * `amisUser` 当前用户信息，包含邮箱和用户名信息。
-    * `params 中的数据` 如果地址栏中也携带了参数，也会merge到该层的数据中。
-    * `initApi 返回的数据` 如果 page 设置了 `initApi` 那么初始化的时候会从 API 中拉取数据，拉取到的数据可以用于整个页面。
-    
-* `crud` 
+-   `page` 等价于全局变量，因为顶级渲染器就是它，所以下面的所有组件都能用到这个里面的数据。
+    -   `amisPage` 当前页面的数据信息，包含标题，id，key 之类的信息。
+    -   `amisUser` 当前用户信息，包含邮箱和用户名信息。
+    -   `params 中的数据` 如果地址栏中也携带了参数，也会 merge 到该层的数据中。
+    -   `initApi 返回的数据` 如果 page 设置了 `initApi` 那么初始化的时候会从 API 中拉取数据，拉取到的数据可以用于整个页面。
+-   `crud`
 
-    * 父级 容器中的数据可以直接使用，如 page 容器
-    * `api` 返回的数据，crud 的 api 除了可以返回 `rows` 和 `count` 数据外，其他的数据会被 merge 到数据中，供容器使用。
-    
-* `form`
+    -   父级 容器中的数据可以直接使用，如 page 容器
+    -   `api` 返回的数据，crud 的 api 除了可以返回 `rows` 和 `count` 数据外，其他的数据会被 merge 到数据中，供容器使用。
 
-    * 父级 容器中的数据可以直接使用，如 page 容器
-    * `initApi` 返回的数据。
-    * FormItem 的数据直接会存入到数据中，而且每次修改都会及时更新。通过 FormItem 设置的 `name` 值获取。
-    
-* `formItem` 表单项中，所在的表单中的数据都能用。
-* `wizard` 同 form
-* `dialog` dialog 由 button 触发弹出，携带的数据根据按钮所在的位置来决定。
-    * form 中弹出则会把 form 中的数据复制份传给 dialog。
-    * crud 中的批量操作按钮。把整个列表数据复制给 dialog。
-    * crud 中的某一项中的按钮，则只会把对应的那一条数据拷贝给 dialog。
-* `servcie` 
-    * 父级 容器中的数据可以直接使用，如 page 容器
-    * 如果配置了  `api`, `api` 返回的数据可以用。
+-   `form`
+
+    -   父级 容器中的数据可以直接使用，如 page 容器
+    -   `initApi` 返回的数据。
+    -   FormItem 的数据直接会存入到数据中，而且每次修改都会及时更新。通过 FormItem 设置的 `name` 值获取。
+
+-   `formItem` 表单项中，所在的表单中的数据都能用。
+-   `wizard` 同 form
+-   `dialog` dialog 由 button 触发弹出，携带的数据根据按钮所在的位置来决定。
+    -   form 中弹出则会把 form 中的数据复制份传给 dialog。
+    -   crud 中的批量操作按钮。把整个列表数据复制给 dialog。
+    -   crud 中的某一项中的按钮，则只会把对应的那一条数据拷贝给 dialog。
+-   `servcie`
+    -   父级 容器中的数据可以直接使用，如 page 容器
+    -   如果配置了 `api`, `api` 返回的数据可以用。
 
 取值过程，也跟 JS 作用域中取值一样，当前作用域中有，则直接返回当前作用域中，如果没有当前作用域没有，会一直往上找，直到找到了为止。如果存在同名变量，则返回就近作用域中数据。
 
@@ -72,28 +69,28 @@ shortname: advanced
             }
         ]
     },
-    
+
     {
         "type": "text",
         "name": "text",
         "placeholder": "类型1 可见",
         "visibleOn": "data.foo == 1"
     },
-         
+
      {
          "type": "text",
          "name": "text2",
          "placeholder": "类型2 不可点",
          "disabledOn": "data.foo == 2"
      },
-               
+
    {
        "type": "button",
        "label": "类型三不能提交",
        "level": "primary",
        "disabledOn": "data.foo == 3"
    }
-     
+
 ]
 ```
 
@@ -157,7 +154,7 @@ shortname: advanced
                 "target": "lidong.select"
             }
         },
-        
+
         {
             "type": "select",
             "name": "select",
@@ -166,7 +163,7 @@ shortname: advanced
                 "method": "get",
                 "url": "/api/mock2/options/level2?waitSeconds=1",
                 "data": {
-                    "a": "$foo" 
+                    "a": "$foo"
                 }
             },
             "desc": "这里只是演示刷新不会真正的过滤。"
@@ -175,9 +172,9 @@ shortname: advanced
 }
 ```
 
-注意，source中的传参是通过 source 中的 data 关联的，不能写在 source 的 url 中，因为如果写了，就会自动监控值的变化而自动刷新，写在 data 里面关联则不会。如果对 source 中的配置规则不了解，请前往 [API 说明](/docs/renderers#api)
+注意，source 中的传参是通过 source 中的 data 关联的，不能写在 source 的 url 中，因为如果写了，就会自动监控值的变化而自动刷新，写在 data 里面关联则不会。如果对 source 中的配置规则不了解，请前往 [API 说明](./renderers#api)
 
-另外注意 button 的 target 值，正好是这个 form 的 name 值 `lidong` 的 formItem 的 name 值 `select`。当按钮的对象是一个 formItem 时，会出发 formItem 的数据重新拉取。 
+另外注意 button 的 target 值，正好是这个 form 的 name 值 `lidong` 的 formItem 的 name 值 `select`。当按钮的对象是一个 formItem 时，会出发 formItem 的数据重新拉取。
 
 ### 数据联动
 
@@ -286,4 +283,3 @@ Form 的 target 还可以是另外一个 Form，当 A Form 把自己的数据提
     }
 }
 ```
-
