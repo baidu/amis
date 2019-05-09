@@ -1,6 +1,6 @@
 ### HBox(FormItem)
 
-支持 form 内部再用 HBox 布局，实现左右排列。没错用 [Group](./group.md) 也能实现，所以还是推荐用 [Group](./group.md)。
+支持 form 内部再用 HBox 布局，实现左右排列。没错用 [Group](./Group.md) 也能实现，所以还是推荐用 [Group](./Group.md)。
 
 -   `type` 请设置成 `hbox`
 -   `columns` 数据，用来配置列内容。每个 column 又一个独立的渲染器。

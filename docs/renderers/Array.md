@@ -2,7 +2,7 @@
 
 数组输入框配置
 
-其实就是 [Combo](./combo.md) 的一个 flat 用法。
+其实就是 [Combo](./Combo.md) 的一个 flat 用法。
 
 -   `type` 请设置成 `array`
 -   `items` 配置单项表单类型

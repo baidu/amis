@@ -1,6 +1,6 @@
 ## Field
 
-主要用在 [Table](./Table.md) 的列配置 Column、[List](./list.md) 的内容、[Card](./Card.md) 卡片的内容和表单的[Static-XXX](./Static.md#static-xxx) 中。它主要用来展示数据。
+主要用在 [Table](./Table.md) 的列配置 Column、[List](./List.md) 的内容、[Card](./Card.md) 卡片的内容和表单的[Static-XXX](./Static.md#static-xxx) 中。它主要用来展示数据。
 
 ```schema:height="450" scope="body"
 {

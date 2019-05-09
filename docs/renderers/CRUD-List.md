@@ -1,6 +1,6 @@
 ### List(CRUD)
 
-请参考[List](./list.md)
+请参考[List](./List.md)
 
 ```schema:height="800" scope="body"
 {

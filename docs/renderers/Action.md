@@ -69,7 +69,7 @@ Action 是一种特殊的渲染器，它本身是一个按钮，同时它能触�
       }
     ```
 
--   `dialog` 当按钮点击后，弹出一个对话框。 关于 dialog 配置，请查看 [Dialog 模型](./dialog.md)。
+-   `dialog` 当按钮点击后，弹出一个对话框。 关于 dialog 配置，请查看 [Dialog 模型](./Dialog.md)。
 
     ```schema:height="200"
       {
@@ -96,7 +96,7 @@ Action 是一种特殊的渲染器，它本身是一个按钮，同时它能触�
       }
     ```
 
--   `drawer` 当按钮点击后，弹出一个抽出式对话框。 关于 drawer 配置，请查看 [Drawer 模型](./drawer.md)。
+-   `drawer` 当按钮点击后，弹出一个抽出式对话框。 关于 drawer 配置，请查看 [Drawer 模型](./Drawer.md)。
 
     ```schema:height="200"
       {
