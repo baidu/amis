@@ -1,6 +1,6 @@
 ### Panel(FormItem)
 
-还是为了布局，可以把一部分 [FormItem](./formItem.md) 合并到一个 panel 里面单独展示。
+还是为了布局，可以把一部分 [FormItem](./FormItem.md) 合并到一个 panel 里面单独展示。
 
 -   `title` panel 标题
 -   `body` [Container](./Types.md#container) 可以是其他渲染模型。
