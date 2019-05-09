@@ -15,7 +15,7 @@ Email 输入框。
 -   `source` 通过 options 只能配置静态数据，如果设置了 source 则会从接口拉取，实现动态效果。
 -   `autoComplete` 跟 source 不同的是，每次用户输入都会去接口获取提示。
 -   `multiple` 默认为 `false`, 设置成 `true` 表示可多选。
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="200" scope="form-item"
 {

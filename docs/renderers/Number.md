@@ -6,7 +6,7 @@
 -   `min` 最小值
 -   `step` 步长
 -   `max` 最大值
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="200" scope="form-item"
 {
