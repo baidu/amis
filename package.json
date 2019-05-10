@@ -154,7 +154,7 @@
       }
     }
   },
-  "husky": {
+  "_husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
