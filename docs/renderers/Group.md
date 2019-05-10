@@ -4,7 +4,7 @@
 
 -   `type` 请设置成 `group`
 -   `controls` 表单项集合。
--   `mode` 展示默认，跟 [Form](#form) 中的模式一样，选择： `normal`、`horizontal`或者`inline`。
+-   `mode` 展示默认，跟 [Form](./Form.md) 中的模式一样，选择： `normal`、`horizontal`或者`inline`。
 -   `horizontal` 当为水平模式时，用来控制左右占比。
 -   `horizontal.label` 左边 label 的宽度占比。
 -   `horizontal.right` 右边控制器的宽度占比。

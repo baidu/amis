@@ -2,7 +2,7 @@
 
 数组输入框配置
 
-其实就是 [Combo](#combo) 的一个 flat 用法。
+其实就是 [Combo](./Combo.md) 的一个 flat 用法。
 
 -   `type` 请设置成 `array`
 -   `items` 配置单项表单类型
@@ -13,7 +13,7 @@
 -   `addButtonText` 新增按钮文字，默认为 `"新增"`。
 -   `minLength` 限制最小长度。
 -   `maxLength` 限制最大长度。
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="450" scope="form"
 [

@@ -1,6 +1,6 @@
 ### Table(FormItem)
 
-可以用来展现数据的,可以用来展示数组类型的数据，比如 multiple 的[子 form](#SubForm)。
+可以用来展现数据的,可以用来展示数组类型的数据，比如 multiple 的[子 form](./SubForm.md)。
 
 -   `type` 请设置成 `table`
 -   `columns` 数组类型，用来定义列信息。
@@ -54,9 +54,9 @@
 | addable                      | `boolean`               | false            | 是否可增加一行                           |
 | editable                     | `boolean`               | false            | 是否可编辑                               |
 | removable                    | `boolean`               | false            | 是否可删除                               |
-| addApi                       | [api](#api)             | -                | 新增时提交的 API                         |
-| updateApi                    | [api](#api)             | -                | 修改时提交的 API                         |
-| deleteApi                    | [api](#api)             | -                | 删除时提交的 API                         |
+| addApi                       | [api](./Types.md#Api)   | -                | 新增时提交的 API                         |
+| updateApi                    | [api](./Types.md#Api)   | -                | 修改时提交的 API                         |
+| deleteApi                    | [api](./Types.md#Api)   | -                | 删除时提交的 API                         |
 | addBtnLabel                  | `string`                |                  | 增加按钮名称                             |
 | addBtnIcon                   | `string`                | `"fa fa-plus"`   | 增加按钮图标                             |
 | updateBtnLabel               | `string`                | `""`             | 更新按钮名称                             |
@@ -71,7 +71,7 @@
 | columns[x].quickEdit         | `boolean` 或者 `object` | -                | 配合 editable 为 true 一起使用           |
 | columns[x].quickEditOnUpdate | `boolean` 或者 `object` | -                | 可以用来区分新建模式和更新模式的编辑配置 |
 
--   更多配置请参考 [FormItem](#FormItem)
+-   更多配置请参考 [FormItem](./FormItem.md)
 -   更多 Demo 详情请参考 [表格编辑](/docs/examples/form/table)
 
 ```schema:height="250" scope="form-item"

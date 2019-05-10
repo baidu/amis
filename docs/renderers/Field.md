@@ -1,11 +1,11 @@
 ## Field
 
-主要用在 [Table](#table) 的列配置 Column、[List](#list) 的内容、[Card](#card) 卡片的内容和表单的[Static-XXX](#static-xxx) 中。它主要用来展示数据。
+主要用在 [Table](./Table.md) 的列配置 Column、[List](./List.md) 的内容、[Card](./Card.md) 卡片的内容和表单的[Static-XXX](./Static.md#static-xxx) 中。它主要用来展示数据。
 
 ```schema:height="450" scope="body"
 {
-  "type": "crud",
-  "api": "/api/mock2/crud/list",
+  "type": "Action.md",
+  "api": "/api/mock2/Action.md/list",
   "affixHeader": false,
   "syncLocation": false,
   "columns": [
@@ -80,10 +80,10 @@
 -   `placeholder` 当没有值时的展示内容。
 -   `popOver` 配置后在内容区增加一个放大按钮，点击后弹出一个详情弹框。
     `boolean` 简单的开启或者关闭
-    `Object` 弹出的内容配置。请参考 [Dialog](#dialog) 配置说明。
+    `Object` 弹出的内容配置。请参考 [Dialog](./Dialog.md) 配置说明。
 -   `quickEdit` 配置后在内容区增加一个编辑按钮，点击后弹出一个编辑框。
     `boolean` 简单的开启或者关闭
-    `Object` 快速编辑详情，请参考 [FormItem](#formitem) 配置。
+    `Object` 快速编辑详情，请参考 [FormItem](./FormItem.md) 配置。
     `.mode` 模式如果设置为 `inline` 模式，则直接展示输入框，而不需要点击按钮后展示。
     `.saveImmediately` 开启后，直接保存，而不是等全部操作完后批量保存。
 -   `copyable` 配置后会在内容区增加一个复制按钮，点击后把内容复制到剪切板。
@@ -91,11 +91,11 @@
 
 ### Tpl(Field)
 
-请参考[tpl](#tpl)
+请参考[tpl](./Tpl.md)
 
 ### Plain(Field)
 
-请参考[Plain](#plain)
+请参考[Plain](./Plain.md)
 
 ### Json(Field)
 
@@ -185,18 +185,18 @@ todo
 
 ## Tabs
 
-| 属性名            | 类型                    | 默认值                              | 说明                                                     |
-| ----------------- | ----------------------- | ----------------------------------- | -------------------------------------------------------- |
-| type              | `string`                | `"tabs"`                            | 指定为 Tabs 渲染器                                       |
-| className         | `string`                |                                     | 外层 Dom 的类名                                          |
-| tabsClassName     | `string`                |                                     | Tabs Dom 的类名                                          |
-| tabs              | `Array`                 |                                     | tabs 内容                                                |
-| tabs[x].title     | `string`                |                                     | Tab 标题                                                 |
-| tabs[x].icon      | `icon`                  |                                     | Tab 的图标                                               |
-| tabs[x].tab       | [Container](#container) |                                     | 内容区                                                   |
-| tabs[x].hash      | `string`                |                                     | 设置以后将跟 url 的 hash 对应                            |
-| tabs[x].reload    | `boolean`               |                                     | 设置以后内容每次都会重新渲染，对于 crud 的重新拉取很有用 |
-| tabs[x].className | `string`                | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                             |
+| 属性名            | 类型                              | 默认值                              | 说明                                                          |
+| ----------------- | --------------------------------- | ----------------------------------- | ------------------------------------------------------------- |
+| type              | `string`                          | `"tabs"`                            | 指定为 Tabs 渲染器                                            |
+| className         | `string`                          |                                     | 外层 Dom 的类名                                               |
+| tabsClassName     | `string`                          |                                     | Tabs Dom 的类名                                               |
+| tabs              | `Array`                           |                                     | tabs 内容                                                     |
+| tabs[x].title     | `string`                          |                                     | Tab 标题                                                      |
+| tabs[x].icon      | `icon`                            |                                     | Tab 的图标                                                    |
+| tabs[x].tab       | [Container](./Types.md#Container) |                                     | 内容区                                                        |
+| tabs[x].hash      | `string`                          |                                     | 设置以后将跟 url 的 hash 对应                                 |
+| tabs[x].reload    | `boolean`                         |                                     | 设置以后内容每次都会重新渲染，对于 Action.md 的重新拉取很有用 |
+| tabs[x].className | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                                  |
 
 ```schema:height="300" scope="body"
 {

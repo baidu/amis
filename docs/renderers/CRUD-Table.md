@@ -1,12 +1,12 @@
 ### Table(CRUD)
 
-在 CRUD 中的 Table 主要增加了 Column 里面的以下配置功能，更多参数，请参考[Table](#table)
+在 CRUD 中的 Table 主要增加了 Column 里面的以下配置功能，更多参数，请参考[Table](./Table.md)
 
 -   `sortable` 开启后可以根据当前列排序(后端排序)。
 
 ```schema:height="800" scope="body"
 {
-    "type": "crud",
+    "type": "Action.md",
     "api": "/api/sample",
     "syncLocation": false,
     "title": null,

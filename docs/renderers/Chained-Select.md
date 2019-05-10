@@ -6,9 +6,9 @@
 -   `options` 选项配置，类型为数组，成员格式如下。
     -   `label` 文字
     -   `value` 值
--   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。[详情](/docs/api#select) 另外也可以用 `$xxxx` 来获取当前作用域中的变量。
-    更多配置请参考 [FormItem](#FormItem)。
--   更多配置请参考 [FormItem](#FormItem)
+-   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。另外也可以用 `$xxxx` 来获取当前作用域中的变量。
+    更多配置请参考 [FormItem](./FormItem.md)。
+-   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="300" scope="form-item"
 {

@@ -2,7 +2,7 @@
 
 表格中的列配置
 
--   `type` 默认为 `text`，支持： `text`、`html`、`tpl`、`image`、`progress`、`status`、`date`、`datetime`、`time`、`json`、`mapping`参考 [Field 说明](#field)和[Operation](#operation)。
+-   `type` 默认为 `text`，支持： `text`、`html`、`tpl`、`image`、`progress`、`status`、`date`、`datetime`、`time`、`json`、`mapping`参考 [Field 说明](./Field.md)和[Operation](./Operation.md)。
 -   `name` 用来关联列表数据中的变量 `key`。
 -   `label` 列标题。
 -   `copyable` 开启后，会支持内容点击复制。
