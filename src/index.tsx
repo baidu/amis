@@ -149,6 +149,7 @@ import './renderers/Wrapper';
 import './renderers/IFrame';
 import './renderers/QRCode';
 import './renderers/Icon';
+import Scoped, {ScopedContext} from './Scoped';
 
 import {
     FormItem
@@ -228,6 +229,8 @@ export {
     relativeValueRe,
     resolveVariable,
     setIconVendor,
+    Scoped,
+    ScopedContext,
 
     classPrefix,
     classnames
