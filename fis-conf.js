@@ -243,9 +243,13 @@ if (fis.project.currentMedia() === 'publish') {
                 return contents;
             }
 
-            return contents.replace(/(\\?(?:'|"))\/api\/mock2?\//g, function(_, qutoa) {
-                return qutoa + 'https://houtai.baidu.com/api/mock2/';
-            });
+            return contents
+                .replace(/(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/mock2?/ig, function(_, qutoa, method) {
+                    return qutoa + (method || '') +  'https://houtai.baidu.com/api/mock2';
+                })
+                .replace(/(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/sample/ig, function(_, qutoa, method) {
+                    return qutoa + (method || '') +  'https://houtai.baidu.com/api/sample';
+                });
         }
     })
     
