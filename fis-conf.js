@@ -302,7 +302,8 @@ if (fis.project.currentMedia() === 'publish') {
                 'node_modules/*/**.css',
                 '*.scss',
                 '!/scss/*.scss',
-                '/scss/*.scss'
+                '/scss/*.scss',
+                '!monaco-editor/**',
             ]
         })
     });
