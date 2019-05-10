@@ -4,8 +4,8 @@
 
 ```schema:height="800" scope="body"
 {
-"type": "Action.md",
-"api": "/api/mock2/Action.md/permissions",
+"type": "crud",
+"api": "/api/mock2/crud/permissions",
 "mode": "list",
 "placeholder": "当前组内, 还没有配置任何权限.",
 "syncLocation": false,

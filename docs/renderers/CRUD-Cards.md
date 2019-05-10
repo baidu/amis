@@ -4,8 +4,8 @@
 
 ```schema:height="800" scope="body"
 {
-"type": "Action.md",
-"api": "/api/mock2/Action.md/users",
+"type": "crud",
+"api": "/api/mock2/crud/users",
 "syncLocation": false,
 "mode": "cards",
 "defaultParams": {
