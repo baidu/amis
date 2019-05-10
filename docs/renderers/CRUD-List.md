@@ -1,11 +1,11 @@
 ### List(CRUD)
 
-请参考[List](#list)
+请参考[List](./List.md)
 
 ```schema:height="800" scope="body"
 {
-"type": "crud",
-"api": "/api/mock2/crud/permissions",
+"type": "Action.md",
+"api": "/api/mock2/Action.md/permissions",
 "mode": "list",
 "placeholder": "当前组内, 还没有配置任何权限.",
 "syncLocation": false,

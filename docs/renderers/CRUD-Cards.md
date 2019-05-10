@@ -1,11 +1,11 @@
 ### Cards(CRUD)
 
-请参考[Cards](#cards)
+请参考[Cards](./Cards.md)
 
 ```schema:height="800" scope="body"
 {
-"type": "crud",
-"api": "/api/mock2/crud/users",
+"type": "Action.md",
+"api": "/api/mock2/Action.md/users",
 "syncLocation": false,
 "mode": "cards",
 "defaultParams": {
