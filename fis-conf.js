@@ -316,7 +316,7 @@ if (fis.project.currentMedia() === 'publish') {
         useHash: true
     });
     
-    ghPages.match('*.{js,ts,tsx}', {
+    ghPages.match('*.{js,ts,tsx,jsx}', {
         optimizer: fis.plugin('uglify-js'),
         useHash: true
     });
@@ -347,7 +347,7 @@ if (fis.project.currentMedia() === 'publish') {
     ghPages.match('{*.min.js,monaco-editor/**.js}', {
         optimizer: null
     });
-    ghPages.match('monaco-editor/**.js', {
+    ghPages.match('monaco-editor/**', {
         useHash: false
     });
 }
