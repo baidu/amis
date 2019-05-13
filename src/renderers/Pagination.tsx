@@ -1,31 +1,23 @@
 import * as React from 'react';
 import {Renderer, RendererProps} from '../factory';
+import { autobind } from '../utils/helper';
 
 export interface PaginationProps extends RendererProps {
-    activePage?: number;
-    items?: number;
-    maxButtons?: number;
-    hasNext?: boolean;
-    mode?: string;
-    onPageChange: (page: number, perPage?: number) => void;
-    pageNum?: number;
-    changePageNum: (value: number) => void;
-    showPageInput: boolean;
-}
-
-export interface DefaultProps {
     activePage: number;
     items: number;
     maxButtons: number;
-    mode: string;
     hasNext: boolean;
+    mode: string;
+    onPageChange: (page: number, perPage?: number) => void;
     showPageInput: boolean;
 }
 
-type PropsWithDefault = PaginationProps & DefaultProps;
+export interface PaginationState {
+    pageNum: string;
+};
 
-export default class Pagination extends React.PureComponent<PaginationProps, any> {
-    static defaultProps: DefaultProps = {
+export default class Pagination extends React.Component<PaginationProps, PaginationState> {
+    static defaultProps = {
         activePage: 1,
         items: 1,
         maxButtons: 5,
@@ -34,13 +26,20 @@ export default class Pagination extends React.PureComponent<PaginationProps, any
         showPageInput: true,
     };
 
-    constructor(props: PaginationProps) {
-        super(props);
-        this.handlePageChange = this.handlePageChange.bind(this);
+    state = {
+        pageNum:  String(this.props.activePage) || ''
+    };
+
+    componentWillReceiveProps(nextProps:PaginationProps) {
+        if (this.props.activePage !== nextProps.activePage) {
+            this.setState({
+                pageNum: String(nextProps.activePage) || ''
+            })
+        }
     }
 
     renderSimple() {
-        const {activePage, hasNext, onPageChange, classnames: cx} = this.props as PropsWithDefault;
+        const {activePage, hasNext, onPageChange, classnames: cx} = this.props;
 
         return (
             <ul className={cx('Pagination', 'Pagination--sm')}>
@@ -68,22 +67,21 @@ export default class Pagination extends React.PureComponent<PaginationProps, any
         );
     }
 
+    @autobind
     handlePageChange(e: React.ChangeEvent<any>) {
-        const {changePageNum, items} = this.props;
+        const {items} = this.props;
         let value = e.currentTarget.value;
 
-        if (((typeof value === 'number' || /^\d+$/.test(value)) && value > 0) || value === '') {
-            if (value !== '') {
-                value = parseInt(value, 10);
-                value = (value > (items as number) ? items : value) as number;
-            }
-            changePageNum(value);
+        if (/^\d+$/.test(value) && parseInt(value, 10) > items) {
+            value = String(items);
         }
+
+        this.setState({pageNum: value});
     }
 
     renderNormal() {
-        let {activePage, items, maxButtons, onPageChange, pageNum, classnames: cx, showPageInput} = this
-            .props as PropsWithDefault;
+        let {activePage, items, maxButtons, onPageChange, classnames: cx, showPageInput} = this.props;
+        const pageNum = this.state.pageNum;
 
         let pageButtons: any = [];
         let startPage: number;
@@ -195,7 +193,7 @@ export default class Pagination extends React.PureComponent<PaginationProps, any
 
         return (
             <div>
-                <ul className={cx('Pagination', 'Pagination--sm')} onSelect={(value: number) => onPageChange(value)}>
+                <ul className={cx('Pagination', 'Pagination--sm')}>
                     {pageButtons}
                 </ul>
 
@@ -214,7 +212,7 @@ export default class Pagination extends React.PureComponent<PaginationProps, any
                             />
                             <span>
                                 <button
-                                    onClick={() => onPageChange(pageNum as number)}
+                                    onClick={() => onPageChange(parseInt(pageNum, 10))}
                                     type="submit"
                                     className={cx('Button', 'Button--default')}
                                 >
