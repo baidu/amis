@@ -280,6 +280,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                         },
                     })
                     .then(value => {
+                        store.updateData({
+                            ...store.data,
+                            ...value
+                        });
                         store.markSaving(false);
                         if (onFinished && onFinished(value, action) === false) {
                             // 如果是 false 后面的操作就不执行
