@@ -45,7 +45,7 @@ interface CRUDProps extends RendererProps {
     quickSaveApi?: Api;
     quickSaveItemApi?: Api;
     initFetch?: boolean;
-    pagePageAvailable?: Array<number | string>;
+    perPageAvailable?: Array<number | string>;
     messages: {
         fetchFailed?: string;
         fetchSuccess?: string;
@@ -83,7 +83,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         'valueField',
         'defaultParams',
         'bodyClassName',
-        'pagePageAvailable',
+        'perPageAvailable',
         'pageField',
         'perPageField',
         'hideQuickSaveBtn',
@@ -1037,7 +1037,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     renderSwitchPerPage(childProps: any) {
-        const {store, pagePageAvailable, classnames: cx, classPrefix: ns} = this.props;
+        const {store, perPageAvailable, classnames: cx, classPrefix: ns} = this.props;
 
         const items = childProps.items;
 
@@ -1045,7 +1045,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             return null;
         }
 
-        const perPages = (pagePageAvailable || [5, 10, 20, 50, 100]).map((item: any) => ({
+        const perPages = (perPageAvailable || [5, 10, 20, 50, 100]).map((item: any) => ({
             label: item,
             value: item + '',
         }));
