@@ -14,6 +14,7 @@
 | header           | [Container](./Types.md#container) |                                        | 顶部容器            |
 | body             | [Container](./Types.md#container) |                                        | 内容容器            |
 | footer           | [Container](./Types.md#container) |                                        | 底部容器            |
+| affixFooter      | `boolean`                         |                                        | 是否固定底部容器    |
 | actions          | Array Of [Button](./Button.md)    |                                        | 按钮区域            |
 
 ```schema:height="300" scope="body"
