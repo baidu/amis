@@ -9,7 +9,7 @@ import {
     IRendererStore
 } from './index';
 import { ServiceStore } from './service';
-import { extendObject, createObject, isObjectShallowModified } from '../utils/helper';
+import { extendObject, createObject, isObjectShallowModified, sortArray } from '../utils/helper';
 import {
     Api,
     Payload,
@@ -32,7 +32,8 @@ export const CRUDStore = ServiceStore
         prevPage: 1,
         page: 1,
         perPage: 10,
-        total: 1,
+        total: 0,
+        loadDataOnce: false, // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
         mode: 'normal',
         hasNext: false,
         selectedAction: types.frozen(),
@@ -45,7 +46,7 @@ export const CRUDStore = ServiceStore
     })
     .views(self => ({
         get lastPage() {
-            return Math.ceil(self.total / (self.perPage < 1 ? 10 : self.perPage));
+            return Math.max(Math.ceil(self.total / (self.perPage < 1 ? 10 : self.perPage)), 1);
         },
 
         get filterData() {
@@ -100,10 +101,27 @@ export const CRUDStore = ServiceStore
 
         
         const fetchInitData:(api:Api, data?:object, options?:fetchOptions & {
+            forceReload?: boolean;
             loadDataMode?: boolean;
             syncResponse2Query?: boolean;
         }) => Promise<any> = flow(function *getInitData(api:string, data:object, options?:fetchOptions) {
             try {
+                if (options && options.forceReload === false && self.loadDataOnce && self.total) {
+                    let items = self.items.concat();
+
+                    if (self.query.orderBy) {
+                        const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
+                        items = sortArray(items, self.query.orderBy, dir);
+                    }
+
+                    const data = {
+                        ...self.data,
+                        items: items.slice((self.page - 1) * self.perPage, self.page * self.perPage)
+                    }
+                    self.reInitData(data);
+                    return;
+                }
+
                 if (fetchCancel) {
                     fetchCancel();
                     fetchCancel = null;
@@ -111,12 +129,19 @@ export const CRUDStore = ServiceStore
                 }
 
                 options && options.silent || self.markFetching(true);
-                const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, createObject(self.data, {
+                const ctx:any = createObject(self.data, {
                     ...self.query,
                     [options && options.pageField || 'page']: self.page,
                     [options && options.perPageField || 'perPage']: self.perPage,
                     ...data
-                }), {
+                });
+                
+                // 一次性加载不要发送 perPage 属性
+                if (self.loadDataOnce) {
+                    delete ctx[options && options.perPageField || 'perPage'];
+                }
+
+                const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, ctx, {
                     ...options,
                     cancelExecutor: (executor:Function) => fetchCancel = executor
                 });
@@ -174,12 +199,21 @@ export const CRUDStore = ServiceStore
                         ...rest
                     };
 
+                    if (self.loadDataOnce) {
+                        if (self.query.orderBy) {
+                            const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
+                            rowsData = sortArray(rowsData, self.query.orderBy, dir);
+                        }
+                        data.items = rowsData.slice((self.page - 1) * self.perPage, self.page * self.perPage);
+                        data.count = data.total = self.total = rowsData.length;
+                    }
+
                     self.items.replace(rowsData);
                     self.reInitData(data);
                     options && options.syncResponse2Query !== false && updateQuery(pick(rest, Object.keys(self.query)), undefined, options && options.pageField || 'page', options && options.perPageField || 'perPage');
 
                     self.total = parseInt(total || count, 10) || 0;
-                    typeof page !== 'undefined' && (self.page = self.pageNum = parseInt(page, 10));
+                    typeof page !== 'undefined' && (self.page = parseInt(page, 10));
 
                     // 分页情况不清楚，只能知道有没有下一页。
                     if (typeof hasNext !== 'undefined') {
@@ -279,6 +313,10 @@ export const CRUDStore = ServiceStore
             self.hasInnerModalOpen = value;
         }
 
+        const setLoadDataOnce = function(value:boolean) {
+            self.loadDataOnce = value;
+        }
+
         return {
             setPristineQuery,
             updateQuery,
@@ -290,7 +328,8 @@ export const CRUDStore = ServiceStore
             setFilterVisible,
             setSelectedItems,
             setUnSelectedItems,
-            setInnerModalOpened
+            setInnerModalOpened,
+            setLoadDataOnce
         };
     });
 

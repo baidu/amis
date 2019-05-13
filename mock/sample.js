@@ -22,7 +22,7 @@ module.exports = function(req, res) {
 
 
 function index(req, res) {
-    const perPage = parseInt(req.query.perPage, 10) || 10;
+    const perPage = parseInt(req.query.perPage, 10);
     const page = req.query.page || 1;
     let items = DB.concat();
 
@@ -62,7 +62,7 @@ function index(req, res) {
         msg: 'ok',
         data: {
             count: items.length,
-            rows: items.splice((page -1) * perPage, perPage)
+            rows: perPage ? items.splice((page -1) * perPage, perPage) : items.concat()
         }
     });
 }

@@ -298,7 +298,7 @@ module.exports = [
       "browser": "Nintendo DS browser",
       "platform": "Nintendo DS",
       "version": "8.5",
-      "grade": "C/A<sup>1</sup>"
+      "grade": "C"
     },
     {
       "engine": "KHTML",

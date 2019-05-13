@@ -618,3 +618,19 @@ export const bulkBindFunctions = function<T extends {
 }>(context:T, funNames:Array<FunctionPropertyNames<T>>) {
     funNames.forEach(key => context[key] = context[key].bind(context));
 }
+
+export function sortArray<T extends any>(items:Array<T>, field:string, dir: -1 | 1):Array<T> {
+    return items.sort((a, b) => {
+        let ret: number;
+        const a1 = a[field];
+        const b1 = b[field];
+
+        if (typeof a1 === 'number' && typeof b1 === 'number') {
+            ret = a1 < b1 ? -1 : a1 === b1 ? 0 : 1;
+        } else {
+            ret = String(a1).localeCompare(String(b1));
+        }
+
+        return ret * dir;
+    })
+}

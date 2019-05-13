@@ -49,6 +49,7 @@ import KeyboardsCrudSchema from './CRUD/Keyboards';
 import FootableCrudSchema from './CRUD/Footable';
 import NestedCrudSchema from './CRUD/Nested';
 import MergeCellSchema from './CRUD/MergeCell';
+import LoadOnceTableCrudSchema from './CRUD/LoadOnce';
 import SdkTest from './Sdk/Test';
 import JSONSchemaForm from './Form/Schem';
 import SimpleDialogSchema from './Dialog/Simple';
@@ -314,6 +315,11 @@ const navigations = [
                         label: '操作并下一个',
                         path: 'crud/jump-next',
                         component: makeSchemaRenderer(JumpNextCrudSchema)
+                    },
+                    {
+                        label: '一次性加载',
+                        path: 'crud/load-once',
+                        component: makeSchemaRenderer(LoadOnceTableCrudSchema)
                     },
                     {
                         label: '测试',
