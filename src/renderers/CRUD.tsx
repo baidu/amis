@@ -65,6 +65,7 @@ interface CRUDProps extends RendererProps {
     filterDefaultVisible?: boolean;
     syncResponse2Query?: boolean;
     keepItemSelectionOnPageChange?: boolean;
+    loadDataOnce: boolean;
 }
 
 export default class CRUD extends React.Component<CRUDProps, any> {
@@ -108,6 +109,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         'keepItemSelectionOnPageChange',
         'labelTpl',
         'labelField',
+        'loadDataOnce'
     ];
     static defaultProps: Partial<CRUDProps> = {
         toolbarInline: true,
@@ -122,12 +124,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         silentPolling: false,
         filterTogglable: false,
         filterDefaultVisible: true,
+        loadDataOnce: false,
     };
 
     control: any;
     lastQuery: any;
     dataInvalid: boolean = false;
-    timer: NodeJS.Timer;
+    timer: number;
     mounted: boolean;
     constructor(props: CRUDProps) {
         super(props);
@@ -156,9 +159,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     componentWillMount() {
-        const {location, store, pageField, perPageField, syncLocation} = this.props;
+        const {location, store, pageField, perPageField, syncLocation, loadDataOnce} = this.props;
 
         this.mounted = true;
+        store.setLoadDataOnce(loadDataOnce);
 
         if (syncLocation && location && (location.query || location.search)) {
             store.updateQuery(
@@ -203,6 +207,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
         if (this.props.filterTogglable !== nextProps.filterTogglable) {
             store.setFilterTogglable(!!nextProps.filterTogglable, nextProps.filterDefaultVisible);
+        }
+
+        if (this.props.loadDataOnce !== nextProps.loadDataOnce) {
+            store.setLoadDataOnce(!!nextProps.loadDataOnce);
         }
 
         if (props.syncLocation && props.location && props.location.search !== nextProps.location.search) {
@@ -514,7 +522,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         });
     }
 
-    search(values?: any, silent?: boolean, clearSelection?: boolean) {
+    search(values?: any, silent?: boolean, clearSelection?: boolean, forceReload = true) {
         const {
             store,
             api,
@@ -561,6 +569,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                     successMessage: messages && messages.fetchSuccess,
                     errorMessage: messages && messages.fetchFailed,
                     autoAppend: true,
+                    forceReload,
                     silent,
                     pageField,
                     perPageField,
@@ -604,7 +613,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             pageField,
             perPageField
         );
-        this.search();
+        this.search(undefined, undefined, undefined, false);
 
         if (autoJumpToTopOnPagerChange && this.control) {
             (findDOMNode(this.control) as HTMLElement).scrollIntoView();
@@ -819,7 +828,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             pageField,
             perPageField
         );
-        this.search();
+        this.search(undefined, undefined, undefined, false);
     }
 
     reload(subpath?: string, query?: any) {

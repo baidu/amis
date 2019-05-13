@@ -1,72 +1,10 @@
 export default {
-    $schema: "http://amis.baidu.com/v2/schemas/page.json#",
-    title: "增删改查示例",
-    remark: "bla bla bla",
-    toolbar: [
-        {
-            type: "button",
-            actionType: "dialog",
-            label: "新增",
-            icon: 'fa fa-plus pull-left',
-            primary: true,
-            dialog: {
-                title: "新增",
-                body: {
-                    type: "form",
-                    name: "sample-edit-form",
-                    api: "post:/api/sample",
-                    controls: [
-                        {
-                            type: "text",
-                            name: "engine",
-                            label: "Engine",
-                            required: true
-                        },
-                        {
-                            type: "divider"
-                        },
-                        {
-                            type: "text",
-                            name: "browser",
-                            label: "Browser",
-                            required: true
-                        },
-                        {
-                            type: "divider"
-                        },
-                        {
-                            type: "text",
-                            name: "platform",
-                            label: "Platform(s)",
-                            required: true
-                        },
-                        {
-                            type: "divider"
-                        },
-                        {
-                            type: "text",
-                            name: "version",
-                            label: "Engine version"
-                        },
-                        {
-                            type: "divider"
-                        },
-                        {
-                            type: "text",
-                            name: "grade",
-                            label: "CSS grade"
-                        }
-                    ]
-                }
-            }
-        }
-    ],
+    $schema: "https://houtai.baidu.com/v2/schemas/page.json#",
+    title: "一次性加载，前端分页，前端排序",
     body: {
         type: "crud",
-        draggable: true,
+        loadDataOnce: true,
         api: "/api/sample?waitSeconds=1",
-        keepItemSelectionOnPageChange: true,
-        labelTpl: '${id} ${engine}',
         filter: {
             title: "条件搜索",
             submitText: "",
@@ -79,62 +17,9 @@ export default {
                         label: "搜索",
                         type: "submit"
                     }
-                },
-                {
-                    type: "plain",
-                    text: "这里的表单项可以配置多个"
                 }
             ]
         },
-        bulkActions: [
-            {
-                label: "批量删除",
-                actionType: "ajax",
-                api: "delete:/api/sample/${ids|raw}",
-                confirmText: "确定要批量删除?"
-            },
-            {
-                label: "批量修改",
-                actionType: "dialog",
-                dialog: {
-                    title: "批量编辑",
-                    name: "sample-bulk-edit",
-                    body: {
-                        type: "form",
-                        api: "/api/sample/bulkUpdate2",
-                        controls: [
-                            {
-                                type: 'hidden',
-                                name: 'ids'
-                            },
-                            {
-                                type: "text",
-                                name: "engine",
-                                label: "Engine"
-                            }
-                        ]
-                    }
-                }
-            }
-        ],
-        quickSaveApi: "/api/sample/bulkUpdate",
-        quickSaveItemApi: "/api/sample/$id",
-        filterTogglable: true,
-        headerToolbar: ['filter-toggler', 'bulkActions', {
-            type: 'tpl',
-            tpl: '定制内容示例：当前有 ${count} 条数据。',
-            className: 'v-middle'
-        }, {
-            type: 'columns-toggler',
-            align: 'right'
-        }, {
-            type: 'drag-toggler',
-            align: 'right'
-        }, {
-            type: 'pagination',
-            align: 'right'
-        }],
-        footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
         columns: [
             {
                 name: "id",
@@ -149,7 +34,6 @@ export default {
                 name: "engine",
                 label: "Rendering engine",
                 sortable: true,
-                searchable: true,
                 type: "text",
                 toggled: true
             },
@@ -170,36 +54,12 @@ export default {
             {
                 name: "version",
                 label: "Engine version",
-                quickEdit: true,
                 type: "text",
-                toggled: true,
-                filterable:{
-                    options:[
-                        {
-                            label:'4',
-                            value:'4'
-                        },
-                        {
-                            label:'5',
-                            value:'5'
-                        },
-                        {
-                            label:'6',
-                            value:'6'
-                        },
-                    ]
-                }
+                toggled: true
             },
             {
                 name: "grade",
                 label: "CSS grade",
-                quickEdit: {
-                    mode: "inline",
-                    type: "select",
-                    inputClassName: 'w-xs',
-                    options: ["A", "B", "C", "D", "X"],
-                    saveImmediately: true
-                },
                 type: "text",
                 toggled: true
             },
