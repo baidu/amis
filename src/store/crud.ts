@@ -31,7 +31,6 @@ export const CRUDStore = ServiceStore
         query: types.optional(types.frozen(), {}),
         prevPage: 1,
         page: 1,
-        pageNum: types.optional(types.union(types.number, types.literal('')), 1),
         perPage: 10,
         total: 1,
         mode: 'normal',
@@ -89,7 +88,7 @@ export const CRUDStore = ServiceStore
             };
 
             if (self.query[pageField || 'page']) {
-                self.page = self.pageNum = parseInt(self.query[pageField || 'page'], 10);
+                self.page = parseInt(self.query[pageField || 'page'], 10);
             }
 
             if (self.query[perPageField || 'perPage']) {
@@ -132,60 +131,61 @@ export const CRUDStore = ServiceStore
                     }
 
                     self.updatedAt = Date.now();
-                    if (Array.isArray(json.data)) {
-                        self.reInitData({
-                            ...self.pristine,
-                            items: json.data
-                        });
-                    } else {
-                        const {
-                            items,
-                            rows,
-                            total,
-                            count,
-                            page,
-                            hasNext,
-                            ...rest
-                        } = json.data as any;
+                    let result = json.data;
 
-                        if (!Array.isArray(items) && !Array.isArray(rows)) {
-                            throw new Error('返回数据格式不正确，payload.data.items 必须是数组');
-                        }
-
-                        // 点击加载更多数据
-                        let rowsData = []
-                        if (options && options.loadDataMode && Array.isArray(self.data.items)) {
-                            rowsData = self.data.items;
-                            rowsData.push(...(items || rows));
-                        } else { // 第一次的时候就是直接加载请求的数据
-                            rowsData = items || rows;
-                        }
-
-                        const data = {
-                            ...self.pristine,
-                            items: rowsData,
-                            count: count,
-                            total: total,
-                            ...rest
+                    if (Array.isArray(result)) {
+                        result = {
+                            items: result
                         };
+                    }
 
-                        if (Array.isArray(data.items)) {
-                            data.items = data.items.map((item:any) => typeof item === 'string' ? {text: item} : item)
-                        }
+                    const {
+                        items,
+                        rows,
+                        total,
+                        count,
+                        page,
+                        hasNext,
+                        ...rest
+                    } = result;
 
-                        self.items.replace(data.items);
-                        self.reInitData(data);
-                        options && options.syncResponse2Query !== false && updateQuery(pick(rest, Object.keys(self.query)), undefined, options && options.pageField || 'page', options && options.perPageField || 'perPage');
+                    if (!Array.isArray(items) && !Array.isArray(rows)) {
+                        throw new Error('返回数据格式不正确，payload.data.items 必须是数组');
+                    }
 
-                        self.total = parseInt(total || count, 10) || 0;
-                        typeof page !== 'undefined' && (self.page = self.pageNum = parseInt(page, 10));
+                    // 点击加载更多数据
+                    let rowsData = []
+                    if (options && options.loadDataMode && Array.isArray(self.data.items)) {
+                        rowsData = self.data.items.concat(items || rows);
+                    } else { 
+                        // 第一次的时候就是直接加载请求的数据
+                        rowsData = items || rows;
+                    }
 
-                        // 分页情况不清楚，只能知道有没有下一页。
-                        if (typeof hasNext !== 'undefined') {
-                            self.mode = 'simple';
-                            self.total = 0;
-                            self.hasNext = !!hasNext;
-                        }
+                    if (Array.isArray(rowsData)) {
+                        rowsData = rowsData.map((item:any) => typeof item === 'string' ? {text: item} : item)
+                    }
+
+                    const data = {
+                        ...self.pristine,
+                        items: rowsData,
+                        count: count,
+                        total: total,
+                        ...rest
+                    };
+
+                    self.items.replace(rowsData);
+                    self.reInitData(data);
+                    options && options.syncResponse2Query !== false && updateQuery(pick(rest, Object.keys(self.query)), undefined, options && options.pageField || 'page', options && options.perPageField || 'perPage');
+
+                    self.total = parseInt(total || count, 10) || 0;
+                    typeof page !== 'undefined' && (self.page = self.pageNum = parseInt(page, 10));
+
+                    // 分页情况不清楚，只能知道有没有下一页。
+                    if (typeof hasNext !== 'undefined') {
+                        self.mode = 'simple';
+                        self.total = 0;
+                        self.hasNext = !!hasNext;
                     }
 
                     self.updateMessage(json.msg || options && options.successMessage);
@@ -218,12 +218,8 @@ export const CRUDStore = ServiceStore
         });
 
         function changePage(page:number, perPage?: number) {
-            self.page = self.pageNum = page;
+            self.page = page;
             perPage && (self.perPage = perPage);
-        }
-
-        function changePageNum(value: number | '') {
-            self.pageNum = value;
         }
 
         function selectAction(action:Action) {
@@ -288,7 +284,6 @@ export const CRUDStore = ServiceStore
             updateQuery,
             fetchInitData,
             changePage,
-            changePageNum,
             selectAction,
             saveRemote,
             setFilterTogglable,

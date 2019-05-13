@@ -1015,9 +1015,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                         items: lastPage,
                         hasNext: store.hasNext,
                         mode: store.mode,
-                        onPageChange: this.handleChangePage,
-                        pageNum: store.pageNum,
-                        changePageNum: store.changePageNum,
+                        onPageChange: this.handleChangePage
                     }
                 )}
             </div>
