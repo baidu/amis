@@ -182,7 +182,7 @@ export const CRUDStore = ServiceStore
 
                     let items:Array<any>;
                     if (options.source) {
-                        items = resolveVariableAndFilter(options.source, result, '| raw');
+                        items = resolveVariableAndFilter(options.source, createObject(self.filterData, result), '| raw');
                     } else {
                         items = result.items || result.rows;
                     }
