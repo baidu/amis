@@ -65,7 +65,8 @@ interface CRUDProps extends RendererProps {
     filterDefaultVisible?: boolean;
     syncResponse2Query?: boolean;
     keepItemSelectionOnPageChange?: boolean;
-    loadDataOnce: boolean;
+    loadDataOnce?: boolean;
+    source?: string;
 }
 
 export default class CRUD extends React.Component<CRUDProps, any> {
@@ -109,7 +110,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         'keepItemSelectionOnPageChange',
         'labelTpl',
         'labelField',
-        'loadDataOnce'
+        'loadDataOnce',
+        'source'
     ];
     static defaultProps: Partial<CRUDProps> = {
         toolbarInline: true,
@@ -162,7 +164,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         const {location, store, pageField, perPageField, syncLocation, loadDataOnce} = this.props;
 
         this.mounted = true;
-        store.setLoadDataOnce(loadDataOnce);
 
         if (syncLocation && location && (location.query || location.search)) {
             store.updateQuery(
@@ -207,10 +208,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
         if (this.props.filterTogglable !== nextProps.filterTogglable) {
             store.setFilterTogglable(!!nextProps.filterTogglable, nextProps.filterDefaultVisible);
-        }
-
-        if (this.props.loadDataOnce !== nextProps.loadDataOnce) {
-            store.setLoadDataOnce(!!nextProps.loadDataOnce);
         }
 
         if (props.syncLocation && props.location && props.location.search !== nextProps.location.search) {
@@ -538,6 +535,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             keepItemSelectionOnPageChange,
             pickerMode,
             env,
+            loadDataOnce,
+            source
         } = this.props;
 
         // reload 需要清空用户选择。
@@ -570,6 +569,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                     errorMessage: messages && messages.fetchFailed,
                     autoAppend: true,
                     forceReload,
+                    loadDataOnce,
+                    source,
                     silent,
                     pageField,
                     perPageField,
