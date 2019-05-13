@@ -205,14 +205,14 @@ export const CRUDStore = ServiceStore
                             rowsData = sortArray(rowsData, self.query.orderBy, dir);
                         }
                         data.items = rowsData.slice((self.page - 1) * self.perPage, self.page * self.perPage);
-                        data.count = data.total = self.total = rowsData.length;
+                        data.count = data.total = rowsData.length;
                     }
 
                     self.items.replace(rowsData);
                     self.reInitData(data);
                     options && options.syncResponse2Query !== false && updateQuery(pick(rest, Object.keys(self.query)), undefined, options && options.pageField || 'page', options && options.perPageField || 'perPage');
 
-                    self.total = parseInt(total || count, 10) || 0;
+                    self.total = parseInt(data.total || data.count, 10) || 0;
                     typeof page !== 'undefined' && (self.page = parseInt(page, 10));
 
                     // 分页情况不清楚，只能知道有没有下一页。
