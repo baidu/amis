@@ -18,6 +18,7 @@ import {
 } from '../types';
 import * as qs from 'qs';
 import pick = require("lodash/pick");
+import { resolveVariableAndFilter } from '../utils/tpl-builtin';
 
 
 class ServerError extends Error {
@@ -33,7 +34,6 @@ export const CRUDStore = ServiceStore
         page: 1,
         perPage: 10,
         total: 0,
-        loadDataOnce: false, // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
         mode: 'normal',
         hasNext: false,
         selectedAction: types.frozen(),
@@ -102,11 +102,19 @@ export const CRUDStore = ServiceStore
         
         const fetchInitData:(api:Api, data?:object, options?:fetchOptions & {
             forceReload?: boolean;
+            loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
+            source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
             loadDataMode?: boolean;
             syncResponse2Query?: boolean;
-        }) => Promise<any> = flow(function *getInitData(api:string, data:object, options?:fetchOptions) {
+        }) => Promise<any> = flow(function *getInitData(api:string, data:object, options:fetchOptions & {
+            forceReload?: boolean;
+            loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
+            source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
+            loadDataMode?: boolean;
+            syncResponse2Query?: boolean;
+        } = {}) {
             try {
-                if (options && options.forceReload === false && self.loadDataOnce && self.total) {
+                if (options.forceReload === false && options.loadDataOnce && self.total) {
                     let items = self.items.concat();
 
                     if (self.query.orderBy) {
@@ -128,17 +136,17 @@ export const CRUDStore = ServiceStore
                     self.fetching = false;
                 }
 
-                options && options.silent || self.markFetching(true);
+                options.silent || self.markFetching(true);
                 const ctx:any = createObject(self.data, {
                     ...self.query,
-                    [options && options.pageField || 'page']: self.page,
-                    [options && options.perPageField || 'perPage']: self.perPage,
+                    [options.pageField || 'page']: self.page,
+                    [options.perPageField || 'perPage']: self.perPage,
                     ...data
                 });
                 
                 // 一次性加载不要发送 perPage 属性
-                if (self.loadDataOnce) {
-                    delete ctx[options && options.perPageField || 'perPage'];
+                if (options.loadDataOnce) {
+                    delete ctx[options.perPageField || 'perPage'];
                 }
 
                 const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, ctx, {
@@ -148,7 +156,7 @@ export const CRUDStore = ServiceStore
                 fetchCancel = null;
 
                 if (!json.ok) {
-                    self.updateMessage(json.msg || options && options.errorMessage || '获取失败', true);
+                    self.updateMessage(json.msg || options.errorMessage || '获取失败', true);
                     (getRoot(self) as IRendererStore).notify('error', json.msg);
                 } else {
                     if (!json.data) {
@@ -165,8 +173,6 @@ export const CRUDStore = ServiceStore
                     }
 
                     const {
-                        items,
-                        rows,
                         total,
                         count,
                         page,
@@ -174,21 +180,27 @@ export const CRUDStore = ServiceStore
                         ...rest
                     } = result;
 
-                    if (!Array.isArray(items) && !Array.isArray(rows)) {
+                    let items:Array<any>;
+                    if (options.source) {
+                        items = resolveVariableAndFilter(options.source, result, '| raw');
+                    } else {
+                        items = result.items || result.rows;
+                    }
+
+                    if (!Array.isArray(items)) {
                         throw new Error('返回数据格式不正确，payload.data.items 必须是数组');
+                    } else {
+                        // 确保成员是对象。
+                        items.map((item:any) => typeof item === 'string' ? {text: item} : item);
                     }
 
                     // 点击加载更多数据
                     let rowsData = []
-                    if (options && options.loadDataMode && Array.isArray(self.data.items)) {
-                        rowsData = self.data.items.concat(items || rows);
+                    if (options.loadDataMode && Array.isArray(self.data.items)) {
+                        rowsData = self.data.items.concat(items);
                     } else { 
                         // 第一次的时候就是直接加载请求的数据
-                        rowsData = items || rows;
-                    }
-
-                    if (Array.isArray(rowsData)) {
-                        rowsData = rowsData.map((item:any) => typeof item === 'string' ? {text: item} : item)
+                        rowsData = items;
                     }
 
                     const data = {
@@ -199,7 +211,7 @@ export const CRUDStore = ServiceStore
                         ...rest
                     };
 
-                    if (self.loadDataOnce) {
+                    if (options.loadDataOnce) {
                         if (self.query.orderBy) {
                             const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
                             rowsData = sortArray(rowsData, self.query.orderBy, dir);
@@ -210,7 +222,7 @@ export const CRUDStore = ServiceStore
 
                     self.items.replace(rowsData);
                     self.reInitData(data);
-                    options && options.syncResponse2Query !== false && updateQuery(pick(rest, Object.keys(self.query)), undefined, options && options.pageField || 'page', options && options.perPageField || 'perPage');
+                    options.syncResponse2Query !== false && updateQuery(pick(rest, Object.keys(self.query)), undefined, options.pageField || 'page', options.perPageField || 'perPage');
 
                     self.total = parseInt(data.total || data.count, 10) || 0;
                     typeof page !== 'undefined' && (self.page = parseInt(page, 10));
@@ -222,10 +234,10 @@ export const CRUDStore = ServiceStore
                         self.hasNext = !!hasNext;
                     }
 
-                    self.updateMessage(json.msg || options && options.successMessage);
+                    self.updateMessage(json.msg || options.successMessage);
 
                     // 配置了获取成功提示后提示，默认是空不会提示。
-                    if (options && options.successMessage) {
+                    if (options.successMessage) {
                         (getRoot(self) as IRendererStore).notify('success', self.msg);
                     }
                 }
@@ -272,7 +284,7 @@ export const CRUDStore = ServiceStore
                 self.markSaving(false);
 
                 if (!json.ok) {
-                    self.updateMessage(json.msg || options && options.errorMessage || '保存失败', true);
+                    self.updateMessage(json.msg || options.errorMessage || '保存失败', true);
                     (getRoot(self) as IRendererStore).notify('error', self.msg);
                     throw new ServerError(self.msg);
                 } else {
@@ -280,7 +292,7 @@ export const CRUDStore = ServiceStore
                         __saved: Date.now()
                     });
                     self.updatedAt = Date.now();
-                    self.updateMessage(json.msg || options && options.successMessage || '保存成功');
+                    self.updateMessage(json.msg || options.successMessage || '保存成功');
                     (getRoot(self) as IRendererStore).notify('success', self.msg);
                 }
                 return json.data;
@@ -313,10 +325,6 @@ export const CRUDStore = ServiceStore
             self.hasInnerModalOpen = value;
         }
 
-        const setLoadDataOnce = function(value:boolean) {
-            self.loadDataOnce = value;
-        }
-
         return {
             setPristineQuery,
             updateQuery,
@@ -328,8 +336,7 @@ export const CRUDStore = ServiceStore
             setFilterVisible,
             setSelectedItems,
             setUnSelectedItems,
-            setInnerModalOpened,
-            setLoadDataOnce
+            setInnerModalOpened
         };
     });
 
