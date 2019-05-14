@@ -2,7 +2,7 @@
 
 ### Container
 
-Container 不是一个特定的渲染器，而是 AMis 中一个特殊类型，它是以下类型的任何一种。
+Container 不是一个特定的渲染器，而是 amis 中一个特殊类型，它是以下类型的任何一种。
 
 -   `String` 字符串，可以包含 `html` 片段。
 -   `Object` 指定一个渲染器如： `{"type": "button", "label": "按钮"}`
@@ -123,7 +123,7 @@ Api 类型可以是字符串或者对象。API 中可以直接设置数据发送
 
 ** 注意 **
 
-AMis 所有值为 url 的如： `"http://www.baidu.com"` 都会被替换成 proxy 代理，如果不希望这么做，请明确指示如： `"raw:http://www.baidu.com"`。还有为了安全，AMis 默认只能转发公司内部 API 接口，如果您的接口在外网环境，也请明确指示如：`"external:http://www.baidu.com"`
+amis 所有值为 url 的如： `"http://www.baidu.com"` 都会被替换成 proxy 代理，如果不希望这么做，请明确指示如： `"raw:http://www.baidu.com"`。还有为了安全，amis 默认只能转发公司内部 API 接口，如果您的接口在外网环境，也请明确指示如：`"external:http://www.baidu.com"`
 
 ### 表达式
 
