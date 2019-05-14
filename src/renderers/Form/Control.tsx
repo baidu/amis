@@ -303,10 +303,10 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         } = this.props;
 
         if (this.model) {
-            if (form.parentStore && form.parentStore.storeType === 'ComboStore') {
+            if (this.model.unique && form.parentStore && form.parentStore.storeType === ComboStore.name) {
                 const combo = form.parentStore as IComboStore;
                 const group = combo.uniques.get(this.model.name) as IUniqueGroup;
-                group && group.items.forEach(item => item.validate());
+                group.items.forEach(item => item.validate());
             } else {
                 this.model.validate(this.hook);
                 form.getItemsByName(this.model.name)
