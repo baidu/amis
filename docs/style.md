@@ -3,13 +3,13 @@ title: 样式表说明
 shortname: style
 ---
 
-AMis 中有大量的功能类 class 可以使用，即可以用在 schema 中，也可以用在自定义组件开发中，掌握这些 class, 几乎可以不用写样式。
+amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，也可以用在自定义组件开发中，掌握这些 class, 几乎可以不用写样式。
 
-AMis 中的样式基于 [BootStrap V3](http://getbootstrap.com/css/), 这里主要讲 Bootstrap 中没有涉及到的。
+amis 中的样式基于 [BootStrap V3](http://getbootstrap.com/css/), 这里主要讲 Bootstrap 中没有涉及到的。
 
 ## 图标
 
-AMis 集成了 [fontawesome](http://fontawesome.io/icons/)，所以关于图标部分，请前往 [fontawesome](http://fontawesome.io/icons/) 查看。
+amis 集成了 [fontawesome](http://fontawesome.io/icons/)，所以关于图标部分，请前往 [fontawesome](http://fontawesome.io/icons/) 查看。
 
 ## 布局
 

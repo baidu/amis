@@ -1,6 +1,6 @@
 ### Image
 
-图片格式输入，默认 AMis 会直接存储在 FEX 的 hiphoto 里面，提交到 form 是直接的图片 url。
+图片格式输入，默认 amis 会直接存储在 FEX 的 hiphoto 里面，提交到 form 是直接的图片 url。
 
 -   `type` 请设置成 `image`
 -   `reciever` 默认 `/api/upload` 如果想自己存储，请设置此选项。

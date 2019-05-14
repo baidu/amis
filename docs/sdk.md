@@ -21,10 +21,10 @@ class MyComponent extends React.Component<any, any> {
     render() {
         return (
             <div>
-                <p>通过 AMis 渲染页面</p>
+                <p>通过 amis 渲染页面</p>
                 {renderAmis({
                     // schema
-                    // 这里是 AMis 的 Json 配置。
+                    // 这里是 amis 的 Json 配置。
                     type: 'page',
                     title: '简单页面',
                     body: '内容'
@@ -32,7 +32,7 @@ class MyComponent extends React.Component<any, any> {
                     // props
                 }, {
                     // env
-                    // 这些是 AMis 需要的一些接口实现
+                    // 这些是 amis 需要的一些接口实现
                     // 可以参考本项目里面的 Demo 部分代码。
 
                     updateLocation: (location:string/*目标地址*/, replace:boolean/*是replace，还是push？*/) => {
@@ -74,7 +74,7 @@ class MyComponent extends React.Component<any, any> {
 
 ## 工作原理
 
-AMis 的渲染过程就是将 `json` 转成对应的 React 组件。先通过 `json` 的 type 找到对应的 `Component` 然后，然后把其他属性作为 `props` 传递过去完成渲染。
+amis 的渲染过程就是将 `json` 转成对应的 React 组件。先通过 `json` 的 type 找到对应的 `Component` 然后，然后把其他属性作为 `props` 传递过去完成渲染。
 
 拿一个表单页面来说，如果用React组件调用大概是这样。
 
@@ -96,7 +96,7 @@ AMis 的渲染过程就是将 `json` 转成对应的 React 组件。先通过 `j
 </Page>
 ```
 
-把以上配置方式换成 AMis JSON, 则是：
+把以上配置方式换成 amis JSON, 则是：
 
 ```json
 {
@@ -117,9 +117,9 @@ AMis 的渲染过程就是将 `json` 转成对应的 React 组件。先通过 `j
 }
 ```
 
-那么，AMis 是如何将 JSON 转成组件的呢？直接根据节点的 type 去跟组件一一对应？似乎很可能会重名比如在表格里面展示的类型 `text` 跟表单里面的 `text`是完全不一样的，一个负责展示，一个却负责输入。所以说一个节点要被什么组件渲染，还需要携带上下文(context)信息。
+那么，amis 是如何将 JSON 转成组件的呢？直接根据节点的 type 去跟组件一一对应？似乎很可能会重名比如在表格里面展示的类型 `text` 跟表单里面的 `text`是完全不一样的，一个负责展示，一个却负责输入。所以说一个节点要被什么组件渲染，还需要携带上下文(context)信息。
 
-如何去携带上下文（context）信息？AMis 中直接是用节点的路径（path）来作为上下文信息。从上面的例子来看，一共有三个节点，path 信息分别是。
+如何去携带上下文（context）信息？amis 中直接是用节点的路径（path）来作为上下文信息。从上面的例子来看，一共有三个节点，path 信息分别是。
 
 * `page` 页面节点
 * `page/body/form` 表单节点
@@ -211,7 +211,7 @@ export class FormItemTextRenderer extends React.Component {
 
 ## 自定义组件
 
-如果 AMis 中组件不能满足你的需求，同时你又会 React 组件开发，那么就自己定制一个吧。
+如果 amis 中组件不能满足你的需求，同时你又会 React 组件开发，那么就自己定制一个吧。
 
 先来看个简单的例子
 
@@ -247,7 +247,7 @@ class CustomRenderer extends React.Component {
 }
 ```
 
-如果你看了[AMis工作原理](#工作原理)应该不难理解，这里注册一个 React 组件，当节点的 path 信息是 `my-renderer` 结尾时，交给当前组件来完成渲染。
+如果你看了[amis工作原理](#工作原理)应该不难理解，这里注册一个 React 组件，当节点的 path 信息是 `my-renderer` 结尾时，交给当前组件来完成渲染。
 如果你只写叶子节点的渲染器，已经可以不用看了，如果你的渲染器中有容器需要可以放置其他节点，那么接着看以下这段代码。
 
 ```jsx
@@ -401,4 +401,4 @@ class MyFormItem extends React.Component {
 ```
 
 即：通过 `children` 传递一个React组件，这个示例是一个React Stateless Functional Component，也可以是传统的 React 组件。
-任何节点如果包含 `children` 这个属性，则都会把当前节点交给 `children` 来处理，跳过了从 AMis 渲染器池子中选择渲染器的过程。
+任何节点如果包含 `children` 这个属性，则都会把当前节点交给 `children` 来处理，跳过了从 amis 渲染器池子中选择渲染器的过程。
