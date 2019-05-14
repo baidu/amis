@@ -427,6 +427,11 @@ export const TableStore = iRendererStore
             for (let i = 0; i < maxCount; i++) {
                 const column = columns[i];
 
+                // maxCount 可能比实际配置的 columns 还有多。
+                if (!column) {
+                    break;
+                }
+
                 if ('__' === column.type.substring(0, 2)) {
                     maxCount++;
                     continue;
