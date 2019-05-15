@@ -2,12 +2,15 @@
     list-style: none;
     margin: 0;
     padding: 0;
+
     &--tabs {
         border-bottom: $Tabs-borderWidth solid $Tabs-borderColor;
+
         .#{$ns}Nav-item {
             margin-bottom: -$Tabs-borderWidth;
             display: inline-block;
-            >a {
+
+            > a {
                 font-size: $Nav-item-fontSize;
                 display: block;
                 outline: none;
@@ -20,20 +23,23 @@
                 padding: $gap-sm $gap-base;
                 cursor: pointer;
             }
-            &:hover>a,
-            >a:focus {
+
+            &:hover > a,
+            > a:focus {
                 border-color: $Tabs-onHover-borderColor;
                 text-decoration: none;
             }
-            &.disabled>a,
-            &.is-disabled>a {
+
+            &.disabled > a,
+            &.is-disabled > a {
                 color: $Tabs-onDisabled-color;
                 background-color: transparent;
                 border-color: transparent;
                 pointer-events: none;
             }
-            &.active>a,
-            &.is-active>a {
+
+            &.active > a,
+            &.is-active > a {
                 color: $Tabs-onActive-color;
                 background-color: $Tabs-onActive-bg;
                 border-color: $Tabs-onActive-borderColor;
@@ -41,14 +47,17 @@
                 border-bottom-width: $Tabs-onActive-borderBottomWidth;
             }
         }
+
         .#{$ns}Nav-itemIcon {
             margin-right: $gap-xs;
         }
     }
+
     &--stacked {
         .#{$ns}Nav-item {
             position: relative;
-            >a {
+
+            > a {
                 display: block;
                 outline: none;
                 color: $Nav-item-color;
@@ -58,33 +67,39 @@
                 background-color: $Nav-item-bg;
                 border-radius: $Nav-item-borderRadius;
             }
-            &:hover>a,
-            >a:focus {
+
+            &:hover > a,
+            > a:focus {
                 border-color: $Nav-item-onHover-color;
                 text-decoration: none;
                 background-color: $Nav-item-onHover-bg;
             }
-            &.disabled>a,
-            &.is-disabled>a {
+
+            &.disabled > a,
+            &.is-disabled > a {
                 color: $Nav-item-onDisabled-color;
                 background-color: transparent;
                 pointer-events: none;
             }
-            &.active>a,
-            &.is-active>a {
+
+            &.active > a,
+            &.is-active > a {
                 color: $Nav-item-onActive-color;
                 background-color: $Nav-item-onActive-bg;
                 border-left: $Nav-item-onActive-borderLeft;
                 padding-left: px2rem(12px);
             }
+
             &.is-unfolded {
                 .#{$ns}Nav-itemToggler {
                     transform: rotate(180deg) scale(0.8);
                 }
+
                 .#{$ns}Nav-subItems {
                     display: block;
                 }
             }
+
             .#{$ns}Nav-itemToggler {
                 position: absolute;
                 width: px2rem(30px);
@@ -96,17 +111,20 @@
                 right: px2rem(2px);
                 cursor: pointer;
                 transform: scale(0.8);
-                transition: transform .3s;
+                transition: transform 0.3s;
             }
+
             .#{$ns}Nav-subItems {
                 display: none;
                 padding-left: 0;
                 list-style: none;
             }
+
             .#{$ns}Nav-item {
                 font-size: $Nav-subItem-fontSize;
+
                 a:before {
-                    content: '';
+                    content: "";
                     display: inline-block;
                     width: px2rem(4px);
                     height: px2rem(4px);
@@ -115,8 +133,9 @@
                     margin-right: px2rem(8px);
                     vertical-align: middle;
                 }
-                &.active>a:before,
-                &.is-active>a:before {
+
+                &.active > a:before,
+                &.is-active > a:before {
                     background-color: $Nav-subItem-onActiveBeforeBg;
                 }
             }

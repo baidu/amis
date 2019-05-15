@@ -1,4 +1,3 @@
-
 .#{$ns}Button {
     display: inline-block;
     font-weight: $Button-fontWeight;
@@ -10,11 +9,18 @@
     transition: $Button-transition;
     white-space: nowrap;
 
-    @if $Button-mimWidth != auto {
+    @if $Button-mimWidth !=auto {
         min-width: $Button-mimWidth;
     }
 
-    @include button-size($Button-paddingY, $Button-paddingX, $Button-fontSize, $Button-lineHeight, $Button-borderRadius, $Button-height);
+    @include button-size(
+        $Button-paddingY,
+        $Button-paddingX,
+        $Button-fontSize,
+        $Button-lineHeight,
+        $Button-borderRadius,
+        $Button-height
+    );
 
     @include hover-focus {
         color: $text-color;
@@ -67,16 +73,16 @@
         line-height: inherit;
     }
 
-    >.fa,
-    >.iconfont,
-    >.glyphicon {
+    > .fa,
+    > .iconfont,
+    > .glyphicon {
         font-size: inherit;
     }
 }
 
 a.#{$ns}Button.is-disabled,
 fieldset:disabled a.#{$ns}Button {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 .#{$ns}Button--primary {
@@ -207,10 +213,10 @@ fieldset:disabled a.#{$ns}Button {
 
 .#{$ns}Button--xs {
     @include button-size(
-        $Button--xs-paddingY, 
-        $Button--xs-paddingX, 
-        $Button--xs-fontSize, 
-        $Button--xs-lineHeight, 
+        $Button--xs-paddingY,
+        $Button--xs-paddingX,
+        $Button--xs-fontSize,
+        $Button--xs-lineHeight,
         $Button--sm-borderRadius,
         $Button--xs-height
     );
@@ -222,10 +228,10 @@ fieldset:disabled a.#{$ns}Button {
 
 .#{$ns}Button--sm {
     @include button-size(
-        $Button--sm-paddingY, 
-        $Button--sm-paddingX, 
-        $Button--sm-fontSize, 
-        $Button--sm-lineHeight, 
+        $Button--sm-paddingY,
+        $Button--sm-paddingX,
+        $Button--sm-fontSize,
+        $Button--sm-lineHeight,
         $Button--sm-borderRadius,
         $Button--sm-height
     );
@@ -237,10 +243,10 @@ fieldset:disabled a.#{$ns}Button {
 
 .#{$ns}Button--md {
     @include button-size(
-        $Button--md-paddingY, 
-        $Button--md-paddingX, 
-        $Button--md-fontSize, 
-        $Button--md-lineHeight, 
+        $Button--md-paddingY,
+        $Button--md-paddingX,
+        $Button--md-fontSize,
+        $Button--md-lineHeight,
         $Button-borderRadius,
         $Button--md-height
     );
@@ -252,10 +258,10 @@ fieldset:disabled a.#{$ns}Button {
 
 .#{$ns}Button--lg {
     @include button-size(
-        $Button--lg-paddingY, 
-        $Button--lg-paddingX, 
-        $Button--lg-fontSize, 
-        $Button--lg-lineHeight, 
+        $Button--lg-paddingY,
+        $Button--lg-paddingX,
+        $Button--lg-fontSize,
+        $Button--lg-lineHeight,
         $Button--lg-borderRadius,
         $Button--lg-height
     );
@@ -267,7 +273,7 @@ fieldset:disabled a.#{$ns}Button {
 
 .#{$ns}Button--iconOnly {
     min-width: $Button-height * $Button--iconOnly-minWidthRate;
-    
+
     &:not(.#{$ns}Button--link) {
         > .fa,
         > .iconfont {
@@ -279,7 +285,6 @@ fieldset:disabled a.#{$ns}Button {
         }
     }
 }
-
 
 .#{$ns}Button--link {
     width: auto;
@@ -305,8 +310,8 @@ fieldset:disabled a.#{$ns}Button {
 .#{$ns}Button--block {
     display: block;
     width: 100%;
-    
-    +.#{$ns}Button--block {
+
+    + .#{$ns}Button--block {
         margin-top: $gap-base;
     }
 }

@@ -5,7 +5,7 @@
 }
 
 .drop-zone {
-    border: $Form-input-borderWidth*2 dashed $Form-input-borderColor;
+    border: $Form-input-borderWidth * 2 dashed $Form-input-borderColor;
     height: 70px;
     text-align: center;
     display: table;
@@ -13,10 +13,12 @@
     color: $text--muted-color;
     position: relative;
     cursor: pointer;
-    >div:not(.image-list) {
+
+    > div:not(.image-list) {
         display: table-cell;
         vertical-align: middle;
     }
+
     &.has-files {
         cursor: default;
         border: 2px dashed transparent;
@@ -25,12 +27,13 @@
 
 .drop-zone-wrapper:focus .drop-zone:not(.disabled) {
     color: $text-color;
-    border:  $Form-input-borderWidth*2 dashed $Form-input-onFocused-borderColor;
+    border: $Form-input-borderWidth * 2 dashed $Form-input-onFocused-borderColor;
     height: 90px;
     padding-bottom: 20px;
     margin-bottom: 10px;
+
     &:after {
-        content: '温馨提示：当前状态可以粘贴剪切板中的文件。如截屏';
+        content: "温馨提示：当前状态可以粘贴剪切板中的文件。如截屏";
         position: absolute;
         left: 10px;
         bottom: 3px;
@@ -51,25 +54,29 @@
 .drop-zone-active.has-files,
 .drop-zone:hover:not(.disabled):not(.has-files) {
     color: $text-color;
-    border: $Form-input-borderWidth*2 dashed $Form-input-onFocused-borderColor;
+    border: $Form-input-borderWidth * 2 dashed $Form-input-onFocused-borderColor;
 }
 
 .image-list {
     outline: none;
     margin: -5px;
+
     .image-item {
         position: relative;
         margin: 5px;
         width: 90px;
+
         .img-wrapper {
             width: 90px;
             min-height: 50px;
             overflow: hidden;
         }
+
         img {
             display: block;
             width: 100%;
         }
+
         .fa-spinner {
             position: absolute;
             left: 50%;
@@ -77,6 +84,7 @@
             margin: -15px 0 0 -20px;
             color: #fff;
         }
+
         .image-overlay {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 5px;
@@ -109,16 +117,19 @@
                 }
             }
         }
+
         p {
             margin: 0;
             text-align: center;
         }
     }
+
     &.image-list-multiple .image-item .img-wrapper {
         height: 90px;
         display: table-cell;
         vertical-align: middle;
     }
+
     .image-add-btn {
         width: 90px;
         height: 110px;
@@ -126,17 +137,21 @@
         margin: 5px;
         cursor: pointer;
         float: left;
+
         &:hover .fa {
             color: $dark;
         }
     }
+
     .image-item.uploaded {
         .fa-spinner {
             display: none;
         }
+
         .image-overlay {
             display: none;
         }
+
         &:hover {
             .image-overlay {
                 display: flex;
@@ -147,15 +162,18 @@
 
 .cropper-wrapper {
     position: relative;
+
     img {
         max-width: 100%;
         max-height: 400px;
     }
+
     .btn {
         position: absolute;
         bottom: 0;
         right: 0;
     }
+
     .btn:nth-child(2n + 1) {
         bottom: 40px;
         right: 4px;

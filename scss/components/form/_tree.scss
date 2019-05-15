@@ -15,104 +15,104 @@
     }
 }
 
-
 .#{$ns}Tree {
-  &-list, &-sublist {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  &-sublist {
-    padding-left: $Tree-indent;
-
-    &.is-folded {
-      display: none;
-    }
-  }
-
-  &-item {
-    line-height: px2rem(30px);
-    position: relative;
-
-    > a {
-      color: inherit;
-
-      &:hover {
-        text-decoration: none;
-      }
+    &-list,
+    &-sublist {
+        list-style: none;
+        padding: 0;
+        margin: 0;
     }
 
-    &--isLeaf > a {
-      padding-left: $Tree-itemArrowWidth + $gap-xs;
-    }
-  }
+    &-sublist {
+        padding-left: $Tree-indent;
 
-  &-rootItem > a > i {
-    margin-left: 0 !important;
-  }
-
-  &-itemArrow {
-    cursor: pointer;
-    width: $Tree-itemArrowWidth;
-    margin-right: $gap-xs;
-    display: inline-block;
-
-    &:before {
-      font-style: normal;
-      font-family: $Tree-arrowVendor;
-      content: $Tree-unfoldedArrowContent;
+        &.is-folded {
+            display: none;
+        }
     }
 
-    &.is-folded:before {
-      content: $Tree-foldedArrowContent;
-    }
-  }
+    &-item {
+        line-height: px2rem(30px);
+        position: relative;
 
-  &-itemIcon {
-    display: inline-block;
-    margin-right: $gap-xs;
-  }
+        > a {
+            color: inherit;
 
-  &-rootIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-rootIconVendor;
-      content: $Tree-rootIconContent;
-    }
-  }
+            &:hover {
+                text-decoration: none;
+            }
+        }
 
-  &-leafIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-leafIconVendor;
-      content: $Tree-leafIconContent;
-    }
-  }
-
-  &-folderIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-folderIconVendor;
-      content: $Tree-folderIconContent;
-    }
-  }
-
-  &-itemText {
-    user-select: none;
-    cursor: pointer;
-
-    &.is-checked,
-    &.is-children-checked {
-      color: $Tree-itemText--onChecked-color;
+        &--isLeaf > a {
+            padding-left: $Tree-itemArrowWidth + $gap-xs;
+        }
     }
 
-    &.is-disabled {
-      color: $text--muted-color;
+    &-rootItem > a > i {
+        margin-left: 0 !important;
     }
-  }
 
-  &-placeholder {
-    color: $text--muted-color;
-  }
+    &-itemArrow {
+        cursor: pointer;
+        width: $Tree-itemArrowWidth;
+        margin-right: $gap-xs;
+        display: inline-block;
+
+        &:before {
+            font-style: normal;
+            font-family: $Tree-arrowVendor;
+            content: $Tree-unfoldedArrowContent;
+        }
+
+        &.is-folded:before {
+            content: $Tree-foldedArrowContent;
+        }
+    }
+
+    &-itemIcon {
+        display: inline-block;
+        margin-right: $gap-xs;
+    }
+
+    &-rootIcon {
+        &:before {
+            font-style: normal;
+            font-family: $Tree-rootIconVendor;
+            content: $Tree-rootIconContent;
+        }
+    }
+
+    &-leafIcon {
+        &:before {
+            font-style: normal;
+            font-family: $Tree-leafIconVendor;
+            content: $Tree-leafIconContent;
+        }
+    }
+
+    &-folderIcon {
+        &:before {
+            font-style: normal;
+            font-family: $Tree-folderIconVendor;
+            content: $Tree-folderIconContent;
+        }
+    }
+
+    &-itemText {
+        user-select: none;
+        cursor: pointer;
+
+        &.is-checked,
+        &.is-children-checked {
+            color: $Tree-itemText--onChecked-color;
+        }
+
+        &.is-disabled {
+            color: $text--muted-color;
+        }
+    }
+
+    &-placeholder {
+        color: $text--muted-color;
+    }
 }

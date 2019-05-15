@@ -65,17 +65,18 @@
             margin-top: -$Tooltip-arrow-width/2;
             top: 50%;
         }
-    
+
         .#{$ns}Tooltip-arrow::before,
         .#{$ns}Tooltip-arrow::after {
-            border-width: ($Tooltip-arrow-width / 2) $Tooltip-arrow-height ($Tooltip-arrow-width / 2) 0;
+            border-width: ($Tooltip-arrow-width / 2) $Tooltip-arrow-height
+                ($Tooltip-arrow-width / 2) 0;
         }
-    
+
         .#{$ns}Tooltip-arrow::before {
             left: 0;
             border-right-color: $Tooltip-arrow-outerColor;
         }
-    
+
         .#{$ns}Tooltip-arrow::after {
             left: $Tooltip-borderWidth;
             border-right-color: $Tooltip-arrow-color;
@@ -91,7 +92,8 @@
 
         .#{$ns}Tooltip-arrow::before,
         .#{$ns}Tooltip-arrow::after {
-            border-width: 0 ($Tooltip-arrow-width / 2) $Tooltip-arrow-height ($Tooltip-arrow-width / 2);
+            border-width: 0 ($Tooltip-arrow-width / 2) $Tooltip-arrow-height
+                ($Tooltip-arrow-width / 2);
         }
 
         .#{$ns}Tooltip-arrow::before {
@@ -128,17 +130,18 @@
             margin-top: -$Tooltip-arrow-width/2;
             top: 50%;
         }
-    
+
         .#{$ns}Tooltip-arrow::before,
         .#{$ns}Tooltip-arrow::after {
-            border-width: ($Tooltip-arrow-width / 2) 0 ($Tooltip-arrow-width / 2) $Tooltip-arrow-height;
+            border-width: ($Tooltip-arrow-width / 2) 0
+                ($Tooltip-arrow-width / 2) $Tooltip-arrow-height;
         }
-    
+
         .#{$ns}Tooltip-arrow::before {
             right: 0;
             border-left-color: $Tooltip-arrow-outerColor;
         }
-    
+
         .#{$ns}Tooltip-arrow::after {
             right: $Tooltip-borderWidth;
             border-left-color: $Tooltip-arrow-color;
@@ -166,9 +169,9 @@
     }
 }
 
-
 [data-tooltip] {
     position: relative;
+
     &:after {
         pointer-events: none;
         left: 0;
@@ -203,12 +206,13 @@
         top: 100%;
         transform: translateX(-50%);
     }
+
     &[data-position="bottom"]:hover:after {
         margin: $Tooltip--attr-gap 0 0 0;
     }
 
     &:hover:active:after {
-        content: '';
-        display: none!important;
+        content: "";
+        display: none !important;
     }
 }

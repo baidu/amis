@@ -81,8 +81,6 @@
         }
     }
 
-    
-
     .#{$ns}Form-groupColumn {
         flex-basis: 0;
         flex-grow: 1;
@@ -90,7 +88,7 @@
         max-width: 100%;
     }
 
-    @for $i from (1) through $Form--horizontal-columns  {
+    @for $i from (1) through $Form--horizontal-columns {
         .#{$ns}Form-groupColumn--#{$i} {
             flex: 0 0 percentage($i / $Form--horizontal-columns);
             max-width: percentage($i / $Form--horizontal-columns);

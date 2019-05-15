@@ -1,10 +1,12 @@
 .#{$ns}Tabs {
     &-links {
         border-bottom: $Tabs-borderWidth solid $Tabs-borderColor;
-        >.#{$ns}Tabs-link {
+
+        > .#{$ns}Tabs-link {
             margin-bottom: -$Tabs-borderWidth;
             display: inline-block;
-            >a {
+
+            > a {
                 font-size: $Tabs-linkFontSize;
                 outline: none;
                 border: $Tabs-borderWidth solid transparent;
@@ -16,20 +18,23 @@
                 text-decoration: none;
                 cursor: pointer;
             }
-            &:hover>a,
-            >a:focus {
+
+            &:hover > a,
+            > a:focus {
                 border-color: $Tabs-onHover-borderColor;
                 text-decoration: none;
             }
-            &.disabled>a,
-            &.is-disabled>a {
+
+            &.disabled > a,
+            &.is-disabled > a {
                 color: $Tabs-onDisabled-color;
                 background-color: transparent;
                 border-color: transparent;
                 pointer-events: none;
             }
-            &.active>a,
-            &.is-active>a {
+
+            &.active > a,
+            &.is-active > a {
                 color: $Tabs-onActive-color;
                 background-color: $Tabs-onActive-bg;
                 border-color: $Tabs-onActive-borderColor;
@@ -37,30 +42,35 @@
             }
         }
     }
+
     &-content {
         background-color: $Tabs-content-bg;
         padding: $gap-base;
         border-style: solid;
         border-width: 0 $Tabs-borderWidth $Tabs-borderWidth;
         border-color: $Tabs-borderColor;
-    } 
+    }
+
     &--line {
-        >.#{$ns}Tabs-links {
+        > .#{$ns}Tabs-links {
             border-bottom-color: #e2e5ec;
-            >li {
+
+            > li {
                 &.active {
-                    >a,
-                    >a:hover,
-                    >a:focus {
+                    > a,
+                    > a:hover,
+                    > a:focus {
                         border-bottom: px2rem(2px) solid $primary;
                         color: $primary;
                         background-color: transparent;
-                        border-color: transparent transparent $primary transparent;
+                        border-color: transparent transparent $primary
+                            transparent;
                     }
                 }
-                >a,
-                >a:hover,
-                >a:focus {
+
+                > a,
+                > a:hover,
+                > a:focus {
                     color: #666;
                     background-color: transparent;
                     border-color: transparent;
@@ -68,35 +78,40 @@
             }
         }
     }
+
     &--card {
-        >.#{$ns}Tabs-links {
+        > .#{$ns}Tabs-links {
             background-color: #eceff8;
             border-top: px2rem(1px) solid #e2e5ec;
-            >li {
+
+            > li {
                 &.active {
-                    >a,
-                    >a:hover,
-                    >a:focus {
+                    > a,
+                    > a:hover,
+                    > a:focus {
                         color: $primary;
                         background-color: #fff;
                         margin-left: px2rem(1px);
                     }
                 }
-                >a,
-                >a:hover,
-                >a:focus {
+
+                > a,
+                > a:hover,
+                > a:focus {
                     color: #666;
                     background-color: transparent;
                 }
             }
         }
     }
+
     &--radio {
-        >.#{$ns}Tabs-links {
+        > .#{$ns}Tabs-links {
             border: 0;
             margin-bottom: px2rem(10px);
-            >li {
-                >a {
+
+            > li {
+                > a {
                     font-size: $fontSizeSm;
                     text-align: center;
                     margin-right: 0;
@@ -104,23 +119,26 @@
                     height: px2rem(30px);
                     line-height: px2rem(30px);
                 }
+
                 &.active {
-                    >a,
-                    >a:hover,
-                    >a:focus {
+                    > a,
+                    > a:hover,
+                    > a:focus {
                         color: #fff;
                         background-color: $primary;
                         margin-left: px2rem(1px);
                     }
                 }
-                >a,
-                >a:hover,
-                >a:focus {
+
+                > a,
+                > a:hover,
+                > a:focus {
                     color: $primary;
                     background-color: #eaf6fe;
                 }
             }
         }
+
         .tab-content {
             border-top: $Tabs-borderWidth solid $Tabs-borderColor;
         }

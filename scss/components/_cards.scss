@@ -3,12 +3,11 @@
         @include clearfix();
         padding: $Cards-toolbar-paddingY $Cards-toolbar-paddingX;
         margin-bottom: $gap-base;
-        
     }
 
     &-actions {
         display: inline-block;
-        
+
         > * {
             margin-right: $Crud-toolbar-gap;
         }
@@ -74,13 +73,14 @@
         text-align: center;
         height: $Cards-placeholder-height;
         line-height: $Cards-placeholder-height;
-        
+
         border: $Card-borderWidth solid $Card-borderColor;
         border-radius: $Card-borderRadius;
     }
 
     &--masonry {
         display: block;
+
         &:after {
             content: none;
         }
@@ -103,18 +103,23 @@
     .#{$ns}Cards--masonrySm1 {
         column-count: 12;
     }
+
     .#{$ns}Cards--masonrySm2 {
         column-count: 6;
     }
+
     .#{$ns}Cards--masonrySm3 {
         column-count: 4;
     }
+
     .#{$ns}Cards--masonrySm4 {
         column-count: 3;
     }
+
     .#{$ns}Cards--masonrySm6 {
         column-count: 2;
     }
+
     .#{$ns}Cards--masonrySm12 {
         column-count: 1;
     }
@@ -129,18 +134,23 @@
     .#{$ns}Cards--masonryMd1 {
         column-count: 12;
     }
+
     .#{$ns}Cards--masonryMd2 {
         column-count: 6;
     }
+
     .#{$ns}Cards--masonryMd3 {
         column-count: 4;
     }
+
     .#{$ns}Cards--masonryMd4 {
         column-count: 3;
     }
+
     .#{$ns}Cards--masonryMd6 {
         column-count: 2;
     }
+
     .#{$ns}Cards--masonryMd12 {
         column-count: 1;
     }
@@ -150,18 +160,23 @@
     .#{$ns}Cards--masonryLg1 {
         column-count: 12;
     }
+
     .#{$ns}Cards--masonryLg2 {
         column-count: 6;
     }
+
     .#{$ns}Cards--masonryLg3 {
         column-count: 4;
     }
+
     .#{$ns}Cards--masonryLg4 {
         column-count: 3;
     }
+
     .#{$ns}Cards--masonryLg6 {
         column-count: 2;
     }
+
     .#{$ns}Cards--masonryLg12 {
         column-count: 1;
     }

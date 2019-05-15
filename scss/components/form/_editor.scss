@@ -3,11 +3,12 @@
 .#{$ns}EditorControl {
     min-height: px2rem(200px);
     max-height: px2rem(400px);
-    
+
     > .#{$ns}MonacoEditor,
     > .#{$ns}MonacoEditor > .monaco-diff-editor {
         min-height: px2rem(198px);
     }
+
     overflow: visible;
     height: auto;
     border: $Form-input-borderWidth solid $Form-input-borderColor;
@@ -19,11 +20,12 @@
     }
 
     &.is-focused {
-      border-color: $Form-input-onFocused-borderColor;
+        border-color: $Form-input-onFocused-borderColor;
     }
 
     &--md {
         min-height: 250px;
+
         > .#{$ns}MonacoEditor {
             min-height: 250px;
         }
@@ -54,10 +56,9 @@
     }
 }
 
-.monaco-inputbox>.wrapper {
+.monaco-inputbox > .wrapper {
     padding: 0;
 }
-
 
 // @media (min-width: 768px) {
 

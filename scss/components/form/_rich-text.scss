@@ -1,7 +1,7 @@
 // todo
 
 .fr-popup {
-  z-index: $zindex-popover !important;
+    z-index: $zindex-popover !important;
 }
 
 .#{$ns}RichTextControl {
@@ -10,79 +10,91 @@
     border: $Form-input-borderWidth solid $Form-input-borderColor;
     width: 100%;
 
-  .fr-toolbar.fr-top {
-    box-shadow: none;
-    border: 0;
-    position: relative;
-  }
-
-  .fr-box.fr-basic.fr-top:not(.fr-fullscreen) .fr-wrapper {
-    min-height: 150px;
-    max-height: 400px;
-    box-shadow: none;
-    overflow: auto;
-    border-top: 1px solid $Form-input-borderColor;
-  }
-
-  .fr-toolbar .fr-command.fr-btn, .fr-popup .fr-command.fr-btn {
-    color: $Button--default-color;
-  }
-
-  .fr-toolbar .fr-command.fr-btn.fr-active, .fr-popup .fr-command.fr-btn.fr-active {
-    color: $info;
-  }
-
-  .fr-desktop .fr-command:hover, .fr-desktop .fr-command:focus {
-    background-color: $light;
-  }
-
-  .fr-toolbar .fr-command.fr-btn.fr-dropdown.fr-active, .fr-popup .fr-command.fr-btn.fr-dropdown.fr-active {
-    background-color: $light;
-  }
-
-  .fr-command.fr-btn + .fr-dropdown-menu .fr-dropdown-wrapper .fr-dropdown-content ul.fr-dropdown-list li a.fr-active {
-    background-color: $info;
-    color: #fff;
-  }
-
-  &.is-focused {
-      border: $Form-input-borderWidth solid $Form-input-onFocused-borderColor;
-
-    .fr-box.fr-basic.fr-top .fr-wrapper {
-      border-top: $Form-input-borderWidth  solid $Form-input-onFocused-borderColor;
+    .fr-toolbar.fr-top {
+        box-shadow: none;
+        border: 0;
+        position: relative;
     }
-  }
 
-  .fr-box.fr-basic .fr-element {
-    min-height: 150px;
-  }
-
-  .fr-sticky-dummy {
-    position: absolute;
-  }
-
-  &.is-disabled {
-    border-color: $Form-input-onDisabled-borderColor;
-    pointer-events: none;
-    opacity: 0.6;
-    .fr-box.fr-basic.fr-top .fr-wrapper {
-      border-color: $Form-input-onDisabled-borderColor;
+    .fr-box.fr-basic.fr-top:not(.fr-fullscreen) .fr-wrapper {
+        min-height: 150px;
+        max-height: 400px;
+        box-shadow: none;
+        overflow: auto;
+        border-top: 1px solid $Form-input-borderColor;
     }
-  }
 
-//   &.amis-rich-text-control-md {
-//     .fr-box.fr-basic .fr-element,
-//     .fr-box.fr-basic.fr-top .fr-wrapper {
-//       min-height: 250px;
-//     }
-//   }
+    .fr-toolbar .fr-command.fr-btn,
+    .fr-popup .fr-command.fr-btn {
+        color: $Button--default-color;
+    }
 
-//   &.amis-rich-text-control-lg {
-//     .fr-box.fr-basic .fr-element,
-//     .fr-box.fr-basic.fr-top .fr-wrapper {
-//       min-height: 300px;
-//     }
-//   }
+    .fr-toolbar .fr-command.fr-btn.fr-active,
+    .fr-popup .fr-command.fr-btn.fr-active {
+        color: $info;
+    }
+
+    .fr-desktop .fr-command:hover,
+    .fr-desktop .fr-command:focus {
+        background-color: $light;
+    }
+
+    .fr-toolbar .fr-command.fr-btn.fr-dropdown.fr-active,
+    .fr-popup .fr-command.fr-btn.fr-dropdown.fr-active {
+        background-color: $light;
+    }
+
+    .fr-command.fr-btn
+        + .fr-dropdown-menu
+        .fr-dropdown-wrapper
+        .fr-dropdown-content
+        ul.fr-dropdown-list
+        li
+        a.fr-active {
+        background-color: $info;
+        color: #fff;
+    }
+
+    &.is-focused {
+        border: $Form-input-borderWidth solid $Form-input-onFocused-borderColor;
+
+        .fr-box.fr-basic.fr-top .fr-wrapper {
+            border-top: $Form-input-borderWidth solid
+                $Form-input-onFocused-borderColor;
+        }
+    }
+
+    .fr-box.fr-basic .fr-element {
+        min-height: 150px;
+    }
+
+    .fr-sticky-dummy {
+        position: absolute;
+    }
+
+    &.is-disabled {
+        border-color: $Form-input-onDisabled-borderColor;
+        pointer-events: none;
+        opacity: 0.6;
+
+        .fr-box.fr-basic.fr-top .fr-wrapper {
+            border-color: $Form-input-onDisabled-borderColor;
+        }
+    }
+
+    //   &.amis-rich-text-control-md {
+    //     .fr-box.fr-basic .fr-element,
+    //     .fr-box.fr-basic.fr-top .fr-wrapper {
+    //       min-height: 250px;
+    //     }
+    //   }
+
+    //   &.amis-rich-text-control-lg {
+    //     .fr-box.fr-basic .fr-element,
+    //     .fr-box.fr-basic.fr-top .fr-wrapper {
+    //       min-height: 300px;
+    //     }
+    //   }
 }
 
 // @media (min-width: 768px) {

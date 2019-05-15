@@ -15,6 +15,7 @@
 
     &:not(.is-disabled) {
         cursor: pointer;
+
         &:hover {
             background-color: $DatePicker-onHover-bg;
         }
@@ -27,11 +28,12 @@
 
     &.is-disabled {
         background: $gray200;
+
         > &-input {
             color: $text--muted-color;
         }
     }
-    
+
     &-placeholder {
         color: $DatePicker-placeholderColor;
         user-select: none;
@@ -49,6 +51,7 @@
     &-toggler {
         cursor: pointer;
         color: $DatePicker-iconColor;
+
         &:hover {
             color: $DatePicker-onHover-iconColor;
         }

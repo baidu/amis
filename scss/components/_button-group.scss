@@ -3,38 +3,43 @@
     display: inline-flex;
     vertical-align: middle;
 
-    >.#{$ns}Button {
+    > .#{$ns}Button {
         position: relative;
         flex: 0 1 auto;
     }
 
-    @if $Button-borderWidth > 0 {
-        >.#{$ns}Button {
+    @if $Button-borderWidth>0 {
+        > .#{$ns}Button {
             @include hover {
                 z-index: 1;
             }
-    
+
             &:focus,
             &:active,
             &.active {
                 z-index: 1;
             }
         }
-    
+
         .#{$ns}Button + .#{$ns}Button,
         .#{$ns}Button + .#{$ns}ButtonGroup,
         .#{$ns}ButtonGroup + .#{$ns}Button,
         .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
             margin-left: -$Button-borderWidth;
         }
-    } @else if (variable-exists("ButtonGroup-divider-width") and variable-exists("ButtonGroup-divider-color")) {
+    } @else if
+        (
+            variable-exists("ButtonGroup-divider-width") and
+                variable-exists("ButtonGroup-divider-color")
+        )
+    {
         background-color: $ButtonGroup-divider-color;
-        >.#{$ns}Button + .#{$ns}Button {
+
+        > .#{$ns}Button + .#{$ns}Button {
             margin-left: $ButtonGroup-divider-width;
         }
     }
 }
-
 
 .#{$ns}ButtonToolbar {
     display: inline-flex;
@@ -52,7 +57,7 @@
         margin-left: 0;
     }
 
-    @if $Button-borderWidth > 0 {
+    @if $Button-borderWidth>0 {
         > .#{$ns}Button:not(:last-child),
         > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button {
             border-top-right-radius: 0;
@@ -66,7 +71,6 @@
         }
     }
 }
-
 
 .#{$ns}ButtonGroup--vertical {
     flex-direction: column;
@@ -98,7 +102,6 @@
         border-top-right-radius: 0;
     }
 }
-
 
 .#{$ns}ButtonGroupControl {
     display: inline-block;
