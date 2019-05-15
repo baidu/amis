@@ -272,6 +272,7 @@ test('Renderer:Form initApi', async () => {
     // fetch 调用了，所有 initApi 接口调用了
     expect(fetcher).toHaveBeenCalled();
     await p0;
+    await wait(10);
 
     // 通过 snapshot 可断定 initApi 返回值已经作用到了表单项上。
     expect(container).toMatchSnapshot();
