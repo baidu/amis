@@ -1,5 +1,4 @@
-
-$ns: 'a-';
+$ns: "a-";
 
 $primary: #7266ba;
 $info: #23b7e5;
@@ -27,12 +26,12 @@ $Form-input-borderColor: #cfdadd;
 @import "../layout/aside";
 @import "../layout/hbox";
 @import "../layout/vbox";
-@import"../components/modal";
-@import"../components/drawer";
+@import "../components/modal";
+@import "../components/drawer";
 @import "../components/tooltip";
 @import "../components/popover";
-@import"../components/toast";
-@import"../components/alert";
+@import "../components/toast";
+@import "../components/alert";
 @import "../components/tabs";
 @import "../components/nav";
 @import "../components/page";
@@ -46,20 +45,20 @@ $Form-input-borderColor: #cfdadd;
 @import "../components/button";
 @import "../components/button-group";
 @import "../components/dropdown";
-@import"../components/collapse";
-@import"../components/wizard";
-@import"../components/crud";
-@import"../components/table";
-@import"../components/list";
-@import"../components/cards";
-@import"../components/card";
-@import"../components/quick-edit";
-@import"../components/popoverable";
-@import"../components/copyable";
-@import"../components/divider";
-@import"../components/pagination";
-@import"../components/wrapper";
-@import"../components/status";
+@import "../components/collapse";
+@import "../components/wizard";
+@import "../components/crud";
+@import "../components/table";
+@import "../components/list";
+@import "../components/cards";
+@import "../components/card";
+@import "../components/quick-edit";
+@import "../components/popoverable";
+@import "../components/copyable";
+@import "../components/divider";
+@import "../components/pagination";
+@import "../components/wrapper";
+@import "../components/status";
 
 @import "../components/form/fieldset";
 @import "../components/form/group";
@@ -93,6 +92,5 @@ $Form-input-borderColor: #cfdadd;
 @import "../components/form/transfer-select";
 @import "../components/form/nested-select";
 @import "../components/form/icon-picker";
-
 
 @import "../utilities";

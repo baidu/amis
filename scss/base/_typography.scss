@@ -1,11 +1,11 @@
 /**
  * Basic typography style for copy text
  */
- html {
+html {
     font-size: $remFactor;
- }
+}
 
- body {
+body {
     color: $body-color;
     background-color: $body-bg;
     font-size: $body-size;
@@ -30,7 +30,12 @@ label {
     font-weight: $fontWeightNormal;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: $fontWeightNormal;
     color: $text--loud-color;
     line-height: 1.1;

@@ -1,27 +1,29 @@
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
 }
+
 body {
     overflow-x: hidden;
 }
 
 .#{$ns}Layout {
     height: auto;
-	min-height: 100%;
-	width: 100%;
+    min-height: 100%;
+    width: 100%;
     position: relative;
-    
-    &:before{
-		content: "";
-		position: absolute;
-		width: inherit;
-		top: 0;
-		bottom: 0;
-		z-index: -1;
-		background-color: $body-bg;
-		border: inherit;
-		display: block;
+
+    &:before {
+        content: "";
+        position: absolute;
+        width: inherit;
+        top: 0;
+        bottom: 0;
+        z-index: -1;
+        background-color: $body-bg;
+        border: inherit;
+        display: block;
     }
 
     .#{$ns}Layout-header {
@@ -44,7 +46,6 @@ body {
     &-brandBar {
         background: $Layout-brand-bg;
         color: $Layout-brandBar-color;
-        
 
         > button {
             padding: px2rem(10px) px2rem(17px);
@@ -70,16 +71,17 @@ body {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        
-        &:hover{
+
+        &:hover {
             text-decoration: none;
         }
-        img{
+
+        img {
             max-height: $Layout-header-height / 2;
             // margin-top: px2rem(-4px);
             vertical-align: middle;
             display: inline;
-        }	
+        }
     }
 
     &-headerBar {
@@ -87,13 +89,13 @@ body {
         min-height: $Layout-header-height;
         padding: 0 $gap-sm;
     }
-    
+
     &-aside {
         float: left;
         background: $Layout-aside-bg;
         color: $Layout-aside-color;
 
-        &:before{
+        &:before {
             content: "";
             position: absolute;
             width: inherit;
@@ -109,19 +111,20 @@ body {
         position: absolute;
         bottom: 0;
         width: 100%;
-        z-index: $zindex-fixed;;
+        z-index: $zindex-fixed;
         max-width: $Layout-aside-width;
+
         // .app-aside-folded & {
         //     max-width: @app-aside-folded-width;
         // }
-        ~ div{
+        ~ div {
             padding-bottom: px2rem(50px);
         }
     }
 
     &-content {
         height: 100%;
-	    @include clearfix();
+        @include clearfix();
     }
 
     // &-content--full {
@@ -183,7 +186,7 @@ body {
 
 @include media-breakpoint-up(md) {
     .#{$ns}Layout {
-        &-brand, 
+        &-brand,
         &-brandBar,
         &-aside {
             width: $Layout-aside-width;
@@ -209,7 +212,7 @@ body {
             .visible-folded {
                 display: inherit;
             }
-    
+
             .hidden-folded {
                 display: none !important;
             }
@@ -281,9 +284,11 @@ body {
                 &::-webkit-scrollbar {
                     -webkit-appearance: none;
                 }
+
                 &::-webkit-scrollbar:vertical {
                     width: $scrollbar-width;
                 }
+
                 & > * {
                     width: $Layout-aside-width;
                 }
@@ -316,7 +321,7 @@ body {
         }
 
         &--sm:not(.#{$ns}Layout--folded) {
-            .#{$ns}Layout-brand, 
+            .#{$ns}Layout-brand,
             .#{$ns}Layout-brandBar,
             .#{$ns}Layout-aside {
                 width: $Layout-aside--sm-width;
@@ -346,7 +351,7 @@ body {
         }
 
         &--md:not(.#{$ns}Layout--folded) {
-            .#{$ns}Layout-brand, 
+            .#{$ns}Layout-brand,
             .#{$ns}Layout-brandBar,
             .#{$ns}Layout-aside {
                 width: $Layout-aside--md-width;
@@ -376,7 +381,7 @@ body {
         }
 
         &--lg:not(.#{$ns}Layout--folded) {
-            .#{$ns}Layout-brand, 
+            .#{$ns}Layout-brand,
             .#{$ns}Layout-brandBar,
             .#{$ns}Layout-aside {
                 width: $Layout-aside--lg-width;
@@ -405,7 +410,6 @@ body {
             }
         }
     }
-
 }
 
 @include media-breakpoint-down(sm) {
@@ -414,7 +418,7 @@ body {
     }
 
     .#{$ns}Layout-content {
-        transition: transform .2s ease;
+        transition: transform 0.2s ease;
     }
 
     .#{$ns}Layout-aside {
@@ -456,6 +460,4 @@ body {
             padding-top: px2rem(50px);
         }
     }
-
-
 }

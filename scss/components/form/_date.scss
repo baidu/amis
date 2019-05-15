@@ -1,4 +1,3 @@
-
 .#{$ns}DatePicker {
     position: relative;
     display: inline-flex;
@@ -15,6 +14,7 @@
 
     &:not(.is-disabled) {
         cursor: pointer;
+
         &:hover {
             background-color: $DatePicker-onHover-bg;
         }
@@ -27,11 +27,12 @@
 
     &.is-disabled {
         background: $gray200;
+
         > &-input {
             color: $text--muted-color;
         }
     }
-    
+
     &-placeholder {
         color: $DatePicker-placeholderColor;
         user-select: none;
@@ -49,6 +50,7 @@
     &-toggler {
         cursor: pointer;
         color: $DatePicker-iconColor;
+
         &:hover {
             color: $DatePicker-onHover-iconColor;
         }
@@ -60,7 +62,7 @@
             display: inline-block;
             font-size: $DatePicker-toggler-fontSize;
             font-family: $DatePicker-toggler-vendor;
-        }        
+        }
     }
 
     &-clear {
@@ -90,17 +92,16 @@
             font-weight: normal;
         }
 
-        td.rdtDay, 
-        td.rdtHour, 
-        td.rdtMinute, 
-        td.rdtSecond, 
+        td.rdtDay,
+        td.rdtHour,
+        td.rdtMinute,
+        td.rdtSecond,
         .rdtTimeToggle {
             background-color: $Calendar-cell-bg;
 
             &:hover {
                 background-color: $Calendar-cell-onHover-bg;
             }
-            
         }
 
         td.rdtToday:before {
@@ -111,7 +112,7 @@
             border-bottom-color: $Calendar-cell-bg;
         }
 
-        td.rdtActive, 
+        td.rdtActive,
         td.rdtActive:hover {
             background: $Calendar-cell-onActive-bg;
         }
@@ -120,16 +121,18 @@
         td.rdtDisabled:hover {
             background-color: $Calendar-cell-onDisabled-bg;
         }
-        
     }
+
     thead tr:first-child th {
         cursor: default;
         text-align: left;
         font-weight: normal;
     }
+
     thead tr:first-child th:hover {
         background: transparent;
     }
+
     tfoot {
         border-top: 0;
 
@@ -159,7 +162,6 @@
                     border-color: $Calendar-input-onFocused-borderColor;
                     box-shadow: none;
                 }
-                
             }
 
             .rdtActions {
@@ -174,7 +176,7 @@
             height: 30%;
             line-height: px2rem(20px);
         }
-    
+
         .rdtCount {
             height: 40%;
             display: flex;
@@ -186,7 +188,7 @@
 
 .rdtBtn {
     line-height: $Calendar-btn-lineHeight;
-    padding:  $Calendar-btn-paddingY $Calendar-btn-paddingX;
+    padding: $Calendar-btn-paddingY $Calendar-btn-paddingX;
     display: inline-block;
     vertical-align: middle;
     text-align: center;
@@ -204,7 +206,8 @@
         pointer-events: none;
     }
 
-    .fa, .iconfont {
+    .fa,
+    .iconfont {
         font-size: $fontSizeSm;
     }
 
@@ -246,7 +249,7 @@
     display: inline-block;
     color: inherit;
     font-style: normal;
-    line-height: 1.0;
+    line-height: 1;
 }
 
 .rdtBtnPrev:before {
@@ -284,4 +287,3 @@
         }
     }
 }
-

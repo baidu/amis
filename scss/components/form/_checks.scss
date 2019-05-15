@@ -1,4 +1,3 @@
-
 .#{$ns}Checkbox {
     margin: 0 $gap-sm 0 0;
     cursor: pointer;
@@ -21,10 +20,10 @@
         display: inline-block;
         vertical-align: middle;
         position: relative;
-        
+
         + span {
             margin-left: $Checkbox-gap;
-            
+
             &:empty {
                 display: none;
             }
@@ -44,25 +43,27 @@
 
     &--checkbox {
         padding-left: $Checkbox-size;
-    
+
         input {
             margin-left: -$Checkbox-size;
 
             &:checked + i {
                 border-color: $Checkbox-onHover-color;
-    
+
                 &:before {
-                    left: ($Checkbox-size - px2rem(2px) - $Checkbox-inner-size) / 2;
-                    top: ($Checkbox-size - px2rem(2px) - $Checkbox-inner-size) / 2;
+                    left: ($Checkbox-size - px2rem(2px) - $Checkbox-inner-size) /
+                        2;
+                    top: ($Checkbox-size - px2rem(2px) - $Checkbox-inner-size) /
+                        2;
                     width: $Checkbox-inner-size;
                     height: $Checkbox-inner-size;
                     background-color: $Checkbox-onHover-color;
                 }
             }
-    
+
             &[disabled] + i {
                 border-color: lighten($Checkbox-color, 5%);
-    
+
                 &:before {
                     background-color: lighten($Checkbox-color, 5%);
                 }
@@ -87,10 +88,10 @@
             &:checked + i {
                 border-color: $Checkbox-onHover-color;
                 background-color: $Checkbox-onHover-color;
-    
+
                 &:before {
                     // todo 后面自动计算
-                    @if $ns == 'cxd-' {
+                    @if $ns== "cxd-" {
                         top: px2rem(2px);
                         left: px2rem(1px);
                     } @else {
@@ -106,7 +107,7 @@
 
             // &[disabled] + i {
             //     border-color: lighten($Checkbox-color, 5%);
-    
+
             //     &:before {
             //         background-color: lighten($Checkbox-color, 5%);
             //     }
@@ -139,14 +140,13 @@
 
     &--radio {
         padding-left: $Radio-size;
-    
+
         input {
             margin-left: -$Radio-size;
 
             &:checked + i {
                 border-color: $Radio-onHover-color;
-                
-    
+
                 &:before {
                     left: ($Radio-size - px2rem(2px) - $Radio-inner-size) / 2;
                     top: ($Radio-size - px2rem(2px) - $Radio-inner-size) / 2;
@@ -156,10 +156,10 @@
                     border-radius: 50%;
                 }
             }
-            
+
             &[disabled] + i {
                 border-color: lighten($Radio-color, 5%);
-    
+
                 &:before {
                     background-color: lighten($Radio-color, 5%);
                 }
@@ -178,7 +178,7 @@
 
     &--sm {
         margin-right: px2rem(5px);
-        
+
         input {
             &:checked + i {
                 &:before {
@@ -189,6 +189,7 @@
                 }
             }
         }
+
         > i {
             width: $Checkbox--sm-size;
             height: $Checkbox--sm-size;
@@ -201,8 +202,8 @@
     }
 }
 
-.#{$ns}CheckboxControl, 
-.#{$ns}RadiosControl, 
+.#{$ns}CheckboxControl,
+.#{$ns}RadiosControl,
 .#{$ns}CheckboxesControl {
     padding-top: ($Form-input-height - $Checkbox-size) / 2;
 }

@@ -7,23 +7,29 @@
     to {
         animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     }
+
     0% {
         opacity: 0;
         transform: scale3d(0.3, 0.3, 0.3);
     }
+
     20% {
         transform: scale3d(1.1, 1.1, 1.1);
     }
+
     40% {
         transform: scale3d(0.9, 0.9, 0.9);
     }
+
     60% {
         opacity: 1;
         transform: scale3d(1.03, 1.03, 1.03);
     }
+
     80% {
         transform: scale3d(0.97, 0.97, 0.97);
     }
+
     to {
         opacity: 1;
         transform: scale3d(1, 1, 1);
@@ -34,11 +40,13 @@
     20% {
         transform: scale3d(0.9, 0.9, 0.9);
     }
+
     50%,
     55% {
         opacity: 1;
         transform: scale3d(1.1, 1.1, 1.1);
     }
+
     to {
         opacity: 0;
         transform: scale3d(0.3, 0.3, 0.3);
@@ -55,11 +63,12 @@
     width: $Toast-width;
     pointer-events: auto;
     margin-bottom: $gap-xs;
-    padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY ($Toast-paddingX + $Toast-paddingL);
+    padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY
+        ($Toast-paddingX + $Toast-paddingL);
     box-shadow: $Toast-box-shadow;
     border-radius: $Toast-borderRadius;
     border: $Toast-border-width solid;
-    color: $Toast-color; 
+    color: $Toast-color;
     position: relative;
     opacity: $Toast-opacity;
     cursor: pointer;
@@ -67,7 +76,7 @@
     &:hover {
         opacity: 1;
     }
-    
+
     &.in {
         animation-duration: 0.75s;
         animation-name: bounceIn;
@@ -86,9 +95,11 @@
         display: $Toast-display;
         font-size: $fontSizeMd;
     }
+
     &-body {
         display: $Toast-display;
     }
+
     &::before {
         display: inline-block;
         font-family: $Toast-iconVendor;
@@ -98,13 +109,14 @@
         position: absolute;
         left: $Toast-paddingX;
         top: $Toast-paddingY;
-    } 
-    
+    }
+
     // colors
     &--error {
         color: $Toast--danger-color;
         border-color: $Toast--danger-borderColor;
         background-color: $Toast--danger-bgColor;
+
         &::before {
             content: $Toast--error-icon;
         }
@@ -114,30 +126,34 @@
         color: $Toast--warning-color;
         border-color: $Toast--warning-borderColor;
         background-color: $Toast--warning-bgColor;
+
         &::before {
             content: $Toast--warning-icon;
         }
-    } 
+    }
 
     &--info {
         color: $Toast--info-color;
         border-color: $Toast--info-borderColor;
         background-color: $Toast--info-bgColor;
-        padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY ($Toast-paddingX + $Toast--info-paddingL);
+        padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY
+            ($Toast-paddingX + $Toast--info-paddingL);
+
         &::before {
             content: $Toast--info-icon;
         }
-    } 
+    }
 
     &--success {
         color: $Toast--success-color;
         border-color: $Toast--success-borderColor;
         background-color: $Toast--success-bgColor;
+
         &::before {
             content: $Toast--success-icon;
         }
-    } 
-    
+    }
+
     // positions
     &-wrap--topRight {
         top: $gap-base;

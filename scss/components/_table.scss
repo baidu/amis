@@ -60,7 +60,8 @@
     &-heading {
         background: $Table-heading-bg;
         border-bottom: $Table-borderWidth solid $Table-borderColor;
-        padding: ($Table-heading-height - $Table-fontSize * $lineHeightBase) / 2  $Table-toolbar-paddingX;
+        padding: ($Table-heading-height - $Table-fontSize * $lineHeightBase) / 2
+            $Table-toolbar-paddingX;
     }
 
     &--unsaved &-heading {
@@ -124,16 +125,14 @@
 
     &-actions {
         display: inline-block;
-        
+
         > * {
             margin-right: $Crud-toolbar-gap;
         }
     }
 
-    
-
     &-content {
-        min-height: .01%;
+        min-height: 0.01%;
         overflow-x: auto;
     }
 
@@ -147,6 +146,7 @@
 
         > thead > tr {
             background-color: $Table-thead-bg;
+
             > th {
                 padding: $TableCell-paddingY $TableCell-paddingX;
 
@@ -159,8 +159,10 @@
                 }
 
                 &:not(:last-child) {
-                    border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
+                    border-right: $Table-thead-borderWidth solid
+                        $Table-thead-borderColor;
                 }
+
                 font-size: $Table-thead-fontSize;
                 color: $Table-thead-color;
                 font-weight: $fontWeightNormal;
@@ -174,7 +176,7 @@
 
         > tbody > tr {
             border-top: $Table-borderWidth solid $Table-borderColor;
-            
+
             > td {
                 padding: $TableCell-paddingY $TableCell-paddingX;
                 vertical-align: top;
@@ -188,8 +190,9 @@
                 }
             }
 
-            @if $Table-strip-bg != transparent {
+            @if $Table-strip-bg !=transparent {
                 background-color: transparent;
+
                 &.#{$ns}Table-tr--odd {
                     background-color: $Table-strip-bg;
                 }
@@ -260,8 +263,10 @@
                     position: relative;
                     right: -20px * ($i - 1);
                 }
-                .#{$ns}Table-expandCell + td{
-                    > div, > span {
+
+                .#{$ns}Table-expandCell + td {
+                    > div,
+                    > span {
                         margin-left: 20px * ($i - 1);
                     }
                 }
@@ -272,6 +277,7 @@
         > tbody > tr > td.#{$ns}Table-checkCell {
             border-right: 0;
             width: px2rem(1px);
+
             .#{$ns}Checkbox {
                 margin: 0;
             }
@@ -306,7 +312,7 @@
 
             // reset
             > tbody > tr {
-                @if $Table-strip-bg != transparent {
+                @if $Table-strip-bg !=transparent {
                     &.#{$ns}Table-tr--odd {
                         background-color: transparent;
                     }
@@ -351,7 +357,7 @@
             content: $TableCell-sortBtn--default-icon;
             font-family: $TableCell-sortBtn--default-iconVendor;
         }
-        
+
         &--up,
         &--down {
             display: none;
@@ -466,11 +472,16 @@
         pointer-events: all;
         position: absolute;
         // background: $Table-onHover-bg;
-        background: linear-gradient(90deg, rgba($Table-onHover-bg, 0) 0%, rgba($Table-onHover-bg,1) 20%, rgba($Table-onHover-bg,1) 100%);
+        background: linear-gradient(
+            90deg,
+            rgba($Table-onHover-bg, 0) 0%,
+            rgba($Table-onHover-bg, 1) 20%,
+            rgba($Table-onHover-bg, 1) 100%
+        );
         top: $Table-borderWidth;
         bottom: 0;
         right: 0;
-        padding-left: px2rem(50px); 
+        padding-left: px2rem(50px);
         padding-right: $TableCell-paddingX;
         display: flex;
         align-items: center;
@@ -520,7 +531,8 @@
         }
 
         > tbody > tr:not(:first-child) {
-            border-top: $Table-borderWidth solid lighten($Table-thead-borderColor, 2.5%);
+            border-top: $Table-borderWidth solid
+                lighten($Table-thead-borderColor, 2.5%);
         }
     }
 }

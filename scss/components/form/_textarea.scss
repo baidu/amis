@@ -2,7 +2,11 @@
     border: 1px solid $Form-input-borderColor;
     border-radius: $Form-input-borderRadius;
     line-height: $Form-input-lineHeight;
-    padding: px2rem(6px) ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px));
+    padding: px2rem(6px)
+        (
+            $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize -
+                px2rem(2px)
+        );
     font-size: $Form-input-fontSize;
     outline: none;
     resize: none;
@@ -13,7 +17,8 @@
         border-color: $Form-input-onError-borderColor;
     }
 
-    &:focus, &.is-focused {
+    &:focus,
+    &.is-focused {
         border-color: $Form-input-onFocused-borderColor;
         box-shadow: $Form-input-boxShadow;
     }

@@ -20,7 +20,7 @@
     margin-bottom: px2rem(5px);
     display: inline-block;
     max-width: 100%;
-    
+
     > span {
         position: relative;
     }
@@ -107,21 +107,21 @@
         display: inline-block;
         vertical-align: top;
     }
-    
+
     .#{$ns}Form-control--sizeSm {
         min-width: $Form-control-widthSm;
         width: auto;
         display: inline-block;
         vertical-align: top;
     }
-    
+
     .#{$ns}Form-control--sizeMd {
         min-width: $Form-control-widthMd;
         width: auto;
         display: inline-block;
         vertical-align: top;
     }
-    
+
     .#{$ns}Form-control--sizeLg {
         min-width: $Form-control-widthLg;
         width: auto;
@@ -135,19 +135,19 @@
             flex-wrap: nowrap;
             margin-left: -$Form--horizontal-gutterWidth / 2;
             margin-right: -$Form--horizontal-gutterWidth / 2;
-    
+
             > * {
                 padding-left: $Form--horizontal-gutterWidth / 2;
                 padding-right: $Form--horizontal-gutterWidth / 2;
             }
-    
+
             > .#{$ns}Form-label,
             > .#{$ns}Form-value {
                 flex-basis: 0;
                 flex-grow: 1;
                 max-width: 100%;
             }
-    
+
             .#{$ns}Form-itemColumn--xs,
             .#{$ns}Form-itemColumn--sm,
             .#{$ns}Form-itemColumn--normal,
@@ -157,32 +157,32 @@
                 flex-basis: unset;
             }
 
-            >.#{$ns}Form-label {
+            > .#{$ns}Form-label {
                 padding-top: $Form-label-paddingTop;
                 margin-bottom: 0;
             }
-    
+
             .#{$ns}Form-itemColumn--xs {
                 width: $Form--horizontal-label-widthXs;
             }
-    
+
             .#{$ns}Form-itemColumn--sm {
                 width: $Form--horizontal-label-widthSm;
             }
-    
+
             .#{$ns}Form-itemColumn--normal {
                 width: $Form--horizontal-label-widthBase;
             }
-    
+
             .#{$ns}Form-itemColumn--md {
                 width: $Form--horizontal-label-widthMd;
             }
-    
+
             .#{$ns}Form-itemColumn--lg {
                 width: $Form--horizontal-label-widthLg;
             }
-    
-            @for $i from (1) through $Form--horizontal-columns  {
+
+            @for $i from (1) through $Form--horizontal-columns {
                 .#{$ns}Form-itemColumn--#{$i} {
                     flex: 0 0 percentage($i / $Form--horizontal-columns);
                     max-width: percentage($i / $Form--horizontal-columns);
@@ -194,9 +194,8 @@
         &--inline {
             display: inline-block;
             vertical-align: top;
-            
 
-            >.#{$ns}Form-label {
+            > .#{$ns}Form-label {
                 padding-top: $Form-label-paddingTop;
                 margin-bottom: 0;
                 margin-right: $Form-item-gap/2;
@@ -206,7 +205,7 @@
                 }
             }
 
-            >.#{$ns}Form-value {
+            > .#{$ns}Form-value {
                 display: inline;
 
                 > .#{$ns}Form-control {

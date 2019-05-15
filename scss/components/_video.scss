@@ -1,15 +1,18 @@
 .#{$ns}Video {
     min-width: 200px;
+
     &-cursor {
         position: absolute;
         border: 2px solid $info;
         transition: all 0.5s ease-out;
     }
+
     &-frameList {
         .#{$ns}Video-frameItem {
             cursor: pointer;
         }
     }
+
     .video-react-paused .video-react-big-play-button.big-play-button-hide {
         display: block;
     }

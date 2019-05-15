@@ -44,7 +44,8 @@
         padding: $Drawer-header-padding;
         background-color: $Drawer-header-bg;
         @include clearfix();
-        border-bottom: $Drawer-content-borderWidth solid lighten($Drawer-content-borderColor, 5%);
+        border-bottom: $Drawer-content-borderWidth solid
+            lighten($Drawer-content-borderColor, 5%);
         border-top-left-radius: $Drawer-content-borderRadius;
         border-top-right-radius: $Drawer-content-borderRadius;
     }
@@ -92,7 +93,8 @@
         align-items: flex-end;
         justify-content: flex-end;
         padding: $Drawer-footer-padding;
-        border-top: $Drawer-content-borderWidth solid lighten($Drawer-content-borderColor, 5%);
+        border-top: $Drawer-content-borderWidth solid
+            lighten($Drawer-content-borderColor, 5%);
         border-bottom-left-radius: $Drawer-content-borderRadius;
         border-bottom-right-radius: $Drawer-content-borderRadius;
 
