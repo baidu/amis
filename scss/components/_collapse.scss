@@ -16,9 +16,9 @@
         text-align: center;
         margin-left: $gap-xs;
         cursor: pointer;
-        
+
         &:before {
-            content: '';
+            content: "";
             position: relative;
             display: inline-block;
             width: px2rem(6px);

@@ -134,7 +134,7 @@
         border-color: $Card-onChecked-borderColor;
         color: $Card-onChecked-color;
 
-        .#{$ns}Card-actions, 
+        .#{$ns}Card-actions,
         .#{$ns}Card-actions > a {
             border-color: $Card-onChecked-borderColor;
             color: $Card-onChecked-color;
@@ -156,7 +156,7 @@
         border-color: $Card-onModified-borderColor;
         color: $Card-onModified-color;
 
-        .#{$ns}Card-actions, 
+        .#{$ns}Card-actions,
         .#{$ns}Card-actions > a {
             border-color: $Card-onModified-borderColor;
             color: $Card-onModified-color;
@@ -173,6 +173,6 @@
     }
 
     .is-dragging > & {
-       opacity: $Card-onDragging-opacity;
+        opacity: $Card-onDragging-opacity;
     }
 }

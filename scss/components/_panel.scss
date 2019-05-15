@@ -22,108 +22,135 @@
     /* 主题 */
     &--default {
         border-color: $borderColor;
-        >.#{$ns}Panel-heading {
+
+        > .#{$ns}Panel-heading {
             background-color: $Panel--default-bg;
             color: $Panel--default-color;
+
             .badge {
                 color: $Panel--default-badgeColor;
                 background-color: $Panel--default-badgeBg;
             }
         }
-        >.#{$ns}Panel-heading {
+
+        > .#{$ns}Panel-heading {
             border-color: $Panel--default-headingBorderColor;
         }
     }
+
     &--primary {
         border-color: $primary;
-        >.#{$ns}Panel-heading {
+
+        > .#{$ns}Panel-heading {
             background-color: $primary;
             color: $white;
+
             .badge {
                 color: $primary;
-                background-color: $white
+                background-color: $white;
             }
         }
-        >.#{$ns}Panel-heading,
-        >.#{$ns}Panel-footer {
+
+        > .#{$ns}Panel-heading,
+        > .#{$ns}Panel-footer {
             border-color: $primary;
         }
     }
+
     &--success {
         border-color: $success;
-        >.#{$ns}Panel-heading {
+
+        > .#{$ns}Panel-heading {
             background-color: $success;
             color: $white;
+
             .badge {
                 color: $success;
-                background-color: $white
+                background-color: $white;
             }
         }
-        >.#{$ns}Panel-heading,
-        >.#{$ns}Panel-footer {
+
+        > .#{$ns}Panel-heading,
+        > .#{$ns}Panel-footer {
             border-color: $success;
         }
     }
+
     &--info {
         border-color: $info;
-        >.#{$ns}Panel-heading {
+
+        > .#{$ns}Panel-heading {
             background-color: $info;
             color: $white;
+
             .badge {
                 color: $info;
-                background-color: $white
+                background-color: $white;
             }
         }
-        >.#{$ns}Panel-heading,
-        >.#{$ns}Panel-footer {
+
+        > .#{$ns}Panel-heading,
+        > .#{$ns}Panel-footer {
             border-color: $info;
         }
     }
+
     &--warning {
         border-color: $warning;
-        >.#{$ns}Panel-heading {
+
+        > .#{$ns}Panel-heading {
             background-color: $warning;
             color: $white;
+
             .badge {
                 color: $warning;
-                background-color: $white
+                background-color: $white;
             }
         }
-        >.#{$ns}Panel-heading,
-        >.#{$ns}Panel-footer {
+
+        > .#{$ns}Panel-heading,
+        > .#{$ns}Panel-footer {
             border-color: $warning;
         }
     }
+
     &--danger {
         border-color: $danger;
-        >.#{$ns}Panel-heading {
+
+        > .#{$ns}Panel-heading {
             background-color: $danger;
             color: $white;
+
             .badge {
                 color: $danger;
-                background-color: $white
+                background-color: $white;
             }
         }
-        >.#{$ns}Panel-heading,
-        >.#{$ns}Panel-footer {
+
+        > .#{$ns}Panel-heading,
+        > .#{$ns}Panel-footer {
             border-color: $danger;
         }
     }
+
     /* 子组件 */
     &-heading {
         padding: $Panel-headingPadding;
         border-bottom: $Panel-headingBorderBottom;
         border-radius: $Panel-headingBorderRadius;
     }
+
     &-title {
         margin-top: $Panel-titleMarginTop;
         margin-bottom: $Panel-titleMarginBottom;
         font-size: $Panel-titleFontSize;
         color: $Panel-titleColor;
     }
+
     &-body {
         padding: $Panel-bodyPadding;
     }
+
     &-footer {
         border-color: $Panel-footerBorderColor;
         border-radius: $Panel-footerBorderRadius;
@@ -131,12 +158,15 @@
         padding: $Panel-footerPadding;
         border-style: solid;
         border-width: $Panel-borderWidth 0 0 0;
+
         .#{$ns}Button + .#{$ns}Button {
             margin-left: $Panel-footerButtomMarginLeft;
         }
     }
+
     &-btnToolbar {
         text-align: $Panel-btnToolbarTextAlign;
+
         .#{$ns}Button {
             margin-left: $Panel-footerButtomMarginLeft;
         }

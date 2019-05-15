@@ -1,4 +1,3 @@
-
 .#{$ns}ListControl {
     &-items {
         display: block;
@@ -16,18 +15,23 @@
         display: inline-block;
         vertical-align: middle;
         margin: $ListControl-gutterWidth/2;
-        border: $ListControl-item-borderWidth solid $ListControl-item-borderColor;
+        border: $ListControl-item-borderWidth solid
+            $ListControl-item-borderColor;
         background-color: $ListControl-item-bg;
         padding: $ListControl-item-paddingY $ListControl-item-paddingX;
         color: $ListControl-item-color;
         transition: $ListControl-item-transition;
-        max-width: px2rem(200px) + 2*$ListControl-item-paddingX;
+        max-width: px2rem(200px) + 2 * $ListControl-item-paddingX;
 
         &:not(.is-disabled) {
             cursor: pointer;
         }
 
-        .b-t, .b-l, .b-r, .b-b, .b-a {
+        .b-t,
+        .b-l,
+        .b-r,
+        .b-b,
+        .b-a {
             border-color: $ListControl-item-color;
         }
 
@@ -36,7 +40,11 @@
             border-color: $ListControl-item-onHover-borderColor;
             color: $ListControl-item-onHover-color;
 
-            .b-t, .b-l, .b-r, .b-b, .b-a {
+            .b-t,
+            .b-l,
+            .b-r,
+            .b-b,
+            .b-a {
                 border-color: $ListControl-item-onHover-borderColor;
             }
         }
@@ -53,7 +61,11 @@
                 color: $ListControl-item-onDisabled-color;
             }
 
-            .b-t, .b-l, .b-r, .b-b, .b-a {
+            .b-t,
+            .b-l,
+            .b-r,
+            .b-b,
+            .b-a {
                 border-color: $ListControl-item-onDisabled-borderColor;
             }
         }
@@ -70,12 +82,16 @@
                 }
             }
 
-            .b-t, .b-l, .b-r, .b-b, .b-a {
+            .b-t,
+            .b-l,
+            .b-r,
+            .b-b,
+            .b-a {
                 border-color: $ListControl-item-onActive-color;
             }
 
             &:before {
-                content: '';
+                content: "";
                 position: absolute;
                 width: px2rem(14px);
                 height: px2rem(14px);
@@ -85,7 +101,7 @@
             }
 
             &:after {
-                content: '';
+                content: "";
                 position: absolute;
                 width: px2rem(10px);
                 height: px2rem(5px);
@@ -101,6 +117,7 @@
 
     &-itemImage {
         margin: $ListControl-item-paddingY * -1 $ListControl-item-paddingX * -1;
+
         img {
             display: block;
             max-width: 100%;
@@ -114,7 +131,6 @@
     &-itemImage + &-itemLabel {
         margin-top: $ListControl-item-paddingY;
     }
-
 
     &-placeholder {
         color: $Form-input-placeholderColor;

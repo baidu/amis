@@ -2,17 +2,19 @@
     position: relative;
     @include clearfix();
 
-    padding-top: 1.0rem;
+    padding-top: 1rem;
     padding-bottom: 1.1rem;
 
     &--withInput {
         .#{$ns}InputRange {
             width: calc(100% - 120px);
         }
+
         .#{$ns}InputRange-label--mid {
             left: calc(50% - 60px);
         }
     }
+
     .#{$ns}InputRange {
         &-input {
             font-size: $fontSizeSm;
@@ -21,30 +23,35 @@
             right: px2rem(26px);
             top: px2rem(12px);
             height: px2rem(30px);
+
             input {
                 padding: px2rem(10px);
                 width: 100%;
                 height: 100%;
+
                 &:focus {
                     outline: none;
                     border: $borderWidth solid $info;
                 }
             }
         }
+
         &-unit {
             position: absolute;
             right: px2rem(10px);
             top: px2rem(7px);
         }
+
         &-clear {
             position: absolute;
             top: px2rem(18px);
             right: 0;
             cursor: pointer;
+
             svg {
                 height: px2rem(16px);
                 width: px2rem(16px);
-                fill: #999
+                fill: #999;
             }
         }
     }
@@ -66,27 +73,29 @@
         width: $InputRange-slider-width;
         height: $InputRange-slider-height;
         margin-left: $InputRange-slider-width / -2;
-        margin-top: $InputRange-slider-height / -2 + $InputRange-track-height / -2;
+        margin-top: $InputRange-slider-height / -2 + $InputRange-track-height /
+            -2;
         outline: none;
         position: absolute;
         z-index: 2;
         top: 50%;
         transition: $InputRange-slider-transition;
-    
+
         &:active {
             transform: $InputRange-slider-onActive-transform;
         }
-    
+
         &:focus {
-            box-shadow: $InputRange-slider-onFocus-boxShadow
+            box-shadow: $InputRange-slider-onFocus-boxShadow;
         }
-    
+
         .input-range--disabled & {
             background: $InputRange-slider-onDisabled-bg;
             border: $InputRange-slider-onDisabled-border;
             box-shadow: none;
             transform: none;
         }
+
         &:before {
             content: "||";
             color: #fff;
@@ -143,7 +152,7 @@
     //     .#{$ns}InputRange-label--max & {
     //         left: 50%;
     //     }
-    // } 
+    // }
 
     // track
     &-track {
@@ -154,6 +163,7 @@
         height: $InputRange-track-height;
         position: relative;
         transition: $InputRange-track-transition;
+
         .#{$ns}InputRange.is-disabled & {
             background: $InputRange-track-onDisabled-bg;
         }
@@ -168,7 +178,7 @@
 
         &::before,
         &::after {
-            content: '';
+            content: "";
             width: 0.5rem;
             height: 100%;
             position: absolute;
@@ -189,6 +199,4 @@
     &-track--active {
         background: $InputRange-track-onActive-bg;
     }
-      
 }
-  

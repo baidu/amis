@@ -50,6 +50,7 @@
     border: $Audio-border;
     display: inline-block;
     padding-left: $Audio-item-margin;
+
     &-rates {
         display: inline-block;
         width: $Audio-rate-width;
@@ -59,9 +60,11 @@
         cursor: pointer;
         margin-right: $Audio-item-margin;
     }
+
     &-rateControl {
         display: inline-block;
         margin-right: $Audio-item-margin;
+
         &::after {
             display: inline-block;
             clear: both;
@@ -80,6 +83,7 @@
             border-right: $Audio-rateControlItem-borderRight;
         }
     }
+
     &-play {
         display: inline-block;
         width: $Audio-play-width;
@@ -90,22 +94,25 @@
             @include svg();
         }
     }
+
     &-times {
         display: inline-block;
         width: $Audio-times-width;
         margin-right: $Audio-item-margin;
         cursor: default;
     }
+
     &-process {
         display: inline-block;
         width: $Audio-process-width;
         cursor: pointer;
         margin-right: $Audio-item-margin;
 
-        input[type=range] {
+        input[type="range"] {
             @include input-range();
         }
     }
+
     &-volume {
         display: inline-block;
         width: $Audio-volume-width;
@@ -117,13 +124,15 @@
             @include svg();
         }
     }
+
     &-volumeControl {
         display: inline-block;
         width: $Audio-volumeControl-width;
         height: $Audio-volumeControl-height;
         line-height: $Audio-volumeControl-lineHeight;
         margin-right: $Audio-item-margin;
-        input[type=range] {
+
+        input[type="range"] {
             @include input-range();
         }
 

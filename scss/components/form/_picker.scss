@@ -1,9 +1,11 @@
 .#{$ns}Picker {
-
     &-values {
         display: inline-block;
         margin-top: -$gap-xs;
-        padding: ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px))/2 0;
+        padding: (
+                $Form-input-height - $Form-input-lineHeight *
+                    $Form-input-fontSize - px2rem(2px)
+            )/2 0;
     }
 
     &-value {

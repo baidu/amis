@@ -1,12 +1,12 @@
 // 媒体查询最小阈值
 @mixin media-breakpoint-up($name, $breakpoints: $breakpoints) {
     $min: breakpoint-min($name, $breakpoints);
+
     @if $min {
         @media (min-width: $min) {
             @content;
         }
-    }
-    @else {
+    } @else {
         @content;
     }
 }
@@ -14,12 +14,12 @@
 //媒体查询最大阈值
 @mixin media-breakpoint-down($name, $breakpoints: $breakpoints) {
     $max: breakpoint-max($name, $breakpoints);
+
     @if $max {
         @media (max-width: $max) {
             @content;
         }
-    }
-    @else {
+    } @else {
         @content;
     }
 }
@@ -28,6 +28,7 @@
 @mixin media-breakpoint-between($min, $max, $breakpoints: $breakpoints) {
     $min: breakpoint-min($min, $breakpoints);
     $max: breakpoint-max($max, $breakpoints);
+
     @media (min-width: $min) and (max-width: $max) {
         @content;
     }
@@ -41,32 +42,43 @@
     }
 }
 
-@mixin color-schema($bg-color:#555, $percent:15%, $sat-percent:100%) {
+@mixin color-schema($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
     background-color: saturate(darken($bg-color, $percent), $sat-percent);
 }
 
-@mixin color-schema-lt($bg-color:#555, $percent:15%, $sat-percent:100%) {
+@mixin color-schema-lt($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
     background-color: desaturate(lighten($bg-color, $percent), $sat-percent);
 }
 
-@mixin color-variant($bg-color:#555, $lt-percent:10%, $lter-percent:15%, $dk-percent:10%, $dker-percent:15%) {
+@mixin color-variant(
+    $bg-color: #555,
+    $lt-percent: 10%,
+    $lter-percent: 15%,
+    $dk-percent: 10%,
+    $dker-percent: 15%
+) {
     background-color: $bg-color;
+
     &.lt,
     & .lt {
         @include color-schema-lt($bg-color, $lt-percent, 2.5%);
     }
+
     &.lter,
     & .lter {
         @include color-schema-lt($bg-color, $lter-percent, 5%);
     }
+
     &.dk,
     & .dk {
         @include color-schema($bg-color, $dk-percent, 2.5%);
     }
+
     &.dker,
     & .dker {
         @include color-schema($bg-color, $dker-percent, 5%);
     }
+
     &.bg,
     & .bg {
         background-color: $bg-color;
@@ -78,15 +90,19 @@
     $link-color: desaturate(lighten($bg-color, 50%), 10%);
     $hover-color: #fff;
     color: $font-color;
+
     & a {
         color: $link-color;
+
         &:hover {
             color: $hover-color;
         }
     }
 
     & .open > a {
-        &, &:hover, &:focus {
+        &,
+        &:hover,
+        &:focus {
             color: $hover-color;
         }
     }
@@ -99,11 +115,16 @@
         color: lighten($font-color, 25%) !important;
     }
 
-    &.auto, & .auto {
+    &.auto,
+    & .auto {
         & .list-group-item {
             border-color: darken($bg-color, 5%) !important;
             background-color: transparent;
-            &:hover, &:focus, &:active, &.active {
+
+            &:hover,
+            &:focus,
+            &:active,
+            &.active {
                 @include color-schema($bg-color, 5%, 2.5% !important);
             }
         }
@@ -114,28 +135,36 @@
     a.bg-#{$name}:hover {
         background-color: darken($bg-color, 5%);
     }
+
     a.text-#{$name}:hover {
         color: darken($bg-color, 5%);
     }
+
     .text-#{$name} {
         color: $bg-color;
     }
+
     .text-#{$name}-lt {
         color: darken($bg-color, 5%);
     }
+
     .text-#{$name}-lter {
         color: darken($bg-color, 10%);
     }
+
     .text-#{$name}-dk {
         color: darken($bg-color, 5%);
     }
+
     .text-#{$name}-dker {
         color: darken($bg-color, 10%);
     }
 }
 
 @mixin hover {
-    &:hover { @content; }
+    &:hover {
+        @content;
+    }
 }
 
 @mixin hover-focus {
@@ -152,11 +181,11 @@
 }
 
 @mixin button-size(
-    $padding-y, 
-    $padding-x, 
-    $font-size, 
-    $line-height, 
-    $border-radius, 
+    $padding-y,
+    $padding-x,
+    $font-size,
+    $line-height,
+    $border-radius,
     $height: auto,
     $iconWdith: px2rem(20px)
 ) {
@@ -165,7 +194,6 @@
     line-height: $line-height;
     border-radius: $border-radius;
     height: $height;
-
 
     .#{$ns}Button-icon:first-child:not(:last-child):not(.pull-right),
     > .pull-left {
@@ -182,10 +210,10 @@
     $background,
     $border: $background,
     $color: $white,
-    $hover-background: darken($background, 7.5%), 
-    $hover-border: darken($border, 10%), 
+    $hover-background: darken($background, 7.5%),
+    $hover-border: darken($border, 10%),
     $hover-color: $color,
-    $active-background: darken($background, 10%), 
+    $active-background: darken($background, 10%),
     $active-border: darken($border, 12.5%),
     $active-color: $color
 ) {
@@ -193,16 +221,15 @@
     background-color: $background;
     border-color: $border;
     box-shadow: $Button-boxShadow;
-    
+
     @include hover-focus {
         color: $hover-color;
         background-color: $hover-background;
         border-color: $hover-border;
     }
-    
+
     &.is-disabled,
     &:disabled {
-
         @if variable-exists(Button-onDisabled-bg) {
             background-color: $Button-onDisabled-bg;
         } @else {
@@ -220,10 +247,8 @@
         } @else {
             border-color: $border;
         }
-
-        
     }
-    
+
     &:not(:disabled):not(.is-disabled):active,
     &:not(:disabled):not(.is-disabled).is-active {
         color: $active-color;

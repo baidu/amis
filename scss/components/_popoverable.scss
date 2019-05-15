@@ -6,7 +6,7 @@
     cursor: pointer;
 
     &:hover {
-        color: $PopOverAble-onHover-iconColor
+        color: $PopOverAble-onHover-iconColor;
     }
 }
 
@@ -18,8 +18,6 @@
         visibility: visible;
     }
 }
-
-
 
 .#{$ns}PopOverAble-popover {
     min-width: px2rem(320px);
