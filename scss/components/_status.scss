@@ -8,43 +8,50 @@
 
     @keyframes animation-rolling_red {
         0% {
-            left: 0
+            left: 0;
         }
-    
+
         50% {
-            left: px2rem(13px)
+            left: px2rem(13px);
         }
-    
+
         100% {
-            left: 0
+            left: 0;
         }
     }
-    
+
     @keyframes animation-rolling_blue {
         0% {
-            left: $gap-sm + $gap-base
+            left: $gap-sm + $gap-base;
         }
-    
+
         50% {
-            left: px2rem(12px)
+            left: px2rem(12px);
         }
-    
+
         100% {
-            left: $gap-sm + $gap-base
+            left: $gap-sm + $gap-base;
         }
     }
+
     .#{$ns}Status-icon {
-        &--danger, &--primary, &--rolling, &--success, &--warning{
+        &--danger,
+        &--primary,
+        &--rolling,
+        &--success,
+        &--warning {
             &::before {
                 font-family: "iconfont";
                 content: "\e632";
                 font-style: normal;
             }
         }
+
         &--rolling {
             color: $warning;
             position: relative;
             left: $gap-md;
+
             &::before {
                 font-size: inherit;
                 color: $danger;
@@ -55,10 +62,11 @@
                 animation: animation-rolling_red 2s;
                 animation-iteration-count: infinite;
             }
+
             &::after {
                 font-family: "iconfont";
                 content: "\e632";
-                font-style:normal;
+                font-style: normal;
                 font-size: inherit;
                 color: $primary;
                 position: absolute;
@@ -69,27 +77,32 @@
                 animation-iteration-count: infinite;
             }
         }
+
         &--success {
             &::before {
                 color: $success;
             }
         }
+
         &--danger {
             &::before {
                 color: $danger;
             }
         }
+
         &--warning {
             &::before {
                 color: $warning;
             }
         }
+
         &--primary {
             &::before {
                 color: $primary;
             }
         }
     }
+
     .#{$ns}Status-icon--rolling + &-label {
         color: $warning;
         position: relative;
@@ -111,5 +124,4 @@
     .#{$ns}Status-icon--primary + &-label {
         color: $primary;
     }
-
 }

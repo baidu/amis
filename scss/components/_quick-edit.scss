@@ -6,7 +6,7 @@
     cursor: pointer;
 
     &:hover {
-        color: $QuickEdit-onHover-iconColor
+        color: $QuickEdit-onHover-iconColor;
     }
 }
 
@@ -16,8 +16,9 @@
 
     &:focus {
         position: relative;
+
         &:after {
-            content: '';
+            content: "";
             left: 0;
             top: 0;
             right: 0;
@@ -25,7 +26,8 @@
             position: absolute;
             pointer-events: none;
             z-index: 1;
-            border: $QuickEdit-onFocus-borderWidth dashed $QuickEdit-onFocus-borderColor;
+            border: $QuickEdit-onFocus-borderWidth dashed
+                $QuickEdit-onFocus-borderColor;
         }
     }
 
@@ -33,8 +35,6 @@
         visibility: visible;
     }
 }
-
-
 
 .#{$ns}QuickEdit-popover {
     min-width: px2rem(320px);

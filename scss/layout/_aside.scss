@@ -1,4 +1,3 @@
-
 .#{$ns}AsideNav {
     @include clearfix();
 
@@ -17,15 +16,12 @@
         margin: 0;
     }
 
-    
-
     &-itemArrow {
         float: right;
         display: block;
         width: px2rem(20px);
         text-align: center;
         line-height: px2rem(17px);
-        
 
         &::before {
             content: $Layout-asideLink-arrowIcon;
@@ -35,7 +31,7 @@
             color: $Layout-asideLink-arrowColor;
             font-size: $Layout-asideLink-arrowFontSize;
         }
-        
+
         .#{$ns}AsideNav-item.is-active > a > &::before {
             transform: rotate(90deg);
             color: $Layout-asideLink-onActive-arrowColor;
@@ -58,7 +54,10 @@
     }
 
     &-itemIcon {
-        margin: ($Layout-nav-height - $lineHeightBase * $Layout-asideLink-fontSize)/-2 px2rem(-10px);
+        margin: (
+                $Layout-nav-height - $lineHeightBase *
+                    $Layout-asideLink-fontSize
+            )/-2 px2rem(-10px);
         line-height: $Layout-nav-height;
         width: $Layout-nav-height;
         vertical-align: middle;
@@ -83,12 +82,12 @@
         height: 0;
         overflow: hidden;
         margin-left: px2rem(-20px);
-        transition: all .2s ease-in-out 0s;
+        transition: all 0.2s ease-in-out 0s;
         background-color: $Layout-aside-onAcitve-bg;
 
         .is-active > &,
-        .#{$ns}Layout--folded .#{$ns}AsideNav-item:hover > &, 
-        .#{$ns}Layout--folded .#{$ns}AsideNav-item:focus > &, 
+        .#{$ns}Layout--folded .#{$ns}AsideNav-item:hover > &,
+        .#{$ns}Layout--folded .#{$ns}AsideNav-item:focus > &,
         .#{$ns}Layout--folded .#{$ns}AsideNav-item:active > & {
             opacity: 1;
             margin-left: 0;
@@ -111,13 +110,15 @@
             text-transform: none;
             display: block;
             font-size: $Layout-asideLink-fontSize;
-            padding: ($Layout-nav-height - $lineHeightBase*$Layout-asideLink-fontSize)/2 px2rem(15px);
+            padding: (
+                    $Layout-nav-height - $lineHeightBase *
+                        $Layout-asideLink-fontSize
+                )/2 px2rem(15px);
             position: relative;
-            transition: background-color .2s ease-in-out 0s;
+            transition: background-color 0.2s ease-in-out 0s;
             color: $Layout-asideLink-color;
             text-decoration: none;
             user-select: none;
-            
 
             &:hover {
                 color: $Layout-asideLink-onHover-color;
@@ -145,7 +146,7 @@
             a {
                 padding-left: $Layout-nav-height + px2rem(5px);
             }
-    
+
             .#{$ns}AsideNav-item a {
                 padding-left: $Layout-nav-height + px2rem(35px);
             }
@@ -162,7 +163,6 @@
                 display: block;
             }
         }
-
     }
 
     &-subHeader {
@@ -172,7 +172,10 @@
             cursor: default;
             background: transparent;
             color: darken($Layout-aside-color, 10%);
-            padding: ($Layout-nav--folded-height - $lineHeightBase * $Layout-asideLink-fontSize)/2 px2rem(20px);
+            padding: (
+                    $Layout-nav--folded-height - $lineHeightBase *
+                        $Layout-asideLink-fontSize
+                )/2 px2rem(20px);
 
             &:hover {
                 color: darken($Layout-aside-color, 10%);

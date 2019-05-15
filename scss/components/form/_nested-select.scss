@@ -7,7 +7,10 @@
     background: $Form-select-bg;
     border-radius: $Form-select-borderRadius;
     height: $Form-selectOption-height;
-    $paddingY: ($Form-selectOption-height - $Form-input-lineHeight * $Form-input-fontSize - $Form-select-borderWidth*2)/2;
+    $paddingY: (
+            $Form-selectOption-height - $Form-input-lineHeight *
+                $Form-input-fontSize - $Form-select-borderWidth * 2
+        )/2;
     padding: $paddingY 0 $paddingY $Form-select-paddingX;
     cursor: pointer;
     color: $Form-select-color;
@@ -74,7 +77,7 @@
         line-height: $Form-input-height;
         cursor: pointer;
         float: right;
-        text-align: center
+        text-align: center;
     }
 
     &-menuOuter,
@@ -83,7 +86,8 @@
         position: absolute;
         background: $Form-select-menu-bg;
         color: $Form-select-menu-color;
-        border: $Form-select-outer-borderWidth solid $Form-input-onFocused-borderColor;
+        border: $Form-select-outer-borderWidth solid
+            $Form-input-onFocused-borderColor;
         z-index: 10;
         box-shadow: $Form-select-outer-boxShadow;
 
@@ -103,7 +107,7 @@
                 background-color: $Form-select-menu-onHover-bg;
             }
 
-            &:hover>.#{$ns}NestedSelect-childrenOuter {
+            &:hover > .#{$ns}NestedSelect-childrenOuter {
                 display: block;
             }
 
@@ -115,9 +119,7 @@
             &.checkall {
                 border-bottom: px2rem(1px) solid #eceff8;
             }
-
         }
-
     }
 
     &-childrenOuter {
@@ -131,7 +133,7 @@
     }
 
     &-optionArrowRight:before {
-        content: '\e63b';
+        content: "\e63b";
         font-family: "iconfont" !important;
     }
 }

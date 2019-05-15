@@ -20,6 +20,7 @@
         overflow: hidden;
         display: block;
         touch-action: none;
+
         &-active {
             background: #ddd;
         }
@@ -33,6 +34,7 @@
 
     &:hover {
         border-color: $Form-input-onFocused-borderColor;
+
         .#{$ns}Number-handler-up,
         .#{$ns}Number-handler-wrap {
             border-color: $Form-input-onFocused-borderColor;
@@ -41,6 +43,7 @@
 
     &-disabled:hover {
         border-color: $Form-input-borderColor;
+
         .#{$ns}Number-handler-up,
         .#{$ns}Number-handler-wrap {
             border-color: $Form-input-borderColor;
@@ -54,7 +57,7 @@
 
     &-input {
         width: 100%;
-        background-color: transparent; 
+        background-color: transparent;
         text-align: left;
         vertical-align: top;
         outline: 0;
@@ -98,7 +101,7 @@
         }
     }
 
-    @if $Number-handler-mode == vertical {
+    @if $Number-handler-mode==vertical {
         &-handler-wrap {
             float: right;
             border-left: px2rem(1px) solid $Form-input-borderColor;
@@ -110,14 +113,14 @@
             line-height: ($Form-input-height - px2rem(6px)) / 2;
             height: ($Form-input-height - $Number-borderWidth * 2) / 2;
         }
-    
+
         &-handler-up {
             border-bottom: px2rem(1px) solid $Form-input-borderColor;
             padding-top: px2rem(1px);
         }
     } @else {
         position: relative;
-        
+
         &-input {
             text-align: center;
         }
@@ -139,8 +142,6 @@
         }
     }
 
-    
-
     &-handler-down-disabled,
     &-handler-up-disabled {
         background-color: $Number-handler-onDisabled-bg;
@@ -154,8 +155,10 @@
             cursor: not-allowed;
             background-color: $gray200;
         }
+
         .#{$ns}Number-handler {
             opacity: 0.72;
+
             &:hover {
                 color: $text--muted-color;
                 border-color: $Form-input-borderColor;

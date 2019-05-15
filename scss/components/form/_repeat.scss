@@ -13,30 +13,29 @@
         margin-top: 0;
     }
 
-//   .InputRange-label--value {
-//     top: -25px;
+    //   .InputRange-label--value {
+    //     top: -25px;
 
-//     .InputRange-labelContainer {
-//       font-size: 14px;
-//     }
-//   }
+    //     .InputRange-labelContainer {
+    //       font-size: 14px;
+    //     }
+    //   }
 
-//   .InputRange-slider {
-//     z-index: 2;
-//   }
+    //   .InputRange-slider {
+    //     z-index: 2;
+    //   }
 
-//   .InputRange-track--active, .InputRange-slider {
-//     background-color: #23b7e5;
-//     border-color: #23b7e5;
-//   }
+    //   .InputRange-track--active, .InputRange-slider {
+    //     background-color: #23b7e5;
+    //     border-color: #23b7e5;
+    //   }
 }
 
 @media (min-width: 768px) {
-
     .repeat-control.form-contorl-inline,
     .form-group-inline .repeat-control {
-      display: inline-block;
-      min-width: 280px;
-      width: auto;
+        display: inline-block;
+        min-width: 280px;
+        width: auto;
     }
 }
