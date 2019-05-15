@@ -1,4 +1,3 @@
-
 .#{$ns}Select {
     display: inline-flex;
     vertical-align: middle;
@@ -8,7 +7,10 @@
     background: $Form-select-bg;
     border-radius: $Form-select-borderRadius;
     height: $Form-selectOption-height;
-    $paddingY: ($Form-selectOption-height - $Form-input-lineHeight * $Form-input-fontSize - $Form-select-borderWidth*2)/2;
+    $paddingY: (
+            $Form-selectOption-height - $Form-input-lineHeight *
+                $Form-input-fontSize - $Form-select-borderWidth * 2
+        )/2;
     padding: $paddingY 0 $paddingY $Form-select-paddingX;
     cursor: pointer;
     color: $Form-select-color;
@@ -82,7 +84,8 @@
         .#{$ns}Select-value {
             position: static;
             user-select: none;
-            line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+            line-height: $Form-input-lineHeight * $Form-input-fontSize -
+                px2rem(2px);
             display: inline-block;
             vertical-align: middle;
             font-size: $Form-selectValue-fontSize;
@@ -98,8 +101,6 @@
             padding: 0 $gap-xs;
         }
     }
-
-    
 
     &-valueIcon {
         cursor: pointer;
@@ -121,7 +122,7 @@
         line-height: 1;
 
         &:before {
-            transition: transform .3s;
+            transition: transform 0.3s;
             content: $Form-select-caret-icon;
             font-family: $Form-select-caret-vender;
             font-size: $Form-select-caret-fontSize;
@@ -138,7 +139,8 @@
         position: absolute;
         background: $Form-select-menu-bg;
         color: $Form-select-menu-color;
-        border: $Form-select-outer-borderWidth solid $Form-input-onFocused-borderColor;
+        border: $Form-select-outer-borderWidth solid
+            $Form-input-onFocused-borderColor;
         left: px2rem(-1px);
         right: px2rem(-1px);
         min-width: 100%;
@@ -153,8 +155,11 @@
     }
 
     &-option {
-        padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px))/2 $Form-select-paddingX;
-        
+        padding: (
+                $Form-select-menu-height - $Form-input-lineHeight *
+                    $Form-input-fontSize - px2rem(2px)
+            )/2 $Form-select-paddingX;
+
         &.is-active {
             color: $Form-select-menu-onActive-color;
             background-color: $Form-select-menu-onActive-bg;
@@ -164,7 +169,7 @@
             color: $Form-select-menu-onHover-color;
             background-color: $Form-select-menu-onHover-bg;
         }
-        
+
         &.is-disabled {
             color: $Form-select-menu-onDisabled-color;
             background-color: $Form-select-menu-onDisabled-bg;
@@ -182,8 +187,8 @@
     &.is-focused,
     &.is-opened {
         border-color: $Form-input-onFocused-borderColor;
-    
-        @if ($Form-select-onFocused-color != $Form-select-color) {
+
+        @if ($Form-select-onFocused-color !=$Form-select-color) {
             color: $Form-select-onFocused-color;
         }
     }
@@ -217,7 +222,8 @@
     margin-top: -$Form-select-borderWidth;
     background: $Form-select-menu-bg;
     color: $Form-select-menu-color;
-    border: $Form-select-outer-borderWidth solid $Form-input-onFocused-borderColor;
+    border: $Form-select-outer-borderWidth solid
+        $Form-input-onFocused-borderColor;
     box-shadow: $Form-select-outer-boxShadow;
     border-top-left-radius: 0;
     border-top-right-radius: 0;

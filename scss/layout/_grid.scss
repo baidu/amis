@@ -38,7 +38,6 @@
 //     }
 // }
 
-
 // @mixin calc-grid-column($index, $class, $type) {
 //     @if ($type==width) and ($index > 0) {
 //         .#{$ns}Grid-col--#{$class}#{$index} {
@@ -141,8 +140,6 @@
 //     @include container-fixed;
 // }
 
-
-
 // @include make-grid-columns;
 
 @include make-grid(xs);
@@ -151,7 +148,7 @@
     .#{$ns}Grid {
         @include make-row;
     }
-    
+
     @include make-grid(sm);
 }
 

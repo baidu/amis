@@ -11,7 +11,7 @@
         border-color: $Form-input-onFocused-borderColor;
         box-shadow: $Form-input-boxShadow;
 
-        @if $Form-input-onFocused-bg != $Form-input-bg {
+        @if $Form-input-onFocused-bg !=$Form-input-bg {
             background-color: $Form-input-onFocused-bg;
         }
     }
@@ -64,7 +64,8 @@
             user-select: none;
             white-space: nowrap;
             vertical-align: middle;
-            line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+            line-height: $Form-input-lineHeight * $Form-input-fontSize -
+                px2rem(2px);
             display: inline-block;
             font-size: $Form-selectValue-fontSize;
             color: $Form-selectValue-color;
@@ -73,23 +74,23 @@
             border-radius: 2px;
             margin-right: $gap-xs;
             margin-bottom: $gap-xs;
-    
+
             &.is-disabled {
                 pointer-events: none;
                 opacity: $Button-onDisabled-opacity;
             }
         }
-    
+
         .#{$ns}TreeSelect-valueIcon {
             cursor: pointer;
             border-right: px2rem(1px) solid $Form-selectValue-borderColor;
             padding: 1px 5px;
-    
+
             &:hover {
                 background-color: darken($Form-selectValue-bg, 5%);
             }
         }
-    
+
         .#{$ns}TreeSelect-valueLabel {
             padding: 0 $gap-xs;
         }
@@ -104,7 +105,7 @@
         justify-content: center;
 
         &:before {
-            content: '';
+            content: "";
             border-color: $Form-input-iconColor transparent transparent;
             border-style: solid;
             border-width: px2rem(5px) px2rem(5px) px2rem(2.5px);

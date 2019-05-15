@@ -1,9 +1,10 @@
 @keyframes rotate {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     100% {
-      transform: rotate(359deg);
+        transform: rotate(359deg);
     }
 }
 
@@ -44,13 +45,12 @@
     }
 }
 
-
 @include media-breakpoint-up(md) {
-    .#{$ns}Layout .#{$ns}Page-body>.#{$ns}Spinner-overlay {
+    .#{$ns}Layout .#{$ns}Page-body > .#{$ns}Spinner-overlay {
         left: $Layout-aside-width;
     }
 
-    .#{$ns}Layout--folded .#{$ns}Page-body>.#{$ns}Spinner-overlay {
+    .#{$ns}Layout--folded .#{$ns}Page-body > .#{$ns}Spinner-overlay {
         left: $Layout-aside--folded-width;
     }
 }

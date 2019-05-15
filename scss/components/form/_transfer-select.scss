@@ -1,6 +1,7 @@
 .#{$ns}TransferSelectControl {
     display: flex;
     height: px2rem(300px);
+
     .#{$ns}TransferSelect {
         &-allOptions,
         &-selectedOptions {
@@ -8,6 +9,7 @@
             flex: 1;
             border: $borderWidth solid $borderColor;
             overflow: auto;
+
             .#{$ns}TransferSelect-heading {
                 position: relative;
                 height: px2rem(40px);
@@ -15,16 +17,19 @@
                 padding-left: px2rem(20px);
                 border-bottom: $TransferSelect-heading-borderBottom;
             }
+
             .#{$ns}TransferSelect-body {
                 table tbody tr td,
                 ul li {
                     position: relative;
                 }
+
                 ul {
                     margin: 0;
                     padding: 0;
                     padding-top: px2rem(10px);
                 }
+
                 li {
                     height: px2rem(30px);
                     line-height: px2rem(30px);
@@ -32,6 +37,7 @@
                     padding-left: px2rem(20px);
                 }
             }
+
             .#{$ns}TransferSelect-selectAll,
             .#{$ns}TransferSelect-clearAll {
                 position: absolute;
@@ -39,6 +45,7 @@
                 cursor: pointer;
                 color: $primary;
             }
+
             .#{$ns}TransferSelect-searchWrapper {
                 i {
                     height: px2rem(17px);
@@ -46,12 +53,14 @@
                 }
             }
         }
+
         &-allOptions {
             &--table {
                 .#{$ns}TransferSelect-heading {
                     background-color: $TransferSelect--table-heading-bg;
                     display: flex;
                 }
+
                 .#{$ns}TransferSelect-searchWrapper {
                     display: inline-block;
                     padding: px2rem(3px) px2rem(10px);
@@ -59,27 +68,32 @@
                     margin-left: px2rem(30px);
                 }
             }
+
             &--normal {
                 .#{$ns}TransferSelect-heading {
                     background-color: $TransferSelect--normal-heading-bg;
                 }
+
                 .#{$ns}TransferSelect-searchWrapper {
                     padding: px2rem(10px) px2rem(20px);
                 }
             }
         }
+
         &-selectedOptions {
             &--table {
                 .#{$ns}TransferSelect-heading {
                     background-color: $TransferSelect--table-heading-bg;
                 }
             }
+
             &--normal {
                 .#{$ns}TransferSelect-heading {
                     background-color: $TransferSelect--normal-heading-bg;
                 }
             }
         }
+
         &-option-close {
             width: px2rem(12px);
             height: px2rem(12px);
@@ -87,8 +101,10 @@
             right: px2rem(20px);
             cursor: pointer;
         }
+
         &-action {
             padding: 0 px2rem(20px);
+
             .#{$ns}TransferSelect-actionIcon {
                 display: inline-block;
                 width: 0;

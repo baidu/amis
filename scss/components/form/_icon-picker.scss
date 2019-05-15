@@ -60,6 +60,7 @@
         line-height: $IconPicker-tab-lineHeight;
         cursor: pointer;
         text-align: center;
+
         &.active {
             background: $IconPicker-tab-onActive-bg;
         }

@@ -1,4 +1,3 @@
-
 .#{$ns}TagControl {
     @include input-text();
 
@@ -82,9 +81,16 @@
             cursor: pointer;
             user-select: none;
             border: $TagControl-sugBtn-borderWidth solid transparent;
-        
-            @include button-size($TagControl-sugBtn-paddingY, $TagControl-sugBtn-paddingX, $TagControl-sugBtn-fontSize, $TagControl-sugBtn-lineHeight, $TagControl-sugBtn-borderRadius, $TagControl-sugBtn-height);
-            
+
+            @include button-size(
+                $TagControl-sugBtn-paddingY,
+                $TagControl-sugBtn-paddingX,
+                $TagControl-sugBtn-fontSize,
+                $TagControl-sugBtn-lineHeight,
+                $TagControl-sugBtn-borderRadius,
+                $TagControl-sugBtn-height
+            );
+
             @include button-variant(
                 $TagControl-sugBtn-bg,
                 $TagControl-sugBtn-border,

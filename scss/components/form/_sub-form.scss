@@ -1,9 +1,11 @@
 .#{$ns}SubForm {
-
     &-values {
         display: inline-block;
         margin-top: -$gap-xs;
-        padding: ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px))/2 0;
+        padding: (
+                $Form-input-height - $Form-input-lineHeight *
+                    $Form-input-fontSize - px2rem(2px)
+            )/2 0;
     }
 
     &-value {
@@ -45,9 +47,16 @@
 
     &-addBtn {
         font-size: $SubForm--addBtn-fontSize;
-        
-        @include button-size($SubForm--addBtn-paddingY, $SubForm--addBtn-paddingX, $SubForm--addBtn-fontSize, $SubForm--addBtn-lineHeight, $SubForm--addBtn-borderRadius, $SubForm--addBtn-height);
-        
+
+        @include button-size(
+            $SubForm--addBtn-paddingY,
+            $SubForm--addBtn-paddingX,
+            $SubForm--addBtn-fontSize,
+            $SubForm--addBtn-lineHeight,
+            $SubForm--addBtn-borderRadius,
+            $SubForm--addBtn-height
+        );
+
         @include button-variant(
             $SubForm--addBtn-bg,
             $SubForm--addBtn-border,
