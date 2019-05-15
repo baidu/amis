@@ -229,6 +229,27 @@ if (fis.project.currentMedia() === 'publish') {
 } else if (fis.project.currentMedia() === 'gh-pages') {
     const ghPages = fis.media('gh-pages');
 
+    ghPages.match('/docs/**.md', {
+        rExt: 'js',
+        parser: [parserMarkdown, function(contents, file) {
+            return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function(_, quota, link) {
+                if (/\.md($|#)/.test(link)) {
+                    let parts = link.split('#');
+                    parts[0] = parts[0].replace('.md', '');
+    
+                    if (parts[0][0] !== '/') {
+                        parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
+                    }
+    
+                    return 'href=\\' + quota + '#' + parts.join('#') + '\\' + quota;
+                }
+    
+                return _;
+            });
+        }],
+        isMod: true
+    });
+
     ghPages.match('/node_modules/(**)', {
         release: '/n/$1'
     });
