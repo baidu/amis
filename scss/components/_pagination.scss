@@ -3,10 +3,12 @@
     padding-left: 0;
     margin-bottom: px2rem(-10px);
     border-radius: px2rem(4px);
-    >li {
+
+    > li {
         display: inline;
-        >a,
-        >span {
+
+        > a,
+        > span {
             user-select: none;
             position: relative;
             float: left;
@@ -22,68 +24,80 @@
             margin-left: 0;
             font-size: $Pagination-fontSize;
         }
-        >a:hover,
-        >span:hover,
-        >a:focus,
-        >span:focus {
+
+        > a:hover,
+        > span:hover,
+        > a:focus,
+        > span:focus {
             background-color: transparent;
             color: $primary;
         }
     }
-    >li.disabled {
-        >span,
-        >a {
+
+    > li.disabled {
+        > span,
+        > a {
             cursor: not-allowed;
         }
-        >a,
-        >span,
-        >a:hover,
-        >span:hover,
-        >a:focus,
-        >span:focus {
+
+        > a,
+        > span,
+        > a:hover,
+        > span:hover,
+        > a:focus,
+        > span:focus {
             color: #cccccc;
         }
     }
-    >li.active {
-        >a,
-        >span,
-        >a:hover,
-        >span:hover,
-        >a:focus,
-        >span:focus {
+
+    > li.active {
+        > a,
+        > span,
+        > a:hover,
+        > span:hover,
+        > a:focus,
+        > span:focus {
             background-color: $primary;
             color: $white;
         }
     }
+
     &-prev,
     &-next {
         font-family: $Pagination-arrowVendor;
     }
+
     &-prev {
-        >span {
+        > span {
             cursor: pointer;
+
             &::before {
                 content: $Pagination-prevArrowContent;
             }
         }
     }
+
     &-ellipsis {
-        >a>span {
+        > a > span {
             position: relative;
             top: px2rem(-4px);
         }
     }
+
     &-next {
-        >span {
+        > span {
             cursor: pointer;
+
             &::before {
                 content: $Pagination-nextArrowContent;
             }
         }
     }
+
     &-inputGroup {
         display: inline-flex;
         flex-wrap: nowrap;
+
         .#{$ns}Pagination-input {
             width: px2rem(50px);
             height: $Pagination-height;
@@ -91,11 +105,13 @@
             border-top-left-radius: $borderRadius;
             border-bottom-left-radius: $borderRadius;
             padding: px2rem(5px) px2rem(10px);
+
             &:focus {
                 outline: none;
                 border: $borderWidth solid $primary;
             }
         }
+
         .#{$ns}Button {
             height: $Pagination-height;
             margin-left: px2rem(-1px);

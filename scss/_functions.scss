@@ -1,7 +1,15 @@
 //下一个断点
-@function breakpoint-next( $name, $breakpoints: breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+@function breakpoint-next(
+    $name,
+    $breakpoints: breakpoints,
+    $breakpoint-names: map-keys($breakpoints)
+) {
     $n: index($breakpoint-names, $name);
-    @return if($n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
+    @return if(
+        $n < length($breakpoint-names),
+        nth($breakpoint-names, $n + 1),
+        null
+    );
 }
 
 //断点最小值
@@ -18,15 +26,17 @@
 
 //生成类名“-sm、-md、-lg、-cl” -xs?
 @function breakpoint-infix($name, $breakpoints: $breakpoints) {
-    @return if(breakpoint-min($name, $breakpoints)==null, "", "-#{$name}");
+    @return if(breakpoint-min($name, $breakpoints) ==null, "", "-#{$name}");
 }
 
 @function px2rem($pixels, $context: $remFactor) {
     @if (unitless($pixels)) {
         $pixels: $pixels * 1px;
     }
+
     @if (unitless($context)) {
         $context: $context * 1px;
     }
+
     @return $pixels / $context * 1rem;
 }

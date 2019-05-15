@@ -14,7 +14,7 @@
 
     &-actions {
         display: inline-block;
-        
+
         > * {
             margin-right: $Crud-toolbar-gap;
         }
@@ -84,7 +84,7 @@
 
 .#{$ns}ListItem {
     @include clearfix();
-    
+
     & + & {
         border-top: $ListItem-borderWidth solid $ListItem-borderColor;
     }

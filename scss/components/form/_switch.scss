@@ -1,4 +1,3 @@
-
 .#{$ns}Switch {
     cursor: pointer;
     position: relative;
@@ -11,11 +10,10 @@
     margin: 0;
     vertical-align: middle;
     text-align: left;
-        
+
     &.is-disabled {
         background-color: $Switch-onDisabled-bgColor;
     }
-    
 
     i {
         &:before {
@@ -37,6 +35,7 @@
             border-radius: px2rem(30px);
             transition: all 0.2s;
         }
+
         &:after {
             content: "";
             position: absolute;
@@ -59,7 +58,7 @@
             & + i {
                 &:before {
                     color: $Switch-onDisabled-color;
-                    background-color: $Switch-onDisabled-bgColor
+                    background-color: $Switch-onDisabled-bgColor;
                 }
 
                 &:after {
@@ -74,9 +73,10 @@
                     left: 100%;
                     border-width: 0;
                 }
+
                 &:after {
                     margin-left: $Switch-width - $Switch-height;
-                    
+
                     content: "On";
                     color: $white;
                     text-indent: px2rem(-20px); // todo

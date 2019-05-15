@@ -1,12 +1,11 @@
 .#{$ns}Page {
-
     &-header {
         padding: $Page-header-paddingY $Page-header-paddingX;
     }
 
     &-main {
         background: $Page-main-bg;
-    };
+    }
 
     &-content {
         padding: $Page-content-paddingY $Page-content-paddingX;
@@ -24,18 +23,18 @@
         width: 100%;
         border-spacing: 0;
 
-        .#{$ns}Page-header, 
+        .#{$ns}Page-header,
         .#{$ns}Page-toolbar {
             display: table-cell;
             vertical-align: middle;
         }
-        
+
         .#{$ns}Page-toolbar {
             text-align: right;
             padding-right: $gap-base;
         }
     }
-    
+
     &-title {
         margin: 0;
         padding: 0;
@@ -51,7 +50,6 @@
     &-asideTplWrapper {
         padding: $gap-xs;
     }
-    
 }
 
 .#{$ns}Page-aside {
@@ -78,7 +76,7 @@
     height: 100%;
     border-spacing: 0;
 
-    .#{$ns}Page-aside, 
+    .#{$ns}Page-aside,
     .#{$ns}Page-content {
         display: table-cell;
         vertical-align: top;

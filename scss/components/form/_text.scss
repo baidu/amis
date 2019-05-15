@@ -18,6 +18,7 @@
 
 @mixin input-text {
     position: relative;
+
     &.is-inline {
         display: inline-block;
     }
@@ -60,7 +61,7 @@
         border-color: $Form-input-onFocused-borderColor;
         box-shadow: $Form-input-boxShadow;
 
-        @if $Form-input-onFocused-bg != $Form-input-bg {
+        @if $Form-input-onFocused-bg !=$Form-input-bg {
             background-color: $Form-input-onFocused-bg;
         }
     }
@@ -141,16 +142,16 @@
         border-radius: 0;
 
         &:first-child {
-            border-top-left-radius: $Form-input-borderRadius; 
+            border-top-left-radius: $Form-input-borderRadius;
             border-bottom-left-radius: $Form-input-borderRadius;
         }
 
         &:last-child {
-            border-top-right-radius: $Form-input-borderRadius; 
+            border-top-right-radius: $Form-input-borderRadius;
             border-bottom-right-radius: $Form-input-borderRadius;
         }
 
-        @if $Form-input-addOnDividerBorderWidth == 0 {
+        @if $Form-input-addOnDividerBorderWidth==0 {
             &:not(:last-child) {
                 border-right-width: 0;
             }
@@ -175,38 +176,39 @@
 
         &:last-child {
             border-right-width: px2rem(1px);
-            border-top-right-radius: $Form-input-borderRadius; 
+            border-top-right-radius: $Form-input-borderRadius;
             border-bottom-right-radius: $Form-input-borderRadius;
         }
     }
 
-    
     &--withAddOn > &-button {
         > .#{$ns}Button {
             position: relative;
             border-radius: 0;
             margin-left: px2rem(-1px);
-            border: $InputGroup-button-borderWidth solid $InputGroup-button-borderColor;
+            border: $InputGroup-button-borderWidth solid
+                $InputGroup-button-borderColor;
         }
 
         &:not(:last-child) .#{$ns}Button {
             border-right: 0;
         }
 
-        &:first-child .#{$ns}Button  {
+        &:first-child .#{$ns}Button {
             @if $InputGroup-button-borderRadius {
                 border-top-left-radius: $InputGroup-button-borderRadius;
                 border-bottom-left-radius: $InputGroup-button-borderRadius;
             }
         }
 
-        &:last-child .#{$ns}Button  {
+        &:last-child .#{$ns}Button {
             @if $InputGroup-button-borderRadius {
                 border-top-right-radius: $InputGroup-button-borderRadius;
                 border-bottom-right-radius: $InputGroup-button-borderRadius;
             }
         }
     }
+
     &--withAddOn.is-focused > &-button .#{$ns}Button {
         border-color: $Form-input-onFocused-borderColor;
     }
@@ -246,7 +248,10 @@
     }
 
     &-sugItem {
-        padding: ($Form-selectOption-height - $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px))/2 px2rem(12px);
+        padding: (
+                $Form-selectOption-height - $Form-input-lineHeight *
+                    $Form-input-fontSize - px2rem(2px)
+            )/2 px2rem(12px);
 
         svg {
             width: px2rem(16px);
@@ -254,7 +259,7 @@
             float: right;
             fill: darken($color: $Form-input-iconColor, $amount: 20%);
         }
-        
+
         &:not(.is-disabled) {
             cursor: pointer;
         }
@@ -281,6 +286,7 @@
         white-space: normal;
 
         margin-bottom: -$gap-xs;
+
         > input {
             margin-bottom: $gap-xs;
         }

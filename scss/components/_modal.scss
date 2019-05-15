@@ -66,7 +66,7 @@
         background-color: $Modal-header-bg;
         @include clearfix();
         border-bottom: $Modal-body-borderTop;
-        
+
         @if $Modal-content-borderRadius {
             border-top-left-radius: $Modal-content-borderRadius;
             border-top-right-radius: $Modal-content-borderRadius;
@@ -84,6 +84,7 @@
         line-height: inherit;
         text-decoration: none;
         vertical-align: middle;
+
         svg {
             width: $Modal-close-width;
             height: $Modal-close-width;
@@ -96,6 +97,7 @@
             &:hover {
                 text-decoration: none;
                 color: $Model-close-onHover-color;
+
                 svg {
                     fill: $Model-close-onHover-color;
                 }
@@ -111,7 +113,8 @@
     }
 
     &-body {
-        padding: $Modal-body--noHeader-paddingTop $Modal-body-paddingX $Modal-body-paddingY;
+        padding: $Modal-body--noHeader-paddingTop $Modal-body-paddingX
+            $Modal-body-paddingY;
         flex-basis: 0;
         flex-grow: 1;
     }
@@ -140,10 +143,12 @@
     }
 }
 
-@for $i from (2) through 10  {
+@for $i from (2) through 10 {
     .#{$ns}Modal--#{$i}th {
         .#{$ns}Modal-content {
-            margin-top: $Modal-content-startMarginTop + ($i - 1) * $Modal-content-stepMarginTop;
+            margin-top: $Modal-content-startMarginTop +
+                ($i - 1) *
+                $Modal-content-stepMarginTop;
         }
     }
 }
