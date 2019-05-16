@@ -13,7 +13,8 @@ export default {
             {
                 name: "carousel",
                 label: "轮播图",
-                type: "carousel"
+                type: "carousel",
+                width: "300"
             },
             {
                 name: "text",

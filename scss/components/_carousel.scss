@@ -1,24 +1,34 @@
 @mixin arrow-control {
-    width: 20px;
-    height: 20px;
+    width: 10%;
+    min-width: $Carousel-arrowControl-width;
+    height: 100%;
     cursor: pointer;
     position: absolute;
-    bottom: 50%;
-    font: 16px/30px sans-serif;
-    color: rgba(255, 255, 255, 0.8);
-    transition-duration: 300ms;
+    transition-duration: $Carousel-transitionDuration;
+}
+
+@mixin svg-props {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    width: $Carousel-svg-width;
+    height: $Carousel-svg-height;
 }
 
 @mixin svg-theme {
     &.light {
         svg {
-            fill: white;
+            @include svg-props;
+            fill: $Carousel-lightTheme;
         }
     }
 
     &.dark {
         svg {
-            fill: black;
+            @include svg-props;
+            fill: $Carousel-darkTheme;
         }
     }
 }
@@ -26,21 +36,19 @@
 .#{$ns}Carousel {
     position: relative;
     display: block;
+    background: $Carousel-bg;
 
     &-container {
-        min-width: 100px;
-        height: 200px;
+        min-width: $Carousel-minWidth;
+        height: $Carousel-height;
         position: relative;
         overflow: hidden;
 
         .#{$ns}Carousel-item {
-            top:0;
-            left: 0;
             width: 100%;
             height: 100%;
             position: absolute;
-            background: lightblue;
-            transition: ease-out all 0.5s;
+            transition: ease-out all $Carousel-transitionDuration;
 
             &.fade {
                 opacity: 0;
@@ -50,18 +58,16 @@
                 opacity: 1;
             }
 
-            &.slideLeft {
+            &.slide {
                 transform: translateX(100%);
             }
 
-            &.slideLeft.in {
+            &.slide.in {
                 transform: translateX(0);
-                z-index: 1;
             }
 
-            &.slideLeft.out {
+            &.slide.out {
                 transform: translateX(-100%);
-                z-index: -1;
             }
 
             &.slideRight {
@@ -70,12 +76,10 @@
 
             &.slideRight.in {
                 transform: translateX(0);
-                z-index: 1;
             }
 
             &.slideRight.out {
                 transform: translateX(100%);
-                z-index: -1;
             }
 
             > span > img {
@@ -85,28 +89,27 @@
         }
     }
 
-    &-control-dots {
+    &-dotsControl {
         position: absolute;
+        bottom: 0px;
         width: 100%;
         z-index: 100;
-        bottom: 0px;
         text-align: center;
 
         .#{$ns}Carousel-dot {
             display: inline-block;
-            height: 8px;
-            width: 8px;
-            border-radius: 4px;
-            
-            margin: 7px 5px;
-            transition-duration: 300ms;
+            height: $Carousel-dot-width;
+            width: $Carousel-dot-height;
+            border-radius: $Carousel-dot-borderRadius;
+            margin: $Carousel-dot-margin;
+            transition-duration: $Carousel-transitionDuration;
 
             &.light {
-                background-color: white;
+                background-color: $Carousel-lightTheme;
             }
 
             &.dark {
-                background-color: black;
+                background-color: $Carousel-darkTheme;
             }
 
             &.is-default {
@@ -119,7 +122,7 @@
         }
     }
 
-    &-control-arrows {
+    &-arrowsControl {
         position: absolute;
         width: 100%;
         height: inherit;
@@ -129,13 +132,13 @@
         .#{$ns}Carousel-leftArrow {
             @include arrow-control;
             @include svg-theme;
-            left: 10px;
+            left: 0;
         }
 
         .#{$ns}Carousel-rightArrow {
             @include arrow-control;
             @include svg-theme;
-            right: 10px;
+            right: 0;
         }
     }
 }

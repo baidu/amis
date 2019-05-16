@@ -1,17 +1,17 @@
 import * as React from 'react';
-import Transition, {ENTERED, ENTERING, EXITED, EXITING} from 'react-transition-group/Transition';
+import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition';
 import {Renderer, RendererProps} from '../factory';
 import {autobind} from '../utils/helper';
-import {dotIcon, leftArrowIcon, rightArrowIcon} from '../components/icons';
+import {leftArrowIcon, rightArrowIcon} from '../components/icons';
 
 const animationStyles: {
     [propName: string]: string;
 } = {
     [ENTERING]: 'in',
     [ENTERED]: 'in',
-    [EXITING]: 'out',
-    // [EXITED]: 'out'
+    [EXITING]: 'out'
 };
+
 export interface CarouselProps extends RendererProps {
     className?: string;
     auto?: boolean;
@@ -22,15 +22,15 @@ export interface CarouselProps extends RendererProps {
     controls: string[];
     interval: number;
     duration: number;
-    controlTheme: 'light' | 'dark';
-    animation: 'fade' | 'slideLeft' | 'slideRight';
+    controlsTheme: 'light' | 'dark';
+    animation: 'fade' | 'slide';
 }
 
 export interface CarouselState {
     current: number;
     options: any[];
     showArrows: boolean;
-    nextAnimation?: 'slideLeft' | 'slideRight' | '';
+    nextAnimation: string;
 }
 
 export class Carousel extends React.Component<CarouselProps, CarouselState> {
@@ -40,12 +40,12 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
     static defaultProps: Pick<
         CarouselProps,
-        'auto' | 'interval' | 'duration' | 'controlTheme' | 'animation' | 'controls' | 'placeholder'
+        'auto' | 'interval' | 'duration' | 'controlsTheme' | 'animation' | 'controls' | 'placeholder'
     > = {
         auto: true,
-        interval: 2000,
+        interval: 5000,
         duration: 500,
-        controlTheme: 'light',
+        controlsTheme: 'light',
         animation: 'fade',
         controls: ['dots', 'arrows'],
         placeholder: ''
@@ -86,13 +86,10 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
         switch (rel) {
             case 'prev':
-                animation.includes('slide') ? nextAnimation = 'slideLeft' : nextAnimation = '';
+                animation === 'slide' ? nextAnimation = 'slideRight' : nextAnimation = '';
                 this.transitFramesTowards('right', nextAnimation);
                 break;
             case 'next':
-                animation.includes('slide') ? nextAnimation = 'slideRight' : nextAnimation = '';
-                this.transitFramesTowards('left', nextAnimation);
-                break;
             default:
                 nextAnimation = '';
                 this.transitFramesTowards('left', nextAnimation);
@@ -103,7 +100,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
 
     @autobind
-    transitFramesTowards (direction:string, nextAnimation: 'slideLeft' | 'slideRight' | '') {
+    transitFramesTowards (direction:string, nextAnimation: string) {
         let {current} = this.state;
 
         switch (direction) {
@@ -156,33 +153,33 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
 
     renderDots() {
-        const {classnames: cx, controlTheme} = this.props;
+        const {classnames: cx, controlsTheme} = this.props;
         const {current, options} = this.state;
         return (
             <div
-                className={cx('Carousel-control-dots')}
+                className={cx('Carousel-dotsControl')}
                 onMouseEnter={this.handleMouseEnter}
                 onMouseMove={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
             >
                 {Array.from({length: options.length}).map((_, i) =>
-                    <span key={i} className={cx('Carousel-dot', controlTheme, current === i ? 'is-active' : 'is-default')}></span>
+                    <span key={i} className={cx('Carousel-dot', controlsTheme, current === i ? 'is-active' : 'is-default')}></span>
                 )}
             </div>
         )
     }
 
-    renderButtons() {
-        const {classnames: cx, controlTheme} = this.props;
+    renderArrows() {
+        const {classnames: cx, controlsTheme} = this.props;
         return (
             <div
-                className={cx('Carousel-control-arrows')}
+                className={cx('Carousel-arrowsControl')}
                 onMouseEnter={this.handleMouseEnter}
                 onMouseMove={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
             >
-                <div className={cx('Carousel-leftArrow', controlTheme)} onClick={this.prev}>{leftArrowIcon}</div>
-                <div className={cx('Carousel-rightArrow', controlTheme)} onClick={this.next}>{rightArrowIcon}</div>
+                <div className={cx('Carousel-leftArrow', controlsTheme)} onClick={this.prev}>{leftArrowIcon}</div>
+                <div className={cx('Carousel-rightArrow', controlsTheme)} onClick={this.next}>{rightArrowIcon}</div>
             </div>
         )
     }
@@ -244,14 +241,13 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                     ref={this.setWrapperRef}
                     className={cx('Carousel-container')}
                     onMouseEnter={this.handleMouseEnter}
-                    onMouseMove={this.handleMouseEnter}
                     onMouseLeave={this.handleMouseLeave}
                     style={style}
                     >
                     {options.map((option:any, key:number) => (
                         <Transition
-                            mountOnEnter={false}
-                            unmountOnExit={false}
+                            mountOnEnter
+                            unmountOnExit
                             in={key === current}
                             timeout={500}
                             key={key}
@@ -272,7 +268,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                         </Transition>
                     ))}
                     {dots ? this.renderDots() : null}
-                    {arrows && showArrows ? this.renderButtons() : null}
+                    {arrows && showArrows ? this.renderArrows() : null}
                 </div>
             );
         }

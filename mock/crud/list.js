@@ -24,10 +24,17 @@ module.exports = function(req, res) {
                     title: '{{name.title}}',
                     description: '{{lorem.words}}'
                 }), Math.round(Math.random() * 3)),
-                carousel: repeat(() => ({
-                    image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
-                    // html: '<p>{{lorem.words}}</p>'
-                }), Math.round(Math.random() * 5)),
+                carousel: [
+                    {
+                        image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
+                    },
+                    {
+                        html: '<div style="width: 100%; height: 200px; background: #e3e3e3; text-align: center; line-height: 200px;">carousel data in crud</div>'
+                    },
+                    {
+                        image: 'https://video-react.js.org/assets/poster.png'
+                    }
+                ],
                 date: Math.round(Date.now() / 1000),
                 // image: '{{image.imageUrl}}',
                 image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
