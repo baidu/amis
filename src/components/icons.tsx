@@ -75,15 +75,6 @@ export const pauseIcon = (
         />
     </svg>
 );
-export const dotIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
-        <path
-            d="M512.006827 3.413333C792.855893 3.413333 1020.586667 231.10656 1020.586667 511.993173 1020.586667 792.8832 792.855893 1020.586667 512.006827 1020.586667S3.413333 792.85248 3.413333 511.993173 231.120213 3.413333 512.006827 3.413333z"
-            p-id="4070"
-            fill="#ffffff"
-        />
-    </svg>
-);
 export const leftArrowIcon = (
     <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
         <path 

@@ -159,7 +159,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             <div
                 className={cx('Carousel-dotsControl')}
                 onMouseEnter={this.handleMouseEnter}
-                onMouseMove={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
             >
                 {Array.from({length: options.length}).map((_, i) =>
