@@ -23,7 +23,7 @@ module.exports = function(req, res) {
                 list: repeat(() => ({
                     title: '{{name.title}}',
                     description: '{{lorem.words}}'
-                }), Math.round(Math.random() * 3)),
+                }), Math.round(Math.random() * 10)),
                 carousel: [
                     {
                         image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
