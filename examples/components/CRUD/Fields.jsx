@@ -11,6 +11,11 @@ export default {
                 type: "text"
             },
             {
+                name: "carousel",
+                label: "轮播图",
+                type: "carousel"
+            },
+            {
                 name: "text",
                 label: "文本",
                 type: "text"

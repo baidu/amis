@@ -1,0 +1,141 @@
+@mixin arrow-control {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 50%;
+    font: 16px/30px sans-serif;
+    color: rgba(255, 255, 255, 0.8);
+    transition-duration: 300ms;
+}
+
+@mixin svg-theme {
+    &.light {
+        svg {
+            fill: white;
+        }
+    }
+
+    &.dark {
+        svg {
+            fill: black;
+        }
+    }
+}
+
+.#{$ns}Carousel {
+    position: relative;
+    display: block;
+
+    &-container {
+        min-width: 100px;
+        height: 200px;
+        position: relative;
+        overflow: hidden;
+
+        .#{$ns}Carousel-item {
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: lightblue;
+            transition: ease-out all 0.5s;
+
+            &.fade {
+                opacity: 0;
+            }
+
+            &.fade.in {
+                opacity: 1;
+            }
+
+            &.slideLeft {
+                transform: translateX(100%);
+            }
+
+            &.slideLeft.in {
+                transform: translateX(0);
+                z-index: 1;
+            }
+
+            &.slideLeft.out {
+                transform: translateX(-100%);
+                z-index: -1;
+            }
+
+            &.slideRight {
+                transform: translateX(-100%);
+            }
+
+            &.slideRight.in {
+                transform: translateX(0);
+                z-index: 1;
+            }
+
+            &.slideRight.out {
+                transform: translateX(100%);
+                z-index: -1;
+            }
+
+            > span > img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    &-control-dots {
+        position: absolute;
+        width: 100%;
+        z-index: 100;
+        bottom: 0px;
+        text-align: center;
+
+        .#{$ns}Carousel-dot {
+            display: inline-block;
+            height: 8px;
+            width: 8px;
+            border-radius: 4px;
+            
+            margin: 7px 5px;
+            transition-duration: 300ms;
+
+            &.light {
+                background-color: white;
+            }
+
+            &.dark {
+                background-color: black;
+            }
+
+            &.is-default {
+                opacity: 0.3;
+            }
+
+            &.is-active {
+                opacity: 1;
+            }
+        }
+    }
+
+    &-control-arrows {
+        position: absolute;
+        width: 100%;
+        height: inherit;
+        z-index: 100;
+        text-align: center;
+
+        .#{$ns}Carousel-leftArrow {
+            @include arrow-control;
+            @include svg-theme;
+            left: 10px;
+        }
+
+        .#{$ns}Carousel-rightArrow {
+            @include arrow-control;
+            @include svg-theme;
+            right: 10px;
+        }
+    }
+}
