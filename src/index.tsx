@@ -149,6 +149,7 @@ import './renderers/Wrapper';
 import './renderers/IFrame';
 import './renderers/QRCode';
 import './renderers/Icon';
+import './renderers/Carousel';
 import Scoped, {ScopedContext} from './Scoped';
 
 import {
