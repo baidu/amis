@@ -68,6 +68,7 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
 -   [Service](./renderers/Service.md): 功能型容器，自身不负责展示内容，主要职责在于通过配置的 api 拉取数据
 -   [Chart](./renderers/Chart.md): 图表渲染器
 -   [Collapse](./renderers/Collapse.md): 折叠器
+-   [Carousel](./renderers/Carousel.md): 轮播图
 -   [Audio](./renderers/Audio.md): 音频播放器
 -   [Video](./renderers/Video.md): 视频播放器
 -   [Table](./renderers/Table.md): 表格展示
