@@ -6,15 +6,29 @@ import {
 } from '../src/factory';
 import React = require('react');
 import {render, fireEvent, cleanup} from 'react-testing-library';
+import { wait, makeEnv } from './helper';
 
-test('factory unregistered Renderer', () => {
+test('factory unregistered Renderer', async () => {
     const {
         container,
     } = render(amisRender({
         type: 'my-renderer',
         a: 23
     }));
+    await wait(100);
+    expect(container).toMatchSnapshot(); // not found
+});
 
+test('factory custom loadRenderer', async () => {
+    const {
+        container,
+    } = render(amisRender({
+        type: 'my-renderer',
+        a: 23
+    }, {}, makeEnv({
+        loadRenderer: () => Promise.resolve(() => (<div>Not Found</div>))
+    })));
+    await wait(100);
     expect(container).toMatchSnapshot(); // not found
 });
 
