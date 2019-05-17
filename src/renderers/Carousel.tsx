@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition';
 import {Renderer, RendererProps} from '../factory';
-import {autobind} from '../utils/helper';
+import {autobind, createObject} from '../utils/helper';
 import {leftArrowIcon, rightArrowIcon} from '../components/icons';
 
 const animationStyles: {
@@ -34,9 +34,9 @@ export interface CarouselState {
 }
 
 export class Carousel extends React.Component<CarouselProps, CarouselState> {
-    wrapperRef: HTMLDivElement;
-    intervalTimeout: any;
-    durationTimeout: any;
+    wrapperRef: React.RefObject<HTMLDivElement>;
+    intervalTimeout: number;
+    durationTimeout: number;
 
     static defaultProps: Pick<
         CarouselProps,
@@ -51,12 +51,18 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         placeholder: ''
     };
 
-    state:CarouselState = {
-        current: 0,
-        options: this.props.value ? this.props.value : this.props.options ? this.props.options : [],
-        showArrows: false,
-        nextAnimation: ''
-    };
+    constructor(props:CarouselProps) {
+        super(props);
+
+        this.state = {
+            current: 0,
+            options: this.props.value ? this.props.value : this.props.options ? this.props.options : [],
+            showArrows: false,
+            nextAnimation: ''
+        };
+
+        this.wrapperRef = React.createRef();
+    }
 
     componentDidMount() {
         this.prepareAutoSlide();
@@ -148,12 +154,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         clearTimeout(this.durationTimeout);
     }
 
-    setWrapperRef = (wrapper:HTMLDivElement) => {
-        this.wrapperRef = wrapper;
-    }
-
     renderDots() {
-        const {classnames: cx, controlsTheme} = this.props;
+        const {classnames: cx} = this.props;
         const {current, options} = this.state;
         return (
             <div
@@ -162,23 +164,22 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                 onMouseLeave={this.handleMouseLeave}
             >
                 {Array.from({length: options.length}).map((_, i) =>
-                    <span key={i} className={cx('Carousel-dot', controlsTheme, current === i ? 'is-active' : 'is-default')}></span>
+                    <span key={i} className={cx('Carousel-dot', current === i ? 'is-active' : '')}></span>
                 )}
             </div>
         )
     }
 
     renderArrows() {
-        const {classnames: cx, controlsTheme} = this.props;
+        const {classnames: cx} = this.props;
         return (
             <div
                 className={cx('Carousel-arrowsControl')}
                 onMouseEnter={this.handleMouseEnter}
-                onMouseMove={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
             >
-                <div className={cx('Carousel-leftArrow', controlsTheme)} onClick={this.prev}>{leftArrowIcon}</div>
-                <div className={cx('Carousel-rightArrow', controlsTheme)} onClick={this.next}>{rightArrowIcon}</div>
+                <div className={cx('Carousel-leftArrow')} onClick={this.prev}>{leftArrowIcon}</div>
+                <div className={cx('Carousel-rightArrow')} onClick={this.next}>{rightArrowIcon}</div>
             </div>
         )
     }
@@ -187,7 +188,17 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     defaultSchema() {
         return {
             type: 'tpl',
-            tpl: "<% if (data.image) { %> <img src=\"<%= data.image %>\" /> <% } else if (data.label) { %> <div> <%= data.label %> </div> <% } else if (data.html) { %> <%= data.html %> <% } %>"
+            tpl:
+            "<% if (data.image) { %> " +
+                "<div style=\"background-image: url(<%= data.image %>)\" class=\"image <%= data.imageClassName %>\"></div>" +
+                "<% if (data.title) { %> " +
+                    "<div class=\"title <%= data.titleClassName %>\"><%= data.title %></div>" +
+                "<% } if (data.description) { %> " +
+                    "<div class=\"description <%= data.descriptionClassName %>\"><%= data.description %></div>" +
+                "<% } %>" +
+            "<% } else if (data.html) { %>" +
+                "<%= data.html %>" +
+            "<% } %>"
         }
     }
 
@@ -217,7 +228,9 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             width,
             height,
             controls,
-            placeholder
+            controlsTheme,
+            placeholder,
+            data
         } = this.props;
         const {
             options,
@@ -227,21 +240,22 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         } = this.state;
 
         let body:JSX.Element | null = null;
+        let carouselStyles: {
+            [propName: string]: string;
+        } = {};
+        width ? carouselStyles.width = width + 'px' : '';
+        height ? carouselStyles.height = height + 'px' : '';
         const [dots, arrows] = [controls.indexOf('dots') > -1, controls.indexOf('arrows') > -1];
         const animationName = nextAnimation || animation;
-        const style = {
-            width: width + 'px',
-            height: height + 'px'
-        };
 
         if (options && options.length) {
             body = (
                 <div
-                    ref={this.setWrapperRef}
+                    ref={this.wrapperRef}
                     className={cx('Carousel-container')}
                     onMouseEnter={this.handleMouseEnter}
                     onMouseLeave={this.handleMouseLeave}
-                    style={style}
+                    style={carouselStyles}
                     >
                     {options.map((option:any, key:number) => (
                         <Transition
@@ -253,13 +267,13 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                         >
                             {(status:string) => {
                                 if (status === ENTERING) {
-                                    this.wrapperRef.childNodes.forEach((item:HTMLElement) => item.offsetHeight);
+                                    this.wrapperRef.current && this.wrapperRef.current.childNodes.forEach((item:HTMLElement) => item.offsetHeight);
                                 }
 
                                 return (
                                     <div className={cx('Carousel-item', animationName, animationStyles[status])}>
                                         {render(`${current}/body`, itemSchema ? itemSchema : this.defaultSchema(), {
-                                            data: option
+                                            data: createObject(data, option)
                                         })}
                                     </div>
                                 );
@@ -273,7 +287,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         }
 
         return (
-            <div className={cx('Carousel', className)}>
+            <div className={cx(`Carousel Carousel--${controlsTheme}`, className)}>
                 {body ? body : placeholder}
             </div>
         );
