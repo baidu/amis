@@ -508,6 +508,13 @@ export default {
                     }),
                 },
                 {
+                    label: 'Carousel',
+                    path: '/docs/renderers/Carousel',
+                    getComponent: (location, cb) => require(['../../docs/renderers/Carousel.md'], (doc) => {
+                        cb(null, makeMarkdownRenderer(doc));
+                    }),
+                },
+                {
                     label: 'Audio',
                     path: '/docs/renderers/Audio',
                     getComponent: (location, cb) => require(['../../docs/renderers/Audio.md'], (doc) => {

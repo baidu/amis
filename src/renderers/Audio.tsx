@@ -379,7 +379,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         const {muted} = this.state;
 
         return (
-            <div className={cx(inline ? 'Audio--inline' : '')}>
+            <div className={cx('Audio', className, inline ? 'Audio--inline' : '')}>
                 <audio
                     className={cx('Audio-original')}
                     ref={this.audioRef}
@@ -390,7 +390,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                     loop={loop}>
                     <source src={src} />
                 </audio>
-                <div className={cx('Audio', className)}>
+                <div className={cx('Audio-controls')}>
                     {controls && controls.map((control:string, index:number) => {
                         control = 'render' + upperFirst(control);
                         const method:'renderRates'|'renderPlay'|'renderTime'|'renderProcess'|'renderVolume'|'render' = control as any;
