@@ -427,7 +427,10 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         } else if (!this.renderer) {
             return (
                 <LazyComponent
+                    {...rest}
                     getComponent={() => rest.env.loadRenderer(schema, $path)}
+                    $path={$path}
+                    render={this.renderChild}
                 />
             );
         }

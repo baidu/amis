@@ -32,6 +32,40 @@ test('factory custom loadRenderer', async () => {
     expect(container).toMatchSnapshot(); // not found
 });
 
+test('factory load Renderer on need', async () => {
+    const {
+        container,
+    } = render(amisRender({
+        type: 'my-renderer2',
+        a: 23
+    }, {}, makeEnv({
+        session: 'loadRenderer',
+        loadRenderer: (schema) => {
+            interface MyProps extends RendererProps {
+                a: number;
+            };
+        
+            class MyComponent extends React.Component<MyProps> {
+                render() {
+                    return (<div>This is Custom Renderer2, a is {this.props.a}</div>);
+                }
+            }
+        
+            registerRenderer({
+                component: MyComponent,
+                test: /\bmy-renderer2$/
+            });
+
+            return Promise.resolve(({
+                render,
+                ...rest
+            }) => render('body', schema))
+        }
+    })));
+    await wait(200);
+    expect(container).toMatchSnapshot(); // not found
+});
+
 test('factory:registerRenderer', () => {
     interface MyProps extends RendererProps {
         a: number;
