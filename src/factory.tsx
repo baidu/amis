@@ -47,6 +47,7 @@ import Scoped from './Scoped';
 import { getTheme, ThemeInstance, ClassNamesFn, ThemeContext } from "./theme";
 import find = require("lodash/find");
 import Alert from "./components/Alert2";
+import { LazyComponent } from './components';
 
 export interface TestFunc {
     (path: string, schema?: object): boolean;
@@ -79,6 +80,7 @@ export interface RendererEnv {
     affixOffsetTop: number;
     affixOffsetBottom: number;
     richTextToken: string;
+    loadRenderer: (schema:Schema, path:string) => Promise<React.ReactType>;
     [propName:string]: any;
 };
 
@@ -132,6 +134,7 @@ export interface RenderOptions {
     rendererResolver?: (path:string, schema:Schema, props:any) => null | RendererConfig;
     copy?: (contents:string) => void;
     getModalContainer?: () => HTMLElement;
+    loadRenderer?: (schema:Schema, path: string) => Promise<React.ReactType>;
     affixOffsetTop?: number;
     affixOffsetBottom?: number;
     richTextToken?: string;
@@ -423,11 +426,9 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             }, schema) : schema.children;
         } else if (!this.renderer) {
             return (
-                <Alert level="danger">
-                    <p>Error: 找不到对应的渲染器</p>
-                    <p>Path: {$path}</p>
-                    <pre><code>{JSON.stringify(schema, null, 2)}</code></pre>
-                </Alert>
+                <LazyComponent
+                    getComponent={() => rest.env.loadRenderer(schema, $path)}
+                />
             );
         }
 
@@ -621,6 +622,15 @@ const defaultOptions:RenderOptions = {
     affixOffsetTop: 50,
     affixOffsetBottom: 0,
     richTextToken: '',
+    loadRenderer(schema, path) {
+        return Promise.resolve(() => (
+            <Alert level="danger">
+                <p>Error: 找不到对应的渲染器</p>
+                <p>Path: {path}</p>
+                <pre><code>{JSON.stringify(schema, null, 2)}</code></pre>
+            </Alert>
+        ));
+    },
     fetcher() {
         return Promise.reject('fetcher is required');
     },

@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`factory custom loadRenderer 1`] = `
+<div>
+  <div>
+    Not Found
+  </div>
+</div>
+`;
+
 exports[`factory unregistered Renderer 1`] = `
 <div>
   <div
