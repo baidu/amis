@@ -8,6 +8,15 @@ exports[`factory custom loadRenderer 1`] = `
 </div>
 `;
 
+exports[`factory load Renderer on need 1`] = `
+<div>
+  <div>
+    This is Custom Renderer2, a is 
+    23
+  </div>
+</div>
+`;
+
 exports[`factory unregistered Renderer 1`] = `
 <div>
   <div
