@@ -20,7 +20,7 @@ export default {
             columns: [
                 {
                     type: 'carousel',
-                    controlTheme: 'light',
+                    controlsTheme: 'light',
                     height: '300',
                     className: 'm-t-xxl',
                     options: [
@@ -42,7 +42,7 @@ export default {
                     controls: [
                         {
                             type: 'carousel',
-                            controlTheme: 'dark',
+                            controlsTheme: 'dark',
                             name: 'carousel',
                             label: 'carousel',
                             animation: 'slide',

@@ -5,8 +5,13 @@
 -   `type` 请设置成 `carousel`
 -   `className` 外层 Dom 的类名
 -   `options` 轮播面板数据，默认`[]`，支持以下模式
-    -   `image` 图片链接
-    -   `label` 标签
+    -   图片
+        -  `image` 图片链接
+        -  `imageClassName` 图片类名
+        -  `title` 图片标题
+        -  `titleClassName` 图片标题类名
+        -  `description` 图片描述
+        -  `descriptionClassName` 图片描述类名
     -   `html` HTML 自定义，同[Tpl](./Tpl.md)一致
 -   `auto` 是否自动轮播，默认`true`
 -   `interval` 切换动画间隔，默认`5s`
@@ -23,7 +28,6 @@
     "controlTheme": "light",
     "height": "300",
     "animation": "slide",
-    "className": "b-info m-b-xxl",
     "options": [
         {
             "image": "https://video-react.js.org/assets/poster.png"
