@@ -66,6 +66,7 @@ import ChartSchema from './Chart';
 import HorizontalSchema from './Horizontal';
 import VideoSchema from './Video';
 import AudioSchema from './Audio';
+import CarouselSchema from './Carousel';
 import TasksSchema from './Tasks';
 import ServicesDataSchema from './Services/Data';
 import ServicesSchemaSchema from './Services/Schema';
@@ -458,6 +459,12 @@ const navigations = [
                 icon: 'fa fa-bar-chart',
                 path: 'chart',
                 component: makeSchemaRenderer(ChartSchema)
+            },
+            {
+                label: '轮播图',
+                icon: 'fa fa-pause',
+                path: 'carousel',
+                component: makeSchemaRenderer(CarouselSchema)
             },
             {
                 label: '音频',

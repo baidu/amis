@@ -1334,3 +1334,21 @@ $Audio-svg-width: px2rem(20px) !default;
 $Audio-svg-height: px2rem(20px) !default;
 $Audio-svg-top: px2rem(6px) !default;
 $Audio-item-margin: px2rem(10px) !default;
+
+// Carousel
+$Carousel-bg: #F6F8F8;
+$Carousel-minWidth: px2rem(100px) !default;
+$Carousel-height: px2rem(200px) !default;
+$Carousel-arrowControl-width: px2rem(20px) !default;
+$Carousel-arrowControl-height: px2rem(20px) !default;
+$Carousel-svg-width: px2rem(20px) !default;
+$Carousel-svg-height: px2rem(20px) !default;
+$Carousel-dot-width: px2rem(8px) !default;
+$Carousel-dot-height: px2rem(8px) !default;
+$Carousel-dot-borderRadius: px2rem(4px) !default;
+$Carousel-dot-margin: px2rem(7px) px2rem(5px) !default;
+$Carousel--light-control: white !default;
+$Carousel--dark-control: black !default;
+$Carousel-transitionDuration: 0.3s !default;
+$Carousel-imageTitle-bottom: px2rem(45px) !default;
+$Carousel-imageDescription-bottom: px2rem(25px) !default;

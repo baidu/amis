@@ -1,5 +1,5 @@
 import { reigsterTplEnginer, filter } from "./tpl";
-import tempalte = require('lodash/template');
+import template = require('lodash/template');
 import { filters } from "./tpl-builtin";
 import * as React from 'react';
 import * as moment from 'moment';
@@ -31,7 +31,7 @@ const imports = {
 delete imports.default; // default 是个关键字，不能 imports 到 lodash 里面去。
 function lodashCompile(str: string, data: object) {
     try {
-        const fn = tempalte(str, {
+        const fn = template(str, {
             imports: imports,
             variable: 'data'
         });
