@@ -57,9 +57,11 @@ test('factory load Renderer on need', async () => {
             });
 
             return Promise.resolve(({
-                render,
-                ...rest
-            }) => render('body', schema))
+                retry
+            }) => {
+                retry();
+                return null;
+            })
         }
     })));
     await wait(200);

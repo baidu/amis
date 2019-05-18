@@ -325,6 +325,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         super(props);
         this.refFn = this.refFn.bind(this);
         this.renderChild = this.renderChild.bind(this);
+        this.reRender = this.reRender.bind(this);
     }
 
     componentWillMount() {
@@ -406,6 +407,11 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         });
     }
 
+    reRender() {
+        this.resolveSchema(this.props);
+        this.forceUpdate();
+    }
+
     render():JSX.Element | null {
         let {
             schema,
@@ -430,7 +436,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
                     {...rest}
                     getComponent={() => rest.env.loadRenderer(schema, $path)}
                     $path={$path}
-                    render={this.renderChild}
+                    retry={this.reRender}
                 />
             );
         }
