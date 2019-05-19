@@ -1,6 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`factory custom loadRenderer 1`] = `
+exports[`factory custom not found 2! 1`] = `
+<div>
+  <div>
+    Not Found
+  </div>
+</div>
+`;
+
+exports[`factory custom not found 3! 1`] = `
+<div>
+  <div>
+    Not Found
+  </div>
+</div>
+`;
+
+exports[`factory custom not found! 1`] = `
 <div>
   <div>
     Not Found
