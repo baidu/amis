@@ -9,7 +9,7 @@ import {
     getEnv
 } from 'mobx-state-tree';
 import {
-    Location
+    Location, parsePath
 } from 'history';
 import {
     wrapFetcher
@@ -80,7 +80,7 @@ export interface RendererEnv {
     affixOffsetTop: number;
     affixOffsetBottom: number;
     richTextToken: string;
-    loadRenderer: (schema:Schema, path:string) => Promise<React.ReactType>;
+    loadRenderer: (schema:Schema, path:string, reRender:Function) => Promise<React.ReactType> | React.ReactType  | JSX.Element | void;
     [propName:string]: any;
 };
 
@@ -134,7 +134,7 @@ export interface RenderOptions {
     rendererResolver?: (path:string, schema:Schema, props:any) => null | RendererConfig;
     copy?: (contents:string) => void;
     getModalContainer?: () => HTMLElement;
-    loadRenderer?: (schema:Schema, path: string) => Promise<React.ReactType>;
+    loadRenderer?: (schema:Schema, path: string, reRender:Function) => Promise<React.ReactType> | React.ReactType | JSX.Element | void;
     affixOffsetTop?: number;
     affixOffsetBottom?: number;
     richTextToken?: string;
@@ -434,7 +434,17 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             return (
                 <LazyComponent
                     {...rest}
-                    getComponent={() => rest.env.loadRenderer(schema, $path)}
+                    getComponent={async () => {
+                        const result = await rest.env.loadRenderer(schema, $path, this.reRender);
+                        if (result && typeof result === "function") {
+                            return result;
+                        } else if (result && React.isValidElement(result)) {
+                            return () => result;
+                        }
+
+                        this.reRender();
+                        return () => loadRenderer(schema, $path)
+                    }}
                     $path={$path}
                     retry={this.reRender}
                 />
@@ -626,20 +636,22 @@ export function HocStoreFactory(renderer:{
 }
 
 
+function loadRenderer(schema:Schema, path:string) {
+    return (
+        <Alert level="danger">
+            <p>Error: 找不到对应的渲染器</p>
+            <p>Path: {path}</p>
+            <pre><code>{JSON.stringify(schema, null, 2)}</code></pre>
+        </Alert>
+    );
+}
+
 const defaultOptions:RenderOptions = {
     session: 'global',
     affixOffsetTop: 50,
     affixOffsetBottom: 0,
     richTextToken: '',
-    loadRenderer(schema, path) {
-        return Promise.resolve(() => (
-            <Alert level="danger">
-                <p>Error: 找不到对应的渲染器</p>
-                <p>Path: {path}</p>
-                <pre><code>{JSON.stringify(schema, null, 2)}</code></pre>
-            </Alert>
-        ));
-    },
+    loadRenderer,
     fetcher() {
         return Promise.reject('fetcher is required');
     },

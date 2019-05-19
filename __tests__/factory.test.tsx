@@ -19,7 +19,7 @@ test('factory unregistered Renderer', async () => {
     expect(container).toMatchSnapshot(); // not found
 });
 
-test('factory custom loadRenderer', async () => {
+test('factory custom not found!', async () => {
     const {
         container,
     } = render(amisRender({
@@ -27,6 +27,32 @@ test('factory custom loadRenderer', async () => {
         a: 23
     }, {}, makeEnv({
         loadRenderer: () => Promise.resolve(() => (<div>Not Found</div>))
+    })));
+    await wait(100);
+    expect(container).toMatchSnapshot(); // not found
+});
+
+test('factory custom not found 2!', async () => {
+    const {
+        container,
+    } = render(amisRender({
+        type: 'my-renderer',
+        a: 23
+    }, {}, makeEnv({
+        loadRenderer: () => () => (<div>Not Found</div>)
+    })));
+    await wait(100);
+    expect(container).toMatchSnapshot(); // not found
+});
+
+test('factory custom not found 3!', async () => {
+    const {
+        container,
+    } = render(amisRender({
+        type: 'my-renderer',
+        a: 23
+    }, {}, makeEnv({
+        loadRenderer: () => (<div>Not Found</div>)
     })));
     await wait(100);
     expect(container).toMatchSnapshot(); // not found
@@ -55,16 +81,9 @@ test('factory load Renderer on need', async () => {
                 component: MyComponent,
                 test: /\bmy-renderer2$/
             });
-
-            return Promise.resolve(({
-                retry
-            }) => {
-                retry();
-                return null;
-            })
         }
     })));
-    await wait(200);
+    await wait(100);
     expect(container).toMatchSnapshot(); // not found
 });
 

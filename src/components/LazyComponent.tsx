@@ -29,6 +29,7 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
         partialVisibility: true,
     };
 
+    mounted:boolean = false;
     constructor(props: LazyComponentProps) {
         super(props);
 
@@ -38,6 +39,14 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
             visible: false,
             component: props.component as React.ReactType,
         };
+    }
+
+    componentWillMount() {
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
     }
 
     handleVisibleChange(visible: boolean) {
@@ -52,12 +61,12 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
         this.props
             .getComponent()
             .then(component =>
-                this.setState({
+                this.mounted && typeof component === 'function' && this.setState({
                     component: component,
                 })
             )
             .catch(reason =>
-                this.setState({
+                this.mounted && this.setState({
                     component: () => <div className="alert alert-danger">{String(reason)}</div>,
                 })
             );
