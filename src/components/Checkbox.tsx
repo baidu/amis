@@ -1,3 +1,4 @@
+
 /**
  * @file Checkbox
  * @author fex
@@ -6,6 +7,7 @@
 import * as React from 'react';
 import * as cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
+import { autobind } from '../utils/helper';
 
 const sizeMap = {
     sm: 'i-checks-sm',
@@ -23,6 +25,7 @@ interface CheckboxProps {
     label?: string;
     className?: string;
     onChange?: (value: any) => void;
+    onClick?: (e:any, checked:boolean) => void;
     value?: any;
     containerClass?: string;
     inline?: boolean;
@@ -44,13 +47,8 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         type: 'checkbox',
     };
 
-    constructor(props: CheckboxProps) {
-        super(props);
-
-        this.hanldeCheck = this.hanldeCheck.bind(this);
-    }
-
-    hanldeCheck(e: React.ChangeEvent<any>) {
+    @autobind
+    handleCheck(e: React.ChangeEvent<any>) {
         const {trueValue, falseValue, onChange} = this.props;
 
         if (!onChange) {
@@ -58,6 +56,25 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         }
 
         onChange(e.currentTarget.checked ? trueValue : falseValue);
+    }
+
+    @autobind
+    handleClick(e:any) {
+        const {
+            checked,
+            value,
+            trueValue,
+            onClick,
+            disabled
+        } = this.props;
+
+        const isChecked:boolean = !!(typeof checked !== 'undefined'
+            ? checked
+            : typeof value === 'undefined'
+                ? value
+                : value == trueValue);
+
+        disabled ? null : onClick && onClick(e, isChecked);
     }
 
     render() {
@@ -88,6 +105,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
                     },
                     className
                 )}
+                onClick={this.handleClick}
             >
                 <input
                     type={type}
@@ -98,7 +116,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
                             ? value
                             : value == trueValue
                     }
-                    onChange={this.hanldeCheck}
+                    onChange={this.handleCheck}
                     disabled={disabled}
                     readOnly={readOnly}
                     name={name}

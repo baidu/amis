@@ -13,12 +13,17 @@
         .#{$ns}InputRange-label--mid {
             left: calc(50% - 60px);
         }
+
+        &.is-multiple {
+            .#{$ns}InputRange {
+                width: calc(100% - 210px);
+            }
+        }
     }
 
     .#{$ns}InputRange {
         &-input {
             font-size: $fontSizeSm;
-            width: px2rem(74px);
             position: absolute;
             right: px2rem(26px);
             top: px2rem(12px);
@@ -26,13 +31,18 @@
 
             input {
                 padding: px2rem(10px);
-                width: 100%;
+                width: px2rem(74px);
                 height: 100%;
 
                 &:focus {
                     outline: none;
                     border: $borderWidth solid $info;
                 }
+            }
+
+            &-separator {
+                display: inline-block;
+                padding: 0 5px;
             }
         }
 
@@ -166,6 +176,10 @@
 
         .#{$ns}InputRange.is-disabled & {
             background: $InputRange-track-onDisabled-bg;
+        }
+
+        &.is-active {
+            background: $InputRange-track-onActive-bg;
         }
     }
 
