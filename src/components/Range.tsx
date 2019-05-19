@@ -16,7 +16,10 @@ interface RangeProps extends RendererProps {
     className?: string;
     min: number;
     max: number;
-    value?: number;
+    value: {
+        min: number,
+        max: number
+    } | number;
     classPrefix: string;
     classnames: ClassNamesFn;
 }
@@ -28,10 +31,10 @@ export class Range extends React.Component<RangeProps, any> {
     };
 
     render() {
-        const {min, max, value, className, classPrefix: ns} = this.props;
+        const {min, max, value, className, classPrefix: ns, multiple} = this.props;
 
         const classNames = {
-            activeTrack: `${ns}InputRange-track is-active`,
+            activeTrack: multiple ? `${ns}InputRange-track is-active` : `${ns}InputRange-track`,
             disabledInputRange: `${ns}InputRange is-disabled`,
             inputRange: `${ns}InputRange`,
             labelContainer: `${ns}InputRange-labelContainer`,
@@ -50,7 +53,8 @@ export class Range extends React.Component<RangeProps, any> {
                 classNames={classNames}
                 minValue={min}
                 maxValue={max}
-                value={typeof value === 'number' ? value : min}
+                value={value}
+                multiple={multiple}
             />
         );
     }
