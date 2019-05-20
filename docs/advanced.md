@@ -3,7 +3,7 @@ title: 高级用法
 shortname: advanced
 ---
 
-在开始阅读之前，希望你已经阅读 [快速开始文档](./getting-started.md) 。
+在开始阅读之前，希望你已经阅读 [快速开始文档](./getting_started.md) 。
 
 ## 数据作用域
 
@@ -172,7 +172,7 @@ shortname: advanced
 }
 ```
 
-注意，source 中的传参是通过 source 中的 data 关联的，不能写在 source 的 url 中，因为如果写了，就会自动监控值的变化而自动刷新，写在 data 里面关联则不会。如果对 source 中的配置规则不了解，请前往 [API 说明](./renderers/类型说明.md#api)
+注意，source 中的传参是通过 source 中的 data 关联的，不能写在 source 的 url 中，因为如果写了，就会自动监控值的变化而自动刷新，写在 data 里面关联则不会。如果对 source 中的配置规则不了解，请前往 [API 说明](./renderers/Types.md#API)
 
 另外注意 button 的 target 值，正好是这个 form 的 name 值 `lidong` 的 formItem 的 name 值 `select`。当按钮的对象是一个 formItem 时，会出发 formItem 的数据重新拉取。
 
@@ -244,7 +244,7 @@ Form 和 CRUD, CRUD 有个 filter 配置项，里面可以配置表单项，当�
 }
 ```
 
-Form 的 target 还可以是另外一个 Form，当 A Form 把自己的数据提交给 B Form 时，A 的数据会被合并到 B Form 中，同时，B Form 会再次初始化，如：拉取 initApi, 重新拉取 formItem 上的 source 等等。 比如用户管理中的[加入用户](/group/test/admin/users?perPage=12)操作就是用这种方式实现的。
+Form 的 target 还可以是另外一个 Form，当 A Form 把自己的数据提交给 B Form 时，A 的数据会被合并到 B Form 中，同时，B Form 会再次初始化，如：拉取 initApi, 重新拉取 formItem 上的 source 等等。 比如用户管理中的加入用户操作就是用这种方式实现的。
 
 ```schema:height="300"
 {
