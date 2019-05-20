@@ -34,7 +34,7 @@ npm run coverage
 
 ## 使用文档
 
-为了更好的阅读体验，建议本地运行此项目后，通过 [http://127.0.0.1:8888/v2/docs/getting-started](http://127.0.0.1:8888/v2/docs/getting-started) 阅读。
+为了更好的阅读体验，建议直接在 gh-pages 中阅读 https://baidu.github.io/amis/ 。
 
 * [快速开始](/docs/getting_started.md)
 * [高级用法](/docs/advanced.md)
