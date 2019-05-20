@@ -105,6 +105,7 @@ export default function(schema) {
 
                     return axios[method](url, data, config);
                 },
+                isCancel: value => axios.isCancel(value),
                 notify: (type, msg) => toast[type] ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息') : console.warn('[Notify]', type, msg),
                 alert,
                 confirm,
