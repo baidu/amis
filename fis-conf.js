@@ -326,8 +326,8 @@ if (fis.project.currentMedia() === 'publish') {
             'pkg/style.css': [
                 'node_modules/*/**.css',
                 '*.scss',
-                '!/scss/*.scss',
-                '/scss/*.scss',
+                '!/scss/themes/*.scss',
+                // 要切换主题，不能打在一起。'/scss/*.scss',
                 '!monaco-editor/**',
             ]
         })
