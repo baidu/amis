@@ -564,7 +564,7 @@ export class App extends React.PureComponent {
                 document.querySelector(`link[title=${this.state.theme.value}]`).disabled = false;
             }
 
-            if (props.location.pathname !== prevProps.location.pathname) {
+            if (props.location.pathname !== preProps.location.pathname) {
                 const pageURL = props.location.pathname;
                 _hmt && _hmt.push(['_trackPageview', pageURL]);
             }
