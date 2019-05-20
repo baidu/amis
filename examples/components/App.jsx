@@ -6,7 +6,7 @@ import {AlertComponent, ToastComponent} from '../../src/components/index';
 import {
     mapTree
 } from '../../src/utils/helper';
-import { Router, Route, IndexRoute, browserHistory, hashHistory, Link, Redirect } from 'react-router';
+import { Router, Route, IndexRoute, browserHistory, hashHistory, Link, Redirect, withRouter } from 'react-router';
 import makeSchemaRenderer from './SchemaRender';
 
 
@@ -527,6 +527,7 @@ const themes = [
     }
 ];
 
+@withRouter
 export class App extends React.PureComponent {
 
         state = {
@@ -556,9 +557,16 @@ export class App extends React.PureComponent {
         }
 
         componentDidUpdate(preProps, preState) {
+            const props = this.props;
+
             if (preState.theme.value !== this.state.theme.value) {
                 document.querySelector(`link[title=${preState.theme.value}]`).disabled = true;
                 document.querySelector(`link[title=${this.state.theme.value}]`).disabled = false;
+            }
+
+            if (props.location.pathname !== prevProps.location.pathname) {
+                const pageURL = props.location.pathname;
+                _hmt && _hmt.push(['_trackPageview', pageURL]);
             }
         }
 

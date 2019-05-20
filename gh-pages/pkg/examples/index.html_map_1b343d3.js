@@ -4752,6 +4752,10 @@ require.resourceMap({
       "url": "/amis/docs/renderers/Collapse.js",
       "type": "js"
     },
+    "docs/renderers/Carousel.md": {
+      "url": "/amis/docs/renderers/Carousel.js",
+      "type": "js"
+    },
     "docs/renderers/Audio.md": {
       "url": "/amis/docs/renderers/Audio.js",
       "type": "js"
@@ -4782,6 +4786,10 @@ require.resourceMap({
     },
     "docs/renderers/Field.md": {
       "url": "/amis/docs/renderers/Field.js",
+      "type": "js"
+    },
+    "docs/renderers/Tabs.md": {
+      "url": "/amis/docs/renderers/Tabs.js",
       "type": "js"
     },
     "docs/renderers/Grid.md": {
