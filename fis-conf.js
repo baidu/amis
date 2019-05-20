@@ -322,14 +322,19 @@ if (fis.project.currentMedia() === 'publish') {
                 '!zrender/**',
                 '!echarts/**',
             ],
+
+            'pkg/npm.css': [
+                'node_modules/*/**.css',
+                '!monaco-editor/**',
+            ],
+
             // css 打包
             'pkg/style.css': [
-                'node_modules/*/**.css',
                 '*.scss',
+                '*.css',
+                '!monaco-editor/**',
                 '!/scss/themes/*.scss',
                 // 要切换主题，不能打在一起。'/scss/*.scss',
-                '!monaco-editor/**',
-
                 '!/examples/style.scss',
                 '/examples/style.scss', // 让它在最下面
             ]
