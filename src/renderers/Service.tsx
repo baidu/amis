@@ -19,12 +19,20 @@ export interface ServiceProps extends RendererProps {
     stopAutoRefreshWhen?: string;
     store: IServiceStore;
     body?: SchemaNode;
+    messages: {
+        fetchSuccess?: string;
+        fetchFailed?: string;
+    };
 }
 export default class Service extends React.Component<ServiceProps> {
     timer: NodeJS.Timeout;
     mounted: boolean;
 
-    static defaultProps: Partial<ServiceProps> = {};
+    static defaultProps: Partial<ServiceProps> = {
+        messages: {
+            fetchFailed: '初始化失败'
+        }
+    };
 
     static propsList: Array<string> = [];
 
@@ -38,7 +46,17 @@ export default class Service extends React.Component<ServiceProps> {
     }
 
     componentDidMount() {
-        const {schemaApi, initFetchSchema, api, initFetch, store} = this.props;
+        const {
+            schemaApi,
+            initFetchSchema,
+            api,
+            initFetch,
+            store,
+            messages: {
+                fetchSuccess,
+                fetchFailed
+            },
+        } = this.props;
 
         this.mounted = true;
 
@@ -47,7 +65,10 @@ export default class Service extends React.Component<ServiceProps> {
             initFetchSchema !== false &&
             (!(schemaApi as ApiObject).sendOn || evalExpression((schemaApi as ApiObject).sendOn as string, store.data))
         ) {
-            store.fetchSchema(schemaApi, store.data).then(this.initInterval);
+            store.fetchSchema(schemaApi, store.data, {
+                successMessage: fetchSuccess,
+                errorMessage: fetchFailed
+            }).then(this.initInterval);
         }
 
         if (
@@ -55,7 +76,10 @@ export default class Service extends React.Component<ServiceProps> {
             initFetch !== false &&
             (!(api as ApiObject).sendOn || evalExpression((api as ApiObject).sendOn as string, store.data))
         ) {
-            store.fetchInitData(api, store.data).then(this.initInterval);
+            store.fetchInitData(api, store.data, {
+                successMessage: fetchSuccess,
+                errorMessage: fetchFailed
+            }).then(this.initInterval);
         }
     }
 
@@ -63,11 +87,24 @@ export default class Service extends React.Component<ServiceProps> {
         const props = this.props;
         const store = props.store;
 
+        const {
+            messages: {
+                fetchSuccess,
+                fetchFailed
+            }
+        } = props;
+
         isApiOutdated(prevProps.api, props.api, prevProps.data, props.data) &&
-            store.fetchData(props.api as Api, store.data).then(this.initInterval);
+            store.fetchData(props.api as Api, store.data, {
+                successMessage: fetchSuccess,
+                errorMessage: fetchFailed
+            }).then(this.initInterval);
 
         isApiOutdated(prevProps.schemaApi, props.schemaApi, prevProps.data, props.data) &&
-            store.fetchSchema(props.schemaApi as Api, store.data).then(this.initInterval);
+            store.fetchSchema(props.schemaApi as Api, store.data, {
+                successMessage: fetchSuccess,
+                errorMessage: fetchFailed
+            }).then(this.initInterval);
     }
 
     componentWillUnmount() {
@@ -90,7 +127,10 @@ export default class Service extends React.Component<ServiceProps> {
             return this.receive(query);
         }
 
-        const {schemaApi, fetchSchema, api, fetch, store} = this.props;
+        const {schemaApi, fetchSchema, api, fetch, store, messages: {
+            fetchSuccess,
+            fetchFailed
+        }} = this.props;
 
         clearTimeout(this.timer);
 
@@ -99,7 +139,10 @@ export default class Service extends React.Component<ServiceProps> {
             fetchSchema !== false &&
             (!(schemaApi as ApiObject).sendOn || evalExpression((schemaApi as ApiObject).sendOn as string, store.data))
         ) {
-            store.fetchSchema(schemaApi, store.data).then(this.initInterval);
+            store.fetchSchema(schemaApi, store.data, {
+                successMessage: fetchSuccess,
+                errorMessage: fetchFailed
+            }).then(this.initInterval);
         }
 
         if (
@@ -110,6 +153,8 @@ export default class Service extends React.Component<ServiceProps> {
             store
                 .fetchData(api, store.data, {
                     silent,
+                    successMessage: fetchSuccess,
+                    errorMessage: fetchFailed
                 })
                 .then(this.initInterval);
         }
@@ -163,16 +208,16 @@ export default class Service extends React.Component<ServiceProps> {
 
                 {store.loading
                     ? render(
-                          'info',
-                          {
-                              type: 'spinner',
-                              overlay: true,
-                          },
-                          {
-                              key: 'info',
-                              size: 'lg',
-                          }
-                      )
+                        'info',
+                        {
+                            type: 'spinner',
+                            overlay: true,
+                        },
+                        {
+                            key: 'info',
+                            size: 'lg',
+                        }
+                    )
                     : null}
             </div>
         );

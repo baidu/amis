@@ -5,12 +5,12 @@ import {
 } from './Item';
 import * as cx from 'classnames';
 import * as InputNumber from 'rc-input-number';
-import { Action } from '../../types';
+import {filter} from '../../utils/tpl';
 
 export interface NumberProps extends FormControlProps {
     placeholder?: string;
-    max?: number;
-    min?: number;
+    max?: number | string;
+    min?: number | string;
     step?: number;
     precision?: number;
 };
@@ -21,7 +21,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
         resetValue: ''
     };
 
-    constructor(props:NumberProps) {
+    constructor(props: NumberProps) {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
@@ -37,6 +37,14 @@ export default class NumberControl extends React.Component<NumberProps, any> {
         onChange(typeof inputValue === 'undefined' ? (resetValue || '') : inputValue);
     }
 
+    filterNum(value: number | string | undefined) {
+        if (typeof value !== 'number') {
+            value = filter(value, this.props.data);
+            value = /^[-]?\d+/.test(value) ? parseInt(value, 10) : undefined;
+        }
+        return value;
+    }
+
     render(): JSX.Element {
         const {
             className,
@@ -47,7 +55,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
             max,
             min,
             disabled,
-            placeholder,
+            placeholder
         } = this.props;
 
         let precisionProps: any = {};
@@ -62,8 +70,8 @@ export default class NumberControl extends React.Component<NumberProps, any> {
                     prefixCls={`${ns}Number`}
                     value={value}
                     step={step}
-                    max={max}
-                    min={min}
+                    max={this.filterNum(max)}
+                    min={this.filterNum(min)}
                     onChange={this.handleChange}
                     disabled={disabled}
                     placeholder={placeholder}
