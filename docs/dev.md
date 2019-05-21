@@ -70,7 +70,7 @@ export default class CustomCheckbox extends React.PureComponent {
 
 ### Renderer
 
-非表单类的组件自定义，主要通过 `Renderer` 实现。在开始阅读之前，请先阅读 [amis 工作原理](./sdk#工作原理)。
+非表单类的组件自定义，主要通过 `Renderer` 实现。在开始阅读之前，请先阅读 [amis 工作原理](./sdk.md#工作原理)。
 
 ```jsx
 import * as React from 'react';
