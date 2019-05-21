@@ -856,6 +856,11 @@ export class ListItem extends React.Component<ListItemProps> {
         const cx = this.props.classnames;
 
         const $$id = field.$$id ? `${field.$$id}-field` : '';
+        
+        if (!isVisible(field, data)) {
+            return null;
+        }
+
         return (
             <div key={key} className={cx('ListItem-field')}>
                 {field && field.label ? (
