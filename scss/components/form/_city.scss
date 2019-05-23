@@ -1,0 +1,31 @@
+.#{$ns}CityPicker {
+    .#{$ns}Select + .#{$ns}Select {
+        margin-left: $gap-xs;
+    }
+
+    &-input {
+        outline: none;
+        vertical-align: middle;
+        margin-left: $gap-xs;
+        border: $Form-input-borderWidth solid $Form-input-borderColor;
+        border-radius: $Form-input-borderRadius;
+        // height: $Form-input-height;
+        line-height: $Form-input-lineHeight;
+        padding: $Form-input-paddingY $Form-input-paddingX;
+        font-size: $Form-input-fontSize;
+
+        &::placeholder {
+            color: $Form-input-placeholderColor;
+            user-select: none;
+        }
+        
+        &:focus {
+            border-color: $Form-input-onFocused-borderColor;
+            box-shadow: $Form-input-boxShadow;
+
+            @if $Form-input-onFocused-bg !=$Form-input-bg {
+                background-color: $Form-input-onFocused-bg;
+            }
+        }
+    }
+}

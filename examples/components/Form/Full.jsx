@@ -994,6 +994,14 @@ export default {
                     type: "divider"
                 },
                 {
+                    type: "city",
+                    name: "city",
+                    label: "城市选择器"
+                },
+                {
+                    type: "divider"
+                },
+                {
                     type: "matrix",
                     name: "matrix",
                     label: "矩阵开关",
