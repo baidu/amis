@@ -5,6 +5,7 @@ import {
     getRoot,
     detach
 } from "mobx-state-tree";
+import debounce = require('lodash/debounce');
 import {
     ServiceStore,
 } from './service';
@@ -44,7 +45,8 @@ export const FormStore = ServiceStore
         submiting: false,
         validating: false,
         items: types.optional(types.array(types.late(() => FormItemStore)), []),
-        canAccessSuperData: true
+        canAccessSuperData: true,
+        persistData: false
     })
     .views(self => ({
         get loading() {
@@ -139,6 +141,10 @@ export const FormStore = ServiceStore
                 const pristine = cloneObject(self.pristine);
                 setVariable(pristine, name, value);
                 self.pristine = pristine;
+            }
+
+            if(self.persistData){
+                setPersistData();
             }
 
             // 同步 options
@@ -372,6 +378,22 @@ export const FormStore = ServiceStore
             self.inited = value;
         }
 
+        const setPersistData = debounce(() => {
+            localStorage.setItem(location.pathname + self.path, JSON.stringify(self.data));
+        }, 250);
+
+        function getPersistData() {
+            self.persistData = true;
+            let data = localStorage.getItem(location.pathname + self.path);
+            
+            if (data) {
+                self.updateData(JSON.parse(data));
+            }
+        }
+
+        function clearPersistData() {
+            localStorage.removeItem(location.pathname + self.path);
+        }
 
         return ({
             setInited,
@@ -387,7 +409,10 @@ export const FormStore = ServiceStore
             beforeDetach,
             syncOptions,
             setCanAccessSuperData,
-            deleteValueByName
+            deleteValueByName,
+            getPersistData,
+            setPersistData,
+            clearPersistData,
         });
     });
 
