@@ -670,6 +670,18 @@ export class App extends React.PureComponent {
                             >
                                 <i className={this.state.asideFolded ? 'fa fa-indent' : 'fa fa-dedent'} />
                             </Button>
+
+                            <Button
+                                theme={this.state.theme.value}
+                                level="link"
+                                className="no-shadow navbar-btn"
+                                href="https://github.io/baidu/amis/"
+                                tooltip="前往 Github 仓库地址"
+                                placement="bottom"
+                                iconOnly
+                            >
+                                <i className={'fa fa-github'} />
+                            </Button>
                         </div>
 
                         <div className="hidden-xs p-t-sm pull-right">
