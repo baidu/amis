@@ -25,7 +25,7 @@ export interface CityPickerProps {
     disabled?: boolean;
     allowCity: boolean;
     allowDistrict: boolean;
-    allowStreet: boolean;
+    // allowStreet: boolean;
 };
 
 export interface CityPickerState {
@@ -45,7 +45,7 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
         delimiter: ',',
         allowCity: true,
         allowDistrict: true,
-        allowStreet: false
+        // allowStreet: false
     };
 
     state = {
@@ -186,7 +186,7 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
     syncOut() {
         const {
             onChange,
-            allowStreet,
+            // allowStreet,
             joinValues,
             delimiter
         } = this.props;
@@ -196,18 +196,18 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
             province,
             city,
             district,
-            street
+            // street
         } = this.state;
 
         if (joinValues) {
-            code ? onChange(allowStreet && street ? [code, street].join(delimiter) : String(code)) : onChange('');
+            code ? onChange(/*allowStreet && street ? [code, street].join(delimiter) :*/ String(code)) : onChange('');
         } else {
             onChange({
                 code,
                 province,
                 city,
                 district,
-                street
+                // street
             });
         }
     }
@@ -219,7 +219,7 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
             disabled,
             allowCity,
             allowDistrict,
-            allowStreet
+            // allowStreet
         } = this.props;
 
         const {
@@ -275,14 +275,14 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
                     />
                 ) : null}
 
-                {allowStreet && districtCode ? (
+                {/*allowStreet && districtCode ? (
                     <input
                         className={cx('CityPicker-input')}
                         value={street}
                         onChange={this.handleStreetChange}
                         onBlur={this.handleStreetEnd}
                     />
-                ) : null}
+                ) : null*/}
             </div>
         );
     }
@@ -295,7 +295,7 @@ export default ThemedCity;
 export interface LocationControlProps extends FormControlProps {
     allowCity?: boolean;
     allowDistrict?: boolean;
-    allowStreet?: boolean;
+    // allowStreet?: boolean;
 };
 export class LocationControl extends React.Component<LocationControlProps> {
     
@@ -305,7 +305,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
             onChange,
             allowCity,
             allowDistrict,
-            allowStreet
+            // allowStreet
         } = this.props;
         return (
             <ThemedCity 
@@ -313,7 +313,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
                 onChange={onChange}
                 allowCity={allowCity}
                 allowDistrict={allowDistrict}
-                allowStreet={allowStreet}
+                // allowStreet={allowStreet}
             />
         );
     }
