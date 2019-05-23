@@ -12,17 +12,17 @@ Action 是一种特殊的渲染器，它本身是一个按钮，同时它能触�
 | label            | `string`  | -           | 按钮文本。可用 `${xxx}` 取值。                                                                                                                                   |
 | level            | `string`  | `default`   | 按钮样式，支持：`link`、`primary`、`secondary`、`info`、`success`、`warning`、`danger`、`light`、`dark`、`default`。                                             |
 | size             | `string`  | -           | 按钮大小，支持：`xs`、`sm`、`md`、`lg`。                                                                                                                         |
-| icon             | `string`  | -           | 设置图标，例如`fa fa-plus`。                                                                                                                                       |
-| iconClassName    | `string`  | -           | 给图标上添加类名。                                                                                                                                                 |
-| active           | `boolean` | -           | 按钮是否高亮。                                                                                                                                                     |
-| activeLevel      | `string`  | -           | 按钮高亮时的样式，配置支持同`level`。                                                                                                                              |
+| icon             | `string`  | -           | 设置图标，例如`fa fa-plus`。                                                                                                                                     |
+| iconClassName    | `string`  | -           | 给图标上添加类名。                                                                                                                                               |
+| active           | `boolean` | -           | 按钮是否高亮。                                                                                                                                                   |
+| activeLevel      | `string`  | -           | 按钮高亮时的样式，配置支持同`level`。                                                                                                                            |
 | activeClassName  | `string`  | `is-active` | 给按钮高亮添加类名。                                                                                                                                             |
-| block            | `boolean` | -           | 用`display:"block"`来显示按钮。                                                                                                                                    |
+| block            | `boolean` | -           | 用`display:"block"`来显示按钮。                                                                                                                                  |
 | confirmText      | `string`  | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                           |
-| reload           | `string`  | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的 name 指，自己配置的），多个请用 `,` 号隔开。                                                                    |
-| tooltip          | `string`  | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                         |
-| disabledTip      | `string`  | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                 |
-| tooltipPlacement | `string`  | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                   |
+| reload           | `string`  | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                    |
+| tooltip          | `string`  | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                       |
+| disabledTip      | `string`  | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                               |
+| tooltipPlacement | `string`  | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                 |
 
 下面会分别介绍每种类型的Action配置项
 
@@ -66,6 +66,20 @@ Action 是一种特殊的渲染器，它本身是一个按钮，同时它能触�
 | ---------- | -------- | ------ | ------------------------------------ |
 | actionType | `string` | `copy` | 复制一段内容到粘贴板                 |
 | content    | `string` | -      | 指定复制的内容。可用 `${xxx}` 取值。 |
+
+### reload
+| 属性名     | 类型     | 默认值   | 说明                                                                        |
+| ---------- | -------- | -------- | --------------------------------------------------------------------------- |
+| actionType | `string` | `reload` | 刷新目标组件                                                                |
+| target     | `string` | -        | 需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。 |
+
+#### add
+该actionType为[FormItem-Table](./FormItem-Table.md)专用
+
+| 属性名     | 类型     | 默认值 | 说明                                                                   |
+| ---------- | -------- | ------ | ---------------------------------------------------------------------- |
+| actionType | `string` | `add`  | 给指定`FormItem-Table`添加一条数据，                                   |
+| target     | `string` | -      | 指定`FormItem-Table`的名字（`Table`的`name`值），多个请用 `,` 号隔开。 |
 
 #### 其他配置项
 | 属性名   | 类型            | 默认值  | 说明                                                                                                        |

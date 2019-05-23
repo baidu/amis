@@ -86,6 +86,8 @@ export interface FormProps extends RendererProps, FormSchema {
     autoFocus?: boolean;
     horizontal: FormHorizontal;
     canAccessSuperData: boolean;
+    persistData: boolean;   // 开启本地缓存
+    clearPersistDataAfterSubmit: boolean; // 提交成功后清空本地缓存
     onInit?: (values:object) => any;
     onReset?: (values:object) => void;
     onSubmit?: (values:object, action:any) => any;
@@ -183,11 +185,11 @@ export default class Form extends React.Component<FormProps, object> {
         const {
             store,
             canAccessSuperData,
-            initApi,
-            initFetch,
+            persistData,
         } = this.props;
 
         store.setCanAccessSuperData(canAccessSuperData !== false);
+        persistData && store.getPersistData();
 
         if (store && store.parentStore && store.parentStore.storeType === 'ComboStore') {
             const combo = store.parentStore as IComboStore;
@@ -468,7 +470,8 @@ export default class Form extends React.Component<FormProps, object> {
             reload,
             target,
             env,
-            onChange
+            onChange,
+            clearPersistDataAfterSubmit
         } = this.props;
 
         if (Array.isArray(action.required) && action.required.length) {
@@ -546,6 +549,8 @@ export default class Form extends React.Component<FormProps, object> {
                     }
 
                     resetAfterSubmit && store.reset(onReset);
+
+                    clearPersistDataAfterSubmit && store.clearPersistData();
 
                     return values;
                 })
