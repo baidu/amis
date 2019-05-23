@@ -12,6 +12,7 @@ interface ButtonProps
     extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
     id?: string;
     className?: string;
+    href?: string;
     size?: 'xs' | 'sm' | 'md' | 'lg';
     type: 'button' | 'reset' | 'submit';
     level: string; // 'link' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'light' | 'dark' | 'default';
@@ -44,7 +45,7 @@ export class Button extends React.Component<ButtonProps> {
     };
 
     renderButton() {
-        const {
+        let {
             level,
             size,
             disabled,
@@ -57,13 +58,19 @@ export class Button extends React.Component<ButtonProps> {
             type,
             active,
             iconOnly,
+            href,
             ...rest
         } = this.props;
+
+        if (href) {
+            Comp = 'a';
+        }
 
         return (
             <Comp
                 type={Comp === 'a' ? undefined : type}
                 {...pickEventsProps(rest)}
+                href={href}
                 className={cx(
                     `Button`,
                     {
