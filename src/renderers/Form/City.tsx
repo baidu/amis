@@ -251,7 +251,7 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
                         value={districtCode}
                         onChange={this.handleDistrictChange}
                     />
-                ) : allowCity && city[provinceCode] ? (
+                ) : allowCity && city[provinceCode] && city[provinceCode].length ? (
                     <Select
                         disabled={disabled}
                         options={city[provinceCode].map(item => ({
