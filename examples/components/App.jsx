@@ -675,7 +675,7 @@ export class App extends React.PureComponent {
                                 theme={this.state.theme.value}
                                 level="link"
                                 className="no-shadow navbar-btn"
-                                href="https://github.io/baidu/amis/"
+                                href="https://github.com/baidu/amis"
                                 tooltip="前往 Github 仓库地址"
                                 placement="bottom"
                                 iconOnly
