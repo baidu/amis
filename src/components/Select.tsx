@@ -122,14 +122,14 @@ export function normalizeOptions(options: string | {[propName: string]: string} 
 interface SelectProps {
     classPrefix: string;
     classnames: ClassNamesFn;
-    className: string;
+    className?: string;
     creatable: boolean;
     multiple: boolean;
     valueField: string;
     labelField: string;
-    searchable: boolean;
+    searchable?: boolean;
     options: Array<Option>;
-    value: Option | Array<Option>;
+    value: any;
     loadOptions?: Function;
     searchPromptText: string;
     loading?: boolean;
@@ -175,6 +175,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         promptTextCreator: (label: string) => `新增：${label}`,
         onNewOptionClick: noop,
         inline: false,
+        disabled: false,
     };
 
     input: HTMLInputElement;
