@@ -453,7 +453,9 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                                         >
                                         {option.isNew ? (
                                             <span>新增：{option.label}{enterIcon}</span>
-                                        ) : option.disabled ? option.label : highlight(option.label, inputValue as string)}
+                                        ) : (
+                                            <span>{option.disabled ? option.label : highlight(option.label, inputValue as string)}{option.tip}</span>
+                                        )}
                                         </div>
                                     );
                                 })}
