@@ -114,6 +114,7 @@
 
     &-arrow {
         margin-right: $gap-xs;
+        margin-left: $gap-xs;
         width: px2rem(20px);
         text-align: center;
         display: flex;
@@ -152,6 +153,7 @@
     &-menu {
         max-height: px2rem(300px);
         overflow: auto;
+        user-select: none;
     }
 
     &-option {
