@@ -54,6 +54,7 @@
 | addable                      | `boolean`               | false            | 是否可增加一行                           |
 | editable                     | `boolean`               | false            | 是否可编辑                               |
 | removable                    | `boolean`               | false            | 是否可删除                               |
+| showAddBtn                   | `boolean`               | true             | 是否显示添加按钮                         |
 | addApi                       | [api](./Types.md#Api)   | -                | 新增时提交的 API                         |
 | updateApi                    | [api](./Types.md#Api)   | -                | 修改时提交的 API                         |
 | deleteApi                    | [api](./Types.md#Api)   | -                | 删除时提交的 API                         |
