@@ -74,7 +74,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
                 ? value
                 : value == trueValue);
 
-        disabled ? null : onClick && onClick(e, isChecked);
+        disabled || onClick && onClick(e, isChecked);
     }
 
     render() {
