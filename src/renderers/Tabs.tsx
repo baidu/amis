@@ -116,21 +116,25 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             return;
         }
 
+        // 当前 tab 可能不可见，所以需要自动切到一个可见的 tab, 向前找，找一圈
         const tabIndex = findIndex(tabs, (tab: TabProps, index) =>
             tab.hash ? tab.hash === this.state.activeKey : index === this.state.activeKey
         );
 
         if (tabs[tabIndex] && !isVisible(tabs[tabIndex], this.props.data)) {
-            let i = tabIndex - 1;
-            while (tabs[i]) {
-                if (isVisible(tabs[i], data)) {
-                    let activeKey = tabs[i].hash || i;
+            let len = tabs.length;
+            let i = (tabIndex - 1) + len;
+            let tries = len - 1;
+
+            while (tries--) {
+                const index = (i--) % len;
+                if (isVisible(tabs[index], data)) {
+                    let activeKey = tabs[index].hash || index;
                     this.setState({
                         activeKey
                     })
                     break;
                 }
-                i--;
             }
         }
     }
