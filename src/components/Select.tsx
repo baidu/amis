@@ -161,8 +161,6 @@ interface SelectState {
     inputValue: string;
     highlightedIndex: number;
     selection: Array<Option>;
-    checkedAll: boolean;
-    checkedPartial: boolean;
 }
 
 export class Select extends React.Component<SelectProps, SelectState> {
@@ -214,33 +212,18 @@ export class Select extends React.Component<SelectProps, SelectState> {
             inputValue: '',
             highlightedIndex: -1,
             selection: value2array(props.value, props),
-            checkedAll: false,
-            checkedPartial: false
         };
     }
 
     componentDidMount() {
-        const {loadOptions, options, checkAll, defaultCheckAll} = this.props;
+        const {loadOptions, options, multiple, checkAll, defaultCheckAll, onChange} = this.props;
         let {selection} = this.state;
 
-        if (checkAll && options.length) {
-            let checkedAll = false;
-            if (selection.length) {
-                const optionsValues = options.map(option => option.value);
-                const selectionValues = selection.map(select => select.value);
-                checkedAll = optionsValues.every(option => selectionValues.indexOf(option) > -1);
-            }
-            if (defaultCheckAll) {
-                checkedAll = true;
-                selection = union(options, selection);
-            }
-            if (checkedAll) {
-                this.setState({
-                    checkedAll: true,
-                    checkedPartial: true,
-                    selection: selection 
-                });
-            }
+        if (multiple && checkAll && defaultCheckAll && options.length) {
+            selection = union(options, selection);
+            this.setState({
+                selection: selection
+            }, () => onChange(selection));
         }
 
         loadOptions && loadOptions('');
@@ -317,43 +300,27 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     toggleCheckAll() {
-        let {options, onChange} = this.props;
-        const {checkedAll} = this.state;
+        const {options, onChange} = this.props;
+        let {selection} = this.state;
+        const optionsValues = options.map(option => option.value);
+        const selectionValues = selection.map(select => select.value);
+        const checkedAll = optionsValues.every(option => selectionValues.indexOf(option) > -1);
 
-        if (!checkedAll) {
-            this.setState({
-                selection: options,
-                checkedAll: true,
-                checkedPartial: true,
-                isOpen: true
-            });
-            onChange(options);
-        } else {
-            this.setState({
-                selection: [],
-                checkedAll: false,
-                checkedPartial: false,
-                isOpen: true
-            });
-            onChange([]);
-        }
+        selection = checkedAll ? [] : options;
+        this.setState({
+            selection: selection
+        });
+        onChange(selection);
     }
 
     removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
-        const {onChange, options, checkAll} = this.props;
+        const {onChange} = this.props;
         let {selection: value} = this.state;
 
         e && e.stopPropagation();
         value = Array.isArray(value) ? value.concat() : [value];
         value.splice(index, 1);
 
-        if (checkAll && (!value.length || value.length < options.length)) {
-            const checkedPartial = value.some((item:Option) => options.indexOf(item) > -1);
-            this.setState({
-                checkedAll: false,
-                checkedPartial: checkedPartial
-            });
-        }
         onChange(value);
     }
 
@@ -369,8 +336,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     handleChange(selectItem: any) {
-        const {onChange, multiple, onNewOptionClick, options, checkAll} = this.props;
-        let {checkedAll, selection, checkedPartial} = this.state;
+        const {onChange, multiple, onNewOptionClick, checkAll} = this.props;
+        let {selection} = this.state;
 
         if (selectItem.isNew) {
             delete selectItem.isNew;
@@ -378,29 +345,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
         }
 
         if (multiple) {
-            if (checkAll) {
-                if (selectItem.__all) {
-                    this.toggleCheckAll();
-                } else {
-                    selection = selection.concat();
-                    const idx = selection.indexOf(selectItem);
-                    if (~idx) {
-                        selection.splice(idx, 1);
-                    } else {
-                        selection.push(selectItem);
-                    }
-                    onChange(selection);
-
-                    const optionsValues = options.map(option => option.value);
-                    const selectionValues = selection.map(select => select.value);
-                    checkedAll = optionsValues.every(option => selectionValues.indexOf(option) > -1);
-                    checkedPartial = optionsValues.some(option => selectionValues.indexOf(option) > -1);
-                    
-                    this.setState({
-                        checkedAll,
-                        checkedPartial
-                    });
-                }
+            if (checkAll && selectItem.__all) {
+                this.toggleCheckAll();
             } else {
                 selection = selection.concat();
                 const idx = selection.indexOf(selectItem);
@@ -512,8 +458,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
             checkAll,
             checkAllLabel,
         } = this.props;
-        const {selection, checkedAll, checkedPartial} = this.state;
+        const {selection} = this.state;
 
+        let checkedAll = false;
+        let checkedPartial = false;
         let filtedOptions: Array<Option> =
             inputValue && isOpen && !loadOptions
                 ? matchSorter(options, inputValue, {
@@ -524,6 +472,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
         if (multiple) {
             if (checkAll) {
                 filtedOptions.unshift({label: checkAllLabel, value: 'all', __all: true});
+                const optionsValues = options.map(option => option.value);
+                const selectionValues = selection.map(select => select.value);
+                checkedAll = optionsValues.every(option => selectionValues.indexOf(option) > -1);
+                checkedPartial = optionsValues.some(option => selectionValues.indexOf(option) > -1);
             } else {
                 filtedOptions = filtedOptions.filter((option: any) => !~selectedItem.indexOf(option));
             }
