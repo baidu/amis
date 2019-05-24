@@ -874,6 +874,7 @@ export default class Form extends React.Component<FormProps, object> {
                 actions: this.buildActions(),
                 onAction: this.handleAction,
                 disabled: store.loading,
+                btnDisabled: store.loading || store.validating,
                 headerClassName,
                 footerClassName,
                 actionsClassName,
