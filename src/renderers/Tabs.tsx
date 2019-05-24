@@ -64,6 +64,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         this.switchTo = this.switchTo.bind(this);
     }
 
+    componentDidMount() {
+        this.autoJumpToNeighbour();
+    }
+
     componentWillReceiveProps(nextProps: TabsProps) {
         const props = this.props;
 
@@ -107,6 +111,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     }
 
     componentDidUpdate() {
+        this.autoJumpToNeighbour();
+    }
+
+    autoJumpToNeighbour() {
         const {
             tabs,
             data
