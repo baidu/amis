@@ -106,6 +106,35 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         }
     }
 
+    componentDidUpdate() {
+        const {
+            tabs,
+            data
+        } = this.props;
+
+        if (!Array.isArray(tabs)) {
+            return;
+        }
+
+        const tabIndex = findIndex(tabs, (tab: TabProps, index) =>
+            tab.hash ? tab.hash === this.state.activeKey : index === this.state.activeKey
+        );
+
+        if (tabs[tabIndex] && !isVisible(tabs[tabIndex], this.props.data)) {
+            let i = tabIndex - 1;
+            while (tabs[i]) {
+                if (isVisible(tabs[i], data)) {
+                    let activeKey = tabs[i].hash || i;
+                    this.setState({
+                        activeKey
+                    })
+                    break;
+                }
+                i--;
+            }
+        }
+    }
+
     handleSelect(key: any) {
         const {env} = this.props;
 
@@ -162,7 +191,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         }
 
         const mode = tabsMode || dMode;
-        const visibleTabs = tabs.filter(tab => isVisible(tab, data));
 
         return (
             <TabContainer
@@ -179,7 +207,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             >
                 <div>
                     <Nav className={cx('Tabs-links')} role="tablist">
-                        {visibleTabs.map((tab, index) => (
+                        {tabs.map((tab, index) => isVisible(tab, data) ? (
                             <NavItem
                                 className={cx('Tabs-link')}
                                 key={index}
@@ -194,7 +222,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                                     tab.title
                                 )}
                             </NavItem>
-                        ))}
+                        ) : null)}
                     </Nav>
 
                     <TabContent
@@ -202,7 +230,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                         mountOnEnter={mountOnEnter}
                         unmountOnExit={unmountOnExit}
                     >
-                        {visibleTabs.map((tab, index) => (
+                        {tabs.map((tab, index) => isVisible(tab, data) ? (
                             <TabPane
                                 key={index}
                                 eventKey={tab.hash || index}
@@ -213,7 +241,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                                     ? tabRender(tab, this.props)
                                     : render(`tab/${index}`, tab.tab || tab.body || '')}
                             </TabPane>
-                        ))}
+                        ) : null)}
                     </TabContent>
                 </div>
             </TabContainer>
