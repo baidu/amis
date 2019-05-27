@@ -896,6 +896,13 @@ export default class Table extends React.Component<TableProps, object> {
                 <div className={cx('Table-wrapper')}>
                     <table ref={this.affxiedTableRef} className={tableClassName}>
                         <thead>
+                            {store.columnGroup.length ? (
+                                <tr>
+                                    {store.columnGroup.map((item, index) => (
+                                        <th key={index} colSpan={item.colSpan}>{item.label}</th>
+                                    ))}
+                                </tr>
+                            ) : null}
                             <tr>
                                 {store.filteredColumns.map(column =>
                                     this.renderHeadCell(column, {
@@ -928,6 +935,13 @@ export default class Table extends React.Component<TableProps, object> {
                 className={cx('Table-table', store.combineNum > 0 ? 'Table-table--withCombine' : '', tableClassName)}
             >
                 <thead>
+                    {store.columnGroup.length ? (
+                        <tr>
+                            {store.columnGroup.map((item, index) => (
+                                <th key={index} colSpan={item.colSpan}>{item.label}</th>
+                            ))}
+                        </tr>
+                    ) : null}
                     <tr>
                         {columns.map(column =>
                             this.renderHeadCell(column, {
@@ -1341,6 +1355,13 @@ export default class Table extends React.Component<TableProps, object> {
                     >
                         <table ref={this.tableRef} className={tableClassName}>
                             <thead>
+                                {store.columnGroup.length ? (
+                                    <tr>
+                                        {store.columnGroup.map((item, index) => (
+                                            <th key={index} colSpan={item.colSpan}>{item.label}</th>
+                                        ))}
+                                    </tr>
+                                ) : null}
                                 <tr>
                                     {store.filteredColumns.map(column =>
                                         this.renderHeadCell(column, {

@@ -49,6 +49,7 @@ import KeyboardsCrudSchema from './CRUD/Keyboards';
 import FootableCrudSchema from './CRUD/Footable';
 import NestedCrudSchema from './CRUD/Nested';
 import MergeCellSchema from './CRUD/MergeCell';
+import HeaderGroupSchema from './CRUD/HeaderGroup';
 import LoadOnceTableCrudSchema from './CRUD/LoadOnce';
 import SdkTest from './Sdk/Test';
 import JSONSchemaForm from './Form/Schem';
@@ -296,6 +297,11 @@ const navigations = [
                         label: '合并单元格',
                         path: 'crud/merge-cell',
                         component: makeSchemaRenderer(MergeCellSchema)
+                    },
+                    {
+                        label: '表头分组',
+                        path: 'crud/header-group',
+                        component: makeSchemaRenderer(HeaderGroupSchema)
                     },
                     {
                         label: '带边栏',

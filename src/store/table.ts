@@ -21,6 +21,7 @@ export const Column = types
         label: types.optional(types.frozen(), undefined),
         type: types.string,
         name: types.maybe(types.string),
+        groupName: '',
         toggled: false,
         toggable: true,
         searchable: types.maybe(types.frozen()),
@@ -252,6 +253,53 @@ export const TableStore = iRendererStore
             });
         }
 
+        function getColumnGroup():Array<{
+            label: string,
+            colSpan: number
+        }> {
+            const columsn = getFilteredColumns();
+            const len = columsn.length;
+
+            if (!len) {
+                return [];
+            }
+
+            const result:Array<{
+                label: string,
+                colSpan: number
+            }> = [
+                {
+                    label: columsn[0].groupName,
+                    colSpan: 1
+                }
+            ];
+
+            //  如果是勾选栏，让它和下一列合并。
+            if (columsn[0].type === '__checkme' && columsn[1]) {
+                result[0].label = columsn[1].groupName;
+            }
+
+            for (let i = 1; i < len; i++) {
+                let prev = result[result.length -1];
+                const current = columsn[i];
+
+                if (current.groupName === prev.label) {
+                    prev.colSpan++;
+                } else {
+                    result.push({
+                        label: current.groupName,
+                        colSpan: 1
+                    });
+                }
+            }
+
+            if (result.length === 1 && !result[0].label) {
+                result.pop();
+            }
+
+            return result;
+        }
+
         return {
             get filteredColumns() {
                 return getFilteredColumns();
@@ -326,7 +374,11 @@ export const TableStore = iRendererStore
                 return getHoverIndex();
             },
 
-            getData
+            getData,
+
+            get columnGroup() {
+                return getColumnGroup();
+            }
         };
     })
     .actions(self => {

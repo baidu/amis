@@ -148,6 +148,10 @@
             background-color: $Table-thead-bg;
 
             > th {
+                &[colspan] {
+                    text-align: center;
+                }
+
                 padding: $TableCell-paddingY $TableCell-paddingX;
 
                 &:first-child {
@@ -172,6 +176,10 @@
                     margin-left: $gap-xs;
                 }
             }
+        }
+
+        > thead > tr + tr {
+            border-top: $Table-borderWidth solid $Table-borderColor;
         }
 
         > tbody > tr {
