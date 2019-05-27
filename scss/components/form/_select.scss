@@ -156,7 +156,21 @@
         user-select: none;
     }
 
+    &-checkAll {
+        padding: (
+                $Form-select-menu-height - $Form-input-lineHeight *
+                    $Form-input-fontSize - px2rem(2px)
+            )/2 $Form-select-paddingX;
+        border-bottom: px2rem(1px) solid $Form-select-checkall-bottomBorder;
+        min-width: px2rem(100px);
+
+        label {
+            display: block;
+        }
+    }
+
     &-option {
+        min-width: px2rem(100px);
         padding: (
                 $Form-select-menu-height - $Form-input-lineHeight *
                     $Form-input-fontSize - px2rem(2px)

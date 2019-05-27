@@ -6,6 +6,7 @@
 import * as React from 'react';
 import * as cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
+import {autobind} from '../utils/helper';
 
 const sizeMap = {
     sm: 'i-checks-sm',
@@ -44,13 +45,8 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         type: 'checkbox',
     };
 
-    constructor(props: CheckboxProps) {
-        super(props);
-
-        this.hanldeCheck = this.hanldeCheck.bind(this);
-    }
-
-    hanldeCheck(e: React.ChangeEvent<any>) {
+    @autobind
+    handleCheck(e: React.ChangeEvent<any>) {
         const {trueValue, falseValue, onChange} = this.props;
 
         if (!onChange) {
@@ -98,7 +94,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
                             ? value
                             : value == trueValue
                     }
-                    onChange={this.hanldeCheck}
+                    onChange={this.handleCheck}
                     disabled={disabled}
                     readOnly={readOnly}
                     name={name}
