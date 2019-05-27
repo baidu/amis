@@ -463,11 +463,11 @@ export default class Table extends React.Component<TableProps, object> {
         } = (this.heights = {});
         forEach(table.querySelectorAll('thead>tr:last-child>th'), (item: HTMLElement) => {
             heights.header || (heights.header = item.offsetHeight);
-            widths[item.getAttribute('data-index') as string] = item.offsetWidth;
+            widths[item.getAttribute('data-index') as string] = item.clientWidth;
         });
         forEach(
             table.querySelectorAll('tbody>tr>*:first-child'),
-            (item: HTMLElement, index: number) => (heights[index] = item.offsetHeight)
+            (item: HTMLElement, index: number) => (heights[index] = item.clientHeight)
         );
 
         // 让 react 去更新非常慢，还是手动更新吧。
@@ -492,7 +492,8 @@ export default class Table extends React.Component<TableProps, object> {
             ),
             table => {
                 forEach(table.querySelectorAll('thead>tr:last-child>th'), (item: HTMLElement) => {
-                    item.style.cssText += `width: ${this.widths[parseInt(item.getAttribute('data-index') as string, 10)]}px`;
+                    // todo 这个 2 数值，应该从 dom 上读取，也有可能没有border 样式
+                    item.style.cssText += `width: ${this.widths[parseInt(item.getAttribute('data-index') as string, 10)] - 2}px`;
                 });
 
                 forEach(table.querySelectorAll('tbody>tr'), (item: HTMLElement, index) => {
