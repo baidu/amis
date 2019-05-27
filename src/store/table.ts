@@ -255,6 +255,7 @@ export const TableStore = iRendererStore
 
         function getColumnGroup():Array<{
             label: string,
+            index: number,
             colSpan: number
         }> {
             const columsn = getFilteredColumns();
@@ -266,11 +267,13 @@ export const TableStore = iRendererStore
 
             const result:Array<{
                 label: string,
+                index: number,
                 colSpan: number
             }> = [
                 {
                     label: columsn[0].groupName,
-                    colSpan: 1
+                    colSpan: 1,
+                    index: columsn[0].index
                 }
             ];
 
@@ -288,7 +291,8 @@ export const TableStore = iRendererStore
                 } else {
                     result.push({
                         label: current.groupName,
-                        colSpan: 1
+                        colSpan: 1,
+                        index: current.index
                     });
                 }
             }

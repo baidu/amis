@@ -461,9 +461,9 @@ export default class Table extends React.Component<TableProps, object> {
         let heights: {
             [propName: string]: number;
         } = (this.heights = {});
-        forEach(table.querySelectorAll('thead>tr:first-child>th'), (item: HTMLElement) => {
+        forEach(table.querySelectorAll('thead>tr:last-child>th'), (item: HTMLElement) => {
             heights.header || (heights.header = item.offsetHeight);
-            widths[item.getAttribute('index') as string] = item.offsetWidth;
+            widths[item.getAttribute('data-index') as string] = item.offsetWidth;
         });
         forEach(
             table.querySelectorAll('tbody>tr>*:first-child'),
@@ -491,8 +491,8 @@ export default class Table extends React.Component<TableProps, object> {
                 `.${ns}Table-fixedTop table, .${ns}Table-fixedLeft table, .${ns}Table-fixedRight table`
             ),
             table => {
-                forEach(table.querySelectorAll('thead>tr>th'), (item: HTMLElement) => {
-                    item.style.cssText = `width: ${this.widths[parseInt(item.getAttribute('index') as string, 10)]}px`;
+                forEach(table.querySelectorAll('thead>tr:last-child>th'), (item: HTMLElement) => {
+                    item.style.cssText = `width: ${this.widths[parseInt(item.getAttribute('data-index') as string, 10)]}px`;
                 });
 
                 forEach(table.querySelectorAll('tbody>tr'), (item: HTMLElement, index) => {
@@ -899,7 +899,7 @@ export default class Table extends React.Component<TableProps, object> {
                             {store.columnGroup.length ? (
                                 <tr>
                                     {store.columnGroup.map((item, index) => (
-                                        <th key={index} colSpan={item.colSpan}>{item.label}</th>
+                                        <th key={index} data-index={item.index} colSpan={item.colSpan}>{item.label}</th>
                                     ))}
                                 </tr>
                             ) : null}
@@ -907,7 +907,7 @@ export default class Table extends React.Component<TableProps, object> {
                                 {store.filteredColumns.map(column =>
                                     this.renderHeadCell(column, {
                                         key: column.index,
-                                        index: column.index,
+                                        'data-index': column.index,
                                     })
                                 )}
                             </tr>
@@ -938,7 +938,7 @@ export default class Table extends React.Component<TableProps, object> {
                     {store.columnGroup.length ? (
                         <tr>
                             {store.columnGroup.map((item, index) => (
-                                <th key={index} colSpan={item.colSpan}>{item.label}</th>
+                                <th key={index} data-index={item.index} colSpan={item.colSpan}>{item.label}</th>
                             ))}
                         </tr>
                     ) : null}
@@ -946,7 +946,7 @@ export default class Table extends React.Component<TableProps, object> {
                         {columns.map(column =>
                             this.renderHeadCell(column, {
                                 key: column.index,
-                                index: column.index,
+                                'data-index': column.index,
                             })
                         )}
                     </tr>
@@ -1358,14 +1358,14 @@ export default class Table extends React.Component<TableProps, object> {
                                 {store.columnGroup.length ? (
                                     <tr>
                                         {store.columnGroup.map((item, index) => (
-                                            <th key={index} colSpan={item.colSpan}>{item.label}</th>
+                                            <th key={index} data-index={item.index} colSpan={item.colSpan}>{item.label}</th>
                                         ))}
                                     </tr>
                                 ) : null}
                                 <tr>
                                     {store.filteredColumns.map(column =>
                                         this.renderHeadCell(column, {
-                                            index: column.index,
+                                            'data-index': column.index,
                                             key: column.index,
                                         })
                                     )}
