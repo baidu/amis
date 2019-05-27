@@ -16,6 +16,9 @@
 -   `delimiter` 默认为 `,`
 -   `clearable` 默认为 `false`, 当设置为 `true` 时，已选中的选项右侧会有个小 `X` 用来取消设置。
 -   `searchable` 默认为 `false`，表示可以通过输入部分内容检索出选项。
+-   `checkall` 默认为 `false` 开启后支持全选
+-   `checkAllLabel` 默认为 `全选`, 全选的文字
+-   `defaultCheckAll` 是否默认全选，默认为`false`
 -   更多配置请参考 [FormItem](./FormItem.md)
 
 单选

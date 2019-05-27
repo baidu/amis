@@ -14,12 +14,14 @@ import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import * as cx from 'classnames';
 import {closeIcon} from './icons';
 import * as matchSorter from 'match-sorter';
-import {noop, anyChanged} from '../utils/helper';
+import {noop} from '../utils/helper';
 import find = require('lodash/find');
 import isPlainObject = require('lodash/isPlainObject');
+import union = require('lodash/union');
 import {highlight} from '../renderers/Form/Options';
 import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable} from '../theme';
+import Checkbox from './Checkbox';
 
 export interface Option {
     label?: string;
@@ -64,7 +66,7 @@ export function value2array(value: OptionValue | Array<OptionValue>, props: Part
     } else if (Array.isArray(value)) {
         value = value[0];
     }
-
+    
     let expandedValue = expandValue(value as OptionValue, props);
     return expandedValue ? [expandedValue] : [];
 }
@@ -148,6 +150,9 @@ interface SelectProps {
     onNewOptionClick: (value: Option) => void;
     onFocus?: Function;
     onBlur?: Function;
+    checkAll?: boolean;
+    checkAllLabel?: string;
+    defaultCheckAll?: boolean;
 }
 
 interface SelectState {
@@ -176,10 +181,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
         onNewOptionClick: noop,
         inline: false,
         disabled: false,
+        checkAll: false,
+        checkAllLabel: '全选',
+        defaultCheckAll: false
     };
 
     input: HTMLInputElement;
     target: HTMLElement;
+    menu: React.RefObject<HTMLDivElement> = React.createRef();
     constructor(props: SelectProps) {
         super(props);
 
@@ -196,6 +205,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         this.handleStateChange = this.handleStateChange.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.getTarget = this.getTarget.bind(this);
+        this.toggleCheckAll = this.toggleCheckAll.bind(this);
 
         this.state = {
             isOpen: false,
@@ -207,7 +217,15 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     componentDidMount() {
-        const {loadOptions} = this.props;
+        const {loadOptions, options, multiple, checkAll, defaultCheckAll, onChange} = this.props;
+        let {selection} = this.state;
+
+        if (multiple && checkAll && defaultCheckAll && options.length) {
+            selection = union(options, selection);
+            this.setState({
+                selection: selection
+            }, () => onChange(selection));
+        }
 
         loadOptions && loadOptions('');
     }
@@ -235,7 +253,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
         });
     }
 
-    toggle() {
+    toggle(e?: React.MouseEvent<HTMLDivElement>) {
+        if (e && this.menu.current && this.menu.current.contains(e.target as HTMLElement))  {
+            return;
+        }
+
         this.props.disabled ||
             this.setState({
                 isOpen: !this.state.isOpen,
@@ -282,13 +304,28 @@ export class Select extends React.Component<SelectProps, SelectState> {
         this.input = ref;
     }
 
+    toggleCheckAll() {
+        const {options, onChange} = this.props;
+        let {selection} = this.state;
+        const optionsValues = options.map(option => option.value);
+        const selectionValues = selection.map(select => select.value);
+        const checkedAll = optionsValues.every(option => selectionValues.indexOf(option) > -1);
+
+        selection = checkedAll ? [] : options;
+        this.setState({
+            selection: selection
+        });
+        onChange(selection);
+    }
+
     removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
-        let value = this.props.value;
-        const onChange = this.props.onChange;
+        const {onChange} = this.props;
+        let {selection: value} = this.state;
 
         e && e.stopPropagation();
         value = Array.isArray(value) ? value.concat() : [value];
         value.splice(index, 1);
+
         onChange(value);
     }
 
@@ -305,8 +342,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     handleChange(selectItem: any) {
         const {onChange, multiple, onNewOptionClick} = this.props;
-
-        let selection = this.state.selection;
+        let {selection} = this.state;
 
         if (selectItem.isNew) {
             delete selectItem.isNew;
@@ -328,6 +364,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     handleStateChange(changes: any) {
+        const {multiple, checkAll} = this.props;
         let update: any = {};
         const loadOptions = this.props.loadOptions;
         let doLoad = false;
@@ -346,8 +383,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 update = {
                     ...update,
                     inputValue: '',
-                    isOpen: false,
-                    isFocused: false,
+                    isOpen: multiple && checkAll ? true : false,
+                    isFocused: multiple && checkAll ? true : false
                 };
                 doLoad = true;
                 break;
@@ -419,8 +456,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
             promptTextCreator,
             multiple,
             classnames: cx,
+            checkAll,
+            checkAllLabel,
         } = this.props;
+        const {selection} = this.state;
 
+        let checkedAll = false;
+        let checkedPartial = false;
         let filtedOptions: Array<Option> =
             inputValue && isOpen && !loadOptions
                 ? matchSorter(options, inputValue, {
@@ -429,7 +471,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 : options.concat();
 
         if (multiple) {
-            filtedOptions = filtedOptions.filter((option: any) => !~selectedItem.indexOf(option));
+            if (checkAll) {
+                const optionsValues = options.map(option => option.value);
+                const selectionValues = selection.map(select => select.value);
+                checkedAll = optionsValues.every(option => selectionValues.indexOf(option) > -1);
+                checkedPartial = optionsValues.some(option => selectionValues.indexOf(option) > -1);
+            } else {
+                filtedOptions = filtedOptions.filter((option: any) => !~selectedItem.indexOf(option));
+            }
         }
 
         if (
@@ -450,31 +499,59 @@ export class Select extends React.Component<SelectProps, SelectState> {
         }
 
         const menu = (
-            <div className={cx('Select-menu')}>
-                {filtedOptions.length ? (
-                    filtedOptions.map((item, index) => (
-                        <div
-                            {...getItemProps({
-                                key: index,
-                                index,
-                                item,
-                                disabled: item.disabled,
-                            })}
-                            className={cx(`Select-option`, {
-                                'is-disabled': item.disabled,
-                                'is-highlight': highlightedIndex === index,
-                                'is-active':
-                                    selectedItem === item ||
-                                    (Array.isArray(selectedItem) && ~selectedItem.indexOf(item)),
-                            })}
+            <div ref={this.menu} className={cx('Select-menu')}>
+                {multiple && checkAll ? (
+                    <div className={cx('Select-checkAll')}>
+                        <Checkbox
+                            checked={checkedPartial}
+                            partial={checkedPartial && !checkedAll}
+                            onChange={this.toggleCheckAll}
                         >
-                            {item.isNew
-                                ? promptTextCreator(item.label as string)
-                                : item.disabled
-                                ? item[labelField]
-                                : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))}
-                        </div>
-                    ))
+                            {checkAllLabel}
+                        </Checkbox>
+                    </div>
+                ) : null}
+                {filtedOptions.length ? (
+                    filtedOptions.map((item, index) => {
+                        const checked = checkAll ? selection.some((o:Option) => o.value == item.value) : false;
+
+                        return (
+                            <div
+                                {...getItemProps({
+                                    key: index,
+                                    index,
+                                    item,
+                                    disabled: item.disabled,
+                                })}
+                                className={cx(`Select-option`, {
+                                    'is-disabled': item.disabled,
+                                    'is-highlight': highlightedIndex === index,
+                                    'is-active':
+                                        selectedItem === item ||
+                                        (Array.isArray(selectedItem) && ~selectedItem.indexOf(item)),
+                                })}
+                            >
+                                {checkAll ? (
+                                    <Checkbox
+                                        checked={checked}
+                                        trueValue={item.value}
+                                        onChange={() => this.handleChange(item)}
+                                    >
+                                        {item.isNew
+                                            ? promptTextCreator(item.label as string)
+                                            : item.disabled
+                                            ? item[labelField]
+                                            : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))}
+                                    </Checkbox>
+                                ) : (
+                                    item.isNew
+                                        ? promptTextCreator(item.label as string)
+                                        : item.disabled
+                                        ? item[labelField]
+                                        : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))
+                                 )}
+                            </div>
+                    )})
                 ) : (
                     <div className={cx('Select-option Select-option--placeholder')}>{noResultsText}</div>
                 )}
