@@ -188,6 +188,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     input: HTMLInputElement;
     target: HTMLElement;
+    menu: React.RefObject<HTMLDivElement> = React.createRef();
     constructor(props: SelectProps) {
         super(props);
 
@@ -252,7 +253,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
         });
     }
 
-    toggle() {
+    toggle(e?: React.MouseEvent<HTMLDivElement>) {
+        if (e && this.menu.current && this.menu.current.contains(e.target as HTMLElement))  {
+            return;
+        }
+
         this.props.disabled ||
             this.setState({
                 isOpen: !this.state.isOpen,
@@ -336,7 +341,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     handleChange(selectItem: any) {
-        const {onChange, multiple, onNewOptionClick, checkAll} = this.props;
+        const {onChange, multiple, onNewOptionClick} = this.props;
         let {selection} = this.state;
 
         if (selectItem.isNew) {
@@ -345,18 +350,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
         }
 
         if (multiple) {
-            if (checkAll && selectItem.__all) {
-                this.toggleCheckAll();
+            selection = selection.concat();
+            const idx = selection.indexOf(selectItem);
+            if (~idx) {
+                selection.splice(idx, 1);
             } else {
-                selection = selection.concat();
-                const idx = selection.indexOf(selectItem);
-                if (~idx) {
-                    selection.splice(idx, 1);
-                } else {
-                    selection.push(selectItem);
-                }
-                onChange(selection);
+                selection.push(selectItem);
             }
+            onChange(selection);
         } else {
             onChange(selectItem);
         }
@@ -471,7 +472,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
         if (multiple) {
             if (checkAll) {
-                filtedOptions.unshift({label: checkAllLabel, value: 'all', __all: true});
                 const optionsValues = options.map(option => option.value);
                 const selectionValues = selection.map(select => select.value);
                 checkedAll = optionsValues.every(option => selectionValues.indexOf(option) > -1);
@@ -499,7 +499,18 @@ export class Select extends React.Component<SelectProps, SelectState> {
         }
 
         const menu = (
-            <div className={cx('Select-menu')}>
+            <div ref={this.menu} className={cx('Select-menu')}>
+                {multiple && checkAll ? (
+                    <div className={cx('Select-checkAll')}>
+                        <Checkbox
+                            checked={checkedPartial}
+                            partial={checkedPartial && !checkedAll}
+                            onChange={this.toggleCheckAll}
+                        >
+                            {checkAllLabel}
+                        </Checkbox>
+                    </div>
+                ) : null}
                 {filtedOptions.length ? (
                     filtedOptions.map((item, index) => {
                         const checked = checkAll ? selection.some((o:Option) => o.value == item.value) : false;
@@ -515,31 +526,23 @@ export class Select extends React.Component<SelectProps, SelectState> {
                                 className={cx(`Select-option`, {
                                     'is-disabled': item.disabled,
                                     'is-highlight': highlightedIndex === index,
-                                    'is-checkAll': checkAll && index === 0,
                                     'is-active':
                                         selectedItem === item ||
                                         (Array.isArray(selectedItem) && ~selectedItem.indexOf(item)),
                                 })}
                             >
-                                {checkAll ? 
-                                    index === 0 ? (
-                                        <Checkbox
-                                            checked={checkedPartial}
-                                            partial={checkedPartial && !checkedAll}
-                                        >
-                                            {checkAllLabel}
-                                        </Checkbox>
-                                    ) : (
-                                        <Checkbox
-                                            checked={checked}
-                                            trueValue={item.value}
-                                        >
-                                            {item.isNew
-                                                ? promptTextCreator(item.label as string)
-                                                : item.disabled
-                                                ? item[labelField]
-                                                : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))}
-                                        </Checkbox>      
+                                {checkAll ? (
+                                    <Checkbox
+                                        checked={checked}
+                                        trueValue={item.value}
+                                        onChange={() => this.handleChange(item)}
+                                    >
+                                        {item.isNew
+                                            ? promptTextCreator(item.label as string)
+                                            : item.disabled
+                                            ? item[labelField]
+                                            : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))}
+                                    </Checkbox>
                                 ) : (
                                     item.isNew
                                         ? promptTextCreator(item.label as string)

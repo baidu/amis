@@ -1,4 +1,3 @@
-
 /**
  * @file Checkbox
  * @author fex
@@ -7,7 +6,7 @@
 import * as React from 'react';
 import * as cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
-import { autobind } from '../utils/helper';
+import {autobind} from '../utils/helper';
 
 const sizeMap = {
     sm: 'i-checks-sm',
@@ -25,7 +24,6 @@ interface CheckboxProps {
     label?: string;
     className?: string;
     onChange?: (value: any) => void;
-    onClick?: (e:any, checked:boolean) => void;
     value?: any;
     containerClass?: string;
     inline?: boolean;
@@ -58,25 +56,6 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         onChange(e.currentTarget.checked ? trueValue : falseValue);
     }
 
-    @autobind
-    handleClick(e:any) {
-        const {
-            checked,
-            value,
-            trueValue,
-            onClick,
-            disabled
-        } = this.props;
-
-        const isChecked:boolean = !!(typeof checked !== 'undefined'
-            ? checked
-            : typeof value === 'undefined'
-                ? value
-                : value == trueValue);
-
-        disabled || onClick && onClick(e, isChecked);
-    }
-
     render() {
         let {
             size,
@@ -105,7 +84,6 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
                     },
                     className
                 )}
-                onClick={this.handleClick}
             >
                 <input
                     type={type}
