@@ -98,15 +98,13 @@ const availableRanges: {[propName: string]: any} = {
         label: '上周',
         startDate: (now: moment.Moment) => {
             return now
-                .add(-1, 'days')
                 .startOf('week')
                 .add(-1, 'weeks');
         },
         endDate: (now: moment.Moment) => {
             return now
-                .add(-1, 'days')
                 .startOf('week')
-                .add(-1, 'day')
+                .add(-1, 'days')
                 .endOf('day');
         },
     },
