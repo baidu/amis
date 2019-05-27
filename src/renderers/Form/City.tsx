@@ -17,7 +17,8 @@ import { Option } from './Options';
 export interface CityPickerProps {
     value:any;
     onChange: (value:any) => void;
-    joinValues: boolean;
+    extractValue: boolean;
+    joinValues?: boolean;
     delimiter: string;
     classnames: ClassNamesFn;
     classPrefix: string;
@@ -42,6 +43,7 @@ export interface CityPickerState {
 export class CityPicker extends React.Component<CityPickerProps, CityPickerState> {
     static defaultProps = {
         joinValues: true,
+        extractValue: true,
         delimiter: ',',
         allowCity: true,
         allowDistrict: true,
@@ -188,6 +190,7 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
             onChange,
             // allowStreet,
             joinValues,
+            extractValue,
             delimiter
         } = this.props;
 
@@ -199,7 +202,7 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
             // street
         } = this.state;
 
-        if (joinValues) {
+        if (typeof extractValue === "undefined" ? joinValues : extractValue ) {
             code ? onChange(/*allowStreet && street ? [code, street].join(delimiter) :*/ String(code)) : onChange('');
         } else {
             onChange({
@@ -295,6 +298,8 @@ export default ThemedCity;
 export interface LocationControlProps extends FormControlProps {
     allowCity?: boolean;
     allowDistrict?: boolean;
+    extractValue?: boolean;
+    joinValues?: boolean;
     // allowStreet?: boolean;
 };
 export class LocationControl extends React.Component<LocationControlProps> {
@@ -305,6 +310,8 @@ export class LocationControl extends React.Component<LocationControlProps> {
             onChange,
             allowCity,
             allowDistrict,
+            extractValue,
+            joinValues,
             // allowStreet
         } = this.props;
         return (
@@ -313,6 +320,8 @@ export class LocationControl extends React.Component<LocationControlProps> {
                 onChange={onChange}
                 allowCity={allowCity}
                 allowDistrict={allowDistrict}
+                extractValue={extractValue}
+                joinValues={joinValues}
                 // allowStreet={allowStreet}
             />
         );

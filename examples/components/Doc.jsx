@@ -201,6 +201,13 @@ export default {
                             }),
                         },
                         {
+                            label: 'City',
+                            path: '/docs/renderers/City',
+                            getComponent: (location, cb) => require(['../../docs/renderers/City.md'], (doc) => {
+                                cb(null, makeMarkdownRenderer(doc));
+                            }),
+                        },
+                        {
                             label: 'Radios',
                             path: '/docs/renderers/Radios',
                             getComponent: (location, cb) => require(['../../docs/renderers/Radios.md'], (doc) => {
