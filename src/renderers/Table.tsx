@@ -430,7 +430,7 @@ export default class Table extends React.Component<TableProps, object> {
         const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
         const afixedDom = dom.querySelector(`:scope>.${ns}Table-fixedTop`) as HTMLElement;
 
-        afixedDom.style.cssText = `top: ${offsetY}px;width: ${(this.table.parentNode as HTMLElement).offsetWidth}px`;
+        afixedDom.style.cssText += `top: ${offsetY}px;width: ${(this.table.parentNode as HTMLElement).offsetWidth}px`;
         affixed ? afixedDom.classList.add('in') : afixedDom.classList.remove('in');
         // store.markHeaderAffix(clip.top < offsetY && (clip.top + clip.height - 40) > offsetY);
     }
@@ -475,15 +475,15 @@ export default class Table extends React.Component<TableProps, object> {
 
         forEach(
             dom.querySelectorAll(`:scope>.${ns}Table-fixedLeft, :scope>.${ns}Table-fixedRight`),
-            (item: HTMLElement) => (item.style.cssText = `height:${this.totalHeight}px;`)
+            (item: HTMLElement) => (item.style.cssText += `height:${this.totalHeight}px;`)
         );
 
         if (affixHeader) {
-            (dom.querySelector(`.${ns}Table-fixedTop>.${ns}Table-wrapper`) as HTMLElement).style.cssText = `width: ${
+            (dom.querySelector(`.${ns}Table-fixedTop>.${ns}Table-wrapper`) as HTMLElement).style.cssText += `width: ${
                 this.outterWidth
             }px`;
             let affixedTable = dom.querySelector(`.${ns}Table-wrapper table`) as HTMLElement;
-            affixedTable.style.cssText = `width: ${this.totalWidth}px`;
+            affixedTable.style.cssText += `width: ${this.totalWidth}px`;
         }
 
         forEach(
@@ -492,11 +492,11 @@ export default class Table extends React.Component<TableProps, object> {
             ),
             table => {
                 forEach(table.querySelectorAll('thead>tr:last-child>th'), (item: HTMLElement) => {
-                    item.style.cssText = `width: ${this.widths[parseInt(item.getAttribute('data-index') as string, 10)]}px`;
+                    item.style.cssText += `width: ${this.widths[parseInt(item.getAttribute('data-index') as string, 10)]}px`;
                 });
 
                 forEach(table.querySelectorAll('tbody>tr'), (item: HTMLElement, index) => {
-                    item.style.cssText = `height: ${this.heights[index]}px`;
+                    item.style.cssText += `height: ${this.heights[index]}px`;
                 });
             }
         );
