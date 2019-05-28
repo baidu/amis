@@ -73,6 +73,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             this.handleToggle = this.handleToggle.bind(this);
             this.handleToggleAll = this.handleToggleAll.bind(this);
             this.setOptions = this.setOptions.bind(this);
+            this.syncOptions = this.syncOptions.bind(this);
             this.setLoading = this.setLoading.bind(this);
             this.inputRef = this.inputRef.bind(this);
             this.reload = this.reload.bind(this);
@@ -167,7 +168,7 @@ export function registerOptionsControl(config: OptionsConfig) {
                 // todo 优化 name 变化情况。
             }
 
-            if (props.value !== nextProps.value) {
+            if (props.value !== nextProps.value || formItem.expressionsInOptions) {
                 formItem.syncOptions();
             }
 
@@ -352,6 +353,11 @@ export function registerOptionsControl(config: OptionsConfig) {
             formItem && formItem.setOptions(normalizeOptions(options || []));
         }
 
+        syncOptions() {
+            const formItem = this.props.formItem as IFormItemStore;
+            formItem && formItem.syncOptions();
+        }
+
         setLoading(value:boolean) {
             const formItem = this.props.formItem as IFormItemStore;
             formItem && formItem.setLoading(value);
@@ -374,6 +380,7 @@ export function registerOptionsControl(config: OptionsConfig) {
                     loading={formItem ? formItem.loading : false}
                     setLoading={this.setLoading}
                     setOptions={this.setOptions}
+                    syncOptions={this.syncOptions}
                 />
             )
         }
