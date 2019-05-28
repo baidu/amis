@@ -68,6 +68,7 @@ export const FormItemStore = types
         joinValues: true,
         extractValue: false,
         options: types.optional(types.array(types.frozen()), []),
+        expressionsInOptions: false,
         selectedOptions: types.optional(types.frozen(), []),
         filteredOptions: types.optional(types.frozen(), []),
     })
@@ -393,12 +394,18 @@ export const FormItemStore = types
             const value = self.value;
             const selected = Array.isArray(value) ? value.map(item=>item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item)
                 : typeof value === 'string' ? value.split(self.delimiter || ',') : [value && value.hasOwnProperty(self.valueField || 'value') ? value[self.valueField || 'value'] : value];
+            
+            let expressionsInOptions = false;
             let filteredOptions = self.options
-                .filter((item:any) =>
-                    item.visibleOn ? evalExpression(item.visibleOn, form.data) !== false
-                    : item.hiddenOn ? evalExpression(item.hiddenOn, form.data) !== true
-                    : (item.visible !== false || item.hidden !== true)
-                )
+                .filter((item:any) => {
+                    if (!expressionsInOptions && (item.visibleOn || item.hiddenOn)) {
+                        expressionsInOptions = true;
+                    }
+
+                    return item.visibleOn ? evalExpression(item.visibleOn, form.data) !== false
+                        : item.hiddenOn ? evalExpression(item.hiddenOn, form.data) !== true
+                        : (item.visible !== false || item.hidden !== true);
+                })
                 .map((item:any, index) => {
 
                     const disabled = evalExpression(item.disabledOn, form.data);
@@ -416,6 +423,7 @@ export const FormItemStore = types
                     return newItem;
                 });
 
+            self.expressionsInOptions = expressionsInOptions;
             const flattened:Array<any> = flattenTree(filteredOptions);
             const selectedOptions:Array<any> = [];
 
