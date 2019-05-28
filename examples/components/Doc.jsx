@@ -33,7 +33,7 @@ export default {
             children: [
                 {
                     label: 'Page',
-                    path: '/docs/renderers/page',
+                    path: '/docs/renderers/Page',
                     getComponent: (location, cb) => require(['../../docs/renderers/Page.md'], (doc) => {
                         cb(null, makeMarkdownRenderer(doc));
                     }),
@@ -41,351 +41,351 @@ export default {
 
                 {
                     label: 'Form',
-                    path: '/docs/renderers/form',
-                    getComponent: (location, cb) => require(['../../docs/renderers/Form.md'], (doc) => {
+                    path: '/docs/renderers/Form/Form',
+                    getComponent: (location, cb) => require(['../../docs/renderers/Form/Form.md'], (doc) => {
                         cb(null, makeMarkdownRenderer(doc));
                     }),
                     children: [
                         {
                             label: 'FormItem',
-                            path: '/docs/renderers/FormItem',
-                            getComponent: (location, cb) => require(['../../docs/renderers/FormItem.md'], (doc) => {
+                            path: '/docs/renderers/Form/FormItem',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/FormItem.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
 
                         {
-                            label: 'FormItem-List',
-                            path: '/docs/renderers/FormItem-List',
-                            getComponent: (location, cb) => require(['../../docs/renderers/FormItem-List.md'], (doc) => {
+                            label: 'List',
+                            path: '/docs/renderers/Form/List',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/List.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
 
                         {
-                            label: 'FormItem-Button-Group',
-                            path: '/docs/renderers/FormItem-Button-Group',
-                            getComponent: (location, cb) => require(['../../docs/renderers/FormItem-Button-Group.md'], (doc) => {
+                            label: 'Button-Group',
+                            path: '/docs/renderers/Form/Button-Group',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Button-Group.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
 
                         {
-                            label: 'FormItem-Service',
-                            path: '/docs/renderers/FormItem-Service',
-                            getComponent: (location, cb) => require(['../../docs/renderers/FormItem-Service.md'], (doc) => {
+                            label: 'Service',
+                            path: '/docs/renderers/Form/Service',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Service.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
 
                         {
-                            label: 'FormItem-Tabs',
-                            path: '/docs/renderers/FormItem-Tabs',
-                            getComponent: (location, cb) => require(['../../docs/renderers/FormItem-Tabs.md'], (doc) => {
+                            label: 'Tabs',
+                            path: '/docs/renderers/Form/Tabs',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Tabs.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
 
                         {
-                            label: 'FormItem-Table',
-                            path: '/docs/renderers/FormItem-Table',
-                            getComponent: (location, cb) => require(['../../docs/renderers/FormItem-Table.md'], (doc) => {
+                            label: 'Table',
+                            path: '/docs/renderers/Form/Table',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Table.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
 
                         {
-                            label: 'FormItem-HBox',
-                            path: '/docs/renderers/FormItem-HBox',
-                            getComponent: (location, cb) => require(['../../docs/renderers/FormItem-HBox.md'], (doc) => {
+                            label: 'HBox',
+                            path: '/docs/renderers/Form/HBox',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/HBox.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
 
                         {
-                            label: 'FormItem-Grid',
-                            path: '/docs/renderers/FormItem-Grid',
-                            getComponent: (location, cb) => require(['../../docs/renderers/FormItem-Grid.md'], (doc) => {
+                            label: 'Grid',
+                            path: '/docs/renderers/Form/Grid',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Grid.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
-                            label: 'FormItem-Panel',
-                            path: '/docs/renderers/FormItem-Panel',
-                            getComponent: (location, cb) => require(['../../docs/renderers/FormItem-Panel.md'], (doc) => {
+                            label: 'Panel',
+                            path: '/docs/renderers/form/Panel',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Panel.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Hidden',
-                            path: '/docs/renderers/Hidden',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Hidden.md'], (doc) => {
+                            path: '/docs/renderers/Form/Hidden',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Hidden.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Text',
-                            path: '/docs/renderers/Text',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Text.md'], (doc) => {
+                            path: '/docs/renderers/form/Text',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Text.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Textarea',
-                            path: '/docs/renderers/Textarea',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Textarea.md'], (doc) => {
+                            path: '/docs/renderers/Form/Textarea',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Textarea.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Url',
-                            path: '/docs/renderers/Url',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Url.md'], (doc) => {
+                            path: '/docs/renderers/Form/Url',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Url.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Email',
-                            path: '/docs/renderers/Email',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Email.md'], (doc) => {
+                            path: '/docs/renderers/Form/Email',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Email.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Password',
-                            path: '/docs/renderers/Password',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Password.md'], (doc) => {
+                            path: '/docs/renderers/Form/Password',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Password.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Number',
-                            path: '/docs/renderers/Number',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Number.md'], (doc) => {
+                            path: '/docs/renderers/Form/Number',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Number.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Divider',
-                            path: '/docs/renderers/Divider',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Divider.md'], (doc) => {
+                            path: '/docs/renderers/Form/Divider',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Divider.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Select',
-                            path: '/docs/renderers/Select',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Select.md'], (doc) => {
+                            path: '/docs/renderers/Form/Select',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Select.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Chained-Select',
-                            path: '/docs/renderers/Chained-Select',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Chained-Select.md'], (doc) => {
+                            path: '/docs/renderers/Form/Chained-Select',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Chained-Select.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Checkbox',
-                            path: '/docs/renderers/Checkbox',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Checkbox.md'], (doc) => {
+                            path: '/docs/renderers/Form/Checkbox',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Checkbox.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Checkboxes',
-                            path: '/docs/renderers/Checkboxes',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Checkboxes.md'], (doc) => {
+                            path: '/docs/renderers/form/Checkboxes',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Checkboxes.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'City',
-                            path: '/docs/renderers/City',
-                            getComponent: (location, cb) => require(['../../docs/renderers/City.md'], (doc) => {
+                            path: '/docs/renderers/Form/City',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/City.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Radios',
-                            path: '/docs/renderers/Radios',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Radios.md'], (doc) => {
+                            path: '/docs/renderers/Form/Radios',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Radios.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Switch',
-                            path: '/docs/renderers/Switch',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Switch.md'], (doc) => {
+                            path: '/docs/renderers/Form/Switch',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Switch.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Date',
-                            path: '/docs/renderers/Date',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Date.md'], (doc) => {
+                            path: '/docs/renderers/Form/Date',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Date.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Datetime',
-                            path: '/docs/renderers/Datetime',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Datetime.md'], (doc) => {
+                            path: '/docs/renderers/form/Datetime',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Datetime.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Time',
-                            path: '/docs/renderers/Time',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Time.md'], (doc) => {
+                            path: '/docs/renderers/Form/Time',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Time.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Date-Range',
-                            path: '/docs/renderers/Date-Range',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Date-Range.md'], (doc) => {
+                            path: '/docs/renderers/Form/Date-Range',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Date-Range.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Color',
-                            path: '/docs/renderers/Color',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Color.md'], (doc) => {
+                            path: '/docs/renderers/Form/Color',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Color.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Range',
-                            path: '/docs/renderers/Range',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Range.md'], (doc) => {
+                            path: '/docs/renderers/Form/Range',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Range.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Image',
-                            path: '/docs/renderers/Image',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Image.md'], (doc) => {
+                            path: '/docs/renderers/form/Image',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Image.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'File',
-                            path: '/docs/renderers/File',
-                            getComponent: (location, cb) => require(['../../docs/renderers/File.md'], (doc) => {
+                            path: '/docs/renderers/form/File',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/File.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Matrix',
-                            path: '/docs/renderers/Matrix',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Matrix.md'], (doc) => {
+                            path: '/docs/renderers/Form/Matrix',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Matrix.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Tree',
-                            path: '/docs/renderers/Tree',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Tree.md'], (doc) => {
+                            path: '/docs/renderers/Form/Tree',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Tree.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'TreeSelect',
-                            path: '/docs/renderers/TreeSelect',
-                            getComponent: (location, cb) => require(['../../docs/renderers/TreeSelect.md'], (doc) => {
+                            path: '/docs/renderers/Form/TreeSelect',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/TreeSelect.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'NestedSelect',
-                            path: '/docs/renderers/NestedSelect',
-                            getComponent: (location, cb) => require(['../../docs/renderers/NestedSelect.md'], (doc) => {
+                            path: '/docs/renderers/Form/NestedSelect',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/NestedSelect.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Button',
-                            path: '/docs/renderers/Button',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Button.md'], (doc) => {
+                            path: '/docs/renderers/Form/Button',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Button.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Button-Toolbar',
-                            path: '/docs/renderers/Button-Toolbar',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Button-Toolbar.md'], (doc) => {
+                            path: '/docs/renderers/Form/Button-Toolbar',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Button-Toolbar.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Combo',
-                            path: '/docs/renderers/Combo',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Combo.md'], (doc) => {
+                            path: '/docs/renderers/Form/Combo',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Combo.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Array',
-                            path: '/docs/renderers/Array',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Array.md'], (doc) => {
+                            path: '/docs/renderers/Form/Array',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Array.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'SubForm',
-                            path: '/docs/renderers/SubForm',
-                            getComponent: (location, cb) => require(['../../docs/renderers/SubForm.md'], (doc) => {
+                            path: '/docs/renderers/Form/SubForm',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/SubForm.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Picker',
-                            path: '/docs/renderers/Picker',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Picker.md'], (doc) => {
+                            path: '/docs/renderers/Form/Picker',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Picker.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Formula',
-                            path: '/docs/renderers/Formula',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Formula.md'], (doc) => {
+                            path: '/docs/renderers/Form/Formula',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Formula.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Group',
-                            path: '/docs/renderers/Group',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Group.md'], (doc) => {
+                            path: '/docs/renderers/Form/Group',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Group.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'FieldSet',
-                            path: '/docs/renderers/FieldSet',
-                            getComponent: (location, cb) => require(['../../docs/renderers/FieldSet.md'], (doc) => {
+                            path: '/docs/renderers/Form/FieldSet',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/FieldSet.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Repeat',
-                            path: '/docs/renderers/Repeat',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Repeat.md'], (doc) => {
+                            path: '/docs/renderers/Form/Repeat',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Repeat.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Rich-Text',
-                            path: '/docs/renderers/Rich-Text',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Rich-Text.md'], (doc) => {
+                            path: '/docs/renderers/Form/Rich-Text',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Rich-Text.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'Editor',
-                            path: '/docs/renderers/Editor',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Editor.md'], (doc) => {
+                            path: '/docs/renderers/form/Editor',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Editor.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },

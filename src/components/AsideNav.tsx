@@ -121,7 +121,12 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
         }
     }
 
-    toggleExpand(link: LinkItemProps) {
+    toggleExpand(link: LinkItemProps, e?: React.MouseEvent<HTMLElement>) {
+        if (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+
         this.setState({
             navigations: mapTree(
                 this.state.navigations,
@@ -157,7 +162,8 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
                 {...props}
                 key={key}
                 className={cx(`AsideNav-item`, link.className, {
-                    [`is-active`]: link.active || link.open,
+                    [`is-open`]: link.open,
+                    [`is-active`]: link.active,
                 })}
             >
                 {dom}

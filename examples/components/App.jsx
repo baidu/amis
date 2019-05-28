@@ -573,6 +573,8 @@ export class App extends React.PureComponent {
             if (props.location.pathname !== preProps.location.pathname) {
                 const pageURL = props.location.pathname;
                 _hmt && _hmt.push(['_trackPageview', pageURL]);
+                // 页面切换跳转到顶部。
+                window.scrollTo(0, 0);
             }
         }
 
@@ -614,6 +616,7 @@ export class App extends React.PureComponent {
                                 <span
                                     key="expand-toggle"
                                     className={cx('AsideNav-itemArrow')}
+                                    onClick={(e) => toggleExpand(link, e)}
                                 ></span>
                             );
                         }
