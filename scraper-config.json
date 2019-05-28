@@ -1,0 +1,24 @@
+{
+  "index_name": "gh_pages",
+  "start_urls": [
+    "https://baidu.github.io/amis/#/docs/getting-started",
+    "https://baidu.github.io/amis/#/docs/advanced",
+    "https://baidu.github.io/amis/#/docs/renderers",
+    "https://baidu.github.io/amis/#/docs/sdk",
+    "https://baidu.github.io/amis/#/docs/dev",
+    "https://baidu.github.io/amis/#/docs/style"
+  ],
+  "js_render": true,
+  "js_wait": 2,
+  "use_anchors": true,
+  "selectors": {
+    "lvl0": ".markdown-body h1",
+    "lvl1": ".markdown-body h2",
+    "lvl2": ".markdown-body h3",
+    "lvl3": ".markdown-body h4",
+    "lvl4": ".markdown-body h5",
+    "text": ".markdown-body p, .markdown-body li"
+  },
+  "min_indexed_level": 0,
+  "nb_hits": 838
+}

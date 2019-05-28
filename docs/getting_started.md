@@ -26,7 +26,7 @@ title: 快速开始
 简单说明以上配置信息。
 
 -   `$schema` 这个字段可以忽略，他是指定当前 JSON 配置是符合指定路径 https://houtai.baidu.com/v2/schemas/page.json 的 JSON SCHEMA 文件描述的。PS: 编辑器就是靠这个描述文件提示的，可以 hover 到字段上看效果。
--   `type` 指定渲染器类型，这里指定的类型为 `page`。 更多渲染器类型可以去[这里面查看](./renderers)。
+-   `type` 指定渲染器类型，这里指定的类型为 `page`。 更多渲染器类型可以去[这里面查看](./renderers.md)。
 -   `title` 从 title 开始就是对应的渲染模型上的属性了。这里用来指定标题内容。
 -   `subTitle` 副标题.
 -   `remark` 标题上面的提示信息
