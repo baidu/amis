@@ -32,7 +32,7 @@
             font-size: $Layout-asideLink-arrowFontSize;
         }
 
-        .#{$ns}AsideNav-item.is-active > a > &::before {
+        .#{$ns}AsideNav-item.is-open > a > &::before {
             transform: rotate(90deg);
             color: $Layout-asideLink-onActive-arrowColor;
         }
@@ -85,7 +85,7 @@
         transition: all 0.2s ease-in-out 0s;
         background-color: $Layout-aside-onAcitve-bg;
 
-        .is-active > &,
+        .is-open > &,
         .#{$ns}Layout--folded .#{$ns}AsideNav-item:hover > &,
         .#{$ns}Layout--folded .#{$ns}AsideNav-item:focus > &,
         .#{$ns}Layout--folded .#{$ns}AsideNav-item:active > & {
@@ -95,7 +95,7 @@
             overflow: visible;
         }
 
-        .#{$ns}Layout--folded .#{$ns}AsideNav-item.is-active > & {
+        .#{$ns}Layout--folded .#{$ns}AsideNav-item.is-open > & {
             overflow: hidden;
         }
     }
@@ -159,7 +159,7 @@
                 display: none;
             }
 
-            &.is-active .#{$ns}AsideNav-subList {
+            &.is-open .#{$ns}AsideNav-subList {
                 display: block;
             }
         }

@@ -145,9 +145,9 @@ export default function(doc) {
 
             return (
                 <div className="pos-rlt">
-                    <TitleBar title={doc.title} />
+                    {doc.title ? (<TitleBar title={doc.title} />) : null}
                     <div className="markdown-body" ref={this.divRef}>Doc</div>
-                    {doc.toc && doc.toc.children && doc.toc.children.length ? (
+                    {doc.toc && doc.toc.children && doc.toc.children.length > 1 ? (
                         <Portal
                             container={() => document.querySelector('#asideInner')}
                         >

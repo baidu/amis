@@ -3,54 +3,54 @@
 amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成的，掌握他们规则，就能灵活配置出各种页面。
 
 -   [Page](./renderers/Page.md): JSON 配置最外层的 Page 渲染器
--   [Form](./renderers/Form.md): 表单渲染器
-    -   [FormItem](./renderers/FormItem.md): Form 中主要是由各种 FormItem 组成
-        -   [FormItem-List](./renderers/FormItem-List.md): 简单的列表选择框
-        -   [FormItem-Button-Group](./renderers/FormItem-Button-Group.md): 按钮集合
-        -   [FormItem-Service](./renderers/FormItem-Service.md): 动态配置，配置项由接口决定
-        -   [FormItem-Tabs](./renderers/FormItem-Tabs.md): 多个输入框通过选项卡来分组
-        -   [FormItem-Table](./renderers/FormItem-Table.md): 可以用来展示数组类型的数据
-        -   [FormItem-HBox](./renderers/FormItem-HBox.md): 支持 form 内部再用 HBox 布局
-        -   [FormItem-Grid](./renderers/FormItem-Grid.md): 支持 form 内部再用 grid 布局
-        -   [FormItem-Panel](./renderers/FormItem-Panel.md): 还是为了布局，可以把一部分 FormItem 合并到一个 panel 里面单独展示
-    -   [Hidden](./renderers/Hidden.md): 隐藏字段类型
-    -   [Text](./renderers/Text.md): 普通的文本输入框
-    -   [Textarea](./renderers/Textarea.md): 多行文本输入框
-    -   [Url](./renderers/Url.md): URL 输入框
-    -   [Email](./renderers/Email.md): Email 输入框
-    -   [Password](./renderers/Password.md): 密码输入框
-    -   [Number](./renderers/Number.md): 数字输入框
-    -   [Divider](./renderers/Divider.md): 分割线
-    -   [Select](./renderers/Select.md): 选项表单
-    -   [Chained-Select](./renderers/Chained-Select.md): 无限级别下拉
-    -   [Checkbox](./renderers/Checkbox.md): 勾选框
-    -   [Checkboxes](./renderers/Checkboxes.md): 复选框
-    -   [Radios](./renderers/Radios.md): 单选框
-    -   [Switch](./renderers/Switch.md): 可选框，和 checkbox 完全等价
-    -   [Date](./renderers/Date.md): 日期类型
-    -   [Datetime](./renderers/Datetime.md): 日期时间类型
-    -   [Time](./renderers/Time.md): 时间类型
-    -   [Date-Range](./renderers/Date-Range.md): 日期范围类型
-    -   [Color](./renderers/Color.md): 颜色选择器
-    -   [Range](./renderers/Range.md): 范围输入框
-    -   [Image](./renderers/Image.md): 图片格式输
-    -   [File](./renderers/File.md): 文件输入
-    -   [Matrix](./renderers/Matrix.md): 矩阵类型的输入框
-    -   [Tree](./renderers/Tree.md): 树形结构输入框
-    -   [TreeSelect](./renderers/TreeSelect.md): 树形结构选择框
-    -   [NestedSelect](./renderers/NestedSelect.md): 树形结构选择框
-    -   [Button](./renderers/Button.md): 按钮, 包含 button、submit 和 reset
-    -   [Button-Toolbar](./renderers/Button-Toolbar.md): 让多个按钮在一起放置
-    -   [Combo](./renderers/Combo.md): 组合模式
-    -   [Array](./renderers/Array.md): 数组输入框配置
-    -   [SubForm](./renderers/SubForm.md): formItem 还可以是子表单类型
-    -   [Picker](./renderers/Picker.md): 列表选取
-    -   [Formula](./renderers/Formula.md): 公式类型
-    -   [Group](./renderers/Group.md): 表单项集合
-    -   [FieldSet](./renderers/FieldSet.md): 多个输入框可以通过 fieldSet 捆绑在一起
-    -   [Repeat](./renderers/Repeat.md): 可用来设置重复频率
-    -   [Rich-Text](./renderers/Rich-Text.md): 富文本编辑器
-    -   [Editor](./renderers/Editor.md): 编辑器
+-   [Form](./renderers/Form/Form.md): 表单渲染器
+    -   [FormItem](./renderers/Form/FormItem.md): Form 中主要是由各种 FormItem 组成
+    -   [List](./renderers/Form/List.md): 简单的列表选择框
+    -   [Button-Group](./renderers/Form/Button-Group.md): 按钮集合
+    -   [Service](./renderers/Form/Service.md): 动态配置，配置项由接口决定
+    -   [Tabs](./renderers/Form/Tabs.md): 多个输入框通过选项卡来分组
+    -   [Table](./renderers/Form/Table.md): 可以用来展示数组类型的数据
+    -   [HBox](./renderers/Form/HBox.md): 支持 form 内部再用 HBox 布局
+    -   [Grid](./renderers/Form/Grid.md): 支持 form 内部再用 grid 布局
+    -   [Panel](./renderers/Form/Panel.md): 还是为了布局，可以把一部分 FormItem 合并到一个 panel 里面单独展示
+    -   [Hidden](./renderers/Form/Hidden.md): 隐藏字段类型
+    -   [Text](./renderers/Form/Text.md): 普通的文本输入框
+    -   [Textarea](./renderers/Form/Textarea.md): 多行文本输入框
+    -   [Url](./renderers/Form/Url.md): URL 输入框
+    -   [Email](./renderers/Form/Email.md): Email 输入框
+    -   [Password](./renderers/Form/Password.md): 密码输入框
+    -   [Number](./renderers/Form/Number.md): 数字输入框
+    -   [Divider](./renderers/Form/Divider.md): 分割线
+    -   [Select](./renderers/Form/Select.md): 选项表单
+    -   [Chained-Select](./renderers/Form/Chained-Select.md): 无限级别下拉
+    -   [Checkbox](./renderers/Form/Checkbox.md): 勾选框
+    -   [Checkboxes](./renderers/Form/Checkboxes.md): 复选框
+    -   [Radios](./renderers/Form/Radios.md): 单选框
+    -   [Switch](./renderers/Form/Switch.md): 可选框，和 checkbox 完全等价
+    -   [Date](./renderers/Form/Date.md): 日期类型
+    -   [Datetime](./renderers/Form/Datetime.md): 日期时间类型
+    -   [Time](./renderers/Form/Time.md): 时间类型
+    -   [Date-Range](./renderers/Form/Date-Range.md): 日期范围类型
+    -   [Color](./renderers/Form/Color.md): 颜色选择器
+    -   [Range](./renderers/Form/Range.md): 范围输入框
+    -   [Image](./renderers/Form/Image.md): 图片格式输
+    -   [File](./renderers/Form/File.md): 文件输入
+    -   [Matrix](./renderers/Form/Matrix.md): 矩阵类型的输入框
+    -   [Tree](./renderers/Form/Tree.md): 树形结构输入框
+    -   [TreeSelect](./renderers/Form/TreeSelect.md): 树形结构选择框
+    -   [NestedSelect](./renderers/Form/NestedSelect.md): 树形结构选择框
+    -   [Button](./renderers/Form/Button.md): 按钮, 包含 button、submit 和 reset
+    -   [Button-Toolbar](./renderers/Form/Button-Toolbar.md): 让多个按钮在一起放置
+    -   [Combo](./renderers/Form/Combo.md): 组合模式
+    -   [Array](./renderers/Form/Array.md): 数组输入框配置
+    -   [SubForm](./renderers/Form/SubForm.md): formItem 还可以是子表单类型
+    -   [Picker](./renderers/Form/Picker.md): 列表选取
+    -   [Formula](./renderers/Form/Formula.md): 公式类型
+    -   [Group](./renderers/Form/Group.md): 表单项集合
+    -   [FieldSet](./renderers/Form/FieldSet.md): 多个输入框可以通过 fieldSet 捆绑在一起
+    -   [Repeat](./renderers/Form/Repeat.md): 可用来设置重复频率
+    -   [Rich-Text](./renderers/Form/Rich-Text.md): 富文本编辑器
+    -   [Editor](./renderers/Form/Editor.md): 编辑器
     -   [Static](./renderers/Static.md): 纯用来展现数据的
 -   [Wizard](./renderers/Wizard.md): 表单向导
 -   [Tpl](./renderers/Tpl.md): 支持用 JS 模板引擎来组织输出
