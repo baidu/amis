@@ -10,6 +10,7 @@
 | poster    | `string`  |           | 视频封面地址        |
 | muted     | `boolean` |           | 是否静音            |
 | autoPlay  | `boolean` |           | 是否自动播放        |
+| rates     | `array`   |           | 倍数，格式为`[1.0, 1.5, 2.0]`|
 
 ```schema:height="500" scope="body"
 {
