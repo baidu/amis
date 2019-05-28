@@ -20,7 +20,6 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
     -   [Email](./renderers/Form/Email.md): Email 输入框
     -   [Password](./renderers/Form/Password.md): 密码输入框
     -   [Number](./renderers/Form/Number.md): 数字输入框
-    -   [Divider](./renderers/Form/Divider.md): 分割线
     -   [Select](./renderers/Form/Select.md): 选项表单
     -   [Chained-Select](./renderers/Form/Chained-Select.md): 无限级别下拉
     -   [Checkbox](./renderers/Form/Checkbox.md): 勾选框
@@ -59,6 +58,7 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
 -   [Action](./renderers/Action.md): 一种特殊的渲染器，它本身是一个按钮，同时它能触发事件
 -   [Dialog](./renderers/Dialog.md): Dialog 由 Action 触发。他是一个类似于 Page 的容器模型
 -   [Drawer](./renderers/Drawer.md): Drawer 由 Action 触发
+-   [Divider](./renderers/Divider.md): 分割线
 -   [CRUD](./renderers/CRUD.md): 增删改查模型，主要用来展现列表
     -   [CRUD-Table](./renderers/CRUD-Table.md): 请参考 Table
     -   [CRUD-Cards](./renderers/CRUD-Cards.md): 请参考 Cards

@@ -33,7 +33,7 @@ shortname: advanced
     -   form 中弹出则会把 form 中的数据复制份传给 dialog。
     -   crud 中的批量操作按钮。把整个列表数据复制给 dialog。
     -   crud 中的某一项中的按钮，则只会把对应的那一条数据拷贝给 dialog。
--   `servcie`
+-   `service`
     -   父级 容器中的数据可以直接使用，如 page 容器
     -   如果配置了 `api`, `api` 返回的数据可以用。
 

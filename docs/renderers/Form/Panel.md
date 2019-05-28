@@ -3,9 +3,9 @@
 还是为了布局，可以把一部分 [FormItem](./FormItem.md) 合并到一个 panel 里面单独展示。
 
 -   `title` panel 标题
--   `body` [Container](./Types.md#container) 可以是其他渲染模型。
+-   `body` [Container](../Types.md#container) 可以是其他渲染模型。
 -   `bodyClassName` body 的 className.
--   `footer` [Container](./Types.md#container) 可以是其他渲染模型。
+-   `footer` [Container](../Types.md#container) 可以是其他渲染模型。
 -   `footerClassName` footer 的 className.
 -   `controls` 跟 `body` 二选一，如果设置了 controls 优先显示表单集合。
 

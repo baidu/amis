@@ -6,7 +6,7 @@
 -   `format` 默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 moment.
 -   `inputFormat` 默认 `HH:mm` 用来配置显示的时间格式。
 -   `placeholder` 默认 `请选择日期`
--   `timeConstraints` 请参考： https://github.com/YouCanBookMe/react-datetime
+-   `timeConstraints` 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)
 -   `value` 这里面 value 需要特殊说明一下，因为支持相对值。如：
     -   `-2mins` 2 分钟前
     -   `+2days` 2 天后
