@@ -19,7 +19,7 @@
 -   `target` 可以把数据提交给别的组件而不是自己保存。请填写目标组件设置的 name 值，如果填写为 `window` 则把数据同步到地址栏上，同时依赖这些数据的组件会自动重新刷新。
 -   `steps` 数组，配置步骤信息。
 -   `steps[x].title` 步骤标题。
--   `steps[x].mode` 展示默认，跟 [Form](./Form.md) 中的模式一样，选择： `normal`、`horizontal`或者`inline`。
+-   `steps[x].mode` 展示默认，跟 [Form](./Form/Form.md) 中的模式一样，选择： `normal`、`horizontal`或者`inline`。
 -   `steps[x].horizontal` 当为水平模式时，用来控制左右占比。
 -   `steps[x].horizontal.label` 左边 label 的宽度占比。
 -   `steps[x].horizontal.right` 右边控制器的宽度占比。
@@ -28,7 +28,7 @@
 -   `steps[x].initApi` 当前步骤数据初始化接口。
 -   `steps[x].initFetch` 当前步骤数据初始化接口是否初始拉取。
 -   `steps[x].initFetchOn` 当前步骤数据初始化接口是否初始拉取，用表达式来决定。
--   `steps[x].controls` 当前步骤的表单项集合，请参考 [FormItem](./FormItem.md)。
+-   `steps[x].controls` 当前步骤的表单项集合，请参考 [FormItem](./Form/FormItem.md)。
 
 ```schema:height="400" scope="body"
 {
