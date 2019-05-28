@@ -312,9 +312,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
         const checkedAll = optionsValues.every(option => selectionValues.indexOf(option) > -1);
 
         selection = checkedAll ? [] : options;
-        this.setState({
-            selection: selection
-        });
         onChange(selection);
     }
 
