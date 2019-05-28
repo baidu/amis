@@ -1191,7 +1191,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             // 里面放了个 form，form 提交过来的时候不希望把 items 这些发送过来。
             // 因为会把数据呈现在地址栏上。
             data: createObject(
-                createObject(store.data, {
+                createObject(store.filterData, {
                     items: childProps.items,
                     selectedItems: childProps.selectedItems,
                     unSelectedItems: childProps.unSelectedItems,
