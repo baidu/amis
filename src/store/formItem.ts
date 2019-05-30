@@ -352,6 +352,8 @@ export const FormItemStore = types
                     (getRoot(self) as IRendererStore).notify('error', self.errors.join(''));
                 } else {
                     clearError();
+                    self.validated = false; // 拉完数据应该需要再校验一下
+
                     let options:Array<IOption> = json.data.options || json.data.items || json.data.rows || json.data || [];
                     options = normalizeOptions(options as any);
                     setOptions(options);
