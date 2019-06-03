@@ -30,6 +30,7 @@
         position: relative;
         flex-grow: 1;
         line-height: 1;
+        max-width: 100%;
     }
 
     &-placeholder {
@@ -170,7 +171,6 @@
     }
 
     &-option {
-        min-width: px2rem(100px);
         padding: (
                 $Form-select-menu-height - $Form-input-lineHeight *
                     $Form-input-fontSize - px2rem(2px)
