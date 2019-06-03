@@ -34,7 +34,7 @@ export interface CarouselState {
 }
 
 export class Carousel extends React.Component<CarouselProps, CarouselState> {
-    wrapperRef: React.RefObject<HTMLDivElement>;
+    wrapperRef: React.RefObject<HTMLDivElement> = React.createRef();
     intervalTimeout: number;
     durationTimeout: number;
 
@@ -51,18 +51,12 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         placeholder: ''
     };
 
-    constructor(props:CarouselProps) {
-        super(props);
-
-        this.state = {
-            current: 0,
-            options: this.props.value ? this.props.value : this.props.options ? this.props.options : [],
-            showArrows: false,
-            nextAnimation: ''
-        };
-
-        this.wrapperRef = React.createRef();
-    }
+    state = {
+        current: 0,
+        options: this.props.value ? this.props.value : this.props.options ? this.props.options : [],
+        showArrows: false,
+        nextAnimation: ''
+    };
 
     componentDidMount() {
         this.prepareAutoSlide();

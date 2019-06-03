@@ -19,7 +19,7 @@
 | listItem.avatarClassName | `string`                         | `thumb-sm avatar m-r` | 图片 CSS 类名                              |
 | listItem.desc            | `string`                         |                       | 描述，支持模板语法如： \${xxx}             |
 | listItem.body            | `Array` 或者 [Field](./Field.md) |                       | 内容容器，主要用来放置 [Field](./Field.md) |
-| listItem.actions         | Array Of [Button](./Button.md)   |                       | 按钮区域                                   |
+| listItem.actions         | Array Of [Button](./Form/Button.md)   |                       | 按钮区域                                   |
 
 ```schema:height="400" scope="body"
 {

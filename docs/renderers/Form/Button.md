@@ -4,12 +4,12 @@
 
 -   `type` 请设置成 `button`
 -   `label` 按钮文字
--   `icon` 按钮图标。可以使用来自 fontawesome 的图标。
+-   `icon` 按钮图标。可以使用来自 font-awesome 的图标。
 -   `level` 按钮级别。 包含： `link`、`primary`、`success`、`info`、`warning`和`danger`。
 -   `size` 按钮大小。 包含： `xs`、`sm`、`md`和`lg`
 -   `className` 按钮的类名。
 
-如果按钮是 `button` 类型，则还需要配置 [Action](./Action.md) 中定义的属性，否则，amis 不知道如何响应当前按钮点击。
+如果按钮是 `button` 类型，则还需要配置 [Action](../Action.md) 中定义的属性，否则，amis 不知道如何响应当前按钮点击。
 
 ```schema:height="300" scope="form"
 [

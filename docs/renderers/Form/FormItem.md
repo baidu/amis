@@ -12,15 +12,15 @@ Form 中主要是由各种 FormItem 组成。FormItem 中主要包含这些字�
 -   `submitOnChange` 是否该表单项值发生变化时就提交当前表单。
 -   `className` 表单最外层类名。
 -   `disabled` 当前表单项是否是禁用状态。
--   `disabledOn` 通过[表达式](./Types.md#表达式)来配置当前表单项的禁用状态。
+-   `disabledOn` 通过[表达式](../Types.md#表达式)来配置当前表单项的禁用状态。
 -   `visible` 是否可见。
--   `visibleOn` 通过[表达式](./Types.md#表达式)来配置当前表单项是否显示。
+-   `visibleOn` 通过[表达式](../Types.md#表达式)来配置当前表单项是否显示。
 -   `hidden` 是否隐藏，不要跟 `visible` `visibleOn` 同时配置
--   `hiddenOn` 通过[表达式](./Types.md#表达式)来配置当前表单项是否隐藏。
+-   `hiddenOn` 通过[表达式](../Types.md#表达式)来配置当前表单项是否隐藏。
 -   `inputClassName` 表单控制器类名。
 -   `labelClassName` label 的类名。
 -   `required` 是否为必填。
--   `requiredOn` 通过[表达式](./Types.md#表达式)来配置当前表单项是否为必填。
+-   `requiredOn` 通过[表达式](../Types.md#表达式)来配置当前表单项是否为必填。
 -   `validations` 格式验证，支持设置多个，多个规则用英文逗号隔开。
 
     -   `isEmptyString` 必须是空白字符。

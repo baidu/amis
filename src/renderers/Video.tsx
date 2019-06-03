@@ -5,7 +5,7 @@
 /* eslint fecs-indent: [0, "space", 2, 2] */
 
 import * as React from 'react';
-import {Player, Shortcut, BigPlayButton} from 'video-react';
+import {Player, Shortcut, BigPlayButton, ControlBar, PlaybackRateMenuButton} from 'video-react';
 import {padArr} from '../utils/helper';
 import * as cx from 'classnames';
 import {Renderer, RendererProps} from '../factory';
@@ -396,6 +396,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
             playerClassName,
             classPrefix: ns,
             aspectRatio,
+            rates
         } = this.props;
 
         let source = this.props.src || (name && data && (data as any)[name]) || (amisConfig && amisConfig.value);
@@ -422,6 +423,11 @@ export default class Video extends React.Component<VideoProps, VideoState> {
                     muted={muted}
                     aspectRatio={aspectRatio}
                 >
+                    {rates && rates.length ? (
+                        <ControlBar>
+                            <PlaybackRateMenuButton rates={rates} order={7.1} />
+                        </ControlBar>
+                    ) : null}
                     <BigPlayButton position="center" />
                     {sourceNode}
                     <Shortcut disabled />
