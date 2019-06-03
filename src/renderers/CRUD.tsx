@@ -796,7 +796,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
         store.setSelectedItems(newItems);
         store.setUnSelectedItems(newUnSelectedItems);
-        (pickerMode && onSelect) && onSelect(newItems);
+        onSelect && onSelect(newItems);
     }
 
     handleChildPopOverOpen(popOver: any) {
