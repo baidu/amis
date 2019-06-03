@@ -55,9 +55,9 @@
 | editable                     | `boolean`               | false            | 是否可编辑                               |
 | removable                    | `boolean`               | false            | 是否可删除                               |
 | showAddBtn                   | `boolean`               | true             | 是否显示添加按钮                         |
-| addApi                       | [api](./Types.md#Api)   | -                | 新增时提交的 API                         |
-| updateApi                    | [api](./Types.md#Api)   | -                | 修改时提交的 API                         |
-| deleteApi                    | [api](./Types.md#Api)   | -                | 删除时提交的 API                         |
+| addApi                       | [api](../Types.md#Api)   | -                | 新增时提交的 API                         |
+| updateApi                    | [api](../Types.md#Api)   | -                | 修改时提交的 API                         |
+| deleteApi                    | [api](../Types.md#Api)   | -                | 删除时提交的 API                         |
 | addBtnLabel                  | `string`                |                  | 增加按钮名称                             |
 | addBtnIcon                   | `string`                | `"fa fa-plus"`   | 增加按钮图标                             |
 | updateBtnLabel               | `string`                | `""`             | 更新按钮名称                             |
@@ -73,7 +73,7 @@
 | columns[x].quickEditOnUpdate | `boolean` 或者 `object` | -                | 可以用来区分新建模式和更新模式的编辑配置 |
 
 -   更多配置请参考 [FormItem](./FormItem.md)
--   更多 Demo 详情请参考 [表格编辑](/docs/examples/form/table)
+-   更多 Demo 详情请参考 [表格编辑](/amis/#/form/table)
 
 ```schema:height="250" scope="form-item"
 {

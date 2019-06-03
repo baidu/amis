@@ -82,8 +82,8 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
             let cellClassName = `${ns}Grid-col--sm${weight === Math.round(weight) ? weight : ''}`;
             body = chunk(body, columnsCount).map((group, groupIndex) => (
                 <div className={`${ns}Grid`} key={groupIndex}>
-                    {group.map((item, index) => (
-                        <div key={index} className={cellClassName}>{item}</div>
+                    {Array.from({length: columnsCount as number}).map((_, index) => (
+                        <div key={index} className={cellClassName}>{group[index]}</div>
                     ))}
                 </div>
             ));
