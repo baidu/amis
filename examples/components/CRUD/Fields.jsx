@@ -11,6 +11,11 @@ export default {
                 type: "text"
             },
             {
+              name: "audio",
+              label: "音频",
+              type: "audio"
+            },
+            {
                 name: "carousel",
                 label: "轮播图",
                 type: "carousel",

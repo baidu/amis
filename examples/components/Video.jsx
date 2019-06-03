@@ -6,6 +6,7 @@ export default {
         {
             "type": "video",
             "autoPlay": false,
+            "rates": [1.0, 1.5, 2.0],
             "src": "https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
             "poster": "https://video-react.js.org/assets/poster.png"
         }
