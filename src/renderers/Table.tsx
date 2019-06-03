@@ -929,6 +929,8 @@ export default class Table extends React.Component<TableProps, object> {
             classnames: cx,
             classPrefix: ns,
             checkOnItemClick,
+            render,
+            data
         } = this.props;
 
         return (
@@ -980,7 +982,12 @@ export default class Table extends React.Component<TableProps, object> {
                             })
                         ) : (
                             <tr className={cx('Table-placeholder')}>
-                                <td colSpan={columns.length}>{placeholder}</td>
+                                <td colSpan={columns.length}>
+                                    {render('placeholder', {
+                                        type: 'tpl',
+                                        tpl: placeholder
+                                    }, {data})}
+                                </td>
                             </tr>
                         )}
                     </tbody>
@@ -1317,7 +1324,7 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     render() {
-        const {className, store, placeholder, classnames: cx} = this.props;
+        const {className, store, placeholder, classnames: cx, data, render} = this.props;
 
         this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
         const heading = this.renderHeading();
@@ -1377,7 +1384,12 @@ export default class Table extends React.Component<TableProps, object> {
                                     this.renderRows(store.rows)
                                 ) : (
                                     <tr className={cx('Table-placeholder')}>
-                                        <td colSpan={store.filteredColumns.length}>{placeholder}</td>
+                                        <td colSpan={store.filteredColumns.length}>
+                                            {render('placeholder', {
+                                                type: 'tpl',
+                                                tpl: placeholder
+                                            }, {data})}
+                                        </td>
                                     </tr>
                                 )}
                             </tbody>
