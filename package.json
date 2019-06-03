@@ -50,7 +50,7 @@
     "prop-types": "15.6.0",
     "qrcode.react": "^0.8.0",
     "qs": "6.5.1",
-    "rc-input-number": "4.0.0",
+    "rc-input-number": "4.4.5",
     "react": "16.8.6",
     "react-addons-update": "15.6.2",
     "react-bootstrap": "0.32.3",
