@@ -15,6 +15,7 @@ export interface AudioProps extends RendererProps {
 }
 
 export interface AudioState {
+    src?: string;
     isReady?: boolean;
     muted?: boolean;
     playing?: boolean;
@@ -47,6 +48,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     };
 
     state: AudioState = {
+        src: this.props.value || this.props.src || '',
         isReady: false,
         muted: false,
         playing: false,
@@ -79,7 +81,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     @autobind
     progress() {
         clearTimeout(this.progressTimeout);
-        if (this.props.src && this.audio) {
+        if (this.state.src && this.audio) {
             const currentTime = this.audio.currentTime || 0;
             const duration = this.audio.duration;
             const played = currentTime / duration;
@@ -116,7 +118,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     handleMute() {
-        if (!this.props.src) {
+        if (!this.state.src) {
             return;
         }
         const {muted, prevVolume} = this.state;
@@ -130,7 +132,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     handlePlaying() {
-        if (!this.props.src) {
+        if (!this.state.src) {
             return;
         }
         let playing = this.state.playing;
@@ -142,7 +144,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     getCurrentTime() {
-        if (!this.audio || !this.props.src || !this.state.isReady) {
+        if (!this.audio || !this.state.src || !this.state.isReady) {
             return '0:00';
         }
         const duration = this.audio.duration;
@@ -152,7 +154,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     getDuration() {
-        if (!this.audio || !this.props.src) {
+        if (!this.audio || !this.state.src) {
             return '0:00';
         }
         if (!this.state.isReady) {
@@ -180,7 +182,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     onSeekChange(e: any) {
-        if (!this.props.src) {
+        if (!this.state.src) {
             return;
         }
         const played = e.target.value;
@@ -212,7 +214,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     setVolume(e: any) {
-        if (!this.props.src) {
+        if (!this.state.src) {
             return;
         }
         const volume = e.target.value;
@@ -242,7 +244,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     toggleHandlePlaybackRate() {
-        if (!this.props.src) {
+        if (!this.state.src) {
             return;
         }
         this.setState({
@@ -252,7 +254,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     @autobind
     toggleHandleVolume(type: boolean) {
-        if (!this.props.src) {
+        if (!this.state.src) {
             return;
         }
         this.setState({
@@ -370,13 +372,12 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         const {
             className,
             inline,
-            src,
             autoPlay,
             loop,
             controls,
             classnames: cx
         } = this.props;
-        const {muted} = this.state;
+        const {muted, src} = this.state;
 
         return (
             <div className={cx('Audio', className, inline ? 'Audio--inline' : '')}>

@@ -24,6 +24,7 @@ module.exports = function(req, res) {
                     title: '{{name.title}}',
                     description: '{{lorem.words}}'
                 }), Math.round(Math.random() * 10)),
+                audio: 'https://news-bos.cdn.bcebos.com/mvideo/%E7%9A%87%E5%90%8E%E5%A4%A7%E9%81%93%E4%B8%9C.aac',
                 carousel: [
                     {
                         image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'

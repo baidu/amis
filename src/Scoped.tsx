@@ -16,7 +16,7 @@ import { RendererData, Action } from './types';
 interface ScopedComponentType extends React.Component<RendererProps> {
     doAction?: (action: Action, data: RendererData, throwErrors?: boolean) => void;
     receive?: (values: RendererData, subPath?: string) => void;
-    reload?: (subPpath?:string, query?:RendererData | null, ctx?: RendererData) => void;
+    reload?: (subPath?:string, query?:RendererData | null, ctx?: RendererData) => void;
 }
 
 
