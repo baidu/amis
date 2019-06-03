@@ -220,45 +220,46 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
             env,
             embed
         } = this.props;
-
         return (
             <div className={cx(`${ns}PickerControl`, className)}>
-                <div className={`${ns}Picker`}>
-                    {embed ? this.renderBody() : (
-                        <div>
-                            {this.renderValues()}
+                {embed ? (
+                    <div className={`${ns}Picker`}>
+                        {this.renderBody()}
+                    </div>
+                ) : (
+                    <div className={`${ns}Picker`}>
+                        {this.renderValues()}
 
-                            <Button
-                                classPrefix={ns}
-                                className={`${ns}Picker-pickBtn`}
-                                tooltip="点击选择"
-                                tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
-                                level="link"
-                                size="sm"
-                                disabled={disabled}
-                                onClick={this.open}
-                                iconOnly
-                            >
-                                <i className="fa fa-crosshairs" />
-                            </Button>
+                        <Button
+                            classPrefix={ns}
+                            className={`${ns}Picker-pickBtn`}
+                            tooltip="点击选择"
+                            tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
+                            level="link"
+                            size="sm"
+                            disabled={disabled}
+                            onClick={this.open}
+                            iconOnly
+                        >
+                            <i className="fa fa-crosshairs" />
+                        </Button>
 
-                            {render('modal', {
-                                title: '请选择',
-                                size: size,
-                                type: modalMode,
-                                body: {
-                                    children: this.renderBody
-                                }
-                            }, {
-                                    key: 'modal',
-                                    lazyRender: !!source,
-                                    onConfirm: this.handleModalConfirm,
-                                    onClose: this.close,
-                                    show: this.state.isOpened
-                                })}
-                        </div>
+                        {render('modal', {
+                            title: '请选择',
+                            size: size,
+                            type: modalMode,
+                            body: {
+                                children: this.renderBody
+                            }
+                        }, {
+                            key: 'modal',
+                            lazyRender: !!source,
+                            onConfirm: this.handleModalConfirm,
+                            onClose: this.close,
+                            show: this.state.isOpened
+                        })}
+                    </div>
                     )}
-                </div>
             </div>
         );
     }
