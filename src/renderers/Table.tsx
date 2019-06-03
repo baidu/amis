@@ -1432,7 +1432,8 @@ class TableRow extends React.Component<TableRowProps> {
         if (
             !e.currentTarget.contains(target) ||
             ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-            target.closest(`button, a, .${ns}Form-item`)
+            // target.closest(`button, a, .${ns}Form-item`)
+            target.closest(`button, a`) // 兼容Picker的embed模式，所以去掉了.${ns}Form-item
         ) {
             return;
         }

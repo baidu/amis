@@ -148,7 +148,7 @@ export const validateMessages: {
     isEmail: 'Email 格式不正确',
     isRequired: '这是必填项',
     isUrl: 'Url 格式不正确',
-    isInt: '请输入整形数字',
+    isInt: '请输入整型数字',
     isAlpha: '请输入字母',
     isNumeric: '请输入数字',
     isAlphanumeric: '请输入字母或者数字',
