@@ -340,9 +340,11 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
         } = this.props;
 
         if (autoComplete && formItem) {
+            const length = formItem.selectedOptions.length;
+            const lastSelectLabel = length ? formItem.selectedOptions[length - 1].label : '';
             formItem.loadOptions(autoComplete, {
                 ...data,
-                term: this.state.inputValue || formItem.lastSelectValue
+                term: this.state.inputValue || lastSelectLabel
             });
         }
     }
