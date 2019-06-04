@@ -3,7 +3,66 @@
   "start_urls": [
     "https://baidu.github.io/amis/docs/getting-started",
     "https://baidu.github.io/amis/docs/advanced",
-    "https://baidu.github.io/amis/docs/renderers",
+    {
+      "url": "https://baidu.github.io/amis/docs/renderers/Form/(?P<formItem>.*?)$",
+      "selectors_key": "formitem",
+      "variables": {
+        "formItem": [
+          "Array",
+          "Button-Group",
+          "Button-Toolbar",
+          "Button",
+          "Chained-Select",
+          "Checkbox",
+          "Checkboxes",
+          "City",
+          "Color",
+          "Combo",
+          "Date-Range",
+          "Date",
+          "Datetime",
+          "Editor",
+          "Email",
+          "FieldSet",
+          "File",
+          "Form",
+          "FormItem",
+          "Formula",
+          "Grid",
+          "Group",
+          "HBox",
+          "Hidden",
+          "Image",
+          "List",
+          "Matrix",
+          "NestedSelect",
+          "Number",
+          "Panel",
+          "Password",
+          "Picker",
+          "Radios",
+          "Range",
+          "Repeat",
+          "Rich-Text",
+          "Select",
+          "Service",
+          "SubForm",
+          "Switch",
+          "Table",
+          "Tabs",
+          "Text",
+          "Textarea",
+          "Time",
+          "Tree",
+          "TreeSelect",
+          "Url"
+        ]
+      }
+    },
+    {
+      "url": "https://baidu.github.io/amis/docs/renderers",
+      "selectors_key": "renderer"
+    },
     "https://baidu.github.io/amis/docs/sdk",
     "https://baidu.github.io/amis/docs/dev",
     "https://baidu.github.io/amis/docs/style"
@@ -12,16 +71,40 @@
   "js_wait": 1,
   "use_anchors": false,
   "selectors": {
-    "lvl0": {
-      "selector": ".markdown-body h1, .a-TitleBar .h3",
-      "default_value": "\u6e32\u67d3\u5668\u624b\u518c"
+    "default": {
+      "lvl0": ".markdown-body h1, .a-TitleBar .h3",
+      "lvl1": ".markdown-body h2",
+      "lvl2": ".markdown-body h3",
+      "lvl3": ".markdown-body h4",
+      "lvl4": ".markdown-body h5",
+      "text": ".markdown-body p, .markdown-body li"
     },
-    "lvl1": ".markdown-body h2",
-    "lvl2": ".markdown-body h3",
-    "lvl3": ".markdown-body h4",
-    "lvl4": ".markdown-body h5",
-    "text": ".markdown-body p, .markdown-body li"
+    "renderer": {
+      "lvl0": {
+        "selector": ".markdown-body h1, .a-TitleBar .h3",
+        "default_value": "\u6e32\u67d3\u5668\u624b\u518c"
+      },
+      "lvl1": ".markdown-body h2",
+      "lvl2": ".markdown-body h3",
+      "lvl3": ".markdown-body h4",
+      "lvl4": ".markdown-body h5",
+      "text": ".markdown-body p, .markdown-body li"
+    },
+    "formitem": {
+      "lvl0": {
+        "selector": ".markdown-body h1, .a-TitleBar .h3",
+        "default_value": "\u6e32\u67d3\u5668\u624b\u518c"
+      },
+      "lvl1": {
+        "selector": ".markdown-body h2",
+        "default_value": "Form"
+      },
+      "lvl2": ".markdown-body h3",
+      "lvl3": ".markdown-body h4",
+      "lvl4": ".markdown-body h5",
+      "text": ".markdown-body p, .markdown-body li"
+    }
   },
   "min_indexed_level": 0,
-  "nb_hits": 1038
+  "nb_hits": 1130
 }
