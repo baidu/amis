@@ -772,7 +772,7 @@ export class App extends React.PureComponent {
         return (
             <Router history={ history }>
                 <Route component={App}>
-                    <Redirect from={`${ContextPath}/`} to={`${PathPrefix}/pages/simple`} />
+                    <Redirect from={`${ContextPath}/`} to={`${ContextPath}${PathPrefix}/pages/simple`} />
                     <Redirect from={`${PathPrefix}/`} to={`${PathPrefix}/pages/simple`} />
                     {navigations2route(PathPrefix)}
                     <Route path="*" component={NotFound} />

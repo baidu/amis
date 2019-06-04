@@ -231,7 +231,23 @@ if (fis.project.currentMedia() === 'publish') {
 
     ghPages.match('/docs/**.md', {
         rExt: 'js',
-        isMod: true
+        isMod: true,
+        parser: [parserMarkdown, function(contents, file) {
+            return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function(_, quota, link) {
+                if (/\.md($|#)/.test(link)) {
+                    let parts = link.split('#');
+                    parts[0] = parts[0].replace('.md', '');
+    
+                    if (parts[0][0] !== '/') {
+                        parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
+                    }
+    
+                    return 'href=\\' + quota + '/amis' + parts.join('#') + '\\' + quota;
+                }
+    
+                return _;
+            });
+        }],
     });
 
     ghPages.match('/node_modules/(**)', {
