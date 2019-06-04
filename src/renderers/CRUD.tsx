@@ -773,7 +773,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     handleSelect(items: Array<any>, unSelectedItems: Array<any>) {
-        const {store, keepItemSelectionOnPageChange, primaryField, multiple, pickerMode} = this.props;
+        const {store, keepItemSelectionOnPageChange, primaryField, multiple, pickerMode, onSelect} = this.props;
 
         let newItems = items;
         let newUnSelectedItems = unSelectedItems;
@@ -796,6 +796,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
         store.setSelectedItems(newItems);
         store.setUnSelectedItems(newUnSelectedItems);
+        onSelect && onSelect(newItems);
     }
 
     handleChildPopOverOpen(popOver: any) {
