@@ -30,7 +30,7 @@ export class TitleBar extends React.PureComponent<TitleBarProps, any> {
     };
 
     render(): JSX.Element {
-        const {className, title, titleClassName, right} = this.props;
+        const {className, title, titleClassName, right, classnames: cx} = this.props;
 
         let left = title ? <div className={titleClassName}>{title}</div> : null;
 
@@ -47,7 +47,7 @@ export class TitleBar extends React.PureComponent<TitleBarProps, any> {
             body = <div className="wrapper">{left}</div>;
         }
 
-        return <div className={className}>{body}</div>;
+        return <div className={cx(className, 'TitleBar')}>{body}</div>;
     }
 }
 

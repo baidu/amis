@@ -12,7 +12,7 @@
   "js_wait": 1,
   "use_anchors": true,
   "selectors": {
-    "lvl0": ".markdown-body h1",
+    "lvl0": ".markdown-body h1, .a-TitleBar .h3",
     "lvl1": ".markdown-body h2",
     "lvl2": ".markdown-body h3",
     "lvl3": ".markdown-body h4",
