@@ -1,4 +1,4 @@
-## Image
+### Image
 
 图片格式输入，默认 amis 会直接存储在 FEX 的 hiphoto 里面，提交到 form 是直接的图片 url。
 

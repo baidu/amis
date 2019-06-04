@@ -1,4 +1,4 @@
-# Tpl
+## Tpl
 
 tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodash 的 [template](https://lodash.com/docs/4.15.0#template)，关于语法部分，请前往 lodash 文档页面。
 

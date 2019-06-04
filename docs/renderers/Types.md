@@ -1,6 +1,6 @@
-# 类型说明
+## 类型说明
 
-## Container
+### Container
 
 Container 不是一个特定的渲染器，而是 amis 中一个特殊类型，它是以下类型的任何一种。
 
@@ -40,7 +40,7 @@ Container 不是一个特定的渲染器，而是 amis 中一个特殊类型，�
 }
 ```
 
-## API
+### API
 
 Api 类型可以是字符串或者对象。API 中可以直接设置数据发送结构，注意看示例。
 
@@ -125,7 +125,7 @@ Api 类型可以是字符串或者对象。API 中可以直接设置数据发送
 
 amis 所有值为 url 的如： `"http://www.baidu.com"` 都会被替换成 proxy 代理，如果不希望这么做，请明确指示如： `"raw:http://www.baidu.com"`。还有为了安全，amis 默认只能转发公司内部 API 接口，如果您的接口在外网环境，也请明确指示如：`"external:http://www.baidu.com"`
 
-## 表达式
+### 表达式
 
 配置项中，所有 `boolean` 类型的配置，都可以用 JS 表达式来配置。所有`boolean` 配置项，后面加个 `On` 则是表达式配置方式，可以用 js 语法来根据当前模型中的数据来决定是否启用。
 如：[FormItem](./FormItem.md) 中的 `disabledOn`、`hiddenOn`、`visibleOn`、[CRUD](./CRUD.md) 中的 `itemDraggableOn` 等等。

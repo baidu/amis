@@ -12,7 +12,10 @@
   "js_wait": 1,
   "use_anchors": true,
   "selectors": {
-    "lvl0": ".markdown-body h1, .a-TitleBar .h3",
+    "lvl0": {
+      "selector": ".markdown-body h1, .a-TitleBar .h3",
+      "default_value": "\u6e32\u67d3\u5668\u624b\u518c"
+    },
     "lvl1": ".markdown-body h2",
     "lvl2": ".markdown-body h3",
     "lvl3": ".markdown-body h4",
@@ -20,5 +23,5 @@
     "text": ".markdown-body p, .markdown-body li"
   },
   "min_indexed_level": 0,
-  "nb_hits": 1950
+  "nb_hits": 1571
 }

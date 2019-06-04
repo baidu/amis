@@ -1,4 +1,4 @@
-# Dialog
+## Dialog
 
 Dialog 由 [Action](./Action.md) 触发。他是一个类似于 [Page](./Page.md) 的容器模型。
 

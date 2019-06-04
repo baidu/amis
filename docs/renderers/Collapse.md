@@ -1,4 +1,4 @@
-# Collapse
+## Collapse
 
 折叠器
 

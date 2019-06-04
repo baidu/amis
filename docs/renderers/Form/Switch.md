@@ -1,4 +1,4 @@
-## Switch
+### Switch
 
 可选框，和 checkbox 完全等价。
 

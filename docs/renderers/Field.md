@@ -1,4 +1,4 @@
-# Field
+## Field
 
 主要用在 [Table](./Table.md) 的列配置 Column、[List](./List.md) 的内容、[Card](./Card.md) 卡片的内容和表单的[Static-XXX](./Static.md#static-xxx) 中。它主要用来展示数据。
 
@@ -74,7 +74,7 @@
 }
 ```
 
-## Field 通用配置
+### 通用配置
 
 -   `name` 绑定变量名。
 -   `placeholder` 当没有值时的展示内容。
@@ -89,19 +89,19 @@
 -   `copyable` 配置后会在内容区增加一个复制按钮，点击后把内容复制到剪切板。
     todo
 
-## Tpl(Field)
+### Tpl(Field)
 
 请参考[tpl](./Tpl.md)
 
-## Plain(Field)
+### Plain(Field)
 
 请参考[Plain](./Plain.md)
 
-## Json(Field)
+### Json(Field)
 
 todo
 
-## Date(Field)
+### Date(Field)
 
 用来显示日期。
 
@@ -109,7 +109,7 @@ todo
 -   `format` 默认为 `YYYY-MM-DD`，时间格式，请参考 moment 中的格式用法。
 -   `valueFormat` 默认为 `X`，时间格式，请参考 moment 中的格式用法。
 
-## Mapping(Field)
+### Mapping(Field)
 
 用来对值做映射显示。
 
@@ -129,7 +129,7 @@ todo
 
     当值为 1 时，显示 One, 当值为其他时会命中 `*` 所以显示 `其他 flag的值`。
 
-## Image(Field)
+### Image(Field)
 
 用来展示图片。
 
@@ -139,7 +139,7 @@ todo
 -   `className` CSS 类名。
 -   `src` 图片地址，支持变量。如果想动态显示，请勿配置。
 
-## Progress(Field)
+### Progress(Field)
 
 用来展示进度条。
 
@@ -157,7 +157,7 @@ todo
 -   `progressClassName` 进度外层 CSS 类名 默认为: `progress-xs progress-striped active m-t-xs m-b-none`
 -   `progressBarClassName` 进度条 CSS 类名。
 
-## Status(Field)
+### Status(Field)
 
 用来显示状态，用图表展示。
 
@@ -174,7 +174,7 @@ todo
 
     这个例子，当值为 0 、2、4 ... 时显示红 `X`， 当值为 1, 3, 5 ...  绿 `√`
 
-## Switch(Field)
+### Switch(Field)
 
 用来占一个开关。
 
