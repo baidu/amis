@@ -1,4 +1,4 @@
-### Table(FormItem)
+## Table(FormItem)
 
 可以用来展现数据的,可以用来展示数组类型的数据，比如 multiple 的[子 form](./SubForm.md)。
 

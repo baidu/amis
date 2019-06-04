@@ -150,21 +150,26 @@ export default function(schema) {
 
         render() {
             const ns = this.props.classPrefix;
+            const showCode = this.props.showCode;
             return (
                 <div className="schema-wrapper">
-                    <DrawerContainer
-                        classPrefix={ns}
-                        size="lg"
-                        onHide={this.close}
-                        show={this.state.open}
-                        position="left"
-                    >
-                       {this.state.open ? this.renderCode() : null}
-                    </DrawerContainer>
+                    {showCode !== false ? (
+                        <DrawerContainer
+                            classPrefix={ns}
+                            size="lg"
+                            onHide={this.close}
+                            show={this.state.open}
+                            position="left"
+                        >
+                        {this.state.open ? this.renderCode() : null}
+                        </DrawerContainer>
+                    ) : null }
                     {this.renderSchema()}
-                    <Portal container={() => document.querySelector('.navbar-nav')}>
-                        <Button classPrefix={ns} onClick={this.toggleCode} active={this.state.open} iconOnly tooltip="查看源码" level="link" placement="bottom" className="view-code"><i className="fa fa-code" /></Button>
-                    </Portal>
+                    {showCode !== false ? (
+                        <Portal container={() => document.querySelector('.navbar-nav')}>
+                            <Button classPrefix={ns} onClick={this.toggleCode} active={this.state.open} iconOnly tooltip="查看源码" level="link" placement="bottom" className="view-code"><i className="fa fa-code" /></Button>
+                        </Portal>
+                    ) : null}
                 </div>
             );
         }

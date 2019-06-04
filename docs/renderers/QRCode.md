@@ -1,4 +1,4 @@
-## QRCode
+# QRCode
 
 二维码显示组件
 

@@ -1,4 +1,4 @@
-### Table(CRUD)
+## Table(CRUD)
 
 在 CRUD 中的 Table 主要增加了 Column 里面的以下配置功能，更多参数，请参考[Table](./Table.md)
 

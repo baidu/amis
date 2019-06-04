@@ -1,4 +1,4 @@
-### Rich-Text
+## Rich-Text
 
 富文本编辑器
 

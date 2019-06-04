@@ -1,4 +1,4 @@
-### HBox(FormItem)
+## HBox(FormItem)
 
 支持 form 内部再用 HBox 布局，实现左右排列。没错用 [Group](./Group.md) 也能实现，所以还是推荐用 [Group](./Group.md)。
 
