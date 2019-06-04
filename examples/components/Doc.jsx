@@ -111,7 +111,7 @@ export default {
                         },
                         {
                             label: 'Panel',
-                            path: '/docs/renderers/form/Panel',
+                            path: '/docs/renderers/Form/Panel',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/Panel.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
@@ -125,7 +125,7 @@ export default {
                         },
                         {
                             label: 'Text',
-                            path: '/docs/renderers/form/Text',
+                            path: '/docs/renderers/Form/Text',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/Text.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
@@ -195,7 +195,7 @@ export default {
                         },
                         {
                             label: 'Checkboxes',
-                            path: '/docs/renderers/form/Checkboxes',
+                            path: '/docs/renderers/Form/Checkboxes',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/Checkboxes.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
@@ -230,7 +230,7 @@ export default {
                         },
                         {
                             label: 'Datetime',
-                            path: '/docs/renderers/form/Datetime',
+                            path: '/docs/renderers/Form/Datetime',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/Datetime.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
@@ -265,14 +265,14 @@ export default {
                         },
                         {
                             label: 'Image',
-                            path: '/docs/renderers/form/Image',
+                            path: '/docs/renderers/Form/Image',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/Image.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
                         {
                             label: 'File',
-                            path: '/docs/renderers/form/File',
+                            path: '/docs/renderers/Form/File',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/File.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
@@ -384,7 +384,7 @@ export default {
                         },
                         {
                             label: 'Editor',
-                            path: '/docs/renderers/form/Editor',
+                            path: '/docs/renderers/Form/Editor',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/Editor.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
