@@ -12,7 +12,7 @@ import {
     Action
 } from '../../types';
 import find = require('lodash/find');
-import { anyChanged } from '../../utils/helper';
+import {anyChanged, autobind} from '../../utils/helper';
 import findIndex = require('lodash/findIndex');
 
 export interface PickerProps extends OptionsControlProps {
@@ -35,9 +35,10 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         "options",
         "value",
         "inline",
-        "multiple"
+        "multiple",
+        "embed",
     ];
-    static defaultProps:Partial<PickerProps> = {
+    static defaultProps: Partial<PickerProps> = {
         modalMode: 'dialog',
         multiple: false,
         pickerSchema: {
@@ -45,24 +46,16 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
             listItem: {
                 title: '${label}'
             }
-        }
+        },
+        embed: false
     }
 
-    state:PickerState = {
+    state: PickerState = {
         isOpened: false,
         schema: this.buildSchema(this.props)
     };
 
-    constructor(props:PickerProps) {
-        super(props);
-
-        this.open = this.open.bind(this);
-        this.close = this.close.bind(this);
-        this.handleModalConfirm = this.handleModalConfirm.bind(this);
-        this.renderBody = this.renderBody.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps:PickerProps) {
+    componentWillReceiveProps(nextProps: PickerProps) {
         const props = this.props;
 
         if (anyChanged([
@@ -76,7 +69,7 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         }
     }
 
-    buildSchema(props:PickerProps) {
+    buildSchema(props: PickerProps) {
         return {
             ...props.pickerSchema,
             type: 'crud',
@@ -87,38 +80,47 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
             valueField: props.valueField,
             labelField: props.labelField,
             checkOnItemClick: true,
-            
+
             // 不支持批量操作，会乱套
-            bulkActions: props.multiple ? (props.pickerSchema as Schema).bulkActions : [], 
+            bulkActions: props.multiple ? (props.pickerSchema as Schema).bulkActions : [],
         }
     }
 
+    @autobind
     open() {
         this.setState({
             isOpened: true
         });
     }
 
+    @autobind
     close() {
         this.setState({
             isOpened: false
         });
     }
 
-    handleModalConfirm(values: Array<any>, action:Action, ctx:any, components:Array<any>) {
+    @autobind
+    handleModalConfirm(values: Array<any>, action: Action, ctx: any, components: Array<any>) {
+        const idx = findIndex(components, (item: any) => item.props.type === "crud");
+        this.handleChange(values[idx].items);
+        this.close();
+    }
+
+    @autobind
+    handleChange(items: Array<any>) {
         const {
             joinValues,
-            extractValue,
             valueField,
             delimiter,
-            setOptions,
+            extractValue,
+            multiple,
             options,
-            onChange,
-            multiple
+            setOptions,
+            onChange
         } = this.props;
-        const idx = findIndex(components, (item:any) => item.props.type === "crud");
-        const items:Array<any> = values[idx].items;
-        let value:any = items;
+
+        let value: any = items;
 
         if (joinValues) {
             value = items.map((item: any) => item[valueField || 'value']).join(delimiter || ',');
@@ -128,7 +130,7 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
             value = multiple ? items : items[0];
         }
 
-        let additionalOptions:Array<any> = [];
+        let additionalOptions: Array<any> = [];
         items.forEach(item => {
             if (!find(options, option => item[valueField || 'value'] == option[valueField || 'value'])) {
                 additionalOptions.push(item);
@@ -136,12 +138,10 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         });
 
         additionalOptions.length && setOptions(options.concat(additionalOptions));
-
         onChange(value);
-        this.close();
     }
 
-    removeItem(index:number) {
+    removeItem(index: number) {
         const {
             selectedOptions,
             joinValues,
@@ -154,7 +154,7 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         const items = selectedOptions.concat();
         items.splice(index, 1);
 
-        let value:any = items;
+        let value: any = items;
 
         if (joinValues) {
             value = items.map((item: any) => item[valueField || 'value']).join(delimiter || ',');
@@ -163,14 +163,6 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         } else {
             value = multiple ? items : items[0];
         }
-
-        // if (joinValues) {
-        //     value = items.map((item: any) => item[valueField || 'value']).join(delimiter || ',');
-        // } else if (extractValue) {
-        //     value = items.map((item: any) => item[valueField || 'value']);
-        // } else if (!multiple) {
-        //     value = value[0];
-        // }
 
         onChange(value);
     }
@@ -189,27 +181,30 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
                         'is-disabled': disabled
                     })}>
                         <span data-tooltip="删除" data-position="bottom" className={`${ns}Picker-valueIcon`} onClick={this.removeItem.bind(this, index)}>×</span>
-                        <span className={`${ns}Picker-valueLabel`}>{item[labelField||'label']}</span>
+                        <span className={`${ns}Picker-valueLabel`}>{item[labelField || 'label']}</span>
                     </div>
                 ))}
             </div>
         );
     }
 
+    @autobind
     renderBody() {
         const {
             render,
             selectedOptions,
             options,
             multiple,
-            valueField
+            valueField,
+            embed
         } = this.props;
 
         return render('modal-body', this.state.schema, {
             value: selectedOptions,
             valueField,
             options: options,
-            multiple
+            multiple,
+            onSelect: embed ? this.handleChange : undefined
         }) as JSX.Element;
     }
 
@@ -220,46 +215,51 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
             disabled,
             render,
             modalMode,
-            pickerSchema,
             source,
             size,
-            env
+            env,
+            embed
         } = this.props;
-
         return (
             <div className={cx(`${ns}PickerControl`, className)}>
-                <div className={`${ns}Picker`}>
-                    {this.renderValues()}
+                {embed ? (
+                    <div className={`${ns}Picker`}>
+                        {this.renderBody()}
+                    </div>
+                ) : (
+                    <div className={`${ns}Picker`}>
+                        {this.renderValues()}
 
-                    <Button
-                        classPrefix={ns}
-                        className={`${ns}Picker-pickBtn`}
-                        tooltip="点击选择"
-                        tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
-                        level="link"
-                        size="sm"
-                        disabled={disabled}
-                        onClick={this.open}
-                        iconOnly
-                    >
-                        <i className="fa fa-crosshairs" />
-                    </Button>
+                        <Button
+                            classPrefix={ns}
+                            className={`${ns}Picker-pickBtn`}
+                            tooltip="点击选择"
+                            tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
+                            level="link"
+                            size="sm"
+                            disabled={disabled}
+                            onClick={this.open}
+                            iconOnly
+                        >
+                            <i className="fa fa-crosshairs" />
+                        </Button>
 
-                    {render('modal', {
-                        title: '请选择',
-                        size: size,
-                        type: modalMode,
-                        body: {
-                            children: this.renderBody
-                        }
-                    }, {
-                        key: 'modal',
-                        lazyRender: !!source,
-                        onConfirm: this.handleModalConfirm,
-                        onClose: this.close,
-                        show: this.state.isOpened
-                    })}
-                </div>
+                        {render('modal', {
+                            title: '请选择',
+                            size: size,
+                            type: modalMode,
+                            body: {
+                                children: this.renderBody
+                            }
+                        }, {
+                            key: 'modal',
+                            lazyRender: !!source,
+                            onConfirm: this.handleModalConfirm,
+                            onClose: this.close,
+                            show: this.state.isOpened
+                        })}
+                    </div>
+                    )}
             </div>
         );
     }
