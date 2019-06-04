@@ -82,6 +82,7 @@ import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
 import Select from '../../src/components/Select';
 import Button from '../../src/components/Button';
+import DocSearch from './DocSearch';
 
 let PathPrefix = '/examples';
 
@@ -706,6 +707,8 @@ export class App extends React.PureComponent {
                                 />
                            )}
                         </div>
+
+                        <DocSearch />
                     </div>
                 </div>
             );

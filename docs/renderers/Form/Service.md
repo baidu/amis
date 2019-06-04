@@ -1,4 +1,4 @@
-### Service(FormItem)
+## Service(FormItem)
 
 目前看到的配置方式都是静态配置，如果你想动态配置，即配置项由接口决定，那么就使用此渲染器。
 
