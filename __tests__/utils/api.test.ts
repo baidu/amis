@@ -1,4 +1,9 @@
 import {
+    render as amisRender
+} from '../../src/index';
+import {wait, makeEnv} from '../helper';
+import {render, fireEvent, cleanup} from 'react-testing-library';
+import {
     buildApi,
     isApiOutdated
 } from '../../src/utils/api';
@@ -143,4 +148,47 @@ test('api:isApiOutdated', () => {
         a: 2,
         b: 2,
     })).toBeFalsy();
+});
+
+test('api:cache', async () => {
+    let count = 1;
+    const fetcher = jest.fn().mockImplementation(() => Promise.resolve({
+        data: {
+            status: 0,
+            msg: 'ok',
+            data: {
+                a: count++
+            }
+        }
+    }));
+    const {
+        container,
+        getByText
+    } = render(amisRender({
+        type: 'page',
+        name: 'thepage',
+        initApi: {
+            method: 'get',
+            url: '/api/xxx?id=${id}',
+            cache: 2000
+        },
+        toolbar: {
+            type: 'button',
+            label: 'Reload',
+            actionType: 'reload',
+            target: 'thepage'
+        },
+        body: 'The variable value is ${a}'
+    }, {}, makeEnv({
+        fetcher
+    })));
+
+    await wait(100);
+    expect(container).toMatchSnapshot();
+
+    fireEvent.click(getByText(/Reload/));
+
+    await wait(100);
+    expect(fetcher).toHaveBeenCalledTimes(1); // 只请求一次，第二次请求从缓存中取
+    expect(container).toMatchSnapshot();
 });

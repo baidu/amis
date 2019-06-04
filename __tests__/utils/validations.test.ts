@@ -55,7 +55,7 @@ test('validation:isInt valid', () => {
     expect(validate(1, {}, {
         isInt: true
     }, {
-        isInt: '请输入整形数字'
+        isInt: '请输入整型数字'
     })).toMatchObject([]);
 });
 
@@ -63,8 +63,8 @@ test('validation:isInt invalid', () => {
     expect(validate(1.1, {}, {
         isInt: true
     }, {
-        isInt: '请输入整形数字'
-    })).toMatchObject(['请输入整形数字']);
+        isInt: '请输入整型数字'
+    })).toMatchObject(['请输入整型数字']);
 });
 
 test('validation:isAlpha valid', () => {
@@ -323,7 +323,7 @@ test('validation:multipleRules invalid', () => {
     expect(validate('abc', {}, {
         isUrl: true,
         isInt: true
-    })).toMatchObject(['Url 格式不正确', '请输入整形数字']);
+    })).toMatchObject(['Url 格式不正确', '请输入整型数字']);
 });
 
 test('validation:matchRegexp valid', () => {
