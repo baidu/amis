@@ -85,9 +85,11 @@ import Button from '../../src/components/Button';
 import DocSearch from './DocSearch';
 
 let PathPrefix = '/examples';
+let ContextPath = '';
 
 if (process.env.NODE_ENV === 'production') {
-    PathPrefix = ''
+    PathPrefix = '';
+    ContextPath =  '/amis'
 }
 
 const navigations = [
@@ -634,9 +636,9 @@ export class App extends React.PureComponent {
                             <span className={cx(`AsideNav-itemLabel`)} key="label">{link.label}</span>
                         );
 
-                        return link.path ? (<Link to={link.path[0] === '/' ? link.path : `${PathPrefix}/${link.path}`}>{children}</Link>) : (<a onClick={link.children ? () => toggleExpand(link) : null}>{children}</a>);
+                        return link.path ? (<Link to={link.path[0] === '/' ? (ContextPath + link.path) : `${ContextPath}${PathPrefix}/${link.path}`}>{children}</Link>) : (<a onClick={link.children ? () => toggleExpand(link) : null}>{children}</a>);
                     }}
-                    isActive={link => isActive(link.path && link.path[0] === '/' ? link.path : `${PathPrefix}/${link.path}`, location)}
+                    isActive={link => isActive(link.path && link.path[0] === '/' ? (ContextPath + link.path) : `${ContextPath}${PathPrefix}/${link.path}`, location)}
                 />
             );
         }
@@ -746,11 +748,11 @@ export class App extends React.PureComponent {
             root.children && mapTree(root.children, item => {
                 if (item.path && item.component) {
                     routes.push(
-                        <Route key={routes.length + 1} path={item.path[0] === '/' ? item.path : `${pathPrefix}/${item.path}`} component={item.component} />
+                        <Route key={routes.length + 1} path={item.path[0] === '/' ? (ContextPath + item.path) : `${ContextPath}${pathPrefix}/${item.path}`} component={item.component} />
                     )
                 } else if (item.path && item.getComponent) {
                     routes.push(
-                        <Route key={routes.length + 1} path={item.path[0] === '/' ? item.path : `${pathPrefix}/${item.path}`} getComponent={item.getComponent} />
+                        <Route key={routes.length + 1} path={item.path[0] === '/' ? ContextPath + item.path : `${ContextPath}${pathPrefix}/${item.path}`} getComponent={item.getComponent} />
                     )
                 }
             });
@@ -763,14 +765,14 @@ export class App extends React.PureComponent {
         PathPrefix = pathPrefix || PathPrefix;
         let history = browserHistory;
 
-        if (process.env.NODE_ENV === 'production') {
-            history = hashHistory;
-        }
+        // if (process.env.NODE_ENV === 'production') {
+        //     history = hashHistory;
+        // }
 
         return (
             <Router history={ history }>
                 <Route component={App}>
-                    <Redirect from={`/`} to={`${PathPrefix}/pages/simple`} />
+                    <Redirect from={`${ContextPath}/`} to={`${PathPrefix}/pages/simple`} />
                     <Redirect from={`${PathPrefix}/`} to={`${PathPrefix}/pages/simple`} />
                     {navigations2route(PathPrefix)}
                     <Route path="*" component={NotFound} />

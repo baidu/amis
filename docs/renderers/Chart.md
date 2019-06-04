@@ -1,4 +1,4 @@
-# Chart
+## Chart
 
 图表渲染器，采用 echarts 渲染，配置格式跟 echarts 相同，配置文档[文档](http://echarts.baidu.com/option.html#title)
 

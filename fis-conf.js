@@ -231,22 +231,6 @@ if (fis.project.currentMedia() === 'publish') {
 
     ghPages.match('/docs/**.md', {
         rExt: 'js',
-        parser: [parserMarkdown, function(contents, file) {
-            return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function(_, quota, link) {
-                if (/\.md($|#)/.test(link)) {
-                    let parts = link.split('#');
-                    parts[0] = parts[0].replace('.md', '');
-    
-                    if (parts[0][0] !== '/') {
-                        parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
-                    }
-    
-                    return 'href=\\' + quota + '#' + parts.join('#') + '\\' + quota;
-                }
-    
-                return _;
-            });
-        }],
         isMod: true
     });
 
@@ -338,7 +322,34 @@ if (fis.project.currentMedia() === 'publish') {
                 '!/examples/style.scss',
                 '/examples/style.scss', // 让它在最下面
             ]
-        })
+        }),
+
+        postpackager: [fis.plugin('loader', {
+            useInlineMap: false,
+            resourceType: 'mod'
+        }), function(ret) {
+            const indexHtml = ret.src['/examples/index.html'];
+            const appJs = ret.src['/examples/components/App.jsx'];
+            const DocJs = ret.src['/examples/components/Doc.jsx'];
+
+            const pages = [];
+            const source = [appJs.getContent(), DocJs.getContent()].join('\n');
+            source.replace(/\bpath\b\s*\:\s*('|")(.*?)\1/g, function(_, qutoa, path) {
+                if (path === "*") {
+                    return;
+                }
+                
+                pages.push(path.replace(/^\//, ''));
+                return _;
+            });
+            
+            const contents = indexHtml.getContent();
+            pages.forEach(function(path) {
+                const file = fis.file(fis.project.getProjectPath(), '/examples/' + path + '.html');
+                file.setContent(contents);
+                ret.pkg[file.getId()] = file;
+            });
+        }]
     });
     
     ghPages.match('*.{css,less,scss}', {

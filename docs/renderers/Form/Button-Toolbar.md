@@ -1,4 +1,4 @@
-## Button-Toolbar
+### Button-Toolbar
 
 从上面的例子可以看出，当按钮独立配置的时候，是独占一行的，如果想让多个按钮在一起放置，可以利用 button-toolbar
 
