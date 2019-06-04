@@ -1,4 +1,4 @@
-### Button-Group(FormItem)
+## Button-Group(FormItem)
 
 按钮集合，直接看示例吧。
 
