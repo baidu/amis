@@ -43,6 +43,7 @@ export interface FileProps extends FormControlProps {
         [propName:string]: string;
     };
     asBase64?: boolean;
+    resetValue?: string;
 };
 
 export interface FileX extends File {
@@ -382,7 +383,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             joinValues,
             extractValue,
             valueField,
-            delimiter
+            delimiter,
+            resetValue
         } = this.props;
 
         const files = this.state.files.filter(file => file.state == 'uploaded' || file.state == 'init');
@@ -394,11 +396,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             } else if (extractValue) {
                 value = Array.isArray(value) ? value.map((item: any) => item[valueField || 'value']) : value[valueField || 'value'];
             }
+        } else {
+            value = typeof resetValue === 'undefined' ? '' : resetValue;
         }
-
-        // if (joinValues && value) {
-        //     value = Array.isArray(value) ? value.map((item:any) => item[valueField || 'value']).join(delimiter || ',') : value[valueField || 'value']
-        // }
 
         onChange(value);
     }
