@@ -18,7 +18,8 @@ export default function(schema) {
         };
     }
 
-    return class extends React.Component {
+    
+    return withRouter(class extends React.Component {
         static displayName = 'SchemaRenderer';
         state = {open: false};
         toggleCode = () => this.setState({
@@ -173,5 +174,5 @@ export default function(schema) {
                 </div>
             );
         }
-    }
+    });
 }
