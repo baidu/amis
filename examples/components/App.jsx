@@ -331,11 +331,11 @@ const navigations = [
                         path: 'crud/load-once',
                         component: makeSchemaRenderer(LoadOnceTableCrudSchema)
                     },
-                    {
-                        label: '测试',
-                        path: 'crud/test',
-                        component: makeSchemaRenderer(TestCrudSchema)
-                    }
+                    // {
+                    //     label: '测试',
+                    //     path: 'crud/test',
+                    //     component: makeSchemaRenderer(TestCrudSchema)
+                    // }
                 ]
             },
 
