@@ -7,6 +7,7 @@ import Button from '../../src/components/Button'
 import LazyComponent from '../../src/components/LazyComponent'
 import {default as DrawerContainer} from '../../src/components/Drawer'
 import { Portal } from 'react-overlays';
+import {withRouter} from 'react-router';
 function loadEditor() {
     return new Promise((resolve) => require(['../../src/components/Editor'], (component) => resolve(component.default)));
 }
