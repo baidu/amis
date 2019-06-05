@@ -571,7 +571,10 @@ export function HocStoreFactory(renderer:{
                     } else {
                         store.initData(createObject(nextProps.scope, nextProps.data));
                     }
-                } else  if (nextProps.scope !== props.scope) {
+                } else if (nextProps.data && nextProps.data.__super) {
+                    (!props.data || nextProps.data.__super !== props.data.__super)
+                        && store.initData(createObject(nextProps.data.__super, store.data));
+                } else if (nextProps.scope !== props.scope) {
                     store.initData(createObject(nextProps.scope, store.data));
                 }
             }

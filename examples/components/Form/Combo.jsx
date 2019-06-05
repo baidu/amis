@@ -332,7 +332,48 @@ export default {
                     name: "combo888",
                     label: "当前值",
                     tpl: "<pre>${combo888|json}</pre>"
+                },                {
+                    type: 'divider'
                 },
+
+                {
+                    type: "hidden",
+                    name: "a_super",
+                    value: "123"
+                },
+
+                {
+                    type: "combo",
+                    name: "combo999",
+                    label: "可获取父级数据",
+                    multiple: true,
+                    canAccessSuperData: true,
+                    controls: [
+                        {
+                            name: "a_super",
+                            type: "text"
+                        }
+                    ]
+                },
+
+                {
+                    type: "combo",
+                    name: "combo9999",
+                    label: "显示序号",
+                    multiple: true,
+                    controls: [
+                        {
+                            type: "tpl",
+                            tpl: "<%= data.index + 1%>",
+                            className: "p-t-xs",
+                            mode: "inline"
+                        },
+                        {
+                            name: "a",
+                            type: "text"
+                        }
+                    ]
+                }
             ]
         }
     ]
