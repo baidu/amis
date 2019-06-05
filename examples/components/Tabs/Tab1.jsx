@@ -10,18 +10,18 @@ export default {
                 {
                     label: '选项卡1',
                     icon: 'fa fa-cloud',
-                    to: '/examples/tabs/tab1'
+                    to: './tab1'
                 },
 
                 {
                     label: '选项卡2',
-                    to: '/examples/tabs/tab2'
+                    to: './tab2'
                 },
 
                 {
                     label: '选项卡3',
                     icon: 'fa fa-youtube',
-                    to: '/examples/tabs/tab3'
+                    to: './tab3'
                 }
             ]
         },

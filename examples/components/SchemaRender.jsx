@@ -51,7 +51,17 @@ export default function(schema) {
                 if (!pathname) {
                     pathname = location.pathname;
                 } else if (pathname[0] != '/' && !/^https?:\/\//.test(pathname)) {
-                    // todo 把相对路径转成绝对路径。
+                    let relativeBase = location.pathname;
+                    const paths = relativeBase.split('/');
+                    paths.pop();
+                    let m;
+                    while ((m = /^\.\.?\//.exec(pathname))) {
+                        if (m[0] === '../') {
+                            paths.pop();
+                        }
+                        pathname = pathname.substring(m[0].length);
+                    }
+                    pathname = paths.concat(pathname).join('/');
                 }
     
                 return pathname + search + hash;
