@@ -14,7 +14,7 @@ rm -rf gh-pages
 
 fis3 release gh-pages -c
 
-node ./build/uplaod2cdn.js $2
+node ./build/upload2cdn.js $2
 
 git add gh-pages -f
 
