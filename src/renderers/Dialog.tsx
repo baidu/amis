@@ -216,6 +216,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
             this.setState({
                 entered: true,
             });
+        document.activeElement && (document.activeElement as HTMLElement).blur();
     }
 
     handleExited() {
