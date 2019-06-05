@@ -10,10 +10,8 @@ import {Portal} from 'react-overlays';
 import {closeIcon} from './icons';
 import * as cx from 'classnames';
 import {current, addModal, removeModal} from './ModalManager';
-import onClickOutside from 'react-onclickoutside';
-import {classPrefix, classnames} from '../themes/default';
 import {ClassNamesFn, themeable} from '../theme';
-import {noop} from '../utils/helper';
+import {noop, autobind} from '../utils/helper';
 
 type DrawerPosition = 'top' | 'right' | 'bottom' | 'left';
 
@@ -47,13 +45,13 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
         DrawerProps,
         'container' | 'position' | 'size' | 'overlay' | 'disableOnClickOutside' | 'enableOnClickOutside'
     > = {
-        container: document.body,
-        position: 'left',
-        size: 'md',
-        overlay: true,
-        disableOnClickOutside: noop,
-        enableOnClickOutside: noop,
-    };
+            container: document.body,
+            position: 'left',
+            size: 'md',
+            overlay: true,
+            disableOnClickOutside: noop,
+            enableOnClickOutside: noop,
+        };
 
     contentDom: any;
 
@@ -93,8 +91,12 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
         }
     };
 
-    handleClickOutside() {
-        const {closeOnOutside, onHide} = this.props;
+    @autobind
+    handleWidgetClick(e: React.MouseEvent) {
+        const {classPrefix: ns, closeOnOutside, onHide} = this.props;
+        if ((e.target as HTMLElement).closest(`.${ns}Drawer-content`)) {
+            return;
+        }
         closeOnOutside && onHide && onHide();
     }
 
@@ -143,6 +145,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                                     },
                                     className
                                 )}
+                                onClick={this.handleWidgetClick} // 其实不需要插件，直接写逻辑吧
                             >
                                 {overlay ? <div className={cx(`${ns}Drawer-overlay`, fadeStyles[status])} /> : null}
                                 <div ref={this.contentRef} className={cx(`${ns}Drawer-content`, fadeStyles[status])}>
@@ -160,4 +163,4 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     }
 }
 
-export default themeable(onClickOutside(Drawer));
+export default themeable(Drawer);
