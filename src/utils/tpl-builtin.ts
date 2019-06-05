@@ -1,10 +1,10 @@
-import { reigsterTplEnginer, filter } from "./tpl";
+import {reigsterTplEnginer, filter} from "./tpl";
 import * as moment from "moment";
-import { PlainObject } from "../types";
+import {PlainObject} from "../types";
 import isPlainObject = require("lodash/isPlainObject");
-import { createObject, isObject, setVariable } from "./helper";
+import {createObject, isObject, setVariable} from "./helper";
 
-const UNITS = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
 export const prettyBytes = (num: number) => {
     if (!Number.isFinite(num)) {
@@ -243,8 +243,8 @@ export function registerFilter(
     filters[name] = fn;
 }
 
-export function pickValues(names:string, data:object) {
-    let arr:Array<string>;
+export function pickValues(names: string, data: object) {
+    let arr: Array<string>;
     if (!names || (arr = names.split(',')) && arr.length < 2) {
         let idx = names.indexOf('~');
         if (~idx) {
@@ -257,7 +257,7 @@ export function pickValues(names:string, data:object) {
         return resolveVariable(names, data);
     }
 
-    let ret:any = {};
+    let ret: any = {};
     arr.forEach(name => {
         let idx = name.indexOf('~');
         let target = name;
@@ -281,22 +281,18 @@ export const resolveVariable = (path: string, data: any = {}): any => {
         return data;
     } else if (path[0] === "$") {
         path = path.substring(1);
-    }
-
-    if (!path) {
-        return undefined;
     } else if (path === "&") {
         return data;
     }
-    
+
     if (typeof data[path] !== "undefined") {
         return data[path];
     }
-    
+
     let parts = path.replace(/^{|}$/g, "").split(".");
     return parts.reduce((data, path) => {
         if ((isObject(data) || Array.isArray(data)) && path in data) {
-            return (data as { [propName: string]: any })[path];
+            return (data as {[propName: string]: any})[path];
         }
 
         return undefined;
@@ -447,7 +443,7 @@ export function dataMapping(to: PlainObject, from: PlainObject): object {
                         };
                     } else if (key === "&") {
                         isPlainObject(item)
-                            ? (item = { ...item, ...resolveMapping(value, itemData) })
+                            ? (item = {...item, ...resolveMapping(value, itemData)})
                             : (item = resolveMapping(value, itemData));
                     } else {
                         item = isPlainObject(item) ? item : {};
