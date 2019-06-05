@@ -36,6 +36,7 @@ export interface ComboProps extends FormControlProps {
     removable?: boolean;
     deleteApi?: Api,
     deleteConfirmText?: string;
+    canAccessSuperData?: boolean;
     subFormMode?: 'normal' | 'inline' | 'horizontal';
     noBorder?: boolean;
     joinValues?: boolean;
@@ -358,18 +359,23 @@ export default class ComboControl extends React.Component<ComboProps> {
         }
     }
 
-    formatValue(value:any) {
+    formatValue(value:any, index:number) {
         const {
-            flat
+            flat,
+            data,
+            canAccessSuperData
         } = this.props;
 
         if (flat) {
-            return {
+            value = {
                 flat: value
-            }
+            };
         }
 
-        return value;
+        value = value || this.defaultValue;
+        return canAccessSuperData 
+            ? createObject(createObject(data, {index, __index: index}), value)
+            : createObject({index, __index: index}, value);
     }
 
     renderMultipe() {
@@ -460,7 +466,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                                 className={cx(`Combo-item`)}
                                 key={this.keys[index] || (this.keys[index] = guid())}>
                                 <div className={cx(`Combo-itemInner`)}>
-                                    {render('multiple', {
+                                    {render(`multiple/${index}`, {
                                         type: 'form',
                                         controls: finnalControls,
                                         wrapperComponent: 'div',
@@ -470,7 +476,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                                     }, {
                                         index,
                                         disabled,
-                                        data: this.formatValue(value) || this.defaultValue,
+                                        data: this.formatValue(value, index),
                                         onChange: this.handleChange.bind(this, index),
                                         onAction: this.handleAction,
                                         ref: (ref:any) => this.formRef(ref, index),

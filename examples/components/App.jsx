@@ -238,17 +238,17 @@ const navigations = [
                         component: makeSchemaRenderer(FormulaFormSchema)
                     },
 
-                    {
-                        label: '布局测试',
-                        path: 'form/layout-test',
-                        component: makeSchemaRenderer(FormLayoutTestSchema)
-                    },
+                    // {
+                    //     label: '布局测试',
+                    //     path: 'form/layout-test',
+                    //     component: makeSchemaRenderer(FormLayoutTestSchema)
+                    // },
 
-                    {
-                        label: '测试',
-                        path: 'form/test',
-                        component: makeSchemaRenderer(TestFormSchema)
-                    },
+                    // {
+                    //     label: '测试',
+                    //     path: 'form/test',
+                    //     component: makeSchemaRenderer(TestFormSchema)
+                    // },
                 ]
             },
 

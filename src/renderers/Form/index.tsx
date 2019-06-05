@@ -723,7 +723,7 @@ export default class Form extends React.Component<FormProps, object> {
 
             return (
                 <div className={`${ns}Form-row`}>
-                    {controls.map((control, key) => ~['hidden', 'formula'].indexOf((control as any).type) ? this.renderControl(control, key, otherProps) : (
+                    {controls.map((control, key) => ~['hidden', 'formula'].indexOf((control as any).type) || (control as any).mode === "inline" ? this.renderControl(control, key, otherProps) : (
                         <div key={key} className={cx(`${ns}Form-col`, (control as Schema).columnClassName)}>
                             {this.renderControl(control, '', {
                                 ...otherProps,
