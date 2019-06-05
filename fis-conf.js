@@ -232,6 +232,7 @@ if (fis.project.currentMedia() === 'publish') {
     ghPages.match('/docs/**.md', {
         rExt: 'js',
         isMod: true,
+        useHash: true,
         parser: [parserMarkdown, function(contents, file) {
             return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function(_, quota, link) {
                 if (/\.md($|#)/.test(link)) {
@@ -397,7 +398,7 @@ if (fis.project.currentMedia() === 'publish') {
         })
     });
     ghPages.match('*', {
-        domain: '/amis',
+        domain: 'https://bce.bdstatic.com/fex/amis-gh-pages',
         deploy: [
             fis.plugin('skip-packed'),
             fis.plugin('local-deliver', {
