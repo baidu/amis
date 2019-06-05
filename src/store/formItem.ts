@@ -30,6 +30,7 @@ import {
 } from '../utils/helper';
 import { IRendererStore } from ".";
 import { normalizeOptions } from "../components/Select";
+import find = require('lodash/find');
 
 interface IOption {
     value?: string | number | null;
@@ -325,8 +326,9 @@ export const FormItemStore = types
                 return;
             }
             options = options.filter(item => item);
+            const originOptions = self.options.concat();
             options.length ? self.options.replace(options) : self.options.clear();
-            syncOptions();
+            syncOptions(originOptions);
         }
 
         let loadCancel:Function | null = null;
@@ -385,7 +387,7 @@ export const FormItemStore = types
             }
         });
 
-        function syncOptions() {
+        function syncOptions(originOptions?:Array<any>) {
             if (!self.options.length && typeof self.value === 'undefined') {
                 self.selectedOptions = [];
                 self.filteredOptions = [];
@@ -444,6 +446,12 @@ export const FormItemStore = types
                             [self.valueField || 'value']: item,
                             [self.labelField || 'label']: item,
                             __unmatched: true
+                        }
+
+                        const orgin:any = originOptions && find(originOptions, target => String(target[self.valueField || 'value']) === String(item));
+                        
+                        if (orgin) {
+                            unMatched[self.labelField || 'label'] = orgin[self.labelField || 'label'];
                         }
                     }
 
