@@ -16,7 +16,7 @@
 | header.avatarClassName | `string`                         | `"pull-left thumb avatar b-3x m-r"` | 图片类名                                   |
 | body                   | `Array` 或者 [Field](./Field.md) |                                     | 内容容器，主要用来放置 [Field](./Field.md) |
 | bodyClassName          | `string`                         | `"padder m-t-sm m-b-sm"`            | 内容区域类名                               |
-| actions                | Array Of [Button](./Button.md)   |                                     | 按钮区域                                   |
+| actions                | Array Of [Button](./Form/Button.md)   |                                     | 按钮区域                                   |
 
 ```schema:height="300" scope="body"
 {
