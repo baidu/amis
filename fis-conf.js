@@ -60,6 +60,7 @@ fis.match('/docs/**.md', {
 fis.match('{*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
     parser: [fis.plugin('typescript', {
         importHelpers: true,
+        esModuleInterop: true,
         experimentalDecorators: true,
         sourceMap: true
     }),
@@ -160,7 +161,8 @@ if (fis.project.currentMedia() === 'publish') {
             fis.plugin('typescript', {
                 importHelpers: true,
                 sourceMap: true,
-                experimentalDecorators: true
+                experimentalDecorators: true,
+                esModuleInterop: true
             }),
             function (contents) {
                 return contents.replace(/(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g, function (_, quote, value) {
@@ -394,7 +396,8 @@ if (fis.project.currentMedia() === 'publish') {
         },
         parser: fis.plugin('typescript', {
             sourceMap: false,
-            importHelpers: true
+            importHelpers: true,
+            esModuleInterop: true
         })
     });
     ghPages.match('*', {

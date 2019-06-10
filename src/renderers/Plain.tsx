@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
-import * as cx from 'classnames';
+import cx from 'classnames';
 
 export interface PlainProps extends RendererProps {
     className?: string;

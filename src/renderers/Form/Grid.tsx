@@ -10,9 +10,9 @@ import {
     FormControlProps
 } from './Item';
 import pick = require("lodash/pick");
-import * as React from 'react';
+import React from 'react';
 import { Row, Col } from "react-bootstrap";
-import * as cx from 'classnames';
+import cx from 'classnames';
 
 export interface GridProps extends FormControlProps {};
 const defaultHorizontal = {

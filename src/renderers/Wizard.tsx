@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 
 import {Renderer, RendererProps} from '../factory';

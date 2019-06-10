@@ -4,7 +4,7 @@
  * @author fex
  */
 
-import * as React from 'react';
+import React from 'react';
 import VisibilitySensor = require('react-visibility-sensor');
 
 export interface LazyComponentProps {

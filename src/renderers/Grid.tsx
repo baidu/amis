@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Schema} from '../types';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import pick = require('lodash/pick');
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];

@@ -6,7 +6,7 @@
 
 import {Position, Overlay as BaseOverlay} from 'react-overlays';
 import {findDOMNode} from 'react-dom';
-import * as React from 'react';
+import React from 'react';
 import {calculatePosition, getContainer, ownerDocument} from '../utils/dom';
 
 Position.propTypes.placement = BaseOverlay.propTypes.placement = () => null;

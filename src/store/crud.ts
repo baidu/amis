@@ -16,7 +16,7 @@ import {
     fetchOptions,
     Action
 } from '../types';
-import * as qs from 'qs';
+import qs from 'qs';
 import pick = require("lodash/pick");
 import { resolveVariableAndFilter } from '../utils/tpl-builtin';
 

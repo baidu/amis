@@ -4,7 +4,7 @@
  * @author fex
  */
 
-import * as React from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable} from '../theme';
 

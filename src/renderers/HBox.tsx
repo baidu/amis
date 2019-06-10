@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Api, SchemaNode, Schema, Action} from '../types';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import {isVisible} from '../utils/helper';
 
 export type Column = Schema & {

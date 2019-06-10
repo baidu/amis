@@ -12,6 +12,7 @@
     "moduleResolution": "node",
     "rootDir": "src",
     "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
     "sourceRoot": "src",
     "noImplicitReturns": true,
     "noImplicitThis": true,

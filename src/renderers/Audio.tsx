@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import upperFirst = require('lodash/upperFirst');
 import {Renderer, RendererProps} from '../factory';
 import {autobind} from '../utils/helper';

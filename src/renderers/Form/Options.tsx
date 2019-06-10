@@ -14,7 +14,7 @@ import {
 } from '../../store/formItem';
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
-import * as React from 'react';
+import React from 'react';
 import { resolveVariableAndFilter } from '../../utils/tpl-builtin';
 import { evalExpression } from '../../utils/tpl';
 import { Option, OptionProps, normalizeOptions } from '../../components/Select';

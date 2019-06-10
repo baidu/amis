@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import {
     FormItem,
     FormControlProps,
 } from './Item';
-import * as cx from 'classnames';
-import * as InputNumber from 'rc-input-number';
+import cx from 'classnames';
+import InputNumber from 'rc-input-number';
 import {filter} from '../../utils/tpl';
 
 export interface NumberProps extends FormControlProps {

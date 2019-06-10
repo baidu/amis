@@ -4,10 +4,10 @@
  * @author fex
  */
 
-import * as React from 'react';
-import * as InputRange from 'react-input-range';
+import React from 'react';
+import InputRange from 'react-input-range';
 import uncontrollable = require('uncontrollable');
-import * as cx from 'classnames';
+import cx from 'classnames';
 import {RendererProps} from '../factory';
 import {ClassNamesFn, themeable} from '../theme';
 

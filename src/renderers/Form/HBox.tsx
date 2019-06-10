@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
     Renderer,
     RendererProps
@@ -9,7 +9,7 @@ import {
 } from './Item';
 import HBox from '../HBox';
 import { Schema } from '../../types';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import { isVisible } from '../../utils/helper';
 
 interface HBoxProps extends FormControlProps {

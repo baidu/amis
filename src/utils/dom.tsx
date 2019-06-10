@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import hoistNonReactStatic = require('hoist-non-react-statics');
 import domHelperWwnerDocument = require('dom-helpers/ownerDocument');
 import getOffset = require('dom-helpers/query/offset');

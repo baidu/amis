@@ -1,17 +1,17 @@
-import * as React from 'react';
+import React from 'react';
 import {
     FormItem,
     FormControlProps
 } from './Item';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import Cropper from 'react-cropper';
-import * as DropZone from 'react-dropzone';
+import DropZone from 'react-dropzone';
 import 'blueimp-canvastoblob';
 // @require 'cropperjs/dist/cropper.css';
 // jest 不能支持这种写法
 // import 'cropperjs/dist/cropper.css';
 import find = require('lodash/find');
-import * as qs from 'qs';
+import qs from 'qs';
 import { FileValue } from './Image';
 import {Payload} from '../../types';
 import { filter } from '../../utils/tpl';

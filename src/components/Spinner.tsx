@@ -5,7 +5,7 @@
  * @date 2017-11-07
  */
 
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {ClassNamesFn, themeable} from '../theme';
 import {classPrefix, classnames} from '../themes/default';

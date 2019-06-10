@@ -4,8 +4,8 @@
 */
 /* eslint fecs-indent: [0, "space", 2, 2] */
 
-import * as React from 'react';
-import * as cx from 'classnames';
+import React from 'react';
+import cx from 'classnames';
 import {
     FormItem,
     FormControlProps

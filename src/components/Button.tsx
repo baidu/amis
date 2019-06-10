@@ -3,7 +3,7 @@
  * @author fex
  */
 
-import * as React from 'react';
+import React from 'react';
 import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
 import {pickEventsProps} from '../utils/helper';
 import {ClassNamesFn, themeable} from '../theme';

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Schema, Action, Api, ApiObject} from '../types';
 import {CRUDStore, ICRUDStore} from '../store/crud';
@@ -19,7 +19,7 @@ import Button from '../components/Button';
 import Select from '../components/Select';
 import getExprProperties from '../utils/filter-schema';
 import pick = require('lodash/pick');
-import * as qs from 'qs';
+import qs from 'qs';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from '../utils/tpl';
 import {isValidApi, buildApi} from '../utils/api';

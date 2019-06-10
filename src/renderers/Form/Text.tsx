@@ -1,13 +1,13 @@
-import * as React from 'react';
+import React from 'react';
 import {
     OptionsControl,
     OptionsControlProps,
     highlight,
 } from './Options';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import { Action } from '../../types';
 import Downshift, { StateChangeOptions } from 'downshift';
-import * as matchSorter from 'match-sorter';
+import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
 import { filter } from '../../utils/tpl';
 import find = require('lodash/find');

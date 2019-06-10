@@ -1,8 +1,8 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import getExprProperties from '../utils/filter-schema';
 import {filter, evalExpression} from '../utils/tpl';
 import {createObject, mapTree, someTree} from '../utils/helper';

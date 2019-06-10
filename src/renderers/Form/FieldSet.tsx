@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import {
     Renderer,
     RendererProps
 } from '../../factory';
 import Collapse from '../Collapse';
-import * as cx from 'classnames';
+import cx from 'classnames';
 
 export interface FieldSetProps extends RendererProps {
     title?: string;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import ButtonGroup from './Form/ButtonGroup';
 import {Renderer} from '../factory';
 

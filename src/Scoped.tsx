@@ -3,11 +3,11 @@
 * @author fex
 */
 
-import * as React from 'react';
+import React from 'react';
 import find = require('lodash/find');
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import hoistNonReactStatic = require('hoist-non-react-statics');
-import * as qs from 'qs';
+import qs from 'qs';
 import { dataMapping } from './utils/tpl-builtin';
 import { RendererEnv, RendererProps } from './factory';
 import { noop, autobind } from './utils/helper';

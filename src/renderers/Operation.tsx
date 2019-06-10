@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
 import {Api, SchemaNode, Action} from '../types';
 import {filter} from '../utils/tpl';
-import * as cx from 'classnames';
-import * as moment from 'moment';
+import cx from 'classnames';
+import moment from 'moment';
 
 export interface OperationProps extends RendererProps {
     className?: string;

@@ -4,7 +4,7 @@
  * @author fex
  */
 
-import * as React from 'react';
+import React from 'react';
 import uncontrollable = require('uncontrollable');
 import Checkbox from './Checkbox';
 import find = require('lodash/find');

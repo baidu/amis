@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import {
     FormItem,
     FormControlProps
 } from './Item';
-import * as cx from 'classnames';
-import * as qs from 'qs';
+import cx from 'classnames';
+import qs from 'qs';
 import find = require('lodash/find');
 import isPlainObject = require('lodash/isPlainObject');
 import {mapLimit} from 'async';

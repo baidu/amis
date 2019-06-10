@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as cx from 'classnames';
+import React from 'react';
+import cx from 'classnames';
 import {Renderer, RendererProps} from '../factory';
 import {FormItem, FormControlProps} from './Form/Item';
 import {filter} from '../utils/tpl';

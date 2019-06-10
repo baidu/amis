@@ -6,14 +6,14 @@
  */
 
 import uncontrollable = require('uncontrollable');
-import * as React from 'react';
+import React from 'react';
 import 'react-datetime/css/react-datetime.css';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import {closeIcon} from './icons';
-import * as matchSorter from 'match-sorter';
+import matchSorter from 'match-sorter';
 import {noop} from '../utils/helper';
 import find = require('lodash/find');
 import isPlainObject = require('lodash/isPlainObject');

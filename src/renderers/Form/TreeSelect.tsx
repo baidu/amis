@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as cx from 'classnames';
+import React from 'react';
+import cx from 'classnames';
 import Overlay from '../../components/Overlay';
 import PopOver from '../../components/PopOver';
 
@@ -10,7 +10,7 @@ import {
 } from './Options';
 import { closeIcon } from '../../components/icons';
 import TreeSelector from '../../components/Tree';
-import * as matchSorter from 'match-sorter';
+import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
 import find = require('lodash/find');
 

@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import {
     OptionsControl,
     OptionsControlProps
 } from './Options';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 import chunk = require('lodash/chunk');
 

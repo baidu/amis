@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as cx from 'classnames';
-import * as matchSorter from 'match-sorter';
-import * as keycode from "keycode";
+import React from 'react';
+import cx from 'classnames';
+import matchSorter from 'match-sorter';
+import keycode from "keycode";
 import Downshift, { StateChangeOptions } from 'downshift';
 import { autobind } from '../../utils/helper';
 import { ICONS } from './IconPicker-icons';

@@ -1,12 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import {
     OptionsControl,
     OptionsControlProps,
     Option} from './Options';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import { Action } from '../../types';
 import Downshift from 'downshift';
-import * as matchSorter from 'match-sorter';
+import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
 import find = require('lodash/find');
 import { closeIcon } from '../../components/icons';

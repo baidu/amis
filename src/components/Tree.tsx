@@ -4,7 +4,7 @@
  * @author fex
  */
 
-import * as React from 'react';
+import React from 'react';
 import {eachTree, isVisible} from '../utils/helper';
 import {Option, Options, value2array} from './Checkboxes';
 import {ClassNamesFn, themeable} from '../theme';

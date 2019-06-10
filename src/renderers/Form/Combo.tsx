@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
     findDOMNode
 } from 'react-dom';
@@ -6,7 +6,7 @@ import {
     FormItem,
     FormControlProps
 } from './Item';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import { Schema, Action, Api } from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import { observer } from "mobx-react";

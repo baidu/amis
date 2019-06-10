@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
 import {Api, SchemaNode, PlainObject} from '../types';
 import {filter} from '../utils/tpl';
-import * as cx from 'classnames';
+import cx from 'classnames';
 
 export interface StatusProps extends RendererProps {
     className?: string;

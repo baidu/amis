@@ -16,8 +16,8 @@
  * * contentClassName 内容区域附加样式名称
  */
 
-import * as React from 'react';
-import * as cx from 'classnames';
+import React from 'react';
+import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 
 interface LayoutProps {

@@ -3,7 +3,7 @@
  * @author fex
  */
 
-import * as React from 'react';
+import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
 
 export interface AlertProps {

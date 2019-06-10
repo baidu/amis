@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import {
     Renderer,
     RendererProps
 } from '../../factory';
 import { Schema } from '../../types';
 import {isVisible, getWidthRate, makeHorizontalDeeper} from '../../utils/helper';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import { FormItemWrap } from './Item';
 
 export interface InputGroupProps extends RendererProps {

@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import getExprProperties from '../utils/filter-schema';
 import {Api, Payload} from '../types';
 import update = require('react-addons-update');

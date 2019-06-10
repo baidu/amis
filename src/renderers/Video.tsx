@@ -4,10 +4,10 @@
  */
 /* eslint fecs-indent: [0, "space", 2, 2] */
 
-import * as React from 'react';
+import React from 'react';
 import {Player, Shortcut, BigPlayButton, ControlBar, PlaybackRateMenuButton} from 'video-react';
 import {padArr} from '../utils/helper';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import {Renderer, RendererProps} from '../factory';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
