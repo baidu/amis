@@ -16,7 +16,8 @@
 
             &:focus,
             &:active,
-            &.active {
+            &.active,
+            &.is-active {
                 z-index: 1;
             }
         }
