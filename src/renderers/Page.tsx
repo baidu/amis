@@ -43,7 +43,7 @@ export interface PageProps extends RendererProps {
 }
 
 export default class Page extends React.Component<PageProps> {
-    timer: NodeJS.Timer;
+    timer: number;
     mounted: boolean;
 
     static defaultProps = {
@@ -406,13 +406,11 @@ export default class Page extends React.Component<PageProps> {
                     <div className={cx('Page-main')}>
                         {this.renderHeader()}
                         <div className={cx(`Page-body`, bodyClassName)}>
-                            {store.loading
-                                ? render('spinner', {
-                                      type: 'spinner',
-                                      overlay: true,
-                                      size: 'lg',
-                                  })
-                                : null}
+                            {store.loading ? render('spinner', {
+                                type: 'spinner',
+                                overlay: true,
+                                size: 'lg',
+                            }) : null}
 
                             {store.error ? (
                                 <Alert level="danger" showCloseButton onClose={store.clearMessage}>
@@ -425,37 +423,29 @@ export default class Page extends React.Component<PageProps> {
                     </div>
                 </div>
 
-                {render(
-                    'dialog',
-                    {
-                        ...((store.action as Action) && ((store.action as Action).dialog as object)),
-                        type: 'dialog',
-                    },
-                    {
-                        key: 'dialog',
-                        data: store.dialogData,
-                        onConfirm: this.handleDialogConfirm,
-                        onClose: this.handleDialogClose,
-                        show: store.dialogOpen,
-                        onAction: this.handleAction,
-                    }
-                )}
+                {render('dialog', {
+                    ...((store.action as Action) && ((store.action as Action).dialog as object)),
+                    type: 'dialog',
+                }, {
+                    key: 'dialog',
+                    data: store.dialogData,
+                    onConfirm: this.handleDialogConfirm,
+                    onClose: this.handleDialogClose,
+                    show: store.dialogOpen,
+                    onAction: this.handleAction,
+                })}
 
-                {render(
-                    'drawer',
-                    {
-                        ...((store.action as Action) && ((store.action as Action).drawer as object)),
-                        type: 'drawer',
-                    },
-                    {
-                        key: 'drawer',
-                        data: store.drawerData,
-                        onConfirm: this.handleDrawerConfirm,
-                        onClose: this.handleDrawerClose,
-                        show: store.drawerOpen,
-                        onAction: this.handleAction,
-                    }
-                )}
+                {render('drawer', {
+                    ...((store.action as Action) && ((store.action as Action).drawer as object)),
+                    type: 'drawer',
+                }, {
+                    key: 'drawer',
+                    data: store.drawerData,
+                    onConfirm: this.handleDrawerConfirm,
+                    onClose: this.handleDrawerClose,
+                    show: store.drawerOpen,
+                    onAction: this.handleAction,
+                })}
             </div>
         );
     }
