@@ -394,7 +394,19 @@ export default {
                             }
                         ]
                     }
-                }
+                },
+                {
+                    type: 'button',
+                    label: '可拉拽调整大小',
+                    actionType: 'drawer',
+                    level: 'danger',
+                    drawer: {
+                        title: '提示',
+                        closeOnEsc: true,
+                        resizable: true,
+                        body: '这是个简单的弹框',
+                    }
+                },
             ]
         }
     ],

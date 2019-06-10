@@ -15,7 +15,7 @@
 | headerClassName  | `string`                      | `Action.md-table-header`  | 顶部外层 CSS 类名                                       |
 | footerClassName  | `string`                      | `Action.md-table-footer`  | 底部外层 CSS 类名                                       |
 | toolbarClassName | `string`                      | `Action.md-table-toolbar` | 工具栏 CSS 类名                                         |
-| columns          | Array of [Column](.Column.md) |                           | 用来设置列信息                                          |
+| columns          | Array of [Column](./Column.md) |                           | 用来设置列信息                                          |
 
 ```schema:height="700" scope="body"
 {
