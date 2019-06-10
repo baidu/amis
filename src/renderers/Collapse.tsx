@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import {Collapse as BasicCollapse} from 'react-bootstrap';
 
 export interface CollapseProps extends RendererProps {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
 import {Api, SchemaNode, Schema, Action} from '../types';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
     Renderer,
     RendererProps
@@ -6,7 +6,7 @@ import {
 import { Schema } from '../../types';
 import Collapse from '../Collapse';
 import {makeColumnClassBuild, makeHorizontalDeeper, isVisible, isDisabled} from '../../utils/helper';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import getExprProperties from '../../utils/filter-schema';
 import {
     FormItem,

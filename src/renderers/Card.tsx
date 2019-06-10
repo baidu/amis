@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Schema, Action} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import Checkbox from '../components/Checkbox';
 import {IItem} from '../store/list';
 import {padArr, isVisible, isDisabled, noop} from '../utils/helper';

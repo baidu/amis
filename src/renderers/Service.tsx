@@ -1,10 +1,10 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
 import {Api, SchemaNode, ApiObject, RendererData} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
 import {isApiOutdated} from '../utils/api';

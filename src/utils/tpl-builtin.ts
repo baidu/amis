@@ -1,5 +1,5 @@
 import {reigsterTplEnginer, filter} from "./tpl";
-import * as moment from "moment";
+import moment from "moment";
 import {PlainObject} from "../types";
 import isPlainObject = require("lodash/isPlainObject");
 import {createObject, isObject, setVariable} from "./helper";

@@ -8,7 +8,7 @@
  * right 可以传入右侧节点, 当有右侧时自动采用 hbox 来左右布局。
  */
 
-import * as React from 'react';
+import React from 'react';
 import {classPrefix, classnames} from '../themes/default';
 import {ClassNamesFn, themeable} from '../theme';
 

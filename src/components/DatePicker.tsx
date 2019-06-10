@@ -4,14 +4,14 @@
  * @author fex
  */
 
-import * as React from 'react';
-import * as cx from 'classnames';
-import * as moment from 'moment';
+import React from 'react';
+import cx from 'classnames';
+import moment from 'moment';
 import 'moment/locale/zh-cn';
 
 // hack 进去，让 days view 用 CustomDaysView 代替
-import * as CalendarContainer from 'react-datetime/src/CalendarContainer';
-import * as ReactDatePicker from 'react-datetime';
+import CalendarContainer from 'react-datetime/src/CalendarContainer';
+import ReactDatePicker from 'react-datetime';
 import Select from './Select';
 import {closeIcon} from './icons';
 import PopOver from './PopOver';

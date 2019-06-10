@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Renderer,
     RendererProps
@@ -17,7 +17,7 @@ import {
 import {
     filter, evalExpression
 } from '../../utils/tpl';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import getExprProperties from '../../utils/filter-schema';
 import {
     promisify,

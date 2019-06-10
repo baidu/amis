@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import {
     Renderer
 } from '../../factory';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import Container from '../Container';
 import FormItem, { FormControlProps } from './Item';
 

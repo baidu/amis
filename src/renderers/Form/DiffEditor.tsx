@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
     Renderer
 } from '../../factory';
@@ -9,7 +9,7 @@ import {
 import {
     filter,
 } from '../../utils/tpl';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
 import debouce = require('lodash/debounce');
 

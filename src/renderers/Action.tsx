@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import Button from '../components/Button';

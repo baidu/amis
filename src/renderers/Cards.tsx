@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Action} from '../types';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import Button from '../components/Button';
 import {ListStore, IListStore, IItem} from '../store/list';
 import {observer} from 'mobx-react';

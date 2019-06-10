@@ -1,11 +1,11 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
 import {observer} from 'mobx-react';
 import {SchemaNode, Schema, Action} from '../types';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import {default as DrawerContainer} from '../components/Drawer';
 import findLast = require('lodash/findLast');
 import {guid} from '../utils/helper';

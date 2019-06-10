@@ -7,7 +7,7 @@
 import React = require('react');
 import moment = require('moment');
 import {findDOMNode} from 'react-dom';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import {closeIcon} from './icons';
 import Overlay from './Overlay';
 import {BaseDatePicker} from './DatePicker';

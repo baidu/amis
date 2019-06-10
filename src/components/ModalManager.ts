@@ -4,7 +4,7 @@
  * @author fex
  */
 
-import * as keycode from 'keycode';
+import keycode from 'keycode';
 
 interface ModalComponent
     extends React.Component<{

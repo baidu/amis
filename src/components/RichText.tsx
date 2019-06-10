@@ -4,8 +4,8 @@
  * @author fex
  */
 
-import * as React from 'react';
-import * as $ from 'jquery';
+import React from 'react';
+import $ from 'jquery';
 
 // Require Editor JS files.
 // import 'froala-editor/js/froala_editor.pkgd.min.js';

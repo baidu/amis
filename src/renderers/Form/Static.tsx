@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import {
     FormItem,
     FormControlProps
 } from './Item';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import {TableCell} from '../Table';
 import PopOver from '../PopOver';
 import QuickEdit from '../QuickEdit';

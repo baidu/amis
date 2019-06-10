@@ -3,10 +3,10 @@
  * @author fex
  */
 
-import * as React from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {RendererProps} from '../factory';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import hoistNonReactStatic = require('hoist-non-react-statics');
 import {RootCloseWrapper} from 'react-overlays';
 import PopOver from '../components/PopOver';

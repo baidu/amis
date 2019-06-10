@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import {
     FormItem,
     FormControlProps
 } from './Item';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import Radios from '../../components/Radios';
 import {
     OptionsControl,

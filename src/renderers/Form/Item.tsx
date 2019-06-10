@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import hoistNonReactStatic = require('hoist-non-react-statics');
 import { IFormStore, IFormItemStore } from '../../store/form';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import { observer } from "mobx-react";
 import debouce = require('lodash/debounce');
 import { onPatch } from 'mobx-state-tree';

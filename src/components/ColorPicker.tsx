@@ -4,8 +4,8 @@
  * @author fex
  */
 
-import * as React from 'react';
-import * as cx from 'classnames';
+import React from 'react';
+import cx from 'classnames';
 import {findDOMNode} from 'react-dom';
 import {SketchPicker, ColorResult} from 'react-color';
 import {closeIcon} from './icons';

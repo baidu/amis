@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {RootCloseWrapper} from 'react-overlays';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import {isVisible} from '../utils/helper';
 import {filter} from '../utils/tpl';
 

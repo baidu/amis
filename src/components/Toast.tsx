@@ -5,8 +5,8 @@
  */
 
 import Transition, {ENTERED, ENTERING, EXITING, EXITED} from 'react-transition-group/Transition';
-import * as React from 'react';
-import * as cx from 'classnames';
+import React from 'react';
+import cx from 'classnames';
 import Html from './Html';
 import {uuid, autobind} from '../utils/helper';
 import {ClassNamesFn, themeable} from '../theme';

@@ -1,13 +1,13 @@
-import * as React from 'react';
+import React from 'react';
 import {
     FormItem,
     FormControlProps
 } from './Item';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import {
     filterDate
 } from '../../utils/tpl-builtin';
-import * as moment from 'moment';
+import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
 

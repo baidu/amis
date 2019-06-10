@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as cx from 'classnames';
+import React from 'react';
+import cx from 'classnames';
 import TreeSelector from '../../components/Tree';
 import {
     OptionsControl,

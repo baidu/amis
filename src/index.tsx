@@ -8,7 +8,7 @@ import {wrapFetcher, buildApi} from './utils/api';
 import {filter, reigsterTplEnginer} from './utils/tpl'
 import './utils/tpl-builtin';
 import './utils/tpl-lodash';
-import * as utils from './utils/helper';
+import utils from './utils/helper';
 import {resizeSensor} from './utils/resize-sensor';
 import {setIconVendor} from './renderers/Form/IconPicker-icons';
 

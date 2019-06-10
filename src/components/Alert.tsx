@@ -3,7 +3,7 @@
  * @author fex
  */
 
-import * as React from 'react';
+import React from 'react';
 import {render} from 'react-dom';
 import Modal from './Modal';
 import Button from './Button';

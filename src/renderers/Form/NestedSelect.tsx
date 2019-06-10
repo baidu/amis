@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import xorBy = require('lodash/xorBy')
 import unionBy = require('lodash/unionBy')
 import Overlay from '../../components/Overlay';

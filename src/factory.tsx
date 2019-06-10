@@ -1,5 +1,5 @@
-import * as React from "react";
-import * as qs from 'qs';
+import React from "react";
+import qs from 'qs';
 import {
     RendererStore,
     IRendererStore,

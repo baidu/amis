@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import {
     Renderer,
     RendererProps
 } from '../../factory';
 import Panel from '../Panel';
 import { Schema } from '../../types';
-import * as cx from 'classnames';
+import cx from 'classnames';
 
 @Renderer({
     test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?panel$/,

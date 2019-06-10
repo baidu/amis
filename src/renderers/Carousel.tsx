@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition';
 import {Renderer, RendererProps} from '../factory';
 import {autobind, createObject} from '../utils/helper';

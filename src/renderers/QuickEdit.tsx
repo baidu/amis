@@ -3,17 +3,17 @@
  * @author fex
  */
 
-import * as React from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
 import find = require('lodash/find');
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import isPlainObject = require('lodash/isPlainObject');
 import {RendererProps} from '../factory';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import hoistNonReactStatic = require('hoist-non-react-statics');
 import onClickOutside from 'react-onclickoutside';
 import {Action} from '../types';
-import * as keycode from 'keycode';
+import keycode from 'keycode';
 import matches = require('dom-helpers/query/matches');
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';

@@ -1,12 +1,12 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
 import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from '../store/service';
 import {Api, SchemaNode, Action, Location, ApiObject, FunctionPropertyNames} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import * as cx from 'classnames';
-import * as qs from 'qs';
+import cx from 'classnames';
+import qs from 'qs';
 import {isVisible, autobind, bulkBindFunctions} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';

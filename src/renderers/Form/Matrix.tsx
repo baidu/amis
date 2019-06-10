@@ -3,8 +3,8 @@
 * @author fex
 */
 
-import * as React from 'react';
-import * as cx from 'classnames';
+import React from 'react';
+import cx from 'classnames';
 import { FormControlProps, FormItem } from './Item';
 import { buildApi, isValidApi } from '../../utils/api';
 import { Checkbox } from '../../components';

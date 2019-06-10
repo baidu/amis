@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import isNumber = require('lodash/isNumber');
 import isObject = require('lodash/isObject');
 import isEqual = require('lodash/isEqual');
@@ -6,7 +6,7 @@ import {
     FormItem,
     FormControlProps
 } from './Item';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import InputRange from '../../components/Range';
 import { closeIcon } from '../../components/icons';
 

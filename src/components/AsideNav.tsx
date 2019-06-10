@@ -4,8 +4,8 @@
  * @author fex
  */
 
-import * as React from 'react';
-import * as cx from 'classnames';
+import React from 'react';
+import cx from 'classnames';
 import {mapTree} from '../utils/helper';
 import {classPrefix, classnames} from '../themes/default';
 import {ClassNamesFn, themeable} from '../theme';

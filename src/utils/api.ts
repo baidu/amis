@@ -12,7 +12,7 @@ import {
     dataMapping
 } from './tpl-builtin';
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch):/i;
-import * as qs from 'qs';
+import qs from 'qs';
 import { evalExpression } from './tpl';
 import {
     isObjectShallowModified

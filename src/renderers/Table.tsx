@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Action, Schema, Api} from '../types';
 import forEach = require('lodash/forEach');
 import {filter} from '../utils/tpl';
-import * as cx from 'classnames';
+import cx from 'classnames';
 import DropDownButton from './DropDownButton';
 import Checkbox from '../components/Checkbox';
 import Button from '../components/Button';

@@ -1,9 +1,9 @@
 // 主题管理
-import * as cx  from 'classnames';
-import * as React from 'react';
+import cx  from 'classnames';
+import React from 'react';
 import hoistNonReactStatic = require('hoist-non-react-statics');
 import { ExtractProps, Omit } from './types';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 export type ClassValue = string | number | ClassDictionary | ClassArray | undefined | null | boolean;
 
