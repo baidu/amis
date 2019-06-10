@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as PropTypes from 'prop-types';
+import * as qs from 'qs';
 import {
     RendererStore,
     IRendererStore,
@@ -277,10 +277,21 @@ export class RootRenderer extends React.Component<RootRendererProps> {
             rootStore,
             env,
             pathPrefix,
+            location,
+            data,
             ...rest
         } = this.props;
 
         const theme = env.theme;
+        const query = location && location.query 
+            || location && location.search && qs.parse(location.search.substring(1))
+            || window.location.search && qs.parse(window.location.search.substring(1));
+
+        const finalData = query ? {
+            ...data,
+            ...query,
+            query
+        } : data;
 
         return (
             <RootStoreContext.Provider value={rootStore}>
@@ -290,6 +301,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
                         ...(schema as Schema)
                     } : schema, {
                         ...rest,
+                        data: finalData,
                         env,
                         classnames: theme.classnames,
                         classPrefix: theme.classPrefix

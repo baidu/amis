@@ -89,21 +89,21 @@ export default class Page extends React.Component<PageProps> {
             'initInterval',
         ]);
 
-        if (location && location.search) {
-            const query = location.query || qs.parse(location.search.substring(1));
+        // if (location && location.search) {
+        //     const query = location.query || qs.parse(location.search.substring(1));
 
-            store.reInitData({
-                ...query,
-                query: query,
-            });
-        } else if (!location && window.location.search) {
-            const query = qs.parse(window.location.search.substring(1));
+        //     store.reInitData({
+        //         ...query,
+        //         query: query,
+        //     });
+        // } else if (!location && window.location.search) {
+        //     const query = qs.parse(window.location.search.substring(1));
 
-            store.reInitData({
-                ...query,
-                query: query,
-            });
-        }
+        //     store.reInitData({
+        //         ...query,
+        //         query: query,
+        //     });
+        // }
     }
 
     componentDidMount() {
@@ -129,16 +129,16 @@ export default class Page extends React.Component<PageProps> {
         const props = this.props;
         const store = props.store;
 
-        if (nextProps.location && (!props.location || props.location.search !== nextProps.location.search)) {
-            const query =
-                nextProps.location.query ||
-                (nextProps.location.search && qs.parse(nextProps.location.search.substring(1))) ||
-                {};
-            store.updateData({
-                ...query,
-                query: query,
-            });
-        }
+        // if (nextProps.location && (!props.location || props.location.search !== nextProps.location.search)) {
+        //     const query =
+        //         nextProps.location.query ||
+        //         (nextProps.location.search && qs.parse(nextProps.location.search.substring(1))) ||
+        //         {};
+        //     store.updateData({
+        //         ...query,
+        //         query: query,
+        //     });
+        // }
     }
 
     componentDidUpdate(prevProps: PageProps) {
