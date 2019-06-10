@@ -256,6 +256,7 @@ body {
 
                 &:before {
                     position: fixed;
+                    z-index: 15;
                 }
             }
 

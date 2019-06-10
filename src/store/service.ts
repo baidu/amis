@@ -124,11 +124,11 @@ export const ServiceStore = iRendererStore
                     return;
                 }
 
-                markFetching(false);
                 if (root.isCancel(e)) {
                     return;
                 }
                 
+                markFetching(false);
                 e.stack && console.error(e.stack);
                 root.notify('error', e.message || e);
             }
@@ -185,11 +185,11 @@ export const ServiceStore = iRendererStore
                     return;
                 }
 
-                markFetching(false);
                 if (root.isCancel(e)) {
                     return;
                 }
 
+                markFetching(false);
                 e.stack && console.error(e.stack);
                 root.notify('error', e.message || e);
             }

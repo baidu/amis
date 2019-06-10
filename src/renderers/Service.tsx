@@ -25,7 +25,7 @@ export interface ServiceProps extends RendererProps {
     };
 }
 export default class Service extends React.Component<ServiceProps> {
-    timer: NodeJS.Timeout;
+    timer: number;
     mounted: boolean;
 
     static defaultProps: Partial<ServiceProps> = {
@@ -206,19 +206,17 @@ export default class Service extends React.Component<ServiceProps> {
 
                 {this.renderBody()}
 
-                {store.loading
-                    ? render(
-                        'info',
-                        {
-                            type: 'spinner',
-                            overlay: true,
-                        },
-                        {
-                            key: 'info',
-                            size: 'lg',
-                        }
-                    )
-                    : null}
+                {store.loading ? render(
+                    'info',
+                    {
+                        type: 'spinner',
+                        overlay: true,
+                    },
+                    {
+                        key: 'info',
+                        size: 'lg',
+                    }
+                ) : null}
             </div>
         );
     }
