@@ -288,7 +288,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
             || window.location.search && qs.parse(window.location.search.substring(1));
 
         const finalData = query ? createObject({
-            ...(data.__super ? data.__super: null),
+            ...(data && data.__super ? data.__super: null),
             ...query,
             query
         }, data) : data;
