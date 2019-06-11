@@ -574,10 +574,12 @@ export class App extends React.PureComponent {
             }
 
             if (props.location.pathname !== preProps.location.pathname) {
+                this.setState({
+                    offScreen: false
+                }, () => window.scrollTo(0, 0));
+
                 const pageURL = props.location.pathname;
                 _hmt && _hmt.push(['_trackPageview', pageURL]);
-                // 页面切换跳转到顶部。
-                window.scrollTo(0, 0);
             }
         }
 
