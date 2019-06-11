@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:radios 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              radios
+            </span>
+          </label>
+          <div
+            class="a-RadiosControl a-Form-control"
+          >
+            <label
+              class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span>
+                Option A
+              </span>
+            </label>
+            <label
+              class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span>
+                Option B
+              </span>
+            </label>
+            <label
+              class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span>
+                Option C
+              </span>
+            </label>
+            <label
+              class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span>
+                Option D
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              当前值
+            </span>
+          </label>
+          <div
+            class="form-control-static"
+          >
+            <div
+              class="a-Form-control"
+            >
+              <span
+                class="a-TplField"
+              >
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:radios 2`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              radios
+            </span>
+          </label>
+          <div
+            class="a-RadiosControl a-Form-control"
+          >
+            <label
+              class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span>
+                Option A
+              </span>
+            </label>
+            <label
+              class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span>
+                Option B
+              </span>
+            </label>
+            <label
+              class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span>
+                Option C
+              </span>
+            </label>
+            <label
+              class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+            >
+              <input
+                type="radio"
+              />
+              <i />
+              <span>
+                Option D
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              当前值
+            </span>
+          </label>
+          <div
+            class="form-control-static"
+          >
+            <div
+              class="a-Form-control"
+            >
+              <span
+                class="a-TplField"
+              >
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

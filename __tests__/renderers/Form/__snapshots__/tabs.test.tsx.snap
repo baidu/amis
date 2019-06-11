@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:tabs 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Tabs"
+          id="1560051753185"
+        >
+          <ul
+            class="a-Tabs-links nav"
+            role="tablist"
+          >
+            <li
+              class="a-Tabs-link active"
+              role="presentation"
+            >
+              <a
+                aria-controls="1560051753185-pane-0"
+                aria-selected="true"
+                href="#"
+                id="1560051753185-tab-0"
+                role="tab"
+              >
+                基本配置
+              </a>
+            </li>
+            <li
+              class="a-Tabs-link"
+              role="presentation"
+            >
+              <a
+                aria-controls="1560051753185-pane-1"
+                aria-selected="false"
+                href="#"
+                id="1560051753185-tab-1"
+                role="tab"
+                tabindex="-1"
+              >
+                其他配置
+              </a>
+            </li>
+          </ul>
+          <div
+            class="a-Tabs-content tab-content"
+          >
+            <div
+              aria-hidden="false"
+              aria-labelledby="1560051753185-tab-0"
+              class="fade tab-pane active in"
+              id="1560051753185-pane-0"
+              role="tabpanel"
+            >
+              <span
+                class="a-TplField"
+              >
+                <p>
+                  tab1 内容
+                </p>
+              </span>
+            </div>
+            <div
+              aria-hidden="true"
+              aria-labelledby="1560051753185-tab-1"
+              class="fade tab-pane"
+              id="1560051753185-pane-1"
+              role="tabpanel"
+            >
+              <div
+                class="a-Form--normal"
+              >
+                <div
+                  class="a-Form-item a-Form-item--normal"
+                >
+                  <label
+                    class="a-Form-label"
+                  >
+                    <span>
+                      文本3
+                    </span>
+                  </label>
+                  <div
+                    class="a-Form-control a-TextControl"
+                  >
+                    <div
+                      class="a-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        name="c"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="a-Form-item a-Form-item--normal"
+                >
+                  <label
+                    class="a-Form-label"
+                  >
+                    <span>
+                      文本4
+                    </span>
+                  </label>
+                  <div
+                    class="a-Form-control a-TextControl"
+                  >
+                    <div
+                      class="a-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        name="d"
+                        placeholder=""
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

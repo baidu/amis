@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:panel 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <div
+            class="a-FormHbox a-Form-control"
+          >
+            <div
+              class="a-Hbox"
+            >
+              <div
+                class="a-Hbox-col a-Form--normal"
+              >
+                <div
+                  class="a-Panel a-Panel--default"
+                >
+                  <div
+                    class="a-Panel-heading"
+                  >
+                    <h3
+                      class="a-Panel-title"
+                    >
+                      <span
+                        class="a-TplField"
+                      >
+                        bla bla
+                      </span>
+                    </h3>
+                  </div>
+                  <div
+                    class="bg-white"
+                  >
+                    <span
+                      class="a-PlainField"
+                    >
+                      <span
+                        class="text-muted"
+                      >
+                        Text
+                      </span>
+                    </span>
+                  </div>
+                  <div>
+                    <div
+                      class="bg-black"
+                    >
+                      <span
+                        class="a-TplField"
+                      >
+                        <p>
+                          footer 内容
+                        </p>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="a-Hbox-col a-Form--normal"
+              >
+                <div
+                  class="a-Panel a-Panel--default"
+                >
+                  <div
+                    class="a-Panel-heading"
+                  >
+                    <h3
+                      class="a-Panel-title"
+                    >
+                      <span
+                        class="a-TplField"
+                      >
+                        bla bla
+                      </span>
+                    </h3>
+                  </div>
+                  <div
+                    class="a-Form--normal"
+                  >
+                    <div
+                      class="a-Form-item a-Form-item--normal"
+                    >
+                      <div
+                        class="a-Form-control a-TextControl"
+                      >
+                        <div
+                          class="a-TextControl-input"
+                        >
+                          <input
+                            autocomplete="off"
+                            name="text"
+                            placeholder="Text 1"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="a-Form-item a-Form-item--normal"
+                    >
+                      <div
+                        class="a-Form-control a-TextControl"
+                      >
+                        <div
+                          class="a-TextControl-input"
+                        >
+                          <input
+                            autocomplete="off"
+                            name="text2"
+                            placeholder="Text 2"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

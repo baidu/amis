@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:static 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal bg-white"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              label
+            </span>
+          </label>
+          <div
+            class="form-control-static"
+          >
+            <div
+              class="a-Form-control is-inline"
+            >
+              <span
+                class="a-TplField"
+              >
+                static
+              </span>
+            </div>
+          </div>
+          <span
+            class="a-TplField a-Form-description"
+          >
+            static description
+          </span>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <div
+            class="form-control-static"
+          >
+            <div
+              class="a-Form-control"
+            >
+              <span
+                class="a-TplField"
+              >
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <div
+            class="form-control-static"
+          >
+            <div
+              class="a-Form-control"
+            >
+              <span
+                class="a-TplField"
+              >
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:switch 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal block"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              开关
+            </span>
+          </label>
+          <div
+            class="a-SwitchControl a-Form-control"
+          >
+            <label
+              class="a-Switch"
+            >
+              <input
+                checked=""
+                type="checkbox"
+              />
+              <i />
+            </label>
+            <span
+              class="a-Switch-option"
+            >
+              switch
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
