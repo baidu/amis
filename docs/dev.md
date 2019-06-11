@@ -222,7 +222,7 @@ class VueButton {
 ```
 
 ## San
-`San`内置了 [San-Mui](https://ecomfe.github.io/san-mui/#/components/TextField) 作为UI组件库。
+`San`内置了 [San-Mui](https://ecomfe.github.io/san-mui/#/guide/installation) 作为UI组件库。
 
 > 组件的使用方法同 [React](#使用方法)
 
