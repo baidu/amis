@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import NotFound from '../../src/components/404';
 import Layout from '../../src/components/Layout';
 import AsideNav from '../../src/components/AsideNav';

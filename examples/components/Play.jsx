@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import {
     toast
 } from '../../src/components/Toast';
 import {render} from '../../src/index';
-import * as axios from 'axios';
+import axios from 'axios';
 import Frame from 'react-frame-component';
-import * as stripJsonComments from 'strip-json-comments';
+import stripJsonComments from 'strip-json-comments';
 import CodeEditor from '../../src/components/Editor';
 
 const DEFAULT_CONTENT = `{

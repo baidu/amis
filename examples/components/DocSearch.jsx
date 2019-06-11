@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import makeSchemaRenderer from './SchemaRender';
 
 const FormComponent = makeSchemaRenderer({
