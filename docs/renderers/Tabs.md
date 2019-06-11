@@ -11,6 +11,7 @@
 | tabs[x].tab       | [Container](#container) |                                     | 内容区                                                   |
 | tabs[x].hash      | `string`                |                                     | 设置以后将跟 url 的 hash 对应                            |
 | tabs[x].reload    | `boolean`               |                                     | 设置以后内容每次都会重新渲染，对于 crud 的重新拉取很有用 |
+| tabs[x].unmountOnExit    | `boolean`               |                                     | 每次退出都会销毁当前tab栏内容 |
 | tabs[x].className | `string`                | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                             |
 
 ```schema:height="300" scope="body"

@@ -1,0 +1,270 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:list 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              单选
+            </span>
+          </label>
+          <div
+            class="a-ListControl a-Form-control"
+          >
+            <div
+              class="a-ListControl-items"
+            >
+              <div
+                class="a-ListControl-item"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option A
+                </div>
+              </div>
+              <div
+                class="a-ListControl-item"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option B
+                </div>
+              </div>
+              <div
+                class="a-ListControl-item"
+              >
+                <div
+                  class="a-ListControl-itemImage"
+                >
+                  <img
+                    alt="OptionC"
+                    src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+                  />
+                </div>
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  OptionC
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:list:multiple clearable 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              多选
+            </span>
+          </label>
+          <div
+            class="a-ListControl a-Form-control"
+          >
+            <div
+              class="a-ListControl-items"
+            >
+              <div
+                class="a-ListControl-item is-active"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option A
+                </div>
+              </div>
+              <div
+                class="a-ListControl-item is-active"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option B
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              当前值
+            </span>
+          </label>
+          <div
+            class="form-control-static"
+          >
+            <div
+              class="a-Form-control"
+            >
+              <span
+                class="a-TplField"
+              >
+                a,b
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:list:multiple clearable 2`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              多选
+            </span>
+          </label>
+          <div
+            class="a-ListControl a-Form-control"
+          >
+            <div
+              class="a-ListControl-items"
+            >
+              <div
+                class="a-ListControl-item is-active"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option A
+                </div>
+              </div>
+              <div
+                class="a-ListControl-item"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option B
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              当前值
+            </span>
+          </label>
+          <div
+            class="form-control-static"
+          >
+            <div
+              class="a-Form-control"
+            >
+              <span
+                class="a-TplField"
+              >
+                a
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
