@@ -309,6 +309,7 @@ body {
                 overflow: visible;
                 position: relative;
                 top: 0;
+                z-index: 15;
                 width: $Layout-aside--folded-width - px2rem(1px);
             }
 
