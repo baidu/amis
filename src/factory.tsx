@@ -301,6 +301,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
                         ...(schema as Schema)
                     } : schema, {
                         ...rest,
+                        location: location,
                         data: finalData,
                         env,
                         classnames: theme.classnames,
