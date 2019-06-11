@@ -5,7 +5,7 @@ import Overlay from '../../components/Overlay';
 import Checkbox from '../../components/Checkbox';
 import PopOver from '../../components/PopOver';
 import {RootCloseWrapper} from 'react-overlays';
-import {closeIcon} from '../../components/icons';
+import {closeIcon, rightArrowIcon} from '../../components/icons';
 import {autobind, flattenTree} from '../../utils/helper'
 
 import {
@@ -218,7 +218,7 @@ export default class NestedSelectControl extends React.Component<NestedSelectPro
                                 >
                                     {option.label}
                                 </Checkbox>
-                                {option.children ? (<span className={cx('NestedSelect-arrowZone')}><span className={cx('NestedSelect-optionArrowRight')}></span></span>) : null}
+                                {option.children ? (<div className={cx('NestedSelect-optionArrowRight')}>{rightArrowIcon}</div>) : null}
                                 {option.children && option.children.length ? this.renderOptions(option.children, true, cascade ? false : uncheckable || multiple && checked) : null}
                             </div>
                         )

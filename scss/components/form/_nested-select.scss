@@ -72,12 +72,25 @@
         }
     }
 
-    &-arrowZone {
+    &-optionArrowRight {
         width: px2rem(32px);
+        height: $Form-input-height;
         line-height: $Form-input-height;
         cursor: pointer;
         float: right;
         text-align: center;
+        position: relative;
+
+        svg {
+            width: px2rem(20px);
+            height: px2rem(20px);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            right: 50%;
+            transform: translate(-50%, -50%);
+            fill: $Form-input-iconColor;
+        }
     }
 
     &-menuOuter,
@@ -130,10 +143,5 @@
         transform: translateY(-$Form-input-height);
         padding: 0;
         margin: 0;
-    }
-
-    &-optionArrowRight:before {
-        content: "\e63b";
-        font-family: "iconfont" !important;
     }
 }

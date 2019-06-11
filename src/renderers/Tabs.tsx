@@ -38,7 +38,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         unmountOnExit: false,
     };
 
-    id = Date.now() + '';
+    id = 0;
     constructor(props: TabsProps) {
         super(props);
 
@@ -206,7 +206,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
         return (
             <TabContainer
-                id={this.id}
+                id={'' + this.id++}
                 className={cx(
                     `Tabs`,
                     {
