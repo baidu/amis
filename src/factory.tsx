@@ -565,7 +565,11 @@ export function HocStoreFactory(renderer:{
                 const store = this.store;
 
                 if (renderer.extendsData === false) {
-                    (props.defaultData !== nextProps.defaultData || isObjectShallowModified(props.data, nextProps.data))
+                    (
+                        props.defaultData !== nextProps.defaultData 
+                        || isObjectShallowModified(props.data, nextProps.data)
+                        || nextProps.data && props.data && nextProps.data.__suer !== props.data.__super
+                    )
                     && store.initData(extendObject(nextProps.data, {
                         ...store.hasRemoteData ? store.data : null, // todo 只保留 remote 数据
                         ...this.formatData(nextProps.defaultData),
@@ -585,9 +589,15 @@ export function HocStoreFactory(renderer:{
                     }
                 } else if ((!nextProps.store || nextProps.data !== nextProps.store.data) && nextProps.data && nextProps.data.__super) {
                     (!props.data || nextProps.data.__super !== props.data.__super)
-                        && store.initData(createObject(nextProps.data.__super, store.data));
+                        && store.initData(createObject(nextProps.data.__super, {
+                            ...nextProps.data,
+                            ...store.data
+                        }));
                 } else if (nextProps.scope !== props.scope) {
-                    store.initData(createObject(nextProps.scope, store.data));
+                    store.initData(createObject(nextProps.scope, {
+                        ...nextProps.data,
+                        ...store.data
+                    }));
                 }
             }
 
