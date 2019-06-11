@@ -568,7 +568,8 @@ export function HocStoreFactory(renderer:{
                     (
                         props.defaultData !== nextProps.defaultData 
                         || isObjectShallowModified(props.data, nextProps.data)
-                        || nextProps.data && props.data && nextProps.data.__suer !== props.data.__super
+                        // CRUD 中 toolbar 里面的 data 是空对象，但是 __super 会不一样
+                        || nextProps.data && props.data && nextProps.data.__super !== props.data.__super
                     )
                     && store.initData(extendObject(nextProps.data, {
                         ...store.hasRemoteData ? store.data : null, // todo 只保留 remote 数据
