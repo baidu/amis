@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export default {
     $schema: "https://houtai.baidu.com/v2/schemas/page.json#",
