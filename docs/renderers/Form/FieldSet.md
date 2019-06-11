@@ -39,6 +39,7 @@
   {
     "type": "fieldSet",
     "title": "其他配置",
+    "collapsable": true,
     "collapsed": true,
     "controls": [
       {

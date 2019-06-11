@@ -22,7 +22,7 @@
 -   `minLength` 限制最小长度。
 -   `maxLength` 限制最大长度。
 -   `scaffold` 单条初始值。默认为 `{}`。
--   `canAccessSuperData` 指定是否可以自动获取上层的数据并映射到表单项上，默认是`true`。
+-   `canAccessSuperData` 指定是否可以自动获取上层的数据并映射到表单项上，默认是`false`。
 -   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="450" scope="form"

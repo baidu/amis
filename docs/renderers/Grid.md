@@ -27,7 +27,7 @@
 | columns[x].lgPull   | `int`                             |          | 靠左的距离占比：1 - 12  |
 | columns[x].lgPush   | `int`                             |          | 靠右的距离占比： 1 - 12 |
 
-更多使用说明，请参看 [Grid Props](https://react-bootstrap.github.io/components.html#grid-props-col)
+更多使用说明，请参看 [Grid Props](https://react-bootstrap.github.io/layout/grid/#col-props)
 
 ```schema:height="300" scope="body"
 [
