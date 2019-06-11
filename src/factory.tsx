@@ -287,11 +287,11 @@ export class RootRenderer extends React.Component<RootRendererProps> {
             || location && location.search && qs.parse(location.search.substring(1))
             || window.location.search && qs.parse(window.location.search.substring(1));
 
-        const finalData = query ? {
-            ...data,
+        const finalData = query ? createObject({
+            ...(data.__super ? data.__super: null),
             ...query,
             query
-        } : data;
+        }, data) : data;
 
         return (
             <RootStoreContext.Provider value={rootStore}>
