@@ -373,7 +373,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         }
 
         value = value || this.defaultValue;
-        return canAccessSuperData 
+        return canAccessSuperData
             ? createObject(createObject(data, {index, __index: index}), value)
             : createObject({index, __index: index}, value);
     }
@@ -464,7 +464,8 @@ export default class ComboControl extends React.Component<ComboProps> {
                         return (
                             <div 
                                 className={cx(`Combo-item`)}
-                                key={this.keys[index] || (this.keys[index] = guid())}>
+                                key={this.keys[index] || (this.keys[index] = guid())}
+                            >
                                 <div className={cx(`Combo-itemInner`)}>
                                     {render(`multiple/${index}`, {
                                         type: 'form',
@@ -503,9 +504,9 @@ export default class ComboControl extends React.Component<ComboProps> {
                                 <span>{addButtonText || '新增'}</span>
                             </button>
                         ) : null}
-                        {
-                            draggable ? (<span className={cx(`Combo-dragableTip`)} ref={this.dragTipRef} >{Array.isArray(value) && value.length > 1 ? draggableTip : ''}</span>) : null
-                        }
+                        {draggable ? (
+                            <span className={cx(`Combo-dragableTip`)} ref={this.dragTipRef} >{Array.isArray(value) && value.length > 1 ? draggableTip : ''}</span>
+                        ) : null}
                     </div>
                 ) : null}
             </div>
