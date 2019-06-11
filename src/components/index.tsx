@@ -18,7 +18,7 @@ import Drawer from './Drawer';
 import DropdownButton from './DropdownButton';
 // import Editor from './Editor';
 import Html from './Html';
-import Icons from './icons';
+import * as Icons from './icons';
 import Layout from './Layout';
 import LazyComponent from './LazyComponent';
 import Modal from './Modal';
