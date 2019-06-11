@@ -307,7 +307,8 @@ body {
 
             .#{$ns}Layout-asideWrap {
                 overflow: visible;
-                position: static;
+                position: relative;
+                top: 0;
                 width: $Layout-aside--folded-width - px2rem(1px);
             }
 
