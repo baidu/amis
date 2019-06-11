@@ -220,18 +220,17 @@ exports[`Renderer:Form sendOn:true 1`] = `
             </span>
           </label>
           <div
-            class="a-Form-control a-TextControl is-disabled"
+            class="a-Form-control a-TextControl"
           >
             <div
               class="a-TextControl-input"
             >
               <input
                 autocomplete="off"
-                disabled=""
                 name="a"
                 placeholder=""
                 type="text"
-                value=""
+                value="1"
               />
             </div>
           </div>
@@ -247,18 +246,17 @@ exports[`Renderer:Form sendOn:true 1`] = `
             </span>
           </label>
           <div
-            class="a-Form-control a-TextControl is-disabled"
+            class="a-Form-control a-TextControl"
           >
             <div
               class="a-TextControl-input"
             >
               <input
                 autocomplete="off"
-                disabled=""
                 name="b"
                 placeholder=""
                 type="text"
-                value=""
+                value="2"
               />
             </div>
           </div>
@@ -270,8 +268,7 @@ exports[`Renderer:Form sendOn:true 1`] = `
         class="a-Panel-btnToolbar a-Panel-footer"
       >
         <button
-          class="a-Button a-Button--primary is-disabled"
-          disabled=""
+          class="a-Button a-Button--primary"
           type="submit"
         >
           <span>
