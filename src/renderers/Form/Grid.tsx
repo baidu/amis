@@ -50,6 +50,6 @@ export class GridRenderer extends Grid<GridProps> {
             );
         }
 
-        return itemRender ?  itemRender(node, key, length, this.props) : render(region, node);
+        return itemRender ?  itemRender(node, key, length, this.props) : render(region, node.body || node);
     }
 }

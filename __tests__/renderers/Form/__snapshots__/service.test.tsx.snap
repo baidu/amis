@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:service 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal is-required"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              模板
+              <span
+                class="a-Form-star"
+              >
+                *
+              </span>
+            </span>
+          </label>
+          <div
+            class="a-SelectControl a-Form-control is-inline"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-0-label"
+              class="a-Select"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="a-Select-valueWrap"
+              >
+                <div
+                  class="a-Select-value"
+                >
+                  模板1
+                </div>
+              </div>
+              <span
+                class="a-Select-arrow"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="a-Service m-t"
+        >
+          <div
+            class="a-Form--normal"
+          >
+            <div
+              class="a-Form-item a-Form-item--normal is-required"
+            >
+              <label
+                class="a-Form-label"
+              >
+                <span>
+                  动态字段1
+                  <span
+                    class="a-Form-star"
+                  >
+                    *
+                  </span>
+                </span>
+              </label>
+              <div
+                class="a-Form-control a-TextControl"
+              >
+                <div
+                  class="a-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="dy_1"
+                    placeholder=""
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="a-Form-item a-Form-item--normal"
+            >
+              <label
+                class="a-Form-label"
+              >
+                <span>
+                  动态字段2
+                </span>
+              </label>
+              <div
+                class="a-Form-control a-TextControl"
+              >
+                <div
+                  class="a-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="dy_2"
+                    placeholder=""
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
