@@ -193,7 +193,7 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
     };
 
     content: React.RefObject<HTMLDivElement>;
-    timer: NodeJS.Timeout;
+    timer: number;
     constructor(props: ToastMessageProps) {
         super(props);
 

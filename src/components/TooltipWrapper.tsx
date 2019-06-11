@@ -45,7 +45,7 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
     };
 
     target: HTMLElement;
-    timer: NodeJS.Timeout;
+    timer: number;
     constructor(props: TooltipWrapperProps) {
         super(props);
 
