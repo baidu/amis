@@ -155,7 +155,7 @@ export default class Form extends React.Component<FormProps, object> {
     asyncCancel:() => void;
     disposeOnValidate: () => void;
     shouldLoadInitApi:boolean = false;
-    timer: NodeJS.Timeout;
+    timer: number;
     mounted: boolean;
     constructor(props: FormProps) {
         super(props);
