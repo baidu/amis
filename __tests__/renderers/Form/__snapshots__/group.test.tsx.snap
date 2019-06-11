@@ -1,0 +1,224 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:group 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-group a-Form-group--hor a-Form-group--horizontal bg-white"
+        >
+          <div
+            class="a-Form-groupColumn"
+          >
+            <div
+              class="a-Form-item a-Form-item--horizontal"
+            >
+              <label
+                class="a-Form-label a-Form-itemColumn--0"
+              >
+                <span>
+                  Label
+                </span>
+              </label>
+              <div
+                class="a-Form-value a-Form-itemColumn--10"
+              >
+                <div
+                  class="a-Form-control a-TextControl"
+                >
+                  <div
+                    class="a-TextControl-input"
+                  >
+                    <input
+                      autocomplete="off"
+                      name="test1"
+                      placeholder="Placeholder"
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="a-Form-groupColumn"
+          >
+            <div
+              class="a-Form-item a-Form-item--horizontal"
+            >
+              <label
+                class="a-Form-label a-Form-itemColumn--0"
+              >
+                <span>
+                  Label
+                </span>
+              </label>
+              <div
+                class="a-Form-value a-Form-itemColumn--10"
+              >
+                <div
+                  class="a-Form-control a-TextControl"
+                >
+                  <div
+                    class="a-TextControl-input"
+                  >
+                    <input
+                      autocomplete="off"
+                      name="test2"
+                      placeholder="Placeholder"
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="a-Form-group a-Form-group--hor a-Form-group--inline bg-white"
+        >
+          <div
+            class="a-Form-item a-Form-item--inline"
+          >
+            <label
+              class="a-Form-label"
+            >
+              <span>
+                Label
+              </span>
+            </label>
+            <div
+              class="a-Form-value"
+            >
+              <div
+                class="a-Form-control a-TextControl"
+              >
+                <div
+                  class="a-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="test1"
+                    placeholder="Placeholder"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="a-Form-item a-Form-item--inline"
+          >
+            <label
+              class="a-Form-label"
+            >
+              <span>
+                Label
+              </span>
+            </label>
+            <div
+              class="a-Form-value"
+            >
+              <div
+                class="a-Form-control a-TextControl"
+              >
+                <div
+                  class="a-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="test2"
+                    placeholder="Placeholder"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="a-Form-group a-Form-group--ver a-Form-group--normal"
+        >
+          <div
+            class="a-Form-item a-Form-item--normal"
+          >
+            <label
+              class="a-Form-label"
+            >
+              <span>
+                Label
+              </span>
+            </label>
+            <div
+              class="a-Form-control a-TextControl"
+            >
+              <div
+                class="a-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  name="test1"
+                  placeholder="Placeholder"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="a-Form-item a-Form-item--normal"
+          >
+            <label
+              class="a-Form-label"
+            >
+              <span>
+                Label
+              </span>
+            </label>
+            <div
+              class="a-Form-control a-TextControl"
+            >
+              <div
+                class="a-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  name="test2"
+                  placeholder="Placeholder"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

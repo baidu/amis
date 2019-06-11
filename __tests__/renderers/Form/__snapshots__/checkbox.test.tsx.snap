@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:checkbox 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              Checkbox
+            </span>
+          </label>
+          <div
+            class="a-CheckboxControl a-Form-control"
+          >
+            <label
+              class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+            >
+              <input
+                type="checkbox"
+              />
+              <i />
+              <span>
+                <span
+                  class="a-TplField"
+                >
+                  选项说明
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
