@@ -453,5 +453,6 @@ test('Renderer:Form sendOn:true', async () => {
 
     expect(fetcher).toHaveBeenCalled();
     await p0;
+    await wait(10);
     expect(container).toMatchSnapshot();
 });

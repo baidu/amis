@@ -30,6 +30,8 @@ export interface TabsState {
     prevKey: any;
 }
 
+let tabCount = 0;
+
 export default class Tabs extends React.Component<TabsProps, TabsState> {
     static defaultProps: Partial<TabsProps> = {
         className: '',
@@ -38,7 +40,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         unmountOnExit: false,
     };
 
-    id = Date.now() + '';
+    id = '' + tabCount++;
     constructor(props: TabsProps) {
         super(props);
 
