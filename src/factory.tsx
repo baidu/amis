@@ -287,11 +287,11 @@ export class RootRenderer extends React.Component<RootRendererProps> {
             || location && location.search && qs.parse(location.search.substring(1))
             || window.location.search && qs.parse(window.location.search.substring(1));
 
-        const finalData = query ? {
-            ...data,
+        const finalData = query ? createObject({
+            ...(data && data.__super ? data.__super: null),
             ...query,
             query
-        } : data;
+        }, data) : data;
 
         return (
             <RootStoreContext.Provider value={rootStore}>
@@ -301,6 +301,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
                         ...(schema as Schema)
                     } : schema, {
                         ...rest,
+                        location: location,
                         data: finalData,
                         env,
                         classnames: theme.classnames,
@@ -565,7 +566,12 @@ export function HocStoreFactory(renderer:{
                 const store = this.store;
 
                 if (renderer.extendsData === false) {
-                    (props.defaultData !== nextProps.defaultData || isObjectShallowModified(props.data, nextProps.data))
+                    (
+                        props.defaultData !== nextProps.defaultData 
+                        || isObjectShallowModified(props.data, nextProps.data)
+                        // CRUD 中 toolbar 里面的 data 是空对象，但是 __super 会不一样
+                        || nextProps.data && props.data && nextProps.data.__super !== props.data.__super
+                    )
                     && store.initData(extendObject(nextProps.data, {
                         ...store.hasRemoteData ? store.data : null, // todo 只保留 remote 数据
                         ...this.formatData(nextProps.defaultData),
@@ -585,9 +591,15 @@ export function HocStoreFactory(renderer:{
                     }
                 } else if ((!nextProps.store || nextProps.data !== nextProps.store.data) && nextProps.data && nextProps.data.__super) {
                     (!props.data || nextProps.data.__super !== props.data.__super)
-                        && store.initData(createObject(nextProps.data.__super, store.data));
+                        && store.initData(createObject(nextProps.data.__super, {
+                            ...nextProps.data,
+                            ...store.data
+                        }));
                 } else if (nextProps.scope !== props.scope) {
-                    store.initData(createObject(nextProps.scope, store.data));
+                    store.initData(createObject(nextProps.scope, {
+                        ...nextProps.data,
+                        ...store.data
+                    }));
                 }
             }
 

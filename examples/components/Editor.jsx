@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Editor from '../../src/editor/Editor';
 import Switch from '../../src/components/Switch';
 import Button from '../../src/components/Button';

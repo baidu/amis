@@ -88,9 +88,16 @@ export const iRendererStore = types
                 });
 
                 if (self.action.dialog && self.action.dialog.data) {
-                    self.dialogData = createObject(proto, {
-                        ...dataMapping(self.action.dialog.data, data)
-                    });
+                    self.dialogData = dataMapping(self.action.dialog.data, data);
+
+                    const clonedAction = {
+                        ...self.action,
+                        dialog: {
+                            ...self.action.dialog
+                        }
+                    };
+                    delete clonedAction.dialog.data;
+                    self.action = clonedAction;
                 } else {
                     self.dialogData = data;
                 }
@@ -125,6 +132,15 @@ export const iRendererStore = types
 
                 if (self.action.drawer.data) {
                     self.drawerData = dataMapping(self.action.drawer.data, data);
+
+                    const clonedAction = {
+                        ...self.action,
+                        dialog: {
+                            ...self.action.dialog
+                        }
+                    };
+                    delete clonedAction.dialog.data;
+                    self.action = clonedAction;
                 } else {
                     self.drawerData = data;
                 }

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {render} from '../../src/index';
-import * as axios from 'axios';
+import axios from 'axios';
 import TitleBar from '../../src/components/TitleBar';
 import LazyComponent from '../../src/components/LazyComponent';
 import Overlay from '../../src/components/Overlay';

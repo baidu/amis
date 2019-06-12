@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import TitleBar from '../../../src/components/TitleBar';
 import {render} from '../../../src/index';
 

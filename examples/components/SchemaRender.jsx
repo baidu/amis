@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import {render} from '../../src/index';
-import * as axios from 'axios';
+import axios from 'axios';
 import {toast} from '../../src/components/Toast';
 import {alert, confirm} from '../../src/components/Alert';
 import Button from '../../src/components/Button'
