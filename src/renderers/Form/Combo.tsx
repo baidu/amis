@@ -362,8 +362,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     formatValue(value:any, index:number) {
         const {
             flat,
-            data,
-            canAccessSuperData
+            data
         } = this.props;
 
         if (flat) {
@@ -373,9 +372,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         }
 
         value = value || this.defaultValue;
-        return canAccessSuperData
-            ? createObject(createObject(data, {index, __index: index}), value)
-            : createObject({index, __index: index}, value);
+        return createObject(createObject(data, {index, __index: index}), value);
     }
 
     renderMultipe() {
