@@ -74,10 +74,9 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
         } else {
             offset = getOffset as Offset;
         }
-
         this.setState({
-            xOffset: offset ? (offset as Offset).x : 0,
-            yOffset: offset ? offset.y : 0,
+            xOffset: (offset && offset.x) ? (offset as Offset).x : 0,
+            yOffset: (offset && offset.y) ? (offset as Offset).y : 0,
         });
     }
 
@@ -100,7 +99,6 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
         } = this.props;
 
         const {xOffset, yOffset} = this.state;
-
         const outerStyle = {
             display: 'block',
             ...style,
