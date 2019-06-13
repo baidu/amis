@@ -712,7 +712,7 @@ export class App extends React.PureComponent {
                            )}
                         </div>
 
-                        <DocSearch />
+                        <DocSearch theme={this.state.theme.value} />
                     </div>
                 </div>
             );
