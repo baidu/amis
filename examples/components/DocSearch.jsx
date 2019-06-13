@@ -41,7 +41,7 @@ export default class DocSearch extends React.Component {
 
     render() {
         return (
-            <FormComponent showCode={false} />
+            <FormComponent showCode={false} theme={this.props.theme} />
         );
     }
 }
