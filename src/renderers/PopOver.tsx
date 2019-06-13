@@ -9,10 +9,8 @@ import {RendererProps} from '../factory';
 import cx from 'classnames';
 import hoistNonReactStatic = require('hoist-non-react-statics');
 import {RootCloseWrapper} from 'react-overlays';
-import PopOver from '../components/PopOver';
+import PopOver, {Offset} from '../components/PopOver';
 import Overlay from '../components/Overlay';
-
-export interface PopOverConfig {}
 
 const allowedPositions = ['center', 'top'];
 
@@ -33,6 +31,7 @@ export interface PopOverConfig {
         | 'fixed-left-bottom'
         | 'fixed-right-bottom';
     [propName: string]: any;
+    offset: Offset;
 }
 
 export interface PopOverProps extends RendererProps {
@@ -125,7 +124,6 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (Component: R
 
         renderPopOver() {
             let {popOver, render, popOverContainer, classnames: cx, classPrefix: ns} = this.props;
-
             if (
                 popOver &&
                 ((popOver as PopOverConfig).mode === 'dialog' || (popOver as PopOverConfig).mode === 'drawer')
@@ -161,7 +159,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (Component: R
                     rootClose
                     show
                 >
-                    <PopOver classPrefix={ns} className={cx('PopOverAble-popover')}>
+                    <PopOver classPrefix={ns} className={cx('PopOverAble-popover')} offset={popOver.offset}>
                         {content}
                     </PopOver>
                 </Overlay>
