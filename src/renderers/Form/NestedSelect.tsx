@@ -238,7 +238,7 @@ export default class NestedSelectControl extends React.Component<NestedSelectPro
                         onClick={this.handleOptionClick.bind(this, option)}
                     >
                         <span>{option.label}</span>
-                        {option.children ? (<span className={cx('NestedSelect-arrowZone')}><span className={cx('NestedSelect-optionArrowRight')}></span></span>) : null}
+                        {option.children ? (<div className={cx('NestedSelect-optionArrowRight')}>{rightArrowIcon}</div>) : null}
                         {option.children && option.children.length ? this.renderOptions(option.children, true, false) : null}
                     </div>
 
