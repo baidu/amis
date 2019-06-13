@@ -41,3 +41,37 @@
   }
 ]
 ```
+
+公式最常见的用法，就是用来实现，当某个值发生变化时，将另外一个值置空如：
+
+```schema:height="300" scope="form"
+[
+  {
+    "type": "radios",
+    "options": ["1", "2"],
+    "name": "a",
+    "label": "A",
+    "description": "当 A 发生变化时，原来选择的 B 可能已经失效，所以利用公式把 B 值清空。"
+  },
+  {
+    "type": "radios",
+    "name": "b",
+    "options": ["3", "4"],
+    "label": "B",
+    "visibleOn": "this.a != 2"
+  },
+  {
+    "type": "radios",
+    "name": "b",
+    "options": ["5", "6"],
+    "label": "B",
+    "visibleOn": "this.a == 2"
+  },
+  {
+    "type": "formula",
+    "name": "b",
+    "condition": "${a}",
+    "formula": "''"
+  }
+]
+```
