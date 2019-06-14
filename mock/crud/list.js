@@ -30,7 +30,7 @@ module.exports = function(req, res) {
                         image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
                     },
                     {
-                        item: '<div style="width: 100%; height: 200px; background: #e3e3e3; text-align: center; line-height: 200px;">carousel data in crud</div>'
+                        html: '<div style="width: 100%; height: 200px; background: #e3e3e3; text-align: center; line-height: 200px;">carousel data in crud</div>'
                     },
                     {
                         image: 'https://video-react.js.org/assets/poster.png'
