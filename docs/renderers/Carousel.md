@@ -12,7 +12,8 @@
         -  `titleClassName` 图片标题类名
         -  `description` 图片描述
         -  `descriptionClassName` 图片描述类名
-    -   `html` HTML 自定义，同[Tpl](./Tpl.md)一致
+    -   `item` HTML 自定义，同[Tpl](./Tpl.md)一致
+-   `itemSchema` 自定义`schema`来展示数据
 -   `auto` 是否自动轮播，默认`true`
 -   `interval` 切换动画间隔，默认`5s`
 -   `duration` 切换动画时长，默认`0.5s`
@@ -33,7 +34,7 @@
             "image": "https://video-react.js.org/assets/poster.png"
         },
         {
-            "html": "<div style=\"width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;\">carousel data</div>"
+            "item": "<div style=\"width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;\">carousel data</div>"
         },
         {
             "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
