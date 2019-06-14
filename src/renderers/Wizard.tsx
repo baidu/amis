@@ -206,6 +206,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             return;
         }
 
+        store.markSaving(true);
         store.updateData({
             [finishedField || 'finished']: false,
         });
@@ -215,8 +216,14 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             (ret: any) => ret && ret[finishedField || 'finished'],
             cancel => (this.asyncCancel = cancel)
         )
-            .then(() => this.gotoStep(this.state.currentStep + 1))
-            .catch(e => env.notify('error', e.message));
+            .then(() => {
+                store.markSaving(false);
+                this.gotoStep(this.state.currentStep + 1)
+            })
+            .catch(e => {
+                env.notify('error', e.message);
+                store.markSaving(false);
+            });
     }
 
     handleAction(e: React.UIEvent<any> | void, action: Action, data: object, throwErrors?: boolean) {
