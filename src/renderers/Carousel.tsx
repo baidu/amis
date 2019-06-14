@@ -1,7 +1,8 @@
 import React from 'react';
 import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition';
 import {Renderer, RendererProps} from '../factory';
-import {autobind, createObject} from '../utils/helper';
+import {resolveVariable} from '../utils/tpl-builtin';
+import {autobind, createObject, isObject} from '../utils/helper';
 import {leftArrowIcon, rightArrowIcon} from '../components/icons';
 
 const animationStyles: {
@@ -53,7 +54,14 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
     state = {
         current: 0,
-        options: this.props.value ? this.props.value : this.props.options ? this.props.options : [],
+        options:
+            this.props.value
+                ? this.props.value
+                : this.props.options
+                    ? this.props.options
+                    : resolveVariable(this.props.name, this.props.data)
+                        ? resolveVariable(this.props.name, this.props.data)
+                        : [],
         showArrows: false,
         nextAnimation: ''
     };
@@ -179,24 +187,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
 
     @autobind
-    defaultSchema() {
-        return {
-            type: 'tpl',
-            tpl:
-            "<% if (data.image) { %> " +
-                "<div style=\"background-image: url(<%= data.image %>)\" class=\"image <%= data.imageClassName %>\"></div>" +
-                "<% if (data.title) { %> " +
-                    "<div class=\"title <%= data.titleClassName %>\"><%= data.title %></div>" +
-                "<% } if (data.description) { %> " +
-                    "<div class=\"description <%= data.descriptionClassName %>\"><%= data.description %></div>" +
-                "<% } %>" +
-            "<% } else if (data.html) { %>" +
-                "<%= data.html %>" +
-            "<% } %>"
-        }
-    }
-
-    @autobind
     handleMouseEnter() {
         this.setState({
             showArrows: true
@@ -223,8 +213,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             height,
             controls,
             controlsTheme,
-            placeholder,
-            data
+            placeholder
         } = this.props;
         const {
             options,
@@ -232,6 +221,20 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             current,
             nextAnimation
         } = this.state;
+        const defaultSchema = {
+            type: 'tpl',
+            tpl:
+            "<% if (data.image) { %> " +
+                "<div style=\"background-image: url(<%= data.image %>)\" class=\"image <%= data.imageClassName %>\"></div>" +
+                "<% if (data.title) { %> " +
+                    "<div class=\"title <%= data.titleClassName %>\"><%= data.title %></div>" +
+                "<% } if (data.description) { %> " +
+                    "<div class=\"description <%= data.descriptionClassName %>\"><%= data.description %></div>" +
+                "<% } %>" +
+            "<% } else if (data.item) { %>" +
+                "<%= data.item %>" +
+            "<% } %>"
+        }
 
         let body:JSX.Element | null = null;
         let carouselStyles: {
@@ -266,8 +269,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
                                 return (
                                     <div className={cx('Carousel-item', animationName, animationStyles[status])}>
-                                        {render(`${current}/body`, itemSchema ? itemSchema : this.defaultSchema(), {
-                                            data: createObject(data, option)
+                                        {render(`${current}/body`, itemSchema ? itemSchema : defaultSchema, {
+                                            data: isObject(option) ? option : {item: option}
                                         })}
                                     </div>
                                 );
