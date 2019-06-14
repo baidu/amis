@@ -54,14 +54,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
     state = {
         current: 0,
-        options:
-            this.props.value
-                ? this.props.value
-                : this.props.options
-                    ? this.props.options
-                    : resolveVariable(this.props.name, this.props.data)
-                        ? resolveVariable(this.props.name, this.props.data)
-                        : [],
+        options: this.props.value || this.props.options || resolveVariable(this.props.name, this.props.data) || [],
         showArrows: false,
         nextAnimation: ''
     };
