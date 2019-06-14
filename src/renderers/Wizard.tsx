@@ -111,16 +111,26 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 })
                 .then(value => {
                     onInit && onInit(store.data);
+                    const state = {
+                        currentStep: 1,
+                    };
 
-                    if (value && value.data && typeof value.data.step === 'number') {
-                        this.setState({
-                            currentStep: value.data.step,
-                        });
-                    } else {
-                        this.setState({
-                            currentStep: 1,
-                        });
+                    if (
+                        value && value.data 
+                        && (
+                            typeof value.data.step === 'number'
+                            || typeof value.data.step === 'string' && /^\d+$/.test(value.data.step)
+                        )
+                    ) {
+                        state.currentStep = parseInt(value.data.step, 10);
                     }
+
+                    this.setState(state, () => {
+                        // 如果 initApi 返回的状态是正在提交，则进入轮顺状态。
+                        if (value && value.data && (value.data.submiting || value.data.submited)) {
+                            this.checkSubmit();
+                        }
+                    });
                     return value;
                 });
         } else {
@@ -185,6 +195,30 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         return this.dom;
     }
 
+    // 用来还原异步提交状态。
+    checkSubmit() {
+        const {store, steps, asyncApi, finishedField, target, redirect, reload, env, onFinished} = this.props;
+
+        const step = steps[this.state.currentStep - 1];
+        let finnalAsyncApi = step && step.asyncApi || this.state.currentStep === steps.length && asyncApi;
+        
+        if (!step || !finnalAsyncApi) {
+            return;
+        }
+
+        store.updateData({
+            [finishedField || 'finished']: false,
+        });
+
+        until(
+            () => store.checkRemote(finnalAsyncApi as Api, store.data),
+            (ret: any) => ret && ret[finishedField || 'finished'],
+            cancel => (this.asyncCancel = cancel)
+        )
+            .then(() => this.gotoStep(this.state.currentStep + 1))
+            .catch(e => env.notify('error', e.message));
+    }
+
     handleAction(e: React.UIEvent<any> | void, action: Action, data: object, throwErrors?: boolean) {
         const {onAction, store} = this.props;
 
@@ -221,7 +255,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         store.updateData(values);
 
         if (this.state.currentStep < steps.length) {
-            let finnalAsyncApi = action.asyncApi || asyncApi;
+            let finnalAsyncApi = action.asyncApi || step.asyncApi;
 
             finnalAsyncApi &&
                 store.updateData({

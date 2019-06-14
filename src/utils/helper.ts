@@ -447,7 +447,7 @@ export function isBreakpoint(str: string): boolean {
 }
 
 export function until(fn: () => Promise<any>, when: (ret: any) => boolean, getCanceler: (fn: () => any) => void, interval: number = 5000) {
-    let timer: NodeJS.Timer;
+    let timer: number;
     let stoped: boolean = false;
 
     return new Promise((resolve, reject) => {
@@ -457,15 +457,19 @@ export function until(fn: () => Promise<any>, when: (ret: any) => boolean, getCa
         };
 
         let check = async () => {
-            const ret = await fn();
+            try {
+                const ret = await fn();
 
-            if (stoped) {
-                return;
-            } else if (when(ret)) {
-                stoped = true;
-                resolve(ret);
-            } else {
-                timer = setTimeout(check, interval);
+                if (stoped) {
+                    return;
+                } else if (when(ret)) {
+                    stoped = true;
+                    resolve(ret);
+                } else {
+                    timer = setTimeout(check, interval);
+                }
+            } catch (e) {
+                reject(e);
             }
         }
 
