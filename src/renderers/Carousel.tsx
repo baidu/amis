@@ -213,7 +213,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             height,
             controls,
             controlsTheme,
-            placeholder
+            placeholder,
+            data
         } = this.props;
         const {
             options,
@@ -223,17 +224,31 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         } = this.state;
         const defaultSchema = {
             type: 'tpl',
-            tpl:
-            "<% if (data.image) { %> " +
-                "<div style=\"background-image: url(<%= data.image %>)\" class=\"image <%= data.imageClassName %>\"></div>" +
-                "<% if (data.title) { %> " +
-                    "<div class=\"title <%= data.titleClassName %>\"><%= data.title %></div>" +
-                "<% } if (data.description) { %> " +
-                    "<div class=\"description <%= data.descriptionClassName %>\"><%= data.description %></div>" +
-                "<% } %>" +
-            "<% } else if (data.item) { %>" +
-                "<%= data.item %>" +
-            "<% } %>"
+            tpl: `
+            <% if (data.hasOwnProperty('image')) { %>
+                <div style="background-image: url(<%= data.image %>)" class="image <%= data.imageClassName %>"></div>
+                <% if (data.title) { %>
+                    <div class="title <%= data.titleClassName %>"><%= data.title %></div>
+                <% } if (data.description) { %> 
+                    <div class="description <%= data.descriptionClassName %>"><%= data.description %></div> 
+                <% } %>
+            <% } else if (data.hasOwnProperty('html')) { %>
+                <%= data.html %>"
+            <% } else if (data.image) { %>
+                <div style="background-image: url(<%= data.image %>)" class="image <%= data.imageClassName %>"></div>
+                <% if (data.title) { %>
+                    <div class="title <%= data.titleClassName %>"><%= data.title %></div>
+                <% } if (data.description) { %> 
+                    <div class="description <%= data.descriptionClassName %>"><%= data.description %></div> 
+                <% } %>
+            <% } else if (data.html) { %>
+                <%= data.html %>
+            <% } else if (data.item) { %>
+                <%= data.item %>
+            <% } else { %>
+                <%= '未找到渲染数据' %>
+            <% } %>
+            `
         }
 
         let body:JSX.Element | null = null;
@@ -270,7 +285,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                                 return (
                                     <div className={cx('Carousel-item', animationName, animationStyles[status])}>
                                         {render(`${current}/body`, itemSchema ? itemSchema : defaultSchema, {
-                                            data: isObject(option) ? option : {item: option}
+                                            data: createObject(data, isObject(option) ? option : {item: option})
                                         })}
                                     </div>
                                 );

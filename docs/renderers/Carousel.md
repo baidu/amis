@@ -12,7 +12,7 @@
         -  `titleClassName` 图片标题类名
         -  `description` 图片描述
         -  `descriptionClassName` 图片描述类名
-    -   `item` HTML 自定义，同[Tpl](./Tpl.md)一致
+    -   `html` HTML 自定义，同[Tpl](./Tpl.md)一致
 -   `itemSchema` 自定义`schema`来展示数据
 -   `auto` 是否自动轮播，默认`true`
 -   `interval` 切换动画间隔，默认`5s`
