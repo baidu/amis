@@ -219,4 +219,14 @@
         display: inline-block;
         margin-right: $gap-md;
     }
+
+    &-group {
+        padding-left: px2rem(120px);
+        @include clearfix();
+    }
+
+    &-groupLabel {
+        float: left;
+        margin-left: px2rem(-120px);
+    }
 }

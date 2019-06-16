@@ -30,6 +30,7 @@ interface RadioProps extends OptionProps {
     disabled?: boolean;
     onChange?: Function;
     columnsCount: number;
+    itemClassName?: string;
     classPrefix: string;
     classnames: ClassNamesFn;
 }
@@ -71,6 +72,47 @@ export class Radios extends React.Component<RadioProps, any> {
         onChange && onChange(newValue);
     }
 
+    renderGroup(option:Option, index:number, valueArray: Array<Option>) {
+        const {
+            classnames: cx
+        } = this.props;
+
+        return (
+            <div key={index} className={cx("RadiosControl-group")}>
+                <label className={cx("RadiosControl-groupLabel")}>{option.label}</label>
+
+                {
+                    option.children && option.children.length 
+                        ? option.children.map((option, index) => this.renderItem(option, index, valueArray)) 
+                        : null
+                }
+            </div>
+        );
+    }
+
+    renderItem(option:Option, index:number, valueArray: Array<Option>) {
+        const {
+            disabled,
+            inline,
+            itemClassName,
+            classnames: cx
+        } = this.props;
+
+        return (
+            <Checkbox
+                type="radio"
+                key={index}
+                onChange={() => this.toggleOption(option)}
+                checked={!!~valueArray.indexOf(option)}
+                className={cx(itemClassName, option.className)}
+                disabled={disabled || option.disabled}
+                inline={inline}
+            >
+                {option.label}
+            </Checkbox>
+        );
+    }
+
     render() {
         const {
             value,
@@ -95,20 +137,9 @@ export class Radios extends React.Component<RadioProps, any> {
         let body: Array<React.ReactNode> = [];
 
         if (options) {
-            body = options.map((option, key) => (
-                <Checkbox
-                    type="radio"
-                    classPrefix={classPrefix}
-                    key={key}
-                    onChange={() => this.toggleOption(option)}
-                    checked={!!~valueArray.indexOf(option)}
-                    className={option.className}
-                    disabled={disabled || option.disabled}
-                    inline={inline}
-                >
-                    {option.label}
-                </Checkbox>
-            ));
+            body = options.map((option, key) => option.children 
+                ? this.renderGroup(option, key, valueArray)
+                : this.renderItem(option, key, valueArray));
         }
 
         if (!inline && columnsCount > 1) {
@@ -116,10 +147,8 @@ export class Radios extends React.Component<RadioProps, any> {
             let cellClassName = `Grid-col--sm${weight === Math.round(weight) ? weight : ''}`;
             body = chunk(body, columnsCount).map((group, groupIndex) => (
                 <div className={cx('Grid')} key={groupIndex}>
-                    {group.map((item, index) => (
-                        <div key={index} className={cx(cellClassName)}>
-                            {item}
-                        </div>
+                    {Array.from({length: columnsCount as number}).map((_, index) => (
+                        <div key={index} className={cx(cellClassName)}>{group[index]}</div>
                     ))}
                 </div>
             ));
