@@ -1,15 +1,18 @@
 import React from 'react';
 import {
     OptionsControl,
-    OptionsControlProps
+    OptionsControlProps,
+    Option
 } from './Options';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 import chunk = require('lodash/chunk');
+import { autobind } from '../../utils/helper';
 
 export interface CheckboxesProps extends OptionsControlProps {
     placeholder?: any;
     disabled?: boolean;
+    itemClassName?: string;
     columnsCount?: number;
 };
 
@@ -29,6 +32,47 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
         defaultCheckAll && onToggleAll();
     }
 
+    renderGroup(option:Option, index:number) {
+        const {
+            classnames: cx
+        } = this.props;
+
+        return (
+            <div key={index} className={cx("CheckboxesControl-group")}>
+                <label className={cx("CheckboxesControl-groupLabel")}>{option.label}</label>
+
+                {
+                    option.children && option.children.length 
+                        ? option.children.map((option, index) => this.renderItem(option, index)) 
+                        : null
+                }
+            </div>
+        );
+    }
+
+    renderItem(option:Option, index:number) {
+        const {
+            itemClassName,
+            onToggle,
+            selectedOptions,
+            disabled,
+            inline
+        } = this.props;
+
+        return (
+            <Checkbox
+                className={itemClassName}
+                key={index}
+                onChange={() => onToggle(option)}
+                checked={!!~selectedOptions.indexOf(option)}
+                disabled={disabled || option.disabled}
+                inline={inline}
+            >
+                {option.label}
+            </Checkbox>
+        );
+    }
+
     render() {
         const {
             className,
@@ -41,31 +85,23 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
             onToggle,
             onToggleAll,
             checkAll,
-            classPrefix: ns
+            classnames: cx,
+            itemClassName
         } = this.props;
 
         let body:Array<React.ReactNode> = [];
 
-        if (options) {
-            body = options.map((option, key) => (
-                <Checkbox
-                    classPrefix={ns}
-                    key={key}
-                    onChange={() => onToggle(option)}
-                    checked={!!~selectedOptions.indexOf(option)}
-                    disabled={disabled || option.disabled}
-                    inline={inline}
-                >
-                    {option.label}
-                </Checkbox>
-            ));
+        if (options && options.length) {
+            body = options.map((option, key) => option.children 
+                ? this.renderGroup(option, key)
+                : this.renderItem(option, key));
         }
 
         if (checkAll && body.length) {
             body.unshift(
                 <Checkbox
                     key="checkall"
-                    classPrefix={ns}
+                    className={itemClassName}
                     onChange={onToggleAll}
                     checked={!!selectedOptions.length}
                     partial={!!(selectedOptions.length && selectedOptions.length !== options.length)}
@@ -79,20 +115,20 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
 
         if (!inline && (columnsCount as number) > 1) {
             let weight = 12/(columnsCount as number);
-            let cellClassName = `${ns}Grid-col--sm${weight === Math.round(weight) ? weight : ''}`;
+            let cellClassName = `Grid-col--sm${weight === Math.round(weight) ? weight : ''}`;
             body = chunk(body, columnsCount).map((group, groupIndex) => (
-                <div className={`${ns}Grid`} key={groupIndex}>
+                <div className={cx('Grid')} key={groupIndex}>
                     {Array.from({length: columnsCount as number}).map((_, index) => (
-                        <div key={index} className={cellClassName}>{group[index]}</div>
+                        <div key={index} className={cx(cellClassName)}>{group[index]}</div>
                     ))}
                 </div>
             ));
         }
 
         return (
-            <div className={cx(`${ns}CheckboxesControl`, className)}>
+            <div className={cx(`CheckboxesControl`, className)}>
                 {body && body.length ? body : (
-                    <span className={`${ns}Form-placeholder`}>{placeholder}</span>
+                    <span className={`Form-placeholder`}>{placeholder}</span>
                 )}
             </div>
         );
