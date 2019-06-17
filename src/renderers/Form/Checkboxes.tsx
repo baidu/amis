@@ -38,8 +38,8 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
         } = this.props;
 
         return (
-            <div key={index} className={cx("CheckboxesControl-group")}>
-                <label className={cx("CheckboxesControl-groupLabel")}>{option.label}</label>
+            <div key={index} className={cx("CheckboxesControl-group", option.className)}>
+                <label className={cx("CheckboxesControl-groupLabel", option.labelClassName)}>{option.label}</label>
 
                 {
                     option.children && option.children.length 
@@ -51,6 +51,10 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
     }
 
     renderItem(option:Option, index:number) {
+        if (option.children) {
+            return this.renderGroup(option, index);
+        }
+
         const {
             itemClassName,
             onToggle,
@@ -92,9 +96,7 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
         let body:Array<React.ReactNode> = [];
 
         if (options && options.length) {
-            body = options.map((option, key) => option.children 
-                ? this.renderGroup(option, key)
-                : this.renderItem(option, key));
+            body = options.map((option, key) => this.renderItem(option, key));
         }
 
         if (checkAll && body.length) {
