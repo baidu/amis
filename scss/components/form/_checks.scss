@@ -219,14 +219,27 @@
         display: inline-block;
         margin-right: $gap-md;
     }
+}
 
-    &-group {
-        padding-left: px2rem(120px);
+.#{$ns}RadiosControl-group,
+.#{$ns}CheckboxesControl-group {
+    
+
+    .#{$ns}RadiosControl-group,
+    .#{$ns}CheckboxesControl-group {
+        padding-left: px2rem(80px);
         @include clearfix();
-    }
 
-    &-groupLabel {
-        float: left;
-        margin-left: px2rem(-120px);
+        > .#{$ns}RadiosControl-groupLabel,
+        > .#{$ns}CheckboxesControl-groupLabel {
+            float: left;
+            width: px2rem(80px);
+            margin-left: px2rem(-80px);
+        }
     }
+}
+
+.#{$ns}RadiosControl-groupLabel,
+.#{$ns}CheckboxesControl-groupLabel {
+    display: block;
 }

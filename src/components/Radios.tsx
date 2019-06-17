@@ -78,8 +78,8 @@ export class Radios extends React.Component<RadioProps, any> {
         } = this.props;
 
         return (
-            <div key={index} className={cx("RadiosControl-group")}>
-                <label className={cx("RadiosControl-groupLabel")}>{option.label}</label>
+            <div key={index} className={cx("RadiosControl-group", option.className)}>
+                <label className={cx("RadiosControl-groupLabel", option.labelClassName)}>{option.label}</label>
 
                 {
                     option.children && option.children.length 
@@ -91,6 +91,11 @@ export class Radios extends React.Component<RadioProps, any> {
     }
 
     renderItem(option:Option, index:number, valueArray: Array<Option>) {
+        if (option.children) {
+            return this.renderGroup(option, index, valueArray);
+        }
+
+
         const {
             disabled,
             inline,
@@ -137,9 +142,7 @@ export class Radios extends React.Component<RadioProps, any> {
         let body: Array<React.ReactNode> = [];
 
         if (options) {
-            body = options.map((option, key) => option.children 
-                ? this.renderGroup(option, key, valueArray)
-                : this.renderItem(option, key, valueArray));
+            body = options.map((option, key) => this.renderItem(option, key, valueArray));
         }
 
         if (!inline && columnsCount > 1) {
