@@ -360,7 +360,6 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                 className={cx(className)}
                 size={size}
                 backdrop="static"
-                dialogClassName={`modal-${size}`}
                 onHide={this.handleSelfClose}
                 keyboard={closeOnEsc && !store.loading}
                 closeOnEsc={closeOnEsc}
