@@ -21,7 +21,7 @@ test('Renderer:number', async () => {
                 min: 0,
                 max: 20,
                 step: 2,
-                value: '10',
+                value: 10,
                 showInput: true
             }
         ],
