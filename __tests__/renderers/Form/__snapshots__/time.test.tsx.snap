@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:time 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              time
+            </span>
+          </label>
+          <div
+            class="a-DateControl a-Form-control"
+          >
+            <div
+              class="a-DatePicker"
+              tabindex="0"
+            >
+              <span
+                class="a-DatePicker-value"
+              >
+                01:01
+              </span>
+              <a
+                class="a-DatePicker-clear"
+              >
+                <svg
+                  class="icon"
+                  p-id="1463"
+                  version="1.1"
+                  viewBox="0 0 1024 1024"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M967.81435 106.836237 917.16274 56.18565 512 461.34839 106.836237 56.18565 56.184627 106.836237 461.34839 512 56.184627 917.163763 106.836237 967.815373 512 562.65161 917.16274 967.815373 967.81435 917.163763 562.650587 512Z"
+                    data-spm-anchor-id="a313x.7781069.0.i0"
+                    p-id="1464"
+                  />
+                </svg>
+              </a>
+              <a
+                class="a-DatePicker-toggler"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

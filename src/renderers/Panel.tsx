@@ -1,8 +1,9 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Action} from '../types';
-import {getScrollParent} from '../utils/helper';
+import {getScrollParent, autobind} from '../utils/helper';
 import {findDOMNode} from 'react-dom';
+import {resizeSensor} from '../utils/resize-sensor';
 
 export interface PanelProps extends RendererProps {
     title?: string; // 标题
@@ -30,6 +31,7 @@ export default class Panel extends React.Component<PanelProps> {
     };
 
     parentNode?: any;
+    unSensor: Function;
     affixDom: React.RefObject<HTMLDivElement> = React.createRef();
     footerDom: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -40,18 +42,17 @@ export default class Panel extends React.Component<PanelProps> {
             parent = window;
         }
         this.parentNode = parent;
-        this.affixDetect = this.affixDetect.bind(this);
-        this.affixDetect();
         parent.addEventListener('scroll', this.affixDetect);
-        window.addEventListener('resize', this.affixDetect);
+        this.unSensor = resizeSensor(dom as HTMLElement, this.affixDetect);
     }
 
     componentWillUnmount() {
         const parent = this.parentNode;
         parent && parent.removeEventListener('scroll', this.affixDetect);
-        window.removeEventListener('resize', this.affixDetect);
+        this.unSensor && this.unSensor();
     }
 
+    @autobind
     affixDetect() {
         if (!this.props.affixFooter || !this.affixDom.current || !this.footerDom.current) {
             return;

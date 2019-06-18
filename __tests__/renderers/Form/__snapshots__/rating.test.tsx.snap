@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:rating 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              rating
+            </span>
+          </label>
+          <div
+            class="a-RatingControl a-Form-control"
+          >
+            <div
+              class=""
+            >
+              <span
+                class="a-Rating is-active"
+                data-forhalf="★"
+                data-index="0"
+              >
+                ★
+              </span>
+              <span
+                class="a-Rating is-active"
+                data-forhalf="★"
+                data-index="1"
+              >
+                ★
+              </span>
+              <span
+                class="a-Rating is-active"
+                data-forhalf="★"
+                data-index="2"
+              >
+                ★
+              </span>
+              <span
+                class="a-Rating"
+                data-forhalf="★"
+                data-index="3"
+              >
+                ★
+              </span>
+              <span
+                class="a-Rating"
+                data-forhalf="★"
+                data-index="4"
+              >
+                ★
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
