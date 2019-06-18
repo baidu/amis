@@ -1,0 +1,342 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:select 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              select
+            </span>
+          </label>
+          <div
+            class="a-SelectControl a-Form-control"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-0-label"
+              class="a-Select a-Select--multi"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="a-Select-valueWrap"
+              >
+                <div
+                  class="a-Select-value"
+                >
+                  <span
+                    class="a-Select-valueIcon"
+                  >
+                    ×
+                  </span>
+                  <span
+                    class="a-Select-valueLabel"
+                  >
+                    Option B
+                  </span>
+                </div>
+                <div
+                  class="a-Select-value"
+                >
+                  <span
+                    class="a-Select-valueIcon"
+                  >
+                    ×
+                  </span>
+                  <span
+                    class="a-Select-valueLabel"
+                  >
+                    Option A
+                  </span>
+                </div>
+              </div>
+              <a
+                class="a-Select-clear"
+              >
+                <svg
+                  class="icon"
+                  p-id="1463"
+                  version="1.1"
+                  viewBox="0 0 1024 1024"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M967.81435 106.836237 917.16274 56.18565 512 461.34839 106.836237 56.18565 56.184627 106.836237 461.34839 512 56.184627 917.163763 106.836237 967.815373 512 562.65161 917.16274 967.815373 967.81435 917.163763 562.650587 512Z"
+                    data-spm-anchor-id="a313x.7781069.0.i0"
+                    p-id="1464"
+                  />
+                </svg>
+              </a>
+              <span
+                class="a-Select-arrow"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:select 2`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              select
+            </span>
+          </label>
+          <div
+            class="a-SelectControl a-Form-control"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-0-label"
+              class="a-Select a-Select--multi"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="a-Select-valueWrap"
+              >
+                <div
+                  class="a-Select-placeholder"
+                >
+                  请选择
+                </div>
+              </div>
+              <span
+                class="a-Select-arrow"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:select:checkAll 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              select
+            </span>
+          </label>
+          <div
+            class="a-SelectControl a-Form-control"
+          >
+            <div
+              aria-expanded="true"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-1-label"
+              aria-owns="downshift-1-menu"
+              class="a-Select a-Select--multi is-opened"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="a-Select-valueWrap"
+              >
+                <div
+                  class="a-Select-value"
+                >
+                  <span
+                    class="a-Select-valueIcon"
+                  >
+                    ×
+                  </span>
+                  <span
+                    class="a-Select-valueLabel"
+                  >
+                    Option A
+                  </span>
+                </div>
+                <div
+                  class="a-Select-value"
+                >
+                  <span
+                    class="a-Select-valueIcon"
+                  >
+                    ×
+                  </span>
+                  <span
+                    class="a-Select-valueLabel"
+                  >
+                    Option B
+                  </span>
+                </div>
+              </div>
+              <a
+                class="a-Select-clear"
+              >
+                <svg
+                  class="icon"
+                  p-id="1463"
+                  version="1.1"
+                  viewBox="0 0 1024 1024"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M967.81435 106.836237 917.16274 56.18565 512 461.34839 106.836237 56.18565 56.184627 106.836237 461.34839 512 56.184627 917.163763 106.836237 967.815373 512 562.65161 917.16274 967.815373 967.81435 917.163763 562.650587 512Z"
+                    data-spm-anchor-id="a313x.7781069.0.i0"
+                    p-id="1464"
+                  />
+                </svg>
+              </a>
+              <span
+                class="a-Select-arrow"
+              />
+              <div
+                class="a-Select-menuOuter"
+              >
+                <div
+                  class="a-Select-menu"
+                >
+                  <div
+                    class="a-Select-checkAll"
+                  >
+                    <label
+                      class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      <i />
+                      <span>
+                        全选
+                      </span>
+                    </label>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="a-Select-option is-active"
+                    id="downshift-1-item-0"
+                    role="option"
+                  >
+                    <label
+                      class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      <i />
+                      <span>
+                        Option A
+                      </span>
+                    </label>
+                  </div>
+                  <div
+                    aria-selected="false"
+                    class="a-Select-option is-active"
+                    id="downshift-1-item-1"
+                    role="option"
+                  >
+                    <label
+                      class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      <i />
+                      <span>
+                        Option B
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

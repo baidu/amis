@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:text 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal is-required"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              text
+              <span
+                class="a-Form-star"
+              >
+                *
+              </span>
+            </span>
+          </label>
+          <div
+            class="a-Form-control is-inline a-TextControl a-TextControl--withAddOn is-focused"
+          >
+            <div
+              class="a-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                name="text"
+                placeholder=""
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              class="a-TextControl-button"
+            >
+              <button
+                class="a-Button a-Button--default"
+                type="submit"
+              >
+                <span>
+                  提交
+                </span>
+              </button>
+            </div>
+          </div>
+          <span
+            class="a-TplField a-Form-hint"
+          >
+            text 输入
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;
