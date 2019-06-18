@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "scripts": {
@@ -118,6 +118,7 @@
     "highlight.js": "^9.12.0",
     "husky": "^2.2.0",
     "jest": "^24.5.0",
+    "jest-canvas-mock": "^2.1.0",
     "js-yaml": "^3.10.0",
     "lint-staged": "^8.1.6",
     "marked": "^0.3.7",
@@ -144,7 +145,9 @@
     "transform": {
       "\\.(ts|tsx)$": "ts-jest"
     },
-    "setupFiles": [],
+    "setupFiles": [
+      "jest-canvas-mock"
+    ],
     "testRegex": "/.*\\.test\\.(ts|tsx|js)$",
     "moduleNameMapper": {
       "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js"

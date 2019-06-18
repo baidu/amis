@@ -78,6 +78,20 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         );
     }
 
+    componentWillReceiveProps(nextProps:AudioProps) {
+        const props = this.props;
+
+        if (props.value !== nextProps.value || props.src !== nextProps.src) {
+            this.setState({
+                src: nextProps.value || nextProps.src,
+                playing: false
+            }, () => {
+                this.audio.load();
+                this.progress();
+            });
+        }
+    }
+
     @autobind
     progress() {
         clearTimeout(this.progressTimeout);
