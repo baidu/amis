@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:fieldSet 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--horizontal no-border"
+        >
+          <label
+            class="a-Form-label a-Form-itemColumn--normal"
+          >
+            <span>
+              input-group
+            </span>
+          </label>
+          <div
+            class="a-Form-value a-Form-itemColumn--7"
+          >
+            <div
+              class="a-InputGroup a-Form-control"
+            >
+              <div
+                class="a-TextControl-input a-Form-control"
+              >
+                <input
+                  autocomplete="off"
+                  name="text"
+                  placeholder=""
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

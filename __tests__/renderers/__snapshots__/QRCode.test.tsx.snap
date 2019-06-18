@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:qr-code 1`] = `
+<div>
+  <div
+    class="a-Page"
+  >
+    <div
+      class="a-Page-content"
+    >
+      <div
+        class="a-Page-main"
+      >
+        <div
+          class="a-Page-body"
+        >
+          <div
+            class="a-QrCode"
+          >
+            <canvas
+              height="128"
+              style="height: 128px; width: 128px;"
+              width="128"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

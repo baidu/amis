@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:city 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              city
+            </span>
+          </label>
+          <div
+            class="a-CityPicker"
+          >
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-0-label"
+              class="a-Select"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="a-Select-valueWrap"
+              >
+                <div
+                  class="a-Select-value"
+                >
+                  北京市
+                </div>
+              </div>
+              <span
+                class="a-Select-arrow"
+              />
+            </div>
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-1-label"
+              class="a-Select"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="a-Select-valueWrap"
+              >
+                <div
+                  class="a-Select-value"
+                >
+                  北京市市辖区
+                </div>
+              </div>
+              <span
+                class="a-Select-arrow"
+              />
+            </div>
+            <div
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-labelledby="downshift-2-label"
+              class="a-Select"
+              role="combobox"
+              tabindex="0"
+            >
+              <div
+                class="a-Select-valueWrap"
+              >
+                <div
+                  class="a-Select-value"
+                >
+                  东城区
+                </div>
+              </div>
+              <span
+                class="a-Select-arrow"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:combo:single 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          The form
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              combo
+            </span>
+          </label>
+          <div
+            class="a-ComboControl a-Form-control"
+          >
+            <div
+              class="a-Combo a-Combo--single a-Combo--hor"
+            >
+              <div
+                class="a-Combo-item"
+              >
+                <div
+                  class="a-Combo-itemInner"
+                >
+                  <div
+                    class="a-Form a-Form--row a-Combo-form"
+                    novalidate=""
+                  >
+                    <div
+                      class="a-Form-row"
+                    >
+                      <div
+                        class="a-Form-col"
+                      >
+                        <div
+                          class="a-Form-item a-Form-item--row"
+                        >
+                          <div
+                            class="a-Form-rowInner"
+                          >
+                            <div
+                              class="a-Form-control a-TextControl"
+                            >
+                              <div
+                                class="a-TextControl-input"
+                              >
+                                <input
+                                  autocomplete="off"
+                                  name="text1"
+                                  placeholder=""
+                                  type="text"
+                                  value="1"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div>
+      <div
+        class="a-Panel-btnToolbar a-Panel-footer"
+      >
+        <button
+          class="a-Button a-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
