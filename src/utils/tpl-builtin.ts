@@ -428,31 +428,7 @@ export function dataMapping(to: PlainObject, from: PlainObject): object {
             const arr = from[keys[0].substring(1)];
             const mapping = value[keys[0]];
 
-            (ret as PlainObject)[key] = arr.map((raw: object) => {
-                let itemData = createObject(from, raw);
-                let item: any = null;
-
-                Object.keys(mapping).forEach(key => {
-                    const value = mapping[key];
-
-                    if (key === "&" && value === "$$") {
-                        item = isPlainObject(item) ? item : {};
-                        item = {
-                            ...item,
-                            itemData
-                        };
-                    } else if (key === "&") {
-                        isPlainObject(item)
-                            ? (item = {...item, ...resolveMapping(value, itemData)})
-                            : (item = resolveMapping(value, itemData));
-                    } else {
-                        item = isPlainObject(item) ? item : {};
-                        item[key] = resolveMapping(value, itemData);
-                    }
-                });
-
-                return item;
-            });
+            (ret as PlainObject)[key] = arr.map((raw: object) => dataMapping(mapping, createObject(from, raw)));
         } else if (isPlainObject(value)) {
             (ret as PlainObject)[key] = dataMapping(value, from);
         } else if (Array.isArray(value)) {
