@@ -1803,6 +1803,7 @@ exports[`Renderer:Wizard target 1`] = `
           </div>
           <div
             class="a-Panel a-Panel--default a-Panel--form"
+            style="position: relative;"
           >
             <div
               class="a-Panel-heading"
@@ -1890,6 +1891,27 @@ exports[`Renderer:Wizard target 1`] = `
                     提交
                   </span>
                 </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+              </div>
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
               </div>
             </div>
           </div>
