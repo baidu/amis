@@ -396,8 +396,12 @@ export const FormItemStore = types
 
             const form = self.form;
             const value = self.value;
-            const selected = Array.isArray(value) ? value.map(item=>item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item)
-                : typeof value === 'string' ? value.split(self.delimiter || ',') : [value && value.hasOwnProperty(self.valueField || 'value') ? value[self.valueField || 'value'] : value];
+            const selected = Array.isArray(value) 
+                ? value.map(item=>item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item)
+                : typeof value === 'string' 
+                    ? value.split(self.delimiter || ',') 
+                    : value === void 0 ? []
+                        : [value && value.hasOwnProperty(self.valueField || 'value') ? value[self.valueField || 'value'] : value];
             
             let expressionsInOptions = false;
             let filteredOptions = self.options
