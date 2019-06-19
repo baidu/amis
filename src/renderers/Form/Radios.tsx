@@ -44,7 +44,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
             <Radios
                 inline={inline || formMode === 'inline'}
                 className={cx(`${ns}RadiosControl`, className)}
-                value={typeof value === 'undefined' ? '' : value}
+                value={(typeof value === 'undefined' || value === null) ? '' : value}
                 disabled={disabled}
                 onChange={onChange}
                 joinValues={joinValues}
