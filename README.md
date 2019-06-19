@@ -25,10 +25,10 @@ npm start
 # 安装依赖
 npm i 
 
-# 执行测试用率
+# 执行测试用例
 npm test
 
-# 查看测试用率覆盖率
+# 查看测试用例覆盖率
 npm run coverage
 ```
 
