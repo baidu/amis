@@ -23,7 +23,9 @@ import {
     anyChanged,
     syncDataFromSuper,
     isObjectShallowModified,
-    isVisible
+    isVisible,
+    isEmpty,
+    autobind
 } from './utils/helper';
 import {
     Api,
@@ -271,6 +273,15 @@ export interface RootRendererProps {
 const RootStoreContext = React.createContext<IRendererStore>(undefined as any);
 
 export class RootRenderer extends React.Component<RootRendererProps> {
+    @autobind
+    resolveDefinitions(name:string) {
+        const definitions = (this.props.schema as Schema).definitions;
+        if (!name || isEmpty(definitions)) {
+            return {};
+        }
+        return definitions && definitions[name];
+    }
+
     render() {
         const {
             schema,
@@ -301,6 +312,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
                         ...(schema as Schema)
                     } : schema, {
                         ...rest,
+                        resolveDefinitions: this.resolveDefinitions,
                         location: location,
                         data: finalData,
                         env,
@@ -333,6 +345,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     renderer:RendererConfig | null;
     ref: any;
+    schema: any;
     
     constructor(props:SchemaRendererProps) {
         super(props);
@@ -381,9 +394,18 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     resolveSchema(props:SchemaRendererProps):any {
-        const schema = props.schema;
-        const path = props.$path;
+        let schema = props.schema;
+        let path = props.$path;
         const rendererResolver = props.env.rendererResolver || resolveRenderer;
+        if (schema.$refs) {
+            schema = {
+                ...this.props.resolveDefinitions(schema.$refs),
+                ...schema
+            };
+            delete schema.$refs;
+            path = path.replace(/(?!.*\/).*/, schema.type);
+        }
+        this.schema = schema;
         this.renderer = rendererResolver(path, schema, props);
     }
 
@@ -427,11 +449,11 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     render():JSX.Element | null {
         let {
-            schema,
             $path,
             ...rest
         } = this.props;
 
+        const schema = this.schema;
         const theme = this.props.env.theme;
 
         if (Array.isArray(schema)) {
