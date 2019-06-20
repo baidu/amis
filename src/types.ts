@@ -57,6 +57,7 @@ export interface Schema {
     visibleOn?: string;
     hiddenOn?: string;
     children?: JSX.Element | ((props: any, schema?: any) => JSX.Element) | null;
+    definitions?: Definitions,
     [propName: string]: any;
 }
 
@@ -70,6 +71,9 @@ export interface Button {
 
 export type SchemaNode = number | string | Schema | SchemaArray;
 export interface SchemaArray extends Array<SchemaNode> { };
+export interface Definitions {
+    [propName: string]: SchemaNode
+}
 export interface Action extends Button {
     actionType?: 'submit' | 'copy' | 'reload' | 'ajax' | 'dialog' | 'drawer' | 'jump' | 'link' | 'url' | 'close' | 'confirm' | 'add' | 'delete' | 'edit' | 'cancel' | 'close' | 'next' | 'prev';
     api?: Api;
