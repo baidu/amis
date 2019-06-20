@@ -1,6 +1,5 @@
 .#{$ns}Checkbox {
     margin: 0 $gap-sm 0 0;
-    cursor: pointer;
     font-weight: $fontWeightNormal;
     user-select: none;
 
@@ -15,6 +14,7 @@
     }
 
     > i {
+        cursor: pointer;
         line-height: 1;
         background-color: #fff;
         display: inline-block;
@@ -23,6 +23,7 @@
 
         + span {
             margin-left: $Checkbox-gap;
+            cursor: pointer;
 
             &:empty {
                 display: none;
@@ -63,10 +64,17 @@
 
             &[disabled] + i {
                 border-color: lighten($Checkbox-color, 5%);
+                cursor: default;
 
                 &:before {
                     background-color: lighten($Checkbox-color, 5%);
+                    border-color: $white;
                 }
+            }
+
+            &[disabled] + i + span {
+                cursor: default;
+                color: $text--muted-color;
             }
         }
 
@@ -121,6 +129,7 @@
 
         > i {
             position: relative;
+            cursor: pointer;
 
             &:before {
                 content: "";
@@ -159,14 +168,21 @@
 
             &[disabled] + i {
                 border-color: lighten($Radio-color, 5%);
+                cursor: default;
 
                 &:before {
                     background-color: lighten($Radio-color, 5%);
                 }
             }
+
+            &[disabled] + i + span {
+                cursor: default;
+                color: $text--muted-color;
+            }
         }
 
         > i {
+            cursor: pointer;
             width: $Radio-size;
             height: $Radio-size;
             border: px2rem(1px) solid $Radio-color;
