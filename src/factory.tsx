@@ -345,7 +345,6 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     renderer:RendererConfig | null;
     ref: any;
-    schema: any;
     
     constructor(props:SchemaRendererProps) {
         super(props);
@@ -355,7 +354,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     componentWillMount() {
-        this.resolveSchema(this.props);
+        this.resolveRenderer(this.props);
     }
 
     componentWillReceiveProps(nextProps:SchemaRendererProps) {
@@ -365,7 +364,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             props.schema.type !== nextProps.schema.type ||
             props.schema.$$id !== nextProps.schema.$$id
         ) {
-            this.resolveSchema(nextProps);
+            this.resolveRenderer(nextProps);
         }
     }
 
@@ -393,20 +392,20 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         return false;
     }
 
-    resolveSchema(props:SchemaRendererProps):any {
+    resolveRenderer(props:SchemaRendererProps):any {
         let schema = props.schema;
         let path = props.$path;
         const rendererResolver = props.env.rendererResolver || resolveRenderer;
         if (schema.$refs) {
             schema = {
-                ...this.props.resolveDefinitions(schema.$refs),
+                ...props.resolveDefinitions(schema.$refs),
                 ...schema
             };
             delete schema.$refs;
             path = path.replace(/(?!.*\/).*/, schema.type);
         }
-        this.schema = schema;
         this.renderer = rendererResolver(path, schema, props);
+        return schema;
     }
 
     getWrappedInstance() {
@@ -443,17 +442,21 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     reRender() {
-        this.resolveSchema(this.props);
+        this.resolveRenderer(this.props);
         this.forceUpdate();
     }
 
     render():JSX.Element | null {
         let {
             $path,
+            schema,
             ...rest
         } = this.props;
 
-        const schema = this.schema;
+        if (schema.$ref) {
+            schema = this.resolveRenderer(this.props);
+        }
+
         const theme = this.props.env.theme;
 
         if (Array.isArray(schema)) {
