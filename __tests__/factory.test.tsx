@@ -126,7 +126,7 @@ test('factory:definitions', () => {
             aa: {
                 type: 'text',
                 name: 'jack',
-                value: 'refs value',
+                value: 'ref value',
                 remark: '通过<code>\\$ref</code>引入的组件'
             },
             bb: {
@@ -164,12 +164,12 @@ test('factory:definitions', () => {
                     {
                         label: 'text2',
                         $ref: 'aa',
-                        name: 'refs1'
+                        name: 'ref1'
                     },
                     {
                         label: 'combo',
                         $ref: 'bb',
-                        name: 'refs2'
+                        name: 'ref2'
                     }
                 ]
             }
@@ -227,12 +227,12 @@ test('factory:definitions override', () => {
                     {
                         label: 'text2',
                         $ref: 'aa',
-                        name: 'refs1'
+                        name: 'ref1'
                     },
                     {
                         label: 'combo',
                         $ref: 'bb',
-                        name: 'refs2',
+                        name: 'ref2',
                         type: 'checkboxes',
                         value: 1,
                         options: [

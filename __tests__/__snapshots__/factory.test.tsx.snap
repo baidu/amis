@@ -126,10 +126,10 @@ exports[`factory:definitions 1`] = `
                     >
                       <input
                         autocomplete="off"
-                        name="refs1"
+                        name="ref1"
                         placeholder=""
                         type="text"
-                        value="refs value"
+                        value="ref value"
                       />
                     </div>
                   </div>
@@ -217,7 +217,7 @@ exports[`factory:definitions 1`] = `
                                       name="value"
                                       placeholder=""
                                       type="text"
-                                      value="refs value"
+                                      value="ref value"
                                     />
                                   </div>
                                 </div>
@@ -417,7 +417,7 @@ exports[`factory:definitions override 1`] = `
                     >
                       <input
                         autocomplete="off"
-                        name="refs1"
+                        name="ref1"
                         placeholder=""
                         type="text"
                         value=""
