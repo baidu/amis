@@ -6,6 +6,7 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
 
 ## 集合
 
+-   [Definitions](./renderers/Definitions.md): 建立当前页面公共的配置项
 -   [Page](./renderers/Page.md): JSON 配置最外层的 Page 渲染器
 -   [Form](./renderers/Form/Form.md): 表单渲染器
     -   [FormItem](./renderers/Form/FormItem.md): Form 中主要是由各种 FormItem 组成

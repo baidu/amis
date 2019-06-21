@@ -6,12 +6,14 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 
 | 属性名                         | 类型                           | 默认值                          | 说明                                                                                                                  |
 | ------------------------------ | ------------------------------ | ------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| type                           | `string`                       |                                 | `"Action.md"` 指定为 CRUD 渲染器                                                                                      |
+| type                           | `string`                       |                                 | `type` 指定为 CRUD 渲染器                                                                                      |
 | mode                           | `string`                       | `"table"`                       | `"table" 、 "cards" 或者 "list"`                                                                                      |
 | title                          | `string`                       | `""`                            | 可设置成空，当设置成空时，没有标题栏                                                                                  |
 | className                      | `string`                       |                                 | 表格外层 Dom 的类名                                                                                                   |
 | api                            | [Api](./Types.md#Api)          |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
-| filter                         | [Form](./Form/Form.md)              |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 [Action](./Action.md) 刷新列表。                                                     |
+| loadDataOnce                   | `boolean`                      |                                 | 是否一次性加载所有数据（前端分页）                                                                                         |
+| source                         | `string`                       |                                 | 数据映射接口返回某字段的值，不设置会默认把接口返回的`items`或者`rows`填充进`mode`区域                                                                                         |
+| filter                         | [Form](./Form/Form.md)         |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 `mode` 刷新列表。                                                     |
 | filterTogglable                | `boolean`                      | `false`                         | 是否可显隐过滤器                                                                                                      |
 | filterDefaultVisible           | `boolean`                      | `true`                          | 设置过滤器默认是否可见。                                                                                              |
 | initFetch                      | `boolean`                      | `true`                          | 是否初始化的时候拉取数据, 只针对有 filter 的情况, 没有 filter 初始都会拉取数据                                        |
