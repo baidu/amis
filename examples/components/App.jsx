@@ -33,6 +33,7 @@ import PickerFormSchema from './Form/Picker';
 import FormulaFormSchema from './Form/Formula';
 import CustomFormSchema from './Form/Custom';
 import FormLayoutTestSchema from './Form/layoutTest';
+import Definitions from './Form/Definitions';
 import Docs from './Doc';
 
 import TableCrudSchema from './CRUD/Table';
@@ -237,6 +238,12 @@ const navigations = [
                         path: 'form/formula',
                         component: makeSchemaRenderer(FormulaFormSchema)
                     },
+
+                    {
+                        label: '引用',
+                        path: 'form/definitions',
+                        component: makeSchemaRenderer(Definitions)
+                    }
 
                     // {
                     //     label: '布局测试',

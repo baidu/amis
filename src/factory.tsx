@@ -273,6 +273,18 @@ export interface RootRendererProps {
 const RootStoreContext = React.createContext<IRendererStore>(undefined as any);
 
 export class RootRenderer extends React.Component<RootRendererProps> {
+    state = {
+        error: null,
+        errorInfo: null
+    }
+
+    componentDidCatch(error:any, errorInfo:any) {
+        this.setState({
+            error: error,
+            errorInfo: errorInfo
+        });
+    }
+
     @autobind
     resolveDefinitions(name:string) {
         const definitions = (this.props.schema as Schema).definitions;
@@ -283,6 +295,10 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     }
 
     render() {
+        const {error, errorInfo} = this.state;
+        if (errorInfo) {
+            return errorRenderer(error, errorInfo);
+        }
         const {
             schema,
             rootStore,
@@ -396,13 +412,21 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         let schema = props.schema;
         let path = props.$path;
         const rendererResolver = props.env.rendererResolver || resolveRenderer;
-        if (schema.$refs) {
+        if (schema.$ref) {
             schema = {
-                ...props.resolveDefinitions(schema.$refs),
+                ...props.resolveDefinitions(schema.$ref),
                 ...schema
             };
-            delete schema.$refs;
+            delete schema.$ref;
             path = path.replace(/(?!.*\/).*/, schema.type);
+        }
+        // value 会提前从 control 中获取到，所有需要把control中的属性也补充完整
+        if (schema.control && schema.control.$ref) {
+            schema.control = {
+                ...props.resolveDefinitions(schema.control.$ref),
+                ...schema.control
+            }
+            delete schema.control.$ref;
         }
         this.renderer = rendererResolver(path, schema, props);
         return schema;
@@ -696,6 +720,15 @@ function loadRenderer(schema:Schema, path:string) {
             <pre><code>{JSON.stringify(schema, null, 2)}</code></pre>
         </Alert>
     );
+}
+
+function errorRenderer(error:any, errorInfo:any) {
+    return (
+        <Alert level="danger">
+            <p>{error && error.toString()}</p>
+            <pre><code>{errorInfo.componentStack}</code></pre>
+        </Alert>
+    )
 }
 
 const defaultOptions:RenderOptions = {
