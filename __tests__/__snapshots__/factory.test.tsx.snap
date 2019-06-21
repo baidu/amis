@@ -36,7 +36,7 @@ exports[`factory load Renderer on need 1`] = `
 exports[`factory unregistered Renderer 1`] = `
 <div>
   <div
-    class="Alert Alert--danger"
+    class="a-Alert a-Alert--danger"
   >
     <p>
       Error: 找不到对应的渲染器
@@ -129,7 +129,7 @@ exports[`factory:definitions 1`] = `
                         name="refs1"
                         placeholder=""
                         type="text"
-                        value=""
+                        value="refs value"
                       />
                     </div>
                   </div>
@@ -217,7 +217,7 @@ exports[`factory:definitions 1`] = `
                                       name="value"
                                       placeholder=""
                                       type="text"
-                                      value=""
+                                      value="refs value"
                                     />
                                   </div>
                                 </div>

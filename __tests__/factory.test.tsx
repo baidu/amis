@@ -234,7 +234,7 @@ test('factory:definitions override', () => {
                         $refs: 'bb',
                         name: 'refs2',
                         type: 'checkboxes',
-                        value: 1
+                        value: 1,
                         options: [
                             {
                                 label: 'Option A',
