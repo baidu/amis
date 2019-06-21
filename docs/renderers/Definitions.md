@@ -8,7 +8,7 @@
           "aa": {
               "type": "text",
               "name": "jack",
-              "value": "refs value",
+              "value": "ref value",
               "remark": "通过<code>\\$ref</code>引入的组件"
           },
           "bb": {
@@ -47,12 +47,12 @@
                   {
                       "label": "text2",
                       "$ref": "aa",
-                      "name": "refs1"
+                      "name": "ref1"
                   },
                   {
                       "label": "combo",
                       "$ref": "bb",
-                      "name": "refs2"
+                      "name": "ref2"
                   }
               ]
           },
