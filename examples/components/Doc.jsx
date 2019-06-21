@@ -40,6 +40,14 @@ export default {
                 },
 
                 {
+                    label: 'Definitions',
+                    path: '/docs/renderers/Definitions',
+                    getComponent: (location, cb) => require(['../../docs/renderers/Definitions.md'], (doc) => {
+                        cb(null, makeMarkdownRenderer(doc));
+                    }),
+                },
+
+                {
                     label: 'Form',
                     path: '/docs/renderers/Form/Form',
                     getComponent: (location, cb) => require(['../../docs/renderers/Form/Form.md'], (doc) => {
