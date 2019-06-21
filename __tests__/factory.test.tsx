@@ -2,8 +2,11 @@ import {
     registerRenderer,
     unRegisterRenderer,
     RendererProps,
-    render as amisRender
 } from '../src/factory';
+import '../src/themes/default';
+import {
+    render as amisRender
+} from '../src/index';
 import React = require('react');
 import {render, fireEvent, cleanup} from 'react-testing-library';
 import { wait, makeEnv } from './helper';
@@ -112,4 +115,143 @@ test('factory:registerRenderer', () => {
 
     expect(container).toMatchSnapshot();
     unRegisterRenderer(renderer);
+});
+
+test('factory:definitions', () => {
+    const {
+        container,
+        getByText
+    } = render(amisRender({
+        definitions: {
+            aa: {
+                type: 'text',
+                name: 'jack',
+                value: 'refs value',
+                remark: '通过<code>\\$refs</code>引入的组件'
+            },
+            bb: {
+                type: 'combo',
+                multiple: true,
+                multiLine: true,
+                remark: '<code>combo</code>中的子项引入自身，实现嵌套的效果',
+                controls: [
+                    {
+                        label: 'combo 1',
+                        type: 'text',
+                        name: 'key'
+                    },
+                    {
+                        label: 'combo 2',
+                        name: 'value',
+                        $refs: 'aa'
+                    },
+                    {
+                        name: 'children',
+                        label: 'children',
+                        $refs: 'bb'
+                    }
+                ]
+            }
+        },
+        type: 'page',
+        title: '引用',
+        body: [
+            {
+                type: 'form',
+                api: 'api/xxx',
+                actions: [],
+                controls: [
+                    {
+                        label: 'text2',
+                        $refs: 'aa',
+                        name: 'refs1'
+                    },
+                    {
+                        label: 'combo',
+                        $refs: 'bb',
+                        name: 'refs2'
+                    }
+                ]
+            }
+        ]
+    }, {
+    }, makeEnv({
+    })));
+
+    fireEvent.click(getByText('新增'));
+    expect(container).toMatchSnapshot();
+});
+
+test('factory:definitions override', () => {
+    const {
+        container
+    } = render(amisRender({
+        definitions: {
+            aa: {
+                type: 'text',
+                name: 'jack',
+                remark: '通过<code>\\$refs</code>引入的组件'
+            },
+            bb: {
+                type: 'combo',
+                multiple: true,
+                multiLine: true,
+                remark: '<code>combo</code>中的子项引入自身，实现嵌套的效果',
+                controls: [
+                    {
+                        label: 'combo 1',
+                        type: 'text',
+                        name: 'key'
+                    },
+                    {
+                        label: 'combo 2',
+                        name: 'value',
+                        $refs: 'aa'
+                    },
+                    {
+                        name: 'children',
+                        label: 'children',
+                        $refs: 'bb'
+                    }
+                ]
+            }
+        },
+        type: 'page',
+        title: '引用',
+        body: [
+            {
+                type: 'form',
+                api: 'api/xxx',
+                actions: [],
+                controls: [
+                    {
+                        label: 'text2',
+                        $refs: 'aa',
+                        name: 'refs1'
+                    },
+                    {
+                        label: 'combo',
+                        $refs: 'bb',
+                        name: 'refs2',
+                        type: 'checkboxes',
+                        value: 1
+                        options: [
+                            {
+                                label: 'Option A',
+                                value: 1
+                            },
+                            {
+                                label: 'Option B',
+                                value: 2
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }, {
+    }, makeEnv({
+    })));
+
+    expect(container).toMatchSnapshot();
 });
