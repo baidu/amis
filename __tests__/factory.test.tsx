@@ -127,7 +127,7 @@ test('factory:definitions', () => {
                 type: 'text',
                 name: 'jack',
                 value: 'refs value',
-                remark: '通过<code>\\$refs</code>引入的组件'
+                remark: '通过<code>\\$ref</code>引入的组件'
             },
             bb: {
                 type: 'combo',
@@ -143,12 +143,12 @@ test('factory:definitions', () => {
                     {
                         label: 'combo 2',
                         name: 'value',
-                        $refs: 'aa'
+                        $ref: 'aa'
                     },
                     {
                         name: 'children',
                         label: 'children',
-                        $refs: 'bb'
+                        $ref: 'bb'
                     }
                 ]
             }
@@ -163,12 +163,12 @@ test('factory:definitions', () => {
                 controls: [
                     {
                         label: 'text2',
-                        $refs: 'aa',
+                        $ref: 'aa',
                         name: 'refs1'
                     },
                     {
                         label: 'combo',
-                        $refs: 'bb',
+                        $ref: 'bb',
                         name: 'refs2'
                     }
                 ]
@@ -190,7 +190,7 @@ test('factory:definitions override', () => {
             aa: {
                 type: 'text',
                 name: 'jack',
-                remark: '通过<code>\\$refs</code>引入的组件'
+                remark: '通过<code>\\$ref</code>引入的组件'
             },
             bb: {
                 type: 'combo',
@@ -206,12 +206,12 @@ test('factory:definitions override', () => {
                     {
                         label: 'combo 2',
                         name: 'value',
-                        $refs: 'aa'
+                        $ref: 'aa'
                     },
                     {
                         name: 'children',
                         label: 'children',
-                        $refs: 'bb'
+                        $ref: 'bb'
                     }
                 ]
             }
@@ -226,12 +226,12 @@ test('factory:definitions override', () => {
                 controls: [
                     {
                         label: 'text2',
-                        $refs: 'aa',
+                        $ref: 'aa',
                         name: 'refs1'
                     },
                     {
                         label: 'combo',
-                        $refs: 'bb',
+                        $ref: 'bb',
                         name: 'refs2',
                         type: 'checkboxes',
                         value: 1,

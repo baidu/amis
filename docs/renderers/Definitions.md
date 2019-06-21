@@ -1,6 +1,6 @@
 ## Definitions
 
-`Definitions`建立当前页面公共的配置项，在其他组件中可以通过`$refs`来引用当前配置项中的内容
+`Definitions`建立当前页面公共的配置项，在其他组件中可以通过`$ref`来引用当前配置项中的内容
 
 ```schema:height="600"
 {
@@ -9,7 +9,7 @@
               "type": "text",
               "name": "jack",
               "value": "refs value",
-              "remark": "通过<code>\\$refs</code>引入的组件"
+              "remark": "通过<code>\\$ref</code>引入的组件"
           },
           "bb": {
               "type": "combo",
@@ -25,13 +25,13 @@
                   {
                       "label": "combo 2",
                       "name": "value",
-                      "$refs": "aa",
+                      "$ref": "aa",
                       "remark": "<code>definitions</code> 中可以引用 <code>definitions</code> 中其他的属性"
                   },
                   {
                       "name": "children",
                       "label": "children",
-                      "$refs": "bb"
+                      "$ref": "bb"
                   }
               ]
           }
@@ -46,12 +46,12 @@
               "controls": [
                   {
                       "label": "text2",
-                      "$refs": "aa",
+                      "$ref": "aa",
                       "name": "refs1"
                   },
                   {
                       "label": "combo",
-                      "$refs": "bb",
+                      "$ref": "bb",
                       "name": "refs2"
                   }
               ]
@@ -63,7 +63,7 @@
               "controls": [
                   {
                       "label": "select",
-                      "$refs": "aa",
+                      "$ref": "aa",
                       "name": "select",
                       "type": "select",
                       "value": 1,
@@ -81,7 +81,7 @@
                   },
                   {
                       "label": "radios",
-                      "$refs": "bb",
+                      "$ref": "bb",
                       "type": "radios",
                       "name": "radios",
                       "value": "Option A",
