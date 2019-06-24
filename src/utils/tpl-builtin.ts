@@ -371,8 +371,12 @@ function resolveMapping(value: any, data: PlainObject) {
             : value;
 }
 
-export function dataMapping(to: PlainObject, from: PlainObject): object {
+export function dataMapping(to: any, from: PlainObject): any {
     let ret = {};
+
+    if (Array.isArray(to)) {
+        return to.map(item => dataMapping(item, from));
+    }
 
     Object.keys(to).forEach(key => {
         const value = to[key];

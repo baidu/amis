@@ -9,6 +9,8 @@ import {createObject, isObjectShallowModified} from '../../utils/helper';
 import { RendererData, Action, Api, Payload } from '../../types';
 import { filter } from '../../utils/tpl';
 import omit = require('lodash/omit');
+import { dataMapping } from '../../utils/tpl-builtin';
+import find = require('lodash/find');
 
 export interface TableProps extends FormControlProps {
     placeholder?: string;
@@ -32,6 +34,7 @@ export interface TableProps extends FormControlProps {
     updateApi?: Api;
     scaffold?: any;
     deleteConfirmText?: string;
+    valueField?: string;
 };
 
 export interface TableState {
@@ -49,7 +52,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         updateBtnIcon: 'fa fa-pencil',
         deleteBtnIcon: 'fa fa-minus',
         confirmBtnIcon: 'fa fa-check',
-        cancelBtnIcon: 'fa fa-times'
+        cancelBtnIcon: 'fa fa-times',
+        valueField: ""
     };
 
     static propsList: Array<string> = [
@@ -87,26 +91,67 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     doAction(action:Action, ctx:RendererData, ...rest:Array<any>) {
         const {
             onAction,
-            value
+            value,
+            valueField,
+            env,
+            onChange,
+            editable,
         } = this.props;
 
         if (action.actionType === "add") {
             const rows = Array.isArray(value) ? value.concat() : [];
-            return this.addItem(rows.length - 1);
+            
+            if (action.payload) {
+                const toAdd = dataMapping(action.payload, ctx);
+
+                if (Array.isArray(toAdd)) {
+                    rows.push(...toAdd);
+                } else {
+                    rows.push(toAdd)
+                }
+
+                onChange(rows);
+                
+                if (editable) {
+                    this.startEdit(rows.length - 1, rows[rows.length - 1], true);
+                }
+                return;
+            } else {
+                return this.addItem(rows.length - 1);
+            }
+        } else if (action.actionType === "remove" || action.actionType === "delete") {
+            if (!valueField) {
+                return env.alert('请配置 valueField');
+            } else if (!action.payload) {
+                return env.alert('action 上请配置 payload, 否则不清楚要删除哪个');
+            }
+
+            const toRemove:any = dataMapping(action.payload, ctx);
+            if (Array.isArray(toRemove)) {
+                // 由于删除是异步的，一个个删吧
+                return toRemove.reduce((wait, toDelete) => {
+                    return wait.then(() => {
+                        const idx = find(value, (item) => item[valueField as string] == toDelete[valueField as string]);
+                        return this.removeItem(idx);
+                    });
+                }, Promise.resolve());
+            } else {
+                const idx = find(value, (item) => item[valueField as string] == toRemove[valueField as string]);
+                return this.removeItem(idx);
+            }
         }
 
         return onAction && onAction(action, ctx, ...rest);
     }
 
-    addItem(index:number) {
+    addItem(index:number, payload:any = this.props.scaffold) {
         const {
             value,
             onChange,
-            scaffold
         } = this.props;
         let newValue = Array.isArray(value) ? value.concat() : [];
         newValue.splice(index + 1, 0, {
-            ...scaffold
+            ...payload
         });
         onChange(newValue);
         index = Math.min(index + 1, newValue.length - 1);
