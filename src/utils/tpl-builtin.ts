@@ -388,7 +388,13 @@ export function dataMapping(to: any, from: PlainObject): any {
                 ...from
             };
         } else if (key === "&") {
-            const v = resolveMapping(value, from);
+            const v = isPlainObject(value)
+                && (keys = Object.keys(value))
+                && keys.length === 1
+                && from[keys[0].substring(1)]
+                && Array.isArray(from[keys[0].substring(1)])
+                ? from[keys[0].substring(1)].map((raw: object) => dataMapping(value[keys[0]], createObject(from, raw)))
+                : resolveMapping(value, from) ;
 
             if (Array.isArray(v) || typeof v === "string") {
                 ret = v;
