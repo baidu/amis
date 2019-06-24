@@ -10,7 +10,7 @@ import { RendererData, Action, Api, Payload } from '../../types';
 import { filter } from '../../utils/tpl';
 import omit = require('lodash/omit');
 import { dataMapping } from '../../utils/tpl-builtin';
-import find = require('lodash/find');
+import findIndex = require('lodash/findIndex');
 
 export interface TableProps extends FormControlProps {
     placeholder?: string;
@@ -102,19 +102,24 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             const rows = Array.isArray(value) ? value.concat() : [];
             
             if (action.payload) {
-                const toAdd = dataMapping(action.payload, ctx);
+                let toAdd = dataMapping(action.payload, ctx);
 
-                if (Array.isArray(toAdd)) {
-                    rows.push(...toAdd);
-                } else {
-                    rows.push(toAdd)
-                }
+                toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
+
+                toAdd.forEach((toAdd:any) => {
+                    const idx = findIndex(rows, (item) => item[valueField as string] == toAdd[valueField as string]);
+                    if (!~idx) {
+                        rows.push(toAdd);
+                    }
+                });
 
                 onChange(rows);
                 
                 if (editable) {
                     this.startEdit(rows.length - 1, rows[rows.length - 1], true);
                 }
+
+                // todo 如果配置新增 Api 怎么办？
                 return;
             } else {
                 return this.addItem(rows.length - 1);
@@ -126,19 +131,20 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 return env.alert('action 上请配置 payload, 否则不清楚要删除哪个');
             }
 
-            const toRemove:any = dataMapping(action.payload, ctx);
-            if (Array.isArray(toRemove)) {
-                // 由于删除是异步的，一个个删吧
-                return toRemove.reduce((wait, toDelete) => {
-                    return wait.then(() => {
-                        const idx = find(value, (item) => item[valueField as string] == toDelete[valueField as string]);
-                        return this.removeItem(idx);
-                    });
-                }, Promise.resolve());
-            } else {
-                const idx = find(value, (item) => item[valueField as string] == toRemove[valueField as string]);
-                return this.removeItem(idx);
-            }
+            const rows = Array.isArray(value) ? value.concat() : [];
+            let toRemove:any = dataMapping(action.payload, ctx);
+            toRemove = Array.isArray(toRemove) ? toRemove : [toRemove];
+
+            toRemove.forEach((toRemove:any) => {
+                const idx = findIndex(rows, (item) => item[valueField as string] == toRemove[valueField as string]);
+                if (~idx) {
+                    rows.splice(idx, 1);
+                }
+            });
+
+            onChange(rows);
+            // todo 如果配置删除 Api 怎么办？
+            return;
         }
 
         return onAction && onAction(action, ctx, ...rest);
@@ -240,7 +246,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             data
         } = this.props;
         let newValue = Array.isArray(value) ? value.concat() : [];
-        const item = value[index];
+        const item = newValue[index];
+
+        if (!item) {
+            return;
+        }
 
         if (deleteApi) {
             const ctx = createObject(data, item);
@@ -294,7 +304,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                         level="link"
                         tooltip="新增一行"
                         tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
-                        onClick={this.addItem.bind(this, rowIndex)}
+                        onClick={this.addItem.bind(this, rowIndex, undefined)}
                     >
                         {props.addBtnLabel ? (<span>{props.addBtnLabel}</span>) : null}
                         {props.addBtnIcon ? (<i className={props.addBtnIcon} />) : null}
@@ -495,11 +505,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         const {
             className,
             value,
-            type,
-            columns,
+            showAddBtn,
             disabled,
             render,
-            children,
             placeholder,
             draggable,
             addable
@@ -516,7 +524,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 }, {
                     value: undefined,
                     draggable: draggable && !~this.state.editIndex,
-                    items: (Array.isArray(value) && value.length ? value : addable ? [{__isPlaceholder: true}] : []).map((value:any, index:number) => 
+                    items: (Array.isArray(value) && value.length ? value : addable && showAddBtn !== false ? [{__isPlaceholder: true}] : []).map((value:any, index:number) => 
                         index === this.state.editIndex ? this.state.editting : value),
                     getEntryId: this.getEntryId,
                     onSave: this.handleTableSave,
