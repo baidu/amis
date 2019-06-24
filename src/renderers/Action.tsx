@@ -35,6 +35,7 @@ const ActionProps = [
     'mergeData',
     'index',
     'copy',
+    'payload'
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable} from '../theme';

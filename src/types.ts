@@ -75,9 +75,10 @@ export interface Definitions {
     [propName: string]: SchemaNode
 }
 export interface Action extends Button {
-    actionType?: 'submit' | 'copy' | 'reload' | 'ajax' | 'dialog' | 'drawer' | 'jump' | 'link' | 'url' | 'close' | 'confirm' | 'add' | 'delete' | 'edit' | 'cancel' | 'close' | 'next' | 'prev';
+    actionType?: 'submit' | 'copy' | 'reload' | 'ajax' | 'dialog' | 'drawer' | 'jump' | 'link' | 'url' | 'close' | 'confirm' | 'add' | 'remove' | 'delete' | 'edit' | 'cancel' | 'close' | 'next' | 'prev';
     api?: Api;
     asyncApi?: Api;
+    payload?: any;
     dialog?: SchemaNode;
     to?: string;
     target?: string;
