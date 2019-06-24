@@ -62,6 +62,20 @@ function createScopedTools(path?:string, parent?:AlisIScopedContext, env?: Rende
         },
 
         getComponentByName(name:string) {
+            if (~name.indexOf('.')) {
+                const paths = name.split('.');
+                const len = paths.length;
+
+                return paths.reduce((scope, name, idx) => {
+                    if (scope && scope.getComponentByName) {
+                        const result = scope.getComponentByName(name);
+                        return result && idx < (len - 1) ? result.context : result;
+                    }
+
+                    return null;
+                }, this);
+            }
+
             const resolved = find(components, component => component.props.name === name || component.props.id === name);
             return resolved || parent && parent.getComponentByName(name);
         },
