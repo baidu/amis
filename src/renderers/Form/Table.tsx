@@ -108,9 +108,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
                 toAdd.forEach((toAdd:any) => {
                     const idx = findIndex(rows, (item) => item[valueField as string] == toAdd[valueField as string]);
-                    if (!~idx) {
-                        rows.push(toAdd);
+                    if (~idx) {
+                        rows.splice(idx, 1);
                     }
+                    rows.push(toAdd);
                 });
 
                 onChange(rows);
