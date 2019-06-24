@@ -10,6 +10,7 @@ export interface EachProps extends RendererProps {
 }
 
 export default class Each extends React.Component<EachProps> {
+    static propsList: Array<string> = ['name', 'items', 'value'];
     static defaultProps: Partial<EachProps> = {
         className: '',
     };
