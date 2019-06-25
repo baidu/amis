@@ -106,7 +106,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
                     }
                     const controlMode = control && control.mode || formMode;
 
-                    if (controlMode === 'inline') {
+                    if (controlMode === 'inline' || control && control.type === "formula") {
                         return this.renderControl(control, index, {
                             formMode: 'inline',
                             key: index,
