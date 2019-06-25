@@ -262,7 +262,7 @@ export default {
             controls: [
                 {
                     $ref: 'queryGroup',
-                    name: 'query',
+                    name: 'q',
                     value: {},
                     label: 'Query'
                 }
