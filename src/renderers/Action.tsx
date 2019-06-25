@@ -53,7 +53,7 @@ export interface ActionProps {
     level?: 'info' | 'success' | 'warning' | 'danger' | 'link';
     onAction?: (e: React.MouseEvent<any> | void | null, action: object) => void;
     isCurrentUrl?: (link: string) => boolean;
-    onClick?: (e: React.MouseEvent<any>) => void;
+    onClick?: (e: React.MouseEvent<any>, props:any) => void;
     primary?: boolean;
     activeClassName: string;
     componentClass: React.ReactType;
@@ -88,7 +88,7 @@ export class Action extends React.Component<ActionProps> {
     handleAction(e: React.MouseEvent<any>) {
         const {onAction, onClick, disabled} = this.props;
 
-        onClick && onClick(e);
+        onClick && onClick(e, this.props);
 
         if (disabled || e.isDefaultPrevented() || !onAction) {
             return;
