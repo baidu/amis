@@ -650,6 +650,7 @@ export default class List extends React.Component<ListProps, object> {
                                     checkable: item.checkable,
                                     multiple,
                                     item,
+                                    itemIndex: item.index,
                                     hideCheckToggler,
                                     checkOnItemClick,
                                     selected: item.checked,
@@ -695,6 +696,7 @@ export class ListRenderer extends List {
 export interface ListItemProps extends RendererProps {
     hideCheckToggler?: boolean;
     item: IItem;
+    itemIndex?: number;
     checkable?: boolean;
     checkOnItemClick?: boolean;
 }
@@ -854,6 +856,7 @@ export class ListItem extends React.Component<ListItemProps> {
         const render = props.render || this.props.render;
         const data = this.props.data;
         const cx = this.props.classnames;
+        const itemIndex = this.props.itemIndex;
 
         const $$id = field.$$id ? `${field.$$id}-field` : '';
         
@@ -877,6 +880,8 @@ export class ListItem extends React.Component<ListItemProps> {
                             type: 'list-item-field',
                         },
                         {
+                            rowIndex: itemIndex,
+                            colIndex: key,
                             className: cx('ListItem-fieldValue', field.className),
                             value: field.name ? resolveVariable(field.name, data) : `-`,
                             onAction: this.handleAction,

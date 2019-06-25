@@ -693,6 +693,7 @@ export default class Cards extends React.Component<GridProps, object> {
                                                 'is-moved': item.moved,
                                             }),
                                             item,
+                                            intemIndex: item.index,
                                             multiple,
                                             hideCheckToggler,
                                             selectable: store.selectable,

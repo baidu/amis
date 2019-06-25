@@ -62,6 +62,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
             this.overlayRef = this.overlayRef.bind(this);
             this.handleWindowKeyPress = this.handleWindowKeyPress.bind(this);
             this.handleWindowKeyDown = this.handleWindowKeyDown.bind(this);
+            this.formRef = this.formRef.bind(this);
 
             this.state = {
                 isOpened: false,
@@ -78,6 +79,22 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
             inited = true;
             document.body.addEventListener('keypress', this.handleWindowKeyPress);
             document.body.addEventListener('keydown', this.handleWindowKeyDown);
+        }
+
+        formRef(ref:any) {
+            const {
+                quickEditFormRef,
+                rowIndex,
+                colIndex
+            } = this.props;
+
+            if (quickEditFormRef) {
+                while (ref && ref.getWrappedInstance) {
+                    ref = ref.getWrappedInstance();
+                }
+
+                quickEditFormRef(ref, colIndex, rowIndex);
+            }
         }
 
         handleWindowKeyPress(e: Event) {
@@ -347,6 +364,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                         onSubmit: this.handleSubmit,
                         onAction: this.handleAction,
                         onChange: null,
+                        ref: this.formRef,
                         popOverContainer: popOverContainer ? () => this.overlay : null,
                     })}
                 </div>
@@ -388,6 +406,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                         {render('inline-form', this.buildSchema(), {
                             wrapperComponent: 'div',
                             className: cx('Form--quickEdit'),
+                            ref: this.formRef,
                             onChange: (values: object) =>
                                 onQuickChange(values, (quickEdit as QuickEditConfig).saveImmediately),
                         })}
