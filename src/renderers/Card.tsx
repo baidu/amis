@@ -15,6 +15,7 @@ import Copyable from './Copyable';
 
 export interface CardProps extends RendererProps {
     onCheck: (item: IItem) => void;
+    itemIndex?: number;
     multiple?: boolean;
     highlightClassName?: string;
     hideCheckToggler?: boolean;
@@ -191,7 +192,7 @@ export class Card extends React.Component<CardProps> {
     }
 
     renderFeild(region: string, field: any, key: any, props: any) {
-        const {render, classnames: cx} = props;
+        const {render, classnames: cx, itemIndex} = props;
         const data = this.props.data;
 
         const $$id = field.$$id ? `${field.$$id}-field` : '';
@@ -213,6 +214,8 @@ export class Card extends React.Component<CardProps> {
                         },
                         {
                             className: cx('Card-fieldValue', field.className),
+                            rowIndex: itemIndex,
+                            colIndex: key,
                             value: field.name ? resolveVariable(field.name, data) : undefined,
                             popOverContainer: this.getPopOverContainer,
                             onAction: this.handleAction,

@@ -1223,12 +1223,13 @@ export default class Table extends React.Component<TableProps, object> {
 
         return flatMap(rows, (item: IRow, rowIndex: number) => {
             const itemProps = buildItemProps ? buildItemProps(item, rowIndex) : null;
+            
             const doms = [
                 <TableRow
                     {...itemProps}
                     classPrefix={ns}
                     checkOnItemClick={checkOnItemClick}
-                    key={item.depth > 1 ? item.id : item.key}
+                    key={item.id}
                     itemIndex={rowIndex}
                     item={item}
                     itemClassName={rowClassName}
@@ -1249,7 +1250,7 @@ export default class Table extends React.Component<TableProps, object> {
                                 {...itemProps}
                                 classPrefix={ns}
                                 checkOnItemClick={checkOnItemClick}
-                                key={`foot-${item.index}`}
+                                key={`foot-${item.id}`}
                                 itemIndex={rowIndex}
                                 item={item}
                                 itemClassName={rowClassName}
@@ -1492,6 +1493,7 @@ class TableRow extends React.Component<TableRowProps> {
                                             ...rest,
                                             width: null,
                                             rowIndex: itemIndex,
+                                            colIndex: column.index,
                                             key: column.index,
                                             onAction: this.handleAction,
                                             onQuickChange: this.handleQuickChange,
@@ -1526,6 +1528,7 @@ class TableRow extends React.Component<TableRowProps> {
                     renderCell(`${itemIndex}/${column.index}`, column, item, {
                         ...rest,
                         rowIndex: itemIndex,
+                        colIndex: column.index,
                         key: column.index,
                         onAction: this.handleAction,
                         onQuickChange: this.handleQuickChange,

@@ -71,7 +71,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         "deleteApi"
     ];
 
-    entries:Array<any> = [];
+    entries:Map<any, number>;
+    entityId: number = 0;
+    subForms:any = {}
     constructor(props:TableProps) {
         super(props);
 
@@ -80,12 +82,51 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             editIndex: -1
         };
 
+        this.entries = new Map();
         this.buildItemProps = this.buildItemProps.bind(this);
         this.confirmEdit = this.confirmEdit.bind(this);
         this.cancelEdit = this.cancelEdit.bind(this);
         this.handleSaveTableOrder = this.handleSaveTableOrder.bind(this);
         this.handleTableSave = this.handleTableSave.bind(this);
         this.getEntryId = this.getEntryId.bind(this);
+        this.subFormRef = this.subFormRef.bind(this);
+    }
+
+    componentWillUnmount() {
+        this.entries.clear();
+    }
+
+    subFormRef(form:any, x:number, y:number) {
+        console.log(form, x, y);
+        this.subForms[`${x}-${y}`] = form;
+    }
+
+    validate():any {
+        const {
+            value,
+            minLength,
+            maxLength
+        } = this.props;
+
+        if (minLength && (!Array.isArray(value) || value.length < minLength)) {
+            return `组合表单成员数量不够，低于最小的设定${minLength}个，请添加更多的成员。`;
+        } else if (maxLength && Array.isArray(value) && value.length > maxLength) {
+            return `组合表单成员数量超出，超出最大的设定${maxLength}个，请删除多余的成员。`;
+        } else {
+            const subForms:Array<any> = [];
+            Object.keys(this.subForms).forEach(key => this.subForms[key] && subForms.push(this.subForms[key]));
+            if (subForms.length) {
+                return Promise
+                    .all(subForms.map(item => item.validate()))
+                    .then((values) => {
+                        if (~values.indexOf(false)) {
+                            return '内部表单验证失败';
+                        }
+    
+                        return;
+                    })
+            }
+        }
     }
 
     doAction(action:Action, ctx:RendererData, ...rest:Array<any>) {
@@ -487,19 +528,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     removeEntry(entry:any) {
-        const idx = this.entries.indexOf(entry);
-        ~idx && this.entries.splice(idx, 1);
+        if (this.entries.has(entry)) {
+            this.entries.delete(entry);
+        }
     }
 
     getEntryId(entry:any) {
-        let idx = this.entries.indexOf(entry);
-
-        if (!~idx) {
-            idx = this.entries.length;
-            this.entries.push(entry);
+        if (!this.entries.has(entry)) {
+            this.entries.set(entry, this.entityId++);
         }
 
-        return String(idx);
+        return String(this.entries.get(entry));
     }
 
     render() {
@@ -530,7 +569,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     getEntryId: this.getEntryId,
                     onSave: this.handleTableSave,
                     onSaveOrder: this.handleSaveTableOrder,
-                    buildItemProps: this.buildItemProps
+                    buildItemProps: this.buildItemProps,
+                    quickEditFormRef: this.subFormRef
                 })}
             </div>
         );;
