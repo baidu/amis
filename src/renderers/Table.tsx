@@ -132,6 +132,7 @@ export default class Table extends React.Component<TableProps, object> {
         [propName: string]: number;
     } = {};
     renderedToolbars: Array<string> = [];
+    subForms:any = {};
 
     constructor(props: TableProps) {
         super(props);
@@ -157,6 +158,7 @@ export default class Table extends React.Component<TableProps, object> {
         this.renderToolbar = this.renderToolbar.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleMouseLeave = this.handleMouseLeave.bind(this);
+        this.subFormRef = this.subFormRef.bind(this);
     }
 
     static syncRows(store: ITableStore, props: TableProps, prevProps?: TableProps) {
@@ -312,6 +314,15 @@ export default class Table extends React.Component<TableProps, object> {
         this.unSensor && this.unSensor();
     }
 
+    subFormRef(form:any, x:number, y:number) {
+        const {
+            quickEditFormRef
+        } = this.props;
+
+        quickEditFormRef && quickEditFormRef(form, x, y);
+        this.subForms[`${x}-${y}`] = form;
+    }
+
     handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
         const {onAction} = this.props;
 
@@ -362,11 +373,21 @@ export default class Table extends React.Component<TableProps, object> {
         onSave(item.data, difference(item.data, item.pristine), item.index);
     }
 
-    handleSave() {
+    async handleSave() {
         const {store, onSave} = this.props;
 
         if (!onSave || !store.modifiedRows.length) {
             return;
+        }
+
+        // 验证所有表单项，没有错误才继续
+        const subForms:Array<any> = [];
+        Object.keys(this.subForms).forEach(key => this.subForms[key] && subForms.push(this.subForms[key]));
+        if (subForms.length) {
+            const result = await Promise.all(subForms.map(item => item.validate()));
+            if (~result.indexOf(false)) {
+                return;
+            }
         }
 
         const rows = store.modifiedRows.map(item => item.data);
@@ -864,6 +885,7 @@ export default class Table extends React.Component<TableProps, object> {
             value: column.name ? resolveVariable(column.name, item.data) : undefined,
             popOverContainer: this.getPopOverContainer,
             rowSpan: item.rowSpans[column.name as string],
+            quickEditFormRef: this.subFormRef
         };
         delete subProps.$$id;
         delete subProps.label;

@@ -27,7 +27,11 @@ export default {
                     "name": "engine",
                     "label": "Rendering engine",
                     "sortable": true,
-                    "quickEdit": true,
+                    "quickEdit": {
+                        type: "text",
+                        required: true,
+                        mode: 'inline'
+                    },
                     "type": "text",
                     "toggled": true
                 },
@@ -35,7 +39,10 @@ export default {
                     "name": "browser",
                     "label": "Browser",
                     "sortable": true,
-                    "quickEdit": true,
+                    "quickEdit": {
+                        type: "text",
+                        required: true
+                    },
                     "type": "text",
                     "toggled": true
                 },
