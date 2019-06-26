@@ -18,12 +18,24 @@ import {
     createObject} from '../../utils/helper';
 import Sortable = require('sortablejs');
 import { evalExpression, filter } from '../../utils/tpl';
+import find = require('lodash/find');
+import Select from '../../components/Select';
+import { dataMapping } from '../../utils/tpl-builtin';
+
+export interface Condition {
+    test: string;
+    controls: Array<Schema>;
+    label: string;
+    scaffold?: any;
+    mode?: string;
+}
 
 export interface ComboProps extends FormControlProps {
     placeholder?: string;
     flat?: boolean; // 是否把值打平，即原来是对象现在只有对象中的值。
     draggable?: boolean; // 是否可拖拽
-    controls: Array<Schema>;
+    controls?: Array<Schema>;
+    conditions?: Array<Condition>;
     multiple?: boolean;
     multiLine?: boolean;
     minLength?: number;
@@ -33,6 +45,7 @@ export interface ComboProps extends FormControlProps {
     formClassName?: string;
     addButtonText?: string;
     addable?: boolean;
+    typeSwitchable?: boolean;
     removable?: boolean;
     deleteApi?: Api,
     deleteConfirmText?: string;
@@ -77,7 +90,8 @@ export default class ComboControl extends React.Component<ComboProps> {
         "addIcon",
         "dragIcon",
         "deleteIcon",
-        "noBorder"
+        "noBorder",
+        "conditions"
     ];
 
     subForms:Array<any> = [];
@@ -95,6 +109,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         this.addItem = this.addItem.bind(this);
         this.removeItem = this.removeItem.bind(this);
         this.dragTipRef = this.dragTipRef.bind(this);
+        this.handleComboTypeChange = this.handleComboTypeChange.bind(this);
         this.defaultValue = {
             ...props.scaffold
         };
@@ -149,6 +164,33 @@ export default class ComboControl extends React.Component<ComboProps> {
             value = value.concat();
         }
         return value;
+    }
+
+    addItemWith(condition:Condition) {
+        const {
+            flat,
+            joinValues,
+            delimiter,
+            scaffold,
+            disabled
+        } = this.props;
+
+        if (disabled) {
+            return;
+        }
+
+        let value = this.getValueAsArray();
+
+        value.push(flat ? condition.scaffold || scaffold || '' : {
+            ...condition.scaffold || scaffold
+        });
+        this.keys.push(guid());
+
+        if (flat && joinValues) {
+            value = value.join(delimiter || ',');
+        }
+
+        this.props.onChange(value);
     }
 
     addItem() {
@@ -375,13 +417,47 @@ export default class ComboControl extends React.Component<ComboProps> {
         return createObject(createObject(data, {index, __index: index}), value);
     }
 
+    pickCondition(value:any):Condition {
+        const conditions:Array<Condition> = this.props.conditions as Array<Condition>;
+        return (find(conditions, (item) => item.test && evalExpression(item.test, value)) || conditions[0]) as Condition;
+    }
+
+    handleComboTypeChange(index:number, selection:any) {
+        const {
+            multiple,
+            onChange,
+            value,
+            flat
+        } = this.props;
+
+        const conditions:Array<Condition> = this.props.conditions as Array<Condition>;
+        const condition = find(conditions, item => item.label === selection.label);
+        
+        if (!condition) {
+            return;
+        }
+
+        if (multiple) {
+            const newValue = this.getValueAsArray();
+            newValue.splice(index, 1, {
+                ...dataMapping(condition.scaffold || {}, newValue[index])
+            });
+
+            // todo 支持 flat
+            onChange(newValue);
+        } else {
+            onChange({
+                ...dataMapping(condition.scaffold || {}, value)
+            });
+        }
+    }
+
     renderMultipe() {
         const {
             classPrefix: ns,
             classnames: cx,
             formClassName,
             render,
-            controls,
             multiLine,
             addButtonClassName,
             disabled,
@@ -393,6 +469,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             addButtonText,
             addable,
             removable,
+            typeSwitchable,
             itemRemovableOn,
             delimiter,
             canAccessSuperData,
@@ -400,8 +477,10 @@ export default class ComboControl extends React.Component<ComboProps> {
             dragIcon,
             deleteIcon,
             noBorder,
+            conditions
         } = this.props;
 
+        let controls = this.props.controls;
         let value = this.props.value;
 
         if (flat && typeof value === 'string') {
@@ -453,8 +532,16 @@ export default class ComboControl extends React.Component<ComboProps> {
                             );
                         }
 
+                        const data = this.formatValue(value, index);
+                        let condition:Condition | null = null;
+                
+                        if (Array.isArray(conditions) && conditions.length) {
+                            condition = this.pickCondition(data);
+                            controls = condition.controls;
+                        }
+
                         let finnalControls = flat ? [{
-                            ...controls[0],
+                            ...controls && controls[0],
                             name: 'flat'
                         }] : controls;
 
@@ -463,6 +550,16 @@ export default class ComboControl extends React.Component<ComboProps> {
                                 className={cx(`Combo-item`)}
                                 key={this.keys[index] || (this.keys[index] = guid())}
                             >
+                                {condition && typeSwitchable !== false ? (
+                                    <div className={cx('Combo-itemTag')}>
+                                        <label>类型</label>
+                                        <Select
+                                            onChange={this.handleComboTypeChange.bind(this, index)}
+                                            options={(conditions as Array<Condition>).map(item => ({label: item.label , value: item.label}))}
+                                            value={condition.label}
+                                        />
+                                    </div>
+                                ) : null}
                                 <div className={cx(`Combo-itemInner`)}>
                                     {render(`multiple/${index}`, {
                                         type: 'form',
@@ -474,7 +571,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                                     }, {
                                         index,
                                         disabled,
-                                        data: this.formatValue(value, index),
+                                        data,
                                         onChange: this.handleChange.bind(this, index),
                                         onAction: this.handleAction,
                                         ref: (ref:any) => this.formRef(ref, index),
@@ -490,7 +587,23 @@ export default class ComboControl extends React.Component<ComboProps> {
                 </div>
                 {!disabled ? (
                     <div className={cx(`Combo-toolbar`)}>
-                        {store.addable && addable !== false ? (
+                        {store.addable && addable !== false ? Array.isArray(conditions) && conditions.length ? (
+                            render('add-button', {
+                                type: 'dropdown-button',
+                                icon: addIcon,
+                                label: addButtonText || '新增',
+                                level: 'info',
+                                size: 'sm'
+                            }, {
+                                buttons: conditions.map(item => ({
+                                    label: item.label,
+                                    onClick: (e:any) => {
+                                        this.addItemWith(item)
+                                        return false;
+                                    }
+                                }))
+                            })
+                        ) : (
                             <button
                                 type="button"
                                 onClick={this.addItem}
@@ -512,7 +625,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     renderSingle() {
         const {
-            controls,
+            conditions,
             classnames: cx,
             render,
             value,
@@ -520,15 +633,35 @@ export default class ComboControl extends React.Component<ComboProps> {
             formClassName,
             canAccessSuperData,
             noBorder,
-            disabled
+            disabled,
+            typeSwitchable
         } = this.props;
 
+        let controls = this.props.controls;
+        const data = isObject(value) ? value : this.defaultValue;
+        let condition:Condition | null = null;
+
+        if (Array.isArray(conditions) && conditions.length) {
+            condition = this.pickCondition(data);
+            controls = condition.controls;
+        }
 
         return (
             <div 
                 className={cx(`Combo Combo--single`, multiLine ? `Combo--ver` : `Combo--hor`, noBorder ? `Combo--noBorder` : '')}
             >
                 <div className={cx(`Combo-item`)}>
+                    {condition && typeSwitchable !== false ? (
+                        <div className={cx('Combo-itemTag')}>
+                            <label>类型</label>
+                            <Select
+                                onChange={this.handleComboTypeChange.bind(this, 0)}
+                                options={(conditions as Array<Condition>).map(item => ({label: item.label , value: item.label}))}
+                                value={condition.label}
+                            />
+                        </div>
+                    ) : null}
+
                     <div className={cx(`Combo-itemInner`)}>
                         {render('single', {
                             type: 'form',
