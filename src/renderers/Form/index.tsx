@@ -385,6 +385,14 @@ export default class Form extends React.Component<FormProps, object> {
         return store.validate(this.hooks['validate'] || [], forceValidate);
     }
 
+    clearErrors() {
+        const {
+            store
+        } = this.props;
+
+        return store.clearErrors();
+    }
+
     submit(fn?:(values:object) => Promise<any>):Promise<any> {
         const {
             store
