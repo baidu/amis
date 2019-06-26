@@ -319,6 +319,11 @@ export const FormStore = ServiceStore
             return result.every(item => item);
         });
 
+        function clearErrors() {
+            const items = self.items.concat();
+            items.forEach(item => item.clearError());
+        }
+
         function reset(cb?: (data:any) => void) {
             self.data = self.pristine;
 
@@ -402,6 +407,7 @@ export const FormStore = ServiceStore
             submit,
             validate,
             validateFields,
+            clearErrors,
             saveRemote,
             reset,
             registryItem,
