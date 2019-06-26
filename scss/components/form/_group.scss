@@ -11,7 +11,7 @@
             flex-wrap: nowrap;
             margin-left: -$Form-group-gutterWidth / 2;
             margin-right: -$Form-group-gutterWidth / 2;
-            align-items: flex-end;
+            align-items: flex-start;
 
             &.#{$ns}Form-group--horizontal {
                 align-items: flex-start;
