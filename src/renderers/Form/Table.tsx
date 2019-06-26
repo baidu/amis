@@ -73,7 +73,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     entries:Map<any, number>;
     entityId: number = 0;
-    subForms:any = {}
+    subForms:any = {};
     constructor(props:TableProps) {
         super(props);
 
@@ -97,7 +97,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     subFormRef(form:any, x:number, y:number) {
-        console.log(form, x, y);
         this.subForms[`${x}-${y}`] = form;
     }
 
