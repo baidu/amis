@@ -376,6 +376,8 @@ export function dataMapping(to: any, from: PlainObject): any {
 
     if (Array.isArray(to)) {
         return to.map(item => dataMapping(item, from));
+    } else if (!to) {
+        return ret;
     }
 
     Object.keys(to).forEach(key => {

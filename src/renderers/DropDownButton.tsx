@@ -68,7 +68,7 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
 
         let body = (
             <RootCloseWrapper disabled={!this.state.isOpened} onRootClose={this.close}>
-                <ul className={cx('DropDown-menu')}>
+                <ul className={cx('DropDown-menu')} onClick={this.close}>
                     {children
                         ? children
                         : Array.isArray(buttons)
@@ -132,6 +132,7 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
             caretIcon,
             align,
             iconOnly,
+            icon,
             data,
         } = this.props;
 
@@ -159,6 +160,7 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
                         size ? `Button--${size}` : ''
                     )}
                 >
+                    {icon ? (<i className={cx(icon, 'm-r-xs')} />) : null}
                     {typeof label === 'string' ? filter(label, data) : label}
                     <i className={cx('DropDown-caret', caretIcon)} />
                 </button>

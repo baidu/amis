@@ -68,6 +68,15 @@
             flex-grow: 1;
         }
 
+        .#{$ns}Combo-itemTag {
+            margin-right: $gap-sm;
+
+            label {
+                color: $info;
+                margin-right: $gap-sm;
+            }
+        }
+
         .#{$ns}Combo-itemToolbar {
             margin-left: $gap-xs;
             display: flex;
@@ -87,6 +96,15 @@
             margin: (-$Combo--vertical-item-gap * 2)
                 (-$Combo--vertical-item-gap * 2) 0
                 (-$Combo--vertical-item-gap * 2);
+        }
+
+        .#{$ns}Combo-itemTag {
+            text-align: right;
+
+            label {
+                color: $info;
+                margin-right: $gap-sm;
+            }
         }
 
         // 不严格点会命中 combo 里面嵌套 combo 的情况，so sad.

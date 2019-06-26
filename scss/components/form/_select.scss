@@ -1,6 +1,7 @@
 .#{$ns}Select {
     display: inline-flex;
     vertical-align: middle;
+    text-align: left;
     outline: none;
     position: relative;
     border: $Form-select-borderWidth solid $Form-select-borderColor;

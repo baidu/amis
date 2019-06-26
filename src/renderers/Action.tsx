@@ -88,9 +88,9 @@ export class Action extends React.Component<ActionProps> {
     handleAction(e: React.MouseEvent<any>) {
         const {onAction, onClick, disabled} = this.props;
 
-        onClick && onClick(e, this.props);
+        const result:any = onClick && onClick(e, this.props);
 
-        if (disabled || e.isDefaultPrevented() || !onAction) {
+        if (disabled || e.isDefaultPrevented() || result === false || !onAction) {
             return;
         }
 
