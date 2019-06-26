@@ -44,7 +44,7 @@
     "match-sorter": "2.2.1",
     "mobx": "4.5.0",
     "mobx-react": "5.2.5",
-    "mobx-state-tree": "3.14.0",
+    "mobx-state-tree": "3.7.0",
     "moment": "2.19.3",
     "monaco-editor": "0.15.6",
     "prop-types": "15.6.0",
