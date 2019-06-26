@@ -557,8 +557,8 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         const fd = new FormData();
         const data = this.props.data;
         reciever = filter(reciever, data);
-        fd.append('file', file, (file as File).name);
-
+        const fileField = this.props.fileField || 'file';
+        fd.append(fileField, file, (file as File).name);
         const idx = reciever.indexOf('?');
 
         if (~idx && params) {
