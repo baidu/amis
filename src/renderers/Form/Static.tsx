@@ -55,15 +55,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
             ...rest
         } = this.props;
 
-        const subType = type.substring(7) || 'tpl';
-
-        // if (subType === 'tpl') {
-        //     return (
-        //         <div className={cx('form-control-static', className)}>
-        //             {text ? text : (tpl || value ? render('tpl', tpl || value && (typeof value === 'string' ? value : JSON.stringify(value))) : (<span className="text-muted">{placeholder}</span>))}
-        //         </div>
-        //     );
-        // }
+        const subType = /^static/.test(type) ? (type.substring(7) || 'tpl') : type;
 
         const field = {
             label,
@@ -79,17 +71,33 @@ export default class StaticControl extends React.Component<StaticProps, any> {
                     type: 'static-field',
                     field
                 }, {
-                        value,
-                        className,
-                        onQuickChange: this.handleQuickChange,
-                    })}
+                    value,
+                    className,
+                    onQuickChange: this.handleQuickChange,
+                })}
             </div>
         );;
     }
 }
 
 @FormItem({
-    test: /(^|\/)form(?:\/.+)?\/control\/static(\-[^\/]+)?$/,
+    test: (path, schema, resolveRenderer) => {
+        if (/(^|\/)form(?:\/.+)?\/control\/static(\-[^\/]+)?$/.test(path)) {
+            return true;
+        } else if (
+            /(^|\/)form(?:\/.+)?\/control\/[^\/]+$/.test(path)
+            && schema
+            && schema.type 
+            && (schema.name || schema.label)
+            && resolveRenderer 
+            && resolveRenderer(`${path}/static-field/${schema.type}`)
+        ) {
+            // 不一定
+            return true;
+        }
+        return false;
+    },
+    weight: -90,
     strictMode: false,
     sizeMutable: false,
     name: "static-control"

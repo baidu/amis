@@ -14,7 +14,7 @@ export interface ProgressProps extends RendererProps {
 }
 
 export class ProgressField extends React.Component<ProgressProps, object> {
-    static defaultProps: Partial<ProgressProps> = {
+    static defaultProps = {
         placeholder: '-',
         progressClassName: 'progress-xs progress-striped active m-b-none',
         progressBarClassName: '',
