@@ -533,7 +533,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     getEntryId(entry:any) {
-        if (!this.entries.has(entry)) {
+        if (entry === this.state.editting) {
+            return "editing";
+        } else if (!this.entries.has(entry)) {
             this.entries.set(entry, this.entityId++);
         }
 
