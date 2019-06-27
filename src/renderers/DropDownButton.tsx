@@ -68,7 +68,7 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
 
         let body = (
             <RootCloseWrapper disabled={!this.state.isOpened} onRootClose={this.close}>
-                <ul className={cx('DropDown-menu')} onClick={this.close}>
+                <ul className={cx('DropDown-menu')}>
                     {children
                         ? children
                         : Array.isArray(buttons)
