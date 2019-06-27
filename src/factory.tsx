@@ -52,7 +52,7 @@ import Alert from "./components/Alert2";
 import { LazyComponent } from './components';
 
 export interface TestFunc {
-    (path: string, schema?: object): boolean;
+    (path: string, schema?: Schema, resolveRenderer?: (path:string, schema?:Schema, props?:any) => null | RendererConfig): boolean;
 }
 
 export interface RendererBasicConfig {
@@ -821,7 +821,7 @@ export function resolveRenderer(path:string, schema?:Schema, props?:any): null |
         let matched = false;
 
         if (typeof item.test === "function") {
-            matched = item.test(path, schema);
+            matched = item.test(path, schema, resolveRenderer);
         } else if (item.test instanceof RegExp) {
             matched = item.test.test(path);
         }

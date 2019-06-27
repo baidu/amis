@@ -1956,7 +1956,7 @@ export interface TableCellProps extends RendererProps {
     column: object;
 }
 export class TableCell extends React.Component<RendererProps> {
-    static defaultProps: Partial<TableCellProps> = {
+    static defaultProps = {
         wrapperComponent: 'td',
     };
 
