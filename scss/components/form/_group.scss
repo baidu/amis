@@ -13,10 +13,6 @@
             margin-right: -$Form-group-gutterWidth / 2;
             align-items: flex-start;
 
-            &.#{$ns}Form-group--horizontal {
-                align-items: flex-start;
-            }
-
             > * {
                 padding-left: $Form-group-gutterWidth / 2;
                 padding-right: $Form-group-gutterWidth / 2;
@@ -29,10 +25,6 @@
             > .#{$ns}Form-item,
             > div > .#{$ns}Form-item {
                 margin-bottom: 0;
-            }
-
-            &.#{$ns}Form-group--inline {
-                align-items: flex-start;
             }
 
             .#{$ns}Form-input > .#{$ns}Form-group {
