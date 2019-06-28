@@ -4,7 +4,7 @@ import {RootCloseWrapper} from 'react-overlays';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import cx from 'classnames';
-import {isVisible} from '../utils/helper';
+import {isVisible, noop} from '../utils/helper';
 import {filter} from '../utils/tpl';
 
 export interface DropDownButtonProps extends RendererProps {
@@ -64,11 +64,21 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
     }
 
     renderOuter() {
-        const {render, buttons, data, popOverContainer, classnames: cx, classPrefix: ns, children, align} = this.props;
+        const {
+            render, 
+            buttons, 
+            data, 
+            popOverContainer, 
+            classnames: cx, 
+            classPrefix: ns, 
+            children, 
+            align,
+            closeOnClick
+        } = this.props;
 
         let body = (
             <RootCloseWrapper disabled={!this.state.isOpened} onRootClose={this.close}>
-                <ul className={cx('DropDown-menu')}>
+                <ul className={cx('DropDown-menu')} onClick={closeOnClick ? this.close : noop}>
                     {children
                         ? children
                         : Array.isArray(buttons)

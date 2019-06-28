@@ -597,6 +597,7 @@ export default class List extends React.Component<ListProps, object> {
     render() {
         const {
             className,
+            itemClassName,
             store,
             placeholder,
             render,
@@ -641,7 +642,7 @@ export default class List extends React.Component<ListProps, object> {
                                 },
                                 {
                                     key: item.index,
-                                    className: cx({
+                                    className: cx(itemClassName, {
                                         'is-checked': item.checked,
                                         'is-modified': item.modified,
                                         'is-moved': item.moved,

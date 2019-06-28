@@ -593,7 +593,8 @@ export default class ComboControl extends React.Component<ComboProps> {
                                 icon: addIcon,
                                 label: addButtonText || '新增',
                                 level: 'info',
-                                size: 'sm'
+                                size: 'sm',
+                                closeOnClick: true
                             }, {
                                 buttons: conditions.map(item => ({
                                     label: item.label,
