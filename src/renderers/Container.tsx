@@ -15,10 +15,10 @@ export default class Container<T> extends React.Component<ContainerProps & T, ob
     };
 
     renderBody(): JSX.Element | null {
-        const {children, body, render, classnames: cx} = this.props;
+        const {children, body, render, classnames: cx, bodyClassName} = this.props;
 
         return (
-            <div className={cx('Container-body')}>
+            <div className={cx('Container-body', bodyClassName)}>
                 {children
                     ? typeof children === 'function'
                         ? (children(this.props) as JSX.Element)

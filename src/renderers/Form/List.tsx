@@ -15,6 +15,11 @@ export interface ListProps extends OptionsControlProps {
 };
 
 export default class ListControl extends React.Component<ListProps, any> {
+    static propsList = [
+        'itemSchema',
+        'value',
+        'renderFormItems'
+    ];
     static defaultProps = {
         clearable: false,
         imageClassName: '',

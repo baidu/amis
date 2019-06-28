@@ -48,6 +48,7 @@ export default class Drawer extends React.Component<DrawerProps, object> {
         'show',
         'resizable',
         'overlay',
+        'body'
     ];
     static defaultProps: Partial<DrawerProps> = {
         title: '',

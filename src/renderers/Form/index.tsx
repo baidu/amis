@@ -129,6 +129,9 @@ export default class Form extends React.Component<FormProps, object> {
     };
     static propsList: Array<string> = [
         "title",
+        "controls",
+        "tabs",
+        "fieldSet",
         "submitText",
         "initFetch",
         "wrapWithPanel",
