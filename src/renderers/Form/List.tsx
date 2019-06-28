@@ -39,7 +39,7 @@ export default class ListControl extends React.Component<ListProps, any> {
     render() {
         const {
             render,
-            classPrefix: ns,
+            itemClassName,
             classnames: cx,
             className,
             disabled,
@@ -56,11 +56,11 @@ export default class ListControl extends React.Component<ListProps, any> {
 
         if (options) {
             body = (
-                <div className={cx('ListControl-items')}>
+                <div className={cx('ListControl-items',)}>
                     {options.map((option, key) => (
                         <div
                             key={key}
-                            className={cx(`ListControl-item`, {
+                            className={cx(`ListControl-item`, itemClassName, {
                                 'is-active': ~selectedOptions.indexOf(option),
                                 'is-disabled': option.disabled || disabled
                             })}
