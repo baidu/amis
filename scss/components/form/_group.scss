@@ -1,3 +1,7 @@
+.#{$ns}Form-groupColumn {
+    margin-bottom: $gap-sm;
+}
+
 @include media-breakpoint-up(md) {
     .#{$ns}Form-group {
         margin-bottom: $Form-item-gap;
@@ -78,6 +82,7 @@
         flex-grow: 1;
         width: 0;
         max-width: 100%;
+        margin-bottom: 0;
     }
 
     @for $i from (1) through $Form--horizontal-columns {
