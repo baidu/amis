@@ -50,6 +50,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         'onClose',
         'onConfirm',
         'show',
+        'body',
         'showCloseButton',
         'actions',
     ];
