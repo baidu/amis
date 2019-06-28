@@ -145,7 +145,6 @@ export default {
                                     type: 'array',
                                     required: true,
                                     minLength: 1,
-                                    value: [{}],
                                     items: {
                                         type: 'text',
                                         placeholder: '值',
