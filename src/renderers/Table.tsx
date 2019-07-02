@@ -1455,12 +1455,13 @@ class TableRow extends React.Component<TableRowProps> {
     handleClick(e: React.MouseEvent<HTMLTableRowElement>) {
         const target: HTMLElement = e.target as HTMLElement;
         const ns = this.props.classPrefix;
+        let formItem;
 
         if (
-            !e.currentTarget.contains(target) ||
-            ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-            // target.closest(`button, a, .${ns}Form-item`)
-            target.closest(`button, a`) // 兼容Picker的embed模式，所以去掉了.${ns}Form-item
+            !e.currentTarget.contains(target) 
+            || ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) 
+            || (formItem = target.closest(`button, a, .${ns}Form-item`)) 
+                && e.currentTarget.contains(formItem)
         ) {
             return;
         }
