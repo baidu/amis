@@ -613,11 +613,13 @@ export default class Form extends React.Component<FormProps, object> {
 
     handleDialogConfirm(values: object[], action:Action, ctx:any, targets:Array<any>) {
         const {
-            store
+            store,
+            onChange,
         } = this.props;
 
-        if (action.mergeData && values.length === 1 && values[0] && targets[0].props.type === 'form') {
+        if ((action.mergeData || store.action.mergeData) && values.length === 1 && values[0] && targets[0].props.type === 'form') {
             store.updateData(values[0]);
+            onChange && onChange(store.data, difference(store.data, store.pristine));
         }
 
         store.closeDialog(true);
@@ -632,11 +634,13 @@ export default class Form extends React.Component<FormProps, object> {
 
     handleDrawerConfirm(values: object[], action:Action, ctx:any, targets:Array<any>) {
         const {
-            store
+            store,
+            onChange
         } = this.props;
 
-        if (action.mergeData && values.length === 1 && values[0] && targets[0].props.type === 'form') {
+        if ((action.mergeData || store.action.mergeData) && values.length === 1 && values[0] && targets[0].props.type === 'form') {
             store.updateData(values[0]);
+            onChange && onChange(store.data, difference(store.data, store.pristine));
         }
 
         store.closeDrawer(true);

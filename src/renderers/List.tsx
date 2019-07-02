@@ -721,11 +721,13 @@ export class ListItem extends React.Component<ListItemProps> {
     handleClick(e: React.MouseEvent<HTMLDivElement>) {
         const target: HTMLElement = e.target as HTMLElement;
         const ns = this.props.classPrefix;
+        let formItem;
 
         if (
-            !e.currentTarget.contains(target) ||
-            ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-            target.closest(`button, a, .${ns}Form-item`)
+            !e.currentTarget.contains(target) 
+            || ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) 
+            || (formItem = target.closest(`button, a, .${ns}Form-item`)) 
+                && e.currentTarget.contains(formItem)
         ) {
             return;
         }
