@@ -819,7 +819,7 @@ export class ListItem extends React.Component<ListItemProps> {
         return null;
     }
 
-    renderChild(node: SchemaNode, region: string = 'body', key: any = 0): JSX.Element {
+    renderChild(node: SchemaNode, region: string = 'body', key: any = 0): React.ReactNode {
         const {render} = this.props;
 
         /*if (Array.isArray(node)) {

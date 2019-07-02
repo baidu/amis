@@ -168,7 +168,7 @@ export class Card extends React.Component<CardProps> {
         return null;
     }
 
-    renderChild(node: SchemaNode, region: string = 'body', key: any = 0): JSX.Element {
+    renderChild(node: SchemaNode, region: string = 'body', key: any = 0): React.ReactNode {
         const {render} = this.props;
 
         if (typeof node === 'string' || typeof node === 'number') {
@@ -194,6 +194,9 @@ export class Card extends React.Component<CardProps> {
     renderFeild(region: string, field: any, key: any, props: any) {
         const {render, classnames: cx, itemIndex} = props;
         const data = this.props.data;
+        if (!isVisible(field, data)) {
+            return ;
+        }
 
         const $$id = field.$$id ? `${field.$$id}-field` : '';
 
