@@ -235,12 +235,9 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         }
 
         // form 里面部分塞 service 的用法
-        if (form !== store && data !== prevProps.data) {
-            const value = getVariable(data as any, name);
-
-            if (typeof value !== 'undefined' && value !== this.getValue()) {
-                this.handleChange(value)
-            }
+        let value:any;
+        if (form !== store && data !== prevProps.data && (value = getVariable(data as any, name)) !== getVariable(prevProps.data, name)) {
+            this.handleChange(value);
         }
     }
 
