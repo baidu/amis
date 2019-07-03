@@ -1,11 +1,14 @@
 export default {
     $schema: "https://houtai.baidu.com/v2/schemas/page.json#",
     title: "表单验证示例",
-    toolbar: "<a target='_blank' href='/docs/renderers#formitem'>文档</a>",
+    toolbar: "<a target='_blank' href='/docs/renderers/Form/FormItem'>文档</a>",
     body: [
         {
             type: "form",
             autoFocus: false,
+            messages: {
+                'validateFailed': '请仔细检查表单规则，部分表单项没通过验证'
+            },
             title: "表单",
             actions: [
                 {
