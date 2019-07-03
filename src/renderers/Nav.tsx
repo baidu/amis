@@ -183,9 +183,11 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
                     ...getExprProperties(link, data as object),
                     active:
                         (!clearActive && link.active)
-                        || link.activeOn
+                        || (
+                            link.activeOn
                             ? evalExpression(link.activeOn as string, data)
-                            : !!(link.hasOwnProperty('to') && env && env.isCurrentUrl(filter(link.to as string, data))),
+                            : !!(link.hasOwnProperty('to') && env && env.isCurrentUrl(filter(link.to as string, data)))
+                        ),
                     unfolded: link.unfolded || (link.children && link.children.some(link => !!link.active)),
                 };
             },
