@@ -6,7 +6,7 @@ export default {
             "type": "audio",
             "autoPlay": false,
             "rates": [1.0, 1.5, 2.0],
-            "src": "http://www.ytmp3.cn/down/32791.mp3",
+            "src": "https://amis.bj.bcebos.com/amis/2019-7/1562137295708/chicane-poppiholla-original-radio-edit%20(1).mp3",
         },
         {
             "type": 'form',
@@ -28,7 +28,7 @@ export default {
                 {
                     "type": "audio",
                     "className": 'v-middle no-border',
-                    "src": "http://www.ytmp3.cn/down/32791.mp3",
+                    "src": "https://amis.bj.bcebos.com/amis/2019-7/1562137295708/chicane-poppiholla-original-radio-edit%20(1).mp3",
                     "controls": ['play']
                 }
             ]
