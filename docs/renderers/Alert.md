@@ -1,6 +1,6 @@
 ## Alert
 
-用来做文字特殊提示，分为四类：提示类、成功类、警告类和危险类。可结合 `visibleOn` 用来做错误信息提示。
+用来做文字特殊提示，分为四类：提示类、成功类、警告类和危险类。
 
 | 属性名 | 类型 | 默认值 | 说明 |
 | --------- | --------- | ------------------------------------------------ | ------------------- |
@@ -15,5 +15,24 @@
     "body": "这是一段提示",
     "level": "warning",
     "showCloseButton": true
+}
+```
+
+可结合 `visibleOn` 用来做错误信息提示。
+
+
+```schema:height="120"
+{
+    "type": "page",
+    "data": {
+        "errMsg": "这是错误提示详情"
+    },
+    "body": {
+        "type": "alert",
+        "visibleOn": "this.errMsg",
+        "body": "${errMsg}",
+        "level": "danger",
+        "showCloseButton": true
+    }
 }
 ```
