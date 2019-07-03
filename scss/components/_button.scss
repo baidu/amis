@@ -326,9 +326,11 @@ input[type="button"] {
 
 .#{$ns}ButtonToolbar {
     margin-left: px2rem(-5px);
+    margin-top: px2rem(-5px);
 
     > .#{$ns}Button {
         margin-left: px2rem(5px);
+        margin-top: px2rem(5px);
     }
 }
 
