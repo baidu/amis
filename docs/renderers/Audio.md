@@ -17,6 +17,6 @@
 {
     "type": "audio",
     "autoPlay": false,
-    "src": "http://www.ytmp3.cn/down/32791.mp3"
+    "src": "https://amis.bj.bcebos.com/amis/2019-7/1562137295708/chicane-poppiholla-original-radio-edit%20(1).mp3"
 }
 ```
