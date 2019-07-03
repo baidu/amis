@@ -7,7 +7,7 @@ export interface ButtonToolbarProps extends RendererProps {
 }
 
 export default class ButtonToolbar extends React.Component<ButtonToolbarProps, object> {
-    static propsList: Array<string> = ['buttons'];
+    static propsList: Array<string> = ['buttons', 'className'];
 
     render() {
         const {buttons, className, classnames: cx, render} = this.props;
