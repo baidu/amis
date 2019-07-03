@@ -38,6 +38,15 @@ const defaultSchema = {
     type: 'tpl',
     tpl: `
     <% if (data.hasOwnProperty('image')) { %>
+        <div style="background-image: url(<%= data.image %>); background-size: contain; background-repeat: no-repeat; background-position: center center;" class="image <%= data.imageClassName %>"></div>
+        <% if (data.hasOwnProperty('title')) { %>
+            <div class="title <%= data.titleClassName %>"><%= data.title %></div>
+        <% } if (data.hasOwnProperty('description')) { %> 
+            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div> 
+        <% } %>
+    <% } else if (data.hasOwnProperty('html')) { %>
+        <%= data.html %>"
+    <% } else if (data.hasOwnProperty('image')) { %>
         <div style="background-image: url(<%= data.image %>)" class="image <%= data.imageClassName %>"></div>
         <% if (data.title) { %>
             <div class="title <%= data.titleClassName %>"><%= data.title %></div>
@@ -45,17 +54,8 @@ const defaultSchema = {
             <div class="description <%= data.descriptionClassName %>"><%= data.description %></div> 
         <% } %>
     <% } else if (data.hasOwnProperty('html')) { %>
-        <%= data.html %>"
-    <% } else if (data.image) { %>
-        <div style="background-image: url(<%= data.image %>)" class="image <%= data.imageClassName %>"></div>
-        <% if (data.title) { %>
-            <div class="title <%= data.titleClassName %>"><%= data.title %></div>
-        <% } if (data.description) { %> 
-            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div> 
-        <% } %>
-    <% } else if (data.html) { %>
         <%= data.html %>
-    <% } else if (data.item) { %>
+    <% } else if (data.hasOwnproperty('item')) { %>
         <%= data.item %>
     <% } else { %>
         <%= '未找到渲染数据' %>
