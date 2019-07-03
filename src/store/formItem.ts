@@ -258,7 +258,7 @@ export const FormItemStore = types
             rules && (self.rules = rules);
 
             if (
-                typeof value !== 'undefined' && !hasOwnProperty(form.data, self.name)
+                typeof value !== void 0 && self.value === void 0
             ) {
                 form.setValueByName(self.name, value, true);
             }
