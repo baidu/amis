@@ -74,6 +74,7 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
 -   [Chart](./renderers/Chart.md): 图表渲染器
 -   [Collapse](./renderers/Collapse.md): 折叠器
 -   [Carousel](./renderers/Carousel.md): 轮播图
+-   [Alert](./renderers/Alert.md): 提示框
 -   [Audio](./renderers/Audio.md): 音频播放器
 -   [Video](./renderers/Video.md): 视频播放器
 -   [Table](./renderers/Table.md): 表格展示

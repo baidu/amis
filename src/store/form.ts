@@ -256,7 +256,7 @@ export const FormStore = ServiceStore
             }
         });
 
-        const submit:(fn?:(values:object) => Promise<any>, hooks?: Array<() => Promise<any>>) => Promise<any> = flow(function *submit(fn:any, hooks?: Array<() => Promise<any>>) {
+        const submit:(fn?:(values:object) => Promise<any>, hooks?: Array<() => Promise<any>>, failedMessage?: string) => Promise<any> = flow(function *submit(fn:any, hooks?: Array<() => Promise<any>>, failedMessage?: string) {
             self.submited = true;
             self.submiting = true;
 
@@ -264,7 +264,7 @@ export const FormStore = ServiceStore
                 let valid = yield validate(hooks);
 
                 if (!valid) {
-                    (getRoot(self) as IRendererStore).notify('error', '表单验证失败，请仔细检查');
+                    (getRoot(self) as IRendererStore).notify('error', failedMessage || '表单验证失败，请仔细检查');
                     throw new Error('验证失败');
                 }
 

@@ -100,6 +100,7 @@ export interface FormProps extends RendererProps, FormSchema {
         fetchFailed?: string;
         saveSuccess?: string;
         saveFailed?: string;
+        validateFailed?: string;
     };
 }
 
@@ -398,10 +399,11 @@ export default class Form extends React.Component<FormProps, object> {
 
     submit(fn?:(values:object) => Promise<any>):Promise<any> {
         const {
-            store
+            store,
+            messages
         } = this.props;
 
-        return store.submit(fn, this.hooks['validate' || []]);
+        return store.submit(fn, this.hooks['validate' || []], messages && messages.validateFailed);
     }
 
     reset() {
