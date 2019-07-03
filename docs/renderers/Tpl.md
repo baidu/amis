@@ -5,16 +5,28 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 ```schema:height="200"
 {
   "data": {
-    "user": "no one"
+    "user": "no one",
+    "items": [
+      "A",
+      "B",
+      "C"
+    ]
   },
-  "body": {
-    "type": "tpl",
-    "tpl": "User: <%= data.user%>"
-  }
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "User: <%= data.user%>"
+    },
+    {
+      "type": "tpl",
+      "inline": false,
+      "tpl": "<% if (data.items && data.items.length) { %>Array: <% data.items.forEach(function(item) { %> <span class='label label-default'><%= item %></span> <% }); %><% } %>"
+    }
+  ]
 }
 ```
 
-可用 js 方法。
+仔细看示例不难发现，语法跟 ejs 很像，`<% 这里面是 js 语句 %>`，所以只要会写 js，做页面渲染没有什么问题。另外以下是一些可用 js 方法。
 
 -   `formatDate(value, format='LLL', inputFormat='')` 格式化时间格式，关于 format 请前往 [moment](http://momentjs.com/) 文档页面。
 -   `formatTimeStamp(value, format='LLL')` 格式化时间戳为字符串。
