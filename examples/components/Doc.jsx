@@ -435,6 +435,13 @@ export default {
                     }),
                 },
                 {
+                    label: 'Alert',
+                    path: '/docs/renderers/Alert',
+                    getComponent: (location, cb) => require(['../../docs/renderers/Alert.md'], (doc) => {
+                        cb(null, makeMarkdownRenderer(doc));
+                    }),
+                },
+                {
                     label: 'Action',
                     path: '/docs/renderers/Action',
                     getComponent: (location, cb) => require(['../../docs/renderers/Action.md'], (doc) => {
