@@ -14,6 +14,8 @@ export interface DropDownButtonProps extends RendererProps {
     buttons?: Array<any>;
     caretIcon?: string;
     iconOnly?: boolean;
+    defaultIsOpened?: boolean;
+    closeOnOutside?: boolean;
 }
 
 export interface DropDownButtonState {
@@ -22,7 +24,7 @@ export interface DropDownButtonState {
 
 export default class DropDownButton extends React.Component<DropDownButtonProps, DropDownButtonState> {
     state: DropDownButtonState = {
-        isOpened: false,
+        isOpened: this.props.defaultIsOpened || false,
     };
 
     static defaultProps = {
@@ -73,11 +75,12 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
             classPrefix: ns, 
             children, 
             align,
-            closeOnClick
+            closeOnClick,
+            closeOnOutside
         } = this.props;
 
         let body = (
-            <RootCloseWrapper disabled={!this.state.isOpened} onRootClose={this.close}>
+            <RootCloseWrapper disabled={!this.state.isOpened} onRootClose={closeOnOutside !== false ? this.close: noop}>
                 <ul className={cx('DropDown-menu')} onClick={closeOnClick ? this.close : noop}>
                     {children
                         ? children
