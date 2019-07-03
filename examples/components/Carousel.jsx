@@ -3,7 +3,7 @@ export default {
     title: '轮播图',
     data: {
         carousel0: [
-            'https://www.baidu.com/img/bd_logo1.png',
+            'https://hiphotos.baidu.com/fex/%70%69%63/item/bd3eb13533fa828b13b24500f31f4134960a5a44.jpg',
             'https://video-react.js.org/assets/poster.png',
             'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
         ],
@@ -12,7 +12,7 @@ export default {
                 html: '<div style="width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;">carousel data in form</div>'
             },
             {
-                image: 'https://www.baidu.com/img/bd_logo1.png'
+                image: 'https://hiphotos.baidu.com/fex/%70%69%63/item/bd3eb13533fa828b13b24500f31f4134960a5a44.jpg'
             },
             {
                 image: 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
@@ -53,7 +53,7 @@ export default {
                         height: '300',
                         itemSchema: {
                             type: 'tpl',
-                            tpl: '<img src=\"<%=data.item%>\" />'
+                            tpl: '<div style="height: 100%; background-image: url(<%=data.item%>); background-position: center center; background-size: cover;"></div>'
                         }
                     }
                 }
