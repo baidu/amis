@@ -59,7 +59,7 @@ export default class ListControl extends React.Component<ListProps, any> {
 
         let body:JSX.Element | null = null;
 
-        if (options) {
+        if (options && options.length) {
             body = (
                 <div className={cx('ListControl-items',)}>
                     {options.map((option, key) => (
