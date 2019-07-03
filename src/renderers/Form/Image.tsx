@@ -617,10 +617,11 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
             };
 
             files.splice(index, 1, file);
+            const needUploading = !!(this.current || find(files, file => file.state === 'pending'));
 
             this.setState({
                 files: files
-            }, file.state == 'uploaded' || file.state == 'init' ? this.onChange : undefined);
+            }, !needUploading ? this.onChange : undefined);
         };
         img.src = imgDom.src;
     }
@@ -802,7 +803,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                 {this.renderCompressOptions()}
 
                 {!autoUpload && !hideUploadButton && files.length ? (
-                    <button className={cx('btn m-r-xs', btnUploadClassName)} disabled={!hasPending} onClick={this.toggleUpload}>
+                    <button type="button" className={cx('btn m-r-xs', btnUploadClassName)} disabled={!hasPending} onClick={this.toggleUpload}>
                         {uploading ? '暂停上传' : '开始上传'}
                     </button>
                 ) : null}
