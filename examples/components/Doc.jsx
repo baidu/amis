@@ -174,13 +174,6 @@ export default {
                             }),
                         },
                         {
-                            label: 'Divider',
-                            path: '/docs/renderers/Form/Divider',
-                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Divider.md'], (doc) => {
-                                cb(null, makeMarkdownRenderer(doc));
-                            }),
-                        },
-                        {
                             label: 'Select',
                             path: '/docs/renderers/Form/Select',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/Select.md'], (doc) => {
@@ -226,6 +219,13 @@ export default {
                             label: 'Switch',
                             path: '/docs/renderers/Form/Switch',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/Switch.md'], (doc) => {
+                                cb(null, makeMarkdownRenderer(doc));
+                            }),
+                        },
+                        {
+                            label: 'Rating',
+                            path: '/docs/renderers/Form/Rating',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Rating.md'], (doc) => {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
@@ -405,6 +405,13 @@ export default {
                             }),
                         },
                     ]
+                },
+                {
+                    label: 'Divider',
+                    path: '/docs/renderers/Divider',
+                    getComponent: (location, cb) => require(['../../docs/renderers/Divider.md'], (doc) => {
+                        cb(null, makeMarkdownRenderer(doc));
+                    }),
                 },
                 {
                     label: 'Wizard',

@@ -3,7 +3,7 @@
 时间类型。
 
 -   `type` 请设置成 `time`
--   `format` 默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 moment.
+-   `format` 默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 [moment](http://momentjs.com/).
 -   `inputFormat` 默认 `HH:mm` 用来配置显示的时间格式。
 -   `placeholder` 默认 `请选择日期`
 -   `timeConstraints` 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)
