@@ -4,7 +4,7 @@
 
 -   `type` 请设置成 `divider`
 
-```schema:height="200" scope="form-item"
+```schema:height="200"
 {
   "type": "divider"
 }
