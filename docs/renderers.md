@@ -30,6 +30,8 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
     -   [Checkbox](./renderers/Form/Checkbox.md): 勾选框
     -   [Checkboxes](./renderers/Form/Checkboxes.md): 复选框
     -   [Radios](./renderers/Form/Radios.md): 单选框
+    -   [City](./renderers/Form/City.md): 城市选择
+    -   [Rating](./renderers/Form/Rating.md): 评分
     -   [Switch](./renderers/Form/Switch.md): 可选框，和 checkbox 完全等价
     -   [Date](./renderers/Form/Date.md): 日期类型
     -   [Datetime](./renderers/Form/Datetime.md): 日期时间类型
@@ -58,6 +60,7 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
     -   [Static](./renderers/Static.md): 纯用来展现数据的
 -   [Wizard](./renderers/Wizard.md): 表单向导
 -   [Tpl](./renderers/Tpl.md): 支持用 JS 模板引擎来组织输出
+-   [Each](./renderers/Each.md): 基于现有变量循环输出渲染器
 -   [Plain](./renderers/Plain.md): 单纯的文字输出
 -   [Html](./renderers/Html.md): html, 当需要用到变量时，请用 Tpl 代替
 -   [Action](./renderers/Action.md): 一种特殊的渲染器，它本身是一个按钮，同时它能触发事件

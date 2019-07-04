@@ -3,7 +3,7 @@
 日期类型。
 
 -   `type` 请设置成 `date`
--   `format` 默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 moment.
+-   `format` 默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 [moment](http://momentjs.com/).
 -   `inputFormat` 默认 `YYYY-MM-DD` 用来配置显示的时间格式。
 -   `placeholder` 默认 `请选择日期`
 -   `value` 这里面 value 需要特殊说明一下，因为支持相对值。如：
@@ -11,7 +11,7 @@
     -   `+2days` 2 天后
     -   `-10week` 十周前
 -   `minDate` 限制最小日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
--   `maxDate` 限制最小日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
+-   `maxDate` 限制最大日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
 
     可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。
 
