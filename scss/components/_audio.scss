@@ -37,18 +37,13 @@
     display: none;
 }
 
-.#{$ns}Audio--inline {
-    display: inline-block;
-    height: $Audio-height;
-    overflow: hidden;
-}
-
 .#{$ns}Audio {
     box-sizing: border-box;
     height: $Audio-height;
     line-height: $Audio-lineHeight;
     border: $Audio-border;
     display: inline-block;
+    overflow: hidden;
     padding-left: $Audio-item-margin;
 
     &-rates {
