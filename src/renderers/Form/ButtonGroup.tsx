@@ -81,7 +81,8 @@ export default class ButtonGroupControl extends React.Component<ButtonGroupProps
                 activeLevel: btnActiveLevel,
                 ...button
             }, {
-                key
+                key,
+                className: cx(button.className, btnClassName),
             }));
         }
 

@@ -191,6 +191,10 @@
     color: $text--muted-color;
     font-size: $fontSizeSm;
     margin-left: $gap-xs;
+
+    &:empty {
+        display: none;
+    }
 }
 
 .#{$ns}ComboControl.is-inline {

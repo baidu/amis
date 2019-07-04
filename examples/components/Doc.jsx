@@ -617,9 +617,9 @@ export default {
                     }),
                 },
                 {
-                    label: 'Button-Group',
-                    path: '/docs/renderers/Button-Group',
-                    getComponent: (location, cb) => require(['../../docs/renderers/Button-Group.md'], (doc) => {
+                    label: 'ButtonGroup',
+                    path: '/docs/renderers/ButtonGroup',
+                    getComponent: (location, cb) => require(['../../docs/renderers/ButtonGroup.md'], (doc) => {
                         cb(null, makeMarkdownRenderer(doc));
                     }),
                 },
