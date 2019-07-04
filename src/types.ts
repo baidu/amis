@@ -67,6 +67,7 @@ export interface Button {
     icon?: string;
     size?: string;
     disabled?: boolean;
+    className?: string;
 };
 
 export type SchemaNode = number | string | Schema | SchemaArray;
