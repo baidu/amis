@@ -13,8 +13,7 @@
 {
     "type": "alert",
     "body": "这是一段提示",
-    "level": "warning",
-    "showCloseButton": true
+    "level": "warning"
 }
 ```
 
