@@ -25,6 +25,7 @@ import {evalExpression, filter} from '../utils/tpl';
 import {isValidApi, buildApi} from '../utils/api';
 import omit = require('lodash/omit');
 import find = require('lodash/find');
+import Html from '../components/Html';
 
 interface CRUDProps extends RendererProps {
     api?: Api;
@@ -1264,7 +1265,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                         </span>
                         <span className={cx('Crud-valueLabel')}>
                             {labelTpl
-                                ? filter(labelTpl, item)
+                                ? (<Html html={filter(labelTpl, item)} />)
                                 : getVariable(item, labelField || 'label') || getVariable(item, primaryField || 'id')}
                         </span>
                     </div>

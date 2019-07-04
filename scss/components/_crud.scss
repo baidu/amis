@@ -17,7 +17,7 @@
 
     &-value {
         cursor: pointer;
-        vertical-align: top;
+        vertical-align: middle;
         user-select: none;
         line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
         display: inline-block;
@@ -59,7 +59,7 @@
         user-select: none;
         margin-left: $gap-xs;
         margin-top: $gap-xs;
-        vertical-align: top;
+        vertical-align: middle;
     }
 
     &-toolbar-item {

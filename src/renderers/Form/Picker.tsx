@@ -12,8 +12,10 @@ import {
     Action
 } from '../../types';
 import find = require('lodash/find');
-import {anyChanged, autobind} from '../../utils/helper';
+import {anyChanged, autobind, getVariable} from '../../utils/helper';
 import findIndex = require('lodash/findIndex');
+import Html from '../../components/Html';
+import { filter } from '../../utils/tpl';
 
 export interface PickerProps extends OptionsControlProps {
     modalMode: 'dialog' | 'drawer';
@@ -172,6 +174,7 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
             classPrefix: ns,
             selectedOptions,
             labelField,
+            labelTpl,
             disabled
         } = this.props;
         return (
@@ -181,7 +184,11 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
                         'is-disabled': disabled
                     })}>
                         <span data-tooltip="删除" data-position="bottom" className={`${ns}Picker-valueIcon`} onClick={this.removeItem.bind(this, index)}>×</span>
-                        <span className={`${ns}Picker-valueLabel`}>{item[labelField || 'label']}</span>
+                        <span className={`${ns}Picker-valueLabel`}>
+                        {labelTpl
+                            ? (<Html html={filter(labelTpl, item)} />)
+                            : getVariable(item, labelField || 'label') || getVariable(item, 'id')}
+                        </span>
                     </div>
                 ))}
             </div>
@@ -235,13 +242,13 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
                             className={`${ns}Picker-pickBtn`}
                             tooltip="点击选择"
                             tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
-                            level="link"
+                            level="info"
                             size="sm"
                             disabled={disabled}
                             onClick={this.open}
                             iconOnly
                         >
-                            <i className="fa fa-crosshairs" />
+                        选定
                         </Button>
 
                         {render('modal', {
