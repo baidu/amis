@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:tabs 1`] = `
+<div>
+  <div
+    class="a-Tabs"
+    id="0"
+  >
+    <ul
+      class="a-Tabs-links nav"
+      role="tablist"
+    >
+      <li
+        class="a-Tabs-link active"
+        role="presentation"
+      >
+        <a
+          aria-controls="0-pane-0"
+          aria-selected="true"
+          href="#"
+          id="0-tab-0"
+          role="tab"
+        >
+          基本配置
+        </a>
+      </li>
+      <li
+        class="a-Tabs-link"
+        role="presentation"
+      >
+        <a
+          aria-controls="0-pane-1"
+          aria-selected="false"
+          href="#"
+          id="0-tab-1"
+          role="tab"
+          tabindex="-1"
+        >
+          其他配置
+        </a>
+      </li>
+    </ul>
+    <div
+      class="a-Tabs-content tab-content"
+    >
+      <div
+        aria-hidden="false"
+        aria-labelledby="0-tab-0"
+        class="fade tab-pane active in"
+        id="0-pane-0"
+        role="tabpanel"
+      >
+        <span
+          class="a-TplField"
+        >
+          <p>
+            tab1 内容
+          </p>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
