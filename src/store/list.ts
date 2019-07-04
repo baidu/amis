@@ -11,7 +11,7 @@ import {
 } from './iRenderer';
 import isEqual = require('lodash/isEqual');
 import find = require('lodash/find');
-import { createObject, isObject } from "../utils/helper";
+import { createObject, isObject, guid } from "../utils/helper";
 import { evalExpression } from "../utils/tpl";
 
 export const Item = types
@@ -172,7 +172,8 @@ export const ListStore = iRendererStore
                 };
 
                 return {
-                    id: String((item as any)[self.primaryField] || key),
+                    // id: String((item as any)[self.primaryField] || key),
+                    id: guid(),
                     index: key,
                     newIndex: key,
                     pristine: item,

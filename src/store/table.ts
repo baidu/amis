@@ -13,7 +13,7 @@ import {
 import { resolveVariable } from "../utils/tpl-builtin";
 import isEqual = require('lodash/isEqual');
 import find = require('lodash/find');
-import { isBreakpoint, createObject, isObject, isVisible } from "../utils/helper";
+import { isBreakpoint, createObject, isObject, isVisible, guid } from "../utils/helper";
 import { evalExpression } from "../utils/tpl";
 
 export const Column = types
@@ -511,7 +511,8 @@ export const TableStore = iRendererStore
                 };
 
                 return {
-                    id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
+                    // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
+                    id: guid(),
                     key: String(`${pindex}-${depth}-${key}`),
                     depth: depth,
                     index: key,
@@ -531,7 +532,8 @@ export const TableStore = iRendererStore
             self.expandedRows.clear();
 
             let arr:Array<SRow> = rows.map((item, key) => ({
-                id: getEntryId ? getEntryId(item, key) : String(item && (item as any)[self.primaryField] || `${key}-1-${key}`),
+                // id: getEntryId ? getEntryId(item, key) : String(item && (item as any)[self.primaryField] || `${key}-1-${key}`),
+                id: getEntryId ? getEntryId(item, key) : guid(),
                 key: String(`${key}-1-${key}`),
                 depth: 1,// 最大父节点默认为第一层，逐层叠加
                 index: key,
