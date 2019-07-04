@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:button-toolbar 1`] = `
+<div>
+  <div
+    class="a-ButtonToolbar show"
+  >
+    <button
+      class="a-Button a-Button--default"
+      type="button"
+    >
+      <span>
+        按钮1
+      </span>
+    </button>
+    <button
+      class="a-Button a-Button--default"
+      type="button"
+    >
+      <span>
+        按钮2
+      </span>
+    </button>
+  </div>
+</div>
+`;

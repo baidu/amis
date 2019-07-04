@@ -3,6 +3,7 @@ import upperFirst = require('lodash/upperFirst');
 import {Renderer, RendererProps} from '../factory';
 import {autobind} from '../utils/helper';
 import {volumeIcon, muteIcon, playIcon, pauseIcon} from '../components/icons';
+import {resolveVariable} from '../utils/tpl-builtin';
 
 export interface AudioProps extends RendererProps {
     className?: string;
@@ -31,8 +32,8 @@ export interface AudioState {
 
 export class Audio extends React.Component<AudioProps, AudioState> {
     audio: any;
-    progressTimeout: any;
-    durationTimeout: any;
+    progressTimeout: number;
+    durationTimeout: number;
 
     static defaultProps: Pick<
         AudioProps,
@@ -48,7 +49,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     };
 
     state: AudioState = {
-        src: this.props.value || this.props.src || '',
+        src: this.props.value || this.props.src || resolveVariable(this.props.name, this.props.data) || '',
         isReady: false,
         muted: false,
         playing: false,
@@ -393,30 +394,34 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         } = this.props;
         const {muted, src} = this.state;
 
-        return (
-            <div className={cx('Audio', className, inline ? 'Audio--inline' : '')}>
-                <audio
-                    className={cx('Audio-original')}
-                    ref={this.audioRef}
-                    onCanPlay={this.load}
-                    autoPlay={autoPlay}
-                    controls
-                    muted={muted}
-                    loop={loop}>
-                    <source src={src} />
-                </audio>
-                <div className={cx('Audio-controls')}>
-                    {controls && controls.map((control:string, index:number) => {
-                        control = 'render' + upperFirst(control);
-                        const method:'renderRates'|'renderPlay'|'renderTime'|'renderProcess'|'renderVolume'|'render' = control as any;
-                        return (
-                            <React.Fragment key={index}>
-                                {this[method]()}
-                            </React.Fragment>
-                        )
-                    })}
+        const body = (
+                <div className={cx('Audio', className)}>
+                    <audio
+                        className={cx('Audio-original')}
+                        ref={this.audioRef}
+                        onCanPlay={this.load}
+                        autoPlay={autoPlay}
+                        controls
+                        muted={muted}
+                        loop={loop}>
+                        <source src={src} />
+                    </audio>
+                    <div className={cx('Audio-controls')}>
+                        {controls && controls.map((control:string, index:number) => {
+                            control = 'render' + upperFirst(control);
+                            const method:'renderRates'|'renderPlay'|'renderTime'|'renderProcess'|'renderVolume'|'render' = control as any;
+                            return (
+                                <React.Fragment key={index}>
+                                    {this[method]()}
+                                </React.Fragment>
+                            )
+                        })}
+                    </div>
                 </div>
-            </div>
+            );
+
+        return (
+            inline ? body : <div>{body}</div>
         );
     }
 }

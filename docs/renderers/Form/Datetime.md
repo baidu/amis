@@ -3,7 +3,7 @@
 日期时间类型。
 
 -   `type` 请设置成 `datetime`
--   `format` 默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 moment.
+-   `format` 默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 [moment](http://momentjs.com/).
 -   `inputFormat` 默认 `YYYY-MM-DD HH:mm:ss` 用来配置显示的时间格式。
 -   `placeholder` 默认 `请选择日期`
 -   `timeConstraints` 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)
@@ -12,7 +12,7 @@
     -   `+2days` 2 天后
     -   `-10week` 十周前
 -   `minDate` 限制最小日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
--   `maxDate` 限制最小日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
+-   `maxDate` 限制最大日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
 -   `minTime` 限制最小时间，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
 -   `maxTime` 限制最大时间，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
 

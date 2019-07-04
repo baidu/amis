@@ -3,10 +3,10 @@
 日期范围类型。
 
 -   `type` 请设置成 `date-range`
--   `format` 默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 moment.
+-   `format` 默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 [moment](http://momentjs.com/).
 -   `inputFormat` 默认 `HH:mm` 用来配置显示的时间格式。
 -   `minDate` 限制最小日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
--   `maxDate` 限制最小日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
+-   `maxDate` 限制最大日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
 -   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="250" scope="form"

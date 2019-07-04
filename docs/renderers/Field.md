@@ -106,8 +106,8 @@ todo
 用来显示日期。
 
 -   `type` 请设置为 `date`。
--   `format` 默认为 `YYYY-MM-DD`，时间格式，请参考 moment 中的格式用法。
--   `valueFormat` 默认为 `X`，时间格式，请参考 moment 中的格式用法。
+-   `format` 默认为 `YYYY-MM-DD`，时间格式，请参考 [moment](http://momentjs.com/) 中的格式用法。
+-   `valueFormat` 默认为 `X`，时间格式，请参考 [moment](http://momentjs.com/) 中的格式用法。
 
 ### Mapping(Field)
 
