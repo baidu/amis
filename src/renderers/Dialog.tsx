@@ -12,6 +12,7 @@ import {guid} from '../utils/helper';
 import {reaction} from 'mobx';
 import {closeIcon} from '../components/icons';
 import {ModalStore, IModalStore} from '../store/modal';
+import { findDOMNode } from 'react-dom';
 
 export interface DialogProps extends RendererProps {
     title?: string; // 标题
@@ -217,7 +218,12 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
             this.setState({
                 entered: true,
             });
-        document.activeElement && (document.activeElement as HTMLElement).blur();
+
+        const activeElem = document.activeElement as HTMLElement;
+        if (activeElem) {
+            const dom = findDOMNode(this) as HTMLElement;
+            dom && !dom.contains(activeElem) && activeElem.blur();
+        }
     }
 
     handleExited() {
