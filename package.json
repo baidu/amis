@@ -54,6 +54,7 @@
     "react": "^16.8.6",
     "react-addons-update": "15.6.2",
     "react-bootstrap": "^0.32.3",
+    "react-overlays": "^0.8.3",
     "react-color": "2.13.8",
     "react-cropper": "1.0.0",
     "react-date-range": "0.9.4",
