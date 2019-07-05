@@ -112,13 +112,14 @@ export function calculatePosition(placement: any, overlayNode: any, target: any,
     let positionLeft = 0,
         positionTop = 0,
         arrowOffsetLeft: any = '',
-        arrowOffsetTop: any = '';
+        arrowOffsetTop: any = '',
+        activePlacement: string = placement;
 
     if (~placement.indexOf('-')) {
         const tests = placement.split(/\s+/);
 
         while (tests.length) {
-            const current = tests.shift();
+            const current = activePlacement = tests.shift();
             let [atX, atY, myX, myY] = current.split('-');
             myX = myX || atX;
             myY = myY || atY;
@@ -155,6 +156,7 @@ export function calculatePosition(placement: any, overlayNode: any, target: any,
                     transformed.y > 0 &&
                     transformed.y + transformed.height < window.innerHeight
                 ) {
+                    
                     break;
                 }
             }
@@ -200,5 +202,5 @@ export function calculatePosition(placement: any, overlayNode: any, target: any,
         throw new Error(`calcOverlayPosition(): No such placement of "${placement}" found.`);
     }
 
-    return {positionLeft, positionTop, arrowOffsetLeft, arrowOffsetTop};
+    return {positionLeft, positionTop, arrowOffsetLeft, arrowOffsetTop, activePlacement};
 }

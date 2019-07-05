@@ -83,6 +83,7 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
     render() {
         const {
             placement,
+            activePlacement,
             positionTop,
             positionLeft,
             arrowOffsetLeft,
@@ -107,7 +108,7 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
         };
 
         return (
-            <div className={cx(`${ns}PopOver`, className, `${ns}PopOver--${placement}`)} style={outerStyle} {...rest}>
+            <div className={cx(`${ns}PopOver`, className, `${ns}PopOver--${activePlacement}`)} style={outerStyle} {...rest}>
                 {overlay ? <div className={`${ns}PopOver-overlay`} onClick={onHide} /> : null}
                 {children}
             </div>
