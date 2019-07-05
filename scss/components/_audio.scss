@@ -1,8 +1,5 @@
 @mixin input-range {
-    width: $Audio-input-width;
-    display: inline-block;
     -webkit-appearance: none;
-    vertical-align: middle;
     outline: none;
     border: none;
     padding: 0;
@@ -37,17 +34,25 @@
     display: none;
 }
 
+.#{$ns}Audio--inline {
+    display: inline-block;
+}
+
 .#{$ns}Audio {
     box-sizing: border-box;
     height: $Audio-height;
     line-height: $Audio-lineHeight;
     border: $Audio-border;
-    display: inline-block;
-    overflow: hidden;
     padding-left: $Audio-item-margin;
+    overflow: hidden;
+
+    &-controls {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
 
     &-rates {
-        display: inline-block;
         width: $Audio-rate-width;
         height: $Audio-rate-height;
         text-align: center;
@@ -57,17 +62,14 @@
     }
 
     &-rateControl {
-        display: inline-block;
         margin-right: $Audio-item-margin;
 
         &::after {
-            display: inline-block;
             clear: both;
             content: "";
         }
 
         .#{$ns}Audio-rateControlItem {
-            display: inline-block;
             width: $Audio-rate-width;
             height: $Audio-rate-height;
             background: $Audio-rate-bg;
@@ -80,7 +82,6 @@
     }
 
     &-play {
-        display: inline-block;
         width: $Audio-play-width;
         cursor: pointer;
         margin-right: $Audio-item-margin;
@@ -91,15 +92,14 @@
     }
 
     &-times {
-        display: inline-block;
         width: $Audio-times-width;
         margin-right: $Audio-item-margin;
         cursor: default;
+        flex-shrink: 0;
     }
 
     &-process {
-        display: inline-block;
-        width: $Audio-process-width;
+        flex: auto;
         cursor: pointer;
         margin-right: $Audio-item-margin;
 
@@ -109,9 +109,9 @@
     }
 
     &-volume {
-        display: inline-block;
         width: $Audio-volume-width;
         height: $Audio-volume-height;
+        line-height: $Audio-volume-lineHeight;
         cursor: pointer;
         margin-right: $Audio-item-margin;
 
@@ -121,10 +121,12 @@
     }
 
     &-volumeControl {
-        display: inline-block;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         width: $Audio-volumeControl-width;
-        height: $Audio-volumeControl-height;
-        line-height: $Audio-volumeControl-lineHeight;
+        height: $Audio-volume-height;
+        line-height: $Audio-volume-lineHeight;
         margin-right: $Audio-item-margin;
 
         input[type="range"] {
@@ -133,7 +135,6 @@
 
         .#{$ns}Audio-volumeControlIcon {
             margin-right: $Audio-item-margin;
-            display: inline-block;
             cursor: pointer;
         }
 

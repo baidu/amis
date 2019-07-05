@@ -394,34 +394,30 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         } = this.props;
         const {muted, src} = this.state;
 
-        const body = (
-                <div className={cx('Audio', className)}>
-                    <audio
-                        className={cx('Audio-original')}
-                        ref={this.audioRef}
-                        onCanPlay={this.load}
-                        autoPlay={autoPlay}
-                        controls
-                        muted={muted}
-                        loop={loop}>
-                        <source src={src} />
-                    </audio>
-                    <div className={cx('Audio-controls')}>
-                        {controls && controls.map((control:string, index:number) => {
-                            control = 'render' + upperFirst(control);
-                            const method:'renderRates'|'renderPlay'|'renderTime'|'renderProcess'|'renderVolume'|'render' = control as any;
-                            return (
-                                <React.Fragment key={index}>
-                                    {this[method]()}
-                                </React.Fragment>
-                            )
-                        })}
-                    </div>
-                </div>
-            );
-
         return (
-            inline ? body : <div>{body}</div>
+            <div className={cx('Audio', className, inline ? 'Audio--inline' : '')}>
+                <audio
+                    className={cx('Audio-original')}
+                    ref={this.audioRef}
+                    onCanPlay={this.load}
+                    autoPlay={autoPlay}
+                    controls
+                    muted={muted}
+                    loop={loop}>
+                    <source src={src} />
+                </audio>
+                <div className={cx('Audio-controls')}>
+                    {controls && controls.map((control:string, index:number) => {
+                        control = 'render' + upperFirst(control);
+                        const method:'renderRates'|'renderPlay'|'renderTime'|'renderProcess'|'renderVolume'|'render' = control as any;
+                        return (
+                            <React.Fragment key={index}>
+                                {this[method]()}
+                            </React.Fragment>
+                        )
+                    })}
+                </div>
+            </div>
         );
     }
 }
