@@ -7,6 +7,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable} from '../theme';
+import { camel } from '../utils/helper';
 
 export interface Offset {
     x: number;
@@ -108,7 +109,7 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
         };
 
         return (
-            <div className={cx(`${ns}PopOver`, className, `${ns}PopOver--${activePlacement}`)} style={outerStyle} {...rest}>
+            <div className={cx(`${ns}PopOver`, className, `${ns}PopOver--${camel(activePlacement)}`)} style={outerStyle} {...rest}>
                 {overlay ? <div className={`${ns}PopOver-overlay`} onClick={onHide} /> : null}
                 {children}
             </div>
