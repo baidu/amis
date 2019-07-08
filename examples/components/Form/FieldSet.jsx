@@ -19,6 +19,7 @@ export default {
                 {
                     type: 'fieldSet',
                     title: '基本信息',
+                    collapsable: true,
                     controls: [
                         {
                             type: 'group',
