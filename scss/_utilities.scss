@@ -580,7 +580,8 @@
     margin: 50px;
 }
 
-.m-n {
+.m-n,
+.m-none {
     margin: 0 !important;
 }
 
@@ -880,6 +881,7 @@
     padding: 50px;
 }
 
+.p-n,
 .p-none {
     padding: 0 !important;
 }
