@@ -19,15 +19,16 @@ import Overlay from './Overlay';
 import {classPrefix, classnames} from '../themes/default';
 import {ClassNamesFn, themeable} from '../theme';
 import {findDOMNode} from 'react-dom';
-CalendarContainer.prototype.render = (function(_super) {
-    return function() {
+
+class HackedCalendarContainer extends CalendarContainer {
+    render() {
         if (this.props.view === 'days') {
             return <CustomDaysView {...this.props.viewProps} />;
         }
 
-        return _super.apply(this, arguments);
-    };
-})(CalendarContainer.prototype.render);
+        return super.render();
+    }
+}
 
 // hack 后，view 中可以调用 setDateTimeState
 class BaseDatePicker extends ReactDatePicker {
@@ -48,7 +49,57 @@ class BaseDatePicker extends ReactDatePicker {
                 return props;
             };
         }
-        return super.render();
+        
+        // TODO: Make a function or clean up this code,
+		// logic right now is really hard to follow
+		let className = 'rdt' + (this.props.className ?
+                    ( Array.isArray( this.props.className ) ?
+                    ' ' + this.props.className.join( ' ' ) : ' ' + this.props.className) : ''),
+            children:Array<any> = [];
+
+        if ( this.props.input ) {
+            var finalInputProps = {
+                type: 'text',
+                className: 'form-control',
+                onClick: this.openCalendar,
+                onFocus: this.openCalendar,
+                onChange: this.onInputChange,
+                onKeyDown: this.onInputKey,
+                value: this.state.inputValue,
+                ...this.props.inputProps
+            };
+
+            if ( this.props.renderInput ) {
+                children = [(
+                    <div key='i'>
+                        {this.props.renderInput(finalInputProps, this.openCalendar, this.closeCalendar)}
+                    </div>
+                )];
+            } else {
+                children= [
+                    <input key="i" {...finalInputProps} />
+                ];
+            }
+        } else {
+            className += ' rdtStatic';
+        }
+
+        if ( this.state.open )
+            className += ' rdtOpen';
+
+        return (
+            <div className={className}>
+                {children.concat(
+                    <div key="dt" className="rdtPicker">
+                        <HackedCalendarContainer
+                            view={this.state.currentView}
+                            viewProps={this.getComponentProps()}
+                            onClickOutside={this.handleClickOutside}
+                        />
+                    </div>
+                )}
+            </div>
+        );
     }
 }
 
