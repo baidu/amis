@@ -37,8 +37,6 @@ export interface TableProps extends RendererProps {
     className?: string;
     headerClassName?: string;
     footerClassName?: string;
-    actionsClassName?: string;
-    bodyClassName?: string;
     store: ITableStore;
     columns?: Array<Column>;
     tableClassName?: string;
