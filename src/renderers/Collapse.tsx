@@ -59,7 +59,7 @@ export default class Collapse extends React.Component<CollapseProps, CollapseSta
     }
 
     toggleCollapsed() {
-        this.setState({
+        this.props.collapsable !== false && this.setState({
             collapsed: !this.state.collapsed,
         });
     }
@@ -96,9 +96,9 @@ export default class Collapse extends React.Component<CollapseProps, CollapseSta
                 )}
             >
                 {title ? (
-                    <HeadingComponent className={cx(`Collapse-header`, headingClassName)}>
+                    <HeadingComponent onClick={this.toggleCollapsed} className={cx(`Collapse-header`, headingClassName)}>
                         {render('heading', title)}
-                        {collapsable && <span onClick={this.toggleCollapsed} className={cx('Collapse-arrow')} />}
+                        {collapsable && <span className={cx('Collapse-arrow')} />}
                     </HeadingComponent>
                 ) : null}
 

@@ -28,12 +28,13 @@
             border-style: solid;
             border-width: px2rem(1px) px2rem(1px) 0 0;
             transform: rotate(135deg);
-            transform-origin: center;
+            transform-origin: 50% 50%;
         }
     }
 
     &.is-collapsed &-arrow:before {
         transform: rotate(45deg);
+        transform-origin: 0% 50%;
     }
 
     &--collapsable &-header {
