@@ -36,6 +36,8 @@ interface TooltipWrapperState {
     show?: boolean;
 }
 
+let waitToHide:Function|null = null;
+
 export class TooltipWrapper extends React.Component<TooltipWrapperProps, TooltipWrapperState> {
     static defaultProps: Pick<TooltipWrapperProps, 'placement' | 'trigger' | 'rootClose' | 'delay'> = {
         placement: 'top',
@@ -85,6 +87,7 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
     }
 
     hide() {
+        waitToHide = null;
         this.setState({
             show: false,
         });
@@ -102,6 +105,8 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
         // } = this.props;
 
         // this.timer = setTimeout(this.show, delay);
+        // 顺速让即将消失的层消失。
+        waitToHide && waitToHide();
         this.show();
     }
 
@@ -109,6 +114,7 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
         clearTimeout(this.timer);
         const {delay} = this.props;
 
+        waitToHide = this.hide.bind(this);
         this.timer = setTimeout(this.hide, delay);
     }
 
