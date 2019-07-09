@@ -211,6 +211,28 @@
         margin: $Tooltip--attr-gap 0 0 0;
     }
 
+    &[data-position="left"]:after {
+        top: 50%;
+        right: 100%;
+        left: auto;
+        transform: translateY(-50%);
+    }
+
+    &[data-position="left"]:hover:after {
+        margin: 0 0 0 $Tooltip--attr-gap;
+    }
+
+    &[data-position="top"]:after {
+        left: 50%;
+        top: auto;
+        bottom: 100%;
+        transform: translateX(-50%);
+    }
+
+    &[data-position="top"]:hover:after {
+        margin: -$Tooltip--attr-gap 0 0 0;
+    }
+
     &:hover:active:after {
         content: "";
         display: none !important;
