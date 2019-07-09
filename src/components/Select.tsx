@@ -153,6 +153,7 @@ interface SelectProps {
     checkAll?: boolean;
     checkAllLabel?: string;
     defaultCheckAll?: boolean;
+    simpleValue?: boolean; 
 }
 
 interface SelectState {
@@ -166,7 +167,7 @@ interface SelectState {
 export class Select extends React.Component<SelectProps, SelectState> {
     static defaultProps = {
         multiple: false,
-        clearable: false,
+        clearable: true,
         creatable: false,
         searchPromptText: '输入内容进行检索',
         loadingPlaceholder: '加载中..',
@@ -217,14 +218,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     componentDidMount() {
-        const {loadOptions, options, multiple, checkAll, defaultCheckAll, onChange} = this.props;
+        const {loadOptions, options, multiple, checkAll, defaultCheckAll, onChange, simpleValue} = this.props;
         let {selection} = this.state;
 
         if (multiple && checkAll && defaultCheckAll && options.length) {
             selection = union(options, selection);
             this.setState({
                 selection: selection
-            }, () => onChange(selection));
+            }, () => onChange(simpleValue ? selection.map(item => item.value) : selection));
         }
 
         loadOptions && loadOptions('');
@@ -305,25 +306,25 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     toggleCheckAll() {
-        const {options, onChange} = this.props;
+        const {options, onChange, simpleValue} = this.props;
         let {selection} = this.state;
         const optionsValues = options.map(option => option.value);
         const selectionValues = selection.map(select => select.value);
         const checkedAll = optionsValues.every(option => selectionValues.indexOf(option) > -1);
 
         selection = checkedAll ? [] : options;
-        onChange(selection);
+        onChange(simpleValue ? selection.map(item => item.value) : selection);
     }
 
     removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
-        const {onChange} = this.props;
+        const {onChange, simpleValue} = this.props;
         let {selection: value} = this.state;
 
         e && e.stopPropagation();
         value = Array.isArray(value) ? value.concat() : [value];
         value.splice(index, 1);
 
-        onChange(value);
+        onChange(simpleValue ? value.map(item => item.value) : value);
     }
 
     handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
@@ -338,7 +339,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     handleChange(selectItem: any) {
-        const {onChange, multiple, onNewOptionClick} = this.props;
+        const {onChange, multiple, onNewOptionClick, simpleValue} = this.props;
         let {selection} = this.state;
 
         if (selectItem.isNew) {
@@ -354,9 +355,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
             } else {
                 selection.push(selectItem);
             }
-            onChange(selection);
+            onChange(simpleValue ? selection.map(item => item.value) : selection);
         } else {
-            onChange(selectItem);
+            onChange(simpleValue ? selectItem.value : selectItem);
         }
     }
 
