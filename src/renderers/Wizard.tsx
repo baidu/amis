@@ -8,7 +8,7 @@ import {Api, SchemaNode, Schema, Action} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import cx = require('classnames');
 import {observer} from 'mobx-react';
-import {createObject, until} from '../utils/helper';
+import {createObject, until, isVisible} from '../utils/helper';
 import {buildApi, isValidApi, isApiOutdated} from '../utils/api';
 import {IFormStore} from '../store/form';
 
@@ -227,7 +227,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     }
 
     handleAction(e: React.UIEvent<any> | void, action: Action, data: object, throwErrors?: boolean) {
-        const {onAction, store} = this.props;
+        const {onAction, store, env} = this.props;
 
         if (action.actionType === 'next' || action.type === 'submit') {
             this.form.doAction(
@@ -243,9 +243,51 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             this.form.reset();
         } else if (action.actionType === 'dialog') {
             store.openDialog(data);
+        } else if (action.actionType === 'ajax') {
+            if (!action.api) {
+                return env.alert(`当 actionType 为 ajax 时，请设置 api 属性`);
+            }
+
+            return store
+                .saveRemote(action.api as Api, data, {
+                    successMessage: action.messages && action.messages.success,
+                    errorMessage: action.messages && action.messages.failed
+                })
+                .then(async (response) => {
+                    this.form && this.form.isValidated() && this.form.validate(true);
+
+                    if (action.feedback && isVisible(action.feedback, store.data)) {
+                        await this.openFeedback(action.feedback, store.data);
+                    }
+
+                    action.reload
+                        ? this.reloadTarget(action.reload, store.data)
+                        : action.redirect
+                        ? env.updateLocation(filter(action.redirect, store.data))
+                        : null;
+                })
+                .catch(() => { });
+        } else if (action.actionType === 'reload') {
+            action.target && this.reloadTarget(action.target, data);
         } else if (onAction) {
             onAction(e, action, data);
         }
+    }
+
+    openFeedback(dialog:any, ctx:any) {
+        return new Promise((resolve) => {
+            const {
+                store
+            } = this.props;
+            store.setCurrentAction({
+                type: 'button',
+                actionType: 'dialog',
+                dialog: dialog
+            });
+            store.openDialog(ctx, undefined, (confirmed) => {
+                resolve(confirmed)
+            });
+        })
     }
 
     handleChange(values: object) {

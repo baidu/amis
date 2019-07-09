@@ -381,6 +381,10 @@ export default class Form extends React.Component<FormProps, object> {
         return value;
     }
 
+    isValidated() {
+        return this.props.store.validated;
+    }
+
     validate(forceValidate?: boolean):Promise<boolean> {
         const {
             store
