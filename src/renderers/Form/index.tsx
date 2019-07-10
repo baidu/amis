@@ -602,11 +602,8 @@ export default class Form extends React.Component<FormProps, object> {
                         await this.openFeedback(action.feedback, store.data);
                     }
 
-                    action.reload
-                        ? this.reloadTarget(action.reload, store.data)
-                        : action.redirect
-                        ? env.updateLocation(filter(action.redirect, store.data))
-                        : null;
+                    action.redirect && env.updateLocation(filter(action.redirect, store.data));
+                    action.reload && this.reloadTarget(action.reload, store.data);
                 })
                 .catch(() => { });
         } else if (action.actionType === 'reload') {
