@@ -321,7 +321,7 @@ export const FormStore = ServiceStore
 
         function clearErrors() {
             const items = self.items.concat();
-            items.forEach(item => item.clearError());
+            items.forEach(item => item.reset());
         }
 
         function reset(cb?: (data:any) => void) {
