@@ -58,6 +58,7 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
             render,
             renderFormItems,
             formMode,
+            store,
             $path
         } = this.props;
 
@@ -68,7 +69,10 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
                     left: 4,
                     right: 8,
                     offset: 4
-                }
+                },
+                store,
+                data: store.data,
+                render
             });
         }
 

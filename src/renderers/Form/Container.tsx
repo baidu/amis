@@ -27,10 +27,16 @@ export class ContainerControlRenderer extends Container<ContainerProps> {
             horizontal,
             $path,
             classPrefix: ns,
+            store,
+            render
         } = this.props;
 
         if (!body && (controls || tabs || fieldSet)) {
-            let props:any = {};
+            let props:any = {
+                store,
+                data: store.data,
+                render
+            };
             mode && (props.mode = mode);
             horizontal && (props.horizontal = horizontal);
 

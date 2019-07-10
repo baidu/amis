@@ -41,14 +41,19 @@ export default class FieldSetControl extends React.Component<FieldSetProps, any>
             mode,
             formMode,
             $path,
-            classnames: cx
+            classnames: cx,
+            store
         } = this.props;
 
         if (!controls) {
             return render('body', body) as JSX.Element;
         }
 
-        let props:any = {};
+        let props:any = {
+            store,
+            data: store.data,
+            render
+        };
         mode && (props.mode = mode);
         typeof collapsable !== 'undefined' && (props.collapsable = collapsable);
         horizontal && (props.horizontal = horizontal);
