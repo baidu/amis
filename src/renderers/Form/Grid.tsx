@@ -36,7 +36,8 @@ export class GridRenderer extends Grid<GridProps> {
             renderFormItems,
             classnames: cx,
             $path,
-            itemRender
+            itemRender,
+            store
         } = this.props;
 
         if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
@@ -44,7 +45,10 @@ export class GridRenderer extends Grid<GridProps> {
                 <div className={cx(`Grid-form Form--${node.mode || 'normal'}`)}>
                     {renderFormItems(node, ($path as string).replace(/^.*form\//, ''), {
                         mode: node.mode || 'normal',
-                        horizontal: node.horizontal || defaultHorizontal
+                        horizontal: node.horizontal || defaultHorizontal,
+                        store,
+                        data: store.data,
+                        render
                     })}
                 </div>
             );
