@@ -78,7 +78,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         controlsTheme: 'light',
         animation: 'fade',
         controls: ['dots', 'arrows'],
-        placeholder: ''
+        placeholder: '-'
     };
 
     state = {
@@ -255,7 +255,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         const [dots, arrows] = [controls.indexOf('dots') > -1, controls.indexOf('arrows') > -1];
         const animationName = nextAnimation || animation;
 
-        if (options && options.length) {
+        if (Array.isArray(options) && options.length) {
             body = (
                 <div
                     ref={this.wrapperRef}
