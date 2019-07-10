@@ -92,6 +92,7 @@
     }
 
     &--ver:not(&--noBorder) {
+        @include clearfix();
         > .#{$ns}Combo-items {
             margin: (-$Combo--vertical-item-gap * 2)
                 (-$Combo--vertical-item-gap * 2) 0

@@ -35,10 +35,13 @@
 }
 
 @mixin clearfix() {
+    &::before,
     &::after {
-        display: block;
-        clear: both;
+        display: table;
         content: "";
+    }
+    &::after {
+        clear: both;
     }
 }
 
