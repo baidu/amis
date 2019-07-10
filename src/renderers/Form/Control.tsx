@@ -463,6 +463,7 @@ export default class FormControl extends React.Component<FormControlProps, any> 
 
         return render('', control, {
             ...rest,
+            key: control.type, // 很重要：如果不写实际的 control 组件变了，但是 this.control 还是引用的原来那个。
             defaultSize: controlWidth,
             disabled: disabled || control.disabled,
             formItem: model,
