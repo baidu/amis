@@ -73,7 +73,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     ];
 
     entries:Map<any, number>;
-    entityId: number = 0;
+    entityId: number = 1;
     subForms:any = {};
     constructor(props:TableProps) {
         super(props);
@@ -513,12 +513,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 newValue.splice(rowIndex, 0, data);
             });
         } else {
+            const idx = rowIndexes as number;
+            const origin = newValue[idx];
             const data = {
-                ...newValue.splice(rowIndexes as number, 1)[0],
+                ...newValue.splice(idx, 1)[0],
                 ...diff
             };
 
             newValue.splice(rowIndexes as number, 0, data);
+            this.entries.set(data, this.entries.get(origin) || this.entityId++);
+            this.entries.delete(origin);
         }
 
         onChange(newValue);
