@@ -270,7 +270,8 @@ export default class ComboControl extends React.Component<ComboProps> {
             store,
             joinValues,
             delimiter,
-            disabled
+            disabled,
+            validateOnChange
         } = this.props;
 
         if (disabled) {
@@ -286,7 +287,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
         this.props.onChange(value);
 
-        if (formItem && formItem.validated) {
+        if (validateOnChange !== false && formItem && formItem.validated) {
             this.subForms.forEach(item => item.validate());
         }
 
