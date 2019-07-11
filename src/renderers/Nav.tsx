@@ -7,8 +7,9 @@ import getExprProperties from '../utils/filter-schema';
 import {filter, evalExpression} from '../utils/tpl';
 import {createObject, mapTree, someTree} from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
-import {isApiOutdated} from '../utils/api';
+import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
+import {Api} from '../types';
 
 export interface Link {
     className?: string;
@@ -32,7 +33,7 @@ export interface NavigationProps extends RendererProps {
     className?: string;
     stacked?: boolean;
     links?: Links;
-    source?: string;
+    source?: Api;
 }
 
 export default class Navigation extends React.Component<NavigationProps, NavigationState> {
@@ -50,6 +51,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
             links: this.syncLinks(
                 props,
                 (props.source &&
+                    typeof props.source === 'string' &&
                     /^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source) &&
                     resolveVariable(props.source, props.data)) ||
                     props.links
@@ -68,14 +70,14 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
     componentWillReceiveProps(nextProps: NavigationProps) {
         const props = this.props;
 
-        if (nextProps.source && /^\$(?:([a-z0-9_.]+)|{.+})$/.test(nextProps.source)) {
+        if (nextProps.source && /^\$(?:([a-z0-9_.]+)|{.+})$/.test(nextProps.source as string)) {
             if (nextProps.source !== props.source) {
                 this.setState({
                     links: this.syncLinks(nextProps),
                 });
             } else {
-                const links = resolveVariable(nextProps.source, nextProps.data);
-                const prevLinks = resolveVariable(props.source, props.data);
+                const links = resolveVariable(nextProps.source as string, nextProps.data);
+                const prevLinks = resolveVariable(props.source as string, props.data);
 
                 if (links !== prevLinks) {
                     this.setState({
@@ -97,7 +99,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
     componentDidUpdate(prevProps: NavigationProps) {
         const props = this.props;
 
-        if (props.source && !/^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source)) {
+        if (props.source && !/^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source as string)) {
             isApiOutdated(prevProps.source, props.source, prevProps.data, props.data) && this.reload();
         }
     }
@@ -114,7 +116,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
         const {data, env, source} = this.props;
         const finalData = values ? createObject(data, values) : data;
 
-        if (!source || (source.sendOn && !evalExpression(source.sendOn, data))) {
+        if (!source || !isEffectiveApi(source, data)) {
             return;
         }
 

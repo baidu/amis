@@ -8,7 +8,7 @@ import cx from 'classnames';
 import LazyComponent from '../components/LazyComponent';
 import {resizeSensor} from '../utils/resize-sensor';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
-import {isApiOutdated} from '../utils/api';
+import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 
 export interface ChartProps extends RendererProps {
@@ -128,7 +128,7 @@ export class Chart extends React.Component<ChartProps> {
             return;
         }
 
-        if (api && (api as ApiObject).sendOn && !evalExpression((api as ApiObject).sendOn as string, store.data)) {
+        if (!isEffectiveApi(api, store.data)) {
             return;
         }
 

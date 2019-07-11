@@ -7,6 +7,7 @@ import cx from 'classnames';
 import Button from '../../components/Button';
 import {createObject, isObjectShallowModified} from '../../utils/helper';
 import { RendererData, Action, Api, Payload } from '../../types';
+import { isEffectiveApi } from '../../utils/api';
 import { filter } from '../../utils/tpl';
 import omit = require('lodash/omit');
 import { dataMapping } from '../../utils/tpl-builtin';
@@ -235,13 +236,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         const isNew = !isObjectShallowModified(scaffold, origin, false);
         
         let remote:Payload | null = null;
-        if (isNew && addApi) {
+        if (isNew && addApi && isEffectiveApi(addApi, createObject(data, item))) {
             remote = await env.fetcher(addApi, createObject(data, item));
-        } else if (updateApi) {
+        } else if (updateApi && isEffectiveApi(updateApi, createObject(data, item))) {
             remote = await env.fetcher(updateApi, createObject(data, item));
         }
 
-        if (remote && !remote.ok) {
+        if (remote === null) {
+            return;
+        } else if (remote && !remote.ok) {
             env.notify('error', remote.msg || '保存失败');
             return;
         } else if (remote && remote.ok) {
@@ -297,6 +300,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             const ctx = createObject(data, item);
             const confirmed = await env.confirm(deleteConfirmText ? filter(deleteConfirmText, ctx): '确认要删除？')
             if (!confirmed) { // 如果不确认，则跳过！
+                return;
+            }
+            if (!isEffectiveApi(deleteApi, ctx)) {
                 return;
             }
 

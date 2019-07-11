@@ -34,7 +34,7 @@ import Scoped, { ScopedContext, IScopedContext } from '../../Scoped';
 import { IComboStore } from '../../store/combo';
 import qs = require('qs');
 import { dataMapping } from '../../utils/tpl-builtin';
-import { isApiOutdated } from '../../utils/api';
+import { isApiOutdated, isEffectiveApi } from '../../utils/api';
 export type FormGroup = FormSchema & {
     title?: string;
     className?: string;
@@ -75,6 +75,7 @@ export interface FormProps extends RendererProps, FormSchema {
     asyncApi?: Api; // 如果 api 处理时间过长，可以开启 asyncApi 来处理。轮询检测是否真的完成了。
     finishedField?: string;
     initFetch?: boolean; // 是否初始拉取？
+    initFetchOn?: string;
     className?: string;
     body?: SchemaNode;
     wrapWithPanel?: boolean;
@@ -206,6 +207,7 @@ export default class Form extends React.Component<FormProps, object> {
         const {
             initApi,
             initFetch,
+            initFetchOn,
             initAsyncApi,
             initFinishedField,
             store,
@@ -244,19 +246,13 @@ export default class Form extends React.Component<FormProps, object> {
             });
         }
 
-        if (
-            initApi && initFetch !== false
-            && (
-                !(initApi as ApiObject).sendOn
-                || evalExpression((initApi as ApiObject).sendOn as string, store.data)
-            )
-        ) {
+        if (isEffectiveApi(initApi, store.data, initFetch, initFetchOn)) {
             store
                 .fetchInitData(initApi as any, store.data, {
                     successMessage: fetchSuccess,
                     errorMessage: fetchFailed,
                     onSuccess: () => {
-                        if (!initAsyncApi || store.data[initFinishedField || 'finished']) {
+                        if (!isEffectiveApi(initAsyncApi, store.data) || store.data[initFinishedField || 'finished']) {
                             return;
                         }
 
@@ -276,8 +272,10 @@ export default class Form extends React.Component<FormProps, object> {
         const props = this.props;
         const store = props.store;
 
-
-        if (isApiOutdated(prevProps.initApi, props.initApi, prevProps.data, props.data)) {
+        if (
+            isApiOutdated(prevProps.initApi, props.initApi, prevProps.data, props.data) &&
+            isEffectiveApi(props.initApi, props.data)
+        ) {
             const {
                 fetchSuccess,
                 fetchFailed,
@@ -332,24 +330,26 @@ export default class Form extends React.Component<FormProps, object> {
             }
         } = this.props;
 
-        initAsyncApi && store.updateData({
-            [initFinishedField || 'finished']: false
-        });
+        isEffectiveApi(initAsyncApi, store.data) &&
+            store.updateData({
+                [initFinishedField || 'finished']: false
+            });
 
-        initApi && (!(initApi as ApiObject).sendOn || evalExpression((initApi as ApiObject).sendOn as string, store.data)) && store.fetchData(initApi, store.data, {
-            successMessage: fetchSuccess,
-            errorMessage: fetchFailed,
-            silent,
-            onSuccess: () => {
-                if (!initAsyncApi || store.data[initFinishedField || 'finished']) {
-                    return;
+        isEffectiveApi(initApi, store.data) &&
+            store.fetchData(initApi, store.data, {
+                successMessage: fetchSuccess,
+                errorMessage: fetchFailed,
+                silent,
+                onSuccess: () => {
+                    if (!isEffectiveApi(initAsyncApi, store.data) || store.data[initFinishedField || 'finished']) {
+                        return;
+                    }
+
+                    return until(() => store.checkRemote(initAsyncApi, store.data)
+                        , (ret:any) => ret && ret[initFinishedField || 'finished']
+                        , (cancel) => this.asyncCancel = cancel);
                 }
-
-                return until(() => store.checkRemote(initAsyncApi, store.data)
-                    , (ret:any) => ret && ret[initFinishedField || 'finished']
-                    , (cancel) => this.asyncCancel = cancel);
-            }
-        }).then(this.initInterval);
+            }).then(this.initInterval);
     }
 
     receive(values:object) {
@@ -522,34 +522,35 @@ export default class Form extends React.Component<FormProps, object> {
                     } else if (action.api || api) {
                         let finnalAsyncApi = action.asyncApi || asyncApi;
 
-                        finnalAsyncApi && store.updateData({
+                        isEffectiveApi(finnalAsyncApi, store.data) && store.updateData({
                             [finishedField || 'finished']: false
                         });
 
-                        return store
-                            .saveRemote(action.api || api as Api, values, {
-                                successMessage: saveSuccess,
-                                errorMessage: saveFailed,
-                                onSuccess: () => {
-                                    if (!finnalAsyncApi || store.data[finishedField || 'finished']) {
-                                        return;
-                                    }
-            
-                                    return until(() => store.checkRemote(finnalAsyncApi as Api, store.data)
-                                        , (ret:any) => ret && ret[finishedField || 'finished']
-                                        , (cancel) => this.asyncCancel = cancel);
-                                }
-                            })
-                            .then(async (response) => {
-                                onSaved && onSaved(values, response);
+                        return isEffectiveApi(action.api || api as Api, store.data) &&
+                                    store
+                                        .saveRemote(action.api || api as Api, values, {
+                                            successMessage: saveSuccess,
+                                            errorMessage: saveFailed,
+                                            onSuccess: () => {
+                                                if (!isEffectiveApi(finnalAsyncApi, store.data) || store.data[finishedField || 'finished']) {
+                                                    return;
+                                                }
 
-                                // submit 也支持 feedback
-                                if (action.feedback && isVisible(action.feedback, store.data)) {
-                                    await this.openFeedback(action.feedback, store.data);
-                                }
+                                                return until(() => store.checkRemote(finnalAsyncApi as Api, store.data)
+                                                    , (ret:any) => ret && ret[finishedField || 'finished']
+                                                    , (cancel) => this.asyncCancel = cancel);
+                                            }
+                                        })
+                                        .then(async (response) => {
+                                            onSaved && onSaved(values, response);
 
-                                return values;
-                            });
+                                            // submit 也支持 feedback
+                                            if (action.feedback && isVisible(action.feedback, store.data)) {
+                                                await this.openFeedback(action.feedback, store.data);
+                                            }
+
+                                            return values;
+                                        });
                     }
 
                     return Promise.resolve(values);
@@ -585,27 +586,28 @@ export default class Form extends React.Component<FormProps, object> {
         } else if (action.actionType === 'drawer') {
             store.openDrawer(data);
         } else if (action.actionType === 'ajax') {
-            if (!action.api) {
+            if (!isEffectiveApi(action.api)) {
                 return env.alert(`当 actionType 为 ajax 时，请设置 api 属性`);
             }
 
-            return store
-                .saveRemote(action.api as Api, data, {
-                    successMessage: action.messages && action.messages.success || saveSuccess,
-                    errorMessage: action.messages && action.messages.failed || saveFailed
-                })
-                .then(async (response) => {
-                    response && onChange && onChange(store.data, difference(store.data, store.pristine));
-                    store.validated && this.validate(true);
+            return isEffectiveApi(action.api, data) &&
+                        store
+                            .saveRemote(action.api as Api, data, {
+                                successMessage: action.messages && action.messages.success || saveSuccess,
+                                errorMessage: action.messages && action.messages.failed || saveFailed
+                            })
+                            .then(async (response) => {
+                                response && onChange && onChange(store.data, difference(store.data, store.pristine));
+                                store.validated && this.validate(true);
 
-                    if (action.feedback && isVisible(action.feedback, store.data)) {
-                        await this.openFeedback(action.feedback, store.data);
-                    }
+                                if (action.feedback && isVisible(action.feedback, store.data)) {
+                                    await this.openFeedback(action.feedback, store.data);
+                                }
 
-                    action.redirect && env.updateLocation(filter(action.redirect, store.data));
-                    action.reload && this.reloadTarget(action.reload, store.data);
-                })
-                .catch(() => { });
+                                action.redirect && env.updateLocation(filter(action.redirect, store.data));
+                                action.reload && this.reloadTarget(action.reload, store.data);
+                            })
+                            .catch(() => { });
         } else if (action.actionType === 'reload') {
             action.target && this.reloadTarget(action.target, data);
         } else if (onAction) {

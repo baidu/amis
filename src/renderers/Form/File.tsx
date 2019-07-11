@@ -630,7 +630,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 <div className="clear">
                 {multiple && (!maxLength || files.length < maxLength) || !multiple && !files.length ? (
                     <label className={cx("btn m-r-xs", btnClassName, {disabled})}>
-                    <input type="file" accept={accept} multiple={multiple} className="invisible" onChange={this.handleDrop} />
+                    <input type="file" accept={accept} disabled={disabled} multiple={multiple} className="invisible" onChange={this.handleDrop} />
                     {btnLabel}
                     </label>
                 ) : null}
