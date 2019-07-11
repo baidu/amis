@@ -527,30 +527,30 @@ export default class Form extends React.Component<FormProps, object> {
                         });
 
                         return isEffectiveApi(action.api || api as Api, store.data) &&
-                                    store
-                                        .saveRemote(action.api || api as Api, values, {
-                                            successMessage: saveSuccess,
-                                            errorMessage: saveFailed,
-                                            onSuccess: () => {
-                                                if (!isEffectiveApi(finnalAsyncApi, store.data) || store.data[finishedField || 'finished']) {
-                                                    return;
-                                                }
+                            store
+                                .saveRemote(action.api || api as Api, values, {
+                                    successMessage: saveSuccess,
+                                    errorMessage: saveFailed,
+                                    onSuccess: () => {
+                                        if (!isEffectiveApi(finnalAsyncApi, store.data) || store.data[finishedField || 'finished']) {
+                                            return;
+                                        }
 
-                                                return until(() => store.checkRemote(finnalAsyncApi as Api, store.data)
-                                                    , (ret:any) => ret && ret[finishedField || 'finished']
-                                                    , (cancel) => this.asyncCancel = cancel);
-                                            }
-                                        })
-                                        .then(async (response) => {
-                                            onSaved && onSaved(values, response);
+                                        return until(() => store.checkRemote(finnalAsyncApi as Api, store.data)
+                                            , (ret:any) => ret && ret[finishedField || 'finished']
+                                            , (cancel) => this.asyncCancel = cancel);
+                                    }
+                                })
+                                .then(async (response) => {
+                                    onSaved && onSaved(values, response);
 
-                                            // submit 也支持 feedback
-                                            if (action.feedback && isVisible(action.feedback, store.data)) {
-                                                await this.openFeedback(action.feedback, store.data);
-                                            }
+                                    // submit 也支持 feedback
+                                    if (action.feedback && isVisible(action.feedback, store.data)) {
+                                        await this.openFeedback(action.feedback, store.data);
+                                    }
 
-                                            return values;
-                                        });
+                                    return values;
+                                });
                     }
 
                     return Promise.resolve(values);
@@ -591,23 +591,23 @@ export default class Form extends React.Component<FormProps, object> {
             }
 
             return isEffectiveApi(action.api, data) &&
-                        store
-                            .saveRemote(action.api as Api, data, {
-                                successMessage: action.messages && action.messages.success || saveSuccess,
-                                errorMessage: action.messages && action.messages.failed || saveFailed
-                            })
-                            .then(async (response) => {
-                                response && onChange && onChange(store.data, difference(store.data, store.pristine));
-                                store.validated && this.validate(true);
+                store
+                    .saveRemote(action.api as Api, data, {
+                        successMessage: action.messages && action.messages.success || saveSuccess,
+                        errorMessage: action.messages && action.messages.failed || saveFailed
+                    })
+                    .then(async (response) => {
+                        response && onChange && onChange(store.data, difference(store.data, store.pristine));
+                        store.validated && this.validate(true);
 
-                                if (action.feedback && isVisible(action.feedback, store.data)) {
-                                    await this.openFeedback(action.feedback, store.data);
-                                }
+                        if (action.feedback && isVisible(action.feedback, store.data)) {
+                            await this.openFeedback(action.feedback, store.data);
+                        }
 
-                                action.redirect && env.updateLocation(filter(action.redirect, store.data));
-                                action.reload && this.reloadTarget(action.reload, store.data);
-                            })
-                            .catch(() => { });
+                        action.redirect && env.updateLocation(filter(action.redirect, store.data));
+                        action.reload && this.reloadTarget(action.reload, store.data);
+                    })
+                    .catch(() => { });
         } else if (action.actionType === 'reload') {
             action.target && this.reloadTarget(action.target, data);
         } else if (onAction) {

@@ -10,7 +10,7 @@ import {
     isObjectShallowModified,
     noop,
     isVisible,
-    getVariable, isObject,
+    getVariable
 } from '../utils/helper';
 import {observer} from 'mobx-react';
 import partition = require('lodash/partition');
@@ -279,23 +279,23 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             action.redirect && action.blank && env.jumpTo(filter(action.redirect, data), action);
 
             return isEffectiveApi(action.api, data) &&
-                        store
-                            .saveRemote(action.api, data, {
-                                successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
-                                errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveFailed),
-                            })
-                            .then(async (payload: object) => {
-                                const data = createObject(ctx, payload);
+                store
+                    .saveRemote(action.api, data, {
+                        successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
+                        errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveFailed),
+                    })
+                    .then(async (payload: object) => {
+                        const data = createObject(ctx, payload);
 
-                                if (action.feedback && isVisible(action.feedback, data)) {
-                                    await this.openFeedback(action.feedback, data);
-                                    stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
-                                }
+                        if (action.feedback && isVisible(action.feedback, data)) {
+                            await this.openFeedback(action.feedback, data);
+                            stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
+                        }
 
-                                action.redirect && !action.blank && env.jumpTo(filter(action.redirect, data), action);
-                                action.reload ? this.reloadTarget(action.reload, data) : this.search(undefined, undefined, true);
-                            })
-                            .catch(() => {});
+                        action.redirect && !action.blank && env.jumpTo(filter(action.redirect, data), action);
+                        action.reload ? this.reloadTarget(action.reload, data) : this.search(undefined, undefined, true);
+                    })
+                    .catch(() => {});
         } else if (pickerMode && (action.actionType === 'confirm' || action.actionType === 'submit')) {
             return Promise.resolve({
                 items: store.selectedItems.concat(),
