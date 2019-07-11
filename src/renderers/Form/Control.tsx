@@ -344,6 +344,8 @@ export default class FormControl extends React.Component<FormControlProps, any> 
 
         if (validateOnChange === true || validateOnChange !== false && (form.submited || this.model.validated)) {
             this.lazyValidate();
+        } else if (validateOnChange === false && !this.model.valid) {
+            this.model.reset();
         }
 
         onFormItemChange && onFormItemChange(value, oldValue, this.model, form);
