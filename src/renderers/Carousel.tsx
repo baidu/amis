@@ -262,7 +262,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                     className={cx('Carousel-container')}
                     onMouseEnter={this.handleMouseEnter}
                     onMouseLeave={this.handleMouseLeave}
-                    style={carouselStyles}
                     >
                     {options.map((option:any, key:number) => (
                         <Transition
@@ -294,7 +293,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         }
 
         return (
-            <div className={cx(`Carousel Carousel--${controlsTheme}`, className)}>
+            <div className={cx(`Carousel Carousel--${controlsTheme}`, className)} style={carouselStyles}>
                 {body ? body : placeholder}
             </div>
         );
