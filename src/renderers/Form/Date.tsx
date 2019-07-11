@@ -115,9 +115,9 @@ export class DatetimeControlRenderer extends DateControl {
     static defaultProps = {
         ...DateControl.defaultProps,
         placeholder: '请选择日期以及时间',
-        inputFormat: 'YYYY-MM-DD HH:mm',
+        inputFormat: 'YYYY-MM-DD HH:mm:ss',
         dateFormat: 'LL',
-        timeFormat: 'HH:mm',
+        timeFormat: 'HH:mm:ss',
         closeOnSelect: false,
         strictMode: false
     };

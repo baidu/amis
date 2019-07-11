@@ -8,9 +8,11 @@ import {
 import Select from '../../components/Select';
 import find = require('lodash/find');
 import debouce = require('lodash/debounce');
+import {Api} from '../../types';
+import {isEffectiveApi} from '../../utils/api';
 
 export interface SelectProps extends OptionsControlProps {
-    autoComplete?: string;
+    autoComplete?: Api;
     searchable?: boolean;
 };
 
@@ -110,23 +112,24 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
 
         setLoading(true);
-        return env
-            .fetcher(autoComplete as string, {
-                ...data,
-                term: input,
-                value: input
-            })
-            .then(ret => {
-                let options = ret.data && (ret.data as any).options || ret.data || [];
-                this.cache[input] = options;
-                let combinedOptions = this.mergeOptions(options);
-                setOptions(combinedOptions);
+        return autoComplete && isEffectiveApi(autoComplete, data) &&
+                    env
+                        .fetcher(autoComplete, {
+                            ...data,
+                            term: input,
+                            value: input
+                        })
+                        .then(ret => {
+                            let options = ret.data && (ret.data as any).options || ret.data || [];
+                            this.cache[input] = options;
+                            let combinedOptions = this.mergeOptions(options);
+                            setOptions(combinedOptions);
 
-                return Promise.resolve({
-                    options: combinedOptions,
-                });
-            })
-            .finally(() => setLoading(false));
+                            return Promise.resolve({
+                                options: combinedOptions,
+                            });
+                        })
+                        .finally(() => setLoading(false));
     }
 
     mergeOptions(options: Array<object>) {
@@ -188,7 +191,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
                     value={selectedOptions}
                     options={options}
                     onNewOptionClick={this.handleNewOptionClick}
-                    loadOptions={autoComplete ? this.loadRemote : null}
+                    loadOptions={isEffectiveApi(autoComplete) ? this.loadRemote : null}
                     creatable={creatable}
                     searchable={autoComplete || creatable ? true : searchable}
                     onChange={this.changeValue}

@@ -1,5 +1,5 @@
 import {Api} from '../../types';
-import {buildApi, isValidApi} from '../../utils/api';
+import {buildApi, isEffectiveApi, isValidApi} from '../../utils/api';
 import {
     anyChanged
 } from '../../utils/helper';
@@ -183,7 +183,7 @@ export function registerOptionsControl(config: OptionsConfig) {
                     let prevApi = buildApi(props.source, props.data as object, {ignoreData: true});
                     let nextApi = buildApi(nextProps.source, nextProps.data as object, {ignoreData: true});
 
-                    if (prevApi.url !== nextApi.url && isValidApi(nextApi.url) && (!nextApi.sendOn || evalExpression(nextApi.sendOn, nextProps.data))) {
+                    if (prevApi.url !== nextApi.url && isEffectiveApi(nextApi, nextProps.data)) {
                         formItem.loadOptions(nextProps.source, nextProps.data, undefined, true, nextProps.onChange);
                     }
                 }
@@ -336,7 +336,7 @@ export function registerOptionsControl(config: OptionsConfig) {
                 onChange
             } = this.props;
 
-            if (config.autoLoadOptionsFromSource === false || !formItem || !source || source.sendOn && !evalExpression(source.sendOn, data)) {
+            if (config.autoLoadOptionsFromSource === false || !formItem || !isEffectiveApi(source, data)) {
                 return;
             }
 

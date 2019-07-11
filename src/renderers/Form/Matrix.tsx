@@ -6,7 +6,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { FormControlProps, FormItem } from './Item';
-import { buildApi, isValidApi } from '../../utils/api';
+import { buildApi, isValidApi, isEffectiveApi } from '../../utils/api';
 import { Checkbox } from '../../components';
 
 export interface Column {
@@ -104,7 +104,7 @@ export default class MatrixCheckbox extends React.Component<MatrixProps, MatrixS
             onChange
         } = this.props;
 
-        if (!source || this.state.loading) {
+        if (!isEffectiveApi(source, data) || this.state.loading) {
             return;
         }
 

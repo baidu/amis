@@ -5,9 +5,11 @@ import {
     OptionsControlProps,
     Option} from './Options';
 import Select from '../../components/Select';
+import {Api} from '../../types';
+import {isEffectiveApi} from '../../utils/api';
 
 export interface ChainedSelectProps extends OptionsControlProps {
-    autoComplete?: string;
+    autoComplete?: Api;
     searchable?: boolean;
 };
 
@@ -83,7 +85,7 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
             idx++;
         }
 
-        if (!arr[idx] || !env || !source) {
+        if (!arr[idx] || !env || !source || !isEffectiveApi(source, data)) {
             return;
         }
 

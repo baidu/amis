@@ -1,4 +1,3 @@
-import { ApiObject } from './../types';
 import {
     types,
     getParent,
@@ -14,6 +13,7 @@ import {
 } from './index';
 import {
     Api,
+    ApiObject,
     Payload,
     fetchOptions
 } from '../types';
