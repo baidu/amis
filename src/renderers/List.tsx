@@ -84,6 +84,8 @@ export default class List extends React.Component<ListProps, object> {
     sortable?: Sortable;
     parentNode?: any;
     body?: any;
+    renderedToolbars:Array<string>;
+
     constructor(props: ListProps) {
         super(props);
 
@@ -98,6 +100,7 @@ export default class List extends React.Component<ListProps, object> {
         this.getPopOverContainer = this.getPopOverContainer.bind(this);
         this.affixDetect = this.affixDetect.bind(this);
         this.bodyRef = this.bodyRef.bind(this);
+        this.renderToolbar = this.renderToolbar.bind(this);
     }
 
     static syncItems(store: IListStore, props: ListProps, prevProps?: ListProps) {
@@ -381,50 +384,20 @@ export default class List extends React.Component<ListProps, object> {
     renderActions(region: string) {
         let {actions, render, store, multiple, selectable, env, classPrefix: ns, classnames: cx} = this.props;
 
+        let btn;
         actions = Array.isArray(actions) ? actions.concat() : [];
 
-        if (store.selectable && multiple && selectable && !store.dragging && store.items.length) {
+        if (!~this.renderedToolbars.indexOf('check-all') && (btn = this.renderCheckAll())) {
             actions.unshift({
                 type: 'button',
-                children: (
-                    <Button
-                        className={cx('List-checkAllBtn')}
-                        classPrefix={ns}
-                        tooltip="切换全选"
-                        tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
-                        onClick={this.handleCheckAll}
-                        size="sm"
-                        active={store.allChecked}
-                    >
-                        全选
-                    </Button>
-                ),
+                children: btn
             });
         }
 
-        if (store.draggable && region === 'header' && store.items.length > 1) {
+        if (region === 'header' && !~this.renderedToolbars.indexOf('drag-toggler') && (btn = this.renderDragToggler())) {
             actions.unshift({
                 type: 'button',
-                children: (
-                    <Button
-                        iconOnly
-                        classPrefix={ns}
-                        tooltip="对列表进行排序操作"
-                        tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
-                        key="dragging-toggle"
-                        disabled={!!store.modified}
-                        active={store.dragging}
-                        size="sm"
-                        className={cx('List-dragBtn')}
-                        onClick={(e: React.MouseEvent<any>) => {
-                            e.preventDefault();
-                            store.toggleDragging();
-                            store.dragging && store.clear();
-                        }}
-                    >
-                        <i className="glyphicon glyphicon-sort" />
-                    </Button>
-                ),
+                children: btn
             });
         }
 
@@ -522,15 +495,15 @@ export default class List extends React.Component<ListProps, object> {
             return null;
         }
 
-        const actions = this.renderActions('header');
         const child = headerToolbarRender
             ? headerToolbarRender({
                   ...this.props,
                   selectedItems: store.selectedItems.map(item => item.data),
                   items: store.items.map(item => item.data),
                   unSelectedItems: store.unSelectedItems.map(item => item.data),
-              })
+            }, this.renderToolbar)
             : null;
+        const actions = this.renderActions('header');
         const toolbarNode =
             actions || child || store.dragging ? (
                 <div className={cx('List-toolbar', headerClassName)} key="header-toolbar">
@@ -568,16 +541,16 @@ export default class List extends React.Component<ListProps, object> {
             return null;
         }
 
-        const actions = this.renderActions('footer');
         const child = footerToolbarRender
             ? footerToolbarRender({
-                  ...this.props,
-                  selectedItems: store.selectedItems.map(item => item.data),
-                  items: store.items.map(item => item.data),
-                  unSelectedItems: store.unSelectedItems.map(item => item.data),
-              })
+                ...this.props,
+                selectedItems: store.selectedItems.map(item => item.data),
+                items: store.items.map(item => item.data),
+                unSelectedItems: store.unSelectedItems.map(item => item.data),
+            }, this.renderToolbar)
             : null;
-
+        const actions = this.renderActions('footer');
+        
         const toolbarNode =
             actions || child ? (
                 <div className={cx('List-toolbar', footerClassName)} key="footer-toolbar">
@@ -592,6 +565,75 @@ export default class List extends React.Component<ListProps, object> {
                 </div>
             ) : null;
         return footerNode && toolbarNode ? [toolbarNode, footerNode] : footerNode || toolbarNode || null;
+    }
+
+    renderCheckAll() {
+        const {
+            store,
+            multiple,
+            selectable,
+        } = this.props;
+        
+        if (!store.selectable || !multiple || !selectable || store.dragging || !store.items.length) {
+            return null;
+        }
+
+        return (
+            <Button
+                key="checkall"
+                tooltip="切换全选"
+                onClick={this.handleCheckAll}
+                size="sm"
+                level={store.allChecked ? 'info' : 'default'}
+            >
+                全选
+            </Button>
+        );
+    }
+
+    renderDragToggler() {
+        const {
+            store,
+            multiple,
+            selectable,
+            env
+        } = this.props;
+        
+        if (!store.draggable || store.items.length < 2) {
+            return null;
+        }
+
+        return (
+            <Button
+                iconOnly
+                key="dragging-toggle"
+                tooltip="对列表进行排序操作"
+                tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
+                size="sm"
+                active={store.dragging}
+                onClick={(e: React.MouseEvent<any>) => {
+                    e.preventDefault();
+                    store.toggleDragging();
+                    store.dragging && store.clear();
+                }}
+            >
+                <i className="fa fa-exchange" />
+            </Button>
+        );
+    }
+
+    renderToolbar(toolbar: SchemaNode, index: number) {
+        const type = (toolbar as Schema).type || (toolbar as string);
+
+        if (type === 'drag-toggler') {
+            this.renderedToolbars.push(type);
+            return this.renderDragToggler();
+        } else if (type === 'check-all') {
+            this.renderedToolbars.push(type);
+            return this.renderCheckAll();
+        }
+
+        return void 0;
     }
 
     render() {
@@ -611,6 +653,7 @@ export default class List extends React.Component<ListProps, object> {
             size,
         } = this.props;
 
+        this.renderedToolbars = [];
         const heading = this.renderHeading();
         const header = this.renderHeader();
 
