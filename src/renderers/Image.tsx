@@ -33,7 +33,7 @@ export class ImageField extends React.Component<ImageProps, object> {
             src,
         } = this.props;
 
-        const finnalSrc = src ? filter(src) : '';
+        const finnalSrc = src ? filter(src, data) : '';
         let value = this.props.value;
 
         return (
