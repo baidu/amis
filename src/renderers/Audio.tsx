@@ -4,6 +4,7 @@ import {Renderer, RendererProps} from '../factory';
 import {autobind} from '../utils/helper';
 import {volumeIcon, muteIcon, playIcon, pauseIcon} from '../components/icons';
 import {resolveVariable} from '../utils/tpl-builtin';
+import {filter} from '../utils/tpl';
 
 export interface AudioProps extends RendererProps {
     className?: string;
@@ -49,7 +50,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     };
 
     state: AudioState = {
-        src: this.props.value || this.props.src || resolveVariable(this.props.name, this.props.data) || '',
+        src: this.props.value || (this.props.src ? filter(this.props.src, this.props.data) : '') || resolveVariable(this.props.name, this.props.data) || '',
         isReady: false,
         muted: false,
         playing: false,
@@ -82,9 +83,12 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     componentWillReceiveProps(nextProps:AudioProps) {
         const props = this.props;
 
-        if (props.value !== nextProps.value || props.src !== nextProps.src) {
+        if (
+            props.value !== nextProps.value ||
+            filter(props.src as string, props.data) !== filter(nextProps.src as string, nextProps.data)
+        ) {
             this.setState({
-                src: nextProps.value || nextProps.src,
+                src: nextProps.value || filter(nextProps.src as string, nextProps.data),
                 playing: false
             }, () => {
                 this.audio.load();
