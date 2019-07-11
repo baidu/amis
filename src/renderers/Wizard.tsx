@@ -146,10 +146,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         const props = this.props;
         const {store, fetchSuccess, fetchFailed} = props;
 
-        if (
-            isApiOutdated(prevProps.initApi, props.initApi, prevProps.data, props.data) &&
-            isEffectiveApi(props.initApi, props.data)
-        ) {
+        if (isApiOutdated(prevProps.initApi, props.initApi, prevProps.data, props.data)) {
             store.fetchData(props.initApi, store.data, {
                 successMessage: fetchSuccess,
                 errorMessage: fetchFailed,

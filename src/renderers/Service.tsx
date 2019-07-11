@@ -88,19 +88,17 @@ export default class Service extends React.Component<ServiceProps> {
             }
         } = props;
 
-        isApiOutdated(prevProps.api, props.api, prevProps.data, props.data) &&
-            isEffectiveApi(props.api, props.data) &&
-                store.fetchData(props.api as Api, store.data, {
+        isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)
+            store.fetchData(props.api as Api, store.data, {
+                successMessage: fetchSuccess,
+                errorMessage: fetchFailed
+            }).then(this.initInterval);
+
+        isApiOutdated(prevProps.schemaApi, props.schemaApi, prevProps.data, props.data) &&
+            store.fetchSchema(props.schemaApi as Api, store.data, {
                     successMessage: fetchSuccess,
                     errorMessage: fetchFailed
                 }).then(this.initInterval);
-
-        isApiOutdated(prevProps.schemaApi, props.schemaApi, prevProps.data, props.data) &&
-            isEffectiveApi(props.schemaApi, props.data) &&
-                store.fetchSchema(props.schemaApi as Api, store.data, {
-                        successMessage: fetchSuccess,
-                        errorMessage: fetchFailed
-                    }).then(this.initInterval);
     }
 
     componentWillUnmount() {

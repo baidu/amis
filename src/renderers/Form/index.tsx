@@ -272,10 +272,7 @@ export default class Form extends React.Component<FormProps, object> {
         const props = this.props;
         const store = props.store;
 
-        if (
-            isApiOutdated(prevProps.initApi, props.initApi, prevProps.data, props.data) &&
-            isEffectiveApi(props.initApi, props.data)
-        ) {
+        if (isApiOutdated(prevProps.initApi, props.initApi, prevProps.data, props.data)) {
             const {
                 fetchSuccess,
                 fetchFailed,
