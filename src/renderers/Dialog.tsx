@@ -269,7 +269,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
         let subProps: any = {
             key,
-            disabled: store.loading,
+            disabled: body && (body as any).disabled || store.loading,
             onAction: this.handleAction,
             onFinished: this.handleChildFinished,
         };
