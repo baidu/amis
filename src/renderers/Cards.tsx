@@ -1,7 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Action} from '../types';
+import {SchemaNode, Action, Schema} from '../types';
 import cx from 'classnames';
 import Button from '../components/Button';
 import {ListStore, IListStore, IItem} from '../store/list';
@@ -92,6 +92,8 @@ export default class Cards extends React.Component<GridProps, object> {
     body?: any;
     // fixAlignmentLazy: Function;
     unSensor: Function;
+    renderedToolbars:Array<string>;
+
     constructor(props: GridProps) {
         super(props);
 
@@ -106,6 +108,7 @@ export default class Cards extends React.Component<GridProps, object> {
         this.bodyRef = this.bodyRef.bind(this);
         this.affixDetect = this.affixDetect.bind(this);
         this.itemsRef = this.itemsRef.bind(this);
+        this.renderToolbar = this.renderToolbar.bind(this);
         // this.fixAlignmentLazy = debounce(this.fixAlignment.bind(this), 250, {
         //     trailing: true,
         //     leading: false
@@ -409,51 +412,23 @@ export default class Cards extends React.Component<GridProps, object> {
 
     renderActions(region: string) {
         let {actions, render, store, multiple, selectable, classnames: cx, classPrefix: ns, env} = this.props;
-
+        let btn;
         actions = Array.isArray(actions) ? actions.concat() : [];
 
-        if (store.selectable && multiple && selectable && !store.dragging && store.items.length) {
+        if (!~this.renderedToolbars.indexOf('check-all') && (btn = this.renderCheckAll())) {
             actions.unshift({
                 type: 'button',
-                children: (
-                    <Button
-                        key="checkall"
-                        classPrefix={ns}
-                        tooltip="切换全选"
-                        onClick={this.handleCheckAll}
-                        size="sm"
-                        level={store.allChecked ? 'info' : 'default'}
-                    >
-                        全选
-                    </Button>
-                ),
-            });
+                children: btn
+            })
         }
 
-        if (store.draggable && region === 'header' && store.items.length > 1) {
+        if (region === 'header' && !~this.renderedToolbars.indexOf('drag-toggler') && (btn = this.renderDragToggler())) {
             actions.unshift({
                 type: 'button',
-                children: (
-                    <Button
-                        iconOnly
-                        classPrefix={ns}
-                        key="dragging-toggle"
-                        tooltip="对卡片进行排序操作"
-                        tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
-                        size="sm"
-                        active={store.dragging}
-                        onClick={(e: React.MouseEvent<any>) => {
-                            e.preventDefault();
-                            store.toggleDragging();
-                            store.dragging && store.clear();
-                        }}
-                    >
-                        <i className="fa fa-exchange" />
-                    </Button>
-                ),
-            });
+                children: btn
+            })
         }
-
+        
         return Array.isArray(actions) && actions.length ? (
             <div className={cx('Cards-actions')}>
                 {actions.map((action, key) =>
@@ -548,15 +523,15 @@ export default class Cards extends React.Component<GridProps, object> {
             return null;
         }
 
-        const actions = this.renderActions('header');
         const child = headerToolbarRender
             ? headerToolbarRender({
                   ...this.props,
                   selectedItems: store.selectedItems.map(item => item.data),
                   items: store.items.map(item => item.data),
                   unSelectedItems: store.unSelectedItems.map(item => item.data),
-              })
+              }, this.renderToolbar)
             : null;
+        const actions = this.renderActions('header');
         const toolbarNode =
             actions || child || store.dragging ? (
                 <div className={cx('Cards-toolbar')} key="header-toolbar">
@@ -593,16 +568,16 @@ export default class Cards extends React.Component<GridProps, object> {
             return null;
         }
 
-        const actions = this.renderActions('footer');
         const child = footerToolbarRender
             ? footerToolbarRender({
                   ...this.props,
                   selectedItems: store.selectedItems.map(item => item.data),
                   items: store.items.map(item => item.data),
                   unSelectedItems: store.unSelectedItems.map(item => item.data),
-              })
+            }, this.renderToolbar)
             : null;
-
+        const actions = this.renderActions('footer');
+        
         const toolbarNode =
             actions || child ? (
                 <div className={cx('Cards-toolbar')} key="footer-toolbar">
@@ -616,6 +591,75 @@ export default class Cards extends React.Component<GridProps, object> {
             </div>
         ) : null;
         return footerNode && toolbarNode ? [toolbarNode, footerNode] : footerNode || toolbarNode || null;
+    }
+
+    renderCheckAll() {
+        const {
+            store,
+            multiple,
+            selectable,
+        } = this.props;
+        
+        if (!store.selectable || !multiple || !selectable || store.dragging || !store.items.length) {
+            return null;
+        }
+
+        return (
+            <Button
+                key="checkall"
+                tooltip="切换全选"
+                onClick={this.handleCheckAll}
+                size="sm"
+                level={store.allChecked ? 'info' : 'default'}
+            >
+                全选
+            </Button>
+        );
+    }
+
+    renderDragToggler() {
+        const {
+            store,
+            multiple,
+            selectable,
+            env
+        } = this.props;
+        
+        if (!store.draggable || store.items.length < 2) {
+            return null;
+        }
+
+        return (
+            <Button
+                iconOnly
+                key="dragging-toggle"
+                tooltip="对卡片进行排序操作"
+                tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
+                size="sm"
+                active={store.dragging}
+                onClick={(e: React.MouseEvent<any>) => {
+                    e.preventDefault();
+                    store.toggleDragging();
+                    store.dragging && store.clear();
+                }}
+            >
+                <i className="fa fa-exchange" />
+            </Button>
+        );
+    }
+
+    renderToolbar(toolbar: SchemaNode, index: number) {
+        const type = (toolbar as Schema).type || (toolbar as string);
+
+        if (type === 'drag-toggler') {
+            this.renderedToolbars.push(type);
+            return this.renderDragToggler();
+        } else if (type === 'check-all') {
+            this.renderedToolbars.push(type);
+            return this.renderCheckAll();
+        }
+
+        return void 0;
     }
 
     render() {
@@ -637,6 +681,7 @@ export default class Cards extends React.Component<GridProps, object> {
             classnames: cx,
         } = this.props;
 
+        this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
         let itemFinalClassName: string = columnsCount
             ? `Grid-col--sm${Math.round(12 / columnsCount)}`
             : itemClassName || '';
