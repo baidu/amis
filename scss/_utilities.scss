@@ -1193,6 +1193,10 @@
     height: 100%;
 }
 
+.no-grow {
+    flex-grow: unset !important;
+}
+
 @include media-breakpoint-up(sm) {
     .#{$ns}Form-col {
         &.w,
