@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, SchemaNode, Schema, Action, ApiObject} from '../types';
+import {Api, SchemaNode, Schema, Action} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import cx = require('classnames');
 import {observer} from 'mobx-react';
 import {createObject, until, isVisible} from '../utils/helper';
-import {buildApi, isValidApi, isApiOutdated, isEffectiveApi} from '../utils/api';
+import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {IFormStore} from '../store/form';
 
 export type TabProps = Schema & {
