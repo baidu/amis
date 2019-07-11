@@ -778,7 +778,8 @@ export default class Form extends React.Component<FormProps, object> {
             horizontal,
             store,
             disabled,
-            controlWidth
+            controlWidth,
+            resolveDefinitions
         } = props;
 
         const subProps = {
@@ -806,6 +807,13 @@ export default class Form extends React.Component<FormProps, object> {
 
         if (subSchema.control) {
             let control = subSchema.control as Schema;
+            if (control.$ref) {
+                control = {
+                    ...resolveDefinitions(control.$ref),
+                    ...control
+                }
+                delete control.$ref;
+            }
             control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
             control.visibleOn && (subSchema.visibleOn = control.visibleOn);
         }
