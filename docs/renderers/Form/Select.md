@@ -12,11 +12,11 @@
 -   `joinValues` 默认为 `true`
 -   单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。
 -   多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。
--   `extractValue` 默认为 `false`, `joinValues`设置为`false`时生效, 开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。
+-   `extractValue` 默认为 `false`, `joinValues`设置为`false`时生效, 开启后将选中的选项 `value` 的值封装为数组，作为当前表单项的值。
 -   `delimiter` 默认为 `,`
 -   `clearable` 默认为 `false`, 当设置为 `true` 时，已选中的选项右侧会有个小 `X` 用来取消设置。
 -   `searchable` 默认为 `false`，表示可以通过输入部分内容检索出选项。
--   `checkall` 默认为 `false` 开启后支持全选
+-   `checkAll` 默认为 `false` 开启后支持全选
 -   `checkAllLabel` 默认为 `全选`, 全选的文字
 -   `defaultCheckAll` 是否默认全选，默认为`false`
 -   更多配置请参考 [FormItem](./FormItem.md)

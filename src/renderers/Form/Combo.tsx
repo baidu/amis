@@ -21,6 +21,7 @@ import { evalExpression, filter } from '../../utils/tpl';
 import find = require('lodash/find');
 import Select from '../../components/Select';
 import { dataMapping } from '../../utils/tpl-builtin';
+import { isEffectiveApi } from '../../utils/api';
 
 export interface Condition {
     test: string;
@@ -242,6 +243,10 @@ export default class ComboControl extends React.Component<ComboProps> {
             const ctx = createObject(data, value[key]);
             const confirmed = await env.confirm(deleteConfirmText ? filter(deleteConfirmText, ctx): '确认要删除？')
             if (!confirmed) { // 如果不确认，则跳过！
+                return;
+            }
+
+            if (!isEffectiveApi(deleteApi, ctx)) {
                 return;
             }
 

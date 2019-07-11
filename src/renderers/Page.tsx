@@ -10,7 +10,7 @@ import qs from 'qs';
 import {isVisible, autobind, bulkBindFunctions} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
-import {isApiOutdated} from '../utils/api';
+import {isApiOutdated, isEffectiveApi} from '../utils/api';
 
 export interface PageProps extends RendererProps {
     title?: string; // 标题
@@ -107,15 +107,11 @@ export default class Page extends React.Component<PageProps> {
     }
 
     componentDidMount() {
-        const {initApi, initFetch, store, messages} = this.props;
+        const {initApi, initFetch, initFetchOn, store, messages} = this.props;
 
         this.mounted = true;
 
-        if (
-            initApi &&
-            initFetch &&
-            (!(initApi as ApiObject).sendOn || evalExpression((initApi as ApiObject).sendOn as string, store.data))
-        ) {
+        if (isEffectiveApi(initApi, store.data, initFetch, initFetchOn)) {
             store
                 .fetchInitData(initApi, store.data, {
                     successMessage: messages && messages.fetchSuccess,
@@ -153,7 +149,7 @@ export default class Page extends React.Component<PageProps> {
             (props.initFetch !== false && isApiOutdated(prevProps.initApi, initApi, prevProps.data, props.data))
         ) {
             const messages = props.messages;
-            (!(initApi as ApiObject).sendOn || evalExpression((initApi as ApiObject).sendOn as string, store.data)) &&
+            isEffectiveApi(initApi, store.data) &&
                 store
                     .fetchData(initApi as Api, store.data, {
                         successMessage: messages && messages.fetchSuccess,
@@ -189,20 +185,21 @@ export default class Page extends React.Component<PageProps> {
         } else if (action.actionType === 'drawer') {
             store.openDrawer(ctx);
         } else if (action.actionType === 'ajax') {
-            store
-                .saveRemote(action.api as string, ctx, {
-                    successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
-                    errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveSuccess),
-                })
-                .then(async () => {
-                    if (action.feedback && isVisible(action.feedback, store.data)) {
-                        await this.openFeedback(action.feedback, store.data);
-                    }
+            isEffectiveApi(action.api, ctx) &&
+                store
+                    .saveRemote(action.api as string, ctx, {
+                        successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
+                        errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveSuccess),
+                    })
+                    .then(async () => {
+                        if (action.feedback && isVisible(action.feedback, store.data)) {
+                            await this.openFeedback(action.feedback, store.data);
+                        }
 
-                    action.redirect && env.jumpTo(filter(action.redirect, store.data), action);
-                    action.reload && this.reloadTarget(action.reload, store.data);
-                })
-                .catch(() => {});
+                        action.redirect && env.jumpTo(filter(action.redirect, store.data), action);
+                        action.reload && this.reloadTarget(action.reload, store.data);
+                    })
+                    .catch(() => {});
         } else if (action.actionType === 'copy' && (action.content || action.copy)) {
             env.copy && env.copy(filter(action.content || action.copy, ctx));
         }
@@ -280,7 +277,7 @@ export default class Page extends React.Component<PageProps> {
         const {store, initApi} = this.props;
 
         clearTimeout(this.timer);
-        initApi &&
+        isEffectiveApi(initApi, store.data) &&
             store
                 .fetchData(initApi, store.data, {
                     silent,

@@ -13,6 +13,7 @@ import { filter } from '../../utils/tpl';
 import find = require('lodash/find');
 import { closeIcon, enterIcon } from '../../components/icons';
 import { autobind } from '../../utils/helper';
+import {isEffectiveApi} from '../../utils/api';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
 
@@ -96,8 +97,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
             formInited
         } = this.props;
 
-        if (autoComplete && formItem) {
-
+        if (isEffectiveApi(autoComplete, data) && formItem) {
             if (formInited) {
                 formItem.loadOptions(autoComplete, {
                     ...data,
@@ -339,7 +339,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
             data
         } = this.props;
 
-        if (autoComplete && formItem) {
+        if (isEffectiveApi(autoComplete, data) && formItem) {
             formItem.loadOptions(autoComplete, {
                 ...data,
                 term: this.state.inputValue || formItem.lastSelectValue

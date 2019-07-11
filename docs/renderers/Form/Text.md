@@ -17,6 +17,11 @@
 -   `source` 通过 `options` 只能配置静态数据，如果设置了 `source` 则会从接口拉取，实现动态效果。
 -   `autoComplete` 跟 `source` 不同的是，每次用户输入都会去接口获取提示。
 -   `multiple` 默认为 `false`, 设置成 `true` 表示可多选。
+-   `joinValues` 默认为 `true`
+-   单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。
+-   多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。
+-   `delimiter` 默认为 `,`
+-   `extractValue` 默认为 `false`, `joinValues`设置为`false`时生效, 开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。
 -   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="200" scope="form-item"

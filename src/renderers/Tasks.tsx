@@ -5,6 +5,7 @@ import cx from 'classnames';
 import getExprProperties from '../utils/filter-schema';
 import {Api, Payload} from '../types';
 import update = require('react-addons-update');
+import {isEffectiveApi} from '../utils/api';
 
 export interface TaskProps extends RendererProps {
     className?: string;
@@ -107,11 +108,11 @@ export default class Task extends React.Component<TaskProps, TaskState> {
             return;
         }
 
-        if (interval && !checkApi) {
+        if (interval && !isEffectiveApi(checkApi)) {
             return alert('checkApi 没有设置, 不能及时获取任务状态');
         }
 
-        env &&
+        isEffectiveApi(checkApi, data) && env &&
             env
                 .fetcher(checkApi, data)
                 .then(this.handleLoaded)
@@ -135,9 +136,9 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     submitTask(item: TaskItem, index: number, retry = false) {
         const {submitApi, reSubmitApi, loadingStatusCode, errorStatusCode, data, env} = this.props;
 
-        if (!retry && !submitApi) {
+        if (!retry && !isEffectiveApi(submitApi)) {
             return alert('submitApi 没有配置');
-        } else if (retry && !reSubmitApi) {
+        } else if (retry && !isEffectiveApi(reSubmitApi)) {
             return alert('reSubmitApi 没有配置');
         }
 
@@ -158,9 +159,10 @@ export default class Task extends React.Component<TaskProps, TaskState> {
             } as any)
         );
 
-        env &&
+        const api = retry ? reSubmitApi : submitApi;
+        isEffectiveApi(api, data) && env &&
             env
-                .fetcher(retry ? reSubmitApi : submitApi, {
+                .fetcher(api, {
                     ...data,
                     ...item,
                 })

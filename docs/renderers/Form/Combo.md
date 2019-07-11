@@ -21,8 +21,12 @@
 -   `addButtonText` 新增按钮文字，默认为 `"新增"`。
 -   `minLength` 限制最小长度。
 -   `maxLength` 限制最大长度。
--   `scaffold` 单条初始值。默认为 `{}`。
+-   `scaffold` 单组表单项初始值。默认为 `{}`。
 -   `canAccessSuperData` 指定是否可以自动获取上层的数据并映射到表单项上，默认是`false`。
+-   `conditions` 数组的形式包含所有条件的渲染类型，单个数组内的`test` 为判断条件，数组内的`controls`为符合该条件后渲染的`schema`
+-   `typeSwitchable` 是否可切换条件，配合`conditions`使用
+-   `formClassName` 单组表单项的类名
+-   `noBorder` 单组表单项是否有边框
 -   更多配置请参考 [FormItem](./FormItem.md)
 
 ```schema:height="450" scope="form"

@@ -1,7 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Action, Schema, Api} from '../types';
+import {SchemaNode, Action, Schema, Api, ApiObject} from '../types';
 import forEach = require('lodash/forEach');
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
@@ -12,6 +12,7 @@ import {TableStore, ITableStore, IColumn, IRow} from '../store/table';
 import {observer} from 'mobx-react';
 import {anyChanged, getScrollParent, difference, noop} from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
+import {isEffectiveApi} from '../utils/api';
 import debounce = require('lodash/debounce');
 import xor = require('lodash/xor');
 import QuickEdit from './QuickEdit';
@@ -1828,13 +1829,14 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
     }
 
     fetchOptions() {
-        const {env, filterable} = this.props;
-        env.fetcher(filterable.source).then(ret => {
-            let options = (ret.data && ret.data.options) || [];
-            this.setState({
-                filterOptions: ret && ret.data && this.alterOptions(options),
+        const {env, filterable, data} = this.props;
+        isEffectiveApi(filterable.source, data) &&
+            env.fetcher(filterable.source).then(ret => {
+                let options = (ret.data && ret.data.options) || [];
+                this.setState({
+                    filterOptions: ret && ret.data && this.alterOptions(options),
+                });
             });
-        });
     }
 
     alterOptions(options: Array<any>) {

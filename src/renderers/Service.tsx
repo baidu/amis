@@ -7,12 +7,13 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
-import {isApiOutdated} from '../utils/api';
+import {isApiOutdated, isEffectiveApi} from '../utils/api';
 
 export interface ServiceProps extends RendererProps {
     api?: Api;
     schemaApi?: Api;
     initFetch?: boolean;
+    initFetchOn?: string;
     initFetchSchema?: boolean;
     interval?: number;
     silentPolling?: boolean;
@@ -51,6 +52,7 @@ export default class Service extends React.Component<ServiceProps> {
             initFetchSchema,
             api,
             initFetch,
+            initFetchOn,
             store,
             messages: {
                 fetchSuccess,
@@ -60,22 +62,14 @@ export default class Service extends React.Component<ServiceProps> {
 
         this.mounted = true;
 
-        if (
-            schemaApi &&
-            initFetchSchema !== false &&
-            (!(schemaApi as ApiObject).sendOn || evalExpression((schemaApi as ApiObject).sendOn as string, store.data))
-        ) {
+        if (isEffectiveApi(schemaApi, store.data, initFetchSchema)) {
             store.fetchSchema(schemaApi, store.data, {
                 successMessage: fetchSuccess,
                 errorMessage: fetchFailed
             }).then(this.initInterval);
         }
 
-        if (
-            api &&
-            initFetch !== false &&
-            (!(api as ApiObject).sendOn || evalExpression((api as ApiObject).sendOn as string, store.data))
-        ) {
+        if (isEffectiveApi(api, store.data, initFetch, initFetchOn)) {
             store.fetchInitData(api, store.data, {
                 successMessage: fetchSuccess,
                 errorMessage: fetchFailed
@@ -94,7 +88,7 @@ export default class Service extends React.Component<ServiceProps> {
             }
         } = props;
 
-        isApiOutdated(prevProps.api, props.api, prevProps.data, props.data) &&
+        isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)
             store.fetchData(props.api as Api, store.data, {
                 successMessage: fetchSuccess,
                 errorMessage: fetchFailed
@@ -102,9 +96,9 @@ export default class Service extends React.Component<ServiceProps> {
 
         isApiOutdated(prevProps.schemaApi, props.schemaApi, prevProps.data, props.data) &&
             store.fetchSchema(props.schemaApi as Api, store.data, {
-                successMessage: fetchSuccess,
-                errorMessage: fetchFailed
-            }).then(this.initInterval);
+                    successMessage: fetchSuccess,
+                    errorMessage: fetchFailed
+                }).then(this.initInterval);
     }
 
     componentWillUnmount() {
@@ -127,29 +121,21 @@ export default class Service extends React.Component<ServiceProps> {
             return this.receive(query);
         }
 
-        const {schemaApi, fetchSchema, api, fetch, store, messages: {
+        const {schemaApi, initFetchSchema, api, initFetch, initFetchOn, store, messages: {
             fetchSuccess,
             fetchFailed
         }} = this.props;
 
         clearTimeout(this.timer);
 
-        if (
-            schemaApi &&
-            fetchSchema !== false &&
-            (!(schemaApi as ApiObject).sendOn || evalExpression((schemaApi as ApiObject).sendOn as string, store.data))
-        ) {
+        if (isEffectiveApi(schemaApi, store.data, initFetchSchema)) {
             store.fetchSchema(schemaApi, store.data, {
                 successMessage: fetchSuccess,
                 errorMessage: fetchFailed
             }).then(this.initInterval);
         }
 
-        if (
-            api &&
-            fetch !== false &&
-            (!(api as ApiObject).sendOn || evalExpression((api as ApiObject).sendOn as string, store.data))
-        ) {
+        if (isEffectiveApi(api, store.data, initFetch, initFetchOn)) {
             store
                 .fetchData(api, store.data, {
                     silent,
