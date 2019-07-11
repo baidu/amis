@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
-
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
 import {Api, SchemaNode, Schema, Action} from '../types';
@@ -9,7 +8,7 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx = require('classnames');
 import {observer} from 'mobx-react';
 import {createObject, until, isVisible} from '../utils/helper';
-import {buildApi, isValidApi, isApiOutdated} from '../utils/api';
+import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {IFormStore} from '../store/form';
 
 export type TabProps = Schema & {
@@ -92,13 +91,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             onInit,
         } = this.props;
 
-        if (initApi && initFetch !== false && (!initApi.sendOn || evalExpression(initApi.sendOn, data))) {
+        if (isEffectiveApi(initApi, store.data, initFetch)) {
             store
                 .fetchInitData(initApi, store.data, {
                     successMessage: fetchSuccess,
                     errorMessage: fetchFailed,
                     onSuccess: () => {
-                        if (!initAsyncApi || store.data[initFinishedField || 'finished']) {
+                        if (!isEffectiveApi(initAsyncApi, store.data) || store.data[initFinishedField || 'finished']) {
                             return;
                         }
 
@@ -202,7 +201,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         const step = steps[this.state.currentStep - 1];
         let finnalAsyncApi = step && step.asyncApi || this.state.currentStep === steps.length && asyncApi;
         
-        if (!step || !finnalAsyncApi) {
+        if (!step || !isEffectiveApi(finnalAsyncApi, store.data)) {
             return;
         }
 
@@ -306,16 +305,16 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         if (this.state.currentStep < steps.length) {
             let finnalAsyncApi = action.asyncApi || step.asyncApi;
 
-            finnalAsyncApi &&
+            isEffectiveApi(finnalAsyncApi, store.data) &&
                 store.updateData({
                     [finishedField || 'finished']: false,
                 });
 
-            if (step.api || action.api) {
+            if (isEffectiveApi(step.api || action.api, store.data)) {
                 store
                     .saveRemote(action.api || step.api, store.data, {
                         onSuccess: () => {
-                            if (!finnalAsyncApi || store.data[finishedField || 'finished']) {
+                            if (!isEffectiveApi(finnalAsyncApi, store.data) || store.data[finishedField || 'finished']) {
                                 return;
                             }
 
@@ -340,7 +339,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             } else if (action.api || step.api || api) {
                 let finnalAsyncApi = action.asyncApi || step.asyncApi || asyncApi;
 
-                finnalAsyncApi &&
+                isEffectiveApi(finnalAsyncApi, store.data) &&
                     store.updateData({
                         [finishedField || 'finished']: false,
                     });
@@ -348,43 +347,44 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 const formStore = this.form ? (this.form.props.store as IFormStore) : store;
                 store.markSaving(true);
 
-                formStore
-                    .saveRemote(action.api || step.api || api, store.data, {
-                        onSuccess: () => {
-                            if (!finnalAsyncApi || store.data[finishedField || 'finished']) {
-                                return;
+                isEffectiveApi(action.api || step.api || api, store.data) &&
+                    formStore
+                        .saveRemote(action.api || step.api || api, store.data, {
+                            onSuccess: () => {
+                                if (!isEffectiveApi(finnalAsyncApi, store.data) || store.data[finishedField || 'finished']) {
+                                    return;
+                                }
+
+                                return until(
+                                    () => store.checkRemote(finnalAsyncApi as Api, store.data),
+                                    (ret: any) => ret && ret[finishedField || 'finished'],
+                                    cancel => (this.asyncCancel = cancel)
+                                );
+                            },
+                        })
+                        .then(value => {
+                            store.updateData({
+                                ...store.data,
+                                ...value
+                            });
+                            store.markSaving(false);
+                            if (onFinished && onFinished(value, action) === false) {
+                                // 如果是 false 后面的操作就不执行
+                                return value;
                             }
 
-                            return until(
-                                () => store.checkRemote(finnalAsyncApi as Api, store.data),
-                                (ret: any) => ret && ret[finishedField || 'finished'],
-                                cancel => (this.asyncCancel = cancel)
-                            );
-                        },
-                    })
-                    .then(value => {
-                        store.updateData({
-                            ...store.data,
-                            ...value
-                        });
-                        store.markSaving(false);
-                        if (onFinished && onFinished(value, action) === false) {
-                            // 如果是 false 后面的操作就不执行
+                            if (redirect) {
+                                env.updateLocation(filter(redirect, store.data));
+                            } else if (reload) {
+                                this.reloadTarget(reload, store.data);
+                            }
+
                             return value;
-                        }
-
-                        if (redirect) {
-                            env.updateLocation(filter(redirect, store.data));
-                        } else if (reload) {
-                            this.reloadTarget(reload, store.data);
-                        }
-
-                        return value;
-                    })
-                    .catch(e => {
-                        store.markSaving(false);
-                        console.error(e);
-                    });
+                        })
+                        .catch(e => {
+                            store.markSaving(false);
+                            console.error(e);
+                        });
             }
         }
 

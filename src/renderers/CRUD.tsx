@@ -10,7 +10,7 @@ import {
     isObjectShallowModified,
     noop,
     isVisible,
-    getVariable,
+    getVariable
 } from '../utils/helper';
 import {observer} from 'mobx-react';
 import partition = require('lodash/partition');
@@ -22,7 +22,7 @@ import pick = require('lodash/pick');
 import qs from 'qs';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from '../utils/tpl';
-import {isValidApi, buildApi} from '../utils/api';
+import {isValidApi, buildApi, isEffectiveApi} from '../utils/api';
 import omit = require('lodash/omit');
 import find = require('lodash/find');
 import Html from '../components/Html';
@@ -278,23 +278,24 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             // 由于 ajax 一段时间后再弹出，肯定被浏览器给阻止掉的，所以提前弹。
             action.redirect && action.blank && env.jumpTo(filter(action.redirect, data), action);
 
-            return store
-                .saveRemote(action.api as string, data, {
-                    successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
-                    errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveFailed),
-                })
-                .then(async (payload: object) => {
-                    const data = createObject(ctx, payload);
+            return isEffectiveApi(action.api, data) &&
+                store
+                    .saveRemote(action.api, data, {
+                        successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
+                        errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveFailed),
+                    })
+                    .then(async (payload: object) => {
+                        const data = createObject(ctx, payload);
 
-                    if (action.feedback && isVisible(action.feedback, data)) {
-                        await this.openFeedback(action.feedback, data);
-                        stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
-                    }
+                        if (action.feedback && isVisible(action.feedback, data)) {
+                            await this.openFeedback(action.feedback, data);
+                            stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
+                        }
 
-                    action.redirect && !action.blank && env.jumpTo(filter(action.redirect, data), action);
-                    action.reload ? this.reloadTarget(action.reload, data) : this.search(undefined, undefined, true);
-                })
-                .catch(() => {});
+                        action.redirect && !action.blank && env.jumpTo(filter(action.redirect, data), action);
+                        action.reload ? this.reloadTarget(action.reload, data) : this.search(undefined, undefined, true);
+                    })
+                    .catch(() => {});
         } else if (pickerMode && (action.actionType === 'confirm' || action.actionType === 'submit')) {
             return Promise.resolve({
                 items: store.selectedItems.concat(),
@@ -334,22 +335,23 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 ctx
             );
         } else if (action.actionType === 'ajax') {
-            store
-                .saveRemote(action.api as string, ctx, {
-                    successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
-                    errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveFailed),
-                })
-                .then(async () => {
-                    if (action.feedback && isVisible(action.feedback, store.data)) {
-                        await this.openFeedback(action.feedback, store.data);
-                        stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
-                    }
+            isEffectiveApi(action.api, ctx) &&
+                store
+                    .saveRemote(action.api as string, ctx, {
+                        successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
+                        errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveFailed),
+                    })
+                    .then(async () => {
+                        if (action.feedback && isVisible(action.feedback, store.data)) {
+                            await this.openFeedback(action.feedback, store.data);
+                            stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
+                        }
 
-                    action.reload
-                        ? this.reloadTarget(action.reload, store.data)
-                        : this.search({[pageField || 'page']: 1}, undefined, true);
-                })
-                .catch(() => null);
+                        action.reload
+                            ? this.reloadTarget(action.reload, store.data)
+                            : this.search({[pageField || 'page']: 1}, undefined, true);
+                    })
+                    .catch(() => null);
         } else if (onAction) {
             onAction(e, action, ctx);
         }
@@ -562,8 +564,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             );
         this.lastQuery = store.query;
         const data = createObject(store.data, store.query);
-        api &&
-            (!(api as ApiObject).sendOn || evalExpression((api as ApiObject).sendOn as string, data)) &&
+        isEffectiveApi(api, data) &&
             store
                 .fetchInitData(api, data, {
                     successMessage: messages && messages.fetchSuccess,
@@ -652,18 +653,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 data.unModifiedItems = unModifiedItems;
             }
 
-            store
-                .saveRemote(quickSaveApi, data, {
-                    successMessage: messages && messages.saveFailed,
-                    errorMessage: messages && messages.saveSuccess,
-                })
-                .then(() => {
-                    if ((quickSaveApi as ApiObject).reload) {
-                        this.reloadTarget((quickSaveApi as ApiObject).reload as string, data);
-                    }
-                    this.search();
-                })
-                .catch(() => {});
+            isEffectiveApi(quickSaveApi, store.data) &&
+                store
+                    .saveRemote(quickSaveApi, data, {
+                        successMessage: messages && messages.saveFailed,
+                        errorMessage: messages && messages.saveSuccess,
+                    })
+                    .then(() => {
+                        if ((quickSaveApi as ApiObject).reload) {
+                            this.reloadTarget((quickSaveApi as ApiObject).reload as string, data);
+                        }
+                        this.search();
+                    })
+                    .catch(() => {});
         } else {
             if (!quickSaveItemApi) {
                 env && env.alert('CRUD quickSaveItemApi is required!');
@@ -675,15 +677,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 modified: diff,
             });
 
-            store
-                .saveRemote(quickSaveItemApi, createObject(data, rows))
-                .then(() => {
-                    if ((quickSaveItemApi as ApiObject).reload) {
-                        this.reloadTarget((quickSaveItemApi as ApiObject).reload as string, data);
-                    }
-                    this.search();
-                })
-                .catch(() => {});
+            isEffectiveApi(quickSaveItemApi, store.data) &&
+                store
+                    .saveRemote(quickSaveItemApi, createObject(data, rows))
+                    .then(() => {
+                        if ((quickSaveItemApi as ApiObject).reload) {
+                            this.reloadTarget((quickSaveItemApi as ApiObject).reload as string, data);
+                        }
+                        this.search();
+                    })
+                    .catch(() => {});
         }
     }
 
@@ -761,16 +764,17 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         hasIdField && (model.ids = rows.map((item: any) => item[primaryField as string]).join(','));
         hasIdField && orderField && (model.order = rows.map(item => pick(item, [primaryField as string, orderField])));
 
-        store
-            .saveRemote(saveOrderApi, model)
-            .then(() => {
-                if ((saveOrderApi as ApiObject).reload) {
-                    this.reloadTarget((saveOrderApi as ApiObject).reload as string, model);
-                }
+        isEffectiveApi(saveOrderApi, store.data) &&
+            store
+                .saveRemote(saveOrderApi, model)
+                .then(() => {
+                    if ((saveOrderApi as ApiObject).reload) {
+                        this.reloadTarget((saveOrderApi as ApiObject).reload as string, model);
+                    }
 
-                this.search();
-            })
-            .catch(() => {});
+                    this.search();
+                })
+                .catch(() => {});
     }
 
     handleSelect(items: Array<any>, unSelectedItems: Array<any>) {
@@ -970,7 +974,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                         `bulk-action/${index}`,
                         {
                             size: 'sm',
-                            ...omit(btn, ['visibileOn', 'hiddenOn', 'disabledOn']),
+                            ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
                             type: 'button',
                         },
                         {
@@ -991,7 +995,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                         `bulk-action/${index}`,
                         {
                             size: 'sm',
-                            ...omit(btn, ['visibileOn', 'hiddenOn', 'disabledOn']),
+                            ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
                             type: 'button',
                         },
                         {

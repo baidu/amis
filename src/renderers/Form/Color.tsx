@@ -6,11 +6,8 @@ import {
 import cx from 'classnames';
 import ColorPicker from '../../components/ColorPicker';
 
-
 export interface ColorProps extends FormControlProps {
     placeholder?: string;
-    inputFormat?: string;
-    timeFormat?: string;
     format?: string;
     timeConstrainst?: object;
     closeOnSelect?:boolean;

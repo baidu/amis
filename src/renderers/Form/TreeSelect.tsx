@@ -13,10 +13,12 @@ import TreeSelector from '../../components/Tree';
 import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
 import find = require('lodash/find');
+import {Api} from '../../types';
+import {isEffectiveApi} from '../../utils/api';
 
 export interface TreeSelectProps extends OptionsControlProps {
     placeholder?: any;
-    autoComplete?: string;
+    autoComplete?: Api;
 };
 
 export interface TreeSelectState {
@@ -168,12 +170,13 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
     
     handleInputChange(e:React.ChangeEvent<HTMLInputElement>) {
         const {
-            autoComplete
+            autoComplete,
+            data
         } = this.props;
 
         this.setState({
             inputValue: e.currentTarget.value
-        }, autoComplete ? () => this.loadRemote(this.state.inputValue) : undefined);
+        }, isEffectiveApi(autoComplete, data) ? () => this.loadRemote(this.state.inputValue) : undefined);
     }
 
     handleInputKeyDown(event:React.KeyboardEvent) {
@@ -230,7 +233,7 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
             setLoading,
         } = this.props;
 
-        if (!autoComplete) {
+        if (!autoComplete || !isEffectiveApi(autoComplete, data)) {
             return;
         } else if (!env || !env.fetcher) {
             throw new Error('fetcher is required');
@@ -249,7 +252,7 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
 
         setLoading(true);
         return env
-            .fetcher(autoComplete as string, {
+            .fetcher(autoComplete, {
                 ...data,
                 term: input,
                 value: input
@@ -344,7 +347,7 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
             autoComplete
         } = this.props;
 
-        let filtedOptions = !autoComplete && searchable && this.state.inputValue ? this.filterOptions(options, this.state.inputValue) : options;
+        let filtedOptions = !isEffectiveApi(autoComplete) && searchable && this.state.inputValue ? this.filterOptions(options, this.state.inputValue) : options;
 
 
         return (
@@ -423,7 +426,7 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
                         'TreeSelect--inline': inline,
                         'TreeSelect--single': !multiple,
                         'TreeSelect--multi': multiple,
-                        'TreeSelect--searchable': searchable || autoComplete,
+                        'TreeSelect--searchable': searchable || isEffectiveApi(autoComplete),
                         'is-opened': this.state.isOpened,
                         'is-focused': this.state.isFocused,
                         'is-disabled': disabled
@@ -433,7 +436,7 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
                         <div className={cx('TreeSelect-valueWrap')}>
                             {this.renderValues()}
                             
-                            {searchable || autoComplete ? (
+                            {searchable || isEffectiveApi(autoComplete) ? (
                                 <input
                                     onChange={this.handleInputChange}
                                     value={this.state.inputValue}

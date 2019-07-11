@@ -15,6 +15,7 @@ const rSchema = /(?:^|raw\:)(get|post|put|delete|patch):/i;
 import qs from 'qs';
 import { evalExpression } from './tpl';
 import {
+    isObject,
     isObjectShallowModified
 } from './helper';
 
@@ -154,6 +155,27 @@ export function isApiOutdated(prevApi: Api | undefined, nextApi: Api | undefined
 
 export function isValidApi(api: string) {
     return api && /^(?:https?:\/\/[^\/]+)?(\/[^\s\/\?]*){1,}(\?.*)?$/.test(api);
+}
+
+export function isEffectiveApi(api?: Api, data?: any, initFetch?: boolean, initFetchOn?: string) {
+    if (!api) {
+        return false;
+    }
+    if (initFetch === false) {
+        return false;
+    }
+    if (initFetchOn && data && !evalExpression(initFetchOn, data)) {
+        return false;
+    }
+    if (typeof api === 'string' && isValidApi(api)) {
+        return true;
+    } else if (isObject(api) && isValidApi((api as ApiObject).url)) {
+        if ((api as ApiObject).sendOn && data && !evalExpression((api as ApiObject).sendOn as string, data)) {
+            return false;
+        }
+        return true;
+    }
+    return false;
 }
 
 export function isSameApi(apiA: ApiObject | ApiCacheConfig, apiB: ApiObject | ApiCacheConfig): boolean {
