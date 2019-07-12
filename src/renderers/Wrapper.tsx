@@ -33,7 +33,7 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
 
         return (
             <div
-                className={cx('Wrapper', size && size !== 'none' ? `Wrapper${size ? `--${size}` : ''}` : '', className)}
+                className={cx('Wrapper', size ? `Wrapper--${size}` : '', className)}
             >
                 {this.renderBody()}
             </div>
