@@ -46,7 +46,7 @@ exports[`Renderer:date 1`] = `
               <span
                 class="a-DatePicker-value"
               >
-                2019-06-06 21:11
+                2019-06-06 21:11:00
               </span>
               <a
                 class="a-DatePicker-clear"
