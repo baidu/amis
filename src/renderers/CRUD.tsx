@@ -653,7 +653,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 data.unModifiedItems = unModifiedItems;
             }
 
-            isEffectiveApi(quickSaveApi, store.data) &&
+            isEffectiveApi(quickSaveApi, data) &&
                 store
                     .saveRemote(quickSaveApi, data, {
                         successMessage: messages && messages.saveFailed,
@@ -677,7 +677,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 modified: diff,
             });
 
-            isEffectiveApi(quickSaveItemApi, store.data) &&
+            isEffectiveApi(quickSaveItemApi, createObject(data, rows)) &&
                 store
                     .saveRemote(quickSaveItemApi, createObject(data, rows))
                     .then(() => {
@@ -764,7 +764,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         hasIdField && (model.ids = rows.map((item: any) => item[primaryField as string]).join(','));
         hasIdField && orderField && (model.order = rows.map(item => pick(item, [primaryField as string, orderField])));
 
-        isEffectiveApi(saveOrderApi, store.data) &&
+        isEffectiveApi(saveOrderApi, model) &&
             store
                 .saveRemote(saveOrderApi, model)
                 .then(() => {
