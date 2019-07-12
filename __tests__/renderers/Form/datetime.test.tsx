@@ -30,7 +30,7 @@ test('Renderer:date', async () => {
     })));
 
     const input = container.querySelector('.a-DatePicker-value');
-    expect(input.innerHTML).toEqual('2019-06-06 21:11');
+    expect(input.innerHTML).toEqual('2019-06-06 21:11:00');
 
     expect(container).toMatchSnapshot();
 });
