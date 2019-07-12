@@ -4,10 +4,10 @@ exports[`Renderer:carousel 1`] = `
 <div>
   <div
     class="a-Carousel a-Carousel--light show"
+    style="width: 500px; height: 300px;"
   >
     <div
       class="a-Carousel-container"
-      style="width: 500px; height: 300px;"
     >
       <div
         class="a-Carousel-item fade in"
