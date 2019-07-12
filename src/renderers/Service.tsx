@@ -88,7 +88,7 @@ export default class Service extends React.Component<ServiceProps> {
             }
         } = props;
 
-        isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)
+        isApiOutdated(prevProps.api, props.api, prevProps.data, props.data) &&
             store.fetchData(props.api as Api, store.data, {
                 successMessage: fetchSuccess,
                 errorMessage: fetchFailed
