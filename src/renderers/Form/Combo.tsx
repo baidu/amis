@@ -58,6 +58,11 @@ export interface ComboProps extends FormControlProps {
     dragIcon: string,
     deleteIcon: string;
     store: IComboStore;
+    messages?: {
+        validateFailed?: string;
+        minLengthValidateFailed?: string;
+        maxLengthValidateFailed?: string;
+    }
 };
 
 export default class ComboControl extends React.Component<ComboProps> {
@@ -329,19 +334,20 @@ export default class ComboControl extends React.Component<ComboProps> {
         const {
             value,
             minLength,
-            maxLength
+            maxLength,
+            messages
         } = this.props;
 
         if (minLength && (!Array.isArray(value) || value.length < minLength)) {
-            return `组合表单成员数量不够，低于最小的设定${minLength}个，请添加更多的成员。`;
+            return messages && messages.minLengthValidateFailed || `组合表单成员数量不够，低于设定的最小${minLength}个，请添加更多的成员。`;
         } else if (maxLength && Array.isArray(value) && value.length > maxLength) {
-            return `组合表单成员数量超出，超出最大的设定${maxLength}个，请删除多余的成员。`;
+            return messages && messages.maxLengthValidateFailed || `组合表单成员数量超出，超出设定的最大${maxLength}个，请删除多余的成员。`;
         } else if (this.subForms.length) {
             return Promise
                 .all(this.subForms.map(item => item.validate()))
                 .then((values) => {
                     if (~values.indexOf(false)) {
-                        return '子表单验证失败，请仔细检查';
+                        return messages && messages.validateFailed || '子表单验证失败，请仔细检查';
                     }
 
                     return;
