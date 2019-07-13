@@ -1245,7 +1245,7 @@ $Panel--default-badgeBg: #333 !default;
 $Panel--default-headingBorderColor: $borderColor !default;
 $Panel-headingPadding: px2rem(10px) px2rem(15px) !default;
 $Panel-headingBorderBottom: $borderWidth solid transparent !default;
-$Panel-headingBorderRadius: $borderRadius !default;
+$Panel-headingBorderRadius: $borderRadius $borderRadius 0 0 !default;
 $Panel-titleMarginTop: 0 !default;
 $Panel-titleMarginBottom: 0 !default;
 $Panel-titleFontSize: $fontSizeMd !default;
