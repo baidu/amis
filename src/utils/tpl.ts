@@ -1,6 +1,6 @@
 export interface Enginer {
     test: (tpl:string) => boolean;
-    compile: (tpl:string, data:object) => string;
+    compile: (tpl:string, data:object, ...rest:Array<any>) => string;
 }
 
 const enginers:{
@@ -11,7 +11,7 @@ export function reigsterTplEnginer(name:string, enginer:Enginer) {
     enginers[name] = enginer;
 }
 
-export function filter(tpl: string, data: object = {}): string {
+export function filter(tpl: string, data: object = {}, ...rest:Array<any>): string {
     if (!tpl || typeof tpl !== 'string') {
         return '';
     }
@@ -20,7 +20,7 @@ export function filter(tpl: string, data: object = {}): string {
     for (let i = 0, len = keys.length; i < len; i++) {
         let enginer = enginers[keys[i]];
         if (enginer.test(tpl)) {
-            return enginer.compile(tpl, data);
+            return enginer.compile(tpl, data, ...rest);
         }
     }
 

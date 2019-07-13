@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
@@ -10,14 +9,6 @@ import {observer} from 'mobx-react';
 import {createObject, until, isVisible} from '../utils/helper';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {IFormStore} from '../store/form';
-
-export type TabProps = Schema & {
-    title?: string; // 标题
-    icon?: string;
-    hash?: string; // 通过 hash 来控制当前选择
-    tab: Schema;
-    className: string;
-};
 
 export interface WizardProps extends RendererProps {
     store: IServiceStore;

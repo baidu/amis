@@ -96,7 +96,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any>{
 
         if (this.originalEditor && diffValue && (diffValue !== prevProps.diffValue || data !== prevProps.data)) {
             this.originalEditor.getModel().setValue(/^\$(?:([a-z0-9_.]+)|{.+})$/.test(diffValue as string)
-                ? filter(normalizeValue(diffValue || ''), data) : normalizeValue(diffValue));
+                ? filter(normalizeValue(diffValue || ''), data, '| raw') : normalizeValue(diffValue));
         }
 
         if (this.modifiedEditor && value && value !== prevProps.value && !this.state.focused) {
@@ -127,7 +127,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any>{
 
         this.editor.setModel({
             original: this.monaco.editor.createModel(/^\$(?:([a-z0-9_.]+)|{.+})$/.test(diffValue as string)
-                ? filter(normalizeValue(diffValue || ''), data) : normalizeValue(diffValue), language),
+                ? filter(normalizeValue(diffValue || ''), data, '| raw') : normalizeValue(diffValue), language),
             modified: this.monaco.editor.createModel(normalizeValue(value), language)
         });
 

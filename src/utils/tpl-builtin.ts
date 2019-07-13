@@ -463,5 +463,5 @@ export function dataMapping(to: any, from: PlainObject): any {
 
 reigsterTplEnginer("builtin", {
     test: str => !!~str.indexOf("$"),
-    compile: (str: string, data: object) => tokenize(str, data)
+    compile: (str: string, data: object, defaultFilter = '| html') => tokenize(str, data, defaultFilter)
 });
