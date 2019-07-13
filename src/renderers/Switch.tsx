@@ -5,6 +5,7 @@ import {Api, SchemaNode, PlainObject} from '../types';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
 import Switch from '../components/Switch';
+import { resolveVariable } from '../utils/tpl-builtin';
 
 export interface SwitchProps extends RendererProps {
     className?: string;
@@ -47,17 +48,23 @@ export class SwitchField extends React.Component<SwitchProps, object> {
         const {
             className,
             classPrefix: ns,
-            value,
             placeholder,
             trueValue,
             falseValue,
             onQuickChange,
             option,
             disabled,
+            name,
+            data
         } = this.props;
 
+        let value = this.props.value;
         let viewValue: React.ReactNode = <span className="text-muted">{placeholder}</span>;
         let showOption = false;
+
+        if (value === void 0 && name) {
+            value = resolveVariable(name, data);
+        }
 
         if (value == trueValue || value == falseValue) {
             showOption = !!option;
