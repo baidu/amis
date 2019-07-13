@@ -39,7 +39,7 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
             <div className={cx(`${ns}QrCode`, className)}>
                 {value ? (
                     <QrCode
-                        value={filter(value, data)}
+                        value={filter(value, data, '| raw')}
                         size={codeSize}
                         bgColor={backgroundColor}
                         fgColor={foregroundColor}

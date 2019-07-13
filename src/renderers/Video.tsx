@@ -402,7 +402,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
         let source = this.props.src || (name && data && (data as any)[name]) || (amisConfig && amisConfig.value);
         const videoState = this.state.videoState;
         let highlight = videoState.duration && minVideoDuration && videoState.duration < minVideoDuration;
-        let src = filter(source, data);
+        let src = filter(source, data, '| raw');
         let sourceNode;
 
         if ((src && /\.flv(?:$|\?)/.test(src) && isLive) || videoType === 'video/x-flv') {
