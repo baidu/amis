@@ -439,7 +439,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     }
 
     renderPosterAndPlayer() {
-        let {poster, data, locals, minPosterDimension, classPrefix: ns} = this.props;
+        let {poster, data, locals, minPosterDimension, classnames: cx} = this.props;
         const posterInfo = this.state.posterInfo || {};
         let dimensionClassName = '';
 
@@ -449,14 +449,14 @@ export default class Video extends React.Component<VideoProps, VideoState> {
             (minPosterDimension.width || minPosterDimension.height) &&
             (minPosterDimension.width > posterInfo.width || minPosterDimension.height > posterInfo.height)
         ) {
-            dimensionClassName = `${ns}Text--danger`;
+            dimensionClassName = `Text--danger`;
         }
 
         return (
             <div className="pull-in-xs">
-                <div className={`${ns}Hbox`}>
-                    <div className={`${ns}Hbox-col`}>
-                        <div className="Wrapper--xs">
+                <div className={cx('Hbox')}>
+                    <div className={cx('Hbox-col')}>
+                        <div className={cx('Wrapper Wrapper--xs')}>
                             <img
                                 onLoad={this.onImageLoaded as any}
                                 className="w-full"
@@ -472,7 +472,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
                                     <span>
                                         {' '}
                                         封面尺寸小于{' '}
-                                        <span className={`${ns}Text--danger`}>
+                                        <span className={cx('Text--danger')}>
                                             {minPosterDimension.width || '-'} x {minPosterDimension.height || '-'}
                                         </span>
                                     </span>
@@ -480,8 +480,8 @@ export default class Video extends React.Component<VideoProps, VideoState> {
                             </p>
                         </div>
                     </div>
-                    <div className={`${ns}Hbox-col`}>
-                        <div className="Wrapper--xs">{this.renderPlayer()}</div>
+                    <div className={cx('Hbox-col')}>
+                        <div className={cx('Wrapper Wrapper--xs')}>{this.renderPlayer()}</div>
                     </div>
                 </div>
             </div>
