@@ -66,7 +66,7 @@ export class SwitchField extends React.Component<SwitchProps, object> {
             value = resolveVariable(name, data);
         }
 
-        if (value == trueValue || value == falseValue) {
+        if (value !== void 0) {
             showOption = !!option;
             viewValue = (
                 <Switch
