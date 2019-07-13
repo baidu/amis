@@ -417,8 +417,8 @@ export default class Video extends React.Component<VideoProps, VideoState> {
             <div className={playerClassName}>
                 <Player
                     ref={this.playerRef}
-                    poster={filter(poster, data)}
-                    src={filter(source, data)}
+                    poster={filter(poster, data, '| raw')}
+                    src={src}
                     autoPlay={autoPlay}
                     muted={muted}
                     aspectRatio={aspectRatio}
@@ -461,7 +461,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
                                 onLoad={this.onImageLoaded as any}
                                 className="w-full"
                                 alt="poster"
-                                src={filter(poster, data)}
+                                src={filter(poster, data, '| raw')}
                             />
                             <p className="m-t-xs">
                                 封面{' '}
