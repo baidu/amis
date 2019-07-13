@@ -66,7 +66,7 @@ export default class Service extends React.Component<ServiceProps> {
             store.fetchSchema(schemaApi, store.data, {
                 successMessage: fetchSuccess,
                 errorMessage: fetchFailed
-            }).then(this.initInterval);
+            });
         }
 
         if (isEffectiveApi(api, store.data, initFetch, initFetchOn)) {
