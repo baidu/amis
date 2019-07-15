@@ -1,5 +1,5 @@
 import {Api} from '../../types';
-import {buildApi, isEffectiveApi, isValidApi} from '../../utils/api';
+import {buildApi, isEffectiveApi, isValidApi, isApiOutdated} from '../../utils/api';
 import {
     anyChanged
 } from '../../utils/helper';
@@ -179,13 +179,8 @@ export function registerOptionsControl(config: OptionsConfig) {
                     const options = resolveVariableAndFilter(props.source, props.data, '| raw');
                     const nextOptions = resolveVariableAndFilter(nextProps.source as string, nextProps.data, '| raw');
                     options !== nextOptions && formItem.setOptions(normalizeOptions(nextOptions || []));
-                } else {
-                    let prevApi = buildApi(props.source, props.data as object, {ignoreData: true});
-                    let nextApi = buildApi(nextProps.source, nextProps.data as object, {ignoreData: true});
-
-                    if (prevApi.url !== nextApi.url && isEffectiveApi(nextApi, nextProps.data)) {
-                        formItem.loadOptions(nextProps.source, nextProps.data, undefined, true, nextProps.onChange);
-                    }
+                } else if (isApiOutdated(props.source, nextProps.source, props.data, nextProps.data)) {
+                    formItem.loadOptions(nextProps.source, nextProps.data, undefined, true, nextProps.onChange);
                 }
             }
         }

@@ -233,7 +233,7 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
             setLoading,
         } = this.props;
 
-        if (!autoComplete || !isEffectiveApi(autoComplete, data)) {
+        if (!isEffectiveApi(autoComplete, data)) {
             return;
         } else if (!env || !env.fetcher) {
             throw new Error('fetcher is required');
