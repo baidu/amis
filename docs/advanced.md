@@ -3,7 +3,7 @@ title: 高级用法
 shortname: advanced
 ---
 
-在开始阅读之前，希望你已经阅读 [快速开始文档](./getting_started.md) 。
+在开始阅读之前，希望你已经阅读 [基本用法](./basic.md) 。
 
 ## 数据作用域
 

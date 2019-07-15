@@ -15,6 +15,15 @@ export default {
         },
 
         {
+            label: '基本用法',
+            icon: 'fa fa-file',
+            path: '/docs/basic',
+            getComponent: (location, cb) => require(['../../docs/basic.md'], (doc) => {
+                cb(null, makeMarkdownRenderer(doc));
+            })
+        },
+
+        {
             label: '高级用法',
             icon: 'fa fa-rocket',
             path: '/docs/advanced',
@@ -669,7 +678,7 @@ export default {
         },
 
         {
-            label: '开源渲染器',
+            label: '如何定制',
             path: '/docs/sdk',
             icon: 'fa fa-cubes',
             getComponent: (location, cb) => require(['../../docs/sdk.md'], (doc) => {
