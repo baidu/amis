@@ -112,7 +112,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
 
         setLoading(true);
-        return autoComplete && isEffectiveApi(autoComplete, data) &&
+        return isEffectiveApi(autoComplete, data) &&
             env
                 .fetcher(autoComplete, {
                     ...data,
@@ -191,7 +191,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
                     value={selectedOptions}
                     options={options}
                     onNewOptionClick={this.handleNewOptionClick}
-                    loadOptions={isEffectiveApi(autoComplete) ? this.loadRemote : null}
+                    loadOptions={isEffectiveApi(autoComplete) ? this.loadRemote : undefined}
                     creatable={creatable}
                     searchable={autoComplete || creatable ? true : searchable}
                     onChange={this.changeValue}

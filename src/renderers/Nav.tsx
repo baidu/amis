@@ -116,7 +116,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
         const {data, env, source} = this.props;
         const finalData = values ? createObject(data, values) : data;
 
-        if (!source || !isEffectiveApi(source, data)) {
+        if (!isEffectiveApi(source, data)) {
             return;
         }
 

@@ -236,9 +236,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         const isNew = !isObjectShallowModified(scaffold, origin, false);
         
         let remote:Payload | null = null;
-        if (isNew && addApi && isEffectiveApi(addApi, createObject(data, item))) {
+        if (isNew && isEffectiveApi(addApi, createObject(data, item))) {
             remote = await env.fetcher(addApi, createObject(data, item));
-        } else if (updateApi && isEffectiveApi(updateApi, createObject(data, item))) {
+        } else if (isEffectiveApi(updateApi, createObject(data, item))) {
             remote = await env.fetcher(updateApi, createObject(data, item));
         }
 
@@ -296,16 +296,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             return;
         }
 
-        if (deleteApi) {
-            const ctx = createObject(data, item);
+        const ctx = createObject(data, item);
+        if (isEffectiveApi(deleteApi, ctx)) {
+            
             const confirmed = await env.confirm(deleteConfirmText ? filter(deleteConfirmText, ctx): '确认要删除？')
             if (!confirmed) { // 如果不确认，则跳过！
                 return;
             }
-            if (!isEffectiveApi(deleteApi, ctx)) {
-                return;
-            }
-
+            
             const result = await env.fetcher(deleteApi, ctx);
 
             if (!result.ok) {
