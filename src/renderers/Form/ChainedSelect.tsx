@@ -85,7 +85,7 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
             idx++;
         }
 
-        if (!arr[idx] || !env || !source || !isEffectiveApi(source, data)) {
+        if (!arr[idx] || !env || !isEffectiveApi(source, data)) {
             return;
         }
 
