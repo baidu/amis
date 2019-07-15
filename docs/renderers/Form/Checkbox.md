@@ -6,7 +6,7 @@
 -   `option` 选项说明
 -   `trueValue` 默认 `true`
 -   `falseValue` 默认 `false`
--   更多配置请参考 [FormItem](./FormItem.md)
+-   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="200" scope="form-item"
 {

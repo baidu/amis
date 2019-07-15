@@ -2,11 +2,12 @@
 title: 渲染器手册
 ---
 
-amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成的，掌握他们规则，就能灵活配置出各种页面。
+amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成的，掌握他们规则，就能灵活配置出各种页面。 
 
-## 集合
+开始之前，请您一定要先阅读[基本用法](./basic.md)。
 
 -   [Definitions](./renderers/Definitions.md): 建立当前页面公共的配置项
+-   [Tpl](./renderers/Tpl.md): 支持用 JS 模板引擎来组织输出
 -   [Page](./renderers/Page.md): JSON 配置最外层的 Page 渲染器
 -   [Form](./renderers/Form/Form.md): 表单渲染器
     -   [FormItem](./renderers/Form/FormItem.md): Form 中主要是由各种 FormItem 组成
@@ -59,7 +60,6 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
     -   [Editor](./renderers/Form/Editor.md): 编辑器
     -   [Static](./renderers/Static.md): 纯用来展现数据的
 -   [Wizard](./renderers/Wizard.md): 表单向导
--   [Tpl](./renderers/Tpl.md): 支持用 JS 模板引擎来组织输出
 -   [Each](./renderers/Each.md): 基于现有变量循环输出渲染器
 -   [Plain](./renderers/Plain.md): 单纯的文字输出
 -   [Html](./renderers/Html.md): html, 当需要用到变量时，请用 Tpl 代替

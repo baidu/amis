@@ -13,7 +13,7 @@ formItem 还可以是子表单类型。
 -   `form` 字表单的配置
     `title` 标题
     `controls` 请参考 [Form](./Form.md) 中的配置说明。
--   更多配置请参考 [FormItem](./FormItem.md)
+-   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="400" scope="form"
 [

@@ -1,6 +1,8 @@
 ## Page
 
-Json 配置最外层是一个 `Page` 渲染器。他主要包含标题，副标题，提示信息等设置，需要注意的是，他有三个容器区域分别是：内容区、边栏区和工具条区，在容器里面放不同的渲染器，就能配置出不同的页面来。
+页面渲染器，他主要包含标题，副标题，提示信息等设置，需要注意的是，他有三个容器区域分别是：内容区、边栏区和工具条区，在容器里面放不同的渲染器，就能配置出不同的页面来。
+
+可以配置 `initApi` 从远端拉取数据，拉取的数据可以在整个页面级别使用。
 
 ```schema:height="200"
 {
@@ -9,8 +11,9 @@ Json 配置最外层是一个 `Page` 渲染器。他主要包含标题，副标�
   "subTitle": "SubTitle",
   "remark": "Remark",
   "aside": "Aside",
-  "body": "Body",
-  "toolbar": "Toolbar"
+  "body": "时间: ${date | date}",
+  "toolbar": "Toolbar",
+  "initApi": "/api/mock2/service/data"
 }
 ```
 

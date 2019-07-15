@@ -25,7 +25,7 @@
     -   `minHeight` 限制图片最小高度。
     -   `maxWidth` 限制图片最大宽度。
     -   `maxHeight` 限制图片最大高度。
--   更多配置请参考 [FormItem](./FormItem.md)
+-   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="250" scope="form-item"
 {

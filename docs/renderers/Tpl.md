@@ -49,7 +49,7 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 }
 ```
 
-如果只想简单取下变量，可以用 `$xxx` 或者 `${xxx}`。同时如果不指定类型，默认就是 `tpl`, 所以以上示例可以简化为。
+如果只想简单取下变量，可以用 `$xxx` 或者 `${xxx}`。同时如果不指定渲染器类型，默认就是 `tpl`, 所以以上示例可以简化为。
 
 > 取值支持多级，如果层级比较深可以用 `.` 来分割如： `${xx.xxx.xx}`
 > 另外 `$&` 表示直接获取当前的 `data`。
@@ -63,7 +63,9 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 }
 ```
 
-通过 `$xxx` 取到的值，默认是不做任何处理，如果希望把 html 转义了的，请使用：`${xxx | html}`。
+`注意：$xxx 与 <%= data.xxx %> 这两种语法不能同时使用，只有一种有效，所以不要交叉使用。`
+
+通过 `$xxx` 取到的值，默认是会做 html 转义的，也就是说  `$xxx` 完全等价于 `${xxx | html}`, 如果你想什么都不做，那么请这么写 `${xxx | raw}`。
 
 从上面的语法可以看出来，取值时是支持指定 filter 的，那么有哪些 filter 呢？
 
@@ -82,9 +84,7 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 -   `join` 当值是 array 时，可以把内容连起来。\${xxx | join:,}
 -   `first` 获取数组的第一个成员。
 -   `last` 获取数组的最后一个成员。
--   `pick` 如果是对象则从当前值中再次查找值如： `${xxx|pick:yyy}` 等价于 `${xxx.yyy}`。如果是数组，则做 map 操作，操作完后还是数组，不过成员已经变成了你选择的东西。
--   `ubb2html` 我想你应该不需要，贴吧定制的 ubb 格式。
--   `html2ubb` 我想你应该不需要，贴吧定制的 ubb 格式。
+-   `pick` 如果是对象则从当前值中再次查找值如： `${xxx|pick:yyy}` 等价于 `${xxx.yyy}`。如果是数组，则做 map 操作，操作完后还是数组，不过成员已经变成了你选择的东西。如: `${xxx|pick:yyy}` 如果 xxx 的值为 `[{xxx: 1, yyy: 2}]` 经过处理后就是 `[{yyy: 2}]`。更复杂的用法： `${xxx|pick:a~xxx,b~yyy}` 经过处理就是 `[{a:1, b: 2}]`
 -   `split` 可以将字符传通过分隔符分离成数组，默认分隔符为 `,` 如： `${ids|split|last}` 即取一段用逗号分割的数值中的最后一个。
 -   `nth` 取数组中的第 n 个成员。如： `${ids|split|nth:1}`
 -   `str2date` 请参考 [date](./Date.md) 中日期默认值的设置格式。
@@ -97,6 +97,18 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 
 组合使用。
 
--   `${&|json|html}` 把当前可用的数据全部打印出来。\$& 取当前值，json 做 json stringify，然后 html 转义。
+-   `${&|json|html}` 把当前可用的数据全部打印出来。`$&` 取当前值，json 做 json stringify，然后 html 转义。
 -   `${rows:first|pick:id}` 把 rows 中的第一条数据中的 id 取到。
 -   `${rows|pick:id|join:,}`
+
+
+没有找到合适的？可以自定义 filter。如果是 AMIS 平台用户，可以将以下代码加入到自定义组件中，如果不是请想办法插入以下代码。
+
+
+```js
+import {registerFilter} from 'amis';
+
+registerFilter('my-filter', (input:string) => `${input}Boom`);
+```
+
+加入成功后就可以这样使用了 `${xxx | my-filter}`。 如果 `xxx` 的值是 `abc` 那么输出将会是 `abcBoom`。

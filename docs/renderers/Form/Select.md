@@ -19,7 +19,7 @@
 -   `checkAll` 默认为 `false` 开启后支持全选
 -   `checkAllLabel` 默认为 `全选`, 全选的文字
 -   `defaultCheckAll` 是否默认全选，默认为`false`
--   更多配置请参考 [FormItem](./FormItem.md)
+-   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 单选
 
