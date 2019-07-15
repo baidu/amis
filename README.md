@@ -37,9 +37,10 @@ npm run coverage
 为了更好的阅读体验，建议直接在 gh-pages 中阅读 https://baidu.github.io/amis/ 。
 
 * [快速开始](/docs/getting_started.md)
+* [基本用法](/docs/basic.md)
 * [高级用法](/docs/advanced.md)
 * [渲染器手册](/docs/renderers.md)
-* [如何使用](/docs/sdk.md)
+* [如何定制](/docs/sdk.md)
 * [自定义组件](/docs/dev.md)
 * [辅助样式](/docs/style.md)
 
