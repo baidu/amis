@@ -19,7 +19,7 @@
 -   `startChunkApi` 默认 `/api/upload/startChunk` 想自己存储时才需要关注。
 -   `chunkApi` 默认 `/api/upload/chunk` 想自己存储时才需要关注。
 -   `finishChunkApi` 默认 `/api/upload/finishChunk` 想自己存储时才需要关注。
--   更多配置请参考 [FormItem](./FormItem.md)
+-   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="250" scope="form-item"
 {

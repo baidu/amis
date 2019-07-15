@@ -1,39 +1,15 @@
 ## Definitions
 
-`Definitions`建立当前页面公共的配置项，在其他组件中可以通过`$ref`来引用当前配置项中的内容
+`Definitions`建立当前页面公共的配置项，在其他组件中可以通过`$ref`来引用当前配置项中的内容。注意 definitions 只能在顶级节点中定义，定义在其他位置，将引用不到。
 
-```schema:height="600"
+```schema:height="200"
 {
   "definitions": {
           "aa": {
               "type": "text",
               "name": "jack",
               "value": "ref value",
-              "remark": "通过<code>\\$ref</code>引入的组件"
-          },
-          "bb": {
-              "type": "combo",
-              "multiple": true,
-              "multiLine": true,
-              "remark": "<code>combo</code>中的子项引入自身，实现嵌套的效果",
-              "controls": [
-                  {
-                      "label": "combo 1",
-                      "type": "text",
-                      "name": "key"
-                  },
-                  {
-                      "label": "combo 2",
-                      "name": "value",
-                      "$ref": "aa",
-                      "remark": "<code>definitions</code> 中可以引用 <code>definitions</code> 中其他的属性"
-                  },
-                  {
-                      "name": "children",
-                      "label": "children",
-                      "$ref": "bb"
-                  }
-              ]
+              "labelRemark": "通过<code>\\$ref</code>引入的组件"
           }
       },
       "type": "page",
@@ -45,51 +21,76 @@
               "actions": [],
               "controls": [
                   {
-                      "label": "text2",
-                      "$ref": "aa",
-                      "name": "ref1"
-                  },
-                  {
-                      "label": "combo",
-                      "$ref": "bb",
-                      "name": "ref2"
+                      "$ref": "aa"
                   }
               ]
-          },
+          }
+      ]
+}
+```
+
+`Definitions` 最大的作用其实是能够实现对数据格式的递归引用。来看这个栗子吧。
+
+```schema:height="600"
+{
+  "definitions": {
+          "options": {
+            "type": "combo",
+            "multiple": true,
+            "multiLine": true,
+            "name": "options",
+            "controls": [
+            {
+                "type": "group",
+                "controls": [
+                {
+                    "label": "名称",
+                    "name": "label",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "label": "值",
+                    "name": "value",
+                    "type": "text",
+                    "required": true
+                }
+                ]
+            },
+            {
+                "label": "包含子选项",
+                "type": "switch",
+                "name": "hasChildren",
+                "mode": "inline",
+                "className": "block"
+            },
+            {
+                "$ref": "options",
+                "label": "子选项",
+                "name": "children",
+                "visibleOn": "this.hasOwnProperty('hasChildren') && this.hasChildren",
+                "addButtonText": "新增子选项"
+            }
+            ]
+        }
+      },
+      "type": "page",
+      "title": "引用",
+      "body": [
           {
               "type": "form",
               "api": "api/xxx",
               "actions": [],
               "controls": [
                   {
-                      "label": "select",
-                      "$ref": "aa",
-                      "name": "select",
-                      "type": "select",
-                      "value": 1,
-                      "options": [
-                          {
-                              "label": "Option A",
-                              "value": 1
-                          },
-                          {
-                              "label": "Option B",
-                              "value": 2
-                          }
-                      ],
-                      "remark": "原属性会覆盖引用中的属性"
+                      "$ref": "options",
+                      "label": "选项"
                   },
+
                   {
-                      "label": "radios",
-                      "$ref": "bb",
-                      "type": "radios",
-                      "name": "radios",
-                      "value": "Option A",
-                      "options": [
-                          "Option A",
-                          "Option B"
-                      ],
-                      "remark": "原属性会覆盖引用中的属性"
+                      "type": "static",
+                      "label": "当前值",
+                      "tpl": "<pre>${options|json}</pre>"
                   }
               ]
           }

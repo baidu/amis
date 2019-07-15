@@ -7,7 +7,7 @@
 -   `inputFormat` 默认 `HH:mm` 用来配置显示的时间格式。
 -   `minDate` 限制最小日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
 -   `maxDate` 限制最大日期，可用 `${xxx}` 取值，或者输入相对时间，或者时间戳。如：`${start}`、`+3days`、`+3days+2hours`或者 `${start|default:-2days}+3days`
--   更多配置请参考 [FormItem](./FormItem.md)
+-   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="250" scope="form"
 [

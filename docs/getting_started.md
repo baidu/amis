@@ -94,15 +94,69 @@ class MyComponent extends React.Component<any, any> {
 
   这样，内部所有组件都能拿到 `username` 这个变量的值。
 * `env` 环境变量，可以理解为这个渲染器工具的配置项，需要调用者实现部分接口。
-  * `session` 默认为 'global'，决定 store 是否为全局共用的，如果想单占一个 store，请设置不同的值。
-  * `fetcher` 用来实现 ajax 发送。
-  * `isCancel` 判断 ajax 异常是否为一个 cancel 请求。
-  * `notify` 用来实现消息提示。
-  * `alert` 用来实现警告提示。
-  * `confirm` 用来实现确认框。
-  * `copy` 用来实现，内容复制。
-  * `getModalContainer` 用来决定弹框容器。
-  * `loadRenderer` 可以通过它加载自定义组件。
-  * `affixOffsetTop` 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
-  * `affixOffsetBottom` 固底间距，当你的有其他固底元素时，需要设置一定的偏移量，否则会重叠。
-  * `richTextToken` 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
+  * `session: string` 默认为 'global'，决定 store 是否为全局共用的，如果想单占一个 store，请设置不同的值。
+  * `fetcher: (config: fetcherConfig) => Promise<fetcherResult>` 用来实现 ajax 发送。
+
+    示例
+
+    ```js
+    fetcher: ({
+        url,
+        method,
+        data,
+        responseType,
+        config,
+        headers
+    }: any) => {
+        config = config || {};
+        config.withCredentials = true;
+        responseType && (config.responseType = responseType);
+
+        if (config.cancelExecutor) {
+            config.cancelToken = new (axios as any).CancelToken(config.cancelExecutor);
+        }
+
+        config.headers = headers || {};
+
+        if (method !== 'post' && method !== 'put' && method !== 'patch') {
+            if (data) {
+                config.params = data;
+            }
+
+            return (axios as any)[method](url, config);
+        } else if (data && data instanceof FormData) {
+            // config.headers = config.headers || {};
+            // config.headers['Content-Type'] = 'multipart/form-data';
+        } else if (data
+            && typeof data !== 'string'
+            && !(data instanceof Blob)
+            && !(data instanceof ArrayBuffer)
+        ) {
+            data = JSON.stringify(data);
+            // config.headers = config.headers || {};
+            config.headers['Content-Type'] = 'application/json';
+        }
+
+        return (axios as any)[method](url, data, config);
+    }
+    ```
+  * `isCancel: (e:error) => boolean` 判断 ajax 异常是否为一个 cancel 请求。
+
+    示例
+
+    ```js
+    isCancel: (value: any) => (axios as any).isCancel(value)
+    ```
+  * `notify: (type:string, msg: string) => void` 用来实现消息提示。
+  * `alert: (msg:string) => void` 用来实现警告提示。
+  * `confirm: (msg:string) => boolean | Promise<boolean>` 用来实现确认框。
+  * `jumpTo: (to:string, action?: Action, ctx?: object) => void` 用来实现页面跳转，因为不清楚所在环境中是否使用了 spa 模式，所以用户自己实现吧。
+  * `updateLocation: (location:any, replace?:boolean) => void` 地址替换，跟 jumpTo 类似。
+  * `isCurrentUrl: (link:string) => boolean` 判断目标地址是否为当前页面。
+  * `theme: 'default' | 'cxd'` 目前支持两种主题。 
+  * `copy: (contents:string, options?: {shutup: boolean}) => void` 用来实现，内容复制。
+  * `getModalContainer: () => HTMLElement` 用来决定弹框容器。
+  * `loadRenderer: (chema:any, path:string) => Promise<Function>` 可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。
+  * `affixOffsetTop: number` 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
+  * `affixOffsetBottom: number` 固底间距，当你的有其他固底元素时，需要设置一定的偏移量，否则会重叠。
+  * `richTextToken: string` 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。

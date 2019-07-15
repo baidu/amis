@@ -27,7 +27,7 @@
 -   `typeSwitchable` 是否可切换条件，配合`conditions`使用
 -   `formClassName` 单组表单项的类名
 -   `noBorder` 单组表单项是否有边框
--   更多配置请参考 [FormItem](./FormItem.md)
+-   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="450" scope="form"
 [

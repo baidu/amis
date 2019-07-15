@@ -13,7 +13,7 @@
 -   `addButtonText` 新增按钮文字，默认为 `"新增"`。
 -   `minLength` 限制最小长度。
 -   `maxLength` 限制最大长度。
--   更多配置请参考 [FormItem](./FormItem.md)
+-   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="450" scope="form"
 [
