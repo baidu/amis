@@ -102,7 +102,7 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
             stack
         }, () => {
             env
-                .fetcher(source, {
+                .fetcher(source as Api, {
                     ...data,
                     value: arr,
                     level: idx + 1,
