@@ -128,14 +128,14 @@ export default class Service extends React.Component<ServiceProps> {
 
         clearTimeout(this.timer);
 
-        if (isEffectiveApi(schemaApi, store.data, initFetchSchema)) {
+        if (isEffectiveApi(schemaApi, store.data)) {
             store.fetchSchema(schemaApi, store.data, {
                 successMessage: fetchSuccess,
                 errorMessage: fetchFailed
             }).then(this.initInterval);
         }
 
-        if (isEffectiveApi(api, store.data, initFetch, initFetchOn)) {
+        if (isEffectiveApi(api, store.data)) {
             store
                 .fetchData(api, store.data, {
                     silent,
