@@ -120,7 +120,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
             return;
         }
 
-        env.fetcher(source, finalData)
+        env.fetcher(source as Api, finalData)
             .then(payload => {
                 if (!this.mounted) {
                     return;

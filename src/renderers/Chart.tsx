@@ -124,11 +124,7 @@ export class Chart extends React.Component<ChartProps> {
 
         if (query) {
             return this.receive(query);
-        } else if (!env || !env.fetcher || !api) {
-            return;
-        }
-
-        if (!isEffectiveApi(api, store.data)) {
+        } else if (!env || !env.fetcher || !isEffectiveApi(api, store.data)) {
             return;
         }
 
