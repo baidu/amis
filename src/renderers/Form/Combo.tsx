@@ -243,19 +243,16 @@ export default class ComboControl extends React.Component<ComboProps> {
         }
 
         let value = this.getValueAsArray();
+        const ctx = createObject(data, value[key]);
         
-        if (deleteApi) {
-            const ctx = createObject(data, value[key]);
+        if (isEffectiveApi(deleteApi, ctx)) {
+            
             const confirmed = await env.confirm(deleteConfirmText ? filter(deleteConfirmText, ctx): '确认要删除？')
             if (!confirmed) { // 如果不确认，则跳过！
                 return;
             }
 
-            if (!isEffectiveApi(deleteApi, ctx)) {
-                return;
-            }
-
-            const result = await env.fetcher(deleteApi, ctx);
+            const result = await env.fetcher(deleteApi as Api, ctx);
 
             if (!result.ok) {
                 env.notify('error', '删除失败');
