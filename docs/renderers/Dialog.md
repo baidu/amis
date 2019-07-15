@@ -12,6 +12,7 @@ Dialog 由 [Action](./Action.md) 触发。他是一个类似于 [Page](./Page.md
 | closeOnEsc    | `boolean`                                       | `false`      | 是否支持按 `Esc` 关闭 Dialog                     |
 | disabled      | `boolean`                                       | `false`      | 如果设置此属性，则该 Dialog 只读没有提交操作。   |
 | actions       | Array Of [Action](./Action.md)                  |              | 可以不设置，默认只有【确认】和【取消】两个按钮。 |
+| data          | `object`                                        |              | 用于数据映射，如果不设定将默认将触发按钮的上下文中继承数据。用法同 api 中的 [data](./Types.md#api) 用法 |
 
 ```schema:height="200"
 {

@@ -14,6 +14,7 @@ Drawer 由 [Action](./Action.md) 触发。
 | overlay        | `boolean`                                       | `true`       | 是否显示蒙层                                     |
 | resizable      | `boolean`                                       | `false`      | 是否可通过拖拽改变 Drawer 大小                   |
 | actions        | Array Of [Action](./Action.md)                  |              | 可以不设置，默认只有【确认】和【取消】两个按钮。 |
+| data          | `object`                                        |              | 用于数据映射，如果不设定将默认将触发按钮的上下文中继承数据。用法同 api 中的 [data](./Types.md#api) 用法 |
 
 ```schema:height="200"
 {
