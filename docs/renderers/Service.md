@@ -31,3 +31,17 @@
     }
 }
 ```
+
+
+### 动态配置
+
+Service 还有个重要的功能就是支持配置 `schemaApi`，通过它可以实现动态渲染。
+
+```schema:height="200" scope="body"
+{
+  "name": "service1",
+  "type": "service",
+  "className": "m-t",
+  "schemaApi": "/api/mock2/service/schema?type=tabs"
+}
+```
