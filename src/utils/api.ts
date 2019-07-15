@@ -157,7 +157,7 @@ export function isValidApi(api: string) {
     return api && /^(?:https?:\/\/[^\/]+)?(\/[^\s\/\?]*){1,}(\?.*)?$/.test(api);
 }
 
-export function isEffectiveApi(api?: Api, data?: any, initFetch?: boolean, initFetchOn?: string) {
+export function isEffectiveApi(api?: Api, data?: any, initFetch?: boolean, initFetchOn?: string): api is Api {
     if (!api) {
         return false;
     }
