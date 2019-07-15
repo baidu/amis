@@ -421,13 +421,13 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             path = path.replace(/(?!.*\/).*/, schema.type);
         }
         // value 会提前从 control 中获取到，所有需要把control中的属性也补充完整
-        if (schema.control && schema.control.$ref) {
-            schema.control = {
-                ...props.resolveDefinitions(schema.control.$ref),
-                ...schema.control
-            }
-            delete schema.control.$ref;
-        }
+        // if (schema.control && schema.control.$ref) {
+        //     schema.control = {
+        //         ...props.resolveDefinitions(schema.control.$ref),
+        //         ...schema.control
+        //     }
+        //     delete schema.control.$ref;
+        // }
         this.renderer = rendererResolver(path, schema, props);
         return schema;
     }
