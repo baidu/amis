@@ -805,7 +805,7 @@ export default class Form extends React.Component<FormProps, object> {
         if (subSchema.control) {
             let control = subSchema.control as Schema;
             if (control.$ref) {
-                control = {
+                subSchema.control = control = {
                     ...resolveDefinitions(control.$ref),
                     ...control
                 }
