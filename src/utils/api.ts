@@ -167,9 +167,9 @@ export function isEffectiveApi(api?: Api, data?: any, initFetch?: boolean, initF
     if (initFetchOn && data && !evalExpression(initFetchOn, data)) {
         return false;
     }
-    if (typeof api === 'string' && isValidApi(api)) {
+    if (typeof api === 'string' && api.length) {
         return true;
-    } else if (isObject(api) && isValidApi((api as ApiObject).url)) {
+    } else if (isObject(api) && (api as ApiObject).url) {
         if ((api as ApiObject).sendOn && data && !evalExpression((api as ApiObject).sendOn as string, data)) {
             return false;
         }

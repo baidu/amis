@@ -523,8 +523,7 @@ export default class Form extends React.Component<FormProps, object> {
                             [finishedField || 'finished']: false
                         });
 
-                        return isEffectiveApi(action.api || api as Api, store.data) &&
-                            store
+                        return store
                                 .saveRemote(action.api || api as Api, values, {
                                     successMessage: saveSuccess,
                                     errorMessage: saveFailed,
@@ -587,8 +586,7 @@ export default class Form extends React.Component<FormProps, object> {
                 return env.alert(`当 actionType 为 ajax 时，请设置 api 属性`);
             }
 
-            return isEffectiveApi(action.api, data) &&
-                store
+            return store
                     .saveRemote(action.api as Api, data, {
                         successMessage: action.messages && action.messages.success || saveSuccess,
                         errorMessage: action.messages && action.messages.failed || saveFailed
