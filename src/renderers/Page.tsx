@@ -185,21 +185,20 @@ export default class Page extends React.Component<PageProps> {
         } else if (action.actionType === 'drawer') {
             store.openDrawer(ctx);
         } else if (action.actionType === 'ajax') {
-            isEffectiveApi(action.api, ctx) &&
-                store
-                    .saveRemote(action.api as string, ctx, {
-                        successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
-                        errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveSuccess),
-                    })
-                    .then(async () => {
-                        if (action.feedback && isVisible(action.feedback, store.data)) {
-                            await this.openFeedback(action.feedback, store.data);
-                        }
+            store
+                .saveRemote(action.api as string, ctx, {
+                    successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
+                    errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveSuccess),
+                })
+                .then(async () => {
+                    if (action.feedback && isVisible(action.feedback, store.data)) {
+                        await this.openFeedback(action.feedback, store.data);
+                    }
 
-                        action.redirect && env.jumpTo(filter(action.redirect, store.data), action);
-                        action.reload && this.reloadTarget(action.reload, store.data);
-                    })
-                    .catch(() => {});
+                    action.redirect && env.jumpTo(filter(action.redirect, store.data), action);
+                    action.reload && this.reloadTarget(action.reload, store.data);
+                })
+                .catch(() => {});
         } else if (action.actionType === 'copy' && (action.content || action.copy)) {
             env.copy && env.copy(filter(action.content || action.copy, ctx));
         }

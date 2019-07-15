@@ -301,7 +301,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                     [finishedField || 'finished']: false,
                 });
 
-            if (isEffectiveApi(step.api || action.api, store.data)) {
+            if (isEffectiveApi(action.api || step.api, store.data)) {
                 store
                     .saveRemote(action.api || step.api, store.data, {
                         onSuccess: () => {
@@ -338,44 +338,43 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 const formStore = this.form ? (this.form.props.store as IFormStore) : store;
                 store.markSaving(true);
 
-                isEffectiveApi(action.api || step.api || api, store.data) &&
-                    formStore
-                        .saveRemote(action.api || step.api || api, store.data, {
-                            onSuccess: () => {
-                                if (!isEffectiveApi(finnalAsyncApi, store.data) || store.data[finishedField || 'finished']) {
-                                    return;
-                                }
-
-                                return until(
-                                    () => store.checkRemote(finnalAsyncApi as Api, store.data),
-                                    (ret: any) => ret && ret[finishedField || 'finished'],
-                                    cancel => (this.asyncCancel = cancel)
-                                );
-                            },
-                        })
-                        .then(value => {
-                            store.updateData({
-                                ...store.data,
-                                ...value
-                            });
-                            store.markSaving(false);
-                            if (onFinished && onFinished(value, action) === false) {
-                                // 如果是 false 后面的操作就不执行
-                                return value;
+                formStore
+                    .saveRemote(action.api || step.api || api, store.data, {
+                        onSuccess: () => {
+                            if (!isEffectiveApi(finnalAsyncApi, store.data) || store.data[finishedField || 'finished']) {
+                                return;
                             }
 
-                            if (redirect) {
-                                env.updateLocation(filter(redirect, store.data));
-                            } else if (reload) {
-                                this.reloadTarget(reload, store.data);
-                            }
-
-                            return value;
-                        })
-                        .catch(e => {
-                            store.markSaving(false);
-                            console.error(e);
+                            return until(
+                                () => store.checkRemote(finnalAsyncApi as Api, store.data),
+                                (ret: any) => ret && ret[finishedField || 'finished'],
+                                cancel => (this.asyncCancel = cancel)
+                            );
+                        },
+                    })
+                    .then(value => {
+                        store.updateData({
+                            ...store.data,
+                            ...value
                         });
+                        store.markSaving(false);
+                        if (onFinished && onFinished(value, action) === false) {
+                            // 如果是 false 后面的操作就不执行
+                            return value;
+                        }
+
+                        if (redirect) {
+                            env.updateLocation(filter(redirect, store.data));
+                        } else if (reload) {
+                            this.reloadTarget(reload, store.data);
+                        }
+
+                        return value;
+                    })
+                    .catch(e => {
+                        store.markSaving(false);
+                        console.error(e);
+                    });
             }
         }
 
