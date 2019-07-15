@@ -278,24 +278,23 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             // 由于 ajax 一段时间后再弹出，肯定被浏览器给阻止掉的，所以提前弹。
             action.redirect && action.blank && env.jumpTo(filter(action.redirect, data), action);
 
-            return isEffectiveApi(action.api, data) &&
-                store
-                    .saveRemote(action.api, data, {
-                        successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
-                        errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveFailed),
-                    })
-                    .then(async (payload: object) => {
-                        const data = createObject(ctx, payload);
+            return store
+                .saveRemote(action.api, data, {
+                    successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
+                    errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveFailed),
+                })
+                .then(async (payload: object) => {
+                    const data = createObject(ctx, payload);
 
-                        if (action.feedback && isVisible(action.feedback, data)) {
-                            await this.openFeedback(action.feedback, data);
-                            stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
-                        }
+                    if (action.feedback && isVisible(action.feedback, data)) {
+                        await this.openFeedback(action.feedback, data);
+                        stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
+                    }
 
-                        action.redirect && !action.blank && env.jumpTo(filter(action.redirect, data), action);
-                        action.reload ? this.reloadTarget(action.reload, data) : this.search(undefined, undefined, true);
-                    })
-                    .catch(() => {});
+                    action.redirect && !action.blank && env.jumpTo(filter(action.redirect, data), action);
+                    action.reload ? this.reloadTarget(action.reload, data) : this.search(undefined, undefined, true);
+                })
+                .catch(() => {});
         } else if (pickerMode && (action.actionType === 'confirm' || action.actionType === 'submit')) {
             return Promise.resolve({
                 items: store.selectedItems.concat(),
@@ -677,9 +676,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 modified: diff,
             });
 
-            isEffectiveApi(quickSaveItemApi, createObject(data, rows)) &&
+            const sendData = createObject(data, rows);
+            isEffectiveApi(quickSaveItemApi, sendData) &&
                 store
-                    .saveRemote(quickSaveItemApi, createObject(data, rows))
+                    .saveRemote(quickSaveItemApi, sendData)
                     .then(() => {
                         if ((quickSaveItemApi as ApiObject).reload) {
                             this.reloadTarget((quickSaveItemApi as ApiObject).reload as string, data);
