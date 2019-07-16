@@ -284,6 +284,28 @@ const predefined = {
                 body: '卡片B内容'
             }
         ]
+    },
+    controls: {
+        controls: [
+            {
+                "label": "名称",
+                "type": "text",
+                "labelClassName": "text-muted",
+                "name": "name"
+            },
+            {
+                "label": "作者",
+                "type": "text",
+                "labelClassName": "text-muted",
+                "name": "author"
+            },
+            {
+                "label": "请求时间",
+                "type": "datetime",
+                "labelClassName": "text-muted",
+                "name": "date"
+            }
+        ]
     }
 };
 

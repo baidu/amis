@@ -40,7 +40,7 @@ fis.match('/docs/**.md', {
     rExt: 'js',
     parser: [parserMarkdown, function(contents, file) {
         return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function(_, quota, link) {
-            if (/\.md($|#)/.test(link)) {
+            if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
                 let parts = link.split('#');
                 parts[0] = parts[0].replace('.md', '');
 
@@ -237,7 +237,7 @@ if (fis.project.currentMedia() === 'publish') {
         useHash: true,
         parser: [parserMarkdown, function(contents, file) {
             return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function(_, quota, link) {
-                if (/\.md($|#)/.test(link)) {
+                if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
                     let parts = link.split('#');
                     parts[0] = parts[0].replace('.md', '');
     

@@ -12,8 +12,8 @@ shortname: advanced
 那么都有哪些数据可以用？这取决于在哪个容器，关于容器中的数据说明如下：
 
 -   `page` 等价于全局变量，因为顶级渲染器就是它，所以下面的所有组件都能用到这个里面的数据。
-    -   `amisPage` 当前页面的数据信息，包含标题，id，key 之类的信息。
-    -   `amisUser` 当前用户信息，包含邮箱和用户名信息。
+    -   `amisPage` 当前页面的数据信息，包含标题，id，key 之类的信息。`注意：平台中使用才有此变量。`
+    -   `amisUser` 当前用户信息，包含邮箱和用户名信息。`注意：平台中使用才有此变量。`
     -   `params 中的数据` 如果地址栏中也携带了参数，也会 merge 到该层的数据中。
     -   `initApi 返回的数据` 如果 page 设置了 `initApi` 那么初始化的时候会从 API 中拉取数据，拉取到的数据可以用于整个页面。
 -   `crud`
@@ -94,7 +94,7 @@ shortname: advanced
 ]
 ```
 
-### 选项联动
+### 数据联动
 
 比如 select 中 options 可能根据某个值不同而不同。
 
@@ -176,9 +176,9 @@ shortname: advanced
 
 另外注意 button 的 target 值，正好是这个 form 的 name 值 `lidong` 的 formItem 的 name 值 `select`。当按钮的对象是一个 formItem 时，会出发 formItem 的数据重新拉取。
 
-### 数据联动
+### 组件间通信
 
-Form 和 CRUD, CRUD 有个 filter 配置项，里面可以配置表单项，当他提交时 CRUD 自动就会携带接受到的表单数据然后重新获取数据。有个限制，就是 CRUD 和 filter 必须放在一起，不能分开，实际上完全可以分开，只要 Form 的 target 是 CRUD 的 name 值即可。
+CRUD 有个 filter 配置项，里面可以配置表单项，当他提交时 CRUD 自动就会携带接受到的表单数据然后重新获取数据。有个限制，就是 CRUD 和 filter 必须放在一起，不能分开，实际上完全可以分开，只要 Form 的 target 是 CRUD 的 name 值即可。
 
 ```schema:height="300"
 {
