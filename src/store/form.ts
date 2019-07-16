@@ -26,7 +26,9 @@ import {
     cloneObject,
     createObject,
     difference,
-    guid
+    guid,
+    isObject,
+    isEmpty
 } from '../utils/helper';
 import { IComboStore } from "./combo";
 import isEqual = require('lodash/isEqual');
@@ -204,6 +206,13 @@ export const FormStore = ServiceStore
                 self.markSaving(true);
                 const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
 
+                // 失败也同样 merge，如果有数据的话。
+                if (!isEmpty(json.data)) {
+                    setValues(json.data, {
+                        __saved: Date.now()
+                    });
+                    self.updatedAt = Date.now();
+                }
 
                 if (!json.ok) {
                     // 验证错误
@@ -224,13 +233,10 @@ export const FormStore = ServiceStore
                         self.updateMessage(json.msg || options && options.errorMessage, true);
                     }
 
+                    
+
                     throw new ServerError(self.msg);
                 } else {
-                    setValues(json.data, {
-                        __saved: Date.now()
-                    });
-                    self.updatedAt = Date.now();
-
                     if (options && options.onSuccess) {
                         const ret = options.onSuccess(json);
 

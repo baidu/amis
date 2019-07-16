@@ -153,13 +153,16 @@ export const ServiceStore = iRendererStore
                 });
                 fetchCancel = null;
 
+                if (!isEmpty(json.data)) {
+                    self.updateData(json.data);
+                    self.updatedAt = Date.now();
+                    self.hasRemoteData = true;
+                }
+
                 if (!json.ok) {
                     updateMessage(json.msg || options && options.errorMessage, true);
                     (getRoot(self) as IRendererStore).notify('error', self.msg);
                 } else {
-                    self.updateData(json.data);
-                    self.updatedAt = Date.now();
-                    self.hasRemoteData = true;
                     if (options && options.onSuccess) {
                         const ret = options.onSuccess(json);
 
@@ -209,12 +212,16 @@ export const ServiceStore = iRendererStore
 
                 const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
 
+                if (!isEmpty(json.data)) {
+                    self.updateData(json.data);
+                    self.updatedAt = Date.now();
+                }
+
                 if (!json.ok) {
                     updateMessage(json.msg || options && options.errorMessage || '保存失败', true);
                     throw new Error(self.msg);
                 } else {
-                    self.updateData(json.data);
-                    isEmpty(json.data) || (self.updatedAt = Date.now());
+                    
                     if (options && options.onSuccess) {
                         const ret = options.onSuccess(json);
 
@@ -270,8 +277,10 @@ export const ServiceStore = iRendererStore
                 const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
                 fetchSchemaCancel = null;
 
-                self.schema = json.data;
-                self.schemaKey = '' + Date.now();
+                if (!isEmpty(json.data)) {
+                    self.schema = json.data;
+                    self.schemaKey = '' + Date.now();
+                }
 
                 if (!json.ok) {
                     updateMessage(json.msg || options && options.errorMessage || '获取失败，请重试', true);
