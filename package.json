@@ -58,7 +58,7 @@
     "react-color": "2.13.8",
     "react-cropper": "1.0.0",
     "react-date-range": "0.9.4",
-    "react-datetime": "2.14.0",
+    "react-datetime": "2.16.0",
     "react-dom": "^16.8.6",
     "react-dropzone": "4.2.1",
     "react-input-range": "1.2.1",
