@@ -144,7 +144,7 @@ export default function(doc) {
             const {location} = this.props;
 
             return (
-                <div className="pos-rlt">
+                <div className="pos-rlt text-left">
                     {doc.title ? (<TitleBar title={doc.title} />) : null}
                     <div className="markdown-body" ref={this.divRef}>Doc</div>
                     {doc.toc && doc.toc.children && doc.toc.children.length > 1 ? (
