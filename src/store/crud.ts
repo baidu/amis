@@ -9,7 +9,7 @@ import {
     IRendererStore
 } from './index';
 import { ServiceStore } from './service';
-import { extendObject, createObject, isObjectShallowModified, sortArray } from '../utils/helper';
+import { extendObject, createObject, isObjectShallowModified, sortArray, isEmpty } from '../utils/helper';
 import {
     Api,
     Payload,
@@ -283,15 +283,18 @@ export const CRUDStore = ServiceStore
                 const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
                 self.markSaving(false);
 
+                if (!isEmpty(json.data)) {
+                    self.updateData(json.data, {
+                        __saved: Date.now()
+                    });
+                    self.updatedAt = Date.now();
+                }
+
                 if (!json.ok) {
                     self.updateMessage(json.msg || options.errorMessage || '保存失败', true);
                     (getRoot(self) as IRendererStore).notify('error', self.msg);
                     throw new ServerError(self.msg);
                 } else {
-                    self.updateData(json.data, {
-                        __saved: Date.now()
-                    });
-                    self.updatedAt = Date.now();
                     self.updateMessage(json.msg || options.successMessage || '保存成功');
                     (getRoot(self) as IRendererStore).notify('success', self.msg);
                 }
