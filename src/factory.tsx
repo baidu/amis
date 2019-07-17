@@ -350,7 +350,7 @@ interface SchemaRendererProps extends Partial<RendererProps> {
 };
 
 const defaultOmitList = [
-    'type', 'className', 'data', 'children', 
+    'type', 'name',  '$ref', 'className', 'data', 'children', 
     'ref', 'visible', 'visibleOn', 'hidden', 
     'hiddenOn', 'disabled', 'disabledOn',
     'children'
