@@ -114,7 +114,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         'loadDataOnce',
         'source'
     ];
-    static defaultProps: Partial<CRUDProps> = {
+    static defaultProps = {
         toolbarInline: true,
         headerToolbar: ['bulkActions', 'pagination'],
         footerToolbar: ['statistics', 'pagination'],
@@ -1349,6 +1349,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                             multiple === void 0 ? (bulkActions && bulkActions.length > 0 ? true : false) : multiple,
                         selected: pickerMode || keepItemSelectionOnPageChange ? store.selectedItemsAsArray : undefined,
                         valueField: valueField || primaryField,
+                        primaryField: primaryField,
                         hideQuickSaveBtn,
                         items: store.data.items,
                         query: store.query,
