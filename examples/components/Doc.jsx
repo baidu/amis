@@ -148,6 +148,13 @@ export default {
                             }),
                         },
                         {
+                            label: 'Input-Group',
+                            path: '/docs/renderers/Form/Input-Group',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Input-Group.md'], (doc) => {
+                                cb(null, makeMarkdownRenderer(doc));
+                            }),
+                        },
+                        {
                             label: 'Textarea',
                             path: '/docs/renderers/Form/Textarea',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/Textarea.md'], (doc) => {
