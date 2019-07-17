@@ -207,7 +207,7 @@ export const FormStore = ServiceStore
                 const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
 
                 // 失败也同样 merge，如果有数据的话。
-                if (!isEmpty(json.data)) {
+                if (!isEmpty(json.data) || json.ok) {
                     setValues(json.data, {
                         __saved: Date.now()
                     });
