@@ -153,8 +153,8 @@ export const ServiceStore = iRendererStore
                 });
                 fetchCancel = null;
 
-                if (!isEmpty(json.data)) {
-                    self.updateData(json.data);
+                if (!isEmpty(json.data) || json.ok) {
+                    json.data && self.updateData(json.data);
                     self.updatedAt = Date.now();
                     self.hasRemoteData = true;
                 }
@@ -212,8 +212,8 @@ export const ServiceStore = iRendererStore
 
                 const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
 
-                if (!isEmpty(json.data)) {
-                    self.updateData(json.data);
+                if (!isEmpty(json.data) || json.ok) {
+                    json.data && self.updateData(json.data);
                     self.updatedAt = Date.now();
                 }
 
