@@ -918,7 +918,7 @@ $Radio--sm-size: $Checkbox--sm-size !default;
 $Switch-gap: $gap-sm !default;
 $Switch-width: px2rem(50px) !default;
 $Switch-height: px2rem(22px) !default;
-$Switch-bgColor: $danger !default;
+$Switch-bgColor: $gray600 !default;
 $Switch-borderColor: darken($Switch-bgColor, 10%) !default;
 $Switch-valueColor: $white !default;
 $Switch-onActive-bgColor: $info !default;
