@@ -290,7 +290,7 @@ export default class Drawer extends React.Component<DrawerProps, object> {
                                   }
                               )
                             : null}
-                        {store.error ? <span className={cx('Drawer-msg')}>{store.msg}</span> : null}
+                        {store.error ? <span className={cx('Drawer-error')}>{store.msg}</span> : null}
                     </div>
                 ) : null}
                 {actions.map((action, key) =>

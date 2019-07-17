@@ -101,6 +101,17 @@
         .#{$ns}Button {
             margin-left: $gap-xs;
         }
+
+        .#{$ns}Drawer-info {
+            flex-basis: 0;
+            flex-grow: 1;
+            text-align: left;
+            align-self: center;
+        }
+
+        .#{$ns}Drawer-error {
+            color: $danger;
+        }
     }
 
     &.#{$ns}Drawer--noOverlay {
@@ -233,6 +244,18 @@
         .#{$ns}Button {
             margin-left: 0;
             margin-right: $gap-xs;
+        }
+
+        .#{$ns}Drawer-info {
+            flex-basis: 0;
+            flex-grow: 1;
+            order: 10;
+            align-self: center;
+            text-align: right;
+        }
+
+        .#{$ns}Drawer-error {
+            color: $danger;
         }
     }
 

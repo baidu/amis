@@ -44,7 +44,7 @@
 ]
 ```
 
-从上面的栗子可以看出来，值默认格式是编码（即 `code`），如果你想要详细点的信息，可以把 `extractValue` 设置成 `false`。
+从上面的例子可以看出来，值默认格式是编码（即 `code`），如果你想要详细点的信息，可以把 `extractValue` 设置成 `false`。
 
 ```schema:height="200" scope="form"
 [
