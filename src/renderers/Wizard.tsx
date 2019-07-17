@@ -316,7 +316,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                             );
                         },
                     })
-                    .then(() => this.gotoStep(this.state.currentStep + 1))
+                    .then((value:any) => this.gotoStep(value && typeof value.step === "number" ? value.step : this.state.currentStep + 1))
                     .catch(e => {
                         // do nothing
                     });
@@ -363,7 +363,9 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                             return value;
                         }
 
-                        if (redirect) {
+                        if (value && typeof value.step === "number") {
+                            this.gotoStep(value.step);
+                        } else if (redirect) {
                             env.updateLocation(filter(redirect, store.data));
                         } else if (reload) {
                             this.reloadTarget(reload, store.data);
