@@ -340,7 +340,7 @@ export const resolveVariableAndFilter = (
     let ret = resolveVariable(finalKey, data);
 
     return ret == null && !~originalKey.indexOf("default")
-        ? ""
+        ? ret
         : paths.reduce((input, filter) => {
             let params = filter
                 .replace(/([^\\])\\([\:\\])/g, (_, affix, content) => `${affix}__${content === ':' ? 'colon' : 'slash'}__`)
