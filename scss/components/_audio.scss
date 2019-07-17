@@ -17,8 +17,8 @@
         border-radius: 100%;
         cursor: pointer;
         background: $Audio-thumb-bg;
-        height: $Audio-thumb-width;
-        width: $Audio-thumb-height;
+        width: $Audio-thumb-width;
+        height: $Audio-thumb-height;
         margin-top: $Audio-thumb-marginTop;
     }
 }
@@ -101,6 +101,7 @@
     &-process {
         flex: auto;
         cursor: pointer;
+        min-width: $Audio-process-minWidth;
         margin-right: $Audio-item-margin;
 
         input[type="range"] {
