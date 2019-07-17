@@ -283,7 +283,7 @@ export const CRUDStore = ServiceStore
                 const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
                 self.markSaving(false);
 
-                if (!isEmpty(json.data)) {
+                if (!isEmpty(json.data) || json.ok) {
                     self.updateData(json.data, {
                         __saved: Date.now()
                     });
