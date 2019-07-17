@@ -52,12 +52,21 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
         yOffset: 0,
     };
 
+    parent:HTMLElement;
+
     componentDidMount() {
         this.mayUpdateOffset();
+        const dom = findDOMNode(this) as HTMLElement;
+        this.parent = dom.parentNode as HTMLElement;
+        this.parent.classList.add('has-popover');
     }
 
     componentDidUpdate() {
         this.mayUpdateOffset();
+    }
+
+    componentWillUnmount() {
+        this.parent && this.parent.classList.remove('has-popover');
     }
 
     mayUpdateOffset() {
