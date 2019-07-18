@@ -151,7 +151,8 @@ export default class Form extends React.Component<FormProps, object> {
         "onSubmit",
         "onChange",
         "onFailed",
-        "onFinished"
+        "onFinished",
+        "canAccessSuperData"
     ];
 
     hooks:{
@@ -863,7 +864,7 @@ export default class Form extends React.Component<FormProps, object> {
 
                 {this.renderBody()}
 
-                {render('dialog', {
+                {render('modal', {
                     ...(store.action as Action) && (store.action as Action).dialog as object,
                     type: 'dialog'
                 }, {
@@ -874,7 +875,7 @@ export default class Form extends React.Component<FormProps, object> {
                     show: store.dialogOpen
                 })}
 
-                {render('drawer', {
+                {render('modal', {
                     ...(store.action as Action) && (store.action as Action).drawer as object,
                     type: 'drawer'
                 }, {
