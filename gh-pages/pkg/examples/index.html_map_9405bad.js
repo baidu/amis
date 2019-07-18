@@ -4477,7 +4477,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/getting_started.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/getting_started_84d90ad.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/getting_started_b4287a5.js",
       "type": "js"
     },
     "docs/basic.md": {
