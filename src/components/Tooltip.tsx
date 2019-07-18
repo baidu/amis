@@ -40,13 +40,14 @@ export class Tooltip extends React.Component<TooltipProps> {
             positionLeft,
             positionTop,
             classnames: cx,
+            activePlacement,
             ...rest
         } = this.props;
 
         return (
             <div
                 {...rest}
-                className={cx(`Tooltip`, placement ? `Tooltip--${placement}` : '', className)}
+                className={cx(`Tooltip`, activePlacement ? `Tooltip--${activePlacement}` : '', className)}
                 style={style}
                 role="tooltip"
             >
