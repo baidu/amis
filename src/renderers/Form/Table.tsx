@@ -329,7 +329,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     buildColumns(props:TableProps, isCreateMode = false):Array<any> {
         const env = this.props.env;
-        let columns:Array<any> = Array.isArray(props.columns) ? props.columns : [];
+        let columns:Array<any> = Array.isArray(props.columns) ? props.columns.concat() : [];
         const ns = this.props.classPrefix;
 
         let btns = [];
