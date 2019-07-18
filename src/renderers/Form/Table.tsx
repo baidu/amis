@@ -242,9 +242,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             remote = await env.fetcher(updateApi, createObject(data, item));
         }
 
-        if (remote === null) {
-            return;
-        } else if (remote && !remote.ok) {
+        if (remote && !remote.ok) {
             env.notify('error', remote.msg || '保存失败');
             return;
         } else if (remote && remote.ok) {
