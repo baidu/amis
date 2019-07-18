@@ -4477,7 +4477,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/getting_started.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/getting_started_b4287a5.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/getting_started_def98c2.js",
       "type": "js"
     },
     "docs/basic.md": {
@@ -4857,7 +4857,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/style.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/style_67c1f50.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/style_a0d04b0.js",
       "type": "js"
     }
   },
