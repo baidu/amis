@@ -17,6 +17,14 @@
             margin-right: -$Form-group-gutterWidth / 2;
             align-items: flex-start;
 
+            &.v-middle {
+                align-items: center;
+            }
+
+            &.v-bottom {
+                align-items: flex-end;
+            }
+
             > * {
                 padding-left: $Form-group-gutterWidth / 2;
                 padding-right: $Form-group-gutterWidth / 2;
