@@ -4,6 +4,8 @@ title: 快速开始
 
 这是一个基于 React 框架的页面渲染器，有配置就能生成页面，配置是什么样的？请前往[基本用法](./basic.md)阅读。知道怎么配置后，就可以用以下方式用于自己的项目了。
 
+如果你不会 React 也没关系可以看看 [JSSDK 用法](#JSSDK)。
+
 ## 安装依赖
 
 直接通过 npm 安装即可。
@@ -160,3 +162,104 @@ class MyComponent extends React.Component<any, any> {
   * `affixOffsetTop: number` 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
   * `affixOffsetBottom: number` 固底间距，当你的有其他固底元素时，需要设置一定的偏移量，否则会重叠。
   * `richTextToken: string` 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
+
+## JSSDK
+
+如果你没有组件定制需求直接使用，而且不想折腾 React 相关的，我建议你直接用这种方式。
+
+首先请引用一下 CSS 和 JS。
+
+* JS 地址： https://houtai.baidu.com/v2/jssdk
+* CSS 地址： https://houtai.baidu.com/v2/csssdk
+
+然后执行以下代码就能渲染了。
+
+```js
+(function() {
+    var amis = amisRequire('amis/embed');
+    amis.embed('#container', {
+        type: 'page',
+        title: 'AMIS Demo',
+        body: 'This is a simple amis page.'
+    }, {
+        // props 一般不用传。
+    }, {
+        // env
+        fetcher: () => {
+            // 可以不传，用来实现 ajax 请求
+        },
+
+        jumpTo: () => {
+            // 可以不传，用来实现页面跳转
+        },
+
+        updateLocation: () => {
+            // 可以不传，用来实现地址栏更新
+        },
+
+        isCurrentUrl: () => {
+            // 可以不传，用来判断是否目标地址当前地址。
+        },
+
+        copy: () => {
+            // 可以不传，用来实现复制到剪切板
+        },
+
+        notify: () => {
+            // 可以不传，用来实现通知
+        },
+
+        alert: () => {
+            // 可以不传，用来实现提示
+        },
+
+        confirm: () => {
+            // 可以不传，用来实现确认框。
+        }
+    });
+})();
+```
+
+注意：以上的 SDK 地址是一个页面跳转，会跳转到一个 CDN 地址，而且每次跳转都是最新的版本，随着 amis 的升级这个地址会一直变动，如果你的页面已经完成功能回归，请直接使用某个固定地址，这样才不会因为 amis 升级而导致你的页面不可用。
+
+示例:
+
+```html
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>AMIS Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <link rel="stylesheet" 
+        href="https://houtai.baidu.com/v2/csssdk">
+    <style>
+        html, body, .app-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="https://houtai.baidu.com/v2/jssdk"></script>
+    <script type="text/javascript">
+    (function() {
+        var amis = amisRequire('amis/embed');
+        amis.embed('#root', {
+            type: 'page',
+            title: 'AMIS Demo',
+            body: 'hello world'
+        });
+    })();
+    </script>
+</body>
+</html>
+```
+
