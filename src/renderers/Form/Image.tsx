@@ -12,8 +12,7 @@ import 'blueimp-canvastoblob';
 // import 'cropperjs/dist/cropper.css';
 import find = require('lodash/find');
 import qs from 'qs';
-import { FileValue } from './Image';
-import {Payload} from '../../types';
+import { Payload } from '../../types';
 import { filter } from '../../utils/tpl';
 import { Switch } from '../../components';
 
