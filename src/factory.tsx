@@ -238,7 +238,7 @@ export function renderChild(prefix:string, node:SchemaNode, props:renderChildPro
     const exprProps = detectData ? getExprProperties(schema, detectData) : null;
 
     if (
-        exprProps 
+        exprProps
         && (
             exprProps.hidden
             || exprProps.visible === false
@@ -310,7 +310,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         } = this.props;
 
         const theme = env.theme;
-        const query = location && location.query 
+        const query = location && location.query
             || location && location.search && qs.parse(location.search.substring(1))
             || window.location.search && qs.parse(window.location.search.substring(1));
 
@@ -350,8 +350,8 @@ interface SchemaRendererProps extends Partial<RendererProps> {
 };
 
 const defaultOmitList = [
-    'type', 'name',  '$ref', 'className', 'data', 'children', 
-    'ref', 'visible', 'visibleOn', 'hidden', 
+    'type', 'name',  '$ref', 'className', 'data', 'children',
+    'ref', 'visible', 'visibleOn', 'hidden',
     'hiddenOn', 'disabled', 'disabledOn',
     'children'
 ];
@@ -361,7 +361,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     renderer:RendererConfig | null;
     ref: any;
-    
+
     constructor(props:SchemaRendererProps) {
         super(props);
         this.refFn = this.refFn.bind(this);
@@ -375,7 +375,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     componentWillReceiveProps(nextProps:SchemaRendererProps) {
         const props = this.props;
-        
+
         if (
             props.schema.type !== nextProps.schema.type ||
             props.schema.$$id !== nextProps.schema.$$id
@@ -616,7 +616,7 @@ export function HocStoreFactory(renderer:{
 
                 if (renderer.extendsData === false) {
                     (
-                        props.defaultData !== nextProps.defaultData 
+                        props.defaultData !== nextProps.defaultData
                         || isObjectShallowModified(props.data, nextProps.data)
                         // CRUD 中 toolbar 里面的 data 是空对象，但是 __super 会不一样
                         || nextProps.data && props.data && nextProps.data.__super !== props.data.__super
@@ -630,7 +630,7 @@ export function HocStoreFactory(renderer:{
                     if (nextProps.store && nextProps.store.data === nextProps.data) {
                         const newData = createObject(nextProps.store.data, syncDataFromSuper(store.data,
                             nextProps.store.data, props.scope, nextProps.dataUpdatedAt !== props.dataUpdatedAt));
-                        
+
                         // todo fix: dialog 种数据从孩子 form 同步过来后，会走这个逻辑让 form 更新 data，会导致里面的 __prev 丢失。
                         store.initData(newData);
                     } else if ((nextProps.data as any).__super) {
@@ -666,7 +666,7 @@ export function HocStoreFactory(renderer:{
                 let {
                     render,
                 } = this.props;
-        
+
                 return render(region, node, {
                     data: this.store.data,
                     dataUpdatedAt: this.store.updatedAt,
@@ -685,7 +685,7 @@ export function HocStoreFactory(renderer:{
                 let exprProps:any = {};
                 if (!detectField || detectField === "data") {
                     exprProps = getExprProperties(rest, this.store.data);
-                    
+
                     if (exprProps.hidden || exprProps.visible === false) {
                         return null;
                     }
@@ -741,14 +741,14 @@ const defaultOptions:RenderOptions = {
         return Promise.reject('fetcher is required');
     },
     isCancel() {
-        console.error('Please implements this.');
+        console.error('Please implements this. see https://baidu.github.io/amis/docs/getting-started#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8');
         return false;
     },
     alert(msg:string) {
         alert(msg);
     },
     updateLocation() {
-        console.error('Please implements this.');
+        console.error('Please implements this. see https://baidu.github.io/amis/docs/getting-started#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8');
     },
     confirm(msg:string) {
         return confirm(msg)
@@ -757,7 +757,7 @@ const defaultOptions:RenderOptions = {
         alert(msg);
     },
     jumpTo() {
-        console.error('Please implements this.');
+        console.error('Please implements this. see https://baidu.github.io/amis/docs/getting-started#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8');
     },
     isCurrentUrl() {
         return false;
@@ -834,7 +834,7 @@ export function resolveRenderer(path:string, schema?:Schema, props?:any): null |
     });
 
     // 只能缓存纯正则表达式的后者方法中没有用到第二个参数的，因为自定义 test 函数的有可能依赖 schema 的结果
-    if (renderer !== null && 
+    if (renderer !== null &&
         (
             (renderer as RendererConfig).test instanceof RegExp
             || typeof (renderer as RendererConfig).test === 'function' && ((renderer as RendererConfig).test as Function).length < 2
