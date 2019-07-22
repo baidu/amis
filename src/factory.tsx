@@ -234,7 +234,7 @@ export function renderChild(prefix:string, node:SchemaNode, props:renderChildPro
 
     const typeofnode = typeof node;
     let schema:Schema = typeofnode === 'string' || typeofnode === 'number' ? {type: 'tpl', tpl: String(node)} : node as Schema;
-    const detectData = props[schema.detectField || 'data'];
+    const detectData = schema.detectField === '&' ? props : props[schema.detectField || 'data'];
     const exprProps = detectData ? getExprProperties(schema, detectData) : null;
 
     if (
@@ -353,7 +353,7 @@ const defaultOmitList = [
     'type', 'name',  '$ref', 'className', 'data', 'children',
     'ref', 'visible', 'visibleOn', 'hidden',
     'hiddenOn', 'disabled', 'disabledOn',
-    'children'
+    'children', 'detectField'
 ];
 
 class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
