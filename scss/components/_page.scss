@@ -52,43 +52,48 @@
     }
 }
 
-.#{$ns}Page-aside {
-    &::before {
-        content: "";
-        position: absolute;
-        width: inherit;
-        top: 0;
-        bottom: 0;
-        z-index: -1;
-        background-color: inherit;
-        border: inherit;
-    }
-
-    width: $Page-aside-width;
-    background-color: $Page-aside-bg;
-    border-right: $borderWidth solid $borderColor;
-}
-
-.#{$ns}Page--withSidebar {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-    height: 100%;
-    border-spacing: 0;
-
-    .#{$ns}Page-aside,
-    .#{$ns}Page-content {
-        display: table-cell;
-        vertical-align: top;
-    }
-
-    .#{$ns}Page-content {
-        width: 100%;
-    }
-}
-
 .#{$ns}Page-toolbar {
     .#{$ns}Button + .#{$ns}Button {
         margin-left: $gap-xs;
+    }
+}
+
+.#{$ns}Page-aside {
+    background-color: $Page-aside-bg;
+}
+
+@include media-breakpoint-up(md) {
+    .#{$ns}Page-aside {
+        &::before {
+            content: "";
+            position: absolute;
+            width: inherit;
+            top: 0;
+            bottom: 0;
+            z-index: -1;
+            background-color: inherit;
+            border: inherit;
+        }
+    
+        width: $Page-aside-width;
+        border-right: $borderWidth solid $borderColor;
+    }
+    
+    .#{$ns}Page--withSidebar {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+        height: 100%;
+        border-spacing: 0;
+    
+        .#{$ns}Page-aside,
+        .#{$ns}Page-content {
+            display: table-cell;
+            vertical-align: top;
+        }
+    
+        .#{$ns}Page-content {
+            width: 100%;
+        }
     }
 }
