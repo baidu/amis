@@ -880,9 +880,7 @@ export default class Table extends React.Component<TableProps, object> {
 
         const $$id = column.pristine.$$id ? `${column.pristine.$$id}-column` : '';
         const subProps: any = {
-            ...column.pristine,
             ...props,
-            column: column.pristine,
             btnDisabled: store.dragging,
             data: item.locals,
             value: column.name ? resolveVariable(column.name, item.data) : undefined,
@@ -896,6 +894,8 @@ export default class Table extends React.Component<TableProps, object> {
         return render(
             region,
             {
+                ...column.pristine,
+                column: column.pristine,
                 type: 'cell',
                 $$id,
             },
@@ -2038,5 +2038,5 @@ export class TableCell extends React.Component<RendererProps> {
 @Copyable()
 @observer
 export class TableCellRenderer extends TableCell {
-    static propsList = ['quickEdit', 'popOver', 'copyable', 'inline', ...TableCell.propsList];
+    static propsList = ['quickEdit', 'quickEditEnabledOn', 'popOver', 'copyable', 'inline', ...TableCell.propsList];
 }
