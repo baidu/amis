@@ -630,7 +630,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         indexes: Array<number>,
         unModifiedItems?: Array<any>
     ) {
-        const {store, quickSaveApi, quickSaveItemApi, primaryField, env, messages} = this.props;
+        const {store, quickSaveApi, quickSaveItemApi, primaryField, env, messages, reload} = this.props;
 
         if (Array.isArray(rows)) {
             if (!quickSaveApi) {
@@ -659,10 +659,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                         errorMessage: messages && messages.saveSuccess,
                     })
                     .then(() => {
-                        if ((quickSaveApi as ApiObject).reload) {
-                            this.reloadTarget((quickSaveApi as ApiObject).reload as string, data);
+                        if (reload) {
+                            this.reloadTarget(reload, data);
+                        } else {
+                            this.search();
                         }
-                        this.search();
                     })
                     .catch(() => {});
         } else {
@@ -681,17 +682,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 store
                     .saveRemote(quickSaveItemApi, sendData)
                     .then(() => {
-                        if ((quickSaveItemApi as ApiObject).reload) {
-                            this.reloadTarget((quickSaveItemApi as ApiObject).reload as string, data);
+                        if (reload) {
+                            this.reloadTarget(reload, data);
+                        } else {
+                            this.search();
                         }
-                        this.search();
                     })
                     .catch(() => {});
         }
     }
 
     handleSaveOrder(moved: Array<object>, rows: Array<object>) {
-        const {store, saveOrderApi, orderField, primaryField, env} = this.props;
+        const {store, saveOrderApi, orderField, primaryField, env, reload} = this.props;
 
         if (!saveOrderApi) {
             env && env.alert('CRUD saveOrderApi is required!');
@@ -768,11 +770,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             store
                 .saveRemote(saveOrderApi, model)
                 .then(() => {
-                    if ((saveOrderApi as ApiObject).reload) {
-                        this.reloadTarget((saveOrderApi as ApiObject).reload as string, model);
+                    if (reload) {
+                        this.reloadTarget(reload, model);
+                    } else {
+                        this.search();
                     }
-
-                    this.search();
                 })
                 .catch(() => {});
     }
