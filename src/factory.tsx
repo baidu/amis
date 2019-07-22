@@ -639,7 +639,8 @@ export function HocStoreFactory(renderer:{
                         store.initData(createObject(nextProps.scope, nextProps.data));
                     }
                 } else if ((!nextProps.store || nextProps.data !== nextProps.store.data) && nextProps.data && nextProps.data.__super) {
-                    (!props.data || nextProps.data.__super !== props.data.__super)
+                    // 这个用法很少，当 data.__super 值发生变化时，更新 store.data
+                    (!props.data || isObjectShallowModified(nextProps.data.__super, props.data.__super))
                         && store.initData(createObject(nextProps.data.__super, {
                             ...nextProps.data,
                             ...store.data
