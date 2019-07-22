@@ -1519,7 +1519,7 @@ class TableRow extends React.Component<TableRowProps> {
                                             ...rest,
                                             width: null,
                                             rowIndex: itemIndex,
-                                            colIndex: column.index,
+                                            colIndex: column.rawIndex,
                                             key: column.index,
                                             onAction: this.handleAction,
                                             onQuickChange: this.handleQuickChange,
@@ -1554,7 +1554,7 @@ class TableRow extends React.Component<TableRowProps> {
                     renderCell(`${itemIndex}/${column.index}`, column, item, {
                         ...rest,
                         rowIndex: itemIndex,
-                        colIndex: column.index,
+                        colIndex: column.rawIndex,
                         key: column.index,
                         onAction: this.handleAction,
                         onQuickChange: this.handleQuickChange,

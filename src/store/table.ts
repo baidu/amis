@@ -29,6 +29,7 @@ export const Column = types
         filterable: types.optional(types.frozen(), undefined),
         fixed: '',
         index: 0,
+        rawIndex: 0,
         breakpoint: types.optional(types.frozen(), undefined),
         pristine: types.optional(types.frozen(), undefined),
         remark: types.optional(types.frozen(), undefined),
@@ -430,6 +431,7 @@ export const TableStore = iRendererStore
                 columns = columns.map((item, index) => ({
                     ...item,
                     index,
+                    rawIndex: index -3,
                     type: item.type || 'plain',
                     pristine: item,
                     toggled: item.toggled !== false,
