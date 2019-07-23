@@ -2,6 +2,7 @@ import isPlainObject = require('lodash/isPlainObject');
 import transform = require('lodash/transform');
 import isEqual = require('lodash/isEqual');
 import lodashIsObject = require('lodash/isObject');
+import uniq = require('lodash/uniq');
 import {
     Schema, PlainObject, FunctionPropertyNames
 } from '../types';
@@ -377,11 +378,19 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
  */
 export function difference<T extends { [propName: string]: any }, U extends { [propName: string]: any }>(object: T, base: U): { [propName: string]: any } {
     function changes(object: T, base: U) {
-        return transform(object, function (result, value, key) {
-            if (!isEqual(value, base[key])) {
-                result[key] = (lodashIsObject(value) && lodashIsObject(base[key])) ? changes(value, base[key]) : value;
+        const keys: Array<keyof T & keyof U> = uniq(Object.keys(object).concat(Object.keys(base)));
+        let result:any = {};
+
+        keys.forEach(key => {
+            const a = object[key as keyof T];
+            const b = base[key as keyof U];
+
+            if (!isEqual(a, b)) {
+                result[key] = object.hasOwnProperty(key) ? lodashIsObject(a) && lodashIsObject(b) ? changes(a, b) : a : undefined
             }
         });
+        
+        return result;
     }
     return changes(object, base);
 }
