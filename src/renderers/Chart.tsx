@@ -136,9 +136,10 @@ export class Chart extends React.Component<ChartProps> {
         }
         this.echarts && this.echarts.showLoading();
 
-        env.fetcher(api, store.data, {
-            cancelExecutor: (executor: Function) => (this.reloadCancel = executor),
-        })
+        env
+            .fetcher(api, store.data, {
+                cancelExecutor: (executor: Function) => (this.reloadCancel = executor),
+            })
             .then(result => {
                 delete this.reloadCancel;
                 this.renderChart(result.data || {});
