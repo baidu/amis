@@ -382,14 +382,25 @@ export function difference<T extends { [propName: string]: any }, U extends { [p
         let result:any = {};
 
         keys.forEach(key => {
-            const a = object[key as keyof T];
-            const b = base[key as keyof U];
+            const a:any = object[key as keyof T];
+            const b:any = base[key as keyof U];
+            
+            if (isEqual(a, b)) {
+                return;
+            }
 
-            if (!isEqual(a, b)) {
-                result[key] = object.hasOwnProperty(key) ? lodashIsObject(a) && lodashIsObject(b) ? changes(a, b) : a : undefined
+            if (!object.hasOwnProperty(key)) {
+                result[key] = undefined;
+            } else if (Array.isArray(a) && Array.isArray(b)) {
+                // todo 数组要不要深入分析？我看先别了。
+                result[key] = a;
+            } else if (lodashIsObject(a) && lodashIsObject(b)) {
+                result[key] = changes(a, b);
+            } else {
+                result[key] = a;
             }
         });
-        
+
         return result;
     }
     return changes(object, base);
