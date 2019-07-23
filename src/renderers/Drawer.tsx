@@ -413,7 +413,7 @@ export default class Drawer extends React.Component<DrawerProps, object> {
                 overlay={overlay}
                 onExisted={this.handleExisted}
                 closeOnEsc={closeOnEsc}
-                closeOnOutside={closeOnOutside}
+                closeOnOutside={!store.drawerOpen && !store.dialogOpen && closeOnOutside}
                 container={env && env.getModalContainer ? env.getModalContainer() : undefined}
             >
                 <div className={cx('Drawer-header')}>
