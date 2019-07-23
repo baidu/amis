@@ -27,11 +27,7 @@
             cursor: pointer;
         }
 
-        .b-t,
-        .b-l,
-        .b-r,
-        .b-b,
-        .b-a {
+        .b-inherit {
             border-color: $ListControl-item-color;
         }
 
@@ -40,11 +36,7 @@
             border-color: $ListControl-item-onHover-borderColor;
             color: $ListControl-item-onHover-color;
 
-            .b-t,
-            .b-l,
-            .b-r,
-            .b-b,
-            .b-a {
+            .b-inherit {
                 border-color: $ListControl-item-onHover-borderColor;
             }
         }
@@ -61,11 +53,7 @@
                 color: $ListControl-item-onDisabled-color;
             }
 
-            .b-t,
-            .b-l,
-            .b-r,
-            .b-b,
-            .b-a {
+            .b-inherit {
                 border-color: $ListControl-item-onDisabled-borderColor;
             }
         }
@@ -82,11 +70,7 @@
                 }
             }
 
-            .b-t,
-            .b-l,
-            .b-r,
-            .b-b,
-            .b-a {
+            .b-inherit {
                 border-color: $ListControl-item-onActive-color;
             }
 
