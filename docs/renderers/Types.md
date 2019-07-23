@@ -191,5 +191,5 @@ amis 所有值为 url 的如： `"http://www.baidu.com"` 都会被替换成 prox
 ```
 
 为了能加入权限控制，表达是中允许可以用 `acl.can` 方法来检测当前用户是否拥有某个权限。
-如： `{"disabledOn": "!can('some-resource')"}`。权限能力部分，请前往[能力管理](/docs/manual#%E8%83%BD%E5%8A%9B%E7%AE%A1%E7%90%86)，
+如： `{"disabledOn": "!acl.can('some-resource')"}`。权限能力部分，请前往[能力管理](/docs/manual#%E8%83%BD%E5%8A%9B%E7%AE%A1%E7%90%86)，
 权限配置请前往[权限配置](/docs/manual#%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE)管理。
