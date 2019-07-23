@@ -421,7 +421,7 @@ export default {
                         {
                             value: 1,
                             body: `<div class="m-l-sm m-r-sm m-b-sm m-t-xs">
-                                <div class="text-md p-b-xs b-b m-b-xs">套餐：C01</div>
+                                <div class="text-md p-b-xs b-inherit b-b m-b-xs">套餐：C01</div>
                                 <div class="text-sm">CPU：22核</div>
                                 <div class="text-sm">内存：10GB</div>
                                 <div class="text-sm">SSD盘：1024GB</div>
@@ -430,7 +430,7 @@ export default {
                         {
                             value: 2,
                             body: `<div class="m-l-sm m-r-sm  m-b-sm m-t-xs">
-                            <div class="text-md p-b-xs b-b m-b-xs">套餐：C02</div>
+                            <div class="text-md p-b-xs b-inherit b-b m-b-xs">套餐：C02</div>
                             <div class="text-sm">CPU：23核</div>
                             <div class="text-sm">内存：11GB</div>
                             <div class="text-sm">SSD盘：1025GB</div>
@@ -440,7 +440,7 @@ export default {
                             value: 3,
                             disabled: true,
                             body: `<div class="m-l-sm m-r-sm  m-b-sm m-t-xs">
-                            <div class="text-md p-b-xs b-b m-b-xs">套餐：C03</div>
+                            <div class="text-md p-b-xs b-inherit b-b m-b-xs">套餐：C03</div>
                             <div class="text-sm">CPU：24核</div>
                             <div class="text-sm">内存：12GB</div>
                             <div class="text-sm">SSD盘：1026GB</div>
