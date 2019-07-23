@@ -4845,7 +4845,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Types.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Types_df42ab5.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Types_8761cbc.js",
       "type": "js"
     },
     "docs/sdk.md": {
