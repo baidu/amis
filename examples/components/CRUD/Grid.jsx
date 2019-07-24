@@ -11,7 +11,7 @@ export default {
             perPage: 12,
         },
         // fixAlignment: true,
-        masonryLayout: true,
+        // masonryLayout: true,
         filter: {
             title: "条件搜索",
             submitText: "",
