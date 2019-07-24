@@ -633,7 +633,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         const {store, quickSaveApi, quickSaveItemApi, primaryField, env, messages, reload} = this.props;
 
         if (Array.isArray(rows)) {
-            if (!quickSaveApi) {
+            if (!isEffectiveApi(quickSaveApi)) {
                 env && env.alert('CRUD quickSaveApi is required!');
                 return;
             }
@@ -652,22 +652,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 data.unModifiedItems = unModifiedItems;
             }
 
-            isEffectiveApi(quickSaveApi, data) &&
-                store
-                    .saveRemote(quickSaveApi, data, {
-                        successMessage: messages && messages.saveFailed,
-                        errorMessage: messages && messages.saveSuccess,
-                    })
-                    .then(() => {
-                        if (reload) {
-                            this.reloadTarget(reload, data);
-                        } else {
-                            this.search();
-                        }
-                    })
-                    .catch(() => {});
+            store
+                .saveRemote(quickSaveApi, data, {
+                    successMessage: messages && messages.saveFailed,
+                    errorMessage: messages && messages.saveSuccess,
+                })
+                .then(() => {
+                    reload && this.reloadTarget(reload, data);
+                    this.search();
+                })
+                .catch(() => {});
         } else {
-            if (!quickSaveItemApi) {
+            if (!isEffectiveApi(quickSaveItemApi)) {
                 env && env.alert('CRUD quickSaveItemApi is required!');
                 return;
             }
@@ -678,17 +674,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             });
 
             const sendData = createObject(data, rows);
-            isEffectiveApi(quickSaveItemApi, sendData) &&
-                store
-                    .saveRemote(quickSaveItemApi, sendData)
-                    .then(() => {
-                        if (reload) {
-                            this.reloadTarget(reload, data);
-                        } else {
-                            this.search();
-                        }
-                    })
-                    .catch(() => {});
+            store
+                .saveRemote(quickSaveItemApi, sendData)
+                .then(() => {
+                    reload && this.reloadTarget(reload, data);
+                    this.search();
+                })
+                .catch(() => {});
         }
     }
 
@@ -770,11 +762,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             store
                 .saveRemote(saveOrderApi, model)
                 .then(() => {
-                    if (reload) {
-                        this.reloadTarget(reload, model);
-                    } else {
-                        this.search();
-                    }
+                    reload && this.reloadTarget(reload, model);
+                    this.search();
                 })
                 .catch(() => {});
     }
