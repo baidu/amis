@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
-import {Renderer, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {observer} from 'mobx-react';
-import {SchemaNode, Schema, Action} from '../types';
-import {filter} from '../utils/tpl';
+import Scoped, { ScopedContext, IScopedContext } from '../Scoped';
+import { Renderer, RendererProps } from '../factory';
+import { ServiceStore, IServiceStore } from '../store/service';
+import { observer } from 'mobx-react';
+import { SchemaNode, Schema, Action } from '../types';
+import { filter } from '../utils/tpl';
 import Modal from '../components/Modal';
 import findLast = require('lodash/findLast');
-import {guid} from '../utils/helper';
-import {reaction} from 'mobx';
-import {closeIcon} from '../components/icons';
-import {ModalStore, IModalStore} from '../store/modal';
+import { guid } from '../utils/helper';
+import { reaction } from 'mobx';
+import { closeIcon } from '../components/icons';
+import { ModalStore, IModalStore } from '../store/modal';
 import { findDOMNode } from 'react-dom';
 
 export interface DialogProps extends RendererProps {
@@ -110,7 +110,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     buildActions(): Array<Action> {
-        const {actions, confirm} = this.props;
+        const { actions, confirm } = this.props;
 
         if (typeof actions !== 'undefined') {
             return actions;
@@ -136,7 +136,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleSelfClose() {
-        const {onClose, store} = this.props;
+        const { onClose, store } = this.props;
 
         // clear error
         store.updateMessage();
@@ -144,7 +144,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleAction(e: React.UIEvent<any>, action: Action, data: object) {
-        const {store, onAction} = this.props;
+        const { store, onAction } = this.props;
 
         if (action.type === 'reset') {
             store.reset();
@@ -156,7 +156,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleDialogConfirm(values: object[], action: Action, ...args: Array<any>) {
-        const {store} = this.props;
+        const { store } = this.props;
 
         if (action.mergeData && values.length === 1 && values[0]) {
             store.updateData(values[0]);
@@ -172,7 +172,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleDialogClose(...args: Array<any>) {
-        const {store} = this.props;
+        const { store } = this.props;
 
         const action = store.action as Action;
         const dialog = action.dialog as any;
@@ -185,7 +185,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
-        const {store} = this.props;
+        const { store } = this.props;
 
         if (action.mergeData && values.length === 1 && values[0]) {
             store.updateData(values[0]);
@@ -201,7 +201,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleDrawerClose(...args: Array<any>) {
-        const {store} = this.props;
+        const { store } = this.props;
 
         const action = store.action as Action;
         const drawer = action.drawer as any;
@@ -227,7 +227,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleExited() {
-        const {store} = this.props;
+        const { store } = this.props;
         store.reset();
         this.state.entered &&
             this.setState({
@@ -236,19 +236,19 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     handleFormInit(data: any) {
-        const {store} = this.props;
+        const { store } = this.props;
 
         store.setFormData(data);
     }
 
     handleFormChange(data: any) {
-        const {store} = this.props;
+        const { store } = this.props;
 
         store.setFormData(data);
     }
 
     handleFormSaved(data: any, response: any) {
-        const {store} = this.props;
+        const { store } = this.props;
 
         store.setFormData({
             ...data,
@@ -261,7 +261,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     renderBody(body: SchemaNode, key?: any): React.ReactNode {
-        let {render, store} = this.props;
+        let { render, store } = this.props;
 
         if (Array.isArray(body)) {
             return body.map((body, key) => this.renderBody(body, key));
@@ -304,7 +304,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
             return null;
         }
 
-        const {store, render, classnames: cx} = this.props;
+        const { store, render, classnames: cx } = this.props;
 
         return (
             <div className={cx('Modal-footer')}>
@@ -312,15 +312,15 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                     <div className={cx('Dialog-info')} key="info">
                         {store.loading
                             ? render(
-                                  'info',
-                                  {
-                                      type: 'spinner',
-                                  },
-                                  {
-                                      key: 'info',
-                                      size: 'sm',
-                                  }
-                              )
+                                'info',
+                                {
+                                    type: 'spinner',
+                                },
+                                {
+                                    key: 'info',
+                                    size: 'sm',
+                                }
+                            )
                             : null}
                         {store.error ? <span className={cx('Dialog-error')}>{store.msg}</span> : null}
                     </div>
@@ -405,8 +405,8 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
                 {header
                     ? render('header', header, {
-                          data: store.formData,
-                      })
+                        data: store.formData,
+                    })
                     : null}
 
                 {!this.state.entered && lazyRender ? (
@@ -419,40 +419,40 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
                 {body
                     ? render(
-                          'drawer',
-                          {
-                              // 支持嵌套
-                              ...((store.action as Action) && ((store.action as Action).drawer as object)),
-                              type: 'drawer',
-                          },
-                          {
-                              key: 'drawer',
-                              data: store.drawerData,
-                              onConfirm: this.handleDrawerConfirm,
-                              onClose: this.handleDrawerClose,
-                              show: store.drawerOpen,
-                              onAction: this.handleAction,
-                          }
-                      )
+                        'drawer',
+                        {
+                            // 支持嵌套
+                            ...((store.action as Action) && ((store.action as Action).drawer as object)),
+                            type: 'drawer',
+                        },
+                        {
+                            key: 'drawer',
+                            data: store.drawerData,
+                            onConfirm: this.handleDrawerConfirm,
+                            onClose: this.handleDrawerClose,
+                            show: store.drawerOpen,
+                            onAction: this.handleAction,
+                        }
+                    )
                     : null}
 
                 {body
                     ? render(
-                          'dialog',
-                          {
-                              // 支持嵌套
-                              ...((store.action as Action) && ((store.action as Action).dialog as object)),
-                              type: 'dialog',
-                          },
-                          {
-                              key: 'dialog',
-                              data: store.dialogData,
-                              onConfirm: this.handleDialogConfirm,
-                              onClose: this.handleDialogClose,
-                              show: store.dialogOpen,
-                              onAction: this.handleAction,
-                          }
-                      )
+                        'dialog',
+                        {
+                            // 支持嵌套
+                            ...((store.action as Action) && ((store.action as Action).dialog as object)),
+                            type: 'dialog',
+                        },
+                        {
+                            key: 'dialog',
+                            data: store.dialogData,
+                            onConfirm: this.handleDialogConfirm,
+                            onClose: this.handleDialogClose,
+                            show: store.dialogOpen,
+                            onAction: this.handleAction,
+                        }
+                    )
                     : null}
             </Wrapper>
         );
@@ -490,7 +490,7 @@ export class DialogRenderer extends Dialog {
 
         const components = scoped.getComponents();
         const targets: Array<any> = [];
-        const {onConfirm, store} = this.props;
+        const { onConfirm, store } = this.props;
 
         if (action.target) {
             targets.push(
@@ -556,7 +556,7 @@ export class DialogRenderer extends Dialog {
         throwErrors: boolean = false,
         delegate?: boolean
     ) {
-        const {onAction, store, onConfirm} = this.props;
+        const { onAction, store, onConfirm } = this.props;
 
         if (action.from === this.$$id) {
             return onAction ? onAction(e, action, data, throwErrors, true) : false;

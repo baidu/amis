@@ -138,7 +138,11 @@ export const filters: {
     raw: input => input,
     date: (input, format = "LLL", inputFormat = "X") =>
         moment(input, inputFormat).format(format),
-    number: input => String(input).replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    number: input => {
+        let parts = String(input).split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join('.');
+    },
     trim: input => input.trim(),
     percent: (input, decimals = 0) => {
         input = parseFloat(input) || 0;
