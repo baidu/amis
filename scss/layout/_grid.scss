@@ -116,8 +116,6 @@
     margin-right: ($gutter / -2);
     display: flex;
     flex-wrap: wrap;
-
-    @include clearfix;
 }
 
 // .#{$ns}Grid-container {
