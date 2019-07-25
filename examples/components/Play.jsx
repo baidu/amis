@@ -181,13 +181,6 @@ export default class PlayGround extends React.Component {
         );
     }
 
-    handleEditorMount(editor, monaco) {
-        monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-            enableSchemaRequest: true,
-            validate: true
-        });
-    }
-
     handleChange(value) {
         this.setState({
             schemaCode: value
@@ -239,7 +232,6 @@ export default class PlayGround extends React.Component {
                 value={this.state.schemaCode}
                 onChange={this.handleChange}
                 language="json"
-                editorDidMount={this.handleEditorMount}
             />
         );
     }
