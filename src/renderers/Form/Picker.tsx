@@ -12,10 +12,11 @@ import {
     Action
 } from '../../types';
 import find = require('lodash/find');
-import {anyChanged, autobind, getVariable} from '../../utils/helper';
+import {anyChanged, autobind, getVariable, noop} from '../../utils/helper';
 import findIndex = require('lodash/findIndex');
 import Html from '../../components/Html';
 import { filter } from '../../utils/tpl';
+import { closeIcon } from '../../components/icons';
 
 export interface PickerProps extends OptionsControlProps {
     modalMode: 'dialog' | 'drawer';
@@ -25,6 +26,7 @@ export interface PickerProps extends OptionsControlProps {
 
 export interface PickerState {
     isOpened: boolean;
+    isFocused: boolean;
     schema: SchemaNode;
 };
 
@@ -39,6 +41,7 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         "inline",
         "multiple",
         "embed",
+        "resetValue"
     ];
     static defaultProps: Partial<PickerProps> = {
         modalMode: 'dialog',
@@ -54,8 +57,11 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
 
     state: PickerState = {
         isOpened: false,
-        schema: this.buildSchema(this.props)
+        schema: this.buildSchema(this.props),
+        isFocused: false
     };
+
+    input: React.RefObject<HTMLInputElement> = React.createRef();
 
     componentWillReceiveProps(nextProps: PickerProps) {
         const props = this.props;
@@ -169,6 +175,46 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         onChange(value);
     }
 
+    @autobind
+    handleKeyPress(e:React.KeyboardEvent) {
+        const selectedOptions = this.props.selectedOptions;
+
+        if (e.key === ' ') {
+            this.open();
+        } else if (selectedOptions.length && e.key == "Backspace") {
+            this.removeItem(selectedOptions.length - 1);
+        }
+    }
+
+    @autobind
+    handleFocus() {
+        this.setState({
+            isFocused: true
+        });
+    }
+    
+    @autobind
+    handleBlur() {
+        this.setState({
+            isFocused: false
+        });
+    }
+
+    @autobind
+    handleClick() {
+        this.input.current && this.input.current.focus();
+    }
+
+    @autobind
+    clearValue() {
+        const {
+            onChange,
+            resetValue
+        } = this.props;
+
+        onChange(resetValue !== void 0 ? resetValue : '')
+    }
+
     renderValues() {
         const {
             classPrefix: ns,
@@ -218,39 +264,55 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
     render() {
         const {
             className,
-            classPrefix: ns,
+            classnames: cx,
             disabled,
             render,
             modalMode,
             source,
             size,
             env,
-            embed
+            clearable,
+            multiple,
+            inline,
+            embed,
+            value
         } = this.props;
         return (
-            <div className={cx(`${ns}PickerControl`, className)}>
+            <div className={cx(`PickerControl`, className)}>
                 {embed ? (
-                    <div className={`${ns}Picker`}>
+                    <div className={cx('Picker')}>
                         {this.renderBody()}
                     </div>
                 ) : (
-                    <div className={`${ns}Picker`}>
-                        {this.renderValues()}
+                    <div
+                        className={cx(`Picker`, {
+                            'Picker--inline': inline,
+                            'Picker--single': !multiple,
+                            'Picker--multi': multiple,
+                            'is-focused': this.state.isFocused,
+                            'is-disabled': disabled
+                        })}
+                    >
+                        <div onClick={this.handleClick} className={cx('Picker-input')}>
+                            <div className={cx('Picker-valueWrap')}>
+                                {this.renderValues()}
+                                
+                                <input
+                                    onChange={noop}
+                                    value={''}
+                                    ref={this.input}
+                                    onKeyPress={this.handleKeyPress}
+                                    onFocus={this.handleFocus}
+                                    onBlur={this.handleBlur}
+                                />
+                            </div>
 
-                        <Button
-                            classPrefix={ns}
-                            className={`${ns}Picker-pickBtn`}
-                            tooltip="点击选择"
-                            tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
-                            level="info"
-                            size="sm"
-                            disabled={disabled}
-                            onClick={this.open}
-                            iconOnly
-                        >
-                        选定
-                        </Button>
+                            {clearable && !disabled && value && value.length ? (<a onClick={this.clearValue} className={`${ns}TreeSelect-clear`}>{closeIcon}</a>) : null}
 
+                            <span onClick={this.open} className={cx('Picker-btn')}></span>
+                        </div>
+                        
+                        
                         {render('modal', {
                             title: '请选择',
                             size: size,
@@ -266,6 +328,38 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
                             show: this.state.isOpened
                         })}
                     </div>
+                // <div className={`${ns}Picker`}>
+                //         {this.renderValues()}
+
+                //         <Button
+                //             classPrefix={ns}
+                //             className={`${ns}Picker-pickBtn`}
+                //             tooltip="点击选择"
+                //             tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
+                //             level="info"
+                //             size="sm"
+                //             disabled={disabled}
+                //             onClick={this.open}
+                //             iconOnly
+                //         >
+                //         选定
+                //         </Button>
+
+                //         {render('modal', {
+                //             title: '请选择',
+                //             size: size,
+                //             type: modalMode,
+                //             body: {
+                //                 children: this.renderBody
+                //             }
+                //         }, {
+                //             key: 'modal',
+                //             lazyRender: !!source,
+                //             onConfirm: this.handleModalConfirm,
+                //             onClose: this.close,
+                //             show: this.state.isOpened
+                //         })}
+                //     </div>
                     )}
             </div>
         );
