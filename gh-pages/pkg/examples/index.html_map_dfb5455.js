@@ -4633,7 +4633,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Form/File.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/File_6f4bc97.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/File_6ca7bf5.js",
       "type": "js"
     },
     "docs/renderers/Form/Matrix.md": {
