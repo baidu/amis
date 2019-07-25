@@ -16,7 +16,9 @@ import qs from 'qs';
 import { evalExpression } from './tpl';
 import {
     isObject,
-    isObjectShallowModified
+    isObjectShallowModified,
+    hasFile,
+    object2formData
 } from './helper';
 
 interface ApiCacheConfig extends ApiObject {
@@ -121,6 +123,11 @@ function responseAdaptor(ret: fetcherResult) {
 export function wrapFetcher(fn: (config: fetcherConfig) => Promise<fetcherResult>): (api: Api, data: object, options?: object) => Promise<Payload | void> {
     return function (api, data, options) {
         api = buildApi(api, data, options) as ApiObject;
+
+        if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
+            api.data = object2formData(api.data, api.qsOptions);
+        }
+
         api.requestAdaptor && (api = api.requestAdaptor(api) || api);
 
         if (typeof api.cache === 'number' && api.cache > 0) {
