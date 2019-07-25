@@ -10,7 +10,7 @@
 -   `horizontal.label` 左边 label 的宽度占比。
 -   `horizontal.right` 右边控制器的宽度占比。
 -   `horizontal.offset` 当没有设置 label 时，右边控制器的偏移量。
--   `collapsable` 配置是否可折叠，默认为 `true`。
+-   `collapsable` 配置是否可折叠，默认为 `false`。
 -   `collapsed` 默认是否折叠。
 -   `className` CSS 类名
 -   `headingClassName` 标题 CSS 类名
