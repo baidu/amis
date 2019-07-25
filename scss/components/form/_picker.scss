@@ -1,17 +1,55 @@
 .#{$ns}Picker {
-    &-values {
-        display: inline-block;
-        margin-top: -$gap-xs;
-        padding: (
-                $Form-input-height - $Form-input-lineHeight *
-                    $Form-input-fontSize - px2rem(2px)
-            )/2 0;
+    @include input-text();
+    outline: none;
+
+    &.is-focus > &-input {
+        border-color: $Form-input-onFocused-borderColor;
+        box-shadow: $Form-input-boxShadow;
+
+        @if $Form-input-onFocused-bg !=$Form-input-bg {
+            background-color: $Form-input-onFocused-bg;
+        }
     }
 
-    &-value {
+    &-placeholder {
+        color: $Form-input-placeholderColor;
+        user-select: none;
+        position: absolute;
+        // margin-top: 2 * $Form-input-borderWidth;
+        line-height: $Form-input-lineHeight;
+    }
+
+    &-input {
+        min-height: $Form-input-height;
+        height: auto;
+    }
+
+    .#{$ns}Picker-values {
+        display: inline;
+    }
+
+    &-valueWrap {
+        flex-grow: 1;
+        position: relative;
+
+        > input {
+            width: 1rem;
+            display: inline-block;
+        }
+    }
+
+    .#{$ns}Picker-valueWrap {
+        margin-bottom: -$gap-xs;
+        line-height: 1;
+    }
+
+    .#{$ns}Picker-value {
         cursor: pointer;
         user-select: none;
-        line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+        white-space: nowrap;
+        vertical-align: middle;
+        line-height: $Form-input-lineHeight * $Form-input-fontSize -
+            px2rem(2px);
         display: inline-block;
         font-size: $Form-selectValue-fontSize;
         color: $Form-selectValue-color;
@@ -19,11 +57,7 @@
         border: px2rem(1px) solid $Form-selectValue-borderColor;
         border-radius: 2px;
         margin-right: $gap-xs;
-        margin-top: $gap-xs;
-
-        &:hover {
-            background-color: darken($Form-selectValue-bg, 5%);
-        }
+        margin-bottom: $gap-xs;
 
         &.is-disabled {
             pointer-events: none;
@@ -31,7 +65,7 @@
         }
     }
 
-    &-valueIcon {
+    .#{$ns}Picker-valueIcon {
         cursor: pointer;
         border-right: px2rem(1px) solid $Form-selectValue-borderColor;
         padding: 1px 5px;
@@ -41,8 +75,33 @@
         }
     }
 
-    &-valueLabel {
+    .#{$ns}Picker-valueLabel {
         padding: 0 $gap-xs;
+    }
+
+    &-btn {
+        cursor: pointer;
+        color: $Picker-iconColor;
+
+        &:hover {
+            color: $Picker-onHover-iconColor;
+        }
+
+        &:before {
+            line-height: 1;
+            color: inherit;
+            content: $Picker-btn-icon;
+            display: inline-block;
+            font-size: $Picker-btn-fontSize;
+            font-family: $Picker-btn-vendor;
+        }
+    }
+
+    &-clear {
+        display: inline-block;
+        @include input-clear();
+        line-height: 1;
+        margin-right: $gap-xs;
     }
 }
 
