@@ -12,6 +12,7 @@ fis.get('project.ignore').push(
 // 配置只编译哪些文件。
 
 fis.set('project.files', [
+    'scss/**.scss',
     '/examples/*.html',
     '/src/**.html',
     'mock/**'

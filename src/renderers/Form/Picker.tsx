@@ -41,11 +41,13 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         "inline",
         "multiple",
         "embed",
-        "resetValue"
+        "resetValue",
+        "placeholder"
     ];
     static defaultProps: Partial<PickerProps> = {
         modalMode: 'dialog',
         multiple: false,
+        placeholder: "请点击按钮选择",
         pickerSchema: {
             mode: 'list',
             listItem: {
@@ -273,9 +275,10 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
             env,
             clearable,
             multiple,
-            inline,
+            placeholder,
             embed,
-            value
+            value,
+            selectedOptions
         } = this.props;
         return (
             <div className={cx(`PickerControl`, className)}>
@@ -286,7 +289,6 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
                 ) : (
                     <div
                         className={cx(`Picker`, {
-                            'Picker--inline': inline,
                             'Picker--single': !multiple,
                             'Picker--multi': multiple,
                             'is-focused': this.state.isFocused,
@@ -294,6 +296,10 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
                         })}
                     >
                         <div onClick={this.handleClick} className={cx('Picker-input')}>
+                            {!selectedOptions.length && placeholder ? (
+                                <div className={cx('Picker-placeholder')}>{placeholder}</div>
+                            ) : null}
+
                             <div className={cx('Picker-valueWrap')}>
                                 {this.renderValues()}
                                 
