@@ -8,6 +8,7 @@ import {
 } from '../types';
 import { evalExpression } from './tpl';
 import { boundMethod } from 'autobind-decorator';
+import qs from 'qs';
 
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(superProps?: { [propName: string]: any }, props?: { [propName: string]: any }, properties?: any): object {
@@ -657,4 +658,38 @@ export function sortArray<T extends any>(items:Array<T>, field:string, dir: -1 |
 
         return ret * dir;
     })
+}
+
+// 只判断一层, 如果层级很深，form-data 也不好表达。
+export function hasFile(object:any):boolean {
+    return Object.keys(object).some(key => {
+        let value = object[key];
+
+        return value instanceof File || Array.isArray(value) && value.length && value[0] instanceof File;
+    });
+}
+
+export function object2formData(data:any, options:any = {
+    arrayForamt: 'brackets'
+}):any {
+    let others:any = {};
+    const fd = new FormData();
+    Object.keys(data).forEach(key => {
+        const value = data[key];
+
+        if (value instanceof File) {
+            fd.append(key, value, value.name);
+        } else if (Array.isArray(value) && value.length && value[0] instanceof File) {
+            value.forEach(value => fd.append(`${key}[]`, value, value.name));
+        } else {
+            others[key] = value;
+        }
+    });
+
+    // 因为 key 的格式太多了，偷个懒，用 qs 来处理吧。
+    qs.stringify(others, options).split('&').forEach(item => {
+        let parts = item.split('=');
+        parts[0] && fd.append(parts[0], parts[1]);
+    });
+    return fd;
 }

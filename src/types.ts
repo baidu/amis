@@ -12,6 +12,8 @@ export interface ApiObject {
     adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
     requestAdaptor?: (api: ApiObject) => ApiObject;
     cache?: number;
+    qsOptions?: any;
+    dataType?: 'json' | 'form-data'
 };
 export type ApiString = string;
 export type Api = ApiString | ApiObject;

@@ -89,32 +89,9 @@ export default function(schema) {
                     data,
                     config
                 }) => {
-                    let hasFile = function(data) {
-                        return Object.keys(data).some(key => {
-                            let value = data[key];
-
-                            return value instanceof File || Array.isArray(value) && value.length && value[0] instanceof File;
-                        });
-                    }
-
                     if (data && data instanceof FormData) {
                         // config.headers = config.headers || {};
                         // config.headers['Content-Type'] = 'multipart/form-data';
-                    } else if (hasFile(data)) {
-                        const fd = new FormData();
-                        Object.keys(data).forEach(key => {
-                            const value = data[key];
-
-                            if (value instanceof File) {
-                                fd.append(key, value, value.name);
-                            } else if (Array.isArray(value) && value.length && value[0] instanceof File) {
-                                value.forEach(value => fd.append(`${key}[]`, value, value.name));
-                            } else {
-                                // todo 复杂对象还需要特殊处理。
-                                fd.append(key, value);
-                            }
-                        });
-                        data = fd;
                     } else if (data 
                         && typeof data !== 'string'
                         && !(data instanceof Blob) 

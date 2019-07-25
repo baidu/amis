@@ -638,6 +638,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                             className="text-danger pull-right"
                             onClick={() => this.removeFile(file, key)}
                             href="javascript:void 0"
+                            data-tooltip="移除"
                         ><i className="fa fa-times" /></a>
                         <span className="pull-right text-muted text-xs m-r-sm">{stateTextMap && stateTextMap[file.state as string] || ''}</span>
                         <i className="fa fa-file fa-fw m-r-xs" />
