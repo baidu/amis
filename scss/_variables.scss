@@ -1352,3 +1352,10 @@ $Carousel--dark-control: black !default;
 $Carousel-transitionDuration: 0.3s !default;
 $Carousel-imageTitle-bottom: px2rem(45px) !default;
 $Carousel-imageDescription-bottom: px2rem(25px) !default;
+
+// Picker
+$Picker-iconColor: $gray600 !default;
+$Picker-onHover-iconColor: darken($Picker-iconColor, 10%) !default;
+$Picker-btn-vendor: "FontAwesome" !default;
+$Picker-btn-fontSize: $Form-fontSize !default;
+$Picker-btn-icon: "\f2d2" !default;
