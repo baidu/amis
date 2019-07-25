@@ -11,6 +11,7 @@ import {mapLimit} from 'async';
 import ImageControl from './Image';
 import {Payload} from '../../types';
 import { filter } from '../../utils/tpl';
+import Alert from '../../components/Alert2';
 
 export interface FileProps extends FormControlProps {
     btnClassName: string;
@@ -43,19 +44,20 @@ export interface FileProps extends FormControlProps {
         [propName:string]: string;
     };
     asBase64?: boolean;
+    asBlob?: boolean;
     resetValue?: string;
 };
 
 export interface FileX extends File {
-    state?: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid';
+    state?: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid' | 'ready';
 }
 
 export interface FileValue {
     filename?: string;
-    value?:string;
+    value?: any;
     name?: string;
     url?: string;
-    state: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid';
+    state: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid' | 'ready';
     [propName:string]: any;
 };
 
@@ -93,7 +95,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             'pending': "等待上传",
             'uploading': "上传中",
             'error': "上传出错",
-            'uploaded': "已上传"
+            'uploaded': "已上传",
+            "ready": ""
         },
         asBase64: false
     };
@@ -106,7 +109,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         let file:FileValue | FileX | undefined = files && typeof value === 'string'
             ? find(files, item => (item as FileValue).value === value)
             : undefined;
-        return value ? {
+        return value ? value instanceof File ? {
+            state: 'ready',
+            value: value,
+            name: value.name,
+            url: ''
+        } : {
             ...(typeof value === 'string' ? {
                 state: file && file.state ? file.state : 'init',
                 value,
@@ -314,7 +322,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             startChunkApi,
             chunkApi,
             finishChunkApi,
-            asBase64
+            asBase64,
+            asBlob
         } = this.props;
 
         if (asBase64) {
@@ -322,13 +331,21 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             reader.readAsDataURL(file);
             reader.onload = () => {
                 cb(null, file, {
-                    value: reader.result,
+                    value: reader.result as string,
                     name: file.name,
                     url: '',
-                    state: 'uploaded'
+                    state: 'ready'
                 });
             }
             reader.onerror = (error:any) => cb(error.message);
+            return;
+        } else if (asBlob) {
+            setTimeout(() => cb(null, file, {
+                name: file.name,
+                value: file,
+                url: '',
+                state: 'ready'
+            }), 4);
             return;
         }
 
@@ -384,18 +401,19 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             extractValue,
             valueField,
             delimiter,
-            resetValue
+            resetValue,
+            asBlob
         } = this.props;
 
-        const files = this.state.files.filter(file => file.state == 'uploaded' || file.state == 'init');
+        const files = this.state.files.filter(file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string));
         let value:any = multiple ? files : files[0];
 
         if (value) {
-            if (joinValues) {
-                value = Array.isArray(value) ? value.map((item: any) => item[valueField || 'value']).join(delimiter || ',') : value[valueField || 'value'];
-            } else if (extractValue) {
+            if (extractValue || asBlob) {
                 value = Array.isArray(value) ? value.map((item: any) => item[valueField || 'value']) : value[valueField || 'value'];
-            }
+            } else if (joinValues) {
+                value = Array.isArray(value) ? value.map((item: any) => item[valueField || 'value']).join(delimiter || ',') : value[valueField || 'value'];
+            } 
         } else {
             value = typeof resetValue === 'undefined' ? '' : resetValue;
         }
@@ -592,7 +610,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             autoUpload,
             stateTextMap,
             hideUploadButton,
-            className
+            className,
+            asBlob,
+            joinValues
         } = this.props;
         let {
             files,
@@ -605,10 +625,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         return (
             <div className={cx('amis-file-control', className)}>
                 {error ? (
-                    <div>
-                    <p className="help-block text-danger inline">{error}</p>
-                    <a className="btn btn-link" onClick={this.clearError}><i className="fa fa-times" /></a>
-                    </div>
+                    <Alert level="danger" showCloseButton onClose={this.clearError}>
+                        {error}
+                    </Alert>
                 ) : null}
 
                 {files && files.length ? (
@@ -616,8 +635,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     {files.map((file, key) => (
                         <li key={key} className="list-group-item clearfix">
                         <a
-                        className="text-danger pull-right"
-                        onClick={() => this.removeFile(file, key)}
+                            className="text-danger pull-right"
+                            onClick={() => this.removeFile(file, key)}
+                            href="javascript:void 0"
                         ><i className="fa fa-times" /></a>
                         <span className="pull-right text-muted text-xs m-r-sm">{stateTextMap && stateTextMap[file.state as string] || ''}</span>
                         <i className="fa fa-file fa-fw m-r-xs" />
