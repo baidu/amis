@@ -413,7 +413,8 @@ if (fis.project.currentMedia() === 'publish') {
     ghPages.match('{*.min.js,monaco-editor/**.js}', {
         optimizer: null
     });
-    ghPages.match('monaco-editor/**', {
-        useHash: false
+    ghPages.match('monaco-editor/(**)', {
+        useHash: false,
+        release: '/n/monaco-editor/0.17.1/$1'
     });
 }
