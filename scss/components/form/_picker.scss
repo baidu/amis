@@ -105,6 +105,9 @@
     }
 }
 
-.#{$ns}PickerControl {
-    padding-top: $Form-input-height - px2rem(30px);
+.#{$ns}PickerControl.is-inline {
+    .#{$ns}Picker {
+        display: inline-block;
+        min-width: px2rem(150px);
+    }
 }

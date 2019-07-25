@@ -22,6 +22,7 @@ export default {
                 name: "type",
                 label: "单选",
                 value: 1,
+                inline: true,
                 options: [
                     {
                         label: "选项1",
