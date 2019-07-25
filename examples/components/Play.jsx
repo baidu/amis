@@ -110,7 +110,6 @@ export default class PlayGround extends React.Component {
 
         const links = [].slice.call(document.head.querySelectorAll('link,style')).map(item => item.outerHTML);
         this.frameTemplate = `<!DOCTYPE html><html><head>${links.join('')}</head><body><div></div></body></html>`;
-        this.handleEditorMount = this.handleEditorMount.bind(this);
     }
 
     componentWillReceiveProps(nextprops) {
