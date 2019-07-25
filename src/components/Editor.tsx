@@ -166,6 +166,7 @@ export interface EditorProps {
     onBlur?: () => void;
     editorDidMount?: (editor: any, monaco: any) => void;
     editorWillMount?: (monaco: any) => void;
+    editorWillUnmount?: (editor: any, monaco: any) => void;
     editorFactory?: (conatainer: HTMLElement, monaco: any, options: any) => any;
     requireConfig: {
         url: string;
@@ -219,6 +220,12 @@ export class Editor extends React.Component<EditorProps, any> {
     }
 
     componentWillUnmount() {
+        if (this.editor) {
+            const context = this.props.context || window;
+            const monaco = context.monaco || (window as any).monaco;
+            const editorWillUnmount = this.props.editorWillUnmount;
+            editorWillUnmount && editorWillUnmount(this.editor, monaco);
+        }
         this.disposes.forEach(({dispose}) => dispose());
         this.disposes = [];
     }
