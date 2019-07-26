@@ -18,7 +18,7 @@ export interface EditorProps extends FormControlProps {
 export default class EditorControl extends React.Component<EditorProps, any> {
     static defaultProps:Partial<EditorProps> = {
         language: 'javascript',
-        theme: 'vs',
+        editorTheme: 'vs',
         options: {
             automaticLayout: true,
             selectOnLineNumbers: true,
@@ -99,7 +99,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
             disabled,
             options,
             language,
-            theme,
+            editorTheme,
             size
         } = this.props;
 
@@ -125,7 +125,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}
                     language={language}
-                    theme={theme}
+                    editorTheme={editorTheme}
                     editorDidMount={this.handleEditorMounted}
                     options={{
                         ...options,
