@@ -557,13 +557,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         const data = this.props.data;
         reciever = filter(reciever, data);
         const fileField = this.props.fileField || 'file';
-
-        if (/^\/api\/(?:page\/)?proxy/.test(reciever)) {
-            fd.append('file', file, (file as File).name);
-            fd.append('fieldName', fileField);
-        } else {
-            fd.append(fileField, file, (file as File).name);
-        }
+        fd.append(fileField, file, (file as File).name);
         
         const idx = reciever.indexOf('?');
 

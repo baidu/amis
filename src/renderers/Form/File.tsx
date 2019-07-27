@@ -425,13 +425,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         const fd = new FormData();
 
         reciever = filter(reciever, this.props.data);
-
-        if (/^\/api\/(?:page\/)?proxy/.test(reciever)) {
-            fd.append('file', file);
-            fd.append('fieldName', config.fieldName);
-        } else {
-            fd.append(config.fieldName || 'file', file);
-        }
+        fd.append(config.fieldName || 'file', file);
 
         const idx = reciever.indexOf('?');
 
@@ -523,14 +517,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     fd.append('uploadId', state.uploadId);
                     fd.append('partNumber', task.partNumber.toString());
                     fd.append('partSize', task.partSize.toString());
-
-
-                    if (/^\/api\/(?:page\/)?proxy/.test(reciever)) {
-                        fd.append('file', blob, file.name);
-                        fd.append('fieldName', config.fieldName);
-                    } else {
-                        fd.append(config.fieldName || 'file', blob, file.name);
-                    }
+                    fd.append(config.fieldName || 'file', blob, file.name);
 
                     return self._send(reciever, fd, {
                         withCredentials: true
