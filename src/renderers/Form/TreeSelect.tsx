@@ -408,7 +408,8 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
             classPrefix: ns,
             classnames: cx,
             searchable,
-            autoComplete
+            autoComplete,
+            selectedOptions
         } = this.props;
 
         return (
@@ -458,7 +459,7 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
                             ) : null}
                         </div>
 
-                        {clearable && !disabled && value && value.length ? (<a onClick={this.clearValue} className={`${ns}TreeSelect-clear`}>{closeIcon}</a>) : null}
+                        {clearable && !disabled && selectedOptions.length ? (<a onClick={this.clearValue} className={`${ns}TreeSelect-clear`}>{closeIcon}</a>) : null}
 
                         {loading ? (
                             <span className={cx('TreeSelect-spinner')}>
