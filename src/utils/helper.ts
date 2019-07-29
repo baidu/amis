@@ -693,3 +693,9 @@ export function object2formData(data:any, options:any = {
     });
     return fd;
 }
+
+export function chainFunctions(...fns:Array<(...args:Array<any>) => void>):(...args:Array<any>) => void {
+    return (...args:Array<any>) => {
+        fns.forEach(fn => fn && fn(...args));
+    }
+}
