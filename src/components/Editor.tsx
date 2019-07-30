@@ -339,6 +339,12 @@ export class Editor extends React.Component<EditorProps, any> {
                 theme: editorTheme,
             });
 
+            // json 默认开启验证。
+            monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+                enableSchemaRequest: true,
+                validate: true
+            });
+
             // After initializing monaco editor
             this.editorDidMount(this.editor, monaco);
         }
