@@ -69,12 +69,6 @@ export default class EditorControl extends React.Component<EditorProps, any> {
         this.toDispose.push(editor.onDidFocusEditorWidget(this.updateContainerSize).dispose);
         this.toDispose.push(editor.onDidChangeModelContent(this.updateContainerSize).dispose);
         this.props.editorDidMount && this.props.editorDidMount(editor, monaco);
-
-        // json 默认开启验证。
-        monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-            enableSchemaRequest: true,
-            validate: true
-        });
     }
 
     updateContainerSize() {
