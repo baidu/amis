@@ -4853,7 +4853,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/dev.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/dev_09c1d39.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/dev_b7828e7.js",
       "type": "js"
     },
     "docs/style.md": {
