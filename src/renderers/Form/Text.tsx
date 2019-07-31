@@ -434,7 +434,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                             />
                         </div>
                         
-                        {clearable && value ? (<a onClick={this.clearValue} className={cx('TextControl-clear')}>{closeIcon}</a>) : null}
+                        {clearable && !disabled && value ? (<a onClick={this.clearValue} className={cx('TextControl-clear')}>{closeIcon}</a>) : null}
                         {loading ? <i className={cx(`TextControl-spinner`, spinnerClassName)} /> : null}
                         {isOpen && filtedOptions.length ? (
                             <div className={cx('TextControl-sugs')}>
@@ -498,7 +498,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                     onChange={this.handleNormalInputChange}
                     value={typeof value === 'undefined' || value === null ? '' : typeof value === 'string' ? value : JSON.stringify(value)}
                 />
-                {clearable && value ? (<a onClick={this.clearValue} className={`${ns}TextControl-clear`}>{closeIcon}</a>) : null}
+                {clearable && !disabled && value ? (<a onClick={this.clearValue} className={`${ns}TextControl-clear`}>{closeIcon}</a>) : null}
             </div>
         );
     }
