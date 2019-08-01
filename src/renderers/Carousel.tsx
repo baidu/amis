@@ -55,7 +55,7 @@ const defaultSchema = {
         <% } %>
     <% } else if (data.hasOwnProperty('html')) { %>
         <%= data.html %>
-    <% } else if (data.hasOwnproperty('item')) { %>
+    <% } else if (data.hasOwnProperty('item')) { %>
         <%= data.item %>
     <% } else { %>
         <%= '未找到渲染数据' %>

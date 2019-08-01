@@ -37,7 +37,9 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
             formMode,
             columnsCount,
             classPrefix,
-            itemClassName
+            itemClassName,
+            autoFill,
+            onBulkChange
         } = this.props;
 
         return (
@@ -46,6 +48,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
                 className={cx(`${ns}RadiosControl`, className)}
                 value={(typeof value === 'undefined' || value === null) ? '' : value}
                 disabled={disabled}
+                autoFill={autoFill}
+                onBulkChange={onBulkChange}
                 onChange={onChange}
                 joinValues={joinValues}
                 extractValue={extractValue}
