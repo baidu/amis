@@ -2,12 +2,14 @@ import React from 'react';
 import cx from 'classnames';
 import {
     OptionsControl,
-    OptionsControlProps
+    OptionsControlProps,
+    Option
 } from './Options';
 import {
     Button
 } from '../../types';
-import { getLevelFromClassName } from '../../utils/helper';
+import { getLevelFromClassName, autobind, isEmpty} from '../../utils/helper';
+import { dataMapping } from '../../utils/tpl-builtin';
 
 export interface ButtonGroupProps extends OptionsControlProps {
     buttons?: Array<Button>;
@@ -26,6 +28,20 @@ export default class ButtonGroupControl extends React.Component<ButtonGroupProps
         vertical: false
     }
 
+    @autobind
+    handleToggle(option: Option) {
+        const {
+            onToggle,
+            multiple,
+            autoFill,
+            onBulkChange
+        } = this.props;
+
+        const sendTo = !multiple && autoFill && !isEmpty(autoFill) && dataMapping(autoFill, option as Option);
+        sendTo && onBulkChange(sendTo);
+        onToggle(option)
+    }
+
     render(props = this.props) {
         const {
             render,
@@ -38,7 +54,6 @@ export default class ButtonGroupControl extends React.Component<ButtonGroupProps
             placeholder,
             btnClassName,
             btnActiveClassName,
-            onToggle,
             selectedOptions,
             buttons,
             size,
@@ -69,7 +84,7 @@ export default class ButtonGroupControl extends React.Component<ButtonGroupProps
                     className: cx(option.className, btnClassName),
                     disabled: option.disabled || disabled,
                     onClick: (e:React.UIEvent<any>) => {
-                        onToggle(option);
+                        this.handleToggle(option);
                         e.preventDefault(); // 禁止 onAction 触发
                     }
                 });

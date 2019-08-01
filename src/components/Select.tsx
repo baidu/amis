@@ -44,6 +44,7 @@ export interface OptionProps {
     delimiter?: string;
     clearable?: boolean;
     placeholder?: string;
+    autoFill?: {[propName:string]: any}
 }
 
 export type OptionValue = string | number | null | undefined | Option;
