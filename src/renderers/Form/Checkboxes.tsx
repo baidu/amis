@@ -7,8 +7,6 @@ import {
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 import chunk = require('lodash/chunk');
-import {autobind, isEmpty} from '../../utils/helper';
-import {dataMapping} from '../../utils/tpl-builtin';
 
 export interface CheckboxesProps extends OptionsControlProps {
     placeholder?: any;
@@ -31,20 +29,6 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
         } = this.props;
 
         defaultCheckAll && onToggleAll();
-    }
-
-    @autobind
-    handleToggle(option: Option) {
-        const {
-            onToggle,
-            multiple,
-            autoFill,
-            onBulkChange
-        } = this.props;
-
-        const sendTo = !multiple && autoFill && !isEmpty(autoFill) && dataMapping(autoFill, option as Option);
-        sendTo && onBulkChange(sendTo);
-        onToggle(option);
     }
 
     renderGroup(option:Option, index:number) {
@@ -82,7 +66,7 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
             <Checkbox
                 className={itemClassName}
                 key={index}
-                onChange={() => this.handleToggle(option)}
+                onChange={() => onToggle(option)}
                 checked={!!~selectedOptions.indexOf(option)}
                 disabled={disabled || option.disabled}
                 inline={inline}
