@@ -10,6 +10,8 @@ import find = require('lodash/find');
 import debouce = require('lodash/debounce');
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
+import {isEmpty} from '../../utils/helper';
+import {dataMapping} from '../../utils/tpl-builtin';
 
 export interface SelectProps extends OptionsControlProps {
     autoComplete?: Api;
@@ -55,7 +57,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             type,
             onChange,
             setOptions,
-            options
+            options,
+            autoFill,
+            onBulkChange
         } = this.props;
 
         let newValue: string | Option | Array<Option> | void = value;
@@ -83,6 +87,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         // 不设置没法回显
         additonalOptions.length && setOptions(options.concat(additonalOptions));
 
+        const sendTo = !multiple && autoFill && !isEmpty(autoFill) && dataMapping(autoFill, value as Option);
+        sendTo && onBulkChange(sendTo);
         onChange(newValue);
     }
 
