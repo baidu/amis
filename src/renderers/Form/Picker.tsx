@@ -17,6 +17,8 @@ import findIndex = require('lodash/findIndex');
 import Html from '../../components/Html';
 import { filter } from '../../utils/tpl';
 import { closeIcon } from '../../components/icons';
+import {isEmpty} from '../../utils/helper';
+import {dataMapping} from '../../utils/tpl-builtin';
 
 export interface PickerProps extends OptionsControlProps {
     modalMode: 'dialog' | 'drawer';
@@ -127,7 +129,9 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
             multiple,
             options,
             setOptions,
-            onChange
+            onChange,
+            autoFill,
+            onBulkChange
         } = this.props;
 
         let value: any = items;
@@ -148,6 +152,8 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         });
 
         additionalOptions.length && setOptions(options.concat(additionalOptions));
+        const sendTo = !multiple && autoFill && !isEmpty(autoFill) && dataMapping(autoFill, value as Option);
+        sendTo && onBulkChange(sendTo);
         onChange(value);
     }
 

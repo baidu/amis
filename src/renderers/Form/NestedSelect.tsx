@@ -6,7 +6,8 @@ import Checkbox from '../../components/Checkbox';
 import PopOver from '../../components/PopOver';
 import {RootCloseWrapper} from 'react-overlays';
 import {closeIcon, rightArrowIcon} from '../../components/icons';
-import {autobind, flattenTree} from '../../utils/helper'
+import {autobind, flattenTree, isEmpty} from '../../utils/helper';
+import {dataMapping} from '../../utils/tpl-builtin';
 
 import {
     OptionsControl,
@@ -102,10 +103,16 @@ export default class NestedSelectControl extends React.Component<NestedSelectPro
             onChange,
             joinValues,
             extractValue,
-            valueField
+            valueField,
+            autoFill,
+            onBulkChange
         } = this.props;
 
         e.stopPropagation();
+
+        const sendTo = !multiple && autoFill && !isEmpty(autoFill) && dataMapping(autoFill, option);
+        sendTo && onBulkChange(sendTo);
+
         onChange(joinValues ? option[valueField || 'value'] : extractValue ? option[valueField || 'value'] : option);
         !multiple && this.close();
     }
