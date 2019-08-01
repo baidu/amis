@@ -294,6 +294,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 files.splice(idx, 1, newFile);
                 this.current = null;
                 this.setState({
+                    error: error ? error : null,
                     files: files
                 }, this.tick);
             }));

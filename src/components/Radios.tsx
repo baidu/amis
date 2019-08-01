@@ -29,10 +29,6 @@ interface RadioProps extends OptionProps {
     inline?: boolean;
     disabled?: boolean;
     onChange?: Function;
-    autoFill?: {
-        [propName:string]: string
-    };
-    onBulkChange?: Function;
     columnsCount: number;
     itemClassName?: string;
     classPrefix: string;
