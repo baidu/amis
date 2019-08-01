@@ -27,6 +27,7 @@ export interface ColorProps {
     classPrefix: string;
     classnames: ClassNamesFn;
     onChange: (value: any) => void;
+    presetColors?: string[];
 }
 
 export interface ColorControlState {
@@ -178,6 +179,7 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
             clearable,
             placement,
             classnames: cx,
+            presetColors
         } = this.props;
 
         const isOpened = this.state.isOpened;
@@ -236,6 +238,7 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
                             <SketchPicker
                                 disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
                                 color={value}
+                                presetColors={presetColors}
                                 onChangeComplete={this.handleChange}
                             />
                         </PopOver>
