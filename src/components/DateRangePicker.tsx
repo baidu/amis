@@ -438,7 +438,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
                     <span className={`${ns}DateRangePicker-placeholder`}>{placeholder}</span>
                 )}
 
-                {clearable && value ? (
+                {clearable && !disabled && value ? (
                     <a className={`${ns}DateRangePicker-clear`} onClick={this.clearValue}>
                         {closeIcon}
                     </a>

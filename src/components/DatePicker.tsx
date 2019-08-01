@@ -755,7 +755,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                     <span className={`${ns}DatePicker-placeholder`}>{placeholder}</span>
                 )}
 
-                {clearable && value ? (
+                {clearable && !disabled && value ? (
                     <a className={`${ns}DatePicker-clear`} onClick={this.clearValue}>
                         {closeIcon}
                     </a>

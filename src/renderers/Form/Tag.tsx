@@ -266,7 +266,7 @@ export default class TagControl extends React.PureComponent<TagProps, TagState> 
                         />
                     </div>
 
-                    {clearable && value ? (<a onClick={this.clearValue} className={cx('TagControl-clear')}>{closeIcon}</a>) : null}
+                    {clearable && !disabled && value ? (<a onClick={this.clearValue} className={cx('TagControl-clear')}>{closeIcon}</a>) : null}
                     {loading ? <i className={cx(`TagControl-spinner`, spinnerClassName)} /> : null}
                 </div>
 
