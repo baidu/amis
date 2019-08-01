@@ -483,17 +483,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
         if (
             inputValue &&
             creatable &&
-            (!filtedOptions.length ||
-                (isOpen &&
-                    loadOptions &&
-                    !matchSorter(options, inputValue, {
-                        keys: [labelField || 'label', valueField || 'value'],
-                    }).length))
+            !find(options, (item) => item[labelField || 'label'] == inputValue)
         ) {
-            filtedOptions.push({
+            filtedOptions.unshift({
                 [labelField]: inputValue,
                 [valueField]: inputValue,
-                isNew: true,
+                isNew: true
             });
         }
 
