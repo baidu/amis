@@ -19,8 +19,6 @@ import Checkbox from './Checkbox';
 import {value2array, OptionProps, Option} from './Checkboxes';
 import chunk = require('lodash/chunk');
 import {ClassNamesFn, themeable} from '../theme';
-import {isEmpty} from '../utils/helper';
-import {dataMapping} from '../utils/tpl-builtin';
 
 interface RadioProps extends OptionProps {
     id?: string;
@@ -52,14 +50,10 @@ export class Radios extends React.Component<RadioProps, any> {
         const {
             value,
             onChange,
-            joinValues,
-            extractValue,
             valueField,
             clearable,
             delimiter,
-            options,
-            autoFill,
-            onBulkChange
+            options
         } = this.props;
 
         let valueArray = value2array(value, {
@@ -77,17 +71,6 @@ export class Radios extends React.Component<RadioProps, any> {
         }
 
         let newValue = valueArray[0];
-
-        const sendTo = autoFill && !isEmpty(autoFill) && dataMapping(autoFill, newValue as Option);
-        sendTo && onBulkChange && onBulkChange(sendTo);
-
-        if (newValue && (joinValues || extractValue)) {
-            newValue = newValue[valueField || 'value'];
-        }
-
-        // if (joinValues && newValue) {
-        //     newValue = newValue[valueField || 'value'];
-        // }
 
         onChange && onChange(newValue);
     }

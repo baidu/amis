@@ -152,7 +152,7 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         });
 
         additionalOptions.length && setOptions(options.concat(additionalOptions));
-        const sendTo = !multiple && !joinValues && !extractValue && autoFill && !isEmpty(autoFill) && dataMapping(autoFill, value as Option);
+        const sendTo = !multiple && autoFill && !isEmpty(autoFill) && dataMapping(autoFill, value as Option);
         sendTo && onBulkChange(sendTo);
         onChange(value);
     }
