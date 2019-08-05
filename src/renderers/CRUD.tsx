@@ -307,7 +307,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     handleBulkAction(selectedItems: Array<any>, unSelectedItems: Array<any>, e: React.UIEvent<any>, action: Action) {
         const {store, primaryField, onAction, messages, pageField, stopAutoRefreshWhenModalIsOpen} = this.props;
 
-        if (!selectedItems.length) {
+        if (!selectedItems.length && action.requireSelected !== false) {
             return;
         }
 
@@ -971,7 +971,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                         {
                             key: `bulk-${index}`,
                             data: ctx,
-                            disabled: btn.disabled || !selectedItems.length,
+                            disabled: btn.disabled || (btn.requireSelected !== false ? !selectedItems.length : false),
                             onAction: this.handleBulkAction.bind(
                                 this,
                                 selectedItems.concat(),
