@@ -134,6 +134,7 @@
     &-content {
         min-height: 0.01%;
         overflow-x: auto;
+        transform: translateZ(0);
     }
 
     &-table {

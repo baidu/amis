@@ -43,7 +43,14 @@ export class Radios extends React.Component<RadioProps, any> {
     };
 
     toggleOption(option: Option) {
-        const {value, onChange, joinValues, extractValue, valueField, clearable, delimiter, options} = this.props;
+        const {
+            value,
+            onChange,
+            valueField,
+            clearable,
+            delimiter,
+            options
+        } = this.props;
 
         let valueArray = value2array(value, {
             multiple: false,
@@ -60,14 +67,6 @@ export class Radios extends React.Component<RadioProps, any> {
         }
 
         let newValue = valueArray[0];
-
-        if (newValue && (joinValues || extractValue)) {
-            newValue = newValue[valueField || 'value'];
-        }
-
-        // if (joinValues && newValue) {
-        //     newValue = newValue[valueField || 'value'];
-        // }
 
         onChange && onChange(newValue);
     }
