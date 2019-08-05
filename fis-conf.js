@@ -296,7 +296,7 @@ if (fis.project.currentMedia() === 'publish') {
     env.match('::package', {
         packager: fis.plugin('deps-pack', {
             'sdk.js': [
-                'examples/mod.js',
+                'examples/sdk-mod.js',
                 '/node_modules/**.js',
                 'examples/embed.tsx',
                 'examples/embed.tsx:deps',
