@@ -8,17 +8,21 @@ fis.get('project.ignore').push(
     'gh-pages/**',
     '.*/**'
 );
-
 // 配置只编译哪些文件。
 
 fis.set('project.files', [
     'scss/**.scss',
     '/examples/*.html',
+    '/examples/*.tpl',
     '/src/**.html',
     'mock/**'
 ]);
 
 fis.match('/mock/**', {
+    useCompile: false
+});
+
+fis.match('mod.js', {
     useCompile: false
 });
 
@@ -58,7 +62,7 @@ fis.match('/docs/**.md', {
     isMod: true
 });
 
-fis.match('{*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
     parser: [fis.plugin('typescript', {
         importHelpers: true,
         esModuleInterop: true,
@@ -107,11 +111,25 @@ fis.match('/node_modules/monaco-editor/min/**/loader.js', {
     }
 });
 
+fis.match('{/node_modules/font-awesome/fonts/(*), /node_modules/bootstrap/dist/fonts/(*)}', {
+    release: '/sdk/$1'
+});
+
+fis.match('**.{js,jsx,ts,tsx}', {
+    moduleId: function (m, path) {
+        return fis.util.md5('amis' + path);
+    }
+});
+
 fis.match('::package', {
-    postpackager: fis.plugin('loader', {
-        useInlineMap: false,
-        resourceType: 'mod'
-    })
+    postpackager: [
+        fis.plugin('loader', {
+            useInlineMap: false,
+            resourceType: 'mod'
+        }),
+
+        require('./build/embed-packager')
+    ]
 });
 
 fis.hook('node_modules', {
@@ -121,6 +139,26 @@ fis.hook('node_modules', {
 });
 fis.hook('commonjs', {
     extList: ['.js', '.jsx', '.tsx', '.ts']
+});
+
+fis.match('monaco-editor/**.js', {
+    isMod: false,
+    standard: null,
+    packTo: null
+});
+
+fis.on('compile:optimizer', function (file) {
+    if (file.isJsLike && file.isMod) {
+        var contents = file.getContent();
+
+        if (typeof contents === 'string' && contents.substring(0, 7) === 'define(') {
+            contents = 'amis.' + contents;
+
+            contents = contents.replace('function(require, exports, module)', 'function(require, exports, module, define)');
+
+            file.setContent(contents);
+        }
+    }
 });
 
 fis
