@@ -12,6 +12,7 @@ var define;
 
 (function (global) {
 
+    var amis = window.amis || {};
     // 避免重复加载而导致已定义模块丢失
     if (require) {
         return;
@@ -283,5 +284,9 @@ var define;
     };
 
     require.timeout = 5000;
+
+    amis.require = require;
+    amis.define = define;
+    window.amis = amis;
 
 })(this);
