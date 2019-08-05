@@ -111,27 +111,6 @@ fis.match('/node_modules/monaco-editor/min/**/loader.js', {
     }
 });
 
-fis.match('{/node_modules/font-awesome/fonts/(*), /node_modules/bootstrap/dist/fonts/(*)}', {
-    release: '/sdk/$1'
-});
-
-fis.match('**.{js,jsx,ts,tsx}', {
-    moduleId: function (m, path) {
-        return fis.util.md5('amis' + path);
-    }
-});
-
-fis.match('::package', {
-    postpackager: [
-        fis.plugin('loader', {
-            useInlineMap: false,
-            resourceType: 'mod'
-        }),
-
-        require('./build/embed-packager')
-    ]
-});
-
 fis.hook('node_modules', {
     shimProcess: false,
     shimGlobal: false,
@@ -139,26 +118,6 @@ fis.hook('node_modules', {
 });
 fis.hook('commonjs', {
     extList: ['.js', '.jsx', '.tsx', '.ts']
-});
-
-fis.match('monaco-editor/**.js', {
-    isMod: false,
-    standard: null,
-    packTo: null
-});
-
-fis.on('compile:optimizer', function (file) {
-    if (file.isJsLike && file.isMod) {
-        var contents = file.getContent();
-
-        if (typeof contents === 'string' && contents.substring(0, 7) === 'define(') {
-            contents = 'amis.' + contents;
-
-            contents = contents.replace('function(require, exports, module)', 'function(require, exports, module, define)');
-
-            file.setContent(contents);
-        }
-    }
 });
 
 fis
@@ -267,6 +226,180 @@ if (fis.project.currentMedia() === 'publish') {
     });
     // publishEnv.unhook('node_modules');
     publishEnv.hook('relative');
+} else if (fis.project.currentMedia() === 'publish-sdk') {
+    const env = fis.media('publish-sdk');
+
+    env.get('project.ignore').push(
+        'sdk/**'
+    );
+    env.set('project.files', [
+        'examples/sdk-placeholder.html'
+    ]);
+
+    env.match('/{examples,scss}/(**)', {
+        release: '/$1',
+    });
+
+    env.match('*.map', {
+        release: false
+    });
+
+    env.match('/node_modules/(**)', {
+        release: '/thirds/$1'
+    });
+
+    env.match('/node_modules/(*)/dist/(**)', {
+        release: '/thirds/$1/$2'
+    });
+
+    env.match('/node_modules/monaco-editor/min/(**)', {
+        release: '/thirds/monaco-editor/$1'
+    });
+
+    env.match('*.scss', {
+        parser: fis.plugin('node-sass', {
+            sourceMap: false
+        })
+    });
+
+    env.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+        parser: [fis.plugin('typescript', {
+            importHelpers: true,
+            esModuleInterop: true,
+            experimentalDecorators: true,
+            sourceMap: false
+        }),
+    
+        function (content) {
+            return content.replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
+        }],
+        preprocessor: fis.plugin('js-require-css'),
+        isMod: true,
+        rExt: '.js'
+    });
+
+    env.match('/examples/sdk-mod.js', {
+        isMod: false
+    });
+
+    env.match('*.{js,jsx,ts,tsx}', {
+        optimizer: fis.plugin('uglify-js'),
+        moduleId: function (m, path) {
+            return fis.util.md5('amis-sdk' + path);
+        },
+    });
+
+    env.match('src/components/Editor.tsx', {
+        release: '/ide.js'
+    });
+    
+    env.match('::package', {
+        packager: fis.plugin('deps-pack', {
+            'sdk.js': [
+                'examples/mod.js',
+                '/node_modules/**.js',
+                'examples/embed.tsx',
+                'examples/embed.tsx:deps',
+                '!monaco-editor/**',
+                '!flv.js/**',
+                '!hls.js/**',
+                '!froala-editor/**',
+                '!src/components/RichText.tsx',
+                '!jquery/**',
+                '!zrender/**',
+                '!echarts/**',
+                '!docsearch.js/**',
+            ],
+        
+            'rich-text.js': [
+                'src/components/RichText.tsx',
+                'froala-editor/**',
+                'jquery/**',
+            ],
+        
+            'echarts.js': [
+                'zrender/**',
+                'echarts/**',
+            ]
+        }),
+        postpackager: [
+            fis.plugin('loader', {
+                useInlineMap: false,
+                resourceType: 'mod'
+            }),
+    
+            require('./build/embed-packager')
+        ]
+    });
+
+    env.match('monaco-editor/**.js', {
+        isMod: false,
+        standard: null,
+        optimizer: null,
+        packTo: null
+    });
+    
+    fis.on('compile:optimizer', function (file) {
+        if (file.isJsLike && file.isMod) {
+            var contents = file.getContent();
+
+            if (file.subpath === '/src/components/Editor.tsx') {
+                contents = contents.replace(/function\snoJsExt\(raw\)\s\{/, function() {
+                    return `var _path = '';
+    try {
+        throw new Error()
+    } catch (e) {
+        _path = (/((?:https?|file)\:.*)$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
+    }
+    function noJsExt(raw) {`;
+                })
+                .replace(/('|")(\.\/thirds.*?)\1/g, function(_, quote, value) {
+                    return `_path + ${quote}${value.substring(1)}${quote}`;
+                });
+            }
+    
+            if (typeof contents === 'string' && contents.substring(0, 7) === 'define(') {
+                contents = 'amis.' + contents;
+    
+                contents = contents.replace('function(require, exports, module)', 'function(require, exports, module, define)');
+    
+                file.setContent(contents);
+            }
+        }
+    });
+
+    env.match('/examples/loader.ts', {
+        isMod: false
+    });
+
+    env.match('*', {
+        domain: '.',
+        deploy: [
+            fis.plugin('skip-packed'),
+            function(_, modified, total, callback) {
+                var i = modified.length - 1;
+                var file;
+
+                while ((file = modified[i--])) {
+                    if (file.skiped || /\.map$/.test(file.subpath)) {
+                        modified.splice(i + 1, 1);
+                    }
+                }
+
+                i = total.length - 1;
+                while ((file = total[i--])) {
+                    if (file.skiped || /\.map$/.test(file.subpath)) {
+                        total.splice(i + 1, 1);
+                    }
+                }
+
+                callback();
+            },
+            fis.plugin('local-deliver', {
+                to: './sdk'
+            })
+        ]
+    });
 } else if (fis.project.currentMedia() === 'gh-pages') {
     const ghPages = fis.media('gh-pages');
 

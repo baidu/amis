@@ -7,6 +7,9 @@ rm -rf output
 fis3 release publish -c 
 rm -rf lib/node_modules 
 
+# 生成 sdk
+rm -rf sdk && fis3 release publish-sdk -c
+
 # 生成 .d.ts 文件
 tsc --allowJs --declaration || true
 

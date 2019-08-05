@@ -1,6 +1,5 @@
 
 const __moduleId = (str: string) => '';
-import './openUtils';
 
 const mapping: {
     [propName: string]: any;
@@ -14,7 +13,6 @@ const mapping: {
     'react-select': __moduleId('react-select'),
     'react-cropper': __moduleId('react-cropper'),
     'react-dropzone': __moduleId('react-dropzone'),
-    'aui': __moduleId('amis'),
     'react-bootstrap': __moduleId('react-bootstrap'),
     'classnames': __moduleId('classnames'),
     'axios': __moduleId('axios'),
@@ -26,11 +24,8 @@ const mapping: {
     'zrender': __moduleId('zrender'),
     'sortablejs': __moduleId('sortablejs'),
     'history': __moduleId('history'),
-    '@fex/aui': __moduleId('amis'),
-    '@fex/amis-renderer': __moduleId('amis'),
-    'amis/utils': __moduleId('./openUtils'),
-    'amis/util': __moduleId('./openUtils'),
-    'amis/embed': __moduleId('../embed.tsx'),
+    'amis': __moduleId('../src'),
+    'amis/embed': __moduleId('./embed.tsx'),
     'prop-types': __moduleId('prop-types'),
     'async': __moduleId('async'),
     'qs': __moduleId('qs'),
