@@ -73,7 +73,10 @@
     "tslib": "^1.9.3",
     "uncontrollable": "4.1.0",
     "video-react": "0.9.4",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "css": "2.2.1",
+    "es6-symbol": "3.1.1",
+    "copy-to-clipboard": "3.0.8"
   },
   "devDependencies": {
     "@types/async": "^2.0.45",
