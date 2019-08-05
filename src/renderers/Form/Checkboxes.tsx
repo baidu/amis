@@ -7,7 +7,6 @@ import {
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 import chunk = require('lodash/chunk');
-import { autobind } from '../../utils/helper';
 
 export interface CheckboxesProps extends OptionsControlProps {
     placeholder?: any;

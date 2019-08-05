@@ -6,7 +6,8 @@ import {
 } from './Options';
 import { Item } from 'react-bootstrap/lib/Breadcrumb';
 import { Schema } from '../../types';
-import { createObject } from '../../utils/helper';
+import { createObject, isEmpty } from '../../utils/helper';
+import {dataMapping} from '../../utils/tpl-builtin';
 
 export interface ListProps extends OptionsControlProps {
     imageClassName: string;
@@ -38,7 +39,17 @@ export default class ListControl extends React.Component<ListProps, any> {
             return;
         }
 
-        this.props.onToggle(option);
+        const {
+            onToggle,
+            multiple,
+            autoFill,
+            onBulkChange
+        } = this.props;
+
+        const sendTo = !multiple && autoFill && !isEmpty(autoFill) && dataMapping(autoFill, option as Option);
+        sendTo && onBulkChange(sendTo);
+
+        onToggle(option);
     }
 
     render() {

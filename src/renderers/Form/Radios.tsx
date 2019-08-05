@@ -10,6 +10,8 @@ import {
     OptionsControlProps,
     Option
 } from './Options';
+import {autobind, isEmpty} from '../../utils/helper';
+import {dataMapping} from '../../utils/tpl-builtin';
 
 export interface RadiosProps extends OptionsControlProps {
     placeholder?: any;
@@ -19,6 +21,27 @@ export interface RadiosProps extends OptionsControlProps {
 export default class RadiosControl extends React.Component<RadiosProps, any> {
     static defaultProps:Partial<RadiosProps> = {
         columnsCount: 1
+    }
+
+    @autobind
+    handleChange(option: Option) {
+        const {
+            joinValues,
+            extractValue,
+            valueField,
+            onChange,
+            autoFill,
+            onBulkChange
+        } = this.props;
+
+        const sendTo = autoFill && !isEmpty(autoFill) && dataMapping(autoFill, option);
+        sendTo && onBulkChange && onBulkChange(sendTo);
+
+        if (option && (joinValues || extractValue)) {
+            option = option[valueField || 'value'];
+        }
+
+        onChange && onChange(option);
     }
 
     render() {
@@ -46,7 +69,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
                 className={cx(`${ns}RadiosControl`, className)}
                 value={(typeof value === 'undefined' || value === null) ? '' : value}
                 disabled={disabled}
-                onChange={onChange}
+                onChange={this.handleChange}
                 joinValues={joinValues}
                 extractValue={extractValue}
                 delimiter={delimiter}
