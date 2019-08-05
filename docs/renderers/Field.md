@@ -99,7 +99,8 @@
 
 ### Json(Field)
 
-todo
+-   `type` 请设置为 `json`。
+-   `levelExpand` 开始展开的层级，默认为 1，如设置不展开，则设置为 0
 
 ### Date(Field)
 
