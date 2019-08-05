@@ -297,7 +297,6 @@ if (fis.project.currentMedia() === 'publish') {
         packager: fis.plugin('deps-pack', {
             'sdk.js': [
                 'examples/sdk-mod.js',
-                '/node_modules/**.js',
                 'examples/embed.tsx',
                 'examples/embed.tsx:deps',
                 '!monaco-editor/**',
@@ -320,7 +319,19 @@ if (fis.project.currentMedia() === 'publish') {
             'echarts.js': [
                 'zrender/**',
                 'echarts/**',
-            ]
+            ],
+
+            'rest.js': [
+                '*.js',
+                '!monaco-editor/**',
+                '!flv.js/**',
+                '!hls.js/**',
+                '!froala-editor/**',
+                '!src/components/RichText.tsx',
+                '!jquery/**',
+                '!zrender/**',
+                '!echarts/**',
+            ],
         }),
         postpackager: [
             fis.plugin('loader', {
