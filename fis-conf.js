@@ -120,6 +120,13 @@ fis.hook('commonjs', {
     extList: ['.js', '.jsx', '.tsx', '.ts']
 });
 
+fis.match('::package', {
+    postpackager: fis.plugin('loader', {
+        useInlineMap: false,
+        resourceType: 'mod'
+    })
+})
+
 fis
     .media('dev')
     .match('/node_modules/**.js', {
