@@ -1,13 +1,18 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, SchemaNode, Schema, Action} from '../types';
-import {filter, evalExpression} from '../utils/tpl';
-import {Tabs as BsTabs, TabContainer, TabContent, TabPane, NavItem, Nav, Tab} from 'react-bootstrap';
-import cx = require('classnames');
+import { Schema } from '../types';
+import { evalExpression } from '../utils/tpl';
+import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import find = require('lodash/find');
-import {isVisible} from '../utils/helper';
+import { isVisible } from '../utils/helper';
 import findIndex = require('lodash/findIndex');
+
+const transitionStyles: {
+    [propName: string]: string;
+} = {
+    [ENTERING]: 'in',
+    [ENTERED]: 'in'
+};
 
 export type TabProps = Schema & {
     title?: string; // 标题
@@ -30,9 +35,9 @@ export interface TabsState {
     prevKey: any;
 }
 
-let tabCount = 0;
-
 export default class Tabs extends React.Component<TabsProps, TabsState> {
+    wrapperRef: React.RefObject<HTMLDivElement> = React.createRef();
+
     static defaultProps: Partial<TabsProps> = {
         className: '',
         mode: '',
@@ -40,7 +45,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         unmountOnExit: false,
     };
 
-    id = '' + tabCount++;
     constructor(props: TabsProps) {
         super(props);
 
@@ -155,7 +159,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         // 是 hash，需要更新到地址栏
         if (typeof key === 'string' && env) {
             env.updateLocation(`#${key}`);
-        } else if (typeof this.state.prevKey === 'string' && env) {
+        } else if (typeof this.state.activeKey === 'string' && env) {
             env.updateLocation(`#`);
         }
 
@@ -207,8 +211,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         const mode = tabsMode || dMode;
 
         return (
-            <TabContainer
-                id={this.id}
+            <div
                 className={cx(
                     `Tabs`,
                     {
@@ -216,49 +219,63 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                     },
                     className
                 )}
-                activeKey={this.state.activeKey}
-                onSelect={this.handleSelect}
             >
-                <div>
-                    <Nav className={cx('Tabs-links')} role="tablist">
-                        {tabs.map((tab, index) => isVisible(tab, data) ? (
-                            <NavItem
-                                className={cx('Tabs-link')}
-                                key={index}
-                                eventKey={tab.hash || index}
-                                disabled={tab.disabled || (tab.disabledOn && evalExpression(tab.disabledOn, data))}
-                            >
-                                {tab.icon ? (
-                                    <div>
-                                        <i className={tab.icon} /> {tab.title}
-                                    </div>
-                                ) : (
-                                    tab.title
-                                )}
-                            </NavItem>
-                        ) : null)}
-                    </Nav>
+                <ul className={cx('Tabs-links')} role="tablist">
+                    {tabs.map((tab, index) => isVisible(tab, data) ? (
+                        <li
+                            className={cx(
+                                'Tabs-link',
+                                this.state.activeKey === tab.hash || this.state.activeKey === index ? 'active' : '',
+                                tab.disabled || (tab.disabledOn && evalExpression(tab.disabledOn, data)) ? 'disabled' : ''
+                            )}
+                            key={index}
+                            onClick={() => tab.disabled || (tab.disabledOn && evalExpression(tab.disabledOn, data)) ? '' : this.handleSelect(tab.hash || index)}
+                        >
+                            {tab.icon ? (
+                                <div>
+                                    <i className={tab.icon} /><a>{tab.title}</a>
+                                </div>
+                            ) : (
+                                <a>{tab.title}</a>
+                            )}
+                        </li>
+                    ) : null)}
+                </ul>
 
-                    <TabContent
-                        className={cx('Tabs-content', contentClassName)}
-                        mountOnEnter={mountOnEnter}
-                        unmountOnExit={unmountOnExit}
-                    >
-                        {tabs.map((tab, index) => isVisible(tab, data) ? (
-                            <TabPane
-                                key={index}
-                                eventKey={tab.hash || index}
-                                mountOnEnter={mountOnEnter}
-                                unmountOnExit={typeof tab.reload === 'boolean' ? tab.reload : tab.unmountOnExit}
-                            >
-                                {tabRender
-                                    ? tabRender(tab, this.props)
-                                    : render(`tab/${index}`, tab.tab || tab.body || '')}
-                            </TabPane>
-                        ) : null)}
-                    </TabContent>
+                <div
+                    ref={this.wrapperRef}
+                    className={cx('Tabs-content', contentClassName, 'tab-content')}
+                >
+                    {tabs.map((tab, index) => isVisible(tab, data) ? (
+                        <Transition
+                            in={this.state.activeKey === tab.hash || this.state.activeKey === index ? true : false}
+                            mountOnEnter={mountOnEnter}
+                            unmountOnExit={unmountOnExit}
+                            timeout={500}
+                            key={index}
+                        >
+                            {(status:string) => {
+                                if (status === ENTERING) {
+                                    this.wrapperRef.current && this.wrapperRef.current.childNodes.forEach((item:HTMLElement) => item.offsetHeight);
+                                }
+                                return (
+                                    <div className={cx(
+                                        transitionStyles[status],
+                                        this.state.activeKey === tab.hash || this.state.activeKey === index ? 'active' : '',
+                                            'tab-pane',
+                                            'fade'
+                                        )}>
+                                        {tabRender
+                                                ? tabRender(tab, this.props)
+                                                : render(`tab/${index}`, tab.tab || tab.body || '')}
+                                    </div>
+                                )
+                            }}
+                        </Transition>
+                        ) : null)
+                    }
                 </div>
-            </TabContainer>
+            </div>
         );
     }
 }

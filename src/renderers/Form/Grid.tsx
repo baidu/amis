@@ -11,7 +11,6 @@ import {
 } from './Item';
 import pick = require("lodash/pick");
 import React from 'react';
-import { Row, Col } from "react-bootstrap";
 import cx from 'classnames';
 
 export interface GridProps extends FormControlProps {};

@@ -1,6 +1,13 @@
 .#{$ns}Tabs {
     &-links {
         border-bottom: $Tabs-borderWidth solid $Tabs-borderColor;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+        &::before {
+            display: table;
+            content: " ";
+        }
 
         > .#{$ns}Tabs-link {
             margin-bottom: -$Tabs-borderWidth;
@@ -17,6 +24,7 @@
                 padding: $gap-sm $gap-base;
                 text-decoration: none;
                 cursor: pointer;
+                display: block;
             }
 
             &:hover > a,
@@ -49,6 +57,13 @@
         border-style: solid;
         border-width: 0 $Tabs-borderWidth $Tabs-borderWidth;
         border-color: $Tabs-borderColor;
+
+        > .tab-pane {
+            display: none;
+            &.active {
+                display: block;
+            }
+        }
     }
 
     &--line {
