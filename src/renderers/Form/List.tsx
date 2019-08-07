@@ -4,7 +4,6 @@ import {
     OptionsControlProps,
     Option
 } from './Options';
-import { Item } from 'react-bootstrap/lib/Breadcrumb';
 import { Schema } from '../../types';
 import { createObject, isEmpty } from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
