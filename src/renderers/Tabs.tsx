@@ -2,32 +2,31 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import { Schema } from '../types';
 import { evalExpression } from '../utils/tpl';
-import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import find = require('lodash/find');
 import { isVisible } from '../utils/helper';
 import findIndex = require('lodash/findIndex');
+import { Tabs as CTabs, Tab } from '../components/Tabs';
+import { ClassNamesFn } from '../theme';
 
-const transitionStyles: {
-    [propName: string]: string;
-} = {
-    [ENTERING]: 'in',
-    [ENTERED]: 'in'
-};
-
-export type TabProps = Schema & {
+export interface TabProps extends Schema {
     title?: string; // 标题
     icon?: string;
     hash?: string; // 通过 hash 来控制当前选择
     tabsMode?: '' | 'line' | 'card' | 'radio';
-    tab: Schema;
-    className: string;
-    contentClassName: string;
+    tab?: Schema;
+    className?: string;
+    classnames: ClassNamesFn;
     location?: any;
+    activeKey?: string|number;
+    reload?: boolean;
+    mountOnEnter?: boolean;
+    unmountOnExit?: boolean;
+    index: string|number;
 };
 
 export interface TabsProps extends RendererProps {
     tabs?: Array<TabProps>;
-    tabRender?: (tab: TabProps, props?: TabsProps) => React.ReactNode;
+    tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
 }
 
 export interface TabsState {
@@ -36,8 +35,6 @@ export interface TabsState {
 }
 
 export default class Tabs extends React.Component<TabsProps, TabsState> {
-    wrapperRef: React.RefObject<HTMLDivElement> = React.createRef();
-
     static defaultProps: Partial<TabsProps> = {
         className: '',
         mode: '',
@@ -66,8 +63,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         };
 
         this.handleSelect = this.handleSelect.bind(this);
-        this.currentIndex = this.currentIndex.bind(this);
-        this.switchTo = this.switchTo.bind(this);
     }
 
     componentDidMount() {
@@ -169,35 +164,14 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         });
     }
 
-    switchTo(index: number) {
-        const {tabs} = this.props;
-
-        Array.isArray(tabs) &&
-            tabs[index] &&
-            this.setState({
-                activeKey: tabs[index].hash || index,
-            });
-    }
-
-    currentIndex(): number {
-        const {tabs} = this.props;
-
-        return Array.isArray(tabs)
-            ? findIndex(tabs, (tab: TabProps, index) =>
-                  tab.hash ? tab.hash === this.state.activeKey : index === this.state.activeKey
-              )
-            : -1;
-    }
-
     render() {
         const {
             classnames: cx,
+            classPrefix: ns,
             contentClassName,
             tabs,
             tabRender,
             className,
-            mountOnEnter,
-            unmountOnExit,
             render,
             data,
             mode: dMode,
@@ -209,73 +183,33 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         }
 
         const mode = tabsMode || dMode;
+        const finallyTabs = tabs.map(tab => {
+            tab.disabled = tab.disabled || (tab.disabledOn && evalExpression(tab.disabledOn, data));
+            tab.visible = isVisible(tab, data);
+            return tab;
+        });
 
         return (
-            <div
-                className={cx(
-                    `Tabs`,
-                    {
-                        [`Tabs--${mode}`]: mode,
-                    },
-                    className
-                )}
+            <CTabs
+                classPrefix={ns}
+                classnames={cx}
+                mode={mode}
+                className={className}
+                contentClassName={contentClassName}
+                handleSelect={this.handleSelect}
+                activeKey={this.state.activeKey}
             >
-                <ul className={cx('Tabs-links')} role="tablist">
-                    {tabs.map((tab, index) => isVisible(tab, data) ? (
-                        <li
-                            className={cx(
-                                'Tabs-link',
-                                this.state.activeKey === tab.hash || this.state.activeKey === index ? 'active' : '',
-                                tab.disabled || (tab.disabledOn && evalExpression(tab.disabledOn, data)) ? 'disabled' : ''
-                            )}
-                            key={index}
-                            onClick={() => tab.disabled || (tab.disabledOn && evalExpression(tab.disabledOn, data)) ? '' : this.handleSelect(tab.hash || index)}
-                        >
-                            {tab.icon ? (
-                                <div>
-                                    <i className={tab.icon} /><a>{tab.title}</a>
-                                </div>
-                            ) : (
-                                <a>{tab.title}</a>
-                            )}
-                        </li>
-                    ) : null)}
-                </ul>
-
-                <div
-                    ref={this.wrapperRef}
-                    className={cx('Tabs-content', contentClassName, 'tab-content')}
-                >
-                    {tabs.map((tab, index) => isVisible(tab, data) ? (
-                        <Transition
-                            in={this.state.activeKey === tab.hash || this.state.activeKey === index ? true : false}
-                            mountOnEnter={mountOnEnter}
-                            unmountOnExit={unmountOnExit}
-                            timeout={500}
-                            key={index}
-                        >
-                            {(status:string) => {
-                                if (status === ENTERING) {
-                                    this.wrapperRef.current && this.wrapperRef.current.childNodes.forEach((item:HTMLElement) => item.offsetHeight);
-                                }
-                                return (
-                                    <div className={cx(
-                                        transitionStyles[status],
-                                        this.state.activeKey === tab.hash || this.state.activeKey === index ? 'active' : '',
-                                            'tab-pane',
-                                            'fade'
-                                        )}>
-                                        {tabRender
-                                                ? tabRender(tab, this.props)
-                                                : render(`tab/${index}`, tab.tab || tab.body || '')}
-                                    </div>
-                                )
-                            }}
-                        </Transition>
-                        ) : null)
-                    }
-                </div>
-            </div>
+                {finallyTabs.map((tab, index) => (
+                    <Tab
+                        key={index}
+                        {...tab}
+                    >
+                        {tabRender
+                            ? tabRender(tab, this.props)
+                            : render(`tab/${index}`, tab.tab || tab.body || '')}
+                    </Tab>
+                ))}
+            </CTabs>
         );
     }
 }
