@@ -20,7 +20,7 @@ function prefixCss(code, prefix) {
         var m = sel.match(/(^| )(body|html)($|\W.*)/i);
         if (m)
             return m[1] + prefix + m[3];
-        else if (sel.match(/^(?:\.fr-|\.fa)/))
+        else if (sel.match(/^(?:\.fr-|\.fa|\.is\-modalOpened)/))
             return sel;
         else
             return prefix + ' ' + sel;
