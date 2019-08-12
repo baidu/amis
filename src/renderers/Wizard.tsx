@@ -421,7 +421,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                                     <span
                                         className={cx('Badge', {
                                             // 'Badge--success': canJump && currentStep != key + 1,
-                                            'Badge--info':
+                                            'is-active':
                                                 currentStep === key + 1 || (canJump && currentStep != key + 1),
                                         })}
                                     >
