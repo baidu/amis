@@ -31,7 +31,7 @@ export default function getExprProperties(schema:PlainObject, data:object = {}, 
         let parts = /^(.*)(On|Expr)$/.exec(key);
         let value:any = schema[key];
 
-        if (value && parts && (parts[2] === 'On' || parts[2] === 'Expr')) {
+        if (value && typeof value === 'string' && parts && (parts[2] === 'On' || parts[2] === 'Expr')) {
             key = parts[1];
 
             if (parts[2] === 'On' || parts[2] === 'Expr') {
