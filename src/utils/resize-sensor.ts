@@ -23,7 +23,11 @@ class EventQueue {
     if ((element as any).currentStyle) {
       return (element as any).currentStyle[prop];
     } else if (window.getComputedStyle) {
-      return window.getComputedStyle(element, undefined).getPropertyValue(prop);
+      if (window.getComputedStyle(element, undefined) === null) {
+        return null;
+      } else {
+        return window.getComputedStyle(element, undefined).getPropertyValue(prop);
+      }
     } else {
       return element.style[prop as any];
     }
