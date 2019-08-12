@@ -497,6 +497,9 @@ $Card-borderColor: $borderColor !default;
 $Card-borderWidth: $borderWidth !default;
 $Card-borderRadius: $borderRadius !default;
 $Card-actions-borderColor: lighten($Card-borderColor, 5%) !default;
+$Card-actions-onHover-bg: darken($white, 5%) !default;
+$Card-actions-onHover-color: darken($text-color, 5%) !default;
+$Card-actions-onChecked-onHover-bg: darken(#d9f3fb, 5%) !default;
 
 $Card-onChecked-bg: #d9f3fb !default;
 $Card-onChecked-borderColor: darken($Table-onChecked-bg, 10%) !default;
@@ -600,7 +603,7 @@ $Form-input-onFocused-borderColor: $info !default;
 $Form-input-onFocused-bg: $Form-input-bg !default;
 $Form-input-onError-borderColor: $danger !default;
 $Form-input-onError-bg: $Form-input-bg !default;
-$Form-input-onDisabled-borderColor: $Form-input-borderColor;
+$Form-input-onDisabled-borderColor: $Form-input-borderColor !default;
 $Form-input-onDisabled-bg: $gray200 !default;
 $Form-input-height: px2rem(34px) !default;
 $Form-input-placeholderColor: $text--muted-color !default;
@@ -619,6 +622,7 @@ $Form-label-paddingTop: (
 
 $Form-input-addOnBg: #edf1f2 !default;
 $Form-input-addOnColor: $text-color !default;
+$Form-input-onFocus-addOnColor: $primary !default;
 $Form-input-addOnDividerBorderWidth: $borderWidth !default;
 
 $Number-bg: $Form-input-bg !default;
@@ -626,20 +630,24 @@ $Number-borderColor: $Form-input-borderColor !default;
 $Number-borderWidth: $Form-input-borderWidth !default;
 $Number-borderRadius: $Form-input-borderRadius !default;
 $Number-handler-mode: "vertical" !default;
+$Number-handler-borderBottom: px2rem(1px) solid $Form-input-borderColor !default;
 $Number-handler-width: px2rem(20px) !default;
 $Number-handler-color: $Form-input-color !default;
 $Number-handler-onDisabled-color: $text--muted-color !default;
 $Number-handler-fontFamily: inherit !default;
 $Number-handler-fontSize: $fontSizeBase !default;
 $Number-handler--up-content: "+" !default;
+$Number-handler--up-transform: none !default;
 $Number-handler--down-content: "-" !default;
 $Number-handler-bg: $white !default;
 $Number-handler-onHover-bg: darken($Number-handler-bg, 5%) !default;
+$Number-handler-onHover-color: $text-color !default;
 $Number-handler-onActive-bg: $Number-handler-onHover-bg !default;
 $Number-handler-onDisabled-bg: $Form-input-onDisabled-bg !default;
 
 $Form-select-bg: $white !default;
 $Form-select-onHover-bg: darken($white, 5%) !default;
+$Form-select-onHover-borderColor: $Form-input-borderColor !default;
 $Form-select-color: $text-color !default;
 $Form-select-placeholderColor: $Form-input-placeholderColor !default;
 $Form-select-paddingX: $Form-input-paddingX !default;
@@ -664,8 +672,10 @@ $Form-select-caret-vender: "FontAwesome" !default;
 $Form-select-caret-icon: "\f0d7" !default;
 $Form-select-caret-fontSize: $fontSizeBase !default;
 $Form-select-caret-iconColor: $Form-input-iconColor !default;
+$Form-select-caret-onHover-iconColor: $Form-input-iconColor !default;
 $Form-select-outer-borderWidth: px2rem(1px) !default;
 $Form-select-outer-boxShadow: none !default;
+$Form-select-outer-top: 100% !default;
 $Form-select-menu-height: $Form-input-height !default;
 $Form-select-menu-bg: $white !default;
 $Form-select-menu-color: $Form-select-color !default;
@@ -760,6 +770,7 @@ $Button-boxShadow: inset 0 1px 0 rgba($white, 0.15),
 $Button-onFocus-boxShadow: none !default;
 $Button-onActive-boxShadow: inset 0 3px 5px rgba($black, 0.125) !default;
 $Button-onDisabled-opacity: 0.65 !default;
+$Button-onDisabled-borderColor: #dee2e6 !default;
 
 $Button--link-onDisabled-color: $gray600 !default;
 
@@ -924,11 +935,13 @@ $Switch-valueColor: $white !default;
 $Switch-onActive-bgColor: $info !default;
 $Switch-onDisabled-bgColor: #ccc !default;
 $Switch-onDisabled-color: #fff !default;
+$Switch-onDisabled-circle-BackgroundColor: $white !default;
 
 // color Picker
 $ColorPicker-color: $Form-input-color !default;
 $ColorPicker-bg: $white !default;
 $ColorPicker-onHover-bg: darken($ColorPicker-bg, 5%) !default;
+$ColorPicker-onHover-borderColor: $borderColor !default;
 $ColorPicker-onDisabled-bg: $gray200 !default;
 $ColorPicker-onDisabled-color: $text--muted-color !default;
 $ColorPicker-borderWidth: $Form-input-borderWidth !default;
@@ -943,6 +956,7 @@ $ColorPicker-paddingY: (
     )/2 - $ColorPicker-borderWidth !default;
 $ColorPicker-placeholderColor: $Form-input-placeholderColor !default;
 $ColorPicker-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
+$DatePicker-onHover-borderColor: $Form-input-borderColor !default;
 
 // datepicker
 $DatePicker-color: $Form-input-color !default;
@@ -1056,6 +1070,8 @@ $ListControl-item-onActive-borderColor: darken(
     10%
 ) !default;
 $ListControl-item-onActive-color: $white !default;
+$ListControl-item-onActive-before-bg: $white !default;
+$ListControl-item-onActive-after-borderColor: $primary !default;
 
 $ListControl-item-onDisabled-opacity: 0.6 !default;
 $ListControl-item-onDisabled-color: $ListControl-item-color !default;
@@ -1215,9 +1231,13 @@ $Wizard-steps-padding: 0 !default;
 $Wizard-steps-liAfterContent: "" !default;
 $Wizard-steps-liVender: "FontAwesome" !default;
 $Wizard-steps-liAfterBorder: px2rem(20px) solid transparent !default;
+$Wizard-steps-li-onActive-color: $info !default;
 $Wizard-stepsContent-padding: px2rem(15px) !default;
 $Wizard-badge-bg: $gray400 !default;
+$Wizard-badge-color: $white !default;
 $Wizard-badge-size: px2rem(20px) !default;
+$Wizard-badge-border: 0 !default;
+$Wizard-badge-onActive-backgroundColor: $info !default;
 $Wizard-badge-borderRadius: px2rem(10px) !default;
 $Wizard-badge-fontSize: $fontSizeSm !default;
 $Wizard-badge-marginRight: px2rem(4px) !default;
@@ -1268,6 +1288,9 @@ $Pagination-arrowVendor: "FontAwesome" !default;
 $Pagination-prevArrowContent: "\f053" !default;
 $Pagination-nextArrowContent: "\f054" !default;
 $Pagination-fontSize: $fontSizeBase !default;
+$Pagination-onActive-backgroundColor: $primary !default;
+$Pagination-onActive-color: $white !default;
+$Pagination-onActive-border: 0 !default;
 
 // Transfer-select
 $TransferSelect--table-heading-bg: $white !default;
