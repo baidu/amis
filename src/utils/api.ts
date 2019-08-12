@@ -66,6 +66,11 @@ export function buildApi(api: Api, data?: object, options: {
 
     const raw = api.url = api.url || '';
     api.url = tokenize(api.url, data, '| url_encode');
+
+    if (ignoreData) {
+        return api;
+    }
+
     if (api.data) {
         api.data = dataMapping(api.data, data);
     } else if (api.method === 'post' || api.method === 'put') {
@@ -78,7 +83,7 @@ export function buildApi(api: Api, data?: object, options: {
             api.data = data;
         }
 
-        if (api.data && !ignoreData) {
+        if (api.data) {
             const idx = api.url.indexOf('?');
             if (~idx) {
                 let params = {
@@ -97,7 +102,25 @@ export function buildApi(api: Api, data?: object, options: {
         api.headers = dataMapping(api.headers, data);
     }
 
+    if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
+        api.requestAdaptor = str2function(api.requestAdaptor, 'api') as any;
+    }
+
+    if (api.adaptor && typeof api.adaptor === 'string') {
+        api.adaptor = str2function(api.adaptor, 'payload', 'response', 'api') as any;
+    }
+
     return api;
+}
+
+function  str2function(contents:string, ...args:Array<string>):Function | null {
+    try {
+        let fn = new Function(...args, contents);
+        return fn;
+    } catch (e) {
+        console.warn(e);
+        return null;
+    }
 }
 
 function responseAdaptor(ret: fetcherResult) {
