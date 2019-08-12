@@ -42,6 +42,7 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
     storeExtendsData?: boolean;
     sizeMutable?: boolean;
     weight?: number;
+    extendsData?: boolean;
 
     // 兼容老用法，新用法直接在 Component 里面定义 validate 方法即可。
     validate?: (values: any, value: any) => string | boolean;
@@ -528,7 +529,8 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
 
     if (config.storeType) {
         Control = HocStoreFactory({
-            storeType: config.storeType
+            storeType: config.storeType,
+            extendsData: config.extendsData
         })(Control);
         delete config.storeType;
     }
