@@ -30,9 +30,16 @@ export function filter(tpl: string, data: object = {}, ...rest:Array<any>): stri
 export function evalExpression(expression: string, data?: object): boolean {
     /* jshint evil:true */
     try {
+        let debug = false;
+        const idx = expression.indexOf('debugger');
+        if (~idx) {
+            debug = true;
+            expression = expression.replace(/debugger;?/, '');
+        }
+
         const fn = new Function(
             "data",
-            `with(data) {return !!(${expression});}`
+            `with(data) {${debug ? 'debugger;' : ''}return !!(${expression});}`
         );
         data = data || {};
         return fn.call(data, data);
