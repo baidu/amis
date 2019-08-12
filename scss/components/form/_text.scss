@@ -66,6 +66,10 @@
         }
     }
 
+    &.is-error.is-focused > &-input {
+        border-color: $Form-input-onError-borderColor;
+    }
+
     &.is-disabled > &-input {
         color: $text--muted-color;
         background: $Form-input-onDisabled-bg;
@@ -219,6 +223,7 @@
 
     &--withAddOn.is-focused > &-addOn {
         border-color: $Form-input-onFocused-borderColor;
+        color: $Form-input-onFocus-addOnColor;
         box-shadow: $Form-input-boxShadow;
     }
 

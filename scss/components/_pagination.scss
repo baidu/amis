@@ -57,8 +57,9 @@
         > span:hover,
         > a:focus,
         > span:focus {
-            background-color: $primary;
-            color: $white;
+            background-color: $Pagination-onActive-backgroundColor;
+            color: $Pagination-onActive-color;
+            border: $Pagination-onActive-border;
         }
     }
 

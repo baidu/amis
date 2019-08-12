@@ -592,7 +592,8 @@ export default {
                             type: "button-group",
                             name: "range1",
                             value: "today",
-                            btnActiveClassName: "btn-info active",
+                            // btnActiveClassName: "btn-primary active",
+                            btnActiveLevel: 'primary',
                             mode: 'inline',
                             options: [
                                 {

@@ -30,6 +30,7 @@
     &-handler-down-inner {
         user-select: none;
         -webkit-user-select: none;
+        display: inline-block;
     }
 
     &:hover {
@@ -78,6 +79,7 @@
 
         &:hover {
             background-color: $Number-handler-onHover-bg;
+            color: $Number-handler-onHover-color;
         }
 
         &:hover:active {
@@ -87,6 +89,8 @@
 
     &-handler-up {
         &-inner {
+            transform: $Number-handler--up-transform;
+            
             &:after {
                 content: $Number-handler--up-content;
             }
@@ -101,46 +105,46 @@
         }
     }
 
-    @if $Number-handler-mode==vertical {
-        &-handler-wrap {
-            float: right;
-            border-left: px2rem(1px) solid $Form-input-borderColor;
-            width: $Number-handler-width;
-            height: 100%;
-        }
-
-        &-handler {
-            line-height: ($Form-input-height - px2rem(6px)) / 2;
-            height: ($Form-input-height - $Number-borderWidth * 2) / 2;
-        }
-
-        &-handler-up {
-            border-bottom: px2rem(1px) solid $Form-input-borderColor;
-            padding-top: px2rem(1px);
-        }
-    } @else {
-        position: relative;
-
-        &-input {
-            text-align: center;
-        }
-
-        &-handler-up,
-        &-handler-down {
-            position: absolute;
-            width: $Number-handler-width;
-            height: 100%;
-            top: 0;
-        }
-
-        &-handler-down {
-            left: 0;
-        }
-
-        &-handler-up {
-            right: 0;
-        }
+    // @if $Number-handler-mode==vertical {
+    &-handler-wrap {
+        float: right;
+        border-left: px2rem(1px) solid $Form-input-borderColor;
+        width: $Number-handler-width;
+        height: 100%;
     }
+
+    &-handler {
+        line-height: ($Form-input-height - px2rem(6px)) / 2;
+        height: ($Form-input-height - $Number-borderWidth * 2) / 2;
+    }
+
+    &-handler-up {
+        border-bottom: $Number-handler-borderBottom;
+        padding-top: px2rem(1px);
+    }
+    // } @else {
+    //     position: relative;
+
+    //     &-input {
+    //         text-align: center;
+    //     }
+
+    //     &-handler-up,
+    //     &-handler-down {
+    //         position: absolute;
+    //         width: $Number-handler-width;
+    //         height: 100%;
+    //         top: 0;
+    //     }
+
+    //     &-handler-down {
+    //         left: 0;
+    //     }
+
+    //     &-handler-up {
+    //         right: 0;
+    //     }
+    // }
 
     &-handler-down-disabled,
     &-handler-up-disabled {

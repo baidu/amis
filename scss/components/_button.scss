@@ -38,6 +38,7 @@
         opacity: $Button-onDisabled-opacity;
         box-shadow: none;
         pointer-events: none;
+        border-color: $Button-onDisabled-borderColor;
 
         @if variable-exists(Button-onDisabled-bg) {
             background-color: $Button-onDisabled-bg !important;
