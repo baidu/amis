@@ -16,6 +16,8 @@ export interface DateState {
 }
 
 export class DateField extends React.Component<DateProps, DateState> {
+    refreshInterval: number;
+
     static defaultProps: Partial<DateProps> = {
         placeholder: '-',
         format: 'YYYY-MM-DD',
@@ -25,34 +27,44 @@ export class DateField extends React.Component<DateProps, DateState> {
     };
 
     // 动态显示相对时间时，用来触发视图更新
-    state = {
+    state: DateState = {
         random: 0
     }
 
-    render() {
-        const {className, value, valueFormat, format, placeholder, classnames: cx, fromNow, updateFrequency} = this.props;
+    componentDidMount() {
+        const { fromNow, updateFrequency } = this.props;
 
+        if (fromNow && updateFrequency) {
+            this.refreshInterval = setInterval(() => {
+                this.setState({
+                    random: Math.random()
+                });
+            }, updateFrequency);
+        }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.refreshInterval);
+    }
+
+    render() {
+        const { value, valueFormat, format, placeholder, fromNow, className, classnames: cx } = this.props;
         let viewValue: React.ReactNode = <span className="text-muted">{placeholder}</span>;
 
         if (value) {
             let ISODate = moment(value, moment.ISO_8601);
             let NormalDate = moment(value, valueFormat);
 
-            // ISO_8601 格式数据（如 2014-09-08T08:02:17-05:00）使用正常格式解析会解析成1970年但是isValid=true，所以需要提前检测
-            viewValue = !ISODate.isValid() ? (
-                NormalDate.isValid() ?
-                    NormalDate.format(format) : false
-            ) : ISODate.format(format);
+            viewValue = ISODate.isValid()
+                ? ISODate.format(format)
+                : (
+                    NormalDate.isValid()
+                        ? NormalDate.format(format)
+                        : false
+                );
         }
 
-        if (fromNow && viewValue) {
-            if (updateFrequency) {
-                setTimeout(() => {
-                    this.setState({
-                        random: Math.random()
-                    });
-                }, updateFrequency);
-            }
+        if (fromNow) {
             viewValue = moment(viewValue as string).fromNow();
         }
 

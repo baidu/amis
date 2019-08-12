@@ -20,7 +20,7 @@ const transitionStyles: {
 export interface TabProps extends Schema {
     title?: string; // 标题
     icon?: string;
-    hash?: string; // 通过 hash 来控制当前选择
+    eventKey: string | number;
     tabsMode?: '' | 'line' | 'card' | 'radio';
     tab?: Schema;
     className?: string;
@@ -30,7 +30,6 @@ export interface TabProps extends Schema {
     reload?: boolean;
     mountOnEnter?: boolean;
     unmountOnExit?: boolean;
-    index: string|number;
 };
 
 export interface TabsProps extends RendererProps {
@@ -54,17 +53,17 @@ export class Tabs extends React.Component<TabsProps> {
         }
 
         const { classnames: cx, activeKey } = this.props;
-        const { hash, disabled, icon, title, visible } = child.props;
+        const { eventKey, disabled, icon, title } = child.props;
 
-        return visible !== false ? (
+        return (
             <li
                 className={cx(
                     'Tabs-link',
-                    activeKey === hash || activeKey === index ? 'active' : '',
+                    activeKey === eventKey ? 'active' : '',
                     disabled  ? 'disabled' : ''
                 )}
                 key={index}
-                onClick={() => disabled ? '' : this.handleSelect(hash || index)}
+                onClick={() => disabled ? '' : this.handleSelect(eventKey)}
             >
                 {icon ? (
                     <div>
@@ -74,7 +73,7 @@ export class Tabs extends React.Component<TabsProps> {
                     <a>{title}</a>
                 )}
             </li>
-        ) : null;
+        );
     }
 
     renderTab(child:any, index:number) {
@@ -82,11 +81,10 @@ export class Tabs extends React.Component<TabsProps> {
             return;
         }
 
-        const { activeKey, classnames } = this.props;
+        const { activeKey, classnames} = this.props;
 
         return React.cloneElement(child, {
             ...child.props,
-            index: index,
             key: index,
             classnames: classnames,
             activeKey: activeKey
@@ -147,8 +145,7 @@ export class Tab extends React.PureComponent<TabProps> {
             mountOnEnter,
             reload,
             unmountOnExit,
-            index,
-            hash,
+            eventKey,
             activeKey,
             children,
             className
@@ -156,7 +153,7 @@ export class Tab extends React.PureComponent<TabProps> {
 
         return (
             <Transition
-                in={activeKey === hash || activeKey == index}
+                in={activeKey === eventKey}
                 mountOnEnter={mountOnEnter}
                 unmountOnExit={typeof reload === 'boolean' ? reload : unmountOnExit}
                 timeout={500}
@@ -170,7 +167,7 @@ export class Tab extends React.PureComponent<TabProps> {
                             ref={this.contentRef}
                             className={cx && cx(
                                 transitionStyles[status],
-                                activeKey === hash || activeKey == index ? 'active' : '',
+                                activeKey === eventKey ? 'active' : '',
                                 'tab-pane',
                                 'fade',
                                 className
