@@ -15,7 +15,8 @@ import {
     guid,
     anyChanged,
     isObject,
-    createObject} from '../../utils/helper';
+    createObject,
+    extendObject} from '../../utils/helper';
 import Sortable = require('sortablejs');
 import { evalExpression, filter } from '../../utils/tpl';
 import find = require('lodash/find');
@@ -423,7 +424,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         }
 
         value = value || this.defaultValue;
-        return createObject(createObject(data, {index, __index: index}), value);
+        return createObject(extendObject(data, {index, __index: index, ...data}), value);
     }
 
     pickCondition(value:any):Condition {
@@ -713,7 +714,8 @@ export default class ComboControl extends React.Component<ComboProps> {
 
 @FormItem({
     type: 'combo',
-    storeType: ComboStore.name
+    storeType: ComboStore.name,
+    extendsData: false
 })
 export class ComboControlRenderer extends ComboControl {};
 
