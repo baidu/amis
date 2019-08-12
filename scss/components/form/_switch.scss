@@ -17,13 +17,14 @@
 
     i {
         &:before {
-            content: "OFF";
+            content: "关";
             color: $Switch-valueColor;
-            text-indent: ($Switch-width / 2) - px2rem(2px);
+            text-indent: ($Switch-width / 2);
             text-transform: uppercase;
             font-size: $fontSizeSm;
             line-height: $Switch-height;
             font-style: normal;
+            font-weight: bold;
 
             position: absolute;
             top: px2rem(-1px);
@@ -54,7 +55,8 @@
         position: absolute;
         opacity: 0;
 
-        &:disabled {
+        &:disabled,
+        &:disabled:checked {
             & + i {
                 &:before {
                     color: $Switch-onDisabled-color;
@@ -62,6 +64,7 @@
                 }
 
                 &:after {
+                    background-color: $Switch-onDisabled-circle-BackgroundColor;
                     color: $Switch-onDisabled-color;
                 }
             }
@@ -77,12 +80,12 @@
                 &:after {
                     margin-left: $Switch-width - $Switch-height;
 
-                    content: "On";
+                    content: "开";
                     color: $white;
-                    text-indent: px2rem(-20px); // todo
+                    text-indent: px2rem(-18px); // todo
                     text-transform: uppercase;
                     font-size: $fontSizeSm;
-                    font-weight: normal;
+                    font-weight: bold;
                     font-style: normal;
                     line-height: $Switch-height;
                 }
