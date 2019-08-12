@@ -17,6 +17,11 @@
 
         &:hover {
             background-color: $DatePicker-onHover-bg;
+            border-color: $DatePicker-onHover-borderColor;
+
+            .#{$ns}DatePicker-toggler:before {
+                color: $DatePicker-onHover-iconColor;
+            }
         }
     }
 

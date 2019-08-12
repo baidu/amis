@@ -163,6 +163,10 @@
                 color: $InputGroup-select-onFocused-arrowColor;
             }
         }
+
+        .#{$ns}InputGroup-addOn {
+            color: $primary;
+        }
     }
 }
 
