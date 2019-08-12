@@ -24,7 +24,7 @@
     &.is-focused,
     &.is-opened {
         border-color: $Form-input-onFocused-borderColor;
-        border-bottom: 0;
+        // border-bottom: 0;
 
         @if ($Form-select-onFocused-color !=$Form-select-color) {
             color: $Form-select-onFocused-color;
@@ -99,9 +99,7 @@
         position: absolute;
         background: $Form-select-menu-bg;
         color: $Form-select-menu-color;
-        border: $Form-select-outer-borderWidth solid
-            $Form-input-onFocused-borderColor;
-        z-index: 10;
+        border: $Form-select-outer-borderWidth solid $Form-input-onFocused-borderColor;
         box-shadow: $Form-select-outer-boxShadow;
 
         .#{$ns}NestedSelect-option {

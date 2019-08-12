@@ -122,8 +122,8 @@
             }
 
             &:hover {
-                background-color: darken($white, 5%);
-                color: darken($text-color, 5%);
+                background-color: $Card-actions-onHover-bg;
+                color: $Card-actions-onHover-color;
                 text-decoration: none;
             }
         }
@@ -145,7 +145,7 @@
         }
 
         .#{$ns}Card-actions > a:hover {
-            background-color: darken($Card-onChecked-bg, 5%);
+            background-color: $Card-actions-onChecked-onHover-bg;
             color: darken($Card-onChecked-color, 10%);
         }
     }

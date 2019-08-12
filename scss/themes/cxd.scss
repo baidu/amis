@@ -1,4 +1,4 @@
-// 百度云舍主题：http://v3.yunshe.design/
+// 百度云舍主题：http://console.yunshe.design/docs/index
 @import "../functions";
 $remFactor: 16px;
 
@@ -51,64 +51,76 @@ $Page-header-paddingY: px2rem(18px);
 
 $Form-item-gap: px2rem(20px);
 $Form-input-height: px2rem(30px);
-$Form-input-onFocused-bg: #f8fbfe;
+$Form-input-onFocused-bg: $white;
 $Form-input-borderRadius: 0;
 $Form-input-borderColor: #ccc;
-$Form-input-onFocused-borderColor: #108cee;
+$Form-input-onFocused-borderColor: $primary;
+$Form-input-onError-borderColor: #d0021b;
 $Form-input-paddingX: px2rem(10px);
 $Form-fontSize: px2rem(12px);
 $Form-description-color: #999;
 $Form-input-onError-bg: #fffbfb;
-$Form-input-onDisabled-bg: #f7f7f7;
+$Form-input-onDisabled-bg: #f5f5f5;
+$Form-input-onDisabled-borderColor: #ebebeb;
 $Form--horizontal-label-widthBase: px2rem(90px);
 $Form--horizontal-label-align: left;
 $Form--horizontal-label-widthXs: px2rem(50px);
 $Form--horizontal-label-widthSm: px2rem(70px);
 $Form--horizontal-label-widthMd: px2rem(140px);
 $Form--horizontal-label-widthLg: px2rem(190px);
-$Form-input-addOnBg: #eaf6fe;
-$Form-input-addOnColor: #108cee;
+$Form-input-addOnBg: $white;
+$Form-input-addOnColor: #666;
+$Form-input-onFocus-addOnColor: $primary;
 $Form-input-addOnDividerBorderWidth: 0;
 
-$Form-select-borderWidth: 0;
+$Form-select-borderWidth: px2rem(1px);
 $Form-select-borderRadius: 0;
-$Form-select-bg: #eaf6fe;
-$Form-select-onHover-bg: #d2ecfd;
-$Form-select-placeholderColor: #108cee;
-$Form-select-color: #108cee;
+$Form-select-borderColor: #ccc;
+$Form-select-bg: $white;
+$Form-select-onHover-bg: $white;
+$Form-select-onHover-borderColor: $primary;
+$Form-select-placeholderColor: #999;
+$Form-select-color: #000;
 $Form-select-caret-vender: "iconfont";
 $Form-select-caret-icon: "\e605";
-$Form-select-caret-iconColor: inherit;
+$Form-select-caret-iconColor: #999;
+$Form-select-caret-onHover-iconColor: $primary;
 $Form-select-caret-fontSize: px2rem(12px);
 $Form-select-outer-borderWidth: 0;
+$Form-select-outer-top: px2rem(32px);
 $Form-select-outer-boxShadow: px2rem(2px) px2rem(4px) px2rem(8px)
     rgba(0, 0, 0, 0.2);
 $Form-select-menu-color: #333;
+$Form-select-menu-onHover-color: #000;
+$Form-select-menu-onHover-bg: #eaf6fe;
 
 $InputGroup-select-borderWidth: px2rem(1px);
 $InputGroup-select-bg: #f6f7fb;
 $InputGroup-select-onFocused-bg: #eaf6fe;
 $InputGroup-select-color: #333;
-$InputGroup-select-onFocused-color: #108cee;
+$InputGroup-select-onFocused-color: $primary;
 $InputGroup-select-arrowColor: #999;
-$InputGroup-select-onFocused-arrowColor: #108cee;
+$InputGroup-select-onFocused-arrowColor: $primary;
 $InputGroup-button-borderWidth: px2rem(1px);
 $InputGroup-button-borderRadius: 0;
 
-$Number-bg: #eaf6fe;
-$Number-borderWidth: 0;
+// $Number-bg: #eaf6fe;
+$Number-borderWidth: px2rem(1px);
 $Number-handler-mode: "horizontal";
-$Number-handler-width: px2rem(30px);
-$Number-handler-color: #fff;
+$Number-handler-borderBottom: 0;
+$Number-handler-width: px2rem(20px);
+$Number-handler-color: #666;
 $Number-handler-onDisabled-color: #999;
-$Number-handler-bg: #108cee;
-$Number-handler-onHover-bg: #209bfd;
-$Number-handler-onHover-bg: #047bd8;
-$Number-handler-onDisabled-bg: #eceff8;
+// $Number-handler-bg: $info;
+$Number-handler-onHover-bg: $white;
+$Number-handler-onHover-color: $primary;
+$Number-handler-onActive-bg: #f3f9fe;
+$Number-handler-onDisabled-bg: #f5f5f5;
 $Number-handler-fontFamily: "iconfont";
-$Number-handler-fontSize: px2rem(16px);
-$Number-handler--up-content: "\e600";
-$Number-handler--down-content: "\e602";
+$Number-handler-fontSize: px2rem(12px);
+$Number-handler--up-content: "\e6dd";
+$Number-handler--up-transform: rotate(180deg);
+$Number-handler--down-content: "\e6dd";
 
 $Checkbox-size: px2rem(14px);
 $Checkbox-inner-size: px2rem(8px);
@@ -116,30 +128,34 @@ $Checkbox--full-inner-size: px2rem(10px);
 $Radio-size: px2rem(16px);
 $Radio-inner-size: px2rem(10px);
 
-$Switch-bgColor: $danger;
+$Switch-bgColor: #ccc;
 $Switch-borderColor: #f0f0f0;
 $Switch-onActive-bgColor: $primary;
-$Switch-onDisabled-bgColor: #ccc;
+$Switch-onDisabled-bgColor: #f5f5f5;
+$Switch-onDisabled-color: #ccc;
+$Switch-onDisabled-circle-BackgroundColor: #ccc;
 
-$ColorPicker-borderWidth: 0;
+$ColorPicker-borderWidth: px2rem(1px);
 $ColorPicker-borderRadius: 0;
-$ColorPicker-bg: #eaf6fe;
-$ColorPicker-onHover-bg: #d2ecfd;
-$ColorPicker-color: #108cee;
-$ColorPicker-placeholderColor: #108cee;
-$ColorPicker-onDisabled-bg: #f6f7fb;
+$ColorPicker-bg: $white;
+$ColorPicker-onHover-bg: $white;
+$ColorPicker-onHover-borderColor: $primary;
+$ColorPicker-color: #000;
+$ColorPicker-placeholderColor: #999;
+$ColorPicker-onDisabled-bg: #f5f5f5;
 $ColorPicker-onDisabled-color: #999;
 
-$DatePicker-borderWidth: 0;
+$DatePicker-borderWidth: px2rem(1px);
 $DatePicker-borderRadius: 0;
-$DatePicker-bg: #eaf6fe;
-$DatePicker-onHover-bg: #d2ecfd;
-$DatePicker-color: #108cee;
-$DatePicker-placeholderColor: #108cee;
-$DatePicker-onDisabled-bg: #f6f7fb;
+$DatePicker-bg: $white;
+$DatePicker-onHover-bg: $white;
+$DatePicker-color: #000;
+$DatePicker-placeholderColor: #999;
+$DatePicker-onDisabled-bg: #f5f5f5;
 $DatePicker-onDisabled-color: #999;
-$DatePicker-iconColor: #108cee;
-$DatePicker-onHover-iconColor: #108cee;
+$DatePicker-iconColor: #666;
+$DatePicker-onHover-iconColor: $primary;
+$DatePicker-onHover-borderColor: $primary;
 $DatePicker-toggler-vendor: "iconfont";
 $DatePicker-toggler-fontSize: px2rem(12px);
 $DatePicker-toggler-icon: "\e7b1";
@@ -154,29 +170,40 @@ $Calendar-input-borderRadius: 0;
 
 // button
 $Button-mimWidth: px2rem(68px);
-$Button-borderWidth: 0;
+$Button-borderWidth: px2rem(1px);
 $Button-boxShadow: none;
 $Button-onActive-boxShadow: none;
 $Button-borderRadius: 0;
 $Button--lg-borderRadius: 0;
 $Button--sm-borderRadius: 0;
 $Button-onDisabled-opacity: 1;
-$Button-onDisabled-bg: #f6f7fb;
-$Button-onDisabledActive-bg: #e2e5ec;
-$Button-onDisabled-color: #999;
+$Button-onDisabled-bg: #f5f5f5;
+$Button-onDisabledActive-bg: #f5f5f5;
+$Button-onDisabled-borderColor: #ebebeb;
+$Button-onDisabled-color: #aaa;
 $Button-paddingX: px2rem(10px);
 
 $Button--lg-height: px2rem(40px);
 $Button--lg-fontSize: px2rem(14px);
 
-$Button--default-bg: #eaf6fe;
-$Button--default-onHover-bg: #d2ecfd;
-$Button--default-onActive-bg: #eaf6fe;
-$Button--default-color: #108cee;
+$Button--default-bg: $white;
+$Button--default-border: #cccccc;
+$Button--default-color: #000;
+$Button--default-onHover-bg: $white;
+$Button--default-onHover-border: $primary;
+$Button--default-onHover-color: $primary;
+$Button--default-onActive-bg: #108cee0d;
+$Button--default-onActive-border: $primary;
+$Button--default-onActive-color: $primary;
 
-$Button--primary-bg: #108cee;
+$Button--primary-bg: $primary;
+$Button--primary-border: $primary;
 $Button--primary-onHover-bg: #209bfd;
-$Button--primary-onActive-bg: #047bd8;
+$Button--primary-onHover-border: $primary;
+$Button--primary-onHover-color: $white;
+$Button--primary-onActive-bg: $white;
+$Button--primary-onActive-border: $primary;
+$Button--primary-onActive-color: $primary;
 
 $Button--danger-bg: #ea2e2e;
 $Button--danger-onHover-bg: #f64545;
@@ -185,8 +212,8 @@ $Button--danger-onActive-bg: #d72b2b;
 $ButtonGroup-divider-width: px2rem(1px);
 $ButtonGroup-divider-color: #fff;
 
-$Button--link-color: $Button--default-color;
-$Button--link-onHover-color: $Button--default-color;
+$Button--link-color: $primary;
+$Button--link-onHover-color: #209bfd;
 
 $Spinner-bg: url("./spinner-cxd.svg");
 
@@ -227,20 +254,27 @@ $TableCell-filterPopOver-dropDownItem-height: px2rem(30px);
 $TableCell-filterPopOver-dropDownItem-padding: 0 px2rem(10px);
 
 // listControl
-$ListControl-item-borderWidth: 0;
+$ListControl-item-borderWidth: px2rem(1px);
+$ListControl-item-borderColor: #ccc;
 $ListControl-item-paddingX: px2rem(10px);
 $ListControl-item-bg: $Button--default-bg;
 $ListControl-item-color: $Button--default-color;
-$ListControl-item-onHover-color: $ListControl-item-color;
+
+$ListControl-item-onHover-color: $primary;
 $ListControl-item-onHover-bg: $Button--default-onHover-bg;
-$ListControl-item-onHover-borderColor: $ListControl-item-onHover-color;
-$ListControl-item-onActive-bg: #108cee;
-$ListControl-item-onActive-onHover-bg: #209bfd;
-$ListControl-item-onActive-color: #fff;
+$ListControl-item-onHover-borderColor: $primary;
+
+$ListControl-item-onActive-bg: $white;
+$ListControl-item-onActive-onHover-bg: $white;
+$ListControl-item-onActive-color: $primary;
+$ListControl-item-onActive-borderColor: $primary;
+$ListControl-item-onActive-before-bg: $primary;
+$ListControl-item-onActive-after-borderColor: $white;
+
 $ListControl-item-onDisabled-opacity: 1;
-$ListControl-item-onDisabled-bg: #eceff8;
+$ListControl-item-onDisabled-bg: #f5f5f5;
 $ListControl-item-onDisabled-color: #999;
-$ListControl-item-onDisabled-borderColor: #ccc;
+$ListControl-item-onDisabled-borderColor: #ebebeb;
 
 // Modal
 $Modal-overlay-bg: rgba(0, 0, 0, 0.7);
@@ -276,11 +310,15 @@ $Wizard-steps-padding: px2rem(10) 0;
 $Wizard-steps-liVender: "iconfont";
 $Wizard-steps-liAfterContent: "\e6ee";
 $Wizard-steps-liAfterBorder: 0 !important;
+$Wizard-steps-li-onActive-color: #333333;
 $Wizard-steps-bg--isComplete: #fff;
 $Wizard-badge-size: px2rem(26px);
-$Wizard-badge-fontSize: px2rem(16px);
+$Wizard-badge-color: #999999;
+$Wizard-badge-onActive-backgroundColor: #333333;
+$Wizard-badge-fontSize: px2rem(14px);
+$Wizard-badge-border: px2rem(1px) solid #999999;
 $Wizard-badge-borderRadius: 50%;
-$Wizard-badge-bg: $text--muted-color;
+$Wizard-badge-bg: $white;
 $Wizard-badge-marginRight: px2rem(6px);
 
 // Tabs
@@ -297,6 +335,9 @@ $Pagination-arrowVendor: "iconfont";
 $Pagination-prevArrowContent: "\e759";
 $Pagination-nextArrowContent: "\e757";
 $Pagination-fontSize: px2rem(12px);
+$Pagination-onActive-backgroundColor: $white;
+$Pagination-onActive-color: $primary;
+$Pagination-onActive-border: px2rem(1px) solid $primary;
 
 // Panel
 $Panel-borderRadius: 0;
@@ -329,17 +370,21 @@ $Alert-paddingY: $Alert-xs;
 $Alert-borderRadius: 0;
 $Alert-marginBottom: $Alert-md;
 
-$Alert--danger-color: $danger;
-$Alert--danger-borderColor: $danger-bg;
+$Alert--danger-color: #333;
+$Alert--danger-bg: $danger-bg;
+$Alert--danger-borderColor: transparent;
 
-$Alert--info-color: $info;
-$Alert--info-borderColor: $info-bg;
+$Alert--info-color: #333;
+$Alert--info-bg: $info-bg;
+$Alert--info-borderColor: transparent;
 
-$Alert--success-color: $success;
-$Alert--success-borderColor: $success-bg;
+$Alert--success-color: #333;
+$Alert--success-bg: $success-bg;
+$Alert--success-borderColor: transparent;
 
-$Alert--warning-color: $warning;
-$Alert--warning-borderColor: $warning-bg;
+$Alert--warning-color: #333;
+$Alert--warning-bg: $warning-bg;
+$Alert--warning-borderColor: transparent;
 
 // Toast
 
@@ -388,6 +433,20 @@ $Toast--info-icon: "";
 $Toast--success-icon: "\e6e8";
 
 $TagControl-sugTip-color: $primary;
+
+// Card
+$Card-onChecked-bg: $white;
+$Card-onChecked-borderColor: $primary;
+$Card-onChecked-color: $primary;
+
+$Card-onModified-bg: #108cee0d;
+$Card-onModified-borderColor: $primary;
+$Card-onModified-color: $primary;
+
+$Card-actions-onHover-bg: white;
+$Card-actions-onHover-color: $primary;
+$Card-actions-onChecked-onHover-bg: $white;
+
 
 @import "../variables";
 @import "../mixins";

@@ -8,13 +8,12 @@
         padding: 0;
 
         .Badge {
-            display: inline-block; // min-width: px2rem(10px);
-            // padding: px2rem(3px) px2rem(7px);
+            display: inline-block;
             width: $Wizard-badge-size;
             height: $Wizard-badge-size;
             font-size: $Wizard-badge-fontSize;
             line-height: $Wizard-badge-size;
-            color: $white;
+            color: $Wizard-badge-color;
             text-align: center;
             white-space: nowrap;
             vertical-align: middle;
@@ -22,37 +21,43 @@
             border-radius: $Wizard-badge-borderRadius; // font-weight: 700;
             text-shadow: 0 px2rem(1px) 0 rgba(0, 0, 0, 0.2);
             margin-right: $Wizard-badge-marginRight;
+            border: $Wizard-badge-border;
+            box-sizing: content-box;
 
-            &--primary {
-                background-color: $primary;
-            }
+            // &--primary {
+            //     background-color: $primary;
+            // }
 
-            &--secondary {
-                background-color: $secondary;
-            }
+            // &--secondary {
+            //     background-color: $secondary;
+            // }
 
-            &--success {
-                background-color: $success;
-            }
+            // &--success {
+            //     background-color: $success;
+            // }
 
-            &--info {
-                background-color: $info;
-            }
+            // &--info {
+            //     background-color: $info;
+            // }
 
-            &--warning {
-                background-color: $warning;
-            }
+            // &--warning {
+            //     background-color: $warning;
+            // }
 
-            &--danger {
-                background-color: $danger;
-            }
+            // &--danger {
+            //     background-color: $danger;
+            // }
 
-            &--light {
-                background-color: $light;
-            }
+            // &--light {
+            //     background-color: $light;
+            // }
 
-            &--dark {
-                background-color: $dark;
+            // &--dark {
+            //     background-color: $dark;
+            // }
+            &.is-active {
+                color: $white;
+                background-color: $Wizard-badge-onActive-backgroundColor;
             }
         }
 
@@ -60,12 +65,12 @@
             color: $info;
         }
 
-        .#{$ns}Panel-footer > .#{$ns}Form-group,
-        .#{$ns}Panel-footer > .btn {
+        .#{$ns}Panel-footer>.#{$ns}Form-group,
+        .#{$ns}Panel-footer>.btn {
             margin-left: px2rem(5px);
         }
 
-        > ul.nav {
+        >ul.nav {
             padding: 0;
             margin: 0;
             border: $borderWidth solid $borderColor;
@@ -117,7 +122,7 @@
                 }
 
                 &.is-active {
-                    color: #3a87ad;
+                    color: $Wizard-steps-li-onActive-color;
                     background: #fff;
                 }
 
@@ -182,7 +187,7 @@
                 }
 
                 &.is-active {
-                    color: #3a87ad;
+                    color: $Wizard-steps-li-onActive-color;
                     background: #fff;
                 }
 
@@ -192,6 +197,7 @@
 
                 &.is-complete,
                 &.is-complete:hover {
+                    color: $Wizard-steps-li-onActive-color;
                     cursor: pointer;
                     background: $Wizard-steps-bg--isComplete;
                 }
@@ -228,7 +234,7 @@
             height: auto;
         }
 
-        & + .#{$ns}Wizard-stepContent {
+        &+.#{$ns}Wizard-stepContent {
             zoom: 1;
             overflow: hidden;
             padding-left: px2rem(40px);
@@ -251,7 +257,7 @@
             // }
         }
 
-        & + .#{$ns}Wizard-stepContent + .#{$ns}Panel-footer {
+        &+.#{$ns}Wizard-stepContent+.#{$ns}Panel-footer {
             clear: both;
         }
     }
