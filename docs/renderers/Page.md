@@ -39,3 +39,33 @@
 | interval            | `number`                          | `3000`                                     | 刷新时间(最低 3000)                                                                 |
 | silentPolling       | `boolean`                         | `false`                                    | 配置刷新时是否显示加载动画                                                          |
 | stopAutoRefreshWhen | `string`                          | `""`                                       | 通过[表达式](./Types.md#表达式)来配置停止刷新的条件                                 |
+
+
+### 接口说明
+
+开始之前请你先阅读[整体要求](../api.md)。
+
+#### initApi
+
+Page 渲染器可以配置 initApi 来拉取后端数据。格式要求：data 返回是对象即可。
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "a": 1
+  }
+}
+```
+
+当配置了 initApi 且返回如上数据后，当前 page 渲染器，以及所有孩子渲染器都能取到这个这个变量了如：
+
+
+```json
+{
+  "type": "page",
+  "initApi": "/api/xxx",
+  "body": "${a}"
+}
+```
