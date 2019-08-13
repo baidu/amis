@@ -8,7 +8,6 @@ import React from 'react';
 import { Schema } from '../types';
 import Transition, { ENTERED, ENTERING } from 'react-transition-group/Transition';
 import { ClassNamesFn, themeable } from '../theme';
-import { RendererProps } from '../factory';
 
 const transitionStyles: {
     [propName: string]: string;
@@ -21,18 +20,24 @@ export interface TabProps extends Schema {
     title?: string; // 标题
     icon?: string;
     eventKey: string | number;
-    tabsMode?: '' | 'line' | 'card' | 'radio';
     tab?: Schema;
     className?: string;
-    location?: any;
-    classnames: ClassNamesFn;
-    activeKey?: string|number;
+    classnames?: ClassNamesFn;
+    activeKey?: string | number;
     reload?: boolean;
     mountOnEnter?: boolean;
     unmountOnExit?: boolean;
 };
 
-export interface TabsProps extends RendererProps {
+export interface TabsProps {
+    mode?: '' | 'line' | 'card' | 'radio';
+    tabsMode?: '' | 'line' | 'card' | 'radio';
+    handleSelect?: Function;
+    classPrefix: string;
+    classnames: ClassNamesFn;
+    activeKey: string | number;
+    contentClassName: string;
+    className?: string;
     tabs?: Array<TabProps>;
     tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
 }
@@ -59,8 +64,8 @@ export class Tabs extends React.Component<TabsProps> {
             <li
                 className={cx(
                     'Tabs-link',
-                    activeKey === eventKey ? 'active' : '',
-                    disabled  ? 'disabled' : ''
+                    activeKey === eventKey ? 'is-active' : '',
+                    disabled ? 'is-disabled' : ''
                 )}
                 key={index}
                 onClick={() => disabled ? '' : this.handleSelect(eventKey)}
@@ -124,7 +129,7 @@ export class Tabs extends React.Component<TabsProps> {
                 </ul>
 
                 <div
-                    className={cx('Tabs-content', contentClassName, 'tab-content')}
+                    className={cx('Tabs-content', contentClassName)}
                 >
                     {children.map((child, index) => {
                         return this.renderTab(child, index);
@@ -167,8 +172,8 @@ export class Tab extends React.PureComponent<TabProps> {
                             ref={this.contentRef}
                             className={cx && cx(
                                 transitionStyles[status],
-                                activeKey === eventKey ? 'active' : '',
-                                'tab-pane',
+                                activeKey === eventKey ? 'is-active' : '',
+                                'Tabs-pane',
                                 'fade',
                                 className
                             )}
