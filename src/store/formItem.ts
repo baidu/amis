@@ -74,8 +74,8 @@ export const FormItemStore = types
         filteredOptions: types.optional(types.frozen(), []),
     })
     .views(self => {
-        function getForm():IFormStore {
-            return getParent(self, 2) as IFormStore;
+        function getForm():any {
+            return getParent(self, 2);
         }
 
         function getValue():any {
@@ -131,7 +131,7 @@ export const FormItemStore = types
 
 
         return {
-            get form():IFormStore {
+            get form():any {
                 return getForm();
             },
 

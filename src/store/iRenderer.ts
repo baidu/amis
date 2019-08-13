@@ -1,8 +1,7 @@
 import {
     types,
-    getEnv,
     getRoot,
-    SnapshotIn
+    Instance,
 } from "mobx-state-tree";
 import {
     extendObject,
@@ -25,11 +24,12 @@ export const iRendererStore = types
         dialogOpen: false,
         dialogData: types.optional(types.frozen(), undefined),
         drawerOpen: false,
-        drawerData: types.optional(types.frozen(), undefined),
+        drawerData: types.optional(types.frozen(), undefined)
     })
     .views((self) => {
         return {
-            get parentStore():IIRendererStore | null {
+            // todo 不能自己引用自己
+            get parentStore(): any {
                 return self.parentId && getRoot(self) && (getRoot(self) as IRendererStore).storeType === 'RendererStore'
                     ? (getRoot(self) as IRendererStore).stores.get(self.parentId)
                     : null;
@@ -165,5 +165,5 @@ export const iRendererStore = types
 
 
 export type IIRendererStore = typeof iRendererStore.Type;
-export type SIRendererStore = SnapshotIn<typeof iRendererStore>;
+export type SIRendererStore = typeof iRendererStore.SnapshotType;
 // export type SIRendererStore = typeof iRendererStore.SnapshotType;

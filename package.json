@@ -83,6 +83,7 @@
     "@types/jest": "^24.0.11",
     "@types/jquery": "^3.3.1",
     "@types/lodash": "^4.14.76",
+    "@types/node": "^12.7.1",
     "@types/pretty-bytes": "^4.0.0",
     "@types/prop-types": "^15.5.2",
     "@types/qs": "^6.5.1",
@@ -106,6 +107,9 @@
     "axios": "0.18.1",
     "bce-sdk-js": "^0.2.9",
     "bootstrap": "3.4.1",
+    "copy-to-clipboard": "3.0.8",
+    "css": "2.2.1",
+    "es6-symbol": "3.1.1",
     "faker": "^4.1.0",
     "fis-parser-node-sass": "^1.0.5",
     "fis3": "^3.4.41",
@@ -131,10 +135,7 @@
     "react-testing-library": "6.0.4",
     "strip-json-comments": "^2.0.1",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.3.4000",
-    "css": "2.2.1",
-    "es6-symbol": "3.1.1",
-    "copy-to-clipboard": "3.0.8"
+    "typescript": "^3.3.4000"
   },
   "jest": {
     "testEnvironment": "jsdom",

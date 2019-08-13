@@ -23,7 +23,7 @@ export const Item = types
         newIndex: types.number
     })
     .views((self) => ({
-        get checked() {
+        get checked():boolean {
             return (getParent(self, 2) as IListStore).isSelected(self as IItem);
         },
 
@@ -39,19 +39,19 @@ export const Item = types
             return self.index !== self.newIndex;
         },
 
-        get locals() {
+        get locals():any {
             return createObject(
                 createObject((getParent(self, 2) as IListStore).data, {
                     index: self.index
                 }), self.data);
         },
 
-        get checkable() {
+        get checkable():boolean {
             const table = (getParent(self, 2) as IListStore);
             return table && table.itemCheckableOn ? evalExpression(table.itemCheckableOn, (self as IItem).locals) : true;
         },
 
-        get draggable() {
+        get draggable():boolean {
             const table = (getParent(self, 2) as IListStore);
             return table && table.itemDraggableOn ? evalExpression(table.itemDraggableOn, (self as IItem).locals) : true;
         }
@@ -119,7 +119,7 @@ export const ListStore = iRendererStore
         }
 
         return {
-            get allChecked() {
+            get allChecked():boolean {
                 return !!(self.selectedItems.length === (self as IListStore).checkableItems.length && (self as IListStore).checkableItems.length);
             },
 
