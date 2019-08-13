@@ -40,4 +40,12 @@
     &--collapsable &-header {
         user-select: none;
     }
+
+    &-content {
+        transition: height .35s ease;
+        &.in, &.out {
+            height: 0;
+            overflow: hidden;
+        }
+    }
 }
