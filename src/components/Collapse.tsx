@@ -17,10 +17,10 @@ const collapseStyles: {
     [EXITED]: 'collapse',
     [EXITING]: 'collapsing',
     [ENTERING]: 'collapsing',
-    [ENTERED]: 'collapse show',
+    [ENTERED]: 'collapse in',
 };
 
-export interface CollapseProps  {
+export interface CollapseProps {
     show?: boolean,
     mountOnEnter?: boolean,
     unmountOnExit?: boolean,

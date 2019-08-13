@@ -64,6 +64,13 @@
         &.is-active {
             display: block;
         }
+        &.fade {
+            opacity: 0;
+            transition: opacity .35s linear;
+            &.in {
+                opacity: 1;
+            }
+        }
     }
 
     &--line {
