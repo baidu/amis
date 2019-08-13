@@ -4,6 +4,10 @@ export default {
     body: {
         type: "crud",
         api: "/api/mock2/crud/table2",
+        expandConfig: {
+            expand: 'first',
+            accordion: true
+        },
         columns: [
             {
                 name: "id",
