@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Schema } from '../types';
-import Transition, { ENTERED, ENTERING } from 'react-transition-group/Transition';
+import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import { ClassNamesFn, themeable } from '../theme';
 
 const transitionStyles: {
@@ -174,7 +174,6 @@ export class Tab extends React.PureComponent<TabProps> {
                                 transitionStyles[status],
                                 activeKey === eventKey ? 'is-active' : '',
                                 'Tabs-pane',
-                                'fade',
                                 className
                             )}
                         >

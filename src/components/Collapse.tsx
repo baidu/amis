@@ -5,22 +5,20 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
 import css = require('dom-helpers/style');
 import {ClassNamesFn, themeable} from '../theme';
-import Transition, { EXITED, ENTERED, ENTERING, EXITING } from 'react-transition-group/Transition';
+import Transition, { EXITED, ENTERING, EXITING } from 'react-transition-group/Transition';
 import { autobind } from '../utils/helper';
 
 const collapseStyles: {
     [propName: string]: string;
 } = {
-    [EXITED]: 'collapse',
-    [EXITING]: 'collapsing',
-    [ENTERING]: 'collapsing',
-    [ENTERED]: 'collapse show',
+    [EXITED]: 'out',
+    [EXITING]: 'out',
+    [ENTERING]: 'in'
 };
 
-export interface CollapseProps  {
+export interface CollapseProps {
     show?: boolean,
     mountOnEnter?: boolean,
     unmountOnExit?: boolean,
@@ -76,6 +74,7 @@ export class Collapse extends React.Component<CollapseProps, any> {
         const {
             show,
             children,
+            classnames: cx,
             mountOnEnter,
             unmountOnExit
         } = this.props;
@@ -92,16 +91,17 @@ export class Collapse extends React.Component<CollapseProps, any> {
                 onExit={this.handleExit}
                 onExiting={this.handleExiting}
             >
-                {(status:string, innerProps:any) => {
+                {(status:string) => {
                     if (status === ENTERING) {
                         this.contentDom.offsetWidth;
                     }
                     return React.cloneElement(children as any, {
-                        ...innerProps,
+                        ...(children as React.ReactElement).props,
                         ref: this.contentRef,
                         className: cx(
-                            collapseStyles[status],
-                            innerProps.className
+                            'Collapse-content',
+                            (children as React.ReactElement).props.className,
+                            collapseStyles[status]
                         )
                     })}
                 }
