@@ -63,8 +63,21 @@ Api 类型可以是字符串或者对象。API 中可以直接设置数据发送
     -   `headers` 头部，配置方式和 data 配置一样，下面不详讲。如果要使用，请前往群组系统配置中，添加允许。
     -   `sendOn` 可以配置发送条件比如： `this.id` 表示当存在 id 值时才发送这个请求。
     -   `cache` 通过配置此属性开启缓存，单位是 ms，比如设置 3000 的话，当前接口在3s内请求，只要传参一致就会走缓存。
+    -   `requestAdaptor` (api) => api; 发送适配器，支持字符串串格式，或者直接就是函数如：
 
-    如：
+        ```
+        {
+            "type": "crud",
+            "api": {
+                "url": "/api/xxx",
+                "method": "get",
+                "requestAdaptor": "api.url += '?arg1=1&arg2=2'; console.log(api); return api;"
+            }
+        }
+        ```
+    -    `adaptor` (payload, response, api) => payload 返回适配器，如果接口返回不符合要求，可以通过配置一个适配器来处理成 amis 需要的。同样支持 Function 或者 字符串函数体格式。PS: Function 类型，只有采用非 json 方式配置才能配置出来。
+
+    `data` 数据体，如果默认不指定，amis 会猜一些你可能需要点数据发送过去，如果不符合你预期，可以通过指定 data 数据来满足，额外还可以做一些数据映射 如：
 
     取某个变量。
 
@@ -121,7 +134,7 @@ Api 类型可以是字符串或者对象。API 中可以直接设置数据发送
     }
     ```
 
-    如果 \$rows 的结构为 `[{a: 1, b: 2, c: 3, d: 4}, {a: 1, b: 2, c: 3, d: 4}]`, 经过上述映射后，实际发送的数据为 `{all: [{a: 1, b:2}, {a: 1, b: 2}]}`
+    如果 `$rows` 的结构为 `[{a: 1, b: 2, c: 3, d: 4}, {a: 1, b: 2, c: 3, d: 4}]`, 经过上述映射后，实际发送的数据为 `{all: [{a: 1, b:2}, {a: 1, b: 2}]}`
 
     如果你觉得上面的这种写法比较诡异，建议你用以下写法。
 
@@ -137,7 +150,7 @@ Api 类型可以是字符串或者对象。API 中可以直接设置数据发送
 
 ** 注意 **
 
-amis 所有值为 url 的如： `"http://www.baidu.com"` 都会被替换成 proxy 代理，如果不希望这么做，请明确指示如： `"raw:http://www.baidu.com"`。还有为了安全，amis 默认只能转发公司内部 API 接口，如果您的接口在外网环境，也请明确指示如：`"external:http://www.baidu.com"`
+amis 平台中使用所有的 http 地址 url 的如： `"http://www.baidu.com"` 都会被替换成 proxy 代理，如果不希望这么做，请明确指示如： `"raw:http://www.baidu.com"`。还有为了安全，amis 默认只能转发公司内部 API 接口，如果您的接口在外网环境，也请明确指示如：`"external:http://www.baidu.com"`
 
 ### 表达式
 
