@@ -30,6 +30,8 @@ export interface TabsProps extends RendererProps {
     contentClassName: string;
     handleSelect?: Function;
     location?: any;
+    mountOnEnter?: boolean;
+    unmountOnExit?: boolean;
     tabs?: Array<TabProps>;
     tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
 }
@@ -203,6 +205,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             data,
             mode: dMode,
             tabsMode,
+            mountOnEnter,
+            unmountOnExit
         } = this.props;
 
         if (!Array.isArray(tabs)) {
@@ -232,6 +236,16 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                                 {...tab}
                                 key={index}
                                 eventKey={tab.hash || index}
+                                mountOnEnter={mountOnEnter}
+                                unmountOnExit={
+                                    typeof tab.reload === 'boolean'
+                                        ? tab.reload
+                                        : (
+                                            typeof tab.unmountOnExit === 'boolean'
+                                                ? tab.unmountOnExit
+                                                : unmountOnExit
+                                        )
+                                }
                             >
                                 {tabRender
                                     ? tabRender(tab, this.props)
