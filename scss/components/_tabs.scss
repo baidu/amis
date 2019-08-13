@@ -61,15 +61,13 @@
 
     &-pane {
         display: none;
+        opacity: 0;
+        transition: opacity .35s linear;
         &.is-active {
             display: block;
         }
-        &.fade {
-            opacity: 0;
-            transition: opacity .35s linear;
-            &.in {
-                opacity: 1;
-            }
+        &.in {
+            opacity: 1;
         }
     }
 
