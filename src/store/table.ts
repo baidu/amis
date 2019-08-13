@@ -69,7 +69,7 @@ export const Row = types
         depth: types.number// 当前children位于第几层，便于使用getParent获取最顶层TableStore
     })
     .views((self) => ({
-        get checked() {
+        get checked():boolean {
             return (getParent(self, self.depth * 2) as ITableStore).isSelected(self as IRow);
         },
 
@@ -81,7 +81,7 @@ export const Row = types
             return Object.keys(self.data).some(key => !isEqual(self.data[key], self.pristine[key]));
         },
 
-        get expanded() {
+        get expanded():boolean {
             return (getParent(self, self.depth * 2) as ITableStore).isExpanded(self as IRow);
         },
 
@@ -89,19 +89,19 @@ export const Row = types
             return self.index !== self.newIndex;
         },
 
-        get locals() {
+        get locals():any {
             return createObject(
                 createObject((getParent(self, self.depth * 2) as ITableStore).data, {
                     index: self.index
                 }), self.data);
         },
 
-        get checkable() {
+        get checkable():boolean {
             const table = (getParent(self, self.depth * 2) as ITableStore);
             return table && table.itemCheckableOn ? evalExpression(table.itemCheckableOn, (self as IRow).locals) : true;
         },
 
-        get draggable() {
+        get draggable():boolean {
             const table = (getParent(self, self.depth * 2) as ITableStore);
             return table && table.itemDraggableOn ? evalExpression(table.itemDraggableOn, (self as IRow).locals) : true;
         }
@@ -334,7 +334,7 @@ export const TableStore = iRendererStore
                 return !!self.selectedRows.length;
             },
 
-            get allChecked() {
+            get allChecked():boolean {
                 return !!(self.selectedRows.length === (self as ITableStore).checkableRows.length 
                     && (self as ITableStore).checkableRows.length);
             },

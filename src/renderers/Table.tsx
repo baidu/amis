@@ -1741,7 +1741,7 @@ export class HeadCellSearchDropDown extends React.Component<HeadCellSearchProps,
                     <Overlay
                         container={popOverContainer || (() => findDOMNode(this))}
                         placement="left-bottom-left-top right-bottom-right-top"
-                        target={popOverContainer ? () => findDOMNode(this).parentNode : null}
+                        target={popOverContainer ? () => findDOMNode(this)!.parentNode : null}
                         show
                     >
                         <PopOver
