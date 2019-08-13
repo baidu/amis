@@ -685,6 +685,15 @@ export default {
         },
 
         {
+            label: 'API 说明',
+            path: '/docs/api',
+            icon: 'fa fa-cloud',
+            getComponent: (location, cb) => require(['../../docs/api.md'], (doc) => {
+                cb(null, makeMarkdownRenderer(doc));
+            })
+        },
+
+        {
             label: '如何定制',
             path: '/docs/sdk',
             icon: 'fa fa-cubes',
