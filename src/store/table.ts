@@ -154,6 +154,7 @@ export const TableStore = iRendererStore
         selectable: false,
         multiple: true,
         footable: types.frozen(),
+        expandConfig: types.frozen(),
         isNested: false,
         columnsTogglable: types.optional(types.union(types.boolean, types.literal('auto')), 'auto'),
         itemCheckableOn: '',
@@ -399,6 +400,7 @@ export const TableStore = iRendererStore
 
             config.multiple !== void 0 && (self.multiple = config.multiple);
             config.footable !== void 0 && (self.footable = config.footable);
+            config.expandConfig !== void 0 && (self.expandConfig = config.expandConfig);
             config.itemCheckableOn !== void 0 && (self.itemCheckableOn = config.itemCheckableOn);
             config.itemDraggableOn !== void 0 && (self.itemDraggableOn = config.itemDraggableOn);
             config.hideCheckToggler !== void 0 && (self.hideCheckToggler = !!config.hideCheckToggler);
@@ -556,9 +558,13 @@ export const TableStore = iRendererStore
             self.isNested = self.rows.some(item => item.expandable);
 
             const expand = self.footable && self.footable.expand;
-            if (expand === 'first') {
+            if (expand === 'first' || self.expandConfig && self.expandConfig.expand === 'first') {
                 self.rows.length && self.expandedRows.push(self.rows[0]);
-            } else if (expand === 'all' && !self.footable.accordion) {
+            } else if (
+                expand === 'all' && !self.footable.accordion 
+                || self.expandConfig && self.expandConfig.expand === 'all'
+                    && !self.expandConfig.accordion
+            ) {
                 self.expandedRows.replace(self.rows);
             }
 
@@ -614,11 +620,17 @@ export const TableStore = iRendererStore
         function toggleExpanded(row:IRow) {
             const idx = self.expandedRows.indexOf(row);
 
-            ~idx
-            ? self.expandedRows.splice(idx, 1)
-            : self.footable && self.footable.accordion
-                ? self.expandedRows.replace([row])
-                : self.expandedRows.push(row);
+            if (~idx) {
+                self.expandedRows.splice(idx, 1)
+            } else if (self.footable && self.footable.accordion) {
+                self.expandedRows.replace([row]);
+            } else if (self.expandConfig && self.expandConfig.accordion) {
+                let rows = self.expandedRows.filter(item => item.depth !== row.depth);
+                rows.push(row);
+                self.expandedRows.replace(rows);
+            } else {
+                self.expandedRows.push(row);
+            }
         }
 
         function setOrderByInfo(key:string, direction: 'asc' | 'desc') {
