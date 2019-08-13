@@ -475,6 +475,11 @@ $Table-heading-bg: $white !default;
 $Table--unsaved-heading-bg: #e8f0fe !default;
 $Table--unsaved-heading-color: #4285f4 !default;
 
+$Table-expandBtn-vendor: "FontAwesome" !default;
+$Table-expandBtn-fontSize: px2rem(20px) !default;
+$Table-expandBtn-color: $info !default;
+$Table-expandBtn-icon: "\f105" !default;
+
 $TableCell-sortBtn-width: px2rem(8px) !default;
 $TableCell-sortBtn--down-iconVendor: "fontAwesome" !default;
 $TableCell-sortBtn--down-icon: "\f0dd" !default;
