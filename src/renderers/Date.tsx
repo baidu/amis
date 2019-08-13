@@ -1,9 +1,5 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, SchemaNode} from '../types';
-import {filter} from '../utils/tpl';
-import cx from 'classnames';
 import moment from 'moment';
 
 export interface DateProps extends RendererProps {
@@ -11,24 +7,68 @@ export interface DateProps extends RendererProps {
     placeholder?: string;
     format?: string;
     valueFormat?: string;
+    fromNow?: boolean;
+    updateFrequency?: number;
 }
 
-export class DateField extends React.Component<DateProps, object> {
+export interface DateState {
+    random?: number;
+}
+
+export class DateField extends React.Component<DateProps, DateState> {
+    refreshInterval: number;
+
     static defaultProps: Partial<DateProps> = {
         placeholder: '-',
         format: 'YYYY-MM-DD',
         valueFormat: 'X',
+        fromNow: false,
+        updateFrequency: 60000
     };
 
-    render() {
-        const {className, value, valueFormat, format, placeholder, classnames: cx} = this.props;
+    // 动态显示相对时间时，用来触发视图更新
+    state: DateState = {
+        random: 0
+    }
 
+    componentDidMount() {
+        const { fromNow, updateFrequency } = this.props;
+
+        if (fromNow && updateFrequency) {
+            this.refreshInterval = setInterval(() => {
+                this.setState({
+                    random: Math.random()
+                });
+            }, updateFrequency);
+        }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.refreshInterval);
+    }
+
+    render() {
+        const { value, valueFormat, format, placeholder, fromNow, className, classnames: cx } = this.props;
         let viewValue: React.ReactNode = <span className="text-muted">{placeholder}</span>;
 
         if (value) {
-            let date = moment(value, valueFormat);
-            viewValue = date.isValid() ? date.format(format) : <span className="text-danger">日期无效</span>;
+            let ISODate = moment(value, moment.ISO_8601);
+            let NormalDate = moment(value, valueFormat);
+
+            viewValue = ISODate.isValid()
+                ? ISODate.format(format)
+                : (
+                    NormalDate.isValid()
+                        ? NormalDate.format(format)
+                        : false
+                );
         }
+
+        if (fromNow) {
+            viewValue = moment(viewValue as string).fromNow();
+        }
+
+        viewValue = !viewValue ? <span className="text-danger">日期无效</span> : viewValue;
 
         return <span className={cx('DateField', className)}>{viewValue}</span>;
     }

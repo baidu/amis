@@ -11,7 +11,6 @@ const mapping: {
     'immutability-helper': __moduleId('react-addons-update'),
     'react-cropper': __moduleId('react-cropper'),
     'react-dropzone': __moduleId('react-dropzone'),
-    'react-bootstrap': __moduleId('react-bootstrap'),
     'classnames': __moduleId('classnames'),
     'axios': __moduleId('axios'),
     'moment': __moduleId('moment'),
