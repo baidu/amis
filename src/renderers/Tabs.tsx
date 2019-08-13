@@ -1,9 +1,8 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import { Schema } from '../types';
-import { evalExpression } from '../utils/tpl';
 import find = require('lodash/find');
-import { isVisible, autobind } from '../utils/helper';
+import { isVisible, autobind, isDisabled } from '../utils/helper';
 import findIndex = require('lodash/findIndex');
 import { Tabs as CTabs, Tab } from '../components/Tabs';
 import { ClassNamesFn } from '../theme';
@@ -12,18 +11,25 @@ export interface TabProps extends Schema {
     title?: string; // 标题
     icon?: string;
     hash?: string; // 通过 hash 来控制当前选择
-    tabsMode?: '' | 'line' | 'card' | 'radio';
     tab?: Schema;
     className?: string;
     classnames: ClassNamesFn;
-    location?: any;
+    eventKey?: string| number;
     activeKey?: string|number;
     reload?: boolean;
     mountOnEnter?: boolean;
     unmountOnExit?: boolean;
+    disabled?: string;
+    disabledOn?: string;
 };
 
 export interface TabsProps extends RendererProps {
+    mode?: '' | 'line' | 'card' | 'radio';
+    tabsMode?: '' | 'line' | 'card' | 'radio';
+    activeKey: string | number;
+    contentClassName: string;
+    handleSelect?: Function;
+    location?: any;
     tabs?: Array<TabProps>;
     tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
 }
@@ -205,7 +211,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
         const mode = tabsMode || dMode;
         const finallyTabs = tabs.map(tab => {
-            tab.disabled = tab.disabled || (tab.disabledOn && evalExpression(tab.disabledOn, data));
+            tab.isDisabled = isDisabled(tab, data);
             return tab;
         });
 

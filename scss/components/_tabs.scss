@@ -57,12 +57,12 @@
         border-style: solid;
         border-width: 0 $Tabs-borderWidth $Tabs-borderWidth;
         border-color: $Tabs-borderColor;
+    }
 
-        > .tab-pane {
-            display: none;
-            &.active {
-                display: block;
-            }
+    &-pane {
+        display: none;
+        &.is-active {
+            display: block;
         }
     }
 
@@ -71,7 +71,7 @@
             border-bottom-color: #e2e5ec;
 
             > li {
-                &.active {
+                &.is-active {
                     > a,
                     > a:hover,
                     > a:focus {
@@ -100,7 +100,7 @@
             border-top: px2rem(1px) solid #e2e5ec;
 
             > li {
-                &.active {
+                &.is-active {
                     > a,
                     > a:hover,
                     > a:focus {
@@ -135,7 +135,7 @@
                     line-height: px2rem(30px);
                 }
 
-                &.active {
+                &.is-active {
                     > a,
                     > a:hover,
                     > a:focus {
@@ -154,7 +154,7 @@
             }
         }
 
-        .tab-content {
+        > .#{$ns}Tabs-content {
             border-top: $Tabs-borderWidth solid $Tabs-borderColor;
         }
     }

@@ -23,7 +23,7 @@ export class DateField extends React.Component<DateProps, DateState> {
         format: 'YYYY-MM-DD',
         valueFormat: 'X',
         fromNow: false,
-        updateFrequency: 0
+        updateFrequency: 60000
     };
 
     // 动态显示相对时间时，用来触发视图更新
