@@ -1,7 +1,6 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import cx from 'classnames';
-import {Collapse as BasicCollapse} from 'react-bootstrap';
+import { Renderer, RendererProps } from '../factory';
+import { Collapse as BasicCollapse } from '../components/Collapse';
 
 export interface CollapseProps extends RendererProps {
     title?: string; // 标题
@@ -81,8 +80,6 @@ export default class Collapse extends React.Component<CollapseProps, CollapseSta
             collapsable,
         } = this.props;
 
-        // todo 换掉 bootstrap 的 collapse
-
         return (
             <WrapperComponent
                 className={cx(
@@ -102,7 +99,7 @@ export default class Collapse extends React.Component<CollapseProps, CollapseSta
                     </HeadingComponent>
                 ) : null}
 
-                <BasicCollapse in={collapsable ? !this.state.collapsed : true}>
+                <BasicCollapse show={collapsable ? !this.state.collapsed : true} classnames={cx} classPrefix={ns}>
                     <div className={cx(`Collapse-body`, bodyClassName)}>
                         {children
                             ? typeof children === 'function'
