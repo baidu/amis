@@ -49,7 +49,11 @@ export interface TableProps extends RendererProps {
     columnsTogglable?: boolean | 'auto';
     affixHeader?: boolean;
     combineNum?: number;
-    footable?: boolean;
+    footable?: boolean | {
+        expand?: 'first' | 'all' | 'none';
+        expandAll?: boolean;
+        accordion?: boolean;
+    };
     itemCheckableOn?: string;
     itemDraggableOn?: string;
     itemActions?: Array<Action>;
@@ -725,17 +729,17 @@ export default class Table extends React.Component<TableProps, object> {
         } else if (column.type === '__expandme') {
             return (
                 <th {...props} className={cx(column.pristine.className)}>
-                    <Button
-                        className={cx('Table-expandBtn')}
-                        classPrefix={ns}
-                        size="xs"
-                        level="link"
-                        tooltip="展开/收起全部"
-                        tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
-                        onClick={store.toggleExpandAll}
-                    >
-                        <i className={store.allExpanded ? 'fa fa-minus' : 'fa fa-plus'} />
-                    </Button>
+                    {store.footable && (store.footable.expandAll === false || store.footable.accordion) 
+                        ? null 
+                        : (
+                            <a
+                                className={cx('Table-expandBtn', store.allExpanded  ? 'is-active' : '')}
+                                data-tooltip="展开/收起全部"
+                                onClick={store.toggleExpandAll}
+                            >
+                                <i />
+                            </a>
+                        )}
                 </th>
             );
         }
@@ -862,17 +866,13 @@ export default class Table extends React.Component<TableProps, object> {
             return (
                 <td key={props.key} className={cx(column.pristine.className)}>
                     {item.expandable ? (
-                        <Button
-                            className={cx('Table-expandBtn')}
-                            classPrefix={ns}
-                            size="xs"
-                            level="link"
-                            tooltip="展开/收起"
-                            tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
+                        <a
+                            className={cx('Table-expandBtn', item.expanded  ? 'is-active' : '')}
+                            data-tooltip="展开/收起"
                             onClick={item.toggleExpanded}
                         >
-                            <i className={item.expanded ? 'fa fa-minus' : 'fa fa-plus'} />
-                        </Button>
+                            <i />
+                        </a>
                     ) : null}
                 </td>
             );

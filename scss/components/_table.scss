@@ -544,6 +544,31 @@
                 lighten($Table-thead-borderColor, 2.5%);
         }
     }
+
+    &-expandBtn {
+        > i  {
+            display: inline-block;
+            width: px2rem(16px);
+            text-align: center;
+            cursor: pointer;
+            font-style: normal;
+
+            &:before {
+                display: inline-block;
+                line-height: 1.0;
+                font-size: $Table-expandBtn-fontSize;
+                color: $Table-expandBtn-color;
+                font-family: $Table-expandBtn-vendor;
+                content: $Table-expandBtn-icon;
+                transition: transform ease-in-out 0.2s;
+            }
+        }
+
+        &.is-active > i::before {
+            transform: rotate(90deg);
+            transform-origin: 50% 50%;
+        }
+    }
 }
 
 .#{$ns}OperationField {

@@ -558,7 +558,7 @@ export const TableStore = iRendererStore
             const expand = self.footable && self.footable.expand;
             if (expand === 'first') {
                 self.rows.length && self.expandedRows.push(self.rows[0]);
-            } else if (expand === 'all') {
+            } else if (expand === 'all' && !self.footable.accordion) {
                 self.expandedRows.replace(self.rows);
             }
 
@@ -613,7 +613,12 @@ export const TableStore = iRendererStore
 
         function toggleExpanded(row:IRow) {
             const idx = self.expandedRows.indexOf(row);
-            ~idx ? self.expandedRows.splice(idx, 1) : self.expandedRows.push(row);
+
+            ~idx
+            ? self.expandedRows.splice(idx, 1)
+            : self.footable && self.footable.accordion
+                ? self.expandedRows.replace([row])
+                : self.expandedRows.push(row);
         }
 
         function setOrderByInfo(key:string, direction: 'asc' | 'desc') {
