@@ -54,6 +54,11 @@ export interface TableProps extends RendererProps {
         expandAll?: boolean;
         accordion?: boolean;
     };
+    expandConfig?: {
+        expand?: 'first' | 'all' | 'none';
+        expandAll?: boolean;
+        accordion?: boolean;
+    },
     itemCheckableOn?: string;
     itemDraggableOn?: string;
     itemActions?: Array<Action>;
@@ -77,6 +82,8 @@ export default class Table extends React.Component<TableProps, object> {
         'headerToolbarRender',
         'footer',
         'footerToolbarRender',
+        'footable',
+        'expandConfig',
         'placeholder',
         'tableClassName',
         'source',
@@ -203,6 +210,7 @@ export default class Table extends React.Component<TableProps, object> {
             itemDraggableOn,
             hideCheckToggler,
             combineNum,
+            expandConfig,
         } = this.props;
 
         store.update({
@@ -214,6 +222,7 @@ export default class Table extends React.Component<TableProps, object> {
             orderDir,
             multiple,
             footable,
+            expandConfig,
             primaryField,
             itemCheckableOn,
             itemDraggableOn,
@@ -265,6 +274,7 @@ export default class Table extends React.Component<TableProps, object> {
                     'itemDraggableOn',
                     'hideCheckToggler',
                     'combineNum',
+                    'expandConfig'
                 ],
                 props,
                 nextProps
@@ -283,6 +293,7 @@ export default class Table extends React.Component<TableProps, object> {
                 itemDraggableOn: nextProps.itemDraggableOn,
                 hideCheckToggler: nextProps.hideCheckToggler,
                 combineNum: nextProps.combineNum,
+                expandConfig: nextProps.expandConfig
             });
         }
 
@@ -730,11 +741,13 @@ export default class Table extends React.Component<TableProps, object> {
             return (
                 <th {...props} className={cx(column.pristine.className)}>
                     {store.footable && (store.footable.expandAll === false || store.footable.accordion) 
+                    || store.expandConfig && (store.expandConfig.expandAll === false || store.expandConfig.accordion)
                         ? null 
                         : (
                             <a
                                 className={cx('Table-expandBtn', store.allExpanded  ? 'is-active' : '')}
                                 data-tooltip="展开/收起全部"
+                                data-position="top"
                                 onClick={store.toggleExpandAll}
                             >
                                 <i />
@@ -865,10 +878,15 @@ export default class Table extends React.Component<TableProps, object> {
         } else if (column.type === '__expandme') {
             return (
                 <td key={props.key} className={cx(column.pristine.className)}>
+                    {item.depth > 2 ? Array.from({length: item.depth - 2}).map((_, index) => (
+                        <i key={index} className={cx('Table-divider-' + (index+1))}/>
+                    )) : null}
+
                     {item.expandable ? (
                         <a
                             className={cx('Table-expandBtn', item.expanded  ? 'is-active' : '')}
                             data-tooltip="展开/收起"
+                            data-position="top"
                             onClick={item.toggleExpanded}
                         >
                             <i />
@@ -1244,9 +1262,9 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     renderRows(rows: Array<any>): any {
-        const {store, rowClassName, onAction, buildItemProps, checkOnItemClick, classPrefix: ns} = this.props;
+        const {store, rowClassName, onAction, buildItemProps, checkOnItemClick, classPrefix: ns, classnames: cx} = this.props;
 
-        return flatMap(rows, (item: IRow, rowIndex: number) => {
+        return rows.map((item: IRow, rowIndex: number) => {
             const itemProps = buildItemProps ? buildItemProps(item, rowIndex) : null;
             
             const doms = [
@@ -1257,7 +1275,10 @@ export default class Table extends React.Component<TableProps, object> {
                     key={item.id}
                     itemIndex={rowIndex}
                     item={item}
-                    itemClassName={rowClassName}
+                    itemClassName={cx(rowClassName, {
+                        'is-last': item.depth > 1 && rowIndex === rows.length - 1,
+                        'is-expanded': item.expanded
+                    })}
                     columns={store.filteredColumns}
                     renderCell={this.renderCell}
                     onAction={onAction}
