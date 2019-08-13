@@ -6,7 +6,8 @@ export default {
         draggable: true,
         api: "/api/sample",
         footable: {
-            expand: 'first'
+            expand: 'first',
+            accordion: true
         },
         columns: [
             {
