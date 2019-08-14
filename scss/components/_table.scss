@@ -376,6 +376,13 @@
             padding-right: 0;
         }
 
+        > thead > tr > th.#{$ns}Table-dragCell,
+        > tbody > tr > td.#{$ns}Table-dragCell {
+            border-right: 0;
+            width: px2rem(1px);
+            padding-right: 0;
+        }
+
         > tbody > tr > td.#{$ns}Table-expandCell {
             position: relative;
             @for $i from 1 through 7 {
