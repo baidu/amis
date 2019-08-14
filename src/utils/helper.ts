@@ -551,7 +551,7 @@ export function mapTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, 
 
         item = iterator(item, index, level, paths) || { ...item as object };
 
-        if (item.children && Array.isArray(item.children)) {
+        if (item.children && item.children.splice) {
             item.children = mapTree(item.children, iterator, level + 1, depthFirst, paths.concat(item));
         }
 
@@ -559,14 +559,28 @@ export function mapTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, 
     });
 }
 
-export function eachTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => void, level: number = 1) {
-    return tree.map((item, index) => {
+export function eachTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => any, level: number = 1) {
+    tree.map((item, index) => {
         iterator(item, index, level)
 
-        if (item.children && Array.isArray(item.children)) {
+        if (item.children && item.children.splice) {
             eachTree(item.children, iterator, level + 1);
         }
     });
+}
+
+export function findTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => any, level:number = 1):T | null {
+    let result:T | null = null; 
+
+    everyTree(tree, (item, key, level) => {
+        if (iterator(item, key, level)) {
+            result = item;
+            return false;
+        }
+        return true;
+    });
+
+    return result;
 }
 
 export function filterTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => boolean, level: number = 1) {
@@ -575,7 +589,7 @@ export function filterTree<T extends TreeItem>(tree: Array<T>, iterator: (item: 
             return false;
         }
 
-        if (item.children && Array.isArray(item.children)) {
+        if (item.children && item.children.splice) {
             item.children = filterTree(item.children, iterator, level + 1);
         }
 
@@ -583,11 +597,23 @@ export function filterTree<T extends TreeItem>(tree: Array<T>, iterator: (item: 
     });
 }
 
+export function everyTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => boolean, level: number = 1):boolean {
+    return tree.every((item, index) => {
+        const value:any = iterator(item, index, level);
+
+        if (value && item.children && item.children.splice) {
+            return everyTree(item.children, iterator, level + 1);
+        }
+
+        return value;
+    });
+}
+
 export function someTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => boolean, level: number = 1):boolean {
     return tree.some((item, index) => {
         const value:any = iterator(item, index, level);
 
-        if (!value && item.children && Array.isArray(item.children)) {
+        if (!value && item.children && item.children.splice) {
             return someTree(item.children, iterator, level + 1);
         }
 

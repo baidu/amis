@@ -368,6 +368,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         const dom = findDOMNode(this) as HTMLElement;
         this.sortable = new Sortable(dom.querySelector(`.${ns}Combo-items`) as HTMLElement, {
             group: 'combo',
+            animation: 150,
             handle: `.${ns}Combo-itemDrager`,
             ghostClass: `${ns}Combo-item--dragging`,
             onEnd: (e:any) => {

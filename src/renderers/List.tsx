@@ -357,6 +357,7 @@ export default class List extends React.Component<ListProps, object> {
         const ns = this.props.classPrefix;
         this.sortable = new Sortable(dom.querySelector(`.${ns}List-items`) as HTMLElement, {
             group: 'table',
+            animation: 150,
             handle: `.${ns}ListItem-dragBtn`,
             ghostClass: 'is-dragging',
             onEnd: (e: any) => {

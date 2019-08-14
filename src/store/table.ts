@@ -13,7 +13,7 @@ import {
 import { resolveVariable } from "../utils/tpl-builtin";
 import isEqual = require('lodash/isEqual');
 import find = require('lodash/find');
-import { isBreakpoint, createObject, isObject, isVisible, guid } from "../utils/helper";
+import { isBreakpoint, createObject, isObject, isVisible, guid, findTree, flattenTree, eachTree } from "../utils/helper";
 import { evalExpression } from "../utils/tpl";
 
 export const Column = types
@@ -24,6 +24,8 @@ export const Column = types
         groupName: '',
         toggled: false,
         toggable: true,
+        expandable: false,
+        isPrimary: false,
         searchable: types.maybe(types.frozen()),
         sortable: false,
         filterable: types.optional(types.frozen(), undefined),
@@ -57,13 +59,14 @@ export type SColumn = SnapshotIn<typeof Column>;
 export const Row = types
     .model("Row", {
         id: types.identifier,
+        parentId: '',
         key: types.string,
-        expandable: false,
         pristine: types.frozen({} as any),
         data: types.frozen({} as any),
         rowSpans: types.frozen({} as any),
         index: types.number,
         newIndex: types.number,
+        expandable: false,
         isHover: false,
         children: types.optional(types.array(types.late((): IAnyModelType => Row)), []),
         depth: types.number// 当前children位于第几层，便于使用getParent获取最顶层TableStore
@@ -79,6 +82,18 @@ export const Row = types
             }
 
             return Object.keys(self.data).some(key => !isEqual(self.data[key], self.pristine[key]));
+        },
+
+        getDataWithModifiedChilden() {
+            let data = {
+                ...self.data
+            };
+            
+            if (data.children && self.children) {
+                data.children = self.children.map(item => item.getDataWithModifiedChilden());
+            }
+
+            return data;
         },
 
         get expanded():boolean {
@@ -232,10 +247,10 @@ export const TableStore = iRendererStore
         }
 
         function getMovedRows() {
-            return self.rows.filter(item => item.moved);
+            return flattenTree(self.rows).filter((item:IRow) => item.moved);
         }
 
-        function getMovied() {
+        function getMoved() {
             return getMovedRows().length;
         }
 
@@ -369,7 +384,7 @@ export const TableStore = iRendererStore
             },
 
             get moved() {
-                return getMovied();
+                return getMoved();
             },
 
             get movedRows() {
@@ -384,6 +399,10 @@ export const TableStore = iRendererStore
 
             get columnGroup() {
                 return getColumnGroup();
+            },
+
+            getRowById(id:string) {
+                return findTree(self.rows, item => item.id === id);
             }
         };
     })
@@ -437,7 +456,8 @@ export const TableStore = iRendererStore
                     type: item.type || 'plain',
                     pristine: item,
                     toggled: item.toggled !== false,
-                    breakpoint: item.breakpoint
+                    breakpoint: item.breakpoint,
+                    isPrimary: index === 3
                 }));
 
                 self.columns.replace(columns as any);
@@ -507,16 +527,18 @@ export const TableStore = iRendererStore
             return combineCell(arr, keys);
         }
 
-        function initChildren(children: Array<any>, depth: number, pindex: number): any {
+        function initChildren(children: Array<any>, depth: number, pindex: number, parentId:string): any {
             depth += 1;
             return children.map((item, key) => {
                 item = isObject(item) ? item : {
                     item
                 };
+                const id = guid();
 
                 return {
                     // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
-                    id: guid(),
+                    id: id,
+                    parentId,
                     key: String(`${pindex}-${depth}-${key}`),
                     depth: depth,
                     index: key,
@@ -525,7 +547,7 @@ export const TableStore = iRendererStore
                     data: item,
                     rowSpans: {},
                     modified: false,
-                    children: (item && Array.isArray(item.children)) ? initChildren(item.children, depth, key) : [],
+                    children: (item && Array.isArray(item.children)) ? initChildren(item.children, depth, key, id) : [],
                     expandable: !!(item && Array.isArray(item.children) || self.footable && self.footableColumns.length),
                 };
             });
@@ -535,20 +557,23 @@ export const TableStore = iRendererStore
             self.selectedRows.clear();
             self.expandedRows.clear();
 
-            let arr:Array<SRow> = rows.map((item, key) => ({
-                // id: getEntryId ? getEntryId(item, key) : String(item && (item as any)[self.primaryField] || `${key}-1-${key}`),
-                id: getEntryId ? getEntryId(item, key) : guid(),
-                key: String(`${key}-1-${key}`),
-                depth: 1,// 最大父节点默认为第一层，逐层叠加
-                index: key,
-                newIndex: key,
-                pristine: item,
-                data: item,
-                rowSpans: {},
-                modified: false,
-                children: (item && Array.isArray(item.children)) ? initChildren(item.children, 1, key) : [],
-                expandable: !!(item && Array.isArray(item.children) || self.footable && self.footableColumns.length),
-            }));
+            let arr:Array<SRow> = rows.map((item, key) => {
+                let id = getEntryId ? getEntryId(item, key) : guid();
+                return {
+                    // id: getEntryId ? getEntryId(item, key) : String(item && (item as any)[self.primaryField] || `${key}-1-${key}`),
+                    id: id,
+                    key: String(`${key}-1-${key}`),
+                    depth: 1,// 最大父节点默认为第一层，逐层叠加
+                    index: key,
+                    newIndex: key,
+                    pristine: item,
+                    data: item,
+                    rowSpans: {},
+                    modified: false,
+                    children: (item && Array.isArray(item.children)) ? initChildren(item.children, 1, key, id) : [],
+                    expandable: !!(item && Array.isArray(item.children) || self.footable && self.footableColumns.length),
+                }
+            });
             
             if (self.combineNum) {
                 arr = autoCombineCell(arr, self.columns, self.combineNum);
@@ -633,6 +658,11 @@ export const TableStore = iRendererStore
             }
         }
 
+        function collapseAllAtDepth(depth:number) {
+            let rows = self.expandedRows.filter(item => item.depth !== depth);
+            self.expandedRows.replace(rows);
+        }
+
         function setOrderByInfo(key:string, direction: 'asc' | 'desc') {
             self.orderBy = key;
             self.orderDir = direction;
@@ -640,7 +670,16 @@ export const TableStore = iRendererStore
 
         function reset() {
             self.rows.forEach(item => item.reset());
-            const rows = self.rows.slice().sort((a, b) => a.newIndex - b.newIndex);
+            let rows = self.rows.concat();
+            eachTree(rows, (item) => {
+                if (item.children) {
+                    let rows = item.children.concat().sort((a, b) => a.index - b.index);
+                    rows.forEach(item => item.reset());
+                    item.children.replace(rows);
+                }
+            });
+            rows.forEach(item => item.reset())
+            rows = rows.sort((a, b) => a.index - b.index);
             self.rows.replace(rows);
             self.dragging = false;
         }
@@ -653,14 +692,28 @@ export const TableStore = iRendererStore
             self.dragging = false;
         }
 
-        function exchange(fromIndex:number, toIndex:number) {
-            const item:IRow = self.rows[fromIndex];
-            item.newIndex = toIndex;
+        function exchange(fromIndex:number, toIndex:number, item?: IRow) {
+            item = item || self.rows[fromIndex];
 
-            const newRows = self.rows.slice();
+            if (item.parentId) {
+                const parent:IRow = self.getRowById(item.parentId) as any;
+                const offset = parent.children.indexOf(item) - fromIndex;
+                toIndex+= offset;
+                fromIndex += offset;
+
+                const newRows = parent.children.concat();
+                newRows.splice(fromIndex, 1);
+                newRows.splice(toIndex, 0, item);
+                newRows.forEach((item, index) => item.newIndex = index);
+                parent.children.replace(newRows);
+                return;
+            }
+
+            const newRows = self.rows.concat();
             newRows.splice(fromIndex, 1);
             newRows.splice(toIndex, 0, item);
 
+            newRows.forEach((item, index) => item.newIndex = index);
             self.rows.replace(newRows);
         }
 
@@ -677,6 +730,7 @@ export const TableStore = iRendererStore
             toggle,
             toggleExpandAll,
             toggleExpanded,
+            collapseAllAtDepth,
             clear,
             setOrderByInfo,
             reset,

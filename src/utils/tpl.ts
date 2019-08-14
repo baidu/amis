@@ -28,6 +28,10 @@ export function filter(tpl: string, data: object = {}, ...rest:Array<any>): stri
 }
 
 export function evalExpression(expression: string, data?: object): boolean {
+    if (!expression || typeof expression !== "string") {
+        return false;
+    }
+
     /* jshint evil:true */
     try {
         let debug = false;
