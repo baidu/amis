@@ -70,13 +70,7 @@ export class Tabs extends React.Component<TabsProps> {
                 key={index}
                 onClick={() => disabled ? '' : this.handleSelect(eventKey)}
             >
-                {icon ? (
-                    <div>
-                        <i className={icon} /><a>{title}</a>
-                    </div>
-                ) : (
-                    <a>{title}</a>
-                )}
+                <a>{icon ? <i className={icon} /> : null} {title}</a>
             </li>
         );
     }
