@@ -580,7 +580,7 @@ export const TableStore = iRendererStore
             }
 
             self.rows.replace(arr as Array<IRow>);
-            self.isNested = self.rows.some(item => item.expandable);
+            self.isNested = self.rows.some(item => item.children.length);
 
             const expand = self.footable && self.footable.expand;
             if (expand === 'first' || self.expandConfig && self.expandConfig.expand === 'first') {
