@@ -4,7 +4,15 @@ require.resourceMap({
       "type": "js",
       "pkg": "p2"
     },
+    "node_modules/zrender/lib/core/guid": {
+      "type": "js",
+      "pkg": "p2"
+    },
     "node_modules/zrender/lib/core/env": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/core/util": {
       "type": "js",
       "pkg": "p2"
     },
@@ -12,88 +20,25 @@ require.resourceMap({
       "type": "js",
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/core/matrix": {
-      "type": "js",
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/core/BoundingRect": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/vector",
-        "node_modules/zrender/lib/core/matrix"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/core/LRU": {
-      "type": "js",
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/tool/color": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/LRU"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/helper/image": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/LRU"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/core/util": {
-      "type": "js",
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/contain/text": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/BoundingRect",
-        "node_modules/zrender/lib/graphic/helper/image",
-        "node_modules/zrender/lib/core/util"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/helper/roundRect": {
-      "type": "js",
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/helper/fixShadow": {
-      "type": "js",
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/helper/text": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/contain/text",
-        "node_modules/zrender/lib/graphic/helper/roundRect",
-        "node_modules/zrender/lib/graphic/helper/image",
-        "node_modules/zrender/lib/graphic/helper/fixShadow"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/mixin/RectText": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/helper/text",
-        "node_modules/zrender/lib/core/BoundingRect"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/Style": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/helper/fixShadow"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/core/guid": {
+    "node_modules/zrender/lib/mixin/Draggable": {
       "type": "js",
       "pkg": "p2"
     },
     "node_modules/zrender/lib/mixin/Eventful": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/Handler": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/vector",
+        "node_modules/zrender/lib/mixin/Draggable",
+        "node_modules/zrender/lib/mixin/Eventful"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/core/matrix": {
       "type": "js",
       "pkg": "p2"
     },
@@ -113,6 +58,17 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/animation/easing"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/core/LRU": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/tool/color": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/LRU"
       ],
       "pkg": "p2"
     },
@@ -156,6 +112,105 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
+    "node_modules/zrender/lib/core/BoundingRect": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/vector",
+        "node_modules/zrender/lib/core/matrix"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/container/Group": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/Element",
+        "node_modules/zrender/lib/core/BoundingRect"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/core/timsort": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/Storage": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/env",
+        "node_modules/zrender/lib/container/Group",
+        "node_modules/zrender/lib/core/timsort"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/helper/fixShadow": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/Style": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/helper/fixShadow"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/Pattern": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/Layer": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/config",
+        "node_modules/zrender/lib/graphic/Style",
+        "node_modules/zrender/lib/graphic/Pattern"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/animation/requestAnimationFrame": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/helper/image": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/LRU"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/contain/text": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/BoundingRect",
+        "node_modules/zrender/lib/graphic/helper/image",
+        "node_modules/zrender/lib/core/util"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/helper/roundRect": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/helper/text": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/contain/text",
+        "node_modules/zrender/lib/graphic/helper/roundRect",
+        "node_modules/zrender/lib/graphic/helper/image",
+        "node_modules/zrender/lib/graphic/helper/fixShadow"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/mixin/RectText": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/helper/text",
+        "node_modules/zrender/lib/core/BoundingRect"
+      ],
+      "pkg": "p2"
+    },
     "node_modules/zrender/lib/graphic/Displayable": {
       "type": "js",
       "deps": [
@@ -176,13 +231,68 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/graphic/Text": {
+    "node_modules/zrender/lib/Painter": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/graphic/Displayable",
+        "node_modules/zrender/lib/config",
         "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/contain/text",
-        "node_modules/zrender/lib/graphic/helper/text"
+        "node_modules/zrender/lib/core/log",
+        "node_modules/zrender/lib/core/BoundingRect",
+        "node_modules/zrender/lib/core/timsort",
+        "node_modules/zrender/lib/Layer",
+        "node_modules/zrender/lib/animation/requestAnimationFrame",
+        "node_modules/zrender/lib/graphic/Image",
+        "node_modules/zrender/lib/core/env"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/core/event": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/mixin/Eventful",
+        "node_modules/zrender/lib/core/env"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/animation/Animation": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/event",
+        "node_modules/zrender/lib/animation/requestAnimationFrame",
+        "node_modules/zrender/lib/animation/Animator"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/core/GestureMgr": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/event"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/dom/HandlerProxy": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/event",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/mixin/Eventful",
+        "node_modules/zrender/lib/core/env",
+        "node_modules/zrender/lib/core/GestureMgr"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/zrender": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/guid",
+        "node_modules/zrender/lib/core/env",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/Handler",
+        "node_modules/zrender/lib/Storage",
+        "node_modules/zrender/lib/Painter",
+        "node_modules/zrender/lib/animation/Animation",
+        "node_modules/zrender/lib/dom/HandlerProxy"
       ],
       "pkg": "p2"
     },
@@ -259,10 +369,6 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/graphic/Pattern": {
-      "type": "js",
-      "pkg": "p2"
-    },
     "node_modules/zrender/lib/graphic/Path": {
       "type": "js",
       "deps": [
@@ -274,168 +380,250 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/graphic/Gradient": {
-      "type": "js",
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/vml/core": {
+    "node_modules/zrender/lib/tool/transformPath": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/core/env"
+        "node_modules/zrender/lib/core/PathProxy",
+        "node_modules/zrender/lib/core/vector"
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/vml/graphic": {
+    "node_modules/zrender/lib/tool/path": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/core/env",
-        "node_modules/zrender/lib/core/vector",
-        "node_modules/zrender/lib/core/BoundingRect",
-        "node_modules/zrender/lib/tool/color",
-        "node_modules/zrender/lib/contain/text",
-        "node_modules/zrender/lib/graphic/helper/text",
-        "node_modules/zrender/lib/graphic/mixin/RectText",
-        "node_modules/zrender/lib/graphic/Displayable",
-        "node_modules/zrender/lib/graphic/Image",
-        "node_modules/zrender/lib/graphic/Text",
         "node_modules/zrender/lib/graphic/Path",
         "node_modules/zrender/lib/core/PathProxy",
-        "node_modules/zrender/lib/graphic/Gradient",
-        "node_modules/zrender/lib/vml/core"
+        "node_modules/zrender/lib/tool/transformPath"
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/mixin/Draggable": {
-      "type": "js",
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/Handler": {
+    "node_modules/zrender/lib/graphic/CompoundPath": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/vector",
-        "node_modules/zrender/lib/mixin/Draggable",
-        "node_modules/zrender/lib/mixin/Eventful"
+        "node_modules/zrender/lib/graphic/Path"
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/container/Group": {
+    "node_modules/zrender/lib/graphic/Text": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Displayable",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/contain/text",
+        "node_modules/zrender/lib/graphic/helper/text"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/IncrementalDisplayable": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/Element",
+        "node_modules/zrender/lib/graphic/Displayable",
         "node_modules/zrender/lib/core/BoundingRect"
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/core/timsort": {
+    "node_modules/zrender/lib/graphic/shape/Arc": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/BezierCurve": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/core/vector",
+        "node_modules/zrender/lib/core/curve"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Circle": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Droplet": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Ellipse": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Heart": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Isogon": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Line": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/helper/smoothSpline": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/vector"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/helper/smoothBezier": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/vector"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/helper/poly": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/helper/smoothSpline",
+        "node_modules/zrender/lib/graphic/helper/smoothBezier"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Polygon": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/graphic/helper/poly"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Polyline": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/graphic/helper/poly"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Rect": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/graphic/helper/roundRect"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Ring": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Rose": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/helper/fixClipWithShadow": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/env"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Sector": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/graphic/helper/fixClipWithShadow"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Star": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Trochoid": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/Gradient": {
       "type": "js",
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/Storage": {
+    "node_modules/zrender/lib/graphic/LinearGradient": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/env",
+        "node_modules/zrender/lib/graphic/Gradient"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/RadialGradient": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/graphic/Gradient"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/export": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/matrix",
+        "node_modules/zrender/lib/core/vector",
+        "node_modules/zrender/lib/tool/color",
+        "node_modules/zrender/lib/tool/path",
         "node_modules/zrender/lib/container/Group",
-        "node_modules/zrender/lib/core/timsort"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/Layer": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/config",
-        "node_modules/zrender/lib/graphic/Style",
-        "node_modules/zrender/lib/graphic/Pattern"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/animation/requestAnimationFrame": {
-      "type": "js",
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/Painter": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/config",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/log",
-        "node_modules/zrender/lib/core/BoundingRect",
-        "node_modules/zrender/lib/core/timsort",
-        "node_modules/zrender/lib/Layer",
-        "node_modules/zrender/lib/animation/requestAnimationFrame",
+        "node_modules/zrender/lib/graphic/Path",
         "node_modules/zrender/lib/graphic/Image",
-        "node_modules/zrender/lib/core/env"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/core/event": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/mixin/Eventful",
-        "node_modules/zrender/lib/core/env"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/animation/Animation": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/event",
-        "node_modules/zrender/lib/animation/requestAnimationFrame",
-        "node_modules/zrender/lib/animation/Animator"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/core/GestureMgr": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/event"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/dom/HandlerProxy": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/event",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/mixin/Eventful",
-        "node_modules/zrender/lib/core/env",
-        "node_modules/zrender/lib/core/GestureMgr"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/zrender": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/guid",
-        "node_modules/zrender/lib/core/env",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/Handler",
-        "node_modules/zrender/lib/Storage",
-        "node_modules/zrender/lib/Painter",
-        "node_modules/zrender/lib/animation/Animation",
-        "node_modules/zrender/lib/dom/HandlerProxy"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/vml/Painter": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/log",
-        "node_modules/zrender/lib/vml/core",
-        "node_modules/zrender/lib/core/util"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/vml/vml": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/vml/graphic",
-        "node_modules/zrender/lib/zrender",
-        "node_modules/zrender/lib/vml/Painter"
+        "node_modules/zrender/lib/graphic/CompoundPath",
+        "node_modules/zrender/lib/graphic/Text",
+        "node_modules/zrender/lib/graphic/IncrementalDisplayable",
+        "node_modules/zrender/lib/graphic/shape/Arc",
+        "node_modules/zrender/lib/graphic/shape/BezierCurve",
+        "node_modules/zrender/lib/graphic/shape/Circle",
+        "node_modules/zrender/lib/graphic/shape/Droplet",
+        "node_modules/zrender/lib/graphic/shape/Ellipse",
+        "node_modules/zrender/lib/graphic/shape/Heart",
+        "node_modules/zrender/lib/graphic/shape/Isogon",
+        "node_modules/zrender/lib/graphic/shape/Line",
+        "node_modules/zrender/lib/graphic/shape/Polygon",
+        "node_modules/zrender/lib/graphic/shape/Polyline",
+        "node_modules/zrender/lib/graphic/shape/Rect",
+        "node_modules/zrender/lib/graphic/shape/Ring",
+        "node_modules/zrender/lib/graphic/shape/Rose",
+        "node_modules/zrender/lib/graphic/shape/Sector",
+        "node_modules/zrender/lib/graphic/shape/Star",
+        "node_modules/zrender/lib/graphic/shape/Trochoid",
+        "node_modules/zrender/lib/graphic/LinearGradient",
+        "node_modules/zrender/lib/graphic/RadialGradient",
+        "node_modules/zrender/lib/graphic/Pattern",
+        "node_modules/zrender/lib/core/BoundingRect"
       ],
       "pkg": "p2"
     },
@@ -524,150 +712,58 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/tool/transformPath": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/PathProxy",
-        "node_modules/zrender/lib/core/vector"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/tool/path": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path",
-        "node_modules/zrender/lib/core/PathProxy",
-        "node_modules/zrender/lib/tool/transformPath"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/Circle": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/helper/fixClipWithShadow": {
+    "node_modules/zrender/lib/vml/core": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/env"
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/graphic/shape/Sector": {
+    "node_modules/zrender/lib/vml/graphic": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/graphic/Path",
-        "node_modules/zrender/lib/graphic/helper/fixClipWithShadow"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/Ring": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/helper/smoothSpline": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/vector"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/helper/smoothBezier": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/vector"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/helper/poly": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/helper/smoothSpline",
-        "node_modules/zrender/lib/graphic/helper/smoothBezier"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/Polygon": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path",
-        "node_modules/zrender/lib/graphic/helper/poly"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/Polyline": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path",
-        "node_modules/zrender/lib/graphic/helper/poly"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/Rect": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path",
-        "node_modules/zrender/lib/graphic/helper/roundRect"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/Line": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/BezierCurve": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/core/env",
         "node_modules/zrender/lib/core/vector",
-        "node_modules/zrender/lib/core/curve"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/Arc": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/CompoundPath": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/LinearGradient": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/graphic/Gradient"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/RadialGradient": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/graphic/Gradient"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/IncrementalDisplayable": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/BoundingRect",
+        "node_modules/zrender/lib/tool/color",
+        "node_modules/zrender/lib/contain/text",
+        "node_modules/zrender/lib/graphic/helper/text",
+        "node_modules/zrender/lib/graphic/mixin/RectText",
         "node_modules/zrender/lib/graphic/Displayable",
-        "node_modules/zrender/lib/core/BoundingRect"
+        "node_modules/zrender/lib/graphic/Image",
+        "node_modules/zrender/lib/graphic/Text",
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/core/PathProxy",
+        "node_modules/zrender/lib/graphic/Gradient",
+        "node_modules/zrender/lib/vml/core"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/vml/Painter": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/log",
+        "node_modules/zrender/lib/vml/core",
+        "node_modules/zrender/lib/core/util"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/vml/vml": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/vml/graphic",
+        "node_modules/zrender/lib/zrender",
+        "node_modules/zrender/lib/vml/Painter"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/zrender",
+        "node_modules/zrender/lib/export",
+        "node_modules/zrender/lib/svg/svg",
+        "node_modules/zrender/lib/vml/vml"
       ],
       "pkg": "p2"
     },
@@ -4493,7 +4589,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Page.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Page_847cdf5.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Page_4fe0f73.js",
       "type": "js"
     },
     "docs/renderers/Definitions.md": {
@@ -4585,7 +4681,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Form/Checkboxes.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Checkboxes_4bc46d5.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Checkboxes_6bf62b7.js",
       "type": "js"
     },
     "docs/renderers/Form/City.md": {
@@ -4621,7 +4717,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Form/Color.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Color_4706421.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Color_f2e2852.js",
       "type": "js"
     },
     "docs/renderers/Form/Range.md": {
@@ -4809,7 +4905,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Field.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Field_727d3fa.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Field_bc1e6ed.js",
       "type": "js"
     },
     "docs/renderers/Tabs.md": {
@@ -4845,7 +4941,11 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Types.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Types_332ad75.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Types_dc90b74.js",
+      "type": "js"
+    },
+    "docs/api.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/api_4bc0b1a.js",
       "type": "js"
     },
     "docs/sdk.md": {
@@ -4863,7 +4963,7 @@ require.resourceMap({
   },
   "pkg": {
     "p2": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/echarts_522d286.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/echarts_a3e9cfe.js",
       "type": "js"
     }
   }
