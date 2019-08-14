@@ -10,7 +10,7 @@ import Checkbox from '../components/Checkbox';
 import Button from '../components/Button';
 import {TableStore, ITableStore, IColumn, IRow} from '../store/table';
 import {observer} from 'mobx-react';
-import {anyChanged, getScrollParent, difference, noop} from '../utils/helper';
+import {anyChanged, getScrollParent, difference, noop, autobind} from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {isEffectiveApi} from '../utils/api';
 import debounce = require('lodash/debounce');
@@ -418,7 +418,7 @@ export default class Table extends React.Component<TableProps, object> {
             return;
         }
 
-        onSaveOrder(store.movedRows.map(item => item.data), store.rows.map(item => item.data));
+        onSaveOrder(store.movedRows.map(item => item.data), store.rows.map(item => item.getDataWithModifiedChilden()));
     }
 
     syncSelected() {
@@ -611,6 +611,7 @@ export default class Table extends React.Component<TableProps, object> {
         const ns = this.props.classPrefix;
         this.sortable = new Sortable((this.table as HTMLElement).querySelector('tbody') as HTMLElement, {
             group: 'table',
+            animation: 150,
             handle: `.${ns}Table-dragCell`,
             ghostClass: 'is-dragging',
             onEnd: (e: any) => {
@@ -659,6 +660,98 @@ export default class Table extends React.Component<TableProps, object> {
         if (~store.hoverIndex) {
             store.rows[store.hoverIndex].setIsHover(false);
         }
+    }
+
+    draggingTr: HTMLTableRowElement;
+    originIndex: number;
+    draggingSibling: Array<HTMLTableRowElement>;
+
+    @autobind
+    handleDragStart(e:React.DragEvent) {
+        const store = this.props.store;
+        const target = e.currentTarget;
+        const tr = this.draggingTr = target.closest('tr')!;
+        const id = tr.getAttribute('data-id')!;
+        const tbody = tr.parentNode!;
+        this.originIndex = Array.prototype.indexOf.call(tbody.childNodes, tr);
+
+        tr.classList.add('is-dragging');
+        
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', id);
+
+        e.dataTransfer.setDragImage(tr, 0, 0);
+        const item = store.getRowById(id)!;
+        store.collapseAllAtDepth(item.depth);
+
+        let siblings:Array<IRow> = store.rows;
+        if (item.parentId) {
+            const parent = store.getRowById(item.parentId)!;
+            siblings = parent.children as any;
+        }
+        siblings = siblings.filter(sibling => sibling !== item);
+
+        tbody.addEventListener('dragover', this.handleDragOver);
+        tbody.addEventListener('drop', this.handleDrop);
+
+        this.draggingSibling = siblings.map(item => {
+            let tr:HTMLTableRowElement = tbody.querySelector(`tr[data-id="${item.id}"]`) as HTMLTableRowElement;
+
+            tr.classList.add('is-drop-allowed');
+
+            return tr;
+        });
+        tr.addEventListener('dragend', this.handleDragEnd);
+    }
+
+    @autobind
+    handleDragOver(e: DragEvent) {
+        if (!e.target) {
+            return;
+        }
+        e.preventDefault();
+        e.dataTransfer!.dropEffect = 'move';
+            
+        const overTr:HTMLElement = (e.target as HTMLElement).closest('tr')!;
+        if (!overTr || !~overTr.className.indexOf('is-drop-allowed') || overTr === this.draggingTr) {
+            return;
+        }
+
+        const tbody = overTr.parentElement!;
+        const dRect = this.draggingTr.getBoundingClientRect();
+        const tRect = overTr.getBoundingClientRect();
+        let ratio = dRect.top < tRect.top ? 0.1 : 0.9;
+
+        const next = (e.clientY - tRect.top)/(tRect.bottom - tRect.top) > ratio;
+        tbody.insertBefore(this.draggingTr, next && overTr.nextSibling || overTr);
+    }
+
+    @autobind
+    handleDrop() {
+        const store = this.props.store;
+        const tr = this.draggingTr;
+        const tbody = tr.parentElement!;
+        const index = Array.prototype.indexOf.call(tbody.childNodes, tr);
+        const item:IRow = store.getRowById(tr.getAttribute('data-id')!) as any;
+
+        // destroy
+        this.handleDragEnd();
+
+        store.exchange(this.originIndex, index, item);
+    }
+
+    @autobind
+    handleDragEnd() {
+        const tr = this.draggingTr;
+        const tbody = tr.parentElement!;
+        const index = Array.prototype.indexOf.call(tbody.childNodes, tr);
+        tbody.insertBefore(tr, tbody.childNodes[index < this.originIndex ? this.originIndex +  1 : this.originIndex]);
+
+        tr.classList.remove('is-dragging');
+        tr.removeEventListener('dragend', this.handleDragEnd);
+        tbody.removeEventListener('dragover', this.handleDragOver);
+        tbody.removeEventListener('drop', this.handleDrop);
+        this.draggingSibling.forEach(item => item.classList.remove('is-drop-allowed'));
     }
 
     renderHeading() {
@@ -746,8 +839,8 @@ export default class Table extends React.Component<TableProps, object> {
                         : (
                             <a
                                 className={cx('Table-expandBtn', store.allExpanded  ? 'is-active' : '')}
-                                data-tooltip="展开/收起全部"
-                                data-position="top"
+                                // data-tooltip="展开/收起全部"
+                                // data-position="top"
                                 onClick={store.toggleExpandAll}
                             >
                                 <i />
@@ -885,14 +978,28 @@ export default class Table extends React.Component<TableProps, object> {
                     {item.expandable ? (
                         <a
                             className={cx('Table-expandBtn', item.expanded  ? 'is-active' : '')}
-                            data-tooltip="展开/收起"
-                            data-position="top"
+                            // data-tooltip="展开/收起"
+                            // data-position="top"
                             onClick={item.toggleExpanded}
                         >
                             <i />
                         </a>
                     ) : null}
                 </td>
+            );
+        }
+
+        let prefix:React.ReactNode = null;
+
+        if (column.isPrimary && store.isNested && store.draggable && item.draggable) {
+            prefix = (
+                <a 
+                    draggable
+                    onDragStart={this.handleDragStart}
+                    className={cx("Table-dragBtn")}
+                >
+                    <i className="glyphicon glyphicon-sort" />
+                </a>
             );
         }
 
@@ -904,7 +1011,8 @@ export default class Table extends React.Component<TableProps, object> {
             value: column.name ? resolveVariable(column.name, item.data) : undefined,
             popOverContainer: this.getPopOverContainer,
             rowSpan: item.rowSpans[column.name as string],
-            quickEditFormRef: this.subFormRef
+            quickEditFormRef: this.subFormRef,
+            prefix
         };
         delete subProps.$$id;
         delete subProps.label;
@@ -1085,7 +1193,7 @@ export default class Table extends React.Component<TableProps, object> {
     renderDragToggler() {
         const {store, env, draggable, classPrefix: ns, dragIcon} = this.props;
 
-        if (!draggable) {
+        if (!draggable || store.isNested) {
             return null;
         }
 
@@ -1124,6 +1232,7 @@ export default class Table extends React.Component<TableProps, object> {
 
         if (
             store.draggable &&
+            !store.isNested && 
             region === 'header' &&
             store.rows.length > 1 &&
             !~this.renderedToolbars.indexOf('drag-toggler')
@@ -1141,7 +1250,7 @@ export default class Table extends React.Component<TableProps, object> {
                         `action/${key}`,
                         {
                             type: 'button',
-                            ...action,
+                            ...action as any,
                         },
                         {
                             onAction: this.handleAction,
@@ -1277,7 +1386,8 @@ export default class Table extends React.Component<TableProps, object> {
                     item={item}
                     itemClassName={cx(rowClassName, {
                         'is-last': item.depth > 1 && rowIndex === rows.length - 1,
-                        'is-expanded': item.expanded
+                        'is-expanded': item.expanded,
+                        'is-expandable': item.expandable
                     })}
                     columns={store.filteredColumns}
                     renderCell={this.renderCell}
@@ -1354,7 +1464,7 @@ export default class Table extends React.Component<TableProps, object> {
                             : render(
                                   `itemAction/${index}`,
                                   {
-                                      ...action,
+                                      ...action as any,
                                       isMenuItem: true,
                                   },
                                   {
@@ -1518,6 +1628,7 @@ class TableRow extends React.Component<TableRowProps> {
         if (footableMode) {
             return (
                 <tr
+                    data-id={item.id}
                     data-index={item.newIndex}
                     onClick={checkOnItemClick ? this.handleClick : undefined}
                     className={cx(itemClassName, {
@@ -1558,6 +1669,7 @@ class TableRow extends React.Component<TableRowProps> {
             <tr
                 onClick={checkOnItemClick ? this.handleClick : undefined}
                 data-index={item.depth === 1 ? item.newIndex : undefined}
+                data-id={item.id}
                 className={cx(
                     itemClassName,
                     {
@@ -1929,7 +2041,7 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
                     <Overlay
                         container={popOverContainer || (() => findDOMNode(this))}
                         placement="left-bottom-left-top right-bottom-right-top"
-                        target={popOverContainer ? () => findDOMNode(this).parentNode : null}
+                        target={popOverContainer ? () => findDOMNode(this)!.parentNode : null}
                         show
                     >
                         <PopOver
@@ -2003,6 +2115,8 @@ export class TableCell extends React.Component<RendererProps> {
             body: _body,
             tpl,
             remark,
+            prefix,
+            affix,
             ...rest
         } = this.props;
 
@@ -2027,7 +2141,9 @@ export class TableCell extends React.Component<RendererProps> {
             };
 
             if (!/%$/.test(String(style.width))) {
-                body = <div style={{width: style.width}}>{body}</div>;
+                body = <div style={{width: style.width}}>{prefix}{body}{affix}</div>;
+                prefix = null;
+                affix = null;
                 // delete style.width;
             }
         }
@@ -2044,7 +2160,9 @@ export class TableCell extends React.Component<RendererProps> {
                 tabIndex={tabIndex}
                 onKeyUp={onKeyUp}
             >
+                {prefix}
                 {body}
+                {affix}
             </Component>
         );
     }

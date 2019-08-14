@@ -4,17 +4,20 @@ export default {
     body: {
         type: "crud",
         api: "/api/mock2/crud/table2",
+        saveOrderApi: '/api/mock2/form/saveData',
         expandConfig: {
             expand: 'first',
             accordion: true
         },
+        draggable: true,
         columns: [
             {
                 name: "id",
                 label: "ID",
                 sortable: true,
                 type: "text",
-                toggled: true
+                toggled: true,
+                width: 100
             },
             {
                 name: "engine",

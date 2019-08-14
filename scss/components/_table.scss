@@ -336,11 +336,16 @@
                         background-color: $Table-borderColor;
                     }
 
-                    > *:first-child {
-                        margin-left: px2rem(20px) * ($i - 1);
-                    }
+                    padding-left: px2rem(20px) * ($i - 1) - px2rem(20px);
                 }
             }
+
+            tr.#{$ns}Table-tr--#{$i}th.is-expandable {
+                .#{$ns}Table-expandCell + td {
+                    padding-left: px2rem(20px) * ($i - 1);
+                }
+            }
+
 
             tr.#{$ns}Table-tr--#{$i}th.is-last:not(.is-expanded) {
                 .#{$ns}Table-expandCell + td {
@@ -350,6 +355,8 @@
                     }
                 }
             }
+
+            
         }
 
         > thead > tr > th.#{$ns}Table-checkCell,
@@ -646,6 +653,18 @@
             transform: rotate(90deg);
             transform-origin: 50% 50%;
         }
+    }
+
+    &-dragBtn {
+        margin-right: $gap-xs;
+        display: none;
+        cursor: move;
+    }
+
+    &-table > tbody > tr:hover .#{$ns}Table-dragBtn,
+    &-table > tbody > tr.is-dragging .#{$ns}Table-dragBtn,
+    &-table > tbody > tr.is-drop-allowed .#{$ns}Table-dragBtn {
+        display: inline-block;
     }
 }
 

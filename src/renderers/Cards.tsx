@@ -386,6 +386,7 @@ export default class Cards extends React.Component<GridProps, object> {
         const ns = this.props.classPrefix;
         this.sortable = new Sortable(dom.querySelector(`.${ns}Cards-body`) as HTMLElement, {
             group: 'table',
+            animation: 150,
             handle: `.${ns}Card-dragBtn`,
             ghostClass: `is-dragging`,
             onEnd: (e: any) => {
