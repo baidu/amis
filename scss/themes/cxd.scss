@@ -202,9 +202,9 @@ $Button--primary-border: $primary;
 $Button--primary-onHover-bg: #209bfd;
 $Button--primary-onHover-border: $primary;
 $Button--primary-onHover-color: $white;
-$Button--primary-onActive-bg: $white;
+$Button--primary-onActive-bg: #047bdb;
 $Button--primary-onActive-border: $primary;
-$Button--primary-onActive-color: $primary;
+$Button--primary-onActive-color: $white;
 
 $Button--danger-bg: #ea2e2e;
 $Button--danger-onHover-bg: #f64545;
@@ -212,6 +212,8 @@ $Button--danger-onActive-bg: #d72b2b;
 
 $ButtonGroup-divider-width: px2rem(1px);
 $ButtonGroup-divider-color: #fff;
+$ButtonGroup--primary-isActive-color: $primary;
+$ButtonGroup--primary-isActive-bg: $white;
 
 $Button--link-color: $primary;
 $Button--link-onHover-color: #209bfd;
