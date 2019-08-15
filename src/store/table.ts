@@ -432,7 +432,7 @@ export const TableStore = iRendererStore
                 columns.unshift({
                     type: '__expandme',
                     toggable: false,
-                    fixed: 'left',
+                    // fixed: 'left',
                     className: 'Table-expandCell'
                 });
 
@@ -445,7 +445,7 @@ export const TableStore = iRendererStore
 
                 columns.unshift({
                     type: '__dragme',
-                    toggable: false,
+                    // toggable: false,
                     className: 'Table-dragCell'
                 });
 
