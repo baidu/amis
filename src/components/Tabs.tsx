@@ -116,7 +116,7 @@ export class Tabs extends React.Component<TabsProps> {
                     className
                 )}
             >
-                <ul className={cx('Tabs-links')}>
+                <ul className={cx('Tabs-links')} role="tablist">
                     {children.map((tab, index) => (
                         this.renderNav(tab, index)
                     ))}
