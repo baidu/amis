@@ -505,7 +505,7 @@ export default class Table extends React.Component<TableProps, object> {
             widths[item.getAttribute('data-index') as string] = item.clientWidth;
         });
         forEach(
-            table.querySelectorAll('tbody>tr>*:first-child'),
+            table.querySelectorAll('tbody>tr>*:last-child'),
             (item: HTMLElement, index: number) => (heights[index] = item.clientHeight)
         );
 
