@@ -417,7 +417,8 @@ body {
 
 @include media-breakpoint-down(sm) {
     .#{$ns}Layout {
-        overflow-x: hidden;
+        // Layout 层没有出现滚动条件，导致移动端无法响应固定顶部/底部效果
+        // overflow-x: hidden;
     }
 
     .#{$ns}Layout-content {
