@@ -88,6 +88,16 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         nextAnimation: ''
     };
 
+    componentWillReceiveProps(nextProps:CarouselProps) {
+        const currentOptions = this.state.options;
+        const nextOptions = nextProps.value || nextProps.options || resolveVariable(nextProps.name, nextProps.data) || [];
+        if (JSON.stringify(currentOptions) !== JSON.stringify(nextOptions)) {
+            this.setState({
+                options: nextOptions
+            });
+        }
+    }
+
     componentDidMount() {
         this.prepareAutoSlide();
     }
@@ -245,7 +255,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             current,
             nextAnimation
         } = this.state;
-        
+
         let body:JSX.Element | null = null;
         let carouselStyles: {
             [propName: string]: string;
