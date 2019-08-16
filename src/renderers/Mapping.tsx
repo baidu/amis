@@ -23,9 +23,10 @@ export class MappingField extends React.Component<MappingProps, object> {
         const {className, value, placeholder, map, render, classnames: cx} = this.props;
 
         let viewValue: React.ReactNode = <span className="text-muted">{placeholder}</span>;
+        let key = value === true ? '1' : value;
 
-        if (typeof value !== 'undefined' && map && (map[value] || map['*'])) {
-            viewValue = render('tpl', map[value] || map['*']);
+        if (typeof value !== 'undefined' && map && (map[key] || map['*'])) {
+            viewValue = render('tpl', map[key] || map['*']);
         }
 
         return <span className={cx('MappingField', className)}>{viewValue}</span>;
