@@ -2,7 +2,7 @@ import React from 'react';
 import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition';
 import {Renderer, RendererProps} from '../factory';
 import {resolveVariable} from '../utils/tpl-builtin';
-import {autobind, createObject, isObject} from '../utils/helper';
+import {autobind, createObject, isObject, isArrayChilrenModified} from '../utils/helper';
 import {leftArrowIcon, rightArrowIcon} from '../components/icons';
 
 const animationStyles: {
@@ -91,7 +91,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     componentWillReceiveProps(nextProps:CarouselProps) {
         const currentOptions = this.state.options;
         const nextOptions = nextProps.value || nextProps.options || resolveVariable(nextProps.name, nextProps.data) || [];
-        if (JSON.stringify(currentOptions) !== JSON.stringify(nextOptions)) {
+        if (isArrayChilrenModified(currentOptions, nextOptions)) {
             this.setState({
                 options: nextOptions
             });
