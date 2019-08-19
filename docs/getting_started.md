@@ -222,6 +222,8 @@ class MyComponent extends React.Component<any, any> {
 
 注意：以上的 SDK 地址是一个页面跳转，会跳转到一个 CDN 地址，而且每次跳转都是最新的版本，随着 amis 的升级这个地址会一直变动，如果你的页面已经完成功能回归，请直接使用某个固定地址，这样才不会因为 amis 升级而导致你的页面不可用。
 
+另外，sdk 代码也伴随 npm 一起发布了，不实用 CDN 版本，直接替换成npm包里面的 `amis/sdk/sdk.js` 和 `amis/sdk/sdk.css` 即可。
+
 示例:
 
 ```html
