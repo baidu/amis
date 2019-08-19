@@ -15,6 +15,8 @@
 -   `delimiter` 默认为 `,`
 -   `modalMode` 设置 `dialog` 或者 `drawer`，用来配置弹出方式。
 -   `pickerSchema` 默认为 `{mode: 'list', listItem: {title: '${label}'}}`, 即用 List 类型的渲染，来展示列表信息。更多的玩法请参考 [CRUD](../CRUD.md) 的配置。
+-   `autoFill` 将当前已选中的选项的某个字段的值自动填充到表单中某个表单项中，只在单选时有效
+    - `autoFill`的格式为`{address: "${label}"}`，表示将选中项中的`label`的值，自动填充到当前表单项中`name` 为`address` 中
 -   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="300" scope="form-item"
