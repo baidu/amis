@@ -8,6 +8,8 @@
     -   `value` 值
 -   `source` Api 地址，如果选项不固定，可以通过配置 `source` 动态拉取。
 -   `columnsCount` 默认为 `1` 可以配置成一行显示多个。
+-   `autoFill` 将当前已选中的选项的某个字段的值自动填充到表单中某个表单项中。
+    - `autoFill`的格式为`{address: "${label}"}`，表示将选中项中的`label`的值，自动填充到当前表单项中`name` 为`address` 中
 -   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="330" scope="form"
