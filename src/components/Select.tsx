@@ -537,13 +537,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
                                             ? item[labelField]
                                             : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))}
                                     </Checkbox>
+                                ) : item.isNew ? (
+                                    promptTextCreator(item.label as string)
                                 ) : (
-                                    item.isNew
-                                        ? promptTextCreator(item.label as string)
-                                        : item.disabled
-                                        ? item[labelField]
-                                        : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))
-                                 )}
+                                    <span>{item.disabled ? item.label : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))}{item.tip}</span>
+                                )}
                             </div>
                     )})
                 ) : (
