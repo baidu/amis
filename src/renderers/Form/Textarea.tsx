@@ -91,7 +91,7 @@ export default class TextAreaControl extends React.Component<TextAreaProps, any>
                 disabled={disabled}
                 type={type}
                 className={cx(`${ns}TextareaControl`, className)}
-                value={typeof value === 'undefined' ? '' : typeof value === 'string' ? value : JSON.stringify(value)}
+                value={typeof value === 'undefined' || value === null ? '' : typeof value === 'string' ? value : JSON.stringify(value)}
                 placeholder={placeholder}
                 minRows={minRows}
                 maxRows={maxRows}
