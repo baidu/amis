@@ -2179,3 +2179,16 @@ export class TableCell extends React.Component<RendererProps> {
 export class TableCellRenderer extends TableCell {
     static propsList = ['quickEdit', 'quickEditEnabledOn', 'popOver', 'copyable', 'inline', ...TableCell.propsList];
 }
+
+@Renderer({
+    test: /(^|\/)field$/,
+    name: 'field',
+})
+@PopOverable()
+@Copyable()
+export class FieldRenderer extends TableCell {
+    static defaultProps = {
+        ...TableCell.defaultProps,
+        wrapperComponent: 'div',
+    };
+}
