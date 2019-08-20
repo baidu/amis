@@ -486,12 +486,12 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         if (Array.isArray(schema)) {
             return renderChildren($path, schema, rest) as JSX.Element;
         } else if (schema.children) {
-            return typeof schema.children === 'function' ? schema.children({
+            return React.isValidElement(schema.children) ? schema.children : React.createElement(schema.children as any, {
                 ...rest,
                 $path: $path,
                 render: this.renderChild,
                 ref: this.refFn,
-            }, schema) : schema.children;
+            });
         } else if (!this.renderer) {
             return (
                 <LazyComponent
