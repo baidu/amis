@@ -344,7 +344,9 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
             classPrefix: ns,
             optionsPlaceholder,
             searchable,
-            autoComplete
+            autoComplete,
+            maxLength,
+            minLength
         } = this.props;
 
         let filtedOptions = !isEffectiveApi(autoComplete) && searchable && this.state.inputValue ? this.filterOptions(options, this.state.inputValue) : options;
@@ -389,6 +391,8 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
                         hideRoot
                         value={value || ''}
                         nameField="label"
+                        maxLength={maxLength}
+                        minLength={minLength}
                     />
                 </PopOver>
             </Overlay>
