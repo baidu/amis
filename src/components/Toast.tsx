@@ -55,8 +55,8 @@ interface ToastComponentState {
     items: Array<Item>;
 }
 
-export class ToastComponent extends React.PureComponent<ToastComponentProps, ToastComponentState> {
-    static defaultProps = {
+export class ToastComponent extends React.Component<ToastComponentProps, ToastComponentState> {
+    static defaultProps:Pick<ToastComponentProps, 'position' | 'closeButton' | 'timeOut' | 'extendedTimeOut'> = {
         position: 'top-right',
         closeButton: false,
         timeOut: 5000,
@@ -162,7 +162,7 @@ export class ToastComponent extends React.PureComponent<ToastComponentProps, Toa
     }
 }
 
-export default themeable(ToastComponent as React.ComponentType<ToastComponentProps>);
+export default themeable(ToastComponent);
 
 interface ToastMessageProps {
     title?: string;
