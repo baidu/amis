@@ -489,8 +489,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             return React.isValidElement(schema.children) ? schema.children : React.createElement(schema.children as any, {
                 ...rest,
                 $path: $path,
-                render: this.renderChild,
-                ref: this.refFn,
+                render: this.renderChild
             });
         } else if (!this.renderer) {
             return (
