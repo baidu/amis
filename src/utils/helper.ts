@@ -725,3 +725,17 @@ export function chainFunctions(...fns:Array<(...args:Array<any>) => void>):(...a
         fns.forEach(fn => fn && fn(...args));
     }
 }
+
+export function iterateChildren(value: any, fn: Function): any {
+    if (Array.isArray(value)) {
+        return value.map(item => iterateChildren(item, fn));
+    }
+    if (isObject(value)) {
+        let tmpValue = Object.assign({}, value);
+        Object.keys(tmpValue).forEach(key => {
+            (tmpValue as {[propName: string]: any})[key] = iterateChildren((tmpValue as {[propName: string]: any})[key], fn);
+        });
+        return tmpValue;
+    }
+    return fn(value);
+}

@@ -486,8 +486,13 @@ export default class Form extends React.Component<FormProps, object> {
             target,
             env,
             onChange,
-            clearPersistDataAfterSubmit
+            clearPersistDataAfterSubmit,
+            trim
         } = this.props;
+
+        if (trim) {
+            store.trimValues();
+        }
 
         if (Array.isArray(action.required) && action.required.length) {
             return store
@@ -1029,7 +1034,7 @@ export class FormRenderer extends Form {
             }
 
             const component = scoped.getComponentByName(name);
-            component && component.receive && component && component.receive(values, subPath);
+            component && component.receive && component.receive(values, subPath);
             return;
         }
 

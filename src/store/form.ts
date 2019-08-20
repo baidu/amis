@@ -180,6 +180,10 @@ export const FormStore = ServiceStore
             self.data = data;
         }
 
+        function trimValues() {
+            self.items.forEach(item => item.trimValue());
+        }
+
         function syncOptions() {
             self.items.forEach(item => item.syncOptions());
         }
@@ -410,6 +414,7 @@ export const FormStore = ServiceStore
             setInited,
             setValues,
             setValueByName,
+            trimValues,
             submit,
             validate,
             validateFields,

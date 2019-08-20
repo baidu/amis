@@ -23,7 +23,8 @@ import findIndex = require('lodash/findIndex');
 import {
     isArrayChilrenModified,
     hasOwnProperty,
-    isObject
+    isObject,
+    iterateChildren
 } from '../utils/helper';
 import {
     flattenTree
@@ -491,6 +492,11 @@ export const FormItemStore = types
             clearError();
         }
 
+        function trimValue() {
+            let value = iterateChildren(self.value, (item:any) => typeof item === 'string' && item.trim());
+            value && changeValue(value, false);
+        }
+
         return {
             config,
             changeValue,
@@ -502,7 +508,8 @@ export const FormItemStore = types
             loadOptions,
             syncOptions,
             setLoading,
-            reset
+            reset,
+            trimValue
         }
     });
 

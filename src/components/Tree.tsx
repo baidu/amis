@@ -51,6 +51,8 @@ interface TreeSelectorProps {
     rootValue?: any;
     cascade?: boolean;
     selfDisabledAffectChildren?: boolean;
+    minLength?: number;
+    maxLength?: number;
 }
 
 interface TreeSelectorState {
@@ -292,6 +294,8 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
             classnames: cx,
             highlightTxt,
             data,
+            maxLength,
+            minLength
         } = this.props;
 
         let childrenChecked = 0;
@@ -326,6 +330,13 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
             }
 
             let nodeDisabled = !!uncheckable || !!disabled || selfDisabled;
+
+            if (
+                (maxLength && !selfChecked && this.state.value.length >= maxLength)
+                || (minLength && selfChecked && this.state.value.length <= minLength)
+            ) {
+                nodeDisabled = true;
+            }
 
             const checkbox: JSX.Element | null = multiple ? (
                 <label className={cx(`Checkbox Checkbox--checkbox Checkbox--sm`)}>
