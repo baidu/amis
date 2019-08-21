@@ -368,17 +368,23 @@ export default class FormControl extends React.Component<FormControlProps, any> 
     }
 
     handleBulkChange(values:any, submitOnChange:boolean = this.props.control.submitOnChange) {
-        if (!isObject(values) || !this.model) {
-            return;
-        }
-        
         const {
             formStore: form,
             onChange,
             control: {
-                validateOnChange
-            }
+                validateOnChange,
+                type
+            },
+            onBulkChange
         } = this.props;
+
+
+        if (!isObject(values)) {
+            return;
+        } else if (!this.model || ~['service'].indexOf(type)) {
+            onBulkChange && onBulkChange(values);
+            return;
+        }
 
         let lastKey:string = '', lastValue:any;
         Object.keys(values).forEach(key => {
