@@ -2,6 +2,7 @@
  * @file fis-conf.js 配置
  */
 const path = require('path');
+const package = require('./package.json');
 const parserMarkdown = require('./build/md-parser');
 fis.get('project.ignore').push(
     'public/**',
@@ -60,6 +61,12 @@ fis.match('/docs/**.md', {
         });
     }],
     isMod: true
+});
+
+fis.on('compile:parser', function (file) {
+    if (file.subpath === '/src/index.tsx') {
+        file.setContent(file.getContent().replace('@version', package.version));
+    }
 });
 
 fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
