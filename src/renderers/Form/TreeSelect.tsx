@@ -122,6 +122,22 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
         }
     }
 
+    validate():any {
+        const {
+            value,
+            minLength,
+            maxLength,
+            delimiter
+        } = this.props;
+
+        let curValue = Array.isArray(value) ? value : (value ? value : '').split(delimiter || ',');
+        if (minLength && curValue.length < minLength) {
+            return `已选择数量低于设定的最小个数${minLength}，请选择更多的选项。`;
+        } else if (maxLength && curValue.length > maxLength) {
+            return `已选择数量超出设定的最大个数${maxLength}，请取消选择超出的选项。`;
+        }
+    }
+
     removeItem(index:number, e?: React.MouseEvent<HTMLElement>) {
         const {
             selectedOptions,

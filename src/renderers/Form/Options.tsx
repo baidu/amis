@@ -158,6 +158,10 @@ export function registerOptionsControl(config: OptionsConfig) {
             return false;
         }
 
+        validate() {
+            return Control.prototype.validate && Control.prototype.validate.call(this);
+        }
+
         componentWillReceiveProps(nextProps:OptionsControlProps) {
             const props = this.props;
             const formItem = nextProps.formItem as IFormItemStore;

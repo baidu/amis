@@ -331,9 +331,13 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
 
             let nodeDisabled = !!uncheckable || !!disabled || selfDisabled;
 
+            // todo 加验证，提交前需要验证不能超出 maxLength 或者少于 minLength
             if (
-                (maxLength && !selfChecked && this.state.value.length >= maxLength)
-                || (minLength && selfChecked && this.state.value.length <= minLength)
+                !nodeDisabled
+                && (
+                    (maxLength && !selfChecked && this.state.value.length >= maxLength)
+                    || (minLength && selfChecked && this.state.value.length <= minLength)
+                )
             ) {
                 nodeDisabled = true;
             }
