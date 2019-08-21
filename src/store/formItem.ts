@@ -493,7 +493,7 @@ export const FormItemStore = types
         }
 
         function trimValue() {
-            let value = iterateChildren(self.value, (item:any) => typeof item === 'string' && item.trim());
+            let value = iterateChildren(self.value, (item:any) => typeof item === 'string' ? item.trim() : item);
             value && changeValue(value, false);
         }
 
