@@ -241,6 +241,10 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     renderBody(body: SchemaNode, key?: any): React.ReactNode {
         let {render, store} = this.props;
 
+        if (Array.isArray(body)) {
+            return body.map((body, key) => this.renderBody(body, key));
+        }
+
         let schema: Schema = body as Schema;
         let subProps: any = {
             key,
