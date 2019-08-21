@@ -158,10 +158,6 @@ export function registerOptionsControl(config: OptionsConfig) {
             return false;
         }
 
-        validate() {
-            return Control.prototype.validate && Control.prototype.validate.call(this);
-        }
-
         componentWillReceiveProps(nextProps:OptionsControlProps) {
             const props = this.props;
             const formItem = nextProps.formItem as IFormItemStore;
@@ -228,6 +224,10 @@ export function registerOptionsControl(config: OptionsConfig) {
                 const selectedOptions = formItem.selectedOptions.map((selectedOption: Option) => selectedOption[valueField || 'value']);
                 formItem.changeValue(multiple ? selectedOptions.concat() : selectedOptions[0]);
             }
+        }
+
+        getWrappedInstance() {
+            return this.input;
         }
 
         inputRef(ref:any) {

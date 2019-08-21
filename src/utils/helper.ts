@@ -731,7 +731,7 @@ export function iterateChildren(value: any, fn: Function): any {
         return value.map(item => iterateChildren(item, fn));
     }
     if (isObject(value)) {
-        let tmpValue = Object.assign({}, value);
+        let tmpValue = {...value};
         Object.keys(tmpValue).forEach(key => {
             (tmpValue as PlainObject)[key] = iterateChildren((tmpValue as PlainObject)[key], fn);
         });
