@@ -1,8 +1,10 @@
-/**
- * @file 文件入口
- * @author fex
+/** @license amis v@version
+ *
+ * Copyright Baidu
+ *
+ * This source code is licensed under the Apache license found in the
+ * LICENSE file in the root directory of this source tree.
  */
-
 import {render, Renderer, getRendererByName, resolveRenderer, filterSchema} from './factory';
 import {wrapFetcher, buildApi} from './utils/api';
 import {filter, reigsterTplEnginer} from './utils/tpl'
