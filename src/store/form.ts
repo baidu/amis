@@ -182,12 +182,7 @@ export const FormStore = ServiceStore
         }
 
         function trimValues() {
-            let data = iterateChildren(self.data, (item:any) => {
-                if (typeof item === 'string') {
-                    return item.trim();
-                }
-                return item;
-            });
+            let data = iterateChildren(self.data, (item:any) => typeof item === 'string' ? item.trim() : item);
             self.updateData(data);
         }
 
