@@ -29,7 +29,7 @@ import {
     guid,
     isObject,
     isEmpty,
-    iterateChildren
+    mapObject
 } from '../utils/helper';
 import { IComboStore } from "./combo";
 import isEqual = require('lodash/isEqual');
@@ -182,7 +182,7 @@ export const FormStore = ServiceStore
         }
 
         function trimValues() {
-            let data = iterateChildren(self.data, (item:any) => typeof item === 'string' ? item.trim() : item);
+            let data = mapObject(self.data, (item:any) => typeof item === 'string' ? item.trim() : item);
             self.updateData(data);
         }
 

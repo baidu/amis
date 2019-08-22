@@ -726,14 +726,14 @@ export function chainFunctions(...fns:Array<(...args:Array<any>) => void>):(...a
     }
 }
 
-export function iterateChildren(value: any, fn: Function): any {
+export function mapObject(value: any, fn: Function): any {
     if (Array.isArray(value)) {
-        return value.map(item => iterateChildren(item, fn));
+        return value.map(item => mapObject(item, fn));
     }
     if (isObject(value)) {
         let tmpValue = {...value};
         Object.keys(tmpValue).forEach(key => {
-            (tmpValue as PlainObject)[key] = iterateChildren((tmpValue as PlainObject)[key], fn);
+            (tmpValue as PlainObject)[key] = mapObject((tmpValue as PlainObject)[key], fn);
         });
         return tmpValue;
     }
