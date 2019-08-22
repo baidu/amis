@@ -65,6 +65,20 @@ export function hasTheme(theme:string):boolean {
     return !!themes[theme];
 }
 
+export function setDefaultTheme(theme:string) {
+    if (hasTheme(theme)) {
+        defaultTheme = theme;
+    }
+}
+
+export function classnames(...classes: ClassValue[]) {
+    return getTheme(defaultTheme).classnames(...classes);
+}
+
+export function getClassPrefix() {
+    return getTheme(defaultTheme).classPrefix;
+}
+
 export function getTheme(theme:string):ThemeInstance {
     if (!themes[theme]) {
         throw new Error(`Theme with name "${theme}" does not exist!`);
@@ -90,6 +104,7 @@ export interface ThemeProps {
 }
 
 export const ThemeContext = React.createContext('theme');
+export let defaultTheme:string = "default";
 
 export function themeable<T extends React.ComponentType<ThemeProps & ExtractProps<T>>>(ComposedComponent: T) {
     type ComposedProps = JSX.LibraryManagedAttributes<T, ExtractProps<T>>;
@@ -105,8 +120,8 @@ export function themeable<T extends React.ComponentType<ThemeProps & ExtractProp
         static ComposedComponent = ComposedComponent;
 
         render() {
-            const theme:string = this.props.theme || this.context || 'default';
-            const config = hasTheme(theme) ? getTheme(theme) : getTheme('default');
+            const theme:string = this.props.theme || this.context || defaultTheme;
+            const config = hasTheme(theme) ? getTheme(theme) : getTheme(defaultTheme);
             const injectedProps:{
                 classPrefix: string;
                 classnames: ClassNamesFn;
