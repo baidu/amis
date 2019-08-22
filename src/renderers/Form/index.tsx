@@ -562,16 +562,15 @@ export default class Form extends React.Component<FormProps, object> {
                     if (onFinished && onFinished(values, action) === false) {
                         return values;
                     }
-                    
+
+                    resetAfterSubmit && store.reset(onReset);
+                    clearPersistDataAfterSubmit && store.clearPersistData();
+
                     if (action.redirect || redirect) {
                         env.updateLocation(filter(action.redirect || redirect, store.data));
                     } else if (action.reload || reload) {
                         this.reloadTarget(action.reload || reload, store.data);
                     }
-
-                    resetAfterSubmit && store.reset(onReset);
-
-                    clearPersistDataAfterSubmit && store.clearPersistData();
 
                     return values;
                 })
