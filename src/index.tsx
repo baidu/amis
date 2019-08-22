@@ -163,15 +163,15 @@ import {
 // 兼容旧版本用法
 import './compat';
 
-import {
-    classPrefix,
-    classnames
-} from './themes/default';
+import './themes/default';
 import './themes/cxd';
 import { registerFilter, filterDate, relativeValueRe, resolveVariable } from './utils/tpl-builtin';
 import { addRule, str2rules } from './utils/validations';
 import { normalizeOptions } from './components/Select';
 import { OptionsControl } from './renderers/Form/Options';
+
+import {classnames, getClassPrefix, setDefaultTheme} from './theme';
+const classPrefix = getClassPrefix();
 
 export {
     render,
@@ -238,6 +238,8 @@ export {
     Scoped,
     ScopedContext,
 
+    setDefaultTheme,
     classPrefix,
+    getClassPrefix,
     classnames
 };
