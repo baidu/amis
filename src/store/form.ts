@@ -401,11 +401,8 @@ export const FormStore = ServiceStore
 
         function getPersistData() {
             self.persistData = true;
-            let data = localStorage.getItem(location.pathname + self.path);
-            
-            if (data) {
-                self.updateData(JSON.parse(data));
-            }
+            let data = localStorage.getItem(location.pathname + self.path) || '{}';
+            self.updateData(JSON.parse(data));
         }
 
         function clearPersistData() {
