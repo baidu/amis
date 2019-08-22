@@ -28,7 +28,8 @@ import {
     difference,
     guid,
     isObject,
-    isEmpty
+    isEmpty,
+    iterateChildren
 } from '../utils/helper';
 import { IComboStore } from "./combo";
 import isEqual = require('lodash/isEqual');
@@ -181,7 +182,13 @@ export const FormStore = ServiceStore
         }
 
         function trimValues() {
-            self.items.forEach(item => item.trimValue());
+            let data = iterateChildren(self.data, (item:any) => {
+                if (typeof item === 'string' && item.trim() !== '') {
+                    return item.trim();
+                }
+                return item;
+            });
+            self.updateData(data);
         }
 
         function syncOptions() {
