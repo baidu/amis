@@ -437,6 +437,13 @@ export default {
                     }),
                 },
                 {
+                    label: 'Each',
+                    path: '/docs/renderers/Each',
+                    getComponent: (location, cb) => require(['../../docs/renderers/Each.md'], (doc) => {
+                        cb(null, makeMarkdownRenderer(doc));
+                    }),
+                },
+                {
                     label: 'Tpl',
                     path: '/docs/renderers/Tpl',
                     getComponent: (location, cb) => require(['../../docs/renderers/Tpl.md'], (doc) => {
