@@ -226,6 +226,10 @@ export function registerOptionsControl(config: OptionsConfig) {
             }
         }
 
+        getWrappedInstance() {
+            return this.input;
+        }
+
         inputRef(ref:any) {
             this.input = ref;
         }

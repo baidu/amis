@@ -25,6 +25,7 @@
     -   `minHeight` 限制图片最小高度。
     -   `maxWidth` 限制图片最大宽度。
     -   `maxHeight` 限制图片最大高度。
+    -   `aspectRatio` 限制图片宽高比，格式为浮点型数字，默认 `1` 即 `1:1`，如果要设置 `16:9` 请设置 `1.7777777777777777` 即 `16 / 9`。。
 -   **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="250" scope="form-item"

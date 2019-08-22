@@ -89,6 +89,7 @@ export interface FormProps extends RendererProps, FormSchema {
     canAccessSuperData: boolean;
     persistData: boolean;   // 开启本地缓存
     clearPersistDataAfterSubmit: boolean; // 提交成功后清空本地缓存
+    trimValues?: boolean;
     onInit?: (values:object) => any;
     onReset?: (values:object) => void;
     onSubmit?: (values:object, action:any) => any;
@@ -486,8 +487,13 @@ export default class Form extends React.Component<FormProps, object> {
             target,
             env,
             onChange,
-            clearPersistDataAfterSubmit
+            clearPersistDataAfterSubmit,
+            trimValues
         } = this.props;
+
+        if (trimValues) {
+            store.trimValues();
+        }
 
         if (Array.isArray(action.required) && action.required.length) {
             return store
@@ -1029,7 +1035,7 @@ export class FormRenderer extends Form {
             }
 
             const component = scoped.getComponentByName(name);
-            component && component.receive && component && component.receive(values, subPath);
+            component && component.receive && component.receive(values, subPath);
             return;
         }
 

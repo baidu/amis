@@ -40,7 +40,7 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
     -   [Date-Range](./renderers/Form/Date-Range.md): 日期范围类型
     -   [Color](./renderers/Form/Color.md): 颜色选择器
     -   [Range](./renderers/Form/Range.md): 范围输入框
-    -   [Image](./renderers/Form/Image.md): 图片格式输
+    -   [Image](./renderers/Form/Image.md): 图片输入
     -   [File](./renderers/Form/File.md): 文件输入
     -   [Matrix](./renderers/Form/Matrix.md): 矩阵类型的输入框
     -   [Tree](./renderers/Form/Tree.md): 树形结构输入框

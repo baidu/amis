@@ -725,3 +725,17 @@ export function chainFunctions(...fns:Array<(...args:Array<any>) => void>):(...a
         fns.forEach(fn => fn && fn(...args));
     }
 }
+
+export function mapObject(value: any, fn: Function): any {
+    if (Array.isArray(value)) {
+        return value.map(item => mapObject(item, fn));
+    }
+    if (isObject(value)) {
+        let tmpValue = {...value};
+        Object.keys(tmpValue).forEach(key => {
+            (tmpValue as PlainObject)[key] = mapObject((tmpValue as PlainObject)[key], fn);
+        });
+        return tmpValue;
+    }
+    return fn(value);
+}

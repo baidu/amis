@@ -28,7 +28,8 @@ import {
     difference,
     guid,
     isObject,
-    isEmpty
+    isEmpty,
+    mapObject
 } from '../utils/helper';
 import { IComboStore } from "./combo";
 import isEqual = require('lodash/isEqual');
@@ -178,6 +179,11 @@ export const FormStore = ServiceStore
 
             deleteVariable(data, name);
             self.data = data;
+        }
+
+        function trimValues() {
+            let data = mapObject(self.data, (item:any) => typeof item === 'string' ? item.trim() : item);
+            self.updateData(data);
         }
 
         function syncOptions() {
@@ -410,6 +416,7 @@ export const FormStore = ServiceStore
             setInited,
             setValues,
             setValueByName,
+            trimValues,
             submit,
             validate,
             validateFields,
