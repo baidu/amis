@@ -149,11 +149,11 @@
             > thead > tr > th,
             > tbody > tr > td {
                 &:first-child {
-                    padding-left: $TableCell-paddingX;
+                    padding-left: $TableCell-paddingX !important;
                 }
 
                 &:last-child {
-                    padding-right: $TableCell-paddingX;
+                    padding-right: $TableCell-paddingX !important;
                 }
             }
 
