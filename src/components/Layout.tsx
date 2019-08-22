@@ -17,11 +17,9 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 
 interface LayoutProps {
-    id: string;
     header?: boolean | React.ReactNode;
     aside?: boolean | React.ReactNode;
     asideClassName: string;
