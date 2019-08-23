@@ -130,7 +130,7 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
             delimiter
         } = this.props;
 
-        let curValue = Array.isArray(value) ? value : (value ? value : '').split(delimiter || ',');
+        let curValue = Array.isArray(value) ? value : (value ? String(value) : '').split(delimiter || ',');
         if (minLength && curValue.length < minLength) {
             return `已选择数量低于设定的最小个数${minLength}，请选择更多的选项。`;
         } else if (maxLength && curValue.length > maxLength) {
