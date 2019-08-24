@@ -38,7 +38,7 @@ interface LayoutProps {
 
 export class Layout extends React.Component<LayoutProps, any> {
     static defaultProps = {
-        // asideWide: false,
+        asideWide: false,
         asideFixed: true,
         asideClassName: '',
         headerFixed: true,
