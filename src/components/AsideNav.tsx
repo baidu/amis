@@ -7,7 +7,6 @@
 import React from 'react';
 import cx from 'classnames';
 import {mapTree} from '../utils/helper';
-import {classPrefix, classnames} from '../themes/default';
 import {ClassNamesFn, themeable} from '../theme';
 
 export type LinkItem = LinkItemProps;
@@ -15,10 +14,13 @@ interface LinkItemProps {
     id?: number;
     label: string;
     hidden?: boolean;
-    open: boolean;
-    active: boolean;
+    open?: boolean;
+    active?: boolean;
     className?: string;
     children?: Array<LinkItem>;
+    path?: string;
+    icon?: string;
+    component?: React.ReactType;
 }
 
 interface Navigation {
