@@ -12,6 +12,8 @@
 | interval  | `number`                          |           | 刷新时间(最低 3000)                                                |
 | config    | `object/string`                   |           | 设置 eschars 的配置项,当为`string`的时候可以设置 function 等配置项 |
 | style     | `object`                          |           | 设置根元素的 style                                                 |
+| width     | `string`                          |           | 设置根元素的宽度                                                 |
+| height    | `string`                          |           | 设置根元素的高度                                                 |
 
 ```schema:height="350" scope="body"
 {
