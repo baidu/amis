@@ -12,7 +12,7 @@ import debouce = require('lodash/debounce');
 import { filter } from '../../utils/tpl';
 import find = require('lodash/find');
 import { closeIcon, enterIcon } from '../../components/icons';
-import { autobind } from '../../utils/helper';
+import { autobind, createObject } from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
@@ -99,15 +99,13 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
 
         if (isEffectiveApi(autoComplete, data) && formItem) {
             if (formInited) {
-                formItem.loadOptions(autoComplete, {
-                    ...data,
+                formItem.loadOptions(autoComplete, createObject(data, {
                     term: ''
-                });
+                }));
             } else {
-                this.unHook = addHook(() => formItem.loadOptions(autoComplete, {
-                    ...data,
+                this.unHook = addHook(() => formItem.loadOptions(autoComplete, createObject(data, {
                     term: ''
-                }), 'init');
+                })), 'init');
             }
             
         }
@@ -339,11 +337,11 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
             data
         } = this.props;
 
+
         if (isEffectiveApi(autoComplete, data) && formItem) {
-            formItem.loadOptions(autoComplete, {
-                ...data,
+            formItem.loadOptions(autoComplete, createObject(data, {
                 term: this.state.inputValue || formItem.lastSelectValue
-            });
+            }));
         }
     }
 
