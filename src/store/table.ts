@@ -445,7 +445,7 @@ export const TableStore = iRendererStore
 
                 columns.unshift({
                     type: '__dragme',
-                    // toggable: false,
+                    toggable: false,
                     className: 'Table-dragCell'
                 });
 
