@@ -16,7 +16,7 @@
     cursor: pointer;
     color: $Form-select-color;
 
-    &:not(.is-disabled):hover {
+    &:hover {
         background: $Form-select-onHover-bg;
         border-color: $Form-select-onHover-borderColor;
 
