@@ -43,6 +43,7 @@
     &-placeholder {
         color: $Form-select-placeholderColor;
         line-height: $Form-input-lineHeight;
+        user-select: none;
     }
 
     &-input {
