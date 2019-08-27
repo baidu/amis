@@ -8,7 +8,7 @@ import { SchemaNode, Schema, Action } from '../types';
 import { filter } from '../utils/tpl';
 import Modal from '../components/Modal';
 import findLast = require('lodash/findLast');
-import { guid, chainFunctions } from '../utils/helper';
+import { guid, chainFunctions, isVisible } from '../utils/helper';
 import { reaction } from 'mobx';
 import { closeIcon } from '../components/icons';
 import { ModalStore, IModalStore } from '../store/modal';
@@ -258,6 +258,20 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
     handleChildFinished(value: any, action: Action) {
         // 下面会覆盖
+    }
+
+    openFeedback(dialog: any, ctx: any) {
+        return new Promise(resolve => {
+            const {store} = this.props;
+            store.setCurrentAction({
+                type: 'button',
+                actionType: 'dialog',
+                dialog: dialog,
+            });
+            store.openDialog(ctx, undefined, confirmed => {
+                resolve(confirmed);
+            });
+        });
     }
 
     renderBody(body: SchemaNode, key?: any): React.ReactNode {
@@ -554,9 +568,9 @@ export class DialogRenderer extends Dialog {
         action: Action,
         data: object,
         throwErrors: boolean = false,
-        delegate?: boolean
+        delegate?: boolean,
     ) {
-        const { onAction, store, onConfirm } = this.props;
+        const { onAction, store, onConfirm, env } = this.props;
 
         if (action.from === this.$$id) {
             return onAction ? onAction(e, action, data, throwErrors, true) : false;
@@ -597,6 +611,21 @@ export class DialogRenderer extends Dialog {
             store.openDrawer(data);
         } else if (action.actionType === 'reload') {
             action.target && scoped.reload(action.target, data);
+        } else if (action.actionType === 'ajax') {
+            store
+                .saveRemote(action.api as string, data, {
+                    successMessage: (action.messages && action.messages.success) ,
+                    errorMessage: (action.messages && action.messages.failed),
+                })
+                .then(async () => {
+                    if (action.feedback && isVisible(action.feedback, store.data)) {
+                        await this.openFeedback(action.feedback, store.data);
+                    }
+
+                    action.redirect && env.jumpTo(filter(action.redirect, store.data), action);
+                    action.reload && this.reloadTarget(action.reload, store.data);
+                })
+                .catch(() => {});
         } else if (!this.tryChildrenToHandle(action, data) && onAction) {
             let ret = onAction(e, action, data, throwErrors, true);
             action.close && (ret && ret.then ? ret.then(this.handleSelfClose) : setTimeout(this.handleSelfClose, 200));
@@ -665,5 +694,10 @@ export class DialogRenderer extends Dialog {
                     .forEach((item: any) => item.reload && item.reload());
             }
         }, 300);
+    }
+
+    reloadTarget(target: string, data?: any) {
+        const scoped = this.context as IScopedContext;
+        scoped.reload(target, data);
     }
 }
