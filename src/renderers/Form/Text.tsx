@@ -345,6 +345,11 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
         }
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     renderSugestMode() {
         const {
             className,

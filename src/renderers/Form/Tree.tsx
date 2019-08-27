@@ -27,6 +27,11 @@ export default class TreeControl extends React.Component<TreeProps, any> {
         showIcon: true,
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     render() {
         const {
             className,

@@ -44,6 +44,12 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         onChange && onChange(option);
     }
 
+
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+    
     render() {
         const {
             className,

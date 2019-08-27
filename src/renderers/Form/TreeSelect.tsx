@@ -305,6 +305,11 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
         return combinedOptions;
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     renderValues() {
         const {
             classPrefix: ns,
