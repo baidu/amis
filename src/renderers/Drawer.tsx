@@ -8,10 +8,11 @@ import {SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
 import {default as DrawerContainer} from '../components/Drawer';
 import findLast = require('lodash/findLast');
-import {guid, chainFunctions} from '../utils/helper';
+import {guid, chainFunctions, isVisible} from '../utils/helper';
 import {reaction} from 'mobx';
 import {findDOMNode} from 'react-dom';
 import {IModalStore, ModalStore} from '../store/modal';
+import { filter } from '../utils/tpl';
 
 export interface DrawerProps extends RendererProps {
     title?: string; // 标题
@@ -381,6 +382,20 @@ export default class Drawer extends React.Component<DrawerProps, object> {
         document.body.removeEventListener('mouseup', this.removeResize);
     }
 
+    openFeedback(dialog: any, ctx: any) {
+        return new Promise(resolve => {
+            const {store} = this.props;
+            store.setCurrentAction({
+                type: 'button',
+                actionType: 'dialog',
+                dialog: dialog,
+            });
+            store.openDialog(ctx, undefined, confirmed => {
+                resolve(confirmed);
+            });
+        });
+    }
+
     render() {
         const {
             className,
@@ -578,7 +593,7 @@ export class DrawerRenderer extends Drawer {
         throwErrors: boolean = false,
         delegate?: boolean
     ) {
-        const {onClose, onAction, store} = this.props;
+        const {onClose, onAction, store, env} = this.props;
 
         if (action.from === this.$$id) {
             return onAction ? onAction(e, action, data, throwErrors, true) : false;
@@ -597,7 +612,22 @@ export class DrawerRenderer extends Drawer {
             store.openDialog(data);
         } else if (action.actionType === 'reload') {
             action.target && scoped.reload(action.target, data);
-        } else if (!this.tryChildrenToHandle(action, data) && onAction) {
+        } else if (action.actionType === 'ajax') {
+            store
+                .saveRemote(action.api as string, data, {
+                    successMessage: (action.messages && action.messages.success) ,
+                    errorMessage: (action.messages && action.messages.failed),
+                })
+                .then(async () => {
+                    if (action.feedback && isVisible(action.feedback, store.data)) {
+                        await this.openFeedback(action.feedback, store.data);
+                    }
+
+                    action.redirect && env.jumpTo(filter(action.redirect, store.data), action);
+                    action.reload && this.reloadTarget(action.reload, store.data);
+                })
+                .catch(() => {});
+        }  else if (!this.tryChildrenToHandle(action, data) && onAction) {
             const ret = onAction(e, action, data, throwErrors, true);
             action.close && (ret && ret.then ? ret.then(this.handleSelfClose) : setTimeout(this.handleSelfClose, 200));
         }
@@ -658,5 +688,10 @@ export class DrawerRenderer extends Drawer {
                     .forEach((item: any) => item.reload && item.reload());
             }
         }, 300);
+    }
+
+    reloadTarget(target: string, data?: any) {
+        const scoped = this.context as IScopedContext;
+        scoped.reload(target, data);
     }
 }
