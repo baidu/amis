@@ -182,6 +182,11 @@ export default class NestedSelectControl extends React.Component<NestedSelectPro
         });
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     renderOptions(newOptions: Array<any>, isChildren: boolean, uncheckable: boolean): any {
         const {
             multiple,

@@ -155,6 +155,11 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
         onChange(joinValues ? arr.join(delimiter || ',') : extractValue ? arr.map(item => item.value || item) : arr);
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     render() {
         const {
             options,

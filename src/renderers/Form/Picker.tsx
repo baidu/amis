@@ -98,6 +98,11 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
         }
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     @autobind
     open() {
         this.setState({

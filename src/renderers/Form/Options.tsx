@@ -39,6 +39,7 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
     selectedOptions: Array<Option>;
     setOptions: (value:Array<any>) => void;
     setLoading: (value:boolean) => void;
+    reloadOptions: () => void;
 }
 
 export function registerOptionsControl(config: OptionsConfig) {
@@ -380,6 +381,7 @@ export function registerOptionsControl(config: OptionsConfig) {
                     setLoading={this.setLoading}
                     setOptions={this.setOptions}
                     syncOptions={this.syncOptions}
+                    reloadOptions={this.reload}
                 />
             )
         }

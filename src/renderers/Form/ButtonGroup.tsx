@@ -42,6 +42,11 @@ export default class ButtonGroupControl extends React.Component<ButtonGroupProps
         onToggle(option)
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     render(props = this.props) {
         const {
             render,

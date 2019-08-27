@@ -154,6 +154,11 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
         });
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     renderTable() {
         const {
             filteredOptions

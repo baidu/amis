@@ -31,6 +31,11 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
         defaultCheckAll && onToggleAll();
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     renderGroup(option:Option, index:number) {
         const {
             classnames: cx

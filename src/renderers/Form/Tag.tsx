@@ -220,6 +220,11 @@ export default class TagControl extends React.PureComponent<TagProps, TagState> 
         return (findDOMNode(this) as HTMLElement).parentNode;
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     render() {
         const {
             className,

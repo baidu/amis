@@ -51,6 +51,11 @@ export default class ListControl extends React.Component<ListProps, any> {
         onToggle(option);
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     render() {
         const {
             render,

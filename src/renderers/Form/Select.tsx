@@ -167,6 +167,11 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         setOptions(mergedOptions);
     }
 
+    reload() {
+        const reload = this.props.reloadOptions;
+        reload && reload();
+    }
+
     render() {
         const {
             autoComplete,
