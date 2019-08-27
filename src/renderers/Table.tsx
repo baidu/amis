@@ -1964,7 +1964,7 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
     fetchOptions() {
         const {env, filterable, data} = this.props;
         isEffectiveApi(filterable.source, data) &&
-            env.fetcher(filterable.source).then(ret => {
+            env.fetcher(filterable.source, data).then(ret => {
                 let options = (ret.data && ret.data.options) || [];
                 this.setState({
                     filterOptions: ret && ret.data && this.alterOptions(options),
