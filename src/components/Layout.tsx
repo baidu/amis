@@ -7,7 +7,6 @@
  * * children 会渲染在内容区。
  * * header 头部区域
  * * aside 边栏
- * * asideWide 边栏是否加宽
  * * asideClassName 边栏附加样式class
  * * footer 页脚
  * * folder 是否收起边栏
@@ -23,13 +22,13 @@ interface LayoutProps {
     header?: boolean | React.ReactNode;
     aside?: boolean | React.ReactNode;
     asideClassName: string;
+    boxed?: boolean;
     folded?: boolean;
     asideFixed: boolean;
     headerFixed: boolean;
     className?: string;
     contentClassName?: string;
     footer: boolean | React.ReactNode;
-    asideWide: boolean;
     offScreen: boolean;
     classPrefix: string;
     classnames: ClassNamesFn;
@@ -50,7 +49,6 @@ export class Layout extends React.Component<LayoutProps, any> {
         const {
             header,
             aside,
-            // asideWide,
             asideClassName,
             children,
             className,
@@ -61,7 +59,7 @@ export class Layout extends React.Component<LayoutProps, any> {
             footer,
             offScreen,
             size,
-            classPrefix,
+            boxed,
             classnames: cx,
         } = this.props;
 
@@ -78,10 +76,10 @@ export class Layout extends React.Component<LayoutProps, any> {
         return (
             <div
                 className={cx(`Layout`, className, {
+                    'Layout--boxed': boxed,
                     'Layout--withAside': !!aside,
                     'Layout--headerFixed': header ? headerFixed : false,
                     'Layout--asideFixed': aside ? asideFixed : false,
-                    // 'Layout--wide': aside ? asideWide : false,
                     'Layout--folded': folded,
                     'Layout--offScreen': offScreen,
                     [`Layout--${size}`]: size,
