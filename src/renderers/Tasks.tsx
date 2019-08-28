@@ -5,7 +5,8 @@ import cx from 'classnames';
 import getExprProperties from '../utils/filter-schema';
 import {Api, Payload} from '../types';
 import update = require('react-addons-update');
-import {isEffectiveApi} from '../utils/api';
+import {isEffectiveApi, isApiOutdated} from '../utils/api';
+import { ScopedContext, IScopedContext } from '../Scoped';
 
 export interface TaskProps extends RendererProps {
     className?: string;
@@ -81,6 +82,10 @@ export default class Task extends React.Component<TaskProps, TaskState> {
         this.tick = this.tick.bind(this);
     }
 
+    componentDidMount() {
+        this.tick(!!this.props.checkApi);
+    }
+
     componentWillReceiveProps(nextProps: TaskProps) {
         const props = this.props;
 
@@ -91,17 +96,26 @@ export default class Task extends React.Component<TaskProps, TaskState> {
         }
     }
 
-    componentDidMount() {
-        this.tick(!!this.props.checkApi);
+    componentDidUpdate(prevProps: TaskProps) {
+        const props = this.props;
+
+        if (isApiOutdated(prevProps.checkApi, props.checkApi, prevProps.data, props.data)) {
+            this.tick(true);
+        }
     }
 
     componentWillUnmount() {
         clearTimeout(this.timer);
     }
 
+    reload() {
+        this.tick(true);
+    }
+
     tick(force = false) {
         const {loadingStatusCode, data, interval, checkApi, env} = this.props;
         const items = this.state.items;
+        clearTimeout(this.timer);
 
         // 如果每个 task 都完成了, 则不需要取查看状态.
         if (!force && !items.some(item => item.status === loadingStatusCode)) {
@@ -298,4 +312,18 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     test: /(^|\/)tasks$/,
     name: 'tasks',
 })
-export class TaskRenderer extends Task {}
+export class TaskRenderer extends Task {
+    static contextType = ScopedContext;
+
+    componentWillMount() {
+        // super.componentWillMount();
+        const scoped = this.context as IScopedContext;
+        scoped.registerComponent(this);
+    }
+
+    componentWillUnmount() {
+        super.componentWillUnmount();
+        const scoped = this.context as IScopedContext;
+        scoped.unRegisterComponent(this);
+    }
+}
