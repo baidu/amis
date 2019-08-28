@@ -612,6 +612,8 @@ export class DrawerRenderer extends Drawer {
             store.openDialog(data);
         } else if (action.actionType === 'reload') {
             action.target && scoped.reload(action.target, data);
+        } else if (this.tryChildrenToHandle(action, data)) {
+            // do nothing
         } else if (action.actionType === 'ajax') {
             store
                 .saveRemote(action.api as string, data, {
@@ -627,8 +629,8 @@ export class DrawerRenderer extends Drawer {
                     action.reload && this.reloadTarget(action.reload, store.data);
                 })
                 .catch(() => {});
-        }  else if (!this.tryChildrenToHandle(action, data) && onAction) {
-            const ret = onAction(e, action, data, throwErrors, true);
+        } else if (onAction) {
+            let ret = onAction(e, action, data, throwErrors, true);
             action.close && (ret && ret.then ? ret.then(this.handleSelfClose) : setTimeout(this.handleSelfClose, 200));
         }
     }
