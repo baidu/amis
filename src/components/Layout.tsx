@@ -37,7 +37,7 @@ interface LayoutProps {
     bodyClassName?: string;
 }
 
-function Layout({
+export function Layout({
     header,
     aside,
     asideClassName,
@@ -66,7 +66,7 @@ function Layout({
 
     React.useEffect(() => {
         bodyClassName && document.body.classList.add(bodyClassName);
-        
+
         return () => {
             bodyClassName && document.body.classList.remove(bodyClassName)
         };
