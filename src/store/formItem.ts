@@ -31,6 +31,7 @@ import {
 import { IRendererStore } from ".";
 import { normalizeOptions } from "../components/Select";
 import find = require('lodash/find');
+import { iRendererStore } from './iRenderer';
 
 interface IOption {
     value?: string | number | null;
@@ -486,8 +487,19 @@ export const FormItemStore = types
             self.loading = value;
         }
 
+        let subStore:any;
+        function setSubStore(store:any) {
+            subStore = store;
+        }
+
         function reset() {
             self.validated = false;
+            
+            if (subStore && subStore.storeType === 'ComboStore') {
+                const combo = subStore as IComboStore;
+                combo.forms.forEach(form => form.reset());
+            }
+
             clearError();
         }
 
@@ -502,6 +514,7 @@ export const FormItemStore = types
             loadOptions,
             syncOptions,
             setLoading,
+            setSubStore,
             reset
         }
     });

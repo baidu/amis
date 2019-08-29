@@ -293,6 +293,12 @@ export default class Form extends React.Component<FormProps, object> {
         (this.handleChange as any).cancel();
         this.asyncCancel && this.asyncCancel();
         this.disposeOnValidate && this.disposeOnValidate();
+        const store = this.props.store;
+
+        if (store && store.parentStore && store.parentStore.storeType === 'ComboStore') {
+            const combo = store.parentStore as IComboStore;
+            combo.removeForm(store);
+        }
     }
 
     async onInit() {
@@ -334,21 +340,24 @@ export default class Form extends React.Component<FormProps, object> {
                 [initFinishedField || 'finished']: false
             });
 
-        isEffectiveApi(initApi, store.data) &&
-            store.fetchData(initApi, store.data, {
-                successMessage: fetchSuccess,
-                errorMessage: fetchFailed,
-                silent,
-                onSuccess: () => {
-                    if (!isEffectiveApi(initAsyncApi, store.data) || store.data[initFinishedField || 'finished']) {
-                        return;
-                    }
+        isEffectiveApi(initApi, store.data) 
+            ? store.fetchInitData(initApi, store.data, {
+                    successMessage: fetchSuccess,
+                    errorMessage: fetchFailed,
+                    silent,
+                    onSuccess: () => {
+                        if (!isEffectiveApi(initAsyncApi, store.data) || store.data[initFinishedField || 'finished']) {
+                            return;
+                        }
 
-                    return until(() => store.checkRemote(initAsyncApi, store.data)
-                        , (ret:any) => ret && ret[initFinishedField || 'finished']
-                        , (cancel) => this.asyncCancel = cancel);
-                }
-            }).then(this.initInterval);
+                        return until(() => store.checkRemote(initAsyncApi, store.data)
+                            , (ret:any) => ret && ret[initFinishedField || 'finished']
+                            , (cancel) => this.asyncCancel = cancel);
+                    }
+                })
+                .then(this.initInterval)
+                .then(() => store.reset(undefined, false))
+            : store.reset();
     }
 
     receive(values:object) {
@@ -599,7 +608,9 @@ export default class Form extends React.Component<FormProps, object> {
                     })
                     .then(async (response) => {
                         response && onChange && onChange(store.data, difference(store.data, store.pristine));
-                        store.validated && this.validate(true);
+                        if (store.validated) {
+                            await this.validate(true);
+                        }
 
                         if (action.feedback && isVisible(action.feedback, store.data)) {
                             await this.openFeedback(action.feedback, store.data);
