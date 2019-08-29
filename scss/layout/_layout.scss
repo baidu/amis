@@ -248,10 +248,10 @@ body {
 @include media-breakpoint-up(md) {
     .#{$ns}Layout {
         &--boxed {
-            width: px2rem(750px);
+            width: px2rem(760px);
 
             &.#{$ns}Layout--headerFixed .#{$ns}Layout-header {
-                width: px2rem(750px);
+                width: px2rem(760px);
             }
         }
 
@@ -488,10 +488,10 @@ body {
 @include media-breakpoint-up(lg) {
     .#{$ns}Layout {
         &--boxed {
-            width: px2rem(970px);
+            width: px2rem(980px);
 
             &.#{$ns}Layout--headerFixed .#{$ns}Layout-header {
-                width: px2rem(970px);
+                width: px2rem(980px);
             }
         }
     }
@@ -500,10 +500,10 @@ body {
 @include media-breakpoint-up(xl) {
     .#{$ns}Layout {
         &--boxed {
-            width: px2rem(1170px);
+            width: px2rem(1180px);
 
             &.#{$ns}Layout--headerFixed .#{$ns}Layout-header {
-                width: px2rem(1170px);
+                width: px2rem(1180px);
             }
         }
     }

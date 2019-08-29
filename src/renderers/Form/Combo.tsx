@@ -127,7 +127,8 @@ export default class ComboControl extends React.Component<ComboProps> {
             store,
             value,
             minLength,
-            maxLength
+            maxLength,
+            formItem
         } = this.props;
 
         store.config({
@@ -135,6 +136,8 @@ export default class ComboControl extends React.Component<ComboProps> {
             maxLength,
             length: this.getValueAsArray().length
         });
+
+        formItem && formItem.setSubStore(store);
     }
 
     componentWillReceiveProps(nextProps:ComboProps) {
@@ -153,6 +156,14 @@ export default class ComboControl extends React.Component<ComboProps> {
                 length: this.getValueAsArray(nextProps).length
             });
         }
+    }
+
+    componentWillUnmount() {
+        const {
+            formItem
+        } = this.props;
+
+        formItem && formItem.setSubStore(null);
     }
 
     getValueAsArray(props = this.props) {

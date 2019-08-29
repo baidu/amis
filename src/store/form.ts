@@ -336,11 +336,14 @@ export const FormStore = ServiceStore
             items.forEach(item => item.reset());
         }
 
-        function reset(cb?: (data:any) => void) {
-            self.data = self.pristine;
+        function reset(cb?: (data:any) => void, resetData: boolean = true) {
+            if (resetData) {
+                self.data = self.pristine;
+            }
 
             // 值可能变了，重新验证一次。
             self.validated = false;
+            self.submited = false;
             self.items.forEach(item => item.reset());
             cb && cb(self.data);
         }

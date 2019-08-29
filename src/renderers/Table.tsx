@@ -705,7 +705,7 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     @autobind
-    handleDragOver(e: DragEvent) {
+    handleDragOver(e: any) {
         if (!e.target) {
             return;
         }
