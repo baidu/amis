@@ -26,6 +26,12 @@ body {
         display: block;
     }
 
+    &--boxed {
+        margin-right: auto;
+        margin-left: auto;
+        // box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    }
+
     .#{$ns}Layout-header {
         background: $Layout-header-bg;
         box-shadow: $Layout-header-boxShadow;
@@ -184,8 +190,71 @@ body {
     }
 }
 
+
+@include media-breakpoint-down(sm) {
+    .#{$ns}Layout {
+        // Layout 层没有出现滚动条件，导致移动端无法响应固定顶部/底部效果
+        // overflow-x: hidden;
+    }
+
+    
+
+    .#{$ns}Layout-content {
+        transition: transform 0.2s ease;
+    }
+
+    .#{$ns}Layout-aside {
+        display: none;
+
+        .#{$ns}Layout--offScreen & {
+            position: fixed;
+            top: px2rem(50px);
+            bottom: 0;
+            width: $Layout--offscreen-width;
+            display: block !important;
+            visibility: visible;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            z-index: 1010;
+        }
+    }
+
+    .#{$ns}Layout-headerBar {
+        display: none;
+    }
+
+    .#{$ns}Layout--offScreen {
+        .#{$ns}Layout-content,
+        .#{$ns}Layout-footer {
+            background-color: $body-bg;
+            transition: transform 0.2s ease;
+            backface-visibility: hidden;
+            transform: translate3d($Layout--offscreen-width, 0px, 0px);
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1015;
+            padding-top: px2rem(50px);
+        }
+    }
+}
+
+
 @include media-breakpoint-up(md) {
     .#{$ns}Layout {
+        &--boxed {
+            width: px2rem(750px);
+
+            &.#{$ns}Layout--headerFixed .#{$ns}Layout-header {
+                width: px2rem(750px);
+            }
+        }
+
         &-brand,
         &-brandBar,
         &-aside {
@@ -415,53 +484,28 @@ body {
     }
 }
 
-@include media-breakpoint-down(sm) {
+
+@include media-breakpoint-up(lg) {
     .#{$ns}Layout {
-        // Layout 层没有出现滚动条件，导致移动端无法响应固定顶部/底部效果
-        // overflow-x: hidden;
-    }
+        &--boxed {
+            width: px2rem(970px);
 
-    .#{$ns}Layout-content {
-        transition: transform 0.2s ease;
-    }
-
-    .#{$ns}Layout-aside {
-        display: none;
-
-        .#{$ns}Layout--offScreen & {
-            position: fixed;
-            top: px2rem(50px);
-            bottom: 0;
-            width: $Layout--offscreen-width;
-            display: block !important;
-            visibility: visible;
-            overflow-x: hidden;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-            z-index: 1010;
-        }
-    }
-
-    .#{$ns}Layout-headerBar {
-        display: none;
-    }
-
-    .#{$ns}Layout--offScreen {
-        .#{$ns}Layout-content,
-        .#{$ns}Layout-footer {
-            background-color: $body-bg;
-            transition: transform 0.2s ease;
-            backface-visibility: hidden;
-            transform: translate3d($Layout--offscreen-width, 0px, 0px);
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1015;
-            padding-top: px2rem(50px);
+            &.#{$ns}Layout--headerFixed .#{$ns}Layout-header {
+                width: px2rem(970px);
+            }
         }
     }
 }
+
+@include media-breakpoint-up(xl) {
+    .#{$ns}Layout {
+        &--boxed {
+            width: px2rem(1170px);
+
+            &.#{$ns}Layout--headerFixed .#{$ns}Layout-header {
+                width: px2rem(1170px);
+            }
+        }
+    }
+}
+
