@@ -4,4 +4,4 @@
 
 -   `type` 请设置成 `operation`。
 -   `label` 列标题。
--   `buttons` 按钮集合，请参考[Button](./Button.md) 按钮配置说明。
+-   `buttons` 按钮集合，请参考[Button](./Form/Button.md) 按钮配置说明。

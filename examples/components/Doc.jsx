@@ -594,6 +594,13 @@ export default {
                                 cb(null, makeMarkdownRenderer(doc));
                             }),
                         },
+                        {
+                            label: 'Operation',
+                            path: '/docs/renderers/Operation',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Operation.md'], (doc) => {
+                                cb(null, makeMarkdownRenderer(doc));
+                            })
+                        },
                     ]
                 },
                 {
