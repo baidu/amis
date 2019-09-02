@@ -13,6 +13,7 @@ import './utils/tpl-lodash';
 import * as utils from './utils/helper';
 import {resizeSensor} from './utils/resize-sensor';
 import {setIconVendor} from './renderers/Form/IconPickerIcons';
+import {Icon, registerIcon} from './components/icons';
 
 import {
     NotFound,
@@ -235,6 +236,8 @@ export {
     relativeValueRe,
     resolveVariable,
     setIconVendor,
+    Icon,
+    registerIcon,
     Scoped,
     ScopedContext,
 
