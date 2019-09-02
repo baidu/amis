@@ -3,91 +3,99 @@
  * @description
  * @author fex
  */
-
 import React from 'react';
-export const closeIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1463">
-        <path
-            d="M967.81435 106.836237 917.16274 56.18565 512 461.34839 106.836237 56.18565 56.184627 106.836237 461.34839 512 56.184627 917.163763 106.836237 967.815373 512 562.65161 917.16274 967.815373 967.81435 917.163763 562.650587 512Z"
-            p-id="1464"
-            data-spm-anchor-id="a313x.7781069.0.i0"
-        />
-    </svg>
-);
-export const unDoIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
-        <path d="M661.333333 341.333333H167.04l183.253333-183.253333L320 128 85.333333 362.666667l234.666667 234.666666 30.08-30.08L167.04 384H661.333333a234.666667 234.666667 0 0 1 0 469.333333H448v42.666667h213.333333a277.333333 277.333333 0 0 0 0-554.666667z" />
-    </svg>
-);
-export const reDoIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
-        <path d="M704 128l-30.08 30.08L856.96 341.333333H362.666667a277.333333 277.333333 0 0 0 0 554.666667h213.333333v-42.666667H362.666667a234.666667 234.666667 0 0 1 0-469.333333h494.293333l-183.253333 183.253333L704 597.333333l234.666667-234.666666z" />
-    </svg>
-);
-export const enterIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
-        <path d="M864 192c-19.2 0-32 12.8-32 32v224c0 89.6-70.4 160-160 160H236.8l105.6-105.6c12.8-12.8 12.8-32 0-44.8s-32-12.8-44.8 0l-160 160c-3.2 3.2-6.4 6.4-6.4 9.6-3.2 6.4-3.2 16 0 25.6 3.2 3.2 3.2 6.4 6.4 9.6l160 160c6.4 6.4 12.8 9.6 22.4 9.6s16-3.2 22.4-9.6c12.8-12.8 12.8-32 0-44.8L236.8 672H672c124.8 0 224-99.2 224-224V224c0-19.2-12.8-32-32-32z" />
-    </svg>
-);
-export const volumeIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
-        <path
-            d="M536.319574 5.11991a63.99888 63.99888 0 0 0-69.758779 13.439765L229.764939 255.99552H64.00784a63.99888 63.99888 0 0 0-63.99888 63.99888v383.99328a63.99888 63.99888 0 0 0 63.99888 63.99888h165.757099l236.795856 237.435845A63.99888 63.99888 0 0 0 512 1023.98208a53.759059 53.759059 0 0 0 24.319574-5.11991A63.99888 63.99888 0 0 0 575.99888 959.9832V63.99888a63.99888 63.99888 0 0 0-39.679306-58.87897zM192.0056 639.9888H128.00672V383.99328h63.99888z m255.99552 165.757099l-127.99776-127.99776V346.233941l127.99776-127.99776zM879.353571 148.477402a63.99888 63.99888 0 0 0-94.718342 87.038476 402.552955 402.552955 0 0 1 0 552.950324A63.99888 63.99888 0 0 0 831.9944 895.98432a63.99888 63.99888 0 0 0 46.719183-20.479641 531.830693 531.830693 0 0 0 0-727.027277z"
-            fill="#606670"
-            p-id="3605"
-        />
-        <path
-            d="M751.9958 277.11515a63.99888 63.99888 0 0 0-95.99832 85.7585A218.236181 218.236181 0 0 1 703.99664 511.99104a221.436125 221.436125 0 0 1-47.359171 149.117391 63.99888 63.99888 0 0 0 4.479921 90.23842A63.99888 63.99888 0 0 0 703.99664 767.98656a63.99888 63.99888 0 0 0 47.359171-21.11963A349.433885 349.433885 0 0 0 831.9944 511.99104a353.273818 353.273818 0 0 0-79.9986-234.87589z"
-            fill="#606670"
-            p-id="3606"
-        />
-    </svg>
-);
-export const muteIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
-        <path
-            d="M536.310615 5.11991a63.99888 63.99888 0 0 0-69.75878 13.439765L229.755979 255.99552H63.99888a63.99888 63.99888 0 0 0-63.99888 63.99888v383.99328a63.99888 63.99888 0 0 0 63.99888 63.99888h165.757099l236.795856 237.435845A63.99888 63.99888 0 0 0 511.99104 1023.98208a53.759059 53.759059 0 0 0 24.319575-5.11991A63.99888 63.99888 0 0 0 575.98992 959.9832V63.99888a63.99888 63.99888 0 0 0-39.679305-58.87897zM191.99664 639.9888H127.99776V383.99328h63.99888z m255.99552 165.757099l-127.99776-127.99776V346.233941l127.99776-127.99776zM914.543995 511.99104l90.87841-90.238421a63.99888 63.99888 0 1 0-90.87841-90.878409l-90.23842 90.878409-90.238421-90.878409a63.99888 63.99888 0 0 0-90.87841 90.878409L734.067154 511.99104l-90.87841 90.238421a63.99888 63.99888 0 0 0 90.87841 90.87841l90.238421-90.87841 90.23842 90.87841a63.99888 63.99888 0 1 0 90.87841-90.87841z"
-            fill="#606670"
-            p-id="2312"
-        />
-    </svg>
-);
-export const playIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
-        <path
-            d="M852.727563 392.447107C956.997809 458.473635 956.941389 565.559517 852.727563 631.55032L281.888889 993.019655C177.618644 1059.046186 93.090909 1016.054114 93.090909 897.137364L93.090909 126.860063C93.090909 7.879206 177.675064-35.013033 281.888889 30.977769L852.727563 392.447107 852.727563 392.447107Z"
-            p-id="4494"
-            fill="#606670"
-        />
-    </svg>
-);
-export const pauseIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
-        <path
-            d="M757.52 73.107h-62.493c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.493c34.516 0 62.502-27.968 62.502-62.493v-749.953c-0.001-34.524-27.984-62.509-62.502-62.509z"
-            p-id="7567"
-            fill="#606670"
-        />
-        <path
-            d="M320.054 73.107h-62.502c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.502c34.505 0 62.493-27.968 62.493-62.493v-749.953c-0.001-34.524-27.984-62.509-62.493-62.509z"
-            p-id="7568"
-            fill="#606670"
-        />
-    </svg>
-);
-export const leftArrowIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
-        <path 
-            d="M324.211517 511.805631 787.889594 73.082583c16.19422-16.630365 16.19422-43.974704 0-60.605068-16.19422-16.630365-42.495607-16.630365-58.613976 0L235.750113 479.360302c-8.647031 8.969398-12.344775 20.934917-11.719003 32.445329-0.644735 11.90863 3.071972 23.874149 11.719003 32.824585l493.506542 466.882788c16.118369 16.649327 42.438718 16.649327 58.613976 0 16.19422-17.085471 16.19422-43.974704 0-60.605068L324.211517 511.805631" 
-            p-id="2160"
-        />
-    </svg>
-);
-export const rightArrowIcon = (
-    <svg className="icon" viewBox="0 0 1024 1024" version="1.1">
-        <path 
-            d="M311.559054 1013.77369L767.908116 512.684524 311.559054 12.234501a31.318073 31.318073 0 1 0-46.657538 41.544383L679.706197 512.684524 267.458094 969.672731a31.318073 31.318073 0 0 0 46.018393 42.183526z" 
-            p-id="1981" 
-        />
-    </svg>
-);
+
+// @ts-ignore
+import CloseIcon from '../icons/close.svg';
+// @ts-ignore
+import UnDoIcon from '../icons/undo.svg';
+// @ts-ignore
+import ReDoIcon from '../icons/redo.svg';
+// @ts-ignore
+import EnterIcon from '../icons/enter.svg';
+// @ts-ignore
+import VolumeIcon from '../icons/volume.svg';
+// @ts-ignore
+import MuteIcon from '../icons/mute.svg';
+// @ts-ignore
+import PlayIcon from '../icons/play.svg';
+// @ts-ignore
+import PauseIcon from '../icons/pause.svg';
+// @ts-ignore
+import LeftArrowIcon from '../icons/left-arrow.svg';
+// @ts-ignore
+import RightArrowIcon from '../icons/right-arrow.svg';
+
+
+// 兼容原来的用法，后续不直接试用。
+// @ts-ignore
+export const closeIcon = (<CloseIcon className="icon" />);
+// @ts-ignore
+export const unDoIcon = (<UnDoIcon className="icon" />);
+// @ts-ignore
+export const reDoIcon = (<ReDoIcon className="icon" />);
+// @ts-ignore
+export const enterIcon = (<EnterIcon className="icon" />);
+// @ts-ignore
+export const volumeIcon = (<VolumeIcon className="icon" />);
+// @ts-ignore
+export const muteIcon = (<MuteIcon className="icon" />);
+// @ts-ignore
+export const playIcon = (<PlayIcon className="icon" />);
+// @ts-ignore
+export const pauseIcon = (<PauseIcon className="icon" />);
+// @ts-ignore
+export const leftArrowIcon = (<LeftArrowIcon className="icon" />);
+// @ts-ignore
+export const rightArrowIcon = (<RightArrowIcon className="icon" />);
+
+const iconFactory:{
+    [propName:string]: React.ReactType<{}>
+} = {};
+
+
+export function getIcon(key:string) {
+    return iconFactory[key];
+}
+
+export function registerIcon(key:string, component:React.ReactType<{}>) {
+    iconFactory[key] = component;
+}
+
+registerIcon('close', CloseIcon);
+registerIcon('undo', UnDoIcon);
+registerIcon('redo', ReDoIcon);
+registerIcon('enter', EnterIcon);
+registerIcon('volume', VolumeIcon);
+registerIcon('mute', MuteIcon);
+registerIcon('play', PlayIcon);
+registerIcon('pause', PauseIcon);
+registerIcon('left-arrow', LeftArrowIcon);
+registerIcon('right-arrow', RightArrowIcon);
+
+export function Icon({
+    icon,
+    ...rest
+}:{
+    icon: string
+} & React.ComponentProps<any>) {
+    const Component = getIcon(icon);
+    return Component ? (
+        <Component {...rest} />
+    ) : (
+        <span className="text-danger">没有 icon {icon}</span>
+    );
+}
+
+export {
+    CloseIcon,
+    UnDoIcon,
+    ReDoIcon,
+    EnterIcon,
+    VolumeIcon,
+    MuteIcon,
+    PlayIcon,
+    PauseIcon,
+    LeftArrowIcon,
+    RightArrowIcon
+}

@@ -110,6 +110,7 @@
     "es6-symbol": "3.1.1",
     "faker": "^4.1.0",
     "fis-parser-node-sass": "^1.0.5",
+    "fis-parser-svgr": "^1.0.0",
     "fis3": "^3.4.41",
     "fis3-hook-commonjs": "^0.1.31",
     "fis3-hook-node_modules": "^2.3.1",

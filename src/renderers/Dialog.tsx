@@ -10,7 +10,7 @@ import Modal from '../components/Modal';
 import findLast = require('lodash/findLast');
 import { guid, chainFunctions, isVisible } from '../utils/helper';
 import { reaction } from 'mobx';
-import { closeIcon } from '../components/icons';
+import { Icon } from '../components/icons';
 import { ModalStore, IModalStore } from '../store/modal';
 import { findDOMNode } from 'react-dom';
 
@@ -395,7 +395,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                     <div className={cx('Modal-header', headerClassName)}>
                         {showCloseButton !== false && !store.loading ? (
                             <a data-tooltip="关闭弹窗" onClick={this.handleSelfClose} className={cx('Modal-close')}>
-                                {closeIcon}
+                                <Icon icon="close" className="icon" />
                             </a>
                         ) : null}
                         <div className={cx('Modal-title')}>{filter(title, store.formData)}</div>
@@ -404,7 +404,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                     <div className={cx('Modal-header', headerClassName)}>
                         {showCloseButton !== false && !store.loading ? (
                             <a data-tooltip="关闭弹窗" onClick={this.handleSelfClose} className={cx('Modal-close')}>
-                                {closeIcon}
+                                <Icon icon="close" className="icon" />
                             </a>
                         ) : null}
                         {render('title', title, {
@@ -413,7 +413,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                     </div>
                 ) : showCloseButton !== false && !store.loading ? (
                     <a data-tooltip="关闭弹窗" onClick={this.handleSelfClose} className={cx('Modal-close')}>
-                        {closeIcon}
+                        <Icon icon="close" className="icon" />
                     </a>
                 ) : null}
 

@@ -8,7 +8,7 @@ import {
 } from './Item';
 import cx from 'classnames';
 import InputRange from '../../components/Range';
-import { closeIcon } from '../../components/icons';
+import { Icon } from '../../components/icons';
 
 export interface RangeProps extends FormControlProps {
     max?: number;
@@ -371,7 +371,7 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
                 {clearable && !disabled && showInput ? (
                     <a onClick={() => this.clearValue()} className={cx("InputRange-clear", {
                         'is-active': (multiple ? isEqual(this.state.value, {min: min, max: max}) : this.state.value !== min)
-                    })}>{closeIcon}</a>
+                    })}><Icon icon="close" className="icon" /></a>
                 ) : null}
             </div >
         );

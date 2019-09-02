@@ -16,7 +16,7 @@ import {anyChanged, autobind, getVariable, noop} from '../../utils/helper';
 import findIndex = require('lodash/findIndex');
 import Html from '../../components/Html';
 import { filter } from '../../utils/tpl';
-import { closeIcon } from '../../components/icons';
+import { Icon } from '../../components/icons';
 import {isEmpty} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 
@@ -324,7 +324,7 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
                                 />
                             </div>
 
-                            {clearable && !disabled && selectedOptions.length ? (<a onClick={this.clearValue} className={cx('Picker-clear')}>{closeIcon}</a>) : null}
+                            {clearable && !disabled && selectedOptions.length ? (<a onClick={this.clearValue} className={cx('Picker-clear')}><Icon icon="close" className="icon" /></a>) : null}
 
                             <span onClick={this.open} className={cx('Picker-btn')}></span>
                         </div>

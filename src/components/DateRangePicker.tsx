@@ -8,7 +8,7 @@ import React = require('react');
 import moment = require('moment');
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
-import {closeIcon} from './icons';
+import { Icon } from './icons';
 import Overlay from './Overlay';
 import {BaseDatePicker} from './DatePicker';
 import PopOver from './PopOver';
@@ -440,7 +440,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
 
                 {clearable && !disabled && value ? (
                     <a className={`${ns}DateRangePicker-clear`} onClick={this.clearValue}>
-                        {closeIcon}
+                        <Icon icon="close" className="icon" />
                     </a>
                 ) : null}
 

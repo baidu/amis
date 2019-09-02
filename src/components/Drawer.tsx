@@ -7,7 +7,7 @@
 import React from 'react';
 import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition';
 import {Portal} from 'react-overlays';
-import {closeIcon} from './icons';
+import {Icon} from './icons';
 import cx from 'classnames';
 import {current, addModal, removeModal} from './ModalManager';
 import {ClassNamesFn, themeable} from '../theme';
@@ -150,7 +150,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                                 {overlay ? <div className={cx(`${ns}Drawer-overlay`, fadeStyles[status])} /> : null}
                                 <div ref={this.contentRef} className={cx(`${ns}Drawer-content`, fadeStyles[status])}>
                                     <a onClick={disabled ? undefined : onHide} className={`${ns}Drawer-close`}>
-                                        {closeIcon}
+                                        <Icon icon="close" className="icon" />
                                     </a>
                                     {children}
                                 </div>

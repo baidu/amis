@@ -8,7 +8,7 @@ import {
     OptionsControlProps,
     Option
 } from './Options';
-import { closeIcon } from '../../components/icons';
+import { Icon } from '../../components/icons';
 import TreeSelector from '../../components/Tree';
 import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
@@ -484,7 +484,7 @@ export default class TreeSelectControl extends React.Component<TreeSelectProps, 
                             ) : null}
                         </div>
 
-                        {clearable && !disabled && selectedOptions.length ? (<a onClick={this.clearValue} className={`${ns}TreeSelect-clear`}>{closeIcon}</a>) : null}
+                        {clearable && !disabled && selectedOptions.length ? (<a onClick={this.clearValue} className={`${ns}TreeSelect-clear`}><Icon icon="close" className="icon" /></a>) : null}
 
                         {loading ? (
                             <span className={cx('TreeSelect-spinner')}>

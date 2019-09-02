@@ -3,7 +3,7 @@ import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Tra
 import {Renderer, RendererProps} from '../factory';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {autobind, createObject, isObject, isArrayChilrenModified} from '../utils/helper';
-import {leftArrowIcon, rightArrowIcon} from '../components/icons';
+import {Icon} from '../components/icons';
 
 const animationStyles: {
     [propName: string]: string;
@@ -212,8 +212,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
             >
-                <div className={cx('Carousel-leftArrow')} onClick={this.prev}>{leftArrowIcon}</div>
-                <div className={cx('Carousel-rightArrow')} onClick={this.next}>{rightArrowIcon}</div>
+                <div className={cx('Carousel-leftArrow')} onClick={this.prev}><Icon icon="left-arrow" className="icon" /></div>
+                <div className={cx('Carousel-rightArrow')} onClick={this.next}><Icon icon="right-arrow" className="icon" /></div>
             </div>
         )
     }

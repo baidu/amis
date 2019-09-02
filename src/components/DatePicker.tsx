@@ -13,7 +13,7 @@ import 'moment/locale/zh-cn';
 import CalendarContainer from 'react-datetime/src/CalendarContainer';
 import ReactDatePicker from 'react-datetime';
 import Select from './Select';
-import {closeIcon} from './icons';
+import {Icon} from './icons';
 import PopOver from './PopOver';
 import Overlay from './Overlay';
 import {classPrefix, classnames} from '../themes/default';
@@ -757,7 +757,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
                 {clearable && !disabled && value ? (
                     <a className={`${ns}DatePicker-clear`} onClick={this.clearValue}>
-                        {closeIcon}
+                        <Icon icon="close" className="icon" />
                     </a>
                 ) : null}
 
