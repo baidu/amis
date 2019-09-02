@@ -34,6 +34,22 @@ fis.match('*.scss', {
     rExt: '.css'
 });
 
+fis.match('/src/icons/**.svg', {
+    rExt: '.js',
+    isJsXLike: true,
+    isJsLike: true,
+    isMod: true,
+    parser: [
+        fis.plugin('svgr'),
+        fis.plugin('typescript', {
+            importHelpers: true,
+            esModuleInterop: true,
+            experimentalDecorators: true,
+            sourceMap: false
+        })
+    ]
+})
+
 fis.match('_*.scss', {
     release: false
 });

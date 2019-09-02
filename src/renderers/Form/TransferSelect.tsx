@@ -9,7 +9,7 @@ import {
     find
 } from 'lodash';
 import Checkbox from '../../components/Checkbox';
-import { closeIcon } from '../../components/icons';
+import { closeIcon, Icon } from '../../components/icons';
 
 export interface TransferSelectProps extends OptionsControlProps {
     viewMode?: 'table' | 'normal';
@@ -359,7 +359,7 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
                                             onClick={this.handleCheck.bind(this, option)}
                                             className={cx('TransferSelect-option-close')}
                                         >
-                                            {closeIcon}
+                                            <Icon icon="close" className="icon" />
                                         </a>
                                     </td>
                                 </tr>

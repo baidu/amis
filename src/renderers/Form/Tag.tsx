@@ -9,7 +9,7 @@ import Downshift from 'downshift';
 import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
 import find = require('lodash/find');
-import { closeIcon } from '../../components/icons';
+import { Icon } from '../../components/icons';
 import { Portal } from 'react-overlays';
 import { findDOMNode } from 'react-dom';
 
@@ -271,7 +271,7 @@ export default class TagControl extends React.PureComponent<TagProps, TagState> 
                         />
                     </div>
 
-                    {clearable && !disabled && value ? (<a onClick={this.clearValue} className={cx('TagControl-clear')}>{closeIcon}</a>) : null}
+                    {clearable && !disabled && value ? (<a onClick={this.clearValue} className={cx('TagControl-clear')}><Icon icon="close" className="icon" /></a>) : null}
                     {loading ? <i className={cx(`TagControl-spinner`, spinnerClassName)} /> : null}
                 </div>
 

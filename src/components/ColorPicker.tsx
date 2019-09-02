@@ -8,7 +8,7 @@ import React from 'react';
 import cx from 'classnames';
 import {findDOMNode} from 'react-dom';
 import {SketchPicker, ColorResult} from 'react-color';
-import {closeIcon} from './icons';
+import {Icon} from './icons';
 import Overlay from './Overlay';
 import uncontrollable = require('uncontrollable');
 import PopOver from './PopOver';
@@ -213,7 +213,7 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
 
                 {clearable && !disabled && value ? (
                     <a onClick={this.clearValue} className={cx('ColorPicker-clear')}>
-                        {closeIcon}
+                        <Icon icon="close" className="icon" />
                     </a>
                 ) : null}
 

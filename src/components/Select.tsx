@@ -12,7 +12,7 @@ import Overlay from './Overlay';
 import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import cx from 'classnames';
-import {closeIcon} from './icons';
+import {closeIcon, Icon} from './icons';
 import matchSorter from 'match-sorter';
 import {noop} from '../utils/helper';
 import find = require('lodash/find');
@@ -638,7 +638,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                             </div>
                             {clearable && !disabled && value && value.length ? (
                                 <a onClick={this.clearValue} className={cx('Select-clear')}>
-                                    {closeIcon}
+                                    <Icon icon="close" className="icon" />
                                 </a>
                             ) : null}
                             {loading ? (

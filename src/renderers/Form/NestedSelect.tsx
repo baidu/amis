@@ -5,7 +5,7 @@ import Overlay from '../../components/Overlay';
 import Checkbox from '../../components/Checkbox';
 import PopOver from '../../components/PopOver';
 import {RootCloseWrapper} from 'react-overlays';
-import {closeIcon, rightArrowIcon} from '../../components/icons';
+import {Icon} from '../../components/icons';
 import {autobind, flattenTree, isEmpty} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 
@@ -84,7 +84,7 @@ export default class NestedSelectControl extends React.Component<NestedSelectPro
         } = this.props;
 
         return clearable && !disabled && (Array.isArray(value) ? value.length : value) ?
-            (<a onClick={this.clearValue} className={cx('NestedSelect-clear')}>{closeIcon}</a>) : null;
+            (<a onClick={this.clearValue} className={cx('NestedSelect-clear')}><Icon icon="close" className="icon" /></a>) : null;
     }
 
     @autobind
@@ -230,7 +230,7 @@ export default class NestedSelectControl extends React.Component<NestedSelectPro
                                 >
                                     {option.label}
                                 </Checkbox>
-                                {option.children ? (<div className={cx('NestedSelect-optionArrowRight')}>{rightArrowIcon}</div>) : null}
+                                {option.children ? (<div className={cx('NestedSelect-optionArrowRight')}><Icon icon="right-arrow" className="icon" /></div>) : null}
                                 {option.children && option.children.length ? this.renderOptions(option.children, true, cascade ? false : uncheckable || multiple && checked) : null}
                             </div>
                         )
@@ -250,7 +250,7 @@ export default class NestedSelectControl extends React.Component<NestedSelectPro
                         onClick={this.handleOptionClick.bind(this, option)}
                     >
                         <span>{option.label}</span>
-                        {option.children ? (<div className={cx('NestedSelect-optionArrowRight')}>{rightArrowIcon}</div>) : null}
+                        {option.children ? (<div className={cx('NestedSelect-optionArrowRight')}><Icon icon="right-arrow" className="icon" /></div>) : null}
                         {option.children && option.children.length ? this.renderOptions(option.children, true, false) : null}
                     </div>
 

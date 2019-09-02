@@ -2,7 +2,7 @@ import React from 'react';
 import upperFirst = require('lodash/upperFirst');
 import {Renderer, RendererProps} from '../factory';
 import {autobind} from '../utils/helper';
-import {volumeIcon, muteIcon, playIcon, pauseIcon} from '../components/icons';
+import {Icon} from '../components/icons';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
 
@@ -323,7 +323,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
             <div
                 className={cx('Audio-play')}
                 onClick={this.handlePlaying}>
-                {playing ? pauseIcon : playIcon}
+                {playing ? <Icon icon="pause" className="icon" /> : <Icon icon="play" className="icon" />}
             </div>
         )
     }
@@ -370,7 +370,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                     <div
                         className={cx('Audio-volumeControlIcon')}
                         onClick={this.handleMute}>
-                        {volume > 0 ? volumeIcon : muteIcon}
+                        {volume > 0 ? <Icon icon="volumn" className="icon" /> : <Icon icon="mute" className="icon" />}
                     </div>
                     <input
                         type='range' min={0} max={1} step='any'
@@ -381,7 +381,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                 <div
                     className={cx('Audio-volume')}
                     onMouseEnter={() => this.toggleHandleVolume(true)}>
-                    {volume > 0 ? volumeIcon : muteIcon}
+                    {volume > 0 ? <Icon icon="volumn" className="icon" /> : <Icon icon="mute" className="icon" />}
                 </div>
             )
         )

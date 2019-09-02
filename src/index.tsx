@@ -12,7 +12,7 @@ import './utils/tpl-builtin';
 import './utils/tpl-lodash';
 import * as utils from './utils/helper';
 import {resizeSensor} from './utils/resize-sensor';
-import {setIconVendor} from './renderers/Form/IconPicker-icons';
+import {setIconVendor} from './renderers/Form/IconPickerIcons';
 
 import {
     NotFound,

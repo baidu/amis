@@ -11,7 +11,7 @@ import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
 import { filter } from '../../utils/tpl';
 import find = require('lodash/find');
-import { closeIcon, enterIcon } from '../../components/icons';
+import { Icon } from '../../components/icons';
 import { autobind, createObject } from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
 
@@ -437,7 +437,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                             />
                         </div>
                         
-                        {clearable && !disabled && value ? (<a onClick={this.clearValue} className={cx('TextControl-clear')}>{closeIcon}</a>) : null}
+                        {clearable && !disabled && value ? (<a onClick={this.clearValue} className={cx('TextControl-clear')}><Icon icon="close" className="icon" /></a>) : null}
                         {loading ? <i className={cx(`TextControl-spinner`, spinnerClassName)} /> : null}
                         {isOpen && filtedOptions.length ? (
                             <div className={cx('TextControl-sugs')}>
@@ -455,7 +455,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                                             key={option.value}
                                         >
                                         {option.isNew ? (
-                                            <span>新增：{option.label}{enterIcon}</span>
+                                            <span>新增：{option.label}<Icon icon="enter" className="icon" /></span>
                                         ) : (
                                             <span>{option.disabled ? option.label : highlight(option.label, inputValue as string)}{option.tip}</span>
                                         )}
@@ -501,7 +501,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                     onChange={this.handleNormalInputChange}
                     value={typeof value === 'undefined' || value === null ? '' : typeof value === 'string' ? value : JSON.stringify(value)}
                 />
-                {clearable && !disabled && value ? (<a onClick={this.clearValue} className={`${ns}TextControl-clear`}>{closeIcon}</a>) : null}
+                {clearable && !disabled && value ? (<a onClick={this.clearValue} className={`${ns}TextControl-clear`}><Icon icon="close" className="icon" /></a>) : null}
             </div>
         );
     }
