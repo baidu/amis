@@ -370,7 +370,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                     <div
                         className={cx('Audio-volumeControlIcon')}
                         onClick={this.handleMute}>
-                        {volume > 0 ? <Icon icon="volumn" className="icon" /> : <Icon icon="mute" className="icon" />}
+                        {volume > 0 ? <Icon icon="volume" className="icon" /> : <Icon icon="mute" className="icon" />}
                     </div>
                     <input
                         type='range' min={0} max={1} step='any'
@@ -381,7 +381,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                 <div
                     className={cx('Audio-volume')}
                     onMouseEnter={() => this.toggleHandleVolume(true)}>
-                    {volume > 0 ? <Icon icon="volumn" className="icon" /> : <Icon icon="mute" className="icon" />}
+                    {volume > 0 ? <Icon icon="volume" className="icon" /> : <Icon icon="mute" className="icon" />}
                 </div>
             )
         )
