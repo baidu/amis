@@ -362,7 +362,7 @@ export const FormStore = ServiceStore
             item = self.items[self.items.length - 1] as IFormItemStore;
 
             // 默认值可能在原型上，把他挪到当前对象上。
-            setValueByName(item.name, item.value, false, true);
+            setValueByName(item.name, item.value, false, false);
 
             options && item.config(options);
 
