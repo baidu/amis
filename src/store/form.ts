@@ -107,34 +107,35 @@ export const FormStore = ServiceStore
             syncOptions();
         }
 
-        function setValueByName(name:string, value:any, isPristine:boolean = false) {
+        function setValueByName(name:string, value:any, isPristine:boolean = false, force:boolean = false) {
 
             // 没有变化就不跑了。
             const origin = getVariable(self.data, name, false);
-            if (value === origin) {
-                return;
-            }
-
+            
             const prev = self.data;
             const data = cloneObject(self.data);
 
-            if (prev.__prev) {
-                // 基于之前的 __prev 改
-                const prevData = cloneObject(prev.__prev);
-                setVariable(prevData, name, origin);
-                Object.defineProperty(data, '__prev', {
-                    value: prevData,
-                    enumerable: false,
-                    configurable: false,
-                    writable: false,
-                });
-            } else {
-                Object.defineProperty(data, '__prev', {
-                    value: {...prev},
-                    enumerable: false,
-                    configurable: false,
-                    writable: false,
-                });
+            if (value !== origin) {
+                if (prev.__prev) {
+                    // 基于之前的 __prev 改
+                    const prevData = cloneObject(prev.__prev);
+                    setVariable(prevData, name, origin);
+                    Object.defineProperty(data, '__prev', {
+                        value: prevData,
+                        enumerable: false,
+                        configurable: false,
+                        writable: false,
+                    });
+                } else {
+                    Object.defineProperty(data, '__prev', {
+                        value: {...prev},
+                        enumerable: false,
+                        configurable: false,
+                        writable: false,
+                    });
+                }
+            } else if (!force) {
+                return;
             }
 
             setVariable(data, name, value);
@@ -361,7 +362,7 @@ export const FormStore = ServiceStore
             item = self.items[self.items.length - 1] as IFormItemStore;
 
             // 默认值可能在原型上，把他挪到当前对象上。
-            setValueByName(item.name, item.value);
+            setValueByName(item.name, item.value, false, true);
 
             options && item.config(options);
 

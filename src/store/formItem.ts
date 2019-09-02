@@ -169,6 +169,14 @@ export const FormItemStore = types
 
                 const selected = Array.isArray(value) ? value.map(item=>item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item)
                 : typeof value === 'string' ? value.split(self.delimiter || ',') : [value && value.hasOwnProperty(self.valueField || 'value') ? value[self.valueField || 'value'] : value];
+
+                if (value && value.hasOwnProperty(self.labelField || 'label')) {
+                    selected[0]= {
+                        [self.labelField || 'label']: value[self.labelField || 'label'],
+                        [self.valueField || 'value']: value[self.valueField || 'value'],
+                    };
+                }
+
                 const selectedOptions:Array<any> = [];
 
                 self.filteredOptions.forEach((item:any) => {
@@ -230,7 +238,7 @@ export const FormItemStore = types
             type?: string;
             id?: string;
         }) {
-            const form = self.form;
+            const form = self.form as IFormStore;
 
             if (typeof rules === 'string') {
                 rules = str2rules(rules);
@@ -403,6 +411,13 @@ export const FormItemStore = types
                     ? value.split(self.delimiter || ',') 
                     : value === void 0 ? []
                         : [value && value.hasOwnProperty(self.valueField || 'value') ? value[self.valueField || 'value'] : value];
+            
+            if (value && value.hasOwnProperty(self.labelField || 'label')) {
+                selected[0]= {
+                    [self.labelField || 'label']: value[self.labelField || 'label'],
+                    [self.valueField || 'value']: value[self.valueField || 'value'],
+                };
+            }
             
             let expressionsInOptions = false;
             let filteredOptions = self.options
