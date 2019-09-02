@@ -210,7 +210,7 @@ if (fis.project.currentMedia() === 'publish') {
             to: fis.get('options.d') || fis.get('options.desc') || './lib'
         })
     });
-    publishEnv.match('/src/**.{jsx,tsx,js,ts}', {
+    publishEnv.match('/src/**.{jsx,tsx,js,ts,svg}', {
         isMod: false,
         standard: false
     });
@@ -247,6 +247,9 @@ if (fis.project.currentMedia() === 'publish') {
                         .replace(/('|")(\.\.\/thirds.*?)\1/g, function (_, quote, value) {
                             return '__uri(' + quote + value + quote + ')';
                         });
+                } else if (subpath === '/src/components/icons.tsx') {
+                    content = content
+                        .replace(/\.svg/g, ".js")
                 } else {
                     content = content.replace(/@require\s+(?:\.\.\/)?node_modules\//g, '@require ');
                 }
