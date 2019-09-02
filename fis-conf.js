@@ -318,6 +318,13 @@ if (fis.project.currentMedia() === 'publish') {
             return fis.util.md5('amis-sdk' + path);
         },
     });
+    
+    env.match('/src/icons/**.svg', {
+        optimizer: fis.plugin('uglify-js'),
+        moduleId: function (m, path) {
+            return fis.util.md5('amis-sdk' + path);
+        },
+    });
 
     env.match('src/components/Editor.tsx', {
         release: '/ide.js'
