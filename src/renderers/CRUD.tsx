@@ -486,7 +486,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             if (component && component.props.type === 'form') {
                 // 数据保存了，说明列表数据已经无效了，重新刷新。
                 if (value && (value as any).__saved) {
-                    this.search(dialogAction.__from ? {[pageField || 'page']: 1} : undefined, undefined, true);
+                    // 配置了 reload 则跳过自动更新。
+                    dialogAction.reload || this.search(dialogAction.__from ? {[pageField || 'page']: 1} : undefined, undefined, true);
                 } else if (
                     value &&
                     ((value.hasOwnProperty('items') && (value as any).items) || value.hasOwnProperty('ids')) &&
