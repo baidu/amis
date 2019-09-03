@@ -18,7 +18,7 @@ $success-bg: #f1fdeb;
 $warning-bg: #fcf7f1;
 $danger-bg: #fff5f5;
 
-$body-bg: #e8ecf0;
+$body-bg: #ffffff;
 $text-color: #666;
 $text--muted-color: #999;
 $text--loud-color: #333;
@@ -27,13 +27,15 @@ $borderColor: #e8ebee;
 $link-onHover-decoration: none;
 
 $Layout-header-boxShadow: none;
+$Layout-header-bg: #F5F5F5;
 $Layout-aside-width: px2rem(180px);
-$Layout-aside-bg: #19233c;
-$Layout-brand-bg: #121a2c;
+$Layout-aside-bg: #1E1E28;
+$Layout-brand-bg: #0F1012;
 $Layout-brand-color: #fff;
+$Layout-asideLink-iconColor: rgba(255, 255, 255, 0.6);
 $Layout-asideLink-color: #fff;
 $Layout-asideLink-onHover-iconSize: px2rem(16px);
-$Layout-asideLink-onHover-iconColor: #42aafa;
+$Layout-asideLink-onHover-iconColor: #108cee;
 $Layout-asideLink-fontSize: px2rem(12px);
 $Layout-asideLink-arrowFontSize: px2rem(12px);
 $Layout-asideLink-arrowVendor: "iconfont";
@@ -42,13 +44,14 @@ $Layout-asideLink-arrowColor: #8d99b0;
 $Layout-asideLink-onHover-arrowColor: #fff;
 $Layout-headerBar-borderBottom: px2rem(1px) solid $body-bg;
 $Layout-asideDivider-margin: 0 px2rem(10px);
+$Layout-asideDivider-bg: #3c3c4d;
 
 $Page-aside-bg: #ffffff;
 $Page-aside-width: px2rem(160px);
-$Page-content-paddingY: px2rem(20px);
-$Page-content-paddingX: px2rem(20px);
+$Page-content-paddingY: 0;
+$Page-content-paddingX: 0;
 $Page-main-bg: #fff;
-$Page-header-paddingY: px2rem(18px);
+$Page-header-paddingY: px2rem(16px);
 
 $Form-item-gap: px2rem(20px);
 $Form-input-height: px2rem(30px);
