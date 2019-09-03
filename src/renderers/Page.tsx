@@ -505,8 +505,6 @@ export class PageRenderer extends Page {
 
         if (dialogAction.reload) {
             scoped.reload(dialogAction.reload, store.data);
-        } else if (action.reload) {
-            scoped.reload(action.reload, store.data);
         } else {
             // 没有设置，则自动让页面中 crud 刷新。
             scoped
@@ -526,8 +524,6 @@ export class PageRenderer extends Page {
         setTimeout(() => {
             if (drawerAction.reload) {
                 scoped.reload(drawerAction.reload, store.data);
-            } else if (action.reload) {
-                scoped.reload(action.reload, store.data);
             } else {
                 // 没有设置，则自动让页面中 crud 刷新。
                 scoped
