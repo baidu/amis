@@ -142,6 +142,15 @@
             }
         }
 
+        &.is-lg {
+            > a {
+                padding: (
+                    $Layout-nav-lgHeight - $lineHeightBase *
+                        $Layout-asideLink-fontSize
+                )/2 px2rem(15px);
+            }
+        }
+
         .#{$ns}AsideNav-item {
             a {
                 padding-left: $Layout-nav-height + px2rem(5px);
@@ -260,6 +269,14 @@
                 right: px2rem(12px);
                 top: px2rem(8px);
                 z-index: 3;
+            }
+        }
+
+        .#{$ns}AsideNav-list > .#{$ns}AsideNav-item.is-lg > a {
+            height: $Layout-nav-lgHeight;
+
+            .#{$ns}AsideNav-itemIcon {
+                line-height: $Layout-nav-lgHeight;
             }
         }
 
