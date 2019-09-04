@@ -3,4 +3,8 @@
     border-bottom: $borderWidth dashed $borderColor;
     height: px2rem(2px);
     font-size: 0;
+
+    &--solid {
+        border-bottom-style: solid;
+    }
 }

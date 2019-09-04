@@ -4,17 +4,23 @@ import {ServiceStore, IServiceStore} from '../store/service';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
 
-export interface DividerProps extends RendererProps {}
+export interface DividerProps extends RendererProps {
+    lineStyle: 'dashed' | 'solid'
+}
 
 export default class Divider extends React.Component<DividerProps, object> {
-    static defaultProps: Partial<DividerProps> = {
+    static defaultProps:Pick<DividerProps, 'className' | 'lineStyle'> = {
         className: '',
+        lineStyle: 'dashed'
     };
 
     render() {
-        const cx = this.props.classnames;
-        const className = this.props.className;
-        return <div className={cx('Divider', className)} />;
+        const {
+            classnames: cx,
+            className,
+            lineStyle
+        } = this.props;
+        return <div className={cx('Divider', lineStyle ? `Divider--${lineStyle}` : '', className)} />;
     }
 }
 

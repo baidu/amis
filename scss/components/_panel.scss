@@ -12,6 +12,7 @@
         z-index: $zindex-affix;
         bottom: 999999px;
         box-shadow: $Panel-fixedBottom-boxShadow;
+        border-top: $Panel-fixedBottom-borderTop;
 
         &.in {
             position: fixed;
@@ -165,6 +166,7 @@
     }
 
     &-btnToolbar {
+        @include clearfix();
         text-align: $Panel-btnToolbarTextAlign;
 
         .#{$ns}Button {
