@@ -30,7 +30,8 @@ export const ComboStore = iRendererStore
         forms: types.array(types.reference(types.late(() => FormStore))),
         minLength: 0,
         maxLength: 0,
-        length: 0
+        length: 0,
+        activeKey: 0
     })
     .views(self => ({
         get addable() {
@@ -106,8 +107,13 @@ export const ComboStore = iRendererStore
             self.forms.remove(form);
         }
 
+        function setActiveKey(key:number) {
+            self.activeKey = key;
+        }
+
         return {
             config,
+            setActiveKey,
             bindUniuqueItem,
             unBindUniuqueItem,
             addForm,
