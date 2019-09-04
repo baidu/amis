@@ -44,6 +44,7 @@ export default class Panel extends React.Component<PanelProps> {
         this.parentNode = parent;
         parent.addEventListener('scroll', this.affixDetect);
         this.unSensor = resizeSensor(dom as HTMLElement, this.affixDetect);
+        this.affixDetect();
     }
 
     componentWillUnmount() {
