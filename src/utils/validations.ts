@@ -21,7 +21,7 @@ export const validations:{
     [propsName:string]: ValidateFn
 } = {
     isRequired: function (values, value:any) {
-        return value !== undefined && value !== '' && value !== null;
+        return value !== undefined && value !== '' && value !== null && (!Array.isArray(value) || !!value.length);
     },
     isExisty: function (values, value) {
         return isExisty(value);
