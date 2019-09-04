@@ -545,6 +545,138 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
     }
 }
 
+
+const availableRanges: {[propName: string]: any} = {
+    today: {
+        label: '今天',
+        date: (now: moment.Moment) => {
+            return now.startOf('day');
+        },
+    },
+
+    yesterday: {
+        label: '昨天',
+        date: (now: moment.Moment) => {
+            return now.add(-1, 'days').startOf('day');
+        }
+    },
+
+    '2dayago': {
+        label: '前天',
+        date: (now: moment.Moment) => {
+            return now.add(-2, 'days');
+        }
+    },
+
+    '3dayago': {
+        label: '3天前',
+        date: (now: moment.Moment) => {
+            return now.add(-3, 'days');
+        }
+    },
+
+    '7daysago': {
+        label: '7天前',
+        date: (now: moment.Moment) => {
+            return now.add(-7, 'days');
+        }
+    },
+
+    '90daysago': {
+        label: '90天前',
+        date: (now: moment.Moment) => {
+            return now.add(-90, 'days');
+        },
+    },
+
+    thisweek: {
+        label: '本周一',
+        date: (now: moment.Moment) => {
+            return now
+                .startOf('week')
+                .add(-1, 'weeks');
+        }
+    },
+
+    thismonth: {
+        label: '本月初',
+        date: (now: moment.Moment) => {
+            return now.startOf('month');
+        },
+    },
+
+    prevmonth: {
+        label: '上个月初',
+        date: (now: moment.Moment) => {
+            return now.startOf('month').add(-1, 'month');
+        }
+    },
+
+    prevquarter: {
+        label: '上个季节初',
+        date: (now: moment.Moment) => {
+            return now.startOf('quarter').add(-1, 'quarter');
+        },
+    },
+
+    thisquarter: {
+        label: '本季度初',
+        date: (now: moment.Moment) => {
+            return now.startOf('quarter');
+        }
+    },
+
+    tomorrow: {
+        label: '明天',
+        date: (now: moment.Moment) => {
+            return now.add(1, 'days').startOf('day');
+        }
+    },
+
+    '2dayslater': {
+        label: '后天',
+        date: (now: moment.Moment) => {
+            return now.add(2, 'days');
+        }
+    },
+
+    '3dayslater': {
+        label: '3天后',
+        date: (now: moment.Moment) => {
+            return now.add(3, 'days');
+        }
+    },
+
+    '7dayslater': {
+        label: '7天后',
+        date: (now: moment.Moment) => {
+            return now.add(7, 'days');
+        }
+    },
+
+    '90dayslater': {
+        label: '90天后',
+        date: (now: moment.Moment) => {
+            return now.add(90, 'days');
+        },
+    },
+
+    endofthisweek: {
+        label: '本周日',
+        date: (now: moment.Moment) => {
+            return now
+                .endOf('week');
+        }
+    },
+
+    endofthismonth: {
+        label: '本月底',
+        date: (now: moment.Moment) => {
+            return now.endOf('month');
+        },
+    }
+};
+
 export interface DateProps {
     viewMode: 'years' | 'months' | 'days' | 'time';
     className?: string;
@@ -565,6 +697,7 @@ export interface DateProps {
     defaultValue?: any;
     onChange: (value: any) => void;
     value: any;
+    ranges: string;
     [propName: string]: any;
 }
 
@@ -575,8 +708,9 @@ export interface DatePickerState {
 }
 
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
-    static defaultProps: Pick<DateProps, 'viewMode'> = {
+    static defaultProps: Pick<DateProps, 'viewMode' | 'ranges'> = {
         viewMode: 'days',
+        ranges: '',
     };
     state: DatePickerState = {
         isOpened: false,
@@ -587,6 +721,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
+        this.selectRannge = this.selectRannge.bind(this);
         this.checkIsValidDate = this.checkIsValidDate.bind(this);
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
@@ -688,6 +823,12 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         }
     }
 
+    selectRannge(item:any) {
+        const now = moment();
+        this.handleChange(item.date(now));
+        this.close();
+    }
+
     checkIsValidDate(currentDate: moment.Moment) {
         const {minDate, maxDate} = this.props;
 
@@ -727,6 +868,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             timeConstraints,
             popOverContainer,
             clearable,
+            ranges
         } = this.props;
 
         const isOpened = this.state.isOpened;
@@ -778,6 +920,27 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                             overlay
                             onClick={this.handlePopOverClick}
                         >
+                            {ranges ? (
+                                <ul className={`${ns}DatePicker-rangers`}>
+                                    {(typeof ranges === 'string'
+                                        ? ranges.split(',')
+                                        : Array.isArray(ranges)
+                                        ? ranges
+                                        : []
+                                    )
+                                        .filter(key => !!availableRanges[key])
+                                        .map(key => (
+                                            <li
+                                                className={`${ns}DateRangePicker-ranger`}
+                                                onClick={() => this.selectRannge(availableRanges[key])}
+                                                key={key}
+                                            >
+                                                <a>{availableRanges[key].label}</a>
+                                            </li>
+                                        ))}
+                                </ul>
+                            ) : null}
+                            
                             <BaseDatePicker
                                 value={date}
                                 onChange={this.handleChange}

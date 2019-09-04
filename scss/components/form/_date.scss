@@ -82,6 +82,12 @@
     display: flex;
 }
 
+.#{$ns}DatePicker-rangers {
+    margin: $gap-sm $gap-md (-$gap-sm) $gap-md;
+    padding: 0;
+    list-style: none;
+}
+
 // override third-party styles
 .rdt {
     user-select: none;
@@ -91,6 +97,7 @@
     .rdtPicker {
         margin-top: 0;
         padding: $gap-md;
+        border: none;
 
         .dow {
             color: $Calendar-wLabel-color;
