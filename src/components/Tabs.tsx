@@ -16,7 +16,7 @@ const transitionStyles: {
     [ENTERED]: 'in'
 };
 
-export interface TabProps extends Schema {
+export interface TabProps {
     title?: string; // 标题
     icon?: string;
     eventKey: string | number;
@@ -27,11 +27,13 @@ export interface TabProps extends Schema {
     reload?: boolean;
     mountOnEnter?: boolean;
     unmountOnExit?: boolean;
+    toolbar?: React.ReactNode;
 };
 
 export interface TabsProps {
     mode?: '' | 'line' | 'card' | 'radio';
     tabsMode?: '' | 'line' | 'card' | 'radio';
+    additionBtns?: React.ReactNode;
     handleSelect?: Function;
     classPrefix: string;
     classnames: ClassNamesFn;
@@ -43,8 +45,9 @@ export interface TabsProps {
 }
 
 export class Tabs extends React.Component<TabsProps> {
-    static defaultProps: Pick<TabsProps, 'mode'> = {
-        mode: ''
+    static defaultProps:Pick<TabsProps, 'mode' | 'contentClassName'> = {
+        mode: '',
+        contentClassName: ''
     };
 
     handleSelect(key: any) {
@@ -58,7 +61,7 @@ export class Tabs extends React.Component<TabsProps> {
         }
 
         const { classnames: cx, activeKey } = this.props;
-        const { eventKey, disabled, icon, title } = child.props;
+        const { eventKey, disabled, icon, title, toolbar } = child.props;
 
         return (
             <li
@@ -71,6 +74,7 @@ export class Tabs extends React.Component<TabsProps> {
                 onClick={() => disabled ? '' : this.handleSelect(eventKey)}
             >
                 <a>{icon ? <i className={icon} /> : null} {title}</a>
+                {toolbar}
             </li>
         );
     }
@@ -97,7 +101,8 @@ export class Tabs extends React.Component<TabsProps> {
             className,
             mode: dMode,
             tabsMode,
-            children
+            children,
+            additionBtns
         } = this.props;
 
         if (!Array.isArray(children)) {
@@ -120,6 +125,7 @@ export class Tabs extends React.Component<TabsProps> {
                     {children.map((tab, index) => (
                         this.renderNav(tab, index)
                     ))}
+                    {additionBtns}
                 </ul>
 
                 <div

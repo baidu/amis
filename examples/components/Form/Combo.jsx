@@ -566,6 +566,52 @@ export default {
                 },
 
                 {
+                    title: "Tabs",
+                    hash: "tabs",
+                    body: [
+                        {
+                            type: "form",
+                            api: "/api/mock2/saveForm?waitSeconds=2",
+                            title: "",
+                            mode: "horizontal",
+                            wrapWithPanel: false,
+                            className: "m-t",
+                            // debug: true,
+                            controls: [
+                                {
+                                    type: "combo",
+                                    name: "combo101",
+                                    label: "组合多条多行",
+                                    multiple: true,
+                                    multiLine: true,
+                                    value: [{}],
+                                    tabsMode: true,
+                                    tabsStyle: 'card',
+                                    maxLength: 3,
+                                    controls: [
+                                        {
+                                            name: "a",
+                                            label: "文本",
+                                            type: "text",
+                                            placeholder: "文本",
+                                            value: '',
+                                            size: 'full'
+                                        },
+                                        {
+                                            name: "b",
+                                            label: "选项",
+                                            type: "select",
+                                            options: ["a", "b", "c"],
+                                            size: 'full'
+                                        }
+                                    ]
+                                },
+                            ]
+                        }
+                    ]
+                },
+
+                {
                     title: "其他",
                     hash: 'others',
                     body: [

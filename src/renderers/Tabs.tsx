@@ -214,10 +214,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         }
 
         const mode = tabsMode || dMode;
-        const finallyTabs = tabs.map(tab => {
-            tab.isDisabled = isDisabled(tab, data);
-            return tab;
-        });
 
         return (
             <CTabs
@@ -229,11 +225,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 handleSelect={this.handleSelect}
                 activeKey={this.state.activeKey}
             >
-                {finallyTabs.map((tab, index) => (
+                {tabs.map((tab, index) => (
                     isVisible(tab, data)
                         ? (
                             <Tab
                                 {...tab}
+                                disabled={isDisabled(tab, data)}
                                 key={index}
                                 eventKey={tab.hash || index}
                                 mountOnEnter={mountOnEnter}

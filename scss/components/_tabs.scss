@@ -12,8 +12,9 @@
         > .#{$ns}Tabs-link {
             margin-bottom: -$Tabs-borderWidth;
             display: inline-block;
+            position: relative;
 
-            > a {
+            > a:first-child {
                 font-size: $Tabs-linkFontSize;
                 outline: none;
                 border: $Tabs-borderWidth solid transparent;
@@ -27,22 +28,33 @@
                 display: block;
             }
 
-            &:hover > a,
-            > a:focus {
+            > .#{$ns}Combo-toolbarBtn {
+                position: absolute;
+                right: -10px;
+                top: -10px;
+                z-index: 10;
+                display: none;
+            }
+            &:hover > .#{$ns}Combo-toolbarBtn {
+                display: block;
+            }
+
+            &:hover > a:first-child,
+            > a:first-child:focus {
                 border-color: $Tabs-onHover-borderColor;
                 text-decoration: none;
             }
 
-            &.disabled > a,
-            &.is-disabled > a {
+            &.disabled > a:first-child,
+            &.is-disabled > a:first-child {
                 color: $Tabs-onDisabled-color;
                 background-color: transparent;
                 border-color: transparent;
                 pointer-events: none;
             }
 
-            &.active > a,
-            &.is-active > a {
+            &.active > a:first-child,
+            &.is-active > a:first-child {
                 color: $Tabs-onActive-color;
                 background-color: $Tabs-onActive-bg;
                 border-color: $Tabs-onActive-borderColor;
@@ -77,9 +89,9 @@
 
             > li {
                 &.is-active {
-                    > a,
-                    > a:hover,
-                    > a:focus {
+                    > a:first-child,
+                    > a:first-child:hover,
+                    > a:first-child:focus {
                         border-bottom: px2rem(2px) solid $primary;
                         color: $primary;
                         background-color: transparent;
@@ -88,9 +100,9 @@
                     }
                 }
 
-                > a,
-                > a:hover,
-                > a:focus {
+                > a:first-child,
+                > a:first-child:hover,
+                > a:first-child:focus {
                     color: #666;
                     background-color: transparent;
                     border-color: transparent;
@@ -106,18 +118,18 @@
 
             > li {
                 &.is-active {
-                    > a,
-                    > a:hover,
-                    > a:focus {
+                    > a:first-child,
+                    > a:first-child:hover,
+                    > a:first-child:focus {
                         color: $primary;
                         background-color: #fff;
                         margin-left: px2rem(1px);
                     }
                 }
 
-                > a,
-                > a:hover,
-                > a:focus {
+                > a:first-child,
+                > a:first-child:hover,
+                > a:first-child:focus {
                     color: #666;
                     background-color: transparent;
                 }
@@ -131,7 +143,7 @@
             margin-bottom: px2rem(10px);
 
             > li {
-                > a {
+                > a:first-child {
                     font-size: $fontSizeSm;
                     text-align: center;
                     margin-right: 0;
@@ -141,18 +153,18 @@
                 }
 
                 &.is-active {
-                    > a,
-                    > a:hover,
-                    > a:focus {
+                    > a:first-child,
+                    > a:first-child:hover,
+                    > a:first-child:focus {
                         color: #fff;
                         background-color: $primary;
                         margin-left: px2rem(1px);
                     }
                 }
 
-                > a,
-                > a:hover,
-                > a:focus {
+                > a:first-child,
+                > a:first-child:hover,
+                > a:first-child:focus {
                     color: $primary;
                     background-color: #eaf6fe;
                 }

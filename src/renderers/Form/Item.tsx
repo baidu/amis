@@ -14,6 +14,7 @@ import {
     anyChanged,
     ucFirst,
     getWidthRate} from '../../utils/helper';
+import { observer } from 'mobx-react';
 
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
@@ -513,7 +514,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
         Control = HocStoreFactory({
             storeType: config.storeType,
             extendsData: config.extendsData
-        })(Control);
+        })(observer(Control));
         delete config.storeType;
     }
 
