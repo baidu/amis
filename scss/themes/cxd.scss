@@ -348,6 +348,7 @@ $Pagination-onActive-border: px2rem(1px) solid $primary;
 
 // Panel
 $Panel-borderRadius: 0;
+$Panel-fixedBottom-boxShadow: 0 -2px 10px 0 rgba(0,0,0,0.05);
 
 // Nav
 $Nav-item-fontSize: px2rem(16px);

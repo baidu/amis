@@ -1285,6 +1285,7 @@ $Panel-borderWidth: px2rem(1px) !default;
 $Panel-footerButtomMarginLeft: $gap-sm !default;
 $Panel-btnToolbarTextAlign: right !default;
 $Panel-fixedBottom-boxShadow: 0 -0.5rem 1rem rgba($black, 0.15) !default;
+$Panel-fixedBottom-borderTop: none !default;
 
 // Pagination
 $Pagination-height: px2rem(30px) !default;
