@@ -1,6 +1,6 @@
 ### Combo
 
-组合模式，支持自由组合多个表单项。
+组合模式，支持自由组合多个表单项。当设置成单选时数据格式为对象，当设置成多选时数据格式为数组，数组成员是对象（flat 模式可以直接是某个表单单项的数值）。
 
 -   `type` 请设置成 `combo`
 -   `multiple` 默认为 `false` 配置是否为多选模式
@@ -28,6 +28,8 @@
 -   `formClassName` 单组表单项的类名
 -   `noBorder` 单组表单项是否有边框
 -   **还有更多通用配置请参考** [FormItem](./FormItem.md)
+
+#### 单行模式
 
 ```schema:height="450" scope="form"
 [
@@ -82,7 +84,7 @@
 ]
 ```
 
-combo 多行模式。
+#### 多行模式。
 
 ```schema:height="450" scope="form"
 [
@@ -138,3 +140,139 @@ combo 多行模式。
 
 ]
 ```
+
+#### 条件分支
+
+默认 Combo 渲染的成员是固定表单项的，成员的类型时一致，如果不一致怎么办？这里可以设置条件分支来给不同的成员设置不同的表单项。
+
+如下面的栗子，定义了两种类型：文本和数字，用户新增的时候可以选择是新增文本还是数字。区分是文字和数字的方式是根据成员数据中的 type 字段来决定。
+
+```schema:height="450" scope="form-item"
+{
+  "type": "combo",
+  "name": "combo-conditions2",
+  "label": "多选",
+  "value": [
+    {
+      "type": "text"
+    }
+  ],
+  "multiLine": true,
+  "multiple": true,
+  "typeSwitchable": false,
+  "conditions": [
+    {
+      "label": "文本",
+      "test": "this.type === \"text\"",
+      "scaffold": {
+        "type": "text",
+        "label": "文本",
+        "name": ""
+      },
+      "controls": [
+        {
+          "label": "名称",
+          "name": "label",
+          "type": "text"
+        },
+        {
+          "label": "字段名",
+          "name": "name",
+          "type": "text"
+        }
+      ]
+    },
+    {
+      "label": "数字",
+      "test": "this.type === \"number\"",
+      "scaffold": {
+        "type": "number",
+        "label": "数字",
+        "name": ""
+      },
+      "controls": [
+        {
+          "label": "名称",
+          "name": "label",
+          "type": "text"
+        },
+        {
+          "label": "字段名",
+          "name": "name",
+          "type": "text"
+        },
+        {
+          "label": "最小值",
+          "name": "min",
+          "type": "number"
+        },
+        {
+          "label": "最大值",
+          "name": "max",
+          "type": "number"
+        },
+        {
+          "label": "步长",
+          "name": "step",
+          "type": "number"
+        }
+      ]
+    }
+  ]
+}
+```
+
+-   `conditions` Array<Condition> 数组，每个成员是一种类型
+  - `conditions[x].label` 类型名称
+  - `conditions[x].test` 表达式，目标成员数据是否属于这个类型？
+  - `conditions[x].scaffold` 初始数据，当新增的时候直接使用此数据。
+  - `conditions[x].controls` 该类型的表单设置。
+- `typeSwitchable` 类型是否允许切换，如果设置成 true 会多一个类型切换的按钮。
+
+
+#### Tabs 模式
+
+默认成员是一个一个排列的，如果数据比较多优点让人眼花缭乱。所以 Combo 支持了 tabs 的排列方式。
+
+```schema:height="350" scope="form-item"
+{
+  "type": "combo",
+  "name": "combo101",
+  "label": "组合多条多行",
+  "multiple": true,
+  "multiLine": true,
+  "value": [
+    {}
+  ],
+  "tabsMode": true,
+  "tabsStyle": "card",
+  "maxLength": 3,
+  "controls": [
+    {
+      "name": "a",
+      "label": "文本",
+      "type": "text",
+      "placeholder": "文本",
+      "value": "",
+      "size": "full"
+    },
+    {
+      "name": "b",
+      "label": "选项",
+      "type": "select",
+      "options": [
+        "a",
+        "b",
+        "c"
+      ],
+      "size": "full"
+    }
+  ]
+}
+```
+
+- `tabsMode` boolean 用来开启此模式
+- `tabsStyle` string 样式，可选：`line`、`card` 或者 `radio`.
+- `tabsLabelTpl` 用来生成标题的模板，默认为：`成员 ${index|plus}`
+
+注意：这是新引入的功能，目前还不支持拖拽组合使用。且此模式只有多选时才能生效。

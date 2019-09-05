@@ -546,7 +546,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
 }
 
 
-const availableRanges: {[propName: string]: any} = {
+const availableShortcuts: {[propName: string]: any} = {
     today: {
         label: '今天',
         date: (now: moment.Moment) => {
@@ -697,7 +697,7 @@ export interface DateProps {
     defaultValue?: any;
     onChange: (value: any) => void;
     value: any;
-    ranges: string;
+    shortcuts: string;
     [propName: string]: any;
 }
 
@@ -708,9 +708,9 @@ export interface DatePickerState {
 }
 
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
-    static defaultProps: Pick<DateProps, 'viewMode' | 'ranges'> = {
+    static defaultProps: Pick<DateProps, 'viewMode' | 'shortcuts'> = {
         viewMode: 'days',
-        ranges: '',
+        shortcuts: '',
     };
     state: DatePickerState = {
         isOpened: false,
@@ -868,7 +868,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             timeConstraints,
             popOverContainer,
             clearable,
-            ranges
+            shortcuts
         } = this.props;
 
         const isOpened = this.state.isOpened;
@@ -920,22 +920,22 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                             overlay
                             onClick={this.handlePopOverClick}
                         >
-                            {ranges ? (
-                                <ul className={`${ns}DatePicker-rangers`}>
-                                    {(typeof ranges === 'string'
-                                        ? ranges.split(',')
-                                        : Array.isArray(ranges)
-                                        ? ranges
+                            {shortcuts ? (
+                                <ul className={`${ns}DatePicker-shortcuts`}>
+                                    {(typeof shortcuts === 'string'
+                                        ? shortcuts.split(',')
+                                        : Array.isArray(shortcuts)
+                                        ? shortcuts
                                         : []
                                     )
-                                        .filter(key => !!availableRanges[key])
+                                        .filter(key => !!availableShortcuts[key])
                                         .map(key => (
                                             <li
-                                                className={`${ns}DateRangePicker-ranger`}
-                                                onClick={() => this.selectRannge(availableRanges[key])}
+                                                className={`${ns}DatePicker-shortcut`}
+                                                onClick={() => this.selectRannge(availableShortcuts[key])}
                                                 key={key}
                                             >
-                                                <a>{availableRanges[key].label}</a>
+                                                <a>{availableShortcuts[key].label}</a>
                                             </li>
                                         ))}
                                 </ul>
