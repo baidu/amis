@@ -67,12 +67,14 @@ export interface FormProps extends RendererProps, FormSchema {
     resetAfterSubmit?: boolean;
     initApi?: Api; // 可以用来设置初始数据。
     initAsyncApi?: Api; // 如果 api 处理时间过长，可以开启 initAsyncApi 来处理。轮询检测是否真的完成了。
+    initCheckInterval?: number;
     initFinishedField?: string;
     interval?: number;
     silentPolling?: boolean;
     stopAutoRefreshWhen?: string;
     api?: Api; // 用来保存的 api
     asyncApi?: Api; // 如果 api 处理时间过长，可以开启 asyncApi 来处理。轮询检测是否真的完成了。
+    checkInterval?: number;
     finishedField?: string;
     initFetch?: boolean; // 是否初始拉取？
     initFetchOn?: string;
@@ -212,6 +214,7 @@ export default class Form extends React.Component<FormProps, object> {
             initFetchOn,
             initAsyncApi,
             initFinishedField,
+            initCheckInterval,
             store,
             messages: {
                 fetchSuccess,
@@ -260,7 +263,8 @@ export default class Form extends React.Component<FormProps, object> {
 
                         return until(() => store.checkRemote(initAsyncApi, store.data)
                             , (ret:any) => ret && ret[initFinishedField || 'finished']
-                            , (cancel) => this.asyncCancel = cancel);
+                            , (cancel) => this.asyncCancel = cancel
+                            , initCheckInterval);
                     }
                 })
                 .then(this.initInterval)
@@ -481,6 +485,7 @@ export default class Form extends React.Component<FormProps, object> {
             api,
             asyncApi,
             finishedField,
+            checkInterval,
             messages: {
                 saveSuccess,
                 saveFailed
@@ -550,7 +555,8 @@ export default class Form extends React.Component<FormProps, object> {
 
                                         return until(() => store.checkRemote(finnalAsyncApi as Api, store.data)
                                             , (ret:any) => ret && ret[finishedField || 'finished']
-                                            , (cancel) => this.asyncCancel = cancel);
+                                            , (cancel) => this.asyncCancel = cancel
+                                            , checkInterval);
                                     }
                                 })
                                 .then(async (response) => {

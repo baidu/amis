@@ -548,7 +548,7 @@ export const TableStore = iRendererStore
                     rowSpans: {},
                     modified: false,
                     children: (item && Array.isArray(item.children)) ? initChildren(item.children, depth, key, id) : [],
-                    expandable: !!(item && Array.isArray(item.children) || self.footable && self.footableColumns.length),
+                    expandable: !!(item && Array.isArray(item.children) && item.children.length || self.footable && self.footableColumns.length),
                 };
             });
         }
@@ -571,7 +571,7 @@ export const TableStore = iRendererStore
                     rowSpans: {},
                     modified: false,
                     children: (item && Array.isArray(item.children)) ? initChildren(item.children, 1, key, id) : [],
-                    expandable: !!(item && Array.isArray(item.children) || self.footable && self.footableColumns.length),
+                    expandable: !!(item && Array.isArray(item.children) && item.children.length || self.footable && self.footableColumns.length),
                 }
             });
             
