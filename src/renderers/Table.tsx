@@ -502,11 +502,11 @@ export default class Table extends React.Component<TableProps, object> {
         } = (this.heights = {});
         forEach(table.querySelectorAll('thead>tr:last-child>th'), (item: HTMLElement) => {
             heights.header || (heights.header = item.offsetHeight);
-            widths[item.getAttribute('data-index') as string] = item.clientWidth;
+            widths[item.getAttribute('data-index') as string] = item.offsetWidth;
         });
         forEach(
             table.querySelectorAll('tbody>tr>*:last-child'),
-            (item: HTMLElement, index: number) => (heights[index] = item.clientHeight)
+            (item: HTMLElement, index: number) => (heights[index] = item.offsetHeight)
         );
 
         // 让 react 去更新非常慢，还是手动更新吧。
