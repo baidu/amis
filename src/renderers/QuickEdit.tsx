@@ -311,8 +311,6 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                             {
                                 type: quickEdit.type || 'text',
                                 name: quickEdit.name || name,
-                                placeholder: label,
-                                label: false,
                                 ...quickEdit,
                             },
                         ],
