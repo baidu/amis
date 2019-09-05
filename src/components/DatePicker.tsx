@@ -695,6 +695,7 @@ export interface DateProps {
     maxTime?: moment.Moment;
     clearable?: boolean;
     defaultValue?: any;
+    utc?: boolean;
     onChange: (value: any) => void;
     value: any;
     shortcuts: string;
@@ -715,7 +716,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     state: DatePickerState = {
         isOpened: false,
         isFocused: false,
-        value: this.props.value ? moment(this.props.value, this.props.format) : undefined,
+        value: this.props.value ? (this.props.utc ? moment.utc : moment)(this.props.value, this.props.format) : undefined,
     };
     constructor(props: DateProps) {
         super(props);
@@ -740,7 +741,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     componentWillReceiveProps(nextProps: DateProps) {
         if (this.props.value !== nextProps.value) {
             this.setState({
-                value: nextProps.value ? moment(nextProps.value, nextProps.format) : undefined,
+                value: nextProps.value ? (nextProps.utc ? moment.utc : moment)(nextProps.value, nextProps.format) : undefined,
             });
         }
     }
@@ -868,7 +869,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             timeConstraints,
             popOverContainer,
             clearable,
-            shortcuts
+            shortcuts,
+            utc
         } = this.props;
 
         const isOpened = this.state.isOpened;
@@ -954,6 +956,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                                 timeConstraints={timeConstraints}
                                 input={false}
                                 onClose={this.close}
+                                utc={utc}
                             />
                         </PopOver>
                     </Overlay>

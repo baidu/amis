@@ -82,10 +82,18 @@
     display: flex;
 }
 
-.#{$ns}DatePicker-rangers {
+.#{$ns}DatePicker-shortcuts {
     margin: $gap-sm $gap-md (-$gap-sm) $gap-md;
     padding: 0;
     list-style: none;
+}
+.#{$ns}DatePicker-shortcut {
+    display: inline-block;
+    margin-right: $gap-sm;
+
+    a {
+        cursor: pointer;
+    }
 }
 
 // override third-party styles
