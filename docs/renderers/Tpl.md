@@ -98,7 +98,7 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 组合使用。
 
 -   `${&|json|html}` 把当前可用的数据全部打印出来。`$&` 取当前值，json 做 json stringify，然后 html 转义。
--   `${rows:first|pick:id}` 把 rows 中的第一条数据中的 id 取到。
+-   `${rows|first|pick:id}` 把 rows 中的第一条数据中的 id 取到。
 -   `${rows|pick:id|join:,}`
 
 
