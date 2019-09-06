@@ -73,22 +73,13 @@
     }
 
     &-optionArrowRight {
-        width: px2rem(32px);
-        height: $Form-input-height;
-        line-height: $Form-input-height;
-        cursor: pointer;
-        float: right;
-        text-align: center;
-        position: relative;
+        display: inline-block;
+        position: absolute;
+        right: px2rem(10px);
 
         svg {
             width: px2rem(12px);
             height: px2rem(12px);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            right: 50%;
-            transform: translate(-50%, -50%);
             fill: $Form-input-iconColor;
         }
     }
@@ -103,6 +94,7 @@
         box-shadow: $Form-select-outer-boxShadow;
 
         .#{$ns}NestedSelect-option {
+            position: relative;
             padding-left: px2rem(10px);
             height: $Form-input-height;
             line-height: $Form-input-height;
