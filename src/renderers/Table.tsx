@@ -1604,9 +1604,9 @@ class TableRow extends React.Component<TableRowProps> {
         onAction && onAction(e, action, ctx || item.data);
     }
 
-    handleQuickChange(values: object, saveImmediately?: boolean, saveSilent?: boolean) {
+    handleQuickChange(values: object, saveImmediately?: boolean, savePristine?: boolean) {
         const {onQuickChange, item} = this.props;
-        onQuickChange && onQuickChange(item, values, saveImmediately, saveSilent);
+        onQuickChange && onQuickChange(item, values, saveImmediately, savePristine);
     }
 
     render() {

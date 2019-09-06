@@ -270,10 +270,10 @@ export default class List extends React.Component<ListProps, object> {
         onSelect && onSelect(store.selectedItems.map(item => item.data), store.unSelectedItems.map(item => item.data));
     }
 
-    handleQuickChange(item: IItem, values: object, saveImmediately?: boolean | any, saveSilent?: boolean) {
-        item.change(values, saveSilent);
+    handleQuickChange(item: IItem, values: object, saveImmediately?: boolean | any, savePristine?: boolean) {
+        item.change(values, savePristine);
 
-        if (!saveImmediately || saveSilent) {
+        if (!saveImmediately || savePristine) {
             return;
         }
 
@@ -790,9 +790,9 @@ export class ListItem extends React.Component<ListItemProps> {
         onAction && onAction(e, action, ctx || item.data);
     }
 
-    handleQuickChange(values: object, saveImmediately?: boolean, saveSilent?: boolean) {
+    handleQuickChange(values: object, saveImmediately?: boolean, savePristine?: boolean) {
         const {onQuickChange, item} = this.props;
-        onQuickChange && onQuickChange(item, values, saveImmediately, saveSilent);
+        onQuickChange && onQuickChange(item, values, saveImmediately, savePristine);
     }
 
     renderLeft() {
