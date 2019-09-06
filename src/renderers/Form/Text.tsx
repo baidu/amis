@@ -529,7 +529,9 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
         let addOnDom = addOn ? (
             addOn.actionType || ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
                 <div className={cx(`${ns}TextControl-button`, addOn.className)}>
-                    {render('addOn', addOn)}
+                    {render('addOn', addOn, {
+                        disabled
+                    })}
                 </div>
             ) : (
                 <div
