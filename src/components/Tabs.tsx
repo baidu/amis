@@ -74,7 +74,7 @@ export class Tabs extends React.Component<TabsProps> {
                 onClick={() => disabled ? '' : this.handleSelect(eventKey)}
             >
                 <a>{icon ? <i className={icon} /> : null} {title}</a>
-                {toolbar}
+                {React.isValidElement(toolbar) ? toolbar : null}
             </li>
         );
     }
