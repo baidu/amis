@@ -85,9 +85,9 @@ export class Card extends React.Component<CardProps> {
         onAction && onAction(e, action, ctx || item.data);
     }
 
-    handleQuickChange(values: object, saveImmediately?: boolean, saveSlient?: boolean) {
+    handleQuickChange(values: object, saveImmediately?: boolean, savePristine?: boolean) {
         const {onQuickChange, item} = this.props;
-        onQuickChange && onQuickChange(item, values, saveImmediately, saveSlient);
+        onQuickChange && onQuickChange(item, values, saveImmediately, savePristine);
     }
 
     getPopOverContainer() {

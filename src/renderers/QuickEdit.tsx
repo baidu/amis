@@ -63,6 +63,8 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
             this.handleWindowKeyPress = this.handleWindowKeyPress.bind(this);
             this.handleWindowKeyDown = this.handleWindowKeyDown.bind(this);
             this.formRef = this.formRef.bind(this);
+            this.handleInit = this.handleInit.bind(this);
+            this.handleChange = this.handleChange.bind(this);
 
             this.state = {
                 isOpened: false,
@@ -241,6 +243,17 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
             onQuickChange(values, (quickEdit as QuickEditConfig).saveImmediately);
         }
 
+        handleInit(values: object) {
+            const {onQuickChange} = this.props;
+            onQuickChange(values, false, true);
+        }
+
+        handleChange(values: object) {
+            const {onQuickChange, quickEdit} = this.props;
+
+            onQuickChange(values, (quickEdit as QuickEditConfig).saveImmediately);
+        }
+
         openQuickEdit() {
             currentOpened = this;
             this.setState({
@@ -405,8 +418,8 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                             wrapperComponent: 'div',
                             className: cx('Form--quickEdit'),
                             ref: this.formRef,
-                            onChange: (values: object) =>
-                                onQuickChange(values, (quickEdit as QuickEditConfig).saveImmediately),
+                            onInit: this.handleInit,
+                            onChange: this.handleChange,
                         })}
                     </Component>
                 );
