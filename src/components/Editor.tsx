@@ -16,10 +16,10 @@ const defaultConfig = {
     url: 'vs/loader.js',
     'vs/nls': {
         availableLanguages: {
-            '*': 'zh-cn',
-        },
+            '*': 'zh-cn'
+        }
     },
-    paths: {},
+    paths: {}
 };
 
 try {
@@ -114,7 +114,7 @@ try {
         'vs/language/html/htmlWorker': noJsExt(__uri('monaco-editor/min/vs/language/html/htmlWorker.js')),
 
         'vs/language/css/cssMode': noJsExt(__uri('monaco-editor/min/vs/language/css/cssMode.js')),
-        'vs/language/css/cssWorker': noJsExt(__uri('monaco-editor/min/vs/language/css/cssWorker.js')),
+        'vs/language/css/cssWorker': noJsExt(__uri('monaco-editor/min/vs/language/css/cssWorker.js'))
     };
 
     // cdn 支持
@@ -127,7 +127,7 @@ try {
                     paths: ${JSON.stringify(defaultConfig.paths)}
                 };
                 importScripts('${__uri('monaco-editor/min/vs/base/worker/workerMain.js')}');`)}`;
-            },
+            }
         });
 } catch (e) {}
 
@@ -140,9 +140,9 @@ export function monacoFactory(containerElement, monaco, options) {
         scrollBeyondLastLine: false,
         folding: true,
         minimap: {
-            enabled: false,
+            enabled: false
         },
-        ...options,
+        ...options
     });
 }
 
@@ -182,7 +182,7 @@ export class Editor extends React.Component<EditorProps, any> {
         editorTheme: 'vs',
         width: '100%',
         height: '100%',
-        options: {},
+        options: {}
     };
 
     editor: any;
@@ -255,7 +255,7 @@ export class Editor extends React.Component<EditorProps, any> {
         const context =
             (window as any).monacaAmd ||
             ((window as any).monacaAmd = {
-                document: window.document,
+                document: window.document
             });
 
         const onGotAmdLoader = () => {
@@ -292,7 +292,7 @@ export class Editor extends React.Component<EditorProps, any> {
             context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__ = context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__ || [];
             context.__REACT_MONACO_EDITOR_LOADER_CALLBACKS__.push({
                 context: this,
-                fn: onGotAmdLoader,
+                fn: onGotAmdLoader
             });
         } else {
             if (typeof context.require === 'undefined') {
@@ -336,7 +336,7 @@ export class Editor extends React.Component<EditorProps, any> {
                 value,
                 language,
                 editorTheme,
-                theme: editorTheme,
+                theme: editorTheme
             });
 
             // json 默认开启验证。

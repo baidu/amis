@@ -12,7 +12,7 @@
     }
 
     &.is-disabled {
-        cursor: default;
+        cursor: not-allowed;
     }
 
     &-half:before {

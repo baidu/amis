@@ -1,6 +1,6 @@
 .#{$ns}PopOver {
     position: absolute;
-    background: $white;
+    background: $PopOver-bg;
     top: 0;
     left: 0;
     z-index: $zindex-popover;

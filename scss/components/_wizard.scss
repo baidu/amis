@@ -65,12 +65,12 @@
             color: $info;
         }
 
-        .#{$ns}Panel-footer>.#{$ns}Form-group,
-        .#{$ns}Panel-footer>.btn {
+        .#{$ns}Panel-footer > .#{$ns}Form-group,
+        .#{$ns}Panel-footer > .btn {
             margin-left: px2rem(5px);
         }
 
-        >ul.nav {
+        > ul.nav {
             padding: 0;
             margin: 0;
             border: $borderWidth solid $borderColor;
@@ -104,7 +104,7 @@
 
                 &:before,
                 &:after {
-                    content: "";
+                    content: '';
                     position: absolute;
                     right: px2rem(-10px);
                     border: px2rem(20px) solid transparent;
@@ -188,11 +188,11 @@
 
                 &.is-active {
                     color: $Wizard-steps-li-onActive-color;
-                    background: #fff;
+                    background: $Wizard-steps-li-onActive-bg;
                 }
 
                 &.is-active:after {
-                    border-left-color: #fff;
+                    border-left-color: $Wizard-steps-li-onActive-arrow-bg;
                 }
 
                 &.is-complete,
@@ -234,7 +234,7 @@
             height: auto;
         }
 
-        &+.#{$ns}Wizard-stepContent {
+        & + .#{$ns}Wizard-stepContent {
             zoom: 1;
             overflow: hidden;
             padding-left: px2rem(40px);
@@ -257,7 +257,7 @@
             // }
         }
 
-        &+.#{$ns}Wizard-stepContent+.#{$ns}Panel-footer {
+        & + .#{$ns}Wizard-stepContent + .#{$ns}Panel-footer {
             clear: both;
         }
     }

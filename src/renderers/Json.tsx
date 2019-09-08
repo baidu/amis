@@ -11,7 +11,7 @@ export interface JSONProps extends RendererProps {
     className?: string;
     placeholder?: string;
     levelExpand: number;
-    theme: string | object;
+    jsonTheme: string;
 }
 
 const twilight = {
@@ -45,14 +45,55 @@ const twilight = {
         WebkitUserSelect: 'none',
         backgroundColor: 'rgba(255, 255, 255, 0.4)',
         whiteSpace: 'nowrap',
-        display: 'inline-block',
-    },
+        display: 'inline-block'
+    }
+};
+
+const eighties = {
+    scheme: 'eighties',
+    author: 'chris kempson (http://chriskempson.com)',
+    base00: '#2d2d2d',
+    base01: '#393939',
+    base02: '#515151',
+    base03: '#747369',
+    base04: '#a09f93',
+    base05: '#d3d0c8',
+    base06: '#e8e6df',
+    base07: '#f2f0ec',
+    base08: '#f2777a',
+    base09: '#f99157',
+    base0A: '#ffcc66',
+    base0B: '#99cc99',
+    base0C: '#66cccc',
+    base0D: '#6699cc',
+    base0E: '#cc99cc',
+    base0F: '#d27b53',
+    tree: {
+        border: 0,
+        padding: '0 0.625em 0.425em',
+        marginTop: '-0.25em',
+        marginBottom: '0',
+        marginLeft: '0',
+        marginRight: 0,
+        listStyle: 'none',
+        MozUserSelect: 'none',
+        WebkitUserSelect: 'none',
+        backgroundColor: '#2D2D2D',
+        whiteSpace: 'nowrap',
+        display: 'inline-block'
+    }
+};
+
+const themes = {
+    twilight,
+    eighties
 };
 
 export class JSONField extends React.Component<JSONProps, object> {
     static defaultProps: Partial<JSONProps> = {
         placeholder: '-',
         levelExpand: 1,
+        jsonTheme: 'twilight'
     };
 
     valueRenderer(raw: any) {
@@ -72,7 +113,7 @@ export class JSONField extends React.Component<JSONProps, object> {
     };
 
     render() {
-        const {className, value, classnames: cx} = this.props;
+        const {className, value, jsonTheme, classnames: cx} = this.props;
 
         let data = value;
 
@@ -81,16 +122,18 @@ export class JSONField extends React.Component<JSONProps, object> {
                 data = JSON.parse(value);
             } catch (e) {
                 data = {
-                    error: e.message,
+                    error: e.message
                 };
             }
         }
+
+        const theme = themes[jsonTheme] ? themes[jsonTheme] : themes['twilight'];
 
         return (
             <div className={cx('JsonField', className)}>
                 <JSONTree
                     data={data}
-                    theme={twilight}
+                    theme={theme}
                     shouldExpandNode={this.shouldExpandNode}
                     valueRenderer={this.valueRenderer}
                 />
@@ -101,6 +144,6 @@ export class JSONField extends React.Component<JSONProps, object> {
 
 @Renderer({
     test: /(^|\/)json$/,
-    name: 'json',
+    name: 'json'
 })
 export class JSONFieldRenderer extends JSONField {}

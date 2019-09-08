@@ -54,10 +54,7 @@
     }
 
     &-itemIcon {
-        margin: (
-                $Layout-nav-height - $lineHeightBase *
-                    $Layout-asideLink-fontSize
-            )/-2 px2rem(-10px);
+        margin: ($Layout-nav-height - $lineHeightBase * $Layout-asideLink-fontSize)/-2 px2rem(-10px);
         line-height: $Layout-nav-height;
         width: $Layout-nav-height;
         vertical-align: middle;
@@ -83,7 +80,7 @@
         overflow: hidden;
         margin-left: px2rem(-20px);
         transition: all 0.2s ease-in-out 0s;
-        background-color: $Layout-aside-onAcitve-bg;
+        background-color: $Layout-aside-subList-bg;
 
         .is-open > &,
         .#{$ns}Layout--folded .#{$ns}AsideNav-item:hover > &,
@@ -110,10 +107,7 @@
             text-transform: none;
             display: block;
             font-size: $Layout-asideLink-fontSize;
-            padding: (
-                    $Layout-nav-height - $lineHeightBase *
-                        $Layout-asideLink-fontSize
-                )/2 px2rem(15px);
+            padding: ($Layout-nav-height - $lineHeightBase * $Layout-asideLink-fontSize)/2 px2rem(15px);
             position: relative;
             transition: background-color 0.2s ease-in-out 0s;
             color: $Layout-asideLink-color;
@@ -144,10 +138,7 @@
 
         &.is-lg {
             > a {
-                padding: (
-                    $Layout-nav-lgHeight - $lineHeightBase *
-                        $Layout-asideLink-fontSize
-                )/2 px2rem(15px);
+                padding: ($Layout-nav-lgHeight - $lineHeightBase * $Layout-asideLink-fontSize)/2 px2rem(15px);
             }
         }
 
@@ -181,10 +172,7 @@
             cursor: default;
             background: transparent;
             color: darken($Layout-aside-color, 10%);
-            padding: (
-                    $Layout-nav--folded-height - $lineHeightBase *
-                        $Layout-asideLink-fontSize
-                )/2 px2rem(20px);
+            padding: ($Layout-nav--folded-height - $lineHeightBase * $Layout-asideLink-fontSize)/2 px2rem(20px);
 
             &:hover {
                 color: darken($Layout-aside-color, 10%);
