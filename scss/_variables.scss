@@ -1,5 +1,5 @@
 // 类名前缀
-$ns: "" !default;
+$ns: '' !default;
 
 // 颜色
 $white: #fff !default;
@@ -35,17 +35,13 @@ $dark: $gray800 !default;
 $remFactor: 16px !default;
 
 // 字体相关
-$fontFamilySansSerif: -apple-system, BlinkMacSystemFont, "SF Pro SC",
-    "SF Pro Text", "Helvetica Neue", Helvetica, "PingFang SC", "Segoe UI",
-    Roboto, "Hiragino Sans GB", "Arial", "microsoft yahei ui", "Microsoft YaHei",
-    SimSun, sans-serif !default;
-$fontFamilyMonospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    "Courier New", monospace !default;
+$fontFamilySansSerif: -apple-system, BlinkMacSystemFont, 'SF Pro SC', 'SF Pro Text', 'Helvetica Neue', Helvetica,
+    'PingFang SC', 'Segoe UI', Roboto, 'Hiragino Sans GB', 'Arial', 'microsoft yahei ui', 'Microsoft YaHei', SimSun,
+    sans-serif !default;
+$fontFamilyMonospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
 $fontFamilyBase: $fontFamilySansSerif !default;
 
-$fontSizeBase: px2rem(
-    14px
-) !default; // Assumes the browser default, typically `16px`
+$fontSizeBase: px2rem(14px) !default; // Assumes the browser default, typically `16px`
 $fontSizeMd: px2rem(16px) !default;
 $fontSizeLg: px2rem(20px) !default;
 $fontSizeSm: px2rem(12px) !default;
@@ -142,10 +138,8 @@ $Layout-aside--md-width: px2rem(250px) !default;
 $Layout-aside--lg-width: px2rem(300px) !default;
 $Layout-aside--folded-width: px2rem(60px) !default;
 $Layout-aside-bg: $dark !default;
-$Layout-aside-onAcitve-bg: saturate(
-    darken($Layout-aside-bg, 5%),
-    2.5%
-) !default;
+$Layout-aside-onAcitve-bg: saturate(darken($Layout-aside-bg, 5%), 2.5%) !default;
+$Layout-aside-subList-bg: saturate(darken($Layout-aside-bg, 10%), 2.5%) !default;
 $Layout-aside-onHover-bg: saturate(darken($Layout-aside-bg, 3%), 2.5%) !default;
 $Layout-aside-color: desaturate(lighten($Layout-aside-bg, 40%), 10%) !default;
 
@@ -159,23 +153,19 @@ $Layout-asideLink-fontSize: $fontSizeBase !default;
 $Layout-asideLink-color: #b4b6bd !default;
 $Layout-asideLink-onHover-color: #fff !default;
 $Layout-asideLink-onActive-color: #fff !default;
-$Layout-asideLink-arrowVendor: "FontAwesome" !default;
+$Layout-asideLink-arrowVendor: 'FontAwesome' !default;
 $Layout-asideLink-arrowFontSize: $fontFamilyBase !default;
-$Layout-asideLink-arrowIcon: "\f105" !default;
+$Layout-asideLink-arrowIcon: '\f105' !default;
 $Layout-asideLink-arrowColor: $Layout-asideLink-color !default;
 $Layout-asideLink-onActive-arrowColor: $Layout-asideLink-onActive-color !default;
 $Layout-asideLabel-color: darken($Layout-aside-color, 10%) !default;
 $Layout-brand-bg: $dark !default;
-$Layout-brandBar-color: desaturate(
-    lighten($Layout-brand-bg, 40%),
-    10%
-) !default;
+$Layout-brandBar-color: desaturate(lighten($Layout-brand-bg, 40%), 10%) !default;
 $Layout-brand-color: lighten($Layout-brandBar-color, 25%) !default;
 $Layout-header-height: px2rem(50px) !default;
 $Layout-headerBar-borderBottom: none !default;
 $Layout-header-bg: $white !default;
-$Layout-header-boxShadow: 0 px2rem(2px) px2rem(2px) rgba(0, 0, 0, 0.05),
-    0 1px 0 rgba(0, 0, 0, 0.05) !default;
+$Layout-header-boxShadow: 0 px2rem(2px) px2rem(2px) rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05) !default;
 $Layout-nav-height: px2rem(40px) !default;
 $Layout-nav-lgHeight: px2rem(50px) !default;
 $Layout-nav--folded-height: px2rem(50px) !default;
@@ -208,9 +198,7 @@ $Modal-header-bg: darken($Modal-bg, 2.5%) !default;
 $Modal-title-lineHeight: $lineHeightBase !default;
 $Modal-title-fontSize: $fontSizeBase !default;
 $Modal-title-color: $text--loud-color !default;
-$Modal-header-paddingY: (
-        $Modal-header-height - $Modal-title-lineHeight * $Modal-title-fontSize
-    ) / 2 !default;
+$Modal-header-paddingY: ($Modal-header-height - $Modal-title-lineHeight * $Modal-title-fontSize) / 2 !default;
 $Modal-header-paddingX: $gap-md !default;
 $Modal-close-width: px2rem(12px) !default;
 $Modal-close-color: $text--muted-color !default;
@@ -218,10 +206,8 @@ $Model-close-onHover-color: $text-color !default;
 $Modal-body-paddingX: $gap-md !default;
 $Modal-body-paddingY: $gap-md !default;
 $Modal-body--noHeader-paddingTop: $gap-base;
-$Modal-body-borderTop: $Modal-content-borderWidth solid
-    lighten($Modal-content-borderColor, 5%) !default;
-$Modal-body-borderBottom: $Modal-content-borderWidth solid
-    lighten($Modal-content-borderColor, 5%) !default;
+$Modal-body-borderTop: $Modal-content-borderWidth solid lighten($Modal-content-borderColor, 5%) !default;
+$Modal-body-borderBottom: $Modal-content-borderWidth solid lighten($Modal-content-borderColor, 5%) !default;
 $Modal-footer-padding: $gap-sm !default;
 $Modal-footer-marginY: 0 !default;
 $Modal-footer-marginX: 0 !default;
@@ -325,12 +311,12 @@ $Toast--warning-color: $Toast-color !default;
 $Toast--warning-bgColor: $warning !default;
 $Toast--warning-borderColor: $warning !default;
 
-$Toast-iconVendor: "FontAwesome" !default;
+$Toast-iconVendor: 'FontAwesome' !default;
 
-$Toast--error-icon: "\f06a" !default;
-$Toast--warning-icon: "\f071" !default;
-$Toast--info-icon: "\f05a" !default;
-$Toast--success-icon: "\f00c" !default;
+$Toast--error-icon: '\f06a' !default;
+$Toast--warning-icon: '\f071' !default;
+$Toast--info-icon: '\f05a' !default;
+$Toast--success-icon: '\f00c' !default;
 
 // alert
 $Alert-fontSize: $fontSizeBase !default;
@@ -344,10 +330,7 @@ $Alert-marginBottom: $gap-md !default;
 
 $Alert--danger-color: #a94442 !default;
 $Alert--danger-bg: #f2dede !default;
-$Alert--danger-borderColor: darken(
-    adjust-hue($Alert--danger-bg, -10),
-    5%
-) !default;
+$Alert--danger-borderColor: darken(adjust-hue($Alert--danger-bg, -10), 5%) !default;
 
 $Alert--info-color: #31708f !default;
 $Alert--info-bg: #d9edf7 !default;
@@ -355,17 +338,11 @@ $Alert--info-borderColor: darken(adjust-hue($Alert--info-bg, -10), 5%) !default;
 
 $Alert--success-color: #3c763d !default;
 $Alert--success-bg: #dff0d8 !default;
-$Alert--success-borderColor: darken(
-    adjust-hue($Alert--success-bg, -10),
-    5%
-) !default;
+$Alert--success-borderColor: darken(adjust-hue($Alert--success-bg, -10), 5%) !default;
 
 $Alert--warning-color: #8a6d3b !default;
 $Alert--warning-bg: #fcf8e3 !default;
-$Alert--warning-borderColor: darken(
-    adjust-hue($Alert--warning-bg, -10),
-    5%
-) !default;
+$Alert--warning-borderColor: darken(adjust-hue($Alert--warning-bg, -10), 5%) !default;
 
 // spinner
 $Spinner-overlay-bg: rgba(255, 255, 255, 0.4) !default;
@@ -374,7 +351,7 @@ $Spinner-height: px2rem(26px) !default;
 $Spinner--lg-width: px2rem(50px) !default;
 $Spinner--lg-height: px2rem(50px) !default;
 
-$Spinner-bg: url("./spinner-default.svg") !default;
+$Spinner-bg: url('./spinner-default.svg') !default;
 
 // Tabs
 $Tabs-linkFontSize: $fontSizeBase !default;
@@ -390,6 +367,10 @@ $Tabs-onActive-borderBottomColor: transparent !default;
 $Tabs-onActive-borderBottomWidth: initial !default;
 $Tabs-onActive-bg: $background !default;
 $Tabs-content-bg: $background !default;
+$Tabs--card-bg: $background !default;
+$Tabs--card-borderTopColor: #e2e5ec !default;
+$Tabs--card-onActive-bg: #eceff8 !default;
+$Tabs--radio-bg: #eaf6fe !default;
 
 // Nav
 $Nav-item-fontSize: $fontSizeBase !default;
@@ -432,8 +413,7 @@ $Table-thead-iconColor: $text--muted-color !default;
 $TableCell-height: px2rem(40px) !default;
 $TableCell-paddingX: $gap-sm !default;
 $TableCell--edge-paddingX: $gap-md !default;
-$TableCell-paddingY: ($TableCell-height - $Table-fontSize * $Table-lineHeight) /
-    2;
+$TableCell-paddingY: ($TableCell-height - $Table-fontSize * $Table-lineHeight) / 2;
 $Table-placeholder-height: px2rem(100px) !default;
 
 // $Table-checkCell-width: px2rem(50px) !default;
@@ -448,20 +428,14 @@ $Table-onChecked-bg: #d9f3fb !default;
 $Table-onChecked-borderColor: darken($Table-onChecked-bg, 10%) !default;
 $Table-onChecked-color: darken($Table-onChecked-bg, 40%) !default;
 $Table-onChecked-onHover-bg: darken($Table-onChecked-bg, 5%) !default;
-$Table-onChecked-onHover-borderColor: darken(
-    $Table-onChecked-borderColor,
-    5%
-) !default;
+$Table-onChecked-onHover-borderColor: darken($Table-onChecked-borderColor, 5%) !default;
 $Table-onChecked-onHover-color: darken($Table-onChecked-color, 5%) !default;
 
 $Table-onModified-bg: #e8f0fe !default;
 $Table-onModified-color: #4285f4 !default;
 $Table-onModified-borderColor: darken($Table-onModified-bg, 5%) !default;
 $Table-onModified-onHover-bg: darken($Table-onModified-bg, 2.5%) !default;
-$Table-onModified-onHover-borderColor: darken(
-    $Table-onModified-onHover-bg,
-    5%
-) !default;
+$Table-onModified-onHover-borderColor: darken($Table-onModified-onHover-bg, 5%) !default;
 $Table-onModified-onHover-color: darken($Table-onModified-color, 5%) !default;
 
 $Table-onDragging-opacity: 0.1 !default;
@@ -476,18 +450,18 @@ $Table-heading-bg: $white !default;
 $Table--unsaved-heading-bg: #e8f0fe !default;
 $Table--unsaved-heading-color: #4285f4 !default;
 
-$Table-expandBtn-vendor: "FontAwesome" !default;
+$Table-expandBtn-vendor: 'FontAwesome' !default;
 $Table-expandBtn-fontSize: px2rem(20px) !default;
 $Table-expandBtn-color: $info !default;
-$Table-expandBtn-icon: "\f105" !default;
+$Table-expandBtn-icon: '\f105' !default;
 
 $TableCell-sortBtn-width: px2rem(8px) !default;
-$TableCell-sortBtn--down-iconVendor: "fontAwesome" !default;
-$TableCell-sortBtn--down-icon: "\f0dd" !default;
-$TableCell-sortBtn--up-iconVendor: "fontAwesome" !default;
-$TableCell-sortBtn--up-icon: "\f0de" !default;
-$TableCell-sortBtn--default-iconVendor: "fontAwesome" !default;
-$TableCell-sortBtn--default-icon: "\f0dc" !default;
+$TableCell-sortBtn--down-iconVendor: 'fontAwesome' !default;
+$TableCell-sortBtn--down-icon: '\f0dd' !default;
+$TableCell-sortBtn--up-iconVendor: 'fontAwesome' !default;
+$TableCell-sortBtn--up-icon: '\f0de' !default;
+$TableCell-sortBtn--default-iconVendor: 'fontAwesome' !default;
+$TableCell-sortBtn--default-icon: '\f0dc' !default;
 $TableCell-sortBtn--default-opacity: 0.4 !default;
 $TableCell-sortBtn--default-onActive-opacity: 0.4 !default;
 
@@ -557,6 +531,9 @@ $Copyable-onHover-iconColor: $text-color !default;
 $PopOverAble-iconColor: $text--muted-color !default;
 $PopOverAble-onHover-iconColor: $text-color !default;
 
+// PopOver
+$PopOver-bg: white !default;
+
 // Remark
 $Remark-width: 1rem !default;
 $Remark-icon-fontSize: $fontSizeBase !default;
@@ -616,15 +593,10 @@ $Form-input-placeholderColor: $text--muted-color !default;
 $Form-input-lineHeight: 20/14 !default;
 $Form-input-fontSize: $Form-fontSize !default;
 $Form-input-boxShadow: none !default;
-$Form-input-paddingY: (
-        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize -
-            px2rem(2px)
-    )/2 !default;
+$Form-input-paddingY: ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px))/2 !default;
 $Form-input-paddingX: px2rem(12px) !default;
 $Form-input-marginBottom: px2rem(6px) !default;
-$Form-label-paddingTop: (
-        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
-    )/2 !default;
+$Form-label-paddingTop: ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize)/2 !default;
 
 $Form-input-addOnBg: #edf1f2 !default;
 $Form-input-addOnColor: $text-color !default;
@@ -632,19 +604,20 @@ $Form-input-onFocus-addOnColor: $primary !default;
 $Form-input-addOnDividerBorderWidth: $borderWidth !default;
 
 $Number-bg: $Form-input-bg !default;
+$Number-onDisabled-bg: $Form-input-bg !default;
 $Number-borderColor: $Form-input-borderColor !default;
 $Number-borderWidth: $Form-input-borderWidth !default;
 $Number-borderRadius: $Form-input-borderRadius !default;
-$Number-handler-mode: "vertical" !default;
+$Number-handler-mode: 'vertical' !default;
 $Number-handler-borderBottom: px2rem(1px) solid $Form-input-borderColor !default;
 $Number-handler-width: px2rem(20px) !default;
 $Number-handler-color: $Form-input-color !default;
 $Number-handler-onDisabled-color: $text--muted-color !default;
 $Number-handler-fontFamily: inherit !default;
 $Number-handler-fontSize: $fontSizeBase !default;
-$Number-handler--up-content: "+" !default;
+$Number-handler--up-content: '+' !default;
 $Number-handler--up-transform: none !default;
-$Number-handler--down-content: "-" !default;
+$Number-handler--down-content: '-' !default;
 $Number-handler-bg: $white !default;
 $Number-handler-onHover-bg: darken($Number-handler-bg, 5%) !default;
 $Number-handler-onHover-color: $text-color !default;
@@ -665,17 +638,11 @@ $Form-select-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
 $Form-select-onError-borderColor: $Form-input-onError-borderColor !default;
 $Form-selectOption-height: $Form-input-height !default;
 $Form-selectValue-color: #007eff !default;
-$Form-selectValue-bg: saturate(
-    lighten($Form-selectValue-color, 40%),
-    2.5%
-) !default;
-$Form-selectValue-borderColor: saturate(
-    lighten($Form-selectValue-color, 30%),
-    2.5%
-) !default;
+$Form-selectValue-bg: saturate(lighten($Form-selectValue-color, 40%), 2.5%) !default;
+$Form-selectValue-borderColor: saturate(lighten($Form-selectValue-color, 30%), 2.5%) !default;
 $Form-selectValue-fontSize: $fontSizeSm !default;
-$Form-select-caret-vender: "FontAwesome" !default;
-$Form-select-caret-icon: "\f0d7" !default;
+$Form-select-caret-vender: 'FontAwesome' !default;
+$Form-select-caret-icon: '\f0d7' !default;
 $Form-select-caret-fontSize: $fontSizeBase !default;
 $Form-select-caret-iconColor: $Form-input-iconColor !default;
 $Form-select-caret-onHover-iconColor: $Form-input-iconColor !default;
@@ -699,10 +666,7 @@ $InputGroup-addOn-bg: $Form-input-addOnBg !default;
 $InputGroup-addOn-borderWidth: $Form-input-borderWidth !default;
 $InputGroup-addOn-borderColor: $Form-input-borderColor !default;
 $InputGroup-addOn-borderRadius: $Form-input-borderRadius !default;
-$InputGroup-paddingY: (
-        $InputGroup-height - $Form-input-lineHeight * $Form-input-fontSize -
-            px2rem(2px)
-    )/2 !default;
+$InputGroup-paddingY: ($InputGroup-height - $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px))/2 !default;
 $InputGroup-paddingX: px2rem(10px) !default;
 $InputGroup-addOn-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
 $InputGroup-select-borderWidth: $Form-select-borderWidth !default;
@@ -728,10 +692,7 @@ $Button-height: $Form-input-height !default;
 $Button-mimWidth: auto !default;
 $Button-lineHeight: $Form-input-lineHeight !default;
 $Button-paddingX: px2rem(12px) !default;
-$Button-paddingY: (
-        $Button-height - $Button-borderWidth * 2 - $Button-lineHeight *
-            $Button-fontSize
-    )/2 !default;
+$Button-paddingY: ($Button-height - $Button-borderWidth * 2 - $Button-lineHeight * $Button-fontSize)/2 !default;
 
 $Button--iconOnly-minWidthRate: 4 / 3 !default;
 
@@ -739,40 +700,27 @@ $Button--xs-fontSize: $fontSizeXs !default;
 $Button--xs-height: px2rem(22px) !default;
 $Button--xs-lineHeight: 18 / 11 !default;
 $Button--xs-paddingX: px2rem(5px) !default;
-$Button--xs-paddingY: (
-        $Button--xs-height - $Button-borderWidth * 2 - $Button--xs-lineHeight *
-            $Button--xs-fontSize
-    )/2 !default;
+$Button--xs-paddingY: ($Button--xs-height - $Button-borderWidth * 2 - $Button--xs-lineHeight * $Button--xs-fontSize)/2 !default;
 
 $Button--sm-fontSize: $fontSizeSm !default;
 $Button--sm-height: px2rem(30px) !default;
 $Button--sm-lineHeight: 18 / 12 !default;
 $Button--sm-paddingX: px2rem(8px) !default;
-$Button--sm-paddingY: (
-        $Button--sm-height - $Button-borderWidth * 2 - $Button--sm-lineHeight *
-            $Button--sm-fontSize
-    )/2 !default;
+$Button--sm-paddingY: ($Button--sm-height - $Button-borderWidth * 2 - $Button--sm-lineHeight * $Button--sm-fontSize)/2 !default;
 
 $Button--md-fontSize: $Button-fontSize !default;
 $Button--md-height: $Button-height !default;
 $Button--md-lineHeight: $Button-lineHeight !default;
 $Button--md-paddingX: $Button-paddingX !default;
-$Button--md-paddingY: (
-        $Button--md-height - $Button-borderWidth * 2 - $Button--md-lineHeight *
-            $Button--md-fontSize
-    )/2 !default;
+$Button--md-paddingY: ($Button--md-height - $Button-borderWidth * 2 - $Button--md-lineHeight * $Button--md-fontSize)/2 !default;
 
 $Button--lg-fontSize: $fontSizeLg !default;
 $Button--lg-height: px2rem(46px) !default;
 $Button--lg-lineHeight: 24 / 20 !default;
 $Button--lg-paddingX: px2rem(16px) !default;
-$Button--lg-paddingY: (
-        $Button--lg-height - $Button-borderWidth * 2 - $Button--lg-lineHeight *
-            $Button--lg-fontSize
-    )/2 !default;
+$Button--lg-paddingY: ($Button--lg-height - $Button-borderWidth * 2 - $Button--lg-lineHeight * $Button--lg-fontSize)/2 !default;
 
-$Button-boxShadow: inset 0 1px 0 rgba($white, 0.15),
-    0 1px 1px rgba($black, 0.075) !default;
+$Button-boxShadow: inset 0 1px 0 rgba($white, 0.15), 0 1px 1px rgba($black, 0.075) !default;
 $Button-onFocus-boxShadow: none !default;
 $Button-onActive-boxShadow: inset 0 3px 5px rgba($black, 0.125) !default;
 $Button-onDisabled-opacity: 0.65 !default;
@@ -784,8 +732,8 @@ $Button-borderRadius: $borderRadius !default;
 $Button--lg-borderRadius: $borderRadius !default;
 $Button--sm-borderRadius: $borderRadius !default;
 
-$Button-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !default;
+$Button-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out !default;
 
 $Button--primary-bg: $primary !default;
 $Button--primary-border: $Button--primary-bg !default;
@@ -794,26 +742,17 @@ $Button--primary-onHover-bg: darken($Button--primary-bg, 7.5%) !default;
 $Button--primary-onHover-border: darken($Button--primary-border, 10%) !default;
 $Button--primary-onHover-color: $Button--primary-color !default;
 $Button--primary-onActive-bg: darken($Button--primary-bg, 10%) !default;
-$Button--primary-onActive-border: darken(
-    $Button--primary-border,
-    12.5%
-) !default;
+$Button--primary-onActive-border: darken($Button--primary-border, 12.5%) !default;
 $Button--primary-onActive-color: $Button--primary-color !default;
 
 $Button--secondary-bg: $secondary !default;
 $Button--secondary-border: $Button--secondary-bg !default;
 $Button--secondary-color: $white !default;
 $Button--secondary-onHover-bg: darken($Button--secondary-bg, 7.5%) !default;
-$Button--secondary-onHover-border: darken(
-    $Button--secondary-border,
-    10%
-) !default;
+$Button--secondary-onHover-border: darken($Button--secondary-border, 10%) !default;
 $Button--secondary-onHover-color: $Button--secondary-color !default;
 $Button--secondary-onActive-bg: darken($Button--secondary-bg, 10%) !default;
-$Button--secondary-onActive-border: darken(
-    $Button--secondary-border,
-    12.5%
-) !default;
+$Button--secondary-onActive-border: darken($Button--secondary-border, 12.5%) !default;
 $Button--secondary-onActive-color: $Button--secondary-color !default;
 
 $Button--success-bg: $success !default;
@@ -823,10 +762,7 @@ $Button--success-onHover-bg: darken($Button--success-bg, 7.5%) !default;
 $Button--success-onHover-border: darken($Button--success-border, 10%) !default;
 $Button--success-onHover-color: $Button--success-color !default;
 $Button--success-onActive-bg: darken($Button--success-bg, 10%) !default;
-$Button--success-onActive-border: darken(
-    $Button--success-border,
-    12.5%
-) !default;
+$Button--success-onActive-border: darken($Button--success-border, 12.5%) !default;
 $Button--success-onActive-color: $Button--success-color !default;
 
 $Button--info-bg: $info !default;
@@ -846,10 +782,7 @@ $Button--warning-onHover-bg: darken($Button--warning-bg, 7.5%) !default;
 $Button--warning-onHover-border: darken($Button--warning-border, 10%) !default;
 $Button--warning-onHover-color: $Button--warning-color !default;
 $Button--warning-onActive-bg: darken($Button--warning-bg, 10%) !default;
-$Button--warning-onActive-border: darken(
-    $Button--warning-border,
-    12.5%
-) !default;
+$Button--warning-onActive-border: darken($Button--warning-border, 12.5%) !default;
 $Button--warning-onActive-color: $Button--warning-color !default;
 
 $Button--danger-bg: $danger !default;
@@ -889,10 +822,7 @@ $Button--default-onHover-bg: darken($Button--default-bg, 7.5%) !default;
 $Button--default-onHover-border: darken($Button--default-border, 10%) !default;
 $Button--default-onHover-color: $Button--default-color !default;
 $Button--default-onActive-bg: darken($Button--default-bg, 10%) !default;
-$Button--default-onActive-border: darken(
-    $Button--default-border,
-    12.5%
-) !default;
+$Button--default-onActive-border: darken($Button--default-border, 12.5%) !default;
 $Button--default-onActive-color: $Button--default-color !default;
 
 $Button--link-color: $text-color !default;
@@ -908,9 +838,7 @@ $DropDown-menu-height: px2rem(34px) !default;
 $DropDown-menu-minWidth: px2rem(160px) !default;
 $DropDown-menu-paddingY: $gap-xs !default;
 $DropDown-menu-paddingX: 0 !default;
-$DropDown-menuItem-paddingY: (
-        $DropDown-menu-height - $fontSizeBase * $lineHeightBase
-    ) / 2 !default;
+$DropDown-menuItem-paddingY: ($DropDown-menu-height - $fontSizeBase * $lineHeightBase) / 2 !default;
 $DropDown-menuItem-paddingX: $gap-sm !default;
 $DropDown-menuItem-onHover-color: inherit !default;
 $DropDown-menuItem-onHover-bg: $Button--default-onHover-bg !default;
@@ -922,7 +850,10 @@ $Checkbox-inner-size: $Checkbox-size / 2 !default;
 $Checkbox--full-inner-size: px2rem(12px) !default;
 $Checkbox-color: $Form-input-borderColor !default;
 $Checkbox-onHover-color: $info !default;
+
 $Checkbox--sm-size: px2rem(16px) !default;
+$Checkbox-gb: #fff !default;
+$Checkbox-borderRadius: $borderRadius !default;
 
 // Radio
 $Radio-size: $Checkbox-size !default;
@@ -943,6 +874,9 @@ $Switch-onDisabled-bgColor: #ccc !default;
 $Switch-onDisabled-color: #fff !default;
 $Switch-onDisabled-circle-BackgroundColor: $white !default;
 
+// Fieldset
+$Fieldset-legend-bgColor: $white !default;
+
 // color Picker
 $ColorPicker-color: $Form-input-color !default;
 $ColorPicker-bg: $white !default;
@@ -957,9 +891,8 @@ $ColorPicker-height: $Form-input-height !default;
 $ColorPicker-lineHeight: $Form-input-lineHeight !default;
 $ColorPicker-fontSize: $Form-input-fontSize !default;
 $ColorPicker-paddingX: px2rem(12px) !default;
-$ColorPicker-paddingY: (
-        $ColorPicker-height - $ColorPicker-lineHeight * $ColorPicker-fontSize
-    )/2 - $ColorPicker-borderWidth !default;
+$ColorPicker-paddingY: ($ColorPicker-height - $ColorPicker-lineHeight * $ColorPicker-fontSize)/2 -
+    $ColorPicker-borderWidth !default;
 $ColorPicker-placeholderColor: $Form-input-placeholderColor !default;
 $ColorPicker-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
 $DatePicker-onHover-borderColor: $Form-input-borderColor !default;
@@ -975,22 +908,21 @@ $DatePicker-height: $Form-input-height !default;
 $DatePicker-lineHeight: $Form-input-lineHeight !default;
 $DatePicker-fontSize: $Form-input-fontSize !default;
 $DatePicker-paddingX: px2rem(12px) !default;
-$DatePicker-paddingY: (
-        $DatePicker-height - $DatePicker-lineHeight * $DatePicker-fontSize
-    )/2 - $DatePicker-borderWidth !default;
+$DatePicker-paddingY: ($DatePicker-height - $DatePicker-lineHeight * $DatePicker-fontSize)/2 - $DatePicker-borderWidth !default;
 $DatePicker-placeholderColor: $Form-input-placeholderColor !default;
 $DatePicker-iconColor: $gray600 !default;
 $DatePicker-onHover-iconColor: darken($DatePicker-iconColor, 10%) !default;
 $DatePicker-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
-$DatePicker-toggler-vendor: "FontAwesome" !default;
+$DatePicker-toggler-vendor: 'FontAwesome' !default;
 $DatePicker-toggler-fontSize: $Form-fontSize !default;
-$DatePicker-toggler-icon: "\f073" !default;
-$DatePicker-prevBtn-vendor: "FontAwesome" !default;
+$DatePicker-toggler-icon: '\f073' !default;
+$DatePicker-prevBtn-vendor: 'FontAwesome' !default;
 $DatePicker-prevBtn-fontSize: $fontSizeMd !default;
-$DatePicker-prevBtn-icon: "\f104" !default;
-$DatePicker-nextBtn-vendor: "FontAwesome" !default;
+$DatePicker-prevBtn-icon: '\f104' !default;
+$DatePicker-nextBtn-vendor: 'FontAwesome' !default;
 $DatePicker-nextBtn-fontSize: $fontSizeMd !default;
-$DatePicker-nextBtn-icon: "\f105" !default;
+$DatePicker-nextBtn-icon: '\f105' !default;
+$DatePicker-header-select-borderColor: #fff !default;
 
 $Calendar-fontSize: $fontSizeBase !default;
 
@@ -1002,18 +934,13 @@ $Calendar-input-borderRadius: $borderRadius !default;
 $Calendar-input-height: px2rem(30px) !default;
 $Calendar-input-lineHeight: $lineHeightBase;
 $Calendar-input-paddingX: px2rem(10px) !default;
-$Calendar-input-paddingY: (
-        $Calendar-input-height - $Calendar-input-lineHeight *
-            $Calendar-input-fontSize
-    ) / 2;
+$Calendar-input-paddingY: ($Calendar-input-height - $Calendar-input-lineHeight * $Calendar-input-fontSize) / 2;
 
 $Calendar-btn-fontSize: $fontSizeSm !default;
 $Calendar-btn-lineHeight: $lineHeightBase !default;
 $Calendar-btn-height: px2rem(30px) !default;
 $Calendar-btn-paddingX: px2rem(10px) !default;
-$Calendar-btn-paddingY: (
-        $Calendar-btn-height - $Calendar-btn-lineHeight * $Calendar-btn-fontSize
-    )/2 !default;
+$Calendar-btn-paddingY: ($Calendar-btn-height - $Calendar-btn-lineHeight * $Calendar-btn-fontSize)/2 !default;
 
 $Calendar-btn-bg: $info !default;
 $Calendar-btn-border: $Calendar-btn-bg !default;
@@ -1031,16 +958,10 @@ $Calendar-btnCancel-border: $Calendar-btnCancel-bg !default;
 $Calendar-btnCancel-borderRadius: $Button-borderRadius !default;
 $Calendar-btnCancel-color: $text-color !default;
 $Calendar-btnCancel-onHover-bg: darken($Calendar-btnCancel-bg, 7.5%) !default;
-$Calendar-btnCancel-onHover-border: darken(
-    $Calendar-btnCancel-border,
-    10%
-) !default;
+$Calendar-btnCancel-onHover-border: darken($Calendar-btnCancel-border, 10%) !default;
 $Calendar-btnCancel-onHover-color: $Calendar-btnCancel-color !default;
 $Calendar-btnCancel-onActive-bg: darken($Calendar-btnCancel-bg, 10%) !default;
-$Calendar-btnCancel-onActive-border: darken(
-    $Calendar-btnCancel-border,
-    12.5%
-) !default;
+$Calendar-btnCancel-onActive-border: darken($Calendar-btnCancel-border, 12.5%) !default;
 $Calendar-btnCancel-onActive-color: $Calendar-btnCancel-color !default;
 
 $Calendar-color: $text-color !default;
@@ -1063,18 +984,12 @@ $ListControl-item-paddingX: px2rem(12px) !default;
 $ListControl-item-paddingY: px2rem(6px) !default;
 $ListControl-item-color: $text-color !default;
 
-$ListControl-item-onHover-borderColor: darken(
-    $ListControl-item-borderColor,
-    10%
-) !default;
+$ListControl-item-onHover-borderColor: darken($ListControl-item-borderColor, 10%) !default;
 $ListControl-item-onHover-bg: darken($ListControl-item-bg, 7.5%) !default;
 $ListControl-item-onHover-color: $ListControl-item-color !default;
 
 $ListControl-item-onActive-bg: $primary !default;
-$ListControl-item-onActive-borderColor: darken(
-    $ListControl-item-onActive-bg,
-    10%
-) !default;
+$ListControl-item-onActive-borderColor: darken($ListControl-item-onActive-bg, 10%) !default;
 $ListControl-item-onActive-color: $white !default;
 $ListControl-item-onActive-before-bg: $white !default;
 $ListControl-item-onActive-after-borderColor: $primary !default;
@@ -1108,8 +1023,7 @@ $Combo-addBtn-height: px2rem(26px) !default;
 $Combo-addBtn-lineHeight: $Button--sm-lineHeight !default;
 $Combo-addBtn-paddingX: $Button--sm-paddingX !default;
 $Combo-addBtn-paddingY: (
-        $Combo-addBtn-height - $Button-borderWidth * 2 -
-            $Combo-addBtn-lineHeight * $Combo-addBtn-fontSize
+        $Combo-addBtn-height - $Button-borderWidth * 2 - $Combo-addBtn-lineHeight * $Combo-addBtn-fontSize
     )/2 !default;
 
 $Combo--vertical-item-gap: px2rem(5px);
@@ -1125,10 +1039,7 @@ $Combo--vertical-itemToolbar-bg: $info !default;
 $Combo--vertical-itemToolbar-color: darken($white, 5%) !default;
 $Combo--vertical-itemToolbar-onHover-color: $white !default;
 $Combo--vertical-itemToolbar-borderWidth: $borderWidth !default;
-$Combo--vertical-itemToolbar-borderColor: darken(
-    $Combo--vertical-itemToolbar-bg,
-    5%
-) !default;
+$Combo--vertical-itemToolbar-borderColor: darken($Combo--vertical-itemToolbar-bg, 5%) !default;
 $Combo--vertical-itemToolbar-borderRadius: px2rem(3px) !default;
 $Combo--vertical-itemToolbar-transion: all 0.25s ease-in-out !default;
 $Combo--vertical-itemToolbar-positionTop: -$Combo--vertical-itemToolbar-height !default;
@@ -1144,10 +1055,7 @@ $SubForm--addBtn-onHover-bg: darken($SubForm--addBtn-bg, 7.5%) !default;
 $SubForm--addBtn-onHover-border: darken($SubForm--addBtn-border, 10%) !default;
 $SubForm--addBtn-onHover-color: $SubForm--addBtn-color !default;
 $SubForm--addBtn-onActive-bg: darken($SubForm--addBtn-bg, 10%) !default;
-$SubForm--addBtn-onActive-border: darken(
-    $SubForm--addBtn-border,
-    12.5%
-) !default;
+$SubForm--addBtn-onActive-border: darken($SubForm--addBtn-border, 12.5%) !default;
 $SubForm--addBtn-onActive-color: $SubForm--addBtn-color !default;
 
 $SubForm--addBtn-fontSize: $Button--sm-fontSize !default;
@@ -1156,8 +1064,7 @@ $SubForm--addBtn-height: $Button--sm-height !default;
 $SubForm--addBtn-lineHeight: $Button--sm-lineHeight !default;
 $SubForm--addBtn-paddingX: $Button--sm-paddingX !default;
 $SubForm--addBtn-paddingY: (
-        $SubForm--addBtn-height - $Button-borderWidth * 2 -
-            $SubForm--addBtn-lineHeight * $SubForm--addBtn-fontSize
+        $SubForm--addBtn-height - $Button-borderWidth * 2 - $SubForm--addBtn-lineHeight * $SubForm--addBtn-fontSize
     )/2 !default;
 
 // InputRange
@@ -1171,8 +1078,7 @@ $InputRange-onDisabled-color: #cccccc !default;
 $InputRange-slider-bg: $InputRange-primaryColor !default;
 $InputRange-slider-border: px2rem(1px) solid $InputRange-primaryColor !default;
 $InputRange-slider-onFocus-borderRadius: $borderRadiusMd !default;
-$InputRange-slider-onFocus-boxShadow: 0 0 0
-    $InputRange-slider-onFocus-borderRadius
+$InputRange-slider-onFocus-boxShadow: 0 0 0 $InputRange-slider-onFocus-borderRadius
     transparentize($InputRange-slider-bg, 0.8) !default;
 $InputRange-slider-height: px2rem(24px) !default;
 $InputRange-slider-width: px2rem(18px) !default;
@@ -1180,8 +1086,7 @@ $InputRange-slider-transition: transform 0.3s ease-out, box-shadow 0.3s ease-out
 $InputRange-sliderContainer-transition: left 0.3s ease-out !default;
 $InputRange-slider-onActive-transform: scale(1.3) !default;
 $InputRange-slider-onDisabled-bg: $InputRange-onDisabled-color !default;
-$InputRange-slider-onDisabled-border: px2rem(1px) solid
-    $InputRange-onDisabled-color !default;
+$InputRange-slider-onDisabled-border: px2rem(1px) solid $InputRange-onDisabled-color !default;
 
 // input-range-label
 $InputRange-label-color: $InputRange-neutralColor !default;
@@ -1204,16 +1109,10 @@ $TagControl-sugBtn-bg: $Button--default-bg !default;
 $TagControl-sugBtn-border: $Button--default-border !default;
 $TagControl-sugBtn-color: $Button--default-color !default;
 $TagControl-sugBtn-onHover-bg: darken($TagControl-sugBtn-bg, 7.5%) !default;
-$TagControl-sugBtn-onHover-border: darken(
-    $TagControl-sugBtn-border,
-    10%
-) !default;
+$TagControl-sugBtn-onHover-border: darken($TagControl-sugBtn-border, 10%) !default;
 $TagControl-sugBtn-onHover-color: $Button--default-color !default;
 $TagControl-sugBtn-onActive-bg: darken($TagControl-sugBtn-bg, 10%) !default;
-$TagControl-sugBtn-onActive-border: darken(
-    $TagControl-sugBtn-border,
-    12.5%
-) !default;
+$TagControl-sugBtn-onActive-border: darken($TagControl-sugBtn-border, 12.5%) !default;
 $TagControl-sugBtn-onActive-color: $TagControl-sugBtn-color !default;
 
 $TagControl-sugBtn-borderWidth: $Button-borderWidth !default;
@@ -1223,8 +1122,8 @@ $TagControl-sugBtn-height: $Button--sm-height !default;
 $TagControl-sugBtn-lineHeight: $Button--sm-lineHeight !default;
 $TagControl-sugBtn-paddingX: $Button--sm-paddingX !default;
 $TagControl-sugBtn-paddingY: (
-        $TagControl-sugBtn-height - $Button-borderWidth * 2 -
-            $TagControl-sugBtn-lineHeight * $TagControl-sugBtn-fontSize
+        $TagControl-sugBtn-height - $Button-borderWidth * 2 - $TagControl-sugBtn-lineHeight *
+            $TagControl-sugBtn-fontSize
     )/2 !default;
 
 // Wizard
@@ -1234,10 +1133,12 @@ $Wizard-steps-textAlign: left !default;
 $Wizard-steps-ulDisplay: block !default;
 $Wizard-steps-height: px2rem(40px) !default;
 $Wizard-steps-padding: 0 !default;
-$Wizard-steps-liAfterContent: "" !default;
-$Wizard-steps-liVender: "FontAwesome" !default;
+$Wizard-steps-liAfterContent: '' !default;
+$Wizard-steps-liVender: 'FontAwesome' !default;
 $Wizard-steps-liAfterBorder: px2rem(20px) solid transparent !default;
 $Wizard-steps-li-onActive-color: $info !default;
+$Wizard-steps-li-onActive-bg: #fff !default;
+$Wizard-steps-li-onActive-arrow-bg: #fff !default;
 $Wizard-stepsContent-padding: px2rem(15px) !default;
 $Wizard-badge-bg: $gray400 !default;
 $Wizard-badge-color: $white !default;
@@ -1291,9 +1192,9 @@ $Panel-fixedBottom-borderTop: none !default;
 $Pagination-height: px2rem(30px) !default;
 $Pagination-minWidth: px2rem(30px) !default;
 $Pagination-padding: 0 px2rem(8px) !default;
-$Pagination-arrowVendor: "FontAwesome" !default;
-$Pagination-prevArrowContent: "\f053" !default;
-$Pagination-nextArrowContent: "\f054" !default;
+$Pagination-arrowVendor: 'FontAwesome' !default;
+$Pagination-prevArrowContent: '\f053' !default;
+$Pagination-nextArrowContent: '\f054' !default;
 $Pagination-fontSize: $fontSizeBase !default;
 $Pagination-onActive-backgroundColor: $primary !default;
 $Pagination-onActive-color: $white !default;
@@ -1305,17 +1206,18 @@ $TransferSelect--normal-heading-bg: $gray100 !default;
 $TransferSelect-heading-borderBottom: $borderWidth solid $borderColor !default;
 
 // Tree
+$TreeSelect-popover-bg: #fff !default;
 $Tree-indent: px2rem(20px) !default;
 $Tree-itemArrowWidth: px2rem(10px) !default;
-$Tree-arrowVendor: "FontAwesome" !default;
-$Tree-unfoldedArrowContent: "\f107" !default;
-$Tree-foldedArrowContent: "\f105" !default;
-$Tree-rootIconVendor: "FontAwesome" !default;
-$Tree-rootIconContent: "\f015" !default;
-$Tree-leafIconVendor: "FontAwesome" !default;
-$Tree-leafIconContent: "\f15b" !default;
-$Tree-folderIconVendor: "FontAwesome" !default;
-$Tree-folderIconContent: "\f07b" !default;
+$Tree-arrowVendor: 'FontAwesome' !default;
+$Tree-unfoldedArrowContent: '\f107' !default;
+$Tree-foldedArrowContent: '\f105' !default;
+$Tree-rootIconVendor: 'FontAwesome' !default;
+$Tree-rootIconContent: '\f015' !default;
+$Tree-leafIconVendor: 'FontAwesome' !default;
+$Tree-leafIconContent: '\f15b' !default;
+$Tree-folderIconVendor: 'FontAwesome' !default;
+$Tree-folderIconContent: '\f07b' !default;
 $Tree-itemText--onChecked-color: $Form-selectValue-color !default;
 
 // IconPicker
@@ -1366,7 +1268,7 @@ $Audio-svg-top: px2rem(6px) !default;
 $Audio-item-margin: px2rem(10px) !default;
 
 // Carousel
-$Carousel-bg: #F6F8F8;
+$Carousel-bg: #f6f8f8;
 $Carousel-minWidth: px2rem(100px) !default;
 $Carousel-height: px2rem(200px) !default;
 $Carousel-arrowControl-width: px2rem(20px) !default;
@@ -1386,6 +1288,6 @@ $Carousel-imageDescription-bottom: px2rem(25px) !default;
 // Picker
 $Picker-iconColor: $gray600 !default;
 $Picker-onHover-iconColor: darken($Picker-iconColor, 10%) !default;
-$Picker-btn-vendor: "FontAwesome" !default;
+$Picker-btn-vendor: 'FontAwesome' !default;
 $Picker-btn-fontSize: $Form-fontSize !default;
-$Picker-btn-icon: "\f2d2" !default;
+$Picker-btn-icon: '\f2d2' !default;

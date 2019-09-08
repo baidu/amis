@@ -87,6 +87,7 @@
     padding: 0;
     list-style: none;
 }
+
 .#{$ns}DatePicker-shortcut {
     display: inline-block;
     margin-right: $gap-sm;
@@ -299,8 +300,8 @@
     .rdtSelect {
         display: table-cell;
         width: 100%;
-        border-left: 1px solid #fff;
-        border-right: 1px solid #fff;
+        border-left: 1px solid $DatePicker-header-select-borderColor;
+        border-right: 1px solid $DatePicker-header-select-borderColor;
 
         .#{$ns}Select {
             display: flex;
