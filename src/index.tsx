@@ -7,7 +7,7 @@
  */
 import {render, Renderer, getRendererByName, resolveRenderer, filterSchema} from './factory';
 import {wrapFetcher, buildApi} from './utils/api';
-import {filter, reigsterTplEnginer, evalExpression} from './utils/tpl'
+import {filter, reigsterTplEnginer, evalExpression} from './utils/tpl';
 import './utils/tpl-builtin';
 import './utils/tpl-lodash';
 import * as utils from './utils/helper';
@@ -157,19 +157,18 @@ import './renderers/Icon';
 import './renderers/Carousel';
 import Scoped, {ScopedContext} from './Scoped';
 
-import {
-    FormItem
-} from './renderers/Form/Item';
+import {FormItem} from './renderers/Form/Item';
 
 // 兼容旧版本用法
 import './compat';
 
 import './themes/default';
 import './themes/cxd';
-import { registerFilter, filterDate, relativeValueRe, resolveVariable } from './utils/tpl-builtin';
-import { addRule, str2rules } from './utils/validations';
-import { normalizeOptions } from './components/Select';
-import { OptionsControl } from './renderers/Form/Options';
+import './themes/dark';
+import {registerFilter, filterDate, relativeValueRe, resolveVariable} from './utils/tpl-builtin';
+import {addRule, str2rules} from './utils/validations';
+import {normalizeOptions} from './components/Select';
+import {OptionsControl} from './renderers/Form/Options';
 
 import {classnames, getClassPrefix, setDefaultTheme} from './theme';
 const classPrefix = getClassPrefix();
@@ -182,7 +181,6 @@ export {
     wrapFetcher,
     buildApi,
     filter,
-
     NotFound,
     AlertComponent,
     alert,
@@ -220,7 +218,6 @@ export {
     Tooltip,
     TooltipWrapper,
     Tree,
-    
     // 其他功能类方法
     utils,
     resizeSensor,
@@ -241,7 +238,6 @@ export {
     registerIcon,
     Scoped,
     ScopedContext,
-
     setDefaultTheme,
     classPrefix,
     getClassPrefix,
