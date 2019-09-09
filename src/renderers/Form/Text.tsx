@@ -1,18 +1,14 @@
 import React from 'react';
-import {
-    OptionsControl,
-    OptionsControlProps,
-    highlight,
-} from './Options';
+import {OptionsControl, OptionsControlProps, highlight} from './Options';
 import cx from 'classnames';
-import { Action } from '../../types';
-import Downshift, { StateChangeOptions } from 'downshift';
+import {Action} from '../../types';
+import Downshift, {StateChangeOptions} from 'downshift';
 import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
-import { filter } from '../../utils/tpl';
+import {filter} from '../../utils/tpl';
 import find = require('lodash/find');
-import { Icon } from '../../components/icons';
-import { autobind, createObject } from '../../utils/helper';
+import {Icon} from '../../components/icons';
+import {autobind, createObject} from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
@@ -30,20 +26,20 @@ export interface TextProps extends OptionsControlProps {
     autoComplete?: any;
     allowInputText?: boolean;
     spinnerClassName: string;
-};
+}
 
 export interface TextState {
     isOpen?: boolean;
     inputValue?: string;
     isFocused?: boolean;
-};
+}
 
 export default class TextControl extends React.PureComponent<TextProps, TextState> {
-    input?:HTMLInputElement;
+    input?: HTMLInputElement;
 
-    highlightedIndex?:any;
-    unHook:Function;
-    constructor(props:TextProps) {
+    highlightedIndex?: any;
+    unHook: Function;
+    constructor(props: TextProps) {
         super(props);
 
         const value = props.value;
@@ -68,7 +64,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
         });
     }
 
-    static defaultProps:Partial<TextProps> = {
+    static defaultProps: Partial<TextProps> = {
         resetValue: '',
         labelField: 'label',
         valueField: 'value',
@@ -77,7 +73,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
         spinnerClassName: 'fa fa-spinner fa-spin fa-1x fa-fw'
     };
 
-    componentWillReceiveProps(nextProps:TextProps) {
+    componentWillReceiveProps(nextProps: TextProps) {
         const props = this.props;
 
         if (props.value !== nextProps.value) {
@@ -89,25 +85,28 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
     }
 
     componentDidMount() {
-        const {
-            formItem,
-            autoComplete,
-            data,
-            addHook,
-            formInited
-        } = this.props;
+        const {formItem, autoComplete, data, addHook, formInited} = this.props;
 
         if (isEffectiveApi(autoComplete, data) && formItem) {
             if (formInited) {
-                formItem.loadOptions(autoComplete, createObject(data, {
-                    term: ''
-                }));
+                formItem.loadOptions(
+                    autoComplete,
+                    createObject(data, {
+                        term: ''
+                    })
+                );
             } else {
-                this.unHook = addHook(() => formItem.loadOptions(autoComplete, createObject(data, {
-                    term: ''
-                })), 'init');
+                this.unHook = addHook(
+                    () =>
+                        formItem.loadOptions(
+                            autoComplete,
+                            createObject(data, {
+                                term: ''
+                            })
+                        ),
+                    'init'
+                );
             }
-            
         }
     }
 
@@ -115,9 +114,9 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
         this.unHook && this.unHook();
     }
 
-    inputRef(ref:any) {
+    inputRef(ref: any) {
         this.input = ref;
-    };
+    }
 
     focus() {
         if (!this.input) {
@@ -132,35 +131,33 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
     }
 
     clearValue() {
-        const {
-            onChange,
-            resetValue
-        } = this.props;
+        const {onChange, resetValue} = this.props;
 
         onChange(resetValue);
-        this.setState({
-            inputValue: resetValue
-        }, () => {
-            this.focus();
-            this.loadAutoComplete();
-        });
+        this.setState(
+            {
+                inputValue: resetValue
+            },
+            () => {
+                this.focus();
+                this.loadAutoComplete();
+            }
+        );
     }
 
-    removeItem(index:number) {
-        const {
-            selectedOptions,
-            onChange,
-            joinValues,
-            extractValue,
-            delimiter,
-            valueField
-        } = this.props
+    removeItem(index: number) {
+        const {selectedOptions, onChange, joinValues, extractValue, delimiter, valueField} = this.props;
 
         const newValue = selectedOptions.concat();
         newValue.splice(index, 1);
 
-        onChange(joinValues ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',')
-            : extractValue ? newValue.map(item => item[valueField || 'value']) : newValue);
+        onChange(
+            joinValues
+                ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',')
+                : extractValue
+                ? newValue.map(item => item[valueField || 'value'])
+                : newValue
+        );
     }
 
     handleClick() {
@@ -170,7 +167,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
         });
     }
 
-    handleFocus(e:any) {
+    handleFocus(e: any) {
         this.setState({
             isOpen: true,
             isFocused: true
@@ -179,76 +176,85 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
         this.props.onFocus && this.props.onFocus(e);
     }
 
-    handleBlur(e:any) {
-        const {
-            onBlur,
-            trimContents,
-            value,
-            onChange
-        } = this.props;
+    handleBlur(e: any) {
+        const {onBlur, trimContents, value, onChange} = this.props;
 
-        this.setState({
-            isFocused: false
-        }, () => {
-            if (trimContents && value && typeof value === "string") {
-                onChange(value.trim());
+        this.setState(
+            {
+                isFocused: false
+            },
+            () => {
+                if (trimContents && value && typeof value === 'string') {
+                    onChange(value.trim());
+                }
             }
-        });
+        );
 
         onBlur && onBlur(e);
     }
 
-    handleInputChange(evt:React.ChangeEvent<HTMLInputElement>) {
+    handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
         let value = evt.currentTarget.value;
 
-        this.setState({
-            inputValue: value
-        }, this.loadAutoComplete);
+        this.setState(
+            {
+                inputValue: value
+            },
+            this.loadAutoComplete
+        );
     }
 
-    handleKeyDown(evt:React.KeyboardEvent<HTMLInputElement>) {
-        const {
-            selectedOptions,
-            onChange,
-            joinValues,
-            extractValue,
-            delimiter,
-            multiple,
-            valueField
-        } = this.props
-        
+    handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
+        const {selectedOptions, onChange, joinValues, extractValue, delimiter, multiple, valueField} = this.props;
+
         if (selectedOptions.length && !this.state.inputValue && evt.keyCode === 8) {
             evt.preventDefault();
             const newValue = selectedOptions.concat();
             newValue.pop();
 
-            onChange(joinValues ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',') 
-                : extractValue ? newValue.map(item => item[valueField || 'value']): newValue);
-            this.setState({
-                inputValue: ''
-            }, this.loadAutoComplete);
+            onChange(
+                joinValues
+                    ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',')
+                    : extractValue
+                    ? newValue.map(item => item[valueField || 'value'])
+                    : newValue
+            );
+            this.setState(
+                {
+                    inputValue: ''
+                },
+                this.loadAutoComplete
+            );
         } else if (evt.keyCode === 13 && this.state.inputValue && typeof this.highlightedIndex !== 'number') {
             evt.preventDefault();
             const value = this.state.inputValue;
 
             if (multiple) {
-                if (value && !find(selectedOptions, (item) => item.value == value)) {
+                if (value && !find(selectedOptions, item => item.value == value)) {
                     const newValue = selectedOptions.concat();
                     newValue.push({
                         label: value,
                         value: value
                     });
-        
-                    onChange(joinValues ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',') 
-                        : extractValue ? newValue.map(item => item[valueField || 'value']) : newValue);
+
+                    onChange(
+                        joinValues
+                            ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',')
+                            : extractValue
+                            ? newValue.map(item => item[valueField || 'value'])
+                            : newValue
+                    );
                 }
             } else {
                 onChange(value);
             }
-            this.setState({
-                inputValue: '',
-                isOpen: false
-            }, this.loadAutoComplete);
+            this.setState(
+                {
+                    inputValue: '',
+                    isOpen: false
+                },
+                this.loadAutoComplete
+            );
         } else if (evt.keyCode === 13 && this.state.isOpen && typeof this.highlightedIndex !== 'number') {
             this.setState({
                 isOpen: false
@@ -256,16 +262,8 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
         }
     }
 
-    handleChange(value:any) {
-        const {
-            onChange,
-            multiple,
-            joinValues,
-            extractValue,
-            delimiter,
-            selectedOptions,
-            valueField
-        } = this.props;
+    handleChange(value: any) {
+        const {onChange, multiple, joinValues, extractValue, delimiter, selectedOptions, valueField} = this.props;
 
         if (multiple) {
             const newValue = selectedOptions.concat();
@@ -274,18 +272,26 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                 value: value
             });
 
-            onChange(joinValues ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',')
-                : extractValue ? newValue.map(item => item[valueField || 'value']) : newValue);
+            onChange(
+                joinValues
+                    ? newValue.map(item => item[valueField || 'value']).join(delimiter || ',')
+                    : extractValue
+                    ? newValue.map(item => item[valueField || 'value'])
+                    : newValue
+            );
         } else {
             onChange(value);
         }
 
-        this.setState({
-            inputValue: ''
-        }, this.loadAutoComplete);
+        this.setState(
+            {
+                inputValue: ''
+            },
+            this.loadAutoComplete
+        );
     }
 
-    handleStateChange(changes:StateChangeOptions<any>) {
+    handleStateChange(changes: StateChangeOptions<any>) {
         const multiple = this.props.multiple || this.props.multi;
         switch (changes.type) {
             case Downshift.stateChangeTypes.itemMouseEnter:
@@ -299,7 +305,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                 });
                 break;
             default:
-                const state:TextState = {};
+                const state: TextState = {};
                 if (typeof changes.isOpen !== 'undefined') {
                     state.isOpen = changes.isOpen;
                 }
@@ -316,14 +322,11 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                 this.setState(state);
                 break;
         }
-        
     }
 
     @autobind
-    handleNormalInputChange(e:React.ChangeEvent<HTMLInputElement>) {
-        const {
-            onChange
-        } = this.props;
+    handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const {onChange} = this.props;
 
         let value = e.currentTarget.value;
 
@@ -331,17 +334,15 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
     }
 
     loadAutoComplete() {
-        const {
-            formItem,
-            autoComplete,
-            data
-        } = this.props;
-
+        const {formItem, autoComplete, data} = this.props;
 
         if (isEffectiveApi(autoComplete, data) && formItem) {
-            formItem.loadOptions(autoComplete, createObject(data, {
-                term: this.state.inputValue || formItem.lastSelectValue
-            }));
+            formItem.loadOptions(
+                autoComplete,
+                createObject(data, {
+                    term: this.state.inputValue || formItem.lastSelectValue
+                })
+            );
         }
     }
 
@@ -378,99 +379,118 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                 onChange={this.handleChange}
                 onStateChange={this.handleStateChange}
                 selectedItem={selectedOptions.map(item => item[valueField || 'value'])}
-            >{({
-                getInputProps,
-                getItemProps,
-                isOpen,
-                inputValue,
-                selectedItem,
-                highlightedIndex,
-            }) => {
-                let filtedOptions = inputValue && isOpen && !autoComplete ? matchSorter(options, inputValue, {keys: [labelField || 'label', valueField || 'value']}) : options;
-                const indices = isOpen ? mapItemIndex(filtedOptions, selectedItem) : {};
-                filtedOptions = filtedOptions.filter((option:any) => !~selectedItem.indexOf(option.value));
+            >
+                {({getInputProps, getItemProps, isOpen, inputValue, selectedItem, highlightedIndex}) => {
+                    let filtedOptions =
+                        inputValue && isOpen && !autoComplete
+                            ? matchSorter(options, inputValue, {keys: [labelField || 'label', valueField || 'value']})
+                            : options;
+                    const indices = isOpen ? mapItemIndex(filtedOptions, selectedItem) : {};
+                    filtedOptions = filtedOptions.filter((option: any) => !~selectedItem.indexOf(option.value));
 
-                if (!filtedOptions.length && this.state.inputValue) {
-                    filtedOptions.push({
-                        [labelField || 'label']: this.state.inputValue,
-                        [valueField || 'value']: this.state.inputValue,
-                        isNew: true
-                    })
-                }
+                    if (!filtedOptions.length && this.state.inputValue) {
+                        filtedOptions.push({
+                            [labelField || 'label']: this.state.inputValue,
+                            [valueField || 'value']: this.state.inputValue,
+                            isNew: true
+                        });
+                    }
 
-                return  (
-                    <div 
-                        className={cx(`TextControl-input TextControl-input--withAC`, inputOnly ? className : '', {
-                            'is-opened': isOpen,
-                            'TextControl-input--multiple': multiple
-                        })}
-                        onClick={this.handleClick}
-                    >
-                        <div className={cx("TextControl-valueWrap")}>
-                            {placeholder && !selectedOptions.length && !this.state.inputValue ? (
-                                <div className={cx("TextControl-placeholder")}>{placeholder}</div>
-                            ) : null}
+                    return (
+                        <div
+                            className={cx(`TextControl-input TextControl-input--withAC`, inputOnly ? className : '', {
+                                'is-opened': isOpen,
+                                'TextControl-input--multiple': multiple
+                            })}
+                            onClick={this.handleClick}
+                        >
+                            <div className={cx('TextControl-valueWrap')}>
+                                {placeholder && !selectedOptions.length && !this.state.inputValue ? (
+                                    <div className={cx('TextControl-placeholder')}>{placeholder}</div>
+                                ) : null}
 
-                            {selectedOptions.map((item, index) => multiple ? (
-                                <div className={cx('TextControl-value')} key={index}>
-                                    <span className={cx('TextControl-valueIcon')} onClick={this.removeItem.bind(this, index)}>×</span>
-                                    <span className={cx('TextControl-valueLabel')}>{item[labelField||'label']}</span>
-                                </div>
-                            ) : inputValue && isOpen ? null : (
-                                <div className={cx('TextControl-value')} key={index}>
-                                    {item.label}
-                                </div>
-                            ))}
-                            
-                            <input
-                                {...getInputProps({
-                                    name,
-                                    ref: this.inputRef,
-                                    disabled,
-                                    type,
-                                    onFocus: this.handleFocus,
-                                    onBlur: this.handleBlur,
-                                    onChange: this.handleInputChange,
-                                    onKeyDown: this.handleKeyDown
-                                })}
-                                autoComplete="off"
-                            />
-                        </div>
-                        
-                        {clearable && !disabled && value ? (<a onClick={this.clearValue} className={cx('TextControl-clear')}><Icon icon="close" className="icon" /></a>) : null}
-                        {loading ? <i className={cx(`TextControl-spinner`, spinnerClassName)} /> : null}
-                        {isOpen && filtedOptions.length ? (
-                            <div className={cx('TextControl-sugs')}>
-                                {filtedOptions.map((option:any) => {
-                                    return (
-                                        <div
-                                            {...getItemProps({
-                                                item: option.value,
-                                                disabled: option.disabled,
-                                                className: cx(`TextControl-sugItem`, {
-                                                    'is-highlight': highlightedIndex === indices[option.value],
-                                                    'is-disabled': option.disabled
-                                                })
-                                            })}
-                                            key={option.value}
-                                        >
-                                        {option.isNew ? (
-                                            <span>新增：{option.label}<Icon icon="enter" className="icon" /></span>
-                                        ) : (
-                                            <span>{option.disabled ? option.label : highlight(option.label, inputValue as string)}{option.tip}</span>
-                                        )}
+                                {selectedOptions.map((item, index) =>
+                                    multiple ? (
+                                        <div className={cx('TextControl-value')} key={index}>
+                                            <span
+                                                className={cx('TextControl-valueIcon')}
+                                                onClick={this.removeItem.bind(this, index)}
+                                            >
+                                                ×
+                                            </span>
+                                            <span className={cx('TextControl-valueLabel')}>
+                                                {item[labelField || 'label']}
+                                            </span>
                                         </div>
-                                    );
-                                })}
+                                    ) : inputValue && isOpen ? null : (
+                                        <div className={cx('TextControl-value')} key={index}>
+                                            {item.label}
+                                        </div>
+                                    )
+                                )}
+
+                                <input
+                                    {...getInputProps({
+                                        name,
+                                        ref: this.inputRef,
+                                        disabled,
+                                        type,
+                                        onFocus: this.handleFocus,
+                                        onBlur: this.handleBlur,
+                                        onChange: this.handleInputChange,
+                                        onKeyDown: this.handleKeyDown
+                                    })}
+                                    autoComplete="off"
+                                />
                             </div>
-                        ) : null}
-                    </div>
-                );
-            }}</Downshift>
+
+                            {clearable && !disabled && value ? (
+                                <a onClick={this.clearValue} className={cx('TextControl-clear')}>
+                                    <Icon icon="close" className="icon" />
+                                </a>
+                            ) : null}
+                            {loading ? <i className={cx(`TextControl-spinner`, spinnerClassName)} /> : null}
+                            {isOpen && filtedOptions.length ? (
+                                <div className={cx('TextControl-sugs')}>
+                                    {filtedOptions.map((option: any) => {
+                                        return (
+                                            <div
+                                                {...getItemProps({
+                                                    item: option.value,
+                                                    disabled: option.disabled,
+                                                    className: cx(`TextControl-sugItem`, {
+                                                        'is-highlight': highlightedIndex === indices[option.value],
+                                                        'is-disabled': option.disabled
+                                                    })
+                                                })}
+                                                key={option.value}
+                                            >
+                                                {option.isNew ? (
+                                                    <span>
+                                                        新增：{option.label}
+                                                        <Icon icon="enter" className="icon" />
+                                                    </span>
+                                                ) : (
+                                                    <span>
+                                                        {option.disabled
+                                                            ? option.label
+                                                            : highlight(option.label, inputValue as string)}
+                                                        {option.tip}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ) : null}
+                        </div>
+                    );
+                }}
+            </Downshift>
         );
     }
 
-    renderNormal():JSX.Element {
+    renderNormal(): JSX.Element {
         const {
             classPrefix: ns,
             classnames: cx,
@@ -499,14 +519,24 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                     onBlur={this.handleBlur}
                     autoComplete="off"
                     onChange={this.handleNormalInputChange}
-                    value={typeof value === 'undefined' || value === null ? '' : typeof value === 'string' ? value : JSON.stringify(value)}
+                    value={
+                        typeof value === 'undefined' || value === null
+                            ? ''
+                            : typeof value === 'string'
+                            ? value
+                            : JSON.stringify(value)
+                    }
                 />
-                {clearable && !disabled && value ? (<a onClick={this.clearValue} className={`${ns}TextControl-clear`}><Icon icon="close" className="icon" /></a>) : null}
+                {clearable && !disabled && value ? (
+                    <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
+                        <Icon icon="close" className="icon" />
+                    </a>
+                ) : null}
             </div>
         );
     }
 
-    render():JSX.Element {
+    render(): JSX.Element {
         const {
             className,
             classPrefix: ns,
@@ -520,12 +550,18 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
             inputOnly
         } = this.props;
 
-        const addOn:any = typeof addOnRaw === 'string' ? {
-            label: addOnRaw, 
-            type: 'plain'
-        } : addOnRaw;
+        const addOn: any =
+            typeof addOnRaw === 'string'
+                ? {
+                      label: addOnRaw,
+                      type: 'plain'
+                  }
+                : addOnRaw;
 
-        let input = autoComplete !== false && (source || options.length || autoComplete) ? this.renderSugestMode() : this.renderNormal();
+        let input =
+            autoComplete !== false && (source || options.length || autoComplete)
+                ? this.renderSugestMode()
+                : this.renderNormal();
         let addOnDom = addOn ? (
             addOn.actionType || ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
                 <div className={cx(`${ns}TextControl-button`, addOn.className)}>
@@ -534,11 +570,9 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
                     })}
                 </div>
             ) : (
-                <div
-                    className={cx(`${ns}TextControl-addOn`, addOn.className)}
-                >
+                <div className={cx(`${ns}TextControl-addOn`, addOn.className)}>
                     {addOn.label ? filter(addOn.label, data) : null}
-                    {addOn.icon && (<i className={addOn.icon} />)}
+                    {addOn.icon && <i className={addOn.icon} />}
                 </div>
             )
         ) : null;
@@ -548,11 +582,13 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
         }
 
         return (
-            <div className={cx(className, `${ns}TextControl`, {
-                [`${ns}TextControl--withAddOn`]: !!addOnDom,
-                'is-focused': this.state.isFocused,
-                'is-disabled': disabled
-            })}>
+            <div
+                className={cx(className, `${ns}TextControl`, {
+                    [`${ns}TextControl--withAddOn`]: !!addOnDom,
+                    'is-focused': this.state.isFocused,
+                    'is-disabled': disabled
+                })}
+            >
                 {addOn && addOn.position === 'left' ? addOnDom : null}
                 {input}
                 {addOn && addOn.position !== 'left' ? addOnDom : null}
@@ -561,7 +597,7 @@ export default class TextControl extends React.PureComponent<TextProps, TextStat
     }
 }
 
-export function mapItemIndex(items:Array<any>, values:Array<any>, valueField:string = 'value') {
+export function mapItemIndex(items: Array<any>, values: Array<any>, valueField: string = 'value') {
     return items
         .filter(item => values.indexOf(item[valueField || 'value']) === -1)
         .reduce((prev, next, i) => {
@@ -573,22 +609,21 @@ export function mapItemIndex(items:Array<any>, values:Array<any>, valueField:str
 @OptionsControl({
     type: 'text'
 })
-export class TextControlRenderer extends TextControl {};
+export class TextControlRenderer extends TextControl {}
 
 @OptionsControl({
-    type: 'password',
+    type: 'password'
 })
-export class PasswordControlRenderer extends TextControl {};
-
+export class PasswordControlRenderer extends TextControl {}
 
 @OptionsControl({
     type: 'email',
     validations: 'isEmail'
 })
-export class EmailControlRenderer extends TextControl {};
+export class EmailControlRenderer extends TextControl {}
 
 @OptionsControl({
     type: 'url',
     validations: 'isUrl'
 })
-export class UrlControlRenderer extends TextControl {};
+export class UrlControlRenderer extends TextControl {}

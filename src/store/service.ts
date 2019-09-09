@@ -1,26 +1,8 @@
-import {
-    types,
-    getParent,
-    flow,
-    getEnv,
-    getRoot
-} from "mobx-state-tree";
-import {
-    iRendererStore,
-} from './iRenderer';
-import {
-    IRendererStore
-} from './index';
-import {
-    Api,
-    ApiObject,
-    Payload,
-    fetchOptions
-} from '../types';
-import {
-    extendObject,
-    isEmpty
-} from '../utils/helper';
+import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree';
+import {iRendererStore} from './iRenderer';
+import {IRendererStore} from './index';
+import {Api, ApiObject, Payload, fetchOptions} from '../types';
+import {extendObject, isEmpty} from '../utils/helper';
 
 export const ServiceStore = iRendererStore
     .named('ServiceStore')
@@ -33,7 +15,7 @@ export const ServiceStore = iRendererStore
         checking: false,
         initializing: false,
         schema: types.optional(types.frozen(), null),
-        schemaKey: '',
+        schemaKey: ''
     })
     .views(self => ({
         get loading() {
@@ -56,12 +38,12 @@ export const ServiceStore = iRendererStore
             self.busying = busying;
         }
 
-        function reInitData(data:object | undefined) {
+        function reInitData(data: object | undefined) {
             const newData = extendObject(self.pristine, data);
             self.data = self.pristine = newData;
         }
 
-        function updateMessage(msg?:string, error: boolean = false) {
+        function updateMessage(msg?: string, error: boolean = false) {
             self.msg = String(msg) || '';
             self.error = error;
         }
@@ -70,71 +52,77 @@ export const ServiceStore = iRendererStore
             updateMessage('');
         }
 
-        const fetchInitData:(api:Api, data?:object, options?:fetchOptions) => Promise<any> = flow(function *getInitData(api:string, data:object, options?:fetchOptions) {
-            try {
-                if (fetchCancel) {
-                    fetchCancel();
-                    fetchCancel = null;
-                    self.fetching = false;
-                }
+        const fetchInitData: (api: Api, data?: object, options?: fetchOptions) => Promise<any> = flow(
+            function* getInitData(api: string, data: object, options?: fetchOptions) {
+                try {
+                    if (fetchCancel) {
+                        fetchCancel();
+                        fetchCancel = null;
+                        self.fetching = false;
+                    }
 
-                if (self.fetching) {
-                    return;
-                }
+                    if (self.fetching) {
+                        return;
+                    }
 
-                options && options.silent || markFetching(true);
-                const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, {
-                    ...options,
-                    cancelExecutor: (executor:Function) => fetchCancel = executor
-                });
-                fetchCancel = null;
-
-                if (!json.ok) {
-                    updateMessage(json.msg || options && options.errorMessage, true);
-                    (getRoot(self) as IRendererStore).notify('error', json.msg);
-                } else {
-                    reInitData({
-                        ...self.data,
-                        ...json.data
+                    (options && options.silent) || markFetching(true);
+                    const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, {
+                        ...options,
+                        cancelExecutor: (executor: Function) => (fetchCancel = executor)
                     });
-                    self.updatedAt = Date.now();
-                    self.hasRemoteData = true;
-                    if (options && options.onSuccess) {
-                        const ret = options.onSuccess(json);
+                    fetchCancel = null;
 
-                        if (ret && ret.then) {
-                            yield ret;
+                    if (!json.ok) {
+                        updateMessage(json.msg || (options && options.errorMessage), true);
+                        (getRoot(self) as IRendererStore).notify('error', json.msg);
+                    } else {
+                        reInitData({
+                            ...self.data,
+                            ...json.data
+                        });
+                        self.updatedAt = Date.now();
+                        self.hasRemoteData = true;
+                        if (options && options.onSuccess) {
+                            const ret = options.onSuccess(json);
+
+                            if (ret && ret.then) {
+                                yield ret;
+                            }
+                        }
+
+                        updateMessage(json.msg || (options && options.successMessage));
+
+                        // 配置了获取成功提示后提示，默认是空不会提示。
+                        if (options && options.successMessage) {
+                            (getRoot(self) as IRendererStore).notify('success', self.msg);
                         }
                     }
-                    
-                    updateMessage(json.msg || options && options.successMessage);
 
-                    // 配置了获取成功提示后提示，默认是空不会提示。
-                    if (options && options.successMessage) {
-                        (getRoot(self) as IRendererStore).notify('success', self.msg);
+                    markFetching(false);
+                    return json;
+                } catch (e) {
+                    const root = getRoot(self) as IRendererStore;
+                    if (root.storeType !== 'RendererStore') {
+                        // 已经销毁了，不管这些数据了。
+                        return;
                     }
-                }
 
-                markFetching(false);
-                return json;
-            } catch(e) {
-                const root = getRoot(self) as IRendererStore;
-                if (root.storeType !== 'RendererStore') {
-                    // 已经销毁了，不管这些数据了。
-                    return;
-                }
+                    if (root.isCancel(e)) {
+                        return;
+                    }
 
-                if (root.isCancel(e)) {
-                    return;
+                    markFetching(false);
+                    e.stack && console.error(e.stack);
+                    root.notify('error', e.message || e);
                 }
-                
-                markFetching(false);
-                e.stack && console.error(e.stack);
-                root.notify('error', e.message || e);
             }
-        });
+        );
 
-        const fetchData:(api:Api, data?:object, options?:fetchOptions) => Promise<any> = flow(function *getInitData(api:string, data:object, options?:fetchOptions) {
+        const fetchData: (api: Api, data?: object, options?: fetchOptions) => Promise<any> = flow(function* getInitData(
+            api: string,
+            data: object,
+            options?: fetchOptions
+        ) {
             try {
                 if (fetchCancel) {
                     fetchCancel();
@@ -146,10 +134,10 @@ export const ServiceStore = iRendererStore
                     return;
                 }
 
-                options && options.silent || markFetching(true);
-                const json:Payload = yield ((getRoot(self) as IRendererStore) as IRendererStore).fetcher(api, data, {
+                (options && options.silent) || markFetching(true);
+                const json: Payload = yield ((getRoot(self) as IRendererStore) as IRendererStore).fetcher(api, data, {
                     ...options,
-                    cancelExecutor: (executor:Function) => fetchCancel = executor
+                    cancelExecutor: (executor: Function) => (fetchCancel = executor)
                 });
                 fetchCancel = null;
 
@@ -160,7 +148,7 @@ export const ServiceStore = iRendererStore
                 }
 
                 if (!json.ok) {
-                    updateMessage(json.msg || options && options.errorMessage, true);
+                    updateMessage(json.msg || (options && options.errorMessage), true);
                     (getRoot(self) as IRendererStore).notify('error', self.msg);
                 } else {
                     if (options && options.onSuccess) {
@@ -171,7 +159,7 @@ export const ServiceStore = iRendererStore
                         }
                     }
 
-                    updateMessage(json.msg || options && options.successMessage);
+                    updateMessage(json.msg || (options && options.successMessage));
 
                     // 配置了获取成功提示后提示，默认是空不会提示。
                     if (options && options.successMessage) {
@@ -181,7 +169,7 @@ export const ServiceStore = iRendererStore
 
                 markFetching(false);
                 return json;
-            } catch(e) {
+            } catch (e) {
                 const root = getRoot(self) as IRendererStore;
                 if (root.storeType !== 'RendererStore') {
                     // 已经销毁了，不管这些数据了。
@@ -198,7 +186,11 @@ export const ServiceStore = iRendererStore
             }
         });
 
-        const saveRemote:(api:Api, data?:object, options?:fetchOptions) => Promise<any> = flow(function *saveRemote(api:string, data:object, options:fetchOptions = {}) {
+        const saveRemote: (api: Api, data?: object, options?: fetchOptions) => Promise<any> = flow(function* saveRemote(
+            api: string,
+            data: object,
+            options: fetchOptions = {}
+        ) {
             try {
                 options = {
                     method: 'post', // 默认走 post
@@ -210,7 +202,7 @@ export const ServiceStore = iRendererStore
                 }
                 markSaving(true);
 
-                const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
+                const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
 
                 if (!isEmpty(json.data) || json.ok) {
                     json.data && self.updateData(json.data);
@@ -218,10 +210,9 @@ export const ServiceStore = iRendererStore
                 }
 
                 if (!json.ok) {
-                    updateMessage(json.msg || options && options.errorMessage || '保存失败', true);
+                    updateMessage(json.msg || (options && options.errorMessage) || '保存失败', true);
                     throw new Error(self.msg);
                 } else {
-                    
                     if (options && options.onSuccess) {
                         const ret = options.onSuccess(json);
 
@@ -230,13 +221,13 @@ export const ServiceStore = iRendererStore
                         }
                     }
 
-                    updateMessage(json.msg || options && options.successMessage || '保存成功');
+                    updateMessage(json.msg || (options && options.successMessage) || '保存成功');
                     (getRoot(self) as IRendererStore).notify('success', self.msg);
                 }
 
                 markSaving(false);
                 return json.data;
-            } catch(e) {
+            } catch (e) {
                 self.saving = false;
                 // console.log(e.stack);
                 (getRoot(self) as IRendererStore).notify('error', e.message || e);
@@ -245,92 +236,99 @@ export const ServiceStore = iRendererStore
             }
         });
 
-        const fetchSchema:(api:Api, data?:object, options?:fetchOptions) => Promise<any> = flow(function *fetchSchema(api:string, data:object, options:fetchOptions = {}) {
-            try {
-                options = {
-                    method: 'post', // 默认走 post
-                    ...options,
-                    cancelExecutor: (executor:Function) => fetchSchemaCancel = executor
-                };
-
-                if (fetchSchemaCancel) {
-                    fetchSchemaCancel();
-                    fetchSchemaCancel = null;
-                    self.initializing = false;
-                }
-
-                if (self.initializing) {
-                    return;
-                }
-
-                self.initializing = true;
-
-                if (typeof api === 'string') {
-                    api += (~api.indexOf('?') ? '&' : '?') + '_replace=1';
-                } else {
-                    api = {
-                        ...api as any,
-                        url: (api as ApiObject).url + (~(api as ApiObject).url.indexOf('?') ? '&' : '?') + '_replace=1'
+        const fetchSchema: (api: Api, data?: object, options?: fetchOptions) => Promise<any> = flow(
+            function* fetchSchema(api: string, data: object, options: fetchOptions = {}) {
+                try {
+                    options = {
+                        method: 'post', // 默认走 post
+                        ...options,
+                        cancelExecutor: (executor: Function) => (fetchSchemaCancel = executor)
                     };
-                }
 
-                const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
-                fetchSchemaCancel = null;
-
-                if (!json.ok) {
-                    updateMessage(json.msg || options && options.errorMessage || '获取失败，请重试', true);
-                    (getRoot(self) as IRendererStore).notify('error', self.msg);
-                } else {
-                    if (json.data) {
-                        self.schema = json.data;
-                        self.schemaKey = '' + Date.now();
+                    if (fetchSchemaCancel) {
+                        fetchSchemaCancel();
+                        fetchSchemaCancel = null;
+                        self.initializing = false;
                     }
-                    updateMessage(json.msg || options && options.successMessage);
 
-                    // 配置了获取成功提示后提示，默认是空不会提示。
-                    if (options && options.successMessage) {
-                        (getRoot(self) as IRendererStore).notify('success', self.msg);
+                    if (self.initializing) {
+                        return;
                     }
-                }
 
-                self.initializing =  false;
-            } catch(e) {
-                const root = getRoot(self) as IRendererStore;
-                if (root.storeType !== 'RendererStore') {
-                    // 已经销毁了，不管这些数据了。
+                    self.initializing = true;
+
+                    if (typeof api === 'string') {
+                        api += (~api.indexOf('?') ? '&' : '?') + '_replace=1';
+                    } else {
+                        api = {
+                            ...(api as any),
+                            url:
+                                (api as ApiObject).url +
+                                (~(api as ApiObject).url.indexOf('?') ? '&' : '?') +
+                                '_replace=1'
+                        };
+                    }
+
+                    const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
+                    fetchSchemaCancel = null;
+
+                    if (!json.ok) {
+                        updateMessage(json.msg || (options && options.errorMessage) || '获取失败，请重试', true);
+                        (getRoot(self) as IRendererStore).notify('error', self.msg);
+                    } else {
+                        if (json.data) {
+                            self.schema = json.data;
+                            self.schemaKey = '' + Date.now();
+                        }
+                        updateMessage(json.msg || (options && options.successMessage));
+
+                        // 配置了获取成功提示后提示，默认是空不会提示。
+                        if (options && options.successMessage) {
+                            (getRoot(self) as IRendererStore).notify('success', self.msg);
+                        }
+                    }
+
+                    self.initializing = false;
+                } catch (e) {
+                    const root = getRoot(self) as IRendererStore;
+                    if (root.storeType !== 'RendererStore') {
+                        // 已经销毁了，不管这些数据了。
+                        return;
+                    }
+
+                    self.initializing = false;
+
+                    if (root.isCancel(e)) {
+                        return;
+                    }
+
+                    e.stack && console.error(e.stack);
+                    root.notify('error', e.message || e);
+                }
+            }
+        );
+
+        const checkRemote: (api: Api, data?: object, options?: fetchOptions) => Promise<any> = flow(
+            function* checkRemote(api: string, data: object, options?: fetchOptions) {
+                if (self.checking) {
                     return;
                 }
 
-                self.initializing = false;
+                try {
+                    self.checking = true;
+                    const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
+                    json.ok && self.updateData(json.data);
 
-                if (root.isCancel(e)) {
-                    return;
+                    if (!json.ok) {
+                        throw new Error(json.msg);
+                    }
+
+                    return json.data;
+                } finally {
+                    self.checking = false;
                 }
-
-                e.stack && console.error(e.stack);
-                root.notify('error', e.message || e);
             }
-        });
-
-        const checkRemote:(api:Api, data?:object, options?:fetchOptions) => Promise<any> = flow(function *checkRemote(api:string, data:object, options?:fetchOptions) {
-            if (self.checking) {
-                return;
-            }
-
-            try {
-                self.checking = true;
-                const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
-                json.ok && self.updateData(json.data);
-
-                if (!json.ok) {
-                    throw new Error(json.msg);
-                }
-
-                return json.data;
-            } finally {
-                self.checking = false;
-            }
-        });
+        );
 
         return {
             markFetching,

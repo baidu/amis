@@ -1,20 +1,14 @@
 import React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../../factory';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {Renderer, RendererProps} from '../../factory';
+import {FormItem, FormControlProps} from './Item';
 import HBox from '../HBox';
-import { Schema } from '../../types';
+import {Schema} from '../../types';
 import cx from 'classnames';
-import { isVisible } from '../../utils/helper';
+import {isVisible} from '../../utils/helper';
 
 interface HBoxProps extends FormControlProps {
     size?: string;
-};
+}
 
 @FormItem({
     type: 'hbox',
@@ -22,15 +16,11 @@ interface HBoxProps extends FormControlProps {
     sizeMutable: false
 })
 export class HBoxRenderer extends React.Component<HBoxProps, any> {
-    static propsList: Array<string> = ["columns"];
+    static propsList: Array<string> = ['columns'];
     static defaultProps: Partial<HBoxProps> = {};
 
     renderColumn(column: any, key: number, length: number) {
-        const {
-            itemRender,
-            data,
-            classPrefix: ns
-        } = this.props;
+        const {itemRender, data, classPrefix: ns} = this.props;
 
         if (!isVisible(column, data)) {
             return null;
@@ -53,14 +43,8 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
         );
     }
 
-    renderChild(region:string, node:Schema) {
-        const {
-            render,
-            renderFormItems,
-            formMode,
-            store,
-            $path
-        } = this.props;
+    renderChild(region: string, node: Schema) {
+        const {render, renderFormItems, formMode, store, $path} = this.props;
 
         if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
             return renderFormItems(node, ($path as string).replace(/^.*form\//, ''), {
@@ -80,19 +64,12 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
     }
 
     render() {
-        const {
-            className,
-            columns,
-            gap,
-            classPrefix: ns
-        } = this.props;
+        const {className, columns, gap, classPrefix: ns} = this.props;
 
         return (
             <div className={cx(`${ns}FormHbox`, gap ? `${ns}Hbox--${gap}` : '', className)}>
                 <div className={`${ns}Hbox`}>
-                    {columns.map((column:any, key:number) =>
-                        this.renderColumn(column, key, columns.length)
-                    )}
+                    {columns.map((column: any, key: number) => this.renderColumn(column, key, columns.length))}
                 </div>
             </div>
         );

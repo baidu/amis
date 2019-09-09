@@ -33,7 +33,7 @@ export class Rating extends React.Component<RatingProps, any> {
         value: 0,
         count: 5,
         char: '★',
-        size: 24,
+        size: 24
     };
 
     constructor(props: RatingProps) {
@@ -44,8 +44,8 @@ export class Rating extends React.Component<RatingProps, any> {
             stars: [],
             halfStar: {
                 at: Math.floor(props.value),
-                hidden: props.half && props.value % 1 < 0.5,
-            },
+                hidden: props.half && props.value % 1 < 0.5
+            }
         };
 
         this.getRate = this.getRate.bind(this);
@@ -59,7 +59,7 @@ export class Rating extends React.Component<RatingProps, any> {
     componentDidMount() {
         const {value} = this.state;
         this.setState({
-            stars: this.getStars(value),
+            stars: this.getStars(value)
         });
     }
 
@@ -69,8 +69,8 @@ export class Rating extends React.Component<RatingProps, any> {
             value: props.value,
             halfStar: {
                 at: Math.floor(props.value),
-                hidden: props.half && props.value % 1 < 0.5,
-            },
+                hidden: props.half && props.value % 1 < 0.5
+            }
         });
     }
 
@@ -94,7 +94,7 @@ export class Rating extends React.Component<RatingProps, any> {
         const {count} = this.props;
         for (let i = 0; i < count; i++) {
             stars.push({
-                active: i <= activeCount - 1,
+                active: i <= activeCount - 1
             });
         }
         return stars;
@@ -110,14 +110,14 @@ export class Rating extends React.Component<RatingProps, any> {
             this.setState({
                 halfStar: {
                     at: index,
-                    hidden: isAtHalf,
-                },
+                    hidden: isAtHalf
+                }
             });
         } else {
             index = index + 1;
         }
         this.setState({
-            stars: this.getStars(index),
+            stars: this.getStars(index)
         });
     }
 
@@ -136,12 +136,12 @@ export class Rating extends React.Component<RatingProps, any> {
             this.setState({
                 halfStar: {
                     at: Math.floor(value),
-                    hidden: value % 1 === 0, // check value is decimal or not
-                },
+                    hidden: value % 1 === 0 // check value is decimal or not
+                }
             });
         }
         this.setState({
-            stars: this.getStars(),
+            stars: this.getStars()
         });
     }
 
@@ -157,15 +157,15 @@ export class Rating extends React.Component<RatingProps, any> {
             this.setState({
                 halfStar: {
                     at: index,
-                    hidden: isAtHalf,
-                },
+                    hidden: isAtHalf
+                }
             });
         } else {
             value = index = index + 1;
         }
         this.setState({
             value: value,
-            stars: this.getStars(index),
+            stars: this.getStars(index)
         });
         onChange && onChange(value);
     }
@@ -177,7 +177,7 @@ export class Rating extends React.Component<RatingProps, any> {
             let className = cx('Rating', {
                 'Rating-half': half && !halfStar.hidden && halfStar.at === i,
                 'is-active': star.active,
-                'is-disabled': readOnly,
+                'is-disabled': readOnly
             });
 
             return (

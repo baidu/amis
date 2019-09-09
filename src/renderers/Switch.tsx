@@ -5,7 +5,7 @@ import {Api, SchemaNode, PlainObject} from '../types';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
 import Switch from '../components/Switch';
-import { resolveVariable } from '../utils/tpl-builtin';
+import {resolveVariable} from '../utils/tpl-builtin';
 
 export interface SwitchProps extends RendererProps {
     className?: string;
@@ -21,7 +21,7 @@ export class SwitchField extends React.Component<SwitchProps, object> {
         trueValue: true,
         falseValue: false,
         readOnly: true,
-        saveImmediately: false,
+        saveImmediately: false
     };
 
     constructor(props: SwitchProps) {
@@ -38,7 +38,7 @@ export class SwitchField extends React.Component<SwitchProps, object> {
             !disabled &&
             onQuickChange(
                 {
-                    [name as string]: checked ? trueValue : falseValue,
+                    [name as string]: checked ? trueValue : falseValue
                 },
                 saveImmediately
             );
@@ -90,6 +90,6 @@ export class SwitchField extends React.Component<SwitchProps, object> {
 
 @Renderer({
     test: /(^|\/)switch$/,
-    name: 'switch',
+    name: 'switch'
 })
 export class SwitchFieldRenderer extends SwitchField {}

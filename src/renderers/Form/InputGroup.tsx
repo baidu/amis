@@ -1,29 +1,23 @@
 import React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../../factory';
-import { Schema } from '../../types';
+import {Renderer, RendererProps} from '../../factory';
+import {Schema} from '../../types';
 import Collapse from '../Collapse';
 import {makeColumnClassBuild, makeHorizontalDeeper, isVisible, isDisabled} from '../../utils/helper';
 import cx from 'classnames';
 import getExprProperties from '../../utils/filter-schema';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 
 export interface InputGroupProps extends FormControlProps {
     controls: Array<any>;
-    size?: 'xs' | 'sm' | 'normal'
-};
+    size?: 'xs' | 'sm' | 'normal';
+}
 
 interface InputGroupState {
     isFocused: boolean;
-};
+}
 
 export class InputGroup extends React.Component<InputGroupProps, InputGroupState> {
-    constructor(props:InputGroupProps) {
+    constructor(props: InputGroupProps) {
         super(props);
 
         this.handleFocus = this.handleFocus.bind(this);
@@ -37,7 +31,7 @@ export class InputGroup extends React.Component<InputGroupProps, InputGroupState
     handleFocus() {
         this.setState({
             isFocused: true
-        })
+        });
     }
 
     handleBlur() {
@@ -46,19 +40,20 @@ export class InputGroup extends React.Component<InputGroupProps, InputGroupState
         });
     }
 
-    renderControl(control:any, index:any, otherProps?: any) {
-        const {
-            render
-        } = this.props;
+    renderControl(control: any, index: any, otherProps?: any) {
+        const {render} = this.props;
 
         if (!control) {
             return null;
         }
 
-        const subSchema: any = control && (control as Schema).type === 'control' ? control : {
-            type: 'control',
-            control
-        };
+        const subSchema: any =
+            control && (control as Schema).type === 'control'
+                ? control
+                : {
+                      type: 'control',
+                      control
+                  };
 
         if (subSchema.control) {
             let control = subSchema.control as Schema;
@@ -72,14 +67,11 @@ export class InputGroup extends React.Component<InputGroupProps, InputGroupState
     }
 
     validate() {
-        const {
-            formStore,
-            controls
-        } = this.props;
+        const {formStore, controls} = this.props;
 
-        const errors:Array<string> = [];
+        const errors: Array<string> = [];
 
-        controls.forEach(({name})=> {
+        controls.forEach(({name}) => {
             const formItem = name ? formStore.getItemByName(name) : null;
             formItem && formItem.errors.length && errors.push(...formItem.errors);
         });
@@ -88,16 +80,7 @@ export class InputGroup extends React.Component<InputGroupProps, InputGroupState
     }
 
     render() {
-        let {
-            controls,
-            className,
-            mode,
-            horizontal,
-            formMode,
-            formHorizontal,
-            data,
-            classnames: cx
-        } = this.props;
+        let {controls, className, mode, horizontal, formMode, formHorizontal, data, classnames: cx} = this.props;
 
         formMode = mode || formMode;
 
@@ -116,13 +99,15 @@ export class InputGroup extends React.Component<InputGroupProps, InputGroupState
 
         let horizontalDeeper = horizontal || makeHorizontalDeeper(formHorizontal, controls.length);
         return (
-            <div 
+            <div
                 className={cx(`InputGroup`, className, {
                     'is-focused': this.state.isFocused
                 })}
             >
                 {controls.map((control, index) => {
-                    const isAddOn = ~['icon', 'plain', 'tpl', 'button', 'submit', 'reset'].indexOf(control && control.type);
+                    const isAddOn = ~['icon', 'plain', 'tpl', 'button', 'submit', 'reset'].indexOf(
+                        control && control.type
+                    );
 
                     let dom = this.renderControl(control, index, {
                         formHorizontal: horizontalDeeper,
@@ -134,14 +119,25 @@ export class InputGroup extends React.Component<InputGroupProps, InputGroupState
                     });
 
                     return isAddOn ? (
-                        <span key={index} className={cx(control.addOnclassName, ~['button', 'submit', 'reset'].indexOf(control && control.type) ? 'InputGroup-btn' : 'InputGroup-addOn')}>{dom}</span>
-                    ) : dom;
+                        <span
+                            key={index}
+                            className={cx(
+                                control.addOnclassName,
+                                ~['button', 'submit', 'reset'].indexOf(control && control.type)
+                                    ? 'InputGroup-btn'
+                                    : 'InputGroup-addOn'
+                            )}
+                        >
+                            {dom}
+                        </span>
+                    ) : (
+                        dom
+                    );
                 })}
             </div>
-        )
+        );
     }
 }
-
 
 @FormItem({
     type: 'input-group',

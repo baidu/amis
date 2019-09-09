@@ -36,14 +36,14 @@ interface TooltipWrapperState {
     show?: boolean;
 }
 
-let waitToHide:Function|null = null;
+let waitToHide: Function | null = null;
 
 export class TooltipWrapper extends React.Component<TooltipWrapperProps, TooltipWrapperState> {
     static defaultProps: Pick<TooltipWrapperProps, 'placement' | 'trigger' | 'rootClose' | 'delay'> = {
         placement: 'top',
         trigger: ['hover', 'focus'],
         rootClose: false,
-        delay: 200,
+        delay: 200
     };
 
     target: HTMLElement;
@@ -64,7 +64,7 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
         this.handleMouseOut = this.handleMouseOut.bind(this);
 
         this.state = {
-            show: false,
+            show: false
         };
     }
 
@@ -82,14 +82,14 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
 
     show() {
         this.setState({
-            show: true,
+            show: true
         });
     }
 
     hide() {
         waitToHide = null;
         this.setState({
-            show: false,
+            show: false
         });
     }
 
@@ -164,7 +164,7 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
 
         const childProps: any = {
             ref: this.targetRef,
-            key: 'target',
+            key: 'target'
         };
 
         const triggers = Array.isArray(trigger) ? trigger.concat() : [trigger];
@@ -198,13 +198,13 @@ export class TooltipWrapper extends React.Component<TooltipWrapperProps, Tooltip
                 <Tooltip title={typeof tooltip !== 'string' ? tooltip.title : undefined}>
                     <Html html={typeof tooltip === 'string' ? tooltip : tooltip.content} />
                 </Tooltip>
-            </Overlay>,
+            </Overlay>
         ];
     }
 }
 
 export default themeable(
     uncontrollable(TooltipWrapper, {
-        show: 'onVisibleChange',
+        show: 'onVisibleChange'
     })
 );

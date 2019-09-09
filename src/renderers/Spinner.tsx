@@ -3,6 +3,6 @@ import {Renderer} from '../factory';
 
 @Renderer({
     test: /(^|\/)spinner$/,
-    name: 'spinner',
+    name: 'spinner'
 })
 export class SpinnerRenderer extends Spinner {}

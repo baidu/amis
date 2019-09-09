@@ -26,10 +26,10 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
     static defaultProps = {
         placeholder: '加载中...',
         unMountOnHidden: false,
-        partialVisibility: true,
+        partialVisibility: true
     };
 
-    mounted:boolean = false;
+    mounted: boolean = false;
     constructor(props: LazyComponentProps) {
         super(props);
 
@@ -37,7 +37,7 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
 
         this.state = {
             visible: false,
-            component: props.component as React.ReactType,
+            component: props.component as React.ReactType
         };
     }
 
@@ -51,7 +51,7 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
 
     handleVisibleChange(visible: boolean) {
         this.setState({
-            visible: visible,
+            visible: visible
         });
 
         if (!visible || this.state.component || !this.props.getComponent) {
@@ -60,15 +60,20 @@ export default class LazyComponent extends React.Component<LazyComponentProps, L
 
         this.props
             .getComponent()
-            .then(component =>
-                this.mounted && typeof component === 'function' && this.setState({
-                    component: component,
-                })
+            .then(
+                component =>
+                    this.mounted &&
+                    typeof component === 'function' &&
+                    this.setState({
+                        component: component
+                    })
             )
-            .catch(reason =>
-                this.mounted && this.setState({
-                    component: () => <div className="alert alert-danger">{String(reason)}</div>,
-                })
+            .catch(
+                reason =>
+                    this.mounted &&
+                    this.setState({
+                        component: () => <div className="alert alert-danger">{String(reason)}</div>
+                    })
             );
     }
 

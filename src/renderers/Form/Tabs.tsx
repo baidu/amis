@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../../factory';
-import { Schema } from '../../types';
+import {Renderer, RendererProps} from '../../factory';
+import {Schema} from '../../types';
 import Tabs from '../Tabs';
 
-export interface TabsProps extends RendererProps {
-};
+export interface TabsProps extends RendererProps {}
 
 @Renderer({
     test: /(^|\/)form(?:.+)?\/control\/tabs$/i,
@@ -19,21 +15,13 @@ export class TabsRenderer extends React.Component<TabsProps, any> {
         mountOnEnter: false // form 中的不按需渲染
     };
 
-    constructor(props:TabsProps) {
+    constructor(props: TabsProps) {
         super(props);
-        this.renderTab = this.renderTab.bind(this);        
+        this.renderTab = this.renderTab.bind(this);
     }
-    
 
-    renderTab(tab:any, {key}:any) {
-        const {
-            renderFormItems,
-            formMode,
-            formHorizontal,
-            $path,
-            render,
-            classnames: cx
-        } = this.props;
+    renderTab(tab: any, {key}: any) {
+        const {renderFormItems, formMode, formHorizontal, $path, render, classnames: cx} = this.props;
 
         if (renderFormItems && !tab.type && (tab.controls || tab.fieldSet || tab.tabs)) {
             return (
@@ -46,22 +34,12 @@ export class TabsRenderer extends React.Component<TabsProps, any> {
             );
         }
 
-
         return render(`tab/${key}`, tab.body || tab.tab || tab);
     }
 
     render() {
-        const {
-            children,
-            type,
-            ...rest
-        } = this.props;
+        const {children, type, ...rest} = this.props;
 
-        return (
-            <Tabs 
-                {...rest}
-                tabRender={this.renderTab}
-            />
-        );
+        return <Tabs {...rest} tabRender={this.renderTab} />;
     }
 }

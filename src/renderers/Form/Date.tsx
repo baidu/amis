@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
-import {
-    filterDate
-} from '../../utils/tpl-builtin';
+import {filterDate} from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
@@ -20,7 +15,7 @@ export interface DateProps extends FormControlProps {
     closeOnSelect?: boolean;
     disabled?: boolean;
     iconClassName?: string;
-};
+}
 
 interface DateControlState {
     minDate?: moment.Moment;
@@ -42,15 +37,7 @@ export default class DateControl extends React.PureComponent<DateProps> {
     };
 
     componentWillMount() {
-        const {
-            minDate,
-            maxDate,
-            value,
-            defaultValue,
-            setPrinstineValue,
-            data,
-            format
-        } = this.props;
+        const {minDate, maxDate, value, defaultValue, setPrinstineValue, data, format} = this.props;
 
         if (defaultValue && value === defaultValue) {
             setPrinstineValue(filterDate(defaultValue, data).format(format));
@@ -69,24 +56,26 @@ export default class DateControl extends React.PureComponent<DateProps> {
             nextProps.setPrinstineValue(filterDate(nextProps.defaultValue, nextProps.data));
         }
 
-        if (props.minDate !== nextProps.minDate || props.maxDate !== nextProps.maxDate || props.data !== nextProps.data) {
+        if (
+            props.minDate !== nextProps.minDate ||
+            props.maxDate !== nextProps.maxDate ||
+            props.data !== nextProps.data
+        ) {
             this.setState({
-                minDate: nextProps.minDate ? filterDate(nextProps.minDate, nextProps.data, this.props.format) : undefined,
-                maxDate: nextProps.maxDate ? filterDate(nextProps.maxDate, nextProps.data, this.props.format) : undefined
+                minDate: nextProps.minDate
+                    ? filterDate(nextProps.minDate, nextProps.data, this.props.format)
+                    : undefined,
+                maxDate: nextProps.maxDate
+                    ? filterDate(nextProps.maxDate, nextProps.data, this.props.format)
+                    : undefined
             });
         }
     }
 
     render() {
-        const {
-            className,
-            classPrefix: ns,
-            defaultValue,
-            defaultData,
-            ...rest
-        } = this.props;
+        const {className, classPrefix: ns, defaultValue, defaultData, ...rest} = this.props;
 
-       return (
+        return (
             <div className={cx(`${ns}DateControl`, className)}>
                 <DatePicker {...rest} {...this.state} classPrefix={ns} />
             </div>
@@ -106,7 +95,7 @@ export class DateControlRenderer extends DateControl {
         timeFormat: '',
         strictMode: false
     };
-};
+}
 
 @FormItem({
     type: 'datetime'
@@ -121,7 +110,7 @@ export class DatetimeControlRenderer extends DateControl {
         closeOnSelect: false,
         strictMode: false
     };
-};
+}
 
 @FormItem({
     type: 'time'
@@ -136,4 +125,4 @@ export class TimeControlRenderer extends DateControl {
         viewMode: 'time',
         closeOnSelect: false
     };
-};
+}

@@ -1,12 +1,9 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import omit = require('lodash/omit');
 import pick = require('lodash/pick');
-import { createObject } from '../../utils/helper';
+import {createObject} from '../../utils/helper';
 
 export interface SubFormProps extends FormControlProps {
     placeholder?: string;
@@ -14,26 +11,25 @@ export interface SubFormProps extends FormControlProps {
     minLength?: number;
     maxLength?: number;
     labelField?: string;
-};
+}
 
 export interface SubFormState {
     openedIndex: number;
     optionIndex: number;
-};
+}
 
-let dom:HTMLElement;
-const stripTag = (value:string) => {
-  if (!value) {
-    return value;
-  }
-  dom = dom || document.createElement('div');
-  dom.innerHTML = value;
-  return dom.innerText;
+let dom: HTMLElement;
+const stripTag = (value: string) => {
+    if (!value) {
+        return value;
+    }
+    dom = dom || document.createElement('div');
+    dom.innerHTML = value;
+    return dom.innerText;
 };
-
 
 export default class SubFormControl extends React.PureComponent<SubFormProps, SubFormState> {
-    static defaultProps:Partial<SubFormProps> = {
+    static defaultProps: Partial<SubFormProps> = {
         minLength: 0,
         maxLength: 0,
         multiple: false,
@@ -44,11 +40,11 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
         btnLabel: '设置'
     };
 
-    state:SubFormState = {
+    state: SubFormState = {
         openedIndex: -1,
         optionIndex: -1
     };
-    constructor(props:SubFormProps) {
+    constructor(props: SubFormProps) {
         super(props);
 
         this.addItem = this.addItem.bind(this);
@@ -71,7 +67,7 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
         this.props.onChange(value);
     }
 
-    removeItem(key:number, e: React.UIEvent<any>) {
+    removeItem(key: number, e: React.UIEvent<any>) {
         e.stopPropagation();
         e.preventDefault();
 
@@ -86,7 +82,7 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
         this.props.onChange(value);
     }
 
-    open(index:number = 0) {
+    open(index: number = 0) {
         this.setState({
             openedIndex: index
         });
@@ -98,12 +94,8 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
         });
     }
 
-    handleDialogConfirm(values:Array<object>) {
-        const {
-            multiple,
-            onChange,
-            value
-        } = this.props;
+    handleDialogConfirm(values: Array<object>) {
+        const {multiple, onChange, value} = this.props;
 
         if (multiple) {
             let newValue = Array.isArray(value) ? value.concat() : [];
@@ -123,10 +115,18 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
     }
 
     buildDialogSchema() {
-        let {
-            form        } = this.props;
+        let {form} = this.props;
 
-        const dialogProps = ['title', 'actions', 'name', 'size', 'closeOnEsc', 'showCloseButton', 'bodyClassName', 'type'];
+        const dialogProps = [
+            'title',
+            'actions',
+            'name',
+            'size',
+            'closeOnEsc',
+            'showCloseButton',
+            'bodyClassName',
+            'type'
+        ];
 
         return {
             ...pick(form, dialogProps),
@@ -149,34 +149,41 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
             btnLabel
         } = this.props;
 
-        return [(
+        return [
             <div className={`${ns}SubForm-values`} key="values">
-                {Array.isArray(value) ? value.map((value:any, key) => (
-
-                    <div 
-                        className={cx(`${ns}SubForm-value`, {
-                            'is-disabled': disabled
-                        }, editButtonClassName)}
-                        key={key}
-                        >
-                        <span 
-                            data-tooltip="删除"
-                            data-position="bottom"
-                            className={`${ns}Select-valueIcon`} 
-                            onClick={this.removeItem.bind(this, key)}
-                        >×</span>
-                        <span 
-                            onClick={this.open.bind(this, key)}
-                            className={`${ns}SubForm-valueLabel`}
-                            data-tooltip="编辑详情"
-                            data-position="bottom"
-                        >
-                            {value && labelField && value[labelField] && stripTag(value[labelField])|| btnLabel}
-                        </span>
-                    </div>
-                )) : null}
-            </div>
-        ), (
+                {Array.isArray(value)
+                    ? value.map((value: any, key) => (
+                          <div
+                              className={cx(
+                                  `${ns}SubForm-value`,
+                                  {
+                                      'is-disabled': disabled
+                                  },
+                                  editButtonClassName
+                              )}
+                              key={key}
+                          >
+                              <span
+                                  data-tooltip="删除"
+                                  data-position="bottom"
+                                  className={`${ns}Select-valueIcon`}
+                                  onClick={this.removeItem.bind(this, key)}
+                              >
+                                  ×
+                              </span>
+                              <span
+                                  onClick={this.open.bind(this, key)}
+                                  className={`${ns}SubForm-valueLabel`}
+                                  data-tooltip="编辑详情"
+                                  data-position="bottom"
+                              >
+                                  {(value && labelField && value[labelField] && stripTag(value[labelField])) ||
+                                      btnLabel}
+                              </span>
+                          </div>
+                      ))
+                    : null}
+            </div>,
             <button
                 key="add"
                 type="button"
@@ -188,31 +195,28 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
                 <i className="fa fa-plus m-r-xs" />
                 <span>新增</span>
             </button>
-        )];
+        ];
     }
 
     renderSingle() {
-        const {
-            classPrefix: ns,
-            btnClassName,
-            disabled,
-            value,
-            labelField,
-            btnLabel
-        } = this.props;
+        const {classPrefix: ns, btnClassName, disabled, value, labelField, btnLabel} = this.props;
 
         return (
             <div className={`${ns}SubForm-values`} key="values">
-                <div 
-                    className={cx(`${ns}SubForm-value`, {
-                        'is-disabled': disabled
-                    }, btnClassName)}
+                <div
+                    className={cx(
+                        `${ns}SubForm-value`,
+                        {
+                            'is-disabled': disabled
+                        },
+                        btnClassName
+                    )}
                     onClick={this.open.bind(this, 0)}
                     data-tooltip="编辑详情"
                     data-position="bottom"
                 >
                     <span className={`${ns}SubForm-valueLabel`}>
-                        {value && labelField && value[labelField] && stripTag(value[labelField])|| btnLabel}
+                        {(value && labelField && value[labelField] && stripTag(value[labelField])) || btnLabel}
                     </span>
                 </div>
             </div>
@@ -220,33 +224,29 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
     }
 
     render() {
-        const {
-            multiple,
-            classPrefix: ns,
-            className,
-            render,
-            value,
-            data
-        } = this.props;
+        const {multiple, classPrefix: ns, className, render, value, data} = this.props;
         const openedIndex = this.state.openedIndex;
 
         return (
             <div className={cx(`${ns}SubFormControl`, className)}>
                 {multiple ? this.renderMultipe() : this.renderSingle()}
-                {openedIndex !== -1 ? render(`dalog/${openedIndex}`, this.buildDialogSchema(), {
-                    onClose: this.close,
-                    onConfirm: this.handleDialogConfirm,
-                    data: createObject(data, (multiple ? Array.isArray(value) && value[openedIndex] : value) || {})
-                }) : null}
+                {openedIndex !== -1
+                    ? render(`dalog/${openedIndex}`, this.buildDialogSchema(), {
+                          onClose: this.close,
+                          onConfirm: this.handleDialogConfirm,
+                          data: createObject(
+                              data,
+                              (multiple ? Array.isArray(value) && value[openedIndex] : value) || {}
+                          )
+                      })
+                    : null}
             </div>
         );
     }
 }
 
-
 @FormItem({
     type: 'form',
     sizeMutable: false
 })
-export class SubFormControlRenderer extends SubFormControl {};
-
+export class SubFormControlRenderer extends SubFormControl {}

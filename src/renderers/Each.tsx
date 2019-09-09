@@ -12,7 +12,7 @@ export interface EachProps extends RendererProps {
 export default class Each extends React.Component<EachProps> {
     static propsList: Array<string> = ['name', 'items', 'value'];
     static defaultProps: Partial<EachProps> = {
-        className: '',
+        className: ''
     };
 
     render() {
@@ -23,7 +23,7 @@ export default class Each extends React.Component<EachProps> {
                 ? isObject(value)
                     ? Object.keys(value).map(key => ({
                           key: key,
-                          value: value[key],
+                          value: value[key]
                       }))
                     : Array.isArray(value)
                     ? value
@@ -36,7 +36,7 @@ export default class Each extends React.Component<EachProps> {
                     ? arr.map((item: any, index: number) =>
                           render(`item/${index}`, items, {
                               data: createObject(data, isObject(item) ? item : {[name]: item, item: item}),
-                              key: index,
+                              key: index
                           })
                       )
                     : null}
@@ -47,6 +47,6 @@ export default class Each extends React.Component<EachProps> {
 
 @Renderer({
     test: /(^|\/)(?:repeat|each)$/,
-    name: 'each',
+    name: 'each'
 })
 export class EachRenderer extends Each {}

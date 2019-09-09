@@ -11,7 +11,7 @@ const bsMapping: {
 } = {
     level: 'bsStyle',
     classPrefix: 'bsClass',
-    size: 'bsSize',
+    size: 'bsSize'
 };
 
 /**
@@ -119,7 +119,7 @@ export function calculatePosition(placement: any, overlayNode: any, target: any,
         const tests = placement.split(/\s+/);
 
         while (tests.length) {
-            const current = activePlacement = tests.shift();
+            const current = (activePlacement = tests.shift());
             let [atX, atY, myX, myY] = current.split('-');
             myX = myX || atX;
             myY = myY || atY;
@@ -147,7 +147,7 @@ export function calculatePosition(placement: any, overlayNode: any, target: any,
                     x: clip.x + positionLeft - childOffset.left,
                     y: clip.y + positionTop - childOffset.top,
                     width: overlayWidth,
-                    height: overlayHeight,
+                    height: overlayHeight
                 };
 
                 if (
@@ -156,7 +156,6 @@ export function calculatePosition(placement: any, overlayNode: any, target: any,
                     transformed.y > 0 &&
                     transformed.y + transformed.height < window.innerHeight
                 ) {
-                    
                     break;
                 }
             }

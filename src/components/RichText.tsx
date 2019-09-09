@@ -56,7 +56,7 @@ export default class FroalaEditor extends React.Component<any, any> {
     $editor: any = null;
     config: any = {
         immediateReactModelUpdate: false,
-        reactIgnoreAttrs: null,
+        reactIgnoreAttrs: null
     };
     editorInitialized: boolean = false;
     oldModel: any = null;
@@ -203,8 +203,8 @@ export default class FroalaEditor extends React.Component<any, any> {
         url_regex: '',
         url_text: '',
         html:
-            '<span class="fr-video fr-dvb fr-draggable" contenteditable="false" draggable="true"><video class="fr-draggable" controls="" data-msg="ok" data-status="0" src="{url}" style="width: 600px;"></video></span>',
-    },
+            '<span class="fr-video fr-dvb fr-draggable" contenteditable="false" draggable="true"><video class="fr-draggable" controls="" data-msg="ok" data-status="0" src="{url}" style="width: 600px;"></video></span>'
+    }
 ];
 ($ as any).FE.LANGUAGE['zh_cn'] = {
     translation: {
@@ -430,7 +430,7 @@ export default class FroalaEditor extends React.Component<any, any> {
         Decrease: '\u5220\u9664\u5f15\u7528',
 
         // Quick Insert
-        'Quick Insert': '\u5feb\u63d2',
+        'Quick Insert': '\u5feb\u63d2'
     },
-    direction: 'ltr',
+    direction: 'ltr'
 };

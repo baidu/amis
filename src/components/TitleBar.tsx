@@ -26,7 +26,7 @@ export class TitleBar extends React.PureComponent<TitleBarProps, any> {
         className: 'bg-light lter b-b',
         title: '标题',
         titleClassName: 'm-n font-thin h3',
-        right: false,
+        right: false
     };
 
     render(): JSX.Element {

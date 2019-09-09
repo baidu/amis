@@ -39,24 +39,17 @@ export class Radios extends React.Component<RadioProps, any> {
     static defaultProps = {
         joinValues: true,
         clearable: false,
-        columnsCount: 1, // 一行显示一个
+        columnsCount: 1 // 一行显示一个
     };
 
     toggleOption(option: Option) {
-        const {
-            value,
-            onChange,
-            valueField,
-            clearable,
-            delimiter,
-            options
-        } = this.props;
+        const {value, onChange, valueField, clearable, delimiter, options} = this.props;
 
         let valueArray = value2array(value, {
             multiple: false,
             delimiter,
             valueField,
-            options,
+            options
         });
         const idx = valueArray.indexOf(option);
 
@@ -71,36 +64,26 @@ export class Radios extends React.Component<RadioProps, any> {
         onChange && onChange(newValue);
     }
 
-    renderGroup(option:Option, index:number, valueArray: Array<Option>) {
-        const {
-            classnames: cx
-        } = this.props;
+    renderGroup(option: Option, index: number, valueArray: Array<Option>) {
+        const {classnames: cx} = this.props;
 
         return (
-            <div key={index} className={cx("RadiosControl-group", option.className)}>
-                <label className={cx("RadiosControl-groupLabel", option.labelClassName)}>{option.label}</label>
+            <div key={index} className={cx('RadiosControl-group', option.className)}>
+                <label className={cx('RadiosControl-groupLabel', option.labelClassName)}>{option.label}</label>
 
-                {
-                    option.children && option.children.length 
-                        ? option.children.map((option, index) => this.renderItem(option, index, valueArray)) 
-                        : null
-                }
+                {option.children && option.children.length
+                    ? option.children.map((option, index) => this.renderItem(option, index, valueArray))
+                    : null}
             </div>
         );
     }
 
-    renderItem(option:Option, index:number, valueArray: Array<Option>) {
+    renderItem(option: Option, index: number, valueArray: Array<Option>) {
         if (option.children) {
             return this.renderGroup(option, index, valueArray);
         }
 
-
-        const {
-            disabled,
-            inline,
-            itemClassName,
-            classnames: cx
-        } = this.props;
+        const {disabled, inline, itemClassName, classnames: cx} = this.props;
 
         return (
             <Checkbox
@@ -129,14 +112,14 @@ export class Radios extends React.Component<RadioProps, any> {
             inline,
             delimiter,
             valueField,
-            classPrefix,
+            classPrefix
         } = this.props;
 
         let valueArray = value2array(value, {
             multiple: false,
             delimiter,
             valueField,
-            options,
+            options
         });
         let body: Array<React.ReactNode> = [];
 
@@ -150,7 +133,9 @@ export class Radios extends React.Component<RadioProps, any> {
             body = chunk(body, columnsCount).map((group, groupIndex) => (
                 <div className={cx('Grid')} key={groupIndex}>
                     {Array.from({length: columnsCount as number}).map((_, index) => (
-                        <div key={index} className={cx(cellClassName)}>{group[index]}</div>
+                        <div key={index} className={cx(cellClassName)}>
+                            {group[index]}
+                        </div>
                     ))}
                 </div>
             ));
@@ -162,6 +147,6 @@ export class Radios extends React.Component<RadioProps, any> {
 
 export default themeable(
     uncontrollable(Radios, {
-        value: 'onChange',
+        value: 'onChange'
     })
 );

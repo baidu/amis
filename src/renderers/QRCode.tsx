@@ -19,7 +19,7 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
         backgroundColor: '#fff',
         foregroundColor: '#000',
         level: 'L',
-        placeholder: '-',
+        placeholder: '-'
     };
 
     render() {
@@ -32,7 +32,7 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
             level,
             value,
             data,
-            classPrefix: ns,
+            classPrefix: ns
         } = this.props;
 
         return (
@@ -55,12 +55,12 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
 
 @Renderer({
     test: /(^|\/)qr\-?code$/,
-    name: 'qrcode',
+    name: 'qrcode'
 })
 export class QRCodeRenderer extends QRCode {}
 
 @FormItem({
     type: 'qr-code',
-    sizeMutable: false,
+    sizeMutable: false
 })
 export class QRCodeControlRenderer extends QRCode {}

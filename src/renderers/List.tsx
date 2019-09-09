@@ -68,7 +68,7 @@ export default class List extends React.Component<ListProps, object> {
         'itemDraggableOn',
         'actions',
         'items',
-        'valueField',
+        'valueField'
     ];
     static defaultProps: Partial<ListProps> = {
         className: '',
@@ -77,14 +77,14 @@ export default class List extends React.Component<ListProps, object> {
         selectable: false,
         headerClassName: '',
         footerClassName: '',
-        affixHeader: true,
+        affixHeader: true
     };
 
     dragTip?: HTMLElement;
     sortable?: Sortable;
     parentNode?: any;
     body?: any;
-    renderedToolbars:Array<string>;
+    renderedToolbars: Array<string>;
 
     constructor(props: ListProps) {
         super(props);
@@ -136,7 +136,7 @@ export default class List extends React.Component<ListProps, object> {
             multiple,
             hideCheckToggler,
             itemCheckableOn,
-            itemDraggableOn,
+            itemDraggableOn
         } = this.props;
 
         store.update({
@@ -147,7 +147,7 @@ export default class List extends React.Component<ListProps, object> {
             orderDir,
             hideCheckToggler,
             itemCheckableOn,
-            itemDraggableOn,
+            itemDraggableOn
         });
 
         List.syncItems(store, this.props);
@@ -180,7 +180,7 @@ export default class List extends React.Component<ListProps, object> {
                     'multiple',
                     'hideCheckToggler',
                     'itemCheckableOn',
-                    'itemDraggableOn',
+                    'itemDraggableOn'
                 ],
                 props,
                 nextProps
@@ -194,7 +194,7 @@ export default class List extends React.Component<ListProps, object> {
                 orderDir: nextProps.orderDir,
                 hideCheckToggler: nextProps.hideCheckToggler,
                 itemCheckableOn: nextProps.itemCheckableOn,
-                itemDraggableOn: nextProps.itemDraggableOn,
+                itemDraggableOn: nextProps.itemDraggableOn
             });
         }
 
@@ -282,7 +282,7 @@ export default class List extends React.Component<ListProps, object> {
                 null,
                 {
                     actionType: 'ajax',
-                    api: saveImmediately.api,
+                    api: saveImmediately.api
                 },
                 values
             );
@@ -374,7 +374,7 @@ export default class List extends React.Component<ListProps, object> {
                 }
 
                 store.exchange(e.oldIndex, e.newIndex);
-            },
+            }
         });
     }
 
@@ -395,7 +395,11 @@ export default class List extends React.Component<ListProps, object> {
             });
         }
 
-        if (region === 'header' && !~this.renderedToolbars.indexOf('drag-toggler') && (btn = this.renderDragToggler())) {
+        if (
+            region === 'header' &&
+            !~this.renderedToolbars.indexOf('drag-toggler') &&
+            (btn = this.renderDragToggler())
+        ) {
             actions.unshift({
                 type: 'button',
                 children: btn
@@ -409,12 +413,12 @@ export default class List extends React.Component<ListProps, object> {
                         `action/${key}`,
                         {
                             type: 'button',
-                            ...action,
+                            ...action
                         },
                         {
                             onAction: this.handleAction,
                             key,
-                            btnDisabled: store.dragging,
+                            btnDisabled: store.dragging
                         }
                     )
                 )}
@@ -489,7 +493,7 @@ export default class List extends React.Component<ListProps, object> {
             render,
             showHeader,
             store,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         if (showHeader === false) {
@@ -497,12 +501,15 @@ export default class List extends React.Component<ListProps, object> {
         }
 
         const child = headerToolbarRender
-            ? headerToolbarRender({
-                  ...this.props,
-                  selectedItems: store.selectedItems.map(item => item.data),
-                  items: store.items.map(item => item.data),
-                  unSelectedItems: store.unSelectedItems.map(item => item.data),
-            }, this.renderToolbar)
+            ? headerToolbarRender(
+                  {
+                      ...this.props,
+                      selectedItems: store.selectedItems.map(item => item.data),
+                      items: store.items.map(item => item.data),
+                      unSelectedItems: store.unSelectedItems.map(item => item.data)
+                  },
+                  this.renderToolbar
+              )
             : null;
         const actions = this.renderActions('header');
         const toolbarNode =
@@ -535,7 +542,7 @@ export default class List extends React.Component<ListProps, object> {
             render,
             showFooter,
             store,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         if (showFooter === false) {
@@ -543,15 +550,18 @@ export default class List extends React.Component<ListProps, object> {
         }
 
         const child = footerToolbarRender
-            ? footerToolbarRender({
-                ...this.props,
-                selectedItems: store.selectedItems.map(item => item.data),
-                items: store.items.map(item => item.data),
-                unSelectedItems: store.unSelectedItems.map(item => item.data),
-            }, this.renderToolbar)
+            ? footerToolbarRender(
+                  {
+                      ...this.props,
+                      selectedItems: store.selectedItems.map(item => item.data),
+                      items: store.items.map(item => item.data),
+                      unSelectedItems: store.unSelectedItems.map(item => item.data)
+                  },
+                  this.renderToolbar
+              )
             : null;
         const actions = this.renderActions('footer');
-        
+
         const toolbarNode =
             actions || child ? (
                 <div className={cx('List-toolbar', footerClassName)} key="footer-toolbar">
@@ -569,12 +579,8 @@ export default class List extends React.Component<ListProps, object> {
     }
 
     renderCheckAll() {
-        const {
-            store,
-            multiple,
-            selectable,
-        } = this.props;
-        
+        const {store, multiple, selectable} = this.props;
+
         if (!store.selectable || !multiple || !selectable || store.dragging || !store.items.length) {
             return null;
         }
@@ -593,13 +599,8 @@ export default class List extends React.Component<ListProps, object> {
     }
 
     renderDragToggler() {
-        const {
-            store,
-            multiple,
-            selectable,
-            env
-        } = this.props;
-        
+        const {store, multiple, selectable, env} = this.props;
+
         if (!store.draggable || store.items.length < 2) {
             return null;
         }
@@ -651,7 +652,7 @@ export default class List extends React.Component<ListProps, object> {
             checkOnItemClick,
             affixHeader,
             classnames: cx,
-            size,
+            size
         } = this.props;
 
         this.renderedToolbars = [];
@@ -662,7 +663,7 @@ export default class List extends React.Component<ListProps, object> {
             <div
                 className={cx('List', className, {
                     [`List--${size}`]: size,
-                    'List--unsaved': !!store.modified || !!store.moved,
+                    'List--unsaved': !!store.modified || !!store.moved
                 })}
                 ref={this.bodyRef}
             >
@@ -682,14 +683,14 @@ export default class List extends React.Component<ListProps, object> {
                                 `${index}`,
                                 {
                                     type: 'list-item',
-                                    ...listItem,
+                                    ...listItem
                                 },
                                 {
                                     key: item.index,
                                     className: cx(itemClassName, {
                                         'is-checked': item.checked,
                                         'is-modified': item.modified,
-                                        'is-moved': item.moved,
+                                        'is-moved': item.moved
                                     }),
                                     selectable: store.selectable,
                                     checkable: item.checkable,
@@ -704,7 +705,7 @@ export default class List extends React.Component<ListProps, object> {
                                     onAction,
                                     data: item.locals,
                                     onQuickChange: store.dragging ? null : this.handleQuickChange,
-                                    popOverContainer: this.getPopOverContainer,
+                                    popOverContainer: this.getPopOverContainer
                                 }
                             )
                         )}
@@ -722,7 +723,7 @@ export default class List extends React.Component<ListProps, object> {
 @Renderer({
     test: /(^|\/)(?:list|list-group)$/,
     storeType: ListStore.name,
-    name: 'list',
+    name: 'list'
 })
 export class ListRenderer extends List {
     dragging: boolean;
@@ -748,7 +749,7 @@ export interface ListItemProps extends RendererProps {
 export class ListItem extends React.Component<ListItemProps> {
     static defaultProps: Partial<ListItemProps> = {
         avatarClassName: 'thumb-sm avatar m-r',
-        titleClassName: 'h5',
+        titleClassName: 'h5'
     };
 
     static propsList: Array<string> = ['avatarClassName', 'titleClassName'];
@@ -768,10 +769,9 @@ export class ListItem extends React.Component<ListItemProps> {
         let formItem;
 
         if (
-            !e.currentTarget.contains(target) 
-            || ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) 
-            || (formItem = target.closest(`button, a, .${ns}Form-item`)) 
-                && e.currentTarget.contains(formItem)
+            !e.currentTarget.contains(target) ||
+            ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
+            ((formItem = target.closest(`button, a, .${ns}Form-item`)) && e.currentTarget.contains(formItem))
         ) {
             return;
         }
@@ -805,7 +805,7 @@ export class ListItem extends React.Component<ListItemProps> {
             hideCheckToggler,
             checkOnItemClick,
             classnames: cx,
-            classPrefix: ns,
+            classPrefix: ns
         } = this.props;
 
         if (dragging) {
@@ -849,12 +849,12 @@ export class ListItem extends React.Component<ListItemProps> {
                                 size: 'sm',
                                 level: 'link',
                                 type: 'button',
-                                ...action,
+                                ...action
                             },
                             {
                                 key: index,
                                 disabled: dragging || isDisabled(action, data),
-                                onAction: this.handleAction,
+                                onAction: this.handleAction
                             }
                         );
                     })}
@@ -888,7 +888,7 @@ export class ListItem extends React.Component<ListItemProps> {
         if (childNode.type === 'hbox' || childNode.type === 'grid') {
             return render(region, node, {
                 key,
-                itemRender: this.itemRender,
+                itemRender: this.itemRender
             }) as JSX.Element;
         }
 
@@ -906,7 +906,7 @@ export class ListItem extends React.Component<ListItemProps> {
         const itemIndex = this.props.itemIndex;
 
         const $$id = field.$$id ? `${field.$$id}-field` : '';
-        
+
         if (!isVisible(field, data)) {
             return null;
         }
@@ -924,7 +924,7 @@ export class ListItem extends React.Component<ListItemProps> {
                             ...field,
                             field: field,
                             $$id,
-                            type: 'list-item-field',
+                            type: 'list-item-field'
                         },
                         {
                             rowIndex: itemIndex,
@@ -932,7 +932,7 @@ export class ListItem extends React.Component<ListItemProps> {
                             className: cx('ListItem-fieldValue', field.className),
                             value: field.name ? resolveVariable(field.name, data) : `-`,
                             onAction: this.handleAction,
-                            onQuickChange: this.handleQuickChange,
+                            onQuickChange: this.handleQuickChange
                         }
                     ) as JSX.Element
                 }
@@ -965,7 +965,7 @@ export class ListItem extends React.Component<ListItemProps> {
             checkOnItemClick,
             render,
             checkable,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         const avatar = filter(avatarTpl, data);
@@ -1002,13 +1002,13 @@ export class ListItem extends React.Component<ListItemProps> {
 
 @Renderer({
     test: /(^|\/)(?:list|list-group)\/(?:.*\/)?list-item$/,
-    name: 'list-item',
+    name: 'list-item'
 })
 export class ListItemRenderer extends ListItem {}
 
 @Renderer({
     test: /(^|\/)list-item-field$/,
-    name: 'list-item-field',
+    name: 'list-item-field'
 })
 @QuickEdit()
 @PopOver()
@@ -1016,7 +1016,7 @@ export class ListItemRenderer extends ListItem {}
 export class ListItemFieldRenderer extends TableCell {
     static defaultProps = {
         ...TableCell.defaultProps,
-        wrapperComponent: 'div',
+        wrapperComponent: 'div'
     };
     static propsList = ['quickEdit', 'popOver', 'copyable', ...TableCell.propsList];
 
@@ -1042,7 +1042,7 @@ export class ListItemFieldRenderer extends TableCell {
         const schema = {
             ...field,
             className: innerClassName,
-            type: (field && field.type) || 'plain',
+            type: (field && field.type) || 'plain'
         };
 
         let body = children
@@ -1050,7 +1050,7 @@ export class ListItemFieldRenderer extends TableCell {
             : render('field', schema, {
                   ...rest,
                   value,
-                  data,
+                  data
               });
 
         if (width) {

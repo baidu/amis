@@ -7,7 +7,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable} from '../theme';
-import { camel } from '../utils/helper';
+import {camel} from '../utils/helper';
 
 export interface Offset {
     x: number;
@@ -41,18 +41,18 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
         className: '',
         offset: {
             x: 0,
-            y: 0,
+            y: 0
         },
         overlay: false,
-        placement: 'bottom',
+        placement: 'bottom'
     };
 
     state = {
         xOffset: 0,
-        yOffset: 0,
+        yOffset: 0
     };
 
-    parent:HTMLElement;
+    parent: HTMLElement;
 
     componentDidMount() {
         this.mayUpdateOffset();
@@ -79,14 +79,14 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
             offset = getOffset((findDOMNode(this) as HTMLElement).getBoundingClientRect(), {
                 x,
                 y,
-                placement,
+                placement
             });
         } else {
             offset = getOffset as Offset;
         }
         this.setState({
-            xOffset: (offset && offset.x) ? (offset as Offset).x : 0,
-            yOffset: (offset && offset.y) ? (offset as Offset).y : 0,
+            xOffset: offset && offset.x ? (offset as Offset).x : 0,
+            yOffset: offset && offset.y ? (offset as Offset).y : 0
         });
     }
 
@@ -114,11 +114,15 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
             display: 'block',
             ...style,
             top: (positionTop as number) + yOffset,
-            left: (positionLeft as number) + xOffset,
+            left: (positionLeft as number) + xOffset
         };
 
         return (
-            <div className={cx(`${ns}PopOver`, className, `${ns}PopOver--${camel(activePlacement)}`)} style={outerStyle} {...rest}>
+            <div
+                className={cx(`${ns}PopOver`, className, `${ns}PopOver--${camel(activePlacement)}`)}
+                style={outerStyle}
+                {...rest}
+            >
                 {overlay ? <div className={`${ns}PopOver-overlay`} onClick={onHide} /> : null}
                 {children}
             </div>

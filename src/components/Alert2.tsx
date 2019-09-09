@@ -23,7 +23,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     static defaultProps: Pick<AlertProps, 'level' | 'className' | 'showCloseButton'> = {
         level: 'info',
         className: '',
-        showCloseButton: false,
+        showCloseButton: false
     };
     static propsList: Array<string> = ['level', 'className', 'showCloseButton', 'onClose'];
 
@@ -32,14 +32,14 @@ export class Alert extends React.Component<AlertProps, AlertState> {
 
         this.handleClick = this.handleClick.bind(this);
         this.state = {
-            show: true,
+            show: true
         };
     }
 
     handleClick() {
         this.setState(
             {
-                show: false,
+                show: false
             },
             this.props.onClose
         );

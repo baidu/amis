@@ -13,13 +13,13 @@ const sizeMap = {
     md: 'i-switch-md',
     lg: 'i-switch-lg',
     middle: 'i-switch-md',
-    large: 'i-switch-lg',
+    large: 'i-switch-lg'
 };
 
 const levelMap = {
     info: 'bg-info',
     primary: 'bg-primary',
-    danger: 'bg-danger',
+    danger: 'bg-danger'
 };
 
 interface SwitchProps {
@@ -42,7 +42,7 @@ interface SwitchProps {
 export class Switch extends React.PureComponent<SwitchProps, any> {
     static defaultProps = {
         trueValue: true,
-        falseValue: false,
+        falseValue: false
     };
 
     constructor(props: SwitchProps) {

@@ -69,7 +69,7 @@ export default class Cards extends React.Component<GridProps, object> {
         'itemDraggableOn',
         'masonryLayout',
         'items',
-        'valueField',
+        'valueField'
     ];
     static defaultProps: Partial<GridProps> = {
         className: '',
@@ -83,7 +83,7 @@ export default class Cards extends React.Component<GridProps, object> {
         hideCheckToggler: false,
         masonryLayout: false,
         affixHeader: true,
-        itemsClassName: '',
+        itemsClassName: ''
     };
 
     dragTip?: HTMLElement;
@@ -92,7 +92,7 @@ export default class Cards extends React.Component<GridProps, object> {
     body?: any;
     // fixAlignmentLazy: Function;
     unSensor: Function;
-    renderedToolbars:Array<string>;
+    renderedToolbars: Array<string>;
 
     constructor(props: GridProps) {
         super(props);
@@ -148,7 +148,7 @@ export default class Cards extends React.Component<GridProps, object> {
             multiple,
             hideCheckToggler,
             itemCheckableOn,
-            itemDraggableOn,
+            itemDraggableOn
         } = this.props;
 
         store.update({
@@ -159,7 +159,7 @@ export default class Cards extends React.Component<GridProps, object> {
             multiple,
             hideCheckToggler,
             itemCheckableOn,
-            itemDraggableOn,
+            itemDraggableOn
         });
 
         Cards.syncItems(store, this.props);
@@ -192,7 +192,7 @@ export default class Cards extends React.Component<GridProps, object> {
                     'multiple',
                     'hideCheckToggler',
                     'itemCheckableOn',
-                    'itemDraggableOn',
+                    'itemDraggableOn'
                 ],
                 props,
                 nextProps
@@ -206,7 +206,7 @@ export default class Cards extends React.Component<GridProps, object> {
                 multiple: nextProps.multiple,
                 hideCheckToggler: nextProps.hideCheckToggler,
                 itemCheckableOn: nextProps.itemCheckableOn,
-                itemDraggableOn: nextProps.itemDraggableOn,
+                itemDraggableOn: nextProps.itemDraggableOn
             });
         }
 
@@ -311,7 +311,7 @@ export default class Cards extends React.Component<GridProps, object> {
                 null,
                 {
                     actionType: 'ajax',
-                    api: saveImmediately.api,
+                    api: saveImmediately.api
                 },
                 values
             );
@@ -403,7 +403,7 @@ export default class Cards extends React.Component<GridProps, object> {
                 }
 
                 store.exchange(e.oldIndex, e.newIndex);
-            },
+            }
         });
     }
 
@@ -420,16 +420,20 @@ export default class Cards extends React.Component<GridProps, object> {
             actions.unshift({
                 type: 'button',
                 children: btn
-            })
+            });
         }
 
-        if (region === 'header' && !~this.renderedToolbars.indexOf('drag-toggler') && (btn = this.renderDragToggler())) {
+        if (
+            region === 'header' &&
+            !~this.renderedToolbars.indexOf('drag-toggler') &&
+            (btn = this.renderDragToggler())
+        ) {
             actions.unshift({
                 type: 'button',
                 children: btn
-            })
+            });
         }
-        
+
         return Array.isArray(actions) && actions.length ? (
             <div className={cx('Cards-actions')}>
                 {actions.map((action, key) =>
@@ -437,12 +441,12 @@ export default class Cards extends React.Component<GridProps, object> {
                         `action/${key}`,
                         {
                             type: 'button',
-                            ...action,
+                            ...action
                         },
                         {
                             onAction: this.handleAction,
                             key,
-                            btnDisabled: store.dragging,
+                            btnDisabled: store.dragging
                         }
                     )
                 )}
@@ -517,7 +521,7 @@ export default class Cards extends React.Component<GridProps, object> {
             showHeader,
             render,
             store,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         if (showHeader === false) {
@@ -525,12 +529,15 @@ export default class Cards extends React.Component<GridProps, object> {
         }
 
         const child = headerToolbarRender
-            ? headerToolbarRender({
-                  ...this.props,
-                  selectedItems: store.selectedItems.map(item => item.data),
-                  items: store.items.map(item => item.data),
-                  unSelectedItems: store.unSelectedItems.map(item => item.data),
-              }, this.renderToolbar)
+            ? headerToolbarRender(
+                  {
+                      ...this.props,
+                      selectedItems: store.selectedItems.map(item => item.data),
+                      items: store.items.map(item => item.data),
+                      unSelectedItems: store.unSelectedItems.map(item => item.data)
+                  },
+                  this.renderToolbar
+              )
             : null;
         const actions = this.renderActions('header');
         const toolbarNode =
@@ -562,7 +569,7 @@ export default class Cards extends React.Component<GridProps, object> {
             render,
             showFooter,
             store,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         if (showFooter === false) {
@@ -570,15 +577,18 @@ export default class Cards extends React.Component<GridProps, object> {
         }
 
         const child = footerToolbarRender
-            ? footerToolbarRender({
-                  ...this.props,
-                  selectedItems: store.selectedItems.map(item => item.data),
-                  items: store.items.map(item => item.data),
-                  unSelectedItems: store.unSelectedItems.map(item => item.data),
-            }, this.renderToolbar)
+            ? footerToolbarRender(
+                  {
+                      ...this.props,
+                      selectedItems: store.selectedItems.map(item => item.data),
+                      items: store.items.map(item => item.data),
+                      unSelectedItems: store.unSelectedItems.map(item => item.data)
+                  },
+                  this.renderToolbar
+              )
             : null;
         const actions = this.renderActions('footer');
-        
+
         const toolbarNode =
             actions || child ? (
                 <div className={cx('Cards-toolbar')} key="footer-toolbar">
@@ -595,12 +605,8 @@ export default class Cards extends React.Component<GridProps, object> {
     }
 
     renderCheckAll() {
-        const {
-            store,
-            multiple,
-            selectable,
-        } = this.props;
-        
+        const {store, multiple, selectable} = this.props;
+
         if (!store.selectable || !multiple || !selectable || store.dragging || !store.items.length) {
             return null;
         }
@@ -619,13 +625,8 @@ export default class Cards extends React.Component<GridProps, object> {
     }
 
     renderDragToggler() {
-        const {
-            store,
-            multiple,
-            selectable,
-            env
-        } = this.props;
-        
+        const {store, multiple, selectable, env} = this.props;
+
         if (!store.draggable || store.items.length < 2) {
             return null;
         }
@@ -679,7 +680,7 @@ export default class Cards extends React.Component<GridProps, object> {
             checkOnItemClick,
             masonryLayout,
             itemsClassName,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -710,7 +711,7 @@ export default class Cards extends React.Component<GridProps, object> {
             <div
                 ref={this.bodyRef}
                 className={cx('Cards', className, {
-                    'Cards--unsaved': !!store.modified || !!store.moved,
+                    'Cards--unsaved': !!store.modified || !!store.moved
                 })}
             >
                 {affixHeader ? (
@@ -730,13 +731,13 @@ export default class Cards extends React.Component<GridProps, object> {
                                         `${index}`,
                                         {
                                             type: 'card',
-                                            ...card,
+                                            ...card
                                         },
                                         {
                                             className: cx((card && card.className) || '', {
                                                 'is-checked': item.checked,
                                                 'is-modified': item.modified,
-                                                'is-moved': item.moved,
+                                                'is-moved': item.moved
                                             }),
                                             item,
                                             intemIndex: item.index,
@@ -752,7 +753,7 @@ export default class Cards extends React.Component<GridProps, object> {
                                             checkOnItemClick,
                                             onAction,
                                             onCheck: this.handleCheck,
-                                            onQuickChange: store.dragging ? null : this.handleQuickChange,
+                                            onQuickChange: store.dragging ? null : this.handleQuickChange
                                         }
                                     )}
                                 </div>
@@ -773,7 +774,7 @@ export default class Cards extends React.Component<GridProps, object> {
     test: /(^|\/)(?:crud\/body\/grid|cards)$/,
     name: 'cards',
     storeType: ListStore.name,
-    weight: -100, // 默认的 grid 不是这样，这个只识别 crud 下面的 grid
+    weight: -100 // 默认的 grid 不是这样，这个只识别 crud 下面的 grid
 })
 export class CardsRenderer extends Cards {
     dragging: boolean;

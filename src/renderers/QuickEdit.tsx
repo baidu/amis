@@ -67,7 +67,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
             this.handleChange = this.handleChange.bind(this);
 
             this.state = {
-                isOpened: false,
+                isOpened: false
             };
         }
 
@@ -83,12 +83,8 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
             document.body.addEventListener('keydown', this.handleWindowKeyDown);
         }
 
-        formRef(ref:any) {
-            const {
-                quickEditFormRef,
-                rowIndex,
-                colIndex
-            } = this.props;
+        formRef(ref: any) {
+            const {quickEditFormRef, rowIndex, colIndex} = this.props;
 
             if (quickEditFormRef) {
                 while (ref && ref.getWrappedInstance) {
@@ -257,7 +253,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
         openQuickEdit() {
             currentOpened = this;
             this.setState({
-                isOpened: true,
+                isOpened: true
             });
         }
 
@@ -269,7 +265,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
             const ns = this.props.classPrefix;
             this.setState(
                 {
-                    isOpened: false,
+                    isOpened: false
                 },
                 () => {
                     let el = findDOMNode(this) as HTMLElement;
@@ -295,9 +291,9 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                             type: 'text',
                             name,
                             placeholder: label,
-                            label: false,
-                        },
-                    ],
+                            label: false
+                        }
+                    ]
                 };
             } else if (quickEdit) {
                 if (
@@ -311,7 +307,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                         autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
                         mode: (quickEdit as QuickEditConfig).mode === 'inline' ? 'inline' : 'normal',
                         ...quickEdit,
-                        type: 'form',
+                        type: 'form'
                     };
                 } else {
                     schema = {
@@ -324,9 +320,9 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                             {
                                 type: quickEdit.type || 'text',
                                 name: quickEdit.name || name,
-                                ...quickEdit,
-                            },
-                        ],
+                                ...quickEdit
+                            }
+                        ]
                     };
                 }
             }
@@ -342,15 +338,15 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                                   {
                                       type: 'button',
                                       label: '取消',
-                                      actionType: 'cancel',
+                                      actionType: 'cancel'
                                   },
 
                                   {
                                       label: '确认',
                                       type: 'submit',
-                                      primary: true,
-                                  },
-                              ],
+                                      primary: true
+                                  }
+                              ]
                 };
             }
 
@@ -376,7 +372,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                         onAction: this.handleAction,
                         onChange: null,
                         ref: this.formRef,
-                        popOverContainer: popOverContainer ? () => this.overlay : null,
+                        popOverContainer: popOverContainer ? () => this.overlay : null
                     })}
                 </div>
             );
@@ -419,7 +415,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                             className: cx('Form--quickEdit'),
                             ref: this.formRef,
                             onInit: this.handleInit,
-                            onChange: this.handleChange,
+                            onChange: this.handleChange
                         })}
                     </Component>
                 );
@@ -428,7 +424,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (Componen
                     <Component
                         {...this.props}
                         className={cx(`Field--quickEditable`, className, {
-                            in: this.state.isOpened,
+                            in: this.state.isOpened
                         })}
                         tabIndex={(quickEdit as QuickEditConfig).focusable === false ? undefined : '0'}
                         onKeyUp={this.handleKeyUp}

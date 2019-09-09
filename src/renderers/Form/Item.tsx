@@ -1,21 +1,11 @@
 import React from 'react';
 import hoistNonReactStatic = require('hoist-non-react-statics');
-import { IFormItemStore } from '../../store/form';
-import { reaction } from 'mobx';
+import {IFormItemStore} from '../../store/form';
+import {reaction} from 'mobx';
 
-import {
-    RendererProps,
-    registerRenderer,
-    TestFunc,
-    RendererConfig,
-    HocStoreFactory
-} from '../../factory';
-import {
-    anyChanged,
-    ucFirst,
-    getWidthRate} from '../../utils/helper';
-import { observer } from 'mobx-react';
-
+import {RendererProps, registerRenderer, TestFunc, RendererConfig, HocStoreFactory} from '../../factory';
+import {anyChanged, ucFirst, getWidthRate} from '../../utils/helper';
+import {observer} from 'mobx-react';
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
     type?: string;
@@ -33,8 +23,7 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
 
     // 兼容老用法，新用法直接在 Component 里面定义 validate 方法即可。
     validate?: (values: any, value: any) => string | boolean;
-};
-
+}
 
 export interface FormControlProps extends RendererProps {
     // error string
@@ -43,7 +32,7 @@ export interface FormControlProps extends RendererProps {
 
     // error 详情
     errors?: {
-        [propName: string]: string
+        [propName: string]: string;
     };
 
     defaultValue: any;
@@ -57,18 +46,18 @@ export interface FormControlProps extends RendererProps {
     formItem?: IFormItemStore;
     strictMode?: boolean;
 
-    renderControl?: (props:RendererProps) => JSX.Element;
+    renderControl?: (props: RendererProps) => JSX.Element;
     renderLabel?: boolean;
     sizeMutable?: boolean;
     wrap?: boolean;
     hint?: string;
     description?: string;
     descriptionClassName?: string;
-};
+}
 
 export interface FormControlState {
     isFocused: boolean;
-};
+}
 
 export type FormItemComponent = React.ComponentType<FormControlProps>;
 export type FormControlComponent = React.ComponentType<FormControlProps>;
@@ -79,8 +68,8 @@ export interface FormItemConfig extends FormItemBasicConfig {
 
 export class FormItemWrap extends React.Component<FormControlProps, FormControlState> {
     reaction: any;
-    
-    constructor(props:FormControlProps) {
+
+    constructor(props: FormControlProps) {
         super(props);
 
         this.state = {
@@ -92,9 +81,7 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
     }
 
     componentWillMount() {
-        const {
-            formItem: model
-        } = this.props;
+        const {formItem: model} = this.props;
 
         if (model) {
             this.reaction = reaction(() => model.errors.join(''), () => this.forceUpdate());
@@ -105,14 +92,14 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
         this.reaction && this.reaction();
     }
 
-    handleFocus(e:any) {
+    handleFocus(e: any) {
         this.setState({
             isFocused: true
         });
         this.props.onFocus && this.props.onFocus(e);
     }
 
-    handleBlur(e:any) {
+    handleBlur(e: any) {
         this.setState({
             isFocused: false
         });
@@ -141,14 +128,19 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
                 type,
                 classnames: cx,
                 formItem: model,
-                className: cx(`Form-control`, {
-                    'is-inline': !!rest.inline,
-                    'is-error': model && !model.valid,
-                    [`Form-control--size${ucFirst(controlSize)}`]: sizeMutable !== false
-                        && typeof controlSize === 'string'
-                        && !!controlSize
-                        && controlSize !== 'full'
-                }, inputClassName)
+                className: cx(
+                    `Form-control`,
+                    {
+                        'is-inline': !!rest.inline,
+                        'is-error': model && !model.valid,
+                        [`Form-control--size${ucFirst(controlSize)}`]:
+                            sizeMutable !== false &&
+                            typeof controlSize === 'string' &&
+                            !!controlSize &&
+                            controlSize !== 'full'
+                    },
+                    inputClassName
+                )
             });
         }
 
@@ -187,62 +179,82 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
         const right = getWidthRate(horizontal.right);
 
         return (
-            <div className={cx(`Form-item Form-item--horizontal`, className, {
-                [`is-error`]: model && !model.valid,
-                [`is-required`]: required
-            })}>
+            <div
+                className={cx(`Form-item Form-item--horizontal`, className, {
+                    [`is-error`]: model && !model.valid,
+                    [`is-required`]: required
+                })}
+            >
                 {label !== false ? (
-                    <label 
-                        className={cx(`Form-label`, {
-                            [`Form-itemColumn--${typeof horizontal.leftFixed === 'string' ? horizontal.leftFixed : 'normal'}`]: horizontal.leftFixed,
-                            [`Form-itemColumn--${left}`]: !horizontal.leftFixed
-                        }, labelClassName)}
+                    <label
+                        className={cx(
+                            `Form-label`,
+                            {
+                                [`Form-itemColumn--${
+                                    typeof horizontal.leftFixed === 'string' ? horizontal.leftFixed : 'normal'
+                                }`]: horizontal.leftFixed,
+                                [`Form-itemColumn--${left}`]: !horizontal.leftFixed
+                            },
+                            labelClassName
+                        )}
                     >
                         <span>
                             {label}
-                            {required ? (<span className={cx(`Form-star`)}>*</span>) : null}
-                            {labelRemark ? render('label-remark', {
-                                type: 'remark',
-                                tooltip: labelRemark,
-                                className: cx(`Form-labelRemark`),
-                                container: env && env.getModalContainer ? env.getModalContainer() : undefined
-                            }) : null}
+                            {required ? <span className={cx(`Form-star`)}>*</span> : null}
+                            {labelRemark
+                                ? render('label-remark', {
+                                      type: 'remark',
+                                      tooltip: labelRemark,
+                                      className: cx(`Form-labelRemark`),
+                                      container: env && env.getModalContainer ? env.getModalContainer() : undefined
+                                  })
+                                : null}
                         </span>
                     </label>
                 ) : null}
 
-                <div 
+                <div
                     className={cx(`Form-value`, {
                         // [`Form-itemColumn--offset${getWidthRate(horizontal.offset)}`]: !label && label !== false,
-                        [`Form-itemColumn--${right}`]: !!right && right !== (12 - left)
+                        [`Form-itemColumn--${right}`]: !!right && right !== 12 - left
                     })}
                 >
                     {this.renderControl()}
 
-                    {caption ? render('caption', caption, {
-                        className: cx(`Form-caption`, captionClassName) 
-                    }) : null}
+                    {caption
+                        ? render('caption', caption, {
+                              className: cx(`Form-caption`, captionClassName)
+                          })
+                        : null}
 
-                    {remark ? render('remark', {
-                        type: 'remark',
-                        tooltip: remark,
-                        className: cx(`Form-remark`),
-                        container: env && env.getModalContainer ? env.getModalContainer() : undefined
-                    }) : null}
+                    {remark
+                        ? render('remark', {
+                              type: 'remark',
+                              tooltip: remark,
+                              className: cx(`Form-remark`),
+                              container: env && env.getModalContainer ? env.getModalContainer() : undefined
+                          })
+                        : null}
 
-                    {hint && this.state.isFocused ? (render('hint', hint, {
-                        className: cx(`Form-hint`)
-                    })) : null}
-                    
+                    {hint && this.state.isFocused
+                        ? render('hint', hint, {
+                              className: cx(`Form-hint`)
+                          })
+                        : null}
+
                     {model && !model.valid ? (
                         <ul className={cx(`Form-feedback`)}>
-                            {model.errors.map((msg: string, key: number) => (<li key={key}>{msg}</li>))}
+                            {model.errors.map((msg: string, key: number) => (
+                                <li key={key}>{msg}</li>
+                            ))}
                         </ul>
                     ) : null}
 
-                    {description ? render('description', description, {
-                        className: cx(`Form-description`, descriptionClassName)
-                    }) : null}
+                    {description
+                        ? render('description', description, {
+                              className: cx(`Form-description`, descriptionClassName)
+                          })
+                        : null}
                 </div>
             </div>
         );
@@ -273,51 +285,65 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
         description = description || desc;
 
         return (
-            <div className={cx(`Form-item Form-item--${formMode}`, className, {
-                'is-error': model && !model.valid,
-                [`is-required`]: required,
-            })}>
+            <div
+                className={cx(`Form-item Form-item--${formMode}`, className, {
+                    'is-error': model && !model.valid,
+                    [`is-required`]: required
+                })}
+            >
                 {label && renderLabel !== false ? (
                     <label className={cx(`Form-label`, labelClassName)}>
                         <span>
                             {label}
-                            {required ? (<span className={cx(`Form-star`)}>*</span>) : null}
-                            {labelRemark ? render('label-remark', {
-                                type: 'remark',
-                                tooltip: labelRemark,
-                                className: cx(`Form-lableRemark`),
-                                container: env && env.getModalContainer ? env.getModalContainer() : undefined
-                            }) : null}
+                            {required ? <span className={cx(`Form-star`)}>*</span> : null}
+                            {labelRemark
+                                ? render('label-remark', {
+                                      type: 'remark',
+                                      tooltip: labelRemark,
+                                      className: cx(`Form-lableRemark`),
+                                      container: env && env.getModalContainer ? env.getModalContainer() : undefined
+                                  })
+                                : null}
                         </span>
                     </label>
                 ) : null}
-                
+
                 {this.renderControl()}
 
-                {caption ? render('caption', caption, {
-                    className: cx(`Form-caption`, captionClassName) 
-                }) : null}
+                {caption
+                    ? render('caption', caption, {
+                          className: cx(`Form-caption`, captionClassName)
+                      })
+                    : null}
 
-                {remark ? render('remark', {
-                    type: 'remark',
-                    className: cx(`Form-remark`),
-                    tooltip: remark,
-                    container: env && env.getModalContainer ? env.getModalContainer() : undefined
-                }) : null}
+                {remark
+                    ? render('remark', {
+                          type: 'remark',
+                          className: cx(`Form-remark`),
+                          tooltip: remark,
+                          container: env && env.getModalContainer ? env.getModalContainer() : undefined
+                      })
+                    : null}
 
-                {hint && this.state.isFocused ? (render('hint', hint, {
-                    className: cx(`Form-hint`)
-                })) : null}
+                {hint && this.state.isFocused
+                    ? render('hint', hint, {
+                          className: cx(`Form-hint`)
+                      })
+                    : null}
 
                 {model && !model.valid ? (
                     <ul className={cx(`Form-feedback`)}>
-                        {model.errors.map((msg: string, key: number) => (<li key={key}>{msg}</li>))}
+                        {model.errors.map((msg: string, key: number) => (
+                            <li key={key}>{msg}</li>
+                        ))}
                     </ul>
                 ) : null}
 
-                {description ? render('description', description, {
-                    className: cx(`Form-description`, descriptionClassName)
-                }) : null}
+                {description
+                    ? render('description', description, {
+                          className: cx(`Form-description`, descriptionClassName)
+                      })
+                    : null}
             </div>
         );
     }
@@ -346,21 +372,25 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
         description = description || desc;
 
         return (
-            <div className={cx(`Form-item Form-item--inline`, className, {
-                'is-error': model && !model.valid,
-                [`is-required`]: required,
-            })}>
-                {label && renderLabel !== false? (
+            <div
+                className={cx(`Form-item Form-item--inline`, className, {
+                    'is-error': model && !model.valid,
+                    [`is-required`]: required
+                })}
+            >
+                {label && renderLabel !== false ? (
                     <label className={cx(`Form-label`, labelClassName)}>
                         <span>
                             {label}
-                            {required ? (<span className={cx(`Form-star`)}>*</span>) : null}
-                            {labelRemark ? render('label-remark', {
-                                type: 'remark',
-                                tooltip: labelRemark,
-                                className: cx(`Form-lableRemark`),
-                                container: env && env.getModalContainer ? env.getModalContainer() : undefined
-                            }) : null}
+                            {required ? <span className={cx(`Form-star`)}>*</span> : null}
+                            {labelRemark
+                                ? render('label-remark', {
+                                      type: 'remark',
+                                      tooltip: labelRemark,
+                                      className: cx(`Form-lableRemark`),
+                                      container: env && env.getModalContainer ? env.getModalContainer() : undefined
+                                  })
+                                : null}
                         </span>
                     </label>
                 ) : null}
@@ -368,32 +398,41 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
                 <div className={cx(`Form-value`)}>
                     {this.renderControl()}
 
-                    {caption ? render('caption', caption, {
-                        className: cx(`Form-caption`, captionClassName) 
-                    }) : null}
+                    {caption
+                        ? render('caption', caption, {
+                              className: cx(`Form-caption`, captionClassName)
+                          })
+                        : null}
 
-                    {remark ? render('remark', {
-                        type: 'remark',
-                        className: cx(`Form-remark`),
-                        tooltip: remark,
-                        container: env && env.getModalContainer ? env.getModalContainer() : undefined
-                    }) : null}
+                    {remark
+                        ? render('remark', {
+                              type: 'remark',
+                              className: cx(`Form-remark`),
+                              tooltip: remark,
+                              container: env && env.getModalContainer ? env.getModalContainer() : undefined
+                          })
+                        : null}
 
-                    {hint && this.state.isFocused ? (render('hint', hint, {
-                        className: cx(`Form-hint`)
-                    })) : null}
+                    {hint && this.state.isFocused
+                        ? render('hint', hint, {
+                              className: cx(`Form-hint`)
+                          })
+                        : null}
 
                     {model && !model.valid ? (
                         <ul className={cx(`Form-value`)}>
-                            {model.errors.map((msg: string, key: number) => (<li key={key}>{msg}</li>))}
+                            {model.errors.map((msg: string, key: number) => (
+                                <li key={key}>{msg}</li>
+                            ))}
                         </ul>
                     ) : null}
 
-                    {description ? render('description', description, {
-                        className: cx(`Form-description`, descriptionClassName)
-                    }) : null}
+                    {description
+                        ? render('description', description, {
+                              className: cx(`Form-description`, descriptionClassName)
+                          })
+                        : null}
                 </div>
-
             </div>
         );
     }
@@ -423,72 +462,85 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
         description = description || desc;
 
         return (
-            <div className={cx(`Form-item Form-item--${formMode}`, className, {
-                'is-error': model && !model.valid,
-                [`is-required`]: required,
-            })}>
+            <div
+                className={cx(`Form-item Form-item--${formMode}`, className, {
+                    'is-error': model && !model.valid,
+                    [`is-required`]: required
+                })}
+            >
                 <div className={cx('Form-rowInner')}>
                     {label && renderLabel !== false ? (
                         <label className={cx(`Form-label`, labelClassName)}>
                             <span>
                                 {label}
-                                {required ? (<span className={cx(`Form-star`)}>*</span>) : null}
-                                {labelRemark ? render('label-remark', {
-                                    type: 'remark',
-                                    tooltip: labelRemark,
-                                    className: cx(`Form-lableRemark`),
-                                    container: env && env.getModalContainer ? env.getModalContainer() : undefined
-                                }) : null}
+                                {required ? <span className={cx(`Form-star`)}>*</span> : null}
+                                {labelRemark
+                                    ? render('label-remark', {
+                                          type: 'remark',
+                                          tooltip: labelRemark,
+                                          className: cx(`Form-lableRemark`),
+                                          container: env && env.getModalContainer ? env.getModalContainer() : undefined
+                                      })
+                                    : null}
                             </span>
                         </label>
                     ) : null}
-                    
+
                     {this.renderControl()}
 
-                    {caption ? render('caption', caption, {
-                        className: cx(`Form-caption`, captionClassName) 
-                    }) : null}
+                    {caption
+                        ? render('caption', caption, {
+                              className: cx(`Form-caption`, captionClassName)
+                          })
+                        : null}
 
-                    {remark ? render('remark', {
-                        type: 'remark',
-                        className: cx(`Form-remark`),
-                        tooltip: remark,
-                        container: env && env.getModalContainer ? env.getModalContainer() : undefined
-                    }) : null}
+                    {remark
+                        ? render('remark', {
+                              type: 'remark',
+                              className: cx(`Form-remark`),
+                              tooltip: remark,
+                              container: env && env.getModalContainer ? env.getModalContainer() : undefined
+                          })
+                        : null}
                 </div>
 
-                {hint && this.state.isFocused ? (render('hint', hint, {
-                    className: cx(`Form-hint`)
-                })) : null}
+                {hint && this.state.isFocused
+                    ? render('hint', hint, {
+                          className: cx(`Form-hint`)
+                      })
+                    : null}
 
                 {model && !model.valid ? (
                     <ul className={cx('Form-feedback')}>
-                        {model.errors.map((msg: string, key: number) => (<li key={key}>{msg}</li>))}
+                        {model.errors.map((msg: string, key: number) => (
+                            <li key={key}>{msg}</li>
+                        ))}
                     </ul>
                 ) : null}
 
-                {description ? render('description', description, {
-                    className: cx(`Form-description`, descriptionClassName)
-                }) : null}
+                {description
+                    ? render('description', description, {
+                          className: cx(`Form-description`, descriptionClassName)
+                      })
+                    : null}
             </div>
         );
     }
 
     render() {
-        const {
-            formMode,
-            inputOnly,
-            wrap
-        } = this.props;
+        const {formMode, inputOnly, wrap} = this.props;
 
         if (wrap === false || inputOnly) {
             return this.renderControl();
         }
 
         return formMode === 'inline'
-            ? this.renderInline() : formMode === 'horizontal'
-            ? this.renderHorizontal() : formMode === 'row'
-            ? this.renderRow() : this.renderNormal();
+            ? this.renderInline()
+            : formMode === 'horizontal'
+            ? this.renderHorizontal()
+            : formMode === 'row'
+            ? this.renderRow()
+            : this.renderNormal();
     }
 }
 
@@ -498,7 +550,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
     // 兼容老的 FormItem 用法。
     if (config.validate && !Control.prototype.validate) {
         const fn = config.validate;
-        Control.prototype.validate = function () {
+        Control.prototype.validate = function() {
             // console.warn('推荐直接在类中定义，而不是 FormItem HOC 的参数中传入。');
             const host = {
                 input: this
@@ -507,7 +559,9 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
             return fn.apply(host, arguments);
         };
     } else if (config.validate) {
-        console.error('FormItem配置中的 validate 将不起作用，因为类的成员函数中已经定义了 validate 方法，将优先使用类里面的实现。');
+        console.error(
+            'FormItem配置中的 validate 将不起作用，因为类的成员函数中已经定义了 validate 方法，将优先使用类里面的实现。'
+        );
     }
 
     if (config.storeType) {
@@ -548,11 +602,8 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
         }
 
         componentWillMount() {
-            const {
-                validations,
-                formItem: model
-            } = this.props;
-    
+            const {validations, formItem: model} = this.props;
+
             // 组件注册的时候可能默认指定验证器类型
             if (model && !validations && config.validations) {
                 model.config({
@@ -567,68 +618,74 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
             if (nextProps.strictMode === false) {
                 return true;
             }
-    
+
             // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
-            if (anyChanged([
-                'formPristine',
-                'addable',
-                'addButtonClassName',
-                'addButtonText',
-                'addOn',
-                'btnClassName',
-                'btnLabel',
-                'btnDisabled',
-                'className',
-                'clearable',
-                'columns',
-                'columnsCount',
-                'controls',
-                'desc',
-                'description',
-                'disabled',
-                'draggable',
-                'editable',
-                'editButtonClassName',
-                'formHorizontal',
-                'formMode',
-                'hideRoot',
-                'horizontal',
-                'icon',
-                'inline',
-                'inputClassName',
-                'label',
-                'labelClassName',
-                'labelField',
-                'language',
-                'level',
-                'max',
-                'maxRows',
-                'min',
-                'minRows',
-                'multiLine',
-                'multiple',
-                'option',
-                'placeholder',
-                'removable',
-                'required',
-                'remark',
-                'hint',
-                'rows',
-                'searchable',
-                'showCompressOptions',
-                'size',
-                'step',
-                'showInput',
-                'unit',
-                'value',
-                'diffValue'
-            ], this.props, nextProps)) {
+            if (
+                anyChanged(
+                    [
+                        'formPristine',
+                        'addable',
+                        'addButtonClassName',
+                        'addButtonText',
+                        'addOn',
+                        'btnClassName',
+                        'btnLabel',
+                        'btnDisabled',
+                        'className',
+                        'clearable',
+                        'columns',
+                        'columnsCount',
+                        'controls',
+                        'desc',
+                        'description',
+                        'disabled',
+                        'draggable',
+                        'editable',
+                        'editButtonClassName',
+                        'formHorizontal',
+                        'formMode',
+                        'hideRoot',
+                        'horizontal',
+                        'icon',
+                        'inline',
+                        'inputClassName',
+                        'label',
+                        'labelClassName',
+                        'labelField',
+                        'language',
+                        'level',
+                        'max',
+                        'maxRows',
+                        'min',
+                        'minRows',
+                        'multiLine',
+                        'multiple',
+                        'option',
+                        'placeholder',
+                        'removable',
+                        'required',
+                        'remark',
+                        'hint',
+                        'rows',
+                        'searchable',
+                        'showCompressOptions',
+                        'size',
+                        'step',
+                        'showInput',
+                        'unit',
+                        'value',
+                        'diffValue'
+                    ],
+                    this.props,
+                    nextProps
+                )
+            ) {
                 return true;
             }
-    
+
             return false;
         }
-        
+
         getWrappedInstance() {
             return this.ref;
         }
@@ -650,7 +707,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
             } = this.props;
 
             const controlSize = size || defaultSize;
-    
+
             return (
                 <Control
                     {...rest}
@@ -661,14 +718,19 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
                     classnames={cx}
                     ref={this.refFn}
                     formItem={model}
-                    className={cx(`Form-control`, {
-                        'is-inline': !!rest.inline,
-                        'is-error': model && !model.valid,
-                        [`Form-control--size${ucFirst(controlSize)}`]: config.sizeMutable !== false
-                            && typeof controlSize === 'string'
-                            && !!controlSize
-                            && controlSize !== 'full'
-                    }, inputClassName)}
+                    className={cx(
+                        `Form-control`,
+                        {
+                            'is-inline': !!rest.inline,
+                            'is-error': model && !model.valid,
+                            [`Form-control--size${ucFirst(controlSize)}`]:
+                                config.sizeMutable !== false &&
+                                typeof controlSize === 'string' &&
+                                !!controlSize &&
+                                controlSize !== 'full'
+                        },
+                        inputClassName
+                    )}
                 />
             );
         }
@@ -687,14 +749,14 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
 }
 
 export function FormItem(config: FormItemBasicConfig) {
-    return function (component: FormControlComponent): any {
+    return function(component: FormControlComponent): any {
         const renderer = registerFormItem({
             ...config,
             component
         });
 
         return renderer.component as any;
-    }
+    };
 }
 
 export default FormItem;

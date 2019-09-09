@@ -1,9 +1,8 @@
-import { reigsterTplEnginer, filter } from "./tpl";
+import {reigsterTplEnginer, filter} from './tpl';
 import template = require('lodash/template');
-import { filters } from "./tpl-builtin";
+import {filters} from './tpl-builtin';
 import React from 'react';
 import moment from 'moment';
-
 
 const imports = {
     ...filters,
@@ -26,7 +25,8 @@ const imports = {
 
         return Math.ceil((date.getTime() - now) / (1000 * 60 * 60 * 24)) + '天';
     },
-    formatDate: (value: any, format: string = 'LLL', inputFormat: string = '') => moment(value, inputFormat).format(format)
+    formatDate: (value: any, format: string = 'LLL', inputFormat: string = '') =>
+        moment(value, inputFormat).format(format)
 };
 delete imports.default; // default 是个关键字，不能 imports 到 lodash 里面去。
 function lodashCompile(str: string, data: object) {
@@ -42,7 +42,7 @@ function lodashCompile(str: string, data: object) {
     }
 }
 
-reigsterTplEnginer("lodash", {
-    test: str => !!~str.indexOf("<%"),
+reigsterTplEnginer('lodash', {
+    test: str => !!~str.indexOf('<%'),
     compile: (str: string, data: object) => lodashCompile(str, data)
 });

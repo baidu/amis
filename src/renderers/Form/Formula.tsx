@@ -1,15 +1,7 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
-import {
-    evalJS,
-    filter
-} from '../../utils/tpl';
-import {
-    isObjectShallowModified
-} from '../../utils/helper';
+import {FormItem, FormControlProps} from './Item';
+import {evalJS, filter} from '../../utils/tpl';
+import {isObjectShallowModified} from '../../utils/helper';
 
 export interface FormulaProps extends FormControlProps {
     formula?: string;
@@ -19,14 +11,8 @@ export interface FormulaProps extends FormControlProps {
 }
 
 export default class FormulaControl extends React.Component<FormControlProps, any> {
-
     componentDidMount() {
-        const {
-            formula,
-            data,
-            setPrinstineValue,
-            initSet
-        } = this.props;
+        const {formula, data, setPrinstineValue, initSet} = this.props;
 
         if (!formula || initSet === false) {
             return;
@@ -37,24 +23,25 @@ export default class FormulaControl extends React.Component<FormControlProps, an
     }
 
     componentWillReceiveProps(nextProps: FormControlProps) {
-        const {
-            formula,
-            data,
-            onChange,
-            autoSet,
-            value,
-            condition
-        } = this.props;
-        
-        if (autoSet !== false && formula && nextProps.formula && isObjectShallowModified(data, nextProps.data, false) && value === nextProps.value) {
+        const {formula, data, onChange, autoSet, value, condition} = this.props;
+
+        if (
+            autoSet !== false &&
+            formula &&
+            nextProps.formula &&
+            isObjectShallowModified(data, nextProps.data, false) &&
+            value === nextProps.value
+        ) {
             const nextResult: any = evalJS(nextProps.formula, nextProps.data as object);
 
             if (condition && nextProps.condition) {
-                if (!!~condition.indexOf("$") || !!~condition.indexOf("<%")) {  // 使用${xxx}，来监听某个变量的变化
+                if (!!~condition.indexOf('$') || !!~condition.indexOf('<%')) {
+                    // 使用${xxx}，来监听某个变量的变化
                     if (filter(condition, data) !== filter(nextProps.condition, nextProps.data)) {
                         onChange(nextResult);
                     }
-                } else if (evalJS(nextProps.condition, nextProps.data as object)) {  // 使用 data.xxx == 'a' 表达式形式来判断
+                } else if (evalJS(nextProps.condition, nextProps.data as object)) {
+                    // 使用 data.xxx == 'a' 表达式形式来判断
                     onChange(nextResult);
                 }
             } else {
@@ -69,13 +56,7 @@ export default class FormulaControl extends React.Component<FormControlProps, an
     doAction() {
         // 不细化具体是啥动作了，先重新计算，并把值运用上。
 
-        const {
-            formula,
-            data,
-            onChange,
-            autoSet,
-            value
-        } = this.props;
+        const {formula, data, onChange, autoSet, value} = this.props;
 
         const result: any = evalJS(formula, data as object);
         onChange(result);
@@ -92,4 +73,4 @@ export default class FormulaControl extends React.Component<FormControlProps, an
     strictMode: false,
     sizeMutable: false
 })
-export class FormulaControlRenderer extends FormulaControl { };
+export class FormulaControlRenderer extends FormulaControl {}

@@ -31,7 +31,7 @@ export class Card extends React.Component<CardProps> {
         titleClassName: '',
         highlightClassName: '',
         subTitleClassName: '',
-        descClassName: '',
+        descClassName: ''
     };
 
     static propsList: Array<string> = [
@@ -43,7 +43,7 @@ export class Card extends React.Component<CardProps> {
         'highlightClassName',
         'subTitleClassName',
         'descClassName',
-        'hideCheckToggler',
+        'hideCheckToggler'
     ];
 
     constructor(props: CardProps) {
@@ -63,10 +63,9 @@ export class Card extends React.Component<CardProps> {
         let formItem;
 
         if (
-            !e.currentTarget.contains(target) 
-            || ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) 
-            || (formItem = target.closest(`button, a, .${ns}Form-item`)) 
-                && e.currentTarget.contains(formItem)
+            !e.currentTarget.contains(target) ||
+            ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
+            ((formItem = target.closest(`button, a, .${ns}Form-item`)) && e.currentTarget.contains(formItem))
         ) {
             return;
         }
@@ -105,7 +104,7 @@ export class Card extends React.Component<CardProps> {
             multiple,
             hideCheckToggler,
             classnames: cx,
-            classPrefix: ns,
+            classPrefix: ns
         } = this.props;
 
         if (dragging) {
@@ -147,7 +146,7 @@ export class Card extends React.Component<CardProps> {
                                 level: 'link',
                                 type: 'button',
                                 ...action,
-                                size,
+                                size
                             },
                             {
                                 isMenuItem: true,
@@ -159,7 +158,7 @@ export class Card extends React.Component<CardProps> {
                                     action.className || `${size ? `Card-action--${size}` : ''}`
                                 ),
                                 componentClass: 'a',
-                                onAction: this.handleAction,
+                                onAction: this.handleAction
                             }
                         );
                     })}
@@ -182,7 +181,7 @@ export class Card extends React.Component<CardProps> {
         if (childNode.type === 'hbox' || childNode.type === 'grid') {
             return render(region, node, {
                 key,
-                itemRender: this.itemRender,
+                itemRender: this.itemRender
             }) as JSX.Element;
         }
 
@@ -197,7 +196,7 @@ export class Card extends React.Component<CardProps> {
         const {render, classnames: cx, itemIndex} = props;
         const data = this.props.data;
         if (!isVisible(field, data)) {
-            return ;
+            return;
         }
 
         const $$id = field.$$id ? `${field.$$id}-field` : '';
@@ -215,7 +214,7 @@ export class Card extends React.Component<CardProps> {
                             ...field,
                             field: field,
                             $$id,
-                            type: 'card-item-field',
+                            type: 'card-item-field'
                         },
                         {
                             className: cx('Card-fieldValue', field.className),
@@ -224,7 +223,7 @@ export class Card extends React.Component<CardProps> {
                             value: field.name ? resolveVariable(field.name, data) : undefined,
                             popOverContainer: this.getPopOverContainer,
                             onAction: this.handleAction,
-                            onQuickChange: this.handleQuickChange,
+                            onQuickChange: this.handleQuickChange
                         }
                     ) as JSX.Element
                 }
@@ -260,7 +259,7 @@ export class Card extends React.Component<CardProps> {
             checkOnItemClick,
             checkable,
             classnames: cx,
-            classPrefix: ns,
+            classPrefix: ns
         } = this.props;
 
         let heading = null;
@@ -275,7 +274,7 @@ export class Card extends React.Component<CardProps> {
                 subTitle: subTitleTpl,
                 subTitlePlaceholder,
                 desc: descTpl,
-                descPlaceholder,
+                descPlaceholder
             } = header;
 
             const highlight = !!evalExpression(highlightTpl, data as object);
@@ -305,7 +304,7 @@ export class Card extends React.Component<CardProps> {
                         {subTitle || subTitlePlaceholder ? (
                             <div className={cx('Card-subTitle', header.subTitleClassName || subTitleClassName)}>
                                 {render('sub-title', subTitle || subTitlePlaceholder, {
-                                    className: cx(!subTitle ? 'Card-placeholder' : undefined),
+                                    className: cx(!subTitle ? 'Card-placeholder' : undefined)
                                 })}
                             </div>
                         ) : null}
@@ -313,7 +312,7 @@ export class Card extends React.Component<CardProps> {
                         {desc || descPlaceholder ? (
                             <div className={cx('Card-desc', header.descClassName || descClassName)}>
                                 {render('desc', desc || descPlaceholder, {
-                                    className: !desc ? 'text-muted' : undefined,
+                                    className: !desc ? 'text-muted' : undefined
                                 })}
                             </div>
                         ) : null}
@@ -340,13 +339,13 @@ export class Card extends React.Component<CardProps> {
 
 @Renderer({
     test: /(^|\/)card$/,
-    name: 'card',
+    name: 'card'
 })
 export class CardRenderer extends Card {}
 
 @Renderer({
     test: /(^|\/)card-item-field$/,
-    name: 'card-item',
+    name: 'card-item'
 })
 @QuickEdit()
 @PopOver()
@@ -354,7 +353,7 @@ export class CardRenderer extends Card {}
 export class CardItemFieldRenderer extends TableCell {
     static defaultProps = {
         ...TableCell.defaultProps,
-        wrapperComponent: 'div',
+        wrapperComponent: 'div'
     };
 
     static propsList = ['quickEdit', 'popOver', 'copyable', ...TableCell.propsList];
@@ -381,7 +380,7 @@ export class CardItemFieldRenderer extends TableCell {
         const schema = {
             ...field,
             className: innerClassName,
-            type: (field && field.type) || 'plain',
+            type: (field && field.type) || 'plain'
         };
 
         let body = children
@@ -389,7 +388,7 @@ export class CardItemFieldRenderer extends TableCell {
             : render('field', schema, {
                   ...rest,
                   value,
-                  data,
+                  data
               });
 
         if (width) {

@@ -41,7 +41,7 @@ export class Button extends React.Component<ButtonProps> {
         type: 'button',
         placement: 'top',
         tooltipTrigger: ['hover', 'focus'],
-        tooltipRootClose: false,
+        tooltipRootClose: false
     };
 
     renderButton() {
@@ -79,7 +79,7 @@ export class Button extends React.Component<ButtonProps> {
                         [`Button--block`]: block,
                         [`Button--iconOnly`]: iconOnly,
                         'is-disabled': disabled,
-                        'is-active': active,
+                        'is-active': active
                     },
                     className
                 )}
@@ -100,7 +100,7 @@ export class Button extends React.Component<ButtonProps> {
             disabled,
             disabledTip,
             classPrefix,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         return (

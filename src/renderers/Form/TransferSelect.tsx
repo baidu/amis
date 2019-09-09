@@ -1,15 +1,8 @@
 import React from 'react';
-import {
-    OptionsControl,
-    OptionsControlProps,
-    Option
-} from './Options';
-import {
-    xorBy,
-    find
-} from 'lodash';
+import {OptionsControl, OptionsControlProps, Option} from './Options';
+import {xorBy, find} from 'lodash';
 import Checkbox from '../../components/Checkbox';
-import { closeIcon, Icon } from '../../components/icons';
+import {closeIcon, Icon} from '../../components/icons';
 
 export interface TransferSelectProps extends OptionsControlProps {
     viewMode?: 'table' | 'normal';
@@ -40,7 +33,7 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
         selectedTitle: '已选',
         columns: [],
         searchable: true
-    }
+    };
 
     constructor(props: TransferSelectProps) {
         super(props);
@@ -54,9 +47,7 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
     }
 
     componentDidMount() {
-        const {
-            options
-        } = this.props;
+        const {options} = this.props;
 
         if (options && Array.isArray(options)) {
             this.setState({
@@ -66,9 +57,7 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
     }
 
     componentDidUpdate(prevProps: TransferSelectProps) {
-        const {
-            options,
-        } = this.props;
+        const {options} = this.props;
 
         if (options && prevProps.options !== options) {
             this.setState({
@@ -79,18 +68,12 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
     }
 
     handleCheck(checkedItem: Option | any) {
-        const {
-            selectedOptions,
-            onChange,
-            joinValues,
-            extractValue,
-            delimiter,
-            valueField
-        } = this.props;
+        const {selectedOptions, onChange, joinValues, extractValue, delimiter, valueField} = this.props;
 
-        let newValue: any = selectedOptions.length === 0
-            ? [checkedItem]
-            : xorBy(selectedOptions.concat(), [checkedItem], valueField || 'value');
+        let newValue: any =
+            selectedOptions.length === 0
+                ? [checkedItem]
+                : xorBy(selectedOptions.concat(), [checkedItem], valueField || 'value');
 
         if (joinValues) {
             newValue = newValue.map((item: any) => item[valueField || 'value']).join(delimiter || ',');
@@ -102,26 +85,20 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
     }
 
     handleCheckAll() {
-        const {
-            filteredOptions
-        } = this.state;
+        const {filteredOptions} = this.state;
 
-        const {
-            selectedOptions,
-            onChange,
-            joinValues,
-            extractValue,
-            delimiter,
-            valueField
-        } = this.props;
+        const {selectedOptions, onChange, joinValues, extractValue, delimiter, valueField} = this.props;
 
         let newValue;
 
         if (selectedOptions.length === filteredOptions.length) {
             newValue = '';
         } else {
-            newValue = joinValues ? filteredOptions.map((item: any) => item[valueField || 'value']).join(delimiter || '')
-                : extractValue ? filteredOptions.map((item: any) => item[valueField || 'value']) : filteredOptions;
+            newValue = joinValues
+                ? filteredOptions.map((item: any) => item[valueField || 'value']).join(delimiter || '')
+                : extractValue
+                ? filteredOptions.map((item: any) => item[valueField || 'value'])
+                : filteredOptions;
         }
 
         onChange(newValue);
@@ -132,11 +109,7 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
     }
 
     handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-        const {
-            viewMode,
-            searchField,
-            options
-        } = this.props;
+        const {viewMode, searchField, options} = this.props;
 
         let newOptions = [];
         const keyword = e.target.value.toLowerCase();
@@ -145,7 +118,9 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
             newOptions = options;
         } else {
             newOptions = options.filter((option: Option) => {
-                return (option[viewMode === 'table' ? searchField : 'label'] as string).toLowerCase().indexOf(keyword) > -1;
+                return (
+                    (option[viewMode === 'table' ? searchField : 'label'] as string).toLowerCase().indexOf(keyword) > -1
+                );
             });
         }
         this.setState({
@@ -160,9 +135,7 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
     }
 
     renderTable() {
-        const {
-            filteredOptions
-        } = this.state;
+        const {filteredOptions} = this.state;
 
         const {
             classnames: cx,
@@ -188,7 +161,7 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
                                     value={this.state.keyword}
                                     onChange={this.handleSearch}
                                 />
-                                <i className="fa fa-search"></i>
+                                <i className="fa fa-search" />
                             </div>
                         </div>
                     ) : null}
@@ -203,8 +176,7 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
                                         partial={selectedOptions.length !== filteredOptions.length}
                                         checked={selectedOptions.length > 0}
                                         onChange={this.handleCheckAll}
-                                    >
-                                    </Checkbox>
+                                    />
                                 </th>
                                 {columns.map((column: any, columnIndex: number) => (
                                     <th key={columnIndex}>{column.label}</th>
@@ -225,33 +197,29 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
                                             classPrefix={ns}
                                             value={false}
                                             checked={find(selectedOptions, (selectedOption: any) => {
-                                                return selectedOption[valueField || 'value'] === option[valueField || 'value'];
+                                                return (
+                                                    selectedOption[valueField || 'value'] ===
+                                                    option[valueField || 'value']
+                                                );
                                             })}
                                             onChange={this.handleCheck.bind(this, option)}
-                                        >
-                                        </Checkbox>
+                                        />
                                     </td>
                                     {columns.map((column: any, columnIndex: number) => {
                                         let text = option[column.name] + '';
-                                        return (
-                                            <td key={columnIndex}>
-                                                {text}
-                                            </td>
-                                        );
+                                        return <td key={columnIndex}>{text}</td>;
                                     })}
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-            </div >
+            </div>
         );
     }
 
     renderNormal() {
-        const {
-            filteredOptions
-        } = this.state;
+        const {filteredOptions} = this.state;
 
         const {
             classnames: cx,
@@ -269,9 +237,9 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
                 <div className={cx('TransferSelect-heading')}>
                     <span>{`${allTitle}（${selectedOptions.length}/${filteredOptions.length}）`}</span>
                     {selectedOptions.length < filteredOptions.length ? (
-                        <span
-                            onClick={this.handleCheckAll}
-                            className={cx('TransferSelect-selectAll')}>全部选择</span>
+                        <span onClick={this.handleCheckAll} className={cx('TransferSelect-selectAll')}>
+                            全部选择
+                        </span>
                     ) : null}
                 </div>
                 <div className={cx('TransferSelect-body')}>
@@ -283,26 +251,33 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
                                     autoComplete="off"
                                     onChange={this.handleSearch}
                                 />
-                                <i className="fa fa-search"></i>
+                                <i className="fa fa-search" />
                             </div>
                         </div>
                     ) : null}
                     <ul>
-                        {filteredOptions.length > 0 ? filteredOptions.map((option: any, optionIndex: number) => (
-                            <li key={optionIndex}>
-                                <Checkbox
-                                    classPrefix={ns}
-                                    checked={!!find(selectedOptions, (selectedOption: any) => {
-                                        return selectedOption[valueField || 'value'] === option[valueField || 'value'];
-                                    })}
-                                    onChange={this.handleCheck.bind(this, option)}
-                                >
-                                    {option[labelField || 'label']}
-                                </Checkbox>
-                            </li>
-                        )) : (
-                                <li>暂无数据</li>
-                            )}
+                        {filteredOptions.length > 0 ? (
+                            filteredOptions.map((option: any, optionIndex: number) => (
+                                <li key={optionIndex}>
+                                    <Checkbox
+                                        classPrefix={ns}
+                                        checked={
+                                            !!find(selectedOptions, (selectedOption: any) => {
+                                                return (
+                                                    selectedOption[valueField || 'value'] ===
+                                                    option[valueField || 'value']
+                                                );
+                                            })
+                                        }
+                                        onChange={this.handleCheck.bind(this, option)}
+                                    >
+                                        {option[labelField || 'label']}
+                                    </Checkbox>
+                                </li>
+                            ))
+                        ) : (
+                            <li>暂无数据</li>
+                        )}
                     </ul>
                 </div>
             </div>
@@ -310,49 +285,38 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
     }
 
     renderAction() {
-        const {
-            classnames: cx
-        } = this.props;
+        const {classnames: cx} = this.props;
 
         return (
             <div className={cx('TransferSelect-action')}>
-                <span className={cx('TransferSelect-actionIcon')}></span>
+                <span className={cx('TransferSelect-actionIcon')} />
             </div>
         );
     }
 
     renderTableSelectedOptions() {
-        const {
-            classnames: cx,
-            selectedOptions,
-            selectedTitle,
-            labelField,
-            columns
-        } = this.props;
+        const {classnames: cx, selectedOptions, selectedTitle, labelField, columns} = this.props;
 
         return (
             <div className={cx('TransferSelect-selectedOptions', 'TransferSelect-selectedOptions--table')}>
                 <div className={cx('TransferSelect-heading')}>
                     <span>{`${selectedTitle}（${selectedOptions.length}）`}</span>
                     {selectedOptions.length > 0 ? (
-                        <span
-                            onClick={this.handleClear}
-                            className={cx('TransferSelect-clearAll')}>全部清除</span>
+                        <span onClick={this.handleClear} className={cx('TransferSelect-clearAll')}>
+                            全部清除
+                        </span>
                     ) : null}
                 </div>
                 <div className={cx('TransferSelect-body')}>
                     <table className={cx('Table-table')}>
                         <thead>
                             <tr>
-                                <th>{find(columns, (column => column.name === labelField)).label}</th>
+                                <th>{find(columns, column => column.name === labelField).label}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {selectedOptions.map((option: Option, optionIndex: number) => (
-                                <tr
-                                    className={cx('Table-tr--odd')}
-                                    key={optionIndex}
-                                >
+                                <tr className={cx('Table-tr--odd')} key={optionIndex}>
                                     <td>
                                         {option[labelField || 'label']}
                                         <a
@@ -372,21 +336,16 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
     }
 
     renderNormalSelectedOptions() {
-        const {
-            classnames: cx,
-            selectedOptions,
-            selectedTitle,
-            labelField
-        } = this.props;
+        const {classnames: cx, selectedOptions, selectedTitle, labelField} = this.props;
 
         return (
             <div className={cx('TransferSelect-selectedOptions', 'TransferSelect-selectedOptions--normal')}>
                 <div className={cx('TransferSelect-heading')}>
                     <span>{`${selectedTitle}（${selectedOptions.length}）`}</span>
                     {selectedOptions.length > 0 ? (
-                        <span
-                            onClick={this.handleClear}
-                            className={cx('TransferSelect-clearAll')}>全部清除</span>
+                        <span onClick={this.handleClear} className={cx('TransferSelect-clearAll')}>
+                            全部清除
+                        </span>
                     ) : null}
                 </div>
                 <div className={cx('TransferSelect-body')}>
@@ -394,7 +353,12 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
                         {selectedOptions.map((option: any, optionIndex: number) => (
                             <li key={optionIndex}>
                                 {option[labelField || 'label']}
-                                <a onClick={this.handleCheck.bind(this, option)} className={cx('TransferSelect-option-close')}>{closeIcon}</a>
+                                <a
+                                    onClick={this.handleCheck.bind(this, option)}
+                                    className={cx('TransferSelect-option-close')}
+                                >
+                                    {closeIcon}
+                                </a>
                             </li>
                         ))}
                     </ul>
@@ -404,36 +368,34 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
     }
 
     render() {
-        const {
-            className,
-            classnames: cx,
-            render,
-            viewMode,
-            loading
-        } = this.props;
+        const {className, classnames: cx, render, viewMode, loading} = this.props;
         return (
             <div className={cx('TransferSelectControl', className)}>
-
                 {viewMode === 'table' ? this.renderTable() : this.renderNormal()}
 
                 {this.renderAction()}
 
                 {viewMode === 'table' ? this.renderTableSelectedOptions() : this.renderNormalSelectedOptions()}
 
-                {loading ? render('loading', {
-                    type: 'spinner',
-                    overlay: true,
-                }, {
-                        size: 'lg',
-                        key: 'info'
-                    }
-                ) : null}
+                {loading
+                    ? render(
+                          'loading',
+                          {
+                              type: 'spinner',
+                              overlay: true
+                          },
+                          {
+                              size: 'lg',
+                              key: 'info'
+                          }
+                      )
+                    : null}
             </div>
         );
     }
 }
 
 @OptionsControl({
-    type: 'transfer-select',
+    type: 'transfer-select'
 })
-export class TransferSelectControlRenderer extends TransferSelect { };
+export class TransferSelectControlRenderer extends TransferSelect {}

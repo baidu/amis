@@ -20,7 +20,7 @@ export class Tpl extends React.Component<TplProps, object> {
     static defaultProps: Partial<TplProps> = {
         inline: true,
         placeholder: '',
-        value: '',
+        value: ''
     };
 
     dom: any;
@@ -80,6 +80,6 @@ export class Tpl extends React.Component<TplProps, object> {
 
 @Renderer({
     test: /(^|\/)(?:tpl|html)$/,
-    name: 'tpl',
+    name: 'tpl'
 })
 export class TplRenderer extends Tpl {}

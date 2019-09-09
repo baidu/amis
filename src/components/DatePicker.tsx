@@ -49,15 +49,19 @@ class BaseDatePicker extends ReactDatePicker {
                 return props;
             };
         }
-        
-        // TODO: Make a function or clean up this code,
-		// logic right now is really hard to follow
-		let className = 'rdt' + (this.props.className ?
-                    ( Array.isArray( this.props.className ) ?
-                    ' ' + this.props.className.join( ' ' ) : ' ' + this.props.className) : ''),
-            children:Array<any> = [];
 
-        if ( this.props.input ) {
+        // TODO: Make a function or clean up this code,
+        // logic right now is really hard to follow
+        let className =
+                'rdt' +
+                (this.props.className
+                    ? Array.isArray(this.props.className)
+                        ? ' ' + this.props.className.join(' ')
+                        : ' ' + this.props.className
+                    : ''),
+            children: Array<any> = [];
+
+        if (this.props.input) {
             var finalInputProps = {
                 type: 'text',
                 className: 'form-control',
@@ -69,23 +73,18 @@ class BaseDatePicker extends ReactDatePicker {
                 ...this.props.inputProps
             };
 
-            if ( this.props.renderInput ) {
-                children = [(
-                    <div key='i'>
-                        {this.props.renderInput(finalInputProps, this.openCalendar, this.closeCalendar)}
-                    </div>
-                )];
-            } else {
-                children= [
-                    <input key="i" {...finalInputProps} />
+            if (this.props.renderInput) {
+                children = [
+                    <div key="i">{this.props.renderInput(finalInputProps, this.openCalendar, this.closeCalendar)}</div>
                 ];
+            } else {
+                children = [<input key="i" {...finalInputProps} />];
             }
         } else {
             className += ' rdtStatic';
         }
 
-        if ( this.state.open )
-            className += ' rdtOpen';
+        if (this.state.open) className += ' rdtOpen';
 
         return (
             <div className={className}>
@@ -127,7 +126,7 @@ interface CustomDaysViewProps {
 
 class CustomDaysView extends React.Component<CustomDaysViewProps> {
     static defaultProps = {
-        classPrefix: 'a-',
+        classPrefix: 'a-'
     };
 
     constructor(props: CustomDaysViewProps) {
@@ -183,7 +182,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
             this.props.setDateTimeState({
                 viewDate,
-                selectedDate: viewDate.clone(),
+                selectedDate: viewDate.clone()
             });
             return;
         }
@@ -206,7 +205,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
             viewDate: viewDate
                 .clone()
                 .month(option.value)
-                .startOf('month'),
+                .startOf('month')
         });
     }
 
@@ -223,7 +222,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
         const viewDate = this.props.viewDate;
         const newDate = viewDate.clone().year(option.value);
         this.props.setDateTimeState({
-            viewDate: newDate[newDate.isBefore(viewDate) ? 'endOf' : 'startOf']('year'),
+            viewDate: newDate[newDate.isBefore(viewDate) ? 'endOf' : 'startOf']('year')
         });
     }
 
@@ -233,7 +232,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
         this.props.setDateTimeState({
             viewDate: date.clone(),
-            selectedDate: date.clone(),
+            selectedDate: date.clone()
         });
 
         if (!this.props.requiredConfirm) {
@@ -245,7 +244,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
         const date = this.props.viewDate.clone();
 
         this.props.setDateTimeState({
-            selectedDate: date,
+            selectedDate: date
         });
         this.props.onChange(date);
         this.props.onClose && this.props.onClose();
@@ -276,12 +275,12 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
             let currentYear = date.clone().set({
                 year: year,
                 month: irrelevantMonth,
-                date: irrelevantDate,
+                date: irrelevantDate
             });
             const noOfDaysInYear = parseInt(currentYear.endOf('year').format('DDD'), 10);
             const daysInYear = Array.from(
                 {
-                    length: noOfDaysInYear,
+                    length: noOfDaysInYear
                 },
                 (e, i) => i + 1
             );
@@ -303,12 +302,12 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
             let currentYear = date.clone().set({
                 year: year,
                 month: irrelevantMonth,
-                date: irrelevantDate,
+                date: irrelevantDate
             });
             const noOfDaysInYear = parseInt(currentYear.endOf('year').format('DDD'), 10);
             const daysInYear = Array.from(
                 {
-                    length: noOfDaysInYear,
+                    length: noOfDaysInYear
                 },
                 (e, i) => i + 1
             );
@@ -327,7 +326,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
                 value={date.year()}
                 options={years.map(year => ({
                     label: `${year}`,
-                    value: year,
+                    value: year
                 }))}
                 onChange={this.handleYearChange}
                 clearable={false}
@@ -348,7 +347,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
             const currentMonth = date.clone().set({
                 year,
                 month: i,
-                date: 1,
+                date: 1
             });
 
             const noOfDaysInMonth = parseInt(currentMonth.endOf('month').format('D'), 10);
@@ -369,7 +368,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
                 value={date.month()}
                 options={days.map(day => ({
                     label: `${day + 1}`,
-                    value: day,
+                    value: day
                 }))}
                 onChange={this.handleMonthChange}
                 clearable={false}
@@ -484,7 +483,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
             dayProps = {
                 key: prevMonth.format('M_D'),
                 'data-value': prevMonth.date(),
-                className: classes,
+                className: classes
             };
 
             if (!isDisabled) dayProps.onClick = this.handleDayChange;
@@ -532,7 +531,7 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
                 </tr>
             </thead>,
 
-            <tbody key="tb">{this.renderDays()}</tbody>,
+            <tbody key="tb">{this.renderDays()}</tbody>
         ];
 
         footer && tableChildren.push(footer);
@@ -545,13 +544,12 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
     }
 }
 
-
 const availableShortcuts: {[propName: string]: any} = {
     today: {
         label: '今天',
         date: (now: moment.Moment) => {
             return now.startOf('day');
-        },
+        }
     },
 
     yesterday: {
@@ -586,15 +584,13 @@ const availableShortcuts: {[propName: string]: any} = {
         label: '90天前',
         date: (now: moment.Moment) => {
             return now.add(-90, 'days');
-        },
+        }
     },
 
     thisweek: {
         label: '本周一',
         date: (now: moment.Moment) => {
-            return now
-                .startOf('week')
-                .add(-1, 'weeks');
+            return now.startOf('week').add(-1, 'weeks');
         }
     },
 
@@ -602,7 +598,7 @@ const availableShortcuts: {[propName: string]: any} = {
         label: '本月初',
         date: (now: moment.Moment) => {
             return now.startOf('month');
-        },
+        }
     },
 
     prevmonth: {
@@ -616,7 +612,7 @@ const availableShortcuts: {[propName: string]: any} = {
         label: '上个季节初',
         date: (now: moment.Moment) => {
             return now.startOf('quarter').add(-1, 'quarter');
-        },
+        }
     },
 
     thisquarter: {
@@ -658,14 +654,13 @@ const availableShortcuts: {[propName: string]: any} = {
         label: '90天后',
         date: (now: moment.Moment) => {
             return now.add(90, 'days');
-        },
+        }
     },
 
     endofthisweek: {
         label: '本周日',
         date: (now: moment.Moment) => {
-            return now
-                .endOf('week');
+            return now.endOf('week');
         }
     },
 
@@ -673,7 +668,7 @@ const availableShortcuts: {[propName: string]: any} = {
         label: '本月底',
         date: (now: moment.Moment) => {
             return now.endOf('month');
-        },
+        }
     }
 };
 
@@ -711,12 +706,14 @@ export interface DatePickerState {
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
     static defaultProps: Pick<DateProps, 'viewMode' | 'shortcuts'> = {
         viewMode: 'days',
-        shortcuts: '',
+        shortcuts: ''
     };
     state: DatePickerState = {
         isOpened: false,
         isFocused: false,
-        value: this.props.value ? (this.props.utc ? moment.utc : moment)(this.props.value, this.props.format) : undefined,
+        value: this.props.value
+            ? (this.props.utc ? moment.utc : moment)(this.props.value, this.props.format)
+            : undefined
     };
     constructor(props: DateProps) {
         super(props);
@@ -741,7 +738,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     componentWillReceiveProps(nextProps: DateProps) {
         if (this.props.value !== nextProps.value) {
             this.setState({
-                value: nextProps.value ? (nextProps.utc ? moment.utc : moment)(nextProps.value, nextProps.format) : undefined,
+                value: nextProps.value
+                    ? (nextProps.utc ? moment.utc : moment)(nextProps.value, nextProps.format)
+                    : undefined
             });
         }
     }
@@ -756,13 +755,13 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
     handleFocus() {
         this.setState({
-            isFocused: true,
+            isFocused: true
         });
     }
 
     handleBlur() {
         this.setState({
-            isFocused: false,
+            isFocused: false
         });
     }
 
@@ -785,7 +784,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         this.props.disabled ||
             this.setState(
                 {
-                    isOpened: true,
+                    isOpened: true
                 },
                 fn
             );
@@ -793,7 +792,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
     close() {
         this.setState({
-            isOpened: false,
+            isOpened: false
         });
     }
 
@@ -824,7 +823,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         }
     }
 
-    selectRannge(item:any) {
+    selectRannge(item: any) {
         const now = moment();
         this.handleChange(item.date(now));
         this.close();
@@ -886,7 +885,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                     `${ns}DatePicker`,
                     {
                         'is-disabled': disabled,
-                        'is-focused': this.state.isFocused,
+                        'is-focused': this.state.isFocused
                     },
                     className
                 )}
@@ -942,7 +941,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                                         ))}
                                 </ul>
                             ) : null}
-                            
+
                             <BaseDatePicker
                                 value={date}
                                 onChange={this.handleChange}

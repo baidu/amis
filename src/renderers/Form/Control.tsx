@@ -3,26 +3,12 @@ import PropTypes from 'prop-types';
 import {IFormStore, IFormItemStore} from '../../store/form';
 import debouce = require('lodash/debounce');
 
-import {
-    RendererProps,
-    Renderer
-} from '../../factory';
-import {
-    ComboStore,
-    IComboStore,
-    IUniqueGroup
-} from '../../store/combo';
-import {
-    anyChanged,
-    promisify,
-    isObject,
-    getVariable
-} from '../../utils/helper';
-import { Schema } from '../../types';
-import { IIRendererStore } from '../../store';
-import { ScopedContext, IScopedContext } from '../../Scoped';
-
-
+import {RendererProps, Renderer} from '../../factory';
+import {ComboStore, IComboStore, IUniqueGroup} from '../../store/combo';
+import {anyChanged, promisify, isObject, getVariable} from '../../utils/helper';
+import {Schema} from '../../types';
+import {IIRendererStore} from '../../store';
+import {ScopedContext, IScopedContext} from '../../Scoped';
 
 export interface FormControlProps extends RendererProps {
     control: {
@@ -30,8 +16,8 @@ export interface FormControlProps extends RendererProps {
         name?: string;
         value?: any;
         required?: boolean;
-        validations: string | {[propsName:string]: any};
-        validationErrors: {[propsName:string]: any};
+        validations: string | {[propsName: string]: any};
+        validationErrors: {[propsName: string]: any};
         validateOnChange: boolean;
         multiple?: boolean;
         delimiter?: string;
@@ -40,9 +26,9 @@ export interface FormControlProps extends RendererProps {
         valueField?: string;
         labelField?: string;
         unique?: boolean;
-        pipeIn?: (value:any, data:any) => any;
-        pipeOut?: (value:any, originValue:any, data:any) => any;
-        validate?: (value:any, values:any) => any;
+        pipeIn?: (value: any, data: any) => any;
+        pipeOut?: (value: any, originValue: any, data: any) => any;
+        validate?: (value: any, values: any) => any;
     } & Schema;
     formStore: IFormStore;
     store: IIRendererStore;
@@ -51,15 +37,14 @@ export interface FormControlProps extends RendererProps {
 }
 
 export default class FormControl extends React.Component<FormControlProps, any> {
-    public model:IFormItemStore | undefined;
-    control:any;
+    public model: IFormItemStore | undefined;
+    control: any;
     hook?: () => any;
     hook2?: () => any;
 
-    static defaultProps:Partial<FormControlProps> = {
-    };
+    static defaultProps: Partial<FormControlProps> = {};
 
-    lazyValidate:Function;
+    lazyValidate: Function;
     componentWillMount() {
         const {
             formStore: form,
@@ -77,7 +62,7 @@ export default class FormControl extends React.Component<FormControlProps, any> 
                 valueField,
                 labelField,
                 joinValues,
-                extractValue,
+                extractValue
             }
         } = this.props;
 
@@ -110,7 +95,7 @@ export default class FormControl extends React.Component<FormControlProps, any> 
             valueField,
             labelField,
             joinValues,
-            extractValue,
+            extractValue
         });
 
         if (this.model.unique && form.parentStore && form.parentStore.storeType === ComboStore.name) {
@@ -123,17 +108,14 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         const {
             store,
             formStore: form,
-            control: {
-                name,
-                validate,
-            },
+            control: {name, validate},
             addHook
         } = this.props;
 
         if (name && form !== store) {
             const value = getVariable(store.data, name);
             if (typeof value !== 'undefined' && value !== this.getValue()) {
-                this.handleChange(value)
+                this.handleChange(value);
             }
         }
 
@@ -142,23 +124,21 @@ export default class FormControl extends React.Component<FormControlProps, any> 
             let finalValidate = promisify(validate.bind(formItem));
             this.hook2 = function() {
                 formItem.clearError('control:valdiate');
-                return finalValidate(form.data, formItem.value)
-                    .then((ret:any) => {
-                        if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
-                            formItem.addError(ret, 'control:valdiate');
-                        }
-                    });
-            }
+                return finalValidate(form.data, formItem.value).then((ret: any) => {
+                    if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
+                        formItem.addError(ret, 'control:valdiate');
+                    }
+                });
+            };
             addHook(this.hook2);
         }
     }
 
-    componentWillReceiveProps(nextProps:FormControlProps) {
+    componentWillReceiveProps(nextProps: FormControlProps) {
         const props = this.props;
         const form = nextProps.formStore;
 
         if (!nextProps.control.name) {
-
             // 把 name 删了, 对 model 做清理
             this.model && this.disposeModel();
             this.model = undefined;
@@ -187,21 +167,25 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         }
 
         if (
-            this.model 
-            && anyChanged([
-                'id',
-                'validations',
-                'validationErrors',
-                'value',
-                'required',
-                'unique',
-                'multiple',
-                'delimiter',
-                'valueField',
-                'labelField',
-                'joinValues',
-                'extractValue',
-            ], props.control, nextProps.control)
+            this.model &&
+            anyChanged(
+                [
+                    'id',
+                    'validations',
+                    'validationErrors',
+                    'value',
+                    'required',
+                    'unique',
+                    'multiple',
+                    'delimiter',
+                    'valueField',
+                    'labelField',
+                    'joinValues',
+                    'extractValue'
+                ],
+                props.control,
+                nextProps.control
+            )
         ) {
             this.model.config({
                 required: nextProps.control.required,
@@ -220,14 +204,12 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         }
     }
 
-    componentDidUpdate(prevProps:FormControlProps) {
+    componentDidUpdate(prevProps: FormControlProps) {
         const {
             store,
             formStore: form,
             data,
-            control: {
-                name
-            }
+            control: {name}
         } = this.props;
 
         if (!name) {
@@ -235,8 +217,12 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         }
 
         // form 里面部分塞 service 的用法
-        let value:any;
-        if (form !== store && data !== prevProps.data && (value = getVariable(data as any, name)) !== getVariable(prevProps.data, name)) {
+        let value: any;
+        if (
+            form !== store &&
+            data !== prevProps.data &&
+            (value = getVariable(data as any, name)) !== getVariable(prevProps.data, name)
+        ) {
             this.handleChange(value);
         }
     }
@@ -248,24 +234,18 @@ export default class FormControl extends React.Component<FormControlProps, any> 
     }
 
     disposeModel() {
-        const {
-            formStore: form
-        } = this.props;
+        const {formStore: form} = this.props;
 
         if (this.model && this.model.unique && form.parentStore && form.parentStore.storeType === ComboStore.name) {
             const combo = form.parentStore as IComboStore;
             combo.unBindUniuqueItem(this.model);
         }
-        
+
         this.model && form.unRegistryItem(this.model);
     }
 
-    controlRef(control:any) {
-        const {
-            addHook,
-            removeHook,
-            formStore: form
-        } = this.props;
+    controlRef(control: any) {
+        const {addHook, removeHook, formStore: form} = this.props;
 
         // 因为 control 有可能被 n 层 hoc 包裹。
         while (control && control.getWrappedInstance) {
@@ -278,13 +258,12 @@ export default class FormControl extends React.Component<FormControlProps, any> 
             this.hook = function() {
                 formItem.clearError('component:valdiate');
 
-                return validate(form.data, formItem.value)
-                    .then(ret => {
-                        if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
-                            formItem.setError(ret, 'component:valdiate');
-                        }
-                    });
-            }
+                return validate(form.data, formItem.value).then(ret => {
+                    if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
+                        formItem.setError(ret, 'component:valdiate');
+                    }
+                });
+            };
             addHook(this.hook);
         } else if (!control && this.hook) {
             removeHook(this.hook);
@@ -295,9 +274,7 @@ export default class FormControl extends React.Component<FormControlProps, any> 
     }
 
     validate() {
-        const {
-            formStore: form,
-        } = this.props;
+        const {formStore: form} = this.props;
 
         if (this.model) {
             if (this.model.unique && form.parentStore && form.parentStore.storeType === ComboStore.name) {
@@ -306,23 +283,16 @@ export default class FormControl extends React.Component<FormControlProps, any> 
                 group.items.forEach(item => item.validate());
             } else {
                 this.model.validate(this.hook);
-                form.getItemsByName(this.model.name)
-                    .forEach(item => item !== this.model && item.validate())
+                form.getItemsByName(this.model.name).forEach(item => item !== this.model && item.validate());
             }
         }
     }
 
-    handleChange(value:any, submitOnChange:boolean = this.props.control.submitOnChange) {
+    handleChange(value: any, submitOnChange: boolean = this.props.control.submitOnChange) {
         const {
             formStore: form,
             onChange,
-            control: {
-                validateOnChange,
-                name,
-                pipeOut,
-                onChange: onFormItemChange,
-                type
-            }
+            control: {validateOnChange, name, pipeOut, onChange: onFormItemChange, type}
         } = this.props;
 
         // todo 以后想办法不要強耦合类型。
@@ -335,14 +305,14 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         if (pipeOut) {
             value = pipeOut(value, oldValue, form.data);
         }
-        
+
         if (oldValue === value) {
             return;
         }
 
         this.model.changeValue(value);
 
-        if (validateOnChange === true || validateOnChange !== false && (form.submited || this.model.validated)) {
+        if (validateOnChange === true || (validateOnChange !== false && (form.submited || this.model.validated))) {
             this.lazyValidate();
         } else if (validateOnChange === false && !this.model.valid) {
             this.model.reset();
@@ -352,12 +322,10 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         onChange && onChange(value, name, submitOnChange === true);
     }
 
-    handleBlur(e:any) {
+    handleBlur(e: any) {
         const {
             onBlur,
-            control: {
-                validateOnBlur
-            }
+            control: {validateOnBlur}
         } = this.props;
 
         if (validateOnBlur && this.model) {
@@ -367,17 +335,13 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         onBlur && onBlur(e);
     }
 
-    handleBulkChange(values:any, submitOnChange:boolean = this.props.control.submitOnChange) {
+    handleBulkChange(values: any, submitOnChange: boolean = this.props.control.submitOnChange) {
         const {
             formStore: form,
             onChange,
-            control: {
-                validateOnChange,
-                type
-            },
+            control: {validateOnChange, type},
             onBulkChange
         } = this.props;
-
 
         if (!isObject(values)) {
             return;
@@ -386,7 +350,8 @@ export default class FormControl extends React.Component<FormControlProps, any> 
             return;
         }
 
-        let lastKey:string = '', lastValue:any;
+        let lastKey: string = '',
+            lastValue: any;
         Object.keys(values).forEach(key => {
             const value = values[key];
             lastKey = key;
@@ -397,7 +362,7 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         if (!lastKey) {
             return;
         }
-        
+
         form.setValues(values);
 
         if (validateOnChange !== false && (form.submited || this.model.validated)) {
@@ -407,7 +372,7 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         onChange && onChange(lastValue, lastKey, submitOnChange === true);
     }
 
-    setPrinstineValue(value:any) {
+    setPrinstineValue(value: any) {
         if (!this.model) {
             return;
         }
@@ -416,14 +381,11 @@ export default class FormControl extends React.Component<FormControlProps, any> 
     }
 
     getValue() {
-        const {
-            control,
-            formStore: form
-        } = this.props;
+        const {control, formStore: form} = this.props;
 
         const model = this.model;
         // let value:any = model ? (typeof model.value === 'undefined' ? '' : model.value) : (control.value || '');
-        let value:any = model ? model.value : control.value;
+        let value: any = model ? model.value : control.value;
 
         if (control.pipeIn) {
             value = control.pipeIn(value, form.data);
@@ -433,11 +395,9 @@ export default class FormControl extends React.Component<FormControlProps, any> 
     }
 
     // 兼容老版本用法，新版本直接用 onChange 就可以。
-    setValue(value:any, key?:string) {
+    setValue(value: any, key?: string) {
         const {
-            control: {
-                name            
-            }
+            control: {name}
         } = this.props;
 
         if (!key || key === name) {
@@ -452,11 +412,7 @@ export default class FormControl extends React.Component<FormControlProps, any> 
     render() {
         const {
             render,
-            control: {
-                pipeIn,
-                pipeOut,
-                ...control
-            },
+            control: {pipeIn, pipeOut, ...control},
             formMode,
             controlWidth,
             type,
@@ -493,14 +449,14 @@ export default class FormControl extends React.Component<FormControlProps, any> 
 }
 
 @Renderer({
-    test: (path:string) => /(^|\/)form(?:\/.*)?\/control$/i.test(path) && !/\/control\/control$/i.test(path),
-    name: "control"
+    test: (path: string) => /(^|\/)form(?:\/.*)?\/control$/i.test(path) && !/\/control\/control$/i.test(path),
+    name: 'control'
 })
 export class FormControlRenderer extends FormControl {
     static displayName = 'Control';
     static contextType = ScopedContext;
 
-    controlRef(ref:any) {
+    controlRef(ref: any) {
         const originRef = this.control;
         super.controlRef(ref);
         const scoped = this.context as IScopedContext;
@@ -516,4 +472,3 @@ export class FormControlRenderer extends FormControl {
         }
     }
 }
-

@@ -40,13 +40,13 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
     static defaultProps = {
         format: 'hex',
         clearable: true,
-        placeholder: '请选择颜色',
+        placeholder: '请选择颜色'
         // closeOnSelect: true
     };
     state = {
         isOpened: false,
         isFocused: false,
-        inputValue: this.props.value || '',
+        inputValue: this.props.value || ''
     };
     popover: any;
     closeTimer: number;
@@ -74,21 +74,21 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
 
         if (props.value !== nextProps.value) {
             this.setState({
-                inputValue: nextProps.value || '',
+                inputValue: nextProps.value || ''
             });
         }
     }
 
     handleFocus() {
         this.setState({
-            isFocused: true,
+            isFocused: true
         });
     }
 
     handleBlur() {
         this.setState({
             isFocused: false,
-            inputValue: this.props.value,
+            inputValue: this.props.value
         });
     }
 
@@ -106,7 +106,7 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
         }
         this.setState(
             {
-                isOpened: true,
+                isOpened: true
             },
             fn
         );
@@ -114,7 +114,7 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
 
     close() {
         this.setState({
-            isOpened: false,
+            isOpened: false
         });
     }
 
@@ -132,7 +132,7 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
 
         this.setState(
             {
-                inputValue: e.currentTarget.value,
+                inputValue: e.currentTarget.value
             },
             () => {
                 const dom: HTMLElement = this.preview.current as HTMLElement;
@@ -148,7 +148,7 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
     handleChange(color: ColorResult) {
         const {
             onChange,
-            format,
+            format
             // closeOnSelect
         } = this.props;
 
@@ -191,7 +191,7 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
                     `ColorPicker`,
                     {
                         'is-disabled': disabled,
-                        'is-focused': isFocused,
+                        'is-focused': isFocused
                     },
                     className
                 )}
@@ -251,6 +251,6 @@ export class ColorControl extends React.PureComponent<ColorProps, ColorControlSt
 
 export default themeable(
     uncontrollable(ColorControl, {
-        value: 'onChange',
+        value: 'onChange'
     })
 );

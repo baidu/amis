@@ -30,13 +30,13 @@ const fadeStyles: {
     [propName: string]: string;
 } = {
     [ENTERING]: 'in',
-    [ENTERED]: 'in',
+    [ENTERED]: 'in'
 };
 export class Modal extends React.Component<ModalProps, ModalState> {
     static defaultProps = {
         container: document.body,
         size: '',
-        overlay: true,
+        overlay: true
     };
 
     contentDom: any;
@@ -105,7 +105,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                                 className={cx(
                                     `amis-dialog-widget ${ns}Modal`,
                                     {
-                                        [`${ns}Modal--${size}`]: size,
+                                        [`${ns}Modal--${size}`]: size
                                     },
                                     className
                                 )}

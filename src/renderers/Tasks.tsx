@@ -6,7 +6,7 @@ import getExprProperties from '../utils/filter-schema';
 import {Api, Payload} from '../types';
 import update = require('react-addons-update');
 import {isEffectiveApi, isApiOutdated} from '../utils/api';
-import { ScopedContext, IScopedContext } from '../Scoped';
+import {ScopedContext, IScopedContext} from '../Scoped';
 
 export interface TaskProps extends RendererProps {
     className?: string;
@@ -67,7 +67,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
         errorStatusCode: 3,
         finishStatusCode: 4,
         canRetryStatusCode: 5,
-        interval: 3000,
+        interval: 3000
     };
 
     timer: any;
@@ -75,7 +75,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     constructor(props: TaskProps) {
         super(props);
         this.state = {
-            items: props.items ? props.items.concat() : [],
+            items: props.items ? props.items.concat() : []
         };
 
         this.handleLoaded = this.handleLoaded.bind(this);
@@ -91,7 +91,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
 
         if (props.items !== nextProps.items) {
             this.setState({
-                items: nextProps.items ? nextProps.items.concat() : [],
+                items: nextProps.items ? nextProps.items.concat() : []
             });
         }
     }
@@ -126,7 +126,8 @@ export default class Task extends React.Component<TaskProps, TaskState> {
             return alert('checkApi 没有设置, 不能及时获取任务状态');
         }
 
-        isEffectiveApi(checkApi, data) && env &&
+        isEffectiveApi(checkApi, data) &&
+            env &&
             env
                 .fetcher(checkApi, data)
                 .then(this.handleLoaded)
@@ -139,7 +140,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
         }
 
         this.setState({
-            items: ret.data,
+            items: ret.data
         });
 
         const interval = this.props.interval;
@@ -165,20 +166,21 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                             1,
                             {
                                 ...item,
-                                status: loadingStatusCode,
-                            },
-                        ],
-                    ],
-                },
+                                status: loadingStatusCode
+                            }
+                        ]
+                    ]
+                }
             } as any)
         );
 
         const api = retry ? reSubmitApi : submitApi;
-        isEffectiveApi(api, data) && env &&
+        isEffectiveApi(api, data) &&
+            env &&
             env
                 .fetcher(api, {
                     ...data,
-                    ...item,
+                    ...item
                 })
                 .then((ret: Payload) => {
                     if (ret && ret.data) {
@@ -189,13 +191,13 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                                 item.key === ret.data.key
                                     ? {
                                           ...item,
-                                          ...ret.data,
+                                          ...ret.data
                                       }
                                     : item
                             );
                             this.handleLoaded({
                                 ...ret,
-                                data: items,
+                                data: items
                             });
                         }
                         return;
@@ -215,11 +217,11 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                                         {
                                             ...item,
                                             status: errorStatusCode,
-                                            remark: e.message || e,
-                                        },
-                                    ],
-                                ],
-                            },
+                                            remark: e.message || e
+                                        }
+                                    ]
+                                ]
+                            }
                         } as any)
                     )
                 );
@@ -242,7 +244,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
             readyStatusCode,
             loadingStatusCode,
             canRetryStatusCode,
-            render,
+            render
         } = this.props;
         const items = this.state.items;
         const error = this.state.error;
@@ -283,7 +285,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                                             <a
                                                 onClick={() => this.submitTask(item, key)}
                                                 className={cx('btn', btnClassName, {
-                                                    disabled: item.status !== readyStatusCode,
+                                                    disabled: item.status !== readyStatusCode
                                                 })}
                                             >
                                                 {btnText}
@@ -310,7 +312,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
 
 @Renderer({
     test: /(^|\/)tasks$/,
-    name: 'tasks',
+    name: 'tasks'
 })
 export class TaskRenderer extends Task {
     static contextType = ScopedContext;

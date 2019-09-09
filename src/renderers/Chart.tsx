@@ -25,7 +25,7 @@ export interface ChartProps extends RendererProps {
 export class Chart extends React.Component<ChartProps> {
     static defaultProps: Partial<ChartProps> = {
         offsetY: 50,
-        replaceChartOption: false,
+        replaceChartOption: false
     };
 
     static propsList: Array<string> = [];
@@ -104,7 +104,7 @@ export class Chart extends React.Component<ChartProps> {
                     const height = ref.offsetHeight;
                     this.echarts.resize({
                         width,
-                        height,
+                        height
                     });
                 });
 
@@ -136,10 +136,9 @@ export class Chart extends React.Component<ChartProps> {
         }
         this.echarts && this.echarts.showLoading();
 
-        env
-            .fetcher(api, store.data, {
-                cancelExecutor: (executor: Function) => (this.reloadCancel = executor),
-            })
+        env.fetcher(api, store.data, {
+            cancelExecutor: (executor: Function) => (this.reloadCancel = executor)
+        })
             .then(result => {
                 delete this.reloadCancel;
                 this.renderChart(result.data || {});
@@ -212,7 +211,7 @@ export class Chart extends React.Component<ChartProps> {
 @Renderer({
     test: /(^|\/)chart$/,
     storeType: ServiceStore.name,
-    name: 'chart',
+    name: 'chart'
 })
 export class ChartRenderer extends Chart {
     static contextType = ScopedContext;

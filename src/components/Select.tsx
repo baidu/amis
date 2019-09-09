@@ -44,7 +44,7 @@ export interface OptionProps {
     delimiter?: string;
     clearable?: boolean;
     placeholder?: string;
-    autoFill?: {[propName:string]: any}
+    autoFill?: {[propName: string]: any};
 }
 
 export type OptionValue = string | number | null | undefined | Option;
@@ -67,7 +67,7 @@ export function value2array(value: OptionValue | Array<OptionValue>, props: Part
     } else if (Array.isArray(value)) {
         value = value[0];
     }
-    
+
     let expandedValue = expandValue(value as OptionValue, props);
     return expandedValue ? [expandedValue] : [];
 }
@@ -92,18 +92,18 @@ export function normalizeOptions(options: string | {[propName: string]: string} 
     if (typeof options === 'string') {
         return options.split(',').map(item => ({
             label: item,
-            value: item,
+            value: item
         }));
     } else if (Array.isArray(options as Array<string>) && typeof (options as Array<string>)[0] === 'string') {
         return (options as Array<string>).map(item => ({
             label: item,
-            value: item,
+            value: item
         }));
     } else if (Array.isArray(options as Options)) {
         return (options as Options).map(item => {
             let option = {
                 ...item,
-                value: item && item.value,
+                value: item && item.value
             };
 
             if (typeof option.children !== 'undefined') {
@@ -115,7 +115,7 @@ export function normalizeOptions(options: string | {[propName: string]: string} 
     } else if (isPlainObject(options)) {
         return Object.keys(options).map(key => ({
             label: (options as {[propName: string]: string})[key] as string,
-            value: key,
+            value: key
         }));
     }
 
@@ -154,7 +154,7 @@ interface SelectProps {
     checkAll?: boolean;
     checkAllLabel?: string;
     defaultCheckAll?: boolean;
-    simpleValue?: boolean; 
+    simpleValue?: boolean;
 }
 
 interface SelectState {
@@ -214,7 +214,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             isFocused: false,
             inputValue: '',
             highlightedIndex: -1,
-            selection: value2array(props.value, props),
+            selection: value2array(props.value, props)
         };
     }
 
@@ -224,9 +224,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
         if (multiple && checkAll && defaultCheckAll && options.length) {
             selection = union(options, selection);
-            this.setState({
-                selection: selection
-            }, () => onChange(simpleValue ? selection.map(item => item.value) : selection));
+            this.setState(
+                {
+                    selection: selection
+                },
+                () => onChange(simpleValue ? selection.map(item => item.value) : selection)
+            );
         }
 
         loadOptions && loadOptions('');
@@ -237,7 +240,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
         if (props.value !== nextProps.value || JSON.stringify(props.options) !== JSON.stringify(nextProps.options)) {
             this.setState({
-                selection: value2array(nextProps.value, nextProps),
+                selection: value2array(nextProps.value, nextProps)
             });
         }
     }
@@ -245,24 +248,24 @@ export class Select extends React.Component<SelectProps, SelectState> {
     open() {
         this.props.disabled ||
             this.setState({
-                isOpen: true,
+                isOpen: true
             });
     }
 
     close() {
         this.setState({
-            isOpen: false,
+            isOpen: false
         });
     }
 
     toggle(e?: React.MouseEvent<HTMLDivElement>) {
-        if (e && this.menu.current && this.menu.current.contains(e.target as HTMLElement))  {
+        if (e && this.menu.current && this.menu.current.contains(e.target as HTMLElement)) {
             return;
         }
 
         this.props.disabled ||
             this.setState({
-                isOpen: !this.state.isOpen,
+                isOpen: !this.state.isOpen
             });
     }
 
@@ -270,7 +273,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         this.props.disabled ||
             this.setState(
                 {
-                    isFocused: true,
+                    isFocused: true
                 },
                 this.focus
             );
@@ -281,7 +284,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onBlur(e: any) {
         this.setState({
             isFocused: false,
-            inputValue: '',
+            inputValue: ''
         });
 
         this.props.onBlur && this.props.onBlur(e);
@@ -333,7 +336,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
         this.setState(
             {
-                inputValue: evt.currentTarget.value,
+                inputValue: evt.currentTarget.value
             },
             () => loadOptions && loadOptions(this.state.inputValue)
         );
@@ -456,7 +459,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             multiple,
             classnames: cx,
             checkAll,
-            checkAllLabel,
+            checkAllLabel
         } = this.props;
         const {selection} = this.state;
 
@@ -465,7 +468,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         let filtedOptions: Array<Option> =
             inputValue && isOpen && !loadOptions
                 ? matchSorter(options, inputValue, {
-                      keys: [labelField || 'label', valueField || 'value'],
+                      keys: [labelField || 'label', valueField || 'value']
                   })
                 : options.concat();
 
@@ -480,11 +483,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             }
         }
 
-        if (
-            inputValue &&
-            creatable &&
-            !find(options, (item) => item[labelField || 'label'] == inputValue)
-        ) {
+        if (inputValue && creatable && !find(options, item => item[labelField || 'label'] == inputValue)) {
             filtedOptions.unshift({
                 [labelField]: inputValue,
                 [valueField]: inputValue,
@@ -507,7 +506,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 ) : null}
                 {filtedOptions.length ? (
                     filtedOptions.map((item, index) => {
-                        const checked = checkAll ? selection.some((o:Option) => o.value == item.value) : false;
+                        const checked = checkAll ? selection.some((o: Option) => o.value == item.value) : false;
 
                         return (
                             <div
@@ -515,14 +514,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
                                     key: index,
                                     index,
                                     item,
-                                    disabled: item.disabled,
+                                    disabled: item.disabled
                                 })}
                                 className={cx(`Select-option`, {
                                     'is-disabled': item.disabled,
                                     'is-highlight': highlightedIndex === index,
                                     'is-active':
                                         selectedItem === item ||
-                                        (Array.isArray(selectedItem) && ~selectedItem.indexOf(item)),
+                                        (Array.isArray(selectedItem) && ~selectedItem.indexOf(item))
                                 })}
                             >
                                 {checkAll ? (
@@ -540,10 +539,16 @@ export class Select extends React.Component<SelectProps, SelectState> {
                                 ) : item.isNew ? (
                                     promptTextCreator(item.label as string)
                                 ) : (
-                                    <span>{item.disabled ? item.label : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))}{item.tip}</span>
+                                    <span>
+                                        {item.disabled
+                                            ? item.label
+                                            : highlight(item[labelField], inputValue as string, cx('Select-option-hl'))}
+                                        {item.tip}
+                                    </span>
                                 )}
                             </div>
-                    )})
+                        );
+                    })
                 ) : (
                     <div className={cx('Select-option Select-option--placeholder')}>{noResultsText}</div>
                 )}
@@ -578,7 +583,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             spinnerClassName,
             clearable,
             labelField,
-            disabled,
+            disabled
         } = this.props;
 
         const selection = this.state.selection;
@@ -612,7 +617,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                                     [`Select--searchable`]: searchable,
                                     'is-opened': isOpen,
                                     'is-focused': this.state.isFocused,
-                                    'is-disabled': disabled,
+                                    'is-disabled': disabled
                                 },
                                 className
                             )}
@@ -631,7 +636,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                                                 }
                                             },
                                             onChange: this.handleInputChange,
-                                            ref: this.inputRef,
+                                            ref: this.inputRef
                                         })}
                                     />
                                 ) : null}
@@ -659,6 +664,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
 export default themeable(
     uncontrollable(Select, {
-        value: 'onChange',
+        value: 'onChange'
     })
 );

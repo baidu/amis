@@ -12,7 +12,7 @@ export interface LinkProps extends RendererProps {
 export class LinkField extends React.Component<LinkProps, object> {
     static defaultProps = {
         className: '',
-        blank: false,
+        blank: false
     };
 
     render() {
@@ -31,6 +31,6 @@ export class LinkField extends React.Component<LinkProps, object> {
 
 @Renderer({
     test: /(^|\/)link$/,
-    name: 'link',
+    name: 'link'
 })
 export class LinkFieldRenderer extends LinkField {}

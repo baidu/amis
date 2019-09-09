@@ -1,10 +1,8 @@
-function property2control(property:any, key:any, schema:any) {
-    const requiredList= schema.required || [];
+function property2control(property: any, key: any, schema: any) {
+    const requiredList = schema.required || [];
     const rest = {};
     const validations = {};
     let type = 'text';
-
-
 
     if (property.type === 'integer') {
         type = 'number';
@@ -44,12 +42,12 @@ function property2control(property:any, key:any, schema:any) {
     };
 }
 
-function makeControls(properties:any, schema:any) {
+function makeControls(properties: any, schema: any) {
     const keys = Object.keys(properties);
     return keys.map(key => property2control(properties[key], key, schema));
 }
 
-export function JSONSchme2AMisSchema(schema:any) {
+export function JSONSchme2AMisSchema(schema: any) {
     if (schema.type !== 'object') {
         throw new Error('JSONSchme2AMisSchema 只支持 object 转换');
     }
@@ -57,7 +55,7 @@ export function JSONSchme2AMisSchema(schema:any) {
     return {
         title: schema.title,
         type: 'form',
-        mode: "horizontal",
+        mode: 'horizontal',
         controls: makeControls(schema.properties, schema)
-    }
+    };
 }

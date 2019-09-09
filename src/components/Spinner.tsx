@@ -24,7 +24,7 @@ export class Spinner extends React.Component<SpinnerProps, object> {
         overlay: false,
         spinnerClassName: '',
         mode: '',
-        size: '',
+        size: ''
     };
 
     render() {
@@ -34,7 +34,7 @@ export class Spinner extends React.Component<SpinnerProps, object> {
             <div
                 className={cx(`${ns}Spinner`, spinnerClassName, {
                     [`Spinner--${mode}`]: !!mode,
-                    [`Spinner--${size}`]: !!size,
+                    [`Spinner--${size}`]: !!size
                 })}
             />
         );

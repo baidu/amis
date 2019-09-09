@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../../factory';
+import {Renderer, RendererProps} from '../../factory';
 import Collapse from '../Collapse';
 import cx from 'classnames';
 
@@ -10,19 +7,19 @@ export interface FieldSetProps extends RendererProps {
     title?: string;
     collapsed?: boolean;
     mode?: 'normal' | 'inline' | 'horizontal' | 'row';
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'base',
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'base';
     collapsable?: boolean;
     horizontal: {
         left: string;
         right: string;
         offset: string;
     };
-};
+}
 
 export default class FieldSetControl extends React.Component<FieldSetProps, any> {
-    constructor(props:FieldSetProps) {
+    constructor(props: FieldSetProps) {
         super(props);
-        this.renderBody = this.renderBody.bind(this);        
+        this.renderBody = this.renderBody.bind(this);
     }
 
     static defaultProps = {
@@ -30,7 +27,7 @@ export default class FieldSetControl extends React.Component<FieldSetProps, any>
         collapsable: false
     };
 
-    renderBody():JSX.Element {
+    renderBody(): JSX.Element {
         const {
             renderFormItems,
             controls,
@@ -49,7 +46,7 @@ export default class FieldSetControl extends React.Component<FieldSetProps, any>
             return render('body', body) as JSX.Element;
         }
 
-        let props:any = {
+        let props: any = {
             store,
             data: store.data,
             render
@@ -66,15 +63,10 @@ export default class FieldSetControl extends React.Component<FieldSetProps, any>
     }
 
     render() {
-        const {
-            controls,
-            className,
-            mode,
-            ...rest
-        } = this.props;
+        const {controls, className, mode, ...rest} = this.props;
 
         return (
-            <Collapse 
+            <Collapse
                 {...rest}
                 className={className}
                 children={this.renderBody}
@@ -88,6 +80,6 @@ export default class FieldSetControl extends React.Component<FieldSetProps, any>
 @Renderer({
     test: /(^|\/)form(?:.+)?\/control\/fieldSet$/i,
     weight: -100,
-    name: "fieldset"
+    name: 'fieldset'
 })
-export class FieldSetRenderer extends FieldSetControl {};
+export class FieldSetRenderer extends FieldSetControl {}

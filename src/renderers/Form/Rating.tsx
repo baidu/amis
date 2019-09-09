@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 import Rating from '../../components/Rating';
 
 export interface RatingProps extends FormControlProps {
@@ -10,27 +7,18 @@ export interface RatingProps extends FormControlProps {
     count: number;
     half: boolean;
     readOnly: boolean;
-};
+}
 
 export default class RatingControl extends React.Component<RatingProps, any> {
-    static defaultProps:Partial<RatingProps> = {
+    static defaultProps: Partial<RatingProps> = {
         value: 0,
         count: 5,
         half: false,
         readOnly: false
-    }
+    };
 
     render() {
-        const {
-            className,
-            value,
-            count,
-            half,
-            readOnly,
-            onChange,
-            size,
-            classnames: cx,
-        } = this.props;
+        const {className, value, count, half, readOnly, onChange, size, classnames: cx} = this.props;
 
         return (
             <div className={cx('RatingControl', className)}>
@@ -41,9 +29,8 @@ export default class RatingControl extends React.Component<RatingProps, any> {
                     half={half}
                     readOnly={readOnly}
                     size={size}
-                    onChange={(value:any) => onChange(value)}
-                >
-                </Rating>
+                    onChange={(value: any) => onChange(value)}
+                />
             </div>
         );
     }
@@ -53,5 +40,4 @@ export default class RatingControl extends React.Component<RatingProps, any> {
     type: 'rating',
     sizeMutable: false
 })
-export class RatingControlRenderer extends RatingControl {};
-
+export class RatingControlRenderer extends RatingControl {}

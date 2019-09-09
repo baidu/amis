@@ -16,10 +16,12 @@ interface RangeProps extends RendererProps {
     className?: string;
     min: number;
     max: number;
-    value: {
-        min: number,
-        max: number
-    } | number;
+    value:
+        | {
+              min: number;
+              max: number;
+          }
+        | number;
     classPrefix: string;
     classnames: ClassNamesFn;
 }
@@ -27,7 +29,7 @@ interface RangeProps extends RendererProps {
 export class Range extends React.Component<RangeProps, any> {
     static defaultProps: Partial<RangeProps> = {
         min: 1,
-        max: 100,
+        max: 100
     };
 
     render() {
@@ -43,7 +45,7 @@ export class Range extends React.Component<RangeProps, any> {
             slider: `${ns}InputRange-slider`,
             sliderContainer: `${ns}InputRange-sliderContainer`,
             track: `${ns}InputRange-track ${ns}InputRange-track--background`,
-            valueLabel: `${ns}InputRange-label ${ns}InputRange-label--value`,
+            valueLabel: `${ns}InputRange-label ${ns}InputRange-label--value`
         };
 
         return (
@@ -62,6 +64,6 @@ export class Range extends React.Component<RangeProps, any> {
 
 export default themeable(
     uncontrollable(Range, {
-        value: 'onChange',
+        value: 'onChange'
     })
 );

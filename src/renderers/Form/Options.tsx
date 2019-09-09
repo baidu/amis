@@ -1,44 +1,34 @@
 import {Api} from '../../types';
 import {buildApi, isEffectiveApi, isValidApi, isApiOutdated} from '../../utils/api';
-import {
-    anyChanged
-} from '../../utils/helper';
+import {anyChanged} from '../../utils/helper';
 import {reaction} from 'mobx';
-import {
-    FormControlProps,
-    registerFormItem,
-    FormItemBasicConfig
-} from './Item';
-import {
-    IFormItemStore
-} from '../../store/formItem';
+import {FormControlProps, registerFormItem, FormItemBasicConfig} from './Item';
+import {IFormItemStore} from '../../store/formItem';
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
 import React from 'react';
-import { resolveVariableAndFilter } from '../../utils/tpl-builtin';
-import { evalExpression } from '../../utils/tpl';
-import { Option, OptionProps, normalizeOptions } from '../../components/Select';
+import {resolveVariableAndFilter} from '../../utils/tpl-builtin';
+import {evalExpression} from '../../utils/tpl';
+import {Option, OptionProps, normalizeOptions} from '../../components/Select';
 
-export {
-    Option
-};
+export {Option};
 
 export interface OptionsBasicConfig extends FormItemBasicConfig {
     autoLoadOptionsFromSource?: boolean;
 }
 
 export interface OptionsConfig extends OptionsBasicConfig {
-    component: React.ComponentType<OptionsControlProps>
+    component: React.ComponentType<OptionsControlProps>;
 }
 
 export interface OptionsControlProps extends FormControlProps, OptionProps {
     source?: Api;
     name?: string;
-    onToggle: (option:Option, submitOnChange?: boolean) => void;
+    onToggle: (option: Option, submitOnChange?: boolean) => void;
     onToggleAll: () => void;
     selectedOptions: Array<Option>;
-    setOptions: (value:Array<any>) => void;
-    setLoading: (value:boolean) => void;
+    setOptions: (value: Array<any>) => void;
+    setLoading: (value: boolean) => void;
     reloadOptions: () => void;
 }
 
@@ -48,7 +38,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     // @observer
     class FormOptionsItem extends React.Component<FormControlProps, any> {
         static displayName = `OptionsControl(${config.type})`;
-        static defaultProps:Partial<FormControlProps> = {
+        static defaultProps: Partial<FormControlProps> = {
             delimiter: ',',
             labelField: 'label',
             valueField: 'value',
@@ -59,13 +49,13 @@ export function registerOptionsControl(config: OptionsConfig) {
             resetValue: '',
             ...Control.defaultProps
         };
-        static propsList:any = (Control as any).propsList ? [...(Control as any).propsList] : [];
+        static propsList: any = (Control as any).propsList ? [...(Control as any).propsList] : [];
         static ComposedComponent = Control;
-        
-        reaction:any;
-        input:any;
 
-        constructor(props:FormControlProps) {
+        reaction: any;
+        input: any;
+
+        constructor(props: FormControlProps) {
             super(props);
 
             const formItem = props.formItem as IFormItemStore;
@@ -97,14 +87,13 @@ export function registerOptionsControl(config: OptionsConfig) {
             } = this.props;
 
             if (formItem) {
-                this.reaction = reaction(() => JSON.stringify([
-                    formItem.loading,
-                    formItem.selectedOptions,
-                    formItem.filteredOptions
-                ]), () => this.forceUpdate());
+                this.reaction = reaction(
+                    () => JSON.stringify([formItem.loading, formItem.selectedOptions, formItem.filteredOptions]),
+                    () => this.forceUpdate()
+                );
             }
 
-            let loadOptions:boolean = initFetch !== false;
+            let loadOptions: boolean = initFetch !== false;
 
             if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(source) && formItem) {
                 formItem.setOptions(normalizeOptions(resolveVariableAndFilter(source, data, '| raw') || []));
@@ -112,7 +101,9 @@ export function registerOptionsControl(config: OptionsConfig) {
             }
 
             if (formItem && joinValues === false && defaultValue) {
-                const selectedOptions = extractValue ? formItem.selectedOptions.map((selectedOption: Option) => selectedOption[valueField || 'value']) : formItem.selectedOptions;
+                const selectedOptions = extractValue
+                    ? formItem.selectedOptions.map((selectedOption: Option) => selectedOption[valueField || 'value'])
+                    : formItem.selectedOptions;
                 setPrinstineValue(multiple ? selectedOptions.concat() : formItem.selectedOptions[0]);
             }
 
@@ -123,43 +114,49 @@ export function registerOptionsControl(config: OptionsConfig) {
             this.normalizeValue();
         }
 
-        shouldComponentUpdate(nextProps:FormControlProps) {
+        shouldComponentUpdate(nextProps: FormControlProps) {
             if (config.strictMode === false || nextProps.strictMode === false) {
                 return true;
             }
 
-            if (anyChanged([
-                'formPristine',
-                'addOn',
-                'disabled',
-                'placeholder',
-                'required',
-                'formMode',
-                'className',
-                'inputClassName',
-                'labelClassName',
-                'label',
-                'inline',
-                'options',
-                'size',
-                'btnClassName',
-                'btnActiveClassName',
-                'buttons',
-                'columnsCount',
-                'multiple',
-                'hideRoot',
-                'checkAll',
-                'showIcon',
-                'showRadio',
-                'btnDisabled'
-            ], this.props, nextProps)) {
+            if (
+                anyChanged(
+                    [
+                        'formPristine',
+                        'addOn',
+                        'disabled',
+                        'placeholder',
+                        'required',
+                        'formMode',
+                        'className',
+                        'inputClassName',
+                        'labelClassName',
+                        'label',
+                        'inline',
+                        'options',
+                        'size',
+                        'btnClassName',
+                        'btnActiveClassName',
+                        'buttons',
+                        'columnsCount',
+                        'multiple',
+                        'hideRoot',
+                        'checkAll',
+                        'showIcon',
+                        'showRadio',
+                        'btnDisabled'
+                    ],
+                    this.props,
+                    nextProps
+                )
+            ) {
                 return true;
             }
 
             return false;
         }
 
-        componentWillReceiveProps(nextProps:OptionsControlProps) {
+        componentWillReceiveProps(nextProps: OptionsControlProps) {
             const props = this.props;
             const formItem = nextProps.formItem as IFormItemStore;
 
@@ -175,7 +172,12 @@ export function registerOptionsControl(config: OptionsConfig) {
 
             if (props.options !== nextProps.options && formItem) {
                 formItem.setOptions(normalizeOptions(nextProps.options || []));
-            } else if (config.autoLoadOptionsFromSource !== false && nextProps.source && formItem && (props.source !== nextProps.source || props.data !== nextProps.data)) {
+            } else if (
+                config.autoLoadOptionsFromSource !== false &&
+                nextProps.source &&
+                formItem &&
+                (props.source !== nextProps.source || props.data !== nextProps.data)
+            ) {
                 if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(nextProps.source as string)) {
                     const options = resolveVariableAndFilter(props.source, props.data, '| raw');
                     const nextOptions = resolveVariableAndFilter(nextProps.source as string, nextProps.data, '| raw');
@@ -196,33 +198,33 @@ export function registerOptionsControl(config: OptionsConfig) {
         }
 
         normalizeValue() {
-            const {
-                joinValues,
-                extractValue,
-                value,
-                multiple,
-                formItem,
-                valueField
-            } = this.props;
+            const {joinValues, extractValue, value, multiple, formItem, valueField} = this.props;
 
             if (
-                formItem 
-                && joinValues === false 
-                && extractValue === false
-                && (typeof value === 'string' || typeof value === 'number') 
-                && formItem.options.length
+                formItem &&
+                joinValues === false &&
+                extractValue === false &&
+                (typeof value === 'string' || typeof value === 'number') &&
+                formItem.options.length
             ) {
                 formItem.changeValue(multiple ? formItem.selectedOptions.concat() : formItem.selectedOptions[0]);
             }
 
             if (
-                formItem
-                && joinValues === false
-                && extractValue === true
-                && value && !((Array.isArray(value) && value.every(val => typeof val === 'string' || typeof val === 'number')) || typeof value === 'string' || typeof value === 'number')
-                && formItem.options.length
+                formItem &&
+                joinValues === false &&
+                extractValue === true &&
+                value &&
+                !(
+                    (Array.isArray(value) && value.every(val => typeof val === 'string' || typeof val === 'number')) ||
+                    typeof value === 'string' ||
+                    typeof value === 'number'
+                ) &&
+                formItem.options.length
             ) {
-                const selectedOptions = formItem.selectedOptions.map((selectedOption: Option) => selectedOption[valueField || 'value']);
+                const selectedOptions = formItem.selectedOptions.map(
+                    (selectedOption: Option) => selectedOption[valueField || 'value']
+                );
                 formItem.changeValue(multiple ? selectedOptions.concat() : selectedOptions[0]);
             }
         }
@@ -231,11 +233,11 @@ export function registerOptionsControl(config: OptionsConfig) {
             return this.input;
         }
 
-        inputRef(ref:any) {
+        inputRef(ref: any) {
             this.input = ref;
         }
 
-        handleToggle(option:Option, submitOnChange?: boolean) {
+        handleToggle(option: Option, submitOnChange?: boolean) {
             const {
                 onChange,
                 joinValues,
@@ -254,7 +256,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
             let valueArray = formItem.selectedOptions.concat();
             const idx = valueArray.indexOf(option);
-            let newValue:string|Array<Option>|Option = '';
+            let newValue: string | Array<Option> | Option = '';
 
             if (multiple) {
                 if (~idx) {
@@ -272,7 +274,7 @@ export function registerOptionsControl(config: OptionsConfig) {
                 }
             } else {
                 if (~idx && clearable) {
-                    valueArray.splice(idx, 1)
+                    valueArray.splice(idx, 1);
                 } else {
                     valueArray = [option];
                 }
@@ -303,10 +305,12 @@ export function registerOptionsControl(config: OptionsConfig) {
                 return;
             }
 
-            let valueArray = formItem.selectedOptions.length === formItem.filteredOptions.length ? 
-            [] : formItem.filteredOptions.concat();
-            
-            let newValue:string|Array<Option>|Option = '';
+            let valueArray =
+                formItem.selectedOptions.length === formItem.filteredOptions.length
+                    ? []
+                    : formItem.filteredOptions.concat();
+
+            let newValue: string | Array<Option> | Option = '';
 
             if (multiple) {
                 newValue = valueArray;
@@ -329,26 +333,20 @@ export function registerOptionsControl(config: OptionsConfig) {
 
         // 当有 action 触发，如果指定了 reload 目标组件，有可能会来到这里面来
         reload() {
-            const {
-                source,
-                formItem,
-                data,
-                onChange
-            } = this.props;
+            const {source, formItem, data, onChange} = this.props;
 
             if (config.autoLoadOptionsFromSource === false || !formItem || !isEffectiveApi(source, data)) {
                 return;
             }
 
-            return formItem
-                .loadOptions(source, data, undefined, false, onChange)
+            return formItem.loadOptions(source, data, undefined, false, onChange);
         }
 
         focus() {
             this.input && this.input.focus && this.input.focus();
         }
 
-        setOptions(options:Array<any>) {
+        setOptions(options: Array<any>) {
             const formItem = this.props.formItem as IFormItemStore;
             formItem && formItem.setOptions(normalizeOptions(options || []));
         }
@@ -358,16 +356,13 @@ export function registerOptionsControl(config: OptionsConfig) {
             formItem && formItem.syncOptions();
         }
 
-        setLoading(value:boolean) {
+        setLoading(value: boolean) {
             const formItem = this.props.formItem as IFormItemStore;
             formItem && formItem.setLoading(value);
         }
 
         render() {
-            const {
-                value,
-                formItem            
-            } = this.props;
+            const {value, formItem} = this.props;
 
             return (
                 <Control
@@ -383,7 +378,7 @@ export function registerOptionsControl(config: OptionsConfig) {
                     syncOptions={this.syncOptions}
                     reloadOptions={this.reload}
                 />
-            )
+            );
         }
     }
 
@@ -394,18 +389,17 @@ export function registerOptionsControl(config: OptionsConfig) {
     });
 }
 
-
-export function OptionsControl(config:OptionsBasicConfig) {
-    return function <T extends React.ComponentType<OptionsControlProps>>(component:T):T {
+export function OptionsControl(config: OptionsBasicConfig) {
+    return function<T extends React.ComponentType<OptionsControlProps>>(component: T): T {
         const renderer = registerOptionsControl({
             ...config,
             component: component
         });
         return renderer.component as any;
-    }
+    };
 }
 
-export function highlight(text:string, input?:string, hlClassName:string = 'is-matched') {
+export function highlight(text: string, input?: string, hlClassName: string = 'is-matched') {
     if (!input) {
         return text;
     }
@@ -417,11 +411,15 @@ export function highlight(text:string, input?:string, hlClassName:string = 'is-m
     }
 
     const parts = text.split(reg);
-    const dom:Array<any> = [];
+    const dom: Array<any> = [];
 
-    parts.forEach((text:string, index) => {
+    parts.forEach((text: string, index) => {
         text && dom.push(<span key={index}>{text}</span>);
-        dom.push(<span className={hlClassName} key={`${index}-hl`}>{input}</span>);
+        dom.push(
+            <span className={hlClassName} key={`${index}-hl`}>
+                {input}
+            </span>
+        );
     });
 
     dom.pop();

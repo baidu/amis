@@ -23,7 +23,7 @@ interface TooltipProps extends React.HTMLProps<HTMLDivElement> {
 
 export class Tooltip extends React.Component<TooltipProps> {
     static defaultProps = {
-        className: '',
+        className: ''
     };
 
     render() {

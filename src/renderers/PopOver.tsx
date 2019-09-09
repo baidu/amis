@@ -58,7 +58,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (Component: R
             this.targetRef = this.targetRef.bind(this);
             // this.handleClickOutside = this.handleClickOutside.bind(this);
             this.state = {
-                isOpened: false,
+                isOpened: false
             };
         }
 
@@ -70,7 +70,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (Component: R
             const onPopOverOpen = this.props.onPopOverOpen;
             this.setState(
                 {
-                    isOpened: true,
+                    isOpened: true
                 },
                 () => onPopOverOpen && onPopOverOpen(this.props.popOver)
             );
@@ -84,7 +84,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (Component: R
             const onPopOverClose = this.props.onPopOverClose;
             this.setState(
                 {
-                    isOpened: false,
+                    isOpened: false
                 },
                 () => onPopOverClose && onPopOverClose(this.props.popOver)
             );
@@ -98,7 +98,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (Component: R
             if (popOver === true) {
                 schema = {
                     type: 'panel',
-                    body: '${name}',
+                    body: '${name}'
                 };
             } else if (popOver && (popOver.mode === 'dialog' || popOver.mode === 'drawer')) {
                 schema = {
@@ -107,15 +107,15 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (Component: R
                         {
                             label: '关闭',
                             type: 'button',
-                            actionType: 'cancel',
-                        },
+                            actionType: 'cancel'
+                        }
                     ],
-                    ...popOver,
+                    ...popOver
                 };
             } else if (popOver) {
                 schema = {
                     type: 'panel',
-                    ...popOver,
+                    ...popOver
                 };
             }
 
@@ -131,12 +131,12 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (Component: R
                 return render('popover-detail', this.buildSchema(), {
                     show: true,
                     onClose: this.closePopOver,
-                    onConfirm: this.closePopOver,
+                    onConfirm: this.closePopOver
                 });
             }
 
             const content = render('popover-detail', this.buildSchema(), {
-                className: cx((popOver as PopOverConfig).className),
+                className: cx((popOver as PopOverConfig).className)
             }) as JSX.Element;
 
             if (!popOverContainer) {
@@ -177,7 +177,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (Component: R
                 <Component
                     {...this.props}
                     className={cx(`Field--popOverAble`, className, {
-                        in: this.state.isOpened,
+                        in: this.state.isOpened
                     })}
                 >
                     <Component {...this.props} wrapperComponent={''} noHoc ref={this.targetRef} />

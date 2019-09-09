@@ -1,12 +1,6 @@
-import {
-    evalExpression,
-    filter
-} from './tpl';
+import {evalExpression, filter} from './tpl';
 
-import {
-    Schema,
-    PlainObject
-} from '../types';
+import {Schema, PlainObject} from '../types';
 
 /**
  * 处理 Props 数据，所有带 On 结束的做一次
@@ -18,10 +12,12 @@ import {
  * @param schema
  * @param data
  */
-export default function getExprProperties(schema:PlainObject, data:object = {}, blackList:Array<string> = ['addOn']):PlainObject {
-
-    const exprProps:PlainObject = {
-    };
+export default function getExprProperties(
+    schema: PlainObject,
+    data: object = {},
+    blackList: Array<string> = ['addOn']
+): PlainObject {
+    const exprProps: PlainObject = {};
 
     Object.getOwnPropertyNames(schema).forEach(key => {
         if (blackList && ~blackList.indexOf(key)) {
@@ -29,7 +25,7 @@ export default function getExprProperties(schema:PlainObject, data:object = {}, 
         }
 
         let parts = /^(.*)(On|Expr)$/.exec(key);
-        let value:any = schema[key];
+        let value: any = schema[key];
 
         if (value && typeof value === 'string' && parts && (parts[2] === 'On' || parts[2] === 'Expr')) {
             key = parts[1];

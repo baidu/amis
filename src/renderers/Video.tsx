@@ -48,7 +48,7 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
                     {
                         type: 'flv',
                         url: src,
-                        isLive: isLive,
+                        isLive: isLive
                     },
                     config
                 );
@@ -129,7 +129,7 @@ export class HlsSource extends React.Component<HlsSourceProps, any> {
                 video = video || (manager.video && manager.video.video);
 
                 let hls = (this.hls = new Hls({
-                    autoStartLoad: false,
+                    autoStartLoad: false
                 }));
                 hls.attachMedia(video);
                 hls.loadSource(src);
@@ -188,7 +188,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
         columnsCount: 8,
         isLive: false,
         jumpFrame: true,
-        aspectRatio: 'auto',
+        aspectRatio: 'auto'
     };
 
     frameDom: any;
@@ -201,7 +201,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
 
         this.state = {
             posterInfo: null,
-            videoState: {},
+            videoState: {}
         };
 
         this.frameRef = this.frameRef.bind(this);
@@ -217,8 +217,8 @@ export default class Video extends React.Component<VideoProps, VideoState> {
             this.setState({
                 posterInfo: {
                     width: image.width,
-                    height: image.height,
-                },
+                    height: image.height
+                }
             });
             image = image.onload = null;
         };
@@ -242,7 +242,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
 
         player.subscribeToStateChange((state: any) => {
             this.setState({
-                videoState: state,
+                videoState: state
             });
 
             if (!state.paused) {
@@ -335,7 +335,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
 
             items.push({
                 time: time,
-                src: frames[time],
+                src: frames[time]
             });
         });
 
@@ -502,6 +502,6 @@ export default class Video extends React.Component<VideoProps, VideoState> {
 
 @Renderer({
     test: /(^|\/)video$/,
-    name: 'video',
+    name: 'video'
 })
 export class VideoRenderer extends Video {}

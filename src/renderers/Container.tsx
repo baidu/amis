@@ -11,7 +11,7 @@ export interface ContainerProps extends RendererProps {
 export default class Container<T> extends React.Component<ContainerProps & T, object> {
     static propsList: Array<string> = ['body', 'className'];
     static defaultProps = {
-        className: '',
+        className: ''
     };
 
     renderBody(): JSX.Element | null {
@@ -39,6 +39,6 @@ export default class Container<T> extends React.Component<ContainerProps & T, ob
 
 @Renderer({
     test: /(^|\/)container$/,
-    name: 'container',
+    name: 'container'
 })
 export class ContainerRenderer extends Container<{}> {}

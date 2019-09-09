@@ -1,10 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import {
-    OptionsControl,
-    OptionsControlProps,
-    Option
-} from './Options';
+import {OptionsControl, OptionsControlProps, Option} from './Options';
 import Select from '../../components/Select';
 import find = require('lodash/find');
 import debouce = require('lodash/debounce');
@@ -16,17 +12,17 @@ import {dataMapping} from '../../utils/tpl-builtin';
 export interface SelectProps extends OptionsControlProps {
     autoComplete?: Api;
     searchable?: boolean;
-};
+}
 
 export default class SelectControl extends React.Component<SelectProps, any> {
     static defaultProps: Partial<SelectProps> = {
         clearable: false,
         searchable: false
-    }
+    };
 
     input: any;
     cache: {
-        [propName: string]: any
+        [propName: string]: any;
     } = {};
     constructor(props: SelectProps) {
         super(props);
@@ -72,13 +68,21 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
         if (joinValues) {
             if (multiple) {
-                newValue = Array.isArray(value) ? value.map(item => item.value).join(delimiter) as string : value ? (value as Option).value : '';
+                newValue = Array.isArray(value)
+                    ? (value.map(item => item.value).join(delimiter) as string)
+                    : value
+                    ? (value as Option).value
+                    : '';
             } else {
                 newValue = newValue ? (newValue as Option).value : '';
             }
         } else if (extractValue) {
             if (multiple) {
-                newValue = Array.isArray(value) ? value.map(item => item.value) : value ? [(value as Option).value] : [''];
+                newValue = Array.isArray(value)
+                    ? value.map(item => item.value)
+                    : value
+                    ? [(value as Option).value]
+                    : [''];
             } else {
                 newValue = newValue ? (newValue as Option).value : '';
             }
@@ -93,32 +97,25 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
 
     loadRemote(input: string) {
-        const {
-            autoComplete,
-            env,
-            data,
-            setOptions,
-            setLoading,
-        } = this.props;
-
+        const {autoComplete, env, data, setOptions, setLoading} = this.props;
 
         if (!env || !env.fetcher) {
             throw new Error('fetcher is required');
         }
 
-        if (this.cache[input] || ~input.indexOf('\'')/*中文没输完 233*/) {
+        if (this.cache[input] || ~input.indexOf("'") /*中文没输完 233*/) {
             let options = this.cache[input] || [];
             let combinedOptions = this.mergeOptions(options);
             setOptions(combinedOptions);
 
             return Promise.resolve({
-                options: combinedOptions,
+                options: combinedOptions
             });
         }
 
-
         setLoading(true);
-        return isEffectiveApi(autoComplete, data) &&
+        return (
+            isEffectiveApi(autoComplete, data) &&
             env
                 .fetcher(autoComplete, {
                     ...data,
@@ -126,26 +123,25 @@ export default class SelectControl extends React.Component<SelectProps, any> {
                     value: input
                 })
                 .then(ret => {
-                    let options = ret.data && (ret.data as any).options || ret.data || [];
+                    let options = (ret.data && (ret.data as any).options) || ret.data || [];
                     this.cache[input] = options;
                     let combinedOptions = this.mergeOptions(options);
                     setOptions(combinedOptions);
 
                     return Promise.resolve({
-                        options: combinedOptions,
+                        options: combinedOptions
                     });
                 })
-                .finally(() => setLoading(false));
+                .finally(() => setLoading(false))
+        );
     }
 
     mergeOptions(options: Array<object>) {
-        const {
-            selectedOptions,
-        } = this.props;
+        const {selectedOptions} = this.props;
         let combinedOptions = options.concat();
 
         if (Array.isArray(selectedOptions) && selectedOptions.length) {
-            selectedOptions.forEach((option) => {
+            selectedOptions.forEach(option => {
                 if (!find(combinedOptions, (item: Option) => item.value == option.value)) {
                     combinedOptions.push(option);
                 }
@@ -155,10 +151,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
 
     handleNewOptionClick(option: any) {
-        const {
-            setOptions,
-            options
-        } = this.props;
+        const {setOptions, options} = this.props;
 
         let mergedOptions: Array<any> = options.concat();
         mergedOptions.push({
@@ -216,16 +209,15 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 }
 
 @OptionsControl({
-    type: 'select',
+    type: 'select'
 })
-export class SelectControlRenderer extends SelectControl { };
+export class SelectControlRenderer extends SelectControl {}
 
 @OptionsControl({
-    type: 'multi-select',
+    type: 'multi-select'
 })
 export class MultiSelectControlRenderer extends SelectControl {
     static defaultProps = {
         multiple: true
     };
-};
-
+}
