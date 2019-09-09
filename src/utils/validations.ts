@@ -155,7 +155,7 @@ export const validateMessages: {
     isFloat: '请输入浮点型数值',
     isWords: '请输入字母',
     isUrlPath: '只能输入字母、数字、`-` 和 `_`.',
-    matchRegexp: '格式不正确, 请输入符合规则为 `$1` 的内容。',
+    matchRegexp: '格式不正确, 请输入符合规则为 `${1|raw}` 的内容。',
     minLength: '请输入更多的内容，至少输入 $1 个字符。',
     maxLength: '请控制内容长度, 请不要输入 $1 个字符以上',
     maximum: '当前输入值超出最大值 $1，请检查',
@@ -199,12 +199,12 @@ const splitValidations = function (str:string):Array<string> {
     const placeholder:{[propName: string]: string} = {};
 
     return str
-    .replace(/matchRegexp\d*:\/.*?\/[igm]*/g, raw => {
-        placeholder[`__${i}`] = raw;
-        return `__${i++}`
-    })
-    .split(/,(?![^{\[]*[}\]])/g)
-    .map(str => /^__\d+$/.test(str) ? placeholder[str] : str.trim())
+        .replace(/matchRegexp\d*\s*\:\s*\/.*?\/[igm]*/g, raw => {
+            placeholder[`__${i}`] = raw;
+            return `__${i++}`
+        })
+        .split(/,(?![^{\[]*[}\]])/g)
+        .map(str => /^__\d+$/.test(str) ? placeholder[str] : str.trim())
 };
 
 export function str2rules(validations:string|{[propName:string]: any}):{[propName:string]: any} {
@@ -216,7 +216,7 @@ export function str2rules(validations:string|{[propName:string]: any}):{[propNam
 
             if (~idx) {
                 validateMethod = validation.substring(0, idx);
-                args = validation.substring(idx + 1).split(',').map(function (arg) {
+                args = /^matchRegexp/.test(validateMethod) ? [validation] : validation.substring(idx + 1).split(',').map(function (arg) {
                     try {
                         return JSON.parse(arg);
                     } catch (e) {
