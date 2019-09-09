@@ -277,15 +277,14 @@ export const ServiceStore = iRendererStore
                 const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
                 fetchSchemaCancel = null;
 
-                if (!isEmpty(json.data)) {
-                    self.schema = json.data;
-                    self.schemaKey = '' + Date.now();
-                }
-
                 if (!json.ok) {
                     updateMessage(json.msg || options && options.errorMessage || '获取失败，请重试', true);
                     (getRoot(self) as IRendererStore).notify('error', self.msg);
                 } else {
+                    if (json.data) {
+                        self.schema = json.data;
+                        self.schemaKey = '' + Date.now();
+                    }
                     updateMessage(json.msg || options && options.successMessage);
 
                     // 配置了获取成功提示后提示，默认是空不会提示。
