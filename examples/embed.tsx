@@ -156,24 +156,29 @@ export function embed(container: string | HTMLElement, schema: any, data: any, e
                         location.href = to;
                     }
                 },
-                fetcher: (api:any) => {
+                fetcher: (api: any) => {
                     let {
                         url,
                         method,
                         data,
-                        config
+                        responseType,
+                        config,
+                        headers
                     } = api;
                     config = config || {};
                     config.withCredentials = true;
-
-                    if (method !== 'post' && method !== 'put' && method !== 'patch') {
-                        if (data) {
-                            config.params = data;
-                        }
-
-                        return (axios as any)[method](url, config).then(responseAdpater(api));
+                    responseType && (config.responseType = responseType);
+        
+                    if (config.cancelExecutor) {
+                        config.cancelToken = new (axios as any).CancelToken(config.cancelExecutor);
+                    }
+        
+                    config.headers = headers || {};
+                    config.method = method;
+        
+                    if (method === 'get' && data) {
+                        config.params = data;
                     } else if (data && data instanceof FormData) {
-                        // config.headers = config.headers || {};
                         // config.headers['Content-Type'] = 'multipart/form-data';
                     } else if (data
                         && typeof data !== 'string'
@@ -181,11 +186,12 @@ export function embed(container: string | HTMLElement, schema: any, data: any, e
                         && !(data instanceof ArrayBuffer)
                     ) {
                         data = JSON.stringify(data);
-                        config.headers = config.headers || {};
                         config.headers['Content-Type'] = 'application/json';
                     }
-
-                    return (axios as any)[method](url, data, config).then(responseAdpater(api));
+        
+                    data && (config.data = data);
+                    return axios(url, config)
+                        .then(responseAdpater(api));
                 },
                 isCancel: (value: any) => (axios as any).isCancel(value),
                 copy: (contents: string, options: any = {}) => {
