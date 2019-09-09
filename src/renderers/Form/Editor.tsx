@@ -1,22 +1,21 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
 import debouce = require('lodash/debounce');
 
-function loadComponent():Promise<React.ReactType> {
-    return new Promise((resolve) => (require as any)(['../../components/Editor'], (component:any) => resolve(component.default)));
+function loadComponent(): Promise<React.ReactType> {
+    return new Promise(resolve =>
+        (require as any)(['../../components/Editor'], (component: any) => resolve(component.default))
+    );
 }
 
 export interface EditorProps extends FormControlProps {
     options?: object;
-};
+}
 
 export default class EditorControl extends React.Component<EditorProps, any> {
-    static defaultProps:Partial<EditorProps> = {
+    static defaultProps: Partial<EditorProps> = {
         language: 'javascript',
         editorTheme: 'vs',
         options: {
@@ -28,14 +27,14 @@ export default class EditorControl extends React.Component<EditorProps, any> {
                 enabled: false
             }
         }
-    }
+    };
 
     state = {
         focused: false
     };
-    editor:any;
-    toDispose:Array<Function> = [];
-    constructor(props:EditorProps) {
+    editor: any;
+    toDispose: Array<Function> = [];
+    constructor(props: EditorProps) {
         super(props);
 
         this.handleFocus = this.handleFocus.bind(this);
@@ -64,7 +63,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
         });
     }
 
-    handleEditorMounted(editor:any, monaco:any) {
+    handleEditorMounted(editor: any, monaco: any) {
         this.editor = editor;
         this.toDispose.push(editor.onDidFocusEditorWidget(this.updateContainerSize).dispose);
         this.toDispose.push(editor.onDidChangeModelContent(this.updateContainerSize).dispose);
@@ -104,11 +103,15 @@ export default class EditorControl extends React.Component<EditorProps, any> {
         }
 
         return (
-            <div 
-                className={cx(`EditorControl`, {
-                    'is-focused': this.state.focused,
-                    [`EditorControl--${size}`]: size
-                }, className)}
+            <div
+                className={cx(
+                    `EditorControl`,
+                    {
+                        'is-focused': this.state.focused,
+                        [`EditorControl--${size}`]: size
+                    },
+                    className
+                )}
             >
                 <LazyComponent
                     classPrefix={ns}
@@ -132,47 +135,47 @@ export default class EditorControl extends React.Component<EditorProps, any> {
 }
 
 export const availableLanguages = [
-    "bat",
-    "c",
-    "coffeescript",
-    "cpp",
-    "csharp",
-    "css",
-    "dockerfile",
-    "fsharp",
-    "go",
-    "handlebars",
-    "html",
-    "ini",
-    "java",
-    "javascript",
-    "json",
-    "less",
-    "lua",
-    "markdown",
-    "msdax",
-    "objective-c",
-    "php",
-    "plaintext",
-    "postiats",
-    "powershell",
-    "pug",
-    "python",
-    "r",
-    "razor",
-    "ruby",
-    "sb",
-    "scss",
-    "sol",
-    "sql",
-    "swift",
-    "typescript",
-    "vb",
-    "xml",
-    "yaml"
+    'bat',
+    'c',
+    'coffeescript',
+    'cpp',
+    'csharp',
+    'css',
+    'dockerfile',
+    'fsharp',
+    'go',
+    'handlebars',
+    'html',
+    'ini',
+    'java',
+    'javascript',
+    'json',
+    'less',
+    'lua',
+    'markdown',
+    'msdax',
+    'objective-c',
+    'php',
+    'plaintext',
+    'postiats',
+    'powershell',
+    'pug',
+    'python',
+    'r',
+    'razor',
+    'ruby',
+    'sb',
+    'scss',
+    'sol',
+    'sql',
+    'swift',
+    'typescript',
+    'vb',
+    'xml',
+    'yaml'
 ];
 
-export const EditorControls:Array<typeof EditorControl> = availableLanguages.map((lang:string) => {
+export const EditorControls: Array<typeof EditorControl> = availableLanguages.map((lang: string) => {
     @FormItem({
         type: `${lang}-editor`,
         sizeMutable: false
@@ -198,7 +201,7 @@ class JavascriptEditorControlRenderer extends EditorControl {
         ...EditorControl.defaultProps,
         language: 'javascript'
     };
-};
+}
 
 @FormItem({
     type: 'ts-editor',
@@ -209,8 +212,7 @@ class TypescriptEditorControlRenderer extends EditorControl {
         ...EditorControl.defaultProps,
         language: 'typescript'
     };
-};
-
+}
 
 @FormItem({
     type: `editor`,
@@ -221,4 +223,4 @@ export class EditorControlRenderer extends EditorControl {
         ...EditorControl.defaultProps,
         language: 'javascript'
     };
-};
+}

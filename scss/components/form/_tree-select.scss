@@ -64,8 +64,7 @@
             user-select: none;
             white-space: nowrap;
             vertical-align: middle;
-            line-height: $Form-input-lineHeight * $Form-input-fontSize -
-                px2rem(2px);
+            line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
             display: inline-block;
             font-size: $Form-selectValue-fontSize;
             color: $Form-selectValue-color;
@@ -105,7 +104,7 @@
         justify-content: center;
 
         &:before {
-            content: "";
+            content: '';
             border-color: $Form-input-iconColor transparent transparent;
             border-style: solid;
             border-width: px2rem(5px) px2rem(5px) px2rem(2.5px);
@@ -124,7 +123,7 @@
     box-shadow: none;
 
     > .#{$ns}Tree {
-        background: #fff;
+        background: $TreeSelect-popover-bg;
         border: $Form-input-borderWidth solid $Form-input-onFocused-borderColor;
         padding: $gap-xs $Form-input-paddingX;
         border-radius: 0;
