@@ -2,7 +2,7 @@
     position: relative;
 
     &:after {
-        content: "";
+        content: '';
         pointer-events: none;
         border: 1px solid lighten($borderColor, 5%);
         position: absolute;
@@ -21,7 +21,7 @@
         border: 0;
         width: auto;
         z-index: 1;
-        background: $white;
+        background: $Fieldset-legend-bgColor;
         border-left: 0 !important;
     }
 
