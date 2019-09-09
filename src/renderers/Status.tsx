@@ -16,12 +16,12 @@ export class StatusField extends React.Component<StatusProps, object> {
         placeholder: '-',
         map: {
             0: 'fa fa-times text-danger',
-            1: 'fa fa-check text-success',
+            1: 'fa fa-check text-success'
         },
         labelMap: {
             // 0: '失败',
             // 1: '成功'
-        },
+        }
     };
 
     render() {
@@ -45,7 +45,7 @@ export class StatusField extends React.Component<StatusProps, object> {
                     viewValue,
                     <span className={cx('StatusField-label')} key="label">
                         {filter(labelMap[value], data)}
-                    </span>,
+                    </span>
                 ];
             }
         }
@@ -56,6 +56,6 @@ export class StatusField extends React.Component<StatusProps, object> {
 
 @Renderer({
     test: /(^|\/)status$/,
-    name: 'status',
+    name: 'status'
 })
 export class StatusFieldRenderer extends StatusField {}

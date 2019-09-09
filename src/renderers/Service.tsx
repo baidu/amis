@@ -54,10 +54,7 @@ export default class Service extends React.Component<ServiceProps> {
             initFetch,
             initFetchOn,
             store,
-            messages: {
-                fetchSuccess,
-                fetchFailed
-            },
+            messages: {fetchSuccess, fetchFailed}
         } = this.props;
 
         this.mounted = true;
@@ -70,10 +67,12 @@ export default class Service extends React.Component<ServiceProps> {
         }
 
         if (isEffectiveApi(api, store.data, initFetch, initFetchOn)) {
-            store.fetchInitData(api, store.data, {
-                successMessage: fetchSuccess,
-                errorMessage: fetchFailed
-            }).then(this.initInterval);
+            store
+                .fetchInitData(api, store.data, {
+                    successMessage: fetchSuccess,
+                    errorMessage: fetchFailed
+                })
+                .then(this.initInterval);
         }
     }
 
@@ -82,23 +81,24 @@ export default class Service extends React.Component<ServiceProps> {
         const store = props.store;
 
         const {
-            messages: {
-                fetchSuccess,
-                fetchFailed
-            }
+            messages: {fetchSuccess, fetchFailed}
         } = props;
 
         isApiOutdated(prevProps.api, props.api, prevProps.data, props.data) &&
-            store.fetchData(props.api as Api, store.data, {
-                successMessage: fetchSuccess,
-                errorMessage: fetchFailed
-            }).then(this.initInterval);
-
-        isApiOutdated(prevProps.schemaApi, props.schemaApi, prevProps.data, props.data) &&
-            store.fetchSchema(props.schemaApi as Api, store.data, {
+            store
+                .fetchData(props.api as Api, store.data, {
                     successMessage: fetchSuccess,
                     errorMessage: fetchFailed
-                }).then(this.initInterval);
+                })
+                .then(this.initInterval);
+
+        isApiOutdated(prevProps.schemaApi, props.schemaApi, prevProps.data, props.data) &&
+            store
+                .fetchSchema(props.schemaApi as Api, store.data, {
+                    successMessage: fetchSuccess,
+                    errorMessage: fetchFailed
+                })
+                .then(this.initInterval);
     }
 
     componentWillUnmount() {
@@ -121,18 +121,25 @@ export default class Service extends React.Component<ServiceProps> {
             return this.receive(query);
         }
 
-        const {schemaApi, initFetchSchema, api, initFetch, initFetchOn, store, messages: {
-            fetchSuccess,
-            fetchFailed
-        }} = this.props;
+        const {
+            schemaApi,
+            initFetchSchema,
+            api,
+            initFetch,
+            initFetchOn,
+            store,
+            messages: {fetchSuccess, fetchFailed}
+        } = this.props;
 
         clearTimeout(this.timer);
 
         if (isEffectiveApi(schemaApi, store.data)) {
-            store.fetchSchema(schemaApi, store.data, {
-                successMessage: fetchSuccess,
-                errorMessage: fetchFailed
-            }).then(this.initInterval);
+            store
+                .fetchSchema(schemaApi, store.data, {
+                    successMessage: fetchSuccess,
+                    errorMessage: fetchFailed
+                })
+                .then(this.initInterval);
         }
 
         if (isEffectiveApi(api, store.data)) {
@@ -169,7 +176,7 @@ export default class Service extends React.Component<ServiceProps> {
                 {
                     render('body', store.schema || schema, {
                         key: store.schemaKey || 'body',
-                        onQuery: this.handleQuery,
+                        onQuery: this.handleQuery
                     }) as JSX.Element
                 }
             </div>
@@ -192,17 +199,19 @@ export default class Service extends React.Component<ServiceProps> {
 
                 {this.renderBody()}
 
-                {store.loading ? render(
-                    'info',
-                    {
-                        type: 'spinner',
-                        overlay: true,
-                    },
-                    {
-                        key: 'info',
-                        size: 'lg',
-                    }
-                ) : null}
+                {store.loading
+                    ? render(
+                          'info',
+                          {
+                              type: 'spinner',
+                              overlay: true
+                          },
+                          {
+                              key: 'info',
+                              size: 'lg'
+                          }
+                      )
+                    : null}
             </div>
         );
     }
@@ -211,7 +220,7 @@ export default class Service extends React.Component<ServiceProps> {
 @Renderer({
     test: /(^|\/)service$/,
     storeType: ServiceStore.name,
-    name: 'service',
+    name: 'service'
 })
 export class ServiceRenderer extends Service {
     static contextType = ScopedContext;

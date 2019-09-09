@@ -4,7 +4,7 @@ import Alert, {AlertProps} from '../components/Alert2';
 
 @Renderer({
     test: /(^|\/)alert$/,
-    name: 'alert',
+    name: 'alert'
 })
 export class TplRenderer extends React.Component<AlertProps & RendererProps> {
     render() {

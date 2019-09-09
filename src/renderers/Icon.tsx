@@ -8,7 +8,7 @@ export interface IconProps extends RendererProps {
 export class Icon extends React.Component<IconProps, object> {
     static defaultProps: Partial<IconProps> = {
         icon: '',
-        vendor: 'fa',
+        vendor: 'fa'
     };
 
     render() {
@@ -27,6 +27,6 @@ export class Icon extends React.Component<IconProps, object> {
 
 @Renderer({
     test: /(^|\/)icon$/,
-    name: 'icon',
+    name: 'icon'
 })
 export class TplRenderer extends Icon {}

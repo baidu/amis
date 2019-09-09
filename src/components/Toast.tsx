@@ -17,7 +17,7 @@ const fadeStyles: {
     [ENTERING]: 'in',
     [ENTERED]: '',
     [EXITING]: 'out',
-    [EXITED]: 'hidden',
+    [EXITED]: 'hidden'
 };
 
 let toastRef: any = null;
@@ -56,17 +56,17 @@ interface ToastComponentState {
 }
 
 export class ToastComponent extends React.Component<ToastComponentProps, ToastComponentState> {
-    static defaultProps:Pick<ToastComponentProps, 'position' | 'closeButton' | 'timeOut' | 'extendedTimeOut'> = {
+    static defaultProps: Pick<ToastComponentProps, 'position' | 'closeButton' | 'timeOut' | 'extendedTimeOut'> = {
         position: 'top-right',
         closeButton: false,
         timeOut: 5000,
-        extendedTimeOut: 3000,
+        extendedTimeOut: 3000
     };
 
     // 当前ToastComponent是否真正render了
     hasRendered = false;
     state: ToastComponentState = {
-        items: [],
+        items: []
     };
 
     componentWillMount() {
@@ -74,7 +74,7 @@ export class ToastComponent extends React.Component<ToastComponentProps, ToastCo
         config = {
             closeButton,
             timeOut,
-            extendedTimeOut,
+            extendedTimeOut
         };
     }
 
@@ -96,10 +96,10 @@ export class ToastComponent extends React.Component<ToastComponentProps, ToastCo
             body: content,
             level,
             ...config,
-            id: uuid(),
+            id: uuid()
         });
         this.setState({
-            items,
+            items
         });
     }
 
@@ -127,7 +127,7 @@ export class ToastComponent extends React.Component<ToastComponentProps, ToastCo
         const items = this.state.items.concat();
         items.splice(index, 1);
         this.setState({
-            items: items,
+            items: items
         });
     }
 
@@ -185,11 +185,11 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
         classPrefix: '',
         position: 'top-right',
         allowHtml: true,
-        level: 'info',
+        level: 'info'
     };
 
     state = {
-        visible: false,
+        visible: false
     };
 
     content: React.RefObject<HTMLDivElement>;
@@ -210,7 +210,7 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
 
     componentDidMount() {
         this.setState({
-            visible: true,
+            visible: true
         });
     }
 
@@ -230,7 +230,7 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
     close() {
         clearTimeout(this.timer);
         this.setState({
-            visible: false,
+            visible: false
         });
     }
 
@@ -277,5 +277,5 @@ export const toast = {
     success: (content: string, title?: string, conf?: any) => show(content, title, conf, 'success'),
     error: (content: string, title?: string, conf?: any) => show(content, title, conf, 'error'),
     info: (content: string, title?: string, conf?: any) => show(content, title, conf, 'info'),
-    warning: (content: string, title?: string, conf?: any) => show(content, title, conf, 'warning'),
+    warning: (content: string, title?: string, conf?: any) => show(content, title, conf, 'warning')
 };

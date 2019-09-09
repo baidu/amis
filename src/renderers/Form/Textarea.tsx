@@ -1,27 +1,24 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import Textarea from '../../components/Textarea';
-import { findDOMNode } from 'react-dom';
-import { autobind } from '../../utils/helper';
+import {findDOMNode} from 'react-dom';
+import {autobind} from '../../utils/helper';
 
 export interface TextAreaProps extends FormControlProps {
     placeholder?: string;
     minRows?: number;
     maxRows?: number;
-};
+}
 
 export default class TextAreaControl extends React.Component<TextAreaProps, any> {
-    static defaultProps:Partial<TextAreaProps> = {
+    static defaultProps: Partial<TextAreaProps> = {
         minRows: 3,
-        maxRows: 20,
+        maxRows: 20
     };
 
-    input?:HTMLInputElement;
-    inputRef = (ref:any) => this.input = findDOMNode(ref) as HTMLInputElement;
+    input?: HTMLInputElement;
+    inputRef = (ref: any) => (this.input = findDOMNode(ref) as HTMLInputElement);
 
     focus() {
         if (!this.input) {
@@ -36,10 +33,8 @@ export default class TextAreaControl extends React.Component<TextAreaProps, any>
     }
 
     @autobind
-    handleChange(e:React.ChangeEvent<HTMLInputElement>) {
-        const {
-            onChange
-        } = this.props;
+    handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const {onChange} = this.props;
 
         let value = e.currentTarget.value;
 
@@ -47,24 +42,17 @@ export default class TextAreaControl extends React.Component<TextAreaProps, any>
     }
 
     @autobind
-    handleFocus(e:React.FocusEvent<HTMLTextAreaElement>) {
-        const {
-            onFocus
-        } = this.props;
+    handleFocus(e: React.FocusEvent<HTMLTextAreaElement>) {
+        const {onFocus} = this.props;
 
         onFocus && onFocus(e);
     }
 
     @autobind
-    handleBlur(e:React.FocusEvent<HTMLTextAreaElement>) {
-        const {
-            onBlur,
-            trimContents,
-            value,
-            onChange
-        } = this.props;
+    handleBlur(e: React.FocusEvent<HTMLTextAreaElement>) {
+        const {onBlur, trimContents, value, onChange} = this.props;
 
-        if (trimContents && value && typeof value === "string") {
+        if (trimContents && value && typeof value === 'string') {
             onChange(value.trim());
         }
 
@@ -72,17 +60,7 @@ export default class TextAreaControl extends React.Component<TextAreaProps, any>
     }
 
     render() {
-        const {
-            className,
-            classPrefix: ns,
-            value,
-            type,
-            placeholder,
-            disabled,
-            minRows,
-            maxRows,
-            name
-        } = this.props;
+        const {className, classPrefix: ns, value, type, placeholder, disabled, minRows, maxRows, name} = this.props;
         return (
             <Textarea
                 autoComplete="off"
@@ -91,7 +69,13 @@ export default class TextAreaControl extends React.Component<TextAreaProps, any>
                 disabled={disabled}
                 type={type}
                 className={cx(`${ns}TextareaControl`, className)}
-                value={typeof value === 'undefined' || value === null ? '' : typeof value === 'string' ? value : JSON.stringify(value)}
+                value={
+                    typeof value === 'undefined' || value === null
+                        ? ''
+                        : typeof value === 'string'
+                        ? value
+                        : JSON.stringify(value)
+                }
                 placeholder={placeholder}
                 minRows={minRows}
                 maxRows={maxRows}
@@ -103,9 +87,7 @@ export default class TextAreaControl extends React.Component<TextAreaProps, any>
     }
 }
 
-
 @FormItem({
     type: 'textarea'
 })
-export class TextAreaControlRenderer extends TextAreaControl {};
-
+export class TextAreaControlRenderer extends TextAreaControl {}

@@ -20,7 +20,7 @@ export interface HtmlProps {
 
 export class Html extends React.Component<HtmlProps> {
     static defaultProps = {
-        inline: true,
+        inline: true
     };
 
     dom: any;

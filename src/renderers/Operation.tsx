@@ -29,10 +29,10 @@ export class OperationField extends React.Component<OperationProps, object> {
                                   type: 'button',
                                   size: button.size || 'sm',
                                   level: button.level || (button.icon && !button.label ? 'link' : ''),
-                                  ...button,
+                                  ...button
                               },
                               {
-                                  key: index,
+                                  key: index
                               }
                           )
                       )
@@ -45,6 +45,6 @@ export class OperationField extends React.Component<OperationProps, object> {
 @Renderer({
     // test: /(^|\/)table\/(.*\/)operation$/,
     test: (path: string) => /(^|\/)table\/(.*\/)operation$/.test(path),
-    name: 'operation',
+    name: 'operation'
 })
 export class OperationFieldRenderer extends OperationField {}

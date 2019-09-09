@@ -1,11 +1,11 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import { Schema } from '../types';
+import {Schema} from '../types';
 import find = require('lodash/find');
-import { isVisible, autobind, isDisabled } from '../utils/helper';
+import {isVisible, autobind, isDisabled} from '../utils/helper';
 import findIndex = require('lodash/findIndex');
-import { Tabs as CTabs, Tab } from '../components/Tabs';
-import { ClassNamesFn } from '../theme';
+import {Tabs as CTabs, Tab} from '../components/Tabs';
+import {ClassNamesFn} from '../theme';
 
 export interface TabProps extends Schema {
     title?: string; // 标题
@@ -14,14 +14,14 @@ export interface TabProps extends Schema {
     tab?: Schema;
     className?: string;
     classnames: ClassNamesFn;
-    eventKey?: string| number;
-    activeKey?: string|number;
+    eventKey?: string | number;
+    activeKey?: string | number;
     reload?: boolean;
     mountOnEnter?: boolean;
     unmountOnExit?: boolean;
     disabled?: string;
     disabledOn?: string;
-};
+}
 
 export interface TabsProps extends RendererProps {
     mode?: '' | 'line' | 'card' | 'radio';
@@ -46,7 +46,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         className: '',
         mode: '',
         mountOnEnter: true,
-        unmountOnExit: false,
+        unmountOnExit: false
     };
 
     constructor(props: TabsProps) {
@@ -87,7 +87,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
             if (tab && tab.hash && tab.hash !== this.state.activeKey) {
                 this.setState({
                     activeKey: tab.hash,
-                    prevKey: this.state.activeKey,
+                    prevKey: this.state.activeKey
                 });
             }
         } else if (props.tabs !== nextProps.tabs) {
@@ -111,7 +111,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
             this.setState({
                 prevKey: undefined,
-                activeKey: activeKey,
+                activeKey: activeKey
             });
         }
     }
@@ -122,10 +122,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     @autobind
     autoJumpToNeighbour() {
-        const {
-            tabs,
-            data
-        } = this.props;
+        const {tabs, data} = this.props;
 
         if (!Array.isArray(tabs)) {
             return;
@@ -138,16 +135,16 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
         if (tabs[tabIndex] && !isVisible(tabs[tabIndex], this.props.data)) {
             let len = tabs.length;
-            let i = (tabIndex - 1) + len;
+            let i = tabIndex - 1 + len;
             let tries = len - 1;
 
             while (tries--) {
-                const index = (i--) % len;
+                const index = i-- % len;
                 if (isVisible(tabs[index], data)) {
                     let activeKey = tabs[index].hash || index;
                     this.setState({
                         activeKey
-                    })
+                    });
                     break;
                 }
             }
@@ -167,7 +164,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
         this.setState({
             activeKey: key,
-            prevKey: this.state.activeKey,
+            prevKey: this.state.activeKey
         });
     }
 
@@ -176,10 +173,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         const {tabs} = this.props;
 
         Array.isArray(tabs) &&
-        tabs[index] &&
-        this.setState({
-            activeKey: tabs[index].hash || index,
-        });
+            tabs[index] &&
+            this.setState({
+                activeKey: tabs[index].hash || index
+            });
     }
 
     @autobind
@@ -188,8 +185,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
         return Array.isArray(tabs)
             ? findIndex(tabs, (tab: TabProps, index) =>
-                tab.hash ? tab.hash === this.state.activeKey : index === this.state.activeKey
-            )
+                  tab.hash ? tab.hash === this.state.activeKey : index === this.state.activeKey
+              )
             : -1;
     }
 
@@ -225,31 +222,26 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 handleSelect={this.handleSelect}
                 activeKey={this.state.activeKey}
             >
-                {tabs.map((tab, index) => (
-                    isVisible(tab, data)
-                        ? (
-                            <Tab
-                                {...tab}
-                                disabled={isDisabled(tab, data)}
-                                key={index}
-                                eventKey={tab.hash || index}
-                                mountOnEnter={mountOnEnter}
-                                unmountOnExit={
-                                    typeof tab.reload === 'boolean'
-                                        ? tab.reload
-                                        : (
-                                            typeof tab.unmountOnExit === 'boolean'
-                                                ? tab.unmountOnExit
-                                                : unmountOnExit
-                                        )
-                                }
-                            >
-                                {tabRender
-                                    ? tabRender(tab, this.props)
-                                    : render(`tab/${index}`, tab.tab || tab.body || '')}
-                            </Tab>
-                        ) : null
-                ))}
+                {tabs.map((tab, index) =>
+                    isVisible(tab, data) ? (
+                        <Tab
+                            {...tab}
+                            disabled={isDisabled(tab, data)}
+                            key={index}
+                            eventKey={tab.hash || index}
+                            mountOnEnter={mountOnEnter}
+                            unmountOnExit={
+                                typeof tab.reload === 'boolean'
+                                    ? tab.reload
+                                    : typeof tab.unmountOnExit === 'boolean'
+                                    ? tab.unmountOnExit
+                                    : unmountOnExit
+                            }
+                        >
+                            {tabRender ? tabRender(tab, this.props) : render(`tab/${index}`, tab.tab || tab.body || '')}
+                        </Tab>
+                    ) : null
+                )}
             </CTabs>
         );
     }
@@ -257,6 +249,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
 @Renderer({
     test: /(^|\/)tabs$/,
-    name: 'tabs',
+    name: 'tabs'
 })
 export class TabsRenderer extends Tabs {}

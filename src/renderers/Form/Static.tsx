@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import {TableCell} from '../Table';
 import PopOver from '../PopOver';
@@ -15,7 +12,7 @@ export interface StaticProps extends FormControlProps {
     placeholder?: string;
     tpl?: string;
     text?: string;
-};
+}
 
 export default class StaticControl extends React.Component<StaticProps, any> {
     static defaultProps = {
@@ -29,33 +26,25 @@ export default class StaticControl extends React.Component<StaticProps, any> {
     }
 
     handleQuickChange(values: any, saveImmediately: boolean | any) {
-        const {
-            onBulkChange,
-            onAction,
-            data
-        } = this.props;
+        const {onBulkChange, onAction, data} = this.props;
 
         onBulkChange(values, saveImmediately === true);
         if (saveImmediately && saveImmediately.api) {
-            onAction(null, {
-                actionType: 'ajax',
-                api: saveImmediately.api
-            }, extendObject(data, values));
+            onAction(
+                null,
+                {
+                    actionType: 'ajax',
+                    api: saveImmediately.api
+                },
+                extendObject(data, values)
+            );
         }
     }
 
     render() {
-        const {
-            className,
-            value,
-            label,
-            type,
-            render,
-            children,
-            ...rest
-        } = this.props;
+        const {className, value, label, type, render, children, ...rest} = this.props;
 
-        const subType = /^static/.test(type) ? (type.substring(7) || 'tpl') : type;
+        const subType = /^static/.test(type) ? type.substring(7) || 'tpl' : type;
 
         const field = {
             label,
@@ -66,17 +55,21 @@ export default class StaticControl extends React.Component<StaticProps, any> {
 
         return (
             <div className="form-control-static">
-                {render('field', {
-                    ...field,
-                    type: 'static-field',
-                    field
-                }, {
-                    value,
-                    className,
-                    onQuickChange: this.handleQuickChange,
-                })}
+                {render(
+                    'field',
+                    {
+                        ...field,
+                        type: 'static-field',
+                        field
+                    },
+                    {
+                        value,
+                        className,
+                        onQuickChange: this.handleQuickChange
+                    }
+                )}
             </div>
-        );;
+        );
     }
 }
 
@@ -85,12 +78,12 @@ export default class StaticControl extends React.Component<StaticProps, any> {
         if (/(^|\/)form(?:\/.+)?\/control\/static(\-[^\/]+)?$/.test(path)) {
             return true;
         } else if (
-            /(^|\/)form(?:\/.+)?\/control\/[^\/]+$/.test(path)
-            && schema
-            && schema.type 
-            && (schema.name || schema.label)
-            && resolveRenderer 
-            && resolveRenderer(`${path}/static-field/${schema.type}`)
+            /(^|\/)form(?:\/.+)?\/control\/[^\/]+$/.test(path) &&
+            schema &&
+            schema.type &&
+            (schema.name || schema.label) &&
+            resolveRenderer &&
+            resolveRenderer(`${path}/static-field/${schema.type}`)
         ) {
             // 不一定
             return true;
@@ -100,13 +93,12 @@ export default class StaticControl extends React.Component<StaticProps, any> {
     weight: -90,
     strictMode: false,
     sizeMutable: false,
-    name: "static-control"
+    name: 'static-control'
 })
-export class StaticControlRenderer extends StaticControl {};
-
+export class StaticControlRenderer extends StaticControl {}
 
 @Renderer({
-    test: /(^|\/)static\-field$/,
+    test: /(^|\/)static\-field$/
 })
 @QuickEdit()
 @PopOver()
@@ -140,14 +132,16 @@ export class StaticFieldRenderer extends TableCell {
         const schema = {
             ...field,
             className: inputClassName,
-            type: field && field.type || 'plain',
+            type: (field && field.type) || 'plain'
         };
 
-        let body = children ? children : render('field', schema, {
-            ...rest,
-            value,
-            data
-        });
+        let body = children
+            ? children
+            : render('field', schema, {
+                  ...rest,
+                  value,
+                  data
+              });
 
         if (width) {
             style = style || {};
@@ -159,14 +153,9 @@ export class StaticFieldRenderer extends TableCell {
         }
 
         return (
-            <Component
-                style={style}
-                className={className}
-                tabIndex={tabIndex}
-                onKeyUp={onKeyUp}
-            >
+            <Component style={style} className={className} tabIndex={tabIndex} onKeyUp={onKeyUp}>
                 {body}
             </Component>
-        )
+        );
     }
-};
+}

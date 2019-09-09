@@ -1,13 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    Renderer,
-    RendererProps
-} from '../../factory';
+import {Renderer, RendererProps} from '../../factory';
 import BasicService from '../Service';
-import { Schema } from '../../types';
-import Scoped, { ScopedContext, IScopedContext } from '../../Scoped';
-import { observer } from 'mobx-react';
+import {Schema} from '../../types';
+import Scoped, {ScopedContext, IScopedContext} from '../../Scoped';
+import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from '../../store/service';
 
 @Renderer({
@@ -15,7 +12,7 @@ import {ServiceStore, IServiceStore} from '../../store/service';
     weight: -100,
     storeType: ServiceStore.name,
     storeExtendsData: false,
-    name: "service-control"
+    name: 'service-control'
 })
 export class ServiceRenderer extends BasicService {
     static contextType = ScopedContext;
@@ -30,10 +27,10 @@ export class ServiceRenderer extends BasicService {
         scoped.unRegisterComponent(this);
     }
 
-    renderBody():JSX.Element {
+    renderBody(): JSX.Element {
         const {
-            render, 
-            store, 
+            render,
+            store,
             body: schema,
             controls,
             tabs,
@@ -44,12 +41,18 @@ export class ServiceRenderer extends BasicService {
             classnames: cx
         } = this.props;
 
-        const finnalSchema = store.schema || schema || {
-            controls,
-            tabs,
-            feildSet
-        };
-        if (finnalSchema && !finnalSchema.type && (finnalSchema.controls || finnalSchema.tabs || finnalSchema.feildSet) && renderFormItems) {
+        const finnalSchema = store.schema ||
+            schema || {
+                controls,
+                tabs,
+                feildSet
+            };
+        if (
+            finnalSchema &&
+            !finnalSchema.type &&
+            (finnalSchema.controls || finnalSchema.tabs || finnalSchema.feildSet) &&
+            renderFormItems
+        ) {
             return (
                 <div className={cx(`Form--${formMode || 'normal'}`)}>
                     {renderFormItems(finnalSchema, 'controls', {

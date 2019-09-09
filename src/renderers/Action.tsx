@@ -54,7 +54,7 @@ export interface ActionProps {
     level?: 'info' | 'success' | 'warning' | 'danger' | 'link';
     onAction?: (e: React.MouseEvent<any> | void | null, action: object) => void;
     isCurrentUrl?: (link: string) => boolean;
-    onClick?: (e: React.MouseEvent<any>, props:any) => void;
+    onClick?: (e: React.MouseEvent<any>, props: any) => void;
     primary?: boolean;
     activeClassName: string;
     componentClass: React.ReactType;
@@ -80,7 +80,7 @@ export class Action extends React.Component<ActionProps> {
         type: 'button',
         componentClass: 'button',
         tooltipPlacement: 'bottom',
-        activeClassName: 'is-active',
+        activeClassName: 'is-active'
     };
 
     dom: any;
@@ -89,7 +89,7 @@ export class Action extends React.Component<ActionProps> {
     handleAction(e: React.MouseEvent<any>) {
         const {onAction, onClick, disabled} = this.props;
 
-        const result:any = onClick && onClick(e, this.props);
+        const result: any = onClick && onClick(e, this.props);
 
         if (disabled || e.isDefaultPrevented() || result === false || !onAction) {
             return;
@@ -125,7 +125,7 @@ export class Action extends React.Component<ActionProps> {
             active,
             activeLevel,
             tooltipContainer,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         let isActive = !!active;
@@ -138,7 +138,7 @@ export class Action extends React.Component<ActionProps> {
             <a
                 className={cx(className, {
                     [activeClassName || 'is-active']: isActive,
-                    'is-disabled': disabled,
+                    'is-disabled': disabled
                 })}
                 onClick={this.handleAction}
             >
@@ -148,7 +148,7 @@ export class Action extends React.Component<ActionProps> {
         ) : (
             <Button
                 className={cx(className, {
-                    [activeClassName || 'is-active']: isActive,
+                    [activeClassName || 'is-active']: isActive
                 })}
                 size={size}
                 level={activeLevel && isActive ? activeLevel : level || (primary ? 'primary' : undefined)}
@@ -174,7 +174,7 @@ export default themeable(Action);
 
 @Renderer({
     test: /(^|\/)action$/,
-    name: 'action',
+    name: 'action'
 })
 export class ActionRenderer extends React.Component<
     RendererProps &
@@ -219,18 +219,18 @@ export class ActionRenderer extends React.Component<
 
 @Renderer({
     test: /(^|\/)button$/,
-    name: 'button',
+    name: 'button'
 })
 export class ButtonRenderer extends ActionRenderer {}
 
 @Renderer({
     test: /(^|\/)submit$/,
-    name: 'submit',
+    name: 'submit'
 })
 export class SubmitRenderer extends ActionRenderer {}
 
 @Renderer({
     test: /(^|\/)reset$/,
-    name: 'reset',
+    name: 'reset'
 })
 export class ResetRenderer extends ActionRenderer {}

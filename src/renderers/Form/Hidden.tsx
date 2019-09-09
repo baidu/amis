@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 
 export default class HiddenControl extends React.Component<FormControlProps, any> {
     render() {
@@ -15,4 +12,4 @@ export default class HiddenControl extends React.Component<FormControlProps, any
     wrap: false,
     sizeMutable: false
 })
-export class HiddenControlRenderer extends HiddenControl {};
+export class HiddenControlRenderer extends HiddenControl {}

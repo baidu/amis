@@ -1,19 +1,13 @@
-import {
-    Renderer,
-    RendererProps
-} from '../../factory';
-import Grid, { ColumnNode, Column, ColProps, ColumnArray } from '../Grid';
-import { Schema } from '../../types';
+import {Renderer, RendererProps} from '../../factory';
+import Grid, {ColumnNode, Column, ColProps, ColumnArray} from '../Grid';
+import {Schema} from '../../types';
 
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
-import pick = require("lodash/pick");
+import {FormItem, FormControlProps} from './Item';
+import pick = require('lodash/pick');
 import React from 'react';
 import cx from 'classnames';
 
-export interface GridProps extends FormControlProps {};
+export interface GridProps extends FormControlProps {}
 const defaultHorizontal = {
     left: 'col-sm-4',
     right: 'col-sm-8',
@@ -26,18 +20,11 @@ const defaultHorizontal = {
     sizeMutable: false
 })
 export class GridRenderer extends Grid<GridProps> {
-    static propsList: Array<string> = ["columns"];
+    static propsList: Array<string> = ['columns'];
     static defaultProps = {};
-    
-    renderChild(region:string, node:Schema, key: number, length: number) {
-        const {
-            render,
-            renderFormItems,
-            classnames: cx,
-            $path,
-            itemRender,
-            store
-        } = this.props;
+
+    renderChild(region: string, node: Schema, key: number, length: number) {
+        const {render, renderFormItems, classnames: cx, $path, itemRender, store} = this.props;
 
         if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
             return (
@@ -53,6 +40,6 @@ export class GridRenderer extends Grid<GridProps> {
             );
         }
 
-        return itemRender ?  itemRender(node, key, length, this.props) : render(region, node.body || node);
+        return itemRender ? itemRender(node, key, length, this.props) : render(region, node.body || node);
     }
 }

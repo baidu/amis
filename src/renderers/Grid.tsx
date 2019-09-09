@@ -75,7 +75,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         } = pick(column, ColProps);
 
         colProps = {
-            ...colProps,
+            ...colProps
         };
 
         const cx = this.props.classnames;
@@ -106,6 +106,6 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
 
 @Renderer({
     test: /(^|\/)grid$/,
-    name: 'grid',
+    name: 'grid'
 })
 export class GridRenderer extends Grid<{}> {}

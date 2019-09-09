@@ -1,14 +1,7 @@
-import {
-    types,
-    getRoot,
-    Instance,
-} from "mobx-state-tree";
-import {
-    extendObject,
-    createObject
-} from '../utils/helper';
+import {types, getRoot, Instance} from 'mobx-state-tree';
+import {extendObject, createObject} from '../utils/helper';
 import {IRendererStore} from './index';
-import { dataMapping } from "../utils/tpl-builtin";
+import {dataMapping} from '../utils/tpl-builtin';
 
 export const iRendererStore = types
     .model('iRendererStore', {
@@ -26,7 +19,7 @@ export const iRendererStore = types
         drawerOpen: false,
         drawerData: types.optional(types.frozen(), undefined)
     })
-    .views((self) => {
+    .views(self => {
         return {
             // todo 不能自己引用自己
             get parentStore(): any {
@@ -36,11 +29,11 @@ export const iRendererStore = types
             }
         };
     })
-    .actions((self) => {
+    .actions(self => {
         const dialogCallbacks = new Map();
 
         return {
-            initData(data:object = {}) {
+            initData(data: object = {}) {
                 self.pristine = data;
                 self.data = data;
             },
@@ -49,7 +42,7 @@ export const iRendererStore = types
                 self.data = self.pristine;
             },
 
-            updateData(data:object = {}, tag?: object) {
+            updateData(data: object = {}, tag?: object) {
                 const prev = self.data;
                 let newData;
                 if (tag) {
@@ -66,17 +59,17 @@ export const iRendererStore = types
                     value: {...prev},
                     enumerable: false,
                     configurable: false,
-                    writable: false,
+                    writable: false
                 });
 
                 self.data = newData;
             },
 
-            setCurrentAction(action:object) {
+            setCurrentAction(action: object) {
                 self.action = action;
             },
 
-            openDialog(ctx: any, additonal?:object, callback?: (ret:any) => void) {
+            openDialog(ctx: any, additonal?: object, callback?: (ret: any) => void) {
                 let proto = ctx.__super ? ctx.__super : self.data;
 
                 if (additonal) {
@@ -108,7 +101,7 @@ export const iRendererStore = types
                 }
             },
 
-            closeDialog(result?:any) {
+            closeDialog(result?: any) {
                 const callback = dialogCallbacks.get(self.dialogData);
 
                 self.dialogOpen = false;
@@ -119,7 +112,7 @@ export const iRendererStore = types
                 }
             },
 
-            openDrawer(ctx: any, additonal?:object, callback?: (ret:any) => void) {
+            openDrawer(ctx: any, additonal?: object, callback?: (ret: any) => void) {
                 let proto = ctx.__super ? ctx.__super : self.data;
 
                 if (additonal) {
@@ -151,7 +144,7 @@ export const iRendererStore = types
                 }
             },
 
-            closeDrawer(result?:any) {
+            closeDrawer(result?: any) {
                 const callback = dialogCallbacks.get(self.drawerData);
                 self.drawerOpen = false;
 
@@ -162,7 +155,6 @@ export const iRendererStore = types
             }
         };
     });
-
 
 export type IIRendererStore = typeof iRendererStore.Type;
 export type SIRendererStore = typeof iRendererStore.SnapshotType;

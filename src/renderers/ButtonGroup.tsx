@@ -6,6 +6,6 @@ export default ButtonGroup;
 
 @Renderer({
     test: /(^|\/)(?:button|action)\-group$/,
-    name: 'button-group',
+    name: 'button-group'
 })
 export class ButtonGroupRenderer extends ButtonGroup {}

@@ -1,29 +1,20 @@
-import {
-    types,
-    getParent,
-    SnapshotIn,
-    flow,
-    getEnv,
-    getRoot
-} from "mobx-state-tree";
-import {
-    iRendererStore,
-} from './iRenderer';
+import {types, getParent, SnapshotIn, flow, getEnv, getRoot} from 'mobx-state-tree';
+import {iRendererStore} from './iRenderer';
 import isEqual = require('lodash/isEqual');
 import find = require('lodash/find');
-import { createObject, isObject, guid } from "../utils/helper";
-import { evalExpression } from "../utils/tpl";
+import {createObject, isObject, guid} from '../utils/helper';
+import {evalExpression} from '../utils/tpl';
 
 export const Item = types
-    .model("Item", {
+    .model('Item', {
         id: types.identifier,
         pristine: types.frozen(),
         data: types.frozen(),
         index: types.number,
         newIndex: types.number
     })
-    .views((self) => ({
-        get checked():boolean {
+    .views(self => ({
+        get checked(): boolean {
             return (getParent(self, 2) as IListStore).isSelected(self as IItem);
         },
 
@@ -39,37 +30,44 @@ export const Item = types
             return self.index !== self.newIndex;
         },
 
-        get locals():any {
+        get locals(): any {
             return createObject(
                 createObject((getParent(self, 2) as IListStore).data, {
                     index: self.index
-                }), self.data);
+                }),
+                self.data
+            );
         },
 
-        get checkable():boolean {
-            const table = (getParent(self, 2) as IListStore);
-            return table && table.itemCheckableOn ? evalExpression(table.itemCheckableOn, (self as IItem).locals) : true;
+        get checkable(): boolean {
+            const table = getParent(self, 2) as IListStore;
+            return table && table.itemCheckableOn
+                ? evalExpression(table.itemCheckableOn, (self as IItem).locals)
+                : true;
         },
 
-        get draggable():boolean {
-            const table = (getParent(self, 2) as IListStore);
-            return table && table.itemDraggableOn ? evalExpression(table.itemDraggableOn, (self as IItem).locals) : true;
+        get draggable(): boolean {
+            const table = getParent(self, 2) as IListStore;
+            return table && table.itemDraggableOn
+                ? evalExpression(table.itemDraggableOn, (self as IItem).locals)
+                : true;
         }
     }))
-    .actions((self) => ({
+    .actions(self => ({
         toggle() {
             (getParent(self, 2) as IListStore).toggle(self as IItem);
         },
 
-        change(values:object, savePristine?:boolean) {
+        change(values: object, savePristine?: boolean) {
             self.data = {
                 ...self.data,
                 ...values
             };
 
-            savePristine && (self.pristine = {
-                ...self.data
-            });
+            savePristine &&
+                (self.pristine = {
+                    ...self.data
+                });
         },
 
         reset() {
@@ -98,7 +96,7 @@ export const ListStore = iRendererStore
         hideCheckToggler: false
     })
     .views(self => {
-        function isSelected(item:IItem):boolean {
+        function isSelected(item: IItem): boolean {
             return !!~self.selectedItems.indexOf(item);
         }
 
@@ -119,8 +117,11 @@ export const ListStore = iRendererStore
         }
 
         return {
-            get allChecked():boolean {
-                return !!(self.selectedItems.length === (self as IListStore).checkableItems.length && (self as IListStore).checkableItems.length);
+            get allChecked(): boolean {
+                return !!(
+                    self.selectedItems.length === (self as IListStore).checkableItems.length &&
+                    (self as IListStore).checkableItems.length
+                );
             },
 
             get checkableItems() {
@@ -151,7 +152,7 @@ export const ListStore = iRendererStore
         };
     })
     .actions(self => {
-        function update(config:Partial<SListStore>) {
+        function update(config: Partial<SListStore>) {
             config.selectable === void 0 || (self.selectable = config.selectable);
             config.draggable === void 0 || (self.draggable = config.draggable);
             config.multiple === void 0 || (self.multiple = config.multiple);
@@ -167,9 +168,11 @@ export const ListStore = iRendererStore
 
         function initItems(items: Array<object>) {
             let arr = items.map((item, key) => {
-                item = isObject(item) ? item : {
-                    item: item
-                };
+                item = isObject(item)
+                    ? item
+                    : {
+                          item: item
+                      };
 
                 return {
                     // id: String((item as any)[self.primaryField] || key),
@@ -179,19 +182,19 @@ export const ListStore = iRendererStore
                     pristine: item,
                     data: item,
                     modified: false
-                }
+                };
             });
             self.selectedItems.clear();
             self.items.replace(arr as Array<IItem>);
             self.dragging = false;
         }
 
-        function updateSelected(selected:Array<any>, valueField?:string) {
+        function updateSelected(selected: Array<any>, valueField?: string) {
             self.selectedItems.clear();
             self.items.forEach(item => {
                 if (~selected.indexOf(item.pristine)) {
                     self.selectedItems.push(item);
-                } else if (find(selected, (a) => a[valueField || 'value'] == item.pristine[valueField || 'value'])) {
+                } else if (find(selected, a => a[valueField || 'value'] == item.pristine[valueField || 'value'])) {
                     self.selectedItems.push(item);
                 }
             });
@@ -205,7 +208,7 @@ export const ListStore = iRendererStore
             }
         }
 
-        function toggle(item:IItem) {
+        function toggle(item: IItem) {
             if (!item.checkable) {
                 return;
             }
@@ -223,7 +226,7 @@ export const ListStore = iRendererStore
             self.selectedItems.clear();
         }
 
-        function setOrderByInfo(key:string, direction: 'asc' | 'desc') {
+        function setOrderByInfo(key: string, direction: 'asc' | 'desc') {
             self.orderBy = key;
             self.orderDir = direction;
         }
@@ -241,8 +244,8 @@ export const ListStore = iRendererStore
             self.dragging = false;
         }
 
-        function exchange(fromIndex:number, toIndex:number) {
-            const item:IItem = self.items[fromIndex];
+        function exchange(fromIndex: number, toIndex: number) {
+            const item: IItem = self.items[fromIndex];
             item.newIndex = toIndex;
 
             const newItems = self.items.slice();

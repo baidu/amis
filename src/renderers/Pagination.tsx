@@ -1,6 +1,6 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import { autobind } from '../utils/helper';
+import {autobind} from '../utils/helper';
 
 export interface PaginationProps extends RendererProps {
     activePage: number;
@@ -14,7 +14,7 @@ export interface PaginationProps extends RendererProps {
 
 export interface PaginationState {
     pageNum: string;
-};
+}
 
 export default class Pagination extends React.Component<PaginationProps, PaginationState> {
     static defaultProps = {
@@ -23,18 +23,18 @@ export default class Pagination extends React.Component<PaginationProps, Paginat
         maxButtons: 5,
         mode: 'normal',
         hasNext: false,
-        showPageInput: true,
+        showPageInput: true
     };
 
     state = {
-        pageNum:  String(this.props.activePage) || ''
+        pageNum: String(this.props.activePage) || ''
     };
 
-    componentWillReceiveProps(nextProps:PaginationProps) {
+    componentWillReceiveProps(nextProps: PaginationProps) {
         if (this.props.activePage !== nextProps.activePage) {
             this.setState({
                 pageNum: String(nextProps.activePage) || ''
-            })
+            });
         }
     }
 
@@ -45,7 +45,7 @@ export default class Pagination extends React.Component<PaginationProps, Paginat
             <ul className={cx('Pagination', 'Pagination--sm')}>
                 <li
                     className={cx({
-                        disabled: activePage < 2,
+                        disabled: activePage < 2
                     })}
                     onClick={activePage < 2 ? e => e.preventDefault() : () => onPageChange(activePage - 1)}
                 >
@@ -55,7 +55,7 @@ export default class Pagination extends React.Component<PaginationProps, Paginat
                 </li>
                 <li
                     className={cx({
-                        disabled: !hasNext,
+                        disabled: !hasNext
                     })}
                     onClick={!hasNext ? e => e.preventDefault() : () => onPageChange(activePage + 1)}
                 >
@@ -109,7 +109,7 @@ export default class Pagination extends React.Component<PaginationProps, Paginat
                     onClick={() => onPageChange(page)}
                     key={page}
                     className={cx({
-                        active: page === activePage,
+                        active: page === activePage
                     })}
                 >
                     <a role="button">{page}</a>
@@ -131,7 +131,7 @@ export default class Pagination extends React.Component<PaginationProps, Paginat
                     onClick={() => onPageChange(1)}
                     key={1}
                     className={cx({
-                        active: 1 === activePage,
+                        active: 1 === activePage
                     })}
                 >
                     <a role="button">{1}</a>
@@ -159,7 +159,7 @@ export default class Pagination extends React.Component<PaginationProps, Paginat
                     onClick={() => onPageChange(items)}
                     key={items}
                     className={cx({
-                        active: items === activePage,
+                        active: items === activePage
                     })}
                 >
                     <a role="button">{items}</a>
@@ -170,7 +170,7 @@ export default class Pagination extends React.Component<PaginationProps, Paginat
         pageButtons.unshift(
             <li
                 className={cx('Pagination-prev', {
-                    disabled: activePage === 1,
+                    disabled: activePage === 1
                 })}
                 onClick={activePage === 1 ? (e: any) => e.preventDefault() : () => onPageChange(activePage - 1)}
                 key="prev"
@@ -182,7 +182,7 @@ export default class Pagination extends React.Component<PaginationProps, Paginat
         pageButtons.push(
             <li
                 className={cx('Pagination-next', {
-                    disabled: activePage === items,
+                    disabled: activePage === items
                 })}
                 onClick={activePage === items ? (e: any) => e.preventDefault() : () => onPageChange(activePage + 1)}
                 key="next"
@@ -193,9 +193,7 @@ export default class Pagination extends React.Component<PaginationProps, Paginat
 
         return (
             <div>
-                <ul className={cx('Pagination', 'Pagination--sm')}>
-                    {pageButtons}
-                </ul>
+                <ul className={cx('Pagination', 'Pagination--sm')}>{pageButtons}</ul>
 
                 {items > 9 && showPageInput ? (
                     <div className="inline m-l-xs w-xs" key="toPage">
@@ -235,6 +233,6 @@ export default class Pagination extends React.Component<PaginationProps, Paginat
 
 @Renderer({
     test: /(^|\/)pagination$/,
-    name: 'pagination',
+    name: 'pagination'
 })
 export class PaginationRenderer extends Pagination {}

@@ -75,5 +75,5 @@ export {
     toast,
     Tooltip,
     TooltipWrapper,
-    Tree,
+    Tree
 };

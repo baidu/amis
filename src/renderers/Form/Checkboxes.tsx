@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-    OptionsControl,
-    OptionsControlProps,
-    Option
-} from './Options';
+import {OptionsControl, OptionsControlProps, Option} from './Options';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 import chunk = require('lodash/chunk');
@@ -13,20 +9,17 @@ export interface CheckboxesProps extends OptionsControlProps {
     disabled?: boolean;
     itemClassName?: string;
     columnsCount?: number;
-};
+}
 
 export default class CheckboxesControl extends React.Component<CheckboxesProps, any> {
-    static defaultProps:Partial<CheckboxesProps> = {
+    static defaultProps: Partial<CheckboxesProps> = {
         columnsCount: 1,
         multiple: true,
         placeholder: '暂无选项'
-    }
+    };
 
     componentDidMount() {
-        const {
-            defaultCheckAll,
-            onToggleAll
-        } = this.props;
+        const {defaultCheckAll, onToggleAll} = this.props;
 
         defaultCheckAll && onToggleAll();
     }
@@ -36,36 +29,26 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
         reload && reload();
     }
 
-    renderGroup(option:Option, index:number) {
-        const {
-            classnames: cx
-        } = this.props;
+    renderGroup(option: Option, index: number) {
+        const {classnames: cx} = this.props;
 
         return (
-            <div key={index} className={cx("CheckboxesControl-group", option.className)}>
-                <label className={cx("CheckboxesControl-groupLabel", option.labelClassName)}>{option.label}</label>
+            <div key={index} className={cx('CheckboxesControl-group', option.className)}>
+                <label className={cx('CheckboxesControl-groupLabel', option.labelClassName)}>{option.label}</label>
 
-                {
-                    option.children && option.children.length 
-                        ? option.children.map((option, index) => this.renderItem(option, index)) 
-                        : null
-                }
+                {option.children && option.children.length
+                    ? option.children.map((option, index) => this.renderItem(option, index))
+                    : null}
             </div>
         );
     }
 
-    renderItem(option:Option, index:number) {
+    renderItem(option: Option, index: number) {
         if (option.children) {
             return this.renderGroup(option, index);
         }
 
-        const {
-            itemClassName,
-            onToggle,
-            selectedOptions,
-            disabled,
-            inline
-        } = this.props;
+        const {itemClassName, onToggle, selectedOptions, disabled, inline} = this.props;
 
         return (
             <Checkbox
@@ -97,7 +80,7 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
             itemClassName
         } = this.props;
 
-        let body:Array<React.ReactNode> = [];
+        let body: Array<React.ReactNode> = [];
 
         if (options && options.length) {
             body = options.map((option, key) => this.renderItem(option, key));
@@ -120,12 +103,14 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
         }
 
         if (!inline && (columnsCount as number) > 1) {
-            let weight = 12/(columnsCount as number);
+            let weight = 12 / (columnsCount as number);
             let cellClassName = `Grid-col--sm${weight === Math.round(weight) ? weight : ''}`;
             body = chunk(body, columnsCount).map((group, groupIndex) => (
                 <div className={cx('Grid')} key={groupIndex}>
                     {Array.from({length: columnsCount as number}).map((_, index) => (
-                        <div key={index} className={cx(cellClassName)}>{group[index]}</div>
+                        <div key={index} className={cx(cellClassName)}>
+                            {group[index]}
+                        </div>
                     ))}
                 </div>
             ));
@@ -133,9 +118,7 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
 
         return (
             <div className={cx(`CheckboxesControl`, className)}>
-                {body && body.length ? body : (
-                    <span className={`Form-placeholder`}>{placeholder}</span>
-                )}
+                {body && body.length ? body : <span className={`Form-placeholder`}>{placeholder}</span>}
             </div>
         );
     }
@@ -145,5 +128,4 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
     type: 'checkboxes',
     sizeMutable: false
 })
-export class CheckboxesControlRenderer extends CheckboxesControl {};
-
+export class CheckboxesControlRenderer extends CheckboxesControl {}

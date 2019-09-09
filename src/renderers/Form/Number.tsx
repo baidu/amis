@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps,
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import InputNumber from 'rc-input-number';
 import {filter} from '../../utils/tpl';
@@ -13,7 +10,7 @@ export interface NumberProps extends FormControlProps {
     min?: number | string;
     step?: number;
     precision?: number;
-};
+}
 
 export default class NumberControl extends React.Component<NumberProps, any> {
     static defaultProps: Partial<NumberProps> = {
@@ -28,13 +25,9 @@ export default class NumberControl extends React.Component<NumberProps, any> {
     }
 
     handleChange(inputValue: any) {
-        const {
-            classPrefix: ns,
-            onChange,
-            resetValue
-        } = this.props;
+        const {classPrefix: ns, onChange, resetValue} = this.props;
 
-        onChange(typeof inputValue === 'undefined' ? (resetValue || '') : inputValue);
+        onChange(typeof inputValue === 'undefined' ? resetValue || '' : inputValue);
     }
 
     filterNum(value: number | string | undefined) {
@@ -46,17 +39,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
     }
 
     render(): JSX.Element {
-        const {
-            className,
-            classPrefix: ns,
-            value,
-            step,
-            precision,
-            max,
-            min,
-            disabled,
-            placeholder
-        } = this.props;
+        const {className, classPrefix: ns, value, step, precision, max, min, disabled, placeholder} = this.props;
 
         let precisionProps: any = {};
 
@@ -88,5 +71,5 @@ export default class NumberControl extends React.Component<NumberProps, any> {
 export class NumberControlRenderer extends NumberControl {
     static defaultProps: Partial<FormControlProps> = {
         validations: 'isNumeric'
-    }
-};
+    };
+}

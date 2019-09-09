@@ -1,32 +1,17 @@
-import {
-    types,
-    getParent,
-    flow,
-    getEnv,
-    getRoot
-} from "mobx-state-tree";
-import {
-    IRendererStore
-} from './index';
-import { ServiceStore } from './service';
-import { extendObject, createObject, isObjectShallowModified, sortArray, isEmpty } from '../utils/helper';
-import {
-    Api,
-    Payload,
-    fetchOptions,
-    Action
-} from '../types';
+import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree';
+import {IRendererStore} from './index';
+import {ServiceStore} from './service';
+import {extendObject, createObject, isObjectShallowModified, sortArray, isEmpty} from '../utils/helper';
+import {Api, Payload, fetchOptions, Action} from '../types';
 import qs from 'qs';
-import pick = require("lodash/pick");
-import { resolveVariableAndFilter } from '../utils/tpl-builtin';
-
+import pick = require('lodash/pick');
+import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 class ServerError extends Error {
     type = 'ServerError';
 }
 
-export const CRUDStore = ServiceStore
-    .named('CRUDStore')
+export const CRUDStore = ServiceStore.named('CRUDStore')
     .props({
         pristineQuery: types.optional(types.frozen(), {}),
         query: types.optional(types.frozen(), {}),
@@ -42,7 +27,7 @@ export const CRUDStore = ServiceStore
         unSelectedItems: types.optional(types.array(types.frozen()), []),
         filterTogggable: false,
         filterVisible: true,
-        hasInnerModalOpen: false,
+        hasInnerModalOpen: false
     })
     .views(self => ({
         get lastPage() {
@@ -73,20 +58,28 @@ export const CRUDStore = ServiceStore
         }
     }))
     .actions(self => {
-        let fetchCancel:Function | null = null;
+        let fetchCancel: Function | null = null;
 
         function setPristineQuery() {
             self.pristineQuery = self.query;
         }
 
-        function updateQuery (values:object, updater?: Function, pageField:string = 'page', perPageField: string = 'perPage', replace:boolean = false) {
+        function updateQuery(
+            values: object,
+            updater?: Function,
+            pageField: string = 'page',
+            perPageField: string = 'perPage',
+            replace: boolean = false
+        ) {
             const originQuery = self.query;
-            self.query = replace ? {
-                ...values
-            } : {
-                ...self.query,
-                ...values
-            };
+            self.query = replace
+                ? {
+                      ...values
+                  }
+                : {
+                      ...self.query,
+                      ...values
+                  };
 
             if (self.query[pageField || 'page']) {
                 self.page = parseInt(self.query[pageField || 'page'], 10);
@@ -96,23 +89,32 @@ export const CRUDStore = ServiceStore
                 self.perPage = parseInt(self.query[perPageField || 'perPage'], 10);
             }
 
-            updater && isObjectShallowModified(originQuery, self.query, false) && setTimeout(() => updater(`?${qs.stringify(self.query)}`), 4);
+            updater &&
+                isObjectShallowModified(originQuery, self.query, false) &&
+                setTimeout(() => updater(`?${qs.stringify(self.query)}`), 4);
         }
 
-        
-        const fetchInitData:(api:Api, data?:object, options?:fetchOptions & {
-            forceReload?: boolean;
-            loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
-            source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
-            loadDataMode?: boolean;
-            syncResponse2Query?: boolean;
-        }) => Promise<any> = flow(function *getInitData(api:string, data:object, options:fetchOptions & {
-            forceReload?: boolean;
-            loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
-            source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
-            loadDataMode?: boolean;
-            syncResponse2Query?: boolean;
-        } = {}) {
+        const fetchInitData: (
+            api: Api,
+            data?: object,
+            options?: fetchOptions & {
+                forceReload?: boolean;
+                loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
+                source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
+                loadDataMode?: boolean;
+                syncResponse2Query?: boolean;
+            }
+        ) => Promise<any> = flow(function* getInitData(
+            api: string,
+            data: object,
+            options: fetchOptions & {
+                forceReload?: boolean;
+                loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
+                source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
+                loadDataMode?: boolean;
+                syncResponse2Query?: boolean;
+            } = {}
+        ) {
             try {
                 if (options.forceReload === false && options.loadDataOnce && self.total) {
                     let items = self.items.concat();
@@ -125,7 +127,7 @@ export const CRUDStore = ServiceStore
                     const data = {
                         ...self.data,
                         items: items.slice((self.page - 1) * self.perPage, self.page * self.perPage)
-                    }
+                    };
                     self.reInitData(data);
                     return;
                 }
@@ -137,21 +139,21 @@ export const CRUDStore = ServiceStore
                 }
 
                 options.silent || self.markFetching(true);
-                const ctx:any = createObject(self.data, {
+                const ctx: any = createObject(self.data, {
                     ...self.query,
                     [options.pageField || 'page']: self.page,
                     [options.perPageField || 'perPage']: self.perPage,
                     ...data
                 });
-                
+
                 // 一次性加载不要发送 perPage 属性
                 if (options.loadDataOnce) {
                     delete ctx[options.perPageField || 'perPage'];
                 }
 
-                const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, ctx, {
+                const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(api, ctx, {
                     ...options,
-                    cancelExecutor: (executor:Function) => fetchCancel = executor
+                    cancelExecutor: (executor: Function) => (fetchCancel = executor)
                 });
                 fetchCancel = null;
 
@@ -172,17 +174,15 @@ export const CRUDStore = ServiceStore
                         };
                     }
 
-                    const {
-                        total,
-                        count,
-                        page,
-                        hasNext,
-                        ...rest
-                    } = result;
+                    const {total, count, page, hasNext, ...rest} = result;
 
-                    let items:Array<any>;
+                    let items: Array<any>;
                     if (options.source) {
-                        items = resolveVariableAndFilter(options.source, createObject(self.filterData, result), '| raw');
+                        items = resolveVariableAndFilter(
+                            options.source,
+                            createObject(self.filterData, result),
+                            '| raw'
+                        );
                     } else {
                         items = result.items || result.rows;
                     }
@@ -191,14 +191,14 @@ export const CRUDStore = ServiceStore
                         throw new Error('返回数据格式不正确，payload.data.items 必须是数组');
                     } else {
                         // 确保成员是对象。
-                        items.map((item:any) => typeof item === 'string' ? {text: item} : item);
+                        items.map((item: any) => (typeof item === 'string' ? {text: item} : item));
                     }
 
                     // 点击加载更多数据
-                    let rowsData = []
+                    let rowsData = [];
                     if (options.loadDataMode && Array.isArray(self.data.items)) {
                         rowsData = self.data.items.concat(items);
-                    } else { 
+                    } else {
                         // 第一次的时候就是直接加载请求的数据
                         rowsData = items;
                     }
@@ -222,7 +222,13 @@ export const CRUDStore = ServiceStore
 
                     self.items.replace(rowsData);
                     self.reInitData(data);
-                    options.syncResponse2Query !== false && updateQuery(pick(rest, Object.keys(self.query)), undefined, options.pageField || 'page', options.perPageField || 'perPage');
+                    options.syncResponse2Query !== false &&
+                        updateQuery(
+                            pick(rest, Object.keys(self.query)),
+                            undefined,
+                            options.pageField || 'page',
+                            options.perPageField || 'perPage'
+                        );
 
                     self.total = parseInt(data.total || data.count, 10) || 0;
                     typeof page !== 'undefined' && (self.page = parseInt(page, 10));
@@ -244,7 +250,7 @@ export const CRUDStore = ServiceStore
 
                 self.markFetching(false);
                 return json;
-            } catch(e) {
+            } catch (e) {
                 const root = getRoot(self) as IRendererStore;
 
                 if (root.storeType !== 'RendererStore') {
@@ -263,16 +269,20 @@ export const CRUDStore = ServiceStore
             }
         });
 
-        function changePage(page:number, perPage?: number) {
+        function changePage(page: number, perPage?: number) {
             self.page = page;
             perPage && (self.perPage = perPage);
         }
 
-        function selectAction(action:Action) {
+        function selectAction(action: Action) {
             self.selectedAction = action;
         }
 
-        const saveRemote:(api:Api, data?:object, options?:fetchOptions) => Promise<any> = flow(function *saveRemote(api:string, data:object, options:fetchOptions = {}) {
+        const saveRemote: (api: Api, data?: object, options?: fetchOptions) => Promise<any> = flow(function* saveRemote(
+            api: string,
+            data: object,
+            options: fetchOptions = {}
+        ) {
             try {
                 options = {
                     method: 'post', // 默认走 post
@@ -280,7 +290,7 @@ export const CRUDStore = ServiceStore
                 };
 
                 self.markSaving(true);
-                const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
+                const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
                 self.markSaving(false);
 
                 if (!isEmpty(json.data) || json.ok) {
@@ -299,34 +309,36 @@ export const CRUDStore = ServiceStore
                     (getRoot(self) as IRendererStore).notify('success', self.msg);
                 }
                 return json.data;
-            } catch(e) {
+            } catch (e) {
                 self.markSaving(false);
-                e.type !== 'ServerError' && (getRoot(self) as IRendererStore) && (getRoot(self) as IRendererStore).notify('error', e.message);
+                e.type !== 'ServerError' &&
+                    (getRoot(self) as IRendererStore) &&
+                    (getRoot(self) as IRendererStore).notify('error', e.message);
                 throw e;
             }
         });
 
-        const setFilterTogglable = (toggable:boolean, filterVisible?: boolean) => {
+        const setFilterTogglable = (toggable: boolean, filterVisible?: boolean) => {
             self.filterTogggable = toggable;
 
             filterVisible !== void 0 && (self.filterVisible = filterVisible);
         };
 
-        const setFilterVisible = (visible:boolean) => {
+        const setFilterVisible = (visible: boolean) => {
             self.filterVisible = visible;
         };
 
-        const setSelectedItems = (items:Array<any>) => {
+        const setSelectedItems = (items: Array<any>) => {
             self.selectedItems.replace(items);
-        }
+        };
 
-        const setUnSelectedItems = (items:Array<any>) => {
+        const setUnSelectedItems = (items: Array<any>) => {
             self.unSelectedItems.replace(items);
-        }
+        };
 
-        const setInnerModalOpened = (value:boolean) => {
+        const setInnerModalOpened = (value: boolean) => {
             self.hasInnerModalOpen = value;
-        }
+        };
 
         return {
             setPristineQuery,

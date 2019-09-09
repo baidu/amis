@@ -16,7 +16,7 @@ export function filterContents(
             ? {
                   title: filter(tooltip.title, data),
                   content:
-                      tooltip.content || tooltip.body ? filter(tooltip.content || tooltip.body || '', data) : undefined,
+                      tooltip.content || tooltip.body ? filter(tooltip.content || tooltip.body || '', data) : undefined
               }
             : tooltip.content || tooltip.body
             ? filter(tooltip.content || tooltip.body || '', data)
@@ -38,7 +38,7 @@ export default class Remark extends React.Component<RemarkProps> {
     static propsList: Array<string> = [];
     static defaultProps = {
         icon: 'fa fa-question-circle',
-        trigger: ['hover', 'focus'],
+        trigger: ['hover', 'focus']
     };
 
     render() {
@@ -53,7 +53,7 @@ export default class Remark extends React.Component<RemarkProps> {
             classPrefix: ns,
             classnames: cx,
             content,
-            data,
+            data
         } = this.props;
 
         return (
@@ -77,6 +77,6 @@ export default class Remark extends React.Component<RemarkProps> {
 
 @Renderer({
     test: /(^|\/)remark$/,
-    name: 'remark',
+    name: 'remark'
 })
 export class RemarkRenderer extends Remark {}

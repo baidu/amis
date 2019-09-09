@@ -1,12 +1,10 @@
 import React from 'react';
-import {
-    Renderer
-} from '../../factory';
+import {Renderer} from '../../factory';
 import cx from 'classnames';
 import Container from '../Container';
-import FormItem, { FormControlProps } from './Item';
+import FormItem, {FormControlProps} from './Item';
 
-export interface ContainerProps extends FormControlProps {};
+export interface ContainerProps extends FormControlProps {}
 
 @FormItem({
     type: 'container',
@@ -14,7 +12,7 @@ export interface ContainerProps extends FormControlProps {};
     sizeMutable: false
 })
 export class ContainerControlRenderer extends Container<ContainerProps> {
-    renderBody():JSX.Element | null {
+    renderBody(): JSX.Element | null {
         const {
             renderFormItems,
             body,
@@ -32,7 +30,7 @@ export class ContainerControlRenderer extends Container<ContainerProps> {
         } = this.props;
 
         if (!body && (controls || tabs || fieldSet)) {
-            let props:any = {
+            let props: any = {
                 store,
                 data: store.data,
                 render
@@ -42,11 +40,15 @@ export class ContainerControlRenderer extends Container<ContainerProps> {
 
             return (
                 <div className={cx(`${ns}Form--${props.mode || formMode || 'normal'}`, bodyClassName)}>
-                    {renderFormItems({
-                        controls,
-                        tabs,
-                        fieldSet
-                    }, ($path as string).replace(/^.*form\//, ''), props)}
+                    {renderFormItems(
+                        {
+                            controls,
+                            tabs,
+                            fieldSet
+                        },
+                        ($path as string).replace(/^.*form\//, ''),
+                        props
+                    )}
                 </div>
             );
         }

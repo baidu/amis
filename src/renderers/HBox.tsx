@@ -35,7 +35,7 @@ export default class HBox extends React.Component<HBoxProps, object> {
         let style = {
             width: column.width,
             height: column.height,
-            ...column.style,
+            ...column.style
         };
 
         return (
@@ -58,6 +58,6 @@ export default class HBox extends React.Component<HBoxProps, object> {
 
 @Renderer({
     test: /(^|\/)hbox$/,
-    name: 'hbox',
+    name: 'hbox'
 })
 export class HBoxRenderer extends HBox {}

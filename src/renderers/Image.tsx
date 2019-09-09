@@ -17,7 +17,7 @@ export class ImageField extends React.Component<ImageProps, object> {
     static defaultProps: Partial<ImageProps> = {
         className: 'thumb-lg',
         imageClassName: 'r',
-        defaultImage: 'https://fex.bdstatic.com/n/static/amis/renderers/crud/field/placeholder_cfad9b1.png',
+        defaultImage: 'https://fex.bdstatic.com/n/static/amis/renderers/crud/field/placeholder_cfad9b1.png'
     };
 
     render() {
@@ -30,7 +30,7 @@ export class ImageField extends React.Component<ImageProps, object> {
             data,
             imageClassName,
             classnames: cx,
-            src,
+            src
         } = this.props;
 
         const finnalSrc = src ? filter(src, data, '| raw') : '';
@@ -52,18 +52,18 @@ export class ImageField extends React.Component<ImageProps, object> {
 
 @Renderer({
     test: /(^|\/)image$/,
-    name: 'image',
+    name: 'image'
 })
 export class ImageFieldRenderer extends ImageField {}
 
 @Renderer({
-    test: /(^|\/)images$/,
+    test: /(^|\/)images$/
 })
 export class ImagesFieldRenderer extends ImageField {
     static defaultProps: Partial<ImageProps> = {
         ...ImageField.defaultProps,
         multiple: true,
-        delimiter: ',',
+        delimiter: ','
     };
 
     render() {

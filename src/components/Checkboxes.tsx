@@ -120,7 +120,7 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
         extractValue: false,
         inline: false,
         delimiter: ',',
-        columnsCount: 1, // 一行显示一个
+        columnsCount: 1 // 一行显示一个
     };
 
     toggleOption(option: Option) {
@@ -130,7 +130,7 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
             multiple: true,
             valueField,
             delimiter,
-            options,
+            options
         });
         let idx = valueArray.indexOf(option);
 
@@ -140,7 +140,7 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
                     multiple: true,
                     valueField,
                     delimiter,
-                    options,
+                    options
                 })[0] || option;
             idx = valueArray.indexOf(option);
         }
@@ -172,14 +172,14 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
             placeholder,
             columnsCount,
             disabled,
-            inline,
+            inline
         } = this.props;
 
         let valueArray = value2array(value, {
             multiple: true,
             valueField,
             delimiter,
-            options,
+            options
         });
         let body: Array<React.ReactNode> = [];
 
@@ -219,6 +219,6 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
 
 export default themeable(
     uncontrollable(Checkboxes, {
-        value: 'onChange',
+        value: 'onChange'
     })
 );

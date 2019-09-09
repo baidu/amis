@@ -1,37 +1,16 @@
-import {
-    types,
-    getParent,
-    SnapshotIn,
-    flow,
-    getRoot
-} from "mobx-state-tree";
-import {
-    IFormStore
-} from './form';
-import {
-    str2rules,
-    validate as doValidate
-} from '../utils/validations';
-import {
-    Api,
-    Payload,
-    fetchOptions
-} from '../types';
-import { ComboStore, IComboStore, IUniqueGroup } from './combo';
-import { evalExpression } from "../utils/tpl";
+import {types, getParent, SnapshotIn, flow, getRoot} from 'mobx-state-tree';
+import {IFormStore} from './form';
+import {str2rules, validate as doValidate} from '../utils/validations';
+import {Api, Payload, fetchOptions} from '../types';
+import {ComboStore, IComboStore, IUniqueGroup} from './combo';
+import {evalExpression} from '../utils/tpl';
 import findIndex = require('lodash/findIndex');
-import {
-    isArrayChilrenModified,
-    hasOwnProperty,
-    isObject
-} from '../utils/helper';
-import {
-    flattenTree
-} from '../utils/helper';
-import { IRendererStore } from ".";
-import { normalizeOptions } from "../components/Select";
+import {isArrayChilrenModified, hasOwnProperty, isObject} from '../utils/helper';
+import {flattenTree} from '../utils/helper';
+import {IRendererStore} from '.';
+import {normalizeOptions} from '../components/Select';
 import find = require('lodash/find');
-import { iRendererStore } from './iRenderer';
+import {iRendererStore} from './iRenderer';
 
 interface IOption {
     value?: string | number | null;
@@ -45,8 +24,7 @@ interface IOption {
 const ErrorDetail = types.model('ErrorDetail', {
     msg: '',
     tag: ''
-})
-
+});
 
 export const FormItemStore = types
     .model('FormItemStore', {
@@ -72,26 +50,26 @@ export const FormItemStore = types
         options: types.optional(types.array(types.frozen()), []),
         expressionsInOptions: false,
         selectedOptions: types.optional(types.frozen(), []),
-        filteredOptions: types.optional(types.frozen(), []),
+        filteredOptions: types.optional(types.frozen(), [])
     })
     .views(self => {
-        function getForm():any {
+        function getForm(): any {
             return getParent(self, 2);
         }
 
-        function getValue():any {
+        function getValue(): any {
             return getForm().getValueByName(self.name);
         }
 
-        function getLastOptionValue():any {
+        function getLastOptionValue(): any {
             if (self.selectedOptions.length) {
-                return self.selectedOptions[self.selectedOptions.length-1].value;
+                return self.selectedOptions[self.selectedOptions.length - 1].value;
             }
 
             return '';
         }
 
-        function getErrors():Array<string> {
+        function getErrors(): Array<string> {
             return self.errorData.map(item => item.msg);
         }
 
@@ -130,17 +108,16 @@ export const FormItemStore = types
         //     return options;
         // }
 
-
         return {
-            get form():any {
+            get form(): any {
                 return getForm();
             },
 
-            get value():any {
+            get value(): any {
                 return getValue();
             },
 
-            get prinstine():any {
+            get prinstine(): any {
                 return (getParent(self, 2) as IFormStore).getPristineValueByName(self.name);
             },
 
@@ -153,35 +130,48 @@ export const FormItemStore = types
                 return !!(!errors || !errors.length);
             },
 
-            get lastSelectValue():string {
+            get lastSelectValue(): string {
                 return getLastOptionValue();
             },
 
             // selectedOptions,
             // filteredOptions,
 
-            getSelectedOptions(value:any = getValue()) {
+            getSelectedOptions(value: any = getValue()) {
                 if (value === getValue()) {
                     return self.selectedOptions;
                 } else if (typeof value === 'undefined') {
                     return [];
                 }
 
-                const selected = Array.isArray(value) ? value.map(item=>item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item)
-                : typeof value === 'string' ? value.split(self.delimiter || ',') : [value && value.hasOwnProperty(self.valueField || 'value') ? value[self.valueField || 'value'] : value];
+                const selected = Array.isArray(value)
+                    ? value.map(item =>
+                          item && item.hasOwnProperty(self.valueField || 'value')
+                              ? item[self.valueField || 'value']
+                              : item
+                      )
+                    : typeof value === 'string'
+                    ? value.split(self.delimiter || ',')
+                    : [
+                          value && value.hasOwnProperty(self.valueField || 'value')
+                              ? value[self.valueField || 'value']
+                              : value
+                      ];
 
                 if (value && value.hasOwnProperty(self.labelField || 'label')) {
-                    selected[0]= {
+                    selected[0] = {
                         [self.labelField || 'label']: value[self.labelField || 'label'],
-                        [self.valueField || 'value']: value[self.valueField || 'value'],
+                        [self.valueField || 'value']: value[self.valueField || 'value']
                     };
                 }
 
-                const selectedOptions:Array<any> = [];
+                const selectedOptions: Array<any> = [];
 
-                self.filteredOptions.forEach((item:any) => {
+                self.filteredOptions.forEach((item: any) => {
                     let idx = findIndex(selected, seleced => {
-                        return isObject(seleced) ? seleced === item[self.valueField || 'value'] :String(item[self.valueField || 'value']) === String(seleced)
+                        return isObject(seleced)
+                            ? seleced === item[self.valueField || 'value']
+                            : String(item[self.valueField || 'value']) === String(seleced);
                     });
 
                     if (~idx) {
@@ -191,13 +181,13 @@ export const FormItemStore = types
                 });
 
                 selected.forEach((item, index) => {
-                    let unMatched = value && value[index] || item;
+                    let unMatched = (value && value[index]) || item;
 
                     if (unMatched && (typeof unMatched === 'string' || typeof unMatched === 'number')) {
                         unMatched = {
                             [self.valueField || 'value']: item,
-                            [self.labelField || 'label']: item,
-                        }
+                            [self.labelField || 'label']: item
+                        };
                     }
 
                     unMatched && selectedOptions.push(unMatched);
@@ -222,13 +212,13 @@ export const FormItemStore = types
             joinValues,
             extractValue,
             type,
-            id,
+            id
         }: {
             required?: any;
             unique?: any;
             value?: any;
-            rules?: string | {[propName:string]: any};
-            messages?: {[propName:string]: string};
+            rules?: string | {[propName: string]: any};
+            messages?: {[propName: string]: string};
             multiple?: boolean;
             delimiter?: string;
             valueField?: string;
@@ -252,9 +242,9 @@ export const FormItemStore = types
             typeof multiple !== 'undefined' && (self.multiple = !!multiple);
             typeof joinValues !== 'undefined' && (self.joinValues = !!joinValues);
             typeof extractValue !== 'undefined' && (self.extractValue = !!extractValue);
-            typeof delimiter !== 'undefined' && (self.delimiter = delimiter as string || ',');
-            typeof valueField !== 'undefined' && (self.valueField = valueField as string || 'value');
-            typeof labelField !== 'undefined' && (self.labelField = labelField as string || 'label');
+            typeof delimiter !== 'undefined' && (self.delimiter = (delimiter as string) || ',');
+            typeof valueField !== 'undefined' && (self.valueField = (valueField as string) || 'value');
+            typeof labelField !== 'undefined' && (self.labelField = (labelField as string) || 'label');
 
             if (self.required) {
                 rules = rules || {};
@@ -266,22 +256,20 @@ export const FormItemStore = types
 
             rules && (self.rules = rules);
 
-            if (
-                value !== void 0 && self.value === void 0
-            ) {
+            if (value !== void 0 && self.value === void 0) {
                 form.setValueByName(self.name, value, true);
             }
         }
 
-        function changeValue(value:any, isPrintine:boolean = false) {
-            if(typeof value === 'undefined' || value === '__undefined'){
-                self.form.deleteValueByName(self.name)
+        function changeValue(value: any, isPrintine: boolean = false) {
+            if (typeof value === 'undefined' || value === '__undefined') {
+                self.form.deleteValueByName(self.name);
             } else {
                 self.form.setValueByName(self.name, value, isPrintine);
             }
         }
 
-        const validate:(hook?:any) => Promise<boolean> = flow(function *validate(hook?:any) {
+        const validate: (hook?: any) => Promise<boolean> = flow(function* validate(hook?: any) {
             if (self.validating) {
                 return self.valid;
             }
@@ -297,7 +285,7 @@ export const FormItemStore = types
 
             if (self.unique && self.form.parentStore && self.form.parentStore.storeType === 'ComboStore') {
                 const combo = self.form.parentStore as IComboStore;
-                const group =combo.uniques.get(self.name) as IUniqueGroup;
+                const group = combo.uniques.get(self.name) as IUniqueGroup;
 
                 if (group.items.some(item => item !== self && self.value && item.value === self.value)) {
                     addError(`当前值不唯一`);
@@ -308,20 +296,22 @@ export const FormItemStore = types
             return self.valid;
         });
 
-        function setError(msg:string|Array<string>, tag:string = "bultin") {
+        function setError(msg: string | Array<string>, tag: string = 'bultin') {
             clearError();
             addError(msg, tag);
         }
 
-        function addError(msg:string | Array<string>, tag: string = "bultin") {
-            const msgs:Array<string> = Array.isArray(msg) ? msg : [msg];
-            msgs.forEach(item => self.errorData.push({
-                msg: item,
-                tag: tag
-            }));
+        function addError(msg: string | Array<string>, tag: string = 'bultin') {
+            const msgs: Array<string> = Array.isArray(msg) ? msg : [msg];
+            msgs.forEach(item =>
+                self.errorData.push({
+                    msg: item,
+                    tag: tag
+                })
+            );
         }
 
-        function clearError(tag?:string) {
+        function clearError(tag?: string) {
             if (tag) {
                 const filtered = self.errorData.filter(item => item.tag !== tag);
                 self.errorData.replace(filtered);
@@ -330,7 +320,7 @@ export const FormItemStore = types
             }
         }
 
-        function setOptions(options:Array<object>) {
+        function setOptions(options: Array<object>) {
             if (!Array.isArray(options)) {
                 return;
             }
@@ -340,8 +330,20 @@ export const FormItemStore = types
             syncOptions(originOptions);
         }
 
-        let loadCancel:Function | null = null;
-        const loadOptions:(api:Api, data?:object, options?:fetchOptions, clearValue?:boolean, onChange?: (value:any) => void) => Promise<any> = flow(function *getInitData(api:string, data:object, options?:fetchOptions, clearValue?:any, onChange?: (value:any) => void) {
+        let loadCancel: Function | null = null;
+        const loadOptions: (
+            api: Api,
+            data?: object,
+            options?: fetchOptions,
+            clearValue?: boolean,
+            onChange?: (value: any) => void
+        ) => Promise<any> = flow(function* getInitData(
+            api: string,
+            data: object,
+            options?: fetchOptions,
+            clearValue?: any,
+            onChange?: (value: any) => void
+        ) {
             try {
                 if (loadCancel) {
                     loadCancel();
@@ -351,34 +353,35 @@ export const FormItemStore = types
 
                 self.loading = true;
 
-                const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, {
+                const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, {
                     autoAppend: false,
-                    cancelExecutor: (executor:Function) => loadCancel = executor,
+                    cancelExecutor: (executor: Function) => (loadCancel = executor),
                     ...options
                 });
                 loadCancel = null;
 
                 if (!json.ok) {
-                    setError(`加载选项失败，原因：${json.msg || options && options.errorMessage}`);
+                    setError(`加载选项失败，原因：${json.msg || (options && options.errorMessage)}`);
                     (getRoot(self) as IRendererStore).notify('error', self.errors.join(''));
                 } else {
                     clearError();
                     self.validated = false; // 拉完数据应该需要再校验一下
 
-                    let options:Array<IOption> = json.data.options || json.data.items || json.data.rows || json.data || [];
+                    let options: Array<IOption> =
+                        json.data.options || json.data.items || json.data.rows || json.data || [];
                     options = normalizeOptions(options as any);
                     setOptions(options);
 
-                    if (json.data && typeof (json.data as any).value !== "undefined") {
+                    if (json.data && typeof (json.data as any).value !== 'undefined') {
                         onChange && onChange((json.data as any).value);
                     } else if (clearValue) {
-                        self.selectedOptions.some((item:any) => item.__unmatched) && onChange && onChange('');
+                        self.selectedOptions.some((item: any) => item.__unmatched) && onChange && onChange('');
                     }
                 }
 
                 self.loading = false;
                 return json;
-            } catch(e) {
+            } catch (e) {
                 const root = getRoot(self) as IRendererStore;
                 if (root.storeType !== 'RendererStore') {
                     // 已经销毁了，不管这些数据了。
@@ -396,7 +399,7 @@ export const FormItemStore = types
             }
         });
 
-        function syncOptions(originOptions?:Array<any>) {
+        function syncOptions(originOptions?: Array<any>) {
             if (!self.options.length && typeof self.value === 'undefined') {
                 self.selectedOptions = [];
                 self.filteredOptions = [];
@@ -405,71 +408,81 @@ export const FormItemStore = types
 
             const form = self.form;
             const value = self.value;
-            const selected = Array.isArray(value) 
-                ? value.map(item=>item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item)
-                : typeof value === 'string' 
-                    ? value.split(self.delimiter || ',') 
-                    : value === void 0 ? []
-                        : [value && value.hasOwnProperty(self.valueField || 'value') ? value[self.valueField || 'value'] : value];
-            
+            const selected = Array.isArray(value)
+                ? value.map(item =>
+                      item && item.hasOwnProperty(self.valueField || 'value') ? item[self.valueField || 'value'] : item
+                  )
+                : typeof value === 'string'
+                ? value.split(self.delimiter || ',')
+                : value === void 0
+                ? []
+                : [
+                      value && value.hasOwnProperty(self.valueField || 'value')
+                          ? value[self.valueField || 'value']
+                          : value
+                  ];
+
             if (value && value.hasOwnProperty(self.labelField || 'label')) {
-                selected[0]= {
+                selected[0] = {
                     [self.labelField || 'label']: value[self.labelField || 'label'],
-                    [self.valueField || 'value']: value[self.valueField || 'value'],
+                    [self.valueField || 'value']: value[self.valueField || 'value']
                 };
             }
-            
+
             let expressionsInOptions = false;
             let filteredOptions = self.options
-                .filter((item:any) => {
+                .filter((item: any) => {
                     if (!expressionsInOptions && (item.visibleOn || item.hiddenOn)) {
                         expressionsInOptions = true;
                     }
 
-                    return item.visibleOn ? evalExpression(item.visibleOn, form.data) !== false
-                        : item.hiddenOn ? evalExpression(item.hiddenOn, form.data) !== true
-                        : (item.visible !== false || item.hidden !== true);
+                    return item.visibleOn
+                        ? evalExpression(item.visibleOn, form.data) !== false
+                        : item.hiddenOn
+                        ? evalExpression(item.hiddenOn, form.data) !== true
+                        : item.visible !== false || item.hidden !== true;
                 })
-                .map((item:any, index) => {
-
+                .map((item: any, index) => {
                     const disabled = evalExpression(item.disabledOn, form.data);
                     const newItem = item.disabledOn
-                    ? (
-                        self.filteredOptions.length > index && self.filteredOptions[index].disabled === disabled
-                        ? self.filteredOptions[index]
-                        : {
-                            ...item,
-                            disabled: disabled
-                        }
-                    )
-                    : item;
+                        ? self.filteredOptions.length > index && self.filteredOptions[index].disabled === disabled
+                            ? self.filteredOptions[index]
+                            : {
+                                  ...item,
+                                  disabled: disabled
+                              }
+                        : item;
 
                     return newItem;
                 });
 
             self.expressionsInOptions = expressionsInOptions;
-            const flattened:Array<any> = flattenTree(filteredOptions);
-            const selectedOptions:Array<any> = [];
+            const flattened: Array<any> = flattenTree(filteredOptions);
+            const selectedOptions: Array<any> = [];
 
             selected.forEach((item, index) => {
                 let idx = findIndex(flattened, target => {
-                    return isObject(item) ? item === target[self.valueField || 'value'] : String(target[self.valueField || 'value']) === String(item)
+                    return isObject(item)
+                        ? item === target[self.valueField || 'value']
+                        : String(target[self.valueField || 'value']) === String(item);
                 });
 
                 if (~idx) {
                     selectedOptions.push(flattened[idx]);
                 } else {
-                    let unMatched = value && value[index] || item;
+                    let unMatched = (value && value[index]) || item;
 
                     if (unMatched && (typeof unMatched === 'string' || typeof unMatched === 'number')) {
                         unMatched = {
                             [self.valueField || 'value']: item,
                             [self.labelField || 'label']: item,
                             __unmatched: true
-                        }
+                        };
 
-                        const orgin:any = originOptions && find(originOptions, target => String(target[self.valueField || 'value']) === String(item));
-                        
+                        const orgin: any =
+                            originOptions &&
+                            find(originOptions, target => String(target[self.valueField || 'value']) === String(item));
+
                         if (orgin) {
                             unMatched[self.labelField || 'label'] = orgin[self.labelField || 'label'];
                         }
@@ -483,33 +496,34 @@ export const FormItemStore = types
             if (parentStore && parentStore.storeType === ComboStore.name) {
                 let combo = parentStore as IComboStore;
                 let group = combo.uniques.get(self.name) as IUniqueGroup;
-                let options:Array<any> = [];
-                group && group.items.forEach(item => {
-                    if (self !== item) {
-                        options.push(...item.selectedOptions.map((item:any) => item && item.value))
-                    }
-                });
+                let options: Array<any> = [];
+                group &&
+                    group.items.forEach(item => {
+                        if (self !== item) {
+                            options.push(...item.selectedOptions.map((item: any) => item && item.value));
+                        }
+                    });
 
                 if (filteredOptions.length) {
-                    filteredOptions = filteredOptions.filter(option => !~options.indexOf(option.value))
+                    filteredOptions = filteredOptions.filter(option => !~options.indexOf(option.value));
                 }
             }
             isArrayChilrenModified(self.selectedOptions, selectedOptions) && (self.selectedOptions = selectedOptions);
             isArrayChilrenModified(self.filteredOptions, filteredOptions) && (self.filteredOptions = filteredOptions);
         }
 
-        function setLoading(value:boolean) {
+        function setLoading(value: boolean) {
             self.loading = value;
         }
 
-        let subStore:any;
-        function setSubStore(store:any) {
+        let subStore: any;
+        function setSubStore(store: any) {
             subStore = store;
         }
 
         function reset() {
             self.validated = false;
-            
+
             if (subStore && subStore.storeType === 'ComboStore') {
                 const combo = subStore as IComboStore;
                 combo.forms.forEach(form => form.reset());
@@ -531,9 +545,8 @@ export const FormItemStore = types
             setLoading,
             setSubStore,
             reset
-        }
+        };
     });
-
 
 export type IFormItemStore = typeof FormItemStore.Type;
 export type SFormItemStore = SnapshotIn<typeof FormItemStore>;

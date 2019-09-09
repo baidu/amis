@@ -1,24 +1,8 @@
-import {
-    types,
-    getEnv,
-    flow,
-    getRoot,
-    detach
-} from "mobx-state-tree";
+import {types, getEnv, flow, getRoot, detach} from 'mobx-state-tree';
 import debounce = require('lodash/debounce');
-import {
-    ServiceStore,
-} from './service';
-import {
-    FormItemStore,
-    IFormItemStore,
-    SFormItemStore
-} from './formItem';
-import {
-    Api,
-    fetchOptions,
-    Payload
-} from '../types';
+import {ServiceStore} from './service';
+import {FormItemStore, IFormItemStore, SFormItemStore} from './formItem';
+import {Api, fetchOptions, Payload} from '../types';
 import {
     getVariable,
     setVariable,
@@ -31,16 +15,15 @@ import {
     isEmpty,
     mapObject
 } from '../utils/helper';
-import { IComboStore } from "./combo";
+import {IComboStore} from './combo';
 import isEqual = require('lodash/isEqual');
-import { IRendererStore } from ".";
+import {IRendererStore} from '.';
 
 class ServerError extends Error {
     type = 'ServerError';
 }
 
-export const FormStore = ServiceStore
-    .named('FormStore')
+export const FormStore = ServiceStore.named('FormStore')
     .props({
         inited: false,
         validated: false,
@@ -57,36 +40,38 @@ export const FormStore = ServiceStore
         },
 
         get errors() {
-            let errors:{
-                [propName:string]: Array<string>;
+            let errors: {
+                [propName: string]: Array<string>;
             } = {};
 
             self.items.forEach(item => {
                 if (!item.valid) {
-                    errors[item.name] = Array.isArray(errors[item.name]) ? errors[item.name].concat(item.errors) : item.errors.concat();
+                    errors[item.name] = Array.isArray(errors[item.name])
+                        ? errors[item.name].concat(item.errors)
+                        : item.errors.concat();
                 }
-            })
+            });
 
             return errors;
         },
 
-        getValueByName(name:string) {
+        getValueByName(name: string) {
             return getVariable(self.data, name, self.canAccessSuperData);
         },
 
-        getPristineValueByName(name:string) {
+        getPristineValueByName(name: string) {
             return getVariable(self.pristine, name);
         },
 
-        getItemById(id:string) {
+        getItemById(id: string) {
             return self.items.find(item => item.id === id);
         },
 
-        getItemByName(name:string) {
+        getItemByName(name: string) {
             return self.items.find(item => item.name === name);
         },
 
-        getItemsByName(name:string) {
+        getItemsByName(name: string) {
             return self.items.filter(item => item.name === name);
         },
 
@@ -99,19 +84,17 @@ export const FormStore = ServiceStore
         }
     }))
     .actions(self => {
-
-        function setValues(values:object, tag?:object) {
+        function setValues(values: object, tag?: object) {
             self.updateData(values, tag);
 
             // 同步 options
             syncOptions();
         }
 
-        function setValueByName(name:string, value:any, isPristine:boolean = false, force:boolean = false) {
-
+        function setValueByName(name: string, value: any, isPristine: boolean = false, force: boolean = false) {
             // 没有变化就不跑了。
             const origin = getVariable(self.data, name, false);
-            
+
             const prev = self.data;
             const data = cloneObject(self.data);
 
@@ -124,14 +107,14 @@ export const FormStore = ServiceStore
                         value: prevData,
                         enumerable: false,
                         configurable: false,
-                        writable: false,
+                        writable: false
                     });
                 } else {
                     Object.defineProperty(data, '__prev', {
                         value: {...prev},
                         enumerable: false,
                         configurable: false,
-                        writable: false,
+                        writable: false
                     });
                 }
             } else if (!force) {
@@ -147,7 +130,7 @@ export const FormStore = ServiceStore
                 self.pristine = pristine;
             }
 
-            if(self.persistData){
+            if (self.persistData) {
                 setPersistData();
             }
 
@@ -155,7 +138,7 @@ export const FormStore = ServiceStore
             syncOptions();
         }
 
-        function deleteValueByName(name:string) {
+        function deleteValueByName(name: string) {
             const prev = self.data;
             const data = cloneObject(self.data);
 
@@ -167,14 +150,14 @@ export const FormStore = ServiceStore
                     value: prevData,
                     enumerable: false,
                     configurable: false,
-                    writable: false,
+                    writable: false
                 });
             } else {
                 Object.defineProperty(data, '__prev', {
                     value: {...prev},
                     enumerable: false,
                     configurable: false,
-                    writable: false,
+                    writable: false
                 });
             }
 
@@ -183,7 +166,7 @@ export const FormStore = ServiceStore
         }
 
         function trimValues() {
-            let data = mapObject(self.data, (item:any) => typeof item === 'string' ? item.trim() : item);
+            let data = mapObject(self.data, (item: any) => (typeof item === 'string' ? item.trim() : item));
             self.updateData(data);
         }
 
@@ -191,7 +174,11 @@ export const FormStore = ServiceStore
             self.items.forEach(item => item.syncOptions());
         }
 
-        const saveRemote:(api:Api, data?:object, options?:fetchOptions) => Promise<any> = flow(function *saveRemote(api:string, data:object, options:fetchOptions = {}) {
+        const saveRemote: (api: Api, data?: object, options?: fetchOptions) => Promise<any> = flow(function* saveRemote(
+            api: string,
+            data: object,
+            options: fetchOptions = {}
+        ) {
             try {
                 options = {
                     method: 'post', // 默认走 post
@@ -211,7 +198,7 @@ export const FormStore = ServiceStore
                 }
 
                 self.markSaving(true);
-                const json:Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
+                const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(api, data, options);
 
                 // 失败也同样 merge，如果有数据的话。
                 if (!isEmpty(json.data) || json.ok) {
@@ -225,7 +212,7 @@ export const FormStore = ServiceStore
                     // 验证错误
                     if (json.status === 422 && json.errors) {
                         const errors = json.errors;
-                        Object.keys(errors).forEach((key:string) => {
+                        Object.keys(errors).forEach((key: string) => {
                             const item = self.getItemById(key);
 
                             if (item) {
@@ -235,12 +222,10 @@ export const FormStore = ServiceStore
                             }
                         });
 
-                        self.updateMessage(json.msg || options && options.errorMessage  || '验证错误', true);
+                        self.updateMessage(json.msg || (options && options.errorMessage) || '验证错误', true);
                     } else {
-                        self.updateMessage(json.msg || options && options.errorMessage, true);
+                        self.updateMessage(json.msg || (options && options.errorMessage), true);
                     }
-
-                    
 
                     throw new ServerError(self.msg);
                 } else {
@@ -252,11 +237,11 @@ export const FormStore = ServiceStore
                         }
                     }
                     self.markSaving(false);
-                    self.updateMessage(json.msg || options && options.successMessage);
+                    self.updateMessage(json.msg || (options && options.successMessage));
                     (getRoot(self) as IRendererStore).notify('success', self.msg);
                     return json.data;
                 }
-            } catch(e) {
+            } catch (e) {
                 if ((getRoot(self) as IRendererStore).storeType !== 'RendererStore') {
                     // 已经销毁了，不管这些数据了。
                     return;
@@ -269,7 +254,11 @@ export const FormStore = ServiceStore
             }
         });
 
-        const submit:(fn?:(values:object) => Promise<any>, hooks?: Array<() => Promise<any>>, failedMessage?: string) => Promise<any> = flow(function *submit(fn:any, hooks?: Array<() => Promise<any>>, failedMessage?: string) {
+        const submit: (
+            fn?: (values: object) => Promise<any>,
+            hooks?: Array<() => Promise<any>>,
+            failedMessage?: string
+        ) => Promise<any> = flow(function* submit(fn: any, hooks?: Array<() => Promise<any>>, failedMessage?: string) {
             self.submited = true;
             self.submiting = true;
 
@@ -283,10 +272,15 @@ export const FormStore = ServiceStore
 
                 if (fn) {
                     const diff = difference(self.data, self.pristine);
-                    yield fn(createObject(createObject(self.data.__super, {
-                        diff: diff,
-                        __diff: diff
-                    }), self.data));
+                    yield fn(
+                        createObject(
+                            createObject(self.data.__super, {
+                                diff: diff,
+                                __diff: diff
+                            }),
+                            self.data
+                        )
+                    );
                 }
             } finally {
                 self.submiting = false;
@@ -295,32 +289,36 @@ export const FormStore = ServiceStore
             return self.data;
         });
 
-        const validate: (hooks?: Array<() => Promise<any>>, forceValidate?: boolean) => Promise<boolean> = flow(function *validate(hooks?: Array<() => Promise<any>>, forceValidate?: boolean) {
-            self.validating = true;
-            self.validated = true;
-            const items = self.items.concat();
-            for (let i = 0, len = items.length; i < len; i++) {
-                let item = items[i] as IFormItemStore;
+        const validate: (hooks?: Array<() => Promise<any>>, forceValidate?: boolean) => Promise<boolean> = flow(
+            function* validate(hooks?: Array<() => Promise<any>>, forceValidate?: boolean) {
+                self.validating = true;
+                self.validated = true;
+                const items = self.items.concat();
+                for (let i = 0, len = items.length; i < len; i++) {
+                    let item = items[i] as IFormItemStore;
 
-                if (!item.validated || forceValidate) {
-                    yield item.validate();
+                    if (!item.validated || forceValidate) {
+                        yield item.validate();
+                    }
                 }
-            }
 
-            if (hooks && hooks.length) {
-                for (let i = 0, len = hooks.length; i < len; i++ ) {
-                    yield hooks[i]();
+                if (hooks && hooks.length) {
+                    for (let i = 0, len = hooks.length; i < len; i++) {
+                        yield hooks[i]();
+                    }
                 }
+
+                self.validating = false;
+                return self.valid;
             }
+        );
 
-            self.validating = false;
-            return self.valid;
-        });
-
-        const validateFields: (fields:Array<string>) => Promise<boolean> = flow(function *validateFields(fields:Array<string>) {
+        const validateFields: (fields: Array<string>) => Promise<boolean> = flow(function* validateFields(
+            fields: Array<string>
+        ) {
             self.validating = true;
             const items = self.items.concat();
-            let result:Array<boolean> = [];
+            let result: Array<boolean> = [];
             for (let i = 0, len = items.length; i < len; i++) {
                 let item = items[i] as IFormItemStore;
 
@@ -337,7 +335,7 @@ export const FormStore = ServiceStore
             items.forEach(item => item.reset());
         }
 
-        function reset(cb?: (data:any) => void, resetData: boolean = true) {
+        function reset(cb?: (data: any) => void, resetData: boolean = true) {
             if (resetData) {
                 self.data = self.pristine;
             }
@@ -349,9 +347,12 @@ export const FormStore = ServiceStore
             cb && cb(self.data);
         }
 
-        function registryItem(name:string, options?: Partial<SFormItemStore> & {
-            value?: any;
-        }):IFormItemStore {
+        function registryItem(
+            name: string,
+            options?: Partial<SFormItemStore> & {
+                value?: any;
+            }
+        ): IFormItemStore {
             let item: IFormItemStore;
 
             self.items.push({
@@ -369,7 +370,7 @@ export const FormStore = ServiceStore
             return item;
         }
 
-        function unRegistryItem(item:IFormItemStore) {
+        function unRegistryItem(item: IFormItemStore) {
             detach(item);
         }
 
@@ -382,20 +383,20 @@ export const FormStore = ServiceStore
                     if (item.unique) {
                         combo.unBindUniuqueItem(item);
                     }
-                })
+                });
 
                 combo.removeForm(self as IFormStore);
                 combo.forms.forEach(item => item.items.forEach(item => item.unique && item.syncOptions()));
             }
 
-            self.items.forEach(item => detach(item))
+            self.items.forEach(item => detach(item));
         }
 
-        function setCanAccessSuperData(value:boolean = true) {
+        function setCanAccessSuperData(value: boolean = true) {
             self.canAccessSuperData = value;
         }
 
-        function setInited(value:boolean) {
+        function setInited(value: boolean) {
             self.inited = value;
         }
 
@@ -415,7 +416,7 @@ export const FormStore = ServiceStore
             localStorage.removeItem(location.pathname + self.path);
         }
 
-        return ({
+        return {
             setInited,
             setValues,
             setValueByName,
@@ -434,11 +435,9 @@ export const FormStore = ServiceStore
             deleteValueByName,
             getPersistData,
             setPersistData,
-            clearPersistData,
-        });
+            clearPersistData
+        };
     });
 
 export type IFormStore = typeof FormStore.Type;
-export {
-    IFormItemStore
-};
+export {IFormItemStore};

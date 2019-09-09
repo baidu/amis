@@ -19,7 +19,7 @@ export class ProgressField extends React.Component<ProgressProps, object> {
         progressClassName: 'progress-xs progress-striped active m-b-none',
         progressBarClassName: '',
         map: ['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success'],
-        showLabel: true,
+        showLabel: true
     };
 
     autoClassName(value: number) {
@@ -37,7 +37,7 @@ export class ProgressField extends React.Component<ProgressProps, object> {
             progressBarClassName,
             map,
             showLabel,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         let value = this.props.value;
@@ -54,11 +54,11 @@ export class ProgressField extends React.Component<ProgressProps, object> {
                         className={cx('progress-bar', progressBarClassName || this.autoClassName(value))}
                         title={`${value}%`}
                         style={{
-                            width: `${value}%`,
+                            width: `${value}%`
                         }}
                     />
                 </div>,
-                showLabel ? <div key="value">{value}%</div> : null,
+                showLabel ? <div key="value">{value}%</div> : null
             ];
         }
 
@@ -68,6 +68,6 @@ export class ProgressField extends React.Component<ProgressProps, object> {
 
 @Renderer({
     test: /(^|\/)progress$/,
-    name: 'progress',
+    name: 'progress'
 })
 export class ProgressFieldRenderer extends ProgressField {}

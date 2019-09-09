@@ -1,9 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import {
-    OptionsControl,
-    OptionsControlProps,
-    Option} from './Options';
+import {OptionsControl, OptionsControlProps, Option} from './Options';
 import Select from '../../components/Select';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
@@ -11,7 +8,7 @@ import {isEffectiveApi} from '../../utils/api';
 export interface ChainedSelectProps extends OptionsControlProps {
     autoComplete?: Api;
     searchable?: boolean;
-};
+}
 
 export interface SelectState {
     stack: Array<{
@@ -23,32 +20,29 @@ export interface SelectState {
 }
 
 export default class ChainedSelectControl extends React.Component<ChainedSelectProps, SelectState> {
-    static defaultProps:Partial<ChainedSelectProps> = {
+    static defaultProps: Partial<ChainedSelectProps> = {
         clearable: false,
         searchable: false,
         multiple: true
-    }
+    };
 
-    state:SelectState = {
+    state: SelectState = {
         stack: []
     };
-    constructor(props:ChainedSelectProps) {
+    constructor(props: ChainedSelectProps) {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
         this.loadMore = this.loadMore.bind(this);
-        
     }
 
     componentDidMount() {
-        const {
-            formInited
-        } = this.props;
-        
-        formInited ?  this.loadMore() : this.props.addHook(this.loadMore, 'init');
+        const {formInited} = this.props;
+
+        formInited ? this.loadMore() : this.props.addHook(this.loadMore, 'init');
     }
 
-    componentWillReceiveProps(nextProps:ChainedSelectProps) {
+    componentWillReceiveProps(nextProps: ChainedSelectProps) {
         const props = this.props;
 
         if (props.options !== nextProps.options) {
@@ -58,7 +52,7 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
         }
     }
 
-    componentDidUpdate(prevProps:ChainedSelectProps) {
+    componentDidUpdate(prevProps: ChainedSelectProps) {
         const props = this.props;
 
         if (props.value !== prevProps.value) {
@@ -67,21 +61,20 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
     }
 
     loadMore() {
-        const {
-            value,
-            delimiter,
-            onChange,
-            joinValues,
-            extractValue,
-            source,
-            data,
-            env
-        } = this.props;
+        const {value, delimiter, onChange, joinValues, extractValue, source, data, env} = this.props;
 
-        const arr = Array.isArray(value) ? value.concat() : value && typeof value === 'string' ? value.split(delimiter || ',') : [];
+        const arr = Array.isArray(value)
+            ? value.concat()
+            : value && typeof value === 'string'
+            ? value.split(delimiter || ',')
+            : [];
         let idx = 0;
         let len = this.state.stack.length;
-        while (idx < len && arr[idx] && this.state.stack[idx].parentId == ((joinValues || extractValue) ? arr[idx] : arr[idx].value)) {
+        while (
+            idx < len &&
+            arr[idx] &&
+            this.state.stack[idx].parentId == (joinValues || extractValue ? arr[idx] : arr[idx].value)
+        ) {
             idx++;
         }
 
@@ -89,7 +82,7 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
             return;
         }
 
-        const parentId = (joinValues || extractValue) ? arr[idx] : arr[idx].value;
+        const parentId = joinValues || extractValue ? arr[idx] : arr[idx].value;
         const stack = this.state.stack.concat();
         stack.splice(idx, stack.length - idx);
         stack.push({
@@ -98,57 +91,60 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
             options: []
         });
 
-        this.setState({
-            stack
-        }, () => {
-            env
-                .fetcher(source as Api, {
+        this.setState(
+            {
+                stack
+            },
+            () => {
+                env.fetcher(source as Api, {
                     ...data,
                     value: arr,
                     level: idx + 1,
                     parentId,
                     parent: arr[idx]
                 })
-                .then(ret => {
-                    const stack = this.state.stack.concat();
-                    const remoteValue = ret.data ? ret.data.value : undefined;
-                    let options = ret.data && (ret.data as any).options || ret.data;
-                    
-                    stack.splice(idx, stack.length - idx);
+                    .then(ret => {
+                        const stack = this.state.stack.concat();
+                        const remoteValue = ret.data ? ret.data.value : undefined;
+                        let options = (ret.data && (ret.data as any).options) || ret.data;
 
-                    if (typeof remoteValue !== 'undefined') {
-                        arr.splice(idx + 1, value.length - idx - 1);
-                        arr.push(remoteValue);
-                        onChange(joinValues ? arr.join(delimiter || ',') : arr);
-                    }
+                        stack.splice(idx, stack.length - idx);
 
-                    stack.push({
-                        options,
-                        parentId,
-                        loading: false,
-                        visible: !!options
+                        if (typeof remoteValue !== 'undefined') {
+                            arr.splice(idx + 1, value.length - idx - 1);
+                            arr.push(remoteValue);
+                            onChange(joinValues ? arr.join(delimiter || ',') : arr);
+                        }
+
+                        stack.push({
+                            options,
+                            parentId,
+                            loading: false,
+                            visible: !!options
+                        });
+
+                        this.setState(
+                            {
+                                stack: stack
+                            },
+                            this.loadMore
+                        );
+                    })
+                    .catch(e => {
+                        env.notify('error', e.message);
                     });
-
-                    this.setState({
-                        stack: stack
-                    }, this.loadMore);
-                })
-                .catch(e => {
-                    env.notify('error', e.message);
-                })
-        });
+            }
+        );
     }
 
-    handleChange(index:number, currentValue:any) {
-        const {
-            value,
-            delimiter,
-            onChange,
-            joinValues,
-            extractValue
-        } = this.props;
+    handleChange(index: number, currentValue: any) {
+        const {value, delimiter, onChange, joinValues, extractValue} = this.props;
 
-        const arr = Array.isArray(value) ? value.concat() : value && typeof value === 'string' ? value.split(delimiter || ',') : [];
+        const arr = Array.isArray(value)
+            ? value.concat()
+            : value && typeof value === 'string'
+            ? value.split(delimiter || ',')
+            : [];
         arr.splice(index, arr.length - index);
         arr.push(joinValues ? currentValue.value : currentValue);
 
@@ -174,7 +170,11 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
             multiple,
             ...rest
         } = this.props;
-        const arr = Array.isArray(value) ? value.concat() : value && typeof value === 'string' ? value.split(delimiter || ',') : [];
+        const arr = Array.isArray(value)
+            ? value.concat()
+            : value && typeof value === 'string'
+            ? value.split(delimiter || ',')
+            : [];
 
         return (
             <div className={cx(`${ns}ChainedSelectControl`, className)}>
@@ -189,22 +189,20 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
                     inline
                 />
 
-                {this.state.stack.map(({
-                    options,
-                    loading,
-                    visible
-                }, index) => visible === false ? null : (
-                    <Select
-                        {...rest}
-                        classPrefix={ns}
-                        key={`x-${index + 1}`}
-                        options={options}
-                        value={arr[index + 1]}
-                        onChange={this.handleChange.bind(this, index + 1)}
-                        loading={loading}
-                        inline
-                    />
-                ))}
+                {this.state.stack.map(({options, loading, visible}, index) =>
+                    visible === false ? null : (
+                        <Select
+                            {...rest}
+                            classPrefix={ns}
+                            key={`x-${index + 1}`}
+                            options={options}
+                            value={arr[index + 1]}
+                            onChange={this.handleChange.bind(this, index + 1)}
+                            loading={loading}
+                            inline
+                        />
+                    )
+                )}
             </div>
         );
     }
@@ -214,5 +212,4 @@ export default class ChainedSelectControl extends React.Component<ChainedSelectP
     type: 'chained-select',
     sizeMutable: false
 })
-export class ChainedSelectControlRenderer extends ChainedSelectControl {};
-
+export class ChainedSelectControlRenderer extends ChainedSelectControl {}

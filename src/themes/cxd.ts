@@ -1,4 +1,4 @@
-import { theme } from "../theme";
+import {theme} from '../theme';
 
 // yunshe.design 百度云舍
 theme('cxd', {
@@ -33,26 +33,26 @@ theme('cxd', {
             mode: 'line'
         },
 
-        "range-control": {
+        'range-control': {
             showInput: true,
             clearable: true
         },
 
         status: {
             map: {
-                'success': 'Status-icon--success',
-                'pending': 'Status-icon--rolling',
-                'fail': 'Status-icon--danger',
-                'queue': 'Status-icon--warning',
-                'schedule': 'Status-icon--primary'
+                success: 'Status-icon--success',
+                pending: 'Status-icon--rolling',
+                fail: 'Status-icon--danger',
+                queue: 'Status-icon--warning',
+                schedule: 'Status-icon--primary'
             },
             labelMap: {
-                'success': '成功',
-                'pending': '运行中',
-                'fail': '失败',
-                'queue': '排队中',
-                'schedule': '调度中'
-            },
+                success: '成功',
+                pending: '运行中',
+                fail: '失败',
+                queue: '排队中',
+                schedule: '调度中'
+            }
         }
     }
-})
+});

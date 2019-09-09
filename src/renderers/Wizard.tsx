@@ -35,7 +35,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         actionPrevLabel: '上一步',
         actionNextLabel: '下一步',
         actionNextSaveLabel: '保存并下一步',
-        actionFinishLabel: '完成',
+        actionFinishLabel: '完成'
     };
 
     static propsList: Array<string> = [
@@ -47,7 +47,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         'actionNextLabel',
         'actionNextSaveLabel',
         'actionFinishLabel',
-        'onFinished',
+        'onFinished'
     ];
 
     dom: any;
@@ -57,7 +57,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         super(props);
 
         this.state = {
-            currentStep: -1, // init 完后会设置成 1
+            currentStep: -1 // init 完后会设置成 1
         };
 
         this.handleAction = this.handleAction.bind(this);
@@ -79,7 +79,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             store,
             data,
             messages: {fetchSuccess, fetchFailed},
-            onInit,
+            onInit
         } = this.props;
 
         if (isEffectiveApi(initApi, store.data, initFetch)) {
@@ -97,20 +97,19 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                             (ret: any) => ret && ret[initFinishedField || 'finished'],
                             cancel => (this.asyncCancel = cancel)
                         );
-                    },
+                    }
                 })
                 .then(value => {
                     onInit && onInit(store.data);
                     const state = {
-                        currentStep: 1,
+                        currentStep: 1
                     };
 
                     if (
-                        value && value.data 
-                        && (
-                            typeof value.data.step === 'number'
-                            || typeof value.data.step === 'string' && /^\d+$/.test(value.data.step)
-                        )
+                        value &&
+                        value.data &&
+                        (typeof value.data.step === 'number' ||
+                            (typeof value.data.step === 'string' && /^\d+$/.test(value.data.step)))
                     ) {
                         state.currentStep = parseInt(value.data.step, 10);
                     }
@@ -126,7 +125,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         } else {
             this.setState(
                 {
-                    currentStep: 1,
+                    currentStep: 1
                 },
                 () => onInit && onInit(store.data)
             );
@@ -140,7 +139,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         if (isApiOutdated(prevProps.initApi, props.initApi, prevProps.data, props.data)) {
             store.fetchData(props.initApi, store.data, {
                 successMessage: fetchSuccess,
-                errorMessage: fetchFailed,
+                errorMessage: fetchFailed
             });
         }
     }
@@ -154,7 +153,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         index = Math.max(Math.min(steps.length, index), 1);
 
         this.setState({
-            currentStep: index,
+            currentStep: index
         });
     }
 
@@ -190,15 +189,15 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         const {store, steps, asyncApi, finishedField, target, redirect, reload, env, onFinished} = this.props;
 
         const step = steps[this.state.currentStep - 1];
-        let finnalAsyncApi = step && step.asyncApi || this.state.currentStep === steps.length && asyncApi;
-        
+        let finnalAsyncApi = (step && step.asyncApi) || (this.state.currentStep === steps.length && asyncApi);
+
         if (!step || !isEffectiveApi(finnalAsyncApi, store.data)) {
             return;
         }
 
         store.markSaving(true);
         store.updateData({
-            [finishedField || 'finished']: false,
+            [finishedField || 'finished']: false
         });
 
         until(
@@ -208,7 +207,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         )
             .then(() => {
                 store.markSaving(false);
-                this.gotoStep(this.state.currentStep + 1)
+                this.gotoStep(this.state.currentStep + 1);
             })
             .catch(e => {
                 env.notify('error', e.message);
@@ -223,7 +222,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             this.form.doAction(
                 {
                     ...action,
-                    actionType: 'submit',
+                    actionType: 'submit'
                 },
                 data
             );
@@ -243,7 +242,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                     successMessage: action.messages && action.messages.success,
                     errorMessage: action.messages && action.messages.failed
                 })
-                .then(async (response) => {
+                .then(async response => {
                     this.form && this.form.isValidated() && this.form.validate(true);
 
                     if (action.feedback && isVisible(action.feedback, store.data)) {
@@ -256,7 +255,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                         ? env.updateLocation(filter(action.redirect, store.data))
                         : null;
                 })
-                .catch(() => { });
+                .catch(() => {});
         } else if (action.actionType === 'reload') {
             action.target && this.reloadTarget(action.target, data);
         } else if (onAction) {
@@ -264,20 +263,18 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         }
     }
 
-    openFeedback(dialog:any, ctx:any) {
-        return new Promise((resolve) => {
-            const {
-                store
-            } = this.props;
+    openFeedback(dialog: any, ctx: any) {
+        return new Promise(resolve => {
+            const {store} = this.props;
             store.setCurrentAction({
                 type: 'button',
                 actionType: 'dialog',
                 dialog: dialog
             });
-            store.openDialog(ctx, undefined, (confirmed) => {
-                resolve(confirmed)
+            store.openDialog(ctx, undefined, confirmed => {
+                resolve(confirmed);
             });
-        })
+        });
     }
 
     handleChange(values: object) {
@@ -298,14 +295,17 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
             isEffectiveApi(finnalAsyncApi, store.data) &&
                 store.updateData({
-                    [finishedField || 'finished']: false,
+                    [finishedField || 'finished']: false
                 });
 
             if (isEffectiveApi(action.api || step.api, store.data)) {
                 store
                     .saveRemote(action.api || step.api, store.data, {
                         onSuccess: () => {
-                            if (!isEffectiveApi(finnalAsyncApi, store.data) || store.data[finishedField || 'finished']) {
+                            if (
+                                !isEffectiveApi(finnalAsyncApi, store.data) ||
+                                store.data[finishedField || 'finished']
+                            ) {
                                 return;
                             }
 
@@ -314,9 +314,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                                 (ret: any) => ret && ret[finishedField || 'finished'],
                                 cancel => (this.asyncCancel = cancel)
                             );
-                        },
+                        }
                     })
-                    .then((value:any) => this.gotoStep(value && typeof value.step === "number" ? value.step : this.state.currentStep + 1))
+                    .then((value: any) =>
+                        this.gotoStep(value && typeof value.step === 'number' ? value.step : this.state.currentStep + 1)
+                    )
                     .catch(e => {
                         // do nothing
                     });
@@ -332,7 +334,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
                 isEffectiveApi(finnalAsyncApi, store.data) &&
                     store.updateData({
-                        [finishedField || 'finished']: false,
+                        [finishedField || 'finished']: false
                     });
 
                 const formStore = this.form ? (this.form.props.store as IFormStore) : store;
@@ -341,7 +343,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 formStore
                     .saveRemote(action.api || step.api || api, store.data, {
                         onSuccess: () => {
-                            if (!isEffectiveApi(finnalAsyncApi, store.data) || store.data[finishedField || 'finished']) {
+                            if (
+                                !isEffectiveApi(finnalAsyncApi, store.data) ||
+                                store.data[finishedField || 'finished']
+                            ) {
                                 return;
                             }
 
@@ -350,7 +355,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                                 (ret: any) => ret && ret[finishedField || 'finished'],
                                 cancel => (this.asyncCancel = cancel)
                             );
-                        },
+                        }
                     })
                     .then(value => {
                         store.updateData({
@@ -363,7 +368,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                             return value;
                         }
 
-                        if (value && typeof value.step === "number") {
+                        if (value && typeof value.step === 'number') {
                             this.gotoStep(value.step);
                         } else if (redirect) {
                             env.updateLocation(filter(redirect, store.data));
@@ -414,15 +419,14 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                                     key={key}
                                     className={cx({
                                         'is-complete': canJump,
-                                        'is-active': currentStep === key + 1,
+                                        'is-active': currentStep === key + 1
                                     })}
                                     onClick={() => (canJump ? this.gotoStep(key + 1) : null)}
                                 >
                                     <span
                                         className={cx('Badge', {
                                             // 'Badge--success': canJump && currentStep != key + 1,
-                                            'is-active':
-                                                currentStep === key + 1 || (canJump && currentStep != key + 1),
+                                            'is-active': currentStep === key + 1 || (canJump && currentStep != key + 1)
                                         })}
                                     >
                                         {key + 1}
@@ -450,7 +454,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             actionFinishLabel,
             render,
             classPrefix: ns,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         if (!Array.isArray(steps)) {
@@ -481,7 +485,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                                 waiting ||
                                 disabled ||
                                 (action.actionType === 'prev' && !prevCanJump) ||
-                                (action.actionType === 'next' && readOnly && (!!step.api || !nextStep)),
+                                (action.actionType === 'next' && readOnly && (!!step.api || !nextStep))
                         })
                     )}
                 </div>
@@ -496,11 +500,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                         type: 'button',
                         label: actionPrevLabel,
                         actionType: 'prev',
-                        className: actionClassName,
+                        className: actionClassName
                     },
                     {
                         disabled: waiting || !prevCanJump || disabled,
-                        onAction: this.handleAction,
+                        onAction: this.handleAction
                     }
                 )}
 
@@ -511,11 +515,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                         label: !nextStep ? actionFinishLabel : !step.api ? actionNextLabel : actionNextSaveLabel,
                         actionType: 'next',
                         primary: !nextStep || !!step.api,
-                        className: actionClassName,
+                        className: actionClassName
                     },
                     {
                         disabled: waiting || disabled || (readOnly && (!!step.api || !nextStep)),
-                        onAction: this.handleAction,
+                        onAction: this.handleAction
                     }
                 )}
             </div>
@@ -541,7 +545,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                                 wrapWithPanel: false,
 
                                 // 接口相关需要外部来接管
-                                api: null,
+                                api: null
                             },
                             {
                                 key: this.state.currentStep,
@@ -550,7 +554,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                                 onAction: this.handleAction,
                                 disabled: store.loading,
                                 popOverContainer: this.getPopOverContainer,
-                                onChange: this.handleChange,
+                                onChange: this.handleChange
                             }
                         )
                     ) : currentStep === -1 ? (
@@ -564,14 +568,14 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                     'dialog',
                     {
                         ...((store.action as Action) && ((store.action as Action).dialog as object)),
-                        type: 'dialog',
+                        type: 'dialog'
                     },
                     {
                         key: 'dialog',
                         data: store.dialogData,
                         onConfirm: this.handleDialogConfirm,
                         onClose: this.handleDialogClose,
-                        show: store.dialogOpen,
+                        show: store.dialogOpen
                     }
                 )}
                 {this.renderActions()}
@@ -580,7 +584,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                     ? render('spinner', {
                           type: 'spinner',
                           overlay: true,
-                          size: 'lg',
+                          size: 'lg'
                       })
                     : null}
             </div>
@@ -597,7 +601,7 @@ function isJumpable(step: any, index: number, currentStep: number, data: any) {
         canJump = evalExpression(
             step.jumpableOn,
             createObject(data, {
-                currentStep,
+                currentStep
             })
         );
     } else {
@@ -611,7 +615,7 @@ function isJumpable(step: any, index: number, currentStep: number, data: any) {
     test: /(^|\/)wizard$/,
     storeType: ServiceStore.name,
     name: 'wizard',
-    isolateScope: true,
+    isolateScope: true
 })
 export class WizardRenderer extends Wizard {
     static contextType = ScopedContext;

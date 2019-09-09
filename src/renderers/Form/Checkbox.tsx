@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 
@@ -10,13 +7,13 @@ export interface CheckboxProps extends FormControlProps {
     option?: string;
     trueValue?: any;
     falseValue?: any;
-};
+}
 
 export default class CheckboxControl extends React.Component<CheckboxProps, any> {
-    static defaultProps:Partial<CheckboxProps> = {
+    static defaultProps: Partial<CheckboxProps> = {
         trueValue: true,
         falseValue: false
-    }
+    };
     render() {
         const {
             className,
@@ -39,7 +36,7 @@ export default class CheckboxControl extends React.Component<CheckboxProps, any>
                     falseValue={falseValue}
                     classPrefix={ns}
                     disabled={disabled}
-                    onChange={(value:any) => onChange(value)}
+                    onChange={(value: any) => onChange(value)}
                 >
                     {option ? render('option', option) : null}
                 </Checkbox>
@@ -52,5 +49,4 @@ export default class CheckboxControl extends React.Component<CheckboxProps, any>
     type: 'checkbox',
     sizeMutable: false
 })
-export class CheckboxControlRenderer extends CheckboxControl {};
-
+export class CheckboxControlRenderer extends CheckboxControl {}

@@ -83,7 +83,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         rootLabel: '顶级',
         rootValue: 0,
         cascade: false,
-        selfDisabledAffectChildren: true,
+        selfDisabledAffectChildren: true
     };
 
     componentWillMount() {
@@ -102,9 +102,9 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                 multiple: props.multiple,
                 delimiter: props.delimiter,
                 valueField: props.valueField,
-                options: props.data,
+                options: props.data
             }),
-            unfolded: this.syncUnFolded(props),
+            unfolded: this.syncUnFolded(props)
         });
     }
 
@@ -118,7 +118,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                 multiple: nextProps.multiple,
                 delimiter: nextProps.delimiter,
                 valueField: nextProps.valueField,
-                options: nextProps.data,
+                options: nextProps.data
             });
         }
 
@@ -159,15 +159,15 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         this.setState({
             unfolded: {
                 ...this.state.unfolded,
-                [node[this.props.valueField as string]]: !this.state.unfolded[node[this.props.valueField as string]],
-            },
+                [node[this.props.valueField as string]]: !this.state.unfolded[node[this.props.valueField as string]]
+            }
         });
     }
 
     clearSelect() {
         this.setState(
             {
-                value: [],
+                value: []
             },
             () => {
                 const {joinValues, rootValue, onChange} = this.props;
@@ -180,7 +180,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
     handleSelect(node: any, value?: any) {
         this.setState(
             {
-                value: [node],
+                value: [node]
             },
             () => {
                 const {joinValues, valueField, onChange} = this.props;
@@ -257,7 +257,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
 
         this.setState(
             {
-                value,
+                value
             },
             () => {
                 const {joinValues, extractValue, valueField, delimiter, onChange} = this.props;
@@ -332,11 +332,9 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
             let nodeDisabled = !!uncheckable || !!disabled || selfDisabled;
 
             if (
-                !nodeDisabled
-                && (
-                    (maxLength && !selfChecked && this.state.value.length >= maxLength)
-                    || (minLength && selfChecked && this.state.value.length <= minLength)
-                )
+                !nodeDisabled &&
+                ((maxLength && !selfChecked && this.state.value.length >= maxLength) ||
+                    (minLength && selfChecked && this.state.value.length <= minLength))
             ) {
                 nodeDisabled = true;
             }
@@ -369,7 +367,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                 <li
                     key={key}
                     className={cx(`Tree-item ${itemClassName || ''}`, {
-                        'Tree-item--isLeaf': isLeaf,
+                        'Tree-item--isLeaf': isLeaf
                     })}
                 >
                     <a>
@@ -377,7 +375,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                             <i
                                 onClick={() => this.toggleUnfolded(item)}
                                 className={cx('Tree-itemArrow', {
-                                    'is-folded': !this.state.unfolded[item[valueField]],
+                                    'is-folded': !this.state.unfolded[item[valueField]]
                                 })}
                             />
                         ) : null}
@@ -397,7 +395,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                             className={cx('Tree-itemText', {
                                 'is-children-checked': multiple && !cascade && tmpChildrenChecked && !nodeDisabled,
                                 'is-checked': checked,
-                                'is-disabled': nodeDisabled,
+                                'is-disabled': nodeDisabled
                             })}
                             onClick={() =>
                                 !nodeDisabled &&
@@ -410,7 +408,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                     {childrenItems ? (
                         <ul
                             className={cx('Tree-sublist', {
-                                'is-folded': !this.state.unfolded[item[valueField]],
+                                'is-folded': !this.state.unfolded[item[valueField]]
                             })}
                         >
                             {childrenItems}
@@ -422,7 +420,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
 
         return {
             dom: ret,
-            childrenChecked,
+            childrenChecked
         };
     }
 
@@ -444,7 +442,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
 
                                     <label
                                         className={cx('Tree-itemLabel', {
-                                            'is-checked': !value || !value.length,
+                                            'is-checked': !value || !value.length
                                         })}
                                     >
                                         <span className={cx('Tree-itemText')} onClick={this.clearSelect}>

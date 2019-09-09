@@ -2,13 +2,10 @@ import React from 'react';
 import isNumber = require('lodash/isNumber');
 import isObject = require('lodash/isObject');
 import isEqual = require('lodash/isEqual');
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import InputRange from '../../components/Range';
-import { Icon } from '../../components/icons';
+import {Icon} from '../../components/icons';
 
 export interface RangeProps extends FormControlProps {
     max?: number;
@@ -25,7 +22,7 @@ export interface RangeProps extends FormControlProps {
     multiple?: boolean;
     joinValues?: boolean;
     delimiter?: string;
-};
+}
 
 export interface DefaultProps {
     max: number;
@@ -38,21 +35,21 @@ export interface DefaultProps {
     multiple: boolean;
     joinValues: boolean;
     delimiter: string;
-};
+}
 
-export function formatValue(value: string | number | {min: number, max: number}, props: Partial<RangeProps>) {
+export function formatValue(value: string | number | {min: number; max: number}, props: Partial<RangeProps>) {
     if (props.multiple) {
         if (typeof value === 'string') {
             const [minValue, maxValue] = value.split(props.delimiter || ',').map(v => Number(v));
             return {
-                min: props.min && minValue < props.min && props.min || minValue || props.min,
-                max: props.max && maxValue > props.max && props.max || maxValue || props.max
-            }
+                min: (props.min && minValue < props.min && props.min) || minValue || props.min,
+                max: (props.max && maxValue > props.max && props.max) || maxValue || props.max
+            };
         } else if (typeof value === 'object') {
             return {
-                min: props.min && value.min < props.min && props.min || value.min || props.min,
-                max: props.max && value.max > props.max && props.max || value.max || props.max
-            }
+                min: (props.min && value.min < props.min && props.min) || value.min || props.min,
+                max: (props.max && value.max > props.max && props.max) || value.max || props.max
+            };
         }
     }
     return value || props.min;
@@ -61,13 +58,17 @@ export function formatValue(value: string | number | {min: number, max: number},
 type PropsWithDefaults = RangeProps & DefaultProps;
 
 export interface RangeState {
-    value: {
-        min?: number,
-        max?: number
-    } | number | string | undefined;
+    value:
+        | {
+              min?: number;
+              max?: number;
+          }
+        | number
+        | string
+        | undefined;
     minValue?: any;
-    maxValue?: any; 
-};
+    maxValue?: any;
+}
 
 export default class RangeControl extends React.PureComponent<RangeProps, RangeState> {
     midLabel?: HTMLSpanElement;
@@ -83,7 +84,7 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
         multiple: false,
         joinValues: true,
         delimiter: ','
-    }
+    };
 
     constructor(props: RangeProps) {
         super(props);
@@ -141,10 +142,7 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
     }
 
     updateStyle() {
-        const {
-            showInput,
-            classPrefix: ns
-        } = this.props;
+        const {showInput, classPrefix: ns} = this.props;
 
         let offsetWidth = (this.midLabel as HTMLSpanElement).offsetWidth;
         let left = `calc(50% - ${offsetWidth / 2}px)`;
@@ -191,54 +189,52 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
         if (multiple && joinValues) {
             endValue = [value.min, value.max].join(delimiter || ',');
         }
-        const {
-            onChange
-        } = this.props;
-        this.setState({
-            value
-        }, () => onChange(endValue));
+        const {onChange} = this.props;
+        this.setState(
+            {
+                value
+            },
+            () => onChange(endValue)
+        );
     }
 
     getStepPrecision() {
-        const {
-            step
-        } = this.props;
+        const {step} = this.props;
 
-        return typeof step !== 'number' || step >= 1 || step < 0
-            ? 0
-            : step.toString().split(".")[1].length;
+        return typeof step !== 'number' || step >= 1 || step < 0 ? 0 : step.toString().split('.')[1].length;
     }
 
     getValue(value: any, type?: string) {
-        const {
-            max,
-            min,
-            step
-        } = this.props as PropsWithDefaults;
+        const {max, min, step} = this.props as PropsWithDefaults;
         const {value: stateValue} = this.state;
 
-        if (value === '' || value === '-' || new RegExp('^[-]?\\d+[.]{1}[0]{0,' + this.getStepPrecision() + '}$').test(value)) {
+        if (
+            value === '' ||
+            value === '-' ||
+            new RegExp('^[-]?\\d+[.]{1}[0]{0,' + this.getStepPrecision() + '}$').test(value)
+        ) {
             return value;
         }
 
         value = Math.round(parseFloat(value) / step) * step;
-        value = (step < 1) ? parseFloat(value.toFixed(this.getStepPrecision())) : ~~value;
+        value = step < 1 ? parseFloat(value.toFixed(this.getStepPrecision())) : ~~value;
 
-        switch(type) {
-            case 'min':
-                {
-                    if (isObject(stateValue) && isNumber(stateValue.max)) {
-                        if (value >= stateValue.max && (min <= stateValue.max - step)) {
-                            return stateValue.max - step;
-                        }
-                        if (value < stateValue.max - step) {
-                            return value;
-                        }
+        switch (type) {
+            case 'min': {
+                if (isObject(stateValue) && isNumber(stateValue.max)) {
+                    if (value >= stateValue.max && min <= stateValue.max - step) {
+                        return stateValue.max - step;
                     }
-                    return min;
+                    if (value < stateValue.max - step) {
+                        return value;
+                    }
                 }
+                return min;
+            }
             case 'max':
-                return isObject(stateValue) && isNumber(stateValue.min) ? (value > max && max) || (value <= stateValue.min && (stateValue.min + step)) || value : max;
+                return isObject(stateValue) && isNumber(stateValue.min)
+                    ? (value > max && max) || (value <= stateValue.min && stateValue.min + step) || value
+                    : max;
             default:
                 return (value < min && min) || (value > max && max) || value;
         }
@@ -253,28 +249,28 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
     handleMinInputBlur(evt: React.ChangeEvent<HTMLInputElement>) {
         const minValue = this.getValue(evt.target.value, 'min');
         const {value} = this.state;
-        isObject(value) ? 
-            this.setState({
-                value: {
-                    min: minValue,
-                    max: value.max
-                },
-                minValue: minValue
-            }) 
+        isObject(value)
+            ? this.setState({
+                  value: {
+                      min: minValue,
+                      max: value.max
+                  },
+                  minValue: minValue
+              })
             : null;
     }
 
     handleMaxInputBlur(evt: React.ChangeEvent<HTMLInputElement>) {
         const maxValue = this.getValue(evt.target.value, 'max');
         const {value} = this.state;
-        isObject(value) ? 
-            this.setState({
-                value: {
-                    min: value.min,
-                    max: maxValue
-                },
-                maxValue: maxValue
-            })
+        isObject(value)
+            ? this.setState({
+                  value: {
+                      min: value.min,
+                      max: maxValue
+                  },
+                  maxValue: maxValue
+              })
             : null;
     }
 
@@ -303,15 +299,21 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
             showInput,
             multiple,
             classnames: cx,
-            classPrefix: ns,
+            classPrefix: ns
         } = this.props as PropsWithDefaults;
 
         return (
-            <div className={cx("RangeControl", {
-                'RangeControl--withInput': showInput,
-                'RangeControl--clearable': clearable,
-                'is-multiple': multiple
-            }, className)}>
+            <div
+                className={cx(
+                    'RangeControl',
+                    {
+                        'RangeControl--withInput': showInput,
+                        'RangeControl--clearable': clearable,
+                        'is-multiple': multiple
+                    },
+                    className
+                )}
+            >
                 <InputRange
                     classPrefix={ns}
                     value={this.state.value}
@@ -325,15 +327,15 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
                     multiple={multiple}
                 />
 
-                <span className={cx("InputRange-label InputRange-label--mid")} ref={this.midLabelRef}>
-                    <span className={cx("InputRange-labelContainer")}>
+                <span className={cx('InputRange-label InputRange-label--mid')} ref={this.midLabelRef}>
+                    <span className={cx('InputRange-labelContainer')}>
                         {((max + min) / 2).toFixed(this.getStepPrecision()) + unit}
                     </span>
                 </span>
 
-                {showInput ? 
+                {showInput ? (
                     multiple && isObject(this.state.value) ? (
-                        <div className={cx("InputRange-input is-multiple")}>
+                        <div className={cx('InputRange-input is-multiple')}>
                             <input
                                 className={this.state.value.min !== min ? 'is-active' : ''}
                                 type="text"
@@ -343,7 +345,7 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
                                 onChange={this.handleMinInputChange}
                                 onBlur={this.handleMinInputBlur}
                             />
-                            <span className={cx("InputRange-input-separator")}> - </span>
+                            <span className={cx('InputRange-input-separator')}> - </span>
                             <input
                                 className={this.state.value.max !== max ? 'is-active' : ''}
                                 type="text"
@@ -355,7 +357,7 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
                             />
                         </div>
                     ) : (
-                        <div className={cx("InputRange-input")}>
+                        <div className={cx('InputRange-input')}>
                             <input
                                 className={this.state.value !== min ? 'is-active' : ''}
                                 type="text"
@@ -366,14 +368,21 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
                             />
                         </div>
                     )
-                 : null}
+                ) : null}
 
                 {clearable && !disabled && showInput ? (
-                    <a onClick={() => this.clearValue()} className={cx("InputRange-clear", {
-                        'is-active': (multiple ? isEqual(this.state.value, {min: min, max: max}) : this.state.value !== min)
-                    })}><Icon icon="close" className="icon" /></a>
+                    <a
+                        onClick={() => this.clearValue()}
+                        className={cx('InputRange-clear', {
+                            'is-active': multiple
+                                ? isEqual(this.state.value, {min: min, max: max})
+                                : this.state.value !== min
+                        })}
+                    >
+                        <Icon icon="close" className="icon" />
+                    </a>
                 ) : null}
-            </div >
+            </div>
         );
     }
 }
@@ -382,4 +391,4 @@ export default class RangeControl extends React.PureComponent<RangeProps, RangeS
     test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?(slider|range)$/,
     name: 'range-control'
 })
-export class RangeControlRenderer extends RangeControl { };
+export class RangeControlRenderer extends RangeControl {}

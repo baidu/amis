@@ -1,61 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    Renderer,
-    RendererProps
-} from '../../factory';
-import { observer } from "mobx-react";
+import {Renderer, RendererProps} from '../../factory';
+import {observer} from 'mobx-react';
 import {FormStore, IFormStore} from '../../store/form';
-import {
-    Api,
-    SchemaNode,
-    Schema,
-    Action,
-    ApiObject,
-    Payload
-} from '../../types';
-import {
-    filter, evalExpression
-} from '../../utils/tpl';
+import {Api, SchemaNode, Schema, Action, ApiObject, Payload} from '../../types';
+import {filter, evalExpression} from '../../utils/tpl';
 import cx from 'classnames';
 import getExprProperties from '../../utils/filter-schema';
-import {
-    promisify,
-    difference,
-    until,
-    noop,
-    isObject,
-    isVisible
-} from '../../utils/helper';
+import {promisify, difference, until, noop, isObject, isVisible} from '../../utils/helper';
 import debouce = require('lodash/debounce');
 import flatten = require('lodash/flatten');
 import find = require('lodash/find');
-import Scoped, { ScopedContext, IScopedContext } from '../../Scoped';
-import { IComboStore } from '../../store/combo';
+import Scoped, {ScopedContext, IScopedContext} from '../../Scoped';
+import {IComboStore} from '../../store/combo';
 import qs = require('qs');
-import { dataMapping } from '../../utils/tpl-builtin';
-import { isApiOutdated, isEffectiveApi } from '../../utils/api';
+import {dataMapping} from '../../utils/tpl-builtin';
+import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 export type FormGroup = FormSchema & {
     title?: string;
     className?: string;
 };
 export type FormGroupNode = FormGroup | FormGroupArray;
-export interface FormGroupArray extends Array<FormGroupNode> {};
+export interface FormGroupArray extends Array<FormGroupNode> {}
 
 export interface FormSchema {
     fieldSetClassName?: string;
-    tabsClassName?:string;
+    tabsClassName?: string;
     controls?: SchemaNode;
     tabs?: FormGroupNode;
     fieldSet?: FormGroupNode;
-};
+}
 
 export interface FormHorizontal {
     leftFixed?: boolean | string;
     left: string | number;
     right: string | number;
     offset: string | number;
-};
+}
 
 export interface FormProps extends RendererProps, FormSchema {
     store: IFormStore;
@@ -89,16 +70,16 @@ export interface FormProps extends RendererProps, FormSchema {
     autoFocus?: boolean;
     horizontal: FormHorizontal;
     canAccessSuperData: boolean;
-    persistData: boolean;   // 开启本地缓存
+    persistData: boolean; // 开启本地缓存
     clearPersistDataAfterSubmit: boolean; // 提交成功后清空本地缓存
     trimValues?: boolean;
-    onInit?: (values:object) => any;
-    onReset?: (values:object) => void;
-    onSubmit?: (values:object, action:any) => any;
-    onChange?: (values:object, diff:object) => any;
-    onFailed?: (reason:string, errors:any) => any;
-    onFinished: (values:object, action:any) => any;
-    onValidate: (values:object, form:any) => any;
+    onInit?: (values: object) => any;
+    onReset?: (values: object) => void;
+    onSubmit?: (values: object, action: any) => any;
+    onChange?: (values: object, diff: object) => any;
+    onFailed?: (reason: string, errors: any) => any;
+    onFinished: (values: object, action: any) => any;
+    onValidate: (values: object, form: any) => any;
     messages: {
         fetchSuccess?: string;
         fetchFailed?: string;
@@ -130,40 +111,40 @@ export default class Form extends React.Component<FormProps, object> {
         },
         wrapperComponent: '',
         finishedField: 'finished',
-        initFinishedField: 'finished',
+        initFinishedField: 'finished'
     };
     static propsList: Array<string> = [
-        "title",
-        "controls",
-        "tabs",
-        "fieldSet",
-        "submitText",
-        "initFetch",
-        "wrapWithPanel",
-        "mode",
-        "collapsable",
-        "horizontal",
-        "panelClassName",
-        "messages",
-        "wrapperComponent",
-        "resetAfterSubmit",
-        "submitOnInit",
-        "submitOnChange",
-        "onInit",
-        "onReset",
-        "onSubmit",
-        "onChange",
-        "onFailed",
-        "onFinished",
-        "canAccessSuperData"
+        'title',
+        'controls',
+        'tabs',
+        'fieldSet',
+        'submitText',
+        'initFetch',
+        'wrapWithPanel',
+        'mode',
+        'collapsable',
+        'horizontal',
+        'panelClassName',
+        'messages',
+        'wrapperComponent',
+        'resetAfterSubmit',
+        'submitOnInit',
+        'submitOnChange',
+        'onInit',
+        'onReset',
+        'onSubmit',
+        'onChange',
+        'onFailed',
+        'onFinished',
+        'canAccessSuperData'
     ];
 
-    hooks:{
-        [propName:string]:Array<() => Promise<any>>
+    hooks: {
+        [propName: string]: Array<() => Promise<any>>;
     } = {};
-    asyncCancel:() => void;
+    asyncCancel: () => void;
     disposeOnValidate: () => void;
-    shouldLoadInitApi:boolean = false;
+    shouldLoadInitApi: boolean = false;
     timer: number;
     mounted: boolean;
     constructor(props: FormProps) {
@@ -191,11 +172,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     componentWillMount() {
-        const {
-            store,
-            canAccessSuperData,
-            persistData,
-        } = this.props;
+        const {store, canAccessSuperData, persistData} = this.props;
 
         store.setCanAccessSuperData(canAccessSuperData !== false);
         persistData && store.getPersistData();
@@ -216,10 +193,7 @@ export default class Form extends React.Component<FormProps, object> {
             initFinishedField,
             initCheckInterval,
             store,
-            messages: {
-                fetchSuccess,
-                fetchFailed
-            },
+            messages: {fetchSuccess, fetchFailed},
             onValidate
         } = this.props;
 
@@ -246,7 +220,7 @@ export default class Form extends React.Component<FormProps, object> {
                         } else {
                             item.clearError();
                         }
-                    })
+                    });
                 }
             });
         }
@@ -261,33 +235,34 @@ export default class Form extends React.Component<FormProps, object> {
                             return;
                         }
 
-                        return until(() => store.checkRemote(initAsyncApi, store.data)
-                            , (ret:any) => ret && ret[initFinishedField || 'finished']
-                            , (cancel) => this.asyncCancel = cancel
-                            , initCheckInterval);
+                        return until(
+                            () => store.checkRemote(initAsyncApi, store.data),
+                            (ret: any) => ret && ret[initFinishedField || 'finished'],
+                            cancel => (this.asyncCancel = cancel),
+                            initCheckInterval
+                        );
                     }
                 })
                 .then(this.initInterval)
                 .then(this.onInit);
         } else {
-            this.onInit()
+            this.onInit();
         }
     }
 
-    componentDidUpdate(prevProps:FormProps) {
+    componentDidUpdate(prevProps: FormProps) {
         const props = this.props;
         const store = props.store;
 
         if (isApiOutdated(prevProps.initApi, props.initApi, prevProps.data, props.data)) {
-            const {
-                fetchSuccess,
-                fetchFailed,
-            } = props;
-            
-            store.fetchData(props.initApi as Api, store.data, {
-                successMessage: fetchSuccess,
-                errorMessage: fetchFailed
-            }).then(this.initInterval);
+            const {fetchSuccess, fetchFailed} = props;
+
+            store
+                .fetchData(props.initApi as Api, store.data, {
+                    successMessage: fetchSuccess,
+                    errorMessage: fetchFailed
+                })
+                .then(this.initInterval);
         }
     }
 
@@ -306,22 +281,23 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     async onInit() {
-        const {
-            onInit,
-            store,
-            submitOnInit
-        } = this.props;
+        const {onInit, store, submitOnInit} = this.props;
 
         const data = store.data;
         store.setInited(true);
-        const hooks:Array<(data:any) => Promise<any>> = this.hooks['init'] || [];
+        const hooks: Array<(data: any) => Promise<any>> = this.hooks['init'] || [];
         await Promise.all(hooks.map(hook => hook(data)));
 
         onInit && onInit(data);
 
-        submitOnInit && this.handleAction(undefined, {
-            type: 'submit'
-        }, store.data);
+        submitOnInit &&
+            this.handleAction(
+                undefined,
+                {
+                    type: 'submit'
+                },
+                store.data
+            );
     }
 
     reload(query?: any, silent?: boolean) {
@@ -334,10 +310,7 @@ export default class Form extends React.Component<FormProps, object> {
             initApi,
             initAsyncApi,
             initFinishedField,
-            messages: {
-                fetchSuccess,
-                fetchFailed
-            }
+            messages: {fetchSuccess, fetchFailed}
         } = this.props;
 
         isEffectiveApi(initAsyncApi, store.data) &&
@@ -345,52 +318,51 @@ export default class Form extends React.Component<FormProps, object> {
                 [initFinishedField || 'finished']: false
             });
 
-        isEffectiveApi(initApi, store.data) 
-            ? store.fetchInitData(initApi, store.data, {
-                    successMessage: fetchSuccess,
-                    errorMessage: fetchFailed,
-                    silent,
-                    onSuccess: () => {
-                        if (!isEffectiveApi(initAsyncApi, store.data) || store.data[initFinishedField || 'finished']) {
-                            return;
-                        }
+        isEffectiveApi(initApi, store.data)
+            ? store
+                  .fetchInitData(initApi, store.data, {
+                      successMessage: fetchSuccess,
+                      errorMessage: fetchFailed,
+                      silent,
+                      onSuccess: () => {
+                          if (
+                              !isEffectiveApi(initAsyncApi, store.data) ||
+                              store.data[initFinishedField || 'finished']
+                          ) {
+                              return;
+                          }
 
-                        return until(() => store.checkRemote(initAsyncApi, store.data)
-                            , (ret:any) => ret && ret[initFinishedField || 'finished']
-                            , (cancel) => this.asyncCancel = cancel);
-                    }
-                })
-                .then(this.initInterval)
-                .then(() => store.reset(undefined, false))
+                          return until(
+                              () => store.checkRemote(initAsyncApi, store.data),
+                              (ret: any) => ret && ret[initFinishedField || 'finished'],
+                              cancel => (this.asyncCancel = cancel)
+                          );
+                      }
+                  })
+                  .then(this.initInterval)
+                  .then(() => store.reset(undefined, false))
             : store.reset(undefined, false);
     }
 
-    receive(values:object) {
-        const {
-            store
-        } = this.props;
+    receive(values: object) {
+        const {store} = this.props;
 
         store.updateData(values);
         this.reload();
     }
 
-    silentReload(target?: string, query?: any){
+    silentReload(target?: string, query?: any) {
         this.reload(query, true);
     }
 
     initInterval(value: any) {
-        const {
-            interval,
-            silentPolling,
-            stopAutoRefreshWhen,
-            data
-        } = this.props;
+        const {interval, silentPolling, stopAutoRefreshWhen, data} = this.props;
 
         clearTimeout(this.timer);
-        interval
-            && this.mounted
-            && (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data))
-            && (this.timer = setTimeout(silentPolling ? this.silentReload : this.reload, Math.max(interval, 3000)));
+        interval &&
+            this.mounted &&
+            (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data)) &&
+            (this.timer = setTimeout(silentPolling ? this.silentReload : this.reload, Math.max(interval, 3000)));
         return value;
     }
 
@@ -398,49 +370,39 @@ export default class Form extends React.Component<FormProps, object> {
         return this.props.store.validated;
     }
 
-    validate(forceValidate?: boolean):Promise<boolean> {
-        const {
-            store
-        } = this.props;
+    validate(forceValidate?: boolean): Promise<boolean> {
+        const {store} = this.props;
 
         return store.validate(this.hooks['validate'] || [], forceValidate);
     }
 
     clearErrors() {
-        const {
-            store
-        } = this.props;
+        const {store} = this.props;
 
         return store.clearErrors();
     }
 
-    submit(fn?:(values:object) => Promise<any>):Promise<any> {
-        const {
-            store,
-            messages
-        } = this.props;
+    submit(fn?: (values: object) => Promise<any>): Promise<any> {
+        const {store, messages} = this.props;
 
         return store.submit(fn, this.hooks['validate' || []], messages && messages.validateFailed);
     }
 
     reset() {
-        const {
-            store,
-            onReset
-        } = this.props;
+        const {store, onReset} = this.props;
         store.reset(onReset);
     }
 
-    addHook(fn: () => any, type:string = 'validate') {
+    addHook(fn: () => any, type: string = 'validate') {
         this.hooks[type] = this.hooks[type] || [];
         this.hooks[type].push(promisify(fn));
         return () => {
             this.removeHook(fn, type);
             fn = noop;
-        }
+        };
     }
 
-    removeHook(fn: () => any, type:string = 'validate') {
+    removeHook(fn: () => any, type: string = 'validate') {
         const hooks = this.hooks[type];
 
         if (!hooks) {
@@ -458,28 +420,39 @@ export default class Form extends React.Component<FormProps, object> {
         }
     }
 
-    handleChange(value:any, name:string, submit:boolean) {
-        const {
-            onChange,
-            store,
-            submitOnChange
-        } = this.props;
+    handleChange(value: any, name: string, submit: boolean) {
+        const {onChange, store, submitOnChange} = this.props;
 
         onChange && onChange(store.data, difference(store.data, store.pristine));
 
-        (submit || submitOnChange) && this.handleAction(undefined, {
-            type: 'submit'
-        }, store.data);
+        (submit || submitOnChange) &&
+            this.handleAction(
+                undefined,
+                {
+                    type: 'submit'
+                },
+                store.data
+            );
     }
 
-    handleFormSubmit(e:React.UIEvent<any>) {
+    handleFormSubmit(e: React.UIEvent<any>) {
         e.preventDefault();
-        return this.handleAction(e, {
-            type: 'submit'
-        }, this.props.store.data)
+        return this.handleAction(
+            e,
+            {
+                type: 'submit'
+            },
+            this.props.store.data
+        );
     }
 
-    handleAction(e: React.UIEvent<any> | void, action: Action, data: object, throwErrors: boolean = false, delegate?: boolean):any {
+    handleAction(
+        e: React.UIEvent<any> | void,
+        action: Action,
+        data: object,
+        throwErrors: boolean = false,
+        delegate?: boolean
+    ): any {
         const {
             store,
             onSubmit,
@@ -487,10 +460,7 @@ export default class Form extends React.Component<FormProps, object> {
             asyncApi,
             finishedField,
             checkInterval,
-            messages: {
-                saveSuccess,
-                saveFailed
-            },
+            messages: {saveSuccess, saveFailed},
             resetAfterSubmit,
             onAction,
             onSaved,
@@ -511,21 +481,19 @@ export default class Form extends React.Component<FormProps, object> {
         }
 
         if (Array.isArray(action.required) && action.required.length) {
-            return store
-                .validateFields(action.required)
-                .then(result => {
-                    if (!result) {
-                        env.notify('error', '依赖的部分字段没有通过验证，请注意填写！')
-                    } else {
-                        this.handleAction(e, {...action, required: undefined}, data, throwErrors, delegate);
-                    }
-                });
+            return store.validateFields(action.required).then(result => {
+                if (!result) {
+                    env.notify('error', '依赖的部分字段没有通过验证，请注意填写！');
+                } else {
+                    this.handleAction(e, {...action, required: undefined}, data, throwErrors, delegate);
+                }
+            });
         }
 
         delegate || store.setCurrentAction(action);
         if (action.type === 'submit' || action.actionType === 'submit' || action.actionType === 'confirm') {
-            return this
-                .submit((values):any => {
+            return this.submit(
+                (values): any => {
                     if (onSubmit && onSubmit(values, action) === false) {
                         return Promise.resolve(values);
                     }
@@ -541,39 +509,46 @@ export default class Form extends React.Component<FormProps, object> {
                     } else if (action.api || api) {
                         let finnalAsyncApi = action.asyncApi || asyncApi;
 
-                        isEffectiveApi(finnalAsyncApi, store.data) && store.updateData({
-                            [finishedField || 'finished']: false
-                        });
+                        isEffectiveApi(finnalAsyncApi, store.data) &&
+                            store.updateData({
+                                [finishedField || 'finished']: false
+                            });
 
                         return store
-                                .saveRemote(action.api || api as Api, values, {
-                                    successMessage: saveSuccess,
-                                    errorMessage: saveFailed,
-                                    onSuccess: () => {
-                                        if (!isEffectiveApi(finnalAsyncApi, store.data) || store.data[finishedField || 'finished']) {
-                                            return;
-                                        }
-
-                                        return until(() => store.checkRemote(finnalAsyncApi as Api, store.data)
-                                            , (ret:any) => ret && ret[finishedField || 'finished']
-                                            , (cancel) => this.asyncCancel = cancel
-                                            , checkInterval);
-                                    }
-                                })
-                                .then(async (response) => {
-                                    onSaved && onSaved(values, response);
-
-                                    // submit 也支持 feedback
-                                    if (action.feedback && isVisible(action.feedback, store.data)) {
-                                        await this.openFeedback(action.feedback, store.data);
+                            .saveRemote(action.api || (api as Api), values, {
+                                successMessage: saveSuccess,
+                                errorMessage: saveFailed,
+                                onSuccess: () => {
+                                    if (
+                                        !isEffectiveApi(finnalAsyncApi, store.data) ||
+                                        store.data[finishedField || 'finished']
+                                    ) {
+                                        return;
                                     }
 
-                                    return values;
-                                });
+                                    return until(
+                                        () => store.checkRemote(finnalAsyncApi as Api, store.data),
+                                        (ret: any) => ret && ret[finishedField || 'finished'],
+                                        cancel => (this.asyncCancel = cancel),
+                                        checkInterval
+                                    );
+                                }
+                            })
+                            .then(async response => {
+                                onSaved && onSaved(values, response);
+
+                                // submit 也支持 feedback
+                                if (action.feedback && isVisible(action.feedback, store.data)) {
+                                    await this.openFeedback(action.feedback, store.data);
+                                }
+
+                                return values;
+                            });
                     }
 
                     return Promise.resolve(values);
-                })
+                }
+            )
                 .then(values => {
                     if (onFinished && onFinished(values, action) === false) {
                         return values;
@@ -609,24 +584,24 @@ export default class Form extends React.Component<FormProps, object> {
             }
 
             return store
-                    .saveRemote(action.api as Api, data, {
-                        successMessage: action.messages && action.messages.success || saveSuccess,
-                        errorMessage: action.messages && action.messages.failed || saveFailed
-                    })
-                    .then(async (response) => {
-                        response && onChange && onChange(store.data, difference(store.data, store.pristine));
-                        if (store.validated) {
-                            await this.validate(true);
-                        }
+                .saveRemote(action.api as Api, data, {
+                    successMessage: (action.messages && action.messages.success) || saveSuccess,
+                    errorMessage: (action.messages && action.messages.failed) || saveFailed
+                })
+                .then(async response => {
+                    response && onChange && onChange(store.data, difference(store.data, store.pristine));
+                    if (store.validated) {
+                        await this.validate(true);
+                    }
 
-                        if (action.feedback && isVisible(action.feedback, store.data)) {
-                            await this.openFeedback(action.feedback, store.data);
-                        }
+                    if (action.feedback && isVisible(action.feedback, store.data)) {
+                        await this.openFeedback(action.feedback, store.data);
+                    }
 
-                        action.redirect && env.updateLocation(filter(action.redirect, store.data));
-                        action.reload && this.reloadTarget(action.reload, store.data);
-                    })
-                    .catch(() => { });
+                    action.redirect && env.updateLocation(filter(action.redirect, store.data));
+                    action.reload && this.reloadTarget(action.reload, store.data);
+                })
+                .catch(() => {});
         } else if (action.actionType === 'reload') {
             action.target && this.reloadTarget(action.target, data);
         } else if (onAction) {
@@ -635,13 +610,15 @@ export default class Form extends React.Component<FormProps, object> {
         }
     }
 
-    handleDialogConfirm(values: object[], action:Action, ctx:any, targets:Array<any>) {
-        const {
-            store,
-            onChange,
-        } = this.props;
+    handleDialogConfirm(values: object[], action: Action, ctx: any, targets: Array<any>) {
+        const {store, onChange} = this.props;
 
-        if ((action.mergeData || store.action.mergeData) && values.length === 1 && values[0] && targets[0].props.type === 'form') {
+        if (
+            (action.mergeData || store.action.mergeData) &&
+            values.length === 1 &&
+            values[0] &&
+            targets[0].props.type === 'form'
+        ) {
             store.updateData(values[0]);
             onChange && onChange(store.data, difference(store.data, store.pristine));
         }
@@ -650,19 +627,19 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     handleDialogClose() {
-        const {
-            store
-        } = this.props;
+        const {store} = this.props;
         store.closeDialog(false);
     }
 
-    handleDrawerConfirm(values: object[], action:Action, ctx:any, targets:Array<any>) {
-        const {
-            store,
-            onChange
-        } = this.props;
+    handleDrawerConfirm(values: object[], action: Action, ctx: any, targets: Array<any>) {
+        const {store, onChange} = this.props;
 
-        if ((action.mergeData || store.action.mergeData) && values.length === 1 && values[0] && targets[0].props.type === 'form') {
+        if (
+            (action.mergeData || store.action.mergeData) &&
+            values.length === 1 &&
+            values[0] &&
+            targets[0].props.type === 'form'
+        ) {
             store.updateData(values[0]);
             onChange && onChange(store.data, difference(store.data, store.pristine));
         }
@@ -671,47 +648,40 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     handleDrawerClose() {
-        const {
-            store
-        } = this.props;
+        const {store} = this.props;
         store.closeDrawer(false);
     }
 
-    submitToTarget(target:string, values:object) {
+    submitToTarget(target: string, values: object) {
         // 会被覆写
     }
 
-    reloadTarget(target:string, data?:any) {
+    reloadTarget(target: string, data?: any) {
         // 会被覆写
     }
 
-    openFeedback(dialog:any, ctx:any) {
-        return new Promise((resolve) => {
-            const {
-                store
-            } = this.props;
+    openFeedback(dialog: any, ctx: any) {
+        return new Promise(resolve => {
+            const {store} = this.props;
             store.setCurrentAction({
                 type: 'button',
                 actionType: 'dialog',
                 dialog: dialog
             });
-            store.openDialog(ctx, undefined, (confirmed) => {
-                resolve(confirmed)
+            store.openDialog(ctx, undefined, confirmed => {
+                resolve(confirmed);
             });
-        })
+        });
     }
 
     buildActions() {
-        const {
-            actions,
-            submitText,
-            controls
-        } = this.props;
+        const {actions, submitText, controls} = this.props;
 
         if (
-            typeof actions !== 'undefined'
-            || !submitText
-            || Array.isArray(controls) && controls.some(item => !!~['submit','button','reset','button-group'].indexOf((item as Schema).type))
+            typeof actions !== 'undefined' ||
+            !submitText ||
+            (Array.isArray(controls) &&
+                controls.some(item => !!~['submit', 'button', 'reset', 'button-group'].indexOf((item as Schema).type)))
         ) {
             return actions;
         }
@@ -725,14 +695,14 @@ export default class Form extends React.Component<FormProps, object> {
         ];
     }
 
-    renderFormItems(schema:FormSchema, region:string = '', otherProps: Partial<FormProps> = {}):React.ReactNode {
+    renderFormItems(schema: FormSchema, region: string = '', otherProps: Partial<FormProps> = {}): React.ReactNode {
         return this.renderControls(schema.controls as SchemaNode, region, otherProps);
 
         // return schema.tabs ? this.renderTabs(schema.tabs, schema, region)
         // : schema.fieldSet ? this.renderFiledSet(schema.fieldSet, schema, region) : this.renderControls(schema.controls as SchemaNode, schema, region);
     }
 
-    renderControls(controls:SchemaNode, region:string, otherProps: Partial<FormProps> = {}): React.ReactNode {
+    renderControls(controls: SchemaNode, region: string, otherProps: Partial<FormProps> = {}): React.ReactNode {
         controls = controls || [];
 
         if (!Array.isArray(controls)) {
@@ -742,8 +712,7 @@ export default class Form extends React.Component<FormProps, object> {
         if (this.props.mode === 'row') {
             const ns = this.props.classPrefix;
 
-            controls = flatten(controls)
-            .filter(item => {
+            controls = flatten(controls).filter(item => {
                 if ((item as Schema).hidden || (item as Schema).visible === false) {
                     return false;
                 }
@@ -754,7 +723,7 @@ export default class Form extends React.Component<FormProps, object> {
                 }
 
                 return true;
-            });;
+            });
 
             if (!controls.length) {
                 return null;
@@ -762,14 +731,18 @@ export default class Form extends React.Component<FormProps, object> {
 
             return (
                 <div className={`${ns}Form-row`}>
-                    {controls.map((control, key) => ~['hidden', 'formula'].indexOf((control as any).type) || (control as any).mode === "inline" ? this.renderControl(control, key, otherProps) : (
-                        <div key={key} className={cx(`${ns}Form-col`, (control as Schema).columnClassName)}>
-                            {this.renderControl(control, '', {
-                                ...otherProps,
-                                mode: 'row'
-                            })}
-                        </div>
-                    ))}
+                    {controls.map((control, key) =>
+                        ~['hidden', 'formula'].indexOf((control as any).type) || (control as any).mode === 'inline' ? (
+                            this.renderControl(control, key, otherProps)
+                        ) : (
+                            <div key={key} className={cx(`${ns}Form-col`, (control as Schema).columnClassName)}>
+                                {this.renderControl(control, '', {
+                                    ...otherProps,
+                                    mode: 'row'
+                                })}
+                            </div>
+                        )
+                    )}
                 </div>
             );
         }
@@ -777,7 +750,12 @@ export default class Form extends React.Component<FormProps, object> {
         return controls.map((control, key) => this.renderControl(control, key, otherProps, region));
     }
 
-    renderControl(control:SchemaNode, key:any = '', otherProps: Partial<FormProps> = {}, region:string = ''): React.ReactNode {
+    renderControl(
+        control: SchemaNode,
+        key: any = '',
+        otherProps: Partial<FormProps> = {},
+        region: string = ''
+    ): React.ReactNode {
         if (!control) {
             return null;
         } else if (typeof control === 'string') {
@@ -787,21 +765,12 @@ export default class Form extends React.Component<FormProps, object> {
             };
         }
 
-
         const props = {
             ...this.props,
             ...otherProps
         };
         const form = this.props.store;
-        const {
-            render,
-            mode,
-            horizontal,
-            store,
-            disabled,
-            controlWidth,
-            resolveDefinitions
-        } = props;
+        const {render, mode, horizontal, store, disabled, controlWidth, resolveDefinitions} = props;
 
         const subProps = {
             formStore: form,
@@ -821,10 +790,13 @@ export default class Form extends React.Component<FormProps, object> {
             formPristine: form.pristine
         };
 
-        const subSchema: any = control && (control as Schema).type === 'control' ? control : {
-            type: 'control',
-            control
-        };
+        const subSchema: any =
+            control && (control as Schema).type === 'control'
+                ? control
+                : {
+                      type: 'control',
+                      control
+                  };
 
         if (subSchema.control) {
             let control = subSchema.control as Schema;
@@ -832,7 +804,7 @@ export default class Form extends React.Component<FormProps, object> {
                 subSchema.control = control = {
                     ...resolveDefinitions(control.$ref),
                     ...control
-                }
+                };
                 delete control.$ref;
             }
             control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
@@ -843,11 +815,7 @@ export default class Form extends React.Component<FormProps, object> {
     }
 
     renderBody() {
-        const {
-            tabs,
-            fieldSet,
-            controls
-        } = this.props;
+        const {tabs, fieldSet, controls} = this.props;
 
         return this.renderFormItems({
             tabs,
@@ -875,7 +843,8 @@ export default class Form extends React.Component<FormProps, object> {
             affixFooter,
             mode
         } = this.props;
-        const WrapperComponent= this.props.wrapperComponent || (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
+        const WrapperComponent =
+            this.props.wrapperComponent || (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
 
         let body = (
             <WrapperComponent
@@ -883,51 +852,67 @@ export default class Form extends React.Component<FormProps, object> {
                 className={cx(`Form`, `Form--${mode || 'normal'}`, className)}
                 noValidate
             >
-                {debug ? (<pre><code>{JSON.stringify(store.data, null, 2)}</code></pre>) : null}
+                {debug ? (
+                    <pre>
+                        <code>{JSON.stringify(store.data, null, 2)}</code>
+                    </pre>
+                ) : null}
 
                 {this.renderBody()}
 
-                {render('modal', {
-                    ...(store.action as Action) && (store.action as Action).dialog as object,
-                    type: 'dialog'
-                }, {
-                    key: 'dialog',
-                    data: store.dialogData,
-                    onConfirm: this.handleDialogConfirm,
-                    onClose: this.handleDialogClose,
-                    show: store.dialogOpen
-                })}
+                {render(
+                    'modal',
+                    {
+                        ...((store.action as Action) && ((store.action as Action).dialog as object)),
+                        type: 'dialog'
+                    },
+                    {
+                        key: 'dialog',
+                        data: store.dialogData,
+                        onConfirm: this.handleDialogConfirm,
+                        onClose: this.handleDialogClose,
+                        show: store.dialogOpen
+                    }
+                )}
 
-                {render('modal', {
-                    ...(store.action as Action) && (store.action as Action).drawer as object,
-                    type: 'drawer'
-                }, {
-                    key: 'drawer',
-                    data: store.drawerData,
-                    onConfirm: this.handleDrawerConfirm,
-                    onClose: this.handleDrawerClose,
-                    show: store.drawerOpen
-                })}
+                {render(
+                    'modal',
+                    {
+                        ...((store.action as Action) && ((store.action as Action).drawer as object)),
+                        type: 'drawer'
+                    },
+                    {
+                        key: 'drawer',
+                        data: store.drawerData,
+                        onConfirm: this.handleDrawerConfirm,
+                        onClose: this.handleDrawerClose,
+                        show: store.drawerOpen
+                    }
+                )}
             </WrapperComponent>
         );
 
         if (wrapWithPanel) {
-            body = render('body', {
-                type: 'panel',
-                title: title
-            }, {
-                className: cx(panelClassName, "Panel--form"),
-                children: body,
-                actions: this.buildActions(),
-                onAction: this.handleAction,
-                disabled: store.loading,
-                btnDisabled: store.loading || store.validating,
-                headerClassName,
-                footerClassName,
-                actionsClassName,
-                bodyClassName,
-                affixFooter
-            }) as JSX.Element;
+            body = render(
+                'body',
+                {
+                    type: 'panel',
+                    title: title
+                },
+                {
+                    className: cx(panelClassName, 'Panel--form'),
+                    children: body,
+                    actions: this.buildActions(),
+                    onAction: this.handleAction,
+                    disabled: store.loading,
+                    btnDisabled: store.loading || store.validating,
+                    headerClassName,
+                    footerClassName,
+                    actionsClassName,
+                    bodyClassName,
+                    affixFooter
+                }
+            ) as JSX.Element;
         }
 
         return body;
@@ -935,9 +920,9 @@ export default class Form extends React.Component<FormProps, object> {
 }
 
 @Renderer({
-    test: (path:string) => /(^|\/)form$/.test(path) && !/(^|\/)form(?:\/.+)?\/control\/form$/.test(path),
+    test: (path: string) => /(^|\/)form$/.test(path) && !/(^|\/)form(?:\/.+)?\/control\/form$/.test(path),
     storeType: FormStore.name,
-    name: "form",
+    name: 'form',
     isolateScope: true
 })
 export class FormRenderer extends Form {
@@ -955,7 +940,7 @@ export class FormRenderer extends Form {
         if (this.props.autoFocus) {
             const scoped = this.context as IScopedContext;
             const inputs = scoped.getComponents();
-            let focuableInput = find(inputs, (input:any) => input.focus);
+            let focuableInput = find(inputs, (input: any) => input.focus);
             focuableInput && setTimeout(() => focuableInput.focus(), 200);
         }
     }
@@ -969,28 +954,44 @@ export class FormRenderer extends Form {
         return this.handleAction(undefined, action, data, throwErrors);
     }
 
-    handleAction(e:React.UIEvent<any>|undefined, action:Action, ctx:object, throwErrors: boolean = false, delegate?: boolean) {
+    handleAction(
+        e: React.UIEvent<any> | undefined,
+        action: Action,
+        ctx: object,
+        throwErrors: boolean = false,
+        delegate?: boolean
+    ) {
         if (action.target && action.actionType !== 'reload') {
             const scoped = this.context as IScopedContext;
 
-            return Promise.all(action.target.split(',').map(name => {
-                let target = scoped.getComponentByName(name);
-                return target && target.doAction && target.doAction({
-                    ...action,
-                    target: undefined
-                }, ctx, throwErrors);
-            }));
-        } else  {
+            return Promise.all(
+                action.target.split(',').map(name => {
+                    let target = scoped.getComponentByName(name);
+                    return (
+                        target &&
+                        target.doAction &&
+                        target.doAction(
+                            {
+                                ...action,
+                                target: undefined
+                            },
+                            ctx,
+                            throwErrors
+                        )
+                    );
+                })
+            );
+        } else {
             return super.handleAction(e, action, ctx, throwErrors, delegate);
         }
     }
 
-    handleDialogConfirm(values: object[], action:Action, ctx:any, targets:Array<any>) {
+    handleDialogConfirm(values: object[], action: Action, ctx: any, targets: Array<any>) {
         super.handleDialogConfirm(values, action, ctx, targets);
 
         const store = this.props.store;
         const scoped = this.context as IScopedContext;
-        
+
         if (action.reload) {
             scoped.reload(action.reload, ctx);
         } else if (store.action && store.action.reload) {
@@ -998,26 +999,25 @@ export class FormRenderer extends Form {
         }
     }
 
-    submitToTarget(target:string, values:object) {
+    submitToTarget(target: string, values: object) {
         const scoped = this.context as IScopedContext;
         scoped.send(target, values);
     }
 
-    reloadTarget(target:string, data:any) {
+    reloadTarget(target: string, data: any) {
         const scoped = this.context as IScopedContext;
         scoped.reload(target, data);
     }
 
-    reload(target?:string, query?:any, ctx?:any) {
-
+    reload(target?: string, query?: any, ctx?: any) {
         if (query) {
             return this.receive(query);
         }
 
         const scoped = this.context as IScopedContext;
-        let subPath:string = '';
-        let idx:number;
-        let subQuery:any = null;
+        let subPath: string = '';
+        let idx: number;
+        let subQuery: any = null;
         if (target && ~(idx = target.indexOf('.'))) {
             subPath = target.substring(idx + 1);
             target = target.substring(0, idx);
@@ -1029,23 +1029,23 @@ export class FormRenderer extends Form {
         }
 
         let component;
-        if (target && (component = scoped.getComponentByName(target)) && component.reload)  {
+        if (target && (component = scoped.getComponentByName(target)) && component.reload) {
             component.reload(subPath, subQuery, ctx);
         } else if (target === '*') {
             super.reload();
             const components = scoped.getComponents();
-            components.forEach((component:any) => component.reload && component.reload('', subQuery, ctx));
+            components.forEach((component: any) => component.reload && component.reload('', subQuery, ctx));
         } else {
             super.reload();
         }
     }
 
-    receive(values:object, name?:string) {
+    receive(values: object, name?: string) {
         if (name) {
             const scoped = this.context as IScopedContext;
             const idx = name.indexOf('.');
             let subPath = '';
-            
+
             if (~idx) {
                 subPath = name.substring(1 + idx);
                 name = name.substring(0, idx);
@@ -1058,4 +1058,4 @@ export class FormRenderer extends Form {
 
         return super.receive(values);
     }
-};
+}

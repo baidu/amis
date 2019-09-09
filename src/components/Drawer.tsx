@@ -38,20 +38,20 @@ const fadeStyles: {
     [propName: string]: string;
 } = {
     [ENTERING]: 'in',
-    [ENTERED]: 'in',
+    [ENTERED]: 'in'
 };
 export class Drawer extends React.Component<DrawerProps, DrawerState> {
     static defaultProps: Pick<
         DrawerProps,
         'container' | 'position' | 'size' | 'overlay' | 'disableOnClickOutside' | 'enableOnClickOutside'
     > = {
-            container: document.body,
-            position: 'left',
-            size: 'md',
-            overlay: true,
-            disableOnClickOutside: noop,
-            enableOnClickOutside: noop,
-        };
+        container: document.body,
+        position: 'left',
+        size: 'md',
+        overlay: true,
+        disableOnClickOutside: noop,
+        enableOnClickOutside: noop
+    };
 
     contentDom: any;
 
@@ -111,7 +111,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
             size,
             onHide,
             disabled,
-            overlay,
+            overlay
         } = this.props;
 
         return (
@@ -141,7 +141,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                                     {
                                         [`${ns}Drawer--${position}`]: position,
                                         [`${ns}Drawer--${size}`]: size,
-                                        [`${ns}Drawer--noOverlay`]: !overlay,
+                                        [`${ns}Drawer--noOverlay`]: !overlay
                                     },
                                     className
                                 )}

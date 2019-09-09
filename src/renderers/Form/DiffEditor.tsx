@@ -1,20 +1,15 @@
 import React from 'react';
-import {
-    Renderer
-} from '../../factory';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
-import {
-    filter,
-} from '../../utils/tpl';
+import {Renderer} from '../../factory';
+import {FormItem, FormControlProps} from './Item';
+import {filter} from '../../utils/tpl';
 import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
 import debouce = require('lodash/debounce');
 
 function loadComponent(): Promise<React.ReactType> {
-    return new Promise((resolve) => (require as any)(['../../components/Editor'], (component: any) => resolve(component.default)));
+    return new Promise(resolve =>
+        (require as any)(['../../components/Editor'], (component: any) => resolve(component.default))
+    );
 }
 
 export interface DiffEditorProps extends FormControlProps {
@@ -30,7 +25,7 @@ function normalizeValue(value: any) {
     return value;
 }
 
-export class DiffEditor extends React.Component<DiffEditorProps, any>{
+export class DiffEditor extends React.Component<DiffEditorProps, any> {
     static defaultProps: Partial<DiffEditorProps> = {
         language: 'javascript',
         theme: 'vs',
@@ -44,10 +39,10 @@ export class DiffEditor extends React.Component<DiffEditorProps, any>{
             }
         },
         diffValue: ''
-    }
+    };
 
     state = {
-        focused: false,
+        focused: false
     };
 
     editor: any;
@@ -88,15 +83,16 @@ export class DiffEditor extends React.Component<DiffEditorProps, any>{
     }
 
     componentDidUpdate(prevProps: any) {
-        const {
-            data,
-            value,
-            diffValue
-        } = this.props;
+        const {data, value, diffValue} = this.props;
 
         if (this.originalEditor && diffValue && (diffValue !== prevProps.diffValue || data !== prevProps.data)) {
-            this.originalEditor.getModel().setValue(/^\$(?:([a-z0-9_.]+)|{.+})$/.test(diffValue as string)
-                ? filter(normalizeValue(diffValue || ''), data, '| raw') : normalizeValue(diffValue));
+            this.originalEditor
+                .getModel()
+                .setValue(
+                    /^\$(?:([a-z0-9_.]+)|{.+})$/.test(diffValue as string)
+                        ? filter(normalizeValue(diffValue || ''), data, '| raw')
+                        : normalizeValue(diffValue)
+                );
         }
 
         if (this.modifiedEditor && value && value !== prevProps.value && !this.state.focused) {
@@ -109,12 +105,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any>{
     }
 
     handleEditorMounted(editor: any, monaco: any) {
-        const {
-            value,
-            data,
-            language,
-            diffValue
-        } = this.props;
+        const {value, data, language, diffValue} = this.props;
 
         this.monaco = monaco;
         this.editor = editor;
@@ -126,8 +117,12 @@ export class DiffEditor extends React.Component<DiffEditorProps, any>{
         this.toDispose.push(this.modifiedEditor.onDidChangeModelContent(this.handleModifiedEditorChange).dispose);
 
         this.editor.setModel({
-            original: this.monaco.editor.createModel(/^\$(?:([a-z0-9_.]+)|{.+})$/.test(diffValue as string)
-                ? filter(normalizeValue(diffValue || ''), data, '| raw') : normalizeValue(diffValue), language),
+            original: this.monaco.editor.createModel(
+                /^\$(?:([a-z0-9_.]+)|{.+})$/.test(diffValue as string)
+                    ? filter(normalizeValue(diffValue || ''), data, '| raw')
+                    : normalizeValue(diffValue),
+                language
+            ),
             modified: this.monaco.editor.createModel(normalizeValue(value), language)
         });
 
@@ -135,7 +130,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any>{
     }
 
     handleModifiedEditorChange() {
-        const { onChange } = this.props;
+        const {onChange} = this.props;
         onChange && onChange(this.modifiedEditor.getModel().getValue());
         this.updateContainerSize();
     }
@@ -153,21 +148,13 @@ export class DiffEditor extends React.Component<DiffEditorProps, any>{
     }
 
     render() {
-        const {
-            className,
-            value,
-            onChange,
-            disabled,
-            size,
-            options,
-            language,
-            theme,
-            classnames: cx
-        } = this.props;
+        const {className, value, onChange, disabled, size, options, language, theme, classnames: cx} = this.props;
 
         return (
             <div
-                className={cx('EditorControl', size ? `EditorControl--${size}` : '', className, { 'is-focused': this.state.focused })}
+                className={cx('EditorControl', size ? `EditorControl--${size}` : '', className, {
+                    'is-focused': this.state.focused
+                })}
             >
                 <LazyComponent
                     getComponent={loadComponent}
@@ -194,14 +181,14 @@ export class DiffEditor extends React.Component<DiffEditorProps, any>{
 })
 export class DiffEditorControlRenderer extends DiffEditor {
     static defaultProps = {
-        ...DiffEditor.defaultProps,
+        ...DiffEditor.defaultProps
     };
-};
+}
 
 @Renderer({
     test: /(^|\/)diff-editor$/,
     sizeMutable: false,
-    name: "diff-editor"
+    name: 'diff-editor'
 })
 export class DiffEditorRenderer extends DiffEditor {
     static defaultProps = {

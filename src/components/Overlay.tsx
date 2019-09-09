@@ -19,7 +19,7 @@ Position.prototype.updatePosition = function(target: any) {
             positionLeft: 0,
             positionTop: 0,
             arrowOffsetLeft: null,
-            arrowOffsetTop: null,
+            arrowOffsetTop: null
         });
     }
 

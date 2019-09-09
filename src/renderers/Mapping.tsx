@@ -15,8 +15,8 @@ export class MappingField extends React.Component<MappingProps, object> {
     static defaultProps: Partial<MappingProps> = {
         placeholder: '-',
         map: {
-            '*': '通配值',
-        },
+            '*': '通配值'
+        }
     };
 
     render() {
@@ -35,6 +35,6 @@ export class MappingField extends React.Component<MappingProps, object> {
 
 @Renderer({
     test: /(^|\/)(?:map|mapping)$/,
-    name: 'mapping',
+    name: 'mapping'
 })
 export class MappingFieldRenderer extends MappingField {}

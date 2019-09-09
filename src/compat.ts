@@ -2,39 +2,20 @@
  * @file 兼容配置，对于一些老的 api 设计的得不合理的地方做一些适配。
  * @author fex
  */
-import {
-    SchemaNode,
-    Schema
-} from './types';
-import {
-    RendererProps,
-    RendererConfig,
-    addSchemaFilter
-} from './factory';
-import {
-    CheckboxControlRenderer
-} from './renderers/Form/Checkbox';
-import {
-    FormRenderer
-} from './renderers/Form/index';
-import {
-    FieldSetRenderer
-} from './renderers/Form/FieldSet';
-import {
-    TabsRenderer
-} from './renderers/Form/Tabs';
-import {
-    CardRenderer
-} from './renderers/Card';
-import {
-    ListItemRenderer
-} from './renderers/List';
-import { ButtonGroupControlRenderer } from './renderers/Form/ButtonGroup';
-import { getLevelFromClassName } from './utils/helper';
-import { ServiceRenderer } from './renderers/Form/Service';
+import {SchemaNode, Schema} from './types';
+import {RendererProps, RendererConfig, addSchemaFilter} from './factory';
+import {CheckboxControlRenderer} from './renderers/Form/Checkbox';
+import {FormRenderer} from './renderers/Form/index';
+import {FieldSetRenderer} from './renderers/Form/FieldSet';
+import {TabsRenderer} from './renderers/Form/Tabs';
+import {CardRenderer} from './renderers/Card';
+import {ListItemRenderer} from './renderers/List';
+import {ButtonGroupControlRenderer} from './renderers/Form/ButtonGroup';
+import {getLevelFromClassName} from './utils/helper';
+import {ServiceRenderer} from './renderers/Form/Service';
 
 // 兼容老的用法，老用法 label 用在 checkbox 的右侧内容，新用法用 option 来代替。
-addSchemaFilter(function CheckboxPropsFilter(schema:Schema, renderer) {
+addSchemaFilter(function CheckboxPropsFilter(schema: Schema, renderer) {
     if (renderer.component !== CheckboxControlRenderer) {
         return schema;
     }
@@ -50,12 +31,12 @@ addSchemaFilter(function CheckboxPropsFilter(schema:Schema, renderer) {
     return schema;
 });
 
-function convertFieldSetTabs2Controls(schema:any) {
-    const toUpdate:any = {};
+function convertFieldSetTabs2Controls(schema: any) {
+    const toUpdate: any = {};
     let flag = false;
 
     toUpdate.controls = Array.isArray(schema.controls) ? schema.controls.concat() : [];
-    toUpdate.controls = toUpdate.controls.map((control:any) => {
+    toUpdate.controls = toUpdate.controls.map((control: any) => {
         if (Array.isArray(control)) {
             let converted = convertFieldSetTabs2Controls({
                 type: 'group',
@@ -67,23 +48,26 @@ function convertFieldSetTabs2Controls(schema:any) {
             }
 
             return converted;
-        } 
+        }
         return control;
     });
 
-    schema.fieldSet && (Array.isArray(schema.fieldSet) ? schema.fieldSet : [schema.fieldSet]).forEach((fieldSet:any) => {
-        flag = true;
-        toUpdate.controls.push({
-            ...convertFieldSetTabs2Controls(fieldSet),
-            type: 'fieldSet',
-            collapsable: schema.collapsable
+    schema.fieldSet &&
+        (Array.isArray(schema.fieldSet) ? schema.fieldSet : [schema.fieldSet]).forEach((fieldSet: any) => {
+            flag = true;
+            toUpdate.controls.push({
+                ...convertFieldSetTabs2Controls(fieldSet),
+                type: 'fieldSet',
+                collapsable: schema.collapsable
+            });
         });
-    });
 
-    schema.tabs && (flag = true) && toUpdate.controls.push({
-        type: 'tabs',
-        tabs: schema.tabs.map((tab:any) => convertFieldSetTabs2Controls(tab))
-    });
+    schema.tabs &&
+        (flag = true) &&
+        toUpdate.controls.push({
+            type: 'tabs',
+            tabs: schema.tabs.map((tab: any) => convertFieldSetTabs2Controls(tab))
+        });
 
     if (flag) {
         schema = {
@@ -98,7 +82,7 @@ function convertFieldSetTabs2Controls(schema:any) {
 
 // Form 中，把 fieldSet 和 tabs 转成 {type: 'fieldSet', controls: []}
 // 同时把数组用法转成 {type: 'group', controls: []}
-addSchemaFilter(function FormPropsFilter(schema:Schema, renderer) {
+addSchemaFilter(function FormPropsFilter(schema: Schema, renderer) {
     if (renderer.component !== FormRenderer) {
         return schema;
     }
@@ -108,7 +92,7 @@ addSchemaFilter(function FormPropsFilter(schema:Schema, renderer) {
         schema = convertFieldSetTabs2Controls(schema);
     } else if (Array.isArray(schema.controls)) {
         let flag = false;
-        let converted = schema.controls.map((control:any) => {
+        let converted = schema.controls.map((control: any) => {
             if (Array.isArray(control)) {
                 let converted = convertFieldSetTabs2Controls({
                     type: 'group',
@@ -119,7 +103,7 @@ addSchemaFilter(function FormPropsFilter(schema:Schema, renderer) {
                     flag = true;
                 }
                 return converted;
-            } 
+            }
             return control;
         });
 
@@ -135,14 +119,14 @@ addSchemaFilter(function FormPropsFilter(schema:Schema, renderer) {
 });
 
 // FieldSet 中把 controls 里面的数组用法转成 {type: 'group', controls: []}
-addSchemaFilter(function FormPropsFilter(schema:Schema, renderer) {
+addSchemaFilter(function FormPropsFilter(schema: Schema, renderer) {
     if (renderer.component !== FieldSetRenderer) {
         return schema;
     }
 
     if (Array.isArray(schema.controls)) {
         let flag = false;
-        let converted = schema.controls.map((control:any) => {
+        let converted = schema.controls.map((control: any) => {
             if (Array.isArray(control)) {
                 let converted = convertFieldSetTabs2Controls({
                     type: 'group',
@@ -153,7 +137,7 @@ addSchemaFilter(function FormPropsFilter(schema:Schema, renderer) {
                     flag = true;
                 }
                 return converted;
-            } 
+            }
             return control;
         });
 
@@ -169,16 +153,16 @@ addSchemaFilter(function FormPropsFilter(schema:Schema, renderer) {
 });
 
 // Form 里面的 Tabs 中把 controls 里面的数组用法转成 {type: 'group', controls: []}
-addSchemaFilter(function FormPropsFilter(schema:Schema, renderer) {
+addSchemaFilter(function FormPropsFilter(schema: Schema, renderer) {
     if (renderer.component !== TabsRenderer) {
         return schema;
     }
 
     if (Array.isArray(schema.tabs)) {
         let flag = false;
-        let converted = schema.tabs.map((tab:any) => {
+        let converted = schema.tabs.map((tab: any) => {
             let flag2 = false;
-            let converted = (tab.controls || []).map((control:any) => {
+            let converted = (tab.controls || []).map((control: any) => {
                 if (Array.isArray(control)) {
                     let converted = convertFieldSetTabs2Controls({
                         type: 'group',
@@ -189,7 +173,7 @@ addSchemaFilter(function FormPropsFilter(schema:Schema, renderer) {
                         flag2 = true;
                     }
                     return converted;
-                } 
+                }
                 return control;
             });
 
@@ -215,9 +199,9 @@ addSchemaFilter(function FormPropsFilter(schema:Schema, renderer) {
     return schema;
 });
 
-function convertArray2Hbox(arr:Array<any>):any {
+function convertArray2Hbox(arr: Array<any>): any {
     let flag = false;
-    let converted = arr.map((item:any) => {
+    let converted = arr.map((item: any) => {
         if (Array.isArray(item)) {
             flag = true;
             return convertArray2Hbox(item);
@@ -233,22 +217,21 @@ function convertArray2Hbox(arr:Array<any>):any {
         type: 'hbox',
         columns: converted
     };
-
 }
 
 // CRUD/List  和 CRUD/Card 的 body 中的数组用法转成 hbox
-addSchemaFilter(function(schema:Schema, renderer) {
+addSchemaFilter(function(schema: Schema, renderer) {
     if (renderer.component !== CardRenderer && renderer.component !== ListItemRenderer) {
         return schema;
     }
 
     if (Array.isArray(schema.body)) {
         let flag = false;
-        let converted = schema.body.map((item:any) => {
+        let converted = schema.body.map((item: any) => {
             if (Array.isArray(item)) {
                 flag = true;
                 return convertArray2Hbox(item);
-            } 
+            }
             return item;
         });
 
@@ -264,7 +247,7 @@ addSchemaFilter(function(schema:Schema, renderer) {
 });
 
 // button group 的 btnClassName 和 btnActiveClassName 改成 btnLevel 和 btnActiveLevel 了
-addSchemaFilter(function(scheam:Schema, renderer) {
+addSchemaFilter(function(scheam: Schema, renderer) {
     if (renderer.component !== ButtonGroupControlRenderer) {
         return scheam;
     }
@@ -284,7 +267,7 @@ addSchemaFilter(function(scheam:Schema, renderer) {
 });
 
 // FieldSet  className 定制样式方式改成 size 来配置
-addSchemaFilter(function(scheam:Schema, renderer) {
+addSchemaFilter(function(scheam: Schema, renderer) {
     if (renderer.component !== FieldSetRenderer) {
         return scheam;
     }
@@ -304,7 +287,7 @@ addSchemaFilter(function(scheam:Schema, renderer) {
 });
 
 // FieldSet  className 定制样式方式改成 size 来配置
-addSchemaFilter(function(scheam:Schema, renderer) {
+addSchemaFilter(function(scheam: Schema, renderer) {
     if (renderer.component !== ServiceRenderer) {
         return scheam;
     }

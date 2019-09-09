@@ -91,7 +91,7 @@ export default class Panel extends React.Component<PanelProps> {
 
         const subProps = {
             data,
-            ...rest,
+            ...rest
         };
 
         return children ? (
@@ -110,7 +110,7 @@ export default class Panel extends React.Component<PanelProps> {
             return actions.map((action, key) =>
                 render('action', action, {
                     type: action.type || 'button',
-                    key: key,
+                    key: key
                 })
             );
         }
@@ -141,7 +141,7 @@ export default class Panel extends React.Component<PanelProps> {
 
         const subProps = {
             data,
-            ...rest,
+            ...rest
         };
 
         const footerDoms = [];
@@ -188,6 +188,6 @@ export default class Panel extends React.Component<PanelProps> {
 
 @Renderer({
     test: /(^|\/)panel$/,
-    name: 'panel',
+    name: 'panel'
 })
 export class PanelRenderer extends Panel {}

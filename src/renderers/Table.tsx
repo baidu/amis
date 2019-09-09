@@ -49,16 +49,18 @@ export interface TableProps extends RendererProps {
     columnsTogglable?: boolean | 'auto';
     affixHeader?: boolean;
     combineNum?: number;
-    footable?: boolean | {
-        expand?: 'first' | 'all' | 'none';
-        expandAll?: boolean;
-        accordion?: boolean;
-    };
+    footable?:
+        | boolean
+        | {
+              expand?: 'first' | 'all' | 'none';
+              expandAll?: boolean;
+              accordion?: boolean;
+          };
     expandConfig?: {
         expand?: 'first' | 'all' | 'none';
         expandAll?: boolean;
         accordion?: boolean;
-    },
+    };
     itemCheckableOn?: string;
     itemDraggableOn?: string;
     itemActions?: Array<Action>;
@@ -103,7 +105,7 @@ export default class Table extends React.Component<TableProps, object> {
         'itemActions',
         'combineNum',
         'items',
-        'valueField',
+        'valueField'
     ];
     static defaultProps: Partial<TableProps> = {
         className: '',
@@ -120,7 +122,7 @@ export default class Table extends React.Component<TableProps, object> {
         itemCheckableOn: '',
         itemDraggableOn: '',
         hideCheckToggler: false,
-        dragIcon: 'glyphicon glyphicon-sort',
+        dragIcon: 'glyphicon glyphicon-sort'
     };
 
     table?: HTMLTableElement;
@@ -142,7 +144,7 @@ export default class Table extends React.Component<TableProps, object> {
         [propName: string]: number;
     } = {};
     renderedToolbars: Array<string> = [];
-    subForms:any = {};
+    subForms: any = {};
 
     constructor(props: TableProps) {
         super(props);
@@ -151,7 +153,7 @@ export default class Table extends React.Component<TableProps, object> {
         this.affixDetect = this.affixDetect.bind(this);
         this.updateTableInfoLazy = debounce(this.updateTableInfo.bind(this), 250, {
             trailing: true,
-            leading: false,
+            leading: false
         });
         this.tableRef = this.tableRef.bind(this);
         this.affxiedTableRef = this.affxiedTableRef.bind(this);
@@ -210,7 +212,7 @@ export default class Table extends React.Component<TableProps, object> {
             itemDraggableOn,
             hideCheckToggler,
             combineNum,
-            expandConfig,
+            expandConfig
         } = this.props;
 
         store.update({
@@ -227,7 +229,7 @@ export default class Table extends React.Component<TableProps, object> {
             itemCheckableOn,
             itemDraggableOn,
             hideCheckToggler,
-            combineNum,
+            combineNum
         });
 
         Table.syncRows(store, this.props);
@@ -299,7 +301,7 @@ export default class Table extends React.Component<TableProps, object> {
 
         if (props.columns !== nextProps.columns) {
             store.update({
-                columns: nextProps.columns,
+                columns: nextProps.columns
             });
         }
 
@@ -328,10 +330,8 @@ export default class Table extends React.Component<TableProps, object> {
         this.unSensor && this.unSensor();
     }
 
-    subFormRef(form:any, x:number, y:number) {
-        const {
-            quickEditFormRef
-        } = this.props;
+    subFormRef(form: any, x: number, y: number) {
+        const {quickEditFormRef} = this.props;
 
         quickEditFormRef && quickEditFormRef(form, x, y);
         this.subForms[`${x}-${y}`] = form;
@@ -373,7 +373,7 @@ export default class Table extends React.Component<TableProps, object> {
                 null,
                 {
                     actionType: 'ajax',
-                    api: saveImmediately.api,
+                    api: saveImmediately.api
                 },
                 values
             );
@@ -395,7 +395,7 @@ export default class Table extends React.Component<TableProps, object> {
         }
 
         // 验证所有表单项，没有错误才继续
-        const subForms:Array<any> = [];
+        const subForms: Array<any> = [];
         Object.keys(this.subForms).forEach(key => this.subForms[key] && subForms.push(this.subForms[key]));
         if (subForms.length) {
             const result = await Promise.all(subForms.map(item => item.validate()));
@@ -432,7 +432,7 @@ export default class Table extends React.Component<TableProps, object> {
 
         store.reset();
 
-        const subForms:Array<any> = [];
+        const subForms: Array<any> = [];
         Object.keys(this.subForms).forEach(key => this.subForms[key] && subForms.push(this.subForms[key]));
         subForms.forEach(item => item.clearErrors());
     }
@@ -532,7 +532,9 @@ export default class Table extends React.Component<TableProps, object> {
             table => {
                 forEach(table.querySelectorAll('thead>tr:last-child>th'), (item: HTMLElement) => {
                     // todo 这个 2 数值，应该从 dom 上读取，也有可能没有border 样式
-                    item.style.cssText += `width: ${this.widths[parseInt(item.getAttribute('data-index') as string, 10)] - 2}px`;
+                    item.style.cssText += `width: ${this.widths[
+                        parseInt(item.getAttribute('data-index') as string, 10)
+                    ] - 2}px`;
                 });
 
                 forEach(table.querySelectorAll('tbody>tr'), (item: HTMLElement, index) => {
@@ -628,7 +630,7 @@ export default class Table extends React.Component<TableProps, object> {
                 }
 
                 store.exchange(e.oldIndex, e.newIndex);
-            },
+            }
         });
     }
 
@@ -667,16 +669,16 @@ export default class Table extends React.Component<TableProps, object> {
     draggingSibling: Array<HTMLTableRowElement>;
 
     @autobind
-    handleDragStart(e:React.DragEvent) {
+    handleDragStart(e: React.DragEvent) {
         const store = this.props.store;
         const target = e.currentTarget;
-        const tr = this.draggingTr = target.closest('tr')!;
+        const tr = (this.draggingTr = target.closest('tr')!);
         const id = tr.getAttribute('data-id')!;
         const tbody = tr.parentNode!;
         this.originIndex = Array.prototype.indexOf.call(tbody.childNodes, tr);
 
         tr.classList.add('is-dragging');
-        
+
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.setData('text/plain', id);
 
@@ -684,7 +686,7 @@ export default class Table extends React.Component<TableProps, object> {
         const item = store.getRowById(id)!;
         store.collapseAllAtDepth(item.depth);
 
-        let siblings:Array<IRow> = store.rows;
+        let siblings: Array<IRow> = store.rows;
         if (item.parentId) {
             const parent = store.getRowById(item.parentId)!;
             siblings = parent.children as any;
@@ -695,7 +697,7 @@ export default class Table extends React.Component<TableProps, object> {
         tbody.addEventListener('drop', this.handleDrop);
 
         this.draggingSibling = siblings.map(item => {
-            let tr:HTMLTableRowElement = tbody.querySelector(`tr[data-id="${item.id}"]`) as HTMLTableRowElement;
+            let tr: HTMLTableRowElement = tbody.querySelector(`tr[data-id="${item.id}"]`) as HTMLTableRowElement;
 
             tr.classList.add('is-drop-allowed');
 
@@ -711,8 +713,8 @@ export default class Table extends React.Component<TableProps, object> {
         }
         e.preventDefault();
         e.dataTransfer!.dropEffect = 'move';
-            
-        const overTr:HTMLElement = (e.target as HTMLElement).closest('tr')!;
+
+        const overTr: HTMLElement = (e.target as HTMLElement).closest('tr')!;
         if (!overTr || !~overTr.className.indexOf('is-drop-allowed') || overTr === this.draggingTr) {
             return;
         }
@@ -722,8 +724,8 @@ export default class Table extends React.Component<TableProps, object> {
         const tRect = overTr.getBoundingClientRect();
         let ratio = dRect.top < tRect.top ? 0.1 : 0.9;
 
-        const next = (e.clientY - tRect.top)/(tRect.bottom - tRect.top) > ratio;
-        tbody.insertBefore(this.draggingTr, next && overTr.nextSibling || overTr);
+        const next = (e.clientY - tRect.top) / (tRect.bottom - tRect.top) > ratio;
+        tbody.insertBefore(this.draggingTr, (next && overTr.nextSibling) || overTr);
     }
 
     @autobind
@@ -732,7 +734,7 @@ export default class Table extends React.Component<TableProps, object> {
         const tr = this.draggingTr;
         const tbody = tr.parentElement!;
         const index = Array.prototype.indexOf.call(tbody.childNodes, tr);
-        const item:IRow = store.getRowById(tr.getAttribute('data-id')!) as any;
+        const item: IRow = store.getRowById(tr.getAttribute('data-id')!) as any;
 
         // destroy
         this.handleDragEnd();
@@ -745,7 +747,7 @@ export default class Table extends React.Component<TableProps, object> {
         const tr = this.draggingTr;
         const tbody = tr.parentElement!;
         const index = Array.prototype.indexOf.call(tbody.childNodes, tr);
-        tbody.insertBefore(tr, tbody.childNodes[index < this.originIndex ? this.originIndex +  1 : this.originIndex]);
+        tbody.insertBefore(tr, tbody.childNodes[index < this.originIndex ? this.originIndex + 1 : this.originIndex]);
 
         tr.classList.remove('is-dragging');
         tr.removeEventListener('dragend', this.handleDragEnd);
@@ -833,19 +835,18 @@ export default class Table extends React.Component<TableProps, object> {
         } else if (column.type === '__expandme') {
             return (
                 <th {...props} className={cx(column.pristine.className)}>
-                    {store.footable && (store.footable.expandAll === false || store.footable.accordion) 
-                    || store.expandConfig && (store.expandConfig.expandAll === false || store.expandConfig.accordion)
-                        ? null 
-                        : (
-                            <a
-                                className={cx('Table-expandBtn', store.allExpanded  ? 'is-active' : '')}
-                                // data-tooltip="展开/收起全部"
-                                // data-position="top"
-                                onClick={store.toggleExpandAll}
-                            >
-                                <i />
-                            </a>
-                        )}
+                    {(store.footable && (store.footable.expandAll === false || store.footable.accordion)) ||
+                    (store.expandConfig &&
+                        (store.expandConfig.expandAll === false || store.expandConfig.accordion)) ? null : (
+                        <a
+                            className={cx('Table-expandBtn', store.allExpanded ? 'is-active' : '')}
+                            // data-tooltip="展开/收起全部"
+                            // data-position="top"
+                            onClick={store.toggleExpandAll}
+                        >
+                            <i />
+                        </a>
+                    )}
                 </th>
             );
         }
@@ -881,7 +882,7 @@ export default class Table extends React.Component<TableProps, object> {
                         onQuery &&
                             onQuery({
                                 orderBy: store.orderBy,
-                                orderDir: store.orderDir,
+                                orderDir: store.orderDir
                             });
                     }}
                 >
@@ -926,7 +927,7 @@ export default class Table extends React.Component<TableProps, object> {
                     'TableCell--sortable': column.sortable,
                     'TableCell--searchable': column.searchable,
                     'TableCell--filterable': column.filterable,
-                    'Table-operationCell': column.type === 'operation',
+                    'Table-operationCell': column.type === 'operation'
                 })}
             >
                 {column.label}
@@ -934,7 +935,7 @@ export default class Table extends React.Component<TableProps, object> {
                     ? render('remark', {
                           type: 'remark',
                           tooltip: column.remark,
-                          container: env && env.getModalContainer ? env.getModalContainer() : undefined,
+                          container: env && env.getModalContainer ? env.getModalContainer() : undefined
                       })
                     : null}
                 {affix}
@@ -971,13 +972,15 @@ export default class Table extends React.Component<TableProps, object> {
         } else if (column.type === '__expandme') {
             return (
                 <td key={props.key} className={cx(column.pristine.className)}>
-                    {item.depth > 2 ? Array.from({length: item.depth - 2}).map((_, index) => (
-                        <i key={index} className={cx('Table-divider-' + (index+1))}/>
-                    )) : null}
+                    {item.depth > 2
+                        ? Array.from({length: item.depth - 2}).map((_, index) => (
+                              <i key={index} className={cx('Table-divider-' + (index + 1))} />
+                          ))
+                        : null}
 
                     {item.expandable ? (
                         <a
-                            className={cx('Table-expandBtn', item.expanded  ? 'is-active' : '')}
+                            className={cx('Table-expandBtn', item.expanded ? 'is-active' : '')}
                             // data-tooltip="展开/收起"
                             // data-position="top"
                             onClick={item.toggleExpanded}
@@ -989,15 +992,11 @@ export default class Table extends React.Component<TableProps, object> {
             );
         }
 
-        let prefix:React.ReactNode = null;
+        let prefix: React.ReactNode = null;
 
         if (column.isPrimary && store.isNested && store.draggable && item.draggable) {
             prefix = (
-                <a 
-                    draggable
-                    onDragStart={this.handleDragStart}
-                    className={cx("Table-dragBtn")}
-                >
+                <a draggable onDragStart={this.handleDragStart} className={cx('Table-dragBtn')}>
                     <i className="glyphicon glyphicon-sort" />
                 </a>
             );
@@ -1023,7 +1022,7 @@ export default class Table extends React.Component<TableProps, object> {
                 ...column.pristine,
                 column: column.pristine,
                 type: 'cell',
-                $$id,
+                $$id
             },
             subProps
         );
@@ -1051,7 +1050,9 @@ export default class Table extends React.Component<TableProps, object> {
                             {store.columnGroup.length ? (
                                 <tr>
                                     {store.columnGroup.map((item, index) => (
-                                        <th key={index} data-index={item.index} colSpan={item.colSpan}>{item.label}</th>
+                                        <th key={index} data-index={item.index} colSpan={item.colSpan}>
+                                            {item.label}
+                                        </th>
                                     ))}
                                 </tr>
                             ) : null}
@@ -1059,7 +1060,7 @@ export default class Table extends React.Component<TableProps, object> {
                                 {store.filteredColumns.map(column =>
                                     this.renderHeadCell(column, {
                                         key: column.index,
-                                        'data-index': column.index,
+                                        'data-index': column.index
                                     })
                                 )}
                             </tr>
@@ -1092,7 +1093,9 @@ export default class Table extends React.Component<TableProps, object> {
                     {store.columnGroup.length ? (
                         <tr>
                             {store.columnGroup.map((item, index) => (
-                                <th key={index} data-index={item.index} colSpan={item.colSpan}>{item.label}</th>
+                                <th key={index} data-index={item.index} colSpan={item.colSpan}>
+                                    {item.label}
+                                </th>
                             ))}
                         </tr>
                     ) : null}
@@ -1100,7 +1103,7 @@ export default class Table extends React.Component<TableProps, object> {
                         {columns.map(column =>
                             this.renderHeadCell(column, {
                                 key: column.index,
-                                'data-index': column.index,
+                                'data-index': column.index
                             })
                         )}
                     </tr>
@@ -1134,10 +1137,14 @@ export default class Table extends React.Component<TableProps, object> {
                         ) : (
                             <tr className={cx('Table-placeholder')}>
                                 <td colSpan={columns.length}>
-                                    {render('placeholder', {
-                                        type: 'tpl',
-                                        tpl: placeholder
-                                    }, {data})}
+                                    {render(
+                                        'placeholder',
+                                        {
+                                            type: 'tpl',
+                                            tpl: placeholder
+                                        },
+                                        {data}
+                                    )}
                                 </td>
                             </tr>
                         )}
@@ -1226,20 +1233,20 @@ export default class Table extends React.Component<TableProps, object> {
         if (store.toggable && region === 'header' && !~this.renderedToolbars.indexOf('columns-toggler')) {
             actions.push({
                 type: 'button',
-                children: this.renderColumnsToggler(),
+                children: this.renderColumnsToggler()
             });
         }
 
         if (
             store.draggable &&
-            !store.isNested && 
+            !store.isNested &&
             region === 'header' &&
             store.rows.length > 1 &&
             !~this.renderedToolbars.indexOf('drag-toggler')
         ) {
             actions.push({
                 type: 'button',
-                children: this.renderDragToggler(),
+                children: this.renderDragToggler()
             });
         }
 
@@ -1250,13 +1257,13 @@ export default class Table extends React.Component<TableProps, object> {
                         `action/${key}`,
                         {
                             type: 'button',
-                            ...action as any,
+                            ...(action as any)
                         },
                         {
                             onAction: this.handleAction,
                             key,
                             btnDisabled: store.dragging,
-                            data: store.getData(data),
+                            data: store.getData(data)
                         }
                     )
                 )}
@@ -1274,7 +1281,7 @@ export default class Table extends React.Component<TableProps, object> {
             showHeader,
             store,
             classnames: cx,
-            data,
+            data
         } = this.props;
 
         if (showHeader === false) {
@@ -1291,7 +1298,7 @@ export default class Table extends React.Component<TableProps, object> {
                       selectedItems: store.selectedRows.map(item => item.data),
                       items: store.rows.map(item => item.data),
                       unSelectedItems: store.unSelectedRows.map(item => item.data),
-                      ...otherProps,
+                      ...otherProps
                   },
                   this.renderToolbar
               )
@@ -1315,7 +1322,7 @@ export default class Table extends React.Component<TableProps, object> {
                 <div className={cx('Table-header', headerClassName)} key="header">
                     {render('header', header, {
                         ...(editable === false ? otherProps : null),
-                        ata: store.getData(data),
+                        ata: store.getData(data)
                     })}
                 </div>
             ) : null;
@@ -1333,7 +1340,7 @@ export default class Table extends React.Component<TableProps, object> {
             showFooter,
             store,
             data,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         if (showFooter === false) {
@@ -1345,7 +1352,7 @@ export default class Table extends React.Component<TableProps, object> {
                   {
                       ...this.props,
                       selectedItems: store.selectedRows.map(item => item.data),
-                      items: store.rows.map(item => item.data),
+                      items: store.rows.map(item => item.data)
                   },
                   this.renderToolbar
               )
@@ -1363,7 +1370,7 @@ export default class Table extends React.Component<TableProps, object> {
             footer && (!Array.isArray(footer) || footer.length) ? (
                 <div className={cx('Table-footer', footerClassName)} key="footer">
                     {render('footer', footer, {
-                        data: store.getData(data),
+                        data: store.getData(data)
                     })}
                 </div>
             ) : null;
@@ -1371,11 +1378,19 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     renderRows(rows: Array<any>): any {
-        const {store, rowClassName, onAction, buildItemProps, checkOnItemClick, classPrefix: ns, classnames: cx} = this.props;
+        const {
+            store,
+            rowClassName,
+            onAction,
+            buildItemProps,
+            checkOnItemClick,
+            classPrefix: ns,
+            classnames: cx
+        } = this.props;
 
         return rows.map((item: IRow, rowIndex: number) => {
             const itemProps = buildItemProps ? buildItemProps(item, rowIndex) : null;
-            
+
             const doms = [
                 <TableRow
                     {...itemProps}
@@ -1395,7 +1410,7 @@ export default class Table extends React.Component<TableProps, object> {
                     onCheck={this.handleCheck}
                     // todo 先注释 quickEditEnabled={item.depth === 1}
                     onQuickChange={store.dragging ? null : this.handleQuickChange}
-                />,
+                />
             ];
 
             if (item.expanded && !store.dragging) {
@@ -1454,7 +1469,7 @@ export default class Table extends React.Component<TableProps, object> {
                 className={cx('Table-itemActions-wrap')}
                 style={{
                     top,
-                    height,
+                    height
                 }}
             >
                 <div className={cx('Table-itemActions')}>
@@ -1464,14 +1479,14 @@ export default class Table extends React.Component<TableProps, object> {
                             : render(
                                   `itemAction/${index}`,
                                   {
-                                      ...action as any,
-                                      isMenuItem: true,
+                                      ...(action as any),
+                                      isMenuItem: true
                                   },
                                   {
                                       key: index,
                                       item: store.rows[rowIndex],
                                       data: store.rows[rowIndex].locals,
-                                      rowIndex,
+                                      rowIndex
                                   }
                               )
                     )}
@@ -1496,7 +1511,7 @@ export default class Table extends React.Component<TableProps, object> {
         return (
             <div
                 className={cx('Table', className, {
-                    'Table--unsaved': !!store.modified || !!store.moved,
+                    'Table--unsaved': !!store.modified || !!store.moved
                 })}
             >
                 {this.renderAffixHeader(tableClassName)}
@@ -1523,7 +1538,9 @@ export default class Table extends React.Component<TableProps, object> {
                                 {store.columnGroup.length ? (
                                     <tr>
                                         {store.columnGroup.map((item, index) => (
-                                            <th key={index} data-index={item.index} colSpan={item.colSpan}>{item.label}</th>
+                                            <th key={index} data-index={item.index} colSpan={item.colSpan}>
+                                                {item.label}
+                                            </th>
                                         ))}
                                     </tr>
                                 ) : null}
@@ -1531,7 +1548,7 @@ export default class Table extends React.Component<TableProps, object> {
                                     {store.filteredColumns.map(column =>
                                         this.renderHeadCell(column, {
                                             'data-index': column.index,
-                                            key: column.index,
+                                            key: column.index
                                         })
                                     )}
                                 </tr>
@@ -1542,10 +1559,14 @@ export default class Table extends React.Component<TableProps, object> {
                                 ) : (
                                     <tr className={cx('Table-placeholder')}>
                                         <td colSpan={store.filteredColumns.length}>
-                                            {render('placeholder', {
-                                                type: 'tpl',
-                                                tpl: placeholder
-                                            }, {data})}
+                                            {render(
+                                                'placeholder',
+                                                {
+                                                    type: 'tpl',
+                                                    tpl: placeholder
+                                                },
+                                                {data}
+                                            )}
                                         </td>
                                     </tr>
                                 )}
@@ -1588,10 +1609,9 @@ class TableRow extends React.Component<TableRowProps> {
         let formItem;
 
         if (
-            !e.currentTarget.contains(target) 
-            || ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) 
-            || (formItem = target.closest(`button, a, .${ns}Form-item`)) 
-                && e.currentTarget.contains(formItem)
+            !e.currentTarget.contains(target) ||
+            ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
+            ((formItem = target.closest(`button, a, .${ns}Form-item`)) && e.currentTarget.contains(formItem))
         ) {
             return;
         }
@@ -1637,7 +1657,7 @@ class TableRow extends React.Component<TableRowProps> {
                         'is-modified': item.modified,
                         'is-moved': item.moved,
                         [`${ns}Table-tr--odd`]: itemIndex % 2 === 0,
-                        [`${ns}Table-tr--even`]: itemIndex % 2 === 1,
+                        [`${ns}Table-tr--even`]: itemIndex % 2 === 1
                     })}
                 >
                     <td className={`${ns}Table-foot`} colSpan={footableColSpan}>
@@ -1654,7 +1674,7 @@ class TableRow extends React.Component<TableRowProps> {
                                             colIndex: column.rawIndex,
                                             key: column.index,
                                             onAction: this.handleAction,
-                                            onQuickChange: this.handleQuickChange,
+                                            onQuickChange: this.handleQuickChange
                                         })}
                                     </tr>
                                 ))}
@@ -1678,7 +1698,7 @@ class TableRow extends React.Component<TableRowProps> {
                         'is-modified': item.modified,
                         'is-moved': item.moved,
                         [`${ns}Table-tr--odd`]: itemIndex % 2 === 0,
-                        [`${ns}Table-tr--even`]: itemIndex % 2 === 1,
+                        [`${ns}Table-tr--even`]: itemIndex % 2 === 1
                     },
                     `${ns}Table-tr--${item.depth}th`
                 )}
@@ -1690,7 +1710,7 @@ class TableRow extends React.Component<TableRowProps> {
                         colIndex: column.rawIndex,
                         key: column.index,
                         onAction: this.handleAction,
-                        onQuickChange: this.handleQuickChange,
+                        onQuickChange: this.handleQuickChange
                     })
                 )}
             </tr>
@@ -1701,7 +1721,7 @@ class TableRow extends React.Component<TableRowProps> {
 @Renderer({
     test: (path: string) => /(^|\/)table$/.test(path) /* && !/(^|\/)table$/.test(path)*/,
     storeType: TableStore.name,
-    name: 'table',
+    name: 'table'
 })
 export class TableRenderer extends Table {}
 
@@ -1722,7 +1742,7 @@ export interface HeadCellSearchProps extends RendererProps {
 
 export class HeadCellSearchDropDown extends React.Component<HeadCellSearchProps, any> {
     state = {
-        isOpened: false,
+        isOpened: false
     };
 
     constructor(props: HeadCellSearchProps) {
@@ -1747,15 +1767,15 @@ export class HeadCellSearchDropDown extends React.Component<HeadCellSearchProps,
                     {
                         type: 'text',
                         name,
-                        placeholder: label,
-                    },
-                ],
+                        placeholder: label
+                    }
+                ]
             };
         } else if (searchable) {
             if (searchable.controls || searchable.tabs || searchable.fieldSet) {
                 schema = {
                     title: '',
-                    ...searchable,
+                    ...searchable
                 };
             } else {
                 schema = {
@@ -1766,9 +1786,9 @@ export class HeadCellSearchDropDown extends React.Component<HeadCellSearchProps,
                             type: searchable.type || 'text',
                             name: searchable.name || name,
                             placeholder: label,
-                            ...searchable,
-                        },
-                    ],
+                            ...searchable
+                        }
+                    ]
                 };
             }
         }
@@ -1778,7 +1798,7 @@ export class HeadCellSearchDropDown extends React.Component<HeadCellSearchProps,
                 {
                     type: 'hidden',
                     name: 'orderBy',
-                    value: name,
+                    value: name
                 },
                 {
                     type: 'button-group',
@@ -1787,13 +1807,13 @@ export class HeadCellSearchDropDown extends React.Component<HeadCellSearchProps,
                     options: [
                         {
                             label: '正序',
-                            value: 'asc',
+                            value: 'asc'
                         },
                         {
                             label: '降序',
-                            value: 'desc',
-                        },
-                    ],
+                            value: 'desc'
+                        }
+                    ]
                 }
             );
         }
@@ -1807,15 +1827,15 @@ export class HeadCellSearchDropDown extends React.Component<HeadCellSearchProps,
                     {
                         type: 'button',
                         label: '取消',
-                        actionType: 'cancel',
+                        actionType: 'cancel'
                     },
 
                     {
                         label: '搜索',
                         type: 'submit',
-                        primary: true,
-                    },
-                ],
+                        primary: true
+                    }
+                ]
             };
         }
 
@@ -1828,13 +1848,13 @@ export class HeadCellSearchDropDown extends React.Component<HeadCellSearchProps,
 
     open() {
         this.setState({
-            isOpened: true,
+            isOpened: true
         });
     }
 
     close() {
         this.setState({
-            isOpened: false,
+            isOpened: false
         });
     }
 
@@ -1857,7 +1877,7 @@ export class HeadCellSearchDropDown extends React.Component<HeadCellSearchProps,
         if (values.orderDir) {
             values = {
                 ...values,
-                orderBy: name,
+                orderBy: name
             };
         }
 
@@ -1888,10 +1908,10 @@ export class HeadCellSearchDropDown extends React.Component<HeadCellSearchProps,
                                     data: {
                                         ...data,
                                         orderBy: orderBy,
-                                        orderDir: orderBy === name ? (store as ITableStore).orderDir : '',
+                                        orderDir: orderBy === name ? (store as ITableStore).orderDir : ''
                                     },
                                     onSubmit: this.handleSubmit,
-                                    onAction: this.handleAction,
+                                    onAction: this.handleAction
                                 }) as JSX.Element
                             }
                         </PopOver>
@@ -1919,7 +1939,7 @@ export interface HeadCellFilterProps extends RendererProps {
 export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps, any> {
     state = {
         isOpened: false,
-        filterOptions: [],
+        filterOptions: []
     };
 
     constructor(props: HeadCellFilterProps) {
@@ -1938,7 +1958,7 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
             this.fetchOptions();
         } else if (filterable.options.length > 0) {
             this.setState({
-                filterOptions: this.alterOptions(filterable.options),
+                filterOptions: this.alterOptions(filterable.options)
             });
         }
     }
@@ -1955,7 +1975,7 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
                 this.fetchOptions();
             } else if (nextProps.filterable.options) {
                 this.setState({
-                    filterOptions: this.alterOptions(nextProps.filterable.options || []),
+                    filterOptions: this.alterOptions(nextProps.filterable.options || [])
                 });
             }
         }
@@ -1967,7 +1987,7 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
             env.fetcher(filterable.source, data).then(ret => {
                 let options = (ret.data && ret.data.options) || [];
                 this.setState({
-                    filterOptions: ret && ret.data && this.alterOptions(options),
+                    filterOptions: ret && ret.data && this.alterOptions(options)
                 });
             });
     }
@@ -1979,12 +1999,12 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
         if (filterable.multiple) {
             options = options.map(option => ({
                 ...option,
-                selected: filterValue.split(',').indexOf(option.value) > -1,
+                selected: filterValue.split(',').indexOf(option.value) > -1
             }));
         } else {
             options = options.map(option => ({
                 ...option,
-                selected: option.value === filterValue,
+                selected: option.value === filterValue
             }));
         }
         return options;
@@ -1996,13 +2016,13 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
 
     open() {
         this.setState({
-            isOpened: true,
+            isOpened: true
         });
     }
 
     close() {
         this.setState({
-            isOpened: false,
+            isOpened: false
         });
     }
 
@@ -2010,7 +2030,7 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
         const {onQuery, name} = this.props;
 
         onQuery({
-            [name]: value,
+            [name]: value
         });
         this.close();
     }
@@ -2026,7 +2046,7 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
         }
 
         onQuery({
-            [name]: query,
+            [name]: query
         });
     }
 
@@ -2057,7 +2077,7 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
                                               <li
                                                   key={index}
                                                   className={cx('DropDown-divider', {
-                                                      'is-selected': option.selected,
+                                                      'is-selected': option.selected
                                                   })}
                                                   onClick={this.handleClick.bind(this, option.value)}
                                               >
@@ -2091,7 +2111,7 @@ export interface TableCellProps extends RendererProps {
 }
 export class TableCell extends React.Component<RendererProps> {
     static defaultProps = {
-        wrapperComponent: 'td',
+        wrapperComponent: 'td'
     };
 
     static propsList: Array<string> = ['type', 'label', 'column', 'body', 'tpl', 'rowSpan', 'remark'];
@@ -2123,7 +2143,7 @@ export class TableCell extends React.Component<RendererProps> {
         const schema = {
             ...column,
             className: innerClassName,
-            type: (column && column.type) || 'plain',
+            type: (column && column.type) || 'plain'
         };
 
         let body = children
@@ -2131,17 +2151,23 @@ export class TableCell extends React.Component<RendererProps> {
             : render('field', schema, {
                   ...rest,
                   value,
-                  data,
+                  data
               });
 
         if (width) {
             style = {
                 ...style,
-                width: (style && style.width) || width,
+                width: (style && style.width) || width
             };
 
             if (!/%$/.test(String(style.width))) {
-                body = <div style={{width: style.width}}>{prefix}{body}{affix}</div>;
+                body = (
+                    <div style={{width: style.width}}>
+                        {prefix}
+                        {body}
+                        {affix}
+                    </div>
+                );
                 prefix = null;
                 affix = null;
                 // delete style.width;
@@ -2170,7 +2196,7 @@ export class TableCell extends React.Component<RendererProps> {
 
 @Renderer({
     test: /(^|\/)table\/(?:.*\/)?cell$/,
-    name: 'table-cell',
+    name: 'table-cell'
 })
 @QuickEdit()
 @PopOverable()
@@ -2182,13 +2208,13 @@ export class TableCellRenderer extends TableCell {
 
 @Renderer({
     test: /(^|\/)field$/,
-    name: 'field',
+    name: 'field'
 })
 @PopOverable()
 @Copyable()
 export class FieldRenderer extends TableCell {
     static defaultProps = {
         ...TableCell.defaultProps,
-        wrapperComponent: 'div',
+        wrapperComponent: 'div'
     };
 }

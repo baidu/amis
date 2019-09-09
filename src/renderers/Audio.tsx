@@ -50,7 +50,11 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     };
 
     state: AudioState = {
-        src: this.props.value || (this.props.src ? filter(this.props.src, this.props.data) : '') || resolveVariable(this.props.name, this.props.data) || '',
+        src:
+            this.props.value ||
+            (this.props.src ? filter(this.props.src, this.props.data) : '') ||
+            resolveVariable(this.props.name, this.props.data) ||
+            '',
         isReady: false,
         muted: false,
         playing: false,
@@ -61,7 +65,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         loaded: 0,
         playbackRate: 1.0,
         showHandlePlaybackRate: false,
-        showHandleVolume: false,
+        showHandleVolume: false
     };
 
     componentWillUnmount() {
@@ -74,26 +78,29 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         const playing = autoPlay ? true : false;
         this.setState(
             {
-                playing: playing,
+                playing: playing
             },
             this.progress
         );
     }
 
-    componentWillReceiveProps(nextProps:AudioProps) {
+    componentWillReceiveProps(nextProps: AudioProps) {
         const props = this.props;
 
         if (
             props.value !== nextProps.value ||
             filter(props.src as string, props.data) !== filter(nextProps.src as string, nextProps.data)
         ) {
-            this.setState({
-                src: nextProps.value || filter(nextProps.src as string, nextProps.data),
-                playing: false
-            }, () => {
-                this.audio.load();
-                this.progress();
-            });
+            this.setState(
+                {
+                    src: nextProps.value || filter(nextProps.src as string, nextProps.data),
+                    playing: false
+                },
+                () => {
+                    this.audio.load();
+                    this.progress();
+                }
+            );
         }
     }
 
@@ -108,7 +115,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
             playing = played != 1 && playing ? true : false;
             this.setState({
                 played,
-                playing,
+                playing
             });
             this.progressTimeout = setTimeout(this.progress, this.props.progressInterval / this.state.playbackRate);
         }
@@ -122,7 +129,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     @autobind
     load() {
         this.setState({
-            isReady: true,
+            isReady: true
         });
     }
 
@@ -131,7 +138,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         this.audio.playbackRate = rate;
         this.setState({
             playbackRate: rate,
-            showHandlePlaybackRate: false,
+            showHandlePlaybackRate: false
         });
     }
 
@@ -145,7 +152,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         this.audio.muted = !muted;
         this.setState({
             muted: !muted,
-            volume: curVolume,
+            volume: curVolume
         });
     }
 
@@ -157,7 +164,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         let playing = this.state.playing;
         playing ? this.audio.pause() : this.audio.play();
         this.setState({
-            playing: !playing,
+            playing: !playing
         });
     }
 
@@ -227,7 +234,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         playing = played < 1 || loop ? playing : false;
         this.setState({
             playing: playing,
-            seeking: false,
+            seeking: false
         });
     }
 
@@ -240,7 +247,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         this.audio.volume = volume;
         this.setState({
             volume: volume,
-            prevVolume: volume,
+            prevVolume: volume
         });
     }
 
@@ -267,7 +274,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
             return;
         }
         this.setState({
-            showHandlePlaybackRate: !this.state.showHandlePlaybackRate,
+            showHandlePlaybackRate: !this.state.showHandlePlaybackRate
         });
     }
 
@@ -277,42 +284,33 @@ export class Audio extends React.Component<AudioProps, AudioState> {
             return;
         }
         this.setState({
-            showHandleVolume: type,
+            showHandleVolume: type
         });
     }
 
     renderRates() {
-        const {
-            rates,
-            classnames: cx
-        } = this.props;
-        const {
-            showHandlePlaybackRate,
-            playbackRate
-        } = this.state;
+        const {rates, classnames: cx} = this.props;
+        const {showHandlePlaybackRate, playbackRate} = this.state;
 
-        return (
-            rates && rates.length ?
-                showHandlePlaybackRate ? (
-                    <div className={cx('Audio-rateControl')}>
-                        {rates.map((rate, index) =>
-                            <div
-                                key={index}
-                                className={cx('Audio-rateControlItem')}
-                                onClick={() => this.handlePlaybackRate(rate)}>
-                                x{rate.toFixed(1)}
-                            </div>
-                        )}
-                    </div>
-                ) : (
-                    <div
-                        className={cx('Audio-rates')}
-                        onClick={this.toggleHandlePlaybackRate}>
-                        x{playbackRate.toFixed(1)}
-                    </div>
-                )
-                : null
-        )
+        return rates && rates.length ? (
+            showHandlePlaybackRate ? (
+                <div className={cx('Audio-rateControl')}>
+                    {rates.map((rate, index) => (
+                        <div
+                            key={index}
+                            className={cx('Audio-rateControlItem')}
+                            onClick={() => this.handlePlaybackRate(rate)}
+                        >
+                            x{rate.toFixed(1)}
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <div className={cx('Audio-rates')} onClick={this.toggleHandlePlaybackRate}>
+                    x{playbackRate.toFixed(1)}
+                </div>
+            )
+        ) : null;
     }
 
     renderPlay() {
@@ -320,12 +318,10 @@ export class Audio extends React.Component<AudioProps, AudioState> {
         const {playing} = this.state;
 
         return (
-            <div
-                className={cx('Audio-play')}
-                onClick={this.handlePlaying}>
+            <div className={cx('Audio-play')} onClick={this.handlePlaying}>
                 {playing ? <Icon icon="pause" className="icon" /> : <Icon icon="play" className="icon" />}
             </div>
-        )
+        );
     }
 
     renderTime() {
@@ -335,7 +331,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
             <div className={cx('Audio-times')}>
                 {this.getCurrentTime()} / {this.getDuration()}
             </div>
-        )
+        );
     }
 
     renderProcess() {
@@ -346,56 +342,38 @@ export class Audio extends React.Component<AudioProps, AudioState> {
             <div className={cx('Audio-process')}>
                 <input
                     type="range"
-                    min={0} max={1} step="any"
+                    min={0}
+                    max={1}
+                    step="any"
                     value={played || 0}
                     onMouseDown={this.onSeekMouseDown}
                     onChange={this.onSeekChange}
-                    onMouseUp={this.onSeekMouseUp} />
+                    onMouseUp={this.onSeekMouseUp}
+                />
             </div>
-        )
+        );
     }
 
     renderVolume() {
         const {classnames: cx} = this.props;
-        const {
-            volume,
-            showHandleVolume
-        } = this.state;
+        const {volume, showHandleVolume} = this.state;
 
-        return (
-            showHandleVolume ? (
-                <div
-                    className={cx('Audio-volumeControl')}
-                    onMouseLeave={() => this.toggleHandleVolume(false)}>
-                    <div
-                        className={cx('Audio-volumeControlIcon')}
-                        onClick={this.handleMute}>
-                        {volume > 0 ? <Icon icon="volume" className="icon" /> : <Icon icon="mute" className="icon" />}
-                    </div>
-                    <input
-                        type='range' min={0} max={1} step='any'
-                        value={volume}
-                        onChange={this.setVolume} />
-                </div>
-            ) : (
-                <div
-                    className={cx('Audio-volume')}
-                    onMouseEnter={() => this.toggleHandleVolume(true)}>
+        return showHandleVolume ? (
+            <div className={cx('Audio-volumeControl')} onMouseLeave={() => this.toggleHandleVolume(false)}>
+                <div className={cx('Audio-volumeControlIcon')} onClick={this.handleMute}>
                     {volume > 0 ? <Icon icon="volume" className="icon" /> : <Icon icon="mute" className="icon" />}
                 </div>
-            )
-        )
+                <input type="range" min={0} max={1} step="any" value={volume} onChange={this.setVolume} />
+            </div>
+        ) : (
+            <div className={cx('Audio-volume')} onMouseEnter={() => this.toggleHandleVolume(true)}>
+                {volume > 0 ? <Icon icon="volume" className="icon" /> : <Icon icon="mute" className="icon" />}
+            </div>
+        );
     }
 
     render() {
-        const {
-            className,
-            inline,
-            autoPlay,
-            loop,
-            controls,
-            classnames: cx
-        } = this.props;
+        const {className, inline, autoPlay, loop, controls, classnames: cx} = this.props;
         const {muted, src} = this.state;
 
         return (
@@ -407,19 +385,23 @@ export class Audio extends React.Component<AudioProps, AudioState> {
                     autoPlay={autoPlay}
                     controls
                     muted={muted}
-                    loop={loop}>
+                    loop={loop}
+                >
                     <source src={src} />
                 </audio>
                 <div className={cx('Audio-controls')}>
-                    {controls && controls.map((control:string, index:number) => {
-                        control = 'render' + upperFirst(control);
-                        const method:'renderRates'|'renderPlay'|'renderTime'|'renderProcess'|'renderVolume'|'render' = control as any;
-                        return (
-                            <React.Fragment key={index}>
-                                {this[method]()}
-                            </React.Fragment>
-                        )
-                    })}
+                    {controls &&
+                        controls.map((control: string, index: number) => {
+                            control = 'render' + upperFirst(control);
+                            const method:
+                                | 'renderRates'
+                                | 'renderPlay'
+                                | 'renderTime'
+                                | 'renderProcess'
+                                | 'renderVolume'
+                                | 'render' = control as any;
+                            return <React.Fragment key={index}>{this[method]()}</React.Fragment>;
+                        })}
                 </div>
             </div>
         );
@@ -428,6 +410,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
 @Renderer({
     test: /(^|\/)audio/,
-    name: 'audio',
+    name: 'audio'
 })
 export class AudioRenderer extends Audio {}

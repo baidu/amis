@@ -29,10 +29,10 @@ export class DateField extends React.Component<DateProps, DateState> {
     // 动态显示相对时间时，用来触发视图更新
     state: DateState = {
         random: 0
-    }
+    };
 
     componentDidMount() {
-        const { fromNow, updateFrequency } = this.props;
+        const {fromNow, updateFrequency} = this.props;
 
         if (fromNow && updateFrequency) {
             this.refreshInterval = setInterval(() => {
@@ -48,7 +48,7 @@ export class DateField extends React.Component<DateProps, DateState> {
     }
 
     render() {
-        const { value, valueFormat, format, placeholder, fromNow, className, classnames: cx } = this.props;
+        const {value, valueFormat, format, placeholder, fromNow, className, classnames: cx} = this.props;
         let viewValue: React.ReactNode = <span className="text-muted">{placeholder}</span>;
 
         if (value) {
@@ -57,11 +57,9 @@ export class DateField extends React.Component<DateProps, DateState> {
 
             viewValue = ISODate.isValid()
                 ? ISODate.format(format)
-                : (
-                    NormalDate.isValid()
-                        ? NormalDate.format(format)
-                        : false
-                );
+                : NormalDate.isValid()
+                ? NormalDate.format(format)
+                : false;
         }
 
         if (fromNow) {
@@ -76,33 +74,33 @@ export class DateField extends React.Component<DateProps, DateState> {
 
 @Renderer({
     test: /(^|\/)date$/,
-    name: 'date-field',
+    name: 'date-field'
 })
 export class DateFieldRenderer extends DateField {
     static defaultProps: Partial<DateProps> = {
         ...DateField.defaultProps,
-        format: 'YYYY-MM-DD',
+        format: 'YYYY-MM-DD'
     };
 }
 
 @Renderer({
     test: /(^|\/)datetime$/,
-    name: 'datetime-field',
+    name: 'datetime-field'
 })
 export class DateTimeFieldRenderer extends DateField {
     static defaultProps: Partial<DateProps> = {
         ...DateField.defaultProps,
-        format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD HH:mm:ss'
     };
 }
 
 @Renderer({
     test: /(^|\/)time$/,
-    name: 'time-field',
+    name: 'time-field'
 })
 export class TimeFieldRenderer extends DateField {
     static defaultProps: Partial<DateProps> = {
         ...DateField.defaultProps,
-        format: 'HH:mm',
+        format: 'HH:mm'
     };
 }

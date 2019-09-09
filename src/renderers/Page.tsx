@@ -53,7 +53,7 @@ export default class Page extends React.Component<PageProps> {
         initFetch: true,
         // primaryField: 'id',
         toolbarClassName: '',
-        messages: {},
+        messages: {}
     };
 
     static propsList: Array<string> = [
@@ -70,7 +70,7 @@ export default class Page extends React.Component<PageProps> {
         'body',
         'aside',
         'messages',
-        'style',
+        'style'
     ];
 
     componentWillMount() {
@@ -86,7 +86,7 @@ export default class Page extends React.Component<PageProps> {
             'handleClick',
             'reload',
             'silentReload',
-            'initInterval',
+            'initInterval'
         ]);
 
         // if (location && location.search) {
@@ -115,7 +115,7 @@ export default class Page extends React.Component<PageProps> {
             store
                 .fetchInitData(initApi, store.data, {
                     successMessage: messages && messages.fetchSuccess,
-                    errorMessage: messages && messages.fetchFailed,
+                    errorMessage: messages && messages.fetchFailed
                 })
                 .then(this.initInterval);
         }
@@ -153,7 +153,7 @@ export default class Page extends React.Component<PageProps> {
                 store
                     .fetchData(initApi as Api, store.data, {
                         successMessage: messages && messages.fetchSuccess,
-                        errorMessage: messages && messages.fetchFailed,
+                        errorMessage: messages && messages.fetchFailed
                     })
                     .then(this.initInterval);
         }
@@ -188,7 +188,7 @@ export default class Page extends React.Component<PageProps> {
             store
                 .saveRemote(action.api as string, ctx, {
                     successMessage: (action.messages && action.messages.success) || (messages && messages.saveSuccess),
-                    errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveSuccess),
+                    errorMessage: (action.messages && action.messages.failed) || (messages && messages.saveSuccess)
                 })
                 .then(async () => {
                     if (action.feedback && isVisible(action.feedback, store.data)) {
@@ -260,7 +260,7 @@ export default class Page extends React.Component<PageProps> {
             store.setCurrentAction({
                 type: 'button',
                 actionType: 'dialog',
-                dialog: dialog,
+                dialog: dialog
             });
             store.openDialog(ctx, undefined, confirmed => {
                 resolve(confirmed);
@@ -279,7 +279,7 @@ export default class Page extends React.Component<PageProps> {
         isEffectiveApi(initApi, store.data) &&
             store
                 .fetchData(initApi, store.data, {
-                    silent,
+                    silent
                 })
                 .then(this.initInterval);
     }
@@ -316,11 +316,11 @@ export default class Page extends React.Component<PageProps> {
             render,
             store,
             env,
-            classnames: cx,
+            classnames: cx
         } = this.props;
 
         const subProps = {
-            onAction: this.handleAction,
+            onAction: this.handleAction
         };
         let header, right;
 
@@ -334,7 +334,7 @@ export default class Page extends React.Component<PageProps> {
                                 ? render('remark', {
                                       type: 'remark',
                                       tooltip: remark,
-                                      container: env && env.getModalContainer ? env.getModalContainer() : undefined,
+                                      container: env && env.getModalContainer ? env.getModalContainer() : undefined
                                   })
                                 : null}
                         </h2>
@@ -372,11 +372,11 @@ export default class Page extends React.Component<PageProps> {
             aside,
             asideClassName,
             classnames: cx,
-            header,
+            header
         } = this.props;
 
         const subProps = {
-            onAction: this.handleAction,
+            onAction: this.handleAction
         };
 
         const hasAside = aside && (!Array.isArray(aside) || aside.length);
@@ -390,9 +390,9 @@ export default class Page extends React.Component<PageProps> {
                             ...(typeof aside === 'string'
                                 ? {
                                       inline: false,
-                                      className: `Page-asideTplWrapper`,
+                                      className: `Page-asideTplWrapper`
                                   }
-                                : null),
+                                : null)
                         })}
                     </div>
                 ) : null}
@@ -402,11 +402,13 @@ export default class Page extends React.Component<PageProps> {
                     <div className={cx('Page-main')}>
                         {this.renderHeader()}
                         <div className={cx(`Page-body`, bodyClassName)}>
-                            {store.loading ? render('spinner', {
-                                type: 'spinner',
-                                overlay: true,
-                                size: 'lg',
-                            }) : null}
+                            {store.loading
+                                ? render('spinner', {
+                                      type: 'spinner',
+                                      overlay: true,
+                                      size: 'lg'
+                                  })
+                                : null}
 
                             {store.error ? (
                                 <Alert level="danger" showCloseButton onClose={store.clearMessage}>
@@ -419,29 +421,37 @@ export default class Page extends React.Component<PageProps> {
                     </div>
                 </div>
 
-                {render('dialog', {
-                    ...((store.action as Action) && ((store.action as Action).dialog as object)),
-                    type: 'dialog',
-                }, {
-                    key: 'dialog',
-                    data: store.dialogData,
-                    onConfirm: this.handleDialogConfirm,
-                    onClose: this.handleDialogClose,
-                    show: store.dialogOpen,
-                    onAction: this.handleAction,
-                })}
+                {render(
+                    'dialog',
+                    {
+                        ...((store.action as Action) && ((store.action as Action).dialog as object)),
+                        type: 'dialog'
+                    },
+                    {
+                        key: 'dialog',
+                        data: store.dialogData,
+                        onConfirm: this.handleDialogConfirm,
+                        onClose: this.handleDialogClose,
+                        show: store.dialogOpen,
+                        onAction: this.handleAction
+                    }
+                )}
 
-                {render('drawer', {
-                    ...((store.action as Action) && ((store.action as Action).drawer as object)),
-                    type: 'drawer',
-                }, {
-                    key: 'drawer',
-                    data: store.drawerData,
-                    onConfirm: this.handleDrawerConfirm,
-                    onClose: this.handleDrawerClose,
-                    show: store.drawerOpen,
-                    onAction: this.handleAction,
-                })}
+                {render(
+                    'drawer',
+                    {
+                        ...((store.action as Action) && ((store.action as Action).drawer as object)),
+                        type: 'drawer'
+                    },
+                    {
+                        key: 'drawer',
+                        data: store.drawerData,
+                        onConfirm: this.handleDrawerConfirm,
+                        onClose: this.handleDrawerClose,
+                        show: store.drawerOpen,
+                        onAction: this.handleAction
+                    }
+                )}
             </div>
         );
     }
@@ -451,7 +461,7 @@ export default class Page extends React.Component<PageProps> {
     test: /(?:^|\/)page$/,
     name: 'page',
     storeType: ServiceStore.name,
-    isolateScope: true,
+    isolateScope: true
 })
 export class PageRenderer extends Page {
     static contextType = ScopedContext;
@@ -487,7 +497,7 @@ export class PageRenderer extends Page {
                     target.doAction(
                         {
                             ...action,
-                            target: undefined,
+                            target: undefined
                         },
                         ctx
                     );

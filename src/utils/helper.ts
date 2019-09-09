@@ -3,46 +3,53 @@ import transform = require('lodash/transform');
 import isEqual = require('lodash/isEqual');
 import lodashIsObject = require('lodash/isObject');
 import uniq = require('lodash/uniq');
-import {
-    Schema, PlainObject, FunctionPropertyNames
-} from '../types';
-import { evalExpression } from './tpl';
-import { boundMethod } from 'autobind-decorator';
+import {Schema, PlainObject, FunctionPropertyNames} from '../types';
+import {evalExpression} from './tpl';
+import {boundMethod} from 'autobind-decorator';
 import qs from 'qs';
 
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
-export function createObject(superProps?: { [propName: string]: any }, props?: { [propName: string]: any }, properties?: any): object {
+export function createObject(
+    superProps?: {[propName: string]: any},
+    props?: {[propName: string]: any},
+    properties?: any
+): object {
     if (superProps && Object.isFrozen(superProps)) {
         superProps = cloneObject(superProps);
     }
 
-    const obj = superProps ? Object.create(superProps, {
-        ...properties,
-        '__super': {
-            value: superProps,
-            writable: false,
-            enumerable: false
-        }
-    }) : Object.create(Object.prototype, properties);
-    props && Object.keys(props).forEach(key => obj[key] = props[key]);
+    const obj = superProps
+        ? Object.create(superProps, {
+              ...properties,
+              __super: {
+                  value: superProps,
+                  writable: false,
+                  enumerable: false
+              }
+          })
+        : Object.create(Object.prototype, properties);
+    props && Object.keys(props).forEach(key => (obj[key] = props[key]));
     return obj;
 }
 
 export function cloneObject(from: any) {
-    const obj = from && from.__super ? Object.create(from.__super, {
-        '__super': {
-            value: from.__super,
-            writable: false,
-            enumerable: false
-        }
-    }) : Object.create(Object.prototype);
-    from && Object.keys(from).forEach(key => obj[key] = from[key]);
+    const obj =
+        from && from.__super
+            ? Object.create(from.__super, {
+                  __super: {
+                      value: from.__super,
+                      writable: false,
+                      enumerable: false
+                  }
+              })
+            : Object.create(Object.prototype);
+    from && Object.keys(from).forEach(key => (obj[key] = from[key]));
     return obj;
 }
 
 export function extendObject(to: any, from?: any) {
     const obj = cloneObject(to);
-    from && Object.keys(from).forEach(key => obj[key] = from[key]);
+    from && Object.keys(from).forEach(key => (obj[key] = from[key]));
     return obj;
 }
 
@@ -54,18 +61,13 @@ export function syncDataFromSuper(data: any, superObject: any, prevSuperObject: 
     if (superObject || prevSuperObject) {
         Object.keys(obj).forEach(key => {
             if (
-                (
-                    superObject && typeof superObject[key] !== "undefined"
-                    || prevSuperObject && typeof prevSuperObject[key] !== "undefined"
-                )
-
-                && (
-                    force
-                    || prevSuperObject && !superObject
-                    || !prevSuperObject && superObject
-                    || prevSuperObject[key] !== superObject[key]
-                )) {
-
+                ((superObject && typeof superObject[key] !== 'undefined') ||
+                    (prevSuperObject && typeof prevSuperObject[key] !== 'undefined')) &&
+                (force ||
+                    (prevSuperObject && !superObject) ||
+                    (!prevSuperObject && superObject) ||
+                    prevSuperObject[key] !== superObject[key])
+            ) {
                 obj[key] = superObject[key];
             }
         });
@@ -74,12 +76,11 @@ export function syncDataFromSuper(data: any, superObject: any, prevSuperObject: 
     return obj;
 }
 
-
 /**
-* 生成 8 位随机数字。
-*
-* @return {string} 8位随机数字
-*/
+ * 生成 8 位随机数字。
+ *
+ * @return {string} 8位随机数字
+ */
 export function guid() {
     function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -99,28 +100,31 @@ export function findIndex(arr: Array<any>, detect: (item?: any, index?: number) 
     return -1;
 }
 
-export function getVariable(data: { [propName: string]: any }, key: string, canAccessSuper: boolean = true): any {
+export function getVariable(data: {[propName: string]: any}, key: string, canAccessSuper: boolean = true): any {
     if (!data || !key) {
         return undefined;
     } else if (canAccessSuper ? key in data : data.hasOwnProperty(key)) {
         return data[key];
     }
 
-    return key.split('.')
+    return key
+        .split('.')
         .reduce(
-            (obj, key) => obj && typeof obj === 'object' && (canAccessSuper ? key in obj : obj.hasOwnProperty(key)) ? obj[key] : undefined
-            , data
+            (obj, key) =>
+                obj && typeof obj === 'object' && (canAccessSuper ? key in obj : obj.hasOwnProperty(key))
+                    ? obj[key]
+                    : undefined,
+            data
         );
 }
 
-export function setVariable(data: { [propName: string]: any }, key: string, value: any) {
+export function setVariable(data: {[propName: string]: any}, key: string, value: any) {
     data = data || {};
 
     if (key in data) {
         data[key] = value;
         return;
     }
-
 
     const parts = key.split('.');
     const last = parts.pop() as string;
@@ -133,7 +137,7 @@ export function setVariable(data: { [propName: string]: any }, key: string, valu
             };
         } else if (data[key]) {
             // throw new Error(`目标路径不是纯对象，不能覆盖`);
-            // 强行转成对象 
+            // 强行转成对象
             data[key] = {};
             data = data[key];
         } else {
@@ -145,15 +149,13 @@ export function setVariable(data: { [propName: string]: any }, key: string, valu
     data[last] = value;
 }
 
-export function deleteVariable(data: { [propName: string]: any }, key: string) {
+export function deleteVariable(data: {[propName: string]: any}, key: string) {
     if (!data) {
         return;
     } else if (data.hasOwnProperty(key)) {
         delete data[key];
         return;
     }
-
-
 
     const parts = key.split('.');
     const last = parts.pop() as string;
@@ -176,7 +178,7 @@ export function deleteVariable(data: { [propName: string]: any }, key: string) {
     }
 }
 
-export function hasOwnProperty(data: { [propName: string]: any }, key: string): boolean {
+export function hasOwnProperty(data: {[propName: string]: any}, key: string): boolean {
     const parts = key.split('.');
 
     while (parts.length) {
@@ -191,16 +193,23 @@ export function hasOwnProperty(data: { [propName: string]: any }, key: string): 
     return true;
 }
 
-export function noop() { }
+export function noop() {}
 
-export function anyChanged(attrs: string | Array<string>, from: { [propName: string]: any }, to: { [propName: string]: any }, strictMode: boolean = true): boolean {
-    return (typeof attrs === 'string' ? attrs.split(/\s*,\s*/) : attrs).some(key => strictMode ? from[key] !== to[key] : from[key] != to[key]);
+export function anyChanged(
+    attrs: string | Array<string>,
+    from: {[propName: string]: any},
+    to: {[propName: string]: any},
+    strictMode: boolean = true
+): boolean {
+    return (typeof attrs === 'string' ? attrs.split(/\s*,\s*/) : attrs).some(key =>
+        strictMode ? from[key] !== to[key] : from[key] != to[key]
+    );
 }
 
 export function rmUndefined(obj: PlainObject) {
     const newObj: PlainObject = {};
 
-    if (typeof obj !== "object") {
+    if (typeof obj !== 'object') {
         return obj;
     }
 
@@ -214,8 +223,13 @@ export function rmUndefined(obj: PlainObject) {
     return newObj;
 }
 
-export function isObjectShallowModified(prev: any, next: any, strictMode: boolean = true, ignoreUndefined: boolean = false) {
-    if (null == prev || null == next || typeof prev !== "object" || typeof next !== "object") {
+export function isObjectShallowModified(
+    prev: any,
+    next: any,
+    strictMode: boolean = true,
+    ignoreUndefined: boolean = false
+) {
+    if (null == prev || null == next || typeof prev !== 'object' || typeof next !== 'object') {
         return strictMode ? prev !== next : prev != next;
     }
 
@@ -231,7 +245,9 @@ export function isObjectShallowModified(prev: any, next: any, strictMode: boolea
     }
     for (let i: number = keys.length - 1; i >= 0; i--) {
         let key = keys[i];
-        if (strictMode ? next[key] !== prev[key] : isObjectShallowModified(next[key], prev[key], false, ignoreUndefined)) {
+        if (
+            strictMode ? next[key] !== prev[key] : isObjectShallowModified(next[key], prev[key], false, ignoreUndefined)
+        ) {
             return true;
         }
     }
@@ -257,11 +273,11 @@ export function isArrayChilrenModified(prev: Array<any>, next: Array<any>, stric
 }
 
 // 即将抛弃
-export function makeColumnClassBuild(steps: number, classNameTpl:string = "col-sm-$value") {
+export function makeColumnClassBuild(steps: number, classNameTpl: string = 'col-sm-$value') {
     let count = 12;
     let step = Math.floor(count / steps);
 
-    return function (schema: Schema) {
+    return function(schema: Schema) {
         if (schema.columnClassName && /\bcol-(?:xs|sm|md|lg)-(\d+)\b/.test(schema.columnClassName)) {
             const flex = parseInt(RegExp.$1, 10);
             count -= flex;
@@ -276,42 +292,51 @@ export function makeColumnClassBuild(steps: number, classNameTpl:string = "col-s
 
         count -= step;
         steps--;
-        return classNameTpl.replace("$value", '' + step);
-    }
+        return classNameTpl.replace('$value', '' + step);
+    };
 }
 
-export function isVisible(schema: {
-    visibleOn?: string;
-    hiddenOn?: string;
-    visible?: boolean;
-    hidden?: boolean;
-}, data?: object) {
+export function isVisible(
+    schema: {
+        visibleOn?: string;
+        hiddenOn?: string;
+        visible?: boolean;
+        hidden?: boolean;
+    },
+    data?: object
+) {
     return !(
-        schema.hidden
-        || schema.visible === false
-        || schema.hiddenOn && evalExpression(schema.hiddenOn, data) === true
-        || schema.visibleOn && evalExpression(schema.visibleOn, data) === false
-    )
+        schema.hidden ||
+        schema.visible === false ||
+        (schema.hiddenOn && evalExpression(schema.hiddenOn, data) === true) ||
+        (schema.visibleOn && evalExpression(schema.visibleOn, data) === false)
+    );
 }
 
-export function isDisabled(schema: {
-    disabledOn?: string;
-    disabled?: string;
-}, data?: object) {
-    return schema.disabled || schema.disabledOn && evalExpression(schema.disabledOn, data);
+export function isDisabled(
+    schema: {
+        disabledOn?: string;
+        disabled?: string;
+    },
+    data?: object
+) {
+    return schema.disabled || (schema.disabledOn && evalExpression(schema.disabledOn, data));
 }
 
-export function makeHorizontalDeeper(horizontal: {
-    left: string;
-    right: string;
-    offset: string;
-    leftFixed?: any;
-}, count: number): {
-        left: string | number;
-        right: string | number;
-        offset: string | number;
+export function makeHorizontalDeeper(
+    horizontal: {
+        left: string;
+        right: string;
+        offset: string;
         leftFixed?: any;
-    } {
+    },
+    count: number
+): {
+    left: string | number;
+    right: string | number;
+    offset: string | number;
+    leftFixed?: any;
+} {
     if (count > 1 && /\bcol-(xs|sm|md|lg)-(\d+)\b/.test(horizontal.left)) {
         const flex = parseInt(RegExp.$2, 10) * count;
         return {
@@ -322,7 +347,7 @@ export function makeHorizontalDeeper(horizontal: {
         };
     } else if (count > 1 && typeof horizontal.left === 'number') {
         const flex = horizontal.left * count;
-        
+
         return {
             leftFixed: horizontal.leftFixed,
             left: flex,
@@ -334,17 +359,23 @@ export function makeHorizontalDeeper(horizontal: {
     return horizontal;
 }
 
-export function promisify<T extends Function>(fn: T): ((...args: Array<any>) => Promise<any> & {
-    raw: T
-}) {
-    let promisified = function () {
+export function promisify<T extends Function>(
+    fn: T
+): (
+    ...args: Array<any>
+) => Promise<any> & {
+    raw: T;
+} {
+    let promisified = function() {
         try {
             const ret = fn.apply(null, arguments);
             if (ret && ret.then) {
                 return ret;
             } else if (typeof ret === 'function') {
                 // thunk support
-                return new Promise((resolve, reject) => ret((error: boolean, value: any) => error ? reject(error) : resolve(value)));
+                return new Promise((resolve, reject) =>
+                    ret((error: boolean, value: any) => (error ? reject(error) : resolve(value)))
+                );
             }
             return Promise.resolve(ret);
         } catch (e) {
@@ -361,7 +392,10 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
     }
 
     const style = getComputedStyle(node);
-    const text = style.getPropertyValue('overflow') + style.getPropertyValue('overflow-x') + style.getPropertyValue('overflow-y');
+    const text =
+        style.getPropertyValue('overflow') +
+        style.getPropertyValue('overflow-x') +
+        style.getPropertyValue('overflow-y');
 
     if (/auto|scroll/.test(text) || node.nodeName === 'BODY') {
         return node;
@@ -370,22 +404,24 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
     return getScrollParent(node.parentNode as HTMLElement);
 }
 
-
 /**
  * Deep diff between two object, using lodash
  * @param  {Object} object Object compared
  * @param  {Object} base   Object to compare with
  * @return {Object}        Return a new object who represent the diff
  */
-export function difference<T extends { [propName: string]: any }, U extends { [propName: string]: any }>(object: T, base: U): { [propName: string]: any } {
+export function difference<T extends {[propName: string]: any}, U extends {[propName: string]: any}>(
+    object: T,
+    base: U
+): {[propName: string]: any} {
     function changes(object: T, base: U) {
         const keys: Array<keyof T & keyof U> = uniq(Object.keys(object).concat(Object.keys(base)));
-        let result:any = {};
+        let result: any = {};
 
         keys.forEach(key => {
-            const a:any = object[key as keyof T];
-            const b:any = base[key as keyof U];
-            
+            const a: any = object[key as keyof T];
+            const b: any = base[key as keyof U];
+
             if (isEqual(a, b)) {
                 return;
             }
@@ -406,7 +442,6 @@ export function difference<T extends { [propName: string]: any }, U extends { [p
     }
     return changes(object, base);
 }
-
 
 export const padArr = (arr: Array<any>, size = 4): Array<Array<any>> => {
     const ret: Array<Array<any>> = [];
@@ -433,7 +468,14 @@ export function __uri(id: string) {
 
 export function isObject(obj: any) {
     const typename = typeof obj;
-    return obj && typename !== 'string' && typename !== 'number' && typename !== 'boolean' && typename !== 'function' && !Array.isArray(obj);
+    return (
+        obj &&
+        typename !== 'string' &&
+        typename !== 'number' &&
+        typename !== 'boolean' &&
+        typename !== 'function' &&
+        !Array.isArray(obj)
+    );
 }
 
 // xs < 768px
@@ -448,26 +490,33 @@ export function isBreakpoint(str: string): boolean {
     const breaks = str.split(/\s*,\s*|\s+/);
 
     if (window.matchMedia) {
-        return breaks.some(item =>
-            item === '*'
-            || item === 'xs' && matchMedia(`screen and (max-width: 767px)`).matches
-            || item === 'sm' && matchMedia(`screen and (min-width: 768px) and (max-width: 991px)`).matches
-            || item === 'md' && matchMedia(`screen and (min-width: 992px) and (max-width: 1199px)`).matches
-            || item === 'lg' && matchMedia(`screen and (min-width: 1200px)`).matches
+        return breaks.some(
+            item =>
+                item === '*' ||
+                (item === 'xs' && matchMedia(`screen and (max-width: 767px)`).matches) ||
+                (item === 'sm' && matchMedia(`screen and (min-width: 768px) and (max-width: 991px)`).matches) ||
+                (item === 'md' && matchMedia(`screen and (min-width: 992px) and (max-width: 1199px)`).matches) ||
+                (item === 'lg' && matchMedia(`screen and (min-width: 1200px)`).matches)
         );
     } else {
         const width = window.innerWidth;
-        return breaks.some(item =>
-            item === '*'
-            || item === 'xs' && width < 768
-            || item === 'sm' && width >= 768 && width < 992
-            || item === 'md' && width >= 992 && width < 1200
-            || item === 'lg' && width >= 1200
+        return breaks.some(
+            item =>
+                item === '*' ||
+                (item === 'xs' && width < 768) ||
+                (item === 'sm' && width >= 768 && width < 992) ||
+                (item === 'md' && width >= 992 && width < 1200) ||
+                (item === 'lg' && width >= 1200)
         );
     }
 }
 
-export function until(fn: () => Promise<any>, when: (ret: any) => boolean, getCanceler: (fn: () => any) => void, interval: number = 5000) {
+export function until(
+    fn: () => Promise<any>,
+    when: (ret: any) => boolean,
+    getCanceler: (fn: () => any) => void,
+    interval: number = 5000
+) {
     let timer: number;
     let stoped: boolean = false;
 
@@ -492,7 +541,7 @@ export function until(fn: () => Promise<any>, when: (ret: any) => boolean, getCa
             } catch (e) {
                 reject(e);
             }
-        }
+        };
 
         check();
         getCanceler && getCanceler(cancel);
@@ -504,7 +553,6 @@ export function omitControls(controls: Array<any>, omitItems: Array<string>): Ar
 }
 
 export function isEmpty(thing: any) {
-
     if (isObject(thing) && Object.keys(thing).length) {
         return false;
     }
@@ -513,43 +561,51 @@ export function isEmpty(thing: any) {
 }
 
 /**
-* 基于时间戳的 uuid
-*
-* @returns uniqueId
-*/
+ * 基于时间戳的 uuid
+ *
+ * @returns uniqueId
+ */
 export const uuid = () => {
     return (+new Date()).toString(36);
-}
+};
 
 export interface TreeItem {
     children?: TreeArray;
     [propName: string]: any;
-};
-export interface TreeArray extends Array<TreeItem> { };
+}
+export interface TreeArray extends Array<TreeItem> {}
 
 /**
-* 类似于 arr.map 方法，此方法主要针对类似下面示例的树形结构。
-* [
-*     {
-*         children: []
-*     },
-*     // 其他成员
-* ]
-*
-* @param {Tree} tree 树形数据
-* @param {Function} iterator 处理函数，返回的数据会被替换成新的。
-* @return {Tree} 返回处理过的 tree
-*/
-export function mapTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number, paths: Array<T>) => T, level: number = 1, depthFirst: boolean = false, paths: Array<T> = []) {
+ * 类似于 arr.map 方法，此方法主要针对类似下面示例的树形结构。
+ * [
+ *     {
+ *         children: []
+ *     },
+ *     // 其他成员
+ * ]
+ *
+ * @param {Tree} tree 树形数据
+ * @param {Function} iterator 处理函数，返回的数据会被替换成新的。
+ * @return {Tree} 返回处理过的 tree
+ */
+export function mapTree<T extends TreeItem>(
+    tree: Array<T>,
+    iterator: (item: T, key: number, level: number, paths: Array<T>) => T,
+    level: number = 1,
+    depthFirst: boolean = false,
+    paths: Array<T> = []
+) {
     return tree.map((item: any, index) => {
         if (depthFirst) {
-            let children: TreeArray | undefined = item.children ? mapTree(item.children, iterator, level + 1, depthFirst, paths.concat(item)) : undefined;
-            children && (item = { ...item, children: children });
-            item = iterator(item, index, level, paths) || { ...item as object };
+            let children: TreeArray | undefined = item.children
+                ? mapTree(item.children, iterator, level + 1, depthFirst, paths.concat(item))
+                : undefined;
+            children && (item = {...item, children: children});
+            item = iterator(item, index, level, paths) || {...(item as object)};
             return item;
         }
 
-        item = iterator(item, index, level, paths) || { ...item as object };
+        item = iterator(item, index, level, paths) || {...(item as object)};
 
         if (item.children && item.children.splice) {
             item.children = mapTree(item.children, iterator, level + 1, depthFirst, paths.concat(item));
@@ -559,9 +615,13 @@ export function mapTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, 
     });
 }
 
-export function eachTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => any, level: number = 1) {
+export function eachTree<T extends TreeItem>(
+    tree: Array<T>,
+    iterator: (item: T, key: number, level: number) => any,
+    level: number = 1
+) {
     tree.map((item, index) => {
-        iterator(item, index, level)
+        iterator(item, index, level);
 
         if (item.children && item.children.splice) {
             eachTree(item.children, iterator, level + 1);
@@ -569,8 +629,12 @@ export function eachTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T,
     });
 }
 
-export function findTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => any, level:number = 1):T | null {
-    let result:T | null = null; 
+export function findTree<T extends TreeItem>(
+    tree: Array<T>,
+    iterator: (item: T, key: number, level: number) => any,
+    level: number = 1
+): T | null {
+    let result: T | null = null;
 
     everyTree(tree, (item, key, level) => {
         if (iterator(item, key, level)) {
@@ -583,7 +647,11 @@ export function findTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T,
     return result;
 }
 
-export function filterTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => boolean, level: number = 1) {
+export function filterTree<T extends TreeItem>(
+    tree: Array<T>,
+    iterator: (item: T, key: number, level: number) => boolean,
+    level: number = 1
+) {
     return tree.filter((item, index) => {
         if (!iterator(item, index, level)) {
             return false;
@@ -597,9 +665,13 @@ export function filterTree<T extends TreeItem>(tree: Array<T>, iterator: (item: 
     });
 }
 
-export function everyTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => boolean, level: number = 1):boolean {
+export function everyTree<T extends TreeItem>(
+    tree: Array<T>,
+    iterator: (item: T, key: number, level: number) => boolean,
+    level: number = 1
+): boolean {
     return tree.every((item, index) => {
-        const value:any = iterator(item, index, level);
+        const value: any = iterator(item, index, level);
 
         if (value && item.children && item.children.splice) {
             return everyTree(item.children, iterator, level + 1);
@@ -609,9 +681,13 @@ export function everyTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T
     });
 }
 
-export function someTree<T extends TreeItem>(tree: Array<T>, iterator: (item: T, key: number, level: number) => boolean, level: number = 1):boolean {
+export function someTree<T extends TreeItem>(
+    tree: Array<T>,
+    iterator: (item: T, key: number, level: number) => boolean,
+    level: number = 1
+): boolean {
     return tree.some((item, index) => {
-        const value:any = iterator(item, index, level);
+        const value: any = iterator(item, index, level);
 
         if (!value && item.children && item.children.splice) {
             return someTree(item.children, iterator, level + 1);
@@ -627,27 +703,32 @@ export function flattenTree<T extends TreeItem>(tree: Array<T>): Array<T> {
     return flattened;
 }
 
-export function ucFirst(str?:string) {
-    return str ? (str.substring(0, 1).toUpperCase() + str.substring(1)) : '';
+export function ucFirst(str?: string) {
+    return str ? str.substring(0, 1).toUpperCase() + str.substring(1) : '';
 }
 
-export function lcFirst(str?:string) {
-    return str ? (str.substring(0, 1).toLowerCase() + str.substring(1)) : '';
+export function lcFirst(str?: string) {
+    return str ? str.substring(0, 1).toLowerCase() + str.substring(1) : '';
 }
 
-export function camel(str?:string) {
-    return str ? str.split(/[\s_\-]/).map((item, index) => index === 0 ? lcFirst(item) : ucFirst(item)).join('') : '';
+export function camel(str?: string) {
+    return str
+        ? str
+              .split(/[\s_\-]/)
+              .map((item, index) => (index === 0 ? lcFirst(item) : ucFirst(item)))
+              .join('')
+        : '';
 }
 
-export function getWidthRate(value:any):number {
-    if (typeof value === "string" && /\bcol\-\w+\-(\d+)\b/.test(value)) {
+export function getWidthRate(value: any): number {
+    if (typeof value === 'string' && /\bcol\-\w+\-(\d+)\b/.test(value)) {
         return parseInt(RegExp.$1, 10);
     }
 
     return value || 0;
 }
 
-export function getLevelFromClassName(value:string, defaultValue: string = 'default') {
+export function getLevelFromClassName(value: string, defaultValue: string = 'default') {
     if (/\b(?:btn|text)-(link|primary|secondary|info|success|warning|danger|light|dark)\b/.test(value)) {
         return RegExp.$1;
     }
@@ -655,22 +736,23 @@ export function getLevelFromClassName(value:string, defaultValue: string = 'defa
     return defaultValue;
 }
 
-export function pickEventsProps(props:any) {
-    const ret:any = {};
+export function pickEventsProps(props: any) {
+    const ret: any = {};
     props && Object.keys(props).forEach(key => /^on/.test(key) && (ret[key] = props[key]));
     return ret;
 }
 
 export const autobind = boundMethod;
 
+export const bulkBindFunctions = function<
+    T extends {
+        [propName: string]: any;
+    }
+>(context: T, funNames: Array<FunctionPropertyNames<T>>) {
+    funNames.forEach(key => (context[key] = context[key].bind(context)));
+};
 
-export const bulkBindFunctions = function<T extends {
-    [propName:string]: any
-}>(context:T, funNames:Array<FunctionPropertyNames<T>>) {
-    funNames.forEach(key => context[key] = context[key].bind(context));
-}
-
-export function sortArray<T extends any>(items:Array<T>, field:string, dir: -1 | 1):Array<T> {
+export function sortArray<T extends any>(items: Array<T>, field: string, dir: -1 | 1): Array<T> {
     return items.sort((a, b) => {
         let ret: number;
         const a1 = a[field];
@@ -683,22 +765,25 @@ export function sortArray<T extends any>(items:Array<T>, field:string, dir: -1 |
         }
 
         return ret * dir;
-    })
-}
-
-// 只判断一层, 如果层级很深，form-data 也不好表达。
-export function hasFile(object:any):boolean {
-    return Object.keys(object).some(key => {
-        let value = object[key];
-
-        return value instanceof File || Array.isArray(value) && value.length && value[0] instanceof File;
     });
 }
 
-export function object2formData(data:any, options:any = {
-    arrayForamt: 'brackets'
-}):any {
-    let others:any = {};
+// 只判断一层, 如果层级很深，form-data 也不好表达。
+export function hasFile(object: any): boolean {
+    return Object.keys(object).some(key => {
+        let value = object[key];
+
+        return value instanceof File || (Array.isArray(value) && value.length && value[0] instanceof File);
+    });
+}
+
+export function object2formData(
+    data: any,
+    options: any = {
+        arrayForamt: 'brackets'
+    }
+): any {
+    let others: any = {};
     const fd = new FormData();
     Object.keys(data).forEach(key => {
         const value = data[key];
@@ -713,17 +798,19 @@ export function object2formData(data:any, options:any = {
     });
 
     // 因为 key 的格式太多了，偷个懒，用 qs 来处理吧。
-    qs.stringify(others, options).split('&').forEach(item => {
-        let parts = item.split('=');
-        parts[0] && fd.append(parts[0], parts[1]);
-    });
+    qs.stringify(others, options)
+        .split('&')
+        .forEach(item => {
+            let parts = item.split('=');
+            parts[0] && fd.append(parts[0], parts[1]);
+        });
     return fd;
 }
 
-export function chainFunctions(...fns:Array<(...args:Array<any>) => void>):(...args:Array<any>) => void {
-    return (...args:Array<any>) => {
+export function chainFunctions(...fns: Array<(...args: Array<any>) => void>): (...args: Array<any>) => void {
+    return (...args: Array<any>) => {
         fns.forEach(fn => fn && fn(...args));
-    }
+    };
 }
 
 export function mapObject(value: any, fn: Function): any {

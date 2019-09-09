@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import Cropper from 'react-cropper';
 import DropZone from 'react-dropzone';
@@ -12,9 +9,9 @@ import 'blueimp-canvastoblob';
 // import 'cropperjs/dist/cropper.css';
 import find = require('lodash/find');
 import qs from 'qs';
-import { Payload } from '../../types';
-import { filter } from '../../utils/tpl';
-import { Switch } from '../../components';
+import {Payload} from '../../types';
+import {filter} from '../../utils/tpl';
+import {Switch} from '../../components';
 
 export interface ImageProps extends FormControlProps {
     placeholder?: string;
@@ -28,7 +25,7 @@ export interface ImageProps extends FormControlProps {
         minHeight?: number;
         aspectRatio?: number;
         aspectRatioLabel?: string;
-    },
+    };
     accept?: string;
     btnUploadClassName?: string;
     btnClassName?: string;
@@ -38,7 +35,7 @@ export interface ImageProps extends FormControlProps {
     delimiter?: string;
     autoUpload?: boolean;
     multiple?: boolean;
-};
+}
 
 export interface ImageState {
     uploading: boolean;
@@ -49,16 +46,16 @@ export interface ImageState {
         maxWidth?: number;
         maxHeight?: number;
     };
-    files: Array<FileValue|FileX>;
+    files: Array<FileValue | FileX>;
     crop?: object;
     error?: string;
     cropFile?: FileValue;
     submitOnChange?: boolean;
-};
+}
 
 export interface FileValue {
     value?: any;
-    state: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid',
+    state: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid';
     url?: string;
     error?: string;
     info?: {
@@ -66,13 +63,13 @@ export interface FileValue {
         height: number;
         len?: number;
     };
-    [propName:string]: any;
+    [propName: string]: any;
 }
 
 export interface FileX extends File {
     preview?: string;
     state?: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid';
-    [propName:string]: any;
+    [propName: string]: any;
 }
 
 export default class ImageControl extends React.Component<ImageProps, ImageState> {
@@ -92,7 +89,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         multiple: false
     };
 
-    static formatFileSize(size:number | string, units = [' B', ' KB', ' M', ' G']) {
+    static formatFileSize(size: number | string, units = [' B', ' KB', ' M', ' G']) {
         size = parseInt(size as string, 10) || 0;
 
         while (size > 1024 && units.length > 1) {
@@ -103,17 +100,21 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         return size.toFixed(2) + units[0];
     }
 
-    static valueToFile(value:string | object, props?:ImageProps):FileValue|undefined {
-        return value ? {
-            ...(typeof value === 'string' ? {
-                value,
-                url: value
-            } : value),
-            state: 'init'
-        } : undefined;
+    static valueToFile(value: string | object, props?: ImageProps): FileValue | undefined {
+        return value
+            ? {
+                  ...(typeof value === 'string'
+                      ? {
+                            value,
+                            url: value
+                        }
+                      : value),
+                  state: 'init'
+              }
+            : undefined;
     }
 
-    static sizeInfo(width?:number, height?:number):string {
+    static sizeInfo(width?: number, height?: number): string {
         if (!width) {
             return `高度${height}px`;
         } else if (!height) {
@@ -123,7 +124,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         return `尺寸（${width} x ${height}）`;
     }
 
-    state:ImageState = {
+    state: ImageState = {
         uploading: false,
         locked: false,
         compress: false,
@@ -131,22 +132,27 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         compressOptions: {}
     };
 
-    current: FileValue|FileX|null = null;
-    resolve?: (value?:any) => void;
+    current: FileValue | FileX | null = null;
+    resolve?: (value?: any) => void;
 
-    constructor(props:ImageProps) {
+    constructor(props: ImageProps) {
         super(props);
-        const value:string|Array<string | FileValue>|FileValue = props.value;
+        const value: string | Array<string | FileValue> | FileValue = props.value;
         const multiple = props.multiple;
         const joinValues = props.joinValues;
         const delimiter = props.delimiter as string;
-        let files:Array<FileValue> = [];
+        let files: Array<FileValue> = [];
 
         if (value) {
             // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
-            files = (Array.isArray(value) ? value : (joinValues && typeof value === 'string' && multiple) ? (value as string).split(delimiter) : [value])
-            .map(item => ImageControl.valueToFile(item) as FileValue)
-            .filter(item => item);
+            files = (Array.isArray(value)
+                ? value
+                : joinValues && typeof value === 'string' && multiple
+                ? (value as string).split(delimiter)
+                : [value]
+            )
+                .map(item => ImageControl.valueToFile(item) as FileValue)
+                .filter(item => item);
         }
 
         this.state = {
@@ -176,33 +182,38 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         this.handlePaste = this.handlePaste.bind(this);
     }
 
-    componentWillReceiveProps(nextProps:ImageProps) {
+    componentWillReceiveProps(nextProps: ImageProps) {
         const props = this.props;
 
         if (props.value !== nextProps.value) {
-            const value:string|Array<string | FileValue>|FileValue = nextProps.value;
+            const value: string | Array<string | FileValue> | FileValue = nextProps.value;
             const multiple = nextProps.multiple;
             const joinValues = nextProps.joinValues;
             const delimiter = nextProps.delimiter as string;
 
-            let files:Array<FileValue> = [];
+            let files: Array<FileValue> = [];
 
             if (value) {
-                files = (Array.isArray(value) ? value : (joinValues && typeof value === 'string') ? (value as string).split(delimiter) : [value])
-                .map(item => {
-                    let obj = ImageControl.valueToFile(item, nextProps) as FileValue;
-                    let org;
+                files = (Array.isArray(value)
+                    ? value
+                    : joinValues && typeof value === 'string'
+                    ? (value as string).split(delimiter)
+                    : [value]
+                )
+                    .map(item => {
+                        let obj = ImageControl.valueToFile(item, nextProps) as FileValue;
+                        let org;
 
-                    if (obj && (org = find(this.state.files, item => (item as FileValue).value === obj.value))) {
-                        obj = {
-                            ...org,
-                            ...obj
-                        };
-                    }
+                        if (obj && (org = find(this.state.files, item => (item as FileValue).value === obj.value))) {
+                            obj = {
+                                ...org,
+                                ...obj
+                            };
+                        }
 
-                    return obj;
-                })
-                .filter(item => item);
+                        return obj;
+                    })
+                    .filter(item => item);
             }
 
             this.setState({
@@ -217,7 +228,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         }
     }
 
-    buildCrop(props:ImageProps) {
+    buildCrop(props: ImageProps) {
         let crop = props.crop;
 
         if (crop && props.multiple) {
@@ -244,7 +255,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         return crop;
     }
 
-    handleDropRejected(rejectedFiles:any, evt:React.DragEvent<any>) {
+    handleDropRejected(rejectedFiles: any, evt: React.DragEvent<any>) {
         evt.type === 'change' && alert('您选择的文件类型不符已被过滤！');
     }
 
@@ -253,17 +264,20 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
             return;
         }
 
-        this.setState({
-            uploading: true,
-            locked: true,
-            files: this.state.files.map(file => {
-                if (file.state === 'error') {
-                    file.state = 'pending';
-                }
+        this.setState(
+            {
+                uploading: true,
+                locked: true,
+                files: this.state.files.map(file => {
+                    if (file.state === 'error') {
+                        file.state = 'pending';
+                    }
 
-                return file;
-            })
-        }, this.tick);
+                    return file;
+                })
+            },
+            this.tick
+        );
     }
 
     toggleUpload() {
@@ -281,78 +295,94 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
     }
 
     tick() {
-        if (this.current || !this.state.uploading) {return;}
+        if (this.current || !this.state.uploading) {
+            return;
+        }
 
         const file = find(this.state.files, item => item.state === 'pending');
         if (file) {
             this.current = file;
 
             file.state = 'uploading';
-            this.setState({
-                files: this.state.files.concat()
-            }, () => this.sendFile(file as FileX, (error, file, obj) => {
-                const files = this.state.files.concat();
-                const idx = files.indexOf(file);
+            this.setState(
+                {
+                    files: this.state.files.concat()
+                },
+                () =>
+                    this.sendFile(file as FileX, (error, file, obj) => {
+                        const files = this.state.files.concat();
+                        const idx = files.indexOf(file);
 
-                if (!~idx) {
-                    return;
-                }
+                        if (!~idx) {
+                            return;
+                        }
 
-                let newFile:FileX | FileValue = file;
+                        let newFile: FileX | FileValue = file;
 
-                if (error) {
-                    newFile.state = file.state !== 'uploading' ? file.state : 'error';
-                    newFile.error = error;
+                        if (error) {
+                            newFile.state = file.state !== 'uploading' ? file.state : 'error';
+                            newFile.error = error;
 
-                    if (!this.props.multiple && newFile.state === 'invalid') {
-                        files.splice(idx, 1);
+                            if (!this.props.multiple && newFile.state === 'invalid') {
+                                files.splice(idx, 1);
+                                this.current = null;
+
+                                return this.setState(
+                                    {
+                                        files: files,
+                                        error: error
+                                    },
+                                    this.tick
+                                );
+                            }
+                        } else {
+                            newFile = obj as FileValue;
+                        }
+                        files.splice(idx, 1, newFile);
                         this.current = null;
-
-                        return this.setState({
-                            files: files,
-                            error: error
-                        }, this.tick);
-                    }
-
-                } else {
-                    newFile = obj as FileValue;
-                }
-                files.splice(idx, 1, newFile);
-                this.current = null;
-                this.setState({
-                    files: files
-                }, this.tick);
-            }));
+                        this.setState(
+                            {
+                                files: files
+                            },
+                            this.tick
+                        );
+                    })
+            );
         } else {
-            this.setState({
-                uploading: false,
-                locked: false
-            }, () => {
-                this.onChange();
+            this.setState(
+                {
+                    uploading: false,
+                    locked: false
+                },
+                () => {
+                    this.onChange();
 
-                if (this.resolve) {
-                    this.resolve(this.state.files.some(file => file.state === 'error') ? '文件上传失败请重试' : null);
-                    this.resolve = undefined;
+                    if (this.resolve) {
+                        this.resolve(
+                            this.state.files.some(file => file.state === 'error') ? '文件上传失败请重试' : null
+                        );
+                        this.resolve = undefined;
+                    }
                 }
-            });
-            
+            );
         }
     }
 
-    removeFile(file:FileValue, index:number) {
+    removeFile(file: FileValue, index: number) {
         const files = this.state.files.concat();
 
         files.splice(index, 1);
 
-        this.setState({
-            files: files
-        }, this.onChange);
+        this.setState(
+            {
+                files: files
+            },
+            this.onChange
+        );
     }
 
-    editImage(index:number) {
-        const {
-            multiple
-        } = this.props;
+    editImage(index: number) {
+        const {multiple} = this.props;
 
         const files = this.state.files;
 
@@ -362,27 +392,27 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                 state: 'init'
             }
         });
-
     }
 
     onChange() {
-        const {
-            multiple,
-            onChange,
-            joinValues,
-            extractValue,
-            delimiter,
-            valueField
-        } = this.props;
+        const {multiple, onChange, joinValues, extractValue, delimiter, valueField} = this.props;
 
         const files = this.state.files.filter(file => file.state == 'uploaded' || file.state == 'init');
 
-        let newValue:any = files.length ? joinValues ? files[0].value : files[0] : '';
+        let newValue: any = files.length ? (joinValues ? files[0].value : files[0]) : '';
 
         if (multiple) {
-            newValue = joinValues ? files.map(item => item.value).join(delimiter) : extractValue ? files.map(item => item.value) : files;
+            newValue = joinValues
+                ? files.map(item => item.value).join(delimiter)
+                : extractValue
+                ? files.map(item => item.value)
+                : files;
         } else {
-            newValue = joinValues ? newValue.value || newValue : extractValue ? newValue[valueField || 'value'] : newValue;
+            newValue = joinValues
+                ? newValue.value || newValue
+                : extractValue
+                ? newValue[valueField || 'value']
+                : newValue;
         }
 
         onChange(newValue);
@@ -392,10 +422,10 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         this.refs.dropzone && (this.refs.dropzone as any).open();
     }
 
-    handleDrop(files:Array<FileX>) {
+    handleDrop(files: Array<FileX>) {
         const {multiple, crop} = this.props;
 
-        if (crop && !multiple ) {
+        if (crop && !multiple) {
             return this.setState({
                 locked: true,
                 lockedReason: '请选择放弃或者应用',
@@ -406,13 +436,13 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         this.addFiles(files);
     }
 
-    handlePaste(e:React.ClipboardEvent<any>) {
+    handlePaste(e: React.ClipboardEvent<any>) {
         const event = e.nativeEvent;
-        const files:Array<FileX> = [];
+        const files: Array<FileX> = [];
         const items = event.clipboardData.items;
 
-        [].slice.call(items).forEach((item:DataTransferItem) => {
-            let blob:FileX;
+        [].slice.call(items).forEach((item: DataTransferItem) => {
+            let blob: FileX;
 
             if (item.kind !== 'file' || !(blob = item.getAsFile() as File) || !/^image/i.test(blob.type)) {
                 return;
@@ -426,7 +456,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
     }
 
     handleCrop() {
-        (this.refs.cropper as any).getCroppedCanvas().toBlob((file:File) => {
+        (this.refs.cropper as any).getCroppedCanvas().toBlob((file: File) => {
             this.addFiles([file]);
             this.setState({
                 cropFile: undefined,
@@ -437,14 +467,17 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
     }
 
     cancelCrop() {
-        this.setState({
-            cropFile: undefined,
-            locked: false,
-            lockedReason: ''
-        }, this.onChange);
+        this.setState(
+            {
+                cropFile: undefined,
+                locked: false,
+                lockedReason: ''
+            },
+            this.onChange
+        );
     }
 
-    addFiles(files:Array<FileX>) {
+    addFiles(files: Array<FileX>) {
         if (!files.length) {
             return;
         }
@@ -456,12 +489,17 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
             currentFiles = [];
         }
 
-        const allowed = (multiple ? maxLength ? maxLength : (files.length + currentFiles.length) : 1) - currentFiles.length;
-        const inputFiles:Array<FileX> = [];
+        const allowed =
+            (multiple ? (maxLength ? maxLength : files.length + currentFiles.length) : 1) - currentFiles.length;
+        const inputFiles: Array<FileX> = [];
 
         [].slice.call(files, 0, allowed).forEach((file: FileX) => {
             if (maxSize && file.size > maxSize) {
-                alert(`您选择的文件 ${file.name} 大小为 ${ImageControl.formatFileSize(file.size)} 超出了最大为 ${ImageControl.formatFileSize(maxSize)} 的限制，请重新选择`);
+                alert(
+                    `您选择的文件 ${file.name} 大小为 ${ImageControl.formatFileSize(
+                        file.size
+                    )} 超出了最大为 ${ImageControl.formatFileSize(maxSize)} 的限制，请重新选择`
+                );
                 return;
             }
 
@@ -476,22 +514,23 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
             return;
         }
 
-        this.setState({
-            error: undefined,
-            files: currentFiles.concat(inputFiles),
-            locked: true
-        }, () => {
-            const {
-                autoUpload
-            } = this.props;
+        this.setState(
+            {
+                error: undefined,
+                files: currentFiles.concat(inputFiles),
+                locked: true
+            },
+            () => {
+                const {autoUpload} = this.props;
 
-            if (autoUpload) {
-                this.startUpload();
+                if (autoUpload) {
+                    this.startUpload();
+                }
             }
-        });
+        );
     }
 
-    sendFile(file:FileX, cb:(error:null|string, file:FileX, obj?: FileValue) => void) {
+    sendFile(file: FileX, cb: (error: null | string, file: FileX, obj?: FileValue) => void) {
         const {limit} = this.props;
 
         if (!limit) {
@@ -504,14 +543,21 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
             const height = image.height;
             let error = '';
 
-            if (limit.width && limit.width != width || limit.height && limit.height != height) {
+            if ((limit.width && limit.width != width) || (limit.height && limit.height != height)) {
                 error = `您选择的图片不符合尺寸要求, 请上传${ImageControl.sizeInfo(limit.width, limit.height)}的图片`;
-            } else if (limit.maxWidth && limit.maxWidth < width || limit.maxHeight && limit.maxHeight < height) {
-                error = `您选择的图片不符合尺寸要求, 请上传不要超过${ImageControl.sizeInfo(limit.maxWidth, limit.maxHeight)}的图片`;
-            } else if (limit.minWidth && limit.minWidth > width || limit.minHeight && limit.minHeight > height) {
-                error = `您选择的图片不符合尺寸要求, 请上传不要小于${ImageControl.sizeInfo(limit.minWidth, limit.minHeight)}的图片`;
-            } else if (limit.aspectRatio && Math.abs((width / height) - limit.aspectRatio) > 0.01) {
-                error = `您选择的图片不符合尺寸要求, 请上传尺寸比率为 ${limit.aspectRatioLabel || limit.aspectRatio} 的图片`
+            } else if ((limit.maxWidth && limit.maxWidth < width) || (limit.maxHeight && limit.maxHeight < height)) {
+                error = `您选择的图片不符合尺寸要求, 请上传不要超过${ImageControl.sizeInfo(
+                    limit.maxWidth,
+                    limit.maxHeight
+                )}的图片`;
+            } else if ((limit.minWidth && limit.minWidth > width) || (limit.minHeight && limit.minHeight > height)) {
+                error = `您选择的图片不符合尺寸要求, 请上传不要小于${ImageControl.sizeInfo(
+                    limit.minWidth,
+                    limit.minHeight
+                )}的图片`;
+            } else if (limit.aspectRatio && Math.abs(width / height - limit.aspectRatio) > 0.01) {
+                error = `您选择的图片不符合尺寸要求, 请上传尺寸比率为 ${limit.aspectRatioLabel ||
+                    limit.aspectRatio} 的图片`;
             }
 
             if (error) {
@@ -524,7 +570,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         image.src = (file.preview || file.url) as string;
     }
 
-    _upload(file:Blob, cb:(error:null|string, file:Blob, obj?: FileValue) => void) {
+    _upload(file: Blob, cb: (error: null | string, file: Blob, obj?: FileValue) => void) {
         let compressOptions = this.state.compressOptions;
 
         if (this.props.showCompressOptions) {
@@ -536,29 +582,29 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         }
 
         this._send(file, this.props.reciever as string, {compress: this.state.compress, compressOptions})
-        .then((ret: Payload) => {
-            if (ret.status) {
-                throw new Error(ret.msg || '上传失败, 请重试');
-            }
+            .then((ret: Payload) => {
+                if (ret.status) {
+                    throw new Error(ret.msg || '上传失败, 请重试');
+                }
 
-            const obj:FileValue = {
-                ...ret.data,
-                state: 'uploaded'
-            };
-            obj.value = obj.value || obj.url;
+                const obj: FileValue = {
+                    ...ret.data,
+                    state: 'uploaded'
+                };
+                obj.value = obj.value || obj.url;
 
-            cb(null, file, obj);
-        })
-        .catch(error => cb(error.message || '上传失败，请重试', file))
+                cb(null, file, obj);
+            })
+            .catch(error => cb(error.message || '上传失败，请重试', file));
     }
 
-    _send(file:Blob, reciever:string, params:object):Promise<Payload> {
+    _send(file: Blob, reciever: string, params: object): Promise<Payload> {
         const fd = new FormData();
         const data = this.props.data;
         reciever = filter(reciever, data);
         const fileField = this.props.fileField || 'file';
         fd.append(fileField, file, (file as File).name);
-        
+
         const idx = reciever.indexOf('?');
 
         if (~idx && params) {
@@ -591,7 +637,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         (this.refs.dropzone as any).open();
     }
 
-    handleImageLoaded(index:number, e:React.UIEvent<any>) {
+    handleImageLoaded(index: number, e: React.UIEvent<any>) {
         const imgDom = e.currentTarget;
         const img = new Image();
         img.onload = () => {
@@ -612,18 +658,21 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
             files.splice(index, 1, file);
             const needUploading = !!(this.current || find(files, file => file.state === 'pending'));
 
-            this.setState({
-                files: files
-            }, !needUploading ? this.onChange : undefined);
+            this.setState(
+                {
+                    files: files
+                },
+                !needUploading ? this.onChange : undefined
+            );
         };
         img.src = imgDom.src;
     }
 
-    validate():any {
+    validate(): any {
         if (this.state.locked && this.state.lockedReason) {
             return this.state.lockedReason;
         } else if (this.state.uploading || this.state.files.some(item => item.state === 'pending')) {
-            return new Promise((resolve) => {
+            return new Promise(resolve => {
                 this.resolve = resolve;
                 this.startUpload();
             });
@@ -643,43 +692,58 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
 
         return (
             <div key="options" className="m-t">
+                <Switch
+                    classPrefix={classPrefix}
+                    checked={!!this.state.compress}
+                    onChange={checked => this.setState({compress: checked})}
+                    disabled={this.props.disabled}
+                />
 
-            <Switch
-                classPrefix={classPrefix} 
-                checked={!!this.state.compress}
-                onChange={checked => this.setState({compress: checked})}
-                disabled={this.props.disabled}
-            />
+                <span className="m-l-xs">开启缩放?</span>
 
-            <span className="m-l-xs">开启缩放?</span>
+                {this.state.compress && (
+                    <div className="inline">
+                        <input
+                            className="form-control w-xs inline m-l-xs m-r-xs"
+                            type="text"
+                            value={
+                                typeof this.state.compressOptions.maxWidth === 'undefined'
+                                    ? 800
+                                    : this.state.compressOptions.maxWidth
+                            }
+                            onChange={e =>
+                                this.setState({
+                                    compressOptions: {
+                                        ...this.state.compressOptions,
+                                        maxWidth: parseInt(e.currentTarget.value, 10) || 0
+                                    }
+                                })
+                            }
+                            disabled={this.props.disabled}
+                        />
 
-            {this.state.compress && (
-                <div className="inline">
-                    <input
-                        className="form-control w-xs inline m-l-xs m-r-xs"
-                        type="text"
-                        value={typeof this.state.compressOptions.maxWidth === 'undefined' ? 800 : this.state.compressOptions.maxWidth}
-                        onChange={e => this.setState({compressOptions: {
-                            ...this.state.compressOptions,
-                            maxWidth: parseInt(e.currentTarget.value, 10) || 0
-                        }})}
-                        disabled={this.props.disabled}
-                    />
+                        <span className=" m-l-xs m-r-xs">X</span>
 
-                    <span className=" m-l-xs m-r-xs">X</span>
-
-                    <input
-                        className="form-control w-xs inline  m-l-xs m-r-xs"
-                        type="text"
-                        value={typeof this.state.compressOptions.maxHeight  === 'undefined' ? 600 : this.state.compressOptions.maxHeight}
-                        onChange={e => this.setState({compressOptions: {
-                            ...this.state.compressOptions,
-                            maxHeight: parseInt(e.currentTarget.value, 10) || 0
-                        }})}
-                        disabled={this.props.disabled}
-                    />
-                </div>
-            )}
+                        <input
+                            className="form-control w-xs inline  m-l-xs m-r-xs"
+                            type="text"
+                            value={
+                                typeof this.state.compressOptions.maxHeight === 'undefined'
+                                    ? 600
+                                    : this.state.compressOptions.maxHeight
+                            }
+                            onChange={e =>
+                                this.setState({
+                                    compressOptions: {
+                                        ...this.state.compressOptions,
+                                        maxHeight: parseInt(e.currentTarget.value, 10) || 0
+                                    }
+                                })
+                            }
+                            disabled={this.props.disabled}
+                        />
+                    </div>
+                )}
             </div>
         );
     }
@@ -699,41 +763,19 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
             hideUploadButton
         } = this.props;
 
-        const {
-            files,
-            error,
-            crop,
-            uploading,
-            cropFile
-        } = this.state;
+        const {files, error, crop, uploading, cropFile} = this.state;
 
         const hasPending = files.some(file => file.state == 'pending');
 
         return (
-            <div
-                className={cx(`${ns}ImageControl`, className)}
-                tabIndex={-1}
-                onPaste={this.handlePaste}
-            >
+            <div className={cx(`${ns}ImageControl`, className)} tabIndex={-1} onPaste={this.handlePaste}>
                 {cropFile ? (
                     <div className="cropper-wrapper">
-                        <Cropper
-                            {...crop}
-                            ref="cropper"
-                            src={cropFile.preview}
-                        />
-                        <button
-                            type="button"
-                            className="btn-sm btn btn-link"
-                            onClick={this.handleCrop}
-                        >
+                        <Cropper {...crop} ref="cropper" src={cropFile.preview} />
+                        <button type="button" className="btn-sm btn btn-link" onClick={this.handleCrop}>
                             <i className="fa fa-2x fa-check text-warning" />
                         </button>
-                        <button
-                            type="button"
-                            className="btn-sm btn btn-link"
-                            onClick={this.cancelCrop}
-                            >
+                        <button type="button" className="btn-sm btn btn-link" onClick={this.cancelCrop}>
                             <i className="fa fa-2x fa-times text-white" />
                         </button>
                     </div>
@@ -751,11 +793,13 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                         disableClick
                         accept={accept}
                         multiple={multiple}
-                        >
-                            {files && files.length ? (
-                                <div className={cx("image-list clearfix", {
+                    >
+                        {files && files.length ? (
+                            <div
+                                className={cx('image-list clearfix', {
                                     'image-list-multiple': multiple
-                                })}>
+                                })}
+                            >
                                 {files.map((file, key) => (
                                     <div
                                         key={key}
@@ -764,39 +808,92 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                                             invalid: file.state === 'error' || file.state == 'invalid'
                                         })}
                                     >
-                                        <div className="img-wrapper"><img onLoad={this.handleImageLoaded.bind(this, key)} src={file.url || file.preview} alt={file.name} className="img-rounded" /></div>
-                                        {file.info ? [
-                                            <p key="1">{file.info.width} x {file.info.height}</p>,
-                                            file.info.len ? (<p key="2">{ImageControl.formatFileSize(file.info.len)}</p>) : null
-                                        ] : (<p>...</p>)}
+                                        <div className="img-wrapper">
+                                            <img
+                                                onLoad={this.handleImageLoaded.bind(this, key)}
+                                                src={file.url || file.preview}
+                                                alt={file.name}
+                                                className="img-rounded"
+                                            />
+                                        </div>
+                                        {file.info ? (
+                                            [
+                                                <p key="1">
+                                                    {file.info.width} x {file.info.height}
+                                                </p>,
+                                                file.info.len ? (
+                                                    <p key="2">{ImageControl.formatFileSize(file.info.len)}</p>
+                                                ) : null
+                                            ]
+                                        ) : (
+                                            <p>...</p>
+                                        )}
 
-                                        {file.error ? (<p className="text-danger">{file.error}</p>) : null}
+                                        {file.error ? <p className="text-danger">{file.error}</p> : null}
 
                                         <div className="image-overlay">
-                                            {file.state === 'uploading' ? (<i className="fa fa-spinner fa-spin fa-2x fa-fw" />) : null}
-                                            {!disabled && file.state !== 'uploading' ? (<button onClick={this.removeFile.bind(this, file, key)} type="button" className={cx("close", {'crop-close' :!!crop})}><span>&times;</span></button>) : null}
-                                            {!!crop && !disabled && file.state !== 'uploading' ? (<button onClick={this.editImage.bind(this, key)} type="button" className="edit"><i className="fa fa-pencil"></i></button>) : null}
-                                            {!disabled && file.state !== 'uploading' ? (<a target="_blank" href={file.url || file.preview} className="view"><i className="fa fa-search"></i></a>) : null}
+                                            {file.state === 'uploading' ? (
+                                                <i className="fa fa-spinner fa-spin fa-2x fa-fw" />
+                                            ) : null}
+                                            {!disabled && file.state !== 'uploading' ? (
+                                                <button
+                                                    onClick={this.removeFile.bind(this, file, key)}
+                                                    type="button"
+                                                    className={cx('close', {'crop-close': !!crop})}
+                                                >
+                                                    <span>&times;</span>
+                                                </button>
+                                            ) : null}
+                                            {!!crop && !disabled && file.state !== 'uploading' ? (
+                                                <button
+                                                    onClick={this.editImage.bind(this, key)}
+                                                    type="button"
+                                                    className="edit"
+                                                >
+                                                    <i className="fa fa-pencil" />
+                                                </button>
+                                            ) : null}
+                                            {!disabled && file.state !== 'uploading' ? (
+                                                <a target="_blank" href={file.url || file.preview} className="view">
+                                                    <i className="fa fa-search" />
+                                                </a>
+                                            ) : null}
                                         </div>
                                     </div>
                                 ))}
 
-                                {multiple && (!maxLength || files.length < maxLength) || !multiple && !files.length ? (
-                                    <label className={cx("image-add-btn", {disabled})} onClick={this.handleSelect}>
-                                    <i className="fa fa-plus fa-3x" />
+                                {(multiple && (!maxLength || files.length < maxLength)) ||
+                                (!multiple && !files.length) ? (
+                                    <label className={cx('image-add-btn', {disabled})} onClick={this.handleSelect}>
+                                        <i className="fa fa-plus fa-3x" />
                                     </label>
                                 ) : null}
-                                </div>
-                            ) : (<div className={error ? 'text-danger' : undefined}>{error || placeholder}
-                            <button type="button" className={cx('btn m-l-sm', btnClassName)} disabled={disabled} onClick={this.handleSelect}><i className="fa fa-cloud-upload" /> 选择文件</button>
-                        </div>)}
+                            </div>
+                        ) : (
+                            <div className={error ? 'text-danger' : undefined}>
+                                {error || placeholder}
+                                <button
+                                    type="button"
+                                    className={cx('btn m-l-sm', btnClassName)}
+                                    disabled={disabled}
+                                    onClick={this.handleSelect}
+                                >
+                                    <i className="fa fa-cloud-upload" /> 选择文件
+                                </button>
+                            </div>
+                        )}
                     </DropZone>
                 )}
 
                 {this.renderCompressOptions()}
 
                 {!autoUpload && !hideUploadButton && files.length ? (
-                    <button type="button" className={cx('btn m-r-xs', btnUploadClassName)} disabled={!hasPending} onClick={this.toggleUpload}>
+                    <button
+                        type="button"
+                        className={cx('btn m-r-xs', btnUploadClassName)}
+                        disabled={!hasPending}
+                        onClick={this.toggleUpload}
+                    >
                         {uploading ? '暂停上传' : '开始上传'}
                     </button>
                 ) : null}
@@ -805,10 +902,8 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
     }
 }
 
-
 @FormItem({
     type: 'image',
     sizeMutable: false
 })
-export class ImageControlRenderer extends ImageControl {};
-
+export class ImageControlRenderer extends ImageControl {}

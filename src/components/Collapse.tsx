@@ -7,8 +7,8 @@
 import React from 'react';
 import css = require('dom-helpers/style');
 import {ClassNamesFn, themeable} from '../theme';
-import Transition, { EXITED, ENTERING, EXITING } from 'react-transition-group/Transition';
-import { autobind } from '../utils/helper';
+import Transition, {EXITED, ENTERING, EXITING} from 'react-transition-group/Transition';
+import {autobind} from '../utils/helper';
 
 const collapseStyles: {
     [propName: string]: string;
@@ -19,23 +19,20 @@ const collapseStyles: {
 };
 
 export interface CollapseProps {
-    show?: boolean,
-    mountOnEnter?: boolean,
-    unmountOnExit?: boolean,
-    className?: string,
+    show?: boolean;
+    mountOnEnter?: boolean;
+    unmountOnExit?: boolean;
+    className?: string;
     classPrefix: string;
     classnames: ClassNamesFn;
 }
 
 export class Collapse extends React.Component<CollapseProps, any> {
-    static defaultProps: Pick<
-        CollapseProps,
-        'show' | 'mountOnEnter' | 'unmountOnExit'
-    > = {
+    static defaultProps: Pick<CollapseProps, 'show' | 'mountOnEnter' | 'unmountOnExit'> = {
         show: false,
         mountOnEnter: false,
         unmountOnExit: false
-    }
+    };
 
     contentDom: any;
     contentRef = (ref: any) => (this.contentDom = ref);
@@ -71,13 +68,7 @@ export class Collapse extends React.Component<CollapseProps, any> {
     }
 
     render() {
-        const {
-            show,
-            children,
-            classnames: cx,
-            mountOnEnter,
-            unmountOnExit
-        } = this.props;
+        const {show, children, classnames: cx, mountOnEnter, unmountOnExit} = this.props;
 
         return (
             <Transition
@@ -91,7 +82,7 @@ export class Collapse extends React.Component<CollapseProps, any> {
                 onExit={this.handleExit}
                 onExiting={this.handleExiting}
             >
-                {(status:string) => {
+                {(status: string) => {
                     if (status === ENTERING) {
                         this.contentDom.offsetWidth;
                     }
@@ -103,8 +94,8 @@ export class Collapse extends React.Component<CollapseProps, any> {
                             (children as React.ReactElement).props.className,
                             collapseStyles[status]
                         )
-                    })}
-                }
+                    });
+                }}
             </Transition>
         );
     }

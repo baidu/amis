@@ -24,11 +24,11 @@ export interface DropDownButtonState {
 
 export default class DropDownButton extends React.Component<DropDownButtonProps, DropDownButtonState> {
     state: DropDownButtonState = {
-        isOpened: this.props.defaultIsOpened || false,
+        isOpened: this.props.defaultIsOpened || false
     };
 
     static defaultProps = {
-        caretIcon: 'fa fa-angle-down',
+        caretIcon: 'fa fa-angle-down'
     };
 
     target: any;
@@ -49,38 +49,41 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
         e.preventDefault();
 
         this.setState({
-            isOpened: !this.state.isOpened,
+            isOpened: !this.state.isOpened
         });
     }
 
     open() {
         this.setState({
-            isOpened: true,
+            isOpened: true
         });
     }
 
     close() {
         this.setState({
-            isOpened: false,
+            isOpened: false
         });
     }
 
     renderOuter() {
         const {
-            render, 
-            buttons, 
-            data, 
-            popOverContainer, 
-            classnames: cx, 
-            classPrefix: ns, 
-            children, 
+            render,
+            buttons,
+            data,
+            popOverContainer,
+            classnames: cx,
+            classPrefix: ns,
+            children,
             align,
             closeOnClick,
             closeOnOutside
         } = this.props;
 
         let body = (
-            <RootCloseWrapper disabled={!this.state.isOpened} onRootClose={closeOnOutside !== false ? this.close: noop}>
+            <RootCloseWrapper
+                disabled={!this.state.isOpened}
+                onRootClose={closeOnOutside !== false ? this.close : noop}
+            >
                 <ul className={cx('DropDown-menu')} onClick={closeOnClick ? this.close : noop}>
                     {children
                         ? children
@@ -97,7 +100,7 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
                                       {render(`button/${index}`, {
                                           type: 'button',
                                           ...button,
-                                          isMenuItem: true,
+                                          isMenuItem: true
                                       })}
                                   </li>
                               );
@@ -146,7 +149,7 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
             align,
             iconOnly,
             icon,
-            data,
+            data
         } = this.props;
 
         return (
@@ -154,7 +157,7 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
                 className={cx('DropDown ', {
                     'DropDown--block': block,
                     'DropDown--alignRight': align === 'right',
-                    'is-opened': this.state.isOpened,
+                    'is-opened': this.state.isOpened
                 })}
                 ref={this.domRef}
             >
@@ -168,12 +171,12 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
                         {
                             'Button--block': block,
                             'Button--primary': primary,
-                            'Button--iconOnly': iconOnly,
+                            'Button--iconOnly': iconOnly
                         },
                         size ? `Button--${size}` : ''
                     )}
                 >
-                    {icon ? (<i className={cx(icon, 'm-r-xs')} />) : null}
+                    {icon ? <i className={cx(icon, 'm-r-xs')} /> : null}
                     {typeof label === 'string' ? filter(label, data) : label}
                     <i className={cx('DropDown-caret', caretIcon)} />
                 </button>
@@ -186,6 +189,6 @@ export default class DropDownButton extends React.Component<DropDownButtonProps,
 
 @Renderer({
     test: /(^|\/)dropdown-button$/,
-    name: 'dropdown-button',
+    name: 'dropdown-button'
 })
 export class DropDownButtonRenderer extends DropDownButton {}

@@ -17,7 +17,7 @@ export default class ButtonToolbar extends React.Component<ButtonToolbarProps, o
                 {Array.isArray(buttons)
                     ? buttons.map((button, key) =>
                           render(`${key}`, button, {
-                              key,
+                              key
                           })
                       )
                     : null}
@@ -28,6 +28,6 @@ export default class ButtonToolbar extends React.Component<ButtonToolbarProps, o
 
 @Renderer({
     test: /(^|\/)button-toolbar$/,
-    name: 'button-toolbar',
+    name: 'button-toolbar'
 })
 export class ButtonToolbarRenderer extends ButtonToolbar {}

@@ -65,7 +65,7 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
                 <div className={cx('AsideNav-tooltip')}>{link.label}</div>
             ) : null,
         isActive: (link: LinkItem) => link.open,
-        isOpen: (item: LinkItemProps) => (item.children ? item.children.some(item => item.open) : false),
+        isOpen: (item: LinkItemProps) => (item.children ? item.children.some(item => item.open) : false)
     };
 
     constructor(props: AsideNavProps) {
@@ -84,12 +84,12 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
                         ...item,
                         id: id++,
                         active: isActive,
-                        open: isActive || isOpen(item as LinkItemProps),
+                        open: isActive || isOpen(item as LinkItemProps)
                     };
                 },
                 1,
                 true
-            ),
+            )
         };
 
         this.renderLink = this.renderLink.bind(this);
@@ -113,12 +113,12 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
                             ...item,
                             id: id++,
                             active: isActive,
-                            open: isActive || isOpen(item as LinkItemProps),
+                            open: isActive || isOpen(item as LinkItemProps)
                         };
                     },
                     1,
                     true
-                ),
+                )
             });
         }
     }
@@ -134,11 +134,11 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
                 this.state.navigations,
                 (item: Navigation) => ({
                     ...item,
-                    open: link.id === item.id ? !item.open : item.open,
+                    open: link.id === item.id ? !item.open : item.open
                 }),
                 1,
                 true
-            ),
+            )
         });
     }
 
@@ -152,7 +152,7 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
             toggleExpand: this.toggleExpand,
             depth,
             classnames: cx,
-            ...others,
+            ...others
         });
 
         if (!dom) {
@@ -165,7 +165,7 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
                 key={key}
                 className={cx(`AsideNav-item`, link.className, {
                     [`is-open`]: link.open,
-                    [`is-active`]: link.active,
+                    [`is-active`]: link.active
                 })}
             >
                 {dom}
@@ -188,7 +188,7 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
                 links.push(
                     React.cloneElement(prefix, {
                         ...prefix.props,
-                        key: `${index}-prefix`,
+                        key: `${index}-prefix`
                     })
                 );
             }
@@ -211,7 +211,7 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
                 links.push(
                     React.cloneElement(affix, {
                         ...affix.props,
-                        key: `${index}-affix`,
+                        key: `${index}-affix`
                     })
                 );
             }

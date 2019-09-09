@@ -12,7 +12,7 @@ const sizeMap = {
     sm: 'i-checks-sm',
     lg: 'i-checks-lg',
     small: 'i-checks-sm',
-    large: 'i-checks-lg',
+    large: 'i-checks-lg'
 };
 
 interface CheckboxProps {
@@ -42,7 +42,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
     static defaultProps = {
         trueValue: true,
         falseValue: false,
-        type: 'checkbox',
+        type: 'checkbox'
     };
 
     @autobind
@@ -70,7 +70,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
             readOnly,
             checked,
             type,
-            name,
+            name
         } = this.props;
 
         className = (className ? className : '') + (size && sizeMap[size] ? ` ${sizeMap[size]}` : '');
@@ -80,7 +80,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
                 className={cx(
                     `${ns}Checkbox ${ns}Checkbox--${type}`,
                     {
-                        [`${ns}Checkbox--full`]: !partial,
+                        [`${ns}Checkbox--full`]: !partial
                     },
                     className
                 )}

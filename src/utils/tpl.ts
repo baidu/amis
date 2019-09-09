@@ -1,17 +1,17 @@
 export interface Enginer {
-    test: (tpl:string) => boolean;
-    compile: (tpl:string, data:object, ...rest:Array<any>) => string;
+    test: (tpl: string) => boolean;
+    compile: (tpl: string, data: object, ...rest: Array<any>) => string;
 }
 
-const enginers:{
-    [propName:string] : Enginer;
+const enginers: {
+    [propName: string]: Enginer;
 } = {};
 
-export function reigsterTplEnginer(name:string, enginer:Enginer) {
+export function reigsterTplEnginer(name: string, enginer: Enginer) {
     enginers[name] = enginer;
 }
 
-export function filter(tpl: string, data: object = {}, ...rest:Array<any>): string {
+export function filter(tpl: string, data: object = {}, ...rest: Array<any>): string {
     if (!tpl || typeof tpl !== 'string') {
         return '';
     }
@@ -28,7 +28,7 @@ export function filter(tpl: string, data: object = {}, ...rest:Array<any>): stri
 }
 
 export function evalExpression(expression: string, data?: object): boolean {
-    if (!expression || typeof expression !== "string") {
+    if (!expression || typeof expression !== 'string') {
         return false;
     }
 
@@ -41,10 +41,7 @@ export function evalExpression(expression: string, data?: object): boolean {
             expression = expression.replace(/debugger;?/, '');
         }
 
-        const fn = new Function(
-            "data",
-            `with(data) {${debug ? 'debugger;' : ''}return !!(${expression});}`
-        );
+        const fn = new Function('data', `with(data) {${debug ? 'debugger;' : ''}return !!(${expression});}`);
         data = data || {};
         return fn.call(data, data);
     } catch (e) {
@@ -56,10 +53,7 @@ export function evalExpression(expression: string, data?: object): boolean {
 export function evalJS(js: string, data: object): any {
     /* jshint evil:true */
     try {
-        const fn = new Function(
-            "data",
-            `with(data) {${~js.indexOf('return') ? '' : 'return '}${js};}`
-        );
+        const fn = new Function('data', `with(data) {${~js.indexOf('return') ? '' : 'return '}${js};}`);
         data = data || {};
         return fn.call(data, data);
     } catch (e) {

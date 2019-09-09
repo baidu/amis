@@ -53,7 +53,7 @@ export function Layout({
     boxed,
     classnames: cx,
     bodyClassName
-}:LayoutProps) {
+}: LayoutProps) {
     let body = <div className={cx(`Layout-body`, contentClassName)}>{children}</div>;
 
     if (aside) {
@@ -68,7 +68,7 @@ export function Layout({
         bodyClassName && document.body.classList.add(bodyClassName);
 
         return () => {
-            bodyClassName && document.body.classList.remove(bodyClassName)
+            bodyClassName && document.body.classList.remove(bodyClassName);
         };
     }, [bodyClassName]);
 
@@ -82,7 +82,7 @@ export function Layout({
                 'Layout--folded': folded,
                 'Layout--offScreen': offScreen,
                 [`Layout--${size}`]: size,
-                'Layout--noFooter': !footer,
+                'Layout--noFooter': !footer
             })}
         >
             {header ? <div className={cx('Layout-header')}>{header}</div> : null}
@@ -111,7 +111,7 @@ Layout.defaultProps = {
     asideClassName: '',
     headerFixed: true,
     offScreen: false,
-    footer: false,
+    footer: false
 };
 
 export default themeable(Layout);

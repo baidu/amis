@@ -8,7 +8,7 @@ import React = require('react');
 import moment = require('moment');
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
-import { Icon } from './icons';
+import {Icon} from './icons';
 import Overlay from './Overlay';
 import {BaseDatePicker} from './DatePicker';
 import PopOver from './PopOver';
@@ -51,7 +51,7 @@ const availableRanges: {[propName: string]: any} = {
         },
         endDate: (now: moment.Moment) => {
             return now;
-        },
+        }
     },
 
     yesterday: {
@@ -61,7 +61,7 @@ const availableRanges: {[propName: string]: any} = {
         },
         endDate: (now: moment.Moment) => {
             return now.add(-1, 'days').endOf('day');
-        },
+        }
     },
 
     '1dayago': {
@@ -71,7 +71,7 @@ const availableRanges: {[propName: string]: any} = {
         },
         endDate: (now: moment.Moment) => {
             return now;
-        },
+        }
     },
 
     '7daysago': {
@@ -81,7 +81,7 @@ const availableRanges: {[propName: string]: any} = {
         },
         endDate: (now: moment.Moment) => {
             return now;
-        },
+        }
     },
 
     '90daysago': {
@@ -91,22 +91,20 @@ const availableRanges: {[propName: string]: any} = {
         },
         endDate: (now: moment.Moment) => {
             return now;
-        },
+        }
     },
 
     prevweek: {
         label: '上周',
         startDate: (now: moment.Moment) => {
-            return now
-                .startOf('week')
-                .add(-1, 'weeks');
+            return now.startOf('week').add(-1, 'weeks');
         },
         endDate: (now: moment.Moment) => {
             return now
                 .startOf('week')
                 .add(-1, 'days')
                 .endOf('day');
-        },
+        }
     },
 
     thismonth: {
@@ -116,7 +114,7 @@ const availableRanges: {[propName: string]: any} = {
         },
         endDate: (now: moment.Moment) => {
             return now;
-        },
+        }
     },
 
     prevmonth: {
@@ -129,7 +127,7 @@ const availableRanges: {[propName: string]: any} = {
                 .startOf('month')
                 .add(-1, 'day')
                 .endOf('day');
-        },
+        }
     },
 
     prevquarter: {
@@ -142,7 +140,7 @@ const availableRanges: {[propName: string]: any} = {
                 .startOf('quarter')
                 .add(-1, 'day')
                 .endOf('day');
-        },
+        }
     },
 
     thisquarter: {
@@ -152,8 +150,8 @@ const availableRanges: {[propName: string]: any} = {
         },
         endDate: (now: moment.Moment) => {
             return now;
-        },
-    },
+        }
+    }
 };
 
 export class DateRangePicker extends React.Component<DateRangePickerProps, DateRangePickerState> {
@@ -166,7 +164,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
         delimiter: ',',
         ranges: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
         iconClassName: 'fa fa-calendar',
-        resetValue: '',
+        resetValue: ''
     };
 
     innerDom: any;
@@ -187,7 +185,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
         if (!value) {
             return {
                 startDate: undefined,
-                endDate: undefined,
+                endDate: undefined
             };
         }
 
@@ -197,7 +195,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
 
         return {
             startDate: value[0] ? moment(value[0], format) : undefined,
-            endDate: value[1] ? moment(value[1], format) : undefined,
+            endDate: value[1] ? moment(value[1], format) : undefined
         };
     }
 
@@ -226,7 +224,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
         this.state = {
             isOpened: false,
             isFocused: false,
-            ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter),
+            ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
         };
     }
 
@@ -236,7 +234,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
 
         if (props.value !== value) {
             this.setState({
-                ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter),
+                ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
             });
         }
     }
@@ -259,13 +257,13 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
 
     handleFocus() {
         this.setState({
-            isFocused: true,
+            isFocused: true
         });
     }
 
     handleBlur() {
         this.setState({
-            isFocused: false,
+            isFocused: false
         });
     }
 
@@ -275,14 +273,14 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
         }
 
         this.setState({
-            isOpened: true,
+            isOpened: true
         });
     }
 
     close() {
         this.setState(
             {
-                isOpened: false,
+                isOpened: false
             },
             this.blur
         );
@@ -314,7 +312,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
             DateRangePicker.formatValue(
                 {
                     startDate: this.state.startDate,
-                    endDate: this.state.endDate,
+                    endDate: this.state.endDate
                 },
                 this.props.format,
                 this.props.joinValues,
@@ -326,14 +324,14 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
 
     handleStartChange(newValue: any) {
         this.setState({
-            startDate: newValue.clone(),
+            startDate: newValue.clone()
         });
     }
 
     handleEndChange(newValue: any) {
         newValue = !this.state.endDate && !this.props.timeFormat ? newValue.endOf('day') : newValue;
         this.setState({
-            endDate: newValue.clone(),
+            endDate: newValue.clone()
         });
     }
 
@@ -344,7 +342,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
         const now = moment();
         this.setState({
             startDate: range.startDate(now.clone()),
-            endDate: range.endDate(now.clone()),
+            endDate: range.endDate(now.clone())
         });
     }
 
@@ -403,7 +401,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
             timeFormat,
             ranges,
             disabled,
-            iconClassName,
+            iconClassName
         } = this.props;
 
         const {isOpened, isFocused, startDate, endDate} = this.state;
@@ -425,7 +423,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
                     `${ns}DateRangePicker`,
                     {
                         'is-disabled': disabled,
-                        'is-focused': isFocused,
+                        'is-focused': isFocused
                     },
                     className
                 )}
@@ -520,7 +518,7 @@ export class DateRangePicker extends React.Component<DateRangePickerProps, DateR
                                 <div key="button" className={`${ns}DateRangePicker-actions`}>
                                     <a
                                         className={cx('rdtBtn rdtBtnConfirm', {
-                                            'is-disabled': !this.state.startDate || !this.state.endDate,
+                                            'is-disabled': !this.state.startDate || !this.state.endDate
                                         })}
                                         onClick={this.confirm}
                                     >

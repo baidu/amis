@@ -38,7 +38,7 @@ export interface NavigationProps extends RendererProps {
 
 export default class Navigation extends React.Component<NavigationProps, NavigationState> {
     static defaultProps: Partial<NavigationProps> = {
-        togglerClassName: 'fa fa-angle-down',
+        togglerClassName: 'fa fa-angle-down'
     };
 
     mounted: boolean = true;
@@ -55,7 +55,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
                     /^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source) &&
                     resolveVariable(props.source, props.data)) ||
                     props.links
-            ),
+            )
         };
     }
 
@@ -73,7 +73,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
         if (nextProps.source && /^\$(?:([a-z0-9_.]+)|{.+})$/.test(nextProps.source as string)) {
             if (nextProps.source !== props.source) {
                 this.setState({
-                    links: this.syncLinks(nextProps),
+                    links: this.syncLinks(nextProps)
                 });
             } else {
                 const links = resolveVariable(nextProps.source as string, nextProps.data);
@@ -81,17 +81,17 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
 
                 if (links !== prevLinks) {
                     this.setState({
-                        links: this.syncLinks(nextProps, links),
+                        links: this.syncLinks(nextProps, links)
                     });
                 }
             }
         } else if (props.links !== nextProps.links) {
             this.setState({
-                links: this.syncLinks(nextProps),
+                links: this.syncLinks(nextProps)
             });
         } else if (nextProps.location && props.location !== nextProps.location) {
             this.setState({
-                links: this.syncLinks(nextProps, this.state.links, true),
+                links: this.syncLinks(nextProps, this.state.links, true)
             });
         }
     }
@@ -128,7 +128,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
 
                 if (!payload.ok) {
                     this.setState({
-                        error: payload.msg || '获取链接错误',
+                        error: payload.msg || '获取链接错误'
                     });
                 } else {
                     const links = Array.isArray(payload.data)
@@ -141,7 +141,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
 
                     this.setState(
                         {
-                            links: this.syncLinks(this.props, links, true),
+                            links: this.syncLinks(this.props, links, true)
                         },
                         () => {
                             if (
@@ -159,7 +159,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
                 e =>
                     this.mounted &&
                     this.setState({
-                        error: e.message,
+                        error: e.message
                     })
             );
     }
@@ -184,13 +184,15 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
                     ...link,
                     ...getExprProperties(link, data as object),
                     active:
-                        (!clearActive && link.active)
-                        || (
-                            link.activeOn
+                        (!clearActive && link.active) ||
+                        (link.activeOn
                             ? evalExpression(link.activeOn as string, data)
-                            : !!(link.hasOwnProperty('to') && env && env.isCurrentUrl(filter(link.to as string, data)))
-                        ),
-                    unfolded: link.unfolded || (link.children && link.children.some(link => !!link.active)),
+                            : !!(
+                                  link.hasOwnProperty('to') &&
+                                  env &&
+                                  env.isCurrentUrl(filter(link.to as string, data))
+                              )),
+                    unfolded: link.unfolded || (link.children && link.children.some(link => !!link.active))
                 };
             },
             1,
@@ -215,10 +217,10 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
                 target === link
                     ? {
                           ...link,
-                          unfolded: !link.unfolded,
+                          unfolded: !link.unfolded
                       }
                     : link
-            ),
+            )
         });
     }
 
@@ -235,7 +237,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
                 className={cx('Nav-item', link.className, {
                     'is-disabled': disabled || link.disabled,
                     'is-active': isActive,
-                    'is-unfolded': link.unfolded,
+                    'is-unfolded': link.unfolded
                 })}
             >
                 <a onClick={this.handleClick.bind(this, link)}>
@@ -271,7 +273,7 @@ export default class Navigation extends React.Component<NavigationProps, Navigat
 
 @Renderer({
     test: /(^|\/)(?:nav|navigation)$/,
-    name: 'nav',
+    name: 'nav'
 })
 export class NavigationRenderer extends Navigation {
     static contextType = ScopedContext;

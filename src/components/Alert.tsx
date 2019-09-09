@@ -49,7 +49,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
         show: false,
         title: '',
         content: '',
-        confirm: false,
+        confirm: false
     };
     constructor(props: AlertProps) {
         super(props);
@@ -66,7 +66,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
         cancelText: '取消',
         title: '系统消息',
         alertBtnLevel: 'primary',
-        confirmBtnLevel: 'danger',
+        confirmBtnLevel: 'danger'
     };
 
     componentWillMount() {
@@ -100,7 +100,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
 
         this.setState(
             {
-                show: false,
+                show: false
             },
             isConfirm ? () => this._resolve(confirmed) /*this._reject()*/ : undefined
         );
@@ -111,7 +111,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
             title,
             content,
             show: true,
-            confirm: false,
+            confirm: false
         });
     }
 
@@ -120,7 +120,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
             title,
             content,
             show: true,
-            confirm: true,
+            confirm: true
         });
 
         return new Promise(resolve => {
@@ -146,7 +146,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
             confirmBtnLevel,
             alertBtnLevel,
             classnames: cx,
-            classPrefix,
+            classPrefix
         } = this.props;
         return (
             <Modal show={this.state.show} onHide={this.handleCancel} container={container} ref={this.modalRef}>

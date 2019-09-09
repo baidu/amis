@@ -1,22 +1,14 @@
 import React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
-import db, {
-    province,
-    city,
-    district
-} from './CityDB';
-import { ClassNamesFn, themeable } from '../../theme';
-import { Select } from '../../components';
-import { autobind } from '../../utils/helper';
-import { Option } from './Options';
-
+import {FormItem, FormControlProps} from './Item';
+import db, {province, city, district} from './CityDB';
+import {ClassNamesFn, themeable} from '../../theme';
+import {Select} from '../../components';
+import {autobind} from '../../utils/helper';
+import {Option} from './Options';
 
 export interface CityPickerProps {
-    value:any;
-    onChange: (value:any) => void;
+    value: any;
+    onChange: (value: any) => void;
     extractValue: boolean;
     joinValues?: boolean;
     delimiter: string;
@@ -27,7 +19,7 @@ export interface CityPickerProps {
     allowCity: boolean;
     allowDistrict: boolean;
     // allowStreet: boolean;
-};
+}
 
 export interface CityPickerState {
     code: number;
@@ -38,7 +30,7 @@ export interface CityPickerState {
     district: string;
     districtCode: number;
     street: string;
-};
+}
 
 export class CityPicker extends React.Component<CityPickerProps, CityPickerState> {
     static defaultProps = {
@@ -46,7 +38,7 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
         extractValue: true,
         delimiter: ',',
         allowCity: true,
-        allowDistrict: true,
+        allowDistrict: true
         // allowStreet: false
     };
 
@@ -65,60 +57,68 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
         this.syncIn();
     }
 
-    componentWillReceiveProps(nextProps:CityPickerProps) {
+    componentWillReceiveProps(nextProps: CityPickerProps) {
         const props = this.props;
 
         if (props.value !== nextProps.value) {
             this.syncIn(nextProps);
         }
     }
-    
-    @autobind
-    handleProvinceChange(option:Option) {
 
-        this.setState({
-            province: option.label as string,
-            provinceCode: option.value as number,
-            city: '',
-            cityCode: 0,
-            district: '',
-            districtCode: 0,
-            street: '',
-            code: option.value
-        }, this.syncOut);
+    @autobind
+    handleProvinceChange(option: Option) {
+        this.setState(
+            {
+                province: option.label as string,
+                provinceCode: option.value as number,
+                city: '',
+                cityCode: 0,
+                district: '',
+                districtCode: 0,
+                street: '',
+                code: option.value
+            },
+            this.syncOut
+        );
     }
 
     @autobind
-    handleCityChange(option:Option) {
+    handleCityChange(option: Option) {
         if (option.value % 100) {
             return this.handleDistrictChange(option, {
                 cityCode: option.value as number
             });
         }
 
-        this.setState({
-            city: option.label as string,
-            cityCode: option.value as number,
-            district: '',
-            districtCode: 0,
-            street: '',
-            code: option.value
-        }, this.syncOut);
+        this.setState(
+            {
+                city: option.label as string,
+                cityCode: option.value as number,
+                district: '',
+                districtCode: 0,
+                street: '',
+                code: option.value
+            },
+            this.syncOut
+        );
     }
 
     @autobind
-    handleDistrictChange(option:Option, otherStates:Partial<CityPickerState> = {}) {
-        this.setState({
-            ...otherStates as any,
-            district: option.label as string,
-            districtCode: option.value as number,
-            street: '',
-            code: option.value as number
-        }, this.syncOut);
+    handleDistrictChange(option: Option, otherStates: Partial<CityPickerState> = {}) {
+        this.setState(
+            {
+                ...(otherStates as any),
+                district: option.label as string,
+                districtCode: option.value as number,
+                street: '',
+                code: option.value as number
+            },
+            this.syncOut
+        );
     }
 
     @autobind
-    handleStreetChange(e:React.ChangeEvent<HTMLInputElement>) {
+    handleStreetChange(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState({
             street: e.currentTarget.value
         });
@@ -131,10 +131,7 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
 
     @autobind
     syncIn(props = this.props) {
-        const {
-            value,
-            delimiter
-        } = props;
+        const {value, delimiter} = props;
 
         const state = {
             code: 0,
@@ -147,10 +144,11 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
             street: ''
         };
 
-        let code = value && value.code
-            || typeof value === "number" && value
-            || typeof value === "string" && /(\d{6})/.test(value) && RegExp.$1;
-        
+        let code =
+            (value && value.code) ||
+            (typeof value === 'number' && value) ||
+            (typeof value === 'string' && /(\d{6})/.test(value) && RegExp.$1);
+
         if (code && db[code]) {
             code = parseInt(code, 10);
             state.code = code;
@@ -160,7 +158,7 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
                 state.provinceCode = provinceCode;
                 state.province = db[provinceCode];
             }
-            
+
             const cityCode = code - (code % 100);
             if (db[cityCode]) {
                 state.cityCode = cityCode;
@@ -177,8 +175,8 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
 
         if (value && value.street) {
             state.street = value.street;
-        } else if (typeof value === "string" && ~value.indexOf(delimiter)) {
-            state.street = value.slice(value.indexOf(delimiter) + delimiter.length)
+        } else if (typeof value === 'string' && ~value.indexOf(delimiter)) {
+            state.street = value.slice(value.indexOf(delimiter) + delimiter.length);
         }
 
         this.setState(state);
@@ -198,18 +196,18 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
             code,
             province,
             city,
-            district,
+            district
             // street
         } = this.state;
 
-        if (typeof extractValue === "undefined" ? joinValues : extractValue ) {
+        if (typeof extractValue === 'undefined' ? joinValues : extractValue) {
             code ? onChange(/*allowStreet && street ? [code, street].join(delimiter) :*/ String(code)) : onChange('');
         } else {
             onChange({
                 code,
                 province,
                 city,
-                district,
+                district
                 // street
             });
         }
@@ -221,16 +219,11 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
             className,
             disabled,
             allowCity,
-            allowDistrict,
+            allowDistrict
             // allowStreet
         } = this.props;
 
-        const {
-            provinceCode,
-            cityCode,
-            districtCode,
-            street
-        } = this.state;
+        const {provinceCode, cityCode, districtCode, street} = this.state;
 
         return (
             <div className={cx('CityPicker', className)}>
@@ -294,28 +287,26 @@ export class CityPicker extends React.Component<CityPickerProps, CityPickerState
 const ThemedCity = themeable(CityPicker);
 export default ThemedCity;
 
-
 export interface LocationControlProps extends FormControlProps {
     allowCity?: boolean;
     allowDistrict?: boolean;
     extractValue?: boolean;
     joinValues?: boolean;
     // allowStreet?: boolean;
-};
+}
 export class LocationControl extends React.Component<LocationControlProps> {
-    
     render() {
         const {
-            value, 
+            value,
             onChange,
             allowCity,
             allowDistrict,
             extractValue,
-            joinValues,
+            joinValues
             // allowStreet
         } = this.props;
         return (
-            <ThemedCity 
+            <ThemedCity
                 value={value}
                 onChange={onChange}
                 allowCity={allowCity}
@@ -332,5 +323,4 @@ export class LocationControl extends React.Component<LocationControlProps> {
     type: 'city',
     sizeMutable: false
 })
-export class CheckboxControlRenderer extends LocationControl {};
-
+export class CheckboxControlRenderer extends LocationControl {}

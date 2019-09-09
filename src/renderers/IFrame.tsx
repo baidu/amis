@@ -13,14 +13,14 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         className: '',
         width: '100%',
         height: '100%',
-        frameBorder: 0,
+        frameBorder: 0
     };
 
     render() {
         let {className, src, width, height, frameBorder, data, style} = this.props;
 
         style = {
-            ...style,
+            ...style
         };
 
         width !== void 0 && (style.width = width);
@@ -39,6 +39,6 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
 @Renderer({
     test: /(^|\/)iframe$/,
-    name: 'iframe',
+    name: 'iframe'
 })
 export class IFrameRenderer extends IFrame {}
