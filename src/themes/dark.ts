@@ -9,7 +9,7 @@ theme('dark', {
         json: {
             jsonTheme: 'eighties'
         },
-        editor: {
+        'editor-control': {
             editorTheme: 'vs-dark'
         }
     }
