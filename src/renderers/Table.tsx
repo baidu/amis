@@ -1445,7 +1445,7 @@ export default class Table extends React.Component<TableProps, object> {
             height = heights[rowIndex];
             top += heights.header;
             for (let i = rowIndex - 1; i >= 0; i--) {
-                top += heights[i] + 1;
+                top += heights[i];
             }
         }
 
