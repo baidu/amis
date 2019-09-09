@@ -3,12 +3,9 @@ import NotFound from '../../src/components/404';
 import Layout from '../../src/components/Layout';
 import AsideNav from '../../src/components/AsideNav';
 import {AlertComponent, ToastComponent} from '../../src/components/index';
-import {
-    mapTree
-} from '../../src/utils/helper';
-import { Router, Route, IndexRoute, browserHistory, hashHistory, Link, Redirect, withRouter } from 'react-router';
+import {mapTree} from '../../src/utils/helper';
+import {Router, Route, IndexRoute, browserHistory, hashHistory, Link, Redirect, withRouter} from 'react-router';
 import makeSchemaRenderer from './SchemaRender';
-
 
 import SimplePageSchema from './Page/Simple';
 import ErrorPageSchema from './Page/Error';
@@ -90,7 +87,7 @@ let ContextPath = '';
 
 if (process.env.NODE_ENV === 'production') {
     PathPrefix = '';
-    ContextPath =  '/amis'
+    ContextPath = '/amis';
 }
 
 const navigations = [
@@ -337,7 +334,7 @@ const navigations = [
                         label: '一次性加载',
                         path: 'crud/load-once',
                         component: makeSchemaRenderer(LoadOnceTableCrudSchema)
-                    },
+                    }
                     // {
                     //     label: '测试',
                     //     path: 'crud/test',
@@ -392,7 +389,7 @@ const navigations = [
                         label: '选项卡页面3',
                         path: 'tabs/tab3',
                         component: makeSchemaRenderer(Tab3Schema)
-                    },
+                    }
                 ]
             },
 
@@ -462,7 +459,6 @@ const navigations = [
                 component: makeSchemaRenderer(WizardSchema)
             },
 
-
             {
                 label: '排版',
                 icon: 'fa fa-columns',
@@ -531,6 +527,11 @@ function isActive(link, location) {
 
 const themes = [
     {
+        label: 'Dark',
+        ns: 'dark-',
+        value: 'dark'
+    },
+    {
         label: '默认主题',
         ns: 'a-',
         value: 'default'
@@ -545,248 +546,289 @@ const themes = [
 
 @withRouter
 export class App extends React.PureComponent {
+    state = {
+        asideFolded: localStorage.getItem('asideFolded') === 'true',
+        offScreen: false,
+        headerVisible: true,
+        themeIndex: 0,
+        themes: themes,
+        theme: themes[localStorage.getItem('themeIndex') || 0]
+    };
 
-        state = {
-            asideFolded: localStorage.getItem('asideFolded') === 'true',
-            offScreen: false,
-            headerVisible: true,
-            themeIndex: 0,
-            themes: themes,
-            theme: themes[localStorage.getItem('themeIndex') || 0]
-        };
+    constructor(props) {
+        super(props);
 
-        constructor(props) {
-            super(props);
+        this.toggleAside = this.toggleAside.bind(this);
+        this.setAsideFolded = this.setAsideFolded.bind(this);
+        this.setHeaderVisible = this.setHeaderVisible.bind(this);
+    }
 
-            this.toggleAside = this.toggleAside.bind(this);
-            this.setAsideFolded = this.setAsideFolded.bind(this);
-            this.setHeaderVisible = this.setHeaderVisible.bind(this);
+    componentDidMount() {
+        if (this.state.theme.value !== 'default') {
+            document.querySelectorAll('link[title]').forEach(item => {
+                item.disabled = true;
+            });
+            document.querySelector(`link[title=${this.state.theme.value}]`).disabled = false;
+        }
+    }
+
+    componentDidUpdate(preProps, preState) {
+        const props = this.props;
+
+        if (preState.theme.value !== this.state.theme.value) {
+            document.querySelector(`link[title=${preState.theme.value}]`).disabled = true;
+            document.querySelector(`link[title=${this.state.theme.value}]`).disabled = false;
         }
 
-        componentDidMount() {
-            if (this.state.theme.value !== "default") {
-                document.querySelectorAll('link[title]').forEach(item => {
-                    item.disabled = true
-                });
-                document.querySelector(`link[title=${this.state.theme.value}]`).disabled = false;
-            }
-        }
-
-        componentDidUpdate(preProps, preState) {
-            const props = this.props;
-
-            if (preState.theme.value !== this.state.theme.value) {
-                document.querySelector(`link[title=${preState.theme.value}]`).disabled = true;
-                document.querySelector(`link[title=${this.state.theme.value}]`).disabled = false;
-            }
-
-            if (props.location.pathname !== preProps.location.pathname) {
-                this.setState({
+        if (props.location.pathname !== preProps.location.pathname) {
+            this.setState(
+                {
                     offScreen: false
-                }, () => window.scrollTo(0, 0));
-
-                const pageURL = props.location.pathname;
-                _hmt && _hmt.push(['_trackPageview', pageURL]);
-            }
-        }
-
-        toggleAside() {
-            this.setAsideFolded(!this.state.asideFolded);
-        }
-
-        setAsideFolded(folded = false) {
-            localStorage.setItem('asideFolded', JSON.stringify(folded));
-            this.setState({
-                asideFolded: folded
-            });
-        }
-
-        setHeaderVisible(visible = false) {
-            this.setState({
-                headerVisible: visible
-            });
-        }
-
-        renderAside() {
-            const location = this.props.location;
-
-            if (location.pathname === '/edit') {
-                return null;
-            }
-
-            const theme = this.state.theme;
-
-            return (
-                <AsideNav
-                    theme={theme.value}
-                    navigations={navigations}
-                    renderLink={({link, active, toggleExpand, classnames: cx}) => {
-                        let children = [];
-
-                        if (link.children) {
-                            children.push(
-                                <span
-                                    key="expand-toggle"
-                                    className={cx('AsideNav-itemArrow')}
-                                    onClick={(e) => toggleExpand(link, e)}
-                                ></span>
-                            );
-                        }
-
-                        link.badge && children.push(
-                            <b key="badge" className={cx(`AsideNav-itemBadge`, link.badgeClassName || 'bg-info')}>{link.badge}</b>
-                        );
-
-                        link.icon && children.push(
-                            <i key="icon" className={cx(`AsideNav-itemIcon`, link.icon)} />
-                        );
-
-                        children.push(
-                            <span className={cx(`AsideNav-itemLabel`)} key="label">{link.label}</span>
-                        );
-
-                        return link.path ? (<Link to={link.path[0] === '/' ? (ContextPath + link.path) : `${ContextPath}${PathPrefix}/${link.path}`}>{children}</Link>) : (<a onClick={link.children ? () => toggleExpand(link) : null}>{children}</a>);
-                    }}
-                    isActive={link => isActive(link.path && link.path[0] === '/' ? (ContextPath + link.path) : `${ContextPath}${PathPrefix}/${link.path}`, location)}
-                />
+                },
+                () => window.scrollTo(0, 0)
             );
+
+            const pageURL = props.location.pathname;
+            _hmt && _hmt.push(['_trackPageview', pageURL]);
+        }
+    }
+
+    toggleAside() {
+        this.setAsideFolded(!this.state.asideFolded);
+    }
+
+    setAsideFolded(folded = false) {
+        localStorage.setItem('asideFolded', JSON.stringify(folded));
+        this.setState({
+            asideFolded: folded
+        });
+    }
+
+    setHeaderVisible(visible = false) {
+        this.setState({
+            headerVisible: visible
+        });
+    }
+
+    renderAside() {
+        const location = this.props.location;
+
+        if (location.pathname === '/edit') {
+            return null;
         }
 
-        renderHeader() {
-            const location = this.props.location;
-            const theme = this.state.theme;
+        const theme = this.state.theme;
 
-            if (location.pathname === '/edit') {
-                return (
-                    <div id="headerBar" className="box-shadow bg-dark">
-                        <div className={`${theme.ns}Layout-brand`}>AMis 可视化编辑器</div>
-                    </div>
-                );
-            }
+        return (
+            <AsideNav
+                theme={theme.value}
+                navigations={navigations}
+                renderLink={({link, active, toggleExpand, classnames: cx}) => {
+                    let children = [];
 
-            return (
-                <div>
-                    <div className={`${theme.ns}Layout-brandBar`}>
-                        <button
-                            onClick={() => this.setState({offScreen: !this.state.offScreen})}
-                            className="pull-right visible-xs"
+                    if (link.children) {
+                        children.push(
+                            <span
+                                key="expand-toggle"
+                                className={cx('AsideNav-itemArrow')}
+                                onClick={e => toggleExpand(link, e)}
+                            />
+                        );
+                    }
+
+                    link.badge &&
+                        children.push(
+                            <b key="badge" className={cx(`AsideNav-itemBadge`, link.badgeClassName || 'bg-info')}>
+                                {link.badge}
+                            </b>
+                        );
+
+                    link.icon && children.push(<i key="icon" className={cx(`AsideNav-itemIcon`, link.icon)} />);
+
+                    children.push(
+                        <span className={cx(`AsideNav-itemLabel`)} key="label">
+                            {link.label}
+                        </span>
+                    );
+
+                    return link.path ? (
+                        <Link
+                            to={
+                                link.path[0] === '/'
+                                    ? ContextPath + link.path
+                                    : `${ContextPath}${PathPrefix}/${link.path}`
+                            }
                         >
-                            <i className="glyphicon glyphicon-align-justify"></i>
-                        </button>
-                        <div className={`${theme.ns}Layout-brand`}>
-                            <i className="fa fa-paw"></i>
-                            <span className="hidden-folded m-l-sm">AMis Renderer</span>
-                        </div>
-                    </div>
-                    <div className={`${theme.ns}Layout-headerBar`}>
-                        <div className="nav navbar-nav hidden-xs">
-                            <Button
-                                theme={this.state.theme.value}
-                                level="link"
-                                className="no-shadow navbar-btn"
-                                onClick={this.toggleAside}
-                                tooltip="展开或收起侧边栏"
-                                placement="bottom"
-                                iconOnly
-                            >
-                                <i className={this.state.asideFolded ? 'fa fa-indent' : 'fa fa-dedent'} />
-                            </Button>
+                            {children}
+                        </Link>
+                    ) : (
+                        <a onClick={link.children ? () => toggleExpand(link) : null}>{children}</a>
+                    );
+                }}
+                isActive={link =>
+                    isActive(
+                        link.path && link.path[0] === '/'
+                            ? ContextPath + link.path
+                            : `${ContextPath}${PathPrefix}/${link.path}`,
+                        location
+                    )
+                }
+            />
+        );
+    }
 
-                            <Button
-                                theme={this.state.theme.value}
-                                level="link"
-                                className="no-shadow navbar-btn"
-                                href="https://github.com/baidu/amis"
-                                tooltip="前往 Github 仓库地址"
-                                placement="bottom"
-                                iconOnly
-                            >
-                                <i className={'fa fa-github'} />
-                            </Button>
-                        </div>
+    renderHeader() {
+        const location = this.props.location;
+        const theme = this.state.theme;
 
-                        <div className="hidden-xs p-t-sm pull-right">
-                           主题：{(
-                               <Select 
-                                    theme={this.state.theme.value} 
-                                    value={this.state.theme} 
-                                    options={this.state.themes}  
-                                    onChange={(theme) => {
-                                        this.setState({theme});
-                                        localStorage.setItem('themeIndex', this.state.themes.indexOf(theme));
-                                    }}
-                                />
-                           )}
-                        </div>
-
-                        <DocSearch theme={this.state.theme.value} />
-                    </div>
+        if (location.pathname === '/edit') {
+            return (
+                <div id="headerBar" className="box-shadow bg-dark">
+                    <div className={`${theme.ns}Layout-brand`}>AMis 可视化编辑器</div>
                 </div>
             );
         }
 
-        render() {
-            // const pathname = this.props.location.pathname;
-            const theme = this.state.theme;
-            return (
-                <Layout
-                    theme={theme.value}
-                    offScreen={this.state.offScreen}
-                    header={this.state.headerVisible ? this.renderHeader() : null}
-                    folded={this.state.asideFolded}
-                    aside={this.renderAside()}
-                >
-                    <ToastComponent theme={theme.value} />
-                    <AlertComponent theme={theme.value} />
-                    {React.cloneElement(this.props.children, {
-                        ...this.props.children.props,
-                        setAsideFolded: this.setAsideFolded,
-                        setHeaderVisible: this.setHeaderVisible,
-                        theme: theme.value,
-                        classPrefix: theme.ns
-                    })}
-                </Layout>
-            );
-        }
-    }
-
-    function navigations2route(pathPrefix = PathPrefix) {
-        let routes = [];
-
-        navigations.forEach(root => {
-            root.children && mapTree(root.children, item => {
-                if (item.path && item.component) {
-                    routes.push(
-                        <Route key={routes.length + 1} path={item.path[0] === '/' ? (ContextPath + item.path) : `${ContextPath}${pathPrefix}/${item.path}`} component={item.component} />
-                    )
-                } else if (item.path && item.getComponent) {
-                    routes.push(
-                        <Route key={routes.length + 1} path={item.path[0] === '/' ? ContextPath + item.path : `${ContextPath}${pathPrefix}/${item.path}`} getComponent={item.getComponent} />
-                    )
-                }
-            });
-        });
-
-        return routes;
-    }
-
-    export default function entry({pathPrefix}) {
-        PathPrefix = pathPrefix || PathPrefix;
-        let history = browserHistory;
-
-        // if (process.env.NODE_ENV === 'production') {
-        //     history = hashHistory;
-        // }
-
         return (
-            <Router history={ history }>
-                <Route component={App}>
-                    <Redirect from={`${ContextPath}/`} to={`${ContextPath}${PathPrefix}/pages/simple`} />
-                    <Redirect from={`${PathPrefix}/`} to={`${PathPrefix}/pages/simple`} />
-                    {navigations2route(PathPrefix)}
-                    <Route path="*" component={NotFound} />
-                </Route>
-            </Router>
+            <div>
+                <div className={`${theme.ns}Layout-brandBar`}>
+                    <button
+                        onClick={() => this.setState({offScreen: !this.state.offScreen})}
+                        className="pull-right visible-xs"
+                    >
+                        <i className="glyphicon glyphicon-align-justify" />
+                    </button>
+                    <div className={`${theme.ns}Layout-brand`}>
+                        <i className="fa fa-paw" />
+                        <span className="hidden-folded m-l-sm">AMis Renderer</span>
+                    </div>
+                </div>
+                <div className={`${theme.ns}Layout-headerBar`}>
+                    <div className="nav navbar-nav hidden-xs">
+                        <Button
+                            theme={this.state.theme.value}
+                            level="link"
+                            className="no-shadow navbar-btn"
+                            onClick={this.toggleAside}
+                            tooltip="展开或收起侧边栏"
+                            placement="bottom"
+                            iconOnly
+                        >
+                            <i className={this.state.asideFolded ? 'fa fa-indent' : 'fa fa-dedent'} />
+                        </Button>
+
+                        <Button
+                            theme={this.state.theme.value}
+                            level="link"
+                            className="no-shadow navbar-btn"
+                            href="https://github.com/baidu/amis"
+                            tooltip="前往 Github 仓库地址"
+                            placement="bottom"
+                            iconOnly
+                        >
+                            <i className={'fa fa-github'} />
+                        </Button>
+                    </div>
+
+                    <div className="hidden-xs p-t-sm pull-right">
+                        主题：
+                        {
+                            <Select
+                                theme={this.state.theme.value}
+                                value={this.state.theme}
+                                options={this.state.themes}
+                                onChange={theme => {
+                                    this.setState({theme});
+                                    localStorage.setItem('themeIndex', this.state.themes.indexOf(theme));
+                                }}
+                            />
+                        }
+                    </div>
+
+                    <DocSearch theme={this.state.theme.value} />
+                </div>
+            </div>
         );
     }
 
+    render() {
+        // const pathname = this.props.location.pathname;
+        const theme = this.state.theme;
+        return (
+            <Layout
+                theme={theme.value}
+                offScreen={this.state.offScreen}
+                header={this.state.headerVisible ? this.renderHeader() : null}
+                folded={this.state.asideFolded}
+                aside={this.renderAside()}
+            >
+                <ToastComponent theme={theme.value} />
+                <AlertComponent theme={theme.value} />
+                {React.cloneElement(this.props.children, {
+                    ...this.props.children.props,
+                    setAsideFolded: this.setAsideFolded,
+                    setHeaderVisible: this.setHeaderVisible,
+                    theme: theme.value,
+                    classPrefix: theme.ns
+                })}
+            </Layout>
+        );
+    }
+}
+
+function navigations2route(pathPrefix = PathPrefix) {
+    let routes = [];
+
+    navigations.forEach(root => {
+        root.children &&
+            mapTree(root.children, item => {
+                if (item.path && item.component) {
+                    routes.push(
+                        <Route
+                            key={routes.length + 1}
+                            path={
+                                item.path[0] === '/'
+                                    ? ContextPath + item.path
+                                    : `${ContextPath}${pathPrefix}/${item.path}`
+                            }
+                            component={item.component}
+                        />
+                    );
+                } else if (item.path && item.getComponent) {
+                    routes.push(
+                        <Route
+                            key={routes.length + 1}
+                            path={
+                                item.path[0] === '/'
+                                    ? ContextPath + item.path
+                                    : `${ContextPath}${pathPrefix}/${item.path}`
+                            }
+                            getComponent={item.getComponent}
+                        />
+                    );
+                }
+            });
+    });
+
+    return routes;
+}
+
+export default function entry({pathPrefix}) {
+    PathPrefix = pathPrefix || PathPrefix;
+    let history = browserHistory;
+
+    // if (process.env.NODE_ENV === 'production') {
+    //     history = hashHistory;
+    // }
+
+    return (
+        <Router history={history}>
+            <Route component={App}>
+                <Redirect from={`${ContextPath}/`} to={`${ContextPath}${PathPrefix}/pages/simple`} />
+                <Redirect from={`${PathPrefix}/`} to={`${PathPrefix}/pages/simple`} />
+                {navigations2route(PathPrefix)}
+                <Route path="*" component={NotFound} />
+            </Route>
+        </Router>
+    );
+}

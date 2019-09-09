@@ -4,9 +4,10 @@
         padding-left: 0;
         margin-bottom: 0;
         list-style: none;
+
         &::before {
             display: table;
-            content: " ";
+            content: ' ';
         }
 
         > .#{$ns}Tabs-link {
@@ -35,6 +36,7 @@
                 z-index: 10;
                 display: none;
             }
+
             &:hover > .#{$ns}Combo-toolbarBtn {
                 display: block;
             }
@@ -74,10 +76,12 @@
     &-pane {
         display: none;
         opacity: 0;
-        transition: opacity .35s linear;
+        transition: opacity 0.35s linear;
+
         &.is-active {
             display: block;
         }
+
         &.in {
             opacity: 1;
         }
@@ -95,8 +99,7 @@
                         border-bottom: px2rem(2px) solid $primary;
                         color: $primary;
                         background-color: transparent;
-                        border-color: transparent transparent $primary
-                            transparent;
+                        border-color: transparent transparent $primary transparent;
                     }
                 }
 
@@ -113,8 +116,8 @@
 
     &--card {
         > .#{$ns}Tabs-links {
-            background-color: #eceff8;
-            border-top: px2rem(1px) solid #e2e5ec;
+            background-color: $Tabs--card-bg;
+            border-top: px2rem(1px) solid $Tabs--card-borderTopColor;
 
             > li {
                 &.is-active {
@@ -122,7 +125,7 @@
                     > a:first-child:hover,
                     > a:first-child:focus {
                         color: $primary;
-                        background-color: #fff;
+                        background-color: $Tabs--card-onActive-bg;
                         margin-left: px2rem(1px);
                     }
                 }
@@ -166,7 +169,7 @@
                 > a:first-child:hover,
                 > a:first-child:focus {
                     color: $primary;
-                    background-color: #eaf6fe;
+                    background-color: $Tabs--radio-bg;
                 }
             }
         }

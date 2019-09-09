@@ -25,12 +25,12 @@
         border-color: $borderColor;
 
         > .#{$ns}Panel-heading {
-            background-color: $Panel--default-bg;
+            background: $Panel--default-bg;
             color: $Panel--default-color;
 
             .badge {
                 color: $Panel--default-badgeColor;
-                background-color: $Panel--default-badgeBg;
+                background: $Panel--default-badgeBg;
             }
         }
 
@@ -43,12 +43,12 @@
         border-color: $primary;
 
         > .#{$ns}Panel-heading {
-            background-color: $primary;
+            background: $primary;
             color: $white;
 
             .badge {
                 color: $primary;
-                background-color: $white;
+                background: $white;
             }
         }
 
@@ -62,12 +62,12 @@
         border-color: $success;
 
         > .#{$ns}Panel-heading {
-            background-color: $success;
+            background: $success;
             color: $white;
 
             .badge {
                 color: $success;
-                background-color: $white;
+                background: $white;
             }
         }
 
@@ -81,12 +81,12 @@
         border-color: $info;
 
         > .#{$ns}Panel-heading {
-            background-color: $info;
+            background: $info;
             color: $white;
 
             .badge {
                 color: $info;
-                background-color: $white;
+                background: $white;
             }
         }
 
@@ -100,12 +100,12 @@
         border-color: $warning;
 
         > .#{$ns}Panel-heading {
-            background-color: $warning;
+            background: $warning;
             color: $white;
 
             .badge {
                 color: $warning;
-                background-color: $white;
+                background: $white;
             }
         }
 
@@ -119,12 +119,12 @@
         border-color: $danger;
 
         > .#{$ns}Panel-heading {
-            background-color: $danger;
+            background: $danger;
             color: $white;
 
             .badge {
                 color: $danger;
-                background-color: $white;
+                background: $white;
             }
         }
 
@@ -155,7 +155,7 @@
     &-footer {
         border-color: $Panel-footerBorderColor;
         border-radius: $Panel-footerBorderRadius;
-        background-color: $Panel-footerBg;
+        background: $Panel-footerBg;
         padding: $Panel-footerPadding;
         border-style: solid;
         border-width: $Panel-borderWidth 0 0 0;

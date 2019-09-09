@@ -26,7 +26,7 @@
         &::after {
             position: absolute;
             display: block;
-            content: "";
+            content: '';
             border-color: transparent;
             border-style: solid;
         }
@@ -68,8 +68,7 @@
 
         .#{$ns}Tooltip-arrow::before,
         .#{$ns}Tooltip-arrow::after {
-            border-width: ($Tooltip-arrow-width / 2) $Tooltip-arrow-height
-                ($Tooltip-arrow-width / 2) 0;
+            border-width: ($Tooltip-arrow-width / 2) $Tooltip-arrow-height ($Tooltip-arrow-width / 2) 0;
         }
 
         .#{$ns}Tooltip-arrow::before {
@@ -92,8 +91,7 @@
 
         .#{$ns}Tooltip-arrow::before,
         .#{$ns}Tooltip-arrow::after {
-            border-width: 0 ($Tooltip-arrow-width / 2) $Tooltip-arrow-height
-                ($Tooltip-arrow-width / 2);
+            border-width: 0 ($Tooltip-arrow-width / 2) $Tooltip-arrow-height ($Tooltip-arrow-width / 2);
         }
 
         .#{$ns}Tooltip-arrow::before {
@@ -114,7 +112,7 @@
             display: block;
             width: $Tooltip-arrow-width;
             margin-left: ($Tooltip-arrow-width / -2);
-            content: "";
+            content: '';
             border-bottom: $Tooltip-borderWidth solid $Tooltip-title-bg;
         }
     }
@@ -133,8 +131,7 @@
 
         .#{$ns}Tooltip-arrow::before,
         .#{$ns}Tooltip-arrow::after {
-            border-width: ($Tooltip-arrow-width / 2) 0
-                ($Tooltip-arrow-width / 2) $Tooltip-arrow-height;
+            border-width: ($Tooltip-arrow-width / 2) 0 ($Tooltip-arrow-width / 2) $Tooltip-arrow-height;
         }
 
         .#{$ns}Tooltip-arrow::before {
@@ -201,40 +198,40 @@
         opacity: 1;
     }
 
-    &[data-position="bottom"]:after {
+    &[data-position='bottom']:after {
         left: 50%;
         top: 100%;
         transform: translateX(-50%);
     }
 
-    &[data-position="bottom"]:hover:after {
+    &[data-position='bottom']:hover:after {
         margin: $Tooltip--attr-gap 0 0 0;
     }
 
-    &[data-position="left"]:after {
+    &[data-position='left']:after {
         top: 50%;
         right: 100%;
         left: auto;
         transform: translateY(-50%);
     }
 
-    &[data-position="left"]:hover:after {
+    &[data-position='left']:hover:after {
         margin: 0 0 0 $Tooltip--attr-gap;
     }
 
-    &[data-position="top"]:after {
+    &[data-position='top']:after {
         left: 50%;
         top: auto;
         bottom: 100%;
         transform: translateX(-50%);
     }
 
-    &[data-position="top"]:hover:after {
+    &[data-position='top']:hover:after {
         margin: -$Tooltip--attr-gap 0 0 0;
     }
 
     &:hover:active:after {
-        content: "";
+        content: '';
         display: none !important;
     }
 }
