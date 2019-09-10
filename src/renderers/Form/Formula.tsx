@@ -12,9 +12,11 @@ export interface FormulaProps extends FormControlProps {
 
 export default class FormulaControl extends React.Component<FormControlProps, any> {
     componentDidMount() {
-        const {formula, data, setPrinstineValue, initSet} = this.props;
+        const {formula, data, setPrinstineValue, initSet, condition} = this.props;
 
         if (!formula || initSet === false) {
+            return;
+        } else if (condition && !~condition.indexOf('$') && !~condition.indexOf('<%') && !evalJS(condition, data as object)) {
             return;
         }
 
