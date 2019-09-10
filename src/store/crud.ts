@@ -174,7 +174,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                         };
                     }
 
-                    const {total, count, page, hasNext, ...rest} = result;
+                    const {total, count, page, hasNext, items: oItems, rows: oRows, ...rest} = result;
 
                     let items: Array<any>;
                     if (options.source) {
