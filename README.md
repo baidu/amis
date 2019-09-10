@@ -8,11 +8,14 @@
 
 ## 快速开始
 
+推荐使用 node 10，理论上 node 6 和 node 8 都可以。node 12 太新估计 fis3 还有些插件不支持。
+
 ```
 # 安装项目 npm 依赖。
 npm i
 
 # 开始编译，把代码产出到刚开启的服务的 webroot 目录。
+# 这个程序不会自动结束，进入一个 watch 模式，文件变动会重新编译。
 npm run dev
 
 # 开启 fis3 服务，请通过 http://127.0.0.1:8888/examples/pages/simple 访问。
