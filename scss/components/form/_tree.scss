@@ -1,3 +1,29 @@
+@mixin tree-input {
+    > i {
+        display: inline-block;
+        cursor: pointer;
+        margin-left: px2rem(5px);
+    }
+
+    > input {
+        margin-left: px2rem(15px);
+        padding: px2rem(5px);
+        width: px2rem(150px);
+        height: px2rem(25px);
+        color: $Form-input-color;
+
+        &::placeholder {
+            color: $Form-input-placeholderColor;
+            user-select: none;
+        }
+
+        &:focus {
+            outline: none;
+            border: $borderWidth solid $info;
+        }
+    }
+}
+
 // todo
 .#{$ns}TreeControl {
     border: 1px solid $Form-input-borderColor;
@@ -31,30 +57,7 @@
         }
 
         > li {
-            > i {
-                display: inline-block;
-                cursor: pointer;
-                margin-left: 5px;
-            }
-
-            > input {
-                margin-left: 15px;
-                padding: px2rem(5px);
-                width: px2rem(150px);
-                height: px2rem(25px);
-                color: $Form-input-color;
-                //height: $Form-input-lineHeight * $Form-input-fontSize;
-
-                &::placeholder {
-                    color: $Form-input-placeholderColor;
-                    user-select: none;
-                }
-
-                &:focus {
-                    outline: none;
-                    border: $borderWidth solid $info;
-                }
-            }
+            @include tree-input;
         }
     }
 
@@ -72,7 +75,7 @@
             > span > i {
                 display: inline-block;
                 cursor: pointer;
-                margin-left: 5px;
+                margin-left: px2rem(5px);
             }
         }
 
@@ -82,35 +85,28 @@
 
         &--isEdit {
             display: inline-block;
-            > i {
-                display: inline-block;
-                cursor: pointer;
-                margin-left: 5px;
-            }
-
-            > input {
-                margin-left: 15px;
-                padding: px2rem(5px);
-                width: px2rem(150px);
-                height: px2rem(25px);
-                color: $Form-input-color;
-                //height: $Form-input-lineHeight * $Form-input-fontSize;
-
-                &::placeholder {
-                    color: $Form-input-placeholderColor;
-                    user-select: none;
-                }
-
-                &:focus {
-                    outline: none;
-                    border: $borderWidth solid $info;
-                }
-            }
+            @include tree-input;
         }
     }
 
-    &-rootItem > a > i {
-        margin-left: 0 !important;
+    &-rootItem {
+        > a > i {
+            margin-left: 0 !important;
+        }
+
+        .#{$ns}Tree-addTop {
+            height: px2rem(25px);
+            line-height: px2rem(25px);
+            cursor: pointer;
+            padding-left: $Tree-indent;
+            > p > span {
+                padding-left: px2rem(5px);
+            }
+
+            &-input {
+                @include tree-input
+            }
+        }
     }
 
     &-itemArrow {
