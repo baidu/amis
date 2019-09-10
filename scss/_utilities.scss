@@ -1391,6 +1391,10 @@
     clip: rect(1px, 1px, 1px, 1px);
 }
 
+.invisible2 {
+    visibility: hidden;
+}
+
 .hbox {
     display: table;
     table-layout: fixed;
