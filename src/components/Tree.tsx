@@ -5,16 +5,17 @@
  */
 
 import React from 'react';
-import {eachTree, isVisible} from '../utils/helper';
+import {eachTree, isVisible, isObject} from '../utils/helper';
 import {Option, Options, value2array} from './Checkboxes';
 import {ClassNamesFn, themeable} from '../theme';
 import {highlight} from '../renderers/Form/Options';
+import debounce = require('lodash/debounce');
 
 interface TreeSelectorProps {
     classPrefix: string;
     classnames: ClassNamesFn;
 
-    highlightTxt: string;
+    highlightTxt?: string;
 
     showIcon?: boolean;
     // 是否默认都展开
@@ -53,11 +54,24 @@ interface TreeSelectorProps {
     selfDisabledAffectChildren?: boolean;
     minLength?: number;
     maxLength?: number;
+    addMode?: string;
+    addItem?: Function;
+    openAddDialog?: Function;
+    editMode?: string;
+    editItem?: Function;
+    openEditDialog?: Function;
+    deletable?: boolean;
+    deleteItem?: Function;
 }
 
 interface TreeSelectorState {
     value: Array<any>;
     unfolded: {[propName: string]: string};
+    hoverItem: Option | null;
+    editItem: Option | null;
+    addItem: Option | null;
+    addingItem: Option | null;
+    editingItem: Option | null;
 }
 
 export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelectorState> {
@@ -92,6 +106,18 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         this.clearSelect = this.clearSelect.bind(this);
         this.handleCheck = this.handleCheck.bind(this);
         this.toggleUnfolded = this.toggleUnfolded.bind(this);
+        this.handleEnter = this.handleEnter.bind(this);
+        this.handleMove = this.handleMove.bind(this);
+        this.handleLeave = this.handleLeave.bind(this);
+        this.addItem = this.addItem.bind(this);
+        this.onChangeAddItem = this.onChangeAddItem.bind(this);
+        this.confirmAddItem = this.confirmAddItem.bind(this);
+        this.cancelAddItem = this.cancelAddItem.bind(this);
+        this.editItem = this.editItem.bind(this);
+        this.onChangeEditItem = this.onChangeEditItem.bind(this);
+        this.confirmEditItem = this.confirmEditItem.bind(this);
+        this.cancelEditItem = this.cancelEditItem.bind(this);
+        this.deleteItem = this.deleteItem.bind(this);
 
         const props = this.props;
 
@@ -104,7 +130,12 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                 valueField: props.valueField,
                 options: props.data
             }),
-            unfolded: this.syncUnFolded(props)
+            unfolded: this.syncUnFolded(props),
+            hoverItem: null, // 鼠标覆盖选中的 item
+            editItem: null, // 点击编辑时的 item
+            addItem: null, // 点击添加时的 item
+            addingItem: null, // 添加后的 item
+            editingItem: null // 编辑后的 item
         });
     }
 
@@ -157,6 +188,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
 
     toggleUnfolded(node: any) {
         this.setState({
+            addItem: null,
             unfolded: {
                 ...this.state.unfolded,
                 [node[this.props.valueField as string]]: !this.state.unfolded[node[this.props.valueField as string]]
@@ -273,6 +305,135 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         );
     }
 
+    handleEnter(item: Option) {
+        this.setState({
+            hoverItem: item
+        });
+    }
+
+    handleMove(e: MouseEvent, item: Option) {
+        const target = e.target as HTMLElement;
+        const tagName = target.tagName;
+        if (tagName === 'LI') {
+            const current = target.childNodes[0].textContent;
+            if (current == item['label'] && (!this.state.hoverItem || current !== (this.state.hoverItem as Option)['label'])) {
+                this.setState({
+                    hoverItem: item
+                });
+            }
+        }
+    }
+
+    handleLeave() {
+        this.setState({
+            hoverItem: null
+        });
+    }
+
+    addItem(item: Option, isFolder: boolean) {
+        const {addMode, openAddDialog, valueField} = this.props;
+        let {hoverItem, unfolded} = this.state;
+        if (addMode === 'dialog') {
+            openAddDialog && openAddDialog(hoverItem)
+        } else if (addMode === 'normal')  {
+            // 添加时，默认折叠的文件夹需要展开
+            if (isFolder && !unfolded[item[valueField as string]]) {
+                unfolded = {
+                    ...unfolded,
+                    [item[valueField as string]]: !unfolded[item[valueField as string]],
+                }
+            }
+
+            this.setState({
+                addItem: item,
+                editItem: null,
+                unfolded
+            });
+        }
+    }
+
+    editItem(item: Option) {
+        const {editMode, openEditDialog} = this.props;
+        const {hoverItem, addItem} = this.state;
+        if (editMode === 'dialog') {
+            openEditDialog && openEditDialog(hoverItem);
+            addItem && this.setState({
+                addItem: null
+            });
+        } else if (editMode === 'normal')  {
+            this.setState({
+                editItem: item,
+                addItem: null
+            });
+        }
+    }
+
+    deleteItem(item: Option) {
+        const {deleteItem} = this.props;
+        deleteItem && deleteItem(item);
+
+        this.setState({
+            hoverItem: null
+        });
+    }
+
+    confirmAddItem() {
+        const {addItem} = this.props;
+        const {addItem: parent, addingItem} = this.state;
+        addItem && addItem({
+            ...addingItem,
+            parent: parent
+        });
+
+        this.setState({
+            addingItem: null,
+            addItem: null
+        })
+    }
+
+    cancelAddItem() {
+        this.setState({
+            addItem: null
+        });
+    }
+
+    confirmEditItem() {
+        const {editItem} = this.props;
+        let {editingItem, editItem: prevItem} = this.state;
+        editItem && editItem({
+            ...editingItem,
+            prev: prevItem
+        });
+        this.setState({
+            editingItem: null,
+            editItem: null
+        });
+    }
+
+    cancelEditItem() {
+        this.setState({
+            editItem: null
+        });
+    }
+
+    onChangeAddItem(value: string) {
+        this.setState({
+            addingItem: {
+                label: value
+            }
+        });
+    }
+
+    onChangeEditItem(item: Option, value: string) {
+        let {editItem} = this.state;
+        this.setState({
+            editingItem: {
+                ...item,
+                label: value || (editItem as Option)['label']
+            }
+        });
+    }
+
     renderList(
         list: Options,
         value: Option[],
@@ -295,7 +456,10 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
             highlightTxt,
             data,
             maxLength,
-            minLength
+            minLength,
+            addMode,
+            editMode,
+            deletable
         } = this.props;
 
         let childrenChecked = 0;
@@ -369,48 +533,82 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                     className={cx(`Tree-item ${itemClassName || ''}`, {
                         'Tree-item--isLeaf': isLeaf
                     })}
+                    onMouseMove={(e) =>
+                        !nodeDisabled && this.handleMove(e, item)
+                    }
+                    onMouseEnter={() =>
+                        !nodeDisabled && this.handleEnter(item)
+                    }
+                    onMouseLeave={() =>
+                        !nodeDisabled && this.handleLeave()
+                    }
                 >
-                    <a>
-                        {!isLeaf ? (
-                            <i
-                                onClick={() => this.toggleUnfolded(item)}
-                                className={cx('Tree-itemArrow', {
-                                    'is-folded': !this.state.unfolded[item[valueField]]
-                                })}
-                            />
-                        ) : null}
+                    {!this.state.editItem || isObject(this.state.editItem) && (this.state.editItem as Option)[valueField] !== item[valueField] ? (
+                        <a>
+                            {!isLeaf ? (
+                                <i
+                                    onClick={() => this.toggleUnfolded(item)}
+                                    className={cx('Tree-itemArrow', {
+                                        'is-folded': !this.state.unfolded[item[valueField]],
+                                    })}
+                                />
+                            ) : null}
 
-                        {showIcon ? (
-                            <i
-                                className={cx(
-                                    `Tree-itemIcon ${item[iconField] ||
+                            {showIcon ? (
+                                <i
+                                    className={cx(
+                                        `Tree-itemIcon ${item[iconField] ||
                                         (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')}`
-                                )}
-                            />
-                        ) : null}
+                                    )}
+                                />
+                            ) : null}
 
-                        {checkbox}
+                            {checkbox}
 
-                        <span
-                            className={cx('Tree-itemText', {
-                                'is-children-checked': multiple && !cascade && tmpChildrenChecked && !nodeDisabled,
-                                'is-checked': checked,
-                                'is-disabled': nodeDisabled
-                            })}
-                            onClick={() =>
-                                !nodeDisabled &&
-                                (multiple ? this.handleCheck(item, !selfChecked) : this.handleSelect(item))
-                            }
-                        >
-                            {highlightTxt ? highlight(item[nameField], highlightTxt) : item[nameField]}
-                        </span>
-                    </a>
-                    {childrenItems ? (
+                            <span
+                                className={cx('Tree-itemText', {
+                                    'is-children-checked': multiple && !cascade && tmpChildrenChecked && !nodeDisabled,
+                                    'is-checked': checked,
+                                    'is-disabled': nodeDisabled,
+                                })}
+                                onClick={() =>
+                                    !nodeDisabled &&
+                                    (multiple ? this.handleCheck(item, !selfChecked) : this.handleSelect(item))
+                                }
+                            >
+                                {highlightTxt ? highlight(item[nameField], highlightTxt) : item[nameField]}
+                            </span>
+                            {/* 非添加时 && 非编辑时 && 鼠标覆盖时是当前item时，显示添加/编辑/删除图标 */}
+                            {!this.state.addItem
+                                && !this.state.editItem
+                                && isObject(this.state.hoverItem)
+                                && (this.state.hoverItem as Option)[valueField as string] === item[valueField] ? (
+                                    <span>
+                                        {addMode ? <i className="fa fa-plus" onClick={() => this.addItem(item, !isLeaf)}></i> : null}
+                                        {deletable ? <i className="fa fa-minus" onClick={() => this.deleteItem(item)}></i> : null}
+                                        {editMode ? <i className="fa fa-pencil" onClick={() => this.editItem(item)}></i> : null}
+                                    </span>
+                            ) : null}
+                        </a>
+                    ) : (
+                        <div className={cx('Tree-item--isEdit')}>
+                            <input placeholder='label' defaultValue={item['label']} onChange={(e) => this.onChangeEditItem(item, e.currentTarget.value)}/>
+                            <i className="fa fa-check" onClick={this.confirmEditItem}></i>
+                            <i className="fa fa-close" onClick={this.cancelEditItem}></i>
+                        </div>
+                    )}
+                    {/* 有children而且为展开状态 或者 添加child时 */}
+                    {((childrenItems && this.state.unfolded[item[valueField]]) || this.state.addItem && (this.state.addItem[valueField] === item[valueField])) ? (
                         <ul
-                            className={cx('Tree-sublist', {
-                                'is-folded': !this.state.unfolded[item[valueField]]
-                            })}
+                            className={cx('Tree-sublist')}
                         >
+                            {this.state.addItem && this.state.addItem[valueField] === item[valueField] ? (
+                                <li>
+                                    <input placeholder='label' onChange={(e) => this.onChangeAddItem(e.currentTarget.value)}/>
+                                    <i className="fa fa-check" onClick={this.confirmAddItem}></i>
+                                    <i className="fa fa-close" onClick={this.cancelAddItem}></i>
+                                </li>
+                            ) : null}
                             {childrenItems}
                         </ul>
                     ) : null}
