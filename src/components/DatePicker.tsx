@@ -677,6 +677,31 @@ const availableShortcuts: {[propName: string]: any} = {
     }
 };
 
+const selfDefinedShortcuts = [
+    {
+        regexp: /^(\d+)dayslater$/,
+        func: function(_,days) {
+            return {
+                label: `${days}天后`,
+                date: (now: moment.Moment) => {
+                    return now.add(days, 'days');
+                }
+            };
+        }
+    },
+    {
+        regexp: /^(\d+)weekslater$/,
+        func: function(_,weeks) {
+            return {
+                label: `${weeks}周后`,
+                date: (now: moment.Moment) => {
+                    return now.add(weeks * 7, 'days');
+                }
+            };
+        }
+    }
+]
+
 export interface DateProps {
     viewMode: 'years' | 'months' | 'days' | 'time';
     className?: string;
@@ -854,6 +879,14 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         this.dom = ref;
     };
 
+    getAvailableShortcuts(key:string) {
+        if (availableShortcuts[key]) {
+            return availableShortcuts[key];
+        }
+        let ele = selfDefinedShortcuts.filter(item => item.regexp.test(key)).shift();
+        return  ele ?  ele.func(...key.match(ele.regexp)) : "";
+    }
+
     render() {
         const {
             classPrefix: ns,
@@ -930,16 +963,21 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                                         ? shortcuts
                                         : []
                                     )
-                                        .filter(key => !!availableShortcuts[key])
-                                        .map(key => (
+                                    .filter(key => {
+                                        return !!this.getAvailableShortcuts(key);
+                                    })
+                                    .map(key => {
+                                        const shortCut = this.getAvailableShortcuts(key);
+                                        return (
                                             <li
                                                 className={`${ns}DatePicker-shortcut`}
-                                                onClick={() => this.selectRannge(availableShortcuts[key])}
+                                                onClick={() => this.selectRannge(shortCut)}
                                                 key={key}
                                             >
-                                                <a>{availableShortcuts[key].label}</a>
+                                                <a>{shortCut.label}</a>
                                             </li>
-                                        ))}
+                                        );
+                                    })}
                                 </ul>
                             ) : null}
                             
