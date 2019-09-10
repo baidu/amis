@@ -18,10 +18,10 @@ export interface TreeProps extends OptionsControlProps {
     withChildren?: boolean; // 选父级的时候是否把子节点的值也包含在内。
     onlyChildren?: boolean; // 选父级的时候，是否只把子节点的值包含在内
     addApi?: Api;
-    addMode?: string;
+    addMode?: 'dialog' | 'normal';
     addDialog?: Schema;
     editApi?: Api;
-    editMode?: string;
+    editMode?: 'dialog' | 'normal';
     editDialog?: Schema;
     deleteApi?: Api;
     deleteConfirmText?: string;
@@ -57,7 +57,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     }
 
     @autobind
-    addItem(values: PlainObject) {
+    handleAdd(values: PlainObject) {
         this.saveRemote(values, 'add');
     }
 
@@ -71,7 +71,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     }
 
     @autobind
-    editItem(values: PlainObject) {
+    handleEdit(values: PlainObject) {
         this.saveRemote(values, 'add');
     }
 
@@ -80,7 +80,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         this.saveRemote({
             ...values,
             prev: this.state.prev
-        }, 'add');
+        }, 'edit');
         this.closeEditDialog();
     }
 
@@ -109,7 +109,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     }
 
     @autobind
-    async deleteItem(item: any) {
+    async handleDelete(item: any) {
         const {deleteConfirmText, deleteApi, data, env} = this.props;
         const ctx = createObject(data, item);
         if (isEffectiveApi(deleteApi, ctx)) {
@@ -189,8 +189,10 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
             showRadio,
             render,
             addMode,
+            addApi,
             addDialog,
             editMode,
+            editApi,
             editDialog,
             deleteApi
         } = this.props;
@@ -228,17 +230,19 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
                         nameField="label"
                         selfDisabledAffectChildren={false}
                         addMode={addMode}
-                        addItem={this.addItem}
+                        addable={isEffectiveApi(addApi)}
+                        onAdd={this.handleAdd}
                         openAddDialog={this.openAddDialog}
                         editMode={editMode}
-                        editItem={this.editItem}
+                        editable={isEffectiveApi(editApi)}
+                        onEdit={this.handleEdit}
                         openEditDialog={this.openEditDialog}
-                        deleteItem={this.deleteItem}
+                        onDelete={this.handleDelete}
                         deletable={isEffectiveApi(deleteApi)}
                     />
                 )}
 
-                {render(
+                {addMode && render(
                     'modal',
                     {
                         type: 'dialog',
@@ -252,7 +256,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
                     }
                 )}
 
-                {render(
+                {editMode && render(
                     'modal',
                     {
                         type: 'dialog',

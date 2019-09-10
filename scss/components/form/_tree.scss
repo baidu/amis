@@ -1,7 +1,9 @@
 @mixin tree-input {
-    > i {
+    > svg {
         display: inline-block;
         cursor: pointer;
+        position: relative;
+        top: 2px;
         margin-left: px2rem(5px);
     }
 
@@ -65,16 +67,27 @@
         line-height: px2rem(30px);
         position: relative;
 
+        .#{$ns}Tree-item-icons {
+            visibility: hidden;
+            transition: visibility .1s ease;
+        }
+
         > a {
             color: inherit;
 
             &:hover {
                 text-decoration: none;
+
+                > span.#{$ns}Tree-item-icons {
+                    visibility: visible;
+                }
             }
 
-            > span > i {
+            > span > svg {
                 display: inline-block;
                 cursor: pointer;
+                position: relative;
+                top: 2px;
                 margin-left: px2rem(5px);
             }
         }
@@ -99,8 +112,14 @@
             line-height: px2rem(25px);
             cursor: pointer;
             padding-left: $Tree-indent;
-            > p > span {
-                padding-left: px2rem(5px);
+            > p {
+                > svg {
+                    position: relative;
+                    top: 2px;
+                }
+                > span {
+                    padding-left: px2rem(5px);
+                }
             }
 
             &-input {
