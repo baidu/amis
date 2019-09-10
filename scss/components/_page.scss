@@ -38,13 +38,14 @@
     &-title {
         margin: 0;
         padding: 0;
-        color: $text--loud-color;
-        font-size: $fontSizeMd;
-        font-weight: $fontWeightNormal;
+        color: $Page-title-color;
+        line-height: $Page-title-lineHeight;
+        font-size: $Page-title-fontSize;
+        font-weight: $Page-title-fontWeight;
     }
 
     &-body {
-        padding: $gap-base;
+        padding: $Page-body-padding;
     }
 
     &-asideTplWrapper {

@@ -44,6 +44,7 @@ $fontFamilyBase: $fontFamilySansSerif !default;
 $fontSizeBase: px2rem(14px) !default; // Assumes the browser default, typically `16px`
 $fontSizeMd: px2rem(16px) !default;
 $fontSizeLg: px2rem(20px) !default;
+$fontSizeXl: px2rem(24px) !default;
 $fontSizeSm: px2rem(12px) !default;
 $fontSizeXs: px2rem(11px) !default;
 
@@ -359,6 +360,8 @@ $Tabs-borderColor: $borderColor !default;
 $Tabs-borderWidth: $borderWidth !default;
 $Tabs-borderRadius: $borderRadius !default;
 $Tabs-color: $text-color !default;
+$Tabs-link-padding: $gap-sm $gap-base !default;
+$Tabs-link-margin: 0 !default;
 $Tabs-onDisabled-color: $gray600 !default;
 $Tabs-onHover-borderColor: $gray200 !default;
 $Tabs-onActive-color: $gray700 !default;
@@ -367,6 +370,8 @@ $Tabs-onActive-borderBottomColor: transparent !default;
 $Tabs-onActive-borderBottomWidth: initial !default;
 $Tabs-onActive-bg: $background !default;
 $Tabs-content-bg: $background !default;
+$Tabs-content-borderWidth: 0 $Tabs-borderWidth $Tabs-borderWidth !default;
+$Tabs-content-padding: $gap-base !default;
 $Tabs--card-bg: $background !default;
 $Tabs--card-borderTopColor: #e2e5ec !default;
 $Tabs--card-onActive-bg: #eceff8 !default;
@@ -1158,6 +1163,11 @@ $Page-content-paddingX: 0 !default;
 $Page-main-bg: transparent !default;
 $Page-header-paddingY: $gap-base !default;
 $Page-header-paddingX: $gap-base !default;
+$Page-body-padding: $gap-base !default;
+$Page-title-lineHeight: 1.1 !default;
+$Page-title-fontSize: $fontSizeMd !default;
+$Page-title-fontWeight: $fontWeightNormal !default;
+$Page-title-color: $text--loud-color !default;
 
 // Panel
 $Panel-borderRadius: $borderRadius !default;

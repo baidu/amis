@@ -42,7 +42,7 @@ $Layout-asideLink-arrowVendor: "iconfont";
 $Layout-asideLink-arrowIcon: "\e63b";
 $Layout-asideLink-arrowColor: #8d99b0;
 $Layout-asideLink-onHover-arrowColor: #fff;
-$Layout-headerBar-borderBottom: px2rem(1px) solid $body-bg;
+$Layout-headerBar-borderBottom: 0 none;
 $Layout-asideDivider-margin: 0 px2rem(10px);
 $Layout-asideDivider-bg: #3c3c4d;
 $Layout-nav--folded-height: px2rem(40px);
@@ -52,7 +52,12 @@ $Page-aside-width: px2rem(160px);
 $Page-content-paddingY: 0;
 $Page-content-paddingX: 0;
 $Page-main-bg: #fff;
-$Page-header-paddingY: px2rem(16px);
+$Page-body-padding: px2rem(20px);
+$Page-title-fontSize: px2rem(16px);
+$Page-title-color: #000;
+$Page-title-lineHeight: 1.75;
+$Page-header-paddingX: px2rem(20px);
+$Page-header-paddingY: px2rem(10px);
 
 $Form-item-gap: px2rem(20px);
 $Form-input-height: px2rem(30px);
@@ -232,8 +237,8 @@ $Table-fontSize: px2rem(12px);
 $Table-color: #333;
 $Table-thead-color: #333;
 $Table-lineHeight: 20 / 12;
-$Table-borderColor: #eceff8;
-$Table-thead-bg: #f6f7fb;
+$Table-borderColor: #F5F5F5;
+$Table-thead-bg: #F5F5F5;
 $Table-thead-borderColor: #fff;
 $Table-thead-iconColor: #999;
 $Table-strip-bg: transparent;
@@ -329,13 +334,19 @@ $Wizard-badge-bg: $white;
 $Wizard-badge-marginRight: px2rem(6px);
 
 // Tabs
-$Tabs-linkFontSize: px2rem(16px);
+$Tabs-linkFontSize: px2rem(14px);
 $Tabs-color: $text-color;
 $Tabs-onActive-color: $info;
 $Tabs-onActive-borderColor: transparent;
 $Tabs-onHover-borderColor: transparent;
 $Tabs-onActive-borderBottomColor: $info;
 $Tabs-onActive-borderBottomWidth: px2rem(2px);
+$Tabs-content-borderWidth: 0;
+$Tabs-borderRadius: 0;
+$Tabs-content-padding: px2rem(10px) 0 0;
+$Tabs-link-padding: px2rem(10px) 0;
+$Tabs-link-margin: 0 px2rem(40px) 0 0;
+
 
 // Pagination
 $Pagination-arrowVendor: "iconfont";
