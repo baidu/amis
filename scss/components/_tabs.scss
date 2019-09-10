@@ -23,7 +23,8 @@
                 border-top-right-radius: $Tabs-borderRadius;
                 color: $Tabs-color;
                 margin-right: px2rem(2px);
-                padding: $gap-sm $gap-base;
+                padding: $Tabs-link-padding;
+                margin: $Tabs-link-margin;
                 text-decoration: none;
                 cursor: pointer;
                 display: block;
@@ -67,9 +68,9 @@
 
     &-content {
         background-color: $Tabs-content-bg;
-        padding: $gap-base;
+        padding: $Tabs-content-padding;
         border-style: solid;
-        border-width: 0 $Tabs-borderWidth $Tabs-borderWidth;
+        border-width: $Tabs-content-borderWidth;
         border-color: $Tabs-borderColor;
     }
 
@@ -96,10 +97,8 @@
                     > a:first-child,
                     > a:first-child:hover,
                     > a:first-child:focus {
-                        border-bottom: px2rem(2px) solid $primary;
+                        border-color: $primary;
                         color: $primary;
-                        background-color: transparent;
-                        border-color: transparent transparent $primary transparent;
                     }
                 }
 
@@ -109,6 +108,8 @@
                     color: #666;
                     background-color: transparent;
                     border-color: transparent;
+                    border-style: solid;
+                    border-width: 0 0 px2rem(2px) 0;
                 }
             }
         }
