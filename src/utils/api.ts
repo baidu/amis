@@ -1,10 +1,11 @@
 import {Api, ApiObject, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
 import {tokenize, dataMapping} from './tpl-builtin';
-const rSchema = /(?:^|raw\:)(get|post|put|delete|patch):/i;
 import qs from 'qs';
 import {evalExpression} from './tpl';
 import {isObject, isObjectShallowModified, hasFile, object2formData} from './helper';
+
+const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
 
 interface ApiCacheConfig extends ApiObject {
     cachedPromise: Promise<any>;
