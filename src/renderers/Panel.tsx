@@ -17,7 +17,7 @@ export interface PanelProps extends RendererProps {
     actionsClassName?: string;
     bodyClassName?: string;
     children?: React.ReactNode | ((props: any) => JSX.Element);
-    affixFooter?: boolean;
+    affixFooter?: boolean | 'always';
 }
 
 export default class Panel extends React.Component<PanelProps> {
@@ -61,11 +61,19 @@ export default class Panel extends React.Component<PanelProps> {
 
         const affixDom = this.affixDom.current;
         const footerDom = this.footerDom.current;
-        const clip = footerDom.getBoundingClientRect();
-        const clientHeight = window.innerHeight;
-        const affixed = clip.top > clientHeight;
-
+        let affixed = false;
         footerDom.offsetWidth && (affixDom.style.cssText = `width: ${footerDom.offsetWidth}px;`);
+
+        if (this.props.affixFooter === 'always') {
+            affixed = true;
+            footerDom.classList.add('hidden');
+        } else {
+            const clip = footerDom.getBoundingClientRect();
+            const clientHeight = window.innerHeight;
+            affixed = clip.top > clientHeight;
+        }
+
+        
         affixed ? affixDom.classList.add('in') : affixDom.classList.remove('in');
     }
 
