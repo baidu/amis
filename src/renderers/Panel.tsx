@@ -66,7 +66,7 @@ export default class Panel extends React.Component<PanelProps> {
 
         if (this.props.affixFooter === 'always') {
             affixed = true;
-            footerDom.classList.add('hidden');
+            footerDom.classList.add('invisible2');
         } else {
             const clip = footerDom.getBoundingClientRect();
             const clientHeight = window.innerHeight;
