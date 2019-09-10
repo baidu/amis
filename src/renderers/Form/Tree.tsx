@@ -130,7 +130,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     }
 
     @autobind
-    openAddDialog(parent: Option) {
+    openAddDialog(parent: Option | null) {
         this.setState({
             isAddModalOpened: true,
             parent
