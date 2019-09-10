@@ -122,13 +122,23 @@ export const FormStore = ServiceStore.named('FormStore')
             }
 
             setVariable(data, name, value);
-            self.data = data;
 
             if (isPristine) {
                 const pristine = cloneObject(self.pristine);
                 setVariable(pristine, name, value);
                 self.pristine = pristine;
             }
+            
+            if (!data.__pristine) {
+                Object.defineProperty(data, '__pristine', {
+                    value: self.pristine,
+                    enumerable: false,
+                    configurable: false,
+                    writable: false
+                });
+            }
+
+            self.data = data;
 
             if (self.persistData) {
                 setPersistData();
