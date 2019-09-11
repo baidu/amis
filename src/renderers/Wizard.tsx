@@ -363,14 +363,15 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                             ...value
                         });
                         store.markSaving(false);
-                        if (onFinished && onFinished(value, action) === false) {
+
+                        if (value && typeof value.step === 'number') {
+                            this.gotoStep(value.step);
+                        } else if (onFinished && onFinished(value, action) === false) {
                             // 如果是 false 后面的操作就不执行
                             return value;
                         }
 
-                        if (value && typeof value.step === 'number') {
-                            this.gotoStep(value.step);
-                        } else if (redirect) {
+                        if (redirect) {
                             env.updateLocation(filter(redirect, store.data));
                         } else if (reload) {
                             this.reloadTarget(reload, store.data);
@@ -382,6 +383,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                         store.markSaving(false);
                         console.error(e);
                     });
+            } else {
+                onFinished && onFinished(store.data, action);
             }
         }
 
