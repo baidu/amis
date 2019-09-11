@@ -4,6 +4,8 @@
         cursor: pointer;
         position: relative;
         top: 2px;
+        width: px2rem(16px);
+        height: px2rem(16px);
         margin-left: px2rem(5px);
     }
 
@@ -88,6 +90,8 @@
                 cursor: pointer;
                 position: relative;
                 top: 2px;
+                width: px2rem(16px);
+                height: px2rem(16px);
                 margin-left: px2rem(5px);
             }
         }
@@ -116,6 +120,8 @@
                 > svg {
                     position: relative;
                     top: 2px;
+                    width: px2rem(16px);
+                    height: px2rem(16px);
                 }
                 > span {
                     padding-left: px2rem(5px);

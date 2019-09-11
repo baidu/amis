@@ -63,7 +63,7 @@ interface TreeSelectorProps {
     editable?: boolean;
     openEditDialog?: Function;
     deletable?: boolean;
-    onDelete?: Function;
+    onRemove?: Function;
 }
 
 interface TreeSelectorState {
@@ -343,9 +343,9 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
     }
 
     @autobind
-    handleDelete(item: Option) {
-        const {onDelete} = this.props;
-        onDelete && onDelete(item);
+    handleRemove(item: Option) {
+        const {onRemove} = this.props;
+        onRemove && onRemove(item);
     }
 
     @autobind
@@ -561,7 +561,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                                 && !editItem ? (
                                     <span className={cx('Tree-item-icons')}>
                                         {addable ? <Icon icon="plus" className="icon" onClick={() => this.handleAdd(item, !isLeaf)}/> : null}
-                                        {deletable ? <Icon icon="minus" className="icon" onClick={() => this.handleDelete(item)}/> : null}
+                                        {deletable ? <Icon icon="minus" className="icon" onClick={() => this.handleRemove(item)}/> : null}
                                         {editable ? <Icon icon="pencil" className="icon" onClick={() => this.handleEdit(item)}/> : null}
                                     </span>
                             ) : null}
@@ -570,7 +570,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                         <div className={cx('Tree-item--isEdit')}>
                             <input defaultValue={item['label']} onChange={(e) => this.handleChangeOnEdit(item, e.currentTarget.value)}/>
                             <Icon icon="check" className="icon" onClick={this.handleConfirmOnEdit}/>
-                            <Icon icon="tree-close" className="icon" onClick={this.handleCancelOnEdit}/>
+                            <Icon icon="close" className="icon" onClick={this.handleCancelOnEdit}/>
                         </div>
                     )}
                     {/* 有children而且为展开状态 或者 添加child时 */}
@@ -582,7 +582,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                                 <li>
                                     <input onChange={(e) => this.handleChangeOnAdd(e.currentTarget.value)}/>
                                     <Icon icon="check" className="icon" onClick={this.handleConfirmOnAdd}/>
-                                    <Icon icon="tree-close" className="icon" onClick={this.handleCancelOnAdd}/>
+                                    <Icon icon="close" className="icon" onClick={this.handleCancelOnAdd}/>
                                 </li>
                             ) : null}
                             {childrenItems}
@@ -636,7 +636,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                                             <div className={cx('Tree-addTop-input')}>
                                                 <input onChange={(e) => this.handleChangeOnAdd(e.currentTarget.value)}/>
                                                 <Icon icon="check" className="icon" onClick={this.handleConfirmOnAdd}/>
-                                                <Icon icon="tree-close" className="icon" onClick={this.handleCancelOnAdd}/>
+                                                <Icon icon="close" className="icon" onClick={this.handleCancelOnAdd}/>
                                             </div>
                                         ) : null}
                                     </div>
