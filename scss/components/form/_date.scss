@@ -86,6 +86,7 @@
     margin: $gap-sm $gap-md (-$gap-sm) $gap-md;
     padding: 0;
     list-style: none;
+    max-width: 206px;
 }
 
 .#{$ns}DatePicker-shortcut {
