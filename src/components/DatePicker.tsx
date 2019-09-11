@@ -679,8 +679,19 @@ const availableShortcuts: {[propName: string]: any} = {
 
 const selfDefinedShortcuts = [
     {
-        regexp: /^(\d+)dayslater$/,
-        func: function(_,days) {
+        regexp: /^([1-9]\d*)daysago$/,
+        resolve: (_: string, days: string) => {
+            return {
+                label: `${days}天前`,
+                date: (now: moment.Moment) => {
+                    return now.subtract(days, 'days');
+                }
+            };
+        }
+    },
+    {
+        regexp: /^([1-9]\d*)dayslater$/,
+        resolve: (_: string, days: string) => {
             return {
                 label: `${days}天后`,
                 date: (now: moment.Moment) => {
@@ -690,17 +701,72 @@ const selfDefinedShortcuts = [
         }
     },
     {
-        regexp: /^(\d+)weekslater$/,
-        func: function(_,weeks) {
+        regexp: /^([1-9]\d?)weeksago$/,
+        resolve: (_: string, weeks: string) => {
+            return {
+                label: `${weeks}周前`,
+                date: (now: moment.Moment) => {
+                    return now.subtract(weeks, 'weeks');
+                }
+            };
+        }
+    },
+    {
+        regexp: /^([1-9]\d?)weekslater$/,
+        resolve: (_: string, weeks: string) => {
             return {
                 label: `${weeks}周后`,
                 date: (now: moment.Moment) => {
-                    return now.add(weeks * 7, 'days');
+                    return now.add(weeks, 'weeks');
+                }
+            };
+        }
+    },
+    {
+        regexp: /^([1-9])monthsago$/,
+        resolve: (_: string, months: string) => {
+            return {
+                label: `${months}月前`,
+                date: (now: moment.Moment) => {
+                    return now.subtract(months, 'months');
+                }
+            };
+        }
+    },
+    {
+        regexp: /^([1-9])monthslater$/,
+        resolve: (_: string, months: string) => {
+            return {
+                label: `${months}月后`,
+                date: (now: moment.Moment) => {
+                    return now.add(months, 'months');
+                }
+            };
+        }
+    },
+    {
+        regexp: /^([1-9])quartersago$/,
+        resolve: (_: string, quarters: string) => {
+            return {
+                label: `${quarters}季度前`,
+                date: (now: moment.Moment) => {
+                    return now.subtract(quarters, 'quarters');
+                }
+            };
+        }
+    },
+    {
+        regexp: /^([1-9])quarterslater$/,
+        resolve: (_: string, quarters: string) => {
+            return {
+                label: `${quarters}季度后`,
+                date: (now: moment.Moment) => {
+                    return now.add(quarters, 'quarters');
                 }
             };
         }
     }
-]
+];
 
 export interface DateProps {
     viewMode: 'years' | 'months' | 'days' | 'time';
@@ -883,8 +949,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         if (availableShortcuts[key]) {
             return availableShortcuts[key];
         }
-        let ele = selfDefinedShortcuts.filter(item => item.regexp.test(key)).shift();
-        return  ele ?  ele.func(...key.match(ele.regexp)) : "";
+        let shortcutResolver = selfDefinedShortcuts.filter((item: object) => item.regexp.test(key))[0];
+        return shortcutResolver ? shortcutResolver.resolve(...key.match(shortcutResolver.regexp)) : {};
     }
 
     render() {
@@ -967,14 +1033,14 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                                         return !!this.getAvailableShortcuts(key);
                                     })
                                     .map(key => {
-                                        const shortCut = this.getAvailableShortcuts(key);
+                                        const shortcut = this.getAvailableShortcuts(key);
                                         return (
                                             <li
                                                 className={`${ns}DatePicker-shortcut`}
-                                                onClick={() => this.selectRannge(shortCut)}
+                                                onClick={() => this.selectRannge(shortcut)}
                                                 key={key}
                                             >
-                                                <a>{shortCut.label}</a>
+                                                <a>{shortcut.label}</a>
                                             </li>
                                         );
                                     })}
