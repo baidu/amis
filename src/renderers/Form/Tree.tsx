@@ -72,7 +72,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     @autobind
     handleEdit(values: PlainObject) {
-        this.saveRemote(values, 'add');
+        this.saveRemote(values, 'edit');
     }
 
     @autobind
@@ -109,7 +109,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
     }
 
     @autobind
-    async handleDelete(item: any) {
+    async handleRemove(item: any) {
         const {deleteConfirmText, deleteApi, data, env} = this.props;
         const ctx = createObject(data, item);
         if (isEffectiveApi(deleteApi, ctx)) {
@@ -237,7 +237,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
                         editable={isEffectiveApi(editApi)}
                         onEdit={this.handleEdit}
                         openEditDialog={this.openEditDialog}
-                        onDelete={this.handleDelete}
+                        onRemove={this.handleRemove}
                         deletable={isEffectiveApi(deleteApi)}
                     />
                 )}

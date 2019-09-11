@@ -33,8 +33,6 @@ import PlusIcon from '../icons/plus.svg';
 import MinusIcon from '../icons/minus.svg';
 // @ts-ignore
 import PencilIcon from '../icons/pencil.svg';
-// @ts-ignore
-import TreeClose from '../icons/tree-close.svg';
 
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
@@ -84,7 +82,6 @@ registerIcon('check', CheckIcon);
 registerIcon('plus', PlusIcon);
 registerIcon('minus', MinusIcon);
 registerIcon('pencil', PencilIcon);
-registerIcon('tree-close', TreeClose);
 
 export function Icon({
     icon,
