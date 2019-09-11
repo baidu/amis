@@ -19,6 +19,7 @@ import Overlay from './Overlay';
 import {classPrefix, classnames} from '../themes/default';
 import {ClassNamesFn, themeable} from '../theme';
 import {findDOMNode} from 'react-dom';
+import find from 'lodash/find';
 
 class HackedCalendarContainer extends CalendarContainer {
     render() {
@@ -559,34 +560,6 @@ const availableShortcuts: {[propName: string]: any} = {
         }
     },
 
-    '2dayago': {
-        label: '前天',
-        date: (now: moment.Moment) => {
-            return now.add(-2, 'days');
-        }
-    },
-
-    '3dayago': {
-        label: '3天前',
-        date: (now: moment.Moment) => {
-            return now.add(-3, 'days');
-        }
-    },
-
-    '7daysago': {
-        label: '7天前',
-        date: (now: moment.Moment) => {
-            return now.add(-7, 'days');
-        }
-    },
-
-    '90daysago': {
-        label: '90天前',
-        date: (now: moment.Moment) => {
-            return now.add(-90, 'days');
-        }
-    },
-
     thisweek: {
         label: '本周一',
         date: (now: moment.Moment) => {
@@ -629,34 +602,6 @@ const availableShortcuts: {[propName: string]: any} = {
         }
     },
 
-    '2dayslater': {
-        label: '后天',
-        date: (now: moment.Moment) => {
-            return now.add(2, 'days');
-        }
-    },
-
-    '3dayslater': {
-        label: '3天后',
-        date: (now: moment.Moment) => {
-            return now.add(3, 'days');
-        }
-    },
-
-    '7dayslater': {
-        label: '7天后',
-        date: (now: moment.Moment) => {
-            return now.add(7, 'days');
-        }
-    },
-
-    '90dayslater': {
-        label: '90天后',
-        date: (now: moment.Moment) => {
-            return now.add(90, 'days');
-        }
-    },
-
     endofthisweek: {
         label: '本周日',
         date: (now: moment.Moment) => {
@@ -672,9 +617,9 @@ const availableShortcuts: {[propName: string]: any} = {
     }
 };
 
-const selfDefinedShortcuts = [
+const advancedShortcuts = [
     {
-        regexp: /^([1-9]\d*)daysago$/,
+        regexp: /^(\d+)daysago$/,
         resolve: (_: string, days: string) => {
             return {
                 label: `${days}天前`,
@@ -685,7 +630,7 @@ const selfDefinedShortcuts = [
         }
     },
     {
-        regexp: /^([1-9]\d*)dayslater$/,
+        regexp: /^(\d+)dayslater$/,
         resolve: (_: string, days: string) => {
             return {
                 label: `${days}天后`,
@@ -696,7 +641,7 @@ const selfDefinedShortcuts = [
         }
     },
     {
-        regexp: /^([1-9]\d?)weeksago$/,
+        regexp: /^(\d+)weeksago$/,
         resolve: (_: string, weeks: string) => {
             return {
                 label: `${weeks}周前`,
@@ -707,7 +652,7 @@ const selfDefinedShortcuts = [
         }
     },
     {
-        regexp: /^([1-9]\d?)weekslater$/,
+        regexp: /^(\d+)weekslater$/,
         resolve: (_: string, weeks: string) => {
             return {
                 label: `${weeks}周后`,
@@ -718,7 +663,7 @@ const selfDefinedShortcuts = [
         }
     },
     {
-        regexp: /^([1-9])monthsago$/,
+        regexp: /^(\d+)monthsago$/,
         resolve: (_: string, months: string) => {
             return {
                 label: `${months}月前`,
@@ -729,7 +674,7 @@ const selfDefinedShortcuts = [
         }
     },
     {
-        regexp: /^([1-9])monthslater$/,
+        regexp: /^(\d+)monthslater$/,
         resolve: (_: string, months: string) => {
             return {
                 label: `${months}月后`,
@@ -740,7 +685,7 @@ const selfDefinedShortcuts = [
         }
     },
     {
-        regexp: /^([1-9])quartersago$/,
+        regexp: /^(\d+)quartersago$/,
         resolve: (_: string, quarters: string) => {
             return {
                 label: `${quarters}季度前`,
@@ -751,7 +696,7 @@ const selfDefinedShortcuts = [
         }
     },
     {
-        regexp: /^([1-9])quarterslater$/,
+        regexp: /^(\d+)quarterslater$/,
         resolve: (_: string, quarters: string) => {
             return {
                 label: `${quarters}季度后`,
@@ -948,8 +893,17 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         if (availableShortcuts[key]) {
             return availableShortcuts[key];
         }
-        let shortcutResolver = selfDefinedShortcuts.filter((item: object) => item.regexp.test(key))[0];
-        return shortcutResolver ? shortcutResolver.resolve(...key.match(shortcutResolver.regexp)) : null;
+
+        for (let i = 0, len = advancedShortcuts.length; i < len; i++) {
+            let item = advancedShortcuts[i];
+            const m = item.regexp.exec(key);
+            
+            if (m) {
+                return item.resolve.apply(item, m);
+            }
+        }
+
+        return null;
     }
 
     render() {
@@ -1028,11 +982,13 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                                         ? shortcuts
                                         : []
                                     )
-                                    .filter(key => {
-                                        return !!this.getAvailableShortcuts(key);
-                                    })
                                     .map(key => {
                                         const shortcut = this.getAvailableShortcuts(key);
+
+                                        if (!shortcut) {
+                                            return null;
+                                        }
+
                                         return (
                                             <li
                                                 className={`${ns}DatePicker-shortcut`}
