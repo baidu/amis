@@ -5,16 +5,17 @@
  */
 
 import React from 'react';
-import {eachTree, isVisible} from '../utils/helper';
+import {eachTree, isVisible, isObject, autobind} from '../utils/helper';
 import {Option, Options, value2array} from './Checkboxes';
 import {ClassNamesFn, themeable} from '../theme';
 import {highlight} from '../renderers/Form/Options';
+import {Icon} from './icons';
 
 interface TreeSelectorProps {
     classPrefix: string;
     classnames: ClassNamesFn;
 
-    highlightTxt: string;
+    highlightTxt?: string;
 
     showIcon?: boolean;
     // 是否默认都展开
@@ -53,11 +54,26 @@ interface TreeSelectorProps {
     selfDisabledAffectChildren?: boolean;
     minLength?: number;
     maxLength?: number;
+    addMode?: 'dialog' | 'normal';
+    addable?: boolean;
+    onAdd?: Function;
+    openAddDialog?: Function;
+    editMode?: 'dialog' | 'normal';
+    onEdit?: Function;
+    editable?: boolean;
+    openEditDialog?: Function;
+    deletable?: boolean;
+    onRemove?: Function;
 }
 
 interface TreeSelectorState {
     value: Array<any>;
     unfolded: {[propName: string]: string};
+    editItem: Option | null;
+    addItem: Option | null;
+    addingItem: Option | null;
+    editingItem: Option | null;
+    addTop: boolean;
 }
 
 export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelectorState> {
@@ -87,12 +103,6 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
     };
 
     componentWillMount() {
-        this.renderList = this.renderList.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
-        this.clearSelect = this.clearSelect.bind(this);
-        this.handleCheck = this.handleCheck.bind(this);
-        this.toggleUnfolded = this.toggleUnfolded.bind(this);
-
         const props = this.props;
 
         this.setState({
@@ -104,7 +114,12 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                 valueField: props.valueField,
                 options: props.data
             }),
-            unfolded: this.syncUnFolded(props)
+            unfolded: this.syncUnFolded(props),
+            editItem: null, // 点击编辑时的 item
+            addItem: null, // 点击添加时的 item
+            addingItem: null, // 添加后的 item
+            editingItem: null, // 编辑后的 item
+            addTop: false // 添加一级
         });
     }
 
@@ -155,8 +170,10 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         return unfolded;
     }
 
+    @autobind
     toggleUnfolded(node: any) {
         this.setState({
+            addItem: null,
             unfolded: {
                 ...this.state.unfolded,
                 [node[this.props.valueField as string]]: !this.state.unfolded[node[this.props.valueField as string]]
@@ -164,6 +181,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         });
     }
 
+    @autobind
     clearSelect() {
         this.setState(
             {
@@ -177,6 +195,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         );
     }
 
+    @autobind
     handleSelect(node: any, value?: any) {
         this.setState(
             {
@@ -190,6 +209,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         );
     }
 
+    @autobind
     handleCheck(item: any, checked: boolean) {
         const props = this.props;
         const value = this.state.value.concat();
@@ -273,6 +293,127 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
         );
     }
 
+    @autobind
+    handleAdd(item: Option | null, isFolder: boolean) {
+        const {addMode, openAddDialog, valueField} = this.props;
+        let {unfolded} = this.state;
+        if (addMode === 'dialog') {
+            openAddDialog && openAddDialog(item ? item : null)
+        } else if (addMode === 'normal') {
+            // item 为 null 时为添加一级
+           if (item) {
+                // 添加时，默认折叠的文件夹需要展开
+                if (isFolder && !unfolded[item[valueField as string]]) {
+                    unfolded = {
+                        ...unfolded,
+                        [item[valueField as string]]: !unfolded[item[valueField as string]],
+                    }
+                }
+
+                this.setState({
+                    addItem: item,
+                    editItem: null,
+                    unfolded
+                });
+            } else {
+               this.setState({
+                   addTop: true,
+                   editItem: null,
+                   addItem: null
+               });
+           }
+        }
+    }
+
+    @autobind
+    handleEdit(item: Option) {
+        const {editMode, openEditDialog} = this.props;
+        const {addItem} = this.state;
+        if (editMode === 'dialog') {
+            openEditDialog && openEditDialog(item);
+            addItem && this.setState({
+                addItem: null
+            });
+        } else if (editMode === 'normal')  {
+            this.setState({
+                editItem: item,
+                addItem: null
+            });
+        }
+    }
+
+    @autobind
+    handleRemove(item: Option) {
+        const {onRemove} = this.props;
+        onRemove && onRemove(item);
+    }
+
+    @autobind
+    handleConfirmOnAdd() {
+        const {onAdd} = this.props;
+        const {addItem: parent, addingItem} = this.state;
+        onAdd && onAdd({
+            ...addingItem,
+            parent: parent
+        });
+
+        this.setState({
+            addingItem: null,
+            addItem: null,
+            addTop: false
+        })
+    }
+
+    @autobind
+    handleCancelOnAdd() {
+        this.setState({
+            addItem: null,
+            addTop: false
+        });
+    }
+
+    @autobind
+    handleConfirmOnEdit() {
+        const {onEdit} = this.props;
+        let {editingItem, editItem: prevItem} = this.state;
+        onEdit && onEdit({
+            ...editingItem,
+            prev: prevItem
+        });
+        this.setState({
+            editingItem: null,
+            editItem: null
+        });
+    }
+
+    @autobind
+    handleCancelOnEdit() {
+        this.setState({
+            editItem: null
+        });
+    }
+
+    @autobind
+    handleChangeOnAdd(value: string) {
+        this.setState({
+            addingItem: {
+                label: value
+            }
+        });
+    }
+
+    @autobind
+    handleChangeOnEdit(item: Option, value: string) {
+        let {editItem} = this.state;
+        this.setState({
+            editingItem: {
+                ...item,
+                label: value || (editItem as Option)['label']
+            }
+        });
+    }
+
+    @autobind
     renderList(
         list: Options,
         value: Option[],
@@ -295,8 +436,18 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
             highlightTxt,
             data,
             maxLength,
-            minLength
+            minLength,
+            addable,
+            editable,
+            deletable
         } = this.props;
+        const {
+            addItem,
+            editItem,
+            unfolded,
+            addTop,
+            value: stateValue
+        } = this.state;
 
         let childrenChecked = 0;
         let ret = list.map((item, key) => {
@@ -333,8 +484,8 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
 
             if (
                 !nodeDisabled &&
-                ((maxLength && !selfChecked && this.state.value.length >= maxLength) ||
-                    (minLength && selfChecked && this.state.value.length <= minLength))
+                ((maxLength && !selfChecked && stateValue.length >= maxLength) ||
+                    (minLength && selfChecked && stateValue.length <= minLength))
             ) {
                 nodeDisabled = true;
             }
@@ -370,47 +521,70 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                         'Tree-item--isLeaf': isLeaf
                     })}
                 >
-                    <a>
-                        {!isLeaf ? (
-                            <i
-                                onClick={() => this.toggleUnfolded(item)}
-                                className={cx('Tree-itemArrow', {
-                                    'is-folded': !this.state.unfolded[item[valueField]]
-                                })}
-                            />
-                        ) : null}
+                    {!editItem || isObject(editItem) && (editItem as Option)[valueField] !== item[valueField] ? (
+                        <a>
+                            {!isLeaf ? (
+                                <i
+                                    onClick={() => this.toggleUnfolded(item)}
+                                    className={cx('Tree-itemArrow', {
+                                        'is-folded': !unfolded[item[valueField]],
+                                    })}
+                                />
+                            ) : null}
 
-                        {showIcon ? (
-                            <i
-                                className={cx(
-                                    `Tree-itemIcon ${item[iconField] ||
+                            {showIcon ? (
+                                <i
+                                    className={cx(
+                                        `Tree-itemIcon ${item[iconField] ||
                                         (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')}`
-                                )}
-                            />
-                        ) : null}
+                                    )}
+                                />
+                            ) : null}
 
-                        {checkbox}
+                            {checkbox}
 
-                        <span
-                            className={cx('Tree-itemText', {
-                                'is-children-checked': multiple && !cascade && tmpChildrenChecked && !nodeDisabled,
-                                'is-checked': checked,
-                                'is-disabled': nodeDisabled
-                            })}
-                            onClick={() =>
-                                !nodeDisabled &&
-                                (multiple ? this.handleCheck(item, !selfChecked) : this.handleSelect(item))
-                            }
-                        >
-                            {highlightTxt ? highlight(item[nameField], highlightTxt) : item[nameField]}
-                        </span>
-                    </a>
-                    {childrenItems ? (
+                            <span
+                                className={cx('Tree-itemText', {
+                                    'is-children-checked': multiple && !cascade && tmpChildrenChecked && !nodeDisabled,
+                                    'is-checked': checked,
+                                    'is-disabled': nodeDisabled,
+                                })}
+                                onClick={() =>
+                                    !nodeDisabled &&
+                                    (multiple ? this.handleCheck(item, !selfChecked) : this.handleSelect(item))
+                                }
+                            >
+                                {highlightTxt ? highlight(item[nameField], highlightTxt) : item[nameField]}
+                            </span>
+                            {!addTop
+                                && !addItem
+                                && !editItem ? (
+                                    <span className={cx('Tree-item-icons')}>
+                                        {addable ? <Icon icon="plus" className="icon" onClick={() => this.handleAdd(item, !isLeaf)}/> : null}
+                                        {deletable ? <Icon icon="minus" className="icon" onClick={() => this.handleRemove(item)}/> : null}
+                                        {editable ? <Icon icon="pencil" className="icon" onClick={() => this.handleEdit(item)}/> : null}
+                                    </span>
+                            ) : null}
+                        </a>
+                    ) : (
+                        <div className={cx('Tree-item--isEdit')}>
+                            <input defaultValue={item['label']} onChange={(e) => this.handleChangeOnEdit(item, e.currentTarget.value)}/>
+                            <Icon icon="check" className="icon" onClick={this.handleConfirmOnEdit}/>
+                            <Icon icon="close" className="icon" onClick={this.handleCancelOnEdit}/>
+                        </div>
+                    )}
+                    {/* 有children而且为展开状态 或者 添加child时 */}
+                    {((childrenItems && unfolded[item[valueField]]) || addItem && (addItem[valueField] === item[valueField])) ? (
                         <ul
-                            className={cx('Tree-sublist', {
-                                'is-folded': !this.state.unfolded[item[valueField]]
-                            })}
+                            className={cx('Tree-sublist')}
                         >
+                            {addItem && addItem[valueField] === item[valueField] ? (
+                                <li>
+                                    <input onChange={(e) => this.handleChangeOnAdd(e.currentTarget.value)}/>
+                                    <Icon icon="check" className="icon" onClick={this.handleConfirmOnAdd}/>
+                                    <Icon icon="close" className="icon" onClick={this.handleCancelOnAdd}/>
+                                </li>
+                            ) : null}
                             {childrenItems}
                         </ul>
                     ) : null}
@@ -425,10 +599,10 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
     }
 
     render() {
-        const {className, placeholder, hideRoot, rootLabel, showIcon, classnames: cx} = this.props;
+        const {className, placeholder, hideRoot, rootLabel, showIcon, classnames: cx, addable} = this.props;
         let data = this.props.data;
+        const {value, addTop} = this.state;
 
-        const value = this.state.value;
         return (
             <div className={cx(`Tree ${className || ''}`)}>
                 {data && data.length ? (
@@ -450,6 +624,23 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                                         </span>
                                     </label>
                                 </a>
+                                {addable ? (
+                                    <div className={cx('Tree-addTop')}>
+                                        {!addTop ? (
+                                            <p onClick={() => this.handleAdd(null, false)}>
+                                                <Icon icon="plus" className="icon" />
+                                                <span>添加一级</span>
+                                            </p>
+                                        ) : null}
+                                        {addTop ? (
+                                            <div className={cx('Tree-addTop-input')}>
+                                                <input onChange={(e) => this.handleChangeOnAdd(e.currentTarget.value)}/>
+                                                <Icon icon="check" className="icon" onClick={this.handleConfirmOnAdd}/>
+                                                <Icon icon="close" className="icon" onClick={this.handleCancelOnAdd}/>
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                ) : null}
                                 <ul className={cx('Tree-sublist')}>{this.renderList(data, value, false).dom}</ul>
                             </li>
                         )}

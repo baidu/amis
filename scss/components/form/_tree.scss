@@ -1,3 +1,33 @@
+@mixin tree-input {
+    > svg {
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        top: 2px;
+        width: px2rem(16px);
+        height: px2rem(16px);
+        margin-left: px2rem(5px);
+    }
+
+    > input {
+        margin-left: px2rem(15px);
+        padding: px2rem(5px);
+        width: px2rem(150px);
+        height: px2rem(25px);
+        color: $Form-input-color;
+
+        &::placeholder {
+            color: $Form-input-placeholderColor;
+            user-select: none;
+        }
+
+        &:focus {
+            outline: none;
+            border: $borderWidth solid $info;
+        }
+    }
+}
+
 // todo
 .#{$ns}TreeControl {
     border: 1px solid $Form-input-borderColor;
@@ -29,27 +59,79 @@
         &.is-folded {
             display: none;
         }
+
+        > li {
+            @include tree-input;
+        }
     }
 
     &-item {
         line-height: px2rem(30px);
         position: relative;
 
+        .#{$ns}Tree-item-icons {
+            visibility: hidden;
+            transition: visibility .1s ease;
+        }
+
         > a {
             color: inherit;
 
             &:hover {
                 text-decoration: none;
+
+                > span.#{$ns}Tree-item-icons {
+                    visibility: visible;
+                }
+            }
+
+            > span > svg {
+                display: inline-block;
+                cursor: pointer;
+                position: relative;
+                top: 2px;
+                width: px2rem(16px);
+                height: px2rem(16px);
+                margin-left: px2rem(5px);
             }
         }
 
         &--isLeaf > a {
             padding-left: $Tree-itemArrowWidth + $gap-xs;
         }
+
+        &--isEdit {
+            display: inline-block;
+            @include tree-input;
+        }
     }
 
-    &-rootItem > a > i {
-        margin-left: 0 !important;
+    &-rootItem {
+        > a > i {
+            margin-left: 0 !important;
+        }
+
+        .#{$ns}Tree-addTop {
+            height: px2rem(25px);
+            line-height: px2rem(25px);
+            cursor: pointer;
+            padding-left: $Tree-indent;
+            > p {
+                > svg {
+                    position: relative;
+                    top: 2px;
+                    width: px2rem(16px);
+                    height: px2rem(16px);
+                }
+                > span {
+                    padding-left: px2rem(5px);
+                }
+            }
+
+            &-input {
+                @include tree-input
+            }
+        }
     }
 
     &-itemArrow {

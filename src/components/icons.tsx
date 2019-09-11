@@ -25,6 +25,14 @@ import PauseIcon from '../icons/pause.svg';
 import LeftArrowIcon from '../icons/left-arrow.svg';
 // @ts-ignore
 import RightArrowIcon from '../icons/right-arrow.svg';
+// @ts-ignore
+import CheckIcon from '../icons/check.svg';
+// @ts-ignore
+import PlusIcon from '../icons/plus.svg';
+// @ts-ignore
+import MinusIcon from '../icons/minus.svg';
+// @ts-ignore
+import PencilIcon from '../icons/pencil.svg';
 
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
@@ -70,6 +78,10 @@ registerIcon('play', PlayIcon);
 registerIcon('pause', PauseIcon);
 registerIcon('left-arrow', LeftArrowIcon);
 registerIcon('right-arrow', RightArrowIcon);
+registerIcon('check', CheckIcon);
+registerIcon('plus', PlusIcon);
+registerIcon('minus', MinusIcon);
+registerIcon('pencil', PencilIcon);
 
 export function Icon({
     icon,
@@ -91,5 +103,9 @@ export {
     PlayIcon,
     PauseIcon,
     LeftArrowIcon,
-    RightArrowIcon
+    RightArrowIcon,
+    CheckIcon,
+    PlusIcon,
+    MinusIcon,
+    PencilIcon
 };
