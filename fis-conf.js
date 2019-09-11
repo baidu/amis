@@ -40,7 +40,13 @@ fis.match('/src/icons/**.svg', {
     isJsLike: true,
     isMod: true,
     parser: [
-        fis.plugin('svgr'),
+        fis.plugin('svgr', {
+            svgProps: {
+                class: "icon"
+            },
+            prettier: false,
+            dimensions: false
+        }),
         fis.plugin('typescript', {
             importHelpers: true,
             esModuleInterop: true,

@@ -36,25 +36,25 @@ import PencilIcon from '../icons/pencil.svg';
 
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
-export const closeIcon = <CloseIcon className="icon" />;
+export const closeIcon = <CloseIcon />;
 // @ts-ignore
-export const unDoIcon = <UnDoIcon className="icon" />;
+export const unDoIcon = <UnDoIcon />;
 // @ts-ignore
-export const reDoIcon = <ReDoIcon className="icon" />;
+export const reDoIcon = <ReDoIcon />;
 // @ts-ignore
-export const enterIcon = <EnterIcon className="icon" />;
+export const enterIcon = <EnterIcon />;
 // @ts-ignore
-export const volumeIcon = <VolumeIcon className="icon" />;
+export const volumeIcon = <VolumeIcon />;
 // @ts-ignore
-export const muteIcon = <MuteIcon className="icon" />;
+export const muteIcon = <MuteIcon />;
 // @ts-ignore
-export const playIcon = <PlayIcon className="icon" />;
+export const playIcon = <PlayIcon />;
 // @ts-ignore
-export const pauseIcon = <PauseIcon className="icon" />;
+export const pauseIcon = <PauseIcon />;
 // @ts-ignore
-export const leftArrowIcon = <LeftArrowIcon className="icon" />;
+export const leftArrowIcon = <LeftArrowIcon />;
 // @ts-ignore
-export const rightArrowIcon = <RightArrowIcon className="icon" />;
+export const rightArrowIcon = <RightArrowIcon />;
 
 const iconFactory: {
     [propName: string]: React.ReactType<{}>;
