@@ -31,7 +31,8 @@ export interface TreeState {
     isAddModalOpened: boolean,
     isEditModalOpened: boolean,
     parent: Option | null,
-    prev: Option | null
+    prev: Option | null,
+    data: any
 }
 
 export default class TreeControl extends React.Component<TreeProps, TreeState> {
@@ -48,7 +49,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         isAddModalOpened: false,
         isEditModalOpened: false,
         parent: null,
-        prev: null
+        prev: null,
+        data: null
     }
 
     reload() {
@@ -121,7 +123,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
             const result = await env.fetcher(deleteApi, ctx);
 
             if (!result.ok) {
-                env.notify('error', '删除失败');
+                env.notify('error', result.msg || '删除失败');
                 return;
             }
 
@@ -131,8 +133,10 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     @autobind
     openAddDialog(parent: Option | null) {
+        const {data} = this.props;
         this.setState({
             isAddModalOpened: true,
+            data: createObject(data, parent ? parent : {}),
             parent
         });
     }
@@ -147,10 +151,12 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     @autobind
     openEditDialog(prev: Option) {
+        const {data} = this.props;
         this.setState({
             isEditModalOpened: true,
+            data: createObject(data, prev),
             prev
-        })
+        });
     }
 
     @autobind
@@ -197,6 +203,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
             deleteApi
         } = this.props;
 
+        const {data} = this.state;
+
         return (
             <div className={cx(`${ns}TreeControl`, className)}>
                 {loading ? (
@@ -238,7 +246,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
                         onEdit={this.handleEdit}
                         openEditDialog={this.openEditDialog}
                         onRemove={this.handleRemove}
-                        deletable={isEffectiveApi(deleteApi)}
+                        removable={isEffectiveApi(deleteApi)}
                     />
                 )}
 
@@ -250,6 +258,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
                     },
                     {
                         key: 'addModal',
+                        data: data,
                         onConfirm: this.handleAddModalConfirm,
                         onClose: this.closeAddDialog,
                         show: this.state.isAddModalOpened
@@ -264,6 +273,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
                     },
                     {
                         key: 'editModal',
+                        data: data,
                         onConfirm: this.handleEditModalConfirm,
                         onClose: this.closeEditDialog,
                         show: this.state.isEditModalOpened
