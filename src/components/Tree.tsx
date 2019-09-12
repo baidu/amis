@@ -62,7 +62,7 @@ interface TreeSelectorProps {
     onEdit?: Function;
     editable?: boolean;
     openEditDialog?: Function;
-    deletable?: boolean;
+    removable?: boolean;
     onRemove?: Function;
 }
 
@@ -439,7 +439,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
             minLength,
             addable,
             editable,
-            deletable
+            removable
         } = this.props;
         const {
             addItem,
@@ -561,7 +561,7 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                                 && !editItem ? (
                                     <span className={cx('Tree-item-icons')}>
                                         {addable ? <Icon icon="plus" className="icon" onClick={() => this.handleAdd(item, !isLeaf)}/> : null}
-                                        {deletable ? <Icon icon="minus" className="icon" onClick={() => this.handleRemove(item)}/> : null}
+                                        {removable ? <Icon icon="minus" className="icon" onClick={() => this.handleRemove(item)}/> : null}
                                         {editable ? <Icon icon="pencil" className="icon" onClick={() => this.handleEdit(item)}/> : null}
                                     </span>
                             ) : null}
