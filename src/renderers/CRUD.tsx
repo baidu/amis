@@ -461,9 +461,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 {
                     ...dialogAction
                 },
-                createObject(store.data.items[ctx.nextIndex], {
-                    index: ctx.nextIndex
-                })
+                createObject(
+                    createObject(store.data, {
+                        index: ctx.nextIndex
+                    }),
+                    store.data.items[ctx.nextIndex]
+                )
             );
         } else if (
             action.actionType === 'prev' &&
@@ -475,9 +478,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 {
                     ...dialogAction
                 },
-                createObject(store.data.items[ctx.prevIndex], {
-                    index: ctx.prevIndex
-                })
+                createObject(
+                    createObject(store.data, {
+                        index: ctx.prevIndex
+                    }),
+                    store.data.items[ctx.prevIndex]
+                )
             );
         } else if (values.length) {
             const value = values[0];
@@ -570,8 +576,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             );
         this.lastQuery = store.query;
         const data = createObject(store.data, store.query);
-        isEffectiveApi(api, data) &&
-            store
+        isEffectiveApi(api, data) 
+            ? store
                 .fetchInitData(api, data, {
                     successMessage: messages && messages.fetchSuccess,
                     errorMessage: messages && messages.fetchFailed,
@@ -598,7 +604,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                             Math.max(interval, 3000)
                         ));
                     return value;
-                });
+                })
+            : source && store.initFromScope(data, source);
     }
 
     silentSearch(values?: object) {

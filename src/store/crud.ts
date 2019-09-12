@@ -340,6 +340,30 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             self.hasInnerModalOpen = value;
         };
 
+        const initFromScope = function(scope:any, source:string) {
+            let rowsData: Array<any> = resolveVariableAndFilter(
+                source,
+                scope,
+                '| raw'
+            );
+
+            if (!Array.isArray(rowsData)) {
+                return;
+            }
+
+
+            const data = {
+                ...self.pristine,
+                items: rowsData,
+                count: 0,
+                total: 0
+            };
+
+                    
+            self.items.replace(rowsData);
+            self.reInitData(data);
+        }
+
         return {
             setPristineQuery,
             updateQuery,
@@ -351,7 +375,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             setFilterVisible,
             setSelectedItems,
             setUnSelectedItems,
-            setInnerModalOpened
+            setInnerModalOpened,
+            initFromScope
         };
     });
 
