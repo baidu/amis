@@ -253,6 +253,13 @@ export function renderChild(prefix: string, node: SchemaNode, props: renderChild
         return null;
     }
 
+    const transform = props.propsTransform;
+
+    if (transform) {
+        delete props.propsTransform;
+        props = transform(props);
+    }
+
     return (
         <SchemaRenderer
             {...props}
