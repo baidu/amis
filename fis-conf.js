@@ -42,7 +42,7 @@ fis.match('/src/icons/**.svg', {
     parser: [
         fis.plugin('svgr', {
             svgProps: {
-                class: "icon"
+                className: "icon"
             },
             prettier: false,
             dimensions: false
