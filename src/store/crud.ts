@@ -243,9 +243,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                     self.updateMessage(json.msg || options.successMessage);
 
                     // 配置了获取成功提示后提示，默认是空不会提示。
-                    if (options.successMessage) {
-                        (getRoot(self) as IRendererStore).notify('success', self.msg);
-                    }
+                    self.msg && (getRoot(self) as IRendererStore).notify('success', self.msg);
                 }
 
                 self.markFetching(false);
@@ -305,8 +303,8 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                     (getRoot(self) as IRendererStore).notify('error', self.msg);
                     throw new ServerError(self.msg);
                 } else {
-                    self.updateMessage(json.msg || options.successMessage || '保存成功');
-                    (getRoot(self) as IRendererStore).notify('success', self.msg);
+                    self.updateMessage(json.msg || options.successMessage);
+                    self.msg && (getRoot(self) as IRendererStore).notify('success', self.msg);
                 }
                 return json.data;
             } catch (e) {

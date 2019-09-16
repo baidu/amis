@@ -93,9 +93,8 @@ export const ServiceStore = iRendererStore
                         updateMessage(json.msg || (options && options.successMessage));
 
                         // 配置了获取成功提示后提示，默认是空不会提示。
-                        if (options && options.successMessage) {
-                            (getRoot(self) as IRendererStore).notify('success', self.msg);
-                        }
+                        self.msg && (getRoot(self) as IRendererStore).notify('success', self.msg);
+                    
                     }
 
                     markFetching(false);
@@ -162,9 +161,7 @@ export const ServiceStore = iRendererStore
                     updateMessage(json.msg || (options && options.successMessage));
 
                     // 配置了获取成功提示后提示，默认是空不会提示。
-                    if (options && options.successMessage) {
-                        (getRoot(self) as IRendererStore).notify('success', self.msg);
-                    }
+                    self.msg && (getRoot(self) as IRendererStore).notify('success', self.msg);
                 }
 
                 markFetching(false);
@@ -221,8 +218,8 @@ export const ServiceStore = iRendererStore
                         }
                     }
 
-                    updateMessage(json.msg || (options && options.successMessage) || '保存成功');
-                    (getRoot(self) as IRendererStore).notify('success', self.msg);
+                    updateMessage(json.msg || (options && options.successMessage));
+                    self.msg && (getRoot(self) as IRendererStore).notify('success', self.msg);
                 }
 
                 markSaving(false);
@@ -283,9 +280,7 @@ export const ServiceStore = iRendererStore
                         updateMessage(json.msg || (options && options.successMessage));
 
                         // 配置了获取成功提示后提示，默认是空不会提示。
-                        if (options && options.successMessage) {
-                            (getRoot(self) as IRendererStore).notify('success', self.msg);
-                        }
+                        self.msg && (getRoot(self) as IRendererStore).notify('success', self.msg);
                     }
 
                     self.initializing = false;
