@@ -248,7 +248,7 @@ export const FormStore = ServiceStore.named('FormStore')
                     }
                     self.markSaving(false);
                     self.updateMessage(json.msg || (options && options.successMessage));
-                    (getRoot(self) as IRendererStore).notify('success', self.msg);
+                    self.msg && (getRoot(self) as IRendererStore).notify('success', self.msg);
                     return json.data;
                 }
             } catch (e) {
