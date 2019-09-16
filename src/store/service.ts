@@ -44,7 +44,7 @@ export const ServiceStore = iRendererStore
         }
 
         function updateMessage(msg?: string, error: boolean = false) {
-            self.msg = String(msg) || '';
+            self.msg = msg && String(msg) || '';
             self.error = error;
         }
 
