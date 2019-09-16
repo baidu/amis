@@ -411,7 +411,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         const currentStep = this.state.currentStep;
 
         return (
-            <div className={`${ns}Wizard-steps clearfix ${ns}Wizard--${mode}`} id="form-wizard">
+            <div className={`${ns}Wizard-steps ${ns}Wizard--${mode}`} id="form-wizard">
                 {Array.isArray(steps) && steps.length ? (
                     <ul>
                         {steps.map((step, key) => {
