@@ -215,6 +215,11 @@
             }
         }
     }
+
+    &-desc {
+        color: $text--muted-color;
+        margin-left: $Checkbox-gap;
+    }
 }
 
 .#{$ns}CheckboxControl,

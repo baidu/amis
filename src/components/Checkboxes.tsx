@@ -9,7 +9,7 @@ import uncontrollable = require('uncontrollable');
 import Checkbox from './Checkbox';
 import find = require('lodash/find');
 import chunk = require('lodash/chunk');
-import {flattenTree} from '../utils/helper';
+import {flattenTree, isObject} from '../utils/helper';
 import {Option} from './Checkboxes';
 import {ClassNamesFn, themeable} from '../theme';
 // import isPlainObject = require('lodash/isPlainObject');
@@ -19,6 +19,7 @@ export interface Option {
     value?: any;
     disabled?: boolean;
     children?: Options;
+    description?: string;
     [propName: string]: any;
 }
 export interface Options extends Array<Option> {}
@@ -80,11 +81,11 @@ export function expandValue(value: OptionValue, props: Partial<OptionProps>): Op
         return null;
     }
 
-    if (valueType === 'object') {
+    if (valueType === 'object' && props.joinValues !== false) {
         value = (value as Option)[valueField || 'value'] || '';
     }
 
-    return find(flattenTree(options), item => String(item[valueField || 'value']) === String(value)) as Option;
+    return find(flattenTree(options), item => isObject(value) ? item[valueField || 'value'] === value : String(item[valueField || 'value']) === String(value)) as Option;
 }
 
 /**

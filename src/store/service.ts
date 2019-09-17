@@ -93,7 +93,7 @@ export const ServiceStore = iRendererStore
                         updateMessage(json.msg || (options && options.successMessage));
 
                         // 配置了获取成功提示后提示，默认是空不会提示。
-                        self.msg && (getRoot(self) as IRendererStore).notify('success', self.msg);
+                        options && options.successMessage && (getRoot(self) as IRendererStore).notify('success', self.msg);
                     
                     }
 
@@ -161,7 +161,7 @@ export const ServiceStore = iRendererStore
                     updateMessage(json.msg || (options && options.successMessage));
 
                     // 配置了获取成功提示后提示，默认是空不会提示。
-                    self.msg && (getRoot(self) as IRendererStore).notify('success', self.msg);
+                    options && options.successMessage && (getRoot(self) as IRendererStore).notify('success', self.msg);
                 }
 
                 markFetching(false);
@@ -280,7 +280,7 @@ export const ServiceStore = iRendererStore
                         updateMessage(json.msg || (options && options.successMessage));
 
                         // 配置了获取成功提示后提示，默认是空不会提示。
-                        self.msg && (getRoot(self) as IRendererStore).notify('success', self.msg);
+                        options && options.successMessage && (getRoot(self) as IRendererStore).notify('success', self.msg);
                     }
 
                     self.initializing = false;

@@ -93,6 +93,7 @@ export class Radios extends React.Component<RadioProps, any> {
                 checked={!!~valueArray.indexOf(option)}
                 className={cx(itemClassName, option.className)}
                 disabled={disabled || option.disabled}
+                description={option.description}
                 inline={inline}
             >
                 {option.label}
@@ -108,6 +109,8 @@ export class Radios extends React.Component<RadioProps, any> {
             classnames: cx,
             placeholder,
             columnsCount,
+            joinValues,
+            extractValue,
             disabled,
             inline,
             delimiter,
@@ -119,7 +122,9 @@ export class Radios extends React.Component<RadioProps, any> {
             multiple: false,
             delimiter,
             valueField,
-            options
+            options,
+            joinValues,
+            extractValue
         });
         let body: Array<React.ReactNode> = [];
 
