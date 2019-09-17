@@ -506,7 +506,7 @@ export default class Form extends React.Component<FormProps, object> {
                         store.openDialog(data);
                     } else if (action.actionType === 'drawer') {
                         store.openDrawer(data);
-                    } else if (action.api || api) {
+                    } else if (isEffectiveApi(action.api || api, values)) {
                         let finnalAsyncApi = action.asyncApi || asyncApi;
 
                         isEffectiveApi(finnalAsyncApi, store.data) &&
