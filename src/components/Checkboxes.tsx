@@ -81,7 +81,7 @@ export function expandValue(value: OptionValue, props: Partial<OptionProps>): Op
         return null;
     }
 
-    if (valueType === 'object' && props.joinValues !== false) {
+    if (valueType === 'object' && value && value.hasOwnProperty(props.valueField || 'value')) {
         value = (value as Option)[valueField || 'value'] || '';
     }
 
