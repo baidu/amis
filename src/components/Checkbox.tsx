@@ -7,6 +7,7 @@ import React from 'react';
 import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 import {autobind} from '../utils/helper';
+import { filter } from '../utils/tpl';
 
 const sizeMap = {
     sm: 'i-checks-sm',
@@ -33,9 +34,11 @@ interface CheckboxProps {
     readOnly?: boolean;
     checked?: boolean;
     name?: string;
+    description?: string;
     classPrefix: string;
     classnames: ClassNamesFn;
     partial?: boolean;
+    data?: any;
 }
 
 export class Checkbox extends React.Component<CheckboxProps, any> {
@@ -60,17 +63,19 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         let {
             size,
             className,
-            classPrefix: ns,
+            classnames: cx,
             value,
             label,
             partial,
             trueValue,
             children,
             disabled,
+            description,
             readOnly,
             checked,
             type,
-            name
+            name,
+            data
         } = this.props;
 
         className = (className ? className : '') + (size && sizeMap[size] ? ` ${sizeMap[size]}` : '');
@@ -78,9 +83,9 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         return (
             <label
                 className={cx(
-                    `${ns}Checkbox ${ns}Checkbox--${type}`,
+                    `Checkbox Checkbox--${type}`,
                     {
-                        [`${ns}Checkbox--full`]: !partial
+                        'Checkbox--full': !partial
                     },
                     className
                 )}
@@ -101,6 +106,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
                 />
                 <i />
                 <span>{children || label}</span>
+                {description ? (<div className={cx("Checkbox-desc")}>{filter(description, data)}</div>) : null}
             </label>
         );
     }

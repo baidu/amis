@@ -30,6 +30,7 @@ export interface Option {
     children?: Options;
     visible?: boolean;
     hidden?: boolean;
+    description?: string;
     [propName: string]: any;
 }
 export interface Options extends Array<Option> {}
