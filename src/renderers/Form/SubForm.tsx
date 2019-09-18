@@ -146,7 +146,9 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
             disabled,
             labelField,
             value,
-            btnLabel
+            btnLabel,
+            render,
+            data
         } = this.props;
 
         return [
@@ -177,8 +179,15 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
                                   data-tooltip="编辑详情"
                                   data-position="bottom"
                               >
-                                  {(value && labelField && value[labelField] && stripTag(value[labelField])) ||
-                                      btnLabel}
+                                  {(value && labelField && value[labelField] && stripTag(value[labelField]))
+                                  || render('placeholder',
+                                      {
+                                          type: 'tpl',
+                                          tpl: btnLabel
+                                      },
+                                      {
+                                          data
+                                      })}
                               </span>
                           </div>
                       ))
@@ -199,7 +208,7 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
     }
 
     renderSingle() {
-        const {classPrefix: ns, btnClassName, disabled, value, labelField, btnLabel} = this.props;
+        const {classPrefix: ns, btnClassName, disabled, value, labelField, btnLabel, render, data} = this.props;
 
         return (
             <div className={`${ns}SubForm-values`} key="values">
@@ -216,7 +225,16 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
                     data-position="bottom"
                 >
                     <span className={`${ns}SubForm-valueLabel`}>
-                        {(value && labelField && value[labelField] && stripTag(value[labelField])) || btnLabel}
+                        {(value && labelField && value[labelField] && stripTag(value[labelField]))
+                        || render('placeholder',
+                            {
+                                type: 'tpl',
+                                tpl: btnLabel
+                            },
+                            {
+                                data
+                            }
+                        )}}
                     </span>
                 </div>
             </div>
