@@ -180,7 +180,7 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
                                   data-position="bottom"
                               >
                                   {(value && labelField && value[labelField] && stripTag(value[labelField]))
-                                  || render('placeholder',
+                                  || render('label',
                                       {
                                           type: 'tpl',
                                           tpl: btnLabel
@@ -226,7 +226,7 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
                 >
                     <span className={`${ns}SubForm-valueLabel`}>
                         {(value && labelField && value[labelField] && stripTag(value[labelField]))
-                        || render('placeholder',
+                        || render('label',
                             {
                                 type: 'tpl',
                                 tpl: btnLabel
