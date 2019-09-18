@@ -1,6 +1,8 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
+import {autobind} from '../utils/helper';
+import {ScopedContext, IScopedContext} from '../Scoped';
 
 export interface IFrameProps extends RendererProps {
     className?: string;
@@ -8,6 +10,7 @@ export interface IFrameProps extends RendererProps {
 }
 
 export default class IFrame extends React.Component<IFrameProps, object> {
+    IFrameRef: React.RefObject<HTMLIFrameElement> = React.createRef();
     static propsList: Array<string> = ['src', 'className'];
     static defaultProps: Partial<IFrameProps> = {
         className: '',
@@ -15,6 +18,11 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         height: '100%',
         frameBorder: 0
     };
+
+    @autobind
+    reload() {
+        (this.IFrameRef.current as HTMLIFrameElement).src = (this.IFrameRef.current as HTMLIFrameElement).src;
+    }
 
     render() {
         let {className, src, width, height, frameBorder, data, style} = this.props;
@@ -31,6 +39,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
                 className={className}
                 frameBorder={frameBorder}
                 style={style}
+                ref={this.IFrameRef}
                 src={src ? filter(src, data) : undefined}
             />
         );
@@ -41,4 +50,16 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     test: /(^|\/)iframe$/,
     name: 'iframe'
 })
-export class IFrameRenderer extends IFrame {}
+export class IFrameRenderer extends IFrame {
+    static contextType = ScopedContext;
+
+    componentWillMount() {
+        const scoped = this.context as IScopedContext;
+        scoped.registerComponent(this);
+    }
+
+    componentWillUnmount() {
+        const scoped = this.context as IScopedContext;
+        scoped.unRegisterComponent(this);
+    }
+}
