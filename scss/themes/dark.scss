@@ -18,8 +18,8 @@ $success: $green;
 $warning: $orange;
 $danger: $red;
 $light: #3a3a3a;
-$dark: #141316;
-$black: #1e1f22;
+$dark: #1e1f22;
+$black: #141316;
 
 $text-color: rgb(243, 241, 241);
 
@@ -31,7 +31,7 @@ $background-head: #191c22;
 
 $body-bg: $background;
 $Page-aside-bg: #3c3c3c;
-$Panel-bg: #373737;
+$Panel-bg: #302d2a;
 $borderColor: $black;
 $link-color: $info;
 
@@ -40,7 +40,15 @@ $borderColor: #656565;
 $Button--default-bg: $black;
 $Calendar-btnCancel-bg: $background-head;
 $Calendar-cell-bg: $Panel-bg;
+
 $Card-bg: $Panel-bg;
+$Card-onModified-bg: $dark;
+$Card-onModified-color: $text-color;
+$Card-onChecked-bg: $black;
+$Card-onChecked-color: $text-color;
+$Card-actions-onHover-bg: $dark;
+$Card-actions-onHover-color: $text-color;
+
 $Checkbox-gb: linear-gradient(#515151, #4b4b4b);
 $Checkbox-onHover-color: $blue;
 $ColorPicker-bg: $background;
@@ -83,13 +91,17 @@ $ListItem-onModified-color: $text-color;
 
 $Number-handler-bg: $background;
 
-$Panel--default-bg: linear-gradient(#404144, #36373a);
-$Panel-footerBg: linear-gradient(#404144, #36373a);
+$Panel--default-bg: linear-gradient(#524e48, #423e3a);
+$Panel-footerBg: linear-gradient(#524e48, #423e3a);
 $PopOver-bg: $background;
 
-$Table-onHover-bg: $black;
+$Table-onHover-bg: $dark;
 $Table-strip-bg: $Panel-bg;
 $Table-thead-bg: #2f2f2f;
+$Table-onChecked-bg: $black;
+$Table-onChecked-color: $text-color;
+$Table-onModified-bg: $black;
+$Table-onModified-color: $text-color;
 
 $Tabs--card-bg: #323639;
 $Tabs--card-borderTopColor: $background;
