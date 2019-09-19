@@ -508,6 +508,12 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
                       $path: $path,
                       render: this.renderChild
                   });
+        } else if (typeof schema.render === 'function') {
+            return schema.render({
+                ...rest,
+                $path: $path,
+                render: this.renderChild
+            });
         } else if (!this.renderer) {
             return (
                 <LazyComponent
