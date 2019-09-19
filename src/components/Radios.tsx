@@ -31,6 +31,7 @@ interface RadioProps extends OptionProps {
     onChange?: Function;
     columnsCount: number;
     itemClassName?: string;
+    labelClassName?: string;
     classPrefix: string;
     classnames: ClassNamesFn;
 }
@@ -83,7 +84,7 @@ export class Radios extends React.Component<RadioProps, any> {
             return this.renderGroup(option, index, valueArray);
         }
 
-        const {disabled, inline, itemClassName, classnames: cx} = this.props;
+        const {disabled, inline, itemClassName, classnames: cx, labelClassName} = this.props;
 
         return (
             <Checkbox
@@ -95,6 +96,7 @@ export class Radios extends React.Component<RadioProps, any> {
                 disabled={disabled || option.disabled}
                 description={option.description}
                 inline={inline}
+                labelClassName={labelClassName}
             >
                 {option.label}
             </Checkbox>

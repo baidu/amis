@@ -111,8 +111,10 @@ interface CheckboxesProps extends OptionProps {
     inline?: boolean;
     columnsCount?: number;
     checked?: boolean;
+    labelClassName?: string;
     classPrefix: string;
     classnames: ClassNamesFn;
+    
 }
 
 export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
@@ -173,7 +175,8 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
             placeholder,
             columnsCount,
             disabled,
-            inline
+            inline,
+            labelClassName
         } = this.props;
 
         let valueArray = value2array(value, {
@@ -192,6 +195,7 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
                     checked={!!~valueArray.indexOf(option)}
                     disabled={disabled || option.disabled}
                     inline={inline}
+                    labelClassName={labelClassName}
                 >
                     {option.label}
                 </Checkbox>

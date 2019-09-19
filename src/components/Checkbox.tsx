@@ -23,6 +23,7 @@ interface CheckboxProps {
     type?: string;
     size?: 'sm' | 'lg' | 'small' | 'large';
     label?: string;
+    labelClassName?: string;
     className?: string;
     onChange?: (value: any) => void;
     value?: any;
@@ -75,7 +76,8 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
             checked,
             type,
             name,
-            data
+            data,
+            labelClassName
         } = this.props;
 
         className = (className ? className : '') + (size && sizeMap[size] ? ` ${sizeMap[size]}` : '');
@@ -105,7 +107,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
                     name={name}
                 />
                 <i />
-                <span>{children || label}</span>
+                <span className={cx(labelClassName)}>{children || label}</span>
                 {description ? (<div className={cx("Checkbox-desc")}>{filter(description, data)}</div>) : null}
             </label>
         );
