@@ -9,6 +9,7 @@ export interface CheckboxesProps extends OptionsControlProps {
     disabled?: boolean;
     itemClassName?: string;
     columnsCount?: number;
+    labelClassName?: string;
 }
 
 export default class CheckboxesControl extends React.Component<CheckboxesProps, any> {
@@ -48,7 +49,7 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
             return this.renderGroup(option, index);
         }
 
-        const {itemClassName, onToggle, selectedOptions, disabled, inline} = this.props;
+        const {itemClassName, onToggle, selectedOptions, disabled, inline, labelClassName} = this.props;
 
         return (
             <Checkbox
@@ -58,6 +59,7 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
                 checked={!!~selectedOptions.indexOf(option)}
                 disabled={disabled || option.disabled}
                 inline={inline}
+                labelClassName={labelClassName}
             >
                 {option.label}
             </Checkbox>
@@ -77,7 +79,8 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
             onToggleAll,
             checkAll,
             classnames: cx,
-            itemClassName
+            itemClassName,
+            labelClassName
         } = this.props;
 
         let body: Array<React.ReactNode> = [];
@@ -96,6 +99,7 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
                     partial={!!(selectedOptions.length && selectedOptions.length !== options.length)}
                     disabled={disabled}
                     inline={inline}
+                    labelClassName={labelClassName}
                 >
                     全选/不选
                 </Checkbox>

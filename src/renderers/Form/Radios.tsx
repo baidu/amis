@@ -9,6 +9,7 @@ import {dataMapping} from '../../utils/tpl-builtin';
 export interface RadiosProps extends OptionsControlProps {
     placeholder?: any;
     columnsCount?: number;
+    labelClassName?: string;
 }
 
 export default class RadiosControl extends React.Component<RadiosProps, any> {
@@ -51,7 +52,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
             formMode,
             columnsCount,
             classPrefix,
-            itemClassName
+            itemClassName,
+            labelClassName
         } = this.props;
 
         return (
@@ -64,6 +66,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
                 joinValues={joinValues}
                 extractValue={extractValue}
                 delimiter={delimiter}
+                labelClassName={labelClassName}
                 placeholder={placeholder}
                 options={options}
                 columnsCount={columnsCount}
