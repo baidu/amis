@@ -288,6 +288,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     };
 
     componentDidCatch(error: any, errorInfo: any) {
+        console.error(error);
         this.setState({
             error: error,
             errorInfo: errorInfo
