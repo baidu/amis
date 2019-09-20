@@ -379,7 +379,7 @@ const defaultOmitList = [
     'hiddenOn',
     'disabled',
     'disabledOn',
-    'children',
+    'component',
     'detectField'
 ];
 
@@ -504,13 +504,13 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         } else if (schema.children) {
             return React.isValidElement(schema.children)
                 ? schema.children
-                : React.createElement(schema.children as any, {
-                      ...rest,
-                      $path: $path,
-                      render: this.renderChild
-                  });
-        } else if (typeof schema.render === 'function') {
-            return schema.render({
+                : (schema.children as Function)({
+                    ...rest,
+                    $path: $path,
+                    render: this.renderChild
+                });
+        } else if (typeof schema.component === 'function') {
+            return React.createElement(schema.children as any, {
                 ...rest,
                 $path: $path,
                 render: this.renderChild
