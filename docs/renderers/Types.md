@@ -156,7 +156,7 @@ amis 平台中使用所有的 http 地址 url 的如： `"http://www.baidu.com"`
 ### 表达式
 
 配置项中，所有 `boolean` 类型的配置，都可以用 JS 表达式来配置。所有`boolean` 配置项，后面加个 `On` 则是表达式配置方式，可以用 js 语法来根据当前模型中的数据来决定是否启用。
-如：[FormItem](./FormItem.md) 中的 `disabledOn`、`hiddenOn`、`visibleOn`、[CRUD](./CRUD.md) 中的 `itemDraggableOn` 等等。
+如：[FormItem](./Form/FormItem.md) 中的 `disabledOn`、`hiddenOn`、`visibleOn`、[CRUD](./CRUD.md) 中的 `itemDraggableOn` 等等。
 
 ```schema:height="300" scope="form"
 [
