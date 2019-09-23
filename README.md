@@ -1,16 +1,20 @@
 # amis
 
-一种页面渲染器，可以直接基于特定格式的 JSON 配置将页面渲染出来，结合业务方 API 可快速完成各类管理页面的开发。
+前端低代码框架，通过 JSON 配置就能生成各种后台页面。
 
-目前用于百度内部 [AMIS](http://amis.baidu.com) 平台，已有 100+ 部门接入使用，创建 1.2w+ 页面，欢迎大家使用和提建议。
+目前在百度大量用于内部平台的前端开发，已有 100+ 部门使用，创建了 1.2w+ 页面。
 
 通过 amis 搭建自己的后台系统，可以参考这： https://github.com/fex-team/amis-admin
 
 ## 快速开始
 
-推荐使用 node 10，理论上 node 6 和 node 8 都可以。node 12 太新估计 fis3 还有些插件不支持。
+请参考 <https://baidu.github.io/amis/docs/getting-started>
 
-```
+## 开发指南
+
+推荐使用 node 10，node 6 和 node 8 也可以。node 12 未测试，可能 fis3 还有些插件不支持。
+
+```bash
 # 安装项目 npm 依赖。
 npm i
 
@@ -22,11 +26,11 @@ npm run dev
 npm start
 ```
 
-## 测试
+### 测试
 
 ```bash
 # 安装依赖
-npm i 
+npm i
 
 # 执行测试用例
 npm test
@@ -35,28 +39,16 @@ npm test
 npm run coverage
 ```
 
-## 使用文档
-
-为了更好的阅读体验，建议直接在 gh-pages 中阅读 https://baidu.github.io/amis/ 。
-
-* [快速开始](/docs/getting_started.md)
-* [基本用法](/docs/basic.md)
-* [高级用法](/docs/advanced.md)
-* [渲染器手册](/docs/renderers.md)
-* [如何定制](/docs/sdk.md)
-* [自定义组件](/docs/dev.md)
-* [辅助样式](/docs/style.md)
-
-## 如何贡献
+### 如何贡献
 
 请采用 typescript 编写，所有合理的改动、新的公用渲染器、用例或者文档的提交都会被接收。
 
 ## 维护者
 
-* [2betop](https://github.com/2betop)
-* [RickCole21](https://github.com/RickCole21)
-* [catchonme](https://github.com/catchonme)
+-   [2betop](https://github.com/2betop)
+-   [RickCole21](https://github.com/RickCole21)
+-   [catchonme](https://github.com/catchonme)
 
 ## 讨论
 
-欢迎提 ISSUE 讨论。
+<https://github.com/baidu/amis/issues>
