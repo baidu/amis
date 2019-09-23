@@ -24,12 +24,12 @@ class EventQueue {
       return (element as any).currentStyle[prop];
     } else if (window.getComputedStyle) {
       if (window.getComputedStyle(element, undefined) === null) {
-        return null;
+          return null;
       } else {
-        return window.getComputedStyle(element, undefined).getPropertyValue(prop);
+          return window.getComputedStyle(element, undefined).getPropertyValue(prop);
       }
     } else {
-      return element.style[prop as any];
+          return element.style[prop as any];
     }
   }
   

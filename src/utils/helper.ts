@@ -358,15 +358,19 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
         return null;
     }
 
-    const style = getComputedStyle(node);
-    if (style === null) {
+    if (getComputedStyle(node) === null) {
         return null;
     } else {
-        const text = style.getPropertyValue('overflow') + style.getPropertyValue('overflow-x') + style.getPropertyValue('overflow-y');
-        if (/auto|scroll/.test(text) || node.nodeName === 'BODY') {
-            return node;
+        const style = getComputedStyle(node);
+        if (style === null) {
+            return null;
+        } else {
+            const text = style.getPropertyValue('overflow') + style.getPropertyValue('overflow-x') + style.getPropertyValue('overflow-y');
+            if (/auto|scroll/.test(text) || node.nodeName === 'BODY') {
+                return node;
+            }
+            return getScrollParent(node.parentNode as HTMLElement);
         }
-        return getScrollParent(node.parentNode as HTMLElement);
     }
 }
 
