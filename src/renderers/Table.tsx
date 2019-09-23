@@ -1322,7 +1322,7 @@ export default class Table extends React.Component<TableProps, object> {
                 <div className={cx('Table-header', headerClassName)} key="header">
                     {render('header', header, {
                         ...(editable === false ? otherProps : null),
-                        ata: store.getData(data)
+                        data: store.getData(data)
                     })}
                 </div>
             ) : null;

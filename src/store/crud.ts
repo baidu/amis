@@ -91,7 +91,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
             updater &&
                 isObjectShallowModified(originQuery, self.query, false) &&
-                setTimeout(() => updater(`?${qs.stringify(self.query)}`), 4);
+                setTimeout(() => updater(`?${qs.stringify(self.query, { encodeValuesOnly: true })}`), 4);
         }
 
         const fetchInitData: (
