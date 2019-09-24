@@ -263,7 +263,7 @@ export const TableStore = iRendererStore
             return createObject(superData, {
                 items: self.rows.map(item => item.data),
                 selectedItems: self.selectedRows.map(item => item.data),
-                unSeelctedItems: getUnSelectedRows().map(item => item.data)
+                unSelectedItems: getUnSelectedRows().map(item => item.data)
             });
         }
 

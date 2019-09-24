@@ -168,7 +168,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
         if (syncLocation && location && (location.query || location.search)) {
             store.updateQuery(
-                location.query || qs.parse(location.search.substring(1)),
+                qs.parse(location.search.substring(1)),
                 undefined,
                 pageField,
                 perPageField
@@ -218,7 +218,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         if (props.syncLocation && props.location && props.location.search !== nextProps.location.search) {
             // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
             store.updateQuery(
-                nextProps.location.query || qs.parse(nextProps.location.search.substring(1)),
+                qs.parse(nextProps.location.search.substring(1)),
                 undefined,
                 nextProps.pageField,
                 nextProps.perPageField
@@ -413,6 +413,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         search: boolean = true
     ) {
         const {store, syncLocation, env, pageField, perPageField} = this.props;
+        values = syncLocation ? qs.parse(qs.stringify(values)) : values;
 
         store.updateQuery(
             {
