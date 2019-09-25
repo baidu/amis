@@ -376,7 +376,8 @@ export default class Page extends React.Component<PageProps> {
         } = this.props;
 
         const subProps = {
-            onAction: this.handleAction
+            onAction: this.handleAction,
+            loading: store.loading
         };
 
         const hasAside = aside && (!Array.isArray(aside) || aside.length);
