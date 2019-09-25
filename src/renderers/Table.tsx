@@ -1558,10 +1558,7 @@ export default class Table extends React.Component<TableProps, object> {
                                         <td colSpan={store.filteredColumns.length}>
                                             {render(
                                                 'placeholder',
-                                                {
-                                                    type: 'tpl',
-                                                    tpl: placeholder
-                                                },
+                                                placeholder,
                                                 {data}
                                             )}
                                         </td>
