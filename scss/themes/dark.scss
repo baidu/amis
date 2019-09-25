@@ -113,6 +113,8 @@ $Tabs-onActive-borderColor: $borderColor;
 $Tabs-onActive-color: lighten($text-color, 10%);
 $Tabs-onHover-borderColor: $Tabs-onActive-borderColor;
 
+$Tabs--radio-bg: $Panel-bg;
+
 $Tooltip--attr-color: $text-color;
 $TransferSelect--table-heading-bg: $background;
 $Wizard-steps-bg: $background-head;

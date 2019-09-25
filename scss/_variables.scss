@@ -360,21 +360,33 @@ $Tabs-borderColor: $borderColor !default;
 $Tabs-borderWidth: $borderWidth !default;
 $Tabs-borderRadius: $borderRadius !default;
 $Tabs-color: $text-color !default;
-$Tabs-link-padding: $gap-sm $gap-base !default;
-$Tabs-link-margin: 0 !default;
 $Tabs-onDisabled-color: $gray600 !default;
 $Tabs-onHover-borderColor: $gray200 !default;
 $Tabs-onActive-color: $gray700 !default;
 $Tabs-onActive-borderColor: $gray300 !default;
-$Tabs-onActive-borderBottomColor: transparent !default;
-$Tabs-onActive-borderBottomWidth: initial !default;
 $Tabs-onActive-bg: $background !default;
+$Tabs-linkPadding: $gap-sm $gap-base !default;
+$Tabs-linkMargin: 0 px2rem(3px) 0 0 !default;
 $Tabs-content-bg: $background !default;
-$Tabs-content-borderWidth: 0 $Tabs-borderWidth $Tabs-borderWidth !default;
-$Tabs-content-padding: $gap-base !default;
-$Tabs--card-bg: $background !default;
-$Tabs--card-borderTopColor: #e2e5ec !default;
-$Tabs--card-onActive-bg: #eceff8 !default;
+
+$Tabs--line-borderColor: $borderColor !default;
+$Tabs--line-onHover-color: $primary !default;
+$Tabs--line-onHover-borderColor: $primary !default;
+$Tabs--line-borderWidth: px2rem(2px) !default;
+$Tabs--line-linkPadding: 10px 0 !default;
+$Tabs--line-linkMargin: 0 40px 0 0 !default;
+$Tabs--line-content-bg: transparent !default;
+$Tabs--line-content-padding: 20px 0 !default;;
+
+$Tabs--card-padding: px2rem(6px) 0 0 px2rem(10px);
+$Tabs--card-bg: darken($body-bg, 5%) !default;
+$Tabs--card-borderTopColor: $borderColor !default;
+$Tabs--card-onActive-borderColor: $borderColor !default;
+$Tabs--card-onActive-bg: $background !default;
+$Tabs--card-linkPadding: px2rem(10px) px2rem(10px) !default;
+$Tabs--card-linkMargin: 0 10px 0 0 !default;
+
+
 $Tabs--radio-bg: #eaf6fe !default;
 
 // Nav
