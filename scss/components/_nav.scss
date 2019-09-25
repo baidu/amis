@@ -11,7 +11,7 @@
             display: inline-block;
 
             > a {
-                font-size: $Nav-item-fontSize;
+                font-size: $Tabs-linkFontSize;
                 display: block;
                 outline: none;
                 border: $Tabs-borderWidth solid transparent;
@@ -43,8 +43,7 @@
                 color: $Tabs-onActive-color;
                 background-color: $Tabs-onActive-bg;
                 border-color: $Tabs-onActive-borderColor;
-                border-bottom-color: $Tabs-onActive-borderBottomColor;
-                border-bottom-width: $Tabs-onActive-borderBottomWidth;
+                border-bottom-color: $Tabs-content-bg;
             }
         }
 

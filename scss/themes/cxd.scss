@@ -335,17 +335,8 @@ $Wizard-badge-marginRight: px2rem(6px);
 
 // Tabs
 $Tabs-linkFontSize: px2rem(14px);
-$Tabs-color: $text-color;
-$Tabs-onActive-color: $info;
-$Tabs-onActive-borderColor: transparent;
-$Tabs-onHover-borderColor: transparent;
-$Tabs-onActive-borderBottomColor: $info;
-$Tabs-onActive-borderBottomWidth: px2rem(2px);
-$Tabs-content-borderWidth: 0;
-$Tabs-borderRadius: 0;
-$Tabs-content-padding: px2rem(10px) 0 0;
-$Tabs-link-padding: px2rem(10px) 0;
-$Tabs-link-margin: 0 px2rem(40px) 0 0;
+$Tabs--card-onActive-borderColor: $white;
+$Tabs--radio-bg: $white;
 
 
 // Pagination
