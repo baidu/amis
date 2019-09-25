@@ -48,7 +48,7 @@ export function makeClassnames(ns?: string) {
 
     const fn = (...classes: ClassValue[]) => {
         const str = cx(...(classes as any));
-        return str && ns ? str.replace(/(^|\s)([A-Z])/g, '$1' + ns + '$2') : str || '';
+        return str && ns ? str.replace(/(^|\s)([A-Z])/g, '$1' + ns + '$2').replace(/(^|\s)\:/g, '$1') : str || '';
     };
 
     ns && (fns[ns] = fn);
