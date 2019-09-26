@@ -48,13 +48,13 @@ amis 渲染器的数据都来源于 api，有一定的格式要求。
 每个渲染的接口返回都有自己的格式要求，主要体现在 data 字段内部，具体请参考每个渲染的接口说明。
 
 * [Page](./renderers/Page.md#接口说明)
-
-`TBD`
-
 * [CRUD](./renderers/CRUD.md#接口说明)
-* [Form](./renderers/Form.md#接口说明)
+* [Form](./renderers/Form/Form.md#接口说明)
     * [Select](./renderers/Form/Select.md#接口说明)
     * [Checkboxes](./renderers/Form/Checkboxes.md#接口说明)
     * [Radios](./renderers/Form/Radios.md#接口说明)
     * [List](./renderers/Form/List.md#接口说明)
 * [Wizard](./renderers/Wizard.md#接口说明)
+
+`TBD`
+

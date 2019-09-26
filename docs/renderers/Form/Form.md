@@ -43,18 +43,18 @@
 | messages.saveSuccess  | `string`                             |                                                                        | 保存失败时提示                                                                                                                                                                                                                                                                                                                                               |
 | wrapWithPanel         | `boolean`                            | `true`                                                                 | 是否让 Form 用 panel 包起来，设置为 false 后，actions 将无效。                                                                                                                                                                                                                                                                                               |
 | panelClassName        | `boolean`                            | `true`                                                                 | 是否让 Form 用 panel 包起来，设置为 false 后，actions 将无效。                                                                                                                                                                                                                                                                                               |
-| api                   | [Api](../Types.md#api)                |                                                                        | Form 用来保存数据的 api。                                                                                                                                                                                                                                                                                                                                    |
-| initApi               | [Api](../Types.md#api)                |                                                                        | Form 用来获取初始数据的 api。                                                                                                                                                                                                                                                                                                                                |
+| [api](#api)                   | [Api](../Types.md#api)                |                                                                        | Form 用来保存数据的 api。                                                                                                                                                                                                                                                                                                                                    |
+| [initApi](#initApi)               | [Api](../Types.md#api)                |                                                                        | Form 用来获取初始数据的 api。                                                                                                                                                                                                                                                                                                                                |
 | interval              | `number`                             | `3000`                                                                 | 刷新时间(最低 3000)                                                                                                                                                                                                                                                                                                                                          |
 | silentPolling         | `boolean`                            | `false`                                                                | 配置刷新时是否显示加载动画                                                                                                                                                                                                                                                                                                                                   |
 | stopAutoRefreshWhen   | `string`                             | `""`                                                                   | 通过[表达式](./Types.md#表达式) 来配置停止刷新的条件                                                                                                                                                                                                                                                                                                         |
-| initAsyncApi          | [Api](../Types.md#api)                |                                                                        | Form 用来获取初始数据的 api,与 initApi 不同的是，会一直轮训请求该接口，直到返回 finished 属性为 true 才 结束。                                                                                                                                                                                                                                               |
+| [initAsyncApi](#initAsyncApi)          | [Api](../Types.md#api)                |                                                                        | Form 用来获取初始数据的 api,与 initApi 不同的是，会一直轮训请求该接口，直到返回 finished 属性为 true 才 结束。                                                                                                                                                                                                                                               |
 | initFetch             | `boolean`                            | `true`                                                                 | 设置了 initApi 或者 initAsyncApi 后，默认会开始就发请求，设置为 false 后就不会起始就请求接口                                                                                                                                                                                                                                                                 |
 | initFetchOn           | `string`                             |                                                                        | 用表达式来配置                                                                                                                                                                                                                                                                                                                                               |
 | initFinishedField     | `string`                             | `finished`                                                             | 设置了 initAsyncApi 后，默认会从返回数据的 data.finished 来判断是否完成，也可以设置成其他的 xxx，就会从 data.xxx 中获取                                                                                                                                                                                                                                      |
 | initCheckInterval     | `number`                             | `3000`                                                                 | 设置了 initAsyncApi 以后，默认拉取的时间间隔                                                                                                                                                                                                                                                                                                                 |
 | schemaApi             | [Api](../Types.md#api)                |                                                                        | `已不支持`，请改用 controls 里面放置 Service 渲染器实现                                                                                                                                                                                                                                                                                                      |
-| asyncApi              | [Api](../Types.md#api)                |                                                                        | 设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 `finished` 属性为 `true` 才 结束。                                                                                                                                                                                                                                                    |
+| [asyncApi](#asyncApi)              | [Api](../Types.md#api)                |                                                                        | 设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 `finished` 属性为 `true` 才 结束。                                                                                                                                                                                                                                                    |
 | checkInterval         | `number`                             | 3000                                                                   | 轮训请求的时间间隔，默认为 3 秒。设置 `asyncApi` 才有效                                                                                                                                                                                                                                                                                                      |
 | finishedField         | `string`                             | `"finished"`                                                           | 如果决定结束的字段名不是 `finished` 请设置此属性，比如 `is_success`                                                                                                                                                                                                                                                                                          |
 | submitOnChange        | `boolean`                            | `false`                                                                | 表单修改即提交                                                                                                                                                                                                                                                                                                                                               |
@@ -200,3 +200,54 @@
   ]
 }
 ```
+
+
+### 接口说明
+
+开始之前请你先阅读[整体要求](../api.md)。
+
+#### initApi
+
+可以用来初始化表单数据。
+
+**发送**
+
+默认不携带任何参数，可以在上下文中取变量设置进去。
+
+**响应**
+
+ 要求返回的数据 data 是对象，不要返回其他格式，且注意层级问题，data 中返回的数据正好跟 form 中的变量一一对应。
+
+ ```
+ {
+   status: 0,
+   msg: '',
+   data: {
+     a: '123'
+   }
+ }
+ ```
+
+ 如果有个表单项的 name 配置成  a，initApi 返回后会自动填充 '123'。
+
+ #### api
+
+ 用来保存表单结果。
+
+ **发送**
+
+ 默认为 `POST` 方式，会将所有表单项整理成一个对象发送过过去。
+
+ **响应**
+
+ 如果 返回了 data 对象，且是对象，会把结果 merge 到表单数据里面。
+
+ #### initAsyncApi
+
+ 这个接口的作用在于解决接口耗时比较长导致超时问题的情况，当配置此接口后，初始化接口的时候先请求 initApi 如果 initApi 接口返回了 data.finished 为 true，则初始化完成。如果返回为 false 则之后每隔 3s 请求 initAsyncApi，直到接口返回了 data.finished 为 true 才结束。 用这种机制的话，业务 api 不需要完全等待操作完成才输出结果，而是直接检测状态，没完成也直接返回，后续还会发起请求检测。
+
+ 格式要求就是 data 是对象，且 有 finished 这个字段。返回的其他字段会被 merge 到表单数据里面。
+
+ ##### asyncApi
+
+ 保存同样也可以采用异步模式，具体请参考 initAsyncApi。
