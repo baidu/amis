@@ -10,7 +10,7 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | mode                           | `string`                       | `"table"`                       | `"table" 、 "cards" 或者 "list"`                                                                                      |
 | title                          | `string`                       | `""`                            | 可设置成空，当设置成空时，没有标题栏                                                                                  |
 | className                      | `string`                       |                                 | 表格外层 Dom 的类名                                                                                                   |
-| api                            | [Api](./Types.md#Api)          |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
+| [api](#api)                            | [Api](./Types.md#Api)          |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
 | loadDataOnce                   | `boolean`                      |                                 | 是否一次性加载所有数据（前端分页）                                                                                         |
 | source                         | `string`                       |                                 | 数据映射接口返回某字段的值，不设置会默认把接口返回的`items`或者`rows`填充进`mode`区域                                                                                         |
 | filter                         | [Form](./Form/Form.md)         |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 `mode` 刷新列表。                                                     |
@@ -24,9 +24,9 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | syncLocation                   | `boolean`                      | `true`                          | 是否将过滤条件的参数同步到地址栏                                                                                      |
 | draggable                      | `boolean`                      | `false`                         | 是否可通过拖拽排序                                                                                                    |
 | itemDraggableOn                | `boolean`                      |                                 | 用[表达式](./Types.md#表达式)来配置是否可拖拽排序                                                                     |
-| saveOrderApi                   | [Api](./Types.md#Api)          |                                 | 保存排序的 api。                                                                                                      |
-| quickSaveApi                   | [Api](./Types.md#Api)          |                                 | 快速编辑后用来批量保存的 API。                                                                                        |
-| quickSaveItemApi               | [Api](./Types.md#Api)          |                                 | 快速编辑配置成及时保存时使用的 API。                                                                                  |
+| [saveOrderApi](#saveOrderApi)                   | [Api](./Types.md#Api)          |                                 | 保存排序的 api。                                                                                                      |
+| [quickSaveApi](#quickSaveApi)                   | [Api](./Types.md#Api)          |                                 | 快速编辑后用来批量保存的 API。                                                                                        |
+| [quickSaveItemApi](#quickSaveItemApi)               | [Api](./Types.md#Api)          |                                 | 快速编辑配置成及时保存时使用的 API。                                                                                  |
 | bulkActions                    | Array Of [Action](./Action.md) |                                 | 批量操作列表，配置后，表格可进行选中操作。                                                                            |
 | defaultChecked                 | `boolean`                      | `false`                         | 当可批量操作时，默认是否全部勾选。                                                                                    |
 | messages                       | `Object`                       |                                 | 覆盖消息提示，如果不指定，将采用 api 返回的 message                                                                   |
@@ -48,3 +48,149 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | labelTpl                       | `string`                       |                                 | 单条描述模板，`keepItemSelectionOnPageChange`设置为`true`后会把所有已选择条目列出来，此选项可以用来定制条目展示文案。 |
 | headerToolbar                  | Array                          | `['bulkActions', 'pagination']` | 顶部工具栏配置                                                                                                        |
 | footerToolbar                  | Array                          | `['statistics', 'pagination']`  | 顶部工具栏配置                                                                                                        |
+
+
+
+### 接口说明
+
+开始之前请你先阅读[整体要求](../api.md)。
+
+#### api
+
+用来返回列表数据。
+
+
+**发送：**
+
+可能会包含以下信息。
+
+* `page` 页码，从 `1` 开始,  表示当前请求第几页的信息。 字段名对应 `pageField` 如果配成这样 `{pageField: "pn"}` 发送的时候字段名会变成类似 `/api/xxx?pn=1`。
+* `perPage` 每页多少条数据，默认假定是 10. 如果想修改请配置 `defaultParams: {perPage: 20}`。 另外字段名对应 `perPageField` 的配置。
+* `orderBy` 用来告知以什么方式排序。字段名对应 `orderField`
+* `orderDir`  不是 `asc` 就是 `desc`。分别表示正序还是倒序。
+
+另外如果 CRUD 配置了 Filter，即过滤器表单，表单里面的数据也会自动 merge 到这个请求里面。前提是：你没有干预接口参数。
+
+什么意思？来个对比 `/api/xxxx` 和 `/api/xxxx?a=${a}`。第二个配置方式就是干预了，如果你配置接口的时候有明确指定要发送什么参数，那么 amis 则不再默认把所有你可能要的参数都发过去了。这个时候如果想要接收原来的那些参数，你需要进一步配置 api，把你需要的参数写上如：`/api/xxxx?a=${a}&page=${page}&perPage=${perPage}`
+
+
+**响应：**
+
+常规返回格式如下：
+
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "items": [
+        { // 每个成员的数据。
+            "id": 1,
+            "xxx": "xxxx"
+        }
+    ],
+
+    "total": 200 // 注意这里不是当前请求返回的 items 的长度，而是一共有多少条数据，用于生成分页，
+    // 如果你不想要分页，把这个不返回就可以了。
+  }
+}
+```
+
+如果无法知道数据总条数，只能知道是否有下一页，请返回如下格式，AMIS 会简单生成一个简单版本的分页控件。
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "items": [
+        { // 每个成员的数据。
+            "id": 1,
+            "xxx": "xxxx"
+        }
+    ],
+
+    "hasNext": true // 是否有下一页。
+  }
+}
+```
+
+如果不需要分页，或者配置了 loadDataOnce 则可以忽略掉 `total` 和 `hasNext` 参数。
+
+
+#### saveOrderApi
+
+用来保存新的顺序，配置了 draggable 后会通过这个接口保存结果。
+
+**发送：**
+
+发送方式默认为 `POST` 会包含以下信息。
+
+* `ids` 字符串如： `2,3,1,4,5,6` 用 id 来记录新的顺序。 前提是你的列表接口返回了 id 字段。另外如果你的 primaryField 不是 `id`，则需要配置如： `primaryField: "order_id"`。注意：无论你配置成什么 primayField，这个字段名始终是 ids。
+* `rows` `Array<Item>` 数组格式，新的顺序，数组里面包含所有原始信息。
+* `insertAfter` 或者 `insertBefore`  这是 amis 生成的 diff 信息，对象格式，key 为目标成员的 primaryField 值，即 id，value 为数组，数组中存放成员 primaryField 值。如： 
+
+    ```json
+    {
+        "insertAfter": {
+            "2": ["1", "3"],
+            "6": ["4", "5"]
+        }
+    }
+    ```
+
+    表示：成员 1 和成员 3 插入到了成员 2 的后面。成员 4 和 成员 5 插入到了 成员 6 的后面。
+
+发送数据多了？amis 只能猜你可能需要什么格式化的数据，api 不是可以配置数据映射吗？你可以通过 data 指定只发送什么如：
+
+```json
+{
+    "saveOrderApi": {
+        "url": "/api/xxxx",
+        "data": {
+            "ids": "${ids}"
+        }
+    }
+}
+```
+
+这样就只会发送 ids 了。
+
+**响应：**
+
+响应没有什么特殊要求，只关注 status 状态。data 中返回了数据也不会影响结果集。默认调用完保存顺序接口会自动再调用一次 api 接口用来刷新数据。
+
+#### quickSaveApi
+
+用来保存快速编辑结果，当 crud 的列配置快速保存时会调用进来。
+
+**发送：**
+
+发送方式默认为 `POST` 会包含以下信息。
+
+* `ids` `String` 如： `"1,2"` 用来说明这次快速保存涉及了哪些成员。
+* `indexes` `Array<number>` 通过序号的方式告知更新了哪些成员。
+* `rows` `Array<Object>` 修改过的成员集合，数组对象是在原有数据的基础上更新后的结果。
+* `rowsDiff` `Array<Object>` 跟 `rows` 不一样的地方是这里只包含本次修改的数据。
+* `unModifiedItems` `Array<Object>` 其他没有修改的成员集合。
+
+默认发送的数据有点多，不过可以通过api的数据映射自己选择需要的部分。
+
+
+**响应：**
+
+响应没有什么特殊要求，只关注 status 状态。
+
+
+#### quickSaveItemApi
+
+跟 quickSaveApi 不一样的地方在于当你配置快速保存为立即保存的时候，优先使用此接口。因为只会保存单条数据，所以发送格式会不一样，直接就是整个更新后的成员数据。
+
+**发送：**
+
+`POST` payload 中就是更新后的成员数据。
+
+**响应：**
+
+响应没有什么特殊要求，只关注 status 状态。
