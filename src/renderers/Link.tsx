@@ -16,13 +16,13 @@ export class LinkField extends React.Component<LinkProps, object> {
     };
 
     render() {
-        const {className, body, href, classnames: cx, blank, data, render} = this.props;
+        const {className, body, href, classnames: cx, blank, htmlTarget, data, render} = this.props;
 
         let value = this.props.value;
         const finnalHref = href ? filter(href, data) : '';
 
         return (
-            <a href={finnalHref || value} target={blank ? '_blank' : '_self'} className={cx('Link', className)}>
+            <a href={finnalHref || value} target={htmlTarget || (blank ? '_blank' : '_self')} className={cx('Link', className)}>
                 {body ? render('body', body) : finnalHref || value || '链接'}
             </a>
         );

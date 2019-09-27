@@ -125,6 +125,12 @@ export default {
             tpl: '定制内容示例：当前有 ${count} 条数据。',
             className: 'v-middle'
         }, {
+            type: 'link',
+            href: 'https://www.baidu.com',
+            body: '百度一下',
+            htmlTarget: '_parent',
+            className: 'v-middle'
+        }, {
             type: 'columns-toggler',
             align: 'right'
         }, {
