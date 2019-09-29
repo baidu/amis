@@ -556,7 +556,8 @@ export class TreeSelector extends React.Component<TreeSelectorProps, TreeSelecto
                             >
                                 {highlightTxt ? highlight(item[nameField], highlightTxt) : item[nameField]}
                             </span>
-                            {!addTop
+                            {!nodeDisabled
+                                && !addTop
                                 && !addItem
                                 && !editItem ? (
                                     <span className={cx('Tree-item-icons')}>
