@@ -663,14 +663,15 @@
 
     &-dragBtn {
         margin-right: $gap-xs;
-        display: none;
+        display: inline-block;
+        visibility: hidden;
         cursor: move;
     }
 
     &-table > tbody > tr:hover .#{$ns}Table-dragBtn,
     &-table > tbody > tr.is-dragging .#{$ns}Table-dragBtn,
     &-table > tbody > tr.is-drop-allowed .#{$ns}Table-dragBtn {
-        display: inline-block;
+        visibility: visible;
     }
 }
 
