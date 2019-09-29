@@ -61,6 +61,17 @@ export default {
                     type: "divider"
                 },
                 {
+                    type: "tag",
+                    name: "tag",
+                    label: "标签",
+                    placeholder: '',
+                    clearable: true,
+                    options: ["lixiaolong", "zhouxingxing", "yipingpei", "liyuanfang"]
+                },
+                {
+                    type: "divider"
+                },
+                {
                     type: "text",
                     name: "placeholder",
                     label: "Placeholder",

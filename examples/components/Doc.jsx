@@ -190,6 +190,13 @@ export default {
                             }),
                         },
                         {
+                            label: 'Tag',
+                            path: '/docs/renderers/Form/Tag',
+                            getComponent: (location, cb) => require(['../../docs/renderers/Form/Tag.md'], (doc) => {
+                                cb(null, makeMarkdownRenderer(doc));
+                            }),
+                        },
+                        {
                             label: 'Select',
                             path: '/docs/renderers/Form/Select',
                             getComponent: (location, cb) => require(['../../docs/renderers/Form/Select.md'], (doc) => {

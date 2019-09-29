@@ -26,6 +26,7 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
     -   [Email](./renderers/Form/Email.md): Email 输入框
     -   [Password](./renderers/Form/Password.md): 密码输入框
     -   [Number](./renderers/Form/Number.md): 数字输入框
+    -   [Tag](./renderers/Form/Tag.md): 标签输入框
     -   [Select](./renderers/Form/Select.md): 选项表单
     -   [Chained-Select](./renderers/Form/Chained-Select.md): 无限级别下拉
     -   [Checkbox](./renderers/Form/Checkbox.md): 勾选框
