@@ -135,8 +135,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
                     const data = {
                         ...self.data,
+                        total: items.length,
                         items: items.slice((self.page - 1) * self.perPage, self.page * self.perPage)
                     };
+                    self.total = parseInt(data.total || data.count, 10) || 0;
                     self.reInitData(data);
                     return;
                 }
