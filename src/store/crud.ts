@@ -91,7 +91,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
             updater &&
                 isObjectShallowModified(originQuery, self.query, false) &&
-                setTimeout(() => updater(`?${qs.stringify(self.query, { encodeValuesOnly: true })}`), 4);
+                setTimeout(() => updater(`?${qs.stringify(self.query, {encodeValuesOnly: true})}`), 4);
         }
 
         const fetchInitData: (
@@ -117,7 +117,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         ) {
             try {
                 if (options.forceReload === false && options.loadDataOnce && self.total) {
-                    let items = self.items.concat();
+                    let items = options.source
+                        ? resolveVariableAndFilter(
+                              options.source,
+                              createObject(self.mergedData, {
+                                  items: self.data.itemsRaw,
+                                  rows: self.data.itemsRaw
+                              }),
+                              '| raw'
+                          )
+                        : self.items.concat();
 
                     if (self.query.orderBy) {
                         const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
@@ -212,6 +221,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                     };
 
                     if (options.loadDataOnce) {
+                        // 记录原始集合，后续可能基于原始数据做排序查找。
+                        data.itemsRaw = oItems || oRows;
+
                         if (self.query.orderBy) {
                             const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
                             rowsData = sortArray(rowsData, self.query.orderBy, dir);
@@ -338,17 +350,12 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             self.hasInnerModalOpen = value;
         };
 
-        const initFromScope = function(scope:any, source:string) {
-            let rowsData: Array<any> = resolveVariableAndFilter(
-                source,
-                scope,
-                '| raw'
-            );
+        const initFromScope = function(scope: any, source: string) {
+            let rowsData: Array<any> = resolveVariableAndFilter(source, scope, '| raw');
 
             if (!Array.isArray(rowsData)) {
                 return;
             }
-
 
             const data = {
                 ...self.pristine,
@@ -357,10 +364,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                 total: 0
             };
 
-                    
             self.items.replace(rowsData);
             self.reInitData(data);
-        }
+        };
 
         return {
             setPristineQuery,
