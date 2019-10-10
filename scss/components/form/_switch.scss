@@ -17,7 +17,7 @@
 
     i {
         &:before {
-            content: "关";
+            content: "\5173";
             color: $Switch-valueColor;
             text-indent: ($Switch-width / 2);
             text-transform: uppercase;
@@ -57,7 +57,7 @@
 
         &:disabled,
         &:disabled:checked {
-            & + i {
+            &+i {
                 &:before {
                     color: $Switch-onDisabled-color;
                     background-color: $Switch-onDisabled-bgColor;
@@ -71,7 +71,7 @@
         }
 
         &:checked {
-            & + i {
+            &+i {
                 &:before {
                     left: 100%;
                     border-width: 0;
@@ -80,7 +80,7 @@
                 &:after {
                     margin-left: $Switch-width - $Switch-height;
 
-                    content: "开";
+                    content: "\5f00";
                     color: $white;
                     text-indent: px2rem(-18px); // todo
                     text-transform: uppercase;
