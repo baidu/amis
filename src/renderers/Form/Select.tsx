@@ -6,7 +6,7 @@ import find = require('lodash/find');
 import debouce = require('lodash/debounce');
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
-import {isEmpty} from '../../utils/helper';
+import {isEmpty, createObject} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 
 export interface SelectProps extends OptionsControlProps {
@@ -117,11 +117,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         return (
             isEffectiveApi(autoComplete, data) &&
             env
-                .fetcher(autoComplete, {
-                    ...data,
-                    term: input,
-                    value: input
-                })
+                .fetcher(
+                    autoComplete,
+                    createObject(data, {
+                        term: input,
+                        value: input
+                    })
+                )
                 .then(ret => {
                     let options = (ret.data && (ret.data as any).options) || ret.data || [];
                     this.cache[input] = options;
