@@ -481,7 +481,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     render() {
-        const {className, value, showAddBtn, disabled, render, placeholder, draggable, addable} = this.props;
+        const {
+            className,
+            value,
+            showAddBtn,
+            disabled,
+            render,
+            placeholder,
+            draggable,
+            addable,
+            columnsTogglable
+        } = this.props;
 
         return (
             <div className={cx('form-control-table', className)}>
@@ -509,7 +519,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                         onSave: this.handleTableSave,
                         onSaveOrder: this.handleSaveTableOrder,
                         buildItemProps: this.buildItemProps,
-                        quickEditFormRef: this.subFormRef
+                        quickEditFormRef: this.subFormRef,
+                        columnsTogglable: columnsTogglable
                     }
                 )}
             </div>
