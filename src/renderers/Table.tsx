@@ -12,7 +12,7 @@ import {TableStore, ITableStore, IColumn, IRow} from '../store/table';
 import {observer} from 'mobx-react';
 import {anyChanged, getScrollParent, difference, noop, autobind} from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
-import {isEffectiveApi} from '../utils/api';
+import {isEffectiveApi, isApiOutdated, buildApi, normalizeApi} from '../utils/api';
 import debounce = require('lodash/debounce');
 import xor = require('lodash/xor');
 import QuickEdit from './QuickEdit';
@@ -1136,13 +1136,7 @@ export default class Table extends React.Component<TableProps, object> {
                             })
                         ) : (
                             <tr className={cx('Table-placeholder')}>
-                                <td colSpan={columns.length}>
-                                    {render(
-                                        'placeholder',
-                                        placeholder,
-                                        {data}
-                                    )}
-                                </td>
+                                <td colSpan={columns.length}>{render('placeholder', placeholder, {data})}</td>
                             </tr>
                         )}
                     </tbody>
@@ -1556,11 +1550,7 @@ export default class Table extends React.Component<TableProps, object> {
                                 ) : (
                                     <tr className={cx('Table-placeholder')}>
                                         <td colSpan={store.filteredColumns.length}>
-                                            {render(
-                                                'placeholder',
-                                                placeholder,
-                                                {data}
-                                            )}
+                                            {render('placeholder', placeholder, {data})}
                                         </td>
                                     </tr>
                                 )}
@@ -1936,6 +1926,7 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
         filterOptions: []
     };
 
+    sourceInvalid: boolean = false;
     constructor(props: HeadCellFilterProps) {
         super(props);
 
@@ -1966,7 +1957,12 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
             props.data !== nextProps.data
         ) {
             if (nextProps.filterable.source) {
-                this.fetchOptions();
+                this.sourceInvalid = isApiOutdated(
+                    props.filterable.source,
+                    nextProps.filterable.source,
+                    props.data,
+                    nextProps.data
+                );
             } else if (nextProps.filterable.options) {
                 this.setState({
                     filterOptions: this.alterOptions(nextProps.filterable.options || [])
@@ -1975,15 +1971,26 @@ export class HeadCellFilterDropDown extends React.Component<HeadCellFilterProps,
         }
     }
 
+    componentDidUpdate() {
+        this.sourceInvalid && this.fetchOptions();
+    }
+
     fetchOptions() {
         const {env, filterable, data} = this.props;
-        isEffectiveApi(filterable.source, data) &&
-            env.fetcher(filterable.source, data).then(ret => {
-                let options = (ret.data && ret.data.options) || [];
-                this.setState({
-                    filterOptions: ret && ret.data && this.alterOptions(options)
-                });
+
+        if (!isEffectiveApi(filterable.source, data)) {
+            return;
+        }
+
+        const api = normalizeApi(filterable.source);
+        api.cache = 3000; // 开启 3s 缓存，因为固顶位置渲染1次会额外多次请求。
+
+        env.fetcher(api, data).then(ret => {
+            let options = (ret.data && ret.data.options) || [];
+            this.setState({
+                filterOptions: ret && ret.data && this.alterOptions(options)
             });
+        });
     }
 
     alterOptions(options: Array<any>) {
