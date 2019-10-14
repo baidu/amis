@@ -14,15 +14,7 @@ interface ApiCacheConfig extends ApiObject {
 
 const apiCaches: Array<ApiCacheConfig> = [];
 
-export function buildApi(
-    api: Api,
-    data?: object,
-    options: {
-        autoAppend?: boolean;
-        ignoreData?: boolean;
-        [propName: string]: any;
-    } = {}
-): ApiObject {
+export function normalizeApi(api: Api): ApiObject {
     if (typeof api === 'string') {
         let method = rSchema.test(api) ? RegExp.$1 : '';
         method && (api = api.replace(method + ':', ''));
@@ -36,6 +28,19 @@ export function buildApi(
             ...api
         };
     }
+    return api;
+}
+
+export function buildApi(
+    api: Api,
+    data?: object,
+    options: {
+        autoAppend?: boolean;
+        ignoreData?: boolean;
+        [propName: string]: any;
+    } = {}
+): ApiObject {
+    api = normalizeApi(api);
     const {autoAppend, ignoreData, ...rest} = options;
 
     api.config = {
