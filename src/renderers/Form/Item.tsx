@@ -588,7 +588,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
             'onChange',
             'setPrinstineValue',
             'readOnly',
-            ...(Control as any).propsList
+            ...(Control as any).propsList || []
         ];
 
         static displayName = `FormItem${config.type ? `(${config.type})` : ''}`;
