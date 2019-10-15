@@ -1,176 +1,176 @@
 {
-  "name": "amis",
-  "version": "1.0.2",
-  "description": "一种MIS页面生成工具",
-  "main": "lib/index.js",
-  "scripts": {
-    "test": "jest",
-    "coverage": "jest  --coverage",
-    "start": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",
-    "stop": "fis3 server stop",
-    "dev": "fis3 release -cwd ./public",
-    "publish2npm": "sh publish.sh && npm publish",
-    "prettier": "prettier --write 'src/**/*.{tsx,ts}'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/baidu/amis.git"
-  },
-  "keywords": [
-    "react",
-    "amis",
-    "mis",
-    "renderer",
-    "json",
-    "schema"
-  ],
-  "author": "fex",
-  "license": "ISC",
-  "dependencies": {
-    "async": "2.6.0",
-    "autobind-decorator": "2.4.0",
-    "blueimp-canvastoblob": "2.1.0",
-    "classnames": "2.2.5",
-    "dom-helpers": "3.3.1",
-    "downshift": "3.1.4",
-    "echarts": "~4.1.0",
-    "flv.js": "1.5.0",
-    "froala-editor": "2.9.5",
-    "history": "4.7.2",
-    "hls.js": "0.12.2",
-    "hoist-non-react-statics": "3.3.0",
-    "jquery": "^3.2.1",
-    "keycode": "^2.1.9",
-    "match-sorter": "2.2.1",
-    "mobx": "^4.5.0",
-    "mobx-react": "^5.2.5",
-    "mobx-state-tree": "^3.7.0",
-    "moment": "^2.19.3",
-    "monaco-editor": "0.17.1",
-    "prop-types": "^15.6.1",
-    "qrcode.react": "^0.8.0",
-    "qs": "6.5.1",
-    "rc-input-number": "4.4.5",
-    "react": "^16.8.6",
-    "react-addons-update": "15.6.2",
-    "react-overlays": "^0.8.3",
-    "react-color": "2.13.8",
-    "react-cropper": "1.0.0",
-    "react-date-range": "0.9.4",
-    "react-datetime": "2.16.0",
-    "react-dom": "^16.8.6",
-    "react-dropzone": "4.2.1",
-    "react-input-range": "1.2.1",
-    "react-json-tree": "0.11.0",
-    "react-progress-2": "^4.4.2",
-    "react-select": "1.2.1",
-    "react-textarea-autosize": "5.1.0",
-    "react-transition-group": "2.2.1",
-    "react-visibility-sensor": "3.11.0",
-    "setimmediate": "1.0.5",
-    "sortablejs": "1.10.0",
-    "tslib": "^1.9.3",
-    "uncontrollable": "4.1.0",
-    "video-react": "0.9.4",
-    "redux": "^3.7.2"
-  },
-  "devDependencies": {
-    "@types/async": "^2.0.45",
-    "@types/classnames": "^2.2.3",
-    "@types/history": "^4.6.0",
-    "@types/hoist-non-react-statics": "^3.0.1",
-    "@types/jest": "^24.0.11",
-    "@types/jquery": "^3.3.1",
-    "@types/lodash": "^4.14.76",
-    "@types/node": "^12.7.1",
-    "@types/pretty-bytes": "^4.0.0",
-    "@types/prop-types": "^15.5.2",
-    "@types/qs": "^6.5.1",
-    "@types/react": "^16.8.1",
-    "@types/react-addons-update": "^0.14.19",
-    "@types/react-color": "^2.13.3",
-    "@types/react-cropper": "^0.10.1",
-    "@types/react-dom": "^16.0.7",
-    "@types/react-dropzone": "^4.1.0",
-    "@types/react-json-tree": "^0.6.6",
-    "@types/react-onclickoutside": "^6.0.2",
-    "@types/react-overlays": "^0.6.9",
-    "@types/react-router": "^4.0.16",
-    "@types/react-select": "^1.0.59",
-    "@types/react-test-renderer": "^16.8.1",
-    "@types/react-transition-group": "^2.0.6",
-    "@types/sortablejs": "^1.3.32",
-    "@types/whatwg-fetch": "0.0.33",
-    "animate.css": "3.5.2",
-    "axios": "0.18.1",
-    "bce-sdk-js": "^0.2.9",
-    "bootstrap": "3.4.1",
-    "copy-to-clipboard": "3.0.8",
-    "css": "2.2.1",
-    "es6-symbol": "3.1.1",
-    "faker": "^4.1.0",
-    "fis-parser-node-sass": "^1.0.5",
-    "fis-parser-svgr": "^1.0.0",
-    "fis3": "^3.4.41",
-    "fis3-hook-commonjs": "^0.1.31",
-    "fis3-hook-node_modules": "^2.3.1",
-    "fis3-parser-typescript": "^1.2.2",
-    "fis3-postpackager-loader": "^2.1.11",
-    "fis3-preprocessor-js-require-css": "^0.1.3",
-    "font-awesome": "4.7.0",
-    "fs-walk": "0.0.2",
-    "highlight.js": "^9.12.0",
-    "husky": "^2.2.0",
-    "jest": "^24.5.0",
-    "jest-canvas-mock": "^2.1.0",
-    "js-yaml": "^3.10.0",
-    "lint-staged": "^8.1.6",
-    "marked": "^0.3.7",
-    "mobx-wiretap": "^0.12.0",
-    "prettier": "1.17.0",
-    "react-frame-component": "^2.0.0",
-    "react-router": "3.2.0",
-    "react-test-renderer": "^16.8.6",
-    "react-testing-library": "6.0.4",
-    "strip-json-comments": "^2.0.1",
-    "ts-jest": "^24.0.0",
-    "typescript": "^3.3.4000"
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "collectCoverageFrom": [
-      "src/**/*"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "transform": {
-      "\\.(ts|tsx)$": "ts-jest"
+    "name": "amis",
+    "version": "1.0.2",
+    "description": "一种MIS页面生成工具",
+    "main": "lib/index.js",
+    "scripts": {
+        "test": "jest",
+        "coverage": "jest  --coverage",
+        "start": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",
+        "stop": "fis3 server stop",
+        "dev": "fis3 release -cwd ./public",
+        "publish2npm": "sh publish.sh && npm publish",
+        "prettier": "prettier --write 'src/**/*.{tsx,ts}'"
     },
-    "setupFiles": [
-      "jest-canvas-mock"
-    ],
-    "testRegex": "/.*\\.test\\.(ts|tsx|js)$",
-    "moduleNameMapper": {
-      "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js"
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/baidu/amis.git"
     },
-    "globals": {
-      "ts-jest": {
-        "diagnostics": false
-      }
+    "keywords": [
+        "react",
+        "amis",
+        "mis",
+        "renderer",
+        "json",
+        "schema"
+    ],
+    "author": "fex",
+    "license": "ISC",
+    "dependencies": {
+        "async": "2.6.0",
+        "autobind-decorator": "2.4.0",
+        "blueimp-canvastoblob": "2.1.0",
+        "classnames": "2.2.5",
+        "dom-helpers": "3.3.1",
+        "downshift": "3.1.4",
+        "echarts": "~4.1.0",
+        "flv.js": "1.5.0",
+        "froala-editor": "2.9.5",
+        "history": "4.7.2",
+        "hls.js": "0.12.2",
+        "hoist-non-react-statics": "3.3.0",
+        "jquery": "^3.2.1",
+        "keycode": "^2.1.9",
+        "match-sorter": "2.2.1",
+        "mobx": "^4.5.0",
+        "mobx-react": "^5.2.5",
+        "mobx-state-tree": "^3.7.0",
+        "moment": "^2.19.3",
+        "monaco-editor": "0.17.1",
+        "prop-types": "^15.6.1",
+        "qrcode.react": "^0.8.0",
+        "qs": "6.5.1",
+        "rc-input-number": "4.4.5",
+        "react": "^16.8.6",
+        "react-addons-update": "15.6.2",
+        "react-overlays": "^0.8.3",
+        "react-color": "2.13.8",
+        "react-cropper": "1.0.0",
+        "react-date-range": "0.9.4",
+        "react-datetime": "2.16.0",
+        "react-dom": "^16.8.6",
+        "react-dropzone": "4.2.1",
+        "react-input-range": "1.2.1",
+        "react-json-tree": "0.11.0",
+        "react-progress-2": "^4.4.2",
+        "react-select": "1.2.1",
+        "react-textarea-autosize": "5.1.0",
+        "react-transition-group": "2.2.1",
+        "react-visibility-sensor": "3.11.0",
+        "setimmediate": "1.0.5",
+        "sortablejs": "1.10.0",
+        "tslib": "^1.10.0",
+        "uncontrollable": "4.1.0",
+        "video-react": "0.9.4",
+        "redux": "^3.7.2"
+    },
+    "devDependencies": {
+        "@types/async": "^2.0.45",
+        "@types/classnames": "^2.2.3",
+        "@types/history": "^4.6.0",
+        "@types/hoist-non-react-statics": "^3.0.1",
+        "@types/jest": "^24.0.11",
+        "@types/jquery": "^3.3.1",
+        "@types/lodash": "^4.14.76",
+        "@types/node": "^12.7.1",
+        "@types/pretty-bytes": "^4.0.0",
+        "@types/prop-types": "^15.5.2",
+        "@types/qs": "^6.5.1",
+        "@types/react": "^16.8.1",
+        "@types/react-addons-update": "^0.14.19",
+        "@types/react-color": "^2.13.3",
+        "@types/react-cropper": "^0.10.1",
+        "@types/react-dom": "^16.0.7",
+        "@types/react-dropzone": "^4.1.0",
+        "@types/react-json-tree": "^0.6.6",
+        "@types/react-onclickoutside": "^6.0.2",
+        "@types/react-overlays": "^0.6.9",
+        "@types/react-router": "^4.0.16",
+        "@types/react-select": "^1.0.59",
+        "@types/react-test-renderer": "^16.8.1",
+        "@types/react-transition-group": "^2.0.6",
+        "@types/sortablejs": "^1.3.32",
+        "@types/whatwg-fetch": "0.0.33",
+        "animate.css": "3.5.2",
+        "axios": "0.18.1",
+        "bce-sdk-js": "^0.2.9",
+        "bootstrap": "3.4.1",
+        "copy-to-clipboard": "3.0.8",
+        "css": "2.2.1",
+        "es6-symbol": "3.1.1",
+        "faker": "^4.1.0",
+        "fis-parser-node-sass": "^1.0.5",
+        "fis-parser-svgr": "^1.0.0",
+        "fis3": "^3.4.41",
+        "fis3-hook-commonjs": "^0.1.31",
+        "fis3-hook-node_modules": "^2.3.1",
+        "fis3-parser-typescript": "^1.2.2",
+        "fis3-postpackager-loader": "^2.1.11",
+        "fis3-preprocessor-js-require-css": "^0.1.3",
+        "font-awesome": "4.7.0",
+        "fs-walk": "0.0.2",
+        "highlight.js": "^9.12.0",
+        "husky": "^2.2.0",
+        "jest": "^24.5.0",
+        "jest-canvas-mock": "^2.1.0",
+        "js-yaml": "^3.10.0",
+        "lint-staged": "^8.1.6",
+        "marked": "^0.3.7",
+        "mobx-wiretap": "^0.12.0",
+        "prettier": "1.17.0",
+        "react-frame-component": "^2.0.0",
+        "react-router": "3.2.0",
+        "react-test-renderer": "^16.8.6",
+        "react-testing-library": "6.0.4",
+        "strip-json-comments": "^2.0.1",
+        "ts-jest": "^24.0.0",
+        "typescript": "^3.3.4000"
+    },
+    "jest": {
+        "testEnvironment": "jsdom",
+        "collectCoverageFrom": [
+            "src/**/*"
+        ],
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js"
+        ],
+        "transform": {
+            "\\.(ts|tsx)$": "ts-jest"
+        },
+        "setupFiles": [
+            "jest-canvas-mock"
+        ],
+        "testRegex": "/.*\\.test\\.(ts|tsx|js)$",
+        "moduleNameMapper": {
+            "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js"
+        },
+        "globals": {
+            "ts-jest": {
+                "diagnostics": false
+            }
+        }
+    },
+    "_husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,ts,tsx,jsx,css,less,md}": [
+            "prettier --write",
+            "git add"
+        ]
     }
-  },
-  "_husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx,jsx,css,less,md}": [
-      "prettier --write",
-      "git add"
-    ]
-  }
 }
