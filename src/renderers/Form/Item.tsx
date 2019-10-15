@@ -420,7 +420,7 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
                         : null}
 
                     {model && !model.valid ? (
-                        <ul className={cx(`Form-value`)}>
+                        <ul className={cx(`Form-feedback`)}>
                             {model.errors.map((msg: string, key: number) => (
                                 <li key={key}>{msg}</li>
                             ))}
@@ -588,7 +588,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
             'onChange',
             'setPrinstineValue',
             'readOnly',
-            ...(Control as any).propsList || []
+            ...((Control as any).propsList || [])
         ];
 
         static displayName = `FormItem${config.type ? `(${config.type})` : ''}`;
