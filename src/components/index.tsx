@@ -37,11 +37,13 @@ import {default as ToastComponent, toast} from './Toast';
 import Tooltip from './Tooltip';
 import TooltipWrapper from './TooltipWrapper';
 import Tree from './Tree';
+import Alert2 from './Alert2';
 
 export {
     NotFound,
     Alert as AlertComponent,
     alert,
+    Alert2,
     confirm,
     AsideNav,
     Button,
