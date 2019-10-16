@@ -54,7 +54,7 @@ export class ServiceRenderer extends BasicService {
             renderFormItems
         ) {
             return (
-                <div className={cx(`Form--${formMode || 'normal'}`)}>
+                <div key={store.schemaKey || 'forms'} className={cx(`Form--${formMode || 'normal'}`)}>
                     {renderFormItems(finnalSchema, 'controls', {
                         store,
                         data: store.data,
