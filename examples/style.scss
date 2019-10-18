@@ -3,17 +3,20 @@
 @import '../scss/variables';
 
 
-.page-play, .page-edit {
+.page-play,
+.page-edit {
     &:before {
         display: table;
         content: " ";
     }
+
     &:after {
         clear: both;
         display: block;
         content: "";
         height: 0;
     }
+
     .app-content {
         position: absolute;
         top: 50px;
@@ -22,35 +25,36 @@
         left: 0;
         right: 0;
     }
+
     .app-content-body {
         height: 100%;
     }
 }
 
 .resizer {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin-left: -2px;
-  width: 4px;
-  background: lighten($dark, 20%);
-  z-index: 1;
-  cursor: col-resize;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -2px;
+    width: 4px;
+    background: lighten($dark, 20%);
+    z-index: 1;
+    cursor: col-resize;
 
-  &:hover {
-    background: $dark;
-  }
+    &:hover {
+        background: $dark;
+    }
 }
 
 .doc-shcema-preview-popover {
     box-shadow: none;
     margin-top: -1px;
-    padding: 0 45px;
-    left: 0!important;
+    padding: 0 45px !important;
+    left: 0 !important;
     width: 100%;
     max-width: 980px;
     z-index: 1;
-    background: transparent;
+    background: transparent !important;
     border: none;
 
     .doc-schema-preview {
@@ -69,7 +73,7 @@
 //     right: 175px;
 // }
 
-.amis-schema-editor.fix-settings .amis-schema-editor-settings-inner .amis-schema-editor-config-tab > .tab-content,
-.amis-schema-editor.fix-settings .amis-schema-editor-settings-inner .amis-schema-editor-code-tab > .tab-content {
+.amis-schema-editor.fix-settings .amis-schema-editor-settings-inner .amis-schema-editor-config-tab>.tab-content,
+.amis-schema-editor.fix-settings .amis-schema-editor-settings-inner .amis-schema-editor-code-tab>.tab-content {
     bottom: 50px;
 }
