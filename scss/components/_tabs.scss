@@ -105,6 +105,12 @@
                     }
                 }
 
+                &:last-child {
+                    > a {
+                        margin: 0;
+                    }
+                }
+
                 &.is-active {
                     > a:first-child,
                     > a:first-child:hover,

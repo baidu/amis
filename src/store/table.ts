@@ -3,7 +3,7 @@ import {iRendererStore} from './iRenderer';
 import {resolveVariable} from '../utils/tpl-builtin';
 import isEqual = require('lodash/isEqual');
 import find = require('lodash/find');
-import {isBreakpoint, createObject, isObject, isVisible, guid, findTree, flattenTree, eachTree} from '../utils/helper';
+import {isBreakpoint, createObject, isObject, isVisible, guid, findTree, flattenTree, eachTree, difference} from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 
 export const Column = types
@@ -235,8 +235,19 @@ export const TableStore = iRendererStore
             return getToggableColumns().filter(item => item.toggled);
         }
 
-        function getModifiedRows() {
-            return self.rows.filter(item => item.modified);
+        function getModifiedRows(rows:IRow[] = [], modifiedRows:IRow[] = []) {
+            rows = rows && rows.length ? rows : self.rows;
+            rows.forEach((item:IRow) => {
+                if (item.children && item.children.length) {
+                    getModifiedRows(item.children, modifiedRows);
+                }
+                let diff = difference(item.data, item.pristine);
+                let hasDifference = Object.keys(diff).length;
+                if (hasDifference) {
+                    modifiedRows.push(item);
+                }
+            });
+            return modifiedRows;
         }
 
         function getModified() {
