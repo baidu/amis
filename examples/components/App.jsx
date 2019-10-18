@@ -527,11 +527,6 @@ function isActive(link, location) {
 
 const themes = [
     {
-        label: 'Dark',
-        ns: 'dark-',
-        value: 'dark'
-    },
-    {
         label: '默认主题',
         ns: 'a-',
         value: 'default'
@@ -541,6 +536,11 @@ const themes = [
         label: '百度云舍',
         ns: 'cxd-',
         value: 'cxd'
+    },
+    {
+        label: 'Dark',
+        ns: 'dark-',
+        value: 'dark'
     }
 ];
 
