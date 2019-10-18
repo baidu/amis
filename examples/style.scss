@@ -47,15 +47,15 @@
 }
 
 .doc-shcema-preview-popover {
-    box-shadow: none;
-    margin-top: -1px;
+    box-shadow: none !important;
+    margin-top: -1px !important;
     padding: 0 45px !important;
     left: 0 !important;
-    width: 100%;
-    max-width: 980px;
-    z-index: 1;
+    width: 100% !important;
+    max-width: 980px !important;
+    z-index: 1 !important;
     background: transparent !important;
-    border: none;
+    border: none !important;
 
     .doc-schema-preview {
         border: 1px solid #ddd;
