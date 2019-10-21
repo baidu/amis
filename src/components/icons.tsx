@@ -33,6 +33,12 @@ import PlusIcon from '../icons/plus.svg';
 import MinusIcon from '../icons/minus.svg';
 // @ts-ignore
 import PencilIcon from '../icons/pencil.svg';
+// @ts-ignore
+import ViewIcon from '../icons/view.svg';
+// @ts-ignore
+import RemoveIcon from '../icons/remove.svg';
+// @ts-ignore
+import RetryIcon from '../icons/retry.svg';
 
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
@@ -82,6 +88,9 @@ registerIcon('check', CheckIcon);
 registerIcon('plus', PlusIcon);
 registerIcon('minus', MinusIcon);
 registerIcon('pencil', PencilIcon);
+registerIcon('view', ViewIcon);
+registerIcon('remove', RemoveIcon);
+registerIcon('retry', RetryIcon);
 
 export function Icon({
     icon,
