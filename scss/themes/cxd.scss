@@ -98,8 +98,7 @@ $Form-select-caret-onHover-iconColor: $primary;
 $Form-select-caret-fontSize: px2rem(12px);
 $Form-select-outer-borderWidth: 0;
 $Form-select-outer-top: px2rem(32px);
-$Form-select-outer-boxShadow: px2rem(2px) px2rem(4px) px2rem(8px)
-    rgba(0, 0, 0, 0.2);
+$Form-select-outer-boxShadow: px2rem(2px) px2rem(4px) px2rem(8px) rgba(0, 0, 0, 0.2);
 $Form-select-menu-color: #333;
 $Form-select-menu-onHover-color: #000;
 $Form-select-menu-onHover-bg: #eaf6fe;
@@ -288,6 +287,20 @@ $ListControl-item-onDisabled-bg: #f5f5f5;
 $ListControl-item-onDisabled-color: #999;
 $ListControl-item-onDisabled-borderColor: #ebebeb;
 
+// 图片上传
+$ImageControl-addBtn-bg: #fff;
+$ImageControl-addBtn-border: px2rem(1px) solid #dbdbdb;
+$ImageControl-addBtn-color: #666;
+$ImageControl-addBtn-onHover-bg: $ImageControl-addBtn-bg;
+$ImageControl-addBtn-onHover-border: $primary;
+$ImageControl-addBtn-onHover-color: $primary;
+$ImageControl-addBtn-onActive-bg: #f3f9fe;
+$ImageControl-addBtn-onActive-border: $primary;
+$ImageControl-addBtn-onActive-color: $primary;
+$ImageControl-addBtn-onDisabled-bg: #f5f5f5;
+$ImageControl-addBtn-onDisabled-border: #ebebeb;
+$ImageControl-addBtn-onDisabled-color: #ccc;
+
 // Modal
 $Modal-overlay-bg: rgba(0, 0, 0, 0.7);
 $Modal-content-borderWidth: 0;
@@ -350,7 +363,7 @@ $Pagination-onActive-border: px2rem(1px) solid $primary;
 
 // Panel
 $Panel-borderRadius: 0;
-$Panel-fixedBottom-boxShadow: 0 -2px 10px 0 rgba(0,0,0,0.05);
+$Panel-fixedBottom-boxShadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.05);
 
 // Nav
 $Nav-item-fontSize: px2rem(16px);
