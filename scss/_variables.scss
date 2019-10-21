@@ -35,10 +35,28 @@ $dark: $gray800 !default;
 $remFactor: 16px !default;
 
 // 字体相关
-$fontFamilySansSerif: -apple-system, BlinkMacSystemFont, 'SF Pro SC', 'SF Pro Text', 'Helvetica Neue', Helvetica,
-    'PingFang SC', 'Segoe UI', Roboto, 'Hiragino Sans GB', 'Arial', 'microsoft yahei ui', 'Microsoft YaHei', SimSun,
-    sans-serif !default;
-$fontFamilyMonospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !default;
+$fontFamilySansSerif: -apple-system,
+BlinkMacSystemFont,
+'SF Pro SC',
+'SF Pro Text',
+'Helvetica Neue',
+Helvetica,
+'PingFang SC',
+'Segoe UI',
+Roboto,
+'Hiragino Sans GB',
+'Arial',
+'microsoft yahei ui',
+'Microsoft YaHei',
+SimSun,
+sans-serif !default;
+$fontFamilyMonospace: SFMono-Regular,
+Menlo,
+Monaco,
+Consolas,
+'Liberation Mono',
+'Courier New',
+monospace !default;
 $fontFamilyBase: $fontFamilySansSerif !default;
 
 $fontSizeBase: px2rem(14px) !default; // Assumes the browser default, typically `16px`
@@ -81,13 +99,11 @@ $boxShadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
 $boxShadowLg: 0 1rem 3rem rgba($black, 0.175) !default;
 
 // 窗口适配
-$breakpoints: (
-    xs: 0,
+$breakpoints: (xs: 0,
     sm: 576px,
     md: 768px,
     lg: 992px,
-    xl: 1200px
-) !default;
+    xl: 1200px) !default;
 
 // 段落间距
 $paragraph-marginBottom: 1rem !default;
@@ -166,7 +182,8 @@ $Layout-brand-color: lighten($Layout-brandBar-color, 25%) !default;
 $Layout-header-height: px2rem(50px) !default;
 $Layout-headerBar-borderBottom: none !default;
 $Layout-header-bg: $white !default;
-$Layout-header-boxShadow: 0 px2rem(2px) px2rem(2px) rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05) !default;
+$Layout-header-boxShadow: 0 px2rem(2px) px2rem(2px) rgba(0, 0, 0, 0.05),
+0 1px 0 rgba(0, 0, 0, 0.05) !default;
 $Layout-nav-height: px2rem(40px) !default;
 $Layout-nav-lgHeight: px2rem(50px) !default;
 $Layout-nav--folded-height: px2rem(50px) !default;
@@ -376,7 +393,8 @@ $Tabs--line-borderWidth: px2rem(2px) !default;
 $Tabs--line-linkPadding: 10px 0 !default;
 $Tabs--line-linkMargin: 0 40px 0 0 !default;
 $Tabs--line-content-bg: transparent !default;
-$Tabs--line-content-padding: 20px 0 !default;;
+$Tabs--line-content-padding: 20px 0 !default;
+;
 
 $Tabs--card-padding: px2rem(6px) 0 0 px2rem(10px);
 $Tabs--card-bg: darken($body-bg, 5%) !default;
@@ -737,7 +755,8 @@ $Button--lg-lineHeight: 24 / 20 !default;
 $Button--lg-paddingX: px2rem(16px) !default;
 $Button--lg-paddingY: ($Button--lg-height - $Button-borderWidth * 2 - $Button--lg-lineHeight * $Button--lg-fontSize)/2 !default;
 
-$Button-boxShadow: inset 0 1px 0 rgba($white, 0.15), 0 1px 1px rgba($black, 0.075) !default;
+$Button-boxShadow: inset 0 1px 0 rgba($white, 0.15),
+0 1px 1px rgba($black, 0.075) !default;
 $Button-onFocus-boxShadow: none !default;
 $Button-onActive-boxShadow: inset 0 3px 5px rgba($black, 0.125) !default;
 $Button-onDisabled-opacity: 0.65 !default;
@@ -749,8 +768,10 @@ $Button-borderRadius: $borderRadius !default;
 $Button--lg-borderRadius: $borderRadius !default;
 $Button--sm-borderRadius: $borderRadius !default;
 
-$Button-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out !default;
+$Button-transition: color 0.15s ease-in-out,
+background-color 0.15s ease-in-out,
+border-color 0.15s ease-in-out,
+box-shadow 0.15s ease-in-out !default;
 
 $Button--primary-bg: $primary !default;
 $Button--primary-border: $Button--primary-bg !default;
@@ -908,8 +929,7 @@ $ColorPicker-height: $Form-input-height !default;
 $ColorPicker-lineHeight: $Form-input-lineHeight !default;
 $ColorPicker-fontSize: $Form-input-fontSize !default;
 $ColorPicker-paddingX: px2rem(12px) !default;
-$ColorPicker-paddingY: ($ColorPicker-height - $ColorPicker-lineHeight * $ColorPicker-fontSize)/2 -
-    $ColorPicker-borderWidth !default;
+$ColorPicker-paddingY: ($ColorPicker-height - $ColorPicker-lineHeight * $ColorPicker-fontSize)/2 - $ColorPicker-borderWidth !default;
 $ColorPicker-placeholderColor: $Form-input-placeholderColor !default;
 $ColorPicker-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
 $DatePicker-onHover-borderColor: $Form-input-borderColor !default;
@@ -1039,9 +1059,7 @@ $Combo-addBtn-borderRadius: $Button-borderRadius;
 $Combo-addBtn-height: px2rem(26px) !default;
 $Combo-addBtn-lineHeight: $Button--sm-lineHeight !default;
 $Combo-addBtn-paddingX: $Button--sm-paddingX !default;
-$Combo-addBtn-paddingY: (
-        $Combo-addBtn-height - $Button-borderWidth * 2 - $Combo-addBtn-lineHeight * $Combo-addBtn-fontSize
-    )/2 !default;
+$Combo-addBtn-paddingY: ($Combo-addBtn-height - $Button-borderWidth * 2 - $Combo-addBtn-lineHeight * $Combo-addBtn-fontSize)/2 !default;
 
 $Combo--vertical-item-gap: px2rem(5px);
 $Combo--vertical-item-borderColor: $borderColor !default;
@@ -1080,9 +1098,7 @@ $SubForm--addBtn-borderRadius: $Button-borderRadius;
 $SubForm--addBtn-height: $Button--sm-height !default;
 $SubForm--addBtn-lineHeight: $Button--sm-lineHeight !default;
 $SubForm--addBtn-paddingX: $Button--sm-paddingX !default;
-$SubForm--addBtn-paddingY: (
-        $SubForm--addBtn-height - $Button-borderWidth * 2 - $SubForm--addBtn-lineHeight * $SubForm--addBtn-fontSize
-    )/2 !default;
+$SubForm--addBtn-paddingY: ($SubForm--addBtn-height - $Button-borderWidth * 2 - $SubForm--addBtn-lineHeight * $SubForm--addBtn-fontSize)/2 !default;
 
 // InputRange
 $InputRange-fontFamily: $fontFamilyBase !default;
@@ -1095,11 +1111,11 @@ $InputRange-onDisabled-color: #cccccc !default;
 $InputRange-slider-bg: $InputRange-primaryColor !default;
 $InputRange-slider-border: px2rem(1px) solid $InputRange-primaryColor !default;
 $InputRange-slider-onFocus-borderRadius: $borderRadiusMd !default;
-$InputRange-slider-onFocus-boxShadow: 0 0 0 $InputRange-slider-onFocus-borderRadius
-    transparentize($InputRange-slider-bg, 0.8) !default;
+$InputRange-slider-onFocus-boxShadow: 0 0 0 $InputRange-slider-onFocus-borderRadius transparentize($InputRange-slider-bg, 0.8) !default;
 $InputRange-slider-height: px2rem(24px) !default;
 $InputRange-slider-width: px2rem(18px) !default;
-$InputRange-slider-transition: transform 0.3s ease-out, box-shadow 0.3s ease-out !default;
+$InputRange-slider-transition: transform 0.3s ease-out,
+box-shadow 0.3s ease-out !default;
 $InputRange-sliderContainer-transition: left 0.3s ease-out !default;
 $InputRange-slider-onActive-transform: scale(1.3) !default;
 $InputRange-slider-onDisabled-bg: $InputRange-onDisabled-color !default;
@@ -1115,9 +1131,25 @@ $InputRange-label--value-positionTop: px2rem(-40px) !default;
 // input-range-track
 $InputRange-track-bg: $InputRange-neutralLightColor !default;
 $InputRange-track-height: px2rem(12px) !default;
-$InputRange-track-transition: left 0.3s ease-out, width 0.3s ease-out !default;
+$InputRange-track-transition: left 0.3s ease-out,
+width 0.3s ease-out !default;
 $InputRange-track-onActive-bg: $InputRange-primaryColor !default;
 $InputRange-track-onDisabled-bg: $InputRange-neutralLightColor !default;
+
+// ImageControl
+$ImageControl-addBtn-bg: $Button--default-bg !default;
+$ImageControl-addBtn-border: $Button--default-border !default;
+$ImageControl-addBtn-color: $Button--default-color !default;
+$ImageControl-addBtn-onHover-bg: darken($ImageControl-addBtn-bg, 7.5%) !default;
+$ImageControl-addBtn-onHover-border: darken($ImageControl-addBtn-border, 10%) !default;
+$ImageControl-addBtn-onHover-color: $Button--default-color !default;
+$ImageControl-addBtn-onActive-bg: darken($ImageControl-addBtn-bg, 10%) !default;
+$ImageControl-addBtn-onActive-border: darken($ImageControl-addBtn-border, 12.5%) !default;
+$ImageControl-addBtn-onActive-color: $ImageControl-addBtn-color !default;
+$ImageControl-addBtn-onDisabled-bg: $Form-input-onDisabled-bg !default;
+$ImageControl-addBtn-onDisabled-border: $Form-input-onDisabled-borderColor !default;
+$ImageControl-addBtn-onDisabled-color: $text--muted-color !default;
+
 
 // Tag
 $TagControl-sugTip-color: $info !default;
@@ -1138,10 +1170,7 @@ $TagControl-sugBtn-borderRadius: $Button-borderRadius !default;
 $TagControl-sugBtn-height: $Button--sm-height !default;
 $TagControl-sugBtn-lineHeight: $Button--sm-lineHeight !default;
 $TagControl-sugBtn-paddingX: $Button--sm-paddingX !default;
-$TagControl-sugBtn-paddingY: (
-        $TagControl-sugBtn-height - $Button-borderWidth * 2 - $TagControl-sugBtn-lineHeight *
-            $TagControl-sugBtn-fontSize
-    )/2 !default;
+$TagControl-sugBtn-paddingY: ($TagControl-sugBtn-height - $Button-borderWidth * 2 - $TagControl-sugBtn-lineHeight * $TagControl-sugBtn-fontSize)/2 !default;
 
 // Wizard
 $Wizard-steps-bg: $gray100 !default;

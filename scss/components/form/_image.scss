@@ -1,8 +1,178 @@
-// todo
-
 .#{$ns}ImageControl {
     outline: none;
+
+    &-addBtn {
+        margin: 0;
+        width: px2rem(120px);
+        height: px2rem(120px);
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border: $borderWidth solid $borderColor;
+        cursor: pointer;
+
+        @include button-variant($ImageControl-addBtn-bg,
+            $ImageControl-addBtn-border,
+            $ImageControl-addBtn-color,
+            $ImageControl-addBtn-onHover-bg,
+            $ImageControl-addBtn-onHover-border,
+            $ImageControl-addBtn-onHover-color,
+            $ImageControl-addBtn-onActive-bg,
+            $ImageControl-addBtn-onActive-border,
+            $ImageControl-addBtn-onActive-color);
+
+        >svg {
+            width: px2rem(50px);
+            height: px2rem(50px);
+            top: 0;
+        }
+
+        &.is-disabled {
+            pointer-events: none;
+            border: px2rem(1px) solid $ImageControl-addBtn-onDisabled-border;
+            background: $ImageControl-addBtn-onDisabled-bg;
+            color: $ImageControl-addBtn-onDisabled-color;
+        }
+    }
+
+    &-item {
+        border: $borderWidth solid $borderColor;
+        vertical-align: top;
+        padding: px2rem(5px);
+        display: inline-block;
+        margin-right: px2rem(15px);
+        margin-right: px2rem(15px);
+        position: relative;
+    }
+
+    &-itemImageWrap {
+        width: px2rem(108px);
+        height: px2rem(108px);
+        overflow: hidden;
+        position: relative;
+
+        >img {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 100%;
+            width: auto;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    &-itemOverlay {
+        background: rgba(0, 0, 0, 0.6);
+        position: absolute;
+        width: px2rem(108px);
+        height: px2rem(108px);
+        display: none;
+        top: px2rem(5px);
+        left: px2rem(5px);
+
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap;
+        color: #fff;
+
+        >div {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        >a {
+            cursor: pointer;
+            color: #fff;
+            display: inline-block;
+            padding: 0 5px;
+            line-height: 1;
+            font-size: px2rem(16px);
+        }
+    }
+
+    &-item:hover &-itemOverlay {
+        display: flex;
+    }
+
+    &-itemClear {
+        position: absolute;
+        cursor: pointer;
+
+        color: #999;
+        top: 5px;
+        right: 5px;
+        line-height: 1;
+
+        >svg {
+            top: 0;
+            width: 10px;
+            height: 10px;
+        }
+    }
+
+    &-itemInfo {
+        display: inline-flex;
+        width: 110px;
+        height: 110px;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap;
+
+        >p {
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+    }
+
+    &-progress {
+        width: 70px;
+        height: 5px;
+        background: #ebebeb;
+    }
+
+    &-progressValue {
+        height: 5px;
+        display: block;
+        background: $info;
+        min-width: 10%;
+        transition: ease-out width 0.3s;
+    }
+
+    &-retryBtn {
+        margin: 0;
+        width: px2rem(108px);
+        height: px2rem(108px);
+        display: inline-flex;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap;
+        color: #666;
+
+        &:hover {
+            color: #333;
+            text-decoration: none;
+        }
+
+
+
+        >p {
+            width: 100%;
+            text-align: center;
+            color: $danger;
+            margin: 10px 0 0;
+        }
+    }
 }
+
+
+// todo
 
 .drop-zone {
     border: $Form-input-borderWidth * 2 dashed $Form-input-borderColor;
@@ -14,7 +184,7 @@
     position: relative;
     cursor: pointer;
 
-    > div:not(.image-list) {
+    >div:not(.image-list) {
         display: table-cell;
         vertical-align: middle;
     }
@@ -99,8 +269,8 @@
             align-content: center;
             padding: 10px;
 
-            > a,
-            > button {
+            >a,
+            >button {
                 flex: 1;
                 outline: none;
                 display: flex;
@@ -181,6 +351,7 @@
 }
 
 @media (min-width: 768px) {
+
     .amis-image-control.form-contorl-inline,
     .form-group-inline .amis-image-control {
         display: inline-block;
