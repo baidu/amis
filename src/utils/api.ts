@@ -3,7 +3,7 @@ import {fetcherConfig} from '../factory';
 import {tokenize, dataMapping} from './tpl-builtin';
 import qs from 'qs';
 import {evalExpression} from './tpl';
-import {isObject, isObjectShallowModified, hasFile, object2formData} from './helper';
+import {isObject, isObjectShallowModified, hasFile, object2formData, qsstringify} from './helper';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
 
@@ -81,9 +81,9 @@ export function buildApi(
                     ...qs.parse(api.url.substring(idx + 1)),
                     ...api.data
                 };
-                api.url = api.url.substring(0, idx) + '?' + qs.stringify(params);
+                api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
             } else {
-                api.url += '?' + qs.stringify(api.data);
+                api.url += '?' + qsstringify(api.data);
             }
             delete api.data;
         }

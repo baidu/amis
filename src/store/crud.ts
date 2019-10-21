@@ -1,7 +1,7 @@
 import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree';
 import {IRendererStore} from './index';
 import {ServiceStore} from './service';
-import {extendObject, createObject, isObjectShallowModified, sortArray, isEmpty} from '../utils/helper';
+import {extendObject, createObject, isObjectShallowModified, sortArray, isEmpty, qsstringify} from '../utils/helper';
 import {Api, Payload, fetchOptions, Action} from '../types';
 import qs from 'qs';
 import pick = require('lodash/pick');
@@ -91,7 +91,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
             updater &&
                 isObjectShallowModified(originQuery, self.query, false) &&
-                setTimeout(() => updater(`?${qs.stringify(self.query, {encodeValuesOnly: true})}`), 4);
+                setTimeout(() => updater(`?${qsstringify(self.query)}`), 4);
         }
 
         const fetchInitData: (
