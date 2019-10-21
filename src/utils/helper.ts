@@ -777,14 +777,25 @@ export function hasFile(object: any): boolean {
     });
 }
 
+export function qsstringify(
+    data: any,
+    options: any = {
+        arrayFormat: 'brackets',
+        encodeValuesOnly: true
+    }
+) {
+    return qs.stringify(data, options);
+}
+
 export function object2formData(
     data: any,
     options: any = {
-        arrayForamt: 'brackets'
-    }
+        arrayFormat: 'brackets',
+        encodeValuesOnly: true
+    },
+    fd: FormData = new FormData()
 ): any {
     let others: any = {};
-    const fd = new FormData();
     Object.keys(data).forEach(key => {
         const value = data[key];
 
@@ -798,7 +809,7 @@ export function object2formData(
     });
 
     // 因为 key 的格式太多了，偷个懒，用 qs 来处理吧。
-    qs.stringify(others, options)
+    qsstringify(others, options)
         .split('&')
         .forEach(item => {
             let parts = item.split('=');

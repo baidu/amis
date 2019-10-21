@@ -9,6 +9,7 @@ import ImageControl from './Image';
 import {Payload} from '../../types';
 import {filter} from '../../utils/tpl';
 import Alert from '../../components/Alert2';
+import {qsstringify} from '../../utils/helper';
 
 export interface FileProps extends FormControlProps {
     btnClassName: string;
@@ -493,9 +494,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 ...qs.parse(reciever.substring(idx + 1)),
                 ...params
             };
-            reciever = reciever.substring(0, idx) + '?' + qs.stringify(params);
+            reciever = reciever.substring(0, idx) + '?' + qsstringify(params);
         } else if (params) {
-            reciever += '?' + qs.stringify(params);
+            reciever += '?' + qsstringify(params);
         }
 
         return this._send(reciever, fd, {
