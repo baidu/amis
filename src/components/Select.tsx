@@ -625,7 +625,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                         >
                             <div className={cx(`Select-valueWrap`)}>
                                 {this.renderValue(options)}
-                                {searchable ? (
+                                {searchable && !disabled ? (
                                     <input
                                         {...getInputProps({
                                             className: cx(`Select-input`),
