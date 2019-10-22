@@ -35,6 +35,12 @@
         }
     }
 
+    &-dropzone.is-active &-addBtn {
+        border-color: $ImageControl-addBtn-onHover-border;
+        background: $ImageControl-addBtn-onHover-bg;
+        color: $ImageControl-addBtn-onHover-color;
+    }
+
     &-item {
         border: $borderWidth solid $borderColor;
         vertical-align: top;
@@ -173,6 +179,10 @@
     &-errorMsg {
         color: $danger;
         margin: 5px 0 0;
+    }
+
+    &-uploadBtn {
+        margin-top: 5px;
     }
 }
 
