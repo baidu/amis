@@ -200,27 +200,20 @@ export function registerOptionsControl(config: OptionsConfig) {
         normalizeValue() {
             const {joinValues, extractValue, value, multiple, formItem, valueField} = this.props;
 
-            if (
-                formItem &&
-                joinValues === false &&
-                extractValue === false &&
-                (typeof value === 'string' || typeof value === 'number') &&
-                formItem.options.length
-            ) {
-                formItem.changeValue(multiple ? formItem.selectedOptions.concat() : formItem.selectedOptions[0]);
+            if (!formItem || joinValues !== false || !formItem.options.length) {
+                return;
             }
 
-            if (
-                formItem &&
-                joinValues === false &&
+            if (extractValue === false && (typeof value === 'string' || typeof value === 'number')) {
+                formItem.changeValue(multiple ? formItem.selectedOptions.concat() : formItem.selectedOptions[0]);
+            } else if (
                 extractValue === true &&
                 value &&
                 !(
                     (Array.isArray(value) && value.every(val => typeof val === 'string' || typeof val === 'number')) ||
                     typeof value === 'string' ||
                     typeof value === 'number'
-                ) &&
-                formItem.options.length
+                )
             ) {
                 const selectedOptions = formItem.selectedOptions.map(
                     (selectedOption: Option) => selectedOption[valueField || 'value']
