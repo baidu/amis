@@ -842,10 +842,10 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                                       key={file.id || key}
                                       className={cx('ImageControl-item', {
                                           'is-uploaded': file.state !== 'uploading',
-                                          'is-invalid': file.state === 'error' || file.state == 'invalid'
+                                          'is-invalid': file.state === 'error' || file.state === 'invalid'
                                       })}
                                   >
-                                      {file.error ? (
+                                      {file.state === 'invalid' || file.state === 'error' ? (
                                           <a
                                               className={cx('ImageControl-retryBtn', {'is-disabled': disabled})}
                                               onClick={this.handleSelect}
@@ -959,6 +959,8 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                         {uploading ? '暂停上传' : '开始上传'}
                     </button>
                 ) : null}
+
+                {error ? <div className={cx('ImageControl-errorMsg')}>{error}</div> : null}
             </div>
         );
     }
