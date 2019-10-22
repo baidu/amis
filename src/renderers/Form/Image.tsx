@@ -216,7 +216,8 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                         if (obj && (org = find(this.state.files, item => (item as FileValue).value === obj.value))) {
                             obj = {
                                 ...org,
-                                ...obj
+                                ...obj,
+                                id: org.id || obj.id
                             };
                         }
 
