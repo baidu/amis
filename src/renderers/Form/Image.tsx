@@ -12,6 +12,7 @@ import {Switch} from '../../components';
 import {buildApi} from '../../utils/api';
 import {createObject, qsstringify} from '../../utils/helper';
 import {Icon} from '../../components/icons';
+import Button from '../../components/Button';
 
 let id = 1;
 function gennerateId() {
@@ -939,7 +940,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                                 className={cx('ImageControl-addBtn', {'is-disabled': disabled})}
                                 onClick={this.handleSelect}
                                 data-tooltip={placeholder}
-                                data-position="bottom"
+                                data-position="right"
                             >
                                 <Icon icon="plus" className="icon" />
                             </label>
@@ -950,14 +951,14 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                 {this.renderCompressOptions()}
 
                 {!autoUpload && !hideUploadButton && files.length ? (
-                    <button
-                        type="button"
-                        className={cx('btn m-r-xs', btnUploadClassName)}
+                    <Button
+                        level="default"
+                        className={cx('ImageControl-uploadBtn', btnUploadClassName)}
                         disabled={!hasPending}
                         onClick={this.toggleUpload}
                     >
                         {uploading ? '暂停上传' : '开始上传'}
-                    </button>
+                    </Button>
                 ) : null}
 
                 {error ? <div className={cx('ImageControl-errorMsg')}>{error}</div> : null}
