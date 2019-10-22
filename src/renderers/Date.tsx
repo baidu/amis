@@ -16,7 +16,7 @@ export interface DateState {
 }
 
 export class DateField extends React.Component<DateProps, DateState> {
-    refreshInterval: number;
+    refreshInterval: NodeJS.Timeout;
 
     static defaultProps: Partial<DateProps> = {
         placeholder: '-',

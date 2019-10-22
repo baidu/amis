@@ -1,189 +1,187 @@
-// todo
-
 .#{$ns}ImageControl {
     outline: none;
-}
 
-.drop-zone {
-    border: $Form-input-borderWidth * 2 dashed $Form-input-borderColor;
-    height: 70px;
-    text-align: center;
-    display: table;
-    width: 100%;
-    color: $text--muted-color;
-    position: relative;
-    cursor: pointer;
+    &-addBtn {
+        margin: 0;
+        width: px2rem(120px);
+        height: px2rem(120px);
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border: $borderWidth solid $borderColor;
+        cursor: pointer;
 
-    > div:not(.image-list) {
-        display: table-cell;
-        vertical-align: middle;
+        @include button-variant($ImageControl-addBtn-bg,
+            $ImageControl-addBtn-border,
+            $ImageControl-addBtn-color,
+            $ImageControl-addBtn-onHover-bg,
+            $ImageControl-addBtn-onHover-border,
+            $ImageControl-addBtn-onHover-color,
+            $ImageControl-addBtn-onActive-bg,
+            $ImageControl-addBtn-onActive-border,
+            $ImageControl-addBtn-onActive-color);
+
+        >svg {
+            width: px2rem(50px);
+            height: px2rem(50px);
+            top: 0;
+        }
+
+        &.is-disabled {
+            pointer-events: none;
+            border: px2rem(1px) solid $ImageControl-addBtn-onDisabled-border;
+            background: $ImageControl-addBtn-onDisabled-bg;
+            color: $ImageControl-addBtn-onDisabled-color;
+        }
     }
 
-    &.has-files {
-        cursor: default;
-        border: 2px dashed transparent;
+    &-dropzone.is-active &-addBtn {
+        border-color: $ImageControl-addBtn-onHover-border;
+        background: $ImageControl-addBtn-onHover-bg;
+        color: $ImageControl-addBtn-onHover-color;
     }
-}
 
-.drop-zone-wrapper:focus .drop-zone:not(.disabled) {
-    color: $text-color;
-    border: $Form-input-borderWidth * 2 dashed $Form-input-onFocused-borderColor;
-    height: 90px;
-    padding-bottom: 20px;
-    margin-bottom: 10px;
-
-    &:after {
-        content: "温馨提示：当前状态可以粘贴剪切板中的文件。如截屏";
-        position: absolute;
-        left: 10px;
-        bottom: 3px;
-        color: $text--muted-color;
-        font-size: $fontSizeSm;
-        overflow: hidden;
-        right: 0;
-        text-overflow: ellipsis;
-        background-color: white;
-    }
-}
-
-.drop-zone.disabled {
-    pointer-events: none;
-}
-
-.drop-zone-active,
-.drop-zone-active.has-files,
-.drop-zone:hover:not(.disabled):not(.has-files) {
-    color: $text-color;
-    border: $Form-input-borderWidth * 2 dashed $Form-input-onFocused-borderColor;
-}
-
-.image-list {
-    outline: none;
-    margin: -5px;
-
-    .image-item {
+    &-item {
+        border: $borderWidth solid $borderColor;
+        vertical-align: top;
+        padding: px2rem(5px);
+        display: inline-block;
+        margin-right: px2rem(15px);
+        margin-right: px2rem(15px);
         position: relative;
-        margin: 5px;
-        width: 90px;
+    }
 
-        .img-wrapper {
-            width: 90px;
-            min-height: 50px;
-            overflow: hidden;
-        }
+    &-itemImageWrap {
+        width: px2rem(108px);
+        height: px2rem(108px);
+        overflow: hidden;
+        position: relative;
 
-        img {
-            display: block;
-            width: 100%;
-        }
-
-        .fa-spinner {
+        >img {
             position: absolute;
             left: 50%;
             top: 50%;
-            margin: -15px 0 0 -20px;
-            color: #fff;
+            height: 100%;
+            width: auto;
+            transform: translate(-50%, -50%);
         }
+    }
 
-        .image-overlay {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 5px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-content: center;
-            padding: 10px;
+    &-itemOverlay {
+        background: rgba(0, 0, 0, 0.6);
+        position: absolute;
+        width: px2rem(108px);
+        height: px2rem(108px);
+        display: none;
+        top: px2rem(5px);
+        left: px2rem(5px);
 
-            > a,
-            > button {
-                flex: 1;
-                outline: none;
-                display: flex;
-                color: #fff;
-                background: transparent;
-                border: 0;
-                text-decoration: none;
-                justify-content: center;
-                align-items: center;
-                opacity: 0.6;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap;
+        color: #fff;
 
-                &:hover {
-                    opacity: 1;
-                }
-            }
-        }
-
-        p {
-            margin: 0;
+        >div {
+            width: 100%;
             text-align: center;
+            margin-bottom: 5px;
+        }
+
+        >a {
+            cursor: pointer;
+            color: #fff;
+            display: inline-block;
+            padding: 0 5px;
+            line-height: 1;
+            font-size: px2rem(16px);
         }
     }
 
-    &.image-list-multiple .image-item .img-wrapper {
-        height: 90px;
-        display: table-cell;
-        vertical-align: middle;
+    &-item:hover &-itemOverlay {
+        display: flex;
     }
 
-    .image-add-btn {
-        width: 90px;
-        height: 110px;
-        line-height: 110px;
-        margin: 5px;
+    &-itemClear {
+        position: absolute;
         cursor: pointer;
-        float: left;
 
-        &:hover .fa {
-            color: $dark;
+        color: #999;
+        top: 5px;
+        right: 5px;
+        line-height: 1;
+
+        >svg {
+            top: 0;
+            width: 10px;
+            height: 10px;
         }
     }
 
-    .image-item.uploaded {
-        .fa-spinner {
-            display: none;
-        }
+    &-itemInfo {
+        display: inline-flex;
+        width: 110px;
+        height: 110px;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap;
 
-        .image-overlay {
-            display: none;
+        >p {
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            margin-bottom: 5px;
         }
+    }
+
+    &-progress {
+        width: 70px;
+        height: 5px;
+        background: #ebebeb;
+    }
+
+    &-progressValue {
+        height: 5px;
+        display: block;
+        background: $info;
+        min-width: 10%;
+        transition: ease-out width 0.3s;
+    }
+
+    &-retryBtn {
+        margin: 0;
+        width: px2rem(108px);
+        height: px2rem(108px);
+        display: inline-flex;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        flex-wrap: wrap;
+        color: #666;
 
         &:hover {
-            .image-overlay {
-                display: flex;
-            }
+            color: #333;
+            text-decoration: none;
+        }
+
+
+
+        >p {
+            width: 100%;
+            text-align: center;
+            color: $danger;
+            margin: 10px 0 0;
         }
     }
-}
 
-.cropper-wrapper {
-    position: relative;
-
-    img {
-        max-width: 100%;
-        max-height: 400px;
+    &-errorMsg {
+        color: $danger;
+        margin: 5px 0 0;
     }
 
-    .btn {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-    }
-
-    .btn:nth-child(2n + 1) {
-        bottom: 40px;
-        right: 4px;
-    }
-}
-
-@media (min-width: 768px) {
-    .amis-image-control.form-contorl-inline,
-    .form-group-inline .amis-image-control {
-        display: inline-block;
-        min-width: 280px;
+    &-uploadBtn {
+        margin-top: 5px;
     }
 }

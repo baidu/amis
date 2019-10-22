@@ -168,7 +168,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
 
     render() {
-        const {
+        let {
             autoComplete,
             searchable,
             options,
@@ -184,8 +184,14 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             classnames,
             creatable,
             inline,
+            noResultsText,
+            render,
             ...rest
         } = this.props;
+
+        if (noResultsText && /<\w+/.test(noResultsText)) {
+            noResultsText = render('noResultText', noResultsText);
+        }
 
         return (
             <div className={cx(`${classPrefix}SelectControl`, className)}>
@@ -202,8 +208,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
                     searchable={autoComplete || creatable ? true : searchable}
                     onChange={this.changeValue}
                     loading={loading}
-                    cache={false}
-                    joinValues={false}
+                    noResultsText={noResultsText}
                 />
             </div>
         );

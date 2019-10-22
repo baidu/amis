@@ -10,7 +10,8 @@ import {
     isObjectShallowModified,
     noop,
     isVisible,
-    getVariable
+    getVariable,
+    qsstringify
 } from '../utils/helper';
 import {observer} from 'mobx-react';
 import partition = require('lodash/partition');
@@ -167,12 +168,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         this.mounted = true;
 
         if (syncLocation && location && (location.query || location.search)) {
-            store.updateQuery(
-                qs.parse(location.search.substring(1)),
-                undefined,
-                pageField,
-                perPageField
-            );
+            store.updateQuery(qs.parse(location.search.substring(1)), undefined, pageField, perPageField);
         } else if (syncLocation && !location && window.location.search) {
             store.updateQuery(
                 qs.parse(window.location.search.substring(1)) as object,
@@ -413,7 +409,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         search: boolean = true
     ) {
         const {store, syncLocation, env, pageField, perPageField} = this.props;
-        values = syncLocation ? qs.parse(qs.stringify(values)) : values;
+        values = syncLocation ? qs.parse(qsstringify(values)) : values;
 
         store.updateQuery(
             {
@@ -577,35 +573,35 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             );
         this.lastQuery = store.query;
         const data = createObject(store.data, store.query);
-        isEffectiveApi(api, data) 
+        isEffectiveApi(api, data)
             ? store
-                .fetchInitData(api, data, {
-                    successMessage: messages && messages.fetchSuccess,
-                    errorMessage: messages && messages.fetchFailed,
-                    autoAppend: true,
-                    forceReload,
-                    loadDataOnce,
-                    source,
-                    silent,
-                    pageField,
-                    perPageField,
-                    loadDataMode,
-                    syncResponse2Query
-                })
-                .then(value => {
-                    interval &&
-                        this.mounted &&
-                        (!stopAutoRefreshWhen ||
-                            !(
-                                (stopAutoRefreshWhenModalIsOpen && store.hasModalOpened) ||
-                                evalExpression(stopAutoRefreshWhen, data)
-                            )) &&
-                        (this.timer = setTimeout(
-                            silentPolling ? this.silentSearch : this.search,
-                            Math.max(interval, 3000)
-                        ));
-                    return value;
-                })
+                  .fetchInitData(api, data, {
+                      successMessage: messages && messages.fetchSuccess,
+                      errorMessage: messages && messages.fetchFailed,
+                      autoAppend: true,
+                      forceReload,
+                      loadDataOnce,
+                      source,
+                      silent,
+                      pageField,
+                      perPageField,
+                      loadDataMode,
+                      syncResponse2Query
+                  })
+                  .then(value => {
+                      interval &&
+                          this.mounted &&
+                          (!stopAutoRefreshWhen ||
+                              !(
+                                  (stopAutoRefreshWhenModalIsOpen && store.hasModalOpened) ||
+                                  evalExpression(stopAutoRefreshWhen, data)
+                              )) &&
+                          (this.timer = setTimeout(
+                              silentPolling ? this.silentSearch : this.search,
+                              Math.max(interval, 3000)
+                          ));
+                      return value;
+                  })
             : source && store.initFromScope(data, source);
     }
 
