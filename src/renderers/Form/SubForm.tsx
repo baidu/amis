@@ -179,15 +179,17 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
                                   data-tooltip="编辑详情"
                                   data-position="bottom"
                               >
-                                  {(value && labelField && value[labelField] && stripTag(value[labelField]))
-                                  || render('label',
-                                      {
-                                          type: 'tpl',
-                                          tpl: btnLabel
-                                      },
-                                      {
-                                          data
-                                      })}
+                                  {(value && labelField && value[labelField] && stripTag(value[labelField])) ||
+                                      render(
+                                          'label',
+                                          {
+                                              type: 'tpl',
+                                              tpl: btnLabel
+                                          },
+                                          {
+                                              data
+                                          }
+                                      )}
                               </span>
                           </div>
                       ))
@@ -225,16 +227,17 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
                     data-position="bottom"
                 >
                     <span className={`${ns}SubForm-valueLabel`}>
-                        {(value && labelField && value[labelField] && stripTag(value[labelField]))
-                        || render('label',
-                            {
-                                type: 'tpl',
-                                tpl: btnLabel
-                            },
-                            {
-                                data
-                            }
-                        )}}
+                        {(value && labelField && value[labelField] && stripTag(value[labelField])) ||
+                            render(
+                                'label',
+                                {
+                                    type: 'tpl',
+                                    tpl: btnLabel
+                                },
+                                {
+                                    data
+                                }
+                            )}
                     </span>
                 </div>
             </div>
@@ -248,16 +251,12 @@ export default class SubFormControl extends React.PureComponent<SubFormProps, Su
         return (
             <div className={cx(`${ns}SubFormControl`, className)}>
                 {multiple ? this.renderMultipe() : this.renderSingle()}
-                {openedIndex !== -1
-                    ? render(`dalog/${openedIndex}`, this.buildDialogSchema(), {
-                          onClose: this.close,
-                          onConfirm: this.handleDialogConfirm,
-                          data: createObject(
-                              data,
-                              (multiple ? Array.isArray(value) && value[openedIndex] : value) || {}
-                          )
-                      })
-                    : null}
+                {render(`dalog/${openedIndex}`, this.buildDialogSchema(), {
+                    show: openedIndex !== -1,
+                    onClose: this.close,
+                    onConfirm: this.handleDialogConfirm,
+                    data: createObject(data, (multiple ? Array.isArray(value) && value[openedIndex] : value) || {})
+                })}
             </div>
         );
     }

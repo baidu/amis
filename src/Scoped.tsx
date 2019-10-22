@@ -10,7 +10,7 @@ import hoistNonReactStatic = require('hoist-non-react-statics');
 import qs from 'qs';
 import {dataMapping} from './utils/tpl-builtin';
 import {RendererEnv, RendererProps} from './factory';
-import {noop, autobind} from './utils/helper';
+import {noop, autobind, qsstringify} from './utils/helper';
 import {RendererData, Action} from './types';
 
 interface ScopedComponentType extends React.Component<RendererProps> {
@@ -139,7 +139,7 @@ function createScopedTools(path?: string, parent?: AlisIScopedContext, env?: Ren
                         ...(location.search ? qs.parse(location.search.substring(1)) : {}),
                         ...values
                     };
-                    const link = location.pathname + '?' + qs.stringify(query);
+                    const link = location.pathname + '?' + qsstringify(query);
                     env.updateLocation(link);
                 }
             });

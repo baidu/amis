@@ -16,6 +16,7 @@ function loadComponent(): Promise<React.ReactType> {
 
 export default class RichTextControl extends React.Component<RichTextProps, any> {
     static defaultProps: Partial<RichTextProps> = {
+        imageEditable: true,
         reciever: '/api/upload/image',
         videoReciever: '/api/upload/video',
         placeholder: '请输入',
