@@ -192,10 +192,10 @@ export function validate(
 
         const fn = validations[ruleName];
 
-        if (!fn(values, value, ...rules[ruleName])) {
+        if (!fn(values, value, ...(Array.isArray(rules[ruleName]) ? rules[ruleName] : [rules[ruleName]]))) {
             errors.push(
                 filter((messages && messages[ruleName]) || validateMessages[ruleName], {
-                    ...['', ...rules[ruleName]]
+                    ...[''].concat(rules[ruleName])
                 })
             );
         }
