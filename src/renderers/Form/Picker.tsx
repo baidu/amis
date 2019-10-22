@@ -4,7 +4,7 @@ import cx from 'classnames';
 import Button from '../../components/Button';
 import {SchemaNode, Schema, Action} from '../../types';
 import find = require('lodash/find');
-import {anyChanged, autobind, getVariable, noop} from '../../utils/helper';
+import {anyChanged, autobind, getVariable, noop, createObject} from '../../utils/helper';
 import findIndex = require('lodash/findIndex');
 import Html from '../../components/Html';
 import {filter} from '../../utils/tpl';
@@ -59,6 +59,10 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
 
     input: React.RefObject<HTMLInputElement> = React.createRef();
 
+    componentDidMount() {
+        this.fetchOptions();
+    }
+
     componentWillReceiveProps(nextProps: PickerProps) {
         const props = this.props;
 
@@ -67,6 +71,38 @@ export default class PickerControl extends React.PureComponent<PickerProps, any>
                 schema: this.buildSchema(nextProps)
             });
         }
+    }
+
+    componentDidUpdate(prevProps: PickerProps) {
+        const props = this.props;
+
+        if (props.value !== prevProps.value) {
+            this.fetchOptions();
+        }
+    }
+
+    fetchOptions() {
+        const {value, formItem, valueField, labelField, source, data} = this.props;
+
+        if (
+            !source ||
+            !formItem ||
+            !formItem.selectedOptions.length ||
+            formItem.selectedOptions[0][valueField || 'value'] !== formItem.selectedOptions[0][labelField || 'label']
+        ) {
+            return;
+        }
+
+        formItem.loadOptions(
+            source,
+            createObject(data, {
+                value: value,
+                op: 'loadOptions'
+            }),
+            {
+                autoAppend: true
+            }
+        );
     }
 
     buildSchema(props: PickerProps) {
