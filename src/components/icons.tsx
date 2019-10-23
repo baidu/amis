@@ -39,6 +39,14 @@ import ViewIcon from '../icons/view.svg';
 import RemoveIcon from '../icons/remove.svg';
 // @ts-ignore
 import RetryIcon from '../icons/retry.svg';
+// @ts-ignore
+import UploadIcon from '../icons/upload.svg';
+// @ts-ignore
+import FileIcon from '../icons/file.svg';
+// @ts-ignore
+import SuccessIcon from '../icons/success.svg';
+// @ts-ignore
+import FailIcon from '../icons/fail.svg';
 
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
@@ -91,6 +99,10 @@ registerIcon('pencil', PencilIcon);
 registerIcon('view', ViewIcon);
 registerIcon('remove', RemoveIcon);
 registerIcon('retry', RetryIcon);
+registerIcon('upload', UploadIcon);
+registerIcon('file', FileIcon);
+registerIcon('success', SuccessIcon);
+registerIcon('fail', FailIcon);
 
 export function Icon({
     icon,

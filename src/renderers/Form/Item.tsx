@@ -11,6 +11,7 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
     type?: string;
     wrap?: boolean;
     renderLabel?: boolean;
+    renderDescription?: boolean;
     test?: RegExp | TestFunc;
     storeType?: string;
     validations?: string;
@@ -48,6 +49,7 @@ export interface FormControlProps extends RendererProps {
 
     renderControl?: (props: RendererProps) => JSX.Element;
     renderLabel?: boolean;
+    renderDescription?: boolean;
     sizeMutable?: boolean;
     wrap?: boolean;
     hint?: string;
@@ -165,6 +167,7 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
             env,
             formItem: model,
             renderLabel,
+            renderDescription,
             hint
         } = this.props;
 
@@ -250,7 +253,7 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
                         </ul>
                     ) : null}
 
-                    {description
+                    {renderDescription !== false && description
                         ? render('description', description, {
                               className: cx(`Form-description`, descriptionClassName)
                           })
@@ -278,6 +281,7 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
             captionClassName,
             formItem: model,
             renderLabel,
+            renderDescription,
             hint,
             formMode
         } = this.props;
@@ -339,7 +343,7 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
                     </ul>
                 ) : null}
 
-                {description
+                {renderDescription !== false && description
                     ? render('description', description, {
                           className: cx(`Form-description`, descriptionClassName)
                       })
@@ -366,7 +370,8 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
             labelRemark,
             env,
             hint,
-            renderLabel
+            renderLabel,
+            renderDescription
         } = this.props;
 
         description = description || desc;
@@ -427,7 +432,7 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
                         </ul>
                     ) : null}
 
-                    {description
+                    {renderDescription !== false && description
                         ? render('description', description, {
                               className: cx(`Form-description`, descriptionClassName)
                           })
@@ -455,6 +460,7 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
             captionClassName,
             formItem: model,
             renderLabel,
+            renderDescription,
             hint,
             formMode
         } = this.props;
@@ -518,7 +524,7 @@ export class FormItemWrap extends React.Component<FormControlProps, FormControlS
                     </ul>
                 ) : null}
 
-                {description
+                {description && renderDescription !== false
                     ? render('description', description, {
                           className: cx(`Form-description`, descriptionClassName)
                       })
@@ -577,6 +583,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
         static defaultProps = {
             className: '',
             renderLabel: config.renderLabel,
+            renderDescription: config.renderDescription,
             sizeMutable: config.sizeMutable,
             wrap: config.wrap,
             strictMode: config.strictMode,

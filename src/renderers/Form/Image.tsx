@@ -11,11 +11,13 @@ import {buildApi} from '../../utils/api';
 import {createObject, qsstringify} from '../../utils/helper';
 import {Icon} from '../../components/icons';
 import Button from '../../components/Button';
+import accepts from 'attr-accept';
 
 let id = 1;
 function gennerateId() {
     return id++;
 }
+let preventEvent = (e: any) => e.stopPropagation();
 
 export interface ImageProps extends FormControlProps {
     placeholder?: string;
@@ -134,6 +136,8 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         files: []
     };
 
+    cropper = React.createRef<Cropper>();
+    dropzone = React.createRef<DropZone>();
     current: FileValue | FileX | null = null;
     resolve?: (value?: any) => void;
 
@@ -257,7 +261,29 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
     }
 
     handleDropRejected(rejectedFiles: any, evt: React.DragEvent<any>) {
-        evt.type === 'change' && alert('您选择的文件类型不符已被过滤！');
+        if (evt.type !== 'change' && evt.type !== 'drop') {
+            return;
+        }
+        const {multiple, env, accept} = this.props;
+
+        const files = rejectedFiles.map((file: any) => ({
+            ...file,
+            state: 'invalid',
+            id: gennerateId(),
+            name: file.name
+        }));
+
+        this.setState({
+            files: multiple
+                ? this.state.files.concat(files)
+                : this.state.files.length
+                ? this.state.files
+                : files.slice(0, 1)
+        });
+
+        env.alert(
+            `您添加的文件${files.map((item: any) => `【${item.name}】`)}不符合类型的\`${accept}\`设定，请仔细检查。`
+        );
     }
 
     startUpload() {
@@ -437,7 +463,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
     }
 
     handleSelect() {
-        this.refs.dropzone && (this.refs.dropzone as any).open();
+        this.dropzone.current && this.dropzone.current.open();
     }
 
     handleDrop(files: Array<FileX>) {
@@ -458,15 +484,15 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         const event = e.nativeEvent as any;
         const files: Array<FileX> = [];
         const items = event.clipboardData.items;
+        const accept = this.props.accept;
 
         [].slice.call(items).forEach((item: DataTransferItem) => {
             let blob: FileX;
 
-            if (item.kind !== 'file' || !(blob = item.getAsFile() as File) || !/^image/i.test(blob.type)) {
+            if (item.kind !== 'file' || !(blob = item.getAsFile() as File) || !accepts(blob, accept)) {
                 return;
             }
 
-            blob.preview = window.URL.createObjectURL(blob);
             blob.id = gennerateId();
             files.push(blob);
         });
@@ -475,7 +501,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
     }
 
     handleCrop() {
-        (this.refs.cropper as any).getCroppedCanvas().toBlob((file: File) => {
+        this.cropper.current!.getCroppedCanvas().toBlob((file: File) => {
             this.addFiles([file]);
             this.setState({
                 cropFile: undefined,
@@ -722,12 +748,11 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         const {files, error, crop, uploading, cropFile} = this.state;
 
         const hasPending = files.some(file => file.state == 'pending');
-
         return (
-            <div className={cx(`ImageControl`, className)} tabIndex={-1} onPaste={this.handlePaste}>
+            <div className={cx(`ImageControl`, className)}>
                 {cropFile ? (
                     <div className={cx('ImageControl-cropperWrapper')}>
-                        <Cropper {...crop} ref="cropper" src={cropFile.preview} />
+                        <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
                         <div className={cx('ImageControl-croperToolbar')}>
                             <a
                                 className={cx('ImageControl-cropCancel')}
@@ -750,141 +775,190 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                 ) : (
                     <DropZone
                         key="drop-zone"
-                        className={cx('ImageControl-dropzone', {
-                            disabled,
-                            'is-empty': !files.length
-                        })}
-                        activeClassName="is-active"
-                        ref="dropzone"
+                        ref={this.dropzone}
                         onDrop={this.handleDrop}
                         onDropRejected={this.handleDropRejected}
-                        disableClick
                         accept={accept}
                         multiple={multiple}
                     >
-                        {files && files.length
-                            ? files.map((file, key) => (
-                                  <div
-                                      key={file.id || key}
-                                      className={cx('ImageControl-item', {
-                                          'is-uploaded': file.state !== 'uploading',
-                                          'is-invalid': file.state === 'error' || file.state === 'invalid'
-                                      })}
-                                  >
-                                      {file.state === 'invalid' || file.state === 'error' ? (
-                                          <a
-                                              className={cx('ImageControl-retryBtn', {'is-disabled': disabled})}
-                                              onClick={this.handleSelect}
-                                          >
-                                              <Icon icon="retry" className="icon" />
-                                              <p className="ImageControl-itemInfoError">重新上传</p>
-                                          </a>
-                                      ) : file.state === 'uploading' ? (
-                                          <>
-                                              <a
-                                                  onClick={this.removeFile.bind(this, file, key)}
-                                                  key="clear"
-                                                  className={cx('ImageControl-itemClear')}
-                                                  data-tooltip="移除"
-                                              >
-                                                  <Icon icon="close" className="icon" />
-                                              </a>
-                                              <div key="info" className={cx('ImageControl-itemInfo')}>
-                                                  <p>文件上传中</p>
-                                                  <div className={cx('ImageControl-progress')}>
-                                                      <span
-                                                          style={{width: `${Math.round(file.progress * 100)}%`}}
-                                                          className={cx('ImageControl-progressValue')}
-                                                      />
-                                                  </div>
-                                              </div>
-                                          </>
-                                      ) : (
-                                          <>
-                                              <div key="image" className={cx('ImageControl-itemImageWrap')}>
-                                                  <img
-                                                      onLoad={this.handleImageLoaded.bind(this, key)}
-                                                      src={file.url || file.preview}
-                                                      alt={file.name}
-                                                  />
-                                              </div>
-
-                                              <div key="overlay" className={cx('ImageControl-itemOverlay')}>
-                                                  {file.info ? (
-                                                      [
-                                                          <div key="1">
-                                                              {file.info.width} x {file.info.height}
-                                                          </div>,
-                                                          file.info.len ? (
-                                                              <div key="2">
-                                                                  {ImageControl.formatFileSize(file.info.len)}
-                                                              </div>
-                                                          ) : null
-                                                      ]
-                                                  ) : (
-                                                      <div>...</div>
-                                                  )}
-
-                                                  {!disabled ? (
-                                                      <a
-                                                          data-tooltip="查看大图"
-                                                          data-position="bottom"
-                                                          target="_blank"
-                                                          href={file.url || file.preview}
-                                                      >
-                                                          <Icon icon="view" className="icon" />
-                                                      </a>
-                                                  ) : null}
-                                                  {!!crop && !disabled ? (
-                                                      <a
-                                                          data-tooltip="裁剪图片"
-                                                          data-position="bottom"
-                                                          onClick={this.editImage.bind(this, key)}
-                                                      >
-                                                          <Icon icon="pencil" className="icon" />
-                                                      </a>
-                                                  ) : null}
-                                                  {!disabled ? (
-                                                      <a
-                                                          data-tooltip="移除"
-                                                          data-position="bottom"
-                                                          onClick={this.removeFile.bind(this, file, key)}
-                                                      >
-                                                          <Icon icon="remove" className="icon" />
-                                                      </a>
-                                                  ) : null}
-                                              </div>
-                                          </>
-                                      )}
-                                  </div>
-                              ))
-                            : null}
-
-                        {(multiple && (!maxLength || files.length < maxLength)) || (!multiple && !files.length) ? (
-                            <label
-                                className={cx('ImageControl-addBtn', {'is-disabled': disabled})}
-                                onClick={this.handleSelect}
-                                data-tooltip={placeholder}
-                                data-position="right"
+                        {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject, isFocused}) => (
+                            <div
+                                {...getRootProps({
+                                    onClick: preventEvent,
+                                    onPaste: this.handlePaste,
+                                    className: cx('ImageControl-dropzone', {
+                                        disabled,
+                                        'is-empty': !files.length,
+                                        'is-active': isDragActive
+                                    })
+                                })}
                             >
-                                <Icon icon="plus" className="icon" />
-                            </label>
-                        ) : null}
+                                <input {...getInputProps()} />
+
+                                {isDragActive || isDragAccept || isDragReject ? (
+                                    <div
+                                        className={cx('ImageControl-acceptTip', {
+                                            'is-accept': isDragAccept,
+                                            'is-reject': isDragReject
+                                        })}
+                                    >
+                                        把图片拖到这，然后松完成添加！
+                                    </div>
+                                ) : (
+                                    <>
+                                        {files && files.length
+                                            ? files.map((file, key) => (
+                                                  <div
+                                                      key={file.id || key}
+                                                      className={cx('ImageControl-item', {
+                                                          'is-uploaded': file.state !== 'uploading',
+                                                          'is-invalid':
+                                                              file.state === 'error' || file.state === 'invalid'
+                                                      })}
+                                                  >
+                                                      {file.state === 'invalid' || file.state === 'error' ? (
+                                                          <a
+                                                              className={cx('ImageControl-retryBtn', {
+                                                                  'is-disabled': disabled
+                                                              })}
+                                                              onClick={this.handleSelect}
+                                                          >
+                                                              <Icon icon="retry" className="icon" />
+                                                              <p className="ImageControl-itemInfoError">重新上传</p>
+                                                          </a>
+                                                      ) : file.state === 'uploading' ? (
+                                                          <>
+                                                              <a
+                                                                  onClick={this.removeFile.bind(this, file, key)}
+                                                                  key="clear"
+                                                                  className={cx('ImageControl-itemClear')}
+                                                                  data-tooltip="移除"
+                                                              >
+                                                                  <Icon icon="close" className="icon" />
+                                                              </a>
+                                                              <div key="info" className={cx('ImageControl-itemInfo')}>
+                                                                  <p>文件上传中</p>
+                                                                  <div className={cx('ImageControl-progress')}>
+                                                                      <span
+                                                                          style={{
+                                                                              width: `${Math.round(
+                                                                                  file.progress * 100
+                                                                              )}%`
+                                                                          }}
+                                                                          className={cx('ImageControl-progressValue')}
+                                                                      />
+                                                                  </div>
+                                                              </div>
+                                                          </>
+                                                      ) : (
+                                                          <>
+                                                              <div
+                                                                  key="image"
+                                                                  className={cx('ImageControl-itemImageWrap')}
+                                                              >
+                                                                  <img
+                                                                      onLoad={this.handleImageLoaded.bind(this, key)}
+                                                                      src={file.url || file.preview}
+                                                                      alt={file.name}
+                                                                  />
+                                                              </div>
+
+                                                              <div
+                                                                  key="overlay"
+                                                                  className={cx('ImageControl-itemOverlay')}
+                                                              >
+                                                                  {file.info ? (
+                                                                      [
+                                                                          <div key="1">
+                                                                              {file.info.width} x {file.info.height}
+                                                                          </div>,
+                                                                          file.info.len ? (
+                                                                              <div key="2">
+                                                                                  {ImageControl.formatFileSize(
+                                                                                      file.info.len
+                                                                                  )}
+                                                                              </div>
+                                                                          ) : null
+                                                                      ]
+                                                                  ) : (
+                                                                      <div>...</div>
+                                                                  )}
+
+                                                                  {!disabled ? (
+                                                                      <a
+                                                                          data-tooltip="查看大图"
+                                                                          data-position="bottom"
+                                                                          target="_blank"
+                                                                          href={file.url || file.preview}
+                                                                      >
+                                                                          <Icon icon="view" className="icon" />
+                                                                      </a>
+                                                                  ) : null}
+                                                                  {!!crop && !disabled ? (
+                                                                      <a
+                                                                          data-tooltip="裁剪图片"
+                                                                          data-position="bottom"
+                                                                          onClick={this.editImage.bind(this, key)}
+                                                                      >
+                                                                          <Icon icon="pencil" className="icon" />
+                                                                      </a>
+                                                                  ) : null}
+                                                                  {!disabled ? (
+                                                                      <a
+                                                                          data-tooltip="移除"
+                                                                          data-position="bottom"
+                                                                          onClick={this.removeFile.bind(
+                                                                              this,
+                                                                              file,
+                                                                              key
+                                                                          )}
+                                                                      >
+                                                                          <Icon icon="remove" className="icon" />
+                                                                      </a>
+                                                                  ) : null}
+                                                              </div>
+                                                          </>
+                                                      )}
+                                                  </div>
+                                              ))
+                                            : null}
+
+                                        {(multiple && (!maxLength || files.length < maxLength)) ||
+                                        (!multiple && !files.length) ? (
+                                            <label
+                                                className={cx('ImageControl-addBtn', {'is-disabled': disabled})}
+                                                onClick={this.handleSelect}
+                                                data-tooltip={placeholder}
+                                                data-position="right"
+                                            >
+                                                <Icon icon="plus" className="icon" />
+                                            </label>
+                                        ) : null}
+
+                                        {isFocused ? (
+                                            <span className={cx('ImageControl-pasteTip')}>
+                                                当前状态支持从剪切板中粘贴图片文件。
+                                            </span>
+                                        ) : null}
+
+                                        {!autoUpload && !hideUploadButton && files.length ? (
+                                            <Button
+                                                level="default"
+                                                className={cx('ImageControl-uploadBtn')}
+                                                disabled={!hasPending}
+                                                onClick={this.toggleUpload}
+                                            >
+                                                {uploading ? '暂停上传' : '开始上传'}
+                                            </Button>
+                                        ) : null}
+
+                                        {error ? <div className={cx('ImageControl-errorMsg')}>{error}</div> : null}
+                                    </>
+                                )}
+                            </div>
+                        )}
                     </DropZone>
                 )}
-
-                {!autoUpload && !hideUploadButton && files.length ? (
-                    <Button
-                        level="default"
-                        className={cx('ImageControl-uploadBtn')}
-                        disabled={!hasPending}
-                        onClick={this.toggleUpload}
-                    >
-                        {uploading ? '暂停上传' : '开始上传'}
-                    </Button>
-                ) : null}
-
-                {error ? <div className={cx('ImageControl-errorMsg')}>{error}</div> : null}
             </div>
         );
     }
