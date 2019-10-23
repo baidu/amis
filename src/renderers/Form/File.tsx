@@ -6,14 +6,16 @@ import find = require('lodash/find');
 import isPlainObject = require('lodash/isPlainObject');
 import {mapLimit} from 'async';
 import ImageControl from './Image';
-import {Payload} from '../../types';
+import {Payload, ApiObject, ApiString} from '../../types';
 import {filter} from '../../utils/tpl';
 import Alert from '../../components/Alert2';
-import {qsstringify} from '../../utils/helper';
+import {qsstringify, createObject} from '../../utils/helper';
+import {buildApi} from '../../utils/api';
+import Button from '../../components/Button';
+import {Icon} from '../../components/icons';
+import DropZone from 'react-dropzone';
 
 export interface FileProps extends FormControlProps {
-    btnClassName: string;
-    btnUploadClassName: string;
     maxSize: number;
     maxLength: number;
     placeholder?: string;
@@ -48,6 +50,8 @@ export interface FileProps extends FormControlProps {
 
 export interface FileX extends File {
     state?: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid' | 'ready';
+    progress?: number;
+    id?: any;
 }
 
 export interface FileValue {
@@ -56,6 +60,7 @@ export interface FileValue {
     name?: string;
     url?: string;
     state: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid' | 'ready';
+    id?: any;
     [propName: string]: any;
 }
 
@@ -65,14 +70,19 @@ export interface FileState {
     error?: string | null;
 }
 
+let id = 1;
+function gennerateId() {
+    return id++;
+}
+
+let preventEvent = (e: any) => e.stopPropagation();
+
 export default class FileControl extends React.Component<FileProps, FileState> {
     static defaultProps: Partial<FileProps> = {
-        btnClassName: 'btn-sm btn-info',
-        btnUploadClassName: 'btn-sm btn-success',
         maxSize: 0,
         maxLength: 0,
         placeholder: '',
-        btnLabel: '请选择文件',
+        btnLabel: '文件上传',
         reciever: '/api/upload/file',
         fileField: 'file',
         joinValues: true,
@@ -116,7 +126,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                       state: 'ready',
                       value: value,
                       name: value.name,
-                      url: ''
+                      url: '',
+                      id: gennerateId()
                   }
                 : {
                       ...(typeof value === 'string'
@@ -124,6 +135,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                                 state: file && file.state ? file.state : 'init',
                                 value,
                                 name: /^data:/.test(value) ? (file && file.name) || 'base64数据' : '',
+                                id: gennerateId(),
                                 url:
                                     typeof props.downloadUrl === 'string' && value && !/^data:/.test(value)
                                         ? `${props.downloadUrl}${value}`
@@ -134,6 +146,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             : undefined;
     }
 
+    dropzone = React.createRef<any>();
     constructor(props: FileProps) {
         super(props);
 
@@ -163,6 +176,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         this.removeFile = this.removeFile.bind(this);
         this.clearError = this.clearError.bind(this);
         this.handleDrop = this.handleDrop.bind(this);
+        this.handleDropRejected = this.handleDropRejected.bind(this);
         this.startUpload = this.startUpload.bind(this);
         this.stopUpload = this.stopUpload.bind(this);
         this.toggleUpload = this.toggleUpload.bind(this);
@@ -170,6 +184,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         this.onChange = this.onChange.bind(this);
         this.uploadFile = this.uploadFile.bind(this);
         this.uploadBigFile = this.uploadBigFile.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
     }
 
     componentWillReceiveProps(nextProps: FileProps) {
@@ -199,7 +214,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         ) {
                             obj = {
                                 ...org,
-                                ...obj
+                                ...obj,
+                                id: obj.id || org!.id
                             };
                         }
 
@@ -214,30 +230,29 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         }
     }
 
-    handleDrop(e: React.ChangeEvent<any>) {
-        const files = e.currentTarget.files;
-
+    handleDrop(files: Array<FileX>) {
         if (!files.length) {
             return;
         }
 
         const {maxSize, multiple, maxLength} = this.props;
-        const allowed =
-            (multiple ? (maxLength ? maxLength : files.length + this.state.files.length) : 1) - this.state.files.length;
+        let allowed = multiple && maxLength ? maxLength - this.state.files.length : files.length;
 
         const inputFiles: Array<FileX> = [];
 
         [].slice.call(files, 0, allowed).forEach((file: FileX) => {
             if (maxSize && file.size > maxSize) {
-                alert(
+                this.props.env.alert(
                     `您选择的文件 ${file.name} 大小为 ${ImageControl.formatFileSize(
                         file.size
                     )} 超出了最大为 ${ImageControl.formatFileSize(maxSize)} 的限制，请重新选择`
                 );
-                return;
+                file.state = 'invalid';
+            } else {
+                file.state = 'pending';
             }
 
-            file.state = 'pending';
+            file.id = gennerateId();
             inputFiles.push(file);
         });
 
@@ -248,7 +263,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         this.setState(
             {
                 error: null,
-                files: this.state.files.concat(inputFiles)
+                files: multiple ? this.state.files.concat(inputFiles) : inputFiles
             },
             () => {
                 const {autoUpload} = this.props;
@@ -258,6 +273,36 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 }
             }
         );
+    }
+
+    handleDropRejected(rejectedFiles: any, evt: React.DragEvent<any>) {
+        if (evt.type !== 'change' && evt.type !== 'drop') {
+            return;
+        }
+        const {multiple, env, accept} = this.props;
+
+        const files = rejectedFiles.map((file: any) => ({
+            ...file,
+            state: 'invalid',
+            id: gennerateId(),
+            name: file.name
+        }));
+
+        this.setState({
+            files: multiple
+                ? this.state.files.concat(files)
+                : this.state.files.length
+                ? this.state.files
+                : files.slice(0, 1)
+        });
+
+        env.alert(
+            `您添加的文件${files.map((item: any) => `【${item.name}】`)}不符合类型的\`${accept}\`设定，请仔细检查。`
+        );
+    }
+
+    handleSelect() {
+        this.dropzone.current && this.dropzone.current.open();
     }
 
     startUpload() {
@@ -311,32 +356,49 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     files: this.state.files.concat()
                 },
                 () =>
-                    this.sendFile(file, (error, file, obj) => {
-                        const files = this.state.files.concat();
-                        const idx = files.indexOf(file as FileX);
+                    this.sendFile(
+                        file,
+                        (error, file, obj) => {
+                            const files = this.state.files.concat();
+                            const idx = files.indexOf(file as FileX);
 
-                        if (!~idx) {
-                            return;
+                            if (!~idx) {
+                                return;
+                            }
+
+                            let newFile: FileValue = file as FileValue;
+
+                            if (error) {
+                                newFile.state = 'error';
+                                newFile.error = error;
+                            } else {
+                                newFile = obj as FileValue;
+                            }
+                            files.splice(idx, 1, newFile);
+                            this.current = null;
+                            this.setState(
+                                {
+                                    error: error ? error : null,
+                                    files: files
+                                },
+                                this.tick
+                            );
+                        },
+                        progress => {
+                            const files = this.state.files.concat();
+                            const idx = files.indexOf(file);
+
+                            if (!~idx) {
+                                return;
+                            }
+
+                            // file 是个非 File 对象，先不copy了直接改。
+                            file.progress = progress;
+                            this.setState({
+                                files
+                            });
                         }
-
-                        let newFile: FileValue = file as FileValue;
-
-                        if (error) {
-                            newFile.state = 'error';
-                            newFile.error = error;
-                        } else {
-                            newFile = obj as FileValue;
-                        }
-                        files.splice(idx, 1, newFile);
-                        this.current = null;
-                        this.setState(
-                            {
-                                error: error ? error : null,
-                                files: files
-                            },
-                            this.tick
-                        );
-                    })
+                    )
             );
         } else {
             this.setState(
@@ -357,7 +419,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         }
     }
 
-    sendFile(file: FileX, cb: (error: null | string, file?: FileX, obj?: FileValue) => void) {
+    sendFile(
+        file: FileX,
+        cb: (error: null | string, file?: FileX, obj?: FileValue) => void,
+        onProgress: (progress: number) => void
+    ) {
         const {
             reciever,
             fileField,
@@ -368,7 +434,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             chunkApi,
             finishChunkApi,
             asBase64,
-            asBlob
+            asBlob,
+            data
         } = this.props;
 
         if (asBase64) {
@@ -379,7 +446,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     value: reader.result as string,
                     name: file.name,
                     url: '',
-                    state: 'ready'
+                    state: 'ready',
+                    id: file.id
                 });
             };
             reader.onerror = (error: any) => cb(error.message);
@@ -391,7 +459,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         name: file.name,
                         value: file,
                         url: '',
-                        state: 'ready'
+                        state: 'ready',
+                        id: file.id
                     }),
                 4
             );
@@ -412,14 +481,17 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 chunkSize,
                 startChunkApi,
                 chunkApi,
-                finishChunkApi
-            }
+                finishChunkApi,
+                data
+            },
+            onProgress
         )
             .then(ret => {
                 if (ret.status || !ret.data) {
                     throw new Error(ret.msg || '上传失败, 请重试');
                 }
 
+                onProgress(1);
                 const value = (ret.data as any).value || ret.data;
 
                 cb(null, file, {
@@ -431,7 +503,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                             : ret.data
                             ? (ret.data as any).url
                             : null,
-                    state: 'uploaded'
+                    state: 'uploaded',
+                    id: file.id
                 });
             })
             .catch(error => {
@@ -481,32 +554,42 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         onChange(value);
     }
 
-    uploadFile(file: FileX, reciever: string, params: object, config: Partial<FileProps> = {}): Promise<Payload> {
+    uploadFile(
+        file: FileX,
+        reciever: string,
+        params: object,
+        config: Partial<FileProps> = {},
+        onProgress: (progress: number) => void
+    ): Promise<Payload> {
         const fd = new FormData();
+        const api = buildApi(reciever, createObject(config.data, params), {
+            method: 'post'
+        });
 
-        reciever = filter(reciever, this.props.data);
+        qsstringify({...api.data, ...params})
+            .split('&')
+            .forEach(item => {
+                const parts = item.split('=');
+                fd.append(parts[0], parts[1]);
+            });
+
         fd.append(config.fieldName || 'file', file);
 
-        const idx = reciever.indexOf('?');
-
-        if (~idx && params) {
-            params = {
-                ...qs.parse(reciever.substring(idx + 1)),
-                ...params
-            };
-            reciever = reciever.substring(0, idx) + '?' + qsstringify(params);
-        } else if (params) {
-            reciever += '?' + qsstringify(params);
-        }
-
-        return this._send(reciever, fd, {
-            withCredentials: true
-        });
+        return this._send(api, fd, {}, onProgress);
     }
 
-    uploadBigFile(file: FileX, reciever: string, params: object, config: Partial<FileProps> = {}): Promise<Payload> {
+    uploadBigFile(
+        file: FileX,
+        reciever: string,
+        params: object,
+        config: Partial<FileProps> = {},
+        onProgress: (progress: number) => void
+    ): Promise<Payload> {
         const chunkSize = config.chunkSize || 5 * 1024 * 1024;
         const self = this;
+        let startProgress = 0.2;
+        let endProgress = 0.9;
+        let progressArr: Array<number>;
 
         interface ObjectState {
             key: string;
@@ -527,13 +610,26 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
         return new Promise((resolve, reject) => {
             let state: ObjectState;
+            const startApi = buildApi(
+                config.startChunkApi!,
+                createObject(config.data, {
+                    ...params,
+                    filename: file.name
+                }),
+                {
+                    method: 'post',
+                    autoAppend: true
+                }
+            );
 
-            self._send(config.startChunkApi as string, {filename: file.name})
+            self._send(startApi)
                 .then(startChunk)
                 .catch(reject);
 
             function startChunk(ret: Payload) {
+                onProgress(startProgress);
                 const tasks = getTasks(file);
+                progressArr = tasks.map(() => 0);
 
                 if (!ret.data) {
                     throw new Error('接口返回错误，请仔细检查');
@@ -555,24 +651,52 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 });
             }
 
+            function updateProgress(partNumber: number, progress: number) {
+                progressArr[partNumber - 1] = progress;
+                onProgress(
+                    startProgress +
+                        (endProgress - startProgress) *
+                            (progressArr.reduce((count, progress) => count + progress, 0) / progressArr.length)
+                );
+            }
+
             function finishChunk(partList: Array<any> | undefined, state: ObjectState) {
-                self._send(config.finishChunkApi as string, {
-                    ...params,
-                    uploadId: state.uploadId,
-                    key: state.key,
-                    filename: file.name,
-                    partList
-                })
+                onProgress(endProgress);
+                const endApi = buildApi(
+                    config.finishChunkApi!,
+                    createObject(config.data, {
+                        ...params,
+                        uploadId: state.uploadId,
+                        key: state.key,
+                        filename: file.name,
+                        partList
+                    }),
+                    {
+                        method: 'post',
+                        autoAppend: true
+                    }
+                );
+
+                self._send(endApi)
                     .then(resolve)
                     .catch(reject);
             }
 
             function uploadPartFile(state: ObjectState, conf: Partial<FileProps>) {
-                reciever = conf.chunkApi as string;
-
                 return (task: Task, callback: (error: any, value?: any) => void) => {
+                    const api = buildApi(conf.chunkApi!, createObject(config.data, params), {
+                        method: 'post'
+                    });
+
                     const fd = new FormData();
                     let blob = task.file.slice(task.start, task.stop + 1);
+
+                    qsstringify({...api.data, ...params})
+                        .split('&')
+                        .forEach(item => {
+                            const parts = item.split('=');
+                            fd.append(parts[0], parts[1]);
+                        });
 
                     fd.append('key', state.key);
                     fd.append('uploadId', state.uploadId);
@@ -581,9 +705,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     fd.append(config.fieldName || 'file', blob, file.name);
 
                     return self
-                        ._send(reciever, fd, {
-                            withCredentials: true
-                        })
+                        ._send(reciever, fd, {}, progress => updateProgress(task.partNumber, progress))
                         .then(ret => {
                             state.loaded++;
                             callback(null, {
@@ -622,17 +744,25 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         });
     }
 
-    _send(reciever: string, data: any, options?: object): Promise<Payload> {
+    _send(
+        api: ApiObject | ApiString,
+        data?: any,
+        options?: object,
+        onProgress?: (progress: number) => void
+    ): Promise<Payload> {
         const env = this.props.env;
 
         if (!env || !env.fetcher) {
             throw new Error('fetcher is required');
         }
 
-        reciever = filter(reciever, this.props.data);
-        return env.fetcher(reciever, data, {
+        return env.fetcher(api, data, {
             method: 'post',
-            ...options
+            ...options,
+            withCredentials: true,
+            onUploadProgress: onProgress
+                ? (event: {loaded: number; total: number}) => onProgress(event.loaded / event.total)
+                : undefined
         });
     }
 
@@ -652,85 +782,135 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             btnLabel,
             accept,
             disabled,
-            btnClassName,
-            btnUploadClassName,
             maxLength,
             multiple,
             autoUpload,
-            stateTextMap,
+            description,
             hideUploadButton,
             className,
-            asBlob,
-            joinValues
+            classnames: cx,
+            render
         } = this.props;
         let {files, uploading, error} = this.state;
 
         const hasPending = files.some(file => file.state == 'pending');
 
         return (
-            <div className={cx('amis-file-control', className)}>
-                {error ? (
-                    <Alert level="danger" showCloseButton onClose={this.clearError}>
-                        {error}
-                    </Alert>
-                ) : null}
-
-                {files && files.length ? (
-                    <ul className="list-group no-bg m-b-sm">
-                        {files.map((file, key) => (
-                            <li key={key} className="list-group-item clearfix">
-                                <a
-                                    className="text-danger pull-right"
-                                    onClick={() => this.removeFile(file, key)}
-                                    href="javascript:void 0"
-                                    data-tooltip="移除"
-                                >
-                                    <i className="fa fa-times" />
-                                </a>
-                                <span className="pull-right text-muted text-xs m-r-sm">
-                                    {(stateTextMap && stateTextMap[file.state as string]) || ''}
-                                </span>
-                                <i className="fa fa-file fa-fw m-r-xs" />
-                                {(file as FileValue).url ? (
-                                    <a href={(file as FileValue).url} target="_blank">
-                                        {file.name || (file as FileValue).filename || (file as FileValue).value}
-                                    </a>
-                                ) : (
-                                    <span>{file.name || (file as FileValue).filename}</span>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                ) : null}
-
-                <div className="clear">
-                    {(multiple && (!maxLength || files.length < maxLength)) || (!multiple && !files.length) ? (
-                        <label className={cx('btn m-r-xs', btnClassName, {disabled})}>
-                            <input
-                                type="file"
-                                accept={accept}
-                                disabled={disabled}
-                                multiple={multiple}
-                                className="invisible"
-                                onChange={this.handleDrop}
-                            />
-                            {btnLabel}
-                        </label>
-                    ) : null}
-
-                    {!autoUpload && !hideUploadButton && files.length ? (
-                        <button
-                            type="button"
-                            className={cx('btn m-r-xs', btnUploadClassName)}
-                            disabled={!hasPending}
-                            onClick={this.toggleUpload}
+            <div className={cx('FileControl', className)}>
+                <DropZone
+                    key="drop-zone"
+                    ref={this.dropzone}
+                    onDrop={this.handleDrop}
+                    onDropRejected={this.handleDropRejected}
+                    accept={accept}
+                    multiple={multiple}
+                >
+                    {({getRootProps, getInputProps, isDragActive}) => (
+                        <div
+                            {...getRootProps({
+                                onClick: preventEvent
+                            })}
+                            className={cx('FileControl-dropzone', {
+                                disabled,
+                                'is-empty': !files.length,
+                                'is-active': isDragActive
+                            })}
                         >
-                            {uploading ? '暂停上传' : '开始上传'}
-                        </button>
-                    ) : null}
+                            <input {...getInputProps()} />
 
-                    {this.state.uploading ? <i className="fa fa-spinner fa-spin fa-2x fa-fw" /> : null}
-                </div>
+                            {isDragActive ? (
+                                <div className={cx('FileControl-acceptTip')}>把文件拖到这，然后松完成添加！</div>
+                            ) : (
+                                <>
+                                    {(multiple && (!maxLength || files.length < maxLength)) || !multiple ? (
+                                        <Button
+                                            level="default"
+                                            className={cx('FileControl-selectBtn')}
+                                            onClick={this.handleSelect}
+                                        >
+                                            <Icon icon="upload" className="icon" />
+                                            {!multiple && files.length
+                                                ? '重新上传'
+                                                : multiple && files.length
+                                                ? '继续添加'
+                                                : '上传文件'}
+                                        </Button>
+                                    ) : null}
+
+                                    {description
+                                        ? render('desc', description!, {
+                                              className: cx('FileControl-description')
+                                          })
+                                        : null}
+
+                                    {Array.isArray(files) ? (
+                                        <ul className={cx('FileControl-list')}>
+                                            {files.map((file, index) => (
+                                                <li key={file.id}>
+                                                    <div
+                                                        className={cx('FileControl-itemInfo', {
+                                                            'is-invalid':
+                                                                file.state === 'invalid' || file.state === 'error'
+                                                        })}
+                                                    >
+                                                        <Icon icon="file" className="icon" />
+                                                        {file.name || (file as FileValue).filename}
+                                                        {file.state === 'invalid' || file.state === 'error' ? (
+                                                            <Icon icon="fail" className="icon" />
+                                                        ) : null}
+                                                        {file.state !== 'uploading' ? (
+                                                            <a
+                                                                data-tooltip="移除"
+                                                                className={cx('FileControl-clear')}
+                                                                onClick={() => this.removeFile(file, index)}
+                                                            >
+                                                                <Icon icon="close" className="icon" />
+                                                            </a>
+                                                        ) : null}
+                                                    </div>
+                                                    {file.state === 'uploading' || file.state === 'uploaded' ? (
+                                                        <div className={cx('FileControl-progressInfo')}>
+                                                            <div className={cx('FileControl-progress')}>
+                                                                <span
+                                                                    style={{
+                                                                        width: `${
+                                                                            file.state === 'uploaded'
+                                                                                ? 100
+                                                                                : file.progress * 100
+                                                                        }%`
+                                                                    }}
+                                                                />
+                                                            </div>
+
+                                                            {file.state === 'uploaded' ? (
+                                                                <Icon icon="success" className="icon" />
+                                                            ) : (
+                                                                <span>{Math.round((file.progress || 0) * 100)}%</span>
+                                                            )}
+                                                        </div>
+                                                    ) : null}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    ) : null}
+                                </>
+                            )}
+                        </div>
+                    )}
+                </DropZone>
+
+                {error ? <div className={cx('FileControl-errorMsg')}>{error}</div> : null}
+
+                {!autoUpload && !hideUploadButton && files.length ? (
+                    <Button
+                        level="default"
+                        disabled={!hasPending}
+                        className={cx('FileControl-uploadBtn')}
+                        onClick={this.handleSelect}
+                    >
+                        {uploading ? '暂停上传' : '开始上传'}
+                    </Button>
+                ) : null}
             </div>
         );
     }
@@ -738,6 +918,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
 @FormItem({
     type: 'file',
-    sizeMutable: false
+    sizeMutable: false,
+    renderDescription: false
 })
 export class FileControlRenderer extends FileControl {}

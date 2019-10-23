@@ -1,5 +1,7 @@
 .#{$ns}ImageControl {
-    outline: none;
+    &-dropzone {
+        outline: none;
+    }
 
     &-addBtn {
         margin: 0;
@@ -35,7 +37,14 @@
         }
     }
 
-    &-dropzone.is-active &-addBtn {
+    &-pasteTip {
+        display: block;
+        color: $text--muted-color;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+
+    &-dropzone:focus &-addBtn {
         border-color: $ImageControl-addBtn-onHover-border;
         background: $ImageControl-addBtn-onHover-bg;
         color: $ImageControl-addBtn-onHover-color;
@@ -209,5 +218,21 @@
             cursor: pointer;
             font-size: 20px;
         }
+    }
+
+    &-acceptTip {
+        height: 120px;
+        color: #999;
+        border: 2px dashed $borderColor;
+
+        // &.is-accept {
+        border-color: $info;
+        background: #f3f9fe;
+        // }
+
+        border-radius: $borderRadius;
+
+        line-height: 120px;
+        text-align: center;
     }
 }
