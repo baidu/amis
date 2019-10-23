@@ -471,10 +471,15 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         const {multiple, crop} = this.props;
 
         if (crop && !multiple) {
+            const file = files[0] as FileValue;
+            if (!file.preview || !file.url) {
+                file.preview = window.URL.createObjectURL(file);
+            }
+
             return this.setState({
                 locked: true,
                 lockedReason: '请选择放弃或者应用',
-                cropFile: files[0] as FileValue
+                cropFile: file
             });
         }
 
