@@ -32,6 +32,12 @@ export interface ImageProps extends FormControlProps {
         aspectRatio?: number;
         aspectRatioLabel?: string;
     };
+    crop?:
+        | boolean
+        | {
+              aspectRatio?: number;
+              [propName: string]: any;
+          };
     accept?: string;
     btnUploadClassName?: string;
     btnClassName?: string;
@@ -53,7 +59,7 @@ export interface ImageState {
         maxHeight?: number;
     };
     files: Array<FileValue | FileX>;
-    crop?: object;
+    crop?: any;
     error?: string;
     cropFile?: FileValue;
     submitOnChange?: boolean;
@@ -725,73 +731,6 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         }
     }
 
-    renderCompressOptions() {
-        const showCompressOptions = this.props.showCompressOptions;
-        const cx = this.props.classnames;
-        const classPrefix = this.props.classPrefix;
-
-        if (!showCompressOptions) {
-            return;
-        }
-
-        return (
-            <div key="options" className="m-t">
-                <Switch
-                    classPrefix={classPrefix}
-                    checked={!!this.state.compress}
-                    onChange={checked => this.setState({compress: checked})}
-                    disabled={this.props.disabled}
-                />
-
-                <span className="m-l-xs">开启缩放?</span>
-
-                {this.state.compress && (
-                    <div className="inline">
-                        <input
-                            className="form-control w-xs inline m-l-xs m-r-xs"
-                            type="text"
-                            value={
-                                typeof this.state.compressOptions.maxWidth === 'undefined'
-                                    ? 800
-                                    : this.state.compressOptions.maxWidth
-                            }
-                            onChange={e =>
-                                this.setState({
-                                    compressOptions: {
-                                        ...this.state.compressOptions,
-                                        maxWidth: parseInt(e.currentTarget.value, 10) || 0
-                                    }
-                                })
-                            }
-                            disabled={this.props.disabled}
-                        />
-
-                        <span className=" m-l-xs m-r-xs">X</span>
-
-                        <input
-                            className="form-control w-xs inline  m-l-xs m-r-xs"
-                            type="text"
-                            value={
-                                typeof this.state.compressOptions.maxHeight === 'undefined'
-                                    ? 600
-                                    : this.state.compressOptions.maxHeight
-                            }
-                            onChange={e =>
-                                this.setState({
-                                    compressOptions: {
-                                        ...this.state.compressOptions,
-                                        maxHeight: parseInt(e.currentTarget.value, 10) || 0
-                                    }
-                                })
-                            }
-                            disabled={this.props.disabled}
-                        />
-                    </div>
-                )}
-            </div>
-        );
-    }
-
     render() {
         const {
             className,
@@ -814,14 +753,26 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         return (
             <div className={cx(`ImageControl`, className)} tabIndex={-1} onPaste={this.handlePaste}>
                 {cropFile ? (
-                    <div className="cropper-wrapper">
+                    <div className={cx('ImageControl-cropperWrapper')}>
                         <Cropper {...crop} ref="cropper" src={cropFile.preview} />
-                        <button type="button" className="btn-sm btn btn-link" onClick={this.handleCrop}>
-                            <i className="fa fa-2x fa-check text-warning" />
-                        </button>
-                        <button type="button" className="btn-sm btn btn-link" onClick={this.cancelCrop}>
-                            <i className="fa fa-2x fa-times text-white" />
-                        </button>
+                        <div className={cx('ImageControl-croperToolbar')}>
+                            <a
+                                className={cx('ImageControl-cropCancel')}
+                                onClick={this.cancelCrop}
+                                data-tooltip="取消"
+                                data-position="left"
+                            >
+                                <Icon icon="close" className="icon" />
+                            </a>
+                            <a
+                                className={cx('ImageControl-cropConfirm')}
+                                onClick={this.handleCrop}
+                                data-tooltip="确认"
+                                data-position="left"
+                            >
+                                <Icon icon="check" className="icon" />
+                            </a>
+                        </div>
                     </div>
                 ) : (
                     <DropZone
@@ -948,8 +899,6 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                         ) : null}
                     </DropZone>
                 )}
-
-                {this.renderCompressOptions()}
 
                 {!autoUpload && !hideUploadButton && files.length ? (
                     <Button
