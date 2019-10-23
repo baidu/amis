@@ -11,6 +11,7 @@ import {buildApi} from '../../utils/api';
 import {createObject, qsstringify} from '../../utils/helper';
 import {Icon} from '../../components/icons';
 import Button from '../../components/Button';
+// @ts-ignore
 import accepts from 'attr-accept';
 
 let id = 1;
@@ -137,7 +138,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
     };
 
     cropper = React.createRef<Cropper>();
-    dropzone = React.createRef<DropZone>();
+    dropzone = React.createRef<any>();
     current: FileValue | FileX | null = null;
     resolve?: (value?: any) => void;
 

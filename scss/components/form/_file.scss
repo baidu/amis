@@ -78,6 +78,15 @@
         }
     }
 
+    &-itemInfoText {
+        white-space: nowrap;
+        max-width: 180px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        line-height: 1;
+    }
+
     &-clear {
         float: right;
         color: #999;
@@ -100,6 +109,8 @@
         transform: translateY(-3px);
         width: 100%;
         align-items: center;
+        white-space: nowrap;
+        text-overflow: ellipsis;
 
         >span {
             display: inline-block;
@@ -115,6 +126,8 @@
             top: 0;
         }
     }
+
+
 
     &-progress {
         height: 5px;

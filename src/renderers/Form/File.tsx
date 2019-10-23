@@ -705,7 +705,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     fd.append(config.fieldName || 'file', blob, file.name);
 
                     return self
-                        ._send(reciever, fd, {}, progress => updateProgress(task.partNumber, progress))
+                        ._send(api, fd, {}, progress => updateProgress(task.partNumber, progress))
                         .then(ret => {
                             state.loaded++;
                             callback(null, {
@@ -854,7 +854,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                                                         })}
                                                     >
                                                         <Icon icon="file" className="icon" />
-                                                        {file.name || (file as FileValue).filename}
+                                                        <span className={cx('FileControl-itemInfoText')}>
+                                                            {file.name || (file as FileValue).filename}
+                                                        </span>
                                                         {file.state === 'invalid' || file.state === 'error' ? (
                                                             <Icon icon="fail" className="icon" />
                                                         ) : null}
@@ -876,7 +878,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                                                                         width: `${
                                                                             file.state === 'uploaded'
                                                                                 ? 100
-                                                                                : file.progress * 100
+                                                                                : (file.progress || 0) * 100
                                                                         }%`
                                                                     }}
                                                                 />
