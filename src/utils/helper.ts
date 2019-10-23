@@ -780,7 +780,7 @@ export function hasFile(object: any): boolean {
 export function qsstringify(
     data: any,
     options: any = {
-        arrayFormat: 'brackets',
+        arrayFormat: 'indices',
         encodeValuesOnly: true
     }
 ) {
@@ -790,7 +790,7 @@ export function qsstringify(
 export function object2formData(
     data: any,
     options: any = {
-        arrayFormat: 'brackets',
+        arrayFormat: 'indices',
         encodeValuesOnly: true
     },
     fd: FormData = new FormData()
