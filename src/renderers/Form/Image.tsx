@@ -7,8 +7,6 @@ import 'blueimp-canvastoblob';
 import find = require('lodash/find');
 import qs from 'qs';
 import {Payload} from '../../types';
-import {filter} from '../../utils/tpl';
-import {Switch} from '../../components';
 import {buildApi} from '../../utils/api';
 import {createObject, qsstringify} from '../../utils/helper';
 import {Icon} from '../../components/icons';
@@ -39,8 +37,7 @@ export interface ImageProps extends FormControlProps {
               [propName: string]: any;
           };
     accept?: string;
-    btnUploadClassName?: string;
-    btnClassName?: string;
+
     hideUploadButton?: boolean;
     joinValues?: boolean;
     extractValue?: boolean;
@@ -53,11 +50,6 @@ export interface ImageState {
     uploading: boolean;
     locked: boolean;
     lockedReason?: string;
-    compress: boolean;
-    compressOptions: {
-        maxWidth?: number;
-        maxHeight?: number;
-    };
     files: Array<FileValue | FileX>;
     crop?: any;
     error?: string;
@@ -91,10 +83,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         limit: undefined,
         accept: 'image/jpeg, image/jpg, image/png, image/gif',
         reciever: '/api/upload',
-        btnUploadClassName: 'btn-success',
-        btnClassName: 'btn-info btn-sm',
         hideUploadButton: false,
-        compressOptions: {},
         placeholder: '点击选择图片或者将图片拖入该区域',
         joinValues: true,
         extractValue: false,
@@ -142,9 +131,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
     state: ImageState = {
         uploading: false,
         locked: false,
-        compress: false,
-        files: [],
-        compressOptions: {}
+        files: []
     };
 
     current: FileValue | FileX | null = null;
@@ -173,9 +160,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         this.state = {
             ...this.state,
             files: files,
-            crop: this.buildCrop(props),
-            compress: !!props.compress,
-            compressOptions: props.compressOptions
+            crop: this.buildCrop(props)
         };
 
         this.sendFile = this.sendFile.bind(this);
@@ -614,17 +599,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
         cb: (error: null | string, file: Blob, obj?: FileValue) => void,
         onProgress: (progress: number) => void
     ) {
-        let compressOptions = this.state.compressOptions;
-
-        if (this.props.showCompressOptions) {
-            compressOptions = {
-                maxWidth: 800,
-                maxHeight: 600,
-                ...compressOptions
-            };
-        }
-
-        this._send(file, this.props.reciever as string, {compress: this.state.compress, compressOptions}, onProgress)
+        this._send(file, this.props.reciever as string, {}, onProgress)
             .then((ret: Payload) => {
                 if (ret.status) {
                     throw new Error(ret.msg || '上传失败, 请重试');
@@ -741,8 +716,6 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
             accept,
             maxLength,
             autoUpload,
-            btnUploadClassName,
-            btnClassName,
             hideUploadButton
         } = this.props;
 
@@ -903,7 +876,7 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                 {!autoUpload && !hideUploadButton && files.length ? (
                     <Button
                         level="default"
-                        className={cx('ImageControl-uploadBtn', btnUploadClassName)}
+                        className={cx('ImageControl-uploadBtn')}
                         disabled={!hasPending}
                         onClick={this.toggleUpload}
                     >
