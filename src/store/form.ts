@@ -128,7 +128,7 @@ export const FormStore = ServiceStore.named('FormStore')
                 setVariable(pristine, name, value);
                 self.pristine = pristine;
             }
-            
+
             if (!data.__pristine) {
                 Object.defineProperty(data, '__pristine', {
                     value: self.pristine,
@@ -286,7 +286,9 @@ export const FormStore = ServiceStore.named('FormStore')
                         createObject(
                             createObject(self.data.__super, {
                                 diff: diff,
-                                __diff: diff
+                                __diff: diff,
+                                pristine: self.pristine,
+                                __pristine: self.pristine
                             }),
                             self.data
                         )
