@@ -69,7 +69,8 @@ export interface TableProps extends RendererProps {
         items: Array<object> | object,
         diff: Array<object> | object,
         rowIndexes: Array<number> | number,
-        unModifiedItems?: Array<object>
+        unModifiedItems?: Array<object>,
+        rowOrigins?: Array<object> | object
     ) => void;
     onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
     onQuery: (values: object) => void;
@@ -384,7 +385,7 @@ export default class Table extends React.Component<TableProps, object> {
             return;
         }
 
-        onSave(item.data, difference(item.data, item.pristine), item.index);
+        onSave(item.data, difference(item.data, item.pristine), item.index, undefined, item.pristine);
     }
 
     async handleSave() {
@@ -408,7 +409,7 @@ export default class Table extends React.Component<TableProps, object> {
         const rowIndexes = store.modifiedRows.map(item => item.index);
         const diff = store.modifiedRows.map(item => difference(item.data, item.pristine));
         const unModifiedRows = store.rows.filter(item => !item.modified).map(item => item.data);
-        onSave(rows, diff, rowIndexes, unModifiedRows);
+        onSave(rows, diff, rowIndexes, unModifiedRows, store.modifiedRows.map(item => item.pristine));
     }
 
     handleSaveOrder() {

@@ -639,7 +639,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         rows: Array<object> | object,
         diff: Array<object> | object,
         indexes: Array<number>,
-        unModifiedItems?: Array<any>
+        unModifiedItems?: Array<any>,
+        rowsOrigin?: Array<object> | object
     ) {
         const {store, quickSaveApi, quickSaveItemApi, primaryField, env, messages, reload} = this.props;
 
@@ -652,7 +653,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             const data: any = createObject(store.data, {
                 rows,
                 rowsDiff: diff,
-                indexes: indexes
+                indexes: indexes,
+                rowsOrigin
             });
 
             if (rows.length && rows[0].hasOwnProperty(primaryField || 'id')) {
@@ -681,7 +683,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
             const data = createObject(store.data, {
                 item: rows,
-                modified: diff
+                modified: diff,
+                origin: rowsOrigin
             });
 
             const sendData = createObject(data, rows);
