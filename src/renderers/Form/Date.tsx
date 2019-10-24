@@ -40,12 +40,12 @@ export default class DateControl extends React.PureComponent<DateProps> {
         const {minDate, maxDate, value, defaultValue, setPrinstineValue, data, format} = this.props;
 
         if (defaultValue && value === defaultValue) {
-            setPrinstineValue(filterDate(defaultValue, data).format(format));
+            setPrinstineValue(filterDate(defaultValue, data, format).format(format));
         }
 
         this.setState({
-            minDate: minDate ? filterDate(minDate, data) : undefined,
-            maxDate: maxDate ? filterDate(maxDate, data) : undefined
+            minDate: minDate ? filterDate(minDate, data, format) : undefined,
+            maxDate: maxDate ? filterDate(maxDate, data, format) : undefined
         });
     }
 
