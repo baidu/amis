@@ -908,7 +908,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                         level="default"
                         disabled={!hasPending}
                         className={cx('FileControl-uploadBtn')}
-                        onClick={this.handleSelect}
+                        onClick={this.toggleUpload}
                     >
                         {uploading ? '暂停上传' : '开始上传'}
                     </Button>

@@ -41,7 +41,8 @@ export interface ListProps extends RendererProps {
         items: Array<object> | object,
         diff: Array<object> | object,
         rowIndexes: Array<number> | number,
-        unModifiedItems?: Array<object>
+        unModifiedItems?: Array<object>,
+        rowOrigins?: Array<object> | object
     ) => void;
     onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
     onQuery: (values: object) => void;
@@ -295,7 +296,7 @@ export default class List extends React.Component<ListProps, object> {
             return;
         }
 
-        onSave(item.data, difference(item.data, item.pristine), item.index);
+        onSave(item.data, difference(item.data, item.pristine), item.index, undefined, item.pristine);
     }
 
     handleSave() {
@@ -309,7 +310,7 @@ export default class List extends React.Component<ListProps, object> {
         const itemIndexes = store.modifiedItems.map(item => item.index);
         const diff = store.modifiedItems.map(item => difference(item.data, item.pristine));
         const unModifiedItems = store.items.filter(item => !item.modified).map(item => item.data);
-        onSave(items, diff, itemIndexes, unModifiedItems);
+        onSave(items, diff, itemIndexes, unModifiedItems, store.modifiedItems.map(item => item.pristine));
     }
 
     handleSaveOrder() {
