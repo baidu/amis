@@ -3,6 +3,7 @@ import {OptionsControl, OptionsControlProps, Option} from './Options';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 import chunk = require('lodash/chunk');
+import {difference} from '../../utils/helper';
 
 export interface CheckboxesProps extends OptionsControlProps {
     placeholder?: any;
@@ -23,6 +24,27 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
         const {defaultCheckAll, onToggleAll} = this.props;
 
         defaultCheckAll && onToggleAll();
+    }
+
+    componentDidUpdate(prevProps:OptionsControlProps) {
+        let {options: currOptions, onToggleAll, checkAll, defaultCheckAll} = this.props;
+
+        if (checkAll && defaultCheckAll && currOptions.length) {
+            let {options: prevOptions} = prevProps;
+
+            if (prevOptions.length != currOptions.length) {
+                onToggleAll();
+            } else {
+                for(let i = 0, len = currOptions.length; i < len; i++) {
+                    let diff = difference(prevOptions[i], currOptions[i]);
+                    let hasDifference = Object.keys(diff).length;
+                    if (hasDifference) {
+                        onToggleAll();
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     reload() {
