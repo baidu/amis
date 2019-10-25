@@ -44,7 +44,7 @@
         "keycode": "^2.1.9",
         "match-sorter": "2.2.1",
         "mobx": "^4.5.0",
-        "mobx-react": "^5.2.5",
+        "mobx-react": "^6.1.4",
         "mobx-state-tree": "^3.7.0",
         "moment": "^2.19.3",
         "monaco-editor": "0.17.1",
