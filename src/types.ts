@@ -2,7 +2,7 @@ export interface ApiObject {
     url: string;
     method: 'get' | 'post' | 'put' | 'patch' | 'delete';
     data?: object;
-    headers?: object;
+    headers?: PlainObject;
     config?: {
         withCredentials?: boolean;
         cancelExecutor?: (cancel: Function) => void;
@@ -13,7 +13,7 @@ export interface ApiObject {
     requestAdaptor?: (api: ApiObject) => ApiObject;
     cache?: number;
     qsOptions?: any;
-    dataType?: 'json' | 'form-data';
+    dataType?: 'json' | 'form-data' | 'form';
 }
 export type ApiString = string;
 export type Api = ApiString | ApiObject;
