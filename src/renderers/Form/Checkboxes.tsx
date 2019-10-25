@@ -27,23 +27,11 @@ export default class CheckboxesControl extends React.Component<CheckboxesProps, 
     }
 
     componentDidUpdate(prevProps:OptionsControlProps) {
-        let {options: currOptions, onToggleAll, checkAll, defaultCheckAll} = this.props;
+        let {options: currOptions, onToggleAll, defaultCheckAll} = this.props;
+        let {options: prevOptions} = prevProps;
 
-        if (checkAll && defaultCheckAll && currOptions.length) {
-            let {options: prevOptions} = prevProps;
-
-            if (prevOptions.length != currOptions.length) {
-                onToggleAll();
-            } else {
-                for(let i = 0, len = currOptions.length; i < len; i++) {
-                    let diff = difference(prevOptions[i], currOptions[i]);
-                    let hasDifference = Object.keys(diff).length;
-                    if (hasDifference) {
-                        onToggleAll();
-                        break;
-                    }
-                }
-            }
+        if (defaultCheckAll && prevOptions != currOptions) {
+            onToggleAll();
         }
     }
 
