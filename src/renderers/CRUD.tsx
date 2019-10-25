@@ -103,7 +103,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         'tableClassName',
         'headerClassName',
         'footerClassName',
-        'toolbarClassName',
+        // 'toolbarClassName',
         'headerToolbar',
         'footerToolbar',
         'filterTogglable',
@@ -1367,7 +1367,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                         onPopOverClose: this.handleChildPopOverClose,
                         headerToolbarRender: this.renderHeaderToolbar,
                         footerToolbarRender: this.renderFooterToolbar,
-                        data: store.mergedData
+                        data: store.mergedData,
                     }
                 )}
 
