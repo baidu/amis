@@ -287,8 +287,7 @@ export const FormStore = ServiceStore.named('FormStore')
                             createObject(self.data.__super, {
                                 diff: diff,
                                 __diff: diff,
-                                pristine: self.pristine,
-                                __pristine: self.pristine
+                                pristine: self.pristine
                             }),
                             self.data
                         )
