@@ -3,7 +3,6 @@ import {OptionsControl, OptionsControlProps, Option} from './Options';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 import chunk = require('lodash/chunk');
-import {difference} from '../../utils/helper';
 
 export interface CheckboxesProps extends OptionsControlProps {
     placeholder?: any;
