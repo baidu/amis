@@ -24,11 +24,10 @@ export interface TabProps extends Schema {
 }
 
 export interface TabsProps extends RendererProps {
-    mode?: '' | 'line' | 'card' | 'radio';
-    tabsMode?: '' | 'line' | 'card' | 'radio';
+    mode?: '' | 'line' | 'card' | 'radio' | 'vertical';
+    tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
     activeKey: string | number;
     contentClassName: string;
-    handleSelect?: Function;
     location?: any;
     mountOnEnter?: boolean;
     unmountOnExit?: boolean;
