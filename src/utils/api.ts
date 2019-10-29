@@ -146,7 +146,7 @@ export function wrapFetcher(
         if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
             api.data = object2formData(api.data, api.qsOptions);
         } else if (api.data && api.dataType === 'form') {
-            api.data = qsstringify(api.data) as any;
+            api.data = qsstringify(api.data, api.qsOptions) as any;
             api.headers = api.headers || (api.headers = {});
             api.headers['Content-Type'] = 'application/x-www-form-urlencoded';
         }
