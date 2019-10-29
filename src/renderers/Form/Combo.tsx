@@ -485,7 +485,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             <CTabs
                 mode={tabsStyle}
                 activeKey={store.activeKey}
-                handleSelect={this.handleTabSelect}
+                onSelect={this.handleTabSelect}
                 additionBtns={
                     !disabled ? (
                         <li className={cx(`Tabs-link`)}>

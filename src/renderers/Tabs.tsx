@@ -219,7 +219,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                 mode={mode}
                 className={className}
                 contentClassName={contentClassName}
-                handleSelect={this.handleSelect}
+                onSelect={this.handleSelect}
                 activeKey={this.state.activeKey}
             >
                 {tabs.map((tab, index) =>
