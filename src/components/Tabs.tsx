@@ -31,8 +31,8 @@ export interface TabProps {
 }
 
 export interface TabsProps {
-    mode?: '' | 'line' | 'card' | 'radio';
-    tabsMode?: '' | 'line' | 'card' | 'radio';
+    mode?: '' | 'line' | 'card' | 'radio' | 'vertical';
+    tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
     additionBtns?: React.ReactNode;
     handleSelect?: Function;
     classPrefix: string;
