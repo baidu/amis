@@ -19,6 +19,7 @@ const transitionStyles: {
 export interface TabProps {
     title?: string; // 标题
     icon?: string;
+    disabled?: boolean | string;
     eventKey: string | number;
     tab?: Schema;
     className?: string;
@@ -34,7 +35,7 @@ export interface TabsProps {
     mode?: '' | 'line' | 'card' | 'radio' | 'vertical';
     tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
     additionBtns?: React.ReactNode;
-    handleSelect?: Function;
+    onSelect?: (key: string | number) => void;
     classPrefix: string;
     classnames: ClassNamesFn;
     activeKey: string | number;
@@ -50,9 +51,9 @@ export class Tabs extends React.Component<TabsProps> {
         contentClassName: ''
     };
 
-    handleSelect(key: any) {
-        const {handleSelect} = this.props;
-        handleSelect && handleSelect(key);
+    handleSelect(key: string | number) {
+        const {onSelect} = this.props;
+        onSelect && onSelect(key);
     }
 
     renderNav(child: any, index: number) {
