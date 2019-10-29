@@ -77,6 +77,14 @@ function gennerateId() {
 
 let preventEvent = (e: any) => e.stopPropagation();
 
+function getNameFromUrl(url: string) {
+    if (/(?:\/|^)([^\/]+?)$/.test(url)) {
+        return RegExp.$1;
+    }
+
+    return url;
+}
+
 export default class FileControl extends React.Component<FileProps, FileState> {
     static defaultProps: Partial<FileProps> = {
         maxSize: 0,
@@ -134,7 +142,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                           ? {
                                 state: file && file.state ? file.state : 'init',
                                 value,
-                                name: /^data:/.test(value) ? (file && file.name) || 'base64数据' : '',
+                                name: /^data:/.test(value)
+                                    ? (file && file.name) || 'base64数据'
+                                    : getNameFromUrl(value),
                                 id: gennerateId(),
                                 url:
                                     typeof props.downloadUrl === 'string' && value && !/^data:/.test(value)
@@ -854,9 +864,20 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                                                         })}
                                                     >
                                                         <Icon icon="file" className="icon" />
-                                                        <span className={cx('FileControl-itemInfoText')}>
-                                                            {file.name || (file as FileValue).filename}
-                                                        </span>
+                                                        {(file as FileValue).url ? (
+                                                            <a
+                                                                className={cx('FileControl-itemInfoText')}
+                                                                target="_blank"
+                                                                href={(file as FileValue).url}
+                                                            >
+                                                                {file.name || (file as FileValue).filename}
+                                                            </a>
+                                                        ) : (
+                                                            <span className={cx('FileControl-itemInfoText')}>
+                                                                {file.name || (file as FileValue).filename}
+                                                            </span>
+                                                        )}
+
                                                         {file.state === 'invalid' || file.state === 'error' ? (
                                                             <Icon icon="fail" className="icon" />
                                                         ) : null}
