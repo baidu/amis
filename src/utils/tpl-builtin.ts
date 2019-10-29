@@ -212,22 +212,31 @@ export const filters: {
         return input ? filterDate(input, this, inputFormat).format(outputFormat) : '';
     },
     asArray: input => (input ? [input] : input),
-    filter: function(input, keys, exp) {
-        let keywords: string;
-        if (!Array.isArray(input) || !keys || !exp || !(keywords = resolveVariable(exp, this as any))) {
+    filter: function(input, keys, expOrDirective, arg1) {
+        if (!Array.isArray(input) || !keys || !expOrDirective) {
             return input;
         }
 
-        keywords = keywords.toLowerCase();
+        let directive = expOrDirective;
+        let fn: (value: any, key: string, item: any) => boolean = () => true;
+
+        if (directive === 'isTrue') {
+            fn = value => !!value;
+        } else if (directive === 'isFalse') {
+            fn = value => !value;
+        } else if (directive === 'isExists') {
+            fn = value => typeof value !== 'undefined';
+        } else {
+            if (directive !== 'match') {
+                directive = 'match';
+                arg1 = expOrDirective;
+            }
+            arg1 = arg1 ? (/^('|")(.*)\1$/.test(arg1) ? RegExp.$2 : resolveVariable(arg1, this as any)) : '';
+            fn = value => !!~String(value.toLowerCase()).indexOf(arg1);
+        }
+
         keys = keys.split(/\s*,\s*/);
-        return input.filter((item: any) =>
-            keys.some(
-                (key: string) =>
-                    ~String(resolveVariable(key, item))
-                        .toLowerCase()
-                        .indexOf(keywords)
-            )
-        );
+        return input.filter((item: any) => keys.some((key: string) => fn(resolveVariable(key, item), key, item)));
     },
     base64Encode(str) {
         return btoa(

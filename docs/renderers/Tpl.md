@@ -94,6 +94,7 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 -   `upperCase` 转大写
 -   `base64Encode` base64 转码
 -   `base64Decode` base64 解码
+-   `filter` 过滤数组，操作对象为数组，当目标对象不是数组时将无效。使用语法 ${xxx | filter: 参与过滤的字段集合:指令:取值变量名}。比如: `${xxx|filter:readonly:isTrue}` 将xxx 数组中 readonly 为 true 的成员提取出来。再来个栗子：`${xxx|filter:a,b:match:keywords}` 将 xxx 数组中成员变量 a 或者 b 的值与环境中 keywords 的值相匹配的提取出来。如果不需要取变量，也可以写固定值如：`${xxx|filter:a,b:match:'123'}`
 
 组合使用。
 
