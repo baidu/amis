@@ -10,12 +10,12 @@
             content: ' ';
         }
 
-        > .#{$ns}Tabs-link {
+        >.#{$ns}Tabs-link {
             margin-bottom: -$Tabs-borderWidth;
             display: inline-block;
             position: relative;
 
-            > a:first-child {
+            >a:first-child {
                 font-size: $Tabs-linkFontSize;
                 outline: none;
                 border: $Tabs-borderWidth solid transparent;
@@ -29,7 +29,7 @@
                 display: block;
             }
 
-            > .#{$ns}Combo-toolbarBtn {
+            >.#{$ns}Combo-toolbarBtn {
                 position: absolute;
                 right: -10px;
                 top: -10px;
@@ -37,26 +37,26 @@
                 display: none;
             }
 
-            &:hover > .#{$ns}Combo-toolbarBtn {
+            &:hover>.#{$ns}Combo-toolbarBtn {
                 display: block;
             }
 
-            &:hover > a:first-child,
-            > a:first-child:focus {
+            &:hover>a:first-child,
+            >a:first-child:focus {
                 border-color: $Tabs-onHover-borderColor;
                 text-decoration: none;
             }
 
-            &.disabled > a:first-child,
-            &.is-disabled > a:first-child {
+            &.disabled>a:first-child,
+            &.is-disabled>a:first-child {
                 color: $Tabs-onDisabled-color;
                 background-color: transparent;
                 border-color: transparent;
                 pointer-events: none;
             }
 
-            &.active > a:first-child,
-            &.is-active > a:first-child {
+            &.active>a:first-child,
+            &.is-active>a:first-child {
                 color: $Tabs-onActive-color;
                 background-color: $Tabs-onActive-bg;
                 border-color: $Tabs-onActive-borderColor;
@@ -88,11 +88,11 @@
     }
 
     &--line {
-        > .#{$ns}Tabs-links {
+        >.#{$ns}Tabs-links {
             border-bottom-color: $Tabs--line-borderColor;
 
-            > li {
-                > a:first-child {
+            >li {
+                >a:first-child {
                     border-width: 0 0 $Tabs--line-borderWidth 0;
                     padding: $Tabs--line-linkPadding;
                     margin: $Tabs--line-linkMargin;
@@ -106,15 +106,16 @@
                 }
 
                 &:last-child {
-                    > a {
+                    >a {
                         margin: 0;
                     }
                 }
 
                 &.is-active {
-                    > a:first-child,
-                    > a:first-child:hover,
-                    > a:first-child:focus {
+
+                    >a:first-child,
+                    >a:first-child:hover,
+                    >a:first-child:focus {
                         border-color: $Tabs--line-onHover-borderColor;
                         color: $Tabs--line-onHover-color;
                         background-color: transparent;
@@ -123,7 +124,7 @@
             }
         }
 
-        > .#{$ns}Tabs-content {
+        >.#{$ns}Tabs-content {
             border-width: 0;
             padding: $Tabs--line-content-padding;
             background-color: $Tabs--line-content-bg;
@@ -131,16 +132,17 @@
     }
 
     &--card {
-        > .#{$ns}Tabs-links {
+        >.#{$ns}Tabs-links {
             padding: $Tabs--card-padding;
             background-color: $Tabs--card-bg;
             border-top: px2rem(1px) solid $Tabs--card-borderTopColor;
 
-            > li {
+            >li {
                 &.is-active {
-                    > a:first-child,
-                    > a:first-child:hover,
-                    > a:first-child:focus {
+
+                    >a:first-child,
+                    >a:first-child:hover,
+                    >a:first-child:focus {
                         border-color: $Tabs--card-onActive-borderColor;
                         color: $primary;
                         border-bottom-color: $Tabs--card-onActive-bg;
@@ -148,7 +150,7 @@
                     }
                 }
 
-                > a:first-child {
+                >a:first-child {
                     padding: $Tabs--card-linkPadding;
                     margin: $Tabs--card-linkMargin;
 
@@ -162,20 +164,20 @@
             }
         }
 
-        > .#{$ns}Tabs-content {
+        >.#{$ns}Tabs-content {
             border-width: 0;
         }
     }
 
     &--radio {
-        > .#{$ns}Tabs-links {
+        >.#{$ns}Tabs-links {
             border: 0;
             margin-bottom: px2rem(10px);
 
-            > li {
+            >li {
                 margin: 0;
 
-                > a:first-child {
+                >a:first-child {
                     border-width: px2rem(1px);
                     border-color: $Tabs-borderColor;
                     font-size: $fontSizeSm;
@@ -186,21 +188,6 @@
                     height: px2rem(30px);
                     line-height: px2rem(30px);
                     border-radius: 0;
-                }
-
-                &.is-active {
-                    > a:first-child,
-                    > a:first-child:hover,
-                    > a:first-child:focus {
-                        color: $Tabs--radio-bg;
-                        background-color: $primary;
-                        border-color: $primary;
-                        position: relative;
-                        z-index: 1;
-                    }
-                }
-
-                > a:first-child {
                     background: $Tabs--radio-bg;
 
                     &:hover,
@@ -208,15 +195,76 @@
                         color: $primary;
                     }
                 }
+
+                &.is-active {
+
+                    >a:first-child,
+                    >a:first-child:hover,
+                    >a:first-child:focus {
+                        color: $Tabs--radio-bg;
+                        background-color: $primary;
+                        border-color: $primary;
+                        position: relative;
+                        z-index: 1;
+                    }
+                }
             }
 
-            > li + li {
+            >li+li {
                 margin-left: -1px;
             }
         }
 
-        > .#{$ns}Tabs-content {
+        >.#{$ns}Tabs-content {
             border-top: $Tabs-borderWidth solid $Tabs-borderColor;
+        }
+    }
+
+    &--vertical {
+        display: flex;
+        min-height: px2rem(200px);
+        border: $Tabs-borderWidth solid $Tabs-borderColor;
+        border-radius: 0;
+
+        >.#{$ns}Tabs-links {
+            width: px2rem(140px);
+            background: #F5F5F5;
+            border: none;
+            padding-bottom: px2rem(60px);
+
+            >li {
+                margin: 0 0 0 -1px;
+                display: block;
+
+                >a:first-child {
+                    border-color: transparent;
+                    border-radius: 0;
+                    border-width: 0 0 0 px2rem(4px);
+                    margin: 0;
+
+                    &:hover,
+                    &:focus {
+                        color: $primary;
+                        border-color: transparent;
+                    }
+                }
+
+                &.is-active {
+
+                    >a:first-child,
+                    >a:first-child:hover,
+                    >a:first-child:focus {
+                        color: $primary;
+                        border-color: $primary;
+                    }
+                }
+            }
+        }
+
+
+        >.#{$ns}Tabs-content {
+            border: none;
+            flex-grow: 1;
         }
     }
 }
