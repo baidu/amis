@@ -13,6 +13,7 @@ import {reaction} from 'mobx';
 import {Icon} from '../components/icons';
 import {ModalStore, IModalStore} from '../store/modal';
 import {findDOMNode} from 'react-dom';
+import {Spinner} from '../components';
 
 export interface DialogProps extends RendererProps {
     title?: string; // 标题
@@ -324,18 +325,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
             <div className={cx('Modal-footer')}>
                 {store.loading || store.error ? (
                     <div className={cx('Dialog-info')} key="info">
-                        {store.loading
-                            ? render(
-                                  'info',
-                                  {
-                                      type: 'spinner'
-                                  },
-                                  {
-                                      key: 'info',
-                                      size: 'sm'
-                                  }
-                              )
-                            : null}
+                        <Spinner size="sm" key="info" show={store.loading} />
                         {store.error ? <span className={cx('Dialog-error')}>{store.msg}</span> : null}
                     </div>
                 ) : null}

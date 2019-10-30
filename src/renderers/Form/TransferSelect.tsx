@@ -3,6 +3,7 @@ import {OptionsControl, OptionsControlProps, Option} from './Options';
 import {xorBy, find} from 'lodash';
 import Checkbox from '../../components/Checkbox';
 import {closeIcon, Icon} from '../../components/icons';
+import {Spinner} from '../../components';
 
 export interface TransferSelectProps extends OptionsControlProps {
     viewMode?: 'table' | 'normal';
@@ -377,19 +378,7 @@ export class TransferSelect extends React.Component<TransferSelectProps, Transfe
 
                 {viewMode === 'table' ? this.renderTableSelectedOptions() : this.renderNormalSelectedOptions()}
 
-                {loading
-                    ? render(
-                          'loading',
-                          {
-                              type: 'spinner',
-                              overlay: true
-                          },
-                          {
-                              size: 'lg',
-                              key: 'info'
-                          }
-                      )
-                    : null}
+                <Spinner size="lg" overlay key="info" show={loading} />
             </div>
         );
     }
