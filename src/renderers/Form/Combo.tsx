@@ -277,6 +277,23 @@ export default class ComboControl extends React.Component<ComboProps> {
         store.forms.forEach(item => item.items.forEach(item => item.unique && item.syncOptions()));
     }
 
+    handleFormInit(index: number, values: any) {
+        const {syncDefaultValue, disabled} = this.props;
+
+        if (syncDefaultValue === false || disabled) {
+            return;
+        }
+
+        let value = this.getValueAsArray();
+
+        value.splice(index, 1, {
+            ...value[index],
+            ...values
+        });
+
+        this.props.onChange(value);
+    }
+
     handleSingleFormChange(values: object) {
         this.props.onChange({
             ...values
@@ -596,6 +613,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                                         disabled,
                                         data,
                                         onChange: this.handleChange.bind(this, index),
+                                        onInit: this.handleFormInit.bind(this, index),
                                         onAction: this.handleAction,
                                         ref: (ref: any) => this.formRef(ref, index),
                                         canAccessSuperData
@@ -747,6 +765,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                                                   disabled,
                                                   data,
                                                   onChange: this.handleChange.bind(this, index),
+                                                  onInit: this.handleFormInit.bind(this, index),
                                                   onAction: this.handleAction,
                                                   ref: (ref: any) => this.formRef(ref, index),
                                                   canAccessSuperData
