@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
+import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition';
 import {Portal} from 'react-overlays';
 import cx from 'classnames';
 import {current, addModal, removeModal} from './ModalManager';
@@ -30,7 +30,8 @@ const fadeStyles: {
     [propName: string]: string;
 } = {
     [ENTERING]: 'in',
-    [ENTERED]: 'in'
+    [ENTERED]: 'in',
+    [EXITING]: 'out'
 };
 export class Modal extends React.Component<ModalProps, ModalState> {
     static defaultProps = {
