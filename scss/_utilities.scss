@@ -67,6 +67,10 @@
     color: $text--muted-color;
 }
 
+.text-loud {
+    color: $text--loud-color;
+}
+
 .clearfix {
     @include clearfix();
 }
@@ -1203,6 +1207,7 @@
 
 @include media-breakpoint-up(sm) {
     .#{$ns}Form-col {
+
         &.w,
         &.w-xs,
         &.w-sm &.w-md &.w-lg {
@@ -1287,8 +1292,9 @@
     -webkit-overflow-scrolling: touch;
 
     &.hover {
+
         &,
-        & > .cell-inner {
+        &>.cell-inner {
             overflow-y: hidden !important;
         }
 
@@ -1298,15 +1304,16 @@
             overflow: visible;
             overflow-y: auto;
 
-            & > .cell-inner {
+            &>.cell-inner {
                 overflow-y: auto !important;
             }
         }
     }
 
     .smart & {
+
         &,
-        & > .cell-inner {
+        &>.cell-inner {
             overflow-y: auto !important;
         }
     }
@@ -1337,11 +1344,11 @@
 .hover-anchor:hover,
 .hover-anchor:focus,
 .hover-anchor:active {
-    & > .hover-action {
+    &>.hover-action {
         display: inherit;
     }
 
-    & > .hover-rotate {
+    &>.hover-rotate {
         transform: rotate(90deg);
     }
 }
@@ -1406,7 +1413,7 @@
     width: 100%;
     height: 100%;
 
-    & > .col {
+    &>.col {
         display: table-cell;
         vertical-align: top;
         height: 100%;
