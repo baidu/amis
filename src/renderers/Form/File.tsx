@@ -166,7 +166,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         const delimiter = props.delimiter as string;
         let files: Array<FileValue> = [];
 
-        if (value) {
+        if (value && value instanceof Blob) {
+            files = [value as any];
+        } else if (value) {
             files = (Array.isArray(value)
                 ? value
                 : joinValues
@@ -452,6 +454,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = () => {
+                file.state = 'ready';
                 cb(null, file, {
                     value: reader.result as string,
                     name: file.name,
@@ -463,6 +466,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             reader.onerror = (error: any) => cb(error.message);
             return;
         } else if (asBlob) {
+            file.state = 'ready';
             setTimeout(
                 () =>
                     cb(null, file, {
