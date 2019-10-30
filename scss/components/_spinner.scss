@@ -16,18 +16,12 @@
     right: 0;
     bottom: 0;
     background: $Spinner-overlay-bg;
+    transition: ease-out opacity 0.3s;
 
-    .#{$ns}Spinner {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate3d(-50%, -50%, 0);
-    }
+    opacity: 0;
 
-    .#{$ns}Spinner--lg {
-        width: $Spinner--lg-width;
-        height: $Spinner--lg-height;
-        line-height: $Spinner--lg-height;
+    &.in {
+        opacity: 1;
     }
 }
 
@@ -43,14 +37,30 @@
         width: $Spinner--lg-width;
         height: $Spinner--lg-height;
     }
+
+    transition: ease-out all 0.3s;
+}
+
+// 当启用 overlay 的时候，应该是居中模式。
+.#{$ns}Spinner--overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+}
+
+.#{$ns}Spinner--overlay.#{$ns}Spinner--lg {
+    width: $Spinner--lg-width;
+    height: $Spinner--lg-height;
+    line-height: $Spinner--lg-height;
 }
 
 @include media-breakpoint-up(md) {
-    .#{$ns}Layout .#{$ns}Page-body > .#{$ns}Spinner-overlay {
+    .#{$ns}Layout .#{$ns}Page-body>.#{$ns}Spinner-overlay {
         left: $Layout-aside-width;
     }
 
-    .#{$ns}Layout--folded .#{$ns}Page-body > .#{$ns}Spinner-overlay {
+    .#{$ns}Layout--folded .#{$ns}Page-body>.#{$ns}Spinner-overlay {
         left: $Layout-aside--folded-width;
     }
 }

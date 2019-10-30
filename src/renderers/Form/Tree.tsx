@@ -7,6 +7,7 @@ import {Action, Schema, PlainObject, Api, Payload} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {filter} from '../../utils/tpl';
 import {Option} from '../../components/Checkboxes';
+import {Spinner} from '../../components';
 
 export interface TreeProps extends OptionsControlProps {
     placeholder?: any;
@@ -28,11 +29,11 @@ export interface TreeProps extends OptionsControlProps {
 }
 
 export interface TreeState {
-    isAddModalOpened: boolean,
-    isEditModalOpened: boolean,
-    parent: Option | null,
-    prev: Option | null,
-    data: any
+    isAddModalOpened: boolean;
+    isEditModalOpened: boolean;
+    parent: Option | null;
+    prev: Option | null;
+    data: any;
 }
 
 export default class TreeControl extends React.Component<TreeProps, TreeState> {
@@ -51,7 +52,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
         parent: null,
         prev: null,
         data: null
-    }
+    };
 
     reload() {
         const reload = this.props.reloadOptions;
@@ -65,10 +66,13 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     @autobind
     handleAddModalConfirm(values: Array<any>, action: Action, ctx: any, components: Array<any>) {
-        this.saveRemote({
-            ...values,
-            parent: this.state.parent
-        }, 'add');
+        this.saveRemote(
+            {
+                ...values,
+                parent: this.state.parent
+            },
+            'add'
+        );
         this.closeAddDialog();
     }
 
@@ -79,21 +83,19 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
     @autobind
     handleEditModalConfirm(values: Array<any>, action: Action, ctx: any, components: Array<any>) {
-        this.saveRemote({
-            ...values,
-            prev: this.state.prev
-        }, 'edit');
+        this.saveRemote(
+            {
+                ...values,
+                prev: this.state.prev
+            },
+            'edit'
+        );
         this.closeEditDialog();
     }
 
     @autobind
     async saveRemote(item: any, type: 'add' | 'edit') {
-        const {
-            addApi,
-            editApi,
-            data,
-            env
-        } = this.props;
+        const {addApi, editApi, data, env} = this.props;
 
         let remote: Payload | null = null;
         if (type == 'add' && isEffectiveApi(addApi, createObject(data, item))) {
@@ -106,7 +108,7 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
             env.notify('error', remote.msg || '保存失败');
             return;
         }
-        
+
         this.reload();
     }
 
@@ -207,11 +209,8 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
 
         return (
             <div className={cx(`${ns}TreeControl`, className)}>
-                {loading ? (
-                    render('loading', {
-                        type: 'spinner'
-                    })
-                ) : (
+                <Spinner size="sm" key="info" show={loading} />
+                {loading ? null : (
                     <TreeSelector
                         classPrefix={ns}
                         valueField={valueField}
@@ -250,35 +249,37 @@ export default class TreeControl extends React.Component<TreeProps, TreeState> {
                     />
                 )}
 
-                {addMode && render(
-                    'modal',
-                    {
-                        type: 'dialog',
-                        ...addDialog
-                    },
-                    {
-                        key: 'addModal',
-                        data: data,
-                        onConfirm: this.handleAddModalConfirm,
-                        onClose: this.closeAddDialog,
-                        show: this.state.isAddModalOpened
-                    }
-                )}
+                {addMode &&
+                    render(
+                        'modal',
+                        {
+                            type: 'dialog',
+                            ...addDialog
+                        },
+                        {
+                            key: 'addModal',
+                            data: data,
+                            onConfirm: this.handleAddModalConfirm,
+                            onClose: this.closeAddDialog,
+                            show: this.state.isAddModalOpened
+                        }
+                    )}
 
-                {editMode && render(
-                    'modal',
-                    {
-                        type: 'dialog',
-                        ...editDialog
-                    },
-                    {
-                        key: 'editModal',
-                        data: data,
-                        onConfirm: this.handleEditModalConfirm,
-                        onClose: this.closeEditDialog,
-                        show: this.state.isEditModalOpened
-                    }
-                )}
+                {editMode &&
+                    render(
+                        'modal',
+                        {
+                            type: 'dialog',
+                            ...editDialog
+                        },
+                        {
+                            key: 'editModal',
+                            data: data,
+                            onConfirm: this.handleEditModalConfirm,
+                            onClose: this.closeEditDialog,
+                            show: this.state.isEditModalOpened
+                        }
+                    )}
             </div>
         );
     }

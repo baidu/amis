@@ -8,6 +8,7 @@ import cx from 'classnames';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
+import {Spinner} from '../components';
 
 export interface ServiceProps extends RendererProps {
     api?: Api;
@@ -199,19 +200,7 @@ export default class Service extends React.Component<ServiceProps> {
 
                 {this.renderBody()}
 
-                {store.loading
-                    ? render(
-                          'info',
-                          {
-                              type: 'spinner',
-                              overlay: true
-                          },
-                          {
-                              key: 'info',
-                              size: 'lg'
-                          }
-                      )
-                    : null}
+                <Spinner size="lg" overlay key="info" show={store.loading} />
             </div>
         );
     }

@@ -27,6 +27,7 @@ import {isValidApi, buildApi, isEffectiveApi} from '../utils/api';
 import omit = require('lodash/omit');
 import find = require('lodash/find');
 import Html from '../components/Html';
+import {Spinner} from '../components';
 
 interface CRUDProps extends RendererProps {
     api?: Api;
@@ -1367,23 +1368,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                         onPopOverClose: this.handleChildPopOverClose,
                         headerToolbarRender: this.renderHeaderToolbar,
                         footerToolbarRender: this.renderFooterToolbar,
-                        data: store.mergedData,
+                        data: store.mergedData
                     }
                 )}
 
-                {store.loading
-                    ? render(
-                          'info',
-                          {
-                              type: 'spinner',
-                              overlay: true
-                          },
-                          {
-                              size: 'lg',
-                              key: 'info'
-                          }
-                      )
-                    : null}
+                <Spinner overlay size="lg" key="info" show={store.loading} />
 
                 {render(
                     'dialog',

@@ -7,7 +7,7 @@ import React from 'react';
 import cx from 'classnames';
 import {FormControlProps, FormItem} from './Item';
 import {buildApi, isValidApi, isEffectiveApi} from '../../utils/api';
-import {Checkbox} from '../../components';
+import {Checkbox, Spinner} from '../../components';
 
 export interface Column {
     label: string;
@@ -241,13 +241,7 @@ export default class MatrixCheckbox extends React.Component<MatrixProps, MatrixS
                     this.renderInput()
                 )}
 
-                {loading
-                    ? render('loading', {
-                          type: 'spinner',
-                          overlay: true,
-                          size: 'lg'
-                      })
-                    : null}
+                <Spinner size="lg" overlay key="info" show={loading} />
             </div>
         );
     }
