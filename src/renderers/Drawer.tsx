@@ -13,6 +13,7 @@ import {reaction} from 'mobx';
 import {findDOMNode} from 'react-dom';
 import {IModalStore, ModalStore} from '../store/modal';
 import {filter} from '../utils/tpl';
+import {Spinner} from '../components';
 
 export interface DrawerProps extends RendererProps {
     title?: string; // 标题
@@ -284,17 +285,7 @@ export default class Drawer extends React.Component<DrawerProps, object> {
             <div className={cx('Drawer-footer')}>
                 {store.loading || store.error ? (
                     <div className={cx('Drawer-info')}>
-                        {store.loading
-                            ? render(
-                                  'info',
-                                  {
-                                      type: 'spinner'
-                                  },
-                                  {
-                                      key: 'info'
-                                  }
-                              )
-                            : null}
+                        <Spinner size="sm" key="info" show={store.loading} />
                         {store.error ? <span className={cx('Drawer-error')}>{store.msg}</span> : null}
                     </div>
                 ) : null}

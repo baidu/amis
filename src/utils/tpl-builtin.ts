@@ -232,7 +232,16 @@ export const filters: {
                 arg1 = expOrDirective;
             }
             arg1 = arg1 ? (/^('|")(.*)\1$/.test(arg1) ? RegExp.$2 : resolveVariable(arg1, this as any)) : '';
-            fn = value => !!~String(value).toLowerCase().indexOf(arg1);
+
+            // 比对的值是空时直接返回。
+            if (!arg1) {
+                return input;
+            }
+
+            fn = value =>
+                !!~String(value)
+                    .toLowerCase()
+                    .indexOf(arg1);
         }
 
         keys = keys.split(/\s*,\s*/);
