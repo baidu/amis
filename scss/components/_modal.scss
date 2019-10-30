@@ -7,6 +7,20 @@
     }
 }
 
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -300px, 0) scale(0.2);
+    }
+}
+
+@keyframes modalOut {
+    to {
+        opacity: 0;
+        transform: translate3d(0, -300px, 0) scale(0.2);
+    }
+}
+
 .#{$ns}Modal {
     position: fixed;
     top: 0;
@@ -35,18 +49,29 @@
         border: $Modal-content-borderWidth solid $Modal-content-borderColor;
         border-radius: $Modal-content-borderRadius;
 
-        transition: ease-out all 0.3s;
-        transform: translateY(-300px) scale(0.2);
-        opacity: 0;
+        // transition: ease-out all 0.3s;
+        // transform: translateY(-300px) scale(0.2);
+        // opacity: 0;
+
+        &.in,
+        &.out {
+            // opacity: 1;
+            // transform: translateY(0) scale(1);
+            animation-duration: 0.35s;
+            animation-fill-mode: both;
+        }
 
         &.in {
-            opacity: 1;
-            transform: translateY(0) scale(1);
+            animation-name: modalIn;
+        }
+
+        &.out {
+            animation-name: modalOut;
         }
     }
 
     &-overlay {
-        transition: ease-out opacity 0.3s;
+        transition: ease-out opacity 0.5;
         position: fixed;
         top: 0;
         right: 0;
@@ -56,7 +81,8 @@
         background-color: $Modal-overlay-bg;
         opacity: 0;
 
-        &.in {
+        &.in,
+        &.out {
             opacity: 1;
         }
     }
@@ -105,7 +131,7 @@
         }
     }
 
-    &-content > &-close {
+    &-content>&-close {
         position: absolute;
         right: $gap-md;
         top: $gap-sm;
@@ -113,13 +139,12 @@
     }
 
     &-body {
-        padding: $Modal-body--noHeader-paddingTop $Modal-body-paddingX
-            $Modal-body-paddingY;
+        padding: $Modal-body--noHeader-paddingTop $Modal-body-paddingX $Modal-body-paddingY;
         flex-basis: 0;
         flex-grow: 1;
     }
 
-    &-header + &-body {
+    &-header+&-body {
         padding-top: $Modal-body-paddingY;
     }
 
@@ -146,9 +171,7 @@
 @for $i from (2) through 10 {
     .#{$ns}Modal--#{$i}th {
         .#{$ns}Modal-content {
-            margin-top: $Modal-content-startMarginTop +
-                ($i - 1) *
-                $Modal-content-stepMarginTop;
+            margin-top: $Modal-content-startMarginTop + ($i - 1) * $Modal-content-stepMarginTop;
         }
     }
 }
