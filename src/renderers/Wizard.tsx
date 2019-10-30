@@ -9,6 +9,7 @@ import {observer} from 'mobx-react';
 import {createObject, until, isVisible} from '../utils/helper';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {IFormStore} from '../store/form';
+import {Spinner} from '../components';
 
 export interface WizardProps extends RendererProps {
     store: IServiceStore;
@@ -583,13 +584,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 )}
                 {this.renderActions()}
 
-                {store.loading
-                    ? render('spinner', {
-                          type: 'spinner',
-                          overlay: true,
-                          size: 'lg'
-                      })
-                    : null}
+                <Spinner size="lg" overlay key="info" show={store.loading} />
             </div>
         );
     }

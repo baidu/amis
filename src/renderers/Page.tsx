@@ -11,6 +11,7 @@ import {isVisible, autobind, bulkBindFunctions} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
+import {Spinner} from '../components';
 
 export interface PageProps extends RendererProps {
     title?: string; // 标题
@@ -403,13 +404,7 @@ export default class Page extends React.Component<PageProps> {
                     <div className={cx('Page-main')}>
                         {this.renderHeader()}
                         <div className={cx(`Page-body`, bodyClassName)}>
-                            {store.loading
-                                ? render('spinner', {
-                                      type: 'spinner',
-                                      overlay: true,
-                                      size: 'lg'
-                                  })
-                                : null}
+                            <Spinner size="lg" overlay key="info" show={store.loading} />
 
                             {store.error ? (
                                 <Alert level="danger" showCloseButton onClose={store.clearMessage}>
