@@ -47,7 +47,7 @@ export class Spinner extends React.Component<SpinnerProps, object> {
                         // force reflow
                         // 由于从 mount 进来到加上 in 这个 class 估计是时间太短，上次的样式还没应用进去，所以这里强制reflow一把。
                         // 否则看不到动画。
-                        this.div.current!.offsetWidth;
+                        // this.div.current!.offsetWidth;
                         this.overlay.current && this.overlay.current.offsetWidth;
                     }
 
