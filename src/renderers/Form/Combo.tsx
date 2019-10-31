@@ -277,8 +277,14 @@ export default class ComboControl extends React.Component<ComboProps> {
         store.forms.forEach(item => item.items.forEach(item => item.unique && item.syncOptions()));
     }
 
+    handleSingleFormChange(values: object) {
+        this.props.onChange({
+            ...values
+        });
+    }
+
     handleFormInit(index: number, values: any) {
-        const {syncDefaultValue, disabled} = this.props;
+        const {syncDefaultValue, disabled, flat, joinValues, delimiter} = this.props;
 
         if (syncDefaultValue === false || disabled) {
             return;
@@ -286,18 +292,12 @@ export default class ComboControl extends React.Component<ComboProps> {
 
         let value = this.getValueAsArray();
 
-        value.splice(index, 1, {
-            ...value[index],
-            ...values
-        });
+        value[index] = flat ? values.flat : {...values};
 
+        if (flat && joinValues) {
+            value = value.join(delimiter || ',');
+        }
         this.props.onChange(value);
-    }
-
-    handleSingleFormChange(values: object) {
-        this.props.onChange({
-            ...values
-        });
     }
 
     handleSingleFormInit(values: any) {
