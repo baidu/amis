@@ -1,4 +1,6 @@
 .#{$ns}ImageControl {
+    position: relative;
+
     &-dropzone {
         outline: none;
     }
@@ -39,9 +41,15 @@
 
     &-pasteTip {
         display: block;
+        position: absolute;
         color: $text--muted-color;
         font-size: 12px;
-        margin-top: 10px;
+        transform: scale(0.8);
+        transform-origin: 100% 100%;
+        right: 0;
+        bottom: 0;
+        padding: 2px 5px;
+        background: rgba(255, 255, 255, 0.8);
     }
 
     &-dropzone:focus &-addBtn {
