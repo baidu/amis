@@ -40,16 +40,23 @@
     }
 
     &-pasteTip {
-        display: block;
+        pointer-events: none;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
         position: absolute;
-        color: $text--muted-color;
-        font-size: 12px;
-        transform: scale(0.8);
-        transform-origin: 100% 100%;
-        right: 0;
-        bottom: 0;
-        padding: 2px 5px;
-        background: rgba(255, 255, 255, 0.8);
+        font-size: $Tooltip--attr-fontSize;
+        line-height: $Tooltip--attr-lineHeigt;
+        text-align: left;
+        white-space: nowrap;
+        background: $Tooltip--attr-bg;
+        border: $Tooltip--attr-borderWidth solid $Tooltip--attr-borderColor;
+        border-radius: $Tooltip--attr-borderRadius;
+        box-shadow: $Tooltip--attr-boxShadow;
+        left: 100%;
+        color: $Tooltip--attr-color;
+        padding: $Tooltip--attr-paddingY $Tooltip--attr-paddingX;
+        margin: 30px 0 0 $Tooltip--attr-gap;
     }
 
     &-dropzone:focus &-addBtn {
