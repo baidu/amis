@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
+import Transition, {ENTERED, ENTERING, EXITING} from 'react-transition-group/Transition';
 import {Portal} from 'react-overlays';
 import cx from 'classnames';
 import {current, addModal, removeModal} from './ModalManager';
@@ -30,7 +30,8 @@ const fadeStyles: {
     [propName: string]: string;
 } = {
     [ENTERING]: 'in',
-    [ENTERED]: 'in'
+    [ENTERED]: 'in',
+    [EXITING]: 'out'
 };
 export class Modal extends React.Component<ModalProps, ModalState> {
     static defaultProps = {
@@ -86,12 +87,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     mountOnEnter
                     unmountOnExit
                     in={show}
-                    timeout={350}
+                    timeout={1000}
                     onExited={this.handleExited}
                     onEntered={this.handleEntered}
                 >
                     {(status: string) => {
-                        if (status === ENTERING) {
+                        if (status === ENTERING || status === EXITING) {
                             // force reflow
                             // 由于从 mount 进来到加上 in 这个 class 估计是时间太短，上次的样式还没应用进去，所以这里强制reflow一把。
                             // 否则看不到动画。

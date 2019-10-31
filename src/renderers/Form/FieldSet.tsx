@@ -8,6 +8,7 @@ export interface FieldSetProps extends RendererProps {
     collapsed?: boolean;
     mode?: 'normal' | 'inline' | 'horizontal' | 'row';
     size?: 'xs' | 'sm' | 'md' | 'lg' | 'base';
+    formClassName?: string;
     collapsable?: boolean;
     horizontal: {
         left: string;
@@ -39,7 +40,8 @@ export default class FieldSetControl extends React.Component<FieldSetProps, any>
             formMode,
             $path,
             classnames: cx,
-            store
+            store,
+            formClassName
         } = this.props;
 
         if (!controls) {
@@ -48,7 +50,7 @@ export default class FieldSetControl extends React.Component<FieldSetProps, any>
 
         let props: any = {
             store,
-            data: store.data,
+            data: store!.data,
             render
         };
         mode && (props.mode = mode);
@@ -56,7 +58,7 @@ export default class FieldSetControl extends React.Component<FieldSetProps, any>
         horizontal && (props.horizontal = horizontal);
 
         return (
-            <div className={cx(`Form--${props.mode || formMode || 'normal'}`)}>
+            <div className={cx(`Form--${props.mode || formMode || 'normal'}`, formClassName)}>
                 {renderFormItems({controls}, ($path as string).replace(/^.*form\//, ''), props)}
             </div>
         );

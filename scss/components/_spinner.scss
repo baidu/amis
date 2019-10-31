@@ -44,6 +44,7 @@
 // 当启用 overlay 的时候，应该是居中模式。
 .#{$ns}Spinner--overlay {
     position: absolute;
+    z-index: 11;
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
