@@ -71,7 +71,8 @@
     }
 
     &-overlay {
-        transition: ease-out opacity 0.5;
+        transition: ease-in-out opacity 0.5s;
+        // transition-delay: 0.2s;
         position: fixed;
         top: 0;
         right: 0;
@@ -81,9 +82,12 @@
         background-color: $Modal-overlay-bg;
         opacity: 0;
 
-        &.in,
-        &.out {
+        &.in {
             opacity: 1;
+        }
+
+        &.out {
+            opacity: 0;
         }
     }
 
