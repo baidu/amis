@@ -24,6 +24,11 @@
     border: $borderWidth solid $borderColor;
     border-radius: $borderRadius;
 
+    &>* {
+        position: relative;
+        z-index: 2;
+    }
+
     &-overlay {
         position: fixed !important;
         top: 0;
@@ -32,10 +37,5 @@
         z-index: 1;
         bottom: 0;
         background: transparent;
-
-        & + * {
-            position: relative;
-            z-index: 2;
-        }
     }
 }

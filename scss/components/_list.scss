@@ -15,7 +15,7 @@
     &-actions {
         display: inline-block;
 
-        > * {
+        >* {
             margin-right: $Crud-toolbar-gap;
         }
     }
@@ -23,14 +23,14 @@
     &-header {
         padding: $List-toolbar-paddingY $List-toolbar-paddingX;
 
-        > * + .#{$ns}Button,
-        > * + .#{$ns}ButtonGroup,
-        > * + .#{$ns}ButtonToolbar {
+        >*+.#{$ns}Button,
+        >*+.#{$ns}ButtonGroup,
+        >*+.#{$ns}ButtonToolbar {
             margin-left: $Crud-toolbar-gap;
         }
     }
 
-    &-header + &-toolbar {
+    &-header+&-toolbar {
         padding-top: 0;
     }
 
@@ -85,7 +85,7 @@
 .#{$ns}ListItem {
     @include clearfix();
 
-    & + & {
+    &+& {
         border-top: $ListItem-borderWidth solid $ListItem-borderColor;
     }
 
@@ -134,6 +134,7 @@
         position: relative;
         flex-basis: 0;
         flex-grow: 1;
+        max-width: 100%;
     }
 
     &-fieldLabel {
@@ -146,7 +147,7 @@
         border-color: $ListItem-onChecked-borderColor;
         color: $ListItem-onChecked-color;
 
-        + .#{$ns}ListItem {
+        +.#{$ns}ListItem {
             border-color: $ListItem-onChecked-borderColor;
         }
 
@@ -161,7 +162,7 @@
         border-color: $ListItem-onModified-borderColor;
         color: $ListItem-onModified-color;
 
-        + .#{$ns}ListItem {
+        +.#{$ns}ListItem {
             border-color: $ListItem-onModified-borderColor;
         }
 
