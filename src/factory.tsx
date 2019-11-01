@@ -681,10 +681,10 @@ export function HocStoreFactory(renderer: {storeType: string; extendsData?: bool
                                 ...store.data
                             })
                         );
-                } else if (isObjectShallowModified(props.scope, nextProps.scope)) {
+                } else if (props.scope !== nextProps.scope) {
                     store.initData(
                         createObject(nextProps.scope, {
-                            ...nextProps.data,
+                            // ...nextProps.data,
                             ...store.data
                         })
                     );
