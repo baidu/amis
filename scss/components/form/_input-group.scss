@@ -17,10 +17,8 @@
 
     &-addOn {
         background: $InputGroup-addOn-bg;
-        border: $InputGroup-addOn-borderWidth solid
-            $InputGroup-addOn-borderColor;
-        line-height: $InputGroup-height - $InputGroup-paddingY * 2 -
-            $InputGroup-addOn-borderWidth * 2;
+        border: $InputGroup-addOn-borderWidth solid $InputGroup-addOn-borderColor;
+        line-height: $InputGroup-height - $InputGroup-paddingY * 2 - $InputGroup-addOn-borderWidth * 2;
         height: $InputGroup-height;
         box-sizing: border-box;
         padding: $InputGroup-paddingY $InputGroup-paddingX;
@@ -47,8 +45,7 @@
     &-btn {
         .#{$ns}Button {
             border-radius: 0;
-            border: $InputGroup-button-borderWidth solid
-                $InputGroup-button-borderColor;
+            border: $InputGroup-button-borderWidth solid $InputGroup-button-borderColor;
         }
 
         &:not(:last-child) .#{$ns}Button {
@@ -73,6 +70,7 @@
     .#{$ns}TextControl-input {
         flex-basis: 0;
         flex-grow: 1;
+        display: inline-flex;
 
         &:not(:first-child) {
             border-top-left-radius: 0;
@@ -90,9 +88,7 @@
         @if $InputGroup-select-borderWidth {
             .#{$ns}Select {
                 background-color: $InputGroup-select-bg;
-                border: $InputGroup-select-borderWidth
-                    solid
-                    $InputGroup-select-borderColor;
+                border: $InputGroup-select-borderWidth solid $InputGroup-select-borderColor;
 
                 @if $InputGroup-select-color !=$Form-select-color {
                     color: $InputGroup-select-color;
@@ -137,6 +133,7 @@
     }
 
     &.is-focused {
+
         .#{$ns}InputGroup-addOn,
         .#{$ns}TextControl-input,
         .#{$ns}Select,
@@ -156,9 +153,7 @@
             }
         }
 
-        @if $InputGroup-select-onFocused-arrowColor
-            !=$Form-select-caret-iconColor
-        {
+        @if $InputGroup-select-onFocused-arrowColor !=$Form-select-caret-iconColor {
             .#{$ns}Select-arrow {
                 color: $InputGroup-select-onFocused-arrowColor;
             }
