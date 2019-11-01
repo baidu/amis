@@ -7,6 +7,8 @@ import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
 import {boundMethod} from 'autobind-decorator';
 import qs from 'qs';
+import {IIRendererStore} from '../store';
+import {IFormStore} from '../store/form';
 
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
@@ -53,13 +55,27 @@ export function extendObject(to: any, from?: any) {
     return obj;
 }
 
-export function syncDataFromSuper(data: any, superObject: any, prevSuperObject: any, force?: boolean) {
+export function syncDataFromSuper(
+    data: any,
+    superObject: any,
+    prevSuperObject: any,
+    force?: boolean,
+    store?: IIRendererStore
+) {
     const obj = {
         ...data
     };
 
+    let keys = Object.keys(obj);
+
+    // 如果是 form store，则从父级同步 formItem 种东西。
+    if (store && store.storeType === 'FormStore') {
+        keys = uniq((store as IFormStore).items.map(item => item.name));
+        force = false;
+    }
+
     if (superObject || prevSuperObject) {
-        Object.keys(obj).forEach(key => {
+        keys.forEach(key => {
             if (
                 ((superObject && typeof superObject[key] !== 'undefined') ||
                     (prevSuperObject && typeof prevSuperObject[key] !== 'undefined')) &&
@@ -432,7 +448,7 @@ export function difference<T extends {[propName: string]: any}, U extends {[prop
                 // todo 数组要不要深入分析？我看先别了。
                 result[key] = a;
             } else if (lodashIsObject(a) && lodashIsObject(b)) {
-                result[key] = changes(a, b);
+                result[key] = changes(a as any, b as any);
             } else {
                 result[key] = a;
             }
@@ -517,7 +533,7 @@ export function until(
     getCanceler: (fn: () => any) => void,
     interval: number = 5000
 ) {
-    let timer: number;
+    let timer: NodeJS.Timeout;
     let stoped: boolean = false;
 
     return new Promise((resolve, reject) => {

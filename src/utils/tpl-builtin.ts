@@ -2,7 +2,7 @@ import {reigsterTplEnginer, filter} from './tpl';
 import moment from 'moment';
 import {PlainObject} from '../types';
 import isPlainObject = require('lodash/isPlainObject');
-import {createObject, isObject, setVariable} from './helper';
+import {createObject, isObject, setVariable, qsstringify} from './helper';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
@@ -387,9 +387,14 @@ export const tokenize = (str: string, data: object, defaultFilter: string = '| h
         return str;
     }
 
-    return str.replace(/(\\)?\$(?:([a-z0-9_\.]+|&)|{([^}{]+?)})/gi, (_, escape) =>
-        escape ? _.substring(1) : resolveVariableAndFilter(_, data, defaultFilter)
-    );
+    return str
+        .replace(/(\\)?\$(?:([a-z0-9_\.]+|&)|{([^}{]+?)})/gi, (_, escape) =>
+            escape ? _.substring(1) : resolveVariableAndFilter(_, data, defaultFilter)
+        )
+        .replace(/\$\$/g, (_, index: number, source: string) => {
+            const prefix = source[index - 1];
+            return prefix === '=' ? encodeURIComponent(JSON.stringify(data)) : qsstringify(data);
+        });
 };
 
 function resolveMapping(value: any, data: PlainObject) {

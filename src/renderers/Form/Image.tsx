@@ -938,13 +938,13 @@ export default class ImageControl extends React.Component<ImageProps, ImageState
                                                 data-position="right"
                                             >
                                                 <Icon icon="plus" className="icon" />
-                                            </label>
-                                        ) : null}
 
-                                        {isFocused ? (
-                                            <span className={cx('ImageControl-pasteTip')}>
-                                                当前状态支持从剪切板中粘贴图片文件。
-                                            </span>
+                                                {isFocused ? (
+                                                    <span className={cx('ImageControl-pasteTip')}>
+                                                        当前状态支持从剪切板中粘贴图片文件。
+                                                    </span>
+                                                ) : null}
+                                            </label>
                                         ) : null}
 
                                         {!autoUpload && !hideUploadButton && files.length ? (

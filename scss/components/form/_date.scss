@@ -33,7 +33,7 @@
     &.is-disabled {
         background: $gray200;
 
-        > &-input {
+        >&-input {
             color: $text--muted-color;
         }
     }
@@ -78,7 +78,7 @@
     }
 }
 
-.#{$ns}DateControl:not(.is-inline) > .#{$ns}DatePicker {
+.#{$ns}DateControl:not(.is-inline)>.#{$ns}DatePicker {
     display: flex;
 }
 
@@ -107,6 +107,7 @@
     .rdtPicker {
         margin-top: 0;
         padding: $gap-md;
+        background: transparent;
         border: none;
 
         .dow {
@@ -233,8 +234,7 @@
         font-size: $fontSizeSm;
     }
 
-    @include button-variant(
-        $Calendar-btn-bg,
+    @include button-variant($Calendar-btn-bg,
         $Calendar-btn-border,
         $Calendar-btn-color,
         $Calendar-btn-onHover-bg,
@@ -242,18 +242,16 @@
         $Calendar-btn-onHover-color,
         $Calendar-btn-onActive-bg,
         $Calendar-btn-onActive-border,
-        $Calendar-btn-onActive-color
-    );
+        $Calendar-btn-onActive-color);
 
     border-radius: $Calendar-btn-borderRadius;
 
-    & + .rdtBtn {
+    &+.rdtBtn {
         margin-left: $gap-xs;
     }
 
     &Cancel {
-        @include button-variant(
-            $Calendar-btnCancel-bg,
+        @include button-variant($Calendar-btnCancel-bg,
             $Calendar-btnCancel-border,
             $Calendar-btnCancel-color,
             $Calendar-btnCancel-onHover-bg,
@@ -261,8 +259,7 @@
             $Calendar-btnCancel-onHover-color,
             $Calendar-btnCancel-onActive-bg,
             $Calendar-btnCancel-onActive-border,
-            $Calendar-btnCancel-onActive-color
-        );
+            $Calendar-btnCancel-onActive-color);
     }
 }
 

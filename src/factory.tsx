@@ -505,10 +505,10 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             return React.isValidElement(schema.children)
                 ? schema.children
                 : (schema.children as Function)({
-                    ...rest,
-                    $path: $path,
-                    render: this.renderChild
-                });
+                      ...rest,
+                      $path: $path,
+                      render: this.renderChild
+                  });
         } else if (typeof schema.component === 'function') {
             return React.createElement(schema.component as any, {
                 ...rest,
@@ -600,7 +600,7 @@ export function HocStoreFactory(renderer: {storeType: string; extendsData?: bool
                     path: this.props.$path,
                     storeType: renderer.storeType,
                     parentId: this.props.store ? this.props.store.id : ''
-                }));
+                } as any));
 
                 if (renderer.extendsData === false) {
                     store.initData(
@@ -656,7 +656,8 @@ export function HocStoreFactory(renderer: {storeType: string; extendsData?: bool
                                 store.data,
                                 nextProps.store.data,
                                 props.scope,
-                                nextProps.dataUpdatedAt !== props.dataUpdatedAt
+                                nextProps.dataUpdatedAt !== props.dataUpdatedAt,
+                                store
                             )
                         );
 
@@ -680,7 +681,7 @@ export function HocStoreFactory(renderer: {storeType: string; extendsData?: bool
                                 ...store.data
                             })
                         );
-                } else if (nextProps.scope !== props.scope) {
+                } else if (isObjectShallowModified(props.scope, nextProps.scope)) {
                     store.initData(
                         createObject(nextProps.scope, {
                             ...nextProps.data,

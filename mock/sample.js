@@ -6,7 +6,7 @@ module.exports = function(req, res) {
     if (pathname === 'sample' && (req.method === 'POST' || req.method === 'PUT')) {
         return store(req, res);
     } else if (/sample\/(\d+(?:,\d+)*)?$/.test(pathname)) {
-        if ((req.method === 'POST' || req.method === 'PUT')) {
+        if (req.method === 'POST' || req.method === 'PUT') {
             return update(req, res, RegExp.$1);
         } else if (req.method === 'DELETE') {
             return del(req, res, RegExp.$1);
@@ -18,8 +18,7 @@ module.exports = function(req, res) {
     }
 
     return index(req, res);
-}
-
+};
 
 function index(req, res) {
     const perPage = parseInt(req.query.perPage, 10);
@@ -27,23 +26,23 @@ function index(req, res) {
     let items = DB.concat();
 
     if (req.query.keywords) {
-      const keywords = req.query.keywords;
-      items = items.filter(function(item) {
-        return ~JSON.stringify(item).indexOf(keywords);
-      });
+        const keywords = req.query.keywords;
+        items = items.filter(function(item) {
+            return ~JSON.stringify(item).indexOf(keywords);
+        });
     }
 
     if (req.query.engine) {
         const keywords = req.query.engine;
         items = items.filter(function(item) {
-          return ~JSON.stringify(item.engine).indexOf(keywords);
+            return ~JSON.stringify(item.engine).indexOf(keywords);
         });
-      }
+    }
 
     if (req.query.orderBy) {
         const field = req.query.orderBy;
         const direction = req.query.orderDir === 'desc' ? -1 : 1;
-        items = items.sort(function (a, b) {
+        items = items.sort(function(a, b) {
             a = String(a[field]);
             b = String(b[field]);
 
@@ -57,20 +56,27 @@ function index(req, res) {
         });
     }
 
-    return res.json({
-        status: 0,
-        msg: 'ok',
-        data: {
-            count: items.length,
-            rows: perPage ? items.splice((page -1) * perPage, perPage) : items.concat()
-        }
-    });
+    let response = () =>
+        res.json({
+            status: 0,
+            msg: 'ok',
+            data: {
+                count: items.length,
+                rows: perPage ? items.splice((page - 1) * perPage, perPage) : items.concat()
+            }
+        });
+
+    if (req.query.waitSeconds) {
+        return setTimeout(response, parseInt(req.query.waitSeconds, 10) * 1000);
+    }
+
+    return response();
 }
 
 function store(req, res) {
     const data = Object.assign({}, req.body);
 
-    data.id = DB.length ? (DB[DB.length - 1].id + 1) : 1;
+    data.id = DB.length ? DB[DB.length - 1].id + 1 : 1;
 
     DB.push(data);
 
@@ -83,20 +89,22 @@ function store(req, res) {
 function update(req, res, id) {
     const ids = id.split(',');
 
-    if (!ids.every(function(id) {
-        const idx = DB.findIndex(function (item) {
-            return item.id == id;
-        });
+    if (
+        !ids.every(function(id) {
+            const idx = DB.findIndex(function(item) {
+                return item.id == id;
+            });
 
-        if (!~idx) {
-            return false;
-        }
+            if (!~idx) {
+                return false;
+            }
 
-        const item = Object.assign({}, DB[idx], req.body);
-        item.id = id;
-        DB.splice(idx, 1, item);
-        return true;
-    })) {
+            const item = Object.assign({}, DB[idx], req.body);
+            item.id = id;
+            DB.splice(idx, 1, item);
+            return true;
+        })
+    ) {
         return res.json({
             status: 404,
             msg: '保存失败，数据可能已被删除！'
@@ -113,18 +121,20 @@ function del(req, res, id) {
     const ids = id.split(',');
     console.log(ids);
 
-    if (!ids.every(function(id) {
-        const idx = DB.findIndex(function (item) {
-            return item.id == id;
-        });
+    if (
+        !ids.every(function(id) {
+            const idx = DB.findIndex(function(item) {
+                return item.id == id;
+            });
 
-        if (!~idx) {
-            return false;
-        }
+            if (!~idx) {
+                return false;
+            }
 
-        DB.splice(idx, 1);
-        return true;
-    })) {
+            DB.splice(idx, 1);
+            return true;
+        })
+    ) {
         return res.json({
             status: 404,
             msg: '保存失败，数据可能已被删除！'
@@ -140,20 +150,23 @@ function del(req, res, id) {
 function bulkUpdate(req, res) {
     const rowDiff = req.body.rowsDiff;
     const ids = req.body.ids ? req.body.ids.split(',') : [];
-    if (!ids.length || !ids.every(function(id, index) {
-        const idx = DB.findIndex(function (item) {
-            return item.id == id;
-        });
+    if (
+        !ids.length ||
+        !ids.every(function(id, index) {
+            const idx = DB.findIndex(function(item) {
+                return item.id == id;
+            });
 
-        if (!~idx) {
-            return false;
-        }
+            if (!~idx) {
+                return false;
+            }
 
-        const item = Object.assign({}, DB[idx], rowDiff[index]);
-        item.id = id;
-        DB.splice(idx, 1, item);
-        return true;
-    })) {
+            const item = Object.assign({}, DB[idx], rowDiff[index]);
+            item.id = id;
+            DB.splice(idx, 1, item);
+            return true;
+        })
+    ) {
         return res.json({
             status: 404,
             msg: '保存失败，数据可能已被删除！'
@@ -172,20 +185,23 @@ function bulkUpdate2(req, res) {
     delete data.ids;
 
     const ids = req.body.ids ? req.body.ids.split(',') : [];
-    if (!ids.length || !ids.every(function(id, index) {
-        const idx = DB.findIndex(function (item) {
-            return item.id == id;
-        });
+    if (
+        !ids.length ||
+        !ids.every(function(id, index) {
+            const idx = DB.findIndex(function(item) {
+                return item.id == id;
+            });
 
-        if (!~idx) {
-            return false;
-        }
+            if (!~idx) {
+                return false;
+            }
 
-        const item = Object.assign({}, DB[idx], data);
-        item.id = id;
-        DB.splice(idx, 1, item);
-        return true;
-    })) {
+            const item = Object.assign({}, DB[idx], data);
+            item.id = id;
+            DB.splice(idx, 1, item);
+            return true;
+        })
+    ) {
         return res.json({
             status: 404,
             msg: '保存失败，数据可能已被删除！'
