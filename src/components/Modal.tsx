@@ -87,7 +87,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     mountOnEnter
                     unmountOnExit
                     in={show}
-                    timeout={1000}
+                    timeout={500}
                     onExited={this.handleExited}
                     onEntered={this.handleEntered}
                 >
