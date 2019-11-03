@@ -387,14 +387,14 @@ export const tokenize = (str: string, data: object, defaultFilter: string = '| h
         return str;
     }
 
-    return str
-        .replace(/(\\)?\$(?:([a-z0-9_\.]+|&)|{([^}{]+?)})/gi, (_, escape) =>
-            escape ? _.substring(1) : resolveVariableAndFilter(_, data, defaultFilter)
-        )
-        .replace(/\$\$/g, (_, index: number, source: string) => {
+    return str.replace(/(\\)?\$(?:([a-z0-9_\.]+|&|\$)|{([^}{]+?)})/gi, (_, escape, key1, key2, index, source) => {
+        if (!escape && key1 === '$') {
             const prefix = source[index - 1];
             return prefix === '=' ? encodeURIComponent(JSON.stringify(data)) : qsstringify(data);
-        });
+        }
+
+        return escape ? _.substring(1) : resolveVariableAndFilter(_, data, defaultFilter);
+    });
 };
 
 function resolveMapping(value: any, data: PlainObject) {
