@@ -79,7 +79,7 @@ let preventEvent = (e: any) => e.stopPropagation();
 
 function getNameFromUrl(url: string) {
     if (/(?:\/|^)([^\/]+?)$/.test(url)) {
-        return RegExp.$1;
+        return decodeURIComponent(RegExp.$1);
     }
 
     return url;
