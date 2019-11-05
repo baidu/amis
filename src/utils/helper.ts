@@ -245,7 +245,7 @@ export function isObjectShallowModified(
     strictMode: boolean = true,
     ignoreUndefined: boolean = false
 ) {
-    if (null == prev || null == next || typeof prev !== 'object' || typeof next !== 'object') {
+    if (null == prev || null == next || !isObject(prev) || !isObject(next)) {
         return strictMode ? prev !== next : prev != next;
     }
 

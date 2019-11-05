@@ -587,7 +587,8 @@ export class DialogRenderer extends Dialog {
                 this.tryChildrenToHandle(
                     {
                         ...action,
-                        actionType: 'submit'
+                        actionType: 'submit',
+                        close: true
                     },
                     data,
                     action

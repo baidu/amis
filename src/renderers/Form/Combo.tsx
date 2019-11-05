@@ -5,13 +5,22 @@ import {Schema, Action, Api} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import {default as CTabs, Tab} from '../../components/Tabs';
 
-import {guid, anyChanged, isObject, createObject, extendObject, autobind} from '../../utils/helper';
+import {
+    guid,
+    anyChanged,
+    isObject,
+    createObject,
+    extendObject,
+    autobind,
+    isObjectShallowModified
+} from '../../utils/helper';
 import Sortable = require('sortablejs');
 import {evalExpression, filter} from '../../utils/tpl';
 import find = require('lodash/find');
 import Select from '../../components/Select';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {isEffectiveApi} from '../../utils/api';
+import {Alert2} from '../../components';
 
 export interface Condition {
     test: string;
@@ -291,6 +300,11 @@ export default class ComboControl extends React.Component<ComboProps> {
         }
 
         let value = this.getValueAsArray();
+        const newValue = flat ? values.flat : {...values};
+
+        if (!isObjectShallowModified(value[index], newValue)) {
+            return;
+        }
 
         value[index] = flat ? values.flat : {...values};
 
@@ -415,9 +429,9 @@ export default class ComboControl extends React.Component<ComboProps> {
         return createObject(extendObject(data, {index, __index: index, ...data}), value);
     }
 
-    pickCondition(value: any): Condition {
-        const conditions: Array<Condition> = this.props.conditions as Array<Condition>;
-        return (find(conditions, item => item.test && evalExpression(item.test, value)) || conditions[0]) as Condition;
+    pickCondition(value: any): Condition | null {
+        const conditions: Array<Condition> = this.props.conditions!;
+        return find(conditions, item => item.test && evalExpression(item.test, value)) as Condition | null;
     }
 
     handleComboTypeChange(index: number, selection: any) {
@@ -541,22 +555,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             >
                 {value.map((value, index) => {
                     const data = this.formatValue(value, index);
-                    let condition: Condition | null = null;
-
-                    if (Array.isArray(conditions) && conditions.length) {
-                        condition = this.pickCondition(data);
-                        controls = condition.controls;
-                    }
-
-                    let finnalControls = flat
-                        ? [
-                              {
-                                  ...(controls && controls[0]),
-                                  name: 'flat'
-                              }
-                          ]
-                        : controls;
-
+                    let condition: Condition | null | undefined = null;
                     let toolbar = undefined;
                     if (
                         finnalRemovable && // 表达式判断单条是否可删除
@@ -574,6 +573,21 @@ export default class ComboControl extends React.Component<ComboProps> {
                             </a>
                         );
                     }
+
+                    if (Array.isArray(conditions) && conditions.length) {
+                        condition = this.pickCondition(data);
+                        controls = condition ? condition.controls : undefined;
+                    }
+
+                    let finnalControls =
+                        flat && controls
+                            ? [
+                                  {
+                                      ...(controls && controls[0]),
+                                      name: 'flat'
+                                  }
+                              ]
+                            : controls;
 
                     return (
                         <Tab
@@ -598,26 +612,32 @@ export default class ComboControl extends React.Component<ComboProps> {
                                 </div>
                             ) : null}
                             <div className={cx(`Combo-itemInner`)}>
-                                {render(
-                                    `multiple/${index}`,
-                                    {
-                                        type: 'form',
-                                        controls: finnalControls,
-                                        wrapperComponent: 'div',
-                                        wrapWithPanel: false,
-                                        mode: subFormMode,
-                                        className: cx(`Combo-form`, formClassName)
-                                    },
-                                    {
-                                        index,
-                                        disabled,
-                                        data,
-                                        onChange: this.handleChange.bind(this, index),
-                                        onInit: this.handleFormInit.bind(this, index),
-                                        onAction: this.handleAction,
-                                        ref: (ref: any) => this.formRef(ref, index),
-                                        canAccessSuperData
-                                    }
+                                {finnalControls ? (
+                                    render(
+                                        `multiple/${index}`,
+                                        {
+                                            type: 'form',
+                                            controls: finnalControls,
+                                            wrapperComponent: 'div',
+                                            wrapWithPanel: false,
+                                            mode: subFormMode,
+                                            className: cx(`Combo-form`, formClassName)
+                                        },
+                                        {
+                                            index,
+                                            disabled,
+                                            data,
+                                            onChange: this.handleChange.bind(this, index),
+                                            onInit: this.handleFormInit.bind(this, index),
+                                            onAction: this.handleAction,
+                                            ref: (ref: any) => this.formRef(ref, index),
+                                            canAccessSuperData
+                                        }
+                                    )
+                                ) : (
+                                    <Alert2 level="warning" className="m-b-none">
+                                        数据非法，或者数据已失效，请移除
+                                    </Alert2>
                                 )}
                             </div>
                         </Tab>
@@ -719,17 +739,18 @@ export default class ComboControl extends React.Component<ComboProps> {
 
                               if (Array.isArray(conditions) && conditions.length) {
                                   condition = this.pickCondition(data);
-                                  controls = condition.controls;
+                                  controls = condition ? condition.controls : undefined;
                               }
 
-                              let finnalControls = flat
-                                  ? [
-                                        {
-                                            ...(controls && controls[0]),
-                                            name: 'flat'
-                                        }
-                                    ]
-                                  : controls;
+                              let finnalControls =
+                                  flat && controls
+                                      ? [
+                                            {
+                                                ...(controls && controls[0]),
+                                                name: 'flat'
+                                            }
+                                        ]
+                                      : controls;
 
                               return (
                                   <div
@@ -750,26 +771,32 @@ export default class ComboControl extends React.Component<ComboProps> {
                                           </div>
                                       ) : null}
                                       <div className={cx(`Combo-itemInner`)}>
-                                          {render(
-                                              `multiple/${index}`,
-                                              {
-                                                  type: 'form',
-                                                  controls: finnalControls,
-                                                  wrapperComponent: 'div',
-                                                  wrapWithPanel: false,
-                                                  mode: multiLine ? subFormMode : 'row',
-                                                  className: cx(`Combo-form`, formClassName)
-                                              },
-                                              {
-                                                  index,
-                                                  disabled,
-                                                  data,
-                                                  onChange: this.handleChange.bind(this, index),
-                                                  onInit: this.handleFormInit.bind(this, index),
-                                                  onAction: this.handleAction,
-                                                  ref: (ref: any) => this.formRef(ref, index),
-                                                  canAccessSuperData
-                                              }
+                                          {finnalControls ? (
+                                              render(
+                                                  `multiple/${index}`,
+                                                  {
+                                                      type: 'form',
+                                                      controls: finnalControls,
+                                                      wrapperComponent: 'div',
+                                                      wrapWithPanel: false,
+                                                      mode: multiLine ? subFormMode : 'row',
+                                                      className: cx(`Combo-form`, formClassName)
+                                                  },
+                                                  {
+                                                      index,
+                                                      disabled,
+                                                      data,
+                                                      onChange: this.handleChange.bind(this, index),
+                                                      onInit: this.handleFormInit.bind(this, index),
+                                                      onAction: this.handleAction,
+                                                      ref: (ref: any) => this.formRef(ref, index),
+                                                      canAccessSuperData
+                                                  }
+                                              )
+                                          ) : (
+                                              <Alert2 level="warning" className="m-b-none">
+                                                  数据非法，或者数据已失效，请移除
+                                              </Alert2>
                                           )}
                                       </div>
                                       {toolbar.length ? <div className={cx(`Combo-itemToolbar`)}>{toolbar}</div> : null}
@@ -845,7 +872,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
         if (Array.isArray(conditions) && conditions.length) {
             condition = this.pickCondition(data);
-            controls = condition.controls;
+            controls = condition ? condition.controls : undefined;
         }
 
         return (
@@ -872,24 +899,30 @@ export default class ComboControl extends React.Component<ComboProps> {
                     ) : null}
 
                     <div className={cx(`Combo-itemInner`)}>
-                        {render(
-                            'single',
-                            {
-                                type: 'form',
-                                controls,
-                                wrapperComponent: 'div',
-                                wrapWithPanel: false,
-                                mode: multiLine ? 'normal' : 'row',
-                                className: cx(`Combo-form`, formClassName)
-                            },
-                            {
-                                disabled: disabled,
-                                data: isObject(value) ? value : this.defaultValue,
-                                onChange: this.handleSingleFormChange,
-                                ref: (ref: any) => this.formRef(ref),
-                                onInit: this.handleSingleFormInit,
-                                canAccessSuperData
-                            }
+                        {controls ? (
+                            render(
+                                'single',
+                                {
+                                    type: 'form',
+                                    controls,
+                                    wrapperComponent: 'div',
+                                    wrapWithPanel: false,
+                                    mode: multiLine ? 'normal' : 'row',
+                                    className: cx(`Combo-form`, formClassName)
+                                },
+                                {
+                                    disabled: disabled,
+                                    data: isObject(value) ? value : this.defaultValue,
+                                    onChange: this.handleSingleFormChange,
+                                    ref: (ref: any) => this.formRef(ref),
+                                    onInit: this.handleSingleFormInit,
+                                    canAccessSuperData
+                                }
+                            )
+                        ) : (
+                            <Alert2 level="warning" className="m-b-none">
+                                数据非法，或者数据已失效，请移除
+                            </Alert2>
                         )}
                     </div>
                 </div>
