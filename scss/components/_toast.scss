@@ -1,4 +1,5 @@
 @keyframes bounceIn {
+
     from,
     20%,
     40%,
@@ -58,13 +59,14 @@
         pointer-events: none;
         position: fixed;
         z-index: $zindex-toast;
+        width: 100%;
+        height: 100%;
     }
 
     width: $Toast-width;
     pointer-events: auto;
     margin-bottom: $gap-xs;
-    padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY
-        ($Toast-paddingX + $Toast-paddingL);
+    padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY ($Toast-paddingX + $Toast-paddingL);
     box-shadow: $Toast-box-shadow;
     border-radius: $Toast-borderRadius;
     border: $Toast-border-width solid;
@@ -72,23 +74,22 @@
     position: relative;
     opacity: $Toast-opacity;
     cursor: pointer;
+    opacity: 0;
+    transform: translateZ(0);
 
-    &:hover {
+    &.in,
+    &.out {
+        animation-fill-mode: both;
+        animation-duration: 0.75s;
         opacity: 1;
     }
 
     &.in {
-        animation-duration: 0.75s;
         animation-name: bounceIn;
     }
 
     &.out {
-        animation-duration: 0.75s;
         animation-name: bounceOut;
-    }
-
-    &.hidden {
-        display: none;
     }
 
     &-title {
@@ -136,8 +137,7 @@
         color: $Toast--info-color;
         border-color: $Toast--info-borderColor;
         background-color: $Toast--info-bgColor;
-        padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY
-            ($Toast-paddingX + $Toast--info-paddingL);
+        padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY ($Toast-paddingX + $Toast--info-paddingL);
 
         &::before {
             content: $Toast--info-icon;
