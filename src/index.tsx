@@ -64,6 +64,7 @@ import './renderers/ButtonGroup';
 import './renderers/ButtonToolbar';
 import './renderers/DropDownButton';
 import './renderers/Collapse';
+import './renderers/Color';
 import './renderers/CRUD';
 import './renderers/Pagination';
 import './renderers/Cards';
