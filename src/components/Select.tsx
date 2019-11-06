@@ -156,6 +156,7 @@ interface SelectProps {
     checkAllLabel?: string;
     defaultCheckAll?: boolean;
     simpleValue?: boolean;
+    
 }
 
 interface SelectState {

@@ -10,7 +10,7 @@ import {Schema} from '../../types';
 import {IIRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
 
-export interface FormControlProps extends RendererProps {
+export interface ControlProps extends RendererProps {
     control: {
         id?: string;
         name?: string;
@@ -36,13 +36,13 @@ export interface FormControlProps extends RendererProps {
     removeHook: (fn: () => any) => void;
 }
 
-export default class FormControl extends React.Component<FormControlProps, any> {
+export default class FormControl extends React.Component<ControlProps> {
     public model: IFormItemStore | undefined;
     control: any;
     hook?: () => any;
     hook2?: () => any;
 
-    static defaultProps: Partial<FormControlProps> = {};
+    static defaultProps: Partial<ControlProps> = {};
 
     lazyValidate: Function;
     componentWillMount() {
@@ -134,7 +134,7 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         }
     }
 
-    componentWillReceiveProps(nextProps: FormControlProps) {
+    componentWillReceiveProps(nextProps: ControlProps) {
         const props = this.props;
         const form = nextProps.formStore;
 
@@ -204,7 +204,7 @@ export default class FormControl extends React.Component<FormControlProps, any> 
         }
     }
 
-    componentDidUpdate(prevProps: FormControlProps) {
+    componentDidUpdate(prevProps: ControlProps) {
         const {
             store,
             formStore: form,
