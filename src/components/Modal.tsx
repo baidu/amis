@@ -40,8 +40,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         overlay: true
     };
 
-    contentDom: any;
-
     componentDidMount() {
         if (this.props.show) {
             this.handleEntered();
@@ -54,7 +52,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         }
     }
 
-    contentRef = (ref: any) => (this.contentDom = ref);
     handleEntered = () => {
         const onEntered = this.props.onEntered;
         document.body.classList.add(`is-modalOpened`);
@@ -91,33 +88,22 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                     onExited={this.handleExited}
                     onEntered={this.handleEntered}
                 >
-                    {(status: string) => {
-                        if (status === ENTERING || status === EXITING) {
-                            // force reflow
-                            // 由于从 mount 进来到加上 in 这个 class 估计是时间太短，上次的样式还没应用进去，所以这里强制reflow一把。
-                            // 否则看不到动画。
-                            this.contentDom.offsetWidth;
-                        }
-
-                        return (
-                            <div
-                                ref={this.modalRef}
-                                role="dialog"
-                                className={cx(
-                                    `amis-dialog-widget ${ns}Modal`,
-                                    {
-                                        [`${ns}Modal--${size}`]: size
-                                    },
-                                    className
-                                )}
-                            >
-                                {overlay ? <div className={cx(`${ns}Modal-overlay`, fadeStyles[status])} /> : null}
-                                <div ref={this.contentRef} className={cx(`${ns}Modal-content`, fadeStyles[status])}>
-                                    {children}
-                                </div>
-                            </div>
-                        );
-                    }}
+                    {(status: string) => (
+                        <div
+                            ref={this.modalRef}
+                            role="dialog"
+                            className={cx(
+                                `amis-dialog-widget ${ns}Modal`,
+                                {
+                                    [`${ns}Modal--${size}`]: size
+                                },
+                                className
+                            )}
+                        >
+                            {overlay ? <div className={cx(`${ns}Modal-overlay`, fadeStyles[status])} /> : null}
+                            <div className={cx(`${ns}Modal-content`, fadeStyles[status])}>{children}</div>
+                        </div>
+                    )}
                 </Transition>
             </Portal>
         );

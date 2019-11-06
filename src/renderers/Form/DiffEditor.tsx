@@ -187,7 +187,6 @@ export class DiffEditorControlRenderer extends DiffEditor {
 
 @Renderer({
     test: /(^|\/)diff-editor$/,
-    sizeMutable: false,
     name: 'diff-editor'
 })
 export class DiffEditorRenderer extends DiffEditor {

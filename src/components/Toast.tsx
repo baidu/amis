@@ -15,9 +15,8 @@ const fadeStyles: {
     [propName: string]: string;
 } = {
     [ENTERING]: 'in',
-    [ENTERED]: '',
-    [EXITING]: 'out',
-    [EXITED]: 'hidden'
+    [ENTERED]: 'in',
+    [EXITING]: 'out'
 };
 
 let toastRef: any = null;
@@ -192,12 +191,12 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
         visible: false
     };
 
-    content: React.RefObject<HTMLDivElement>;
-    timer: number;
+    // content: React.RefObject<HTMLDivElement>;
+    timer: NodeJS.Timeout;
     constructor(props: ToastMessageProps) {
         super(props);
 
-        this.content = React.createRef();
+        // this.content = React.createRef();
         this.handleMouseEnter = this.handleMouseEnter.bind(this);
         this.handleMouseLeave = this.handleMouseLeave.bind(this);
         this.handleEntered = this.handleEntered.bind(this);
@@ -247,16 +246,16 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
                 onExited={onDismiss}
             >
                 {(status: string) => {
-                    if (status === ENTERING) {
-                        // force reflow
-                        // 由于从 mount 进来到加上 in 这个 class 估计是时间太短，上次的样式还没应用进去，所以这里强制reflow一把。
-                        // 否则看不到动画。
-                        this.content.current && this.content.current.offsetWidth;
-                    }
+                    // if (status === ENTERING) {
+                    //     // force reflow
+                    //     // 由于从 mount 进来到加上 in 这个 class 估计是时间太短，上次的样式还没应用进去，所以这里强制reflow一把。
+                    //     // 否则看不到动画。
+                    //     this.content.current && this.content.current.offsetWidth;
+                    // }
 
                     return (
                         <div
-                            ref={this.content}
+                            // ref={this.content}
                             className={cx(`${ns}Toast ${ns}Toast--${level}`, fadeStyles[status])}
                             onMouseEnter={this.handleMouseEnter}
                             onMouseLeave={this.handleMouseLeave}

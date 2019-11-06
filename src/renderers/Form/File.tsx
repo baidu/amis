@@ -816,7 +816,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     ref={this.dropzone}
                     onDrop={this.handleDrop}
                     onDropRejected={this.handleDropRejected}
-                    accept={accept}
+                    accept={accept === '*' ? '' : accept}
                     multiple={multiple}
                 >
                     {({getRootProps, getInputProps, isDragActive}) => (
