@@ -11,7 +11,7 @@ import {promisify, difference, until, noop, isObject, isVisible} from '../../uti
 import debouce = require('lodash/debounce');
 import flatten = require('lodash/flatten');
 import find = require('lodash/find');
-import Scoped, {ScopedContext, IScopedContext} from '../../Scoped';
+import Scoped, {ScopedContext, IScopedContext, ScopedComponentType} from '../../Scoped';
 import {IComboStore} from '../../store/combo';
 import qs = require('qs');
 import {dataMapping} from '../../utils/tpl-builtin';
@@ -145,7 +145,7 @@ export default class Form extends React.Component<FormProps, object> {
     asyncCancel: () => void;
     disposeOnValidate: () => void;
     shouldLoadInitApi: boolean = false;
-    timer: number;
+    timer: NodeJS.Timeout;
     mounted: boolean;
     constructor(props: FormProps) {
         super(props);
@@ -940,8 +940,8 @@ export class FormRenderer extends Form {
         if (this.props.autoFocus) {
             const scoped = this.context as IScopedContext;
             const inputs = scoped.getComponents();
-            let focuableInput = find(inputs, (input: any) => input.focus);
-            focuableInput && setTimeout(() => focuableInput.focus(), 200);
+            let focuableInput = find(inputs, input => input.focus) as ScopedComponentType;
+            focuableInput && setTimeout(() => focuableInput.focus!(), 200);
         }
     }
 

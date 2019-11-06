@@ -13,7 +13,8 @@ import {RendererEnv, RendererProps} from './factory';
 import {noop, autobind, qsstringify} from './utils/helper';
 import {RendererData, Action} from './types';
 
-interface ScopedComponentType extends React.Component<RendererProps> {
+export interface ScopedComponentType extends React.Component<RendererProps> {
+    focus?: () =>void;
     doAction?: (action: Action, data: RendererData, throwErrors?: boolean) => void;
     receive?: (values: RendererData, subPath?: string) => void;
     reload?: (subPath?: string, query?: RendererData | null, ctx?: RendererData) => void;

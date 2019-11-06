@@ -1,11 +1,12 @@
 import React from 'react';
 import hoistNonReactStatic = require('hoist-non-react-statics');
-import {IFormItemStore} from '../../store/form';
+import {IFormItemStore, IFormStore} from '../../store/form';
 import {reaction} from 'mobx';
 
 import {RendererProps, registerRenderer, TestFunc, RendererConfig, HocStoreFactory} from '../../factory';
 import {anyChanged, ucFirst, getWidthRate} from '../../utils/helper';
 import {observer} from 'mobx-react';
+import {FormHorizontal, FormSchema} from '.';
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
     type?: string;
@@ -26,28 +27,40 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
     validate?: (values: any, value: any) => string | boolean;
 }
 
-export interface FormControlProps extends RendererProps {
-    // error string
-    error?: string;
-    inputOnly?: boolean;
+export interface FormItemState {
+    isFocused: boolean;
+}
 
-    // error 详情
-    errors?: {
-        [propName: string]: string;
-    };
-
+export interface FormItemProps extends RendererProps {
+    name?: string;
+    formStore?: IFormStore;
+    formInited: boolean;
+    formMode: 'normal' | 'horizontal' | 'inline' | 'row' | 'default';
+    formHorizontal: FormHorizontal;
+    defaultSize?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+    disabled: boolean;
+    btnDisabled: boolean;
     defaultValue: any;
     value: any;
-    onChange: (value: any, submitOnChange?: boolean) => void;
-    onBulkChange: (values: any, submitOnChange?: boolean) => void;
-
     prinstine: any;
     setPrinstineValue: (value: any) => void;
-    formMode?: 'default' | 'inline' | 'horizontal' | 'row';
-    formItem?: IFormItemStore;
-    strictMode?: boolean;
+    onChange: (value: any, submitOnChange?: boolean) => void;
+    onBulkChange: (values: {[propName: string]: any}, submitOnChange?: boolean) => void;
+    addHook: (fn: Function, mode?: 'validate' | 'init') => void;
+    removeHook: (fn: Function, mode?: 'validate' | 'init') => void;
+    renderFormItems: (schema: FormSchema, region: string, props: any) => JSX.Element;
+    onFocus: (e: any) => void;
+    onBlur: (e: any) => void;
 
-    renderControl?: (props: RendererProps) => JSX.Element;
+    formItemValue: any; // 不建议使用 为了兼容 v1
+    getValue: () => any; // 不建议使用 为了兼容 v1
+    setValue: (value: any, key: string) => void; // 不建议使用 为了兼容 v1
+
+    inputClassName?: string;
+    renderControl?: (props: FormControlProps) => JSX.Element;
+
+    inputOnly?: boolean;
     renderLabel?: boolean;
     renderDescription?: boolean;
     sizeMutable?: boolean;
@@ -55,23 +68,43 @@ export interface FormControlProps extends RendererProps {
     hint?: string;
     description?: string;
     descriptionClassName?: string;
+    // error 详情
+    errors?: {
+        [propName: string]: string;
+    };
+    // error string
+    error?: string;
 }
 
-export interface FormControlState {
-    isFocused: boolean;
-}
+export type FormControlProps = RendererProps &
+    Exclude<
+        FormItemProps,
+        | 'inputClassName'
+        | 'renderControl'
+        | 'defaultSize'
+        | 'size'
+        | 'error'
+        | 'errors'
+        | 'hint'
+        | 'descriptionClassName'
+        | 'inputOnly'
+        | 'renderLabel'
+        | 'renderDescription'
+        | 'sizeMutable'
+        | 'wrap'
+    >;
 
-export type FormItemComponent = React.ComponentType<FormControlProps>;
+export type FormItemComponent = React.ComponentType<FormItemProps>;
 export type FormControlComponent = React.ComponentType<FormControlProps>;
 
 export interface FormItemConfig extends FormItemBasicConfig {
     component: FormControlComponent;
 }
 
-export class FormItemWrap extends React.Component<FormControlProps, FormControlState> {
+export class FormItemWrap extends React.Component<FormItemProps, FormItemState> {
     reaction: any;
 
-    constructor(props: FormControlProps) {
+    constructor(props: FormItemProps) {
         super(props);
 
         this.state = {
@@ -603,7 +636,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
 
         ref: any;
 
-        constructor(props: FormControlProps) {
+        constructor(props: FormItemProps) {
             super(props);
             this.refFn = this.refFn.bind(this);
         }

@@ -1,4 +1,4 @@
-import {Api} from '../../types';
+import {Api, Schema} from '../../types';
 import {buildApi, isEffectiveApi, isValidApi, isApiOutdated} from '../../utils/api';
 import {anyChanged} from '../../utils/helper';
 import {reaction} from 'mobx';
@@ -30,15 +30,33 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
     setOptions: (value: Array<any>) => void;
     setLoading: (value: boolean) => void;
     reloadOptions: () => void;
+    addable?: boolean;
+    onAdd?: () => void;
+    editable?: boolean;
+    onEdit?: (value: Option) => void;
+    removable?: boolean;
+    onDelete?: (value: Option) => void;
+}
+
+export interface OptionsProps extends FormControlProps, OptionProps {
+    sourcce?: Api;
+    addApi?: Api;
+    addMode?: 'dialog' | 'normal';
+    addDialog?: Schema;
+    editApi?: Api;
+    editMode?: 'dialog' | 'normal';
+    editDialog?: Schema;
+    deleteApi?: Api;
+    deleteConfirmText?: string;
 }
 
 export function registerOptionsControl(config: OptionsConfig) {
     const Control = config.component;
 
     // @observer
-    class FormOptionsItem extends React.Component<FormControlProps, any> {
+    class FormOptionsItem extends React.Component<OptionsProps, any> {
         static displayName = `OptionsControl(${config.type})`;
-        static defaultProps: Partial<FormControlProps> = {
+        static defaultProps = {
             delimiter: ',',
             labelField: 'label',
             valueField: 'value',
@@ -55,7 +73,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         reaction: any;
         input: any;
 
-        constructor(props: FormControlProps) {
+        constructor(props: OptionsProps) {
             super(props);
 
             const formItem = props.formItem as IFormItemStore;
@@ -114,7 +132,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             this.normalizeValue();
         }
 
-        shouldComponentUpdate(nextProps: FormControlProps) {
+        shouldComponentUpdate(nextProps: OptionsProps) {
             if (config.strictMode === false || nextProps.strictMode === false) {
                 return true;
             }
@@ -156,7 +174,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             return false;
         }
 
-        componentWillReceiveProps(nextProps: OptionsControlProps) {
+        componentWillReceiveProps(nextProps: OptionsProps) {
             const props = this.props;
             const formItem = nextProps.formItem as IFormItemStore;
 

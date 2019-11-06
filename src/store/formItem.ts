@@ -5,7 +5,7 @@ import {Api, Payload, fetchOptions} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
 import findIndex = require('lodash/findIndex');
-import {isArrayChilrenModified, hasOwnProperty, isObject} from '../utils/helper';
+import {isArrayChilrenModified, hasOwnProperty, isObject, createObject} from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
 import {normalizeOptions} from '../components/Select';
@@ -50,7 +50,10 @@ export const FormItemStore = types
         options: types.optional(types.array(types.frozen()), []),
         expressionsInOptions: false,
         selectedOptions: types.optional(types.frozen(), []),
-        filteredOptions: types.optional(types.frozen(), [])
+        filteredOptions: types.optional(types.frozen(), []),
+        dialogSchema: types.frozen(),
+        dialogOpen: false,
+        dialogData: types.frozen(),
     })
     .views(self => {
         function getForm(): any {
@@ -532,6 +535,26 @@ export const FormItemStore = types
             clearError();
         }
 
+        function openDialog(schema: any, ctx: any, additonal?: object) {
+            let proto = ctx.__super ? ctx.__super : self.form.data;
+
+            if (additonal) {
+                proto = createObject(proto, additonal);
+            }
+
+            const data = createObject(proto, {
+                ...ctx
+            });
+
+            self.dialogSchema = schema;
+            self.dialogData = data;
+            self.dialogOpen = true;
+        }
+
+        function closeDialog() {
+            self.dialogOpen = false;
+        }
+
         return {
             config,
             changeValue,
@@ -544,7 +567,9 @@ export const FormItemStore = types
             syncOptions,
             setLoading,
             setSubStore,
-            reset
+            reset,
+            openDialog,
+            closeDialog
         };
     });
 
