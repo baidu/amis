@@ -322,7 +322,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
-        const {onChange, simpleValue} = this.props;
+        const {onChange, simpleValue, disabled} = this.props;
+        if (disabled) {
+            return;
+        }
         let {selection: value} = this.state;
 
         e && e.stopPropagation();
@@ -415,7 +418,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
-        const {multiple, placeholder, classPrefix: ns, labelField, searchable, creatable} = this.props;
+        const {multiple, placeholder, classPrefix: ns, labelField, searchable, creatable, disabled} = this.props;
 
         const selection = this.state.selection;
 
@@ -434,7 +437,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         return selection.map((item, index) =>
             multiple ? (
                 <div className={`${ns}Select-value`} key={index}>
-                    <span className={`${ns}Select-valueIcon`} onClick={this.removeItem.bind(this, index)}>
+                    <span className={`${ns}Select-valueIcon ${disabled ? 'is-disabled' : ''}`} onClick={this.removeItem.bind(this, index)}>
                         ×
                     </span>
                     <span className={`${ns}Select-valueLabel`}>{item[labelField || 'label']}</span>
