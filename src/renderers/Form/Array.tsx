@@ -6,41 +6,50 @@ import {observer} from 'mobx-react';
 import Combo from './Combo';
 
 export interface ArrayProps extends FormControlProps {
-    placeholder?: string;
-    controls: Array<Schema>;
-    minLength?: number;
-    maxLength?: number;
-    addButtonClassName?: string;
-    items: Schema & {
-        unique?: boolean;
-    };
-    store: IComboStore;
+  placeholder?: string;
+  controls: Array<Schema>;
+  minLength?: number;
+  maxLength?: number;
+  addButtonClassName?: string;
+  items: Schema & {
+    unique?: boolean;
+  };
+  store: IComboStore;
 }
 
 export default class ArrayControl extends React.Component<ArrayProps> {
-    comboInstance: any;
-    constructor(props: ArrayProps) {
-        super(props);
-        this.comboRef = this.comboRef.bind(this);
-    }
+  comboInstance: any;
+  constructor(props: ArrayProps) {
+    super(props);
+    this.comboRef = this.comboRef.bind(this);
+  }
 
-    comboRef(ref: any) {
-        this.comboInstance = ref;
-    }
+  comboRef(ref: any) {
+    this.comboInstance = ref;
+  }
 
-    validate(args: Array<any>) {
-        return this.comboInstance ? this.comboInstance.validate(...args) : null;
-    }
+  validate(args: Array<any>) {
+    return this.comboInstance ? this.comboInstance.validate(...args) : null;
+  }
 
-    render() {
-        const {items, ...rest} = this.props;
+  render() {
+    const {items, ...rest} = this.props;
 
-        return <Combo {...rest} controls={[items]} flat multiple multiLine={false} ref={this.comboRef} />;
-    }
+    return (
+      <Combo
+        {...rest}
+        controls={[items]}
+        flat
+        multiple
+        multiLine={false}
+        ref={this.comboRef}
+      />
+    );
+  }
 }
 
 @FormItem({
-    type: 'array',
-    storeType: ComboStore.name
+  type: 'array',
+  storeType: ComboStore.name
 })
 export class ArrayControlRenderer extends ArrayControl {}

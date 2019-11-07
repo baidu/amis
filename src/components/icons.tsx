@@ -71,15 +71,15 @@ export const leftArrowIcon = <LeftArrowIcon />;
 export const rightArrowIcon = <RightArrowIcon />;
 
 const iconFactory: {
-    [propName: string]: React.ReactType<{}>;
+  [propName: string]: React.ReactType<{}>;
 } = {};
 
 export function getIcon(key: string) {
-    return iconFactory[key];
+  return iconFactory[key];
 }
 
 export function registerIcon(key: string, component: React.ReactType<{}>) {
-    iconFactory[key] = component;
+  iconFactory[key] = component;
 }
 
 registerIcon('close', CloseIcon);
@@ -105,28 +105,32 @@ registerIcon('success', SuccessIcon);
 registerIcon('fail', FailIcon);
 
 export function Icon({
-    icon,
-    ...rest
+  icon,
+  ...rest
 }: {
-    icon: string;
+  icon: string;
 } & React.ComponentProps<any>) {
-    const Component = getIcon(icon);
-    return Component ? <Component {...rest} /> : <span className="text-danger">没有 icon {icon}</span>;
+  const Component = getIcon(icon);
+  return Component ? (
+    <Component {...rest} />
+  ) : (
+    <span className="text-danger">没有 icon {icon}</span>
+  );
 }
 
 export {
-    CloseIcon,
-    UnDoIcon,
-    ReDoIcon,
-    EnterIcon,
-    VolumeIcon,
-    MuteIcon,
-    PlayIcon,
-    PauseIcon,
-    LeftArrowIcon,
-    RightArrowIcon,
-    CheckIcon,
-    PlusIcon,
-    MinusIcon,
-    PencilIcon
+  CloseIcon,
+  UnDoIcon,
+  ReDoIcon,
+  EnterIcon,
+  VolumeIcon,
+  MuteIcon,
+  PlayIcon,
+  PauseIcon,
+  LeftArrowIcon,
+  RightArrowIcon,
+  CheckIcon,
+  PlusIcon,
+  MinusIcon,
+  PencilIcon
 };
