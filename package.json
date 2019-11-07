@@ -1,6 +1,6 @@
 {
     "name": "amis",
-    "version": "1.0.4",
+    "version": "1.0.4-beta.3",
     "description": "一种MIS页面生成工具",
     "main": "lib/index.js",
     "scripts": {
@@ -10,7 +10,7 @@
         "stop": "fis3 server stop",
         "dev": "fis3 release -cwd ./public",
         "publish2npm": "sh publish.sh && npm publish",
-        "prettier": "prettier --write 'src/**/*.{tsx,ts}'"
+        "prettier": "prettier --write '{src,examples}/**/*.{tsx,ts,jsx}'"
     },
     "repository": {
         "type": "git",

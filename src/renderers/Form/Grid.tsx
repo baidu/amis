@@ -9,37 +9,46 @@ import cx from 'classnames';
 
 export interface GridProps extends FormControlProps {}
 const defaultHorizontal = {
-    left: 'col-sm-4',
-    right: 'col-sm-8',
-    offset: 'col-sm-offset-4'
+  left: 'col-sm-4',
+  right: 'col-sm-8',
+  offset: 'col-sm-offset-4'
 };
 
 @FormItem({
-    type: 'grid',
-    strictMode: false,
-    sizeMutable: false
+  type: 'grid',
+  strictMode: false,
+  sizeMutable: false
 })
 export class GridRenderer extends Grid<GridProps> {
-    static propsList: Array<string> = ['columns'];
-    static defaultProps = {};
+  static propsList: Array<string> = ['columns'];
+  static defaultProps = {};
 
-    renderChild(region: string, node: Schema, key: number, length: number) {
-        const {render, renderFormItems, classnames: cx, $path, itemRender, store} = this.props;
+  renderChild(region: string, node: Schema, key: number, length: number) {
+    const {
+      render,
+      renderFormItems,
+      classnames: cx,
+      $path,
+      itemRender,
+      store
+    } = this.props;
 
-        if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
-            return (
-                <div className={cx(`Grid-form Form--${node.mode || 'normal'}`)}>
-                    {renderFormItems(node, ($path as string).replace(/^.*form\//, ''), {
-                        mode: node.mode || 'normal',
-                        horizontal: node.horizontal || defaultHorizontal,
-                        store,
-                        data: store.data,
-                        render
-                    })}
-                </div>
-            );
-        }
-
-        return itemRender ? itemRender(node, key, length, this.props) : render(region, node.body || node);
+    if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
+      return (
+        <div className={cx(`Grid-form Form--${node.mode || 'normal'}`)}>
+          {renderFormItems(node, ($path as string).replace(/^.*form\//, ''), {
+            mode: node.mode || 'normal',
+            horizontal: node.horizontal || defaultHorizontal,
+            store,
+            data: store.data,
+            render
+          })}
+        </div>
+      );
     }
+
+    return itemRender
+      ? itemRender(node, key, length, this.props)
+      : render(region, node.body || node);
+  }
 }
