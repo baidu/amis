@@ -7,82 +7,90 @@ import {autobind, isEmpty} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 
 export interface RadiosProps extends OptionsControlProps {
-    placeholder?: any;
-    columnsCount?: number;
-    labelClassName?: string;
+  placeholder?: any;
+  columnsCount?: number;
+  labelClassName?: string;
 }
 
 export default class RadiosControl extends React.Component<RadiosProps, any> {
-    static defaultProps: Partial<RadiosProps> = {
-        columnsCount: 1
-    };
+  static defaultProps: Partial<RadiosProps> = {
+    columnsCount: 1
+  };
 
-    @autobind
-    handleChange(option: Option) {
-        const {joinValues, extractValue, valueField, onChange, autoFill, onBulkChange} = this.props;
+  @autobind
+  handleChange(option: Option) {
+    const {
+      joinValues,
+      extractValue,
+      valueField,
+      onChange,
+      autoFill,
+      onBulkChange
+    } = this.props;
 
-        const sendTo = autoFill && !isEmpty(autoFill) && dataMapping(autoFill, option);
-        sendTo && onBulkChange && onBulkChange(sendTo);
+    const sendTo =
+      autoFill && !isEmpty(autoFill) && dataMapping(autoFill, option);
+    sendTo && onBulkChange && onBulkChange(sendTo);
 
-        if (option && (joinValues || extractValue)) {
-            option = option[valueField || 'value'];
-        }
-
-        onChange && onChange(option);
+    if (option && (joinValues || extractValue)) {
+      option = option[valueField || 'value'];
     }
 
-    reload() {
-        const reload = this.props.reloadOptions;
-        reload && reload();
-    }
+    onChange && onChange(option);
+  }
 
-    render() {
-        const {
-            className,
-            classPrefix: ns,
-            value,
-            onChange,
-            disabled,
-            joinValues,
-            extractValue,
-            delimiter,
-            placeholder,
-            options,
-            inline,
-            formMode,
-            columnsCount,
-            classPrefix,
-            itemClassName,
-            labelClassName
-        } = this.props;
+  reload() {
+    const reload = this.props.reloadOptions;
+    reload && reload();
+  }
 
-        return (
-            <Radios
-                inline={inline || formMode === 'inline'}
-                className={cx(`${ns}RadiosControl`, className)}
-                value={typeof value === 'undefined' || value === null ? '' : value}
-                disabled={disabled}
-                onChange={this.handleChange}
-                joinValues={joinValues}
-                extractValue={extractValue}
-                delimiter={delimiter}
-                labelClassName={labelClassName}
-                placeholder={placeholder}
-                options={options}
-                columnsCount={columnsCount}
-                classPrefix={classPrefix}
-                itemClassName={itemClassName}
-            />
-        );
-    }
+  render() {
+    const {
+      className,
+      classPrefix: ns,
+      value,
+      onChange,
+      disabled,
+      joinValues,
+      extractValue,
+      delimiter,
+      placeholder,
+      options,
+      inline,
+      formMode,
+      columnsCount,
+      classPrefix,
+      itemClassName,
+      labelClassName
+    } = this.props;
+
+    return (
+      <Radios
+        inline={inline || formMode === 'inline'}
+        className={cx(`${ns}RadiosControl`, className)}
+        value={typeof value === 'undefined' || value === null ? '' : value}
+        disabled={disabled}
+        onChange={this.handleChange}
+        joinValues={joinValues}
+        extractValue={extractValue}
+        delimiter={delimiter}
+        labelClassName={labelClassName}
+        placeholder={placeholder}
+        options={options}
+        columnsCount={columnsCount}
+        classPrefix={classPrefix}
+        itemClassName={itemClassName}
+      />
+    );
+  }
 }
 
 @OptionsControl({
-    type: 'radios',
-    sizeMutable: false
+  type: 'radios',
+  sizeMutable: false
 })
 export class RadiosControlRenderer extends RadiosControl {
-    static defaultProps = {
-        multiple: false
-    };
+  static defaultProps = {
+    multiple: false
+  };
 }

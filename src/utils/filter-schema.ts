@@ -13,30 +13,36 @@ import {Schema, PlainObject} from '../types';
  * @param data
  */
 export default function getExprProperties(
-    schema: PlainObject,
-    data: object = {},
-    blackList: Array<string> = ['addOn']
+  schema: PlainObject,
+  data: object = {},
+  blackList: Array<string> = ['addOn']
 ): PlainObject {
-    const exprProps: PlainObject = {};
+  const exprProps: PlainObject = {};
 
-    Object.getOwnPropertyNames(schema).forEach(key => {
-        if (blackList && ~blackList.indexOf(key)) {
-            return;
-        }
+  Object.getOwnPropertyNames(schema).forEach(key => {
+    if (blackList && ~blackList.indexOf(key)) {
+      return;
+    }
 
-        let parts = /^(.*)(On|Expr)$/.exec(key);
-        let value: any = schema[key];
+    let parts = /^(.*)(On|Expr)$/.exec(key);
+    let value: any = schema[key];
 
-        if (value && typeof value === 'string' && parts && (parts[2] === 'On' || parts[2] === 'Expr')) {
-            key = parts[1];
+    if (
+      value &&
+      typeof value === 'string' &&
+      parts &&
+      (parts[2] === 'On' || parts[2] === 'Expr')
+    ) {
+      key = parts[1];
 
-            if (parts[2] === 'On' || parts[2] === 'Expr') {
-                value = parts[2] === 'On' ? evalExpression(value, data) : filter(value, data);
-            }
+      if (parts[2] === 'On' || parts[2] === 'Expr') {
+        value =
+          parts[2] === 'On' ? evalExpression(value, data) : filter(value, data);
+      }
 
-            exprProps[key] = value;
-        }
-    });
+      exprProps[key] = value;
+    }
+  });
 
-    return exprProps;
+  return exprProps;
 }

@@ -7,409 +7,460 @@ import {resolveVariable} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
 
 export interface AudioProps extends RendererProps {
-    className?: string;
-    inline?: boolean;
-    src?: string;
-    autoPlay?: boolean;
-    loop?: boolean;
-    rates?: number[];
-    controls?: string[];
+  className?: string;
+  inline?: boolean;
+  src?: string;
+  autoPlay?: boolean;
+  loop?: boolean;
+  rates?: number[];
+  controls?: string[];
 }
 
 export interface AudioState {
-    src?: string;
-    isReady?: boolean;
-    muted?: boolean;
-    playing?: boolean;
-    played: number;
-    seeking?: boolean;
-    volume: number;
-    prevVolume: number;
-    loaded?: number;
-    playbackRate: number;
-    showHandlePlaybackRate: boolean;
-    showHandleVolume: boolean;
+  src?: string;
+  isReady?: boolean;
+  muted?: boolean;
+  playing?: boolean;
+  played: number;
+  seeking?: boolean;
+  volume: number;
+  prevVolume: number;
+  loaded?: number;
+  playbackRate: number;
+  showHandlePlaybackRate: boolean;
+  showHandleVolume: boolean;
 }
 
 export class Audio extends React.Component<AudioProps, AudioState> {
-    audio: any;
-    progressTimeout: number;
-    durationTimeout: number;
+  audio: any;
+  progressTimeout: number;
+  durationTimeout: number;
 
-    static defaultProps: Pick<
-        AudioProps,
-        'inline' | 'autoPlay' | 'playbackRate' | 'loop' | 'rates' | 'progressInterval' | 'controls'
-    > = {
-        inline: true,
-        autoPlay: false,
-        playbackRate: 1,
-        loop: false,
-        rates: [],
-        progressInterval: 1000,
-        controls: ['rates', 'play', 'time', 'process', 'volume']
-    };
+  static defaultProps: Pick<
+    AudioProps,
+    | 'inline'
+    | 'autoPlay'
+    | 'playbackRate'
+    | 'loop'
+    | 'rates'
+    | 'progressInterval'
+    | 'controls'
+  > = {
+    inline: true,
+    autoPlay: false,
+    playbackRate: 1,
+    loop: false,
+    rates: [],
+    progressInterval: 1000,
+    controls: ['rates', 'play', 'time', 'process', 'volume']
+  };
 
-    state: AudioState = {
-        src:
-            this.props.value ||
-            (this.props.src ? filter(this.props.src, this.props.data) : '') ||
-            resolveVariable(this.props.name, this.props.data) ||
-            '',
-        isReady: false,
-        muted: false,
-        playing: false,
-        played: 0,
-        seeking: false,
-        volume: 0.8,
-        prevVolume: 0.8,
-        loaded: 0,
-        playbackRate: 1.0,
-        showHandlePlaybackRate: false,
-        showHandleVolume: false
-    };
+  state: AudioState = {
+    src:
+      this.props.value ||
+      (this.props.src ? filter(this.props.src, this.props.data) : '') ||
+      resolveVariable(this.props.name, this.props.data) ||
+      '',
+    isReady: false,
+    muted: false,
+    playing: false,
+    played: 0,
+    seeking: false,
+    volume: 0.8,
+    prevVolume: 0.8,
+    loaded: 0,
+    playbackRate: 1.0,
+    showHandlePlaybackRate: false,
+    showHandleVolume: false
+  };
 
-    componentWillUnmount() {
-        clearTimeout(this.progressTimeout);
-        clearTimeout(this.durationTimeout);
-    }
+  componentWillUnmount() {
+    clearTimeout(this.progressTimeout);
+    clearTimeout(this.durationTimeout);
+  }
 
-    componentDidMount() {
-        const autoPlay = this.props.autoPlay;
-        const playing = autoPlay ? true : false;
-        this.setState(
-            {
-                playing: playing
-            },
-            this.progress
-        );
-    }
+  componentDidMount() {
+    const autoPlay = this.props.autoPlay;
+    const playing = autoPlay ? true : false;
+    this.setState(
+      {
+        playing: playing
+      },
+      this.progress
+    );
+  }
 
-    componentWillReceiveProps(nextProps: AudioProps) {
-        const props = this.props;
+  componentWillReceiveProps(nextProps: AudioProps) {
+    const props = this.props;
 
-        if (
-            props.value !== nextProps.value ||
-            filter(props.src as string, props.data) !== filter(nextProps.src as string, nextProps.data)
-        ) {
-            this.setState(
-                {
-                    src: nextProps.value || filter(nextProps.src as string, nextProps.data),
-                    playing: false
-                },
-                () => {
-                    this.audio.load();
-                    this.progress();
-                }
-            );
+    if (
+      props.value !== nextProps.value ||
+      filter(props.src as string, props.data) !==
+        filter(nextProps.src as string, nextProps.data)
+    ) {
+      this.setState(
+        {
+          src:
+            nextProps.value || filter(nextProps.src as string, nextProps.data),
+          playing: false
+        },
+        () => {
+          this.audio.load();
+          this.progress();
         }
+      );
     }
+  }
 
-    @autobind
-    progress() {
-        clearTimeout(this.progressTimeout);
-        if (this.state.src && this.audio) {
-            const currentTime = this.audio.currentTime || 0;
-            const duration = this.audio.duration;
-            const played = currentTime / duration;
-            let playing = this.state.playing;
-            playing = played != 1 && playing ? true : false;
-            this.setState({
-                played,
-                playing
-            });
-            this.progressTimeout = setTimeout(this.progress, this.props.progressInterval / this.state.playbackRate);
-        }
+  @autobind
+  progress() {
+    clearTimeout(this.progressTimeout);
+    if (this.state.src && this.audio) {
+      const currentTime = this.audio.currentTime || 0;
+      const duration = this.audio.duration;
+      const played = currentTime / duration;
+      let playing = this.state.playing;
+      playing = played != 1 && playing ? true : false;
+      this.setState({
+        played,
+        playing
+      });
+      this.progressTimeout = setTimeout(
+        this.progress,
+        this.props.progressInterval / this.state.playbackRate
+      );
     }
+  }
 
-    @autobind
-    audioRef(audio: any) {
-        this.audio = audio;
+  @autobind
+  audioRef(audio: any) {
+    this.audio = audio;
+  }
+
+  @autobind
+  load() {
+    this.setState({
+      isReady: true
+    });
+  }
+
+  @autobind
+  handlePlaybackRate(rate: number) {
+    this.audio.playbackRate = rate;
+    this.setState({
+      playbackRate: rate,
+      showHandlePlaybackRate: false
+    });
+  }
+
+  @autobind
+  handleMute() {
+    if (!this.state.src) {
+      return;
     }
+    const {muted, prevVolume} = this.state;
+    const curVolume = !muted ? 0 : prevVolume;
+    this.audio.muted = !muted;
+    this.setState({
+      muted: !muted,
+      volume: curVolume
+    });
+  }
 
-    @autobind
-    load() {
-        this.setState({
-            isReady: true
-        });
+  @autobind
+  handlePlaying() {
+    if (!this.state.src) {
+      return;
     }
+    let playing = this.state.playing;
+    playing ? this.audio.pause() : this.audio.play();
+    this.setState({
+      playing: !playing
+    });
+  }
 
-    @autobind
-    handlePlaybackRate(rate: number) {
-        this.audio.playbackRate = rate;
-        this.setState({
-            playbackRate: rate,
-            showHandlePlaybackRate: false
-        });
+  @autobind
+  getCurrentTime() {
+    if (!this.audio || !this.state.src || !this.state.isReady) {
+      return '0:00';
     }
+    const duration = this.audio.duration;
+    const played = this.state.played;
+    return this.formatTime(duration * (played || 0));
+  }
 
-    @autobind
-    handleMute() {
-        if (!this.state.src) {
-            return;
-        }
-        const {muted, prevVolume} = this.state;
-        const curVolume = !muted ? 0 : prevVolume;
-        this.audio.muted = !muted;
-        this.setState({
-            muted: !muted,
-            volume: curVolume
-        });
+  @autobind
+  getDuration() {
+    if (!this.audio || !this.state.src) {
+      return '0:00';
     }
-
-    @autobind
-    handlePlaying() {
-        if (!this.state.src) {
-            return;
-        }
-        let playing = this.state.playing;
-        playing ? this.audio.pause() : this.audio.play();
-        this.setState({
-            playing: !playing
-        });
+    if (!this.state.isReady) {
+      this.onDurationCheck();
+      return '0:00';
     }
-
-    @autobind
-    getCurrentTime() {
-        if (!this.audio || !this.state.src || !this.state.isReady) {
-            return '0:00';
-        }
-        const duration = this.audio.duration;
-        const played = this.state.played;
-        return this.formatTime(duration * (played || 0));
+    const {duration, seekable} = this.audio;
+    // on iOS, live streams return Infinity for the duration
+    // so instead we use the end of the seekable timerange
+    if (duration === Infinity && seekable.length > 0) {
+      return seekable.end(seekable.length - 1);
     }
+    return this.formatTime(duration);
+  }
 
-    @autobind
-    getDuration() {
-        if (!this.audio || !this.state.src) {
-            return '0:00';
-        }
-        if (!this.state.isReady) {
-            this.onDurationCheck();
-            return '0:00';
-        }
-        const {duration, seekable} = this.audio;
-        // on iOS, live streams return Infinity for the duration
-        // so instead we use the end of the seekable timerange
-        if (duration === Infinity && seekable.length > 0) {
-            return seekable.end(seekable.length - 1);
-        }
-        return this.formatTime(duration);
+  @autobind
+  onDurationCheck() {
+    clearTimeout(this.durationTimeout);
+    const duration = this.audio && this.audio.duration;
+    if (!duration) {
+      this.audio.load();
+      this.durationTimeout = setTimeout(this.onDurationCheck, 500);
     }
+  }
 
-    @autobind
-    onDurationCheck() {
-        clearTimeout(this.durationTimeout);
-        const duration = this.audio && this.audio.duration;
-        if (!duration) {
-            this.audio.load();
-            this.durationTimeout = setTimeout(this.onDurationCheck, 500);
-        }
+  @autobind
+  onSeekChange(e: any) {
+    if (!this.state.src) {
+      return;
     }
+    const played = e.target.value;
+    this.setState({played: played});
+  }
 
-    @autobind
-    onSeekChange(e: any) {
-        if (!this.state.src) {
-            return;
-        }
-        const played = e.target.value;
-        this.setState({played: played});
+  @autobind
+  onSeekMouseDown() {
+    this.setState({seeking: true});
+  }
+
+  @autobind
+  onSeekMouseUp(e: any) {
+    if (!this.state.seeking) {
+      return;
     }
+    const played = e.target.value;
+    const duration = this.audio.duration;
+    this.audio.currentTime = duration * played;
 
-    @autobind
-    onSeekMouseDown() {
-        this.setState({seeking: true});
+    const loop = this.props.loop;
+    let playing = this.state.playing;
+    playing = played < 1 || loop ? playing : false;
+    this.setState({
+      playing: playing,
+      seeking: false
+    });
+  }
+
+  @autobind
+  setVolume(e: any) {
+    if (!this.state.src) {
+      return;
     }
+    const volume = e.target.value;
+    this.audio.volume = volume;
+    this.setState({
+      volume: volume,
+      prevVolume: volume
+    });
+  }
 
-    @autobind
-    onSeekMouseUp(e: any) {
-        if (!this.state.seeking) {
-            return;
-        }
-        const played = e.target.value;
-        const duration = this.audio.duration;
-        this.audio.currentTime = duration * played;
-
-        const loop = this.props.loop;
-        let playing = this.state.playing;
-        playing = played < 1 || loop ? playing : false;
-        this.setState({
-            playing: playing,
-            seeking: false
-        });
+  @autobind
+  formatTime(seconds: number) {
+    const date = new Date(seconds * 1000);
+    const hh = date.getUTCHours();
+    const mm = date.getUTCMinutes();
+    const ss = this.pad(date.getUTCSeconds());
+    if (hh) {
+      return `${hh}:${this.pad(mm)}:${ss}`;
     }
+    return `${mm}:${ss}`;
+  }
 
-    @autobind
-    setVolume(e: any) {
-        if (!this.state.src) {
-            return;
-        }
-        const volume = e.target.value;
-        this.audio.volume = volume;
-        this.setState({
-            volume: volume,
-            prevVolume: volume
-        });
+  @autobind
+  pad(string: number) {
+    return ('0' + string).slice(-2);
+  }
+
+  @autobind
+  toggleHandlePlaybackRate() {
+    if (!this.state.src) {
+      return;
     }
+    this.setState({
+      showHandlePlaybackRate: !this.state.showHandlePlaybackRate
+    });
+  }
 
-    @autobind
-    formatTime(seconds: number) {
-        const date = new Date(seconds * 1000);
-        const hh = date.getUTCHours();
-        const mm = date.getUTCMinutes();
-        const ss = this.pad(date.getUTCSeconds());
-        if (hh) {
-            return `${hh}:${this.pad(mm)}:${ss}`;
-        }
-        return `${mm}:${ss}`;
+  @autobind
+  toggleHandleVolume(type: boolean) {
+    if (!this.state.src) {
+      return;
     }
+    this.setState({
+      showHandleVolume: type
+    });
+  }
 
-    @autobind
-    pad(string: number) {
-        return ('0' + string).slice(-2);
-    }
+  renderRates() {
+    const {rates, classnames: cx} = this.props;
+    const {showHandlePlaybackRate, playbackRate} = this.state;
 
-    @autobind
-    toggleHandlePlaybackRate() {
-        if (!this.state.src) {
-            return;
-        }
-        this.setState({
-            showHandlePlaybackRate: !this.state.showHandlePlaybackRate
-        });
-    }
-
-    @autobind
-    toggleHandleVolume(type: boolean) {
-        if (!this.state.src) {
-            return;
-        }
-        this.setState({
-            showHandleVolume: type
-        });
-    }
-
-    renderRates() {
-        const {rates, classnames: cx} = this.props;
-        const {showHandlePlaybackRate, playbackRate} = this.state;
-
-        return rates && rates.length ? (
-            showHandlePlaybackRate ? (
-                <div className={cx('Audio-rateControl')}>
-                    {rates.map((rate, index) => (
-                        <div
-                            key={index}
-                            className={cx('Audio-rateControlItem')}
-                            onClick={() => this.handlePlaybackRate(rate)}
-                        >
-                            x{rate.toFixed(1)}
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <div className={cx('Audio-rates')} onClick={this.toggleHandlePlaybackRate}>
-                    x{playbackRate.toFixed(1)}
-                </div>
-            )
-        ) : null;
-    }
-
-    renderPlay() {
-        const {classnames: cx} = this.props;
-        const {playing} = this.state;
-
-        return (
-            <div className={cx('Audio-play')} onClick={this.handlePlaying}>
-                {playing ? <Icon icon="pause" className="icon" /> : <Icon icon="play" className="icon" />}
+    return rates && rates.length ? (
+      showHandlePlaybackRate ? (
+        <div className={cx('Audio-rateControl')}>
+          {rates.map((rate, index) => (
+            <div
+              key={index}
+              className={cx('Audio-rateControlItem')}
+              onClick={() => this.handlePlaybackRate(rate)}
+            >
+              x{rate.toFixed(1)}
             </div>
-        );
-    }
+          ))}
+        </div>
+      ) : (
+        <div
+          className={cx('Audio-rates')}
+          onClick={this.toggleHandlePlaybackRate}
+        >
+          x{playbackRate.toFixed(1)}
+        </div>
+      )
+    ) : null;
+  }
 
-    renderTime() {
-        const {classnames: cx} = this.props;
+  renderPlay() {
+    const {classnames: cx} = this.props;
+    const {playing} = this.state;
 
-        return (
-            <div className={cx('Audio-times')}>
-                {this.getCurrentTime()} / {this.getDuration()}
-            </div>
-        );
-    }
-
-    renderProcess() {
-        const {classnames: cx} = this.props;
-        const {played} = this.state;
-
-        return (
-            <div className={cx('Audio-process')}>
-                <input
-                    type="range"
-                    min={0}
-                    max={1}
-                    step="any"
-                    value={played || 0}
-                    onMouseDown={this.onSeekMouseDown}
-                    onChange={this.onSeekChange}
-                    onMouseUp={this.onSeekMouseUp}
-                />
-            </div>
-        );
-    }
-
-    renderVolume() {
-        const {classnames: cx} = this.props;
-        const {volume, showHandleVolume} = this.state;
-
-        return showHandleVolume ? (
-            <div className={cx('Audio-volumeControl')} onMouseLeave={() => this.toggleHandleVolume(false)}>
-                <div className={cx('Audio-volumeControlIcon')} onClick={this.handleMute}>
-                    {volume > 0 ? <Icon icon="volume" className="icon" /> : <Icon icon="mute" className="icon" />}
-                </div>
-                <input type="range" min={0} max={1} step="any" value={volume} onChange={this.setVolume} />
-            </div>
+    return (
+      <div className={cx('Audio-play')} onClick={this.handlePlaying}>
+        {playing ? (
+          <Icon icon="pause" className="icon" />
         ) : (
-            <div className={cx('Audio-volume')} onMouseEnter={() => this.toggleHandleVolume(true)}>
-                {volume > 0 ? <Icon icon="volume" className="icon" /> : <Icon icon="mute" className="icon" />}
-            </div>
-        );
-    }
+          <Icon icon="play" className="icon" />
+        )}
+      </div>
+    );
+  }
 
-    render() {
-        const {className, inline, autoPlay, loop, controls, classnames: cx} = this.props;
-        const {muted, src} = this.state;
+  renderTime() {
+    const {classnames: cx} = this.props;
 
-        return (
-            <div className={cx('Audio', className, inline ? 'Audio--inline' : '')}>
-                <audio
-                    className={cx('Audio-original')}
-                    ref={this.audioRef}
-                    onCanPlay={this.load}
-                    autoPlay={autoPlay}
-                    controls
-                    muted={muted}
-                    loop={loop}
-                >
-                    <source src={src} />
-                </audio>
-                <div className={cx('Audio-controls')}>
-                    {controls &&
-                        controls.map((control: string, index: number) => {
-                            control = 'render' + upperFirst(control);
-                            const method:
-                                | 'renderRates'
-                                | 'renderPlay'
-                                | 'renderTime'
-                                | 'renderProcess'
-                                | 'renderVolume'
-                                | 'render' = control as any;
-                            return <React.Fragment key={index}>{this[method]()}</React.Fragment>;
-                        })}
-                </div>
-            </div>
-        );
-    }
+    return (
+      <div className={cx('Audio-times')}>
+        {this.getCurrentTime()} / {this.getDuration()}
+      </div>
+    );
+  }
+
+  renderProcess() {
+    const {classnames: cx} = this.props;
+    const {played} = this.state;
+
+    return (
+      <div className={cx('Audio-process')}>
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step="any"
+          value={played || 0}
+          onMouseDown={this.onSeekMouseDown}
+          onChange={this.onSeekChange}
+          onMouseUp={this.onSeekMouseUp}
+        />
+      </div>
+    );
+  }
+
+  renderVolume() {
+    const {classnames: cx} = this.props;
+    const {volume, showHandleVolume} = this.state;
+
+    return showHandleVolume ? (
+      <div
+        className={cx('Audio-volumeControl')}
+        onMouseLeave={() => this.toggleHandleVolume(false)}
+      >
+        <div
+          className={cx('Audio-volumeControlIcon')}
+          onClick={this.handleMute}
+        >
+          {volume > 0 ? (
+            <Icon icon="volume" className="icon" />
+          ) : (
+            <Icon icon="mute" className="icon" />
+          )}
+        </div>
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step="any"
+          value={volume}
+          onChange={this.setVolume}
+        />
+      </div>
+    ) : (
+      <div
+        className={cx('Audio-volume')}
+        onMouseEnter={() => this.toggleHandleVolume(true)}
+      >
+        {volume > 0 ? (
+          <Icon icon="volume" className="icon" />
+        ) : (
+          <Icon icon="mute" className="icon" />
+        )}
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      className,
+      inline,
+      autoPlay,
+      loop,
+      controls,
+      classnames: cx
+    } = this.props;
+    const {muted, src} = this.state;
+
+    return (
+      <div className={cx('Audio', className, inline ? 'Audio--inline' : '')}>
+        <audio
+          className={cx('Audio-original')}
+          ref={this.audioRef}
+          onCanPlay={this.load}
+          autoPlay={autoPlay}
+          controls
+          muted={muted}
+          loop={loop}
+        >
+          <source src={src} />
+        </audio>
+        <div className={cx('Audio-controls')}>
+          {controls &&
+            controls.map((control: string, index: number) => {
+              control = 'render' + upperFirst(control);
+              const method:
+                | 'renderRates'
+                | 'renderPlay'
+                | 'renderTime'
+                | 'renderProcess'
+                | 'renderVolume'
+                | 'render' = control as any;
+              return (
+                <React.Fragment key={index}>{this[method]()}</React.Fragment>
+              );
+            })}
+        </div>
+      </div>
+    );
+  }
 }
 
 @Renderer({
-    test: /(^|\/)audio/,
-    name: 'audio'
+  test: /(^|\/)audio/,
+  name: 'audio'
 })
 export class AudioRenderer extends Audio {}
