@@ -19,99 +19,101 @@ import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
 
 interface LayoutProps {
-    header?: boolean | React.ReactNode;
-    aside?: boolean | React.ReactNode;
-    asideClassName: string;
-    boxed?: boolean;
-    folded?: boolean;
-    asideFixed: boolean;
-    headerFixed: boolean;
-    className?: string;
-    contentClassName?: string;
-    footer: boolean | React.ReactNode;
-    offScreen: boolean;
-    classPrefix: string;
-    classnames: ClassNamesFn;
-    size?: 'sm' | 'base' | 'md' | 'lg';
-    children?: React.ReactNode;
-    bodyClassName?: string;
+  header?: boolean | React.ReactNode;
+  aside?: boolean | React.ReactNode;
+  asideClassName: string;
+  boxed?: boolean;
+  folded?: boolean;
+  asideFixed: boolean;
+  headerFixed: boolean;
+  className?: string;
+  contentClassName?: string;
+  footer: boolean | React.ReactNode;
+  offScreen: boolean;
+  classPrefix: string;
+  classnames: ClassNamesFn;
+  size?: 'sm' | 'base' | 'md' | 'lg';
+  children?: React.ReactNode;
+  bodyClassName?: string;
 }
 
 export function Layout({
-    header,
-    aside,
-    asideClassName,
-    children,
-    className,
-    contentClassName,
-    folded,
-    asideFixed,
-    headerFixed,
-    footer,
-    offScreen,
-    size,
-    boxed,
-    classnames: cx,
-    bodyClassName
+  header,
+  aside,
+  asideClassName,
+  children,
+  className,
+  contentClassName,
+  folded,
+  asideFixed,
+  headerFixed,
+  footer,
+  offScreen,
+  size,
+  boxed,
+  classnames: cx,
+  bodyClassName
 }: LayoutProps) {
-    let body = <div className={cx(`Layout-body`, contentClassName)}>{children}</div>;
+  let body = (
+    <div className={cx(`Layout-body`, contentClassName)}>{children}</div>
+  );
 
-    if (aside) {
-        body = (
-            <div className={cx('Layout-content')} role="main">
-                {body}
-            </div>
-        );
-    }
-
-    React.useEffect(() => {
-        bodyClassName && document.body.classList.add(bodyClassName);
-
-        return () => {
-            bodyClassName && document.body.classList.remove(bodyClassName);
-        };
-    }, [bodyClassName]);
-
-    return (
-        <div
-            className={cx(`Layout`, className, {
-                'Layout--boxed': boxed,
-                'Layout--withAside': !!aside,
-                'Layout--headerFixed': header ? headerFixed : false,
-                'Layout--asideFixed': aside ? asideFixed : false,
-                'Layout--folded': folded,
-                'Layout--offScreen': offScreen,
-                [`Layout--${size}`]: size,
-                'Layout--noFooter': !footer
-            })}
-        >
-            {header ? <div className={cx('Layout-header')}>{header}</div> : null}
-            {aside ? (
-                <div className={cx(`Layout-aside`, asideClassName)}>
-                    <div className={cx('Layout-asideWrap')}>
-                        <div id="asideInner" className={cx('Layout-asideInner')}>
-                            {aside}
-                        </div>
-                    </div>
-                </div>
-            ) : null}
-            {body}
-            {footer ? (
-                <footer className={cx('Layout-footer')} role="footer">
-                    {footer}
-                </footer>
-            ) : null}
-        </div>
+  if (aside) {
+    body = (
+      <div className={cx('Layout-content')} role="main">
+        {body}
+      </div>
     );
+  }
+
+  React.useEffect(() => {
+    bodyClassName && document.body.classList.add(bodyClassName);
+
+    return () => {
+      bodyClassName && document.body.classList.remove(bodyClassName);
+    };
+  }, [bodyClassName]);
+
+  return (
+    <div
+      className={cx(`Layout`, className, {
+        'Layout--boxed': boxed,
+        'Layout--withAside': !!aside,
+        'Layout--headerFixed': header ? headerFixed : false,
+        'Layout--asideFixed': aside ? asideFixed : false,
+        'Layout--folded': folded,
+        'Layout--offScreen': offScreen,
+        [`Layout--${size}`]: size,
+        'Layout--noFooter': !footer
+      })}
+    >
+      {header ? <div className={cx('Layout-header')}>{header}</div> : null}
+      {aside ? (
+        <div className={cx(`Layout-aside`, asideClassName)}>
+          <div className={cx('Layout-asideWrap')}>
+            <div id="asideInner" className={cx('Layout-asideInner')}>
+              {aside}
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {body}
+      {footer ? (
+        <footer className={cx('Layout-footer')} role="footer">
+          {footer}
+        </footer>
+      ) : null}
+    </div>
+  );
 }
 
 Layout.defaultProps = {
-    // asideWide: false,
-    asideFixed: true,
-    asideClassName: '',
-    headerFixed: true,
-    offScreen: false,
-    footer: false
+  // asideWide: false,
+  asideFixed: true,
+  asideClassName: '',
+  headerFixed: true,
+  offScreen: false,
+  footer: false
 };
 
 export default themeable(Layout);

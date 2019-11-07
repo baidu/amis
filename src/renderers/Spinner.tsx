@@ -5,11 +5,11 @@ import React from 'react';
 interface SpinnerProps extends RendererProps {}
 
 @Renderer({
-    test: /(^|\/)spinner$/,
-    name: 'spinner'
+  test: /(^|\/)spinner$/,
+  name: 'spinner'
 })
 export class SpinnerRenderer extends React.Component<SpinnerProps> {
-    render() {
-        return <Spinner {...this.props} />;
-    }
+  render() {
+    return <Spinner {...this.props} />;
+  }
 }
