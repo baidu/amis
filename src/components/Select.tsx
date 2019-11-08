@@ -47,7 +47,7 @@ export interface OptionProps {
   placeholder?: string;
   autoFill?: {[propName: string]: any};
   creatable?: boolean;
-  onAdd?: () => void;
+  onAdd?: (idx?: number) => void;
   addControls?: Array<any>;
   editable?: boolean;
   editControls?: Array<any>;

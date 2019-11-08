@@ -8,6 +8,7 @@ import cx from 'classnames';
 import {FormControlProps, FormItem} from './Item';
 import {buildApi, isValidApi, isEffectiveApi} from '../../utils/api';
 import {Checkbox, Spinner} from '../../components';
+import {autobind, setVariable} from '../../utils/helper';
 
 export interface Column {
   label: string;
@@ -66,7 +67,7 @@ export default class MatrixCheckbox extends React.Component<
   componentDidMount() {
     const {formInited, addHook} = this.props;
 
-    formInited ? this.reload() : addHook(this.reload, 'init');
+    formInited ? this.reload() : addHook(this.initOptions, 'init');
   }
 
   componentWillReceiveProps(nextProps: MatrixProps) {
@@ -104,7 +105,20 @@ export default class MatrixCheckbox extends React.Component<
     }
   }
 
-  reload() {
+  @autobind
+  async initOptions(data: any) {
+    await this.reload();
+    const {formItem, name} = this.props;
+    if (!formItem) {
+      return;
+    }
+    if (formItem.value) {
+      setVariable(data, name!, formItem.value);
+    }
+  }
+
+  @autobind
+  async reload() {
     const {source, data, env, onChange} = this.props;
 
     if (!isEffectiveApi(source, data) || this.state.loading) {
@@ -115,45 +129,52 @@ export default class MatrixCheckbox extends React.Component<
       throw new Error('fetcher is required');
     }
 
-    // 需要联动加载吗？我看不一定会用到，先这样吧。
-    this.setState(
-      {
-        loading: true
-      },
-      () => {
-        env
-          .fetcher(source, data)
-          .then(ret => {
-            if (!ret.ok) {
-              throw new Error(ret.msg || '数据请求错误');
-            }
-            this.setState(
-              {
-                loading: false,
-                rows: (ret.data as any).rows || [],
-                columns: (ret.data as any).columns || []
-              },
-              () => {
-                let value = (ret.data as any).value;
-                if (value) {
-                  value = mergeValue(
-                    value,
-                    this.state.columns,
-                    this.state.rows
-                  );
-                  onChange(value);
-                }
+    // todo 优化这块
+    return await new Promise((resolve, reject) => {
+      // 需要联动加载吗？我看不一定会用到，先这样吧。
+      this.setState(
+        {
+          loading: true
+        },
+        () => {
+          env
+            .fetcher(source, data)
+            .then(ret => {
+              if (!ret.ok) {
+                throw new Error(ret.msg || '数据请求错误');
               }
-            );
-          })
-          .catch(reason =>
-            this.setState({
-              error: reason,
-              loading: false
+              this.setState(
+                {
+                  loading: false,
+                  rows: (ret.data as any).rows || [],
+                  columns: (ret.data as any).columns || []
+                },
+                () => {
+                  let value = (ret.data as any).value;
+                  if (value) {
+                    value = mergeValue(
+                      value,
+                      this.state.columns,
+                      this.state.rows
+                    );
+                    onChange(value);
+                  }
+                  resolve();
+                }
+              );
             })
-          );
-      }
-    );
+            .catch(reason =>
+              this.setState(
+                {
+                  error: reason,
+                  loading: false
+                },
+                resolve
+              )
+            );
+        }
+      );
+    });
   }
 
   toggleItem(checked: boolean, x: number, y: number) {
