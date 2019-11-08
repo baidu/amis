@@ -211,7 +211,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             isEffectiveApi(autoComplete) ? this.loadRemote : undefined
           }
           creatable={creatable}
-          searchable={autoComplete || creatable ? true : searchable}
+          searchable={searchable || !!autoComplete}
           onChange={this.changeValue}
           loading={loading}
           noResultsText={noResultsText}
