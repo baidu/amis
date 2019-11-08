@@ -182,6 +182,7 @@
 
     &-option {
         cursor: pointer;
+        min-width: px2rem(150px);
         padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize)/2 $Form-select-paddingX;
 
         &.is-active {
