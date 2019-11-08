@@ -118,16 +118,7 @@ export default class DropDownButton extends React.Component<
 
     if (popOverContainer) {
       return (
-        <Overlay
-          container={popOverContainer}
-          placement={
-            align === 'right'
-              ? 'right-bottom-right-top'
-              : 'left-bottom-left-top'
-          }
-          target={() => this.target}
-          show
-        >
+        <Overlay container={popOverContainer} target={() => this.target} show>
           <PopOver
             overlay
             onHide={this.close}

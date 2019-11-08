@@ -395,7 +395,6 @@ export default class TreeSelectControl extends React.Component<
     return (
       <Overlay
         container={popOverContainer || (() => this.container.current)}
-        placement="left-bottom-left-top right-bottom-right-top"
         target={() => this.target.current}
         show
       >

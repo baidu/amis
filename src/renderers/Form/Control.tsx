@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {IFormStore, IFormItemStore} from '../../store/form';
 import debouce = require('lodash/debounce');
 
