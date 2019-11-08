@@ -135,7 +135,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   control: any;
   lastQuery: any;
   dataInvalid: boolean = false;
-  timer: number;
+  timer: NodeJS.Timeout;
   mounted: boolean;
   constructor(props: CRUDProps) {
     super(props);
@@ -331,7 +331,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         env.jumpTo(filter(action.redirect, data), action);
 
       return store
-        .saveRemote(action.api, data, {
+        .saveRemote(action.api!, data, {
           successMessage:
             (action.messages && action.messages.success) ||
             (messages && messages.saveSuccess),

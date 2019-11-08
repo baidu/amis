@@ -33,7 +33,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       leading: false
     });
     this.inputRef = this.inputRef.bind(this);
-    this.handleNewOptionClick = this.handleNewOptionClick.bind(this);
   }
 
   inputRef(ref: any) {
@@ -161,16 +160,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     return combinedOptions;
   }
 
-  handleNewOptionClick(option: any) {
-    const {setOptions, options} = this.props;
-
-    let mergedOptions: Array<any> = options.concat();
-    mergedOptions.push({
-      ...option
-    });
-    setOptions(mergedOptions);
-  }
-
   reload() {
     const reload = this.props.reloadOptions;
     reload && reload();
@@ -211,7 +200,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           ref={this.inputRef}
           value={selectedOptions}
           options={options}
-          onNewOptionClick={this.handleNewOptionClick}
           loadOptions={
             isEffectiveApi(autoComplete) ? this.loadRemote : undefined
           }

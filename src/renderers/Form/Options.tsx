@@ -1,11 +1,6 @@
 import {Api, Schema} from '../../types';
-import {
-  buildApi,
-  isEffectiveApi,
-  isValidApi,
-  isApiOutdated
-} from '../../utils/api';
-import {anyChanged, autobind} from '../../utils/helper';
+import {isEffectiveApi, isApiOutdated} from '../../utils/api';
+import {anyChanged, autobind, createObject} from '../../utils/helper';
 import {reaction} from 'mobx';
 import {FormControlProps, registerFormItem, FormItemBasicConfig} from './Item';
 import {IFormItemStore} from '../../store/formItem';
@@ -13,8 +8,9 @@ export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
 import React from 'react';
 import {resolveVariableAndFilter} from '../../utils/tpl-builtin';
-import {evalExpression} from '../../utils/tpl';
 import {Option, OptionProps, normalizeOptions} from '../../components/Select';
+import {filter} from '../../utils/tpl';
+import findIndex from 'lodash/findIndex';
 
 export {Option};
 
@@ -26,6 +22,7 @@ export interface OptionsConfig extends OptionsBasicConfig {
   component: React.ComponentType<OptionsControlProps>;
 }
 
+// 下发给注册进来的组件的属性。
 export interface OptionsControlProps extends FormControlProps, OptionProps {
   source?: Api;
   name?: string;
@@ -35,22 +32,24 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   setOptions: (value: Array<any>) => void;
   setLoading: (value: boolean) => void;
   reloadOptions: () => void;
-  addable?: boolean;
+  creatable?: boolean;
   onAdd?: () => void;
+  addControls?: Array<any>;
   editable?: boolean;
+  editControls?: Array<any>;
   onEdit?: (value: Option) => void;
   removable?: boolean;
   onDelete?: (value: Option) => void;
 }
 
+// 自己接收的属性。
 export interface OptionsProps extends FormControlProps, OptionProps {
-  sourcce?: Api;
+  source?: Api;
+  creatable?: boolean;
   addApi?: Api;
-  addMode?: 'dialog' | 'normal';
-  addDialog?: Schema;
+  addControls?: Array<any>;
   editApi?: Api;
-  editMode?: 'dialog' | 'normal';
-  editDialog?: Schema;
+  editControls?: Array<any>;
   deleteApi?: Api;
   deleteConfirmText?: string;
 }
@@ -58,7 +57,6 @@ export interface OptionsProps extends FormControlProps, OptionProps {
 export function registerOptionsControl(config: OptionsConfig) {
   const Control = config.component;
 
-  // @observer
   class FormOptionsItem extends React.Component<OptionsProps, any> {
     static displayName = `OptionsControl(${config.type})`;
     static defaultProps = {
@@ -70,6 +68,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       multiple: false,
       placeholder: '请选择',
       resetValue: '',
+      deleteConfirmText: '确定要删除？',
       ...Control.defaultProps
     };
     static propsList: any = (Control as any).propsList
@@ -113,10 +112,10 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       let loadOptions: boolean = initFetch !== false;
 
-      if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(source) && formItem) {
+      if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(source as string) && formItem) {
         formItem.setOptions(
           normalizeOptions(
-            resolveVariableAndFilter(source, data, '| raw') || []
+            resolveVariableAndFilter(source as string, data, '| raw') || []
           )
         );
         loadOptions = false;
@@ -207,7 +206,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       ) {
         if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source as string)) {
           const prevOptions = resolveVariableAndFilter(
-            prevProps.source,
+            prevProps.source as string,
             prevProps.data,
             '| raw'
           );
@@ -439,8 +438,189 @@ export function registerOptionsControl(config: OptionsConfig) {
       formItem && formItem.setLoading(value);
     }
 
+    @autobind
+    async handleOptionAdd() {
+      let {
+        addControls,
+        disabled,
+        labelField,
+        onOpenDialog,
+        addApi,
+        source,
+        data,
+        valueField,
+        formItem: model,
+        createBtnLabel
+      } = this.props;
+
+      if (disabled || !model) {
+        return;
+      }
+
+      if (!Array.isArray(addControls) || !addControls.length) {
+        addControls = [
+          {
+            type: 'text',
+            name: labelField || 'label',
+            label: false,
+            placeholder: '请输入名称'
+          }
+        ];
+      }
+
+      let result: any = await onOpenDialog(
+        {
+          type: 'dialog',
+          title: createBtnLabel || '新增选项',
+          body: {
+            type: 'form',
+            api: addApi,
+            controls: addControls
+          }
+        },
+        data
+      );
+
+      if (result) {
+        // 没走服务端的。
+        if (!result.__saved) {
+          result = {
+            ...result,
+            [valueField || 'value']: result[labelField || 'label']
+          };
+        }
+
+        source
+          ? this.reload()
+          : model.setOptions(model.options.concat({...result}));
+      }
+    }
+
+    @autobind
+    async handleOptionEdit(value: any) {
+      let {
+        editControls,
+        disabled,
+        labelField,
+        onOpenDialog,
+        editApi,
+        source,
+        data,
+        formItem: model,
+        valueField
+      } = this.props;
+
+      if (disabled || !model) {
+        return;
+      }
+
+      if (!Array.isArray(editControls) || !editControls.length) {
+        editControls = [
+          {
+            type: 'text',
+            name: labelField || 'label',
+            label: false,
+            placeholder: '请输入名称'
+          }
+        ];
+      }
+
+      let result = await onOpenDialog(
+        {
+          type: 'dialog',
+          title: '编辑选项',
+          body: {
+            type: 'form',
+            api: editApi,
+            controls: editControls
+          }
+        },
+        createObject(data, value)
+      );
+
+      if (!result) {
+        return;
+      }
+
+      if (source) {
+        this.reload();
+      } else {
+        const options = model.options.concat();
+        const idx = findIndex(
+          options,
+          item => item[valueField || 'value'] == result[valueField || 'value']
+        );
+
+        if (~idx) {
+          options.splice(idx, 1, {
+            ...options[idx],
+            ...result
+          });
+          model.setOptions(options);
+        }
+      }
+    }
+
+    @autobind
+    async handleOptionDelete(value: any) {
+      let {
+        deleteConfirmText,
+        disabled,
+        data,
+        deleteApi,
+        env,
+        formItem: model,
+        source,
+        valueField
+      } = this.props;
+
+      if (disabled || !model) {
+        return;
+      }
+
+      const ctx = createObject(data, value);
+      const confirmed = deleteConfirmText
+        ? await env.confirm(filter(deleteConfirmText, ctx))
+        : true;
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        const result = await env.fetcher(deleteApi!, ctx);
+
+        if (!result.ok) {
+          env.notify('error', result.msg || '删除失败，请重试');
+        } else if (source) {
+          this.reload();
+        } else {
+          const options = model.options.concat();
+          const idx = findIndex(
+            options,
+            item => item[valueField || 'value'] == value[valueField || 'value']
+          );
+
+          if (~idx) {
+            options.splice(idx, 1);
+            model.setOptions(options);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+        env.notify('error', e.message);
+      }
+    }
+
     render() {
-      const {value, formItem} = this.props;
+      const {
+        value,
+        formItem,
+        addApi,
+        editApi,
+        deleteApi,
+        creatable,
+        editable
+      } = this.props;
 
       return (
         <Control
@@ -455,6 +635,12 @@ export function registerOptionsControl(config: OptionsConfig) {
           setOptions={this.setOptions}
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
+          creatable={creatable || isEffectiveApi(addApi)}
+          editable={editable || isEffectiveApi(editApi)}
+          removable={isEffectiveApi(deleteApi)}
+          onAdd={this.handleOptionAdd}
+          onEdit={this.handleOptionEdit}
+          onDelete={this.handleOptionDelete}
         />
       );
     }

@@ -421,7 +421,6 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
       return (
         <Overlay
           container={popOverContainer}
-          placement="left-top right-top left-bottom right-bottom"
           target={() => this.target}
           onHide={this.closeQuickEdit}
           show
