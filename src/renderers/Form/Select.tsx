@@ -50,6 +50,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       delimiter,
       multiple,
       type,
+      valueField,
       onChange,
       setOptions,
       options,
@@ -62,7 +63,11 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
     (Array.isArray(value) ? value : value ? [value] : []).forEach(
       (option: any) => {
-        let resolved = find(options, (item: any) => item.value == option.value);
+        let resolved = find(
+          options,
+          (item: any) =>
+            item[valueField || 'value'] == option[valueField || 'value']
+        );
         resolved || additonalOptions.push(option);
       }
     );
@@ -70,22 +75,24 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     if (joinValues) {
       if (multiple) {
         newValue = Array.isArray(value)
-          ? (value.map(item => item.value).join(delimiter) as string)
+          ? (value
+              .map(item => item[valueField || 'value'])
+              .join(delimiter) as string)
           : value
-          ? (value as Option).value
+          ? (value as Option)[valueField || 'value']
           : '';
       } else {
-        newValue = newValue ? (newValue as Option).value : '';
+        newValue = newValue ? (newValue as Option)[valueField || 'value'] : '';
       }
     } else if (extractValue) {
       if (multiple) {
         newValue = Array.isArray(value)
-          ? value.map(item => item.value)
+          ? value.map(item => item[valueField || 'value'])
           : value
-          ? [(value as Option).value]
+          ? [(value as Option)[valueField || 'value']]
           : [''];
       } else {
-        newValue = newValue ? (newValue as Option).value : '';
+        newValue = newValue ? (newValue as Option)[valueField || 'value'] : '';
       }
     }
 

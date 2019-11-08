@@ -528,7 +528,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         </div>
       ) : (
         <div className={`${ns}Select-value`} key={index}>
-          {item.label}
+          {item[labelField || 'label']}
         </div>
       )
     );
