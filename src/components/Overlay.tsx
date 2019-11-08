@@ -49,6 +49,9 @@ interface OverlayProps {
   target?: React.ReactNode | Function;
 }
 export default class Overlay extends React.Component<OverlayProps> {
+  static defaultProps = {
+    placement: 'auto'
+  };
   constructor(props: OverlayProps) {
     super(props as any);
   }

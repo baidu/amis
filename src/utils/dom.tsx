@@ -132,6 +132,12 @@ export function calculatePosition(
       : getPosition(target, container);
   const {height: overlayHeight, width: overlayWidth} = getOffset(overlayNode);
 
+  // auto 尝试四个方向对齐。
+  placement =
+    placement === 'auto'
+      ? 'left-bottom-left-top right-bottom-right-top left-top-left-bottom right-top-right-bottom left-bottom-left-top'
+      : placement;
+
   let positionLeft = 0,
     positionTop = 0,
     arrowOffsetLeft: any = '',
