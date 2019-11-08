@@ -1,6 +1,15 @@
+/**
+ * @file 所有列表选择类控件的父级，比如 Select、Radios、Checkboxes、
+ * List、ButtonGroup 等等
+ */
 import {Api, Schema} from '../../types';
 import {isEffectiveApi, isApiOutdated} from '../../utils/api';
-import {anyChanged, autobind, createObject} from '../../utils/helper';
+import {
+  anyChanged,
+  autobind,
+  createObject,
+  setVariable
+} from '../../utils/helper';
 import {reaction} from 'mobx';
 import {FormControlProps, registerFormItem, FormItemBasicConfig} from './Item';
 import {IFormItemStore} from '../../store/formItem';
@@ -33,7 +42,7 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   setLoading: (value: boolean) => void;
   reloadOptions: () => void;
   creatable?: boolean;
-  onAdd?: () => void;
+  onAdd?: (idx?: number) => void;
   addControls?: Array<any>;
   editable?: boolean;
   editControls?: Array<any>;
@@ -133,7 +142,9 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       loadOptions &&
-        (formInited ? this.reload() : addHook && addHook(this.reload, 'init'));
+        (formInited
+          ? this.reload()
+          : addHook && addHook(this.initOptions, 'init'));
     }
 
     componentDidMount() {
@@ -416,6 +427,18 @@ export function registerOptionsControl(config: OptionsConfig) {
       return formItem.loadOptions(source, data, undefined, false, onChange);
     }
 
+    @autobind
+    async initOptions(data: any) {
+      await this.reload();
+      const {formItem, name} = this.props;
+      if (!formItem) {
+        return;
+      }
+      if (formItem.value) {
+        setVariable(data, name!, formItem.value);
+      }
+    }
+
     focus() {
       this.input && this.input.focus && this.input.focus();
     }
@@ -439,7 +462,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    async handleOptionAdd() {
+    async handleOptionAdd(idx: number = -1) {
       let {
         addControls,
         disabled,
@@ -457,6 +480,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
+      // 用户没有配置表单项，则自动创建一个 label 输入
       if (!Array.isArray(addControls) || !addControls.length) {
         addControls = [
           {
@@ -481,18 +505,26 @@ export function registerOptionsControl(config: OptionsConfig) {
         data
       );
 
-      if (result) {
-        // 没走服务端的。
-        if (!result.__saved) {
-          result = {
-            ...result,
-            [valueField || 'value']: result[labelField || 'label']
-          };
-        }
+      // 有 result 说明弹框点了确认。否则就是取消了。
+      if (!result) {
+        return;
+      }
 
-        source
-          ? this.reload()
-          : model.setOptions(model.options.concat({...result}));
+      // 没走服务端的。
+      if (!result.__saved) {
+        result = {
+          ...result,
+          [valueField || 'value']: result[labelField || 'label']
+        };
+      }
+
+      // 如果配置了 source 直接重新拉取接口就够了
+      if (source) {
+        this.reload();
+      } else {
+        // 否则直接前端变更 options
+        const options = model.options.concat();
+        ~idx ? options.splice(idx, 0, {...result}) : options.push({...result});
       }
     }
 
@@ -538,6 +570,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         createObject(data, value)
       );
 
+      // 没有结果，说明取消了。
       if (!result) {
         return;
       }
@@ -579,6 +612,8 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       const ctx = createObject(data, value);
+
+      // 如果配置了 deleteConfirmText 让用户先确认。
       const confirmed = deleteConfirmText
         ? await env.confirm(filter(deleteConfirmText, ctx))
         : true;
@@ -586,6 +621,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
+      // 通过 deleteApi 删除。
       try {
         const result = await env.fetcher(deleteApi!, ctx);
 

@@ -55,7 +55,7 @@ export interface FormItemProps extends RendererProps {
     values: {[propName: string]: any},
     submitOnChange?: boolean
   ) => void;
-  addHook: (fn: Function, mode?: 'validate' | 'init') => void;
+  addHook: (fn: Function, mode?: 'validate' | 'init') => () => void;
   removeHook: (fn: Function, mode?: 'validate' | 'init') => void;
   renderFormItems: (
     schema: FormSchema,
