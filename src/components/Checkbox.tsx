@@ -20,7 +20,7 @@ interface CheckboxProps {
   id?: string;
   key?: string | number;
   style?: React.CSSProperties;
-  type?: string;
+  type: 'checkbox' | 'radio';
   size?: 'sm' | 'lg' | 'small' | 'large';
   label?: string;
   labelClassName?: string;
@@ -80,19 +80,12 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       labelClassName
     } = this.props;
 
-    className =
-      (className ? className : '') +
-      (size && sizeMap[size] ? ` ${sizeMap[size]}` : '');
-
     return (
       <label
-        className={cx(
-          `Checkbox Checkbox--${type}`,
-          {
-            'Checkbox--full': !partial
-          },
-          className
-        )}
+        className={cx(`Checkbox Checkbox--${type}`, className, {
+          'Checkbox--full': !partial,
+          [`Checkbox--${size}`]: size
+        })}
       >
         <input
           type={type}

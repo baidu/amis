@@ -8,7 +8,9 @@ import {
   anyChanged,
   autobind,
   createObject,
-  setVariable
+  setVariable,
+  spliceTree,
+  findTreeIndex
 } from '../../utils/helper';
 import {reaction} from 'mobx';
 import {FormControlProps, registerFormItem, FormItemBasicConfig} from './Item';
@@ -42,11 +44,15 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   setLoading: (value: boolean) => void;
   reloadOptions: () => void;
   creatable?: boolean;
-  onAdd?: (idx?: number) => void;
+  onAdd?: (
+    idx?: number | Array<number>,
+    value?: any,
+    skipForm?: boolean
+  ) => void;
   addControls?: Array<any>;
   editable?: boolean;
   editControls?: Array<any>;
-  onEdit?: (value: Option) => void;
+  onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
   onDelete?: (value: Option) => void;
 }
@@ -462,7 +468,11 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    async handleOptionAdd(idx: number = -1) {
+    async handleOptionAdd(
+      idx: number | Array<number> = -1,
+      value: any,
+      skipForm: boolean = false
+    ) {
       let {
         addControls,
         disabled,
@@ -473,15 +483,17 @@ export function registerOptionsControl(config: OptionsConfig) {
         data,
         valueField,
         formItem: model,
-        createBtnLabel
+        createBtnLabel,
+        env
       } = this.props;
 
+      // 禁用或者没有配置 name
       if (disabled || !model) {
         return;
       }
 
       // 用户没有配置表单项，则自动创建一个 label 输入
-      if (!Array.isArray(addControls) || !addControls.length) {
+      if (!skipForm && (!Array.isArray(addControls) || !addControls.length)) {
         addControls = [
           {
             type: 'text',
@@ -492,18 +504,37 @@ export function registerOptionsControl(config: OptionsConfig) {
         ];
       }
 
-      let result: any = await onOpenDialog(
-        {
-          type: 'dialog',
-          title: createBtnLabel || '新增选项',
-          body: {
-            type: 'form',
-            api: addApi,
-            controls: addControls
+      let result: any = skipForm
+        ? value
+        : await onOpenDialog(
+            {
+              type: 'dialog',
+              title: createBtnLabel || '新增选项',
+              body: {
+                type: 'form',
+                api: addApi,
+                controls: addControls
+              }
+            },
+            data
+          );
+
+      // 单独发请求
+      if (skipForm && addApi) {
+        try {
+          const payload = await env.fetcher(addApi!, result);
+
+          if (!payload.ok) {
+            env.notify('error', payload.msg || '新增失败，请仔细检查');
+          } else {
+            result = payload.data || result;
           }
-        },
-        data
-      );
+        } catch (e) {
+          result = null;
+          console.error(e);
+          env.notify('error', e.message);
+        }
+      }
 
       // 有 result 说明弹框点了确认。否则就是取消了。
       if (!result) {
@@ -523,13 +554,24 @@ export function registerOptionsControl(config: OptionsConfig) {
         this.reload();
       } else {
         // 否则直接前端变更 options
-        const options = model.options.concat();
-        ~idx ? options.splice(idx, 0, {...result}) : options.push({...result});
+        let options = model.options.concat();
+        if (Array.isArray(idx)) {
+          options = spliceTree(options, idx, 0, {...result});
+        } else {
+          ~idx
+            ? options.splice(idx, 0, {...result})
+            : options.push({...result});
+        }
+        model.setOptions(options);
       }
     }
 
     @autobind
-    async handleOptionEdit(value: any) {
+    async handleOptionEdit(
+      value: any,
+      origin: any = value,
+      skipForm: boolean = false
+    ) {
       let {
         editControls,
         disabled,
@@ -538,15 +580,14 @@ export function registerOptionsControl(config: OptionsConfig) {
         editApi,
         source,
         data,
-        formItem: model,
-        valueField
+        formItem: model
       } = this.props;
 
       if (disabled || !model) {
         return;
       }
 
-      if (!Array.isArray(editControls) || !editControls.length) {
+      if (!skipForm && (!Array.isArray(editControls) || !editControls.length)) {
         editControls = [
           {
             type: 'text',
@@ -557,18 +598,20 @@ export function registerOptionsControl(config: OptionsConfig) {
         ];
       }
 
-      let result = await onOpenDialog(
-        {
-          type: 'dialog',
-          title: '编辑选项',
-          body: {
-            type: 'form',
-            api: editApi,
-            controls: editControls
-          }
-        },
-        createObject(data, value)
-      );
+      let result = skipForm
+        ? value
+        : await onOpenDialog(
+            {
+              type: 'dialog',
+              title: '编辑选项',
+              body: {
+                type: 'form',
+                api: editApi,
+                controls: editControls
+              }
+            },
+            createObject(data, value)
+          );
 
       // 没有结果，说明取消了。
       if (!result) {
@@ -578,18 +621,15 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (source) {
         this.reload();
       } else {
-        const options = model.options.concat();
-        const idx = findIndex(
-          options,
-          item => item[valueField || 'value'] == result[valueField || 'value']
-        );
+        const indexes = findTreeIndex(model.options, item => item === origin);
 
-        if (~idx) {
-          options.splice(idx, 1, {
-            ...options[idx],
-            ...result
-          });
-          model.setOptions(options);
+        if (indexes) {
+          model.setOptions(
+            spliceTree(model.options, indexes, 1, {
+              ...origin,
+              ...result
+            })
+          );
         }
       }
     }
@@ -623,6 +663,10 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       // 通过 deleteApi 删除。
       try {
+        if (!deleteApi) {
+          throw new Error('请配置 deleteApi');
+        }
+
         const result = await env.fetcher(deleteApi!, ctx);
 
         if (!result.ok) {
@@ -655,7 +699,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         editApi,
         deleteApi,
         creatable,
-        editable
+        editable,
+        removable
       } = this.props;
 
       return (
@@ -673,7 +718,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           reloadOptions={this.reload}
           creatable={creatable || isEffectiveApi(addApi)}
           editable={editable || isEffectiveApi(editApi)}
-          removable={isEffectiveApi(deleteApi)}
+          removable={removable || isEffectiveApi(deleteApi)}
           onAdd={this.handleOptionAdd}
           onEdit={this.handleOptionEdit}
           onDelete={this.handleOptionDelete}

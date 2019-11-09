@@ -47,11 +47,15 @@ export interface OptionProps {
   placeholder?: string;
   autoFill?: {[propName: string]: any};
   creatable?: boolean;
-  onAdd?: (idx?: number) => void;
+  onAdd?: (
+    idx?: number | Array<number>,
+    value?: any,
+    skipForm?: boolean
+  ) => void;
   addControls?: Array<any>;
   editable?: boolean;
   editControls?: Array<any>;
-  onEdit?: (value: Option) => void;
+  onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
   onDelete?: (value: Option) => void;
 }
@@ -588,7 +592,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const menu = (
       <div ref={this.menu} className={cx('Select-menu')}>
         {searchable ? (
-          <div className={cx(`Select-input`)}>
+          <div
+            className={cx(`Select-input`, {
+              'is-focused': this.state.isFocused
+            })}
+          >
             <Icon icon="search" className="icon" />
             <input
               {...getInputProps({
