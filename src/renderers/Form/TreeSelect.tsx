@@ -419,7 +419,7 @@ export default class TreeSelectControl extends React.Component<
             extractValue={extractValue}
             delimiter={delimiter}
             placeholder={optionsPlaceholder}
-            data={filtedOptions}
+            options={filtedOptions}
             highlightTxt={this.state.inputValue}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
@@ -433,7 +433,7 @@ export default class TreeSelectControl extends React.Component<
             foldedField="collapsed"
             hideRoot
             value={value || ''}
-            nameField="label"
+            labelField="label"
             maxLength={maxLength}
             minLength={minLength}
           />

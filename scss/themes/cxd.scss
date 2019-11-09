@@ -26,6 +26,9 @@ $borderColor: #e8ebee;
 
 $link-onHover-decoration: none;
 
+$icon-color: #999;
+$icon-onHover-color: $primary;
+
 $Layout-header-boxShadow: none;
 $Layout-header-bg: #F5F5F5;
 $Layout-aside-width: px2rem(180px);
@@ -103,6 +106,9 @@ $Form-select-menu-color: #333;
 $Form-select-menu-onHover-color: #000;
 $Form-select-menu-onHover-bg: #eaf6fe;
 $Form-select-menu-height: px2rem(24px);
+$Form-select-popoverGap: px2rem(3px);
+$Form-select-search-height: px2rem(30px);
+$Form-selectValue-color: $primary !default;
 
 $InputGroup-select-borderWidth: px2rem(1px);
 $InputGroup-select-bg: #f6f7fb;

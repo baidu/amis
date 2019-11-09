@@ -2,11 +2,6 @@ import React from 'react';
 import cx from 'classnames';
 import TreeSelector from '../../components/Tree';
 import {OptionsControl, OptionsControlProps} from './Options';
-import {autobind, createObject} from '../../utils/helper';
-import {Action, Schema, PlainObject, Api, Payload} from '../../types';
-import {isEffectiveApi} from '../../utils/api';
-import {filter} from '../../utils/tpl';
-import {Option} from '../../components/Checkboxes';
 import {Spinner} from '../../components';
 
 export interface TreeProps extends OptionsControlProps {
@@ -18,13 +13,14 @@ export interface TreeProps extends OptionsControlProps {
   cascade?: boolean; // 父子之间是否完全独立。
   withChildren?: boolean; // 选父级的时候是否把子节点的值也包含在内。
   onlyChildren?: boolean; // 选父级的时候，是否只把子节点的值包含在内
+  addControls?: Array<any>;
+  updateControls?: Array<any>;
 }
 
 export default class TreeControl extends React.Component<TreeProps> {
   static defaultProps: Partial<TreeProps> = {
     placeholder: '选项加载中...',
     multiple: false,
-    hideRoot: false,
     rootLabel: '顶级',
     rootValue: '',
     showIcon: true
@@ -59,7 +55,15 @@ export default class TreeControl extends React.Component<TreeProps> {
       cascade,
       rootValue,
       showIcon,
-      showRadio
+      showRadio,
+      onAdd,
+      creatable,
+      addControls,
+      onEdit,
+      editable,
+      editControls,
+      removable,
+      onDelete
     } = this.props;
 
     return (
@@ -75,7 +79,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             extractValue={extractValue}
             delimiter={delimiter}
             placeholder={placeholder}
-            data={options}
+            options={options}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
             unfoldedLevel={unfoldedLevel}
@@ -89,8 +93,15 @@ export default class TreeControl extends React.Component<TreeProps> {
             cascade={cascade}
             foldedField="collapsed"
             value={value || ''}
-            nameField="label"
+            labelField="label"
             selfDisabledAffectChildren={false}
+            onAdd={onAdd}
+            creatable={creatable}
+            onEdit={onEdit}
+            editable={editable}
+            removable={removable}
+            onDelete={onDelete}
+            bultinCUD={!addControls && !editControls}
           />
         )}
       </div>

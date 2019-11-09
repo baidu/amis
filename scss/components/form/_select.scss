@@ -132,22 +132,10 @@
         transform: rotate(180deg);
     }
 
-    // &-menuOuter {
-    //     position: absolute;
-    //     background: $Form-select-menu-bg;
-    //     color: $Form-select-menu-color;
-    //     border: $Form-select-outer-borderWidth solid $Form-input-onFocused-borderColor;
-    //     left: px2rem(-1px);
-    //     right: px2rem(-1px);
-    //     min-width: 100%;
-    //     top: $Form-select-outer-top;
-    //     z-index: 10;
-    //     box-shadow: $Form-select-outer-boxShadow;
-    // }
-
     &-menu {
         max-height: px2rem(300px);
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
         user-select: none;
     }
 
@@ -156,11 +144,15 @@
         outline: none;
         border: none;
         margin: 0 $Form-select-paddingX;
-        padding: ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize)/2 0;
-        line-height: $Form-input-lineHeight;
+        height: $Form-select-search-height;
+        font-size: $Form-select-input-fontSize;
         border-bottom: 1px solid $borderColor;
         display: flex;
         align-items: center;
+
+        // &.is-focused {
+        //     border-color: $Form-input-onFocused-borderColor;
+        // }
 
         >svg {
             fill: #999;
@@ -168,7 +160,6 @@
             min-width: px2rem(14px);
             height: px2rem(14px);
             margin-right: px2rem(5px);
-            top: 0;
         }
 
         >input {
@@ -176,7 +167,8 @@
             border: none;
             flex-grow: 1;
             background: transparent;
-            font-size: px2rem(12px);
+            position: relative;
+            top: 0.125em;
         }
     }
 
@@ -222,8 +214,8 @@
     &-noResult {
         color: $Form-select-placeholderColor;
         line-height: $Form-input-lineHeight;
+        font-size: $Form-select-input-fontSize;
         user-select: none;
-        margin: 5px 0 0;
         padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize)/2 $Form-select-paddingX;
     }
 
@@ -235,6 +227,10 @@
         display: block;
         cursor: pointer;
         padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize)/2 $Form-select-paddingX;
+
+        &:hover {
+            text-decoration: none;
+        }
 
         >svg {
             width: px2rem(14px);
@@ -278,7 +274,8 @@
 }
 
 .#{$ns}Select-popover {
-    margin-top: px2rem(2px);
+    margin-top: $Form-select-popoverGap - $Form-select-outer-borderWidth;
+
     background: $Form-select-menu-bg;
     color: $Form-select-menu-color;
     border: $Form-select-outer-borderWidth solid $Form-input-onFocused-borderColor;
@@ -289,7 +286,7 @@
     z-index: 2;
 
     &.#{$ns}PopOver--leftTopLeftBottom {
-        margin-top: px2rem(-2px);
+        margin-top: -($Form-select-popoverGap - $Form-select-outer-borderWidth);
     }
 }
 

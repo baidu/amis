@@ -8,12 +8,12 @@
         position: absolute;
     }
 
-    &:hover input:not(:disabled) + i {
+    &:hover input:not(:disabled)+i {
         border-color: $Checkbox-onHover-color;
         // box-shadow: 0 0 px2rem(1px) $Checkbox-onHover-color inset;
     }
 
-    > i {
+    >i {
         cursor: pointer;
         line-height: 1;
         background: $Checkbox-gb;
@@ -21,7 +21,7 @@
         vertical-align: middle;
         position: relative;
 
-        + span {
+        +span {
             margin-left: $Checkbox-gap;
             cursor: pointer;
 
@@ -39,6 +39,8 @@
             height: 0px;
             background-color: transparent;
             transition: all 0.2s;
+            transform-origin: 50% 50%;
+            transform: translate(-50%, -50%);
         }
     }
 
@@ -48,19 +50,17 @@
         input {
             margin-left: -$Checkbox-size;
 
-            &:checked + i {
+            &:checked+i {
                 border-color: $Checkbox-onHover-color;
 
                 &:before {
-                    left: ($Checkbox-size - px2rem(2px) - $Checkbox-inner-size) / 2;
-                    top: ($Checkbox-size - px2rem(2px) - $Checkbox-inner-size) / 2;
                     width: $Checkbox-inner-size;
                     height: $Checkbox-inner-size;
                     background: $Checkbox-onHover-color;
                 }
             }
 
-            &[disabled] + i {
+            &[disabled]+i {
                 border-color: lighten($Checkbox-color, 5%);
                 cursor: not-allowed;
 
@@ -70,13 +70,13 @@
                 }
             }
 
-            &[disabled] + i + span {
+            &[disabled]+i+span {
                 cursor: not-allowed;
                 color: $text--muted-color;
             }
         }
 
-        > i {
+        >i {
             width: $Checkbox-size;
             height: $Checkbox-size;
             border: px2rem(1px) solid $Checkbox-color;
@@ -87,25 +87,16 @@
     }
 
     &--full.#{$ns}Checkbox--checkbox {
-        &:not(:disabled) + i:hover {
+        &:not(:disabled)+i:hover {
             border-color: $Checkbox-color;
         }
 
         input {
-            &:checked + i {
+            &:checked+i {
                 border-color: $Checkbox-onHover-color;
                 background: $Checkbox-onHover-color;
 
                 &:before {
-                    // todo 后面自动计算
-                    @if $ns== 'cxd-' {
-                        top: px2rem(2px);
-                        left: px2rem(1px);
-                    } @else {
-                        top: px2rem(5px);
-                        left: ($Checkbox-size - $Checkbox--full-inner-size) /2;
-                    }
-
                     width: $Checkbox--full-inner-size;
                     height: $Checkbox--full-inner-size / 2;
                     border-color: $white;
@@ -120,13 +111,13 @@
             //     }
             // }
 
-            &:checked[disabled] + i {
+            &:checked[disabled]+i {
                 border-color: lighten($Checkbox-color, 5%);
                 background-color: lighten($Checkbox-color, 5%);
             }
         }
 
-        > i {
+        >i {
             position: relative;
             cursor: pointer;
 
@@ -138,9 +129,9 @@
                 width: 0;
                 height: 0;
                 border-color: transparent;
-                transition: all 0.2s;
+                transition: width 0.2s, height 0.2s, transform 0.2s;
                 border-width: 0 0 px2rem(2px) px2rem(2px);
-                transform: rotate(-40deg);
+                transform: translate(-50%, -60%) rotate(-40deg);
                 border-style: solid;
             }
         }
@@ -152,12 +143,10 @@
         input {
             margin-left: -$Radio-size;
 
-            &:checked + i {
+            &:checked+i {
                 border-color: $Radio-onHover-color;
 
                 &:before {
-                    left: ($Radio-size - px2rem(2px) - $Radio-inner-size) / 2;
-                    top: ($Radio-size - px2rem(2px) - $Radio-inner-size) / 2;
                     width: $Radio-inner-size;
                     height: $Radio-inner-size;
                     background-color: $Radio-onHover-color;
@@ -165,7 +154,7 @@
                 }
             }
 
-            &[disabled] + i {
+            &[disabled]+i {
                 border-color: lighten($Radio-color, 5%);
                 cursor: not-allowed;
 
@@ -174,13 +163,13 @@
                 }
             }
 
-            &[disabled] + i + span {
+            &[disabled]+i+span {
                 cursor: not-allowed;
                 color: $text--muted-color;
             }
         }
 
-        > i {
+        >i {
             cursor: pointer;
             width: $Radio-size;
             height: $Radio-size;
@@ -192,26 +181,37 @@
     }
 
     &--sm {
-        margin-right: px2rem(5px);
+        padding-left: $Checkbox--sm-size;
 
         input {
-            &:checked + i {
+            margin-left: -$Checkbox--sm-size;
+
+            &:checked+i {
                 &:before {
-                    left: $Checkbox--sm-size / 4 - px2rem(1px);
-                    top: $Checkbox--sm-size / 4 - px2rem(1px);
-                    width: $Checkbox--sm-size / 2;
-                    height: $Checkbox--sm-size / 2;
+                    width: $Checkbox--sm-inner-size;
+                    height: $Checkbox--sm-inner-size;
                 }
             }
         }
 
-        > i {
+        >i {
             width: $Checkbox--sm-size;
             height: $Checkbox--sm-size;
             margin-left: -$Checkbox--sm-size;
 
-            + span {
+            +span {
                 margin-left: $gap-xs;
+            }
+        }
+    }
+
+    &--sm.#{$ns}Checkbox--full {
+        input {
+            &:checked+i {
+                &:before {
+                    width: $Checkbox--sm--full-inner-size;
+                    height: $Checkbox--sm--full-inner-size / 2;
+                }
             }
         }
     }
@@ -244,13 +244,14 @@
 
 .#{$ns}RadiosControl-group,
 .#{$ns}CheckboxesControl-group {
+
     .#{$ns}RadiosControl-group,
     .#{$ns}CheckboxesControl-group {
         padding-left: px2rem(80px);
         @include clearfix();
 
-        > .#{$ns}RadiosControl-groupLabel,
-        > .#{$ns}CheckboxesControl-groupLabel {
+        >.#{$ns}RadiosControl-groupLabel,
+        >.#{$ns}CheckboxesControl-groupLabel {
             float: left;
             width: px2rem(80px);
             margin-left: px2rem(-80px);
