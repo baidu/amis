@@ -32,8 +32,6 @@
         position: relative;
 
         >div {
-            color: inherit;
-
             &:hover {
                 text-decoration: none;
 
@@ -230,11 +228,13 @@
 
 
 
-    &-item &-item>&-itemLabel {
+    &-item &-item>&-itemLabel,
+    &-item>&-placeholder {
         padding-left: $Tree-indent;
     }
 
-    &-item &-item &-item>&-itemLabel {
+    &-item &-item &-item>&-itemLabel,
+    &-item &-item>&-placeholder {
         padding-left: $Tree-indent * 2;
     }
 
