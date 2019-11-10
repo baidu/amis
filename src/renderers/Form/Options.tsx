@@ -540,6 +540,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
           if (!payload.ok) {
             env.notify('error', payload.msg || '新增失败，请仔细检查');
+            result = null;
           } else {
             result = payload.data || result;
           }
@@ -642,6 +643,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
           if (!payload.ok) {
             env.notify('error', payload.msg || '保存失败，请仔细检查');
+            result = null;
           } else {
             result = payload.data || result;
           }
