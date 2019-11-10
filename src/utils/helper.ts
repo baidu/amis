@@ -779,6 +779,24 @@ export function findTreeIndex<T extends TreeItem>(
   return idx.length ? idx : undefined;
 }
 
+export function getTree<T extends TreeItem>(
+  tree: Array<T>,
+  idx: Array<number> | number
+): T | undefined | null {
+  const indexes = Array.isArray(idx) ? idx : [idx];
+  const lastIndex = indexes.pop()!;
+  let list: Array<T> | null = tree;
+  for (let i = 0, len = indexes.length; i < len; i++) {
+    const index = indexes[i];
+    if (!list![index]) {
+      list = null;
+      break;
+    }
+    list = list![index].children as any;
+  }
+  return list ? list[lastIndex] : undefined;
+}
+
 /**
  * 过滤树节点
  *
