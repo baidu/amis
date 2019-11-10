@@ -51,6 +51,8 @@ export default class MatrixCheckbox extends React.Component<
 
   state: MatrixState;
   sourceInvalid: boolean = false;
+  mounted: boolean = false;
+
   constructor(props: MatrixProps) {
     super(props);
 
@@ -62,6 +64,11 @@ export default class MatrixCheckbox extends React.Component<
 
     this.toggleItem = this.toggleItem.bind(this);
     this.reload = this.reload.bind(this);
+    this.initOptions = this.initOptions.bind(this);
+  }
+
+  componentWillMount() {
+    this.mounted = true;
   }
 
   componentDidMount() {
@@ -105,7 +112,12 @@ export default class MatrixCheckbox extends React.Component<
     }
   }
 
-  @autobind
+  componentWillUnmount() {
+    this.mounted = false;
+    const {removeHook} = this.props;
+    removeHook(this.initOptions, 'init');
+  }
+
   async initOptions(data: any) {
     await this.reload();
     const {formItem, name} = this.props;
@@ -117,7 +129,6 @@ export default class MatrixCheckbox extends React.Component<
     }
   }
 
-  @autobind
   async reload() {
     const {source, data, env, onChange} = this.props;
 
@@ -131,17 +142,26 @@ export default class MatrixCheckbox extends React.Component<
 
     // todo 优化这块
     return await new Promise((resolve, reject) => {
-      // 需要联动加载吗？我看不一定会用到，先这样吧。
+      if (!this.mounted) {
+        return resolve();
+      }
+
       this.setState(
         {
           loading: true
         },
         () => {
+          if (!this.mounted) {
+            return resolve();
+          }
           env
             .fetcher(source, data)
             .then(ret => {
               if (!ret.ok) {
                 throw new Error(ret.msg || '数据请求错误');
+              }
+              if (!this.mounted) {
+                return resolve();
               }
               this.setState(
                 {
