@@ -15,6 +15,7 @@ export interface TreeProps extends OptionsControlProps {
   onlyChildren?: boolean; // 选父级的时候，是否只把子节点的值包含在内
   addControls?: Array<any>;
   updateControls?: Array<any>;
+  rootCreatable?: boolean;
 }
 
 export default class TreeControl extends React.Component<TreeProps> {
@@ -63,7 +64,8 @@ export default class TreeControl extends React.Component<TreeProps> {
       editable,
       editControls,
       removable,
-      onDelete
+      onDelete,
+      rootCreatable
     } = this.props;
 
     return (
@@ -97,6 +99,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             selfDisabledAffectChildren={false}
             onAdd={onAdd}
             creatable={creatable}
+            rootCreatable={rootCreatable}
             onEdit={onEdit}
             editable={editable}
             removable={removable}

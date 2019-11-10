@@ -67,6 +67,7 @@ export interface OptionsProps extends FormControlProps, OptionProps {
   editControls?: Array<any>;
   deleteApi?: Api;
   deleteConfirmText?: string;
+  optionLabel?: string;
 }
 
 export function registerOptionsControl(config: OptionsConfig) {
@@ -478,6 +479,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         disabled,
         labelField,
         onOpenDialog,
+        optionLabel,
         addApi,
         source,
         data,
@@ -509,7 +511,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         : await onOpenDialog(
             {
               type: 'dialog',
-              title: createBtnLabel || '新增选项',
+              title: createBtnLabel || `新增${optionLabel || '选项'}`,
               body: {
                 type: 'form',
                 api: addApi,
@@ -580,7 +582,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         editApi,
         source,
         data,
-        formItem: model
+        formItem: model,
+        optionLabel
       } = this.props;
 
       if (disabled || !model) {
@@ -603,7 +606,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         : await onOpenDialog(
             {
               type: 'dialog',
-              title: '编辑选项',
+              title: `编辑${optionLabel || '选项'}`,
               body: {
                 type: 'form',
                 api: editApi,

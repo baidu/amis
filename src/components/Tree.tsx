@@ -5,7 +5,14 @@
  */
 
 import React from 'react';
-import {eachTree, isVisible, autobind, findTreeIndex} from '../utils/helper';
+import {
+  eachTree,
+  isVisible,
+  autobind,
+  findTreeIndex,
+  hasAbility,
+  createObject
+} from '../utils/helper';
 import {Option, Options, value2array} from './Checkboxes';
 import {ClassNamesFn, themeable} from '../theme';
 import {highlight} from '../renderers/Form/Options';
@@ -35,10 +42,10 @@ interface TreeSelectorProps {
   // 名称、取值等字段名映射
   labelField: string;
   valueField: string;
-  iconField?: string;
-  unfoldedField?: string;
-  foldedField?: string;
-  disabledField?: string;
+  iconField: string;
+  unfoldedField: string;
+  foldedField: string;
+  disabledField: string;
 
   className?: string;
   itemClassName?: string;
@@ -59,6 +66,7 @@ interface TreeSelectorProps {
 
   // 是否为内建 增、改、删。当有复杂表单的时候直接抛出去让外层能统一处理
   bultinCUD?: boolean;
+  rootCreatable?: boolean;
   creatable?: boolean;
   onAdd?: (
     idx?: number | Array<number>,
@@ -444,16 +452,16 @@ export class TreeSelector extends React.Component<
       showRadio,
       multiple,
       disabled,
-      labelField: nameField = '',
-      valueField = '',
-      iconField = '',
-      disabledField = '',
+      labelField,
+      valueField,
+      iconField,
+      disabledField,
       cascade,
       selfDisabledAffectChildren,
       onlyChildren,
       classnames: cx,
       highlightTxt,
-      options: data,
+      options,
       maxLength,
       minLength,
       creatable,
@@ -471,7 +479,7 @@ export class TreeSelector extends React.Component<
 
     let childrenChecked = 0;
     let ret = list.map((item, key) => {
-      if (!isVisible(item as any, data)) {
+      if (!isVisible(item as any, options)) {
         return null;
       }
 
@@ -584,12 +592,13 @@ export class TreeSelector extends React.Component<
                 ) : null}
 
                 {highlightTxt
-                  ? highlight(item[nameField], highlightTxt)
-                  : item[nameField]}
+                  ? highlight(item[labelField], highlightTxt)
+                  : item[labelField]}
               </span>
+
               {!nodeDisabled && !isAdding && !isEditing ? (
                 <div className={cx('Tree-item-icons')}>
-                  {creatable ? (
+                  {creatable && hasAbility(item, 'creatable') ? (
                     <a
                       onClick={this.handleAdd.bind(this, item)}
                       data-tooltip="添加孩子节点"
@@ -597,7 +606,8 @@ export class TreeSelector extends React.Component<
                       <Icon icon="plus" className="icon" />
                     </a>
                   ) : null}
-                  {removable ? (
+
+                  {removable && hasAbility(item, 'removable') ? (
                     <a
                       onClick={this.handleRemove.bind(this, item)}
                       data-tooltip="移除该节点"
@@ -605,7 +615,8 @@ export class TreeSelector extends React.Component<
                       <Icon icon="minus" className="icon" />
                     </a>
                   ) : null}
-                  {editable ? (
+
+                  {editable && hasAbility(item, 'editable') ? (
                     <a
                       onClick={this.handleEdit.bind(this, item)}
                       data-tooltip="编辑该节点"
@@ -654,32 +665,32 @@ export class TreeSelector extends React.Component<
       rootLabel,
       showIcon,
       classnames: cx,
-      creatable
+      creatable,
+      rootCreatable,
+      disabled
     } = this.props;
-    let data = this.props.options;
+    let options = this.props.options;
     const {value, isAdding, addingParent, isEditing, inputValue} = this.state;
 
     let addBtn = null;
 
-    if (creatable) {
+    if (creatable && hideRoot) {
       addBtn = (
-        <li>
-          <a
-            className={cx('Tree-addTopBtn', {
-              'is-disabled': isAdding || isEditing
-            })}
-            onClick={this.handleAdd.bind(this, null)}
-          >
-            <Icon icon="plus" className="icon" />
-            <span>添加一级节点</span>
-          </a>
-        </li>
+        <a
+          className={cx('Tree-addTopBtn', {
+            'is-disabled': isAdding || isEditing
+          })}
+          onClick={this.handleAdd.bind(this, null)}
+        >
+          <Icon icon="plus" className="icon" />
+          <span>添加一级节点</span>
+        </a>
       );
     }
 
     return (
       <div className={cx(`Tree ${className || ''}`)}>
-        {data && data.length ? (
+        {options && options.length ? (
           <ul className={cx('Tree-list')}>
             {hideRoot ? (
               <>
@@ -687,34 +698,43 @@ export class TreeSelector extends React.Component<
                 {isAdding && !addingParent ? (
                   <li className={cx('Tree-item')}>{this.renderInput()}</li>
                 ) : null}
-                {this.renderList(data, value, false).dom}
+                {this.renderList(options, value, false).dom}
               </>
             ) : (
               <li
-                className={cx('Tree-item Tree-rootItem', {
+                className={cx('Tree-rootItem', {
                   'is-checked': !value || !value.length
                 })}
               >
-                <a>
-                  {showIcon ? (
-                    <i className={cx('Tree-itemIcon Tree-rootIcon')} />
+                <div className={cx('Tree-itemLabel')}>
+                  <span className={cx('Tree-itemText')}>
+                    {showIcon ? (
+                      <i className={cx('Tree-itemIcon Tree-rootIcon')} />
+                    ) : null}
+                    {rootLabel}
+                  </span>
+                  {!disabled &&
+                  creatable &&
+                  rootCreatable !== false &&
+                  !isAdding &&
+                  !isEditing ? (
+                    <div className={cx('Tree-item-icons')}>
+                      {creatable ? (
+                        <a
+                          onClick={this.handleAdd.bind(this, null)}
+                          data-tooltip="添加一级节点"
+                        >
+                          <Icon icon="plus" className="icon" />
+                        </a>
+                      ) : null}
+                    </div>
                   ) : null}
-
-                  <label className={cx('Tree-itemLabel')}>
-                    <span
-                      className={cx('Tree-itemText')}
-                      onClick={this.clearSelect}
-                    >
-                      {rootLabel}
-                    </span>
-                  </label>
-                </a>
-                {addBtn}
+                </div>
                 <ul className={cx('Tree-sublist')}>
                   {isAdding && !addingParent ? (
                     <li className={cx('Tree-item')}>{this.renderInput()}</li>
                   ) : null}
-                  {this.renderList(data, value, false).dom}
+                  {this.renderList(options, value, false).dom}
                 </ul>
               </li>
             )}
