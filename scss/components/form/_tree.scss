@@ -54,6 +54,15 @@
         }
     }
 
+    &-rootItem {
+        line-height: $Tree-itemHeight;
+    }
+
+    &-item>div:hover>.#{$ns}Tree-item-icons,
+    &-rootItem>div:hover>.#{$ns}Tree-item-icons {
+        visibility: visible;
+    }
+
     &-itemLabel {
         &:hover {
             background: $Tree-item-onHover-bg;
@@ -200,7 +209,6 @@
 
     &-itemLabel {
         user-select: none;
-        cursor: pointer;
 
         &.is-checked,
         &.is-children-checked {
@@ -210,6 +218,10 @@
         &.is-disabled {
             color: $text--muted-color;
         }
+    }
+
+    &-itemText {
+        cursor: pointer;
     }
 
     &-placeholder {

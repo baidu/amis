@@ -373,6 +373,19 @@ export function isDisabled(
   );
 }
 
+export function hasAbility(
+  schema: any,
+  ability: string,
+  data?: object,
+  defaultValue: boolean = true
+): boolean {
+  return schema.hasOwnProperty(ability)
+    ? schema[ability]
+    : schema.hasOwnProperty(`${ability}On`)
+    ? evalExpression(schema[`${ability}On`], data || schema)
+    : defaultValue;
+}
+
 export function makeHorizontalDeeper(
   horizontal: {
     left: string;

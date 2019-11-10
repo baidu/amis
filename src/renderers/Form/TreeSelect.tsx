@@ -6,6 +6,7 @@ import PopOver from '../../components/PopOver';
 import {OptionsControl, OptionsControlProps, Option} from './Options';
 import {Icon} from '../../components/icons';
 import TreeSelector from '../../components/Tree';
+// @ts-ignore
 import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
 import find = require('lodash/find');
