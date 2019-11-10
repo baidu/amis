@@ -715,7 +715,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         <PopOver
           overlay
           className={cx('Select-popover')}
-          style={{width: this.target ? this.target.offsetWidth : 'auto'}}
+          style={{minWidth: this.target ? this.target.offsetWidth : 'auto'}}
           onHide={this.close}
         >
           {menu}
