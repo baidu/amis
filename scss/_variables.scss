@@ -146,6 +146,9 @@ $gap-base: px2rem(15px) !default;
 $gap-md: px2rem(20px) !default;
 $gap-lg: px2rem(30px) !default;
 
+$icon-color: $gray600 !default;
+$icon-onHover-color: $gray900 !default;
+
 // Components
 $scrollbar-width: px2rem(17px) !default;
 
@@ -446,7 +449,7 @@ $Table-thead-fontSize: $fontSizeBase !default;
 $Table-thead-color: $text--loud-color !default;
 $Table-thead-borderColor: $Table-borderColor !default;
 $Table-thead-borderWidth: $Table-borderWidth !default;
-$Table-thead-iconColor: $text--muted-color !default;
+$Table-thead-iconColor: $icon-color !default;
 $TableCell-height: px2rem(40px) !default;
 $TableCell-paddingX: $gap-sm !default;
 $TableCell--edge-paddingX: $gap-md !default;
@@ -554,19 +557,19 @@ $ListItem-onModified-borderColor: darken($ListItem-onModified-bg, 10%) !default;
 $ListItem-onDragging-opacity: 0.1 !default;
 
 // QuickEdit
-$QuickEdit-iconColor: $text--muted-color !default;
-$QuickEdit-onHover-iconColor: $text-color !default;
+$QuickEdit-iconColor: $icon-color !default;
+$QuickEdit-onHover-iconColor: $icon-onHover-color !default;
 $QuickEdit-onFocus-borderColor: $info !default;
 $QuickEdit-onFocus-borderWidth: $borderWidth !default;
 
 // Copyable
-$Copyable-iconColor: $text--muted-color !default;
-$Copyable-onHover-iconColor: $text-color !default;
+$Copyable-iconColor: $icon-color !default;
+$Copyable-onHover-iconColor: $icon-onHover-color !default;
 
 // PopOverAble
 
-$PopOverAble-iconColor: $text--muted-color !default;
-$PopOverAble-onHover-iconColor: $text-color !default;
+$PopOverAble-iconColor: $icon-color !default;
+$PopOverAble-onHover-iconColor: $icon-onHover-color !default;
 
 // PopOver
 $PopOver-bg: white !default;
@@ -574,8 +577,8 @@ $PopOver-bg: white !default;
 // Remark
 $Remark-width: 1rem !default;
 $Remark-icon-fontSize: $fontSizeBase !default;
-$Remark-iconColor: $text--muted-color !default;
-$Remark-onHover-iconColor: $text-color !default;
+$Remark-iconColor: $icon-color !default;
+$Remark-onHover-iconColor: $icon-onHover-color !default;
 $Remark-bg: transparent !default;
 $Remark-onHover-bg: transparent !default;
 $Remark-borderWidth: 0 !default;
@@ -618,7 +621,7 @@ $Form-input-onActive-color: $info !default;
 $Form-input-borderRadius: $borderRadius !default;
 $Form-input-borderColor: $borderColor !default;
 $Form-input-borderWidth: px2rem(1px) !default;
-$Form-input-iconColor: #999 !default;
+$Form-input-iconColor: $icon-color !default;
 $Form-input-onFocused-borderColor: $info !default;
 $Form-input-onFocused-bg: $Form-input-bg !default;
 $Form-input-onError-borderColor: $danger !default;
@@ -674,18 +677,18 @@ $Form-select-onFocused-color: $Form-select-color !default;
 $Form-select-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
 $Form-select-onError-borderColor: $Form-input-onError-borderColor !default;
 $Form-selectOption-height: $Form-input-height !default;
-$Form-selectValue-color: #007eff !default;
+$Form-selectValue-color: $info !default;
 $Form-selectValue-bg: saturate(lighten($Form-selectValue-color, 40%), 2.5%) !default;
 $Form-selectValue-borderColor: saturate(lighten($Form-selectValue-color, 30%), 2.5%) !default;
 $Form-selectValue-fontSize: $fontSizeSm !default;
 $Form-select-caret-vender: 'FontAwesome' !default;
 $Form-select-caret-icon: '\f0d7' !default;
 $Form-select-caret-fontSize: $fontSizeBase !default;
-$Form-select-caret-iconColor: $Form-input-iconColor !default;
-$Form-select-caret-onHover-iconColor: $Form-input-iconColor !default;
+$Form-select-caret-iconColor: $icon-color !default;
+$Form-select-caret-onHover-iconColor: $icon-onHover-color !default;
 $Form-select-outer-borderWidth: px2rem(1px) !default;
 $Form-select-outer-boxShadow: none !default;
-$Form-select-outer-top: 100% !default;
+$Form-select-input-fontSize: $fontSizeSm !default;
 $Form-select-menu-height: $Form-input-height !default;
 $Form-select-menu-bg: $white !default;
 $Form-select-menu-color: $Form-select-color !default;
@@ -696,6 +699,8 @@ $Form-select-menu-onActive-bg: transparent !default;
 $Form-select-menu-onDisabled-color: $text--muted-color !default;
 $Form-select-menu-onDisabled-bg: transparent !default;
 $Form-select-checkall-bottomBorder: #eceff8 !default;
+$Form-select-popoverGap: 0 !default;
+$Form-select-search-height: $Form-select-menu-height !default;
 
 // InputGroup
 $InputGroup-height: $Form-input-height !default;
@@ -713,8 +718,8 @@ $InputGroup-select-bg: $white !default;
 $InputGroup-select-onFocused-bg: $white !default;
 $InputGroup-select-color: $Form-select-color !default;
 $InputGroup-select-onFocused-color: $Form-select-onFocused-color !default;
-$InputGroup-select-arrowColor: $Form-select-caret-iconColor !default;
-$InputGroup-select-onFocused-arrowColor: $Form-select-caret-iconColor !default;
+$InputGroup-select-arrowColor: $icon-color !default;
+$InputGroup-select-onFocused-arrowColor: $icon-onHover-color !default;
 $InputGroup-button-borderWidth: $borderWidth !default;
 $InputGroup-button-borderColor: $Form-input-borderColor !default;
 $InputGroup-button-borderRadius: $borderRadius !default;
@@ -892,6 +897,8 @@ $Checkbox-color: $Form-input-borderColor !default;
 $Checkbox-onHover-color: $info !default;
 
 $Checkbox--sm-size: px2rem(16px) !default;
+$Checkbox--sm-inner-size: $Checkbox--sm-size/2 !default;
+$Checkbox--sm--full-inner-size: px2rem(10px) !default;
 $Checkbox-gb: #fff !default;
 $Checkbox-borderRadius: $borderRadius !default;
 
@@ -949,8 +956,8 @@ $DatePicker-fontSize: $Form-input-fontSize !default;
 $DatePicker-paddingX: px2rem(12px) !default;
 $DatePicker-paddingY: ($DatePicker-height - $DatePicker-lineHeight * $DatePicker-fontSize)/2 - $DatePicker-borderWidth !default;
 $DatePicker-placeholderColor: $Form-input-placeholderColor !default;
-$DatePicker-iconColor: $gray600 !default;
-$DatePicker-onHover-iconColor: darken($DatePicker-iconColor, 10%) !default;
+$DatePicker-iconColor: $icon-color !default;
+$DatePicker-onHover-iconColor: $icon-onHover-color !default;
 $DatePicker-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
 $DatePicker-toggler-vendor: 'FontAwesome' !default;
 $DatePicker-toggler-fontSize: $Form-fontSize !default;
@@ -1041,7 +1048,7 @@ $ListControl-item-onDisabled-bg: $ListControl-item-bg !default;
 // Combo
 $Combo-toolbarBtn-lineHeight: 1 !default;
 $Combo-toolbarBtn-height: px2rem(20px) !default;
-$Combo-toolbarBtn-color: $Form-input-iconColor !default;
+$Combo-toolbarBtn-color: $icon-color !default;
 $Combo-toolbarBtn-paddingX: px2rem(5px) !default;
 $Combo-toolbarBtn-paddingY: px2rem(2px) !default;
 
@@ -1261,7 +1268,7 @@ $TransferSelect-heading-borderBottom: $borderWidth solid $borderColor !default;
 // Tree
 $TreeSelect-popover-bg: #fff !default;
 $Tree-indent: px2rem(20px) !default;
-$Tree-itemArrowWidth: px2rem(10px) !default;
+$Tree-itemArrowWidth: px2rem(16px) !default;
 $Tree-arrowVendor: 'FontAwesome' !default;
 $Tree-unfoldedArrowContent: '\f107' !default;
 $Tree-foldedArrowContent: '\f105' !default;
@@ -1271,7 +1278,10 @@ $Tree-leafIconVendor: 'FontAwesome' !default;
 $Tree-leafIconContent: '\f15b' !default;
 $Tree-folderIconVendor: 'FontAwesome' !default;
 $Tree-folderIconContent: '\f07b' !default;
-$Tree-itemText--onChecked-color: $Form-selectValue-color !default;
+$Tree-itemLabel--onChecked-color: $Form-selectValue-color !default;
+$Tree-itemHeight: px2rem(30px) !default;
+$Tree-item-onHover-bg: rgba(0, 126, 255, 0.08) !default;
+$Tree-inputHeight: $Form-input-height * 0.85 !default;
 
 // IconPicker
 $IconPicker-tabs-bg: #f0f3f4 !default;
@@ -1339,8 +1349,8 @@ $Carousel-imageTitle-bottom: px2rem(45px) !default;
 $Carousel-imageDescription-bottom: px2rem(25px) !default;
 
 // Picker
-$Picker-iconColor: $gray600 !default;
-$Picker-onHover-iconColor: darken($Picker-iconColor, 10%) !default;
+$Picker-iconColor: $icon-color !default;
+$Picker-onHover-iconColor: $icon-onHover-color !default;
 $Picker-btn-vendor: 'FontAwesome' !default;
 $Picker-btn-fontSize: $Form-fontSize !default;
 $Picker-btn-icon: '\f2d2' !default;

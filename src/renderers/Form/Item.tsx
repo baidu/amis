@@ -10,9 +10,10 @@ import {
   RendererConfig,
   HocStoreFactory
 } from '../../factory';
-import {anyChanged, ucFirst, getWidthRate} from '../../utils/helper';
+import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchema} from '.';
+import {Schema} from '../../types';
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
   type?: string;
@@ -33,13 +34,11 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
   validate?: (values: any, value: any) => string | boolean;
 }
 
-export interface FormItemState {
-  isFocused: boolean;
-}
-
+// 自己接收到属性。
 export interface FormItemProps extends RendererProps {
   name?: string;
   formStore?: IFormStore;
+  formItem?: IFormItemStore;
   formInited: boolean;
   formMode: 'normal' | 'horizontal' | 'inline' | 'row' | 'default';
   formHorizontal: FormHorizontal;
@@ -56,7 +55,7 @@ export interface FormItemProps extends RendererProps {
     values: {[propName: string]: any},
     submitOnChange?: boolean
   ) => void;
-  addHook: (fn: Function, mode?: 'validate' | 'init') => void;
+  addHook: (fn: Function, mode?: 'validate' | 'init') => () => void;
   removeHook: (fn: Function, mode?: 'validate' | 'init') => void;
   renderFormItems: (
     schema: FormSchema,
@@ -89,8 +88,10 @@ export interface FormItemProps extends RendererProps {
   error?: string;
 }
 
-export type FormControlProps = RendererProps &
-  Exclude<
+// 下发下去的属性
+export type FormControlProps = RendererProps & {
+  onOpenDialog: (schema: Schema, data: any) => Promise<any>;
+} & Exclude<
     FormItemProps,
     | 'inputClassName'
     | 'renderControl'
@@ -114,29 +115,15 @@ export interface FormItemConfig extends FormItemBasicConfig {
   component: FormControlComponent;
 }
 
-export class FormItemWrap extends React.Component<
-  FormItemProps,
-  FormItemState
-> {
+export class FormItemWrap extends React.Component<FormItemProps> {
   reaction: any;
-
-  constructor(props: FormItemProps) {
-    super(props);
-
-    this.state = {
-      isFocused: false
-    };
-
-    this.handleFocus = this.handleFocus.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-  }
 
   componentWillMount() {
     const {formItem: model} = this.props;
 
     if (model) {
       this.reaction = reaction(
-        () => model.errors.join(''),
+        () => `${model.errors.join('')}${model.isFocused}${model.dialogOpen}`,
         () => this.forceUpdate()
       );
     }
@@ -146,18 +133,49 @@ export class FormItemWrap extends React.Component<
     this.reaction && this.reaction();
   }
 
+  @autobind
   handleFocus(e: any) {
-    this.setState({
-      isFocused: true
-    });
+    const {formItem: model} = this.props;
+    model && model.focus();
     this.props.onFocus && this.props.onFocus(e);
   }
 
+  @autobind
   handleBlur(e: any) {
-    this.setState({
-      isFocused: false
-    });
+    const {formItem: model} = this.props;
+    model && model.blur();
     this.props.onBlur && this.props.onBlur(e);
+  }
+
+  @autobind
+  async handleOpenDialog(schema: Schema, data: any) {
+    const {formItem: model} = this.props;
+    if (!model) {
+      return;
+    }
+
+    return new Promise(resolve =>
+      model.openDialog(schema, data, (result?: any) => resolve(result))
+    );
+  }
+
+  @autobind
+  handleDialogConfirm([values]: Array<any>) {
+    const {formItem: model} = this.props;
+    if (!model) {
+      return;
+    }
+
+    model.closeDialog(values);
+  }
+
+  @autobind
+  handleDialogClose() {
+    const {formItem: model} = this.props;
+    if (!model) {
+      return;
+    }
+    model.closeDialog();
   }
 
   renderControl() {
@@ -179,6 +197,7 @@ export class FormItemWrap extends React.Component<
       const controlSize = size || defaultSize;
       return renderControl({
         ...rest,
+        onOpenDialog: this.handleOpenDialog,
         type,
         classnames: cx,
         formItem: model,
@@ -299,7 +318,7 @@ export class FormItemWrap extends React.Component<
               })
             : null}
 
-          {hint && this.state.isFocused
+          {hint && model && model.isFocused
             ? render('hint', hint, {
                 className: cx(`Form-hint`)
               })
@@ -395,7 +414,7 @@ export class FormItemWrap extends React.Component<
             })
           : null}
 
-        {hint && this.state.isFocused
+        {hint && model && model.isFocused
           ? render('hint', hint, {
               className: cx(`Form-hint`)
             })
@@ -490,7 +509,7 @@ export class FormItemWrap extends React.Component<
               })
             : null}
 
-          {hint && this.state.isFocused
+          {hint && model && model.isFocused
             ? render('hint', hint, {
                 className: cx(`Form-hint`)
               })
@@ -588,7 +607,7 @@ export class FormItemWrap extends React.Component<
             : null}
         </div>
 
-        {hint && this.state.isFocused
+        {hint && model && model.isFocused
           ? render('hint', hint, {
               className: cx(`Form-hint`)
             })
@@ -612,19 +631,38 @@ export class FormItemWrap extends React.Component<
   }
 
   render() {
-    const {formMode, inputOnly, wrap} = this.props;
+    const {formMode, inputOnly, wrap, render, formItem: model} = this.props;
 
     if (wrap === false || inputOnly) {
       return this.renderControl();
     }
 
-    return formMode === 'inline'
-      ? this.renderInline()
-      : formMode === 'horizontal'
-      ? this.renderHorizontal()
-      : formMode === 'row'
-      ? this.renderRow()
-      : this.renderNormal();
+    return (
+      <>
+        {formMode === 'inline'
+          ? this.renderInline()
+          : formMode === 'horizontal'
+          ? this.renderHorizontal()
+          : formMode === 'row'
+          ? this.renderRow()
+          : this.renderNormal()}
+        {model
+          ? render(
+              'modal',
+              {
+                type: 'dialog',
+                ...model.dialogSchema
+              },
+              {
+                show: model.dialogOpen,
+                onClose: this.handleDialogClose,
+                onConfirm: this.handleDialogConfirm,
+                data: model.dialogData
+              }
+            )
+          : null}
+      </>
+    );
   }
 }
 
@@ -796,6 +834,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
       return (
         <Control
           {...rest}
+          onOpenDialog={this.handleOpenDialog}
           size={config.sizeMutable !== false ? undefined : size}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}

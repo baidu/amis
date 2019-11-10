@@ -373,6 +373,19 @@ export function isDisabled(
   );
 }
 
+export function hasAbility(
+  schema: any,
+  ability: string,
+  data?: object,
+  defaultValue: boolean = true
+): boolean {
+  return schema.hasOwnProperty(ability)
+    ? schema[ability]
+    : schema.hasOwnProperty(`${ability}On`)
+    ? evalExpression(schema[`${ability}On`], data || schema)
+    : defaultValue;
+}
+
 export function makeHorizontalDeeper(
   horizontal: {
     left: string;
@@ -691,6 +704,11 @@ export function mapTree<T extends TreeItem>(
   });
 }
 
+/**
+ * 遍历树
+ * @param tree
+ * @param iterator
+ */
 export function eachTree<T extends TreeItem>(
   tree: Array<T>,
   iterator: (item: T, key: number, level: number) => any,
@@ -705,15 +723,19 @@ export function eachTree<T extends TreeItem>(
   });
 }
 
+/**
+ * 在树中查找节点。
+ * @param tree
+ * @param iterator
+ */
 export function findTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number) => any,
-  level: number = 1
+  iterator: (item: T, key: number, level: number, paths: Array<T>) => any
 ): T | null {
   let result: T | null = null;
 
-  everyTree(tree, (item, key, level) => {
-    if (iterator(item, key, level)) {
+  everyTree(tree, (item, key, level, paths) => {
+    if (iterator(item, key, level, paths)) {
       result = item;
       return false;
     }
@@ -723,6 +745,64 @@ export function findTree<T extends TreeItem>(
   return result;
 }
 
+/**
+ * 在树中查找节点, 返回下标数组。
+ * @param tree
+ * @param iterator
+ */
+export function findTreeIndex<T extends TreeItem>(
+  tree: Array<T>,
+  iterator: (item: T, key: number, level: number, paths: Array<T>) => any
+): Array<number> | undefined {
+  let idx: Array<number> = [];
+
+  findTree(tree, (item, index, level, paths) => {
+    if (iterator(item, index, level, paths)) {
+      idx = [index];
+
+      paths = paths.concat();
+      paths.unshift({
+        children: tree
+      } as any);
+
+      for (let i = paths.length - 1; i > 0; i--) {
+        const prev = paths[i - 1];
+        const current = paths[i];
+        idx.unshift(prev.children!.indexOf(current));
+      }
+
+      return true;
+    }
+    return false;
+  });
+
+  return idx.length ? idx : undefined;
+}
+
+export function getTree<T extends TreeItem>(
+  tree: Array<T>,
+  idx: Array<number> | number
+): T | undefined | null {
+  const indexes = Array.isArray(idx) ? idx : [idx];
+  const lastIndex = indexes.pop()!;
+  let list: Array<T> | null = tree;
+  for (let i = 0, len = indexes.length; i < len; i++) {
+    const index = indexes[i];
+    if (!list![index]) {
+      list = null;
+      break;
+    }
+    list = list![index].children as any;
+  }
+  return list ? list[lastIndex] : undefined;
+}
+
+/**
+ * 过滤树节点
+ *
+ * @param tree
+ * @param iterator
+ */
 export function filterTree<T extends TreeItem>(
   tree: Array<T>,
   iterator: (item: T, key: number, level: number) => boolean,
@@ -741,42 +821,109 @@ export function filterTree<T extends TreeItem>(
   });
 }
 
+/**
+ * 判断树中每个节点是否满足某个条件。
+ * @param tree
+ * @param iterator
+ */
 export function everyTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number) => boolean,
-  level: number = 1
+  iterator: (item: T, key: number, level: number, paths: Array<T>) => boolean,
+  level: number = 1,
+  paths: Array<T> = []
 ): boolean {
   return tree.every((item, index) => {
-    const value: any = iterator(item, index, level);
+    const value: any = iterator(item, index, level, paths);
 
     if (value && item.children && item.children.splice) {
-      return everyTree(item.children, iterator, level + 1);
+      return everyTree(item.children, iterator, level + 1, paths.concat(item));
     }
 
     return value;
   });
 }
 
+/**
+ * 判断树中是否有某些节点满足某个条件。
+ * @param tree
+ * @param iterator
+ */
 export function someTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number) => boolean,
-  level: number = 1
+  iterator: (item: T, key: number, level: number, paths: Array<T>) => boolean
 ): boolean {
-  return tree.some((item, index) => {
-    const value: any = iterator(item, index, level);
-
-    if (!value && item.children && item.children.splice) {
-      return someTree(item.children, iterator, level + 1);
-    }
-
-    return value;
-  });
+  return !everyTree(tree, iterator);
 }
 
-export function flattenTree<T extends TreeItem>(tree: Array<T>): Array<T> {
-  let flattened: Array<T> = [];
-  eachTree(tree, item => flattened.push(item));
+/**
+ * 将树打平变成一维数组，可以传入第二个参数实现打平节点中的其他属性。
+ *
+ * 比如：
+ *
+ * flattenTree([
+ *     {
+ *         id: 1,
+ *         children: [
+ *              { id: 2 },
+ *              { id: 3 },
+ *         ]
+ *     }
+ * ], item => item.id); // 输出位 [1, 2, 3]
+ *
+ * @param tree
+ * @param mapper
+ */
+export function flattenTree<T extends TreeItem>(tree: Array<T>): Array<T>;
+export function flattenTree<T extends TreeItem, U>(
+  tree: Array<T>,
+  mapper: (value: T, index: number) => U
+): Array<U>;
+export function flattenTree<T extends TreeItem, U>(
+  tree: Array<T>,
+  mapper?: (value: T, index: number) => U
+): Array<U> {
+  let flattened: Array<any> = [];
+  eachTree(tree, (item, index) =>
+    flattened.push(mapper ? mapper(item, index) : item)
+  );
   return flattened;
+}
+
+/**
+ * 操作树，遵循 imutable, 每次返回一个新的树。
+ * 类似数组的 splice 不同的地方这个方法不修改原始数据，
+ * 同时第二个参数不是下标，而是下标数组，分别代表每一层的下标。
+ *
+ * 至于如何获取下标数组，请查看 findTreeIndex
+ *
+ * @param tree
+ * @param idx
+ * @param deleteCount
+ * @param ...items
+ */
+export function spliceTree<T extends TreeItem>(
+  tree: Array<T>,
+  idx: Array<number> | number,
+  deleteCount: number = 0,
+  ...items: Array<T>
+): Array<T> {
+  const list = tree.concat();
+  if (typeof idx === 'number') {
+    list.splice(idx, deleteCount, ...items);
+  } else if (Array.isArray(idx) && idx.length) {
+    const lastIdx = idx.pop()!;
+    let host = idx.reduce((list: Array<T>, idx) => {
+      const child = {
+        ...list[idx],
+        children: list[idx].children ? list[idx].children!.concat() : []
+      };
+      list[idx] = child;
+      return child.children;
+    }, list);
+    host.splice(lastIdx, deleteCount, ...items);
+  }
+
+  return list;
 }
 
 export function ucFirst(str?: string) {

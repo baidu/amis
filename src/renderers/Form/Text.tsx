@@ -3,12 +3,13 @@ import {OptionsControl, OptionsControlProps, highlight} from './Options';
 import cx from 'classnames';
 import {Action} from '../../types';
 import Downshift, {StateChangeOptions} from 'downshift';
+// @ts-ignore
 import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
 import {filter} from '../../utils/tpl';
 import find = require('lodash/find');
 import {Icon} from '../../components/icons';
-import {autobind, createObject} from '../../utils/helper';
+import {autobind, createObject, setVariable} from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
@@ -88,7 +89,7 @@ export default class TextControl extends React.PureComponent<
   }
 
   componentDidMount() {
-    const {formItem, autoComplete, data, addHook, formInited} = this.props;
+    const {formItem, autoComplete, addHook, formInited, data} = this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       if (formInited) {
@@ -99,16 +100,18 @@ export default class TextControl extends React.PureComponent<
           })
         );
       } else {
-        this.unHook = addHook(
-          () =>
-            formItem.loadOptions(
-              autoComplete,
-              createObject(data, {
-                term: ''
-              })
-            ),
-          'init'
-        );
+        this.unHook = addHook(async (data: any) => {
+          await formItem.loadOptions(
+            autoComplete,
+            createObject(data, {
+              term: ''
+            })
+          );
+
+          if (formItem.value) {
+            setVariable(data, name!, formItem.value);
+          }
+        }, 'init');
       }
     }
   }
@@ -447,7 +450,7 @@ export default class TextControl extends React.PureComponent<
             filtedOptions.push({
               [labelField || 'label']: this.state.inputValue,
               [valueField || 'value']: this.state.inputValue,
-              isNew: true
+              'isNew': true
             });
           }
 

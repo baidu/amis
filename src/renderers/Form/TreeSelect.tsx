@@ -6,6 +6,7 @@ import PopOver from '../../components/PopOver';
 import {OptionsControl, OptionsControlProps, Option} from './Options';
 import {Icon} from '../../components/icons';
 import TreeSelector from '../../components/Tree';
+// @ts-ignore
 import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
 import find = require('lodash/find');
@@ -395,7 +396,6 @@ export default class TreeSelectControl extends React.Component<
     return (
       <Overlay
         container={popOverContainer || (() => this.container.current)}
-        placement="left-bottom-left-top right-bottom-right-top"
         target={() => this.target.current}
         show
       >
@@ -420,7 +420,7 @@ export default class TreeSelectControl extends React.Component<
             extractValue={extractValue}
             delimiter={delimiter}
             placeholder={optionsPlaceholder}
-            data={filtedOptions}
+            options={filtedOptions}
             highlightTxt={this.state.inputValue}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
@@ -434,7 +434,7 @@ export default class TreeSelectControl extends React.Component<
             foldedField="collapsed"
             hideRoot
             value={value || ''}
-            nameField="label"
+            labelField="label"
             maxLength={maxLength}
             minLength={minLength}
           />
