@@ -134,8 +134,7 @@
 
     &-menu {
         max-height: px2rem(300px);
-        overflow-y: auto;
-        overflow-x: hidden;
+        overflow: auto;
         user-select: none;
     }
 
@@ -174,7 +173,7 @@
 
     &-option {
         cursor: pointer;
-        min-width: px2rem(150px);
+        min-width: px2rem(120px);
         padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize)/2 $Form-select-paddingX;
 
         &.is-active {
