@@ -10,7 +10,8 @@ import {
   createObject,
   setVariable,
   spliceTree,
-  findTreeIndex
+  findTreeIndex,
+  getTree
 } from '../../utils/helper';
 import {reaction} from 'mobx';
 import {FormControlProps, registerFormItem, FormItemBasicConfig} from './Item';
@@ -505,9 +506,18 @@ export function registerOptionsControl(config: OptionsConfig) {
           }
         ];
       }
+      const ctx = createObject(
+        data,
+        Array.isArray(idx)
+          ? {
+              parent: getTree(model.options, idx.slice(0, idx.length - 1)),
+              ...value
+            }
+          : value
+      );
 
       let result: any = skipForm
-        ? value
+        ? ctx
         : await onOpenDialog(
             {
               type: 'dialog',
@@ -518,19 +528,15 @@ export function registerOptionsControl(config: OptionsConfig) {
                 controls: addControls
               }
             },
-            data
+            ctx
           );
 
       // 单独发请求
       if (skipForm && addApi) {
         try {
-          const payload = await env.fetcher(
-            addApi!,
-            createObject(data, result),
-            {
-              method: 'post'
-            }
-          );
+          const payload = await env.fetcher(addApi!, result, {
+            method: 'post'
+          });
 
           if (!payload.ok) {
             env.notify('error', payload.msg || '新增失败，请仔细检查');
