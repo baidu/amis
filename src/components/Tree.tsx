@@ -646,6 +646,8 @@ export class TreeSelector extends React.Component<
               ) : null}
               {childrenItems}
             </ul>
+          ) : !childrenItems && item.placeholder ? (
+            <div className={cx('Tree-placeholder')}>{item.placeholder}</div>
           ) : null}
         </li>
       );
@@ -674,7 +676,7 @@ export class TreeSelector extends React.Component<
 
     let addBtn = null;
 
-    if (creatable && hideRoot) {
+    if (creatable && rootCreatable !== false && hideRoot) {
       addBtn = (
         <a
           className={cx('Tree-addTopBtn', {

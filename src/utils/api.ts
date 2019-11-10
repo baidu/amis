@@ -20,13 +20,13 @@ interface ApiCacheConfig extends ApiObject {
 
 const apiCaches: Array<ApiCacheConfig> = [];
 
-export function normalizeApi(api: Api): ApiObject {
+export function normalizeApi(api: Api, defaultMethod?: string): ApiObject {
   if (typeof api === 'string') {
     let method = rSchema.test(api) ? RegExp.$1 : '';
     method && (api = api.replace(method + ':', ''));
 
     api = {
-      method: method as any,
+      method: (method || defaultMethod) as any,
       url: api
     };
   } else {
@@ -46,7 +46,7 @@ export function buildApi(
     [propName: string]: any;
   } = {}
 ): ApiObject {
-  api = normalizeApi(api);
+  api = normalizeApi(api, options.method);
   const {autoAppend, ignoreData, ...rest} = options;
 
   api.config = {

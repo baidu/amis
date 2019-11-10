@@ -524,7 +524,13 @@ export function registerOptionsControl(config: OptionsConfig) {
       // 单独发请求
       if (skipForm && addApi) {
         try {
-          const payload = await env.fetcher(addApi!, result);
+          const payload = await env.fetcher(
+            addApi!,
+            createObject(data, result),
+            {
+              method: 'post'
+            }
+          );
 
           if (!payload.ok) {
             env.notify('error', payload.msg || '新增失败，请仔细检查');
@@ -580,6 +586,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         labelField,
         onOpenDialog,
         editApi,
+        env,
         source,
         data,
         formItem: model,
@@ -615,6 +622,29 @@ export function registerOptionsControl(config: OptionsConfig) {
             },
             createObject(data, value)
           );
+
+      // 单独发请求
+      if (skipForm && editApi) {
+        try {
+          const payload = await env.fetcher(
+            editApi!,
+            createObject(data, result),
+            {
+              method: 'post'
+            }
+          );
+
+          if (!payload.ok) {
+            env.notify('error', payload.msg || '保存失败，请仔细检查');
+          } else {
+            result = payload.data || result;
+          }
+        } catch (e) {
+          result = null;
+          console.error(e);
+          env.notify('error', e.message);
+        }
+      }
 
       // 没有结果，说明取消了。
       if (!result) {
@@ -670,7 +700,9 @@ export function registerOptionsControl(config: OptionsConfig) {
           throw new Error('请配置 deleteApi');
         }
 
-        const result = await env.fetcher(deleteApi!, ctx);
+        const result = await env.fetcher(deleteApi!, ctx, {
+          method: 'delete'
+        });
 
         if (!result.ok) {
           env.notify('error', result.msg || '删除失败，请重试');
