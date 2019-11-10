@@ -8,10 +8,7 @@
     background: $Form-select-bg;
     border-radius: $Form-select-borderRadius;
     height: $Form-selectOption-height;
-    $paddingY: (
-            $Form-selectOption-height - $Form-input-lineHeight *
-                $Form-input-fontSize - $Form-select-borderWidth * 2
-        )/2;
+    $paddingY: ($Form-selectOption-height - $Form-input-lineHeight * $Form-input-fontSize - $Form-select-borderWidth * 2)/2;
     padding: $paddingY 0 $paddingY $Form-select-paddingX;
     cursor: pointer;
     color: $Form-select-color;
@@ -46,17 +43,7 @@
         user-select: none;
     }
 
-    &-input {
-        cursor: pointer;
-        display: inline-block;
-        position: relative;
-        z-index: 2;
-        outline: none;
-        border: none;
-        background: transparent;
-        line-height: $Form-input-lineHeight;
-        height: $Form-input-lineHeight * $Form-input-fontSize;
-    }
+
 
     &-value {
         line-height: $Form-input-lineHeight * $Form-input-fontSize;
@@ -64,6 +51,7 @@
     }
 
     &--searchable {
+
         .#{$ns}Select-placeholder,
         .#{$ns}Select-value {
             position: absolute;
@@ -79,22 +67,21 @@
         .#{$ns}Select-valueWrap {
             margin-bottom: -$gap-xs;
 
-            > input {
+            >input {
                 display: inline-block;
                 width: px2rem(100px);
                 margin-bottom: $gap-xs;
             }
         }
 
-        .#{$ns}Select-values + .#{$ns}Select-input {
+        .#{$ns}Select-values+.#{$ns}Select-input {
             transform: translateY(0);
         }
 
         .#{$ns}Select-value {
             position: static;
             user-select: none;
-            line-height: $Form-input-lineHeight * $Form-input-fontSize -
-                px2rem(2px);
+            line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
             display: inline-block;
             vertical-align: middle;
             font-size: $Form-selectValue-fontSize;
@@ -145,44 +132,50 @@
         transform: rotate(180deg);
     }
 
-    &-menuOuter {
-        position: absolute;
-        background: $Form-select-menu-bg;
-        color: $Form-select-menu-color;
-        border: $Form-select-outer-borderWidth solid
-            $Form-input-onFocused-borderColor;
-        left: px2rem(-1px);
-        right: px2rem(-1px);
-        min-width: 100%;
-        top: $Form-select-outer-top;
-        z-index: 10;
-        box-shadow: $Form-select-outer-boxShadow;
-    }
-
     &-menu {
         max-height: px2rem(300px);
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
         user-select: none;
     }
 
-    &-checkAll {
-        padding: (
-                $Form-select-menu-height - $Form-input-lineHeight *
-                    $Form-input-fontSize - px2rem(2px)
-            )/2 $Form-select-paddingX;
-        border-bottom: px2rem(1px) solid $Form-select-checkall-bottomBorder;
-        min-width: px2rem(100px);
+    &-input {
+        cursor: pointer;
+        outline: none;
+        border: none;
+        margin: 0 $Form-select-paddingX;
+        height: $Form-select-search-height;
+        font-size: $Form-select-input-fontSize;
+        border-bottom: 1px solid $borderColor;
+        display: flex;
+        align-items: center;
 
-        label {
-            display: block;
+        // &.is-focused {
+        //     border-color: $Form-input-onFocused-borderColor;
+        // }
+
+        >svg {
+            fill: #999;
+            width: px2rem(14px);
+            min-width: px2rem(14px);
+            height: px2rem(14px);
+            margin-right: px2rem(5px);
+        }
+
+        >input {
+            outline: none;
+            border: none;
+            flex-grow: 1;
+            background: transparent;
+            position: relative;
+            top: 0.125em;
         }
     }
 
     &-option {
-        padding: (
-                $Form-select-menu-height - $Form-input-lineHeight *
-                    $Form-input-fontSize - px2rem(2px)
-            )/2 $Form-select-paddingX;
+        cursor: pointer;
+        min-width: px2rem(150px);
+        padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize)/2 $Form-select-paddingX;
 
         &.is-active {
             color: $Form-select-menu-onActive-color;
@@ -202,10 +195,48 @@
         &--placeholder {
             color: $Form-input-placeholderColor;
         }
+
+        >label {
+            display: block;
+        }
+
+        >a {
+            float: right;
+            margin-left: px2rem(5px);
+            display: none;
+        }
+
+        &.is-highlight>a {
+            display: block;
+        }
+    }
+
+    &-noResult {
+        color: $Form-select-placeholderColor;
+        line-height: $Form-input-lineHeight;
+        font-size: $Form-select-input-fontSize;
+        user-select: none;
+        padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize)/2 $Form-select-paddingX;
     }
 
     &-option-hl {
         color: $red;
+    }
+
+    &-addBtn {
+        display: block;
+        cursor: pointer;
+        padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize)/2 $Form-select-paddingX;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        >svg {
+            width: px2rem(14px);
+            height: px2rem(14px);
+            margin-right: $Checkbox-gap;
+        }
     }
 
     &.is-focused,
@@ -243,27 +274,33 @@
 }
 
 .#{$ns}Select-popover {
-    margin-top: -$Form-select-borderWidth;
+    margin-top: $Form-select-popoverGap - $Form-select-outer-borderWidth;
+
     background: $Form-select-menu-bg;
     color: $Form-select-menu-color;
-    border: $Form-select-outer-borderWidth solid
-        $Form-input-onFocused-borderColor;
+    border: $Form-select-outer-borderWidth solid $Form-input-onFocused-borderColor;
     box-shadow: $Form-select-outer-boxShadow;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     min-width: px2rem(100px);
+    z-index: 2;
+
+    &.#{$ns}PopOver--leftTopLeftBottom {
+        margin-top: -($Form-select-popoverGap - $Form-select-outer-borderWidth);
+    }
 }
 
-.#{$ns}SelectControl:not(.is-inline) > .#{$ns}Select {
+.#{$ns}SelectControl:not(.is-inline)>.#{$ns}Select {
     display: flex;
 }
 
 // 需要能撑开
 @include media-breakpoint-up(sm) {
-    .#{$ns}Form-control--sizeXs > .#{$ns}Select,
-    .#{$ns}Form-control--sizeSm > .#{$ns}Select,
-    .#{$ns}Form-control--sizeMd > .#{$ns}Select,
-    .#{$ns}Form-control--sizeLg > .#{$ns}Select {
+
+    .#{$ns}Form-control--sizeXs>.#{$ns}Select,
+    .#{$ns}Form-control--sizeSm>.#{$ns}Select,
+    .#{$ns}Form-control--sizeMd>.#{$ns}Select,
+    .#{$ns}Form-control--sizeLg>.#{$ns}Select {
         min-width: 100%;
         display: inline-flex !important;
     }

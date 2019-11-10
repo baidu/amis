@@ -1,11 +1,18 @@
+/**
+ * @file 所有列表选择类控件的父级，比如 Select、Radios、Checkboxes、
+ * List、ButtonGroup 等等
+ */
 import {Api, Schema} from '../../types';
+import {isEffectiveApi, isApiOutdated} from '../../utils/api';
 import {
-  buildApi,
-  isEffectiveApi,
-  isValidApi,
-  isApiOutdated
-} from '../../utils/api';
-import {anyChanged, autobind} from '../../utils/helper';
+  anyChanged,
+  autobind,
+  createObject,
+  setVariable,
+  spliceTree,
+  findTreeIndex,
+  getTree
+} from '../../utils/helper';
 import {reaction} from 'mobx';
 import {FormControlProps, registerFormItem, FormItemBasicConfig} from './Item';
 import {IFormItemStore} from '../../store/formItem';
@@ -13,8 +20,9 @@ export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
 import React from 'react';
 import {resolveVariableAndFilter} from '../../utils/tpl-builtin';
-import {evalExpression} from '../../utils/tpl';
 import {Option, OptionProps, normalizeOptions} from '../../components/Select';
+import {filter} from '../../utils/tpl';
+import findIndex from 'lodash/findIndex';
 
 export {Option};
 
@@ -26,6 +34,7 @@ export interface OptionsConfig extends OptionsBasicConfig {
   component: React.ComponentType<OptionsControlProps>;
 }
 
+// 下发给注册进来的组件的属性。
 export interface OptionsControlProps extends FormControlProps, OptionProps {
   source?: Api;
   name?: string;
@@ -35,30 +44,36 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   setOptions: (value: Array<any>) => void;
   setLoading: (value: boolean) => void;
   reloadOptions: () => void;
-  addable?: boolean;
-  onAdd?: () => void;
+  creatable?: boolean;
+  onAdd?: (
+    idx?: number | Array<number>,
+    value?: any,
+    skipForm?: boolean
+  ) => void;
+  addControls?: Array<any>;
   editable?: boolean;
-  onEdit?: (value: Option) => void;
+  editControls?: Array<any>;
+  onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
   onDelete?: (value: Option) => void;
 }
 
+// 自己接收的属性。
 export interface OptionsProps extends FormControlProps, OptionProps {
-  sourcce?: Api;
+  source?: Api;
+  creatable?: boolean;
   addApi?: Api;
-  addMode?: 'dialog' | 'normal';
-  addDialog?: Schema;
+  addControls?: Array<any>;
   editApi?: Api;
-  editMode?: 'dialog' | 'normal';
-  editDialog?: Schema;
+  editControls?: Array<any>;
   deleteApi?: Api;
   deleteConfirmText?: string;
+  optionLabel?: string;
 }
 
 export function registerOptionsControl(config: OptionsConfig) {
   const Control = config.component;
 
-  // @observer
   class FormOptionsItem extends React.Component<OptionsProps, any> {
     static displayName = `OptionsControl(${config.type})`;
     static defaultProps = {
@@ -70,6 +85,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       multiple: false,
       placeholder: '请选择',
       resetValue: '',
+      deleteConfirmText: '确定要删除？',
       ...Control.defaultProps
     };
     static propsList: any = (Control as any).propsList
@@ -113,10 +129,10 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       let loadOptions: boolean = initFetch !== false;
 
-      if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(source) && formItem) {
+      if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(source as string) && formItem) {
         formItem.setOptions(
           normalizeOptions(
-            resolveVariableAndFilter(source, data, '| raw') || []
+            resolveVariableAndFilter(source as string, data, '| raw') || []
           )
         );
         loadOptions = false;
@@ -134,7 +150,9 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       loadOptions &&
-        (formInited ? this.reload() : addHook && addHook(this.reload, 'init'));
+        (formInited
+          ? this.reload()
+          : addHook && addHook(this.initOptions, 'init'));
     }
 
     componentDidMount() {
@@ -207,7 +225,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       ) {
         if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source as string)) {
           const prevOptions = resolveVariableAndFilter(
-            prevProps.source,
+            prevProps.source as string,
             prevProps.data,
             '| raw'
           );
@@ -417,6 +435,18 @@ export function registerOptionsControl(config: OptionsConfig) {
       return formItem.loadOptions(source, data, undefined, false, onChange);
     }
 
+    @autobind
+    async initOptions(data: any) {
+      await this.reload();
+      const {formItem, name} = this.props;
+      if (!formItem) {
+        return;
+      }
+      if (formItem.value) {
+        setVariable(data, name!, formItem.value);
+      }
+    }
+
     focus() {
       this.input && this.input.focus && this.input.focus();
     }
@@ -439,8 +469,280 @@ export function registerOptionsControl(config: OptionsConfig) {
       formItem && formItem.setLoading(value);
     }
 
+    @autobind
+    async handleOptionAdd(
+      idx: number | Array<number> = -1,
+      value: any,
+      skipForm: boolean = false
+    ) {
+      let {
+        addControls,
+        disabled,
+        labelField,
+        onOpenDialog,
+        optionLabel,
+        addApi,
+        source,
+        data,
+        valueField,
+        formItem: model,
+        createBtnLabel,
+        env
+      } = this.props;
+
+      // 禁用或者没有配置 name
+      if (disabled || !model) {
+        return;
+      }
+
+      // 用户没有配置表单项，则自动创建一个 label 输入
+      if (!skipForm && (!Array.isArray(addControls) || !addControls.length)) {
+        addControls = [
+          {
+            type: 'text',
+            name: labelField || 'label',
+            label: false,
+            placeholder: '请输入名称'
+          }
+        ];
+      }
+      const ctx = createObject(
+        data,
+        Array.isArray(idx)
+          ? {
+              parent: getTree(model.options, idx.slice(0, idx.length - 1)),
+              ...value
+            }
+          : value
+      );
+
+      let result: any = skipForm
+        ? ctx
+        : await onOpenDialog(
+            {
+              type: 'dialog',
+              title: createBtnLabel || `新增${optionLabel || '选项'}`,
+              body: {
+                type: 'form',
+                api: addApi,
+                controls: addControls
+              }
+            },
+            ctx
+          );
+
+      // 单独发请求
+      if (skipForm && addApi) {
+        try {
+          const payload = await env.fetcher(addApi!, result, {
+            method: 'post'
+          });
+
+          if (!payload.ok) {
+            env.notify('error', payload.msg || '新增失败，请仔细检查');
+          } else {
+            result = payload.data || result;
+          }
+        } catch (e) {
+          result = null;
+          console.error(e);
+          env.notify('error', e.message);
+        }
+      }
+
+      // 有 result 说明弹框点了确认。否则就是取消了。
+      if (!result) {
+        return;
+      }
+
+      // 没走服务端的。
+      if (!result.__saved) {
+        result = {
+          ...result,
+          [valueField || 'value']: result[labelField || 'label']
+        };
+      }
+
+      // 如果配置了 source 直接重新拉取接口就够了
+      if (source) {
+        this.reload();
+      } else {
+        // 否则直接前端变更 options
+        let options = model.options.concat();
+        if (Array.isArray(idx)) {
+          options = spliceTree(options, idx, 0, {...result});
+        } else {
+          ~idx
+            ? options.splice(idx, 0, {...result})
+            : options.push({...result});
+        }
+        model.setOptions(options);
+      }
+    }
+
+    @autobind
+    async handleOptionEdit(
+      value: any,
+      origin: any = value,
+      skipForm: boolean = false
+    ) {
+      let {
+        editControls,
+        disabled,
+        labelField,
+        onOpenDialog,
+        editApi,
+        env,
+        source,
+        data,
+        formItem: model,
+        optionLabel
+      } = this.props;
+
+      if (disabled || !model) {
+        return;
+      }
+
+      if (!skipForm && (!Array.isArray(editControls) || !editControls.length)) {
+        editControls = [
+          {
+            type: 'text',
+            name: labelField || 'label',
+            label: false,
+            placeholder: '请输入名称'
+          }
+        ];
+      }
+
+      let result = skipForm
+        ? value
+        : await onOpenDialog(
+            {
+              type: 'dialog',
+              title: `编辑${optionLabel || '选项'}`,
+              body: {
+                type: 'form',
+                api: editApi,
+                controls: editControls
+              }
+            },
+            createObject(data, value)
+          );
+
+      // 单独发请求
+      if (skipForm && editApi) {
+        try {
+          const payload = await env.fetcher(
+            editApi!,
+            createObject(data, result),
+            {
+              method: 'post'
+            }
+          );
+
+          if (!payload.ok) {
+            env.notify('error', payload.msg || '保存失败，请仔细检查');
+          } else {
+            result = payload.data || result;
+          }
+        } catch (e) {
+          result = null;
+          console.error(e);
+          env.notify('error', e.message);
+        }
+      }
+
+      // 没有结果，说明取消了。
+      if (!result) {
+        return;
+      }
+
+      if (source) {
+        this.reload();
+      } else {
+        const indexes = findTreeIndex(model.options, item => item === origin);
+
+        if (indexes) {
+          model.setOptions(
+            spliceTree(model.options, indexes, 1, {
+              ...origin,
+              ...result
+            })
+          );
+        }
+      }
+    }
+
+    @autobind
+    async handleOptionDelete(value: any) {
+      let {
+        deleteConfirmText,
+        disabled,
+        data,
+        deleteApi,
+        env,
+        formItem: model,
+        source,
+        valueField
+      } = this.props;
+
+      if (disabled || !model) {
+        return;
+      }
+
+      const ctx = createObject(data, value);
+
+      // 如果配置了 deleteConfirmText 让用户先确认。
+      const confirmed = deleteConfirmText
+        ? await env.confirm(filter(deleteConfirmText, ctx))
+        : true;
+      if (!confirmed) {
+        return;
+      }
+
+      // 通过 deleteApi 删除。
+      try {
+        if (!deleteApi) {
+          throw new Error('请配置 deleteApi');
+        }
+
+        const result = await env.fetcher(deleteApi!, ctx, {
+          method: 'delete'
+        });
+
+        if (!result.ok) {
+          env.notify('error', result.msg || '删除失败，请重试');
+        } else if (source) {
+          this.reload();
+        } else {
+          const options = model.options.concat();
+          const idx = findIndex(
+            options,
+            item => item[valueField || 'value'] == value[valueField || 'value']
+          );
+
+          if (~idx) {
+            options.splice(idx, 1);
+            model.setOptions(options);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+        env.notify('error', e.message);
+      }
+    }
+
     render() {
-      const {value, formItem} = this.props;
+      const {
+        value,
+        formItem,
+        addApi,
+        editApi,
+        deleteApi,
+        creatable,
+        editable,
+        removable
+      } = this.props;
 
       return (
         <Control
@@ -455,6 +757,12 @@ export function registerOptionsControl(config: OptionsConfig) {
           setOptions={this.setOptions}
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
+          creatable={creatable || isEffectiveApi(addApi)}
+          editable={editable || isEffectiveApi(editApi)}
+          removable={removable || isEffectiveApi(deleteApi)}
+          onAdd={this.handleOptionAdd}
+          onEdit={this.handleOptionEdit}
+          onDelete={this.handleOptionDelete}
         />
       );
     }

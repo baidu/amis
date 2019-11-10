@@ -5,17 +5,12 @@ import {Api, Payload, fetchOptions} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
 import findIndex = require('lodash/findIndex');
-import {
-  isArrayChilrenModified,
-  hasOwnProperty,
-  isObject,
-  createObject
-} from '../utils/helper';
+import {isArrayChilrenModified, isObject, createObject} from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
 import {normalizeOptions} from '../components/Select';
 import find = require('lodash/find');
-import {iRendererStore} from './iRenderer';
+import {SimpleMap} from '../utils/SimpleMap';
 
 interface IOption {
   value?: string | number | null;
@@ -34,6 +29,7 @@ const ErrorDetail = types.model('ErrorDetail', {
 export const FormItemStore = types
   .model('FormItemStore', {
     identifier: types.identifier,
+    isFocused: false,
     type: '',
     unique: false,
     loading: false,
@@ -81,41 +77,6 @@ export const FormItemStore = types
       return self.errorData.map(item => item.msg);
     }
 
-    // function selectedOptions(options:Array<Option>=(self.options as any).toJS()) {
-    //     return value2array(getValue(), {
-    //         multiple: self.multiple,
-    //         delimiter: self.delimiter,
-    //         valueField: self.valueField,
-    //         options: options
-    //     })
-    // }
-
-    // function filteredOptions(data:object):Array<IOption> {
-    //     let options:Array<IOption> = self.options;
-    //     options = options.filter(item => {
-    //         let filtered = getExprProperties(item, data);
-    //         return filtered.visible !== false && !filtered.hidden;
-    //     });
-
-    //     let parentStore = getForm().parentStore;
-    //     if (parentStore && parentStore.storeType === ComboStore.name) {
-    //         let combo = parentStore as IComboStore;
-    //         let group = combo.uniques.get(self.name) as IUniqueGroup;
-    //         let selectedOptions:Array<any> = [];
-    //         group && group.items.forEach(item => {
-    //             if (self !== item) {
-    //                 selectedOptions.push(...item.selectedOptions().map(item => item.value))
-    //             }
-    //         });
-
-    //         if (selectedOptions.length) {
-    //             options = options.filter(option => !~selectedOptions.indexOf(option.value))
-    //         }
-    //     }
-
-    //     return options;
-    // }
-
     return {
       get form(): any {
         return getForm();
@@ -143,9 +104,6 @@ export const FormItemStore = types
       get lastSelectValue(): string {
         return getLastOptionValue();
       },
-
-      // selectedOptions,
-      // filteredOptions,
 
       getSelectedOptions(value: any = getValue()) {
         if (value === getValue()) {
@@ -212,6 +170,9 @@ export const FormItemStore = types
   })
 
   .actions(self => {
+    const form = self.form as IFormStore;
+    const dialogCallbacks = new SimpleMap<(result?: any) => void>();
+
     function config({
       required,
       unique,
@@ -241,8 +202,6 @@ export const FormItemStore = types
       type?: string;
       id?: string;
     }) {
-      const form = self.form as IFormStore;
-
       if (typeof rules === 'string') {
         rules = str2rules(rules);
       }
@@ -276,6 +235,14 @@ export const FormItemStore = types
       if (value !== void 0 && self.value === void 0) {
         form.setValueByName(self.name, value, true);
       }
+    }
+
+    function focus() {
+      self.isFocused = true;
+    }
+
+    function blur() {
+      self.isFocused = false;
     }
 
     function changeValue(value: any, isPrintine: boolean = false) {
@@ -366,7 +333,7 @@ export const FormItemStore = types
       options?: fetchOptions,
       clearValue?: boolean,
       onChange?: (value: any) => void
-    ) => Promise<any> = flow(function* getInitData(
+    ) => Promise<Payload | null> = flow(function* getInitData(
       api: string,
       data: object,
       options?: fetchOptions,
@@ -442,8 +409,9 @@ export const FormItemStore = types
         console.error(e.stack);
         getRoot(self) &&
           (getRoot(self) as IRendererStore).notify('error', e.message);
+        return null;
       }
-    });
+    } as any);
 
     function syncOptions(originOptions?: Array<any>) {
       if (!self.options.length && typeof self.value === 'undefined') {
@@ -528,7 +496,7 @@ export const FormItemStore = types
             unMatched = {
               [self.valueField || 'value']: item,
               [self.labelField || 'label']: item,
-              __unmatched: true
+              '__unmatched': true
             };
 
             const orgin: any =
@@ -595,27 +563,30 @@ export const FormItemStore = types
       clearError();
     }
 
-    function openDialog(schema: any, ctx: any, additonal?: object) {
-      let proto = ctx.__super ? ctx.__super : self.form.data;
-
-      if (additonal) {
-        proto = createObject(proto, additonal);
-      }
-
-      const data = createObject(proto, {
-        ...ctx
-      });
-
+    function openDialog(
+      schema: any,
+      data: any = form.data,
+      callback?: (ret?: any) => void
+    ) {
       self.dialogSchema = schema;
       self.dialogData = data;
       self.dialogOpen = true;
+      callback && dialogCallbacks.set(self.dialogData, callback);
     }
 
-    function closeDialog() {
+    function closeDialog(result?: any) {
+      const callback = dialogCallbacks.get(self.dialogData);
       self.dialogOpen = false;
+
+      if (callback) {
+        dialogCallbacks.delete(self.dialogData);
+        setTimeout(() => callback(result), 200);
+      }
     }
 
     return {
+      focus,
+      blur,
       config,
       changeValue,
       validate,

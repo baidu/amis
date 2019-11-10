@@ -308,12 +308,7 @@ export default class NestedSelectControl extends React.Component<
 
     if (popOverContainer) {
       return (
-        <Overlay
-          container={popOverContainer}
-          placement="left-bottom-left-top right-bottom-right-top"
-          target={() => this.target}
-          show
-        >
+        <Overlay container={popOverContainer} target={() => this.target} show>
           <PopOver
             className={cx('NestedSelect-popover')}
             style={{minWidth: this.target.offsetWidth}}

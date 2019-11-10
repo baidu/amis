@@ -2,6 +2,7 @@ import {types, getRoot, Instance} from 'mobx-state-tree';
 import {extendObject, createObject} from '../utils/helper';
 import {IRendererStore} from './index';
 import {dataMapping} from '../utils/tpl-builtin';
+import {SimpleMap} from '../utils/SimpleMap';
 
 export const iRendererStore = types
   .model('iRendererStore', {
@@ -32,7 +33,7 @@ export const iRendererStore = types
     };
   })
   .actions(self => {
-    const dialogCallbacks = new Map();
+    const dialogCallbacks = new SimpleMap<(result?: any) => void>();
 
     return {
       initData(data: object = {}) {
@@ -97,10 +98,7 @@ export const iRendererStore = types
           self.dialogData = data;
         }
         self.dialogOpen = true;
-
-        if (callback) {
-          dialogCallbacks.set(self.dialogData, callback);
-        }
+        callback && dialogCallbacks.set(self.dialogData, callback);
       },
 
       closeDialog(result?: any) {

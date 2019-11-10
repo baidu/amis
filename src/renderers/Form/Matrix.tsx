@@ -8,6 +8,7 @@ import cx from 'classnames';
 import {FormControlProps, FormItem} from './Item';
 import {buildApi, isValidApi, isEffectiveApi} from '../../utils/api';
 import {Checkbox, Spinner} from '../../components';
+import {autobind, setVariable} from '../../utils/helper';
 
 export interface Column {
   label: string;
@@ -50,6 +51,8 @@ export default class MatrixCheckbox extends React.Component<
 
   state: MatrixState;
   sourceInvalid: boolean = false;
+  mounted: boolean = false;
+
   constructor(props: MatrixProps) {
     super(props);
 
@@ -61,12 +64,17 @@ export default class MatrixCheckbox extends React.Component<
 
     this.toggleItem = this.toggleItem.bind(this);
     this.reload = this.reload.bind(this);
+    this.initOptions = this.initOptions.bind(this);
+  }
+
+  componentWillMount() {
+    this.mounted = true;
   }
 
   componentDidMount() {
     const {formInited, addHook} = this.props;
 
-    formInited ? this.reload() : addHook(this.reload, 'init');
+    formInited ? this.reload() : addHook(this.initOptions, 'init');
   }
 
   componentWillReceiveProps(nextProps: MatrixProps) {
@@ -104,7 +112,24 @@ export default class MatrixCheckbox extends React.Component<
     }
   }
 
-  reload() {
+  componentWillUnmount() {
+    this.mounted = false;
+    const {removeHook} = this.props;
+    removeHook(this.initOptions, 'init');
+  }
+
+  async initOptions(data: any) {
+    await this.reload();
+    const {formItem, name} = this.props;
+    if (!formItem) {
+      return;
+    }
+    if (formItem.value) {
+      setVariable(data, name!, formItem.value);
+    }
+  }
+
+  async reload() {
     const {source, data, env, onChange} = this.props;
 
     if (!isEffectiveApi(source, data) || this.state.loading) {
@@ -115,45 +140,61 @@ export default class MatrixCheckbox extends React.Component<
       throw new Error('fetcher is required');
     }
 
-    // 需要联动加载吗？我看不一定会用到，先这样吧。
-    this.setState(
-      {
-        loading: true
-      },
-      () => {
-        env
-          .fetcher(source, data)
-          .then(ret => {
-            if (!ret.ok) {
-              throw new Error(ret.msg || '数据请求错误');
-            }
-            this.setState(
-              {
-                loading: false,
-                rows: (ret.data as any).rows || [],
-                columns: (ret.data as any).columns || []
-              },
-              () => {
-                let value = (ret.data as any).value;
-                if (value) {
-                  value = mergeValue(
-                    value,
-                    this.state.columns,
-                    this.state.rows
-                  );
-                  onChange(value);
-                }
-              }
-            );
-          })
-          .catch(reason =>
-            this.setState({
-              error: reason,
-              loading: false
-            })
-          );
+    // todo 优化这块
+    return await new Promise((resolve, reject) => {
+      if (!this.mounted) {
+        return resolve();
       }
-    );
+
+      this.setState(
+        {
+          loading: true
+        },
+        () => {
+          if (!this.mounted) {
+            return resolve();
+          }
+          env
+            .fetcher(source, data)
+            .then(ret => {
+              if (!ret.ok) {
+                throw new Error(ret.msg || '数据请求错误');
+              }
+              if (!this.mounted) {
+                return resolve();
+              }
+              this.setState(
+                {
+                  loading: false,
+                  rows: (ret.data as any).rows || [],
+                  columns: (ret.data as any).columns || []
+                },
+                () => {
+                  let value = (ret.data as any).value;
+                  if (value) {
+                    value = mergeValue(
+                      value,
+                      this.state.columns,
+                      this.state.rows
+                    );
+                    onChange(value);
+                  }
+                  resolve();
+                }
+              );
+            })
+            .catch(reason =>
+              this.setState(
+                {
+                  error: reason,
+                  loading: false
+                },
+                resolve
+              )
+            );
+        }
+      );
+    });
   }
 
   toggleItem(checked: boolean, x: number, y: number) {

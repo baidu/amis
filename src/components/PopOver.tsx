@@ -44,7 +44,7 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
       y: 0
     },
     overlay: false,
-    placement: 'bottom'
+    placement: 'auto'
   };
 
   state = {

@@ -48,6 +48,9 @@ import SuccessIcon from '../icons/success.svg';
 // @ts-ignore
 import FailIcon from '../icons/fail.svg';
 
+// @ts-ignore
+import SearchIcon from '../icons/search.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -103,6 +106,7 @@ registerIcon('upload', UploadIcon);
 registerIcon('file', FileIcon);
 registerIcon('success', SuccessIcon);
 registerIcon('fail', FailIcon);
+registerIcon('search', SearchIcon);
 
 export function Icon({
   icon,
