@@ -33,8 +33,7 @@
         position: relative;
         flex-grow: 1;
         line-height: 1;
-        max-width: 100%;
-        overflow: hidden;
+        width: 0; // ! 没有这个会撑开。
     }
 
     &-placeholder {
@@ -48,6 +47,9 @@
     &-value {
         line-height: $Form-input-lineHeight * $Form-input-fontSize;
         white-space: nowrap;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
 
@@ -292,6 +294,7 @@
     .#{$ns}Form-control--sizeMd>.#{$ns}Select,
     .#{$ns}Form-control--sizeLg>.#{$ns}Select {
         min-width: 100%;
+        max-width: 100%;
         display: inline-flex !important;
     }
 }

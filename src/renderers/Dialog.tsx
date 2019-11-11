@@ -59,7 +59,8 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     'show',
     'body',
     'showCloseButton',
-    'actions'
+    'actions',
+    'popOverContainer'
   ];
   static defaultProps: Partial<DialogProps> = {
     title: '弹框',
