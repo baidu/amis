@@ -343,8 +343,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   onBlur(e: any) {
     this.setState({
-      isFocused: false,
-      inputValue: ''
+      isFocused: false
     });
 
     this.props.onBlur && this.props.onBlur(e);
@@ -440,7 +439,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
       case DownshiftChangeTypes.clickItem:
         update = {
           ...update,
-          inputValue: '',
           isOpen: multiple ? true : false,
           isFocused: multiple && checkAll ? true : false
         };
@@ -632,7 +630,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             return (
               <div
                 {...getItemProps({
-                  key: index,
+                  key: item.value || index,
                   index,
                   item,
                   disabled: item.disabled
