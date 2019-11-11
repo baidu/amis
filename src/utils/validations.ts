@@ -136,6 +136,11 @@ export const validations: {
     }
     return true;
   },
+  isPhoneNumber: function(values, value) {
+    return (
+      !isExisty(value) || isEmpty(value) || /^[1]([3-9])[0-9]{9}$/.test(value)
+    );
+  },
   notEmptyString: function(values, value) {
     return !isExisty(value) || !(String(value) && String(value).trim() === '');
   },
@@ -199,7 +204,8 @@ export const validateMessages: {
   isLength: '请输入长度为 $1 的内容',
   notEmptyString: '请不要全输入空白字符',
   equalsField: '输入的数据与 $1 值不一致',
-  equals: '输入的数据与 $1 不一致'
+  equals: '输入的数据与 $1 不一致',
+  isPhoneNumber: '请输入合法的手机号码'
 };
 
 export function validate(
