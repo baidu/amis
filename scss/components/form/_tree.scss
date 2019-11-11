@@ -229,12 +229,12 @@
 
 
     &-item &-item>&-itemLabel,
-    &-item>&-placeholder {
+    &-item &-item>&-placeholder {
         padding-left: $Tree-indent;
     }
 
     &-item &-item &-item>&-itemLabel,
-    &-item &-item>&-placeholder {
+    &-item &-item &-item>&-placeholder {
         padding-left: $Tree-indent * 2;
     }
 

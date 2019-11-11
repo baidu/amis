@@ -540,6 +540,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
           if (!payload.ok) {
             env.notify('error', payload.msg || '新增失败，请仔细检查');
+            result = null;
           } else {
             result = payload.data || result;
           }
@@ -563,8 +564,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         };
       }
 
-      // 如果配置了 source 直接重新拉取接口就够了
-      if (source) {
+      // 如果配置了 source 且配置了 addApi 直接重新拉取接口就够了
+      // 不能不判断 addApi 就刷新，因为有些场景就是临时添加的。
+      if (source && addApi) {
         this.reload();
       } else {
         // 否则直接前端变更 options
@@ -642,6 +644,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
           if (!payload.ok) {
             env.notify('error', payload.msg || '保存失败，请仔细检查');
+            result = null;
           } else {
             result = payload.data || result;
           }
@@ -657,7 +660,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      if (source) {
+      if (source && !editApi) {
         this.reload();
       } else {
         const indexes = findTreeIndex(model.options, item => item === origin);
