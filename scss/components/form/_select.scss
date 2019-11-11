@@ -33,7 +33,7 @@
         position: relative;
         flex-grow: 1;
         line-height: 1;
-        width: 0; // ! 没有这个会撑开。
+
     }
 
     &-placeholder {
@@ -296,5 +296,9 @@
         min-width: 100%;
         max-width: 100%;
         display: inline-flex !important;
+
+        .#{$ns}Select-valueWrap {
+            width: 0; // ! 没有这个会撑开。
+        }
     }
 }
