@@ -668,7 +668,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                   <Checkbox
                     checked={checked}
                     trueValue={item.value}
-                    onChange={() => this.handleChange(item)}
+                    onChange={() => {
+                      this.handleChange(item);
+                    }}
                   >
                     {item.disabled
                       ? item[labelField]
@@ -758,7 +760,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       spinnerClassName,
       clearable,
       labelField,
-      disabled
+      disabled,
+      checkAll
     } = this.props;
 
     const selection = this.state.selection;
@@ -770,7 +773,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
         highlightedIndex={this.state.highlightedIndex}
         isOpen={this.state.isOpen}
         inputValue={inputValue}
-        onChange={this.handleChange}
+        onChange={
+          /*展示 Checkbox 的时候，会出发多次 onChange 原因待查*/ multiple ||
+          checkAll
+            ? noop
+            : this.handleChange
+        }
         onStateChange={this.handleStateChange}
         // onOuterClick={this.close}
         itemToString={item => (item ? item[labelField] : '')}
