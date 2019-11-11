@@ -55,7 +55,8 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     'show',
     'resizable',
     'overlay',
-    'body'
+    'body',
+    'popOverContainer'
   ];
   static defaultProps: Partial<DrawerProps> = {
     title: '',
