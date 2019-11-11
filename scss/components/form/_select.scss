@@ -50,15 +50,6 @@
         white-space: nowrap;
     }
 
-    &--searchable {
-
-        .#{$ns}Select-placeholder,
-        .#{$ns}Select-value {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    }
 
     &--multi {
         height: auto;
