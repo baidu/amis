@@ -540,7 +540,8 @@ export class TreeSelector extends React.Component<
         />
       ) : null;
 
-      const isLeaf = !item.children || !item.children.length;
+      const isLeaf =
+        (!item.children || !item.children.length) && !item.placeholder;
 
       return (
         <li
@@ -646,8 +647,12 @@ export class TreeSelector extends React.Component<
               ) : null}
               {childrenItems}
             </ul>
-          ) : !childrenItems && item.placeholder ? (
-            <div className={cx('Tree-placeholder')}>{item.placeholder}</div>
+          ) : !childrenItems && item.placeholder && unfolded[item[valueField]] ? (
+            <ul className={cx('Tree-sublist')}>
+              <li className={cx('Tree-item')}>
+                <div className={cx('Tree-placeholder')}>{item.placeholder}</div>
+              </li>
+            </ul>
           ) : null}
         </li>
       );
