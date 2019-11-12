@@ -689,7 +689,7 @@ export default class List extends React.Component<ListProps, object> {
         key="dragging-toggle"
         tooltip="对列表进行排序操作"
         tooltipContainer={
-          env && env.getModalContainer ? env.getModalContainer() : undefined
+          env && env.getModalContainer ? env.getModalContainer : undefined
         }
         size="sm"
         active={store.dragging}

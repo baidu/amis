@@ -1064,7 +1064,7 @@ export default class Table extends React.Component<TableProps, object> {
               tooltip: column.remark,
               container:
                 env && env.getModalContainer
-                  ? env.getModalContainer()
+                  ? env.getModalContainer
                   : undefined
             })
           : null}
@@ -1384,7 +1384,7 @@ export default class Table extends React.Component<TableProps, object> {
         key="dragging-toggle"
         tooltip="点击开始排序"
         tooltipContainer={
-          env && env.getModalContainer ? env.getModalContainer() : undefined
+          env && env.getModalContainer ? env.getModalContainer : undefined
         }
         size="sm"
         active={store.dragging}

@@ -400,7 +400,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         onEntered={this.handleEntered}
         onExited={this.handleExited}
         container={
-          env && env.getModalContainer ? env.getModalContainer() : undefined
+          env && env.getModalContainer ? env.getModalContainer : undefined
         }
         enforceFocus={false}
         disabled={store.loading}

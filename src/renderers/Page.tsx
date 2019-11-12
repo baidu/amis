@@ -377,7 +377,7 @@ export default class Page extends React.Component<PageProps> {
                     tooltip: remark,
                     container:
                       env && env.getModalContainer
-                        ? env.getModalContainer()
+                        ? env.getModalContainer
                         : undefined
                   })
                 : null}
