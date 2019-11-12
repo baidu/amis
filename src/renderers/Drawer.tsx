@@ -39,6 +39,7 @@ export interface DrawerProps extends RendererProps {
   resizable?: boolean;
   overlay?: boolean;
   closeOnOutside?: boolean;
+  drawerContainer?: () => HTMLElement;
 }
 
 export default class Drawer extends React.Component<DrawerProps, object> {
@@ -433,7 +434,8 @@ export default class Drawer extends React.Component<DrawerProps, object> {
       overlay,
       closeOnOutside,
       classPrefix: ns,
-      classnames: cx
+      classnames: cx,
+      drawerContainer
     } = this.props;
 
     const Container = wrapperComponent || DrawerContainer;
@@ -454,7 +456,11 @@ export default class Drawer extends React.Component<DrawerProps, object> {
           !store.drawerOpen && !store.dialogOpen && closeOnOutside
         }
         container={
-          env && env.getModalContainer ? env.getModalContainer() : undefined
+          drawerContainer
+            ? drawerContainer
+            : env && env.getModalContainer
+            ? env.getModalContainer
+            : undefined
         }
       >
         <div className={cx('Drawer-header')}>

@@ -284,7 +284,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     className: cx(`Form-labelRemark`),
                     container:
                       env && env.getModalContainer
-                        ? env.getModalContainer()
+                        ? env.getModalContainer
                         : undefined
                   })
                 : null}
@@ -313,7 +313,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 className: cx(`Form-remark`),
                 container:
                   env && env.getModalContainer
-                    ? env.getModalContainer()
+                    ? env.getModalContainer
                     : undefined
               })
             : null}
@@ -386,7 +386,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     className: cx(`Form-lableRemark`),
                     container:
                       env && env.getModalContainer
-                        ? env.getModalContainer()
+                        ? env.getModalContainer
                         : undefined
                   })
                 : null}
@@ -408,9 +408,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               className: cx(`Form-remark`),
               tooltip: remark,
               container:
-                env && env.getModalContainer
-                  ? env.getModalContainer()
-                  : undefined
+                env && env.getModalContainer ? env.getModalContainer : undefined
             })
           : null}
 
@@ -480,7 +478,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     className: cx(`Form-lableRemark`),
                     container:
                       env && env.getModalContainer
-                        ? env.getModalContainer()
+                        ? env.getModalContainer
                         : undefined
                   })
                 : null}
@@ -504,7 +502,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 tooltip: remark,
                 container:
                   env && env.getModalContainer
-                    ? env.getModalContainer()
+                    ? env.getModalContainer
                     : undefined
               })
             : null}
@@ -578,7 +576,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       className: cx(`Form-lableRemark`),
                       container:
                         env && env.getModalContainer
-                          ? env.getModalContainer()
+                          ? env.getModalContainer
                           : undefined
                     })
                   : null}
@@ -601,7 +599,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 tooltip: remark,
                 container:
                   env && env.getModalContainer
-                    ? env.getModalContainer()
+                    ? env.getModalContainer
                     : undefined
               })
             : null}
