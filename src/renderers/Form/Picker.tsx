@@ -428,7 +428,7 @@ export default class PickerControl extends React.PureComponent<
           //             classPrefix={ns}
           //             className={`${ns}Picker-pickBtn`}
           //             tooltip="点击选择"
-          //             tooltipContainer={env && env.getModalContainer ? env.getModalContainer() : undefined}
+          //             tooltipContainer={env && env.getModalContainer ? env.getModalContainer : undefined}
           //             level="info"
           //             size="sm"
           //             disabled={disabled}
