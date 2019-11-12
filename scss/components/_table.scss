@@ -40,19 +40,19 @@
             z-index: $zindex-affix;
         }
 
-        > .#{$ns}Table-fixedLeft,
-        > .#{$ns}Table-fixedRight {
+        >.#{$ns}Table-fixedLeft,
+        >.#{$ns}Table-fixedRight {
             z-index: $zindex-affix + 10;
             // box-shadow: none;
             background: transparent;
             border-top: $Table-borderWidth solid $Table-borderColor;
 
-            > table {
+            >table {
                 margin-bottom: px2rem(5px);
             }
         }
 
-        > .#{$ns}Table-wrapper {
+        >.#{$ns}Table-wrapper {
             border-top: $Table-borderWidth solid $Table-borderColor;
         }
     }
@@ -60,8 +60,7 @@
     &-heading {
         background: $Table-heading-bg;
         border-bottom: $Table-borderWidth solid $Table-borderColor;
-        padding: ($Table-heading-height - $Table-fontSize * $lineHeightBase) / 2
-            $Table-toolbar-paddingX;
+        padding: ($Table-heading-height - $Table-fontSize * $lineHeightBase) / 2 $Table-toolbar-paddingX;
     }
 
     &--unsaved &-heading {
@@ -84,7 +83,7 @@
             background-color: transparent !important;
         }
 
-        > td {
+        >td {
             vertical-align: middle !important;
             text-align: center;
         }
@@ -93,9 +92,9 @@
     &-header {
         padding: $Table-toolbar-paddingY $Table-toolbar-paddingX;
 
-        > * + .#{$ns}Button,
-        > * + .#{$ns}ButtonGroup,
-        > * + .#{$ns}ButtonToolbar {
+        >*+.#{$ns}Button,
+        >*+.#{$ns}ButtonGroup,
+        >*+.#{$ns}ButtonToolbar {
             margin-left: $Crud-toolbar-gap;
         }
     }
@@ -106,7 +105,7 @@
         padding: $Table-toolbar-paddingY $Table-toolbar-paddingX;
     }
 
-    &-header + &-toolbar {
+    &-header+&-toolbar {
         padding-top: 0;
     }
 
@@ -114,8 +113,8 @@
         position: relative;
     }
 
-    &-header + &-contentWrap,
-    &-toolbar + &-contentWrap {
+    &-header+&-contentWrap,
+    &-toolbar+&-contentWrap {
         border-top: $Table-borderWidth solid $Table-borderColor;
     }
 
@@ -126,7 +125,7 @@
     &-actions {
         display: inline-block;
 
-        > * {
+        >* {
             margin-right: $Crud-toolbar-gap;
         }
     }
@@ -146,8 +145,9 @@
         background-color: $Table-bg;
 
         &--withCombine {
-            > thead > tr > th,
-            > tbody > tr > td {
+
+            >thead>tr>th,
+            >tbody>tr>td {
                 &:first-child {
                     padding-left: $TableCell-paddingX !important;
                 }
@@ -158,7 +158,7 @@
             }
 
             // reset
-            > tbody > tr {
+            >tbody>tr {
                 @if $Table-strip-bg !=transparent {
                     &.#{$ns}Table-tr--odd {
                         background-color: transparent;
@@ -169,20 +169,20 @@
                     background-color: transparent;
                 }
 
-                > td {
+                >td {
                     vertical-align: middle;
                 }
 
-                > td:not(:last-child) {
+                >td:not(:last-child) {
                     border-right: $Table-borderWidth solid $Table-borderColor;
                 }
             }
         }
 
-        > thead > tr {
+        >thead>tr {
             background-color: $Table-thead-bg;
 
-            > th {
+            >th {
                 &[colspan] {
                     text-align: center;
                 }
@@ -198,8 +198,7 @@
                 }
 
                 &:not(:last-child) {
-                    border-right: $Table-thead-borderWidth solid
-                        $Table-thead-borderColor;
+                    border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
                 }
 
                 font-size: $Table-thead-fontSize;
@@ -213,14 +212,14 @@
             }
         }
 
-        > thead > tr + tr {
+        >thead>tr+tr {
             border-top: $Table-borderWidth solid $Table-borderColor;
         }
 
-        > tbody > tr {
+        >tbody>tr {
             border-top: $Table-borderWidth solid $Table-borderColor;
 
-            > td {
+            >td {
                 padding: $TableCell-paddingY $TableCell-paddingX;
                 vertical-align: top;
 
@@ -247,7 +246,7 @@
                 border-color: $Table-onHover-borderColor;
                 color: $Table-onHover-color;
 
-                & + tr {
+                &+tr {
                     border-color: $Table-onHover-borderColor;
                 }
             }
@@ -257,7 +256,7 @@
                 border-color: $Table-onChecked-borderColor;
                 color: $Table-onChecked-color;
 
-                & + tr {
+                &+tr {
                     border-color: $Table-onChecked-borderColor;
                 }
 
@@ -267,7 +266,7 @@
                     border-color: $Table-onChecked-onHover-borderColor;
                     color: $Table-onChecked-onHover-color;
 
-                    & + tr {
+                    &+tr {
                         border-color: $Table-onChecked-onHover-borderColor;
                     }
                 }
@@ -279,7 +278,7 @@
                 border-color: $Table-onModified-borderColor;
                 color: $Table-onModified-color;
 
-                & + tr {
+                &+tr {
                     border-color: $Table-onModified-borderColor;
                 }
 
@@ -289,7 +288,7 @@
                     border-color: $Table-onModified-onHover-borderColor;
                     color: $Table-onModified-onHover-color;
 
-                    & + tr {
+                    &+tr {
                         border-color: $Table-onModified-onHover-borderColor;
                     }
                 }
@@ -306,13 +305,14 @@
                     right: px2rem(9px) + px2rem(-20px) * ($i - 1);
                 }
             }
+
             tr.#{$ns}Table-tr--#{$i}th {
                 .#{$ns}Table-expandBtn {
                     position: relative;
                     right: - px2rem(20px) * ($i - 1);
                 }
 
-                .#{$ns}Table-expandCell + td {
+                .#{$ns}Table-expandCell+td {
                     position: relative;
 
                     &::before {
@@ -323,7 +323,7 @@
                         bottom: 0;
                         left: px2rem(-10px) + px2rem(20px) * ($i - 2);
                         height: auto;
-                        background-color: $Table-borderColor;
+                        background-color: $Table-tree-borderColor;
                     }
 
                     &::after {
@@ -333,22 +333,22 @@
                         top: px2rem(20px);
                         left: px2rem(-10px) + px2rem(20px) * ($i - 2);
                         width: px2rem(10px);
-                        background-color: $Table-borderColor;
+                        background-color: $Table-tree-borderColor;
                     }
 
-                    padding-left: px2rem(20px) * ($i - 1) - px2rem(20px);
+                    padding-left: px2rem(20px) * $i - px2rem(20px);
                 }
             }
 
             tr.#{$ns}Table-tr--#{$i}th.is-expandable {
-                .#{$ns}Table-expandCell + td {
+                .#{$ns}Table-expandCell+td {
                     padding-left: px2rem(20px) * ($i - 1);
                 }
             }
 
 
             tr.#{$ns}Table-tr--#{$i}th.is-last:not(.is-expanded) {
-                .#{$ns}Table-expandCell + td {
+                .#{$ns}Table-expandCell+td {
                     &::before {
                         height: px2rem(20px);
                         bottom: auto;
@@ -356,11 +356,11 @@
                 }
             }
 
-            
+
         }
 
-        > thead > tr > th.#{$ns}Table-checkCell,
-        > tbody > tr > td.#{$ns}Table-checkCell {
+        >thead>tr>th.#{$ns}Table-checkCell,
+        >tbody>tr>td.#{$ns}Table-checkCell {
             border-right: 0;
             width: px2rem(1px);
 
@@ -369,22 +369,23 @@
             }
         }
 
-        > thead > tr > th.#{$ns}Table-expandCell,
-        > tbody > tr > td.#{$ns}Table-expandCell {
+        >thead>tr>th.#{$ns}Table-expandCell,
+        >tbody>tr>td.#{$ns}Table-expandCell {
             border-right: 0;
             width: px2rem(1px);
             padding-right: 0;
         }
 
-        > thead > tr > th.#{$ns}Table-dragCell,
-        > tbody > tr > td.#{$ns}Table-dragCell {
+        >thead>tr>th.#{$ns}Table-dragCell,
+        >tbody>tr>td.#{$ns}Table-dragCell {
             border-right: 0;
             width: px2rem(1px);
             padding-right: 0;
         }
 
-        > tbody > tr > td.#{$ns}Table-expandCell {
+        >tbody>tr>td.#{$ns}Table-expandCell {
             position: relative;
+
             @for $i from 1 through 7 {
                 .#{$ns}Table-divider-#{$i} {
                     position: absolute;
@@ -392,15 +393,15 @@
                     top: 0;
                     bottom: 0;
                     height: 100%;
-                    background-color: $Table-borderColor;
+                    background-color: $Table-tree-borderColor;
                     right: px2rem(9px) + px2rem(-20px) * ($i - 1);
                 }
             }
         }
 
-        > tbody > tr.is-expanded > td.#{$ns}Table-expandCell {
+        >tbody>tr.is-expanded>td.#{$ns}Table-expandCell {
             // position: relative;
-    
+
             &::before {
                 content: '';
                 position: absolute;
@@ -409,26 +410,26 @@
                 bottom: 0;
                 right: px2rem(9px);
                 height: auto;
-                background-color: $Table-borderColor;
+                background-color: $Table-tree-borderColor;
             }
         }
 
-        > thead > tr > th.#{$ns}TableCell--sortable {
+        >thead>tr>th.#{$ns}TableCell--sortable {
             padding-right: $TableCell-paddingX + $TableCell-sortBtn-width;
             position: relative;
         }
 
-        > thead > tr > th.#{$ns}TableCell--searchable {
+        >thead>tr>th.#{$ns}TableCell--searchable {
             padding-right: $TableCell-paddingX + $TableCell-searchBtn-width;
             position: relative;
         }
 
-        > thead > tr > th.#{$ns}TableCell--filterable {
+        >thead>tr>th.#{$ns}TableCell--filterable {
             padding-right: $TableCell-paddingX + $TableCell-filterBtn-width;
             position: relative;
         }
 
-        
+
     }
 
     &Cell-sortBtn {
@@ -569,12 +570,10 @@
         pointer-events: all;
         position: absolute;
         // background: $Table-onHover-bg;
-        background: linear-gradient(
-            90deg,
-            rgba($Table-onHover-bg, 0) 0%,
-            rgba($Table-onHover-bg, 1) 20%,
-            rgba($Table-onHover-bg, 1) 100%
-        );
+        background: linear-gradient(90deg,
+                rgba($Table-onHover-bg, 0) 0%,
+                rgba($Table-onHover-bg, 1) 20%,
+                rgba($Table-onHover-bg, 1) 100%);
         top: $Table-borderWidth;
         bottom: 0;
         right: 0;
@@ -616,28 +615,28 @@
         margin-bottom: 0;
         background: transparent;
 
-        > tbody > tr > th {
+        >tbody>tr>th {
             width: px2rem(120px);
             text-align: right;
             padding: $TableCell-paddingY $TableCell-paddingX;
         }
 
-        > tbody > tr > td {
+        >tbody>tr>td {
             word-break: break-all;
             padding: $TableCell-paddingY $TableCell-paddingX;
         }
 
-        > tbody > tr:not(:first-child) {
-            border-top: $Table-borderWidth solid
-                lighten($Table-thead-borderColor, 2.5%);
+        >tbody>tr:not(:first-child) {
+            border-top: $Table-borderWidth solid lighten($Table-thead-borderColor, 2.5%);
         }
     }
-    
+
 
     &-expandBtn {
         position: relative;
         z-index: 1;
-        > i  {
+
+        >i {
             display: inline-block;
             width: px2rem(16px);
             text-align: center;
@@ -655,7 +654,7 @@
             }
         }
 
-        &.is-active > i::before {
+        &.is-active>i::before {
             transform: rotate(90deg);
             transform-origin: 50% 50%;
         }
@@ -668,9 +667,9 @@
         cursor: move;
     }
 
-    &-table > tbody > tr:hover .#{$ns}Table-dragBtn,
-    &-table > tbody > tr.is-dragging .#{$ns}Table-dragBtn,
-    &-table > tbody > tr.is-drop-allowed .#{$ns}Table-dragBtn {
+    &-table>tbody>tr:hover .#{$ns}Table-dragBtn,
+    &-table>tbody>tr.is-dragging .#{$ns}Table-dragBtn,
+    &-table>tbody>tr.is-drop-allowed .#{$ns}Table-dragBtn {
         visibility: visible;
     }
 }
@@ -678,7 +677,7 @@
 .#{$ns}OperationField {
     margin: px2rem(-3px);
 
-    > .#{$ns}Button {
+    >.#{$ns}Button {
         margin: px2rem(3px);
     }
 }

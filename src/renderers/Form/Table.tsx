@@ -341,7 +341,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltip="新增一行"
               tooltipContainer={
                 env && env.getModalContainer
-                  ? env.getModalContainer()
+                  ? env.getModalContainer
                   : undefined
               }
               onClick={this.addItem.bind(this, rowIndex, undefined)}
@@ -392,7 +392,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltip="编辑当前行"
               tooltipContainer={
                 env && env.getModalContainer
-                  ? env.getModalContainer()
+                  ? env.getModalContainer
                   : undefined
               }
               onClick={() => this.startEdit(rowIndex)}
@@ -418,7 +418,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltip="保存"
               tooltipContainer={
                 env && env.getModalContainer
-                  ? env.getModalContainer()
+                  ? env.getModalContainer
                   : undefined
               }
               onClick={this.confirmEdit}
@@ -444,7 +444,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltip="取消"
               tooltipContainer={
                 env && env.getModalContainer
-                  ? env.getModalContainer()
+                  ? env.getModalContainer
                   : undefined
               }
               onClick={this.cancelEdit}
@@ -480,7 +480,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltip="删除当前行"
               tooltipContainer={
                 env && env.getModalContainer
-                  ? env.getModalContainer()
+                  ? env.getModalContainer
                   : undefined
               }
               onClick={this.removeItem.bind(this, rowIndex)}

@@ -244,6 +244,7 @@ $Table-color: #333;
 $Table-thead-color: #333;
 $Table-lineHeight: 20 / 12;
 $Table-borderColor: #F5F5F5;
+$Table-tree-borderColor: darken($Table-borderColor, 10%);
 $Table-thead-bg: #F5F5F5;
 $Table-thead-borderColor: #fff;
 $Table-thead-iconColor: #999;

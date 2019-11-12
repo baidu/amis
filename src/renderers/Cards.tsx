@@ -707,7 +707,7 @@ export default class Cards extends React.Component<GridProps, object> {
         key="dragging-toggle"
         tooltip="对卡片进行排序操作"
         tooltipContainer={
-          env && env.getModalContainer ? env.getModalContainer() : undefined
+          env && env.getModalContainer ? env.getModalContainer : undefined
         }
         size="sm"
         active={store.dragging}

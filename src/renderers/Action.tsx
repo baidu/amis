@@ -223,7 +223,7 @@ export class ActionRenderer extends React.Component<
         onAction={this.handleAction}
         isCurrentUrl={this.isCurrentAction}
         tooltipContainer={
-          env.getModalContainer ? env.getModalContainer() : undefined
+          env.getModalContainer ? env.getModalContainer : undefined
         }
       />
     );
