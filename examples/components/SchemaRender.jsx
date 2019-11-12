@@ -92,7 +92,10 @@ export default function(schema) {
               router.push(to);
             }
           },
-          fetcher: ({url, method, data, config}) => {
+          fetcher: ({url, method, data, config, headers}) => {
+            config = config || {};
+            config.headers = headers || {};
+
             if (data && data instanceof FormData) {
               // config.headers = config.headers || {};
               // config.headers['Content-Type'] = 'multipart/form-data';
@@ -103,8 +106,6 @@ export default function(schema) {
               !(data instanceof ArrayBuffer)
             ) {
               data = JSON.stringify(data);
-              config = config || {};
-              config.headers = config.headers || {};
               config.headers['Content-Type'] = 'application/json';
             }
 
