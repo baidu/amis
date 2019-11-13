@@ -53,7 +53,7 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
   <div class="resize-sensor-shrink" style="${style}">
     <div style="${styleChild} width: 200%; height: 200%"></div>
   </div>
-  <div class="resize-sensor-appear" style="${style}animation-name: resizeSensor; animation-duration: 0.2s;"></div>`;
+  <div class="resize-sensor-appear" style="${style}animation-name: apearSensor; animation-duration: 0.2s;"></div>`;
   // 要定义 resizeSensor 这个动画，靠这个监听出现。
   element.appendChild(resizeSensor);
 
