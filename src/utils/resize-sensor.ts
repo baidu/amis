@@ -37,42 +37,39 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
     return;
   }
 
-  (element as any).resizeSensor = document.createElement('div');
-  (element as any).resizeSensor.className = 'resize-sensor';
+  const resizeSensor = ((element as any).resizeSensor = document.createElement(
+    'div'
+  ));
+  resizeSensor.className = 'resize-sensor';
   let style =
     'position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;';
   let styleChild = 'position: absolute; left: 0; top: 0;';
 
-  (element as any).resizeSensor.style.cssText = style;
-  (element as any).resizeSensor.innerHTML =
-    '<div class="resize-sensor-expand" style="' +
-    style +
-    '">' +
-    '<div style="' +
-    styleChild +
-    '"></div>' +
-    '</div>' +
-    '<div class="resize-sensor-shrink" style="' +
-    style +
-    '">' +
-    '<div style="' +
-    styleChild +
-    ' width: 200%; height: 200%"></div>' +
-    '</div>';
-  element.appendChild((element as any).resizeSensor);
+  resizeSensor.style.cssText = style;
+  resizeSensor.innerHTML = `
+  <div class="resize-sensor-expand" style="${style}">
+    <div style="${styleChild}"></div>
+  </div>
+  <div class="resize-sensor-shrink" style="${style}">
+    <div style="${styleChild} width: 200%; height: 200%"></div>
+  </div>
+  <div class="resize-sensor-appear" style="${style}animation-name: resizeSensor; animation-duration: 0.2s;"></div>`;
+  // 要定义 resizeSensor 这个动画，靠这个监听出现。
+  element.appendChild(resizeSensor);
 
   if (!~['fixed', 'absolute'].indexOf(getComputedStyle(element, 'position'))) {
     element.style.position = 'relative';
   }
 
-  let expand = (element as any).resizeSensor.childNodes[0];
-  let expandChild = expand.childNodes[0];
-  let shrink = (element as any).resizeSensor.childNodes[1];
-  let shrinkChild = shrink.childNodes[0];
+  const expand = resizeSensor.children[0] as HTMLElement;
+  const expandChild = expand.children[0] as HTMLElement;
+  const shrink = resizeSensor.children[1] as HTMLElement;
+  // let shrinkChild = shrink.children[0] as HTMLElement;
+  const appear = resizeSensor.children[2] as HTMLElement;
 
   let lastWidth: number, lastHeight: number;
 
-  let reset = function() {
+  const reset = function() {
     expandChild.style.width = expand.offsetWidth + 10 + 'px';
     expandChild.style.height = expand.offsetHeight + 10 + 'px';
     expand.scrollLeft = expand.scrollWidth;
@@ -99,7 +96,7 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
     }
   };
 
-  let onScroll = function() {
+  let onScroll = function(e: Event) {
     if (
       element.offsetWidth != lastWidth ||
       element.offsetHeight != lastHeight
@@ -111,6 +108,7 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
 
   addEvent(expand, 'scroll', onScroll);
   addEvent(shrink, 'scroll', onScroll);
+  addEvent(appear, 'animationstart', reset);
 }
 
 function detach(element: HTMLElement) {
