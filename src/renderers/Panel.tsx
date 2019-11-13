@@ -16,7 +16,6 @@ export interface PanelProps extends RendererProps {
   footerClassName?: string;
   actionsClassName?: string;
   bodyClassName?: string;
-  children?: React.ReactNode | ((props: any) => JSX.Element);
   affixFooter?: boolean | 'always';
 }
 
@@ -80,7 +79,7 @@ export default class Panel extends React.Component<PanelProps> {
     } else {
       const clip = footerDom.getBoundingClientRect();
       const clientHeight = window.innerHeight;
-      affixed = clip.top > clientHeight;
+      affixed = clip.top + clip.height / 2 > clientHeight;
     }
 
     affixed ? affixDom.classList.add('in') : affixDom.classList.remove('in');
