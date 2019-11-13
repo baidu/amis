@@ -647,7 +647,9 @@ export class TreeSelector extends React.Component<
               ) : null}
               {childrenItems}
             </ul>
-          ) : !childrenItems && item.placeholder && unfolded[item[valueField]] ? (
+          ) : !childrenItems &&
+            item.placeholder &&
+            unfolded[item[valueField]] ? (
             <ul className={cx('Tree-sublist')}>
               <li className={cx('Tree-item')}>
                 <div className={cx('Tree-placeholder')}>{item.placeholder}</div>
