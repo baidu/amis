@@ -290,7 +290,7 @@ class MyFormItem extends React.Component {
                 {
                     "type": "custom",
                     "label": "随机值",
-                    "name": "randon"
+                    "name": "random"
                 }
             ]
         }
