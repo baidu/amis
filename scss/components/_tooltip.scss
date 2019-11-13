@@ -166,6 +166,14 @@
     }
 }
 
+
+@keyframes tooltipIn {
+    from {
+        opacity: 0;
+        margin: 0;
+    }
+}
+
 [data-tooltip] {
     position: relative;
 
@@ -187,11 +195,15 @@
         left: 100%;
         color: $Tooltip--attr-color;
         padding: $Tooltip--attr-paddingY $Tooltip--attr-paddingX;
-        opacity: 0;
-        transition: $Tooltip--attr-transition;
+        display: none;
+        animation-duration: 0.2s;
+        animation-fill-mode: both;
     }
 
     &:not(.is-disabled):hover:after {
+        display: inline-block;
+        animation-name: tooltipIn;
+
         opacity: 1;
         z-index: $zindex-tooltip;
         margin: 0 0 0 $Tooltip--attr-gap;
