@@ -53,7 +53,7 @@ body {
         background: $Layout-brand-bg;
         color: $Layout-brandBar-color;
 
-        > button {
+        >button {
             padding: px2rem(10px) px2rem(17px);
             font-size: px2rem(16px);
             line-height: $Layout-header-height - px2rem(20px);
@@ -123,13 +123,14 @@ body {
         // .app-aside-folded & {
         //     max-width: @app-aside-folded-width;
         // }
-        ~ div {
+        ~div {
             padding-bottom: px2rem(50px);
         }
     }
 
     &-content {
         height: 100%;
+        position: relative;
         @include clearfix();
     }
 
@@ -197,7 +198,7 @@ body {
         // overflow-x: hidden;
     }
 
-    
+
 
     .#{$ns}Layout-content {
         transition: transform 0.2s ease;
@@ -225,6 +226,7 @@ body {
     }
 
     .#{$ns}Layout--offScreen {
+
         .#{$ns}Layout-content,
         .#{$ns}Layout-footer {
             background-color: $body-bg;
@@ -266,6 +268,7 @@ body {
         }
 
         &--withAside {
+
             .#{$ns}Layout-headerBar,
             .#{$ns}Layout-content,
             .#{$ns}Layout-footer {
@@ -304,6 +307,7 @@ body {
             }
 
             &.#{$ns}Layout--withAside {
+
                 .#{$ns}Layout-headerBar,
                 .#{$ns}Layout-content,
                 .#{$ns}Layout-footer {
@@ -359,7 +363,7 @@ body {
                     width: $scrollbar-width;
                 }
 
-                & > * {
+                &>* {
                     width: $Layout-aside-width;
                 }
             }
@@ -386,13 +390,14 @@ body {
                 overflow: visible;
                 width: $Layout-aside--folded-width + $scrollbar-width;
 
-                > * {
+                >* {
                     width: $Layout-aside--folded-width;
                 }
             }
         }
 
         &--sm:not(.#{$ns}Layout--folded) {
+
             .#{$ns}Layout-brand,
             .#{$ns}Layout-brandBar,
             .#{$ns}Layout-aside {
@@ -400,6 +405,7 @@ body {
             }
 
             &.#{$ns}Layout--withAside {
+
                 .#{$ns}Layout-headerBar,
                 .#{$ns}Layout-content,
                 .#{$ns}Layout-footer {
@@ -415,7 +421,7 @@ body {
                 .#{$ns}Layout-asideInner {
                     width: $Layout-aside--sm-width + $scrollbar-width;
 
-                    & > * {
+                    &>* {
                         width: $Layout-aside--sm-width;
                     }
                 }
@@ -423,6 +429,7 @@ body {
         }
 
         &--md:not(.#{$ns}Layout--folded) {
+
             .#{$ns}Layout-brand,
             .#{$ns}Layout-brandBar,
             .#{$ns}Layout-aside {
@@ -430,6 +437,7 @@ body {
             }
 
             &.#{$ns}Layout--withAside {
+
                 .#{$ns}Layout-headerBar,
                 .#{$ns}Layout-content,
                 .#{$ns}Layout-footer {
@@ -445,7 +453,7 @@ body {
                 .#{$ns}Layout-asideInner {
                     width: $Layout-aside--md-width + $scrollbar-width;
 
-                    & > * {
+                    &>* {
                         width: $Layout-aside--md-width;
                     }
                 }
@@ -453,6 +461,7 @@ body {
         }
 
         &--lg:not(.#{$ns}Layout--folded) {
+
             .#{$ns}Layout-brand,
             .#{$ns}Layout-brandBar,
             .#{$ns}Layout-aside {
@@ -460,6 +469,7 @@ body {
             }
 
             &.#{$ns}Layout--withAside {
+
                 .#{$ns}Layout-headerBar,
                 .#{$ns}Layout-content,
                 .#{$ns}Layout-footer {
@@ -475,7 +485,7 @@ body {
                 .#{$ns}Layout-asideInner {
                     width: $Layout-aside--lg-width + $scrollbar-width;
 
-                    & > * {
+                    &>* {
                         width: $Layout-aside--lg-width;
                     }
                 }
@@ -508,4 +518,3 @@ body {
         }
     }
 }
-
