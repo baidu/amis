@@ -21,6 +21,7 @@ type DrawerPosition = 'top' | 'right' | 'bottom' | 'left';
 
 export interface DrawerProps {
   className?: string;
+  bodyClassName?: string;
   size: any;
   overlay: boolean;
   onHide: () => void;
@@ -123,7 +124,8 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
       size,
       onHide,
       disabled,
-      overlay
+      overlay,
+      bodyClassName
     } = this.props;
 
     return (
@@ -166,7 +168,11 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                 ) : null}
                 <div
                   ref={this.contentRef}
-                  className={cx(`${ns}Drawer-content`, fadeStyles[status])}
+                  className={cx(
+                    `${ns}Drawer-content`,
+                    bodyClassName,
+                    fadeStyles[status]
+                  )}
                 >
                   <a
                     onClick={disabled ? undefined : onHide}
