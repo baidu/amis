@@ -6,10 +6,18 @@ import {Api, SchemaNode, Schema, Action} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import cx = require('classnames');
 import {observer} from 'mobx-react';
-import {createObject, until, isVisible} from '../utils/helper';
+import {
+  createObject,
+  until,
+  isVisible,
+  getScrollParent,
+  autobind
+} from '../utils/helper';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {IFormStore} from '../store/form';
 import {Spinner} from '../components';
+import {findDOMNode} from 'react-dom';
+import {resizeSensor} from '..';
 
 export interface WizardProps extends RendererProps {
   store: IServiceStore;
@@ -20,6 +28,7 @@ export interface WizardProps extends RendererProps {
   actionNextSaveLabel?: string;
   actionFinishLabel?: string;
   mode?: 'horizontal' | 'vertical';
+  affixFooter?: boolean | 'always';
   onFinished: (values: object, action: any) => any;
 }
 
@@ -48,12 +57,19 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     'actionNextLabel',
     'actionNextSaveLabel',
     'actionFinishLabel',
-    'onFinished'
+    'onFinished',
+    'affixFooter'
   ];
 
   dom: any;
   form: any;
   asyncCancel: () => void;
+
+  parentNode?: any;
+  unSensor: Function;
+  affixDom: React.RefObject<HTMLDivElement> = React.createRef();
+  footerDom: React.RefObject<HTMLDivElement> = React.createRef();
+
   constructor(props: WizardProps) {
     super(props);
 
@@ -139,6 +155,16 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         () => onInit && onInit(store.data)
       );
     }
+
+    const dom = findDOMNode(this) as HTMLElement;
+    let parent: HTMLElement | Window | null = dom ? getScrollParent(dom) : null;
+    if (!parent || parent === document.body) {
+      parent = window;
+    }
+    this.parentNode = parent;
+    parent.addEventListener('scroll', this.affixDetect);
+    this.unSensor = resizeSensor(dom as HTMLElement, this.affixDetect);
+    this.affixDetect();
   }
 
   componentDidUpdate(prevProps: WizardProps) {
@@ -162,6 +188,37 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
   componentWillUnmount() {
     this.asyncCancel && this.asyncCancel();
+    const parent = this.parentNode;
+    parent && parent.removeEventListener('scroll', this.affixDetect);
+    this.unSensor && this.unSensor();
+  }
+
+  @autobind
+  affixDetect() {
+    if (
+      !this.props.affixFooter ||
+      !this.affixDom.current ||
+      !this.footerDom.current
+    ) {
+      return;
+    }
+
+    const affixDom = this.affixDom.current;
+    const footerDom = this.footerDom.current;
+    let affixed = false;
+    footerDom.offsetWidth &&
+      (affixDom.style.cssText = `width: ${footerDom.offsetWidth}px;`);
+
+    if (this.props.affixFooter === 'always') {
+      affixed = true;
+      footerDom.classList.add('invisible2');
+    } else {
+      const clip = footerDom.getBoundingClientRect();
+      const clientHeight = window.innerHeight;
+      affixed = clip.top + clip.height / 2 > clientHeight;
+    }
+
+    affixed ? affixDom.classList.add('in') : affixDom.classList.remove('in');
   }
 
   gotoStep(index: number) {
@@ -545,7 +602,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
     if (step.actions && Array.isArray(step.actions)) {
       return step.actions.length ? (
-        <div className={cx('Panel-footer')}>
+        <>
           {step.actions.map((action: Action, index: number) =>
             render(`action/${index}`, action, {
               key: index,
@@ -560,12 +617,12 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                   (!!step.api || !nextStep))
             })
           )}
-        </div>
+        </>
       ) : null;
     }
 
     return (
-      <div className={cx('Panel-footer')}>
+      <>
         {render(
           `prev-btn`,
           {
@@ -599,7 +656,30 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             onAction: this.handleAction
           }
         )}
-      </div>
+      </>
+    );
+  }
+
+  renderFooter() {
+    const actions = this.renderActions();
+
+    if (!actions) {
+      return actions;
+    }
+    const {classnames: cx, affixFooter} = this.props;
+
+    return (
+      <>
+        <div ref={this.footerDom} className={cx('Panel-footer')}>
+          {actions}
+        </div>
+
+        {affixFooter ? (
+          <div ref={this.affixDom} className={cx('Panel-fixedBottom')}>
+            <div className={cx('Panel-footer')}>{actions}</div>
+          </div>
+        ) : null}
+      </>
     );
   }
 
@@ -659,7 +739,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             show: store.dialogOpen
           }
         )}
-        {this.renderActions()}
+        {this.renderFooter()}
 
         <Spinner size="lg" overlay key="info" show={store.loading} />
       </div>
