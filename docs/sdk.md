@@ -332,5 +332,5 @@ class MyFormItem extends React.Component {
 }
 ```
 
-即：通过 `children` 传递一个React组件，这个示例是一个React Stateless Functional Component，也可以是传统的 React 组件。
-任何节点如果包含 `children` 这个属性，则都会把当前节点交给 `children` 来处理，跳过了从 amis 渲染器池子中选择渲染器的过程。
+即：通过 `children` 实现一个自定义渲染方法，返回 React.ReactNode 节点。
+任何节点如果包含 `children` 这个属性，则都会把当前节点交给 `children` 来处理，跳过了从 amis 渲染器池子中选择渲染器的过程。`children` 属性其实更应该叫 `render` 属性，但是历史原因不能改了。与之类似的还有个 `component` 属性，这个属性可以传入 React Component，如果想用 React.hooks，请通过 `component` 传递，而不是 `children`。
