@@ -82,6 +82,7 @@
     &--horizontal {
         >.#{$ns}Form-label {
             text-align: $Form--horizontal-label-align;
+            white-space: $Form--horizontal-label-whiteSpace;
         }
     }
 
