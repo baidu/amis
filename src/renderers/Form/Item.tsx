@@ -244,7 +244,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
     // 强制不渲染 label 的话
     if (renderLabel === false) {
-      label = label === false ? false : '';
+      label = false;
     }
 
     description = description || desc;
