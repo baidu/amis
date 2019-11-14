@@ -86,10 +86,10 @@ export interface FormProps extends RendererProps, FormSchema {
   persistData: boolean; // 开启本地缓存
   clearPersistDataAfterSubmit: boolean; // 提交成功后清空本地缓存
   trimValues?: boolean;
-  onInit?: (values: object) => any;
+  onInit?: (values: object, props:any) => any;
   onReset?: (values: object) => void;
   onSubmit?: (values: object, action: any) => any;
-  onChange?: (values: object, diff: object) => any;
+  onChange?: (values: object, diff: object, props:any) => any;
   onFailed?: (reason: string, errors: any) => any;
   onFinished: (values: object, action: any) => any;
   onValidate: (values: object, form: any) => any;
@@ -325,7 +325,7 @@ export default class Form extends React.Component<FormProps, object> {
     const hooks: Array<(data: any) => Promise<any>> = this.hooks['init'] || [];
     await Promise.all(hooks.map(hook => hook(data)));
 
-    onInit && onInit(extendObject(store.data, data));
+    onInit && onInit(extendObject(store.data, data), this.props);
 
     submitOnInit &&
       this.handleAction(
@@ -467,7 +467,7 @@ export default class Form extends React.Component<FormProps, object> {
   handleChange(value: any, name: string, submit: boolean) {
     const {onChange, store, submitOnChange} = this.props;
 
-    onChange && onChange(store.data, difference(store.data, store.pristine));
+    onChange && onChange(store.data, difference(store.data, store.pristine), this.props);
 
     (submit || submitOnChange) &&
       this.handleAction(
@@ -949,6 +949,7 @@ export default class Form extends React.Component<FormProps, object> {
       affixFooter,
       mode
     } = this.props;
+
     const WrapperComponent =
       this.props.wrapperComponent ||
       (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');

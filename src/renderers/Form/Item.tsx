@@ -50,7 +50,11 @@ export interface FormItemProps extends RendererProps {
   value: any;
   prinstine: any;
   setPrinstineValue: (value: any) => void;
-  onChange: (value: any, submitOnChange?: boolean) => void;
+  onChange: (
+    value: any,
+    submitOnChange?: boolean,
+    changeImmediately?: boolean
+  ) => void;
   onBulkChange: (
     values: {[propName: string]: any},
     submitOnChange?: boolean

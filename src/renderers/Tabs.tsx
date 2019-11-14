@@ -26,13 +26,13 @@ export interface TabProps extends Schema {
 export interface TabsProps extends RendererProps {
   mode?: '' | 'line' | 'card' | 'radio' | 'vertical';
   tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
-  activeKey: string | number;
-  contentClassName: string;
+  activeKey?: string | number;
+  contentClassName?: string;
   location?: any;
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
   tabs?: Array<TabProps>;
-  tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
+  tabRender?: (tab: TabProps, props: TabsProps, index: number) => JSX.Element;
 }
 
 export interface TabsState {
@@ -248,7 +248,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               }
             >
               {tabRender
-                ? tabRender(tab, this.props)
+                ? tabRender(tab, this.props, index)
                 : render(`tab/${index}`, tab.tab || tab.body || '')}
             </Tab>
           ) : null

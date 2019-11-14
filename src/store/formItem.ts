@@ -599,7 +599,8 @@ export const FormItemStore = types
       setSubStore,
       reset,
       openDialog,
-      closeDialog
+      closeDialog,
+      beforeDetach: () => self.getSelectedOptions.cache.clear!()
     };
   });
 
