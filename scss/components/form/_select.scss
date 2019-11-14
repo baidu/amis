@@ -1,304 +1,308 @@
 .#{$ns}Select {
-    display: inline-flex;
-    vertical-align: middle;
-    text-align: left;
-    outline: none;
+  display: inline-flex;
+  vertical-align: middle;
+  text-align: left;
+  outline: none;
+  position: relative;
+  border: $Form-select-borderWidth solid $Form-select-borderColor;
+  background: $Form-select-bg;
+  border-radius: $Form-select-borderRadius;
+  height: $Form-selectOption-height;
+  $paddingY: (
+      $Form-selectOption-height - $Form-input-lineHeight * $Form-input-fontSize -
+        $Form-select-borderWidth * 2
+    )/2;
+  padding: $paddingY 0 $paddingY $Form-select-paddingX;
+  cursor: pointer;
+  color: $Form-select-color;
+
+  &:hover {
+    background: $Form-select-onHover-bg;
+    border-color: $Form-select-onHover-borderColor;
+
+    .#{$ns}Select-arrow:before {
+      color: $Form-select-caret-onHover-iconColor;
+    }
+  }
+
+  &.is-disabled {
+    color: $text--muted-color;
+    background: $Form-input-onDisabled-bg;
+    border-color: $Form-input-onDisabled-borderColor;
+  }
+
+  &-valueWrap {
+    user-select: none;
     position: relative;
-    border: $Form-select-borderWidth solid $Form-select-borderColor;
-    background: $Form-select-bg;
-    border-radius: $Form-select-borderRadius;
-    height: $Form-selectOption-height;
-    $paddingY: ($Form-selectOption-height - $Form-input-lineHeight * $Form-input-fontSize - $Form-select-borderWidth * 2)/2;
-    padding: $paddingY 0 $paddingY $Form-select-paddingX;
+    flex-grow: 1;
+    line-height: 1;
+  }
+
+  &-placeholder {
+    color: $Form-select-placeholderColor;
+    line-height: $Form-input-lineHeight;
+    user-select: none;
+  }
+
+  &-value {
+    line-height: $Form-input-lineHeight * $Form-input-fontSize;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &--multi {
+    height: auto;
+    min-height: $Form-selectOption-height;
+
+    .#{$ns}Select-valueWrap {
+      margin-bottom: -$gap-xs;
+
+      > input {
+        display: inline-block;
+        width: px2rem(100px);
+        margin-bottom: $gap-xs;
+      }
+    }
+
+    .#{$ns}Select-values + .#{$ns}Select-input {
+      transform: translateY(0);
+    }
+
+    .#{$ns}Select-value {
+      position: static;
+      user-select: none;
+      line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+      display: inline-block;
+      vertical-align: middle;
+      font-size: $Form-selectValue-fontSize;
+      color: $Form-selectValue-color;
+      background: $Form-selectValue-bg;
+      border: px2rem(1px) solid $Form-selectValue-borderColor;
+      border-radius: px2rem(2px);
+      margin-right: $gap-xs;
+      margin-bottom: $gap-xs;
+    }
+
+    .#{$ns}Select-valueLabel {
+      padding: 0 $gap-xs;
+    }
+  }
+
+  &-valueIcon {
     cursor: pointer;
-    color: $Form-select-color;
+    border-right: px2rem(1px) solid $Form-selectValue-borderColor;
+    padding: 1px 5px;
 
     &:hover {
-        background: $Form-select-onHover-bg;
-        border-color: $Form-select-onHover-borderColor;
+      background-color: darken($Form-selectValue-bg, 5%);
+    }
+  }
 
-        .#{$ns}Select-arrow:before {
-            color: $Form-select-caret-onHover-iconColor;
-        }
+  &-arrow {
+    margin-right: $gap-xs;
+    // margin-left: $gap-xs;
+    width: px2rem(20px);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+
+    &:before {
+      transition: transform 0.3s;
+      content: $Form-select-caret-icon;
+      font-family: $Form-select-caret-vender;
+      font-size: $Form-select-caret-fontSize;
+      display: inline-block;
+      color: $Form-select-caret-iconColor;
+    }
+  }
+
+  &.is-opened &-arrow:before {
+    transform: rotate(180deg);
+  }
+
+  &-menu {
+    max-height: px2rem(300px);
+    overflow: auto;
+    user-select: none;
+  }
+
+  &-input {
+    cursor: pointer;
+    outline: none;
+    border: none;
+    margin: 0 $Form-select-paddingX;
+    height: $Form-select-search-height;
+    font-size: $Form-select-input-fontSize;
+    border-bottom: 1px solid $borderColor;
+    display: flex;
+    align-items: center;
+
+    // &.is-focused {
+    //     border-color: $Form-input-onFocused-borderColor;
+    // }
+
+    > svg {
+      fill: #999;
+      width: px2rem(14px);
+      min-width: px2rem(14px);
+      height: px2rem(14px);
+      margin-right: px2rem(5px);
+    }
+
+    > input {
+      outline: none;
+      border: none;
+      flex-grow: 1;
+      background: transparent;
+      position: relative;
+      top: 0.125em;
+    }
+  }
+
+  &-option {
+    cursor: pointer;
+    min-width: px2rem(120px);
+    padding: (
+        $Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize
+      )/2 $Form-select-paddingX;
+
+    &.is-active {
+      color: $Form-select-menu-onActive-color;
+      background-color: $Form-select-menu-onActive-bg;
+    }
+
+    &.is-highlight {
+      color: $Form-select-menu-onHover-color;
+      background-color: $Form-select-menu-onHover-bg;
     }
 
     &.is-disabled {
-        color: $text--muted-color;
-        background: $Form-input-onDisabled-bg;
-        border-color: $Form-input-onDisabled-borderColor;
+      color: $Form-select-menu-onDisabled-color;
+      background-color: $Form-select-menu-onDisabled-bg;
     }
 
-    &-valueWrap {
-        user-select: none;
-        position: relative;
-        flex-grow: 1;
-        line-height: 1;
-
+    &--placeholder {
+      color: $Form-input-placeholderColor;
     }
 
-    &-placeholder {
-        color: $Form-select-placeholderColor;
-        line-height: $Form-input-lineHeight;
-        user-select: none;
+    > label {
+      display: block;
     }
 
-
-
-    &-value {
-        line-height: $Form-input-lineHeight * $Form-input-fontSize;
-        white-space: nowrap;
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    > a {
+      float: right;
+      margin-left: px2rem(5px);
+      display: none;
     }
 
+    &.is-highlight > a {
+      display: block;
+    }
+  }
 
-    &--multi {
-        height: auto;
-        min-height: $Form-selectOption-height;
+  &-noResult {
+    color: $Form-select-placeholderColor;
+    line-height: $Form-input-lineHeight;
+    font-size: $Form-select-input-fontSize;
+    user-select: none;
+    padding: (
+        $Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize
+      )/2 $Form-select-paddingX;
+  }
 
-        .#{$ns}Select-valueWrap {
-            margin-bottom: -$gap-xs;
+  &-option-hl {
+    color: $red;
+  }
 
-            >input {
-                display: inline-block;
-                width: px2rem(100px);
-                margin-bottom: $gap-xs;
-            }
-        }
+  &-addBtn {
+    display: block;
+    cursor: pointer;
+    padding: (
+        $Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize
+      )/2 $Form-select-paddingX;
 
-        .#{$ns}Select-values+.#{$ns}Select-input {
-            transform: translateY(0);
-        }
-
-        .#{$ns}Select-value {
-            position: static;
-            user-select: none;
-            line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
-            display: inline-block;
-            vertical-align: middle;
-            font-size: $Form-selectValue-fontSize;
-            color: $Form-selectValue-color;
-            background: $Form-selectValue-bg;
-            border: px2rem(1px) solid $Form-selectValue-borderColor;
-            border-radius: px2rem(2px);
-            margin-right: $gap-xs;
-            margin-bottom: $gap-xs;
-        }
-
-        .#{$ns}Select-valueLabel {
-            padding: 0 $gap-xs;
-        }
+    &:hover {
+      text-decoration: none;
     }
 
-    &-valueIcon {
-        cursor: pointer;
-        border-right: px2rem(1px) solid $Form-selectValue-borderColor;
-        padding: 1px 5px;
+    > svg {
+      width: px2rem(14px);
+      height: px2rem(14px);
+      margin-right: $Checkbox-gap;
+    }
+  }
 
-        &:hover {
-            background-color: darken($Form-selectValue-bg, 5%);
-        }
+  &.is-focused,
+  &.is-opened {
+    border-color: $Form-input-onFocused-borderColor;
+
+    @if ($Form-select-onFocused-color !=$Form-select-color) {
+      color: $Form-select-onFocused-color;
+    }
+  }
+
+  &-spinner {
+    line-height: $Form-input-lineHeight * $Form-input-fontSize;
+  }
+
+  &-clear {
+    padding: px2rem(3px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+
+    svg {
+      fill: $Form-input-iconColor;
+      width: px2rem(10px);
+      height: px2rem(10px);
     }
 
-    &-arrow {
-        margin-right: $gap-xs;
-        // margin-left: $gap-xs;
-        width: px2rem(20px);
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
-
-        &:before {
-            transition: transform 0.3s;
-            content: $Form-select-caret-icon;
-            font-family: $Form-select-caret-vender;
-            font-size: $Form-select-caret-fontSize;
-            display: inline-block;
-            color: $Form-select-caret-iconColor;
-        }
+    &:hover svg {
+      fill: darken($color: $Form-input-iconColor, $amount: 20%);
     }
-
-    &.is-opened &-arrow:before {
-        transform: rotate(180deg);
-    }
-
-    &-menu {
-        max-height: px2rem(300px);
-        overflow: auto;
-        user-select: none;
-    }
-
-    &-input {
-        cursor: pointer;
-        outline: none;
-        border: none;
-        margin: 0 $Form-select-paddingX;
-        height: $Form-select-search-height;
-        font-size: $Form-select-input-fontSize;
-        border-bottom: 1px solid $borderColor;
-        display: flex;
-        align-items: center;
-
-        // &.is-focused {
-        //     border-color: $Form-input-onFocused-borderColor;
-        // }
-
-        >svg {
-            fill: #999;
-            width: px2rem(14px);
-            min-width: px2rem(14px);
-            height: px2rem(14px);
-            margin-right: px2rem(5px);
-        }
-
-        >input {
-            outline: none;
-            border: none;
-            flex-grow: 1;
-            background: transparent;
-            position: relative;
-            top: 0.125em;
-        }
-    }
-
-    &-option {
-        cursor: pointer;
-        min-width: px2rem(120px);
-        padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize)/2 $Form-select-paddingX;
-
-        &.is-active {
-            color: $Form-select-menu-onActive-color;
-            background-color: $Form-select-menu-onActive-bg;
-        }
-
-        &.is-highlight {
-            color: $Form-select-menu-onHover-color;
-            background-color: $Form-select-menu-onHover-bg;
-        }
-
-        &.is-disabled {
-            color: $Form-select-menu-onDisabled-color;
-            background-color: $Form-select-menu-onDisabled-bg;
-        }
-
-        &--placeholder {
-            color: $Form-input-placeholderColor;
-        }
-
-        >label {
-            display: block;
-        }
-
-        >a {
-            float: right;
-            margin-left: px2rem(5px);
-            display: none;
-        }
-
-        &.is-highlight>a {
-            display: block;
-        }
-    }
-
-    &-noResult {
-        color: $Form-select-placeholderColor;
-        line-height: $Form-input-lineHeight;
-        font-size: $Form-select-input-fontSize;
-        user-select: none;
-        padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize)/2 $Form-select-paddingX;
-    }
-
-    &-option-hl {
-        color: $red;
-    }
-
-    &-addBtn {
-        display: block;
-        cursor: pointer;
-        padding: ($Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize)/2 $Form-select-paddingX;
-
-        &:hover {
-            text-decoration: none;
-        }
-
-        >svg {
-            width: px2rem(14px);
-            height: px2rem(14px);
-            margin-right: $Checkbox-gap;
-        }
-    }
-
-    &.is-focused,
-    &.is-opened {
-        border-color: $Form-input-onFocused-borderColor;
-
-        @if ($Form-select-onFocused-color !=$Form-select-color) {
-            color: $Form-select-onFocused-color;
-        }
-    }
-
-    &-spinner {
-        line-height: $Form-input-lineHeight * $Form-input-fontSize;
-    }
-
-    &-clear {
-        padding: px2rem(3px);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        z-index: 2;
-
-        svg {
-            fill: $Form-input-iconColor;
-            width: px2rem(10px);
-            height: px2rem(10px);
-        }
-
-        &:hover svg {
-            fill: darken($color: $Form-input-iconColor, $amount: 20%);
-        }
-    }
+  }
 }
 
 .#{$ns}Select-popover {
-    margin-top: $Form-select-popoverGap - $Form-select-outer-borderWidth;
+  margin-top: $Form-select-popoverGap - $Form-select-outer-borderWidth;
 
-    background: $Form-select-menu-bg;
-    color: $Form-select-menu-color;
-    border: $Form-select-outer-borderWidth solid $Form-input-onFocused-borderColor;
-    box-shadow: $Form-select-outer-boxShadow;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    min-width: px2rem(100px);
-    z-index: 2;
+  background: $Form-select-menu-bg;
+  color: $Form-select-menu-color;
+  border: $Form-select-outer-borderWidth solid $Form-input-onFocused-borderColor;
+  box-shadow: $Form-select-outer-boxShadow;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  min-width: px2rem(100px);
+  z-index: 10;
 
-    &.#{$ns}PopOver--leftTopLeftBottom {
-        margin-top: -($Form-select-popoverGap - $Form-select-outer-borderWidth);
-    }
+  &.#{$ns}PopOver--leftTopLeftBottom {
+    margin-top: -($Form-select-popoverGap - $Form-select-outer-borderWidth);
+  }
 }
 
-.#{$ns}SelectControl:not(.is-inline)>.#{$ns}Select {
-    display: flex;
+.#{$ns}SelectControl:not(.is-inline) > .#{$ns}Select {
+  display: flex;
 }
 
 // 需要能撑开
 @include media-breakpoint-up(sm) {
+  .#{$ns}Form-control--sizeXs > .#{$ns}Select,
+  .#{$ns}Form-control--sizeSm > .#{$ns}Select,
+  .#{$ns}Form-control--sizeMd > .#{$ns}Select,
+  .#{$ns}Form-control--sizeLg > .#{$ns}Select {
+    min-width: 100%;
+    max-width: 100%;
+    display: inline-flex !important;
 
-    .#{$ns}Form-control--sizeXs>.#{$ns}Select,
-    .#{$ns}Form-control--sizeSm>.#{$ns}Select,
-    .#{$ns}Form-control--sizeMd>.#{$ns}Select,
-    .#{$ns}Form-control--sizeLg>.#{$ns}Select {
-        min-width: 100%;
-        max-width: 100%;
-        display: inline-flex !important;
-
-        .#{$ns}Select-valueWrap {
-            width: 0; // ! 没有这个会撑开。
-        }
+    .#{$ns}Select-valueWrap {
+      width: 0; // ! 没有这个会撑开。
     }
+  }
 }
