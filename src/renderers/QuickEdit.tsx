@@ -405,13 +405,16 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
       } = this.props;
 
       const content = (
-        <div className={cx((quickEdit as QuickEditConfig).className)}>
+        <div
+          ref={this.overlayRef}
+          className={cx((quickEdit as QuickEditConfig).className)}
+        >
           {render('quick-edit-form', this.buildSchema(), {
             onSubmit: this.handleSubmit,
             onAction: this.handleAction,
             onChange: null,
             ref: this.formRef,
-            popOverContainer: popOverContainer ? () => this.overlay : null
+            popOverContainer: () => this.overlay
           })}
         </div>
       );
@@ -423,11 +426,11 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
           container={popOverContainer}
           target={() => this.target}
           onHide={this.closeQuickEdit}
+          placement="left-top right-top left-bottom right-bottom left-top"
           show
         >
           <PopOver
             classPrefix={ns}
-            ref={this.overlayRef}
             className={cx(
               `${ns}QuickEdit-popover`,
               (quickEdit as QuickEditConfig).popOverClassName
