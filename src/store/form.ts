@@ -187,9 +187,14 @@ export const FormStore = ServiceStore.named('FormStore')
       self.updateData(data);
     }
 
-    function syncOptions() {
-      self.items.forEach(item => item.syncOptions());
-    }
+    const syncOptions = debounce(
+      () => self.items.forEach(item => item.syncOptions()),
+      250,
+      {
+        trailing: true,
+        leading: false
+      }
+    );
 
     const saveRemote: (
       api: Api,
@@ -448,12 +453,18 @@ export const FormStore = ServiceStore.named('FormStore')
       self.inited = value;
     }
 
-    const setPersistData = debounce(() => {
-      localStorage.setItem(
-        location.pathname + self.path,
-        JSON.stringify(self.data)
-      );
-    }, 250);
+    const setPersistData = debounce(
+      () =>
+        localStorage.setItem(
+          location.pathname + self.path,
+          JSON.stringify(self.data)
+        ),
+      250,
+      {
+        trailing: true,
+        leading: false
+      }
+    );
 
     function getPersistData() {
       self.persistData = true;

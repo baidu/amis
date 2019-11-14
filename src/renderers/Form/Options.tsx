@@ -14,7 +14,12 @@ import {
   getTree
 } from '../../utils/helper';
 import {reaction} from 'mobx';
-import {FormControlProps, registerFormItem, FormItemBasicConfig} from './Item';
+import {
+  FormControlProps,
+  registerFormItem,
+  FormItemBasicConfig,
+  detectProps as itemDetectProps
+} from './Item';
 import {IFormItemStore} from '../../store/formItem';
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
@@ -71,6 +76,21 @@ export interface OptionsProps extends FormControlProps, OptionProps {
   optionLabel?: string;
 }
 
+export const detectProps = itemDetectProps.concat([
+  'options',
+  'size',
+  'buttons',
+  'columnsCount',
+  'multiple',
+  'hideRoot',
+  'checkAll',
+  'showIcon',
+  'showRadio',
+  'btnDisabled',
+  'joinValues',
+  'extractValue'
+]);
+
 export function registerOptionsControl(config: OptionsConfig) {
   const Control = config.component;
 
@@ -93,7 +113,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       : [];
     static ComposedComponent = Control;
 
-    reaction: any;
+    reaction?: () => void;
     input: any;
 
     componentWillMount() {
@@ -110,19 +130,15 @@ export function registerOptionsControl(config: OptionsConfig) {
         addHook,
         formInited,
         valueField,
-        options
+        options,
+        value
       } = this.props;
 
       if (formItem) {
         formItem.setOptions(normalizeOptions(options));
 
         this.reaction = reaction(
-          () =>
-            JSON.stringify([
-              formItem.loading,
-              formItem.selectedOptions,
-              formItem.filteredOptions
-            ]),
+          () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
           () => this.forceUpdate()
         );
       }
@@ -140,12 +156,15 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       if (formItem && joinValues === false && defaultValue) {
         const selectedOptions = extractValue
-          ? formItem.selectedOptions.map(
-              (selectedOption: Option) => selectedOption[valueField || 'value']
-            )
-          : formItem.selectedOptions;
+          ? formItem
+              .getSelectedOptions(value)
+              .map(
+                (selectedOption: Option) =>
+                  selectedOption[valueField || 'value']
+              )
+          : formItem.getSelectedOptions(value);
         setPrinstineValue(
-          multiple ? selectedOptions.concat() : formItem.selectedOptions[0]
+          multiple ? selectedOptions.concat() : selectedOptions[0]
         );
       }
 
@@ -164,37 +183,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         return true;
       }
 
-      if (
-        anyChanged(
-          [
-            'formPristine',
-            'addOn',
-            'disabled',
-            'placeholder',
-            'required',
-            'formMode',
-            'className',
-            'inputClassName',
-            'labelClassName',
-            'label',
-            'inline',
-            'options',
-            'size',
-            'btnClassName',
-            'btnActiveClassName',
-            'buttons',
-            'columnsCount',
-            'multiple',
-            'hideRoot',
-            'checkAll',
-            'showIcon',
-            'showRadio',
-            'btnDisabled'
-          ],
-          this.props,
-          nextProps
-        )
-      ) {
+      if (anyChanged(detectProps, this.props, nextProps)) {
         return true;
       }
 
@@ -280,10 +269,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         extractValue === false &&
         (typeof value === 'string' || typeof value === 'number')
       ) {
+        const selectedOptions = formItem.getSelectedOptions(value);
         formItem.changeValue(
-          multiple
-            ? formItem.selectedOptions.concat()
-            : formItem.selectedOptions[0]
+          multiple ? selectedOptions.concat() : selectedOptions[0]
         );
       } else if (
         extractValue === true &&
@@ -297,9 +285,11 @@ export function registerOptionsControl(config: OptionsConfig) {
           typeof value === 'number'
         )
       ) {
-        const selectedOptions = formItem.selectedOptions.map(
-          (selectedOption: Option) => selectedOption[valueField || 'value']
-        );
+        const selectedOptions = formItem
+          .getSelectedOptions(value)
+          .map(
+            (selectedOption: Option) => selectedOption[valueField || 'value']
+          );
         formItem.changeValue(
           multiple ? selectedOptions.concat() : selectedOptions[0]
         );
@@ -326,14 +316,15 @@ export function registerOptionsControl(config: OptionsConfig) {
         clearable,
         resetValue,
         multiple,
-        formItem
+        formItem,
+        value
       } = this.props;
 
       if (!formItem) {
         return;
       }
 
-      let valueArray = formItem.selectedOptions.concat();
+      let valueArray = formItem.getSelectedOptions(value).concat();
       const idx = valueArray.indexOf(option);
       let newValue: string | Array<Option> | Option = '';
 
@@ -375,6 +366,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     @autobind
     handleToggleAll() {
       const {
+        value,
         onChange,
         joinValues,
         extractValue,
@@ -389,8 +381,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
+      const selectedOptions = formItem.getSelectedOptions(value);
       let valueArray =
-        formItem.selectedOptions.length === formItem.filteredOptions.length
+        selectedOptions.length === formItem.filteredOptions.length
           ? []
           : formItem.filteredOptions.concat();
 
