@@ -11,6 +11,7 @@ import {IRendererStore} from '.';
 import {normalizeOptions} from '../components/Select';
 import find = require('lodash/find');
 import {SimpleMap} from '../utils/SimpleMap';
+import memoize = require('lodash/memoize');
 
 interface IOption {
   value?: string | number | null;
@@ -105,10 +106,8 @@ export const FormItemStore = types
         return getLastOptionValue();
       },
 
-      getSelectedOptions(value: any = getValue()) {
-        if (value === getValue()) {
-          return self.selectedOptions;
-        } else if (typeof value === 'undefined') {
+      getSelectedOptions: memoize((value: any = getValue()) => {
+        if (typeof value === 'undefined') {
           return [];
         }
 
@@ -165,7 +164,7 @@ export const FormItemStore = types
         });
 
         return selectedOptions;
-      }
+      })
     };
   })
 

@@ -6,7 +6,6 @@ import chunk = require('lodash/chunk');
 
 export interface CheckboxesProps extends OptionsControlProps {
   placeholder?: any;
-  disabled?: boolean;
   itemClassName?: string;
   columnsCount?: number;
   labelClassName?: string;

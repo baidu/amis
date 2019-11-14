@@ -107,6 +107,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   ];
 
   subForms: Array<any> = [];
+  subFormDefaultValues: Array<{index: number; values: any}> = [];
   keys: Array<string> = [];
   dragTip?: HTMLElement;
   sortable?: Sortable;
@@ -326,19 +327,31 @@ export default class ComboControl extends React.Component<ComboProps> {
       return;
     }
 
-    let value = this.getValueAsArray();
-    const newValue = flat ? values.flat : {...values};
+    this.subFormDefaultValues.push({
+      index,
+      values
+    });
 
-    if (!isObjectShallowModified(value[index], newValue)) {
+    if (this.subFormDefaultValues.length !== this.subForms.length) {
       return;
     }
 
-    value[index] = flat ? values.flat : {...values};
+    let value = this.getValueAsArray();
+    this.subFormDefaultValues.forEach(({index, values}) => {
+      const newValue = flat ? values.flat : {...values};
+
+      if (!isObjectShallowModified(value[index], newValue)) {
+        return;
+      }
+
+      value[index] = flat ? values.flat : {...values};
+    });
 
     if (flat && joinValues) {
       value = value.join(delimiter || ',');
     }
-    this.props.onChange(value);
+
+    this.props.setPrinstineValue(value);
   }
 
   handleSingleFormInit(values: any) {
