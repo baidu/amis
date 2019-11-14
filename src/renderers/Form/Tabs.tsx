@@ -20,7 +20,7 @@ export class TabsRenderer extends React.Component<TabsProps, any> {
     this.renderTab = this.renderTab.bind(this);
   }
 
-  renderTab(tab: any, {key}: any) {
+  renderTab(tab: any, props: any, key: number) {
     const {
       renderFormItems,
       formMode,
@@ -37,10 +37,14 @@ export class TabsRenderer extends React.Component<TabsProps, any> {
     ) {
       return (
         <div className={cx(`Form--${tab.mode || formMode || 'normal'}`)}>
-          {renderFormItems(tab, ($path as string).replace(/^.*form\//, ''), {
-            mode: tab.mode || formMode,
-            horizontal: tab.horizontal || formHorizontal
-          })}
+          {renderFormItems(
+            tab,
+            `${($path as string).replace(/^.*form\//, '')}/${key}`,
+            {
+              mode: tab.mode || formMode,
+              horizontal: tab.horizontal || formHorizontal
+            }
+          )}
         </div>
       );
     }

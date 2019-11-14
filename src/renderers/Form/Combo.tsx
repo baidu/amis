@@ -107,7 +107,12 @@ export default class ComboControl extends React.Component<ComboProps> {
   ];
 
   subForms: Array<any> = [];
-  subFormDefaultValues: Array<{index: number; values: any}> = [];
+  subFormDefaultValues: Array<{
+    index: number;
+    values: any;
+    setted: boolean;
+  }> = [];
+
   keys: Array<string> = [];
   dragTip?: HTMLElement;
   sortable?: Sortable;
@@ -118,6 +123,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.handleChange = this.handleChange.bind(this);
     this.handleSingleFormChange = this.handleSingleFormChange.bind(this);
     this.handleSingleFormInit = this.handleSingleFormInit.bind(this);
+    this.handleFormInit = this.handleFormInit.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
@@ -275,7 +281,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.props.onChange(value);
   }
 
-  handleChange(index: number, values: any) {
+  handleChange(values: any, diff: any, {index}: any) {
     const {
       formItem,
       flat,
@@ -314,13 +320,16 @@ export default class ComboControl extends React.Component<ComboProps> {
     });
   }
 
-  handleFormInit(index: number, values: any) {
+  handleFormInit(values: any, {index}: any) {
     const {
       syncDefaultValue,
       disabled,
       flat,
       joinValues,
-      delimiter
+      delimiter,
+      formInited,
+      onChange,
+      setPrinstineValue
     } = this.props;
 
     if (syncDefaultValue === false || disabled) {
@@ -329,7 +338,8 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     this.subFormDefaultValues.push({
       index,
-      values
+      values,
+      setted: false
     });
 
     if (this.subFormDefaultValues.length !== this.subForms.length) {
@@ -337,21 +347,27 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     let value = this.getValueAsArray();
-    this.subFormDefaultValues.forEach(({index, values}) => {
-      const newValue = flat ? values.flat : {...values};
+    this.subFormDefaultValues = this.subFormDefaultValues.map(
+      ({index, values, setted}) => {
+        const newValue = flat ? values.flat : {...values};
 
-      if (!isObjectShallowModified(value[index], newValue)) {
-        return;
+        if (!setted && isObjectShallowModified(value[index], newValue)) {
+          value[index] = flat ? values.flat : {...values};
+        }
+
+        return {
+          index,
+          values,
+          setted: true
+        };
       }
-
-      value[index] = flat ? values.flat : {...values};
-    });
+    );
 
     if (flat && joinValues) {
       value = value.join(delimiter || ',');
     }
 
-    this.props.setPrinstineValue(value);
+    formInited ? onChange(value) : setPrinstineValue(value);
   }
 
   handleSingleFormInit(values: any) {
@@ -461,6 +477,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       this.subForms[index] = ref;
     } else {
       this.subForms.splice(index, 1);
+      this.subFormDefaultValues.splice(index, 1);
     }
   }
 
@@ -688,11 +705,13 @@ export default class ComboControl extends React.Component<ComboProps> {
                       index,
                       disabled,
                       data,
-                      onChange: this.handleChange.bind(this, index),
-                      onInit: this.handleFormInit.bind(this, index),
+                      onChange: this.handleChange,
+                      onInit: this.handleFormInit,
                       onAction: this.handleAction,
                       ref: (ref: any) => this.formRef(ref, index),
-                      canAccessSuperData
+                      canAccessSuperData,
+                      value: undefined,
+                      formItemValue: undefined
                     }
                   )
                 ) : (
@@ -857,11 +876,13 @@ export default class ComboControl extends React.Component<ComboProps> {
                             index,
                             disabled,
                             data,
-                            onChange: this.handleChange.bind(this, index),
-                            onInit: this.handleFormInit.bind(this, index),
+                            onChange: this.handleChange,
+                            onInit: this.handleFormInit,
                             onAction: this.handleAction,
                             ref: (ref: any) => this.formRef(ref, index),
-                            canAccessSuperData
+                            canAccessSuperData,
+                            value: undefined,
+                            formItemValue: undefined
                           }
                         )
                       ) : (
