@@ -22,6 +22,7 @@ import {highlight} from '../renderers/Form/Options';
 import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable} from '../theme';
 import Checkbox from './Checkbox';
+import Input from './Input';
 
 export interface Option {
   label?: string;
@@ -197,7 +198,6 @@ interface SelectState {
   inputValue: string;
   highlightedIndex: number;
   selection: Array<Option>;
-  composing: boolean;
 }
 
 export class Select extends React.Component<SelectProps, SelectState> {
@@ -245,13 +245,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
     this.handleAddClick = this.handleAddClick.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
-    this.onCompositionStart = this.onCompositionStart.bind(this);
-    this.onCompositionEnd = this.onCompositionEnd.bind(this);
 
     this.state = {
       isOpen: false,
       isFocused: false,
-      composing: false,
       inputValue: '',
       highlightedIndex: -1,
       selection: value2array(props.value, props)
@@ -353,20 +350,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     this.props.onBlur && this.props.onBlur(e);
   }
 
-  // 输入中文未完成时不发送加载选项的请求
-  onCompositionStart(e: any) {
-    this.setState({
-      composing: true
-    });
-  }
-
-  onCompositionEnd(e: any) {
-    this.setState({
-      composing: false
-    });
-    this.handleInputChange(e);
-  }
-
   focus() {
     this.input
       ? this.input.focus()
@@ -424,7 +407,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       {
         inputValue: evt.currentTarget.value
       },
-      () => !this.state.composing && loadOptions && loadOptions(this.state.inputValue)
+      () => loadOptions && loadOptions(this.state.inputValue)
     );
   }
 
@@ -614,15 +597,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
           >
             <Icon icon="search" className="icon" />
-            <input
+            <Input
               {...getInputProps({
                 onFocus: this.onFocus,
                 onBlur: this.onBlur,
                 disabled: disabled,
                 placeholder: searchPromptText,
                 onChange: this.handleInputChange,
-                onCompositionStart: this.onCompositionStart,
-                onCompositionEnd: this.onCompositionEnd,
                 ref: this.inputRef
               })}
             />

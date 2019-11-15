@@ -1,0 +1,63 @@
+import React from 'react';
+import {autobind} from '../utils/helper';
+
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  forwardedRef: React.Ref<HTMLInputElement>;
+}
+
+export interface InputState {
+  value: any;
+}
+
+class InputInner extends React.Component<InputProps, InputState> {
+  isOnComposition: boolean = false;
+  state = {value: this.props.value};
+
+  componentWillReceiveProps(nextProps: InputProps) {
+    if (this.props.value !== nextProps.value) {
+      this.setState({
+        value: nextProps.value
+      });
+    }
+  }
+
+  @autobind
+  handleComposition(e: React.CompositionEvent<HTMLInputElement>) {
+    this.isOnComposition = e.type !== 'compositionend';
+    if (!this.isOnComposition) {
+      this.handleChange(e as any);
+    }
+  }
+
+  @autobind
+  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const {onChange} = this.props;
+    const value = e.currentTarget.value;
+
+    this.isOnComposition || (onChange && onChange(e));
+    this.setState({
+      value
+    });
+  }
+
+  render() {
+    const {forwardedRef, ...rest} = this.props;
+
+    return (
+      <input
+        {...rest}
+        value={this.state.value}
+        ref={forwardedRef}
+        onChange={this.handleChange}
+        onCompositionStart={this.handleComposition}
+        onCompositionUpdate={this.handleComposition}
+        onCompositionEnd={this.handleComposition}
+      />
+    );
+  }
+}
+
+export default React.forwardRef<HTMLInputElement>((props, ref) => {
+  return <InputInner {...props} forwardedRef={ref} />;
+}) as React.ReactType<React.InputHTMLAttributes<HTMLInputElement>>;
