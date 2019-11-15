@@ -106,7 +106,7 @@ export const FormItemStore = types
         return getLastOptionValue();
       },
 
-      getSelectedOptions: memoize((value: any = getValue()) => {
+      getSelectedOptions: (value: any = getValue()) => {
         if (typeof value === 'undefined') {
           return [];
         }
@@ -164,7 +164,7 @@ export const FormItemStore = types
         });
 
         return selectedOptions;
-      })
+      }
     };
   })
 
@@ -599,8 +599,7 @@ export const FormItemStore = types
       setSubStore,
       reset,
       openDialog,
-      closeDialog,
-      beforeDetach: () => self.getSelectedOptions.cache.clear!()
+      closeDialog
     };
   });
 
