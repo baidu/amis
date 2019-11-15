@@ -9,6 +9,7 @@ import debouce = require('lodash/debounce');
 import {filter} from '../../utils/tpl';
 import find = require('lodash/find');
 import {Icon} from '../../components/icons';
+import Input from '../../components/Input';
 import {autobind, createObject, setVariable} from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
 
@@ -495,7 +496,7 @@ export default class TextControl extends React.PureComponent<
                   )
                 )}
 
-                <input
+                <Input
                   {...getInputProps({
                     name,
                     ref: this.inputRef,

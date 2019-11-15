@@ -115,7 +115,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       throw new Error('fetcher is required');
     }
 
-    if (this.cache[input] || ~input.indexOf("'") /*中文没输完 233*/) {
+    if (this.cache[input]) {
       let options = this.cache[input] || [];
       let combinedOptions = this.mergeOptions(options);
       setOptions(combinedOptions);
