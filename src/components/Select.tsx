@@ -22,6 +22,7 @@ import {highlight} from '../renderers/Form/Options';
 import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable} from '../theme';
 import Checkbox from './Checkbox';
+import Input from './Input';
 
 export interface Option {
   label?: string;
@@ -596,7 +597,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             })}
           >
             <Icon icon="search" className="icon" />
-            <input
+            <Input
               {...getInputProps({
                 onFocus: this.onFocus,
                 onBlur: this.onBlur,

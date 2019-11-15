@@ -160,7 +160,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       });
 
       if (store.activeKey >= values.length) {
-        store.setActiveKey(values.length - 1);
+        store.setActiveKey(Math.max(0, values.length - 1));
       }
     }
   }
