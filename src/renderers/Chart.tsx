@@ -34,7 +34,7 @@ export class Chart extends React.Component<ChartProps> {
   echarts: any;
   unSensor: Function;
   pending?: object;
-  timer: number;
+  timer: NodeJS.Timeout;
   mounted: boolean;
   reloadCancel: Function;
 
@@ -148,6 +148,9 @@ export class Chart extends React.Component<ChartProps> {
         cancelExecutor: (executor: Function) => (this.reloadCancel = executor)
       })
       .then(result => {
+        if (!result.ok) {
+          return env.notify('error', result.msg || '加载失败，请重试！');
+        }
         delete this.reloadCancel;
         this.renderChart(result.data || {});
         this.echarts && this.echarts.hideLoading();
