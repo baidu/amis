@@ -168,11 +168,13 @@ export default class FormControl extends React.PureComponent<
     if (!nextProps.control.name) {
       // 把 name 删了, 对 model 做清理
       this.model && this.disposeModel();
+      this.reaction && this.reaction();
       this.model = undefined;
       return;
     } else if (nextProps.control.name !== props.control.name || !this.model) {
       // 对 model 做清理
       this.model && this.disposeModel();
+      this.reaction && this.reaction();
 
       // name 是后面才有的，比如编辑模式下就会出现。
       const model = (this.model = form.registryItem(nextProps.control.name, {
@@ -194,7 +196,7 @@ export default class FormControl extends React.PureComponent<
       this.setState({
         value: model.value
       });
-      this.reaction && this.reaction();
+
       this.reaction = reaction(
         () => model.value,
         value => this.setState({value})
@@ -267,9 +269,9 @@ export default class FormControl extends React.PureComponent<
     this.hook && this.props.removeHook(this.hook);
     this.hook2 && this.props.removeHook(this.hook2);
     this.disposeModel();
+    this.reaction && this.reaction();
     (this.lazyValidate as any).cancel();
     (this.lazyEmitChange as any).cancel();
-    this.reaction && this.reaction();
   }
 
   disposeModel() {
