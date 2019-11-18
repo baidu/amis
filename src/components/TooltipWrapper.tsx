@@ -53,7 +53,8 @@ export class TooltipWrapper extends React.Component<
   };
 
   target: HTMLElement;
-  timer: number;
+  timer: NodeJS.Timeout;
+  moutned = true;
   constructor(props: TooltipWrapperProps) {
     super(props);
 
@@ -76,6 +77,7 @@ export class TooltipWrapper extends React.Component<
 
   componentWillUnmount() {
     clearTimeout(this.timer);
+    this.moutned = false;
   }
 
   getTarget() {
@@ -94,9 +96,10 @@ export class TooltipWrapper extends React.Component<
 
   hide() {
     waitToHide = null;
-    this.setState({
-      show: false
-    });
+    this.moutned &&
+      this.setState({
+        show: false
+      });
   }
 
   getChildProps() {
