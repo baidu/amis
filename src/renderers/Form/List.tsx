@@ -20,9 +20,15 @@ export default class ListControl extends React.Component<ListProps, any> {
 
   handleDBClick(option: Option, e: React.MouseEvent<HTMLElement>) {
     this.props.onToggle(option);
-    this.props.onAction(e, {
-      type: 'submit'
-    });
+
+    // 差不多有 250ms 的防抖。
+    setTimeout(
+      () =>
+        this.props.onAction(null, {
+          type: 'submit'
+        }),
+      250
+    );
   }
 
   handleClick(option: Option, e: React.MouseEvent<HTMLElement>) {
