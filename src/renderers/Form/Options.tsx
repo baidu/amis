@@ -181,6 +181,8 @@ export function registerOptionsControl(config: OptionsConfig) {
     shouldComponentUpdate(nextProps: OptionsProps) {
       if (config.strictMode === false || nextProps.strictMode === false) {
         return true;
+      } else if (nextProps.source || nextProps.autoComplete) {
+        return true;
       }
 
       if (anyChanged(detectProps, this.props, nextProps)) {
