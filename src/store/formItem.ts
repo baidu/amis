@@ -125,7 +125,12 @@ export const FormItemStore = types
                 : value
             ];
 
-        if (value && value.hasOwnProperty(self.labelField || 'label')) {
+        // 保留原来的 label 信息，如果原始值中有 label。
+        if (
+          value &&
+          value.hasOwnProperty(self.labelField || 'label') &&
+          !selected[0].hasOwnProperty(self.labelField || 'label')
+        ) {
           selected[0] = {
             [self.labelField || 'label']: value[self.labelField || 'label'],
             [self.valueField || 'value']: value[self.valueField || 'value']
