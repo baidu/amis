@@ -686,6 +686,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       value: item.label
                     }))}
                     value={condition.label}
+                    clearable={false}
                   />
                 </div>
               ) : null}
@@ -857,6 +858,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                             })
                           )}
                           value={condition.label}
+                          clearable={false}
                         />
                       </div>
                     ) : null}
@@ -990,6 +992,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   value: item.label
                 }))}
                 value={condition.label}
+                clearable={false}
               />
             </div>
           ) : null}
