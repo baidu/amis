@@ -123,33 +123,33 @@ $Wizard-steps-li-onActive-bg: $Panel-bg;
 
 button[disabled],
 html input[disabled] {
-    cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 input {
-    color: $text-color;
-    background: $Form-input-bg;
+  color: $text-color;
+  background: $Form-input-bg;
 }
 
 pre {
-    color: $text-color;
-    background: $background;
+  color: $text-color;
+  background: $background;
 }
 
 .rdtPicker {
-    background: $background;
+  background: $background;
 }
 
 .rdtPicker th {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .fr-toolbar {
-    background: $background;
+  background: $background;
 }
 
 .markdown-body {
-    color: $text-color;
+  color: $text-color;
 }
 
 @import '../functions';
@@ -184,7 +184,8 @@ pre {
 @import '../components/button-group';
 @import '../components/dropdown';
 @import '../components/collapse';
-@import "../components/color";
+@import '../components/color';
+@import '../components/context-menu';
 @import '../components/wizard';
 @import '../components/crud';
 @import '../components/table';
@@ -216,7 +217,7 @@ pre {
 @import '../components/form/date';
 @import '../components/form/date-range';
 @import '../components/form/image';
-@import "../components/form/file";
+@import '../components/form/file';
 @import '../components/form/editor';
 @import '../components/form/rich-text';
 @import '../components/form/range';
