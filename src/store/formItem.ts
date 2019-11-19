@@ -342,7 +342,11 @@ export const FormItemStore = types
       data: object,
       options?: fetchOptions,
       clearValue?: any,
-      onChange?: (value: any) => void
+      onChange?: (
+        value: any,
+        submitOnChange: boolean,
+        changeImmediately: boolean
+      ) => void
     ) {
       try {
         if (loadCancel) {
@@ -387,11 +391,11 @@ export const FormItemStore = types
           setOptions(options);
 
           if (json.data && typeof (json.data as any).value !== 'undefined') {
-            onChange && onChange((json.data as any).value);
+            onChange && onChange((json.data as any).value, false, true);
           } else if (clearValue) {
             self.selectedOptions.some((item: any) => item.__unmatched) &&
               onChange &&
-              onChange('');
+              onChange('', false, true);
           }
         }
 
