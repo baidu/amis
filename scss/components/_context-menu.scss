@@ -39,7 +39,6 @@
 
     background: rgba(239, 239, 239, 0.95);
     box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.34);
-    border-radius: 7px;
 
     color: rgba(0, 0, 0, 0.75);
     font-family: -apple-system, Lucida Grande;
@@ -87,7 +86,7 @@
       color: inherit;
     }
 
-    &:hover > a {
+    &:not(.is-disabled):hover > a {
       text-decoration: none;
       color: #fff;
       background: -webkit-linear-gradient(top, #648bf5, #2866f2);
