@@ -53,7 +53,7 @@ export default class FormControl extends React.PureComponent<
   static defaultProps = {};
 
   lazyValidate: Function;
-  lazyEmitChange: (value: any, submitOnChange: boolean) => void;
+  lazyEmitChange: (submitOnChange: boolean) => void;
   state = {value: this.props.control.value};
   componentWillMount() {
     const {
@@ -142,7 +142,7 @@ export default class FormControl extends React.PureComponent<
     if (name && form !== store) {
       const value = getVariable(store.data, name);
       if (typeof value !== 'undefined' && value !== this.getValue()) {
-        this.emitChange(value, false);
+        this.handleChange(value, false, true);
       }
     }
 
@@ -261,7 +261,7 @@ export default class FormControl extends React.PureComponent<
       (value = getVariable(data as any, name)) !==
         getVariable(prevProps.data, name)
     ) {
-      this.emitChange(value, false);
+      this.handleChange(value, false, true);
     }
   }
 
@@ -362,15 +362,12 @@ export default class FormControl extends React.PureComponent<
       },
       () =>
         changeImmediately
-          ? this.emitChange(value, submitOnChange)
-          : this.lazyEmitChange(value, submitOnChange)
+          ? this.emitChange(submitOnChange)
+          : this.lazyEmitChange(submitOnChange)
     );
   }
 
-  emitChange(
-    value: any,
-    submitOnChange: boolean = this.props.control.submitOnChange
-  ) {
+  emitChange(submitOnChange: boolean = this.props.control.submitOnChange) {
     const {
       formStore: form,
       onChange,
@@ -379,7 +376,7 @@ export default class FormControl extends React.PureComponent<
     if (!this.model) {
       return;
     }
-
+    let value = this.state.value;
     const oldValue = this.model.value;
 
     if (pipeOut) {
