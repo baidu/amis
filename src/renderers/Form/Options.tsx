@@ -43,7 +43,11 @@ export interface OptionsConfig extends OptionsBasicConfig {
 export interface OptionsControlProps extends FormControlProps, OptionProps {
   source?: Api;
   name?: string;
-  onToggle: (option: Option, submitOnChange?: boolean) => void;
+  onToggle: (
+    option: Option,
+    submitOnChange?: boolean,
+    changeImmediately?: boolean
+  ) => void;
   onToggleAll: () => void;
   selectedOptions: Array<Option>;
   setOptions: (value: Array<any>) => void;
@@ -308,7 +312,11 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    handleToggle(option: Option, submitOnChange?: boolean) {
+    handleToggle(
+      option: Option,
+      submitOnChange?: boolean,
+      changeImmediately?: boolean
+    ) {
       const {
         onChange,
         joinValues,
@@ -362,7 +370,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         }
       }
 
-      onChange && onChange(newValue, submitOnChange);
+      onChange && onChange(newValue, submitOnChange, changeImmediately);
     }
 
     @autobind
