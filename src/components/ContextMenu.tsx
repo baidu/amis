@@ -30,6 +30,7 @@ export type MenuItem = {
   children?: Array<MenuItem | MenuDivider>;
   data?: any;
   onSelect?: (data: any) => void;
+  onHighlight?: (isHiglight: boolean, data: any) => void;
 };
 
 export type MenuDivider = '|';
@@ -124,6 +125,14 @@ export class ContextMenu extends React.Component<
       );
   }
 
+  handleMouseEnter(item: MenuItem) {
+    item.disabled || !item.onHighlight || item.onHighlight(true, item.data);
+  }
+
+  handleMouseLeave(item: MenuItem) {
+    item.disabled || !item.onHighlight || item.onHighlight(false, item.data);
+  }
+
   renderMenus(menus: Array<MenuItem | MenuDivider>) {
     const {classnames: cx} = this.props;
 
@@ -141,7 +150,11 @@ export class ContextMenu extends React.Component<
             'is-disabled': item.disabled
           })}
         >
-          <a onClick={this.handleClick.bind(this, item)}>
+          <a
+            onClick={this.handleClick.bind(this, item)}
+            onMouseEnter={this.handleMouseEnter.bind(this, item)}
+            onMouseLeave={this.handleMouseLeave.bind(this, item)}
+          >
             {item.icon ? <span className={item.icon} /> : null}
             {item.label}
           </a>
