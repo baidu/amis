@@ -41,7 +41,8 @@
     box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.34);
 
     color: rgba(0, 0, 0, 0.75);
-    font-family: -apple-system, Lucida Grande;
+    font-family: -apple-system,
+    Lucida Grande;
     font-size: 14px;
     line-height: 15px;
 
@@ -77,7 +78,8 @@
 
   &-item {
     position: relative;
-    > a {
+
+    >a {
       white-space: nowrap;
       display: block;
       padding: 0 20px;
@@ -86,7 +88,7 @@
       color: inherit;
     }
 
-    &:not(.is-disabled):hover > a {
+    &:not(.is-disabled):hover>a {
       text-decoration: none;
       color: #fff;
       background: -webkit-linear-gradient(top, #648bf5, #2866f2);
@@ -96,12 +98,12 @@
       cursor: pointer;
     }
 
-    &.is-disabled > a {
+    &.is-disabled>a {
       color: #999;
       pointer-events: none;
     }
 
-    &.has-child > a::after {
+    &.has-child>a::after {
       content: '';
       width: 0;
       height: 0;
@@ -114,7 +116,8 @@
       right: 0;
       transform: translateY(-50%);
     }
-    &.has-child:hover > a::after {
+
+    &.has-child:hover>a::after {
       border-color: transparent transparent transparent #fff;
     }
   }
@@ -124,7 +127,7 @@
     list-style: none;
   }
 
-  &-item:hover > &-subList {
+  &-item:hover>&-subList {
     display: block;
     animation-duration: 0.35s;
     animation-fill-mode: both;
@@ -160,6 +163,11 @@
       border: 1px solid rgba(0, 0, 0, 0.125);
       z-index: -1;
     }
+  }
+
+  &--left &-item:hover>&-subList {
+    left: auto;
+    right: 100%;
   }
 
   &-overlay {
