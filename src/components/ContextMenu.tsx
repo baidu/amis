@@ -40,6 +40,7 @@ interface ContextMenuState {
   menus: Array<MenuItem | MenuDivider>;
   x: number;
   y: number;
+  align?: 'left' | 'right';
 }
 
 export class ContextMenu extends React.Component<
@@ -58,7 +59,7 @@ export class ContextMenu extends React.Component<
     return ContextMenu.instance;
   }
 
-  state = {
+  state: ContextMenuState = {
     isOpened: false,
     menus: [],
     x: -99999,
@@ -80,12 +81,16 @@ export class ContextMenu extends React.Component<
   }
 
   @autobind
-  openContextMenus(info: {x: number; y: number}, menus: Array<MenuItem>) {
+  openContextMenus(
+    info: {x: number; y: number; align?: 'left' | 'right'},
+    menus: Array<MenuItem>
+  ) {
     this.setState({
       isOpened: true,
       x: info.x,
       y: info.y,
-      menus: menus
+      menus: menus,
+      align: info.align
     });
   }
 
@@ -183,7 +188,13 @@ export class ContextMenu extends React.Component<
             <div
               ref={this.menuRef}
               role="contextmenu"
-              className={cx('ContextMenu', className)}
+              className={cx(
+                'ContextMenu',
+                {
+                  'ContextMenu--left': this.state.align === 'left'
+                },
+                className
+              )}
             >
               <div
                 style={{left: `${this.state.x}px`, top: `${this.state.y}px`}}
@@ -205,7 +216,7 @@ export const ThemedContextMenu = themeable(ContextMenu);
 export default ThemedContextMenu;
 
 export function openContextMenus(
-  info: Event | {x: number; y: number},
+  info: Event | {x: number; y: number; align?: 'left' | 'right'},
   menus: Array<MenuItem | MenuDivider>
 ) {
   return ContextMenu.getInstance().openContextMenus(info, menus);
