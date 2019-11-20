@@ -561,7 +561,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       // 没走服务端的。
-      if (!result.__saved) {
+      if (!result.hasOwnProperty(valueField || 'value')) {
         result = {
           ...result,
           [valueField || 'value']: result[labelField || 'label']
