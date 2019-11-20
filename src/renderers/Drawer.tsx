@@ -666,6 +666,7 @@ export class DrawerRenderer extends Drawer {
           action.redirect &&
             env.jumpTo(filter(action.redirect, store.data), action);
           action.reload && this.reloadTarget(action.reload, store.data);
+          action.close && this.handleSelfClose();
         })
         .catch(() => {});
     } else if (onAction) {
