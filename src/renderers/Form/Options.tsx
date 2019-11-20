@@ -4,6 +4,7 @@
  */
 import {Api, Schema} from '../../types';
 import {isEffectiveApi, isApiOutdated} from '../../utils/api';
+import {isAlive} from 'mobx-state-tree';
 import {
   anyChanged,
   autobind,
@@ -445,7 +446,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (!formItem) {
         return;
       }
-      if (formItem.value) {
+      if (isAlive(formItem) && formItem.value) {
         setVariable(data, name!, formItem.value);
       }
     }
