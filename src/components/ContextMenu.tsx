@@ -85,10 +85,10 @@ export class ContextMenu extends React.Component<
     info: {x: number; y: number; align?: 'left' | 'right'},
     menus: Array<MenuItem>
   ) {
-    if (info.x + 200 > window.innerWidth) {
-      info.x = window.innerWidth - 200;
+    if (info.x + 200 > window.innerWidth + window.scrollX) {
+      info.x = window.scrollX + window.innerWidth - 200;
       info.align = 'left';
-    } else if (info.x + 300 > window.innerWidth) {
+    } else if (info.x + 300 > window.innerWidth + window.scrollX) {
       info.align = 'left';
     }
 
