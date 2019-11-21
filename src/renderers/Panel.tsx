@@ -110,15 +110,13 @@ export default class Panel extends React.Component<PanelProps> {
       ...rest
     };
 
-    return children ? (
-      <div className={bodyClassName || `${ns}Panel-body`}>
-        {typeof children === 'function' ? children(this.props) : children}
-      </div>
-    ) : body ? (
-      <div className={bodyClassName || `${ns}Panel-body`}>
-        {render('body', body, subProps)}
-      </div>
-    ) : null;
+    return children
+      ? typeof children === 'function'
+        ? children(this.props)
+        : children
+      : body
+      ? render('body', body, subProps)
+      : null;
   }
 
   renderActions() {
@@ -199,7 +197,9 @@ export default class Panel extends React.Component<PanelProps> {
           </div>
         ) : null}
 
-        {this.renderBody()}
+        <div className={bodyClassName || `${ns}Panel-body`}>
+          {this.renderBody()}
+        </div>
 
         {footerDom}
 
