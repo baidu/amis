@@ -10,17 +10,12 @@ export interface TabsProps extends RendererProps {}
   weight: -100,
   name: 'tabs-control'
 })
-export class TabsRenderer extends React.Component<TabsProps, any> {
+export class TabsRenderer extends Tabs {
   static defaultProps = {
     mountOnEnter: false // form 中的不按需渲染
   };
 
-  constructor(props: TabsProps) {
-    super(props);
-    this.renderTab = this.renderTab.bind(this);
-  }
-
-  renderTab(tab: any, props: any, key: number) {
+  renderTab = (tab: any, props: any, key: number) => {
     const {
       renderFormItems,
       formMode,
@@ -50,11 +45,5 @@ export class TabsRenderer extends React.Component<TabsProps, any> {
     }
 
     return render(`tab/${key}`, tab.body || tab.tab || tab);
-  }
-
-  render() {
-    const {children, type, ...rest} = this.props;
-
-    return <Tabs {...rest} tabRender={this.renderTab} />;
-  }
+  };
 }
