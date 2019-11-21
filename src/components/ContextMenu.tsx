@@ -120,7 +120,10 @@ export class ContextMenu extends React.Component<
     ) {
       return;
     }
-    this.close();
+    if (this.state.isOpened) {
+      e.preventDefault();
+      this.close();
+    }
   }
 
   handleClick(item: MenuItem) {
