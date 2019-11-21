@@ -683,7 +683,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     );
   }
 
-  render() {
+  renderWizard() {
     const {className, steps, render, store, mode, classPrefix: ns} = this.props;
 
     const currentStep = this.state.currentStep;
@@ -744,6 +744,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         <Spinner size="lg" overlay key="info" show={store.loading} />
       </div>
     );
+  }
+
+  render() {
+    return this.renderWizard();
   }
 }
 
