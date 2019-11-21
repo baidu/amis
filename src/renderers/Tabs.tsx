@@ -48,6 +48,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     unmountOnExit: false
   };
 
+  renderTab?: (tab: TabProps, props: TabsProps, index: number) => JSX.Element;
+
   constructor(props: TabsProps) {
     super(props);
 
@@ -247,7 +249,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                   : unmountOnExit
               }
             >
-              {tabRender
+              {this.renderTab
+                ? this.renderTab(tab, this.props, index)
+                : tabRender
                 ? tabRender(tab, this.props, index)
                 : render(`tab/${index}`, tab.tab || tab.body || '')}
             </Tab>
