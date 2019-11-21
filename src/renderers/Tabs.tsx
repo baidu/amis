@@ -201,7 +201,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       : -1;
   }
 
-  render() {
+  renderTabs() {
     const {
       classnames: cx,
       classPrefix: ns,
@@ -259,6 +259,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         )}
       </CTabs>
     );
+  }
+
+  render() {
+    return this.renderTabs();
   }
 }
 
