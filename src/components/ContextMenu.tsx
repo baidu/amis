@@ -73,11 +73,13 @@ export class ContextMenu extends React.Component<
 
   componentDidMount() {
     document.body.addEventListener('click', this.handleOutClick, true);
+    document.addEventListener('keyup', this.handleKeyUp);
   }
 
   componentWillUnmount() {
     ContextMenu.instance = null;
     document.body.removeEventListener('click', this.handleOutClick, true);
+    document.removeEventListener('keyup', this.handleKeyUp);
   }
 
   @autobind
@@ -140,6 +142,14 @@ export class ContextMenu extends React.Component<
       );
   }
 
+  @autobind
+  handleKeyUp(e: KeyboardEvent) {
+    if (e.keyCode === 27 && this.state.isOpened) {
+      e.preventDefault();
+      this.close();
+    }
+  }
+
   handleMouseEnter(item: MenuItem) {
     item.disabled || !item.onHighlight || item.onHighlight(true, item.data);
   }
@@ -170,7 +180,9 @@ export class ContextMenu extends React.Component<
             onMouseEnter={this.handleMouseEnter.bind(this, item)}
             onMouseLeave={this.handleMouseLeave.bind(this, item)}
           >
-            {item.icon ? <span className={item.icon} /> : null}
+            {item.icon ? (
+              <span className={cx('ContextMenu-itemIcon', item.icon)} />
+            ) : null}
             {item.label}
           </a>
           {hasChildren ? (
