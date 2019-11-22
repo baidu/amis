@@ -1,11 +1,9 @@
 import React from 'react';
-import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
+import {ScopedContext, IScopedContext} from '../Scoped';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, SchemaNode, Schema, Action} from '../types';
+import {Api, Action} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import cx = require('classnames');
-import {observer} from 'mobx-react';
 import {
   createObject,
   until,
@@ -17,7 +15,7 @@ import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {IFormStore} from '../store/form';
 import {Spinner} from '../components';
 import {findDOMNode} from 'react-dom';
-import {resizeSensor} from '..';
+import {resizeSensor} from '../utils/resize-sensor';
 
 export interface WizardProps extends RendererProps {
   store: IServiceStore;
@@ -94,7 +92,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       initAsyncApi,
       initFinishedField,
       store,
-      data,
       messages: {fetchSuccess, fetchFailed},
       onInit
     } = this.props;
@@ -259,17 +256,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
   // 用来还原异步提交状态。
   checkSubmit() {
-    const {
-      store,
-      steps,
-      asyncApi,
-      finishedField,
-      target,
-      redirect,
-      reload,
-      env,
-      onFinished
-    } = this.props;
+    const {store, steps, asyncApi, finishedField, env} = this.props;
 
     const step = steps[this.state.currentStep - 1];
     let finnalAsyncApi =
@@ -300,12 +287,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       });
   }
 
-  handleAction(
-    e: React.UIEvent<any> | void,
-    action: Action,
-    data: object,
-    throwErrors?: boolean
-  ) {
+  handleAction(e: React.UIEvent<any> | void, action: Action, data: object) {
     const {onAction, store, env} = this.props;
 
     if (action.actionType === 'next' || action.type === 'submit') {
@@ -332,7 +314,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           successMessage: action.messages && action.messages.success,
           errorMessage: action.messages && action.messages.failed
         })
-        .then(async response => {
+        .then(async () => {
           this.form && this.form.isValidated() && this.form.validate(true);
 
           if (action.feedback && isVisible(action.feedback, store.data)) {
@@ -424,7 +406,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 : this.state.currentStep + 1
             )
           )
-          .catch(e => {
+          .catch(() => {
             // do nothing
           });
       } else {
@@ -498,12 +480,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     return false;
   }
 
-  handleDialogConfirm(
-    values: object[],
-    action: Action,
-    ctx: any,
-    targets: Array<any>
-  ) {
+  handleDialogConfirm(values: object[], action: Action, targets: Array<any>) {
     const {store} = this.props;
 
     if (
@@ -524,7 +501,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   }
 
   renderSteps() {
-    const {steps, store, mode, classPrefix: ns} = this.props;
+    const {steps, store, mode, classPrefix: ns, classnames: cx} = this.props;
     const currentStep = this.state.currentStep;
 
     return (
@@ -577,9 +554,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       actionNextLabel,
       actionNextSaveLabel,
       actionFinishLabel,
-      render,
-      classPrefix: ns,
-      classnames: cx
+      render
     } = this.props;
 
     if (!Array.isArray(steps)) {
@@ -684,7 +659,14 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   }
 
   renderWizard() {
-    const {className, steps, render, store, mode, classPrefix: ns} = this.props;
+    const {
+      className,
+      steps,
+      render,
+      store,
+      classPrefix: ns,
+      classnames: cx
+    } = this.props;
 
     const currentStep = this.state.currentStep;
     const step = Array.isArray(steps) ? steps[currentStep - 1] : null;
@@ -790,7 +772,7 @@ export class WizardRenderer extends Wizard {
   }
 
   doAction(action: Action, data: object, throwErrors: boolean = false) {
-    return this.handleAction(undefined, action, data, throwErrors);
+    return this.handleAction(undefined, action, data);
   }
 
   submitToTarget(target: string, values: object) {
@@ -803,13 +785,8 @@ export class WizardRenderer extends Wizard {
     scoped.reload(target, data);
   }
 
-  handleDialogConfirm(
-    values: object[],
-    action: Action,
-    ctx: any,
-    targets: Array<any>
-  ) {
-    super.handleDialogConfirm(values, action, ctx, targets);
+  handleDialogConfirm(values: object[], action: Action, targets: Array<any>) {
+    super.handleDialogConfirm(values, action, targets);
 
     const store = this.props.store;
     const scoped = this.context as IScopedContext;
