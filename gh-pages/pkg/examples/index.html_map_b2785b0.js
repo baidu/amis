@@ -4961,7 +4961,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/sdk.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/sdk_f512bf9.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/sdk_c288bf6.js",
       "type": "js"
     },
     "docs/dev.md": {
