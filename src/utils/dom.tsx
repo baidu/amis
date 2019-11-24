@@ -124,7 +124,7 @@ export function calculatePosition(
   overlayNode: any,
   target: any,
   container: any,
-  padding: any
+  padding: any = 0
 ) {
   const childOffset =
     container.tagName === 'BODY'

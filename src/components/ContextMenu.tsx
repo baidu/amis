@@ -8,6 +8,7 @@ import Transition, {
   EXITING
 } from 'react-transition-group/Transition';
 import {Portal} from 'react-overlays';
+import {calculatePosition} from '../utils/dom';
 const fadeStyles: {
   [propName: string]: string;
 } = {
@@ -73,33 +74,22 @@ export class ContextMenu extends React.Component<
 
   componentDidMount() {
     document.body.addEventListener('click', this.handleOutClick, true);
-    document.addEventListener('keyup', this.handleKeyUp);
+    document.addEventListener('keydown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
     ContextMenu.instance = null;
     document.body.removeEventListener('click', this.handleOutClick, true);
-    document.removeEventListener('keyup', this.handleKeyUp);
+    document.removeEventListener('keydown', this.handleKeyDown);
   }
 
   @autobind
-  openContextMenus(
-    info: {x: number; y: number; align?: 'left' | 'right'},
-    menus: Array<MenuItem>
-  ) {
-    if (info.x + 200 > window.innerWidth + window.scrollX) {
-      info.x = window.scrollX + window.innerWidth - 200;
-      info.align = 'left';
-    } else if (info.x + 300 > window.innerWidth + window.scrollX) {
-      info.align = 'left';
-    }
-
+  openContextMenus(info: {x: number; y: number}, menus: Array<MenuItem>) {
     this.setState({
       isOpened: true,
       x: info.x,
       y: info.y,
-      menus: menus,
-      align: info.align
+      menus: menus
     });
   }
 
@@ -143,7 +133,7 @@ export class ContextMenu extends React.Component<
   }
 
   @autobind
-  handleKeyUp(e: KeyboardEvent) {
+  handleKeyDown(e: KeyboardEvent) {
     if (e.keyCode === 27 && this.state.isOpened) {
       e.preventDefault();
       this.close();
@@ -156,6 +146,32 @@ export class ContextMenu extends React.Component<
 
   handleMouseLeave(item: MenuItem) {
     item.disabled || !item.onHighlight || item.onHighlight(false, item.data);
+  }
+
+  @autobind
+  handleEnter(menu: HTMLElement) {
+    // 智能定位，选择一个合适的对齐方式。
+    const info = calculatePosition(
+      'auto',
+      menu.lastChild,
+      menu.children[1],
+      document.body
+    );
+
+    const align =
+      info.positionLeft + 300 < window.innerWidth ? 'right' : 'left';
+
+    this.setState({
+      x: info.positionLeft,
+      y: info.positionTop,
+      align
+    });
+  }
+
+  @autobind
+  handleOverlayContextMenu(e: React.MouseEvent) {
+    e.preventDefault();
+    this.close();
   }
 
   renderMenus(menus: Array<MenuItem | MenuDivider>) {
@@ -199,37 +215,45 @@ export class ContextMenu extends React.Component<
     const {className, container, classnames: cx} = this.props;
 
     return (
-      <Portal container={container}>
-        <Transition
-          mountOnEnter
-          unmountOnExit
-          in={this.state.isOpened}
-          timeout={500}
-        >
-          {(status: string) => (
+      <Transition
+        mountOnEnter
+        unmountOnExit
+        onEnter={this.handleEnter}
+        in={this.state.isOpened}
+        timeout={500}
+      >
+        {(status: string) => (
+          <div
+            ref={this.menuRef}
+            role="contextmenu"
+            className={cx(
+              'ContextMenu',
+              {
+                'ContextMenu--left': this.state.align === 'left'
+              },
+              className
+            )}
+          >
             <div
-              ref={this.menuRef}
-              role="contextmenu"
-              className={cx(
-                'ContextMenu',
-                {
-                  'ContextMenu--left': this.state.align === 'left'
-                },
-                className
-              )}
+              onContextMenu={this.handleOverlayContextMenu}
+              onClick={this.close}
+              className={cx(`ContextMenu-overlay`, fadeStyles[status])}
+            />
+            <div
+              className={cx(`ContextMenu-cursor`)}
+              style={{left: `${this.state.x}px`, top: `${this.state.y}px`}}
+            />
+            <div
+              style={{left: `${this.state.x}px`, top: `${this.state.y}px`}}
+              className={cx(`ContextMenu-menu`, fadeStyles[status])}
             >
-              <div
-                style={{left: `${this.state.x}px`, top: `${this.state.y}px`}}
-                className={cx(`ContextMenu-menu`, fadeStyles[status])}
-              >
-                <ul className={cx('ContextMenu-list')}>
-                  {this.renderMenus(this.state.menus)}
-                </ul>
-              </div>
+              <ul className={cx('ContextMenu-list')}>
+                {this.renderMenus(this.state.menus)}
+              </ul>
             </div>
-          )}
-        </Transition>
-      </Portal>
+          </div>
+        )}
+      </Transition>
     );
   }
 }
@@ -238,7 +262,7 @@ export const ThemedContextMenu = themeable(ContextMenu);
 export default ThemedContextMenu;
 
 export function openContextMenus(
-  info: Event | {x: number; y: number; align?: 'left' | 'right'},
+  info: Event | {x: number; y: number},
   menus: Array<MenuItem | MenuDivider>
 ) {
   return ContextMenu.getInstance().openContextMenus(info, menus);
