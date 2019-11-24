@@ -224,6 +224,7 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
 
   // content: React.RefObject<HTMLDivElement>;
   timer: NodeJS.Timeout;
+  mounted: boolean = false;
   constructor(props: ToastMessageProps) {
     super(props);
 
@@ -234,14 +235,16 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
     this.close = this.close.bind(this);
   }
 
-  componentWillUnmount() {
-    clearTimeout(this.timer);
-  }
-
   componentDidMount() {
+    this.mounted = true;
     this.setState({
       visible: true
     });
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timer);
+    this.mounted = false;
   }
 
   handleMouseEnter() {
@@ -254,7 +257,9 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
 
   handleEntered() {
     const timeOut = this.props.timeOut;
-    this.timer = setTimeout(this.close, timeOut);
+    if (this.mounted) {
+      this.timer = setTimeout(this.close, timeOut);
+    }
   }
 
   close() {
