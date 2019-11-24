@@ -73,13 +73,13 @@ export class ContextMenu extends React.Component<
   }
 
   componentDidMount() {
-    document.body.addEventListener('click', this.handleOutClick, true);
+    // document.body.addEventListener('click', this.handleOutClick, true);
     document.addEventListener('keydown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
     ContextMenu.instance = null;
-    document.body.removeEventListener('click', this.handleOutClick, true);
+    // document.body.removeEventListener('click', this.handleOutClick, true);
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
@@ -103,20 +103,20 @@ export class ContextMenu extends React.Component<
     });
   }
 
-  @autobind
-  handleOutClick(e: Event) {
-    if (
-      !e.target ||
-      !this.menuRef.current ||
-      this.menuRef.current.contains(e.target as HTMLElement)
-    ) {
-      return;
-    }
-    if (this.state.isOpened) {
-      e.preventDefault();
-      this.close();
-    }
-  }
+  // @autobind
+  // handleOutClick(e: Event) {
+  //   if (
+  //     !e.target ||
+  //     !this.menuRef.current ||
+  //     this.menuRef.current.contains(e.target as HTMLElement)
+  //   ) {
+  //     return;
+  //   }
+  //   if (this.state.isOpened) {
+  //     e.preventDefault();
+  //     this.close();
+  //   }
+  // }
 
   handleClick(item: MenuItem) {
     item.disabled ||

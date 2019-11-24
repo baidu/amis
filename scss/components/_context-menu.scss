@@ -1,3 +1,18 @@
+// 为了提示用户这不是系统菜单。
+@keyframes contextMenuInSpecial {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
 @keyframes contextMenuIn {
   from {
     opacity: 0;
@@ -24,7 +39,8 @@
     }
 
     &.in {
-      animation-name: contextMenuIn;
+      animation-name: contextMenuInSpecial;
+      animation-duration: 0.5s;
     }
 
     &.out {
