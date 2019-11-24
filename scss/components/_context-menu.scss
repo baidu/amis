@@ -173,6 +173,13 @@
     right: 100%;
   }
 
+  &-cursor {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    z-index: -1;
+  }
+
   &-overlay {
     position: fixed !important;
     top: 0;
