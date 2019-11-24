@@ -1,4 +1,11 @@
-import {types, getParent, SnapshotIn, flow, getRoot} from 'mobx-state-tree';
+import {
+  types,
+  getParent,
+  SnapshotIn,
+  flow,
+  getRoot,
+  hasParent
+} from 'mobx-state-tree';
 import {IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
 import {Api, Payload, fetchOptions} from '../types';
@@ -59,11 +66,11 @@ export const FormItemStore = types
   })
   .views(self => {
     function getForm(): any {
-      return getParent(self, 2);
+      return hasParent(self, 2) ? getParent(self, 2) : null;
     }
 
     function getValue(): any {
-      return getForm().getValueByName(self.name);
+      return getForm() ? getForm().getValueByName(self.name) : undefined;
     }
 
     function getLastOptionValue(): any {
