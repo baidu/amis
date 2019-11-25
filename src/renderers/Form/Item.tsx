@@ -671,7 +671,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 // 白名单形式，只有这些属性发生变化，才会往下更新。
 // 除非配置  strictMode
 export const detectProps = [
-  // 'formPristine', // 理论来说，不需要，因为 formPristine 更新到时候 value 肯定也会更新。
+  'formPristine', // 这个千万不能干掉。
   'addable',
   'addButtonClassName',
   'addButtonText',
