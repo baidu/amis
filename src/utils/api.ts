@@ -8,7 +8,8 @@ import {
   isObjectShallowModified,
   hasFile,
   object2formData,
-  qsstringify
+  qsstringify,
+  cloneObject
 } from './helper';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
@@ -75,7 +76,7 @@ export function buildApi(
   if (api.data) {
     api.data = dataMapping(api.data, data);
   } else if (api.method === 'post' || api.method === 'put') {
-    api.data = data;
+    api.data = cloneObject(data);
   }
 
   // get 类请求，把 data 附带到 url 上。
