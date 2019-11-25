@@ -86,10 +86,10 @@ export interface FormProps extends RendererProps, FormSchema {
   persistData: boolean; // 开启本地缓存
   clearPersistDataAfterSubmit: boolean; // 提交成功后清空本地缓存
   trimValues?: boolean;
-  onInit?: (values: object, props:any) => any;
+  onInit?: (values: object, props: any) => any;
   onReset?: (values: object) => void;
   onSubmit?: (values: object, action: any) => any;
-  onChange?: (values: object, diff: object, props:any) => any;
+  onChange?: (values: object, diff: object, props: any) => any;
   onFailed?: (reason: string, errors: any) => any;
   onFinished: (values: object, action: any) => any;
   onValidate: (values: object, form: any) => any;
@@ -149,7 +149,8 @@ export default class Form extends React.Component<FormProps, object> {
     'onChange',
     'onFailed',
     'onFinished',
-    'canAccessSuperData'
+    'canAccessSuperData',
+    'lazyOnChange'
   ];
 
   hooks: {
@@ -160,6 +161,7 @@ export default class Form extends React.Component<FormProps, object> {
   shouldLoadInitApi: boolean = false;
   timer: NodeJS.Timeout;
   mounted: boolean;
+  lazyHandleChange: (value: any, name: string, submit: boolean) => void;
   constructor(props: FormProps) {
     super(props);
 
@@ -174,7 +176,8 @@ export default class Form extends React.Component<FormProps, object> {
     this.submit = this.submit.bind(this);
     this.addHook = this.addHook.bind(this);
     this.removeHook = this.removeHook.bind(this);
-    this.handleChange = debouce(this.handleChange.bind(this), 250, {
+    this.handleChange = this.handleChange.bind(this);
+    this.lazyHandleChange = debouce(this.handleChange, 250, {
       trailing: true,
       leading: false
     });
@@ -298,7 +301,7 @@ export default class Form extends React.Component<FormProps, object> {
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
-    (this.handleChange as any).cancel();
+    (this.lazyHandleChange as any).cancel();
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
     const store = this.props.store;
@@ -467,7 +470,8 @@ export default class Form extends React.Component<FormProps, object> {
   handleChange(value: any, name: string, submit: boolean) {
     const {onChange, store, submitOnChange} = this.props;
 
-    onChange && onChange(store.data, difference(store.data, store.pristine), this.props);
+    onChange &&
+      onChange(store.data, difference(store.data, store.pristine), this.props);
 
     (submit || submitOnChange) &&
       this.handleAction(
@@ -875,7 +879,8 @@ export default class Form extends React.Component<FormProps, object> {
       store,
       disabled,
       controlWidth,
-      resolveDefinitions
+      resolveDefinitions,
+      lazyOnChange
     } = props;
 
     const subProps = {
@@ -889,7 +894,8 @@ export default class Form extends React.Component<FormProps, object> {
       disabled: disabled || (control as Schema).disabled || form.loading,
       btnDisabled: form.loading || form.validating,
       onAction: this.handleAction,
-      onChange: this.handleChange,
+      onChange:
+        lazyOnChange !== false ? this.lazyHandleChange : this.handleChange,
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
