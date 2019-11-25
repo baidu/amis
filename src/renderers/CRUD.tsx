@@ -1191,7 +1191,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .filter(item => !item.hidden && item.visible !== false);
     }
 
-    return (
+    return bulkBtns.length || itemBtns.length ? (
       <div className={cx('Crud-actions')}>
         {bulkBtns.map((btn, index) =>
           render(
@@ -1233,7 +1233,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           )
         )}
       </div>
-    );
+    ) : null;
   }
 
   renderPagination() {
