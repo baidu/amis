@@ -347,7 +347,8 @@ export default class FormControl extends React.PureComponent<
   ) {
     const {
       onChange,
-      control: {type}
+      control: {type},
+      formInited
     } = this.props;
 
     // todo 以后想办法不要強耦合类型。
@@ -361,7 +362,7 @@ export default class FormControl extends React.PureComponent<
         value
       },
       () =>
-        changeImmediately
+        changeImmediately || !formInited
           ? this.emitChange(submitOnChange)
           : this.lazyEmitChange(submitOnChange)
     );
