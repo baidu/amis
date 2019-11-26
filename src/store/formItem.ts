@@ -85,6 +85,9 @@ export const FormItemStore = types
       return self.errorData.map(item => item.msg);
     }
 
+    let lastQueryValue: any;
+    let lastResult: any = [];
+
     return {
       get form(): any {
         return getForm();
@@ -114,8 +117,13 @@ export const FormItemStore = types
       },
 
       getSelectedOptions: (value: any = getValue()) => {
+        if (value === lastQueryValue) {
+          return lastResult;
+        }
+        lastQueryValue = value;
+
         if (typeof value === 'undefined') {
-          return [];
+          return (lastResult = []);
         }
 
         const selected = Array.isArray(value)
@@ -175,7 +183,7 @@ export const FormItemStore = types
           unMatched && selectedOptions.push(unMatched);
         });
 
-        return selectedOptions;
+        return (lastResult = selectedOptions);
       }
     };
   })
