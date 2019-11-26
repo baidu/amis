@@ -146,7 +146,7 @@ export const FormItemStore = types
 
         const selectedOptions: Array<any> = [];
 
-        self.filteredOptions.forEach((item: any) => {
+        flattenTree(self.filteredOptions).forEach((item: any) => {
           let idx = findIndex(selected, seleced => {
             return isObject(seleced)
               ? seleced === item[self.valueField || 'value']
