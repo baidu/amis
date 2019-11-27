@@ -257,10 +257,7 @@ export const filters: {
         return input;
       }
 
-      fn = value =>
-        !!~String(value)
-          .toLowerCase()
-          .indexOf(arg1);
+      fn = value => new RegExp(arg1, 'i').test(String(value));
     }
 
     keys = keys.split(/\s*,\s*/);
