@@ -346,8 +346,9 @@ export default class FormControl extends React.PureComponent<
     changeImmediately: boolean = false
   ) {
     const {
+      formStore: form,
       onChange,
-      control: {type},
+      control: {type, pipeOut},
       formInited
     } = this.props;
 
@@ -355,6 +356,11 @@ export default class FormControl extends React.PureComponent<
     if (!this.model || ~['service'].indexOf(type)) {
       onChange && onChange(...(arguments as any));
       return;
+    }
+
+    if (pipeOut) {
+      const oldValue = this.model.value;
+      value = pipeOut(value, oldValue, form.data);
     }
 
     this.setState(
@@ -374,15 +380,12 @@ export default class FormControl extends React.PureComponent<
       onChange,
       control: {validateOnChange, name, pipeOut, onChange: onFormItemChange}
     } = this.props;
+
     if (!this.model) {
       return;
     }
     let value = this.state.value;
     const oldValue = this.model.value;
-
-    if (pipeOut) {
-      value = pipeOut(value, oldValue, form.data);
-    }
 
     if (oldValue === value) {
       return;

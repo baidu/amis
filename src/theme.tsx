@@ -3,7 +3,6 @@ import cx from 'classnames';
 import React from 'react';
 import hoistNonReactStatic = require('hoist-non-react-statics');
 import {ExtractProps, Omit} from './types';
-import PropTypes from 'prop-types';
 
 export type ClassValue =
   | string
