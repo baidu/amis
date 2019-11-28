@@ -24,6 +24,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   cache: {
     [propName: string]: any;
   } = {};
+  unHook: Function;
   constructor(props: SelectProps) {
     super(props);
 
@@ -33,6 +34,10 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       leading: false
     });
     this.inputRef = this.inputRef.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.unHook && this.unHook();
   }
 
   inputRef(ref: any) {
@@ -109,10 +114,22 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   }
 
   loadRemote(input: string) {
-    const {autoComplete, env, data, setOptions, setLoading} = this.props;
+    const {
+      autoComplete,
+      env,
+      data,
+      setOptions,
+      setLoading,
+      formInited,
+      addHook
+    } = this.props;
 
     if (!env || !env.fetcher) {
       throw new Error('fetcher is required');
+    }
+
+    if (!formInited) {
+      return (this.unHook = addHook(this.loadRemote.bind(this, input), 'init'));
     }
 
     if (this.cache[input]) {
