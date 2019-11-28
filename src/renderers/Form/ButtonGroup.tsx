@@ -137,7 +137,8 @@ export default class ButtonGroupControl extends React.Component<
 
 @OptionsControl({
   type: 'button-group',
-  sizeMutable: false
+  sizeMutable: false,
+  strictMode: false
 })
 export class ButtonGroupControlRenderer extends ButtonGroupControl {
   render() {

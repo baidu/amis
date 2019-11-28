@@ -15,7 +15,8 @@ import {
   isObject,
   isVisible,
   createObject,
-  extendObject
+  extendObject,
+  cloneObject
 } from '../../utils/helper';
 import debouce = require('lodash/debounce');
 import flatten = require('lodash/flatten');
@@ -323,13 +324,13 @@ export default class Form extends React.Component<FormProps, object> {
     // 先拿出来数据，主要担心 form 被什么东西篡改了，然后又应用出去了
     // 之前遇到过问题，所以拿出来了。但是 options  loadOptions 默认值失效了。
     // 所以目前需要两个都要设置一下，再 init Hook 里面。
-    const data = {...store.data};
+    const data = cloneObject(store.data);
 
     store.setInited(true);
     const hooks: Array<(data: any) => Promise<any>> = this.hooks['init'] || [];
     await Promise.all(hooks.map(hook => hook(data)));
 
-    onInit && onInit(extendObject(store.data, data), this.props);
+    onInit && onInit(data, this.props);
 
     submitOnInit &&
       this.handleAction(
