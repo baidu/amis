@@ -29,6 +29,7 @@ import {IComboStore} from '../../store/combo';
 import qs = require('qs');
 import {dataMapping} from '../../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../../utils/api';
+import Spinner from '../../components/Spinner';
 export type FormGroup = FormSchema & {
   title?: string;
   className?: string;
@@ -651,7 +652,11 @@ export default class Form extends React.Component<FormProps, object> {
         .then(async response => {
           response &&
             onChange &&
-            onChange(store.data, difference(store.data, store.pristine));
+            onChange(
+              store.data,
+              difference(store.data, store.pristine),
+              this.props
+            );
           if (store.validated) {
             await this.validate(true);
           }
@@ -688,7 +693,12 @@ export default class Form extends React.Component<FormProps, object> {
       targets[0].props.type === 'form'
     ) {
       store.updateData(values[0]);
-      onChange && onChange(store.data, difference(store.data, store.pristine));
+      onChange &&
+        onChange(
+          store.data,
+          difference(store.data, store.pristine),
+          this.props
+        );
     }
 
     store.closeDialog(true);
@@ -714,7 +724,12 @@ export default class Form extends React.Component<FormProps, object> {
       targets[0].props.type === 'form'
     ) {
       store.updateData(values[0]);
-      onChange && onChange(store.data, difference(store.data, store.pristine));
+      onChange &&
+        onChange(
+          store.data,
+          difference(store.data, store.pristine),
+          this.props
+        );
     }
 
     store.closeDrawer(true);
@@ -971,6 +986,8 @@ export default class Form extends React.Component<FormProps, object> {
             <code>{JSON.stringify(store.data, null, 2)}</code>
           </pre>
         ) : null}
+
+        <Spinner show={store.loading} overlay />
 
         {this.renderBody()}
 
