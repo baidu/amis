@@ -631,7 +631,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             return (
               <div
                 {...getItemProps({
-                  key: item.value || index,
+                  key: typeof item.value === 'string' ? item.value : index,
                   index,
                   item,
                   disabled: item.disabled
@@ -682,7 +682,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 ) : (
                   <span>
                     {item.disabled
-                      ? item.label
+                      ? item[labelField]
                       : highlight(
                           item[labelField],
                           inputValue as string,
