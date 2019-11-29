@@ -12,7 +12,12 @@ import {Api, Payload, fetchOptions} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
 import findIndex = require('lodash/findIndex');
-import {isArrayChilrenModified, isObject, createObject} from '../utils/helper';
+import {
+  isArrayChilrenModified,
+  isObject,
+  createObject,
+  isObjectShallowModified
+} from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
 import {normalizeOptions} from '../components/Select';
@@ -233,15 +238,17 @@ export const FormItemStore = types
       typeof labelField !== 'undefined' &&
         (self.labelField = (labelField as string) || 'label');
 
-      if (self.required) {
-        rules = rules || {};
-        rules = {
-          ...rules,
-          isRequired: true
-        };
-      }
+      rules = rules || {};
+      rules = {
+        ...rules,
+        isRequired: self.required
+      };
 
-      rules && (self.rules = rules);
+      if (isObjectShallowModified(rules, self.rules)) {
+        self.rules = rules;
+        clearError('bultin');
+        self.validated = false;
+      }
 
       if (value !== void 0 && self.value === void 0) {
         form.setValueByName(self.name, value, true);

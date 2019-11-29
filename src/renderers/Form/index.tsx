@@ -931,10 +931,17 @@ export default class Form extends React.Component<FormProps, object> {
       if (control.$ref) {
         subSchema.control = control = {
           ...resolveDefinitions(control.$ref),
-          ...control
+          ...control,
+          ...getExprProperties(control, store.data)
         };
         delete control.$ref;
+      } else {
+        subSchema.control = control = {
+          ...control,
+          ...getExprProperties(control, store.data)
+        }
       }
+
       control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
       control.visibleOn && (subSchema.visibleOn = control.visibleOn);
     }
