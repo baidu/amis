@@ -367,12 +367,14 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     let value = this.getValueAsArray();
+    let isModified = false;
     this.subFormDefaultValues = this.subFormDefaultValues.map(
       ({index, values, setted}) => {
         const newValue = flat ? values.flat : {...values};
 
         if (!setted && isObjectShallowModified(value[index], newValue)) {
           value[index] = flat ? values.flat : {...values};
+          isModified = true;
         }
 
         return {
@@ -382,6 +384,10 @@ export default class ComboControl extends React.Component<ComboProps> {
         };
       }
     );
+
+    if (!isModified) {
+      return;
+    }
 
     if (flat && joinValues) {
       value = value.join(delimiter || ',');
