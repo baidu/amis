@@ -464,6 +464,16 @@ export default class FormControl extends React.PureComponent<
       return;
     }
 
+    const {
+      formStore: form,
+      control: {pipeOut}
+    } = this.props;
+
+    if (pipeOut) {
+      const oldValue = this.model.value;
+      value = pipeOut(value, oldValue, form.data);
+    }
+
     this.model.changeValue(value, true);
   }
 
