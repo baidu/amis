@@ -524,9 +524,7 @@ export default class Table extends React.Component<TableProps, object> {
     const clip = (this.table as HTMLElement).getBoundingClientRect();
     const offsetY = this.props.env.affixOffsetTop || 0;
     const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
-    const afixedDom = dom.querySelector(
-      `:scope>.${ns}Table-fixedTop`
-    ) as HTMLElement;
+    const afixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
 
     afixedDom.style.cssText += `top: ${offsetY}px;width: ${
       (this.table.parentNode as HTMLElement).offsetWidth
@@ -577,10 +575,9 @@ export default class Table extends React.Component<TableProps, object> {
     const dom = findDOMNode(this) as HTMLElement;
 
     forEach(
-      dom.querySelectorAll(
-        `:scope>.${ns}Table-fixedLeft, :scope>.${ns}Table-fixedRight`
-      ),
+      dom.querySelectorAll(`.${ns}Table-fixedLeft, .${ns}Table-fixedRight`),
       (item: HTMLElement) =>
+        item.parentNode === dom &&
         (item.style.cssText += `height:${this.totalHeight}px;`)
     );
 
@@ -1064,9 +1061,7 @@ export default class Table extends React.Component<TableProps, object> {
               type: 'remark',
               tooltip: column.remark,
               container:
-                env && env.getModalContainer
-                  ? env.getModalContainer
-                  : undefined
+                env && env.getModalContainer ? env.getModalContainer : undefined
             })
           : null}
         {affix}
@@ -1221,7 +1216,7 @@ export default class Table extends React.Component<TableProps, object> {
               <tr>
                 {store.filteredColumns.map(column =>
                   this.renderHeadCell(column, {
-                    key: column.index,
+                    'key': column.index,
                     'data-index': column.index
                   })
                 )}
@@ -1272,7 +1267,7 @@ export default class Table extends React.Component<TableProps, object> {
           <tr>
             {columns.map(column =>
               this.renderHeadCell(column, {
-                key: column.index,
+                'key': column.index,
                 'data-index': column.index
               })
             )}
@@ -1756,7 +1751,7 @@ export default class Table extends React.Component<TableProps, object> {
                   {store.filteredColumns.map(column =>
                     this.renderHeadCell(column, {
                       'data-index': column.index,
-                      key: column.index
+                      'key': column.index
                     })
                   )}
                 </tr>
