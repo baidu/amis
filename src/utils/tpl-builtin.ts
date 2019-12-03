@@ -68,23 +68,18 @@ const timeUnitMap: {
   [propName: string]: string;
 } = {
   year: 'Y',
-  years: 'Y',
   month: 'M',
-  months: 'M',
   week: 'w',
-  weeks: 'w',
   weekday: 'W',
   day: 'd',
-  days: 'd',
   hour: 'h',
-  hours: 'h',
   minute: 'm',
-  minutes: 'm',
   min: 'm',
-  mins: 'm'
+  second: 's',
+  millisecond: 'ms'
 };
 
-export const relativeValueRe = /^(.+)?(\+|-)(\d+)(minute|minutes|min|mins|hours|hour|day|days|week|weeks|month|months|year|years|weekday)$/i;
+export const relativeValueRe = /^(.+)?(\+|-)(\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/i;
 export const filterDate = (
   value: string,
   data: object = {},
@@ -104,7 +99,7 @@ export const filterDate = (
     const from = m[1]
       ? filterDate(m[1], data, format)
       : moment(
-          /minute|minutes|min|mins|hours|hour/.test(m[4])
+          /(minute|min|hour|second)s?/.test(m[4])
             ? [
                 date.getFullYear(),
                 date.getMonth(),
