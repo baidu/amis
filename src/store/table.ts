@@ -501,6 +501,12 @@ export const TableStore = iRendererStore
 
       if (config.columns && Array.isArray(config.columns)) {
         let columns: Array<SColumn> = config.columns.concat();
+        if (!columns.length) {
+          columns.push({
+            type: 'text',
+            label: '空'
+          });
+        }
 
         columns.unshift({
           type: '__expandme',
