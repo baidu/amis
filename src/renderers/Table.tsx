@@ -334,7 +334,7 @@ export default class Table extends React.Component<TableProps, object> {
     ) {
       Table.syncRows(store, nextProps, props);
       this.syncSelected();
-    } else if (isArrayChilrenModified(props.selected, nextProps.selected)) {
+    } else if (isArrayChilrenModified(props.selected!, nextProps.selected!)) {
       store.updateSelected(nextProps.selected || [], nextProps.valueField);
       this.syncSelected();
     }
@@ -1676,6 +1676,61 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
+  renderTableContent() {
+    const {store, placeholder, classnames: cx, data, render} = this.props;
+
+    const tableClassName = cx(
+      'Table-table',
+      store.combineNum > 0 ? 'Table-table--withCombine' : '',
+      this.props.tableClassName
+    );
+
+    return (
+      <div
+        onMouseMove={this.handleMouseMove}
+        className={cx('Table-content')}
+        onScroll={this.handleOutterScroll}
+      >
+        <table ref={this.tableRef} className={tableClassName}>
+          <thead>
+            {store.columnGroup.length ? (
+              <tr>
+                {store.columnGroup.map((item, index) => (
+                  <th
+                    key={index}
+                    data-index={item.index}
+                    colSpan={item.colSpan}
+                  >
+                    {item.label}
+                  </th>
+                ))}
+              </tr>
+            ) : null}
+            <tr>
+              {store.filteredColumns.map(column =>
+                this.renderHeadCell(column, {
+                  'data-index': column.index,
+                  'key': column.index
+                })
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {store.rows.length ? (
+              this.renderRows(store.rows)
+            ) : (
+              <tr className={cx('Table-placeholder')}>
+                <td colSpan={store.filteredColumns.length}>
+                  {render('placeholder', placeholder, {data})}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   render() {
     const {
       className,
@@ -1727,48 +1782,7 @@ export default class Table extends React.Component<TableProps, object> {
                 )
               : null}
           </div>
-          <div
-            onMouseMove={this.handleMouseMove}
-            className={cx('Table-content')}
-            onScroll={this.handleOutterScroll}
-          >
-            <table ref={this.tableRef} className={tableClassName}>
-              <thead>
-                {store.columnGroup.length ? (
-                  <tr>
-                    {store.columnGroup.map((item, index) => (
-                      <th
-                        key={index}
-                        data-index={item.index}
-                        colSpan={item.colSpan}
-                      >
-                        {item.label}
-                      </th>
-                    ))}
-                  </tr>
-                ) : null}
-                <tr>
-                  {store.filteredColumns.map(column =>
-                    this.renderHeadCell(column, {
-                      'data-index': column.index,
-                      'key': column.index
-                    })
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {store.rows.length ? (
-                  this.renderRows(store.rows)
-                ) : (
-                  <tr className={cx('Table-placeholder')}>
-                    <td colSpan={store.filteredColumns.length}>
-                      {render('placeholder', placeholder, {data})}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+          {this.renderTableContent()}
           {~store.hoverIndex ? this.renderItemActions() : null}
         </div>
         {footer}
