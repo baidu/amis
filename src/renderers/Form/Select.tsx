@@ -147,7 +147,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     });
 
     if (!isEffectiveApi(autoComplete, ctx)) {
-      return;
+      return Promise.resolve({
+        options: []
+      });
     }
 
     setLoading(true);
@@ -159,9 +161,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         let combinedOptions = this.mergeOptions(options);
         setOptions(combinedOptions);
 
-        return Promise.resolve({
+        return {
           options: combinedOptions
-        });
+        };
       })
       .finally(() => setLoading(false));
   }
