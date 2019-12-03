@@ -141,31 +141,29 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         options: combinedOptions
       });
     }
+    const ctx = createObject(data, {
+      term: input,
+      value: input
+    });
+
+    if (!isEffectiveApi(autoComplete, ctx)) {
+      return;
+    }
 
     setLoading(true);
-    return (
-      isEffectiveApi(autoComplete, data) &&
-      env
-        .fetcher(
-          autoComplete,
-          createObject(data, {
-            term: input,
-            value: input
-          })
-        )
-        .then(ret => {
-          let options =
-            (ret.data && (ret.data as any).options) || ret.data || [];
-          this.cache[input] = options;
-          let combinedOptions = this.mergeOptions(options);
-          setOptions(combinedOptions);
+    return env
+      .fetcher(autoComplete, ctx)
+      .then(ret => {
+        let options = (ret.data && (ret.data as any).options) || ret.data || [];
+        this.cache[input] = options;
+        let combinedOptions = this.mergeOptions(options);
+        setOptions(combinedOptions);
 
-          return Promise.resolve({
-            options: combinedOptions
-          });
-        })
-        .finally(() => setLoading(false))
-    );
+        return Promise.resolve({
+          options: combinedOptions
+        });
+      })
+      .finally(() => setLoading(false));
   }
 
   mergeOptions(options: Array<object>) {
