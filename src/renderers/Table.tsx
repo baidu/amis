@@ -121,7 +121,8 @@ export default class Table extends React.Component<TableProps, object> {
     'itemActions',
     'combineNum',
     'items',
-    'valueField'
+    'valueField',
+    'saveImmediately'
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
@@ -385,14 +386,14 @@ export default class Table extends React.Component<TableProps, object> {
     saveImmediately?: boolean | any,
     savePristine?: boolean
   ) {
-    const {onSave} = this.props;
+    const {onSave, saveImmediately: propsSaveImmediately} = this.props;
 
     item.change(values, savePristine);
 
     // 值发生变化了，需要通过 onSelect 通知到外面，否则会出现数据不同步的问题
     this.syncSelected();
 
-    if (!saveImmediately || savePristine) {
+    if ((!saveImmediately && !propsSaveImmediately) || savePristine) {
       return;
     }
 
@@ -850,12 +851,23 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderHeading() {
-    let {title, store, hideQuickSaveBtn, data, classnames: cx} = this.props;
+    let {
+      title,
+      store,
+      hideQuickSaveBtn,
+      data,
+      classnames: cx,
+      saveImmediately
+    } = this.props;
 
-    if (title || (store.modified && !hideQuickSaveBtn) || store.moved) {
+    if (
+      title ||
+      (!saveImmediately && store.modified && !hideQuickSaveBtn) ||
+      store.moved
+    ) {
       return (
         <div className={cx('Table-heading')} key="heading">
-          {store.modified && !hideQuickSaveBtn ? (
+          {!saveImmediately && store.modified && !hideQuickSaveBtn ? (
             <span>
               {`当前有 ${
                 store.modified
