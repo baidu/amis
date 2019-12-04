@@ -939,7 +939,7 @@ export default class Form extends React.Component<FormProps, object> {
         subSchema.control = control = {
           ...control,
           ...getExprProperties(control, store.data)
-        }
+        };
       }
 
       control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
@@ -950,13 +950,17 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   renderBody() {
-    const {tabs, fieldSet, controls} = this.props;
+    const {tabs, fieldSet, controls, mode, className, classnames: cx} = this.props;
 
-    return this.renderFormItems({
-      tabs,
-      fieldSet,
-      controls
-    });
+    return (
+      <div className={cx(`Form`, `Form--${mode || 'normal'}`, className)}>
+        {this.renderFormItems({
+          tabs,
+          fieldSet,
+          controls
+        })}
+      </div>
+    );
   }
 
   render() {
@@ -984,11 +988,7 @@ export default class Form extends React.Component<FormProps, object> {
       (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
 
     let body = (
-      <WrapperComponent
-        onSubmit={this.handleFormSubmit}
-        className={cx(`Form`, `Form--${mode || 'normal'}`, className)}
-        noValidate
-      >
+      <WrapperComponent onSubmit={this.handleFormSubmit} noValidate>
         {debug ? (
           <pre>
             <code>{JSON.stringify(store.data, null, 2)}</code>
