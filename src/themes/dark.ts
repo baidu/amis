@@ -6,7 +6,7 @@ theme('dark', {
   classPrefix,
   classnames,
   renderers: {
-    json: {
+    'json': {
       jsonTheme: 'eighties'
     },
     'editor-control': {

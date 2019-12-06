@@ -218,35 +218,35 @@ export default class FroalaEditor extends React.Component<any, any> {
     'Type something': '\u8f93\u5165\u4e00\u4e9b\u5185\u5bb9',
 
     // Basic formatting
-    Bold: '\u7c97\u4f53',
-    Italic: '\u659c\u4f53',
-    Underline: '\u4e0b\u5212\u7ebf',
-    Strikethrough: '\u5220\u9664\u7ebf',
+    'Bold': '\u7c97\u4f53',
+    'Italic': '\u659c\u4f53',
+    'Underline': '\u4e0b\u5212\u7ebf',
+    'Strikethrough': '\u5220\u9664\u7ebf',
 
     // Main buttons
-    Insert: '\u63d2\u5165',
-    Delete: '\u5220\u9664',
-    Cancel: '\u53d6\u6d88',
-    OK: '\u786e\u5b9a',
-    Back: '\u80cc\u90e8',
-    Remove: '\u53bb\u6389',
-    More: '\u66f4\u591a',
-    Update: '\u66f4\u65b0',
-    Style: '\u98ce\u683c',
+    'Insert': '\u63d2\u5165',
+    'Delete': '\u5220\u9664',
+    'Cancel': '\u53d6\u6d88',
+    'OK': '\u786e\u5b9a',
+    'Back': '\u80cc\u90e8',
+    'Remove': '\u53bb\u6389',
+    'More': '\u66f4\u591a',
+    'Update': '\u66f4\u65b0',
+    'Style': '\u98ce\u683c',
 
     // Font
     'Font Family': '\u5b57\u4f53',
     'Font Size': '\u5b57\u53f7',
 
     // Colors
-    Colors: '\u989c\u8272',
-    Background: '\u80cc\u666f',
-    Text: '\u6587\u5b57',
+    'Colors': '\u989c\u8272',
+    'Background': '\u80cc\u666f',
+    'Text': '\u6587\u5b57',
 
     // Paragraphs
     'Paragraph Format': '\u683c\u5f0f',
-    Normal: '\u6b63\u5e38',
-    Code: '\u4ee3\u7801',
+    'Normal': '\u6b63\u5e38',
+    'Code': '\u4ee3\u7801',
     'Heading 1': '\u6807\u98981',
     'Heading 2': '\u6807\u98982',
     'Heading 3': '\u6807\u98983',
@@ -257,12 +257,12 @@ export default class FroalaEditor extends React.Component<any, any> {
     'Inline Style': '\u5185\u8054\u6837\u5f0f',
 
     // Alignment
-    Align: '\u5bf9\u9f50\u65b9\u5f0f',
+    'Align': '\u5bf9\u9f50\u65b9\u5f0f',
     'Align Left': '\u5de6\u5bf9\u9f50',
     'Align Center': '\u5c45\u4e2d',
     'Align Right': '\u53f3\u5bf9\u9f50',
     'Align Justify': '\u4e24\u7aef\u5bf9\u9f50',
-    None: '\u65e0',
+    'None': '\u65e0',
 
     // Lists
     'Ordered List': '\u7f16\u53f7\u5217\u8868',
@@ -277,32 +277,32 @@ export default class FroalaEditor extends React.Component<any, any> {
     'Open in new tab': '\u5f00\u542f\u5728\u65b0\u6807\u7b7e\u9875',
     'Open Link': '\u6253\u5f00\u94fe\u63a5',
     'Edit Link': '\u7f16\u8f91\u94fe\u63a5',
-    Unlink: '\u5220\u9664\u94fe\u63a5',
+    'Unlink': '\u5220\u9664\u94fe\u63a5',
     'Choose Link': '\u9009\u62e9\u94fe\u63a5',
 
     // Images
     'Insert Image': '\u63d2\u5165\u56fe\u7247',
     'Upload Image': '\u4e0a\u4f20\u56fe\u7247',
     'By URL': '\u901a\u8fc7\u7f51\u5740',
-    Browse: '\u6d4f\u89c8',
+    'Browse': '\u6d4f\u89c8',
     'Drop image': '\u56fe\u50cf\u62d6\u653e',
     'or click': '\u6216\u70b9\u51fb',
     'Manage Images': '\u7ba1\u7406\u56fe\u50cf',
-    Loading: '\u8f7d\u5165\u4e2d',
-    Deleting: '\u5220\u9664',
-    Tags: '\u6807\u7b7e',
+    'Loading': '\u8f7d\u5165\u4e2d',
+    'Deleting': '\u5220\u9664',
+    'Tags': '\u6807\u7b7e',
     'Are you sure? Image will be deleted.':
       '\u4f60\u786e\u5b9a\u5417\uff1f\u56fe\u50cf\u5c06\u88ab\u5220\u9664\u3002',
-    Replace: '\u66f4\u6362',
-    Uploading: '\u4e0a\u4f20',
+    'Replace': '\u66f4\u6362',
+    'Uploading': '\u4e0a\u4f20',
     'Loading image': '\u5bfc\u5165\u56fe\u50cf',
-    Display: '\u663e\u793a',
-    Inline: '\u6392\u961f',
+    'Display': '\u663e\u793a',
+    'Inline': '\u6392\u961f',
     'Break Text': '\u65ad\u5f00\u6587\u672c',
     'Alternate Text': '\u5907\u7528\u6587\u672c',
     'Change Size': '\u5c3a\u5bf8\u53d8\u5316',
-    Width: '\u5bbd\u5ea6',
-    Height: '\u9ad8\u5ea6',
+    'Width': '\u5bbd\u5ea6',
+    'Height': '\u9ad8\u5ea6',
     'Something went wrong. Please try again.':
       '\u51fa\u4e86\u4e9b\u95ee\u9898\u3002 \u8bf7\u518d\u8bd5\u4e00\u6b21\u3002',
 
@@ -316,23 +316,23 @@ export default class FroalaEditor extends React.Component<any, any> {
     'Remove Table': '\u5220\u9664\u8868',
     'Table Style': '\u8868\u683c\u6837\u5f0f',
     'Horizontal Align': '\u6c34\u5e73\u5bf9\u9f50\u65b9\u5f0f',
-    Row: '\u884c',
+    'Row': '\u884c',
     'Insert row above': '\u5728\u4e0a\u65b9\u63d2\u5165',
     'Insert row below': '\u5728\u4e0b\u65b9\u63d2\u5165',
     'Delete row': '\u5220\u9664\u884c',
-    Column: '\u5217',
+    'Column': '\u5217',
     'Insert column before': '\u5728\u5de6\u4fa7\u63d2\u5165',
     'Insert column after': '\u5728\u53f3\u4fa7\u63d2\u5165',
     'Delete column': '\u5220\u9664\u5217',
-    Cell: '\u5355\u5143\u683c',
+    'Cell': '\u5355\u5143\u683c',
     'Merge cells': '\u5408\u5e76\u5355\u5143\u683c',
     'Horizontal split': '\u6c34\u5e73\u5206\u5272',
     'Vertical split': '\u5782\u76f4\u5206\u5272',
     'Cell Background': '\u5355\u5143\u683c\u80cc\u666f',
     'Vertical Align': '\u5782\u76f4\u5bf9\u9f50\u65b9\u5f0f',
-    Top: '\u6700\u4f73',
-    Middle: '\u4e2d\u95f4',
-    Bottom: '\u5e95\u90e8',
+    'Top': '\u6700\u4f73',
+    'Middle': '\u4e2d\u95f4',
+    'Bottom': '\u5e95\u90e8',
     'Align Top': '\u9876\u90e8\u5bf9\u9f50',
     'Align Middle': '\u4e2d\u95f4\u5bf9\u9f50',
     'Align Bottom': '\u5e95\u90e8\u5bf9\u9f50',
@@ -343,7 +343,7 @@ export default class FroalaEditor extends React.Component<any, any> {
     'Drop file': '\u6587\u4ef6\u62d6\u653e',
 
     // Emoticons
-    Emoticons: '\u8868\u60c5',
+    'Emoticons': '\u8868\u60c5',
     'Grinning face': '\u8138\u4e0a\u7b11\u563b\u563b',
     'Grinning face with smiling eyes': '',
     'Face with tears of joy':
@@ -416,14 +416,14 @@ export default class FroalaEditor extends React.Component<any, any> {
     'Face with medical mask': '\u9762\u5bf9\u533b\u7597\u53e3\u7f69',
 
     // Line breaker
-    Break: '\u7834',
+    'Break': '\u7834',
 
     // Math
-    Subscript: '\u4e0b\u6807',
-    Superscript: '\u4e0a\u6807',
+    'Subscript': '\u4e0b\u6807',
+    'Superscript': '\u4e0a\u6807',
 
     // Full screen
-    Fullscreen: '\u5168\u5c4f',
+    'Fullscreen': '\u5168\u5c4f',
 
     // Horizontal line
     'Insert Horizontal Line': '\u63d2\u5165\u6c34\u5e73\u7ebf',
@@ -432,8 +432,8 @@ export default class FroalaEditor extends React.Component<any, any> {
     'Clear Formatting': '\u683c\u5f0f\u5316\u5220\u9664',
 
     // Undo, redo
-    Undo: '\u64a4\u6d88',
-    Redo: '\u91cd\u590d',
+    'Undo': '\u64a4\u6d88',
+    'Redo': '\u91cd\u590d',
 
     // Select all
     'Select All': '\u5168\u9009',
@@ -442,9 +442,9 @@ export default class FroalaEditor extends React.Component<any, any> {
     'Code View': '\u4ee3\u7801\u89c6\u56fe',
 
     // Quote
-    Quote: '\u5f15\u7528',
-    Increase: '\u589e\u52a0\u5f15\u7528',
-    Decrease: '\u5220\u9664\u5f15\u7528',
+    'Quote': '\u5f15\u7528',
+    'Increase': '\u589e\u52a0\u5f15\u7528',
+    'Decrease': '\u5220\u9664\u5f15\u7528',
 
     // Quick Insert
     'Quick Insert': '\u5feb\u63d2'

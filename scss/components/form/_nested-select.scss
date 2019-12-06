@@ -1,137 +1,138 @@
 .#{$ns}NestedSelect {
-    display: inline-flex;
-    vertical-align: middle;
-    outline: none;
+  display: inline-flex;
+  vertical-align: middle;
+  outline: none;
+  position: relative;
+  border: $Form-select-borderWidth solid $Form-select-borderColor;
+  background: $Form-select-bg;
+  border-radius: $Form-select-borderRadius;
+  height: $Form-selectOption-height;
+  $paddingY: (
+      $Form-selectOption-height - $Form-input-lineHeight * $Form-input-fontSize -
+        $Form-select-borderWidth * 2
+    )/2;
+  padding: $paddingY 0 $paddingY $Form-select-paddingX;
+  cursor: pointer;
+  color: $Form-select-color;
+
+  &.is-disabled {
+    color: $text--muted-color;
+    background: $Form-input-onDisabled-bg;
+    border-color: $Form-input-onDisabled-borderColor;
+  }
+
+  &.is-focused,
+  &.is-opened {
+    border-color: $Form-input-onFocused-borderColor;
+    // border-bottom: 0;
+
+    @if ($Form-select-onFocused-color !=$Form-select-color) {
+      color: $Form-select-onFocused-color;
+    }
+  }
+
+  &.is-opened {
+    .#{$ns}Select-arrow:before {
+      transform: rotate(180deg);
+    }
+  }
+
+  &:not(.is-disabled):hover {
+    background: $Form-select-onHover-bg;
+  }
+
+  &-placeholder {
+    color: $Form-select-placeholderColor;
+    line-height: $Form-input-lineHeight;
+  }
+
+  &-valueWrap {
+    user-select: none;
     position: relative;
-    border: $Form-select-borderWidth solid $Form-select-borderColor;
-    background: $Form-select-bg;
-    border-radius: $Form-select-borderRadius;
-    height: $Form-selectOption-height;
-    $paddingY: (
-            $Form-selectOption-height - $Form-input-lineHeight *
-                $Form-input-fontSize - $Form-select-borderWidth * 2
-        )/2;
-    padding: $paddingY 0 $paddingY $Form-select-paddingX;
+    flex-grow: 1;
+  }
+
+  &-clear {
+    padding: px2rem(3px);
     cursor: pointer;
-    color: $Form-select-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
 
-    &.is-disabled {
-        color: $text--muted-color;
-        background: $Form-input-onDisabled-bg;
-        border-color: $Form-input-onDisabled-borderColor;
+    svg {
+      fill: $Form-input-iconColor;
+      width: px2rem(10px);
+      height: px2rem(10px);
     }
 
-    &.is-focused,
-    &.is-opened {
-        border-color: $Form-input-onFocused-borderColor;
-        // border-bottom: 0;
-
-        @if ($Form-select-onFocused-color !=$Form-select-color) {
-            color: $Form-select-onFocused-color;
-        }
+    &:hover svg {
+      fill: darken($color: $Form-input-iconColor, $amount: 20%);
     }
+  }
 
-    &.is-opened {
-        .#{$ns}Select-arrow:before {
-            transform: rotate(180deg);
-        }
+  &-optionArrowRight {
+    display: inline-block;
+    position: absolute;
+    right: px2rem(10px);
+
+    svg {
+      width: px2rem(12px);
+      height: px2rem(12px);
+      fill: $Form-input-iconColor;
     }
+  }
 
-    &:not(.is-disabled):hover {
-        background: $Form-select-onHover-bg;
-    }
+  &-menuOuter,
+  &-childrenOuter {
+    z-index: 10;
+    position: absolute;
+    background: $Form-select-menu-bg;
+    color: $Form-select-menu-color;
+    border: $Form-select-outer-borderWidth solid
+      $Form-input-onFocused-borderColor;
+    box-shadow: $Form-select-outer-boxShadow;
 
-    &-placeholder {
-        color: $Form-select-placeholderColor;
-        line-height: $Form-input-lineHeight;
-    }
+    .#{$ns}NestedSelect-option {
+      position: relative;
+      padding-left: px2rem(10px);
+      height: $Form-input-height;
+      line-height: $Form-input-height;
+      cursor: pointer;
 
-    &-valueWrap {
-        user-select: none;
-        position: relative;
-        flex-grow: 1;
-    }
+      &.is-active {
+        color: $Form-select-menu-onActive-color;
+        background-color: $Form-select-menu-onActive-bg;
+      }
 
-    &-clear {
-        padding: px2rem(3px);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        z-index: 2;
+      &:hover {
+        color: $Form-select-menu-onHover-color;
+        background-color: $Form-select-menu-onHover-bg;
+      }
 
-        svg {
-            fill: $Form-input-iconColor;
-            width: px2rem(10px);
-            height: px2rem(10px);
-        }
+      &:hover > .#{$ns}NestedSelect-childrenOuter {
+        display: block;
+      }
 
-        &:hover svg {
-            fill: darken($color: $Form-input-iconColor, $amount: 20%);
-        }
-    }
-
-    &-optionArrowRight {
+      .#{$ns}Checkbox {
         display: inline-block;
-        position: absolute;
-        right: px2rem(10px);
+        padding-top: 0;
+      }
 
-        svg {
-            width: px2rem(12px);
-            height: px2rem(12px);
-            fill: $Form-input-iconColor;
-        }
+      &.checkall {
+        border-bottom: px2rem(1px) solid #eceff8;
+      }
     }
+  }
 
-    &-menuOuter,
-    &-childrenOuter {
-        z-index: 10;
-        position: absolute;
-        background: $Form-select-menu-bg;
-        color: $Form-select-menu-color;
-        border: $Form-select-outer-borderWidth solid $Form-input-onFocused-borderColor;
-        box-shadow: $Form-select-outer-boxShadow;
-
-        .#{$ns}NestedSelect-option {
-            position: relative;
-            padding-left: px2rem(10px);
-            height: $Form-input-height;
-            line-height: $Form-input-height;
-            cursor: pointer;
-
-            &.is-active {
-                color: $Form-select-menu-onActive-color;
-                background-color: $Form-select-menu-onActive-bg;
-            }
-
-            &:hover {
-                color: $Form-select-menu-onHover-color;
-                background-color: $Form-select-menu-onHover-bg;
-            }
-
-            &:hover > .#{$ns}NestedSelect-childrenOuter {
-                display: block;
-            }
-
-            .#{$ns}Checkbox {
-                display: inline-block;
-                padding-top: 0;
-            }
-
-            &.checkall {
-                border-bottom: px2rem(1px) solid #eceff8;
-            }
-        }
-    }
-
-    &-childrenOuter {
-        display: none;
-        position: relative;
-        width: 100%;
-        left: 100%;
-        transform: translateY(-$Form-input-height);
-        padding: 0;
-        margin: 0;
-    }
+  &-childrenOuter {
+    display: none;
+    position: relative;
+    width: 100%;
+    left: 100%;
+    transform: translateY(-$Form-input-height);
+    padding: 0;
+    margin: 0;
+  }
 }

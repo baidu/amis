@@ -538,9 +538,9 @@ class CustomDaysView extends React.Component<CustomDaysViewProps> {
       if (isDisabled) classes += ' rdtDisabled';
 
       dayProps = {
-        key: prevMonth.format('M_D'),
+        'key': prevMonth.format('M_D'),
         'data-value': prevMonth.date(),
-        className: classes
+        'className': classes
       };
 
       if (!isDisabled) dayProps.onClick = this.handleDayChange;

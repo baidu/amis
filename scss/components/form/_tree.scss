@@ -1,273 +1,294 @@
 .#{$ns}TreeControl {
-    border: 1px solid $Form-input-borderColor;
-    padding: 6px 12px;
-    border-radius: 2px;
-    max-height: 300px;
-    overflow: auto;
+  border: 1px solid $Form-input-borderColor;
+  padding: 6px 12px;
+  border-radius: 2px;
+  max-height: 300px;
+  overflow: auto;
 
-    &.h-full {
-        max-height: none;
-        overflow: visible;
-    }
+  &.h-full {
+    max-height: none;
+    overflow: visible;
+  }
 
-    &.no-border {
-        border: 0;
-    }
+  &.no-border {
+    border: 0;
+  }
 }
 
 .#{$ns}Tree {
+  &-list,
+  &-sublist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-    &-list,
-    &-sublist {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
+  &-sublist.is-folded {
+    display: none;
+  }
 
-    &-sublist.is-folded {
-        display: none;
-    }
+  &-item {
+    line-height: $Tree-itemHeight;
+    position: relative;
 
-    &-item {
-        line-height: $Tree-itemHeight;
+    > div {
+      &:hover {
+        text-decoration: none;
+
+        > .#{$ns}Tree-item-icons {
+          visibility: visible;
+        }
+      }
+
+      > span > svg {
+        display: inline-block;
+        cursor: pointer;
         position: relative;
+        top: 2px;
+        width: px2rem(16px);
+        height: px2rem(16px);
+        margin-left: px2rem(5px);
+      }
+    }
+  }
 
-        >div {
-            &:hover {
-                text-decoration: none;
+  &-rootItem {
+    line-height: $Tree-itemHeight;
+  }
 
-                >.#{$ns}Tree-item-icons {
-                    visibility: visible;
-                }
-            }
+  &-item > div:hover > .#{$ns}Tree-item-icons,
+  &-rootItem > div:hover > .#{$ns}Tree-item-icons {
+    visibility: visible;
+  }
 
-            >span>svg {
-                display: inline-block;
-                cursor: pointer;
-                position: relative;
-                top: 2px;
-                width: px2rem(16px);
-                height: px2rem(16px);
-                margin-left: px2rem(5px);
-            }
-        }
+  &-itemLabel {
+    &:hover {
+      background: $Tree-item-onHover-bg;
+    }
+  }
+
+  &-item-icons {
+    visibility: hidden;
+    transition: visibility 0.1s ease;
+    display: inline-block;
+    vertical-align: top;
+    height: $Tree-itemHeight;
+    line-height: $Tree-itemHeight;
+
+    > a {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: $gap-xs;
+      cursor: pointer;
+
+      > svg {
+        $svgSize: px2rem(16px);
+        width: $svgSize;
+        height: $svgSize;
+        top: 0.125 * $svgSize;
+      }
+    }
+  }
+
+  &-itemInput {
+    padding-left: $Tree-itemArrowWidth;
+
+    > a {
+      display: inline-block;
+      cursor: pointer;
+      margin-left: $gap-sm;
+      color: $icon-color;
+
+      &:hover {
+        color: $icon-onHover-color;
+        text-decoration: none;
+      }
     }
 
-    &-rootItem {
-        line-height: $Tree-itemHeight;
-    }
+    > input {
+      outline: none;
+      background-color: $Form-input-bg;
+      border: $Form-input-borderWidth solid $Form-input-borderColor;
+      border-radius: $Form-input-borderRadius;
+      line-height: $Form-input-lineHeight;
+      padding: (
+          $Tree-inputHeight - $Form-input-lineHeight * $Form-input-fontSize -
+            px2rem(2px)
+        )/2 $Form-input-paddingX;
+      font-size: $Form-input-fontSize;
 
-    &-item>div:hover>.#{$ns}Tree-item-icons,
-    &-rootItem>div:hover>.#{$ns}Tree-item-icons {
-        visibility: visible;
-    }
-
-    &-itemLabel {
-        &:hover {
-            background: $Tree-item-onHover-bg;
-        }
-    }
-
-    &-item-icons {
-        visibility: hidden;
-        transition: visibility .1s ease;
-        display: inline-block;
-        vertical-align: top;
-        height: $Tree-itemHeight;
-        line-height: $Tree-itemHeight;
-
-        >a {
-            display: inline-block;
-            vertical-align: middle;
-            margin-left: $gap-xs;
-            cursor: pointer;
-
-            >svg {
-                $svgSize: px2rem(16px);
-                width: $svgSize;
-                height: $svgSize;
-                top: 0.125 * $svgSize;
-            }
-        }
-    }
-
-    &-itemInput {
-        padding-left: $Tree-itemArrowWidth;
-
-        >a {
-            display: inline-block;
-            cursor: pointer;
-            margin-left: $gap-sm;
-            color: $icon-color;
-
-            &:hover {
-                color: $icon-onHover-color;
-                text-decoration: none;
-            }
-        }
-
-        >input {
-            outline: none;
-            background-color: $Form-input-bg;
-            border: $Form-input-borderWidth solid $Form-input-borderColor;
-            border-radius: $Form-input-borderRadius;
-            line-height: $Form-input-lineHeight;
-            padding: ($Tree-inputHeight - $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px))/2 $Form-input-paddingX;
-            font-size: $Form-input-fontSize;
-
-            &::placeholder {
-                color: $Form-input-placeholderColor;
-                user-select: none;
-            }
-
-            &:focus {
-                border-color: $Form-input-onFocused-borderColor;
-                box-shadow: $Form-input-boxShadow;
-
-                @if $Form-input-onFocused-bg !=$Form-input-bg {
-                    background-color: $Form-input-onFocused-bg;
-                }
-            }
-        }
-    }
-
-    &-addTopBtn {
-        cursor: pointer;
-        height: $Tree-itemHeight;
-        line-height: $Tree-itemHeight;
-        display: block;
-
-        &:hover {
-            text-decoration: none;
-        }
-
-        &.is-disabled {
-            pointer-events: none;
-            color: $text--muted-color;
-        }
-
-        >svg {
-            $svgSize: px2rem(14px);
-            width: $svgSize;
-            height: $svgSize;
-            top: $svgSize * 0.125;
-            margin-right: $Tree-itemArrowWidth - px2rem(14px); // icon 的宽度是14px
-        }
-    }
-
-    &-itemArrow {
-        cursor: pointer;
-        width: $Tree-itemArrowWidth;
-        text-align: center;
-        display: inline-block;
-
-        &:before {
-            font-style: normal;
-            font-family: $Tree-arrowVendor;
-            content: $Tree-unfoldedArrowContent;
-        }
-
-        &.is-folded:before {
-            content: $Tree-foldedArrowContent;
-        }
-    }
-
-    &-itemArrowPlaceholder {
-        display: inline-block;
-        width: $Tree-itemArrowWidth;
-    }
-
-    &-itemIcon {
-        display: inline-block;
-        margin-right: px2rem(3px);
-    }
-
-    &-rootIcon {
-        &:before {
-            font-style: normal;
-            font-family: $Tree-rootIconVendor;
-            content: $Tree-rootIconContent;
-        }
-    }
-
-    &-leafIcon {
-        &:before {
-            font-style: normal;
-            font-family: $Tree-leafIconVendor;
-            content: $Tree-leafIconContent;
-        }
-    }
-
-    &-folderIcon {
-        &:before {
-            font-style: normal;
-            font-family: $Tree-folderIconVendor;
-            content: $Tree-folderIconContent;
-        }
-    }
-
-    &-itemLabel {
+      &::placeholder {
+        color: $Form-input-placeholderColor;
         user-select: none;
+      }
 
-        &.is-checked,
-        &.is-children-checked {
-            color: $Tree-itemLabel--onChecked-color;
+      &:focus {
+        border-color: $Form-input-onFocused-borderColor;
+        box-shadow: $Form-input-boxShadow;
+
+        @if $Form-input-onFocused-bg !=$Form-input-bg {
+          background-color: $Form-input-onFocused-bg;
         }
+      }
+    }
+  }
 
-        &.is-disabled {
-            color: $text--muted-color;
-        }
+  &-addTopBtn {
+    cursor: pointer;
+    height: $Tree-itemHeight;
+    line-height: $Tree-itemHeight;
+    display: block;
+
+    &:hover {
+      text-decoration: none;
     }
 
-    &-itemText {
-        cursor: pointer;
+    &.is-disabled {
+      pointer-events: none;
+      color: $text--muted-color;
     }
 
-    &-placeholder {
-        color: $text--muted-color;
+    > svg {
+      $svgSize: px2rem(14px);
+      width: $svgSize;
+      height: $svgSize;
+      top: $svgSize * 0.125;
+      margin-right: $Tree-itemArrowWidth - px2rem(14px); // icon 的宽度是14px
+    }
+  }
+
+  &-itemArrow {
+    cursor: pointer;
+    width: $Tree-itemArrowWidth;
+    text-align: center;
+    display: inline-block;
+
+    &:before {
+      font-style: normal;
+      font-family: $Tree-arrowVendor;
+      content: $Tree-unfoldedArrowContent;
     }
 
+    &.is-folded:before {
+      content: $Tree-foldedArrowContent;
+    }
+  }
 
+  &-itemArrowPlaceholder {
+    display: inline-block;
+    width: $Tree-itemArrowWidth;
+  }
 
-    &-item &-item>&-itemLabel,
-    &-item &-item>&-placeholder {
-        padding-left: $Tree-indent;
+  &-itemIcon {
+    display: inline-block;
+    margin-right: px2rem(3px);
+  }
+
+  &-rootIcon {
+    &:before {
+      font-style: normal;
+      font-family: $Tree-rootIconVendor;
+      content: $Tree-rootIconContent;
+    }
+  }
+
+  &-leafIcon {
+    &:before {
+      font-style: normal;
+      font-family: $Tree-leafIconVendor;
+      content: $Tree-leafIconContent;
+    }
+  }
+
+  &-folderIcon {
+    &:before {
+      font-style: normal;
+      font-family: $Tree-folderIconVendor;
+      content: $Tree-folderIconContent;
+    }
+  }
+
+  &-itemLabel {
+    user-select: none;
+
+    &.is-checked,
+    &.is-children-checked {
+      color: $Tree-itemLabel--onChecked-color;
     }
 
-    &-item &-item &-item>&-itemLabel,
-    &-item &-item &-item>&-placeholder {
-        padding-left: $Tree-indent * 2;
+    &.is-disabled {
+      color: $text--muted-color;
     }
+  }
 
-    &-item &-item &-item &-item>&-itemLabel {
-        padding-left: $Tree-indent * 3;
-    }
+  &-itemText {
+    cursor: pointer;
+  }
 
-    &-item &-item &-item &-item &-item>&-itemLabel {
-        padding-left: $Tree-indent * 4;
-    }
+  &-placeholder {
+    color: $text--muted-color;
+  }
 
-    &-item &-item &-item &-item &-item &-item>&-itemLabel {
-        padding-left: $Tree-indent * 5;
-    }
+  &-item &-item > &-itemLabel,
+  &-item &-item > &-placeholder {
+    padding-left: $Tree-indent;
+  }
 
-    &-item &-item &-item &-item &-item &-item &-item>&-itemLabel {
-        padding-left: $Tree-indent * 6;
-    }
+  &-item &-item &-item > &-itemLabel,
+  &-item &-item &-item > &-placeholder {
+    padding-left: $Tree-indent * 2;
+  }
 
-    &-item &-item &-item &-item &-item &-item &-item &-item>&-itemLabel {
-        padding-left: $Tree-indent * 7;
-    }
+  &-item &-item &-item &-item > &-itemLabel {
+    padding-left: $Tree-indent * 3;
+  }
 
-    &-item &-item &-item &-item &-item &-item &-item &-item &-item>&-itemLabel {
-        padding-left: $Tree-indent * 8;
-    }
+  &-item &-item &-item &-item &-item > &-itemLabel {
+    padding-left: $Tree-indent * 4;
+  }
 
-    &-item &-item &-item &-item &-item &-item &-item &-item &-item &-item>&-itemLabel {
-        padding-left: $Tree-indent * 9;
-    }
+  &-item &-item &-item &-item &-item &-item > &-itemLabel {
+    padding-left: $Tree-indent * 5;
+  }
 
-    &-item &-item &-item &-item &-item &-item &-item &-item &-item &-item &-item>&-itemLabel {
-        padding-left: $Tree-indent * 10;
-    }
+  &-item &-item &-item &-item &-item &-item &-item > &-itemLabel {
+    padding-left: $Tree-indent * 6;
+  }
+
+  &-item &-item &-item &-item &-item &-item &-item &-item > &-itemLabel {
+    padding-left: $Tree-indent * 7;
+  }
+
+  &-item &-item &-item &-item &-item &-item &-item &-item &-item > &-itemLabel {
+    padding-left: $Tree-indent * 8;
+  }
+
+  &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    > &-itemLabel {
+    padding-left: $Tree-indent * 9;
+  }
+
+  &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    > &-itemLabel {
+    padding-left: $Tree-indent * 10;
+  }
 }

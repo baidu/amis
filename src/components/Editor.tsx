@@ -13,20 +13,20 @@ function noJsExt(raw: string) {
 }
 
 const defaultConfig = {
-  url: 'vs/loader.js',
+  'url': 'vs/loader.js',
   'vs/nls': {
     availableLanguages: {
       '*': 'zh-cn'
     }
   },
-  paths: {}
+  'paths': {}
 };
 
 try {
   // fis 编译的话，能正确赋值上，如果不是，那请通过外部参数传递。
   defaultConfig.url = __uri('monaco-editor/min/vs/loader.js');
   defaultConfig.paths = {
-    vs: noJsExt(__uri('monaco-editor/min/vs/editor/editor.main.js')).replace(
+    'vs': noJsExt(__uri('monaco-editor/min/vs/editor/editor.main.js')).replace(
       /\/vs\/.*$/,
       ''
     ),
