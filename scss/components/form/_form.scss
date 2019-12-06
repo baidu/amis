@@ -103,29 +103,31 @@
 
 @include media-breakpoint-up(sm) {
   .#{$ns}Form-control--sizeXs {
-    min-width: $Form-control-widthXs;
-    width: auto;
+    // min-width: $Form-control-widthXs;
+    // width: auto;
+    width: $Form-control-widthXs;
+    max-width: 100%;
     display: inline-block;
     vertical-align: top;
   }
 
   .#{$ns}Form-control--sizeSm {
-    min-width: $Form-control-widthSm;
-    width: auto;
+    width: $Form-control-widthSm;
+    max-width: 100%;
     display: inline-block;
     vertical-align: top;
   }
 
   .#{$ns}Form-control--sizeMd {
-    min-width: $Form-control-widthMd;
-    width: auto;
+    width: $Form-control-widthMd;
+    max-width: 100%;
     display: inline-block;
     vertical-align: top;
   }
 
   .#{$ns}Form-control--sizeLg {
-    min-width: $Form-control-widthLg;
-    width: auto;
+    width: $Form-control-widthLg;
+    max-width: 100%;
     display: inline-block;
     vertical-align: top;
   }
