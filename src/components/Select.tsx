@@ -332,6 +332,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   onFocus(e: any) {
     this.props.disabled ||
+      this.state.isOpen ||
       this.setState(
         {
           isFocused: true
@@ -537,16 +538,15 @@ export class Select extends React.Component<SelectProps, SelectState> {
     );
   }
 
-  renderOuter(
-    {
-      selectedItem,
-      getItemProps,
-      highlightedIndex,
-      inputValue,
-      isOpen
-    }: ControllerStateAndHelpers<any>,
-    getInputProps: any
-  ) {
+  renderOuter({
+    selectedItem,
+    getItemProps,
+    highlightedIndex,
+    inputValue,
+    isOpen,
+    getToggleButtonProps,
+    getInputProps
+  }: ControllerStateAndHelpers<any>) {
     const {
       popOverContainer,
       options,
@@ -786,7 +786,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         itemToString={item => (item ? item[labelField] : '')}
       >
         {(options: ControllerStateAndHelpers<any>) => {
-          const {isOpen, getInputProps} = options;
+          const {isOpen} = options;
           return (
             <div
               tabIndex={disabled ? -1 : 0}
@@ -822,7 +822,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               ) : null}
 
               <span className={cx('Select-arrow')} />
-              {isOpen ? this.renderOuter(options, getInputProps) : null}
+              {isOpen ? this.renderOuter(options) : null}
             </div>
           );
         }}
