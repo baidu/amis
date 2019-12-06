@@ -221,7 +221,7 @@ export const filters: {
       ? filterDate(input, this, inputFormat).format(outputFormat)
       : '';
   },
-  asArray: input => (input ? [input] : input),
+  asArray: input => (Array.isArray(input) ? input : input ? [input] : input),
   filter: function(input, keys, expOrDirective, arg1) {
     if (!Array.isArray(input) || !keys || !expOrDirective) {
       return input;
