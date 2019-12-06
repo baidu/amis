@@ -631,7 +631,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
             return (
               <div
                 {...getItemProps({
-                  key: typeof item.value === 'string' ? item.value : index,
+                  key:
+                    typeof item.value === 'string'
+                      ? `${item.label}-${item.value}`
+                      : index,
                   index,
                   item,
                   disabled: item.disabled

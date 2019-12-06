@@ -25,6 +25,11 @@
   &-fixedRight {
     box-shadow: $Table-fixedRight-boxShadow;
     right: 0;
+
+    .#{$ns}Table-table > thead > tr > th:first-child,
+    .#{$ns}Table-table > tbody > tr > td:first-child {
+      padding-left: $TableCell-paddingX;
+    }
   }
 
   &-fixedTop {

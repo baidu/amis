@@ -76,6 +76,7 @@
     "video-react": "0.9.4"
   },
   "devDependencies": {
+    "@types/dom-helpers": "^3.4.1",
     "@types/async": "^2.0.45",
     "@types/classnames": "^2.2.3",
     "@types/history": "^4.6.0",

@@ -269,7 +269,6 @@ export default class Table extends React.Component<TableProps, object> {
 
     this.parentNode = parent;
     this.updateTableInfo();
-    this.handleOutterScroll();
 
     const dom = findDOMNode(this) as HTMLElement;
     if (dom.closest('.modal-body')) {
@@ -339,11 +338,6 @@ export default class Table extends React.Component<TableProps, object> {
       store.updateSelected(nextProps.selected || [], nextProps.valueField);
       this.syncSelected();
     }
-  }
-
-  componentDidUpdate() {
-    this.updateTableInfo();
-    this.handleOutterScroll();
   }
 
   componentWillUnmount() {
@@ -596,14 +590,23 @@ export default class Table extends React.Component<TableProps, object> {
       dom.querySelectorAll(
         `.${ns}Table-fixedTop table, .${ns}Table-fixedLeft table, .${ns}Table-fixedRight table`
       ),
-      table => {
+      (table: HTMLTableElement) => {
+        let totalWidth = 0;
+
         forEach(
           table.querySelectorAll('thead>tr:last-child>th'),
           (item: HTMLElement) => {
-            // todo 这个 2 数值，应该从 dom 上读取，也有可能没有border 样式
-            item.style.cssText += `width: ${this.widths[
+            const width = this.widths[
               parseInt(item.getAttribute('data-index') as string, 10)
-            ] - 2}px`;
+            ];
+
+            const style = getComputedStyle(item);
+            const borderWidth =
+              (parseInt(style.getPropertyValue('border-left-width'), 10) || 0) +
+              (parseInt(style.getPropertyValue('border-right-width'), 10) || 0);
+
+            item.style.cssText += `width: ${width - borderWidth}px`;
+            totalWidth += width;
           }
         );
 
@@ -613,8 +616,13 @@ export default class Table extends React.Component<TableProps, object> {
             item.style.cssText += `height: ${this.heights[index]}px`;
           }
         );
+
+        table.style.cssText += `width: ${totalWidth}px;table-layout: fixed;`;
       }
     );
+
+    this.lastScrollLeft = -1;
+    this.handleOutterScroll();
   }
 
   handleOutterScroll() {

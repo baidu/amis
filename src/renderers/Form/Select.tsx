@@ -129,6 +129,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
 
     if (!formInited) {
+      this.unHook && this.unHook();
       return (this.unHook = addHook(this.loadRemote.bind(this, input), 'init'));
     }
 
