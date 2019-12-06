@@ -113,18 +113,26 @@
       line-height: px2rem(40px);
       // font-size: $fontSizeBase;
 
-      &:not(is-disabled) {
+      &:not(.is-disabled) {
         cursor: pointer;
+
+        &:hover {
+          background-color: $Card-actions-onHover-bg;
+          color: $Card-actions-onHover-color;
+          text-decoration: none;
+        }
       }
 
       &:last-child {
         border: none;
       }
 
-      &:hover {
-        background-color: $Card-actions-onHover-bg;
-        color: $Card-actions-onHover-color;
-        text-decoration: none;
+      &.is-disabled {
+        color: $text--muted-color;
+
+        &:hover {
+          text-decoration: none;
+        }
       }
     }
   }
