@@ -429,7 +429,6 @@ export function registerOptionsControl(config: OptionsConfig) {
       const {source, formItem, data, onChange} = this.props;
 
       if (
-        config.autoLoadOptionsFromSource === false ||
         !formItem ||
         !isEffectiveApi(source, data)
       ) {
