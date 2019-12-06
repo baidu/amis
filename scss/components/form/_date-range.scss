@@ -7,7 +7,6 @@
   padding: $DatePicker-paddingY $DatePicker-paddingX;
   height: $DatePicker-height;
   outline: none;
-  white-space: nowrap;
   border-radius: $DatePicker-borderRadius;
 
   color: $DatePicker-color;
@@ -72,7 +71,6 @@
 
 .#{$ns}DateRangePicker-wrap {
   width: auto;
-  white-space: nowrap;
   padding: $gap-md;
 }
 
@@ -88,7 +86,7 @@
 }
 
 .#{$ns}DateRangePicker-end {
-  margin-left: 20px;
+  margin-top: 20px;
 }
 
 .#{$ns}DateRangePicker-rangers {
@@ -113,4 +111,15 @@
 
 .#{$ns}DateRangeControl:not(.is-inline) > .#{$ns}DateRangePicker {
   display: flex;
+}
+
+@include media-breakpoint-up(sm) {
+  #{$ns}DateRangePicker-wrap {
+    white-space: nowrap;
+  }
+
+  .#{$ns}DateRangePicker-end {
+    margin-top: 0;
+    margin-left: 20px;
+  }
 }
