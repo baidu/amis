@@ -309,7 +309,7 @@
       tr.#{$ns}Table-tr--#{$i}th {
         .#{$ns}Table-expandBtn {
           position: relative;
-          right: -px2rem(20px) * ($i - 1);
+          right: -(px2rem(20px)) * ($i - 1);
         }
 
         .#{$ns}Table-expandCell + td {
