@@ -1,254 +1,254 @@
 .#{$ns}ImageControl {
+  position: relative;
+
+  &-dropzone {
+    outline: none;
+  }
+
+  &-addBtn {
+    margin: 0;
+    width: px2rem(120px);
+    height: px2rem(120px);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: $borderWidth solid $borderColor;
+    cursor: pointer;
+
+    @include button-variant(
+      $ImageControl-addBtn-bg,
+      $ImageControl-addBtn-border,
+      $ImageControl-addBtn-color,
+      $ImageControl-addBtn-onHover-bg,
+      $ImageControl-addBtn-onHover-border,
+      $ImageControl-addBtn-onHover-color,
+      $ImageControl-addBtn-onActive-bg,
+      $ImageControl-addBtn-onActive-border,
+      $ImageControl-addBtn-onActive-color
+    );
+
+    > svg {
+      width: px2rem(50px);
+      height: px2rem(50px);
+      top: 0;
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      border: px2rem(1px) solid $ImageControl-addBtn-onDisabled-border;
+      background: $ImageControl-addBtn-onDisabled-bg;
+      color: $ImageControl-addBtn-onDisabled-color;
+    }
+  }
+
+  &-pasteTip {
+    pointer-events: none;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    font-size: $Tooltip--attr-fontSize;
+    line-height: $Tooltip--attr-lineHeigt;
+    text-align: left;
+    white-space: nowrap;
+    background: $Tooltip--attr-bg;
+    border: $Tooltip--attr-borderWidth solid $Tooltip--attr-borderColor;
+    border-radius: $Tooltip--attr-borderRadius;
+    box-shadow: $Tooltip--attr-boxShadow;
+    left: 100%;
+    color: $Tooltip--attr-color;
+    padding: $Tooltip--attr-paddingY $Tooltip--attr-paddingX;
+    margin: 30px 0 0 $Tooltip--attr-gap;
+  }
+
+  &-dropzone:focus &-addBtn {
+    border-color: $ImageControl-addBtn-onHover-border;
+    background: $ImageControl-addBtn-onHover-bg;
+    color: $ImageControl-addBtn-onHover-color;
+  }
+
+  &-item {
+    border: $borderWidth solid $borderColor;
+    vertical-align: top;
+    padding: px2rem(5px);
+    display: inline-block;
+    margin-right: px2rem(15px);
+    margin-right: px2rem(15px);
+    position: relative;
+  }
+
+  &-itemImageWrap {
+    width: px2rem(108px);
+    height: px2rem(108px);
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjIwMCIgaGVpZ2h0PSI0MDAiPgogICAgPGRlZnM+CiAgICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgICAgICAgIDxyZWN0IGZpbGw9ImJsYWNrIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIG9wYWNpdHk9IjAuMSIgLz4KICAgICAgICAgICAgPHJlY3QgZmlsbD0id2hpdGUiIHg9IjEwIiB5PSIwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIC8+CiAgICAgICAgICAgIDxyZWN0IGZpbGw9ImJsYWNrIiB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgb3BhY2l0eT0iMC4xIiAvPgogICAgICAgICAgICA8cmVjdCBmaWxsPSJ3aGl0ZSIgeD0iMCIgeT0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgLz4KICAgICAgICA8L3BhdHRlcm4+CiAgICA8L2RlZnM+CiAgICA8cmVjdCBmaWxsPSJ1cmwoI2dyaWQpIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiAvPgo8L3N2Zz4=');
+    overflow: hidden;
     position: relative;
 
-    &-dropzone {
-        outline: none;
+    > img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      height: 100%;
+      width: auto;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &-itemOverlay {
+    background: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    width: px2rem(108px);
+    height: px2rem(108px);
+    display: none;
+    top: px2rem(5px);
+    left: px2rem(5px);
+
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    color: #fff;
+
+    > div {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 5px;
     }
 
-    &-addBtn {
-        margin: 0;
-        width: px2rem(120px);
-        height: px2rem(120px);
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        border: $borderWidth solid $borderColor;
-        cursor: pointer;
+    > a {
+      cursor: pointer;
+      color: #fff;
+      display: inline-block;
+      padding: 0 5px;
+      line-height: 1;
+      font-size: px2rem(16px);
+    }
+  }
 
-        @include button-variant($ImageControl-addBtn-bg,
-            $ImageControl-addBtn-border,
-            $ImageControl-addBtn-color,
-            $ImageControl-addBtn-onHover-bg,
-            $ImageControl-addBtn-onHover-border,
-            $ImageControl-addBtn-onHover-color,
-            $ImageControl-addBtn-onActive-bg,
-            $ImageControl-addBtn-onActive-border,
-            $ImageControl-addBtn-onActive-color);
+  &-item:hover &-itemOverlay {
+    display: flex;
+  }
 
-        >svg {
-            width: px2rem(50px);
-            height: px2rem(50px);
-            top: 0;
-        }
+  &-itemClear {
+    position: absolute;
+    cursor: pointer;
 
-        &.is-disabled {
-            pointer-events: none;
-            border: px2rem(1px) solid $ImageControl-addBtn-onDisabled-border;
-            background: $ImageControl-addBtn-onDisabled-bg;
-            color: $ImageControl-addBtn-onDisabled-color;
-        }
+    color: #999;
+    top: 5px;
+    right: 5px;
+    line-height: 1;
+
+    > svg {
+      top: 0;
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  &-itemInfo {
+    display: inline-flex;
+    width: 110px;
+    height: 110px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+
+    > p {
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+  }
+
+  &-progress {
+    width: 70px;
+    height: 5px;
+    background: #ebebeb;
+  }
+
+  &-progressValue {
+    height: 5px;
+    display: block;
+    background: $info;
+    min-width: 10%;
+    transition: ease-out width 0.3s;
+  }
+
+  &-retryBtn {
+    margin: 0;
+    width: px2rem(108px);
+    height: px2rem(108px);
+    display: inline-flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    color: #666;
+
+    &:hover {
+      color: #333;
+      text-decoration: none;
     }
 
-    &-pasteTip {
-        pointer-events: none;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        position: absolute;
-        font-size: $Tooltip--attr-fontSize;
-        line-height: $Tooltip--attr-lineHeigt;
-        text-align: left;
-        white-space: nowrap;
-        background: $Tooltip--attr-bg;
-        border: $Tooltip--attr-borderWidth solid $Tooltip--attr-borderColor;
-        border-radius: $Tooltip--attr-borderRadius;
-        box-shadow: $Tooltip--attr-boxShadow;
-        left: 100%;
-        color: $Tooltip--attr-color;
-        padding: $Tooltip--attr-paddingY $Tooltip--attr-paddingX;
-        margin: 30px 0 0 $Tooltip--attr-gap;
+    > p {
+      width: 100%;
+      text-align: center;
+      color: $danger;
+      margin: 10px 0 0;
     }
+  }
 
-    &-dropzone:focus &-addBtn {
-        border-color: $ImageControl-addBtn-onHover-border;
-        background: $ImageControl-addBtn-onHover-bg;
-        color: $ImageControl-addBtn-onHover-color;
+  &-errorMsg {
+    color: $danger;
+    margin: 5px 0 0;
+  }
+
+  &-uploadBtn {
+    margin-top: 5px;
+  }
+
+  &-cropperWrapper {
+    position: relative;
+
+    img {
+      max-width: 100%;
+      max-height: 400px;
     }
+  }
 
-    &-item {
-        border: $borderWidth solid $borderColor;
-        vertical-align: top;
-        padding: px2rem(5px);
-        display: inline-block;
-        margin-right: px2rem(15px);
-        margin-right: px2rem(15px);
-        position: relative;
+  &-croperToolbar {
+    display: inline-flex;
+    width: 50px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    align-items: flex-end;
+
+    > a {
+      color: #fff;
+      padding: 2px 5px;
+      cursor: pointer;
+      font-size: 20px;
     }
+  }
 
-    &-itemImageWrap {
-        width: px2rem(108px);
-        height: px2rem(108px);
-        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgd2lkdGg9IjIwMCIgaGVpZ2h0PSI0MDAiPgogICAgPGRlZnM+CiAgICAgICAgPHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgICAgICAgIDxyZWN0IGZpbGw9ImJsYWNrIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIG9wYWNpdHk9IjAuMSIgLz4KICAgICAgICAgICAgPHJlY3QgZmlsbD0id2hpdGUiIHg9IjEwIiB5PSIwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIC8+CiAgICAgICAgICAgIDxyZWN0IGZpbGw9ImJsYWNrIiB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgb3BhY2l0eT0iMC4xIiAvPgogICAgICAgICAgICA8cmVjdCBmaWxsPSJ3aGl0ZSIgeD0iMCIgeT0iMTAiIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgLz4KICAgICAgICA8L3BhdHRlcm4+CiAgICA8L2RlZnM+CiAgICA8cmVjdCBmaWxsPSJ1cmwoI2dyaWQpIiB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiAvPgo8L3N2Zz4=");
-        overflow: hidden;
-        position: relative;
+  &-acceptTip {
+    height: 120px;
+    color: #999;
+    border: 2px dashed $borderColor;
 
-        >img {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            height: 100%;
-            width: auto;
-            transform: translate(-50%, -50%);
-        }
-    }
+    // &.is-accept {
+    border-color: $info;
+    background: #f3f9fe;
+    // }
 
-    &-itemOverlay {
-        background: rgba(0, 0, 0, 0.6);
-        position: absolute;
-        width: px2rem(108px);
-        height: px2rem(108px);
-        display: none;
-        top: px2rem(5px);
-        left: px2rem(5px);
+    border-radius: $borderRadius;
 
-        justify-content: center;
-        align-items: center;
-        align-content: center;
-        flex-wrap: wrap;
-        color: #fff;
-
-        >div {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 5px;
-        }
-
-        >a {
-            cursor: pointer;
-            color: #fff;
-            display: inline-block;
-            padding: 0 5px;
-            line-height: 1;
-            font-size: px2rem(16px);
-        }
-    }
-
-    &-item:hover &-itemOverlay {
-        display: flex;
-    }
-
-    &-itemClear {
-        position: absolute;
-        cursor: pointer;
-
-        color: #999;
-        top: 5px;
-        right: 5px;
-        line-height: 1;
-
-        >svg {
-            top: 0;
-            width: 10px;
-            height: 10px;
-        }
-    }
-
-    &-itemInfo {
-        display: inline-flex;
-        width: 110px;
-        height: 110px;
-        justify-content: center;
-        align-items: center;
-        align-content: center;
-        flex-wrap: wrap;
-
-        >p {
-            width: 100%;
-            text-align: center;
-            font-size: 12px;
-            margin-bottom: 5px;
-        }
-    }
-
-    &-progress {
-        width: 70px;
-        height: 5px;
-        background: #ebebeb;
-    }
-
-    &-progressValue {
-        height: 5px;
-        display: block;
-        background: $info;
-        min-width: 10%;
-        transition: ease-out width 0.3s;
-    }
-
-    &-retryBtn {
-        margin: 0;
-        width: px2rem(108px);
-        height: px2rem(108px);
-        display: inline-flex;
-        cursor: pointer;
-        justify-content: center;
-        align-items: center;
-        align-content: center;
-        flex-wrap: wrap;
-        color: #666;
-
-        &:hover {
-            color: #333;
-            text-decoration: none;
-        }
-
-
-
-        >p {
-            width: 100%;
-            text-align: center;
-            color: $danger;
-            margin: 10px 0 0;
-        }
-    }
-
-    &-errorMsg {
-        color: $danger;
-        margin: 5px 0 0;
-    }
-
-    &-uploadBtn {
-        margin-top: 5px;
-    }
-
-    &-cropperWrapper {
-        position: relative;
-
-        img {
-            max-width: 100%;
-            max-height: 400px;
-        }
-    }
-
-    &-croperToolbar {
-        display: inline-flex;
-        width: 50px;
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        flex-direction: column;
-        align-items: flex-end;
-
-        >a {
-            color: #fff;
-            padding: 2px 5px;
-            cursor: pointer;
-            font-size: 20px;
-        }
-    }
-
-    &-acceptTip {
-        height: 120px;
-        color: #999;
-        border: 2px dashed $borderColor;
-
-        // &.is-accept {
-        border-color: $info;
-        background: #f3f9fe;
-        // }
-
-        border-radius: $borderRadius;
-
-        line-height: 120px;
-        text-align: center;
-    }
+    line-height: 120px;
+    text-align: center;
+  }
 }

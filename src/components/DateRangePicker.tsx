@@ -44,7 +44,7 @@ export interface DateRangePickerState {
 }
 
 const availableRanges: {[propName: string]: any} = {
-  today: {
+  'today': {
     label: '今天',
     startDate: (now: moment.Moment) => {
       return now.startOf('day');
@@ -54,7 +54,7 @@ const availableRanges: {[propName: string]: any} = {
     }
   },
 
-  yesterday: {
+  'yesterday': {
     label: '昨天',
     startDate: (now: moment.Moment) => {
       return now.add(-1, 'days').startOf('day');
@@ -94,7 +94,7 @@ const availableRanges: {[propName: string]: any} = {
     }
   },
 
-  prevweek: {
+  'prevweek': {
     label: '上周',
     startDate: (now: moment.Moment) => {
       return now.startOf('week').add(-1, 'weeks');
@@ -107,7 +107,7 @@ const availableRanges: {[propName: string]: any} = {
     }
   },
 
-  thismonth: {
+  'thismonth': {
     label: '本月',
     startDate: (now: moment.Moment) => {
       return now.startOf('month');
@@ -117,7 +117,7 @@ const availableRanges: {[propName: string]: any} = {
     }
   },
 
-  prevmonth: {
+  'prevmonth': {
     label: '上个月',
     startDate: (now: moment.Moment) => {
       return now.startOf('month').add(-1, 'month');
@@ -130,7 +130,7 @@ const availableRanges: {[propName: string]: any} = {
     }
   },
 
-  prevquarter: {
+  'prevquarter': {
     label: '上个季节',
     startDate: (now: moment.Moment) => {
       return now.startOf('quarter').add(-1, 'quarter');
@@ -143,7 +143,7 @@ const availableRanges: {[propName: string]: any} = {
     }
   },
 
-  thisquarter: {
+  'thisquarter': {
     label: '本季度',
     startDate: (now: moment.Moment) => {
       return now.startOf('quarter');

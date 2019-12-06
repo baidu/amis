@@ -10,7 +10,7 @@
     "stop": "fis3 server stop",
     "dev": "fis3 release -cwd ./public",
     "publish2npm": "sh publish.sh && npm publish",
-    "prettier": "prettier --write '{src,examples}/**/*.{tsx,ts,jsx}'"
+    "prettier": "prettier --write '{src,examples,scss}/**/*.{tsx,ts,jsx,scss}'"
   },
   "repository": {
     "type": "git",

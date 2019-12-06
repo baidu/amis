@@ -70,7 +70,11 @@ export function syncDataFromSuper(
 
   // 如果是 form store，则从父级同步 formItem 种东西。
   if (store && store.storeType === 'FormStore') {
-    keys = uniq((store as IFormStore).items.map(item => `${item.name}`.replace(/\..*$/, '')));
+    keys = uniq(
+      (store as IFormStore).items.map(item =>
+        `${item.name}`.replace(/\..*$/, '')
+      )
+    );
     force = false;
   }
 

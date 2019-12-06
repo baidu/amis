@@ -950,7 +950,14 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   renderBody() {
-    const {tabs, fieldSet, controls, mode, className, classnames: cx} = this.props;
+    const {
+      tabs,
+      fieldSet,
+      controls,
+      mode,
+      className,
+      classnames: cx
+    } = this.props;
 
     return (
       <div className={cx(`Form`, `Form--${mode || 'normal'}`, className)}>

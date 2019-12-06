@@ -1,270 +1,265 @@
 .#{$ns}Tabs {
-    &-links {
-        border-bottom: $Tabs-borderWidth solid $Tabs-borderColor;
-        padding-left: 0;
-        margin-bottom: 0;
-        list-style: none;
+  &-links {
+    border-bottom: $Tabs-borderWidth solid $Tabs-borderColor;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
 
-        &::before {
-            display: table;
-            content: ' ';
-        }
-
-        >.#{$ns}Tabs-link {
-            margin-bottom: -$Tabs-borderWidth;
-            display: inline-block;
-            position: relative;
-
-            >a:first-child {
-                font-size: $Tabs-linkFontSize;
-                outline: none;
-                border: $Tabs-borderWidth solid transparent;
-                border-top-left-radius: $Tabs-borderRadius;
-                border-top-right-radius: $Tabs-borderRadius;
-                color: $Tabs-color;
-                margin: $Tabs-linkMargin;
-                padding: $Tabs-linkPadding;
-                text-decoration: none;
-                cursor: pointer;
-                display: block;
-            }
-
-            >.#{$ns}Combo-toolbarBtn {
-                position: absolute;
-                right: -10px;
-                top: -10px;
-                z-index: 10;
-                display: none;
-            }
-
-            &:hover>.#{$ns}Combo-toolbarBtn {
-                display: block;
-            }
-
-            &:hover>a:first-child,
-            >a:first-child:focus {
-                border-color: $Tabs-onHover-borderColor;
-                text-decoration: none;
-            }
-
-            &.disabled>a:first-child,
-            &.is-disabled>a:first-child {
-                color: $Tabs-onDisabled-color;
-                background-color: transparent;
-                border-color: transparent;
-                pointer-events: none;
-            }
-
-            &.active>a:first-child,
-            &.is-active>a:first-child {
-                color: $Tabs-onActive-color;
-                background-color: $Tabs-onActive-bg;
-                border-color: $Tabs-onActive-borderColor;
-                border-bottom-color: transparent;
-            }
-        }
+    &::before {
+      display: table;
+      content: ' ';
     }
 
-    &-content {
-        background-color: $Tabs-content-bg;
-        padding: $gap-base;
-        border-style: solid;
-        border-width: 0 $Tabs-borderWidth $Tabs-borderWidth;
-        border-color: $Tabs-borderColor;
-    }
+    > .#{$ns}Tabs-link {
+      margin-bottom: -$Tabs-borderWidth;
+      display: inline-block;
+      position: relative;
 
-    &-pane {
+      > a:first-child {
+        font-size: $Tabs-linkFontSize;
+        outline: none;
+        border: $Tabs-borderWidth solid transparent;
+        border-top-left-radius: $Tabs-borderRadius;
+        border-top-right-radius: $Tabs-borderRadius;
+        color: $Tabs-color;
+        margin: $Tabs-linkMargin;
+        padding: $Tabs-linkPadding;
+        text-decoration: none;
+        cursor: pointer;
+        display: block;
+      }
+
+      > .#{$ns}Combo-toolbarBtn {
+        position: absolute;
+        right: -10px;
+        top: -10px;
+        z-index: 10;
         display: none;
-        opacity: 0;
-        transition: opacity 0.35s linear;
+      }
+
+      &:hover > .#{$ns}Combo-toolbarBtn {
+        display: block;
+      }
+
+      &:hover > a:first-child,
+      > a:first-child:focus {
+        border-color: $Tabs-onHover-borderColor;
+        text-decoration: none;
+      }
+
+      &.disabled > a:first-child,
+      &.is-disabled > a:first-child {
+        color: $Tabs-onDisabled-color;
+        background-color: transparent;
+        border-color: transparent;
+        pointer-events: none;
+      }
+
+      &.active > a:first-child,
+      &.is-active > a:first-child {
+        color: $Tabs-onActive-color;
+        background-color: $Tabs-onActive-bg;
+        border-color: $Tabs-onActive-borderColor;
+        border-bottom-color: transparent;
+      }
+    }
+  }
+
+  &-content {
+    background-color: $Tabs-content-bg;
+    padding: $gap-base;
+    border-style: solid;
+    border-width: 0 $Tabs-borderWidth $Tabs-borderWidth;
+    border-color: $Tabs-borderColor;
+  }
+
+  &-pane {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.35s linear;
+
+    &.is-active {
+      display: block;
+    }
+
+    &.in {
+      opacity: 1;
+    }
+  }
+
+  &--line {
+    > .#{$ns}Tabs-links {
+      border-bottom-color: $Tabs--line-borderColor;
+
+      > li {
+        > a:first-child {
+          border-width: 0 0 $Tabs--line-borderWidth 0;
+          padding: $Tabs--line-linkPadding;
+          margin: $Tabs--line-linkMargin;
+
+          &:hover,
+          &:focus {
+            color: #666;
+            background-color: transparent;
+            border-color: transparent;
+          }
+        }
+
+        &:last-child {
+          > a {
+            margin: 0;
+          }
+        }
 
         &.is-active {
-            display: block;
+          > a:first-child,
+          > a:first-child:hover,
+          > a:first-child:focus {
+            border-color: $Tabs--line-onHover-borderColor;
+            color: $Tabs--line-onHover-color;
+            background-color: transparent;
+          }
         }
-
-        &.in {
-            opacity: 1;
-        }
+      }
     }
 
-    &--line {
-        >.#{$ns}Tabs-links {
-            border-bottom-color: $Tabs--line-borderColor;
+    > .#{$ns}Tabs-content {
+      border-width: 0;
+      padding: $Tabs--line-content-padding;
+      background-color: $Tabs--line-content-bg;
+    }
+  }
 
-            >li {
-                >a:first-child {
-                    border-width: 0 0 $Tabs--line-borderWidth 0;
-                    padding: $Tabs--line-linkPadding;
-                    margin: $Tabs--line-linkMargin;
+  &--card {
+    > .#{$ns}Tabs-links {
+      padding: $Tabs--card-padding;
+      background-color: $Tabs--card-bg;
+      border-top: px2rem(1px) solid $Tabs--card-borderTopColor;
 
-                    &:hover,
-                    &:focus {
-                        color: #666;
-                        background-color: transparent;
-                        border-color: transparent;
-                    }
-                }
-
-                &:last-child {
-                    >a {
-                        margin: 0;
-                    }
-                }
-
-                &.is-active {
-
-                    >a:first-child,
-                    >a:first-child:hover,
-                    >a:first-child:focus {
-                        border-color: $Tabs--line-onHover-borderColor;
-                        color: $Tabs--line-onHover-color;
-                        background-color: transparent;
-                    }
-                }
-            }
+      > li {
+        &.is-active {
+          > a:first-child,
+          > a:first-child:hover,
+          > a:first-child:focus {
+            border-color: $Tabs--card-onActive-borderColor;
+            color: $primary;
+            border-bottom-color: $Tabs--card-onActive-bg;
+            background-color: $Tabs--card-onActive-bg;
+          }
         }
 
-        >.#{$ns}Tabs-content {
-            border-width: 0;
-            padding: $Tabs--line-content-padding;
-            background-color: $Tabs--line-content-bg;
+        > a:first-child {
+          padding: $Tabs--card-linkPadding;
+          margin: $Tabs--card-linkMargin;
+
+          &:hover,
+          &:focus {
+            color: #666;
+            background-color: $Tabs--card-onActive-bg;
+            border-bottom-color: transparent;
+          }
         }
+      }
     }
 
-    &--card {
-        >.#{$ns}Tabs-links {
-            padding: $Tabs--card-padding;
-            background-color: $Tabs--card-bg;
-            border-top: px2rem(1px) solid $Tabs--card-borderTopColor;
+    > .#{$ns}Tabs-content {
+      border-width: 0;
+    }
+  }
 
-            >li {
-                &.is-active {
+  &--radio {
+    > .#{$ns}Tabs-links {
+      border: 0;
+      margin-bottom: px2rem(10px);
 
-                    >a:first-child,
-                    >a:first-child:hover,
-                    >a:first-child:focus {
-                        border-color: $Tabs--card-onActive-borderColor;
-                        color: $primary;
-                        border-bottom-color: $Tabs--card-onActive-bg;
-                        background-color: $Tabs--card-onActive-bg;
-                    }
-                }
+      > li {
+        margin: 0;
 
-                >a:first-child {
-                    padding: $Tabs--card-linkPadding;
-                    margin: $Tabs--card-linkMargin;
+        > a:first-child {
+          border-width: px2rem(1px);
+          border-color: $Tabs-borderColor;
+          font-size: $fontSizeSm;
+          text-align: center;
+          margin: 0;
+          padding: 0 px2rem(10px);
+          min-width: 68px;
+          height: px2rem(30px);
+          line-height: px2rem(30px);
+          border-radius: 0;
+          background: $Tabs--radio-bg;
 
-                    &:hover,
-                    &:focus {
-                        color: #666;
-                        background-color: $Tabs--card-onActive-bg;
-                        border-bottom-color: transparent;
-                    }
-                }
-            }
+          &:hover,
+          &:focus {
+            color: $primary;
+          }
         }
 
-        >.#{$ns}Tabs-content {
-            border-width: 0;
+        &.is-active {
+          > a:first-child,
+          > a:first-child:hover,
+          > a:first-child:focus {
+            color: $Tabs--radio-bg;
+            background-color: $primary;
+            border-color: $primary;
+            position: relative;
+            z-index: 1;
+          }
         }
+      }
+
+      > li + li {
+        margin-left: -1px;
+      }
     }
 
-    &--radio {
-        >.#{$ns}Tabs-links {
-            border: 0;
-            margin-bottom: px2rem(10px);
+    > .#{$ns}Tabs-content {
+      border-top: $Tabs-borderWidth solid $Tabs-borderColor;
+    }
+  }
 
-            >li {
-                margin: 0;
+  &--vertical {
+    display: flex;
+    min-height: px2rem(200px);
+    border: $Tabs-borderWidth solid $Tabs-borderColor;
+    border-radius: 0;
 
-                >a:first-child {
-                    border-width: px2rem(1px);
-                    border-color: $Tabs-borderColor;
-                    font-size: $fontSizeSm;
-                    text-align: center;
-                    margin: 0;
-                    padding: 0 px2rem(10px);
-                    min-width: 68px;
-                    height: px2rem(30px);
-                    line-height: px2rem(30px);
-                    border-radius: 0;
-                    background: $Tabs--radio-bg;
+    > .#{$ns}Tabs-links {
+      width: px2rem(140px);
+      background: #f5f5f5;
+      border: none;
+      padding-bottom: px2rem(60px);
 
-                    &:hover,
-                    &:focus {
-                        color: $primary;
-                    }
-                }
+      > li {
+        margin: 0 0 0 -1px;
+        display: block;
 
-                &.is-active {
+        > a:first-child {
+          border-color: transparent;
+          border-radius: 0;
+          border-width: 0 0 0 px2rem(4px);
+          margin: 0;
 
-                    >a:first-child,
-                    >a:first-child:hover,
-                    >a:first-child:focus {
-                        color: $Tabs--radio-bg;
-                        background-color: $primary;
-                        border-color: $primary;
-                        position: relative;
-                        z-index: 1;
-                    }
-                }
-            }
-
-            >li+li {
-                margin-left: -1px;
-            }
+          &:hover,
+          &:focus {
+            color: $primary;
+            border-color: transparent;
+          }
         }
 
-        >.#{$ns}Tabs-content {
-            border-top: $Tabs-borderWidth solid $Tabs-borderColor;
+        &.is-active {
+          > a:first-child,
+          > a:first-child:hover,
+          > a:first-child:focus {
+            color: $primary;
+            border-color: $primary;
+          }
         }
+      }
     }
 
-    &--vertical {
-        display: flex;
-        min-height: px2rem(200px);
-        border: $Tabs-borderWidth solid $Tabs-borderColor;
-        border-radius: 0;
-
-        >.#{$ns}Tabs-links {
-            width: px2rem(140px);
-            background: #F5F5F5;
-            border: none;
-            padding-bottom: px2rem(60px);
-
-            >li {
-                margin: 0 0 0 -1px;
-                display: block;
-
-                >a:first-child {
-                    border-color: transparent;
-                    border-radius: 0;
-                    border-width: 0 0 0 px2rem(4px);
-                    margin: 0;
-
-                    &:hover,
-                    &:focus {
-                        color: $primary;
-                        border-color: transparent;
-                    }
-                }
-
-                &.is-active {
-
-                    >a:first-child,
-                    >a:first-child:hover,
-                    >a:first-child:focus {
-                        color: $primary;
-                        border-color: $primary;
-                    }
-                }
-            }
-        }
-
-
-        >.#{$ns}Tabs-content {
-            border: none;
-            flex-grow: 1;
-        }
+    > .#{$ns}Tabs-content {
+      border: none;
+      flex-grow: 1;
     }
+  }
 }

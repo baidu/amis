@@ -1,178 +1,178 @@
 .#{$ns}Card {
-    background-color: $Card-bg;
-    border: $Card-borderWidth solid $Card-borderColor;
-    border-radius: $Card-borderRadius;
-    margin-bottom: $gap-base;
+  background-color: $Card-bg;
+  border: $Card-borderWidth solid $Card-borderColor;
+  border-radius: $Card-borderRadius;
+  margin-bottom: $gap-base;
+  position: relative;
+
+  &-title {
+    color: $text--loud-color;
+    font-size: $fontSizeMd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-subTitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: $text--muted-color;
+  }
+
+  &-checkBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: $gap-sm;
+    z-index: 1;
+
+    .#{$ns}Checkbox {
+      margin-right: 0;
+    }
+  }
+
+  &-dragBtn {
+    cursor: pointer;
+    float: right;
+    margin: $gap-sm;
+  }
+
+  &-heading {
+    overflow: hidden;
+    padding: $gap-sm $gap-base;
+  }
+
+  &-avtar {
+    float: left;
+    margin-right: $gap-base;
+    max-width: px2rem(200px);
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  &-meta {
+    display: block;
+    height: 100%;
+    overflow: hidden;
     position: relative;
+    margin-right: $gap-md;
+  }
 
-    &-title {
-        color: $text--loud-color;
-        font-size: $fontSizeMd;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+  &-highlight {
+    background-color: $success;
+    width: px2rem(8px);
+    height: px2rem(8px);
+    border-radius: 100%;
+    display: inline-block;
+    position: absolute;
+    top: px2rem(5px);
+    right: px2rem(2px);
+  }
 
-    &-subTitle {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        color: $text--muted-color;
-    }
+  &-body {
+    padding: $gap-base;
+  }
 
-    &-checkBtn {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: $gap-sm;
-        z-index: 1;
+  &-heading + &-body {
+    padding-top: $gap-xs;
+  }
 
-        .#{$ns}Checkbox {
-            margin-right: 0;
-        }
-    }
+  &-field {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+  }
 
-    &-dragBtn {
+  &-fieldValue {
+    position: relative;
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  &-fieldLabel {
+    width: px2rem(60px);
+    color: $text--muted-color;
+  }
+
+  &-actions {
+    border-top: $Card-borderWidth solid $Card-actions-borderColor;
+    display: table;
+    width: 100%;
+
+    > a {
+      background-color: transparent;
+      display: table-cell;
+      border-color: $Card-actions-borderColor;
+      border-style: solid;
+      border-width: 0 $Card-borderWidth 0 0;
+      color: $text-color;
+      text-align: center;
+      line-height: px2rem(40px);
+      // font-size: $fontSizeBase;
+
+      &:not(is-disabled) {
         cursor: pointer;
-        float: right;
-        margin: $gap-sm;
+      }
+
+      &:last-child {
+        border: none;
+      }
+
+      &:hover {
+        background-color: $Card-actions-onHover-bg;
+        color: $Card-actions-onHover-color;
+        text-decoration: none;
+      }
+    }
+  }
+
+  &.is-checked {
+    background-color: $Card-onChecked-bg;
+    border-color: $Card-onChecked-borderColor;
+    color: $Card-onChecked-color;
+
+    .#{$ns}Card-actions,
+    .#{$ns}Card-actions > a {
+      border-color: $Card-onChecked-borderColor;
+      color: $Card-onChecked-color;
     }
 
-    &-heading {
-        overflow: hidden;
-        padding: $gap-sm $gap-base;
+    .#{$ns}Card-fieldLabel {
+      color: lighten($Card-onChecked-color, 20%);
     }
 
-    &-avtar {
-        float: left;
-        margin-right: $gap-base;
-        max-width: px2rem(200px);
+    .#{$ns}Card-actions > a:hover {
+      background-color: $Card-actions-onChecked-onHover-bg;
+      color: darken($Card-onChecked-color, 10%);
+    }
+  }
 
-        img {
-            max-width: 100%;
-        }
+  &.is-modified,
+  &.is-moved {
+    background-color: $Card-onModified-bg;
+    border-color: $Card-onModified-borderColor;
+    color: $Card-onModified-color;
+
+    .#{$ns}Card-actions,
+    .#{$ns}Card-actions > a {
+      border-color: $Card-onModified-borderColor;
+      color: $Card-onModified-color;
     }
 
-    &-meta {
-        display: block;
-        height: 100%;
-        overflow: hidden;
-        position: relative;
-        margin-right: $gap-md;
+    .#{$ns}Card-fieldLabel {
+      color: lighten($Card-onModified-color, 20%);
     }
 
-    &-highlight {
-        background-color: $success;
-        width: px2rem(8px);
-        height: px2rem(8px);
-        border-radius: 100%;
-        display: inline-block;
-        position: absolute;
-        top: px2rem(5px);
-        right: px2rem(2px);
+    .#{$ns}Card-actions > a:hover {
+      background-color: darken($Card-onModified-bg, 5%);
+      color: darken($Card-onModified-color, 10%);
     }
+  }
 
-    &-body {
-        padding: $gap-base;
-    }
-
-    &-heading + &-body {
-        padding-top: $gap-xs;
-    }
-
-    &-field {
-        position: relative;
-        display: flex;
-        flex-wrap: nowrap;
-    }
-
-    &-fieldValue {
-        position: relative;
-        flex-basis: 0;
-        flex-grow: 1;
-    }
-
-    &-fieldLabel {
-        width: px2rem(60px);
-        color: $text--muted-color;
-    }
-
-    &-actions {
-        border-top: $Card-borderWidth solid $Card-actions-borderColor;
-        display: table;
-        width: 100%;
-
-        > a {
-            background-color: transparent;
-            display: table-cell;
-            border-color: $Card-actions-borderColor;
-            border-style: solid;
-            border-width: 0 $Card-borderWidth 0 0;
-            color: $text-color;
-            text-align: center;
-            line-height: px2rem(40px);
-            // font-size: $fontSizeBase;
-
-            &:not(is-disabled) {
-                cursor: pointer;
-            }
-
-            &:last-child {
-                border: none;
-            }
-
-            &:hover {
-                background-color: $Card-actions-onHover-bg;
-                color: $Card-actions-onHover-color;
-                text-decoration: none;
-            }
-        }
-    }
-
-    &.is-checked {
-        background-color: $Card-onChecked-bg;
-        border-color: $Card-onChecked-borderColor;
-        color: $Card-onChecked-color;
-
-        .#{$ns}Card-actions,
-        .#{$ns}Card-actions > a {
-            border-color: $Card-onChecked-borderColor;
-            color: $Card-onChecked-color;
-        }
-
-        .#{$ns}Card-fieldLabel {
-            color: lighten($Card-onChecked-color, 20%);
-        }
-
-        .#{$ns}Card-actions > a:hover {
-            background-color: $Card-actions-onChecked-onHover-bg;
-            color: darken($Card-onChecked-color, 10%);
-        }
-    }
-
-    &.is-modified,
-    &.is-moved {
-        background-color: $Card-onModified-bg;
-        border-color: $Card-onModified-borderColor;
-        color: $Card-onModified-color;
-
-        .#{$ns}Card-actions,
-        .#{$ns}Card-actions > a {
-            border-color: $Card-onModified-borderColor;
-            color: $Card-onModified-color;
-        }
-
-        .#{$ns}Card-fieldLabel {
-            color: lighten($Card-onModified-color, 20%);
-        }
-
-        .#{$ns}Card-actions > a:hover {
-            background-color: darken($Card-onModified-bg, 5%);
-            color: darken($Card-onModified-color, 10%);
-        }
-    }
-
-    .is-dragging > & {
-        opacity: $Card-onDragging-opacity;
-    }
+  .is-dragging > & {
+    opacity: $Card-onDragging-opacity;
+  }
 }

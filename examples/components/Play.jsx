@@ -16,14 +16,14 @@ const DEFAULT_CONTENT = `{
 }`;
 
 const scopes = {
-  none: ``,
+  'none': ``,
 
-  body: `{
+  'body': `{
         "type": "page",
         "body": SCHEMA_PLACEHOLDER
     }`,
 
-  form: `{
+  'form': `{
         "type": "page",
         "body": {
             "title": "",
