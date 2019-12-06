@@ -7,7 +7,7 @@
   }
 
   &--inline {
-    > .#{$ns}PlainField {
+    >.#{$ns}PlainField {
       display: inline-block;
       padding-top: $Form-input-paddingY;
       // padding-bottom: $Form-input-paddingY;
@@ -22,7 +22,7 @@
   max-width: 100%;
   position: relative;
 
-  > span {
+  >span {
     position: relative;
   }
 }
@@ -60,11 +60,11 @@
 .#{$ns}Form-item {
   margin-bottom: $Form-item-gap;
 
-  .#{$ns}Grid-form > &:last-child {
+  .#{$ns}Grid-form>&:last-child {
     margin-bottom: 0;
   }
 
-  .#{$ns}Form--inline > &--inline {
+  .#{$ns}Form--inline>&--inline {
     margin-bottom: $Form-item-gap/2;
     margin-right: $Form-item-gap/2;
 
@@ -80,19 +80,19 @@
   }
 
   &--horizontal {
-    > .#{$ns}Form-label {
+    >.#{$ns}Form-label {
       text-align: $Form--horizontal-label-align;
       white-space: $Form--horizontal-label-whiteSpace;
     }
   }
 
   &--normal {
-    > .#{$ns}Form-label {
+    >.#{$ns}Form-label {
       display: block;
     }
   }
 
-  &.is-error > .#{$ns}Form-label {
+  &.is-error>.#{$ns}Form-label {
     color: $danger;
   }
 }
@@ -137,13 +137,13 @@
       margin-left: -$Form--horizontal-gutterWidth / 2;
       margin-right: -$Form--horizontal-gutterWidth / 2;
 
-      > * {
+      >* {
         padding-left: $Form--horizontal-gutterWidth / 2;
         padding-right: $Form--horizontal-gutterWidth / 2;
       }
 
-      > .#{$ns}Form-label,
-      > .#{$ns}Form-value {
+      >.#{$ns}Form-label,
+      >.#{$ns}Form-value {
         flex-basis: 0;
         flex-grow: 1;
         max-width: 100%;
@@ -159,7 +159,7 @@
         flex-basis: unset;
       }
 
-      > .#{$ns}Form-label {
+      >.#{$ns}Form-label {
         padding-top: $Form-label-paddingTop;
         margin-bottom: 0;
       }
@@ -197,7 +197,7 @@
       display: inline-block;
       vertical-align: top;
 
-      > .#{$ns}Form-label {
+      >.#{$ns}Form-label {
         padding-top: $Form-label-paddingTop;
         margin-bottom: 0;
         margin-right: $Form-item-gap/2;
@@ -207,20 +207,21 @@
         }
       }
 
-      > .#{$ns}Form-value {
+      >.#{$ns}Form-value {
         display: inline;
 
-        > .#{$ns}Form-control {
+        >.#{$ns}Form-control {
           vertical-align: top;
           display: inline-block;
         }
 
-        > .#{$ns}Form-control.#{$ns}InputGroup {
+        >.#{$ns}Form-control.#{$ns}InputGroup {
           display: inline-flex;
         }
 
-        > .#{$ns}TextControl--withAddOn {
+        >.#{$ns}TextControl--withAddOn {
           display: inline-flex;
+          min-width: px2rem(240px);
         }
       }
     }
@@ -234,7 +235,7 @@
     margin-right: -$Form-row-gutterWidth / 2;
     align-items: flex-start;
 
-    > * {
+    >* {
       padding-left: $Form-row-gutterWidth / 2;
       padding-right: $Form-row-gutterWidth / 2;
     }
@@ -250,14 +251,14 @@
     display: flex;
     flex-wrap: nowrap;
 
-    > .#{$ns}Form-label {
+    >.#{$ns}Form-label {
       display: inline-block;
       vertical-align: top;
       padding-top: $Form-label-paddingTop;
       padding-right: $Form-row-gutterWidth;
     }
 
-    > .#{$ns}Form-control {
+    >.#{$ns}Form-control {
       flex-basis: 0;
       flex-grow: 1;
     }
