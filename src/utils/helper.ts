@@ -1066,7 +1066,8 @@ export function object2formData(
     .split('&')
     .forEach(item => {
       let parts = item.split('=');
-      parts[0] && fd.append(parts[0], parts[1]);
+      // form-data/multipart 是不需要 encode 值的。
+      parts[0] && fd.append(parts[0], decodeURIComponent(parts[1]));
     });
   return fd;
 }
