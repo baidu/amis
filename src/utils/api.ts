@@ -67,7 +67,18 @@ export function buildApi(
   }
 
   const raw = (api.url = api.url || '');
-  api.url = tokenize(api.url, data, '| url_encode');
+  const idx = api.url.indexOf('?');
+
+  if (~idx) {
+    const hashIdx = api.url.indexOf('#');
+    const params = qs.parse(
+      api.url.substring(idx + 1, ~hashIdx ? hashIdx : undefined)
+    );
+    api.url =
+      api.url.substring(0, idx + 1) +
+      qsstringify(dataMapping(params, data)) +
+      (~hashIdx ? api.url.substring(hashIdx) : '');
+  }
 
   if (ignoreData) {
     return api;
