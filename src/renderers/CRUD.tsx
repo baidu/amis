@@ -1027,7 +1027,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
   }
 
-  handlQuery(values: object) {
+  handlQuery(values: object, forceReload: boolean = false) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
     store.updateQuery(
@@ -1041,7 +1041,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField
     );
-    this.search(undefined, undefined, undefined, false);
+    this.search(undefined, undefined, undefined, forceReload);
   }
 
   reload(subpath?: string, query?: any) {
@@ -1053,7 +1053,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   receive(values: object) {
-    this.handlQuery(values);
+    this.handlQuery(values, true);
   }
 
   reloadTarget(target: string, data: any) {
