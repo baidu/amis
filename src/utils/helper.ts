@@ -461,6 +461,11 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
   }
 
   const style = getComputedStyle(node);
+
+  if (!style) {
+    return null;
+  }
+
   const text =
     style.getPropertyValue('overflow') +
     style.getPropertyValue('overflow-x') +
