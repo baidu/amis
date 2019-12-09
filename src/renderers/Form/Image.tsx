@@ -730,7 +730,7 @@ export default class ImageControl extends React.Component<
 
     if (~idx && params) {
       params = {
-        ...qs.parse(reciever.substring(idx + 1)),
+        ...qs.parse(api.url.substring(idx + 1)),
         ...params
       };
       api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
