@@ -75,9 +75,11 @@ export function buildApi(
       api.url.substring(idx + 1, ~hashIdx ? hashIdx : undefined)
     );
     api.url =
-      api.url.substring(0, idx + 1) +
+      tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
       qsstringify(dataMapping(params, data)) +
       (~hashIdx ? api.url.substring(hashIdx) : '');
+  } else {
+    api.url = tokenize(api.url, data, '| url_encode');
   }
 
   if (ignoreData) {
