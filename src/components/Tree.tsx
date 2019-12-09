@@ -716,7 +716,7 @@ export class TreeSelector extends React.Component<
                 })}
               >
                 <div className={cx('Tree-itemLabel')}>
-                  <span className={cx('Tree-itemText')}>
+                  <span className={cx('Tree-itemText')} onClick={this.clearSelect}>
                     {showIcon ? (
                       <i className={cx('Tree-itemIcon Tree-rootIcon')} />
                     ) : null}
