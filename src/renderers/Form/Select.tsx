@@ -21,9 +21,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   };
 
   input: any;
-  cache: {
-    [propName: string]: any;
-  } = {};
   unHook: Function;
   constructor(props: SelectProps) {
     super(props);
@@ -133,15 +130,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       return (this.unHook = addHook(this.loadRemote.bind(this, input), 'init'));
     }
 
-    if (this.cache[input]) {
-      let options = this.cache[input] || [];
-      let combinedOptions = this.mergeOptions(options);
-      setOptions(combinedOptions);
-
-      return Promise.resolve({
-        options: combinedOptions
-      });
-    }
     const ctx = createObject(data, {
       term: input,
       value: input
@@ -158,7 +146,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       .fetcher(autoComplete, ctx)
       .then(ret => {
         let options = (ret.data && (ret.data as any).options) || ret.data || [];
-        this.cache[input] = options;
         let combinedOptions = this.mergeOptions(options);
         setOptions(combinedOptions);
 
