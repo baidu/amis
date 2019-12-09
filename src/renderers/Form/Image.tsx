@@ -743,7 +743,7 @@ export default class ImageControl extends React.Component<
         .split('&')
         .forEach(item => {
           let parts = item.split('=');
-          fd.append(parts[0], parts[1]);
+          fd.append(parts[0], decodeURIComponent(parts[1]));
         });
     }
 

@@ -636,7 +636,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       .split('&')
       .forEach(item => {
         const parts = item.split('=');
-        fd.append(parts[0], parts[1]);
+        fd.append(parts[0], decodeURIComponent(parts[1]));
       });
 
     fd.append(config.fieldName || 'file', file);
@@ -774,7 +774,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             .split('&')
             .forEach(item => {
               const parts = item.split('=');
-              fd.append(parts[0], parts[1]);
+              fd.append(parts[0], decodeURIComponent(parts[1]));
             });
 
           fd.append('key', state.key);
