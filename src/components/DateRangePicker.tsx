@@ -490,7 +490,7 @@ export class DateRangePicker extends React.Component<
 
         {isOpened ? (
           <Overlay
-            placement="left-bottom-left-top right-bottom-right-top"
+            placement="left-bottom-left-top right-bottom-right-top left-bottom-left-top"
             target={() => this.dom.current}
             onHide={this.close}
             container={popOverContainer || (() => findDOMNode(this))}

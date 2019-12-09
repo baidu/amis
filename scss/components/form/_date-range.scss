@@ -114,7 +114,7 @@
 }
 
 @include media-breakpoint-up(sm) {
-  #{$ns}DateRangePicker-wrap {
+  .#{$ns}DateRangePicker-wrap {
     white-space: nowrap;
   }
 
