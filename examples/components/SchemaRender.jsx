@@ -77,7 +77,6 @@ export default function(schema) {
         };
         this.env = {
           updateLocation: (location, replace) => {
-            debugger;
             router[replace ? 'replace' : 'push'](normalizeLink(location));
           },
           isCurrentUrl: to => {
