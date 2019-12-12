@@ -339,7 +339,9 @@ export default class TagControl extends React.PureComponent<
               ) : null}
               {options.map((item, index) => (
                 <div
-                  className={cx('TagControl-sugItem')}
+                  className={cx('TagControl-sugItem', {
+                    'is-disabled': item.disabled || disabled
+                  })}
                   key={index}
                   onClick={this.addItem.bind(this, item)}
                 >
