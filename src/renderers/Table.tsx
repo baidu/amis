@@ -1255,6 +1255,7 @@ export default class Table extends React.Component<TableProps, object> {
   ) {
     const {
       rowClassName,
+      rowClassNameExpr,
       placeholder,
       store,
       onAction,
@@ -1310,7 +1311,11 @@ export default class Table extends React.Component<TableProps, object> {
                     key={item.id}
                     itemIndex={rowIndex}
                     item={item}
-                    itemClassName={rowClassName}
+                    itemClassName={cx(
+                      rowClassNameExpr
+                        ? filter(rowClassNameExpr, item.data)
+                        : rowClassName
+                    )}
                     columns={columns}
                     renderCell={this.renderCell}
                     regionPrefix="fixed/"
@@ -1582,6 +1587,7 @@ export default class Table extends React.Component<TableProps, object> {
     const {
       store,
       rowClassName,
+      rowClassNameExpr,
       onAction,
       buildItemProps,
       checkOnItemClick,
@@ -1600,11 +1606,16 @@ export default class Table extends React.Component<TableProps, object> {
           key={item.id}
           itemIndex={rowIndex}
           item={item}
-          itemClassName={cx(rowClassName, {
-            'is-last': item.depth > 1 && rowIndex === rows.length - 1,
-            'is-expanded': item.expanded,
-            'is-expandable': item.expandable
-          })}
+          itemClassName={cx(
+            rowClassNameExpr
+              ? filter(rowClassNameExpr, item.data)
+              : rowClassName,
+            {
+              'is-last': item.depth > 1 && rowIndex === rows.length - 1,
+              'is-expanded': item.expanded,
+              'is-expandable': item.expandable
+            }
+          )}
           columns={store.filteredColumns}
           renderCell={this.renderCell}
           onAction={onAction}
@@ -1625,7 +1636,11 @@ export default class Table extends React.Component<TableProps, object> {
                 key={`foot-${item.id}`}
                 itemIndex={rowIndex}
                 item={item}
-                itemClassName={rowClassName}
+                itemClassName={cx(
+                  rowClassNameExpr
+                    ? filter(rowClassNameExpr, item.data)
+                    : rowClassName
+                )}
                 columns={store.footableColumns}
                 renderCell={this.renderCell}
                 onAction={onAction}

@@ -149,6 +149,7 @@ export default {
       }
     ],
     footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
+    // rowClassNameExpr: '<%= data.id == 1 ? "bg-success" : "" %>',
     columns: [
       {
         name: 'id',

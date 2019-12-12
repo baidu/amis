@@ -4,9 +4,11 @@
   visibility: hidden;
   display: inline-block;
   cursor: pointer;
+  opacity: 0.6;
 
   &:hover {
     color: $PopOverAble-onHover-iconColor;
+    opacity: 1;
   }
 }
 
