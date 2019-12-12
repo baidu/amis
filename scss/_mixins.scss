@@ -94,7 +94,8 @@
   $hover-color: #fff;
   color: $font-color;
 
-  & a {
+  & a,
+  & .#{$ns}Button--link {
     color: $link-color;
 
     &:hover {
@@ -118,20 +119,20 @@
     color: lighten($font-color, 25%) !important;
   }
 
-  &.auto,
-  & .auto {
-    & .list-group-item {
-      border-color: darken($bg-color, 5%) !important;
-      background-color: transparent;
+  // &.auto,
+  // & .auto {
+  //   & .list-group-item {
+  //     border-color: darken($bg-color, 5%) !important;
+  //     background-color: transparent;
 
-      &:hover,
-      &:focus,
-      &:active,
-      &.active {
-        @include color-schema($bg-color, 5%, 2.5% !important);
-      }
-    }
-  }
+  //     &:hover,
+  //     &:focus,
+  //     &:active,
+  //     &.active {
+  //       @include color-schema($bg-color, 5%, 2.5% !important);
+  //     }
+  //   }
+  // }
 }
 
 @mixin text-wariant($bg-color, $name) {

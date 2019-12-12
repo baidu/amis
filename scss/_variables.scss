@@ -477,22 +477,10 @@ $Table-onHover-boxShadow: $boxShadow !default;
 $Table-onChecked-bg: #d9f3fb !default;
 $Table-onChecked-borderColor: darken($Table-onChecked-bg, 10%) !default;
 $Table-onChecked-color: darken($Table-onChecked-bg, 40%) !default;
-$Table-onChecked-onHover-bg: darken($Table-onChecked-bg, 5%) !default;
-$Table-onChecked-onHover-borderColor: darken(
-  $Table-onChecked-borderColor,
-  5%
-) !default;
-$Table-onChecked-onHover-color: darken($Table-onChecked-color, 5%) !default;
 
 $Table-onModified-bg: #e8f0fe !default;
 $Table-onModified-color: #4285f4 !default;
 $Table-onModified-borderColor: darken($Table-onModified-bg, 5%) !default;
-$Table-onModified-onHover-bg: darken($Table-onModified-bg, 2.5%) !default;
-$Table-onModified-onHover-borderColor: darken(
-  $Table-onModified-onHover-bg,
-  5%
-) !default;
-$Table-onModified-onHover-color: darken($Table-onModified-color, 5%) !default;
 
 $Table-onDragging-opacity: 0.1 !default;
 $TableCell-searchBtn-width: px2rem(16px) !default;
@@ -573,19 +561,18 @@ $ListItem-onModified-borderColor: darken($ListItem-onModified-bg, 10%) !default;
 $ListItem-onDragging-opacity: 0.1 !default;
 
 // QuickEdit
-$QuickEdit-iconColor: $icon-color !default;
-$QuickEdit-onHover-iconColor: $icon-onHover-color !default;
+$QuickEdit-iconColor: inherit !default;
+$QuickEdit-onHover-iconColor: inherit !default;
 $QuickEdit-onFocus-borderColor: $info !default;
 $QuickEdit-onFocus-borderWidth: $borderWidth !default;
 
 // Copyable
-$Copyable-iconColor: $icon-color !default;
-$Copyable-onHover-iconColor: $icon-onHover-color !default;
+$Copyable-iconColor: inherit !default;
+$Copyable-onHover-iconColor: inherit !default;
 
 // PopOverAble
-
-$PopOverAble-iconColor: $icon-color !default;
-$PopOverAble-onHover-iconColor: $icon-onHover-color !default;
+$PopOverAble-iconColor: inherit !default;
+$PopOverAble-onHover-iconColor: inherit !default;
 
 // PopOver
 $PopOver-bg: white !default;

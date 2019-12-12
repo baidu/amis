@@ -443,12 +443,12 @@ export const tokenize = (
   );
 };
 
-function resolveMapping(value: any, data: PlainObject) {
+function resolveMapping(value: any, data: PlainObject, defaultFilter = '| raw') {
   return typeof value === 'string' &&
     /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(value)
-    ? resolveVariableAndFilter(value, data, '| raw')
+    ? resolveVariableAndFilter(value, data, defaultFilter)
     : typeof value === 'string' && ~value.indexOf('$')
-    ? tokenize(value, data, '| raw')
+    ? tokenize(value, data, defaultFilter)
     : value;
 }
 
