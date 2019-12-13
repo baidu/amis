@@ -34,7 +34,7 @@
     "classnames": "2.2.5",
     "dom-helpers": "3.3.1",
     "downshift": "3.1.4",
-    "echarts": "~4.1.0",
+    "echarts": "^4.1.0",
     "flv.js": "1.5.0",
     "froala-editor": "2.9.6",
     "history": "4.7.2",
