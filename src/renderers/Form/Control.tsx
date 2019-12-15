@@ -52,8 +52,14 @@ export default class FormControl extends React.PureComponent<
 
   static defaultProps = {};
 
-  lazyValidate: Function;
-  lazyEmitChange: (submitOnChange: boolean) => void;
+  lazyValidate = debouce(this.validate.bind(this), 250, {
+    trailing: true,
+    leading: false
+  });
+  lazyEmitChange = debouce(this.emitChange.bind(this), 250, {
+    trailing: true,
+    leading: false
+  });
   state = {value: this.props.control.value};
   componentWillMount() {
     const {
@@ -83,14 +89,6 @@ export default class FormControl extends React.PureComponent<
     this.setPrinstineValue = this.setPrinstineValue.bind(this);
     this.controlRef = this.controlRef.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
-    this.lazyValidate = debouce(this.validate.bind(this), 250, {
-      trailing: true,
-      leading: false
-    });
-    this.lazyEmitChange = debouce(this.emitChange.bind(this), 250, {
-      trailing: true,
-      leading: false
-    });
 
     if (!name) {
       return;
@@ -165,43 +163,43 @@ export default class FormControl extends React.PureComponent<
     const props = this.props;
     const form = nextProps.formStore;
 
-    if (!nextProps.control.name) {
-      // 把 name 删了, 对 model 做清理
-      this.model && this.disposeModel();
-      this.reaction && this.reaction();
-      this.model = undefined;
-      return;
-    } else if (nextProps.control.name !== props.control.name || !this.model) {
-      // 对 model 做清理
-      this.model && this.disposeModel();
-      this.reaction && this.reaction();
+    // if (!nextProps.control.name) {
+    //   // 把 name 删了, 对 model 做清理
+    //   this.model && this.disposeModel();
+    //   this.reaction && this.reaction();
+    //   this.model = undefined;
+    //   return;
+    // } else if (nextProps.control.name !== props.control.name || !this.model) {
+    //   // 对 model 做清理
+    //   this.model && this.disposeModel();
+    //   this.reaction && this.reaction();
 
-      // name 是后面才有的，比如编辑模式下就会出现。
-      const model = (this.model = form.registryItem(nextProps.control.name, {
-        id: nextProps.control.id,
-        type: nextProps.control.type,
-        required: nextProps.control.required,
-        unique: nextProps.control.unique,
-        value: nextProps.control.value,
-        rules: nextProps.control.validations,
-        multiple: nextProps.control.multiple,
-        delimiter: nextProps.control.delimiter,
-        valueField: nextProps.control.valueField,
-        labelField: nextProps.control.labelField,
-        joinValues: nextProps.control.joinValues,
-        extractValue: nextProps.control.extractValue,
-        messages: nextProps.control.validationErrors
-      }));
-      // this.forceUpdate();
-      this.setState({
-        value: model.value
-      });
+    //   // name 是后面才有的，比如编辑模式下就会出现。
+    //   const model = (this.model = form.registryItem(nextProps.control.name, {
+    //     id: nextProps.control.id,
+    //     type: nextProps.control.type,
+    //     required: nextProps.control.required,
+    //     unique: nextProps.control.unique,
+    //     value: nextProps.control.value,
+    //     rules: nextProps.control.validations,
+    //     multiple: nextProps.control.multiple,
+    //     delimiter: nextProps.control.delimiter,
+    //     valueField: nextProps.control.valueField,
+    //     labelField: nextProps.control.labelField,
+    //     joinValues: nextProps.control.joinValues,
+    //     extractValue: nextProps.control.extractValue,
+    //     messages: nextProps.control.validationErrors
+    //   }));
+    //   // this.forceUpdate();
+    //   this.setState({
+    //     value: model.value
+    //   });
 
-      this.reaction = reaction(
-        () => model.value,
-        value => this.setState({value})
-      );
-    }
+    //   this.reaction = reaction(
+    //     () => model.value,
+    //     value => this.setState({value})
+    //   );
+    // }
 
     if (
       this.model &&
@@ -268,10 +266,11 @@ export default class FormControl extends React.PureComponent<
   componentWillUnmount() {
     this.hook && this.props.removeHook(this.hook);
     this.hook2 && this.props.removeHook(this.hook2);
-    this.disposeModel();
+    this.lazyValidate.cancel();
+    // this.lazyEmitChange.flush();
+    this.lazyEmitChange.cancel();
     this.reaction && this.reaction();
-    (this.lazyValidate as any).cancel();
-    (this.lazyEmitChange as any).cancel();
+    this.disposeModel();
   }
 
   disposeModel() {
@@ -348,7 +347,7 @@ export default class FormControl extends React.PureComponent<
     const {
       formStore: form,
       onChange,
-      control: {type, pipeOut},
+      control: {type, pipeOut, changeImmediately: conrolChangeImmediately},
       formInited
     } = this.props;
 
@@ -368,7 +367,7 @@ export default class FormControl extends React.PureComponent<
         value
       },
       () =>
-        changeImmediately || !formInited
+        changeImmediately || conrolChangeImmediately || !formInited
           ? this.emitChange(submitOnChange)
           : this.lazyEmitChange(submitOnChange)
     );
@@ -521,7 +520,6 @@ export default class FormControl extends React.PureComponent<
 
     return render('', control, {
       ...rest,
-      key: `${control.name || ''}-${control.type}`, // 很重要：如果不写实际的 control 组件变了，但是 this.control 还是引用的原来那个。
       defaultSize: controlWidth,
       disabled: disabled || control.disabled,
       formItem: model,

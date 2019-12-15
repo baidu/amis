@@ -68,12 +68,18 @@ export const RendererStore = types
       if (self.stores.has(store.id as string)) {
         return self.stores.get(store.id) as IIRendererStore;
       }
+
+      if (store.parentId) {
+        const parent = self.stores.get(store.parentId) as IIRendererStore;
+        parent.childrenIds.push(store.id);
+      }
+
       self.stores.put(store);
       return self.stores.get(store.id) as IIRendererStore;
     },
 
     removeStore(store: IIRendererStore) {
-      detach(store);
+      store.dispose();
     }
   }));
 
