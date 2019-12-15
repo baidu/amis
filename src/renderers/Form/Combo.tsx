@@ -734,7 +734,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       wrapWithPanel: false,
                       mode: subFormMode,
                       className: cx(`Combo-form`, formClassName),
-                      lazyOnChange: false
+                      lazyChange: false
                     },
                     {
                       index,
@@ -907,7 +907,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                             wrapWithPanel: false,
                             mode: multiLine ? subFormMode : 'row',
                             className: cx(`Combo-form`, formClassName),
-                            lazyOnChange: false
+                            lazyChange: false
                           },
                           {
                             index,
@@ -1043,7 +1043,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   wrapWithPanel: false,
                   mode: multiLine ? 'normal' : 'row',
                   className: cx(`Combo-form`, formClassName),
-                  lazyOnChange: false
+                  lazyChange: false
                 },
                 {
                   disabled: disabled,

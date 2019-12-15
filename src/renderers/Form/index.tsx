@@ -152,7 +152,7 @@ export default class Form extends React.Component<FormProps, object> {
     'onFailed',
     'onFinished',
     'canAccessSuperData',
-    'lazyOnChange'
+    'lazyChange'
   ];
 
   hooks: {
@@ -163,7 +163,10 @@ export default class Form extends React.Component<FormProps, object> {
   shouldLoadInitApi: boolean = false;
   timer: NodeJS.Timeout;
   mounted: boolean;
-  lazyHandleChange: (value: any, name: string, submit: boolean) => void;
+  lazyHandleChange = debouce(this.handleChange.bind(this), 250, {
+    trailing: true,
+    leading: false
+  });
   constructor(props: FormProps) {
     super(props);
 
@@ -179,10 +182,6 @@ export default class Form extends React.Component<FormProps, object> {
     this.addHook = this.addHook.bind(this);
     this.removeHook = this.removeHook.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.lazyHandleChange = debouce(this.handleChange, 250, {
-      trailing: true,
-      leading: false
-    });
     this.renderFormItems = this.renderFormItems.bind(this);
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
@@ -303,7 +302,8 @@ export default class Form extends React.Component<FormProps, object> {
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
-    (this.lazyHandleChange as any).cancel();
+    // this.lazyHandleChange.flush();
+    this.lazyHandleChange.cancel();
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
     const store = this.props.store;
@@ -896,13 +896,15 @@ export default class Form extends React.Component<FormProps, object> {
       disabled,
       controlWidth,
       resolveDefinitions,
-      lazyOnChange
+      lazyChange
     } = props;
 
     const subProps = {
       formStore: form,
       data: store.data,
-      key,
+      key: `${(control as Schema).name || ''}-${
+        (control as Schema).type
+      }-${key}`,
       formInited: form.inited,
       formMode: mode,
       formHorizontal: horizontal,
@@ -910,8 +912,7 @@ export default class Form extends React.Component<FormProps, object> {
       disabled: disabled || (control as Schema).disabled || form.loading,
       btnDisabled: form.loading || form.validating,
       onAction: this.handleAction,
-      onChange:
-        lazyOnChange !== false ? this.lazyHandleChange : this.handleChange,
+      onChange: this.lazyHandleChange,
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
@@ -919,7 +920,7 @@ export default class Form extends React.Component<FormProps, object> {
     };
 
     const subSchema: any =
-      control && (control as Schema).type === 'control'
+      (control as Schema).type === 'control'
         ? control
         : {
             type: 'control',
@@ -944,6 +945,7 @@ export default class Form extends React.Component<FormProps, object> {
 
       control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
       control.visibleOn && (subSchema.visibleOn = control.visibleOn);
+      lazyChange === false && (control.changeImmediately = true);
     }
 
     return render(`${region ? `${region}/` : ''}${key}`, subSchema, subProps);
@@ -956,46 +958,23 @@ export default class Form extends React.Component<FormProps, object> {
       controls,
       mode,
       className,
-      classnames: cx
-    } = this.props;
-
-    return (
-      <div className={cx(`Form`, `Form--${mode || 'normal'}`, className)}>
-        {this.renderFormItems({
-          tabs,
-          fieldSet,
-          controls
-        })}
-      </div>
-    );
-  }
-
-  render() {
-    const {
-      className,
-      wrapWithPanel,
-      render,
-      title,
-      store,
-      panelClassName,
-      debug,
-      headerClassName,
-      footerClassName,
-      actionsClassName,
-      bodyClassName,
-      classPrefix: ns,
       classnames: cx,
+      debug,
       $path,
-      affixFooter,
-      mode
+      store,
+      render
     } = this.props;
 
     const WrapperComponent =
       this.props.wrapperComponent ||
       (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
 
-    let body = (
-      <WrapperComponent onSubmit={this.handleFormSubmit} noValidate>
+    return (
+      <WrapperComponent
+        className={cx(`Form`, `Form--${mode || 'normal'}`, className)}
+        onSubmit={this.handleFormSubmit}
+        noValidate
+      >
         {debug ? (
           <pre>
             <code>{JSON.stringify(store.data, null, 2)}</code>
@@ -1004,7 +983,11 @@ export default class Form extends React.Component<FormProps, object> {
 
         <Spinner show={store.loading} overlay />
 
-        {this.renderBody()}
+        {this.renderFormItems({
+          tabs,
+          fieldSet,
+          controls
+        })}
 
         {render(
           'modal',
@@ -1039,6 +1022,24 @@ export default class Form extends React.Component<FormProps, object> {
         )}
       </WrapperComponent>
     );
+  }
+
+  render() {
+    const {
+      wrapWithPanel,
+      render,
+      title,
+      store,
+      panelClassName,
+      headerClassName,
+      footerClassName,
+      actionsClassName,
+      bodyClassName,
+      classnames: cx,
+      affixFooter
+    } = this.props;
+
+    let body: JSX.Element = this.renderBody();
 
     if (wrapWithPanel) {
       body = render(
@@ -1101,6 +1102,8 @@ export class FormRenderer extends Form {
   componentWillUnmount() {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+
+    super.componentWillUnmount();
   }
 
   doAction(action: Action, data: object, throwErrors: boolean = false) {

@@ -42,7 +42,7 @@ export interface FlvSourceProps {
   order?: number;
 }
 
-let currentPlaying: any = null;
+// let currentPlaying: any = null;
 
 export class FlvSource extends React.Component<FlvSourceProps, any> {
   flvPlayer: any;
@@ -262,17 +262,17 @@ export default class Video extends React.Component<VideoProps, VideoState> {
         videoState: state
       });
 
-      if (!state.paused) {
-        if (
-          currentPlaying &&
-          currentPlaying.video &&
-          currentPlaying !== player
-        ) {
-          currentPlaying.pause();
-        }
+      // if (!state.paused) {
+      //   if (
+      //     currentPlaying &&
+      //     currentPlaying.video &&
+      //     currentPlaying !== player
+      //   ) {
+      //     currentPlaying.pause();
+      //   }
 
-        currentPlaying = player;
-      }
+      //   currentPlaying = player;
+      // }
 
       if (!this.frameDom || !this.times) {
         return;
