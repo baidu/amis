@@ -20,6 +20,7 @@ import {classPrefix, classnames} from '../themes/default';
 import {ClassNamesFn, themeable} from '../theme';
 import {findDOMNode} from 'react-dom';
 import find from 'lodash/find';
+import {PlainObject} from '../types';
 
 class HackedCalendarContainer extends CalendarContainer {
   render() {
@@ -767,6 +768,21 @@ const advancedShortcuts = [
   }
 ];
 
+export type ShortCuts =
+  | {
+      label: string;
+      value: string;
+    }
+  | {
+      label: string;
+      date: moment.Moment;
+    }
+  | {
+      label: string;
+      startDate?: moment.Moment;
+      endDate?: moment.Moment;
+    };
+
 export interface DateProps {
   viewMode: 'years' | 'months' | 'days' | 'time';
   className?: string;
@@ -788,7 +804,7 @@ export interface DateProps {
   utc?: boolean;
   onChange: (value: any) => void;
   value: any;
-  shortcuts: string;
+  shortcuts: string | Array<ShortCuts>;
   [propName: string]: any;
 }
 
@@ -978,6 +994,47 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     return null;
   }
 
+  renderShortCuts = (shortcuts: string | Array<ShortCuts>) => {
+    if (!shortcuts) {
+      return null;
+    }
+    const {classPrefix: ns} = this.props;
+    let shortcutArr: Array<string | ShortCuts>;
+    if (typeof shortcuts === 'string') {
+      shortcutArr = shortcuts.split(',');
+    } else {
+      shortcutArr = shortcuts;
+    }
+    return (
+      <ul className={`${ns}DatePicker-shortcuts`}>
+        {shortcutArr.map(item => {
+          if (!item) {
+            return null;
+          }
+          let shortcut: PlainObject = {};
+          if (typeof item === 'string') {
+            shortcut = this.getAvailableShortcuts(item);
+            shortcut.key = item;
+          } else if ('date' in item) {
+            shortcut = {
+              ...item,
+              date: () => item.date
+            };
+          }
+          return (
+            <li
+              className={`${ns}DatePicker-shortcut`}
+              onClick={() => this.selectRannge(shortcut)}
+              key={shortcut.key || shortcut.label}
+            >
+              <a>{shortcut.label}</a>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  };
+
   render() {
     const {
       classPrefix: ns,
@@ -1048,32 +1105,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               overlay
               onClick={this.handlePopOverClick}
             >
-              {shortcuts ? (
-                <ul className={`${ns}DatePicker-shortcuts`}>
-                  {(typeof shortcuts === 'string'
-                    ? shortcuts.split(',')
-                    : Array.isArray(shortcuts)
-                    ? shortcuts
-                    : []
-                  ).map(key => {
-                    const shortcut = this.getAvailableShortcuts(key);
-
-                    if (!shortcut) {
-                      return null;
-                    }
-
-                    return (
-                      <li
-                        className={`${ns}DatePicker-shortcut`}
-                        onClick={() => this.selectRannge(shortcut)}
-                        key={key}
-                      >
-                        <a>{shortcut.label}</a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              ) : null}
+              {this.renderShortCuts(shortcuts)}
 
               <BaseDatePicker
                 value={date}

@@ -10,9 +10,10 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import {Icon} from './icons';
 import Overlay from './Overlay';
-import {BaseDatePicker} from './DatePicker';
+import {BaseDatePicker, ShortCuts} from './DatePicker';
 import PopOver from './PopOver';
 import {ClassNamesFn, themeable} from '../theme';
+import {PlainObject} from '../types';
 
 export interface DateRangePickerProps {
   className?: string;
@@ -22,7 +23,7 @@ export interface DateRangePickerProps {
   theme?: any;
   format: string;
   inputFormat?: string;
-  ranges?: string;
+  ranges?: string | Array<ShortCuts>;
   clearable?: boolean;
   iconClassName?: string;
   minDate?: moment.Moment;
@@ -354,16 +355,55 @@ export class DateRangePicker extends React.Component<
     });
   }
 
-  selectRannge(range: {
-    startDate: (now: moment.Moment) => moment.Moment;
-    endDate: (now: moment.Moment) => moment.Moment;
-  }) {
+  selectRannge(range: PlainObject) {
     const now = moment();
     this.setState({
       startDate: range.startDate(now.clone()),
       endDate: range.endDate(now.clone())
     });
   }
+
+  renderRanges = (ranges: string | Array<ShortCuts> | undefined) => {
+    if (!ranges) {
+      return null;
+    }
+    const {classPrefix: ns} = this.props;
+    let rangeArr: Array<string | ShortCuts>;
+    if (typeof ranges === 'string') {
+      rangeArr = ranges.split(',');
+    } else {
+      rangeArr = ranges;
+    }
+    return (
+      <ul className={`${ns}DateRangePicker-rangers`}>
+        {rangeArr.map(item => {
+          if (!item) {
+            return null;
+          }
+          let range: PlainObject = {};
+          if (typeof item === 'string') {
+            range = availableRanges[item];
+            range.key = item;
+          } else if ('endDate' in item && 'startDate' in item) {
+            range = {
+              ...item,
+              startDate: () => item.startDate,
+              endDate: () => item.endDate
+            };
+          }
+          return (
+            <li
+              className={`${ns}DateRangePicker-ranger`}
+              onClick={() => this.selectRannge(range)}
+              key={range.key || range.label}
+            >
+              <a>{range.label}</a>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  };
 
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
@@ -505,28 +545,7 @@ export class DateRangePicker extends React.Component<
               overlay
             >
               <div className={`${ns}DateRangePicker-wrap`}>
-                {ranges ? (
-                  <ul className={`${ns}DateRangePicker-rangers`}>
-                    {(typeof ranges === 'string'
-                      ? ranges.split(',')
-                      : Array.isArray(ranges)
-                      ? ranges
-                      : []
-                    )
-                      .filter(key => !!availableRanges[key])
-                      .map(key => (
-                        <li
-                          className={`${ns}DateRangePicker-ranger`}
-                          onClick={() =>
-                            this.selectRannge(availableRanges[key])
-                          }
-                          key={key}
-                        >
-                          <a>{availableRanges[key].label}</a>
-                        </li>
-                      ))}
-                  </ul>
-                ) : null}
+                {this.renderRanges(ranges)}
 
                 <BaseDatePicker
                   classPrefix={ns}
