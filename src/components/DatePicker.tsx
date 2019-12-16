@@ -1016,7 +1016,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           if (typeof item === 'string') {
             shortcut = this.getAvailableShortcuts(item);
             shortcut.key = item;
-          } else if ('date' in item) {
+          } else if (item.date) {
             shortcut = {
               ...item,
               date: () => item.date
