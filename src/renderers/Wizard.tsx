@@ -769,6 +769,7 @@ export class WizardRenderer extends Wizard {
   componentWillUnmount() {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+    super.componentWillUnmount();
   }
 
   doAction(action: Action, data: object, throwErrors: boolean = false) {
