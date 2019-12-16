@@ -102,6 +102,8 @@ export interface FormProps extends RendererProps, FormSchema {
     saveFailed?: string;
     validateFailed?: string;
   };
+  lazyChange?: boolean;
+  formLazyChange?: boolean;
 }
 
 export default class Form extends React.Component<FormProps, object> {
@@ -152,7 +154,8 @@ export default class Form extends React.Component<FormProps, object> {
     'onFailed',
     'onFinished',
     'canAccessSuperData',
-    'lazyChange'
+    'lazyChange',
+    'formLazyChange'
   ];
 
   hooks: {
@@ -896,7 +899,8 @@ export default class Form extends React.Component<FormProps, object> {
       disabled,
       controlWidth,
       resolveDefinitions,
-      lazyChange
+      lazyChange,
+      formLazyChange
     } = props;
 
     const subProps = {
@@ -912,7 +916,7 @@ export default class Form extends React.Component<FormProps, object> {
       disabled: disabled || (control as Schema).disabled || form.loading,
       btnDisabled: form.loading || form.validating,
       onAction: this.handleAction,
-      onChange: this.lazyHandleChange,
+      onChange: formLazyChange === false ? this.handleChange : this.lazyHandleChange,
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
