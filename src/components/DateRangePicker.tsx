@@ -235,7 +235,7 @@ export class DateRangePicker extends React.Component<
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
-
+    this.renderRanges = this.renderRanges.bind(this);
     const {format, joinValues, delimiter, value} = this.props;
 
     this.state = {
@@ -363,7 +363,7 @@ export class DateRangePicker extends React.Component<
     });
   }
 
-  renderRanges = (ranges: string | Array<ShortCuts> | undefined) => {
+  renderRanges(ranges: string | Array<ShortCuts> | undefined) {
     if (!ranges) {
       return null;
     }
@@ -403,7 +403,7 @@ export class DateRangePicker extends React.Component<
         })}
       </ul>
     );
-  };
+  }
 
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
