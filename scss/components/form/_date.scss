@@ -83,10 +83,13 @@
 }
 
 .#{$ns}DatePicker-shortcuts {
-  margin: $gap-sm $gap-md (-$gap-sm) $gap-md;
+  margin: $gap-sm $gap-md $gap-sm $gap-md;
   padding: 0;
   list-style: none;
   max-width: 206px;
+  & + .rdt .rdtPicker {
+    padding-top: 0;
+  }
 }
 
 .#{$ns}DatePicker-shortcut {
