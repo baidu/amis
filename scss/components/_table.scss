@@ -9,7 +9,7 @@
   &-fixedRight {
     position: absolute;
     background: $Table-bg;
-    z-index: $zindex-affix - 10;
+    z-index: 5;
     top: -999999px;
 
     &.in {
