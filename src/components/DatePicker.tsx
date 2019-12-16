@@ -845,6 +845,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.getParent = this.getParent.bind(this);
     this.getTarget = this.getTarget.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
+    this.renderShortCuts = this.renderShortCuts.bind(this);
   }
 
   dom: HTMLDivElement;
@@ -994,7 +995,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     return null;
   }
 
-  renderShortCuts = (shortcuts: string | Array<ShortCuts>) => {
+  renderShortCuts(shortcuts: string | Array<ShortCuts>) {
     if (!shortcuts) {
       return null;
     }
@@ -1033,7 +1034,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         })}
       </ul>
     );
-  };
+  }
 
   render() {
     const {
