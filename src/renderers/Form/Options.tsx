@@ -174,6 +174,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       loadOptions &&
+        config.autoLoadOptionsFromSource !== false &&
         (formInited
           ? this.reload()
           : addHook && addHook(this.initOptions, 'init'));
@@ -428,10 +429,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     reload() {
       const {source, formItem, data, onChange} = this.props;
 
-      if (
-        !formItem ||
-        !isEffectiveApi(source, data)
-      ) {
+      if (!formItem || !isEffectiveApi(source, data)) {
         return;
       }
 
