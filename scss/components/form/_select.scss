@@ -36,7 +36,8 @@
     position: relative;
     flex-grow: 1;
     line-height: 1;
-    width: 0;
+    // width: 0;
+    max-width: 100%;
   }
 
   &-placeholder {
