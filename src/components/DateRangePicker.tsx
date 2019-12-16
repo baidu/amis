@@ -235,7 +235,6 @@ export class DateRangePicker extends React.Component<
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
-    this.renderRanges = this.renderRanges.bind(this);
     const {format, joinValues, delimiter, value} = this.props;
 
     this.state = {
@@ -384,7 +383,7 @@ export class DateRangePicker extends React.Component<
           if (typeof item === 'string') {
             range = availableRanges[item];
             range.key = item;
-          } else if ('endDate' in item && 'startDate' in item) {
+          } else if (item.startDate && item.endDate) {
             range = {
               ...item,
               startDate: () => item.startDate,
