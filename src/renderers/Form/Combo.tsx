@@ -498,15 +498,21 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.sortable && this.sortable.destroy();
   }
 
+  refsMap:{
+    [propName: number]: any
+  } = {};
   formRef(ref: any, index: number = 0) {
     if (ref) {
       while (ref && ref.getWrappedInstance) {
         ref = ref.getWrappedInstance();
       }
       this.subForms[index] = ref;
+      this.refsMap[index] = ref;
     } else {
-      this.subForms.splice(index, 1);
-      this.subFormDefaultValues.splice(index, 1);
+      const form = this.refsMap[index];
+      this.subForms = this.subForms.filter(item => item !== form);
+      this.subFormDefaultValues = this.subFormDefaultValues.filter(({index: dIndex}) => dIndex !== index);
+      delete this.refsMap[index];
     }
   }
 
