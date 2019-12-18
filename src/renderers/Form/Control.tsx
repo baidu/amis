@@ -48,6 +48,7 @@ export default class FormControl extends React.PureComponent<
   control: any;
   hook?: () => any;
   hook2?: () => any;
+  hook3?: () => any;
   reaction?: () => void;
 
   static defaultProps = {};
@@ -143,6 +144,10 @@ export default class FormControl extends React.PureComponent<
         this.handleChange(value, false, true);
       }
     }
+
+    // 提交前先把之前的 lazyEmit 执行一下。
+    this.hook3 = () => this.lazyEmitChange.flush();
+    addHook(this.hook3);
 
     const formItem = this.model as IFormItemStore;
     if (formItem && validate) {
@@ -266,6 +271,7 @@ export default class FormControl extends React.PureComponent<
   componentWillUnmount() {
     this.hook && this.props.removeHook(this.hook);
     this.hook2 && this.props.removeHook(this.hook2);
+    this.hook3 && this.props.removeHook(this.hook3);
     this.lazyValidate.cancel();
     // this.lazyEmitChange.flush();
     this.lazyEmitChange.cancel();
