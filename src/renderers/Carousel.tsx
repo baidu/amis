@@ -10,7 +10,7 @@ import {
   autobind,
   createObject,
   isObject,
-  isArrayChilrenModified
+  isArrayChildrenModified
 } from '../utils/helper';
 import {Icon} from '../components/icons';
 
@@ -114,7 +114,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       nextProps.options ||
       resolveVariable(nextProps.name, nextProps.data) ||
       [];
-    if (isArrayChilrenModified(currentOptions, nextOptions)) {
+    if (isArrayChildrenModified(currentOptions, nextOptions)) {
       this.setState({
         options: nextOptions
       });
