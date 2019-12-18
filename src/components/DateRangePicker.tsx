@@ -10,10 +10,12 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import {Icon} from './icons';
 import Overlay from './Overlay';
-import {BaseDatePicker, ShortCuts} from './DatePicker';
+import {ShortCuts, ShortCutDateRange} from './DatePicker';
+import Calendar from './calendar/Calendar';
 import PopOver from './PopOver';
 import {ClassNamesFn, themeable} from '../theme';
 import {PlainObject} from '../types';
+import {noop} from '../utils/helper';
 
 export interface DateRangePickerProps {
   className?: string;
@@ -34,6 +36,7 @@ export interface DateRangePickerProps {
   onChange: (value: any) => void;
   data?: any;
   disabled?: boolean;
+  closeOnSelect?: boolean;
   [propName: string]: any;
 }
 
@@ -78,20 +81,20 @@ const availableRanges: {[propName: string]: any} = {
   '7daysago': {
     label: '最近7天',
     startDate: (now: moment.Moment) => {
-      return now.add(-7, 'days');
+      return now.add(-7, 'days').startOf('day');
     },
     endDate: (now: moment.Moment) => {
-      return now;
+      return now.add(-1, 'days').endOf('day');
     }
   },
 
   '90daysago': {
     label: '最近90天',
     startDate: (now: moment.Moment) => {
-      return now.add(-90, 'days');
+      return now.add(-90, 'days').startOf('day');
     },
     endDate: (now: moment.Moment) => {
-      return now;
+      return now.add(-1, 'days').endOf('day');
     }
   },
 
@@ -168,7 +171,8 @@ export class DateRangePicker extends React.Component<
     delimiter: ',',
     ranges: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
     iconClassName: 'fa fa-calendar',
-    resetValue: ''
+    resetValue: '',
+    closeOnSelect: false
   };
 
   innerDom: any;
@@ -217,6 +221,7 @@ export class DateRangePicker extends React.Component<
   }
 
   dom: React.RefObject<HTMLDivElement>;
+  nextMonth = moment().add(1, 'months');
 
   constructor(props: DateRangePickerProps) {
     super(props);
@@ -235,6 +240,7 @@ export class DateRangePicker extends React.Component<
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
+    this.renderDay = this.renderDay.bind(this);
     const {format, joinValues, delimiter, value} = this.props;
 
     this.state = {
@@ -338,28 +344,53 @@ export class DateRangePicker extends React.Component<
     this.close();
   }
 
-  handleStartChange(newValue: any) {
+  handleStartChange(newValue: moment.Moment) {
+    if (
+      this.state.startDate &&
+      !this.state.endDate &&
+      newValue.isAfter(this.state.startDate)
+    ) {
+      return this.setState({
+        endDate: newValue.clone()
+      });
+    }
+
     this.setState({
       startDate: newValue.clone()
     });
   }
 
-  handleEndChange(newValue: any) {
+  handleEndChange(newValue: moment.Moment) {
     newValue =
       !this.state.endDate && !this.props.timeFormat
         ? newValue.endOf('day')
         : newValue;
+
+    if (
+      this.state.endDate &&
+      !this.state.startDate &&
+      newValue.isBefore(this.state.endDate)
+    ) {
+      return this.setState({
+        startDate: newValue.clone()
+      });
+    }
+
     this.setState({
       endDate: newValue.clone()
     });
   }
 
   selectRannge(range: PlainObject) {
+    const {closeOnSelect} = this.props;
     const now = moment();
-    this.setState({
-      startDate: range.startDate(now.clone()),
-      endDate: range.endDate(now.clone())
-    });
+    this.setState(
+      {
+        startDate: range.startDate(now.clone()),
+        endDate: range.endDate(now.clone())
+      },
+      closeOnSelect ? this.close : noop
+    );
   }
 
   renderRanges(ranges: string | Array<ShortCuts> | undefined) {
@@ -383,11 +414,14 @@ export class DateRangePicker extends React.Component<
           if (typeof item === 'string') {
             range = availableRanges[item];
             range.key = item;
-          } else if (item.startDate && item.endDate) {
+          } else if (
+            (item as ShortCutDateRange).startDate &&
+            (item as ShortCutDateRange).endDate
+          ) {
             range = {
               ...item,
-              startDate: () => item.startDate,
-              endDate: () => item.endDate
+              startDate: () => (item as ShortCutDateRange).startDate,
+              endDate: () => (item as ShortCutDateRange).endDate
             };
           }
           return (
@@ -452,6 +486,20 @@ export class DateRangePicker extends React.Component<
     }
 
     return true;
+  }
+
+  renderDay(props: any, currentDate: moment.Moment) {
+    let {startDate, endDate} = this.state;
+
+    if (
+      startDate &&
+      endDate &&
+      currentDate.isBetween(startDate, endDate, 'day', '[]')
+    ) {
+      props.className += ' rdtBetween';
+    }
+
+    return <td {...props}>{currentDate.date()}</td>;
   }
 
   render() {
@@ -529,7 +577,6 @@ export class DateRangePicker extends React.Component<
 
         {isOpened ? (
           <Overlay
-            placement="left-bottom-left-top right-bottom-right-top left-bottom-left-top"
             target={() => this.dom.current}
             onHide={this.close}
             container={popOverContainer || (() => findDOMNode(this))}
@@ -546,9 +593,7 @@ export class DateRangePicker extends React.Component<
               <div className={`${ns}DateRangePicker-wrap`}>
                 {this.renderRanges(ranges)}
 
-                <BaseDatePicker
-                  classPrefix={ns}
-                  classnames={cx}
+                <Calendar
                   className={`${ns}DateRangePicker-start`}
                   value={startDate}
                   onChange={this.handleStartChange}
@@ -559,22 +604,23 @@ export class DateRangePicker extends React.Component<
                   viewMode="days"
                   input={false}
                   onClose={this.close}
+                  renderDay={this.renderDay}
                 />
 
-                <BaseDatePicker
-                  classPrefix={ns}
-                  classnames={cx}
+                <Calendar
                   className={`${ns}DateRangePicker-end`}
                   value={endDate}
                   onChange={this.handleEndChange}
                   requiredConfirm={false}
                   dateFormat={format}
                   timeFormat={timeFormat}
-                  isEndDate={true}
+                  viewDate={this.nextMonth}
+                  isEndDate
                   isValidDate={this.checkEndIsValidDate}
                   viewMode="days"
                   input={false}
                   onClose={this.close}
+                  renderDay={this.renderDay}
                 />
 
                 <div key="button" className={`${ns}DateRangePicker-actions`}>
