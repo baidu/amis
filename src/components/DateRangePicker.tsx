@@ -172,7 +172,7 @@ export class DateRangePicker extends React.Component<
     ranges: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
     iconClassName: 'fa fa-calendar',
     resetValue: '',
-    closeOnSelect: false
+    closeOnSelect: true
   };
 
   innerDom: any;
@@ -389,7 +389,7 @@ export class DateRangePicker extends React.Component<
         startDate: range.startDate(now.clone()),
         endDate: range.endDate(now.clone())
       },
-      closeOnSelect ? this.close : noop
+      closeOnSelect ? this.confirm : noop
     );
   }
 
