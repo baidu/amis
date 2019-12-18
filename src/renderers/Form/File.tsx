@@ -913,6 +913,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   !multiple ? (
                     <Button
                       level="default"
+                      disabled={disabled}
                       className={cx('FileControl-selectBtn')}
                       onClick={this.handleSelect}
                     >
