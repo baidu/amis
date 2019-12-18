@@ -4,11 +4,13 @@ import cx from 'classnames';
 import {filterDate} from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import DateRangePicker from '../../components/DateRangePicker';
+import DateRangePicker, {
+  DateRangePicker as BaseDateRangePicker
+} from '../../components/DateRangePicker';
 
 export interface DateRangeProps extends FormControlProps {
   placeholder?: string;
-  disabled?: boolean;
+  disabled: boolean;
   format: string;
   joinValues: boolean;
   delimiter: string;
@@ -59,7 +61,7 @@ export default class DateRangeControl extends React.Component<
           ? defaultValue.split(delimiter)
           : defaultValue;
       setPrinstineValue(
-        DateRangePicker.formatValue(
+        BaseDateRangePicker.formatValue(
           {
             startDate: filterDate(arr[0], data),
             endDate: filterDate(arr[1], data)
@@ -106,7 +108,7 @@ export default class DateRangeControl extends React.Component<
 
       setPrinstineValue(
         arr
-          ? DateRangePicker.formatValue(
+          ? BaseDateRangePicker.formatValue(
               {
                 startDate: filterDate(arr[0], data),
                 endDate: filterDate(arr[1], data)

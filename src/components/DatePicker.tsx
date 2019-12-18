@@ -229,9 +229,13 @@ export interface DatePickerState {
 }
 
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
-  static defaultProps: Pick<DateProps, 'viewMode' | 'shortcuts'> = {
+  static defaultProps: Pick<
+    DateProps,
+    'viewMode' | 'shortcuts' | 'closeOnSelect'
+  > = {
     viewMode: 'days',
-    shortcuts: ''
+    shortcuts: '',
+    closeOnSelect: true
   };
   state: DatePickerState = {
     isOpened: false,
@@ -342,7 +346,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       minTime,
       maxTime,
       dateFormat,
-      timeFormat
+      timeFormat,
+      closeOnSelect
     } = this.props;
 
     if (!moment.isMoment(value)) {
@@ -357,15 +362,17 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
     onChange(value.format(format));
 
-    if (dateFormat && !timeFormat) {
+    if (closeOnSelect && dateFormat && !timeFormat) {
       this.close();
     }
   }
 
   selectRannge(item: any) {
+    const {closeOnSelect} = this.props;
     const now = moment();
     this.handleChange(item.date(now));
-    this.close();
+
+    closeOnSelect && this.close();
   }
 
   checkIsValidDate(currentDate: moment.Moment) {
@@ -465,7 +472,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       popOverContainer,
       clearable,
       shortcuts,
-      utc
+      utc,
+      closeOnSelect
     } = this.props;
 
     const isOpened = this.state.isOpened;
