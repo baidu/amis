@@ -8,602 +8,12 @@ import React from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-
-// hack 进去，让 days view 用 CustomDaysView 代替
-import CalendarContainer from 'react-datetime/src/CalendarContainer';
-import ReactDatePicker from 'react-datetime';
-import Select from './Select';
 import {Icon} from './icons';
 import PopOver from './PopOver';
 import Overlay from './Overlay';
-import {classPrefix, classnames} from '../themes/default';
 import {ClassNamesFn, themeable} from '../theme';
-import {findDOMNode} from 'react-dom';
-import find from 'lodash/find';
 import {PlainObject} from '../types';
-
-class HackedCalendarContainer extends CalendarContainer {
-  render() {
-    if (this.props.view === 'days') {
-      return <CustomDaysView {...this.props.viewProps} />;
-    }
-
-    return super.render();
-  }
-}
-
-// hack 后，view 中可以调用 setDateTimeState
-class BaseDatePicker extends ReactDatePicker {
-  __hacked: boolean;
-
-  render() {
-    if (!this.__hacked) {
-      this.__hacked = true;
-      const origin = (this as any).getComponentProps;
-      const setState = this.setState.bind(this);
-      (this as any).getComponentProps = function() {
-        const props = origin.apply(this);
-        props.setDateTimeState = setState;
-        [
-          'onChange',
-          'onClose',
-          'requiredConfirm',
-          'classPrefix',
-          'prevIcon',
-          'nextIcon',
-          'isEndDate'
-        ].forEach(key => (props[key] = (this.props as any)[key]));
-
-        return props;
-      };
-    }
-
-    // TODO: Make a function or clean up this code,
-    // logic right now is really hard to follow
-    let className =
-        'rdt' +
-        (this.props.className
-          ? Array.isArray(this.props.className)
-            ? ' ' + this.props.className.join(' ')
-            : ' ' + this.props.className
-          : ''),
-      children: Array<any> = [];
-
-    if (this.props.input) {
-      var finalInputProps = {
-        type: 'text',
-        className: 'form-control',
-        onClick: this.openCalendar,
-        onFocus: this.openCalendar,
-        onChange: this.onInputChange,
-        onKeyDown: this.onInputKey,
-        value: this.state.inputValue,
-        ...this.props.inputProps
-      };
-
-      if (this.props.renderInput) {
-        children = [
-          <div key="i">
-            {this.props.renderInput(
-              finalInputProps,
-              this.openCalendar,
-              this.closeCalendar
-            )}
-          </div>
-        ];
-      } else {
-        children = [<input key="i" {...finalInputProps} />];
-      }
-    } else {
-      className += ' rdtStatic';
-    }
-
-    if (this.state.open) className += ' rdtOpen';
-
-    return (
-      <div className={className}>
-        {children.concat(
-          <div key="dt" className="rdtPicker">
-            <HackedCalendarContainer
-              view={this.state.currentView}
-              viewProps={this.getComponentProps()}
-              onClickOutside={this.handleClickOutside}
-            />
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-
-interface CustomDaysViewProps {
-  classPrefix?: string;
-  prevIcon?: string;
-  nextIcon?: string;
-  viewDate: moment.Moment;
-  selectedDate: moment.Moment;
-  timeFormat: string;
-  requiredConfirm?: boolean;
-  isEndDate?: boolean;
-  renderDay?: Function;
-  onClose?: () => void;
-  onChange: (value: moment.Moment) => void;
-  setDateTimeState: (state: any) => void;
-  setTime: (type: string, amount: number) => void;
-  subtractTime: (
-    amount: number,
-    type: string,
-    toSelected?: moment.Moment
-  ) => () => void;
-  addTime: (
-    amount: number,
-    type: string,
-    toSelected?: moment.Moment
-  ) => () => void;
-  isValidDate?: (
-    currentDate: moment.Moment,
-    selected?: moment.Moment
-  ) => boolean;
-  showView: (view: string) => () => void;
-  updateSelectedDate: (event: React.MouseEvent<any>, close?: boolean) => void;
-  handleClickOutside: () => void;
-}
-
-class CustomDaysView extends React.Component<CustomDaysViewProps> {
-  static defaultProps = {
-    classPrefix: 'a-'
-  };
-
-  constructor(props: CustomDaysViewProps) {
-    super(props);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-    this.handleYearChange = this.handleYearChange.bind(this);
-    this.handleMonthChange = this.handleMonthChange.bind(this);
-    this.handleDayChange = this.handleDayChange.bind(this);
-    this.confirm = this.confirm.bind(this);
-    this.cancel = this.cancel.bind(this);
-  }
-
-  getDaysOfWeek(locale: moment.Locale) {
-    const days: Array<string> = locale.weekdaysMin();
-    const first = locale.firstDayOfWeek();
-    const dow: Array<string> = [];
-    let i = 0;
-
-    days.forEach(function(day) {
-      dow[(7 + i++ - first) % 7] = day;
-    });
-
-    return dow;
-  }
-
-  alwaysValidDate() {
-    return true;
-  }
-
-  handleDayChange(event: React.MouseEvent<any>) {
-    // need confirm
-    if (this.props.requiredConfirm) {
-      const viewDate = this.props.viewDate.clone();
-      const currentDate = this.props.selectedDate || viewDate;
-
-      const target = event.target as HTMLElement;
-      let modifier = 0;
-
-      if (~target.className.indexOf('rdtNew')) {
-        modifier = 1;
-      }
-      if (~target.className.indexOf('rdtOld')) {
-        modifier = -1;
-      }
-
-      viewDate
-        .month(viewDate.month() + modifier)
-        .date(parseInt(target.getAttribute('data-value') as string, 10))
-        .hours(currentDate.hours())
-        .minutes(currentDate.minutes())
-        .seconds(currentDate.seconds())
-        .milliseconds(currentDate.milliseconds());
-
-      this.props.setDateTimeState({
-        viewDate,
-        selectedDate: viewDate.clone()
-      });
-      return;
-    }
-
-    this.props.updateSelectedDate(event, true);
-  }
-
-  handleMonthChange(option: any) {
-    // const div = document.createElement('div');
-    // div.innerHTML = `<span class="rdtMonth" data-value="${option.value}"></span>`;
-
-    // const fakeEvent = {
-    //     target: div.firstChild
-    // };
-
-    // this.props.updateSelectedDate(fakeEvent as any);
-
-    const viewDate = this.props.viewDate;
-    this.props.setDateTimeState({
-      viewDate: viewDate
-        .clone()
-        .month(option.value)
-        .startOf('month')
-    });
-  }
-
-  handleYearChange(option: any) {
-    // const div = document.createElement('div');
-    // div.innerHTML = `<span class="rdtYear" data-value="${option.value}"></span>`;
-
-    // const fakeEvent = {
-    //     target: div.firstChild
-    // };
-
-    // this.props.updateSelectedDate(fakeEvent as any);
-
-    const viewDate = this.props.viewDate;
-    const newDate = viewDate.clone().year(option.value);
-    this.props.setDateTimeState({
-      viewDate: newDate[newDate.isBefore(viewDate) ? 'endOf' : 'startOf'](
-        'year'
-      )
-    });
-  }
-
-  setTime(
-    type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
-    value: number
-  ) {
-    const date = (this.props.selectedDate || this.props.viewDate).clone();
-    date[type](value);
-
-    this.props.setDateTimeState({
-      viewDate: date.clone(),
-      selectedDate: date.clone()
-    });
-
-    if (!this.props.requiredConfirm) {
-      this.props.onChange(date);
-    }
-  }
-
-  confirm() {
-    const date = this.props.viewDate.clone();
-
-    this.props.setDateTimeState({
-      selectedDate: date
-    });
-    this.props.onChange(date);
-    this.props.onClose && this.props.onClose();
-  }
-
-  cancel() {
-    this.props.onClose && this.props.onClose();
-  }
-
-  handleClickOutside() {
-    this.props.handleClickOutside();
-  }
-
-  renderYearsSelect() {
-    const classPrefix = this.props.classPrefix;
-    const date = this.props.viewDate;
-    const years: Array<number> = [];
-    const isValid = this.props.isValidDate || this.alwaysValidDate;
-    const irrelevantMonth = 0;
-    const irrelevantDate = 1;
-    let year = date.year();
-    let count = 0;
-
-    years.push(year);
-    while (count < 20) {
-      year++;
-
-      let currentYear = date.clone().set({
-        year: year,
-        month: irrelevantMonth,
-        date: irrelevantDate
-      });
-      const noOfDaysInYear = parseInt(
-        currentYear.endOf('year').format('DDD'),
-        10
-      );
-      const daysInYear = Array.from(
-        {
-          length: noOfDaysInYear
-        },
-        (e, i) => i + 1
-      );
-      const validDay = daysInYear.find(d =>
-        isValid(currentYear.clone().dayOfYear(d))
-      );
-
-      if (!validDay) {
-        break;
-      }
-
-      years.push(year);
-      count++;
-    }
-
-    count = 0;
-    year = date.year();
-    while (count < 20) {
-      year--;
-
-      let currentYear = date.clone().set({
-        year: year,
-        month: irrelevantMonth,
-        date: irrelevantDate
-      });
-      const noOfDaysInYear = parseInt(
-        currentYear.endOf('year').format('DDD'),
-        10
-      );
-      const daysInYear = Array.from(
-        {
-          length: noOfDaysInYear
-        },
-        (e, i) => i + 1
-      );
-      const validDay = daysInYear.find(d =>
-        isValid(currentYear.clone().dayOfYear(d))
-      );
-
-      if (!validDay) {
-        break;
-      }
-
-      years.unshift(year);
-      count++;
-    }
-
-    return (
-      <Select
-        value={date.year()}
-        options={years.map(year => ({
-          label: `${year}`,
-          value: year
-        }))}
-        onChange={this.handleYearChange}
-        clearable={false}
-        searchable={false}
-      />
-    );
-  }
-
-  renderMonthsSelect() {
-    const classPrefix = this.props.classPrefix;
-    const date = this.props.viewDate;
-    const year = this.props.viewDate.year();
-    const isValid = this.props.isValidDate || this.alwaysValidDate;
-    let i = 0;
-    const days = [];
-
-    while (i < 12) {
-      const currentMonth = date.clone().set({
-        year,
-        month: i,
-        date: 1
-      });
-
-      const noOfDaysInMonth = parseInt(
-        currentMonth.endOf('month').format('D'),
-        10
-      );
-      const daysInMonth = Array.from({length: noOfDaysInMonth}, function(e, i) {
-        return i + 1;
-      });
-
-      const validDay = daysInMonth.find(d =>
-        isValid(currentMonth.clone().set('date', d))
-      );
-      if (validDay) {
-        days.push(i);
-      }
-      i++;
-    }
-
-    return (
-      <Select
-        classPrefix={classPrefix}
-        value={date.month()}
-        options={days.map(day => ({
-          label: `${day + 1}`,
-          value: day
-        }))}
-        onChange={this.handleMonthChange}
-        clearable={false}
-        searchable={false}
-      />
-    );
-  }
-
-  renderDay(props: any, currentDate: moment.Moment) {
-    return <td {...props}>{currentDate.date()}</td>;
-  }
-
-  renderTimes() {
-    const {timeFormat, selectedDate, viewDate, isEndDate} = this.props;
-
-    const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
-    const inputs: Array<React.ReactNode> = [];
-
-    timeFormat.split(':').forEach((format, i) => {
-      const type = /h/i.test(format)
-        ? 'hours'
-        : /m/i.test(format)
-        ? 'minutes'
-        : 'seconds';
-      const min = 0;
-      const max = type === 'hours' ? 23 : 59;
-
-      inputs.push(
-        <input
-          key={i + 'input'}
-          type="text"
-          value={date.format(format)}
-          min={min}
-          max={max}
-          onChange={e =>
-            this.setTime(
-              type,
-              Math.max(
-                min,
-                Math.min(
-                  parseInt(e.currentTarget.value.replace(/\D/g, ''), 10) || 0,
-                  max
-                )
-              )
-            )
-          }
-        />
-      );
-
-      inputs.push(<span key={i + 'divider'}>:</span>);
-    });
-
-    inputs.length && inputs.pop();
-
-    return <div>{inputs}</div>;
-  }
-
-  renderFooter() {
-    if (!this.props.timeFormat && !this.props.requiredConfirm) {
-      return null;
-    }
-
-    return (
-      <tfoot key="tf">
-        <tr>
-          <td colSpan={7}>
-            {this.props.timeFormat ? this.renderTimes() : null}
-            {this.props.requiredConfirm ? (
-              <div key="button" className="rdtActions">
-                <a className="rdtBtn rdtBtnConfirm" onClick={this.confirm}>
-                  确认
-                </a>
-                <a className="rdtBtn rdtBtnCancel" onClick={this.cancel}>
-                  取消
-                </a>
-              </div>
-            ) : null}
-          </td>
-        </tr>
-      </tfoot>
-    );
-  }
-
-  renderDays() {
-    const date = this.props.viewDate;
-    const selected = this.props.selectedDate && this.props.selectedDate.clone();
-    const prevMonth = date.clone().subtract(1, 'months');
-    const currentYear = date.year();
-    const currentMonth = date.month();
-    const weeks = [];
-    let days = [];
-    const renderer = this.props.renderDay || this.renderDay;
-    const isValid = this.props.isValidDate || this.alwaysValidDate;
-    let classes, isDisabled, dayProps: any, currentDate;
-
-    // Go to the last week of the previous month
-    prevMonth.date(prevMonth.daysInMonth()).startOf('week');
-    var lastDay = prevMonth.clone().add(42, 'd');
-
-    while (prevMonth.isBefore(lastDay)) {
-      classes = 'rdtDay';
-      currentDate = prevMonth.clone();
-
-      if (
-        (prevMonth.year() === currentYear &&
-          prevMonth.month() < currentMonth) ||
-        prevMonth.year() < currentYear
-      )
-        classes += ' rdtOld';
-      else if (
-        (prevMonth.year() === currentYear &&
-          prevMonth.month() > currentMonth) ||
-        prevMonth.year() > currentYear
-      )
-        classes += ' rdtNew';
-
-      if (selected && prevMonth.isSame(selected, 'day'))
-        classes += ' rdtActive';
-
-      if (prevMonth.isSame(moment(), 'day')) classes += ' rdtToday';
-
-      isDisabled = !isValid(currentDate, selected);
-      if (isDisabled) classes += ' rdtDisabled';
-
-      dayProps = {
-        'key': prevMonth.format('M_D'),
-        'data-value': prevMonth.date(),
-        'className': classes
-      };
-
-      if (!isDisabled) dayProps.onClick = this.handleDayChange;
-
-      days.push(renderer(dayProps, currentDate, selected));
-
-      if (days.length === 7) {
-        weeks.push(<tr key={prevMonth.format('M_D')}>{days}</tr>);
-        days = [];
-      }
-
-      prevMonth.add(1, 'd');
-    }
-
-    return weeks;
-  }
-
-  render() {
-    const footer = this.renderFooter();
-    const date = this.props.viewDate;
-    const locale = date.localeData();
-
-    const tableChildren = [
-      <thead key="th">
-        <tr>
-          <th colSpan={7}>
-            <div className="rdtHeader">
-              <a
-                className="rdtBtn"
-                onClick={this.props.subtractTime(1, 'months')}
-              >
-                <i className="rdtBtnPrev" />
-              </a>
-              <div className="rdtSelect">{this.renderYearsSelect()}</div>
-              <div className="rdtSelect">{this.renderMonthsSelect()}</div>
-              <a className="rdtBtn" onClick={this.props.addTime(1, 'months')}>
-                <i className="rdtBtnNext" />
-              </a>
-            </div>
-          </th>
-        </tr>
-        <tr>
-          {this.getDaysOfWeek(locale).map((day, index) => (
-            <th key={day + index} className="dow">
-              {day}
-            </th>
-          ))}
-        </tr>
-      </thead>,
-
-      <tbody key="tb">{this.renderDays()}</tbody>
-    ];
-
-    footer && tableChildren.push(footer);
-
-    return (
-      <div className="rdtDays">
-        <table>{tableChildren}</table>
-      </div>
-    );
-  }
-}
+import Calendar from './calendar/Calendar';
 
 const availableShortcuts: {[propName: string]: any} = {
   today: {
@@ -768,20 +178,24 @@ const advancedShortcuts = [
   }
 ];
 
+export type ShortCutDate = {
+  label: string;
+  date: moment.Moment;
+};
+
+export type ShortCutDateRange = {
+  label: string;
+  startDate?: moment.Moment;
+  endDate?: moment.Moment;
+};
+
 export type ShortCuts =
   | {
       label: string;
       value: string;
     }
-  | {
-      label: string;
-      date: moment.Moment;
-    }
-  | {
-      label: string;
-      startDate?: moment.Moment;
-      endDate?: moment.Moment;
-    };
+  | ShortCutDate
+  | ShortCutDateRange;
 
 export interface DateProps {
   viewMode: 'years' | 'months' | 'days' | 'time';
@@ -1016,10 +430,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           if (typeof item === 'string') {
             shortcut = this.getAvailableShortcuts(item);
             shortcut.key = item;
-          } else if (item.date) {
+          } else if ((item as ShortCutDate).date) {
             shortcut = {
               ...item,
-              date: () => item.date
+              date: () => (item as ShortCutDate).date
             };
           }
           return (
@@ -1043,7 +457,6 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       value,
       placeholder,
       disabled,
-      format,
       inputFormat,
       dateFormat,
       timeFormat,
@@ -1093,7 +506,6 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
         {isOpened ? (
           <Overlay
-            placement="left-bottom-left-top  right-bottom-right-top"
             target={this.getTarget}
             container={popOverContainer || this.getParent}
             rootClose={false}
@@ -1108,12 +520,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             >
               {this.renderShortCuts(shortcuts)}
 
-              <BaseDatePicker
+              <Calendar
                 value={date}
                 onChange={this.handleChange}
-                classPrefix={ns}
-                classnames={cx}
-                requiredConfirm={dateFormat && timeFormat}
+                requiredConfirm={!!(dateFormat && timeFormat)}
                 dateFormat={dateFormat}
                 timeFormat={timeFormat}
                 isValidDate={this.checkIsValidDate}
@@ -1132,5 +542,3 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 }
 
 export default themeable(DatePicker);
-
-export {BaseDatePicker};

@@ -33,7 +33,7 @@
   &.is-disabled {
     background: $gray200;
 
-    > &-input {
+    >&-input {
       color: $text--muted-color;
     }
   }
@@ -78,26 +78,44 @@
   }
 }
 
-.#{$ns}DateControl:not(.is-inline) > .#{$ns}DatePicker {
+.#{$ns}DateControl:not(.is-inline)>.#{$ns}DatePicker {
   display: flex;
 }
 
 .#{$ns}DatePicker-shortcuts {
-  margin: $gap-sm $gap-md $gap-sm $gap-md;
-  padding: 0;
+  margin: 0;
+  background: $Calendar-shortcuts-bg;
+  padding: ($Calendar-shortcuts-height - $Calendar-fontSize * $lineHeightBase) / 2 $gap-sm;
   list-style: none;
-  max-width: 206px;
-  & + .rdt .rdtPicker {
+
+  &+.rdt .rdtPicker {
     padding-top: 0;
   }
 }
 
 .#{$ns}DatePicker-shortcut {
   display: inline-block;
-  margin-right: $gap-sm;
+  margin-right: $gap-md;
 
   a {
+    font-size: $Calendar-fontSize;
     cursor: pointer;
+    color: $Calendar-shortcut-color;
+    text-decoration: $Calendar-shortcut-decoration;
+
+    &:hover {
+      color: $Calendar-shortcut-onHover-color;
+      text-decoration: $Calendar-shortcut-onHover-decoration;
+    }
+  }
+}
+
+.#{$ns}DatePicker-popover {
+  margin: px2rem(2px) 0 0;
+
+  &.#{$ns}PopOver--leftTopLeftBottom,
+  &.#{$ns}PopOver--rightTopRightBottom {
+    margin: px2rem(-2px) 0 0;
   }
 }
 
@@ -109,7 +127,7 @@
 
   .rdtPicker {
     margin-top: 0;
-    padding: $gap-md;
+    padding: $gap-sm;
     background: transparent;
     border: none;
 
@@ -130,6 +148,10 @@
       }
     }
 
+    td.rdtBetween {
+      background: $Calendar-cell-onBetween-bg;
+    }
+
     td.rdtToday:before {
       border-bottom-color: $Calendar-cell-onActive-bg;
     }
@@ -143,6 +165,8 @@
       background: $Calendar-cell-onActive-bg;
     }
 
+
+
     td.rdtDisabled,
     td.rdtDisabled:hover {
       background-color: $Calendar-cell-onDisabled-bg;
@@ -151,8 +175,8 @@
 
   thead tr:first-child th {
     cursor: default;
-    text-align: left;
     font-weight: normal;
+    border-bottom: none;
   }
 
   thead tr:first-child th:hover {
@@ -237,8 +261,7 @@
     font-size: $fontSizeSm;
   }
 
-  @include button-variant(
-    $Calendar-btn-bg,
+  @include button-variant($Calendar-btn-bg,
     $Calendar-btn-border,
     $Calendar-btn-color,
     $Calendar-btn-onHover-bg,
@@ -246,18 +269,16 @@
     $Calendar-btn-onHover-color,
     $Calendar-btn-onActive-bg,
     $Calendar-btn-onActive-border,
-    $Calendar-btn-onActive-color
-  );
+    $Calendar-btn-onActive-color);
 
   border-radius: $Calendar-btn-borderRadius;
 
-  & + .rdtBtn {
+  &+.rdtBtn {
     margin-left: $gap-xs;
   }
 
   &Cancel {
-    @include button-variant(
-      $Calendar-btnCancel-bg,
+    @include button-variant($Calendar-btnCancel-bg,
       $Calendar-btnCancel-border,
       $Calendar-btnCancel-color,
       $Calendar-btnCancel-onHover-bg,
@@ -265,8 +286,7 @@
       $Calendar-btnCancel-onHover-color,
       $Calendar-btnCancel-onActive-bg,
       $Calendar-btnCancel-onActive-border,
-      $Calendar-btnCancel-onActive-color
-    );
+      $Calendar-btnCancel-onActive-color);
   }
 }
 
@@ -290,26 +310,79 @@
   content: $DatePicker-nextBtn-icon;
 }
 
+.rdtPrev,
+.rdtNext {
+  cursor: pointer !important;
+  width: px2rem(20px);
+  padding: 0;
+  color: #999;
+  font-size: px2rem(20px);
+  text-decoration: none;
+  font-family: auto;
+  font-weight: normal;
+
+  &:hover {
+    text-decoration: none;
+    color: #000;
+  }
+}
+
+.rdtSwitch {
+  text-align: center;
+  color: #000;
+  cursor: pointer;
+  font-weight: normal;
+
+  &:hover {
+    color: $link-onHover-color;
+    text-decoration: none;
+  }
+}
+
 .rdtHeader {
   display: table;
   table-layout: fixed;
   border-collapse: separate;
   width: 100%;
+  // padding: 0 10px;
 
-  .rdtBtn {
+  >* {
     display: table-cell;
-    width: px2rem(30px);
-    padding: 0;
+    vertical-align: middle;
+    text-align: center;
   }
 
-  .rdtSelect {
-    display: table-cell;
-    width: 100%;
-    border-left: 1px solid $DatePicker-header-select-borderColor;
-    border-right: 1px solid $DatePicker-header-select-borderColor;
+  .rdtSwitch+.rdtSwitch {
+    margin-left: $gap-xs;
+  }
+}
 
-    .#{$ns}Select {
-      display: flex;
+td.rdtMonth,
+td.rdtYear {
+  width: px2rem(50px);
+  height: px2rem(40px);
+
+  >span {
+    height: px2rem(24px);
+    display: block;
+  }
+
+  &:hover,
+  &.rdtActive {
+    background: transparent !important;
+
+    >span {
+      background: $info;
+      color: $white;
+    }
+  }
+
+  &.rdtDisabled {
+    background: transparent !important;
+
+    >span {
+      background: #edf1f2;
+      color: #999;
     }
   }
 }

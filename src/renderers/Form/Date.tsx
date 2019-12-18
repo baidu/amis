@@ -13,7 +13,7 @@ export interface DateProps extends FormControlProps {
   format?: string;
   timeConstrainst?: object;
   closeOnSelect?: boolean;
-  disabled?: boolean;
+  disabled: boolean;
   iconClassName?: string;
 }
 
