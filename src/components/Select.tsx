@@ -417,8 +417,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
     let {selection} = this.state;
 
     if (multiple) {
+      const selectionValues = selection.map(item => item.value);
       selection = selection.concat();
-      const idx = selection.indexOf(selectItem);
+      const idx = selectionValues.indexOf(selectItem.value);
       if (~idx) {
         selection.splice(idx, 1);
       } else {
@@ -577,9 +578,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
           })
         : options.concat();
 
+    const selectionValues = selection.map(select => select.value);
     if (multiple && checkAll) {
       const optionsValues = options.map(option => option.value);
-      const selectionValues = selection.map(select => select.value);
+
       checkedAll = optionsValues.every(
         option => selectionValues.indexOf(option) > -1
       );
@@ -624,9 +626,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
         {filtedOptions.length ? (
           filtedOptions.map((item, index) => {
-            const checked = checkAll
-              ? selection.some((o: Option) => o.value == item.value)
-              : !!~selectedItem.indexOf(item);
+            const checked =
+              selectedItem === item || !!~selectionValues.indexOf(item.value);
 
             return (
               <div
@@ -642,9 +643,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 className={cx(`Select-option`, {
                   'is-disabled': item.disabled,
                   'is-highlight': highlightedIndex === index,
-                  'is-active':
-                    selectedItem === item ||
-                    (Array.isArray(selectedItem) && ~selectedItem.indexOf(item))
+                  'is-active': checked
                 })}
               >
                 {removable ? (
@@ -726,28 +725,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
         </PopOver>
       </Overlay>
     );
-
-    // if (popOverContainer) {
-    //   return (
-    //     <Overlay
-    //       container={popOverContainer}
-    //       placement="left-bottom-left-top"
-    //       target={this.getTarget}
-    //       show
-    //     >
-    //       <PopOver
-    //         overlay
-    //         className={cx('Select-popover')}
-    //         style={{width: this.target ? this.target.offsetWidth : 'auto'}}
-    //         onHide={this.close}
-    //       >
-    //         {menu}
-    //       </PopOver>
-    //     </Overlay>
-    //   );
-    // } else {
-    //   return <div className={cx('Select-menuOuter')}>{menu}</div>;
-    // }
   }
 
   render() {
@@ -782,7 +759,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
             : this.handleChange
         }
         onStateChange={this.handleStateChange}
-        // onOuterClick={this.close}
         itemToString={item => (item ? item[labelField] : '')}
       >
         {(options: ControllerStateAndHelpers<any>) => {
