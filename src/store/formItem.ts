@@ -13,7 +13,7 @@ import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
 import findIndex = require('lodash/findIndex');
 import {
-  isArrayChilrenModified,
+  isArrayChildrenModified,
   isObject,
   createObject,
   isObjectShallowModified
@@ -559,9 +559,9 @@ export const FormItemStore = types
           );
         }
       }
-      isArrayChilrenModified(self.selectedOptions, selectedOptions) &&
+      isArrayChildrenModified(self.selectedOptions, selectedOptions) &&
         (self.selectedOptions = selectedOptions);
-      isArrayChilrenModified(self.filteredOptions, filteredOptions) &&
+      isArrayChildrenModified(self.filteredOptions, filteredOptions) &&
         (self.filteredOptions = filteredOptions);
     }
 
