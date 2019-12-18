@@ -295,7 +295,7 @@ export function isObjectShallowModified(
   return false;
 }
 
-export function isArrayChilrenModified(
+export function isArrayChildrenModified(
   prev: Array<any>,
   next: Array<any>,
   strictMode: boolean = true

@@ -16,7 +16,7 @@ import {
   difference,
   noop,
   autobind,
-  isArrayChilrenModified
+  isArrayChildrenModified
 } from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {
@@ -334,7 +334,7 @@ export default class Table extends React.Component<TableProps, object> {
     ) {
       Table.syncRows(store, nextProps, props);
       this.syncSelected();
-    } else if (isArrayChilrenModified(props.selected!, nextProps.selected!)) {
+    } else if (isArrayChildrenModified(props.selected!, nextProps.selected!)) {
       store.updateSelected(nextProps.selected || [], nextProps.valueField);
       this.syncSelected();
     }
