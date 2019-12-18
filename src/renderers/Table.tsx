@@ -173,7 +173,7 @@ export default class Table extends React.Component<TableProps, object> {
       leading: false
     });
     this.tableRef = this.tableRef.bind(this);
-    this.affxiedTableRef = this.affxiedTableRef.bind(this);
+    this.affixedTableRef = this.affixedTableRef.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleCheckAll = this.handleCheckAll.bind(this);
@@ -519,12 +519,14 @@ export default class Table extends React.Component<TableProps, object> {
     const clip = (this.table as HTMLElement).getBoundingClientRect();
     const offsetY = this.props.env.affixOffsetTop || 0;
     const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
-    const afixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
+    const affixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
 
-    afixedDom.style.cssText += `top: ${offsetY}px;width: ${
+    affixedDom.style.cssText += `top: ${offsetY}px;width: ${
       (this.table.parentNode as HTMLElement).offsetWidth
     }px`;
-    affixed ? afixedDom.classList.add('in') : afixedDom.classList.remove('in');
+    affixed
+      ? affixedDom.classList.add('in')
+      : affixedDom.classList.remove('in');
     // store.markHeaderAffix(clip.top < offsetY && (clip.top + clip.height - 40) > offsetY);
   }
 
@@ -688,7 +690,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.dragTip = ref;
   }
 
-  affxiedTableRef(ref: HTMLTableElement) {
+  affixedTableRef(ref: HTMLTableElement) {
     this.affixedTable = ref;
   }
 
@@ -1201,7 +1203,7 @@ export default class Table extends React.Component<TableProps, object> {
         {this.renderHeader(false)}
         <div className={cx('Table-fixedLeft')}>
           {store.leftFixedColumns.length
-            ? this.renderFxiedColumns(
+            ? this.renderFixedColumns(
                 store.leftFixedColumns,
                 true,
                 tableClassName
@@ -1210,7 +1212,7 @@ export default class Table extends React.Component<TableProps, object> {
         </div>
         <div className={cx('Table-fixedRight')}>
           {store.rightFixedColumns.length
-            ? this.renderFxiedColumns(
+            ? this.renderFixedColumns(
                 store.rightFixedColumns,
                 true,
                 tableClassName
@@ -1218,7 +1220,7 @@ export default class Table extends React.Component<TableProps, object> {
             : null}
         </div>
         <div className={cx('Table-wrapper')}>
-          <table ref={this.affxiedTableRef} className={tableClassName}>
+          <table ref={this.affixedTableRef} className={tableClassName}>
             <thead>
               {store.columnGroup.length ? (
                 <tr>
@@ -1248,7 +1250,7 @@ export default class Table extends React.Component<TableProps, object> {
     ) : null;
   }
 
-  renderFxiedColumns(
+  renderFixedColumns(
     columns: Array<IColumn>,
     headerOnly: boolean = false,
     tableClassName: string = ''
@@ -1801,7 +1803,7 @@ export default class Table extends React.Component<TableProps, object> {
         >
           <div className={cx('Table-fixedLeft')}>
             {store.leftFixedColumns.length
-              ? this.renderFxiedColumns(
+              ? this.renderFixedColumns(
                   store.leftFixedColumns,
                   false,
                   tableClassName
@@ -1810,7 +1812,7 @@ export default class Table extends React.Component<TableProps, object> {
           </div>
           <div className={cx('Table-fixedRight')}>
             {store.rightFixedColumns.length
-              ? this.renderFxiedColumns(
+              ? this.renderFixedColumns(
                   store.rightFixedColumns,
                   false,
                   tableClassName
