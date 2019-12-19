@@ -152,7 +152,7 @@ export const FormItemStore = types
 
         const selectedOptions: Array<any> = [];
 
-        selected.forEach(item => {
+        selected.forEach((item, index) => {
           const matched = findTree(self.filteredOptions, option => {
             return isObject(item)
               ? item === option[self.valueField || 'value']
@@ -161,11 +161,20 @@ export const FormItemStore = types
 
           if (matched) {
             selectedOptions.push(matched);
-          } else if (item) {
-            selectedOptions.push({
-              [self.valueField || 'value']: item,
-              [self.labelField || 'label']: item
-            });
+          } else {
+            let unMatched = (value && value[index]) || item;
+
+            if (
+              unMatched &&
+              (typeof unMatched === 'string' || typeof unMatched === 'number')
+            ) {
+              unMatched = {
+                [self.valueField || 'value']: item,
+                [self.labelField || 'label']: item
+              };
+            }
+
+            unMatched && selectedOptions.push(unMatched);
           }
         });
 
