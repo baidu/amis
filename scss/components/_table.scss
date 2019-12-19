@@ -109,6 +109,17 @@
     @include clearfix();
     display: flex;
     padding: $Table-toolbar-paddingY $Table-toolbar-paddingX;
+
+    .#{$ns}DropDown {
+      &-menuItem {
+        height: auto;
+
+        .#{$ns}Checkbox {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
   }
 
   &-header + &-toolbar {
@@ -211,6 +222,10 @@
         font-weight: $fontWeightNormal;
         white-space: nowrap;
 
+        .#{$ns}TableCell--title {
+          display: flex;
+          align-items: center;
+        }
         .#{$ns}Remark {
           margin-left: $gap-xs;
         }
@@ -455,6 +470,8 @@
     width: $TableCell-sortBtn-width;
     position: absolute;
     right: $TableCell-paddingX - $TableCell-sortBtn-width / 2;
+    top: 50%;
+    transform: translateY(-50%);
     color: $Table-thead-iconColor;
 
     &--up:before {
@@ -478,7 +495,7 @@
     &--up,
     &--down {
       display: none;
-      position: relative;
+      position: absolute;
       z-index: 2;
       font-style: normal;
 
@@ -489,12 +506,9 @@
 
     &--default {
       font-style: normal;
-      position: absolute;
       z-index: 1;
       display: inline-block;
       opacity: $TableCell-sortBtn--default-opacity;
-      top: 0;
-      left: 0;
 
       &.is-active {
         opacity: $TableCell-sortBtn--default-onActive-opacity;
@@ -507,6 +521,8 @@
     width: $TableCell-searchBtn-width;
     position: absolute;
     right: $TableCell-paddingX - $TableCell-searchBtn-width / 2;
+    top: 50%;
+    transform: translateY(-50%);
     color: $text--muted-color;
 
     &:hover {
@@ -529,6 +545,8 @@
     width: $TableCell-filterBtn-width;
     position: absolute;
     right: $TableCell-paddingX - $TableCell-filterBtn-width / 2;
+    top: 50%;
+    transform: translateY(-50%);
     color: $text--muted-color;
 
     &:hover {
