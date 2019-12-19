@@ -1077,15 +1077,21 @@ export default class Table extends React.Component<TableProps, object> {
           }
         )}
       >
-        {column.label}
-        {column.remark
-          ? render('remark', {
-              type: 'remark',
-              tooltip: column.remark,
-              container:
-                env && env.getModalContainer ? env.getModalContainer : undefined
-            })
-          : null}
+        <div className={cx(`${ns}TableCell--title`)}>
+          {render('tpl', column.label)}
+
+          {column.remark
+            ? render('remark', {
+                type: 'remark',
+                tooltip: column.remark,
+                container:
+                  env && env.getModalContainer
+                    ? env.getModalContainer
+                    : undefined
+              })
+            : null}
+        </div>
+
         {affix}
       </th>
     );
@@ -1196,7 +1202,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderAffixHeader(tableClassName: string) {
-    const {store, affixHeader, classnames: cx} = this.props;
+    const {store, affixHeader, render, classnames: cx} = this.props;
 
     return affixHeader ? (
       <div className={cx('Table-fixedTop')}>
@@ -1230,7 +1236,7 @@ export default class Table extends React.Component<TableProps, object> {
                       data-index={item.index}
                       colSpan={item.colSpan}
                     >
-                      {item.label}
+                      {render('tpl', item.label)}
                     </th>
                   ))}
                 </tr>
@@ -1282,7 +1288,7 @@ export default class Table extends React.Component<TableProps, object> {
             <tr>
               {store.columnGroup.map((item, index) => (
                 <th key={index} data-index={item.index} colSpan={item.colSpan}>
-                  {item.label}
+                  {render('tpl', item.label)}
                 </th>
               ))}
             </tr>
@@ -1320,6 +1326,7 @@ export default class Table extends React.Component<TableProps, object> {
                     )}
                     columns={columns}
                     renderCell={this.renderCell}
+                    render={render}
                     regionPrefix="fixed/"
                     onCheck={this.handleCheck}
                     onAction={onAction}
@@ -1359,6 +1366,8 @@ export default class Table extends React.Component<TableProps, object> {
   renderColumnsToggler(config?: any) {
     const {store, classPrefix: ns, classnames: cx, ...rest} = this.props;
 
+    const render = this.props.render;
+
     if (!store.columnsTogglable) {
       return null;
     }
@@ -1381,7 +1390,7 @@ export default class Table extends React.Component<TableProps, object> {
               checked={column.toggled}
               onChange={column.toggleToggle}
             >
-              {column.label}
+              {render('tpl', column.label)}
             </Checkbox>
           </li>
         ))}
@@ -1594,7 +1603,8 @@ export default class Table extends React.Component<TableProps, object> {
       buildItemProps,
       checkOnItemClick,
       classPrefix: ns,
-      classnames: cx
+      classnames: cx,
+      render
     } = this.props;
 
     return rows.map((item: IRow, rowIndex: number) => {
@@ -1620,6 +1630,7 @@ export default class Table extends React.Component<TableProps, object> {
           )}
           columns={store.filteredColumns}
           renderCell={this.renderCell}
+          render={render}
           onAction={onAction}
           onCheck={this.handleCheck}
           // todo 先注释 quickEditEnabled={item.depth === 1}
@@ -1645,6 +1656,7 @@ export default class Table extends React.Component<TableProps, object> {
                 )}
                 columns={store.footableColumns}
                 renderCell={this.renderCell}
+                render={render}
                 onAction={onAction}
                 onCheck={this.handleCheck}
                 footableMode
@@ -1738,7 +1750,7 @@ export default class Table extends React.Component<TableProps, object> {
                     data-index={item.index}
                     colSpan={item.colSpan}
                   >
-                    {item.label}
+                    {render('tpl', item.label)}
                   </th>
                 ))}
               </tr>
@@ -1828,7 +1840,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 }
 
-interface TableRowProps {
+interface TableRowProps extends Pick<RendererProps, 'render'> {
   onCheck: (item: IRow) => void;
   classPrefix: string;
   renderCell: (
@@ -1899,6 +1911,7 @@ class TableRow extends React.Component<TableRowProps> {
       regionPrefix,
       checkOnItemClick,
       classPrefix: ns,
+      render,
       ...rest
     } = this.props;
 
@@ -1922,7 +1935,14 @@ class TableRow extends React.Component<TableRowProps> {
               <tbody>
                 {columns.map(column => (
                   <tr key={column.index}>
-                    {column.label !== false ? <th>{column.label}</th> : null}
+                    {column.label !== false ? (
+                      <th>
+                        {render(
+                          `${regionPrefix}${itemIndex}/${column.index}/tpl`,
+                          column.label
+                        )}
+                      </th>
+                    ) : null}
 
                     {renderCell(
                       `${regionPrefix}${itemIndex}/${column.index}`,
