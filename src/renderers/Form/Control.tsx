@@ -146,7 +146,10 @@ export default class FormControl extends React.PureComponent<
     }
 
     // 提交前先把之前的 lazyEmit 执行一下。
-    this.hook3 = () => this.lazyEmitChange.flush();
+    this.hook3 = () => {
+      this.lazyEmitChange.flush();
+      this.lazyValidate.flush();
+    };
     addHook(this.hook3, 'flush');
 
     const formItem = this.model as IFormItemStore;
