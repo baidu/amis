@@ -497,7 +497,11 @@ export const FormStore = ServiceStore.named('FormStore')
       deleteValueByName,
       getPersistData,
       setPersistData,
-      clearPersistData
+      clearPersistData,
+      beforeDestroy() {
+        syncOptions.cancel();
+        setPersistData.cancel();
+      }
     };
   });
 

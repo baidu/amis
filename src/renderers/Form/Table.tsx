@@ -72,6 +72,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   entries: Map<any, number>;
   entityId: number = 1;
   subForms: any = {};
+  editting: any = {};
   constructor(props: TableProps) {
     super(props);
 
@@ -224,9 +225,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       data,
       env
     } = this.props;
+
+    // form 是 lazyChange 的，先让他们 flush, 即把未提交的数据提交。
+    const subForms: Array<any> = [];
+    Object.keys(this.subForms).forEach(
+      key => this.subForms[key] && subForms.push(this.subForms[key])
+    );
+    subForms.forEach(form => form.flush());
+
     let newValue = Array.isArray(value) ? value.concat() : [];
     let item = {
-      ...this.state.editting
+      ...this.editting
     };
 
     const origin = newValue[this.state.editIndex];
@@ -509,7 +518,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     if (~this.state.editIndex) {
       this.setState({
-        editting: {
+        editting: this.editting = {
           ...rows
         }
       });
@@ -553,7 +562,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   getEntryId(entry: any) {
     if (entry === this.state.editting) {
-      return 'editing';
+      return 'editting';
     } else if (!this.entries.has(entry)) {
       this.entries.set(entry, this.entityId++);
     }
