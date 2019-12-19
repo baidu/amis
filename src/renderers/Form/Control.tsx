@@ -274,7 +274,7 @@ export default class FormControl extends React.PureComponent<
   componentWillUnmount() {
     this.hook && this.props.removeHook(this.hook);
     this.hook2 && this.props.removeHook(this.hook2);
-    this.hook3 && this.props.removeHook(this.hook3);
+    this.hook3 && this.props.removeHook(this.hook3, 'flush');
     this.lazyValidate.cancel();
     // this.lazyEmitChange.flush();
     this.lazyEmitChange.cancel();

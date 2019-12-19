@@ -456,7 +456,7 @@ export default class Form extends React.Component<FormProps, object> {
 
   addHook(fn: () => any, type: 'validate' | 'init' | 'flush' = 'validate') {
     this.hooks[type] = this.hooks[type] || [];
-    this.hooks[type].push(promisify(fn));
+    this.hooks[type].push(type === 'flush' ? fn : promisify(fn));
     return () => {
       this.removeHook(fn, type);
       fn = noop;
@@ -473,7 +473,7 @@ export default class Form extends React.Component<FormProps, object> {
     for (let i = 0, len = hooks.length; i < len; i++) {
       let hook = hooks[i];
 
-      if ((hook as any).raw === fn) {
+      if (hook === fn || (hook as any).raw === fn) {
         hooks.splice(i, 1);
         len--;
         i--;
