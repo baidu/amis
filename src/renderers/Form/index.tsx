@@ -421,6 +421,7 @@ export default class Form extends React.Component<FormProps, object> {
   validate(forceValidate?: boolean): Promise<boolean> {
     const {store} = this.props;
 
+    this.flush();
     return store.validate(this.hooks['validate'] || [], forceValidate);
   }
 
@@ -432,6 +433,7 @@ export default class Form extends React.Component<FormProps, object> {
 
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
     const {store, messages} = this.props;
+    this.flush();
 
     return store.submit(
       fn,
@@ -440,12 +442,19 @@ export default class Form extends React.Component<FormProps, object> {
     );
   }
 
+  // 如果开启了 lazyChange，需要一个 flush 方法把队列中值应用上。
+  flush() {
+    const hooks = this.hooks['flush'] || [];
+    hooks.forEach(fn => fn());
+    this.lazyHandleChange.flush();
+  }
+
   reset() {
     const {store, onReset} = this.props;
     store.reset(onReset);
   }
 
-  addHook(fn: () => any, type: string = 'validate') {
+  addHook(fn: () => any, type: 'validate' | 'init' | 'flush' = 'validate') {
     this.hooks[type] = this.hooks[type] || [];
     this.hooks[type].push(promisify(fn));
     return () => {

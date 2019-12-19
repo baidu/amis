@@ -32,7 +32,7 @@ export interface ControlProps extends RendererProps {
   } & Schema;
   formStore: IFormStore;
   store: IIRendererStore;
-  addHook: (fn: () => any) => void;
+  addHook: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
   removeHook: (fn: () => any) => void;
 }
 
@@ -147,7 +147,7 @@ export default class FormControl extends React.PureComponent<
 
     // 提交前先把之前的 lazyEmit 执行一下。
     this.hook3 = () => this.lazyEmitChange.flush();
-    addHook(this.hook3);
+    addHook(this.hook3, 'flush');
 
     const formItem = this.model as IFormItemStore;
     if (formItem && validate) {
