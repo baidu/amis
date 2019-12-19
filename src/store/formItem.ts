@@ -16,7 +16,8 @@ import {
   isArrayChildrenModified,
   isObject,
   createObject,
-  isObjectShallowModified
+  isObjectShallowModified,
+  findTree
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
@@ -151,33 +152,21 @@ export const FormItemStore = types
 
         const selectedOptions: Array<any> = [];
 
-        flattenTree(self.filteredOptions).forEach((item: any) => {
-          let idx = findIndex(selected, seleced => {
-            return isObject(seleced)
-              ? seleced === item[self.valueField || 'value']
-              : String(item[self.valueField || 'value']) === String(seleced);
+        selected.forEach(item => {
+          const matched = findTree(self.filteredOptions, option => {
+            return isObject(item)
+              ? item === option[self.valueField || 'value']
+              : String(option[self.valueField || 'value']) === String(item);
           });
 
-          if (~idx) {
-            selected.splice(idx, 1);
-            selectedOptions.push(item);
-          }
-        });
-
-        selected.forEach((item, index) => {
-          let unMatched = (value && value[index]) || item;
-
-          if (
-            unMatched &&
-            (typeof unMatched === 'string' || typeof unMatched === 'number')
-          ) {
-            unMatched = {
+          if (matched) {
+            selectedOptions.push(matched);
+          } else if (item) {
+            selectedOptions.push({
               [self.valueField || 'value']: item,
               [self.labelField || 'label']: item
-            };
+            });
           }
-
-          unMatched && selectedOptions.push(unMatched);
         });
 
         return selectedOptions;
