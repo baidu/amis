@@ -12,6 +12,7 @@ import {dataMapping} from '../../utils/tpl-builtin';
 export interface SelectProps extends OptionsControlProps {
   autoComplete?: Api;
   searchable?: boolean;
+  defaultOpen?: boolean;
 }
 
 export default class SelectControl extends React.Component<SelectProps, any> {
