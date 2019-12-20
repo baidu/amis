@@ -201,6 +201,7 @@ interface SelectProps extends OptionProps {
   checkAllLabel?: string;
   defaultCheckAll?: boolean;
   simpleValue?: boolean;
+  defaultOpen?: boolean;
 }
 
 interface SelectState {
@@ -258,7 +259,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
 
     this.state = {
-      isOpen: false,
+      isOpen: props.defaultOpen || false,
       isFocused: false,
       inputValue: '',
       highlightedIndex: -1,
