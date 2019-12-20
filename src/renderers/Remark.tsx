@@ -4,6 +4,7 @@ import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
 import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
+import {themeable} from '../theme';
 
 export function filterContents(
   tooltip:
@@ -39,7 +40,7 @@ type RemarkProps = {
   placement?: string;
 } & RendererProps;
 
-export default class Remark extends React.Component<RemarkProps> {
+class Remark extends React.Component<RemarkProps> {
   static propsList: Array<string> = [];
   static defaultProps = {
     icon: 'fa fa-question-circle',
@@ -84,6 +85,8 @@ export default class Remark extends React.Component<RemarkProps> {
     );
   }
 }
+
+export default themeable(Remark);
 
 @Renderer({
   test: /(^|\/)remark$/,
