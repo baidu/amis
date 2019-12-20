@@ -10,8 +10,8 @@ import Checkbox from './Checkbox';
 import find = require('lodash/find');
 import chunk = require('lodash/chunk');
 import {flattenTree, isObject} from '../utils/helper';
-import {Option} from './Checkboxes';
 import {ClassNamesFn, themeable} from '../theme';
+import {optionValueCompare} from './Select';
 // import isPlainObject = require('lodash/isPlainObject');
 
 export interface Option {
@@ -102,11 +102,7 @@ export function expandValue(
     value = (value as Option)[valueField || 'value'] || '';
   }
 
-  return find(flattenTree(options), item =>
-    isObject(value)
-      ? item[valueField || 'value'] === value
-      : String(item[valueField || 'value']) === String(value)
-  ) as Option;
+  return find(flattenTree(options), optionValueCompare(value)) as Option;
 }
 
 /**

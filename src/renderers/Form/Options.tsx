@@ -26,7 +26,12 @@ export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
 import React from 'react';
 import {resolveVariableAndFilter} from '../../utils/tpl-builtin';
-import {Option, OptionProps, normalizeOptions} from '../../components/Select';
+import {
+  Option,
+  OptionProps,
+  normalizeOptions,
+  optionValueCompare
+} from '../../components/Select';
 import {filter} from '../../utils/tpl';
 import findIndex from 'lodash/findIndex';
 
@@ -337,7 +342,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       let valueArray = formItem.getSelectedOptions(value).concat();
-      const idx = valueArray.indexOf(option);
+      const idx = findIndex(valueArray, optionValueCompare(option.value));
       let newValue: string | Array<Option> | Option = '';
 
       if (multiple) {

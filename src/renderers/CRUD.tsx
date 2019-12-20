@@ -1591,7 +1591,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             )
           : null}
 
-        {keepItemSelectionOnPageChange ? this.renderSelection() : null}
+        {keepItemSelectionOnPageChange && multiple ? this.renderSelection() : null}
 
         {render(
           'body',

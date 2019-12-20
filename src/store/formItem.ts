@@ -21,7 +21,7 @@ import {
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
-import {normalizeOptions} from '../components/Select';
+import {normalizeOptions, optionValueCompare} from '../components/Select';
 import find = require('lodash/find');
 import {SimpleMap} from '../utils/SimpleMap';
 import memoize = require('lodash/memoize');
@@ -153,11 +153,10 @@ export const FormItemStore = types
         const selectedOptions: Array<any> = [];
 
         selected.forEach((item, index) => {
-          const matched = findTree(self.filteredOptions, option => {
-            return isObject(item)
-              ? item === option[self.valueField || 'value']
-              : String(option[self.valueField || 'value']) === String(item);
-          });
+          const matched = findTree(
+            self.filteredOptions,
+            optionValueCompare(item)
+          );
 
           if (matched) {
             selectedOptions.push(matched);
@@ -498,11 +497,7 @@ export const FormItemStore = types
       const selectedOptions: Array<any> = [];
 
       selected.forEach((item, index) => {
-        let idx = findIndex(flattened, target => {
-          return isObject(item)
-            ? item === target[self.valueField || 'value']
-            : String(target[self.valueField || 'value']) === String(item);
-        });
+        let idx = findIndex(flattened, optionValueCompare(item));
 
         if (~idx) {
           selectedOptions.push(flattened[idx]);
@@ -520,12 +515,7 @@ export const FormItemStore = types
             };
 
             const orgin: any =
-              originOptions &&
-              find(
-                originOptions,
-                target =>
-                  String(target[self.valueField || 'value']) === String(item)
-              );
+              originOptions && find(originOptions, optionValueCompare(item));
 
             if (orgin) {
               unMatched[self.labelField || 'label'] =

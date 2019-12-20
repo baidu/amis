@@ -14,7 +14,7 @@ import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
 // @ts-ignore
 import matchSorter from 'match-sorter';
-import {noop} from '../utils/helper';
+import {noop, isObject} from '../utils/helper';
 import find = require('lodash/find');
 import isPlainObject = require('lodash/isPlainObject');
 import union = require('lodash/union');
@@ -111,10 +111,21 @@ export function expandValue(
     return null;
   }
 
-  return find(
-    options,
-    item => String(item[props.valueField || 'value']) === String(value)
-  ) as Option;
+  return find(options, optionValueCompare(value)) as Option;
+}
+
+export function matchOptionValue(
+  a: OptionValue,
+  b: Option,
+  valueField: string = 'value'
+) {
+  return isObject(a)
+    ? a === b[valueField || 'value']
+    : String(b[valueField || 'value']) === String(a);
+}
+
+export function optionValueCompare(a: OptionValue) {
+  return (b: Option) => matchOptionValue(a, b);
 }
 
 export function normalizeOptions(
