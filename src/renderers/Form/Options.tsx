@@ -2,9 +2,9 @@
  * @file 所有列表选择类控件的父级，比如 Select、Radios、Checkboxes、
  * List、ButtonGroup 等等
  */
-import {Api, Schema} from '../../types';
-import {isEffectiveApi, isApiOutdated} from '../../utils/api';
-import {isAlive} from 'mobx-state-tree';
+import { Api, Schema } from "../../types";
+import { isEffectiveApi, isApiOutdated } from "../../utils/api";
+import { isAlive } from "mobx-state-tree";
 import {
   anyChanged,
   autobind,
@@ -13,29 +13,29 @@ import {
   spliceTree,
   findTreeIndex,
   getTree
-} from '../../utils/helper';
-import {reaction} from 'mobx';
+} from "../../utils/helper";
+import { reaction } from "mobx";
 import {
   FormControlProps,
   registerFormItem,
   FormItemBasicConfig,
   detectProps as itemDetectProps
-} from './Item';
-import {IFormItemStore} from '../../store/formItem';
+} from "./Item";
+import { IFormItemStore } from "../../store/formItem";
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
-import React from 'react';
-import {resolveVariableAndFilter} from '../../utils/tpl-builtin';
+import React from "react";
+import { resolveVariableAndFilter } from "../../utils/tpl-builtin";
 import {
   Option,
   OptionProps,
   normalizeOptions,
   optionValueCompare
-} from '../../components/Select';
-import {filter} from '../../utils/tpl';
-import findIndex from 'lodash/findIndex';
+} from "../../components/Select";
+import { filter } from "../../utils/tpl";
+import findIndex from "lodash/findIndex";
 
-export {Option};
+export { Option };
 
 export interface OptionsBasicConfig extends FormItemBasicConfig {
   autoLoadOptionsFromSource?: boolean;
@@ -87,18 +87,18 @@ export interface OptionsProps extends FormControlProps, OptionProps {
 }
 
 export const detectProps = itemDetectProps.concat([
-  'options',
-  'size',
-  'buttons',
-  'columnsCount',
-  'multiple',
-  'hideRoot',
-  'checkAll',
-  'showIcon',
-  'showRadio',
-  'btnDisabled',
-  'joinValues',
-  'extractValue'
+  "options",
+  "size",
+  "buttons",
+  "columnsCount",
+  "multiple",
+  "hideRoot",
+  "checkAll",
+  "showIcon",
+  "showRadio",
+  "btnDisabled",
+  "joinValues",
+  "extractValue"
 ]);
 
 export function registerOptionsControl(config: OptionsConfig) {
@@ -107,15 +107,15 @@ export function registerOptionsControl(config: OptionsConfig) {
   class FormOptionsItem extends React.Component<OptionsProps, any> {
     static displayName = `OptionsControl(${config.type})`;
     static defaultProps = {
-      delimiter: ',',
-      labelField: 'label',
-      valueField: 'value',
+      delimiter: ",",
+      labelField: "label",
+      valueField: "value",
       joinValues: true,
       extractValue: false,
       multiple: false,
-      placeholder: '请选择',
-      resetValue: '',
-      deleteConfirmText: '确定要删除？',
+      placeholder: "请选择",
+      resetValue: "",
+      deleteConfirmText: "确定要删除？",
       ...Control.defaultProps
     };
     static propsList: any = (Control as any).propsList
@@ -158,7 +158,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(source as string) && formItem) {
         formItem.setOptions(
           normalizeOptions(
-            resolveVariableAndFilter(source as string, data, '| raw') || []
+            resolveVariableAndFilter(source as string, data, "| raw") || []
           )
         );
         loadOptions = false;
@@ -170,7 +170,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               .getSelectedOptions(value)
               .map(
                 (selectedOption: Option) =>
-                  selectedOption[valueField || 'value']
+                  selectedOption[valueField || "value"]
               )
           : formItem.getSelectedOptions(value);
         setPrinstineValue(
@@ -182,7 +182,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         config.autoLoadOptionsFromSource !== false &&
         (formInited
           ? this.reload()
-          : addHook && addHook(this.initOptions, 'init'));
+          : addHook && addHook(this.initOptions, "init"));
     }
 
     componentDidMount() {
@@ -229,12 +229,12 @@ export function registerOptionsControl(config: OptionsConfig) {
           const prevOptions = resolveVariableAndFilter(
             prevProps.source as string,
             prevProps.data,
-            '| raw'
+            "| raw"
           );
           const options = resolveVariableAndFilter(
             props.source as string,
             props.data,
-            '| raw'
+            "| raw"
           );
           prevOptions !== options &&
             formItem.setOptions(normalizeOptions(options || []));
@@ -260,7 +260,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     componentWillUnmount() {
-      this.props.removeHook && this.props.removeHook(this.reload, 'init');
+      this.props.removeHook && this.props.removeHook(this.reload, "init");
       this.reaction && this.reaction();
     }
 
@@ -280,7 +280,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       if (
         extractValue === false &&
-        (typeof value === 'string' || typeof value === 'number')
+        (typeof value === "string" || typeof value === "number")
       ) {
         const selectedOptions = formItem.getSelectedOptions(value);
         formItem.changeValue(
@@ -292,16 +292,16 @@ export function registerOptionsControl(config: OptionsConfig) {
         !(
           (Array.isArray(value) &&
             value.every(
-              val => typeof val === 'string' || typeof val === 'number'
+              val => typeof val === "string" || typeof val === "number"
             )) ||
-          typeof value === 'string' ||
-          typeof value === 'number'
+          typeof value === "string" ||
+          typeof value === "number"
         )
       ) {
         const selectedOptions = formItem
           .getSelectedOptions(value)
           .map(
-            (selectedOption: Option) => selectedOption[valueField || 'value']
+            (selectedOption: Option) => selectedOption[valueField || "value"]
           );
         formItem.changeValue(
           multiple ? selectedOptions.concat() : selectedOptions[0]
@@ -342,8 +342,11 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       let valueArray = formItem.getSelectedOptions(value).concat();
-      const idx = findIndex(valueArray, optionValueCompare(option.value));
-      let newValue: string | Array<Option> | Option = '';
+      const idx = findIndex(
+        valueArray,
+        optionValueCompare(option.value, valueField || "value")
+      );
+      let newValue: string | Array<Option> | Option = "";
 
       if (multiple) {
         if (~idx) {
@@ -356,11 +359,11 @@ export function registerOptionsControl(config: OptionsConfig) {
 
         if (joinValues) {
           newValue = (newValue as Array<any>)
-            .map(item => item[valueField || 'value'])
+            .map(item => item[valueField || "value"])
             .join(delimiter);
         } else if (extractValue) {
           newValue = (newValue as Array<any>).map(
-            item => item[valueField || 'value']
+            item => item[valueField || "value"]
           );
         }
       } else {
@@ -373,7 +376,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         newValue = valueArray[0] || resetValue;
 
         if (joinValues && newValue) {
-          newValue = (newValue as any)[valueField || 'value'];
+          newValue = (newValue as any)[valueField || "value"];
         }
       }
 
@@ -404,25 +407,25 @@ export function registerOptionsControl(config: OptionsConfig) {
           ? []
           : formItem.filteredOptions.concat();
 
-      let newValue: string | Array<Option> | Option = '';
+      let newValue: string | Array<Option> | Option = "";
 
       if (multiple) {
         newValue = valueArray;
 
         if (joinValues) {
           newValue = (newValue as Array<any>)
-            .map(item => item[valueField || 'value'])
+            .map(item => item[valueField || "value"])
             .join(delimiter);
         } else if (extractValue) {
           newValue = (newValue as Array<any>).map(
-            item => item[valueField || 'value']
+            item => item[valueField || "value"]
           );
         }
       } else {
         newValue = valueArray[0] || resetValue;
 
         if (joinValues && newValue) {
-          newValue = (newValue as any)[valueField || 'value'];
+          newValue = (newValue as any)[valueField || "value"];
         }
       }
 
@@ -432,7 +435,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     // 当有 action 触发，如果指定了 reload 目标组件，有可能会来到这里面来
     @autobind
     reload() {
-      const {source, formItem, data, onChange} = this.props;
+      const { source, formItem, data, onChange } = this.props;
 
       if (!formItem || !isEffectiveApi(source, data)) {
         return;
@@ -444,7 +447,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     @autobind
     async initOptions(data: any) {
       await this.reload();
-      const {formItem, name} = this.props;
+      const { formItem, name } = this.props;
       if (!formItem) {
         return;
       }
@@ -505,10 +508,10 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (!skipForm && (!Array.isArray(addControls) || !addControls.length)) {
         addControls = [
           {
-            type: 'text',
-            name: labelField || 'label',
+            type: "text",
+            name: labelField || "label",
             label: false,
-            placeholder: '请输入名称'
+            placeholder: "请输入名称"
           }
         ];
       }
@@ -526,10 +529,10 @@ export function registerOptionsControl(config: OptionsConfig) {
         ? ctx
         : await onOpenDialog(
             {
-              type: 'dialog',
-              title: createBtnLabel || `新增${optionLabel || '选项'}`,
+              type: "dialog",
+              title: createBtnLabel || `新增${optionLabel || "选项"}`,
               body: {
-                type: 'form',
+                type: "form",
                 api: addApi,
                 controls: addControls
               }
@@ -541,11 +544,11 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (skipForm && addApi) {
         try {
           const payload = await env.fetcher(addApi!, result, {
-            method: 'post'
+            method: "post"
           });
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || '新增失败，请仔细检查');
+            env.notify("error", payload.msg || "新增失败，请仔细检查");
             result = null;
           } else {
             result = payload.data || result;
@@ -553,7 +556,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         } catch (e) {
           result = null;
           console.error(e);
-          env.notify('error', e.message);
+          env.notify("error", e.message);
         }
       }
 
@@ -563,10 +566,10 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       // 没走服务端的。
-      if (!result.hasOwnProperty(valueField || 'value')) {
+      if (!result.hasOwnProperty(valueField || "value")) {
         result = {
           ...result,
-          [valueField || 'value']: result[labelField || 'label']
+          [valueField || "value"]: result[labelField || "label"]
         };
       }
 
@@ -578,11 +581,11 @@ export function registerOptionsControl(config: OptionsConfig) {
         // 否则直接前端变更 options
         let options = model.options.concat();
         if (Array.isArray(idx)) {
-          options = spliceTree(options, idx, 0, {...result});
+          options = spliceTree(options, idx, 0, { ...result });
         } else {
           ~idx
-            ? options.splice(idx, 0, {...result})
-            : options.push({...result});
+            ? options.splice(idx, 0, { ...result })
+            : options.push({ ...result });
         }
         model.setOptions(options);
       }
@@ -614,10 +617,10 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (!skipForm && (!Array.isArray(editControls) || !editControls.length)) {
         editControls = [
           {
-            type: 'text',
-            name: labelField || 'label',
+            type: "text",
+            name: labelField || "label",
             label: false,
-            placeholder: '请输入名称'
+            placeholder: "请输入名称"
           }
         ];
       }
@@ -626,10 +629,10 @@ export function registerOptionsControl(config: OptionsConfig) {
         ? value
         : await onOpenDialog(
             {
-              type: 'dialog',
-              title: `编辑${optionLabel || '选项'}`,
+              type: "dialog",
+              title: `编辑${optionLabel || "选项"}`,
               body: {
-                type: 'form',
+                type: "form",
                 api: editApi,
                 controls: editControls
               }
@@ -644,12 +647,12 @@ export function registerOptionsControl(config: OptionsConfig) {
             editApi!,
             createObject(data, result),
             {
-              method: 'post'
+              method: "post"
             }
           );
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || '保存失败，请仔细检查');
+            env.notify("error", payload.msg || "保存失败，请仔细检查");
             result = null;
           } else {
             result = payload.data || result;
@@ -657,7 +660,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         } catch (e) {
           result = null;
           console.error(e);
-          env.notify('error', e.message);
+          env.notify("error", e.message);
         }
       }
 
@@ -712,22 +715,22 @@ export function registerOptionsControl(config: OptionsConfig) {
       // 通过 deleteApi 删除。
       try {
         if (!deleteApi) {
-          throw new Error('请配置 deleteApi');
+          throw new Error("请配置 deleteApi");
         }
 
         const result = await env.fetcher(deleteApi!, ctx, {
-          method: 'delete'
+          method: "delete"
         });
 
         if (!result.ok) {
-          env.notify('error', result.msg || '删除失败，请重试');
+          env.notify("error", result.msg || "删除失败，请重试");
         } else if (source) {
           this.reload();
         } else {
           const options = model.options.concat();
           const idx = findIndex(
             options,
-            item => item[valueField || 'value'] == value[valueField || 'value']
+            item => item[valueField || "value"] == value[valueField || "value"]
           );
 
           if (~idx) {
@@ -737,7 +740,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         }
       } catch (e) {
         console.error(e);
-        env.notify('error', e.message);
+        env.notify("error", e.message);
       }
     }
 
@@ -799,7 +802,7 @@ export function OptionsControl(config: OptionsBasicConfig) {
 export function highlight(
   text: string,
   input?: string,
-  hlClassName: string = 'is-matched'
+  hlClassName: string = "is-matched"
 ) {
   if (!input) {
     return text;
@@ -807,8 +810,8 @@ export function highlight(
 
   text = String(text);
   const reg = new RegExp(
-    input.replace(/([\$\^\*\+\-\?\.\(\)\|\[\]\\])/, '\\$1'),
-    'i'
+    input.replace(/([\$\^\*\+\-\?\.\(\)\|\[\]\\])/, "\\$1"),
+    "i"
   );
   if (!reg.test(text)) {
     return text;
