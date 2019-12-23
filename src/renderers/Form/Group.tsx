@@ -54,9 +54,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
   renderVertical(props = this.props) {
     let {controls, className, classnames: cx, mode, formMode, data} = props;
-
     formMode = mode || formMode;
-    controls = controls.filter(item => isVisible(item, data));
 
     return (
       <div
