@@ -91,7 +91,7 @@ function gennerateId() {
 
 let preventEvent = (e: any) => e.stopPropagation();
 
-function getNameFromUrl(url: string) {
+export function getNameFromUrl(url: string) {
   if (/(?:\/|^)([^\/]+?)$/.test(url)) {
     return decodeURIComponent(RegExp.$1);
   }

@@ -57,6 +57,9 @@ import BackIcon from '../icons/back.svg';
 // @ts-ignore
 import MoveIcon from '../icons/move.svg';
 
+// @ts-ignore
+import InfoIcon from '../icons/info.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -115,6 +118,7 @@ registerIcon('fail', FailIcon);
 registerIcon('search', SearchIcon);
 registerIcon('back', BackIcon);
 registerIcon('move', MoveIcon);
+registerIcon('info', InfoIcon);
 
 export function Icon({
   icon,
