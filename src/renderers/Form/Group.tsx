@@ -18,7 +18,6 @@ export interface InputGroupProps extends RendererProps {
 
 @Renderer({
   test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?group$/,
-  sizeMutable: false,
   name: 'group-control'
 })
 export class ControlGroupRenderer extends React.Component<InputGroupProps> {
