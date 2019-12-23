@@ -148,6 +148,7 @@ export default class ImageControl extends React.Component<
   dropzone = React.createRef<any>();
   current: FileValue | FileX | null = null;
   resolve?: (value?: any) => void;
+  emitValue: any;
 
   constructor(props: ImageProps) {
     super(props);
@@ -197,7 +198,7 @@ export default class ImageControl extends React.Component<
   componentWillReceiveProps(nextProps: ImageProps) {
     const props = this.props;
 
-    if (props.value !== nextProps.value) {
+    if (props.value !== nextProps.value && this.emitValue !== nextProps.value) {
       const value: string | Array<string | FileValue> | FileValue =
         nextProps.value;
       const multiple = nextProps.multiple;
@@ -305,7 +306,7 @@ export default class ImageControl extends React.Component<
     );
   }
 
-  startUpload() {
+  startUpload(retry: boolean = false) {
     if (this.state.uploading) {
       return;
     }
@@ -315,7 +316,7 @@ export default class ImageControl extends React.Component<
         uploading: true,
         locked: true,
         files: this.files = this.files.map(file => {
-          if (file.state === 'error') {
+          if (retry && file.state === 'error') {
             file.state = 'pending';
           }
 
@@ -497,11 +498,30 @@ export default class ImageControl extends React.Component<
         : newValue;
     }
 
-    onChange(newValue);
+    onChange((this.emitValue = newValue));
   }
 
   handleSelect() {
     this.dropzone.current && this.dropzone.current.open();
+  }
+
+  handleRetry(index: number) {
+    const files = this.files.concat();
+    const file = files[index];
+
+    if (file.state !== 'invalid' && file.state !== 'error') {
+      return;
+    }
+
+    file.state = 'pending';
+    file.progress = 0;
+
+    this.setState(
+      {
+        files: files
+      },
+      this.startUpload
+    );
   }
 
   handleDrop(files: Array<FileX>) {
@@ -905,17 +925,32 @@ export default class ImageControl extends React.Component<
                           >
                             {file.state === 'invalid' ||
                             file.state === 'error' ? (
-                              <a
-                                className={cx('ImageControl-retryBtn', {
-                                  'is-disabled': disabled
-                                })}
-                                onClick={this.handleSelect}
-                              >
-                                <Icon icon="retry" className="icon" />
-                                <p className="ImageControl-itemInfoError">
-                                  重新上传
-                                </p>
-                              </a>
+                              <>
+                                <a
+                                  className={cx('ImageControl-itemClear')}
+                                  data-tooltip="移除"
+                                  data-position="bottom"
+                                  onClick={this.removeFile.bind(
+                                    this,
+                                    file,
+                                    key
+                                  )}
+                                >
+                                  <Icon icon="close" className="icon" />
+                                </a>
+
+                                <a
+                                  className={cx('ImageControl-retryBtn', {
+                                    'is-disabled': disabled
+                                  })}
+                                  onClick={this.handleRetry.bind(this, key)}
+                                >
+                                  <Icon icon="retry" className="icon" />
+                                  <p className="ImageControl-itemInfoError">
+                                    重新上传
+                                  </p>
+                                </a>
+                              </>
                             ) : file.state === 'uploading' ? (
                               <>
                                 <a
@@ -1019,7 +1054,10 @@ export default class ImageControl extends React.Component<
                                     </a>
                                   ) : null}
                                   <a
-                                    data-tooltip={getNameFromUrl(file.value)}
+                                    data-tooltip={
+                                      file.name ||
+                                      getNameFromUrl(file.value || file.url)
+                                    }
                                     data-position="bottom"
                                     target="_blank"
                                   >

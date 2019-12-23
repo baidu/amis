@@ -176,6 +176,14 @@
     transition: ease-out width 0.3s;
   }
 
+  &-item.is-invalid &-itemClear {
+    display: none;
+  }
+
+  &-item.is-invalid:hover &-itemClear {
+    display: block;
+  }
+
   &-retryBtn {
     margin: 0;
     width: px2rem(108px);
