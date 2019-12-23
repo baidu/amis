@@ -144,4 +144,12 @@
     line-height: 120px;
     text-align: center;
   }
+
+  &-sum {
+    font-size: $fontSizeSm;
+
+    > a {
+      cursor: pointer;
+    }
+  }
 }

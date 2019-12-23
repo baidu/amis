@@ -9,7 +9,7 @@ import ImageControl from './Image';
 import {Payload, ApiObject, ApiString} from '../../types';
 import {filter} from '../../utils/tpl';
 import Alert from '../../components/Alert2';
-import {qsstringify, createObject} from '../../utils/helper';
+import {qsstringify, createObject, guid} from '../../utils/helper';
 import {buildApi} from '../../utils/api';
 import Button from '../../components/Button';
 import {Icon} from '../../components/icons';
@@ -83,12 +83,6 @@ export interface FileState {
   files: Array<FileX | FileValue>;
   error?: string | null;
 }
-
-let id = 1;
-function gennerateId() {
-  return id++;
-}
-
 let preventEvent = (e: any) => e.stopPropagation();
 
 export function getNameFromUrl(url: string) {
@@ -134,6 +128,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   state: FileState;
   current: FileValue | FileX | null;
   resolve?: (value?: any) => void;
+  emitValue: any;
 
   static valueToFile(
     value: string | FileValue,
@@ -151,17 +146,19 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             value: value,
             name: value.name,
             url: '',
-            id: gennerateId()
+            id: guid()
           }
         : {
             ...(typeof value === 'string'
               ? {
                   state: file && file.state ? file.state : 'init',
                   value,
-                  name: /^data:/.test(value)
-                    ? (file && file.name) || 'base64数据'
-                    : getNameFromUrl(value),
-                  id: gennerateId(),
+                  name:
+                    (file && file.name) ||
+                    (/^data:/.test(value)
+                      ? 'base64数据'
+                      : getNameFromUrl(value)),
+                  id: guid(),
                   url:
                     typeof props.downloadUrl === 'string' &&
                     value &&
@@ -209,6 +206,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     this.handleDropRejected = this.handleDropRejected.bind(this);
     this.startUpload = this.startUpload.bind(this);
     this.stopUpload = this.stopUpload.bind(this);
+    this.retry = this.retry.bind(this);
     this.toggleUpload = this.toggleUpload.bind(this);
     this.tick = this.tick.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -220,7 +218,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   componentWillReceiveProps(nextProps: FileProps) {
     const props = this.props;
 
-    if (props.value !== nextProps.value) {
+    if (props.value !== nextProps.value && this.emitValue !== nextProps.value) {
       const value: string | Array<string | FileValue> | FileValue =
         nextProps.value;
       const multiple = nextProps.multiple;
@@ -295,7 +293,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         file.state = 'pending';
       }
 
-      file.id = gennerateId();
+      file.id = guid();
       inputFiles.push(file);
     });
 
@@ -327,7 +325,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     const files = rejectedFiles.map((file: any) => ({
       ...file,
       state: 'invalid',
-      id: gennerateId(),
+      id: guid(),
       name: file.name
     }));
 
@@ -350,7 +348,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     this.dropzone.current && this.dropzone.current.open();
   }
 
-  startUpload() {
+  startUpload(retry: boolean = false) {
     if (this.state.uploading) {
       return;
     }
@@ -359,8 +357,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       {
         uploading: true,
         files: this.state.files.map(file => {
-          if (file.state === 'error') {
+          if (retry && file.state === 'error') {
             file.state = 'pending';
+            file.progress = 0;
           }
 
           return file;
@@ -383,6 +382,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     this.setState({
       uploading: false
     });
+  }
+
+  retry() {
+    this.startUpload(true);
   }
 
   tick() {
@@ -617,7 +620,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       value = typeof resetValue === 'undefined' ? '' : resetValue;
     }
 
-    onChange(value);
+    onChange((this.emitValue = value));
   }
 
   uploadFile(
@@ -880,6 +883,18 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
     const hasPending = files.some(file => file.state == 'pending');
 
+    let uploaded = 0;
+    let failed = 0;
+
+    this.state.uploading ||
+      this.state.files.forEach(item => {
+        if (item.state === 'error') {
+          failed++;
+        } else if (item.state === 'uploaded') {
+          uploaded++;
+        }
+      });
+
     return (
       <div className={cx('FileControl', className)}>
         <DropZone
@@ -1006,8 +1021,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           )}
         </DropZone>
 
-        {error ? (
-          <div className={cx('FileControl-errorMsg')}>{error}</div>
+        {failed ? (
+          <div className={cx('FileControl-sum')}>
+            已成功上传{uploaded}个文件，{failed}个文件上传上传失败，
+            <a onClick={this.retry}>重新上传</a>失败文件
+          </div>
         ) : null}
 
         {!autoUpload && !hideUploadButton && files.length ? (
