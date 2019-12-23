@@ -318,6 +318,7 @@ export default class ImageControl extends React.Component<
         files: this.files = this.files.map(file => {
           if (retry && file.state === 'error') {
             file.state = 'pending';
+            file.progress = 0;
           }
 
           return file;
