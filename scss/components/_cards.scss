@@ -78,6 +78,10 @@
     border-radius: $Card-borderRadius;
   }
 
+  &-body > div {
+    display: flex;
+  }
+
   &--masonry {
     display: block;
 

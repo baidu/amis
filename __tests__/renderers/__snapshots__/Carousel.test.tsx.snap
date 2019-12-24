@@ -20,7 +20,7 @@ exports[`Renderer:carousel 1`] = `
         
           <div
             class="image "
-            style="background-image: url(https://video-react.js.org/assets/poster.png); background-size: contain; background-repeat: no-repeat; background-position: center center;"
+            style="background-image: url(https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png); background-size: contain; background-repeat: no-repeat; background-position: center center;"
           />
           
         
