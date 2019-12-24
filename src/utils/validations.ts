@@ -119,11 +119,25 @@ export const validations: {
       (parseFloat(value) || 0) <= (parseFloat(maximum) || 0)
     );
   },
+  lt: function(values, value, maximum) {
+    return (
+      !isExisty(value) ||
+      isEmpty(value) ||
+      (parseFloat(value) || 0) < (parseFloat(maximum) || 0)
+    );
+  },
   minimum: function(values, value, minimum) {
     return (
       !isExisty(value) ||
       isEmpty(value) ||
       (parseFloat(value) || 0) >= (parseFloat(minimum) || 0)
+    );
+  },
+  gt: function(values, value, minimum) {
+    return (
+      !isExisty(value) ||
+      isEmpty(value) ||
+      (parseFloat(value) || 0) > (parseFloat(minimum) || 0)
     );
   },
   isJson: function(values, value, minimum) {
@@ -220,7 +234,9 @@ export const validateMessages: {
   minLength: '请输入更多的内容，至少输入 $1 个字符。',
   maxLength: '请控制内容长度, 请不要输入 $1 个字符以上',
   maximum: '当前输入值超出最大值 $1，请检查',
+  lt: '输入值大于或等于$1，请检查',
   minimum: '当前输入值低于最小值 $1，请检查',
+  gt: '输入值小于或等于$1，请检查',
   isJson: '请检查 Json 格式。',
   isLength: '请输入长度为 $1 的内容',
   notEmptyString: '请不要全输入空白字符',
