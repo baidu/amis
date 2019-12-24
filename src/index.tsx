@@ -136,6 +136,7 @@ import './renderers/Grid';
 import './renderers/HBox';
 import './renderers/VBox';
 import './renderers/Image';
+import './renderers/Images';
 import './renderers/List';
 import './renderers/Operation';
 import './renderers/Page';

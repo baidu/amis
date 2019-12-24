@@ -12,7 +12,7 @@ export function reigsterTplEnginer(name: string, enginer: Enginer) {
 }
 
 export function filter(
-  tpl: string,
+  tpl?: string,
   data: object = {},
   ...rest: Array<any>
 ): string {
