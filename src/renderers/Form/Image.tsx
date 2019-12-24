@@ -1,19 +1,19 @@
-import React from "react";
-import { FormItem, FormControlProps } from "./Item";
+import React from 'react';
+import {FormItem, FormControlProps} from './Item';
 // @require 'cropperjs/dist/cropper.css';
-import Cropper from "react-cropper";
-import DropZone from "react-dropzone";
-import "blueimp-canvastoblob";
-import find = require("lodash/find");
-import qs from "qs";
-import { Payload } from "../../types";
-import { buildApi } from "../../utils/api";
-import { createObject, qsstringify, guid } from "../../utils/helper";
-import { Icon } from "../../components/icons";
-import Button from "../../components/Button";
+import Cropper from 'react-cropper';
+import DropZone from 'react-dropzone';
+import 'blueimp-canvastoblob';
+import find = require('lodash/find');
+import qs from 'qs';
+import {Payload} from '../../types';
+import {buildApi} from '../../utils/api';
+import {createObject, qsstringify, guid} from '../../utils/helper';
+import {Icon} from '../../components/icons';
+import Button from '../../components/Button';
 // @ts-ignore
-import accepts from "attr-accept";
-import { getNameFromUrl } from "./File";
+import accepts from 'attr-accept';
+import {getNameFromUrl} from './File';
 
 let preventEvent = (e: any) => e.stopPropagation();
 
@@ -59,7 +59,7 @@ export interface ImageState {
 
 export interface FileValue {
   value?: any;
-  state: "init" | "error" | "pending" | "uploading" | "uploaded" | "invalid";
+  state: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid';
   url?: string;
   error?: string;
   info?: {
@@ -73,7 +73,7 @@ export interface FileValue {
 export interface FileX extends File {
   id?: string | number;
   preview?: string;
-  state?: "init" | "error" | "pending" | "uploading" | "uploaded" | "invalid";
+  state?: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid';
   progress?: number;
   [propName: string]: any;
 }
@@ -84,20 +84,20 @@ export default class ImageControl extends React.Component<
 > {
   static defaultProps = {
     limit: undefined,
-    accept: "image/jpeg, image/jpg, image/png, image/gif",
-    reciever: "/api/upload",
+    accept: 'image/jpeg, image/jpg, image/png, image/gif',
+    reciever: '/api/upload',
     hideUploadButton: false,
-    placeholder: "点击选择图片或者将图片拖入该区域",
+    placeholder: '点击选择图片或者将图片拖入该区域',
     joinValues: true,
     extractValue: false,
-    delimiter: ",",
+    delimiter: ',',
     autoUpload: true,
     multiple: false
   };
 
   static formatFileSize(
     size: number | string,
-    units = [" B", " KB", " M", " G"]
+    units = [' B', ' KB', ' M', ' G']
   ) {
     size = parseInt(size as string, 10) || 0;
 
@@ -115,14 +115,14 @@ export default class ImageControl extends React.Component<
   ): FileValue | undefined {
     return value
       ? {
-          ...(typeof value === "string"
+          ...(typeof value === 'string'
             ? {
                 value,
                 url: value,
                 id: guid()
               }
             : value),
-          state: "init"
+          state: 'init'
         }
       : undefined;
   }
@@ -162,7 +162,7 @@ export default class ImageControl extends React.Component<
       // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
       files = (Array.isArray(value)
         ? value
-        : joinValues && typeof value === "string" && multiple
+        : joinValues && typeof value === 'string' && multiple
         ? (value as string).split(delimiter)
         : [value]
       )
@@ -210,7 +210,7 @@ export default class ImageControl extends React.Component<
       if (value) {
         files = (Array.isArray(value)
           ? value
-          : joinValues && typeof value === "string"
+          : joinValues && typeof value === 'string'
           ? (value as string).split(delimiter)
           : [value]
         )
@@ -255,7 +255,7 @@ export default class ImageControl extends React.Component<
     if (crop && props.multiple) {
       props.env &&
         props.env.alert &&
-        props.env.alert("图片多选配置和裁剪配置冲突，目前不能二者都支持！");
+        props.env.alert('图片多选配置和裁剪配置冲突，目前不能二者都支持！');
       return null;
     }
 
@@ -267,7 +267,7 @@ export default class ImageControl extends React.Component<
       crop = {
         aspectRatio: 1, // 1 : 1
         guides: true,
-        dragMode: "move",
+        dragMode: 'move',
         viewMode: 1,
         rotatable: false,
         scalable: false,
@@ -279,14 +279,14 @@ export default class ImageControl extends React.Component<
   }
 
   handleDropRejected(rejectedFiles: any, evt: React.DragEvent<any>) {
-    if (evt.type !== "change" && evt.type !== "drop") {
+    if (evt.type !== 'change' && evt.type !== 'drop') {
       return;
     }
-    const { multiple, env, accept } = this.props;
+    const {multiple, env, accept} = this.props;
 
     const files = rejectedFiles.map((file: any) => ({
       ...file,
-      state: "invalid",
+      state: 'invalid',
       id: guid(),
       name: file.name
     }));
@@ -316,8 +316,8 @@ export default class ImageControl extends React.Component<
         uploading: true,
         locked: true,
         files: this.files = this.files.map(file => {
-          if (retry && file.state === "error") {
-            file.state = "pending";
+          if (retry && file.state === 'error') {
+            file.state = 'pending';
             file.progress = 0;
           }
 
@@ -347,11 +347,12 @@ export default class ImageControl extends React.Component<
       return;
     }
 
-    const file = find(this.files, item => item.state === "pending") as FileX;
+    const env = this.props.env;
+    const file = find(this.files, item => item.state === 'pending') as FileX;
     if (file) {
       this.current = file;
 
-      file.state = "uploading";
+      file.state = 'uploading';
       this.setState(
         {
           files: this.files = this.files.concat()
@@ -371,10 +372,10 @@ export default class ImageControl extends React.Component<
 
               if (error) {
                 newFile.state =
-                  file.state !== "uploading" ? file.state : "error";
+                  file.state !== 'uploading' ? file.state : 'error';
                 newFile.error = error;
 
-                if (!this.props.multiple && newFile.state === "invalid") {
+                if (!this.props.multiple && newFile.state === 'invalid') {
                   files.splice(idx, 1);
                   this.current = null;
 
@@ -386,6 +387,8 @@ export default class ImageControl extends React.Component<
                     this.tick
                   );
                 }
+
+                env.notify('error', error || '图片上传失败，请重试');
               } else {
                 newFile = {
                   ...obj,
@@ -428,8 +431,8 @@ export default class ImageControl extends React.Component<
 
           if (this.resolve) {
             this.resolve(
-              this.files.some(file => file.state === "error")
-                ? "文件上传失败请重试"
+              this.files.some(file => file.state === 'error')
+                ? '文件上传失败请重试'
                 : null
             );
             this.resolve = undefined;
@@ -453,14 +456,14 @@ export default class ImageControl extends React.Component<
   }
 
   editImage(index: number) {
-    const { multiple } = this.props;
+    const {multiple} = this.props;
 
     const files = this.files;
 
     this.setState({
       cropFile: {
         preview: files[index].url as string,
-        state: "init"
+        state: 'init'
       }
     });
   }
@@ -476,14 +479,14 @@ export default class ImageControl extends React.Component<
     } = this.props;
 
     const files = this.files.filter(
-      file => file.state == "uploaded" || file.state == "init"
+      file => file.state == 'uploaded' || file.state == 'init'
     );
 
     let newValue: any = files.length
       ? joinValues
         ? files[0].value
         : files[0]
-      : "";
+      : '';
 
     if (multiple) {
       newValue = joinValues
@@ -495,7 +498,7 @@ export default class ImageControl extends React.Component<
       newValue = joinValues
         ? newValue.value || newValue
         : extractValue
-        ? newValue[valueField || "value"]
+        ? newValue[valueField || 'value']
         : newValue;
     }
 
@@ -510,11 +513,11 @@ export default class ImageControl extends React.Component<
     const files = this.files.concat();
     const file = files[index];
 
-    if (file.state !== "invalid" && file.state !== "error") {
+    if (file.state !== 'invalid' && file.state !== 'error') {
       return;
     }
 
-    file.state = "pending";
+    file.state = 'pending';
     file.progress = 0;
 
     this.setState(
@@ -526,7 +529,7 @@ export default class ImageControl extends React.Component<
   }
 
   handleDrop(files: Array<FileX>) {
-    const { multiple, crop } = this.props;
+    const {multiple, crop} = this.props;
 
     if (crop && !multiple) {
       const file = files[0] as FileValue;
@@ -536,7 +539,7 @@ export default class ImageControl extends React.Component<
 
       return this.setState({
         locked: true,
-        lockedReason: "请选择放弃或者应用",
+        lockedReason: '请选择放弃或者应用',
         cropFile: file
       });
     }
@@ -554,7 +557,7 @@ export default class ImageControl extends React.Component<
       let blob: FileX;
 
       if (
-        item.kind !== "file" ||
+        item.kind !== 'file' ||
         !(blob = item.getAsFile() as File) ||
         !accepts(blob, accept)
       ) {
@@ -574,7 +577,7 @@ export default class ImageControl extends React.Component<
       this.setState({
         cropFile: undefined,
         locked: false,
-        lockedReason: ""
+        lockedReason: ''
       });
     });
   }
@@ -584,7 +587,7 @@ export default class ImageControl extends React.Component<
       {
         cropFile: undefined,
         locked: false,
-        lockedReason: ""
+        lockedReason: ''
       },
       this.onChange
     );
@@ -595,7 +598,7 @@ export default class ImageControl extends React.Component<
       return;
     }
 
-    const { multiple, maxLength, maxSize, accept } = this.props;
+    const {multiple, maxLength, maxSize, accept} = this.props;
     let currentFiles = this.files;
 
     if (!multiple && currentFiles.length) {
@@ -622,7 +625,7 @@ export default class ImageControl extends React.Component<
         return;
       }
 
-      file.state = "pending";
+      file.state = 'pending';
       file.id = guid();
       if (!file.preview || !file.url) {
         file.preview = URL.createObjectURL(file);
@@ -641,7 +644,7 @@ export default class ImageControl extends React.Component<
         locked: true
       },
       () => {
-        const { autoUpload } = this.props;
+        const {autoUpload} = this.props;
 
         if (autoUpload) {
           this.startUpload();
@@ -655,7 +658,7 @@ export default class ImageControl extends React.Component<
     cb: (error: null | string, file: FileX, obj?: FileValue) => void,
     onProgress: (progress: number) => void
   ) {
-    const { limit } = this.props;
+    const {limit} = this.props;
 
     if (!limit) {
       return this._upload(file, cb, onProgress);
@@ -665,7 +668,7 @@ export default class ImageControl extends React.Component<
     image.onload = () => {
       const width = image.width;
       const height = image.height;
-      let error = "";
+      let error = '';
 
       if (
         (limit.width && limit.width != width) ||
@@ -700,7 +703,7 @@ export default class ImageControl extends React.Component<
       }
 
       if (error) {
-        file.state = "invalid";
+        file.state = 'invalid';
         cb(error, file);
       } else {
         this._upload(file, cb, onProgress);
@@ -717,18 +720,18 @@ export default class ImageControl extends React.Component<
     this._send(file, this.props.reciever as string, {}, onProgress)
       .then((ret: Payload) => {
         if (ret.status) {
-          throw new Error(ret.msg || "上传失败, 请重试");
+          throw new Error(ret.msg || '上传失败, 请重试');
         }
 
         const obj: FileValue = {
           ...ret.data,
-          state: "uploaded"
+          state: 'uploaded'
         };
         obj.value = obj.value || obj.url;
 
         cb(null, file, obj);
       })
-      .catch(error => cb(error.message || "上传失败，请重试", file));
+      .catch(error => cb(error.message || '上传失败，请重试', file));
   }
 
   _send(
@@ -740,28 +743,28 @@ export default class ImageControl extends React.Component<
     const fd = new FormData();
     const data = this.props.data;
     const api = buildApi(reciever, createObject(data, params), {
-      method: "post"
+      method: 'post'
     });
-    const fileField = this.props.fileField || "file";
+    const fileField = this.props.fileField || 'file';
     fd.append(fileField, file, (file as File).name);
 
-    const idx = api.url.indexOf("?");
+    const idx = api.url.indexOf('?');
 
     if (~idx && params) {
       params = {
         ...qs.parse(api.url.substring(idx + 1)),
         ...params
       };
-      api.url = api.url.substring(0, idx) + "?" + qsstringify(params);
+      api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
     } else if (params) {
-      api.url += "?" + qsstringify(params);
+      api.url += '?' + qsstringify(params);
     }
 
     if (api.data) {
       qsstringify(api.data)
-        .split("&")
+        .split('&')
         .forEach(item => {
-          let parts = item.split("=");
+          let parts = item.split('=');
           fd.append(parts[0], decodeURIComponent(parts[1]));
         });
     }
@@ -769,12 +772,12 @@ export default class ImageControl extends React.Component<
     const env = this.props.env;
 
     if (!env || !env.fetcher) {
-      throw new Error("fetcher is required");
+      throw new Error('fetcher is required');
     }
 
     return env.fetcher(api, fd, {
-      method: "post",
-      onUploadProgress: (event: { loaded: number; total: number }) =>
+      method: 'post',
+      onUploadProgress: (event: {loaded: number; total: number}) =>
         onProgress(event.loaded / event.total)
     });
   }
@@ -803,7 +806,7 @@ export default class ImageControl extends React.Component<
 
       files.splice(index, 1, file);
       const needUploading = !!(
-        this.current || find(files, file => file.state === "pending")
+        this.current || find(files, file => file.state === 'pending')
       );
 
       this.setState(
@@ -821,14 +824,14 @@ export default class ImageControl extends React.Component<
       return this.state.lockedReason;
     } else if (
       this.state.uploading ||
-      this.files.some(item => item.state === "pending")
+      this.files.some(item => item.state === 'pending')
     ) {
       return new Promise(resolve => {
         this.resolve = resolve;
         this.startUpload();
       });
-    } else if (this.files.some(item => item.state === "error")) {
-      return "文件上传失败请重试";
+    } else if (this.files.some(item => item.state === 'error')) {
+      return '文件上传失败请重试';
     }
   }
 
@@ -845,17 +848,17 @@ export default class ImageControl extends React.Component<
       hideUploadButton
     } = this.props;
 
-    const { files, error, crop, uploading, cropFile } = this.state;
+    const {files, error, crop, uploading, cropFile} = this.state;
 
-    const hasPending = files.some(file => file.state == "pending");
+    const hasPending = files.some(file => file.state == 'pending');
     return (
       <div className={cx(`ImageControl`, className)}>
         {cropFile ? (
-          <div className={cx("ImageControl-cropperWrapper")}>
+          <div className={cx('ImageControl-cropperWrapper')}>
             <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
-            <div className={cx("ImageControl-croperToolbar")}>
+            <div className={cx('ImageControl-croperToolbar')}>
               <a
-                className={cx("ImageControl-cropCancel")}
+                className={cx('ImageControl-cropCancel')}
                 onClick={this.cancelCrop}
                 data-tooltip="取消"
                 data-position="left"
@@ -863,7 +866,7 @@ export default class ImageControl extends React.Component<
                 <Icon icon="close" className="icon" />
               </a>
               <a
-                className={cx("ImageControl-cropConfirm")}
+                className={cx('ImageControl-cropConfirm')}
                 onClick={this.handleCrop}
                 data-tooltip="确认"
                 data-position="left"
@@ -893,10 +896,10 @@ export default class ImageControl extends React.Component<
                 {...getRootProps({
                   onClick: preventEvent,
                   onPaste: this.handlePaste,
-                  className: cx("ImageControl-dropzone", {
+                  className: cx('ImageControl-dropzone', {
                     disabled,
-                    "is-empty": !files.length,
-                    "is-active": isDragActive
+                    'is-empty': !files.length,
+                    'is-active': isDragActive
                   })
                 })}
               >
@@ -904,9 +907,9 @@ export default class ImageControl extends React.Component<
 
                 {isDragActive || isDragAccept || isDragReject ? (
                   <div
-                    className={cx("ImageControl-acceptTip", {
-                      "is-accept": isDragAccept,
-                      "is-reject": isDragReject
+                    className={cx('ImageControl-acceptTip', {
+                      'is-accept': isDragAccept,
+                      'is-reject': isDragReject
                     })}
                   >
                     把图片拖到这，然后松开完成添加！
@@ -917,18 +920,18 @@ export default class ImageControl extends React.Component<
                       ? files.map((file, key) => (
                           <div
                             key={file.id || key}
-                            className={cx("ImageControl-item", {
-                              "is-uploaded": file.state !== "uploading",
-                              "is-invalid":
-                                file.state === "error" ||
-                                file.state === "invalid"
+                            className={cx('ImageControl-item', {
+                              'is-uploaded': file.state !== 'uploading',
+                              'is-invalid':
+                                file.state === 'error' ||
+                                file.state === 'invalid'
                             })}
                           >
-                            {file.state === "invalid" ||
-                            file.state === "error" ? (
+                            {file.state === 'invalid' ||
+                            file.state === 'error' ? (
                               <>
                                 <a
-                                  className={cx("ImageControl-itemClear")}
+                                  className={cx('ImageControl-itemClear')}
                                   data-tooltip="移除"
                                   data-position="bottom"
                                   onClick={this.removeFile.bind(
@@ -941,8 +944,8 @@ export default class ImageControl extends React.Component<
                                 </a>
 
                                 <a
-                                  className={cx("ImageControl-retryBtn", {
-                                    "is-disabled": disabled
+                                  className={cx('ImageControl-retryBtn', {
+                                    'is-disabled': disabled
                                   })}
                                   onClick={this.handleRetry.bind(this, key)}
                                 >
@@ -952,7 +955,7 @@ export default class ImageControl extends React.Component<
                                   </p>
                                 </a>
                               </>
-                            ) : file.state === "uploading" ? (
+                            ) : file.state === 'uploading' ? (
                               <>
                                 <a
                                   onClick={this.removeFile.bind(
@@ -961,17 +964,17 @@ export default class ImageControl extends React.Component<
                                     key
                                   )}
                                   key="clear"
-                                  className={cx("ImageControl-itemClear")}
+                                  className={cx('ImageControl-itemClear')}
                                   data-tooltip="移除"
                                 >
                                   <Icon icon="close" className="icon" />
                                 </a>
                                 <div
                                   key="info"
-                                  className={cx("ImageControl-itemInfo")}
+                                  className={cx('ImageControl-itemInfo')}
                                 >
                                   <p>文件上传中</p>
-                                  <div className={cx("ImageControl-progress")}>
+                                  <div className={cx('ImageControl-progress')}>
                                     <span
                                       style={{
                                         width: `${Math.round(
@@ -979,7 +982,7 @@ export default class ImageControl extends React.Component<
                                         )}%`
                                       }}
                                       className={cx(
-                                        "ImageControl-progressValue"
+                                        'ImageControl-progressValue'
                                       )}
                                     />
                                   </div>
@@ -989,7 +992,7 @@ export default class ImageControl extends React.Component<
                               <>
                                 <div
                                   key="image"
-                                  className={cx("ImageControl-itemImageWrap")}
+                                  className={cx('ImageControl-itemImageWrap')}
                                 >
                                   <img
                                     onLoad={this.handleImageLoaded.bind(
@@ -1003,7 +1006,7 @@ export default class ImageControl extends React.Component<
 
                                 <div
                                   key="overlay"
-                                  className={cx("ImageControl-itemOverlay")}
+                                  className={cx('ImageControl-itemOverlay')}
                                 >
                                   {file.info ? (
                                     [
@@ -1074,8 +1077,8 @@ export default class ImageControl extends React.Component<
                     {(multiple && (!maxLength || files.length < maxLength)) ||
                     (!multiple && !files.length) ? (
                       <label
-                        className={cx("ImageControl-addBtn", {
-                          "is-disabled": disabled
+                        className={cx('ImageControl-addBtn', {
+                          'is-disabled': disabled
                         })}
                         onClick={this.handleSelect}
                         data-tooltip={placeholder}
@@ -1084,7 +1087,7 @@ export default class ImageControl extends React.Component<
                         <Icon icon="plus" className="icon" />
 
                         {isFocused ? (
-                          <span className={cx("ImageControl-pasteTip")}>
+                          <span className={cx('ImageControl-pasteTip')}>
                             当前状态支持从剪切板中粘贴图片文件。
                           </span>
                         ) : null}
@@ -1094,16 +1097,16 @@ export default class ImageControl extends React.Component<
                     {!autoUpload && !hideUploadButton && files.length ? (
                       <Button
                         level="default"
-                        className={cx("ImageControl-uploadBtn")}
+                        className={cx('ImageControl-uploadBtn')}
                         disabled={!hasPending}
                         onClick={this.toggleUpload}
                       >
-                        {uploading ? "暂停上传" : "开始上传"}
+                        {uploading ? '暂停上传' : '开始上传'}
                       </Button>
                     ) : null}
 
                     {error ? (
-                      <div className={cx("ImageControl-errorMsg")}>{error}</div>
+                      <div className={cx('ImageControl-errorMsg')}>{error}</div>
                     ) : null}
                   </>
                 )}
@@ -1117,7 +1120,7 @@ export default class ImageControl extends React.Component<
 }
 
 @FormItem({
-  type: "image",
+  type: 'image',
   sizeMutable: false
 })
 export class ImageControlRenderer extends ImageControl {}
