@@ -45,6 +45,8 @@ export interface ImageProps extends FormControlProps {
   delimiter?: string;
   autoUpload?: boolean;
   multiple?: boolean;
+  thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+  thumbRatio?: '1-1' | '4-3' | '16-9';
 }
 
 export interface ImageState {
@@ -846,7 +848,9 @@ export default class ImageControl extends React.Component<
       accept,
       maxLength,
       autoUpload,
-      hideUploadButton
+      hideUploadButton,
+      thumbMode,
+      thumbRatio
     } = this.props;
 
     const {files, error, crop, uploading, cropFile} = this.state;
@@ -1000,7 +1004,8 @@ export default class ImageControl extends React.Component<
                                   )}
                                   src={file.preview || file.url}
                                   alt={file.name}
-                                  thumbMode="contain"
+                                  thumbMode={thumbMode}
+                                  thumbRatio={thumbRatio}
                                 />
 
                                 <div

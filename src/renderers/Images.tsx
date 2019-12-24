@@ -10,6 +10,8 @@ export interface ImagesProps extends RendererProps {
   placeholder: string;
   delimiter: string;
   thumbMode: 'w-full' | 'h-full' | 'contain' | 'cover';
+  thumbRatio: '1-1' | '4-3' | '16-9';
+
   name?: string;
   value?: any;
   source?: string;
@@ -18,14 +20,20 @@ export interface ImagesProps extends RendererProps {
 export class ImagesField extends React.Component<ImagesProps> {
   static defaultProps: Pick<
     ImagesProps,
-    'className' | 'delimiter' | 'defaultImage' | 'placehoder' | 'thumbMode'
+    | 'className'
+    | 'delimiter'
+    | 'defaultImage'
+    | 'placehoder'
+    | 'thumbMode'
+    | 'thumbRatio'
   > = {
     className: '',
     delimiter: ',',
     defaultImage:
       'https://fex.bdstatic.com/n/static/amis/renderers/crud/field/placeholder_cfad9b1.png',
     placehoder: '-',
-    thumbMode: 'contain'
+    thumbMode: 'contain',
+    thumbRatio: '1-1'
   };
 
   render() {
@@ -33,6 +41,7 @@ export class ImagesField extends React.Component<ImagesProps> {
       className,
       defaultImage,
       thumbMode,
+      thumbRatio,
       data,
       name,
       value,
@@ -70,6 +79,7 @@ export class ImagesField extends React.Component<ImagesProps> {
                 title={item && item.title}
                 description={item && item.description}
                 thumbMode={thumbMode}
+                thumbRatio={thumbRatio}
               />
             ))}
           </div>
@@ -78,6 +88,7 @@ export class ImagesField extends React.Component<ImagesProps> {
             className={cx('Images-item')}
             src={defaultImage}
             thumbMode={thumbMode}
+            thumbRatio={thumbRatio}
           />
         ) : (
           placeholder
