@@ -14,6 +14,7 @@ import Button from '../../components/Button';
 // @ts-ignore
 import accepts from 'attr-accept';
 import {getNameFromUrl} from './File';
+import ImageComponent from '../Image';
 
 let preventEvent = (e: any) => e.stopPropagation();
 
@@ -990,19 +991,17 @@ export default class ImageControl extends React.Component<
                               </>
                             ) : (
                               <>
-                                <div
+                                <ImageComponent
                                   key="image"
-                                  className={cx('ImageControl-itemImageWrap')}
-                                >
-                                  <img
-                                    onLoad={this.handleImageLoaded.bind(
-                                      this,
-                                      key
-                                    )}
-                                    src={file.preview || file.url}
-                                    alt={file.name}
-                                  />
-                                </div>
+                                  className={cx('ImageControl-image')}
+                                  onLoad={this.handleImageLoaded.bind(
+                                    this,
+                                    key
+                                  )}
+                                  src={file.preview || file.url}
+                                  alt={file.name}
+                                  thumbMode="contain"
+                                />
 
                                 <div
                                   key="overlay"
