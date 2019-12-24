@@ -31,6 +31,14 @@
     }
   }
 
+  &-thumb--4-3 {
+    height: px2rem(108px * 3 / 4);
+  }
+
+  &-thumb--16-9 {
+    height: px2rem(108px * 9 / 16);
+  }
+
   &-thumb--w-full > img {
     width: 100%;
     height: auto;

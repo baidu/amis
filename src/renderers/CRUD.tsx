@@ -1591,7 +1591,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             )
           : null}
 
-        {keepItemSelectionOnPageChange && multiple ? this.renderSelection() : null}
+        {keepItemSelectionOnPageChange && multiple
+          ? this.renderSelection()
+          : null}
 
         {render(
           'body',
@@ -1630,8 +1632,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             onSaveOrder: this.handleSaveOrder,
             onQuery: this.handlQuery,
             onSelect: this.handleSelect,
-            onPopOverOpen: this.handleChildPopOverOpen,
-            onPopOverClose: this.handleChildPopOverClose,
+            onPopOverOpened: this.handleChildPopOverOpen,
+            onPopOverClosed: this.handleChildPopOverClose,
             headerToolbarRender: this.renderHeaderToolbar,
             footerToolbarRender: this.renderFooterToolbar,
             data: store.mergedData

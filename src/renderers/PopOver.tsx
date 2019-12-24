@@ -38,8 +38,8 @@ export interface PopOverProps extends RendererProps {
   name?: string;
   label?: string;
   popOver: boolean | PopOverConfig;
-  onPopOverOpen: (popover: any) => void;
-  onPopOverClose: (popover: any) => void;
+  onPopOverOpened: (popover: any) => void;
+  onPopOverClosed: (popover: any) => void;
 }
 
 export interface PopOverState {
@@ -69,12 +69,12 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
     }
 
     openPopOver() {
-      const onPopOverOpen = this.props.onPopOverOpen;
+      const onPopOverOpened = this.props.onPopOverOpened;
       this.setState(
         {
           isOpened: true
         },
-        () => onPopOverOpen && onPopOverOpen(this.props.popOver)
+        () => onPopOverOpened && onPopOverOpened(this.props.popOver)
       );
     }
 
@@ -83,12 +83,12 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
         return;
       }
 
-      const onPopOverClose = this.props.onPopOverClose;
+      const onPopOverClosed = this.props.onPopOverClosed;
       this.setState(
         {
           isOpened: false
         },
-        () => onPopOverClose && onPopOverClose(this.props.popOver)
+        () => onPopOverClosed && onPopOverClosed(this.props.popOver)
       );
     }
 

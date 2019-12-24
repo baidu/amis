@@ -11,6 +11,7 @@ export interface ImageProps {
   imageClassName?: string;
   description?: string;
   thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+  thumbRatio?: '1-1' | '4-3' | '16-9';
   classnames: ClassNamesFn;
   classPrefix: string;
   onLoad?: React.EventHandler<any>;
@@ -23,6 +24,7 @@ export class Image extends React.Component<ImageProps> {
       className,
       imageClassName,
       thumbMode,
+      thumbRatio,
       src,
       alt,
       title,
@@ -35,7 +37,8 @@ export class Image extends React.Component<ImageProps> {
         <div
           className={cx(
             'Image-thumb',
-            thumbMode ? `Image-thumb--${thumbMode}` : ''
+            thumbMode ? `Image-thumb--${thumbMode}` : '',
+            thumbRatio ? `Image-thumb--${thumbRatio}` : ''
           )}
         >
           <img
@@ -66,13 +69,18 @@ export interface ImageFieldProps extends RendererProps {
   placeholder?: string;
   description?: string;
   thumbMode: 'w-full' | 'h-full' | 'contain' | 'cover';
+  thumbRatio: '1-1' | '4-3' | '16-9';
 }
 
 export class ImageField extends React.Component<ImageFieldProps, object> {
-  static defaultProps: Pick<ImageFieldProps, 'defaultImage' | 'thumbMode'> = {
+  static defaultProps: Pick<
+    ImageFieldProps,
+    'defaultImage' | 'thumbMode' | 'thumbRatio'
+  > = {
     defaultImage:
       'https://fex.bdstatic.com/n/static/amis/renderers/crud/field/placeholder_cfad9b1.png',
-    thumbMode: 'contain'
+    thumbMode: 'contain',
+    thumbRatio: '1-1'
   };
 
   render() {
@@ -85,7 +93,8 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       imageClassName,
       classnames: cx,
       src,
-      thumbMode
+      thumbMode,
+      thumbRatio
     } = this.props;
 
     const finnalSrc = src ? filter(src, data, '| raw') : '';
@@ -99,6 +108,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
           title={filter(title, data)}
           description={filter(description, data)}
           thumbMode={thumbMode}
+          thumbRatio={thumbRatio}
         />
       </div>
     );
