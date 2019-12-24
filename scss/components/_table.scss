@@ -57,6 +57,10 @@
       }
     }
 
+    > .#{$ns}Table-heading {
+      border-bottom: none;
+    }
+
     > .#{$ns}Table-wrapper {
       border-top: $Table-borderWidth solid $Table-borderColor;
     }
@@ -354,7 +358,7 @@
           position: relative;
 
           &::before {
-            content: '';
+            content: "";
             position: absolute;
             width: px2rem(1px);
             top: 0;
@@ -365,7 +369,7 @@
           }
 
           &::after {
-            content: '';
+            content: "";
             position: absolute;
             height: px2rem(1px);
             top: px2rem(20px);
@@ -438,7 +442,7 @@
       // position: relative;
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         width: px2rem(1px);
         top: px2rem(30px);
