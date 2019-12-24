@@ -135,6 +135,9 @@
     flex-basis: 0;
     flex-grow: 1;
     max-width: 100%;
+    width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &-fieldLabel {

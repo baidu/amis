@@ -4,6 +4,9 @@
   border-radius: $Card-borderRadius;
   margin-bottom: $gap-base;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
   &-title {
     color: $text--loud-color;
@@ -14,10 +17,19 @@
   }
 
   &-subTitle {
-    white-space: nowrap;
+    // white-space: nowrap;
+    max-height: $fontSizeBase * $lineHeightBase * 2;
     overflow: hidden;
     text-overflow: ellipsis;
     color: $text--muted-color;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+  }
+
+  &-title + &-subTitle {
+    margin-top: $gap-xs;
   }
 
   &-checkBtn {
@@ -41,6 +53,7 @@
   &-heading {
     overflow: hidden;
     padding: $gap-sm $gap-base;
+    flex: 1 0 auto;
   }
 
   &-avtar {
@@ -74,6 +87,7 @@
 
   &-body {
     padding: $gap-base;
+    flex: 1 0 auto;
   }
 
   &-heading + &-body {
@@ -91,6 +105,8 @@
     flex-basis: 0;
     flex-grow: 1;
     width: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   &-fieldLabel {

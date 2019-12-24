@@ -3,7 +3,7 @@
 视频播放器。
 
 | 属性名    | 类型      | 默认值    | 说明                               |
-|-----------|-----------|-----------|------------------------------------|
+| --------- | --------- | --------- | ---------------------------------- |
 | type      | `string`  | `"video"` | 指定为 video 渲染器                |
 | className | `string`  |           | 外层 Dom 的类名                    |
 | src       | `string`  |           | 视频地址                           |
@@ -17,7 +17,7 @@
 {
     "type": "video",
     "autoPlay": false,
-    "src": "raw:https://media.w3.org/2010/05/sintel/trailer_hd.mp4",
-    "poster": "raw:https://video-react.js.org/assets/poster.png"
+    "src": "raw:https://amis.bj.bcebos.com/amis/2019-12/1577157317579/trailer_hd.mp4",
+    "poster": "raw:https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png"
 }
 ```
