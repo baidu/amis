@@ -6,7 +6,7 @@ import cx from 'classnames';
 import getExprProperties from '../utils/filter-schema';
 import {filter, evalExpression} from '../utils/tpl';
 import {createObject, mapTree, someTree} from '../utils/helper';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {resolveVariable, isPureVariable} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {Api} from '../types';
@@ -55,7 +55,7 @@ export default class Navigation extends React.Component<
         props,
         (props.source &&
           typeof props.source === 'string' &&
-          /^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source) &&
+          isPureVariable(props.source) &&
           resolveVariable(props.source, props.data)) ||
           props.links
       )
@@ -65,7 +65,7 @@ export default class Navigation extends React.Component<
   componentDidMount() {
     const {source} = this.props;
 
-    if (source && !/^\$(?:([a-z0-9_.]+)|{.+})$/.test(source)) {
+    if (source && !isPureVariable(source as string)) {
       this.reload();
     }
   }
@@ -73,10 +73,7 @@ export default class Navigation extends React.Component<
   componentWillReceiveProps(nextProps: NavigationProps) {
     const props = this.props;
 
-    if (
-      nextProps.source &&
-      /^\$(?:([a-z0-9_.]+)|{.+})$/.test(nextProps.source as string)
-    ) {
+    if (nextProps.source && isPureVariable(nextProps.source as string)) {
       if (nextProps.source !== props.source) {
         this.setState({
           links: this.syncLinks(nextProps)
@@ -108,10 +105,7 @@ export default class Navigation extends React.Component<
   componentDidUpdate(prevProps: NavigationProps) {
     const props = this.props;
 
-    if (
-      props.source &&
-      !/^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source as string)
-    ) {
+    if (props.source && !isPureVariable(props.source as string)) {
       isApiOutdated(
         prevProps.source,
         props.source,
