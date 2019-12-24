@@ -7,7 +7,7 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import LazyComponent from '../components/LazyComponent';
 import {resizeSensor} from '../utils/resize-sensor';
-import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {resolveVariableAndFilter, isPureVariable} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 
@@ -51,7 +51,7 @@ export class Chart extends React.Component<ChartProps> {
 
     this.mounted = true;
 
-    if (source && /^\$(?:([a-z0-9_.]+)|{.+})$/.test(source)) {
+    if (source && isPureVariable(source)) {
       const ret = resolveVariableAndFilter(source, data, '| raw');
       ret && this.renderChart(ret);
     } else if (api && initFetch !== false) {
@@ -68,10 +68,7 @@ export class Chart extends React.Component<ChartProps> {
 
     if (isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)) {
       this.reload();
-    } else if (
-      props.source &&
-      /^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source)
-    ) {
+    } else if (props.source && isPureVariable(props.source)) {
       const prevRet = prevProps.source
         ? resolveVariableAndFilter(prevProps.source, prevProps.data, '| raw')
         : null;

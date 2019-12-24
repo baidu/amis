@@ -351,6 +351,9 @@ export const resolveVariable = (path: string, data: any = {}): any => {
   }, data);
 };
 
+export const isPureVariable = (path: string) =>
+  /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(path);
+
 export const resolveVariableAndFilter = (
   path: string,
   data: object = {},
@@ -443,9 +446,12 @@ export const tokenize = (
   );
 };
 
-function resolveMapping(value: any, data: PlainObject, defaultFilter = '| raw') {
-  return typeof value === 'string' &&
-    /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(value)
+function resolveMapping(
+  value: any,
+  data: PlainObject,
+  defaultFilter = '| raw'
+) {
+  return typeof value === 'string' && isPureVariable(value)
     ? resolveVariableAndFilter(value, data, defaultFilter)
     : typeof value === 'string' && ~value.indexOf('$')
     ? tokenize(value, data, defaultFilter)
