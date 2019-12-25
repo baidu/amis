@@ -46,6 +46,7 @@ export default class FormControl extends React.PureComponent<
 > {
   public model: IFormItemStore | undefined;
   control: any;
+  value?: any;
   hook?: () => any;
   hook2?: () => any;
   hook3?: () => any;
@@ -61,7 +62,7 @@ export default class FormControl extends React.PureComponent<
     trailing: true,
     leading: false
   });
-  state = {value: this.props.control.value};
+  state = {value: this.value = this.props.control.value};
   componentWillMount() {
     const {
       formStore: form,
@@ -122,11 +123,11 @@ export default class FormControl extends React.PureComponent<
 
     // 同步 value
     this.setState({
-      value: model.value
+      value: this.value = model.value
     });
     this.reaction = reaction(
       () => model.value,
-      value => this.setState({value})
+      value => this.setState({value: this.value = value})
     );
   }
 
@@ -371,28 +372,25 @@ export default class FormControl extends React.PureComponent<
       value = pipeOut(value, oldValue, form.data);
     }
 
-    this.setState(
-      {
-        value
-      },
-      () =>
-        changeImmediately || conrolChangeImmediately || !formInited
-          ? this.emitChange(submitOnChange)
-          : this.lazyEmitChange(submitOnChange)
-    );
+    this.setState({
+      value: this.value = value
+    });
+    changeImmediately || conrolChangeImmediately || !formInited
+      ? this.emitChange(submitOnChange)
+      : this.lazyEmitChange(submitOnChange);
   }
 
   emitChange(submitOnChange: boolean = this.props.control.submitOnChange) {
     const {
       formStore: form,
       onChange,
-      control: {validateOnChange, name, pipeOut, onChange: onFormItemChange}
+      control: {validateOnChange, name, onChange: onFormItemChange}
     } = this.props;
 
     if (!this.model) {
       return;
     }
-    let value = this.state.value;
+    const value = this.value; // value 跟 this.state.value 更及时。
     const oldValue = this.model.value;
 
     if (oldValue === value) {
@@ -445,8 +443,9 @@ export default class FormControl extends React.PureComponent<
       return;
     }
 
-    let lastKey: string = '',
-      lastValue: any;
+    let lastKey: string = '';
+    let lastValue: any;
+
     Object.keys(values).forEach(key => {
       const value = values[key];
       lastKey = key;
