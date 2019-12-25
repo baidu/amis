@@ -1076,7 +1076,7 @@ export default class Table extends React.Component<TableProps, object> {
         )}
       >
         <div className={cx(`${ns}TableCell--title`)}>
-          {render("tpl", column.label)}
+          {column.label ? render("tpl", column.label) : null}
 
           {column.remark
             ? render("remark", {
@@ -1235,7 +1235,7 @@ export default class Table extends React.Component<TableProps, object> {
                       data-index={item.index}
                       colSpan={item.colSpan}
                     >
-                      {render("tpl", item.label)}
+                      {item.label ? render("tpl", item.label) : null}
                     </th>
                   ))}
                 </tr>
@@ -1287,7 +1287,7 @@ export default class Table extends React.Component<TableProps, object> {
             <tr>
               {store.columnGroup.map((item, index) => (
                 <th key={index} data-index={item.index} colSpan={item.colSpan}>
-                  {render("tpl", item.label)}
+                  {item.label ? render("tpl", item.label) : null}
                 </th>
               ))}
             </tr>
@@ -1389,7 +1389,7 @@ export default class Table extends React.Component<TableProps, object> {
               checked={column.toggled}
               onChange={column.toggleToggle}
             >
-              {render("tpl", column.label)}
+              {column.label ? render("tpl", column.label) : null}
             </Checkbox>
           </li>
         ))}
@@ -1749,7 +1749,7 @@ export default class Table extends React.Component<TableProps, object> {
                     data-index={item.index}
                     colSpan={item.colSpan}
                   >
-                    {render("tpl", item.label)}
+                    {item.label ? render("tpl", item.label) : null}
                   </th>
                 ))}
               </tr>
