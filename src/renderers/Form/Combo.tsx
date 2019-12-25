@@ -21,6 +21,19 @@ import Select from '../../components/Select';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {isEffectiveApi} from '../../utils/api';
 import {Alert2} from '../../components';
+import memoize from 'fast-memoize';
+
+const formatValue = memoize(
+  (value: any, index: number, data: any) => {
+    return createObject(
+      extendObject(data, {index, __index: index, ...data}),
+      value
+    );
+  },
+  {
+    serializer: (args: Array<any>) => JSON.stringify(args.slice(0, 2))
+  }
+);
 
 export interface Condition {
   test: string;
@@ -505,6 +518,11 @@ export default class ComboControl extends React.Component<ComboProps> {
   refsMap: {
     [propName: number]: any;
   } = {};
+
+  makeFormRef = memoize((index: number) => (ref: any) =>
+    this.formRef(ref, index)
+  );
+
   formRef(ref: any, index: number = 0) {
     if (ref) {
       while (ref && ref.getWrappedInstance) {
@@ -523,7 +541,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   formatValue(value: any, index: number) {
-    const {flat, data} = this.props;
+    const {flat, data, store} = this.props;
 
     if (flat) {
       value = {
@@ -532,10 +550,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     value = value || this.defaultValue;
-    return createObject(
-      extendObject(data, {index, __index: index, ...data}),
-      value
-    );
+
+    return formatValue(value, index, data);
   }
 
   pickCondition(value: any): Condition | null {
@@ -754,7 +770,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       onChange: this.handleChange,
                       onInit: this.handleFormInit,
                       onAction: this.handleAction,
-                      ref: (ref: any) => this.formRef(ref, index),
+                      ref: this.makeFormRef(index),
                       canAccessSuperData,
                       value: undefined,
                       formItemValue: undefined
@@ -926,7 +942,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                             onChange: this.handleChange,
                             onInit: this.handleFormInit,
                             onAction: this.handleAction,
-                            ref: (ref: any) => this.formRef(ref, index),
+                            ref: this.makeFormRef(index),
                             canAccessSuperData,
                             value: undefined,
                             formItemValue: undefined
@@ -1058,7 +1074,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   disabled: disabled,
                   data: isObject(value) ? value : this.defaultValue,
                   onChange: this.handleSingleFormChange,
-                  ref: (ref: any) => this.formRef(ref),
+                  ref: this.makeFormRef(0),
                   onInit: this.handleSingleFormInit,
                   canAccessSuperData
                 }

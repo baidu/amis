@@ -1,11 +1,4 @@
-import {
-  types,
-  SnapshotIn,
-  getParent,
-  flow,
-  getEnv,
-  getRoot
-} from 'mobx-state-tree';
+import {types, SnapshotIn} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {FormItemStore, IFormItemStore} from './formItem';
 import {FormStore, IFormStore} from './form';
