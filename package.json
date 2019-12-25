@@ -72,7 +72,8 @@
     "sortablejs": "1.10.0",
     "tslib": "^1.10.0",
     "uncontrollable": "4.1.0",
-    "video-react": "0.9.4"
+    "video-react": "0.9.4",
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "@types/dom-helpers": "^3.4.1",

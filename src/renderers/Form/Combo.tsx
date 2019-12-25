@@ -303,13 +303,11 @@ export default class ComboControl extends React.Component<ComboProps> {
 
   handleChange(values: any, diff: any, {index}: any) {
     const {
-      formItem,
       flat,
       store,
       joinValues,
       delimiter,
       disabled,
-      validateOnChange,
       submitOnChange
     } = this.props;
 
@@ -325,10 +323,6 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     this.props.onChange(value, submitOnChange, true);
-
-    if (validateOnChange !== false && formItem && formItem.validated) {
-      this.subForms.forEach(item => item.validate());
-    }
 
     store.forms.forEach(item =>
       item.items.forEach(item => item.unique && item.syncOptions())

@@ -538,8 +538,16 @@ export default class Form extends React.Component<FormProps, object> {
       trimValues
     } = this.props;
 
+    // 做动作之前，先把数据同步一下。
+    this.flush();
+
     if (trimValues) {
       store.trimValues();
+    }
+
+    // 如果 data 就是当前层，则 flush 一下。
+    if (data === this.props.data) {
+      data = store.data;
     }
 
     if (Array.isArray(action.required) && action.required.length) {
@@ -925,7 +933,8 @@ export default class Form extends React.Component<FormProps, object> {
       disabled: disabled || (control as Schema).disabled || form.loading,
       btnDisabled: form.loading || form.validating,
       onAction: this.handleAction,
-      onChange: formLazyChange === false ? this.handleChange : this.lazyHandleChange,
+      onChange:
+        formLazyChange === false ? this.handleChange : this.lazyHandleChange,
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
