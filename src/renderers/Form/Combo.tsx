@@ -117,6 +117,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   dragTip?: HTMLElement;
   sortable?: Sortable;
   defaultValue?: any;
+  toDispose: Array<Function> = [];
   constructor(props: ComboProps) {
     super(props);
 
@@ -128,6 +129,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.dragTipRef = this.dragTipRef.bind(this);
+    this.flush = this.flush.bind(this);
     this.handleComboTypeChange = this.handleComboTypeChange.bind(this);
     this.defaultValue = {
       ...props.scaffold
@@ -135,7 +137,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   componentWillMount() {
-    const {store, value, minLength, maxLength, formItem} = this.props;
+    const {store, value, minLength, maxLength, formItem, addHook} = this.props;
 
     store.config({
       minLength,
@@ -144,6 +146,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     });
 
     formItem && formItem.setSubStore(store);
+    this.toDispose.push(addHook(this.flush, 'flush'));
   }
 
   componentWillReceiveProps(nextProps: ComboProps) {
@@ -169,6 +172,9 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {formItem} = this.props;
 
     formItem && formItem.setSubStore(null);
+
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
   }
 
   getValueAsArray(props = this.props) {
@@ -446,6 +452,10 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
   }
 
+  flush() {
+    this.subForms.forEach(form => form.flush());
+  }
+
   dragTipRef(ref: any) {
     if (!this.dragTip && ref) {
       this.initDragging();
@@ -498,8 +508,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.sortable && this.sortable.destroy();
   }
 
-  refsMap:{
-    [propName: number]: any
+  refsMap: {
+    [propName: number]: any;
   } = {};
   formRef(ref: any, index: number = 0) {
     if (ref) {
@@ -511,7 +521,9 @@ export default class ComboControl extends React.Component<ComboProps> {
     } else {
       const form = this.refsMap[index];
       this.subForms = this.subForms.filter(item => item !== form);
-      this.subFormDefaultValues = this.subFormDefaultValues.filter(({index: dIndex}) => dIndex !== index);
+      this.subFormDefaultValues = this.subFormDefaultValues.filter(
+        ({index: dIndex}) => dIndex !== index
+      );
       delete this.refsMap[index];
     }
   }
@@ -739,9 +751,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       wrapperComponent: 'div',
                       wrapWithPanel: false,
                       mode: subFormMode,
-                      className: cx(`Combo-form`, formClassName),
-                      lazyChange: false,
-                      formLazyChange: false
+                      className: cx(`Combo-form`, formClassName)
                     },
                     {
                       index,
@@ -913,9 +923,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                             wrapperComponent: 'div',
                             wrapWithPanel: false,
                             mode: multiLine ? subFormMode : 'row',
-                            className: cx(`Combo-form`, formClassName),
-                            lazyChange: false,
-                            formLazyChange: false
+                            className: cx(`Combo-form`, formClassName)
                           },
                           {
                             index,
@@ -1050,9 +1058,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   wrapperComponent: 'div',
                   wrapWithPanel: false,
                   mode: multiLine ? 'normal' : 'row',
-                  className: cx(`Combo-form`, formClassName),
-                  lazyChange: false,
-                  formLazyChange: false
+                  className: cx(`Combo-form`, formClassName)
                 },
                 {
                   disabled: disabled,
