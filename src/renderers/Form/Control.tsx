@@ -33,7 +33,7 @@ export interface ControlProps extends RendererProps {
   formStore: IFormStore;
   store: IIRendererStore;
   addHook: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
-  removeHook: (fn: () => any) => void;
+  removeHook: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
 }
 
 interface ControlState {
