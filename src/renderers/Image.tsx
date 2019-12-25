@@ -66,7 +66,7 @@ export default ThemedImage;
 export interface ImageFieldProps extends RendererProps {
   className?: string;
   imageClassName?: string;
-  placeholder?: string;
+  placeholder: string;
   description?: string;
   thumbMode: 'w-full' | 'h-full' | 'contain' | 'cover';
   thumbRatio: '1-1' | '4-3' | '16-9';
@@ -75,12 +75,13 @@ export interface ImageFieldProps extends RendererProps {
 export class ImageField extends React.Component<ImageFieldProps, object> {
   static defaultProps: Pick<
     ImageFieldProps,
-    'defaultImage' | 'thumbMode' | 'thumbRatio'
+    'defaultImage' | 'thumbMode' | 'thumbRatio' | 'placeholder'
   > = {
     defaultImage:
       'https://fex.bdstatic.com/n/static/amis/renderers/crud/field/placeholder_cfad9b1.png',
     thumbMode: 'contain',
-    thumbRatio: '1-1'
+    thumbRatio: '1-1',
+    placeholder: '-'
   };
 
   render() {
@@ -94,22 +95,27 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       classnames: cx,
       src,
       thumbMode,
-      thumbRatio
+      thumbRatio,
+      placeholder
     } = this.props;
 
     const finnalSrc = src ? filter(src, data, '| raw') : '';
-    let value = this.props.value;
+    let value = finnalSrc || this.props.value || defaultImage;
 
     return (
       <div className={cx('ImageField', className)}>
-        <ThemedImage
-          imageClassName={imageClassName}
-          src={finnalSrc || value || defaultImage}
-          title={filter(title, data)}
-          description={filter(description, data)}
-          thumbMode={thumbMode}
-          thumbRatio={thumbRatio}
-        />
+        {value ? (
+          <ThemedImage
+            imageClassName={imageClassName}
+            src={value}
+            title={filter(title, data)}
+            description={filter(description, data)}
+            thumbMode={thumbMode}
+            thumbRatio={thumbRatio}
+          />
+        ) : (
+          <span className="text-muted">{placeholder}</span>
+        )}
       </div>
     );
   }
