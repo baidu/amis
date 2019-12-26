@@ -35,7 +35,6 @@
     "dom-helpers": "3.3.1",
     "downshift": "3.1.4",
     "echarts": "^4.1.0",
-    "fast-memoize": "2.5.1",
     "flv.js": "1.5.0",
     "froala-editor": "2.9.6",
     "history": "4.7.2",

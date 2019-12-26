@@ -80,6 +80,10 @@ export function syncDataFromSuper(
 
   if (superObject || prevSuperObject) {
     keys.forEach(key => {
+      if (!key) {
+        return;
+      }
+
       if (
         ((superObject && typeof superObject[key] !== 'undefined') ||
           (prevSuperObject && typeof prevSuperObject[key] !== 'undefined')) &&
