@@ -1023,7 +1023,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
         {failed ? (
           <div className={cx('FileControl-sum')}>
-            已成功上传{uploaded}个文件，{failed}个文件上传上传失败，
+            已成功上传{uploaded}个文件，{failed}个文件上传失败，
             <a onClick={this.retry}>重新上传</a>失败文件
           </div>
         ) : null}
