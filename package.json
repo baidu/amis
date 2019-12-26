@@ -35,6 +35,7 @@
     "dom-helpers": "3.3.1",
     "downshift": "3.1.4",
     "echarts": "^4.1.0",
+    "fast-memoize": "2.5.1",
     "flv.js": "1.5.0",
     "froala-editor": "2.9.6",
     "history": "4.7.2",
@@ -42,6 +43,7 @@
     "hoist-non-react-statics": "3.3.0",
     "jquery": "^3.2.1",
     "keycode": "^2.1.9",
+    "lodash": "^4.17.15",
     "match-sorter": "2.2.1",
     "mobx": "^4.5.0",
     "mobx-react": "^6.1.4",
@@ -72,8 +74,7 @@
     "sortablejs": "1.10.0",
     "tslib": "^1.10.0",
     "uncontrollable": "4.1.0",
-    "video-react": "0.9.4",
-    "lodash": "^4.17.15"
+    "video-react": "0.9.4"
   },
   "devDependencies": {
     "@types/dom-helpers": "^3.4.1",
