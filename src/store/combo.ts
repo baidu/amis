@@ -1,4 +1,4 @@
-import {types, SnapshotIn} from 'mobx-state-tree';
+import {types, SnapshotIn, isAlive} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {FormItemStore, IFormItemStore} from './formItem';
 import {FormStore, IFormStore} from './form';

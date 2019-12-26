@@ -32,6 +32,7 @@ import {dataMapping} from '../../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {LazyComponent} from '../../components';
+import {isAlive} from 'mobx-state-tree';
 export type FormGroup = FormSchema & {
   title?: string;
   className?: string;
@@ -320,7 +321,7 @@ export default class Form extends React.Component<FormProps, object> {
       store.parentStore.storeType === 'ComboStore'
     ) {
       const combo = store.parentStore as IComboStore;
-      combo.removeForm(store);
+      isAlive(combo) && combo.removeForm(store);
     }
   }
 
