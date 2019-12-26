@@ -21,18 +21,17 @@ import Select from '../../components/Select';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {isEffectiveApi} from '../../utils/api';
 import {Alert2} from '../../components';
-import memoize from 'fast-memoize';
+import memoize from 'lodash/memoize';
 
 const formatValue = memoize(
-  (value: any, index: number, data: any) => {
+  (strictMode: boolean, value: any, index: number, data: any) => {
     return createObject(
       extendObject(data, {index, __index: index, ...data}),
       value
     );
   },
-  {
-    serializer: (args: Array<any>) => JSON.stringify(args.slice(0, 2))
-  }
+  (strictMode: boolean, ...args: Array<any>) =>
+    strictMode ? JSON.stringify(args.slice(0, 2)) : JSON.stringify(args)
 );
 
 export interface Condition {
@@ -74,6 +73,7 @@ export interface ComboProps extends FormControlProps {
   tabsStyle: '' | 'line' | 'card' | 'radio';
   tabsLabelTpl?: string;
   lazyLoad?: boolean;
+  strictMode?: boolean;
   messages?: {
     validateFailed?: string;
     minLengthValidateFailed?: string;
@@ -118,7 +118,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     'conditions',
     'tabsMode',
     'tabsStyle',
-    'lazyLoad'
+    'lazyLoad',
+    'strictMode'
   ];
 
   subForms: Array<any> = [];
@@ -543,7 +544,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   formatValue(value: any, index: number) {
-    const {flat, data, store} = this.props;
+    const {flat, data, strictMode} = this.props;
 
     if (flat) {
       value = {
@@ -553,7 +554,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     value = value || this.defaultValue;
 
-    return formatValue(value, index, data);
+    return formatValue(strictMode !== false, value, index, data);
   }
 
   pickCondition(value: any): Condition | null {

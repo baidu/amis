@@ -93,7 +93,9 @@ export const ComboStore = iRendererStore
     }
 
     function removeForm(form: IFormStore) {
-      self.forms.remove(form);
+      // form 可能再它自己销毁的是已经被移除了。因为调用的是 destroy，所以 self.forms 里面也被一起移除。
+      // 再来尝试移除，会报错。
+      self.forms.includes(form) && self.forms.remove(form);
     }
 
     function setActiveKey(key: number) {
