@@ -73,6 +73,7 @@ export interface ComboProps extends FormControlProps {
   tabsMode: boolean;
   tabsStyle: '' | 'line' | 'card' | 'radio';
   tabsLabelTpl?: string;
+  lazyLoad?: boolean;
   messages?: {
     validateFailed?: string;
     minLengthValidateFailed?: string;
@@ -116,7 +117,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     'noBorder',
     'conditions',
     'tabsMode',
-    'tabsStyle'
+    'tabsStyle',
+    'lazyLoad'
   ];
 
   subForms: Array<any> = [];
@@ -818,7 +820,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       dragIcon,
       deleteIcon,
       noBorder,
-      conditions
+      conditions,
+      lazyLoad
     } = this.props;
 
     let controls = this.props.controls;
@@ -943,6 +946,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                             onInit: this.handleFormInit,
                             onAction: this.handleAction,
                             ref: this.makeFormRef(index),
+                            lazyLoad,
                             canAccessSuperData,
                             value: undefined,
                             formItemValue: undefined
