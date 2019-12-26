@@ -58,7 +58,7 @@ export default class ChainedSelectControl extends React.Component<
   componentDidUpdate(prevProps: ChainedSelectProps) {
     const props = this.props;
 
-    if (props.value !== prevProps.value) {
+    if (props.formInited && props.value !== prevProps.value) {
       this.loadMore();
     }
   }

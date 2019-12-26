@@ -86,8 +86,8 @@ export default class MatrixCheckbox extends React.Component<
         rows: nextProps.rows || []
       });
     } else if (
-      nextProps.source !== props.source ||
-      props.data !== nextProps.data
+      nextProps.formInited &&
+      (nextProps.source !== props.source || props.data !== nextProps.data)
     ) {
       let prevApi = buildApi(props.source as string, props.data as object, {
         ignoreData: true
