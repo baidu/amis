@@ -461,10 +461,14 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   // 限制：只有 schema 除外的 props 变化，或者 schema 里面的某个成员值发生变化才更新。
   shouldComponentUpdate(nextProps: SchemaRendererProps) {
     const props = this.props;
-    const list: Array<string> = difference(Object.keys(nextProps), ['schema']);
+    const list: Array<string> = difference(Object.keys(nextProps), [
+      'schema',
+      'scope'
+    ]);
 
     if (
-      difference(Object.keys(props), ['schema']).length !== list.length ||
+      difference(Object.keys(props), ['schema', 'scope']).length !==
+        list.length ||
       anyChanged(list, this.props, nextProps)
     ) {
       return true;
@@ -763,7 +767,11 @@ export function HocStoreFactory(renderer: {
                 ...store.data
               })
             );
-        } else if (props.scope !== nextProps.scope) {
+        } else if (
+          nextProps.scope &&
+          nextProps.data === nextProps.store!.data &&
+          props.data !== nextProps.data
+        ) {
           store.initData(
             createObject(nextProps.scope, {
               // ...nextProps.data,
