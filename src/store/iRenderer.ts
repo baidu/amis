@@ -1,4 +1,4 @@
-import {types, getRoot, Instance, destroy} from 'mobx-state-tree';
+import {types, getRoot, Instance, destroy, isAlive} from 'mobx-state-tree';
 import {extendObject, createObject} from '../utils/helper';
 import {IRendererStore} from './index';
 import {dataMapping} from '../utils/tpl-builtin';
@@ -26,7 +26,8 @@ export const iRendererStore = types
     return {
       // todo 不能自己引用自己
       get parentStore(): any {
-        return self.parentId &&
+        return isAlive(self) &&
+          self.parentId &&
           getRoot(self) &&
           (getRoot(self) as IRendererStore).storeType === 'RendererStore'
           ? (getRoot(self) as IRendererStore).stores.get(self.parentId)

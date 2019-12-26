@@ -31,6 +31,7 @@ import qs = require('qs');
 import {dataMapping} from '../../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
+import {LazyComponent} from '../../components';
 export type FormGroup = FormSchema & {
   title?: string;
   className?: string;
@@ -88,6 +89,7 @@ export interface FormProps extends RendererProps, FormSchema {
   persistData: boolean; // 开启本地缓存
   clearPersistDataAfterSubmit: boolean; // 提交成功后清空本地缓存
   trimValues?: boolean;
+  lazyLoad?: boolean;
   onInit?: (values: object, props: any) => any;
   onReset?: (values: object) => void;
   onSubmit?: (values: object, action: any) => any;
@@ -155,7 +157,8 @@ export default class Form extends React.Component<FormProps, object> {
     'onFinished',
     'canAccessSuperData',
     'lazyChange',
-    'formLazyChange'
+    'formLazyChange',
+    'lazyLoad'
   ];
 
   hooks: {
@@ -1058,7 +1061,8 @@ export default class Form extends React.Component<FormProps, object> {
       actionsClassName,
       bodyClassName,
       classnames: cx,
-      affixFooter
+      affixFooter,
+      lazyLoad
     } = this.props;
 
     let body: JSX.Element = this.renderBody();
@@ -1084,6 +1088,10 @@ export default class Form extends React.Component<FormProps, object> {
           affixFooter
         }
       ) as JSX.Element;
+    }
+
+    if (lazyLoad) {
+      body = <LazyComponent>{body}</LazyComponent>;
     }
 
     return body;
