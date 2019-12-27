@@ -12,6 +12,7 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | className                             | `string`                       |                                 | 表格外层 Dom 的类名                                                                                                   |
 | [api](#api)                           | [Api](./Types.md#Api)          |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
 | loadDataOnce                          | `boolean`                      |                                 | 是否一次性加载所有数据（前端分页）                                                                                    |
+| loadDataOnceFetchOnFilter             | `boolean`                      |  `true`                         | 在开启loadDataOnce时，filter时是否去重新请求api                                                                     |
 | source                                | `string`                       |                                 | 数据映射接口返回某字段的值，不设置会默认把接口返回的`items`或者`rows`填充进`mode`区域                                 |
 | filter                                | [Form](./Form/Form.md)         |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 `mode` 刷新列表。                                                        |
 | filterTogglable                       | `boolean`                      | `false`                         | 是否可显隐过滤器                                                                                                      |
