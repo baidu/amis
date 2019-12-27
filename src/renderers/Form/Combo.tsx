@@ -22,18 +22,6 @@ import {dataMapping} from '../../utils/tpl-builtin';
 import {isEffectiveApi} from '../../utils/api';
 import {Alert2} from '../../components';
 import memoize from 'lodash/memoize';
-
-const formatValue = memoize(
-  (strictMode: boolean, value: any, index: number, data: any) => {
-    return createObject(
-      extendObject(data, {index, __index: index, ...data}),
-      value
-    );
-  },
-  (strictMode: boolean, ...args: Array<any>) =>
-    strictMode ? JSON.stringify(args.slice(0, 2)) : JSON.stringify(args)
-);
-
 export interface Condition {
   test: string;
   controls: Array<Schema>;
@@ -191,6 +179,8 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
+    this.memoizedFormatValue.cache.clear?.();
+    this.makeFormRef.cache.clear?.();
   }
 
   getValueAsArray(props = this.props) {
@@ -543,6 +533,17 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
   }
 
+  memoizedFormatValue = memoize(
+    (strictMode: boolean, value: any, index: number, data: any) => {
+      return createObject(
+        extendObject(data, {index, __index: index, ...data}),
+        value
+      );
+    },
+    (strictMode: boolean, ...args: Array<any>) =>
+      strictMode ? JSON.stringify(args.slice(0, 2)) : JSON.stringify(args)
+  );
+
   formatValue(value: any, index: number) {
     const {flat, data, strictMode} = this.props;
 
@@ -554,7 +555,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     value = value || this.defaultValue;
 
-    return formatValue(strictMode !== false, value, index, data);
+    return this.memoizedFormatValue(strictMode !== false, value, index, data);
   }
 
   pickCondition(value: any): Condition | null {
