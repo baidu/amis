@@ -69,6 +69,7 @@ interface CRUDProps extends RendererProps {
   syncResponse2Query?: boolean;
   keepItemSelectionOnPageChange?: boolean;
   loadDataOnce?: boolean;
+  loadDataOnceFetchOnFilter?: boolean; // 在开启loadDataOnce时，filter时是否去重新请求api
   source?: string;
 }
 
@@ -114,6 +115,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'labelTpl',
     'labelField',
     'loadDataOnce',
+    'loadDataOnceFetchOnFilter',
     'source'
   ];
   static defaultProps = {
@@ -129,7 +131,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     silentPolling: false,
     filterTogglable: false,
     filterDefaultVisible: true,
-    loadDataOnce: false
+    loadDataOnce: false,
+    loadDataOnceFetchOnFilter: true
   };
 
   control: any;
@@ -685,6 +688,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       env,
       loadDataOnce,
+      loadDataOnceFetchOnFilter,
       source
     } = this.props;
 
@@ -720,6 +724,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             autoAppend: true,
             forceReload,
             loadDataOnce,
+            loadDataOnceFetchOnFilter,
             source,
             silent,
             pageField,
