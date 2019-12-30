@@ -3,7 +3,7 @@
  * List、ButtonGroup 等等
  */
 import {Api, Schema} from '../../types';
-import {isEffectiveApi, isApiOutdated} from '../../utils/api';
+import {isEffectiveApi, isApiOutdated, isValidApi} from '../../utils/api';
 import {isAlive} from 'mobx-state-tree';
 import {
   anyChanged,
@@ -158,15 +158,6 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       let loadOptions: boolean = initFetch !== false;
 
-      if (isPureVariable(source as string) && formItem) {
-        formItem.setOptions(
-          normalizeOptions(
-            resolveVariableAndFilter(source as string, data, '| raw') || []
-          )
-        );
-        loadOptions = false;
-      }
-
       if (formItem && joinValues === false && defaultValue) {
         const selectedOptions = extractValue
           ? formItem
@@ -210,7 +201,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       const props = this.props;
       const formItem = props.formItem as IFormItemStore;
 
-      if (!formItem) {
+      if (!formItem || !props.formInited) {
         return;
       } else if (!prevProps.formItem) {
         // todo 优化 name 变化情况。
@@ -242,6 +233,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           prevOptions !== options &&
             formItem.setOptions(normalizeOptions(options || []));
         } else if (
+          isEffectiveApi(props.source, props.data) &&
           isApiOutdated(
             prevProps.source,
             props.source,
@@ -440,7 +432,14 @@ export function registerOptionsControl(config: OptionsConfig) {
     reload() {
       const {source, formItem, data, onChange} = this.props;
 
-      if (!formItem || !isEffectiveApi(source, data)) {
+      if (formItem && isPureVariable(source as string)) {
+        formItem.setOptions(
+          normalizeOptions(
+            resolveVariableAndFilter(source as string, data, '| raw') || []
+          )
+        );
+        return;
+      } else if (!formItem || !isEffectiveApi(source, data)) {
         return;
       }
 

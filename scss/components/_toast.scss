@@ -90,6 +90,20 @@
     animation-name: bounceOut;
   }
 
+  &-close {
+    position: absolute;
+    top: $gap-xs;
+    right: $gap-sm;
+    color: $white;
+    line-height: 1;
+    opacity: 0.8;
+
+    &:hover {
+      color: $white;
+      opacity: 1;
+    }
+  }
+
   &-title {
     display: $Toast-display;
     font-size: $fontSizeMd;
