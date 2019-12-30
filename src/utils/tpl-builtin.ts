@@ -351,11 +351,13 @@ export const resolveVariable = (path: string, data: any = {}): any => {
   }, data);
 };
 
-export const isPureVariable = (path: string) =>
-  /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(path);
+export const isPureVariable = (path?: any) =>
+  typeof path === 'string'
+    ? /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(path)
+    : false;
 
 export const resolveVariableAndFilter = (
-  path: string,
+  path?: string,
   data: object = {},
   defaultFilter: string = '| html'
 ): any => {
