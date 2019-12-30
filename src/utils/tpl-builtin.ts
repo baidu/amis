@@ -351,7 +351,7 @@ export const resolveVariable = (path: string, data: any = {}): any => {
   }, data);
 };
 
-export const isPureVariable = (path?: string) =>
+export const isPureVariable = (path?: any) =>
   typeof path === 'string'
     ? /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(path)
     : false;

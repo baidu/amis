@@ -158,15 +158,6 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       let loadOptions: boolean = initFetch !== false;
 
-      if (isPureVariable(source as string) && formItem) {
-        formItem.setOptions(
-          normalizeOptions(
-            resolveVariableAndFilter(source as string, data, '| raw') || []
-          )
-        );
-        loadOptions = false;
-      }
-
       if (formItem && joinValues === false && defaultValue) {
         const selectedOptions = extractValue
           ? formItem
@@ -441,7 +432,14 @@ export function registerOptionsControl(config: OptionsConfig) {
     reload() {
       const {source, formItem, data, onChange} = this.props;
 
-      if (!formItem || !isEffectiveApi(source, data)) {
+      if (formItem && isPureVariable(source as string)) {
+        formItem.setOptions(
+          normalizeOptions(
+            resolveVariableAndFilter(source as string, data, '| raw') || []
+          )
+        );
+        return;
+      } else if (!formItem || !isEffectiveApi(source, data)) {
         return;
       }
 
