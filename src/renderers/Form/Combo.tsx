@@ -61,6 +61,7 @@ export interface ComboProps extends FormControlProps {
   tabsStyle: '' | 'line' | 'card' | 'radio';
   tabsLabelTpl?: string;
   lazyLoad?: boolean;
+  changeImmediately?: boolean;
   strictMode?: boolean;
   messages?: {
     validateFailed?: string;
@@ -107,6 +108,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     'tabsMode',
     'tabsStyle',
     'lazyLoad',
+    'changeImmediately',
     'strictMode'
   ];
 
@@ -631,7 +633,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       addIcon,
       deleteIcon,
       tabsLabelTpl,
-      conditions
+      conditions,
+      changeImmediately
     } = this.props;
 
     let controls = this.props.controls;
@@ -776,6 +779,8 @@ export default class ComboControl extends React.Component<ComboProps> {
                       onAction: this.handleAction,
                       ref: this.makeFormRef(index),
                       canAccessSuperData,
+                      lazyChange: changeImmediately ? false : true,
+                      lazyFormChange: changeImmediately ? false : true,
                       value: undefined,
                       formItemValue: undefined
                     }
@@ -823,7 +828,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       deleteIcon,
       noBorder,
       conditions,
-      lazyLoad
+      lazyLoad,
+      changeImmediately
     } = this.props;
 
     let controls = this.props.controls;
@@ -948,6 +954,8 @@ export default class ComboControl extends React.Component<ComboProps> {
                             onInit: this.handleFormInit,
                             onAction: this.handleAction,
                             ref: this.makeFormRef(index),
+                            lazyChange: changeImmediately ? false : true,
+                            lazyFormChange: changeImmediately ? false : true,
                             lazyLoad,
                             canAccessSuperData,
                             value: undefined,
