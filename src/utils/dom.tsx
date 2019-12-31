@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic = require('hoist-non-react-statics');
-import domOwnerDocument from 'dom-helpers/ownerDocument';
-import css from 'dom-helpers/css';
-import getOffset from 'dom-helpers/offset';
-import getPosition from 'dom-helpers/position';
-import getScrollTop from 'dom-helpers/scrollTop';
+import domOwnerDocument = require('dom-helpers/ownerDocument');
+import css = require('dom-helpers/style/index');
+import getOffset = require('dom-helpers/query/offset');
+import getPosition = require('dom-helpers/query/position');
+import getScrollTop = require('dom-helpers/query/scrollTop');
 
 const bsMapping: {
   [propName: string]: string;

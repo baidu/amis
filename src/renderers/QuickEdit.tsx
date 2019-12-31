@@ -14,7 +14,7 @@ import hoistNonReactStatic = require('hoist-non-react-statics');
 import onClickOutside from 'react-onclickoutside';
 import {Action} from '../types';
 import keycode from 'keycode';
-import matches from 'dom-helpers/matches';
+import matches = require('dom-helpers/query/matches');
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 
