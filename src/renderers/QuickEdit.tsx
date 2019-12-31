@@ -14,7 +14,7 @@ import hoistNonReactStatic = require('hoist-non-react-statics');
 import onClickOutside from 'react-onclickoutside';
 import {Action} from '../types';
 import keycode from 'keycode';
-import matches = require('dom-helpers/query/matches');
+import matches from 'dom-helpers/matches';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 
@@ -208,7 +208,12 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
           case 'right':
             nextTd = current.nextSibling;
             while (nextTd) {
-              if (matches(nextTd, `.${ns}Field--quickEditable[tabindex]`)) {
+              if (
+                matches(
+                  nextTd as Element,
+                  `.${ns}Field--quickEditable[tabindex]`
+                )
+              ) {
                 break;
               }
 
@@ -224,7 +229,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
               );
 
               if (nextTd) {
-                nextTd.focus();
+                (nextTd as any).focus();
               }
             }
             break;

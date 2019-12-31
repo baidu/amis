@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import css = require('dom-helpers/style');
+import css from 'dom-helpers/css';
 import {ClassNamesFn, themeable} from '../theme';
 import Transition, {
   EXITED,
