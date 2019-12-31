@@ -218,3 +218,14 @@
 .#{$ns}Dialog-error {
   color: $danger;
 }
+
+.#{$ns}Modal--full .#{$ns}Modal-content {
+  width: calc(100% - 60px);
+  height: calc(100% - 60px);
+  max-width: unset;
+  margin: px2rem(30px);
+
+  .#{$ns}Modal-body {
+    overflow: auto;
+  }
+}

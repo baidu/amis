@@ -17,7 +17,7 @@ import {Spinner} from '../components';
 
 export interface DialogProps extends RendererProps {
   title?: string; // 标题
-  size?: 'md' | 'lg' | 'sm' | 'xl';
+  size?: 'md' | 'lg' | 'sm' | 'xl' | 'full';
   closeOnEsc?: boolean;
   onClose: () => void;
   onConfirm: (
