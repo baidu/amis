@@ -152,7 +152,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     });
 
     formItem && formItem.setSubStore(store);
-    this.toDispose.push(addHook(this.flush, 'flush'));
+    addHook && this.toDispose.push(addHook(this.flush, 'flush'));
   }
 
   componentWillReceiveProps(nextProps: ComboProps) {
