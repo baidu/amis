@@ -116,7 +116,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'labelField',
     'loadDataOnce',
     'loadDataOnceFetchOnFilter',
-    'source'
+    'source',
+    'header'
   ];
   static defaultProps = {
     toolbarInline: true,
