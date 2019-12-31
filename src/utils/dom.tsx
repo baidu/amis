@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic = require('hoist-non-react-statics');
-import domHelperWwnerDocument = require('dom-helpers/ownerDocument');
-import getOffset = require('dom-helpers/query/offset');
-import getPosition = require('dom-helpers/query/position');
-import getScrollTop = require('dom-helpers/query/scrollTop');
+import domOwnerDocument from 'dom-helpers/ownerDocument';
+import css from 'dom-helpers/css';
+import getOffset from 'dom-helpers/offset';
+import getPosition from 'dom-helpers/position';
+import getScrollTop from 'dom-helpers/scrollTop';
 
 const bsMapping: {
   [propName: string]: string;
@@ -55,7 +56,7 @@ export function getContainer(container: any, defaultContainer: any) {
 }
 
 export function ownerDocument(componentOrElement: any) {
-  return domHelperWwnerDocument(ReactDOM.findDOMNode(componentOrElement));
+  return domOwnerDocument(ReactDOM.findDOMNode(componentOrElement) as Element);
 }
 
 function getContainerDimensions(containerNode: any) {
@@ -118,6 +119,23 @@ function getLeftDelta(
 
   return 0;
 }
+
+// function position(node: HTMLElement, offsetParent: HTMLElement) {
+//   const rect = offsetParent.getBoundingClientRect();
+//   const rect2 = node.getBoundingClientRect();
+//   return {
+//     width:
+//       rect2.width -
+//         (parseInt(css(node, 'borderLeftWidth') || '', 10) || 0) -
+//         parseInt(css(node, 'borderRightWidth') || '', 10) || 0,
+//     height:
+//       rect2.height -
+//         (parseInt(css(node, 'borderTopWidth') || '', 10) || 0) -
+//         parseInt(css(node, 'borderBottomWidth') || '', 10) || 0,
+//     top: rect2.top - rect.top,
+//     left: rect2.left - rect.left
+//   };
+// }
 
 export function calculatePosition(
   placement: any,
