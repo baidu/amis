@@ -46,7 +46,7 @@ export class Collapse extends React.Component<CollapseProps, any> {
 
   @autobind
   handleEnter(elem: HTMLElement) {
-    elem.style['height'] = null;
+    elem.style['height'] = '';
   }
 
   @autobind
@@ -56,7 +56,7 @@ export class Collapse extends React.Component<CollapseProps, any> {
 
   @autobind
   handleEntered(elem: HTMLElement) {
-    elem.style['height'] = null;
+    elem.style['height'] = '';
   }
 
   @autobind
@@ -74,7 +74,7 @@ export class Collapse extends React.Component<CollapseProps, any> {
 
   @autobind
   handleExiting(elem: HTMLElement) {
-    elem.style['height'] = null;
+    elem.style['height'] = '';
   }
 
   render() {
