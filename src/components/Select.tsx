@@ -200,6 +200,7 @@ interface SelectProps extends OptionProps {
   inline: boolean;
   disabled: boolean;
   popOverContainer?: any;
+  overlayPlacement?: string;
   onChange: (value: void | string | Option | Array<Option>) => void;
   onFocus?: Function;
   onBlur?: Function;
@@ -237,7 +238,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
     disabled: false,
     checkAll: false,
     checkAllLabel: "全选",
-    defaultCheckAll: false
+    defaultCheckAll: false,
+    overlayPlacement: "auto"
   };
 
   input: HTMLInputElement;
@@ -583,7 +585,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       disabled,
       searchPromptText,
       editable,
-      removable
+      removable,
+      overlayPlacement
     } = this.props;
     const { selection } = this.state;
 
@@ -731,6 +734,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       <Overlay
         container={popOverContainer || this.getTarget}
         target={this.getTarget}
+        placement={overlayPlacement}
         show
       >
         <PopOver
