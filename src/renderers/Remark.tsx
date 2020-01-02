@@ -1,19 +1,19 @@
-import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {Api, SchemaNode, Schema, Action} from '../types';
-import cx from 'classnames';
-import TooltipWrapper from '../components/TooltipWrapper';
-import {filter} from '../utils/tpl';
-import {themeable} from '../theme';
+import React from "react";
+import { Renderer, RendererProps } from "../factory";
+import { Api, SchemaNode, Schema, Action } from "../types";
+import cx from "classnames";
+import TooltipWrapper from "../components/TooltipWrapper";
+import { filter } from "../utils/tpl";
+import { themeable } from "../theme";
 
 export function filterContents(
   tooltip:
     | string
     | undefined
-    | {title?: string; content?: string; body?: string},
+    | { title?: string; content?: string; body?: string },
   data: any
 ) {
-  if (typeof tooltip === 'string') {
+  if (typeof tooltip === "string") {
     return filter(tooltip, data);
   } else if (tooltip) {
     return tooltip.title
@@ -21,11 +21,11 @@ export function filterContents(
           title: filter(tooltip.title, data),
           content:
             tooltip.content || tooltip.body
-              ? filter(tooltip.content || tooltip.body || '', data)
+              ? filter(tooltip.content || tooltip.body || "", data)
               : undefined
         }
       : tooltip.content || tooltip.body
-      ? filter(tooltip.content || tooltip.body || '', data)
+      ? filter(tooltip.content || tooltip.body || "", data)
       : undefined;
   }
   return tooltip;
@@ -43,8 +43,8 @@ type RemarkProps = {
 class Remark extends React.Component<RemarkProps> {
   static propsList: Array<string> = [];
   static defaultProps = {
-    icon: 'fa fa-question-circle',
-    trigger: ['hover', 'focus']
+    icon: "fa fa-question-circle",
+    trigger: ["hover", "focus"]
   };
 
   render() {
@@ -79,7 +79,7 @@ class Remark extends React.Component<RemarkProps> {
             (tooltip && tooltip.className) || className || `Remark--warning`
           )}
         >
-          <i className={cx('Remark-icon', (tooltip && tooltip.icon) || icon)} />
+          <i className={cx("Remark-icon", (tooltip && tooltip.icon) || icon)} />
         </div>
       </TooltipWrapper>
     );
@@ -90,6 +90,6 @@ export default themeable(Remark);
 
 @Renderer({
   test: /(^|\/)remark$/,
-  name: 'remark'
+  name: "remark"
 })
 export class RemarkRenderer extends Remark {}

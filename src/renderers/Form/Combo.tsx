@@ -124,6 +124,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   sortable?: Sortable;
   defaultValue?: any;
   toDispose: Array<Function> = [];
+  id: string = guid();
   constructor(props: ComboProps) {
     super(props);
 
@@ -475,7 +476,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.sortable = new Sortable(
       dom.querySelector(`.${ns}Combo-items`) as HTMLElement,
       {
-        group: 'combo',
+        group: `combo-${this.id}`,
         animation: 150,
         handle: `.${ns}Combo-itemDrager`,
         ghostClass: `${ns}Combo-item--dragging`,

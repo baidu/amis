@@ -32,6 +32,7 @@ export interface TooltipWrapperProps {
   overlay?: any;
   delay: number;
   theme?: string;
+  tooltipClassName?: string;
 }
 
 interface TooltipWrapperState {
@@ -171,7 +172,8 @@ export class TooltipWrapper extends React.Component<
       placement,
       container,
       trigger,
-      rootClose
+      rootClose,
+      tooltipClassName
     } = this.props;
 
     const child = React.Children.only(children);
@@ -214,6 +216,7 @@ export class TooltipWrapper extends React.Component<
       >
         <Tooltip
           title={typeof tooltip !== "string" ? tooltip.title : undefined}
+          className={tooltipClassName}
         >
           {tooltip && (tooltip as TooltipObject).render ? (
             (tooltip as TooltipObject).render!()
