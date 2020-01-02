@@ -225,7 +225,8 @@
   max-width: unset;
   margin: px2rem(30px);
 
-  .#{$ns}Modal-body {
+  > .#{$ns}Modal-body {
+    height: 0;
     overflow: auto;
   }
 }
