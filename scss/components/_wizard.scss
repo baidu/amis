@@ -7,7 +7,7 @@
   &-tabs {
     padding: 0;
 
-    .Badge {
+    .#{$ns}Badge {
       display: inline-block;
       width: $Wizard-badge-size;
       height: $Wizard-badge-size;
