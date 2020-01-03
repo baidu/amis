@@ -3,6 +3,7 @@ import debounce = require('lodash/debounce');
 import {ServiceStore} from './service';
 import {FormItemStore, IFormItemStore, SFormItemStore} from './formItem';
 import {Api, fetchOptions, Payload} from '../types';
+import {ServerError} from '../utils/errors';
 import {
   getVariable,
   setVariable,
@@ -18,10 +19,6 @@ import {
 import {IComboStore} from './combo';
 import isEqual = require('lodash/isEqual');
 import {IRendererStore} from '.';
-
-class ServerError extends Error {
-  type = 'ServerError';
-}
 
 export const FormStore = ServiceStore.named('FormStore')
   .props({
@@ -97,6 +94,10 @@ export const FormStore = ServiceStore.named('FormStore')
       isPristine: boolean = false,
       force: boolean = false
     ) {
+      if (name === 'strategy_json') {
+        debugger;
+      }
+
       // 没有变化就不跑了。
       const origin = getVariable(self.data, name, false);
 
@@ -265,7 +266,7 @@ export const FormStore = ServiceStore.named('FormStore')
             );
           }
 
-          throw new ServerError(self.msg);
+          throw new ServerError(self.msg, json);
         } else {
           if (options && options.onSuccess) {
             const ret = options.onSuccess(json);
@@ -288,7 +289,23 @@ export const FormStore = ServiceStore.named('FormStore')
 
         self.markSaving(false);
         // console.error(e.stack);`
-        (getRoot(self) as IRendererStore).notify('error', e.message);
+
+        if (e.type === 'ServerError') {
+          const result = (e as ServerError).response;
+          (getRoot(self) as IRendererStore).notify(
+            'error',
+            e.message,
+            result.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: result.msgTimeout
+                }
+              : undefined
+          );
+        } else {
+          (getRoot(self) as IRendererStore).notify('error', e.message);
+        }
+
         throw e;
       }
     });
