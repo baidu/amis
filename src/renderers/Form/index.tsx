@@ -14,8 +14,6 @@ import {
   noop,
   isObject,
   isVisible,
-  createObject,
-  extendObject,
   cloneObject
 } from '../../utils/helper';
 import debouce = require('lodash/debounce');

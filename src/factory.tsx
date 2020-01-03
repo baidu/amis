@@ -2,7 +2,7 @@ import React from 'react';
 import qs from 'qs';
 import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv} from 'mobx-state-tree';
-import {Location, parsePath} from 'history';
+import {Location} from 'history';
 import {wrapFetcher} from './utils/api';
 import {
   createObject,
@@ -13,9 +13,9 @@ import {
   anyChanged,
   syncDataFromSuper,
   isObjectShallowModified,
-  isVisible,
   isEmpty,
-  autobind
+  autobind,
+  chainEvents
 } from './utils/helper';
 import {
   Api,
@@ -24,9 +24,7 @@ import {
   SchemaNode,
   Schema,
   Action,
-  ExtractProps,
   Omit,
-  PlainObject,
   RendererData
 } from './types';
 import {observer} from 'mobx-react';
@@ -607,7 +605,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       <Component
         {...theme.getRendererConfig(renderer.name)}
         {...restSchema}
-        {...rest}
+        {...chainEvents(rest, restSchema)}
         defaultData={defaultData}
         $path={$path}
         ref={this.refFn}
