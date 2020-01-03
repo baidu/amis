@@ -65,7 +65,14 @@ export interface RendererBasicConfig {
 export interface RendererEnv {
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
   isCancel: (val: any) => boolean;
-  notify: (type: 'error' | 'success', msg: string) => void;
+  notify: (
+    type: 'error' | 'success',
+    msg: string,
+    conf?: {
+      closeButton?: boolean;
+      timeout?: number;
+    }
+  ) => void;
   jumpTo: (to: string, action?: Action, ctx?: object) => void;
   alert: (msg: string) => void;
   confirm: (msg: string, title?: string) => Promise<boolean>;

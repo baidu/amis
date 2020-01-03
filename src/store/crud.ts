@@ -197,7 +197,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             json.msg || options.errorMessage || '获取失败',
             true
           );
-          (getRoot(self) as IRendererStore).notify('error', json.msg);
+          (getRoot(self) as IRendererStore).notify(
+            'error',
+            json.msg,
+            json.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: json.msgTimeout
+                }
+              : undefined
+          );
         } else {
           if (!json.data) {
             throw new Error('返回数据格式不正确，payload.data 没有数据');
@@ -369,7 +378,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             json.msg || options.errorMessage || '保存失败',
             true
           );
-          (getRoot(self) as IRendererStore).notify('error', self.msg);
+          (getRoot(self) as IRendererStore).notify(
+            'error',
+            self.msg,
+            json.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: json.msgTimeout
+                }
+              : undefined
+          );
           throw new ServerError(self.msg);
         } else {
           self.updateMessage(json.msg || options.successMessage);

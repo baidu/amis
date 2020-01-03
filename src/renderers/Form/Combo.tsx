@@ -109,7 +109,10 @@ export default class ComboControl extends React.Component<ComboProps> {
     'tabsStyle',
     'lazyLoad',
     'changeImmediately',
-    'strictMode'
+    'strictMode',
+    'controls',
+    'conditions',
+    'messages'
   ];
 
   subForms: Array<any> = [];
