@@ -78,10 +78,7 @@ export default class Page extends React.Component<PageProps> {
     'body',
     'aside',
     'messages',
-    'style',
-    'onAction',
-    'onConfirm',
-    'onClose'
+    'style'
   ];
 
   componentWillMount() {

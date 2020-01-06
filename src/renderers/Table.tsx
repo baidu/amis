@@ -122,9 +122,7 @@ export default class Table extends React.Component<TableProps, object> {
     'combineNum',
     'items',
     'valueField',
-    'saveImmediately',
-    'onAction',
-    'onQuickChange'
+    'saveImmediately'
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
