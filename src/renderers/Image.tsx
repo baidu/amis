@@ -2,9 +2,22 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import {ClassNamesFn, themeable} from '../theme';
+import {autobind} from '../utils/helper';
+import {Icon} from '../components/icons';
 
-export interface ImageProps {
+export interface ImageThumbProps {
   src: string;
+  originalSrc?: string; // 原图
+  enlargeAble?: boolean;
+  onEnlarge?: (info: {
+    src: string;
+    originalSrc: string;
+    title?: string;
+    caption?: string;
+    thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+    thumbRatio?: '1:1' | '4:3' | '16:9';
+  }) => void;
+  showDimensions?: boolean;
   title?: string;
   alt?: string;
   className?: string;
@@ -17,7 +30,12 @@ export interface ImageProps {
   onLoad?: React.EventHandler<any>;
 }
 
-export class Image extends React.Component<ImageProps> {
+export class ImageThumb extends React.Component<ImageThumbProps> {
+  @autobind
+  handleEnlarge() {
+    debugger;
+  }
+
   render() {
     const {
       classnames: cx,
@@ -29,7 +47,8 @@ export class Image extends React.Component<ImageProps> {
       alt,
       title,
       caption,
-      onLoad
+      onLoad,
+      enlargeAble
     } = this.props;
 
     return (
@@ -47,6 +66,19 @@ export class Image extends React.Component<ImageProps> {
             src={src}
             alt={alt}
           />
+
+          {enlargeAble ? (
+            <div key="overlay">
+              <a
+                data-tooltip="查看大图"
+                data-position="bottom"
+                target="_blank"
+                onClick={this.handleEnlarge}
+              >
+                <Icon icon="view" className="icon" />
+              </a>
+            </div>
+          ) : null}
         </div>
         {title || caption ? (
           <div key="caption" className={cx('Image-info')}>
@@ -60,8 +92,8 @@ export class Image extends React.Component<ImageProps> {
     );
   }
 }
-const ThemedImage = themeable(Image);
-export default ThemedImage;
+const ThemedImageThumb = themeable(ImageThumb);
+export default ThemedImageThumb;
 
 export interface ImageFieldProps extends RendererProps {
   className?: string;
@@ -105,7 +137,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     return (
       <div className={cx('ImageField', className)}>
         {value ? (
-          <ThemedImage
+          <ThemedImageThumb
             imageClassName={imageClassName}
             src={value}
             title={filter(title, data)}

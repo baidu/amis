@@ -85,11 +85,31 @@ export default {
           type: 'static-image',
           label: '图片',
           name: 'image',
+          thumbMode: 'cover',
+          thumbRatio: '4:3',
+          title: '233',
+          imageCaption: 'jfe fjkda fejfkda fejk fdajf dajfe jfkda',
           popOver: {
             title: '查看大图',
             body:
               '<div class="w-xxl"><img class="w-full" src="${image}"/></div>'
           }
+        },
+
+        {
+          type: 'divider'
+        },
+
+        {
+          type: 'static-image',
+          label: '图片自带放大',
+          name: 'image',
+          thumbMode: 'cover',
+          thumbRatio: '4:3',
+          title: '233',
+          imageCaption: 'jfe fjkda fejfkda fejk fdajf dajfe jfkda',
+          enlargeAble: true,
+          originalSrc: '${image}'
         },
 
         {

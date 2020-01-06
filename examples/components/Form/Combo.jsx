@@ -112,7 +112,8 @@ export default {
                       name: 'a',
                       type: 'text',
                       placeholder: '文本',
-                      value: ''
+                      value: '',
+                      columnClassName: 'w-sm'
                     },
                     {
                       name: 'b',
