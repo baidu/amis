@@ -1098,7 +1098,8 @@ export function chainEvents(props: any, schema: any) {
     if (
       key.substr(0, 2) === 'on' &&
       typeof props[key] === 'function' &&
-      typeof schema[key] === 'function'
+      typeof schema[key] === 'function' &&
+      schema[key] !== props[key]
     ) {
       ret[key] = chainFunctions(schema[key], props[key]);
     } else {
