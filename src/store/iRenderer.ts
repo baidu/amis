@@ -11,6 +11,7 @@ export const iRendererStore = types
     storeType: types.string,
     hasRemoteData: types.optional(types.boolean, false),
     data: types.optional(types.frozen(), {}),
+    initedAt: 0, // 初始 init 的时刻
     updatedAt: 0, // 从服务端更新时刻
     pristine: types.optional(types.frozen(), {}),
     disposed: false,
@@ -52,6 +53,7 @@ export const iRendererStore = types
 
     return {
       initData(data: object = {}) {
+        self.initedAt = Date.now();
         self.pristine = data;
         self.data = data;
       },

@@ -94,10 +94,6 @@ export const FormStore = ServiceStore.named('FormStore')
       isPristine: boolean = false,
       force: boolean = false
     ) {
-      if (name === 'strategy_json') {
-        debugger;
-      }
-
       // 没有变化就不跑了。
       const origin = getVariable(self.data, name, false);
 
