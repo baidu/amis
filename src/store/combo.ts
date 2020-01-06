@@ -64,9 +64,9 @@ export const ComboStore = iRendererStore
       length?: number;
     }) {
       typeof setting.minLength !== 'undefined' &&
-        (self.minLength = setting.minLength);
+        (self.minLength = parseInt(setting.minLength as any, 10));
       typeof setting.maxLength !== 'undefined' &&
-        (self.maxLength = setting.maxLength);
+        (self.maxLength = parseInt(setting.maxLength as any, 10));
       typeof setting.length !== 'undefined' && (self.length = setting.length);
     }
 

@@ -375,13 +375,17 @@ export default class ComboControl extends React.Component<ComboProps> {
       setPrinstineValue
     } = this.props;
 
+    if (syncDefaultValue === false || disabled) {
+      return;
+    }
+
     this.subFormDefaultValues.push({
       index,
       values,
       setted: false
     });
 
-    if (syncDefaultValue === false || disabled || this.subFormDefaultValues.length !== this.subForms.length) {
+    if (this.subFormDefaultValues.length !== this.subForms.length) {
       return;
     }
 
