@@ -9,9 +9,9 @@ export interface ImageProps {
   alt?: string;
   className?: string;
   imageClassName?: string;
-  description?: string;
+  caption?: string;
   thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
-  thumbRatio?: '1-1' | '4-3' | '16-9';
+  thumbRatio?: '1:1' | '4:3' | '16:9';
   classnames: ClassNamesFn;
   classPrefix: string;
   onLoad?: React.EventHandler<any>;
@@ -28,7 +28,7 @@ export class Image extends React.Component<ImageProps> {
       src,
       alt,
       title,
-      description,
+      caption,
       onLoad
     } = this.props;
 
@@ -38,7 +38,7 @@ export class Image extends React.Component<ImageProps> {
           className={cx(
             'Image-thumb',
             thumbMode ? `Image-thumb--${thumbMode}` : '',
-            thumbRatio ? `Image-thumb--${thumbRatio}` : ''
+            thumbRatio ? `Image-thumb--${thumbRatio.replace(/:/g, '-')}` : ''
           )}
         >
           <img
@@ -48,11 +48,11 @@ export class Image extends React.Component<ImageProps> {
             alt={alt}
           />
         </div>
-        {title || description ? (
-          <div key="caption" className={cx('Image-caption')}>
+        {title || caption ? (
+          <div key="caption" className={cx('Image-info')}>
             {title ? <div className={cx('Image-title')}>{title}</div> : null}
-            {description ? (
-              <div className={cx('Image-description')}>{description}</div>
+            {caption ? (
+              <div className={cx('Image-caption')}>{caption}</div>
             ) : null}
           </div>
         ) : null}
@@ -69,7 +69,7 @@ export interface ImageFieldProps extends RendererProps {
   placeholder: string;
   description?: string;
   thumbMode: 'w-full' | 'h-full' | 'contain' | 'cover';
-  thumbRatio: '1-1' | '4-3' | '16-9';
+  thumbRatio: '1:1' | '4:3' | '16:9';
 }
 
 export class ImageField extends React.Component<ImageFieldProps, object> {
@@ -80,7 +80,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     defaultImage:
       'https://fex.bdstatic.com/n/static/amis/renderers/crud/field/placeholder_cfad9b1.png',
     thumbMode: 'contain',
-    thumbRatio: '1-1',
+    thumbRatio: '1:1',
     placeholder: '-'
   };
 
@@ -88,7 +88,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     const {
       className,
       defaultImage,
-      description,
+      imageCaption,
       title,
       data,
       imageClassName,
@@ -109,7 +109,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             imageClassName={imageClassName}
             src={value}
             title={filter(title, data)}
-            description={filter(description, data)}
+            caption={filter(imageCaption, data)}
             thumbMode={thumbMode}
             thumbRatio={thumbRatio}
           />
