@@ -117,7 +117,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'loadDataOnce',
     'loadDataOnceFetchOnFilter',
     'source',
-    'header'
+    'header',
+    'onAction'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -1571,6 +1572,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       itemActions,
       classnames: cx,
       keepItemSelectionOnPageChange,
+      onAction,
       ...rest
     } = this.props;
 
