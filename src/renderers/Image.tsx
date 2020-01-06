@@ -33,7 +33,26 @@ export interface ImageThumbProps {
 export class ImageThumb extends React.Component<ImageThumbProps> {
   @autobind
   handleEnlarge() {
-    debugger;
+    const {
+      onEnlarge,
+      src,
+      originalSrc,
+      title,
+      caption,
+      thumbMode,
+      thumbRatio
+    } = this.props;
+
+    onEnlarge &&
+      originalSrc &&
+      onEnlarge({
+        src,
+        originalSrc,
+        title,
+        caption,
+        thumbMode,
+        thumbRatio
+      });
   }
 
   render() {
@@ -68,7 +87,7 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
           />
 
           {enlargeAble ? (
-            <div key="overlay">
+            <div key="overlay" className={cx('Image-overlay')}>
               <a
                 data-tooltip="查看大图"
                 data-position="bottom"
@@ -102,6 +121,17 @@ export interface ImageFieldProps extends RendererProps {
   description?: string;
   thumbMode: 'w-full' | 'h-full' | 'contain' | 'cover';
   thumbRatio: '1:1' | '4:3' | '16:9';
+  originalSrc?: string; // 原图
+  enlargeAble?: boolean;
+  onEnlarge?: (info: {
+    src: string;
+    originalSrc: string;
+    title?: string;
+    caption?: string;
+    thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+    thumbRatio?: '1:1' | '4:3' | '16:9';
+  }) => void;
+  showDimensions?: boolean;
 }
 
 export class ImageField extends React.Component<ImageFieldProps, object> {
@@ -128,7 +158,11 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       src,
       thumbMode,
       thumbRatio,
-      placeholder
+      placeholder,
+      originalSrc,
+      enlargeAble,
+      onEnlarge,
+      showDimensions
     } = this.props;
 
     const finnalSrc = src ? filter(src, data, '| raw') : '';
@@ -144,6 +178,10 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             caption={filter(imageCaption, data)}
             thumbMode={thumbMode}
             thumbRatio={thumbRatio}
+            originalSrc={originalSrc}
+            enlargeAble={enlargeAble}
+            onEnlarge={onEnlarge}
+            showDimensions={showDimensions}
           />
         ) : (
           <span className="text-muted">{placeholder}</span>
