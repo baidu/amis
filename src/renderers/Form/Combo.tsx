@@ -175,6 +175,17 @@ export default class ComboControl extends React.Component<ComboProps> {
       if (store.activeKey >= values.length) {
         store.setActiveKey(Math.max(0, values.length - 1));
       }
+
+      // combo 进来了新的值，且这次 form 初始化时带来的新值变化，但是之前的值已经 onInit 过了
+      // 所以，之前 onInit 设置进去的初始值是过时了的。这个时候修复一下。
+      if (nextProps.value !== props.value && !props.formInited && nextProps.formInited && this.subFormDefaultValues.length) {
+        this.subFormDefaultValues = this.subFormDefaultValues.map((item, index) => {
+          return {
+            ...item,
+            values: values[index]
+          }
+        })  
+      }
     }
   }
 
@@ -364,17 +375,13 @@ export default class ComboControl extends React.Component<ComboProps> {
       setPrinstineValue
     } = this.props;
 
-    if (syncDefaultValue === false || disabled) {
-      return;
-    }
-
     this.subFormDefaultValues.push({
       index,
       values,
       setted: false
     });
 
-    if (this.subFormDefaultValues.length !== this.subForms.length) {
+    if (syncDefaultValue === false || disabled || this.subFormDefaultValues.length !== this.subForms.length) {
       return;
     }
 
@@ -411,11 +418,14 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   handleSingleFormInit(values: any) {
-    this.props.syncDefaultValue !== false &&
-      this.props.setPrinstineValue &&
-      this.props.setPrinstineValue({
+    const {syncDefaultValue, setPrinstineValue, value} = this.props;
+
+
+    if (syncDefaultValue !== false && isObjectShallowModified(value, values) && setPrinstineValue) {
+      setPrinstineValue({
         ...values
-      });
+      })
+    }
   }
 
   handleAction(action: Action): any {

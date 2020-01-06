@@ -158,7 +158,8 @@ export default class Form extends React.Component<FormProps, object> {
     'canAccessSuperData',
     'lazyChange',
     'formLazyChange',
-    'lazyLoad'
+    'lazyLoad',
+    'formInited'
   ];
 
   hooks: {
@@ -330,11 +331,23 @@ export default class Form extends React.Component<FormProps, object> {
     // 先拿出来数据，主要担心 form 被什么东西篡改了，然后又应用出去了
     // 之前遇到过问题，所以拿出来了。但是 options  loadOptions 默认值失效了。
     // 所以目前需要两个都要设置一下，再 init Hook 里面。
-    const data = cloneObject(store.data);
+    let data = cloneObject(store.data);
+    const initedAt = store.initedAt;
 
     store.setInited(true);
     const hooks: Array<(data: any) => Promise<any>> = this.hooks['init'] || [];
     await Promise.all(hooks.map(hook => hook(data)));
+
+    if (store.initedAt !== initedAt) {
+      // 说明，之前的数据已经失效了。
+      // 比如 combo 一开始设置了初始值，然后 form 的 initApi 又返回了新的值。
+      // 这个时候 store 的数据应该已经 init 了新的值。但是 data 还是老的，这个时候
+      // onInit 出去就是错误的。
+      data = {
+        ...data,
+        ...store.data
+      };
+    }
 
     onInit && onInit(data, this.props);
 
