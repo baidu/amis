@@ -1,5 +1,6 @@
 import {createObject} from './helper';
-import {getFilters} from './tpl-builtin';
+import {register as registerBulitin, getFilters} from './tpl-builtin';
+import {register as registerLodash} from './tpl-lodash';
 
 export interface Enginer {
   test: (tpl: string) => boolean;
@@ -74,3 +75,5 @@ export function evalJS(js: string, data: object): any {
     return null;
   }
 }
+
+[registerBulitin, registerLodash].forEach(fn => fn());
