@@ -35,7 +35,7 @@ function lodashCompile(str: string, data: object) {
       defaultValue: filters.defaut,
       ...imports
     };
-    delete imports.default; // default 是个关键字，不能 imports 到 lodash 里面去。
+    delete finnalImports.default; // default 是个关键字，不能 imports 到 lodash 里面去。
     const fn = template(str, {
       imports: finnalImports,
       variable: 'data'
