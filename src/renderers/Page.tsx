@@ -186,8 +186,7 @@ export default class Page extends React.Component<PageProps> {
   ) {
     const {env, store, messages} = this.props;
 
-    // delegate 表示不是当前层的事件，而是孩子节点的。
-    delegate || store.setCurrentAction(action);
+    store.setCurrentAction(action);
 
     if (
       action.actionType === 'url' ||
