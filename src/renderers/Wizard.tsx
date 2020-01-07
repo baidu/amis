@@ -246,6 +246,76 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     throw new Error('Please implements this!');
   }
 
+  reload(query?: any, silent?: boolean) {
+    if (query) {
+      return this.receive(query);
+    }
+
+    const {
+      initApi,
+      initAsyncApi,
+      initFinishedField,
+      store,
+      messages: {fetchSuccess, fetchFailed}
+    } = this.props;
+
+    if (isEffectiveApi(initApi, store.data) && this.state.currentStep === 1) {
+      store
+        .fetchInitData(initApi, store.data, {
+          successMessage: fetchSuccess,
+          errorMessage: fetchFailed,
+          onSuccess: () => {
+            if (
+              !isEffectiveApi(initAsyncApi, store.data) ||
+              store.data[initFinishedField || 'finished']
+            ) {
+              return;
+            }
+
+            return until(
+              () => store.checkRemote(initAsyncApi, store.data),
+              (ret: any) => ret && ret[initFinishedField || 'finished'],
+              cancel => (this.asyncCancel = cancel)
+            );
+          }
+        })
+        .then(value => {
+          const state = {
+            currentStep: 1
+          };
+
+          if (
+            value &&
+            value.data &&
+            (typeof value.data.step === 'number' ||
+              (typeof value.data.step === 'string' &&
+                /^\d+$/.test(value.data.step)))
+          ) {
+            state.currentStep = parseInt(value.data.step, 10);
+          }
+
+          this.setState(state, () => {
+            // 如果 initApi 返回的状态是正在提交，则进入轮顺状态。
+            if (
+              value &&
+              value.data &&
+              (value.data.submiting || value.data.submited)
+            ) {
+              this.checkSubmit();
+            }
+          });
+          return value;
+        });
+    }
+  }
+
+  receive(values: object) {
+    const {store} = this.props;
+
+    store.updateData(values);
+    this.reload();
+  }
+
   domRef(ref: any) {
     this.dom = ref;
   }
@@ -287,7 +357,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       });
   }
 
-  handleAction(e: React.UIEvent<any> | void, action: Action, data: object) {
+  handleAction(
+    e: React.UIEvent<any> | void,
+    action: Action,
+    data: object,
+    throwErrors: boolean = false,
+    delegate?: IScopedContext
+  ) {
     const {onAction, store, env} = this.props;
 
     if (action.actionType === 'next' || action.type === 'submit') {
@@ -331,7 +407,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else if (action.actionType === 'reload') {
       action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
-      onAction(e, action, data);
+      onAction(e, action, data, throwErrors, delegate || this.context);
     }
   }
 

@@ -46,7 +46,7 @@ export interface ImageProps extends FormControlProps {
   autoUpload?: boolean;
   multiple?: boolean;
   thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
-  thumbRatio?: '1-1' | '4-3' | '16-9';
+  thumbRatio?: '1:1' | '4:3' | '16:9';
 }
 
 export interface ImageState {

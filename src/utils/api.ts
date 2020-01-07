@@ -161,6 +161,7 @@ function responseAdaptor(ret: fetcherResult) {
     ok: data.status == 0,
     status: data.status,
     msg: data.msg,
+    msgTimeout: data.msgTimeout,
     data: data.data
   };
 

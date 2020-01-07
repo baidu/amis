@@ -1,14 +1,10 @@
 import {reigsterTplEnginer, filter} from './tpl';
 import template = require('lodash/template');
-import {filters} from './tpl-builtin';
+import {getFilters} from './tpl-builtin';
 import React from 'react';
 import moment from 'moment';
 
 const imports = {
-  ...filters,
-  formatTimeStamp: filters.date,
-  formatNumber: filters.number,
-  defaultValue: filters.defaut,
   default: undefined,
   moment: moment,
   countDown: (end: any) => {
@@ -28,11 +24,20 @@ const imports = {
   formatDate: (value: any, format: string = 'LLL', inputFormat: string = '') =>
     moment(value, inputFormat).format(format)
 };
-delete imports.default; // default 是个关键字，不能 imports 到 lodash 里面去。
+
 function lodashCompile(str: string, data: object) {
   try {
+    const filters = getFilters();
+    const finnalImports = {
+      ...filters,
+      formatTimeStamp: filters.date,
+      formatNumber: filters.number,
+      defaultValue: filters.defaut,
+      ...imports
+    };
+    delete finnalImports.default; // default 是个关键字，不能 imports 到 lodash 里面去。
     const fn = template(str, {
-      imports: imports,
+      imports: finnalImports,
       variable: 'data'
     });
 
@@ -42,7 +47,9 @@ function lodashCompile(str: string, data: object) {
   }
 }
 
-reigsterTplEnginer('lodash', {
-  test: str => !!~str.indexOf('<%'),
-  compile: (str: string, data: object) => lodashCompile(str, data)
-});
+export function register() {
+  reigsterTplEnginer('lodash', {
+    test: str => !!~str.indexOf('<%'),
+    compile: (str: string, data: object) => lodashCompile(str, data)
+  });
+}

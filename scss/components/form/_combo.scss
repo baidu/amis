@@ -53,6 +53,10 @@
     margin-bottom: $Combo-items-marginBottom;
   }
 
+  &-item {
+    background: $white;
+  }
+
   &--hor {
     .#{$ns}Combo-item {
       display: flex;

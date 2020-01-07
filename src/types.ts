@@ -23,6 +23,7 @@ export interface fetcherResult {
     data: object;
     status: number;
     msg: string;
+    msgTimeout?: number;
     errors?: {
       [propName: string]: string;
     };
@@ -45,6 +46,7 @@ export interface fetchOptions {
 export interface Payload {
   ok: boolean;
   msg: string;
+  msgTimeout?: number;
   data: any;
   status: number;
   errors?: {

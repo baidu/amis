@@ -76,18 +76,18 @@
 
 ### 通用配置
 
--   `name` 绑定变量名。
--   `placeholder` 当没有值时的展示内容。
--   `popOver` 配置后在内容区增加一个放大按钮，点击后弹出一个详情弹框。
-    `boolean` 简单的开启或者关闭
-    `Object` 弹出的内容配置。请参考 [Dialog](./Dialog.md) 配置说明。
--   `quickEdit` 配置后在内容区增加一个编辑按钮，点击后弹出一个编辑框。
-    `boolean` 简单的开启或者关闭
-    `Object` 快速编辑详情，请参考 [FormItem](./FormItem.md) 配置。
-    `mode` 模式如果设置为 `inline` 模式，则直接展示输入框，而不需要点击按钮后展示。
-    `saveImmediately` 开启后，直接保存，而不是等全部操作完后批量保存。
--   `copyable` 配置后会在内容区增加一个复制按钮，点击后把内容复制到剪切板。
-    todo
+- `name` 绑定变量名。
+- `placeholder` 当没有值时的展示内容。
+- `popOver` 配置后在内容区增加一个放大按钮，点击后弹出一个详情弹框。
+  `boolean` 简单的开启或者关闭
+  `Object` 弹出的内容配置。请参考 [Dialog](./Dialog.md) 配置说明。
+- `quickEdit` 配置后在内容区增加一个编辑按钮，点击后弹出一个编辑框。
+  `boolean` 简单的开启或者关闭
+  `Object` 快速编辑详情，请参考 [FormItem](./FormItem.md) 配置。
+  `mode` 模式如果设置为 `inline` 模式，则直接展示输入框，而不需要点击按钮后展示。
+  `saveImmediately` 开启后，直接保存，而不是等全部操作完后批量保存。
+- `copyable` 配置后会在内容区增加一个复制按钮，点击后把内容复制到剪切板。
+  todo
 
 ### Tpl(Field)
 
@@ -99,88 +99,87 @@
 
 ### Json(Field)
 
--   `type` 请设置为 `json`。
--   `levelExpand` 开始展开的层级，默认为 1，如设置不展开，则设置为 0
+- `type` 请设置为 `json`。
+- `levelExpand` 开始展开的层级，默认为 1，如设置不展开，则设置为 0
 
 ### Date(Field)
 
 用来显示日期。
 
--   `type` 请设置为 `date`。
--   `format` 默认为 `YYYY-MM-DD`，时间格式，请参考 [moment](http://momentjs.com/) 中的格式用法。
--   `valueFormat` 默认为 `X`，时间格式，请参考 [moment](http://momentjs.com/) 中的格式用法。
+- `type` 请设置为 `date`。
+- `format` 默认为 `YYYY-MM-DD`，时间格式，请参考 [moment](http://momentjs.com/) 中的格式用法。
+- `valueFormat` 默认为 `X`，时间格式，请参考 [moment](http://momentjs.com/) 中的格式用法。
 
 ### Mapping(Field)
 
 用来对值做映射显示。
 
--   `type` 请设置为 `date`。
--   `map` 映射表, 比如
+- `type` 请设置为 `mapping`。
+- `map` 映射表, 比如
 
-    ```json
-    {
-        "type": "mapping",
-        "name": "flag",
-        "map": {
-            "1": "<span class='label label-default'>One</span>",
-            "*": "其他 ${flag}"
-        }
+  ```json
+  {
+    "type": "mapping",
+    "name": "flag",
+    "map": {
+      "1": "<span class='label label-default'>One</span>",
+      "*": "其他 ${flag}"
     }
-    ```
+  }
+  ```
 
-    当值为 1 时，显示 One, 当值为其他时会命中 `*` 所以显示 `其他 flag的值`。
+  当值为 1 时，显示 One, 当值为其他时会命中 `*` 所以显示 `其他 flag的值`。
 
 ### Image(Field)
 
 用来展示图片。
 
--   `type` 请设置为 `image`。
--   `description` 图片描述。
--   `defaultImage` 默认图片地址。
--   `className` CSS 类名。
--   `src` 图片地址，支持变量。如果想动态显示，请勿配置。
+- `type` 请设置为 `image`。
+- `description` 图片描述。
+- `defaultImage` 默认图片地址。
+- `className` CSS 类名。
+- `src` 图片地址，支持变量。如果想动态显示，请勿配置。
 
 ### Progress(Field)
 
 用来展示进度条。
 
--   `type` 请设置为 `progress`。
--   `showLabel` 是否显示文字
--   `map` 等级配置
-    默认
+- `type` 请设置为 `progress`。
+- `showLabel` 是否显示文字
+- `map` 等级配置
+  默认
 
-    ```json
-    ["bg-danger", "bg-warning", "bg-info", "bg-success", "bg-success"]
-    ```
+  ```json
+  ["bg-danger", "bg-warning", "bg-info", "bg-success", "bg-success"]
+  ```
 
-    展示的样式取决于当前值在什么区间段，比如以上的配置，把 100 切成了 5 分，前 1/5, 即 25 以前显示 `bg-danger` 背景。50 ~ 75 显示 `bg-info` 背景。
+  展示的样式取决于当前值在什么区间段，比如以上的配置，把 100 切成了 5 分，前 1/5, 即 25 以前显示 `bg-danger` 背景。50 ~ 75 显示 `bg-info` 背景。
 
--   `progressClassName` 进度外层 CSS 类名 默认为: `progress-xs progress-striped active m-t-xs m-b-none`
--   `progressBarClassName` 进度条 CSS 类名。
+- `progressClassName` 进度外层 CSS 类名 默认为: `progress-xs progress-striped active m-t-xs m-b-none`
+- `progressBarClassName` 进度条 CSS 类名。
 
 ### Status(Field)
 
 用来显示状态，用图表展示。
 
--   `type` 请设置为 `status`。
--   `map` 图标配置
+- `type` 请设置为 `status`。
+- `map` 图标配置
 
-    默认:
+  默认:
 
-    ```json
-    ["fa fa-times text-danger", "fa fa-check text-success"]
-    ```
+  ```json
+  ["fa fa-times text-danger", "fa fa-check text-success"]
+  ```
 
-    即如果值 `value % map.length` 等于 0 则显示第一个图标。`value % map.length` 等于 1 则显示第二个图标，无限类推。所以说 map 其实不只是支持 2 个，可以任意个。
+  即如果值 `value % map.length` 等于 0 则显示第一个图标。`value % map.length` 等于 1 则显示第二个图标，无限类推。所以说 map 其实不只是支持 2 个，可以任意个。
 
-    这个例子，当值为 0 、2、4 ... 时显示红 `X`， 当值为 1, 3, 5 ...  绿 `√`
+  这个例子，当值为 0 、2、4 ... 时显示红 `X`， 当值为 1, 3, 5 ...  绿 `√`
 
 ### Switch(Field)
 
 用来占一个开关。
 
--   `type` 请设置为 `switch`。
--   `option` 选项说明
--   `trueValue` 勾选后的值
--   `falseValue` 未勾选的值
-
+- `type` 请设置为 `switch`。
+- `option` 选项说明
+- `trueValue` 勾选后的值
+- `falseValue` 未勾选的值

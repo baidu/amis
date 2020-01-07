@@ -146,7 +146,16 @@ export class Chart extends React.Component<ChartProps> {
       })
       .then(result => {
         if (!result.ok) {
-          return env.notify('error', result.msg || '加载失败，请重试！');
+          return env.notify(
+            'error',
+            result.msg || '加载失败，请重试！',
+            result.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: result.msgTimeout
+                }
+              : undefined
+          );
         }
         delete this.reloadCancel;
         this.renderChart(result.data || {});

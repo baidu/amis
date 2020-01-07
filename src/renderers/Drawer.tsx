@@ -1,14 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
+import {ScopedContext, IScopedContext} from '../Scoped';
 import {Renderer, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {observer} from 'mobx-react';
 import {SchemaNode, Schema, Action} from '../types';
-import cx from 'classnames';
 import {default as DrawerContainer} from '../components/Drawer';
 import findLast = require('lodash/findLast');
-import {guid, chainFunctions, isVisible} from '../utils/helper';
+import {guid, isVisible} from '../utils/helper';
 import {reaction} from 'mobx';
 import {findDOMNode} from 'react-dom';
 import {IModalStore, ModalStore} from '../store/modal';
@@ -280,12 +276,9 @@ export default class Drawer extends React.Component<DrawerProps, object> {
       };
 
       // 同步数据到 Dialog 层，方便 actions 根据表单数据联动。
-      subProps.onChange = chainFunctions(
-        this.handleFormChange,
-        schema.onChange
-      );
-      subProps.onInit = chainFunctions(this.handleFormInit, schema.onInit);
-      subProps.onSaved = chainFunctions(this.handleFormSaved, schema.onSaved);
+      subProps.onChange = this.handleFormChange;
+      subProps.onInit = this.handleFormInit;
+      subProps.onSaved = this.handleFormSaved;
     }
 
     return render(`body${key ? `/${key}` : ''}`, schema, subProps);
@@ -629,12 +622,14 @@ export class DrawerRenderer extends Drawer {
     action: Action,
     data: object,
     throwErrors: boolean = false,
-    delegate?: boolean
+    delegate?: IScopedContext
   ) {
     const {onClose, onAction, store, env} = this.props;
 
     if (action.from === this.$$id) {
-      return onAction ? onAction(e, action, data, throwErrors, true) : false;
+      return onAction
+        ? onAction(e, action, data, throwErrors, delegate || this.context)
+        : false;
     }
 
     const scoped = this.context as IScopedContext;
@@ -670,7 +665,13 @@ export class DrawerRenderer extends Drawer {
         })
         .catch(() => {});
     } else if (onAction) {
-      let ret = onAction(e, action, data, throwErrors, true);
+      let ret = onAction(
+        e,
+        action,
+        data,
+        throwErrors,
+        delegate || this.context
+      );
       action.close &&
         (ret && ret.then
           ? ret.then(this.handleSelfClose)

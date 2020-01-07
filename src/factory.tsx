@@ -2,7 +2,7 @@ import React from 'react';
 import qs from 'qs';
 import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv} from 'mobx-state-tree';
-import {Location, parsePath} from 'history';
+import {Location} from 'history';
 import {wrapFetcher} from './utils/api';
 import {
   createObject,
@@ -13,9 +13,9 @@ import {
   anyChanged,
   syncDataFromSuper,
   isObjectShallowModified,
-  isVisible,
   isEmpty,
-  autobind
+  autobind,
+  chainEvents
 } from './utils/helper';
 import {
   Api,
@@ -24,9 +24,7 @@ import {
   SchemaNode,
   Schema,
   Action,
-  ExtractProps,
   Omit,
-  PlainObject,
   RendererData
 } from './types';
 import {observer} from 'mobx-react';
@@ -40,6 +38,7 @@ import {getTheme, ThemeInstance, ClassNamesFn, ThemeContext} from './theme';
 import find = require('lodash/find');
 import Alert from './components/Alert2';
 import {LazyComponent} from './components';
+import ImageGallery from './components/ImageGallery';
 
 export interface TestFunc {
   (
@@ -67,7 +66,14 @@ export interface RendererBasicConfig {
 export interface RendererEnv {
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
   isCancel: (val: any) => boolean;
-  notify: (type: 'error' | 'success', msg: string) => void;
+  notify: (
+    type: 'error' | 'success',
+    msg: string,
+    conf?: {
+      closeButton?: boolean;
+      timeout?: number;
+    }
+  ) => void;
   jumpTo: (to: string, action?: Action, ctx?: object) => void;
   alert: (msg: string) => void;
   confirm: (msg: string, title?: string) => Promise<boolean>;
@@ -378,26 +384,28 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     return (
       <RootStoreContext.Provider value={rootStore}>
         <ThemeContext.Provider value={this.props.theme || 'default'}>
-          {
-            renderChild(
-              pathPrefix || '',
-              isPlainObject(schema)
-                ? {
-                    type: 'page',
-                    ...(schema as Schema)
-                  }
-                : schema,
-              {
-                ...rest,
-                resolveDefinitions: this.resolveDefinitions,
-                location: location,
-                data: finalData,
-                env,
-                classnames: theme.classnames,
-                classPrefix: theme.classPrefix
-              }
-            ) as JSX.Element
-          }
+          <ImageGallery>
+            {
+              renderChild(
+                pathPrefix || '',
+                isPlainObject(schema)
+                  ? {
+                      type: 'page',
+                      ...(schema as Schema)
+                    }
+                  : schema,
+                {
+                  ...rest,
+                  resolveDefinitions: this.resolveDefinitions,
+                  location: location,
+                  data: finalData,
+                  env,
+                  classnames: theme.classnames,
+                  classPrefix: theme.classPrefix
+                }
+              ) as JSX.Element
+            }
+          </ImageGallery>
         </ThemeContext.Provider>
       </RootStoreContext.Provider>
     );
@@ -607,7 +615,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       <Component
         {...theme.getRendererConfig(renderer.name)}
         {...restSchema}
-        {...rest}
+        {...chainEvents(rest, restSchema)}
         defaultData={defaultData}
         $path={$path}
         ref={this.refFn}

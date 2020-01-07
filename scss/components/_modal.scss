@@ -219,14 +219,22 @@
   color: $danger;
 }
 
-.#{$ns}Modal--full .#{$ns}Modal-content {
-  width: calc(100% - 60px);
-  height: calc(100% - 60px);
-  max-width: unset;
-  margin: px2rem(30px);
+.#{$ns}Modal--full {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-  > .#{$ns}Modal-body {
-    height: 0;
-    overflow: auto;
+  > .#{$ns}Modal-content {
+    flex-basis: 0;
+    flex-grow: 1;
+    margin: 30px;
+    width: calc(100% - 60px);
+    max-width: unset;
+
+    > .#{$ns}Modal-body {
+      height: 0;
+      overflow: auto;
+    }
   }
 }

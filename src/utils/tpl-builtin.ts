@@ -295,6 +295,10 @@ export function registerFilter(
   filters[name] = fn;
 }
 
+export function getFilters() {
+  return filters;
+}
+
 export function pickValues(names: string, data: object) {
   let arr: Array<string>;
   if (!names || ((arr = names.split(',')) && arr.length < 2)) {
@@ -559,8 +563,10 @@ export function dataMapping(to: any, from: PlainObject): any {
   return ret;
 }
 
-reigsterTplEnginer('builtin', {
-  test: str => !!~str.indexOf('$'),
-  compile: (str: string, data: object, defaultFilter = '| html') =>
-    tokenize(str, data, defaultFilter)
-});
+export function register() {
+  reigsterTplEnginer('builtin', {
+    test: str => !!~str.indexOf('$'),
+    compile: (str: string, data: object, defaultFilter = '| html') =>
+      tokenize(str, data, defaultFilter)
+  });
+}

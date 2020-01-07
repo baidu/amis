@@ -30,7 +30,11 @@ export function createObject(
         }
       })
     : Object.create(Object.prototype, properties);
-  props && Object.keys(props).forEach(key => (obj[key] = props[key]));
+
+  props &&
+    isObject(props) &&
+    Object.keys(props).forEach(key => (obj[key] = props[key]));
+
   return obj;
 }
 
@@ -1079,9 +1083,35 @@ export function object2formData(
 export function chainFunctions(
   ...fns: Array<(...args: Array<any>) => void>
 ): (...args: Array<any>) => void {
-  return (...args: Array<any>) => {
-    fns.forEach(fn => fn && fn(...args));
-  };
+  return (...args: Array<any>) =>
+    fns.reduce(
+      (ret: any, fn: any) =>
+        ret === false
+          ? false
+          : typeof fn == 'function'
+          ? fn(...args)
+          : undefined,
+      undefined
+    );
+}
+
+export function chainEvents(props: any, schema: any) {
+  const ret: any = {};
+
+  Object.keys(props).forEach(key => {
+    if (
+      key.substr(0, 2) === 'on' &&
+      typeof props[key] === 'function' &&
+      typeof schema[key] === 'function' &&
+      schema[key] !== props[key]
+    ) {
+      ret[key] = chainFunctions(schema[key], props[key]);
+    } else {
+      ret[key] = props[key];
+    }
+  });
+
+  return ret;
 }
 
 export function mapObject(value: any, fn: Function): any {
