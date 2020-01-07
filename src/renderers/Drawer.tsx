@@ -628,7 +628,7 @@ export class DrawerRenderer extends Drawer {
 
     if (action.from === this.$$id) {
       return onAction
-        ? onAction(e, action, data, throwErrors, this.context)
+        ? onAction(e, action, data, throwErrors, delegate || this.context)
         : false;
     }
 
@@ -665,7 +665,13 @@ export class DrawerRenderer extends Drawer {
         })
         .catch(() => {});
     } else if (onAction) {
-      let ret = onAction(e, action, data, throwErrors, this.context);
+      let ret = onAction(
+        e,
+        action,
+        data,
+        throwErrors,
+        delegate || this.context
+      );
       action.close &&
         (ret && ret.then
           ? ret.then(this.handleSelfClose)

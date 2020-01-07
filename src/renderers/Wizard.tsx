@@ -357,7 +357,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       });
   }
 
-  handleAction(e: React.UIEvent<any> | void, action: Action, data: object) {
+  handleAction(
+    e: React.UIEvent<any> | void,
+    action: Action,
+    data: object,
+    throwErrors: boolean = false,
+    delegate?: IScopedContext
+  ) {
     const {onAction, store, env} = this.props;
 
     if (action.actionType === 'next' || action.type === 'submit') {
@@ -401,7 +407,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else if (action.actionType === 'reload') {
       action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
-      onAction(e, action, data, false, this.context);
+      onAction(e, action, data, throwErrors, delegate || this.context);
     }
   }
 
