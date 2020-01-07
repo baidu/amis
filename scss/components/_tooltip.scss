@@ -230,7 +230,7 @@
   }
 
   &[data-position='left']:hover:after {
-    margin: 0 0 0 $Tooltip--attr-gap;
+    margin: 0 $Tooltip--attr-gap 0 0;
   }
 
   &[data-position='top']:after {
