@@ -104,6 +104,8 @@ registerIcon('play', PlayIcon);
 registerIcon('pause', PauseIcon);
 registerIcon('left-arrow', LeftArrowIcon);
 registerIcon('right-arrow', RightArrowIcon);
+registerIcon('prev', LeftArrowIcon);
+registerIcon('next', RightArrowIcon);
 registerIcon('check', CheckIcon);
 registerIcon('plus', PlusIcon);
 registerIcon('minus', MinusIcon);

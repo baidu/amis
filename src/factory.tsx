@@ -38,6 +38,7 @@ import {getTheme, ThemeInstance, ClassNamesFn, ThemeContext} from './theme';
 import find = require('lodash/find');
 import Alert from './components/Alert2';
 import {LazyComponent} from './components';
+import ImageGallery from './components/ImageGallery';
 
 export interface TestFunc {
   (
@@ -383,26 +384,28 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     return (
       <RootStoreContext.Provider value={rootStore}>
         <ThemeContext.Provider value={this.props.theme || 'default'}>
-          {
-            renderChild(
-              pathPrefix || '',
-              isPlainObject(schema)
-                ? {
-                    type: 'page',
-                    ...(schema as Schema)
-                  }
-                : schema,
-              {
-                ...rest,
-                resolveDefinitions: this.resolveDefinitions,
-                location: location,
-                data: finalData,
-                env,
-                classnames: theme.classnames,
-                classPrefix: theme.classPrefix
-              }
-            ) as JSX.Element
-          }
+          <ImageGallery>
+            {
+              renderChild(
+                pathPrefix || '',
+                isPlainObject(schema)
+                  ? {
+                      type: 'page',
+                      ...(schema as Schema)
+                    }
+                  : schema,
+                {
+                  ...rest,
+                  resolveDefinitions: this.resolveDefinitions,
+                  location: location,
+                  data: finalData,
+                  env,
+                  classnames: theme.classnames,
+                  classPrefix: theme.classPrefix
+                }
+              ) as JSX.Element
+            }
+          </ImageGallery>
         </ThemeContext.Provider>
       </RootStoreContext.Provider>
     );

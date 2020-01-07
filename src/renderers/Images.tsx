@@ -2,7 +2,8 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import {resolveVariable, isPureVariable} from '../utils/tpl-builtin';
-import Image from './Image';
+import Image, {ImageThumbProps} from './Image';
+import {autobind} from '../utils/helper';
 
 export interface ImagesProps extends RendererProps {
   className: string;
@@ -10,11 +11,22 @@ export interface ImagesProps extends RendererProps {
   placeholder: string;
   delimiter: string;
   thumbMode: 'w-full' | 'h-full' | 'contain' | 'cover';
-  thumbRatio: '1-1' | '4-3' | '16-9';
+  thumbRatio: '1:1' | '4:3' | '16:9';
 
   name?: string;
   value?: any;
   source?: string;
+  src?: string;
+  originalSrc?: string; // 原图
+  enlargeAble?: boolean;
+  onEnlarge?: (
+    info: ImageThumbProps & {
+      list?: Array<
+        Pick<ImageThumbProps, 'src' | 'originalSrc' | 'title' | 'caption'>
+      >;
+    }
+  ) => void;
+  showDimensions?: boolean;
 }
 
 export class ImagesField extends React.Component<ImagesProps> {
@@ -33,8 +45,34 @@ export class ImagesField extends React.Component<ImagesProps> {
       'https://fex.bdstatic.com/n/static/amis/renderers/crud/field/placeholder_cfad9b1.png',
     placehoder: '-',
     thumbMode: 'contain',
-    thumbRatio: '1-1'
+    thumbRatio: '1:1'
   };
+
+  list: Array<any> = [];
+
+  @autobind
+  handleEnlarge(info: ImageThumbProps) {
+    const {onImageEnlarge, src, originalSrc} = this.props;
+
+    onImageEnlarge &&
+      onImageEnlarge(
+        {
+          ...info,
+          originalSrc: info.originalSrc || info.src,
+          list: this.list.map(item => ({
+            src: src
+              ? filter(src, item, '| raw')
+              : (item && item.image) || item,
+            originalSrc: originalSrc
+              ? filter(originalSrc, item, '| raw')
+              : item && item.src,
+            title: item && item.title,
+            caption: item && (item.description || item.caption)
+          }))
+        },
+        this.props
+      );
+  }
 
   render() {
     const {
@@ -48,7 +86,10 @@ export class ImagesField extends React.Component<ImagesProps> {
       placeholder,
       classnames: cx,
       source,
-      delimiter
+      delimiter,
+      enlargeAble,
+      src,
+      originalSrc
     } = this.props;
 
     let list: any;
@@ -67,19 +108,33 @@ export class ImagesField extends React.Component<ImagesProps> {
       list = [list];
     }
 
+    this.list = list;
+
     return (
       <div className={cx('ImagesField', className)}>
         {Array.isArray(list) ? (
           <div className={cx('Images')}>
             {list.map((item: any, index: number) => (
               <Image
+                index={index}
                 className={cx('Images-item')}
                 key={index}
-                src={(item && item.image) || item}
+                src={
+                  src
+                    ? filter(src, item, '| raw')
+                    : (item && item.image) || item
+                }
+                originalSrc={
+                  originalSrc
+                    ? filter(originalSrc, item, '| raw')
+                    : item && item.src
+                }
                 title={item && item.title}
-                description={item && item.description}
+                caption={item && (item.description || item.caption)}
                 thumbMode={thumbMode}
                 thumbRatio={thumbRatio}
+                enlargeAble={enlargeAble!}
+                onEnlarge={this.handleEnlarge}
               />
             ))}
           </div>

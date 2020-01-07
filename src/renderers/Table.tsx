@@ -89,6 +89,7 @@ export interface TableProps extends RendererProps {
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
+  onImageEnlarge?: (data: any, target: any) => void;
   buildItemProps?: (item: any, index: number) => any;
   checkOnItemClick?: boolean;
   hideCheckToggler?: boolean;
@@ -860,6 +861,48 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
+  @autobind
+  handleImageEnlarge(info: any, target: {rowIndex: number; colIndex: number}) {
+    const onImageEnlarge = this.props.onImageEnlarge;
+
+    // 如果已经是多张了，直接跳过
+    if (Array.isArray(info.list)) {
+      return onImageEnlarge && onImageEnlarge(info, target);
+    }
+
+    // 从列表中收集所有图片，然后作为一个图片集合派送出去。
+    const store = this.props.store;
+    const column = store.filteredColumns[target.colIndex].pristine;
+
+    const list: Array<any> = [];
+    store.rows.forEach(row => {
+      const src = resolveVariable(column.name, row.data);
+
+      list.push({
+        src,
+        originalSrc: column.originalSrc
+          ? filter(column.originalSrc, row.data)
+          : src,
+        title: column.title ? filter(column.title, row.data) : undefined,
+        caption: column.caption ? filter(column.caption, row.data) : undefined
+      });
+    });
+
+    if (list.length > 1) {
+      onImageEnlarge &&
+        onImageEnlarge(
+          {
+            ...info,
+            list,
+            index: target.rowIndex
+          },
+          target
+        );
+    } else {
+      onImageEnlarge && onImageEnlarge(info, target);
+    }
+  }
+
   renderHeading() {
     let {
       title,
@@ -1186,7 +1229,8 @@ export default class Table extends React.Component<TableProps, object> {
       popOverContainer: this.getPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
       quickEditFormRef: this.subFormRef,
-      prefix
+      prefix,
+      onImageEnlarge: this.handleImageEnlarge
     };
     delete subProps.label;
 

@@ -403,6 +403,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
             {showCloseButton !== false && !store.loading ? (
               <a
                 data-tooltip="关闭弹窗"
+                data-position="left"
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >

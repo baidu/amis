@@ -17,6 +17,7 @@ import {ClassNamesFn, themeable} from '../theme';
 
 export interface ModalProps {
   className?: string;
+  contentClassName?: string;
   size?: any;
   overlay?: boolean;
   onHide: () => void;
@@ -83,6 +84,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   render() {
     const {
       className,
+      contentClassName,
       children,
       container,
       show,
@@ -92,6 +94,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     } = this.props;
 
     return (
+      // @ts-ignore
       <Portal container={container}>
         <Transition
           mountOnEnter
@@ -116,7 +119,13 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               {overlay ? (
                 <div className={cx(`${ns}Modal-overlay`, fadeStyles[status])} />
               ) : null}
-              <div className={cx(`${ns}Modal-content`, fadeStyles[status])}>
+              <div
+                className={cx(
+                  `${ns}Modal-content`,
+                  contentClassName,
+                  fadeStyles[status]
+                )}
+              >
                 {children}
               </div>
             </div>

@@ -9,17 +9,11 @@ export interface ImageThumbProps {
   src: string;
   originalSrc?: string; // 原图
   enlargeAble?: boolean;
-  onEnlarge?: (info: {
-    src: string;
-    originalSrc: string;
-    title?: string;
-    caption?: string;
-    thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
-    thumbRatio?: '1:1' | '4:3' | '16:9';
-  }) => void;
+  onEnlarge?: (info: ImageThumbProps) => void;
   showDimensions?: boolean;
   title?: string;
   alt?: string;
+  index?: number;
   className?: string;
   imageClassName?: string;
   caption?: string;
@@ -33,26 +27,8 @@ export interface ImageThumbProps {
 export class ImageThumb extends React.Component<ImageThumbProps> {
   @autobind
   handleEnlarge() {
-    const {
-      onEnlarge,
-      src,
-      originalSrc,
-      title,
-      caption,
-      thumbMode,
-      thumbRatio
-    } = this.props;
-
-    onEnlarge &&
-      originalSrc &&
-      onEnlarge({
-        src,
-        originalSrc,
-        title,
-        caption,
-        thumbMode,
-        thumbRatio
-      });
+    const {onEnlarge, ...rest} = this.props;
+    onEnlarge && onEnlarge(rest);
   }
 
   render() {
@@ -123,14 +99,17 @@ export interface ImageFieldProps extends RendererProps {
   thumbRatio: '1:1' | '4:3' | '16:9';
   originalSrc?: string; // 原图
   enlargeAble?: boolean;
-  onEnlarge?: (info: {
-    src: string;
-    originalSrc: string;
-    title?: string;
-    caption?: string;
-    thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
-    thumbRatio?: '1:1' | '4:3' | '16:9';
-  }) => void;
+  onImageEnlarge?: (
+    info: {
+      src: string;
+      originalSrc: string;
+      title?: string;
+      caption?: string;
+      thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+      thumbRatio?: '1:1' | '4:3' | '16:9';
+    },
+    target: any
+  ) => void;
   showDimensions?: boolean;
 }
 
@@ -145,6 +124,31 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     thumbRatio: '1:1',
     placeholder: '-'
   };
+
+  @autobind
+  handleEnlarge({
+    src,
+    originalSrc,
+    title,
+    caption,
+    thumbMode,
+    thumbRatio
+  }: ImageThumbProps) {
+    const {onImageEnlarge} = this.props;
+
+    onImageEnlarge &&
+      onImageEnlarge(
+        {
+          src,
+          originalSrc: originalSrc || src,
+          title,
+          caption,
+          thumbMode,
+          thumbRatio
+        },
+        this.props
+      );
+  }
 
   render() {
     const {
@@ -178,9 +182,9 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             caption={filter(imageCaption, data)}
             thumbMode={thumbMode}
             thumbRatio={thumbRatio}
-            originalSrc={originalSrc}
+            originalSrc={filter(originalSrc, data, '| raw')}
             enlargeAble={enlargeAble}
-            onEnlarge={onEnlarge}
+            onEnlarge={this.handleEnlarge}
             showDimensions={showDimensions}
           />
         ) : (

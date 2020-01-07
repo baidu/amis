@@ -30,10 +30,13 @@ export default {
         type: 'image',
         label: '图片',
         name: 'image',
-        popOver: {
-          title: '查看大图',
-          body: '<div class="w-xxl"><img class="w-full" src="${image}"/></div>'
-        }
+        enlargeAble: true,
+        title: '233',
+        thumbMode: 'cover'
+        // popOver: {
+        //   title: '查看大图',
+        //   body: '<div class="w-xxl"><img class="w-full" src="${image}"/></div>'
+        // }
       },
       {
         name: 'date',
