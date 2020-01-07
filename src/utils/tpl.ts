@@ -15,6 +15,8 @@ export function reigsterTplEnginer(name: string, enginer: Enginer) {
   enginers[name] = enginer;
 }
 
+[registerBulitin, registerLodash].forEach(fn => fn());
+
 export function filter(
   tpl?: string,
   data: object = {},
@@ -75,5 +77,3 @@ export function evalJS(js: string, data: object): any {
     return null;
   }
 }
-
-[registerBulitin, registerLodash].forEach(fn => fn());
