@@ -401,7 +401,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else if (action.actionType === 'reload') {
       action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
-      onAction(e, action, data);
+      onAction(e, action, data, false, this.context);
     }
   }
 
