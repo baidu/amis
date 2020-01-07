@@ -259,6 +259,17 @@ export default {
             title: '提示',
             body: '这是个简单的弹框'
           }
+        },
+
+        {
+          type: 'button',
+          label: 'full 弹框',
+          actionType: 'dialog',
+          dialog: {
+            size: 'full',
+            title: '全屏弹框',
+            body: '弹框尽可能占满，内容部分滚动。'
+          }
         }
       ]
     }
