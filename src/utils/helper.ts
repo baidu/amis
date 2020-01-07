@@ -30,7 +30,11 @@ export function createObject(
         }
       })
     : Object.create(Object.prototype, properties);
-  props && Object.keys(props).forEach(key => (obj[key] = props[key]));
+
+  props &&
+    isObject(props) &&
+    Object.keys(props).forEach(key => (obj[key] = props[key]));
+
   return obj;
 }
 
