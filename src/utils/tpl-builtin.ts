@@ -295,6 +295,10 @@ export function registerFilter(
   filters[name] = fn;
 }
 
+export function getFilters() {
+  return filters;
+}
+
 export function pickValues(names: string, data: object) {
   let arr: Array<string>;
   if (!names || ((arr = names.split(',')) && arr.length < 2)) {
