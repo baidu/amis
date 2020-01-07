@@ -28,13 +28,35 @@ require.resourceMap({
       "type": "js",
       "pkg": "p2"
     },
+    "node_modules/zrender/lib/core/fourPointsTransform": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/core/event": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/mixin/Eventful",
+        "node_modules/zrender/lib/core/env",
+        "node_modules/zrender/lib/core/fourPointsTransform"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/core/GestureMgr": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/event"
+      ],
+      "pkg": "p2"
+    },
     "node_modules/zrender/lib/Handler": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/util",
         "node_modules/zrender/lib/core/vector",
         "node_modules/zrender/lib/mixin/Draggable",
-        "node_modules/zrender/lib/mixin/Eventful"
+        "node_modules/zrender/lib/mixin/Eventful",
+        "node_modules/zrender/lib/core/event",
+        "node_modules/zrender/lib/core/GestureMgr"
       ],
       "pkg": "p2"
     },
@@ -147,10 +169,15 @@ require.resourceMap({
       "type": "js",
       "pkg": "p2"
     },
+    "node_modules/zrender/lib/graphic/constant": {
+      "type": "js",
+      "pkg": "p2"
+    },
     "node_modules/zrender/lib/graphic/Style": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/graphic/helper/fixShadow"
+        "node_modules/zrender/lib/graphic/helper/fixShadow",
+        "node_modules/zrender/lib/graphic/constant"
       ],
       "pkg": "p2"
     },
@@ -199,7 +226,8 @@ require.resourceMap({
         "node_modules/zrender/lib/contain/text",
         "node_modules/zrender/lib/graphic/helper/roundRect",
         "node_modules/zrender/lib/graphic/helper/image",
-        "node_modules/zrender/lib/graphic/helper/fixShadow"
+        "node_modules/zrender/lib/graphic/helper/fixShadow",
+        "node_modules/zrender/lib/graphic/constant"
       ],
       "pkg": "p2"
     },
@@ -207,7 +235,8 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/graphic/helper/text",
-        "node_modules/zrender/lib/core/BoundingRect"
+        "node_modules/zrender/lib/core/BoundingRect",
+        "node_modules/zrender/lib/graphic/constant"
       ],
       "pkg": "p2"
     },
@@ -246,14 +275,6 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/core/event": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/mixin/Eventful",
-        "node_modules/zrender/lib/core/env"
-      ],
-      "pkg": "p2"
-    },
     "node_modules/zrender/lib/animation/Animation": {
       "type": "js",
       "deps": [
@@ -264,21 +285,13 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/core/GestureMgr": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/event"
-      ],
-      "pkg": "p2"
-    },
     "node_modules/zrender/lib/dom/HandlerProxy": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/event",
         "node_modules/zrender/lib/core/util",
         "node_modules/zrender/lib/mixin/Eventful",
-        "node_modules/zrender/lib/core/env",
-        "node_modules/zrender/lib/core/GestureMgr"
+        "node_modules/zrender/lib/core/env"
       ],
       "pkg": "p2"
     },
@@ -397,45 +410,14 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/graphic/CompoundPath": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path"
-      ],
-      "pkg": "p2"
-    },
     "node_modules/zrender/lib/graphic/Text": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/graphic/Displayable",
         "node_modules/zrender/lib/core/util",
         "node_modules/zrender/lib/contain/text",
-        "node_modules/zrender/lib/graphic/helper/text"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/IncrementalDisplayable": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/graphic/Displayable",
-        "node_modules/zrender/lib/core/BoundingRect"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/Arc": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/BezierCurve": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path",
-        "node_modules/zrender/lib/core/vector",
-        "node_modules/zrender/lib/core/curve"
+        "node_modules/zrender/lib/graphic/helper/text",
+        "node_modules/zrender/lib/graphic/constant"
       ],
       "pkg": "p2"
     },
@@ -446,10 +428,16 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/graphic/shape/Droplet": {
+    "node_modules/zrender/lib/graphic/helper/subPixelOptimize": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Rect": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/graphic/Path"
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/graphic/helper/roundRect",
+        "node_modules/zrender/lib/graphic/helper/subPixelOptimize"
       ],
       "pkg": "p2"
     },
@@ -460,24 +448,11 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/graphic/shape/Heart": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/shape/Isogon": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/graphic/Path"
-      ],
-      "pkg": "p2"
-    },
     "node_modules/zrender/lib/graphic/shape/Line": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/graphic/Path"
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/graphic/helper/subPixelOptimize"
       ],
       "pkg": "p2"
     },
@@ -519,11 +494,89 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/graphic/shape/Rect": {
+    "node_modules/zrender/lib/graphic/Gradient": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/LinearGradient": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/graphic/Gradient"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/tool/parseSVG": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/container/Group",
+        "node_modules/zrender/lib/graphic/Image",
+        "node_modules/zrender/lib/graphic/Text",
+        "node_modules/zrender/lib/graphic/shape/Circle",
+        "node_modules/zrender/lib/graphic/shape/Rect",
+        "node_modules/zrender/lib/graphic/shape/Ellipse",
+        "node_modules/zrender/lib/graphic/shape/Line",
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/graphic/shape/Polygon",
+        "node_modules/zrender/lib/graphic/shape/Polyline",
+        "node_modules/zrender/lib/graphic/LinearGradient",
+        "node_modules/zrender/lib/graphic/Style",
+        "node_modules/zrender/lib/core/matrix",
+        "node_modules/zrender/lib/tool/path",
+        "node_modules/zrender/lib/core/util"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/CompoundPath": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/IncrementalDisplayable": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/graphic/Displayable",
+        "node_modules/zrender/lib/core/BoundingRect"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Arc": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/BezierCurve": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/graphic/Path",
-        "node_modules/zrender/lib/graphic/helper/roundRect"
+        "node_modules/zrender/lib/core/vector",
+        "node_modules/zrender/lib/core/curve"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Droplet": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Heart": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/zrender/lib/graphic/shape/Isogon": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/graphic/Path"
       ],
       "pkg": "p2"
     },
@@ -570,18 +623,6 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/zrender/lib/graphic/Gradient": {
-      "type": "js",
-      "pkg": "p2"
-    },
-    "node_modules/zrender/lib/graphic/LinearGradient": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/graphic/Gradient"
-      ],
-      "pkg": "p2"
-    },
     "node_modules/zrender/lib/graphic/RadialGradient": {
       "type": "js",
       "deps": [
@@ -598,6 +639,7 @@ require.resourceMap({
         "node_modules/zrender/lib/core/vector",
         "node_modules/zrender/lib/tool/color",
         "node_modules/zrender/lib/tool/path",
+        "node_modules/zrender/lib/tool/parseSVG",
         "node_modules/zrender/lib/container/Group",
         "node_modules/zrender/lib/graphic/Path",
         "node_modules/zrender/lib/graphic/Image",
@@ -665,7 +707,8 @@ require.resourceMap({
       "deps": [
         "node_modules/zrender/lib/svg/helper/Definable",
         "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/log"
+        "node_modules/zrender/lib/core/log",
+        "node_modules/zrender/lib/tool/color"
       ],
       "pkg": "p2"
     },
@@ -777,7 +820,8 @@ require.resourceMap({
     "node_modules/echarts/lib/util/model": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/core/util"
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/env"
       ],
       "pkg": "p2"
     },
@@ -836,7 +880,8 @@ require.resourceMap({
         "node_modules/zrender/lib/graphic/LinearGradient",
         "node_modules/zrender/lib/graphic/RadialGradient",
         "node_modules/zrender/lib/core/BoundingRect",
-        "node_modules/zrender/lib/graphic/IncrementalDisplayable"
+        "node_modules/zrender/lib/graphic/IncrementalDisplayable",
+        "node_modules/zrender/lib/graphic/helper/subPixelOptimize"
       ],
       "pkg": "p2"
     },
@@ -931,14 +976,6 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/model/referHelper": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/config",
-        "node_modules/zrender/lib/core/util"
-      ],
-      "pkg": "p2"
-    },
     "node_modules/echarts/lib/data/helper/sourceType": {
       "type": "js",
       "pkg": "p2"
@@ -957,7 +994,6 @@ require.resourceMap({
       "deps": [
         "node_modules/echarts/lib/config",
         "node_modules/echarts/lib/util/model",
-        "node_modules/echarts/lib/model/referHelper",
         "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/data/Source",
         "node_modules/echarts/lib/data/helper/sourceType"
@@ -1041,7 +1077,8 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/data/helper/dataProvider",
-        "node_modules/echarts/lib/util/format"
+        "node_modules/echarts/lib/util/format",
+        "node_modules/echarts/lib/util/model"
       ],
       "pkg": "p2"
     },
@@ -1095,6 +1132,7 @@ require.resourceMap({
         "node_modules/echarts/lib/util/component",
         "node_modules/echarts/lib/util/clazz",
         "node_modules/echarts/lib/util/model",
+        "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/stream/task",
         "node_modules/echarts/lib/chart/helper/createRenderPlanner"
       ],
@@ -1107,7 +1145,8 @@ require.resourceMap({
     "node_modules/echarts/lib/visual/seriesColor": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/graphic/Gradient"
+        "node_modules/zrender/lib/graphic/Gradient",
+        "node_modules/zrender/lib/core/util"
       ],
       "pkg": "p2"
     },
@@ -1162,6 +1201,15 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
+    "node_modules/echarts/lib/coord/geo/mapDataStorage": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/config",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/tool/parseSVG"
+      ],
+      "pkg": "p2"
+    },
     "node_modules/echarts/lib/data/DataDiffer": {
       "type": "js",
       "pkg": "p2"
@@ -1174,6 +1222,13 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
+    "node_modules/echarts/lib/data/DataDimensionInfo": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util"
+      ],
+      "pkg": "p2"
+    },
     "node_modules/echarts/lib/data/List": {
       "type": "js",
       "deps": [
@@ -1183,7 +1238,8 @@ require.resourceMap({
         "node_modules/echarts/lib/data/DataDiffer",
         "node_modules/echarts/lib/data/Source",
         "node_modules/echarts/lib/data/helper/dataProvider",
-        "node_modules/echarts/lib/data/helper/dimensionHelper"
+        "node_modules/echarts/lib/data/helper/dimensionHelper",
+        "node_modules/echarts/lib/data/DataDimensionInfo"
       ],
       "pkg": "p2"
     },
@@ -1194,7 +1250,8 @@ require.resourceMap({
         "node_modules/echarts/lib/util/model",
         "node_modules/echarts/lib/data/helper/sourceHelper",
         "node_modules/echarts/lib/data/Source",
-        "node_modules/echarts/lib/data/helper/dimensionHelper"
+        "node_modules/echarts/lib/data/helper/dimensionHelper",
+        "node_modules/echarts/lib/data/DataDimensionInfo"
       ],
       "pkg": "p2"
     },
@@ -1202,6 +1259,14 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/data/helper/completeDimensions"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/model/referHelper": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/config",
+        "node_modules/zrender/lib/core/util"
       ],
       "pkg": "p2"
     },
@@ -1224,7 +1289,8 @@ require.resourceMap({
         "node_modules/echarts/lib/CoordinateSystem",
         "node_modules/echarts/lib/model/referHelper",
         "node_modules/echarts/lib/data/Source",
-        "node_modules/echarts/lib/data/helper/dataStackHelper"
+        "node_modules/echarts/lib/data/helper/dataStackHelper",
+        "node_modules/echarts/lib/data/helper/sourceHelper"
       ],
       "pkg": "p2"
     },
@@ -1318,8 +1384,7 @@ require.resourceMap({
     "node_modules/echarts/lib/coord/axisModelCommonMixin": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/coord/axisHelper"
+        "node_modules/zrender/lib/core/util"
       ],
       "pkg": "p2"
     },
@@ -1328,7 +1393,8 @@ require.resourceMap({
       "deps": [
         "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/util/graphic",
-        "node_modules/zrender/lib/core/BoundingRect"
+        "node_modules/zrender/lib/core/BoundingRect",
+        "node_modules/zrender/lib/contain/text"
       ],
       "pkg": "p2"
     },
@@ -1436,6 +1502,7 @@ require.resourceMap({
         "node_modules/echarts/lib/theme/light",
         "node_modules/echarts/lib/theme/dark",
         "node_modules/echarts/lib/component/dataset",
+        "node_modules/echarts/lib/coord/geo/mapDataStorage",
         "node_modules/echarts/lib/export"
       ],
       "pkg": "p2"
@@ -1500,6 +1567,14 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
+    "node_modules/echarts/lib/chart/helper/createClipPathFromCoordSys": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/util/number"
+      ],
+      "pkg": "p2"
+    },
     "node_modules/echarts/lib/chart/line/LineView": {
       "type": "js",
       "deps": [
@@ -1512,13 +1587,16 @@ require.resourceMap({
         "node_modules/echarts/lib/util/model",
         "node_modules/echarts/lib/chart/line/poly",
         "node_modules/echarts/lib/view/Chart",
-        "node_modules/echarts/lib/util/number",
-        "node_modules/echarts/lib/chart/line/helper"
+        "node_modules/echarts/lib/chart/line/helper",
+        "node_modules/echarts/lib/chart/helper/createClipPathFromCoordSys"
       ],
       "pkg": "p2"
     },
     "node_modules/echarts/lib/visual/symbol": {
       "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util"
+      ],
       "pkg": "p2"
     },
     "node_modules/echarts/lib/layout/points": {
@@ -1545,6 +1623,7 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/BoundingRect",
         "node_modules/echarts/lib/coord/cartesian/Cartesian"
       ],
       "pkg": "p2"
@@ -1618,7 +1697,8 @@ require.resourceMap({
         "node_modules/echarts/lib/util/number",
         "node_modules/echarts/lib/util/symbol",
         "node_modules/zrender/lib/core/matrix",
-        "node_modules/zrender/lib/core/vector"
+        "node_modules/zrender/lib/core/vector",
+        "node_modules/echarts/lib/coord/axisHelper"
       ],
       "pkg": "p2"
     },
@@ -1719,6 +1799,13 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
+    "node_modules/echarts/lib/util/shape/sausage": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/util/graphic"
+      ],
+      "pkg": "p2"
+    },
     "node_modules/echarts/lib/chart/bar/BarView": {
       "type": "js",
       "deps": [
@@ -1729,7 +1816,10 @@ require.resourceMap({
         "node_modules/echarts/lib/chart/bar/helper",
         "node_modules/echarts/lib/model/Model",
         "node_modules/echarts/lib/chart/bar/barItemStyle",
-        "node_modules/zrender/lib/graphic/Path"
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/echarts/lib/util/throttle",
+        "node_modules/echarts/lib/chart/helper/createClipPathFromCoordSys",
+        "node_modules/echarts/lib/util/shape/sausage"
       ],
       "pkg": "p2"
     },
@@ -1762,6 +1852,10 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
+    "node_modules/echarts/lib/visual/LegendVisualProvider": {
+      "type": "js",
+      "pkg": "p2"
+    },
     "node_modules/echarts/lib/chart/pie/PieSeries": {
       "type": "js",
       "deps": [
@@ -1771,7 +1865,9 @@ require.resourceMap({
         "node_modules/echarts/lib/util/model",
         "node_modules/echarts/lib/util/number",
         "node_modules/echarts/lib/component/helper/selectableMixin",
-        "node_modules/echarts/lib/data/helper/dataProvider"
+        "node_modules/echarts/lib/data/helper/dataProvider",
+        "node_modules/echarts/lib/data/helper/sourceHelper",
+        "node_modules/echarts/lib/visual/LegendVisualProvider"
       ],
       "pkg": "p2"
     },
@@ -1802,7 +1898,8 @@ require.resourceMap({
     "node_modules/echarts/lib/chart/pie/labelLayout": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/contain/text"
+        "node_modules/zrender/lib/contain/text",
+        "node_modules/echarts/lib/util/number"
       ],
       "pkg": "p2"
     },
@@ -1810,6 +1907,7 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/util/number",
+        "node_modules/echarts/lib/util/layout",
         "node_modules/echarts/lib/chart/pie/labelLayout",
         "node_modules/zrender/lib/core/util"
       ],
@@ -1888,7 +1986,8 @@ require.resourceMap({
         "node_modules/echarts/lib/scale/Interval",
         "node_modules/echarts/lib/util/number",
         "node_modules/echarts/lib/coord/axisHelper",
-        "node_modules/echarts/lib/CoordinateSystem"
+        "node_modules/echarts/lib/CoordinateSystem",
+        "node_modules/echarts/lib/scale/Log"
       ],
       "pkg": "p2"
     },
@@ -1929,7 +2028,8 @@ require.resourceMap({
         "node_modules/echarts/lib/model/Series",
         "node_modules/echarts/lib/chart/helper/createListSimply",
         "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/format"
+        "node_modules/echarts/lib/util/format",
+        "node_modules/echarts/lib/visual/LegendVisualProvider"
       ],
       "pkg": "p2"
     },
@@ -1945,6 +2045,9 @@ require.resourceMap({
     },
     "node_modules/echarts/lib/chart/radar/radarLayout": {
       "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util"
+      ],
       "pkg": "p2"
     },
     "node_modules/echarts/lib/chart/radar/backwardCompat": {
@@ -1969,17 +2072,6 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/coord/View": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/vector",
-        "node_modules/zrender/lib/core/matrix",
-        "node_modules/zrender/lib/core/BoundingRect",
-        "node_modules/zrender/lib/mixin/Transformable"
-      ],
-      "pkg": "p2"
-    },
     "node_modules/echarts/lib/coord/geo/fix/nanhai": {
       "type": "js",
       "deps": [
@@ -1990,29 +2082,22 @@ require.resourceMap({
     },
     "node_modules/echarts/lib/coord/geo/fix/textCoord": {
       "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util"
-      ],
       "pkg": "p2"
     },
     "node_modules/echarts/lib/coord/geo/fix/geoCoord": {
       "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util"
-      ],
       "pkg": "p2"
     },
     "node_modules/echarts/lib/coord/geo/fix/diaoyuIsland": {
       "type": "js",
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/coord/geo/Geo": {
+    "node_modules/echarts/lib/coord/geo/geoJSONLoader": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/BoundingRect",
         "node_modules/echarts/lib/coord/geo/parseGeoJson",
-        "node_modules/echarts/lib/coord/View",
+        "node_modules/echarts/lib/util/model",
         "node_modules/echarts/lib/coord/geo/fix/nanhai",
         "node_modules/echarts/lib/coord/geo/fix/textCoord",
         "node_modules/echarts/lib/coord/geo/fix/geoCoord",
@@ -2020,15 +2105,27 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/coord/geo/geoCreator": {
+    "node_modules/echarts/lib/coord/geo/geoSVGLoader": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/tool/parseSVG",
+        "node_modules/zrender/lib/container/Group",
+        "node_modules/zrender/lib/graphic/shape/Rect",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/BoundingRect",
+        "node_modules/echarts/lib/util/model"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/coord/geo/geoSourceManager": {
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/config",
-        "node_modules/echarts/lib/echarts",
         "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/coord/geo/Geo",
-        "node_modules/echarts/lib/util/layout",
-        "node_modules/echarts/lib/util/number"
+        "node_modules/echarts/lib/coord/geo/mapDataStorage",
+        "node_modules/echarts/lib/coord/geo/geoJSONLoader",
+        "node_modules/echarts/lib/coord/geo/geoSVGLoader",
+        "node_modules/zrender/lib/core/BoundingRect"
       ],
       "pkg": "p2"
     },
@@ -2041,7 +2138,8 @@ require.resourceMap({
         "node_modules/echarts/lib/util/format",
         "node_modules/echarts/lib/component/helper/selectableMixin",
         "node_modules/echarts/lib/data/helper/dataProvider",
-        "node_modules/echarts/lib/coord/geo/geoCreator"
+        "node_modules/echarts/lib/coord/geo/geoSourceManager",
+        "node_modules/echarts/lib/data/helper/sourceHelper"
       ],
       "pkg": "p2"
     },
@@ -2077,7 +2175,9 @@ require.resourceMap({
         "node_modules/echarts/lib/component/helper/RoamController",
         "node_modules/echarts/lib/component/helper/roamHelper",
         "node_modules/echarts/lib/component/helper/cursorHelper",
-        "node_modules/echarts/lib/util/graphic"
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/coord/geo/geoSourceManager",
+        "node_modules/echarts/lib/util/component"
       ],
       "pkg": "p2"
     },
@@ -2101,6 +2201,41 @@ require.resourceMap({
         "node_modules/echarts/lib/echarts",
         "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/action/roamHelper"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/coord/View": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/vector",
+        "node_modules/zrender/lib/core/matrix",
+        "node_modules/zrender/lib/core/BoundingRect",
+        "node_modules/zrender/lib/mixin/Transformable"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/coord/geo/Geo": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/BoundingRect",
+        "node_modules/echarts/lib/coord/View",
+        "node_modules/echarts/lib/coord/geo/geoSourceManager"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/coord/geo/geoCreator": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/config",
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/coord/geo/Geo",
+        "node_modules/echarts/lib/util/layout",
+        "node_modules/echarts/lib/util/number",
+        "node_modules/echarts/lib/coord/geo/geoSourceManager",
+        "node_modules/echarts/lib/coord/geo/mapDataStorage"
       ],
       "pkg": "p2"
     },
@@ -2186,14 +2321,20 @@ require.resourceMap({
         "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/chart/helper/Symbol",
         "node_modules/echarts/lib/chart/tree/layoutHelper",
-        "node_modules/echarts/lib/echarts"
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/bbox",
+        "node_modules/echarts/lib/coord/View",
+        "node_modules/echarts/lib/component/helper/roamHelper",
+        "node_modules/echarts/lib/component/helper/RoamController",
+        "node_modules/echarts/lib/component/helper/cursorHelper"
       ],
       "pkg": "p2"
     },
     "node_modules/echarts/lib/chart/tree/treeAction": {
       "type": "js",
       "deps": [
-        "node_modules/echarts/lib/echarts"
+        "node_modules/echarts/lib/echarts",
+        "node_modules/echarts/lib/action/roamHelper"
       ],
       "pkg": "p2"
     },
@@ -2354,7 +2495,8 @@ require.resourceMap({
         "node_modules/echarts/lib/util/model",
         "node_modules/echarts/lib/model/Model",
         "node_modules/echarts/lib/util/format",
-        "node_modules/echarts/lib/chart/helper/createGraphFromNodeEdge"
+        "node_modules/echarts/lib/chart/helper/createGraphFromNodeEdge",
+        "node_modules/echarts/lib/visual/LegendVisualProvider"
       ],
       "pkg": "p2"
     },
@@ -2386,11 +2528,16 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
+    "node_modules/echarts/lib/chart/graph/graphHelper": {
+      "type": "js",
+      "pkg": "p2"
+    },
     "node_modules/echarts/lib/chart/graph/adjustEdge": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/curve",
-        "node_modules/zrender/lib/core/vector"
+        "node_modules/zrender/lib/core/vector",
+        "node_modules/echarts/lib/chart/graph/graphHelper"
       ],
       "pkg": "p2"
     },
@@ -2405,7 +2552,15 @@ require.resourceMap({
         "node_modules/echarts/lib/component/helper/roamHelper",
         "node_modules/echarts/lib/component/helper/cursorHelper",
         "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/chart/graph/adjustEdge"
+        "node_modules/echarts/lib/chart/graph/adjustEdge",
+        "node_modules/echarts/lib/chart/graph/graphHelper"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/chart/helper/focusNodeAdjacencyAction": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts"
       ],
       "pkg": "p2"
     },
@@ -2413,7 +2568,8 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/echarts",
-        "node_modules/echarts/lib/action/roamHelper"
+        "node_modules/echarts/lib/action/roamHelper",
+        "node_modules/echarts/lib/chart/helper/focusNodeAdjacencyAction"
       ],
       "pkg": "p2"
     },
@@ -2447,7 +2603,8 @@ require.resourceMap({
     "node_modules/echarts/lib/chart/graph/circularLayoutHelper": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/core/vector"
+        "node_modules/zrender/lib/core/vector",
+        "node_modules/echarts/lib/chart/graph/graphHelper"
       ],
       "pkg": "p2"
     },
@@ -2508,8 +2665,7 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/chart/helper/createListSimply",
-        "node_modules/echarts/lib/model/Series",
-        "node_modules/zrender/lib/core/util"
+        "node_modules/echarts/lib/model/Series"
       ],
       "pkg": "p2"
     },
@@ -2542,8 +2698,11 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/chart/helper/createListSimply",
-        "node_modules/echarts/lib/util/model"
+        "node_modules/echarts/lib/util/model",
+        "node_modules/echarts/lib/data/helper/sourceHelper",
+        "node_modules/echarts/lib/visual/LegendVisualProvider"
       ],
       "pkg": "p2"
     },
@@ -2714,7 +2873,6 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/util/graphic",
-        "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/view/Chart"
       ],
       "pkg": "p2"
@@ -2739,7 +2897,9 @@ require.resourceMap({
       "deps": [
         "node_modules/echarts/lib/model/Series",
         "node_modules/echarts/lib/chart/helper/createGraphFromNodeEdge",
-        "node_modules/echarts/lib/util/format"
+        "node_modules/echarts/lib/util/format",
+        "node_modules/echarts/lib/model/Model",
+        "node_modules/echarts/lib/config"
       ],
       "pkg": "p2"
     },
@@ -2747,21 +2907,16 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/echarts"
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util"
       ],
       "pkg": "p2"
     },
     "node_modules/echarts/lib/chart/sankey/sankeyAction": {
       "type": "js",
       "deps": [
-        "node_modules/echarts/lib/echarts"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/util/array/nest": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util"
+        "node_modules/echarts/lib/echarts",
+        "node_modules/echarts/lib/chart/helper/focusNodeAdjacencyAction"
       ],
       "pkg": "p2"
     },
@@ -2769,9 +2924,8 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/util/layout",
-        "node_modules/echarts/lib/util/array/nest",
         "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/config"
+        "node_modules/echarts/lib/util/model"
       ],
       "pkg": "p2"
     },
@@ -2800,7 +2954,8 @@ require.resourceMap({
       "deps": [
         "node_modules/echarts/lib/chart/helper/createListSimply",
         "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/data/helper/dimensionHelper"
+        "node_modules/echarts/lib/data/helper/dimensionHelper",
+        "node_modules/echarts/lib/data/helper/sourceHelper"
       ],
       "pkg": "p2"
     },
@@ -2861,7 +3016,8 @@ require.resourceMap({
         "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/view/Chart",
         "node_modules/echarts/lib/util/graphic",
-        "node_modules/zrender/lib/graphic/Path"
+        "node_modules/zrender/lib/graphic/Path",
+        "node_modules/echarts/lib/chart/helper/createClipPathFromCoordSys"
       ],
       "pkg": "p2"
     },
@@ -3012,7 +3168,8 @@ require.resourceMap({
         "node_modules/echarts/lib/chart/helper/Polyline",
         "node_modules/echarts/lib/chart/helper/EffectPolyline",
         "node_modules/echarts/lib/chart/helper/LargeLineDraw",
-        "node_modules/echarts/lib/chart/lines/linesLayout"
+        "node_modules/echarts/lib/chart/lines/linesLayout",
+        "node_modules/echarts/lib/chart/helper/createClipPathFromCoordSys"
       ],
       "pkg": "p2"
     },
@@ -3224,7 +3381,6 @@ require.resourceMap({
     "node_modules/echarts/lib/component/axisPointer/CartesianAxisPointer": {
       "type": "js",
       "deps": [
-        "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/component/axisPointer/BaseAxisPointer",
         "node_modules/echarts/lib/component/axisPointer/viewHelper",
         "node_modules/echarts/lib/coord/cartesian/cartesianAxisHelper",
@@ -3248,7 +3404,6 @@ require.resourceMap({
     "node_modules/echarts/lib/component/axisPointer/SingleAxisPointer": {
       "type": "js",
       "deps": [
-        "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/component/axisPointer/BaseAxisPointer",
         "node_modules/echarts/lib/component/axisPointer/viewHelper",
         "node_modules/echarts/lib/coord/single/singleAxisHelper",
@@ -3276,8 +3431,9 @@ require.resourceMap({
         "node_modules/echarts/lib/data/helper/dimensionHelper",
         "node_modules/echarts/lib/data/List",
         "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/model",
         "node_modules/echarts/lib/util/format",
-        "node_modules/echarts/lib/util/array/nest"
+        "node_modules/echarts/lib/visual/LegendVisualProvider"
       ],
       "pkg": "p2"
     },
@@ -3414,30 +3570,21 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/config",
-        "node_modules/echarts/lib/echarts",
         "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/chart/helper/labelHelper",
         "node_modules/echarts/lib/chart/helper/createListFromArray",
         "node_modules/echarts/lib/layout/barGrid",
         "node_modules/echarts/lib/data/DataDiffer",
+        "node_modules/echarts/lib/model/Series",
+        "node_modules/echarts/lib/model/Model",
+        "node_modules/echarts/lib/view/Chart",
+        "node_modules/echarts/lib/chart/helper/createClipPathFromCoordSys",
         "node_modules/echarts/lib/coord/cartesian/prepareCustom",
         "node_modules/echarts/lib/coord/geo/prepareCustom",
         "node_modules/echarts/lib/coord/single/prepareCustom",
         "node_modules/echarts/lib/coord/polar/prepareCustom",
         "node_modules/echarts/lib/coord/calendar/prepareCustom"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/graphic": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/config",
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/model",
-        "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/util/layout"
       ],
       "pkg": "p2"
     },
@@ -3447,144 +3594,6 @@ require.resourceMap({
         "node_modules/echarts/lib/component/gridSimple",
         "node_modules/echarts/lib/component/axisPointer/CartesianAxisPointer",
         "node_modules/echarts/lib/component/axisPointer"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/legend/LegendModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/model/Model",
-        "node_modules/echarts/lib/util/model"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/legend/legendAction": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/helper/listComponent": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/util/layout",
-        "node_modules/echarts/lib/util/format",
-        "node_modules/echarts/lib/util/graphic"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/legend/LegendView": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/config",
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/symbol",
-        "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/component/helper/listComponent",
-        "node_modules/echarts/lib/util/layout"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/legend/legendFilter": {
-      "type": "js",
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/legend": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/echarts/lib/component/legend/LegendModel",
-        "node_modules/echarts/lib/component/legend/legendAction",
-        "node_modules/echarts/lib/component/legend/LegendView",
-        "node_modules/echarts/lib/component/legend/legendFilter",
-        "node_modules/echarts/lib/model/Component"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/legend/ScrollableLegendModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/component/legend/LegendModel",
-        "node_modules/echarts/lib/util/layout"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/legend/ScrollableLegendView": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/util/layout",
-        "node_modules/echarts/lib/component/legend/LegendView"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/legend/scrollableLegendAction": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/legendScroll": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/component/legend",
-        "node_modules/echarts/lib/component/legend/ScrollableLegendModel",
-        "node_modules/echarts/lib/component/legend/ScrollableLegendView",
-        "node_modules/echarts/lib/component/legend/scrollableLegendAction"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/tooltip/TooltipModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/tooltip/TooltipContent": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/tool/color",
-        "node_modules/zrender/lib/core/event",
-        "node_modules/zrender/lib/core/env",
-        "node_modules/echarts/lib/util/format"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/tooltip/TooltipView": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/env",
-        "node_modules/echarts/lib/component/tooltip/TooltipContent",
-        "node_modules/echarts/lib/util/format",
-        "node_modules/echarts/lib/util/number",
-        "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/component/axisPointer/findPointFromSeries",
-        "node_modules/echarts/lib/util/layout",
-        "node_modules/echarts/lib/model/Model",
-        "node_modules/echarts/lib/component/axisPointer/globalListener",
-        "node_modules/echarts/lib/coord/axisHelper",
-        "node_modules/echarts/lib/component/axisPointer/viewHelper"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/tooltip": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/echarts/lib/component/axisPointer",
-        "node_modules/echarts/lib/component/tooltip/TooltipModel",
-        "node_modules/echarts/lib/component/tooltip/TooltipView"
       ],
       "pkg": "p2"
     },
@@ -3609,7 +3618,9 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/coord/Axis"
+        "node_modules/zrender/lib/contain/text",
+        "node_modules/echarts/lib/coord/Axis",
+        "node_modules/echarts/lib/util/model"
       ],
       "pkg": "p2"
     },
@@ -3659,7 +3670,8 @@ require.resourceMap({
         "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/model/Model",
-        "node_modules/echarts/lib/component/axis/AxisView"
+        "node_modules/echarts/lib/component/axis/AxisView",
+        "node_modules/echarts/lib/component/axis/AxisBuilder"
       ],
       "pkg": "p2"
     },
@@ -3748,6 +3760,326 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
+    "node_modules/echarts/lib/coord/calendar/Calendar": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/layout",
+        "node_modules/echarts/lib/util/number",
+        "node_modules/echarts/lib/CoordinateSystem"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/coord/calendar/CalendarModel": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/model/Component",
+        "node_modules/echarts/lib/util/layout"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/calendar/CalendarView": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/util/format",
+        "node_modules/echarts/lib/util/number"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/calendar": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/coord/calendar/Calendar",
+        "node_modules/echarts/lib/coord/calendar/CalendarModel",
+        "node_modules/echarts/lib/component/calendar/CalendarView"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/graphic": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/config",
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/model",
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/util/layout",
+        "node_modules/echarts/lib/util/number"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/toolbox/featureManager": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/toolbox/ToolboxModel": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/component/toolbox/featureManager"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/helper/listComponent": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/util/layout",
+        "node_modules/echarts/lib/util/format",
+        "node_modules/echarts/lib/util/graphic"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/toolbox/ToolboxView": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/contain/text",
+        "node_modules/echarts/lib/component/toolbox/featureManager",
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/model/Model",
+        "node_modules/echarts/lib/data/DataDiffer",
+        "node_modules/echarts/lib/component/helper/listComponent"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/toolbox/feature/SaveAsImage": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/env",
+        "node_modules/echarts/lib/lang",
+        "node_modules/echarts/lib/component/toolbox/featureManager"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/toolbox/feature/MagicType": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/lang",
+        "node_modules/echarts/lib/component/toolbox/featureManager"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/toolbox/feature/DataView": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/event",
+        "node_modules/echarts/lib/lang",
+        "node_modules/echarts/lib/component/toolbox/featureManager"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/helper/BrushTargetManager": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/config",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/util/model",
+        "node_modules/echarts/lib/component/helper/brushHelper"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoom/history": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoom/typeDefaulter": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/model/Component"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoom/helper": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/format"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoom/AxisProxy": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/number",
+        "node_modules/echarts/lib/component/dataZoom/helper",
+        "node_modules/echarts/lib/component/helper/sliderMove"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoom/DataZoomModel": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/config",
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/env",
+        "node_modules/echarts/lib/util/model",
+        "node_modules/echarts/lib/component/dataZoom/helper",
+        "node_modules/echarts/lib/component/dataZoom/AxisProxy"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoom/DataZoomView": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/view/Component"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoom/SelectZoomModel": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/component/dataZoom/DataZoomModel"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoom/SelectZoomView": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/component/dataZoom/DataZoomView"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoom/dataZoomProcessor": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoom/dataZoomAction": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/component/dataZoom/helper"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoomSelect": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/component/dataZoom/typeDefaulter",
+        "node_modules/echarts/lib/component/dataZoom/DataZoomModel",
+        "node_modules/echarts/lib/component/dataZoom/DataZoomView",
+        "node_modules/echarts/lib/component/dataZoom/SelectZoomModel",
+        "node_modules/echarts/lib/component/dataZoom/SelectZoomView",
+        "node_modules/echarts/lib/component/dataZoom/dataZoomProcessor",
+        "node_modules/echarts/lib/component/dataZoom/dataZoomAction"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/toolbox/feature/DataZoom": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/component/helper/BrushController",
+        "node_modules/echarts/lib/component/helper/BrushTargetManager",
+        "node_modules/echarts/lib/component/dataZoom/history",
+        "node_modules/echarts/lib/component/helper/sliderMove",
+        "node_modules/echarts/lib/lang",
+        "node_modules/echarts/lib/component/toolbox/featureManager",
+        "node_modules/echarts/lib/component/dataZoomSelect"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/toolbox/feature/Restore": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/echarts/lib/component/dataZoom/history",
+        "node_modules/echarts/lib/lang",
+        "node_modules/echarts/lib/component/toolbox/featureManager"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/toolbox": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/component/toolbox/ToolboxModel",
+        "node_modules/echarts/lib/component/toolbox/ToolboxView",
+        "node_modules/echarts/lib/component/toolbox/feature/SaveAsImage",
+        "node_modules/echarts/lib/component/toolbox/feature/MagicType",
+        "node_modules/echarts/lib/component/toolbox/feature/DataView",
+        "node_modules/echarts/lib/component/toolbox/feature/DataZoom",
+        "node_modules/echarts/lib/component/toolbox/feature/Restore"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/tooltip/TooltipModel": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/tooltip/TooltipContent": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/tool/color",
+        "node_modules/zrender/lib/core/event",
+        "node_modules/zrender/lib/core/env",
+        "node_modules/echarts/lib/util/format"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/tooltip/TooltipRichContent": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/graphic/Text"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/tooltip/TooltipView": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/env",
+        "node_modules/echarts/lib/component/tooltip/TooltipContent",
+        "node_modules/echarts/lib/component/tooltip/TooltipRichContent",
+        "node_modules/echarts/lib/util/format",
+        "node_modules/echarts/lib/util/number",
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/component/axisPointer/findPointFromSeries",
+        "node_modules/echarts/lib/util/layout",
+        "node_modules/echarts/lib/model/Model",
+        "node_modules/echarts/lib/component/axisPointer/globalListener",
+        "node_modules/echarts/lib/coord/axisHelper",
+        "node_modules/echarts/lib/component/axisPointer/viewHelper",
+        "node_modules/echarts/lib/util/model"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/tooltip": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/echarts/lib/component/axisPointer",
+        "node_modules/echarts/lib/component/tooltip/TooltipModel",
+        "node_modules/echarts/lib/component/tooltip/TooltipView"
+      ],
+      "pkg": "p2"
+    },
     "node_modules/echarts/lib/component/brush/preprocessor": {
       "type": "js",
       "deps": [
@@ -3767,18 +4099,8 @@ require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/contain/polygon",
-        "node_modules/zrender/lib/core/BoundingRect"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/helper/BrushTargetManager": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/config",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/util/model",
-        "node_modules/echarts/lib/component/helper/brushHelper"
+        "node_modules/zrender/lib/core/BoundingRect",
+        "node_modules/echarts/lib/util/graphic"
       ],
       "pkg": "p2"
     },
@@ -3822,10 +4144,6 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/component/toolbox/featureManager": {
-      "type": "js",
-      "pkg": "p2"
-    },
     "node_modules/echarts/lib/component/toolbox/feature/Brush": {
       "type": "js",
       "deps": [
@@ -3848,79 +4166,102 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/coord/calendar/Calendar": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/layout",
-        "node_modules/echarts/lib/util/number",
-        "node_modules/echarts/lib/CoordinateSystem"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/coord/calendar/CalendarModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/model/Component",
-        "node_modules/echarts/lib/util/layout"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/calendar/CalendarView": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/util/format",
-        "node_modules/echarts/lib/util/number"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/calendar": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/coord/calendar/Calendar",
-        "node_modules/echarts/lib/coord/calendar/CalendarModel",
-        "node_modules/echarts/lib/component/calendar/CalendarView"
-      ],
-      "pkg": "p2"
-    },
     "node_modules/echarts/lib/component/title": {
       "type": "js",
       "deps": [
+        "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/echarts",
         "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/util/layout"
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/component/dataZoom/typeDefaulter": {
+    "node_modules/echarts/lib/component/timeline/preprocessor": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/timeline/typeDefaulter": {
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/model/Component"
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/component/dataZoom/helper": {
+    "node_modules/echarts/lib/component/timeline/timelineAction": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/timeline/TimelineModel": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/model/Component",
+        "node_modules/echarts/lib/data/List",
+        "node_modules/echarts/lib/util/model"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/timeline/SliderTimelineModel": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/component/timeline/TimelineModel",
+        "node_modules/echarts/lib/model/mixin/dataFormat"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/timeline/TimelineView": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/view/Component"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/timeline/TimelineAxis": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/coord/Axis"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/timeline/SliderTimelineView": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/BoundingRect",
+        "node_modules/zrender/lib/core/matrix",
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/util/layout",
+        "node_modules/echarts/lib/component/timeline/TimelineView",
+        "node_modules/echarts/lib/component/timeline/TimelineAxis",
+        "node_modules/echarts/lib/util/symbol",
+        "node_modules/echarts/lib/coord/axisHelper",
+        "node_modules/echarts/lib/util/number",
         "node_modules/echarts/lib/util/format"
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/component/dataZoom/AxisProxy": {
+    "node_modules/echarts/lib/component/timeline": {
       "type": "js",
       "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/number",
-        "node_modules/echarts/lib/component/dataZoom/helper"
+        "node_modules/echarts/lib/echarts",
+        "node_modules/echarts/lib/component/timeline/preprocessor",
+        "node_modules/echarts/lib/component/timeline/typeDefaulter",
+        "node_modules/echarts/lib/component/timeline/timelineAction",
+        "node_modules/echarts/lib/component/timeline/SliderTimelineModel",
+        "node_modules/echarts/lib/component/timeline/SliderTimelineView"
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/component/dataZoom/DataZoomModel": {
+    "node_modules/echarts/lib/component/marker/MarkerModel": {
       "type": "js",
       "deps": [
         "node_modules/echarts/lib/config",
@@ -3928,15 +4269,194 @@ require.resourceMap({
         "node_modules/zrender/lib/core/util",
         "node_modules/zrender/lib/core/env",
         "node_modules/echarts/lib/util/model",
-        "node_modules/echarts/lib/component/dataZoom/helper",
-        "node_modules/echarts/lib/component/dataZoom/AxisProxy"
+        "node_modules/echarts/lib/util/format",
+        "node_modules/echarts/lib/model/mixin/dataFormat"
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/component/dataZoom/DataZoomView": {
+    "node_modules/echarts/lib/component/marker/MarkPointModel": {
       "type": "js",
       "deps": [
-        "node_modules/echarts/lib/view/Component"
+        "node_modules/echarts/lib/component/marker/MarkerModel"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/marker/markerHelper": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/number",
+        "node_modules/echarts/lib/data/helper/dataStackHelper"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/marker/MarkerView": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/marker/MarkPointView": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/chart/helper/SymbolDraw",
+        "node_modules/echarts/lib/util/number",
+        "node_modules/echarts/lib/data/List",
+        "node_modules/echarts/lib/component/marker/markerHelper",
+        "node_modules/echarts/lib/component/marker/MarkerView"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/markPoint": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/echarts/lib/component/marker/MarkPointModel",
+        "node_modules/echarts/lib/component/marker/MarkPointView"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/marker/MarkLineModel": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/component/marker/MarkerModel"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/marker/MarkLineView": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/data/List",
+        "node_modules/echarts/lib/util/number",
+        "node_modules/echarts/lib/component/marker/markerHelper",
+        "node_modules/echarts/lib/chart/helper/LineDraw",
+        "node_modules/echarts/lib/component/marker/MarkerView",
+        "node_modules/echarts/lib/data/helper/dataStackHelper"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/markLine": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/echarts/lib/component/marker/MarkLineModel",
+        "node_modules/echarts/lib/component/marker/MarkLineView"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/marker/MarkAreaModel": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/component/marker/MarkerModel"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/marker/MarkAreaView": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/tool/color",
+        "node_modules/echarts/lib/data/List",
+        "node_modules/echarts/lib/util/number",
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/component/marker/markerHelper",
+        "node_modules/echarts/lib/component/marker/MarkerView"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/markArea": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/echarts/lib/component/marker/MarkAreaModel",
+        "node_modules/echarts/lib/component/marker/MarkAreaView"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/legend/LegendModel": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/model/Model",
+        "node_modules/echarts/lib/util/model",
+        "node_modules/echarts/lib/lang"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/legend/legendAction": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/legend/LegendView": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/config",
+        "node_modules/echarts/lib/echarts",
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/symbol",
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/component/helper/listComponent",
+        "node_modules/echarts/lib/util/layout"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/legend/legendFilter": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/legend": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts",
+        "node_modules/echarts/lib/component/legend/LegendModel",
+        "node_modules/echarts/lib/component/legend/legendAction",
+        "node_modules/echarts/lib/component/legend/LegendView",
+        "node_modules/echarts/lib/component/legend/legendFilter",
+        "node_modules/echarts/lib/model/Component"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/legend/ScrollableLegendModel": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/component/legend/LegendModel",
+        "node_modules/echarts/lib/util/layout"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/legend/ScrollableLegendView": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/echarts/lib/util/layout",
+        "node_modules/echarts/lib/component/legend/LegendView"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/legend/scrollableLegendAction": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/echarts"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/legendScroll": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/component/legend",
+        "node_modules/echarts/lib/component/legend/ScrollableLegendModel",
+        "node_modules/echarts/lib/component/legend/ScrollableLegendView",
+        "node_modules/echarts/lib/component/legend/scrollableLegendAction"
       ],
       "pkg": "p2"
     },
@@ -3958,6 +4478,19 @@ require.resourceMap({
         "node_modules/echarts/lib/util/number",
         "node_modules/echarts/lib/util/layout",
         "node_modules/echarts/lib/component/helper/sliderMove"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/echarts/lib/component/dataZoomSlider": {
+      "type": "js",
+      "deps": [
+        "node_modules/echarts/lib/component/dataZoom/typeDefaulter",
+        "node_modules/echarts/lib/component/dataZoom/DataZoomModel",
+        "node_modules/echarts/lib/component/dataZoom/DataZoomView",
+        "node_modules/echarts/lib/component/dataZoom/SliderZoomModel",
+        "node_modules/echarts/lib/component/dataZoom/SliderZoomView",
+        "node_modules/echarts/lib/component/dataZoom/dataZoomProcessor",
+        "node_modules/echarts/lib/component/dataZoom/dataZoomAction"
       ],
       "pkg": "p2"
     },
@@ -3987,35 +4520,24 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/component/dataZoom/dataZoomProcessor": {
+    "node_modules/echarts/lib/component/dataZoomInside": {
       "type": "js",
       "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/dataZoom/dataZoomAction": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/component/dataZoom/helper"
+        "node_modules/echarts/lib/component/dataZoom/typeDefaulter",
+        "node_modules/echarts/lib/component/dataZoom/DataZoomModel",
+        "node_modules/echarts/lib/component/dataZoom/DataZoomView",
+        "node_modules/echarts/lib/component/dataZoom/InsideZoomModel",
+        "node_modules/echarts/lib/component/dataZoom/InsideZoomView",
+        "node_modules/echarts/lib/component/dataZoom/dataZoomProcessor",
+        "node_modules/echarts/lib/component/dataZoom/dataZoomAction"
       ],
       "pkg": "p2"
     },
     "node_modules/echarts/lib/component/dataZoom": {
       "type": "js",
       "deps": [
-        "node_modules/echarts/lib/component/dataZoom/typeDefaulter",
-        "node_modules/echarts/lib/component/dataZoom/DataZoomModel",
-        "node_modules/echarts/lib/component/dataZoom/DataZoomView",
-        "node_modules/echarts/lib/component/dataZoom/SliderZoomModel",
-        "node_modules/echarts/lib/component/dataZoom/SliderZoomView",
-        "node_modules/echarts/lib/component/dataZoom/InsideZoomModel",
-        "node_modules/echarts/lib/component/dataZoom/InsideZoomView",
-        "node_modules/echarts/lib/component/dataZoom/dataZoomProcessor",
-        "node_modules/echarts/lib/component/dataZoom/dataZoomAction"
+        "node_modules/echarts/lib/component/dataZoomSlider",
+        "node_modules/echarts/lib/component/dataZoomInside"
       ],
       "pkg": "p2"
     },
@@ -4173,331 +4695,6 @@ require.resourceMap({
       ],
       "pkg": "p2"
     },
-    "node_modules/echarts/lib/component/marker/MarkerModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/config",
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/env",
-        "node_modules/echarts/lib/util/model",
-        "node_modules/echarts/lib/util/format",
-        "node_modules/echarts/lib/model/mixin/dataFormat"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/marker/MarkPointModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/component/marker/MarkerModel"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/marker/markerHelper": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/number",
-        "node_modules/echarts/lib/data/helper/dataStackHelper"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/marker/MarkerView": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/marker/MarkPointView": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/chart/helper/SymbolDraw",
-        "node_modules/echarts/lib/util/number",
-        "node_modules/echarts/lib/data/List",
-        "node_modules/echarts/lib/component/marker/markerHelper",
-        "node_modules/echarts/lib/component/marker/MarkerView"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/markPoint": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/echarts/lib/component/marker/MarkPointModel",
-        "node_modules/echarts/lib/component/marker/MarkPointView"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/marker/MarkLineModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/component/marker/MarkerModel"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/marker/MarkLineView": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/data/List",
-        "node_modules/echarts/lib/util/number",
-        "node_modules/echarts/lib/component/marker/markerHelper",
-        "node_modules/echarts/lib/chart/helper/LineDraw",
-        "node_modules/echarts/lib/component/marker/MarkerView"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/markLine": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/echarts/lib/component/marker/MarkLineModel",
-        "node_modules/echarts/lib/component/marker/MarkLineView"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/marker/MarkAreaModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/component/marker/MarkerModel"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/marker/MarkAreaView": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/tool/color",
-        "node_modules/echarts/lib/data/List",
-        "node_modules/echarts/lib/util/number",
-        "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/component/marker/markerHelper",
-        "node_modules/echarts/lib/component/marker/MarkerView"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/markArea": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/echarts/lib/component/marker/MarkAreaModel",
-        "node_modules/echarts/lib/component/marker/MarkAreaView"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/timeline/preprocessor": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/timeline/typeDefaulter": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/model/Component"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/timeline/timelineAction": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/timeline/TimelineModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/model/Component",
-        "node_modules/echarts/lib/data/List",
-        "node_modules/echarts/lib/util/model"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/timeline/SliderTimelineModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/component/timeline/TimelineModel",
-        "node_modules/echarts/lib/model/mixin/dataFormat"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/timeline/TimelineView": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/view/Component"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/timeline/TimelineAxis": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/coord/Axis"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/timeline/SliderTimelineView": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/BoundingRect",
-        "node_modules/zrender/lib/core/matrix",
-        "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/util/layout",
-        "node_modules/echarts/lib/component/timeline/TimelineView",
-        "node_modules/echarts/lib/component/timeline/TimelineAxis",
-        "node_modules/echarts/lib/util/symbol",
-        "node_modules/echarts/lib/coord/axisHelper",
-        "node_modules/echarts/lib/util/number",
-        "node_modules/echarts/lib/util/format"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/timeline": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/echarts/lib/component/timeline/preprocessor",
-        "node_modules/echarts/lib/component/timeline/typeDefaulter",
-        "node_modules/echarts/lib/component/timeline/timelineAction",
-        "node_modules/echarts/lib/component/timeline/SliderTimelineModel",
-        "node_modules/echarts/lib/component/timeline/SliderTimelineView"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/toolbox/ToolboxModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/component/toolbox/featureManager"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/toolbox/ToolboxView": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/contain/text",
-        "node_modules/echarts/lib/component/toolbox/featureManager",
-        "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/model/Model",
-        "node_modules/echarts/lib/data/DataDiffer",
-        "node_modules/echarts/lib/component/helper/listComponent"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/toolbox/feature/SaveAsImage": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/env",
-        "node_modules/echarts/lib/lang",
-        "node_modules/echarts/lib/component/toolbox/featureManager"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/toolbox/feature/MagicType": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/lang",
-        "node_modules/echarts/lib/component/toolbox/featureManager"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/toolbox/feature/DataView": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/event",
-        "node_modules/echarts/lib/lang",
-        "node_modules/echarts/lib/component/toolbox/featureManager"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/dataZoom/history": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/dataZoom/SelectZoomModel": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/component/dataZoom/DataZoomModel"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/dataZoom/SelectZoomView": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/component/dataZoom/DataZoomView"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/dataZoomSelect": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/component/dataZoom/typeDefaulter",
-        "node_modules/echarts/lib/component/dataZoom/DataZoomModel",
-        "node_modules/echarts/lib/component/dataZoom/DataZoomView",
-        "node_modules/echarts/lib/component/dataZoom/SelectZoomModel",
-        "node_modules/echarts/lib/component/dataZoom/SelectZoomView",
-        "node_modules/echarts/lib/component/dataZoom/dataZoomProcessor",
-        "node_modules/echarts/lib/component/dataZoom/dataZoomAction"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/toolbox/feature/DataZoom": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/component/helper/BrushController",
-        "node_modules/echarts/lib/component/helper/BrushTargetManager",
-        "node_modules/echarts/lib/component/dataZoom/history",
-        "node_modules/echarts/lib/component/helper/sliderMove",
-        "node_modules/echarts/lib/lang",
-        "node_modules/echarts/lib/component/toolbox/featureManager",
-        "node_modules/echarts/lib/component/dataZoomSelect"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/toolbox/feature/Restore": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/echarts",
-        "node_modules/echarts/lib/component/dataZoom/history",
-        "node_modules/echarts/lib/lang",
-        "node_modules/echarts/lib/component/toolbox/featureManager"
-      ],
-      "pkg": "p2"
-    },
-    "node_modules/echarts/lib/component/toolbox": {
-      "type": "js",
-      "deps": [
-        "node_modules/echarts/lib/component/toolbox/ToolboxModel",
-        "node_modules/echarts/lib/component/toolbox/ToolboxView",
-        "node_modules/echarts/lib/component/toolbox/feature/SaveAsImage",
-        "node_modules/echarts/lib/component/toolbox/feature/MagicType",
-        "node_modules/echarts/lib/component/toolbox/feature/DataView",
-        "node_modules/echarts/lib/component/toolbox/feature/DataZoom",
-        "node_modules/echarts/lib/component/toolbox/feature/Restore"
-      ],
-      "pkg": "p2"
-    },
     "node_modules/echarts/index": {
       "type": "js",
       "deps": [
@@ -4526,25 +4723,30 @@ require.resourceMap({
         "node_modules/echarts/lib/chart/themeRiver",
         "node_modules/echarts/lib/chart/sunburst",
         "node_modules/echarts/lib/chart/custom",
-        "node_modules/echarts/lib/component/graphic",
         "node_modules/echarts/lib/component/grid",
-        "node_modules/echarts/lib/component/legendScroll",
-        "node_modules/echarts/lib/component/tooltip",
-        "node_modules/echarts/lib/component/axisPointer",
         "node_modules/echarts/lib/component/polar",
         "node_modules/echarts/lib/component/geo",
-        "node_modules/echarts/lib/component/parallel",
         "node_modules/echarts/lib/component/singleAxis",
-        "node_modules/echarts/lib/component/brush",
+        "node_modules/echarts/lib/component/parallel",
         "node_modules/echarts/lib/component/calendar",
+        "node_modules/echarts/lib/component/graphic",
+        "node_modules/echarts/lib/component/toolbox",
+        "node_modules/echarts/lib/component/tooltip",
+        "node_modules/echarts/lib/component/axisPointer",
+        "node_modules/echarts/lib/component/brush",
         "node_modules/echarts/lib/component/title",
-        "node_modules/echarts/lib/component/dataZoom",
-        "node_modules/echarts/lib/component/visualMap",
+        "node_modules/echarts/lib/component/timeline",
         "node_modules/echarts/lib/component/markPoint",
         "node_modules/echarts/lib/component/markLine",
         "node_modules/echarts/lib/component/markArea",
-        "node_modules/echarts/lib/component/timeline",
-        "node_modules/echarts/lib/component/toolbox",
+        "node_modules/echarts/lib/component/legendScroll",
+        "node_modules/echarts/lib/component/legend",
+        "node_modules/echarts/lib/component/dataZoom",
+        "node_modules/echarts/lib/component/dataZoomInside",
+        "node_modules/echarts/lib/component/dataZoomSlider",
+        "node_modules/echarts/lib/component/visualMap",
+        "node_modules/echarts/lib/component/visualMapContinuous",
+        "node_modules/echarts/lib/component/visualMapPiecewise",
         "node_modules/zrender/lib/vml/vml",
         "node_modules/zrender/lib/svg/svg"
       ],
@@ -4571,411 +4773,11 @@ require.resourceMap({
     "node_modules/hls.js/dist/hls": {
       "url": "https://bce.bdstatic.com/fex/amis-gh-pages/n/hls.js/dist/hls_9355c57.js",
       "type": "js"
-    },
-    "docs/getting_started.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/getting_started_e9bb6b3.js",
-      "type": "js"
-    },
-    "docs/basic.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/basic_7d2ade1.js",
-      "type": "js"
-    },
-    "docs/advanced.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/advanced_42bd99a.js",
-      "type": "js"
-    },
-    "docs/renderers.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers_be09f25.js",
-      "type": "js"
-    },
-    "docs/renderers/Page.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Page_c6e7869.js",
-      "type": "js"
-    },
-    "docs/renderers/Definitions.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Definitions_824906c.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Form.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Form_c974b51.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/FormItem.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/FormItem_b10abdb.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/List.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/List_5c980e9.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Button-Group.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Button-Group_1ce9bc5.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Service.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Service_f39843e.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Tabs.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Tabs_fa24b38.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Table.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Table_bbac4de.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/HBox.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/HBox_95b1777.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Grid.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Grid_a0b47b0.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Panel.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Panel_15f0c35.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Hidden.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Hidden_12623c5.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Text.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Text_b9a1159.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Input-Group.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Input-Group_b9ea070.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Textarea.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Textarea_7b0369b.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Url.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Url_390eb8c.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Email.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Email_6f58cc8.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Password.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Password_efd9f65.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Number.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Number_4d16326.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Tag.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Tag_616366e.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Select.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Select_f550c01.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Chained-Select.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Chained-Select_feca72f.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Checkbox.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Checkbox_aaf76a4.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Checkboxes.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Checkboxes_8a055be.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/City.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/City_c77cedf.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Radios.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Radios_924b2d4.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Switch.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Switch_433dce7.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Rating.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Rating_9bc90bc.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Date.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Date_71a0445.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Datetime.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Datetime_27f291f.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Time.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Time_29d6c47.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Date-Range.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Date-Range_34864ff.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Color.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Color_f2e2852.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Range.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Range_2162022.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Image.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Image_cd179f7.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/File.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/File_6090ab0.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Matrix.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Matrix_f8c0d21.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Tree.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Tree_ab1679c.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/TreeSelect.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/TreeSelect_70c5389.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/NestedSelect.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/NestedSelect_0968a6c.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Button.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Button_9e7b3ee.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Button-Toolbar.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Button-Toolbar_acaf8ce.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Combo.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Combo_44ec950.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Array.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Array_34782ce.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/SubForm.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/SubForm_d6ed24a.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Picker.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Picker_06dba54.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Formula.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Formula_3fadf8a.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Group.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Group_f852e20.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/FieldSet.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/FieldSet_bcf2995.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Repeat.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Repeat_e183ca6.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Rich-Text.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Rich-Text_2e0002b.js",
-      "type": "js"
-    },
-    "docs/renderers/Form/Editor.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Editor_ca2a718.js",
-      "type": "js"
-    },
-    "docs/renderers/Static.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Static_d2ecd95.js",
-      "type": "js"
-    },
-    "docs/renderers/Divider.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Divider_bd296e3.js",
-      "type": "js"
-    },
-    "docs/renderers/Wizard.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Wizard_44d3102.js",
-      "type": "js"
-    },
-    "docs/renderers/Each.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Each_acfb33a.js",
-      "type": "js"
-    },
-    "docs/renderers/Tpl.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Tpl_76ea740.js",
-      "type": "js"
-    },
-    "docs/renderers/Plain.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Plain_4b55aa6.js",
-      "type": "js"
-    },
-    "docs/renderers/Html.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Html_066cc57.js",
-      "type": "js"
-    },
-    "docs/renderers/Alert.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Alert_f2f6fc6.js",
-      "type": "js"
-    },
-    "docs/renderers/Action.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Action_843aa7b.js",
-      "type": "js"
-    },
-    "docs/renderers/Dialog.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Dialog_669f15c.js",
-      "type": "js"
-    },
-    "docs/renderers/Drawer.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Drawer_82c556f.js",
-      "type": "js"
-    },
-    "docs/renderers/CRUD.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/CRUD_e444268.js",
-      "type": "js"
-    },
-    "docs/renderers/CRUD-Table.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/CRUD-Table_10e8990.js",
-      "type": "js"
-    },
-    "docs/renderers/CRUD-Cards.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/CRUD-Cards_2917109.js",
-      "type": "js"
-    },
-    "docs/renderers/CRUD-List.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/CRUD-List_b57eddd.js",
-      "type": "js"
-    },
-    "docs/renderers/Panel.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Panel_c3302fe.js",
-      "type": "js"
-    },
-    "docs/renderers/Wrapper.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Wrapper_2ff662d.js",
-      "type": "js"
-    },
-    "docs/renderers/Service.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Service_1f623db.js",
-      "type": "js"
-    },
-    "docs/renderers/Chart.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Chart_36d0f40.js",
-      "type": "js"
-    },
-    "docs/renderers/Collapse.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Collapse_b0819a6.js",
-      "type": "js"
-    },
-    "docs/renderers/Carousel.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Carousel_ef4fdde.js",
-      "type": "js"
-    },
-    "docs/renderers/Audio.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Audio_67d2e11.js",
-      "type": "js"
-    },
-    "docs/renderers/Video.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Video_85ae9dd.js",
-      "type": "js"
-    },
-    "docs/renderers/Table.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Table_3e512fa.js",
-      "type": "js"
-    },
-    "docs/renderers/Column.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Column_6bd40c9.js",
-      "type": "js"
-    },
-    "docs/renderers/Operation.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Operation_2324035.js",
-      "type": "js"
-    },
-    "docs/renderers/List.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/List_bce9dc7.js",
-      "type": "js"
-    },
-    "docs/renderers/Card.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Card_749edc3.js",
-      "type": "js"
-    },
-    "docs/renderers/Cards.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Cards_7f01e70.js",
-      "type": "js"
-    },
-    "docs/renderers/Field.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Field_bc1e6ed.js",
-      "type": "js"
-    },
-    "docs/renderers/Tabs.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Tabs_cb8d10a.js",
-      "type": "js"
-    },
-    "docs/renderers/Grid.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Grid_1e937ec.js",
-      "type": "js"
-    },
-    "docs/renderers/HBox.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/HBox_aa03385.js",
-      "type": "js"
-    },
-    "docs/renderers/ButtonGroup.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/ButtonGroup_3e1bfda.js",
-      "type": "js"
-    },
-    "docs/renderers/iFrame.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/iFrame_e0bdd74.js",
-      "type": "js"
-    },
-    "docs/renderers/Nav.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Nav_964f9b4.js",
-      "type": "js"
-    },
-    "docs/renderers/Tasks.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Tasks_bea117d.js",
-      "type": "js"
-    },
-    "docs/renderers/QRCode.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/QRCode_7870561.js",
-      "type": "js"
-    },
-    "docs/renderers/Types.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Types_15906a6.js",
-      "type": "js"
-    },
-    "docs/api.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/api_d3f8a28.js",
-      "type": "js"
-    },
-    "docs/sdk.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/sdk_c288bf6.js",
-      "type": "js"
-    },
-    "docs/dev.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/dev_b7828e7.js",
-      "type": "js"
-    },
-    "docs/style.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/style_a0d04b0.js",
-      "type": "js"
     }
   },
   "pkg": {
     "p2": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/echarts_a3e9cfe.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/echarts_66d0934.js",
       "type": "js"
     }
   }
