@@ -711,7 +711,7 @@ export default class Form extends React.Component<FormProps, object> {
       action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
       // 不识别的丢给上层去处理。
-      return onAction(e, action, data, throwErrors, this.context);
+      return onAction(e, action, data, throwErrors, delegate || this.context);
     }
   }
 
