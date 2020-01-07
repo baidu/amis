@@ -14,8 +14,6 @@ import {
 } from './factory';
 import {wrapFetcher, buildApi} from './utils/api';
 import {filter, reigsterTplEnginer, evalExpression} from './utils/tpl';
-import './utils/tpl-builtin';
-import './utils/tpl-lodash';
 import * as utils from './utils/helper';
 import {resizeSensor} from './utils/resize-sensor';
 import {setIconVendor} from './renderers/Form/IconPickerIcons';

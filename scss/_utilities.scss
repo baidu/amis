@@ -1219,7 +1219,9 @@
   .#{$ns}Form-col {
     &.w,
     &.w-xs,
-    &.w-sm &.w-md &.w-lg {
+    &.w-sm,
+    &.w-md,
+    &.w-lg {
       flex-basis: unset;
       flex-grow: unset;
     }

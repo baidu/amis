@@ -1,3 +1,7 @@
+import {createObject} from './helper';
+import {register as registerBulitin, getFilters} from './tpl-builtin';
+import {register as registerLodash} from './tpl-lodash';
+
 export interface Enginer {
   test: (tpl: string) => boolean;
   compile: (tpl: string, data: object, ...rest: Array<any>) => string;
@@ -10,6 +14,8 @@ const enginers: {
 export function reigsterTplEnginer(name: string, enginer: Enginer) {
   enginers[name] = enginer;
 }
+
+[registerBulitin, registerLodash].forEach(fn => fn());
 
 export function filter(
   tpl?: string,
@@ -50,7 +56,7 @@ export function evalExpression(expression: string, data?: object): boolean {
       `with(data) {${debug ? 'debugger;' : ''}return !!(${expression});}`
     );
     data = data || {};
-    return fn.call(data, data);
+    return fn.call(createObject(getFilters(), data), data);
   } catch (e) {
     console.warn(e);
     return false;
@@ -65,7 +71,7 @@ export function evalJS(js: string, data: object): any {
       `with(data) {${~js.indexOf('return') ? '' : 'return '}${js};}`
     );
     data = data || {};
-    return fn.call(data, data);
+    return fn.call(createObject(getFilters(), data), data);
   } catch (e) {
     console.warn(e);
     return null;

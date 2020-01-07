@@ -1,14 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
+import {ScopedContext, IScopedContext} from '../Scoped';
 import {Renderer, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {observer} from 'mobx-react';
 import {SchemaNode, Schema, Action} from '../types';
 import {filter} from '../utils/tpl';
 import Modal from '../components/Modal';
 import findLast = require('lodash/findLast');
-import {guid, chainFunctions, isVisible} from '../utils/helper';
+import {guid, isVisible} from '../utils/helper';
 import {reaction} from 'mobx';
 import {Icon} from '../components/icons';
 import {ModalStore, IModalStore} from '../store/modal';
@@ -320,13 +317,9 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         ...schema
       };
 
-      // 同步数据到 Dialog 层，方便 actions 根据表单数据联动。
-      subProps.onChange = chainFunctions(
-        this.handleFormChange,
-        schema.onChange
-      );
-      subProps.onInit = chainFunctions(this.handleFormInit, schema.onInit);
-      subProps.onSaved = chainFunctions(this.handleFormSaved, schema.onSaved);
+      subProps.onChange = this.handleFormChange;
+      subProps.onInit = this.handleFormInit;
+      subProps.onSaved = this.handleFormSaved;
     }
 
     return render(`body${key ? `/${key}` : ''}`, schema, subProps);
@@ -410,6 +403,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
             {showCloseButton !== false && !store.loading ? (
               <a
                 data-tooltip="关闭弹窗"
+                data-position="left"
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >
@@ -606,12 +600,14 @@ export class DialogRenderer extends Dialog {
     action: Action,
     data: object,
     throwErrors: boolean = false,
-    delegate?: boolean
+    delegate?: IScopedContext
   ) {
     const {onAction, store, onConfirm, env} = this.props;
 
     if (action.from === this.$$id) {
-      return onAction ? onAction(e, action, data, throwErrors, true) : false;
+      return onAction
+        ? onAction(e, action, data, throwErrors, delegate || this.context)
+        : false;
     }
 
     const scoped = this.context as IScopedContext;
@@ -673,7 +669,13 @@ export class DialogRenderer extends Dialog {
         })
         .catch(() => {});
     } else if (onAction) {
-      let ret = onAction(e, action, data, throwErrors, true);
+      let ret = onAction(
+        e,
+        action,
+        data,
+        throwErrors,
+        delegate || this.context
+      );
       action.close &&
         (ret && ret.then
           ? ret.then(this.handleSelfClose)
