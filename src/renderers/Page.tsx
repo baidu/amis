@@ -181,7 +181,8 @@ export default class Page extends React.Component<PageProps> {
     e: React.UIEvent<any> | void,
     action: Action,
     ctx: object,
-    delegate?: boolean
+    throwErrors: boolean = false,
+    delegate?: IScopedContext
   ) {
     const {env, store, messages} = this.props;
 
@@ -543,7 +544,7 @@ export class PageRenderer extends Page {
     action: Action,
     ctx: object,
     throwErrors: boolean = false,
-    delegate?: boolean
+    delegate?: IScopedContext
   ) {
     const scoped = this.context as IScopedContext;
 
@@ -563,7 +564,15 @@ export class PageRenderer extends Page {
           );
       });
     } else {
-      super.handleAction(e, action, ctx, delegate);
+      super.handleAction(e, action, ctx, throwErrors, delegate);
+
+      if (
+        action.reload &&
+        ~['url', 'link', 'jump'].indexOf(action.actionType!)
+      ) {
+        const scoped = delegate || (this.context as IScopedContext);
+        scoped.reload(action.reload, ctx);
+      }
     }
   }
 

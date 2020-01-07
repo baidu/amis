@@ -529,7 +529,7 @@ export default class Form extends React.Component<FormProps, object> {
     action: Action,
     data: object,
     throwErrors: boolean = false,
-    delegate?: boolean
+    delegate?: IScopedContext
   ): any {
     const {
       store,
@@ -711,7 +711,7 @@ export default class Form extends React.Component<FormProps, object> {
       action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
       // 不识别的丢给上层去处理。
-      return onAction(e, action, data, throwErrors);
+      return onAction(e, action, data, throwErrors, this.context);
     }
   }
 
@@ -1158,7 +1158,7 @@ export class FormRenderer extends Form {
     action: Action,
     ctx: object,
     throwErrors: boolean = false,
-    delegate?: boolean
+    delegate?: IScopedContext
   ) {
     if (action.target && action.actionType !== 'reload') {
       const scoped = this.context as IScopedContext;

@@ -622,12 +622,14 @@ export class DrawerRenderer extends Drawer {
     action: Action,
     data: object,
     throwErrors: boolean = false,
-    delegate?: boolean
+    delegate?: IScopedContext
   ) {
     const {onClose, onAction, store, env} = this.props;
 
     if (action.from === this.$$id) {
-      return onAction ? onAction(e, action, data, throwErrors, true) : false;
+      return onAction
+        ? onAction(e, action, data, throwErrors, this.context)
+        : false;
     }
 
     const scoped = this.context as IScopedContext;
@@ -663,7 +665,7 @@ export class DrawerRenderer extends Drawer {
         })
         .catch(() => {});
     } else if (onAction) {
-      let ret = onAction(e, action, data, throwErrors, true);
+      let ret = onAction(e, action, data, throwErrors, this.context);
       action.close &&
         (ret && ret.then
           ? ret.then(this.handleSelfClose)
