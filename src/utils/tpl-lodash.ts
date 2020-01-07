@@ -47,7 +47,9 @@ function lodashCompile(str: string, data: object) {
   }
 }
 
-reigsterTplEnginer('lodash', {
-  test: str => !!~str.indexOf('<%'),
-  compile: (str: string, data: object) => lodashCompile(str, data)
-});
+export function register() {
+  reigsterTplEnginer('lodash', {
+    test: str => !!~str.indexOf('<%'),
+    compile: (str: string, data: object) => lodashCompile(str, data)
+  });
+}
