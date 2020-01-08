@@ -185,7 +185,7 @@ export class ContextMenu extends React.Component<
       const hasChildren = Array.isArray(item.children) && item.children.length;
       return (
         <li
-          key={item.label}
+          key={`${item.label}-${index}`}
           className={cx('ContextMenu-item', {
             'has-child': hasChildren,
             'is-disabled': item.disabled
