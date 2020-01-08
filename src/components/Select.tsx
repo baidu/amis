@@ -645,6 +645,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           </div>
         ) : null}
 
+        {/* todo 当数目比较多的时候会卡顿，需要优化这个滚动。 */}
         {filtedOptions.length ? (
           filtedOptions.map((item, index) => {
             const checked =
