@@ -53,10 +53,11 @@ export function evalExpression(expression: string, data?: object): boolean {
 
     const fn = new Function(
       'data',
+      'utils',
       `with(data) {${debug ? 'debugger;' : ''}return !!(${expression});}`
     );
     data = data || {};
-    return fn.call(createObject(getFilters(), data), data);
+    return fn.call(data, data, getFilters());
   } catch (e) {
     console.warn(e);
     return false;
@@ -68,10 +69,11 @@ export function evalJS(js: string, data: object): any {
   try {
     const fn = new Function(
       'data',
+      'utils',
       `with(data) {${~js.indexOf('return') ? '' : 'return '}${js};}`
     );
     data = data || {};
-    return fn.call(createObject(getFilters(), data), data);
+    return fn.call(data, data, getFilters());
   } catch (e) {
     console.warn(e);
     return null;
