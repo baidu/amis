@@ -165,7 +165,6 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       placeholder,
       originalSrc,
       enlargeAble,
-      onEnlarge,
       showDimensions
     } = this.props;
 
