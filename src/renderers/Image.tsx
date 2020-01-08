@@ -183,7 +183,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             thumbMode={thumbMode}
             thumbRatio={thumbRatio}
             originalSrc={filter(originalSrc, data, '| raw')}
-            enlargeAble={enlargeAble}
+            enlargeAble={enlargeAble && value !== defaultImage}
             onEnlarge={this.handleEnlarge}
             showDimensions={showDimensions}
           />
