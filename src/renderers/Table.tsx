@@ -171,7 +171,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.affixDetect = this.affixDetect.bind(this);
     this.updateTableInfoLazy = debounce(this.updateTableInfo.bind(this), 250, {
       trailing: true,
-      leading: false
+      leading: true
     });
     this.tableRef = this.tableRef.bind(this);
     this.affixedTableRef = this.affixedTableRef.bind(this);
@@ -339,6 +339,10 @@ export default class Table extends React.Component<TableProps, object> {
       store.updateSelected(nextProps.selected || [], nextProps.valueField);
       this.syncSelected();
     }
+  }
+
+  componentDidUpdate() {
+    this.updateTableInfoLazy();
   }
 
   componentWillUnmount() {
