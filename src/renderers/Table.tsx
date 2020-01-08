@@ -878,6 +878,10 @@ export default class Table extends React.Component<TableProps, object> {
     store.rows.forEach(row => {
       const src = resolveVariable(column.name, row.data);
 
+      if (!src) {
+        return;
+      }
+
       list.push({
         src,
         originalSrc: column.originalSrc
