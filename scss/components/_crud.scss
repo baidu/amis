@@ -2,7 +2,9 @@
   position: relative;
 
   &.is-loading > &-body {
-    filter: blur(5px);
+    // 弹框中，blur 效果变成白班，先去掉。
+    // -webkit-filter: blur(5px);
+    // filter: blur(5px);
   }
 
   &-selection {
