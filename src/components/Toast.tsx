@@ -160,7 +160,7 @@ export class ToastComponent extends React.Component<
       >
         {items.map((item, index) => (
           <ToastMessage
-            classnames={classnames}
+            classnames={cx}
             key={item.id}
             title={item.title}
             body={item.body}
