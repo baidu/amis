@@ -939,7 +939,9 @@ export default class Form extends React.Component<FormProps, object> {
       controlWidth,
       resolveDefinitions,
       lazyChange,
-      formLazyChange
+      formLazyChange,
+      formHorizontal,
+      formMode
     } = props;
 
     const subProps = {
@@ -949,8 +951,8 @@ export default class Form extends React.Component<FormProps, object> {
         (control as Schema).type
       }-${key}`,
       formInited: form.inited,
-      formMode: mode,
-      formHorizontal: horizontal,
+      formMode: formMode || mode,
+      formHorizontal: formHorizontal || horizontal,
       controlWidth,
       disabled: disabled || (control as Schema).disabled || form.loading,
       btnDisabled: form.loading || form.validating,
