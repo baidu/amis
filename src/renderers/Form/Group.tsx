@@ -27,13 +27,27 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderControl(control: any, index: any, otherProps?: any) {
-    const {renderControl, disabled} = this.props;
+    const {render, disabled} = this.props;
 
     if (!control) {
       return null;
     }
 
-    return renderControl(control, index, {
+    const subSchema: any =
+      control && (control as Schema).type === 'control'
+        ? control
+        : {
+            type: 'control',
+            control
+          };
+
+    if (subSchema.control) {
+      let control = subSchema.control as Schema;
+      control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
+      control.visibleOn && (subSchema.visibleOn = control.visibleOn);
+    }
+
+    return render(`${index}`, subSchema, {
       ...otherProps,
       disabled
     });
