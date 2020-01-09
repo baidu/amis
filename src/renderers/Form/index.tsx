@@ -190,6 +190,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.removeHook = this.removeHook.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.renderFormItems = this.renderFormItems.bind(this);
+    this.renderControl = this.renderControl.bind(this);
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
     this.initInterval = this.initInterval.bind(this);
@@ -959,6 +960,7 @@ export default class Form extends React.Component<FormProps, object> {
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
+      renderControl: this.renderControl,
       formPristine: form.pristine
     };
 
