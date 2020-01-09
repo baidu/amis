@@ -14,8 +14,10 @@
     align-items: center;
     border: $borderWidth solid $borderColor;
     cursor: pointer;
+    margin-right: $gap-base;
 
-    @include button-variant($ImageControl-addBtn-bg,
+    @include button-variant(
+      $ImageControl-addBtn-bg,
       $ImageControl-addBtn-border,
       $ImageControl-addBtn-color,
       $ImageControl-addBtn-onHover-bg,
@@ -23,9 +25,10 @@
       $ImageControl-addBtn-onHover-color,
       $ImageControl-addBtn-onActive-bg,
       $ImageControl-addBtn-onActive-border,
-      $ImageControl-addBtn-onActive-color);
+      $ImageControl-addBtn-onActive-color
+    );
 
-    >svg {
+    > svg {
       width: px2rem(50px);
       height: px2rem(50px);
       top: 0;
@@ -99,13 +102,13 @@
     flex-wrap: wrap;
     color: #fff;
 
-    >div {
+    > div {
       width: 100%;
       text-align: center;
       margin-bottom: 5px;
     }
 
-    >a {
+    > a {
       cursor: pointer;
       color: #fff;
       display: inline-block;
@@ -128,7 +131,7 @@
     right: 5px;
     line-height: 1;
 
-    >svg {
+    > svg {
       top: 0;
       width: 10px;
       height: 10px;
@@ -144,7 +147,7 @@
     align-content: center;
     flex-wrap: wrap;
 
-    >p {
+    > p {
       width: 100%;
       text-align: center;
       font-size: 12px;
@@ -191,7 +194,7 @@
       text-decoration: none;
     }
 
-    >p {
+    > p {
       width: 100%;
       text-align: center;
       color: $danger;
@@ -226,7 +229,7 @@
     flex-direction: column;
     align-items: flex-end;
 
-    >a {
+    > a {
       color: #fff;
       padding: 2px 5px;
       cursor: pointer;

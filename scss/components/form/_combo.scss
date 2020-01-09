@@ -159,8 +159,8 @@
       // opacity: 1;
     }
 
-    > .#{$ns}Combo-item:hover,
-    > .#{$ns}Combo-items > .#{$ns}Combo-item:hover {
+    &:not(.is-disabled) > .#{$ns}Combo-item:hover,
+    &:not(.is-disabled) > .#{$ns}Combo-items > .#{$ns}Combo-item:hover {
       border-color: $Combo--vertical-item-onHover-borderColor;
       // border-style: solid;
 

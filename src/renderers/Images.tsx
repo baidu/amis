@@ -65,7 +65,7 @@ export class ImagesField extends React.Component<ImagesProps> {
               : (item && item.image) || item,
             originalSrc: originalSrc
               ? filter(originalSrc, item, '| raw')
-              : item && item.src,
+              : (item && item.src) || item,
             title: item && (item.enlargeTitle || item.title),
             caption:
               item && (item.enlargeCaption || item.description || item.caption)
@@ -121,14 +121,13 @@ export class ImagesField extends React.Component<ImagesProps> {
                 className={cx('Images-item')}
                 key={index}
                 src={
-                  src
-                    ? filter(src, item, '| raw')
-                    : (item && item.image) || item
+                  (src ? filter(src, item, '| raw') : item && item.image) ||
+                  item
                 }
                 originalSrc={
-                  originalSrc
+                  (originalSrc
                     ? filter(originalSrc, item, '| raw')
-                    : item && item.src
+                    : item && item.src) || item
                 }
                 title={item && item.title}
                 caption={item && (item.description || item.caption)}

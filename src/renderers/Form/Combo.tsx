@@ -365,7 +365,6 @@ export default class ComboControl extends React.Component<ComboProps> {
   handleFormInit(values: any, {index}: any) {
     const {
       syncDefaultValue,
-      disabled,
       flat,
       joinValues,
       delimiter,
@@ -381,7 +380,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       setted: false
     });
 
-    if (syncDefaultValue === false || disabled || this.subFormDefaultValues.length !== this.subForms.length) {
+    if (syncDefaultValue === false  || this.subFormDefaultValues.length !== this.subForms.length) {
       return;
     }
 
@@ -863,7 +862,8 @@ export default class ComboControl extends React.Component<ComboProps> {
         className={cx(
           `Combo Combo--multi`,
           multiLine ? `Combo--ver` : `Combo--hor`,
-          noBorder ? `Combo--noBorder` : ''
+          noBorder ? `Combo--noBorder` : '',
+          disabled ? 'is-disabled' : ''
         )}
       >
         <div className={cx(`Combo-items`)}>
@@ -1050,7 +1050,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       canAccessSuperData,
       noBorder,
       disabled,
-      typeSwitchable
+      typeSwitchable,
     } = this.props;
 
     let controls = this.props.controls;
@@ -1067,7 +1067,8 @@ export default class ComboControl extends React.Component<ComboProps> {
         className={cx(
           `Combo Combo--single`,
           multiLine ? `Combo--ver` : `Combo--hor`,
-          noBorder ? `Combo--noBorder` : ''
+          noBorder ? `Combo--noBorder` : '',
+          disabled ? 'is-disabled' : ''
         )}
       >
         <div className={cx(`Combo-item`)}>
@@ -1119,7 +1120,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   render() {
-    const {multiple, className, classPrefix: ns, classnames: cx} = this.props;
+    const {multiple, className, classPrefix: ns, classnames: cx, disabled} = this.props;
 
     return (
       <div className={cx(`ComboControl`, className)}>
