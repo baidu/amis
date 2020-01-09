@@ -190,7 +190,6 @@ export default class Form extends React.Component<FormProps, object> {
     this.removeHook = this.removeHook.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.renderFormItems = this.renderFormItems.bind(this);
-    this.renderControl = this.renderControl.bind(this);
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
     this.initInterval = this.initInterval.bind(this);
@@ -939,9 +938,7 @@ export default class Form extends React.Component<FormProps, object> {
       controlWidth,
       resolveDefinitions,
       lazyChange,
-      formLazyChange,
-      formHorizontal,
-      formMode
+      formLazyChange
     } = props;
 
     const subProps = {
@@ -951,8 +948,8 @@ export default class Form extends React.Component<FormProps, object> {
         (control as Schema).type
       }-${key}`,
       formInited: form.inited,
-      formMode: formMode || mode,
-      formHorizontal: formHorizontal || horizontal,
+      formMode: mode,
+      formHorizontal: horizontal,
       controlWidth,
       disabled: disabled || (control as Schema).disabled || form.loading,
       btnDisabled: form.loading || form.validating,
@@ -962,7 +959,6 @@ export default class Form extends React.Component<FormProps, object> {
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
-      renderControl: this.renderControl,
       formPristine: form.pristine
     };
 
