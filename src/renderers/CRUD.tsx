@@ -314,9 +314,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       stopAutoRefreshWhenModalIsOpen
     } = this.props;
 
-    delegate || store.setCurrentAction(action);
-
     if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       const idx: number = (ctx as any).index;
       const length = store.data.items.length;
       stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
@@ -328,6 +327,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         index: idx
       });
     } else if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
       const data = ctx;
 
       // 由于 ajax 一段时间后再弹出，肯定被浏览器给阻止掉的，所以提前弹。
@@ -364,6 +364,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode &&
       (action.actionType === 'confirm' || action.actionType === 'submit')
     ) {
+      store.setCurrentAction(action);
       return Promise.resolve({
         items: store.selectedItems.concat()
       });

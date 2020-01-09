@@ -633,21 +633,26 @@ export class DrawerRenderer extends Drawer {
     }
 
     const scoped = this.context as IScopedContext;
-    delegate || store.setCurrentAction(action);
 
     if (action.actionType === 'close') {
+      store.setCurrentAction(action);
       onClose();
     } else if (action.actionType === 'confirm') {
+      store.setCurrentAction(action);
       this.tryChildrenToHandle(action, data) || onClose();
     } else if (action.actionType === 'drawer') {
+      store.setCurrentAction(action);
       store.openDrawer(data);
     } else if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       store.openDialog(data);
     } else if (action.actionType === 'reload') {
+      store.setCurrentAction(action);
       action.target && scoped.reload(action.target, data);
     } else if (this.tryChildrenToHandle(action, data)) {
       // do nothing
     } else if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
       store
         .saveRemote(action.api as string, data, {
           successMessage: action.messages && action.messages.success,

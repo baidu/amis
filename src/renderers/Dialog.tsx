@@ -611,16 +611,18 @@ export class DialogRenderer extends Dialog {
     }
 
     const scoped = this.context as IScopedContext;
-    delegate || store.setCurrentAction(action);
 
     if (action.type === 'reset') {
+      store.setCurrentAction(action);
       store.reset();
     } else if (
       action.actionType === 'close' ||
       action.actionType === 'cancel'
     ) {
+      store.setCurrentAction(action);
       this.handleSelfClose();
     } else if (action.actionType === 'confirm') {
+      store.setCurrentAction(action);
       this.tryChildrenToHandle(
         {
           ...action,
@@ -630,6 +632,7 @@ export class DialogRenderer extends Dialog {
         action
       ) || this.handleSelfClose();
     } else if (action.actionType === 'next' || action.actionType === 'prev') {
+      store.setCurrentAction(action);
       if (action.type === 'submit') {
         this.tryChildrenToHandle(
           {
@@ -644,14 +647,18 @@ export class DialogRenderer extends Dialog {
         onConfirm([data], action, data, []);
       }
     } else if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       store.openDialog(data);
     } else if (action.actionType === 'drawer') {
+      store.setCurrentAction(action);
       store.openDrawer(data);
     } else if (action.actionType === 'reload') {
+      store.setCurrentAction(action);
       action.target && scoped.reload(action.target, data);
     } else if (this.tryChildrenToHandle(action, data)) {
       // do nothing
     } else if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
       store
         .saveRemote(action.api as string, data, {
           successMessage: action.messages && action.messages.success,

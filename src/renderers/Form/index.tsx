@@ -582,12 +582,12 @@ export default class Form extends React.Component<FormProps, object> {
       });
     }
 
-    delegate || store.setCurrentAction(action);
     if (
       action.type === 'submit' ||
       action.actionType === 'submit' ||
       action.actionType === 'confirm'
     ) {
+      store.setCurrentAction(action);
       return this.submit(
         (values): any => {
           if (onSubmit && onSubmit(values, action) === false) {
@@ -669,12 +669,16 @@ export default class Form extends React.Component<FormProps, object> {
           }
         });
     } else if (action.type === 'reset') {
+      store.setCurrentAction(action);
       store.reset(onReset);
     } else if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       store.openDialog(data);
     } else if (action.actionType === 'drawer') {
+      store.setCurrentAction(action);
       store.openDrawer(data);
     } else if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
       if (!isEffectiveApi(action.api)) {
         return env.alert(`当 actionType 为 ajax 时，请设置 api 属性`);
       }
@@ -708,6 +712,7 @@ export default class Form extends React.Component<FormProps, object> {
         })
         .catch(() => {});
     } else if (action.actionType === 'reload') {
+      store.setCurrentAction(action);
       action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
       // 不识别的丢给上层去处理。
