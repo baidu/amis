@@ -438,7 +438,7 @@ export default class ImageControl extends React.Component<
           locked: false
         },
         () => {
-          this.onChange();
+          this.onChange(!!this.resolve);
 
           if (this.resolve) {
             this.resolve(
@@ -499,7 +499,7 @@ export default class ImageControl extends React.Component<
     });
   }
 
-  onChange() {
+  onChange(changeImmediately?: boolean) {
     const {
       multiple,
       onChange,
@@ -533,7 +533,7 @@ export default class ImageControl extends React.Component<
         : newValue;
     }
 
-    onChange((this.emitValue = newValue));
+    onChange((this.emitValue = newValue), undefined, changeImmediately);
   }
 
   handleSelect() {

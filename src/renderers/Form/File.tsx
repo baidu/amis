@@ -457,7 +457,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           uploading: false
         },
         () => {
-          this.onChange();
+          this.onChange(!!this.resolve);
 
           if (this.resolve) {
             this.resolve(
@@ -587,7 +587,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     });
   }
 
-  onChange() {
+  onChange(changeImmediately?: boolean) {
     const {
       multiple,
       onChange,
@@ -620,7 +620,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       value = typeof resetValue === 'undefined' ? '' : resetValue;
     }
 
-    onChange((this.emitValue = value));
+    onChange((this.emitValue = value), undefined, changeImmediately);
   }
 
   uploadFile(
