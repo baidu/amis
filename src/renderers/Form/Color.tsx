@@ -9,6 +9,7 @@ export interface ColorProps extends FormControlProps {
   timeConstrainst?: object;
   closeOnSelect?: boolean;
   presetColors?: string[];
+  resetValue?: string;
 }
 
 export interface ColorControlState {
