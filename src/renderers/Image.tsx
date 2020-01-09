@@ -95,6 +95,8 @@ export interface ImageFieldProps extends RendererProps {
   imageClassName?: string;
   placeholder: string;
   description?: string;
+  enlargeTitle?: string;
+  enlargeCaption?: string;
   thumbMode: 'w-full' | 'h-full' | 'contain' | 'cover';
   thumbRatio: '1:1' | '4:3' | '16:9';
   originalSrc?: string; // 原图
@@ -134,15 +136,15 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     thumbMode,
     thumbRatio
   }: ImageThumbProps) {
-    const {onImageEnlarge} = this.props;
+    const {onImageEnlarge, enlargeTitle, enlargeCaption} = this.props;
 
     onImageEnlarge &&
       onImageEnlarge(
         {
           src,
           originalSrc: originalSrc || src,
-          title,
-          caption,
+          title: enlargeTitle || title,
+          caption: enlargeCaption || caption,
           thumbMode,
           thumbRatio
         },

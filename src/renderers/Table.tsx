@@ -878,11 +878,15 @@ export default class Table extends React.Component<TableProps, object> {
     const store = this.props.store;
     const column = store.filteredColumns[target.colIndex].pristine;
 
+    let index = target.rowIndex;
     const list: Array<any> = [];
-    store.rows.forEach(row => {
+    store.rows.forEach((row, i) => {
       const src = resolveVariable(column.name, row.data);
 
       if (!src) {
+        if (i < target.rowIndex) {
+          index--;
+        }
         return;
       }
 
@@ -891,8 +895,16 @@ export default class Table extends React.Component<TableProps, object> {
         originalSrc: column.originalSrc
           ? filter(column.originalSrc, row.data)
           : src,
-        title: column.title ? filter(column.title, row.data) : undefined,
-        caption: column.caption ? filter(column.caption, row.data) : undefined
+        title: column.enlargeTitle
+          ? filter(column.enlargeTitle, row.data)
+          : column.title
+          ? filter(column.title, row.data)
+          : undefined,
+        caption: column.enlargeCaption
+          ? filter(column.enlargeCaption, row.data)
+          : column.caption
+          ? filter(column.caption, row.data)
+          : undefined
       });
     });
 
@@ -902,7 +914,7 @@ export default class Table extends React.Component<TableProps, object> {
           {
             ...info,
             list,
-            index: target.rowIndex
+            index
           },
           target
         );
