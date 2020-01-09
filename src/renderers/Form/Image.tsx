@@ -1057,21 +1057,20 @@ export default class ImageControl extends React.Component<
                                     <div>...</div>
                                   )}
 
-                                  {!disabled ? (
-                                    <a
-                                      data-tooltip="查看大图"
-                                      data-position="bottom"
-                                      target="_blank"
-                                      href={file.url || file.preview}
-                                      onClick={this.previewImage.bind(
-                                        this,
-                                        file,
-                                        key
-                                      )}
-                                    >
-                                      <Icon icon="view" className="icon" />
-                                    </a>
-                                  ) : null}
+                                  <a
+                                    data-tooltip="查看大图"
+                                    data-position="bottom"
+                                    target="_blank"
+                                    href={file.url || file.preview}
+                                    onClick={this.previewImage.bind(
+                                      this,
+                                      file,
+                                      key
+                                    )}
+                                  >
+                                    <Icon icon="view" className="icon" />
+                                  </a>
+
                                   {!!crop && !disabled ? (
                                     <a
                                       data-tooltip="裁剪图片"
