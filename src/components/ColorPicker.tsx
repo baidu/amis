@@ -46,7 +46,7 @@ export class ColorControl extends React.PureComponent<
     format: 'hex',
     clearable: true,
     placeholder: '请选择颜色',
-    allowCustomColor: false
+    allowCustomColor: true
     // closeOnSelect: true
   };
   state = {
@@ -254,19 +254,19 @@ export class ColorControl extends React.PureComponent<
               overlay
             >
               {allowCustomColor ? (
+                <SketchPicker
+                  disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
+                  color={value}
+                  presetColors={presetColors}
+                  onChangeComplete={this.handleChange}
+                />
+                ) : (
                 <GithubPicker
+                  color={value}
                   colors={presetColors}
                   onChangeComplete={this.handleChange}
                 />
-              ) : (
-                  <SketchPicker
-                    disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
-                    color={value}
-                    presetColors={presetColors}
-                    onChangeComplete={this.handleChange}
-                  />
-                )
-              }
+              )}
             </PopOver>
           </Overlay>
         ) : null}
