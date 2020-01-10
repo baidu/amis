@@ -13,6 +13,7 @@ import Overlay from './Overlay';
 import uncontrollable = require('uncontrollable');
 import PopOver from './PopOver';
 import {ClassNamesFn, themeable} from '../theme';
+import {autobind} from '../utils/helper';
 
 export interface ColorProps {
   placeholder?: string;
@@ -141,14 +142,27 @@ export class ColorControl extends React.PureComponent<
         inputValue: e.currentTarget.value
       },
       () => {
-        const dom: HTMLElement = this.preview.current as HTMLElement;
-
-        // 通过读取dom上到值，确认当前输入值是否有效。
-        if (dom && dom.style.backgroundColor === this.state.inputValue) {
+        let isValidated = this.validateColor(this.state.inputValue);
+        if (isValidated) {
           onChange(this.state.inputValue);
         }
       }
     );
+  }
+
+  @autobind
+  validateColor(value:string) {
+    if (value === "") { return false; }
+    if (value === "inherit") { return false; }
+    if (value === "transparent") { return false; }
+
+    let image = document.createElement("img");
+    image.style.color = "rgb(0, 0, 0)";
+    image.style.color = value;
+    if (image.style.color !== "rgb(0, 0, 0)") { return true; }
+    image.style.color = "rgb(255, 255, 255)";
+    image.style.color = value;
+    return image.style.color !== "rgb(255, 255, 255)";
   }
 
   handleChange(color: ColorResult) {
@@ -215,7 +229,7 @@ export class ColorControl extends React.PureComponent<
           className={cx('ColorPicker-input')}
           value={this.state.inputValue || ''}
           placeholder={placeholder}
-          disabled={disabled}
+          disabled={disabled || !allowCustomColor}
           onChange={this.handleInputChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
