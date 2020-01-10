@@ -7,7 +7,7 @@
 import React from 'react';
 import cx from 'classnames';
 import {findDOMNode} from 'react-dom';
-import {SketchPicker, ColorResult} from 'react-color';
+import {SketchPicker, GithubPicker, ColorResult} from 'react-color';
 import {Icon} from './icons';
 import Overlay from './Overlay';
 import uncontrollable = require('uncontrollable');
@@ -29,6 +29,7 @@ export interface ColorProps {
   onChange: (value: any) => void;
   presetColors?: string[];
   resetValue?: string;
+  allowCustomColor?: boolean;
 }
 
 export interface ColorControlState {
@@ -40,11 +41,12 @@ export interface ColorControlState {
 export class ColorControl extends React.PureComponent<
   ColorProps,
   ColorControlState
-> {
+  > {
   static defaultProps = {
     format: 'hex',
     clearable: true,
-    placeholder: '请选择颜色'
+    placeholder: '请选择颜色',
+    allowCustomColor: true
     // closeOnSelect: true
   };
   state = {
@@ -187,7 +189,8 @@ export class ColorControl extends React.PureComponent<
       clearable,
       placement,
       classnames: cx,
-      presetColors
+      presetColors,
+      allowCustomColor
     } = this.props;
 
     const isOpened = this.state.isOpened;
@@ -250,12 +253,20 @@ export class ColorControl extends React.PureComponent<
               onHide={this.close}
               overlay
             >
-              <SketchPicker
-                disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
-                color={value}
-                presetColors={presetColors}
-                onChangeComplete={this.handleChange}
-              />
+              {allowCustomColor ? (
+                <SketchPicker
+                  disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
+                  color={value}
+                  presetColors={presetColors}
+                  onChangeComplete={this.handleChange}
+                />
+                ) : (
+                <GithubPicker
+                  color={value}
+                  colors={presetColors}
+                  onChangeComplete={this.handleChange}
+                />
+              )}
             </PopOver>
           </Overlay>
         ) : null}
