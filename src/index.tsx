@@ -184,7 +184,7 @@ import {addRule, str2rules} from './utils/validations';
 import {normalizeOptions} from './components/Select';
 import {OptionsControl} from './renderers/Form/Options';
 
-import {classnames, getClassPrefix, setDefaultTheme} from './theme';
+import {classnames, getClassPrefix, setDefaultTheme, theme} from './theme';
 const classPrefix = getClassPrefix();
 
 export {
@@ -256,6 +256,7 @@ export {
   Scoped,
   ScopedContext,
   setDefaultTheme,
+  theme,
   classPrefix,
   getClassPrefix,
   classnames
