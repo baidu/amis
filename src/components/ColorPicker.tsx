@@ -42,7 +42,7 @@ export interface ColorControlState {
 export class ColorControl extends React.PureComponent<
   ColorProps,
   ColorControlState
-  > {
+> {
   static defaultProps = {
     format: 'hex',
     clearable: true,
@@ -135,6 +135,10 @@ export class ColorControl extends React.PureComponent<
   }
 
   handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!this.props.allowCustomColor) {
+      return;
+    }
+
     const onChange = this.props.onChange;
 
     this.setState(
@@ -151,18 +155,26 @@ export class ColorControl extends React.PureComponent<
   }
 
   @autobind
-  validateColor(value:string) {
-    if (value === "") { return false; }
-    if (value === "inherit") { return false; }
-    if (value === "transparent") { return false; }
+  validateColor(value: string) {
+    if (value === '') {
+      return false;
+    }
+    if (value === 'inherit') {
+      return false;
+    }
+    if (value === 'transparent') {
+      return false;
+    }
 
-    let image = document.createElement("img");
-    image.style.color = "rgb(0, 0, 0)";
+    let image = document.createElement('img');
+    image.style.color = 'rgb(0, 0, 0)';
     image.style.color = value;
-    if (image.style.color !== "rgb(0, 0, 0)") { return true; }
-    image.style.color = "rgb(255, 255, 255)";
+    if (image.style.color !== 'rgb(0, 0, 0)') {
+      return true;
+    }
+    image.style.color = 'rgb(255, 255, 255)';
     image.style.color = value;
-    return image.style.color !== "rgb(255, 255, 255)";
+    return image.style.color !== 'rgb(255, 255, 255)';
   }
 
   handleChange(color: ColorResult) {
@@ -229,7 +241,7 @@ export class ColorControl extends React.PureComponent<
           className={cx('ColorPicker-input')}
           value={this.state.inputValue || ''}
           placeholder={placeholder}
-          disabled={disabled || !allowCustomColor}
+          disabled={disabled}
           onChange={this.handleInputChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
@@ -274,7 +286,7 @@ export class ColorControl extends React.PureComponent<
                   presetColors={presetColors}
                   onChangeComplete={this.handleChange}
                 />
-                ) : (
+              ) : (
                 <GithubPicker
                   color={value}
                   colors={presetColors}
