@@ -60,6 +60,7 @@ export interface TableProps extends RendererProps {
   draggable?: boolean;
   columnsTogglable?: boolean | 'auto';
   affixHeader?: boolean;
+  affixColumns?: boolean;
   combineNum?: number;
   footable?:
     | boolean
@@ -109,6 +110,7 @@ export default class Table extends React.Component<TableProps, object> {
     'selectable',
     'columnsTogglable',
     'affixHeader',
+    'affixColumns',
     'headerClassName',
     'footerClassName',
     'selected',
@@ -1851,6 +1853,7 @@ export default class Table extends React.Component<TableProps, object> {
       store,
       placeholder,
       classnames: cx,
+      affixColumns,
       data,
       render
     } = this.props;
@@ -1879,7 +1882,7 @@ export default class Table extends React.Component<TableProps, object> {
           onMouseLeave={this.handleMouseLeave}
         >
           <div className={cx('Table-fixedLeft')}>
-            {store.leftFixedColumns.length
+            {affixColumns !== false && store.leftFixedColumns.length
               ? this.renderFixedColumns(
                   store.leftFixedColumns,
                   false,
@@ -1888,7 +1891,7 @@ export default class Table extends React.Component<TableProps, object> {
               : null}
           </div>
           <div className={cx('Table-fixedRight')}>
-            {store.rightFixedColumns.length
+            {affixColumns !== false && store.rightFixedColumns.length
               ? this.renderFixedColumns(
                   store.rightFixedColumns,
                   false,
