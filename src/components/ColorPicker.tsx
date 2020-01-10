@@ -28,6 +28,7 @@ export interface ColorProps {
   classnames: ClassNamesFn;
   onChange: (value: any) => void;
   presetColors?: string[];
+  resetValue?: string;
 }
 
 export interface ColorControlState {
@@ -122,8 +123,8 @@ export class ColorControl extends React.PureComponent<
   }
 
   clearValue() {
-    const onChange = this.props.onChange;
-    onChange('');
+    const {onChange, resetValue} = this.props;
+    onChange(resetValue || '');
   }
 
   handleClick() {
