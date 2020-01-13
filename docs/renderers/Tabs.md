@@ -6,11 +6,11 @@
 | className         | `string`                |                                     | 外层 Dom 的类名                                          |
 | tabsClassName     | `string`                |                                     | Tabs Dom 的类名                                          |
 | tabs              | `Array`                 |                                     | tabs 内容                                                |
-| toolbar           | [Container](#container) |                                     | tabs 中的工具栏                                                |
+| toolbar           | [Container](./Types.md#container) |                                     | tabs 中的工具栏                                                |
 | toolbarClassName  | `string`                |                                     | tabs 中工具栏的类名                                                  |
 | tabs[x].title     | `string`                |                                     | Tab 标题                                                 |
 | tabs[x].icon      | `icon`                  |                                     | Tab 的图标                                               |
-| tabs[x].tab       | [Container](#container) |                                     | 内容区                                                   |
+| tabs[x].tab       | [Container](./Types.md#container) |                                     | 内容区                                                   |
 | tabs[x].hash      | `string`                |                                     | 设置以后将跟 url 的 hash 对应                            |
 | tabs[x].reload    | `boolean`               |                                     | 设置以后内容每次都会重新渲染，对于 crud 的重新拉取很有用 |
 | tabs[x].unmountOnExit    | `boolean`               |                                     | 每次退出都会销毁当前tab栏内容 |
