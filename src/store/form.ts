@@ -12,7 +12,6 @@ import {
   createObject,
   difference,
   guid,
-  isObject,
   isEmpty,
   mapObject
 } from '../utils/helper';
