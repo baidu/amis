@@ -338,7 +338,7 @@ export default class Form extends React.Component<FormProps, object> {
     const hooks: Array<(data: any) => Promise<any>> = this.hooks['init'] || [];
     await Promise.all(hooks.map(hook => hook(data)));
 
-    if (store.initedAt !== initedAt) {
+    if (isAlive(store) && store.initedAt !== initedAt) {
       // 说明，之前的数据已经失效了。
       // 比如 combo 一开始设置了初始值，然后 form 的 initApi 又返回了新的值。
       // 这个时候 store 的数据应该已经 init 了新的值。但是 data 还是老的，这个时候
