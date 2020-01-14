@@ -363,8 +363,7 @@ export const ServiceStore = iRendererStore
           if (json.data) {
             self.schema = json.data;
             self.schemaKey = '' + Date.now();
-            let schemaData = isObject(json.data) && isObject(json.data.data) ? json.data.data : null;
-            schemaData && self.updateData(schemaData)
+            isObject(json.data.data) && self.updateData(json.data.data);
           }
           updateMessage(json.msg || (options && options.successMessage));
 
