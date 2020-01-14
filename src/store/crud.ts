@@ -264,7 +264,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           const data = {
-            ...(isObject(api) && (api as ApiObject).replaceData ? {} : self.pristine),
+            ...(api && (api as ApiObject).replaceData ? {} : self.pristine),
             items: rowsData,
             count: count,
             total: total,
@@ -287,7 +287,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           self.items.replace(rowsData);
-          self.reInitData(data, isObject(api) && (api as ApiObject).replaceData);
+          self.reInitData(data, !!api && (api as ApiObject).replaceData);
           options.syncResponse2Query !== false &&
             updateQuery(
               pick(rest, Object.keys(self.query)),
@@ -370,7 +370,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         if (!isEmpty(json.data) || json.ok) {
           self.updateData(json.data, {
             __saved: Date.now()
-          }, isObject(api) && (api as ApiObject).replaceData);
+          }, !!api && (api as ApiObject).replaceData);
           self.updatedAt = Date.now();
         }
 

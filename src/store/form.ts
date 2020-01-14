@@ -231,7 +231,7 @@ export const FormStore = ServiceStore.named('FormStore')
         if (!isEmpty(json.data) || json.ok) {
           setValues(json.data, {
             __saved: Date.now()
-          }, isObject(api) && (api as ApiObject).replaceData);
+          }, !!api && (api as ApiObject).replaceData);
           self.updatedAt = Date.now();
         }
 

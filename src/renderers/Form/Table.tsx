@@ -253,7 +253,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return;
     } else if (remote && remote.ok) {
       item = {
-        ...(isObject(updateApi) && (updateApi as ApiObject).replaceData ? {} : item),
+        ...(updateApi && (updateApi as ApiObject).replaceData ? {} : item),
         ...remote.data
       };
     }
