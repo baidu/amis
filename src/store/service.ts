@@ -40,7 +40,7 @@ export const ServiceStore = iRendererStore
     }
 
     function reInitData(data: object | undefined, replace: boolean = false) {
-      const newData = replace ? data : extendObject(self.pristine, data);
+      const newData = extendObject(self.pristine, data, !replace);
       self.data = self.pristine = newData;
     }
 
@@ -97,12 +97,12 @@ export const ServiceStore = iRendererStore
               : undefined
           );
         } else {
-          let replaceData = isObject(api) && (api as ApiObject).replaceData;
+          let replace = !!api && (api as ApiObject).replaceData;
           let data = {
-            ...(replaceData ? {} : self.data),
+            ...(replace ? {} : self.data),
             ...json.data
           };
-          reInitData(data, replaceData);
+          reInitData(data, replace);
           self.updatedAt = Date.now();
           self.hasRemoteData = true;
           if (options && options.onSuccess) {
@@ -170,7 +170,7 @@ export const ServiceStore = iRendererStore
         fetchCancel = null;
 
         if (!isEmpty(json.data) || json.ok) {
-          json.data && self.updateData(json.data, undefined, isObject(api) && (api as ApiObject).replaceData);
+          json.data && self.updateData(json.data, undefined, !!api && (api as ApiObject).replaceData);
           self.updatedAt = Date.now();
           self.hasRemoteData = true;
         }
@@ -250,7 +250,7 @@ export const ServiceStore = iRendererStore
         );
 
         if (!isEmpty(json.data) || json.ok) {
-          json.data && self.updateData(json.data, undefined, isObject(api) && (api as ApiObject).replaceData);
+          json.data && self.updateData(json.data, undefined, !!api && (api as ApiObject).replaceData);
           self.updatedAt = Date.now();
         }
 
@@ -365,7 +365,7 @@ export const ServiceStore = iRendererStore
           if (json.data) {
             self.schema = json.data;
             self.schemaKey = '' + Date.now();
-            isObject(json.data.data) && self.updateData(json.data.data, undefined, isObject(api) && (api as ApiObject).replaceData);
+            isObject(json.data.data) && self.updateData(json.data.data, undefined, !!api && (api as ApiObject).replaceData);
           }
           updateMessage(json.msg || (options && options.successMessage));
 
@@ -414,7 +414,7 @@ export const ServiceStore = iRendererStore
           data,
           options
         );
-        json.ok && self.updateData(json.data, undefined, isObject(api) && (api as ApiObject).replaceData);
+        json.ok && self.updateData(json.data, undefined, !!api && (api as ApiObject).replaceData);
 
         if (!json.ok) {
           throw new Error(json.msg);

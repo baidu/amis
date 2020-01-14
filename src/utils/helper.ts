@@ -38,7 +38,7 @@ export function createObject(
   return obj;
 }
 
-export function cloneObject(from: any) {
+export function cloneObject(from: any, cloneOwnValue: boolean = true) {
   const obj =
     from && from.__super
       ? Object.create(from.__super, {
@@ -49,12 +49,12 @@ export function cloneObject(from: any) {
           }
         })
       : Object.create(Object.prototype);
-  from && Object.keys(from).forEach(key => (obj[key] = from[key]));
+  cloneOwnValue && from && Object.keys(from).forEach(key => (obj[key] = from[key]));
   return obj;
 }
 
-export function extendObject(to: any, from?: any) {
-  const obj = cloneObject(to);
+export function extendObject(to: any, from?: any, cloneTosValue?: boolean) {
+  const obj = cloneObject(to, cloneTosValue);
   from && Object.keys(from).forEach(key => (obj[key] = from[key]));
   return obj;
 }
