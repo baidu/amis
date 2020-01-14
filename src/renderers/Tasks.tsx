@@ -7,7 +7,6 @@ import {Api, ApiObject, Payload} from '../types';
 import update = require('react-addons-update');
 import {isEffectiveApi, isApiOutdated} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
-import {isObject} from '../utils/helper';
 
 export interface TaskProps extends RendererProps {
   className?: string;

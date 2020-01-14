@@ -7,8 +7,7 @@ import {
   isObjectShallowModified,
   sortArray,
   isEmpty,
-  qsstringify,
-  isObject
+  qsstringify
 } from '../utils/helper';
 import {Api, Payload, fetchOptions, Action, ApiObject} from '../types';
 import qs from 'qs';

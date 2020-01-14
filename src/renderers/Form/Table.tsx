@@ -2,7 +2,7 @@ import React from "react";
 import { FormItem, FormControlProps } from "./Item";
 import cx from "classnames";
 import Button from "../../components/Button";
-import {createObject, isObject, isObjectShallowModified} from '../../utils/helper';
+import {createObject, isObjectShallowModified} from '../../utils/helper';
 import {RendererData, Action, Api, Payload, ApiObject} from '../../types';
 import { isEffectiveApi } from "../../utils/api";
 import { filter } from "../../utils/tpl";
