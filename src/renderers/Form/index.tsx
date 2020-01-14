@@ -361,7 +361,7 @@ export default class Form extends React.Component<FormProps, object> {
       );
   }
 
-  reload(query?: any, silent?: boolean) {
+  reload(subPath?: string, query?: any, ctx?: any, silent?: boolean) {
     if (query) {
       return this.receive(query);
     }
@@ -413,7 +413,7 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   silentReload(target?: string, query?: any) {
-    this.reload(query, true);
+    this.reload(target, query, undefined, true);
   }
 
   initInterval(value: any) {
