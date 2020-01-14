@@ -1,14 +1,15 @@
-import React from "react";
-import { FormItem, FormControlProps } from "./Item";
-import cx from "classnames";
-import Button from "../../components/Button";
-import { createObject, isObjectShallowModified } from "../../utils/helper";
-import { RendererData, Action, Api, Payload } from "../../types";
-import { isEffectiveApi } from "../../utils/api";
-import { filter } from "../../utils/tpl";
-import omit = require("lodash/omit");
-import { dataMapping } from "../../utils/tpl-builtin";
-import findIndex = require("lodash/findIndex");
+import React from 'react';
+import {FormItem, FormControlProps} from './Item';
+import cx from 'classnames';
+import Button from '../../components/Button';
+import {createObject, isObjectShallowModified} from '../../utils/helper';
+import {RendererData, Action, Api, Payload} from '../../types';
+import {isEffectiveApi} from '../../utils/api';
+import {filter} from '../../utils/tpl';
+import omit = require('lodash/omit');
+import {dataMapping} from '../../utils/tpl-builtin';
+import findIndex = require('lodash/findIndex');
+import memoize = require('lodash/memoize');
 
 export interface TableProps extends FormControlProps {
   placeholder?: string;
@@ -44,29 +45,29 @@ export interface TableState {
 
 export default class FormTable extends React.Component<TableProps, TableState> {
   static defaultProps = {
-    placeholder: "空",
+    placeholder: '空',
     scaffold: {},
-    addBtnIcon: "fa fa-plus",
-    updateBtnIcon: "fa fa-pencil",
-    deleteBtnIcon: "fa fa-minus",
-    confirmBtnIcon: "fa fa-check",
-    cancelBtnIcon: "fa fa-times",
-    valueField: ""
+    addBtnIcon: 'fa fa-plus',
+    updateBtnIcon: 'fa fa-pencil',
+    deleteBtnIcon: 'fa fa-minus',
+    confirmBtnIcon: 'fa fa-check',
+    cancelBtnIcon: 'fa fa-times',
+    valueField: ''
   };
 
   static propsList: Array<string> = [
-    "onChange",
-    "name",
-    "columns",
-    "label",
-    "scaffold",
-    "showAddBtn",
-    "addable",
-    "removable",
-    "editable",
-    "addApi",
-    "updateApi",
-    "deleteApi"
+    'onChange',
+    'name',
+    'columns',
+    'label',
+    'scaffold',
+    'showAddBtn',
+    'addable',
+    'removable',
+    'editable',
+    'addApi',
+    'updateApi',
+    'deleteApi'
   ];
 
   entries: Map<any, number>;
@@ -93,6 +94,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   componentWillUnmount() {
     this.entries.clear();
+    this.buildItems.cache.clear?.();
   }
 
   subFormRef(form: any, x: number, y: number) {
@@ -100,7 +102,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   validate(): any {
-    const { value, minLength, maxLength } = this.props;
+    const {value, minLength, maxLength} = this.props;
 
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return `组合表单成员数量不够，低于最小的设定${minLength}个，请添加更多的成员。`;
@@ -115,7 +117,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         return Promise.all(subForms.map(item => item.validate())).then(
           values => {
             if (~values.indexOf(false)) {
-              return "内部表单验证失败";
+              return '内部表单验证失败';
             }
 
             return;
@@ -126,9 +128,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   doAction(action: Action, ctx: RendererData, ...rest: Array<any>) {
-    const { onAction, value, valueField, env, onChange, editable } = this.props;
+    const {onAction, value, valueField, env, onChange, editable} = this.props;
 
-    if (action.actionType === "add") {
+    if (action.actionType === 'add') {
       const rows = Array.isArray(value) ? value.concat() : [];
 
       if (action.payload) {
@@ -159,13 +161,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         return this.addItem(rows.length - 1);
       }
     } else if (
-      action.actionType === "remove" ||
-      action.actionType === "delete"
+      action.actionType === 'remove' ||
+      action.actionType === 'delete'
     ) {
       if (!valueField) {
-        return env.alert("请配置 valueField");
+        return env.alert('请配置 valueField');
       } else if (!action.payload) {
-        return env.alert("action 上请配置 payload, 否则不清楚要删除哪个");
+        return env.alert('action 上请配置 payload, 否则不清楚要删除哪个');
       }
 
       const rows = Array.isArray(value) ? value.concat() : [];
@@ -191,7 +193,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   addItem(index: number, payload: any = this.props.scaffold) {
-    const { value, onChange } = this.props;
+    const {value, onChange} = this.props;
     let newValue = Array.isArray(value) ? value.concat() : [];
     newValue.splice(index + 1, 0, {
       ...payload
@@ -249,7 +251,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     if (remote && !remote.ok) {
-      env.notify("error", remote.msg || "保存失败");
+      env.notify('error', remote.msg || '保存失败');
       return;
     } else if (remote && remote.ok) {
       item = {
@@ -268,7 +270,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   cancelEdit() {
-    const { value, onChange } = this.props;
+    const {value, onChange} = this.props;
 
     if (this.state.isCreateMode) {
       let newValue = Array.isArray(value) ? value.concat() : [];
@@ -300,7 +302,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const ctx = createObject(data, item);
     if (isEffectiveApi(deleteApi, ctx)) {
       const confirmed = await env.confirm(
-        deleteConfirmText ? filter(deleteConfirmText, ctx) : "确认要删除？"
+        deleteConfirmText ? filter(deleteConfirmText, ctx) : '确认要删除？'
       );
       if (!confirmed) {
         // 如果不确认，则跳过！
@@ -310,7 +312,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       const result = await env.fetcher(deleteApi, ctx);
 
       if (!result.ok) {
-        env.notify("error", "删除失败");
+        env.notify('error', '删除失败');
         return;
       }
     }
@@ -340,7 +342,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     let btns = [];
     if (props.addable && props.showAddBtn !== false) {
       btns.push({
-        children: ({ key, rowIndex }: { key: any; rowIndex: number }) =>
+        children: ({key, rowIndex}: {key: any; rowIndex: number}) =>
           ~this.state.editIndex ? null : (
             <Button
               classPrefix={ns}
@@ -363,19 +365,19 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     if (props.editable) {
       columns = columns.map(column => {
         const quickEdit =
-          !isCreateMode && column.hasOwnProperty("quickEditOnUpdate")
+          !isCreateMode && column.hasOwnProperty('quickEditOnUpdate')
             ? column.quickEditOnUpdate
             : column.quickEdit;
 
         return quickEdit === false
-          ? omit(column, ["quickEdit"])
+          ? omit(column, ['quickEdit'])
           : {
               ...column,
               quickEdit: {
-                type: "text",
+                type: 'text',
                 ...quickEdit,
                 saveImmediately: true,
-                mode: "inline"
+                mode: 'inline'
               }
             };
       });
@@ -413,7 +415,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
 
       btns.push({
-        children: ({ key, rowIndex }: { key: any; rowIndex: number }) =>
+        children: ({key, rowIndex}: {key: any; rowIndex: number}) =>
           this.state.editIndex === rowIndex ? (
             <Button
               classPrefix={ns}
@@ -437,7 +439,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
 
       btns.push({
-        children: ({ key, rowIndex }: { key: any; rowIndex: number }) =>
+        children: ({key, rowIndex}: {key: any; rowIndex: number}) =>
           this.state.editIndex === rowIndex ? (
             <Button
               classPrefix={ns}
@@ -497,10 +499,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     if (btns.length) {
       columns.push({
-        type: "operation",
+        type: 'operation',
         buttons: btns,
         width: 100,
-        label: "操作"
+        label: '操作'
       });
     }
 
@@ -512,7 +514,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     diff: Array<object> | object,
     rowIndexes: Array<number> | number
   ) {
-    const { onChange, value } = this.props;
+    const {onChange, value} = this.props;
 
     const newValue = Array.isArray(value) ? value.concat() : [];
 
@@ -549,9 +551,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   handleSaveTableOrder(moved: Array<object>, rows: Array<object>) {
-    const { onChange } = this.props;
+    const {onChange} = this.props;
 
-    onChange(rows.map((item: object) => ({ ...item })));
+    onChange(rows.map((item: object) => ({...item})));
   }
 
   removeEntry(entry: any) {
@@ -562,13 +564,21 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   getEntryId(entry: any) {
     if (entry === this.state.editting) {
-      return "editting";
+      return 'editting';
     } else if (!this.entries.has(entry)) {
       this.entries.set(entry, this.entityId++);
     }
 
     return String(this.entries.get(entry));
   }
+
+  buildItems = memoize(
+    (value: Array<any>, editIndex: number) => {
+      return value.map((value: any, index: number) =>
+      index === editIndex ? this.state.editting : value)
+    },
+    (...args: Array<any>) => JSON.stringify(args)
+  );
 
   render() {
     const {
@@ -585,11 +595,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     } = this.props;
 
     return (
-      <div className={cx("form-control-table", className)}>
+      <div className={cx('form-control-table', className)}>
         {render(
-          "body",
+          'body',
           {
-            type: "table",
+            type: 'table',
             placeholder,
             columns: this.state.columns,
             affixHeader: false
@@ -599,14 +609,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             saveImmediately: true,
             disabled,
             draggable: draggable && !~this.state.editIndex,
-            items: (Array.isArray(value) && value.length
+            items: this.buildItems((Array.isArray(value) && value.length
               ? value
               : addable && showAddBtn !== false
-              ? [{ __isPlaceholder: true }]
+              ? [{__isPlaceholder: true}]
               : []
-            ).map((value: any, index: number) =>
-              index === this.state.editIndex ? this.state.editting : value
-            ),
+            ), this.state.editIndex),
             getEntryId: this.getEntryId,
             onSave: this.handleTableSave,
             onSaveOrder: this.handleSaveTableOrder,
@@ -623,6 +631,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
 @FormItem({
   test: /(^|\/)form(?:\/.+)?\/control\/table$/,
-  name: "table-control"
+  name: 'table-control'
 })
 export class TableControlRenderer extends FormTable {}
