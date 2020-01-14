@@ -169,7 +169,14 @@ export const FormItemStore = types
             ) {
               unMatched = {
                 [self.valueField || 'value']: item,
-                [self.labelField || 'label']: item
+                [self.labelField || 'label']: item,
+                '__unmatched': true
+              };
+            } else if (unMatched && self.extractValue) {
+              unMatched = {
+                [self.valueField || 'value']: item,
+                [self.labelField || 'label']: 'UnKnown',
+                '__unmatched': true
               };
             }
 
@@ -534,6 +541,12 @@ export const FormItemStore = types
               unMatched[self.labelField || 'label'] =
                 orgin[self.labelField || 'label'];
             }
+          } else if (unMatched && self.extractValue) {
+            unMatched = {
+              [self.valueField || 'value']: item,
+              [self.labelField || 'label']: 'UnKnown',
+              '__unmatched': true
+            };
           }
 
           unMatched && selectedOptions.push(unMatched);
