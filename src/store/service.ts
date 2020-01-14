@@ -2,7 +2,7 @@ import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {IRendererStore} from './index';
 import {Api, ApiObject, Payload, fetchOptions} from '../types';
-import {extendObject, isEmpty} from '../utils/helper';
+import {extendObject, isEmpty, isObject} from '../utils/helper';
 import {ServerError} from '../utils/errors';
 
 export const ServiceStore = iRendererStore
@@ -363,6 +363,7 @@ export const ServiceStore = iRendererStore
           if (json.data) {
             self.schema = json.data;
             self.schemaKey = '' + Date.now();
+            isObject(json.data.data) && self.updateData(json.data.data);
           }
           updateMessage(json.msg || (options && options.successMessage));
 
