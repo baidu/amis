@@ -262,4 +262,10 @@
       flex-grow: 1;
     }
   }
+
+  &-toolbar {
+      display: inline-block;
+      float: right;
+      padding-top: $gap-xs;
+  }
 }
