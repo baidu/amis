@@ -202,13 +202,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       : -1;
   }
 
-  @autobind
-  handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
-    const {onAction} = this.props;
-
-    onAction && onAction(e, action, ctx);
-  }
-
   renderToolbar() {
     const {
       toolbar,
@@ -217,13 +210,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       toolbarClassName
     } = this.props;
 
-    const toolbarProps = {
-      onAction: this.handleAction
-    };
-
     return toolbar ? (
       <div className={cx(`Tabs-toolbar`, toolbarClassName)}>
-        {render('toolbar', toolbar, toolbarProps)}
+        {render('toolbar', toolbar)}
       </div>
     ) : null;
   }
