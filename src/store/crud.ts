@@ -7,9 +7,10 @@ import {
   isObjectShallowModified,
   sortArray,
   isEmpty,
-  qsstringify
+  qsstringify,
+  isObject
 } from '../utils/helper';
-import {Api, Payload, fetchOptions, Action} from '../types';
+import {Api, Payload, fetchOptions, Action, ApiObject} from '../types';
 import qs from 'qs';
 import pick = require('lodash/pick');
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
@@ -116,7 +117,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         syncResponse2Query?: boolean;
       }
     ) => Promise<any> = flow(function* getInitData(
-      api: string,
+      api: Api,
       data: object,
       options: fetchOptions & {
         forceReload?: boolean;
@@ -263,7 +264,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           const data = {
-            ...self.pristine,
+            ...(isObject(api) && (api as ApiObject).replaceData ? {} : self.pristine),
             items: rowsData,
             count: count,
             total: total,
@@ -286,7 +287,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           self.items.replace(rowsData);
-          self.reInitData(data);
+          self.reInitData(data, isObject(api) && (api as ApiObject).replaceData);
           options.syncResponse2Query !== false &&
             updateQuery(
               pick(rest, Object.keys(self.query)),
@@ -348,7 +349,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* saveRemote(
-      api: string,
+      api: Api,
       data: object,
       options: fetchOptions = {}
     ) {
@@ -369,7 +370,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         if (!isEmpty(json.data) || json.ok) {
           self.updateData(json.data, {
             __saved: Date.now()
-          });
+          }, isObject(api) && (api as ApiObject).replaceData);
           self.updatedAt = Date.now();
         }
 

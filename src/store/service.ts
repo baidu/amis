@@ -39,8 +39,8 @@ export const ServiceStore = iRendererStore
       self.busying = busying;
     }
 
-    function reInitData(data: object | undefined) {
-      const newData = extendObject(self.pristine, data);
+    function reInitData(data: object | undefined, replace: boolean = false) {
+      const newData = replace ? data : extendObject(self.pristine, data);
       self.data = self.pristine = newData;
     }
 
@@ -58,7 +58,7 @@ export const ServiceStore = iRendererStore
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* getInitData(
-      api: string,
+      api: Api,
       data: object,
       options?: fetchOptions
     ) {
@@ -97,10 +97,12 @@ export const ServiceStore = iRendererStore
               : undefined
           );
         } else {
-          reInitData({
-            ...self.data,
+          let replaceData = isObject(api) && (api as ApiObject).replaceData;
+          let data = {
+            ...(replaceData ? {} : self.data),
             ...json.data
-          });
+          };
+          reInitData(data, replaceData);
           self.updatedAt = Date.now();
           self.hasRemoteData = true;
           if (options && options.onSuccess) {
@@ -143,7 +145,7 @@ export const ServiceStore = iRendererStore
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* getInitData(
-      api: string,
+      api: Api,
       data: object,
       options?: fetchOptions
     ) {
@@ -168,7 +170,7 @@ export const ServiceStore = iRendererStore
         fetchCancel = null;
 
         if (!isEmpty(json.data) || json.ok) {
-          json.data && self.updateData(json.data);
+          json.data && self.updateData(json.data, undefined, isObject(api) && (api as ApiObject).replaceData);
           self.updatedAt = Date.now();
           self.hasRemoteData = true;
         }
@@ -226,7 +228,7 @@ export const ServiceStore = iRendererStore
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* saveRemote(
-      api: string,
+      api: Api,
       data: object,
       options: fetchOptions = {}
     ) {
@@ -248,7 +250,7 @@ export const ServiceStore = iRendererStore
         );
 
         if (!isEmpty(json.data) || json.ok) {
-          json.data && self.updateData(json.data);
+          json.data && self.updateData(json.data, undefined, isObject(api) && (api as ApiObject).replaceData);
           self.updatedAt = Date.now();
         }
 
@@ -302,7 +304,7 @@ export const ServiceStore = iRendererStore
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* fetchSchema(
-      api: string,
+      api: Api,
       data: object,
       options: fetchOptions = {}
     ) {
@@ -363,7 +365,7 @@ export const ServiceStore = iRendererStore
           if (json.data) {
             self.schema = json.data;
             self.schemaKey = '' + Date.now();
-            isObject(json.data.data) && self.updateData(json.data.data);
+            isObject(json.data.data) && self.updateData(json.data.data, undefined, isObject(api) && (api as ApiObject).replaceData);
           }
           updateMessage(json.msg || (options && options.successMessage));
 
@@ -397,7 +399,7 @@ export const ServiceStore = iRendererStore
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* checkRemote(
-      api: string,
+      api: Api,
       data: object,
       options?: fetchOptions
     ) {
@@ -412,7 +414,7 @@ export const ServiceStore = iRendererStore
           data,
           options
         );
-        json.ok && self.updateData(json.data);
+        json.ok && self.updateData(json.data, undefined, isObject(api) && (api as ApiObject).replaceData);
 
         if (!json.ok) {
           throw new Error(json.msg);
