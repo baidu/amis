@@ -1,6 +1,6 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {Schema} from '../types';
+import {Action, Schema, SchemaNode} from '../types';
 import find = require('lodash/find');
 import {isVisible, autobind, isDisabled} from '../utils/helper';
 import findIndex = require('lodash/findIndex');
@@ -33,6 +33,7 @@ export interface TabsProps extends RendererProps {
   unmountOnExit?: boolean;
   tabs?: Array<TabProps>;
   tabRender?: (tab: TabProps, props: TabsProps, index: number) => JSX.Element;
+  toolbar?: SchemaNode;
 }
 
 export interface TabsState {
@@ -201,6 +202,21 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       : -1;
   }
 
+  renderToolbar() {
+    const {
+      toolbar,
+      render,
+      classnames: cx,
+      toolbarClassName
+    } = this.props;
+
+    return toolbar ? (
+      <div className={cx(`Tabs-toolbar`, toolbarClassName)}>
+        {render('toolbar', toolbar)}
+      </div>
+    ) : null;
+  }
+
   renderTabs() {
     const {
       classnames: cx,
@@ -232,6 +248,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         contentClassName={contentClassName}
         onSelect={this.handleSelect}
         activeKey={this.state.activeKey}
+        toolbar={this.renderToolbar()}
       >
         {tabs.map((tab, index) =>
           isVisible(tab, data) ? (

@@ -4,6 +4,8 @@
 
 -   `type` 请设置成 `tabs`
 -   `tabs` 选项卡数组
+-   `toolbar` 选项卡右上角工具栏，参考 [Tabs](../Tabs.md) 
+-   `toolbarClassName` 选项卡右上角工具栏 CSS 类名
 -   `tabs[x].title` 标题
 -   `tabs[x].controls` 表单项集合。
 -   `tabs[x].body` 内容容器，跟 `controls` 二选一。
