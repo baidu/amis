@@ -2,7 +2,7 @@ import {types, getEnv, flow, getRoot, detach} from 'mobx-state-tree';
 import debounce = require('lodash/debounce');
 import {ServiceStore} from './service';
 import {FormItemStore, IFormItemStore, SFormItemStore} from './formItem';
-import {Api, fetchOptions, Payload} from '../types';
+import {Api, ApiObject, fetchOptions, Payload} from '../types';
 import {ServerError} from '../utils/errors';
 import {
   getVariable,
@@ -81,8 +81,8 @@ export const FormStore = ServiceStore.named('FormStore')
     }
   }))
   .actions(self => {
-    function setValues(values: object, tag?: object) {
-      self.updateData(values, tag);
+    function setValues(values: object, tag?: object, replace?: boolean) {
+      self.updateData(values, tag, replace);
 
       // 同步 options
       syncOptions();
@@ -198,7 +198,7 @@ export const FormStore = ServiceStore.named('FormStore')
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* saveRemote(
-      api: string,
+      api: Api,
       data: object,
       options: fetchOptions = {}
     ) {
@@ -231,7 +231,7 @@ export const FormStore = ServiceStore.named('FormStore')
         if (!isEmpty(json.data) || json.ok) {
           setValues(json.data, {
             __saved: Date.now()
-          });
+          }, isObject(api) && (api as ApiObject).replaceData);
           self.updatedAt = Date.now();
         }
 
