@@ -41,7 +41,7 @@
     border-color: $Button-onDisabled-borderColor;
 
     @if variable-exists(Button-onDisabled-bg) {
-      background-color: $Button-onDisabled-bg !important;
+      background-color: $Button-onDisabled-bg;
     }
 
     @if variable-exists(Button-onDisabled-color) {
@@ -305,6 +305,7 @@ fieldset:disabled a.#{$ns}Button {
   &.is-disabled {
     color: $text--muted-color;
     pointer-events: none;
+    background-color: transparent;
   }
 }
 
