@@ -542,7 +542,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
       multiple ? (
         <div className={`${ns}Select-value`} key={index}>
           <span
-            className={`${ns}Select-valueIcon ${disabled ? 'is-disabled' : ''}`}
+            className={`${ns}Select-valueIcon ${
+              disabled || item.disabled ? 'is-disabled' : ''
+            }`}
             onClick={this.removeItem.bind(this, index)}
           >
             ×
@@ -694,6 +696,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                     onChange={() => {
                       this.handleChange(item);
                     }}
+                    disabled={item.disabled}
                   >
                     {item.disabled
                       ? item[labelField]

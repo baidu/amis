@@ -100,6 +100,14 @@
     &:hover {
       background-color: darken($Form-selectValue-bg, 5%);
     }
+
+    &.is-disabled {
+      pointer-events: none;
+      display: none;
+      cursor: not-allowed;
+      background-color: lighten($Form-selectValue-bg, 5%);
+      background: lighten($Form-selectValue-bg, 5%);
+    }
   }
 
   &-arrow {
