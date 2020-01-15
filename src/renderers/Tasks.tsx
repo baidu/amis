@@ -213,14 +213,10 @@ export default class Task extends React.Component<TaskProps, TaskState> {
               let replace = api && (api as ApiObject).replaceData;
               const items = this.state.items.map(item =>
                 item.key === ret.data.key
-                  ? (
-                    !replace
-                      ? {
-                        ...item,
-                        ...ret.data
-                      }
-                      : {...ret.data}
-                    )
+                  ? {
+                    ...(replace ? {} : item),
+                    ...ret.data
+                  }
                   : item
               );
               this.handleLoaded({
