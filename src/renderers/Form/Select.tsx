@@ -4,7 +4,7 @@ import {OptionsControl, OptionsControlProps, Option} from './Options';
 import Select from '../../components/Select';
 import find = require('lodash/find');
 import debouce = require('lodash/debounce');
-import {Api, ApiObject} from '../../types';
+import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {isEmpty, createObject} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
@@ -147,8 +147,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       .fetcher(autoComplete, ctx)
       .then(ret => {
         let options = (ret.data && (ret.data as any).options) || ret.data || [];
-        let replace = autoComplete && (autoComplete as ApiObject).replaceData;
-        let combinedOptions = replace ? options : this.mergeOptions(options);
+        let combinedOptions = this.mergeOptions(options);
         setOptions(combinedOptions);
 
         return {
