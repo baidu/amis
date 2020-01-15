@@ -1,14 +1,14 @@
-import React from "react";
-import {FormItem, FormControlProps} from "./Item";
-import cx from "classnames";
-import Button from "../../components/Button";
+import React from 'react';
+import {FormItem, FormControlProps} from './Item';
+import cx from 'classnames';
+import Button from '../../components/Button';
 import {createObject, isObjectShallowModified} from '../../utils/helper';
 import {RendererData, Action, Api, Payload, ApiObject} from '../../types';
-import {isEffectiveApi} from "../../utils/api";
-import {filter} from "../../utils/tpl";
-import omit = require("lodash/omit");
-import {dataMapping} from "../../utils/tpl-builtin";
-import findIndex = require("lodash/findIndex");
+import {isEffectiveApi} from '../../utils/api';
+import {filter} from '../../utils/tpl';
+import omit = require('lodash/omit');
+import {dataMapping} from '../../utils/tpl-builtin';
+import findIndex = require('lodash/findIndex');
 import memoize = require('lodash/memoize');
 
 export interface TableProps extends FormControlProps {
