@@ -70,7 +70,7 @@ export function evalJS(js: string, data: object): any {
     const fn = new Function(
       'data',
       'utils',
-      `with(data) {${~js.indexOf('return') ? '' : 'return '}${js};}`
+      `with(data) {${/^\s*return\b/.test(js) ? '' : 'return '}${js};}`
     );
     data = data || {};
     return fn.call(data, data, getFilters());
