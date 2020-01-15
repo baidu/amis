@@ -14,6 +14,7 @@ import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchema} from '.';
 import {Schema} from '../../types';
+import {filter} from '../../utils/tpl';
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
   type?: string;
@@ -243,7 +244,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       formItem: model,
       renderLabel,
       renderDescription,
-      hint
+      hint,
+      data
     } = this.props;
 
     // 强制不渲染 label 的话
@@ -279,7 +281,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             )}
           >
             <span>
-              {label}
+              {filter(label, data)}
               {required ? <span className={cx(`Form-star`)}>*</span> : null}
               {labelRemark
                 ? render('label-remark', {
@@ -366,7 +368,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderLabel,
       renderDescription,
       hint,
-      formMode
+      formMode,
+      data
     } = this.props;
 
     description = description || desc;
@@ -381,7 +384,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {label && renderLabel !== false ? (
           <label className={cx(`Form-label`, labelClassName)}>
             <span>
-              {label}
+              {filter(label, data)}
               {required ? <span className={cx(`Form-star`)}>*</span> : null}
               {labelRemark
                 ? render('label-remark', {
@@ -458,7 +461,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       env,
       hint,
       renderLabel,
-      renderDescription
+      renderDescription,
+      data
     } = this.props;
 
     description = description || desc;
@@ -473,7 +477,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {label && renderLabel !== false ? (
           <label className={cx(`Form-label`, labelClassName)}>
             <span>
-              {label}
+              {filter(label, data)}
               {required ? <span className={cx(`Form-star`)}>*</span> : null}
               {labelRemark
                 ? render('label-remark', {
@@ -555,7 +559,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderLabel,
       renderDescription,
       hint,
-      formMode
+      formMode,
+      data
     } = this.props;
 
     description = description || desc;
@@ -571,7 +576,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, labelClassName)}>
               <span>
-                {label}
+                {filter(label, data)}
                 {required ? <span className={cx(`Form-star`)}>*</span> : null}
                 {labelRemark
                   ? render('label-remark', {

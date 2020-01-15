@@ -213,6 +213,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(normalizeOptions(props.options || []));
+        this.normalizeValue();
       } else if (
         config.autoLoadOptionsFromSource !== false &&
         props.source &&
@@ -232,6 +233,8 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
           prevOptions !== options &&
             formItem.setOptions(normalizeOptions(options || []));
+
+          this.normalizeValue();
         } else if (
           isEffectiveApi(props.source, props.data) &&
           isApiOutdated(
@@ -241,17 +244,17 @@ export function registerOptionsControl(config: OptionsConfig) {
             props.data
           )
         ) {
-          formItem.loadOptions(
-            props.source,
-            props.data,
-            undefined,
-            true,
-            props.onChange
-          );
+          formItem
+            .loadOptions(
+              props.source,
+              props.data,
+              undefined,
+              true,
+              props.onChange
+            )
+            .then(() => this.normalizeValue());
         }
       }
-
-      this.normalizeValue();
     }
 
     componentWillUnmount() {
@@ -339,7 +342,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       let valueArray = formItem.getSelectedOptions(value).concat();
       const idx = findIndex(
         valueArray,
-        optionValueCompare(option.value, valueField || 'value')
+        optionValueCompare(option[valueField || 'value'], valueField || 'value')
       );
       let newValue: string | Array<Option> | Option = '';
 
