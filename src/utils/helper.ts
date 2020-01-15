@@ -38,24 +38,24 @@ export function createObject(
   return obj;
 }
 
-export function cloneObject(from: any, cloneOwnValue: boolean = true) {
+export function cloneObject(target: any, persistOwnProps: boolean = true) {
   const obj =
-    from && from.__super
-      ? Object.create(from.__super, {
+    target && target.__super
+      ? Object.create(target.__super, {
           __super: {
-            value: from.__super,
+            value: target.__super,
             writable: false,
             enumerable: false
           }
         })
       : Object.create(Object.prototype);
-  cloneOwnValue && from && Object.keys(from).forEach(key => (obj[key] = from[key]));
+  persistOwnProps && target && Object.keys(target).forEach(key => (obj[key] = target[key]));
   return obj;
 }
 
-export function extendObject(to: any, from?: any, cloneTosValue?: boolean) {
-  const obj = cloneObject(to, cloneTosValue);
-  from && Object.keys(from).forEach(key => (obj[key] = from[key]));
+export function extendObject(target: any, src?: any, persistOwnProps?: boolean) {
+  const obj = cloneObject(target, persistOwnProps);
+  src && Object.keys(src).forEach(key => (obj[key] = src[key]));
   return obj;
 }
 
