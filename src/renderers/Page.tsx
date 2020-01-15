@@ -351,6 +351,7 @@ export default class Page extends React.Component<PageProps> {
       title,
       subTitle,
       remark,
+      remarkPlacement,
       headerClassName,
       toolbarClassName,
       toolbar,
@@ -375,6 +376,7 @@ export default class Page extends React.Component<PageProps> {
                 ? render('remark', {
                     type: 'remark',
                     tooltip: remark,
+                    placement: remarkPlacement || 'bottom',
                     container:
                       env && env.getModalContainer
                         ? env.getModalContainer
