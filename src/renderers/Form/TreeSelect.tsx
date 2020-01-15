@@ -10,7 +10,7 @@ import TreeSelector from '../../components/Tree';
 import matchSorter from 'match-sorter';
 import debouce = require('lodash/debounce');
 import find = require('lodash/find');
-import {Api} from '../../types';
+import {Api, ApiObject} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 
 export interface TreeSelectProps extends OptionsControlProps {
@@ -278,7 +278,8 @@ export default class TreeSelectControl extends React.Component<
       .then(ret => {
         let options = (ret.data && (ret.data as any).options) || ret.data || [];
         this.cache[input] = options;
-        let combinedOptions = this.mergeOptions(options);
+        let replace = autoComplete && (autoComplete as ApiObject).replaceData;
+        let combinedOptions = replace ? options : this.mergeOptions(options);
         setOptions(combinedOptions);
 
         return Promise.resolve({

@@ -9,6 +9,7 @@ import {FormControlProps, FormItem} from './Item';
 import {buildApi, isValidApi, isEffectiveApi} from '../../utils/api';
 import {Checkbox, Spinner} from '../../components';
 import {autobind, setVariable} from '../../utils/helper';
+import {ApiObject} from '../../types';
 
 export interface Column {
   label: string;
@@ -170,13 +171,16 @@ export default class MatrixCheckbox extends React.Component<
                   columns: (ret.data as any).columns || []
                 },
                 () => {
+                  let replace = source && (source as ApiObject).replaceData;
                   let value = (ret.data as any).value;
                   if (value) {
-                    value = mergeValue(
-                      value,
-                      this.state.columns,
-                      this.state.rows
-                    );
+                    value = replace
+                      ? value
+                      : mergeValue(
+                          value,
+                          this.state.columns,
+                          this.state.rows
+                      );
                     onChange(value);
                   }
                   resolve();
