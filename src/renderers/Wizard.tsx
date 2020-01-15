@@ -246,7 +246,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     throw new Error('Please implements this!');
   }
 
-  reload(query?: any, silent?: boolean) {
+  reload(subPath?: string, query?: any, ctx?: any) {
     if (query) {
       return this.receive(query);
     }

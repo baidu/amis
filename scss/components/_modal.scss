@@ -80,6 +80,7 @@
     left: 0;
     z-index: 1;
     background-color: $Modal-overlay-bg;
+    pointer-events: none; // 很重要，如果不设置，弹框虽然滚轮可滚，但是鼠标没办法操作滚动条。
     opacity: 0;
 
     &.in {
