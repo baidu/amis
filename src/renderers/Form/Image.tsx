@@ -276,7 +276,7 @@ export default class ImageControl extends React.Component<
 
     if (crop) {
       crop = {
-        aspectRatio: 1, // 1 : 1
+        aspectRatio: undefined, // 默认不限制
         guides: true,
         dragMode: 'move',
         viewMode: 1,
@@ -493,7 +493,7 @@ export default class ImageControl extends React.Component<
 
     this.setState({
       cropFile: {
-        preview: files[index].url as string,
+        preview: files[index].preview || (files[index].url as string),
         state: 'init'
       }
     });
