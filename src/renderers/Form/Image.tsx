@@ -493,7 +493,7 @@ export default class ImageControl extends React.Component<
 
     this.setState({
       cropFile: {
-        preview: files[index].url as string,
+        preview: files[index].preview as string,
         state: 'init'
       }
     });
