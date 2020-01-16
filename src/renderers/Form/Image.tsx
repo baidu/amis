@@ -487,13 +487,11 @@ export default class ImageControl extends React.Component<
   }
 
   editImage(index: number) {
-    const {multiple} = this.props;
-
     const files = this.files;
 
     this.setState({
       cropFile: {
-        preview: files[index].preview as string,
+        preview: files[index].preview || files[index].url as string,
         state: 'init'
       }
     });
