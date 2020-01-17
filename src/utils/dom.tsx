@@ -140,7 +140,7 @@ function getLeftDelta(
 export function calculatePosition(
   placement: any,
   overlayNode: any,
-  target: any,
+  target: HTMLElement,
   container: any,
   padding: any = 0
 ) {
@@ -149,6 +149,9 @@ export function calculatePosition(
       ? getOffset(target)
       : getPosition(target, container);
   const {height: overlayHeight, width: overlayWidth} = getOffset(overlayNode);
+  const clip = target.getBoundingClientRect();
+  const scaleX = clip.width / target.offsetWidth;
+  const scaleY = clip.height / target.offsetHeight;
 
   // auto 尝试四个方向对齐。
   placement =
@@ -195,10 +198,9 @@ export function calculatePosition(
 
       // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
       if (tests.length) {
-        let clip = target.getBoundingClientRect();
         const transformed = {
-          x: clip.x + positionLeft - childOffset.left,
-          y: clip.y + positionTop - childOffset.top,
+          x: clip.x + positionLeft / scaleX - childOffset.left,
+          y: clip.y + positionTop / scaleY - childOffset.top,
           width: overlayWidth,
           height: overlayHeight
         };
@@ -267,10 +269,10 @@ export function calculatePosition(
   }
 
   return {
-    positionLeft,
-    positionTop,
-    arrowOffsetLeft,
-    arrowOffsetTop,
+    positionLeft: positionLeft / scaleX,
+    positionTop: positionTop / scaleY,
+    arrowOffsetLeft: arrowOffsetLeft / scaleX,
+    arrowOffsetTop: arrowOffsetTop / scaleY,
     activePlacement
   };
 }
