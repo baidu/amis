@@ -1,0 +1,1 @@
+define("node_modules/monaco-editor/esm/vs/language/html/_deps/vscode-html-languageservice/beautify/beautify",function(e,t){"use strict";function u(e){return e}Object.defineProperty(t,"__esModule",{value:!0}),t.js_beautify=u});
