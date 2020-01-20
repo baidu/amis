@@ -11,16 +11,27 @@ import {__uri} from '../utils/helper';
 
 (window as any).MonacoEnvironment = {
   getWorkerUrl: function(moduleId: string, label: string) {
+    let url = '/pkg/editor.worker.js';
+
     if (label === 'json') {
-      return '/pkg/json.worker.js';
+      url = '/pkg/json.worker.js';
     } else if (label === 'css') {
-      return '/pkg/css.worker.js';
+      url = '/pkg/css.worker.js';
     } else if (label === 'html') {
-      return '/pkg/html.worker.js';
+      url = '/pkg/html.worker.js';
     } else if (label === 'typescript' || label === 'javascript') {
-      return '/pkg/ts.worker.js';
+      url = '/pkg/ts.worker.js';
     }
-    return '/pkg/editor.worker.js';
+
+    if (/^https?/.test(url)) {
+      return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
+      self.MonacoEnvironment = {
+        baseUrl: '${url.replace(/\/.*$/, '/')}'
+      };
+      importScripts('${url}');`)}`;
+    }
+
+    return url;
   }
 };
 
