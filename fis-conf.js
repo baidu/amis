@@ -156,10 +156,6 @@ fis.match('::package', {
   })
 });
 
-fis.match('*.worker.js', {
-  useHash: true
-});
-
 fis.media('dev').match('/node_modules/**.js', {
   packTo: '/pkg/npm.js'
 });
@@ -219,10 +215,6 @@ if (fis.project.currentMedia() === 'publish') {
     standard: false
   });
 
-  publishEnv.match('/src/components/Editor.tsx', {
-    standard: 'builtin'
-  });
-
   publishEnv.match('/src/**.{jsx,tsx,js,ts}', {
     postprocessor: function(content, file) {
       return content
@@ -246,23 +238,7 @@ if (fis.project.currentMedia() === 'publish') {
           return;
         }
         var content = file.getContent();
-        if (subpath === '/src/components/Editor.tsx') {
-          content = content
-            .replace('require("node_modules/tslib/tslib")', 'require("tslib")')
-            .replace('require("node_modules/react/index")', 'require("react")')
-            .replace(
-              'require("node_modules/classnames/index")',
-              'require("classnames")'
-            )
-            .replace(
-              'require("src/themes/default.ts")',
-              'require("../themes/default.js")'
-            )
-            .replace('require("src/theme.tsx")', 'require("../theme.js")')
-            .replace(/('|")(\.\.\/thirds.*?)\1/g, function(_, quote, value) {
-              return '__uri(' + quote + value + quote + ')';
-            });
-        } else if (subpath === '/src/components/icons.tsx') {
+        if (subpath === '/src/components/icons.tsx') {
           content = content.replace(/\.svg/g, '.js');
         } else {
           content = content.replace(
@@ -340,10 +316,6 @@ if (fis.project.currentMedia() === 'publish') {
     }
   });
 
-  env.match('src/components/Editor.tsx', {
-    release: '/ide.js'
-  });
-
   env.match('::package', {
     packager: fis.plugin('deps-pack', {
       'sdk.js': [
@@ -367,9 +339,9 @@ if (fis.project.currentMedia() === 'publish') {
         'jquery/**'
       ],
 
-      'echarts.js': ['zrender/**', 'echarts/**'],
+      'charts.js': ['zrender/**', 'echarts/**'],
 
-      'monaco-editor.js': [
+      'editor.js': [
         'monaco-editor/esm/vs/editor/editor.main.js',
         'monaco-editor/esm/vs/editor/editor.main.js:deps'
       ],
@@ -400,20 +372,22 @@ if (fis.project.currentMedia() === 'publish') {
     if (file.isJsLike && file.isMod) {
       var contents = file.getContent();
 
+      // 替换 worker 地址的路径，让 sdk 加载同目录下的文件。
+      // 如果 sdk 和 worker 不是部署在一个地方，请通过指定 MonacoEnvironment.getWorkerUrl
       if (file.subpath === '/src/components/Editor.tsx') {
-        contents = contents
-          .replace(/function\snoJsExt\(raw\)\s\{/, function() {
+        contents = contents.replace(
+          /function\sfilterUrl\(url\)\s\{\s*return\s*url;/m,
+          function() {
             return `var _path = '';
     try {
-        throw new Error()
+      throw new Error()
     } catch (e) {
-        _path = (/((?:https?|file)\:.*)$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
+      _path = (/((?:https?|file)\:.*)$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
     }
-    function noJsExt(raw) {`;
-          })
-          .replace(/('|")(\.\/thirds.*?)\1/g, function(_, quote, value) {
-            return `_path + ${quote}${value.substring(1)}${quote}`;
-          });
+    function filterUrl(url) {
+      return _path + url.substring(1);`;
+          }
+        );
       }
 
       if (
@@ -542,7 +516,6 @@ if (fis.project.currentMedia() === 'publish') {
         '!monaco-editor/**',
         '!flv.js/**',
         '!hls.js/**',
-        '!amis/lib/editor/**',
         '!froala-editor/**',
         '!amis/lib/components/RichText.js',
         '!jquery/**',
@@ -554,14 +527,14 @@ if (fis.project.currentMedia() === 'publish') {
         'froala-editor/**',
         'jquery/**'
       ],
-      'pkg/echarts.js': ['zrender/**', 'echarts/**'],
+      'pkg/charts.js': ['zrender/**', 'echarts/**'],
       'pkg/api-mock.js': ['mock/*.ts'],
       'pkg/app.js': [
         '/examples/components/App.jsx',
         '/examples/components/App.jsx:deps'
       ],
 
-      'pkg/monaco-editor.js': [
+      'pkg/editor.js': [
         'monaco-editor/esm/vs/editor/editor.main.js',
         'monaco-editor/esm/vs/editor/editor.main.js:deps'
       ],

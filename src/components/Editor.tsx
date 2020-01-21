@@ -9,6 +9,12 @@ import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 import {__uri} from '../utils/helper';
 
+// 用于发布 sdk 版本的时候替换，因为不确定 sdk 版本怎么部署，而 worker 地址路径不可知。
+// 所以会被 fis3 替换成取相对的代码。
+function filterUrl(url: string) {
+  return url;
+}
+
 (window as any).MonacoEnvironment = {
   getWorkerUrl: function(moduleId: string, label: string) {
     let url = '/pkg/editor.worker.js';
@@ -23,12 +29,13 @@ import {__uri} from '../utils/helper';
       url = '/pkg/ts.worker.js';
     }
 
+    url = filterUrl(url);
+
+    // url 有可能会插件替换成 cdn 地址，比如：fis3-prepackager-stand-alone-pack
     if (/^https?/.test(url)) {
       return `data:text/javascript;charset=utf-8,${encodeURIComponent(`
-      self.MonacoEnvironment = {
-        baseUrl: '${url.replace(/\/.*$/, '/')}'
-      };
-      importScripts('${url}');`)}`;
+        importScripts('${url}');`)}
+      `;
     }
 
     return url;

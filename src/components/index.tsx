@@ -17,7 +17,7 @@ import DatePicker from './DatePicker';
 import DateRangePicker from './DateRangePicker';
 import Drawer from './Drawer';
 import {default as Tabs, Tab} from './Tabs';
-// import Editor from './Editor';
+import Editor from './Editor';
 import Html from './Html';
 import * as Icons from './icons';
 import Layout from './Layout';
@@ -59,7 +59,7 @@ export {
   Drawer,
   Tabs,
   Tab,
-  // Editor,
+  Editor,
   Html,
   Icons,
   Layout,
