@@ -137,7 +137,7 @@ fis.hook('commonjs', {
   extList: ['.js', '.jsx', '.tsx', '.ts']
 });
 
-fis.match('::package', {
+fis.media('dev').match('::package', {
   prepackager: fis.plugin('stand-alone-pack', {
     '/pkg/editor.worker.js': 'monaco-editor/esm/vs/editor/editor.worker.js',
     '/pkg/json.worker.js': 'monaco-editor/esm/vs/language/json/json.worker',
