@@ -433,21 +433,21 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   handleChange(selectItem: any) {
-    const {onChange, multiple, simpleValue} = this.props;
+    const {onChange, multiple, simpleValue, valueField} = this.props;
     let {selection} = this.state;
 
     if (multiple) {
-      const selectionValues = selection.map(item => item.value);
+      const selectionValues = selection.map(item => item[valueField]);
       selection = selection.concat();
-      const idx = selectionValues.indexOf(selectItem.value);
+      const idx = selectionValues.indexOf(selectItem[valueField]);
       if (~idx) {
         selection.splice(idx, 1);
       } else {
         selection.push(selectItem);
       }
-      onChange(simpleValue ? selection.map(item => item.value) : selection);
+      onChange(simpleValue ? selection.map(item => item[valueField]) : selection);
     } else {
-      onChange(simpleValue ? selectItem.value : selectItem);
+      onChange(simpleValue ? selectItem[valueField] : selectItem);
     }
   }
 
@@ -601,9 +601,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
           })
         : options.concat();
 
-    const selectionValues = selection.map(select => select.value);
+    const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
-      const optionsValues = options.map(option => option.value);
+      const optionsValues = options.map(option => option[valueField]);
 
       checkedAll = optionsValues.every(
         option => selectionValues.indexOf(option) > -1
@@ -651,7 +651,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         {filtedOptions.length ? (
           filtedOptions.map((item, index) => {
             const checked =
-              selectedItem === item || !!~selectionValues.indexOf(item.value);
+              selectedItem === item || !!~selectionValues.indexOf(item[valueField]);
 
             return (
               <div
