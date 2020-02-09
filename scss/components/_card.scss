@@ -118,6 +118,7 @@
     border-top: $Card-borderWidth solid $Card-actions-borderColor;
     display: table;
     width: 100%;
+    table-layout: fixed;
 
     > a {
       background-color: transparent;
