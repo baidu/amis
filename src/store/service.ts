@@ -1,4 +1,11 @@
-import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree';
+import {
+  types,
+  getParent,
+  flow,
+  getEnv,
+  getRoot,
+  isAlive
+} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {IRendererStore} from './index';
 import {Api, ApiObject, Payload, fetchOptions} from '../types';
@@ -123,7 +130,7 @@ export const ServiceStore = iRendererStore
         return json;
       } catch (e) {
         const root = getRoot(self) as IRendererStore;
-        if (root.storeType !== 'RendererStore') {
+        if (!isAlive(root) || root.storeType !== 'RendererStore') {
           // 已经销毁了，不管这些数据了。
           return;
         }
@@ -206,7 +213,7 @@ export const ServiceStore = iRendererStore
         return json;
       } catch (e) {
         const root = getRoot(self) as IRendererStore;
-        if (root.storeType !== 'RendererStore') {
+        if (!isAlive(root) || root.storeType !== 'RendererStore') {
           // 已经销毁了，不管这些数据了。
           return;
         }
@@ -376,7 +383,7 @@ export const ServiceStore = iRendererStore
         self.initializing = false;
       } catch (e) {
         const root = getRoot(self) as IRendererStore;
-        if (root.storeType !== 'RendererStore') {
+        if (!isAlive(root) || root.storeType !== 'RendererStore') {
           // 已经销毁了，不管这些数据了。
           return;
         }
