@@ -59,13 +59,17 @@ export default class TreeControl extends React.Component<TreeProps> {
       showRadio,
       onAdd,
       creatable,
+      createTip,
       addControls,
       onEdit,
       editable,
+      editTip,
       editControls,
       removable,
+      deleteTip,
       onDelete,
-      rootCreatable
+      rootCreatable,
+      rootCreateTip
     } = this.props;
 
     return (
@@ -99,10 +103,14 @@ export default class TreeControl extends React.Component<TreeProps> {
             selfDisabledAffectChildren={false}
             onAdd={onAdd}
             creatable={creatable}
+            createTip={createTip}
             rootCreatable={rootCreatable}
+            rootCreateTip={rootCreateTip}
             onEdit={onEdit}
             editable={editable}
+            editTip={editTip}
             removable={removable}
+            deleteTip={deleteTip}
             onDelete={onDelete}
             bultinCUD={!addControls && !editControls}
           />
