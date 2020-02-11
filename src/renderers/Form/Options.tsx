@@ -774,9 +774,9 @@ export function registerOptionsControl(config: OptionsConfig) {
           setOptions={this.setOptions}
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
-          creatable={creatable || isEffectiveApi(addApi)}
-          editable={editable || isEffectiveApi(editApi)}
-          removable={removable || isEffectiveApi(deleteApi)}
+          creatable={creatable || creatable !== false && isEffectiveApi(addApi)}
+          editable={editable || editable !== false && isEffectiveApi(editApi)}
+          removable={removable || removable !== false && isEffectiveApi(deleteApi)}
           onAdd={this.handleOptionAdd}
           onEdit={this.handleOptionEdit}
           onDelete={this.handleOptionDelete}
