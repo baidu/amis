@@ -186,8 +186,6 @@ export default class Page extends React.Component<PageProps> {
   ) {
     const {env, store, messages} = this.props;
 
-    store.setCurrentAction(action);
-
     if (
       action.actionType === 'url' ||
       action.actionType === 'link' ||
@@ -203,10 +201,13 @@ export default class Page extends React.Component<PageProps> {
         ctx
       );
     } else if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       store.openDialog(ctx);
     } else if (action.actionType === 'drawer') {
+      store.setCurrentAction(action);
       store.openDrawer(ctx);
     } else if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
       store
         .saveRemote(action.api as string, ctx, {
           successMessage:
