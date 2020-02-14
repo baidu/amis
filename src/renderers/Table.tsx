@@ -1431,7 +1431,13 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderColumnsToggler(config?: any) {
-    const {store, classPrefix: ns, classnames: cx, ...rest} = this.props;
+    const {
+      className,
+      store,
+      classPrefix: ns,
+      classnames: cx,
+      ...rest
+    } = this.props;
 
     const render = this.props.render;
 
