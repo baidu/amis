@@ -500,7 +500,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     replaceLocation: boolean = false,
     search: boolean = true
   ) {
-    const {store, syncLocation, env, pageField, perPageField} = this.props;
+    const {store, syncLocation, env, pageField, perPageField, loadDataOnceFetchOnFilter} = this.props;
     values = syncLocation ? qs.parse(qsstringify(values)) : values;
 
     store.updateQuery(
@@ -515,7 +515,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField
     );
     this.lastQuery = store.query;
-    search && this.search();
+    search && this.search(undefined, undefined, undefined, loadDataOnceFetchOnFilter);
   }
 
   handleBulkGo(
@@ -673,7 +673,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     values?: any,
     silent?: boolean,
     clearSelection?: boolean,
-    forceReload = true
+    forceReload = false
   ) {
     const {
       store,
@@ -782,7 +782,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField
     );
-    this.search(undefined, undefined, undefined, false);
+
+    this.search(undefined, undefined, undefined);
 
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();
@@ -1060,7 +1061,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (query) {
       return this.receive(query);
     } else {
-      this.search(undefined, undefined, true);
+      this.search(undefined, undefined, true, true);
     }
   }
 
