@@ -5,6 +5,9 @@
 
   &-main {
     background: $Page-main-bg;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   &-content {
@@ -46,6 +49,7 @@
 
   &-body {
     padding: $Page-body-padding;
+    flex: 1 auto;
   }
 
   &-asideTplWrapper {
