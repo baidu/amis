@@ -83,11 +83,6 @@ export interface EditorProps {
   editorWillMount?: (monaco: any) => void;
   editorWillUnmount?: (editor: any, monaco: any) => void;
   editorFactory?: (conatainer: HTMLElement, monaco: any, options: any) => any;
-  requireConfig: {
-    url: string;
-    paths?: any;
-    [propName: string]: any;
-  };
 }
 
 export class Editor extends React.Component<EditorProps, any> {
