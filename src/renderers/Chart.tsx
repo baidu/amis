@@ -97,9 +97,15 @@ export class Chart extends React.Component<ChartProps> {
     const chartRef = this.props.chartRef;
     if (ref) {
       (require as any)(
-        ['echarts', 'echarts/map/js/china', 'echarts/map/js/world'],
-        (echarts: any) => {
+        [
+          'echarts',
+          'echarts/extension/dataTool',
+          'echarts/map/js/china',
+          'echarts/map/js/world'
+        ],
+        (echarts: any, dataTool: any) => {
           (window as any).echarts = echarts;
+          echarts.dataTool = dataTool;
           this.echarts = echarts.init(ref);
           this.echarts.on('click', this.handleClick);
           this.unSensor = resizeSensor(ref, () => {

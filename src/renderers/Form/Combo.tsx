@@ -18,7 +18,7 @@ import Sortable = require('sortablejs');
 import {evalExpression, filter} from '../../utils/tpl';
 import find = require('lodash/find');
 import Select from '../../components/Select';
-import {dataMapping} from '../../utils/tpl-builtin';
+import {dataMapping, resolveVariable} from '../../utils/tpl-builtin';
 import {isEffectiveApi} from '../../utils/api';
 import {Alert2} from '../../components';
 import memoize from 'lodash/memoize';
@@ -28,6 +28,13 @@ export interface Condition {
   label: string;
   scaffold?: any;
   mode?: string;
+}
+
+function pickVars(vars:any, fields: Array<string>) {
+  return fields.reduce((data:any, key: string) => {
+    data[key] = resolveVariable(key, vars);
+    return data;
+  }, {})
 }
 
 export interface ComboProps extends FormControlProps {
@@ -549,18 +556,21 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   memoizedFormatValue = memoize(
-    (strictMode: boolean, value: any, index: number, data: any) => {
+    (strictMode: boolean, syncFields: Array<string> | void, value: any, index: number, data: any) => {
       return createObject(
         extendObject(data, {index, __index: index, ...data}),
-        value
+        {
+          ...value,
+          ...Array.isArray(syncFields) ? pickVars(data, syncFields!) : null
+        }
       );
     },
-    (strictMode: boolean, ...args: Array<any>) =>
-      strictMode ? JSON.stringify(args.slice(0, 2)) : JSON.stringify(args)
+    (strictMode: boolean, syncFields: Array<string> | void, value: any, index: number, data: any) =>
+    Array.isArray(syncFields) ? JSON.stringify([value, index, data, pickVars(data, syncFields)]): strictMode ? JSON.stringify([value, index]) : JSON.stringify([value, index, data])
   );
 
   formatValue(value: any, index: number) {
-    const {flat, data, strictMode} = this.props;
+    const {flat, data, strictMode, syncFields} = this.props;
 
     if (flat) {
       value = {
@@ -570,7 +580,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     value = value || this.defaultValue;
 
-    return this.memoizedFormatValue(strictMode !== false, value, index, data);
+    return this.memoizedFormatValue(strictMode !== false, syncFields, value, index, data);
   }
 
   pickCondition(value: any): Condition | null {
@@ -754,7 +764,8 @@ export default class ComboControl extends React.Component<ComboProps> {
               key={this.keys[index] || (this.keys[index] = guid())}
               toolbar={toolbar}
               eventKey={index}
-              mountOnEnter={true}
+              // 不能按需渲染，因为 unique 会失效。
+              mountOnEnter={false}
               unmountOnExit={false}
             >
               {condition && typeSwitchable !== false ? (

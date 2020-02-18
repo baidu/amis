@@ -129,8 +129,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
     ) {
       try {
         if (
-          (options.forceReload === false ||
-            options.loadDataOnceFetchOnFilter === false) &&
+          !options.forceReload &&
           options.loadDataOnce &&
           self.total
         ) {

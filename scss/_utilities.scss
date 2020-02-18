@@ -1215,6 +1215,10 @@
   flex-grow: unset !important;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 @include media-breakpoint-up(sm) {
   .#{$ns}Form-col {
     &.w,

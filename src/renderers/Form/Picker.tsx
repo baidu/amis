@@ -54,7 +54,7 @@ export default class PickerControl extends React.PureComponent<
     pickerSchema: {
       mode: 'list',
       listItem: {
-        title: '${label}'
+        title: '${label|raw}'
       }
     },
     embed: false

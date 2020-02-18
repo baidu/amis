@@ -2,32 +2,34 @@
 
 组合模式，支持自由组合多个表单项。当设置成单选时数据格式为对象，当设置成多选时数据格式为数组，数组成员是对象（flat 模式可以直接是某个表单单项的数值）。
 
--   `type` 请设置成 `combo`
--   `multiple` 默认为 `false` 配置是否为多选模式
--   `controls` 配置组合成员，所有成员都是横向展示，可以是任意 [FormItem](./FormItem.md)
--   `controls[x].columnClassName` 列的类名，可以用它配置列宽度。默认平均分配。
--   `controls[x].unique` 设置当前列值是否唯一，即不允许重复选择。
--   `maxLength` 当 multiple 为 true 的时候启用，设置可以最大项数。
--   `flat` 默认为 `false`, 是否将结果扁平化(去掉 name),只有当 controls 的 length 为 1 且 multiple 为 true 的时候才有效。
--   `joinValues` 默认为 `true` 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用 array 的方式。
--   `delimiter` 当扁平化开启并且 joinValues 为 true 时，用什么分隔符。
--   `multiLine` 默认是横着展示一排，设置以后竖着展示
--   `addable` 是否可新增。
--   `removable` 是否可删除
--   `deleteApi` 如果配置了，则删除前会发送一个 api，请求成功才完成删除！
--   `deleteConfirmText` 默认为 `确认要删除？`，当配置 `deleteApi` 才生效！删除时用来做用户确认！
--   `draggable` 默认为 `false`, 是否可以拖动排序, 需要注意的是当启用拖动排序的时候，会多一个\$id 字段
--   `draggableTip` 可拖拽的提示文字，默认为：`"可通过拖动每行中的【交换】按钮进行顺序调整"`
--   `addButtonText` 新增按钮文字，默认为 `"新增"`。
--   `minLength` 限制最小长度。
--   `maxLength` 限制最大长度。
--   `scaffold` 单组表单项初始值。默认为 `{}`。
--   `canAccessSuperData` 指定是否可以自动获取上层的数据并映射到表单项上，默认是`false`。
--   `conditions` 数组的形式包含所有条件的渲染类型，单个数组内的`test` 为判断条件，数组内的`controls`为符合该条件后渲染的`schema`
--   `typeSwitchable` 是否可切换条件，配合`conditions`使用
--   `formClassName` 单组表单项的类名
--   `noBorder` 单组表单项是否有边框
--   **还有更多通用配置请参考** [FormItem](./FormItem.md)
+- `type` 请设置成 `combo`
+- `multiple` 默认为 `false` 配置是否为多选模式
+- `controls` 配置组合成员，所有成员都是横向展示，可以是任意 [FormItem](./FormItem.md)
+- `controls[x].columnClassName` 列的类名，可以用它配置列宽度。默认平均分配。
+- `controls[x].unique` 设置当前列值是否唯一，即不允许重复选择。
+- `maxLength` 当 multiple 为 true 的时候启用，设置可以最大项数。
+- `flat` 默认为 `false`, 是否将结果扁平化(去掉 name),只有当 controls 的 length 为 1 且 multiple 为 true 的时候才有效。
+- `joinValues` 默认为 `true` 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用 array 的方式。
+- `delimiter` 当扁平化开启并且 joinValues 为 true 时，用什么分隔符。
+- `multiLine` 默认是横着展示一排，设置以后竖着展示
+- `addable` 是否可新增。
+- `removable` 是否可删除
+- `deleteApi` 如果配置了，则删除前会发送一个 api，请求成功才完成删除！
+- `deleteConfirmText` 默认为 `确认要删除？`，当配置 `deleteApi` 才生效！删除时用来做用户确认！
+- `draggable` 默认为 `false`, 是否可以拖动排序, 需要注意的是当启用拖动排序的时候，会多一个\$id 字段
+- `draggableTip` 可拖拽的提示文字，默认为：`"可通过拖动每行中的【交换】按钮进行顺序调整"`
+- `addButtonText` 新增按钮文字，默认为 `"新增"`。
+- `minLength` 限制最小长度。
+- `maxLength` 限制最大长度。
+- `scaffold` 单组表单项初始值。默认为 `{}`。
+- `canAccessSuperData` 指定是否可以自动获取上层的数据并映射到表单项上，默认是`false`。
+- `conditions` 数组的形式包含所有条件的渲染类型，单个数组内的`test` 为判断条件，数组内的`controls`为符合该条件后渲染的`schema`
+- `typeSwitchable` 是否可切换条件，配合`conditions`使用
+- `formClassName` 单组表单项的类名
+- `noBorder` 单组表单项是否有边框
+- `strictMode` 默认为严格模式，设置为 false 时，当其他表单项更新是，里面的表单项也可以及时获取，否则不会。
+- `syncFields` 配置同步字段。只有 strictMode 为 false 时有效。如果 combo 层级比较深，底层的获取外层的数据可能不同步。但是给 combo 配置这个属性就能同步下来。输入格式：`["os"]`
+- **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 #### 单行模式
 
@@ -222,13 +224,12 @@
 }
 ```
 
--   `conditions` Array<Condition> 数组，每个成员是一种类型
-  - `conditions[x].label` 类型名称
-  - `conditions[x].test` 表达式，目标成员数据是否属于这个类型？
-  - `conditions[x].scaffold` 初始数据，当新增的时候直接使用此数据。
-  - `conditions[x].controls` 该类型的表单设置。
+- `conditions` Array<Condition> 数组，每个成员是一种类型
+- `conditions[x].label` 类型名称
+- `conditions[x].test` 表达式，目标成员数据是否属于这个类型？
+- `conditions[x].scaffold` 初始数据，当新增的时候直接使用此数据。
+- `conditions[x].controls` 该类型的表单设置。
 - `typeSwitchable` 类型是否允许切换，如果设置成 true 会多一个类型切换的按钮。
-
 
 #### Tabs 模式
 

@@ -186,8 +186,6 @@ export default class Page extends React.Component<PageProps> {
   ) {
     const {env, store, messages} = this.props;
 
-    store.setCurrentAction(action);
-
     if (
       action.actionType === 'url' ||
       action.actionType === 'link' ||
@@ -203,10 +201,13 @@ export default class Page extends React.Component<PageProps> {
         ctx
       );
     } else if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       store.openDialog(ctx);
     } else if (action.actionType === 'drawer') {
+      store.setCurrentAction(action);
       store.openDrawer(ctx);
     } else if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
       store
         .saveRemote(action.api as string, ctx, {
           successMessage:
@@ -351,6 +352,7 @@ export default class Page extends React.Component<PageProps> {
       title,
       subTitle,
       remark,
+      remarkPlacement,
       headerClassName,
       toolbarClassName,
       toolbar,
@@ -375,6 +377,7 @@ export default class Page extends React.Component<PageProps> {
                 ? render('remark', {
                     type: 'remark',
                     tooltip: remark,
+                    placement: remarkPlacement || 'bottom',
                     container:
                       env && env.getModalContainer
                         ? env.getModalContainer
