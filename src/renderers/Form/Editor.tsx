@@ -1,16 +1,8 @@
 import React from 'react';
 import {FormItem, FormControlProps} from './Item';
-import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
 import debouce = require('lodash/debounce');
-
-function loadComponent(): Promise<React.ReactType> {
-  return new Promise(resolve =>
-    (require as any)(['../../components/Editor'], (component: any) =>
-      resolve(component.default)
-    )
-  );
-}
+import Editor from '../../components/Editor';
 
 export interface EditorProps extends FormControlProps {
   options?: object;
@@ -126,7 +118,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
       >
         <LazyComponent
           classPrefix={ns}
-          getComponent={loadComponent}
+          component={Editor}
           value={finnalValue}
           onChange={onChange}
           disabled={disabled}

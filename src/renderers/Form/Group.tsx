@@ -96,6 +96,14 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
     formMode = mode || formMode;
 
+    let horizontalDeeper =
+      horizontal ||
+      makeHorizontalDeeper(
+        formHorizontal,
+        controls.filter(item => item.mode !== 'inline' && isVisible(item, data))
+          .length
+      );
+
     return (
       <div
         className={cx(
@@ -124,12 +132,6 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           const columnWidth =
             control.columnRatio ||
             getWidthRate(control && control.columnClassName);
-          let horizontalDeeper =
-            horizontal ||
-            makeHorizontalDeeper(
-              formHorizontal,
-              controls.filter(item => item.mode !== 'inline').length
-            );
 
           return (
             <div
