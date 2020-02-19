@@ -4,7 +4,39 @@ export default {
   data: {
     id: 1,
     image:
-      'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'
+      'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
+    images: [
+      {
+        image:
+          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80',
+        src:
+          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg'
+      },
+      {
+        image:
+          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80',
+        src:
+          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg'
+      },
+      {
+        image:
+          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80',
+        src:
+          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg'
+      },
+      {
+        image:
+          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80',
+        src:
+          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg'
+      },
+      {
+        image:
+          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80',
+        src:
+          'https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg'
+      }
+    ]
   },
   body: [
     {
@@ -85,11 +117,41 @@ export default {
           type: 'static-image',
           label: '图片',
           name: 'image',
+          thumbMode: 'cover',
+          thumbRatio: '4:3',
+          title: '233',
+          imageCaption: 'jfe fjkda fejfkda fejk fdajf dajfe jfkda',
           popOver: {
             title: '查看大图',
             body:
               '<div class="w-xxl"><img class="w-full" src="${image}"/></div>'
           }
+        },
+
+        {
+          type: 'divider'
+        },
+
+        {
+          type: 'static-image',
+          label: '图片自带放大',
+          name: 'image',
+          thumbMode: 'cover',
+          thumbRatio: '4:3',
+          title: '233',
+          imageCaption: 'jfe fjkda fejfkda fejk fdajf dajfe jfkda',
+          enlargeAble: true,
+          originalSrc: '${image}'
+        },
+
+        {
+          type: 'static-images',
+          label: '图片集',
+          name: 'images',
+          thumbMode: 'cover',
+          thumbRatio: '4:3',
+          enlargeAble: true,
+          originalSrc: '${src}' // 注意这个取变量是想对数组成员取的。
         },
 
         {

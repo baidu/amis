@@ -1,127 +1,127 @@
 .#{$ns}StatusField {
-    white-space: nowrap;
+  white-space: nowrap;
 
-    &-label {
-        font-size: $fontSizeSm;
-        margin-left: $gap-sm;
+  &-label {
+    font-size: $fontSizeSm;
+    margin-left: $gap-sm;
+  }
+
+  @keyframes animation-rolling_red {
+    0% {
+      left: 0;
     }
 
-    @keyframes animation-rolling_red {
-        0% {
-            left: 0;
-        }
-
-        50% {
-            left: px2rem(13px);
-        }
-
-        100% {
-            left: 0;
-        }
+    50% {
+      left: px2rem(13px);
     }
 
-    @keyframes animation-rolling_blue {
-        0% {
-            left: $gap-sm + $gap-base;
-        }
+    100% {
+      left: 0;
+    }
+  }
 
-        50% {
-            left: px2rem(12px);
-        }
-
-        100% {
-            left: $gap-sm + $gap-base;
-        }
+  @keyframes animation-rolling_blue {
+    0% {
+      left: $gap-sm + $gap-base;
     }
 
-    .#{$ns}Status-icon {
-        &--danger,
-        &--primary,
-        &--rolling,
-        &--success,
-        &--warning {
-            &::before {
-                font-family: "iconfont";
-                content: "\e632";
-                font-style: normal;
-            }
-        }
-
-        &--rolling {
-            color: $warning;
-            position: relative;
-            left: $gap-md;
-
-            &::before {
-                font-size: inherit;
-                color: $danger;
-                position: absolute;
-                left: 0;
-                top: px2rem(1px);
-                margin-left: px2rem(-27px);
-                animation: animation-rolling_red 2s;
-                animation-iteration-count: infinite;
-            }
-
-            &::after {
-                font-family: "iconfont";
-                content: "\e632";
-                font-style: normal;
-                font-size: inherit;
-                color: $primary;
-                position: absolute;
-                left: $gap-sm + $gap-base;
-                top: px2rem(1px);
-                margin-left: px2rem(-39px);
-                animation: animation-rolling_blue 2s;
-                animation-iteration-count: infinite;
-            }
-        }
-
-        &--success {
-            &::before {
-                color: $success;
-            }
-        }
-
-        &--danger {
-            &::before {
-                color: $danger;
-            }
-        }
-
-        &--warning {
-            &::before {
-                color: $warning;
-            }
-        }
-
-        &--primary {
-            &::before {
-                color: $primary;
-            }
-        }
+    50% {
+      left: px2rem(12px);
     }
 
-    .#{$ns}Status-icon--rolling + &-label {
-        color: $warning;
-        position: relative;
-        left: $gap-md;
+    100% {
+      left: $gap-sm + $gap-base;
+    }
+  }
+
+  .#{$ns}Status-icon {
+    &--danger,
+    &--primary,
+    &--rolling,
+    &--success,
+    &--warning {
+      &::before {
+        font-family: 'iconfont';
+        content: '\e632';
+        font-style: normal;
+      }
     }
 
-    .#{$ns}Status-icon--success + &-label {
-        color: $success;
-    }
+    &--rolling {
+      color: $warning;
+      position: relative;
+      left: $gap-md;
 
-    .#{$ns}Status-icon--danger + &-label {
+      &::before {
+        font-size: inherit;
         color: $danger;
-    }
+        position: absolute;
+        left: 0;
+        top: px2rem(1px);
+        margin-left: px2rem(-27px);
+        animation: animation-rolling_red 2s;
+        animation-iteration-count: infinite;
+      }
 
-    .#{$ns}Status-icon--warning + &-label {
-        color: $warning;
-    }
-
-    .#{$ns}Status-icon--primary + &-label {
+      &::after {
+        font-family: 'iconfont';
+        content: '\e632';
+        font-style: normal;
+        font-size: inherit;
         color: $primary;
+        position: absolute;
+        left: $gap-sm + $gap-base;
+        top: px2rem(1px);
+        margin-left: px2rem(-39px);
+        animation: animation-rolling_blue 2s;
+        animation-iteration-count: infinite;
+      }
     }
+
+    &--success {
+      &::before {
+        color: $success;
+      }
+    }
+
+    &--danger {
+      &::before {
+        color: $danger;
+      }
+    }
+
+    &--warning {
+      &::before {
+        color: $warning;
+      }
+    }
+
+    &--primary {
+      &::before {
+        color: $primary;
+      }
+    }
+  }
+
+  .#{$ns}Status-icon--rolling + &-label {
+    color: $warning;
+    position: relative;
+    left: $gap-md;
+  }
+
+  .#{$ns}Status-icon--success + &-label {
+    color: $success;
+  }
+
+  .#{$ns}Status-icon--danger + &-label {
+    color: $danger;
+  }
+
+  .#{$ns}Status-icon--warning + &-label {
+    color: $warning;
+  }
+
+  .#{$ns}Status-icon--primary + &-label {
+    color: $primary;
+  }
 }

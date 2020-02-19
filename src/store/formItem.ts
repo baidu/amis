@@ -1,16 +1,30 @@
-import {types, getParent, SnapshotIn, flow, getRoot} from 'mobx-state-tree';
+import {
+  types,
+  getParent,
+  SnapshotIn,
+  flow,
+  getRoot,
+  hasParent
+} from 'mobx-state-tree';
 import {IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
 import {Api, Payload, fetchOptions} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
 import findIndex = require('lodash/findIndex');
-import {isArrayChilrenModified, isObject, createObject} from '../utils/helper';
+import {
+  isArrayChildrenModified,
+  isObject,
+  createObject,
+  isObjectShallowModified,
+  findTree
+} from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
-import {normalizeOptions} from '../components/Select';
+import {normalizeOptions, optionValueCompare} from '../components/Select';
 import find = require('lodash/find');
 import {SimpleMap} from '../utils/SimpleMap';
+import memoize = require('lodash/memoize');
 
 interface IOption {
   value?: string | number | null;
@@ -58,11 +72,11 @@ export const FormItemStore = types
   })
   .views(self => {
     function getForm(): any {
-      return getParent(self, 2);
+      return hasParent(self, 2) ? getParent(self, 2) : null;
     }
 
     function getValue(): any {
-      return getForm().getValueByName(self.name);
+      return getForm() ? getForm().getValueByName(self.name) : undefined;
     }
 
     function getLastOptionValue(): any {
@@ -105,10 +119,8 @@ export const FormItemStore = types
         return getLastOptionValue();
       },
 
-      getSelectedOptions(value: any = getValue()) {
-        if (value === getValue()) {
-          return self.selectedOptions;
-        } else if (typeof value === 'undefined') {
+      getSelectedOptions: (value: any = getValue()) => {
+        if (typeof value === 'undefined') {
           return [];
         }
 
@@ -126,7 +138,12 @@ export const FormItemStore = types
                 : value
             ];
 
-        if (value && value.hasOwnProperty(self.labelField || 'label')) {
+        // 保留原来的 label 信息，如果原始值中有 label。
+        if (
+          value &&
+          value.hasOwnProperty(self.labelField || 'label') &&
+          !selected[0].hasOwnProperty(self.labelField || 'label')
+        ) {
           selected[0] = {
             [self.labelField || 'label']: value[self.labelField || 'label'],
             [self.valueField || 'value']: value[self.valueField || 'value']
@@ -135,33 +152,36 @@ export const FormItemStore = types
 
         const selectedOptions: Array<any> = [];
 
-        self.filteredOptions.forEach((item: any) => {
-          let idx = findIndex(selected, seleced => {
-            return isObject(seleced)
-              ? seleced === item[self.valueField || 'value']
-              : String(item[self.valueField || 'value']) === String(seleced);
-          });
-
-          if (~idx) {
-            selected.splice(idx, 1);
-            selectedOptions.push(item);
-          }
-        });
-
         selected.forEach((item, index) => {
-          let unMatched = (value && value[index]) || item;
+          const matched = findTree(
+            self.filteredOptions,
+            optionValueCompare(item, self.valueField || 'value')
+          );
 
-          if (
-            unMatched &&
-            (typeof unMatched === 'string' || typeof unMatched === 'number')
-          ) {
-            unMatched = {
-              [self.valueField || 'value']: item,
-              [self.labelField || 'label']: item
-            };
+          if (matched) {
+            selectedOptions.push(matched);
+          } else {
+            let unMatched = (value && value[index]) || item;
+
+            if (
+              unMatched &&
+              (typeof unMatched === 'string' || typeof unMatched === 'number')
+            ) {
+              unMatched = {
+                [self.valueField || 'value']: item,
+                [self.labelField || 'label']: item,
+                '__unmatched': true
+              };
+            } else if (unMatched && self.extractValue) {
+              unMatched = {
+                [self.valueField || 'value']: item,
+                [self.labelField || 'label']: 'UnKnown',
+                '__unmatched': true
+              };
+            }
+
+            unMatched && selectedOptions.push(unMatched);
           }
-
-          unMatched && selectedOptions.push(unMatched);
         });
 
         return selectedOptions;
@@ -222,15 +242,17 @@ export const FormItemStore = types
       typeof labelField !== 'undefined' &&
         (self.labelField = (labelField as string) || 'label');
 
-      if (self.required) {
-        rules = rules || {};
-        rules = {
-          ...rules,
-          isRequired: true
-        };
-      }
+      rules = rules || {};
+      rules = {
+        ...rules,
+        isRequired: self.required
+      };
 
-      rules && (self.rules = rules);
+      if (isObjectShallowModified(rules, self.rules)) {
+        self.rules = rules;
+        clearError('bultin');
+        self.validated = false;
+      }
 
       if (value !== void 0 && self.value === void 0) {
         form.setValueByName(self.name, value, true);
@@ -338,7 +360,11 @@ export const FormItemStore = types
       data: object,
       options?: fetchOptions,
       clearValue?: any,
-      onChange?: (value: any) => void
+      onChange?: (
+        value: any,
+        submitOnChange: boolean,
+        changeImmediately: boolean
+      ) => void
     ) {
       try {
         if (loadCancel) {
@@ -367,7 +393,13 @@ export const FormItemStore = types
           );
           (getRoot(self) as IRendererStore).notify(
             'error',
-            self.errors.join('')
+            self.errors.join(''),
+            json.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: json.msgTimeout
+                }
+              : undefined
           );
         } else {
           clearError();
@@ -383,11 +415,11 @@ export const FormItemStore = types
           setOptions(options);
 
           if (json.data && typeof (json.data as any).value !== 'undefined') {
-            onChange && onChange((json.data as any).value);
+            onChange && onChange((json.data as any).value, false, true);
           } else if (clearValue) {
             self.selectedOptions.some((item: any) => item.__unmatched) &&
               onChange &&
-              onChange('');
+              onChange('', false, true);
           }
         }
 
@@ -478,11 +510,10 @@ export const FormItemStore = types
       const selectedOptions: Array<any> = [];
 
       selected.forEach((item, index) => {
-        let idx = findIndex(flattened, target => {
-          return isObject(item)
-            ? item === target[self.valueField || 'value']
-            : String(target[self.valueField || 'value']) === String(item);
-        });
+        let idx = findIndex(
+          flattened,
+          optionValueCompare(item, self.valueField || 'value')
+        );
 
         if (~idx) {
           selectedOptions.push(flattened[idx]);
@@ -503,14 +534,19 @@ export const FormItemStore = types
               originOptions &&
               find(
                 originOptions,
-                target =>
-                  String(target[self.valueField || 'value']) === String(item)
+                optionValueCompare(item, self.valueField || 'value')
               );
 
             if (orgin) {
               unMatched[self.labelField || 'label'] =
                 orgin[self.labelField || 'label'];
             }
+          } else if (unMatched && self.extractValue) {
+            unMatched = {
+              [self.valueField || 'value']: item,
+              [self.labelField || 'label']: 'UnKnown',
+              '__unmatched': true
+            };
           }
 
           unMatched && selectedOptions.push(unMatched);
@@ -537,9 +573,9 @@ export const FormItemStore = types
           );
         }
       }
-      isArrayChilrenModified(self.selectedOptions, selectedOptions) &&
+      isArrayChildrenModified(self.selectedOptions, selectedOptions) &&
         (self.selectedOptions = selectedOptions);
-      isArrayChilrenModified(self.filteredOptions, filteredOptions) &&
+      isArrayChildrenModified(self.filteredOptions, filteredOptions) &&
         (self.filteredOptions = filteredOptions);
     }
 

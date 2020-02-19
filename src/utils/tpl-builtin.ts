@@ -68,23 +68,18 @@ const timeUnitMap: {
   [propName: string]: string;
 } = {
   year: 'Y',
-  years: 'Y',
   month: 'M',
-  months: 'M',
   week: 'w',
-  weeks: 'w',
   weekday: 'W',
   day: 'd',
-  days: 'd',
   hour: 'h',
-  hours: 'h',
   minute: 'm',
-  minutes: 'm',
   min: 'm',
-  mins: 'm'
+  second: 's',
+  millisecond: 'ms'
 };
 
-export const relativeValueRe = /^(.+)?(\+|-)(\d+)(minute|minutes|min|mins|hours|hour|day|days|week|weeks|month|months|year|years|weekday)$/i;
+export const relativeValueRe = /^(.+)?(\+|-)(\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/i;
 export const filterDate = (
   value: string,
   data: object = {},
@@ -104,7 +99,7 @@ export const filterDate = (
     const from = m[1]
       ? filterDate(m[1], data, format)
       : moment(
-          /minute|minutes|min|mins|hours|hour/.test(m[4])
+          /(minute|min|hour|second)s?/.test(m[4])
             ? [
                 date.getFullYear(),
                 date.getMonth(),
@@ -226,7 +221,7 @@ export const filters: {
       ? filterDate(input, this, inputFormat).format(outputFormat)
       : '';
   },
-  asArray: input => (input ? [input] : input),
+  asArray: input => (Array.isArray(input) ? input : input ? [input] : input),
   filter: function(input, keys, expOrDirective, arg1) {
     if (!Array.isArray(input) || !keys || !expOrDirective) {
       return input;
@@ -257,10 +252,7 @@ export const filters: {
         return input;
       }
 
-      fn = value =>
-        !!~String(value)
-          .toLowerCase()
-          .indexOf(arg1);
+      fn = value => new RegExp(arg1, 'i').test(String(value));
     }
 
     keys = keys.split(/\s*,\s*/);
@@ -301,6 +293,10 @@ export function registerFilter(
   fn: (input: any, ...args: any[]) => any
 ): void {
   filters[name] = fn;
+}
+
+export function getFilters() {
+  return filters;
 }
 
 export function pickValues(names: string, data: object) {
@@ -359,8 +355,13 @@ export const resolveVariable = (path: string, data: any = {}): any => {
   }, data);
 };
 
+export const isPureVariable = (path?: any) =>
+  typeof path === 'string'
+    ? /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(path)
+    : false;
+
 export const resolveVariableAndFilter = (
-  path: string,
+  path?: string,
   data: object = {},
   defaultFilter: string = '| html'
 ): any => {
@@ -451,12 +452,15 @@ export const tokenize = (
   );
 };
 
-function resolveMapping(value: any, data: PlainObject) {
-  return typeof value === 'string' &&
-    /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(value)
-    ? resolveVariableAndFilter(value, data, '| raw')
+function resolveMapping(
+  value: any,
+  data: PlainObject,
+  defaultFilter = '| raw'
+) {
+  return typeof value === 'string' && isPureVariable(value)
+    ? resolveVariableAndFilter(value, data, defaultFilter)
     : typeof value === 'string' && ~value.indexOf('$')
-    ? tokenize(value, data, '| raw')
+    ? tokenize(value, data, defaultFilter)
     : value;
 }
 
@@ -559,8 +563,10 @@ export function dataMapping(to: any, from: PlainObject): any {
   return ret;
 }
 
-reigsterTplEnginer('builtin', {
-  test: str => !!~str.indexOf('$'),
-  compile: (str: string, data: object, defaultFilter = '| html') =>
-    tokenize(str, data, defaultFilter)
-});
+export function register() {
+  reigsterTplEnginer('builtin', {
+    test: str => !!~str.indexOf('$'),
+    compile: (str: string, data: object, defaultFilter = '| html') =>
+      tokenize(str, data, defaultFilter)
+  });
+}

@@ -22,10 +22,10 @@ export default {
         type: 'map',
         label: 'Rendering engine',
         map: {
-          A: "<span class='label label-info'>A</span>",
-          B: "<span class='label label-success'>B</span>",
-          C: "<span class='label label-primary'>C</span>",
-          X: "<span class='label label-danger'>X</span>",
+          'A': "<span class='label label-info'>A</span>",
+          'B': "<span class='label label-success'>B</span>",
+          'C': "<span class='label label-primary'>C</span>",
+          'X': "<span class='label label-danger'>X</span>",
           '*': 'Unkown'
         }
       },

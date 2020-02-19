@@ -1,11 +1,4 @@
-import {
-  types,
-  SnapshotIn,
-  getParent,
-  flow,
-  getEnv,
-  getRoot
-} from 'mobx-state-tree';
+import {types, SnapshotIn, isAlive} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {FormItemStore, IFormItemStore} from './formItem';
 import {FormStore, IFormStore} from './form';
@@ -71,9 +64,9 @@ export const ComboStore = iRendererStore
       length?: number;
     }) {
       typeof setting.minLength !== 'undefined' &&
-        (self.minLength = setting.minLength);
+        (self.minLength = parseInt(setting.minLength as any, 10));
       typeof setting.maxLength !== 'undefined' &&
-        (self.maxLength = setting.maxLength);
+        (self.maxLength = parseInt(setting.maxLength as any, 10));
       typeof setting.length !== 'undefined' && (self.length = setting.length);
     }
 
@@ -100,7 +93,9 @@ export const ComboStore = iRendererStore
     }
 
     function removeForm(form: IFormStore) {
-      self.forms.remove(form);
+      // form 可能再它自己销毁的是已经被移除了。因为调用的是 destroy，所以 self.forms 里面也被一起移除。
+      // 再来尝试移除，会报错。
+      self.forms.includes(form) && self.forms.remove(form);
     }
 
     function setActiveKey(key: number) {

@@ -8,7 +8,8 @@ import {
   isObjectShallowModified,
   hasFile,
   object2formData,
-  qsstringify
+  qsstringify,
+  cloneObject
 } from './helper';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
@@ -66,7 +67,20 @@ export function buildApi(
   }
 
   const raw = (api.url = api.url || '');
-  api.url = tokenize(api.url, data, '| url_encode');
+  const idx = api.url.indexOf('?');
+
+  if (~idx) {
+    const hashIdx = api.url.indexOf('#');
+    const params = qs.parse(
+      api.url.substring(idx + 1, ~hashIdx ? hashIdx : undefined)
+    );
+    api.url =
+      tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
+      qsstringify(dataMapping(params, data)) +
+      (~hashIdx ? api.url.substring(hashIdx) : '');
+  } else {
+    api.url = tokenize(api.url, data, '| url_encode');
+  }
 
   if (ignoreData) {
     return api;
@@ -75,7 +89,7 @@ export function buildApi(
   if (api.data) {
     api.data = dataMapping(api.data, data);
   } else if (api.method === 'post' || api.method === 'put') {
-    api.data = data;
+    api.data = cloneObject(data);
   }
 
   // get 类请求，把 data 附带到 url 上。
@@ -147,6 +161,7 @@ function responseAdaptor(ret: fetcherResult) {
     ok: data.status == 0,
     status: data.status,
     msg: data.msg,
+    msgTimeout: data.msgTimeout,
     data: data.data
   };
 

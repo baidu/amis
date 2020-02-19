@@ -1,6 +1,6 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {Schema} from '../types';
+import {Action, Schema, SchemaNode} from '../types';
 import find = require('lodash/find');
 import {isVisible, autobind, isDisabled} from '../utils/helper';
 import findIndex = require('lodash/findIndex');
@@ -26,13 +26,14 @@ export interface TabProps extends Schema {
 export interface TabsProps extends RendererProps {
   mode?: '' | 'line' | 'card' | 'radio' | 'vertical';
   tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
-  activeKey: string | number;
-  contentClassName: string;
+  activeKey?: string | number;
+  contentClassName?: string;
   location?: any;
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
   tabs?: Array<TabProps>;
-  tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
+  tabRender?: (tab: TabProps, props: TabsProps, index: number) => JSX.Element;
+  toolbar?: SchemaNode;
 }
 
 export interface TabsState {
@@ -47,6 +48,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     mountOnEnter: true,
     unmountOnExit: false
   };
+
+  renderTab?: (tab: TabProps, props: TabsProps, index: number) => JSX.Element;
 
   constructor(props: TabsProps) {
     super(props);
@@ -199,7 +202,22 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       : -1;
   }
 
-  render() {
+  renderToolbar() {
+    const {
+      toolbar,
+      render,
+      classnames: cx,
+      toolbarClassName
+    } = this.props;
+
+    return toolbar ? (
+      <div className={cx(`Tabs-toolbar`, toolbarClassName)}>
+        {render('toolbar', toolbar)}
+      </div>
+    ) : null;
+  }
+
+  renderTabs() {
     const {
       classnames: cx,
       classPrefix: ns,
@@ -230,6 +248,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         contentClassName={contentClassName}
         onSelect={this.handleSelect}
         activeKey={this.state.activeKey}
+        toolbar={this.renderToolbar()}
       >
         {tabs.map((tab, index) =>
           isVisible(tab, data) ? (
@@ -247,14 +266,20 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
                   : unmountOnExit
               }
             >
-              {tabRender
-                ? tabRender(tab, this.props)
+              {this.renderTab
+                ? this.renderTab(tab, this.props, index)
+                : tabRender
+                ? tabRender(tab, this.props, index)
                 : render(`tab/${index}`, tab.tab || tab.body || '')}
             </Tab>
           ) : null
         )}
       </CTabs>
     );
+  }
+
+  render() {
+    return this.renderTabs();
   }
 }
 

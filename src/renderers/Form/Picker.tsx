@@ -54,7 +54,7 @@ export default class PickerControl extends React.PureComponent<
     pickerSchema: {
       mode: 'list',
       listItem: {
-        title: '${label}'
+        title: '${label|raw}'
       }
     },
     embed: false
@@ -134,9 +134,23 @@ export default class PickerControl extends React.PureComponent<
     };
   }
 
+  crud: any;
+
+  @autobind
+  crudRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
+    this.crud = ref;
+  }
+
   reload() {
-    const reload = this.props.reloadOptions;
-    reload && reload();
+    if (this.crud) {
+      this.crud.search();
+    } else {
+      const reload = this.props.reloadOptions;
+      reload && reload();
+    }
   }
 
   @autobind
@@ -341,7 +355,8 @@ export default class PickerControl extends React.PureComponent<
       valueField,
       options: options,
       multiple,
-      onSelect: embed ? this.handleChange : undefined
+      onSelect: embed ? this.handleChange : undefined,
+      ref: this.crudRef
     }) as JSX.Element;
   }
 

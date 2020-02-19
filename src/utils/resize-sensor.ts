@@ -22,7 +22,8 @@ function getComputedStyle(element: HTMLElement, prop: string) {
   if ((element as any).currentStyle) {
     return (element as any).currentStyle[prop];
   } else if (window.getComputedStyle) {
-    return window.getComputedStyle(element, undefined).getPropertyValue(prop);
+    const style = window.getComputedStyle(element, undefined);
+    return style ? style.getPropertyValue(prop) : undefined;
   } else {
     return element.style[prop as any];
   }

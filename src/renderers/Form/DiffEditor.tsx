@@ -5,6 +5,7 @@ import {filter} from '../../utils/tpl';
 import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
 import debouce = require('lodash/debounce');
+import {isPureVariable} from '../../utils/tpl-builtin';
 
 function loadComponent(): Promise<React.ReactType> {
   return new Promise(resolve =>
@@ -101,7 +102,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
       this.originalEditor
         .getModel()
         .setValue(
-          /^\$(?:([a-z0-9_.]+)|{.+})$/.test(diffValue as string)
+          isPureVariable(diffValue as string)
             ? filter(normalizeValue(diffValue || ''), data, '| raw')
             : normalizeValue(diffValue)
         );
@@ -143,7 +144,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
 
     this.editor.setModel({
       original: this.monaco.editor.createModel(
-        /^\$(?:([a-z0-9_.]+)|{.+})$/.test(diffValue as string)
+        isPureVariable(diffValue as string)
           ? filter(normalizeValue(diffValue || ''), data, '| raw')
           : normalizeValue(diffValue),
         language

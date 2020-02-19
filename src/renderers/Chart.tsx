@@ -7,7 +7,7 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import LazyComponent from '../components/LazyComponent';
 import {resizeSensor} from '../utils/resize-sensor';
-import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {resolveVariableAndFilter, isPureVariable} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 
@@ -34,7 +34,7 @@ export class Chart extends React.Component<ChartProps> {
   echarts: any;
   unSensor: Function;
   pending?: object;
-  timer: number;
+  timer: NodeJS.Timeout;
   mounted: boolean;
   reloadCancel: Function;
 
@@ -51,7 +51,7 @@ export class Chart extends React.Component<ChartProps> {
 
     this.mounted = true;
 
-    if (source && /^\$(?:([a-z0-9_.]+)|{.+})$/.test(source)) {
+    if (source && isPureVariable(source)) {
       const ret = resolveVariableAndFilter(source, data, '| raw');
       ret && this.renderChart(ret);
     } else if (api && initFetch !== false) {
@@ -68,10 +68,7 @@ export class Chart extends React.Component<ChartProps> {
 
     if (isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)) {
       this.reload();
-    } else if (
-      props.source &&
-      /^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source)
-    ) {
+    } else if (props.source && isPureVariable(props.source)) {
       const prevRet = prevProps.source
         ? resolveVariableAndFilter(prevProps.source, prevProps.data, '| raw')
         : null;
@@ -100,9 +97,15 @@ export class Chart extends React.Component<ChartProps> {
     const chartRef = this.props.chartRef;
     if (ref) {
       (require as any)(
-        ['echarts', 'echarts/map/js/china', 'echarts/map/js/world'],
-        (echarts: any) => {
+        [
+          'echarts',
+          'echarts/extension/dataTool',
+          'echarts/map/js/china',
+          'echarts/map/js/world'
+        ],
+        (echarts: any, dataTool: any) => {
           (window as any).echarts = echarts;
+          echarts.dataTool = dataTool;
           this.echarts = echarts.init(ref);
           this.echarts.on('click', this.handleClick);
           this.unSensor = resizeSensor(ref, () => {
@@ -148,6 +151,18 @@ export class Chart extends React.Component<ChartProps> {
         cancelExecutor: (executor: Function) => (this.reloadCancel = executor)
       })
       .then(result => {
+        if (!result.ok) {
+          return env.notify(
+            'error',
+            result.msg || '加载失败，请重试！',
+            result.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: result.msgTimeout
+                }
+              : undefined
+          );
+        }
         delete this.reloadCancel;
         this.renderChart(result.data || {});
         this.echarts && this.echarts.hideLoading();

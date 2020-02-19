@@ -30,7 +30,11 @@ export function createObject(
         }
       })
     : Object.create(Object.prototype, properties);
-  props && Object.keys(props).forEach(key => (obj[key] = props[key]));
+
+  props &&
+    isObject(props) &&
+    Object.keys(props).forEach(key => (obj[key] = props[key]));
+
   return obj;
 }
 
@@ -70,12 +74,20 @@ export function syncDataFromSuper(
 
   // 如果是 form store，则从父级同步 formItem 种东西。
   if (store && store.storeType === 'FormStore') {
-    keys = uniq((store as IFormStore).items.map(item => `${item.name}`.replace(/\..*$/, '')));
+    keys = uniq(
+      (store as IFormStore).items.map(item =>
+        `${item.name}`.replace(/\..*$/, '')
+      )
+    );
     force = false;
   }
 
   if (superObject || prevSuperObject) {
     keys.forEach(key => {
+      if (!key) {
+        return;
+      }
+
       if (
         ((superObject && typeof superObject[key] !== 'undefined') ||
           (prevSuperObject && typeof prevSuperObject[key] !== 'undefined')) &&
@@ -291,7 +303,7 @@ export function isObjectShallowModified(
   return false;
 }
 
-export function isArrayChilrenModified(
+export function isArrayChildrenModified(
   prev: Array<any>,
   next: Array<any>,
   strictMode: boolean = true
@@ -457,6 +469,11 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
   }
 
   const style = getComputedStyle(node);
+
+  if (!style) {
+    return null;
+  }
+
   const text =
     style.getPropertyValue('overflow') +
     style.getPropertyValue('overflow-x') +
@@ -1057,7 +1074,8 @@ export function object2formData(
     .split('&')
     .forEach(item => {
       let parts = item.split('=');
-      parts[0] && fd.append(parts[0], parts[1]);
+      // form-data/multipart 是不需要 encode 值的。
+      parts[0] && fd.append(parts[0], decodeURIComponent(parts[1]));
     });
   return fd;
 }
@@ -1065,9 +1083,35 @@ export function object2formData(
 export function chainFunctions(
   ...fns: Array<(...args: Array<any>) => void>
 ): (...args: Array<any>) => void {
-  return (...args: Array<any>) => {
-    fns.forEach(fn => fn && fn(...args));
-  };
+  return (...args: Array<any>) =>
+    fns.reduce(
+      (ret: any, fn: any) =>
+        ret === false
+          ? false
+          : typeof fn == 'function'
+          ? fn(...args)
+          : undefined,
+      undefined
+    );
+}
+
+export function chainEvents(props: any, schema: any) {
+  const ret: any = {};
+
+  Object.keys(props).forEach(key => {
+    if (
+      key.substr(0, 2) === 'on' &&
+      typeof props[key] === 'function' &&
+      typeof schema[key] === 'function' &&
+      schema[key] !== props[key]
+    ) {
+      ret[key] = chainFunctions(schema[key], props[key]);
+    } else {
+      ret[key] = props[key];
+    }
+  });
+
+  return ret;
 }
 
 export function mapObject(value: any, fn: Function): any {

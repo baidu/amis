@@ -5,27 +5,27 @@ theme('cxd', {
   classPrefix: 'cxd-',
 
   renderers: {
-    form: {
+    'form': {
       horizontal: {
         leftFixed: true
       }
     },
 
-    pagination: {
+    'pagination': {
       maxButtons: 9,
       showPageInput: false
     },
 
-    fieldset: {
+    'fieldset': {
       collapsable: false
     },
 
-    remark: {
+    'remark': {
       icon: 'iconfont icon-warning-mark',
       placement: 'right'
     },
 
-    tabs: {
+    'tabs': {
       mode: 'line'
     },
 
@@ -38,7 +38,7 @@ theme('cxd', {
       clearable: true
     },
 
-    status: {
+    'status': {
       map: {
         success: 'Status-icon--success',
         pending: 'Status-icon--rolling',

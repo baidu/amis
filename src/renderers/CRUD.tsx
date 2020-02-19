@@ -69,6 +69,7 @@ interface CRUDProps extends RendererProps {
   syncResponse2Query?: boolean;
   keepItemSelectionOnPageChange?: boolean;
   loadDataOnce?: boolean;
+  loadDataOnceFetchOnFilter?: boolean; // 在开启loadDataOnce时，filter时是否去重新请求api
   source?: string;
 }
 
@@ -114,7 +115,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'labelTpl',
     'labelField',
     'loadDataOnce',
-    'source'
+    'loadDataOnceFetchOnFilter',
+    'source',
+    'header'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -129,7 +132,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     silentPolling: false,
     filterTogglable: false,
     filterDefaultVisible: true,
-    loadDataOnce: false
+    loadDataOnce: false,
+    loadDataOnceFetchOnFilter: true
   };
 
   control: any;
@@ -297,7 +301,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     e: React.UIEvent<any> | undefined,
     action: Action,
     ctx: object,
-    delegate?: boolean
+    throwErrors: boolean = false,
+    delegate?: IScopedContext
   ): any {
     const {
       onAction,
@@ -309,9 +314,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       stopAutoRefreshWhenModalIsOpen
     } = this.props;
 
-    delegate || store.setCurrentAction(action);
-
     if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       const idx: number = (ctx as any).index;
       const length = store.data.items.length;
       stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
@@ -323,6 +327,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         index: idx
       });
     } else if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
       const data = ctx;
 
       // 由于 ajax 一段时间后再弹出，肯定被浏览器给阻止掉的，所以提前弹。
@@ -359,11 +364,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode &&
       (action.actionType === 'confirm' || action.actionType === 'submit')
     ) {
+      store.setCurrentAction(action);
       return Promise.resolve({
         items: store.selectedItems.concat()
       });
     } else {
-      onAction(e, action, ctx);
+      onAction(e, action, ctx, throwErrors, delegate || this.context);
     }
   }
 
@@ -379,7 +385,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onAction,
       messages,
       pageField,
-      stopAutoRefreshWhenModalIsOpen
+      stopAutoRefreshWhenModalIsOpen,
+      env
     } = this.props;
 
     if (!selectedItems.length && action.requireSelected !== false) {
@@ -430,10 +437,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             action.reload
               ? this.reloadTarget(action.reload, store.data)
               : this.search({[pageField || 'page']: 1}, undefined, true);
+
+            action.redirect &&
+              env.jumpTo(filter(action.redirect, store.data), action);
           })
           .catch(() => null);
     } else if (onAction) {
-      onAction(e, action, ctx);
+      onAction(e, action, ctx, false, this.context);
     }
   }
 
@@ -490,7 +500,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     replaceLocation: boolean = false,
     search: boolean = true
   ) {
-    const {store, syncLocation, env, pageField, perPageField} = this.props;
+    const {store, syncLocation, env, pageField, perPageField, loadDataOnceFetchOnFilter} = this.props;
     values = syncLocation ? qs.parse(qsstringify(values)) : values;
 
     store.updateQuery(
@@ -505,7 +515,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField
     );
     this.lastQuery = store.query;
-    search && this.search();
+    search && this.search(undefined, undefined, undefined, loadDataOnceFetchOnFilter);
   }
 
   handleBulkGo(
@@ -663,7 +673,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     values?: any,
     silent?: boolean,
     clearSelection?: boolean,
-    forceReload = true
+    forceReload = false
   ) {
     const {
       store,
@@ -681,6 +691,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       env,
       loadDataOnce,
+      loadDataOnceFetchOnFilter,
       source
     } = this.props;
 
@@ -716,6 +727,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             autoAppend: true,
             forceReload,
             loadDataOnce,
+            loadDataOnceFetchOnFilter,
             source,
             silent,
             pageField,
@@ -770,7 +782,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField
     );
-    this.search(undefined, undefined, undefined, false);
+
+    this.search(undefined, undefined, undefined);
 
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();
@@ -1027,7 +1040,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
   }
 
-  handlQuery(values: object) {
+  handlQuery(values: object, forceReload: boolean = false) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
     store.updateQuery(
@@ -1041,19 +1054,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       perPageField
     );
-    this.search(undefined, undefined, undefined, false);
+    this.search(undefined, undefined, undefined, forceReload);
   }
 
   reload(subpath?: string, query?: any) {
     if (query) {
       return this.receive(query);
     } else {
-      this.search(undefined, undefined, true);
+      this.search(undefined, undefined, true, true);
     }
   }
 
   receive(values: object) {
-    this.handlQuery(values);
+    this.handlQuery(values, true);
   }
 
   reloadTarget(target: string, data: any) {
@@ -1191,7 +1204,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .filter(item => !item.hidden && item.visible !== false);
     }
 
-    return (
+    return bulkBtns.length || itemBtns.length ? (
       <div className={cx('Crud-actions')}>
         {bulkBtns.map((btn, index) =>
           render(
@@ -1233,7 +1246,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           )
         )}
       </div>
-    );
+    ) : null;
   }
 
   renderPagination() {
@@ -1561,6 +1574,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       itemActions,
       classnames: cx,
       keepItemSelectionOnPageChange,
+      onAction,
       ...rest
     } = this.props;
 
@@ -1591,7 +1605,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             )
           : null}
 
-        {keepItemSelectionOnPageChange ? this.renderSelection() : null}
+        {keepItemSelectionOnPageChange && multiple
+          ? this.renderSelection()
+          : null}
 
         {render(
           'body',
@@ -1630,8 +1646,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             onSaveOrder: this.handleSaveOrder,
             onQuery: this.handlQuery,
             onSelect: this.handleSelect,
-            onPopOverOpen: this.handleChildPopOverOpen,
-            onPopOverClose: this.handleChildPopOverClose,
+            onPopOverOpened: this.handleChildPopOverOpen,
+            onPopOverClosed: this.handleChildPopOverClose,
             headerToolbarRender: this.renderHeaderToolbar,
             footerToolbarRender: this.renderFooterToolbar,
             data: store.mergedData

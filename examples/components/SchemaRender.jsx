@@ -55,7 +55,7 @@ export default function(schema) {
             ? to.substring(0, idx2)
             : to;
           let search = ~idx ? to.substring(idx, ~idx2 ? idx2 : undefined) : '';
-          let hash = ~idx2 ? to.substring(idx2) : '';
+          let hash = ~idx2 ? to.substring(idx2) : location.hash;
 
           if (!pathname) {
             pathname = location.pathname;

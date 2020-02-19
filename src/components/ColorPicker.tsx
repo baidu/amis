@@ -7,12 +7,13 @@
 import React from 'react';
 import cx from 'classnames';
 import {findDOMNode} from 'react-dom';
-import {SketchPicker, ColorResult} from 'react-color';
+import {SketchPicker, GithubPicker, ColorResult} from 'react-color';
 import {Icon} from './icons';
 import Overlay from './Overlay';
 import uncontrollable = require('uncontrollable');
 import PopOver from './PopOver';
 import {ClassNamesFn, themeable} from '../theme';
+import {autobind} from '../utils/helper';
 
 export interface ColorProps {
   placeholder?: string;
@@ -28,6 +29,8 @@ export interface ColorProps {
   classnames: ClassNamesFn;
   onChange: (value: any) => void;
   presetColors?: string[];
+  resetValue?: string;
+  allowCustomColor?: boolean;
 }
 
 export interface ColorControlState {
@@ -43,7 +46,8 @@ export class ColorControl extends React.PureComponent<
   static defaultProps = {
     format: 'hex',
     clearable: true,
-    placeholder: '请选择颜色'
+    placeholder: '请选择颜色',
+    allowCustomColor: true
     // closeOnSelect: true
   };
   state = {
@@ -122,8 +126,8 @@ export class ColorControl extends React.PureComponent<
   }
 
   clearValue() {
-    const onChange = this.props.onChange;
-    onChange('');
+    const {onChange, resetValue} = this.props;
+    onChange(resetValue || '');
   }
 
   handleClick() {
@@ -131,6 +135,10 @@ export class ColorControl extends React.PureComponent<
   }
 
   handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!this.props.allowCustomColor) {
+      return;
+    }
+
     const onChange = this.props.onChange;
 
     this.setState(
@@ -138,14 +146,35 @@ export class ColorControl extends React.PureComponent<
         inputValue: e.currentTarget.value
       },
       () => {
-        const dom: HTMLElement = this.preview.current as HTMLElement;
-
-        // 通过读取dom上到值，确认当前输入值是否有效。
-        if (dom && dom.style.backgroundColor === this.state.inputValue) {
+        let isValidated = this.validateColor(this.state.inputValue);
+        if (isValidated) {
           onChange(this.state.inputValue);
         }
       }
     );
+  }
+
+  @autobind
+  validateColor(value: string) {
+    if (value === '') {
+      return false;
+    }
+    if (value === 'inherit') {
+      return false;
+    }
+    if (value === 'transparent') {
+      return false;
+    }
+
+    let image = document.createElement('img');
+    image.style.color = 'rgb(0, 0, 0)';
+    image.style.color = value;
+    if (image.style.color !== 'rgb(0, 0, 0)') {
+      return true;
+    }
+    image.style.color = 'rgb(255, 255, 255)';
+    image.style.color = value;
+    return image.style.color !== 'rgb(255, 255, 255)';
   }
 
   handleChange(color: ColorResult) {
@@ -186,7 +215,8 @@ export class ColorControl extends React.PureComponent<
       clearable,
       placement,
       classnames: cx,
-      presetColors
+      presetColors,
+      allowCustomColor
     } = this.props;
 
     const isOpened = this.state.isOpened;
@@ -249,12 +279,20 @@ export class ColorControl extends React.PureComponent<
               onHide={this.close}
               overlay
             >
-              <SketchPicker
-                disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
-                color={value}
-                presetColors={presetColors}
-                onChangeComplete={this.handleChange}
-              />
+              {allowCustomColor ? (
+                <SketchPicker
+                  disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
+                  color={value}
+                  presetColors={presetColors}
+                  onChangeComplete={this.handleChange}
+                />
+              ) : (
+                <GithubPicker
+                  color={value}
+                  colors={presetColors}
+                  onChangeComplete={this.handleChange}
+                />
+              )}
             </PopOver>
           </Overlay>
         ) : null}

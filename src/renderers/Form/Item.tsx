@@ -14,6 +14,7 @@ import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchema} from '.';
 import {Schema} from '../../types';
+import {filter} from '../../utils/tpl';
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
   type?: string;
@@ -50,13 +51,17 @@ export interface FormItemProps extends RendererProps {
   value: any;
   prinstine: any;
   setPrinstineValue: (value: any) => void;
-  onChange: (value: any, submitOnChange?: boolean) => void;
+  onChange: (
+    value: any,
+    submitOnChange?: boolean,
+    changeImmediately?: boolean
+  ) => void;
   onBulkChange: (
     values: {[propName: string]: any},
     submitOnChange?: boolean
   ) => void;
-  addHook: (fn: Function, mode?: 'validate' | 'init') => () => void;
-  removeHook: (fn: Function, mode?: 'validate' | 'init') => void;
+  addHook: (fn: Function, mode?: 'validate' | 'init' | 'flush') => () => void;
+  removeHook: (fn: Function, mode?: 'validate' | 'init' | 'flush') => void;
   renderFormItems: (
     schema: FormSchema,
     region: string,
@@ -239,7 +244,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       formItem: model,
       renderLabel,
       renderDescription,
-      hint
+      hint,
+      data
     } = this.props;
 
     // 强制不渲染 label 的话
@@ -275,7 +281,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             )}
           >
             <span>
-              {label}
+              {filter(label, data)}
               {required ? <span className={cx(`Form-star`)}>*</span> : null}
               {labelRemark
                 ? render('label-remark', {
@@ -362,7 +368,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderLabel,
       renderDescription,
       hint,
-      formMode
+      formMode,
+      data
     } = this.props;
 
     description = description || desc;
@@ -377,7 +384,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {label && renderLabel !== false ? (
           <label className={cx(`Form-label`, labelClassName)}>
             <span>
-              {label}
+              {filter(label, data)}
               {required ? <span className={cx(`Form-star`)}>*</span> : null}
               {labelRemark
                 ? render('label-remark', {
@@ -454,7 +461,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       env,
       hint,
       renderLabel,
-      renderDescription
+      renderDescription,
+      data
     } = this.props;
 
     description = description || desc;
@@ -469,7 +477,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {label && renderLabel !== false ? (
           <label className={cx(`Form-label`, labelClassName)}>
             <span>
-              {label}
+              {filter(label, data)}
               {required ? <span className={cx(`Form-star`)}>*</span> : null}
               {labelRemark
                 ? render('label-remark', {
@@ -551,7 +559,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderLabel,
       renderDescription,
       hint,
-      formMode
+      formMode,
+      data
     } = this.props;
 
     description = description || desc;
@@ -567,7 +576,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, labelClassName)}>
               <span>
-                {label}
+                {filter(label, data)}
                 {required ? <span className={cx(`Form-star`)}>*</span> : null}
                 {labelRemark
                   ? render('label-remark', {
@@ -664,6 +673,63 @@ export class FormItemWrap extends React.Component<FormItemProps> {
   }
 }
 
+// 白名单形式，只有这些属性发生变化，才会往下更新。
+// 除非配置  strictMode
+export const detectProps = [
+  'formPristine', // 这个千万不能干掉。
+  'addable',
+  'addButtonClassName',
+  'addButtonText',
+  'addOn',
+  'btnClassName',
+  'btnLabel',
+  'btnDisabled',
+  'className',
+  'clearable',
+  'columns',
+  'columnsCount',
+  'controls',
+  'desc',
+  'description',
+  'disabled',
+  'draggable',
+  'editable',
+  'editButtonClassName',
+  'formHorizontal',
+  'formMode',
+  'hideRoot',
+  'horizontal',
+  'icon',
+  'inline',
+  'inputClassName',
+  'label',
+  'labelClassName',
+  'labelField',
+  'language',
+  'level',
+  'max',
+  'maxRows',
+  'min',
+  'minRows',
+  'multiLine',
+  'multiple',
+  'option',
+  'placeholder',
+  'removable',
+  'required',
+  'remark',
+  'hint',
+  'rows',
+  'searchable',
+  'showCompressOptions',
+  'size',
+  'step',
+  'showInput',
+  'unit',
+  'value',
+  'diffValue'
+];
+
 export function registerFormItem(config: FormItemConfig): RendererConfig {
   let Control = config.component;
 
@@ -700,7 +766,6 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
       renderDescription: config.renderDescription,
       sizeMutable: config.sizeMutable,
       wrap: config.wrap,
-      strictMode: config.strictMode,
       ...Control.defaultProps
     };
     static propsList: any = [
@@ -709,6 +774,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
       'onChange',
       'setPrinstineValue',
       'readOnly',
+      'strictMode',
       ...((Control as any).propsList || [])
     ];
 
@@ -736,71 +802,12 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
     }
 
     shouldComponentUpdate(nextProps: FormControlProps) {
-      if (nextProps.strictMode === false) {
+      if (nextProps.strictMode === false || config.strictMode === false) {
         return true;
       }
 
       // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
-      if (
-        anyChanged(
-          [
-            'formPristine',
-            'addable',
-            'addButtonClassName',
-            'addButtonText',
-            'addOn',
-            'btnClassName',
-            'btnLabel',
-            'btnDisabled',
-            'className',
-            'clearable',
-            'columns',
-            'columnsCount',
-            'controls',
-            'desc',
-            'description',
-            'disabled',
-            'draggable',
-            'editable',
-            'editButtonClassName',
-            'formHorizontal',
-            'formMode',
-            'hideRoot',
-            'horizontal',
-            'icon',
-            'inline',
-            'inputClassName',
-            'label',
-            'labelClassName',
-            'labelField',
-            'language',
-            'level',
-            'max',
-            'maxRows',
-            'min',
-            'minRows',
-            'multiLine',
-            'multiple',
-            'option',
-            'placeholder',
-            'removable',
-            'required',
-            'remark',
-            'hint',
-            'rows',
-            'searchable',
-            'showCompressOptions',
-            'size',
-            'step',
-            'showInput',
-            'unit',
-            'value',
-            'diffValue'
-          ],
-          this.props,
-          nextProps
-        )
-      ) {
+      if (anyChanged(detectProps, this.props, nextProps)) {
         return true;
       }
 

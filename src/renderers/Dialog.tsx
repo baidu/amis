@@ -1,14 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
+import {ScopedContext, IScopedContext} from '../Scoped';
 import {Renderer, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {observer} from 'mobx-react';
 import {SchemaNode, Schema, Action} from '../types';
 import {filter} from '../utils/tpl';
 import Modal from '../components/Modal';
 import findLast = require('lodash/findLast');
-import {guid, chainFunctions, isVisible} from '../utils/helper';
+import {guid, isVisible} from '../utils/helper';
 import {reaction} from 'mobx';
 import {Icon} from '../components/icons';
 import {ModalStore, IModalStore} from '../store/modal';
@@ -17,7 +14,7 @@ import {Spinner} from '../components';
 
 export interface DialogProps extends RendererProps {
   title?: string; // 标题
-  size?: 'md' | 'lg' | 'sm' | 'xl';
+  size?: 'md' | 'lg' | 'sm' | 'xl' | 'full';
   closeOnEsc?: boolean;
   onClose: () => void;
   onConfirm: (
@@ -320,13 +317,9 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         ...schema
       };
 
-      // 同步数据到 Dialog 层，方便 actions 根据表单数据联动。
-      subProps.onChange = chainFunctions(
-        this.handleFormChange,
-        schema.onChange
-      );
-      subProps.onInit = chainFunctions(this.handleFormInit, schema.onInit);
-      subProps.onSaved = chainFunctions(this.handleFormSaved, schema.onSaved);
+      subProps.onChange = this.handleFormChange;
+      subProps.onInit = this.handleFormInit;
+      subProps.onSaved = this.handleFormSaved;
     }
 
     return render(`body${key ? `/${key}` : ''}`, schema, subProps);
@@ -410,6 +403,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
             {showCloseButton !== false && !store.loading ? (
               <a
                 data-tooltip="关闭弹窗"
+                data-position="left"
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >
@@ -606,25 +600,29 @@ export class DialogRenderer extends Dialog {
     action: Action,
     data: object,
     throwErrors: boolean = false,
-    delegate?: boolean
+    delegate?: IScopedContext
   ) {
     const {onAction, store, onConfirm, env} = this.props;
 
     if (action.from === this.$$id) {
-      return onAction ? onAction(e, action, data, throwErrors, true) : false;
+      return onAction
+        ? onAction(e, action, data, throwErrors, delegate || this.context)
+        : false;
     }
 
     const scoped = this.context as IScopedContext;
-    delegate || store.setCurrentAction(action);
 
     if (action.type === 'reset') {
+      store.setCurrentAction(action);
       store.reset();
     } else if (
       action.actionType === 'close' ||
       action.actionType === 'cancel'
     ) {
+      store.setCurrentAction(action);
       this.handleSelfClose();
     } else if (action.actionType === 'confirm') {
+      store.setCurrentAction(action);
       this.tryChildrenToHandle(
         {
           ...action,
@@ -634,6 +632,7 @@ export class DialogRenderer extends Dialog {
         action
       ) || this.handleSelfClose();
     } else if (action.actionType === 'next' || action.actionType === 'prev') {
+      store.setCurrentAction(action);
       if (action.type === 'submit') {
         this.tryChildrenToHandle(
           {
@@ -648,14 +647,18 @@ export class DialogRenderer extends Dialog {
         onConfirm([data], action, data, []);
       }
     } else if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       store.openDialog(data);
     } else if (action.actionType === 'drawer') {
+      store.setCurrentAction(action);
       store.openDrawer(data);
     } else if (action.actionType === 'reload') {
+      store.setCurrentAction(action);
       action.target && scoped.reload(action.target, data);
     } else if (this.tryChildrenToHandle(action, data)) {
       // do nothing
     } else if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
       store
         .saveRemote(action.api as string, data, {
           successMessage: action.messages && action.messages.success,
@@ -669,10 +672,17 @@ export class DialogRenderer extends Dialog {
           action.redirect &&
             env.jumpTo(filter(action.redirect, store.data), action);
           action.reload && this.reloadTarget(action.reload, store.data);
+          action.close && this.handleSelfClose();
         })
         .catch(() => {});
     } else if (onAction) {
-      let ret = onAction(e, action, data, throwErrors, true);
+      let ret = onAction(
+        e,
+        action,
+        data,
+        throwErrors,
+        delegate || this.context
+      );
       action.close &&
         (ret && ret.then
           ? ret.then(this.handleSelfClose)

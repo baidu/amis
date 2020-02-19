@@ -3,7 +3,8 @@
  * List、ButtonGroup 等等
  */
 import {Api, Schema} from '../../types';
-import {isEffectiveApi, isApiOutdated} from '../../utils/api';
+import {isEffectiveApi, isApiOutdated, isValidApi} from '../../utils/api';
+import {isAlive} from 'mobx-state-tree';
 import {
   anyChanged,
   autobind,
@@ -14,13 +15,26 @@ import {
   getTree
 } from '../../utils/helper';
 import {reaction} from 'mobx';
-import {FormControlProps, registerFormItem, FormItemBasicConfig} from './Item';
+import {
+  FormControlProps,
+  registerFormItem,
+  FormItemBasicConfig,
+  detectProps as itemDetectProps
+} from './Item';
 import {IFormItemStore} from '../../store/formItem';
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
 import React from 'react';
-import {resolveVariableAndFilter} from '../../utils/tpl-builtin';
-import {Option, OptionProps, normalizeOptions} from '../../components/Select';
+import {
+  resolveVariableAndFilter,
+  isPureVariable
+} from '../../utils/tpl-builtin';
+import {
+  Option,
+  OptionProps,
+  normalizeOptions,
+  optionValueCompare
+} from '../../components/Select';
 import {filter} from '../../utils/tpl';
 import findIndex from 'lodash/findIndex';
 
@@ -38,7 +52,11 @@ export interface OptionsConfig extends OptionsBasicConfig {
 export interface OptionsControlProps extends FormControlProps, OptionProps {
   source?: Api;
   name?: string;
-  onToggle: (option: Option, submitOnChange?: boolean) => void;
+  onToggle: (
+    option: Option,
+    submitOnChange?: boolean,
+    changeImmediately?: boolean
+  ) => void;
   onToggleAll: () => void;
   selectedOptions: Array<Option>;
   setOptions: (value: Array<any>) => void;
@@ -71,6 +89,21 @@ export interface OptionsProps extends FormControlProps, OptionProps {
   optionLabel?: string;
 }
 
+export const detectProps = itemDetectProps.concat([
+  'options',
+  'size',
+  'buttons',
+  'columnsCount',
+  'multiple',
+  'hideRoot',
+  'checkAll',
+  'showIcon',
+  'showRadio',
+  'btnDisabled',
+  'joinValues',
+  'extractValue'
+]);
+
 export function registerOptionsControl(config: OptionsConfig) {
   const Control = config.component;
 
@@ -93,7 +126,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       : [];
     static ComposedComponent = Control;
 
-    reaction: any;
+    reaction?: () => void;
     input: any;
 
     componentWillMount() {
@@ -110,46 +143,37 @@ export function registerOptionsControl(config: OptionsConfig) {
         addHook,
         formInited,
         valueField,
-        options
+        options,
+        value
       } = this.props;
 
       if (formItem) {
         formItem.setOptions(normalizeOptions(options));
 
         this.reaction = reaction(
-          () =>
-            JSON.stringify([
-              formItem.loading,
-              formItem.selectedOptions,
-              formItem.filteredOptions
-            ]),
+          () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
           () => this.forceUpdate()
         );
       }
 
       let loadOptions: boolean = initFetch !== false;
 
-      if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(source as string) && formItem) {
-        formItem.setOptions(
-          normalizeOptions(
-            resolveVariableAndFilter(source as string, data, '| raw') || []
-          )
-        );
-        loadOptions = false;
-      }
-
       if (formItem && joinValues === false && defaultValue) {
         const selectedOptions = extractValue
-          ? formItem.selectedOptions.map(
-              (selectedOption: Option) => selectedOption[valueField || 'value']
-            )
-          : formItem.selectedOptions;
+          ? formItem
+              .getSelectedOptions(value)
+              .map(
+                (selectedOption: Option) =>
+                  selectedOption[valueField || 'value']
+              )
+          : formItem.getSelectedOptions(value);
         setPrinstineValue(
-          multiple ? selectedOptions.concat() : formItem.selectedOptions[0]
+          multiple ? selectedOptions.concat() : selectedOptions[0]
         );
       }
 
       loadOptions &&
+        config.autoLoadOptionsFromSource !== false &&
         (formInited
           ? this.reload()
           : addHook && addHook(this.initOptions, 'init'));
@@ -162,39 +186,11 @@ export function registerOptionsControl(config: OptionsConfig) {
     shouldComponentUpdate(nextProps: OptionsProps) {
       if (config.strictMode === false || nextProps.strictMode === false) {
         return true;
+      } else if (nextProps.source || nextProps.autoComplete) {
+        return true;
       }
 
-      if (
-        anyChanged(
-          [
-            'formPristine',
-            'addOn',
-            'disabled',
-            'placeholder',
-            'required',
-            'formMode',
-            'className',
-            'inputClassName',
-            'labelClassName',
-            'label',
-            'inline',
-            'options',
-            'size',
-            'btnClassName',
-            'btnActiveClassName',
-            'buttons',
-            'columnsCount',
-            'multiple',
-            'hideRoot',
-            'checkAll',
-            'showIcon',
-            'showRadio',
-            'btnDisabled'
-          ],
-          this.props,
-          nextProps
-        )
-      ) {
+      if (anyChanged(detectProps, this.props, nextProps)) {
         return true;
       }
 
@@ -205,7 +201,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       const props = this.props;
       const formItem = props.formItem as IFormItemStore;
 
-      if (!formItem) {
+      if (!formItem || !props.formInited) {
         return;
       } else if (!prevProps.formItem) {
         // todo 优化 name 变化情况。
@@ -217,13 +213,14 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(normalizeOptions(props.options || []));
+        this.normalizeValue();
       } else if (
         config.autoLoadOptionsFromSource !== false &&
         props.source &&
         formItem &&
         (prevProps.source !== props.source || prevProps.data !== props.data)
       ) {
-        if (/^\$(?:([a-z0-9_.]+)|{.+})$/.test(props.source as string)) {
+        if (isPureVariable(props.source as string)) {
           const prevOptions = resolveVariableAndFilter(
             prevProps.source as string,
             prevProps.data,
@@ -236,7 +233,10 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
           prevOptions !== options &&
             formItem.setOptions(normalizeOptions(options || []));
+
+          this.normalizeValue();
         } else if (
+          isEffectiveApi(props.source, props.data) &&
           isApiOutdated(
             prevProps.source,
             props.source,
@@ -244,17 +244,17 @@ export function registerOptionsControl(config: OptionsConfig) {
             props.data
           )
         ) {
-          formItem.loadOptions(
-            props.source,
-            props.data,
-            undefined,
-            true,
-            props.onChange
-          );
+          formItem
+            .loadOptions(
+              props.source,
+              props.data,
+              undefined,
+              true,
+              props.onChange
+            )
+            .then(() => this.normalizeValue());
         }
       }
-
-      this.normalizeValue();
     }
 
     componentWillUnmount() {
@@ -280,10 +280,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         extractValue === false &&
         (typeof value === 'string' || typeof value === 'number')
       ) {
+        const selectedOptions = formItem.getSelectedOptions(value);
         formItem.changeValue(
-          multiple
-            ? formItem.selectedOptions.concat()
-            : formItem.selectedOptions[0]
+          multiple ? selectedOptions.concat() : selectedOptions[0]
         );
       } else if (
         extractValue === true &&
@@ -297,9 +296,11 @@ export function registerOptionsControl(config: OptionsConfig) {
           typeof value === 'number'
         )
       ) {
-        const selectedOptions = formItem.selectedOptions.map(
-          (selectedOption: Option) => selectedOption[valueField || 'value']
-        );
+        const selectedOptions = formItem
+          .getSelectedOptions(value)
+          .map(
+            (selectedOption: Option) => selectedOption[valueField || 'value']
+          );
         formItem.changeValue(
           multiple ? selectedOptions.concat() : selectedOptions[0]
         );
@@ -316,7 +317,11 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    handleToggle(option: Option, submitOnChange?: boolean) {
+    handleToggle(
+      option: Option,
+      submitOnChange?: boolean,
+      changeImmediately?: boolean
+    ) {
       const {
         onChange,
         joinValues,
@@ -326,15 +331,19 @@ export function registerOptionsControl(config: OptionsConfig) {
         clearable,
         resetValue,
         multiple,
-        formItem
+        formItem,
+        value
       } = this.props;
 
       if (!formItem) {
         return;
       }
 
-      let valueArray = formItem.selectedOptions.concat();
-      const idx = valueArray.indexOf(option);
+      let valueArray = formItem.getSelectedOptions(value).concat();
+      const idx = findIndex(
+        valueArray,
+        optionValueCompare(option[valueField || 'value'], valueField || 'value')
+      );
       let newValue: string | Array<Option> | Option = '';
 
       if (multiple) {
@@ -369,12 +378,13 @@ export function registerOptionsControl(config: OptionsConfig) {
         }
       }
 
-      onChange && onChange(newValue, submitOnChange);
+      onChange && onChange(newValue, submitOnChange, changeImmediately);
     }
 
     @autobind
     handleToggleAll() {
       const {
+        value,
         onChange,
         joinValues,
         extractValue,
@@ -389,8 +399,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
+      const selectedOptions = formItem.getSelectedOptions(value);
       let valueArray =
-        formItem.selectedOptions.length === formItem.filteredOptions.length
+        selectedOptions.length === formItem.filteredOptions.length
           ? []
           : formItem.filteredOptions.concat();
 
@@ -424,11 +435,14 @@ export function registerOptionsControl(config: OptionsConfig) {
     reload() {
       const {source, formItem, data, onChange} = this.props;
 
-      if (
-        config.autoLoadOptionsFromSource === false ||
-        !formItem ||
-        !isEffectiveApi(source, data)
-      ) {
+      if (formItem && isPureVariable(source as string)) {
+        formItem.setOptions(
+          normalizeOptions(
+            resolveVariableAndFilter(source as string, data, '| raw') || []
+          )
+        );
+        return;
+      } else if (!formItem || !isEffectiveApi(source, data)) {
         return;
       }
 
@@ -442,7 +456,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (!formItem) {
         return;
       }
-      if (formItem.value) {
+      if (isAlive(formItem) && formItem.value) {
         setVariable(data, name!, formItem.value);
       }
     }
@@ -557,7 +571,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       // 没走服务端的。
-      if (!result.__saved) {
+      if (!result.hasOwnProperty(valueField || 'value')) {
         result = {
           ...result,
           [valueField || 'value']: result[labelField || 'label']
@@ -760,9 +774,9 @@ export function registerOptionsControl(config: OptionsConfig) {
           setOptions={this.setOptions}
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
-          creatable={creatable || isEffectiveApi(addApi)}
-          editable={editable || isEffectiveApi(editApi)}
-          removable={removable || isEffectiveApi(deleteApi)}
+          creatable={creatable || creatable !== false && isEffectiveApi(addApi)}
+          editable={editable || editable !== false && isEffectiveApi(editApi)}
+          removable={removable || removable !== false && isEffectiveApi(deleteApi)}
           onAdd={this.handleOptionAdd}
           onEdit={this.handleOptionEdit}
           onDelete={this.handleOptionDelete}

@@ -1,112 +1,112 @@
 .#{$ns}TagControl {
-    @include input-text();
+  @include input-text();
 
-    &-placeholder {
-        color: $Form-input-placeholderColor;
-        user-select: none;
-        position: absolute;
-        left: $Form-input-paddingX;
-        top: $Form-input-paddingY;
-        margin-top: 2 * $Form-input-borderWidth;
-        line-height: $Form-input-lineHeight;
+  &-placeholder {
+    color: $Form-input-placeholderColor;
+    user-select: none;
+    position: absolute;
+    left: $Form-input-paddingX;
+    top: $Form-input-paddingY;
+    margin-top: 2 * $Form-input-borderWidth;
+    line-height: $Form-input-lineHeight;
+  }
+
+  &-input {
+    min-height: $Form-input-height;
+    height: auto;
+  }
+
+  &-valueWrap {
+    flex-grow: 1;
+    margin-bottom: -$gap-xs;
+    line-height: 1;
+
+    > input {
+      width: px2rem(100px);
+      vertical-align: middle;
+      position: relative;
+      z-index: 2;
+      margin-bottom: $gap-xs;
+    }
+  }
+
+  &-value {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+    display: inline-block;
+    font-size: $Form-selectValue-fontSize;
+    color: $Form-selectValue-color;
+    background: $Form-selectValue-bg;
+    border: px2rem(1px) solid $Form-selectValue-borderColor;
+    border-radius: 2px;
+    margin-right: $gap-xs;
+    margin-bottom: $gap-xs;
+
+    &.is-disabled {
+      pointer-events: none;
+      opacity: $Button-onDisabled-opacity;
+    }
+  }
+
+  &-valueIcon {
+    cursor: pointer;
+    border-right: px2rem(1px) solid $Form-selectValue-borderColor;
+    padding: 1px 5px;
+
+    &:hover {
+      background-color: darken($Form-selectValue-bg, 5%);
+    }
+  }
+
+  &-valueLabel {
+    padding: 0 $gap-xs;
+  }
+
+  &-sug {
+    margin-top: $Form-input-marginBottom;
+
+    &Tip {
+      color: $TagControl-sugTip-color;
+      margin-bottom: $Form-input-marginBottom;
     }
 
-    &-input {
-        min-height: $Form-input-height;
-        height: auto;
+    &Item {
+      margin-right: $gap-sm;
+      margin-bottom: $gap-sm;
+      display: inline-block;
+      font-size: $TagControl-sugBtn-fontSize;
+      cursor: pointer;
+      user-select: none;
+      border: $TagControl-sugBtn-borderWidth solid transparent;
+
+      @include button-size(
+        $TagControl-sugBtn-paddingY,
+        $TagControl-sugBtn-paddingX,
+        $TagControl-sugBtn-fontSize,
+        $TagControl-sugBtn-lineHeight,
+        $TagControl-sugBtn-borderRadius,
+        $TagControl-sugBtn-height
+      );
+
+      @include button-variant(
+        $TagControl-sugBtn-bg,
+        $TagControl-sugBtn-border,
+        $TagControl-sugBtn-color,
+        $TagControl-sugBtn-onHover-bg,
+        $TagControl-sugBtn-onHover-border,
+        $TagControl-sugBtn-onHover-color,
+        $TagControl-sugBtn-onActive-bg,
+        $TagControl-sugBtn-onActive-border,
+        $TagControl-sugBtn-onActive-color
+      );
+
+      &.is-disabled {
+        pointer-events: none;
+        opacity: $Button-onDisabled-opacity;
+      }
     }
-
-    &-valueWrap {
-        flex-grow: 1;
-        margin-bottom: -$gap-xs;
-        line-height: 1;
-
-        > input {
-            width: px2rem(100px);
-            vertical-align: middle;
-            position: relative;
-            z-index: 2;
-            margin-bottom: $gap-xs;
-        }
-    }
-
-    &-value {
-        cursor: pointer;
-        user-select: none;
-        white-space: nowrap;
-        vertical-align: middle;
-        line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
-        display: inline-block;
-        font-size: $Form-selectValue-fontSize;
-        color: $Form-selectValue-color;
-        background: $Form-selectValue-bg;
-        border: px2rem(1px) solid $Form-selectValue-borderColor;
-        border-radius: 2px;
-        margin-right: $gap-xs;
-        margin-bottom: $gap-xs;
-
-        &.is-disabled {
-            pointer-events: none;
-            opacity: $Button-onDisabled-opacity;
-        }
-    }
-
-    &-valueIcon {
-        cursor: pointer;
-        border-right: px2rem(1px) solid $Form-selectValue-borderColor;
-        padding: 1px 5px;
-
-        &:hover {
-            background-color: darken($Form-selectValue-bg, 5%);
-        }
-    }
-
-    &-valueLabel {
-        padding: 0 $gap-xs;
-    }
-
-    &-sug {
-        margin-top: $Form-input-marginBottom;
-
-        &Tip {
-            color: $TagControl-sugTip-color;
-            margin-bottom: $Form-input-marginBottom;
-        }
-
-        &Item {
-            margin-right: $gap-sm;
-            margin-bottom: $gap-sm;
-            display: inline-block;
-            font-size: $TagControl-sugBtn-fontSize;
-            cursor: pointer;
-            user-select: none;
-            border: $TagControl-sugBtn-borderWidth solid transparent;
-
-            @include button-size(
-                $TagControl-sugBtn-paddingY,
-                $TagControl-sugBtn-paddingX,
-                $TagControl-sugBtn-fontSize,
-                $TagControl-sugBtn-lineHeight,
-                $TagControl-sugBtn-borderRadius,
-                $TagControl-sugBtn-height
-            );
-
-            @include button-variant(
-                $TagControl-sugBtn-bg,
-                $TagControl-sugBtn-border,
-                $TagControl-sugBtn-color,
-                $TagControl-sugBtn-onHover-bg,
-                $TagControl-sugBtn-onHover-border,
-                $TagControl-sugBtn-onHover-color,
-                $TagControl-sugBtn-onActive-bg,
-                $TagControl-sugBtn-onActive-border,
-                $TagControl-sugBtn-onActive-color
-            );
-
-            &.is-disabled {
-                pointer-events: none;
-                opacity: $Button-onDisabled-opacity;
-            }
-        }
-    }
+  }
 }

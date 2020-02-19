@@ -19,8 +19,8 @@ export default class ListControl extends React.Component<ListProps, any> {
   };
 
   handleDBClick(option: Option, e: React.MouseEvent<HTMLElement>) {
-    this.props.onToggle(option);
-    this.props.onAction(e, {
+    this.props.onToggle(option, false, true);
+    this.props.onAction(null, {
       type: 'submit'
     });
   }

@@ -4,14 +4,14 @@
  * @author fex
  */
 
-import React from 'react';
-import uncontrollable = require('uncontrollable');
-import Checkbox from './Checkbox';
-import find = require('lodash/find');
-import chunk = require('lodash/chunk');
-import {flattenTree, isObject} from '../utils/helper';
-import {Option} from './Checkboxes';
-import {ClassNamesFn, themeable} from '../theme';
+import React from "react";
+import uncontrollable = require("uncontrollable");
+import Checkbox from "./Checkbox";
+import find = require("lodash/find");
+import chunk = require("lodash/chunk");
+import { flattenTree, isObject } from "../utils/helper";
+import { ClassNamesFn, themeable } from "../theme";
+import { optionValueCompare } from "./Select";
 // import isPlainObject = require('lodash/isPlainObject');
 
 export interface Option {
@@ -43,8 +43,8 @@ export function value2array(
   props: Partial<OptionProps>
 ): Array<Option> {
   if (props.multi || props.multiple) {
-    if (typeof value === 'string') {
-      value = value.split(props.delimiter || ',');
+    if (typeof value === "string") {
+      value = value.split(props.delimiter || ",");
     }
 
     if (!Array.isArray(value)) {
@@ -60,8 +60,8 @@ export function value2array(
         expandValue(
           !props.joinValues &&
             value &&
-            value.hasOwnProperty(props.valueField || 'value')
-            ? (value as any)[props.valueField || 'value']
+            value.hasOwnProperty(props.valueField || "value")
+            ? (value as any)[props.valueField || "value"]
             : value,
           props
         )
@@ -80,32 +80,31 @@ export function expandValue(
   const valueType = typeof value;
 
   if (
-    valueType !== 'string' &&
-    valueType !== 'number' &&
-    valueType !== 'boolean' &&
-    valueType !== 'object'
+    valueType !== "string" &&
+    valueType !== "number" &&
+    valueType !== "boolean" &&
+    valueType !== "object"
   ) {
     return null;
   }
 
-  let {options, valueField} = props;
+  let { options, valueField } = props;
 
   if (!options) {
     return null;
   }
 
   if (
-    valueType === 'object' &&
+    valueType === "object" &&
     value &&
-    value.hasOwnProperty(props.valueField || 'value')
+    value.hasOwnProperty(valueField || "value")
   ) {
-    value = (value as Option)[valueField || 'value'] || '';
+    value = (value as Option)[valueField || "value"] || "";
   }
 
-  return find(flattenTree(options), item =>
-    isObject(value)
-      ? item[valueField || 'value'] === value
-      : String(item[valueField || 'value']) === String(value)
+  return find(
+    flattenTree(options),
+    optionValueCompare(value, valueField || "value")
   ) as Option;
 }
 
@@ -142,7 +141,7 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
     joinValues: true,
     extractValue: false,
     inline: false,
-    delimiter: ',',
+    delimiter: ",",
     columnsCount: 1 // 一行显示一个
   };
 
@@ -167,7 +166,7 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
 
     if (!~idx) {
       option =
-        value2array(option[valueField || 'value'], {
+        value2array(option[valueField || "value"], {
           multiple: true,
           valueField,
           delimiter,
@@ -186,10 +185,10 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
 
     if (joinValues) {
       newValue = newValue
-        .map(item => item[valueField || 'value'])
+        .map(item => item[valueField || "value"])
         .join(delimiter);
     } else if (extractValue) {
-      newValue = newValue.map(item => item[valueField || 'value']);
+      newValue = newValue.map(item => item[valueField || "value"]);
     }
 
     onChange && onChange(newValue);
@@ -235,8 +234,8 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
     if (!inline && (columnsCount as number) > 1) {
       let cellClassName = `col-sm-${(12 / (columnsCount as number))
         .toFixed(1)
-        .replace(/\.0$/, '')
-        .replace(/\./, '-')}`;
+        .replace(/\.0$/, "")
+        .replace(/\./, "-")}`;
       body = chunk(body, columnsCount).map((group, groupIndex) => (
         <div className="row" key={groupIndex}>
           {group.map((item, index) => (
@@ -258,6 +257,6 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
 
 export default themeable(
   uncontrollable(Checkboxes, {
-    value: 'onChange'
+    value: "onChange"
   })
 );

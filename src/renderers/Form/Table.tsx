@@ -9,6 +9,7 @@ import {filter} from '../../utils/tpl';
 import omit = require('lodash/omit');
 import {dataMapping} from '../../utils/tpl-builtin';
 import findIndex = require('lodash/findIndex');
+import memoize = require('lodash/memoize');
 
 export interface TableProps extends FormControlProps {
   placeholder?: string;
@@ -72,6 +73,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   entries: Map<any, number>;
   entityId: number = 1;
   subForms: any = {};
+  editting: any = {};
   constructor(props: TableProps) {
     super(props);
 
@@ -92,6 +94,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   componentWillUnmount() {
     this.entries.clear();
+    this.buildItems.cache.clear?.();
   }
 
   subFormRef(form: any, x: number, y: number) {
@@ -224,9 +227,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       data,
       env
     } = this.props;
+
+    // form 是 lazyChange 的，先让他们 flush, 即把未提交的数据提交。
+    const subForms: Array<any> = [];
+    Object.keys(this.subForms).forEach(
+      key => this.subForms[key] && subForms.push(this.subForms[key])
+    );
+    subForms.forEach(form => form.flush());
+
     let newValue = Array.isArray(value) ? value.concat() : [];
     let item = {
-      ...this.state.editting
+      ...this.editting
     };
 
     const origin = newValue[this.state.editIndex];
@@ -340,9 +351,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               level="link"
               tooltip="新增一行"
               tooltipContainer={
-                env && env.getModalContainer
-                  ? env.getModalContainer
-                  : undefined
+                env && env.getModalContainer ? env.getModalContainer : undefined
               }
               onClick={this.addItem.bind(this, rowIndex, undefined)}
             >
@@ -391,9 +400,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               level="link"
               tooltip="编辑当前行"
               tooltipContainer={
-                env && env.getModalContainer
-                  ? env.getModalContainer
-                  : undefined
+                env && env.getModalContainer ? env.getModalContainer : undefined
               }
               onClick={() => this.startEdit(rowIndex)}
             >
@@ -417,9 +424,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               level="link"
               tooltip="保存"
               tooltipContainer={
-                env && env.getModalContainer
-                  ? env.getModalContainer
-                  : undefined
+                env && env.getModalContainer ? env.getModalContainer : undefined
               }
               onClick={this.confirmEdit}
             >
@@ -443,9 +448,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               level="link"
               tooltip="取消"
               tooltipContainer={
-                env && env.getModalContainer
-                  ? env.getModalContainer
-                  : undefined
+                env && env.getModalContainer ? env.getModalContainer : undefined
               }
               onClick={this.cancelEdit}
             >
@@ -479,9 +482,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               level="link"
               tooltip="删除当前行"
               tooltipContainer={
-                env && env.getModalContainer
-                  ? env.getModalContainer
-                  : undefined
+                env && env.getModalContainer ? env.getModalContainer : undefined
               }
               onClick={this.removeItem.bind(this, rowIndex)}
             >
@@ -519,7 +520,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     if (~this.state.editIndex) {
       this.setState({
-        editting: {
+        editting: this.editting = {
           ...rows
         }
       });
@@ -563,13 +564,21 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   getEntryId(entry: any) {
     if (entry === this.state.editting) {
-      return 'editing';
+      return 'editting';
     } else if (!this.entries.has(entry)) {
       this.entries.set(entry, this.entityId++);
     }
 
     return String(this.entries.get(entry));
   }
+
+  buildItems = memoize(
+    (value: Array<any>, editIndex: number) => {
+      return value.map((value: any, index: number) =>
+      index === editIndex ? this.state.editting : value)
+    },
+    (...args: Array<any>) => JSON.stringify(args)
+  );
 
   render() {
     const {
@@ -581,7 +590,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       placeholder,
       draggable,
       addable,
-      columnsTogglable
+      columnsTogglable,
+      combineNum
     } = this.props;
 
     return (
@@ -591,27 +601,27 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           {
             type: 'table',
             placeholder,
-            disabled,
             columns: this.state.columns,
             affixHeader: false
           },
           {
             value: undefined,
+            saveImmediately: true,
+            disabled,
             draggable: draggable && !~this.state.editIndex,
-            items: (Array.isArray(value) && value.length
+            items: this.buildItems((Array.isArray(value) && value.length
               ? value
               : addable && showAddBtn !== false
               ? [{__isPlaceholder: true}]
               : []
-            ).map((value: any, index: number) =>
-              index === this.state.editIndex ? this.state.editting : value
-            ),
+            ), this.state.editIndex),
             getEntryId: this.getEntryId,
             onSave: this.handleTableSave,
             onSaveOrder: this.handleSaveTableOrder,
             buildItemProps: this.buildItemProps,
             quickEditFormRef: this.subFormRef,
-            columnsTogglable: columnsTogglable
+            columnsTogglable: columnsTogglable,
+            combineNum: combineNum
           }
         )}
       </div>

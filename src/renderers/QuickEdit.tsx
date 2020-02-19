@@ -208,7 +208,12 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
           case 'right':
             nextTd = current.nextSibling;
             while (nextTd) {
-              if (matches(nextTd, `.${ns}Field--quickEditable[tabindex]`)) {
+              if (
+                matches(
+                  nextTd as Element,
+                  `.${ns}Field--quickEditable[tabindex]`
+                )
+              ) {
                 break;
               }
 
@@ -224,7 +229,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
               );
 
               if (nextTd) {
-                nextTd.focus();
+                (nextTd as any).focus();
               }
             }
             break;

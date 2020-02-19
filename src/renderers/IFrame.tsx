@@ -1,8 +1,9 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
-import {autobind} from '../utils/helper';
+import {autobind, createObject} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
+import {buildApi} from '../utils/api';
 
 export interface IFrameProps extends RendererProps {
   className?: string;
@@ -19,10 +20,34 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     frameBorder: 0
   };
 
+  // 当别的组件通知 iframe reload 的时候执行。
   @autobind
-  reload() {
-    (this.IFrameRef.current as HTMLIFrameElement).src = (this.IFrameRef
-      .current as HTMLIFrameElement).src;
+  reload(subpath?: any, query?: any) {
+    if (query) {
+      return this.receive(query);
+    }
+
+    const {src, data} = this.props;
+
+    if (src) {
+      (this.IFrameRef.current as HTMLIFrameElement).src = buildApi(
+        src,
+        data
+      ).url;
+    }
+  }
+
+  // 当别的组件把数据发给 iframe 里面的时候执行。
+  @autobind
+  receive(values: object) {
+    const {src, data} = this.props;
+
+    if (src) {
+      (this.IFrameRef.current as HTMLIFrameElement).src = buildApi(
+        src,
+        createObject(data, values)
+      ).url;
+    }
   }
 
   render() {
@@ -41,7 +66,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         frameBorder={frameBorder}
         style={style}
         ref={this.IFrameRef}
-        src={src ? filter(src, data) : undefined}
+        src={src ? buildApi(src, data).url : undefined}
       />
     );
   }

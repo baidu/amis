@@ -110,6 +110,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       options?: fetchOptions & {
         forceReload?: boolean;
         loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
+        loadDataOnceFetchOnFilter?: boolean; // 在开启loadDataOnce时，filter时是否去重新请求api
         source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
@@ -120,6 +121,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       options: fetchOptions & {
         forceReload?: boolean;
         loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
+        loadDataOnceFetchOnFilter?: boolean; // 在开启loadDataOnce时，filter时是否去重新请求api
         source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
@@ -127,7 +129,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
     ) {
       try {
         if (
-          options.forceReload === false &&
+          !options.forceReload &&
           options.loadDataOnce &&
           self.total
         ) {
@@ -194,7 +196,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             json.msg || options.errorMessage || '获取失败',
             true
           );
-          (getRoot(self) as IRendererStore).notify('error', json.msg);
+          (getRoot(self) as IRendererStore).notify(
+            'error',
+            json.msg,
+            json.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: json.msgTimeout
+                }
+              : undefined
+          );
         } else {
           if (!json.data) {
             throw new Error('返回数据格式不正确，payload.data 没有数据');
@@ -366,7 +377,16 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             json.msg || options.errorMessage || '保存失败',
             true
           );
-          (getRoot(self) as IRendererStore).notify('error', self.msg);
+          (getRoot(self) as IRendererStore).notify(
+            'error',
+            self.msg,
+            json.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: json.msgTimeout
+                }
+              : undefined
+          );
           throw new ServerError(self.msg);
         } else {
           self.updateMessage(json.msg || options.successMessage);

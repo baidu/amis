@@ -1,11 +1,9 @@
 import React from 'react';
-import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
+import {ScopedContext, IScopedContext} from '../Scoped';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, SchemaNode, Schema, Action} from '../types';
+import {Api, Action} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import cx = require('classnames');
-import {observer} from 'mobx-react';
 import {
   createObject,
   until,
@@ -17,7 +15,7 @@ import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {IFormStore} from '../store/form';
 import {Spinner} from '../components';
 import {findDOMNode} from 'react-dom';
-import {resizeSensor} from '..';
+import {resizeSensor} from '../utils/resize-sensor';
 
 export interface WizardProps extends RendererProps {
   store: IServiceStore;
@@ -94,7 +92,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       initAsyncApi,
       initFinishedField,
       store,
-      data,
       messages: {fetchSuccess, fetchFailed},
       onInit
     } = this.props;
@@ -249,6 +246,76 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     throw new Error('Please implements this!');
   }
 
+  reload(subPath?: string, query?: any, ctx?: any) {
+    if (query) {
+      return this.receive(query);
+    }
+
+    const {
+      initApi,
+      initAsyncApi,
+      initFinishedField,
+      store,
+      messages: {fetchSuccess, fetchFailed}
+    } = this.props;
+
+    if (isEffectiveApi(initApi, store.data) && this.state.currentStep === 1) {
+      store
+        .fetchInitData(initApi, store.data, {
+          successMessage: fetchSuccess,
+          errorMessage: fetchFailed,
+          onSuccess: () => {
+            if (
+              !isEffectiveApi(initAsyncApi, store.data) ||
+              store.data[initFinishedField || 'finished']
+            ) {
+              return;
+            }
+
+            return until(
+              () => store.checkRemote(initAsyncApi, store.data),
+              (ret: any) => ret && ret[initFinishedField || 'finished'],
+              cancel => (this.asyncCancel = cancel)
+            );
+          }
+        })
+        .then(value => {
+          const state = {
+            currentStep: 1
+          };
+
+          if (
+            value &&
+            value.data &&
+            (typeof value.data.step === 'number' ||
+              (typeof value.data.step === 'string' &&
+                /^\d+$/.test(value.data.step)))
+          ) {
+            state.currentStep = parseInt(value.data.step, 10);
+          }
+
+          this.setState(state, () => {
+            // 如果 initApi 返回的状态是正在提交，则进入轮顺状态。
+            if (
+              value &&
+              value.data &&
+              (value.data.submiting || value.data.submited)
+            ) {
+              this.checkSubmit();
+            }
+          });
+          return value;
+        });
+    }
+  }
+
+  receive(values: object) {
+    const {store} = this.props;
+
+    store.updateData(values);
+    this.reload();
+  }
+
   domRef(ref: any) {
     this.dom = ref;
   }
@@ -259,17 +326,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
   // 用来还原异步提交状态。
   checkSubmit() {
-    const {
-      store,
-      steps,
-      asyncApi,
-      finishedField,
-      target,
-      redirect,
-      reload,
-      env,
-      onFinished
-    } = this.props;
+    const {store, steps, asyncApi, finishedField, env} = this.props;
 
     const step = steps[this.state.currentStep - 1];
     let finnalAsyncApi =
@@ -304,7 +361,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     e: React.UIEvent<any> | void,
     action: Action,
     data: object,
-    throwErrors?: boolean
+    throwErrors: boolean = false,
+    delegate?: IScopedContext
   ) {
     const {onAction, store, env} = this.props;
 
@@ -332,7 +390,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           successMessage: action.messages && action.messages.success,
           errorMessage: action.messages && action.messages.failed
         })
-        .then(async response => {
+        .then(async () => {
           this.form && this.form.isValidated() && this.form.validate(true);
 
           if (action.feedback && isVisible(action.feedback, store.data)) {
@@ -349,7 +407,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else if (action.actionType === 'reload') {
       action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
-      onAction(e, action, data);
+      onAction(e, action, data, throwErrors, delegate || this.context);
     }
   }
 
@@ -424,7 +482,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 : this.state.currentStep + 1
             )
           )
-          .catch(e => {
+          .catch(() => {
             // do nothing
           });
       } else {
@@ -498,12 +556,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     return false;
   }
 
-  handleDialogConfirm(
-    values: object[],
-    action: Action,
-    ctx: any,
-    targets: Array<any>
-  ) {
+  handleDialogConfirm(values: object[], action: Action, targets: Array<any>) {
     const {store} = this.props;
 
     if (
@@ -524,7 +577,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   }
 
   renderSteps() {
-    const {steps, store, mode, classPrefix: ns} = this.props;
+    const {steps, store, mode, classPrefix: ns, classnames: cx} = this.props;
     const currentStep = this.state.currentStep;
 
     return (
@@ -577,9 +630,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       actionNextLabel,
       actionNextSaveLabel,
       actionFinishLabel,
-      render,
-      classPrefix: ns,
-      classnames: cx
+      render
     } = this.props;
 
     if (!Array.isArray(steps)) {
@@ -683,8 +734,15 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     );
   }
 
-  render() {
-    const {className, steps, render, store, mode, classPrefix: ns} = this.props;
+  renderWizard() {
+    const {
+      className,
+      steps,
+      render,
+      store,
+      classPrefix: ns,
+      classnames: cx
+    } = this.props;
 
     const currentStep = this.state.currentStep;
     const step = Array.isArray(steps) ? steps[currentStep - 1] : null;
@@ -745,6 +803,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       </div>
     );
   }
+
+  render() {
+    return this.renderWizard();
+  }
 }
 
 function isJumpable(step: any, index: number, currentStep: number, data: any) {
@@ -783,10 +845,11 @@ export class WizardRenderer extends Wizard {
   componentWillUnmount() {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+    super.componentWillUnmount();
   }
 
   doAction(action: Action, data: object, throwErrors: boolean = false) {
-    return this.handleAction(undefined, action, data, throwErrors);
+    return this.handleAction(undefined, action, data);
   }
 
   submitToTarget(target: string, values: object) {
@@ -799,13 +862,8 @@ export class WizardRenderer extends Wizard {
     scoped.reload(target, data);
   }
 
-  handleDialogConfirm(
-    values: object[],
-    action: Action,
-    ctx: any,
-    targets: Array<any>
-  ) {
-    super.handleDialogConfirm(values, action, ctx, targets);
+  handleDialogConfirm(values: object[], action: Action, targets: Array<any>) {
+    super.handleDialogConfirm(values, action, targets);
 
     const store = this.props.store;
     const scoped = this.context as IScopedContext;

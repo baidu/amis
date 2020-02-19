@@ -43,7 +43,10 @@ interface CheckboxProps {
 }
 
 export class Checkbox extends React.Component<CheckboxProps, any> {
-  static defaultProps = {
+  static defaultProps: Pick<
+    CheckboxProps,
+    'trueValue' | 'falseValue' | 'type'
+  > = {
     trueValue: true,
     falseValue: false,
     type: 'checkbox'

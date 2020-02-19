@@ -4,6 +4,7 @@ import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
 import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
+import {themeable} from '../theme';
 
 export function filterContents(
   tooltip:
@@ -39,7 +40,7 @@ type RemarkProps = {
   placement?: string;
 } & RendererProps;
 
-export default class Remark extends React.Component<RemarkProps> {
+class Remark extends React.Component<RemarkProps> {
   static propsList: Array<string> = [];
   static defaultProps = {
     icon: 'fa fa-question-circle',
@@ -62,28 +63,30 @@ export default class Remark extends React.Component<RemarkProps> {
     } = this.props;
 
     return (
-      <TooltipWrapper
-        classPrefix={ns}
-        classnames={cx}
-        tooltip={filterContents(tooltip || content, data)}
-        placement={(tooltip && tooltip.placement) || placement}
-        rootClose={(tooltip && tooltip.rootClose) || rootClose}
-        trigger={(tooltip && tooltip.trigger) || trigger}
-        container={container}
-        delay={tooltip && tooltip.delay}
+      <div
+        className={cx(
+          `Remark`,
+          (tooltip && tooltip.className) || className || `Remark--warning`
+        )}
       >
-        <div
-          className={cx(
-            `Remark`,
-            (tooltip && tooltip.className) || className || `Remark--warning`
-          )}
+        <TooltipWrapper
+          classPrefix={ns}
+          classnames={cx}
+          tooltip={filterContents(tooltip || content, data)}
+          placement={(tooltip && tooltip.placement) || placement}
+          rootClose={(tooltip && tooltip.rootClose) || rootClose}
+          trigger={(tooltip && tooltip.trigger) || trigger}
+          container={container}
+          delay={tooltip && tooltip.delay}
         >
           <i className={cx('Remark-icon', (tooltip && tooltip.icon) || icon)} />
-        </div>
-      </TooltipWrapper>
+        </TooltipWrapper>
+      </div>
     );
   }
 }
+
+export default themeable(Remark);
 
 @Renderer({
   test: /(^|\/)remark$/,

@@ -12,8 +12,6 @@ import {RootCloseWrapper} from 'react-overlays';
 import PopOver, {Offset} from '../components/PopOver';
 import Overlay from '../components/Overlay';
 
-const allowedPositions = ['center', 'top'];
-
 export interface PopOverConfig {
   saveImmediately?: boolean;
   mode?: 'dialog' | 'drawer' | 'popOver';
@@ -30,16 +28,16 @@ export interface PopOverConfig {
     | 'fixed-right-top'
     | 'fixed-left-bottom'
     | 'fixed-right-bottom';
+  offset?: Offset;
   [propName: string]: any;
-  offset: Offset;
 }
 
 export interface PopOverProps extends RendererProps {
   name?: string;
   label?: string;
   popOver: boolean | PopOverConfig;
-  onPopOverOpen: (popover: any) => void;
-  onPopOverClose: (popover: any) => void;
+  onPopOverOpened: (popover: any) => void;
+  onPopOverClosed: (popover: any) => void;
 }
 
 export interface PopOverState {
@@ -69,12 +67,12 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
     }
 
     openPopOver() {
-      const onPopOverOpen = this.props.onPopOverOpen;
+      const onPopOverOpened = this.props.onPopOverOpened;
       this.setState(
         {
           isOpened: true
         },
-        () => onPopOverOpen && onPopOverOpen(this.props.popOver)
+        () => onPopOverOpened && onPopOverOpened(this.props.popOver)
       );
     }
 
@@ -83,12 +81,12 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
         return;
       }
 
-      const onPopOverClose = this.props.onPopOverClose;
+      const onPopOverClosed = this.props.onPopOverClosed;
       this.setState(
         {
           isOpened: false
         },
-        () => onPopOverClose && onPopOverClose(this.props.popOver)
+        () => onPopOverClosed && onPopOverClosed(this.props.popOver)
       );
     }
 
@@ -159,6 +157,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
       const isFixed = /^fixed\-/.test(position);
 
       return isFixed ? (
+        // @ts-ignore
         <RootCloseWrapper
           disabled={!this.state.isOpened}
           onRootClose={this.closePopOver}
@@ -179,7 +178,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
           <PopOver
             classPrefix={ns}
             className={cx('PopOverAble-popover')}
-            offset={popOver.offset}
+            offset={(popOver as PopOverConfig).offset}
           >
             {content}
           </PopOver>
@@ -189,13 +188,11 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
 
     render() {
       const {
-        onQuickChange,
         popOver,
         popOverEnabled,
         className,
         noHoc,
-        classnames: cx,
-        render
+        classnames: cx
       } = this.props;
 
       if (!popOver || popOverEnabled === false || noHoc) {

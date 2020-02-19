@@ -67,15 +67,19 @@ interface TreeSelectorProps {
   // 是否为内建 增、改、删。当有复杂表单的时候直接抛出去让外层能统一处理
   bultinCUD?: boolean;
   rootCreatable?: boolean;
+  rootCreateTip?: string;
   creatable?: boolean;
+  createTip?: string;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
     skipForm?: boolean
   ) => void;
   editable?: boolean;
+  editTip?: string;
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
+  deleteTip?: string;
   onDelete?: (value: Option) => void;
 }
 
@@ -116,7 +120,11 @@ export class TreeSelector extends React.Component<
     rootLabel: '顶级',
     rootValue: 0,
     cascade: false,
-    selfDisabledAffectChildren: true
+    selfDisabledAffectChildren: true,
+    rootCreateTip: '添加一级节点',
+    createTip: '添加孩子节点',
+    editTip: '编辑该节点',
+    deleteTip: '移除该节点'
   };
 
   componentWillMount() {
@@ -466,7 +474,10 @@ export class TreeSelector extends React.Component<
       minLength,
       creatable,
       editable,
-      removable
+      removable,
+      createTip,
+      editTip,
+      deleteTip
     } = this.props;
     const {
       unfolded,
@@ -602,7 +613,7 @@ export class TreeSelector extends React.Component<
                   {creatable && hasAbility(item, 'creatable') ? (
                     <a
                       onClick={this.handleAdd.bind(this, item)}
-                      data-tooltip="添加孩子节点"
+                      data-tooltip={createTip}
                     >
                       <Icon icon="plus" className="icon" />
                     </a>
@@ -611,7 +622,7 @@ export class TreeSelector extends React.Component<
                   {removable && hasAbility(item, 'removable') ? (
                     <a
                       onClick={this.handleRemove.bind(this, item)}
-                      data-tooltip="移除该节点"
+                      data-tooltip={deleteTip}
                     >
                       <Icon icon="minus" className="icon" />
                     </a>
@@ -620,7 +631,7 @@ export class TreeSelector extends React.Component<
                   {editable && hasAbility(item, 'editable') ? (
                     <a
                       onClick={this.handleEdit.bind(this, item)}
-                      data-tooltip="编辑该节点"
+                      data-tooltip={editTip}
                     >
                       <Icon icon="pencil" className="icon" />
                     </a>
@@ -676,6 +687,7 @@ export class TreeSelector extends React.Component<
       classnames: cx,
       creatable,
       rootCreatable,
+      rootCreateTip,
       disabled
     } = this.props;
     let options = this.props.options;
@@ -692,7 +704,7 @@ export class TreeSelector extends React.Component<
           onClick={this.handleAdd.bind(this, null)}
         >
           <Icon icon="plus" className="icon" />
-          <span>添加一级节点</span>
+          <span>{rootCreateTip}</span>
         </a>
       );
     }
@@ -716,7 +728,7 @@ export class TreeSelector extends React.Component<
                 })}
               >
                 <div className={cx('Tree-itemLabel')}>
-                  <span className={cx('Tree-itemText')}>
+                  <span className={cx('Tree-itemText')} onClick={this.clearSelect}>
                     {showIcon ? (
                       <i className={cx('Tree-itemIcon Tree-rootIcon')} />
                     ) : null}
@@ -731,7 +743,7 @@ export class TreeSelector extends React.Component<
                       {creatable ? (
                         <a
                           onClick={this.handleAdd.bind(this, null)}
-                          data-tooltip="添加一级节点"
+                          data-tooltip={rootCreateTip}
                         >
                           <Icon icon="plus" className="icon" />
                         </a>

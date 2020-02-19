@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import css = require('dom-helpers/style');
+import css = require('dom-helpers/style/index');
 import {ClassNamesFn, themeable} from '../theme';
 import Transition, {
   EXITED,
@@ -46,7 +46,7 @@ export class Collapse extends React.Component<CollapseProps, any> {
 
   @autobind
   handleEnter(elem: HTMLElement) {
-    elem.style['height'] = null;
+    elem.style['height'] = '';
   }
 
   @autobind
@@ -56,7 +56,7 @@ export class Collapse extends React.Component<CollapseProps, any> {
 
   @autobind
   handleEntered(elem: HTMLElement) {
-    elem.style['height'] = null;
+    elem.style['height'] = '';
   }
 
   @autobind
@@ -74,7 +74,7 @@ export class Collapse extends React.Component<CollapseProps, any> {
 
   @autobind
   handleExiting(elem: HTMLElement) {
-    elem.style['height'] = null;
+    elem.style['height'] = '';
   }
 
   render() {

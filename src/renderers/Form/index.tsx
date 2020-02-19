@@ -14,8 +14,7 @@ import {
   noop,
   isObject,
   isVisible,
-  createObject,
-  extendObject
+  cloneObject
 } from '../../utils/helper';
 import debouce = require('lodash/debounce');
 import flatten = require('lodash/flatten');
@@ -29,6 +28,9 @@ import {IComboStore} from '../../store/combo';
 import qs = require('qs');
 import {dataMapping} from '../../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../../utils/api';
+import Spinner from '../../components/Spinner';
+import {LazyComponent} from '../../components';
+import {isAlive} from 'mobx-state-tree';
 export type FormGroup = FormSchema & {
   title?: string;
   className?: string;
@@ -86,10 +88,11 @@ export interface FormProps extends RendererProps, FormSchema {
   persistData: boolean; // 开启本地缓存
   clearPersistDataAfterSubmit: boolean; // 提交成功后清空本地缓存
   trimValues?: boolean;
-  onInit?: (values: object) => any;
+  lazyLoad?: boolean;
+  onInit?: (values: object, props: any) => any;
   onReset?: (values: object) => void;
   onSubmit?: (values: object, action: any) => any;
-  onChange?: (values: object, diff: object) => any;
+  onChange?: (values: object, diff: object, props: any) => any;
   onFailed?: (reason: string, errors: any) => any;
   onFinished: (values: object, action: any) => any;
   onValidate: (values: object, form: any) => any;
@@ -100,6 +103,8 @@ export interface FormProps extends RendererProps, FormSchema {
     saveFailed?: string;
     validateFailed?: string;
   };
+  lazyChange?: boolean;
+  formLazyChange?: boolean;
 }
 
 export default class Form extends React.Component<FormProps, object> {
@@ -128,6 +133,7 @@ export default class Form extends React.Component<FormProps, object> {
   };
   static propsList: Array<string> = [
     'title',
+    'header',
     'controls',
     'tabs',
     'fieldSet',
@@ -149,7 +155,11 @@ export default class Form extends React.Component<FormProps, object> {
     'onChange',
     'onFailed',
     'onFinished',
-    'canAccessSuperData'
+    'canAccessSuperData',
+    'lazyChange',
+    'formLazyChange',
+    'lazyLoad',
+    'formInited'
   ];
 
   hooks: {
@@ -160,6 +170,10 @@ export default class Form extends React.Component<FormProps, object> {
   shouldLoadInitApi: boolean = false;
   timer: NodeJS.Timeout;
   mounted: boolean;
+  lazyHandleChange = debouce(this.handleChange.bind(this), 250, {
+    trailing: true,
+    leading: false
+  });
   constructor(props: FormProps) {
     super(props);
 
@@ -174,10 +188,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.submit = this.submit.bind(this);
     this.addHook = this.addHook.bind(this);
     this.removeHook = this.removeHook.bind(this);
-    this.handleChange = debouce(this.handleChange.bind(this), 250, {
-      trailing: true,
-      leading: false
-    });
+    this.handleChange = this.handleChange.bind(this);
     this.renderFormItems = this.renderFormItems.bind(this);
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
@@ -298,7 +309,8 @@ export default class Form extends React.Component<FormProps, object> {
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
-    (this.handleChange as any).cancel();
+    // this.lazyHandleChange.flush();
+    this.lazyHandleChange.cancel();
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
     const store = this.props.store;
@@ -309,7 +321,7 @@ export default class Form extends React.Component<FormProps, object> {
       store.parentStore.storeType === 'ComboStore'
     ) {
       const combo = store.parentStore as IComboStore;
-      combo.removeForm(store);
+      isAlive(combo) && combo.removeForm(store);
     }
   }
 
@@ -319,13 +331,25 @@ export default class Form extends React.Component<FormProps, object> {
     // 先拿出来数据，主要担心 form 被什么东西篡改了，然后又应用出去了
     // 之前遇到过问题，所以拿出来了。但是 options  loadOptions 默认值失效了。
     // 所以目前需要两个都要设置一下，再 init Hook 里面。
-    const data = {...store.data};
+    let data = cloneObject(store.data);
+    const initedAt = store.initedAt;
 
     store.setInited(true);
     const hooks: Array<(data: any) => Promise<any>> = this.hooks['init'] || [];
     await Promise.all(hooks.map(hook => hook(data)));
 
-    onInit && onInit(extendObject(store.data, data));
+    if (isAlive(store) && store.initedAt !== initedAt) {
+      // 说明，之前的数据已经失效了。
+      // 比如 combo 一开始设置了初始值，然后 form 的 initApi 又返回了新的值。
+      // 这个时候 store 的数据应该已经 init 了新的值。但是 data 还是老的，这个时候
+      // onInit 出去就是错误的。
+      data = {
+        ...data,
+        ...store.data
+      };
+    }
+
+    onInit && onInit(data, this.props);
 
     submitOnInit &&
       this.handleAction(
@@ -337,7 +361,7 @@ export default class Form extends React.Component<FormProps, object> {
       );
   }
 
-  reload(query?: any, silent?: boolean) {
+  reload(subPath?: string, query?: any, ctx?: any, silent?: boolean) {
     if (query) {
       return this.receive(query);
     }
@@ -389,7 +413,7 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   silentReload(target?: string, query?: any) {
-    this.reload(query, true);
+    this.reload(target, query, undefined, true);
   }
 
   initInterval(value: any) {
@@ -413,6 +437,7 @@ export default class Form extends React.Component<FormProps, object> {
   validate(forceValidate?: boolean): Promise<boolean> {
     const {store} = this.props;
 
+    this.flush();
     return store.validate(this.hooks['validate'] || [], forceValidate);
   }
 
@@ -424,6 +449,7 @@ export default class Form extends React.Component<FormProps, object> {
 
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
     const {store, messages} = this.props;
+    this.flush();
 
     return store.submit(
       fn,
@@ -432,14 +458,21 @@ export default class Form extends React.Component<FormProps, object> {
     );
   }
 
+  // 如果开启了 lazyChange，需要一个 flush 方法把队列中值应用上。
+  flush() {
+    const hooks = this.hooks['flush'] || [];
+    hooks.forEach(fn => fn());
+    this.lazyHandleChange.flush();
+  }
+
   reset() {
     const {store, onReset} = this.props;
     store.reset(onReset);
   }
 
-  addHook(fn: () => any, type: string = 'validate') {
+  addHook(fn: () => any, type: 'validate' | 'init' | 'flush' = 'validate') {
     this.hooks[type] = this.hooks[type] || [];
-    this.hooks[type].push(promisify(fn));
+    this.hooks[type].push(type === 'flush' ? fn : promisify(fn));
     return () => {
       this.removeHook(fn, type);
       fn = noop;
@@ -456,7 +489,7 @@ export default class Form extends React.Component<FormProps, object> {
     for (let i = 0, len = hooks.length; i < len; i++) {
       let hook = hooks[i];
 
-      if ((hook as any).raw === fn) {
+      if (hook === fn || (hook as any).raw === fn) {
         hooks.splice(i, 1);
         len--;
         i--;
@@ -467,7 +500,8 @@ export default class Form extends React.Component<FormProps, object> {
   handleChange(value: any, name: string, submit: boolean) {
     const {onChange, store, submitOnChange} = this.props;
 
-    onChange && onChange(store.data, difference(store.data, store.pristine));
+    onChange &&
+      onChange(store.data, difference(store.data, store.pristine), this.props);
 
     (submit || submitOnChange) &&
       this.handleAction(
@@ -495,7 +529,7 @@ export default class Form extends React.Component<FormProps, object> {
     action: Action,
     data: object,
     throwErrors: boolean = false,
-    delegate?: boolean
+    delegate?: IScopedContext
   ): any {
     const {
       store,
@@ -520,8 +554,16 @@ export default class Form extends React.Component<FormProps, object> {
       trimValues
     } = this.props;
 
+    // 做动作之前，先把数据同步一下。
+    this.flush();
+
     if (trimValues) {
       store.trimValues();
+    }
+
+    // 如果 data 就是当前层，则 flush 一下。
+    if (data === this.props.data) {
+      data = store.data;
     }
 
     if (Array.isArray(action.required) && action.required.length) {
@@ -540,12 +582,12 @@ export default class Form extends React.Component<FormProps, object> {
       });
     }
 
-    delegate || store.setCurrentAction(action);
     if (
       action.type === 'submit' ||
       action.actionType === 'submit' ||
       action.actionType === 'confirm'
     ) {
+      store.setCurrentAction(action);
       return this.submit(
         (values): any => {
           if (onSubmit && onSubmit(values, action) === false) {
@@ -627,12 +669,16 @@ export default class Form extends React.Component<FormProps, object> {
           }
         });
     } else if (action.type === 'reset') {
+      store.setCurrentAction(action);
       store.reset(onReset);
     } else if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       store.openDialog(data);
     } else if (action.actionType === 'drawer') {
+      store.setCurrentAction(action);
       store.openDrawer(data);
     } else if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
       if (!isEffectiveApi(action.api)) {
         return env.alert(`当 actionType 为 ajax 时，请设置 api 属性`);
       }
@@ -647,7 +693,11 @@ export default class Form extends React.Component<FormProps, object> {
         .then(async response => {
           response &&
             onChange &&
-            onChange(store.data, difference(store.data, store.pristine));
+            onChange(
+              store.data,
+              difference(store.data, store.pristine),
+              this.props
+            );
           if (store.validated) {
             await this.validate(true);
           }
@@ -662,10 +712,11 @@ export default class Form extends React.Component<FormProps, object> {
         })
         .catch(() => {});
     } else if (action.actionType === 'reload') {
+      store.setCurrentAction(action);
       action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
       // 不识别的丢给上层去处理。
-      return onAction(e, action, data, throwErrors);
+      return onAction(e, action, data, throwErrors, delegate || this.context);
     }
   }
 
@@ -684,7 +735,12 @@ export default class Form extends React.Component<FormProps, object> {
       targets[0].props.type === 'form'
     ) {
       store.updateData(values[0]);
-      onChange && onChange(store.data, difference(store.data, store.pristine));
+      onChange &&
+        onChange(
+          store.data,
+          difference(store.data, store.pristine),
+          this.props
+        );
     }
 
     store.closeDialog(true);
@@ -710,7 +766,12 @@ export default class Form extends React.Component<FormProps, object> {
       targets[0].props.type === 'form'
     ) {
       store.updateData(values[0]);
-      onChange && onChange(store.data, difference(store.data, store.pristine));
+      onChange &&
+        onChange(
+          store.data,
+          difference(store.data, store.pristine),
+          this.props
+        );
     }
 
     store.closeDrawer(true);
@@ -875,13 +936,17 @@ export default class Form extends React.Component<FormProps, object> {
       store,
       disabled,
       controlWidth,
-      resolveDefinitions
+      resolveDefinitions,
+      lazyChange,
+      formLazyChange
     } = props;
 
     const subProps = {
       formStore: form,
       data: store.data,
-      key,
+      key: `${(control as Schema).name || ''}-${
+        (control as Schema).type
+      }-${key}`,
       formInited: form.inited,
       formMode: mode,
       formHorizontal: horizontal,
@@ -889,7 +954,8 @@ export default class Form extends React.Component<FormProps, object> {
       disabled: disabled || (control as Schema).disabled || form.loading,
       btnDisabled: form.loading || form.validating,
       onAction: this.handleAction,
-      onChange: this.handleChange,
+      onChange:
+        formLazyChange === false ? this.handleChange : this.lazyHandleChange,
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
@@ -897,7 +963,7 @@ export default class Form extends React.Component<FormProps, object> {
     };
 
     const subSchema: any =
-      control && (control as Schema).type === 'control'
+      (control as Schema).type === 'control'
         ? control
         : {
             type: 'control',
@@ -909,54 +975,47 @@ export default class Form extends React.Component<FormProps, object> {
       if (control.$ref) {
         subSchema.control = control = {
           ...resolveDefinitions(control.$ref),
-          ...control
+          ...control,
+          ...getExprProperties(control, store.data)
         };
         delete control.$ref;
+      } else {
+        subSchema.control = control = {
+          ...control,
+          ...getExprProperties(control, store.data)
+        };
       }
+
       control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
       control.visibleOn && (subSchema.visibleOn = control.visibleOn);
+      lazyChange === false && (control.changeImmediately = true);
     }
 
     return render(`${region ? `${region}/` : ''}${key}`, subSchema, subProps);
   }
 
   renderBody() {
-    const {tabs, fieldSet, controls} = this.props;
-
-    return this.renderFormItems({
+    const {
       tabs,
       fieldSet,
-      controls
-    });
-  }
-
-  render() {
-    const {
+      controls,
+      mode,
       className,
-      wrapWithPanel,
-      render,
-      title,
-      store,
-      panelClassName,
-      debug,
-      headerClassName,
-      footerClassName,
-      actionsClassName,
-      bodyClassName,
-      classPrefix: ns,
       classnames: cx,
+      debug,
       $path,
-      affixFooter,
-      mode
+      store,
+      render
     } = this.props;
+
     const WrapperComponent =
       this.props.wrapperComponent ||
       (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
 
-    let body = (
+    return (
       <WrapperComponent
-        onSubmit={this.handleFormSubmit}
         className={cx(`Form`, `Form--${mode || 'normal'}`, className)}
+        onSubmit={this.handleFormSubmit}
         noValidate
       >
         {debug ? (
@@ -965,7 +1024,13 @@ export default class Form extends React.Component<FormProps, object> {
           </pre>
         ) : null}
 
-        {this.renderBody()}
+        <Spinner show={store.loading} overlay />
+
+        {this.renderFormItems({
+          tabs,
+          fieldSet,
+          controls
+        })}
 
         {render(
           'modal',
@@ -1000,6 +1065,25 @@ export default class Form extends React.Component<FormProps, object> {
         )}
       </WrapperComponent>
     );
+  }
+
+  render() {
+    const {
+      wrapWithPanel,
+      render,
+      title,
+      store,
+      panelClassName,
+      headerClassName,
+      footerClassName,
+      actionsClassName,
+      bodyClassName,
+      classnames: cx,
+      affixFooter,
+      lazyLoad
+    } = this.props;
+
+    let body: JSX.Element = this.renderBody();
 
     if (wrapWithPanel) {
       body = render(
@@ -1022,6 +1106,10 @@ export default class Form extends React.Component<FormProps, object> {
           affixFooter
         }
       ) as JSX.Element;
+    }
+
+    if (lazyLoad) {
+      body = <LazyComponent>{body}</LazyComponent>;
     }
 
     return body;
@@ -1062,6 +1150,8 @@ export class FormRenderer extends Form {
   componentWillUnmount() {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+
+    super.componentWillUnmount();
   }
 
   doAction(action: Action, data: object, throwErrors: boolean = false) {
@@ -1073,7 +1163,7 @@ export class FormRenderer extends Form {
     action: Action,
     ctx: object,
     throwErrors: boolean = false,
-    delegate?: boolean
+    delegate?: IScopedContext
   ) {
     if (action.target && action.actionType !== 'reload') {
       const scoped = this.context as IScopedContext;

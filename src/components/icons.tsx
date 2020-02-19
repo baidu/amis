@@ -51,6 +51,15 @@ import FailIcon from '../icons/fail.svg';
 // @ts-ignore
 import SearchIcon from '../icons/search.svg';
 
+// @ts-ignore
+import BackIcon from '../icons/back.svg';
+
+// @ts-ignore
+import MoveIcon from '../icons/move.svg';
+
+// @ts-ignore
+import InfoIcon from '../icons/info.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -95,6 +104,8 @@ registerIcon('play', PlayIcon);
 registerIcon('pause', PauseIcon);
 registerIcon('left-arrow', LeftArrowIcon);
 registerIcon('right-arrow', RightArrowIcon);
+registerIcon('prev', LeftArrowIcon);
+registerIcon('next', RightArrowIcon);
 registerIcon('check', CheckIcon);
 registerIcon('plus', PlusIcon);
 registerIcon('minus', MinusIcon);
@@ -107,6 +118,9 @@ registerIcon('file', FileIcon);
 registerIcon('success', SuccessIcon);
 registerIcon('fail', FailIcon);
 registerIcon('search', SearchIcon);
+registerIcon('back', BackIcon);
+registerIcon('move', MoveIcon);
+registerIcon('info', InfoIcon);
 
 export function Icon({
   icon,

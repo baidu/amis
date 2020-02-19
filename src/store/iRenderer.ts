@@ -1,4 +1,4 @@
-import {types, getRoot, Instance} from 'mobx-state-tree';
+import {types, getRoot, Instance, destroy, isAlive} from 'mobx-state-tree';
 import {extendObject, createObject} from '../utils/helper';
 import {IRendererStore} from './index';
 import {dataMapping} from '../utils/tpl-builtin';
@@ -11,9 +11,12 @@ export const iRendererStore = types
     storeType: types.string,
     hasRemoteData: types.optional(types.boolean, false),
     data: types.optional(types.frozen(), {}),
+    initedAt: 0, // 初始 init 的时刻
     updatedAt: 0, // 从服务端更新时刻
     pristine: types.optional(types.frozen(), {}),
-    parentId: types.optional(types.string, ''),
+    disposed: false,
+    parentId: '',
+    childrenIds: types.optional(types.array(types.string), []),
     action: types.optional(types.frozen(), undefined),
     dialogOpen: false,
     dialogData: types.optional(types.frozen(), undefined),
@@ -24,7 +27,8 @@ export const iRendererStore = types
     return {
       // todo 不能自己引用自己
       get parentStore(): any {
-        return self.parentId &&
+        return isAlive(self) &&
+          self.parentId &&
           getRoot(self) &&
           (getRoot(self) as IRendererStore).storeType === 'RendererStore'
           ? (getRoot(self) as IRendererStore).stores.get(self.parentId)
@@ -35,8 +39,21 @@ export const iRendererStore = types
   .actions(self => {
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
 
+    function dispose() {
+      // 先标记自己是要销毁的。
+      self.disposed = true;
+      const parent = self.parentStore;
+
+      if (!self.childrenIds.length) {
+        const id = self.id;
+        destroy(self);
+        parent && parent.onChildDispose(id);
+      }
+    }
+
     return {
       initData(data: object = {}) {
+        self.initedAt = Date.now();
         self.pristine = data;
         self.data = data;
       },
@@ -152,7 +169,16 @@ export const iRendererStore = types
           dialogCallbacks.delete(self.drawerData);
           setTimeout(() => callback(result), 200);
         }
-      }
+      },
+
+      onChildDispose(childId: string) {
+        const childrenIds = self.childrenIds.filter(item => item !== childId);
+        self.childrenIds.replace(childrenIds);
+
+        self.disposed && dispose();
+      },
+
+      dispose
     };
   });
 

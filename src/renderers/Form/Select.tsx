@@ -12,6 +12,7 @@ import {dataMapping} from '../../utils/tpl-builtin';
 export interface SelectProps extends OptionsControlProps {
   autoComplete?: Api;
   searchable?: boolean;
+  defaultOpen?: boolean;
 }
 
 export default class SelectControl extends React.Component<SelectProps, any> {
@@ -21,9 +22,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   };
 
   input: any;
-  cache: {
-    [propName: string]: any;
-  } = {};
+  unHook: Function;
   constructor(props: SelectProps) {
     super(props);
 
@@ -33,6 +32,10 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       leading: false
     });
     this.inputRef = this.inputRef.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.unHook && this.unHook();
   }
 
   inputRef(ref: any) {
@@ -109,46 +112,49 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   }
 
   loadRemote(input: string) {
-    const {autoComplete, env, data, setOptions, setLoading} = this.props;
+    const {
+      autoComplete,
+      env,
+      data,
+      setOptions,
+      setLoading,
+      formInited,
+      addHook
+    } = this.props;
 
     if (!env || !env.fetcher) {
       throw new Error('fetcher is required');
     }
 
-    if (this.cache[input]) {
-      let options = this.cache[input] || [];
-      let combinedOptions = this.mergeOptions(options);
-      setOptions(combinedOptions);
+    if (!formInited) {
+      this.unHook && this.unHook();
+      return (this.unHook = addHook(this.loadRemote.bind(this, input), 'init'));
+    }
 
+    const ctx = createObject(data, {
+      term: input,
+      value: input
+    });
+
+    if (!isEffectiveApi(autoComplete, ctx)) {
       return Promise.resolve({
-        options: combinedOptions
+        options: []
       });
     }
 
     setLoading(true);
-    return (
-      isEffectiveApi(autoComplete, data) &&
-      env
-        .fetcher(
-          autoComplete,
-          createObject(data, {
-            term: input,
-            value: input
-          })
-        )
-        .then(ret => {
-          let options =
-            (ret.data && (ret.data as any).options) || ret.data || [];
-          this.cache[input] = options;
-          let combinedOptions = this.mergeOptions(options);
-          setOptions(combinedOptions);
+    return env
+      .fetcher(autoComplete, ctx)
+      .then(ret => {
+        let options = (ret.data && (ret.data as any).options) || ret.data || [];
+        let combinedOptions = this.mergeOptions(options);
+        setOptions(combinedOptions);
 
-          return Promise.resolve({
-            options: combinedOptions
-          });
-        })
-        .finally(() => setLoading(false))
-    );
+        return {
+          options: combinedOptions
+        };
+      })
+      .finally(() => setLoading(false));
   }
 
   mergeOptions(options: Array<object>) {

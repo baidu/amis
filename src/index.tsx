@@ -14,8 +14,6 @@ import {
 } from './factory';
 import {wrapFetcher, buildApi} from './utils/api';
 import {filter, reigsterTplEnginer, evalExpression} from './utils/tpl';
-import './utils/tpl-builtin';
-import './utils/tpl-lodash';
 import * as utils from './utils/helper';
 import {resizeSensor} from './utils/resize-sensor';
 import {setIconVendor} from './renderers/Form/IconPickerIcons';
@@ -25,6 +23,8 @@ import {
   NotFound,
   AlertComponent,
   alert,
+  ContextMenu,
+  openContextMenus,
   Alert2,
   confirm,
   AsideNav,
@@ -134,6 +134,7 @@ import './renderers/Grid';
 import './renderers/HBox';
 import './renderers/VBox';
 import './renderers/Image';
+import './renderers/Images';
 import './renderers/List';
 import './renderers/Operation';
 import './renderers/Page';
@@ -183,7 +184,7 @@ import {addRule, str2rules} from './utils/validations';
 import {normalizeOptions} from './components/Select';
 import {OptionsControl} from './renderers/Form/Options';
 
-import {classnames, getClassPrefix, setDefaultTheme} from './theme';
+import {classnames, getClassPrefix, setDefaultTheme, theme} from './theme';
 const classPrefix = getClassPrefix();
 
 export {
@@ -197,6 +198,8 @@ export {
   NotFound,
   AlertComponent,
   alert,
+  ContextMenu,
+  openContextMenus,
   Alert2,
   confirm,
   AsideNav,
@@ -253,6 +256,7 @@ export {
   Scoped,
   ScopedContext,
   setDefaultTheme,
+  theme,
   classPrefix,
   getClassPrefix,
   classnames

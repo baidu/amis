@@ -18,16 +18,23 @@ import Sortable = require('sortablejs');
 import {evalExpression, filter} from '../../utils/tpl';
 import find = require('lodash/find');
 import Select from '../../components/Select';
-import {dataMapping} from '../../utils/tpl-builtin';
+import {dataMapping, resolveVariable} from '../../utils/tpl-builtin';
 import {isEffectiveApi} from '../../utils/api';
 import {Alert2} from '../../components';
-
+import memoize from 'lodash/memoize';
 export interface Condition {
   test: string;
   controls: Array<Schema>;
   label: string;
   scaffold?: any;
   mode?: string;
+}
+
+function pickVars(vars:any, fields: Array<string>) {
+  return fields.reduce((data:any, key: string) => {
+    data[key] = resolveVariable(key, vars);
+    return data;
+  }, {})
 }
 
 export interface ComboProps extends FormControlProps {
@@ -60,6 +67,9 @@ export interface ComboProps extends FormControlProps {
   tabsMode: boolean;
   tabsStyle: '' | 'line' | 'card' | 'radio';
   tabsLabelTpl?: string;
+  lazyLoad?: boolean;
+  changeImmediately?: boolean;
+  strictMode?: boolean;
   messages?: {
     validateFailed?: string;
     minLengthValidateFailed?: string;
@@ -103,24 +113,40 @@ export default class ComboControl extends React.Component<ComboProps> {
     'noBorder',
     'conditions',
     'tabsMode',
-    'tabsStyle'
+    'tabsStyle',
+    'lazyLoad',
+    'changeImmediately',
+    'strictMode',
+    'controls',
+    'conditions',
+    'messages'
   ];
 
   subForms: Array<any> = [];
+  subFormDefaultValues: Array<{
+    index: number;
+    values: any;
+    setted: boolean;
+  }> = [];
+
   keys: Array<string> = [];
   dragTip?: HTMLElement;
   sortable?: Sortable;
   defaultValue?: any;
+  toDispose: Array<Function> = [];
+  id: string = guid();
   constructor(props: ComboProps) {
     super(props);
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSingleFormChange = this.handleSingleFormChange.bind(this);
     this.handleSingleFormInit = this.handleSingleFormInit.bind(this);
+    this.handleFormInit = this.handleFormInit.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.dragTipRef = this.dragTipRef.bind(this);
+    this.flush = this.flush.bind(this);
     this.handleComboTypeChange = this.handleComboTypeChange.bind(this);
     this.defaultValue = {
       ...props.scaffold
@@ -128,7 +154,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   componentWillMount() {
-    const {store, value, minLength, maxLength, formItem} = this.props;
+    const {store, value, minLength, maxLength, formItem, addHook} = this.props;
 
     store.config({
       minLength,
@@ -137,6 +163,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     });
 
     formItem && formItem.setSubStore(store);
+    addHook && this.toDispose.push(addHook(this.flush, 'flush'));
   }
 
   componentWillReceiveProps(nextProps: ComboProps) {
@@ -155,6 +182,17 @@ export default class ComboControl extends React.Component<ComboProps> {
       if (store.activeKey >= values.length) {
         store.setActiveKey(Math.max(0, values.length - 1));
       }
+
+      // combo 进来了新的值，且这次 form 初始化时带来的新值变化，但是之前的值已经 onInit 过了
+      // 所以，之前 onInit 设置进去的初始值是过时了的。这个时候修复一下。
+      if (nextProps.value !== props.value && !props.formInited && this.subFormDefaultValues.length) {
+        this.subFormDefaultValues = this.subFormDefaultValues.map((item, index) => {
+          return {
+            ...item,
+            values: values[index]
+          }
+        })  
+      }
     }
   }
 
@@ -162,6 +200,11 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {formItem} = this.props;
 
     formItem && formItem.setSubStore(null);
+
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
+    this.memoizedFormatValue.cache.clear?.();
+    this.makeFormRef.cache.clear?.();
   }
 
   getValueAsArray(props = this.props) {
@@ -179,7 +222,14 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   addItemWith(condition: Condition) {
-    const {flat, joinValues, delimiter, scaffold, disabled} = this.props;
+    const {
+      flat,
+      joinValues,
+      delimiter,
+      scaffold,
+      disabled,
+      submitOnChange
+    } = this.props;
 
     if (disabled) {
       return;
@@ -200,11 +250,18 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
-    this.props.onChange(value);
+    this.props.onChange(value, submitOnChange, true);
   }
 
   addItem() {
-    const {flat, joinValues, delimiter, scaffold, disabled} = this.props;
+    const {
+      flat,
+      joinValues,
+      delimiter,
+      scaffold,
+      disabled,
+      submitOnChange
+    } = this.props;
 
     if (disabled) {
       return;
@@ -225,7 +282,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
-    this.props.onChange(value);
+    this.props.onChange(value, submitOnChange, true);
   }
 
   async removeItem(key: number) {
@@ -274,15 +331,14 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.props.onChange(value);
   }
 
-  handleChange(index: number, values: any) {
+  handleChange(values: any, diff: any, {index}: any) {
     const {
-      formItem,
       flat,
       store,
       joinValues,
       delimiter,
       disabled,
-      validateOnChange
+      submitOnChange
     } = this.props;
 
     if (disabled) {
@@ -296,11 +352,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       value = value.join(delimiter || ',');
     }
 
-    this.props.onChange(value);
-
-    if (validateOnChange !== false && formItem && formItem.validated) {
-      this.subForms.forEach(item => item.validate());
-    }
+    this.props.onChange(value, submitOnChange, true);
 
     store.forms.forEach(item =>
       item.items.forEach(item => item.unique && item.syncOptions())
@@ -308,45 +360,78 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   handleSingleFormChange(values: object) {
-    this.props.onChange({
-      ...values
-    });
+    this.props.onChange(
+      {
+        ...values
+      },
+      this.props.submitOnChange,
+      true
+    );
   }
 
-  handleFormInit(index: number, values: any) {
+  handleFormInit(values: any, {index}: any) {
     const {
       syncDefaultValue,
-      disabled,
       flat,
       joinValues,
-      delimiter
+      delimiter,
+      formInited,
+      onChange,
+      submitOnChange,
+      setPrinstineValue
     } = this.props;
 
-    if (syncDefaultValue === false || disabled) {
+    this.subFormDefaultValues.push({
+      index,
+      values,
+      setted: false
+    });
+
+    if (syncDefaultValue === false  || this.subFormDefaultValues.length !== this.subForms.length) {
       return;
     }
 
     let value = this.getValueAsArray();
-    const newValue = flat ? values.flat : {...values};
+    let isModified = false;
+    this.subFormDefaultValues = this.subFormDefaultValues.map(
+      ({index, values, setted}) => {
+        const newValue = flat ? values.flat : {...values};
 
-    if (!isObjectShallowModified(value[index], newValue)) {
+        if (!setted && isObjectShallowModified(value[index], newValue)) {
+          value[index] = flat ? values.flat : {...values};
+          isModified = true;
+        }
+
+        return {
+          index,
+          values,
+          setted: true
+        };
+      }
+    );
+
+    if (!isModified) {
       return;
     }
-
-    value[index] = flat ? values.flat : {...values};
 
     if (flat && joinValues) {
       value = value.join(delimiter || ',');
     }
-    this.props.onChange(value);
+
+    formInited
+      ? onChange(value, submitOnChange, true)
+      : setPrinstineValue(value);
   }
 
   handleSingleFormInit(values: any) {
-    this.props.syncDefaultValue !== false &&
-      this.props.setPrinstineValue &&
-      this.props.setPrinstineValue({
+    const {syncDefaultValue, setPrinstineValue, value} = this.props;
+
+
+    if (syncDefaultValue !== false && isObjectShallowModified(value, values) && setPrinstineValue) {
+      setPrinstineValue({
         ...values
-      });
+      })
+    }
   }
 
   handleAction(action: Action): any {
@@ -389,6 +474,10 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
   }
 
+  flush() {
+    this.subForms.forEach(form => form.flush());
+  }
+
   dragTipRef(ref: any) {
     if (!this.dragTip && ref) {
       this.initDragging();
@@ -401,11 +490,12 @@ export default class ComboControl extends React.Component<ComboProps> {
 
   initDragging() {
     const ns = this.props.classPrefix;
+    const submitOnChange = this.props.submitOnChange;
     const dom = findDOMNode(this) as HTMLElement;
     this.sortable = new Sortable(
       dom.querySelector(`.${ns}Combo-items`) as HTMLElement,
       {
-        group: 'combo',
+        group: `combo-${this.id}`,
         animation: 150,
         handle: `.${ns}Combo-itemDrager`,
         ghostClass: `${ns}Combo-item--dragging`,
@@ -430,7 +520,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           const newValue = value.concat();
           newValue.splice(e.newIndex, 0, newValue.splice(e.oldIndex, 1)[0]);
           this.keys.splice(e.newIndex, 0, this.keys.splice(e.oldIndex, 1)[0]);
-          this.props.onChange(newValue);
+          this.props.onChange(newValue, submitOnChange, true);
         }
       }
     );
@@ -440,19 +530,47 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.sortable && this.sortable.destroy();
   }
 
+  refsMap: {
+    [propName: number]: any;
+  } = {};
+
+  makeFormRef = memoize((index: number) => (ref: any) =>
+    this.formRef(ref, index)
+  );
+
   formRef(ref: any, index: number = 0) {
     if (ref) {
       while (ref && ref.getWrappedInstance) {
         ref = ref.getWrappedInstance();
       }
       this.subForms[index] = ref;
+      this.refsMap[index] = ref;
     } else {
-      this.subForms.splice(index, 1);
+      const form = this.refsMap[index];
+      this.subForms = this.subForms.filter(item => item !== form);
+      this.subFormDefaultValues = this.subFormDefaultValues.filter(
+        ({index: dIndex}) => dIndex !== index
+      );
+      delete this.refsMap[index];
     }
   }
 
+  memoizedFormatValue = memoize(
+    (strictMode: boolean, syncFields: Array<string> | void, value: any, index: number, data: any) => {
+      return createObject(
+        extendObject(data, {index, __index: index, ...data}),
+        {
+          ...value,
+          ...Array.isArray(syncFields) ? pickVars(data, syncFields!) : null
+        }
+      );
+    },
+    (strictMode: boolean, syncFields: Array<string> | void, value: any, index: number, data: any) =>
+    Array.isArray(syncFields) ? JSON.stringify([value, index, data, pickVars(data, syncFields)]): strictMode ? JSON.stringify([value, index]) : JSON.stringify([value, index, data])
+  );
+
   formatValue(value: any, index: number) {
-    const {flat, data} = this.props;
+    const {flat, data, strictMode, syncFields} = this.props;
 
     if (flat) {
       value = {
@@ -461,10 +579,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     value = value || this.defaultValue;
-    return createObject(
-      extendObject(data, {index, __index: index, ...data}),
-      value
-    );
+
+    return this.memoizedFormatValue(strictMode !== false, syncFields, value, index, data);
   }
 
   pickCondition(value: any): Condition | null {
@@ -476,7 +592,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   handleComboTypeChange(index: number, selection: any) {
-    const {multiple, onChange, value, flat} = this.props;
+    const {multiple, onChange, value, flat, submitOnChange} = this.props;
 
     const conditions: Array<Condition> = this.props.conditions as Array<
       Condition
@@ -494,11 +610,15 @@ export default class ComboControl extends React.Component<ComboProps> {
       });
 
       // todo 支持 flat
-      onChange(newValue);
+      onChange(newValue, submitOnChange, true);
     } else {
-      onChange({
-        ...dataMapping(condition.scaffold || {}, value)
-      });
+      onChange(
+        {
+          ...dataMapping(condition.scaffold || {}, value)
+        },
+        submitOnChange,
+        true
+      );
     }
   }
 
@@ -536,7 +656,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       addIcon,
       deleteIcon,
       tabsLabelTpl,
-      conditions
+      conditions,
+      changeImmediately
     } = this.props;
 
     let controls = this.props.controls;
@@ -643,7 +764,8 @@ export default class ComboControl extends React.Component<ComboProps> {
               key={this.keys[index] || (this.keys[index] = guid())}
               toolbar={toolbar}
               eventKey={index}
-              mountOnEnter={true}
+              // 不能按需渲染，因为 unique 会失效。
+              mountOnEnter={false}
               unmountOnExit={false}
             >
               {condition && typeSwitchable !== false ? (
@@ -656,6 +778,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       value: item.label
                     }))}
                     value={condition.label}
+                    clearable={false}
                   />
                 </div>
               ) : null}
@@ -675,11 +798,15 @@ export default class ComboControl extends React.Component<ComboProps> {
                       index,
                       disabled,
                       data,
-                      onChange: this.handleChange.bind(this, index),
-                      onInit: this.handleFormInit.bind(this, index),
+                      onChange: this.handleChange,
+                      onInit: this.handleFormInit,
                       onAction: this.handleAction,
-                      ref: (ref: any) => this.formRef(ref, index),
-                      canAccessSuperData
+                      ref: this.makeFormRef(index),
+                      canAccessSuperData,
+                      lazyChange: changeImmediately ? false : true,
+                      lazyFormChange: changeImmediately ? false : true,
+                      value: undefined,
+                      formItemValue: undefined
                     }
                   )
                 ) : (
@@ -724,7 +851,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       dragIcon,
       deleteIcon,
       noBorder,
-      conditions
+      conditions,
+      lazyLoad,
+      changeImmediately
     } = this.props;
 
     let controls = this.props.controls;
@@ -744,7 +873,8 @@ export default class ComboControl extends React.Component<ComboProps> {
         className={cx(
           `Combo Combo--multi`,
           multiLine ? `Combo--ver` : `Combo--hor`,
-          noBorder ? `Combo--noBorder` : ''
+          noBorder ? `Combo--noBorder` : '',
+          disabled ? 'is-disabled' : ''
         )}
       >
         <div className={cx(`Combo-items`)}>
@@ -825,6 +955,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                             })
                           )}
                           value={condition.label}
+                          clearable={false}
                         />
                       </div>
                     ) : null}
@@ -844,11 +975,16 @@ export default class ComboControl extends React.Component<ComboProps> {
                             index,
                             disabled,
                             data,
-                            onChange: this.handleChange.bind(this, index),
-                            onInit: this.handleFormInit.bind(this, index),
+                            onChange: this.handleChange,
+                            onInit: this.handleFormInit,
                             onAction: this.handleAction,
-                            ref: (ref: any) => this.formRef(ref, index),
-                            canAccessSuperData
+                            ref: this.makeFormRef(index),
+                            lazyChange: changeImmediately ? false : true,
+                            lazyFormChange: changeImmediately ? false : true,
+                            lazyLoad,
+                            canAccessSuperData,
+                            value: undefined,
+                            formItemValue: undefined
                           }
                         )
                       ) : (
@@ -925,7 +1061,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       canAccessSuperData,
       noBorder,
       disabled,
-      typeSwitchable
+      typeSwitchable,
     } = this.props;
 
     let controls = this.props.controls;
@@ -942,7 +1078,8 @@ export default class ComboControl extends React.Component<ComboProps> {
         className={cx(
           `Combo Combo--single`,
           multiLine ? `Combo--ver` : `Combo--hor`,
-          noBorder ? `Combo--noBorder` : ''
+          noBorder ? `Combo--noBorder` : '',
+          disabled ? 'is-disabled' : ''
         )}
       >
         <div className={cx(`Combo-item`)}>
@@ -956,6 +1093,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   value: item.label
                 }))}
                 value={condition.label}
+                clearable={false}
               />
             </div>
           ) : null}
@@ -976,7 +1114,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   disabled: disabled,
                   data: isObject(value) ? value : this.defaultValue,
                   onChange: this.handleSingleFormChange,
-                  ref: (ref: any) => this.formRef(ref),
+                  ref: this.makeFormRef(0),
                   onInit: this.handleSingleFormInit,
                   canAccessSuperData
                 }
@@ -993,7 +1131,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   render() {
-    const {multiple, className, classPrefix: ns, classnames: cx} = this.props;
+    const {multiple, className, classPrefix: ns, classnames: cx, disabled} = this.props;
 
     return (
       <div className={cx(`ComboControl`, className)}>

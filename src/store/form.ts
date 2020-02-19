@@ -3,6 +3,7 @@ import debounce = require('lodash/debounce');
 import {ServiceStore} from './service';
 import {FormItemStore, IFormItemStore, SFormItemStore} from './formItem';
 import {Api, fetchOptions, Payload} from '../types';
+import {ServerError} from '../utils/errors';
 import {
   getVariable,
   setVariable,
@@ -18,10 +19,6 @@ import {
 import {IComboStore} from './combo';
 import isEqual = require('lodash/isEqual');
 import {IRendererStore} from '.';
-
-class ServerError extends Error {
-  type = 'ServerError';
-}
 
 export const FormStore = ServiceStore.named('FormStore')
   .props({
@@ -187,9 +184,14 @@ export const FormStore = ServiceStore.named('FormStore')
       self.updateData(data);
     }
 
-    function syncOptions() {
-      self.items.forEach(item => item.syncOptions());
-    }
+    const syncOptions = debounce(
+      () => self.items.forEach(item => item.syncOptions()),
+      250,
+      {
+        trailing: true,
+        leading: false
+      }
+    );
 
     const saveRemote: (
       api: Api,
@@ -260,7 +262,7 @@ export const FormStore = ServiceStore.named('FormStore')
             );
           }
 
-          throw new ServerError(self.msg);
+          throw new ServerError(self.msg, json);
         } else {
           if (options && options.onSuccess) {
             const ret = options.onSuccess(json);
@@ -283,7 +285,23 @@ export const FormStore = ServiceStore.named('FormStore')
 
         self.markSaving(false);
         // console.error(e.stack);`
-        (getRoot(self) as IRendererStore).notify('error', e.message);
+
+        if (e.type === 'ServerError') {
+          const result = (e as ServerError).response;
+          (getRoot(self) as IRendererStore).notify(
+            'error',
+            e.message,
+            result.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: result.msgTimeout
+                }
+              : undefined
+          );
+        } else {
+          (getRoot(self) as IRendererStore).notify('error', e.message);
+        }
+
         throw e;
       }
     });
@@ -448,12 +466,18 @@ export const FormStore = ServiceStore.named('FormStore')
       self.inited = value;
     }
 
-    const setPersistData = debounce(() => {
-      localStorage.setItem(
-        location.pathname + self.path,
-        JSON.stringify(self.data)
-      );
-    }, 250);
+    const setPersistData = debounce(
+      () =>
+        localStorage.setItem(
+          location.pathname + self.path,
+          JSON.stringify(self.data)
+        ),
+      250,
+      {
+        trailing: true,
+        leading: false
+      }
+    );
 
     function getPersistData() {
       self.persistData = true;
@@ -486,7 +510,11 @@ export const FormStore = ServiceStore.named('FormStore')
       deleteValueByName,
       getPersistData,
       setPersistData,
-      clearPersistData
+      clearPersistData,
+      beforeDestroy() {
+        syncOptions.cancel();
+        setPersistData.cancel();
+      }
     };
   });
 

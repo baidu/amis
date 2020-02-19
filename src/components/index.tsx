@@ -6,6 +6,7 @@
 
 import NotFound from './404';
 import {default as Alert, alert, confirm} from './Alert';
+import {default as ContextMenu, openContextMenus} from './ContextMenu';
 import AsideNav from './AsideNav';
 import Button from './Button';
 import Checkbox from './Checkbox';
@@ -15,8 +16,8 @@ import ColorPicker from './ColorPicker';
 import DatePicker from './DatePicker';
 import DateRangePicker from './DateRangePicker';
 import Drawer from './Drawer';
-import {Tabs, Tab} from './Tabs';
-// import Editor from './Editor';
+import {default as Tabs, Tab} from './Tabs';
+import Editor from './Editor';
 import Html from './Html';
 import * as Icons from './icons';
 import Layout from './Layout';
@@ -43,6 +44,8 @@ export {
   NotFound,
   Alert as AlertComponent,
   alert,
+  ContextMenu,
+  openContextMenus,
   Alert2,
   confirm,
   AsideNav,
@@ -56,7 +59,7 @@ export {
   Drawer,
   Tabs,
   Tab,
-  // Editor,
+  Editor,
   Html,
   Icons,
   Layout,

@@ -18,7 +18,6 @@ export interface InputGroupProps extends RendererProps {
 
 @Renderer({
   test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?group$/,
-  sizeMutable: false,
   name: 'group-control'
 })
 export class ControlGroupRenderer extends React.Component<InputGroupProps> {
@@ -28,7 +27,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderControl(control: any, index: any, otherProps?: any) {
-    const {render} = this.props;
+    const {render, disabled} = this.props;
 
     if (!control) {
       return null;
@@ -49,15 +48,14 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
     }
 
     return render(`${index}`, subSchema, {
-      ...otherProps
+      ...otherProps,
+      disabled
     });
   }
 
   renderVertical(props = this.props) {
     let {controls, className, classnames: cx, mode, formMode, data} = props;
-
     formMode = mode || formMode;
-    controls = controls.filter(item => isVisible(item, data));
 
     return (
       <div
@@ -98,6 +96,14 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
     formMode = mode || formMode;
 
+    let horizontalDeeper =
+      horizontal ||
+      makeHorizontalDeeper(
+        formHorizontal,
+        controls.filter(item => item.mode !== 'inline' && isVisible(item, data))
+          .length
+      );
+
     return (
       <div
         className={cx(
@@ -126,12 +132,6 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           const columnWidth =
             control.columnRatio ||
             getWidthRate(control && control.columnClassName);
-          let horizontalDeeper =
-            horizontal ||
-            makeHorizontalDeeper(
-              formHorizontal,
-              controls.filter(item => item.mode !== 'inline').length
-            );
 
           return (
             <div

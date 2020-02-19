@@ -43,6 +43,7 @@ export interface TabsProps {
   className?: string;
   tabs?: Array<TabProps>;
   tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
+  toolbar?: React.ReactNode;
 }
 
 export class Tabs extends React.Component<TabsProps> {
@@ -105,7 +106,8 @@ export class Tabs extends React.Component<TabsProps> {
       mode: dMode,
       tabsMode,
       children,
-      additionBtns
+      additionBtns,
+      toolbar,
     } = this.props;
 
     if (!Array.isArray(children)) {
@@ -127,6 +129,7 @@ export class Tabs extends React.Component<TabsProps> {
         <ul className={cx('Tabs-links')} role="tablist">
           {children.map((tab, index) => this.renderNav(tab, index))}
           {additionBtns}
+          {toolbar}
         </ul>
 
         <div className={cx('Tabs-content', contentClassName)}>
