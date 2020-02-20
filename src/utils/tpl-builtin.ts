@@ -54,7 +54,7 @@ export function formatDuration(value: number): string {
 
   while (len--) {
     if (steps[len] && value >= steps[len]) {
-      parts.push(Math.round(value / steps[len]) + unit[len]);
+      parts.push(Math.floor(value / steps[len]) + unit[len]);
       value %= steps[len];
     } else if (len === 0 && value) {
       parts.push((value.toFixed ? value.toFixed(2) : '0') + unit[0]);
