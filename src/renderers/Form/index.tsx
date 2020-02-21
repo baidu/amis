@@ -279,7 +279,7 @@ export default class Form extends React.Component<FormProps, object> {
         .then(this.initInterval)
         .then(this.onInit);
     } else {
-      this.onInit();
+      setTimeout(this.onInit.bind(this), 4);
     }
   }
 

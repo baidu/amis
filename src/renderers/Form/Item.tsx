@@ -677,6 +677,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 // 除非配置  strictMode
 export const detectProps = [
   'formPristine', // 这个千万不能干掉。
+  'formInited',
   'addable',
   'addButtonClassName',
   'addButtonText',
