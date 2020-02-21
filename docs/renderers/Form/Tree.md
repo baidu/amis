@@ -17,6 +17,18 @@
 - 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。
 - `extractValue` 默认为 `false`, `joinValues`设置为`false`时生效, 开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。
 - `delimiter` 默认为 `,`
+- `selfDisabledAffectChildren` 默认为 `true`，当前节点禁用是否会禁用子节点
+- `rootCreatable` 默认为 `false`， 是否可以创建顶级节点
+- `rootCreateTip` 默认为 `"添加一级节点"`， 创建顶级节点的悬浮提示
+- `creatable` 默认为 `false`，是否可以创建子节点
+- `addApi` 创建节点接口，格式参考 [api](../Types.md#api)
+- `createTip` 默认为 `"添加孩子节点"`，添加节点按钮的鼠标悬浮提示
+- `editable` 默认为 `false`，是否可以编辑节点
+- `editApi` 编辑节点接口，格式参考 [api](../Types.md#api)
+- `editTip` 默认为 `"编辑该节点"`，编辑节点按钮的鼠标悬浮提示
+- `removable` 默认为 `false`，是否可以删除节点
+- `deleteApi` 删除节点接口，格式参考 [api](../Types.md#api)
+- `removeTip` 默认为 `"移除该节点"`，删除节点按钮的鼠标悬浮提示
 - **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="300" scope="form-item"
