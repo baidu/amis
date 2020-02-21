@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../../factory';
-import BasicService from '../Service';
+import BasicService, {ServiceProps} from '../Service';
 import {Schema} from '../../types';
 import Scoped, {ScopedContext, IScopedContext} from '../../Scoped';
 import {observer} from 'mobx-react';
@@ -22,9 +22,30 @@ export class ServiceRenderer extends BasicService {
     scoped.registerComponent(this);
   }
 
+  componentDidMount() {
+    const {formInited, addHook} = this.props;
+
+    if (formInited) {
+      super.componentDidMount();
+    } else {
+      addHook && addHook(this.initFetch, 'init');
+    }
+  }
+
+  componentDidUpdate(prevProps: ServiceProps) {
+    const {formInited} = this.props;
+    if (formInited) {
+      super.componentDidUpdate(prevProps);
+    }
+  }
+
   componentWillUnmount() {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+
+    const removeHook = this.props.removeHook;
+    removeHook && removeHook(this.initFetch, 'init');
+    super.componentWillUnmount();
   }
 
   renderBody(): JSX.Element {

@@ -9,6 +9,7 @@ import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {Spinner} from '../components';
+import {autobind} from '../utils/helper';
 
 export interface ServiceProps extends RendererProps {
   api?: Api;
@@ -48,33 +49,8 @@ export default class Service extends React.Component<ServiceProps> {
   }
 
   componentDidMount() {
-    const {
-      schemaApi,
-      initFetchSchema,
-      api,
-      initFetch,
-      initFetchOn,
-      store,
-      messages: {fetchSuccess, fetchFailed}
-    } = this.props;
-
     this.mounted = true;
-
-    if (isEffectiveApi(schemaApi, store.data, initFetchSchema)) {
-      store.fetchSchema(schemaApi, store.data, {
-        successMessage: fetchSuccess,
-        errorMessage: fetchFailed
-      });
-    }
-
-    if (isEffectiveApi(api, store.data, initFetch, initFetchOn)) {
-      store
-        .fetchInitData(api, store.data, {
-          successMessage: fetchSuccess,
-          errorMessage: fetchFailed
-        })
-        .then(this.initInterval);
-    }
+    this.initFetch();
   }
 
   componentDidUpdate(prevProps: ServiceProps) {
@@ -110,6 +86,35 @@ export default class Service extends React.Component<ServiceProps> {
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
+  }
+
+  @autobind
+  initFetch() {
+    const {
+      schemaApi,
+      initFetchSchema,
+      api,
+      initFetch,
+      initFetchOn,
+      store,
+      messages: {fetchSuccess, fetchFailed}
+    } = this.props;
+
+    if (isEffectiveApi(schemaApi, store.data, initFetchSchema)) {
+      store.fetchSchema(schemaApi, store.data, {
+        successMessage: fetchSuccess,
+        errorMessage: fetchFailed
+      });
+    }
+
+    if (isEffectiveApi(api, store.data, initFetch, initFetchOn)) {
+      store
+        .fetchInitData(api, store.data, {
+          successMessage: fetchSuccess,
+          errorMessage: fetchFailed
+        })
+        .then(this.initInterval);
+    }
   }
 
   initInterval(value: any) {
