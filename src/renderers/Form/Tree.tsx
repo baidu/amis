@@ -66,7 +66,7 @@ export default class TreeControl extends React.Component<TreeProps> {
       editTip,
       editControls,
       removable,
-      deleteTip,
+      removeTip,
       onDelete,
       rootCreatable,
       rootCreateTip
@@ -110,7 +110,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             editable={editable}
             editTip={editTip}
             removable={removable}
-            deleteTip={deleteTip}
+            removeTip={removeTip}
             onDelete={onDelete}
             bultinCUD={!addControls && !editControls}
           />
