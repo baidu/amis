@@ -1131,13 +1131,13 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   render() {
-    const {multiple, className, classPrefix: ns, classnames: cx, disabled} = this.props;
+    const {formInited, multiple, className, classPrefix: ns, classnames: cx, disabled} = this.props;
 
-    return (
+    return formInited ? (
       <div className={cx(`ComboControl`, className)}>
         {multiple ? this.renderMultipe() : this.renderSingle()}
       </div>
-    );
+    ) : null;
   }
 }
 
