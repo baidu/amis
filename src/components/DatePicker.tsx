@@ -211,8 +211,6 @@ export interface DateProps {
   disabled?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
-  minTime?: moment.Moment;
-  maxTime?: moment.Moment;
   clearable?: boolean;
   defaultValue?: any;
   utc?: boolean;

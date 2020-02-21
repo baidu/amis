@@ -36,11 +36,11 @@ export default class DateRangeControl extends React.Component<
   constructor(props: DateRangeProps) {
     super(props);
 
-    const {minDate, maxDate, data} = props;
+    const {minDate, maxDate, data, format} = props;
 
     this.state = {
-      minDate: minDate ? filterDate(minDate, data) : undefined,
-      maxDate: maxDate ? filterDate(maxDate, data) : undefined
+      minDate: minDate ? filterDate(minDate, data, format) : undefined,
+      maxDate: maxDate ? filterDate(maxDate, data, format) : undefined
     };
   }
 
@@ -52,7 +52,8 @@ export default class DateRangeControl extends React.Component<
       format,
       data,
       value,
-      joinValues
+      joinValues,
+      utc
     } = this.props;
 
     if (defaultValue && value === defaultValue) {
@@ -63,19 +64,20 @@ export default class DateRangeControl extends React.Component<
       setPrinstineValue(
         BaseDateRangePicker.formatValue(
           {
-            startDate: filterDate(arr[0], data),
-            endDate: filterDate(arr[1], data)
+            startDate: filterDate(arr[0], data, format),
+            endDate: filterDate(arr[1], data, format)
           },
           format,
           joinValues,
-          delimiter
+          delimiter,
+          utc
         )
       );
     }
   }
 
   componentWillReceiveProps(nextProps: DateRangeProps) {
-    const {data, minDate, maxDate} = nextProps;
+    const {data, minDate, maxDate, format} = nextProps;
     const props = this.props;
 
     if (
@@ -84,8 +86,8 @@ export default class DateRangeControl extends React.Component<
       props.data !== data
     ) {
       this.setState({
-        minDate: minDate ? filterDate(minDate, data) : undefined,
-        maxDate: maxDate ? filterDate(maxDate, data) : undefined
+        minDate: minDate ? filterDate(minDate, data, format) : undefined,
+        maxDate: maxDate ? filterDate(maxDate, data, format) : undefined
       });
     }
   }
@@ -94,10 +96,11 @@ export default class DateRangeControl extends React.Component<
     const {
       defaultValue,
       delimiter,
-      format,
       joinValues,
       setPrinstineValue,
-      data
+      data,
+      utc,
+      format
     } = this.props;
 
     if (prevProps.defaultValue !== defaultValue) {
@@ -110,12 +113,13 @@ export default class DateRangeControl extends React.Component<
         arr
           ? BaseDateRangePicker.formatValue(
               {
-                startDate: filterDate(arr[0], data),
-                endDate: filterDate(arr[1], data)
+                startDate: filterDate(arr[0], data, format),
+                endDate: filterDate(arr[1], data, format)
               },
               format,
               joinValues,
-              delimiter
+              delimiter,
+              utc
             )
           : undefined
       );

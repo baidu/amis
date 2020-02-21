@@ -83,9 +83,11 @@ export const relativeValueRe = /^(.+)?(\+|-)(\d+)(minute|min|hour|day|week|month
 export const filterDate = (
   value: string,
   data: object = {},
-  format = 'X'
+  format = 'X',
+  utc: boolean = false
 ): moment.Moment => {
-  let m;
+  let m,
+    mm = utc ? moment.utc : moment;
 
   if (typeof value === 'string') {
     value = value.trim();
@@ -97,8 +99,8 @@ export const filterDate = (
     const date = new Date();
     const step = parseInt(m[3], 10);
     const from = m[1]
-      ? filterDate(m[1], data, format)
-      : moment(
+      ? filterDate(m[1], data, format, utc)
+      : mm(
           /(minute|min|hour|second)s?/.test(m[4])
             ? [
                 date.getFullYear(),
@@ -116,12 +118,12 @@ export const filterDate = (
       : from.add(step, timeUnitMap[m[4]] as moment.DurationInputArg2);
     //   return from[m[2] === '-' ? 'subtract' : 'add'](step, mapping[m[4]] || m[4]);
   } else if (value === 'now') {
-    return moment();
+    return mm();
   } else if (value === 'today') {
     const date = new Date();
-    return moment([date.getFullYear(), date.getMonth(), date.getDate()]);
+    return mm([date.getFullYear(), date.getMonth(), date.getDate()]);
   } else {
-    return moment(value, format);
+    return mm(value, format);
   }
 };
 

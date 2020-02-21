@@ -18,15 +18,11 @@ export interface DateProps extends FormControlProps {
   utc?: boolean; // 设定是否存储 utc 时间。
   minDate?: string;
   maxDate?: string;
-  maxTime?: string;
-  minTime?: string;
 }
 
 interface DateControlState {
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
-  minTime?: moment.Moment;
-  maxTime?: moment.Moment;
 }
 
 export default class DateControl extends React.PureComponent<
@@ -50,9 +46,6 @@ export default class DateControl extends React.PureComponent<
     const {
       minDate,
       maxDate,
-      maxTime,
-      minTime,
-      timeFormat,
       value,
       defaultValue,
       setPrinstineValue,
@@ -62,16 +55,13 @@ export default class DateControl extends React.PureComponent<
     } = this.props;
 
     if (defaultValue && value === defaultValue) {
-      setPrinstineValue(
-        filterDate(defaultValue, data, format, utc).format(format)
-      );
+      const date = filterDate(defaultValue, data, format);
+      setPrinstineValue((utc ? moment.utc(date) : date).format(format));
     }
 
     this.setState({
-      minDate: minDate ? filterDate(minDate, data, format, utc) : undefined,
-      maxDate: maxDate ? filterDate(maxDate, data, format, utc) : undefined,
-      minTime: minTime ? filterDate(minTime, data, timeFormat, utc) : undefined,
-      maxTime: maxTime ? filterDate(maxTime, data, timeFormat, utc) : undefined
+      minDate: minDate ? filterDate(minDate, data, format) : undefined,
+      maxDate: maxDate ? filterDate(maxDate, data, format) : undefined
     });
   }
 
@@ -79,8 +69,13 @@ export default class DateControl extends React.PureComponent<
     const props = this.props;
 
     if (props.defaultValue !== nextProps.defaultValue) {
+      const date = filterDate(
+        nextProps.defaultValue,
+        nextProps.data,
+        nextProps.format
+      );
       nextProps.setPrinstineValue(
-        filterDate(nextProps.defaultValue, nextProps.data)
+        (nextProps.utc ? moment.utc(date) : date).format(nextProps.format)
       );
     }
 
@@ -89,23 +84,12 @@ export default class DateControl extends React.PureComponent<
       props.maxDate !== nextProps.maxDate ||
       props.data !== nextProps.data
     ) {
-      const utc = nextProps.utc;
       this.setState({
         minDate: nextProps.minDate
-          ? filterDate(
-              nextProps.minDate,
-              nextProps.data,
-              this.props.format,
-              utc
-            )
+          ? filterDate(nextProps.minDate, nextProps.data, this.props.format)
           : undefined,
         maxDate: nextProps.maxDate
-          ? filterDate(
-              nextProps.maxDate,
-              nextProps.data,
-              this.props.format,
-              utc
-            )
+          ? filterDate(nextProps.maxDate, nextProps.data, this.props.format)
           : undefined
       });
     }
