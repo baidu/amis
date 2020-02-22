@@ -5,7 +5,8 @@ import {
   flow,
   getEnv,
   getRoot,
-  IAnyModelType
+  IAnyModelType,
+  isAlive
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {resolveVariable} from '../utils/tpl-builtin';
@@ -865,6 +866,9 @@ export const TableStore = iRendererStore
       // events
       afterAttach() {
         setTimeout(() => {
+          if (!isAlive(self)) {
+            return;
+          }
           const key =
             location.pathname +
             self.path +
