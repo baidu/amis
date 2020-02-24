@@ -294,6 +294,9 @@ fieldset:disabled a.#{$ns}Button {
   color: $Button--link-color;
   text-decoration: $link-decoration;
   border: none;
+  padding-top: 0;
+  padding-bottom: 0;
+  height: auto;
 
   @include hover-focus {
     color: $Button--link-onHover-color;
