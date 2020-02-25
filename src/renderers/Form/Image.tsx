@@ -533,7 +533,7 @@ export default class ImageControl extends React.Component<
         : newValue;
     }
 
-    onChange((this.emitValue = newValue), undefined, changeImmediately);
+    onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
   }
 
   handleSelect() {
