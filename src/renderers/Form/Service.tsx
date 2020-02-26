@@ -8,7 +8,7 @@ import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from '../../store/service';
 
 @Renderer({
-  test: /(^|\/)form\/(.*)\/service$/,
+  test: /(^|\/)form(?:\/.+)?\/control\/service$/,
   weight: -100,
   storeType: ServiceStore.name,
   storeExtendsData: false,
@@ -64,10 +64,10 @@ export class ServiceRenderer extends BasicService {
 
     const finnalSchema = store.schema ||
       schema || {
-        controls,
-        tabs,
-        feildSet
-      };
+      controls,
+      tabs,
+      feildSet
+    };
     if (
       finnalSchema &&
       !finnalSchema.type &&
