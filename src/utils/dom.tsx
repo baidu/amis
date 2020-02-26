@@ -150,8 +150,7 @@ export function calculatePosition(
       : getPosition(target, container);
   const {height: overlayHeight, width: overlayWidth} = getOffset(overlayNode);
   const clip = target.getBoundingClientRect();
-  const scaleX = clip.width / target.offsetWidth;
-  const scaleY = clip.height / target.offsetHeight;
+  const scale = clip.height / target.scrollHeight;
 
   // auto 尝试四个方向对齐。
   placement =
@@ -199,8 +198,8 @@ export function calculatePosition(
       // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
       if (tests.length) {
         const transformed = {
-          x: clip.x + positionLeft / scaleX - childOffset.left,
-          y: clip.y + positionTop / scaleY - childOffset.top,
+          x: clip.x + positionLeft / scale - childOffset.left,
+          y: clip.y + positionTop / scale - childOffset.top,
           width: overlayWidth,
           height: overlayHeight
         };
@@ -269,10 +268,10 @@ export function calculatePosition(
   }
 
   return {
-    positionLeft: positionLeft / scaleX,
-    positionTop: positionTop / scaleY,
-    arrowOffsetLeft: arrowOffsetLeft / scaleX,
-    arrowOffsetTop: arrowOffsetTop / scaleY,
+    positionLeft: positionLeft / scale,
+    positionTop: positionTop / scale,
+    arrowOffsetLeft: arrowOffsetLeft / scale,
+    arrowOffsetTop: arrowOffsetTop / scale,
     activePlacement
   };
 }
