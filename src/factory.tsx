@@ -578,6 +578,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     } else if (typeof schema.component === 'function') {
       return React.createElement(schema.component as any, {
         ...rest,
+        ...schema,
         $path: $path,
         render: this.renderChild
       });
