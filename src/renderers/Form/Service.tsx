@@ -8,7 +8,7 @@ import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from '../../store/service';
 
 @Renderer({
-  test: /(^|\/)form(?:\/.+)?\/control\/service$/,
+  test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?service$/,
   weight: -100,
   storeType: ServiceStore.name,
   storeExtendsData: false,
