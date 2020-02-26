@@ -31,6 +31,7 @@ import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {LazyComponent} from '../../components';
 import {isAlive} from 'mobx-state-tree';
+import {asFormItem} from './Item';
 export type FormGroup = FormSchema & {
   title?: string;
   className?: string;
@@ -984,6 +985,12 @@ export default class Form extends React.Component<FormProps, object> {
           ...control,
           ...getExprProperties(control, store.data)
         };
+      }
+
+      if (control.component && control.label && control.name) {
+        control.component = asFormItem(control.options || {})(
+          control.component
+        );
       }
 
       control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
