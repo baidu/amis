@@ -429,17 +429,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               (messages && messages.saveFailed)
           })
           .then(async () => {
-            if (action.feedback && isVisible(action.feedback, store.data)) {
-              await this.openFeedback(action.feedback, store.data);
+            const data = createObject(ctx, store.data);
+            if (action.feedback && isVisible(action.feedback, data)) {
+              await this.openFeedback(action.feedback, data);
               stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
             }
 
             action.reload
-              ? this.reloadTarget(action.reload, store.data)
+              ? this.reloadTarget(action.reload, data)
               : this.search({[pageField || 'page']: 1}, undefined, true);
 
             action.redirect &&
-              env.jumpTo(filter(action.redirect, store.data), action);
+              env.jumpTo(filter(action.redirect, data), action);
           })
           .catch(() => null);
     } else if (onAction) {
