@@ -117,7 +117,7 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 ```js
 import {registerFilter} from 'amis';
 
-registerFilter('my-filter', (input: string) => `${input}Boom`);
+registerFilter('myfilter', (input: string) => `${input}Boom`);
 ```
 
-加入成功后就可以这样使用了 `${xxx | my-filter}`。 如果 `xxx` 的值是 `abc` 那么输出将会是 `abcBoom`。
+加入成功后就可以这样使用了 `${xxx | myfilter}`。 如果 `xxx` 的值是 `abc` 那么输出将会是 `abcBoom`。
