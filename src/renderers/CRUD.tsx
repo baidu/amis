@@ -428,8 +428,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               (action.messages && action.messages.failed) ||
               (messages && messages.saveFailed)
           })
-          .then(async () => {
-            const data = createObject(ctx, store.data);
+          .then(async (payload: object) => {
+            const data = createObject(ctx, payload);
             if (action.feedback && isVisible(action.feedback, data)) {
               await this.openFeedback(action.feedback, data);
               stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
