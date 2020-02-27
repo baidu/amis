@@ -104,7 +104,7 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
   - `isTrue` 目标值为真通过筛选。
   - `isFalse` 目标值为假时通过筛选。
   - `match` 模糊匹配后面的参数。`${xxx|filter:a,b:match:keywords}` 表示 xxx 里面的成员，如果字段 a 或者 字段 b 模糊匹配 keywords 变量的值，则通过筛选。
-  - `equals` 相对于模糊匹配，这个就是时相对精确匹配了，用法跟 `match` 一样。
+  - `equals` 相对于模糊匹配，这个就相对精确匹配了，用法跟 `match` 一样。
 
 组合使用。
 
