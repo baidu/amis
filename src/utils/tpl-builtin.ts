@@ -238,6 +238,17 @@ export const filters: {
       fn = value => !value;
     } else if (directive === 'isExists') {
       fn = value => typeof value !== 'undefined';
+    } else if (directive === 'equals' || directive === 'equal') {
+      arg1 = arg1
+        ? /^('|")(.*)\1$/.test(arg1)
+          ? RegExp.$2
+          : resolveVariable(arg1, this as any)
+        : '';
+      // 比对的值是空时直接返回。
+      if (!arg1) {
+        return input;
+      }
+      fn = value => arg1 == value;
     } else {
       if (directive !== 'match') {
         directive = 'match';
