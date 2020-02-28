@@ -62,6 +62,7 @@
   }
 
   &-itemLabel {
+    display: flex;
     &:hover {
       background: $Tree-item-onHover-bg;
     }
@@ -223,6 +224,7 @@
 
   &-itemText {
     cursor: pointer;
+    flex: 1 auto;
   }
 
   &-placeholder {
