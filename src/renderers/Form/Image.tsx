@@ -569,8 +569,6 @@ export default class ImageControl extends React.Component<
       }
 
       return this.setState({
-        locked: true,
-        lockedReason: '请选择放弃或者应用',
         cropFile: file
       });
     }
@@ -853,6 +851,11 @@ export default class ImageControl extends React.Component<
   validate(): any {
     if (this.state.locked && this.state.lockedReason) {
       return this.state.lockedReason;
+    } else if (this.state.cropFile) {
+      return new Promise(resolve => {
+        this.resolve = resolve;
+        this.handleCrop();
+      });
     } else if (
       this.state.uploading ||
       this.files.some(item => item.state === 'pending')
