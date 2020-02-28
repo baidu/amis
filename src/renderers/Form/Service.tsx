@@ -8,7 +8,7 @@ import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from '../../store/service';
 
 @Renderer({
-  test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?service$/,
+  test: /(^|\/)form\/(.*)\/service$/,
   weight: -100,
   storeType: ServiceStore.name,
   storeExtendsData: false,
@@ -25,7 +25,9 @@ export class ServiceRenderer extends BasicService {
   componentDidMount() {
     const {formInited, addHook} = this.props;
 
-    if (formInited) {
+    // form层级下的所有service应该都会走这里
+    // 但是传入props有可能是undefined，所以做个处理
+    if (formInited !== false) {
       super.componentDidMount();
     } else {
       addHook && addHook(this.initFetch, 'init');
