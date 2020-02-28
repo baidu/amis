@@ -36,7 +36,7 @@ export class ServiceRenderer extends BasicService {
 
   componentDidUpdate(prevProps: ServiceProps) {
     const {formInited} = this.props;
-    if (formInited) {
+    if (formInited !== false) {
       super.componentDidUpdate(prevProps);
     }
   }
