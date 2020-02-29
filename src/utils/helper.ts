@@ -1,8 +1,8 @@
-import isPlainObject = require('lodash/isPlainObject');
-import transform = require('lodash/transform');
-import isEqual = require('lodash/isEqual');
-import lodashIsObject = require('lodash/isObject');
-import uniq = require('lodash/uniq');
+import isPlainObject from 'lodash/isPlainObject';
+import transform from 'lodash/transform';
+import isEqual from 'lodash/isEqual';
+import lodashIsObject from 'lodash/isObject';
+import uniq from 'lodash/uniq';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
 import {boundMethod} from 'autobind-decorator';

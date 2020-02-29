@@ -1,5 +1,5 @@
 import {types, getEnv, flow, getRoot, detach} from 'mobx-state-tree';
-import debounce = require('lodash/debounce');
+import debounce from 'lodash/debounce';
 import {ServiceStore} from './service';
 import {FormItemStore, IFormItemStore, SFormItemStore} from './formItem';
 import {Api, fetchOptions, Payload} from '../types';
@@ -17,7 +17,7 @@ import {
   mapObject
 } from '../utils/helper';
 import {IComboStore} from './combo';
-import isEqual = require('lodash/isEqual');
+import isEqual from 'lodash/isEqual';
 import {IRendererStore} from '.';
 
 export const FormStore = ServiceStore.named('FormStore')

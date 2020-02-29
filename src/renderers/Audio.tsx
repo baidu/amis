@@ -1,5 +1,5 @@
 import React from 'react';
-import upperFirst = require('lodash/upperFirst');
+import upperFirst from 'lodash/upperFirst';
 import {Renderer, RendererProps} from '../factory';
 import {autobind} from '../utils/helper';
 import {Icon} from '../components/icons';
