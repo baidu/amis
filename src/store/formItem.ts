@@ -11,7 +11,7 @@ import {str2rules, validate as doValidate} from '../utils/validations';
 import {Api, Payload, fetchOptions} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
-import findIndex = require('lodash/findIndex');
+import findIndex from 'lodash/findIndex';
 import {
   isArrayChildrenModified,
   isObject,
@@ -22,9 +22,9 @@ import {
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
 import {normalizeOptions, optionValueCompare} from '../components/Select';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import {SimpleMap} from '../utils/SimpleMap';
-import memoize = require('lodash/memoize');
+import memoize from 'lodash/memoize';
 
 interface IOption {
   value?: string | number | null;

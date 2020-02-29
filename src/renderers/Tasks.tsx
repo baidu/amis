@@ -4,7 +4,7 @@ import {ServiceStore, IServiceStore} from '../store/service';
 import cx from 'classnames';
 import getExprProperties from '../utils/filter-schema';
 import {Api, Payload} from '../types';
-import update = require('react-addons-update');
+import update from 'react-addons-update';
 import {isEffectiveApi, isApiOutdated} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 

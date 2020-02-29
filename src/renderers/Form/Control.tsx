@@ -1,6 +1,6 @@
 import React from 'react';
 import {IFormStore, IFormItemStore} from '../../store/form';
-import debouce = require('lodash/debounce');
+import debouce from 'lodash/debounce';
 
 import {RendererProps, Renderer} from '../../factory';
 import {ComboStore, IComboStore, IUniqueGroup} from '../../store/combo';

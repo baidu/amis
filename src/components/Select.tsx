@@ -5,7 +5,7 @@
  * @date 2017-11-07
  */
 
-import uncontrollable = require('uncontrollable');
+import uncontrollable from 'uncontrollable';
 import React from 'react';
 import 'react-datetime/css/react-datetime.css';
 import Overlay from './Overlay';
@@ -15,9 +15,9 @@ import {closeIcon, Icon} from './icons';
 // @ts-ignore
 import matchSorter from 'match-sorter';
 import {noop, isObject} from '../utils/helper';
-import find = require('lodash/find');
-import isPlainObject = require('lodash/isPlainObject');
-import union = require('lodash/union');
+import find from 'lodash/find';
+import isPlainObject from 'lodash/isPlainObject';
+import union from 'lodash/union';
 import {highlight} from '../renderers/Form/Options';
 import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable} from '../theme';

@@ -4,7 +4,7 @@ import {FormItem, FormControlProps} from './Item';
 import {filter} from '../../utils/tpl';
 import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
-import debouce = require('lodash/debounce');
+import debouce from 'lodash/debounce';
 import {isPureVariable} from '../../utils/tpl-builtin';
 
 function loadComponent(): Promise<React.ReactType> {

@@ -5,16 +5,16 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import PropTypes from 'prop-types';
-import isPlainObject = require('lodash/isPlainObject');
+import isPlainObject from 'lodash/isPlainObject';
 import {RendererProps} from '../factory';
 import cx from 'classnames';
-import hoistNonReactStatic = require('hoist-non-react-statics');
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import onClickOutside from 'react-onclickoutside';
 import {Action} from '../types';
 import keycode from 'keycode';
-import matches = require('dom-helpers/query/matches');
+import matches from 'dom-helpers/query/matches';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 
