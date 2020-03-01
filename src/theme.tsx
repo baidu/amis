@@ -1,7 +1,7 @@
 // 主题管理
 import cx from 'classnames';
 import React from 'react';
-import hoistNonReactStatic = require('hoist-non-react-statics');
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import {ExtractProps, Omit} from './types';
 
 export type ClassValue =

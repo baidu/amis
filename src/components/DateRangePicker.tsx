@@ -4,8 +4,8 @@
  * @author fex
  */
 
-import React = require('react');
-import moment = require('moment');
+import React from 'react';
+import moment from 'moment';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import {Icon} from './icons';

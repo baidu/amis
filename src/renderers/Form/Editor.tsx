@@ -1,7 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps} from './Item';
 import LazyComponent from '../../components/LazyComponent';
-import debouce = require('lodash/debounce');
+import debouce from 'lodash/debounce';
 import Editor from '../../components/Editor';
 
 export interface EditorProps extends FormControlProps {

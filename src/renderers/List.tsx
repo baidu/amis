@@ -19,7 +19,7 @@ import {
 import {resolveVariable} from '../utils/tpl-builtin';
 import QuickEdit from './QuickEdit';
 import PopOver from './PopOver';
-import Sortable = require('sortablejs');
+import Sortable from 'sortablejs';
 import {TableCell} from './Table';
 import Copyable from './Copyable';
 

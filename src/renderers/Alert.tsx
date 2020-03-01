@@ -1,5 +1,5 @@
 import {Renderer, RendererProps} from '../factory';
-import React = require('react');
+import React from 'react';
 import Alert, {AlertProps} from '../components/Alert2';
 
 @Renderer({

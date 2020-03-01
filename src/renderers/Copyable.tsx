@@ -6,7 +6,7 @@
 import React from 'react';
 import {RendererProps} from '../factory';
 import cx from 'classnames';
-import hoistNonReactStatic = require('hoist-non-react-statics');
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import Button from '../components/Button';
 import {filter} from '../utils/tpl';
 
