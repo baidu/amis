@@ -4,7 +4,7 @@ import {FormItem, FormControlProps} from './Item';
 import Cropper from 'react-cropper';
 import DropZone from 'react-dropzone';
 import 'blueimp-canvastoblob';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import qs from 'qs';
 import {Payload} from '../../types';
 import {buildApi} from '../../utils/api';

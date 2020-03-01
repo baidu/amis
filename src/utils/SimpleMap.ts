@@ -1,5 +1,5 @@
-import find = require('lodash/find');
-import findIndex = require('lodash/findIndex');
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 
 export class SimpleMap<V = any, K = any> {
   private readonly list: Array<{

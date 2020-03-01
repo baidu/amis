@@ -16,16 +16,16 @@ import {
   isVisible,
   cloneObject
 } from '../../utils/helper';
-import debouce = require('lodash/debounce');
-import flatten = require('lodash/flatten');
-import find = require('lodash/find');
+import debouce from 'lodash/debounce';
+import flatten from 'lodash/flatten';
+import find from 'lodash/find';
 import Scoped, {
   ScopedContext,
   IScopedContext,
   ScopedComponentType
 } from '../../Scoped';
 import {IComboStore} from '../../store/combo';
-import qs = require('qs');
+import qs from 'qs';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';

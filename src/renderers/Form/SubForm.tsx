@@ -1,8 +1,8 @@
 import React from 'react';
 import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
-import omit = require('lodash/omit');
-import pick = require('lodash/pick');
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
 import {createObject} from '../../utils/helper';
 
 export interface SubFormProps extends FormControlProps {

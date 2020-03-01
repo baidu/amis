@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import Button from '../components/Button';
-import pick = require('lodash/pick');
+import pick from 'lodash/pick';
 const ActionProps = [
   'dialog',
   'drawer',

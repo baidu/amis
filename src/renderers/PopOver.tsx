@@ -7,7 +7,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {RendererProps} from '../factory';
 import cx from 'classnames';
-import hoistNonReactStatic = require('hoist-non-react-statics');
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import {RootCloseWrapper} from 'react-overlays';
 import PopOver, {Offset} from '../components/PopOver';
 import Overlay from '../components/Overlay';

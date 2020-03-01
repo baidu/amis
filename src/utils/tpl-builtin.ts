@@ -1,7 +1,7 @@
 import {reigsterTplEnginer, filter} from './tpl';
 import moment from 'moment';
 import {PlainObject} from '../types';
-import isPlainObject = require('lodash/isPlainObject');
+import isPlainObject from 'lodash/isPlainObject';
 import {createObject, isObject, setVariable, qsstringify} from './helper';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
