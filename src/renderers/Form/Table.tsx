@@ -6,10 +6,10 @@ import {createObject, isObjectShallowModified} from '../../utils/helper';
 import {RendererData, Action, Api, Payload} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {filter} from '../../utils/tpl';
-import omit = require('lodash/omit');
+import omit from 'lodash/omit';
 import {dataMapping} from '../../utils/tpl-builtin';
-import findIndex = require('lodash/findIndex');
-import memoize = require('lodash/memoize');
+import findIndex from 'lodash/findIndex';
+import memoize from 'lodash/memoize';
 
 export interface TableProps extends FormControlProps {
   placeholder?: string;

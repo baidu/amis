@@ -3,7 +3,7 @@ import {OptionsControl, OptionsControlProps, Option} from './Options';
 import cx from 'classnames';
 import Button from '../../components/Button';
 import {SchemaNode, Schema, Action} from '../../types';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import {
   anyChanged,
   autobind,
@@ -11,7 +11,7 @@ import {
   noop,
   createObject
 } from '../../utils/helper';
-import findIndex = require('lodash/findIndex');
+import findIndex from 'lodash/findIndex';
 import Html from '../../components/Html';
 import {filter} from '../../utils/tpl';
 import {Icon} from '../../components/icons';

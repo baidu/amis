@@ -8,8 +8,8 @@ import {Icon} from '../../components/icons';
 import TreeSelector from '../../components/Tree';
 // @ts-ignore
 import matchSorter from 'match-sorter';
-import debouce = require('lodash/debounce');
-import find = require('lodash/find');
+import debouce from 'lodash/debounce';
+import find from 'lodash/find';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import {OptionsControl, OptionsControlProps, Option} from './Options';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
-import chunk = require('lodash/chunk');
+import chunk from 'lodash/chunk';
 
 export interface CheckboxesProps extends OptionsControlProps {
   placeholder?: any;

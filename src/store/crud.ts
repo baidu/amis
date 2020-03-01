@@ -18,7 +18,7 @@ import {
 } from '../utils/helper';
 import {Api, Payload, fetchOptions, Action} from '../types';
 import qs from 'qs';
-import pick = require('lodash/pick');
+import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 class ServerError extends Error {
