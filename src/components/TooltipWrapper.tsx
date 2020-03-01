@@ -4,9 +4,9 @@
  * @author fex
  */
 
-import React = require('react');
+import React from 'react';
 import Html from './Html';
-import uncontrollable = require('uncontrollable');
+import uncontrollable from 'uncontrollable';
 import {findDOMNode} from 'react-dom';
 import Tooltip from './Tooltip';
 import {ClassNamesFn, themeable} from '../theme';

@@ -5,14 +5,14 @@
  */
 
 import React from "react";
-import uncontrollable = require("uncontrollable");
+import uncontrollable from "uncontrollable";
 import Checkbox from "./Checkbox";
-import find = require("lodash/find");
-import chunk = require("lodash/chunk");
+import find from "lodash/find";
+import chunk from "lodash/chunk";
 import { flattenTree, isObject } from "../utils/helper";
 import { ClassNamesFn, themeable } from "../theme";
 import { optionValueCompare } from "./Select";
-// import isPlainObject = require('lodash/isPlainObject');
+// import isPlainObject from 'lodash/isPlainObject';
 
 export interface Option {
   label?: string;

@@ -4,7 +4,7 @@ import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Schema, Action} from '../types';
 import {filter} from '../utils/tpl';
 import Modal from '../components/Modal';
-import findLast = require('lodash/findLast');
+import findLast from 'lodash/findLast';
 import {guid, isVisible} from '../utils/helper';
 import {reaction} from 'mobx';
 import {Icon} from '../components/icons';

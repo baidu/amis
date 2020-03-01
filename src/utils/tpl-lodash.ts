@@ -1,5 +1,5 @@
 import {reigsterTplEnginer, filter} from './tpl';
-import template = require('lodash/template');
+import template from 'lodash/template';
 import {getFilters} from './tpl-builtin';
 import React from 'react';
 import moment from 'moment';
