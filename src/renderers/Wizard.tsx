@@ -429,7 +429,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   @autobind
   handleInit(values: any) {
     const step = this.state.currentStep;
-    this.initalValues[step] = values;
+    this.initalValues[step] = this.initalValues[step] || values;
   }
 
   @autobind
