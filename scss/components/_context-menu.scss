@@ -26,6 +26,11 @@
 }
 
 .#{$ns}ContextMenu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  // pointer-events: none;
+
   &-menu {
     position: absolute;
     z-index: $zindex-contextmenu;
