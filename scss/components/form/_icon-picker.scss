@@ -45,11 +45,6 @@
   }
 
   &-tabs {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 11;
     background: $IconPicker-tabs-bg;
   }
 
@@ -60,24 +55,19 @@
     line-height: $IconPicker-tab-lineHeight;
     cursor: pointer;
     text-align: center;
+    font-size: $fontSizeSm;
+    user-select: none;
 
     &.active {
       background: $IconPicker-tab-onActive-bg;
     }
   }
 
-  &-singleVendor {
-    padding: $IconPicker-singleVendor-padding;
-  }
-
-  &-multiVendor {
-    padding: $IconPicker-multiVendor-padding;
-  }
-
   &-sugs {
     position: relative;
+    padding: $IconPicker-padding;
     max-height: $IconPicker-content-maxHeight;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 
   &-sugItem {
@@ -87,6 +77,15 @@
     text-align: center;
     line-height: $IconPicker-sugItem-lineHeight;
     cursor: pointer;
+
+    &:hover {
+      background-color: $Form-select-menu-onHover-bg;
+    }
+
+    &.is-active {
+      color: $white;
+      background-color: $Form-select-menu-onActive-color;
+    }
   }
 
   &-value {

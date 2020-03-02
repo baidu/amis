@@ -1399,13 +1399,12 @@ $Tree-inputHeight: $Form-input-height * 0.85 !default;
 
 // IconPicker
 $IconPicker-tabs-bg: #f0f3f4 !default;
-$IconPicker-tab-padding: 0 px2rem(5px) !default;
+$IconPicker-tab-padding: 0 px2rem(10px) !default;
 $IconPicker-tab-height: px2rem(30px) !default;
 $IconPicker-tab-lineHeight: px2rem(30px) !default;
 $IconPicker-tab-onActive-bg: $white !default;
 $IconPicker-content-maxHeight: px2rem(350px) !default;
-$IconPicker-singleVendor-padding: px2rem(5px) 0 px2rem(5px) px2rem(13px) !default;
-$IconPicker-multiVendor-padding: px2rem(35px) 0 px2rem(5px) px2rem(13px) !default;
+$IconPicker-padding: px2rem(5px) !default;
 $IconPicker-sugItem-width: px2rem(28px) !default;
 $IconPicker-sugItem-height: px2rem(28px) !default;
 $IconPicker-sugItem-lineHeight: px2rem(28px) !default;
