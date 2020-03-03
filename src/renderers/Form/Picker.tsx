@@ -92,13 +92,15 @@ export default class PickerControl extends React.PureComponent<
 
   fetchOptions() {
     const {value, formItem, valueField, labelField, source, data} = this.props;
+    let selectedOptions: any;
 
     if (
       !source ||
       !formItem ||
-      !formItem.selectedOptions.length ||
-      formItem.selectedOptions[0][valueField || 'value'] !==
-        formItem.selectedOptions[0][labelField || 'label']
+      ((selectedOptions = formItem.getSelectedOptions(value)) &&
+        (!selectedOptions.length ||
+          selectedOptions[0][valueField || 'value'] !==
+            selectedOptions[0][labelField || 'label']))
     ) {
       return;
     }
