@@ -68,7 +68,9 @@ export class ContextMenu extends React.Component<
   };
 
   menuRef: React.RefObject<HTMLDivElement> = React.createRef();
+  originInstance: this | null;
   componentWillMount() {
+    this.originInstance = ContextMenu.instance;
     ContextMenu.instance = this;
   }
 
@@ -78,9 +80,10 @@ export class ContextMenu extends React.Component<
   }
 
   componentWillUnmount() {
-    ContextMenu.instance = null;
+    ContextMenu.instance = this.originInstance;
     // document.body.removeEventListener('click', this.handleOutClick, true);
     document.removeEventListener('keydown', this.handleKeyDown);
+    delete this.originInstance;
   }
 
   @autobind
