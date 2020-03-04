@@ -171,7 +171,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
             level={this.state.confirm ? confirmBtnLevel : alertBtnLevel}
             onClick={this.handleConfirm}
           >
-            {this.state.confirm || confirmText}
+            {this.state.confirmText || confirmText}
           </Button>
         </div>
       </Modal>
