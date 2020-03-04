@@ -26,6 +26,7 @@ export interface AlertState {
   title?: string;
   content: string;
   confirm: boolean;
+  confirmText?: string;
 }
 
 export class Alert extends React.Component<AlertProps, AlertState> {
@@ -115,12 +116,13 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     });
   }
 
-  confirm(content: string, title?: string) {
+  confirm(content: string, title?: string, confirmText?: string) {
     this.setState({
       title,
       content,
       show: true,
-      confirm: true
+      confirm: true,
+      confirmText
     });
 
     return new Promise(resolve => {
@@ -169,7 +171,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
             level={this.state.confirm ? confirmBtnLevel : alertBtnLevel}
             onClick={this.handleConfirm}
           >
-            {confirmText}
+            {this.state.confirm || confirmText}
           </Button>
         </div>
       </Modal>
@@ -181,9 +183,11 @@ export const alert: (content: string, title?: string) => void = (
   content,
   title
 ) => Alert.getInstance().alert(content, title);
-export const confirm: (content: string, title?: string) => Promise<any> = (
-  content,
-  title
-) => Alert.getInstance().confirm(content, title);
+export const confirm: (
+  content: string,
+  title?: string,
+  confirmText?: string
+) => Promise<any> = (content, title) =>
+  Alert.getInstance().confirm(content, title, confirmText);
 export const ThemedAlert = themeable(Alert);
 export default ThemedAlert;
