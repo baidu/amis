@@ -187,7 +187,7 @@ export const confirm: (
   content: string,
   title?: string,
   confirmText?: string
-) => Promise<any> = (content, title) =>
+) => Promise<any> = (content, title, confirmText) =>
   Alert.getInstance().confirm(content, title, confirmText);
 export const ThemedAlert = themeable(Alert);
 export default ThemedAlert;
