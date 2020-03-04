@@ -198,8 +198,8 @@ export function calculatePosition(
       // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
       if (tests.length) {
         const transformed = {
-          x: clip.x + positionLeft / scale - childOffset.left,
-          y: clip.y + positionTop / scale - childOffset.top,
+          x: clip.x + positionLeft / scale,
+          y: clip.y + positionTop / scale,
           width: overlayWidth,
           height: overlayHeight
         };
