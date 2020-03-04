@@ -264,9 +264,7 @@ export class ColorControl extends React.PureComponent<
 
         {isOpened ? (
           <Overlay
-            placement={
-              placement || 'left-bottom-left-top  right-bottom-right-top'
-            }
+            placement={placement || 'auto'}
             target={() => findDOMNode(this)}
             onHide={this.close}
             container={popOverContainer || (() => findDOMNode(this))}
