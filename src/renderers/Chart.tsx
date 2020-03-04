@@ -13,7 +13,7 @@ import {ScopedContext, IScopedContext} from '../Scoped';
 
 export interface ChartProps extends RendererProps {
   chartRef?: (echart: any) => void;
-  onDataFilter?: (config: any) => any;
+  onDataFilter?: (config: any, echarts: any) => any;
   dataFilter?: string;
   api?: Api;
   source?: string;
