@@ -424,6 +424,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 newFile.error = error;
               } else {
                 newFile = obj as FileValue;
+                newFile.name = newFile.name || file!.name;
               }
               files.splice(idx, 1, newFile);
               this.current = null;
