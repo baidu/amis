@@ -280,9 +280,12 @@ export class Card extends React.Component<CardProps> {
       subTitleClassName,
       descClassName,
       checkOnItemClick,
+      avatarClassName,
       checkable,
       classnames: cx,
-      classPrefix: ns
+      classPrefix: ns,
+      imageClassName,
+      avatarTextClassName
     } = this.props;
 
     let heading = null;
@@ -291,8 +294,7 @@ export class Card extends React.Component<CardProps> {
       const {
         highlight: highlightTpl,
         avatar: avatarTpl,
-        avatarClassName,
-        imageClassName,
+        avatarText: avatarTextTpl,
         title: titleTpl,
         subTitle: subTitleTpl,
         subTitlePlaceholder,
@@ -302,6 +304,7 @@ export class Card extends React.Component<CardProps> {
 
       const highlight = !!evalExpression(highlightTpl, data as object);
       const avatar = filter(avatarTpl, data);
+      const avatarText = filter(avatarTextTpl, data);
       const title = filter(titleTpl, data);
       const subTitle = filter(subTitleTpl, data);
       const desc = filter(descTpl, data);
@@ -322,6 +325,15 @@ export class Card extends React.Component<CardProps> {
                 )}
                 src={avatar}
               />
+            </span>
+          ) : avatarText ? (
+            <span
+              className={cx(
+                'Card-avtarText',
+                header.avatarTextClassName || avatarTextClassName
+              )}
+            >
+              {avatarText}
             </span>
           ) : null}
           <div className={cx('Card-meta')}>
