@@ -206,7 +206,8 @@ export class Chart extends React.Component<ChartProps> {
       config = new Function('return ' + config)();
     }
     try {
-      onDataFilter && (config = onDataFilter(config, this.echarts) || config);
+      onDataFilter &&
+        (config = onDataFilter(config, (window as any).echarts) || config);
     } catch (e) {
       console.warn(e);
     }
