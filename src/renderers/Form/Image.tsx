@@ -31,6 +31,7 @@ export interface ImageProps extends FormControlProps {
     aspectRatio?: number;
     aspectRatioLabel?: string;
   };
+  reCropable: boolean;
   crop?:
     | boolean
     | {
@@ -879,7 +880,8 @@ export default class ImageControl extends React.Component<
       autoUpload,
       hideUploadButton,
       thumbMode,
-      thumbRatio
+      thumbRatio,
+      reCropable
     } = this.props;
 
     const {files, error, crop, uploading, cropFile} = this.state;
@@ -1072,7 +1074,9 @@ export default class ImageControl extends React.Component<
                                     <Icon icon="view" className="icon" />
                                   </a>
 
-                                  {!!crop && !disabled ? (
+                                  {!!crop &&
+                                  reCropable !== false &&
+                                  !disabled ? (
                                     <a
                                       data-tooltip="裁剪图片"
                                       data-position="bottom"
