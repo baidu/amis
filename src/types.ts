@@ -14,6 +14,7 @@ export interface ApiObject {
   cache?: number;
   qsOptions?: any;
   dataType?: 'json' | 'form-data' | 'form';
+  replaceData?: boolean;
 }
 export type ApiString = string;
 export type Api = ApiString | ApiObject;

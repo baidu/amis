@@ -62,17 +62,17 @@ export const iRendererStore = types
         self.data = self.pristine;
       },
 
-      updateData(data: object = {}, tag?: object) {
+      updateData(data: object = {}, tag?: object, replace?:boolean) {
         const prev = self.data;
         let newData;
         if (tag) {
           let proto = createObject((self.data as any).__super || null, tag);
           newData = createObject(proto, {
-            ...self.data,
+            ...(replace ? {} : self.data),
             ...data
           });
         } else {
-          newData = extendObject(self.data, data);
+          newData = extendObject(self.data, data, !replace);
         }
 
         Object.defineProperty(newData, '__prev', {
