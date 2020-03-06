@@ -40,24 +40,6 @@
       }
     }
 
-    &.is-disabled {
-      pointer-events: none;
-      opacity: $ListControl-item-onDisabled-opacity;
-      border-color: $ListControl-item-onDisabled-borderColor;
-
-      @if variable-exists('ListControl-item-onDisabled-bg') {
-        background-color: $ListControl-item-onDisabled-bg;
-      }
-
-      @if variable-exists('ListControl-item-onDisabled-color') {
-        color: $ListControl-item-onDisabled-color;
-      }
-
-      .b-inherit {
-        border-color: $ListControl-item-onDisabled-borderColor;
-      }
-    }
-
     &:hover:active,
     &.is-active {
       background-color: $ListControl-item-onActive-bg;
@@ -95,6 +77,28 @@
         right: px2rem(1px);
         bottom: px2rem(5px);
         transform: rotate(-40deg);
+      }
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      opacity: $ListControl-item-onDisabled-opacity;
+      border-color: $ListControl-item-onDisabled-borderColor;
+
+      &:before {
+        background-color: $ListControl-item-onDisabled-color;
+      }
+
+      @if variable-exists('ListControl-item-onDisabled-bg') {
+        background-color: $ListControl-item-onDisabled-bg;
+      }
+
+      @if variable-exists('ListControl-item-onDisabled-color') {
+        color: $ListControl-item-onDisabled-color;
+      }
+
+      .b-inherit {
+        border-color: $ListControl-item-onDisabled-borderColor;
       }
     }
   }

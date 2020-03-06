@@ -1,4 +1,11 @@
-import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree';
+import {
+  types,
+  getParent,
+  flow,
+  getEnv,
+  getRoot,
+  isAlive
+} from 'mobx-state-tree';
 import {IRendererStore} from './index';
 import {ServiceStore} from './service';
 import {
@@ -11,7 +18,7 @@ import {
 } from '../utils/helper';
 import {Api, Payload, fetchOptions, Action, ApiObject} from '../types';
 import qs from 'qs';
-import pick = require('lodash/pick');
+import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 class ServerError extends Error {
@@ -101,7 +108,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
       updater &&
         isObjectShallowModified(originQuery, self.query, false) &&
-        setTimeout(() => updater(`?${qsstringify(self.query)}`), 4);
+        setTimeout(updater.bind(null, `?${qsstringify(self.query)}`), 4);
     }
 
     const fetchInitData: (
@@ -128,11 +135,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       } = {}
     ) {
       try {
-        if (
-          !options.forceReload &&
-          options.loadDataOnce &&
-          self.total
-        ) {
+        if (!options.forceReload && options.loadDataOnce && self.total) {
           let items = options.source
             ? resolveVariableAndFilter(
                 options.source,
@@ -317,7 +320,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       } catch (e) {
         const root = getRoot(self) as IRendererStore;
 
-        if (root.storeType !== 'RendererStore') {
+        if (!isAlive(root) || root.storeType !== 'RendererStore') {
           // 已经销毁了，不管这些数据了。
           return;
         }

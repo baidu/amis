@@ -1,5 +1,5 @@
 import React from 'react';
-import hoistNonReactStatic = require('hoist-non-react-statics');
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import {IFormItemStore, IFormStore} from '../../store/form';
 import {reaction} from 'mobx';
 
@@ -677,6 +677,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 // 除非配置  strictMode
 export const detectProps = [
   'formPristine', // 这个千万不能干掉。
+  'formInited',
   'addable',
   'addButtonClassName',
   'addButtonText',
@@ -730,142 +731,147 @@ export const detectProps = [
   'diffValue'
 ];
 
-export function registerFormItem(config: FormItemConfig): RendererConfig {
-  let Control = config.component;
+export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
+  return (Control: FormControlComponent) => {
+    // 兼容老的 FormItem 用法。
+    if (config.validate && !Control.prototype.validate) {
+      const fn = config.validate;
+      Control.prototype.validate = function() {
+        // console.warn('推荐直接在类中定义，而不是 FormItem HOC 的参数中传入。');
+        const host = {
+          input: this
+        };
 
-  // 兼容老的 FormItem 用法。
-  if (config.validate && !Control.prototype.validate) {
-    const fn = config.validate;
-    Control.prototype.validate = function() {
-      // console.warn('推荐直接在类中定义，而不是 FormItem HOC 的参数中传入。');
-      const host = {
-        input: this
+        return fn.apply(host, arguments);
       };
-
-      return fn.apply(host, arguments);
-    };
-  } else if (config.validate) {
-    console.error(
-      'FormItem配置中的 validate 将不起作用，因为类的成员函数中已经定义了 validate 方法，将优先使用类里面的实现。'
-    );
-  }
-
-  if (config.storeType) {
-    Control = HocStoreFactory({
-      storeType: config.storeType,
-      extendsData: config.extendsData
-    })(observer(Control));
-    delete config.storeType;
-  }
-
-  // @observer
-  class FormItemRenderer extends FormItemWrap {
-    static defaultProps = {
-      className: '',
-      renderLabel: config.renderLabel,
-      renderDescription: config.renderDescription,
-      sizeMutable: config.sizeMutable,
-      wrap: config.wrap,
-      ...Control.defaultProps
-    };
-    static propsList: any = [
-      'value',
-      'defaultValue',
-      'onChange',
-      'setPrinstineValue',
-      'readOnly',
-      'strictMode',
-      ...((Control as any).propsList || [])
-    ];
-
-    static displayName = `FormItem${config.type ? `(${config.type})` : ''}`;
-    static ComposedComponent = Control;
-
-    ref: any;
-
-    constructor(props: FormItemProps) {
-      super(props);
-      this.refFn = this.refFn.bind(this);
-    }
-
-    componentWillMount() {
-      const {validations, formItem: model} = this.props;
-
-      // 组件注册的时候可能默认指定验证器类型
-      if (model && !validations && config.validations) {
-        model.config({
-          rules: config.validations
-        });
-      }
-
-      super.componentWillMount();
-    }
-
-    shouldComponentUpdate(nextProps: FormControlProps) {
-      if (nextProps.strictMode === false || config.strictMode === false) {
-        return true;
-      }
-
-      // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
-      if (anyChanged(detectProps, this.props, nextProps)) {
-        return true;
-      }
-
-      return false;
-    }
-
-    getWrappedInstance() {
-      return this.ref;
-    }
-
-    refFn(ref: any) {
-      this.ref = ref;
-    }
-
-    renderControl() {
-      const {
-        inputClassName,
-        formItem: model,
-        classnames: cx,
-        children,
-        type,
-        size,
-        defaultSize,
-        ...rest
-      } = this.props;
-
-      const controlSize = size || defaultSize;
-
-      return (
-        <Control
-          {...rest}
-          onOpenDialog={this.handleOpenDialog}
-          size={config.sizeMutable !== false ? undefined : size}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          type={type}
-          classnames={cx}
-          ref={this.refFn}
-          formItem={model}
-          className={cx(
-            `Form-control`,
-            {
-              'is-inline': !!rest.inline,
-              'is-error': model && !model.valid,
-              [`Form-control--size${ucFirst(controlSize)}`]:
-                config.sizeMutable !== false &&
-                typeof controlSize === 'string' &&
-                !!controlSize &&
-                controlSize !== 'full'
-            },
-            inputClassName
-          )}
-        />
+    } else if (config.validate) {
+      console.error(
+        'FormItem配置中的 validate 将不起作用，因为类的成员函数中已经定义了 validate 方法，将优先使用类里面的实现。'
       );
     }
-  }
 
-  hoistNonReactStatic(FormItemRenderer, Control);
+    if (config.storeType) {
+      Control = HocStoreFactory({
+        storeType: config.storeType,
+        extendsData: config.extendsData
+      })(observer(Control));
+      delete config.storeType;
+    }
+
+    // @observer
+    class FormItemRenderer extends FormItemWrap {
+      static defaultProps = {
+        className: '',
+        renderLabel: config.renderLabel,
+        renderDescription: config.renderDescription,
+        sizeMutable: config.sizeMutable,
+        wrap: config.wrap,
+        ...Control.defaultProps
+      };
+      static propsList: any = [
+        'value',
+        'defaultValue',
+        'onChange',
+        'setPrinstineValue',
+        'readOnly',
+        'strictMode',
+        ...((Control as any).propsList || [])
+      ];
+
+      static displayName = `FormItem${config.type ? `(${config.type})` : ''}`;
+      static ComposedComponent = Control;
+
+      ref: any;
+
+      constructor(props: FormItemProps) {
+        super(props);
+        this.refFn = this.refFn.bind(this);
+      }
+
+      componentWillMount() {
+        const {validations, formItem: model} = this.props;
+
+        // 组件注册的时候可能默认指定验证器类型
+        if (model && !validations && config.validations) {
+          model.config({
+            rules: config.validations
+          });
+        }
+
+        super.componentWillMount();
+      }
+
+      shouldComponentUpdate(nextProps: FormControlProps) {
+        if (nextProps.strictMode === false || config.strictMode === false) {
+          return true;
+        }
+
+        // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
+        if (anyChanged(detectProps, this.props, nextProps)) {
+          return true;
+        }
+
+        return false;
+      }
+
+      getWrappedInstance() {
+        return this.ref;
+      }
+
+      refFn(ref: any) {
+        this.ref = ref;
+      }
+
+      renderControl() {
+        const {
+          inputClassName,
+          formItem: model,
+          classnames: cx,
+          children,
+          type,
+          size,
+          defaultSize,
+          ...rest
+        } = this.props;
+
+        const controlSize = size || defaultSize;
+
+        return (
+          <Control
+            {...rest}
+            onOpenDialog={this.handleOpenDialog}
+            size={config.sizeMutable !== false ? undefined : size}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            type={type}
+            classnames={cx}
+            ref={this.refFn}
+            formItem={model}
+            className={cx(
+              `Form-control`,
+              {
+                'is-inline': !!rest.inline,
+                'is-error': model && !model.valid,
+                [`Form-control--size${ucFirst(controlSize)}`]:
+                  config.sizeMutable !== false &&
+                  typeof controlSize === 'string' &&
+                  !!controlSize &&
+                  controlSize !== 'full'
+              },
+              inputClassName
+            )}
+          />
+        );
+      }
+    }
+
+    hoistNonReactStatic(FormItemRenderer, Control);
+    return FormItemRenderer;
+  };
+}
+
+export function registerFormItem(config: FormItemConfig): RendererConfig {
+  let Control = asFormItem(config)(config.component);
 
   return registerRenderer({
     ...config,
@@ -877,7 +883,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
         `(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?${config.type}$`,
         'i'
       ),
-    component: FormItemRenderer,
+    component: Control,
     isFormItem: true
   });
 }

@@ -4,7 +4,7 @@ import {FormItem, FormControlProps} from './Item';
 import Cropper from 'react-cropper';
 import DropZone from 'react-dropzone';
 import 'blueimp-canvastoblob';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import qs from 'qs';
 import {Payload} from '../../types';
 import {buildApi} from '../../utils/api';
@@ -531,7 +531,7 @@ export default class ImageControl extends React.Component<
         : newValue;
     }
 
-    onChange((this.emitValue = newValue), undefined, changeImmediately);
+    onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
   }
 
   handleSelect() {
@@ -567,8 +567,6 @@ export default class ImageControl extends React.Component<
       }
 
       return this.setState({
-        locked: true,
-        lockedReason: '请选择放弃或者应用',
         cropFile: file
       });
     }
@@ -851,6 +849,11 @@ export default class ImageControl extends React.Component<
   validate(): any {
     if (this.state.locked && this.state.lockedReason) {
       return this.state.lockedReason;
+    } else if (this.state.cropFile) {
+      return new Promise(resolve => {
+        this.resolve = resolve;
+        this.handleCrop();
+      });
     } else if (
       this.state.uploading ||
       this.files.some(item => item.state === 'pending')

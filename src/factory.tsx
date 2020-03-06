@@ -29,13 +29,13 @@ import {
 } from './types';
 import {observer} from 'mobx-react';
 import getExprProperties from './utils/filter-schema';
-import hoistNonReactStatic = require('hoist-non-react-statics');
-import omit = require('lodash/omit');
-import difference = require('lodash/difference');
-import isPlainObject = require('lodash/isPlainObject');
+import hoistNonReactStatic from 'hoist-non-react-statics';
+import omit from 'lodash/omit';
+import difference from 'lodash/difference';
+import isPlainObject from 'lodash/isPlainObject';
 import Scoped from './Scoped';
 import {getTheme, ThemeInstance, ClassNamesFn, ThemeContext} from './theme';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import Alert from './components/Alert2';
 import {LazyComponent} from './components';
 import ImageGallery from './components/ImageGallery';
@@ -578,6 +578,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     } else if (typeof schema.component === 'function') {
       return React.createElement(schema.component as any, {
         ...rest,
+        ...schema,
         $path: $path,
         render: this.renderChild
       });

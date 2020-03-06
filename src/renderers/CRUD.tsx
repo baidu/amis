@@ -14,18 +14,18 @@ import {
   qsstringify
 } from '../utils/helper';
 import {observer} from 'mobx-react';
-import partition = require('lodash/partition');
+import partition from 'lodash/partition';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import Button from '../components/Button';
 import Select from '../components/Select';
 import getExprProperties from '../utils/filter-schema';
-import pick = require('lodash/pick');
+import pick from 'lodash/pick';
 import qs from 'qs';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from '../utils/tpl';
 import {isValidApi, buildApi, isEffectiveApi} from '../utils/api';
-import omit = require('lodash/omit');
-import find = require('lodash/find');
+import omit from 'lodash/omit';
+import find from 'lodash/find';
 import Html from '../components/Html';
 import {Spinner} from '../components';
 
@@ -428,18 +428,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               (action.messages && action.messages.failed) ||
               (messages && messages.saveFailed)
           })
-          .then(async () => {
-            if (action.feedback && isVisible(action.feedback, store.data)) {
-              await this.openFeedback(action.feedback, store.data);
+          .then(async (payload: object) => {
+            const data = createObject(ctx, payload);
+            if (action.feedback && isVisible(action.feedback, data)) {
+              await this.openFeedback(action.feedback, data);
               stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
             }
 
             action.reload
-              ? this.reloadTarget(action.reload, store.data)
+              ? this.reloadTarget(action.reload, data)
               : this.search({[pageField || 'page']: 1}, undefined, true);
 
             action.redirect &&
-              env.jumpTo(filter(action.redirect, store.data), action);
+              env.jumpTo(filter(action.redirect, data), action);
           })
           .catch(() => null);
     } else if (onAction) {

@@ -5,12 +5,13 @@ import {
   flow,
   getEnv,
   getRoot,
-  IAnyModelType
+  IAnyModelType,
+  isAlive
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {resolveVariable} from '../utils/tpl-builtin';
-import isEqual = require('lodash/isEqual');
-import find = require('lodash/find');
+import isEqual from 'lodash/isEqual';
+import find from 'lodash/find';
 import {
   isBreakpoint,
   createObject,
@@ -865,6 +866,9 @@ export const TableStore = iRendererStore
       // events
       afterAttach() {
         setTimeout(() => {
+          if (!isAlive(self)) {
+            return;
+          }
           const key =
             location.pathname +
             self.path +

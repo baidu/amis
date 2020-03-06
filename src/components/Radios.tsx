@@ -14,10 +14,10 @@
  */
 
 import React from 'react';
-import uncontrollable = require('uncontrollable');
+import uncontrollable from 'uncontrollable';
 import Checkbox from './Checkbox';
 import {value2array, OptionProps, Option} from './Checkboxes';
-import chunk = require('lodash/chunk');
+import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable} from '../theme';
 
 interface RadioProps extends OptionProps {

@@ -13,9 +13,9 @@ import {
   ucFirst
 } from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
-import Sortable = require('sortablejs');
+import Sortable from 'sortablejs';
 import {filter} from '../utils/tpl';
-import debounce = require('lodash/debounce');
+import debounce from 'lodash/debounce';
 import {resizeSensor} from '../utils/resize-sensor';
 
 export interface Column {
