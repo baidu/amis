@@ -48,8 +48,18 @@ Api 类型可以是字符串或者对象。API 中可以直接设置数据发送
 
   - `<type>` 可以是： `get`、`post`、`put`、`delete`或者`raw`
   - `<url>` 即 api 地址，支持通过 `$key` 取变量。
+    -   `url` api 地址
+    -   `method` 可以是：`get`、`post`、`put`或者`delete`
+    -   `data` 数据体, 数据对象。
+    -   `dataType` 数据体格式，默认为 `json` 可以配置成 `form` 或者 `form-data`。当 data 中包含文件时，自动会采用 `form-data`（multipart/form-data） 格式。当配置为 `form` 时为 `application/x-www-form-urlencoded` 格式。
+    -   `qsOptions` 当 dataType 为 `form` 或者 `form-data` 的时候有用。具体参数请参考这： https://github.com/ljharb/qs 默认设置为 `{arrayFormat: 'indices', encodeValuesOnly: true}`
+    -   `headers` 头部，配置方式和 data 配置一样，下面不详讲。如果要使用，请前往群组系统配置中，添加允许。
+    -   `sendOn` 可以配置发送条件比如： `this.id` 表示当存在 id 值时才发送这个请求。
+    -   `cache` 通过配置此属性开启缓存，单位是 ms，比如设置 3000 的话，当前接口在3s内请求，只要传参一致就会走缓存。
+    -   `replaceData` boolean; 返回的数据是否替换掉当前的数据，默认为 false，即：追加。
+    -   `requestAdaptor` (api) => api; 发送适配器，支持字符串串格式，或者直接就是函数如：
 
-  如：
+如：
 
         * `get:http://imis.tieba.baidu.com/yule/list?start=$startTime&end=$endTime`
         * `get:http://imis.tieba.baidu.com/yule/list?$$` 拿所有可用数据。
