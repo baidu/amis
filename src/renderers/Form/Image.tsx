@@ -487,8 +487,6 @@ export default class ImageControl extends React.Component<
   }
 
   editImage(index: number) {
-    const {multiple} = this.props;
-
     const files = this.files;
 
     this.setState({
