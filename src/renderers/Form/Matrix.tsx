@@ -171,6 +171,7 @@ export default class MatrixCheckbox extends React.Component<
                   columns: (ret.data as any).columns || []
                 },
                 () => {
+                  let replace = source && (source as ApiObject).replaceData;
                   let value = (ret.data as any).value;
                   if (value) {
                     value = (source as ApiObject).replaceData

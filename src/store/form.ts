@@ -233,7 +233,7 @@ export const FormStore = ServiceStore.named('FormStore')
             {
               __saved: Date.now()
             },
-            !!(api && (api as ApiObject).replaceData)
+            !!(api as ApiObject).replaceData
           );
           self.updatedAt = Date.now();
         }

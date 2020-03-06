@@ -288,7 +288,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           self.items.replace(rowsData);
-          self.reInitData(data, !!(api && (api as ApiObject).replaceData));
+          self.reInitData(data, !!(api as ApiObject).replaceData);
           options.syncResponse2Query !== false &&
             updateQuery(
               pick(rest, Object.keys(self.query)),
