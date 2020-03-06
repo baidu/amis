@@ -210,6 +210,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
             if (Array.isArray(ret.data)) {
               this.handleLoaded(ret);
             } else {
+              let replace = api && (api as ApiObject).replaceData;
               const items = this.state.items.map(item =>
                 item.key === ret.data.key
                   ? {
