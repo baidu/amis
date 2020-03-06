@@ -3,7 +3,7 @@ import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import Button from '../../components/Button';
 import {createObject, isObjectShallowModified} from '../../utils/helper';
-import {RendererData, Action, Api, Payload} from '../../types';
+import {RendererData, Action, Api, Payload, ApiObject} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {filter} from '../../utils/tpl';
 import omit from 'lodash/omit';
@@ -255,7 +255,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return;
     } else if (remote && remote.ok) {
       item = {
-        ...item,
+        ...((isNew ? addApi : updateApi) as ApiObject).replaceData ? {} : item,
         ...remote.data
       };
     }
