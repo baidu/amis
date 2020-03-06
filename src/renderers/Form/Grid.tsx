@@ -3,7 +3,7 @@ import Grid, {ColumnNode, Column, ColProps, ColumnArray} from '../Grid';
 import {Schema} from '../../types';
 
 import {FormItem, FormControlProps} from './Item';
-import pick = require('lodash/pick');
+import pick from 'lodash/pick';
 import React from 'react';
 import cx from 'classnames';
 

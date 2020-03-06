@@ -7,8 +7,8 @@ import {
   getRoot
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
-import isEqual = require('lodash/isEqual');
-import find = require('lodash/find');
+import isEqual from 'lodash/isEqual';
+import find from 'lodash/find';
 import {createObject, isObject, guid} from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 

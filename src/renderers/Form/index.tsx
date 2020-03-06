@@ -16,21 +16,22 @@ import {
   isVisible,
   cloneObject
 } from '../../utils/helper';
-import debouce = require('lodash/debounce');
-import flatten = require('lodash/flatten');
-import find = require('lodash/find');
+import debouce from 'lodash/debounce';
+import flatten from 'lodash/flatten';
+import find from 'lodash/find';
 import Scoped, {
   ScopedContext,
   IScopedContext,
   ScopedComponentType
 } from '../../Scoped';
 import {IComboStore} from '../../store/combo';
-import qs = require('qs');
+import qs from 'qs';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {LazyComponent} from '../../components';
 import {isAlive} from 'mobx-state-tree';
+import {asFormItem} from './Item';
 export type FormGroup = FormSchema & {
   title?: string;
   className?: string;
@@ -279,7 +280,7 @@ export default class Form extends React.Component<FormProps, object> {
         .then(this.initInterval)
         .then(this.onInit);
     } else {
-      this.onInit();
+      setTimeout(this.onInit.bind(this), 4);
     }
   }
 
@@ -327,6 +328,9 @@ export default class Form extends React.Component<FormProps, object> {
 
   async onInit() {
     const {onInit, store, submitOnInit} = this.props;
+    if (!isAlive(store)) {
+      return;
+    }
 
     // 先拿出来数据，主要担心 form 被什么东西篡改了，然后又应用出去了
     // 之前遇到过问题，所以拿出来了。但是 options  loadOptions 默认值失效了。
@@ -338,7 +342,11 @@ export default class Form extends React.Component<FormProps, object> {
     const hooks: Array<(data: any) => Promise<any>> = this.hooks['init'] || [];
     await Promise.all(hooks.map(hook => hook(data)));
 
-    if (isAlive(store) && store.initedAt !== initedAt) {
+    if (!isAlive(store)) {
+      return;
+    }
+
+    if (store.initedAt !== initedAt) {
       // 说明，之前的数据已经失效了。
       // 比如 combo 一开始设置了初始值，然后 form 的 initApi 又返回了新的值。
       // 这个时候 store 的数据应该已经 init 了新的值。但是 data 还是老的，这个时候
@@ -984,6 +992,12 @@ export default class Form extends React.Component<FormProps, object> {
           ...control,
           ...getExprProperties(control, store.data)
         };
+      }
+
+      if (control.component && control.label && control.name) {
+        control.component = asFormItem(control.options || {})(
+          control.component
+        );
       }
 
       control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);

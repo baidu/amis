@@ -13,7 +13,8 @@ import {ScopedContext, IScopedContext} from '../Scoped';
 
 export interface ChartProps extends RendererProps {
   chartRef?: (echart: any) => void;
-  onDataFilter?: (config: any) => any;
+  onDataFilter?: (config: any, echarts: any) => any;
+  dataFilter?: string;
   api?: Api;
   source?: string;
   config?: object;
@@ -193,13 +194,23 @@ export class Chart extends React.Component<ChartProps> {
     if (!this.echarts) {
       return;
     }
-    const onDataFilter = this.props.onDataFilter;
+    let onDataFilter = this.props.onDataFilter;
+    const dataFilter = this.props.dataFilter;
+
+    if (!onDataFilter && typeof dataFilter === 'string') {
+      onDataFilter = new Function('config', 'echarts', dataFilter) as any;
+    }
 
     config = config || this.pending;
     if (typeof config === 'string') {
       config = new Function('return ' + config)();
     }
-    onDataFilter && (config = onDataFilter(config) || config);
+    try {
+      onDataFilter &&
+        (config = onDataFilter(config, (window as any).echarts) || config);
+    } catch (e) {
+      console.warn(e);
+    }
 
     if (config) {
       try {

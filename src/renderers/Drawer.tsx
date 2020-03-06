@@ -3,7 +3,7 @@ import {ScopedContext, IScopedContext} from '../Scoped';
 import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Schema, Action} from '../types';
 import {default as DrawerContainer} from '../components/Drawer';
-import findLast = require('lodash/findLast');
+import findLast from 'lodash/findLast';
 import {guid, isVisible} from '../utils/helper';
 import {reaction} from 'mobx';
 import {findDOMNode} from 'react-dom';

@@ -204,17 +204,10 @@ export default class IconPickerControl extends React.PureComponent<
       classnames: cx,
       name,
       value,
-      noDataTip,
-      formItem
+      noDataTip
     } = this.props;
     const options = this.formatOptions();
     const vendors = this.getVendors();
-    const selectedOptions =
-      formItem && formItem.selectedOptions.length
-        ? formItem.selectedOptions
-        : value
-        ? [{label: value, value: value}]
-        : [];
 
     return (
       <Downshift
@@ -223,16 +216,13 @@ export default class IconPickerControl extends React.PureComponent<
         onChange={this.handleChange}
         onOuterClick={this.handleBlur}
         onStateChange={this.handleStateChange}
-        selectedItem={selectedOptions.map((option: Option) => option['value'])}
+        selectedItem={[value]}
       >
-        {({getInputProps, getItemProps, isOpen, inputValue, selectedItem}) => {
+        {({getInputProps, getItemProps, isOpen, inputValue}) => {
           let filteredOptions =
             inputValue && isOpen
               ? matchSorter(options, inputValue, {keys: ['label', 'value']})
               : options;
-          filteredOptions = filteredOptions.filter(
-            (option: any) => !~selectedItem.indexOf(option.value)
-          );
 
           return (
             <div
@@ -246,21 +236,17 @@ export default class IconPickerControl extends React.PureComponent<
               onClick={this.handleClick}
             >
               <div className={cx('IconPickerControl-valueWrap')}>
-                {placeholder &&
-                !selectedOptions.length &&
-                !this.state.inputValue ? (
+                {placeholder && !value && !this.state.inputValue ? (
                   <div className={cx('IconPickerControl-placeholder')}>
                     {placeholder}
                   </div>
                 ) : null}
 
-                {selectedOptions.map((option: Option, index: number) =>
-                  inputValue && isOpen ? null : (
-                    <div className={cx('IconPickerControl-value')} key={index}>
-                      <i className={cx(`${option.value}`)} />
-                      {option.label}
-                    </div>
-                  )
+                {!value || (inputValue && isOpen) ? null : (
+                  <div className={cx('IconPickerControl-value')}>
+                    <i className={cx(value)} />
+                    {value}
+                  </div>
                 )}
 
                 <input
@@ -269,7 +255,8 @@ export default class IconPickerControl extends React.PureComponent<
                     ref: this.inputRef,
                     onFocus: this.handleFocus,
                     onChange: this.handleInputChange,
-                    onKeyDown: this.handleKeyDown
+                    onKeyDown: this.handleKeyDown,
+                    value: this.state.inputValue
                   })}
                   autoComplete="off"
                 />
@@ -305,7 +292,9 @@ export default class IconPickerControl extends React.PureComponent<
                         <div
                           {...getItemProps({
                             item: option.value,
-                            className: cx(`IconPickerControl-sugItem`)
+                            className: cx(`IconPickerControl-sugItem`, {
+                              'is-active': value === option.value
+                            })
                           })}
                           key={index}
                         >

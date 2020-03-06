@@ -203,9 +203,10 @@ export default class FroalaEditor extends React.Component<any, any> {
   }
 }
 
+// 不限制视频插入。
 ($ as any).FE.VIDEO_PROVIDERS = [
   {
-    test_regex: /^.+(bcebos.com)\/[^_&]+/,
+    test_regex: /.*/,
     url_regex: '',
     url_text: '',
     html:
