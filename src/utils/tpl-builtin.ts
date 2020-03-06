@@ -244,10 +244,7 @@ export const filters: {
           ? RegExp.$2
           : resolveVariable(arg1, this as any)
         : '';
-      if (arg1 !== undefined && arg1 !== null) {
-        return input;
-      }
-      fn = value => arg1 === value;
+      fn = value => arg1 == value;
     } else {
       if (directive !== 'match') {
         directive = 'match';
