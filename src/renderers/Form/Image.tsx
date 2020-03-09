@@ -4,7 +4,7 @@ import {FormItem, FormControlProps} from './Item';
 import Cropper from 'react-cropper';
 import DropZone from 'react-dropzone';
 import 'blueimp-canvastoblob';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import qs from 'qs';
 import {Payload} from '../../types';
 import {buildApi} from '../../utils/api';
@@ -31,6 +31,7 @@ export interface ImageProps extends FormControlProps {
     aspectRatio?: number;
     aspectRatioLabel?: string;
   };
+  reCropable: boolean;
   crop?:
     | boolean
     | {
@@ -487,8 +488,6 @@ export default class ImageControl extends React.Component<
   }
 
   editImage(index: number) {
-    const {multiple} = this.props;
-
     const files = this.files;
 
     this.setState({
@@ -569,8 +568,6 @@ export default class ImageControl extends React.Component<
       }
 
       return this.setState({
-        locked: true,
-        lockedReason: '请选择放弃或者应用',
         cropFile: file
       });
     }
@@ -853,6 +850,11 @@ export default class ImageControl extends React.Component<
   validate(): any {
     if (this.state.locked && this.state.lockedReason) {
       return this.state.lockedReason;
+    } else if (this.state.cropFile) {
+      return new Promise(resolve => {
+        this.resolve = resolve;
+        this.handleCrop();
+      });
     } else if (
       this.state.uploading ||
       this.files.some(item => item.state === 'pending')
@@ -878,7 +880,8 @@ export default class ImageControl extends React.Component<
       autoUpload,
       hideUploadButton,
       thumbMode,
-      thumbRatio
+      thumbRatio,
+      reCropable
     } = this.props;
 
     const {files, error, crop, uploading, cropFile} = this.state;
@@ -1071,7 +1074,9 @@ export default class ImageControl extends React.Component<
                                     <Icon icon="view" className="icon" />
                                   </a>
 
-                                  {!!crop && !disabled ? (
+                                  {!!crop &&
+                                  reCropable !== false &&
+                                  !disabled ? (
                                     <a
                                       data-tooltip="裁剪图片"
                                       data-position="bottom"

@@ -14,18 +14,18 @@ import {
   qsstringify
 } from '../utils/helper';
 import {observer} from 'mobx-react';
-import partition = require('lodash/partition');
+import partition from 'lodash/partition';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import Button from '../components/Button';
 import Select from '../components/Select';
 import getExprProperties from '../utils/filter-schema';
-import pick = require('lodash/pick');
+import pick from 'lodash/pick';
 import qs from 'qs';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from '../utils/tpl';
 import {isValidApi, buildApi, isEffectiveApi} from '../utils/api';
-import omit = require('lodash/omit');
-import find = require('lodash/find');
+import omit from 'lodash/omit';
+import find from 'lodash/find';
 import Html from '../components/Html';
 import {Spinner} from '../components';
 

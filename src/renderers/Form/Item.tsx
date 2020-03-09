@@ -1,5 +1,5 @@
 import React from 'react';
-import hoistNonReactStatic = require('hoist-non-react-statics');
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import {IFormItemStore, IFormStore} from '../../store/form';
 import {reaction} from 'mobx';
 

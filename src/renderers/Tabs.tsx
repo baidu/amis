@@ -1,9 +1,9 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Action, Schema, SchemaNode} from '../types';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import {isVisible, autobind, isDisabled} from '../utils/helper';
-import findIndex = require('lodash/findIndex');
+import findIndex from 'lodash/findIndex';
 import {Tabs as CTabs, Tab} from '../components/Tabs';
 import {ClassNamesFn} from '../theme';
 

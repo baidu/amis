@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import hoistNonReactStatic = require('hoist-non-react-statics');
-import domOwnerDocument = require('dom-helpers/ownerDocument');
-import css = require('dom-helpers/style/index');
-import getOffset = require('dom-helpers/query/offset');
-import getPosition = require('dom-helpers/query/position');
-import getScrollTop = require('dom-helpers/query/scrollTop');
+import hoistNonReactStatic from 'hoist-non-react-statics';
+import domOwnerDocument from 'dom-helpers/ownerDocument';
+import css from 'dom-helpers/style/index';
+import getOffset from 'dom-helpers/query/offset';
+import getPosition from 'dom-helpers/query/position';
+import getScrollTop from 'dom-helpers/query/scrollTop';
 
 const bsMapping: {
   [propName: string]: string;
@@ -198,8 +198,8 @@ export function calculatePosition(
       // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
       if (tests.length) {
         const transformed = {
-          x: clip.x + positionLeft / scale - childOffset.left,
-          y: clip.y + positionTop / scale - childOffset.top,
+          x: clip.x + positionLeft / scale,
+          y: clip.y + positionTop / scale,
           width: overlayWidth,
           height: overlayHeight
         };

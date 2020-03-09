@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Action, Schema, Api, ApiObject} from '../types';
-import forEach = require('lodash/forEach');
+import forEach from 'lodash/forEach';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
 import DropDownButton from './DropDownButton';
@@ -25,15 +25,15 @@ import {
   buildApi,
   normalizeApi
 } from '../utils/api';
-import debounce = require('lodash/debounce');
-import xor = require('lodash/xor');
+import debounce from 'lodash/debounce';
+import xor from 'lodash/xor';
 import QuickEdit from './QuickEdit';
 import PopOver from '../components/PopOver';
 import Copyable from './Copyable';
-import Sortable = require('sortablejs');
-import flatMap = require('lodash/flatMap');
+import Sortable from 'sortablejs';
+import flatMap from 'lodash/flatMap';
 import {resizeSensor} from '../utils/resize-sensor';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import Overlay from '../components/Overlay';
 import PopOverable from './PopOver';
 
@@ -524,7 +524,8 @@ export default class Table extends React.Component<TableProps, object> {
     const ns = this.props.classPrefix;
     const dom = findDOMNode(this) as HTMLElement;
     const clip = (this.table as HTMLElement).getBoundingClientRect();
-    const offsetY = this.props.env.affixOffsetTop || 0;
+    const offsetY =
+      this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
     const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
     const affixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
 
