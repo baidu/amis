@@ -67,23 +67,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   unSensor: Function;
   affixDom: React.RefObject<HTMLDivElement> = React.createRef();
   footerDom: React.RefObject<HTMLDivElement> = React.createRef();
+  initalValues: {
+    [propName: string]: any;
+  } = {};
 
-  constructor(props: WizardProps) {
-    super(props);
-
-    this.state = {
-      currentStep: -1 // init 完后会设置成 1
-    };
-
-    this.handleAction = this.handleAction.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
-    this.handleDialogClose = this.handleDialogClose.bind(this);
-    this.formRef = this.formRef.bind(this);
-    this.domRef = this.domRef.bind(this);
-    this.getPopOverContainer = this.getPopOverContainer.bind(this);
-  }
+  state = {
+    currentStep: -1 // init 完后会设置成 1
+  };
 
   componentDidMount() {
     const {
@@ -227,6 +217,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     });
   }
 
+  @autobind
   formRef(ref: any) {
     if (ref) {
       while (ref && ref.getWrappedInstance) {
@@ -316,10 +307,12 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     this.reload();
   }
 
+  @autobind
   domRef(ref: any) {
     this.dom = ref;
   }
 
+  @autobind
   getPopOverContainer() {
     return this.dom;
   }
@@ -357,6 +350,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       });
   }
 
+  @autobind
   handleAction(
     e: React.UIEvent<any> | void,
     action: Action,
@@ -425,13 +419,35 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     });
   }
 
+  @autobind
   handleChange(values: object) {
     const {store} = this.props;
 
     store.updateData(values);
   }
 
+  @autobind
+  handleInit(values: any) {
+    const step = this.state.currentStep;
+    this.initalValues[step] = this.initalValues[step] || values;
+  }
+
+  @autobind
+  handleReset(values: any) {
+    const {store} = this.props;
+    const initalValue = this.initalValues[this.state.currentStep];
+    const reseted: any = {};
+    Object.keys(values).forEach(key => {
+      reseted[key] = initalValue.hasOwnProperty(key)
+        ? initalValue[key]
+        : undefined;
+    });
+
+    store.updateData(reseted);
+  }
+
   // 接管里面 form 的提交，不能直接让 form 提交，因为 wizard 自己需要知道进度。
+  @autobind
   handleSubmit(values: object, action: Action) {
     const {
       store,
@@ -556,6 +572,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     return false;
   }
 
+  @autobind
   handleDialogConfirm(values: object[], action: Action, targets: Array<any>) {
     const {store} = this.props;
 
@@ -571,6 +588,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     store.closeDialog();
   }
 
+  @autobind
   handleDialogClose() {
     const {store} = this.props;
     store.closeDialog();
@@ -768,6 +786,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
               {
                 key: this.state.currentStep,
                 ref: this.formRef,
+                onInit: this.handleInit,
+                onReset: this.handleReset,
                 onSubmit: this.handleSubmit,
                 onAction: this.handleAction,
                 disabled: store.loading,

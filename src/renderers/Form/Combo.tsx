@@ -14,9 +14,9 @@ import {
   autobind,
   isObjectShallowModified
 } from '../../utils/helper';
-import Sortable = require('sortablejs');
+import Sortable from 'sortablejs';
 import {evalExpression, filter} from '../../utils/tpl';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import Select from '../../components/Select';
 import {dataMapping, resolveVariable} from '../../utils/tpl-builtin';
 import {isEffectiveApi} from '../../utils/api';

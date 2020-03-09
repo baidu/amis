@@ -5,9 +5,9 @@ import {Action} from '../../types';
 import Downshift, {StateChangeOptions} from 'downshift';
 // @ts-ignore
 import matchSorter from 'match-sorter';
-import debouce = require('lodash/debounce');
+import debouce from 'lodash/debounce';
 import {filter} from '../../utils/tpl';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import {Icon} from '../../components/icons';
 import Input from '../../components/Input';
 import {autobind, createObject, setVariable} from '../../utils/helper';

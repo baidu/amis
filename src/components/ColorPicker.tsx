@@ -10,7 +10,7 @@ import {findDOMNode} from 'react-dom';
 import {SketchPicker, GithubPicker, ColorResult} from 'react-color';
 import {Icon} from './icons';
 import Overlay from './Overlay';
-import uncontrollable = require('uncontrollable');
+import uncontrollable from 'uncontrollable';
 import PopOver from './PopOver';
 import {ClassNamesFn, themeable} from '../theme';
 import {autobind} from '../utils/helper';
@@ -264,9 +264,7 @@ export class ColorControl extends React.PureComponent<
 
         {isOpened ? (
           <Overlay
-            placement={
-              placement || 'left-bottom-left-top  right-bottom-right-top'
-            }
+            placement={placement || 'auto'}
             target={() => findDOMNode(this)}
             onHide={this.close}
             container={popOverContainer || (() => findDOMNode(this))}

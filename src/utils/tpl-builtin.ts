@@ -1,7 +1,7 @@
 import {reigsterTplEnginer, filter} from './tpl';
 import moment from 'moment';
 import {PlainObject} from '../types';
-import isPlainObject = require('lodash/isPlainObject');
+import isPlainObject from 'lodash/isPlainObject';
 import {createObject, isObject, setVariable, qsstringify} from './helper';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -244,10 +244,6 @@ export const filters: {
           ? RegExp.$2
           : resolveVariable(arg1, this as any)
         : '';
-      // 比对的值是空时直接返回。
-      if (!arg1) {
-        return input;
-      }
       fn = value => arg1 == value;
     } else {
       if (directive !== 'match') {

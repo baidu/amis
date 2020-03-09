@@ -1,8 +1,8 @@
-import isPlainObject = require('lodash/isPlainObject');
-import transform = require('lodash/transform');
-import isEqual = require('lodash/isEqual');
-import lodashIsObject = require('lodash/isObject');
-import uniq = require('lodash/uniq');
+import isPlainObject from 'lodash/isPlainObject';
+import transform from 'lodash/transform';
+import isEqual from 'lodash/isEqual';
+import lodashIsObject from 'lodash/isObject';
+import uniq from 'lodash/uniq';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
 import {boundMethod} from 'autobind-decorator';
@@ -38,24 +38,30 @@ export function createObject(
   return obj;
 }
 
-export function cloneObject(from: any) {
+export function cloneObject(target: any, persistOwnProps: boolean = true) {
   const obj =
-    from && from.__super
-      ? Object.create(from.__super, {
+    target && target.__super
+      ? Object.create(target.__super, {
           __super: {
-            value: from.__super,
+            value: target.__super,
             writable: false,
             enumerable: false
           }
         })
       : Object.create(Object.prototype);
-  from && Object.keys(from).forEach(key => (obj[key] = from[key]));
+  persistOwnProps &&
+    target &&
+    Object.keys(target).forEach(key => (obj[key] = target[key]));
   return obj;
 }
 
-export function extendObject(to: any, from?: any) {
-  const obj = cloneObject(to);
-  from && Object.keys(from).forEach(key => (obj[key] = from[key]));
+export function extendObject(
+  target: any,
+  src?: any,
+  persistOwnProps: boolean = true
+) {
+  const obj = cloneObject(target, persistOwnProps);
+  src && Object.keys(src).forEach(key => (obj[key] = src[key]));
   return obj;
 }
 
