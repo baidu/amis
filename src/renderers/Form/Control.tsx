@@ -515,7 +515,7 @@ export default class FormControl extends React.PureComponent<
   render() {
     const {
       render,
-      control: {pipeIn, pipeOut, ...control},
+      control: {pipeIn, pipeOut, onChange, ...control},
       formMode,
       controlWidth,
       type,

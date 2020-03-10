@@ -101,6 +101,7 @@ export class Chart extends React.Component<ChartProps> {
         [
           'echarts',
           'echarts/extension/dataTool',
+          'echarts/extension/bmap/bmap',
           'echarts/map/js/china',
           'echarts/map/js/world'
         ],
