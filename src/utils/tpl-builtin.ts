@@ -127,6 +127,8 @@ export const filterDate = (
   }
 };
 
+let skipBehindCondition = false; // 用于标识是否跳过后续类三元过滤器
+
 export const filters: {
   [propName: string]: (input: any, ...args: any[]) => any;
 } = {
@@ -294,8 +296,43 @@ export const filters: {
   lowerCase: input =>
     input && typeof input === 'string' ? input.toLowerCase() : input,
   upperCase: input =>
-    input && typeof input === 'string' ? input.toUpperCase() : input
+    input && typeof input === 'string' ? input.toUpperCase() : input,
+
+  isTrue(input, trueValue, falseValue) {
+    return getConditionValue(input, !!input, trueValue, falseValue, this);
+  },
+  isFalse(input, trueValue, falseValue) {
+    return getConditionValue(input, !input, trueValue, falseValue, this);
+  },
+  isMatch(input, matchArg, trueValue, falseValue) {
+    matchArg = /^('|")(.*)\1$/.test(matchArg)
+      ? RegExp.$2
+      : resolveVariable(matchArg, this as any);
+
+    return getConditionValue(input, matchArg && new RegExp(matchArg, 'i').test(String(input)), trueValue, falseValue, this);
+  },
+  isEquals(input, equalsValue, trueValue, falseValue) {
+    equalsValue = /^\d+$/.test(equalsValue)
+      ? parseInt(equalsValue, 10)
+      : /^('|")(.*)\1$/.test(equalsValue)
+        ? RegExp.$2
+        : resolveVariable(equalsValue, this as any);
+    return getConditionValue(input, input === equalsValue, trueValue, falseValue, this);
+  }
 };
+
+function getConditionValue(input: string, isTrue: boolean, trueValue: string, falseValue: string, data: any) {
+  // 如果为真，或者为假且配置falseValue时，返回相应值并跳过后续所有类三元过滤器，否则返回input
+  if (isTrue) {
+    skipBehindCondition = true;
+    return /^('|")(.*)\1$/.test(trueValue) ? RegExp.$2 : resolveVariable(trueValue, data);
+  } else if (falseValue) {
+    skipBehindCondition = true;
+    return /^('|")(.*)\1$/.test(falseValue) ? RegExp.$2 : resolveVariable(falseValue, data);
+  } else {
+    return input;
+  }
+}
 
 export function registerFilter(
   name: string,
@@ -414,6 +451,8 @@ export const resolveVariableAndFilter = (
 
   let ret = resolveVariable(finalKey, data);
 
+  skipBehindCondition = false;
+
   return ret == null && !~originalKey.indexOf('default')
     ? ''
     : paths.reduce((input, filter) => {
@@ -431,8 +470,13 @@ export const resolveVariableAndFilter = (
           );
         let key = params.shift() as string;
 
-        return (filters[key] || filters.raw).call(data, input, ...params);
-      }, ret);
+      // 跳过后续所有类三元过滤器
+      if (skipBehindCondition && ~['isTrue', 'isFalse', 'isMatch', 'isEquals'].indexOf(key)) {
+        return input;
+      }
+
+      return (filters[key] || filters.raw).call(data, input, ...params);
+    }, ret);
 };
 
 export const tokenize = (
