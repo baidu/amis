@@ -94,6 +94,10 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 - `upperCase` 转大写
 - `base64Encode` base64 转码
 - `base64Decode` base64 解码
+- `isTrue` 类三元过滤器，用法：`${xxx|isTrue:'foo':bar}`，如果`xxx`变量为真，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。
+- `isFalse` 类三元过滤器，用法：`${xxx|isFalse:'foo':bar}`，如果`xxx`变量为假，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。
+- `isMatch` 类三元过滤器，用法：`${xxx|isMatch:keywords:'foo':bar}`，如果`xxx`变量模糊匹配`keywords`变量的值，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。`keywords`支持正则。
+- `isEquals` 类三元过滤器，用法：`${xxx|isEquals:keywords:'foo':bar}`，如果变量精准匹配`keywords`变量的值，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。
 - `filter` 过滤数组，操作对象为数组，当目标对象不是数组时将无效。使用语法 \${xxx | filter: 参与过滤的字段集合:指令:取值变量名}。
 
   比如: `${xxx|filter:readonly:isTrue}` 将 xxx 数组中 readonly 为 true 的成员提取出来。
