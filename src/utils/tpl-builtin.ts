@@ -479,6 +479,9 @@ export const resolveVariableAndFilter = (
             prevConInputChanged = result !== input;
             return result;
           }
+        } else {
+          // 后面再遇到非类三元filter就重置了吧，不影响再后面的其他三元filter
+          prevConInputChanged = false;
         }
 
       return (filters[key] || filters.raw).call(data, input, ...params);
