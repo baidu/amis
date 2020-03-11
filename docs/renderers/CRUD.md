@@ -48,7 +48,7 @@ CRUD 支持三种模式：`table`、`cards`、`list`，默认为 `table`。
 | keepItemSelectionOnPageChange         | `boolean`                      | `true`                          | 保留条目选择，默认分页、搜素后，用户选择条目会被清空，开启此选项后会保留用户选择，可以实现跨页面批量操作。            |
 | labelTpl                              | `string`                       |                                 | 单条描述模板，`keepItemSelectionOnPageChange`设置为`true`后会把所有已选择条目列出来，此选项可以用来定制条目展示文案。 |
 | headerToolbar                         | Array                          | `['bulkActions', 'pagination']` | 顶部工具栏配置                                                                                                        |
-| footerToolbar                         | Array                          | `['statistics', 'pagination']`  | 顶部工具栏配置                                                                                                        |
+| footerToolbar                         | Array                          | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
 
 
 
