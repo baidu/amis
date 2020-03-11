@@ -10,7 +10,8 @@ import {
   Renderer,
   getRendererByName,
   resolveRenderer,
-  filterSchema
+  filterSchema,
+  clearStoresCache
 } from './factory';
 import {wrapFetcher, buildApi} from './utils/api';
 import {filter, reigsterTplEnginer, evalExpression} from './utils/tpl';
@@ -195,6 +196,7 @@ const classPrefix = getClassPrefix();
 
 export {
   render,
+  clearStoresCache,
   Renderer,
   FormItem,
   OptionsControl,

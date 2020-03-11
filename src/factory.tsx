@@ -1,7 +1,7 @@
 import React from 'react';
 import qs from 'qs';
 import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
-import {getEnv} from 'mobx-state-tree';
+import {getEnv, destroy} from 'mobx-state-tree';
 import {Location} from 'history';
 import {wrapFetcher} from './utils/api';
 import {
@@ -961,12 +961,19 @@ export function render(
   );
 }
 
-export function clearStoresCache(sessions?: Array<string>) {
-  if (Array.isArray(sessions) && sessions.length) {
-    sessions.forEach(key => delete stores[key]);
-  } else {
-    stores = {};
+export function clearStoresCache(
+  sessions: Array<string> | string = Object.keys(stores)
+) {
+  if (!Array.isArray(sessions)) {
+    sessions = [sessions];
   }
+
+  sessions.forEach(key => {
+    const store = stores[key];
+    delete stores[key];
+
+    store && destroy(store);
+  });
 }
 
 let cache: {[propName: string]: RendererConfig} = {};
