@@ -239,22 +239,14 @@ export const filters: {
     } else if (directive === 'isExists') {
       fn = value => typeof value !== 'undefined';
     } else if (directive === 'equals' || directive === 'equal') {
-      arg1 = arg1
-        ? /^('|")(.*)\1$/.test(arg1)
-          ? RegExp.$2
-          : resolveVariable(arg1, this as any)
-        : '';
+      arg1 = arg1 ? getStrOrVariable(arg1, this) : '';
       fn = value => arg1 == value;
     } else {
       if (directive !== 'match') {
         directive = 'match';
         arg1 = expOrDirective;
       }
-      arg1 = arg1
-        ? /^('|")(.*)\1$/.test(arg1)
-          ? RegExp.$2
-          : resolveVariable(arg1, this as any)
-        : '';
+      arg1 = arg1 ? getStrOrVariable(arg1, this) : '';
 
       // 比对的值是空时直接返回。
       if (!arg1) {
@@ -294,8 +286,54 @@ export const filters: {
   lowerCase: input =>
     input && typeof input === 'string' ? input.toLowerCase() : input,
   upperCase: input =>
-    input && typeof input === 'string' ? input.toUpperCase() : input
+    input && typeof input === 'string' ? input.toUpperCase() : input,
+
+  isTrue(input, trueValue, falseValue) {
+    return getConditionValue(input, !!input, trueValue, falseValue, this);
+  },
+  isFalse(input, trueValue, falseValue) {
+    return getConditionValue(input, !input, trueValue, falseValue, this);
+  },
+  isMatch(input, matchArg, trueValue, falseValue) {
+    matchArg = getStrOrVariable(matchArg, this as any);
+    return getConditionValue(input, matchArg && new RegExp(matchArg, 'i').test(String(input)), trueValue, falseValue, this);
+  },
+  notMatch(input, matchArg, trueValue, falseValue) {
+    matchArg = getStrOrVariable(matchArg, this as any);
+    return getConditionValue(input, matchArg && !new RegExp(matchArg, 'i').test(String(input)), trueValue, falseValue, this);
+  },
+  isEquals(input, equalsValue, trueValue, falseValue) {
+    equalsValue = /^\d+$/.test(equalsValue)
+      ? parseInt(equalsValue, 10)
+      : getStrOrVariable(equalsValue, this as any);
+    return getConditionValue(input, input === equalsValue, trueValue, falseValue, this);
+  },
+  notEquals(input, equalsValue, trueValue, falseValue) {
+    equalsValue = /^\d+$/.test(equalsValue)
+      ? parseInt(equalsValue, 10)
+      : getStrOrVariable(equalsValue, this as any);
+    return getConditionValue(input, input !== equalsValue, trueValue, falseValue, this);
+  }
 };
+
+/**
+ * 如果当前传入字符为：'xxx'或者"xxx"，则返回字符xxx
+ * 否则去数据域中，获取变量xxx
+ * 
+ * @param arg 传入字符
+ * @param data 数据域
+ */
+function getStrOrVariable(arg: string, data: any) {
+  return /^('|")(.*)\1$/.test(arg)
+    ? RegExp.$2
+    : resolveVariable(arg, data);
+}
+
+function getConditionValue(input: string, isTrue: boolean, trueValue: string, falseValue: string, data: any) {
+  return isTrue || (!isTrue && falseValue)
+    ? getStrOrVariable(isTrue ? trueValue : falseValue, data)
+    : input;
+}
 
 export function registerFilter(
   name: string,
@@ -414,6 +452,8 @@ export const resolveVariableAndFilter = (
 
   let ret = resolveVariable(finalKey, data);
 
+  let prevConInputChanged = false; // 前一个类三元过滤器生效，则跳过后续类三元过滤器
+
   return ret == null && !~originalKey.indexOf('default')
     ? ''
     : paths.reduce((input, filter) => {
@@ -431,8 +471,21 @@ export const resolveVariableAndFilter = (
           );
         let key = params.shift() as string;
 
-        return (filters[key] || filters.raw).call(data, input, ...params);
-      }, ret);
+        if (~['isTrue', 'isFalse', 'isMatch', 'isEquals', 'notMatch', 'notEquals'].indexOf(key)) {
+          if (prevConInputChanged) {
+            return input;
+          } else {
+            const result = filters[key].call(data, input, ...params);
+            prevConInputChanged = result !== input;
+            return result;
+          }
+        } else {
+          // 后面再遇到非类三元filter就重置了吧，不影响再后面的其他三元filter
+          prevConInputChanged = false;
+        }
+
+      return (filters[key] || filters.raw).call(data, input, ...params);
+    }, ret);
 };
 
 export const tokenize = (
