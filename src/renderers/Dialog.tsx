@@ -71,6 +71,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
   };
 
   reaction: any;
+  isDead = false;
   $$id: string = guid();
   constructor(props: DialogProps) {
     super(props);
@@ -114,6 +115,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
   componentWillUnmount() {
     this.reaction && this.reaction();
+    this.isDead = true;
   }
 
   buildActions(): Array<Action> {
@@ -586,6 +588,9 @@ export class DialogRenderer extends Dialog {
           store.markBusying(false);
         })
         .catch(reason => {
+          if (this.isDead) {
+            return;
+          }
           store.updateMessage(reason.message, true);
           store.markBusying(false);
         });
