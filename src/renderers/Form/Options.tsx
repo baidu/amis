@@ -373,7 +373,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
         newValue = valueArray[0] || resetValue;
 
-        if (joinValues && newValue) {
+        if ((joinValues || extractValue) && newValue) {
           newValue = (newValue as any)[valueField || 'value'];
         }
       }
@@ -774,9 +774,13 @@ export function registerOptionsControl(config: OptionsConfig) {
           setOptions={this.setOptions}
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
-          creatable={creatable || creatable !== false && isEffectiveApi(addApi)}
-          editable={editable || editable !== false && isEffectiveApi(editApi)}
-          removable={removable || removable !== false && isEffectiveApi(deleteApi)}
+          creatable={
+            creatable || (creatable !== false && isEffectiveApi(addApi))
+          }
+          editable={editable || (editable !== false && isEffectiveApi(editApi))}
+          removable={
+            removable || (removable !== false && isEffectiveApi(deleteApi))
+          }
           onAdd={this.handleOptionAdd}
           onEdit={this.handleOptionEdit}
           onDelete={this.handleOptionDelete}
