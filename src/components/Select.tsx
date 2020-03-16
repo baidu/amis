@@ -7,7 +7,6 @@
 
 import uncontrollable from 'uncontrollable';
 import React from 'react';
-import 'react-datetime/css/react-datetime.css';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
@@ -445,7 +444,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
       } else {
         selection.push(selectItem);
       }
-      onChange(simpleValue ? selection.map(item => item[valueField]) : selection);
+      onChange(
+        simpleValue ? selection.map(item => item[valueField]) : selection
+      );
     } else {
       onChange(simpleValue ? selectItem[valueField] : selectItem);
     }
@@ -651,7 +652,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
         {filtedOptions.length ? (
           filtedOptions.map((item, index) => {
             const checked =
-              selectedItem === item || !!~selectionValues.indexOf(item[valueField]);
+              selectedItem === item ||
+              !!~selectionValues.indexOf(item[valueField]);
 
             return (
               <div

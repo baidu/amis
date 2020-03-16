@@ -1,6 +1,6 @@
 import React from 'react';
 import {FormItem, FormControlProps} from './Item';
-// @require 'cropperjs/dist/cropper.css';
+import 'cropperjs/dist/cropper.css';
 import Cropper from 'react-cropper';
 import DropZone from 'react-dropzone';
 import 'blueimp-canvastoblob';

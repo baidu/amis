@@ -14,6 +14,7 @@ import Overlay from './Overlay';
 import {ClassNamesFn, themeable} from '../theme';
 import {PlainObject} from '../types';
 import Calendar from './calendar/Calendar';
+import 'react-datetime/css/react-datetime.css';
 
 const availableShortcuts: {[propName: string]: any} = {
   today: {
