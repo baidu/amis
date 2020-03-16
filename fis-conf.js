@@ -198,7 +198,8 @@ if (fis.project.currentMedia() === 'publish') {
           }
         );
       }
-    ]
+    ],
+    preprocessor: null
   });
 
   publishEnv.match('_*.scss', {
