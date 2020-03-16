@@ -9,7 +9,8 @@ import {
   autobind,
   getVariable,
   noop,
-  createObject
+  createObject,
+  isObjectShallowModified
 } from '../../utils/helper';
 import findIndex from 'lodash/findIndex';
 import Html from '../../components/Html';
@@ -85,7 +86,7 @@ export default class PickerControl extends React.PureComponent<
   componentDidUpdate(prevProps: PickerProps) {
     const props = this.props;
 
-    if (props.value !== prevProps.value) {
+    if (JSON.stringify(props.value) !== JSON.stringify(prevProps.value)) {
       this.fetchOptions();
     }
   }
