@@ -569,7 +569,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     Array.isArray(syncFields) ? JSON.stringify([value, index, data, pickVars(data, syncFields)]): strictMode ? JSON.stringify([value, index]) : JSON.stringify([value, index, data])
   );
 
-  formatValue(value: any, index: number) {
+  formatValue(value: any, index: number = -1) {
     const {flat, data, strictMode, syncFields} = this.props;
 
     if (flat) {
@@ -1065,7 +1065,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     } = this.props;
 
     let controls = this.props.controls;
-    const data = isObject(value) ? value : this.defaultValue;
+    const data = isObject(value) ? this.formatValue(value) : this.defaultValue;
     let condition: Condition | null = null;
 
     if (Array.isArray(conditions) && conditions.length) {
@@ -1112,7 +1112,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 },
                 {
                   disabled: disabled,
-                  data: isObject(value) ? value : this.defaultValue,
+                  data: data,
                   onChange: this.handleSingleFormChange,
                   ref: this.makeFormRef(0),
                   onInit: this.handleSingleFormInit,
