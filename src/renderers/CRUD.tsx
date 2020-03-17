@@ -317,7 +317,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       const idx: number = (ctx as any).index;
-      const length = store.data.items.length;
+      const length = store.items.length;
       stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
       store.openDialog(ctx, {
         hasNext: idx < length - 1,
