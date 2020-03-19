@@ -94,6 +94,8 @@ export interface TableProps extends RendererProps {
   buildItemProps?: (item: any, index: number) => any;
   checkOnItemClick?: boolean;
   hideCheckToggler?: boolean;
+  rowClassName?: string;
+  rowClassNameExpr?: string;
 }
 
 export default class Table extends React.Component<TableProps, object> {
@@ -125,7 +127,9 @@ export default class Table extends React.Component<TableProps, object> {
     'combineNum',
     'items',
     'valueField',
-    'saveImmediately'
+    'saveImmediately',
+    'rowClassName',
+    'rowClassNameExpr'
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
