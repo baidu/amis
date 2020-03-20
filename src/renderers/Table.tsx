@@ -96,6 +96,7 @@ export interface TableProps extends RendererProps {
   hideCheckToggler?: boolean;
   rowClassName?: string;
   rowClassNameExpr?: string;
+  popOverContainer?: any;
 }
 
 export default class Table extends React.Component<TableProps, object> {
@@ -129,7 +130,8 @@ export default class Table extends React.Component<TableProps, object> {
     'valueField',
     'saveImmediately',
     'rowClassName',
-    'rowClassNameExpr'
+    'rowClassNameExpr',
+    'popOverContainer'
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
@@ -1175,7 +1177,8 @@ export default class Table extends React.Component<TableProps, object> {
       env,
       classPrefix: ns,
       classnames: cx,
-      checkOnItemClick
+      checkOnItemClick,
+      popOverContainer
     } = this.props;
 
     if (column.name && item.rowSpans[column.name] === 0) {
@@ -1253,7 +1256,7 @@ export default class Table extends React.Component<TableProps, object> {
       btnDisabled: store.dragging,
       data: item.locals,
       value: column.name ? resolveVariable(column.name, item.data) : undefined,
-      popOverContainer: this.getPopOverContainer,
+      popOverContainer: popOverContainer || this.getPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
       quickEditFormRef: this.subFormRef,
       prefix,
