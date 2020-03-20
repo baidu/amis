@@ -1576,6 +1576,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       classnames: cx,
       keepItemSelectionOnPageChange,
       onAction,
+      popOverContainer,
       ...rest
     } = this.props;
 
@@ -1642,6 +1643,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             query: store.query,
             orderBy: store.query.orderBy,
             orderDir: store.query.orderDir,
+            popOverContainer,
             onAction: this.handleAction,
             onSave: this.handleSave,
             onSaveOrder: this.handleSaveOrder,
