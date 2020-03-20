@@ -254,7 +254,9 @@ export default class Drawer extends React.Component<DrawerProps, object> {
 
   @autobind
   getPopOverContainer() {
-    return findDOMNode(this);
+    return (findDOMNode(this) as HTMLElement).querySelector(
+      `.${this.props.classPrefix}Drawer-content`
+    );
   }
 
   renderBody(body: SchemaNode, key?: any): React.ReactNode {
