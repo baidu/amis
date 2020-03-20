@@ -309,7 +309,7 @@ export default class FormControl extends React.PureComponent<
       control = control.getWrappedInstance();
     }
 
-    if (control && control.validate) {
+    if (control && control.validate && this.model) {
       const formItem = this.model as IFormItemStore;
       let validate = promisify(control.validate.bind(control));
       this.hook = function() {
