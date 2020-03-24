@@ -11,6 +11,11 @@
     }
   }
 
+  &-setNullBtn {
+    margin-top: $gap-xs;
+    display: inline-block;
+  }
+
   &-addBtn {
     font-size: $Combo-addBtn-fontSize;
 
