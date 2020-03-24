@@ -239,6 +239,9 @@ amis 集成了 [fontawesome](http://fontawesome.io/icons/)，所以关于图标�
 .text-u-c { text-transform: uppercase; }
 .text-l-t { text-decoration: line-through; }
 .text-u-l { text-decoration: underline; }
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
 ```
 
 

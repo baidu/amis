@@ -4,7 +4,7 @@ import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Schema, Action} from '../types';
 import {default as DrawerContainer} from '../components/Drawer';
 import findLast from 'lodash/findLast';
-import {guid, isVisible} from '../utils/helper';
+import {guid, isVisible, autobind} from '../utils/helper';
 import {reaction} from 'mobx';
 import {findDOMNode} from 'react-dom';
 import {IModalStore, ModalStore} from '../store/modal';
@@ -252,6 +252,13 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     store.reset();
   }
 
+  @autobind
+  getPopOverContainer() {
+    return (findDOMNode(this) as HTMLElement).querySelector(
+      `.${this.props.classPrefix}Drawer-content`
+    );
+  }
+
   renderBody(body: SchemaNode, key?: any): React.ReactNode {
     let {render, store} = this.props;
 
@@ -264,7 +271,8 @@ export default class Drawer extends React.Component<DrawerProps, object> {
       key,
       disabled: store.loading,
       onAction: this.handleAction,
-      onFinished: this.handleChildFinished
+      onFinished: this.handleChildFinished,
+      popOverContainer: this.getPopOverContainer
     };
 
     if (schema.type === 'form') {
