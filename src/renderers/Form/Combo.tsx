@@ -70,6 +70,7 @@ export interface ComboProps extends FormControlProps {
   lazyLoad?: boolean;
   changeImmediately?: boolean;
   strictMode?: boolean;
+  nullable?: boolean;
   messages?: {
     validateFailed?: string;
     minLengthValidateFailed?: string;
@@ -424,10 +425,10 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   handleSingleFormInit(values: any) {
-    const {syncDefaultValue, setPrinstineValue, value} = this.props;
+    const {syncDefaultValue, setPrinstineValue, value, nullable} = this.props;
 
 
-    if (syncDefaultValue !== false && isObjectShallowModified(value, values) && setPrinstineValue) {
+    if (syncDefaultValue !== false && !nullable && isObjectShallowModified(value, values) && setPrinstineValue) {
       setPrinstineValue({
         ...values
       })
@@ -446,7 +447,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   validate(): any {
-    const {value, minLength, maxLength, messages} = this.props;
+    const {value, minLength, maxLength, messages, nullable} = this.props;
 
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return (
@@ -458,7 +459,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         (messages && messages.maxLengthValidateFailed) ||
         `组合表单成员数量超出，超出设定的最大${maxLength}个，请删除多余的成员。`
       );
-    } else if (this.subForms.length) {
+    } else if (this.subForms.length && (!nullable || value)) {
       return Promise.all(this.subForms.map(item => item.validate())).then(
         values => {
           if (~values.indexOf(false)) {
@@ -627,6 +628,17 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {store} = this.props;
 
     store.setActiveKey(key);
+  }
+
+  @autobind
+  setNull(e:React.MouseEvent) {
+    e.preventDefault();
+    const {onChange} = this.props;
+    onChange(null);
+
+    Array.isArray(this.subForms) && this.subForms.forEach(subForm => {
+      subForm.clearErrors();
+    });
   }
 
   renderPlaceholder() {
@@ -1062,6 +1074,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       noBorder,
       disabled,
       typeSwitchable,
+      nullable,
     } = this.props;
 
     let controls = this.props.controls;
@@ -1126,6 +1139,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             )}
           </div>
         </div>
+        {value && nullable ? (<a className={cx('Combo-setNullBtn')} href="#" onClick={this.setNull}>清空数据</a>) : null}
       </div>
     );
   }
