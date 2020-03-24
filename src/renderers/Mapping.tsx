@@ -33,6 +33,7 @@ export class MappingField extends React.Component<MappingProps, object> {
       <span className="text-muted">{placeholder}</span>
     );
     let key = value === true ? '1' : value;
+    key = typeof key === 'string' ? key.trim() : key; // trim 一下，干掉一些空白字符。
 
     if (typeof value !== 'undefined' && map && (map[key] || map['*'])) {
       viewValue = render('tpl', map[key] || map['*']);
