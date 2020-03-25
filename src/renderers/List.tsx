@@ -315,7 +315,7 @@ export default class List extends React.Component<ListProps, object> {
       return;
     }
 
-    const {onSave} = this.props;
+    const {onSave, primaryField} = this.props;
 
     if (!onSave) {
       return;
@@ -323,7 +323,7 @@ export default class List extends React.Component<ListProps, object> {
 
     onSave(
       item.data,
-      difference(item.data, item.pristine),
+      difference(item.data, item.pristine, ['id', primaryField]),
       item.index,
       undefined,
       item.pristine
@@ -331,7 +331,7 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   handleSave() {
-    const {store, onSave} = this.props;
+    const {store, onSave, primaryField} = this.props;
 
     if (!onSave || !store.modifiedItems.length) {
       return;
@@ -340,7 +340,7 @@ export default class List extends React.Component<ListProps, object> {
     const items = store.modifiedItems.map(item => item.data);
     const itemIndexes = store.modifiedItems.map(item => item.index);
     const diff = store.modifiedItems.map(item =>
-      difference(item.data, item.pristine)
+      difference(item.data, item.pristine, ['id', primaryField])
     );
     const unModifiedItems = store.items
       .filter(item => !item.modified)

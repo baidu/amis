@@ -501,7 +501,7 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
 export function difference<
   T extends {[propName: string]: any},
   U extends {[propName: string]: any}
->(object: T, base: U): {[propName: string]: any} {
+>(object: T, base: U, keepProps?: Array<string>): {[propName: string]: any} {
   function changes(object: T, base: U) {
     const keys: Array<keyof T & keyof U> = uniq(
       Object.keys(object).concat(Object.keys(base))
@@ -511,6 +511,10 @@ export function difference<
     keys.forEach(key => {
       const a: any = object[key as keyof T];
       const b: any = base[key as keyof U];
+
+      if (keepProps && ~keepProps.indexOf(key as string)) {
+        result[key] = a;
+      }
 
       if (isEqual(a, b)) {
         return;

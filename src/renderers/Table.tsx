@@ -393,7 +393,7 @@ export default class Table extends React.Component<TableProps, object> {
     saveImmediately?: boolean | any,
     savePristine?: boolean
   ) {
-    const {onSave, saveImmediately: propsSaveImmediately} = this.props;
+    const {onSave, saveImmediately: propsSaveImmediately, primaryField} = this.props;
 
     item.change(values, savePristine);
 
@@ -422,7 +422,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     onSave(
       item.data,
-      difference(item.data, item.pristine),
+      difference(item.data, item.pristine, ['id', primaryField]),
       item.index,
       undefined,
       item.pristine
@@ -430,7 +430,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   async handleSave() {
-    const {store, onSave} = this.props;
+    const {store, onSave, primaryField} = this.props;
 
     if (!onSave || !store.modifiedRows.length) {
       return;
@@ -451,7 +451,7 @@ export default class Table extends React.Component<TableProps, object> {
     const rows = store.modifiedRows.map(item => item.data);
     const rowIndexes = store.modifiedRows.map(item => item.index);
     const diff = store.modifiedRows.map(item =>
-      difference(item.data, item.pristine)
+      difference(item.data, item.pristine, ['id', primaryField])
     );
     const unModifiedRows = store.rows
       .filter(item => !item.modified)
