@@ -101,6 +101,13 @@
   color: $Form-input-placeholderColor;
 }
 
+.#{$ns}Form-caption {
+  display: inline-block;
+  line-height: $Form-input-height;
+  height: $Form-input-height;
+  margin-left: px2rem(10px);
+}
+
 @include media-breakpoint-up(sm) {
   .#{$ns}Form-control--sizeXs {
     // min-width: $Form-control-widthXs;
