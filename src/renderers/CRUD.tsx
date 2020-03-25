@@ -501,7 +501,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     replaceLocation: boolean = false,
     search: boolean = true
   ) {
-    const {store, syncLocation, env, pageField, perPageField, loadDataOnceFetchOnFilter} = this.props;
+    const {
+      store,
+      syncLocation,
+      env,
+      pageField,
+      perPageField,
+      loadDataOnceFetchOnFilter
+    } = this.props;
     values = syncLocation ? qs.parse(qsstringify(values)) : values;
 
     store.updateQuery(
@@ -516,7 +523,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField
     );
     this.lastQuery = store.query;
-    search && this.search(undefined, undefined, undefined, loadDataOnceFetchOnFilter);
+    search &&
+      this.search(undefined, undefined, undefined, loadDataOnceFetchOnFilter);
   }
 
   handleBulkGo(
@@ -818,7 +826,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
       const data: any = createObject(store.data, {
         rows,
-        rowsDiff: diff,
+        rowsDiff: (diff as Array<any>).map((item: any, index: number) => {
+          if (rows[index] && rows[index].hasOwnProperty(primaryField || 'id')) {
+            item = {
+              ...item,
+              [primaryField || 'id']: (rows[index] as any)[primaryField || 'id']
+            };
+          }
+          return item;
+        }),
         indexes: indexes,
         rowsOrigin
       });
