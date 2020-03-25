@@ -826,15 +826,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
       const data: any = createObject(store.data, {
         rows,
-        rowsDiff: (diff as Array<any>).map((item: any, index: number) => {
-          if (rows[index] && rows[index].hasOwnProperty(primaryField || 'id')) {
-            item = {
-              ...item,
-              [primaryField || 'id']: (rows[index] as any)[primaryField || 'id']
-            };
-          }
-          return item;
-        }),
+        rowsDiff: diff,
         indexes: indexes,
         rowsOrigin
       });
