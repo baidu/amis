@@ -52,6 +52,7 @@ export default class ButtonGroupControl extends React.Component<
       disabled,
       options,
       value,
+      labelField,
       placeholder,
       btnClassName,
       btnActiveClassName,
@@ -76,7 +77,7 @@ export default class ButtonGroupControl extends React.Component<
         return render(
           `option/${key}`,
           {
-            label: option.label,
+            label: option[labelField || 'label'],
             icon: option.icon,
             size: option.size || size,
             type: 'button',
