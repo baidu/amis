@@ -1,11 +1,12 @@
 .#{$ns}CityPicker {
   .#{$ns}Select {
     margin-right: $gap-xs;
+    margin-bottom: $gap-xs;
   }
 
   &-input {
     outline: none;
-    vertical-align: middle;
+    vertical-align: top;
     // margin-left: $gap-xs;
     border: $Form-input-borderWidth solid $Form-input-borderColor;
     border-radius: $Form-input-borderRadius;
