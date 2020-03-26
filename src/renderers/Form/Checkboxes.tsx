@@ -42,7 +42,7 @@ export default class CheckboxesControl extends React.Component<
   }
 
   renderGroup(option: Option, index: number) {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, labelField} = this.props;
 
     return (
       <div
@@ -52,7 +52,7 @@ export default class CheckboxesControl extends React.Component<
         <label
           className={cx('CheckboxesControl-groupLabel', option.labelClassName)}
         >
-          {option.label}
+          {option[labelField || 'label']}
         </label>
 
         {option.children && option.children.length
