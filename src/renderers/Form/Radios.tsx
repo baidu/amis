@@ -72,8 +72,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         disabled={disabled}
         onChange={this.handleChange}
         joinValues={joinValues}
-        extractValue={extractValue}
-        delimiter={delimiter}
+        extractValue={extractValue!}
+        delimiter={delimiter!}
         labelClassName={labelClassName}
         placeholder={placeholder}
         options={options}
