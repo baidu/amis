@@ -995,9 +995,11 @@ export default class Form extends React.Component<FormProps, object> {
       }
 
       if (control.component && control.label && control.name) {
-        control.component = asFormItem(control.options || {})(
-          control.component
-        );
+        control.component = asFormItem(
+          control.options || {
+            strictMode: false
+          }
+        )(control.component);
       }
 
       control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
