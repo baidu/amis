@@ -127,6 +127,7 @@ export default class TreeSelectControl extends React.Component<
   handleKeyPress(e: React.KeyboardEvent) {
     if (e.key === ' ') {
       this.handleClick();
+      e.preventDefault();
     }
   }
 

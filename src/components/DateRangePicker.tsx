@@ -326,6 +326,7 @@ export class DateRangePicker extends React.Component<
   handleKeyPress(e: React.KeyboardEvent) {
     if (e.key === ' ') {
       this.handleClick();
+      e.preventDefault();
     }
   }
 
