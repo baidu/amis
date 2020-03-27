@@ -491,6 +491,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   handleKeyPress(e: React.KeyboardEvent) {
     if (e.key === ' ') {
       this.toggle();
+      e.preventDefault();
     }
   }
 

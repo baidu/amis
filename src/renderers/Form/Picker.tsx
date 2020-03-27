@@ -272,6 +272,7 @@ export default class PickerControl extends React.PureComponent<
 
     if (e.key === ' ') {
       this.open();
+      e.preventDefault();
     } else if (selectedOptions.length && e.key == 'Backspace') {
       this.removeItem(selectedOptions.length - 1);
     }

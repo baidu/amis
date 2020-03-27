@@ -299,6 +299,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   handleKeyPress(e: React.KeyboardEvent) {
     if (e.key === ' ') {
       this.handleClick();
+      e.preventDefault();
     }
   }
 
