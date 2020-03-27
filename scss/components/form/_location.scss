@@ -1,0 +1,78 @@
+.#{$ns}LocationPicker {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  border: $DatePicker-borderWidth solid $DatePicker-borderColor;
+  font-size: $DatePicker-fontSize;
+  padding: $DatePicker-paddingY $DatePicker-paddingX;
+  height: $DatePicker-height;
+  outline: none;
+  white-space: nowrap;
+  color: $DatePicker-color;
+  background-color: $DatePicker-bg;
+  border-radius: $DatePicker-borderRadius;
+
+  &:not(.is-disabled) {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $DatePicker-onHover-bg;
+      border-color: $DatePicker-onHover-borderColor;
+
+      .#{$ns}DatePicker-toggler:before {
+        color: $DatePicker-onHover-iconColor;
+      }
+    }
+  }
+
+  &.is-focused {
+    border-color: $DatePicker-onFocused-borderColor;
+    box-shadow: $Form-input-boxShadow;
+  }
+
+  &.is-disabled {
+    background: $gray200;
+
+    > &-input {
+      color: $text--muted-color;
+    }
+  }
+
+  &-placeholder {
+    color: $DatePicker-placeholderColor;
+    user-select: none;
+    margin-right: $gap-base;
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  &-value {
+    margin-right: $gap-base;
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  &-toggler {
+    cursor: pointer;
+    color: $DatePicker-iconColor;
+
+    &:hover {
+      color: $DatePicker-onHover-iconColor;
+    }
+  }
+
+  &-clear {
+    display: inline-block;
+    @include input-clear();
+    line-height: 1;
+    margin-right: $gap-xs;
+  }
+}
+
+.#{$ns}LocationControl {
+  position: relative;
+}
+
+.#{$ns}LocationControl:not(.is-inline) > .#{$ns}LocationPicker {
+  display: flex;
+}

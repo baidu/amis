@@ -97,6 +97,7 @@ import './renderers/Form/ButtonGroup';
 import './renderers/Form/ButtonToolbar';
 import './renderers/Form/Radios';
 import './renderers/Form/List';
+import './renderers/Form/Location';
 import './renderers/Form/Select';
 import './renderers/Form/Static';
 import './renderers/Form/Date';
