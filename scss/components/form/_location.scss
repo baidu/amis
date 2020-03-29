@@ -25,7 +25,8 @@
     }
   }
 
-  &.is-focused {
+  &.is-focused,
+  &.is-active {
     border-color: $DatePicker-onFocused-borderColor;
     box-shadow: $Form-input-boxShadow;
   }
@@ -75,4 +76,61 @@
 
 .#{$ns}LocationControl:not(.is-inline) > .#{$ns}LocationPicker {
   display: flex;
+}
+
+.#{$ns}LocationPicker-popover {
+  min-width: 320px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: -1px;
+  border-color: $Form-input-onFocused-borderColor;
+}
+
+.#{$ns}MapPicker {
+  &-search {
+    padding: 5px 10px;
+  }
+
+  &-map {
+    display: block;
+    width: 100%;
+    height: 200px;
+  }
+
+  &-item {
+    padding: 10px 10px;
+    position: relative;
+    border-top: 1px solid $borderColor;
+
+    > svg {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  &-itemTitle {
+    font-size: $fontSizeBase;
+  }
+
+  &-itemDesc {
+    font-size: $fontSizeSm;
+  }
+
+  &-sugItem {
+    cursor: pointer;
+    padding: (
+        $Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize
+      )/2 $Form-select-paddingX;
+
+    &:hover {
+      color: $Form-select-menu-onActive-color;
+      background-color: $Form-select-menu-onActive-bg;
+    }
+  }
+}
+
+.tangram-suggestion-main {
+  display: none !important;
 }
