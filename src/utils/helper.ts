@@ -1140,3 +1140,24 @@ export function mapObject(value: any, fn: Function): any {
   }
   return fn(value);
 }
+
+export function loadScript(src: string) {
+  return new Promise((ok, fail) => {
+    const script = document.createElement('script');
+    script.onerror = reason => fail(reason);
+
+    if (~src.indexOf('{{callback}}')) {
+      const callbackFn = `loadscriptcallback_${uuid()}`;
+      (window as any)[callbackFn] = () => {
+        ok();
+        delete (window as any)[callbackFn];
+      };
+      src = src.replace('{{callback}}', callbackFn);
+    } else {
+      script.onload = () => ok();
+    }
+
+    script.src = src;
+    document.head.appendChild(script);
+  });
+}

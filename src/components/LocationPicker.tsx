@@ -11,6 +11,7 @@ export interface LocationProps {
   vendor: 'baidu' | 'gaode' | 'tenxun';
   placeholder: string;
   clearable: boolean;
+  ak: string;
   value?: {
     address: string;
     lat: number;
@@ -113,6 +114,17 @@ export class LocationPicker extends React.Component<
     e.preventDefault();
   }
 
+  @autobind
+  handleChange(value: any) {
+    if (value) {
+      value = {
+        ...value,
+        vendor: this.props.vendor
+      };
+    }
+    this.props.onChange(value);
+  }
+
   render() {
     const {
       classnames: cx,
@@ -122,7 +134,8 @@ export class LocationPicker extends React.Component<
       placeholder,
       clearable,
       popOverContainer,
-      vendor
+      vendor,
+      ak
     } = this.props;
     const {isFocused, isOpened} = this.state;
 
@@ -136,7 +149,8 @@ export class LocationPicker extends React.Component<
           `LocationPicker`,
           {
             'is-disabled': disabled,
-            'is-focused': isFocused
+            'is-focused': isFocused,
+            'is-active': isOpened
           },
           className
         )}
@@ -158,7 +172,7 @@ export class LocationPicker extends React.Component<
         ) : null}
 
         <a className={cx('LocationPicker-toggler')}>
-          <Icon icon="search" />
+          <Icon icon="location" />
         </a>
 
         <Overlay
@@ -174,7 +188,7 @@ export class LocationPicker extends React.Component<
             onClick={this.handlePopOverClick}
           >
             {vendor === 'baidu' ? (
-              <BaiduMapPicker />
+              <BaiduMapPicker ak={ak} value={value} onChange={this.handleChange} />
             ) : (<Alert2>{vendor} 地图控件不支持</Alert2>)}
           </PopOver>
         </Overlay>
