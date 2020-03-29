@@ -6,6 +6,7 @@ import LocationPicker from '../../components/LocationPicker';
 export interface LocationControlProps extends FormControlProps {
   vendor: 'baidu' | 'gaode' | 'tenxun';
   value: any;
+  ak: string;
   onChange: (value: any) => void;
   classnames: ClassNamesFn;
   classPrefix: string;
