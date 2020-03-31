@@ -296,40 +296,68 @@ export const filters: {
   },
   isMatch(input, matchArg, trueValue, falseValue) {
     matchArg = getStrOrVariable(matchArg, this as any);
-    return getConditionValue(input, matchArg && new RegExp(matchArg, 'i').test(String(input)), trueValue, falseValue, this);
+    return getConditionValue(
+      input,
+      matchArg && new RegExp(matchArg, 'i').test(String(input)),
+      trueValue,
+      falseValue,
+      this
+    );
   },
   notMatch(input, matchArg, trueValue, falseValue) {
     matchArg = getStrOrVariable(matchArg, this as any);
-    return getConditionValue(input, matchArg && !new RegExp(matchArg, 'i').test(String(input)), trueValue, falseValue, this);
+    return getConditionValue(
+      input,
+      matchArg && !new RegExp(matchArg, 'i').test(String(input)),
+      trueValue,
+      falseValue,
+      this
+    );
   },
   isEquals(input, equalsValue, trueValue, falseValue) {
     equalsValue = /^\d+$/.test(equalsValue)
       ? parseInt(equalsValue, 10)
       : getStrOrVariable(equalsValue, this as any);
-    return getConditionValue(input, input === equalsValue, trueValue, falseValue, this);
+    return getConditionValue(
+      input,
+      input === equalsValue,
+      trueValue,
+      falseValue,
+      this
+    );
   },
   notEquals(input, equalsValue, trueValue, falseValue) {
     equalsValue = /^\d+$/.test(equalsValue)
       ? parseInt(equalsValue, 10)
       : getStrOrVariable(equalsValue, this as any);
-    return getConditionValue(input, input !== equalsValue, trueValue, falseValue, this);
+    return getConditionValue(
+      input,
+      input !== equalsValue,
+      trueValue,
+      falseValue,
+      this
+    );
   }
 };
 
 /**
  * 如果当前传入字符为：'xxx'或者"xxx"，则返回字符xxx
  * 否则去数据域中，获取变量xxx
- * 
+ *
  * @param arg 传入字符
  * @param data 数据域
  */
 function getStrOrVariable(arg: string, data: any) {
-  return /^('|")(.*)\1$/.test(arg)
-    ? RegExp.$2
-    : resolveVariable(arg, data);
+  return /^('|")(.*)\1$/.test(arg) ? RegExp.$2 : resolveVariable(arg, data);
 }
 
-function getConditionValue(input: string, isTrue: boolean, trueValue: string, falseValue: string, data: any) {
+function getConditionValue(
+  input: string,
+  isTrue: boolean,
+  trueValue: string,
+  falseValue: string,
+  data: any
+) {
   return isTrue || (!isTrue && falseValue)
     ? getStrOrVariable(isTrue ? trueValue : falseValue, data)
     : input;
@@ -433,7 +461,7 @@ export const resolveVariableAndFilter = (
 
   // 先只支持一层吧
   finalKey = finalKey.replace(
-    /(\\)?\$(?:([a-z0-9_.]+)|{([^}{]+)})/g,
+    /(\\|\\\$)?\$(?:([a-z0-9_.]+)|{([^}{]+)})/g,
     (_, escape) => {
       return escape
         ? _.substring(1)
@@ -471,7 +499,16 @@ export const resolveVariableAndFilter = (
           );
         let key = params.shift() as string;
 
-        if (~['isTrue', 'isFalse', 'isMatch', 'isEquals', 'notMatch', 'notEquals'].indexOf(key)) {
+        if (
+          ~[
+            'isTrue',
+            'isFalse',
+            'isMatch',
+            'isEquals',
+            'notMatch',
+            'notEquals'
+          ].indexOf(key)
+        ) {
           if (prevConInputChanged) {
             return input;
           } else {
@@ -484,8 +521,8 @@ export const resolveVariableAndFilter = (
           prevConInputChanged = false;
         }
 
-      return (filters[key] || filters.raw).call(data, input, ...params);
-    }, ret);
+        return (filters[key] || filters.raw).call(data, input, ...params);
+      }, ret);
 };
 
 export const tokenize = (
