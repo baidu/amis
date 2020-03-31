@@ -257,7 +257,7 @@ export function calculatePosition(
 
     positionLeft += leftDelta;
     arrowOffsetLeft = 50 * (1 - (2 * leftDelta) / overlayHeight) + '%';
-  } else if ((placement = 'center')) {
+  } else if ((placement === 'center')) {
     // atX = atY = myX = myY = 'center';
     positionLeft = childOffset.left + (childOffset.width - overlayWidth) / 2;
     positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;
