@@ -52,6 +52,7 @@ export interface TableProps extends RendererProps {
   footerClassName?: string;
   store: ITableStore;
   columns?: Array<Column>;
+  headingClassName?: string;
   tableClassName?: string;
   source?: string;
   selectable?: boolean;
@@ -109,6 +110,7 @@ export default class Table extends React.Component<TableProps, object> {
     'expandConfig',
     'placeholder',
     'tableClassName',
+    'headingClassName',
     'source',
     'selectable',
     'columnsTogglable',
@@ -939,7 +941,8 @@ export default class Table extends React.Component<TableProps, object> {
       hideQuickSaveBtn,
       data,
       classnames: cx,
-      saveImmediately
+      saveImmediately,
+      headingClassName
     } = this.props;
 
     if (
@@ -948,7 +951,7 @@ export default class Table extends React.Component<TableProps, object> {
       store.moved
     ) {
       return (
-        <div className={cx('Table-heading')} key="heading">
+        <div className={cx('Table-heading', headingClassName)} key="heading">
           {!saveImmediately && store.modified && !hideQuickSaveBtn ? (
             <span>
               {`当前有 ${
@@ -1888,7 +1891,6 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--unsaved': !!store.modified || !!store.moved
         })}
       >
-        {this.renderAffixHeader(tableClassName)}
         {heading}
         {header}
         <div
@@ -1916,6 +1918,7 @@ export default class Table extends React.Component<TableProps, object> {
           {this.renderTableContent()}
           {~store.hoverIndex ? this.renderItemActions() : null}
         </div>
+        {this.renderAffixHeader(tableClassName)}
         {footer}
       </div>
     );

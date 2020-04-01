@@ -186,6 +186,7 @@ export class LocationPicker extends React.Component<
             onHide={this.close}
             overlay
             onClick={this.handlePopOverClick}
+            style={{width: this.getTarget()?.offsetWidth}}
           >
             {vendor === 'baidu' ? (
               <BaiduMapPicker ak={ak} value={value} onChange={this.handleChange} />
