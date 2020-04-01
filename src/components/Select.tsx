@@ -453,9 +453,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   handleStateChange(changes: any) {
-    const {multiple, checkAll} = this.props;
+    const {multiple, checkAll, loadOptions} = this.props;
+    let {inputValue} = this.state;
     let update: any = {};
-    const loadOptions = this.props.loadOptions;
     let doLoad = false;
 
     switch (changes.type) {
@@ -464,9 +464,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
         update = {
           ...update,
           isOpen: multiple ? true : false,
-          isFocused: multiple && checkAll ? true : false
+          isFocused: multiple && checkAll ? true : false,
+          inputValue: !multiple ? '' : inputValue
         };
-        doLoad = true;
+        doLoad = !multiple;
         break;
       case DownshiftChangeTypes.changeInput:
         update.highlightedIndex = 0;
