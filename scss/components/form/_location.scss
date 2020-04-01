@@ -72,6 +72,7 @@
 
 .#{$ns}LocationControl {
   position: relative;
+  width: 100%;
 }
 
 .#{$ns}LocationControl:not(.is-inline) > .#{$ns}LocationPicker {
