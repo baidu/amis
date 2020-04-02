@@ -166,7 +166,10 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         if (
           !find(combinedOptions, (item: Option) => item.value == option.value)
         ) {
-          combinedOptions.push(option);
+          combinedOptions.push({
+            ...option,
+            hidden: true
+          });
         }
       });
     }
