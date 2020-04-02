@@ -597,12 +597,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     let checkedAll = false;
     let checkedPartial = false;
-    let filtedOptions: Array<Option> =
-      inputValue && isOpen && !loadOptions
-        ? matchSorter(options, inputValue, {
-            keys: [labelField || 'label', valueField || 'value']
-          })
-        : options.concat();
+    let filtedOptions: Array<Option> = (inputValue && isOpen && !loadOptions
+      ? matchSorter(options, inputValue, {
+          keys: [labelField || 'label', valueField || 'value']
+        })
+      : options.concat()
+    ).filter((option: Option) => !option.hidden && option.visible !== false);
 
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
