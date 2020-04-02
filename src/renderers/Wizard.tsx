@@ -759,7 +759,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       render,
       store,
       classPrefix: ns,
-      classnames: cx
+      classnames: cx,
+      popOverContainer
     } = this.props;
 
     const currentStep = this.state.currentStep;
@@ -791,7 +792,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 onSubmit: this.handleSubmit,
                 onAction: this.handleAction,
                 disabled: store.loading,
-                popOverContainer: this.getPopOverContainer,
+                popOverContainer: popOverContainer || this.getPopOverContainer,
                 onChange: this.handleChange
               }
             )
