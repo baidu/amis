@@ -96,9 +96,13 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 - `base64Decode` base64 解码
 - `isTrue` 类三元过滤器，用法：`${xxx|isTrue:'foo':bar}`，如果`xxx`变量为真，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。
 - `isFalse` 判断逻辑与`isTrue`相反。
-- `isMatch` 类三元过滤器，用法：`${xxx|isMatch:keywords:'foo':bar}`，如果`xxx`变量模糊匹配`keywords`变量的值，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。
+- `isMatch` 类三元过滤器，用法：
+  - 匹配字符串，第一个参数加引号：用法：`${xxx|isMatch:'somestring':'foo':bar}`，如果变量模糊匹配字符`'somestring'`，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。
+  - 匹配变量，第一个参数不加引号：用法：`${xxx|isMatch:variable:'foo':bar}`，如果`xxx`变量模糊匹配`variable`变量的值，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。
 - `notMatch` 判断逻辑与`isMatch`相反。
-- `isEquals` 类三元过滤器，用法：`${xxx|isEquals:keywords:'foo':bar}`，如果变量精准匹配`keywords`变量的值，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。
+- `isEquals` 类三元过滤器，用法：
+  - 对比字符串，第一个参数加引号：`${xxx|isEquals:'somestring':'foo':bar}`，如果变量等于字符串`'somestring'`，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。
+  - 对比变量，第一个参数不加引号：`${xxx|isEquals:variable:'foo':bar}`，如果变量等于`variable`变量的值，则返回字符串`'foo'`，否则返回当前数据作用域中的变量`bar`值。
 - `notEquals` 判断逻辑与`isEquals`相反。
 - `filter` 过滤数组，操作对象为数组，当目标对象不是数组时将无效。使用语法 \${xxx | filter: 参与过滤的字段集合:指令:取值变量名}。
 
