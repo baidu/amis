@@ -2,6 +2,7 @@
  * @file fis-conf.js 配置
  */
 const path = require('path');
+const fs = require('fs');
 const package = require('./package.json');
 const parserMarkdown = require('./build/md-parser');
 fis.get('project.ignore').push('public/**', 'gh-pages/**', '.*/**');
@@ -106,6 +107,7 @@ fis.match('monaco-editor/esm/**.js', {
 
 fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
   parser: [
+    docsGennerator,
     fis.plugin('typescript', {
       importHelpers: true,
       esModuleInterop: true,
@@ -177,6 +179,7 @@ if (fis.project.currentMedia() === 'publish') {
 
   publishEnv.match('/src/**.{jsx,tsx,js,ts}', {
     parser: [
+      docsGennerator,
       fis.plugin('typescript', {
         importHelpers: true,
         sourceMap: true,
@@ -283,6 +286,7 @@ if (fis.project.currentMedia() === 'publish') {
 
   env.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
     parser: [
+      docsGennerator,
       fis.plugin('typescript', {
         importHelpers: true,
         esModuleInterop: true,
@@ -679,5 +683,86 @@ if (fis.project.currentMedia() === 'publish') {
   });
   ghPages.match('{*.min.js}', {
     optimizer: null
+  });
+}
+
+function docsGennerator(contents, file) {
+  if (file.subpath !== '/examples/components/Doc.jsx') {
+    return contents;
+  }
+
+  return contents.replace('// {{renderer-docs}}', function() {
+    const dir = path.join(__dirname, 'docs/renderers');
+    const files = [];
+
+    let fn = (dir, colleciton, prefix = '') => {
+      const entries = fs.readdirSync(dir);
+
+      entries.forEach(entry => {
+        const subdir = path.join(dir, entry);
+
+        if (fs.lstatSync(subdir).isDirectory()) {
+          let files = [];
+          fn(subdir, files, path.join(prefix, entry));
+          colleciton.push({
+            name: entry,
+            children: files,
+            path: path.join(prefix, entry)
+          });
+        } else if (/\.md$/.test(entry)) {
+          colleciton.push({
+            name: path.basename(entry, '.md'),
+            path: path.join(prefix, entry)
+          });
+        }
+      });
+    };
+
+    let fn2 = item => {
+      if (item.children) {
+        const child = item.children.find(
+          child => child.name === `${item.name}.md`
+        );
+        return `{
+                  label: '${item.name}',
+                  ${
+                    child
+                      ? `path: '/docs/renderers/${child.path
+                          .replace(/\.md$/, '')
+                          .toLowerCase()}',`
+                      : ''
+                  }
+                  children: [
+                      ${item.children.map(fn2).join(',\n')}
+                  ]
+              }`;
+      }
+
+      return `{
+              label: '${item.name}',
+              path: '/docs/renderers/${item.path
+                .replace(/\.md$/, '')
+                .toLowerCase()}',
+                getComponent: (location, cb) =>
+                require(['../../docs/renderers/${item.path}'], doc => {
+                  cb(null, makeMarkdownRenderer(doc));
+                })
+          }`;
+    };
+
+    fn(dir, files);
+
+    return `{
+          label: '渲染器手册',
+          icon: 'fa fa-diamond',
+          path: '/docs/renderers',
+          getComponent: (location, cb) =>
+          require(['../../docs/renderers.md'], doc => {
+            cb(null, makeMarkdownRenderer(doc));
+          }),
+          children: [
+              ${files.map(fn2).join(',\n')}
+          ]
+      },`;
   });
 }
