@@ -149,9 +149,11 @@ export function calculatePosition(
       ? getOffset(target)
       : getPosition(target, container);
   const {height: overlayHeight, width: overlayWidth} = getOffset(overlayNode);
-  const clip = overlayNode.getBoundingClientRect();
-  const scaleX = clip.width / overlayNode.offsetWidth;
-  const scaleY = clip.height / overlayNode.offsetHeight;
+
+  const clip = container.getBoundingClientRect();
+  const clip2 = overlayNode.getBoundingClientRect();
+  const scaleX = clip2.width / overlayNode.offsetWidth;
+  const scaleY = clip2.height / overlayNode.offsetHeight;
 
   // auto 尝试四个方向对齐。
   placement =
@@ -257,7 +259,7 @@ export function calculatePosition(
 
     positionLeft += leftDelta;
     arrowOffsetLeft = 50 * (1 - (2 * leftDelta) / overlayHeight) + '%';
-  } else if ((placement === 'center')) {
+  } else if (placement === 'center') {
     // atX = atY = myX = myY = 'center';
     positionLeft = childOffset.left + (childOffset.width - overlayWidth) / 2;
     positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;

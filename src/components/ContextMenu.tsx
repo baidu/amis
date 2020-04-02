@@ -157,7 +157,7 @@ export class ContextMenu extends React.Component<
     const info = calculatePosition(
       'auto',
       menu.lastChild,
-      menu.children[1],
+      menu.children[1] as HTMLElement,
       document.body
     );
 
