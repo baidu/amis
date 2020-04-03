@@ -116,6 +116,11 @@
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
+
+    // 非常难受，number 类型的 input 不能设置size
+    &.#{$ns}NumberControl {
+      width: $Form-control-widthXs;
+    }
   }
 
   .#{$ns}Form-control--sizeSm {
@@ -123,6 +128,11 @@
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
+
+    // 非常难受，number 类型的 input 不能设置size
+    &.#{$ns}NumberControl {
+      width: $Form-control-widthSm;
+    }
   }
 
   .#{$ns}Form-control--sizeMd {
@@ -137,6 +147,11 @@
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
+
+    // 非常难受，number 类型的 input 不能设置size
+    &.#{$ns}NumberControl {
+      width: $Form-control-widthLg;
+    }
   }
 
   .#{$ns}Form-item {
