@@ -27,7 +27,7 @@ export default class DropDownButton extends React.Component<
   DropDownButtonState
 > {
   state: DropDownButtonState = {
-    isOpened: this.props.defaultIsOpened || false
+    isOpened: false
   };
 
   static defaultProps = {
@@ -42,6 +42,14 @@ export default class DropDownButton extends React.Component<
     this.close = this.close.bind(this);
     this.toogle = this.toogle.bind(this);
     this.domRef = this.domRef.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.defaultIsOpened) {
+      this.setState({
+        isOpened: true
+      })
+    }
   }
 
   domRef(ref: any) {
