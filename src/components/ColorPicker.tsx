@@ -234,10 +234,10 @@ export class ColorControl extends React.PureComponent<
         )}
       >
         <input
-          size={10}
           ref={this.input}
           type="text"
           autoComplete="off"
+          size={1}
           className={cx('ColorPicker-input')}
           value={this.state.inputValue || ''}
           placeholder={placeholder}

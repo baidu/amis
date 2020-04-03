@@ -112,28 +112,28 @@
   .#{$ns}Form-control--sizeXs {
     // min-width: $Form-control-widthXs;
     // width: auto;
-    width: $Form-control-widthXs;
+    min-width: $Form-control-widthXs;
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
   }
 
   .#{$ns}Form-control--sizeSm {
-    width: $Form-control-widthSm;
+    min-width: $Form-control-widthSm;
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
   }
 
   .#{$ns}Form-control--sizeMd {
-    width: $Form-control-widthMd;
+    min-width: $Form-control-widthMd;
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
   }
 
   .#{$ns}Form-control--sizeLg {
-    width: $Form-control-widthLg;
+    min-width: $Form-control-widthLg;
     max-width: 100%;
     display: inline-block;
     vertical-align: top;

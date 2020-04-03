@@ -508,6 +508,7 @@ export default class TextControl extends React.PureComponent<
                     onKeyDown: this.handleKeyDown
                   })}
                   autoComplete="off"
+                  size={1}
                 />
               </div>
 
@@ -591,6 +592,7 @@ export default class TextControl extends React.PureComponent<
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           autoComplete="off"
+          size={1}
           onChange={this.handleNormalInputChange}
           value={
             typeof value === 'undefined' || value === null
