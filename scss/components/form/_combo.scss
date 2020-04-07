@@ -1,4 +1,8 @@
 .#{$ns}Combo {
+  &-placeholder {
+    color: $text--muted-color;
+  }
+
   &-toolbarBtn {
     line-height: $Combo-toolbarBtn-lineHeight;
     height: $Combo-toolbarBtn-height;
@@ -105,6 +109,12 @@
     > .#{$ns}Combo-items {
       margin: (-$Combo--vertical-item-gap * 2) (-$Combo--vertical-item-gap * 2)
         0 (-$Combo--vertical-item-gap * 2);
+
+      > .#{$ns}Combo-placeholder {
+        padding: ($Combo--vertical-item-gap * 2) ($Combo--vertical-item-gap * 2)
+          0 ($Combo--vertical-item-gap * 2);
+        margin-bottom: $Combo--vertical-item-gap * 2;
+      }
     }
 
     .#{$ns}Combo-itemTag {
