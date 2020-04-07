@@ -94,7 +94,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     dragIcon: 'glyphicon glyphicon-sort',
     deleteIcon: 'glyphicon glyphicon-remove',
     tabsMode: false,
-    tabsStyle: ''
+    tabsStyle: '',
+    placeholder: '<空>'
   };
   static propsList: Array<string> = [
     'minLength',
@@ -865,7 +866,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       noBorder,
       conditions,
       lazyLoad,
-      changeImmediately
+      changeImmediately,
+      placeholder
     } = this.props;
 
     let controls = this.props.controls;
@@ -890,7 +892,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         )}
       >
         <div className={cx(`Combo-items`)}>
-          {Array.isArray(value)
+          {Array.isArray(value) && value.length
             ? value.map((value, index, thelist) => {
                 const toolbar: Array<any> = [];
 
@@ -1011,7 +1013,9 @@ export default class ComboControl extends React.Component<ComboProps> {
                   </div>
                 );
               })
-            : null}
+            : placeholder ? (
+            <div className={cx(`Combo-placeholder`)}>{placeholder}</div>
+            ) : null}
         </div>
         {!disabled ? (
           <div className={cx(`Combo-toolbar`)}>
