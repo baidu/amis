@@ -19,6 +19,7 @@
 
 @mixin input-text {
   position: relative;
+  min-width: $Form-control-widthBase;
 
   &.is-inline {
     display: inline-block;
