@@ -10,6 +10,7 @@ import omit from 'lodash/omit';
 import {dataMapping} from '../../utils/tpl-builtin';
 import findIndex from 'lodash/findIndex';
 import memoize from 'lodash/memoize';
+import { SimpleMap } from '../../utils/SimpleMap';
 
 export interface TableProps extends FormControlProps {
   placeholder?: string;
@@ -70,7 +71,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'deleteApi'
   ];
 
-  entries: Map<any, number>;
+  entries: SimpleMap<any, number>;
   entityId: number = 1;
   subForms: any = {};
   editting: any = {};
@@ -82,7 +83,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       editIndex: -1
     };
 
-    this.entries = new Map();
+    this.entries = new SimpleMap();
     this.buildItemProps = this.buildItemProps.bind(this);
     this.confirmEdit = this.confirmEdit.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
@@ -93,7 +94,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   componentWillUnmount() {
-    this.entries.clear();
+    this.entries.dispose();
     this.buildItems.cache.clear?.();
   }
 
@@ -544,7 +545,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
       newValue.splice(rowIndexes as number, 0, data);
       this.entries.set(data, this.entries.get(origin) || this.entityId++);
-      this.entries.delete(origin);
+      // this.entries.delete(origin); // 反正最后都会清理的，先不删了吧。
     }
 
     onChange(newValue);
