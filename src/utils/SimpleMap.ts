@@ -7,6 +7,11 @@ export class SimpleMap<V = any, K = any> {
     value: V;
   }> = [];
 
+  has(key: K) {
+    const resolved = find(this.list, item => item.key === key);
+    return !!resolved;
+  }
+
   set(key: K, value: V) {
     this.list.push({
       key,
