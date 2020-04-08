@@ -501,7 +501,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       columns.push({
         type: 'operation',
         buttons: btns,
-        width: 100,
+        width: 150,
         label: '操作'
       });
     }
