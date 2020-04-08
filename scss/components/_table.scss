@@ -5,6 +5,10 @@
   border-radius: $Table-borderRadius;
   margin-bottom: $gap-md;
 
+  .#{$ns}Form-control > & {
+    margin-bottom: $gap-sm;
+  }
+
   &-fixedLeft,
   &-fixedRight {
     position: absolute;
@@ -358,7 +362,7 @@
           position: relative;
 
           &::before {
-            content: "";
+            content: '';
             position: absolute;
             width: px2rem(1px);
             top: 0;
@@ -369,7 +373,7 @@
           }
 
           &::after {
-            content: "";
+            content: '';
             position: absolute;
             height: px2rem(1px);
             top: px2rem(20px);
@@ -442,7 +446,7 @@
       // position: relative;
 
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         width: px2rem(1px);
         top: px2rem(30px);

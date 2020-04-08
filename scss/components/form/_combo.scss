@@ -1,6 +1,7 @@
 .#{$ns}Combo {
   &-placeholder {
     color: $text--muted-color;
+    padding-top: px2rem(7px);
   }
 
   &-toolbarBtn {
@@ -111,9 +112,7 @@
         0 (-$Combo--vertical-item-gap * 2);
 
       > .#{$ns}Combo-placeholder {
-        padding: ($Combo--vertical-item-gap * 2) ($Combo--vertical-item-gap * 2)
-          0 ($Combo--vertical-item-gap * 2);
-        margin-bottom: $Combo--vertical-item-gap * 2;
+        margin: $Combo--vertical-item-gap * 2;
       }
     }
 
