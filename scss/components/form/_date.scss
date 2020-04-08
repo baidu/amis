@@ -87,6 +87,7 @@
   background: $Calendar-shortcuts-bg;
   padding: ($Calendar-shortcuts-height - $Calendar-fontSize * $lineHeightBase) / 2 $gap-sm;
   list-style: none;
+  width: px2rem(250px);
 
   &+.rdt .rdtPicker {
     padding-top: 0;
@@ -95,7 +96,7 @@
 
 .#{$ns}DatePicker-shortcut {
   display: inline-block;
-  margin-right: $gap-md;
+  margin-right: $gap-sm;
 
   a {
     font-size: $Calendar-fontSize;
