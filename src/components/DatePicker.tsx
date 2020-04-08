@@ -17,6 +17,12 @@ import Calendar from './calendar/Calendar';
 import 'react-datetime/css/react-datetime.css';
 
 const availableShortcuts: {[propName: string]: any} = {
+  now: {
+    label: '现在',
+    date: (now: moment.Moment) => {
+      return now;
+    }
+  },
   today: {
     label: '今天',
     date: (now: moment.Moment) => {
@@ -89,6 +95,28 @@ const availableShortcuts: {[propName: string]: any} = {
 };
 
 const advancedShortcuts = [
+  {
+    regexp: /^(\d+)hoursago$/,
+    resolve: (_: string, hours: string) => {
+      return {
+        label: `${hours}小时前`,
+        date: (now: moment.Moment) => {
+          return now.subtract(hours, 'hours');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)hourslater$/,
+    resolve: (_: string, hours: string) => {
+      return {
+        label: `${hours}小时后`,
+        date: (now: moment.Moment) => {
+          return now.add(hours, 'hours');
+        }
+      };
+    }
+  },
   {
     regexp: /^(\d+)daysago$/,
     resolve: (_: string, days: string) => {
