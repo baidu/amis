@@ -171,9 +171,14 @@
   }
 }
 
-@mixin hover-focus {
-  &:hover,
+@mixin focus {
   &:focus {
+    @content;
+  }
+}
+
+@mixin hover-focus {
+  &:hover:focus {
     @content;
   }
 }
@@ -226,10 +231,24 @@
   border-color: $border;
   box-shadow: $Button-boxShadow;
 
+  @include hover {
+    color: $hover-color;
+    background-color: $hover-background;
+    border-color: $hover-border;
+  }
+
+  @include focus {
+    color: $color;
+    background-color: $background;
+    border-color: $border;
+    box-shadow: $Button-boxShadow;
+  }
+
   @include hover-focus {
     color: $hover-color;
     background-color: $hover-background;
     border-color: $hover-border;
+    box-shadow: $Button-boxShadow;
   }
 
   &.is-disabled,
