@@ -92,6 +92,10 @@
     }
   }
 
+  &-list:empty {
+    display: none;
+  }
+
   &-list > li:hover &-clear {
     display: block;
   }
