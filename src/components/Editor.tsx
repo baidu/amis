@@ -204,7 +204,8 @@ export class Editor extends React.Component<EditorProps, any> {
     // json 默认开启验证。
     monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
       enableSchemaRequest: true,
-      validate: true
+      validate: true,
+      allowComments: true
     });
 
     // After initializing monaco editor
