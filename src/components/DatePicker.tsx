@@ -40,7 +40,7 @@ const availableShortcuts: {[propName: string]: any} = {
   thisweek: {
     label: '本周一',
     date: (now: moment.Moment) => {
-      return now.startOf('week').add(-1, 'weeks');
+      return now.startOf('week').startOf('day');
     }
   },
 
