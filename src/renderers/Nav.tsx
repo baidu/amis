@@ -34,6 +34,7 @@ export interface NavigationProps extends RendererProps {
   stacked?: boolean;
   links?: Links;
   source?: Api;
+  onSelect?: (item: Link) => any;
 }
 
 export default class Navigation extends React.Component<
@@ -232,7 +233,11 @@ export default class Navigation extends React.Component<
       return;
     }
 
-    const {env, data} = this.props;
+    const {env, data, onSelect} = this.props;
+
+    if (onSelect && onSelect(link) === false) {
+      return;
+    }
 
     env && env.jumpTo(filter(link.to as string, data), link as any);
   }
