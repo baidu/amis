@@ -1025,7 +1025,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       popOver &&
       ~['dialog', 'drawer'].indexOf(popOver.mode)
     ) {
-      clearTimeout(this.timer);
+      this.props.stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
       this.props.store.setInnerModalOpened(true);
     }
   }
