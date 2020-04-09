@@ -314,7 +314,7 @@ export function str2rules(
           if (~idx) {
             validateMethod = validation.substring(0, idx);
             args = /^matchRegexp/.test(validateMethod)
-              ? [validation]
+              ? [validation.substring(idx + 1).trim()]
               : validation
                   .substring(idx + 1)
                   .split(',')
