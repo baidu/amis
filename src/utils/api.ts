@@ -178,15 +178,27 @@ export function wrapFetcher(
   return function(api, data, options) {
     api = buildApi(api, data, options) as ApiObject;
 
+    api.requestAdaptor && (api = api.requestAdaptor(api) || api);
+
     if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
       api.data = object2formData(api.data, api.qsOptions);
-    } else if (api.data && api.dataType === 'form') {
+    } else if (
+      api.data &&
+      typeof api.data !== 'string' &&
+      api.dataType === 'form'
+    ) {
       api.data = qsstringify(api.data, api.qsOptions) as any;
       api.headers = api.headers || (api.headers = {});
       api.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    } else if (
+      api.data &&
+      typeof api.data !== 'string' &&
+      api.dataType === 'json'
+    ) {
+      api.data = JSON.stringify(api.data) as any;
+      api.headers = api.headers || (api.headers = {});
+      api.headers['Content-Type'] = 'application/json';
     }
-
-    api.requestAdaptor && (api = api.requestAdaptor(api) || api);
 
     if (typeof api.cache === 'number' && api.cache > 0) {
       const apiCache = getApiCache(api);
