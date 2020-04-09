@@ -53,6 +53,9 @@ export interface TableProps extends RendererProps {
   store: ITableStore;
   columns?: Array<Column>;
   headingClassName?: string;
+  toolbarClassName?: string;
+  headerToolbarClassName?: string;
+  footerToolbarClassName?: string;
   tableClassName?: string;
   source?: string;
   selectable?: boolean;
@@ -133,7 +136,10 @@ export default class Table extends React.Component<TableProps, object> {
     'saveImmediately',
     'rowClassName',
     'rowClassNameExpr',
-    'popOverContainer'
+    'popOverContainer',
+    'headerToolbarClassName',
+    'toolbarClassName',
+    'footerToolbarClassName',
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
@@ -146,6 +152,8 @@ export default class Table extends React.Component<TableProps, object> {
     headerClassName: '',
     footerClassName: '',
     toolbarClassName: '',
+    headerToolbarClassName: '',
+    footerToolbarClassName: '',
     primaryField: 'id',
     itemCheckableOn: '',
     itemDraggableOn: '',
@@ -1567,6 +1575,7 @@ export default class Table extends React.Component<TableProps, object> {
       header,
       headerClassName,
       toolbarClassName,
+      headerToolbarClassName,
       headerToolbarRender,
       render,
       showHeader,
@@ -1599,7 +1608,7 @@ export default class Table extends React.Component<TableProps, object> {
     const toolbarNode =
       actions || child || store.dragging ? (
         <div
-          className={cx('Table-toolbar Table-headToolbar', toolbarClassName)}
+          className={cx('Table-toolbar Table-headToolbar', toolbarClassName, headerToolbarClassName)}
           key="header-toolbar"
         >
           {actions}
@@ -1630,6 +1639,7 @@ export default class Table extends React.Component<TableProps, object> {
     const {
       footer,
       toolbarClassName,
+      footerToolbarClassName,
       footerClassName,
       footerToolbarRender,
       render,
@@ -1658,7 +1668,7 @@ export default class Table extends React.Component<TableProps, object> {
     const toolbarNode =
       actions || child ? (
         <div
-          className={cx('Table-toolbar Table-footToolbar', toolbarClassName)}
+          className={cx('Table-toolbar Table-footToolbar', toolbarClassName, footerToolbarClassName)}
           key="footer-toolbar"
         >
           {actions}
