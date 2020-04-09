@@ -10,6 +10,7 @@ import {resolveVariable, isPureVariable} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {Api} from '../types';
+import {ClassNamesFn, themeable} from '../theme';
 
 export interface Link {
   className?: string;
@@ -30,6 +31,8 @@ export interface NavigationState {
 }
 
 export interface NavigationProps extends RendererProps {
+  classnames: ClassNamesFn;
+  classPrefix: string;
   className?: string;
   stacked?: boolean;
   links?: Links;
@@ -37,7 +40,7 @@ export interface NavigationProps extends RendererProps {
   onSelect?: (item: Link) => any;
 }
 
-export default class Navigation extends React.Component<
+export class Navigation extends React.Component<
   NavigationProps,
   NavigationState
 > {
@@ -228,14 +231,14 @@ export default class Navigation extends React.Component<
     icon?: string;
     children?: Links;
   }) {
-    if (!link.to) {
-      link.children && link.children.length && this.toggleLink(link);
-      return;
-    }
-
     const {env, data, onSelect} = this.props;
 
     if (onSelect && onSelect(link) === false) {
+      return;
+    }
+
+    if (!link.to) {
+      link.children && link.children.length && this.toggleLink(link);
       return;
     }
 
@@ -306,6 +309,8 @@ export default class Navigation extends React.Component<
     );
   }
 }
+
+export default themeable(Navigation);
 
 @Renderer({
   test: /(^|\/)(?:nav|navigation)$/,
