@@ -44,6 +44,7 @@
     color: $Form-select-placeholderColor;
     line-height: $Form-input-lineHeight;
     user-select: none;
+    white-space: nowrap;
   }
 
   &-value {
