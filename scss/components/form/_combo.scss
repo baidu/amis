@@ -67,6 +67,16 @@
     background: $white;
   }
 
+  &-itemDrager {
+    cursor: move;
+
+    svg {
+      width: px2rem(20px);
+      height: px2rem(20px);
+      top: $Combo--horizontal-dragger-top;
+    }
+  }
+
   &--hor {
     .#{$ns}Combo-item {
       display: flex;
@@ -102,6 +112,14 @@
         pointer-events: none;
         opacity: $Button-onDisabled-opacity;
       }
+    }
+
+    &.is-draggable .#{$ns}Combo-toolbar {
+      padding-left: px2rem(24px);
+    }
+
+    .#{$ns}Combo-itemDrager {
+      padding: 0 px2rem(6px) 0 0;
     }
   }
 
@@ -181,6 +199,21 @@
       > .#{$ns}Combo-itemToolbar {
         top: $Combo--vertical-itemToolbar-positionTop;
         opacity: 1;
+      }
+    }
+
+    .#{$ns}Combo-itemDrager {
+      position: absolute;
+      top: 0;
+      left: px2rem(-30px);
+    }
+
+    &.is-draggable {
+      .#{$ns}Combo-item {
+        margin-left: px2rem(35px);
+      }
+      .#{$ns}Combo-toolbar {
+        padding-left: px2rem(25px);
       }
     }
   }

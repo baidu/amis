@@ -487,6 +487,9 @@ $Card-actions-onHover-bg: white;
 $Card-actions-onHover-color: $primary;
 $Card-actions-onChecked-onHover-bg: $white;
 
+// Combo
+$Combo--horizontal-dragger-top: px2rem(5px);
+
 @import '../variables';
 @import '../mixins';
 @import '../base/reset';
