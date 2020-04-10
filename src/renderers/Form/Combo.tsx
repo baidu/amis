@@ -22,6 +22,7 @@ import {dataMapping, resolveVariable} from '../../utils/tpl-builtin';
 import {isEffectiveApi} from '../../utils/api';
 import {Alert2} from '../../components';
 import memoize from 'lodash/memoize';
+import {Icon}from '../../components/icons'
 export interface Condition {
   test: string;
   controls: Array<Schema>;
@@ -91,8 +92,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     addButtonText: '新增',
     canAccessSuperData: false,
     addIcon: 'fa fa-plus',
-    dragIcon: 'glyphicon glyphicon-sort',
-    deleteIcon: 'glyphicon glyphicon-remove',
+    dragIcon: '',
+    deleteIcon: '',
     tabsMode: false,
     tabsStyle: '',
     placeholder: '<空>'
@@ -751,7 +752,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 data-tooltip="删除"
                 data-position="bottom"
               >
-                <i className={deleteIcon} />
+                {deleteIcon ? <i className={deleteIcon} /> : <Icon icon="close" /> }
               </a>
             );
           }
@@ -888,7 +889,8 @@ export default class ComboControl extends React.Component<ComboProps> {
           `Combo Combo--multi`,
           multiLine ? `Combo--ver` : `Combo--hor`,
           noBorder ? `Combo--noBorder` : '',
-          disabled ? 'is-disabled' : ''
+          disabled ? 'is-disabled' : '',
+          (!disabled && draggable && Array.isArray(value) && value.length > 1) ? 'is-draggable' : '',
         )}
       >
         <div className={cx(`Combo-items`)}>
@@ -896,18 +898,18 @@ export default class ComboControl extends React.Component<ComboProps> {
             ? value.map((value, index, thelist) => {
                 const toolbar: Array<any> = [];
 
-                if (!disabled && draggable && thelist.length > 1) {
-                  toolbar.push(
-                    <a
-                      key="drag"
-                      className={cx(`Combo-toolbarBtn Combo-itemDrager`)}
-                      data-tooltip="拖拽排序"
-                      data-position="bottom"
-                    >
-                      <i className={dragIcon} />
-                    </a>
-                  );
-                }
+                // if (!disabled && draggable && thelist.length > 1) {
+                //   toolbar.push(
+                //     <a
+                //       key="drag"
+                //       className={cx(`Combo-toolbarBtn Combo-itemDrager`)}
+                //       data-tooltip="拖拽排序"
+                //       data-position="bottom"
+                //     >
+                //       <i className={dragIcon} />
+                //     </a>
+                //   );
+                // }
 
                 if (
                   finnalRemovable && // 表达式判断单条是否可删除
@@ -926,7 +928,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       data-tooltip="删除"
                       data-position="bottom"
                     >
-                      <i className={deleteIcon} />
+                      {deleteIcon ? <i className={deleteIcon} /> : <Icon icon="close" /> }
                     </a>
                   );
                 }
@@ -954,6 +956,17 @@ export default class ComboControl extends React.Component<ComboProps> {
                     className={cx(`Combo-item`)}
                     key={this.keys[index] || (this.keys[index] = guid())}
                   >
+                    {!disabled && draggable && thelist.length > 1 ? (
+                      <div className={cx('Combo-itemDrager')}>
+                        <a
+                          key="drag"
+                          data-tooltip="拖拽排序"
+                          data-position="bottom"
+                        >
+                          {dragIcon ? ( <i className={dragIcon} /> ): <Icon icon="combo-dragger"/> }
+                        </a>
+                      </div>
+                    ): null}
                     {condition && typeSwitchable !== false ? (
                       <div className={cx('Combo-itemTag')}>
                         <label>类型</label>

@@ -63,6 +63,9 @@ import InfoIcon from '../icons/info.svg';
 // @ts-ignore
 import LocationIcon from '../icons/location.svg';
 
+// @ts-ignore
+import ComboDraggerIcon from '../icons/combo-dragger.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -125,6 +128,7 @@ registerIcon('back', BackIcon);
 registerIcon('move', MoveIcon);
 registerIcon('info', InfoIcon);
 registerIcon('location', LocationIcon);
+registerIcon('combo-dragger', ComboDraggerIcon);
 
 export function Icon({
   icon,
