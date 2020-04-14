@@ -202,19 +202,20 @@
       }
     }
 
-    .#{$ns}Combo-itemDrager {
+    > .#{$ns}Combo-items > .#{$ns}Combo-item > .#{$ns}Combo-itemDrager {
       position: absolute;
       top: 0;
       left: px2rem(-30px);
     }
 
-    &.is-draggable {
-      .#{$ns}Combo-item {
+    &.is-draggable > .#{$ns}Combo-items {
+      > .#{$ns}Combo-item {
         margin-left: px2rem(35px);
       }
-      .#{$ns}Combo-toolbar {
-        padding-left: px2rem(25px);
-      }
+    }
+
+    > .#{$ns}Combo-toolbar {
+      padding-left: px2rem(25px);
     }
   }
 
