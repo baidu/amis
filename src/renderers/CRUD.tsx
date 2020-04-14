@@ -1003,7 +1003,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       items.forEach(item => {
         const idx = findIndex(
           oldItems,
-          a => a[primaryField || 'id'] == item[primaryField || 'id']
+          a =>
+            a[primaryField || 'id'] &&
+            a[primaryField || 'id'] == item[primaryField || 'id']
         );
 
         if (~idx) {
@@ -1016,12 +1018,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       unSelectedItems.forEach(item => {
         const idx = findIndex(
           oldUnselectedItems,
-          a => a[primaryField || 'id'] == item[primaryField || 'id']
+          a =>
+            a[primaryField || 'id'] &&
+            a[primaryField || 'id'] == item[primaryField || 'id']
         );
 
         const idx2 = findIndex(
           oldItems,
-          a => a[primaryField || 'id'] == item[primaryField || 'id']
+          a =>
+            a[primaryField || 'id'] &&
+            a[primaryField || 'id'] == item[primaryField || 'id']
         );
 
         if (~idx) {

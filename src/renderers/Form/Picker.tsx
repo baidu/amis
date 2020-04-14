@@ -52,6 +52,8 @@ export default class PickerControl extends React.PureComponent<
     modalMode: 'dialog',
     multiple: false,
     placeholder: '请点击按钮选择',
+    labelField: 'label',
+    valueField: 'value',
     pickerSchema: {
       mode: 'list',
       listItem: {
@@ -357,6 +359,7 @@ export default class PickerControl extends React.PureComponent<
     return render('modal-body', this.state.schema, {
       value: selectedOptions,
       valueField,
+      primaryField: valueField,
       options: options,
       multiple,
       onSelect: embed ? this.handleChange : undefined,
