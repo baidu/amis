@@ -26,6 +26,7 @@ import {evalExpression, filter} from '../utils/tpl';
 import {isValidApi, buildApi, isEffectiveApi} from '../utils/api';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 import Html from '../components/Html';
 import {Spinner} from '../components';
 
@@ -996,18 +997,57 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     let newUnSelectedItems = unSelectedItems;
 
     if (keepItemSelectionOnPageChange && store.selectedItems.length) {
-      const thisBatch = items.concat(unSelectedItems);
-      let notInThisBatch = (item: any) =>
-        !find(
-          thisBatch,
+      const oldItems = store.selectedItems.concat();
+      const oldUnselectedItems = store.unSelectedItems.concat();
+
+      items.forEach(item => {
+        const idx = findIndex(
+          oldItems,
           a => a[primaryField || 'id'] == item[primaryField || 'id']
         );
 
-      newItems = store.selectedItems.filter(notInThisBatch);
-      newUnSelectedItems = store.unSelectedItems.filter(notInThisBatch);
+        if (~idx) {
+          oldItems[idx] = item;
+        } else {
+          oldItems.push(item);
+        }
+      });
 
-      newItems.push(...items);
-      newUnSelectedItems.push(...unSelectedItems);
+      unSelectedItems.forEach(item => {
+        const idx = findIndex(
+          oldUnselectedItems,
+          a => a[primaryField || 'id'] == item[primaryField || 'id']
+        );
+
+        const idx2 = findIndex(
+          oldItems,
+          a => a[primaryField || 'id'] == item[primaryField || 'id']
+        );
+
+        if (~idx) {
+          oldUnselectedItems[idx] = item;
+        } else {
+          oldUnselectedItems.push(item);
+        }
+
+        ~idx2 && oldItems.splice(idx2, 1);
+      });
+
+      newItems = oldItems;
+      newUnSelectedItems = oldUnselectedItems;
+
+      // const thisBatch = items.concat(unSelectedItems);
+      // let notInThisBatch = (item: any) =>
+      //   !find(
+      //     thisBatch,
+      //     a => a[primaryField || 'id'] == item[primaryField || 'id']
+      //   );
+
+      // newItems = store.selectedItems.filter(notInThisBatch);
+      // newUnSelectedItems = store.unSelectedItems.filter(notInThisBatch);
+
+      // newItems.push(...items);
+      // newUnSelectedItems.push(...unSelectedItems);
     }
 
     if (pickerMode && !multiple && newItems.length > 1) {
