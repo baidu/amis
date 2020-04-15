@@ -5,6 +5,10 @@
 }
 
 .#{$ns}RichTextControl {
+  > .tox-tinymce {
+    border: 0;
+  }
+
   min-height: px2rem(200px);
   height: auto;
   border: $Form-input-borderWidth solid $Form-input-borderColor;
