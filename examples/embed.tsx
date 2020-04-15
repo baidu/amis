@@ -219,6 +219,7 @@ export function embed(
             return ret;
           },
           richTextToken: '',
+          affixOffsetBottom: 0,
           ...env
         }
       )}
