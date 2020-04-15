@@ -5811,8 +5811,344 @@ require.resourceMap({
       ],
       "pkg": "p6"
     },
+    "node_modules/tinymce/tinymce": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/themes/silver/theme": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/themes/silver/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/themes/silver/theme"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/advlist/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/advlist/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/advlist/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/autolink/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/autolink/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/autolink/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/lists/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/lists/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/lists/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/link/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/link/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/link/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/image/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/image/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/image/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/charmap/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/charmap/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/charmap/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/print/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/print/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/print/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/preview/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/preview/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/preview/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/anchor/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/anchor/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/anchor/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/searchreplace/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/searchreplace/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/searchreplace/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/visualblocks/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/visualblocks/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/visualblocks/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/code/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/code/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/code/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/fullscreen/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/fullscreen/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/fullscreen/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/insertdatetime/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/insertdatetime/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/insertdatetime/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/media/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/media/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/media/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/table/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/table/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/table/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/paste/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/paste/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/paste/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/help/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/help/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/help/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/wordcount/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/wordcount/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/wordcount/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/hr/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/hr/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/hr/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/pagebreak/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/pagebreak/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/pagebreak/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/spellchecker/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/spellchecker/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/spellchecker/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/visualchars/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/visualchars/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/visualchars/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/template/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/template/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/template/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/nonbreaking/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/nonbreaking/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/nonbreaking/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/emoticons/plugin": {
+      "type": "js",
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/emoticons/index": {
+      "type": "js",
+      "deps": [
+        "node_modules/tinymce/plugins/emoticons/plugin"
+      ],
+      "pkg": "p2"
+    },
+    "node_modules/tinymce/plugins/emoticons/js/emojis": {
+      "type": "js",
+      "pkg": "p2"
+    },
     "82fac39": {
       "type": "js",
+      "deps": [
+        "node_modules/tinymce/tinymce",
+        "node_modules/tinymce/themes/silver/index",
+        "node_modules/tinymce/plugins/advlist/index",
+        "node_modules/tinymce/plugins/autolink/index",
+        "node_modules/tinymce/plugins/lists/index",
+        "node_modules/tinymce/plugins/link/index",
+        "node_modules/tinymce/plugins/image/index",
+        "node_modules/tinymce/plugins/charmap/index",
+        "node_modules/tinymce/plugins/print/index",
+        "node_modules/tinymce/plugins/preview/index",
+        "node_modules/tinymce/plugins/anchor/index",
+        "node_modules/tinymce/plugins/searchreplace/index",
+        "node_modules/tinymce/plugins/visualblocks/index",
+        "node_modules/tinymce/plugins/code/index",
+        "node_modules/tinymce/plugins/fullscreen/index",
+        "node_modules/tinymce/plugins/insertdatetime/index",
+        "node_modules/tinymce/plugins/media/index",
+        "node_modules/tinymce/plugins/table/index",
+        "node_modules/tinymce/plugins/paste/index",
+        "node_modules/tinymce/plugins/help/index",
+        "node_modules/tinymce/plugins/wordcount/index",
+        "node_modules/tinymce/plugins/hr/index",
+        "node_modules/tinymce/plugins/pagebreak/index",
+        "node_modules/tinymce/plugins/spellchecker/index",
+        "node_modules/tinymce/plugins/visualchars/index",
+        "node_modules/tinymce/plugins/template/index",
+        "node_modules/tinymce/plugins/nonbreaking/index",
+        "node_modules/tinymce/plugins/emoticons/index",
+        "node_modules/tinymce/plugins/emoticons/js/emojis"
+      ],
       "pkg": "p2"
     },
     "node_modules/echarts/lib/config": {
@@ -10642,6 +10978,34 @@ require.resourceMap({
     "node_modules/hls.js/dist/hls": {
       "url": "https://bce.bdstatic.com/fex/amis-gh-pages/n/hls.js/dist/hls_9355c57.js",
       "type": "js"
+    },
+    "docs/getting_started.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/getting_started_bbdf940.js",
+      "type": "js"
+    },
+    "docs/basic.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/basic_7d2ade1.js",
+      "type": "js"
+    },
+    "docs/advanced.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/advanced_42bd99a.js",
+      "type": "js"
+    },
+    "docs/api.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/api_e40631c.js",
+      "type": "js"
+    },
+    "docs/sdk.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/sdk_c288bf6.js",
+      "type": "js"
+    },
+    "docs/dev.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/dev_b7828e7.js",
+      "type": "js"
+    },
+    "docs/style.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/style_bdd44de.js",
+      "type": "js"
     }
   },
   "pkg": {
@@ -10650,7 +11014,7 @@ require.resourceMap({
       "type": "js"
     },
     "p2": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/tinymce_9033cb8.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/tinymce_7cfc02c.js",
       "type": "js"
     },
     "p3": {
