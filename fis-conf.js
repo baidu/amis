@@ -565,7 +565,7 @@ if (fis.project.currentMedia() === 'publish') {
         '!echarts/**'
       ],
       'pkg/rich-text.js': [
-        'amis/lib/components/RichText.js',
+        'src/components/RichText.js',
         'froala-editor/**',
         'jquery/**'
       ],
@@ -591,7 +591,7 @@ if (fis.project.currentMedia() === 'publish') {
         '!hls.js/**',
         '!froala-editor/**',
         '!jquery/**',
-        '!amis/lib/components/RichText.js',
+        '!src/components/RichText.js',
         '!zrender/**',
         '!echarts/**'
       ],
