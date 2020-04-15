@@ -332,7 +332,7 @@ if (fis.project.currentMedia() === 'publish') {
         '!flv.js/**',
         '!hls.js/**',
         '!froala-editor/**',
-        '!src/components/RichText.tsx',
+        '!tinymce/**',
         '!jquery/**',
         '!zrender/**',
         '!echarts/**',
@@ -559,7 +559,7 @@ if (fis.project.currentMedia() === 'publish') {
         '!flv.js/**',
         '!hls.js/**',
         '!froala-editor/**',
-        '!amis/lib/components/RichText.js',
+        '!tinymce/**',
         '!jquery/**',
         '!zrender/**',
         '!echarts/**'
