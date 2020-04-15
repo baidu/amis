@@ -133,7 +133,8 @@ fis.match('*.html:jsx', {
 fis.hook('node_modules', {
   shimProcess: false,
   shimGlobal: false,
-  shimBuffer: false
+  shimBuffer: false,
+  shutup: true
 });
 fis.hook('commonjs', {
   extList: ['.js', '.jsx', '.tsx', '.ts']
@@ -343,6 +344,8 @@ if (fis.project.currentMedia() === 'publish') {
         'froala-editor/**',
         'jquery/**'
       ],
+
+      'tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
 
       'charts.js': ['zrender/**', 'echarts/**'],
 
@@ -566,6 +569,7 @@ if (fis.project.currentMedia() === 'publish') {
         'froala-editor/**',
         'jquery/**'
       ],
+      'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
       'pkg/charts.js': ['zrender/**', 'echarts/**'],
       'pkg/api-mock.js': ['mock/*.ts'],
       'pkg/app.js': [
