@@ -189,7 +189,7 @@ export class TransferSelect extends React.Component<
                 <input
                   placeholder={searchPlaceholder}
                   autoComplete="off"
-                  size={1}
+                  size={10}
                   value={this.state.keyword}
                   onChange={this.handleSearch}
                 />
@@ -291,7 +291,7 @@ export class TransferSelect extends React.Component<
                 <input
                   placeholder={searchPlaceholder}
                   autoComplete="off"
-                  size={1}
+                  size={10}
                   onChange={this.handleSearch}
                 />
                 <i className="fa fa-search" />
