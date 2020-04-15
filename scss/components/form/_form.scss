@@ -301,6 +301,10 @@
     > .#{$ns}Form-control {
       flex-basis: 0;
       flex-grow: 1;
+
+      &:not(.#{$ns}Form-control--withSize) {
+        min-width: unset;
+      }
     }
   }
 }

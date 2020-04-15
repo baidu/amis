@@ -259,7 +259,7 @@ export default class IconPickerControl extends React.PureComponent<
                     value: this.state.inputValue
                   })}
                   autoComplete="off"
-                  size={1}
+                  size={10}
                 />
               </div>
               {isOpen ? (

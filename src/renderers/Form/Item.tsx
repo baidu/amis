@@ -211,7 +211,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {
             'is-inline': !!rest.inline,
             'is-error': model && !model.valid,
-            [`Form-control--size${ucFirst(controlSize)}`]:
+            [`Form-control--withSize Form-control--size${ucFirst(
+              controlSize
+            )}`]:
               sizeMutable !== false &&
               typeof controlSize === 'string' &&
               !!controlSize &&
@@ -852,7 +854,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
               {
                 'is-inline': !!rest.inline,
                 'is-error': model && !model.valid,
-                [`Form-control--size${ucFirst(controlSize)}`]:
+                [`Form-control--withSize Form-control--size${ucFirst(controlSize)}`]:
                   config.sizeMutable !== false &&
                   typeof controlSize === 'string' &&
                   !!controlSize &&
