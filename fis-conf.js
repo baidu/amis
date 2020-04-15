@@ -61,6 +61,14 @@ fis.match('/node_modules/**.js', {
   isMod: true
 });
 
+fis.match('tinymce/{tinymce.js,plugins/**.js,themes/silver/theme.js}', {
+  ignoreDependencies: true
+});
+
+fis.match('tinymce/plugins/*/index.js', {
+  ignoreDependencies: false
+});
+
 fis.match('/docs/**.md', {
   rExt: 'js',
   parser: [
