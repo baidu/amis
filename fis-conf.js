@@ -141,8 +141,8 @@ fis.match('*.html:jsx', {
 fis.hook('node_modules', {
   shimProcess: false,
   shimGlobal: false,
-  shimBuffer: false,
-  shutup: true
+  shimBuffer: false
+  // shutup: true
 });
 fis.hook('commonjs', {
   extList: ['.js', '.jsx', '.tsx', '.ts']
@@ -678,11 +678,14 @@ if (fis.project.currentMedia() === 'publish') {
     moduleId: function(m, path) {
       return fis.util.md5('amis' + path);
     },
-    parser: fis.plugin('typescript', {
-      sourceMap: false,
-      importHelpers: true,
-      esModuleInterop: true
-    })
+    parser: [
+      docsGennerator,
+      fis.plugin('typescript', {
+        sourceMap: false,
+        importHelpers: true,
+        esModuleInterop: true
+      })
+    ]
   });
   ghPages.match('*', {
     domain: 'https://bce.bdstatic.com/fex/amis-gh-pages',
