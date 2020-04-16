@@ -365,7 +365,8 @@ export const FormStore = ServiceStore.named('FormStore')
       for (let i = 0, len = items.length; i < len; i++) {
         let item = items[i] as IFormItemStore;
 
-        if (!item.validated || forceValidate) {
+        // 验证过，或者是 unique 的表单项，或者强制验证
+        if (!item.validated || item.unique || forceValidate) {
           yield item.validate();
         }
       }
