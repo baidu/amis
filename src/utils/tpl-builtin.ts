@@ -101,17 +101,17 @@ export const filterDate = (
     const from = m[1]
       ? filterDate(m[1], data, format, utc)
       : mm(
-        /(minute|min|hour|second)s?/.test(m[4])
-          ? [
-            date.getFullYear(),
-            date.getMonth(),
-            date.getDate(),
-            date.getHours(),
-            date.getMinutes(),
-            date.getSeconds()
-          ]
-          : [date.getFullYear(), date.getMonth(), date.getDate()]
-      );
+          /(minute|min|hour|second)s?/.test(m[4])
+            ? [
+                date.getFullYear(),
+                date.getMonth(),
+                date.getDate(),
+                date.getHours(),
+                date.getMinutes(),
+                date.getSeconds()
+              ]
+            : [date.getFullYear(), date.getMonth(), date.getDate()]
+        );
 
     return m[2] === '-'
       ? from.subtract(step, timeUnitMap[m[4]] as moment.DurationInputArg2)
@@ -241,6 +241,14 @@ export const filters: {
     } else if (directive === 'equals' || directive === 'equal') {
       arg1 = arg1 ? getStrOrVariable(arg1, this) : '';
       fn = value => arg1 == value;
+    } else if (directive === 'isIn') {
+      let list:Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
+      list = Array.isArray(list) ? list : [];
+      fn = value => !!~list.indexOf(value);
+    } else if (directive === 'notIn') {
+      let list:Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
+      list = Array.isArray(list) ? list : [];
+      fn = value => !~list.indexOf(value);
     } else {
       if (directive !== 'match') {
         directive = 'match';
@@ -344,18 +352,19 @@ export const filters: {
  * 如果当前传入字符为：'xxx'或者"xxx"，则返回字符xxx
  * 否则去数据域中，获取变量xxx
  *
- * @param arg 传入字符
+ * @param value 传入字符
  * @param data 数据域
  */
-function getStrOrVariable(arg: string, data: any) {
-
-  return /^('|")(.*)\1$/.test(arg)
+function getStrOrVariable(value: string, data: any) {
+  return /^('|")(.*)\1$/.test(value)
     ? RegExp.$2
-    : /^-?\d+$/.test(arg)
-      ? parseInt(arg, 10)
-      : /^(-?\d+)\.\d+?$/.test(arg)
-        ? parseFloat(arg)
-        : resolveVariable(arg, data);
+    : /^-?\d+$/.test(value)
+    ? parseInt(value, 10)
+    : /^(-?\d+)\.\d+?$/.test(value)
+    ? parseFloat(value)
+    : /,/.test(value)
+    ? value.split(/\s*,\s*/)
+    : (resolveVariable(value, data) ?? value);
 }
 
 function getConditionValue(
@@ -492,44 +501,44 @@ export const resolveVariableAndFilter = (
   return ret == null && !~originalKey.indexOf('default')
     ? ''
     : paths.reduce((input, filter) => {
-      let params = filter
-        .replace(
-          /([^\\])\\([\:\\])/g,
-          (_, affix, content) =>
-            `${affix}__${content === ':' ? 'colon' : 'slash'}__`
-        )
-        .split(':')
-        .map(item =>
-          item.replace(/__(slash|colon)__/g, (_, type) =>
-            type === 'colon' ? ':' : '\\'
+        let params = filter
+          .replace(
+            /([^\\])\\([\:\\])/g,
+            (_, affix, content) =>
+              `${affix}__${content === ':' ? 'colon' : 'slash'}__`
           )
-        );
-      let key = params.shift() as string;
+          .split(':')
+          .map(item =>
+            item.replace(/__(slash|colon)__/g, (_, type) =>
+              type === 'colon' ? ':' : '\\'
+            )
+          );
+        let key = params.shift() as string;
 
-      if (
-        ~[
-          'isTrue',
-          'isFalse',
-          'isMatch',
-          'isEquals',
-          'notMatch',
-          'notEquals'
-        ].indexOf(key)
-      ) {
-        if (prevConInputChanged) {
-          return input;
+        if (
+          ~[
+            'isTrue',
+            'isFalse',
+            'isMatch',
+            'isEquals',
+            'notMatch',
+            'notEquals'
+          ].indexOf(key)
+        ) {
+          if (prevConInputChanged) {
+            return input;
+          } else {
+            const result = filters[key].call(data, input, ...params);
+            prevConInputChanged = result !== input;
+            return result;
+          }
         } else {
-          const result = filters[key].call(data, input, ...params);
-          prevConInputChanged = result !== input;
-          return result;
+          // 后面再遇到非类三元filter就重置了吧，不影响再后面的其他三元filter
+          prevConInputChanged = false;
         }
-      } else {
-        // 后面再遇到非类三元filter就重置了吧，不影响再后面的其他三元filter
-        prevConInputChanged = false;
-      }
 
-      return (filters[key] || filters.raw).call(data, input, ...params);
-    }, ret);
+        return (filters[key] || filters.raw).call(data, input, ...params);
+      }, ret);
 };
 
 export const tokenize = (
@@ -566,8 +575,8 @@ function resolveMapping(
   return typeof value === 'string' && isPureVariable(value)
     ? resolveVariableAndFilter(value, data, defaultFilter)
     : typeof value === 'string' && ~value.indexOf('$')
-      ? tokenize(value, data, defaultFilter)
-      : value;
+    ? tokenize(value, data, defaultFilter)
+    : value;
 }
 
 export function dataMapping(to: any, from: PlainObject): any {
@@ -591,13 +600,13 @@ export function dataMapping(to: any, from: PlainObject): any {
     } else if (key === '&') {
       const v =
         isPlainObject(value) &&
-          (keys = Object.keys(value)) &&
-          keys.length === 1 &&
-          from[keys[0].substring(1)] &&
-          Array.isArray(from[keys[0].substring(1)])
+        (keys = Object.keys(value)) &&
+        keys.length === 1 &&
+        from[keys[0].substring(1)] &&
+        Array.isArray(from[keys[0].substring(1)])
           ? from[keys[0].substring(1)].map((raw: object) =>
-            dataMapping(value[keys[0]], createObject(from, raw))
-          )
+              dataMapping(value[keys[0]], createObject(from, raw))
+            )
           : resolveMapping(value, from);
 
       if (Array.isArray(v) || typeof v === 'string') {
