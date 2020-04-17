@@ -5,13 +5,15 @@
 目前在百度大量用于内部平台的前端开发，已有 100+ 部门使用，创建了 2.5w+ 页面。
 
 通过 amis 搭建自己的后台系统，可以参考这： https://github.com/fex-team/amis-admin
-包含：fis3版本、webpack版本和 jssdk 版本。
+包含：fis3 版本、webpack 版本和 jssdk 版本。
 
 ## 快速开始
 
 请参考 <https://baidu.github.io/amis/docs/getting-started>
 
 ## 开发指南
+
+> 如果 github 下载慢可以使用 [gitee](https://gitee.com/baidu/amis) 上的镜像。
 
 推荐使用 node 10，node 6 和 node 8 也可以。node 12 未测试，可能 fis3 还有些插件不支持。
 
@@ -46,9 +48,9 @@ npm run coverage
 
 ## 维护者
 
--   [2betop](https://github.com/2betop)
--   [RickCole21](https://github.com/RickCole21)
--   [catchonme](https://github.com/catchonme)
+- [2betop](https://github.com/2betop)
+- [RickCole21](https://github.com/RickCole21)
+- [catchonme](https://github.com/catchonme)
 
 ## 讨论
 
