@@ -406,7 +406,7 @@ export const FormItemStore = types
           self.validated = false; // 拉完数据应该需要再校验一下
 
           let options: Array<IOption> =
-            json.data.options ||
+            json.data?.options ||
             json.data.items ||
             json.data.rows ||
             json.data ||
