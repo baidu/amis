@@ -6,10 +6,12 @@ import Checkbox from '../../components/Checkbox';
 import PopOver from '../../components/PopOver';
 import {RootCloseWrapper} from 'react-overlays';
 import {Icon} from '../../components/icons';
-import {autobind, flattenTree, isEmpty} from '../../utils/helper';
+import {autobind, flattenTree, isEmpty, filterTree} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
-
-import {OptionsControl, OptionsControlProps, Option} from '../Form/Options';
+import {OptionsControl, OptionsControlProps} from '../Form/Options';
+import {Option, Options} from '../../components/Select';
+import Input from '../../components/Input';
+import {findDOMNode} from 'react-dom';
 
 export interface NestedSelectProps extends OptionsControlProps {
   cascade?: boolean;
@@ -18,6 +20,9 @@ export interface NestedSelectProps extends OptionsControlProps {
 
 export interface NestedSelectState {
   isOpened?: boolean;
+  isFocused?: boolean;
+  inputValue?: string;
+  stack: Array<Array<Option>>;
 }
 
 export default class NestedSelectControl extends React.Component<
@@ -26,12 +31,16 @@ export default class NestedSelectControl extends React.Component<
 > {
   static defaultProps: Partial<NestedSelectProps> = {
     cascade: false,
-    withChildren: false
+    withChildren: false,
+    searchPromptText: '输入内容进行检索'
   };
   target: any;
-  alteredOptions: any;
-  state = {
-    isOpened: false
+  input: HTMLInputElement;
+  state: NestedSelectState = {
+    isOpened: false,
+    isFocused: false,
+    inputValue: '',
+    stack: []
   };
 
   @autobind
@@ -41,9 +50,11 @@ export default class NestedSelectControl extends React.Component<
 
   @autobind
   open() {
-    if (!this.props.disabled) {
+    const {options, disabled} = this.props;
+    if (!disabled) {
       this.setState({
-        isOpened: true
+        isOpened: true,
+        stack: [options]
       });
     }
   }
@@ -51,7 +62,8 @@ export default class NestedSelectControl extends React.Component<
   @autobind
   close() {
     this.setState({
-      isOpened: false
+      isOpened: false,
+      stack: []
     });
   }
 
@@ -101,6 +113,10 @@ export default class NestedSelectControl extends React.Component<
       onBulkChange
     } = this.props;
 
+    if (multiple) {
+      return;
+    }
+
     e.stopPropagation();
 
     const sendTo =
@@ -120,7 +136,7 @@ export default class NestedSelectControl extends React.Component<
     !multiple && this.close();
   }
 
-  handleCheck(option: any | Array<any>) {
+  handleCheck(option: Option | Options, index?: number) {
     const {
       onChange,
       selectedOptions,
@@ -129,11 +145,33 @@ export default class NestedSelectControl extends React.Component<
       delimiter,
       extractValue,
       withChildren,
-      cascade
+      cascade,
+      multiple
     } = this.props;
+    const {stack} = this.state;
+
+    if (
+      !Array.isArray(option) &&
+      option.children &&
+      option.children.length &&
+      typeof index === 'number'
+    ) {
+      const checked = selectedOptions.some(
+        o => o.value == (option as Option).value
+      );
+      const uncheckable = cascade
+        ? false
+        : option.uncheckable || (multiple && !checked);
+      const children = option.children.map(c => ({...c, uncheckable}));
+      if (stack[index]) {
+        stack.splice(index + 1, 1, children);
+      } else {
+        stack.push(children);
+      }
+    }
 
     const items = selectedOptions.concat();
-    let newValue;
+    let newValue: Option | Options | string;
 
     // 三种情况：
     // 1.全选，option为数组
@@ -148,46 +186,56 @@ export default class NestedSelectControl extends React.Component<
         newValue = xorBy(items, [option], valueField || 'value');
       } else if (withChildren) {
         option = flattenTree([option]);
-        const fn = option.every((opt: any) => !!~items.indexOf(opt))
+        const fn = option.every(
+          (opt: Option) => !!~items.findIndex(item => item.value === opt.value)
+        )
           ? xorBy
           : unionBy;
         newValue = fn(items, option, valueField || 'value');
       } else {
-        newValue = items.filter(item => !~flattenTree([option]).indexOf(item));
-        !~items.indexOf(option) && newValue.push(option);
+        newValue = items.filter(
+          item =>
+            !~flattenTree([option], i => (i as Option).value).indexOf(
+              item.value
+            )
+        );
+        !~items.map(item => item.value).indexOf(option.value) &&
+          newValue.push(option);
       }
     } else {
       newValue = xorBy(items, [option], valueField || 'value');
     }
 
     if (joinValues) {
-      newValue = newValue
-        .map((item: any) => item[valueField || 'value'])
+      newValue = (newValue as Options)
+        .map(item => item[valueField || 'value'])
         .join(delimiter || ',');
     } else if (extractValue) {
-      newValue = newValue.map((item: any) => item[valueField || 'value']);
+      newValue = (newValue as Options).map(item => item[valueField || 'value']);
     }
 
     onChange(newValue);
   }
 
-  allChecked(options: Array<any>): boolean {
-    return options.every((option: any) => {
-      if (option.children) {
+  allChecked(options: Options): boolean {
+    const {selectedOptions, withChildren} = this.props;
+    return options.every(option => {
+      if (withChildren && option.children) {
         return this.allChecked(option.children);
       }
-      return this.props.selectedOptions.some(
+      return selectedOptions.some(
         selectedOption => selectedOption.value == option.value
       );
     });
   }
 
-  partialChecked(options: Array<any>): boolean {
-    return options.some((option: any) => {
-      if (option.children) {
+  partialChecked(options: Options): boolean {
+    const {selectedOptions, withChildren} = this.props;
+    return options.some(option => {
+      if (withChildren && option.children) {
         return this.partialChecked(option.children);
       }
-      return this.props.selectedOptions.some(
+      return selectedOptions.some(
         selectedOption => selectedOption.value == option.value
       );
     });
@@ -198,11 +246,83 @@ export default class NestedSelectControl extends React.Component<
     reload && reload();
   }
 
-  renderOptions(
-    newOptions: Array<any>,
-    isChildren: boolean,
-    uncheckable: boolean
-  ): any {
+  @autobind
+  onFocus(e: any) {
+    this.props.disabled ||
+      this.state.isOpened ||
+      this.setState(
+        {
+          isFocused: true
+        },
+        this.focus
+      );
+
+    this.props.onFocus && this.props.onFocus(e);
+  }
+
+  @autobind
+  onBlur(e: any) {
+    this.setState({
+      isFocused: false
+    });
+
+    this.props.onBlur && this.props.onBlur(e);
+  }
+
+  @autobind
+  focus() {
+    this.input
+      ? this.input.focus()
+      : this.getTarget() && this.getTarget().focus();
+  }
+
+  @autobind
+  blur() {
+    this.input
+      ? this.input.blur()
+      : this.getTarget() && this.getTarget().blur();
+  }
+
+  @autobind
+  getTarget() {
+    if (!this.target) {
+      this.target = findDOMNode(this) as HTMLElement;
+    }
+    return this.target as HTMLElement;
+  }
+
+  @autobind
+  inputRef(ref: HTMLInputElement) {
+    this.input = ref;
+  }
+
+  @autobind
+  handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
+    const inputValue = evt.currentTarget.value;
+    const {options, labelField, valueField} = this.props;
+
+    const regexp = new RegExp(`${inputValue}`, 'i');
+
+    let filtedOptions =
+      inputValue && this.state.isOpened
+        ? filterTree(
+            options,
+            option =>
+              regexp.test(option[labelField || 'label']) ||
+              regexp.test(option[valueField || 'value']) ||
+              !!(option.children && option.children.length),
+            1,
+            true
+          )
+        : options.concat();
+
+    this.setState({
+      inputValue,
+      stack: [filtedOptions]
+    });
+  }
+
+  renderOptions() {
     const {
       multiple,
       selectedOptions,
@@ -210,87 +330,119 @@ export default class NestedSelectControl extends React.Component<
       value,
       options,
       disabled,
-      cascade
+      searchable,
+      searchPromptText
     } = this.props;
 
-    if (multiple) {
-      let partialChecked = this.partialChecked(options);
-      let allChecked = this.allChecked(options);
+    const stack = this.state.stack;
 
-      return (
-        <div className={cx({'NestedSelect-childrenOuter': isChildren})}>
-          {!isChildren ? (
-            <div className={cx('NestedSelect-option', 'checkall')}>
-              <Checkbox
-                onChange={this.handleCheck.bind(this, options)}
-                checked={partialChecked}
-                partial={partialChecked && !allChecked}
-              >
-                全选
-              </Checkbox>
-            </div>
-          ) : null}
-          {newOptions.map((option, idx) => {
-            const checked = selectedOptions.some(o => o.value == option.value);
-            const selfChecked = !!uncheckable || checked;
-            let nodeDisabled = !!uncheckable || !!disabled;
+    const searchInput = searchable ? (
+      <div
+        className={cx(`Select-input`, {
+          'is-focused': this.state.isFocused
+        })}
+      >
+        <Icon icon="search" className="icon" />
+        <Input
+          value={this.state.inputValue}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          disabled={disabled}
+          placeholder={searchPromptText}
+          onChange={this.handleInputChange}
+          ref={this.inputRef}
+        />
+      </div>
+    ) : null;
 
-            return (
-              <div className={cx('NestedSelect-option')} key={idx}>
-                <Checkbox
-                  onChange={this.handleCheck.bind(this, option)}
-                  trueValue={option.value}
-                  checked={selfChecked}
-                  disabled={nodeDisabled}
-                >
-                  {option.label}
-                </Checkbox>
-                {option.children ? (
-                  <div className={cx('NestedSelect-optionArrowRight')}>
-                    <Icon icon="right-arrow" className="icon" />
-                  </div>
-                ) : null}
-                {option.children && option.children.length
-                  ? this.renderOptions(
-                      option.children,
-                      true,
-                      cascade ? false : uncheckable || (multiple && checked)
-                    )
-                  : null}
-              </div>
-            );
-          })}
-        </div>
-      );
-    }
+    let partialChecked = this.partialChecked(options);
+    let allChecked = this.allChecked(options);
 
     return (
-      <div className={cx({'NestedSelect-childrenOuter': isChildren})}>
-        {newOptions.map((option, idx) => (
-          <div
-            key={idx}
-            className={cx('NestedSelect-option', {
-              'is-active': value && value === option.value
-            })}
-            onClick={this.handleOptionClick.bind(this, option)}
-          >
-            <span>{option.label}</span>
-            {option.children ? (
-              <div className={cx('NestedSelect-optionArrowRight')}>
-                <Icon icon="right-arrow" className="icon" />
+      <>
+        {stack.map((options, index) => (
+          <div key={index} className={cx('NestedSelect-menu')}>
+            {index === 0 ? searchInput : null}
+            {multiple && index === 0 ? (
+              <div className={cx('NestedSelect-option', 'checkall')}>
+                <Checkbox
+                  onChange={this.handleCheck.bind(this, options)}
+                  checked={partialChecked}
+                  partial={partialChecked && !allChecked}
+                >
+                  全选
+                </Checkbox>
               </div>
             ) : null}
-            {option.children && option.children.length
-              ? this.renderOptions(option.children, true, false)
-              : null}
+
+            {options.map((option: Option, idx: number) => {
+              const checked = selectedOptions.some(
+                o => o.value == option.value
+              );
+              const selfChecked = !!option.uncheckable || checked;
+              let nodeDisabled = !!option.uncheckable || !!disabled;
+
+              return (
+                <div
+                  key={idx}
+                  className={cx('NestedSelect-option', {
+                    'is-active': value && value === option.value
+                  })}
+                  onClick={this.handleOptionClick.bind(this, option)}
+                  onMouseEnter={this.onMouseEnter.bind(this, option, index)}
+                >
+                  {multiple ? (
+                    <Checkbox
+                      onChange={this.handleCheck.bind(this, option, index)}
+                      trueValue={option.value}
+                      checked={selfChecked}
+                      disabled={nodeDisabled}
+                    >
+                      {option.label}
+                    </Checkbox>
+                  ) : (
+                    <span>{option.label}</span>
+                  )}
+
+                  {option.children && option.children.length ? (
+                    <div className={cx('NestedSelect-optionArrowRight')}>
+                      <Icon icon="right-arrow" className="icon" />
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
           </div>
         ))}
-      </div>
+      </>
     );
   }
 
+  onMouseEnter(option: Option, index: number, e: MouseEvent) {
+    let {stack} = this.state;
+    let {cascade, multiple, selectedOptions} = this.props;
+    index = index + 1;
+
+    if (option.children && option.children.length) {
+      const checked = selectedOptions.some(o => o.value == option.value);
+      const uncheckable = cascade
+        ? false
+        : option.uncheckable || (multiple && checked);
+      const children = option.children.map(c => ({...c, uncheckable}));
+      if (stack[index]) {
+        stack.splice(index, 1, children);
+      } else {
+        stack.push(children);
+      }
+    } else {
+      stack[index] && stack.splice(index, 1);
+    }
+
+    this.setState({stack});
+  }
+
   renderOuter() {
-    const {popOverContainer, options, classnames: cx} = this.props;
+    const {popOverContainer, classnames: cx} = this.props;
 
     let body = (
       <RootCloseWrapper
@@ -301,24 +453,25 @@ export default class NestedSelectControl extends React.Component<
           className={cx('NestedSelect-menuOuter')}
           style={{minWidth: this.target.offsetWidth}}
         >
-          {this.renderOptions(options, false, false)}
+          {this.renderOptions()}
         </div>
       </RootCloseWrapper>
     );
 
-    if (popOverContainer) {
-      return (
-        <Overlay container={popOverContainer} target={() => this.target} show>
-          <PopOver
-            className={cx('NestedSelect-popover')}
-            style={{minWidth: this.target.offsetWidth}}
-          >
-            {body}
-          </PopOver>
-        </Overlay>
-      );
-    }
-    return body;
+    return (
+      <Overlay
+        container={popOverContainer || this.getTarget}
+        target={this.getTarget}
+        show
+      >
+        <PopOver
+          className={cx('NestedSelect-popover')}
+          style={{minWidth: this.target.offsetWidth}}
+        >
+          {body}
+        </PopOver>
+      </Overlay>
+    );
   }
 
   render() {
