@@ -835,38 +835,13 @@ export function filterTree<T extends TreeItem>(
   iterator: (item: T, key: number, level: number) => boolean,
   level: number = 1
 ) {
-  return tree.filter((item, index) => {
-    if (!iterator(item, index, level)) {
-      return false;
-    }
-
-    if (item.children && item.children.splice) {
-      item.children = filterTree(item.children, iterator, level + 1);
-    }
-
-    return true;
-  });
-}
-
-/**
- * 这个和 filterTree 的区别是，这个会保留 children 也符合匹配的节点
- *
- * @param tree
- * @param iterator
- * @param level
- */
-export function filterTreeWithChildren<T extends TreeItem>(
-  tree: Array<T>,
-  iterator: (item: T, key: number, level: number) => boolean,
-  level: number = 1
-) {
   return tree
-    .filter((item, index) => iterator(item, index, level) || item.children)
+    .filter((item, index) => iterator(item, index, level))
     .map(item => {
       if (item.children && item.children.splice) {
         item = {
           ...item,
-          children: filterTreeWithChildren(item.children, iterator, level + 1)
+          children: filterTree(item.children, iterator, level + 1)
         };
       }
       return item;
