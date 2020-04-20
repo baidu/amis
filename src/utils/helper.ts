@@ -1161,3 +1161,5 @@ export function loadScript(src: string) {
     document.head.appendChild(script);
   });
 }
+
+export class SkipOperation extends Error {}
