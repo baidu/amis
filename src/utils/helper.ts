@@ -833,15 +833,28 @@ export function getTree<T extends TreeItem>(
 export function filterTree<T extends TreeItem>(
   tree: Array<T>,
   iterator: (item: T, key: number, level: number) => boolean,
-  level: number = 1
+  level: number = 1,
+  depthFirst: boolean = false
 ) {
+  if (depthFirst) {
+    return tree
+      .map(item => {
+        let children: TreeArray | undefined = item.children
+          ? filterTree(item.children, iterator, level + 1, depthFirst)
+          : undefined;
+        children && (item = {...item, children: children});
+        return item;
+      })
+      .filter((item, index) => iterator(item, index, level));
+  }
+
   return tree
     .filter((item, index) => iterator(item, index, level))
     .map(item => {
       if (item.children && item.children.splice) {
         item = {
           ...item,
-          children: filterTree(item.children, iterator, level + 1)
+          children: filterTree(item.children, iterator, level + 1, depthFirst)
         };
       }
       return item;
