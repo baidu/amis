@@ -16,7 +16,6 @@ import {dataMapping} from '../../utils/tpl-builtin';
 import {OptionsControl, OptionsControlProps, Option} from '../Form/Options';
 import Input from '../../components/Input';
 import {findDOMNode} from 'react-dom';
-import {cloneDeep} from 'lodash';
 
 export interface NestedSelectProps extends OptionsControlProps {
   cascade?: boolean;
@@ -303,7 +302,7 @@ export default class NestedSelectControl extends React.Component<
 
     let filtedOptions =
       inputValue && this.state.isOpened
-        ? filterTreeWithChildren(cloneDeep(options), option => {
+        ? filterTreeWithChildren(options, option => {
             const reg = new RegExp(`${inputValue}`, 'i');
             return (
               reg.test(option[labelField || 'label']) ||
