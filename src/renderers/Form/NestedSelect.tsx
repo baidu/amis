@@ -191,7 +191,7 @@ export default class NestedSelectControl extends React.Component<
         )
           ? xorBy
           : unionBy;
-        newValue = fn(items, [option], valueField || 'value');
+        newValue = fn(items, option, valueField || 'value');
       } else {
         newValue = items.filter(
           item =>
