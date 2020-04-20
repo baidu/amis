@@ -95,8 +95,7 @@
   }
 
   &-menu {
-    width: 160px;
-    max-width: 160px;
+    min-width: px2rem(160px);
     max-height: px2rem(300px);
     background: $Form-select-menu-bg;
     color: $Form-select-menu-color;
@@ -113,7 +112,7 @@
     .#{$ns}NestedSelect-option {
       position: relative;
       padding-left: px2rem(10px);
-      height: $Form-input-height;
+      min-height: $Form-input-height;
       line-height: $Form-input-height;
       cursor: pointer;
       display: flex;
