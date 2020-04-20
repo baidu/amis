@@ -301,16 +301,15 @@ export default class NestedSelectControl extends React.Component<
     const inputValue = evt.currentTarget.value;
     const {options, labelField, valueField} = this.props;
 
+    const regexp = new RegExp(`${inputValue}`, 'i');
+    const iterator = (option: Option) =>
+      regexp.test(option[labelField || 'label']) ||
+      regexp.test(option[valueField || 'value']) ||
+      (!!option.children && option.children.some(iterator));
+
     let filtedOptions =
       inputValue && this.state.isOpened
-        ? filterTree(options, option => {
-            const reg = new RegExp(`${inputValue}`, 'i');
-            return (
-              reg.test(option[labelField || 'label']) ||
-              reg.test(option[valueField || 'value']) ||
-              option.children
-            );
-          })
+        ? filterTree(options, iterator)
         : options.concat();
 
     this.setState({
