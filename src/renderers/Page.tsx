@@ -66,7 +66,7 @@ export default class Page extends React.Component<PageProps> {
 
   static propsList: Array<string> = [
     'title',
-    'subtitle',
+    'subTitle',
     'initApi',
     'initFetchOn',
     'initFetch',
