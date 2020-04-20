@@ -95,7 +95,7 @@
   }
 
   &-menu {
-    min-width: 160px;
+    min-width: px2rem(160px);
     max-height: px2rem(300px);
     background: $Form-select-menu-bg;
     color: $Form-select-menu-color;
