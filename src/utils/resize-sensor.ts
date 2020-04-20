@@ -122,7 +122,19 @@ function detach(element: HTMLElement) {
   }
 }
 
-export function resizeSensor(element: HTMLElement, callback: Function) {
+export function resizeSensor(
+  element: HTMLElement,
+  callback: Function,
+  once: boolean = false
+) {
+  if (once) {
+    attachResizeEvent(element, function(this: any) {
+      callback.apply(this, arguments);
+      detach(element);
+    });
+    return;
+  }
+
   attachResizeEvent(element, callback);
   let detached = false;
 

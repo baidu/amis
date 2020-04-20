@@ -49,6 +49,7 @@ import $ from 'jquery';
 // Require Editor CSS files.
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
+import {resizeSensor} from '../utils/resize-sensor';
 
 export default class FroalaEditor extends React.Component<any, any> {
   listeningEvents: Array<any> = [];
@@ -87,6 +88,16 @@ export default class FroalaEditor extends React.Component<any, any> {
     this.$element = $(ref);
     this.setContent(true);
     this.registerEvents();
+    resizeSensor(
+      ref.parentElement,
+      () => {
+        $(ref)
+          .prev('.fr-box')
+          .find('.fr-toolbar')
+          .css('width', '');
+      },
+      true
+    );
     this.$editor = this.$element
       .froalaEditor(this.config)
       .data('froala.editor').$el;
