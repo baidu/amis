@@ -14,7 +14,8 @@ import {
   noop,
   isObject,
   isVisible,
-  cloneObject
+  cloneObject,
+  SkipOperation
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -644,6 +645,11 @@ export default class Form extends React.Component<FormProps, object> {
                 // submit 也支持 feedback
                 if (action.feedback && isVisible(action.feedback, store.data)) {
                   await this.openFeedback(action.feedback, store.data);
+
+                  // 如果 feedback 配置了，取消就跳过原有逻辑。
+                  if (action.feedback.skipRestOnCancel) {
+                    throw new SkipOperation();
+                  }
                 }
 
                 return values;
@@ -670,6 +676,10 @@ export default class Form extends React.Component<FormProps, object> {
           return values;
         })
         .catch(reason => {
+          if (reason instanceof SkipOperation) {
+            return;
+          }
+
           onFailed && onFailed(reason, store.errors);
 
           if (throwErrors) {
