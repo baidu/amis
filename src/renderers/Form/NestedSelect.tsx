@@ -361,7 +361,11 @@ export default class NestedSelectControl extends React.Component<
     return (
       <>
         {stack.map((options, index) => (
-          <div key={index} className={cx('NestedSelect-menu')}>
+          <div
+            key={index}
+            className={cx('NestedSelect-menu')}
+            style={{minWidth: this.target.offsetWidth}}
+          >
             {index === 0 ? searchInput : null}
             {multiple && index === 0 ? (
               <div className={cx('NestedSelect-option', 'checkall')}>
