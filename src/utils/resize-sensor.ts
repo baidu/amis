@@ -124,6 +124,10 @@ function detach(element: HTMLElement) {
 
 export function resizeSensor(
   element: HTMLElement,
+  callback: Function
+): () => void;
+export function resizeSensor(
+  element: HTMLElement,
   callback: Function,
   once: boolean = false
 ) {
