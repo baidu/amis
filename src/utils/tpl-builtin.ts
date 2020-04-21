@@ -242,11 +242,11 @@ export const filters: {
       arg1 = arg1 ? getStrOrVariable(arg1, this) : '';
       fn = value => arg1 == value;
     } else if (directive === 'isIn') {
-      let list:Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
+      let list: Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
       list = Array.isArray(list) ? list : [];
       fn = value => !!~list.indexOf(value);
     } else if (directive === 'notIn') {
-      let list:Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
+      let list: Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
       list = Array.isArray(list) ? list : [];
       fn = value => !~list.indexOf(value);
     } else {
@@ -364,7 +364,7 @@ function getStrOrVariable(value: string, data: any) {
     ? parseFloat(value)
     : /,/.test(value)
     ? value.split(/\s*,\s*/)
-    : (resolveVariable(value, data) ?? value);
+    : resolveVariable(value, data);
 }
 
 function getConditionValue(
