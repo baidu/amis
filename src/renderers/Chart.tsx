@@ -10,6 +10,7 @@ import {resizeSensor} from '../utils/resize-sensor';
 import {resolveVariableAndFilter, isPureVariable} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
+import {createObject} from '../utils/helper';
 
 export interface ChartProps extends RendererProps {
   chartRef?: (echart: any) => void;
@@ -89,9 +90,11 @@ export class Chart extends React.Component<ChartProps> {
   }
 
   handleClick(ctx: object) {
-    const {onAction, clickAction} = this.props;
+    const {onAction, clickAction, data} = this.props;
 
-    clickAction && onAction && onAction(null, clickAction, ctx);
+    clickAction &&
+      onAction &&
+      onAction(null, clickAction, createObject(data, ctx));
   }
 
   refFn(ref: any) {
