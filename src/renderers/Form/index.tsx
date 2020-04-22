@@ -644,10 +644,13 @@ export default class Form extends React.Component<FormProps, object> {
 
                 // submit 也支持 feedback
                 if (action.feedback && isVisible(action.feedback, store.data)) {
-                  await this.openFeedback(action.feedback, store.data);
+                  const confirmed = await this.openFeedback(
+                    action.feedback,
+                    store.data
+                  );
 
                   // 如果 feedback 配置了，取消就跳过原有逻辑。
-                  if (action.feedback.skipRestOnCancel) {
+                  if (action.feedback.skipRestOnCancel && !confirmed) {
                     throw new SkipOperation();
                   }
                 }
