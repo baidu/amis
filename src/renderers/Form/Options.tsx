@@ -819,7 +819,7 @@ export function highlight(
 
   text = String(text);
   const reg = new RegExp(
-    input.replace(/([\$\^\*\+\-\?\.\(\)\|\[\]\\])/, '\\$1'),
+    input.replace(/([\$\^\*\+\-\?\.\(\)\|\[\]\\])/g, '\\$1'),
     'i'
   );
   if (!reg.test(text)) {
