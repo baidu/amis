@@ -148,8 +148,7 @@ export default class Drawer extends React.Component<DrawerProps, object> {
 
   handleAction(e: React.UIEvent<any>, action: Action, data: object) {
     const {onClose, onAction} = this.props;
-
-    if (action.actionType === 'close') {
+    if (action.actionType === 'close' || action.actionType === 'cancel') {
       onClose();
     } else if (onAction) {
       onAction(e, action, data);
@@ -642,7 +641,7 @@ export class DrawerRenderer extends Drawer {
 
     const scoped = this.context as IScopedContext;
 
-    if (action.actionType === 'close') {
+    if (action.actionType === 'close' || action.actionType === 'cancel') {
       store.setCurrentAction(action);
       onClose();
     } else if (action.actionType === 'confirm') {
