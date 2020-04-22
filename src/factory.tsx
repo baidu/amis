@@ -435,7 +435,9 @@ const defaultOmitList = [
   'disabled',
   'disabledOn',
   'component',
-  'detectField'
+  'detectField',
+  'required',
+  'requiredOn'
 ];
 
 class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
