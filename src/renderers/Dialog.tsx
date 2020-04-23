@@ -36,6 +36,7 @@ export interface DialogProps extends RendererProps {
   lazyRender?: boolean;
   wrapperComponent: React.ReactType;
   showCloseButton?: boolean;
+  showErrorMsg?: boolean;
 }
 
 export interface DialogState {
@@ -56,10 +57,11 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     'show',
     'body',
     'showCloseButton',
+    'showErrorMsg',
     'actions',
     'popOverContainer'
   ];
-  static defaultProps: Partial<DialogProps> = {
+  static defaultProps = {
     title: '弹框',
     bodyClassName: '',
     confirm: true,
@@ -67,7 +69,8 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     lazyRender: false,
     showCloseButton: true,
     wrapperComponent: Modal,
-    closeOnEsc: false
+    closeOnEsc: false,
+    showErrorMsg: true
   };
 
   reaction: any;
@@ -335,14 +338,14 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
       return null;
     }
 
-    const {store, render, classnames: cx} = this.props;
+    const {store, render, classnames: cx, showErrorMsg} = this.props;
 
     return (
       <div className={cx('Modal-footer')}>
         {store.loading || store.error ? (
           <div className={cx('Dialog-info')} key="info">
             <Spinner size="sm" key="info" show={store.loading} />
-            {store.error ? (
+            {store.error && showErrorMsg !== false ? (
               <span className={cx('Dialog-error')}>{store.msg}</span>
             ) : null}
           </div>
