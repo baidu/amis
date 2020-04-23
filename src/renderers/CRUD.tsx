@@ -570,7 +570,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pageField,
       stopAutoRefreshWhenModalIsOpen,
       interval,
-      silentPolling
+      silentPolling,
+      env
     } = this.props;
 
     store.closeDialog();
@@ -619,6 +620,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       );
     } else if (values.length) {
       const value = values[0];
+      ctx = createObject(ctx, value);
       const component = components[0];
 
       // 提交来自 form
@@ -644,8 +646,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     if (dialogAction.reload) {
-      this.reloadTarget(dialogAction.reload, store.data);
+      this.reloadTarget(dialogAction.reload, ctx);
     }
+
+    dialogAction.redirect &&
+      env.jumpTo(filter(action.redirect, ctx), dialogAction);
   }
 
   handleDialogClose() {
