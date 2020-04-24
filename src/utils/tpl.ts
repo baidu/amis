@@ -37,7 +37,20 @@ export function filter(
   return tpl;
 }
 
+let customEvalExpressionFn: (expression: string, data?: any) => boolean;
+export function setCustomEvalExpression(
+  fn: (expression: string, data?: any) => boolean
+) {
+  customEvalExpressionFn = fn;
+}
+
+// 几乎所有的 visibleOn requiredOn 都是通过这个方法判断出来结果，很粗暴也存在风险，建议自己实现。
+// 如果想自己实现，请通过 setCustomEvalExpression 来替换。
 export function evalExpression(expression: string, data?: object): boolean {
+  if (typeof customEvalExpressionFn === 'function') {
+    return customEvalExpressionFn(expression, data);
+  }
+
   if (!expression || typeof expression !== 'string') {
     return false;
   }
@@ -64,7 +77,18 @@ export function evalExpression(expression: string, data?: object): boolean {
   }
 }
 
+let customEvalJsFn: (expression: string, data?: any) => any;
+export function setCustomEvalJs(fn: (expression: string, data?: any) => any) {
+  customEvalJsFn = fn;
+}
+
+// 这个主要用在 formula 里面，用来动态的改变某个值。也很粗暴，建议自己实现。
+// 如果想自己实现，请通过 setCustomEvalJs 来替换。
 export function evalJS(js: string, data: object): any {
+  if (typeof customEvalJsFn === 'function') {
+    return customEvalJsFn(js, data);
+  }
+
   /* jshint evil:true */
   try {
     const fn = new Function(
