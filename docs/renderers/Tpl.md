@@ -70,7 +70,8 @@ tpl 类型的渲染器支持用 JS 模板引擎来组织输出，采用的 lodas
 从上面的语法可以看出来，取值时是支持指定 filter 的，那么有哪些 filter 呢？
 
 - `html` 转义 html 如：`${xxx|html}`。
-- `json` json stringify。
+- `json` json stringify。将目标变量转成 json 字符串。
+- `toJson` 反过来处理，如果目标字段是字符串，尝试把它解析成 js 数据。
 - `raw` 表示不转换, 原样输出。
 - `date` 做日期转换如： `${xxx | date:YYYY-MM-DD}`
 - `number` 自动给数字加千分位。`${xxx | number}` `9999` => `9,999`
