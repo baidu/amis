@@ -40,6 +40,7 @@ export interface PageProps extends RendererProps {
   body?: SchemaNode;
   aside?: SchemaNode;
   // primaryField?: string, // 指定主键的字段名，默认为 `id`
+  showErrorMsg?: boolean;
   location?: Location;
   store: IServiceStore;
   messages?: {
@@ -78,7 +79,8 @@ export default class Page extends React.Component<PageProps> {
     'body',
     'aside',
     'messages',
-    'style'
+    'style',
+    'showErrorMsg'
   ];
 
   componentWillMount() {
@@ -425,7 +427,8 @@ export default class Page extends React.Component<PageProps> {
       aside,
       asideClassName,
       classnames: cx,
-      header
+      header,
+      showErrorMsg
     } = this.props;
 
     const subProps = {
@@ -461,7 +464,7 @@ export default class Page extends React.Component<PageProps> {
             <div className={cx(`Page-body`, bodyClassName)}>
               <Spinner size="lg" overlay key="info" show={store.loading} />
 
-              {store.error ? (
+              {store.error && showErrorMsg !== false ? (
                 <Alert
                   level="danger"
                   showCloseButton
