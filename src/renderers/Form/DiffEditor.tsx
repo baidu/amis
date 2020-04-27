@@ -21,10 +21,21 @@ export interface DiffEditorProps extends FormControlProps {
   diffValue?: string;
 }
 
-function normalizeValue(value: any) {
+function normalizeValue(value: any, language?: string) {
   if (value && typeof value !== 'string') {
     value = JSON.stringify(value, null, 4);
   }
+
+  if (language && language === 'json') {
+    try {
+      value = JSON.stringify(
+        typeof value === 'string' ? JSON.parse(value) : value,
+        null,
+        4
+      );
+    } catch (e) {}
+  }
+
   return value;
 }
 
@@ -92,7 +103,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
   }
 
   componentDidUpdate(prevProps: any) {
-    const {data, value, diffValue} = this.props;
+    const {data, value, diffValue, language} = this.props;
 
     if (
       this.originalEditor &&
@@ -103,8 +114,8 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
         .getModel()
         .setValue(
           isPureVariable(diffValue as string)
-            ? filter(normalizeValue(diffValue || ''), data, '| raw')
-            : normalizeValue(diffValue)
+            ? normalizeValue(filter(diffValue || '', data, '| raw'), language)
+            : normalizeValue(diffValue, language)
         );
     }
 
@@ -114,7 +125,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
       value !== prevProps.value &&
       !this.state.focused
     ) {
-      this.modifiedEditor.getModel().setValue(normalizeValue(value));
+      this.modifiedEditor.getModel().setValue(normalizeValue(value, language));
     }
   }
 
@@ -145,11 +156,14 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     this.editor.setModel({
       original: this.monaco.editor.createModel(
         isPureVariable(diffValue as string)
-          ? filter(normalizeValue(diffValue || ''), data, '| raw')
-          : normalizeValue(diffValue),
+          ? normalizeValue(filter(diffValue || '', data, '| raw'), language)
+          : normalizeValue(diffValue, language),
         language
       ),
-      modified: this.monaco.editor.createModel(normalizeValue(value), language)
+      modified: this.monaco.editor.createModel(
+        normalizeValue(value, language),
+        language
+      )
     });
 
     this.updateContainerSize();
