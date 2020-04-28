@@ -193,7 +193,7 @@ export default class SubFormControl extends React.PureComponent<
                         tpl: btnLabel
                       },
                       {
-                        data
+                        data: createObject(data, value)
                       }
                     )}
                 </span>
@@ -253,7 +253,7 @@ export default class SubFormControl extends React.PureComponent<
                   tpl: btnLabel
                 },
                 {
-                  data
+                  data: createObject(data, value)
                 }
               )}
           </span>
