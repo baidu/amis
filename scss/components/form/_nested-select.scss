@@ -109,7 +109,7 @@
   }
 
   &-menu {
-    min-width: px2rem(160px);
+    min-width: px2rem(120px);
     max-height: px2rem(300px);
     background: $Form-select-menu-bg;
     color: $Form-select-menu-color;
@@ -158,6 +158,22 @@
       &.checkall {
         border-bottom: px2rem(1px) solid #eceff8;
       }
+    }
+  }
+}
+
+// 需要能撑开
+@include media-breakpoint-up(sm) {
+  .#{$ns}Form-control--sizeXs > .#{$ns}NestedSelect,
+  .#{$ns}Form-control--sizeSm > .#{$ns}NestedSelect,
+  .#{$ns}Form-control--sizeMd > .#{$ns}NestedSelect,
+  .#{$ns}Form-control--sizeLg > .#{$ns}NestedSelect {
+    min-width: 100%;
+    max-width: 100%;
+    display: inline-flex !important;
+
+    .#{$ns}Select-valueWrap {
+      width: 0; // ! 没有这个会撑开。
     }
   }
 }
