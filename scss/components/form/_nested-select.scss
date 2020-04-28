@@ -41,6 +41,26 @@
     background: $Form-select-onHover-bg;
   }
 
+  &--multi {
+    .#{$ns}Select-value {
+      position: static;
+      user-select: none;
+      line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+      display: inline-block;
+      vertical-align: middle;
+      font-size: $Form-selectValue-fontSize;
+      color: $Form-selectValue-color;
+      background: $Form-selectValue-bg;
+      border: px2rem(1px) solid $Form-selectValue-borderColor;
+      border-radius: px2rem(2px);
+      margin-right: $gap-xs;
+      margin-bottom: $gap-xs;
+    }
+    .#{$ns}Select-valueLabel {
+      padding: 0 $gap-xs;
+    }
+  }
+
   &-placeholder {
     color: $Form-select-placeholderColor;
     line-height: $Form-input-lineHeight;
@@ -50,12 +70,6 @@
     user-select: none;
     position: relative;
     flex-grow: 1;
-  }
-
-  .#{$ns}Select-arrow {
-    position: absolute;
-    right: 0;
-    top: px2rem(10px);
   }
 
   &-clear {

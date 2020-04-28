@@ -67,19 +67,75 @@ export default class NestedSelectControl extends React.Component<
     });
   }
 
+  removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
+    let {
+      onChange,
+      selectedOptions,
+      disabled,
+      joinValues,
+      valueField,
+      extractValue,
+      delimiter,
+      value
+    } = this.props;
+
+    if (disabled) {
+      return;
+    }
+
+    e && e.stopPropagation();
+
+    selectedOptions.splice(index, 1);
+
+    if (joinValues) {
+      value = (selectedOptions as Options)
+        .map(item => item[valueField || 'value'])
+        .join(delimiter || ',');
+    } else if (extractValue) {
+      value = (selectedOptions as Options).map(
+        item => item[valueField || 'value']
+      );
+    }
+
+    onChange(value);
+  }
+
   renderValue() {
-    const {multiple, classnames: cx, selectedOptions, labelField} = this.props;
-    const len = Array.isArray(selectedOptions) ? selectedOptions.length : 0;
-    return (
-      <div className={cx('NestedSelect-valueWrap')} onClick={this.open}>
-        {len > 0 ? (
-          <div className={cx('NestedSelect-value')}>
-            {multiple
-              ? `已选择 ${len} 项`
-              : selectedOptions[0][labelField || 'label']}
-          </div>
-        ) : null}
-      </div>
+    const {
+      multiple,
+      classnames: cx,
+      selectedOptions,
+      labelField,
+      placeholder,
+      disabled
+    } = this.props;
+
+    if (!(selectedOptions && selectedOptions.length > 0)) {
+      return (
+        <div className={cx('NestedSelect-placeholder')}>{placeholder}</div>
+      );
+    }
+
+    return selectedOptions.map((item, index) =>
+      multiple ? (
+        <div className={cx('Select-value')} key={index}>
+          <span
+            className={cx('Select-valueIcon', {
+              'is-disabled': disabled || item.disabled
+            })}
+            onClick={this.removeItem.bind(this, index)}
+          >
+            ×
+          </span>
+          <span className={cx('Select-valueLabel')}>
+            {item[labelField || 'label']}
+          </span>
+        </div>
+      ) : (
+        <div className={cx('Select-value')} key={index}>
+          {item[labelField || 'label']}
+        </div>
+      )
     );
   }
 
@@ -364,11 +420,14 @@ export default class NestedSelectControl extends React.Component<
           <div
             key={index}
             className={cx('NestedSelect-menu')}
-            style={{minWidth: this.target.offsetWidth}}
+            style={{width: this.target.offsetWidth}}
           >
             {index === 0 ? searchInput : null}
             {multiple && index === 0 ? (
-              <div className={cx('NestedSelect-option', 'checkall')}>
+              <div
+                className={cx('NestedSelect-option', 'checkall')}
+                onMouseEnter={this.onMouseEnterAll}
+              >
                 <Checkbox
                   onChange={this.handleCheck.bind(this, options)}
                   checked={partialChecked}
@@ -422,6 +481,13 @@ export default class NestedSelectControl extends React.Component<
     );
   }
 
+  @autobind
+  onMouseEnterAll() {
+    this.setState({
+      stack: [this.props.options]
+    });
+  }
+
   onMouseEnter(option: Option, index: number, e: MouseEvent) {
     let {stack} = this.state;
     let {cascade, multiple, selectedOptions} = this.props;
@@ -442,7 +508,7 @@ export default class NestedSelectControl extends React.Component<
       stack[index] && stack.splice(index, 1);
     }
 
-    this.setState({stack});
+    this.setState({stack: stack.slice(0, index + 1)});
   }
 
   renderOuter() {
@@ -455,7 +521,7 @@ export default class NestedSelectControl extends React.Component<
       >
         <div
           className={cx('NestedSelect-menuOuter')}
-          style={{minWidth: this.target.offsetWidth}}
+          style={{width: this.target.offsetWidth}}
         >
           {this.renderOptions()}
         </div>
@@ -479,13 +545,7 @@ export default class NestedSelectControl extends React.Component<
   }
 
   render() {
-    const {
-      className,
-      disabled,
-      placeholder,
-      selectedOptions,
-      classnames: cx
-    } = this.props;
+    const {className, disabled, classnames: cx, multiple} = this.props;
 
     return (
       <div className={cx('NestedSelectControl')}>
@@ -493,6 +553,7 @@ export default class NestedSelectControl extends React.Component<
           className={cx(
             'NestedSelect',
             {
+              [`NestedSelect--multi`]: multiple,
               'is-opened': this.state.isOpened,
               'is-disabled': disabled
             },
@@ -501,11 +562,10 @@ export default class NestedSelectControl extends React.Component<
           onClick={this.open}
           ref={this.domRef}
         >
-          {!(selectedOptions && selectedOptions.length > 0) ? (
-            <div className={cx('NestedSelect-placeholder')}>{placeholder}</div>
-          ) : null}
+          <div className={cx('NestedSelect-valueWrap')} onClick={this.open}>
+            {this.renderValue()}
+          </div>
 
-          {this.renderValue()}
           {this.renderClear()}
 
           <span className={cx('Select-arrow')} />
