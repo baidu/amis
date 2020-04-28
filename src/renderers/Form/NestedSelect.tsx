@@ -417,11 +417,7 @@ export default class NestedSelectControl extends React.Component<
     return (
       <>
         {stack.map((options, index) => (
-          <div
-            key={index}
-            className={cx('NestedSelect-menu')}
-            style={{width: this.target.offsetWidth}}
-          >
+          <div key={index} className={cx('NestedSelect-menu')}>
             {index === 0 ? searchInput : null}
             {multiple && index === 0 ? (
               <div
@@ -519,10 +515,7 @@ export default class NestedSelectControl extends React.Component<
         disabled={!this.state.isOpened}
         onRootClose={this.close}
       >
-        <div
-          className={cx('NestedSelect-menuOuter')}
-          style={{minWidth: this.target.offsetWidth}}
-        >
+        <div className={cx('NestedSelect-menuOuter')}>
           {this.renderOptions()}
         </div>
       </RootCloseWrapper>
@@ -534,12 +527,7 @@ export default class NestedSelectControl extends React.Component<
         target={this.getTarget}
         show
       >
-        <PopOver
-          className={cx('NestedSelect-popover')}
-          style={{minWidth: this.target.offsetWidth}}
-        >
-          {body}
-        </PopOver>
+        <PopOver className={cx('NestedSelect-popover')}>{body}</PopOver>
       </Overlay>
     );
   }
