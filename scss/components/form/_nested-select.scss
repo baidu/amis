@@ -169,9 +169,5 @@
   .#{$ns}Form-control--sizeMd > .#{$ns}NestedSelect,
   .#{$ns}Form-control--sizeLg > .#{$ns}NestedSelect {
     display: inline-flex !important;
-
-    .#{$ns}Select-valueWrap {
-      width: 0; // ! 没有这个会撑开。
-    }
   }
 }
