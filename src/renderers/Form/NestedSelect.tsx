@@ -521,7 +521,7 @@ export default class NestedSelectControl extends React.Component<
       >
         <div
           className={cx('NestedSelect-menuOuter')}
-          style={{width: this.target.offsetWidth}}
+          style={{minWidth: this.target.offsetWidth}}
         >
           {this.renderOptions()}
         </div>
@@ -548,17 +548,13 @@ export default class NestedSelectControl extends React.Component<
     const {className, disabled, classnames: cx, multiple} = this.props;
 
     return (
-      <div className={cx('NestedSelectControl')}>
+      <div className={cx('NestedSelectControl', className)}>
         <div
-          className={cx(
-            'NestedSelect',
-            {
-              [`NestedSelect--multi`]: multiple,
-              'is-opened': this.state.isOpened,
-              'is-disabled': disabled
-            },
-            className
-          )}
+          className={cx('NestedSelect', {
+            [`NestedSelect--multi`]: multiple,
+            'is-opened': this.state.isOpened,
+            'is-disabled': disabled
+          })}
           onClick={this.open}
           ref={this.domRef}
         >
