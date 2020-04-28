@@ -168,8 +168,6 @@
   .#{$ns}Form-control--sizeSm > .#{$ns}NestedSelect,
   .#{$ns}Form-control--sizeMd > .#{$ns}NestedSelect,
   .#{$ns}Form-control--sizeLg > .#{$ns}NestedSelect {
-    min-width: 100%;
-    max-width: 100%;
     display: inline-flex !important;
 
     .#{$ns}Select-valueWrap {
