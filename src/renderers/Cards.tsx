@@ -752,7 +752,8 @@ export default class Cards extends React.Component<GridProps, object> {
       checkOnItemClick,
       masonryLayout,
       itemsClassName,
-      classnames: cx
+      classnames: cx,
+      data
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
@@ -838,7 +839,9 @@ export default class Cards extends React.Component<GridProps, object> {
             })}
           </div>
         ) : (
-          <div className={cx('Cards-placeholder')}>{placeholder}</div>
+          <div className={cx('Cards-placeholder')}>
+            {filter(placeholder, data)}
+          </div>
         )}
 
         {footer}

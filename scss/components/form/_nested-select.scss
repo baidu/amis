@@ -41,6 +41,26 @@
     background: $Form-select-onHover-bg;
   }
 
+  &--multi {
+    .#{$ns}Select-value {
+      position: static;
+      user-select: none;
+      line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+      display: inline-block;
+      vertical-align: middle;
+      font-size: $Form-selectValue-fontSize;
+      color: $Form-selectValue-color;
+      background: $Form-selectValue-bg;
+      border: px2rem(1px) solid $Form-selectValue-borderColor;
+      border-radius: px2rem(2px);
+      margin-right: $gap-xs;
+      margin-bottom: $gap-xs;
+    }
+    .#{$ns}Select-valueLabel {
+      padding: 0 $gap-xs;
+    }
+  }
+
   &-placeholder {
     color: $Form-select-placeholderColor;
     line-height: $Form-input-lineHeight;
@@ -50,12 +70,6 @@
     user-select: none;
     position: relative;
     flex-grow: 1;
-  }
-
-  .#{$ns}Select-arrow {
-    position: absolute;
-    right: 0;
-    top: px2rem(10px);
   }
 
   &-clear {
@@ -80,8 +94,7 @@
 
   &-optionArrowRight {
     display: inline-block;
-    position: absolute;
-    right: px2rem(10px);
+    padding-right: px2rem(10px);
 
     svg {
       width: px2rem(12px);
@@ -95,7 +108,7 @@
   }
 
   &-menu {
-    min-width: px2rem(160px);
+    width: px2rem(160px);
     max-height: px2rem(300px);
     background: $Form-select-menu-bg;
     color: $Form-select-menu-color;
@@ -120,6 +133,10 @@
       > label {
         flex: 1;
         cursor: pointer;
+        span {
+          display: inline-flex;
+          word-break: break-all;
+        }
       }
 
       &.is-active {
@@ -145,5 +162,15 @@
         border-bottom: px2rem(1px) solid #eceff8;
       }
     }
+  }
+}
+
+// 需要能撑开
+@include media-breakpoint-up(sm) {
+  .#{$ns}Form-control--sizeXs > .#{$ns}NestedSelect,
+  .#{$ns}Form-control--sizeSm > .#{$ns}NestedSelect,
+  .#{$ns}Form-control--sizeMd > .#{$ns}NestedSelect,
+  .#{$ns}Form-control--sizeLg > .#{$ns}NestedSelect {
+    display: inline-flex !important;
   }
 }
