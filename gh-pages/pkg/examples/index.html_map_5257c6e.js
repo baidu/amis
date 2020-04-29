@@ -10996,7 +10996,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Action.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Action_843aa7b.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Action_328325a.js",
       "type": "js"
     },
     "docs/renderers/Alert.md": {
@@ -11024,7 +11024,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/CRUD.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/CRUD_1704b51.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/CRUD_2cd8a2f.js",
       "type": "js"
     },
     "docs/renderers/Card.md": {
@@ -11188,7 +11188,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Form/NestedSelect.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/NestedSelect_0968a6c.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/NestedSelect_a35587a.js",
       "type": "js"
     },
     "docs/renderers/Form/Number.md": {
@@ -11340,7 +11340,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Tpl.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Tpl_7eeef6d.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Tpl_1cc3447.js",
       "type": "js"
     },
     "docs/renderers/Types.md": {
