@@ -742,9 +742,10 @@ function docsGennerator(contents, file) {
                   label: '${item.name}',
                   ${
                     child
-                      ? `path: '/docs/renderers/${child.path
-                          .replace(/\.md$/, '')
-                          .toLowerCase()}',`
+                      ? `path: '/docs/renderers/${child.path.replace(
+                          /\.md$/,
+                          ''
+                        )}',`
                       : ''
                   }
                   children: [
@@ -755,9 +756,7 @@ function docsGennerator(contents, file) {
 
       return `{
               label: '${item.name}',
-              path: '/docs/renderers/${item.path
-                .replace(/\.md$/, '')
-                .toLowerCase()}',
+              path: '/docs/renderers/${item.path.replace(/\.md$/, '')}',
                 getComponent: (location, cb) =>
                 require(['../../docs/renderers/${item.path}'], doc => {
                   cb(null, makeMarkdownRenderer(doc));
