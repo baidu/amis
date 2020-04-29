@@ -99,6 +99,10 @@
       margin-left: $Crud-toolbar-gap;
     }
   }
+
+  &-pager {
+    align-self: flex-start;
+  }
 }
 
 @include media-breakpoint-up(sm) {
