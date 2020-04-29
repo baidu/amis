@@ -69,6 +69,8 @@
     line-height: $Crud-toolbar-lineHeight;
     height: $Crud-toolbar-height;
     vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
 
     &--left {
       float: left;
