@@ -303,7 +303,7 @@ export class Card extends React.Component<CardProps> {
       } = header;
 
       const highlight = !!evalExpression(highlightTpl, data as object);
-      const avatar = filter(avatarTpl, data);
+      const avatar = filter(avatarTpl, data, '| raw');
       const avatarText = filter(avatarTextTpl, data);
       const title = filter(titleTpl, data);
       const subTitle = filter(subTitleTpl, data);
