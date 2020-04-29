@@ -390,12 +390,16 @@ export class DateRangePicker extends React.Component<
   }
 
   selectRannge(range: PlainObject) {
-    const {closeOnSelect} = this.props;
+    const {closeOnSelect, minDate, maxDate} = this.props;
     const now = moment();
     this.setState(
       {
-        startDate: range.startDate(now.clone()),
-        endDate: range.endDate(now.clone())
+        startDate: minDate
+          ? moment.max(range.startDate(now.clone()), minDate)
+          : range.startDate(now.clone()),
+        endDate: maxDate
+          ? moment.min(maxDate, range.endDate(now.clone()))
+          : range.endDate(now.clone())
       },
       closeOnSelect ? this.confirm : noop
     );
