@@ -233,7 +233,7 @@ export default class Page extends React.Component<PageProps> {
       action.actionType === 'copy' &&
       (action.content || action.copy)
     ) {
-      env.copy && env.copy(filter(action.content || action.copy, ctx));
+      env.copy && env.copy(filter(action.content || action.copy, ctx, '| raw'));
     }
   }
 
