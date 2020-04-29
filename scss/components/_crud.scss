@@ -66,6 +66,7 @@
 
   &-toolbar-item {
     margin-left: $Crud-toolbar-gap;
+    margin-top: $Crud-toolbar-gap;
     line-height: $Crud-toolbar-lineHeight;
     height: $Crud-toolbar-height;
     vertical-align: middle;
@@ -109,6 +110,7 @@
   .#{$ns}Crud {
     &-toolbar {
       margin-left: -$Crud-toolbar-gap;
+      margin-top: -$Crud-toolbar-gap;
       flex-basis: 0;
       flex-grow: 1;
       @include clearfix();
