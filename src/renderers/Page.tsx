@@ -198,7 +198,11 @@ export default class Page extends React.Component<PageProps> {
       }
 
       env.jumpTo(
-        filter((action.to || action.url || action.link) as string, ctx),
+        filter(
+          (action.to || action.url || action.link) as string,
+          ctx,
+          '| raw'
+        ),
         action,
         ctx
       );
