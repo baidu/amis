@@ -384,7 +384,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     return (
       <RootStoreContext.Provider value={rootStore}>
         <ThemeContext.Provider value={this.props.theme || 'default'}>
-          <ImageGallery>
+          <ImageGallery modalContainer={env.getModalContainer}>
             {
               renderChild(
                 pathPrefix || '',
