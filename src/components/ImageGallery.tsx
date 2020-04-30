@@ -8,6 +8,7 @@ export interface ImageGalleryProps {
   classnames: ClassNamesFn;
   classPrefix: string;
   children: React.ReactNode;
+  modalContainer?: () => HTMLElement;
 }
 
 export interface ImageGalleryState {
@@ -84,7 +85,7 @@ export class ImageGallery extends React.Component<
   }
 
   render() {
-    const {children, classnames: cx} = this.props;
+    const {children, classnames: cx, modalContainer} = this.props;
     const {index, items} = this.state;
 
     return (
@@ -99,6 +100,7 @@ export class ImageGallery extends React.Component<
           onHide={this.close}
           show={this.state.isOpened}
           contentClassName={cx('ImageGallery')}
+          container={modalContainer}
         >
           <a
             data-tooltip="关闭"
