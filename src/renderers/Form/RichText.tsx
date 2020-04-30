@@ -177,7 +177,9 @@ export default class RichTextControl extends React.Component<
           const formData = new FormData();
           formData.append('file', blobInfo.blob(), blobInfo.filename());
           try {
-            const response = await fetcher(props.reciever, formData);
+            const response = await fetcher(props.reciever, formData, {
+              method: 'post',
+            });
             if (response.ok) {
               ok(response.data?.link || response.data?.value || (response as any).link);
             }
