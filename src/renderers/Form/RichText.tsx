@@ -181,7 +181,7 @@ export default class RichTextControl extends React.Component<
               method: 'post',
             });
             if (response.ok) {
-              ok(response.data?.link || response.data?.value || (response as any).link);
+              ok(response.data?.link || response.data?.url || response.data?.value || (response as any).link);
             }
           } catch (e) {
             fail(e);
