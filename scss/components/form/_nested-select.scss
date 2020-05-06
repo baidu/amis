@@ -130,7 +130,7 @@
       cursor: pointer;
       display: flex;
 
-      > label {
+      > .#{$ns}NestedSelect-optionLabel {
         flex: 1;
         cursor: pointer;
         span {
