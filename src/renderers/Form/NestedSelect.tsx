@@ -452,6 +452,7 @@ export default class NestedSelectControl extends React.Component<
                 >
                   {multiple ? (
                     <Checkbox
+                      className={cx('NestedSelect-optionLabel')}
                       onChange={this.handleCheck.bind(this, option, index)}
                       trueValue={option.value}
                       checked={selfChecked}
@@ -460,7 +461,9 @@ export default class NestedSelectControl extends React.Component<
                       {option.label}
                     </Checkbox>
                   ) : (
-                    <span>{option.label}</span>
+                    <div className={cx('NestedSelect-optionLabel')}>
+                      <span>{option.label}</span>
+                    </div>
                   )}
 
                   {option.children && option.children.length ? (
