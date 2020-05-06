@@ -24,6 +24,7 @@ export class ServiceRenderer extends BasicService {
 
   componentDidMount() {
     const {formInited, addHook} = this.props;
+    this.mounted = true;
 
     // form层级下的所有service应该都会走这里
     // 但是传入props有可能是undefined，所以做个处理
@@ -66,10 +67,10 @@ export class ServiceRenderer extends BasicService {
 
     const finnalSchema = store.schema ||
       schema || {
-      controls,
-      tabs,
-      feildSet
-    };
+        controls,
+        tabs,
+        feildSet
+      };
     if (
       finnalSchema &&
       !finnalSchema.type &&
