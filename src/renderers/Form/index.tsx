@@ -1247,7 +1247,7 @@ export class FormRenderer extends Form {
     scoped.reload(target, data);
   }
 
-  reload(target?: string, query?: any, ctx?: any) {
+  reload(target?: string, query?: any, ctx?: any, silent?: boolean) {
     if (query) {
       return this.receive(query);
     }
@@ -1277,14 +1277,14 @@ export class FormRenderer extends Form {
     ) {
       component.reload(subPath, subQuery, ctx);
     } else if (target === '*') {
-      super.reload();
+      super.reload(target, query, ctx, silent);
       const components = scoped.getComponents();
       components.forEach(
         (component: any) =>
           component.reload && component.reload('', subQuery, ctx)
       );
     } else {
-      super.reload();
+      super.reload(target, query, ctx, silent);
     }
   }
 
