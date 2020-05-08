@@ -115,6 +115,8 @@
   }
 
   &.#{$ns}Drawer--noOverlay {
+    pointer-events: none;
+
     .#{$ns}Drawer-close svg {
       margin-top: px2rem(2px);
       width: px2rem(20px);
