@@ -161,6 +161,7 @@ export default class ImageControl extends React.Component<
   current: FileValue | FileX | null = null;
   resolve?: (value?: any) => void;
   emitValue: any;
+  unmounted = false;
 
   constructor(props: ImageProps) {
     super(props);
@@ -259,6 +260,10 @@ export default class ImageControl extends React.Component<
         crop: this.buildCrop(nextProps)
       });
     }
+  }
+
+  componentWillUnmount() {
+    this.unmounted = true;
   }
 
   buildCrop(props: ImageProps) {
@@ -837,12 +842,13 @@ export default class ImageControl extends React.Component<
         this.current || find(files, file => file.state === 'pending')
       );
 
-      this.setState(
-        {
-          files: this.files = files
-        },
-        !needUploading ? this.onChange : undefined
-      );
+      this.unmounted ||
+        this.setState(
+          {
+            files: this.files = files
+          },
+          !needUploading ? this.onChange : undefined
+        );
     };
     img.src = imgDom.src;
   }
