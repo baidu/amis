@@ -69,12 +69,14 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     if (this.props.show) {
       this.handleEntered();
     }
+    document.body.addEventListener('click', this.handleRootClick);
   }
 
   componentWillUnmount() {
     if (this.props.show) {
       this.handleExited();
     }
+    document.body.removeEventListener('click', this.handleRootClick);
   }
 
   contentRef = (ref: any) => (this.contentDom = ref);
@@ -105,7 +107,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   };
 
   @autobind
-  handleWidgetClick(e: React.MouseEvent) {
+  handleRootClick(e: MouseEvent) {
     const {classPrefix: ns, closeOnOutside, onHide} = this.props;
     if ((e.target as HTMLElement).closest(`.${ns}Drawer-content`)) {
       return;
@@ -159,7 +161,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                   },
                   className
                 )}
-                onClick={this.handleWidgetClick} // 其实不需要插件，直接写逻辑吧
+                // onClick={this.handleWidgetClick} // 其实不需要插件，直接写逻辑吧
               >
                 {overlay ? (
                   <div
