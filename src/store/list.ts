@@ -9,7 +9,7 @@ import {
 import {iRendererStore} from './iRenderer';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
-import {createObject, isObject, guid} from '../utils/helper';
+import {createObject, isObject, guid, immutableExtends} from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 
 export const Item = types
@@ -68,15 +68,8 @@ export const Item = types
     },
 
     change(values: object, savePristine?: boolean) {
-      self.data = {
-        ...self.data,
-        ...values
-      };
-
-      savePristine &&
-        (self.pristine = {
-          ...self.data
-        });
+      self.data = immutableExtends(self.data, values);
+      savePristine && (self.pristine = self.data);
     },
 
     reset() {
