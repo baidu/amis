@@ -408,7 +408,7 @@ export default class Table extends React.Component<TableProps, object> {
     item.change(values, savePristine);
 
     // 值发生变化了，需要通过 onSelect 通知到外面，否则会出现数据不同步的问题
-    this.syncSelected();
+    item.modified && this.syncSelected();
 
     if ((!saveImmediately && !propsSaveImmediately) || savePristine) {
       return;
