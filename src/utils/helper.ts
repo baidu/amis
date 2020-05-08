@@ -331,6 +331,29 @@ export function isArrayChildrenModified(
   return false;
 }
 
+export function immutableExtends(to: any, from: any, deep = false) {
+  // 不是对象，不可以merge
+  if (!isObject(to) || !isObject(from)) {
+    return to;
+  }
+
+  let ret = to;
+
+  Object.keys(from).forEach(key => {
+    const origin = to[key];
+    const value = to[key];
+
+    // todo 支持深度merge
+    if (origin !== value) {
+      // 一旦有修改，就创建个新对象。
+      ret = ret !== to ? ret : {...to};
+      ret[key] = value;
+    }
+  });
+
+  return ret;
+}
+
 // 即将抛弃
 export function makeColumnClassBuild(
   steps: number,

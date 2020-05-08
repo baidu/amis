@@ -21,7 +21,8 @@ import {
   findTree,
   flattenTree,
   eachTree,
-  difference
+  difference,
+  immutableExtends
 } from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 
@@ -159,15 +160,8 @@ export const Row = types
     },
 
     change(values: object, savePristine?: boolean) {
-      self.data = {
-        ...self.data,
-        ...values
-      };
-
-      savePristine &&
-        (self.pristine = {
-          ...self.data
-        });
+      self.data = immutableExtends(self.data, values);
+      savePristine && (self.pristine = self.data);
     },
 
     reset() {
