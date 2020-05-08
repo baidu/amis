@@ -341,7 +341,7 @@ export function immutableExtends(to: any, from: any, deep = false) {
 
   Object.keys(from).forEach(key => {
     const origin = to[key];
-    const value = to[key];
+    const value = from[key];
 
     // todo 支持深度merge
     if (origin !== value) {
