@@ -8,7 +8,7 @@ import keycode from 'keycode';
 
 interface ModalComponent
   extends React.Component<{
-    onHide: () => void;
+    onHide: (e: any) => void;
     disabled?: boolean;
     closeOnEsc?: boolean;
   }> {}
@@ -44,6 +44,6 @@ function handleWindowKeyDown(e: Event) {
   }
   const {disabled, closeOnEsc} = modal.props;
   if (closeOnEsc && !disabled) {
-    modal.props.onHide();
+    modal.props.onHide(e);
   }
 }

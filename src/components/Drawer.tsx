@@ -24,7 +24,7 @@ export interface DrawerProps {
   bodyClassName?: string;
   size: any;
   overlay: boolean;
-  onHide: () => void;
+  onHide: (e: any) => void;
   closeOnEsc?: boolean;
   container: any;
   show?: boolean;
@@ -109,10 +109,13 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   @autobind
   handleRootClick(e: MouseEvent) {
     const {classPrefix: ns, closeOnOutside, onHide, show} = this.props;
-    if ((e.target as HTMLElement).closest(`.${ns}Drawer-content`)) {
+    if (
+      e.defaultPrevented ||
+      (e.target as HTMLElement).closest(`.${ns}Drawer-content`)
+    ) {
       return;
     }
-    closeOnOutside && show && onHide && onHide();
+    closeOnOutside && show && onHide && onHide(e);
   }
 
   render() {
