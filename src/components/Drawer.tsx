@@ -35,8 +35,6 @@ export interface DrawerProps {
   classnames: ClassNamesFn;
   onExited?: () => void;
   onEntered?: () => void;
-  disableOnClickOutside: () => void;
-  enableOnClickOutside: () => void;
 }
 export interface DrawerState {}
 const fadeStyles: {
@@ -48,35 +46,34 @@ const fadeStyles: {
 export class Drawer extends React.Component<DrawerProps, DrawerState> {
   static defaultProps: Pick<
     DrawerProps,
-    | 'container'
-    | 'position'
-    | 'size'
-    | 'overlay'
-    | 'disableOnClickOutside'
-    | 'enableOnClickOutside'
+    'container' | 'position' | 'size' | 'overlay'
   > = {
     container: document.body,
     position: 'left',
     size: 'md',
-    overlay: true,
-    disableOnClickOutside: noop,
-    enableOnClickOutside: noop
+    overlay: true
   };
 
-  contentDom: any;
+  modalDom: HTMLElement;
+  contentDom: HTMLElement;
+  isRootClosed = false;
 
   componentDidMount() {
     if (this.props.show) {
       this.handleEntered();
     }
-    document.body.addEventListener('click', this.handleRootClick, true);
+
+    document.body.addEventListener('click', this.handleRootClickCapture, true);
+    document.body.addEventListener('click', this.handleRootClick);
   }
 
   componentWillUnmount() {
     if (this.props.show) {
       this.handleExited();
     }
-    document.body.removeEventListener('click', this.handleRootClick, true);
+
+    document.body.removeEventListener('click', this.handleRootClick);
+    document.body.addEventListener('click', this.handleRootClickCapture, true);
   }
 
   contentRef = (ref: any) => (this.contentDom = ref);
@@ -96,6 +93,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   };
 
   modalRef = (ref: any) => {
+    this.modalDom = ref;
     if (ref) {
       addModal(this);
       (ref as HTMLElement).classList.add(
@@ -107,15 +105,26 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   };
 
   @autobind
+  handleRootClickCapture(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    const closeOnOutside = this.props.closeOnOutside;
+    const isLeftButton =
+      (e.button === 1 && window.event !== null) || e.button === 0;
+
+    this.isRootClosed = !!(
+      isLeftButton &&
+      closeOnOutside &&
+      target &&
+      this.modalDom &&
+      !this.modalDom.contains(target)
+    );
+  }
+
+  @autobind
   handleRootClick(e: MouseEvent) {
-    const {classPrefix: ns, closeOnOutside, onHide, show} = this.props;
-    if (
-      e.defaultPrevented ||
-      (e.target as HTMLElement).closest(`.${ns}Drawer-content`)
-    ) {
-      return;
-    }
-    closeOnOutside && show && onHide && onHide(e);
+    const {onHide} = this.props;
+
+    this.isRootClosed && !e.defaultPrevented && onHide(e);
   }
 
   render() {
