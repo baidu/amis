@@ -69,14 +69,14 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     if (this.props.show) {
       this.handleEntered();
     }
-    document.body.addEventListener('click', this.handleRootClick);
+    document.body.addEventListener('click', this.handleRootClick, true);
   }
 
   componentWillUnmount() {
     if (this.props.show) {
       this.handleExited();
     }
-    document.body.removeEventListener('click', this.handleRootClick);
+    document.body.removeEventListener('click', this.handleRootClick, true);
   }
 
   contentRef = (ref: any) => (this.contentDom = ref);
