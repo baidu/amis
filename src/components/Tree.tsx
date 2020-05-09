@@ -97,7 +97,7 @@ interface TreeSelectorState {
 export class TreeSelector extends React.Component<
   TreeSelectorProps,
   TreeSelectorState
-  > {
+> {
   static defaultProps = {
     showIcon: true,
     initiallyOpen: true,
@@ -322,8 +322,8 @@ export class TreeSelector extends React.Component<
           joinValues
             ? value.map(item => item[valueField as string]).join(delimiter)
             : extractValue
-              ? value.map(item => item[valueField as string])
-              : value
+            ? value.map(item => item[valueField as string])
+            : value
         );
       }
     );
@@ -507,8 +507,8 @@ export class TreeSelector extends React.Component<
           cascade
             ? false
             : uncheckable ||
-            (selfDisabledAffectChildren ? selfDisabled : false) ||
-            (multiple && checked)
+                (selfDisabledAffectChildren ? selfDisabled : false) ||
+                (multiple && checked)
         );
         tmpChildrenChecked = !!childrenItems.childrenChecked;
         if (
@@ -564,109 +564,112 @@ export class TreeSelector extends React.Component<
           {isEditing && editingItem === item ? (
             this.renderInput(checkbox)
           ) : (
-              <div
-                className={cx('Tree-itemLabel', {
-                  'is-children-checked':
-                    multiple && !cascade && tmpChildrenChecked && !nodeDisabled,
-                  'is-checked': checked,
-                  'is-disabled': nodeDisabled
-                })}
+            <div
+              className={cx('Tree-itemLabel', {
+                'is-children-checked':
+                  multiple && !cascade && tmpChildrenChecked && !nodeDisabled,
+                'is-checked': checked,
+                'is-disabled': nodeDisabled
+              })}
+            >
+              {!isLeaf ? (
+                <i
+                  onClick={() => this.toggleUnfolded(item)}
+                  className={cx('Tree-itemArrow', {
+                    'is-folded': !unfolded[item[valueField]]
+                  })}
+                />
+              ) : (
+                <span className={cx('Tree-itemArrowPlaceholder')} />
+              )}
+
+              {checkbox}
+
+              <span
+                className={cx('Tree-itemText')}
+                onClick={() =>
+                  !nodeDisabled &&
+                  (multiple
+                    ? this.handleCheck(item, !selfChecked)
+                    : this.handleSelect(item))
+                }
               >
-                {!isLeaf ? (
+                {showIcon ? (
                   <i
-                    onClick={() => this.toggleUnfolded(item)}
-                    className={cx('Tree-itemArrow', {
-                      'is-folded': !unfolded[item[valueField]]
-                    })}
-                  />
-                ) : (
-                    <span className={cx('Tree-itemArrowPlaceholder')} />
-                  )}
-
-                {checkbox}
-
-                <span
-                  className={cx('Tree-itemText')}
-                  onClick={() =>
-                    !nodeDisabled &&
-                    (multiple
-                      ? this.handleCheck(item, !selfChecked)
-                      : this.handleSelect(item))
-                  }
-                >
-                  {showIcon ? (
-                    <i
-                      className={cx(
-                        `Tree-itemIcon ${item[iconField] ||
+                    className={cx(
+                      `Tree-itemIcon ${item[iconField] ||
                         (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')}`
-                      )}
-                    />
+                    )}
+                  />
+                ) : null}
+
+                {highlightTxt
+                  ? highlight(item[labelField], highlightTxt)
+                  : item[labelField]}
+              </span>
+
+              {!nodeDisabled && !isAdding && !isEditing ? (
+                <div className={cx('Tree-item-icons')}>
+                  {creatable && hasAbility(item, 'creatable') ? (
+                    <a
+                      onClick={this.handleAdd.bind(this, item)}
+                      data-tooltip={createTip}
+                      data-position="left"
+                    >
+                      <Icon icon="plus" className="icon" />
+                    </a>
                   ) : null}
 
-                  {highlightTxt
-                    ? highlight(item[labelField], highlightTxt)
-                    : item[labelField]}
-                </span>
+                  {removable && hasAbility(item, 'removable') ? (
+                    <a
+                      onClick={this.handleRemove.bind(this, item)}
+                      data-tooltip={removeTip}
+                      data-position="left"
+                    >
+                      <Icon icon="minus" className="icon" />
+                    </a>
+                  ) : null}
 
-                {!nodeDisabled && !isAdding && !isEditing ? (
-                  <div className={cx('Tree-item-icons')}>
-                    {creatable && hasAbility(item, 'creatable') ? (
-                      <a
-                        onClick={this.handleAdd.bind(this, item)}
-                        data-tooltip={createTip}
-                      >
-                        <Icon icon="plus" className="icon" />
-                      </a>
-                    ) : null}
-
-                    {removable && hasAbility(item, 'removable') ? (
-                      <a
-                        onClick={this.handleRemove.bind(this, item)}
-                        data-tooltip={removeTip}
-                      >
-                        <Icon icon="minus" className="icon" />
-                      </a>
-                    ) : null}
-
-                    {editable && hasAbility(item, 'editable') ? (
-                      <a
-                        onClick={this.handleEdit.bind(this, item)}
-                        data-tooltip={editTip}
-                      >
-                        <Icon icon="pencil" className="icon" />
-                      </a>
-                    ) : null}
-                  </div>
-                ) : null}
-              </div>
-            )}
+                  {editable && hasAbility(item, 'editable') ? (
+                    <a
+                      onClick={this.handleEdit.bind(this, item)}
+                      data-tooltip={editTip}
+                      data-position="left"
+                    >
+                      <Icon icon="pencil" className="icon" />
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+          )}
           {/* 有children而且为展开状态 或者 添加child时 */}
           {(childrenItems && unfolded[item[valueField]]) ||
-            (isAdding && addingParent === item) ? (
-              <ul className={cx('Tree-sublist')}>
-                {isAdding && addingParent === item ? (
-                  <li className={cx('Tree-item')}>
-                    {this.renderInput(
-                      checkbox
-                        ? React.cloneElement(checkbox, {
+          (isAdding && addingParent === item) ? (
+            <ul className={cx('Tree-sublist')}>
+              {isAdding && addingParent === item ? (
+                <li className={cx('Tree-item')}>
+                  {this.renderInput(
+                    checkbox
+                      ? React.cloneElement(checkbox, {
                           checked: false,
                           disabled: true
                         })
-                        : null
-                    )}
-                  </li>
-                ) : null}
-                {childrenItems}
-              </ul>
-            ) : !childrenItems &&
-              item.placeholder &&
-              unfolded[item[valueField]] ? (
-                <ul className={cx('Tree-sublist')}>
-                  <li className={cx('Tree-item')}>
-                    <div className={cx('Tree-placeholder')}>{item.placeholder}</div>
-                  </li>
-                </ul>
+                      : null
+                  )}
+                </li>
               ) : null}
+              {childrenItems}
+            </ul>
+          ) : !childrenItems &&
+            item.placeholder &&
+            unfolded[item[valueField]] ? (
+            <ul className={cx('Tree-sublist')}>
+              <li className={cx('Tree-item')}>
+                <div className={cx('Tree-placeholder')}>{item.placeholder}</div>
+              </li>
+            </ul>
+          ) : null}
         </li>
       );
     });
@@ -722,47 +725,50 @@ export class TreeSelector extends React.Component<
                 {this.renderList(options, value, false).dom}
               </>
             ) : (
-                <li
-                  className={cx('Tree-rootItem', {
-                    'is-checked': !value || !value.length
-                  })}
-                >
-                  <div className={cx('Tree-itemLabel')}>
-                    <span className={cx('Tree-itemText')} onClick={this.clearSelect}>
-                      {showIcon ? (
-                        <i className={cx('Tree-itemIcon Tree-rootIcon')} />
-                      ) : null}
-                      {rootLabel}
-                    </span>
-                    {!disabled &&
-                      creatable &&
-                      rootCreatable !== false &&
-                      !isAdding &&
-                      !isEditing ? (
-                        <div className={cx('Tree-item-icons')}>
-                          {creatable ? (
-                            <a
-                              onClick={this.handleAdd.bind(this, null)}
-                              data-tooltip={rootCreateTip}
-                            >
-                              <Icon icon="plus" className="icon" />
-                            </a>
-                          ) : null}
-                        </div>
-                      ) : null}
-                  </div>
-                  <ul className={cx('Tree-sublist')}>
-                    {isAdding && !addingParent ? (
-                      <li className={cx('Tree-item')}>{this.renderInput()}</li>
+              <li
+                className={cx('Tree-rootItem', {
+                  'is-checked': !value || !value.length
+                })}
+              >
+                <div className={cx('Tree-itemLabel')}>
+                  <span
+                    className={cx('Tree-itemText')}
+                    onClick={this.clearSelect}
+                  >
+                    {showIcon ? (
+                      <i className={cx('Tree-itemIcon Tree-rootIcon')} />
                     ) : null}
-                    {this.renderList(options, value, false).dom}
-                  </ul>
-                </li>
-              )}
+                    {rootLabel}
+                  </span>
+                  {!disabled &&
+                  creatable &&
+                  rootCreatable !== false &&
+                  !isAdding &&
+                  !isEditing ? (
+                    <div className={cx('Tree-item-icons')}>
+                      {creatable ? (
+                        <a
+                          onClick={this.handleAdd.bind(this, null)}
+                          data-tooltip={rootCreateTip}
+                        >
+                          <Icon icon="plus" className="icon" />
+                        </a>
+                      ) : null}
+                    </div>
+                  ) : null}
+                </div>
+                <ul className={cx('Tree-sublist')}>
+                  {isAdding && !addingParent ? (
+                    <li className={cx('Tree-item')}>{this.renderInput()}</li>
+                  ) : null}
+                  {this.renderList(options, value, false).dom}
+                </ul>
+              </li>
+            )}
           </ul>
         ) : (
-            <div className={cx('Tree-placeholder')}>{placeholder}</div>
-          )}
+          <div className={cx('Tree-placeholder')}>{placeholder}</div>
+        )}
       </div>
     );
   }
