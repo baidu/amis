@@ -20,7 +20,7 @@ export interface ModalProps {
   contentClassName?: string;
   size?: any;
   overlay?: boolean;
-  onHide: () => void;
+  onHide: (e: any) => void;
   closeOnEsc?: boolean;
   container?: any;
   show?: boolean;
