@@ -108,11 +108,11 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
 
   @autobind
   handleRootClick(e: MouseEvent) {
-    const {classPrefix: ns, closeOnOutside, onHide} = this.props;
+    const {classPrefix: ns, closeOnOutside, onHide, show} = this.props;
     if ((e.target as HTMLElement).closest(`.${ns}Drawer-content`)) {
       return;
     }
-    closeOnOutside && onHide && onHide();
+    closeOnOutside && show && onHide && onHide();
   }
 
   render() {
