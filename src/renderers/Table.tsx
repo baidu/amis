@@ -132,6 +132,7 @@ export default class Table extends React.Component<TableProps, object> {
     'itemActions',
     'combineNum',
     'items',
+    'columns',
     'valueField',
     'saveImmediately',
     'rowClassName',

@@ -1153,7 +1153,7 @@ export function chainEvents(props: any, schema: any) {
     ) {
       ret[key] = chainFunctions(schema[key], props[key]);
     } else {
-      ret[key] = schema[key] ?? props[key];
+      ret[key] = props[key];
     }
   });
 
