@@ -4,17 +4,8 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 import {autobind} from '../utils/helper';
-import {filter} from '../utils/tpl';
-
-const sizeMap = {
-  sm: 'i-checks-sm',
-  lg: 'i-checks-lg',
-  small: 'i-checks-sm',
-  large: 'i-checks-lg'
-};
 
 interface CheckboxProps {
   id?: string;
@@ -79,7 +70,6 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       checked,
       type,
       name,
-      data,
       labelClassName
     } = this.props;
 
@@ -107,7 +97,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         <i />
         <span className={cx(labelClassName)}>{children || label}</span>
         {description ? (
-          <div className={cx('Checkbox-desc')}>{filter(description, data)}</div>
+          <div className={cx('Checkbox-desc')}>{description}</div>
         ) : null}
       </label>
     );

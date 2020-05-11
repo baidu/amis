@@ -13,7 +13,7 @@ import {
   hasAbility,
   createObject
 } from '../utils/helper';
-import {Option, Options, value2array} from './Checkboxes';
+import {Option, Options, value2array} from './Select';
 import {ClassNamesFn, themeable} from '../theme';
 import {highlight} from '../renderers/Form/Options';
 import {Icon} from './icons';
