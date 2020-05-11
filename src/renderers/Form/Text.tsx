@@ -470,7 +470,8 @@ export default class TextControl extends React.PureComponent<
               <div className={cx('TextControl-valueWrap')}>
                 {placeholder &&
                 !selectedOptions.length &&
-                !this.state.inputValue ? (
+                !this.state.inputValue &&
+                !this.state.isFocused ? (
                   <div className={cx('TextControl-placeholder')}>
                     {placeholder}
                   </div>
