@@ -123,6 +123,7 @@ export default class CheckboxesControl extends React.Component<
         disabled={disabled || option.disabled}
         inline={inline}
         labelClassName={labelClassName}
+        description={option.description}
       >
         {removable ? (
           <a data-tooltip="移除" data-position="left">
