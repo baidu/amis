@@ -152,8 +152,12 @@ export function calculatePosition(
 
   const clip = container.getBoundingClientRect();
   const clip2 = overlayNode.getBoundingClientRect();
-  const scaleX = clip2.width / overlayNode.offsetWidth;
-  const scaleY = clip2.height / overlayNode.offsetHeight;
+  const scaleX = overlayNode.offsetWidth
+    ? clip2.width / overlayNode.offsetWidth
+    : 1;
+  const scaleY = overlayNode.offsetHeight
+    ? clip2.height / overlayNode.offsetHeight
+    : 1;
 
   // auto 尝试四个方向对齐。
   placement =
