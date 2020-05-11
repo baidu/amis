@@ -782,7 +782,25 @@ export default {
               name: 'repeatCount',
               type: 'range',
               label: false,
-              visibleOn: 'data.repeatUnit != "none"'
+              visibleOn: 'data.repeatUnit == "year"'
+            },
+
+            {
+              name: 'repeatCount',
+              type: 'range',
+              label: false,
+              max: 11,
+              min: 1,
+              visibleOn: 'data.repeatUnit == "month"'
+            },
+
+            {
+              name: 'repeatCount',
+              type: 'range',
+              label: false,
+              max: 29,
+              min: 1,
+              visibleOn: 'data.repeatUnit == "day"'
             },
 
             {
@@ -790,8 +808,8 @@ export default {
               name: 'repeatUnit',
               label: false,
               value: 'none',
-              mode: 'inline',
-              columnClassName: 'v-middle no-grow',
+              // mode: 'inline',
+              columnClassName: 'v-middle w-sm no-grow',
               options: [
                 {
                   label: '不重复',
