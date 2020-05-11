@@ -694,12 +694,13 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     return (
       <CTabs
+        className={"ComboTabs"}
         mode={tabsStyle}
         activeKey={store.activeKey}
         onSelect={this.handleTabSelect}
         additionBtns={
           !disabled ? (
-            <li className={cx(`Tabs-link`)}>
+            <li className={cx(`Tabs-link ComboTabs-addLink`)}>
               {store.addable && addable !== false ? (
                 Array.isArray(conditions) && conditions.length ? (
                   render(
@@ -723,7 +724,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                     }
                   )
                 ) : (
-                  <a onClick={this.addItem} data-tooltip="新增一条数据">
+                  <a onClick={this.addItem} data-position="left" data-tooltip="新增一条数据">
                     {addIcon ? <i className={cx('m-r-xs', addIcon)} /> : null}
                     <span>{addButtonText || '新增'}</span>
                   </a>

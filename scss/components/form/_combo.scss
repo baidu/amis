@@ -237,6 +237,14 @@
   }
 }
 
+.#{$ns}ComboTabs > .#{$ns}Tabs-links {
+  @include clearfix();
+}
+
+.#{$ns}ComboTabs-addLink {
+  float: right;
+}
+
 .#{$ns}Combo-dragableTip {
   color: $text--muted-color;
   font-size: $fontSizeSm;

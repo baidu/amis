@@ -4,6 +4,7 @@
     padding-left: 0;
     margin-bottom: 0;
     list-style: none;
+    user-select: none;
 
     &::before {
       display: table;
@@ -264,8 +265,8 @@
   }
 
   &-toolbar {
-      display: inline-block;
-      float: right;
-      padding-top: $gap-xs;
+    display: inline-block;
+    float: right;
+    padding-top: $gap-xs;
   }
 }
