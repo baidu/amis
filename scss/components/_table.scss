@@ -723,7 +723,8 @@
 .#{$ns}OperationField {
   margin: px2rem(-3px);
 
-  > .#{$ns}Button {
+  > .#{$ns}Button,
+  > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
     margin: px2rem(3px);
   }
 }
