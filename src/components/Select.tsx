@@ -13,7 +13,7 @@ import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
 // @ts-ignore
 import matchSorter from 'match-sorter';
-import {noop, isObject} from '../utils/helper';
+import {noop, isObject, findTree} from '../utils/helper';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 import union from 'lodash/union';
@@ -84,19 +84,24 @@ export function value2array(
     }
 
     return value
-      .map((value: any) => expandValue(value, props))
+      .map((value: any) => expandValue(value, props.options, props.valueField))
       .filter((item: any) => item) as Array<Option>;
   } else if (Array.isArray(value)) {
     value = value[0];
   }
 
-  let expandedValue = expandValue(value as OptionValue, props);
+  let expandedValue = expandValue(
+    value as OptionValue,
+    props.options,
+    props.valueField
+  );
   return expandedValue ? [expandedValue] : [];
 }
 
 export function expandValue(
   value: OptionValue,
-  props: Pick<OptionProps, 'valueField' | 'options'>
+  options: Options,
+  valueField = 'value'
 ): Option | null {
   const valueType = typeof value;
 
@@ -108,15 +113,13 @@ export function expandValue(
     return value as Option;
   }
 
-  let {options} = props;
-
   if (!options) {
     return null;
   }
 
-  return find(
+  return findTree(
     options,
-    optionValueCompare(value, props.valueField || 'value')
+    optionValueCompare(value, valueField || 'value')
   ) as Option;
 }
 
