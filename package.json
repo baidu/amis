@@ -71,7 +71,7 @@
     "redux": "^3.7.2",
     "setimmediate": "1.0.5",
     "sortablejs": "1.10.0",
-    "tinymce": "5.2.1",
+    "tinymce": "5.2.2",
     "tslib": "^1.10.0",
     "uncontrollable": "4.1.0",
     "video-react": "0.9.4"
