@@ -8,9 +8,6 @@ import {ClassNamesFn, themeable} from '../theme';
 import {autobind} from '../utils/helper';
 
 interface CheckboxProps {
-  id?: string;
-  key?: string | number;
-  style?: React.CSSProperties;
   type: 'checkbox' | 'radio';
   size?: 'sm' | 'lg' | 'small' | 'large';
   label?: string;
@@ -18,10 +15,9 @@ interface CheckboxProps {
   className?: string;
   onChange?: (value: any) => void;
   value?: any;
-  containerClass?: string;
   inline?: boolean;
-  trueValue?: boolean;
-  falseValue?: boolean;
+  trueValue?: any;
+  falseValue?: any;
   disabled?: boolean;
   readOnly?: boolean;
   checked?: boolean;
@@ -30,7 +26,6 @@ interface CheckboxProps {
   classPrefix: string;
   classnames: ClassNamesFn;
   partial?: boolean;
-  data?: any;
 }
 
 export class Checkbox extends React.Component<CheckboxProps, any> {
