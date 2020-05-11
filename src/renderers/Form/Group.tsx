@@ -138,14 +138,15 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
           const columnWidth =
             control.columnRatio ||
-            getWidthRate(control && control.columnClassName);
+            getWidthRate(control && control.columnClassName, true);
 
           return (
             <div
               key={index}
               className={cx(
                 `${ns}Form-groupColumn`,
-                columnWidth ? `${ns}Form-groupColumn--${columnWidth}` : ''
+                columnWidth ? `${ns}Form-groupColumn--${columnWidth}` : '',
+                control && control.columnClassName
               )}
             >
               {this.renderControl(control, index, {

@@ -36,6 +36,7 @@ export interface Option {
 export interface Options extends Array<Option> {}
 
 export interface OptionProps {
+  className?: string;
   multi?: boolean;
   multiple?: boolean;
   valueField?: string;

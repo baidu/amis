@@ -1,6 +1,8 @@
 /**
  * @file filter
  * @author fex
+ *
+ * 不建议用，以后可能会删除。可以直接用组合出来，不需要新建一个组件。
  */
 /* eslint fecs-indent: [0, "space", 2, 2] */
 
@@ -189,7 +191,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
         <div className="col v-middle repeat-btn">
           <Select
             classPrefix={ns}
-            className={input ? 'pull-right' : null}
+            className={input ? 'pull-right' : ''}
             options={optionsArray}
             placeholder={placeholder}
             onChange={this.handleOptionChange}

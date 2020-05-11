@@ -1006,12 +1006,12 @@ export function camel(str?: string) {
     : '';
 }
 
-export function getWidthRate(value: any): number {
+export function getWidthRate(value: any, strictMode = false): number {
   if (typeof value === 'string' && /\bcol\-\w+\-(\d+)\b/.test(value)) {
     return parseInt(RegExp.$1, 10);
   }
 
-  return value || 0;
+  return strictMode ? 0 : value || 0;
 }
 
 export function getLevelFromClassName(
