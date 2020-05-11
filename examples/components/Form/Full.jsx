@@ -775,9 +775,43 @@ export default {
           type: 'divider'
         },
         {
-          type: 'repeat',
-          name: 'repeat',
-          label: '时间频率'
+          label: '时间频率',
+          type: 'group',
+          controls: [
+            {
+              name: 'repeatCount',
+              type: 'range',
+              label: false,
+              visibleOn: 'data.repeatUnit != "none"'
+            },
+
+            {
+              type: 'select',
+              name: 'repeatUnit',
+              label: false,
+              value: 'none',
+              mode: 'inline',
+              columnClassName: 'v-middle no-grow',
+              options: [
+                {
+                  label: '不重复',
+                  value: 'none'
+                },
+                {
+                  label: '年',
+                  value: 'year'
+                },
+                {
+                  label: '月',
+                  value: 'month'
+                },
+                {
+                  label: '日',
+                  value: 'day'
+                }
+              ]
+            }
+          ]
         },
         {
           type: 'divider'

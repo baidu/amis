@@ -1304,9 +1304,8 @@
 }
 
 .v-middle {
-  // display: inline-flex;
-  // align-items: center;
   vertical-align: middle !important;
+  align-self: center;
 }
 
 .scrollable {
