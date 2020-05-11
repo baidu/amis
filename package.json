@@ -159,7 +159,8 @@
     ],
     "testRegex": "/.*\\.test\\.(ts|tsx|js)$",
     "moduleNameMapper": {
-      "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js"
+      "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(svg)$": "<rootDir>/__mocks__/svgMock.js"
     },
     "globals": {
       "ts-jest": {

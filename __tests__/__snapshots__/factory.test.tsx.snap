@@ -128,6 +128,7 @@ exports[`factory:definitions 1`] = `
                         autocomplete="off"
                         name="ref1"
                         placeholder=""
+                        size="10"
                         type="text"
                         value="ref value"
                       />
@@ -190,6 +191,7 @@ exports[`factory:definitions 1`] = `
                                       autocomplete="off"
                                       name="key"
                                       placeholder=""
+                                      size="10"
                                       type="text"
                                       value=""
                                     />
@@ -216,6 +218,7 @@ exports[`factory:definitions 1`] = `
                                       autocomplete="off"
                                       name="value"
                                       placeholder=""
+                                      size="10"
                                       type="text"
                                       value="ref value"
                                     />
@@ -240,33 +243,6 @@ exports[`factory:definitions 1`] = `
                                   </span>
                                 </label>
                                 <div
-                                  class="a-ComboControl a-Form-control"
-                                >
-                                  <div
-                                    class="a-Combo a-Combo--multi a-Combo--ver"
-                                  >
-                                    <div
-                                      class="a-Combo-items"
-                                    />
-                                    <div
-                                      class="a-Combo-toolbar"
-                                    >
-                                      <button
-                                        class="a-Button a-Combo-addBtn"
-                                        data-tooltip="新增一条数据"
-                                        type="button"
-                                      >
-                                        <i
-                                          class="a-Button-icon fa fa-plus"
-                                        />
-                                        <span>
-                                          新增
-                                        </span>
-                                      </button>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div
                                   class="a-Remark a-Form-remark"
                                 >
                                   <i
@@ -284,8 +260,8 @@ exports[`factory:definitions 1`] = `
                               data-position="bottom"
                               data-tooltip="删除"
                             >
-                              <i
-                                class="glyphicon glyphicon-remove"
+                              <icon-mock
+                                icon="close"
                               />
                             </a>
                           </div>
@@ -323,22 +299,40 @@ exports[`factory:definitions 1`] = `
               class="resize-sensor"
               style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
             >
+              
+  
               <div
                 class="resize-sensor-expand"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
+                
+    
                 <div
                   style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                 />
+                
+  
               </div>
+              
+  
               <div
                 class="resize-sensor-shrink"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
+                
+    
                 <div
                   style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
                 />
+                
+  
               </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -419,6 +413,7 @@ exports[`factory:definitions override 1`] = `
                         autocomplete="off"
                         name="ref1"
                         placeholder=""
+                        size="10"
                         type="text"
                         value=""
                       />
@@ -453,7 +448,9 @@ exports[`factory:definitions override 1`] = `
                         type="checkbox"
                       />
                       <i />
-                      <span>
+                      <span
+                        class=""
+                      >
                         Option A
                       </span>
                     </label>
@@ -464,7 +461,9 @@ exports[`factory:definitions override 1`] = `
                         type="checkbox"
                       />
                       <i />
-                      <span>
+                      <span
+                        class=""
+                      >
                         Option B
                       </span>
                     </label>
@@ -483,22 +482,40 @@ exports[`factory:definitions override 1`] = `
               class="resize-sensor"
               style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
             >
+              
+  
               <div
                 class="resize-sensor-expand"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
+                
+    
                 <div
                   style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                 />
+                
+  
               </div>
+              
+  
               <div
                 class="resize-sensor-shrink"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
+                
+    
                 <div
                   style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
                 />
+                
+  
               </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>

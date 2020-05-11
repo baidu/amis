@@ -5,23 +5,26 @@ exports[`Renderer:image 1`] = `
   <div
     class="a-ImageField show"
   >
-    <img
-      class="b"
-      src="https://www.baidu.com/img/bd_logo1.png"
-    />
     <div
-      class="a-ImageField-caption"
+      class="a-Image"
     >
       <div
-        class="text-md"
+        class="a-Image-thumb a-Image-thumb--contain a-Image-thumb--1-1"
       >
-        图片
+        <img
+          class="b"
+          src="https://www.baidu.com/img/bd_logo1.png"
+        />
       </div>
-      <span
-        class="a-TplField"
+      <div
+        class="a-Image-info"
       >
-        图片描述
-      </span>
+        <div
+          class="a-Image-title"
+        >
+          图片
+        </div>
+      </div>
     </div>
   </div>
 </div>

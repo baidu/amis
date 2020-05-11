@@ -37,7 +37,6 @@ export default class CheckboxControl extends React.Component<
           value={value || ''}
           trueValue={trueValue}
           falseValue={falseValue}
-          classPrefix={ns}
           disabled={disabled}
           onChange={(value: any) => onChange(value)}
         >
