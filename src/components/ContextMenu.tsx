@@ -75,13 +75,13 @@ export class ContextMenu extends React.Component<
   }
 
   componentDidMount() {
-    // document.body.addEventListener('click', this.handleOutClick, true);
+    document.body.addEventListener('click', this.handleOutClick, true);
     document.addEventListener('keydown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
     ContextMenu.instance = this.originInstance;
-    // document.body.removeEventListener('click', this.handleOutClick, true);
+    document.body.removeEventListener('click', this.handleOutClick, true);
     document.removeEventListener('keydown', this.handleKeyDown);
     delete this.originInstance;
   }
@@ -106,20 +106,20 @@ export class ContextMenu extends React.Component<
     });
   }
 
-  // @autobind
-  // handleOutClick(e: Event) {
-  //   if (
-  //     !e.target ||
-  //     !this.menuRef.current ||
-  //     this.menuRef.current.contains(e.target as HTMLElement)
-  //   ) {
-  //     return;
-  //   }
-  //   if (this.state.isOpened) {
-  //     e.preventDefault();
-  //     this.close();
-  //   }
-  // }
+  @autobind
+  handleOutClick(e: Event) {
+    if (
+      !e.target ||
+      !this.menuRef.current ||
+      this.menuRef.current.contains(e.target as HTMLElement)
+    ) {
+      return;
+    }
+    if (this.state.isOpened) {
+      e.preventDefault();
+      this.close();
+    }
+  }
 
   handleClick(item: MenuItem) {
     item.disabled ||
@@ -172,9 +172,8 @@ export class ContextMenu extends React.Component<
   }
 
   @autobind
-  handleOverlayContextMenu(e: React.MouseEvent) {
+  handleSelfContextMenu(e: React.MouseEvent) {
     e.preventDefault();
-    this.close();
   }
 
   renderMenus(menus: Array<MenuItem | MenuDivider>) {
@@ -236,12 +235,9 @@ export class ContextMenu extends React.Component<
               },
               className
             )}
+            onContextMenu={this.handleSelfContextMenu}
           >
-            <div
-              onContextMenu={this.handleOverlayContextMenu}
-              onClick={this.close}
-              className={cx(`ContextMenu-overlay`, fadeStyles[status])}
-            />
+            <div className={cx(`ContextMenu-overlay`, fadeStyles[status])} />
             <div
               className={cx(`ContextMenu-cursor`)}
               style={{left: `${this.state.x}px`, top: `${this.state.y}px`}}
