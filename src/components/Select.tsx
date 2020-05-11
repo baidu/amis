@@ -39,6 +39,7 @@ export interface OptionProps {
   multi?: boolean;
   multiple?: boolean;
   valueField?: string;
+  simpleValue?: boolean; // 默认onChange 出去是整个 option 节点，如果配置了 simpleValue 就只包含值。
   options: Options;
   joinValues?: boolean;
   extractValue?: boolean;
@@ -64,7 +65,10 @@ export type OptionValue = string | number | null | undefined | Option;
 
 export function value2array(
   value: OptionValue | Array<OptionValue>,
-  props: Partial<OptionProps>
+  props: Pick<
+    OptionProps,
+    'multi' | 'multiple' | 'delimiter' | 'valueField' | 'options'
+  >
 ): Array<Option> {
   if (props.multi || props.multiple) {
     if (typeof value === 'string') {
@@ -92,7 +96,7 @@ export function value2array(
 
 export function expandValue(
   value: OptionValue,
-  props: Partial<OptionProps>
+  props: Pick<OptionProps, 'valueField' | 'options'>
 ): Option | null {
   const valueType = typeof value;
 

@@ -22,7 +22,6 @@ interface CheckboxesProps extends OptionProps {
   value?: string;
   onChange?: Function;
   inline?: boolean;
-  columnsCount?: number;
   checked?: boolean;
   labelClassName?: string;
   classPrefix: string;
@@ -42,11 +41,10 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
     const {
       value,
       onChange,
-      joinValues,
-      extractValue,
       delimiter,
       valueField,
-      options
+      options,
+      simpleValue
     } = this.props;
 
     let valueArray = value2array(value, {
@@ -74,15 +72,9 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
       valueArray.push(option);
     }
 
-    let newValue: string | Array<Option> = valueArray;
-
-    if (joinValues) {
-      newValue = newValue
-        .map(item => item[valueField || 'value'])
-        .join(delimiter);
-    } else if (extractValue) {
-      newValue = newValue.map(item => item[valueField || 'value']);
-    }
+    let newValue: string | Array<Option> = simpleValue
+      ? valueArray.map(item => item[valueField || 'value'])
+      : valueArray;
 
     onChange && onChange(newValue);
   }
@@ -95,7 +87,6 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
       options,
       className,
       placeholder,
-      columnsCount,
       disabled,
       inline,
       labelClassName
@@ -118,25 +109,10 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
           disabled={disabled || option.disabled}
           inline={inline}
           labelClassName={labelClassName}
+          description={option.description}
         >
           {option.label}
         </Checkbox>
-      ));
-    }
-
-    if (!inline && (columnsCount as number) > 1) {
-      let cellClassName = `col-sm-${(12 / (columnsCount as number))
-        .toFixed(1)
-        .replace(/\.0$/, '')
-        .replace(/\./, '-')}`;
-      body = chunk(body, columnsCount).map((group, groupIndex) => (
-        <div className="row" key={groupIndex}>
-          {group.map((item, index) => (
-            <div key={index} className={cellClassName}>
-              {item}
-            </div>
-          ))}
-        </div>
       ));
     }
 
