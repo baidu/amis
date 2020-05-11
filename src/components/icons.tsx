@@ -136,6 +136,11 @@ export function Icon({
 }: {
   icon: string;
 } & React.ComponentProps<any>) {
+  // jest 运行环境下，把指定的 icon 也输出到 snapshot 中。
+  if (typeof jest !== 'undefined') {
+    rest.icon = icon;
+  }
+
   const Component = getIcon(icon);
   return Component ? (
     <Component {...rest} />
