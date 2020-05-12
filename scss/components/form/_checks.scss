@@ -2,6 +2,7 @@
   margin: 0 $gap-sm 0 0;
   font-weight: $fontWeightNormal;
   user-select: none;
+  pointer-events: none;
 
   input {
     opacity: 0;
@@ -20,8 +21,10 @@
     display: inline-block;
     vertical-align: middle;
     position: relative;
+    pointer-events: all;
 
     + span {
+      pointer-events: all;
       margin-left: $Checkbox-gap;
       cursor: pointer;
 
@@ -230,6 +233,7 @@
     color: $text--muted-color;
     margin-left: $Checkbox-gap;
     margin-top: $gap-xs;
+    pointer-events: all;
   }
 }
 
@@ -274,6 +278,22 @@
 }
 
 .#{$ns}Checkboxes {
+  > .#{$ns}Checkbox {
+    display: block;
+    height: $Form-input-height;
+    line-height: $Form-input-lineHeight;
+    font-size: $Form-input-fontSize;
+    padding: (
+        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
+      )/2 $gap-sm
+      ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize)/2
+      ($gap-sm + $Checkbox-size);
+  }
+
+  &--inline > .#{$ns}Checkbox {
+    display: inline-block;
+  }
+
   &-addBtn {
     display: block;
     cursor: pointer;
