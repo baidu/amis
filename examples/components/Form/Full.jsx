@@ -809,7 +809,7 @@ export default {
               label: false,
               value: 'none',
               // mode: 'inline',
-              columnClassName: 'v-middle w-sm no-grow',
+              columnClassName: 'v-middle w-ssm no-grow',
               options: [
                 {
                   label: '不重复',
