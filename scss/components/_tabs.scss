@@ -48,12 +48,16 @@
         text-decoration: none;
       }
 
-      &.disabled > a:first-child,
-      &.is-disabled > a:first-child {
-        color: $Tabs-onDisabled-color;
-        background-color: transparent;
-        border-color: transparent;
-        pointer-events: none;
+      &.disabled,
+      &.is-disabled {
+        cursor: not-allowed;
+
+        > a:first-child {
+          color: $Tabs-onDisabled-color;
+          background-color: transparent;
+          border-color: transparent;
+          pointer-events: none;
+        }
       }
 
       &.active > a:first-child,
