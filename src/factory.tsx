@@ -105,6 +105,7 @@ export interface RendererProps {
   classnames: ClassNamesFn;
   $path: string; // 当前组件所在的层级信息
   store?: IIRendererStore;
+  syncSuperStore?: boolean;
   data: {
     [propName: string]: any;
   };
@@ -437,7 +438,8 @@ const defaultOmitList = [
   'component',
   'detectField',
   'required',
-  'requiredOn'
+  'requiredOn',
+  'syncSuperStore'
 ];
 
 class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
@@ -746,13 +748,17 @@ export function HocStoreFactory(renderer: {
             store.initData(
               createObject(
                 nextProps.store.data,
-                syncDataFromSuper(
-                  store.data,
-                  nextProps.store.data,
-                  props.scope,
-                  nextProps.dataUpdatedAt !== props.dataUpdatedAt,
-                  store
-                )
+                nextProps.syncSuperStore === false
+                  ? {
+                      ...store.data
+                    }
+                  : syncDataFromSuper(
+                      store.data,
+                      nextProps.store.data,
+                      props.scope,
+                      store,
+                      nextProps.syncSuperStore === true
+                    )
               )
             );
           } else if (nextProps.data && (nextProps.data as any).__super) {

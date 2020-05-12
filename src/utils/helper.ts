@@ -69,14 +69,14 @@ export function syncDataFromSuper(
   data: any,
   superObject: any,
   prevSuperObject: any,
-  force?: boolean,
-  store?: IIRendererStore
+  store: IIRendererStore,
+  force: boolean
 ) {
   const obj = {
     ...data
   };
 
-  let keys = Object.keys(obj);
+  let keys: Array<string> = [];
 
   // 如果是 form store，则从父级同步 formItem 种东西。
   if (store && store.storeType === 'FormStore') {
@@ -85,7 +85,8 @@ export function syncDataFromSuper(
         `${item.name}`.replace(/\..*$/, '')
       )
     );
-    force = false;
+  } else if (force) {
+    keys = Object.keys(obj);
   }
 
   if (superObject || prevSuperObject) {
@@ -97,8 +98,7 @@ export function syncDataFromSuper(
       if (
         ((superObject && typeof superObject[key] !== 'undefined') ||
           (prevSuperObject && typeof prevSuperObject[key] !== 'undefined')) &&
-        (force ||
-          (prevSuperObject && !superObject) ||
+        ((prevSuperObject && !superObject) ||
           (!prevSuperObject && superObject) ||
           prevSuperObject[key] !== superObject[key])
       ) {
