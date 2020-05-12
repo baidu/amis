@@ -20,7 +20,7 @@ const defaultHorizontal = {
   sizeMutable: false
 })
 export class GridRenderer extends Grid<GridProps> {
-  static propsList: Array<string> = ['columns'];
+  static propsList: Array<string> = ['columns', 'onChange'];
   static defaultProps = {};
 
   renderChild(region: string, node: Schema, key: number, length: number) {

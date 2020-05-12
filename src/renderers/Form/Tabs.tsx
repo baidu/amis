@@ -14,6 +14,7 @@ export class TabsRenderer extends Tabs {
   static defaultProps = {
     mountOnEnter: false // form 中的不按需渲染
   };
+  static propsList: Array<string> = ['onChange', 'tabs'];
 
   renderTab = (tab: any, props: any, key: number) => {
     const {
