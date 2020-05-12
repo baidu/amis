@@ -104,13 +104,13 @@ export const ServiceStore = iRendererStore
               : undefined
           );
         } else {
+          self.updatedAt = Date.now();
           let replace = !!(api as ApiObject).replaceData;
           let data = {
             ...(replace ? {} : self.data),
             ...json.data
           };
           reInitData(data, replace);
-          self.updatedAt = Date.now();
           self.hasRemoteData = true;
           if (options && options.onSuccess) {
             const ret = options.onSuccess(json);
@@ -177,13 +177,15 @@ export const ServiceStore = iRendererStore
         fetchCancel = null;
 
         if (!isEmpty(json.data) || json.ok) {
+          self.updatedAt = Date.now();
+
           json.data &&
             self.updateData(
               json.data,
               undefined,
               !!(api as ApiObject).replaceData
             );
-          self.updatedAt = Date.now();
+
           self.hasRemoteData = true;
         }
 
@@ -262,13 +264,14 @@ export const ServiceStore = iRendererStore
         );
 
         if (!isEmpty(json.data) || json.ok) {
+          self.updatedAt = Date.now();
+
           json.data &&
             self.updateData(
               json.data,
               undefined,
               !!(api as ApiObject).replaceData
             );
-          self.updatedAt = Date.now();
         }
 
         if (!json.ok) {

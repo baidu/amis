@@ -761,7 +761,7 @@ export default class Table extends React.Component<TableProps, object> {
       'tr[data-index]'
     ) as HTMLElement;
 
-    if (!tr) {
+    if (!tr || !this.props.itemActions) {
       return;
     }
 

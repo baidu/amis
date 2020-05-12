@@ -228,6 +228,8 @@ export const FormStore = ServiceStore.named('FormStore')
 
         // 失败也同样修改数据，如果有数据的话。
         if (!isEmpty(json.data) || json.ok) {
+          self.updatedAt = Date.now();
+
           setValues(
             json.data,
             {
@@ -235,7 +237,6 @@ export const FormStore = ServiceStore.named('FormStore')
             },
             !!(api as ApiObject).replaceData
           );
-          self.updatedAt = Date.now();
         }
 
         if (!json.ok) {

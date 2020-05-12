@@ -11,9 +11,10 @@ import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {Option, value2array, Options} from './Select';
 import find from 'lodash/find';
+import { autobind } from '../utils/helper';
 // import isPlainObject from 'lodash/isPlainObject';
 
-interface CheckboxesProps extends ThemeProps {
+export interface CheckboxesProps extends ThemeProps {
   options: Options;
   className?: string;
   placeholder?: string;
@@ -28,7 +29,7 @@ interface CheckboxesProps extends ThemeProps {
   disabled?: boolean;
 }
 
-export class Checkboxes extends React.Component<CheckboxesProps, any> {
+export class Checkboxes<T extends CheckboxesProps = CheckboxesProps> extends React.Component<T, any> {
   static defaultProps = {
     placeholder: '暂无选项',
     itemRender: (option: Option) => <span>{option.label}</span>
@@ -55,8 +56,13 @@ export class Checkboxes extends React.Component<CheckboxesProps, any> {
       .filter((item: any) => item);
   }
 
+  @autobind
   toggleOption(option: Option) {
     const {value, onChange, option2value, options} = this.props;
+
+    if (option.disabled) {
+      return;
+    }
 
     let valueArray = Checkboxes.value2array(value, options, option2value);
     let idx = valueArray.indexOf(option);
@@ -67,6 +73,22 @@ export class Checkboxes extends React.Component<CheckboxesProps, any> {
       valueArray.push(option);
     }
 
+    let newValue: string | Array<Option> = option2value
+      ? valueArray.map(item => option2value(item))
+      : valueArray;
+
+    onChange?.(newValue);
+  }
+
+  @autobind
+  toggleAll() {
+    const {value, onChange, option2value, options} = this.props;
+    let valueArray:Array<Option> = [];
+
+    if (!Array.isArray(value) || !value.length) {
+      valueArray = options.filter(option => !option.disabled);
+    }
+    
     let newValue: string | Array<Option> = option2value
       ? valueArray.map(item => option2value(item))
       : valueArray;
