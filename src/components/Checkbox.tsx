@@ -7,6 +7,8 @@ import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
 import {autobind} from '../utils/helper';
 
+const preventEvent = (e: any) => e.stopPropagation();
+
 interface CheckboxProps {
   type: 'checkbox' | 'radio';
   size?: 'sm' | 'lg' | 'small' | 'large';
@@ -85,6 +87,9 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
               : value == trueValue
           }
           onChange={this.handleCheck}
+          onClick={
+            preventEvent // 当点击 i 的时候，这个地方也会触发 click，很奇怪，干脆禁掉
+          }
           disabled={disabled}
           readOnly={readOnly}
           name={name}

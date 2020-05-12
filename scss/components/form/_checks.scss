@@ -5,8 +5,10 @@
   pointer-events: none;
 
   input {
-    opacity: 0;
     position: absolute;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+    pointer-events: none;
   }
 
   &:hover input:not(:disabled) + i {
@@ -307,5 +309,50 @@
       height: px2rem(14px);
       margin-right: $Checkbox-gap;
     }
+  }
+}
+
+.#{$ns}ListCheckboxes {
+  &-item {
+    display: flex;
+    height: $Form-input-height;
+    line-height: $Form-input-lineHeight;
+    font-size: $Form-input-fontSize;
+    padding: (
+        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
+      )/2 $gap-sm;
+    flex-direction: row;
+
+    > .#{$ns}Checkbox {
+      margin-right: 0;
+    }
+    cursor: pointer;
+    user-select: none;
+
+    &.is-disabled {
+      pointer-events: none;
+      color: $text--muted-color;
+    }
+  }
+
+  &-itemLabel {
+    flex-grow: 1;
+  }
+}
+
+.#{$ns}TableCheckboxes {
+  .#{$ns}Table-table > thead > tr > th:first-child,
+  .#{$ns}Table-table > tbody > tr > td:first-child {
+    padding-left: px2rem(10px);
+    padding-right: 0;
+  }
+
+  .#{$ns}Table-table > thead > tr > th:last-child,
+  .#{$ns}Table-table > tbody > tr > td:last-child {
+    padding-right: px2rem(15px);
+  }
+
+  .#{$ns}Table-table > tbody > tr {
+    cursor: pointer;
   }
 }
