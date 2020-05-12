@@ -15,6 +15,7 @@ import {ServiceStore, IServiceStore} from '../../store/service';
   name: 'service-control'
 })
 export class ServiceRenderer extends BasicService {
+  static propsList: Array<string> = ['onChange'];
   static contextType = ScopedContext;
 
   componentWillMount() {
