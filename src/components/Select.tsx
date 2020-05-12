@@ -47,16 +47,14 @@ export interface OptionProps {
   delimiter?: string;
   clearable?: boolean;
   placeholder?: string;
-  autoFill?: {[propName: string]: any};
+  disabled?: boolean;
   creatable?: boolean;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
     skipForm?: boolean
   ) => void;
-  addControls?: Array<any>;
   editable?: boolean;
-  editControls?: Array<any>;
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
   onDelete?: (value: Option) => void;

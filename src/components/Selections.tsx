@@ -17,14 +17,14 @@ export interface SelectionsProps extends ThemeProps {
   disabled?: boolean;
   title?: string;
   placeholder: string;
-  optionRender: (option: Option) => JSX.Element;
+  itemRender: (option: Option) => JSX.Element;
   itemClassName?: string;
 }
 
 export class Selections extends React.Component<SelectionsProps> {
-  static defaultProps: Pick<SelectionsProps, 'placeholder' | 'optionRender'> = {
+  static defaultProps: Pick<SelectionsProps, 'placeholder' | 'itemRender'> = {
     placeholder: '请先选择数据',
-    optionRender: (option: Option) => <span>{option.label}</span>
+    itemRender: (option: Option) => <span>{option.label}</span>
   };
 
   id = guid();
@@ -115,7 +115,7 @@ export class Selections extends React.Component<SelectionsProps> {
       className,
       value,
       placeholder,
-      optionRender,
+      itemRender,
       disabled,
       title,
       itemClassName,
@@ -130,11 +130,11 @@ export class Selections extends React.Component<SelectionsProps> {
           <div className={cx('Selections-items')}>
             {value.map((option, index) => (
               <div className={cx('Selections-item', itemClassName, option?.className)} key={index}>
-                {sortable && !disabled ? (
+                {sortable && !disabled && value.length > 1 ? (
                   <Icon className={cx('Selections-dragbar')} icon="combo-dragger"/>
                 ) : null}
 
-                <label>{optionRender(option)}</label>
+                <label>{itemRender(option)}</label>
 
                 {!disabled ? (
                   <a

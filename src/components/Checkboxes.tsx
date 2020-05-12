@@ -8,63 +8,58 @@ import React from 'react';
 import uncontrollable from 'uncontrollable';
 import Checkbox from './Checkbox';
 import chunk from 'lodash/chunk';
-import {ClassNamesFn, themeable} from '../theme';
-import {Option, OptionProps, value2array} from './Select';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import {Option, value2array, Options} from './Select';
+import find from 'lodash/find';
 // import isPlainObject from 'lodash/isPlainObject';
 
-interface CheckboxesProps extends OptionProps {
-  id?: string;
-  key?: string;
+interface CheckboxesProps extends ThemeProps {
+  options: Options;
   className?: string;
-  type: string;
   placeholder?: string;
-  disabled?: boolean;
-  value?: string;
-  onChange?: Function;
+  value?: Array<any>;
+  onChange?: (value: Array<Option>) => void;
   inline?: boolean;
-  checked?: boolean;
   labelClassName?: string;
-  classPrefix: string;
-  classnames: ClassNamesFn;
+  option2value?: (option: Option) => any;
+  itemClassName?: string;
+  itemRender: (option: Option) => JSX.Element;
+
+  disabled?: boolean;
 }
 
-export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
+export class Checkboxes extends React.Component<CheckboxesProps, any> {
   static defaultProps = {
-    joinValues: true,
-    extractValue: false,
-    inline: false,
-    delimiter: ',',
-    columnsCount: 1 // 一行显示一个
+    placeholder: '暂无选项',
+    itemRender: (option: Option) => <span>{option.label}</span>
   };
 
-  toggleOption(option: Option) {
-    const {
-      value,
-      onChange,
-      delimiter,
-      valueField,
-      options,
-      simpleValue
-    } = this.props;
-
-    let valueArray = value2array(value, {
-      multiple: true,
-      valueField,
-      delimiter,
-      options
-    });
-    let idx = valueArray.indexOf(option);
-
-    if (!~idx) {
-      option =
-        value2array(option[valueField || 'value'], {
-          multiple: true,
-          valueField,
-          delimiter,
-          options
-        })[0] || option;
-      idx = valueArray.indexOf(option);
+  static value2array(
+    value: any,
+    options: Options,
+    option2value: (option: Option) => any = (option: Option) => option
+  ): Options {
+    if (value === void 0) {
+      return [];
     }
+
+    if (!Array.isArray(value)) {
+      value = [value];
+    }
+
+    return value
+      .map((value: any) => {
+        const option = find(options, option => option2value(option) === value);
+        return option;
+      })
+      .filter((item: any) => item);
+  }
+
+  toggleOption(option: Option) {
+    const {value, onChange, option2value, options} = this.props;
+
+    let valueArray = Checkboxes.value2array(value, options, option2value);
+    let idx = valueArray.indexOf(option);
 
     if (~idx) {
       valueArray.splice(idx, 1);
@@ -72,53 +67,52 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
       valueArray.push(option);
     }
 
-    let newValue: string | Array<Option> = simpleValue
-      ? valueArray.map(item => item[valueField || 'value'])
+    let newValue: string | Array<Option> = option2value
+      ? valueArray.map(item => option2value(item))
       : valueArray;
 
-    onChange && onChange(newValue);
+    onChange?.(newValue);
   }
 
   render() {
     const {
       value,
-      valueField,
-      delimiter,
       options,
       className,
       placeholder,
-      disabled,
       inline,
-      labelClassName
+      labelClassName,
+      disabled,
+      classnames: cx,
+      option2value,
+      itemClassName,
+      itemRender
     } = this.props;
 
-    let valueArray = value2array(value, {
-      multiple: true,
-      valueField,
-      delimiter,
-      options
-    });
+    let valueArray = Checkboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
-    if (options) {
+    if (Array.isArray(options) && options.length) {
       body = options.map((option, key) => (
         <Checkbox
+          className={cx(itemClassName, option.className)}
           key={key}
           onChange={() => this.toggleOption(option)}
           checked={!!~valueArray.indexOf(option)}
           disabled={disabled || option.disabled}
-          inline={inline}
           labelClassName={labelClassName}
           description={option.description}
         >
-          {option.label}
+          {itemRender(option)}
         </Checkbox>
       ));
     }
 
     return (
-      <div className={className}>
-        {body && body.length ? body : placeholder}
+      <div className={cx('Checkboxes', className, inline ? 'Checkboxes--inline' : '')}>
+        {body && body.length ? body : (
+          <div>{placeholder}</div>
+        )}
       </div>
     );
   }
