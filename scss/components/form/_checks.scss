@@ -356,3 +356,70 @@
     cursor: pointer;
   }
 }
+
+.#{$ns}TreeCheckboxes {
+  .#{$ns}Table-expandBtn {
+    color: $icon-color;
+    margin-right: 5px;
+  }
+
+  &-sublist {
+    position: relative;
+    margin: 0 0 0 35px;
+
+    &:before {
+      width: 1px;
+      content: '';
+      display: block;
+      position: absolute;
+      top: -5px;
+      bottom: 15px;
+      left: -19px;
+      border-left: dashed 1px $icon-color;
+    }
+  }
+
+  &-item {
+    position: relative;
+    &.is-collapsed > .#{$ns}TreeCheckboxes-sublist {
+      display: none;
+    }
+  }
+
+  &-sublist &-item:before {
+    height: 1px;
+    content: '';
+    display: block;
+    position: absolute;
+    top: 15px;
+    width: 19px;
+    left: -19px;
+    border-top: dashed 1px $icon-color;
+  }
+
+  &-itemInner {
+    display: flex;
+    height: $Form-input-height;
+    line-height: $Form-input-lineHeight;
+    font-size: $Form-input-fontSize;
+    padding: (
+        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
+      )/2 $gap-sm;
+    flex-direction: row;
+
+    > .#{$ns}Checkbox {
+      margin-right: 0;
+    }
+    cursor: pointer;
+    user-select: none;
+
+    &.is-disabled {
+      pointer-events: none;
+      color: $text--muted-color;
+    }
+  }
+
+  &-itemLabel {
+    flex-grow: 1;
+  }
+}

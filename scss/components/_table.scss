@@ -681,6 +681,7 @@
   &-expandBtn {
     position: relative;
     z-index: 1;
+    color: $Table-expandBtn-color;
 
     > i {
       display: inline-block;
@@ -693,7 +694,6 @@
         display: inline-block;
         line-height: 1;
         font-size: $Table-expandBtn-fontSize;
-        color: $Table-expandBtn-color;
         font-family: $Table-expandBtn-vendor;
         content: $Table-expandBtn-icon;
         transition: transform ease-in-out 0.2s;

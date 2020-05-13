@@ -11,7 +11,7 @@ import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {Option, value2array, Options} from './Select';
 import find from 'lodash/find';
-import { autobind } from '../utils/helper';
+import { autobind, findTree } from '../utils/helper';
 // import isPlainObject from 'lodash/isPlainObject';
 
 export interface CheckboxesProps extends ThemeProps {
@@ -29,7 +29,7 @@ export interface CheckboxesProps extends ThemeProps {
   disabled?: boolean;
 }
 
-export class Checkboxes<T extends CheckboxesProps = CheckboxesProps> extends React.Component<T, any> {
+export class Checkboxes<T extends CheckboxesProps = CheckboxesProps, S = any> extends React.Component<T, S> {
   static defaultProps = {
     placeholder: '暂无选项',
     itemRender: (option: Option) => <span>{option.label}</span>
@@ -50,7 +50,7 @@ export class Checkboxes<T extends CheckboxesProps = CheckboxesProps> extends Rea
 
     return value
       .map((value: any) => {
-        const option = find(options, option => option2value(option) === value);
+        const option = findTree(options, option => option2value(option) === value);
         return option;
       })
       .filter((item: any) => item);
