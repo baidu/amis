@@ -64,7 +64,7 @@
   }
 
   &-item {
-    background: $white;
+    // background: $white;
   }
 
   &-itemDrager {
@@ -122,6 +122,12 @@
       padding: 0 px2rem(6px) 0 0;
     }
   }
+
+  // &--ver {
+  //   .#{$ns}Combo-item {
+  //     background: $white;
+  //   }
+  // }
 
   &--ver:not(&--noBorder) {
     @include clearfix();
