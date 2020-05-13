@@ -107,13 +107,22 @@ export function expandValue(
   if (
     valueType !== 'string' &&
     valueType !== 'number' &&
-    valueType !== 'boolean'
+    valueType !== 'boolean' &&
+    valueType !== 'object'
   ) {
     return value as Option;
   }
 
   if (!options) {
     return null;
+  }
+
+  if (
+    valueType === 'object' &&
+    value &&
+    value.hasOwnProperty(valueField || 'value')
+  ) {
+    value = (value as Option)[valueField || 'value'] || '';
   }
 
   return findTree(
