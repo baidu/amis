@@ -16,7 +16,7 @@ interface HBoxProps extends FormControlProps {
   sizeMutable: false
 })
 export class HBoxRenderer extends React.Component<HBoxProps, any> {
-  static propsList: Array<string> = ['columns'];
+  static propsList: Array<string> = ['columns', 'onChange'];
   static defaultProps: Partial<HBoxProps> = {};
 
   renderColumn(column: any, key: number, length: number) {

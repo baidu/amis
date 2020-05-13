@@ -10,6 +10,7 @@ import cx from 'classnames';
   name: 'panel-control'
 })
 export class PanelRenderer extends Panel {
+  static propsList: Array<string> = ['onChange'];
   renderBody(): JSX.Element | null {
     const {
       render,
