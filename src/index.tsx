@@ -27,49 +27,6 @@ import {resizeSensor} from './utils/resize-sensor';
 import {setIconVendor} from './renderers/Form/IconPickerIcons';
 import {Icon, registerIcon} from './components/icons';
 
-import {
-  NotFound,
-  AlertComponent,
-  alert,
-  ContextMenu,
-  openContextMenus,
-  Alert2,
-  confirm,
-  AsideNav,
-  Button,
-  Checkbox,
-  Checkboxes,
-  Collapse,
-  ColorPicker,
-  DatePicker,
-  DateRangePicker,
-  Drawer,
-  Tabs,
-  Tab,
-  // Editor,
-  Icons,
-  Html,
-  Layout,
-  LazyComponent,
-  Modal,
-  Overlay,
-  PopOver,
-  Radios,
-  Range,
-  Rating,
-  // RichText,
-  Select,
-  Spinner,
-  Switch,
-  Textarea,
-  TitleBar,
-  ToastComponent,
-  toast,
-  Tooltip,
-  TooltipWrapper,
-  Tree
-} from './components/index';
-
 // 注册渲染器
 import './renderers/Action';
 import './renderers/Alert';
@@ -129,6 +86,7 @@ import './renderers/Form/Panel';
 import './renderers/Form/Color';
 import './renderers/Form/ChainedSelect';
 import './renderers/Form/NestedSelect';
+import './renderers/Form/Transfer';
 import './renderers/Form/TransferSelect';
 import './renderers/Form/Service';
 import './renderers/Form/Table';
@@ -203,6 +161,8 @@ import {
 } from './theme';
 const classPrefix = getClassPrefix();
 
+export * from './components/index';
+
 export {
   render,
   clearStoresCache,
@@ -212,46 +172,6 @@ export {
   wrapFetcher,
   buildApi,
   filter,
-  NotFound,
-  AlertComponent,
-  alert,
-  ContextMenu,
-  openContextMenus,
-  Alert2,
-  confirm,
-  AsideNav,
-  Button,
-  Checkbox,
-  Checkboxes,
-  Collapse,
-  ColorPicker,
-  DatePicker,
-  DateRangePicker,
-  Drawer,
-  Tabs,
-  Tab,
-  // Editor,
-  Html,
-  Icons,
-  Layout,
-  LazyComponent,
-  Modal,
-  Overlay,
-  PopOver,
-  Radios,
-  Range,
-  Rating,
-  // RichText,
-  Select,
-  Spinner,
-  Switch,
-  Textarea,
-  TitleBar,
-  ToastComponent,
-  toast,
-  Tooltip,
-  TooltipWrapper,
-  Tree,
   // 其他功能类方法
   utils,
   resizeSensor,

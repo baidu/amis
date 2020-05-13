@@ -1,7 +1,7 @@
 import React from 'react';
 import {ThemeProps, themeable} from '../theme';
 import {CheckboxesProps, Checkboxes} from './Checkboxes';
-import {Options} from './Select';
+import {Options, Option} from './Select';
 import uncontrollable from 'uncontrollable';
 import Selections from './Selections';
 import TableCheckboxes from './TableCheckboxes';
@@ -52,7 +52,8 @@ export interface TransferState {
 export class Transfer extends React.Component<TransferPorps, TransferState> {
   static defaultProps = {
     selectTitle: '请选择',
-    resultTitle: '当前选择'
+    resultTitle: '当前选择',
+    itemRender: (option: Option) => <span>{option.label}</span>
   };
 
   state = {
@@ -152,7 +153,9 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
       selectMode,
       classnames: cx,
       selectTitle,
-      onSearch
+      onSearch,
+      disabled,
+      options
     } = this.props;
 
     if (selectRender) {
@@ -172,7 +175,13 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
             {this.availableOptions.length}）
           </span>
           {selectMode !== 'table' ? (
-            <a onClick={this.toggleAll} className={cx('Transfer-checkAll')}>
+            <a
+              onClick={this.toggleAll}
+              className={cx(
+                'Transfer-checkAll',
+                disabled || !options.length ? 'is-disabled' : ''
+              )}
+            >
               全选
             </a>
           ) : null}
@@ -296,7 +305,8 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
       resultTitle,
       sortable,
       options,
-      option2value
+      option2value,
+      disabled
     } = this.props;
 
     this.valueArray = Checkboxes.value2array(value, options, option2value);
@@ -316,7 +326,13 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
               {resultTitle}（{this.valueArray.length}/
               {this.availableOptions.length}）
             </span>
-            <a onClick={this.clearAll} className={cx('Transfer-clearAll')}>
+            <a
+              onClick={this.clearAll}
+              className={cx(
+                'Transfer-clearAll',
+                disabled || !this.valueArray.length ? 'is-disabled' : ''
+              )}
+            >
               清空
             </a>
           </div>
@@ -325,6 +341,7 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
             sortable={sortable}
             value={value}
             onChange={onChange}
+            placeholder="请先选择左侧数据"
           />
         </div>
       </div>

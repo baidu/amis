@@ -45,6 +45,14 @@
     overflow: auto;
   }
 
+  &-checkboxes .#{$ns}ListCheckboxes-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
   &-search {
     padding: $gap-sm;
   }
@@ -57,5 +65,10 @@
   &-clearAll {
     user-select: none;
     cursor: pointer;
+
+    &.is-disabled {
+      pointer-events: none;
+      color: $text--muted-color;
+    }
   }
 }

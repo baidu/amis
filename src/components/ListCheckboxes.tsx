@@ -81,7 +81,11 @@ export class ListCheckboxes extends Checkboxes {
 
     return (
       <div className={cx('ListCheckboxes', className)}>
-        {body && body.length ? body : <div>{placeholder}</div>}
+        {body && body.length ? (
+          body
+        ) : (
+          <div className={cx('ListCheckboxes-placeholder')}>{placeholder}</div>
+        )}
       </div>
     );
   }

@@ -352,6 +352,16 @@
   &-itemLabel {
     flex-grow: 1;
   }
+
+  &-placeholder {
+    height: $Form-input-height;
+    line-height: $Form-input-lineHeight;
+    font-size: $Form-input-fontSize;
+    padding: (
+        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
+      )/2 $gap-sm;
+    color: $text--muted-color;
+  }
 }
 
 .#{$ns}TableCheckboxes {
