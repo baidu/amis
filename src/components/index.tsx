@@ -39,6 +39,10 @@ import Tooltip from './Tooltip';
 import TooltipWrapper from './TooltipWrapper';
 import Tree from './Tree';
 import Alert2 from './Alert2';
+import Transfer from './Transfer';
+import ListCheckboxes from './ListCheckboxes';
+import TableCheckboxes from './TableCheckboxes';
+import TreeCheckboxes from './TreeCheckboxes';
 
 export {
   NotFound,
@@ -80,5 +84,9 @@ export {
   toast,
   Tooltip,
   TooltipWrapper,
-  Tree
+  Tree,
+  Transfer,
+  ListCheckboxes,
+  TableCheckboxes,
+  TreeCheckboxes
 };
