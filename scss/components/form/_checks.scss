@@ -365,15 +365,15 @@
 
   &-sublist {
     position: relative;
-    margin: 0 0 0 35px;
+    margin: 0 0 0 px2rem(35px);
 
     &:before {
       width: 1px;
       content: '';
       display: block;
       position: absolute;
-      top: -5px;
-      bottom: 15px;
+      top: px2rem(-5px);
+      bottom: $Form-input-height / 2;
       left: -19px;
       border-left: dashed 1px $icon-color;
     }
@@ -391,7 +391,7 @@
     content: '';
     display: block;
     position: absolute;
-    top: 15px;
+    top: $Form-input-height / 2;
     width: 19px;
     left: -19px;
     border-top: dashed 1px $icon-color;
