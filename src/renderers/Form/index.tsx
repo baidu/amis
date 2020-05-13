@@ -33,6 +33,7 @@ import Spinner from '../../components/Spinner';
 import {LazyComponent} from '../../components';
 import {isAlive} from 'mobx-state-tree';
 import {asFormItem} from './Item';
+import {SimpleMap} from '../../utils/SimpleMap';
 export type FormGroup = FormSchema & {
   title?: string;
   className?: string;
@@ -176,6 +177,7 @@ export default class Form extends React.Component<FormProps, object> {
     trailing: true,
     leading: false
   });
+  componentCache: SimpleMap = new SimpleMap();
   constructor(props: FormProps) {
     super(props);
 
@@ -315,6 +317,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.lazyHandleChange.cancel();
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
+    this.componentCache.dispose();
     const store = this.props.store;
 
     if (
@@ -1008,11 +1011,19 @@ export default class Form extends React.Component<FormProps, object> {
       }
 
       if (control.component && control.label && control.name) {
-        control.component = asFormItem(
-          control.options || {
-            strictMode: false
-          }
-        )(control.component);
+        const cache = this.componentCache.get(control.component);
+
+        if (cache) {
+          control.component = cache;
+        } else {
+          const cache = asFormItem(
+            control.options || {
+              strictMode: false
+            }
+          )(control.component);
+          this.componentCache.set(control.component, cache);
+          control.component = cache;
+        }
       }
 
       control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
