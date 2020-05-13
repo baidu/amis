@@ -743,10 +743,12 @@ export const detectProps = [
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
   return (Control: FormControlComponent) => {
+    const isSFC = !(Control.prototype instanceof React.Component);
+
     // 兼容老的 FormItem 用法。
     if (config.validate && !Control.prototype.validate) {
       const fn = config.validate;
-      Control.prototype.validate = function() {
+      Control.prototype.validate = function () {
         // console.warn('推荐直接在类中定义，而不是 FormItem HOC 的参数中传入。');
         const host = {
           input: this
@@ -855,7 +857,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
             onBlur={this.handleBlur}
             type={type}
             classnames={cx}
-            ref={this.refFn}
+            ref={isSFC ? undefined : this.refFn}
             formItem={model}
             className={cx(
               `Form-control`,
@@ -901,7 +903,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
 }
 
 export function FormItem(config: FormItemBasicConfig) {
-  return function(component: FormControlComponent): any {
+  return function (component: FormControlComponent): any {
     const renderer = registerFormItem({
       ...config,
       component

@@ -4,6 +4,7 @@ import React from 'react';
 import uncontrollable from 'uncontrollable';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
+import {autobind} from '../utils/helper';
 
 export interface TreeCheckboxesProps extends CheckboxesProps {}
 
