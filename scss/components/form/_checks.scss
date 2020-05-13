@@ -313,6 +313,12 @@
 }
 
 .#{$ns}ListCheckboxes {
+  &-group > &-itemLabel {
+    font-size: $fontSizeSm;
+    padding: $gap-xs $gap-xs;
+    color: $text--muted-color;
+  }
+
   &-item {
     display: flex;
     height: $Form-input-height;
@@ -329,10 +335,18 @@
     cursor: pointer;
     user-select: none;
 
+    &:hover {
+      background-color: $Tree-item-onHover-bg;
+    }
+
     &.is-disabled {
       pointer-events: none;
       color: $text--muted-color;
     }
+  }
+
+  &-group > &-items > &-item {
+    padding-left: $gap-base;
   }
 
   &-itemLabel {
