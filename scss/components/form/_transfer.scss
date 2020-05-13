@@ -1,0 +1,61 @@
+.#{$ns}Transfer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height: px2rem(300px);
+
+  &--inline {
+    display: inline-flex;
+    flex-wrap: nowrap;
+  }
+
+  &-title {
+    display: flex;
+    background: $Table-thead-bg;
+    height: px2rem(30px);
+    line-height: $Form-input-lineHeight;
+    font-size: $Form-input-fontSize;
+    padding: (px2rem(30px) - $Form-input-lineHeight * $Form-input-fontSize)/2
+      $gap-sm;
+    flex-direction: row;
+
+    &--light {
+      background: transparent;
+    }
+
+    > span {
+      flex-grow: 1;
+    }
+  }
+
+  &-select,
+  &-result {
+    min-width: px2rem(200px);
+    flex-basis: px2rem(200px);
+    flex-grow: 1;
+    border: $Form-input-borderWidth solid $Form-input-borderColor;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-checkboxes,
+  &-selections {
+    flex-grow: 1;
+    height: 0;
+    overflow: auto;
+  }
+
+  &-search {
+    padding: $gap-sm;
+  }
+
+  &-arrow {
+    width: px2rem(10px);
+  }
+
+  &-checkAll,
+  &-clearAll {
+    user-select: none;
+    cursor: pointer;
+  }
+}

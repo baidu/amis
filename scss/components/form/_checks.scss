@@ -355,6 +355,18 @@
 }
 
 .#{$ns}TableCheckboxes {
+  .#{$ns}Table-table > thead > tr > th,
+  .#{$ns}Table-table > tbody > tr > td {
+    font-size: $fontSizeSm;
+    padding-top: px2rem(5px);
+    padding-bottom: px2rem(6px);
+    vertical-align: middle;
+  }
+
+  .#{$ns}Table-table > thead > tr > th {
+    padding-top: px2rem(6px);
+  }
+
   .#{$ns}Table-table > thead > tr > th:first-child,
   .#{$ns}Table-table > tbody > tr > td:first-child {
     padding-left: px2rem(10px);

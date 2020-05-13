@@ -17,6 +17,35 @@
   }
 }
 
+@mixin input-input {
+  display: flex;
+  background-color: $Form-input-bg;
+  border: $Form-input-borderWidth solid $Form-input-borderColor;
+  border-radius: $Form-input-borderRadius;
+  // height: $Form-input-height;
+  line-height: $Form-input-lineHeight;
+  padding: $Form-input-paddingY $Form-input-paddingX;
+  font-size: $Form-input-fontSize;
+
+  input {
+    outline: none;
+    background: transparent;
+    border: none;
+    color: $Form-input-color;
+    width: 100%;
+    height: $Form-input-lineHeight * $Form-input-fontSize;
+
+    &::placeholder {
+      color: $Form-input-placeholderColor;
+      user-select: none;
+    }
+  }
+
+  > input {
+    flex-grow: 1;
+  }
+}
+
 @mixin input-text {
   position: relative;
   min-width: $Form-control-widthBase;
@@ -26,32 +55,7 @@
   }
 
   &-input {
-    display: flex;
-    background-color: $Form-input-bg;
-    border: $Form-input-borderWidth solid $Form-input-borderColor;
-    border-radius: $Form-input-borderRadius;
-    // height: $Form-input-height;
-    line-height: $Form-input-lineHeight;
-    padding: $Form-input-paddingY $Form-input-paddingX;
-    font-size: $Form-input-fontSize;
-
-    input {
-      outline: none;
-      background: transparent;
-      border: none;
-      color: $Form-input-color;
-      width: 100%;
-      height: $Form-input-lineHeight * $Form-input-fontSize;
-
-      &::placeholder {
-        color: $Form-input-placeholderColor;
-        user-select: none;
-      }
-    }
-
-    > input {
-      flex-grow: 1;
-    }
+    @include input-input();
   }
 
   &.is-error > &-input {
@@ -323,5 +327,47 @@
 
   &-input--multiple &-valueLabel {
     padding: 0 $gap-xs;
+  }
+}
+
+.#{$ns}InputBox {
+  @include input-input();
+
+  &.is-error {
+    border-color: $Form-input-onError-borderColor;
+    background-color: $Form-input-onError-bg;
+  }
+
+  &.is-focused {
+    border-color: $Form-input-onFocused-borderColor;
+    box-shadow: $Form-input-boxShadow;
+
+    @if $Form-input-onFocused-bg !=$Form-input-bg {
+      background-color: $Form-input-onFocused-bg;
+    }
+  }
+
+  &.is-error.is-focused {
+    border-color: $Form-input-onError-borderColor;
+  }
+
+  &.is-disabled {
+    color: $text--muted-color;
+    background: $Form-input-onDisabled-bg;
+    border-color: $Form-input-onDisabled-borderColor;
+  }
+
+  &-clear {
+    @include input-clear();
+  }
+
+  > svg {
+    display: inline-block;
+    width: 14px;
+    color: $icon-color;
+  }
+
+  > a {
+    cursor: pointer;
   }
 }
