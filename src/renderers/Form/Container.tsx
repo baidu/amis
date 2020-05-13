@@ -12,6 +12,8 @@ export interface ContainerProps extends FormControlProps {}
   sizeMutable: false
 })
 export class ContainerControlRenderer extends Container<ContainerProps> {
+  static propsList: Array<string> = ['onChange'];
+
   renderBody(): JSX.Element | null {
     const {
       renderFormItems,
