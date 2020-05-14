@@ -747,6 +747,17 @@ export default {
           label: '多行文本'
         },
         {
+          label: '穿梭器',
+          name: 'a',
+          type: 'transfer',
+          source: '/api/mock2/form/getOptions?waitSeconds=1',
+          searchable: true,
+          searchApi: '/api/mock2/options/autoComplete2?term=$term',
+          selectMode: 'list',
+          sortable: true,
+          inline: true
+        },
+        {
           type: 'divider'
         },
         {
