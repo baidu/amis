@@ -67,6 +67,8 @@ $Form-input-borderColor: #cfdadd;
 @import '../components/carousel';
 @import '../components/image-gallery';
 @import '../components/images';
+@import '../components/input-box';
+@import '../components/result-box';
 
 @import '../components/form/fieldset';
 @import '../components/form/group';
@@ -86,7 +88,7 @@ $Form-input-borderColor: #cfdadd;
 @import '../components/form/date';
 @import '../components/form/date-range';
 @import '../components/form/image';
-@import '../components/form/input-box';
+
 @import '../components/form/file';
 @import '../components/form/editor';
 @import '../components/form/rich-text';

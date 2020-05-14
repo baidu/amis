@@ -589,6 +589,14 @@ $Remark-borderColor: $borderColor !default;
 $Remark-onHover-borderColor: $borderColor !default;
 $Remark-marginLeft: $gap-sm !default;
 
+$ResultBox-value-bg: #f5f5f5 !default;
+$ResultBox-value--onHover-bg: #ebebeb !default;
+$ResultBox-value-color: #000 !default;
+$ResultBox-value--onDisabled-color: #cccccc !default;
+$ResultBox-icon-color: #999 !default;
+$ResultBox-icon--onHover-color: #666666 !default;
+$ResultBox-icon--onDisabled-color: #ebebeb !default;
+
 // Form
 $Form-fontSize: $fontSizeBase !default;
 $Form-description-color: lighten($text-color, 10%) !default;
