@@ -16,9 +16,10 @@ import {optionValueCompare} from '../../components/Select';
 export interface TransferProps extends OptionsControlProps {
   sortable?: boolean;
   selectMode?: 'table' | 'list' | 'tree';
+  searchResultMode?: 'table' | 'list' | 'tree';
   columns?: Array<any>;
   searchable?: boolean;
-  searchApi?: Api; // todo 通过传递进去 onSearch 实现。
+  searchApi?: Api;
 }
 
 @OptionsControl({
@@ -145,7 +146,7 @@ export class TransferRenderer extends React.Component<TransferProps> {
       columns,
       loading,
       searchable,
-      searchApi
+      searchResultMode
     } = this.props;
 
     return (
@@ -157,6 +158,7 @@ export class TransferRenderer extends React.Component<TransferProps> {
           option2value={this.option2value}
           sortable={sortable}
           selectMode={selectMode}
+          searchResultMode={searchResultMode}
           columns={columns}
           onSearch={searchable ? this.handleSearch : undefined}
         />
