@@ -121,24 +121,26 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
   }
 
   lazySearch = debounce(
-    async (text: string) => {
-      const onSearch = this.props.onSearch!;
-      let result = await onSearch(
-        text,
-        (cancel: () => void) => (this.cancelSearch = cancel)
-      );
+    (text: string) => {
+      (async (text: string) => {
+        const onSearch = this.props.onSearch!;
+        let result = await onSearch(
+          text,
+          (cancelExecutor: () => void) => (this.cancelSearch = cancelExecutor)
+        );
 
-      if (this.unmounted) {
-        return;
-      }
+        if (this.unmounted) {
+          return;
+        }
 
-      if (!Array.isArray(result)) {
-        throw new Error('onSearch 需要返回数组');
-      }
+        if (!Array.isArray(result)) {
+          throw new Error('onSearch 需要返回数组');
+        }
 
-      this.setState({
-        searchResult: result
-      });
+        this.setState({
+          searchResult: result
+        });
+      })(text).catch(e => console.error(e));
     },
     250,
     {

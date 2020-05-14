@@ -63,7 +63,7 @@ export class TransferRenderer extends React.Component<TransferProps> {
       }
     }
 
-    newOptions.length > options.length && setOptions(newOptions);
+    newOptions.length > options.length && setOptions(newOptions, true);
     onChange(newValue);
   }
 
@@ -73,35 +73,48 @@ export class TransferRenderer extends React.Component<TransferProps> {
   }
 
   @autobind
-  async handleSearch(term: string) {
+  async handleSearch(term: string, cancelExecutor: Function) {
     const {searchApi, options, labelField, valueField, env, data} = this.props;
 
     if (searchApi) {
-      const payload = await env.fetcher(searchApi, createObject(data, {term}));
+      try {
+        const payload = await env.fetcher(
+          searchApi,
+          createObject(data, {term}),
+          {
+            cancelExecutor
+          }
+        );
 
-      if (!payload.ok) {
-        env.notify('error', payload.msg || '搜索请求异常');
-        return [];
-      }
-
-      const result = payload.data.options || payload.data.items || payload.data;
-      if (!Array.isArray(result)) {
-        env.notify('error', '期望接口返回数组信息');
-        return [];
-      }
-
-      return result.map(item => {
-        let resolved: any = null;
-
-        if (Array.isArray(options)) {
-          resolved = find(
-            options,
-            optionValueCompare(item[valueField || 'value'], valueField)
-          );
+        if (!payload.ok) {
+          throw new Error(payload.msg || '搜索请求异常');
         }
 
-        return resolved || item;
-      });
+        const result =
+          payload.data.options || payload.data.items || payload.data;
+        if (!Array.isArray(result)) {
+          throw new Error('期望接口返回数组信息');
+        }
+
+        return result.map(item => {
+          let resolved: any = null;
+
+          if (Array.isArray(options)) {
+            resolved = find(
+              options,
+              optionValueCompare(item[valueField || 'value'], valueField)
+            );
+          }
+
+          return resolved || item;
+        });
+      } catch (e) {
+        if (!env.isCancel(e)) {
+          env.notify('error', e.message);
+        }
+
+        return [];
+      }
     } else if (term) {
       const regexp = string2regExp(term);
 
