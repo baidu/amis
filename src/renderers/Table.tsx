@@ -140,7 +140,7 @@ export default class Table extends React.Component<TableProps, object> {
     'popOverContainer',
     'headerToolbarClassName',
     'toolbarClassName',
-    'footerToolbarClassName',
+    'footerToolbarClassName'
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
@@ -279,9 +279,9 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   componentDidMount() {
-    let parent: HTMLElement | Window | null = getScrollParent(findDOMNode(
-      this
-    ) as HTMLElement);
+    let parent: HTMLElement | Window | null = getScrollParent(
+      findDOMNode(this) as HTMLElement
+    );
 
     if (!parent || parent === document.body) {
       parent = window;
@@ -404,7 +404,11 @@ export default class Table extends React.Component<TableProps, object> {
     saveImmediately?: boolean | any,
     savePristine?: boolean
   ) {
-    const {onSave, saveImmediately: propsSaveImmediately, primaryField} = this.props;
+    const {
+      onSave,
+      saveImmediately: propsSaveImmediately,
+      primaryField
+    } = this.props;
 
     item.change(values, savePristine);
 
@@ -542,7 +546,7 @@ export default class Table extends React.Component<TableProps, object> {
     const dom = findDOMNode(this) as HTMLElement;
     const clip = (this.table as HTMLElement).getBoundingClientRect();
     const offsetY =
-      this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
+      this.props.affixOffsetTop || this.props.env.affixOffsetTop || 0;
     const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
     const affixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
 
@@ -761,7 +765,11 @@ export default class Table extends React.Component<TableProps, object> {
       'tr[data-index]'
     ) as HTMLElement;
 
-    if (!tr || !this.props.itemActions) {
+    if (
+      !tr ||
+      !this.props.itemActions ||
+      !this.props.itemActions.filter(item => !item.hiddenOnHover).length
+    ) {
       return;
     }
 
@@ -963,9 +971,7 @@ export default class Table extends React.Component<TableProps, object> {
         <div className={cx('Table-heading', headingClassName)} key="heading">
           {!saveImmediately && store.modified && !hideQuickSaveBtn ? (
             <span>
-              {`当前有 ${
-                store.modified
-              } 条记录修改了内容, 但并没有提交。请选择:`}
+              {`当前有 ${store.modified} 条记录修改了内容, 但并没有提交。请选择:`}
               <button
                 type="button"
                 className={cx('Button Button--xs Button--success m-l-sm')}
@@ -1037,7 +1043,9 @@ export default class Table extends React.Component<TableProps, object> {
               checked={store.someChecked}
               onChange={this.handleCheckAll}
             />
-          ) : null}
+          ) : (
+            '\u00A0'
+          )}
         </th>
       );
     } else if (column.type === '__dragme') {
@@ -1373,11 +1381,19 @@ export default class Table extends React.Component<TableProps, object> {
         <thead>
           {store.columnGroup.length ? (
             <tr>
-              {store.columnGroup.map((item, index) => (
-                <th key={index} data-index={item.index} colSpan={item.colSpan}>
-                  {item.label ? render('tpl', item.label) : null}
-                </th>
-              ))}
+              {store.columnGroup.map((item, index) => {
+                const renderColumns = columns.filter(a => ~item.has.indexOf(a));
+
+                return renderColumns.length ? (
+                  <th
+                    key={index}
+                    data-index={item.index}
+                    colSpan={renderColumns.length}
+                  >
+                    {'\u00A0'}
+                  </th>
+                ) : null;
+              })}
             </tr>
           ) : null}
           <tr>
@@ -1609,7 +1625,11 @@ export default class Table extends React.Component<TableProps, object> {
     const toolbarNode =
       actions || child || store.dragging ? (
         <div
-          className={cx('Table-toolbar Table-headToolbar', toolbarClassName, headerToolbarClassName)}
+          className={cx(
+            'Table-toolbar Table-headToolbar',
+            toolbarClassName,
+            headerToolbarClassName
+          )}
           key="header-toolbar"
         >
           {actions}
@@ -1669,7 +1689,11 @@ export default class Table extends React.Component<TableProps, object> {
     const toolbarNode =
       actions || child ? (
         <div
-          className={cx('Table-toolbar Table-footToolbar', toolbarClassName, footerToolbarClassName)}
+          className={cx(
+            'Table-toolbar Table-footToolbar',
+            toolbarClassName,
+            footerToolbarClassName
+          )}
           key="footer-toolbar"
         >
           {actions}
@@ -1771,9 +1795,12 @@ export default class Table extends React.Component<TableProps, object> {
 
   renderItemActions() {
     const {itemActions, render, store, classnames: cx} = this.props;
+    const finnalActions = Array.isArray(itemActions)
+      ? itemActions.filter(action => !action.hiddenOnHover)
+      : [];
 
     const rowIndex = store.hoverIndex;
-    if (!~rowIndex || !itemActions || !itemActions.length) {
+    if (!~rowIndex || !finnalActions.length) {
       return null;
     }
 
@@ -1798,22 +1825,20 @@ export default class Table extends React.Component<TableProps, object> {
         }}
       >
         <div className={cx('Table-itemActions')}>
-          {itemActions.map((action, index) =>
-            action.hiddenOnHover
-              ? null
-              : render(
-                  `itemAction/${index}`,
-                  {
-                    ...(action as any),
-                    isMenuItem: true
-                  },
-                  {
-                    key: index,
-                    item: store.rows[rowIndex],
-                    data: store.rows[rowIndex].locals,
-                    rowIndex
-                  }
-                )
+          {finnalActions.map((action, index) =>
+            render(
+              `itemAction/${index}`,
+              {
+                ...(action as any),
+                isMenuItem: true
+              },
+              {
+                key: index,
+                item: store.rows[rowIndex],
+                data: store.rows[rowIndex].locals,
+                rowIndex
+              }
+            )
           )}
         </div>
       </div>
