@@ -45,7 +45,7 @@ export interface FormItemProps extends RendererProps {
   formHorizontal: FormHorizontal;
   defaultSize?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
-  disabled: boolean;
+  disabled?: boolean;
   btnDisabled: boolean;
   defaultValue: any;
   value: any;

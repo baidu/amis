@@ -6,7 +6,13 @@ import Checkbox from '../../components/Checkbox';
 import PopOver from '../../components/PopOver';
 import {RootCloseWrapper} from 'react-overlays';
 import {Icon} from '../../components/icons';
-import {autobind, flattenTree, isEmpty, filterTree} from '../../utils/helper';
+import {
+  autobind,
+  flattenTree,
+  isEmpty,
+  filterTree,
+  string2regExp
+} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {OptionsControl, OptionsControlProps} from '../Form/Options';
 import {Option, Options} from '../../components/Select';
@@ -357,7 +363,7 @@ export default class NestedSelectControl extends React.Component<
     const inputValue = evt.currentTarget.value;
     const {options, labelField, valueField} = this.props;
 
-    const regexp = new RegExp(`${inputValue}`, 'i');
+    const regexp = string2regExp(inputValue);
 
     let filtedOptions =
       inputValue && this.state.isOpened

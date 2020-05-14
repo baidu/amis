@@ -35,7 +35,7 @@ export interface TransferPorps extends ThemeProps, CheckboxesProps {
   onSearch?: (
     term: string,
     setCancel: (cancel: () => void) => void
-  ) => Promise<Options>;
+  ) => Promise<Options | void>;
 
   // 自定义选择框相关
   selectRender?: (props: TransferPorps) => JSX.Element;
@@ -216,6 +216,7 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
   renderSearchResult() {
     const {
       searchResultMode,
+      selectMode,
       noResultsText,
       searchResultColumns,
       classnames: cx,
@@ -224,8 +225,9 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
       option2value
     } = this.props;
     const options = this.state.searchResult || [];
+    const mode = searchResultMode || selectMode;
 
-    return searchResultMode === 'table' ? (
+    return mode === 'table' ? (
       <TableCheckboxes
         placeholder={noResultsText}
         className={cx('Transfer-checkboxes')}
@@ -235,7 +237,7 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
         onChange={onChange}
         option2value={option2value}
       />
-    ) : searchResultMode === 'tree' ? (
+    ) : mode === 'tree' ? (
       <TreeCheckboxes
         placeholder={noResultsText}
         className={cx('Transfer-checkboxes')}
