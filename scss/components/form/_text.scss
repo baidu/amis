@@ -26,8 +26,11 @@
   line-height: $Form-input-lineHeight;
   padding: $Form-input-paddingY $Form-input-paddingX;
   font-size: $Form-input-fontSize;
+  flex-wrap: wrap;
 
   input {
+    flex-basis: px2rem(80px);
+    flex-grow: 1;
     outline: none;
     background: transparent;
     border: none;
@@ -39,10 +42,6 @@
       color: $Form-input-placeholderColor;
       user-select: none;
     }
-  }
-
-  > input {
-    flex-grow: 1;
   }
 }
 

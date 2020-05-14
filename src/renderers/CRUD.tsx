@@ -477,9 +477,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       store.updateData({
         items: options || []
       });
-
-    // 只执行一次。
-    this.handleFilterInit = noop;
   }
 
   handleFilterReset(values: object) {

@@ -12,7 +12,9 @@ export interface InputBoxProps
   onChange?: (value: string) => void;
   clearable?: boolean;
   disabled?: boolean;
+  hasError?: boolean;
   placeholder?: string;
+  result: JSX.Element;
   children?: JSX.Element;
 }
 
@@ -67,15 +69,27 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
       classPrefix,
       clearable,
       disabled,
+      hasError,
       value,
       placeholder,
+      result,
       children,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
 
     return (
-      <div className={cx('InputBox', className, isFocused ? 'is-focused' : '')}>
+      <div
+        className={cx(
+          'InputBox',
+          className,
+          isFocused ? 'is-focused' : '',
+          disabled ? 'is-disabled' : '',
+          hasError ? 'is-error' : ''
+        )}
+      >
+        {result}
+
         <Input
           {...rest}
           value={value || ''}
@@ -84,6 +98,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         />
+
         {clearable && !disabled && value ? (
           <a onClick={this.clearValue} className={cx('InputBox-clear')}>
             <Icon icon="close" className="icon" />

@@ -451,7 +451,7 @@ export default class TextControl extends React.PureComponent<
             filtedOptions.push({
               [labelField || 'label']: this.state.inputValue,
               [valueField || 'value']: this.state.inputValue,
-              'isNew': true
+              isNew: true
             });
           }
 
@@ -625,6 +625,10 @@ export default class TextControl extends React.PureComponent<
       disabled,
       inputOnly
     } = this.props;
+
+    if (this.props.name === 'query') {
+      console.log('Text');
+    }
 
     const addOn: any =
       typeof addOnRaw === 'string'
