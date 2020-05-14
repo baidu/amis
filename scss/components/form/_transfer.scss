@@ -75,4 +75,8 @@
 
 .#{$ns}TransferControl {
   position: relative;
+
+  &.is-inline {
+    display: inline-block;
+  }
 }
