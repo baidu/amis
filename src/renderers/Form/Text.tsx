@@ -626,10 +626,6 @@ export default class TextControl extends React.PureComponent<
       inputOnly
     } = this.props;
 
-    if (this.props.name === 'query') {
-      console.log('Text');
-    }
-
     const addOn: any =
       typeof addOnRaw === 'string'
         ? {
