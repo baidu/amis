@@ -251,9 +251,10 @@ export function anyChanged(
   to: {[propName: string]: any},
   strictMode: boolean = true
 ): boolean {
-  return (typeof attrs === 'string' ? attrs.split(/\s*,\s*/) : attrs).some(
-    key => (strictMode ? from[key] !== to[key] : from[key] != to[key])
-  );
+  return (typeof attrs === 'string'
+    ? attrs.split(/\s*,\s*/)
+    : attrs
+  ).some(key => (strictMode ? from[key] !== to[key] : from[key] != to[key]));
 }
 
 export function rmUndefined(obj: PlainObject) {
@@ -362,7 +363,7 @@ export function makeColumnClassBuild(
   let count = 12;
   let step = Math.floor(count / steps);
 
-  return function(schema: Schema) {
+  return function (schema: Schema) {
     if (
       schema.columnClassName &&
       /\bcol-(?:xs|sm|md|lg)-(\d+)\b/.test(schema.columnClassName)
@@ -470,7 +471,7 @@ export function promisify<T extends Function>(
 ) => Promise<any> & {
   raw: T;
 } {
-  let promisified = function() {
+  let promisified = function () {
     try {
       const ret = fn.apply(null, arguments);
       if (ret && ret.then) {
@@ -1029,6 +1030,17 @@ export function getLevelFromClassName(
   return defaultValue;
 }
 
+export function string2regExp(value: string, caseSensitive = false) {
+  if (typeof value !== 'string') {
+    throw new TypeError('Expected a string');
+  }
+
+  return new RegExp(
+    value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d'),
+    !caseSensitive ? 'i' : ''
+  );
+}
+
 export function pickEventsProps(props: any) {
   const ret: any = {};
   props &&
@@ -1040,7 +1052,7 @@ export function pickEventsProps(props: any) {
 
 export const autobind = boundMethod;
 
-export const bulkBindFunctions = function<
+export const bulkBindFunctions = function <
   T extends {
     [propName: string]: any;
   }
