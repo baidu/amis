@@ -87,7 +87,6 @@ import './renderers/Form/Color';
 import './renderers/Form/ChainedSelect';
 import './renderers/Form/NestedSelect';
 import './renderers/Form/Transfer';
-import './renderers/Form/TransferSelect';
 import './renderers/Form/Service';
 import './renderers/Form/Table';
 import './renderers/Form/Picker';

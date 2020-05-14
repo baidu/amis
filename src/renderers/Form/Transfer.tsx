@@ -138,6 +138,7 @@ export class TransferRenderer extends React.Component<TransferProps> {
 
   render() {
     const {
+      className,
       classnames: cx,
       options,
       selectedOptions,
@@ -150,7 +151,7 @@ export class TransferRenderer extends React.Component<TransferProps> {
     } = this.props;
 
     return (
-      <div className={cx('TransferControl')}>
+      <div className={cx('TransferControl', className)}>
         <Transfer
           value={selectedOptions}
           options={options}
