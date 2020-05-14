@@ -14,7 +14,7 @@ function loadEditor() {
       resolve(component.default))
   );
 }
-export default function(schema) {
+export default function (schema) {
   if (!schema['$schema']) {
     schema = {
       $schema: 'https://houtai.baidu.com/v2/schemas/page.json',
@@ -95,6 +95,10 @@ export default function(schema) {
           fetcher: ({url, method, data, config, headers}) => {
             config = config || {};
             config.headers = headers || {};
+
+            if (config.cancelExecutor) {
+              config.cancelToken = new axios.CancelToken(config.cancelExecutor);
+            }
 
             if (data && data instanceof FormData) {
               // config.headers = config.headers || {};
