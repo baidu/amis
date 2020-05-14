@@ -59,7 +59,7 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   ) => void;
   onToggleAll: () => void;
   selectedOptions: Array<Option>;
-  setOptions: (value: Array<any>) => void;
+  setOptions: (value: Array<any>, skipNormalize?: boolean) => void;
   setLoading: (value: boolean) => void;
   reloadOptions: () => void;
   creatable?: boolean;
@@ -466,9 +466,12 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    setOptions(options: Array<any>) {
+    setOptions(options: Array<any>, skipNormalize = false) {
       const formItem = this.props.formItem as IFormItemStore;
-      formItem && formItem.setOptions(normalizeOptions(options || []));
+      formItem &&
+        formItem.setOptions(
+          skipNormalize ? options : normalizeOptions(options || [])
+        );
     }
 
     @autobind
@@ -797,7 +800,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 }
 
 export function OptionsControl(config: OptionsBasicConfig) {
-  return function<T extends React.ComponentType<OptionsControlProps>>(
+  return function <T extends React.ComponentType<OptionsControlProps>>(
     component: T
   ): T {
     const renderer = registerOptionsControl({
