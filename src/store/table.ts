@@ -234,7 +234,9 @@ export const TableStore = iRendererStore
         item.type === '__expandme'
           ? false
           : (item.toggled || !item.toggable) &&
-            (self.footable && item.breakpoint && isBreakpoint(item.breakpoint))
+            self.footable &&
+            item.breakpoint &&
+            isBreakpoint(item.breakpoint)
       );
     }
 
@@ -327,6 +329,7 @@ export const TableStore = iRendererStore
       label: string;
       index: number;
       colSpan: number;
+      has: Array<any>;
     }> {
       const columsn = getFilteredColumns();
       const len = columsn.length;
@@ -339,11 +342,13 @@ export const TableStore = iRendererStore
         label: string;
         index: number;
         colSpan: number;
+        has: Array<any>;
       }> = [
         {
           label: columsn[0].groupName,
           colSpan: 1,
-          index: columsn[0].index
+          index: columsn[0].index,
+          has: [columsn[0]]
         }
       ];
 
@@ -358,11 +363,13 @@ export const TableStore = iRendererStore
 
         if (current.groupName === prev.label) {
           prev.colSpan++;
+          prev.has.push(current);
         } else {
           result.push({
             label: current.groupName,
             colSpan: 1,
-            index: current.index
+            index: current.index,
+            has: [current]
           });
         }
       }
