@@ -37,7 +37,7 @@ interface CRUDProps extends RendererProps {
   defaultParams: object;
   syncLocation?: boolean;
   primaryField?: string;
-  mode?: 'table' | 'grid' | 'cards' /* grid 的别名*/ | 'list';
+  mode?: 'table' | 'grid' | 'cards' | /* grid 的别名*/ 'list';
   toolbarInline?: boolean;
   toolbar?: SchemaNode; // 不推荐，但是还是要兼容老用法。
   headerToolbar?: SchemaNode;
@@ -119,7 +119,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'loadDataOnceFetchOnFilter',
     'source',
     'header',
-    'columns'
+    'columns',
+    'size'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -1346,9 +1347,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     return (
-      <div className={cx('Crud-statistics')}>{`${store.page +
-        '/' +
-        store.lastPage}总共${store.total}项。`}</div>
+      <div className={cx('Crud-statistics')}>{`${
+        store.page + '/' + store.lastPage
+      }总共${store.total}项。`}</div>
     );
   }
 
