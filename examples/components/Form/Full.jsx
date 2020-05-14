@@ -747,6 +747,9 @@ export default {
           label: '多行文本'
         },
         {
+          type: 'divider'
+        },
+        {
           label: '穿梭器',
           name: 'a',
           type: 'transfer',

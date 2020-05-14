@@ -600,71 +600,69 @@ export default class Form extends React.Component<FormProps, object> {
       action.actionType === 'confirm'
     ) {
       store.setCurrentAction(action);
-      return this.submit(
-        (values): any => {
-          if (onSubmit && onSubmit(values, action) === false) {
-            return Promise.resolve(values);
-          }
-
-          if (target) {
-            this.submitToTarget(target, values);
-          } else if (action.actionType === 'reload') {
-            action.target && this.reloadTarget(action.target, values);
-          } else if (action.actionType === 'dialog') {
-            store.openDialog(data);
-          } else if (action.actionType === 'drawer') {
-            store.openDrawer(data);
-          } else if (isEffectiveApi(action.api || api, values)) {
-            let finnalAsyncApi = action.asyncApi || asyncApi;
-
-            isEffectiveApi(finnalAsyncApi, store.data) &&
-              store.updateData({
-                [finishedField || 'finished']: false
-              });
-
-            return store
-              .saveRemote(action.api || (api as Api), values, {
-                successMessage: saveSuccess,
-                errorMessage: saveFailed,
-                onSuccess: () => {
-                  if (
-                    !isEffectiveApi(finnalAsyncApi, store.data) ||
-                    store.data[finishedField || 'finished']
-                  ) {
-                    return;
-                  }
-
-                  return until(
-                    () => store.checkRemote(finnalAsyncApi as Api, store.data),
-                    (ret: any) => ret && ret[finishedField || 'finished'],
-                    cancel => (this.asyncCancel = cancel),
-                    checkInterval
-                  );
-                }
-              })
-              .then(async response => {
-                onSaved && onSaved(values, response);
-
-                // submit 也支持 feedback
-                if (action.feedback && isVisible(action.feedback, store.data)) {
-                  const confirmed = await this.openFeedback(
-                    action.feedback,
-                    store.data
-                  );
-
-                  // 如果 feedback 配置了，取消就跳过原有逻辑。
-                  if (action.feedback.skipRestOnCancel && !confirmed) {
-                    throw new SkipOperation();
-                  }
-                }
-
-                return values;
-              });
-          }
-
+      return this.submit((values): any => {
+        if (onSubmit && onSubmit(values, action) === false) {
           return Promise.resolve(values);
         }
-      )
+
+        if (target) {
+          this.submitToTarget(target, values);
+        } else if (action.actionType === 'reload') {
+          action.target && this.reloadTarget(action.target, values);
+        } else if (action.actionType === 'dialog') {
+          store.openDialog(data);
+        } else if (action.actionType === 'drawer') {
+          store.openDrawer(data);
+        } else if (isEffectiveApi(action.api || api, values)) {
+          let finnalAsyncApi = action.asyncApi || asyncApi;
+
+          isEffectiveApi(finnalAsyncApi, store.data) &&
+            store.updateData({
+              [finishedField || 'finished']: false
+            });
+
+          return store
+            .saveRemote(action.api || (api as Api), values, {
+              successMessage: saveSuccess,
+              errorMessage: saveFailed,
+              onSuccess: () => {
+                if (
+                  !isEffectiveApi(finnalAsyncApi, store.data) ||
+                  store.data[finishedField || 'finished']
+                ) {
+                  return;
+                }
+
+                return until(
+                  () => store.checkRemote(finnalAsyncApi as Api, store.data),
+                  (ret: any) => ret && ret[finishedField || 'finished'],
+                  cancel => (this.asyncCancel = cancel),
+                  checkInterval
+                );
+              }
+            })
+            .then(async response => {
+              onSaved && onSaved(values, response);
+
+              // submit 也支持 feedback
+              if (action.feedback && isVisible(action.feedback, store.data)) {
+                const confirmed = await this.openFeedback(
+                  action.feedback,
+                  store.data
+                );
+
+                // 如果 feedback 配置了，取消就跳过原有逻辑。
+                if (action.feedback.skipRestOnCancel && !confirmed) {
+                  throw new SkipOperation();
+                }
+              }
+
+              return values;
+            });
+        }
+
+        return Promise.resolve(values);
+      })
         .then(values => {
           if (onFinished && onFinished(values, action) === false) {
             return values;
