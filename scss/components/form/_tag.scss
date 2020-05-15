@@ -3,6 +3,14 @@
 
   > .#{$ns}TagControl-popover {
     width: 100%;
-    top: 100% !important;
+
+    &.#{$ns}PopOver--leftBottomLeftTop {
+      top: 100% !important;
+    }
+
+    &.#{$ns}PopOver--leftTopLeftBottom {
+      top: auto !important;
+      bottom: 100% !important;
+    }
   }
 }
