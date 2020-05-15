@@ -8,15 +8,12 @@ import {autobind} from '../utils/helper';
 
 export interface ResultBoxProps
   extends ThemeProps,
-    Omit<InputBoxProps, 'value' | 'onChange'> {
-  value?: Array<any>;
+    Omit<InputBoxProps, 'result' | 'prefix'> {
+  result?: Array<any>;
   itemRender: (value: any) => JSX.Element;
-  onChange?: (value: Array<any>) => void;
-
+  onResultChange?: (value: Array<any>) => void;
   allowInput?: boolean;
   inputPlaceholder: string;
-  inputValue?: string;
-  onInputChange?: (value: string) => void;
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
@@ -36,14 +33,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
 
   @autobind
   clearValue() {
-    const onChange = this.props.onChange;
-    onChange && onChange([]);
-  }
-
-  @autobind
-  handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const onInputChange = this.props.onInputChange;
-    onInputChange && onInputChange(e.currentTarget.value);
+    const onResultChange = this.props.onResultChange;
+    onResultChange && onResultChange([]);
   }
 
   @autobind
@@ -69,11 +60,11 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     e.stopPropagation();
     e.preventDefault();
 
-    const {value, onChange} = this.props;
+    const {result, onResultChange} = this.props;
     const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
-    const newValue = Array.isArray(value) ? value.concat() : [];
-    newValue.splice(index, 1);
-    onChange && onChange(newValue);
+    const newResult = Array.isArray(result) ? result.concat() : [];
+    newResult.splice(index, 1);
+    onResultChange && onResultChange(newResult);
   }
 
   render() {
@@ -84,15 +75,15 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       clearable,
       disabled,
       hasError,
+      result,
       value,
       placeholder,
-      result,
       children,
       itemRender,
-      onInputChange,
-      inputValue,
       allowInput,
       inputPlaceholder,
+      onResultChange,
+      onChange,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -107,8 +98,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           hasError ? 'is-error' : ''
         )}
       >
-        {Array.isArray(value) && value.length ? (
-          value.map((item, index) => (
+        {Array.isArray(result) && result.length ? (
+          result.map((item, index) => (
             <div className={cx('ResultBox-value')} key={index}>
               <span className={cx('ResultBox-valueLabel')}>
                 {itemRender(item)}
@@ -127,10 +118,10 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         {allowInput ? (
           <Input
             {...rest}
-            value={inputValue || ''}
-            onChange={this.handleInputChange}
+            value={value || ''}
+            onChange={onChange}
             placeholder={
-              Array.isArray(value) && value.length
+              Array.isArray(result) && result.length
                 ? inputPlaceholder
                 : placeholder
             }
@@ -141,8 +132,13 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           <span className={cx('ResultBox-mid')} />
         )}
 
-        {clearable && !disabled && Array.isArray(value) && value.length ? (
-          <a onClick={this.clearValue} className={cx('ResultBox-clear')}>
+        {clearable && !disabled && Array.isArray(result) && result.length ? (
+          <a
+            // data-tooltip="清空"
+            // data-position="bottom"
+            onClick={this.clearValue}
+            className={cx('ResultBox-clear')}
+          >
             <Icon icon="close" className="icon" />
           </a>
         ) : null}
@@ -156,6 +152,6 @@ export class ResultBox extends React.Component<ResultBoxProps> {
 export default themeable(
   uncontrollable(ResultBox, {
     value: 'onChange',
-    inputValue: 'onInputChange'
+    result: 'onResultChange'
   })
 );

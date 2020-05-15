@@ -31,11 +31,23 @@
 
   &-clear {
     @include input-clear();
+    width: px2rem(26px);
+    height: px2rem(26px);
+    margin: 0 px2rem(-2px);
+
+    &:hover {
+      background: $ResultBox-value-bg;
+    }
+
+    > svg {
+      width: px2rem(12px);
+      height: px2rem(12px);
+    }
   }
 
   > svg {
     display: inline-block;
-    width: 14px;
+    width: px2rem(14px);
     color: $icon-color;
   }
 
@@ -51,8 +63,8 @@
     background: $ResultBox-value-bg;
     color: $ResultBox-value-color;
     font-size: $Form-input-fontSize;
-    padding: 0 5px;
-    min-height: 24px;
+    padding: 0 px2rem(5px);
+    min-height: px2rem(24px);
     flex-wrap: nowrap;
     display: inline-flex;
     align-items: center;
@@ -61,10 +73,15 @@
 
     > a {
       cursor: pointer;
-      margin-left: 5px;
+      margin-left: px2rem(5px);
       color: $ResultBox-icon-color;
       &:hover {
         color: $ResultBox-icon--onHover-color;
+      }
+
+      > svg {
+        width: px2rem(10px);
+        height: px2rem(10px);
       }
     }
 

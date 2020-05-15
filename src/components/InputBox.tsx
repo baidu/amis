@@ -1,20 +1,20 @@
 import React from 'react';
 import {ThemeProps, themeable} from '../theme';
-import uncontrollable from 'uncontrollable';
 import Input from './Input';
 import {autobind} from '../utils/helper';
 import {Icon} from './icons';
 
 export interface InputBoxProps
   extends ThemeProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'prefix'> {
   value?: string;
-  onChange?: (value: string) => void;
+  onValueChange?: (value: string) => void;
+  onClear?: (e: React.MouseEvent<any>) => void;
   clearable?: boolean;
   disabled?: boolean;
   hasError?: boolean;
   placeholder?: string;
-  result: JSX.Element;
+  prefix?: JSX.Element;
   children?: JSX.Element;
 }
 
@@ -33,15 +33,19 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
   };
 
   @autobind
-  clearValue() {
-    const onChange = this.props.onChange;
-    onChange && onChange('');
+  clearValue(e: any) {
+    const onClear = this.props.onChange;
+    const onValueChange = this.props.onValueChange;
+    onClear && onClear(e);
+    onValueChange && onValueChange('');
   }
 
   @autobind
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const onChange = this.props.onChange;
-    onChange && onChange(e.currentTarget.value);
+    const onValueChange = this.props.onValueChange;
+    onChange && onChange(e);
+    onValueChange && onValueChange(e.currentTarget.value);
   }
 
   @autobind
@@ -72,7 +76,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
       hasError,
       value,
       placeholder,
-      result,
+      prefix: result,
       children,
       ...rest
     } = this.props;
@@ -111,8 +115,4 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
   }
 }
 
-export default themeable(
-  uncontrollable(InputBox, {
-    value: 'onChange'
-  })
-);
+export default themeable(InputBox);

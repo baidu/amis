@@ -382,6 +382,8 @@ $Spinner-width: px2rem(26px) !default;
 $Spinner-height: px2rem(26px) !default;
 $Spinner--lg-width: px2rem(50px) !default;
 $Spinner--lg-height: px2rem(50px) !default;
+$Spinner--sm-width: px2rem(16px) !default;
+$Spinner--sm-height: px2rem(16px) !default;
 
 $Spinner-bg: url('./spinner-default.svg?__inline') !default;
 
@@ -589,6 +591,7 @@ $Remark-borderColor: $borderColor !default;
 $Remark-onHover-borderColor: $borderColor !default;
 $Remark-marginLeft: $gap-sm !default;
 
+// ResultBox
 $ResultBox-value-bg: #f5f5f5 !default;
 $ResultBox-value--onHover-bg: #ebebeb !default;
 $ResultBox-value-color: #000 !default;
@@ -596,6 +599,22 @@ $ResultBox-value--onDisabled-color: #cccccc !default;
 $ResultBox-icon-color: #999 !default;
 $ResultBox-icon--onHover-color: #666666 !default;
 $ResultBox-icon--onDisabled-color: #ebebeb !default;
+
+// ListMenu
+$ListMenu-bordrColor: $borderColor !default;
+$listMenu--onActive-borderColor: $info !default;
+$ListMenu-borderWidth: px2rem(1px) !default;
+$ListMenu-borderRadius: px2rem(2px) !default;
+$ListMenu-item-height: px2rem(34px) !default;
+$ListMenu-divider-color: lighten($borderColor, 2.5%) !default;
+$ListMenu-item-bg: $white !default;
+$ListMenu-item-color: $text-color !default;
+$ListMenu-item--onHover-color: $info !default;
+$ListMenu-item--onHover-bg: rgba(0, 126, 255, 0.08) !default;
+$ListMenu-item--onActive-color: $info !default;
+$ListMenu-item--onActive-bg: transparent !default;
+$ListMenu-item--onDisabled-color: $text--muted-color !default;
+$ListMenu-item--onDisabled-bg: transparent !default;
 
 // Form
 $Form-fontSize: $fontSizeBase !default;

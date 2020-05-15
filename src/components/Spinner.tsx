@@ -20,14 +20,17 @@ interface SpinnerProps {
   overlay: boolean;
   spinnerClassName: string;
   mode: string;
-  size: string;
+  size: 'sm' | 'lg' | '';
   classPrefix: string;
   classnames: ClassNamesFn;
   show: boolean;
 }
 
 export class Spinner extends React.Component<SpinnerProps, object> {
-  static defaultProps = {
+  static defaultProps: Pick<
+    SpinnerProps,
+    'overlay' | 'spinnerClassName' | 'size' | 'mode' | 'show'
+  > = {
     overlay: false,
     spinnerClassName: '',
     mode: '',

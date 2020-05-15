@@ -65,7 +65,37 @@ export default {
           label: '标签',
           placeholder: '',
           clearable: true,
-          options: ['lixiaolong', 'zhouxingxing', 'yipingpei', 'liyuanfang']
+          options: [
+            {
+              label: '诸葛亮',
+              value: 'zhugeliang'
+            },
+            {
+              label: '曹操',
+              value: 'caocao'
+            },
+            {
+              label: '钟无艳',
+              value: 'zhongwuyan'
+            },
+            {
+              label: '野核',
+              children: [
+                {
+                  label: '李白',
+                  value: 'libai'
+                },
+                {
+                  label: '韩信',
+                  value: 'hanxin'
+                },
+                {
+                  label: '云中君',
+                  value: 'yunzhongjun'
+                }
+              ]
+            }
+          ]
         },
         {
           type: 'divider'
