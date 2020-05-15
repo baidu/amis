@@ -97,7 +97,7 @@
     "@types/react-dropzone": "^4.1.0",
     "@types/react-json-tree": "^0.6.6",
     "@types/react-onclickoutside": "^6.0.2",
-    "@types/react-overlays": "^0.6.9",
+    "@types/react-overlays": "^0.8.4",
     "@types/react-router": "^4.0.16",
     "@types/react-select": "^1.0.59",
     "@types/react-test-renderer": "^16.8.1",
