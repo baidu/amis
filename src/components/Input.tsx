@@ -51,6 +51,7 @@ class InputInner extends React.Component<InputProps, InputState> {
 
     return (
       <input
+        type="text"
         {...rest}
         value={this.state.value}
         ref={forwardedRef}

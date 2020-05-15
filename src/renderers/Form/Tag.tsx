@@ -9,6 +9,13 @@ import find from 'lodash/find';
 import {Icon} from '../../components/icons';
 import {Portal} from 'react-overlays';
 import {findDOMNode} from 'react-dom';
+import ResultBox from '../../components/ResultBox';
+import {autobind, filterTree} from '../../utils/helper';
+import Spinner from '../../components/Spinner';
+import Overlay from '../../components/Overlay';
+import PopOver from '../../components/PopOver';
+import ListMenu from '../../components/ListMenu';
+import {Options} from '../../components/Select';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
 
@@ -22,38 +29,27 @@ export interface TagProps extends OptionsControlProps {
 export interface TagState {
   inputValue: string;
   isFocused?: boolean;
+  isOpened?: boolean;
 }
 
 export default class TagControl extends React.PureComponent<
   TagProps,
   TagState
 > {
-  input: React.RefObject<HTMLInputElement> = React.createRef();
+  input: React.RefObject<any> = React.createRef();
 
-  constructor(props: TagProps) {
-    super(props);
-
-    this.state = {
-      inputValue: '',
-      isFocused: false
-    };
-    this.focus = this.focus.bind(this);
-    this.clearValue = this.clearValue.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.getParent = this.getParent.bind(this);
-  }
-
-  static defaultProps: Partial<TagProps> = {
+  static defaultProps = {
     resetValue: '',
     labelField: 'label',
     valueField: 'value',
-    placeholder: '',
     multiple: true,
-    optionsTip: '最近您使用的标签'
+    placeholder: '暂无标签'
+  };
+
+  state = {
+    isOpened: false,
+    inputValue: '',
+    isFocused: false
   };
 
   componentWillReceiveProps(nextProps: TagProps) {
@@ -64,54 +60,6 @@ export default class TagControl extends React.PureComponent<
         inputValue: ''
       });
     }
-  }
-
-  focus() {
-    if (!this.input.current) {
-      return;
-    }
-
-    this.input.current.focus();
-
-    // 光标放到最后
-    const len = this.input.current.value.length;
-    len && this.input.current.setSelectionRange(len, len);
-  }
-
-  clearValue() {
-    const {onChange, resetValue} = this.props;
-
-    onChange(resetValue);
-    this.setState(
-      {
-        inputValue: resetValue
-      },
-      this.focus
-    );
-  }
-
-  removeItem(index: number) {
-    const {
-      selectedOptions,
-      onChange,
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField
-    } = this.props;
-
-    const newValue = selectedOptions.concat();
-    newValue.splice(index, 1);
-
-    onChange(
-      joinValues
-        ? newValue
-            .map(item => item[valueField || 'value'])
-            .join(delimiter || ',')
-        : extractValue
-        ? newValue.map(item => item[valueField || 'value'])
-        : newValue
-    );
   }
 
   addItem(option: Option) {
@@ -142,18 +90,17 @@ export default class TagControl extends React.PureComponent<
     );
   }
 
-  handleClick() {
-    this.focus();
-  }
-
+  @autobind
   handleFocus(e: any) {
     this.setState({
-      isFocused: true
+      isFocused: true,
+      isOpened: true
     });
 
     this.props.onFocus && this.props.onFocus(e);
   }
 
+  @autobind
   handleBlur(e: any) {
     const {
       selectedOptions,
@@ -169,6 +116,7 @@ export default class TagControl extends React.PureComponent<
     this.setState(
       {
         isFocused: false,
+        isOpened: false,
         inputValue: ''
       },
       value
@@ -195,14 +143,50 @@ export default class TagControl extends React.PureComponent<
     );
   }
 
-  handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    let value = evt.currentTarget.value;
-
+  @autobind
+  close() {
     this.setState({
-      inputValue: value
+      isOpened: false
     });
   }
 
+  @autobind
+  handleInputChange(e: React.ChangeEvent<any>) {
+    this.setState({
+      inputValue: e.currentTarget.value
+    });
+  }
+
+  @autobind
+  handleChange(value: Array<Option>) {
+    const {
+      joinValues,
+      extractValue,
+      delimiter,
+      valueField,
+      onChange
+    } = this.props;
+
+    let newValue: any = Array.isArray(value) ? value.concat() : [];
+
+    if (joinValues || extractValue) {
+      newValue = value.map(item => item[valueField || 'value']);
+    }
+
+    if (joinValues) {
+      newValue = newValue.join(delimiter || ',');
+    }
+
+    onChange(newValue);
+  }
+
+  @autobind
+  renderItem(item: Option) {
+    const {labelField} = this.props;
+    return item[labelField || 'label'];
+  }
+
+  @autobind
   handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
     const {
       selectedOptions,
@@ -230,6 +214,7 @@ export default class TagControl extends React.PureComponent<
       );
     } else if (value && (evt.key === 'Enter' || evt.key === delimiter)) {
       evt.preventDefault();
+      evt.stopPropagation();
       const newValue = selectedOptions.concat();
 
       if (!find(newValue, item => item.value == value)) {
@@ -255,8 +240,22 @@ export default class TagControl extends React.PureComponent<
     }
   }
 
+  @autobind
+  handleOptionChange(option: Option) {
+    if (this.state.inputValue || !option) {
+      return;
+    }
+    this.addItem(option);
+  }
+
+  @autobind
+  getTarget() {
+    return this.input.current;
+  }
+
+  @autobind
   getParent() {
-    return (findDOMNode(this) as HTMLElement).parentNode;
+    return this.input.current && findDOMNode(this.input.current)!.parentElement;
   }
 
   reload() {
@@ -271,87 +270,85 @@ export default class TagControl extends React.PureComponent<
       disabled,
       placeholder,
       name,
-      options,
-      optionsTip,
       clearable,
-      value,
-      loading,
-      spinnerClassName,
       selectedOptions,
-      labelField
+      loading,
+      popOverContainer,
+      options
     } = this.props;
 
+    const finnalOptions = Array.isArray(options)
+      ? filterTree(
+          options,
+          item =>
+            (Array.isArray(item.children) && !!item.children.length) ||
+            (item.value !== undefined && !~selectedOptions.indexOf(item)),
+          0,
+          true
+        )
+      : [];
+
     return (
-      <div
-        className={cx(className, `TagControl`, {
-          'is-focused': this.state.isFocused,
-          'is-disabled': disabled
-        })}
+      <Downshift
+        selectedItem={selectedOptions}
+        isOpen={this.state.isFocused}
+        inputValue={this.state.inputValue}
+        onChange={this.handleOptionChange}
+        itemToString={this.renderItem}
       >
-        <div onClick={this.handleClick} className={cx('TagControl-input')}>
-          <div className={cx('TagControl-valueWrap')}>
-            {placeholder &&
-            !selectedOptions.length &&
-            !this.state.inputValue ? (
-              <div className={cx('TagControl-placeholder')}>{placeholder}</div>
-            ) : null}
+        {({isOpen, highlightedIndex, getItemProps, getInputProps}) => {
+          return (
+            <div className={cx(className, `TagControl`)}>
+              <ResultBox
+                {...getInputProps({
+                  name,
+                  ref: this.input,
+                  placeholder: placeholder || '暂无标签',
+                  onChange: this.handleInputChange,
+                  value: this.state.inputValue,
+                  onKeyDown: this.handleKeyDown,
+                  onFocus: this.handleFocus,
+                  onBlur: this.handleBlur,
+                  disabled
+                })}
+                result={selectedOptions}
+                onResultChange={this.handleChange}
+                itemRender={this.renderItem}
+                clearable={clearable}
+                allowInput
+              >
+                {loading ? <Spinner size="sm" /> : undefined}
+              </ResultBox>
 
-            {selectedOptions.map((item, index) => (
-              <div className={cx('TagControl-value')} key={index}>
-                <span
-                  className={cx('TagControl-valueIcon')}
-                  onClick={this.removeItem.bind(this, index)}
+              <Overlay
+                container={popOverContainer || this.getParent}
+                target={this.getTarget}
+                placement={'auto'}
+                show={isOpen && !!finnalOptions.length}
+              >
+                <PopOver
+                  overlay
+                  className={cx('TagControl-popover')}
+                  onHide={this.close}
                 >
-                  ×
-                </span>
-                <span className={cx('TagControl-valueLabel')}>
-                  {item[labelField || 'label']}
-                </span>
-              </div>
-            ))}
-
-            <input
-              ref={this.input}
-              name={name}
-              value={this.state.inputValue}
-              onChange={this.handleInputChange}
-              onKeyDown={this.handleKeyDown}
-              onFocus={this.handleFocus}
-              onBlur={this.handleBlur}
-            />
-          </div>
-
-          {clearable && !disabled && value ? (
-            <a onClick={this.clearValue} className={cx('TagControl-clear')}>
-              <Icon icon="close" className="icon" />
-            </a>
-          ) : null}
-          {loading ? (
-            <i className={cx(`TagControl-spinner`, spinnerClassName)} />
-          ) : null}
-        </div>
-
-        {options.length ? (
-          <Portal container={this.getParent}>
-            <div className={cx('TagControl-sug')}>
-              {optionsTip ? (
-                <div className={cx('TagControl-sugTip')}>{optionsTip}</div>
-              ) : null}
-              {options.map((item, index) => (
-                <div
-                  className={cx('TagControl-sugItem', {
-                    'is-disabled': item.disabled || disabled
-                  })}
-                  key={index}
-                  onClick={this.addItem.bind(this, item)}
-                >
-                  {item.label}
-                </div>
-              ))}
+                  <ListMenu
+                    options={finnalOptions}
+                    itemRender={this.renderItem}
+                    highlightIndex={highlightedIndex}
+                    getItemProps={({item, index}) => ({
+                      ...getItemProps({
+                        index,
+                        item,
+                        disabled: item.disabled
+                      })
+                    })}
+                  />
+                </PopOver>
+              </Overlay>
             </div>
-          </Portal>
-        ) : null}
-      </div>
+          );
+        }}
+      </Downshift>
     );
   }
 }

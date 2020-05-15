@@ -490,6 +490,14 @@ $Card-actions-onChecked-onHover-bg: $white;
 // Combo
 $Combo--horizontal-dragger-top: px2rem(5px);
 
+// ListMenu
+$ListMenu-borderWidth: 0;
+$ListMenu-borderRadius: 0;
+$ListMenu-item-height: px2rem(30px);
+$ListMenu-item-color: #333;
+$ListMenu-item--onHover-color: #000;
+$ListMenu-item--onHover-bg: #eaf6fe;
+
 @import '../variables';
 @import '../mixins';
 @import '../base/reset';
@@ -541,6 +549,7 @@ $Combo--horizontal-dragger-top: px2rem(5px);
 @import '../components/images';
 @import '../components/input-box';
 @import '../components/result-box';
+@import '../components/list-menu';
 
 @import '../components/form/fieldset';
 @import '../components/form/group';
