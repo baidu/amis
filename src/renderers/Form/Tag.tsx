@@ -311,6 +311,7 @@ export default class TagControl extends React.PureComponent<
                   onBlur: this.handleBlur,
                   disabled
                 })}
+                className={cx('TagControl-input')}
                 result={selectedOptions}
                 onResultChange={this.handleChange}
                 itemRender={this.renderItem}
