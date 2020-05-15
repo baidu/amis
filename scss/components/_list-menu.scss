@@ -1,4 +1,5 @@
 .#{$ns}ListMenu {
+  background: $ListMenu-item-bg;
   min-width: px2rem(200px);
   border: $ListMenu-borderWidth solid $ListMenu-bordrColor;
   border-radius: $ListMenu-borderRadius;
@@ -19,7 +20,6 @@
   &-item {
     display: flex;
     min-height: $ListMenu-item-height;
-    background: $ListMenu-item-bg;
     color: $ListMenu-item-color;
     line-height: $Form-input-lineHeight;
     font-size: $Form-input-fontSize;
