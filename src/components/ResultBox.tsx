@@ -14,6 +14,7 @@ export interface ResultBoxProps
   onChange?: (value: Array<any>) => void;
 
   allowInput?: boolean;
+  inputPlaceholder: string;
   inputValue?: string;
   onInputChange?: (value: string) => void;
 }
@@ -21,10 +22,11 @@ export interface ResultBoxProps
 export class ResultBox extends React.Component<ResultBoxProps> {
   static defaultProps: Pick<
     ResultBoxProps,
-    'clearable' | 'placeholder' | 'itemRender'
+    'clearable' | 'placeholder' | 'itemRender' | 'inputPlaceholder'
   > = {
     clearable: false,
     placeholder: '暂无结果',
+    inputPlaceholder: '手动输入内容',
     itemRender: (option: any) => <span>{String(option.label)}</span>
   };
 
@@ -62,6 +64,18 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     });
   }
 
+  @autobind
+  removeItem(e: React.MouseEvent<HTMLElement>) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const {value, onChange} = this.props;
+    const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
+    const newValue = Array.isArray(value) ? value.concat() : [];
+    newValue.splice(index, 1);
+    onChange && onChange(newValue);
+  }
+
   render() {
     const {
       className,
@@ -78,6 +92,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       onInputChange,
       inputValue,
       allowInput,
+      inputPlaceholder,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -98,7 +113,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               <span className={cx('ResultBox-valueLabel')}>
                 {itemRender(item)}
               </span>
-              <a>
+              <a data-index={index} onClick={this.removeItem}>
                 <Icon icon="close" />
               </a>
             </div>
@@ -116,7 +131,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             onChange={this.handleInputChange}
             placeholder={
               Array.isArray(value) && value.length
-                ? '手动输入内容'
+                ? inputPlaceholder
                 : placeholder
             }
             onFocus={this.handleFocus}
