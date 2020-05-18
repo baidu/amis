@@ -122,7 +122,7 @@ export function expandValue(
     value &&
     value.hasOwnProperty(valueField || 'value')
   ) {
-    value = (value as Option)[valueField || 'value'] || '';
+    value = (value as Option)[valueField || 'value'] ?? '';
   }
 
   return findTree(
@@ -279,6 +279,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
     this.handleAddClick = this.handleAddClick.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
+
+    // console.log('props.value', props.value);
 
     this.state = {
       isOpen: props.defaultOpen || false,
@@ -547,6 +549,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     } = this.props;
 
     const selection = this.state.selection;
+    // console.log('selection', selection);
 
     if (!selection.length) {
       return (
