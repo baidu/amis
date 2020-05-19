@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, SchemaNode, ApiObject, RendererData} from '../types';
+import {Api, SchemaNode, ApiObject, RendererData, Action} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {Spinner} from '../components';
-import {autobind} from '../utils/helper';
+import {autobind, isVisible} from '../utils/helper';
 
 export interface ServiceProps extends RendererProps {
   api?: Api;
@@ -43,6 +43,7 @@ export default class Service extends React.Component<ServiceProps> {
     super(props);
 
     this.handleQuery = this.handleQuery.bind(this);
+    this.handleAction = this.handleAction.bind(this);
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
     this.initInterval = this.initInterval.bind(this);
@@ -182,6 +183,60 @@ export default class Service extends React.Component<ServiceProps> {
     this.receive(query);
   }
 
+  reloadTarget(target: string, data?: any) {
+    // 会被覆写
+  }
+
+  openFeedback(dialog: any, ctx: any) {
+    return new Promise(resolve => {
+      const {store} = this.props;
+      const parentStore = store.parentStore;
+
+      // 暂时自己不支持弹出 dialog
+      if (parentStore && parentStore.openDialog) {
+        store.setCurrentAction({
+          type: 'button',
+          actionType: 'dialog',
+          dialog: dialog
+        });
+        store.openDialog(ctx, undefined, confirmed => {
+          resolve(confirmed);
+        });
+      }
+    });
+  }
+
+  handleAction(
+    e: React.UIEvent<any> | void,
+    action: Action,
+    data: object,
+    throwErrors: boolean = false,
+    delegate?: IScopedContext
+  ) {
+    const {onAction, store, env} = this.props;
+
+    if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
+      store
+        .saveRemote(action.api as string, data, {
+          successMessage: action.messages && action.messages.success,
+          errorMessage: action.messages && action.messages.failed
+        })
+        .then(async () => {
+          if (action.feedback && isVisible(action.feedback, store.data)) {
+            await this.openFeedback(action.feedback, store.data);
+          }
+
+          action.redirect &&
+            env.jumpTo(filter(action.redirect, store.data), action);
+          action.reload && this.reloadTarget(action.reload, store.data);
+        })
+        .catch(() => {});
+    } else {
+      onAction(e, action, data, throwErrors, delegate || this.context);
+    }
+  }
+
   renderBody() {
     const {render, store, body: schema, classnames: cx} = this.props;
 
@@ -190,7 +245,8 @@ export default class Service extends React.Component<ServiceProps> {
         {
           render('body', store.schema || schema, {
             key: store.schemaKey || 'body',
-            onQuery: this.handleQuery
+            onQuery: this.handleQuery,
+            onAction: this.handleAction
           }) as JSX.Element
         }
       </div>
@@ -247,5 +303,10 @@ export class ServiceRenderer extends Service {
     super.componentWillUnmount();
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+  }
+
+  reloadTarget(target: string, data?: any) {
+    const scoped = this.context as IScopedContext;
+    scoped.reload(target, data);
   }
 }
