@@ -30,7 +30,7 @@ import findIndex from 'lodash/findIndex';
 import Html from '../components/Html';
 import {Spinner} from '../components';
 
-interface CRUDProps extends RendererProps {
+export interface CRUDProps extends RendererProps {
   api?: Api;
   filter?: Schema;
   store: ICRUDStore;
