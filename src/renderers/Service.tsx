@@ -213,9 +213,9 @@ export default class Service extends React.Component<ServiceProps> {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {onAction, store, env} = this.props;
+    const {onAction, store, env, api} = this.props;
 
-    if (action.actionType === 'ajax') {
+    if (api && action.actionType === 'ajax') {
       store.setCurrentAction(action);
       store
         .saveRemote(action.api as string, data, {
