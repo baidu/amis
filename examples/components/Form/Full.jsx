@@ -65,6 +65,7 @@ export default {
           label: '标签',
           placeholder: '',
           clearable: true,
+          inline: true,
           options: [
             {
               label: '诸葛亮',
