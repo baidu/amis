@@ -171,7 +171,7 @@ export const filters: {
       return 0;
     }
 
-    decimals = parseInt(decimals, 10) || 2;
+    decimals = parseInt(decimals, 10) ?? 2;
 
     let multiplier = Math.pow(10, decimals);
     return (Math.round(input * multiplier) / multiplier).toFixed(decimals);
