@@ -99,7 +99,8 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
   }
 
   @autobind
-  handleSearch(text: string) {
+  handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+    const text = e.currentTarget.value;
     this.setState(
       {
         inputValue: text
