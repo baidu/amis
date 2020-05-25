@@ -308,13 +308,13 @@ export default class ImageControl extends React.Component<
       name: file.name
     }));
 
-    this.setState({
-      files: this.files = multiple
-        ? this.files.concat(files)
-        : this.files.length
-        ? this.files
-        : files.slice(0, 1)
-    });
+    // this.setState({
+    //   files: this.files = multiple
+    //     ? this.files.concat(files)
+    //     : this.files.length
+    //     ? this.files
+    //     : files.slice(0, 1)
+    // });
 
     env.alert(
       `您添加的文件${files.map(
