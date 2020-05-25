@@ -1,13 +1,7 @@
 import React from 'react';
 import {OptionsControl, OptionsControlProps, Option} from './Options';
-import cx from 'classnames';
-import {Action} from '../../types';
 import Downshift from 'downshift';
-import matchSorter from 'match-sorter';
-import debouce from 'lodash/debounce';
 import find from 'lodash/find';
-import {Icon} from '../../components/icons';
-import {Portal} from 'react-overlays';
 import {findDOMNode} from 'react-dom';
 import ResultBox from '../../components/ResultBox';
 import {autobind, filterTree} from '../../utils/helper';
@@ -15,7 +9,6 @@ import Spinner from '../../components/Spinner';
 import Overlay from '../../components/Overlay';
 import PopOver from '../../components/PopOver';
 import ListMenu from '../../components/ListMenu';
-import {Options} from '../../components/Select';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
 
@@ -24,6 +17,7 @@ export interface TagProps extends OptionsControlProps {
   clearable: boolean;
   resetValue?: any;
   optionsTip: string;
+  dropdown?: boolean;
 }
 
 export interface TagState {
@@ -43,7 +37,8 @@ export default class TagControl extends React.PureComponent<
     labelField: 'label',
     valueField: 'value',
     multiple: true,
-    placeholder: '暂无标签'
+    placeholder: '暂无标签',
+    optionsTip: '最近您使用的标签'
   };
 
   state = {
@@ -97,7 +92,7 @@ export default class TagControl extends React.PureComponent<
       isOpened: true
     });
 
-    this.props.onFocus && this.props.onFocus(e);
+    this.props.onFocus?.(e);
   }
 
   @autobind
@@ -112,7 +107,7 @@ export default class TagControl extends React.PureComponent<
     } = this.props;
 
     const value = this.state.inputValue.trim();
-    this.props.onBlur && this.props.onBlur(e);
+    this.props.onBlur?.(e);
     this.setState(
       {
         isFocused: false,
@@ -260,7 +255,7 @@ export default class TagControl extends React.PureComponent<
 
   reload() {
     const reload = this.props.reloadOptions;
-    reload && reload();
+    reload?.();
   }
 
   render() {
@@ -274,7 +269,9 @@ export default class TagControl extends React.PureComponent<
       selectedOptions,
       loading,
       popOverContainer,
-      options
+      dropdown,
+      options,
+      optionsTip
     } = this.props;
 
     const finnalOptions = Array.isArray(options)
@@ -321,31 +318,51 @@ export default class TagControl extends React.PureComponent<
                 {loading ? <Spinner size="sm" /> : undefined}
               </ResultBox>
 
-              <Overlay
-                container={popOverContainer || this.getParent}
-                target={this.getTarget}
-                placement={'auto'}
-                show={isOpen && !!finnalOptions.length}
-              >
-                <PopOver
-                  overlay
-                  className={cx('TagControl-popover')}
-                  onHide={this.close}
+              {dropdown !== false ? (
+                <Overlay
+                  container={popOverContainer || this.getParent}
+                  target={this.getTarget}
+                  placement={'auto'}
+                  show={isOpen && !!finnalOptions.length}
                 >
-                  <ListMenu
-                    options={finnalOptions}
-                    itemRender={this.renderItem}
-                    highlightIndex={highlightedIndex}
-                    getItemProps={({item, index}) => ({
-                      ...getItemProps({
-                        index,
-                        item,
-                        disabled: item.disabled
-                      })
-                    })}
-                  />
-                </PopOver>
-              </Overlay>
+                  <PopOver
+                    overlay
+                    className={cx('TagControl-popover')}
+                    onHide={this.close}
+                  >
+                    <ListMenu
+                      options={finnalOptions}
+                      itemRender={this.renderItem}
+                      highlightIndex={highlightedIndex}
+                      getItemProps={({item, index}) => ({
+                        ...getItemProps({
+                          index,
+                          item,
+                          disabled: item.disabled
+                        })
+                      })}
+                    />
+                  </PopOver>
+                </Overlay>
+              ) : (
+                // 保留原来的展现方式，不推荐
+                <div className={cx('TagControl-sug')}>
+                  {optionsTip ? (
+                    <div className={cx('TagControl-sugTip')}>{optionsTip}</div>
+                  ) : null}
+                  {options.map((item, index) => (
+                    <div
+                      className={cx('TagControl-sugItem', {
+                        'is-disabled': item.disabled || disabled
+                      })}
+                      key={index}
+                      onClick={this.addItem.bind(this, item)}
+                    >
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           );
         }}

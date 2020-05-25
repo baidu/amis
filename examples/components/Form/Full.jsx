@@ -65,7 +65,9 @@ export default {
           label: '标签',
           placeholder: '',
           clearable: true,
-          inline: true,
+          // dropdown: false, 保留原来的展现方式。
+          // size: 'md',
+          // inline: true,
           options: [
             {
               label: '诸葛亮',
