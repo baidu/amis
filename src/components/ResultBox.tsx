@@ -8,7 +8,9 @@ import {autobind} from '../utils/helper';
 
 export interface ResultBoxProps
   extends ThemeProps,
-    Omit<InputBoxProps, 'result' | 'prefix'> {
+    Omit<InputBoxProps, 'result' | 'prefix' | 'onChange'> {
+  onChange?: (value: string) => void;
+  onResultClick?: (e: React.MouseEvent<HTMLElement>) => void;
   result?: Array<any>;
   itemRender: (value: any) => JSX.Element;
   onResultChange?: (value: Array<any>) => void;
@@ -67,6 +69,12 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     onResultChange && onResultChange(newResult);
   }
 
+  @autobind
+  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const {onChange} = this.props;
+    onChange?.(e.currentTarget.value);
+  }
+
   render() {
     const {
       className,
@@ -84,6 +92,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       inputPlaceholder,
       onResultChange,
       onChange,
+      onResultClick,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -97,6 +106,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           disabled ? 'is-disabled' : '',
           hasError ? 'is-error' : ''
         )}
+        onClick={onResultClick}
       >
         {Array.isArray(result) && result.length ? (
           result.map((item, index) => (
@@ -119,7 +129,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           <Input
             {...rest}
             value={value || ''}
-            onChange={onChange}
+            onChange={this.handleChange}
             placeholder={
               Array.isArray(result) && result.length
                 ? inputPlaceholder

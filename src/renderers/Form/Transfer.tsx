@@ -6,7 +6,8 @@ import {
   autobind,
   filterTree,
   string2regExp,
-  createObject
+  createObject,
+  findTree
 } from '../../utils/helper';
 import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
@@ -22,10 +23,9 @@ export interface TransferProps extends OptionsControlProps {
   searchApi?: Api;
 }
 
-@OptionsControl({
-  type: 'transfer'
-})
-export class TransferRenderer extends React.Component<TransferProps> {
+export class TransferRenderer<
+  T extends OptionsControlProps = TransferProps
+> extends React.Component<T> {
   @autobind
   handleChange(value: Array<Option>) {
     const {
@@ -43,11 +43,11 @@ export class TransferRenderer extends React.Component<TransferProps> {
     if (Array.isArray(value)) {
       if (joinValues || extractValue) {
         newValue = value.map(item => {
-          const resolved = find(
+          const resolved = findTree(
             options,
             optionValueCompare(
-              item[valueField || 'value'],
-              valueField || 'value'
+              item[(valueField as string) || 'value'],
+              (valueField as string) || 'value'
             )
           );
 
@@ -55,7 +55,7 @@ export class TransferRenderer extends React.Component<TransferProps> {
             newOptions.push(item);
           }
 
-          return item[valueField || 'value'];
+          return item[(valueField as string) || 'value'];
         });
       }
 
@@ -124,8 +124,8 @@ export class TransferRenderer extends React.Component<TransferProps> {
         (option: Option) => {
           return !!(
             (Array.isArray(option.children) && option.children.length) ||
-            regexp.test(option[labelField || 'label']) ||
-            regexp.test(option[valueField || 'value'])
+            regexp.test(option[(labelField as string) || 'label']) ||
+            regexp.test(option[(valueField as string) || 'value'])
           );
         },
         0,
@@ -169,3 +169,7 @@ export class TransferRenderer extends React.Component<TransferProps> {
     );
   }
 }
+
+export default OptionsControl({
+  type: 'transfer'
+})(TransferRenderer);

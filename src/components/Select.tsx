@@ -40,6 +40,7 @@ export interface OptionProps {
   multi?: boolean;
   multiple?: boolean;
   valueField?: string;
+  labelField?: string;
   simpleValue?: boolean; // 默认onChange 出去是整个 option 节点，如果配置了 simpleValue 就只包含值。
   options: Options;
   joinValues?: boolean;

@@ -6,9 +6,9 @@ import {Icon} from './icons';
 
 export interface InputBoxProps
   extends ThemeProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'prefix'> {
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'prefix' | 'onChange'> {
   value?: string;
-  onValueChange?: (value: string) => void;
+  onChange?: (value: string) => void;
   onClear?: (e: React.MouseEvent<any>) => void;
   clearable?: boolean;
   disabled?: boolean;
@@ -35,17 +35,15 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
   @autobind
   clearValue(e: any) {
     const onClear = this.props.onChange;
-    const onValueChange = this.props.onValueChange;
-    onClear && onClear(e);
-    onValueChange && onValueChange('');
+    const onChange = this.props.onChange;
+    onClear?.(e);
+    onChange?.('');
   }
 
   @autobind
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const onChange = this.props.onChange;
-    const onValueChange = this.props.onValueChange;
-    onChange && onChange(e);
-    onValueChange && onValueChange(e.currentTarget.value);
+    onChange && onChange(e.currentTarget.value);
   }
 
   @autobind

@@ -7,7 +7,7 @@
 import React from 'react';
 import {Schema} from '../types';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
-import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import {themeable, ThemeProps} from '../theme';
 import uncontrollable from 'uncontrollable';
 
 const transitionStyles: {
@@ -31,6 +31,54 @@ export interface TabProps extends ThemeProps {
   toolbar?: React.ReactNode;
 }
 
+class TabComponent extends React.PureComponent<TabProps> {
+  contentDom: any;
+  contentRef = (ref: any) => (this.contentDom = ref);
+
+  render() {
+    const {
+      classnames: cx,
+      mountOnEnter,
+      reload,
+      unmountOnExit,
+      eventKey,
+      activeKey,
+      children,
+      className
+    } = this.props;
+
+    return (
+      <Transition
+        in={activeKey === eventKey}
+        mountOnEnter={mountOnEnter}
+        unmountOnExit={typeof reload === 'boolean' ? reload : unmountOnExit}
+        timeout={500}
+      >
+        {(status: string) => {
+          if (status === ENTERING) {
+            this.contentDom.offsetWidth;
+          }
+          return (
+            <div
+              ref={this.contentRef}
+              className={cx(
+                transitionStyles[status],
+                activeKey === eventKey ? 'is-active' : '',
+                'Tabs-pane',
+                className
+              )}
+            >
+              {children}
+            </div>
+          );
+        }}
+      </Transition>
+    );
+  }
+}
+
+export const Tab = themeable(TabComponent);
+
 export interface TabsProps extends ThemeProps {
   mode: '' | 'line' | 'card' | 'radio' | 'vertical';
   tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
@@ -49,6 +97,8 @@ export class Tabs extends React.Component<TabsProps> {
     mode: '',
     contentClassName: ''
   };
+
+  static Tab = Tab;
 
   handleSelect(key: string | number) {
     const {onSelect} = this.props;
@@ -110,8 +160,7 @@ export class Tabs extends React.Component<TabsProps> {
       tabsMode,
       children,
       additionBtns,
-      toolbar,
-      activeKey: activeKeyProps
+      toolbar
     } = this.props;
 
     if (!Array.isArray(children)) {
@@ -146,56 +195,12 @@ export class Tabs extends React.Component<TabsProps> {
   }
 }
 
-class TabComponent extends React.PureComponent<TabProps> {
-  contentDom: any;
-  contentRef = (ref: any) => (this.contentDom = ref);
-
-  render() {
-    const {
-      classnames: cx,
-      mountOnEnter,
-      reload,
-      unmountOnExit,
-      eventKey,
-      activeKey,
-      children,
-      className
-    } = this.props;
-
-    return (
-      <Transition
-        in={activeKey === eventKey}
-        mountOnEnter={mountOnEnter}
-        unmountOnExit={typeof reload === 'boolean' ? reload : unmountOnExit}
-        timeout={500}
-      >
-        {(status: string) => {
-          if (status === ENTERING) {
-            this.contentDom.offsetWidth;
-          }
-          return (
-            <div
-              ref={this.contentRef}
-              className={cx(
-                transitionStyles[status],
-                activeKey === eventKey ? 'is-active' : '',
-                'Tabs-pane',
-                className
-              )}
-            >
-              {children}
-            </div>
-          );
-        }}
-      </Transition>
-    );
-  }
-}
-
-export const Tab = themeable(TabComponent);
-
-export default themeable(
+const ThemedTabs = themeable(
   uncontrollable(Tabs, {
     activeKey: 'onSelect'
   })
 );
+
+export default ThemedTabs as typeof ThemedTabs & {
+  Tab: typeof Tab;
+};

@@ -127,8 +127,9 @@ export function themeable<
   };
 
   class EnhancedComponent extends React.Component<Props> {
-    static displayName = `Themeable(${ComposedComponent.displayName ||
-      ComposedComponent.name})`;
+    static displayName = `Themeable(${
+      ComposedComponent.displayName || ComposedComponent.name
+    })`;
     static contextType = ThemeContext;
     static ComposedComponent = ComposedComponent;
 
@@ -147,7 +148,7 @@ export function themeable<
         <ThemeContext.Provider value={theme}>
           <ComposedComponent
             {
-              ...this.props as any /* todo, 解决这个类型问题 */
+              ...(this.props as any) /* todo, 解决这个类型问题 */
             }
             {...injectedProps}
           />
@@ -156,10 +157,9 @@ export function themeable<
     }
   }
 
-  return hoistNonReactStatic(
-    EnhancedComponent,
-    ComposedComponent
-  ) as React.ComponentClass<Props> & {
+  const result = hoistNonReactStatic(EnhancedComponent, ComposedComponent);
+
+  return result as typeof result & {
     ComposedComponent: T;
   };
 }
