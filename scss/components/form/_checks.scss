@@ -313,6 +313,10 @@
 }
 
 .#{$ns}ListCheckboxes {
+  &-group:not(:first-child) > &-itemLabel {
+    border-top: px2rem(1px) solid $ListMenu-divider-color;
+  }
+
   &-group > &-itemLabel {
     font-size: $fontSizeSm;
     padding: $gap-xs $gap-xs;
@@ -417,9 +421,14 @@
 
   &-item {
     position: relative;
+
     &.is-collapsed > .#{$ns}TreeCheckboxes-sublist {
       display: none;
     }
+  }
+
+  &-item:not(:last-child) > &-sublist:before {
+    bottom: 0;
   }
 
   &-sublist &-item:before {
@@ -449,6 +458,10 @@
     cursor: pointer;
     user-select: none;
 
+    &:hover {
+      background-color: $Tree-item-onHover-bg;
+    }
+
     &.is-disabled {
       pointer-events: none;
       color: $text--muted-color;
@@ -457,5 +470,15 @@
 
   &-itemLabel {
     flex-grow: 1;
+  }
+
+  &-placeholder {
+    height: $Form-input-height;
+    line-height: $Form-input-lineHeight;
+    font-size: $Form-input-fontSize;
+    padding: (
+        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
+      )/2 $gap-sm;
+    color: $text--muted-color;
   }
 }

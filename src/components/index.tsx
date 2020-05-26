@@ -43,6 +43,8 @@ import Transfer from './Transfer';
 import ListCheckboxes from './ListCheckboxes';
 import TableCheckboxes from './TableCheckboxes';
 import TreeCheckboxes from './TreeCheckboxes';
+import ResultBox from './ResultBox';
+import InputBox from './InputBox';
 
 export {
   NotFound,
@@ -88,5 +90,7 @@ export {
   Transfer,
   ListCheckboxes,
   TableCheckboxes,
-  TreeCheckboxes
+  TreeCheckboxes,
+  ResultBox,
+  InputBox
 };

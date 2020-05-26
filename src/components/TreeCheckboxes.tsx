@@ -200,7 +200,11 @@ export class TreeCheckboxes extends Checkboxes<
 
     return (
       <div className={cx('TreeCheckboxes', className)}>
-        {body && body.length ? body : <div>{placeholder}</div>}
+        {body && body.length ? (
+          body
+        ) : (
+          <div className={cx('TreeCheckboxes-placeholder')}>{placeholder}</div>
+        )}
       </div>
     );
   }

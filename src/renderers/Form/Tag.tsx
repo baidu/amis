@@ -146,9 +146,9 @@ export default class TagControl extends React.PureComponent<
   }
 
   @autobind
-  handleInputChange(e: React.ChangeEvent<any>) {
+  handleInputChange(text: string) {
     this.setState({
-      inputValue: e.currentTarget.value
+      inputValue: text
     });
   }
 
@@ -301,13 +301,13 @@ export default class TagControl extends React.PureComponent<
                   name,
                   ref: this.input,
                   placeholder: placeholder || '暂无标签',
-                  onChange: this.handleInputChange,
                   value: this.state.inputValue,
                   onKeyDown: this.handleKeyDown,
                   onFocus: this.handleFocus,
                   onBlur: this.handleBlur,
                   disabled
                 })}
+                onChange={this.handleInputChange}
                 className={cx('TagControl-input')}
                 result={selectedOptions}
                 onResultChange={this.handleChange}

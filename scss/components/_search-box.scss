@@ -1,0 +1,58 @@
+.#{$ns}SearchBox {
+  display: inline-flex;
+  flex-direction: row;
+
+  line-height: $Form-input-lineHeight;
+  font-size: $Form-input-fontSize;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+
+  height: 30px;
+  width: 30px;
+  padding: 0 8px;
+
+  transition: all 0.3s ease-in-out;
+  border: $Form-input-borderWidth solid transparent;
+  border-radius: $Form-input-borderRadius;
+
+  &:hover {
+    background-color: rgba($Form-input-bg, 0.6);
+  }
+
+  &.is-active {
+    background-color: $Form-input-bg;
+    border: $Form-input-borderWidth solid $Form-input-borderColor;
+    width: 150px;
+    > input {
+      flex-grow: 1;
+    }
+  }
+
+  &-activeBtn,
+  &-cancelBtn {
+    cursor: pointer;
+    color: $icon-color;
+
+    &:hover {
+      color: $icon-onHover-color;
+    }
+  }
+
+  > input {
+    outline: none;
+    border: none;
+    background: transparent;
+    color: $Form-input-color;
+
+    width: 0;
+    height: $Form-input-lineHeight * $Form-input-fontSize;
+
+    &::placeholder {
+      color: $Form-input-placeholderColor;
+      user-select: none;
+    }
+  }
+
+  height: 30px;
+}

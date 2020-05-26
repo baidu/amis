@@ -11,12 +11,14 @@ import {autobind, flattenTree} from '../utils/helper';
 import InputBox from './InputBox';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
+import NestedCheckboxes from './NestedCheckboxes';
 
 export interface TransferPorps extends ThemeProps, CheckboxesProps {
   inline?: boolean;
+  statistics?: boolean;
 
   selectTitle: string;
-  selectMode?: 'table' | 'list' | 'tree';
+  selectMode?: 'table' | 'list' | 'tree' | 'nested';
   columns?: Array<{
     name: string;
     label: string;
@@ -24,7 +26,7 @@ export interface TransferPorps extends ThemeProps, CheckboxesProps {
   }>;
 
   // search 相关
-  searchResultMode?: 'table' | 'list' | 'tree';
+  searchResultMode?: 'table' | 'list' | 'tree' | 'nested';
   searchResultColumns?: Array<{
     name: string;
     label: string;
@@ -38,7 +40,13 @@ export interface TransferPorps extends ThemeProps, CheckboxesProps {
   ) => Promise<Options | void>;
 
   // 自定义选择框相关
-  selectRender?: (props: TransferPorps) => JSX.Element;
+  selectRender?: (
+    props: Omit<TransferPorps, 'onSearch'> & {
+      onSearch: (text: string) => void;
+      onSearchCancel: () => void;
+      searchResult: Options | null;
+    }
+  ) => JSX.Element;
 
   resultTitle: string;
   sortable?: boolean;
@@ -99,8 +107,7 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
   }
 
   @autobind
-  handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    const text = e.currentTarget.value;
+  handleSearch(text: string) {
     this.setState(
       {
         inputValue: text
@@ -158,11 +165,17 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
       selectTitle,
       onSearch,
       disabled,
-      options
+      options,
+      statistics
     } = this.props;
 
     if (selectRender) {
-      return selectRender(this.props);
+      return selectRender({
+        ...this.props,
+        onSearch: this.handleSearch,
+        onSearchCancel: this.handleSeachCancel,
+        searchResult: this.state.searchResult
+      });
     }
 
     return (
@@ -174,8 +187,12 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
           )}
         >
           <span>
-            {selectTitle}（{this.valueArray.length}/
-            {this.availableOptions.length}）
+            {selectTitle}
+            {statistics !== false ? (
+              <span>
+                （{this.valueArray.length}/{this.availableOptions.length}）
+              </span>
+            ) : null}
           </span>
           {selectMode !== 'table' ? (
             <a
@@ -249,6 +266,15 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
         onChange={onChange}
         option2value={option2value}
       />
+    ) : mode === 'nested' ? (
+      <NestedCheckboxes
+        placeholder={noResultsText}
+        className={cx('Transfer-checkboxes')}
+        options={options}
+        value={value}
+        onChange={onChange}
+        option2value={option2value}
+      />
     ) : (
       <ListCheckboxes
         placeholder={noResultsText}
@@ -276,7 +302,7 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
       <TableCheckboxes
         className={cx('Transfer-checkboxes')}
         columns={columns!}
-        options={options}
+        options={options || []}
         value={value}
         onChange={onChange}
         option2value={option2value}
@@ -284,7 +310,15 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
     ) : selectMode === 'tree' ? (
       <TreeCheckboxes
         className={cx('Transfer-checkboxes')}
-        options={options}
+        options={options || []}
+        value={value}
+        onChange={onChange}
+        option2value={option2value}
+      />
+    ) : selectMode === 'nested' ? (
+      <NestedCheckboxes
+        className={cx('Transfer-checkboxes')}
+        options={options || []}
         value={value}
         onChange={onChange}
         option2value={option2value}
@@ -292,7 +326,7 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
     ) : (
       <ListCheckboxes
         className={cx('Transfer-checkboxes')}
-        options={options}
+        options={options || []}
         value={value}
         onChange={onChange}
         option2value={option2value}
@@ -311,7 +345,8 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
       sortable,
       options,
       option2value,
-      disabled
+      disabled,
+      statistics
     } = this.props;
 
     this.valueArray = Checkboxes.value2array(value, options, option2value);
@@ -328,8 +363,12 @@ export class Transfer extends React.Component<TransferPorps, TransferState> {
         <div className={cx('Transfer-result')}>
           <div className={cx('Transfer-title')}>
             <span>
-              {resultTitle}（{this.valueArray.length}/
-              {this.availableOptions.length}）
+              {resultTitle}
+              {statistics !== false ? (
+                <span>
+                  （{this.valueArray.length}/{this.availableOptions.length}）
+                </span>
+              ) : null}
             </span>
             <a
               onClick={this.clearAll}

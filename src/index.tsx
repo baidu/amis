@@ -94,6 +94,7 @@ import './renderers/Form/IconPicker';
 import './renderers/Form/Formula';
 import './renderers/Form/FieldSet';
 import './renderers/Form/Tabs';
+import './renderers/Form/TabsTransfer';
 import './renderers/Form/Group';
 import './renderers/Form/InputGroup';
 import './renderers/Grid';
