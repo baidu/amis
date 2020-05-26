@@ -7,7 +7,8 @@
 import React from 'react';
 import {Schema} from '../types';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import uncontrollable from 'uncontrollable';
 
 const transitionStyles: {
   [propName: string]: string;
@@ -16,14 +17,13 @@ const transitionStyles: {
   [ENTERED]: 'in'
 };
 
-export interface TabProps {
+export interface TabProps extends ThemeProps {
   title?: string; // 标题
   icon?: string;
   disabled?: boolean | string;
   eventKey: string | number;
   tab?: Schema;
   className?: string;
-  classnames?: ClassNamesFn;
   activeKey?: string | number;
   reload?: boolean;
   mountOnEnter?: boolean;
@@ -31,14 +31,12 @@ export interface TabProps {
   toolbar?: React.ReactNode;
 }
 
-export interface TabsProps {
-  mode?: '' | 'line' | 'card' | 'radio' | 'vertical';
+export interface TabsProps extends ThemeProps {
+  mode: '' | 'line' | 'card' | 'radio' | 'vertical';
   tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
   additionBtns?: React.ReactNode;
   onSelect?: (key: string | number) => void;
-  classPrefix: string;
-  classnames: ClassNamesFn;
-  activeKey: string | number;
+  activeKey?: string | number;
   contentClassName: string;
   className?: string;
   tabs?: Array<TabProps>;
@@ -62,8 +60,10 @@ export class Tabs extends React.Component<TabsProps> {
       return;
     }
 
-    const {classnames: cx, activeKey} = this.props;
+    const {classnames: cx, activeKey: activeKeyProp} = this.props;
     const {eventKey, disabled, icon, title, toolbar} = child.props;
+    const activeKey =
+      activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
 
     return (
       <li
@@ -88,7 +88,10 @@ export class Tabs extends React.Component<TabsProps> {
       return;
     }
 
-    const {activeKey, classnames} = this.props;
+    const {activeKey: activeKeyProp, classnames} = this.props;
+    const eventKey = child.props.eventKey;
+    const activeKey =
+      activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
 
     return React.cloneElement(child, {
       ...child.props,
@@ -108,6 +111,7 @@ export class Tabs extends React.Component<TabsProps> {
       children,
       additionBtns,
       toolbar,
+      activeKey: activeKeyProps
     } = this.props;
 
     if (!Array.isArray(children)) {
@@ -142,7 +146,7 @@ export class Tabs extends React.Component<TabsProps> {
   }
 }
 
-export class Tab extends React.PureComponent<TabProps> {
+class TabComponent extends React.PureComponent<TabProps> {
   contentDom: any;
   contentRef = (ref: any) => (this.contentDom = ref);
 
@@ -172,15 +176,12 @@ export class Tab extends React.PureComponent<TabProps> {
           return (
             <div
               ref={this.contentRef}
-              className={
-                cx &&
-                cx(
-                  transitionStyles[status],
-                  activeKey === eventKey ? 'is-active' : '',
-                  'Tabs-pane',
-                  className
-                )
-              }
+              className={cx(
+                transitionStyles[status],
+                activeKey === eventKey ? 'is-active' : '',
+                'Tabs-pane',
+                className
+              )}
             >
               {children}
             </div>
@@ -191,4 +192,10 @@ export class Tab extends React.PureComponent<TabProps> {
   }
 }
 
-export default themeable(Tabs);
+export const Tab = themeable(TabComponent);
+
+export default themeable(
+  uncontrollable(Tabs, {
+    activeKey: 'onSelect'
+  })
+);
