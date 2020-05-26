@@ -116,11 +116,14 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
       (e.button === 1 && window.event !== null) || e.button === 0;
 
     this.isRootClosed = !!(
-      isLeftButton &&
-      closeOnOutside &&
-      target &&
-      this.modalDom &&
-      !this.modalDom.contains(target)
+      (
+        isLeftButton &&
+        closeOnOutside &&
+        target &&
+        this.modalDom &&
+        !this.modalDom.contains(target) &&
+        !target.closest('[role=dialog]')
+      ) // 干脆过滤掉来自弹框里面的点击
     );
   }
 
