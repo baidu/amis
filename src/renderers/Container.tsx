@@ -24,10 +24,10 @@ export default class Container<T> extends React.Component<
       <div className={cx('Container-body', bodyClassName)}>
         {children
           ? typeof children === 'function'
-            ? (children(this.props) as JSX.Element)
+            ? ((children as any)(this.props) as JSX.Element)
             : (children as JSX.Element)
           : body
-          ? (render('body', body) as JSX.Element)
+          ? (render('body', body as any) as JSX.Element)
           : null}
       </div>
     );

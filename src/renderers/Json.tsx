@@ -84,7 +84,7 @@ const eighties = {
   }
 };
 
-const themes = {
+const themes: any = {
   twilight,
   eighties
 };

@@ -5,12 +5,14 @@
 /* eslint fecs-indent: [0, "space", 2, 2] */
 
 import React from 'react';
+
 import {
   Player,
   Shortcut,
   BigPlayButton,
   ControlBar,
   PlaybackRateMenuButton
+  // @ts-ignore
 } from 'video-react';
 import {padArr} from '../utils/helper';
 import cx from 'classnames';
@@ -315,10 +317,9 @@ export default class Video extends React.Component<VideoProps, VideoState> {
       const rect = item.getBoundingClientRect();
       this.cursorDom.setAttribute(
         'style',
-        `width: ${rect.width - 4}px; height: ${rect.height -
-          4}px; left: ${rect.left + 2 - frameRect.left}px; top: ${rect.top +
-          2 -
-          frameRect.top}px;`
+        `width: ${rect.width - 4}px; height: ${rect.height - 4}px; left: ${
+          rect.left + 2 - frameRect.left
+        }px; top: ${rect.top + 2 - frameRect.top}px;`
       );
     }
   }
@@ -405,14 +406,16 @@ export default class Video extends React.Component<VideoProps, VideoState> {
                   </div>
                 ))}
 
-                {/* 补充空白 */ restCount
-                  ? blankArray.map((_, index) => (
-                      <div
-                        className={`${ns}Hbox-col Wrapper--xxs`}
-                        key={`blank_${index}`}
-                      />
-                    ))
-                  : null}
+                {
+                  /* 补充空白 */ restCount
+                    ? blankArray.map((_, index) => (
+                        <div
+                          className={`${ns}Hbox-col Wrapper--xxs`}
+                          key={`blank_${index}`}
+                        />
+                      ))
+                    : null
+                }
               </div>
             </div>
           );

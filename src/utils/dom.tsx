@@ -70,7 +70,7 @@ function getContainerDimensions(containerNode: any) {
       getScrollTop(ownerDocument(containerNode).documentElement) ||
       getScrollTop(containerNode);
   } else {
-    ({width, height} = getOffset(containerNode));
+    ({width, height} = getOffset(containerNode) as any);
     scroll = getScrollTop(containerNode);
   }
 
@@ -144,11 +144,13 @@ export function calculatePosition(
   container: any,
   padding: any = 0
 ) {
-  const childOffset =
+  const childOffset: any =
     container.tagName === 'BODY'
       ? getOffset(target)
       : getPosition(target, container);
-  const {height: overlayHeight, width: overlayWidth} = getOffset(overlayNode);
+  const {height: overlayHeight, width: overlayWidth} = getOffset(
+    overlayNode
+  ) as any;
 
   const clip = container.getBoundingClientRect();
   const clip2 = overlayNode.getBoundingClientRect();

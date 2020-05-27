@@ -37,7 +37,7 @@ export default class ArrayControl extends React.Component<ArrayProps> {
 
     return (
       <Combo
-        {...rest}
+        {...(rest as any)}
         controls={[items]}
         flat
         multiple

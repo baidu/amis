@@ -21,7 +21,7 @@ BasePosition.propTypes.placement = () => null;
 class Position extends BasePosition {
   props: any;
   _lastTarget: any;
-  setState: Function;
+  setState: (state: any) => void;
 
   updatePosition(target: any) {
     this._lastTarget = target;

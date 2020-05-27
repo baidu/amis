@@ -144,6 +144,7 @@ export const ServiceStore = iRendererStore
         markFetching(false);
         e.stack && console.error(e.stack);
         root.notify('error', e.message || e);
+        return;
       }
     });
 
@@ -234,6 +235,7 @@ export const ServiceStore = iRendererStore
         markFetching(false);
         e.stack && console.error(e.stack);
         root.notify('error', e.message || e);
+        return;
       }
     });
 

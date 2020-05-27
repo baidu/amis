@@ -132,8 +132,6 @@ export class TreeSelector extends React.Component<
 
     this.setState({
       value: value2array(props.value, {
-        joinValues: props.joinValues,
-        extractValue: props.extractValue,
         multiple: props.multiple,
         delimiter: props.delimiter,
         valueField: props.valueField,
@@ -157,8 +155,6 @@ export class TreeSelector extends React.Component<
       this.props.options !== nextProps.options
     ) {
       toUpdate.value = value2array(nextProps.value, {
-        joinValues: nextProps.joinValues,
-        extractValue: nextProps.extractValue,
         multiple: nextProps.multiple,
         delimiter: nextProps.delimiter,
         valueField: nextProps.valueField,
@@ -597,8 +593,10 @@ export class TreeSelector extends React.Component<
                 {showIcon ? (
                   <i
                     className={cx(
-                      `Tree-itemIcon ${item[iconField] ||
-                        (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')}`
+                      `Tree-itemIcon ${
+                        item[iconField] ||
+                        (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')
+                      }`
                     )}
                   />
                 ) : null}

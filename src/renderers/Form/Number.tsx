@@ -1,6 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
+// @ts-ignore
 import InputNumber from 'rc-input-number';
 import {filter} from '../../utils/tpl';
 

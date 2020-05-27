@@ -11,10 +11,11 @@ import {
 import cx from 'classnames';
 import getExprProperties from '../../utils/filter-schema';
 import {FormItem, FormControlProps} from './Item';
+import {IFormStore} from '../../store/form';
 
 export interface InputGroupProps extends FormControlProps {
   controls: Array<any>;
-  size?: 'xs' | 'sm' | 'normal';
+  formStore: IFormStore;
 }
 
 interface InputGroupState {
@@ -115,7 +116,8 @@ export class InputGroup extends React.Component<
     });
 
     let horizontalDeeper =
-      horizontal || makeHorizontalDeeper(formHorizontal, controls.length);
+      horizontal ||
+      makeHorizontalDeeper(formHorizontal as any, controls.length);
     return (
       <div
         className={cx(`InputGroup`, className, {

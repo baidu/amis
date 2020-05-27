@@ -24,6 +24,7 @@ interface RangeProps extends RendererProps {
     | number;
   classPrefix: string;
   classnames: ClassNamesFn;
+  onChange: (value: any) => void;
 }
 
 export class Range extends React.Component<RangeProps, any> {
@@ -53,12 +54,10 @@ export class Range extends React.Component<RangeProps, any> {
     return (
       <InputRange
         {...this.props}
-        className={className}
         classNames={classNames}
         minValue={min}
         maxValue={max}
         value={value}
-        multiple={multiple}
       />
     );
   }

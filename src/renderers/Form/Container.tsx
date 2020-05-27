@@ -3,8 +3,11 @@ import {Renderer} from '../../factory';
 import cx from 'classnames';
 import Container from '../Container';
 import FormItem, {FormControlProps} from './Item';
+import {IIRendererStore} from '../../store/iRenderer';
 
-export interface ContainerProps extends FormControlProps {}
+export interface ContainerProps extends FormControlProps {
+  store: IIRendererStore;
+}
 
 @FormItem({
   type: 'container',
