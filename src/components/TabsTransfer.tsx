@@ -89,7 +89,11 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
     } = this.props;
 
     if (!Array.isArray(options) || !options.length) {
-      return <div>{placeholder || '暂无可选项'}</div>;
+      return (
+        <div className={cx('TabsTransfer-placeholder')}>
+          {placeholder || '暂无可选项'}
+        </div>
+      );
     }
 
     return (
