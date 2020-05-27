@@ -40,6 +40,7 @@ import TooltipWrapper from './TooltipWrapper';
 import Tree from './Tree';
 import Alert2 from './Alert2';
 import Transfer from './Transfer';
+import TabsTransfer from './TabsTransfer';
 import ListCheckboxes from './ListCheckboxes';
 import TableCheckboxes from './TableCheckboxes';
 import TreeCheckboxes from './TreeCheckboxes';
@@ -89,6 +90,7 @@ export {
   TooltipWrapper,
   Tree,
   Transfer,
+  TabsTransfer,
   ListCheckboxes,
   TableCheckboxes,
   TreeCheckboxes,
