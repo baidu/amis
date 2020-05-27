@@ -334,9 +334,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const data = ctx;
 
       // 由于 ajax 一段时间后再弹出，肯定被浏览器给阻止掉的，所以提前弹。
-      action.redirect &&
-        action.blank &&
-        env.jumpTo(filter(action.redirect, data), action);
+      const redirect = action.redirect && filter(action.redirect, data);
+      redirect && action.blank && env.jumpTo(redirect, action);
 
       return store
         .saveRemote(action.api!, data, {
@@ -355,9 +354,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
           }
 
-          action.redirect &&
-            !action.blank &&
-            env.jumpTo(filter(action.redirect, data), action);
+          const redirect = action.redirect && filter(action.redirect, data);
+          redirect && !action.blank && env.jumpTo(redirect, action);
           action.reload
             ? this.reloadTarget(action.reload, data)
             : this.search(undefined, undefined, true);

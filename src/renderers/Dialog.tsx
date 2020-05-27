@@ -678,8 +678,9 @@ export class DialogRenderer extends Dialog {
             await this.openFeedback(action.feedback, store.data);
           }
 
-          action.redirect &&
-            env.jumpTo(filter(action.redirect, store.data), action);
+          const reidrect =
+            action.redirect && filter(action.redirect, store.data);
+          reidrect && env.jumpTo(reidrect, action);
           action.reload && this.reloadTarget(action.reload, store.data);
           action.close && this.handleSelfClose();
         })
