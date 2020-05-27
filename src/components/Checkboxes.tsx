@@ -12,6 +12,7 @@ import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {Option, value2array, Options} from './Select';
 import find from 'lodash/find';
 import {autobind, findTree} from '../utils/helper';
+import isEqual from 'lodash/isEqual';
 // import isPlainObject from 'lodash/isPlainObject';
 
 export interface CheckboxesProps extends ThemeProps {
@@ -52,9 +53,8 @@ export class Checkboxes<
     }
 
     return value.map((value: any) => {
-      const option = findTree(
-        options,
-        option => option2value(option) === value
+      const option = findTree(options, option =>
+        isEqual(option2value(option), value)
       );
       return option || value;
     });
