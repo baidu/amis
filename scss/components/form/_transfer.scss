@@ -103,6 +103,7 @@
     height: 100%;
 
     > .#{$ns}Tabs-links {
+      border-top: 0 none;
       padding: 5px 0 0 5px;
       display: flex;
       flex-direction: row;
