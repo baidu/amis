@@ -349,7 +349,7 @@ export default {
                   children: [
                     {
                       label: '诸葛亮',
-                      value: 'zhugeliang2'
+                      value: 'zhugeliang'
                     }
                   ]
                 },
@@ -358,11 +358,11 @@ export default {
                   children: [
                     {
                       label: '曹操',
-                      value: 'caocao2'
+                      value: 'caocao'
                     },
                     {
                       label: '钟无艳',
-                      value: 'zhongwuyan2'
+                      value: 'zhongwuyan'
                     }
                   ]
                 },
@@ -371,15 +371,15 @@ export default {
                   children: [
                     {
                       label: '李白',
-                      value: 'libai2'
+                      value: 'libai'
                     },
                     {
                       label: '韩信',
-                      value: 'hanxin2'
+                      value: 'hanxin'
                     },
                     {
                       label: '云中君',
-                      value: 'yunzhongjun2'
+                      value: 'yunzhongjun'
                     }
                   ]
                 }
