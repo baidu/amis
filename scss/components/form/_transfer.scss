@@ -164,6 +164,10 @@
   // .#{$ns}Transfer-result {
   //   flex-grow: unset;
   // }
+
+  &-placeholder {
+    @include checkboxes-placeholder();
+  }
 }
 
 .#{$ns}TransferControl {
