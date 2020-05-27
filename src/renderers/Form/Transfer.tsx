@@ -17,8 +17,8 @@ import {optionValueCompare} from '../../components/Select';
 export interface TransferProps extends OptionsControlProps {
   showArrow?: boolean;
   sortable?: boolean;
-  selectMode?: 'table' | 'list' | 'tree';
-  searchResultMode?: 'table' | 'list' | 'tree';
+  selectMode?: 'table' | 'list' | 'tree' | 'chained';
+  searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
   columns?: Array<any>;
   searchable?: boolean;
   searchApi?: Api;

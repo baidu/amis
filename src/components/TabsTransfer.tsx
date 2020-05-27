@@ -1,0 +1,175 @@
+import React from 'react';
+import {autobind} from '../utils/helper';
+import Tabs, {Tab} from './Tabs';
+import SearchBox from './SearchBox';
+import TableCheckboxes from './TableCheckboxes';
+import TreeCheckboxes from './TreeCheckboxes';
+import ChainedCheckboxes from './ChainedCheckboxes';
+import ListCheckboxes from './ListCheckboxes';
+import {Options, Option} from './Select';
+import Transfer, {TransferProps} from './Transfer';
+import {themeable} from '../theme';
+
+export interface TabsTransferProps
+  extends Omit<
+    TransferProps,
+    'selectMode' | 'columns' | 'selectRender' | 'statistics'
+  > {}
+
+export class TabsTransfer extends React.Component<TabsTransferProps> {
+  static defaultProps = {
+    selectTitle: '请选择',
+    resultTitle: '当前选择',
+    itemRender: (option: Option) => <span>{option.label}</span>
+  };
+
+  renderSearchResult(searchResult: Options | null) {
+    const {
+      searchResultMode,
+      noResultsText,
+      searchResultColumns,
+      classnames: cx,
+      value,
+      onChange,
+      option2value
+    } = this.props;
+    const options = searchResult || [];
+    const mode = searchResultMode;
+
+    return mode === 'table' ? (
+      <TableCheckboxes
+        placeholder={noResultsText}
+        className={cx('Transfer-checkboxes')}
+        columns={searchResultColumns!}
+        options={options}
+        value={value}
+        onChange={onChange}
+        option2value={option2value}
+      />
+    ) : mode === 'tree' ? (
+      <TreeCheckboxes
+        placeholder={noResultsText}
+        className={cx('Transfer-checkboxes')}
+        options={options}
+        value={value}
+        onChange={onChange}
+        option2value={option2value}
+      />
+    ) : mode === 'chained' ? (
+      <ChainedCheckboxes
+        placeholder={noResultsText}
+        className={cx('Transfer-checkboxes')}
+        options={options}
+        value={value}
+        onChange={onChange}
+        option2value={option2value}
+      />
+    ) : (
+      <ListCheckboxes
+        placeholder={noResultsText}
+        className={cx('Transfer-checkboxes')}
+        options={options}
+        value={value}
+        onChange={onChange}
+        option2value={option2value}
+      />
+    );
+  }
+
+  @autobind
+  renderSelect({onSearch, onSearchCancel, searchResult}: any) {
+    const {
+      options,
+      placeholder,
+      classnames: cx,
+      value,
+      onChange,
+      onSearch: searchable,
+      option2value
+    } = this.props;
+
+    if (!Array.isArray(options) || !options.length) {
+      return <div>{placeholder || '暂无可选项'}</div>;
+    }
+
+    return (
+      <Tabs
+        mode="card"
+        className={cx('Transfer-tabs')}
+        activeKey={searchResult !== null ? 0 : undefined}
+        toolbar={
+          searchable ? (
+            <>
+              <span className={cx('TabsTransfer-tabsMid')}></span>
+              <SearchBox onSearch={onSearch} onCancel={onSearchCancel} />
+            </>
+          ) : null
+        }
+      >
+        {searchResult !== null
+          ? [
+              <Tab title="搜索结果" key={0} eventKey={0}>
+                {this.renderSearchResult(searchResult)}
+              </Tab>
+            ]
+          : options.map((option, index) => (
+              <Tab
+                eventKey={index}
+                key={index}
+                title={option.label || option.title}
+              >
+                {option.selectMode === 'table' ? (
+                  <TableCheckboxes
+                    className={cx('Transfer-checkboxes')}
+                    columns={option.columns as any}
+                    options={option.children || []}
+                    value={value}
+                    onChange={onChange}
+                    option2value={option2value}
+                  />
+                ) : option.selectMode === 'tree' ? (
+                  <TreeCheckboxes
+                    className={cx('Transfer-checkboxes')}
+                    options={option.children || []}
+                    value={value}
+                    onChange={onChange}
+                    option2value={option2value}
+                  />
+                ) : option.selectMode === 'chained' ? (
+                  <ChainedCheckboxes
+                    className={cx('Transfer-checkboxes')}
+                    options={option.children || []}
+                    value={value}
+                    onChange={onChange}
+                    option2value={option2value}
+                  />
+                ) : (
+                  <ListCheckboxes
+                    className={cx('Transfer-checkboxes')}
+                    options={option.children || []}
+                    value={value}
+                    onChange={onChange}
+                    option2value={option2value}
+                  />
+                )}
+              </Tab>
+            ))}
+      </Tabs>
+    );
+  }
+
+  render() {
+    const {className, classnames: cx} = this.props;
+
+    return (
+      <Transfer
+        {...this.props}
+        statistics={false}
+        className={cx('TabsTransfer', className)}
+        selectRender={this.renderSelect}
+      />
+    );
+  }
+}
+
+export default themeable(TabsTransfer);

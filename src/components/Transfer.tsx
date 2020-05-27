@@ -13,7 +13,7 @@ import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 import ChainedCheckboxes from './ChainedCheckboxes';
 
-export interface TransferPorps extends ThemeProps, CheckboxesProps {
+export interface TransferProps extends ThemeProps, CheckboxesProps {
   inline?: boolean;
   statistics?: boolean;
   showArrow?: boolean;
@@ -42,7 +42,7 @@ export interface TransferPorps extends ThemeProps, CheckboxesProps {
 
   // 自定义选择框相关
   selectRender?: (
-    props: Omit<TransferPorps, 'onSearch'> & {
+    props: Omit<TransferProps, 'onSearch'> & {
       onSearch: (text: string) => void;
       onSearchCancel: () => void;
       searchResult: Options | null;
@@ -58,7 +58,7 @@ export interface TransferState {
   searchResult: Options | null;
 }
 
-export class Transfer extends React.Component<TransferPorps, TransferState> {
+export class Transfer extends React.Component<TransferProps, TransferState> {
   static defaultProps = {
     selectTitle: '请选择',
     resultTitle: '当前选择',
