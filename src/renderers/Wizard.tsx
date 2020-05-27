@@ -391,11 +391,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             await this.openFeedback(action.feedback, store.data);
           }
 
-          action.reload
-            ? this.reloadTarget(action.reload, store.data)
-            : action.redirect
-            ? env.updateLocation(filter(action.redirect, store.data))
-            : null;
+          const reidrect =
+            action.redirect && filter(action.redirect, store.data);
+          reidrect && env.jumpTo(reidrect, action);
+
+          action.reload && this.reloadTarget(action.reload, store.data);
         })
         .catch(() => {});
     } else if (action.actionType === 'reload') {
@@ -552,8 +552,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
               return value;
             }
 
-            if (redirect) {
-              env.updateLocation(filter(redirect, store.data));
+            const finalRedirect = redirect && filter(redirect, store.data);
+
+            if (finalRedirect) {
+              env.jumpTo(finalRedirect, action);
             } else if (reload) {
               this.reloadTarget(reload, store.data);
             }

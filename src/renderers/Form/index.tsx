@@ -672,7 +672,11 @@ export default class Form extends React.Component<FormProps, object> {
           clearPersistDataAfterSubmit && store.clearPersistData();
 
           if (action.redirect || redirect) {
-            env.updateLocation(filter(action.redirect || redirect, store.data));
+            const finalRedirect = filter(
+              action.redirect || redirect,
+              store.data
+            );
+            finalRedirect && env.jumpTo(finalRedirect, action);
           } else if (action.reload || reload) {
             this.reloadTarget(action.reload || reload, store.data);
           }
@@ -728,8 +732,10 @@ export default class Form extends React.Component<FormProps, object> {
             await this.openFeedback(action.feedback, store.data);
           }
 
-          action.redirect &&
-            env.updateLocation(filter(action.redirect, store.data));
+          const redirect =
+            action.redirect && filter(action.redirect, store.data);
+          redirect && env.jumpTo(redirect, action);
+
           action.reload && this.reloadTarget(action.reload, store.data);
         })
         .catch(() => {});

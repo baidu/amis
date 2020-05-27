@@ -442,8 +442,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               ? this.reloadTarget(action.reload, data)
               : this.search({[pageField || 'page']: 1}, undefined, true);
 
-            action.redirect &&
-              env.jumpTo(filter(action.redirect, data), action);
+            const redirect = action.redirect && filter(action.redirect, data);
+            redirect && env.jumpTo(redirect, action);
           })
           .catch(() => null);
     } else if (onAction) {
@@ -648,8 +648,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.reloadTarget(dialogAction.reload, ctx);
     }
 
-    dialogAction.redirect &&
-      env.jumpTo(filter(action.redirect, ctx), dialogAction);
+    const redirect = dialogAction.redirect && filter(action.redirect, ctx);
+    redirect && env.jumpTo(redirect, dialogAction);
   }
 
   handleDialogClose() {
