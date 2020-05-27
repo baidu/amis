@@ -557,7 +557,7 @@ export const TableStore = iRendererStore
       let value = resolveVariable(key, row.data);
       for (let i = 1, len = arr.length; i < len; i++) {
         const current = arr[i];
-        if (resolveVariable(key, current.data) == value) {
+        if (isEqual(resolveVariable(key, current.data), value)) {
           row.rowSpans[key] += 1;
           current.rowSpans[key] = 0;
         } else {
