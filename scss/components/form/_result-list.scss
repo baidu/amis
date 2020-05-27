@@ -67,5 +67,10 @@
     &:hover {
       color: $icon-onHover-color;
     }
+
+    > svg {
+      width: 12px;
+      height: 12px;
+    }
   }
 }

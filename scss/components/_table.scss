@@ -710,6 +710,10 @@
     &.is-active > i {
       transform: rotate(90deg);
     }
+
+    &:hover {
+      text-decoration: none;
+    }
   }
 
   &-dragBtn {

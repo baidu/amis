@@ -68,6 +68,7 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
           {Array.isArray(options) && options.length ? (
             <th className={cx('Table-checkCell')}>
               <Checkbox
+                size="sm"
                 onChange={this.toggleAll}
                 checked={partialChecked}
                 partial={partialChecked && !allChecked}
@@ -103,7 +104,7 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
             return (
               <tr key={rowIndex} onClick={() => this.toggleOption(option)}>
                 <td className={cx('Table-checkCell')}>
-                  <Checkbox checked={checked} />
+                  <Checkbox size="sm" checked={checked} />
                 </td>
                 {columns.map((column, colIndex) => (
                   <td key={colIndex}>{cellRender(column, option)}</td>
@@ -153,6 +154,7 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
           </div>
 
           <Checkbox
+            size="sm"
             checked={!!~valueArray.indexOf(option)}
             disabled={disabled || option.disabled}
             labelClassName={labelClassName}

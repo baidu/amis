@@ -7,16 +7,16 @@ import {Option} from './Select';
 import {getTreeDepth} from '../utils/helper';
 import times from 'lodash/times';
 
-export interface NestedCheckboxesState {
+export interface ChainedCheckboxesState {
   selected: Array<Option>;
 }
 
-export class NestedCheckboxes extends Checkboxes<
+export class ChainedCheckboxes extends Checkboxes<
   CheckboxesProps,
-  NestedCheckboxesState
+  ChainedCheckboxesState
 > {
   valueArray: Array<Option>;
-  state: NestedCheckboxesState = {
+  state: ChainedCheckboxesState = {
     selected: []
   };
 
@@ -45,7 +45,7 @@ export class NestedCheckboxes extends Checkboxes<
         <div
           key={index}
           className={cx(
-            'NestedCheckboxes-item',
+            'ChainedCheckboxes-item',
             itemClassName,
             option.className,
             disabled || option.disabled ? 'is-disabled' : '',
@@ -53,7 +53,7 @@ export class NestedCheckboxes extends Checkboxes<
           )}
           onClick={() => this.selectOption(option, depth)}
         >
-          <div className={cx('NestedCheckboxes-itemLabel')}>
+          <div className={cx('ChainedCheckboxes-itemLabel')}>
             {itemRender(option)}
           </div>
         </div>
@@ -64,18 +64,19 @@ export class NestedCheckboxes extends Checkboxes<
       <div
         key={index}
         className={cx(
-          'NestedCheckboxes-item',
+          'ChainedCheckboxes-item',
           itemClassName,
           option.className,
           disabled || option.disabled ? 'is-disabled' : ''
         )}
         onClick={() => this.toggleOption(option)}
       >
-        <div className={cx('NestedCheckboxes-itemLabel')}>
+        <div className={cx('ChainedCheckboxes-itemLabel')}>
           {itemRender(option)}
         </div>
 
         <Checkbox
+          size="sm"
           checked={!!~valueArray.indexOf(option)}
           disabled={disabled || option.disabled}
           labelClassName={labelClassName}
@@ -122,9 +123,9 @@ export class NestedCheckboxes extends Checkboxes<
           let nextSubTitle: string = '';
 
           body.push(
-            <div key={depth} className={cx('NestedCheckboxes-col')}>
+            <div key={depth} className={cx('ChainedCheckboxes-col')}>
               {subTitle ? (
-                <div className={cx('NestedCheckboxes-subTitle')}>
+                <div className={cx('ChainedCheckboxes-subTitle')}>
                   {subTitle}
                 </div>
               ) : null}
@@ -155,11 +156,11 @@ export class NestedCheckboxes extends Checkboxes<
     }
 
     return (
-      <div className={cx('NestedCheckboxes', className)}>
+      <div className={cx('ChainedCheckboxes', className)}>
         {body && body.length ? (
           body
         ) : (
-          <div className={cx('NestedCheckboxes-placeholder')}>
+          <div className={cx('ChainedCheckboxes-placeholder')}>
             {placeholder}
           </div>
         )}
@@ -169,7 +170,7 @@ export class NestedCheckboxes extends Checkboxes<
 }
 
 export default themeable(
-  uncontrollable(NestedCheckboxes, {
+  uncontrollable(ChainedCheckboxes, {
     value: 'onChange'
   })
 );

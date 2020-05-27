@@ -121,6 +121,8 @@ $Wizard-steps-bg: $background-head;
 $Wizard-steps-li-onActive-arrow-bg: $Panel-bg;
 $Wizard-steps-li-onActive-bg: $Panel-bg;
 
+$Transfer-title-bg: #2f2f2f;
+
 button[disabled],
 html input[disabled] {
   cursor: not-allowed;
@@ -217,7 +219,7 @@ pre {
 @import '../components/form/switch';
 @import '../components/form/number';
 @import '../components/form/select';
-@import '../components/form/selections';
+@import '../components/form/result-list';
 @import '../components/form/list';
 @import '../components/form/location';
 @import '../components/form/matrix';

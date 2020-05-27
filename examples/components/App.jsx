@@ -34,6 +34,7 @@ import SubFormSchema from './Form/SubForm';
 import RichTextSchema from './Form/RichText';
 import EditorSchema from './Form/Editor';
 import TestFormSchema from './Form/Test';
+import TransferFormSchema from './Form/Transfer';
 import TableFormSchema from './Form/Table';
 import PickerFormSchema from './Form/Picker';
 import FormulaFormSchema from './Form/Formula';
@@ -195,6 +196,12 @@ const navigations = [
             label: '组合类型',
             path: 'form/combo',
             component: makeSchemaRenderer(ComboFormSchema)
+          },
+
+          {
+            label: '穿梭器',
+            path: 'form/transfer',
+            component: makeSchemaRenderer(TransferFormSchema)
           },
 
           {

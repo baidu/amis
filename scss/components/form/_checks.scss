@@ -372,6 +372,10 @@
 }
 
 .#{$ns}TableCheckboxes {
+  .#{$ns}Table-content {
+    border-top: $Table-borderWidth solid $Table-borderColor;
+  }
+
   .#{$ns}Table-table > thead > tr > th,
   .#{$ns}Table-table > tbody > tr > td {
     font-size: $fontSizeSm;
@@ -480,17 +484,23 @@
   }
 }
 
-.#{$ns}NestedCheckboxes {
+.#{$ns}ChainedCheckboxes {
   display: flex;
   flex-direction: row;
 
   &-col {
     flex-grow: 1;
-    min-width: 150px;
+    min-width: 120px;
   }
 
   &-col:not(:last-child) {
     border-right: 1px solid $borderColor;
+  }
+
+  &-subTitle {
+    font-size: $fontSizeSm;
+    padding: $gap-xs $gap-xs;
+    color: $text--muted-color;
   }
 
   &-item {

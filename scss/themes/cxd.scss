@@ -498,6 +498,8 @@ $ListMenu-item-color: #333;
 $ListMenu-item--onHover-color: #000;
 $ListMenu-item--onHover-bg: #eaf6fe;
 
+$Transfer-title-bg: $Table-thead-bg;
+
 @import '../variables';
 @import '../mixins';
 @import '../base/reset';
@@ -562,7 +564,7 @@ $ListMenu-item--onHover-bg: #eaf6fe;
 @import '../components/form/switch';
 @import '../components/form/number';
 @import '../components/form/select';
-@import '../components/form/selections';
+@import '../components/form/result-list';
 @import '../components/form/list';
 @import '../components/form/location';
 @import '../components/form/matrix';
