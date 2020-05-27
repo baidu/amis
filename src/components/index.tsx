@@ -43,6 +43,7 @@ import Transfer from './Transfer';
 import ListCheckboxes from './ListCheckboxes';
 import TableCheckboxes from './TableCheckboxes';
 import TreeCheckboxes from './TreeCheckboxes';
+import ChainedCheckboxes from './ChainedCheckboxes';
 import ResultBox from './ResultBox';
 import InputBox from './InputBox';
 
@@ -91,6 +92,7 @@ export {
   ListCheckboxes,
   TableCheckboxes,
   TreeCheckboxes,
+  ChainedCheckboxes,
   ResultBox,
   InputBox
 };

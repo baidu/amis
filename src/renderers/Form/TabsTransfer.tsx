@@ -12,13 +12,13 @@ import TreeCheckboxes from '../../components/TreeCheckboxes';
 import ListCheckboxes from '../../components/ListCheckboxes';
 import SearchBox from '../../components/SearchBox';
 import {Options} from '../../components/Select';
-import NestedCheckboxes from '../../components/NestedCheckboxes';
+import ChainedCheckboxes from '../../components/ChainedCheckboxes';
 
 export interface TabsTransferProps extends OptionsControlProps {
   sortable?: boolean;
   searchable?: boolean;
   searchApi?: Api;
-  searchResultMode?: 'table' | 'list' | 'tree' | 'nested';
+  searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
 }
 
 @OptionsControl({
@@ -58,8 +58,8 @@ export class TabsTransferRenderer extends TransferRenderer<TabsTransferProps> {
         onChange={onChange}
         option2value={option2value}
       />
-    ) : mode === 'nested' ? (
-      <NestedCheckboxes
+    ) : mode === 'chained' ? (
+      <ChainedCheckboxes
         placeholder={noResultsText}
         className={cx('Transfer-checkboxes')}
         options={options}
@@ -137,8 +137,8 @@ export class TabsTransferRenderer extends TransferRenderer<TabsTransferProps> {
                     onChange={this.handleChange}
                     option2value={this.option2value}
                   />
-                ) : option.selectMode === 'nested' ? (
-                  <NestedCheckboxes
+                ) : option.selectMode === 'chained' ? (
+                  <ChainedCheckboxes
                     className={cx('Transfer-checkboxes')}
                     options={option.children || []}
                     value={selectedOptions}
@@ -171,7 +171,8 @@ export class TabsTransferRenderer extends TransferRenderer<TabsTransferProps> {
       columns,
       loading,
       searchable,
-      searchResultMode
+      searchResultMode,
+      showArrow
     } = this.props;
 
     return (
@@ -189,6 +190,7 @@ export class TabsTransferRenderer extends TransferRenderer<TabsTransferProps> {
           searchResultMode={searchResultMode}
           columns={columns}
           onSearch={searchable ? this.handleSearch : undefined}
+          showArrow={showArrow}
         />
 
         <Spinner overlay key="info" show={loading} />

@@ -53,6 +53,7 @@ export class ListCheckboxes extends Checkboxes {
         </div>
 
         <Checkbox
+          size="sm"
           checked={!!~valueArray.indexOf(option)}
           disabled={disabled || option.disabled}
           labelClassName={labelClassName}

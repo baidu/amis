@@ -12,7 +12,7 @@
   &-title {
     display: flex;
     align-items: center;
-    background: $Table-thead-bg;
+    background: $Transfer-title-bg;
     height: px2rem(30px);
     line-height: $Form-input-lineHeight;
     font-size: $Form-input-fontSize;
@@ -46,6 +46,10 @@
     overflow: auto;
   }
 
+  &-search + &-checkboxes {
+    border-top: 1px solid $borderColor;
+  }
+
   &-checkboxes .#{$ns}ListCheckboxes-placeholder {
     height: 100%;
     display: flex;
@@ -58,8 +62,28 @@
     padding: $gap-sm;
   }
 
+  &-mid {
+    min-width: px2rem(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
   &-arrow {
-    width: px2rem(10px);
+    width: 40px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $borderColor;
+    margin: 0 10px;
+    color: $icon-color;
+
+    > svg {
+      top: 0;
+      width: 14px;
+      height: 14px;
+    }
   }
 
   &-checkAll,
@@ -109,10 +133,24 @@
 
     > .#{$ns}Tabs-content {
       flex-grow: 1;
-      height: 0;
-      overflow: auto;
       position: relative;
-      padding: 5px 0;
+      padding: 5px 0 0;
+
+      > .#{$ns}Tabs-pane {
+        position: relative;
+        min-height: 100%;
+
+        &.is-active {
+          display: flex;
+          flex-direction: column;
+
+          > .#{$ns}Transfer-checkboxes {
+            flex-grow: 1;
+            height: 0;
+            overflow: auto;
+          }
+        }
+      }
     }
   }
 }

@@ -7,9 +7,9 @@ import {ThemeProps, themeable} from '../theme';
 import {Icon} from './icons';
 import {autobind, guid} from '../utils/helper';
 import Sortable from 'sortablejs';
-import { findDOMNode } from 'react-dom';
+import {findDOMNode} from 'react-dom';
 
-export interface SelectionsProps extends ThemeProps {
+export interface ResultListProps extends ThemeProps {
   className?: string;
   value?: Array<Option>;
   onChange?: (value: Array<Option>) => void;
@@ -21,8 +21,8 @@ export interface SelectionsProps extends ThemeProps {
   itemClassName?: string;
 }
 
-export class Selections extends React.Component<SelectionsProps> {
-  static defaultProps: Pick<SelectionsProps, 'placeholder' | 'itemRender'> = {
+export class ResultList extends React.Component<ResultListProps> {
+  static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender'> = {
     placeholder: '请先选择数据',
     itemRender: (option: Option) => <span>{option.label}</span>
   };
@@ -63,45 +63,47 @@ export class Selections extends React.Component<SelectionsProps> {
   initSortable() {
     const ns = this.props.classPrefix;
     const dom = findDOMNode(this) as HTMLElement;
-    const container = dom.querySelector(`.${ns}Selections-items`) as HTMLElement;
+    const container = dom.querySelector(
+      `.${ns}Selections-items`
+    ) as HTMLElement;
 
     if (!container) {
       return;
     }
-    
-    this.sortable = new Sortable(
-      container,
-      {
-        group: `selections-${this.id}`,
-        animation: 150,
-        handle: `.${ns}Selections-dragbar`,
-        ghostClass: `${ns}Selections-item--dragging`,
-        onEnd: (e: any) => {
-          // 没有移动
-          if (e.newIndex === e.oldIndex) {
-            return;
-          }
 
-          // 换回来
-          const parent = e.to as HTMLElement;
-          if (e.newIndex < e.oldIndex && e.oldIndex < parent.childNodes.length - 1) {
-            parent.insertBefore(e.item, parent.childNodes[e.oldIndex + 1]);
-          } else if (e.oldIndex < parent.childNodes.length - 1) {
-            parent.insertBefore(e.item, parent.childNodes[e.oldIndex]);
-          } else {
-            parent.appendChild(e.item);
-          }
-
-          const value = this.props.value;
-          if (!Array.isArray(value)) {
-            return;
-          }
-          const newValue = value.concat();
-          newValue.splice(e.newIndex, 0, newValue.splice(e.oldIndex, 1)[0]);
-          this.props.onChange?.(newValue);
+    this.sortable = new Sortable(container, {
+      group: `selections-${this.id}`,
+      animation: 150,
+      handle: `.${ns}Selections-dragbar`,
+      ghostClass: `${ns}Selections-item--dragging`,
+      onEnd: (e: any) => {
+        // 没有移动
+        if (e.newIndex === e.oldIndex) {
+          return;
         }
+
+        // 换回来
+        const parent = e.to as HTMLElement;
+        if (
+          e.newIndex < e.oldIndex &&
+          e.oldIndex < parent.childNodes.length - 1
+        ) {
+          parent.insertBefore(e.item, parent.childNodes[e.oldIndex + 1]);
+        } else if (e.oldIndex < parent.childNodes.length - 1) {
+          parent.insertBefore(e.item, parent.childNodes[e.oldIndex]);
+        } else {
+          parent.appendChild(e.item);
+        }
+
+        const value = this.props.value;
+        if (!Array.isArray(value)) {
+          return;
+        }
+        const newValue = value.concat();
+        newValue.splice(e.newIndex, 0, newValue.splice(e.oldIndex, 1)[0]);
+        this.props.onChange?.(newValue);
       }
-    );
+    });
   }
 
   desposeSortable() {
@@ -125,13 +127,23 @@ export class Selections extends React.Component<SelectionsProps> {
     return (
       <div className={cx('Selections', className)}>
         {title ? <div className={cx('Selections-title')}>{title}</div> : null}
-        
+
         {Array.isArray(value) && value.length ? (
           <div className={cx('Selections-items')}>
             {value.map((option, index) => (
-              <div className={cx('Selections-item', itemClassName, option?.className)} key={index}>
+              <div
+                className={cx(
+                  'Selections-item',
+                  itemClassName,
+                  option?.className
+                )}
+                key={index}
+              >
                 {sortable && !disabled && value.length > 1 ? (
-                  <Icon className={cx('Selections-dragbar')} icon="combo-dragger"/>
+                  <Icon
+                    className={cx('Selections-dragbar')}
+                    icon="combo-dragger"
+                  />
                 ) : null}
 
                 <label>{itemRender(option)}</label>
@@ -156,4 +168,4 @@ export class Selections extends React.Component<SelectionsProps> {
   }
 }
 
-export default themeable(Selections);
+export default themeable(ResultList);

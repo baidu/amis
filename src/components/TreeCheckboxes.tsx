@@ -165,6 +165,7 @@ export class TreeCheckboxes extends Checkboxes<
           </div>
 
           <Checkbox
+            size="sm"
             checked={checked}
             partial={partial}
             disabled={disabled || option.disabled}

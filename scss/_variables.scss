@@ -411,7 +411,7 @@ $Tabs--line-linkMargin: 0 40px 0 0 !default;
 $Tabs--line-content-bg: transparent !default;
 $Tabs--line-content-padding: 20px 0 !default;
 $Tabs--card-padding: px2rem(6px) 0 0 px2rem(10px);
-$Tabs--card-bg: darken($body-bg, 5%) !default;
+$Tabs--card-bg: #f6f8f8 !default;
 $Tabs--card-borderTopColor: $borderColor !default;
 $Tabs--card-onActive-borderColor: $borderColor !default;
 $Tabs--card-onActive-bg: $background !default;
@@ -454,7 +454,7 @@ $Table-fixedLeft-boxShadow: 0.42rem 0 0.42rem -0.28rem rgba($black, 0.15) !defau
 $Table-fixedRight-boxShadow: -0.42rem 0 0.42rem -0.28rem rgba($black, 0.15) !default;
 $Table-toolbar-paddingX: $gap-sm !default;
 $Table-toolbar-paddingY: $gap-sm !default;
-$Table-thead-bg: $white !default;
+$Table-thead-bg: #f6f8f8 !default;
 $Table-thead-fontSize: $fontSizeBase !default;
 $Table-thead-color: $text--loud-color !default;
 $Table-thead-borderColor: $Table-borderColor !default;
@@ -1404,9 +1404,7 @@ $Pagination-onActive-color: $white !default;
 $Pagination-onActive-border: 0 !default;
 
 // Transfer-select
-$TransferSelect--table-heading-bg: $white !default;
-$TransferSelect--normal-heading-bg: $gray100 !default;
-$TransferSelect-heading-borderBottom: $borderWidth solid $borderColor !default;
+$Transfer-title-bg: #f6f8f8 !default;
 
 // Tree
 $TreeSelect-popover-bg: #fff !default;

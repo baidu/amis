@@ -15,6 +15,7 @@ import find from 'lodash/find';
 import {optionValueCompare} from '../../components/Select';
 
 export interface TransferProps extends OptionsControlProps {
+  showArrow?: boolean;
   sortable?: boolean;
   selectMode?: 'table' | 'list' | 'tree';
   searchResultMode?: 'table' | 'list' | 'tree';
@@ -142,6 +143,7 @@ export class TransferRenderer<
       classnames: cx,
       options,
       selectedOptions,
+      showArrow,
       sortable,
       selectMode,
       columns,
@@ -158,6 +160,7 @@ export class TransferRenderer<
           onChange={this.handleChange}
           option2value={this.option2value}
           sortable={sortable}
+          showArrow={showArrow}
           selectMode={selectMode}
           searchResultMode={searchResultMode}
           columns={columns}
