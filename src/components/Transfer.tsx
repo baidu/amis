@@ -85,7 +85,10 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
     const {options, option2value, onChange, value} = this.props;
     let valueArray = Checkboxes.value2array(value, options, option2value);
     const availableOptions = flattenTree(options).filter(
-      option => !option.disabled && option.value !== void 0
+      (option, index, list) =>
+        !option.disabled &&
+        option.value !== void 0 &&
+        list.indexOf(option) === index
     );
 
     if (valueArray.length < availableOptions.length) {
@@ -353,7 +356,10 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
 
     this.valueArray = Checkboxes.value2array(value, options, option2value);
     this.availableOptions = flattenTree(options).filter(
-      option => !option.disabled && option.value !== void 0
+      (option, index, list) =>
+        !option.disabled &&
+        option.value !== void 0 &&
+        list.indexOf(option) === index
     );
 
     return (
