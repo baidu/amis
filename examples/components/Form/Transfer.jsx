@@ -17,7 +17,7 @@ export default {
           label: '默认',
           type: 'transfer',
           name: 'transfer1',
-          showArrow: true,
+          // showArrow: true,
           options: [
             {
               label: '诸葛亮',
@@ -299,19 +299,29 @@ export default {
               selectMode: 'tree',
               children: [
                 {
-                  label: '诸葛亮',
-                  value: 'zhugeliang'
+                  label: '法师',
+                  children: [
+                    {
+                      label: '诸葛亮',
+                      value: 'zhugeliang'
+                    }
+                  ]
                 },
                 {
-                  label: '曹操',
-                  value: 'caocao'
+                  label: '战士',
+                  children: [
+                    {
+                      label: '曹操',
+                      value: 'caocao'
+                    },
+                    {
+                      label: '钟无艳',
+                      value: 'zhongwuyan'
+                    }
+                  ]
                 },
                 {
-                  label: '钟无艳',
-                  value: 'zhongwuyan'
-                },
-                {
-                  label: '野核',
+                  label: '打野',
                   children: [
                     {
                       label: '李白',
@@ -335,20 +345,29 @@ export default {
               selectMode: 'chained',
               children: [
                 {
-                  label: '诸葛亮',
-                  value: 'zhugeliang2'
+                  label: '法师',
+                  children: [
+                    {
+                      label: '诸葛亮',
+                      value: 'zhugeliang2'
+                    }
+                  ]
                 },
                 {
-                  label: '曹操',
-                  value: 'caocao2'
+                  label: '战士',
+                  children: [
+                    {
+                      label: '曹操',
+                      value: 'caocao2'
+                    },
+                    {
+                      label: '钟无艳',
+                      value: 'zhongwuyan2'
+                    }
+                  ]
                 },
                 {
-                  label: '钟无艳',
-                  value: 'zhongwuyan2'
-                },
-                {
-                  label: '野核',
-                  subTitle: '就是打野的',
+                  label: '打野',
                   children: [
                     {
                       label: '李白',
