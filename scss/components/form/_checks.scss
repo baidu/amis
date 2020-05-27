@@ -279,6 +279,15 @@
   display: block;
 }
 
+@mixin checkboxes-placeholder {
+  height: $Form-input-height;
+  line-height: $Form-input-lineHeight;
+  font-size: $Form-input-fontSize;
+  padding: ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize)/2
+    $gap-sm;
+  color: $text--muted-color;
+}
+
 .#{$ns}Checkboxes {
   > .#{$ns}Checkbox {
     display: block;
@@ -358,13 +367,7 @@
   }
 
   &-placeholder {
-    height: $Form-input-height;
-    line-height: $Form-input-lineHeight;
-    font-size: $Form-input-fontSize;
-    padding: (
-        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
-      )/2 $gap-sm;
-    color: $text--muted-color;
+    @include checkboxes-placeholder();
   }
 }
 
@@ -473,12 +476,59 @@
   }
 
   &-placeholder {
+    @include checkboxes-placeholder();
+  }
+}
+
+.#{$ns}NestedCheckboxes {
+  display: flex;
+  flex-direction: row;
+
+  &-col {
+    flex-grow: 1;
+    min-width: 150px;
+  }
+
+  &-col:not(:last-child) {
+    border-right: 1px solid $borderColor;
+  }
+
+  &-item {
+    display: flex;
     height: $Form-input-height;
     line-height: $Form-input-lineHeight;
     font-size: $Form-input-fontSize;
     padding: (
         $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
       )/2 $gap-sm;
-    color: $text--muted-color;
+    flex-direction: row;
+
+    > .#{$ns}Checkbox {
+      margin-right: 0;
+    }
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background-color: $Tree-item-onHover-bg;
+    }
+
+    &.is-active {
+      color: $Form-select-menu-onActive-color;
+      background-color: $Form-select-menu-onActive-bg;
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      color: $text--muted-color;
+    }
+  }
+
+  &-itemLabel {
+    flex-grow: 1;
+  }
+
+  &-placeholder {
+    @include checkboxes-placeholder();
   }
 }

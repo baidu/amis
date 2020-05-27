@@ -990,6 +990,22 @@ export function spliceTree<T extends TreeItem>(
   return list;
 }
 
+/**
+ * 计算树的深度
+ * @param tree
+ */
+export function getTreeDepth<T extends TreeItem>(tree: Array<T>): number {
+  return Math.max(
+    ...tree.map(item => {
+      if (Array.isArray(item.children)) {
+        return 1 + getTreeDepth(item.children);
+      }
+
+      return 1;
+    })
+  );
+}
+
 export function ucFirst(str?: string) {
   return str ? str.substring(0, 1).toUpperCase() + str.substring(1) : '';
 }

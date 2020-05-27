@@ -1,14 +1,36 @@
-import {Checkboxes} from './Checkboxes';
+import {Checkboxes, CheckboxesProps} from './Checkboxes';
 import {themeable} from '../theme';
 import React from 'react';
 import uncontrollable from 'uncontrollable';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
+import {getTreeDepth} from '../utils/helper';
+import times from 'lodash/times';
 
-export class NestedCheckboxes extends Checkboxes {
+export interface NestedCheckboxesState {
+  selected: Array<Option>;
+}
+
+export class NestedCheckboxes extends Checkboxes<
+  CheckboxesProps,
+  NestedCheckboxesState
+> {
   valueArray: Array<Option>;
+  state: NestedCheckboxesState = {
+    selected: []
+  };
 
-  renderOption(option: Option, index: number) {
+  selectOption(option: Option, depth: number) {
+    const selected = this.state.selected.concat();
+    selected.splice(depth, selected.length - depth);
+    selected.push(option);
+
+    this.setState({
+      selected
+    });
+  }
+
+  renderOption(option: Option, index: number, depth: number) {
     const {
       labelClassName,
       disabled,
@@ -22,16 +44,17 @@ export class NestedCheckboxes extends Checkboxes {
       return (
         <div
           key={index}
-          className={cx('ListCheckboxes-group', option.className)}
+          className={cx(
+            'NestedCheckboxes-item',
+            itemClassName,
+            option.className,
+            disabled || option.disabled ? 'is-disabled' : '',
+            ~this.state.selected.indexOf(option) ? 'is-active' : ''
+          )}
+          onClick={() => this.selectOption(option, depth)}
         >
-          <div className={cx('ListCheckboxes-itemLabel')}>
+          <div className={cx('NestedCheckboxes-itemLabel')}>
             {itemRender(option)}
-          </div>
-
-          <div className={cx('ListCheckboxes-items', option.className)}>
-            {option.children.map((child, index) =>
-              this.renderOption(child, index)
-            )}
           </div>
         </div>
       );
@@ -41,14 +64,14 @@ export class NestedCheckboxes extends Checkboxes {
       <div
         key={index}
         className={cx(
-          'ListCheckboxes-item',
+          'NestedCheckboxes-item',
           itemClassName,
           option.className,
           disabled || option.disabled ? 'is-disabled' : ''
         )}
         onClick={() => this.toggleOption(option)}
       >
-        <div className={cx('ListCheckboxes-itemLabel')}>
+        <div className={cx('NestedCheckboxes-itemLabel')}>
           {itemRender(option)}
         </div>
 
@@ -69,22 +92,76 @@ export class NestedCheckboxes extends Checkboxes {
       className,
       placeholder,
       classnames: cx,
-      option2value
+      option2value,
+      itemRender
     } = this.props;
 
     this.valueArray = Checkboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
-      body = options.map((option, key) => this.renderOption(option, key));
+      const selected: Array<Option | null> = this.state.selected.concat();
+      const depth = getTreeDepth(options);
+      times(depth - selected.length, () => selected.push(null));
+
+      selected.reduce(
+        (
+          {
+            body,
+            options,
+            subTitle
+          }: {
+            body: Array<React.ReactNode>;
+            options: Array<Option> | null;
+            subTitle?: string;
+          },
+          selected,
+          depth
+        ) => {
+          let nextOptions: Array<Option> = [];
+          let nextSubTitle: string = '';
+
+          body.push(
+            <div key={depth} className={cx('NestedCheckboxes-col')}>
+              {subTitle ? (
+                <div className={cx('NestedCheckboxes-subTitle')}>
+                  {subTitle}
+                </div>
+              ) : null}
+              {Array.isArray(options) && options.length
+                ? options.map((option, index) => {
+                    if (option === selected) {
+                      nextSubTitle = option.subTitle;
+                      nextOptions = option.children!;
+                    }
+
+                    return this.renderOption(option, index, depth);
+                  })
+                : null}
+            </div>
+          );
+
+          return {
+            options: nextOptions,
+            subTitle: nextSubTitle,
+            body: body
+          };
+        },
+        {
+          options,
+          body
+        }
+      );
     }
 
     return (
-      <div className={cx('ListCheckboxes', className)}>
+      <div className={cx('NestedCheckboxes', className)}>
         {body && body.length ? (
           body
         ) : (
-          <div className={cx('ListCheckboxes-placeholder')}>{placeholder}</div>
+          <div className={cx('NestedCheckboxes-placeholder')}>
+            {placeholder}
+          </div>
         )}
       </div>
     );
