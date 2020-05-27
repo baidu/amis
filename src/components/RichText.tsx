@@ -88,16 +88,9 @@ export default class FroalaEditor extends React.Component<any, any> {
     this.$element = $(ref);
     this.setContent(true);
     this.registerEvents();
-    resizeSensor(
-      ref.parentElement,
-      () => {
-        $(ref)
-          .prev('.fr-box')
-          .find('.fr-toolbar')
-          .css('width', '');
-      },
-      true
-    );
+    resizeSensor(ref.parentElement, () => {
+      $(ref).prev('.fr-box').find('.fr-toolbar').css('width', '');
+    });
     this.$editor = this.$element
       .froalaEditor(this.config)
       .data('froala.editor').$el;
@@ -164,12 +157,12 @@ export default class FroalaEditor extends React.Component<any, any> {
     this.registerEvent(
       this.$element,
       'froalaEditor.contentChanged',
-      function() {
+      function () {
         self.updateModel();
       }
     );
     if (this.config.immediateReactModelUpdate) {
-      this.registerEvent(this.$editor, 'keyup', function() {
+      this.registerEvent(this.$editor, 'keyup', function () {
         self.updateModel();
       });
     }

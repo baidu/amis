@@ -28,7 +28,7 @@ export interface ServiceProps extends RendererProps {
   };
 }
 export default class Service extends React.Component<ServiceProps> {
-  timer: number;
+  timer: NodeJS.Timeout;
   mounted: boolean;
 
   static defaultProps: Partial<ServiceProps> = {

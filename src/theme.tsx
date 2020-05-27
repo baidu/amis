@@ -126,38 +126,41 @@ export function themeable<
     classnames?: ClassNamesFn;
   };
 
-  class EnhancedComponent extends React.Component<Props> {
-    static displayName = `Themeable(${
-      ComposedComponent.displayName || ComposedComponent.name
-    })`;
-    static contextType = ThemeContext;
-    static ComposedComponent = ComposedComponent;
+  const result = hoistNonReactStatic(
+    class extends React.Component<Props> {
+      static displayName = `Themeable(${
+        ComposedComponent.displayName || ComposedComponent.name
+      })`;
+      static contextType = ThemeContext;
+      static ComposedComponent = ComposedComponent;
 
-    render() {
-      const theme: string = this.props.theme || this.context || defaultTheme;
-      const config = hasTheme(theme) ? getTheme(theme) : getTheme(defaultTheme);
-      const injectedProps: {
-        classPrefix: string;
-        classnames: ClassNamesFn;
-      } = {
-        classPrefix: config.classPrefix as string,
-        classnames: config.classnames
-      };
+      render() {
+        const theme: string = this.props.theme || this.context || defaultTheme;
+        const config = hasTheme(theme)
+          ? getTheme(theme)
+          : getTheme(defaultTheme);
+        const injectedProps: {
+          classPrefix: string;
+          classnames: ClassNamesFn;
+        } = {
+          classPrefix: config.classPrefix as string,
+          classnames: config.classnames
+        };
 
-      return (
-        <ThemeContext.Provider value={theme}>
-          <ComposedComponent
-            {
-              ...(this.props as any) /* todo, 解决这个类型问题 */
-            }
-            {...injectedProps}
-          />
-        </ThemeContext.Provider>
-      );
-    }
-  }
-
-  const result = hoistNonReactStatic(EnhancedComponent, ComposedComponent);
+        return (
+          <ThemeContext.Provider value={theme}>
+            <ComposedComponent
+              {
+                ...(this.props as any) /* todo, 解决这个类型问题 */
+              }
+              {...injectedProps}
+            />
+          </ThemeContext.Provider>
+        );
+      }
+    },
+    ComposedComponent
+  );
 
   return result as typeof result & {
     ComposedComponent: T;

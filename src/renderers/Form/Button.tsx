@@ -3,7 +3,7 @@ import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import {Button} from '../../types';
 
-export interface ButtonProps extends FormControlProps, Button {}
+export interface ButtonProps extends FormControlProps, Omit<Button, 'size'> {}
 
 export class ButtonControl extends React.Component<ButtonProps, any> {
   static defaultProps: Partial<ButtonProps> = {};

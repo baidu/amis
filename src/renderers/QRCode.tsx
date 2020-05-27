@@ -3,6 +3,7 @@ import cx from 'classnames';
 import {Renderer, RendererProps} from '../factory';
 import {FormItem, FormControlProps} from './Form/Item';
 import {filter} from '../utils/tpl';
+// @ts-ignore
 import QrCode from 'qrcode.react';
 
 export interface QRCodeProps extends FormControlProps {

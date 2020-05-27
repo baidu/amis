@@ -74,8 +74,8 @@ const defaultSchema = {
 
 export class Carousel extends React.Component<CarouselProps, CarouselState> {
   wrapperRef: React.RefObject<HTMLDivElement> = React.createRef();
-  intervalTimeout: number;
-  durationTimeout: number;
+  intervalTimeout: NodeJS.Timer;
+  durationTimeout: NodeJS.Timer;
 
   static defaultProps: Pick<
     CarouselProps,

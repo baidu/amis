@@ -5,9 +5,10 @@ import HBox from '../HBox';
 import {Schema} from '../../types';
 import cx from 'classnames';
 import {isVisible} from '../../utils/helper';
+import {IIRendererStore} from '../../store/iRenderer';
 
 interface HBoxProps extends FormControlProps {
-  size?: string;
+  store: IIRendererStore;
 }
 
 @FormItem({
@@ -53,17 +54,21 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
     const {render, renderFormItems, formMode, store, $path} = this.props;
 
     if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
-      return renderFormItems(node, ($path as string).replace(/^.*form\//, ''), {
-        mode: node.mode || 'normal',
-        horizontal: node.horizontal || {
-          left: 4,
-          right: 8,
-          offset: 4
-        },
-        store,
-        data: store.data,
-        render
-      });
+      return renderFormItems(
+        node as any,
+        ($path as string).replace(/^.*form\//, ''),
+        {
+          mode: node.mode || 'normal',
+          horizontal: node.horizontal || {
+            left: 4,
+            right: 8,
+            offset: 4
+          },
+          store,
+          data: store.data,
+          render
+        }
+      );
     }
 
     return render(region, node.body || node);

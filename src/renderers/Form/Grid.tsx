@@ -6,8 +6,11 @@ import {FormItem, FormControlProps} from './Item';
 import pick from 'lodash/pick';
 import React from 'react';
 import cx from 'classnames';
+import {IIRendererStore} from '../../store/iRenderer';
 
-export interface GridProps extends FormControlProps {}
+export interface GridProps extends FormControlProps {
+  store: IIRendererStore;
+}
 const defaultHorizontal = {
   left: 'col-sm-4',
   right: 'col-sm-8',
@@ -36,13 +39,17 @@ export class GridRenderer extends Grid<GridProps> {
     if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
       return (
         <div className={cx(`Grid-form Form--${node.mode || 'normal'}`)}>
-          {renderFormItems(node, ($path as string).replace(/^.*form\//, ''), {
-            mode: node.mode || 'normal',
-            horizontal: node.horizontal || defaultHorizontal,
-            store,
-            data: store.data,
-            render
-          })}
+          {renderFormItems(
+            node as any,
+            ($path as string).replace(/^.*form\//, ''),
+            {
+              mode: node.mode || 'normal',
+              horizontal: node.horizontal || defaultHorizontal,
+              store,
+              data: store.data,
+              render
+            }
+          )}
         </div>
       );
     }

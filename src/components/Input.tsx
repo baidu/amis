@@ -66,4 +66,6 @@ class InputInner extends React.Component<InputProps, InputState> {
 
 export default React.forwardRef<HTMLInputElement>((props, ref) => {
   return <InputInner {...props} forwardedRef={ref} />;
-}) as React.ReactType<React.InputHTMLAttributes<HTMLInputElement>>;
+}) as React.ComponentType<
+  React.InputHTMLAttributes<HTMLInputElement> & {ref?: any}
+>;

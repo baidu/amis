@@ -333,6 +333,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         console.error(e.stack);
         root.notify('error', e.message);
+        return;
       }
     });
 
@@ -432,7 +433,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       self.hasInnerModalOpen = value;
     };
 
-    const initFromScope = function(scope: any, source: string) {
+    const initFromScope = function (scope: any, source: string) {
       let rowsData: Array<any> = resolveVariableAndFilter(
         source,
         scope,

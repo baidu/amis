@@ -253,7 +253,7 @@ export default class NestedSelectControl extends React.Component<
         )
           ? xorBy
           : unionBy;
-        newValue = fn(items, option, valueField || 'value');
+        newValue = fn(items, option as any, valueField || 'value');
       } else {
         newValue = items.filter(
           item =>
@@ -406,10 +406,10 @@ export default class NestedSelectControl extends React.Component<
       >
         <Icon icon="search" className="icon" />
         <Input
-          value={this.state.inputValue}
+          value={this.state.inputValue || ''}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          disabled={disabled}
+          disabled={disabled!!}
           placeholder={searchPromptText}
           onChange={this.handleInputChange}
           ref={this.inputRef}

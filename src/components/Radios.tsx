@@ -146,9 +146,7 @@ export class Radios extends React.Component<RadioProps, any> {
       multiple: false,
       delimiter,
       valueField,
-      options,
-      joinValues,
-      extractValue
+      options
     });
     let body: Array<React.ReactNode> = [];
 
