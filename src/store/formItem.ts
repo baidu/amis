@@ -17,7 +17,9 @@ import {
   isObject,
   createObject,
   isObjectShallowModified,
-  findTree
+  findTree,
+  findTreeIndex,
+  spliceTree
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
@@ -170,13 +172,13 @@ export const FormItemStore = types
               unMatched = {
                 [self.valueField || 'value']: item,
                 [self.labelField || 'label']: item,
-                '__unmatched': true
+                __unmatched: true
               };
             } else if (unMatched && self.extractValue) {
               unMatched = {
                 [self.valueField || 'value']: item,
                 [self.labelField || 'label']: 'UnKnown',
-                '__unmatched': true
+                __unmatched: true
               };
             }
 
@@ -349,22 +351,14 @@ export const FormItemStore = types
     }
 
     let loadCancel: Function | null = null;
-    const loadOptions: (
+    const fetchOptions: (
       api: Api,
       data?: object,
-      options?: fetchOptions,
-      clearValue?: boolean,
-      onChange?: (value: any) => void
+      config?: fetchOptions
     ) => Promise<Payload | null> = flow(function* getInitData(
       api: string,
       data: object,
-      options?: fetchOptions,
-      clearValue?: any,
-      onChange?: (
-        value: any,
-        submitOnChange: boolean,
-        changeImmediately: boolean
-      ) => void
+      config?: fetchOptions
     ) {
       try {
         if (loadCancel) {
@@ -381,15 +375,15 @@ export const FormItemStore = types
           {
             autoAppend: false,
             cancelExecutor: (executor: Function) => (loadCancel = executor),
-            ...options
+            ...config
           }
         );
         loadCancel = null;
+        let result: any = null;
 
         if (!json.ok) {
           setError(
-            `加载选项失败，原因：${json.msg ||
-              (options && options.errorMessage)}`
+            `加载选项失败，原因：${json.msg || (config && config.errorMessage)}`
           );
           (getRoot(self) as IRendererStore).notify(
             'error',
@@ -402,29 +396,11 @@ export const FormItemStore = types
               : undefined
           );
         } else {
-          clearError();
-          self.validated = false; // 拉完数据应该需要再校验一下
-
-          let options: Array<IOption> =
-            json.data?.options ||
-            json.data.items ||
-            json.data.rows ||
-            json.data ||
-            [];
-          options = normalizeOptions(options as any);
-          setOptions(options);
-
-          if (json.data && typeof (json.data as any).value !== 'undefined') {
-            onChange && onChange((json.data as any).value, false, true);
-          } else if (clearValue) {
-            self.selectedOptions.some((item: any) => item.__unmatched) &&
-              onChange &&
-              onChange('', false, true);
-          }
+          result = json;
         }
 
         self.loading = false;
-        return json;
+        return result;
       } catch (e) {
         const root = getRoot(self) as IRendererStore;
         if (root.storeType !== 'RendererStore') {
@@ -441,9 +417,102 @@ export const FormItemStore = types
         console.error(e.stack);
         getRoot(self) &&
           (getRoot(self) as IRendererStore).notify('error', e.message);
-        return null;
+        return;
       }
     } as any);
+
+    const loadOptions: (
+      api: Api,
+      data?: object,
+      config?: fetchOptions,
+      clearValue?: boolean,
+      onChange?: (value: any) => void
+    ) => Promise<Payload | null> = flow(function* getInitData(
+      api: string,
+      data: object,
+      config?: fetchOptions,
+      clearValue?: any,
+      onChange?: (
+        value: any,
+        submitOnChange: boolean,
+        changeImmediately: boolean
+      ) => void
+    ) {
+      let json = yield fetchOptions(api, data, config);
+      if (!json) {
+        return;
+      }
+
+      clearError();
+      self.validated = false; // 拉完数据应该需要再校验一下
+
+      let options: Array<IOption> =
+        json.data?.options ||
+        json.data.items ||
+        json.data.rows ||
+        json.data ||
+        [];
+
+      options = normalizeOptions(options as any);
+      setOptions(options);
+
+      if (json.data && typeof (json.data as any).value !== 'undefined') {
+        onChange && onChange((json.data as any).value, false, true);
+      } else if (clearValue) {
+        self.selectedOptions.some((item: any) => item.__unmatched) &&
+          onChange &&
+          onChange('', false, true);
+      }
+
+      return json;
+    });
+
+    const deferLoadOptions: (
+      option: any,
+      api: Api,
+      data?: object,
+      config?: fetchOptions
+    ) => Promise<Payload | null> = flow(function* getInitData(
+      option: any,
+      api: string,
+      data: object,
+      config?: fetchOptions
+    ) {
+      const indexes = findTreeIndex(self.options, item => item === option);
+      if (!indexes) {
+        return;
+      }
+
+      setOptions(
+        spliceTree(self.options, indexes, 1, {
+          ...option,
+          loading: true
+        })
+      );
+
+      let json = yield fetchOptions(api, data, config);
+      if (!json) {
+        return;
+      }
+
+      let options: Array<IOption> =
+        json.data?.options ||
+        json.data.items ||
+        json.data.rows ||
+        json.data ||
+        [];
+
+      setOptions(
+        spliceTree(self.options, indexes, 1, {
+          ...option,
+          loading: false,
+          loaded: true,
+          children: options
+        })
+      );
+
+      return json;
+    });
 
     function syncOptions(originOptions?: Array<any>) {
       if (!self.options.length && typeof self.value === 'undefined') {
@@ -527,7 +596,7 @@ export const FormItemStore = types
             unMatched = {
               [self.valueField || 'value']: item,
               [self.labelField || 'label']: item,
-              '__unmatched': true
+              __unmatched: true
             };
 
             const orgin: any =
@@ -545,7 +614,7 @@ export const FormItemStore = types
             unMatched = {
               [self.valueField || 'value']: item,
               [self.labelField || 'label']: 'UnKnown',
-              '__unmatched': true
+              __unmatched: true
             };
           }
 
@@ -631,6 +700,7 @@ export const FormItemStore = types
       clearError,
       setOptions,
       loadOptions,
+      deferLoadOptions,
       syncOptions,
       setLoading,
       setSubStore,

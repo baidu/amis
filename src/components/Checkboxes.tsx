@@ -21,6 +21,7 @@ export interface CheckboxesProps extends ThemeProps {
   placeholder?: string;
   value?: Array<any>;
   onChange?: (value: Array<Option>) => void;
+  onDeferLoad?: (option: Option) => void;
   inline?: boolean;
   labelClassName?: string;
   option2value?: (option: Option) => any;

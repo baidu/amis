@@ -4,12 +4,15 @@ import React from 'react';
 import uncontrollable from 'uncontrollable';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
-import {autobind} from '../utils/helper';
+import {autobind, eachTree, everyTree} from '../utils/helper';
+import Spinner from './Spinner';
 
-export interface TreeCheckboxesProps extends CheckboxesProps {}
+export interface TreeCheckboxesProps extends CheckboxesProps {
+  expand?: 'all' | 'first' | 'root' | 'none';
+}
 
 export interface TreeCheckboxesState {
-  collapsed: Array<Option>;
+  expanded: Array<string>;
 }
 
 export class TreeCheckboxes extends Checkboxes<
@@ -18,11 +21,60 @@ export class TreeCheckboxes extends Checkboxes<
 > {
   valueArray: Array<Option>;
   state: TreeCheckboxesState = {
-    collapsed: []
+    expanded: []
   };
 
+  static defaultProps = {
+    ...Checkboxes.defaultProps,
+    expand: 'first' as 'first'
+  };
+
+  componentDidMount() {
+    this.syncExpanded();
+  }
+
+  componentDidUpdate(prevProps: TreeCheckboxesProps) {
+    const props = this.props;
+
+    if (
+      !this.state.expanded.length &&
+      (props.expand !== prevProps.expand || props.options !== prevProps.options)
+    ) {
+      this.syncExpanded();
+    }
+  }
+
+  syncExpanded() {
+    const options = this.props.options;
+    const mode = this.props.expand;
+    const expanded: Array<string> = [];
+
+    if (!Array.isArray(options)) {
+      return;
+    }
+
+    if (mode === 'first' || mode === 'root') {
+      options.every((option, index) => {
+        if (Array.isArray(option.children)) {
+          expanded.push(`${index}`);
+          return mode === 'root';
+        }
+        return true;
+      });
+    } else if (mode === 'all') {
+      everyTree(options, (option, index, level, paths, indexes) => {
+        if (Array.isArray(option.children)) {
+          expanded.push(`${indexes.concat(index).join('-')}`);
+        }
+        return true;
+      });
+    }
+
+    this.setState({expanded});
+  }
+
   toggleOption(option: Option) {
-    const {value, onChange, option2value, options} = this.props;
+    const {value, onChange, option2value, options, onDeferLoad} = this.props;
 
     if (option.disabled) {
       return;
@@ -74,22 +126,26 @@ export class TreeCheckboxes extends Checkboxes<
     onChange && onChange(newValue);
   }
 
-  toggleCollapsed(option: Option) {
-    const collapsed = this.state.collapsed.concat();
-    const idx = collapsed.indexOf(option);
+  toggleCollapsed(option: Option, index: string) {
+    const onDeferLoad = this.props.onDeferLoad;
+    const expanded = this.state.expanded.concat();
+    const idx = expanded.indexOf(index);
 
     if (~idx) {
-      collapsed.splice(idx, 1);
+      expanded.splice(idx, 1);
     } else {
-      collapsed.push(option);
+      expanded.push(index);
     }
 
-    this.setState({
-      collapsed
-    });
+    this.setState(
+      {
+        expanded: expanded
+      },
+      option.defer && onDeferLoad ? () => onDeferLoad(option) : undefined
+    );
   }
 
-  renderItem(option: Option, index: number) {
+  renderItem(option: Option, index: number, indexes: Array<number> = []) {
     const {
       labelClassName,
       disabled,
@@ -97,6 +153,7 @@ export class TreeCheckboxes extends Checkboxes<
       itemClassName,
       itemRender
     } = this.props;
+    const id = indexes.join('-');
     const valueArray = this.valueArray;
     let partial = false;
     let checked = false;
@@ -129,15 +186,17 @@ export class TreeCheckboxes extends Checkboxes<
       checked = !!~valueArray.indexOf(option);
     }
 
-    const collapsed = !!~this.state.collapsed.indexOf(option);
+    const expaned = !!~this.state.expanded.indexOf(id);
 
     return (
       <div
         key={index}
         className={cx(
           'TreeCheckboxes-item',
-          disabled || option.disabled ? 'is-disabled' : '',
-          collapsed ? 'is-collapsed' : ''
+          disabled || option.disabled || (option.defer && option.loading)
+            ? 'is-disabled'
+            : '',
+          expaned ? 'is-expanded' : ''
         )}
       >
         <div
@@ -148,13 +207,13 @@ export class TreeCheckboxes extends Checkboxes<
           )}
           onClick={() => this.toggleOption(option)}
         >
-          {hasChildren ? (
+          {hasChildren || option.defer ? (
             <a
               onClick={(e: React.MouseEvent<any>) => {
                 e.stopPropagation();
-                this.toggleCollapsed(option);
+                this.toggleCollapsed(option, id);
               }}
-              className={cx('Table-expandBtn', !collapsed ? 'is-active' : '')}
+              className={cx('Table-expandBtn', expaned ? 'is-active' : '')}
             >
               <i />
             </a>
@@ -164,18 +223,24 @@ export class TreeCheckboxes extends Checkboxes<
             {itemRender(option)}
           </div>
 
-          <Checkbox
-            size="sm"
-            checked={checked}
-            partial={partial}
-            disabled={disabled || option.disabled}
-            labelClassName={labelClassName}
-            description={option.description}
-          />
+          {option.defer && option.loading ? <Spinner show size="sm" /> : null}
+
+          {!option.defer || option.loaded ? (
+            <Checkbox
+              size="sm"
+              checked={checked}
+              partial={partial}
+              disabled={disabled || option.disabled}
+              labelClassName={labelClassName}
+              description={option.description}
+            />
+          ) : null}
         </div>
-        {Array.isArray(option.children) && option.children.length ? (
+        {hasChildren ? (
           <div className={cx('TreeCheckboxes-sublist')}>
-            {option.children.map((option, key) => this.renderItem(option, key))}
+            {option.children!.map((option, key) =>
+              this.renderItem(option, key, indexes.concat(key))
+            )}
           </div>
         ) : null}
       </div>
@@ -196,7 +261,7 @@ export class TreeCheckboxes extends Checkboxes<
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
-      body = options.map((option, key) => this.renderItem(option, key));
+      body = options.map((option, key) => this.renderItem(option, key, [key]));
     }
 
     return (
