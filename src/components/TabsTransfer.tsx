@@ -85,7 +85,8 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       value,
       onChange,
       onSearch: searchable,
-      option2value
+      option2value,
+      onDeferLoad
     } = this.props;
 
     if (!Array.isArray(options) || !options.length) {
@@ -130,6 +131,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     value={value}
                     onChange={onChange}
                     option2value={option2value}
+                    onDeferLoad={onDeferLoad}
                   />
                 ) : option.selectMode === 'tree' ? (
                   <TreeCheckboxes
@@ -138,6 +140,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     value={value}
                     onChange={onChange}
                     option2value={option2value}
+                    onDeferLoad={onDeferLoad}
                   />
                 ) : option.selectMode === 'chained' ? (
                   <ChainedCheckboxes
@@ -146,6 +149,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     value={value}
                     onChange={onChange}
                     option2value={option2value}
+                    onDeferLoad={onDeferLoad}
                   />
                 ) : (
                   <ListCheckboxes
@@ -154,6 +158,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     value={value}
                     onChange={onChange}
                     option2value={option2value}
+                    onDeferLoad={onDeferLoad}
                   />
                 )}
               </Tab>
