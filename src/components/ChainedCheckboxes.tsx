@@ -1,3 +1,6 @@
+/**
+ * 级联多选框，支持无限极。从左侧到右侧一层层点选。
+ */
 import {Checkboxes, CheckboxesProps} from './Checkboxes';
 import {themeable} from '../theme';
 import React from 'react';
@@ -8,18 +11,32 @@ import {getTreeDepth} from '../utils/helper';
 import times from 'lodash/times';
 import Spinner from './Spinner';
 
+export interface ChainedCheckboxesProps extends CheckboxesProps {
+  defaultSelectedIndex?: string;
+}
+
 export interface ChainedCheckboxesState {
   selected: Array<string>;
 }
 
 export class ChainedCheckboxes extends Checkboxes<
-  CheckboxesProps,
+  ChainedCheckboxesProps,
   ChainedCheckboxesState
 > {
   valueArray: Array<Option>;
   state: ChainedCheckboxesState = {
     selected: []
   };
+
+  componentDidMount() {
+    const defaultSelectedIndex = this.props.defaultSelectedIndex;
+
+    if (defaultSelectedIndex !== undefined) {
+      this.setState({
+        selected: [`${defaultSelectedIndex}`]
+      });
+    }
+  }
 
   selectOption(option: Option, depth: number, id: string) {
     const {onDeferLoad} = this.props;

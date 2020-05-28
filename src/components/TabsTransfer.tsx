@@ -150,6 +150,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
+                    defaultSelectedIndex={option.defaultSelectedIndex}
                   />
                 ) : (
                   <ListCheckboxes
