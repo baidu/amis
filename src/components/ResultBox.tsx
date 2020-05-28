@@ -34,7 +34,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
   };
 
   @autobind
-  clearValue() {
+  clearValue(e: React.MouseEvent<any>) {
+    e.preventDefault();
     const onResultChange = this.props.onResultChange;
     onResultChange && onResultChange([]);
   }
