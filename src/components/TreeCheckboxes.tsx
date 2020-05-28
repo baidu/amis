@@ -4,12 +4,14 @@ import React from 'react';
 import uncontrollable from 'uncontrollable';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
-import {autobind} from '../utils/helper';
+import {autobind, eachTree} from '../utils/helper';
 
-export interface TreeCheckboxesProps extends CheckboxesProps {}
+export interface TreeCheckboxesProps extends CheckboxesProps {
+  expand?: 'all' | 'first' | 'root' | 'none';
+}
 
 export interface TreeCheckboxesState {
-  collapsed: Array<Option>;
+  expanded: Array<Option>;
 }
 
 export class TreeCheckboxes extends Checkboxes<
@@ -18,8 +20,56 @@ export class TreeCheckboxes extends Checkboxes<
 > {
   valueArray: Array<Option>;
   state: TreeCheckboxesState = {
-    collapsed: []
+    expanded: []
   };
+
+  static defaultProps = {
+    ...Checkboxes.defaultProps,
+    expand: 'first'
+  };
+
+  componentDidMount() {
+    this.syncExpanded();
+  }
+
+  componentDidUpdate(prevProps: TreeCheckboxesProps) {
+    const props = this.props;
+
+    if (
+      !this.state.expanded.length &&
+      (props.expand !== prevProps.expand || props.options !== prevProps.options)
+    ) {
+      this.syncExpanded();
+    }
+  }
+
+  syncExpanded() {
+    const options = this.props.options;
+    const mode = this.props.expand;
+    const expanded: Array<Option> = [];
+
+    if (!Array.isArray(options)) {
+      return;
+    }
+
+    if (mode === 'first' || mode === 'root') {
+      options.every(option => {
+        if (Array.isArray(option.children)) {
+          expanded.push(option);
+          return mode === 'root';
+        }
+        return true;
+      });
+    } else if (mode === 'all') {
+      eachTree(options, option => {
+        if (Array.isArray(option.children)) {
+          expanded.push(option);
+        }
+      });
+    }
+
+    this.setState({expanded});
+  }
 
   toggleOption(option: Option) {
     const {value, onChange, option2value, options} = this.props;
@@ -75,17 +125,17 @@ export class TreeCheckboxes extends Checkboxes<
   }
 
   toggleCollapsed(option: Option) {
-    const collapsed = this.state.collapsed.concat();
-    const idx = collapsed.indexOf(option);
+    const expanded = this.state.expanded.concat();
+    const idx = expanded.indexOf(option);
 
     if (~idx) {
-      collapsed.splice(idx, 1);
+      expanded.splice(idx, 1);
     } else {
-      collapsed.push(option);
+      expanded.push(option);
     }
 
     this.setState({
-      collapsed
+      expanded: expanded
     });
   }
 
@@ -129,15 +179,16 @@ export class TreeCheckboxes extends Checkboxes<
       checked = !!~valueArray.indexOf(option);
     }
 
-    const collapsed = !!~this.state.collapsed.indexOf(option);
+    const expaned = !!~this.state.expanded.indexOf(option);
 
+    // todo 支持 option.defer 延时加载
     return (
       <div
         key={index}
         className={cx(
           'TreeCheckboxes-item',
           disabled || option.disabled ? 'is-disabled' : '',
-          collapsed ? 'is-collapsed' : ''
+          expaned ? 'is-expanded' : ''
         )}
       >
         <div
@@ -154,7 +205,7 @@ export class TreeCheckboxes extends Checkboxes<
                 e.stopPropagation();
                 this.toggleCollapsed(option);
               }}
-              className={cx('Table-expandBtn', !collapsed ? 'is-active' : '')}
+              className={cx('Table-expandBtn', expaned ? 'is-active' : '')}
             >
               <i />
             </a>
@@ -173,9 +224,11 @@ export class TreeCheckboxes extends Checkboxes<
             description={option.description}
           />
         </div>
-        {Array.isArray(option.children) && option.children.length ? (
+        {hasChildren ? (
           <div className={cx('TreeCheckboxes-sublist')}>
-            {option.children.map((option, key) => this.renderItem(option, key))}
+            {option.children!.map((option, key) =>
+              this.renderItem(option, key)
+            )}
           </div>
         ) : null}
       </div>
