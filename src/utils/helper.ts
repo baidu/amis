@@ -892,15 +892,28 @@ export function filterTree<T extends TreeItem>(
  */
 export function everyTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number, paths: Array<T>) => boolean,
+  iterator: (
+    item: T,
+    key: number,
+    level: number,
+    paths: Array<T>,
+    indexes: Array<number>
+  ) => boolean,
   level: number = 1,
-  paths: Array<T> = []
+  paths: Array<T> = [],
+  indexes: Array<number> = []
 ): boolean {
   return tree.every((item, index) => {
-    const value: any = iterator(item, index, level, paths);
+    const value: any = iterator(item, index, level, paths, indexes);
 
     if (value && item.children && item.children.splice) {
-      return everyTree(item.children, iterator, level + 1, paths.concat(item));
+      return everyTree(
+        item.children,
+        iterator,
+        level + 1,
+        paths.concat(item),
+        indexes.concat(index)
+      );
     }
 
     return value;
@@ -975,6 +988,7 @@ export function spliceTree<T extends TreeItem>(
   if (typeof idx === 'number') {
     list.splice(idx, deleteCount, ...items);
   } else if (Array.isArray(idx) && idx.length) {
+    idx = idx.concat();
     const lastIdx = idx.pop()!;
     let host = idx.reduce((list: Array<T>, idx) => {
       const child = {

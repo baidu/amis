@@ -18,6 +18,7 @@ export class ListCheckboxes extends Checkboxes {
     } = this.props;
     const valueArray = this.valueArray;
 
+    // todo 支持 option.defer 延时加载
     if (Array.isArray(option.children)) {
       return (
         <div

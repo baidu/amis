@@ -404,6 +404,7 @@
   &-sublist {
     position: relative;
     margin: 0 0 0 px2rem(35px);
+    display: none;
 
     &:before {
       width: 1px;
@@ -420,8 +421,8 @@
   &-item {
     position: relative;
 
-    &.is-collapsed > .#{$ns}TreeCheckboxes-sublist {
-      display: none;
+    &.is-expanded > .#{$ns}TreeCheckboxes-sublist {
+      display: block;
     }
   }
 
@@ -442,6 +443,7 @@
 
   &-itemInner {
     display: flex;
+    align-items: center;
     height: $Form-input-height;
     line-height: $Form-input-lineHeight;
     font-size: $Form-input-fontSize;
@@ -452,6 +454,7 @@
 
     > .#{$ns}Checkbox {
       margin-right: 0;
+      margin-left: $gap-sm;
     }
     cursor: pointer;
     user-select: none;
@@ -481,7 +484,7 @@
 
   &-col {
     flex-grow: 1;
-    min-width: 120px;
+    min-width: 150px;
   }
 
   &-col:not(:last-child) {

@@ -6,9 +6,10 @@ import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {getTreeDepth} from '../utils/helper';
 import times from 'lodash/times';
+import Spinner from './Spinner';
 
 export interface ChainedCheckboxesState {
-  selected: Array<Option>;
+  selected: Array<string>;
 }
 
 export class ChainedCheckboxes extends Checkboxes<
@@ -20,17 +21,22 @@ export class ChainedCheckboxes extends Checkboxes<
     selected: []
   };
 
-  selectOption(option: Option, depth: number) {
+  selectOption(option: Option, depth: number, id: string) {
+    const {onDeferLoad} = this.props;
+
     const selected = this.state.selected.concat();
     selected.splice(depth, selected.length - depth);
-    selected.push(option);
+    selected.push(id);
 
-    this.setState({
-      selected
-    });
+    this.setState(
+      {
+        selected
+      },
+      option.defer && onDeferLoad ? () => onDeferLoad(option) : undefined
+    );
   }
 
-  renderOption(option: Option, index: number, depth: number) {
+  renderOption(option: Option, index: number, depth: number, id: string) {
     const {
       labelClassName,
       disabled,
@@ -40,7 +46,7 @@ export class ChainedCheckboxes extends Checkboxes<
     } = this.props;
     const valueArray = this.valueArray;
 
-    if (Array.isArray(option.children)) {
+    if (Array.isArray(option.children) || option.defer) {
       return (
         <div
           key={index}
@@ -49,13 +55,15 @@ export class ChainedCheckboxes extends Checkboxes<
             itemClassName,
             option.className,
             disabled || option.disabled ? 'is-disabled' : '',
-            ~this.state.selected.indexOf(option) ? 'is-active' : ''
+            ~this.state.selected.indexOf(id) ? 'is-active' : ''
           )}
-          onClick={() => this.selectOption(option, depth)}
+          onClick={() => this.selectOption(option, depth, id)}
         >
           <div className={cx('ChainedCheckboxes-itemLabel')}>
             {itemRender(option)}
           </div>
+
+          {option.defer && option.loading ? <Spinner size="sm" show /> : null}
         </div>
       );
     }
@@ -101,26 +109,29 @@ export class ChainedCheckboxes extends Checkboxes<
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
-      const selected: Array<Option | null> = this.state.selected.concat();
-      const depth = getTreeDepth(options);
-      times(depth - selected.length, () => selected.push(null));
+      const selected: Array<string | null> = this.state.selected.concat();
+      const depth = Math.min(getTreeDepth(options), 3);
+      times(Math.max(depth - selected.length, 1), () => selected.push(null));
 
       selected.reduce(
         (
           {
             body,
             options,
-            subTitle
+            subTitle,
+            indexes
           }: {
             body: Array<React.ReactNode>;
             options: Array<Option> | null;
             subTitle?: string;
+            indexes: Array<number>;
           },
           selected,
           depth
         ) => {
           let nextOptions: Array<Option> = [];
           let nextSubTitle: string = '';
+          let nextIndexes = indexes;
 
           body.push(
             <div key={depth} className={cx('ChainedCheckboxes-col')}>
@@ -131,12 +142,15 @@ export class ChainedCheckboxes extends Checkboxes<
               ) : null}
               {Array.isArray(options) && options.length
                 ? options.map((option, index) => {
-                    if (option === selected) {
+                    const id = indexes.concat(index).join('-');
+
+                    if (id === selected) {
                       nextSubTitle = option.subTitle;
                       nextOptions = option.children!;
+                      nextIndexes = indexes.concat(index);
                     }
 
-                    return this.renderOption(option, index, depth);
+                    return this.renderOption(option, index, depth, id);
                   })
                 : null}
             </div>
@@ -145,12 +159,14 @@ export class ChainedCheckboxes extends Checkboxes<
           return {
             options: nextOptions,
             subTitle: nextSubTitle,
+            indexes: nextIndexes,
             body: body
           };
         },
         {
           options,
-          body
+          body,
+          indexes: []
         }
       );
     }
