@@ -299,7 +299,8 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       value,
       onChange,
       option2value,
-      classnames: cx
+      classnames: cx,
+      onDeferLoad
     } = this.props;
 
     return selectMode === 'table' ? (
@@ -310,6 +311,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         value={value}
         onChange={onChange}
         option2value={option2value}
+        onDeferLoad={onDeferLoad}
       />
     ) : selectMode === 'tree' ? (
       <TreeCheckboxes
@@ -318,6 +320,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         value={value}
         onChange={onChange}
         option2value={option2value}
+        onDeferLoad={onDeferLoad}
       />
     ) : selectMode === 'chained' ? (
       <ChainedCheckboxes
@@ -326,6 +329,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         value={value}
         onChange={onChange}
         option2value={option2value}
+        onDeferLoad={onDeferLoad}
       />
     ) : (
       <ListCheckboxes
@@ -334,6 +338,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         value={value}
         onChange={onChange}
         option2value={option2value}
+        onDeferLoad={onDeferLoad}
       />
     );
   }
@@ -368,7 +373,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       >
         <div className={cx('Transfer-select')}>{this.renderSelect()}</div>
         <div className={cx('Transfer-mid')}>
-          {showArrow ? (
+          {showArrow /*todo 需要改成确认模式，即：点了按钮才到右边 */ ? (
             <div className={cx('Transfer-arrow')}>
               <Icon icon="right-arrow" />
             </div>

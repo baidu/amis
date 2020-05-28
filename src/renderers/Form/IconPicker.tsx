@@ -7,11 +7,7 @@ import Downshift, {StateChangeOptions} from 'downshift';
 import {autobind} from '../../utils/helper';
 import {ICONS} from './IconPickerIcons';
 import {FormItem, FormControlProps} from './Item';
-
-export interface Option {
-  label?: string;
-  value?: any;
-}
+import {Option} from '../../components/Select';
 
 export interface IconPickerProps extends FormControlProps {
   placeholder?: string;

@@ -62,6 +62,7 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   setOptions: (value: Array<any>, skipNormalize?: boolean) => void;
   setLoading: (value: boolean) => void;
   reloadOptions: () => void;
+  deferLoad: (option: Option) => void;
   creatable?: boolean;
   onAdd?: (
     idx?: number | Array<number>,
@@ -79,6 +80,7 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
 // 自己接收的属性。
 export interface OptionsProps extends FormControlProps, OptionProps {
   source?: Api;
+  deferApi?: Api;
   creatable?: boolean;
   addApi?: Api;
   addControls?: Array<any>;
@@ -450,6 +452,27 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
+    deferLoad(option: Option) {
+      const {deferApi, source, env, formItem, data} = this.props;
+
+      if (option.loaded) {
+        return;
+      }
+
+      const api = option.deferApi || deferApi || source;
+
+      if (!api) {
+        env.notify(
+          'error',
+          '请在选项中设置 `deferApi` 或者表单项中设置 `deferApi`，用来加载子选项。'
+        );
+        return;
+      }
+
+      formItem?.deferLoadOptions(option, api, createObject(data, option));
+    }
+
+    @autobind
     async initOptions(data: any) {
       await this.reload();
       const {formItem, name} = this.props;
@@ -777,6 +800,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           setOptions={this.setOptions}
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
+          deferLoad={this.deferLoad}
           creatable={
             creatable || (creatable !== false && isEffectiveApi(addApi))
           }

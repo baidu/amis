@@ -386,6 +386,46 @@ export default {
               ]
             }
           ]
+        },
+
+        {
+          label: '延时加载',
+          type: 'transfer',
+          name: 'transfer7',
+          selectMode: 'tree',
+          deferApi: '/api/mock2/form/deferOptions?label=${label}',
+          options: [
+            {
+              label: '法师',
+              children: [
+                {
+                  label: '诸葛亮',
+                  value: 'zhugeliang'
+                }
+              ]
+            },
+            {
+              label: '战士',
+              defer: true
+            },
+            {
+              label: '打野',
+              children: [
+                {
+                  label: '李白',
+                  value: 'libai'
+                },
+                {
+                  label: '韩信',
+                  value: 'hanxin'
+                },
+                {
+                  label: '云中君',
+                  value: 'yunzhongjun'
+                }
+              ]
+            }
+          ]
         }
       ]
     }

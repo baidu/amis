@@ -149,7 +149,8 @@ export class TransferRenderer<
       columns,
       loading,
       searchable,
-      searchResultMode
+      searchResultMode,
+      deferLoad
     } = this.props;
 
     return (
@@ -165,6 +166,7 @@ export class TransferRenderer<
           searchResultMode={searchResultMode}
           columns={columns}
           onSearch={searchable ? this.handleSearch : undefined}
+          onDeferLoad={deferLoad}
         />
 
         <Spinner overlay key="info" show={loading} />

@@ -22,15 +22,45 @@ import {findDOMNode} from 'react-dom';
 import {ClassNamesFn, themeable} from '../theme';
 import Checkbox from './Checkbox';
 import Input from './Input';
+import {Api} from '../types';
 
 export interface Option {
   label?: string;
+
+  // 可以用来给 Option 标记个范围，让数据展示更清晰。
+  // 这个只有在数值展示的时候显示。
+  scopeLabel?: string;
+
+  // 请保证数值唯一，多个选项值一致会认为是同一个选项。
   value?: any;
+
+  // 是否禁用
   disabled?: boolean;
+
+  // 支持嵌套
   children?: Options;
+
+  // 是否可见
   visible?: boolean;
+
+  // 最好不要用！因为有 visible 就够了。
   hidden?: boolean;
+
+  // 描述
   description?: string;
+
+  // 标记后数据延时加载
+  defer?: boolean;
+
+  // 如果设置了，优先级更高，不设置走 source 接口加载。
+  deferApi?: Api;
+
+  // 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
+  loading?: boolean;
+
+  // 只有设置了 defer 才有意义，内部字段不可以外部设置
+  loaded?: boolean;
+
   [propName: string]: any;
 }
 export interface Options extends Array<Option> {}
