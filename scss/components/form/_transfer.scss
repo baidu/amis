@@ -120,9 +120,7 @@
       }
 
       > .#{$ns}SearchBox {
-        margin: 0 5px 0 10px;
-        padding: 0 5px;
-        width: 25px;
+        margin: -5px 5px 0 10px;
 
         &.is-active {
           width: 150px;
