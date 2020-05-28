@@ -245,7 +245,16 @@ export const TableStore = iRendererStore
         return [];
       }
 
-      return getFilteredColumns().filter(item => item.fixed === 'left');
+      let columns = getFilteredColumns().filter(item => item.fixed === 'left');
+
+      // 有才带过去，没有就不带了
+      if (columns.length) {
+        columns = getFilteredColumns().filter(
+          item => item.fixed === 'left' || /^__/.test(item.type)
+        );
+      }
+
+      return columns;
     }
 
     function getRightFixedColumns() {
@@ -513,14 +522,13 @@ export const TableStore = iRendererStore
         columns.unshift({
           type: '__expandme',
           toggable: false,
-          // fixed: 'left',
           className: 'Table-expandCell'
         });
 
         columns.unshift({
           type: '__checkme',
-          toggable: false,
           fixed: 'left',
+          toggable: false,
           className: 'Table-checkCell'
         });
 

@@ -1189,7 +1189,13 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  renderCell(region: string, column: IColumn, item: IRow, props: any) {
+  renderCell(
+    region: string,
+    column: IColumn,
+    item: IRow,
+    props: any,
+    ignoreDrag = false
+  ) {
     const {
       render,
       store,
@@ -1255,6 +1261,7 @@ export default class Table extends React.Component<TableProps, object> {
     let prefix: React.ReactNode = null;
 
     if (
+      !ignoreDrag &&
       column.isPrimary &&
       store.isNested &&
       store.draggable &&
@@ -1305,6 +1312,7 @@ export default class Table extends React.Component<TableProps, object> {
         <div className={cx('Table-fixedLeft')}>
           {store.leftFixedColumns.length
             ? this.renderFixedColumns(
+                store.rows,
                 store.leftFixedColumns,
                 true,
                 tableClassName
@@ -1314,6 +1322,7 @@ export default class Table extends React.Component<TableProps, object> {
         <div className={cx('Table-fixedRight')}>
           {store.rightFixedColumns.length
             ? this.renderFixedColumns(
+                store.rows,
                 store.rightFixedColumns,
                 true,
                 tableClassName
@@ -1352,6 +1361,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderFixedColumns(
+    rows: Array<any>,
     columns: Array<IColumn>,
     headerOnly: boolean = false,
     tableClassName: string = ''
@@ -1408,36 +1418,15 @@ export default class Table extends React.Component<TableProps, object> {
 
         {headerOnly ? null : (
           <tbody>
-            {store.rows.length ? (
-              store.rows.map((item, rowIndex) => {
-                const itemProps = buildItemProps
-                  ? buildItemProps(item, rowIndex)
-                  : null;
-
-                return (
-                  <TableRow
-                    {...itemProps}
-                    classPrefix={ns}
-                    checkOnItemClick={checkOnItemClick}
-                    key={item.id}
-                    itemIndex={rowIndex}
-                    item={item}
-                    itemClassName={cx(
-                      rowClassNameExpr
-                        ? filter(rowClassNameExpr, item.data)
-                        : rowClassName
-                    )}
-                    columns={columns}
-                    renderCell={this.renderCell}
-                    render={render}
-                    regionPrefix="fixed/"
-                    onCheck={this.handleCheck}
-                    onAction={onAction}
-                    onQuickChange={
-                      store.dragging ? null : this.handleQuickChange
-                    }
-                  />
-                );
+            {rows.length ? (
+              this.renderRows(rows, columns, {
+                regionPrefix: 'fixed/',
+                renderCell: (
+                  region: string,
+                  column: IColumn,
+                  item: IRow,
+                  props: any
+                ) => this.renderCell(region, column, item, props, true)
               })
             ) : (
               <tr className={cx('Table-placeholder')}>
@@ -1713,7 +1702,11 @@ export default class Table extends React.Component<TableProps, object> {
       : footerNode || toolbarNode || null;
   }
 
-  renderRows(rows: Array<any>): any {
+  renderRows(
+    rows: Array<any>,
+    columns = this.props.store.filteredColumns,
+    rowProps: any = {}
+  ): any {
     const {
       store,
       rowClassName,
@@ -1747,13 +1740,14 @@ export default class Table extends React.Component<TableProps, object> {
               'is-expandable': item.expandable
             }
           )}
-          columns={store.filteredColumns}
+          columns={columns}
           renderCell={this.renderCell}
           render={render}
           onAction={onAction}
           onCheck={this.handleCheck}
           // todo 先注释 quickEditEnabled={item.depth === 1}
           onQuickChange={store.dragging ? null : this.handleQuickChange}
+          {...rowProps}
         />
       ];
 
@@ -1773,7 +1767,7 @@ export default class Table extends React.Component<TableProps, object> {
                     ? filter(rowClassNameExpr, item.data)
                     : rowClassName
                 )}
-                columns={store.footableColumns}
+                columns={columns}
                 renderCell={this.renderCell}
                 render={render}
                 onAction={onAction}
@@ -1781,12 +1775,13 @@ export default class Table extends React.Component<TableProps, object> {
                 footableMode
                 footableColSpan={store.filteredColumns.length}
                 onQuickChange={store.dragging ? null : this.handleQuickChange}
+                {...rowProps}
               />
             );
           }
         } else if (Array.isArray(item.data.children)) {
           // 嵌套表格
-          doms.push(...this.renderRows(item.children));
+          doms.push(...this.renderRows(item.children, columns, rowProps));
         }
       }
       return doms;
@@ -1886,7 +1881,7 @@ export default class Table extends React.Component<TableProps, object> {
           </thead>
           <tbody>
             {store.rows.length ? (
-              this.renderRows(store.rows)
+              this.renderRows(store.rows, store.filteredColumns)
             ) : (
               <tr className={cx('Table-placeholder')}>
                 <td colSpan={store.filteredColumns.length}>
@@ -1936,6 +1931,7 @@ export default class Table extends React.Component<TableProps, object> {
           <div className={cx('Table-fixedLeft')}>
             {affixColumns !== false && store.leftFixedColumns.length
               ? this.renderFixedColumns(
+                  store.rows,
                   store.leftFixedColumns,
                   false,
                   tableClassName
@@ -1945,6 +1941,7 @@ export default class Table extends React.Component<TableProps, object> {
           <div className={cx('Table-fixedRight')}>
             {affixColumns !== false && store.rightFixedColumns.length
               ? this.renderFixedColumns(
+                  store.rows,
                   store.rightFixedColumns,
                   false,
                   tableClassName
