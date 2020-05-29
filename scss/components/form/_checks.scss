@@ -563,7 +563,31 @@
     border-right: 1px solid $borderColor;
   }
 
-  &-placeholder {
-    @include checkboxes-placeholder();
+  &-reload {
+    text-align: center;
+    color: $info;
+    margin: 20px 0 0;
+
+    &.is-clickable {
+      cursor: pointer;
+    }
+  }
+
+  &-box {
+    line-height: $Form-input-lineHeight;
+    font-size: $fontSizeSm;
+    color: $text--muted-color;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    > p {
+      text-align: center;
+      margin: 10px 0 20px;
+      color: $text--muted-color;
+    }
   }
 }

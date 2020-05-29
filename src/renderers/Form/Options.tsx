@@ -61,7 +61,7 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   selectedOptions: Array<Option>;
   setOptions: (value: Array<any>, skipNormalize?: boolean) => void;
   setLoading: (value: boolean) => void;
-  reloadOptions: () => void;
+  reloadOptions: (setError?: boolean) => void;
   deferLoad: (option: Option) => void;
   creatable?: boolean;
   onAdd?: (
@@ -435,6 +435,11 @@ export function registerOptionsControl(config: OptionsConfig) {
     // 当有 action 触发，如果指定了 reload 目标组件，有可能会来到这里面来
     @autobind
     reload() {
+      this.reloadOptions();
+    }
+
+    @autobind
+    reloadOptions(setError?: boolean) {
       const {source, formItem, data, onChange} = this.props;
 
       if (formItem && isPureVariable(source as string)) {
@@ -448,7 +453,14 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      return formItem.loadOptions(source, data, undefined, false, onChange);
+      return formItem.loadOptions(
+        source,
+        data,
+        undefined,
+        false,
+        onChange,
+        setError
+      );
     }
 
     @autobind

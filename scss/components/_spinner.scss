@@ -8,6 +8,20 @@
   }
 }
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.is-spin {
+  animation: spin 2s linear infinite;
+}
+
 .#{$ns}Spinner-overlay {
   position: absolute;
   z-index: 10;
