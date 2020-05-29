@@ -21,6 +21,7 @@ import TreeRadios from './TreeRadios';
 
 export interface AssociatedCheckboxesProps extends CheckboxesProps {
   leftOptions: Options;
+  leftDefaultValue?: any;
   leftMode?: 'tree' | 'list';
   rightMode?: 'table' | 'list' | 'tree' | 'chained';
   columns?: Array<any>;
@@ -44,7 +45,9 @@ export class AssociatedCheckboxes extends Checkboxes<
   AssociatedCheckboxesProps,
   AssociatedCheckboxesState
 > {
-  state: AssociatedCheckboxesState = {};
+  state: AssociatedCheckboxesState = {
+    leftValue: this.props.leftDefaultValue
+  };
 
   @autobind
   leftOption2Value(option: Option) {

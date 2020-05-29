@@ -38,6 +38,7 @@ export interface TransferProps extends ThemeProps, CheckboxesProps {
   ) => JSX.Element;
   leftOptions?: Array<Option>;
   leftMode?: 'tree' | 'list';
+  leftDefaultValue?: any;
   rightMode?: 'table' | 'list' | 'tree' | 'chained';
 
   // search 相关
@@ -320,7 +321,8 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       leftOptions,
       leftMode,
       rightMode,
-      cellRender
+      cellRender,
+      leftDefaultValue
     } = this.props;
 
     return selectMode === 'table' ? (
@@ -364,6 +366,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         leftOptions={leftOptions || []}
         leftMode={leftMode}
         rightMode={rightMode}
+        leftDefaultValue={leftDefaultValue}
       />
     ) : (
       <ListCheckboxes
