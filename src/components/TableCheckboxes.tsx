@@ -18,7 +18,9 @@ export interface TableCheckboxesProps extends CheckboxesProps {
       label: string;
       [propName: string]: any;
     },
-    option: Option
+    option: Option,
+    colIndex: number,
+    rowIndex: number
   ) => JSX.Element;
 }
 
@@ -31,7 +33,9 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
         label: string;
         [propName: string]: any;
       },
-      option: Option
+      option: Option,
+      colIndex: number,
+      rowIndex: number
     ) => <span>{resolveVariable(column.name, option)}</span>
   };
 
@@ -107,7 +111,9 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
                   <Checkbox size="sm" checked={checked} />
                 </td>
                 {columns.map((column, colIndex) => (
-                  <td key={colIndex}>{cellRender(column, option)}</td>
+                  <td key={colIndex}>
+                    {cellRender(column, option, colIndex, rowIndex)}
+                  </td>
                 ))}
               </tr>
             );

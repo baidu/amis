@@ -426,6 +426,110 @@ export default {
               ]
             }
           ]
+        },
+
+        ,
+        {
+          label: '关联选择模式',
+          type: 'transfer',
+          name: 'b',
+          sortable: true,
+          searchable: true,
+          deferApi: '/api/mock2/form/deferOptions?label=${label}',
+          selectMode: 'associated',
+          leftMode: 'tree',
+          leftOptions: [
+            {
+              label: '法师',
+              children: [
+                {
+                  label: '诸葛亮',
+                  value: 'zhugeliang'
+                }
+              ]
+            },
+            {
+              label: '战士',
+              children: [
+                {
+                  label: '曹操',
+                  value: 'caocao'
+                },
+                {
+                  label: '钟无艳',
+                  value: 'zhongwuyan'
+                }
+              ]
+            },
+            {
+              label: '打野',
+              children: [
+                {
+                  label: '李白',
+                  value: 'libai'
+                },
+                {
+                  label: '韩信',
+                  value: 'hanxin'
+                },
+                {
+                  label: '云中君',
+                  value: 'yunzhongjun'
+                }
+              ]
+            }
+          ],
+          options: [
+            {
+              ref: 'zhugeliang',
+              children: [
+                {
+                  label: 'A',
+                  value: 'a'
+                }
+              ]
+            },
+            {
+              ref: 'caocao',
+              children: [
+                {
+                  label: 'B',
+                  value: 'b'
+                },
+
+                {
+                  label: 'C',
+                  value: 'c'
+                }
+              ]
+            },
+            {
+              ref: 'zhongwuyan',
+              children: [
+                {
+                  label: 'D',
+                  value: 'd'
+                },
+
+                {
+                  label: 'E',
+                  value: 'e'
+                }
+              ]
+            },
+            {
+              ref: 'libai',
+              defer: true
+            },
+            {
+              ref: 'hanxin',
+              defer: true
+            },
+            {
+              ref: 'yunzhongjun',
+              defer: true
+            }
+          ]
         }
       ]
     }

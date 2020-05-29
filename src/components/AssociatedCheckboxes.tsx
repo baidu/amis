@@ -5,13 +5,164 @@
  */
 
 import React from 'react';
+import {CheckboxesProps, Checkboxes} from './Checkboxes';
+import {Options, Option} from './Select';
+import ListMenu from './ListMenu';
+import {autobind} from '../utils/helper';
+import ListRadios from './ListRadios';
+import {themeable} from '../theme';
+import uncontrollable from 'uncontrollable';
+import ListCheckboxes from './ListCheckboxes';
+import TableCheckboxes from './TableCheckboxes';
+import TreeCheckboxes from './TreeCheckboxes';
+import ChainedCheckboxes from './ChainedCheckboxes';
+import Spinner from './Spinner';
+import TreeRadios from './TreeRadios';
 
-export interface AssociatedCheckboxesProps {}
+export interface AssociatedCheckboxesProps extends CheckboxesProps {
+  leftOptions: Options;
+  leftMode?: 'tree' | 'list';
+  rightMode?: 'table' | 'list' | 'tree' | 'chained';
+  columns?: Array<any>;
+  cellRender?: (
+    column: {
+      name: string;
+      label: string;
+      [propName: string]: any;
+    },
+    option: Option,
+    colIndex: number,
+    rowIndex: number
+  ) => JSX.Element;
+}
 
-export class AssociatedCheckboxes extends React.Component<
-  AssociatedCheckboxesProps
+export interface AssociatedCheckboxesState {
+  leftValue?: Option;
+}
+
+export class AssociatedCheckboxes extends Checkboxes<
+  AssociatedCheckboxesProps,
+  AssociatedCheckboxesState
 > {
+  state: AssociatedCheckboxesState = {};
+
+  @autobind
+  leftOption2Value(option: Option) {
+    return option.value;
+  }
+
+  @autobind
+  handleLeftSelect(value: Option) {
+    const {options, onDeferLoad} = this.props;
+    this.setState({leftValue: value});
+
+    const selectdOption = ListRadios.resolveSelected(
+      value,
+      options,
+      option => option.ref
+    );
+
+    if (selectdOption && onDeferLoad && selectdOption.defer) {
+      onDeferLoad(selectdOption);
+    }
+  }
+
   render() {
-    return <div>todo</div>;
+    const {
+      classnames: cx,
+      className,
+      leftOptions,
+      options,
+      option2value,
+      rightMode,
+      onChange,
+      columns,
+      value,
+      leftMode,
+      cellRender
+    } = this.props;
+
+    const selectdOption = ListRadios.resolveSelected(
+      this.state.leftValue,
+      options,
+      option => option.ref
+    );
+
+    return (
+      <div className={cx('AssociatedCheckboxes', className)}>
+        <div className={cx('AssociatedCheckboxes-left')}>
+          {leftMode === 'tree' ? (
+            <TreeRadios
+              option2value={this.leftOption2Value}
+              options={leftOptions}
+              value={this.state.leftValue}
+              onChange={this.handleLeftSelect}
+              showRadio={false}
+            />
+          ) : (
+            <ListRadios
+              option2value={this.leftOption2Value}
+              options={leftOptions}
+              value={this.state.leftValue}
+              onChange={this.handleLeftSelect}
+              showRadio={false}
+            />
+          )}
+        </div>
+        <div className={cx('AssociatedCheckboxes-right')}>
+          {this.state.leftValue ? (
+            selectdOption ? (
+              selectdOption.defer && selectdOption.loading ? (
+                <Spinner size="sm" show />
+              ) : rightMode === 'table' ? (
+                <TableCheckboxes
+                  columns={columns!}
+                  value={value}
+                  options={selectdOption.children || []}
+                  onChange={onChange}
+                  option2value={option2value}
+                  cellRender={cellRender}
+                />
+              ) : rightMode === 'tree' ? (
+                <TreeCheckboxes
+                  value={value}
+                  options={selectdOption.children || []}
+                  onChange={onChange}
+                  option2value={option2value}
+                />
+              ) : rightMode === 'chained' ? (
+                <ChainedCheckboxes
+                  value={value}
+                  options={selectdOption.children || []}
+                  onChange={onChange}
+                  option2value={option2value}
+                />
+              ) : (
+                <ListCheckboxes
+                  value={value}
+                  options={selectdOption.children || []}
+                  onChange={onChange}
+                  option2value={option2value}
+                />
+              )
+            ) : (
+              <div className={cx('AssociatedCheckboxes-placeholder')}>
+                配置错误，选项无法与左侧选项对应
+              </div>
+            )
+          ) : (
+            <div className={cx('AssociatedCheckboxes-placeholder')}>
+              请先选择左侧数据
+            </div>
+          )}
+        </div>
+      </div>
+    );
   }
 }
+
+export default themeable(
+  uncontrollable(AssociatedCheckboxes, {
+    value: 'onChange'
+  })
+);
