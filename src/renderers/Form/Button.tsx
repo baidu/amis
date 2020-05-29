@@ -8,7 +8,7 @@ export interface ButtonProps extends FormControlProps, Omit<Button, 'size'> {}
 export class ButtonControl extends React.Component<ButtonProps, any> {
   static defaultProps: Partial<ButtonProps> = {};
   render() {
-    const {render, type, children, ...rest} = this.props;
+    const {render, type, children, data, ...rest} = this.props;
 
     return render('action', {
       ...rest,
