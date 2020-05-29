@@ -221,7 +221,7 @@
   }
 
   &--sm.#{$ns}Checkbox--full {
-    input {
+    input[type='checkbox'] {
       &:checked + i {
         &:before {
           width: $Checkbox--sm--full-inner-size;
@@ -312,7 +312,8 @@
   }
 }
 
-.#{$ns}ListCheckboxes {
+.#{$ns}ListCheckboxes,
+.#{$ns}ListRadios {
   &-group:not(:first-child) > &-itemLabel {
     border-top: px2rem(1px) solid $ListMenu-divider-color;
   }
@@ -362,6 +363,15 @@
   }
 }
 
+.#{$ns}ListRadios {
+  &-item {
+    &.is-active {
+      color: $Form-select-menu-onActive-color;
+      background-color: $Form-select-menu-onActive-bg;
+    }
+  }
+}
+
 .#{$ns}TableCheckboxes {
   .#{$ns}Table-content {
     border-top: $Table-borderWidth solid $Table-borderColor;
@@ -395,7 +405,8 @@
   }
 }
 
-.#{$ns}TreeCheckboxes {
+.#{$ns}TreeCheckboxes,
+.#{$ns}TreeRadios {
   .#{$ns}Table-expandBtn {
     color: $icon-color;
     margin-right: 5px;
@@ -420,10 +431,9 @@
 
   &-item {
     position: relative;
-
-    &.is-expanded > .#{$ns}TreeCheckboxes-sublist {
-      display: block;
-    }
+  }
+  &-item.is-expanded > &-sublist {
+    display: block;
   }
 
   &-item:not(:last-child) > &-sublist:before {
@@ -461,6 +471,11 @@
 
     &:hover {
       background-color: $Tree-item-onHover-bg;
+    }
+
+    &.is-active {
+      color: $Form-select-menu-onActive-color;
+      background-color: $Form-select-menu-onActive-bg;
     }
 
     &.is-disabled {
@@ -530,6 +545,26 @@
 
   &-itemLabel {
     flex-grow: 1;
+  }
+
+  &-placeholder {
+    @include checkboxes-placeholder();
+  }
+}
+
+.#{$ns}AssociatedCheckboxes {
+  display: flex;
+  flex-direction: row;
+
+  &-left,
+  &-right {
+    flex-grow: 1;
+    width: 0;
+    overflow: auto;
+  }
+
+  &-left {
+    border-right: 1px solid $borderColor;
   }
 
   &-placeholder {

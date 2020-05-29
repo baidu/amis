@@ -26,7 +26,9 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     clearable: false,
     placeholder: '暂无结果',
     inputPlaceholder: '手动输入内容',
-    itemRender: (option: any) => <span>{String(option.label)}</span>
+    itemRender: (option: any) => (
+      <span>{`${option.scopeLabel || ''}${option.label}`}</span>
+    )
   };
 
   state = {

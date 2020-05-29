@@ -9,12 +9,24 @@ import ListCheckboxes from './ListCheckboxes';
 import {Options, Option} from './Select';
 import Transfer, {TransferProps} from './Transfer';
 import {themeable} from '../theme';
+import AssociatedCheckboxes from './AssociatedCheckboxes';
 
 export interface TabsTransferProps
   extends Omit<
     TransferProps,
     'selectMode' | 'columns' | 'selectRender' | 'statistics'
-  > {}
+  > {
+  cellRender?: (
+    column: {
+      name: string;
+      label: string;
+      [propName: string]: any;
+    },
+    option: Option,
+    colIndex: number,
+    rowIndex: number
+  ) => JSX.Element;
+}
 
 export class TabsTransfer extends React.Component<TabsTransferProps> {
   static defaultProps = {
@@ -31,7 +43,8 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       classnames: cx,
       value,
       onChange,
-      option2value
+      option2value,
+      cellRender
     } = this.props;
     const options = searchResult || [];
     const mode = searchResultMode;
@@ -45,6 +58,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
         value={value}
         onChange={onChange}
         option2value={option2value}
+        cellRender={cellRender}
       />
     ) : mode === 'tree' ? (
       <TreeCheckboxes
@@ -86,7 +100,8 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       onChange,
       onSearch: searchable,
       option2value,
-      onDeferLoad
+      onDeferLoad,
+      cellRender
     } = this.props;
 
     if (!Array.isArray(options) || !options.length) {
@@ -132,6 +147,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
+                    cellRender={cellRender}
                   />
                 ) : option.selectMode === 'tree' ? (
                   <TreeCheckboxes
@@ -151,6 +167,17 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
                     defaultSelectedIndex={option.defaultSelectedIndex}
+                  />
+                ) : option.selectMode === 'associated' ? (
+                  <AssociatedCheckboxes
+                    className={cx('Transfer-checkboxes')}
+                    options={option.children || []}
+                    value={value}
+                    onChange={onChange}
+                    option2value={option2value}
+                    onDeferLoad={onDeferLoad}
+                    leftMode={option.leftMode}
+                    leftOptions={option.leftOptions}
                   />
                 ) : (
                   <ListCheckboxes

@@ -47,6 +47,8 @@ import TreeCheckboxes from './TreeCheckboxes';
 import ChainedCheckboxes from './ChainedCheckboxes';
 import ResultBox from './ResultBox';
 import InputBox from './InputBox';
+import ListRadios from './ListRadios';
+import TreeRadios from './TreeRadios';
 
 export {
   NotFound,
@@ -96,5 +98,7 @@ export {
   TreeCheckboxes,
   ChainedCheckboxes,
   ResultBox,
-  InputBox
+  InputBox,
+  ListRadios,
+  TreeRadios
 };

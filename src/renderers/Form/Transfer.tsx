@@ -13,11 +13,16 @@ import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
 import find from 'lodash/find';
 import {optionValueCompare} from '../../components/Select';
+import {resolveVariable} from '../../utils/tpl-builtin';
 
 export interface TransferProps extends OptionsControlProps {
   showArrow?: boolean;
   sortable?: boolean;
-  selectMode?: 'table' | 'list' | 'tree' | 'chained';
+  selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
+  leftOptions?: Array<Option>;
+  leftMode?: 'tree' | 'list' | 'chained';
+  rightMode?: 'table' | 'list' | 'tree' | 'chained';
+
   searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
   columns?: Array<any>;
   searchable?: boolean;
@@ -137,6 +142,31 @@ export class TransferRenderer<
     }
   }
 
+  @autobind
+  renderCell(
+    column: {
+      name: string;
+      label: string;
+      [propName: string]: any;
+    },
+    option: Option,
+    colIndex: number,
+    rowIndex: number
+  ) {
+    const {render, data} = this.props;
+    return render(
+      `cell/${colIndex}/${rowIndex}`,
+      {
+        type: 'text',
+        ...column
+      },
+      {
+        value: resolveVariable(column.name, option),
+        data: createObject(data, option)
+      }
+    );
+  }
+
   render() {
     const {
       className,
@@ -150,7 +180,10 @@ export class TransferRenderer<
       loading,
       searchable,
       searchResultMode,
-      deferLoad
+      deferLoad,
+      leftOptions,
+      leftMode,
+      rightMode
     } = this.props;
 
     return (
@@ -167,6 +200,10 @@ export class TransferRenderer<
           columns={columns}
           onSearch={searchable ? this.handleSearch : undefined}
           onDeferLoad={deferLoad}
+          leftOptions={leftOptions}
+          leftMode={leftMode}
+          rightMode={rightMode}
+          cellRender={this.renderCell}
         />
 
         <Spinner overlay key="info" show={loading} />

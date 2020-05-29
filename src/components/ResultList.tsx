@@ -24,7 +24,9 @@ export interface ResultListProps extends ThemeProps {
 export class ResultList extends React.Component<ResultListProps> {
   static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender'> = {
     placeholder: '请先选择数据',
-    itemRender: (option: Option) => <span>{option.label}</span>
+    itemRender: (option: any) => (
+      <span>{`${option.scopeLabel || ''}${option.label}`}</span>
+    )
   };
 
   id = guid();

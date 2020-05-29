@@ -27,7 +27,8 @@ export class TabsTransferRenderer extends TransferRenderer<TabsTransferProps> {
       loading,
       searchable,
       searchResultMode,
-      showArrow
+      showArrow,
+      deferLoad
     } = this.props;
 
     return (
@@ -41,6 +42,7 @@ export class TabsTransferRenderer extends TransferRenderer<TabsTransferProps> {
           searchResultMode={searchResultMode}
           onSearch={searchable ? this.handleSearch : undefined}
           showArrow={showArrow}
+          onDeferLoad={deferLoad}
         />
 
         <Spinner overlay key="info" show={loading} />

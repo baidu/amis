@@ -12,6 +12,7 @@ import InputBox from './InputBox';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 import ChainedCheckboxes from './ChainedCheckboxes';
+import AssociatedCheckboxes from './AssociatedCheckboxes';
 
 export interface TransferProps extends ThemeProps, CheckboxesProps {
   inline?: boolean;
@@ -19,12 +20,25 @@ export interface TransferProps extends ThemeProps, CheckboxesProps {
   showArrow?: boolean;
 
   selectTitle: string;
-  selectMode?: 'table' | 'list' | 'tree' | 'chained';
+  selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
   columns?: Array<{
     name: string;
     label: string;
     [propName: string]: any;
   }>;
+  cellRender?: (
+    column: {
+      name: string;
+      label: string;
+      [propName: string]: any;
+    },
+    option: Option,
+    colIndex: number,
+    rowIndex: number
+  ) => JSX.Element;
+  leftOptions?: Array<Option>;
+  leftMode?: 'tree' | 'list';
+  rightMode?: 'table' | 'list' | 'tree' | 'chained';
 
   // search 相关
   searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
@@ -246,7 +260,8 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       classnames: cx,
       value,
       onChange,
-      option2value
+      option2value,
+      cellRender
     } = this.props;
     const options = this.state.searchResult || [];
     const mode = searchResultMode || selectMode;
@@ -260,6 +275,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         value={value}
         onChange={onChange}
         option2value={option2value}
+        cellRender={cellRender}
       />
     ) : mode === 'tree' ? (
       <TreeCheckboxes
@@ -300,7 +316,11 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       onChange,
       option2value,
       classnames: cx,
-      onDeferLoad
+      onDeferLoad,
+      leftOptions,
+      leftMode,
+      rightMode,
+      cellRender
     } = this.props;
 
     return selectMode === 'table' ? (
@@ -312,6 +332,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         onChange={onChange}
         option2value={option2value}
         onDeferLoad={onDeferLoad}
+        cellRender={cellRender}
       />
     ) : selectMode === 'tree' ? (
       <TreeCheckboxes
@@ -330,6 +351,19 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         onChange={onChange}
         option2value={option2value}
         onDeferLoad={onDeferLoad}
+      />
+    ) : selectMode === 'associated' ? (
+      <AssociatedCheckboxes
+        className={cx('Transfer-checkboxes')}
+        options={options || []}
+        value={value}
+        onChange={onChange}
+        option2value={option2value}
+        onDeferLoad={onDeferLoad}
+        columns={columns}
+        leftOptions={leftOptions || []}
+        leftMode={leftMode}
+        rightMode={rightMode}
       />
     ) : (
       <ListCheckboxes
