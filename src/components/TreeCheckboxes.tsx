@@ -78,6 +78,9 @@ export class TreeCheckboxes extends Checkboxes<
 
     if (option.disabled) {
       return;
+    } else if (option.defer && !option.loaded) {
+      onDeferLoad?.(option);
+      return;
     }
 
     let valueArray = Checkboxes.value2array(value, options, option2value);
