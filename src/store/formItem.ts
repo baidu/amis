@@ -354,11 +354,13 @@ export const FormItemStore = types
     const fetchOptions: (
       api: Api,
       data?: object,
-      config?: fetchOptions
+      config?: fetchOptions,
+      setErrorFlag?: boolean
     ) => Promise<Payload | null> = flow(function* getInitData(
       api: string,
       data: object,
-      config?: fetchOptions
+      config?: fetchOptions,
+      setErrorFlag?: boolean
     ) {
       try {
         if (loadCancel) {
@@ -382,9 +384,12 @@ export const FormItemStore = types
         let result: any = null;
 
         if (!json.ok) {
-          setError(
-            `加载选项失败，原因：${json.msg || (config && config.errorMessage)}`
-          );
+          setErrorFlag !== false &&
+            setError(
+              `加载选项失败，原因：${
+                json.msg || (config && config.errorMessage)
+              }`
+            );
           (getRoot(self) as IRendererStore).notify(
             'error',
             self.errors.join(''),
@@ -426,7 +431,8 @@ export const FormItemStore = types
       data?: object,
       config?: fetchOptions,
       clearValue?: boolean,
-      onChange?: (value: any) => void
+      onChange?: (value: any) => void,
+      setErrorFlag?: boolean
     ) => Promise<Payload | null> = flow(function* getInitData(
       api: string,
       data: object,
@@ -436,9 +442,10 @@ export const FormItemStore = types
         value: any,
         submitOnChange: boolean,
         changeImmediately: boolean
-      ) => void
+      ) => void,
+      setErrorFlag?: boolean
     ) {
-      let json = yield fetchOptions(api, data, config);
+      let json = yield fetchOptions(api, data, config, setErrorFlag);
       if (!json) {
         return;
       }
@@ -490,8 +497,15 @@ export const FormItemStore = types
         })
       );
 
-      let json = yield fetchOptions(api, data, config);
+      let json = yield fetchOptions(api, data, config, false);
       if (!json) {
+        setOptions(
+          spliceTree(self.options, indexes, 1, {
+            ...option,
+            loading: false,
+            error: true
+          })
+        );
         return;
       }
 

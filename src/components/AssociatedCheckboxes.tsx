@@ -18,6 +18,7 @@ import TreeCheckboxes from './TreeCheckboxes';
 import ChainedCheckboxes from './ChainedCheckboxes';
 import Spinner from './Spinner';
 import TreeRadios from './TreeRadios';
+import {Icon} from './icons';
 
 export interface AssociatedCheckboxesProps extends CheckboxesProps {
   leftOptions: Options;
@@ -87,6 +88,11 @@ export class AssociatedCheckboxes extends Checkboxes<
     }
   }
 
+  handleRetry(option: Option) {
+    const {onDeferLoad} = this.props;
+    onDeferLoad?.(option);
+  }
+
   render() {
     const {
       classnames: cx,
@@ -132,8 +138,28 @@ export class AssociatedCheckboxes extends Checkboxes<
         <div className={cx('AssociatedCheckboxes-right')}>
           {this.state.leftValue ? (
             selectdOption ? (
-              selectdOption.defer && selectdOption.loading ? (
-                <Spinner size="sm" show />
+              selectdOption.defer && !selectdOption.loaded ? (
+                <div className={cx('AssociatedCheckboxes-box')}>
+                  <div
+                    className={cx(
+                      'AssociatedCheckboxes-reload',
+                      selectdOption.loading ? 'is-spin' : 'is-clickable'
+                    )}
+                    onClick={
+                      selectdOption.loading
+                        ? undefined
+                        : this.handleRetry.bind(this, selectdOption)
+                    }
+                  >
+                    <Icon icon="reload" />
+                  </div>
+
+                  {selectdOption.loading ? (
+                    <p>加载中</p>
+                  ) : (
+                    <p>点击刷新重新加载</p>
+                  )}
+                </div>
               ) : rightMode === 'table' ? (
                 <TableCheckboxes
                   columns={columns!}
@@ -166,12 +192,12 @@ export class AssociatedCheckboxes extends Checkboxes<
                 />
               )
             ) : (
-              <div className={cx('AssociatedCheckboxes-placeholder')}>
+              <div className={cx('AssociatedCheckboxes-box')}>
                 配置错误，选项无法与左侧选项对应
               </div>
             )
           ) : (
-            <div className={cx('AssociatedCheckboxes-placeholder')}>
+            <div className={cx('AssociatedCheckboxes-box')}>
               请先选择左侧数据
             </div>
           )}
