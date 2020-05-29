@@ -85,3 +85,6 @@ export const RendererStore = types
 
 export type IRendererStore = typeof RendererStore.Type;
 export {iRendererStore, IIRendererStore};
+export const RegisterStore = function (store: any) {
+  allowedStoreList.push(store as any);
+};

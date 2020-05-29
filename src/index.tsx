@@ -26,6 +26,7 @@ import * as utils from './utils/helper';
 import {resizeSensor} from './utils/resize-sensor';
 import {setIconVendor} from './renderers/Form/IconPickerIcons';
 import {Icon, registerIcon} from './components/icons';
+import {RegisterStore} from './store';
 
 // 注册渲染器
 import './renderers/Action';
@@ -167,6 +168,7 @@ export {
   render,
   clearStoresCache,
   Renderer,
+  RegisterStore,
   FormItem,
   OptionsControl,
   wrapFetcher,
