@@ -49,6 +49,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
       type,
       render,
       children,
+      data,
       ...rest
     } = this.props;
 
