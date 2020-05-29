@@ -178,6 +178,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     onDeferLoad={onDeferLoad}
                     leftMode={option.leftMode}
                     leftOptions={option.leftOptions}
+                    leftDefaultValue={option.leftDefaultValue}
                   />
                 ) : (
                   <ListCheckboxes
