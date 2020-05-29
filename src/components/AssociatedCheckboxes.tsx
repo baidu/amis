@@ -49,6 +49,23 @@ export class AssociatedCheckboxes extends Checkboxes<
     leftValue: this.props.leftDefaultValue
   };
 
+  componentDidMount() {
+    const leftValue = this.state.leftValue;
+    const {options, onDeferLoad} = this.props;
+
+    if (leftValue) {
+      const selectdOption = ListRadios.resolveSelected(
+        leftValue,
+        options,
+        option => option.ref
+      );
+
+      if (selectdOption && onDeferLoad && selectdOption.defer) {
+        onDeferLoad(selectdOption);
+      }
+    }
+  }
+
   @autobind
   leftOption2Value(option: Option) {
     return option.value;
