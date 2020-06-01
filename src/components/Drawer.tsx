@@ -111,7 +111,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   @autobind
   handleRootClickCapture(e: MouseEvent) {
     const target = e.target as HTMLElement;
-    const closeOnOutside = this.props.closeOnOutside;
+    const {closeOnOutside, classPrefix: ns} = this.props;
     const isLeftButton =
       (e.button === 1 && window.event !== null) || e.button === 0;
 
@@ -123,7 +123,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
         this.modalDom &&
         !this.modalDom.contains(target) &&
         !target.closest('[role=dialog]')
-      ) || target.matches('.a-Drawer-overlay.in'); // 干脆过滤掉来自弹框里面的点击
+      ) || target.matches(`.${ns}Drawer-overlay.in`); // 干脆过滤掉来自弹框里面的点击
   }
 
   @autobind
