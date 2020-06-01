@@ -126,31 +126,43 @@ export const FormItemStore = types
           return [];
         }
 
-        const selected = Array.isArray(value)
-          ? value.map(item =>
-              item && item.hasOwnProperty(self.valueField || 'value')
-                ? item[self.valueField || 'value']
-                : item
-            )
+        const valueArray = Array.isArray(value)
+          ? value
           : typeof value === 'string'
           ? value.split(self.delimiter || ',')
-          : [
-              value && value.hasOwnProperty(self.valueField || 'value')
-                ? value[self.valueField || 'value']
-                : value
-            ];
+          : [value];
 
-        // 保留原来的 label 信息，如果原始值中有 label。
-        if (
-          value &&
-          value.hasOwnProperty(self.labelField || 'label') &&
-          !selected[0].hasOwnProperty(self.labelField || 'label')
-        ) {
-          selected[0] = {
-            [self.labelField || 'label']: value[self.labelField || 'label'],
-            [self.valueField || 'value']: value[self.valueField || 'value']
-          };
-        }
+        const selected = valueArray.map(item =>
+          item && item.hasOwnProperty(self.valueField || 'value')
+            ? item[self.valueField || 'value']
+            : item
+        );
+
+        // Array.isArray(value)
+        //   ? value.map(item =>
+        //       item && item.hasOwnProperty(self.valueField || 'value')
+        //         ? item[self.valueField || 'value']
+        //         : item
+        //     )
+        //   : typeof value === 'string'
+        //   ? value.split(self.delimiter || ',')
+        //   : [
+        //       value && value.hasOwnProperty(self.valueField || 'value')
+        //         ? value[self.valueField || 'value']
+        //         : value
+        //     ];
+
+        // // 保留原来的 label 信息，如果原始值中有 label。
+        // if (
+        //   value &&
+        //   value.hasOwnProperty(self.labelField || 'label') &&
+        //   !selected[0].hasOwnProperty(self.labelField || 'label')
+        // ) {
+        //   selected[0] = {
+        //     [self.labelField || 'label']: value[self.labelField || 'label'],
+        //     [self.valueField || 'value']: value[self.valueField || 'value']
+        //   };
+        // }
 
         const selectedOptions: Array<any> = [];
 
@@ -163,7 +175,7 @@ export const FormItemStore = types
           if (matched) {
             selectedOptions.push(matched);
           } else {
-            let unMatched = (value && value[index]) || item;
+            let unMatched = (valueArray && valueArray[index]) || item;
 
             if (
               unMatched &&
