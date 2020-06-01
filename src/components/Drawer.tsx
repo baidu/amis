@@ -115,16 +115,15 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     const isLeftButton =
       (e.button === 1 && window.event !== null) || e.button === 0;
 
-    this.isRootClosed = !!(
-      (
+    this.isRootClosed =
+      !!(
         isLeftButton &&
         closeOnOutside &&
         target &&
         this.modalDom &&
         !this.modalDom.contains(target) &&
         !target.closest('[role=dialog]')
-      ) // 干脆过滤掉来自弹框里面的点击
-    );
+      ) || target.matches('.a-Drawer-overlay.in'); // 干脆过滤掉来自弹框里面的点击
   }
 
   @autobind
