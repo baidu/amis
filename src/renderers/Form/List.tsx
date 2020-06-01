@@ -73,7 +73,9 @@ export default class ListControl extends React.Component<ListProps, any> {
             <div
               key={key}
               className={cx(`ListControl-item`, itemClassName, {
-                'is-active': ~selectedOptions.indexOf(option),
+                'is-active': ~selectedOptions.findIndex(
+                  o => o.value === option.value
+                ),
                 'is-disabled': option.disabled || disabled
               })}
               onClick={this.handleClick.bind(this, option)}
