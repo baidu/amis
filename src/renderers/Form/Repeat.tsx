@@ -4,7 +4,6 @@
  *
  * 不建议用，以后可能会删除。可以直接用组合出来，不需要新建一个组件。
  */
-/* eslint fecs-indent: [0, "space", 2, 2] */
 
 import React from 'react';
 import cx from 'classnames';
