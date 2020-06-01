@@ -34,7 +34,6 @@ import {LazyComponent} from '../../components';
 import {isAlive} from 'mobx-state-tree';
 import {asFormItem} from './Item';
 import {SimpleMap} from '../../utils/SimpleMap';
-import {asOptionsControl} from './Options';
 export type FormGroup = FormSchema & {
   title?: string;
   className?: string;
@@ -1027,11 +1026,7 @@ export default class Form extends React.Component<FormProps, object> {
             control.options || {
               strictMode: false
             }
-          )(
-            control.options || control.source
-              ? asOptionsControl(control.component)
-              : control.component
-          );
+          )(control.component);
           this.componentCache.set(control.component, cache);
           control.component = cache;
         }
