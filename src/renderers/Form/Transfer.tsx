@@ -20,7 +20,7 @@ export interface TransferProps extends OptionsControlProps {
   sortable?: boolean;
   selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
   leftOptions?: Array<Option>;
-  leftMode?: 'tree' | 'list' | 'chained';
+  leftMode?: 'tree' | 'list';
   rightMode?: 'table' | 'list' | 'tree' | 'chained';
 
   searchResultMode?: 'table' | 'list' | 'tree' | 'chained';

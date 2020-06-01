@@ -106,7 +106,10 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
             const checked = valueArray.indexOf(option) !== -1;
 
             return (
-              <tr key={rowIndex} onClick={() => this.toggleOption(option)}>
+              <tr
+                key={rowIndex}
+                onClick={e => e.defaultPrevented || this.toggleOption(option)}
+              >
                 <td className={cx('Table-checkCell')}>
                   <Checkbox size="sm" checked={checked} />
                 </td>
