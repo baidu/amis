@@ -18,11 +18,14 @@
 - `selectTitle` 默认为 `请选择`，左侧的标题文字。
 - `resultTitle` 默认为 `当前选择`，右侧结果的标题文字。
 - `sortable` 默认为 `false`，开启后，结果可以进行拖拽排序。
-- `selectMode` 默认为 `list`， 可选：`list`、`table`、`tree`、`chained`。分表为：列表形式、表格形式、树形选择形式和级联选择形式。
+- `selectMode` 默认为 `list`， 可选：`list`、`table`、`tree`、`chained`、`associated`。分表为：列表形式、表格形式、树形选择形式、级联选择形式，关联选择形式（与级联选择的区别在于，级联是无限极，而关联只有一级，关联左边可以是个 tree）。
 - `searchResultMode` 如果不设置将采用 `selectMode` 的值，可以单独配置，参考 `selectMode`，决定搜索结果的展示形式。
-- `columns` 当展示形式为 `table` 可以用来配置展示哪些列，跟 table 中的 columns 配置相似，只是不能设置 `type` 选择渲染器类型。
+- `columns` 当展示形式为 `table` 可以用来配置展示哪些列，跟 table 中的 columns 配置相似，只是只有展示功能。
+- `leftOptions` 当展示形式为 `associated` 时用来配置左边的选项集。
+- `leftMode` 当展示形式为 `associated` 时用来配置左边的选择形式，支持 `list` 或者 `tree`。默认为 `list`。
+- `rightMode`当展示形式为 `associated` 时用来配置右边的选择形式，可选：`list`、`table`、`tree`、`chained`。
 
-- **还有更多通用配置请参考** [FormItem](./FormItem.md)
+* **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="450" scope="form"
 [
