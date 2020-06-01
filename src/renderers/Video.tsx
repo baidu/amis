@@ -2,7 +2,6 @@
  * @file video
  * @author fex
  */
-/* eslint fecs-indent: [0, "space", 2, 2] */
 
 import React from 'react';
 
