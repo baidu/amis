@@ -31,7 +31,7 @@ function prefixCss(code, prefix) {
         /^\.is\-modalOpened\s/,
         '.is-modalOpened ' + prefix + ' '
       );
-    else if (sel.match(/^(?:\.fr-|\.fa|\.tox)/)) return sel;
+    else if (sel.match(/^(?:\.fr-|\.fa|\.tox|\.monaco)/)) return sel;
     else return prefix + ' ' + sel;
   }
 
@@ -47,7 +47,7 @@ function prefixCss(code, prefix) {
 }
 
 function unicodeJs(str) {
-  return str.replace(/([\u4E00-\u9FA5]|[\uFE30-\uFFA0]|[\u2019])/g, function(
+  return str.replace(/([\u4E00-\u9FA5]|[\uFE30-\uFFA0]|[\u2019])/g, function (
     _,
     value
   ) {
@@ -55,7 +55,7 @@ function unicodeJs(str) {
   });
 }
 
-module.exports = function(ret, pack, settings, opt) {
+module.exports = function (ret, pack, settings, opt) {
   var root = fis.project.getProjectPath();
 
   var tpl = ret.pkg['/examples/sdk-placeholder.html'];
@@ -76,13 +76,13 @@ module.exports = function(ret, pack, settings, opt) {
   var resource = tpl._resource;
 
   var files = ret.pkg;
-  Object.keys(files).forEach(function(subpath) {
+  Object.keys(files).forEach(function (subpath) {
     var file = files[subpath];
 
     mapping[file.getUrl()] = file;
   });
 
-  contents.replace(rLinkScript, function(
+  contents.replace(rLinkScript, function (
     all,
     comment,
     script,
@@ -127,7 +127,7 @@ module.exports = function(ret, pack, settings, opt) {
     } catch (e) {
         d = (/((?:https?|file)\:.*)$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
     }
-    ${contents.replace(/\"url\"\s*\:\s*('|")(\.\/.*)\1/g, function(
+    ${contents.replace(/\"url\"\s*\:\s*('|")(\.\/.*)\1/g, function (
       _,
       quote,
       value
