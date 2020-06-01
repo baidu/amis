@@ -31,7 +31,12 @@ function prefixCss(code, prefix) {
         /^\.is\-modalOpened\s/,
         '.is-modalOpened ' + prefix + ' '
       );
-    else if (sel.match(/^(?:\.fr-|\.fa|\.tox|\.monaco)/)) return sel;
+    else if (
+      sel.match(
+        /^(?:\.fr-|\.fa|\.tox|\.monaco-|\.vs-dark|\.hc-black|\.vs\b|\.cursor-|::|\.context-view|\.menubar|\.fullscreen|\.colorpicker-)/
+      )
+    )
+      return sel;
     else return prefix + ' ' + sel;
   }
 
