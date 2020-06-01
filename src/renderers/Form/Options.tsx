@@ -106,10 +106,10 @@ export const detectProps = itemDetectProps.concat([
   'extractValue'
 ]);
 
-export function registerOptionsControl(config: OptionsConfig) {
-  const Control = config.component;
-
-  class FormOptionsItem extends React.Component<OptionsProps, any> {
+export function asOptionsControl(
+  Control: React.ComponentType<OptionsControlProps>
+) {
+  return class FormOptionsItem extends React.Component<OptionsProps, any> {
     static displayName = `OptionsControl(${config.type})`;
     static defaultProps = {
       delimiter: ',',
@@ -826,12 +826,16 @@ export function registerOptionsControl(config: OptionsConfig) {
         />
       );
     }
-  }
+  };
+}
+
+export function registerOptionsControl(config: OptionsConfig) {
+  const Control = config.component;
 
   return registerFormItem({
     ...(config as FormItemBasicConfig),
     strictMode: false,
-    component: FormOptionsItem
+    component: asOptionsControl(Control)
   });
 }
 
