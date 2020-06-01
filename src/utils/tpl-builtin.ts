@@ -166,7 +166,7 @@ export const filters: {
   },
   duration: input => (input ? formatDuration(input) : input),
   bytes: input => (input ? prettyBytes(parseFloat(input)) : input),
-  round: (input, decimals = 0) => {
+  round: (input, decimals = 2) => {
     if (isNaN(input)) {
       return 0;
     }
