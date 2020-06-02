@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {CheckboxesProps, Checkboxes} from './Checkboxes';
+import {BaseCheckboxesProps, BaseCheckboxes} from './Checkboxes';
 import {Options, Option} from './Select';
 import ListMenu from './ListMenu';
 import {autobind} from '../utils/helper';
@@ -21,7 +21,7 @@ import TreeRadios from './TreeRadios';
 import {Icon} from './icons';
 import {localeable} from '../locale';
 
-export interface AssociatedCheckboxesProps extends CheckboxesProps {
+export interface AssociatedCheckboxesProps extends BaseCheckboxesProps {
   leftOptions: Options;
   leftDefaultValue?: any;
   leftMode?: 'tree' | 'list';
@@ -43,7 +43,7 @@ export interface AssociatedCheckboxesState {
   leftValue?: Option;
 }
 
-export class AssociatedCheckboxes extends Checkboxes<
+export class AssociatedCheckboxes extends BaseCheckboxes<
   AssociatedCheckboxesProps,
   AssociatedCheckboxesState
 > {

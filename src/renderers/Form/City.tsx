@@ -5,8 +5,9 @@ import {ClassNamesFn, themeable} from '../../theme';
 import {Select} from '../../components';
 import {autobind} from '../../utils/helper';
 import {Option} from './Options';
+import {localeable, LocaleProps} from '../../locale';
 
-export interface CityPickerProps {
+export interface CityPickerProps extends LocaleProps {
   value: any;
   onChange: (value: any) => void;
   extractValue: boolean;
@@ -299,7 +300,7 @@ export class CityPicker extends React.Component<
   }
 }
 
-const ThemedCity = themeable(CityPicker);
+const ThemedCity = themeable(localeable(CityPicker));
 export default ThemedCity;
 
 export interface LocationControlProps extends FormControlProps {

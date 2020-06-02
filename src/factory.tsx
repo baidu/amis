@@ -405,7 +405,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
                   isPlainObject(schema)
                     ? {
                         type: 'page',
-                        ...(schema as Schema)
+                        ...(schema as any)
                       }
                     : schema,
                   {

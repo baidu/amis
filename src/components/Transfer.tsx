@@ -1,6 +1,6 @@
 import React from 'react';
 import {ThemeProps, themeable} from '../theme';
-import {CheckboxesProps, Checkboxes} from './Checkboxes';
+import {BaseCheckboxesProps, BaseCheckboxes} from './Checkboxes';
 import {Options, Option} from './Select';
 import uncontrollable from 'uncontrollable';
 import ResultList from './ResultList';
@@ -18,7 +18,7 @@ import {LocaleProps, localeable} from '../locale';
 export interface TransferProps
   extends ThemeProps,
     LocaleProps,
-    CheckboxesProps {
+    BaseCheckboxesProps {
   inline?: boolean;
   statistics?: boolean;
   showArrow?: boolean;
@@ -102,7 +102,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
   @autobind
   toggleAll() {
     const {options, option2value, onChange, value} = this.props;
-    let valueArray = Checkboxes.value2array(value, options, option2value);
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
     const availableOptions = flattenTree(options).filter(
       (option, index, list) =>
         !option.disabled &&
@@ -402,7 +402,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       translate: __
     } = this.props;
 
-    this.valueArray = Checkboxes.value2array(value, options, option2value);
+    this.valueArray = BaseCheckboxes.value2array(value, options, option2value);
     this.availableOptions = flattenTree(options).filter(
       (option, index, list) =>
         !option.disabled &&

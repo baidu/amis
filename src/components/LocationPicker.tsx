@@ -195,7 +195,7 @@ export class LocationPicker extends React.Component<
                 onChange={this.handleChange}
               />
             ) : (
-              <Alert2>{__('$0 地图控件不支持', vendor)}</Alert2>
+              <Alert2>{__('${vendor} 地图控件不支持', {vendor})}</Alert2>
             )}
           </PopOver>
         </Overlay>

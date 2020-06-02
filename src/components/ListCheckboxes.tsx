@@ -1,4 +1,4 @@
-import {Checkboxes} from './Checkboxes';
+import {BaseCheckboxes} from './Checkboxes';
 import {themeable} from '../theme';
 import React from 'react';
 import uncontrollable from 'uncontrollable';
@@ -6,7 +6,7 @@ import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {localeable} from '../locale';
 
-export class ListCheckboxes extends Checkboxes {
+export class ListCheckboxes extends BaseCheckboxes {
   valueArray: Array<Option>;
 
   renderOption(option: Option, index: number) {
@@ -75,7 +75,7 @@ export class ListCheckboxes extends Checkboxes {
     } = this.props;
     const __ = this.props.translate;
 
-    this.valueArray = Checkboxes.value2array(value, options, option2value);
+    this.valueArray = BaseCheckboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {

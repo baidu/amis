@@ -98,7 +98,7 @@ const availableShortcuts: {[propName: string]: any} = {
 const advancedShortcuts = [
   {
     regexp: /^(\d+)hoursago$/,
-    resolve: (_: string, hours: string, __: TranslateFn) => {
+    resolve: (__: TranslateFn, _: string, hours: string) => {
       return {
         label: __('${hours}小时前', {hours}),
         date: (now: moment.Moment) => {
@@ -109,7 +109,7 @@ const advancedShortcuts = [
   },
   {
     regexp: /^(\d+)hourslater$/,
-    resolve: (_: string, hours: string, __: TranslateFn) => {
+    resolve: (__: TranslateFn, _: string, hours: string) => {
       return {
         label: __('${hours}小时后', {hours}),
         date: (now: moment.Moment) => {
@@ -120,7 +120,7 @@ const advancedShortcuts = [
   },
   {
     regexp: /^(\d+)daysago$/,
-    resolve: (_: string, days: string, __: TranslateFn) => {
+    resolve: (__: TranslateFn, _: string, days: string) => {
       return {
         label: __('${days}天前', {days}),
         date: (now: moment.Moment) => {
@@ -131,7 +131,7 @@ const advancedShortcuts = [
   },
   {
     regexp: /^(\d+)dayslater$/,
-    resolve: (_: string, days: string, __: TranslateFn) => {
+    resolve: (__: TranslateFn, _: string, days: string) => {
       return {
         label: __('${days}天后', {days}),
         date: (now: moment.Moment) => {
@@ -142,7 +142,7 @@ const advancedShortcuts = [
   },
   {
     regexp: /^(\d+)weeksago$/,
-    resolve: (_: string, weeks: string, __: TranslateFn) => {
+    resolve: (__: TranslateFn, _: string, weeks: string) => {
       return {
         label: __('${weeks}周前', {weeks}),
         date: (now: moment.Moment) => {
@@ -153,7 +153,7 @@ const advancedShortcuts = [
   },
   {
     regexp: /^(\d+)weekslater$/,
-    resolve: (_: string, weeks: string, __: TranslateFn) => {
+    resolve: (__: TranslateFn, _: string, weeks: string) => {
       return {
         label: __('${weeks}周后', {weeks}),
         date: (now: moment.Moment) => {
@@ -164,7 +164,7 @@ const advancedShortcuts = [
   },
   {
     regexp: /^(\d+)monthsago$/,
-    resolve: (_: string, months: string, __: TranslateFn) => {
+    resolve: (__: TranslateFn, _: string, months: string) => {
       return {
         label: __('${months}月前', {months}),
         date: (now: moment.Moment) => {
@@ -175,7 +175,7 @@ const advancedShortcuts = [
   },
   {
     regexp: /^(\d+)monthslater$/,
-    resolve: (_: string, months: string, __: TranslateFn) => {
+    resolve: (__: TranslateFn, _: string, months: string) => {
       return {
         label: __('${months}月后', {months}),
         date: (now: moment.Moment) => {
@@ -186,7 +186,7 @@ const advancedShortcuts = [
   },
   {
     regexp: /^(\d+)quartersago$/,
-    resolve: (_: string, quarters: string, __: TranslateFn) => {
+    resolve: (__: TranslateFn, _: string, quarters: string) => {
       return {
         label: __('${quarters}季度前', {quarters}),
         date: (now: moment.Moment) => {
@@ -197,7 +197,7 @@ const advancedShortcuts = [
   },
   {
     regexp: /^(\d+)quarterslater$/,
-    resolve: (_: string, quarters: string, __: TranslateFn) => {
+    resolve: (__: TranslateFn, _: string, quarters: string) => {
       return {
         label: __('${quarters}季度后', {quarters}),
         date: (now: moment.Moment) => {
@@ -432,14 +432,14 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       return availableShortcuts[key];
     }
 
-    const __ = this.props.locale;
+    const __ = this.props.translate;
 
     for (let i = 0, len = advancedShortcuts.length; i < len; i++) {
       let item = advancedShortcuts[i];
       const m = item.regexp.exec(key);
 
       if (m) {
-        return item.resolve.apply(item, m, __);
+        return item.resolve.apply(item, [__, ...m]);
       }
     }
 
