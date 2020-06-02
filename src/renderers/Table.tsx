@@ -1767,7 +1767,7 @@ export default class Table extends React.Component<TableProps, object> {
                     ? filter(rowClassNameExpr, item.data)
                     : rowClassName
                 )}
-                columns={columns}
+                columns={store.footableColumns}
                 renderCell={this.renderCell}
                 render={render}
                 onAction={onAction}
