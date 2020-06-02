@@ -271,7 +271,8 @@ export default class TagControl extends React.PureComponent<
       popOverContainer,
       dropdown,
       options,
-      optionsTip
+      optionsTip,
+      translate: __
     } = this.props;
 
     const finnalOptions = Array.isArray(options)
@@ -300,7 +301,7 @@ export default class TagControl extends React.PureComponent<
                 {...getInputProps({
                   name,
                   ref: this.input,
-                  placeholder: placeholder || '暂无标签',
+                  placeholder: __(placeholder || '暂无标签'),
                   value: this.state.inputValue,
                   onKeyDown: this.handleKeyDown,
                   onFocus: this.handleFocus,
@@ -348,7 +349,9 @@ export default class TagControl extends React.PureComponent<
                 // 保留原来的展现方式，不推荐
                 <div className={cx('TagControl-sug')}>
                   {optionsTip ? (
-                    <div className={cx('TagControl-sugTip')}>{optionsTip}</div>
+                    <div className={cx('TagControl-sugTip')}>
+                      {__(optionsTip)}
+                    </div>
                   ) : null}
                   {options.map((item, index) => (
                     <div

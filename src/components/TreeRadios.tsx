@@ -168,7 +168,8 @@ export class TreeRadios extends ListRadios<TreeRadiosProps, TreeRadiosState> {
       className,
       placeholder,
       classnames: cx,
-      option2value
+      option2value,
+      translate: __
     } = this.props;
 
     this.selected = ListRadios.resolveSelected(value, options, option2value);
@@ -183,7 +184,7 @@ export class TreeRadios extends ListRadios<TreeRadiosProps, TreeRadiosState> {
         {body && body.length ? (
           body
         ) : (
-          <div className={cx('TreeRadios-placeholder')}>{placeholder}</div>
+          <div className={cx('TreeRadios-placeholder')}>{__(placeholder)}</div>
         )}
       </div>
     );

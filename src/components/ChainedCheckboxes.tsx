@@ -10,6 +10,7 @@ import {Option} from './Select';
 import {getTreeDepth} from '../utils/helper';
 import times from 'lodash/times';
 import Spinner from './Spinner';
+import {localeable} from '../locale';
 
 export interface ChainedCheckboxesProps extends CheckboxesProps {
   defaultSelectedIndex?: string;
@@ -188,13 +189,15 @@ export class ChainedCheckboxes extends Checkboxes<
       );
     }
 
+    const __ = this.props.translate;
+
     return (
       <div className={cx('ChainedCheckboxes', className)}>
         {body && body.length ? (
           body
         ) : (
           <div className={cx('ChainedCheckboxes-placeholder')}>
-            {placeholder}
+            {__(placeholder)}
           </div>
         )}
       </div>
@@ -203,7 +206,9 @@ export class ChainedCheckboxes extends Checkboxes<
 }
 
 export default themeable(
-  uncontrollable(ChainedCheckboxes, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(ChainedCheckboxes, {
+      value: 'onChange'
+    })
+  )
 );

@@ -13,9 +13,10 @@ import {Option, value2array, Options} from './Select';
 import find from 'lodash/find';
 import {autobind, findTree} from '../utils/helper';
 import isEqual from 'lodash/isEqual';
+import {LocaleProps, localeable} from '../locale';
 // import isPlainObject from 'lodash/isPlainObject';
 
-export interface CheckboxesProps extends ThemeProps {
+export interface CheckboxesProps extends ThemeProps, LocaleProps {
   options: Options;
   className?: string;
   placeholder?: string;
@@ -115,6 +116,8 @@ export class Checkboxes<
       itemRender
     } = this.props;
 
+    const __ = this.props.translate;
+
     let valueArray = Checkboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
@@ -142,14 +145,16 @@ export class Checkboxes<
           inline ? 'Checkboxes--inline' : ''
         )}
       >
-        {body && body.length ? body : <div>{placeholder}</div>}
+        {body && body.length ? body : <div>{__(placeholder)}</div>}
       </div>
     );
   }
 }
 
 export default themeable(
-  uncontrollable(Checkboxes, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(Checkboxes, {
+      value: 'onChange'
+    })
+  )
 );

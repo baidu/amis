@@ -959,7 +959,8 @@ export default class Table extends React.Component<TableProps, object> {
       data,
       classnames: cx,
       saveImmediately,
-      headingClassName
+      headingClassName,
+      translate: __
     } = this.props;
 
     if (
@@ -971,14 +972,19 @@ export default class Table extends React.Component<TableProps, object> {
         <div className={cx('Table-heading', headingClassName)} key="heading">
           {!saveImmediately && store.modified && !hideQuickSaveBtn ? (
             <span>
-              {`当前有 ${store.modified} 条记录修改了内容, 但并没有提交。请选择:`}
+              {__(
+                '当前有 ${modified} 条记录修改了内容, 但并没有提交。请选择:',
+                {
+                  modified: store.modified
+                }
+              )}
               <button
                 type="button"
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
                 <i className="fa fa-check m-r-xs" />
-                提交
+                {__('提交')}
               </button>
               <button
                 type="button"
@@ -986,19 +992,21 @@ export default class Table extends React.Component<TableProps, object> {
                 onClick={this.reset}
               >
                 <i className="fa fa-times m-r-xs" />
-                放弃
+                {__('放弃')}
               </button>
             </span>
           ) : store.moved ? (
             <span>
-              {`当前有 ${store.moved} 条记录修改了顺序, 但并没有提交。请选择:`}
+              {__('当前有 ${moved} 条记录修改了顺序, 但并没有提交。请选择:', {
+                moved: store.moved
+              })}
               <button
                 type="button"
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSaveOrder}
               >
                 <i className="fa fa-check m-r-xs" />
-                提交
+                {__('提交')}
               </button>
               <button
                 type="button"
@@ -1006,7 +1014,7 @@ export default class Table extends React.Component<TableProps, object> {
                 onClick={this.reset}
               >
                 <i className="fa fa-times m-r-xs" />
-                放弃
+                {__('放弃')}
               </button>
             </span>
           ) : title ? (
@@ -1497,7 +1505,14 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderDragToggler() {
-    const {store, env, draggable, classPrefix: ns, dragIcon} = this.props;
+    const {
+      store,
+      env,
+      draggable,
+      classPrefix: ns,
+      dragIcon,
+      translate: __
+    } = this.props;
 
     if (!draggable || store.isNested) {
       return null;
@@ -1508,7 +1523,7 @@ export default class Table extends React.Component<TableProps, object> {
         disabled={!!store.modified}
         classPrefix={ns}
         key="dragging-toggle"
-        tooltip="点击开始排序"
+        tooltip={__('点击开始排序')}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
@@ -1587,7 +1602,8 @@ export default class Table extends React.Component<TableProps, object> {
       showHeader,
       store,
       classnames: cx,
-      data
+      data,
+      translate: __
     } = this.props;
 
     if (showHeader === false) {
@@ -1625,7 +1641,7 @@ export default class Table extends React.Component<TableProps, object> {
           {child}
           {store.dragging ? (
             <div className={cx('Table-dragTip')} ref={this.dragTipRef}>
-              请拖动左边的按钮进行排序
+              {__('请拖动左边的按钮进行排序')}
             </div>
           ) : null}
         </div>
@@ -2160,7 +2176,7 @@ export class HeadCellSearchDropDown extends React.Component<
   }
 
   buildSchema() {
-    const {searchable, sortable, name, label} = this.props;
+    const {searchable, sortable, name, label, translate: __} = this.props;
 
     let schema;
 
@@ -2207,14 +2223,14 @@ export class HeadCellSearchDropDown extends React.Component<
         {
           type: 'button-group',
           name: 'orderDir',
-          label: '排序',
+          label: __('排序'),
           options: [
             {
-              label: '正序',
+              label: __('正序'),
               value: 'asc'
             },
             {
-              label: '降序',
+              label: __('降序'),
               value: 'desc'
             }
           ]
@@ -2230,12 +2246,12 @@ export class HeadCellSearchDropDown extends React.Component<
         actions: [
           {
             type: 'button',
-            label: '取消',
+            label: __('取消'),
             actionType: 'cancel'
           },
 
           {
-            label: '搜索',
+            label: __('搜索'),
             type: 'submit',
             primary: true
           }

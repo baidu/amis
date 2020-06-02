@@ -40,7 +40,6 @@ const ActionProps = [
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable} from '../theme';
-import {Omit} from '../types';
 import {autobind} from '../utils/helper';
 
 export interface ActionProps {

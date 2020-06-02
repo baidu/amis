@@ -167,9 +167,9 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   componentDidMount() {
-    let parent: HTMLElement | Window | null = getScrollParent(findDOMNode(
-      this
-    ) as HTMLElement);
+    let parent: HTMLElement | Window | null = getScrollParent(
+      findDOMNode(this) as HTMLElement
+    );
     if (!parent || parent === document.body) {
       parent = window;
     }
@@ -251,9 +251,7 @@ export default class List extends React.Component<ListProps, object> {
     const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
 
     this.body.offsetWidth &&
-      (afixedDom.style.cssText = `top: ${offsetY}px;width: ${
-        this.body.offsetWidth
-      }px;`);
+      (afixedDom.style.cssText = `top: ${offsetY}px;width: ${this.body.offsetWidth}px;`);
     affixed ? afixedDom.classList.add('in') : afixedDom.classList.remove('in');
     // store.markHeaderAffix(clip.top < offsetY && (clip.top + clip.height - 40) > offsetY);
   }
@@ -494,9 +492,7 @@ export default class List extends React.Component<ListProps, object> {
         <div className={cx('List-heading')}>
           {store.modified && !hideQuickSaveBtn ? (
             <span>
-              {`当前有 ${
-                store.modified
-              } 条记录修改了内容, 但并没有提交。请选择:`}
+              {`当前有 ${store.modified} 条记录修改了内容, 但并没有提交。请选择:`}
               <button
                 type="button"
                 className={cx('Button Button--xs Button--success m-l-sm')}
@@ -732,7 +728,8 @@ export default class List extends React.Component<ListProps, object> {
       checkOnItemClick,
       affixHeader,
       classnames: cx,
-      size
+      size,
+      translate: __
     } = this.props;
 
     this.renderedToolbars = [];
@@ -791,7 +788,7 @@ export default class List extends React.Component<ListProps, object> {
             )}
           </div>
         ) : (
-          <div className={cx('List-placeholder')}>{placeholder}</div>
+          <div className={cx('List-placeholder')}>{__(placeholder)}</div>
         )}
 
         {this.renderFooter()}

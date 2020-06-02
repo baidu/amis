@@ -14,15 +14,13 @@ import {
   createObject
 } from '../utils/helper';
 import {Option, Options, value2array} from './Select';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {highlight} from '../renderers/Form/Options';
 import {Icon} from './icons';
 import Checkbox from './Checkbox';
+import {LocaleProps, localeable} from '../locale';
 
-interface TreeSelectorProps {
-  classPrefix: string;
-  classnames: ClassNamesFn;
-
+interface TreeSelectorProps extends ThemeProps, LocaleProps {
   highlightTxt?: string;
 
   showIcon?: boolean;
@@ -421,7 +419,7 @@ export class TreeSelector extends React.Component<
   }
 
   renderInput(prfix: JSX.Element | null = null) {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, translate: __} = this.props;
     const {inputValue} = this.state;
 
     return (
@@ -431,12 +429,12 @@ export class TreeSelector extends React.Component<
           <input
             onChange={this.handleInputChange}
             value={inputValue}
-            placeholder="请输入"
+            placeholder={__('请输入')}
           />
-          <a data-tooltip="取消" onClick={this.handleCancel}>
+          <a data-tooltip={__('取消')} onClick={this.handleCancel}>
             <Icon icon="close" className="icon" />
           </a>
-          <a data-tooltip="确认" onClick={this.handleConfirm}>
+          <a data-tooltip={__('确认')} onClick={this.handleConfirm}>
             <Icon icon="check" className="icon" />
           </a>
         </div>
@@ -473,7 +471,8 @@ export class TreeSelector extends React.Component<
       removable,
       createTip,
       editTip,
-      removeTip
+      removeTip,
+      translate: __
     } = this.props;
     const {
       unfolded,
@@ -611,7 +610,7 @@ export class TreeSelector extends React.Component<
                   {creatable && hasAbility(item, 'creatable') ? (
                     <a
                       onClick={this.handleAdd.bind(this, item)}
-                      data-tooltip={createTip}
+                      data-tooltip={__(createTip)}
                       data-position="left"
                     >
                       <Icon icon="plus" className="icon" />
@@ -621,7 +620,7 @@ export class TreeSelector extends React.Component<
                   {removable && hasAbility(item, 'removable') ? (
                     <a
                       onClick={this.handleRemove.bind(this, item)}
-                      data-tooltip={removeTip}
+                      data-tooltip={__(removeTip)}
                       data-position="left"
                     >
                       <Icon icon="minus" className="icon" />
@@ -631,7 +630,7 @@ export class TreeSelector extends React.Component<
                   {editable && hasAbility(item, 'editable') ? (
                     <a
                       onClick={this.handleEdit.bind(this, item)}
-                      data-tooltip={editTip}
+                      data-tooltip={__(editTip)}
                       data-position="left"
                     >
                       <Icon icon="pencil" className="icon" />
@@ -689,7 +688,8 @@ export class TreeSelector extends React.Component<
       creatable,
       rootCreatable,
       rootCreateTip,
-      disabled
+      disabled,
+      translate: __
     } = this.props;
     let options = this.props.options;
     const {value, isAdding, addingParent, isEditing, inputValue} = this.state;
@@ -705,7 +705,7 @@ export class TreeSelector extends React.Component<
           onClick={this.handleAdd.bind(this, null)}
         >
           <Icon icon="plus" className="icon" />
-          <span>{rootCreateTip}</span>
+          <span>{__(rootCreateTip)}</span>
         </a>
       );
     }
@@ -772,4 +772,4 @@ export class TreeSelector extends React.Component<
   }
 }
 
-export default themeable(TreeSelector);
+export default themeable(localeable(TreeSelector));
