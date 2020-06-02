@@ -58,7 +58,7 @@ export class AssociatedCheckboxes extends Checkboxes<
       const selectdOption = ListRadios.resolveSelected(
         leftValue,
         options,
-        option => option.ref
+        (option: Option) => option.ref
       );
 
       if (selectdOption && onDeferLoad && selectdOption.defer) {
@@ -80,7 +80,7 @@ export class AssociatedCheckboxes extends Checkboxes<
     const selectdOption = ListRadios.resolveSelected(
       value,
       options,
-      option => option.ref
+      (option: Option) => option.ref
     );
 
     if (selectdOption && onDeferLoad && selectdOption.defer) {
@@ -111,7 +111,7 @@ export class AssociatedCheckboxes extends Checkboxes<
     const selectdOption = ListRadios.resolveSelected(
       this.state.leftValue,
       options,
-      option => option.ref
+      (option: Option) => option.ref
     );
 
     return (

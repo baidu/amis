@@ -8,7 +8,7 @@ import Spinner from './Spinner';
 import {ListRadiosProps, ListRadios} from './ListRadios';
 
 export interface TreeRadiosProps extends ListRadiosProps {
-  expand?: 'all' | 'first' | 'root' | 'none';
+  expand: 'all' | 'first' | 'root' | 'none';
 }
 
 export interface TreeRadiosState {

@@ -24,7 +24,7 @@ export interface ListRadiosProps extends ThemeProps {
 
 export class ListRadios<
   T extends ListRadiosProps = ListRadiosProps,
-  S = any
+  S = {}
 > extends React.Component<T, S> {
   selected: Option | undefined | null;
 
