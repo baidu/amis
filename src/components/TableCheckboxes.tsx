@@ -1,4 +1,4 @@
-import {Checkboxes, CheckboxesProps} from './Checkboxes';
+import {BaseCheckboxes, BaseCheckboxesProps} from './Checkboxes';
 import {themeable} from '../theme';
 import React from 'react';
 import uncontrollable from 'uncontrollable';
@@ -7,7 +7,7 @@ import {Option} from './Select';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {localeable} from '../locale';
 
-export interface TableCheckboxesProps extends CheckboxesProps {
+export interface TableCheckboxesProps extends BaseCheckboxesProps {
   columns: Array<{
     name: string;
     label: string;
@@ -25,9 +25,9 @@ export interface TableCheckboxesProps extends CheckboxesProps {
   ) => JSX.Element;
 }
 
-export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
+export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
   static defaultProps = {
-    ...Checkboxes.defaultProps,
+    ...BaseCheckboxes.defaultProps,
     cellRender: (
       column: {
         name: string;
@@ -52,7 +52,7 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
   renderTHead() {
     const {options, classnames: cx, value, option2value} = this.props;
     let columns = this.getColumns();
-    let valueArray = Checkboxes.value2array(value, options, option2value);
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
     const availableOptions = options.filter(option => !option.disabled);
     let partialChecked = false;
     let allChecked = !!availableOptions.length;
@@ -99,7 +99,7 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
       translate: __
     } = this.props;
     const columns = this.getColumns();
-    let valueArray = Checkboxes.value2array(value, options, option2value);
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
 
     return (
       <tbody>
@@ -145,7 +145,7 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
       itemRender
     } = this.props;
 
-    let valueArray = Checkboxes.value2array(value, options, option2value);
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {

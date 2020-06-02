@@ -607,7 +607,7 @@ export function isBreakpoint(str: string): boolean {
 
   const breaks = str.split(/\s*,\s*|\s+/);
 
-  if (window.matchMedia) {
+  if ((window as any).matchMedia) {
     return breaks.some(
       item =>
         item === '*' ||
@@ -1095,7 +1095,7 @@ export function sortArray<T extends any>(
   field: string,
   dir: -1 | 1
 ): Array<T> {
-  return items.sort((a, b) => {
+  return items.sort((a: any, b: any) => {
     let ret: number;
     const a1 = a[field];
     const b1 = b[field];

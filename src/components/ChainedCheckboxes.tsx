@@ -1,7 +1,7 @@
 /**
  * 级联多选框，支持无限极。从左侧到右侧一层层点选。
  */
-import {Checkboxes, CheckboxesProps} from './Checkboxes';
+import {BaseCheckboxes, BaseCheckboxesProps} from './Checkboxes';
 import {themeable} from '../theme';
 import React from 'react';
 import uncontrollable from 'uncontrollable';
@@ -12,7 +12,7 @@ import times from 'lodash/times';
 import Spinner from './Spinner';
 import {localeable} from '../locale';
 
-export interface ChainedCheckboxesProps extends CheckboxesProps {
+export interface ChainedCheckboxesProps extends BaseCheckboxesProps {
   defaultSelectedIndex?: string;
 }
 
@@ -20,7 +20,7 @@ export interface ChainedCheckboxesState {
   selected: Array<string>;
 }
 
-export class ChainedCheckboxes extends Checkboxes<
+export class ChainedCheckboxes extends BaseCheckboxes<
   ChainedCheckboxesProps,
   ChainedCheckboxesState
 > {
@@ -123,7 +123,7 @@ export class ChainedCheckboxes extends Checkboxes<
       itemRender
     } = this.props;
 
-    this.valueArray = Checkboxes.value2array(value, options, option2value);
+    this.valueArray = BaseCheckboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {

@@ -1,4 +1,4 @@
-import {Checkboxes} from './Checkboxes';
+import {BaseCheckboxes} from './Checkboxes';
 import {themeable, ThemeProps} from '../theme';
 import React from 'react';
 import uncontrollable from 'uncontrollable';
@@ -8,7 +8,7 @@ import {findTree, autobind} from '../utils/helper';
 import isEqual from 'lodash/isEqual';
 import {LocaleProps, localeable} from '../locale';
 
-export interface ListRadiosProps extends ThemeProps, LocaleProps {
+export interface BaseRadiosProps extends ThemeProps, LocaleProps {
   options: Options;
   className?: string;
   placeholder: string;
@@ -23,8 +23,8 @@ export interface ListRadiosProps extends ThemeProps, LocaleProps {
   showRadio?: boolean;
 }
 
-export class ListRadios<
-  T extends ListRadiosProps = ListRadiosProps,
+export class BaseRadios<
+  T extends BaseRadiosProps = BaseRadiosProps,
   S = {}
 > extends React.Component<T, S> {
   selected: Option | undefined | null;
@@ -48,7 +48,7 @@ export class ListRadios<
     let newValue: Option | null = option;
 
     if (clearable) {
-      const prevSelected = ListRadios.resolveSelected(
+      const prevSelected = BaseRadios.resolveSelected(
         value,
         options,
         option2value
@@ -123,7 +123,7 @@ export class ListRadios<
     } = this.props;
     const __ = this.props.translate;
 
-    this.selected = ListRadios.resolveSelected(value, options, option2value);
+    this.selected = BaseRadios.resolveSelected(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
@@ -142,6 +142,8 @@ export class ListRadios<
   }
 }
 
+export class ListRadios extends BaseRadios {}
+
 const themedListRadios = themeable(
   localeable(
     uncontrollable(ListRadios, {
@@ -150,6 +152,6 @@ const themedListRadios = themeable(
   )
 );
 
-themedListRadios.resolveSelected = ListRadios.resolveSelected;
+themedListRadios.resolveSelected = BaseRadios.resolveSelected;
 
 export default themedListRadios;

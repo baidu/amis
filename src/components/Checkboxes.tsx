@@ -16,7 +16,7 @@ import isEqual from 'lodash/isEqual';
 import {LocaleProps, localeable} from '../locale';
 // import isPlainObject from 'lodash/isPlainObject';
 
-export interface CheckboxesProps extends ThemeProps, LocaleProps {
+export interface BaseCheckboxesProps extends ThemeProps, LocaleProps {
   options: Options;
   className?: string;
   placeholder?: string;
@@ -32,8 +32,8 @@ export interface CheckboxesProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
 }
 
-export class Checkboxes<
-  T extends CheckboxesProps = CheckboxesProps,
+export class BaseCheckboxes<
+  T extends BaseCheckboxesProps = BaseCheckboxesProps,
   S = any
 > extends React.Component<T, S> {
   static defaultProps = {
@@ -69,7 +69,7 @@ export class Checkboxes<
       return;
     }
 
-    let valueArray = Checkboxes.value2array(value, options, option2value);
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
     let idx = valueArray.indexOf(option);
 
     if (~idx) {
@@ -118,7 +118,7 @@ export class Checkboxes<
 
     const __ = this.props.translate;
 
-    let valueArray = Checkboxes.value2array(value, options, option2value);
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
@@ -150,6 +150,8 @@ export class Checkboxes<
     );
   }
 }
+
+export class Checkboxes extends BaseCheckboxes {}
 
 export default themeable(
   localeable(
