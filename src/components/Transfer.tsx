@@ -13,8 +13,12 @@ import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 import ChainedCheckboxes from './ChainedCheckboxes';
 import AssociatedCheckboxes from './AssociatedCheckboxes';
+import {LocaleProps, localeable} from '../locale';
 
-export interface TransferProps extends ThemeProps, CheckboxesProps {
+export interface TransferProps
+  extends ThemeProps,
+    LocaleProps,
+    CheckboxesProps {
   inline?: boolean;
   statistics?: boolean;
   showArrow?: boolean;
@@ -185,7 +189,8 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       onSearch,
       disabled,
       options,
-      statistics
+      statistics,
+      translate: __
     } = this.props;
 
     if (selectRender) {
@@ -206,7 +211,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
           )}
         >
           <span>
-            {selectTitle}
+            {__(selectTitle)}
             {statistics !== false ? (
               <span>
                 （{this.valueArray.length}/{this.availableOptions.length}）
@@ -221,7 +226,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
                 disabled || !options.length ? 'is-disabled' : ''
               )}
             >
-              全选
+              {__('全选')}
             </a>
           ) : null}
         </div>
@@ -231,7 +236,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
             <InputBox
               value={this.state.inputValue}
               onChange={this.handleSearch}
-              placeholder="请输入关键字"
+              placeholder={__('请输入关键字')}
               clearable={false}
             >
               {this.state.searchResult !== null ? (
@@ -393,7 +398,8 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       option2value,
       disabled,
       statistics,
-      showArrow
+      showArrow,
+      translate: __
     } = this.props;
 
     this.valueArray = Checkboxes.value2array(value, options, option2value);
@@ -419,7 +425,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         <div className={cx('Transfer-result')}>
           <div className={cx('Transfer-title')}>
             <span>
-              {resultTitle}
+              {__(resultTitle)}
               {statistics !== false ? (
                 <span>
                   （{this.valueArray.length}/{this.availableOptions.length}）
@@ -433,7 +439,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
                 disabled || !this.valueArray.length ? 'is-disabled' : ''
               )}
             >
-              清空
+              {__('清空')}
             </a>
           </div>
           <ResultList
@@ -441,7 +447,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
             sortable={sortable}
             value={value}
             onChange={onChange}
-            placeholder="请先选择左侧数据"
+            placeholder={__('请先选择左侧数据')}
           />
         </div>
       </div>
@@ -450,7 +456,9 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
 }
 
 export default themeable(
-  uncontrollable(Transfer, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(Transfer, {
+      value: 'onChange'
+    })
+  )
 );

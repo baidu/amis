@@ -6,8 +6,9 @@ import Checkbox from './Checkbox';
 import {Option, Options} from './Select';
 import {findTree, autobind} from '../utils/helper';
 import isEqual from 'lodash/isEqual';
+import {LocaleProps, localeable} from '../locale';
 
-export interface ListRadiosProps extends ThemeProps {
+export interface ListRadiosProps extends ThemeProps, LocaleProps {
   options: Options;
   className?: string;
   placeholder: string;
@@ -120,6 +121,7 @@ export class ListRadios<
       classnames: cx,
       option2value
     } = this.props;
+    const __ = this.props.translate;
 
     this.selected = ListRadios.resolveSelected(value, options, option2value);
     let body: Array<React.ReactNode> = [];
@@ -133,7 +135,7 @@ export class ListRadios<
         {body && body.length ? (
           body
         ) : (
-          <div className={cx('ListRadios-placeholder')}>{placeholder}</div>
+          <div className={cx('ListRadios-placeholder')}>{__(placeholder)}</div>
         )}
       </div>
     );
@@ -141,9 +143,11 @@ export class ListRadios<
 }
 
 const themedListRadios = themeable(
-  uncontrollable(ListRadios, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(ListRadios, {
+      value: 'onChange'
+    })
+  )
 );
 
 themedListRadios.resolveSelected = ListRadios.resolveSelected;

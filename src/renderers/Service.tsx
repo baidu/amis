@@ -213,14 +213,14 @@ export default class Service extends React.Component<ServiceProps> {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {onAction, store, env, api} = this.props;
+    const {onAction, store, env, api, translate: __} = this.props;
 
     if (api && action.actionType === 'ajax') {
       store.setCurrentAction(action);
       store
         .saveRemote(action.api as string, data, {
-          successMessage: action.messages && action.messages.success,
-          errorMessage: action.messages && action.messages.failed
+          successMessage: __(action.messages && action.messages.success),
+          errorMessage: __(action.messages && action.messages.failed)
         })
         .then(async () => {
           if (action.feedback && isVisible(action.feedback, store.data)) {

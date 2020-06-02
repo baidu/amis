@@ -101,6 +101,8 @@ export default class DateControl extends React.PureComponent<
       defaultValue,
       defaultData,
       classnames: cx,
+      minDate,
+      maxDate,
       ...rest
     } = this.props;
 

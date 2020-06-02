@@ -5,6 +5,7 @@ import uncontrollable from 'uncontrollable';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {resolveVariable} from '../utils/tpl-builtin';
+import {localeable} from '../locale';
 
 export interface TableCheckboxesProps extends CheckboxesProps {
   columns: Array<{
@@ -94,7 +95,8 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
       classnames: cx,
       cellRender,
       value,
-      option2value
+      option2value,
+      translate: __
     } = this.props;
     const columns = this.getColumns();
     let valueArray = Checkboxes.value2array(value, options, option2value);
@@ -123,7 +125,7 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
           })
         ) : (
           <tr>
-            <td colSpan={columns.length}>{placeholder}</td>
+            <td colSpan={columns.length}>{__(placeholder)}</td>
           </tr>
         )}
       </tbody>
@@ -187,7 +189,9 @@ export class TableCheckboxes extends Checkboxes<TableCheckboxesProps> {
 }
 
 export default themeable(
-  uncontrollable(TableCheckboxes, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(TableCheckboxes, {
+      value: 'onChange'
+    })
+  )
 );

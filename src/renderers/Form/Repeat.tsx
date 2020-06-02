@@ -58,7 +58,13 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
   renderInput() {
     const value = this.props.value;
     const parts = value ? value.split(':') : [];
-    let {options, placeholder, disabled, classPrefix: ns} = this.props;
+    let {
+      options,
+      placeholder,
+      disabled,
+      classPrefix: ns,
+      translate: __
+    } = this.props;
 
     let optionsArray: Array<Option> = [];
 
@@ -68,7 +74,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
     }));
 
     optionsArray.unshift({
-      label: placeholder as string,
+      label: __(placeholder as string),
       value: ''
     });
 
@@ -181,7 +187,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
       <div className="repeat-control hbox">
         {input ? (
           <div className="col v-middle" style={{width: 30}}>
-            <span>每</span>
+            <span>{__('每')}</span>
           </div>
         ) : null}
 
@@ -192,7 +198,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
             classPrefix={ns}
             className={input ? 'pull-right' : ''}
             options={optionsArray}
-            placeholder={placeholder}
+            placeholder={__(placeholder)}
             onChange={this.handleOptionChange}
             value={parts[0]}
             clearable={false}

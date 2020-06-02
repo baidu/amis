@@ -19,6 +19,7 @@ import ChainedCheckboxes from './ChainedCheckboxes';
 import Spinner from './Spinner';
 import TreeRadios from './TreeRadios';
 import {Icon} from './icons';
+import {localeable} from '../locale';
 
 export interface AssociatedCheckboxesProps extends CheckboxesProps {
   leftOptions: Options;
@@ -113,6 +114,7 @@ export class AssociatedCheckboxes extends Checkboxes<
       options,
       (option: Option) => option.ref
     );
+    const __ = this.props.translate;
 
     return (
       <div className={cx('AssociatedCheckboxes', className)}>
@@ -155,9 +157,9 @@ export class AssociatedCheckboxes extends Checkboxes<
                   </div>
 
                   {selectdOption.loading ? (
-                    <p>加载中</p>
+                    <p>{__('加载中')}</p>
                   ) : (
-                    <p>点击刷新重新加载</p>
+                    <p>{__('点击刷新重新加载')}</p>
                   )}
                 </div>
               ) : rightMode === 'table' ? (
@@ -193,12 +195,12 @@ export class AssociatedCheckboxes extends Checkboxes<
               )
             ) : (
               <div className={cx('AssociatedCheckboxes-box')}>
-                配置错误，选项无法与左侧选项对应
+                {__('配置错误，选项无法与左侧选项对应')}
               </div>
             )
           ) : (
             <div className={cx('AssociatedCheckboxes-box')}>
-              请先选择左侧数据
+              {__('请先选择左侧数据')}
             </div>
           )}
         </div>
@@ -208,7 +210,9 @@ export class AssociatedCheckboxes extends Checkboxes<
 }
 
 export default themeable(
-  uncontrollable(AssociatedCheckboxes, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(AssociatedCheckboxes, {
+      value: 'onChange'
+    })
+  )
 );

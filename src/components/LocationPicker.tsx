@@ -1,13 +1,14 @@
 import React from 'react';
-import {themeable, ClassNamesFn} from '../theme';
+import {themeable, ClassNamesFn, ThemeProps} from '../theme';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
 import {Icon} from './icons';
 import {autobind} from '../utils/helper';
 import Alert2 from './Alert2';
 import BaiduMapPicker from './BaiduMapPicker';
+import {LocaleProps, localeable} from '../locale';
 
-export interface LocationProps {
+export interface LocationProps extends ThemeProps, LocaleProps {
   vendor: 'baidu' | 'gaode' | 'tenxun';
   placeholder: string;
   clearable: boolean;
@@ -21,8 +22,6 @@ export interface LocationProps {
   disabled?: boolean;
   className?: string;
   onChange: (value: any) => void;
-  classnames: ClassNamesFn;
-  classPrefix: string;
   popOverContainer?: any;
 }
 
@@ -137,6 +136,7 @@ export class LocationPicker extends React.Component<
       vendor,
       ak
     } = this.props;
+    const __ = this.props.translate;
     const {isFocused, isOpened} = this.state;
 
     return (
@@ -161,7 +161,7 @@ export class LocationPicker extends React.Component<
           <span className={cx('LocationPicker-value')}>{value.address}</span>
         ) : (
           <span className={cx('LocationPicker-placeholder')}>
-            {placeholder}
+            {__(placeholder)}
           </span>
         )}
 
@@ -189,8 +189,14 @@ export class LocationPicker extends React.Component<
             style={{width: this.getTarget()?.offsetWidth}}
           >
             {vendor === 'baidu' ? (
-              <BaiduMapPicker ak={ak} value={value} onChange={this.handleChange} />
-            ) : (<Alert2>{vendor} 地图控件不支持</Alert2>)}
+              <BaiduMapPicker
+                ak={ak}
+                value={value}
+                onChange={this.handleChange}
+              />
+            ) : (
+              <Alert2>{__('$0 地图控件不支持', vendor)}</Alert2>
+            )}
           </PopOver>
         </Overlay>
       </div>
@@ -198,5 +204,5 @@ export class LocationPicker extends React.Component<
   }
 }
 
-const ThemedCity = themeable(LocationPicker);
+const ThemedCity = themeable(localeable(LocationPicker));
 export default ThemedCity;

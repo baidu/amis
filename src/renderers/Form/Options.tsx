@@ -539,7 +539,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         valueField,
         formItem: model,
         createBtnLabel,
-        env
+        env,
+        translate: __
       } = this.props;
 
       // 禁用或者没有配置 name
@@ -554,7 +555,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             type: 'text',
             name: labelField || 'label',
             label: false,
-            placeholder: '请输入名称'
+            placeholder: __('请输入名称')
           }
         ];
       }
@@ -650,7 +651,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         source,
         data,
         formItem: model,
-        optionLabel
+        optionLabel,
+        translate: __
       } = this.props;
 
       if (disabled || !model) {
@@ -663,7 +665,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             type: 'text',
             name: labelField || 'label',
             label: false,
-            placeholder: '请输入名称'
+            placeholder: __('请输入名称')
           }
         ];
       }
@@ -673,7 +675,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         : await onOpenDialog(
             {
               type: 'dialog',
-              title: `编辑${optionLabel || '选项'}`,
+              title: __('编辑${label}', {
+                label: optionLabel || '选项'
+              }),
               body: {
                 type: 'form',
                 api: editApi,
@@ -695,7 +699,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || '保存失败，请仔细检查');
+            env.notify('error', payload.msg || __('保存失败，请仔细检查'));
             result = null;
           } else {
             result = payload.data || result;
@@ -738,7 +742,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         env,
         formItem: model,
         source,
-        valueField
+        valueField,
+        translate: __
       } = this.props;
 
       if (disabled || !model) {
@@ -758,7 +763,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       // 通过 deleteApi 删除。
       try {
         if (!deleteApi) {
-          throw new Error('请配置 deleteApi');
+          throw new Error(__('请配置 deleteApi'));
         }
 
         const result = await env.fetcher(deleteApi!, ctx, {
@@ -766,7 +771,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         });
 
         if (!result.ok) {
-          env.notify('error', result.msg || '删除失败，请重试');
+          env.notify('error', result.msg || __('删除失败，请重试'));
         } else if (source) {
           this.reload();
         } else {

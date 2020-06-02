@@ -321,7 +321,8 @@ export default class TreeSelectControl extends React.Component<
       labelField,
       disabled,
       placeholder,
-      classnames: cx
+      classnames: cx,
+      translate: __
     } = this.props;
 
     if ((!multiple || !selectedOptions.length) && this.state.inputValue) {
@@ -355,7 +356,7 @@ export default class TreeSelectControl extends React.Component<
       )
     ) : (
       <span key="placeholder" className={cx('TreeSelect-placeholder')}>
-        {placeholder}
+        {__(placeholder)}
       </span>
     );
   }
@@ -386,7 +387,8 @@ export default class TreeSelectControl extends React.Component<
       searchable,
       autoComplete,
       maxLength,
-      minLength
+      minLength,
+      translate: __
     } = this.props;
 
     let filtedOptions =
@@ -420,14 +422,14 @@ export default class TreeSelectControl extends React.Component<
             joinValues={joinValues}
             extractValue={extractValue}
             delimiter={delimiter}
-            placeholder={optionsPlaceholder}
+            placeholder={__(optionsPlaceholder)}
             options={filtedOptions}
             highlightTxt={this.state.inputValue}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
             unfoldedLevel={unfoldedLevel}
             withChildren={withChildren}
-            rootLabel={rootLabel}
+            rootLabel={__(rootLabel)}
             rootValue={rootValue}
             showIcon={showIcon}
             showRadio={showRadio}

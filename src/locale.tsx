@@ -2,15 +2,16 @@
 import cx from 'classnames';
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import {ExtractProps, Omit} from './types';
+import {isObject} from './utils/helper';
+import {resolveVariable, resolveVariableAndFilter} from './utils/tpl-builtin';
 
-type translateFn = (str: string, ...args: any[]) => string;
+export type TranslateFn<T = any> = (str: T, data?: object) => T;
 
 interface LocaleConfig {
   [propsName: string]: string;
 }
 
-let defaultLocale: string = '';
+let defaultLocale: string = 'zh-cn';
 
 const locales: {
   [propName: string]: LocaleConfig;
@@ -21,30 +22,42 @@ export function register(name: string, config: LocaleConfig) {
 }
 
 const fns: {
-  [propName: string]: translateFn;
+  [propName: string]: TranslateFn;
 } = {};
 
-// todo 支持参数
-function format(str: string, ...args: any[]) {
-  return str;
+function format(str: string, data?: object) {
+  return str.replace(
+    /(\\)?\$([a-z0-9_.]+?)|\$\{([\s\S]+?)\}/g,
+    (_, escape, key1, key2) => {
+      if (escape) {
+        return _.substring(1);
+      }
+
+      return resolveVariable(key1 || key2, data || {});
+    }
+  );
 }
 
-export function makeTranslator(locale?: string): translateFn {
+export function makeTranslator(locale?: string): TranslateFn {
   if (locale && fns[locale]) {
     return fns[locale];
   }
 
-  const fn = (str: string, ...args: any[]) => {
+  const fn = (str: any, ...args: any[]) => {
     if (!str || typeof str !== 'string') {
       return str;
     }
 
     const dict = locales[locale!] || locales[defaultLocale];
-    return format(dict[str] || str, ...args);
+    return format(dict?.[str] || str, ...args);
   };
 
   locale && (fns[locale] = fn);
   return fn;
+}
+
+export function getDefaultLocale() {
+  return defaultLocale;
 }
 
 export function setDefaultLocale(loacle: string) {
@@ -53,22 +66,24 @@ export function setDefaultLocale(loacle: string) {
 
 export interface LocaleProps {
   locale: string;
-  translate: translateFn;
+  translate: TranslateFn;
 }
 
-export const LocaleContext = React.createContext('locale');
+export const LocaleContext = React.createContext('');
 
 export function localeable<
-  T extends React.ComponentType<LocaleProps & ExtractProps<T>>
+  T extends React.ComponentType<React.ComponentProps<T> & LocaleProps>
 >(ComposedComponent: T) {
-  type ComposedProps = JSX.LibraryManagedAttributes<T, ExtractProps<T>>;
-  type Props = Omit<ComposedProps, keyof LocaleProps> & {
+  type OuterProps = JSX.LibraryManagedAttributes<
+    T,
+    Omit<React.ComponentProps<T>, keyof LocaleProps>
+  > & {
     locale?: string;
-    translate: (str: string, ...args: any[]) => string;
+    translate?: (str: string, ...args: any[]) => string;
   };
 
   const result = hoistNonReactStatic(
-    class extends React.Component<Props> {
+    class extends React.Component<OuterProps> {
       static displayName = `I18N(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
@@ -78,21 +93,22 @@ export function localeable<
       render() {
         const locale: string =
           this.props.locale || this.context || defaultLocale;
-        const translate = makeTranslator(locale);
+        const translate = this.props.translate || makeTranslator(locale);
         const injectedProps: {
           locale: string;
-          translate: translateFn;
+          translate: TranslateFn;
         } = {
           locale,
-          translate
+          translate: translate!
         };
 
         return (
           <LocaleContext.Provider value={locale}>
             <ComposedComponent
-              {
-                ...(this.props as any) /* todo, 解决这个类型问题 */
-              }
+              {...(this.props as JSX.LibraryManagedAttributes<
+                T,
+                React.ComponentProps<T>
+              >)}
               {...injectedProps}
             />
           </LocaleContext.Provider>

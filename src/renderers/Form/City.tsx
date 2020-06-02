@@ -226,7 +226,8 @@ export class CityPicker extends React.Component<
       disabled,
       allowCity,
       allowDistrict,
-      allowStreet
+      allowStreet,
+      translate: __
     } = this.props;
 
     const {provinceCode, cityCode, districtCode, street} = this.state;
@@ -290,7 +291,7 @@ export class CityPicker extends React.Component<
             value={street}
             onChange={this.handleStreetChange}
             onBlur={this.handleStreetEnd}
-            placeholder="请输入街道信息"
+            placeholder={__('请输入街道信息')}
           />
         ) : null}
       </div>
