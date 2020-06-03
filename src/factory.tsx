@@ -596,10 +596,12 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             render: this.renderChild
           });
     } else if (typeof schema.component === 'function') {
+      const isSFC = !(schema.component.prototype instanceof React.Component);
       return React.createElement(schema.component as any, {
         ...rest,
         ...schema,
         $path: $path,
+        ref: isSFC ? undefined : this.refFn,
         render: this.renderChild
       });
     } else if (!this.renderer) {
