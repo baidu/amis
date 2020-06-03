@@ -14,7 +14,7 @@
  */
 
 import React from 'react';
-import uncontrollable from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 import Checkbox from './Checkbox';
 import {value2array, OptionProps, Option} from './Select';
 import chunk from 'lodash/chunk';

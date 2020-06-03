@@ -1,6 +1,10 @@
 .#{$ns}InputBox {
   @include input-input();
 
+  > input[readonly] {
+    cursor: inherit;
+  }
+
   &.is-error {
     border-color: $Form-input-onError-borderColor;
     background-color: $Form-input-onError-bg;
@@ -13,6 +17,12 @@
     @if $Form-input-onFocused-bg !=$Form-input-bg {
       background-color: $Form-input-onFocused-bg;
     }
+  }
+
+  &.is-clickable:hover {
+    border-color: $Form-input-onFocused-borderColor;
+    box-shadow: $Form-input-boxShadow;
+    cursor: pointer;
   }
 
   &.is-error.is-focused {

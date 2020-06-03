@@ -1,7 +1,7 @@
 import React from 'react';
 import {ThemeProps, themeable} from '../theme';
 import {Icon} from './icons';
-import uncontrollable from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 import {autobind} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 

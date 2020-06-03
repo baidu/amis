@@ -8,7 +8,7 @@ import React from 'react';
 import {Schema} from '../types';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {themeable, ThemeProps} from '../theme';
-import uncontrollable from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 
 const transitionStyles: {
   [propName: string]: string;

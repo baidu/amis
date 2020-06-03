@@ -2,7 +2,7 @@ import React from 'react';
 import {ThemeProps, themeable} from '../theme';
 import {BaseCheckboxesProps, BaseCheckboxes} from './Checkboxes';
 import {Options, Option} from './Select';
-import uncontrollable from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 import ResultList from './ResultList';
 import TableCheckboxes from './TableCheckboxes';
 import ListCheckboxes from './ListCheckboxes';

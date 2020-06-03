@@ -4,7 +4,7 @@
 import {BaseCheckboxes, BaseCheckboxesProps} from './Checkboxes';
 import {themeable} from '../theme';
 import React from 'react';
-import uncontrollable from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {getTreeDepth} from '../utils/helper';

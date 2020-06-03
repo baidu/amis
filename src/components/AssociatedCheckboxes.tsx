@@ -11,7 +11,7 @@ import ListMenu from './ListMenu';
 import {autobind} from '../utils/helper';
 import ListRadios from './ListRadios';
 import {themeable} from '../theme';
-import uncontrollable from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 import ListCheckboxes from './ListCheckboxes';
 import TableCheckboxes from './TableCheckboxes';
 import TreeCheckboxes from './TreeCheckboxes';

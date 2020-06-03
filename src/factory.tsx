@@ -593,7 +593,8 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         : (schema.children as Function)({
             ...rest,
             $path: $path,
-            render: this.renderChild
+            render: this.renderChild,
+            forwardedRef: this.refFn
           });
     } else if (typeof schema.component === 'function') {
       const isSFC = !(schema.component.prototype instanceof React.Component);
@@ -602,6 +603,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         ...schema,
         $path: $path,
         ref: isSFC ? undefined : this.refFn,
+        forwardedRef: isSFC ? this.refFn : undefined,
         render: this.renderChild
       });
     } else if (!this.renderer) {

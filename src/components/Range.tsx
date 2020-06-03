@@ -6,7 +6,7 @@
 
 import React from 'react';
 import InputRange from 'react-input-range';
-import uncontrollable from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 import cx from 'classnames';
 import {RendererProps} from '../factory';
 import {ClassNamesFn, themeable} from '../theme';

@@ -1019,7 +1019,7 @@ export default class Form extends React.Component<FormProps, object> {
 
       // 自定义组件如果在节点设置了 label name 什么的，就用 formItem 包一层
       // 至少自动支持了 valdiations, label, description 等逻辑。
-      if (control.component && control.label && control.name) {
+      if (control.component && control.label !== undefined && control.name) {
         const cache = this.componentCache.get(control.component);
 
         if (cache) {

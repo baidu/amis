@@ -10,7 +10,7 @@ import {findDOMNode} from 'react-dom';
 import {SketchPicker, GithubPicker, ColorState} from 'react-color';
 import {Icon} from './icons';
 import Overlay from './Overlay';
-import uncontrollable from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 import PopOver from './PopOver';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {autobind} from '../utils/helper';
