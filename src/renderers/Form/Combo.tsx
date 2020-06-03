@@ -493,13 +493,13 @@ export default class ComboControl extends React.Component<ComboProps> {
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return __(
         (messages && messages.minLengthValidateFailed) ||
-          '组合表单成员数量不够，低于设定的最小${minLenth}个，请添加更多的成员。',
+          '组合表单成员数量不够，低于设定的最小{{minLenth}}个，请添加更多的成员。',
         {minLength}
       );
     } else if (maxLength && Array.isArray(value) && value.length > maxLength) {
       return __(
         (messages && messages.maxLengthValidateFailed) ||
-          '组合表单成员数量超出，超出设定的最大${maxLength}个，请删除多余的成员。',
+          '组合表单成员数量超出，超出设定的最大{{maxLength}}个，请删除多余的成员。',
         {maxLength}
       );
     } else if (this.subForms.length && (!nullable || value)) {
@@ -849,7 +849,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             <Tab
               title={filter(
                 tabsLabelTpl ||
-                  __('成员${index}', {index: (data as any).index + 1}),
+                  __('成员{{index}}', {index: (data as any).index + 1}),
                 data
               )}
               key={this.keys[index] || (this.keys[index] = guid())}

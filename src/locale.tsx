@@ -1,9 +1,7 @@
-// 主题管理
-import cx from 'classnames';
+// 多语言支持
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import {isObject} from './utils/helper';
-import {resolveVariable, resolveVariableAndFilter} from './utils/tpl-builtin';
+import {resolveVariable} from './utils/tpl-builtin';
 
 export type TranslateFn<T = any> = (str: T, data?: object) => T;
 
@@ -26,16 +24,13 @@ const fns: {
 } = {};
 
 function format(str: string, data?: object) {
-  return str.replace(
-    /(\\)?\$([a-z0-9_.]+?)|\$\{([\s\S]+?)\}/g,
-    (_, escape, key1, key2) => {
-      if (escape) {
-        return _.substring(1);
-      }
-
-      return resolveVariable(key1 || key2, data || {});
+  return str.replace(/(\\)?\{\{([\s\S]+?)\}\}/g, (_, escape, key) => {
+    if (escape) {
+      return _.substring(1);
     }
-  );
+
+    return resolveVariable(key, data || {});
+  });
 }
 
 export function makeTranslator(locale?: string): TranslateFn {

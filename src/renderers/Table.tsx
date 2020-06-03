@@ -973,7 +973,7 @@ export default class Table extends React.Component<TableProps, object> {
           {!saveImmediately && store.modified && !hideQuickSaveBtn ? (
             <span>
               {__(
-                '当前有 ${modified} 条记录修改了内容, 但并没有提交。请选择:',
+                '当前有 {{modified}} 条记录修改了内容, 但并没有提交。请选择:',
                 {
                   modified: store.modified
                 }
@@ -997,7 +997,7 @@ export default class Table extends React.Component<TableProps, object> {
             </span>
           ) : store.moved ? (
             <span>
-              {__('当前有 ${moved} 条记录修改了顺序, 但并没有提交。请选择:', {
+              {__('当前有 {{moved}} 条记录修改了顺序, 但并没有提交。请选择:', {
                 moved: store.moved
               })}
               <button

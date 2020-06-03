@@ -107,12 +107,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return __(
-        '组合表单成员数量不够，低于设定的最小${minLenth}个，请添加更多的成员。',
+        '组合表单成员数量不够，低于设定的最小{{minLenth}}个，请添加更多的成员。',
         {minLength}
       );
     } else if (maxLength && Array.isArray(value) && value.length > maxLength) {
       return __(
-        '组合表单成员数量超出，超出设定的最大${maxLength}个，请删除多余的成员。',
+        '组合表单成员数量超出，超出设定的最大{{maxLength}}个，请删除多余的成员。',
         {maxLength}
       );
     } else {

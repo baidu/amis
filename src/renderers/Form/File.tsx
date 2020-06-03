@@ -283,7 +283,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       if (maxSize && file.size > maxSize) {
         this.props.env.alert(
           __(
-            '您选择的文件 ${filename} 大小为 ${actualSize} 超出了最大为 ${maxSize} 的限制，请重新选择。',
+            '您选择的文件 {{filename}} 大小为 {{actualSize}} 超出了最大为 {{maxSize}} 的限制，请重新选择。',
             {
               filename: file.name,
               actualSize: ImageControl.formatFileSize(file.size),
@@ -341,7 +341,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     });
 
     env.alert(
-      __('您添加的文件${files}不符合类型的`${accept}`的设定，请仔细检查。', {
+      __('您添加的文件{{files}}不符合类型的`{{accept}}`的设定，请仔细检查。', {
         files: files.map((item: any) => `「${item.name}」`).join(' '),
         accept
       })
@@ -1028,7 +1028,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
         {failed ? (
           <div className={cx('FileControl-sum')}>
-            {__('已成功上传{uploaded}个文件，{failed}个文件上传失败，', {
+            {__('已成功上传{{uploaded}}个文件，{{failed}}个文件上传失败，', {
               uploaded,
               failed
             })}
