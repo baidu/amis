@@ -131,7 +131,7 @@ export default class MatrixCheckbox extends React.Component<
   }
 
   async reload() {
-    const {source, data, env, onChange} = this.props;
+    const {source, data, env, onChange, translate: __} = this.props;
 
     if (!isEffectiveApi(source, data) || this.state.loading) {
       return;
@@ -159,7 +159,7 @@ export default class MatrixCheckbox extends React.Component<
             .fetcher(source, data)
             .then(ret => {
               if (!ret.ok) {
-                throw new Error(ret.msg || '数据请求错误');
+                throw new Error(ret.msg || __('数据请求错误'));
               }
               if (!this.mounted) {
                 return resolve();

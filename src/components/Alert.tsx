@@ -7,18 +7,16 @@ import React from 'react';
 import {render} from 'react-dom';
 import Modal from './Modal';
 import Button from './Button';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import {LocaleProps, localeable} from '../locale';
 
-export interface AlertProps {
+export interface AlertProps extends ThemeProps, LocaleProps {
   container?: any;
   confirmText?: string;
   cancelText?: string;
   title?: string;
   confirmBtnLevel?: string;
   alertBtnLevel?: string;
-  classPrefix: string;
-  classnames: ClassNamesFn;
-  theme?: string;
 }
 
 export interface AlertState {
@@ -37,7 +35,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       const container = document.body;
       const div = document.createElement('div');
       container.appendChild(div);
-      render(<ThemedAlert />, div);
+      render(<FinnalAlert />, div);
     }
 
     return Alert.instance;
@@ -150,6 +148,8 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       classnames: cx,
       classPrefix
     } = this.props;
+    const __ = this.props.translate;
+
     return (
       <Modal
         show={this.state.show}
@@ -158,20 +158,22 @@ export class Alert extends React.Component<AlertProps, AlertState> {
         ref={this.modalRef}
       >
         <div className={cx('Modal-header')}>
-          <div className={cx('Modal-title')}>{this.state.title || title}</div>
+          <div className={cx('Modal-title')}>
+            {__(this.state.title || title)}
+          </div>
         </div>
         <div className={cx('Modal-body')}>
           <div ref={this.bodyRef} />
         </div>
         <div className={cx('Modal-footer')}>
           {this.state.confirm ? (
-            <Button onClick={this.handleCancel}>{cancelText}</Button>
+            <Button onClick={this.handleCancel}>{__(cancelText)}</Button>
           ) : null}
           <Button
             level={this.state.confirm ? confirmBtnLevel : alertBtnLevel}
             onClick={this.handleConfirm}
           >
-            {this.state.confirmText || confirmText}
+            {__(this.state.confirmText || confirmText)}
           </Button>
         </div>
       </Modal>
@@ -189,5 +191,5 @@ export const confirm: (
   confirmText?: string
 ) => Promise<any> = (content, title, confirmText) =>
   Alert.getInstance().confirm(content, title, confirmText);
-export const ThemedAlert = themeable(Alert);
-export default ThemedAlert;
+export const FinnalAlert = themeable(localeable(Alert));
+export default FinnalAlert;

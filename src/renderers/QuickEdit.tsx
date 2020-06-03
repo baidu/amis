@@ -304,7 +304,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
     }
 
     buildSchema() {
-      const {quickEdit, name, label} = this.props;
+      const {quickEdit, name, label, translate: __} = this.props;
 
       let schema;
 
@@ -372,12 +372,12 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
               : [
                   {
                     type: 'button',
-                    label: '取消',
+                    label: __('取消'),
                     actionType: 'cancel'
                   },
 
                   {
-                    label: '确认',
+                    label: __('确认'),
                     type: 'submit',
                     primary: true
                   }

@@ -321,7 +321,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       deleteApi,
       deleteConfirmText,
       data,
-      env
+      env,
+      translate: __
     } = this.props;
 
     if (disabled) {
@@ -333,7 +334,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     if (isEffectiveApi(deleteApi, ctx)) {
       const confirmed = await env.confirm(
-        deleteConfirmText ? filter(deleteConfirmText, ctx) : '确认要删除？'
+        deleteConfirmText ? filter(deleteConfirmText, ctx) : __('确认要删除？')
       );
       if (!confirmed) {
         // 如果不确认，则跳过！
@@ -343,7 +344,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       const result = await env.fetcher(deleteApi as Api, ctx);
 
       if (!result.ok) {
-        env.notify('error', '删除失败');
+        env.notify('error', __('删除失败'));
         return;
       }
     }
@@ -480,25 +481,34 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   validate(): any {
-    const {value, minLength, maxLength, messages, nullable} = this.props;
+    const {
+      value,
+      minLength,
+      maxLength,
+      messages,
+      nullable,
+      translate: __
+    } = this.props;
 
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
-      return (
+      return __(
         (messages && messages.minLengthValidateFailed) ||
-        `组合表单成员数量不够，低于设定的最小${minLength}个，请添加更多的成员。`
+          '组合表单成员数量不够，低于设定的最小{{minLenth}}个，请添加更多的成员。',
+        {minLength}
       );
     } else if (maxLength && Array.isArray(value) && value.length > maxLength) {
-      return (
+      return __(
         (messages && messages.maxLengthValidateFailed) ||
-        `组合表单成员数量超出，超出设定的最大${maxLength}个，请删除多余的成员。`
+          '组合表单成员数量超出，超出设定的最大{{maxLength}}个，请删除多余的成员。',
+        {maxLength}
       );
     } else if (this.subForms.length && (!nullable || value)) {
       return Promise.all(this.subForms.map(item => item.validate())).then(
         values => {
           if (~values.indexOf(false)) {
-            return (
+            return __(
               (messages && messages.validateFailed) ||
-              '子表单验证失败，请仔细检查'
+                '子表单验证失败，请仔细检查'
             );
           }
 
@@ -698,9 +708,8 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   renderPlaceholder() {
-    return (
-      <span className="text-muted">{this.props.placeholder || '没有数据'}</span>
-    );
+    const {placeholder, translate: __} = this.props;
+    return <span className="text-muted">{__(placeholder || '没有数据')}</span>;
   }
 
   renderTabsMode() {
@@ -725,7 +734,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       deleteIcon,
       tabsLabelTpl,
       conditions,
-      changeImmediately
+      changeImmediately,
+      translate: __
     } = this.props;
 
     let controls = this.props.controls;
@@ -762,7 +772,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                     {
                       type: 'dropdown-button',
                       icon: addIcon,
-                      label: addButtonText || '新增',
+                      label: __(addButtonText || '新增'),
                       level: 'info',
                       size: 'sm',
                       closeOnClick: true
@@ -781,10 +791,10 @@ export default class ComboControl extends React.Component<ComboProps> {
                   <a
                     onClick={this.addItem}
                     data-position="left"
-                    data-tooltip="新增一条数据"
+                    data-tooltip={__('新增一条数据')}
                   >
                     {addIcon ? <i className={cx('m-r-xs', addIcon)} /> : null}
-                    <span>{addButtonText || '新增'}</span>
+                    <span>{__(addButtonText || '新增')}</span>
                   </a>
                 )
               ) : null}
@@ -808,7 +818,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 className={cx(
                   `Combo-toolbarBtn ${!store.removable ? 'is-disabled' : ''}`
                 )}
-                data-tooltip="删除"
+                data-tooltip={__('删除')}
                 data-position="bottom"
               >
                 {deleteIcon ? (
@@ -837,7 +847,11 @@ export default class ComboControl extends React.Component<ComboProps> {
 
           return (
             <Tab
-              title={filter(tabsLabelTpl || '成员${index|plus}', data)}
+              title={filter(
+                tabsLabelTpl ||
+                  __('成员{{index}}', {index: (data as any).index + 1}),
+                data
+              )}
               key={this.keys[index] || (this.keys[index] = guid())}
               toolbar={toolbar}
               eventKey={index}
@@ -847,7 +861,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             >
               {condition && typeSwitchable !== false ? (
                 <div className={cx('Combo-itemTag')}>
-                  <label>类型</label>
+                  <label>{__('类型')}</label>
                   <Select
                     onChange={this.handleComboTypeChange.bind(this, index)}
                     options={(conditions as Array<Condition>).map(item => ({
@@ -888,7 +902,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   )
                 ) : (
                   <Alert2 level="warning" className="m-b-none">
-                    数据非法，或者数据已失效，请移除
+                    {__('数据非法，或者数据已失效，请移除')}
                   </Alert2>
                 )}
               </div>
@@ -931,7 +945,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       conditions,
       lazyLoad,
       changeImmediately,
-      placeholder
+      placeholder,
+      translate: __
     } = this.props;
 
     let controls = this.props.controls;
@@ -990,7 +1005,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                         !store.removable ? 'is-disabled' : ''
                       }`
                     )}
-                    data-tooltip="删除"
+                    data-tooltip={__('删除')}
                     data-position="bottom"
                   >
                     {deleteIcon ? (
@@ -1029,7 +1044,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                     <div className={cx('Combo-itemDrager')}>
                       <a
                         key="drag"
-                        data-tooltip="拖拽排序"
+                        data-tooltip={__('拖拽排序')}
                         data-position="bottom"
                       >
                         {dragIcon ? (
@@ -1042,7 +1057,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   ) : null}
                   {condition && typeSwitchable !== false ? (
                     <div className={cx('Combo-itemTag')}>
-                      <label>类型</label>
+                      <label>{__('类型')}</label>
                       <Select
                         onChange={this.handleComboTypeChange.bind(this, index)}
                         options={(conditions as Array<Condition>).map(item => ({
@@ -1084,7 +1099,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       )
                     ) : (
                       <Alert2 level="warning" className="m-b-none">
-                        数据非法，或者数据已失效，请移除
+                        {__('数据非法，或者数据已失效，请移除')}
                       </Alert2>
                     )}
                   </div>
@@ -1107,7 +1122,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   {
                     type: 'dropdown-button',
                     icon: addIcon,
-                    label: addButtonText || '新增',
+                    label: __(addButtonText || '新增'),
                     level: 'info',
                     size: 'sm',
                     closeOnClick: true
@@ -1127,18 +1142,20 @@ export default class ComboControl extends React.Component<ComboProps> {
                   type="button"
                   onClick={this.addItem}
                   className={cx(`Button Combo-addBtn`, addButtonClassName)}
-                  data-tooltip="新增一条数据"
+                  data-tooltip={__('新增一条数据')}
                 >
                   {addIcon ? (
                     <i className={cx('Button-icon', addIcon)} />
                   ) : null}
-                  <span>{addButtonText || '新增'}</span>
+                  <span>{__(addButtonText || '新增')}</span>
                 </button>
               )
             ) : null}
             {draggable ? (
               <span className={cx(`Combo-dragableTip`)} ref={this.dragTipRef}>
-                {Array.isArray(value) && value.length > 1 ? draggableTip : ''}
+                {Array.isArray(value) && value.length > 1
+                  ? __(draggableTip)
+                  : ''}
               </span>
             ) : null}
           </div>
@@ -1159,7 +1176,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       noBorder,
       disabled,
       typeSwitchable,
-      nullable
+      nullable,
+      translate: __
     } = this.props;
 
     let controls = this.props.controls;
@@ -1183,7 +1201,7 @@ export default class ComboControl extends React.Component<ComboProps> {
         <div className={cx(`Combo-item`)}>
           {condition && typeSwitchable !== false ? (
             <div className={cx('Combo-itemTag')}>
-              <label>类型</label>
+              <label>{__('类型')}</label>
               <Select
                 onChange={this.handleComboTypeChange.bind(this, 0)}
                 options={(conditions as Array<Condition>).map(item => ({
@@ -1219,14 +1237,14 @@ export default class ComboControl extends React.Component<ComboProps> {
               )
             ) : (
               <Alert2 level="warning" className="m-b-none">
-                数据非法，或者数据已失效，请移除
+                {__('数据非法，或者数据已失效，请移除')}
               </Alert2>
             )}
           </div>
         </div>
         {value && nullable ? (
           <a className={cx('Combo-setNullBtn')} href="#" onClick={this.setNull}>
-            清空数据
+            {__('清空数据')}
           </a>
         ) : null}
       </div>

@@ -10,6 +10,7 @@ import {Options, Option} from './Select';
 import Transfer, {TransferProps} from './Transfer';
 import {themeable} from '../theme';
 import AssociatedCheckboxes from './AssociatedCheckboxes';
+import {localeable} from '../locale';
 
 export interface TabsTransferProps
   extends Omit<
@@ -101,13 +102,14 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       onSearch: searchable,
       option2value,
       onDeferLoad,
-      cellRender
+      cellRender,
+      translate: __
     } = this.props;
 
     if (!Array.isArray(options) || !options.length) {
       return (
         <div className={cx('TabsTransfer-placeholder')}>
-          {placeholder || '暂无可选项'}
+          {__(placeholder || '暂无选项')}
         </div>
       );
     }
@@ -128,7 +130,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       >
         {searchResult !== null
           ? [
-              <Tab title="搜索结果" key={0} eventKey={0}>
+              <Tab title={__('搜索结果')} key={0} eventKey={0}>
                 {this.renderSearchResult(searchResult)}
               </Tab>
             ]
@@ -210,4 +212,4 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
   }
 }
 
-export default themeable(TabsTransfer);
+export default themeable(localeable(TabsTransfer));

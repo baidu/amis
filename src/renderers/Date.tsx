@@ -55,7 +55,8 @@ export class DateField extends React.Component<DateProps, DateState> {
       placeholder,
       fromNow,
       className,
-      classnames: cx
+      classnames: cx,
+      translate: __
     } = this.props;
     let viewValue: React.ReactNode = (
       <span className="text-muted">{placeholder}</span>
@@ -77,7 +78,7 @@ export class DateField extends React.Component<DateProps, DateState> {
     }
 
     viewValue = !viewValue ? (
-      <span className="text-danger">日期无效</span>
+      <span className="text-danger">{__('日期无效')}</span>
     ) : (
       viewValue
     );

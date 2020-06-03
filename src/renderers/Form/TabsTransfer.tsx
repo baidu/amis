@@ -2,7 +2,7 @@ import {OptionsControlProps, OptionsControl} from './Options';
 import React from 'react';
 import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
-import {TransferRenderer} from './Transfer';
+import {BaseTransferRenderer} from './Transfer';
 import TabsTransfer from '../../components/TabsTransfer';
 
 export interface TabsTransferProps extends OptionsControlProps {
@@ -16,7 +16,9 @@ export interface TabsTransferProps extends OptionsControlProps {
 @OptionsControl({
   type: 'tabs-transfer'
 })
-export class TabsTransferRenderer extends TransferRenderer<TabsTransferProps> {
+export class TabsTransferRenderer extends BaseTransferRenderer<
+  TabsTransferProps
+> {
   render() {
     const {
       className,

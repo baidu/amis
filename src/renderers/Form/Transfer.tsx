@@ -15,7 +15,7 @@ import find from 'lodash/find';
 import {optionValueCompare} from '../../components/Select';
 import {resolveVariable} from '../../utils/tpl-builtin';
 
-export interface TransferProps extends OptionsControlProps {
+export interface BaseTransferProps extends OptionsControlProps {
   showArrow?: boolean;
   sortable?: boolean;
   selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
@@ -29,8 +29,8 @@ export interface TransferProps extends OptionsControlProps {
   searchApi?: Api;
 }
 
-export class TransferRenderer<
-  T extends OptionsControlProps = TransferProps
+export class BaseTransferRenderer<
+  T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
   @autobind
   handleChange(value: Array<Option>) {
@@ -212,6 +212,9 @@ export class TransferRenderer<
   }
 }
 
+// ts 3.9 里面非得这样才不报错，鬼知道为何。
+export class TransferRender extends BaseTransferRenderer {}
+
 export default OptionsControl({
   type: 'transfer'
-})(TransferRenderer);
+})(TransferRender);

@@ -460,13 +460,13 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
-    const {store, messages} = this.props;
+    const {store, messages, translate: __} = this.props;
     this.flush();
 
     return store.submit(
       fn,
       this.hooks['validate' || []],
-      messages && messages.validateFailed
+      __(messages && messages.validateFailed)
     );
   }
 
@@ -563,7 +563,8 @@ export default class Form extends React.Component<FormProps, object> {
       env,
       onChange,
       clearPersistDataAfterSubmit,
-      trimValues
+      trimValues,
+      translate: __
     } = this.props;
 
     // 做动作之前，先把数据同步一下。
@@ -581,7 +582,7 @@ export default class Form extends React.Component<FormProps, object> {
     if (Array.isArray(action.required) && action.required.length) {
       return store.validateFields(action.required).then(result => {
         if (!result) {
-          env.notify('error', '依赖的部分字段没有通过验证，请注意填写！');
+          env.notify('error', __('依赖的部分字段没有通过验证，请注意填写！'));
         } else {
           this.handleAction(
             e,
@@ -706,15 +707,17 @@ export default class Form extends React.Component<FormProps, object> {
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
       if (!isEffectiveApi(action.api)) {
-        return env.alert(`当 actionType 为 ajax 时，请设置 api 属性`);
+        return env.alert(__(`当 actionType 为 ajax 时，请设置 api 属性`));
       }
 
       return store
         .saveRemote(action.api as Api, data, {
-          successMessage:
-            (action.messages && action.messages.success) || saveSuccess,
-          errorMessage:
+          successMessage: __(
+            (action.messages && action.messages.success) || saveSuccess
+          ),
+          errorMessage: __(
             (action.messages && action.messages.failed) || saveFailed
+          )
         })
         .then(async response => {
           response &&
@@ -833,7 +836,7 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   buildActions() {
-    const {actions, submitText, controls} = this.props;
+    const {actions, submitText, controls, translate: __} = this.props;
 
     if (
       typeof actions !== 'undefined' ||
@@ -852,7 +855,7 @@ export default class Form extends React.Component<FormProps, object> {
     return [
       {
         type: 'submit',
-        label: submitText,
+        label: __(submitText),
         primary: true
       }
     ];
@@ -1126,7 +1129,8 @@ export default class Form extends React.Component<FormProps, object> {
       bodyClassName,
       classnames: cx,
       affixFooter,
-      lazyLoad
+      lazyLoad,
+      translate: __
     } = this.props;
 
     let body: JSX.Element = this.renderBody();
@@ -1136,7 +1140,7 @@ export default class Form extends React.Component<FormProps, object> {
         'body',
         {
           type: 'panel',
-          title: title
+          title: __(title)
         },
         {
           className: cx(panelClassName, 'Panel--form'),
