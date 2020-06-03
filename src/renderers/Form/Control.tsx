@@ -522,6 +522,7 @@ export default class FormControl extends React.PureComponent<
       store,
       data,
       disabled,
+      onChange: superOnChange,
       ...rest
     } = this.props;
 
@@ -539,7 +540,8 @@ export default class FormControl extends React.PureComponent<
       data: store ? store.data : data,
       value,
       formItemValue: value, // 为了兼容老版本的自定义组件
-      onChange: this.handleChange,
+      onChange:
+        control.type === 'input-group' ? superOnChange : this.handleChange,
       onBlur: this.handleBlur,
       setValue: this.setValue,
       getValue: this.getValue,
