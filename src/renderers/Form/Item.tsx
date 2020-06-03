@@ -858,6 +858,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
               type={type}
               classnames={cx}
               ref={isSFC ? undefined : this.refFn}
+              forwardedRef={isSFC ? this.refFn : undefined}
               formItem={model}
               className={cx(
                 `Form-control`,
