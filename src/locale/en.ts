@@ -4,7 +4,6 @@ register('en', {
   '确认': 'Confirm',
   '取消': 'Cancel',
   'YYYY年': 'YYYY',
-  'MM月': 'MMM',
   '{{from}}年-{{to}}年': '{{from}} - {{to}}',
   '请选择日期': 'Select Date',
   '请选择日期以及时间': 'Select Datetime',
