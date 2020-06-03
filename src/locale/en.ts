@@ -197,5 +197,10 @@ register('en', {
   '请输入合法的邮编地址': 'Please enter a legal postal address',
   '请输入合法的身份证号': 'Please enter a valid ID number',
   '系统错误': 'System Error',
-  '<空>': '<Empty>'
+  '<空>': '<Empty>',
+  '可拖拽排序': 'Drag and drop sorting',
+  '上一步': 'Prev',
+  '下一步': 'Next',
+  '保存并下一步': 'Save & Next',
+  '完成': 'Finish'
 });
