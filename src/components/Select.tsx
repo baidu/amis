@@ -5,7 +5,7 @@
  * @date 2017-11-07
  */
 
-import uncontrollable from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 import React from 'react';
 import Overlay from './Overlay';
 import PopOver from './PopOver';

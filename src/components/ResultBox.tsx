@@ -1,7 +1,7 @@
 import {ThemeProps, themeable} from '../theme';
 import React from 'react';
 import {InputBoxProps} from './InputBox';
-import uncontrollable from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 import {Icon} from './icons';
 import Input from './Input';
 import {autobind} from '../utils/helper';
