@@ -328,10 +328,8 @@ export const FormStore = ServiceStore.named('FormStore')
         let valid = yield validate(hooks);
 
         if (!valid) {
-          (getRoot(self) as IRendererStore).notify(
-            'error',
-            failedMessage || self.__('表单验证失败，请仔细检查')
-          );
+          const msg = failedMessage ?? self.__('表单验证失败，请仔细检查');
+          msg && (getRoot(self) as IRendererStore).notify('error', msg);
           throw new Error(self.__('验证失败'));
         }
 
