@@ -196,7 +196,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg || options.errorMessage || '获取失败',
+            json.msg || options.errorMessage || self.__('获取失败'),
             true
           );
           (getRoot(self) as IRendererStore).notify(
@@ -211,7 +211,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           );
         } else {
           if (!json.data) {
-            throw new Error('返回数据格式不正确，payload.data 没有数据');
+            throw new Error(
+              self.__('返回数据格式不正确，payload.data 没有数据')
+            );
           }
 
           self.updatedAt = Date.now();
@@ -246,7 +248,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
           if (!Array.isArray(items)) {
             throw new Error(
-              '返回数据格式不正确，payload.data.items 必须是数组'
+              self.__('返回数据格式不正确，payload.data.items 必须是数组')
             );
           } else {
             // 确保成员是对象。
@@ -382,7 +384,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg || options.errorMessage || '保存失败',
+            json.msg || options.errorMessage || self.__('保存失败'),
             true
           );
           (getRoot(self) as IRendererStore).notify(

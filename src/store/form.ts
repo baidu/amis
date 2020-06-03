@@ -256,7 +256,9 @@ export const FormStore = ServiceStore.named('FormStore')
             });
 
             self.updateMessage(
-              json.msg || (options && options.errorMessage) || '验证错误',
+              json.msg ||
+                (options && options.errorMessage) ||
+                self.__('验证错误'),
               true
             );
           } else {
@@ -328,9 +330,9 @@ export const FormStore = ServiceStore.named('FormStore')
         if (!valid) {
           (getRoot(self) as IRendererStore).notify(
             'error',
-            failedMessage || '表单验证失败，请仔细检查'
+            failedMessage || self.__('表单验证失败，请仔细检查')
           );
-          throw new Error('验证失败');
+          throw new Error(self.__('验证失败'));
         }
 
         if (fn) {
