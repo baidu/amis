@@ -93,7 +93,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             withChildren={withChildren}
             onlyChildren={onlyChildren}
             hideRoot={hideRoot}
-            rootLabel={rootLabel}
+            rootLabel={__(rootLabel)}
             rootValue={rootValue}
             showIcon={showIcon}
             showRadio={showRadio}
