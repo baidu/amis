@@ -14,8 +14,9 @@ import React from 'react';
 import cx from 'classnames';
 import Html from './Html';
 import {uuid, autobind, noop} from '../utils/helper';
-import {ClassNamesFn, themeable, classnames} from '../theme';
+import {ClassNamesFn, themeable, classnames, ThemeProps} from '../theme';
 import {Icon} from './icons';
+import {LocaleProps, localeable, TranslateFn} from '../locale';
 
 interface Config {
   closeButton?: boolean;
@@ -43,7 +44,7 @@ const show = (
   toastRef[method](content, title || '', {...conf});
 };
 
-interface ToastComponentProps {
+interface ToastComponentProps extends ThemeProps, LocaleProps {
   position:
     | 'top-right'
     | 'top-center'
@@ -53,8 +54,6 @@ interface ToastComponentProps {
     | 'bottom-right';
   closeButton: boolean;
   timeout: number;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   className?: string;
 }
 
@@ -146,7 +145,13 @@ export class ToastComponent extends React.Component<
       return null;
     }
 
-    const {classnames: cx, className, timeout, position} = this.props;
+    const {
+      classnames: cx,
+      className,
+      timeout,
+      position,
+      translate
+    } = this.props;
     const items = this.state.items;
 
     return (
@@ -168,6 +173,7 @@ export class ToastComponent extends React.Component<
             timeout={item.timeout ?? timeout}
             closeButton={item.closeButton}
             onDismiss={this.handleDismissed.bind(this, index)}
+            translate={translate}
           />
         ))}
       </div>
@@ -175,7 +181,7 @@ export class ToastComponent extends React.Component<
   }
 }
 
-export default themeable(ToastComponent);
+export default themeable(localeable(ToastComponent));
 
 interface ToastMessageProps {
   title?: string;
@@ -192,6 +198,7 @@ interface ToastMessageProps {
     | 'bottom-right';
   onDismiss?: () => void;
   classnames: ClassNamesFn;
+  translate: TranslateFn;
   allowHtml: boolean;
 }
 
@@ -265,7 +272,8 @@ export class ToastMessage extends React.Component<
       title,
       body,
       allowHtml,
-      level
+      level,
+      translate: __
     } = this.props;
 
     return (
@@ -290,7 +298,9 @@ export class ToastMessage extends React.Component<
                   <Icon icon="close" className="icon" />
                 </a>
               ) : null}
-              {title ? <div className={cx('Toast-title')}>{title}</div> : null}
+              {title ? (
+                <div className={cx('Toast-title')}>{__(title)}</div>
+              ) : null}
               <div className={cx('Toast-body')}>
                 {allowHtml ? <Html html={body} /> : body}
               </div>

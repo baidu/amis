@@ -4,7 +4,8 @@ import {
   SnapshotIn,
   flow,
   getRoot,
-  hasParent
+  hasParent,
+  isAlive
 } from 'mobx-state-tree';
 import {IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
@@ -27,6 +28,7 @@ import {normalizeOptions, optionValueCompare} from '../components/Select';
 import find from 'lodash/find';
 import {SimpleMap} from '../utils/SimpleMap';
 import memoize from 'lodash/memoize';
+import {TranslateFn} from '../locale';
 
 interface IOption {
   value?: string | number | null;
@@ -199,6 +201,14 @@ export const FormItemStore = types
         });
 
         return selectedOptions;
+      },
+
+      get __(): TranslateFn {
+        return isAlive(self) &&
+          getRoot(self) &&
+          (getRoot(self) as IRendererStore).storeType === 'RendererStore'
+          ? (getRoot(self) as IRendererStore).__
+          : (str: string) => str;
       }
     };
   })
@@ -303,7 +313,13 @@ export const FormItemStore = types
       }
 
       addError(
-        doValidate(self.value, self.form.data, self.rules, self.messages)
+        doValidate(
+          self.value,
+          self.form.data,
+          self.rules,
+          self.messages,
+          self.__
+        )
       );
       self.validated = true;
 
@@ -320,7 +336,7 @@ export const FormItemStore = types
             item => item !== self && self.value && item.value === self.value
           )
         ) {
-          addError(`当前值不唯一`);
+          addError(self.__('`当前值不唯一`'));
         }
       }
 
@@ -398,9 +414,9 @@ export const FormItemStore = types
         if (!json.ok) {
           setErrorFlag !== false &&
             setError(
-              `加载选项失败，原因：${
-                json.msg || (config && config.errorMessage)
-              }`
+              self.__('加载选项失败，原因：{{reason}}', {
+                reason: json.msg || (config && config.errorMessage)
+              })
             );
           (getRoot(self) as IRendererStore).notify(
             'error',

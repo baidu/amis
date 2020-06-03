@@ -278,7 +278,9 @@ export const ServiceStore = iRendererStore
 
         if (!json.ok) {
           updateMessage(
-            json.msg || (options && options.errorMessage) || '保存失败',
+            json.msg ||
+              (options && options.errorMessage) ||
+              self.__('保存失败'),
             true
           );
           throw new ServerError(self.msg, json);
@@ -370,7 +372,9 @@ export const ServiceStore = iRendererStore
 
         if (!json.ok) {
           updateMessage(
-            json.msg || (options && options.errorMessage) || '获取失败，请重试',
+            json.msg ||
+              (options && options.errorMessage) ||
+              self.__('获取失败，请重试'),
             true
           );
           (getRoot(self) as IRendererStore).notify(

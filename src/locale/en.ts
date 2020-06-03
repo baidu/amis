@@ -148,5 +148,53 @@ register('en', {
   '请拖动左边的按钮进行排序': 'Please drag the button on the left to sort',
   '排序': 'Sort',
   '正序': 'Asc',
-  '降序': 'Desc'
+  '降序': 'Desc',
+  '返回数据格式不正确，payload.data 没有数据':
+    'The return data format is incorrect, nothing is in `payload.data`',
+  '获取失败': 'Fetch failed',
+  '返回数据格式不正确，payload.data.items 必须是数组':
+    'The return data format is incorrect, payload.data.items Must be an array',
+  '验证错误': 'Validate failed',
+  '表单验证失败，请仔细检查': 'Form validation failed, please check carefully',
+  '验证失败': 'Validate failed',
+  '当前值不唯一': 'Current value is not unique',
+  '加载选项失败，原因：{{reason}}':
+    'Failed to load options because: {{reason}}',
+  '获取失败，请重试': 'Fetch failed, please try again',
+  '请仔细检查表单规则，部分表单项没通过验证':
+    'Please check the form rules carefully. Some form items fail to pass the verification',
+  'Email 格式不正确': 'Email format is incorrect',
+  '这是必填项': 'This is required',
+  'Url 格式不正确': 'Incorrect URL format',
+  '请输入整型数字': 'Please enter an integer number',
+  '请输入字母': 'Please enter letters',
+  '请输入数字': 'Please enter a number',
+  '请输入字母或者数字': 'Please enter letters or numbers',
+  '请输入浮点型数值': 'Please enter a floating point value',
+  '只能输入字母、数字、`-` 和 `_`.':
+    'You can only enter letters, numbers, `-` and`_` .',
+  '格式不正确, 请输入符合规则为 `${1|raw}` 的内容。':
+    'The format is not correct. Please enter the content with the rule `${1| raw}`.',
+  '请输入更多的内容，至少输入 $1 个字符。':
+    'Please enter more, at least $1 characters.',
+  '请控制内容长度, 不要输入 $1 个字符以上':
+    'Please control the content length, do not enter more than $1 characters',
+  '当前输入值超出最大值 $1，请检查':
+    'The current input value exceeds the maximum value of $1, please check',
+  '请输入小于 $1 的值': 'Please enter a value less than $1',
+  '当前输入值低于最小值 $1，请检查':
+    'The current input value is lower than the minimum value of $1, please check',
+  '请输入大于 $1 的值': 'Please enter a value greater than $1',
+  '请检查 Json 格式。': 'Please check the JSON format.',
+  '请输入长度为 $1 的内容':
+    'Please enter make sure the length of contents is $1',
+  '请不要全输入空白字符': 'Please do not enter all blank characters',
+  '输入的数据与 $1 值不一致':
+    'The entered data is inconsistent with the value of $1',
+  '输入的数据与 $1 不一致': 'The entered data is inconsistent with $1',
+  '请输入合法的手机号码': 'Please enter a valid mobile phone number',
+  '请输入合法的电话号码': 'Please enter a valid phone number',
+  '请输入合法的邮编地址': 'Please enter a legal postal address',
+  '请输入合法的身份证号': 'Please enter a valid ID number',
+  '系统错误': 'System Error'
 });

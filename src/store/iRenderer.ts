@@ -3,6 +3,7 @@ import {extendObject, createObject} from '../utils/helper';
 import {IRendererStore} from './index';
 import {dataMapping} from '../utils/tpl-builtin';
 import {SimpleMap} from '../utils/SimpleMap';
+import {TranslateFn} from '../locale';
 
 export const iRendererStore = types
   .model('iRendererStore', {
@@ -25,7 +26,6 @@ export const iRendererStore = types
   })
   .views(self => {
     return {
-      // todo 不能自己引用自己
       get parentStore(): any {
         return isAlive(self) &&
           self.parentId &&
@@ -33,6 +33,14 @@ export const iRendererStore = types
           (getRoot(self) as IRendererStore).storeType === 'RendererStore'
           ? (getRoot(self) as IRendererStore).stores.get(self.parentId)
           : null;
+      },
+
+      get __(): TranslateFn {
+        return isAlive(self) &&
+          getRoot(self) &&
+          (getRoot(self) as IRendererStore).storeType === 'RendererStore'
+          ? (getRoot(self) as IRendererStore).__
+          : (str: string) => str;
       }
     };
   })
@@ -62,7 +70,7 @@ export const iRendererStore = types
         self.data = self.pristine;
       },
 
-      updateData(data: object = {}, tag?: object, replace?:boolean) {
+      updateData(data: object = {}, tag?: object, replace?: boolean) {
         const prev = self.data;
         let newData;
         if (tag) {

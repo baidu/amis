@@ -956,6 +956,8 @@ export function render(
     ...options
   };
 
+  const locale = props.locale || getDefaultLocale();
+  const translate = props.translate || makeTranslator(locale);
   let store =
     stores[options.session || 'global'] ||
     (stores[options.session || 'global'] = RendererStore.create(
@@ -967,7 +969,9 @@ export function render(
           : defaultOptions.fetcher,
         confirm: options.confirm
           ? promisify(options.confirm)
-          : defaultOptions.confirm
+          : defaultOptions.confirm,
+        locale,
+        translate
       }
     ));
 
@@ -975,8 +979,8 @@ export function render(
   const env = getEnv(store);
   const theme = props.theme || options.theme || 'default';
   env.theme = getTheme(theme);
-  const locale = props.locale || getDefaultLocale();
-  const translate = props.translate || makeTranslator(locale);
+  env.translate = translate;
+  env.locale = locale;
 
   return (
     <ScopedRootRenderer
