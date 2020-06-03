@@ -196,5 +196,6 @@ register('en', {
   '请输入合法的电话号码': 'Please enter a valid phone number',
   '请输入合法的邮编地址': 'Please enter a legal postal address',
   '请输入合法的身份证号': 'Please enter a valid ID number',
-  '系统错误': 'System Error'
+  '系统错误': 'System Error',
+  '<空>': '<Empty>'
 });
