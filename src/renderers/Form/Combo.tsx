@@ -1110,7 +1110,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               );
             })
           ) : placeholder ? (
-            <div className={cx(`Combo-placeholder`)}>{placeholder}</div>
+            <div className={cx(`Combo-placeholder`)}>{__(placeholder)}</div>
           ) : null}
         </div>
         {!disabled ? (
