@@ -50,7 +50,7 @@ export class InputGroup extends React.Component<
   }
 
   renderControl(control: any, index: any, otherProps?: any) {
-    const {render} = this.props;
+    const {render, onChange} = this.props;
 
     if (!control) {
       return null;
@@ -71,6 +71,7 @@ export class InputGroup extends React.Component<
     }
 
     return render(`${index}`, subSchema, {
+      onChange,
       ...otherProps
     });
   }
