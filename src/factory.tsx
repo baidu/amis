@@ -979,8 +979,11 @@ export function render(
   const env = getEnv(store);
   const theme = props.theme || options.theme || 'default';
   env.theme = getTheme(theme);
-  env.translate = translate;
-  env.locale = locale;
+
+  if (props.locale !== undefined) {
+    env.translate = translate;
+    env.locale = locale;
+  }
 
   return (
     <ScopedRootRenderer
