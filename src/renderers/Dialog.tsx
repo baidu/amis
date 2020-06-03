@@ -122,7 +122,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
   }
 
   buildActions(): Array<Action> {
-    const {actions, confirm} = this.props;
+    const {actions, confirm, translate: __} = this.props;
 
     if (typeof actions !== 'undefined') {
       return actions;
@@ -132,14 +132,14 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     ret.push({
       type: 'button',
       actionType: 'cancel',
-      label: '取消'
+      label: __('取消')
     });
 
     if (confirm) {
       ret.push({
         type: 'button',
         actionType: 'confirm',
-        label: '确认',
+        label: __('确认'),
         primary: true
       });
     }
@@ -380,7 +380,8 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
       showCloseButton,
       env,
       classnames: cx,
-      classPrefix
+      classPrefix,
+      translate: __
     } = this.props;
 
     // console.log('Render Dialog');
@@ -408,7 +409,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
           <div className={cx('Modal-header', headerClassName)}>
             {showCloseButton !== false && !store.loading ? (
               <a
-                data-tooltip="关闭弹窗"
+                data-tooltip={__('关闭弹窗')}
                 data-position="left"
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
@@ -417,14 +418,14 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
               </a>
             ) : null}
             <div className={cx('Modal-title')}>
-              {filter(title, store.formData)}
+              {filter(__(title), store.formData)}
             </div>
           </div>
         ) : title ? (
           <div className={cx('Modal-header', headerClassName)}>
             {showCloseButton !== false && !store.loading ? (
               <a
-                data-tooltip="关闭弹窗"
+                data-tooltip={__('关闭弹窗')}
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >
@@ -437,7 +438,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
           </div>
         ) : showCloseButton !== false && !store.loading ? (
           <a
-            data-tooltip="关闭弹窗"
+            data-tooltip={__('关闭弹窗')}
             onClick={this.handleSelfClose}
             className={cx('Modal-close')}
           >

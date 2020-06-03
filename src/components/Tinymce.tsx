@@ -35,8 +35,9 @@ import 'tinymce/plugins/template';
 import 'tinymce/plugins/nonbreaking';
 import 'tinymce/plugins/emoticons';
 import 'tinymce/plugins/emoticons/js/emojis';
+import {LocaleProps} from '../locale';
 
-interface TinymceEditorProps {
+interface TinymceEditorProps extends LocaleProps {
   model: string;
   onModelChange?: (value: string) => void;
   onFocus?: () => void;
@@ -58,12 +59,14 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
   elementRef: React.RefObject<HTMLTextAreaElement> = React.createRef();
 
   componentDidMount() {
+    const locale = this.props.locale;
+
     this.config = {
       inline: false,
       skin: false,
       content_css: false,
       height: 400,
-      language: 'zh_CN',
+      language: !locale || locale === 'zh-cn' ? 'zh_CN' : 'en',
       plugins: [
         'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
         'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',

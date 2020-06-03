@@ -393,7 +393,8 @@ export default class NestedSelectControl extends React.Component<
       options,
       disabled,
       searchable,
-      searchPromptText
+      searchPromptText,
+      translate: __
     } = this.props;
 
     const stack = this.state.stack;
@@ -410,7 +411,7 @@ export default class NestedSelectControl extends React.Component<
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           disabled={disabled!!}
-          placeholder={searchPromptText}
+          placeholder={__(searchPromptText)}
           onChange={this.handleInputChange}
           ref={this.inputRef}
         />

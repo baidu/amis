@@ -24,7 +24,6 @@ import {
   SchemaNode,
   Schema,
   Action,
-  Omit,
   RendererData
 } from './types';
 import {observer} from 'mobx-react';
@@ -34,11 +33,24 @@ import omit from 'lodash/omit';
 import difference from 'lodash/difference';
 import isPlainObject from 'lodash/isPlainObject';
 import Scoped from './Scoped';
-import {getTheme, ThemeInstance, ClassNamesFn, ThemeContext} from './theme';
+import {
+  getTheme,
+  ThemeInstance,
+  ClassNamesFn,
+  ThemeContext,
+  ThemeProps
+} from './theme';
 import find from 'lodash/find';
 import Alert from './components/Alert2';
 import {LazyComponent} from './components';
 import ImageGallery from './components/ImageGallery';
+import {
+  TranslateFn,
+  getDefaultLocale,
+  makeTranslator,
+  LocaleContext,
+  LocaleProps
+} from './locale';
 
 export interface TestFunc {
   (
@@ -98,11 +110,9 @@ export interface RendererEnv {
   [propName: string]: any;
 }
 
-export interface RendererProps {
+export interface RendererProps extends ThemeProps, LocaleProps {
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
   env: RendererEnv;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   $path: string; // 当前组件所在的层级信息
   store?: IIRendererStore;
   syncSuperStore?: boolean;
@@ -193,7 +203,7 @@ export function filterSchema(
 }
 
 export function Renderer(config: RendererBasicConfig) {
-  return function<T extends RendererComponent>(component: T): T {
+  return function <T extends RendererComponent>(component: T): T {
     const renderer = registerRenderer({
       ...config,
       component: component
@@ -215,9 +225,7 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
 
   if (~rendererNames.indexOf(config.name)) {
     throw new Error(
-      `The renderer with name "${
-        config.name
-      }" has already exists, please try another name!`
+      `The renderer with name "${config.name}" has already exists, please try another name!`
     );
   }
 
@@ -322,6 +330,8 @@ export interface RootRendererProps {
   env: RendererEnv;
   theme: string;
   pathPrefix?: string;
+  locale?: string;
+  translate?: TranslateFn;
   [propName: string]: any;
 }
 
@@ -362,6 +372,8 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       pathPrefix,
       location,
       data,
+      locale,
+      translate,
       ...rest
     } = this.props;
 
@@ -385,28 +397,32 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     return (
       <RootStoreContext.Provider value={rootStore}>
         <ThemeContext.Provider value={this.props.theme || 'default'}>
-          <ImageGallery modalContainer={env.getModalContainer}>
-            {
-              renderChild(
-                pathPrefix || '',
-                isPlainObject(schema)
-                  ? {
-                      type: 'page',
-                      ...(schema as Schema)
-                    }
-                  : schema,
-                {
-                  ...rest,
-                  resolveDefinitions: this.resolveDefinitions,
-                  location: location,
-                  data: finalData,
-                  env,
-                  classnames: theme.classnames,
-                  classPrefix: theme.classPrefix
-                }
-              ) as JSX.Element
-            }
-          </ImageGallery>
+          <LocaleContext.Provider value={this.props.locale!}>
+            <ImageGallery modalContainer={env.getModalContainer}>
+              {
+                renderChild(
+                  pathPrefix || '',
+                  isPlainObject(schema)
+                    ? {
+                        type: 'page',
+                        ...(schema as any)
+                      }
+                    : schema,
+                  {
+                    ...rest,
+                    resolveDefinitions: this.resolveDefinitions,
+                    location: location,
+                    data: finalData,
+                    env,
+                    classnames: theme.classnames,
+                    classPrefix: theme.classPrefix,
+                    locale,
+                    translate
+                  }
+                ) as JSX.Element
+              }
+            </ImageGallery>
+          </LocaleContext.Provider>
         </ThemeContext.Provider>
       </RootStoreContext.Provider>
     );
@@ -634,7 +650,7 @@ export function HocStoreFactory(renderer: {
   storeType: string;
   extendsData?: boolean;
 }): any {
-  return function<T extends React.ComponentType<RendererProps>>(Component: T) {
+  return function <T extends React.ComponentType<RendererProps>>(Component: T) {
     type Props = Omit<
       RendererProps,
       'store' | 'data' | 'dataUpdatedAt' | 'scope'
@@ -646,8 +662,9 @@ export function HocStoreFactory(renderer: {
 
     @observer
     class StoreFactory extends React.Component<Props> {
-      static displayName = `WithStore(${Component.displayName ||
-        Component.name})`;
+      static displayName = `WithStore(${
+        Component.displayName || Component.name
+      })`;
       static ComposedComponent = Component;
       static contextType = RootStoreContext;
       store: IIRendererStore;
@@ -839,7 +856,7 @@ export function HocStoreFactory(renderer: {
         return (
           <Component
             {
-              ...rest as any /* todo */
+              ...(rest as any) /* todo */
             }
             {...exprProps}
             ref={this.refFn}
@@ -956,6 +973,8 @@ export function render(
   const env = getEnv(store);
   const theme = props.theme || options.theme || 'default';
   env.theme = getTheme(theme);
+  const locale = props.locale || getDefaultLocale();
+  const translate = props.translate || makeTranslator(locale);
 
   return (
     <ScopedRootRenderer
@@ -965,6 +984,8 @@ export function render(
       rootStore={store}
       env={env}
       theme={theme}
+      locale={locale}
+      translate={translate}
     />
   );
 }

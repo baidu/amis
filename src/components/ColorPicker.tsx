@@ -12,10 +12,11 @@ import {Icon} from './icons';
 import Overlay from './Overlay';
 import uncontrollable from 'uncontrollable';
 import PopOver from './PopOver';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {autobind} from '../utils/helper';
+import {localeable, LocaleProps} from '../locale';
 
-export interface ColorProps {
+export interface ColorProps extends LocaleProps, ThemeProps {
   placeholder?: string;
   format: string;
   // closeOnSelect:boolean;
@@ -25,8 +26,6 @@ export interface ColorProps {
   popOverContainer?: any;
   placement?: string;
   value: any;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   onChange: (value: any) => void;
   presetColors?: string[];
   resetValue?: string;
@@ -219,6 +218,7 @@ export class ColorControl extends React.PureComponent<
       allowCustomColor
     } = this.props;
 
+    const __ = this.props.translate;
     const isOpened = this.state.isOpened;
     const isFocused = this.state.isFocused;
 
@@ -240,7 +240,7 @@ export class ColorControl extends React.PureComponent<
           size={10}
           className={cx('ColorPicker-input')}
           value={this.state.inputValue || ''}
-          placeholder={placeholder}
+          placeholder={__(placeholder)}
           disabled={disabled}
           onChange={this.handleInputChange}
           onFocus={this.handleFocus}
@@ -300,7 +300,9 @@ export class ColorControl extends React.PureComponent<
 }
 
 export default themeable(
-  uncontrollable(ColorControl, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(ColorControl, {
+      value: 'onChange'
+    })
+  )
 );

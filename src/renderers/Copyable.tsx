@@ -38,7 +38,8 @@ export const HocCopyable = () => (Component: React.ComponentType<any>): any => {
         className,
         data,
         noHoc,
-        classnames: cx
+        classnames: cx,
+        translate: __
       } = this.props;
 
       if (copyable && !noHoc) {
@@ -55,7 +56,7 @@ export const HocCopyable = () => (Component: React.ComponentType<any>): any => {
               <Component {...this.props} wrapperComponent={''} noHoc />
               <i
                 key="edit-btn"
-                data-tooltip="点击复制"
+                data-tooltip={__('点击复制')}
                 className={cx('Field-copyBtn fa fa-clipboard')}
                 onClick={this.handleClick.bind(this, content)}
               />

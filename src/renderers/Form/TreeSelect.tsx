@@ -132,15 +132,21 @@ export default class TreeSelectControl extends React.Component<
   }
 
   validate(): any {
-    const {value, minLength, maxLength, delimiter} = this.props;
+    const {value, minLength, maxLength, delimiter, translate: __} = this.props;
 
     let curValue = Array.isArray(value)
       ? value
       : (value ? String(value) : '').split(delimiter || ',');
     if (minLength && curValue.length < minLength) {
-      return `已选择数量低于设定的最小个数${minLength}，请选择更多的选项。`;
+      return __(
+        '已选择数量低于设定的最小个数${minLength}，请选择更多的选项。',
+        {minLength}
+      );
     } else if (maxLength && curValue.length > maxLength) {
-      return `已选择数量超出设定的最大个数${maxLength}，请取消选择超出的选项。`;
+      return __(
+        '已选择数量超出设定的最大个数{{maxLength}}，请取消选择超出的选项。',
+        {maxLength}
+      );
     }
   }
 
@@ -321,7 +327,8 @@ export default class TreeSelectControl extends React.Component<
       labelField,
       disabled,
       placeholder,
-      classnames: cx
+      classnames: cx,
+      translate: __
     } = this.props;
 
     if ((!multiple || !selectedOptions.length) && this.state.inputValue) {
@@ -355,7 +362,7 @@ export default class TreeSelectControl extends React.Component<
       )
     ) : (
       <span key="placeholder" className={cx('TreeSelect-placeholder')}>
-        {placeholder}
+        {__(placeholder)}
       </span>
     );
   }
@@ -386,7 +393,8 @@ export default class TreeSelectControl extends React.Component<
       searchable,
       autoComplete,
       maxLength,
-      minLength
+      minLength,
+      translate: __
     } = this.props;
 
     let filtedOptions =
@@ -420,14 +428,14 @@ export default class TreeSelectControl extends React.Component<
             joinValues={joinValues}
             extractValue={extractValue}
             delimiter={delimiter}
-            placeholder={optionsPlaceholder}
+            placeholder={__(optionsPlaceholder)}
             options={filtedOptions}
             highlightTxt={this.state.inputValue}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
             unfoldedLevel={unfoldedLevel}
             withChildren={withChildren}
-            rootLabel={rootLabel}
+            rootLabel={__(rootLabel)}
             rootValue={rootValue}
             showIcon={showIcon}
             showRadio={showRadio}

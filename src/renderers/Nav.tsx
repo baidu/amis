@@ -128,7 +128,7 @@ export class Navigation extends React.Component<
       return this.receive(query);
     }
 
-    const {data, env, source} = this.props;
+    const {data, env, source, translate: __} = this.props;
     const finalData = values ? createObject(data, values) : data;
 
     if (!isEffectiveApi(source, data)) {
@@ -144,7 +144,7 @@ export class Navigation extends React.Component<
 
         if (!payload.ok) {
           this.setState({
-            error: payload.msg || '获取链接错误'
+            error: payload.msg || __('获取链接错误')
           });
         } else {
           const links = Array.isArray(payload.data)

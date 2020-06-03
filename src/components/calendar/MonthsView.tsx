@@ -2,8 +2,9 @@
 import MonthsView from 'react-datetime/src/MonthsView';
 import moment from 'moment';
 import React from 'react';
+import {LocaleProps, localeable} from '../../locale';
 
-export default class CustomMonthsView extends MonthsView {
+export class CustomMonthsView extends MonthsView {
   props: {
     viewDate: moment.Moment;
     subtractTime: (
@@ -16,7 +17,7 @@ export default class CustomMonthsView extends MonthsView {
       type: string,
       toSelected?: moment.Moment
     ) => () => void;
-  };
+  } & LocaleProps;
   renderMonths: () => JSX.Element;
   renderMonth = (props: any, month: number) => {
     var localMoment = this.props.viewDate;
@@ -34,6 +35,8 @@ export default class CustomMonthsView extends MonthsView {
     );
   };
   render() {
+    const __ = this.props.translate;
+
     return (
       <div className="rdtMonths">
         <table>
@@ -45,7 +48,9 @@ export default class CustomMonthsView extends MonthsView {
               >
                 «
               </th>
-              <th className="rdtSwitch">{this.props.viewDate.year()}年</th>
+              <th className="rdtSwitch">
+                {this.props.viewDate.format(__('YYYY年'))}
+              </th>
               <th className="rdtNext" onClick={this.props.addTime(1, 'years')}>
                 »
               </th>
@@ -59,3 +64,5 @@ export default class CustomMonthsView extends MonthsView {
     );
   }
 }
+
+export default localeable(CustomMonthsView as any);
