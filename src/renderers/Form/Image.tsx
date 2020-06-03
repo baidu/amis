@@ -146,12 +146,12 @@ export default class ImageControl extends React.Component<
     __: TranslateFn
   ): string {
     if (!width) {
-      return __('高度${height}px', {height: height});
+      return __('高度{{height}}px', {height: height});
     } else if (!height) {
-      return __('宽度${width}px', {width: width});
+      return __('宽度{{width}}px', {width: width});
     }
 
-    return __('尺寸（${width} x ${height}）', {width, height});
+    return __('尺寸（{{width}} x {{height}}）', {width, height});
   }
 
   state: ImageState = {
@@ -323,7 +323,7 @@ export default class ImageControl extends React.Component<
     // });
 
     env.alert(
-      __('您添加的文件${files}不符合类型的`${accept}`的设定，请仔细检查。', {
+      __('您添加的文件{{files}}不符合类型的`{{accept}}`的设定，请仔细检查。', {
         files: files.map((file: any) => `「${file.name}」`).join(' '),
         accept
       })
@@ -658,7 +658,7 @@ export default class ImageControl extends React.Component<
       if (maxSize && file.size > maxSize) {
         alert(
           __(
-            '您选择的文件 ${filename} 大小为 ${actualSize} 超出了最大为 ${maxSize} 的限制，请重新选择。',
+            '您选择的文件 {{filename}} 大小为 {{actualSize}} 超出了最大为 {{maxSize}} 的限制，请重新选择。',
             {
               filename: file.name,
               actualSize: ImageControl.formatFileSize(file.size),
@@ -718,21 +718,21 @@ export default class ImageControl extends React.Component<
         (limit.width && limit.width != width) ||
         (limit.height && limit.height != height)
       ) {
-        error = __('您选择的图片不符合尺寸要求, 请上传${info}的图片', {
+        error = __('您选择的图片不符合尺寸要求, 请上传{{info}}的图片', {
           info: ImageControl.sizeInfo(limit.width, limit.height, __)
         });
       } else if (
         (limit.maxWidth && limit.maxWidth < width) ||
         (limit.maxHeight && limit.maxHeight < height)
       ) {
-        error = __('您选择的图片不符合尺寸要求, 请上传不要超过${info}的图片', {
+        error = __('您选择的图片不符合尺寸要求, 请上传不要超过{{info}}的图片', {
           info: ImageControl.sizeInfo(limit.maxWidth, limit.maxHeight, __)
         });
       } else if (
         (limit.minWidth && limit.minWidth > width) ||
         (limit.minHeight && limit.minHeight > height)
       ) {
-        error = __('您选择的图片不符合尺寸要求, 请上传不要小于${info}的图片', {
+        error = __('您选择的图片不符合尺寸要求, 请上传不要小于{{info}}的图片', {
           info: ImageControl.sizeInfo(limit.minWidth, limit.minHeight, __)
         });
       } else if (
@@ -740,7 +740,7 @@ export default class ImageControl extends React.Component<
         Math.abs(width / height - limit.aspectRatio) > 0.01
       ) {
         error = __(
-          '您选择的图片不符合尺寸要求, 请上传尺寸比率为 ${ratio} 的图片',
+          '您选择的图片不符合尺寸要求, 请上传尺寸比率为 {{ratio}} 的图片',
           {
             ratio: limit.aspectRatioLabel || limit.aspectRatio
           }

@@ -675,7 +675,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         : await onOpenDialog(
             {
               type: 'dialog',
-              title: __('编辑${label}', {
+              title: __('编辑{{label}}', {
                 label: optionLabel || '选项'
               }),
               body: {

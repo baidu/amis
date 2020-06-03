@@ -1343,7 +1343,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     return (
       <div className={cx('Crud-statistics')}>
-        {__('${page}/${lastPage} 总共：${total} 项。', {
+        {__('{{page}}/{{lastPage}} 总共：{{total}} 项。', {
           page: store.page,
           lastPage: store.lastPage,
           total: store.total
