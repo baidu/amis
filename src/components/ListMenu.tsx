@@ -1,8 +1,9 @@
 import {ThemeProps, themeable} from '../theme';
 import React from 'react';
 import {Options, Option} from './Select';
+import {LocaleProps, localeable} from '../locale';
 
-export interface ListMenuProps extends ThemeProps {
+export interface ListMenuProps extends ThemeProps, LocaleProps {
   options: Options;
   disabled?: boolean;
   selectedOptions?: Options;
@@ -85,6 +86,8 @@ export class ListMenu extends React.Component<ListMenuProps> {
 
   render() {
     const {classnames: cx, options, placeholder, prefix, children} = this.props;
+    const __ = this.props.translate;
+
     return (
       <div className={cx('ListMenu')}>
         {prefix}
@@ -98,7 +101,7 @@ export class ListMenu extends React.Component<ListMenuProps> {
             }
           ).items
         ) : (
-          <span className={cx('ListMenu-placeholder')}>{placeholder}</span>
+          <span className={cx('ListMenu-placeholder')}>{__(placeholder)}</span>
         )}
         {children}
       </div>
@@ -106,4 +109,4 @@ export class ListMenu extends React.Component<ListMenuProps> {
   }
 }
 
-export default themeable(ListMenu);
+export default themeable(localeable(ListMenu));

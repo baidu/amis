@@ -19,10 +19,11 @@ import isPlainObject from 'lodash/isPlainObject';
 import union from 'lodash/union';
 import {highlight} from '../renderers/Form/Options';
 import {findDOMNode} from 'react-dom';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import Checkbox from './Checkbox';
 import Input from './Input';
 import {Api} from '../types';
+import {LocaleProps, localeable} from '../locale';
 
 export interface Option {
   label?: string;
@@ -273,9 +274,7 @@ export function normalizeOptions(
 
 const DownshiftChangeTypes = Downshift.stateChangeTypes;
 
-interface SelectProps extends OptionProps {
-  classPrefix: string;
-  classnames: ClassNamesFn;
+interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   className?: string;
   creatable: boolean;
   createBtnLabel: string;
@@ -629,7 +628,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       placeholder,
       classPrefix: ns,
       labelField,
-      disabled
+      disabled,
+      translate: __
     } = this.props;
 
     const selection = this.state.selection;
@@ -638,7 +638,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     if (!selection.length) {
       return (
         <div key="placeholder" className={`${ns}Select-placeholder`}>
-          {placeholder}
+          {__(placeholder)}
         </div>
       );
     }
@@ -693,7 +693,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       searchPromptText,
       editable,
       removable,
-      overlayPlacement
+      overlayPlacement,
+      translate: __
     } = this.props;
     const {selection} = this.state;
 
@@ -732,7 +733,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 onFocus: this.onFocus,
                 onBlur: this.onBlur,
                 disabled: disabled,
-                placeholder: searchPromptText,
+                placeholder: __(searchPromptText),
                 onChange: this.handleInputChange,
                 ref: this.inputRef
               })}
@@ -747,7 +748,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               partial={checkedPartial && !checkedAll}
               onChange={this.toggleCheckAll}
             >
-              {checkAllLabel}
+              {__(checkAllLabel)}
             </Checkbox>
           </div>
         ) : null}
@@ -830,13 +831,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
             );
           })
         ) : (
-          <div className={cx('Select-noResult')}>{noResultsText}</div>
+          <div className={cx('Select-noResult')}>{__(noResultsText)}</div>
         )}
 
         {creatable && !disabled ? (
           <a className={cx('Select-addBtn')} onClick={this.handleAddClick}>
             <Icon icon="plus" className="icon" />
-            {createBtnLabel}
+            {__(createBtnLabel)}
           </a>
         ) : null}
       </div>
@@ -942,7 +943,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
 }
 
 export default themeable(
-  uncontrollable(Select, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(Select, {
+      value: 'onChange'
+    })
+  )
 );

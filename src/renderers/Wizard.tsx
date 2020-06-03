@@ -650,7 +650,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       actionNextLabel,
       actionNextSaveLabel,
       actionFinishLabel,
-      render
+      render,
+      translate: __
     } = this.props;
 
     if (!Array.isArray(steps)) {
@@ -698,7 +699,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           `prev-btn`,
           {
             type: 'button',
-            label: actionPrevLabel,
+            label: __(actionPrevLabel),
             actionType: 'prev',
             className: actionClassName
           },
@@ -713,10 +714,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           {
             type: 'button',
             label: !nextStep
-              ? actionFinishLabel
+              ? __(actionFinishLabel)
               : !step.api
-              ? actionNextLabel
-              : actionNextSaveLabel,
+              ? __(actionNextLabel)
+              : __(actionNextSaveLabel),
             actionType: 'next',
             primary: !nextStep || !!step.api,
             className: actionClassName

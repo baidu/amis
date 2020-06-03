@@ -151,7 +151,8 @@ export default class SubFormControl extends React.PureComponent<
       value,
       btnLabel,
       render,
-      data
+      data,
+      translate: __
     } = this.props;
 
     return [
@@ -169,7 +170,7 @@ export default class SubFormControl extends React.PureComponent<
                 key={key}
               >
                 <span
-                  data-tooltip="删除"
+                  data-tooltip={__('删除')}
                   data-position="bottom"
                   className={`${ns}Select-valueIcon`}
                   onClick={this.removeItem.bind(this, key)}
@@ -179,7 +180,7 @@ export default class SubFormControl extends React.PureComponent<
                 <span
                   onClick={this.open.bind(this, key)}
                   className={`${ns}SubForm-valueLabel`}
-                  data-tooltip="编辑详情"
+                  data-tooltip={__('编辑详情')}
                   data-position="bottom"
                 >
                   {(value &&
@@ -190,7 +191,7 @@ export default class SubFormControl extends React.PureComponent<
                       'label',
                       {
                         type: 'tpl',
-                        tpl: btnLabel
+                        tpl: __(btnLabel)
                       },
                       {
                         data: createObject(data, value)
@@ -207,10 +208,10 @@ export default class SubFormControl extends React.PureComponent<
         onClick={this.addItem}
         className={cx(`${ns}Button ${ns}SubForm-addBtn`, addButtonClassName)}
         disabled={disabled}
-        data-tooltip="新增一条数据"
+        data-tooltip={__('新增一条数据')}
       >
         <i className="fa fa-plus m-r-xs" />
-        <span>新增</span>
+        <span>{__('新增')}</span>
       </button>
     ];
   }
@@ -224,7 +225,8 @@ export default class SubFormControl extends React.PureComponent<
       labelField,
       btnLabel,
       render,
-      data
+      data,
+      translate: __
     } = this.props;
 
     return (
@@ -238,7 +240,7 @@ export default class SubFormControl extends React.PureComponent<
             btnClassName
           )}
           onClick={this.open.bind(this, 0)}
-          data-tooltip="编辑详情"
+          data-tooltip={__('编辑详情')}
           data-position="bottom"
         >
           <span className={`${ns}SubForm-valueLabel`}>
@@ -250,7 +252,7 @@ export default class SubFormControl extends React.PureComponent<
                 'label',
                 {
                   type: 'tpl',
-                  tpl: btnLabel
+                  tpl: __(btnLabel)
                 },
                 {
                   data: createObject(data, value)

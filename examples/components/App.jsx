@@ -4,6 +4,7 @@ import Layout from '../../src/components/Layout';
 import AsideNav from '../../src/components/AsideNav';
 import {AlertComponent, ToastComponent} from '../../src/components/index';
 import {mapTree} from '../../src/utils/helper';
+import '../../src/locale/en';
 import {
   Router,
   Route,
@@ -560,6 +561,18 @@ const themes = [
   }
 ];
 
+const locales = [
+  {
+    label: '默认',
+    value: 'zh-cn'
+  },
+
+  {
+    label: 'English',
+    value: 'en'
+  }
+];
+
 @withRouter
 export class App extends React.PureComponent {
   state = {
@@ -568,7 +581,8 @@ export class App extends React.PureComponent {
     headerVisible: true,
     themeIndex: 0,
     themes: themes,
-    theme: themes[localStorage.getItem('themeIndex') || 0]
+    theme: themes[localStorage.getItem('themeIndex') || 0],
+    locale: localStorage.getItem('locale') || ''
   };
 
   constructor(props) {
@@ -767,10 +781,27 @@ export class App extends React.PureComponent {
             </Button>
           </div>
 
+          <div className="hidden-xs p-t-sm pull-right m-l-sm">
+            语言：
+            {
+              <Select
+                clearable={false}
+                theme={this.state.theme.value}
+                value={this.state.locale || 'zh-cn'}
+                options={locales}
+                onChange={locale => {
+                  this.setState({locale: locale.value});
+                  localStorage.setItem('locale', locale.value);
+                }}
+              />
+            }
+          </div>
+
           <div className="hidden-xs p-t-sm pull-right">
             主题：
             {
               <Select
+                clearable={false}
                 theme={this.state.theme.value}
                 value={this.state.theme}
                 options={this.state.themes}
@@ -802,14 +833,15 @@ export class App extends React.PureComponent {
         folded={this.state.asideFolded}
         aside={this.renderAside()}
       >
-        <ToastComponent theme={theme.value} />
-        <AlertComponent theme={theme.value} />
+        <ToastComponent theme={theme.value} locale={this.state.locale} />
+        <AlertComponent theme={theme.value} locale={this.state.locale} />
         {React.cloneElement(this.props.children, {
           ...this.props.children.props,
           setAsideFolded: this.setAsideFolded,
           setHeaderVisible: this.setHeaderVisible,
           theme: theme.value,
-          classPrefix: theme.ns
+          classPrefix: theme.ns,
+          locale: this.state.locale
         })}
       </Layout>
     );

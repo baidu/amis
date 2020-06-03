@@ -3,8 +3,9 @@ import {ThemeProps, themeable} from '../theme';
 import {Icon} from './icons';
 import uncontrollable from 'uncontrollable';
 import {autobind} from '../utils/helper';
+import {LocaleProps, localeable} from '../locale';
 
-export interface SearchBoxProps extends ThemeProps {
+export interface SearchBoxProps extends ThemeProps, LocaleProps {
   name?: string;
   onChange?: (text: string) => void;
   placeholder?: string;
@@ -47,7 +48,8 @@ export class SearchBox extends React.Component<SearchBoxProps> {
       active,
       name,
       onChange,
-      placeholder
+      placeholder,
+      translate: __
     } = this.props;
 
     return (
@@ -56,7 +58,7 @@ export class SearchBox extends React.Component<SearchBoxProps> {
           name={name}
           onChange={this.handleChange}
           value={value || ''}
-          placeholder={placeholder || '输入关键字'}
+          placeholder={__(placeholder || '输入关键字')}
           ref={this.inputRef}
         />
 
@@ -75,8 +77,10 @@ export class SearchBox extends React.Component<SearchBoxProps> {
 }
 
 export default themeable(
-  uncontrollable(SearchBox, {
-    active: 'onActiveChange',
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(SearchBox, {
+      active: 'onActiveChange',
+      value: 'onChange'
+    })
+  )
 );

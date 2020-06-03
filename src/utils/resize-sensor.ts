@@ -2,7 +2,6 @@
  * @file resize-sensor.js.
  * @author fex
  */
-/* eslint-disable */
 
 class EventQueue {
   q: Array<Function> = [];
@@ -70,7 +69,7 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
 
   let lastWidth: number, lastHeight: number;
 
-  const reset = function() {
+  const reset = function () {
     expandChild.style.width = expand.offsetWidth + 10 + 'px';
     expandChild.style.height = expand.offsetHeight + 10 + 'px';
     expand.scrollLeft = expand.scrollWidth;
@@ -83,13 +82,13 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
 
   reset();
 
-  let changed = function() {
+  let changed = function () {
     if ((element as any).resizedAttached) {
       (element as any).resizedAttached.call();
     }
   };
 
-  let addEvent = function(el: HTMLElement, name: string, cb: Function) {
+  let addEvent = function (el: HTMLElement, name: string, cb: Function) {
     if ((el as any).attachEvent) {
       (el as any).attachEvent('on' + name, cb);
     } else {
@@ -97,7 +96,7 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
     }
   };
 
-  let onScroll = function(e: Event) {
+  let onScroll = function (e: Event) {
     if (
       element.offsetWidth != lastWidth ||
       element.offsetHeight != lastHeight
@@ -132,7 +131,7 @@ export function resizeSensor(
   once: boolean = false
 ) {
   if (once) {
-    attachResizeEvent(element, function(this: any) {
+    attachResizeEvent(element, function (this: any) {
       callback.apply(this, arguments);
       detach(element);
     });
@@ -142,7 +141,7 @@ export function resizeSensor(
   attachResizeEvent(element, callback);
   let detached = false;
 
-  return function() {
+  return function () {
     if (detached) return;
     detached = true;
     detach(element);

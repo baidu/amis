@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import {CheckboxesProps, Checkboxes} from './Checkboxes';
+import {BaseCheckboxesProps, BaseCheckboxes} from './Checkboxes';
 import {Options, Option} from './Select';
 import ListMenu from './ListMenu';
 import {autobind} from '../utils/helper';
@@ -19,8 +19,9 @@ import ChainedCheckboxes from './ChainedCheckboxes';
 import Spinner from './Spinner';
 import TreeRadios from './TreeRadios';
 import {Icon} from './icons';
+import {localeable} from '../locale';
 
-export interface AssociatedCheckboxesProps extends CheckboxesProps {
+export interface AssociatedCheckboxesProps extends BaseCheckboxesProps {
   leftOptions: Options;
   leftDefaultValue?: any;
   leftMode?: 'tree' | 'list';
@@ -42,7 +43,7 @@ export interface AssociatedCheckboxesState {
   leftValue?: Option;
 }
 
-export class AssociatedCheckboxes extends Checkboxes<
+export class AssociatedCheckboxes extends BaseCheckboxes<
   AssociatedCheckboxesProps,
   AssociatedCheckboxesState
 > {
@@ -58,7 +59,7 @@ export class AssociatedCheckboxes extends Checkboxes<
       const selectdOption = ListRadios.resolveSelected(
         leftValue,
         options,
-        option => option.ref
+        (option: Option) => option.ref
       );
 
       if (selectdOption && onDeferLoad && selectdOption.defer) {
@@ -80,7 +81,7 @@ export class AssociatedCheckboxes extends Checkboxes<
     const selectdOption = ListRadios.resolveSelected(
       value,
       options,
-      option => option.ref
+      (option: Option) => option.ref
     );
 
     if (selectdOption && onDeferLoad && selectdOption.defer) {
@@ -111,8 +112,9 @@ export class AssociatedCheckboxes extends Checkboxes<
     const selectdOption = ListRadios.resolveSelected(
       this.state.leftValue,
       options,
-      option => option.ref
+      (option: Option) => option.ref
     );
+    const __ = this.props.translate;
 
     return (
       <div className={cx('AssociatedCheckboxes', className)}>
@@ -155,9 +157,9 @@ export class AssociatedCheckboxes extends Checkboxes<
                   </div>
 
                   {selectdOption.loading ? (
-                    <p>加载中</p>
+                    <p>{__('加载中')}</p>
                   ) : (
-                    <p>点击刷新重新加载</p>
+                    <p>{__('点击刷新重新加载')}</p>
                   )}
                 </div>
               ) : rightMode === 'table' ? (
@@ -193,12 +195,12 @@ export class AssociatedCheckboxes extends Checkboxes<
               )
             ) : (
               <div className={cx('AssociatedCheckboxes-box')}>
-                配置错误，选项无法与左侧选项对应
+                {__('配置错误，选项无法与左侧选项对应')}
               </div>
             )
           ) : (
             <div className={cx('AssociatedCheckboxes-box')}>
-              请先选择左侧数据
+              {__('请先选择左侧数据')}
             </div>
           )}
         </div>
@@ -208,7 +210,9 @@ export class AssociatedCheckboxes extends Checkboxes<
 }
 
 export default themeable(
-  uncontrollable(AssociatedCheckboxes, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(AssociatedCheckboxes, {
+      value: 'onChange'
+    })
+  )
 );

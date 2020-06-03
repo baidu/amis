@@ -382,7 +382,8 @@ export default class PickerControl extends React.PureComponent<
       placeholder,
       embed,
       value,
-      selectedOptions
+      selectedOptions,
+      translate: __
     } = this.props;
     return (
       <div className={cx(`PickerControl`, className)}>
@@ -399,7 +400,9 @@ export default class PickerControl extends React.PureComponent<
           >
             <div onClick={this.handleClick} className={cx('Picker-input')}>
               {!selectedOptions.length && placeholder ? (
-                <div className={cx('Picker-placeholder')}>{placeholder}</div>
+                <div className={cx('Picker-placeholder')}>
+                  {__(placeholder)}
+                </div>
               ) : null}
 
               <div className={cx('Picker-valueWrap')}>
@@ -427,7 +430,7 @@ export default class PickerControl extends React.PureComponent<
             {render(
               'modal',
               {
-                title: '请选择',
+                title: __('请选择'),
                 size: size,
                 type: modalMode,
                 body: {

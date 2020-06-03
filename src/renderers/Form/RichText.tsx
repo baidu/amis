@@ -34,7 +34,6 @@ export default class RichTextControl extends React.Component<
     videoReciever: '/api/upload/video',
     placeholder: '请输入',
     options: {
-      language: 'zh_cn',
       toolbarButtonsSM: [
         'paragraphFormat',
         'quote',
@@ -156,7 +155,9 @@ export default class RichTextControl extends React.Component<
           ...(props.options && props.options.events),
           'froalaEditor.focus': this.handleFocus,
           'froalaEditor.blur': this.handleBlur
-        }
+        },
+        language:
+          !this.props.locale || this.props.locale === 'zh-cn' ? 'zh_cn' : ''
       };
 
       if (props.buttons) {
@@ -178,10 +179,15 @@ export default class RichTextControl extends React.Component<
           formData.append('file', blobInfo.blob(), blobInfo.filename());
           try {
             const response = await fetcher(props.reciever, formData, {
-              method: 'post',
+              method: 'post'
             });
             if (response.ok) {
-              ok(response.data?.link || response.data?.url || response.data?.value || (response as any).link);
+              ok(
+                response.data?.link ||
+                  response.data?.url ||
+                  response.data?.value ||
+                  (response as any).link
+              );
             }
           } catch (e) {
             fail(e);
@@ -212,7 +218,9 @@ export default class RichTextControl extends React.Component<
       disabled,
       size,
       vendor,
-      env
+      env,
+      locale,
+      translate
     } = this.props;
 
     const finnalVendor = vendor || (env.richTextToken ? 'froala' : 'tinymce');
@@ -232,6 +240,8 @@ export default class RichTextControl extends React.Component<
           onBlur={this.handleBlur}
           config={this.config}
           disabled={disabled}
+          locale={locale}
+          translate={translate}
         />
       </div>
     );

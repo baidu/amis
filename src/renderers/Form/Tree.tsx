@@ -69,7 +69,8 @@ export default class TreeControl extends React.Component<TreeProps> {
       removeTip,
       onDelete,
       rootCreatable,
-      rootCreateTip
+      rootCreateTip,
+      translate: __
     } = this.props;
 
     return (
@@ -84,7 +85,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             joinValues={joinValues}
             extractValue={extractValue}
             delimiter={delimiter}
-            placeholder={placeholder}
+            placeholder={__(placeholder)}
             options={options}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
@@ -92,7 +93,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             withChildren={withChildren}
             onlyChildren={onlyChildren}
             hideRoot={hideRoot}
-            rootLabel={rootLabel}
+            rootLabel={__(rootLabel)}
             rootValue={rootValue}
             showIcon={showIcon}
             showRadio={showRadio}

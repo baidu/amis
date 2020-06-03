@@ -161,13 +161,14 @@ export default function (schema) {
       }
 
       renderSchema() {
-        const {router, location, theme} = this.props;
+        const {router, location, theme, locale} = this.props;
 
         return render(
           schema,
           {
             location,
-            theme
+            theme,
+            locale
           },
           this.env
         );

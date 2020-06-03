@@ -415,7 +415,8 @@ export default class TextControl extends React.PureComponent<
       labelField,
       valueField,
       multiple,
-      spinnerClassName
+      spinnerClassName,
+      translate: __
     } = this.props;
 
     return (
@@ -542,7 +543,7 @@ export default class TextControl extends React.PureComponent<
                       >
                         {option.isNew ? (
                           <span>
-                            新增：{option.label}
+                            {__('新增：{{label}}', {label: option.label})}
                             <Icon icon="enter" className="icon" />
                           </span>
                         ) : (

@@ -8,8 +8,9 @@ import {Icon} from './icons';
 import {autobind, guid} from '../utils/helper';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
+import {LocaleProps, localeable} from '../locale';
 
-export interface ResultListProps extends ThemeProps {
+export interface ResultListProps extends ThemeProps, LocaleProps {
   className?: string;
   value?: Array<Option>;
   onChange?: (value: Array<Option>) => void;
@@ -123,7 +124,8 @@ export class ResultList extends React.Component<ResultListProps> {
       disabled,
       title,
       itemClassName,
-      sortable
+      sortable,
+      translate: __
     } = this.props;
 
     return (
@@ -163,11 +165,11 @@ export class ResultList extends React.Component<ResultListProps> {
             ))}
           </div>
         ) : (
-          <div className={cx('Selections-placeholder')}>{placeholder}</div>
+          <div className={cx('Selections-placeholder')}>{__(placeholder)}</div>
         )}
       </div>
     );
   }
 }
 
-export default themeable(ResultList);
+export default themeable(localeable(ResultList));
