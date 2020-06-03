@@ -140,15 +140,15 @@ export interface RendererData {
 type RendererDataAlis = RendererData;
 
 export type FunctionPropertyNames<T> = {
-  [K in keyof T]: T[K] extends Function ? K : never
+  [K in keyof T]: T[K] extends Function ? K : never;
 }[keyof T];
 
 export interface JSONSchema {
   [propsName: string]: any;
 }
 
-export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;
-export type Override<M, N> = Omit<M, Extract<keyof M, keyof N>> & N;
-export type ExtractProps<
-  TComponentOrTProps
-> = TComponentOrTProps extends React.ComponentType<infer P> ? P : never;
+// export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;
+// export type Override<M, N> = Omit<M, Extract<keyof M, keyof N>> & N;
+// export type ExtractProps<
+//   TComponentOrTProps
+// > = TComponentOrTProps extends React.ComponentType<infer P> ? P : never;

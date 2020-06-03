@@ -63,7 +63,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       classPrefix,
       itemClassName,
       labelClassName,
-      labelField
+      labelField,
+      translate: __
     } = this.props;
 
     return (
@@ -78,7 +79,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         delimiter={delimiter!}
         labelClassName={labelClassName}
         labelField={labelField}
-        placeholder={placeholder}
+        placeholder={__(placeholder)}
         options={options}
         columnsCount={columnsCount}
         classPrefix={classPrefix}

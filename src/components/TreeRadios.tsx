@@ -5,23 +5,24 @@ import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {autobind, eachTree, everyTree} from '../utils/helper';
 import Spinner from './Spinner';
-import {ListRadiosProps, ListRadios} from './ListRadios';
+import {BaseRadiosProps, BaseRadios} from './ListRadios';
+import {localeable} from '../locale';
 
-export interface TreeRadiosProps extends ListRadiosProps {
-  expand?: 'all' | 'first' | 'root' | 'none';
+export interface TreeRadiosProps extends BaseRadiosProps {
+  expand: 'all' | 'first' | 'root' | 'none';
 }
 
 export interface TreeRadiosState {
   expanded: Array<string>;
 }
 
-export class TreeRadios extends ListRadios<TreeRadiosProps, TreeRadiosState> {
+export class TreeRadios extends BaseRadios<TreeRadiosProps, TreeRadiosState> {
   state: TreeRadiosState = {
     expanded: []
   };
 
   static defaultProps = {
-    ...ListRadios.defaultProps,
+    ...BaseRadios.defaultProps,
     expand: 'first' as 'first'
   };
 
@@ -168,10 +169,11 @@ export class TreeRadios extends ListRadios<TreeRadiosProps, TreeRadiosState> {
       className,
       placeholder,
       classnames: cx,
-      option2value
+      option2value,
+      translate: __
     } = this.props;
 
-    this.selected = ListRadios.resolveSelected(value, options, option2value);
+    this.selected = BaseRadios.resolveSelected(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
@@ -183,7 +185,7 @@ export class TreeRadios extends ListRadios<TreeRadiosProps, TreeRadiosState> {
         {body && body.length ? (
           body
         ) : (
-          <div className={cx('TreeRadios-placeholder')}>{placeholder}</div>
+          <div className={cx('TreeRadios-placeholder')}>{__(placeholder)}</div>
         )}
       </div>
     );
@@ -191,7 +193,9 @@ export class TreeRadios extends ListRadios<TreeRadiosProps, TreeRadiosState> {
 }
 
 export default themeable(
-  uncontrollable(TreeRadios, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(TreeRadios, {
+      value: 'onChange'
+    })
+  )
 );

@@ -113,7 +113,7 @@ export default class Drawer extends React.Component<DrawerProps, object> {
   }
 
   buildActions(): Array<Action> {
-    const {actions, confirm} = this.props;
+    const {actions, confirm, translate: __} = this.props;
 
     if (typeof actions !== 'undefined') {
       return actions;
@@ -123,14 +123,14 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     ret.push({
       type: 'button',
       actionType: 'close',
-      label: '取消'
+      label: __('取消')
     });
 
     if (confirm) {
       ret.push({
         type: 'button',
         actionType: 'confirm',
-        label: '确认',
+        label: __('确认'),
         primary: true
       });
     }

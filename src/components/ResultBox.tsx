@@ -5,10 +5,12 @@ import uncontrollable from 'uncontrollable';
 import {Icon} from './icons';
 import Input from './Input';
 import {autobind} from '../utils/helper';
+import {LocaleProps, localeable} from '../locale';
 
 export interface ResultBoxProps
   extends ThemeProps,
-    Omit<InputBoxProps, 'result' | 'prefix' | 'onChange'> {
+    LocaleProps,
+    Omit<InputBoxProps, 'result' | 'prefix' | 'onChange' | 'translate'> {
   onChange?: (value: string) => void;
   onResultClick?: (e: React.MouseEvent<HTMLElement>) => void;
   result?: Array<any>;
@@ -96,6 +98,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       onResultChange,
       onChange,
       onResultClick,
+      translate: __,
+      locale,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -124,7 +128,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           ))
         ) : allowInput ? null : (
           <span className={cx('ResultBox-placeholder')}>
-            {placeholder || '无'}
+            {__(placeholder || '无')}
           </span>
         )}
 
@@ -163,8 +167,10 @@ export class ResultBox extends React.Component<ResultBoxProps> {
 }
 
 export default themeable(
-  uncontrollable(ResultBox, {
-    value: 'onChange',
-    result: 'onResultChange'
-  })
+  localeable(
+    uncontrollable(ResultBox, {
+      value: 'onChange',
+      result: 'onResultChange'
+    })
+  )
 );

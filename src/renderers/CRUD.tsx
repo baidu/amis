@@ -1335,16 +1335,20 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderStatistics() {
-    const {store, classnames: cx} = this.props;
+    const {store, classnames: cx, translate: __} = this.props;
 
     if (store.lastPage <= 1) {
       return null;
     }
 
     return (
-      <div className={cx('Crud-statistics')}>{`${
-        store.page + '/' + store.lastPage
-      }总共${store.total}项。`}</div>
+      <div className={cx('Crud-statistics')}>
+        {__('{{page}}/{{lastPage}} 总共：{{total}} 项。', {
+          page: store.page,
+          lastPage: store.lastPage,
+          total: store.total
+        })}
+      </div>
     );
   }
 
@@ -1353,7 +1357,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       store,
       perPageAvailable,
       classnames: cx,
-      classPrefix: ns
+      classPrefix: ns,
+      translate: __
     } = this.props;
 
     const items = childProps.items;
@@ -1371,11 +1376,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     return (
       <div className={cx('Crud-pageSwitch')}>
-        每页显示
+        {__('每页显示')}
         <Select
           classPrefix={ns}
           searchable={false}
-          placeholder="请选择.."
+          placeholder={__('请选择')}
           options={perPages}
           value={store.perPage + ''}
           onChange={(value: any) => this.handleChangePage(1, value.value)}
@@ -1386,7 +1391,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderLoadMore() {
-    const {store, classPrefix: ns, classnames: cx} = this.props;
+    const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
     const {page, lastPage} = store;
 
     return page < lastPage ? (
@@ -1399,7 +1404,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           size="sm"
           className="btn-primary"
         >
-          加载更多
+          {__('加载更多')}
         </Button>
       </div>
     ) : (
@@ -1408,7 +1413,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderFilterToggler() {
-    const {store, classnames: cx} = this.props;
+    const {store, classnames: cx, translate: __} = this.props;
 
     if (!store.filterTogggable) {
       return null;
@@ -1422,7 +1427,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         })}
       >
         <i className="fa fa-sliders m-r-sm" />
-        筛选
+        {__('筛选')}
       </button>
     );
   }
@@ -1574,7 +1579,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       classnames: cx,
       labelField,
       labelTpl,
-      primaryField
+      primaryField,
+      translate: __
     } = this.props;
 
     if (!store.selectedItems.length) {
@@ -1587,7 +1593,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         {store.selectedItems.map((item, index) => (
           <div key={index} className={cx(`Crud-value`)}>
             <span
-              data-tooltip="删除"
+              data-tooltip={__('删除')}
               data-position="bottom"
               className={cx('Crud-valueIcon')}
               onClick={this.unSelectItem.bind(this, item, index)}
@@ -1605,7 +1611,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           </div>
         ))}
         <a onClick={this.clearSelection} className={cx('Crud-selectionClear')}>
-          清空
+          {__('清空')}
         </a>
       </div>
     );
@@ -1633,6 +1639,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       keepItemSelectionOnPageChange,
       onAction,
       popOverContainer,
+      translate: __,
       ...rest
     } = this.props;
 
@@ -1646,9 +1653,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           ? render(
               'filter',
               {
-                title: '条件过滤',
+                title: __('条件过滤'),
                 mode: 'inline',
-                submitText: '搜索',
+                submitText: __('搜索'),
                 ...filter,
                 type: 'form',
                 api: null

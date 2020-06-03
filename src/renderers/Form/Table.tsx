@@ -10,7 +10,7 @@ import omit from 'lodash/omit';
 import {dataMapping} from '../../utils/tpl-builtin';
 import findIndex from 'lodash/findIndex';
 import memoize from 'lodash/memoize';
-import { SimpleMap } from '../../utils/SimpleMap';
+import {SimpleMap} from '../../utils/SimpleMap';
 
 export interface TableProps extends FormControlProps {
   placeholder?: string;
@@ -103,12 +103,18 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   validate(): any {
-    const {value, minLength, maxLength} = this.props;
+    const {value, minLength, maxLength, translate: __} = this.props;
 
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
-      return `组合表单成员数量不够，低于最小的设定${minLength}个，请添加更多的成员。`;
+      return __(
+        '组合表单成员数量不够，低于设定的最小{{minLenth}}个，请添加更多的成员。',
+        {minLength}
+      );
     } else if (maxLength && Array.isArray(value) && value.length > maxLength) {
-      return `组合表单成员数量超出，超出最大的设定${maxLength}个，请删除多余的成员。`;
+      return __(
+        '组合表单成员数量超出，超出设定的最大{{maxLength}}个，请删除多余的成员。',
+        {maxLength}
+      );
     } else {
       const subForms: Array<any> = [];
       Object.keys(this.subForms).forEach(
@@ -118,7 +124,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         return Promise.all(subForms.map(item => item.validate())).then(
           values => {
             if (~values.indexOf(false)) {
-              return '内部表单验证失败';
+              return __('内部表单验证失败');
             }
 
             return;
@@ -129,7 +135,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   doAction(action: Action, ctx: RendererData, ...rest: Array<any>) {
-    const {onAction, value, valueField, env, onChange, editable} = this.props;
+    const {
+      onAction,
+      value,
+      valueField,
+      env,
+      onChange,
+      editable,
+      translate: __
+    } = this.props;
 
     if (action.actionType === 'add') {
       const rows = Array.isArray(value) ? value.concat() : [];
@@ -166,9 +180,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       action.actionType === 'delete'
     ) {
       if (!valueField) {
-        return env.alert('请配置 valueField');
+        return env.alert(__('请配置 valueField'));
       } else if (!action.payload) {
-        return env.alert('action 上请配置 payload, 否则不清楚要删除哪个');
+        return env.alert(__('action 上请配置 payload, 否则不清楚要删除哪个'));
       }
 
       const rows = Array.isArray(value) ? value.concat() : [];
@@ -226,7 +240,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       addApi,
       updateApi,
       data,
-      env
+      env,
+      translate: __
     } = this.props;
 
     // form 是 lazyChange 的，先让他们 flush, 即把未提交的数据提交。
@@ -252,11 +267,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     if (remote && !remote.ok) {
-      env.notify('error', remote.msg || '保存失败');
+      env.notify('error', remote.msg || __('保存失败'));
       return;
     } else if (remote && remote.ok) {
       item = {
-        ...((isNew ? addApi : updateApi) as ApiObject).replaceData ? {} : item,
+        ...(((isNew ? addApi : updateApi) as ApiObject).replaceData
+          ? {}
+          : item),
         ...remote.data
       };
     }
@@ -291,7 +308,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       deleteApi,
       deleteConfirmText,
       env,
-      data
+      data,
+      translate: __
     } = this.props;
     let newValue = Array.isArray(value) ? value.concat() : [];
     const item = newValue[index];
@@ -303,7 +321,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const ctx = createObject(data, item);
     if (isEffectiveApi(deleteApi, ctx)) {
       const confirmed = await env.confirm(
-        deleteConfirmText ? filter(deleteConfirmText, ctx) : '确认要删除？'
+        deleteConfirmText ? filter(deleteConfirmText, ctx) : __('确认要删除？')
       );
       if (!confirmed) {
         // 如果不确认，则跳过！
@@ -313,7 +331,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       const result = await env.fetcher(deleteApi, ctx);
 
       if (!result.ok) {
-        env.notify('error', '删除失败');
+        env.notify('error', __('删除失败'));
         return;
       }
     }
@@ -339,6 +357,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       ? props.columns.concat()
       : [];
     const ns = this.props.classPrefix;
+    const __ = this.props.translate;
 
     let btns = [];
     if (props.addable && props.showAddBtn !== false) {
@@ -350,7 +369,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               size="sm"
               key={key}
               level="link"
-              tooltip="新增一行"
+              tooltip={__('新增一行')}
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
@@ -399,7 +418,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               size="sm"
               key={key}
               level="link"
-              tooltip="编辑当前行"
+              tooltip={__('编辑当前行')}
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
@@ -423,7 +442,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               size="sm"
               key={key}
               level="link"
-              tooltip="保存"
+              tooltip={__('保存')}
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
@@ -447,7 +466,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               size="sm"
               key={key}
               level="link"
-              tooltip="取消"
+              tooltip={__('取消')}
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
@@ -481,7 +500,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               size="sm"
               key={key}
               level="link"
-              tooltip="删除当前行"
+              tooltip={__('删除当前行')}
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
@@ -503,7 +522,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         type: 'operation',
         buttons: btns,
         width: 150,
-        label: '操作'
+        label: __('操作')
       });
     }
 
@@ -576,7 +595,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   buildItems = memoize(
     (value: Array<any>, editIndex: number) => {
       return value.map((value: any, index: number) =>
-      index === editIndex ? this.state.editting : value)
+        index === editIndex ? this.state.editting : value
+      );
     },
     (...args: Array<any>) => JSON.stringify(args)
   );
@@ -592,7 +612,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       draggable,
       addable,
       columnsTogglable,
-      combineNum
+      combineNum,
+      translate: __
     } = this.props;
 
     return (
@@ -601,7 +622,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           'body',
           {
             type: 'table',
-            placeholder,
+            placeholder: __(placeholder),
             columns: this.state.columns,
             affixHeader: false
           },
@@ -610,12 +631,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             saveImmediately: true,
             disabled,
             draggable: draggable && !~this.state.editIndex,
-            items: this.buildItems((Array.isArray(value) && value.length
-              ? value
-              : addable && showAddBtn !== false
-              ? [{__isPlaceholder: true}]
-              : []
-            ), this.state.editIndex),
+            items: this.buildItems(
+              Array.isArray(value) && value.length
+                ? value
+                : addable && showAddBtn !== false
+                ? [{__isPlaceholder: true}]
+                : [],
+              this.state.editIndex
+            ),
             getEntryId: this.getEntryId,
             onSave: this.handleTableSave,
             onSaveOrder: this.handleSaveTableOrder,

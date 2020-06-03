@@ -14,8 +14,9 @@ import {Portal} from 'react-overlays';
 import {current, addModal, removeModal} from './ModalManager';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {Icon} from './icons';
+import {LocaleProps, localeable} from '../locale';
 
-export interface ModalProps extends ThemeProps {
+export interface ModalProps extends ThemeProps, LocaleProps {
   className?: string;
   contentClassName?: string;
   size?: any;
@@ -44,33 +45,37 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   static Header = themeable(
-    ({
-      classnames: cx,
-      className,
-      showCloseButton,
-      onClose,
-      children,
-      classPrefix,
-      ...rest
-    }: ThemeProps & {
-      className?: string;
-      showCloseButton?: boolean;
-      onClose?: () => void;
-      children?: React.ReactNode;
-    } & React.HTMLAttributes<HTMLDivElement>) => (
-      <div {...rest} className={cx('Modal-header', className)}>
-        {showCloseButton !== false ? (
-          <a
-            data-tooltip="关闭弹窗"
-            data-position="left"
-            onClick={onClose}
-            className={cx('Modal-close')}
-          >
-            <Icon icon="close" className="icon" />
-          </a>
-        ) : null}
-        {children}
-      </div>
+    localeable(
+      ({
+        classnames: cx,
+        className,
+        showCloseButton,
+        onClose,
+        children,
+        classPrefix,
+        translate: __,
+        ...rest
+      }: ThemeProps &
+        LocaleProps & {
+          className?: string;
+          showCloseButton?: boolean;
+          onClose?: () => void;
+          children?: React.ReactNode;
+        } & React.HTMLAttributes<HTMLDivElement>) => (
+        <div {...rest} className={cx('Modal-header', className)}>
+          {showCloseButton !== false ? (
+            <a
+              data-tooltip={__('关闭弹窗')}
+              data-position="left"
+              onClick={onClose}
+              className={cx('Modal-close')}
+            >
+              <Icon icon="close" className="icon" />
+            </a>
+          ) : null}
+          {children}
+        </div>
+      )
     )
   );
 
@@ -216,9 +221,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   }
 }
 
-const themedModal = themeable(Modal);
+const FinalModal = themeable(localeable(Modal));
 
-export default themedModal as typeof themedModal & {
+export default FinalModal as typeof FinalModal & {
   Header: typeof Modal.Header;
   Title: typeof Modal.Title;
   Body: typeof Modal.Body;

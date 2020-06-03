@@ -1,7 +1,7 @@
 /**
  * 级联多选框，支持无限极。从左侧到右侧一层层点选。
  */
-import {Checkboxes, CheckboxesProps} from './Checkboxes';
+import {BaseCheckboxes, BaseCheckboxesProps} from './Checkboxes';
 import {themeable} from '../theme';
 import React from 'react';
 import uncontrollable from 'uncontrollable';
@@ -10,8 +10,9 @@ import {Option} from './Select';
 import {getTreeDepth} from '../utils/helper';
 import times from 'lodash/times';
 import Spinner from './Spinner';
+import {localeable} from '../locale';
 
-export interface ChainedCheckboxesProps extends CheckboxesProps {
+export interface ChainedCheckboxesProps extends BaseCheckboxesProps {
   defaultSelectedIndex?: string;
 }
 
@@ -19,7 +20,7 @@ export interface ChainedCheckboxesState {
   selected: Array<string>;
 }
 
-export class ChainedCheckboxes extends Checkboxes<
+export class ChainedCheckboxes extends BaseCheckboxes<
   ChainedCheckboxesProps,
   ChainedCheckboxesState
 > {
@@ -122,7 +123,7 @@ export class ChainedCheckboxes extends Checkboxes<
       itemRender
     } = this.props;
 
-    this.valueArray = Checkboxes.value2array(value, options, option2value);
+    this.valueArray = BaseCheckboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
@@ -188,13 +189,15 @@ export class ChainedCheckboxes extends Checkboxes<
       );
     }
 
+    const __ = this.props.translate;
+
     return (
       <div className={cx('ChainedCheckboxes', className)}>
         {body && body.length ? (
           body
         ) : (
           <div className={cx('ChainedCheckboxes-placeholder')}>
-            {placeholder}
+            {__(placeholder)}
           </div>
         )}
       </div>
@@ -203,7 +206,9 @@ export class ChainedCheckboxes extends Checkboxes<
 }
 
 export default themeable(
-  uncontrollable(ChainedCheckboxes, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(ChainedCheckboxes, {
+      value: 'onChange'
+    })
+  )
 );

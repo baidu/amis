@@ -13,9 +13,10 @@ import {Option, value2array, Options} from './Select';
 import find from 'lodash/find';
 import {autobind, findTree} from '../utils/helper';
 import isEqual from 'lodash/isEqual';
+import {LocaleProps, localeable} from '../locale';
 // import isPlainObject from 'lodash/isPlainObject';
 
-export interface CheckboxesProps extends ThemeProps {
+export interface BaseCheckboxesProps extends ThemeProps, LocaleProps {
   options: Options;
   className?: string;
   placeholder?: string;
@@ -31,8 +32,8 @@ export interface CheckboxesProps extends ThemeProps {
   disabled?: boolean;
 }
 
-export class Checkboxes<
-  T extends CheckboxesProps = CheckboxesProps,
+export class BaseCheckboxes<
+  T extends BaseCheckboxesProps = BaseCheckboxesProps,
   S = any
 > extends React.Component<T, S> {
   static defaultProps = {
@@ -68,7 +69,7 @@ export class Checkboxes<
       return;
     }
 
-    let valueArray = Checkboxes.value2array(value, options, option2value);
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
     let idx = valueArray.indexOf(option);
 
     if (~idx) {
@@ -115,7 +116,9 @@ export class Checkboxes<
       itemRender
     } = this.props;
 
-    let valueArray = Checkboxes.value2array(value, options, option2value);
+    const __ = this.props.translate;
+
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
@@ -142,14 +145,18 @@ export class Checkboxes<
           inline ? 'Checkboxes--inline' : ''
         )}
       >
-        {body && body.length ? body : <div>{placeholder}</div>}
+        {body && body.length ? body : <div>{__(placeholder)}</div>}
       </div>
     );
   }
 }
 
+export class Checkboxes extends BaseCheckboxes {}
+
 export default themeable(
-  uncontrollable(Checkboxes, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(Checkboxes, {
+      value: 'onChange'
+    })
+  )
 );

@@ -81,7 +81,7 @@
     "@types/classnames": "^2.2.3",
     "@types/dom-helpers": "^3.4.1",
     "@types/history": "^4.6.0",
-    "@types/hoist-non-react-statics": "^3.0.1",
+    "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^24.0.11",
     "@types/jquery": "^3.3.1",
     "@types/lodash": "^4.14.76",
@@ -89,7 +89,7 @@
     "@types/pretty-bytes": "^4.0.0",
     "@types/prop-types": "^15.5.2",
     "@types/qs": "^6.5.1",
-    "@types/react": "^16.8.1",
+    "@types/react": "^16.9.35",
     "@types/react-addons-update": "^0.14.19",
     "@types/react-color": "^2.13.3",
     "@types/react-cropper": "^0.10.1",
@@ -139,7 +139,7 @@
     "react-testing-library": "6.0.4",
     "strip-json-comments": "^2.0.1",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.9.2"
+    "typescript": "^3.9.3"
   },
   "jest": {
     "testEnvironment": "jsdom",

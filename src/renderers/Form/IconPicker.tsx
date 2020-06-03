@@ -201,7 +201,8 @@ export default class IconPickerControl extends React.PureComponent<
       classnames: cx,
       name,
       value,
-      noDataTip
+      noDataTip,
+      translate: __
     } = this.props;
     const options = this.formatOptions();
     const vendors = this.getVendors();
@@ -311,7 +312,7 @@ export default class IconPickerControl extends React.PureComponent<
                           : 'IconPickerControl-singleVendor'
                       )}
                     >
-                      {noDataTip}
+                      {__(noDataTip)}
                     </div>
                   )}
                 </div>

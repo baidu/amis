@@ -1,4 +1,4 @@
-import {Checkboxes, CheckboxesProps} from './Checkboxes';
+import {BaseCheckboxes, BaseCheckboxesProps} from './Checkboxes';
 import {themeable} from '../theme';
 import React from 'react';
 import uncontrollable from 'uncontrollable';
@@ -6,8 +6,9 @@ import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {autobind, eachTree, everyTree} from '../utils/helper';
 import Spinner from './Spinner';
+import {localeable} from '../locale';
 
-export interface TreeCheckboxesProps extends CheckboxesProps {
+export interface TreeCheckboxesProps extends BaseCheckboxesProps {
   expand?: 'all' | 'first' | 'root' | 'none';
 }
 
@@ -15,7 +16,7 @@ export interface TreeCheckboxesState {
   expanded: Array<string>;
 }
 
-export class TreeCheckboxes extends Checkboxes<
+export class TreeCheckboxes extends BaseCheckboxes<
   TreeCheckboxesProps,
   TreeCheckboxesState
 > {
@@ -25,7 +26,7 @@ export class TreeCheckboxes extends Checkboxes<
   };
 
   static defaultProps = {
-    ...Checkboxes.defaultProps,
+    ...BaseCheckboxes.defaultProps,
     expand: 'first' as 'first'
   };
 
@@ -83,7 +84,7 @@ export class TreeCheckboxes extends Checkboxes<
       return;
     }
 
-    let valueArray = Checkboxes.value2array(value, options, option2value);
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
 
     if (
       option.value === void 0 &&
@@ -257,10 +258,11 @@ export class TreeCheckboxes extends Checkboxes<
       className,
       placeholder,
       classnames: cx,
-      option2value
+      option2value,
+      translate: __
     } = this.props;
 
-    this.valueArray = Checkboxes.value2array(value, options, option2value);
+    this.valueArray = BaseCheckboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
@@ -272,7 +274,9 @@ export class TreeCheckboxes extends Checkboxes<
         {body && body.length ? (
           body
         ) : (
-          <div className={cx('TreeCheckboxes-placeholder')}>{placeholder}</div>
+          <div className={cx('TreeCheckboxes-placeholder')}>
+            {__(placeholder)}
+          </div>
         )}
       </div>
     );
@@ -280,7 +284,9 @@ export class TreeCheckboxes extends Checkboxes<
 }
 
 export default themeable(
-  uncontrollable(TreeCheckboxes, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(TreeCheckboxes, {
+      value: 'onChange'
+    })
+  )
 );

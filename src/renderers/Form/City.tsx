@@ -5,8 +5,9 @@ import {ClassNamesFn, themeable} from '../../theme';
 import {Select} from '../../components';
 import {autobind} from '../../utils/helper';
 import {Option} from './Options';
+import {localeable, LocaleProps} from '../../locale';
 
-export interface CityPickerProps {
+export interface CityPickerProps extends LocaleProps {
   value: any;
   onChange: (value: any) => void;
   extractValue: boolean;
@@ -226,7 +227,8 @@ export class CityPicker extends React.Component<
       disabled,
       allowCity,
       allowDistrict,
-      allowStreet
+      allowStreet,
+      translate: __
     } = this.props;
 
     const {provinceCode, cityCode, districtCode, street} = this.state;
@@ -290,7 +292,7 @@ export class CityPicker extends React.Component<
             value={street}
             onChange={this.handleStreetChange}
             onBlur={this.handleStreetEnd}
-            placeholder="请输入街道信息"
+            placeholder={__('请输入街道信息')}
           />
         ) : null}
       </div>
@@ -298,7 +300,7 @@ export class CityPicker extends React.Component<
   }
 }
 
-const ThemedCity = themeable(CityPicker);
+const ThemedCity = themeable(localeable(CityPicker));
 export default ThemedCity;
 
 export interface LocationControlProps extends FormControlProps {

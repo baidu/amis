@@ -13,14 +13,13 @@ import Overlay from './Overlay';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
 import Calendar from './calendar/Calendar';
 import PopOver from './PopOver';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
 import {noop} from '../utils/helper';
+import {LocaleProps, localeable} from '../locale';
 
-export interface DateRangePickerProps {
+export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   placeholder?: string;
   theme?: any;
   format: string;
@@ -39,7 +38,10 @@ export interface DateRangePickerProps {
   disabled?: boolean;
   closeOnSelect?: boolean;
   overlayPlacement: string;
-  [propName: string]: any;
+  timeFormat?: string;
+  resetValue?: any;
+  popOverContainer?: any;
+  dateFormat?: string;
 }
 
 export interface DateRangePickerState {
@@ -106,10 +108,7 @@ const availableRanges: {[propName: string]: any} = {
       return now.startOf('week').add(-1, 'weeks');
     },
     endDate: (now: moment.Moment) => {
-      return now
-        .startOf('week')
-        .add(-1, 'days')
-        .endOf('day');
+      return now.startOf('week').add(-1, 'days').endOf('day');
     }
   },
 
@@ -129,10 +128,7 @@ const availableRanges: {[propName: string]: any} = {
       return now.startOf('month').add(-1, 'month');
     },
     endDate: (now: moment.Moment) => {
-      return now
-        .startOf('month')
-        .add(-1, 'day')
-        .endOf('day');
+      return now.startOf('month').add(-1, 'day').endOf('day');
     }
   },
 
@@ -142,10 +138,7 @@ const availableRanges: {[propName: string]: any} = {
       return now.startOf('quarter').add(-1, 'quarter');
     },
     endDate: (now: moment.Moment) => {
-      return now
-        .startOf('quarter')
-        .add(-1, 'day')
-        .endOf('day');
+      return now.startOf('quarter').add(-1, 'day').endOf('day');
     }
   },
 
@@ -416,6 +409,8 @@ export class DateRangePicker extends React.Component<
     } else {
       rangeArr = ranges;
     }
+    const __ = this.props.translate;
+
     return (
       <ul className={`${ns}DateRangePicker-rangers`}>
         {rangeArr.map(item => {
@@ -442,7 +437,7 @@ export class DateRangePicker extends React.Component<
               onClick={() => this.selectRannge(range)}
               key={range.key || range.label}
             >
-              <a>{range.label}</a>
+              <a>{__(range.label)}</a>
             </li>
           );
         })}
@@ -551,6 +546,7 @@ export class DateRangePicker extends React.Component<
     const arr = [];
     startViewValue && arr.push(startViewValue);
     endViewValue && arr.push(endViewValue);
+    const __ = this.props.translate;
 
     return (
       <div
@@ -571,11 +567,11 @@ export class DateRangePicker extends React.Component<
       >
         {arr.length ? (
           <span className={`${ns}DateRangePicker-value`}>
-            {arr.join(' 至 ')}
+            {arr.join(__(' 至 '))}
           </span>
         ) : (
           <span className={`${ns}DateRangePicker-placeholder`}>
-            {placeholder}
+            {__(placeholder)}
           </span>
         )}
 
@@ -646,10 +642,10 @@ export class DateRangePicker extends React.Component<
                     })}
                     onClick={this.confirm}
                   >
-                    确认
+                    {__('确认')}
                   </a>
                   <a className="rdtBtn rdtBtnCancel" onClick={this.close}>
-                    取消
+                    {__('取消')}
                   </a>
                 </div>
               </div>
@@ -661,4 +657,4 @@ export class DateRangePicker extends React.Component<
   }
 }
 
-export default themeable(DateRangePicker);
+export default themeable(localeable(DateRangePicker));

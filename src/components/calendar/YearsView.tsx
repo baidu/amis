@@ -2,8 +2,9 @@
 import YearsView from 'react-datetime/src/YearsView';
 import moment from 'moment';
 import React from 'react';
+import {LocaleProps, localeable} from '../../locale';
 
-export default class CustomYearsView extends YearsView {
+export class CustomYearsView extends YearsView {
   props: {
     viewDate: moment.Moment;
     subtractTime: (
@@ -17,7 +18,7 @@ export default class CustomYearsView extends YearsView {
       toSelected?: moment.Moment
     ) => () => void;
     showView: (view: string) => () => void;
-  };
+  } & LocaleProps;
   renderYears: (year: number) => JSX.Element;
   renderYear = (props: any, year: number) => {
     return (
@@ -29,6 +30,7 @@ export default class CustomYearsView extends YearsView {
   render() {
     let year = this.props.viewDate.year();
     year = year - (year % 10);
+    const __ = this.props.translate;
 
     return (
       <div className="rdtYears">
@@ -42,7 +44,7 @@ export default class CustomYearsView extends YearsView {
                 «
               </th>
               <th className="rdtSwitch">
-                {year}年-{year + 9}年
+                {__('{{from}}年-{{to}}年', {from: year, to: year + 9})}
               </th>
               <th className="rdtNext" onClick={this.props.addTime(10, 'years')}>
                 »
@@ -57,3 +59,5 @@ export default class CustomYearsView extends YearsView {
     );
   }
 }
+
+export default localeable(CustomYearsView as any);

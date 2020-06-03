@@ -91,7 +91,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
     }
 
     buildSchema() {
-      const {popOver, name, label} = this.props;
+      const {popOver, name, label, translate: __} = this.props;
 
       let schema;
 
@@ -108,7 +108,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
           type: popOver.mode,
           actions: [
             {
-              label: '关闭',
+              label: __('关闭'),
               type: 'button',
               actionType: 'cancel'
             }
