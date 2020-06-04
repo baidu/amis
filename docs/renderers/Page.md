@@ -37,7 +37,7 @@
 | initFetch           | `boolean`                         | `true`                                     | 是否起始拉取 initApi                                                                |
 | initFetchOn         | `string`                          |                                            | 是否起始拉取 initApi, 通过表达式配置                                                |
 | interval            | `number`                          | `3000`                                     | 刷新时间(最低 3000)，单位是毫秒                                                     |
-| silentPolling       | `boolean`                         | `false`                                    | 配置刷新时是否显示隐藏动画                                                          |
+| silentPolling       | `boolean`                         | `false`                                    | 配置刷新时是否隐藏加载动画                                                          |
 | stopAutoRefreshWhen | `string`                          | `""`                                       | 通过[表达式](./Types.md#表达式)来配置停止刷新的条件                                 |
 
 ### 接口说明
