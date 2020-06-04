@@ -134,7 +134,7 @@ export class Chart extends React.Component<ChartProps> {
     this.ref = ref;
   }
 
-  reload(query?: any) {
+  reload(subpath?: string, query?: any) {
     const {api, env, store, interval} = this.props;
 
     if (query) {
