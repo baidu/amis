@@ -493,7 +493,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return __(
         (messages && messages.minLengthValidateFailed) ||
-          '组合表单成员数量不够，低于设定的最小{{minLenth}}个，请添加更多的成员。',
+          '组合表单成员数量不够，低于设定的最小{{minLength}}个，请添加更多的成员。',
         {minLength}
       );
     } else if (maxLength && Array.isArray(value) && value.length > maxLength) {
@@ -1050,7 +1050,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                         {dragIcon ? (
                           <i className={dragIcon} />
                         ) : (
-                          <Icon icon="combo-dragger" />
+                          <Icon icon="drag-bar" />
                         )}
                       </a>
                     </div>

@@ -64,10 +64,16 @@ import InfoIcon from '../icons/info.svg';
 import LocationIcon from '../icons/location.svg';
 
 // @ts-ignore
-import ComboDraggerIcon from '../icons/combo-dragger.svg';
+import DragBarIcon from '../icons/drag-bar.svg';
 
 // @ts-ignore
 import ReloadIcon from '../icons/reload.svg';
+
+// @ts-ignore
+import ExchangeIcon from '../icons/exchange.svg';
+
+// @ts-ignore
+import ColmunsIcon from '../icons/columns.svg';
 
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
@@ -131,8 +137,10 @@ registerIcon('back', BackIcon);
 registerIcon('move', MoveIcon);
 registerIcon('info', InfoIcon);
 registerIcon('location', LocationIcon);
-registerIcon('combo-dragger', ComboDraggerIcon);
+registerIcon('drag-bar', DragBarIcon);
 registerIcon('reload', ReloadIcon);
+registerIcon('exchange', ExchangeIcon);
+registerIcon('columns', ColmunsIcon);
 
 export function Icon({
   icon,
