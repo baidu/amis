@@ -36,10 +36,9 @@
 | initApi             | [Api](./Types.md#Api)             |                                            | Page 用来获取初始数据的 api。返回的数据可以整个 page 级别使用。                     |
 | initFetch           | `boolean`                         | `true`                                     | 是否起始拉取 initApi                                                                |
 | initFetchOn         | `string`                          |                                            | 是否起始拉取 initApi, 通过表达式配置                                                |
-| interval            | `number`                          | `3000`                                     | 刷新时间(最低 3000)                                                                 |
-| silentPolling       | `boolean`                         | `false`                                    | 配置刷新时是否显示加载动画                                                          |
+| interval            | `number`                          | `3000`                                     | 刷新时间(最低 3000)，单位是毫秒                                                     |
+| silentPolling       | `boolean`                         | `false`                                    | 配置刷新时是否隐藏加载动画                                                          |
 | stopAutoRefreshWhen | `string`                          | `""`                                       | 通过[表达式](./Types.md#表达式)来配置停止刷新的条件                                 |
-
 
 ### 接口说明
 
@@ -74,7 +73,6 @@ data 返回是对象即可。
 ```
 
 当配置了 initApi 且返回如上数据后，当前 page 渲染器，以及所有孩子渲染器都能取到这个这个变量了如：
-
 
 ```json
 {
