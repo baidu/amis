@@ -69,8 +69,8 @@ register('en', {
   '拖拽排序': 'Drag to sort',
   '删除失败': 'Delete failed',
   '确认要删除？': 'Are you sure you want to delete?',
-  '组合表单成员数量不够，低于设定的最小{{minLenth}}个，请添加更多的成员。':
-    'The number of combined form members is not enough. It is lower than the minimum {{minlenth}} set. Please add more members.',
+  '组合表单成员数量不够，低于设定的最小{{minLength}}个，请添加更多的成员。':
+    'The number of combined form members is not enough. It is lower than the minimum {{minLength}} set. Please add more members.',
   '组合表单成员数量超出，超出设定的最大{{maxLength}}个，请删除多余的成员。':
     'The number of combined form members exceeds the set maximum of {{MaxLength}}}. Please delete the extra members.',
   '子表单验证失败，请仔细检查': 'Validate failed, please check this Subform.',
