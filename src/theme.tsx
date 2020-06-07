@@ -108,6 +108,7 @@ export function getTheme(theme: string): ThemeInstance {
 }
 
 export interface ThemeProps {
+  className?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
 }

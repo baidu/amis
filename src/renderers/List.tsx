@@ -22,6 +22,7 @@ import PopOver from './PopOver';
 import Sortable from 'sortablejs';
 import {TableCell} from './Table';
 import Copyable from './Copyable';
+import {Icon} from '../components/icons';
 
 export interface Column {
   type: string;
@@ -893,7 +894,7 @@ export class ListItem extends React.Component<ListItemProps> {
     if (dragging) {
       return (
         <div className={cx('ListItem-dragBtn')}>
-          <i className="glyphicon glyphicon-sort" />
+          <Icon icon="drag-bar" />
         </div>
       );
     } else if (selectable && !hideCheckToggler) {
