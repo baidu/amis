@@ -16,7 +16,7 @@
 | messages              | `Object`                          |                | 消息提示覆写，默认消息读取的是 API 返回的消息，但是在此可以覆写它。 |
 | messages.fetchSuccess | `string`                          |                | 获取成功时提示                                                      |
 | messages.fetchFailed  | `string`                          | `"初始化失败"` | 获取失败时提示                                                      |
-| interval              | `number`                          | `3000`         | 刷新时间(最低 3000)                                                 |
+| interval              | `number`                          | `3000`         | 刷新时间(最低 3000)，单位是毫秒                                     |
 | silentPolling         | `boolean`                         | `false`        | 配置刷新时是否显示加载动画                                          |
 | stopAutoRefreshWhen   | `string`                          | `""`           | 通过[表达式](./Types.md#表达式)来配置停止刷新的条件                 |
 
@@ -31,7 +31,6 @@
     }
 }
 ```
-
 
 ### 动态配置
 
