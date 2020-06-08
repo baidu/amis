@@ -211,7 +211,7 @@ export default class SubFormControl extends React.PureComponent<
         disabled={disabled}
         data-tooltip={__('新增一条数据')}
       >
-        <Icon icon="plus" className="icon m-r-xs" />
+        <Icon icon="plus" className="icon" />
         <span>{__('新增')}</span>
       </button>
     ];

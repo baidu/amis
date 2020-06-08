@@ -772,7 +772,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                     {
                       type: 'dropdown-button',
                       icon: addIcon ? (
-                        <Icon icon="plus" className="icon m-r-xs" />
+                        <Icon icon="plus" className="icon" />
                       ) : (
                         ''
                       ),
@@ -797,9 +797,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                     data-position="left"
                     data-tooltip={__('新增一条数据')}
                   >
-                    {addIcon ? (
-                      <Icon icon="plus" className="icon m-r-xs" />
-                    ) : null}
+                    {addIcon ? <Icon icon="plus" className="icon" /> : null}
                     <span>{__(addButtonText || '新增')}</span>
                   </a>
                 )
@@ -1149,9 +1147,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   className={cx(`Button Combo-addBtn`, addButtonClassName)}
                   data-tooltip={__('新增一条数据')}
                 >
-                  {addIcon ? (
-                    <Icon icon="plus" className="icon m-r-xs" />
-                  ) : null}
+                  {addIcon ? <Icon icon="plus" className="icon" /> : null}
                   <span>{__(addButtonText || '新增')}</span>
                 </button>
               )
