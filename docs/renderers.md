@@ -2,7 +2,7 @@
 title: 渲染器手册
 ---
 
-amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成的，掌握他们规则，就能灵活配置出各种页面。
+amis 页面是由一个个渲染模型组成的，并且支持无限层级嵌套，掌握他们规则，就能灵活配置出各种页面。
 
 开始之前，请您一定要先阅读[基本用法](./basic.md)。
 
@@ -95,6 +95,6 @@ amis 页面是通过 JSON 配置出来的，是由一个一个渲染模型组成
 - [Button-Group](./renderers/Button-Group.md)： 按钮集合
 - [iFrame](./renderers/iFrame.md)： 如果需要内嵌外部站点，可用 iframe 来实现
 - [Nav](./renderers/Nav.md): 菜单栏
-- [Tasks](./renderers/Tasks.md): 任务操作集合，类似于 orp 上线
+- [Tasks](./renderers/Tasks.md): 任务操作集合，适用于一步步操作
 - [QRCode](./renderers/QRCode.md): 二维码显示组件
 - [Types](./renderers/Types.md): 类型说明文档

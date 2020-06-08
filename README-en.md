@@ -1,8 +1,8 @@
 # amis
 
-A page renderer that renders pages directly based on a JSON configuration in a specific format. Combined with the business-side API, you can quickly develop various management pages.
+A Low-Code frontend UI Framework. You can quickly develop various management pages by only using JSON configuration. Frontend skill is not required.
 
-Currently used in Baidu's internal [AMIS] (http://amis.baidu.com) platform, 100+ departments have access to use, create 1.2w+ pages, welcome to use and make suggestions.
+Currently used in Baidu's internal infrastructure, created more than 40000 pages.
 
 To build your own backend system with amis, you can refer to this: https://github.com/fex-team/amis-admin
 
@@ -10,39 +10,39 @@ To build your own backend system with amis, you can refer to this: https://githu
 
 ```
 # Install project npm dependencies.
-Npm i
+npm i
 
 # Start compiling and output the code to the webroot directory of the service you just opened.
-Npm run dev
+npm run dev
 
 # Open the fis3 service, please visit http://127.0.0.1:8888/examples/pages/simple.
-Npm start
+npm start
 ```
 
 ## Testing
 
 ```bash
 #Installation dependency
-Npm i
+npm i
 
 #Executing test cases
-Npm test
+npm test
 
 # View test case coverage
-Npm run coverage
+npm run coverage
 ```
 
 ## Working with documents
 
 For a better reading experience, it is recommended to read https://baidu.github.io/amis/ directly in gh-pages.
 
-* [Quick Start] (/docs/getting_started.md)
-* [Basic Usage] (/docs/basic.md)
-* [Advanced Usage] (/docs/advanced.md)
-* [Render Manual] (/docs/renderers.md)
-* [How to customize] (/docs/sdk.md)
-* [custom component] (/docs/dev.md)
-* [Auxiliary Style] (/docs/style.md)
+- [Quick Start](/docs/getting_started.md)
+- [Basic Usage](/docs/basic.md)
+- [Advanced Usage](/docs/advanced.md)
+- [Render Manual](/docs/renderers.md)
+- [How to customize](/docs/sdk.md)
+- [custom component](/docs/dev.md)
+- [Auxiliary Style](/docs/style.md)
 
 ## How to contribute
 
@@ -50,9 +50,9 @@ Please write in typescript, all reasonable changes, new public renderers, use ca
 
 ## Maintainer
 
-* [2betop](https://github.com/2betop)
-* [RickCole21] (https://github.com/RickCole21)
-* [catchonme](https://github.com/catchonme)
+- [2betop](https://github.com/2betop)
+- [RickCole21](https://github.com/RickCole21)
+- [catchonme](https://github.com/catchonme)
 
 ## Discussion
 

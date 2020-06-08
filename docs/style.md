@@ -1,11 +1,9 @@
 ---
-title: 样式表说明
+title: 定制样式
 shortname: style
 ---
 
-amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，也可以用在自定义组件开发中，掌握这些 class, 几乎可以不用写样式。
-
-amis 中的样式基于 [BootStrap V3](http://getbootstrap.com/css/), 这里主要讲 Bootstrap 中没有涉及到的。
+绝大部分 amis 组件里都有个 `className` 配置项，设置后就会给对应的组件添加 css class，而 amis 内置了大量的功能类 class，通过这些 class 的组合就能满足大部分展现调整的需求。
 
 ## 图标
 

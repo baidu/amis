@@ -205,6 +205,7 @@ export default function (schema) {
                 >
                   <i className="fa fa-code" />
                 </Button>
+                <span>←点击这里查看源码</span>
               </Portal>
             ) : null}
           </div>
