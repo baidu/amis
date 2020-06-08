@@ -7,6 +7,7 @@ import {autobind, eachTree, everyTree} from '../utils/helper';
 import Spinner from './Spinner';
 import {BaseRadiosProps, BaseRadios} from './ListRadios';
 import {localeable} from '../locale';
+import {Icon} from './icons';
 
 export interface TreeRadiosProps extends BaseRadiosProps {
   expand: 'all' | 'first' | 'root' | 'none';
@@ -132,7 +133,7 @@ export class TreeRadios extends BaseRadios<TreeRadiosProps, TreeRadiosState> {
               }}
               className={cx('Table-expandBtn', expaned ? 'is-active' : '')}
             >
-              <i />
+              <Icon icon="right-arrow-bold" className="icon" />
             </a>
           ) : null}
 

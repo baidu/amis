@@ -7,6 +7,7 @@ import {Option} from './Select';
 import {autobind, eachTree, everyTree} from '../utils/helper';
 import Spinner from './Spinner';
 import {localeable} from '../locale';
+import {Icon} from './icons';
 
 export interface TreeCheckboxesProps extends BaseCheckboxesProps {
   expand?: 'all' | 'first' | 'root' | 'none';
@@ -219,7 +220,7 @@ export class TreeCheckboxes extends BaseCheckboxes<
               }}
               className={cx('Table-expandBtn', expaned ? 'is-active' : '')}
             >
-              <i />
+              <Icon icon="right-arrow-bold" className="icon" />
             </a>
           ) : null}
 

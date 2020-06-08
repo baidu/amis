@@ -693,25 +693,16 @@
     line-height: 1;
     height: 16px;
 
-    > i {
+    > svg {
       display: inline-block;
       text-align: center;
       cursor: pointer;
-      font-style: normal;
       transition: transform ease-in-out 0.2s, top ease-in-out 0.2s;
       position: relative;
-      left: 1px;
       transform-origin: 50% 50%;
-
-      &:before {
-        line-height: 1;
-        font-size: $Table-expandBtn-fontSize;
-        font-family: $Table-expandBtn-vendor;
-        content: $Table-expandBtn-icon;
-      }
     }
 
-    &.is-active > i {
+    &.is-active > svg {
       transform: rotate(90deg);
     }
 
@@ -725,6 +716,12 @@
     display: inline-block;
     visibility: hidden;
     cursor: move;
+    color: $icon-color;
+
+    &:hover {
+      text-decoration: none;
+      color: $icon-onHover-color;
+    }
   }
 
   &-table > tbody > tr:hover .#{$ns}Table-dragBtn,

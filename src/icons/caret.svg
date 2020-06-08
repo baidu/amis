@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 150 87" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<g id="caret-down" transform="translate(0.390625, -0.109375)" fill="currentColor" fill-rule="nonzero">
-		<path d="M145.321875,21.578125 L83.453125,83.446875 C78.5718769,88.3266492 70.6593731,88.3266492 65.778125,83.446875 L3.903125,21.578125 C0.653667694,18.4396941 -0.649532465,13.7921513 0.494410543,9.42178345 C1.63835355,5.05141555 5.05141555,1.63835355 9.42178345,0.494410543 C13.7921513,-0.649532465 18.4396941,0.653667694 21.578125,3.903125 L74.609375,56.934375 L127.640625,3.903125 C132.521441,-0.979417366 140.436208,-0.980816477 145.31875,3.9 C150.201292,8.78081648 150.202691,16.6955826 145.321875,21.578125 Z" id="路径">
-		</path>
+<svg viewBox="0 0 12 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<g id="组件" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+		<g id="04下拉/24px/默认禁用" transform="translate(-115.000000, -8.000000)">
+			<polygon id="Shape" fill="currentColor" fill-rule="nonzero" points="125.472727 8 121 12.8 116.527273 8 115 9.6 121 16 127 9.6">
+			</polygon>
+		</g>
 	</g>
 </svg>
