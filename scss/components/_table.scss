@@ -741,4 +741,9 @@
   > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
     margin: px2rem(3px);
   }
+
+  > .#{$ns}Button--link {
+    padding: 0;
+    margin-right: px2rem(10px);
+  }
 }

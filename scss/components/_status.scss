@@ -34,6 +34,11 @@
     }
   }
 
+  svg.#{$ns}Status-icon {
+    width: 16px;
+    height: 16px;
+  }
+
   .#{$ns}Status-icon {
     &--danger,
     &--primary,

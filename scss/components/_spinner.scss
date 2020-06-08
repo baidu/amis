@@ -58,6 +58,13 @@
   }
 
   transition: ease-out all 0.3s;
+
+  &--icon {
+    background: transparent;
+    animation: spin 2s linear infinite;
+    width: auto;
+    height: auto;
+  }
 }
 
 // 当启用 overlay 的时候，应该是居中模式。

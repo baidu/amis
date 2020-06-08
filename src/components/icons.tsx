@@ -143,6 +143,7 @@ registerIcon('prev', LeftArrowIcon);
 registerIcon('next', RightArrowIcon);
 registerIcon('check', CheckIcon);
 registerIcon('plus', PlusIcon);
+registerIcon('add', PlusIcon);
 registerIcon('minus', MinusIcon);
 registerIcon('pencil', PencilIcon);
 registerIcon('view', ViewIcon);
