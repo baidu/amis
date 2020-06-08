@@ -195,4 +195,4 @@ amis 是一个前端低代码框架，它使用 JSON 配置来生成页面，可
 
 ## 接下来
 
-请阅读[快速开始](../getting-started)来学习如何使用 amis。
+请阅读[快速开始](./getting-started.md)来学习如何使用 amis。
