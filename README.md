@@ -1,24 +1,28 @@
 # amis
 
-前端低代码框架，通过 JSON 配置就能生成各种后台页面。
+前端低代码框架，通过 JSON 配置就能生成各种后台页面，极大减少开发成本，甚至可以不需要了解前端。
 
-目前在百度大量用于内部平台的前端开发，已有 100+ 部门使用，创建了 2.5w+ 页面。
+目前在百度广泛用于内部平台的前端开发，已有 100+ 部门使用，创建了 3w+ 页面。
 
-通过 amis 搭建自己的后台系统，可以参考这： https://github.com/fex-team/amis-admin
-包含：fis3 版本、webpack 版本和 jssdk 版本。
+## 入门介绍
 
-## 快速开始
+请阅读 <https://baidu.github.io/amis/docs/intro>
 
-请参考 <https://baidu.github.io/amis/docs/getting-started>
+## 相关工具及平台
+
+- 通过 amis 搭建自己的后台系统：https://github.com/fex-team/amis-admin
+- 可视化编辑器：http://fex-team.github.io/amis-editor
 
 ## 开发指南
 
+以下是参与开发 amis 才需要看的，使用请看前面的入门文档。
+
 > 如果 github 下载慢可以使用 [gitee](https://gitee.com/baidu/amis) 上的镜像。
 
-推荐使用 node 10，node 6 和 node 8 也可以。node 12 未测试，可能 fis3 还有些插件不支持。
+推荐使用 node 8/10/12。
 
 ```bash
-# 安装项目 npm 依赖。
+# 安装项目 npm 依赖，在 node 12 下会有报错但不影响正常使用。
 npm i
 
 # 开始编译，把代码产出到刚开启的服务的 webroot 目录。
@@ -51,6 +55,7 @@ npm run coverage
 - [2betop](https://github.com/2betop)
 - [RickCole21](https://github.com/RickCole21)
 - [catchonme](https://github.com/catchonme)
+- [nwind](https://github.com/nwind)
 
 ## 讨论
 

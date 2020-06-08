@@ -102,6 +102,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const navigations = [
+  Docs,
   {
     label: '示例',
     children: [
@@ -533,9 +534,9 @@ const navigations = [
         component: TestComponent
       }
     ]
-  },
+  }
 
-  Docs
+
 ];
 
 function isActive(link, location) {
@@ -898,9 +899,9 @@ export default function entry({pathPrefix}) {
       <Route component={App}>
         <Redirect
           from={`${ContextPath}/`}
-          to={`${ContextPath}${PathPrefix}/pages/simple`}
+          to={`${ContextPath}/docs/intro`}
         />
-        <Redirect from={`${PathPrefix}/`} to={`${PathPrefix}/pages/simple`} />
+        <Redirect from={`${PathPrefix}/`} to={`/docs/intro`} />
         {navigations2route(PathPrefix)}
         <Route path="*" component={NotFound} />
       </Route>

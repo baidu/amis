@@ -6,6 +6,16 @@ export default {
   label: '文档',
   children: [
     {
+      label: 'AMIS 是什么？',
+      icon: 'fa fa-home',
+      path: '/docs/intro',
+      getComponent: (location, cb) =>
+        require(['../../docs/intro.md'], doc => {
+          cb(null, makeMarkdownRenderer(doc));
+        })
+    },
+
+    {
       label: '快速开始',
       icon: 'fa fa-flash',
       path: '/docs/getting-started',
@@ -38,7 +48,7 @@ export default {
     // {{renderer-docs}}
 
     {
-      label: 'API 说明',
+      label: '动态数据',
       path: '/docs/api',
       icon: 'fa fa-cloud',
       getComponent: (location, cb) =>
@@ -48,27 +58,17 @@ export default {
     },
 
     {
-      label: '如何定制',
-      path: '/docs/sdk',
+      label: '定制功能',
+      path: '/docs/custom',
       icon: 'fa fa-cubes',
       getComponent: (location, cb) =>
-        require(['../../docs/sdk.md'], doc => {
+        require(['../../docs/custom.md'], doc => {
           cb(null, makeMarkdownRenderer(doc));
         })
     },
 
     {
-      label: '自定义组件',
-      path: '/docs/dev',
-      icon: 'fa fa-code',
-      getComponent: (location, cb) =>
-        require(['../../docs/dev.md'], doc => {
-          cb(null, makeMarkdownRenderer(doc));
-        })
-    },
-
-    {
-      label: '样式说明',
+      label: '定制样式',
       path: '/docs/style',
       icon: 'fa fa-laptop',
       getComponent: (location, cb) =>
