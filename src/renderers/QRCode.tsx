@@ -7,6 +7,7 @@ import {filter} from '../utils/tpl';
 import QrCode from 'qrcode.react';
 
 export interface QRCodeProps extends FormControlProps {
+  qrcodeClassName?: string;
   codeSize?: number;
   backgroundColor?: string;
   foregroundColor?: string;
@@ -17,6 +18,7 @@ export interface QRCodeProps extends FormControlProps {
 export default class QRCode extends React.Component<QRCodeProps, any> {
   static defaultProps: Partial<QRCodeProps> = {
     codeSize: 128,
+    qrcodeClassName: '',
     backgroundColor: '#fff',
     foregroundColor: '#000',
     level: 'L',
@@ -26,6 +28,7 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
   render() {
     const {
       className,
+      qrcodeClassName,
       codeSize,
       backgroundColor,
       foregroundColor,
@@ -40,7 +43,9 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
       <div className={cx(`${ns}QrCode`, className)}>
         {value ? (
           <QrCode
+            className={qrcodeClassName}
             value={filter(value, data, '| raw')}
+            renderAs={'svg'}
             size={codeSize}
             bgColor={backgroundColor}
             fgColor={foregroundColor}
