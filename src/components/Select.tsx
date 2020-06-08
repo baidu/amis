@@ -933,7 +933,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 />
               ) : null}
 
-              <span className={cx('Select-arrow')} />
+              <span className={cx('Select-arrow')}>
+                <Icon icon="caret" className="icon" />
+              </span>
               {isOpen ? this.renderOuter(options) : null}
             </div>
           );
