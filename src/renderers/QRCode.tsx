@@ -39,20 +39,27 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
       classPrefix: ns
     } = this.props;
 
+    const finalValue = filter(value, data, '| raw');
+
     return (
       <div className={cx(`${ns}QrCode`, className)}>
-        {value ? (
+        {!finalValue ? (
+          <span className={`${ns}QrCode--placeholder`}>{placeholder}</span>
+        ) : finalValue.length > 2953 ? (
+          // https://github.com/zpao/qrcode.react/issues/69
+          <span className="text-danger">
+            二维码值过长，请设置2953个字符以下的文本
+          </span>
+        ) : (
           <QrCode
             className={qrcodeClassName}
-            value={filter(value, data, '| raw')}
+            value={finalValue}
             renderAs={'svg'}
             size={codeSize}
             bgColor={backgroundColor}
             fgColor={foregroundColor}
             level={level || 'L'}
           />
-        ) : (
-          <span className={`${ns}QrCode--placeholder`}>{placeholder}</span>
         )}
       </div>
     );
