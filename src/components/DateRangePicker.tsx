@@ -526,6 +526,7 @@ export class DateRangePicker extends React.Component<
       ranges,
       disabled,
       iconClassName,
+      locale,
       overlayPlacement
     } = this.props;
 
@@ -616,6 +617,7 @@ export class DateRangePicker extends React.Component<
                   input={false}
                   onClose={this.close}
                   renderDay={this.renderDay}
+                  locale={locale}
                 />
 
                 <Calendar
@@ -632,6 +634,7 @@ export class DateRangePicker extends React.Component<
                   input={false}
                   onClose={this.close}
                   renderDay={this.renderDay}
+                  locale={locale}
                 />
 
                 <div key="button" className={`${ns}DateRangePicker-actions`}>
