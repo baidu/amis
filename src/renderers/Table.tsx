@@ -1075,7 +1075,7 @@ export default class Table extends React.Component<TableProps, object> {
               // data-position="top"
               onClick={store.toggleExpandAll}
             >
-              <i />
+              <Icon icon="right-arrow-bold" className="icon" />
             </a>
           )}
         </th>
@@ -1259,7 +1259,7 @@ export default class Table extends React.Component<TableProps, object> {
               // data-position="top"
               onClick={item.toggleExpanded}
             >
-              <i />
+              <Icon icon="right-arrow-bold" className="icon" />
             </a>
           ) : null}
         </td>
@@ -1481,7 +1481,6 @@ export default class Table extends React.Component<TableProps, object> {
     return (
       <DropDownButton
         {...rest}
-        iconOnly
         align={config ? config.align : 'left'}
         classnames={cx}
         classPrefix={ns}

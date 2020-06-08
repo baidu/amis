@@ -88,6 +88,9 @@ import FilterIcon from '../icons/filter.svg';
 import CaretIcon from '../icons/caret.svg';
 
 // @ts-ignore
+import RightArrowBoldIcon from '../icons/right-arrow-bold.svg';
+
+// @ts-ignore
 import ColumnFilterIcon from '../icons/column-filter.svg';
 
 // @ts-ignore
@@ -173,6 +176,7 @@ registerIcon('copy', CopyIcon);
 registerIcon('filter', FilterIcon);
 registerIcon('column-filter', ColumnFilterIcon);
 registerIcon('caret', CaretIcon);
+registerIcon('right-arrow-bold', RightArrowBoldIcon);
 registerIcon('zoom-in', ZoomInIcon);
 registerIcon('zoom-out', ZoomOutIcon);
 registerIcon('question', QuestionIcon);
