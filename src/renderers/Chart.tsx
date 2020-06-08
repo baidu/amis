@@ -11,6 +11,7 @@ import {resolveVariableAndFilter, isPureVariable} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {createObject} from '../utils/helper';
+import Spinner from '../components/Spinner';
 
 export interface ChartProps extends RendererProps {
   chartRef?: (echart: any) => void;
@@ -134,7 +135,7 @@ export class Chart extends React.Component<ChartProps> {
     this.ref = ref;
   }
 
-  reload(query?: any) {
+  reload(subpath?: string, query?: any) {
     const {api, env, store, interval} = this.props;
 
     if (query) {
@@ -238,7 +239,11 @@ export class Chart extends React.Component<ChartProps> {
         placeholder={
           <div className={cx(`${ns}Chart`, className)} style={style}>
             <div className={`${ns}Chart-placeholder`}>
-              <i key="loading" className="fa fa-spinner fa-spin fa-2x fa-fw" />
+              <Spinner
+                show
+                icon="reload"
+                spinnerClassName={cx('Chart-spinner')}
+              />
             </div>
           </div>
         }

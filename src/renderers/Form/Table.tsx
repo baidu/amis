@@ -11,6 +11,7 @@ import {dataMapping} from '../../utils/tpl-builtin';
 import findIndex from 'lodash/findIndex';
 import memoize from 'lodash/memoize';
 import {SimpleMap} from '../../utils/SimpleMap';
+import {Icon} from '../../components/icons';
 
 export interface TableProps extends FormControlProps {
   placeholder?: string;
@@ -48,11 +49,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   static defaultProps = {
     placeholder: '空',
     scaffold: {},
-    addBtnIcon: 'fa fa-plus',
-    updateBtnIcon: 'fa fa-pencil',
-    deleteBtnIcon: 'fa fa-minus',
-    confirmBtnIcon: 'fa fa-check',
-    cancelBtnIcon: 'fa fa-times',
+    addBtnIcon: 'plus',
+    updateBtnIcon: 'pencil',
+    deleteBtnIcon: 'minus',
+    confirmBtnIcon: 'check',
+    cancelBtnIcon: 'close',
     valueField: ''
   };
 
@@ -107,7 +108,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return __(
-        '组合表单成员数量不够，低于设定的最小{{minLenth}}个，请添加更多的成员。',
+        '组合表单成员数量不够，低于设定的最小{{minLength}}个，请添加更多的成员。',
         {minLength}
       );
     } else if (maxLength && Array.isArray(value) && value.length > maxLength) {
@@ -376,7 +377,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               onClick={this.addItem.bind(this, rowIndex, undefined)}
             >
               {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
-              {props.addBtnIcon ? <i className={props.addBtnIcon} /> : null}
+              {props.addBtnIcon ? (
+                <Icon icon={props.addBtnIcon} className="icon" />
+              ) : null}
             </Button>
           )
       });
@@ -428,7 +431,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 <span>{props.updateBtnLabel}</span>
               ) : null}
               {props.updateBtnIcon ? (
-                <i className={props.updateBtnIcon} />
+                <Icon icon={props.updateBtnIcon} className="icon" />
               ) : null}
             </Button>
           )
@@ -452,7 +455,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 <span>{props.confirmBtnLabel}</span>
               ) : null}
               {props.confirmBtnIcon ? (
-                <i className={props.confirmBtnIcon} />
+                <Icon icon={props.confirmBtnIcon} className="icon" />
               ) : null}
             </Button>
           ) : null
@@ -476,7 +479,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 <span>{props.cancelBtnLabel}</span>
               ) : null}
               {props.cancelBtnIcon ? (
-                <i className={props.cancelBtnIcon} />
+                <Icon icon={props.cancelBtnIcon} className="icon" />
               ) : null}
             </Button>
           ) : null
@@ -510,7 +513,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 <span>{props.deleteBtnLabel}</span>
               ) : null}
               {props.deleteBtnIcon ? (
-                <i className={props.deleteBtnIcon} />
+                <Icon icon={props.deleteBtnIcon} className="icon" />
               ) : null}
             </Button>
           )

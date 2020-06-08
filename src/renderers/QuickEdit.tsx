@@ -17,6 +17,7 @@ import keycode from 'keycode';
 import matches from 'dom-helpers/query/matches';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
+import {Icon} from '../components/icons';
 
 export interface QuickEditConfig {}
 
@@ -491,11 +492,13 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
             onKeyUp={this.handleKeyUp}
           >
             <Component {...this.props} wrapperComponent={''} noHoc />
-            <i
+            <span
               key="edit-btn"
-              className={cx('Field-quickEditBtn fa fa-edit')}
+              className={cx('Field-quickEditBtn')}
               onClick={this.openQuickEdit}
-            />
+            >
+              <Icon icon="pencil" className="icon" />
+            </span>
             {this.state.isOpened ? this.renderPopOver() : null}
           </Component>
         );

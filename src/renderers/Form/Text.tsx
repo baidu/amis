@@ -12,6 +12,7 @@ import {Icon} from '../../components/icons';
 import Input from '../../components/Input';
 import {autobind, createObject, setVariable} from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
+import Spinner from '../../components/Spinner';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
 
@@ -74,8 +75,7 @@ export default class TextControl extends React.PureComponent<
     labelField: 'label',
     valueField: 'value',
     placeholder: '',
-    allowInputText: true,
-    spinnerClassName: 'fa fa-spinner fa-spin fa-1x fa-fw'
+    allowInputText: true
   };
 
   componentWillReceiveProps(nextProps: TextProps) {
@@ -415,7 +415,6 @@ export default class TextControl extends React.PureComponent<
       labelField,
       valueField,
       multiple,
-      spinnerClassName,
       translate: __
     } = this.props;
 
@@ -523,7 +522,11 @@ export default class TextControl extends React.PureComponent<
                 </a>
               ) : null}
               {loading ? (
-                <i className={cx(`TextControl-spinner`, spinnerClassName)} />
+                <Spinner
+                  show
+                  icon="reload"
+                  spinnerClassName={cx('TextControl-spinner')}
+                />
               ) : null}
               {isOpen && filtedOptions.length ? (
                 <div className={cx('TextControl-sugs')}>

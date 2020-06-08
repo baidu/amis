@@ -109,7 +109,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     draggableTip: '可拖拽排序',
     addButtonText: '新增',
     canAccessSuperData: false,
-    addIcon: 'fa fa-plus',
+    addIcon: true,
     dragIcon: '',
     deleteIcon: '',
     tabsMode: false,
@@ -493,7 +493,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return __(
         (messages && messages.minLengthValidateFailed) ||
-          '组合表单成员数量不够，低于设定的最小{{minLenth}}个，请添加更多的成员。',
+          '组合表单成员数量不够，低于设定的最小{{minLength}}个，请添加更多的成员。',
         {minLength}
       );
     } else if (maxLength && Array.isArray(value) && value.length > maxLength) {
@@ -771,7 +771,11 @@ export default class ComboControl extends React.Component<ComboProps> {
                     'add-button',
                     {
                       type: 'dropdown-button',
-                      icon: addIcon,
+                      icon: addIcon ? (
+                        <Icon icon="plus" className="icon m-r-xs" />
+                      ) : (
+                        ''
+                      ),
                       label: __(addButtonText || '新增'),
                       level: 'info',
                       size: 'sm',
@@ -793,7 +797,9 @@ export default class ComboControl extends React.Component<ComboProps> {
                     data-position="left"
                     data-tooltip={__('新增一条数据')}
                   >
-                    {addIcon ? <i className={cx('m-r-xs', addIcon)} /> : null}
+                    {addIcon ? (
+                      <Icon icon="plus" className="icon m-r-xs" />
+                    ) : null}
                     <span>{__(addButtonText || '新增')}</span>
                   </a>
                 )
@@ -1050,7 +1056,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                         {dragIcon ? (
                           <i className={dragIcon} />
                         ) : (
-                          <Icon icon="combo-dragger" />
+                          <Icon icon="drag-bar" />
                         )}
                       </a>
                     </div>
@@ -1121,7 +1127,6 @@ export default class ComboControl extends React.Component<ComboProps> {
                   'add-button',
                   {
                     type: 'dropdown-button',
-                    icon: addIcon,
                     label: __(addButtonText || '新增'),
                     level: 'info',
                     size: 'sm',
@@ -1145,7 +1150,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   data-tooltip={__('新增一条数据')}
                 >
                   {addIcon ? (
-                    <i className={cx('Button-icon', addIcon)} />
+                    <Icon icon="plus" className="icon m-r-xs" />
                   ) : null}
                   <span>{__(addButtonText || '新增')}</span>
                 </button>

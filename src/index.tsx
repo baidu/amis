@@ -27,6 +27,12 @@ import {resizeSensor} from './utils/resize-sensor';
 import {setIconVendor} from './renderers/Form/IconPickerIcons';
 import {Icon, registerIcon} from './components/icons';
 import {RegisterStore} from './store';
+import {
+  setDefaultLocale,
+  getDefaultLocale,
+  makeTranslator,
+  register as registerLocale
+} from './locale';
 
 // 注册渲染器
 import './renderers/Action';
@@ -203,5 +209,10 @@ export {
   getTheme,
   classPrefix,
   getClassPrefix,
-  classnames
+  classnames,
+  // 多语言相关
+  getDefaultLocale,
+  setDefaultLocale,
+  registerLocale,
+  makeTranslator
 };

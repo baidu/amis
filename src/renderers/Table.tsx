@@ -36,6 +36,7 @@ import {resizeSensor} from '../utils/resize-sensor';
 import find from 'lodash/find';
 import Overlay from '../components/Overlay';
 import PopOverable from './PopOver';
+import {Icon} from '../components/icons';
 
 export interface Column {
   type: string;
@@ -158,8 +159,7 @@ export default class Table extends React.Component<TableProps, object> {
     primaryField: 'id',
     itemCheckableOn: '',
     itemDraggableOn: '',
-    hideCheckToggler: false,
-    dragIcon: 'glyphicon glyphicon-sort'
+    hideCheckToggler: false
   };
 
   table?: HTMLTableElement;
@@ -983,7 +983,7 @@ export default class Table extends React.Component<TableProps, object> {
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
-                <i className="fa fa-check m-r-xs" />
+                <Icon icon="check" className="icon m-r-xs" />
                 {__('提交')}
               </button>
               <button
@@ -991,7 +991,7 @@ export default class Table extends React.Component<TableProps, object> {
                 className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
+                <Icon icon="close" className="icon m-r-xs" />
                 {__('放弃')}
               </button>
             </span>
@@ -1005,7 +1005,7 @@ export default class Table extends React.Component<TableProps, object> {
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSaveOrder}
               >
-                <i className="fa fa-check m-r-xs" />
+                <Icon icon="check" className="icon m-r-xs" />
                 {__('提交')}
               </button>
               <button
@@ -1013,7 +1013,7 @@ export default class Table extends React.Component<TableProps, object> {
                 className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
+                <Icon icon="close" className="icon m-r-xs" />
                 {__('放弃')}
               </button>
             </span>
@@ -1237,7 +1237,7 @@ export default class Table extends React.Component<TableProps, object> {
     } else if (column.type === '__dragme') {
       return (
         <td key={props.key} className={cx(column.pristine.className)}>
-          {item.draggable ? <i className="glyphicon glyphicon-sort" /> : null}
+          {item.draggable ? <Icon icon="drag-bar" className="icon" /> : null}
         </td>
       );
     } else if (column.type === '__expandme') {
@@ -1281,7 +1281,7 @@ export default class Table extends React.Component<TableProps, object> {
           onDragStart={this.handleDragStart}
           className={cx('Table-dragBtn')}
         >
-          <i className="glyphicon glyphicon-sort" />
+          <Icon icon="drag-bar" className="icon" />
         </a>
       );
     }
@@ -1487,15 +1487,15 @@ export default class Table extends React.Component<TableProps, object> {
         classPrefix={ns}
         key="columns-toggable"
         size="sm"
-        label={<i className="glyphicon glyphicon-th icon-th" />}
+        label={<Icon icon="columns" className="icon" />}
       >
         {store.toggableColumns.map(column => (
-          <li className={cx('DropDown-menuItem')} key={column.index}>
-            <Checkbox
-              classPrefix={ns}
-              checked={column.toggled}
-              onChange={column.toggleToggle}
-            >
+          <li
+            className={cx('DropDown-menuItem')}
+            key={column.index}
+            onClick={column.toggleToggle}
+          >
+            <Checkbox size="sm" classPrefix={ns} checked={column.toggled}>
               {column.label ? render('tpl', column.label) : null}
             </Checkbox>
           </li>
@@ -1505,14 +1505,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderDragToggler() {
-    const {
-      store,
-      env,
-      draggable,
-      classPrefix: ns,
-      dragIcon,
-      translate: __
-    } = this.props;
+    const {store, env, draggable, classPrefix: ns, translate: __} = this.props;
 
     if (!draggable || store.isNested) {
       return null;
@@ -1536,7 +1529,7 @@ export default class Table extends React.Component<TableProps, object> {
         }}
         iconOnly
       >
-        <i className={dragIcon} />
+        <Icon icon="exchange" className="icon" />
       </Button>
     );
   }
@@ -2318,7 +2311,9 @@ export class HeadCellSearchDropDown extends React.Component<
 
     return (
       <span className={cx(`${ns}TableCell-searchBtn`)}>
-        <i className="fa fa-search" onClick={this.open} />
+        <span onClick={this.open}>
+          <Icon icon="search" className="icon" />
+        </span>
         {this.state.isOpened ? (
           <Overlay
             container={popOverContainer || (() => findDOMNode(this))}
@@ -2517,7 +2512,9 @@ export class HeadCellFilterDropDown extends React.Component<
 
     return (
       <span className={cx(`${ns}TableCell-filterBtn`)}>
-        <i className="fa fa-filter" onClick={this.open} />
+        <span onClick={this.open}>
+          <Icon icon="column-filter" className="icon" />
+        </span>
         {isOpened ? (
           <Overlay
             container={popOverContainer || (() => findDOMNode(this))}

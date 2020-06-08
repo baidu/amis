@@ -85,15 +85,6 @@
     &:hover {
       color: $Picker-onHover-iconColor;
     }
-
-    &:before {
-      line-height: 1;
-      color: inherit;
-      content: $Picker-btn-icon;
-      display: inline-block;
-      font-size: $Picker-btn-fontSize;
-      font-family: $Picker-btn-vendor;
-    }
   }
 
   &-clear {

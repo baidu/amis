@@ -117,6 +117,7 @@
     @include clearfix();
     display: flex;
     padding: $Table-toolbar-paddingY $Table-toolbar-paddingX;
+    flex-wrap: wrap;
 
     .#{$ns}DropDown {
       &-menuItem {
@@ -424,6 +425,7 @@
       border-right: 0;
       width: px2rem(1px);
       padding-right: 0;
+      cursor: move;
     }
 
     > tbody > tr > td.#{$ns}Table-expandCell {
@@ -651,6 +653,8 @@
     color: $text--loud-color;
     clear: both;
     margin-top: $gap-xs;
+    width: 100%;
+    color: $info;
   }
 
   &-footTable {
@@ -736,5 +740,10 @@
   > .#{$ns}Button,
   > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
     margin: px2rem(3px);
+  }
+
+  > .#{$ns}Button--link {
+    padding: 0;
+    margin-right: px2rem(10px);
   }
 }
