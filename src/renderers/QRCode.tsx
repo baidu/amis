@@ -7,6 +7,7 @@ import {filter} from '../utils/tpl';
 import QrCode from 'qrcode.react';
 
 export interface QRCodeProps extends FormControlProps {
+  qrcodeClassName?: string;
   codeSize?: number;
   backgroundColor?: string;
   foregroundColor?: string;
@@ -17,6 +18,7 @@ export interface QRCodeProps extends FormControlProps {
 export default class QRCode extends React.Component<QRCodeProps, any> {
   static defaultProps: Partial<QRCodeProps> = {
     codeSize: 128,
+    qrcodeClassName: '',
     backgroundColor: '#fff',
     foregroundColor: '#000',
     level: 'L',
@@ -26,6 +28,7 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
   render() {
     const {
       className,
+      qrcodeClassName,
       codeSize,
       backgroundColor,
       foregroundColor,
@@ -36,18 +39,27 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
       classPrefix: ns
     } = this.props;
 
+    const finalValue = filter(value, data, '| raw');
+
     return (
       <div className={cx(`${ns}QrCode`, className)}>
-        {value ? (
+        {!finalValue ? (
+          <span className={`${ns}QrCode--placeholder`}>{placeholder}</span>
+        ) : finalValue.length > 2953 ? (
+          // https://github.com/zpao/qrcode.react/issues/69
+          <span className="text-danger">
+            二维码值过长，请设置2953个字符以下的文本
+          </span>
+        ) : (
           <QrCode
-            value={filter(value, data, '| raw')}
+            className={qrcodeClassName}
+            value={finalValue}
+            renderAs={'svg'}
             size={codeSize}
             bgColor={backgroundColor}
             fgColor={foregroundColor}
             level={level || 'L'}
           />
-        ) : (
-          <span className={`${ns}QrCode--placeholder`}>{placeholder}</span>
         )}
       </div>
     );
