@@ -73,8 +73,8 @@ fis.match('/docs/**.md', {
   rExt: 'js',
   parser: [
     parserMarkdown,
-    function(contents, file) {
-      return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function(
+    function (contents, file) {
+      return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
         _,
         quota,
         link
@@ -97,7 +97,7 @@ fis.match('/docs/**.md', {
   isMod: true
 });
 
-fis.on('compile:parser', function(file) {
+fis.on('compile:parser', function (file) {
   if (file.subpath === '/src/index.tsx') {
     file.setContent(file.getContent().replace('@version', package.version));
   }
@@ -123,7 +123,7 @@ fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
       sourceMap: true
     }),
 
-    function(content) {
+    function (content) {
       return content.replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(');
     }
   ],
@@ -195,10 +195,10 @@ if (fis.project.currentMedia() === 'publish') {
         experimentalDecorators: true,
         esModuleInterop: true
       }),
-      function(contents) {
+      function (contents) {
         return contents.replace(
           /(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g,
-          function(_, quote, value) {
+          function (_, quote, value) {
             let str = quote + value + quote;
             return (
               '(function(){try {return __uri(' +
@@ -229,14 +229,14 @@ if (fis.project.currentMedia() === 'publish') {
   });
 
   publishEnv.match('/src/**.{jsx,tsx,js,ts}', {
-    postprocessor: function(content, file) {
+    postprocessor: function (content, file) {
       return content
         .replace(/^''/gm, '')
         .replace(/\/\/# sourceMappingURL=\//g, '//# sourceMappingURL=./');
     }
   });
   publishEnv.match('*.scss', {
-    postprocessor: function(content, file) {
+    postprocessor: function (content, file) {
       return content.replace(
         /\/\*# sourceMappingURL=\//g,
         '/*# sourceMappingURL=./'
@@ -244,8 +244,8 @@ if (fis.project.currentMedia() === 'publish') {
     }
   });
   publishEnv.match('::package', {
-    postpackager: function(ret) {
-      Object.keys(ret.src).forEach(function(subpath) {
+    postpackager: function (ret) {
+      Object.keys(ret.src).forEach(function (subpath) {
         var file = ret.src[subpath];
         if (!file.isText()) {
           return;
@@ -303,7 +303,7 @@ if (fis.project.currentMedia() === 'publish') {
         sourceMap: false
       }),
 
-      function(content) {
+      function (content) {
         return content.replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(');
       }
     ],
@@ -318,14 +318,14 @@ if (fis.project.currentMedia() === 'publish') {
 
   env.match('*.{js,jsx,ts,tsx}', {
     optimizer: fis.plugin('uglify-js'),
-    moduleId: function(m, path) {
+    moduleId: function (m, path) {
       return fis.util.md5('amis-sdk' + path);
     }
   });
 
   env.match('/src/icons/**.svg', {
     optimizer: fis.plugin('uglify-js'),
-    moduleId: function(m, path) {
+    moduleId: function (m, path) {
       return fis.util.md5('amis-sdk' + path);
     }
   });
@@ -384,7 +384,7 @@ if (fis.project.currentMedia() === 'publish') {
     ]
   });
 
-  fis.on('compile:optimizer', function(file) {
+  fis.on('compile:optimizer', function (file) {
     if (file.isJsLike && file.isMod) {
       var contents = file.getContent();
 
@@ -393,7 +393,7 @@ if (fis.project.currentMedia() === 'publish') {
       if (file.subpath === '/src/components/Editor.tsx') {
         contents = contents.replace(
           /function\sfilterUrl\(url\)\s\{\s*return\s*url;/m,
-          function() {
+          function () {
             return `var _path = '';
     try {
       throw new Error()
@@ -440,7 +440,7 @@ if (fis.project.currentMedia() === 'publish') {
         // 如果不配置，源码中对于打包文件的引用是不正确的。
         'replaceFiles': ['src/components/Editor.tsx']
       }),
-      function(ret) {
+      function (ret) {
         const root = fis.project.getProjectPath();
         [
           '/pkg/editor.worker.js',
@@ -448,7 +448,7 @@ if (fis.project.currentMedia() === 'publish') {
           '/pkg/css.worker.js',
           '/pkg/html.worker.js',
           '/pkg/ts.worker.js'
-        ].forEach(function(pkgFile) {
+        ].forEach(function (pkgFile) {
           const packedFile = fis.file.wrap(path.join(root, pkgFile));
           const file = ret.pkg[packedFile.subpath];
           let contents = file.getContent();
@@ -464,7 +464,7 @@ if (fis.project.currentMedia() === 'publish') {
     domain: '.',
     deploy: [
       fis.plugin('skip-packed'),
-      function(_, modified, total, callback) {
+      function (_, modified, total, callback) {
         var i = modified.length - 1;
         var file;
 
@@ -497,8 +497,8 @@ if (fis.project.currentMedia() === 'publish') {
     useHash: true,
     parser: [
       parserMarkdown,
-      function(contents, file) {
-        return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function(
+      function (contents, file) {
+        return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
           _,
           quota,
           link
@@ -529,7 +529,7 @@ if (fis.project.currentMedia() === 'publish') {
   });
 
   ghPages.match('/{examples,docs}/**', {
-    preprocessor: function(contents, file) {
+    preprocessor: function (contents, file) {
       if (!file.isText() || typeof contents !== 'string') {
         return contents;
       }
@@ -537,7 +537,7 @@ if (fis.project.currentMedia() === 'publish') {
       return contents
         .replace(
           /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/mock2?/gi,
-          function(_, qutoa, method) {
+          function (_, qutoa, method) {
             return (
               qutoa + (method || '') + 'https://houtai.baidu.com/api/mock2'
             );
@@ -545,7 +545,7 @@ if (fis.project.currentMedia() === 'publish') {
         )
         .replace(
           /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/sample/gi,
-          function(_, qutoa, method) {
+          function (_, qutoa, method) {
             return (
               qutoa + (method || '') + 'https://houtai.baidu.com/api/sample'
             );
@@ -559,6 +559,17 @@ if (fis.project.currentMedia() === 'publish') {
   });
 
   ghPages.match('::package', {
+    prepackager: fis.plugin('stand-alone-pack', {
+      '/pkg/editor.worker.js': 'monaco-editor/esm/vs/editor/editor.worker.js',
+      '/pkg/json.worker.js': 'monaco-editor/esm/vs/language/json/json.worker',
+      '/pkg/css.worker.js': 'monaco-editor/esm/vs/language/css/css.worker',
+      '/pkg/html.worker.js': 'monaco-editor/esm/vs/language/html/html.worker',
+      '/pkg/ts.worker.js': 'monaco-editor/esm/vs/language/typescript/ts.worker',
+
+      // 替换这些文件里面的路径引用。
+      // 如果不配置，源码中对于打包文件的引用是不正确的。
+      'replaceFiles': ['src/components/Editor.tsx']
+    }),
     packager: fis.plugin('deps-pack', {
       'pkg/npm.js': [
         '/examples/mod.js',
@@ -622,14 +633,14 @@ if (fis.project.currentMedia() === 'publish') {
         useInlineMap: false,
         resourceType: 'mod'
       }),
-      function(ret) {
+      function (ret) {
         const indexHtml = ret.src['/examples/index.html'];
         const appJs = ret.src['/examples/components/App.jsx'];
         const DocJs = ret.src['/examples/components/Doc.jsx'];
 
         const pages = [];
         const source = [appJs.getContent(), DocJs.getContent()].join('\n');
-        source.replace(/\bpath\b\s*\:\s*('|")(.*?)\1/g, function(
+        source.replace(/\bpath\b\s*\:\s*('|")(.*?)\1/g, function (
           _,
           qutoa,
           path
@@ -643,7 +654,7 @@ if (fis.project.currentMedia() === 'publish') {
         });
 
         const contents = indexHtml.getContent();
-        pages.forEach(function(path) {
+        pages.forEach(function (path) {
           const file = fis.file(
             fis.project.getProjectPath(),
             '/examples/' + path + '.html'
@@ -675,7 +686,7 @@ if (fis.project.currentMedia() === 'publish') {
     useHash: false
   });
   ghPages.match('{*.jsx,*.tsx,*.ts}', {
-    moduleId: function(m, path) {
+    moduleId: function (m, path) {
       return fis.util.md5('amis' + path);
     },
     parser: [
@@ -706,7 +717,7 @@ function docsGennerator(contents, file) {
     return contents;
   }
 
-  return contents.replace('// {{renderer-docs}}', function() {
+  return contents.replace('// {{renderer-docs}}', function () {
     const dir = path.join(__dirname, 'docs/renderers');
     const files = [];
 
