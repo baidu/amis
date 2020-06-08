@@ -5,6 +5,7 @@
   display: inline-block;
   cursor: pointer;
   opacity: 0.6;
+  vertical-align: middle;
 
   &:hover {
     color: $PopOverAble-onHover-iconColor;
