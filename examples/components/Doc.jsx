@@ -2,7 +2,7 @@ import React from 'react';
 import makeMarkdownRenderer from './MdRenderer';
 
 export default {
-  prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
+  // prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
   label: '文档',
   children: [
     {

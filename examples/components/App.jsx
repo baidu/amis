@@ -104,6 +104,7 @@ if (process.env.NODE_ENV === 'production') {
 const navigations = [
   Docs,
   {
+    prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
     label: '示例',
     children: [
       {
@@ -535,8 +536,6 @@ const navigations = [
       }
     ]
   }
-
-
 ];
 
 function isActive(link, location) {
@@ -897,10 +896,7 @@ export default function entry({pathPrefix}) {
   return (
     <Router history={history}>
       <Route component={App}>
-        <Redirect
-          from={`${ContextPath}/`}
-          to={`${ContextPath}/docs/intro`}
-        />
+        <Redirect from={`${ContextPath}/`} to={`${ContextPath}/docs/intro`} />
         <Redirect from={`${PathPrefix}/`} to={`/docs/intro`} />
         {navigations2route(PathPrefix)}
         <Route path="*" component={NotFound} />
