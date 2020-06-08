@@ -722,9 +722,6 @@ $Form-selectValue-borderColor: saturate(
   2.5%
 ) !default;
 $Form-selectValue-fontSize: $fontSizeSm !default;
-$Form-select-caret-vender: 'FontAwesome' !default;
-$Form-select-caret-icon: '\f0d7' !default;
-$Form-select-caret-fontSize: $fontSizeBase !default;
 $Form-select-caret-iconColor: $icon-color !default;
 $Form-select-caret-onHover-iconColor: $icon-onHover-color !default;
 $Form-select-outer-borderWidth: px2rem(1px) !default;
@@ -1384,9 +1381,6 @@ $Panel-fixedBottom-borderTop: none !default;
 $Pagination-height: px2rem(30px) !default;
 $Pagination-minWidth: px2rem(30px) !default;
 $Pagination-padding: 0 px2rem(8px) !default;
-$Pagination-arrowVendor: 'FontAwesome' !default;
-$Pagination-prevArrowContent: '\f053' !default;
-$Pagination-nextArrowContent: '\f054' !default;
 $Pagination-fontSize: $fontSizeBase !default;
 $Pagination-onActive-backgroundColor: $primary !default;
 $Pagination-onActive-color: $white !default;

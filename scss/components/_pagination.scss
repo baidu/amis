@@ -63,18 +63,9 @@
     }
   }
 
-  &-prev,
-  &-next {
-    font-family: $Pagination-arrowVendor;
-  }
-
   &-prev {
     > span {
       cursor: pointer;
-
-      &::before {
-        content: $Pagination-prevArrowContent;
-      }
     }
   }
 
@@ -88,10 +79,6 @@
   &-next {
     > span {
       cursor: pointer;
-
-      &::before {
-        content: $Pagination-nextArrowContent;
-      }
     }
   }
 

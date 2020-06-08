@@ -195,7 +195,7 @@ export default class Pagination extends React.Component<
     pageButtons.unshift(
       <li
         className={cx('Pagination-prev', {
-          disabled: activePage === 1
+          'is-disabled': activePage === 1
         })}
         onClick={
           activePage === 1
@@ -204,14 +204,16 @@ export default class Pagination extends React.Component<
         }
         key="prev"
       >
-        <span />
+        <span>
+          <Icon icon="left-arrow" className="icon" />
+        </span>
       </li>
     );
 
     pageButtons.push(
       <li
         className={cx('Pagination-next', {
-          disabled: activePage === items
+          'is-disabled': activePage === items
         })}
         onClick={
           activePage === items
@@ -220,7 +222,9 @@ export default class Pagination extends React.Component<
         }
         key="next"
       >
-        <span />
+        <span>
+          <Icon icon="right-arrow" className="icon" />
+        </span>
       </li>
     );
 

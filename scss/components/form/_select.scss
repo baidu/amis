@@ -121,17 +121,16 @@
     justify-content: center;
     line-height: 1;
 
-    &:before {
+    > svg {
       transition: transform 0.3s;
-      content: $Form-select-caret-icon;
-      font-family: $Form-select-caret-vender;
-      font-size: $Form-select-caret-fontSize;
       display: inline-block;
       color: $Form-select-caret-iconColor;
+      width: 10px;
+      height: 10px;
     }
   }
 
-  &.is-opened &-arrow:before {
+  &.is-opened &-arrow > svg {
     transform: rotate(180deg);
   }
 
