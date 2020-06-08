@@ -13,7 +13,7 @@ amis 是一个前端低代码框架，它使用 JSON 配置来生成页面，可
 
 ```schema:height="500"
 {
-    "$schema": "http://amis.baidu.com/v2/schemas/page.json#",
+    "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",
     "title": "浏览器内核对 CSS 的支持情况",
     "remark": "嘿，不保证数据准确性",
     "type": "page",
