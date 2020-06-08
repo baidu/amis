@@ -62,7 +62,8 @@
   }
 
   &-dragTip {
-    color: $text--loud-color;
+    width: 100%;
+    color: $info;
     clear: both;
     margin-top: $gap-xs;
   }
@@ -130,7 +131,7 @@
 
   .#{$ns}Cards-toolbar {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
 }
 

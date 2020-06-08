@@ -347,3 +347,7 @@ svg.icon {
   position: relative;
   fill: currentColor;
 }
+
+svg.r90 {
+  transform: rotate(90deg);
+}

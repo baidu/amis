@@ -569,8 +569,8 @@ $QuickEdit-onFocus-borderColor: $info !default;
 $QuickEdit-onFocus-borderWidth: $borderWidth !default;
 
 // Copyable
-$Copyable-iconColor: inherit !default;
-$Copyable-onHover-iconColor: inherit !default;
+$Copyable-iconColor: $icon-color !default;
+$Copyable-onHover-iconColor: $icon-onHover-color !default;
 
 // PopOverAble
 $PopOverAble-iconColor: inherit !default;
@@ -1042,15 +1042,6 @@ $DatePicker-placeholderColor: $Form-input-placeholderColor !default;
 $DatePicker-iconColor: $icon-color !default;
 $DatePicker-onHover-iconColor: $icon-onHover-color !default;
 $DatePicker-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
-$DatePicker-toggler-vendor: 'FontAwesome' !default;
-$DatePicker-toggler-fontSize: $Form-fontSize !default;
-$DatePicker-toggler-icon: '\f073' !default;
-$DatePicker-prevBtn-vendor: 'FontAwesome' !default;
-$DatePicker-prevBtn-fontSize: $fontSizeMd !default;
-$DatePicker-prevBtn-icon: '\f104' !default;
-$DatePicker-nextBtn-vendor: 'FontAwesome' !default;
-$DatePicker-nextBtn-fontSize: $fontSizeMd !default;
-$DatePicker-nextBtn-icon: '\f105' !default;
 $DatePicker-header-select-borderColor: #fff !default;
 
 $Calendar-fontSize: $fontSizeBase !default;

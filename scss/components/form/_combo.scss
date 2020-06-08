@@ -22,6 +22,11 @@
   }
 
   &-addBtn {
+    > svg {
+      width: $Combo-addBtn-fontSize;
+      height: $Combo-addBtn-fontSize;
+    }
+
     font-size: $Combo-addBtn-fontSize;
 
     @include button-size(

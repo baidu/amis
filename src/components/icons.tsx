@@ -75,6 +75,21 @@ import ExchangeIcon from '../icons/exchange.svg';
 // @ts-ignore
 import ColmunsIcon from '../icons/columns.svg';
 
+// @ts-ignore
+import CalendarIcon from '../icons/calendar.svg';
+
+// @ts-ignore
+import CopyIcon from '../icons/copy.svg';
+
+// @ts-ignore
+import FilterIcon from '../icons/filter.svg';
+
+// @ts-ignore
+import CaretIcon from '../icons/caret.svg';
+
+// @ts-ignore
+import ColumnFilterIcon from '../icons/column-filter.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -141,6 +156,11 @@ registerIcon('drag-bar', DragBarIcon);
 registerIcon('reload', ReloadIcon);
 registerIcon('exchange', ExchangeIcon);
 registerIcon('columns', ColmunsIcon);
+registerIcon('calendar', CalendarIcon);
+registerIcon('copy', CopyIcon);
+registerIcon('filter', FilterIcon);
+registerIcon('column-filter', ColumnFilterIcon);
+registerIcon('caret', CaretIcon);
 
 export function Icon({
   icon,
