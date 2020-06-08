@@ -1552,8 +1552,16 @@
   }
 }
 
+.visible-xs {
+  display: none;
+}
+
 /*phone*/
 @media (max-width: 767px) {
+  .visible-xs {
+    display: block;
+  }
+
   .w-auto-xs {
     width: auto;
   }
