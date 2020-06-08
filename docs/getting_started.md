@@ -2,11 +2,14 @@
 title: 快速开始
 ---
 
-这是一个基于 React 框架的页面渲染器，有配置就能生成页面，配置是什么样的？请前往[基本用法](./basic.md)阅读。知道怎么配置后，就可以用以下方式用于自己的项目了。
+有两种方式使用 amis：
 
-如果你不会 React 也没关系可以看看 [JSSDK 用法](#JSSDK)。
+1. [React 组件](#React 组件)，可以整合到 React 项目中，适合熟悉 React 的开发者，可以[开发自定义组件进行扩展](../custom)。
+2. [JSSDK](#JSSDK)，可以放到任意页面中使用，能使用 amis 内置的渲染组件，但无法开发自定义组件，适合不使用 React 的项目或不熟悉前端的开发者。
 
-## 安装依赖
+## React 组件
+
+### 安装依赖
 
 直接通过 npm 安装即可。
 
@@ -14,9 +17,9 @@ title: 快速开始
 npm i amis
 ```
 
-## 如何使用？
+### 整合到 React 组件中
 
-可以在 React Component 这么使用。
+可以在 React Component 这么使用（TypeScript）。
 
 ```tsx
 import * as React from 'react';
@@ -83,21 +86,24 @@ class MyComponent extends React.Component<any, any> {
 
 参数说明：
 
-* `schema` 即页面配置，请前往[基本用法](./basic.md)了解.
-* `props` 一般都用不上，如果你想传递一些数据给渲染器内部使用，可以传递 data 数据进去。如：
+- `schema` 即页面配置，请前往[基本用法](./basic.md)了解.
+- `props` 一般都用不上，如果你想传递一些数据给渲染器内部使用，可以传递 data 数据进去。如：
 
   ```jsx
-  () => renderAmis(schema, {
-    data: {
-      username: 'amis'
-    }
-  })
+  () =>
+    renderAmis(schema, {
+      data: {
+        username: 'amis'
+      }
+    });
   ```
 
   这样，内部所有组件都能拿到 `username` 这个变量的值。
-* `env` 环境变量，可以理解为这个渲染器工具的配置项，需要调用者实现部分接口。
-  * `session: string` 默认为 'global'，决定 store 是否为全局共用的，如果想单占一个 store，请设置不同的值。
-  * `fetcher: (config: fetcherConfig) => Promise<fetcherResult>` 用来实现 ajax 发送。
+
+- `env` 环境变量，可以理解为这个渲染器工具的配置项，需要调用者实现部分接口。
+
+  - `session: string` 默认为 'global'，决定 store 是否为全局共用的，如果想单占一个 store，请设置不同的值。
+  - `fetcher: (config: fetcherConfig) => Promise<fetcherResult>` 用来实现 ajax 发送。
 
     示例
 
@@ -142,126 +148,135 @@ class MyComponent extends React.Component<any, any> {
         return (axios as any)[method](url, data, config);
     }
     ```
-  * `isCancel: (e:error) => boolean` 判断 ajax 异常是否为一个 cancel 请求。
+
+  - `isCancel: (e:error) => boolean` 判断 ajax 异常是否为一个 cancel 请求。
 
     示例
 
     ```js
     isCancel: (value: any) => (axios as any).isCancel(value)
     ```
-  * `notify: (type:string, msg: string) => void` 用来实现消息提示。
-  * `alert: (msg:string) => void` 用来实现警告提示。
-  * `confirm: (msg:string) => boolean | Promise<boolean>` 用来实现确认框。
-  * `jumpTo: (to:string, action?: Action, ctx?: object) => void` 用来实现页面跳转，因为不清楚所在环境中是否使用了 spa 模式，所以用户自己实现吧。
-  * `updateLocation: (location:any, replace?:boolean) => void` 地址替换，跟 jumpTo 类似。
-  * `isCurrentUrl: (link:string) => boolean` 判断目标地址是否为当前页面。
-  * `theme: 'default' | 'cxd'` 目前支持两种主题。 
-  * `copy: (contents:string, options?: {shutup: boolean}) => void` 用来实现，内容复制。
-  * `getModalContainer: () => HTMLElement` 用来决定弹框容器。
-  * `loadRenderer: (chema:any, path:string) => Promise<Function>` 可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。
-  * `affixOffsetTop: number` 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
-  * `affixOffsetBottom: number` 固底间距，当你的有其他固底元素时，需要设置一定的偏移量，否则会重叠。
-  * `richTextToken: string` 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
+
+  - `notify: (type:string, msg: string) => void` 用来实现消息提示。
+  - `alert: (msg:string) => void` 用来实现警告提示。
+  - `confirm: (msg:string) => boolean | Promise<boolean>` 用来实现确认框。
+  - `jumpTo: (to:string, action?: Action, ctx?: object) => void` 用来实现页面跳转，因为不清楚所在环境中是否使用了 spa 模式，所以用户自己实现吧。
+  - `updateLocation: (location:any, replace?:boolean) => void` 地址替换，跟 jumpTo 类似。
+  - `isCurrentUrl: (link:string) => boolean` 判断目标地址是否为当前页面。
+  - `theme: 'default' | 'cxd'` 目前支持两种主题。
+  - `copy: (contents:string, options?: {shutup: boolean}) => void` 用来实现，内容复制。
+  - `getModalContainer: () => HTMLElement` 用来决定弹框容器。
+  - `loadRenderer: (chema:any, path:string) => Promise<Function>` 可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。
+  - `affixOffsetTop: number` 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
+  - `affixOffsetBottom: number` 固底间距，当你的有其他固底元素时，需要设置一定的偏移量，否则会重叠。
+  - `richTextToken: string` 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
 
 ## JSSDK
 
-如果你没有组件定制需求直接使用，而且不想折腾 React 相关的，我建议你直接用这种方式。
+JSSDK 适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，直接引入代码就能使用，但需要注意这种方式不支持[定制组件](../sdk)，只能使用 amis 内置的组件。
 
-首先请引用一下 CSS 和 JS。
+JSSDK 的代码从以下地址获取：
 
-* JS 地址： https://houtai.baidu.com/v2/jssdk
-* CSS 地址： https://houtai.baidu.com/v2/csssdk
+- JS： https://houtai.baidu.com/v2/jssdk
+- CSS： https://houtai.baidu.com/v2/csssdk
 
-然后执行以下代码就能渲染了。
+然后在页面中插入下面的代码就能渲染出来了：
 
 ```js
-(function() {
-    var amis = amisRequire('amis/embed');
-    amis.embed('#container', {
-        type: 'page',
-        title: 'AMIS Demo',
-        body: 'This is a simple amis page.'
-    }, {
-        // props 一般不用传。
-    }, {
-        // env
-        fetcher: () => {
-            // 可以不传，用来实现 ajax 请求
-        },
+(function () {
+  var amis = amisRequire('amis/embed');
+  amis.embed(
+    '#container',
+    {
+      type: 'page',
+      title: 'AMIS Demo',
+      body: 'This is a simple amis page.'
+    },
+    {
+      // props 一般不用传。
+    },
+    {
+      // env
+      fetcher: () => {
+        // 可以不传，用来实现 ajax 请求
+      },
 
-        jumpTo: () => {
-            // 可以不传，用来实现页面跳转
-        },
+      jumpTo: () => {
+        // 可以不传，用来实现页面跳转
+      },
 
-        updateLocation: () => {
-            // 可以不传，用来实现地址栏更新
-        },
+      updateLocation: () => {
+        // 可以不传，用来实现地址栏更新
+      },
 
-        isCurrentUrl: () => {
-            // 可以不传，用来判断是否目标地址当前地址。
-        },
+      isCurrentUrl: () => {
+        // 可以不传，用来判断是否目标地址当前地址。
+      },
 
-        copy: () => {
-            // 可以不传，用来实现复制到剪切板
-        },
+      copy: () => {
+        // 可以不传，用来实现复制到剪切板
+      },
 
-        notify: () => {
-            // 可以不传，用来实现通知
-        },
+      notify: () => {
+        // 可以不传，用来实现通知
+      },
 
-        alert: () => {
-            // 可以不传，用来实现提示
-        },
+      alert: () => {
+        // 可以不传，用来实现提示
+      },
 
-        confirm: () => {
-            // 可以不传，用来实现确认框。
-        }
-    });
+      confirm: () => {
+        // 可以不传，用来实现确认框。
+      }
+    }
+  );
 })();
 ```
 
 注意：以上的 SDK 地址是一个页面跳转，会跳转到一个 CDN 地址，而且每次跳转都是最新的版本，随着 amis 的升级这个地址会一直变动，如果你的页面已经完成功能回归，请直接使用某个固定地址，这样才不会因为 amis 升级而导致你的页面不可用。
 
-另外，sdk 代码也伴随 npm 一起发布了，不使用 CDN 版本，直接替换成npm包里面的 `amis/sdk/sdk.js` 和 `amis/sdk/sdk.css` 即可。
+另外，sdk 代码也伴随 npm 一起发布了，不使用 CDN 版本，直接替换成 npm 包里面的 `amis/sdk.js` 和 `amis/sdk.css` 即可。
 
-示例:
+完整示例:
 
 ```html
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>AMIS Demo</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <link rel="stylesheet" 
-        href="https://houtai.baidu.com/v2/csssdk">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="amis/sdk.js" />
     <style>
-        html, body, .app-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+      html,
+      body,
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div id="root" class="app-wrapper"></div>
-    <script src="https://houtai.baidu.com/v2/jssdk"></script>
+    <script src="amis/sdk.css"></script>
     <script type="text/javascript">
-    (function() {
+      (function () {
         var amis = amisRequire('amis/embed');
         amis.embed('#root', {
-            type: 'page',
-            title: 'AMIS Demo',
-            body: 'hello world'
+          type: 'page',
+          title: 'AMIS Demo',
+          body: 'hello world'
         });
-    })();
+      })();
     </script>
-</body>
+  </body>
 </html>
 ```
-
