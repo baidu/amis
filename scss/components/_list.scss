@@ -82,6 +82,58 @@
   }
 }
 
+.#{$ns}ListGroup {
+  max-width: px2rem(400px);
+  display: flex;
+  flex-direction: column;
+
+  &-item {
+    position: relative;
+    display: block;
+    padding: $ListItem-paddingY $ListItem-paddingX;
+    margin-bottom: px2rem(-1px);
+    background-color: $white;
+    border: $ListItem-borderWidth solid $ListItem-borderColor;
+
+    &:first-child {
+      border-top-left-radius: $borderRadius;
+      border-top-right-radius: $borderRadius;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: $borderRadius;
+      border-bottom-right-radius: $borderRadius;
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      // todo
+      z-index: 1;
+    }
+
+    &.is-active {
+      // todo
+      z-index: 2;
+    }
+
+    &.is-disabled {
+      color: $text--muted-color;
+    }
+  }
+
+  &--expanded {
+    .#{$ns}ListGroup-item {
+      border-radius: $borderRadius;
+
+      margin-bottom: $gap-sm;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
 .#{$ns}ListItem {
   @include clearfix();
 
