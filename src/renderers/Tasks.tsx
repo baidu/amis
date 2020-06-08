@@ -7,6 +7,7 @@ import {Api, ApiObject, Payload} from '../types';
 import update from 'react-addons-update';
 import {isEffectiveApi, isApiOutdated} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
+import Spinner from '../components/Spinner';
 
 export interface TaskProps extends RendererProps {
   className?: string;
@@ -297,7 +298,11 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                   <td>{item.label}</td>
                   <td>
                     {item.status == loadingStatusCode ? (
-                      <i className="fa fa-spinner fa-spin fa-2x fa-fw" />
+                      <Spinner
+                        show
+                        icon="reload"
+                        spinnerClassName={cx('Task-spinner')}
+                      />
                     ) : item.status == canRetryStatusCode ? (
                       <a
                         onClick={() => this.submitTask(item, key, true)}

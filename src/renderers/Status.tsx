@@ -4,6 +4,7 @@ import {ServiceStore, IServiceStore} from '../store/service';
 import {Api, SchemaNode, PlainObject} from '../types';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
+import {Icon} from '../components/icons';
 
 export interface StatusProps extends RendererProps {
   className?: string;
@@ -15,8 +16,8 @@ export class StatusField extends React.Component<StatusProps, object> {
   static defaultProps: Partial<StatusProps> = {
     placeholder: '-',
     map: {
-      0: 'fa fa-times text-danger',
-      1: 'fa fa-check text-success'
+      0: 'svg-success',
+      1: 'svg-fail'
     },
     labelMap: {
       // 0: '失败',
@@ -47,9 +48,24 @@ export class StatusField extends React.Component<StatusProps, object> {
       }
 
       wrapClassName = `StatusField--${value}`;
-      viewValue = (
-        <i className={cx('StatusField-icon', map[value])} key="icon" />
+      let itemClassName = map[value];
+      let svgIcon: string = '';
+
+      itemClassName = itemClassName.replace(
+        /\bsvg-(.*)\b/,
+        (_: string, icon: string) => {
+          svgIcon = icon;
+          return 'icon';
+        }
       );
+
+      if (svgIcon) {
+        viewValue = (
+          <Icon icon={svgIcon} className={cx('Status-icon', itemClassName)} />
+        );
+      } else {
+        viewValue = <i className={cx('Status-icon', map[value])} key="icon" />;
+      }
 
       if (labelMap && labelMap[value]) {
         viewValue = [
