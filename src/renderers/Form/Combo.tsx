@@ -109,7 +109,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     draggableTip: '可拖拽排序',
     addButtonText: '新增',
     canAccessSuperData: false,
-    addIcon: 'fa fa-plus',
+    addIcon: true,
     dragIcon: '',
     deleteIcon: '',
     tabsMode: false,
@@ -771,7 +771,11 @@ export default class ComboControl extends React.Component<ComboProps> {
                     'add-button',
                     {
                       type: 'dropdown-button',
-                      icon: addIcon,
+                      icon: addIcon ? (
+                        <Icon icon="plus" className="icon m-r-xs" />
+                      ) : (
+                        ''
+                      ),
                       label: __(addButtonText || '新增'),
                       level: 'info',
                       size: 'sm',
@@ -793,7 +797,9 @@ export default class ComboControl extends React.Component<ComboProps> {
                     data-position="left"
                     data-tooltip={__('新增一条数据')}
                   >
-                    {addIcon ? <i className={cx('m-r-xs', addIcon)} /> : null}
+                    {addIcon ? (
+                      <Icon icon="plus" className="icon m-r-xs" />
+                    ) : null}
                     <span>{__(addButtonText || '新增')}</span>
                   </a>
                 )
@@ -1121,7 +1127,6 @@ export default class ComboControl extends React.Component<ComboProps> {
                   'add-button',
                   {
                     type: 'dropdown-button',
-                    icon: addIcon,
                     label: __(addButtonText || '新增'),
                     level: 'info',
                     size: 'sm',
@@ -1145,7 +1150,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   data-tooltip={__('新增一条数据')}
                 >
                   {addIcon ? (
-                    <i className={cx('Button-icon', addIcon)} />
+                    <Icon icon="plus" className="icon m-r-xs" />
                   ) : null}
                   <span>{__(addButtonText || '新增')}</span>
                 </button>

@@ -11,6 +11,7 @@ import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {Api} from '../types';
 import {ClassNamesFn, themeable} from '../theme';
+import {Icon} from '../components/icons';
 
 export interface Link {
   className?: string;
@@ -44,9 +45,7 @@ export class Navigation extends React.Component<
   NavigationProps,
   NavigationState
 > {
-  static defaultProps: Partial<NavigationProps> = {
-    togglerClassName: 'fa fa-angle-down'
-  };
+  static defaultProps: Partial<NavigationProps> = {};
 
   mounted: boolean = true;
   constructor(props: NavigationProps) {
@@ -280,10 +279,12 @@ export class Navigation extends React.Component<
         </a>
 
         {link.children && link.children.length ? (
-          <i
+          <span
             onClick={() => this.toggleLink(link)}
             className={cx('Nav-itemToggler', togglerClassName)}
-          />
+          >
+            <Icon icon="caret" className="icon" />
+          </span>
         ) : null}
 
         {link.children && link.children.length ? (

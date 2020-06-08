@@ -17,6 +17,7 @@ import Sortable from 'sortablejs';
 import {filter} from '../utils/tpl';
 import debounce from 'lodash/debounce';
 import {resizeSensor} from '../utils/resize-sensor';
+import {Icon} from '../components/icons';
 
 export interface Column {
   type: string;
@@ -524,7 +525,7 @@ export default class Cards extends React.Component<GridProps, object> {
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
-                <i className="fa fa-check m-r-xs" />
+                <Icon icon="check" className="icon m-r-xs" />
                 提交
               </button>
               <button
@@ -532,7 +533,7 @@ export default class Cards extends React.Component<GridProps, object> {
                 className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
+                <Icon icon="close" className="icon m-r-xs" />
                 放弃
               </button>
             </span>
@@ -544,7 +545,7 @@ export default class Cards extends React.Component<GridProps, object> {
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSaveOrder}
               >
-                <i className="fa fa-check m-r-xs" />
+                <Icon icon="check" className="icon m-r-xs" />
                 提交
               </button>
               <button
@@ -552,7 +553,7 @@ export default class Cards extends React.Component<GridProps, object> {
                 className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
+                <Icon icon="close" className="icon m-r-xs" />
                 放弃
               </button>
             </span>
@@ -577,7 +578,8 @@ export default class Cards extends React.Component<GridProps, object> {
       showHeader,
       render,
       store,
-      classnames: cx
+      classnames: cx,
+      translate: __
     } = this.props;
 
     if (showHeader === false) {
@@ -603,7 +605,7 @@ export default class Cards extends React.Component<GridProps, object> {
           {child}
           {store.dragging ? (
             <div className={cx('Cards-dragTip')} ref={this.dragTipRef}>
-              请拖动右边的按钮进行排序
+              {__('请拖动顶部的按钮进行排序')}
             </div>
           ) : null}
         </div>
@@ -691,7 +693,7 @@ export default class Cards extends React.Component<GridProps, object> {
   }
 
   renderDragToggler() {
-    const {store, multiple, selectable, env} = this.props;
+    const {store, multiple, selectable, env, translate: __} = this.props;
 
     if (!store.draggable || store.items.length < 2) {
       return null;
@@ -701,7 +703,7 @@ export default class Cards extends React.Component<GridProps, object> {
       <Button
         iconOnly
         key="dragging-toggle"
-        tooltip="对卡片进行排序操作"
+        tooltip={__('对卡片进行排序操作')}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
@@ -713,7 +715,7 @@ export default class Cards extends React.Component<GridProps, object> {
           store.dragging && store.clear();
         }}
       >
-        <i className="fa fa-exchange" />
+        <Icon icon="exchange" className="icon r90" />
       </Button>
     );
   }

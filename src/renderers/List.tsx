@@ -499,7 +499,7 @@ export default class List extends React.Component<ListProps, object> {
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
-                <i className="fa fa-check m-r-xs" />
+                <Icon icon="check" className="icon m-r-xs" />
                 提交
               </button>
               <button
@@ -507,7 +507,7 @@ export default class List extends React.Component<ListProps, object> {
                 className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
+                <Icon icon="close" className="icon m-r-xs" />
                 放弃
               </button>
             </span>
@@ -519,7 +519,7 @@ export default class List extends React.Component<ListProps, object> {
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSaveOrder}
               >
-                <i className="fa fa-check m-r-xs" />
+                <Icon icon="check" className="icon m-r-xs" />
                 提交
               </button>
               <button
@@ -527,7 +527,7 @@ export default class List extends React.Component<ListProps, object> {
                 className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
+                <Icon icon="close" className="icon m-r-xs" />
                 放弃
               </button>
             </span>
@@ -696,7 +696,7 @@ export default class List extends React.Component<ListProps, object> {
           store.dragging && store.clear();
         }}
       >
-        <i className="fa fa-exchange" />
+        <Icon icon="exchange" className="icon r90" />
       </Button>
     );
   }

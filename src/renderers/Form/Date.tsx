@@ -38,8 +38,7 @@ export default class DateControl extends React.PureComponent<
         step: 1
       }
     },
-    clearable: true,
-    iconClassName: 'fa fa-calendar'
+    clearable: true
   };
 
   componentWillMount() {

@@ -983,7 +983,7 @@ export default class Table extends React.Component<TableProps, object> {
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
-                <i className="fa fa-check m-r-xs" />
+                <Icon icon="check" className="icon m-r-xs" />
                 {__('提交')}
               </button>
               <button
@@ -991,7 +991,7 @@ export default class Table extends React.Component<TableProps, object> {
                 className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
+                <Icon icon="close" className="icon m-r-xs" />
                 {__('放弃')}
               </button>
             </span>
@@ -1005,7 +1005,7 @@ export default class Table extends React.Component<TableProps, object> {
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSaveOrder}
               >
-                <i className="fa fa-check m-r-xs" />
+                <Icon icon="check" className="icon m-r-xs" />
                 {__('提交')}
               </button>
               <button
@@ -1013,7 +1013,7 @@ export default class Table extends React.Component<TableProps, object> {
                 className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
+                <Icon icon="close" className="icon m-r-xs" />
                 {__('放弃')}
               </button>
             </span>
@@ -2311,7 +2311,9 @@ export class HeadCellSearchDropDown extends React.Component<
 
     return (
       <span className={cx(`${ns}TableCell-searchBtn`)}>
-        <i className="fa fa-search" onClick={this.open} />
+        <span onClick={this.open}>
+          <Icon icon="search" className="icon" />
+        </span>
         {this.state.isOpened ? (
           <Overlay
             container={popOverContainer || (() => findDOMNode(this))}
@@ -2510,7 +2512,9 @@ export class HeadCellFilterDropDown extends React.Component<
 
     return (
       <span className={cx(`${ns}TableCell-filterBtn`)}>
-        <i className="fa fa-filter" onClick={this.open} />
+        <span onClick={this.open}>
+          <Icon icon="column-filter" className="icon" />
+        </span>
         {isOpened ? (
           <Overlay
             container={popOverContainer || (() => findDOMNode(this))}

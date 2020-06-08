@@ -34,7 +34,7 @@
     }
   }
 
-  > li.disabled {
+  > li.is-disabled {
     > span,
     > a {
       cursor: not-allowed;
@@ -50,7 +50,7 @@
     }
   }
 
-  > li.active {
+  > li.is-active {
     > a,
     > span,
     > a:hover,

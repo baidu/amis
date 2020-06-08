@@ -6,13 +6,13 @@ import PopOver from '../components/PopOver';
 import cx from 'classnames';
 import {isVisible, noop} from '../utils/helper';
 import {filter} from '../utils/tpl';
+import {Icon} from '../components/icons';
 
 export interface DropDownButtonProps extends RendererProps {
   block?: boolean;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   align?: 'left' | 'right';
   buttons?: Array<any>;
-  caretIcon?: string;
   iconOnly?: boolean;
   defaultIsOpened?: boolean;
   closeOnOutside?: boolean;
@@ -30,9 +30,7 @@ export default class DropDownButton extends React.Component<
     isOpened: false
   };
 
-  static defaultProps = {
-    caretIcon: 'fa fa-angle-down'
-  };
+  static defaultProps = {};
 
   target: any;
   constructor(props: DropDownButtonProps) {
@@ -48,7 +46,7 @@ export default class DropDownButton extends React.Component<
     if (this.props.defaultIsOpened) {
       this.setState({
         isOpened: true
-      })
+      });
     }
   }
 
@@ -154,7 +152,6 @@ export default class DropDownButton extends React.Component<
       primary,
       className,
       classnames: cx,
-      caretIcon,
       align,
       iconOnly,
       icon,
@@ -189,9 +186,17 @@ export default class DropDownButton extends React.Component<
             size ? `Button--${size}` : ''
           )}
         >
-          {icon ? <i className={cx(icon, 'm-r-xs')} /> : null}
+          {icon ? (
+            typeof icon === 'string' ? (
+              <i className={cx(icon, 'm-r-xs')} />
+            ) : (
+              icon
+            )
+          ) : null}
           {typeof label === 'string' ? filter(label, data) : label}
-          <i className={cx('DropDown-caret', caretIcon)} />
+          <span className={cx('DropDown-caret')}>
+            <Icon icon="caret" className="icon" />
+          </span>
         </button>
 
         {this.state.isOpened ? this.renderOuter() : null}

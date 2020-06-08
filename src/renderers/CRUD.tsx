@@ -29,6 +29,7 @@ import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import Html from '../components/Html';
 import {Spinner} from '../components';
+import {Icon} from '../components/icons';
 
 export interface CRUDProps extends RendererProps {
   api?: Api;
@@ -1402,7 +1403,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             this.search({page: page + 1, loadDataMode: 'load-more'})
           }
           size="sm"
-          className="btn-primary"
         >
           {__('加载更多')}
         </Button>
@@ -1426,7 +1426,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'is-active': store.filterVisible
         })}
       >
-        <i className="fa fa-sliders m-r-sm" />
+        <Icon icon="filter" className="icon m-r-xs" />
         {__('筛选')}
       </button>
     );

@@ -12,6 +12,7 @@ import QuickEdit from './QuickEdit';
 import PopOver from './PopOver';
 import {TableCell} from './Table';
 import Copyable from './Copyable';
+import {Icon} from '../components/icons';
 
 export interface CardProps extends RendererProps {
   onCheck: (item: IItem) => void;
@@ -115,7 +116,7 @@ export class Card extends React.Component<CardProps> {
     if (dragging) {
       return (
         <div className={cx('Card-dragBtn')}>
-          <i className="fa fa-exchange" />
+          <Icon icon="drag-bar" className="icon" />
         </div>
       );
     } else if (selectable && !hideCheckToggler) {
