@@ -90,6 +90,11 @@ import CaretIcon from '../icons/caret.svg';
 // @ts-ignore
 import ColumnFilterIcon from '../icons/column-filter.svg';
 
+// @ts-ignore
+import ZoomInIcon from '../icons/zoom-in.svg';
+// @ts-ignore
+import ZoomOutIcon from '../icons/zoom-out.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -161,6 +166,8 @@ registerIcon('copy', CopyIcon);
 registerIcon('filter', FilterIcon);
 registerIcon('column-filter', ColumnFilterIcon);
 registerIcon('caret', CaretIcon);
+registerIcon('zoom-in', ZoomInIcon);
+registerIcon('zoom-out', ZoomOutIcon);
 
 export function Icon({
   icon,

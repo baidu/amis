@@ -179,13 +179,7 @@ export default {
         name: 'platform',
         label: 'Platform(s)',
         popOver: {
-          body: {
-            type: 'tpl',
-            tpl: '偏了一点的popover'
-          },
-          offset: {
-            y: 100
-          }
+          body: 'Popover 内容：${platform}'
         },
         sortable: true,
         type: 'text',
