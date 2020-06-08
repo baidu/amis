@@ -168,9 +168,7 @@ $Layout-asideLink-fontSize: $fontSizeBase !default;
 $Layout-asideLink-color: #b4b6bd !default;
 $Layout-asideLink-onHover-color: #fff !default;
 $Layout-asideLink-onActive-color: #fff !default;
-$Layout-asideLink-arrowVendor: 'FontAwesome' !default;
-$Layout-asideLink-arrowFontSize: $fontFamilyBase !default;
-$Layout-asideLink-arrowIcon: '\f105' !default;
+
 $Layout-asideLink-arrowColor: $Layout-asideLink-color !default;
 $Layout-asideLink-onActive-arrowColor: $Layout-asideLink-onActive-color !default;
 $Layout-asideLabel-color: darken($Layout-aside-color, 10%) !default;
