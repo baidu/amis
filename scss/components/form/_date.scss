@@ -60,15 +60,6 @@
     &:hover {
       color: $DatePicker-onHover-iconColor;
     }
-
-    &:before {
-      line-height: 1;
-      color: inherit;
-      content: $DatePicker-toggler-icon;
-      display: inline-block;
-      font-size: $DatePicker-toggler-fontSize;
-      font-family: $DatePicker-toggler-vendor;
-    }
   }
 
   &-clear {
@@ -301,18 +292,6 @@
   color: inherit;
   font-style: normal;
   line-height: 1;
-}
-
-.rdtBtnPrev:before {
-  font-family: $DatePicker-prevBtn-vendor;
-  font-size: $DatePicker-prevBtn-fontSize;
-  content: $DatePicker-prevBtn-icon;
-}
-
-.rdtBtnNext:before {
-  font-family: $DatePicker-nextBtn-vendor;
-  font-size: $DatePicker-nextBtn-fontSize;
-  content: $DatePicker-nextBtn-icon;
 }
 
 .rdtPrev,

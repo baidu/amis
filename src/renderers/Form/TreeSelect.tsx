@@ -12,6 +12,7 @@ import debouce from 'lodash/debounce';
 import find from 'lodash/find';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
+import Spinner from '../../components/Spinner';
 
 export interface TreeSelectProps extends OptionsControlProps {
   placeholder?: any;
@@ -39,8 +40,7 @@ export default class TreeSelectControl extends React.Component<
     joinValues: true,
     extractValue: false,
     delimiter: ',',
-    resetValue: '',
-    spinnerClassName: 'fa fa-spinner fa-spin fa-1x fa-fw'
+    resetValue: ''
   };
 
   container: React.RefObject<HTMLDivElement>;
@@ -456,7 +456,6 @@ export default class TreeSelectControl extends React.Component<
     const {
       className,
       disabled,
-      spinnerClassName,
       inline,
       loading,
       multiple,
@@ -521,9 +520,11 @@ export default class TreeSelectControl extends React.Component<
             ) : null}
 
             {loading ? (
-              <span className={cx('TreeSelect-spinner')}>
-                <i className={spinnerClassName} />
-              </span>
+              <Spinner
+                show
+                icon="reload"
+                spinnerClassName={cx('TreeSelect-spinner')}
+              />
             ) : null}
             <span className={cx('TreeSelect-arrow')} />
           </div>

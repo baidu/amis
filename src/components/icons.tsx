@@ -64,10 +64,42 @@ import InfoIcon from '../icons/info.svg';
 import LocationIcon from '../icons/location.svg';
 
 // @ts-ignore
-import ComboDraggerIcon from '../icons/combo-dragger.svg';
+import DragBarIcon from '../icons/drag-bar.svg';
 
 // @ts-ignore
 import ReloadIcon from '../icons/reload.svg';
+
+// @ts-ignore
+import ExchangeIcon from '../icons/exchange.svg';
+
+// @ts-ignore
+import ColmunsIcon from '../icons/columns.svg';
+
+// @ts-ignore
+import CalendarIcon from '../icons/calendar.svg';
+
+// @ts-ignore
+import CopyIcon from '../icons/copy.svg';
+
+// @ts-ignore
+import FilterIcon from '../icons/filter.svg';
+
+// @ts-ignore
+import CaretIcon from '../icons/caret.svg';
+
+// @ts-ignore
+import ColumnFilterIcon from '../icons/column-filter.svg';
+
+// @ts-ignore
+import ZoomInIcon from '../icons/zoom-in.svg';
+// @ts-ignore
+import ZoomOutIcon from '../icons/zoom-out.svg';
+
+// @ts-ignore
+import QuestionIcon from '../icons/question.svg';
+
+// @ts-ignore
+import WindowRestoreIcon from '../icons/window-restore.svg';
 
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
@@ -117,6 +149,7 @@ registerIcon('prev', LeftArrowIcon);
 registerIcon('next', RightArrowIcon);
 registerIcon('check', CheckIcon);
 registerIcon('plus', PlusIcon);
+registerIcon('add', PlusIcon);
 registerIcon('minus', MinusIcon);
 registerIcon('pencil', PencilIcon);
 registerIcon('view', ViewIcon);
@@ -131,8 +164,19 @@ registerIcon('back', BackIcon);
 registerIcon('move', MoveIcon);
 registerIcon('info', InfoIcon);
 registerIcon('location', LocationIcon);
-registerIcon('combo-dragger', ComboDraggerIcon);
+registerIcon('drag-bar', DragBarIcon);
 registerIcon('reload', ReloadIcon);
+registerIcon('exchange', ExchangeIcon);
+registerIcon('columns', ColmunsIcon);
+registerIcon('calendar', CalendarIcon);
+registerIcon('copy', CopyIcon);
+registerIcon('filter', FilterIcon);
+registerIcon('column-filter', ColumnFilterIcon);
+registerIcon('caret', CaretIcon);
+registerIcon('zoom-in', ZoomInIcon);
+registerIcon('zoom-out', ZoomOutIcon);
+registerIcon('question', QuestionIcon);
+registerIcon('window-restore', WindowRestoreIcon);
 
 export function Icon({
   icon,

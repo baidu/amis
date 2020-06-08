@@ -24,6 +24,7 @@ import Checkbox from './Checkbox';
 import Input from './Input';
 import {Api} from '../types';
 import {LocaleProps, localeable} from '../locale';
+import Spinner from './Spinner';
 
 export interface Option {
   label?: string;
@@ -330,7 +331,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     placeholder: '请选择',
     valueField: 'value',
     labelField: 'label',
-    spinnerClassName: 'fa fa-spinner fa-spin fa-1x fa-fw',
     inline: false,
     disabled: false,
     checkAll: false,
@@ -871,7 +871,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
       className,
       value,
       loading,
-      spinnerClassName,
       clearable,
       labelField,
       disabled,
@@ -927,12 +926,16 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 </a>
               ) : null}
               {loading ? (
-                <span className={cx('Select-spinner')}>
-                  <i className={spinnerClassName} />
-                </span>
+                <Spinner
+                  show
+                  icon="reload"
+                  spinnerClassName={cx('Select-spinner')}
+                />
               ) : null}
 
-              <span className={cx('Select-arrow')} />
+              <span className={cx('Select-arrow')}>
+                <Icon icon="caret" className="icon" />
+              </span>
               {isOpen ? this.renderOuter(options) : null}
             </div>
           );

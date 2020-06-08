@@ -4,6 +4,7 @@ import cx from 'classnames';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import {createObject} from '../../utils/helper';
+import {Icon} from '../../components/icons';
 
 export interface SubFormProps extends FormControlProps {
   placeholder?: string;
@@ -210,7 +211,7 @@ export default class SubFormControl extends React.PureComponent<
         disabled={disabled}
         data-tooltip={__('新增一条数据')}
       >
-        <i className="fa fa-plus m-r-xs" />
+        <Icon icon="plus" className="icon m-r-xs" />
         <span>{__('新增')}</span>
       </button>
     ];

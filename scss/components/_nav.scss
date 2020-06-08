@@ -1,7 +1,12 @@
 .#{$ns}Nav {
   list-style: none;
+  user-select: none;
   margin: 0;
   padding: 0;
+
+  .#{$ns}Nav-itemIcon {
+    margin-right: $gap-xs;
+  }
 
   &--tabs {
     border-bottom: $Tabs-borderWidth solid $Tabs-borderColor;
@@ -45,10 +50,6 @@
         border-color: $Tabs-onActive-borderColor;
         border-bottom-color: $Tabs-content-bg;
       }
-    }
-
-    .#{$ns}Nav-itemIcon {
-      margin-right: $gap-xs;
     }
   }
 
@@ -111,6 +112,12 @@
         cursor: pointer;
         transform: scale(0.8);
         transition: transform 0.3s;
+
+        > svg {
+          width: 10px;
+          height: 10px;
+          top: 0;
+        }
       }
 
       .#{$ns}Nav-subItems {

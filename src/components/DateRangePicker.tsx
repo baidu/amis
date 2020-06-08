@@ -27,7 +27,6 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   inputFormat?: string;
   ranges?: string | Array<ShortCuts>;
   clearable?: boolean;
-  iconClassName?: string;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
   joinValues: boolean;
@@ -165,7 +164,6 @@ export class DateRangePicker extends React.Component<
     clearable: true,
     delimiter: ',',
     ranges: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
-    iconClassName: 'fa fa-calendar',
     resetValue: '',
     closeOnSelect: true,
     overlayPlacement: 'auto'
@@ -525,7 +523,7 @@ export class DateRangePicker extends React.Component<
       timeFormat,
       ranges,
       disabled,
-      iconClassName,
+      locale,
       overlayPlacement
     } = this.props;
 
@@ -582,7 +580,7 @@ export class DateRangePicker extends React.Component<
         ) : null}
 
         <a className={`${ns}DateRangePicker-toggler`}>
-          <i className={iconClassName} />
+          <Icon icon="calendar" className="icon" />
         </a>
 
         {isOpened ? (
@@ -616,6 +614,7 @@ export class DateRangePicker extends React.Component<
                   input={false}
                   onClose={this.close}
                   renderDay={this.renderDay}
+                  locale={locale}
                 />
 
                 <Calendar
@@ -632,6 +631,7 @@ export class DateRangePicker extends React.Component<
                   input={false}
                   onClose={this.close}
                   renderDay={this.renderDay}
+                  locale={locale}
                 />
 
                 <div key="button" className={`${ns}DateRangePicker-actions`}>

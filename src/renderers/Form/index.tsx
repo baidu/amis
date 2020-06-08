@@ -465,7 +465,7 @@ export default class Form extends React.Component<FormProps, object> {
 
     return store.submit(
       fn,
-      this.hooks['validate' || []],
+      this.hooks['validate'] || [],
       __(messages && messages.validateFailed)
     );
   }

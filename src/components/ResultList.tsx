@@ -144,10 +144,7 @@ export class ResultList extends React.Component<ResultListProps> {
                 key={index}
               >
                 {sortable && !disabled && value.length > 1 ? (
-                  <Icon
-                    className={cx('Selections-dragbar')}
-                    icon="combo-dragger"
-                  />
+                  <Icon className={cx('Selections-dragbar')} icon="drag-bar" />
                 ) : null}
 
                 <label>{itemRender(option)}</label>

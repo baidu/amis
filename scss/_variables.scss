@@ -168,9 +168,7 @@ $Layout-asideLink-fontSize: $fontSizeBase !default;
 $Layout-asideLink-color: #b4b6bd !default;
 $Layout-asideLink-onHover-color: #fff !default;
 $Layout-asideLink-onActive-color: #fff !default;
-$Layout-asideLink-arrowVendor: 'FontAwesome' !default;
-$Layout-asideLink-arrowFontSize: $fontFamilyBase !default;
-$Layout-asideLink-arrowIcon: '\f105' !default;
+
 $Layout-asideLink-arrowColor: $Layout-asideLink-color !default;
 $Layout-asideLink-onActive-arrowColor: $Layout-asideLink-onActive-color !default;
 $Layout-asideLabel-color: darken($Layout-aside-color, 10%) !default;
@@ -569,8 +567,8 @@ $QuickEdit-onFocus-borderColor: $info !default;
 $QuickEdit-onFocus-borderWidth: $borderWidth !default;
 
 // Copyable
-$Copyable-iconColor: inherit !default;
-$Copyable-onHover-iconColor: inherit !default;
+$Copyable-iconColor: $icon-color !default;
+$Copyable-onHover-iconColor: $icon-onHover-color !default;
 
 // PopOverAble
 $PopOverAble-iconColor: inherit !default;
@@ -724,9 +722,6 @@ $Form-selectValue-borderColor: saturate(
   2.5%
 ) !default;
 $Form-selectValue-fontSize: $fontSizeSm !default;
-$Form-select-caret-vender: 'FontAwesome' !default;
-$Form-select-caret-icon: '\f0d7' !default;
-$Form-select-caret-fontSize: $fontSizeBase !default;
 $Form-select-caret-iconColor: $icon-color !default;
 $Form-select-caret-onHover-iconColor: $icon-onHover-color !default;
 $Form-select-outer-borderWidth: px2rem(1px) !default;
@@ -1042,15 +1037,6 @@ $DatePicker-placeholderColor: $Form-input-placeholderColor !default;
 $DatePicker-iconColor: $icon-color !default;
 $DatePicker-onHover-iconColor: $icon-onHover-color !default;
 $DatePicker-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
-$DatePicker-toggler-vendor: 'FontAwesome' !default;
-$DatePicker-toggler-fontSize: $Form-fontSize !default;
-$DatePicker-toggler-icon: '\f073' !default;
-$DatePicker-prevBtn-vendor: 'FontAwesome' !default;
-$DatePicker-prevBtn-fontSize: $fontSizeMd !default;
-$DatePicker-prevBtn-icon: '\f104' !default;
-$DatePicker-nextBtn-vendor: 'FontAwesome' !default;
-$DatePicker-nextBtn-fontSize: $fontSizeMd !default;
-$DatePicker-nextBtn-icon: '\f105' !default;
 $DatePicker-header-select-borderColor: #fff !default;
 
 $Calendar-fontSize: $fontSizeBase !default;
@@ -1211,7 +1197,7 @@ $Combo--vertical-itemToolbar-positionTop: -$Combo--vertical-itemToolbar-height !
 $Combo--vertical-itemToolbar-positionRight: px2rem(5px) !default;
 
 $Combo--horizontal-item-gap: px2rem(5px);
-$Combo--horizontal-dragger-top: px2rem(8px) !default;
+$Combo--horizontal-dragger-top: px2rem(10px) !default;
 
 // Sub Form
 $SubForm--addBtn-bg: $Button--info-bg !default;
@@ -1395,9 +1381,6 @@ $Panel-fixedBottom-borderTop: none !default;
 $Pagination-height: px2rem(30px) !default;
 $Pagination-minWidth: px2rem(30px) !default;
 $Pagination-padding: 0 px2rem(8px) !default;
-$Pagination-arrowVendor: 'FontAwesome' !default;
-$Pagination-prevArrowContent: '\f053' !default;
-$Pagination-nextArrowContent: '\f054' !default;
 $Pagination-fontSize: $fontSizeBase !default;
 $Pagination-onActive-backgroundColor: $primary !default;
 $Pagination-onActive-color: $white !default;
@@ -1491,6 +1474,3 @@ $Carousel-imageDescription-bottom: px2rem(25px) !default;
 // Picker
 $Picker-iconColor: $icon-color !default;
 $Picker-onHover-iconColor: $icon-onHover-color !default;
-$Picker-btn-vendor: 'FontAwesome' !default;
-$Picker-btn-fontSize: $Form-fontSize !default;
-$Picker-btn-icon: '\f2d2' !default;

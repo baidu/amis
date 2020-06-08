@@ -11,6 +11,7 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import {RootCloseWrapper} from 'react-overlays';
 import PopOver, {Offset} from '../components/PopOver';
 import Overlay from '../components/Overlay';
+import {Icon} from '../components/icons';
 
 export interface PopOverConfig {
   saveImmediately?: boolean;
@@ -212,11 +213,13 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
             noHoc
             ref={this.targetRef}
           />
-          <i
+          <span
             key="popover-btn"
-            className={cx('Field-popOverBtn fa fa-search-plus')}
+            className={cx('Field-popOverBtn')}
             onClick={this.openPopOver}
-          />
+          >
+            <Icon icon="zoom-in" className="icon" />
+          </span>
           {this.state.isOpened ? this.renderPopOver() : null}
         </Component>
       );
