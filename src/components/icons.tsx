@@ -95,6 +95,12 @@ import ZoomInIcon from '../icons/zoom-in.svg';
 // @ts-ignore
 import ZoomOutIcon from '../icons/zoom-out.svg';
 
+// @ts-ignore
+import QuestionIcon from '../icons/question.svg';
+
+// @ts-ignore
+import WindowRestoreIcon from '../icons/window-restore.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -169,6 +175,8 @@ registerIcon('column-filter', ColumnFilterIcon);
 registerIcon('caret', CaretIcon);
 registerIcon('zoom-in', ZoomInIcon);
 registerIcon('zoom-out', ZoomOutIcon);
+registerIcon('question', QuestionIcon);
+registerIcon('window-restore', WindowRestoreIcon);
 
 export function Icon({
   icon,
