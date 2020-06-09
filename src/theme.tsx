@@ -135,6 +135,7 @@ export function themeable<
     Omit<React.ComponentProps<T>, keyof ThemeProps>
   > & {
     theme?: string;
+    className?: string;
     classPrefix?: string;
     classnames?: ClassNamesFn;
   };
