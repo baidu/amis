@@ -49,6 +49,7 @@ import ResultBox from './ResultBox';
 import InputBox from './InputBox';
 import ListRadios from './ListRadios';
 import TreeRadios from './TreeRadios';
+import ListGroup from './ListGroup';
 
 export {
   NotFound,
@@ -100,5 +101,6 @@ export {
   ResultBox,
   InputBox,
   ListRadios,
-  TreeRadios
+  TreeRadios,
+  ListGroup
 };
