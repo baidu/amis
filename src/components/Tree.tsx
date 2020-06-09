@@ -568,12 +568,14 @@ export class TreeSelector extends React.Component<
               })}
             >
               {!isLeaf ? (
-                <i
+                <div
                   onClick={() => this.toggleUnfolded(item)}
                   className={cx('Tree-itemArrow', {
                     'is-folded': !unfolded[item[valueField]]
                   })}
-                />
+                >
+                  <Icon icon="right-arrow-bold" className="icon" />
+                </div>
               ) : (
                 <span className={cx('Tree-itemArrowPlaceholder')} />
               )}
@@ -597,7 +599,12 @@ export class TreeSelector extends React.Component<
                         (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')
                       }`
                     )}
-                  />
+                  >
+                    <Icon
+                      icon={childrenItems ? 'folder' : 'file'}
+                      className="icon"
+                    />
+                  </i>
                 ) : null}
 
                 {highlightTxt
@@ -734,7 +741,9 @@ export class TreeSelector extends React.Component<
                     onClick={this.clearSelect}
                   >
                     {showIcon ? (
-                      <i className={cx('Tree-itemIcon Tree-rootIcon')} />
+                      <i className={cx('Tree-itemIcon Tree-rootIcon')}>
+                        <Icon icon="home" className="icon" />
+                      </i>
                     ) : null}
                     {rootLabel}
                   </span>

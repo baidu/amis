@@ -17,11 +17,19 @@ export class StatusField extends React.Component<StatusProps, object> {
     placeholder: '-',
     map: {
       0: 'svg-success',
-      1: 'svg-fail'
+      1: 'svg-fail',
+      success: 'svg-success',
+      pending: 'rolling',
+      fail: 'svg-fail',
+      queue: 'svg-warning',
+      schedule: 'svg-schedule'
     },
     labelMap: {
-      // 0: '失败',
-      // 1: '成功'
+      success: '成功',
+      pending: '运行中',
+      fail: '失败',
+      queue: '排队中',
+      schedule: '调度中'
     }
   };
 
@@ -48,11 +56,11 @@ export class StatusField extends React.Component<StatusProps, object> {
       }
 
       wrapClassName = `StatusField--${value}`;
-      let itemClassName = map[value];
+      let itemClassName = map[value] || '';
       let svgIcon: string = '';
 
       itemClassName = itemClassName.replace(
-        /\bsvg-(.*)\b/,
+        /\bsvg-([^\s|$]+)\b/g,
         (_: string, icon: string) => {
           svgIcon = icon;
           return 'icon';
@@ -63,8 +71,10 @@ export class StatusField extends React.Component<StatusProps, object> {
         viewValue = (
           <Icon icon={svgIcon} className={cx('Status-icon', itemClassName)} />
         );
-      } else {
-        viewValue = <i className={cx('Status-icon', map[value])} key="icon" />;
+      } else if (itemClassName) {
+        viewValue = (
+          <i className={cx('Status-icon', itemClassName)} key="icon" />
+        );
       }
 
       if (labelMap && labelMap[value]) {

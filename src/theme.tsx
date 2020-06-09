@@ -27,6 +27,9 @@ interface ThemeConfig {
   renderers?: {
     [propName: string]: any;
   };
+  components?: {
+    [propName: string]: any;
+  };
 
   [propsName: string]: any;
 }
@@ -66,6 +69,7 @@ export function makeClassnames(ns?: string) {
 
 export type ThemeInstance = ThemeConfig & {
   getRendererConfig: (name?: string) => any;
+  getComponentConfig: (name?: string) => any;
   classnames: ClassNamesFn;
 };
 
@@ -104,6 +108,11 @@ export function getTheme(theme: string): ThemeInstance {
     config.classnames = config.classnames || makeClassnames(ns);
   }
 
+  if (!config.getComponentConfig) {
+    config.getComponentConfig = (name?: string) =>
+      config.components && name ? config.components[name] : null;
+  }
+
   return config as ThemeInstance;
 }
 
@@ -117,7 +126,9 @@ export const ThemeContext = React.createContext('theme');
 export let defaultTheme: string = 'default';
 
 export function themeable<
-  T extends React.ComponentType<React.ComponentProps<T> & ThemeProps>
+  T extends React.ComponentType<React.ComponentProps<T> & ThemeProps> & {
+    themeKey?: string;
+  }
 >(ComposedComponent: T) {
   type OuterProps = JSX.LibraryManagedAttributes<
     T,
@@ -152,6 +163,7 @@ export function themeable<
         return (
           <ThemeContext.Provider value={theme}>
             <ComposedComponent
+              {...config.getComponentConfig(ComposedComponent.themeKey)}
               {...(this.props as JSX.LibraryManagedAttributes<
                 T,
                 React.ComponentProps<T>

@@ -752,33 +752,35 @@ export class App extends React.PureComponent {
         </div>
         <div className={`${theme.ns}Layout-headerBar`}>
           <div className="nav navbar-nav hidden-xs">
-            <Button
-              theme={this.state.theme.value}
-              level="link"
-              className="no-shadow navbar-btn"
-              onClick={this.toggleAside}
-              tooltip="展开或收起侧边栏"
-              placement="bottom"
-              iconOnly
-            >
-              <i
-                className={
-                  this.state.asideFolded ? 'fa fa-indent' : 'fa fa-dedent'
-                }
-              />
-            </Button>
+            <div id="headerLeftBtns" className="m-t-sm">
+              <Button
+                theme={this.state.theme.value}
+                level="link"
+                className="no-shadow navbar-btn"
+                onClick={this.toggleAside}
+                tooltip="展开或收起侧边栏"
+                placement="bottom"
+                iconOnly
+              >
+                <i
+                  className={
+                    this.state.asideFolded ? 'fa fa-indent' : 'fa fa-dedent'
+                  }
+                />
+              </Button>
 
-            <Button
-              theme={this.state.theme.value}
-              level="link"
-              className="no-shadow navbar-btn"
-              href="https://github.com/baidu/amis"
-              tooltip="前往 Github 仓库地址"
-              placement="bottom"
-              iconOnly
-            >
-              <i className={'fa fa-github'} />
-            </Button>
+              <Button
+                theme={this.state.theme.value}
+                level="link"
+                className="no-shadow navbar-btn"
+                href="https://github.com/baidu/amis"
+                tooltip="前往 Github 仓库地址"
+                placement="bottom"
+                iconOnly
+              >
+                <i className={'fa fa-github'} />
+              </Button>
+            </div>
           </div>
 
           <div className="hidden-xs p-t-sm pull-right m-l-sm">
