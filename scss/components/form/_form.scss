@@ -30,9 +30,6 @@
 .#{$ns}Form-star {
   color: $red;
   font-size: $fontSizeXs;
-  position: absolute;
-  left: px2rem(-6px);
-  top: px2rem(3px);
   line-height: 1;
 }
 
@@ -89,6 +86,12 @@
   &--normal {
     > .#{$ns}Form-label {
       display: block;
+
+      .#{$ns}Form-star {
+        position: absolute;
+        left: px2rem(-6px);
+        top: px2rem(3px);
+      }
     }
   }
 
@@ -202,6 +205,12 @@
       > .#{$ns}Form-label {
         padding-top: $Form-label-paddingTop;
         margin-bottom: 0;
+
+        .#{$ns}Form-star {
+          position: absolute;
+          left: px2rem(-6px);
+          top: px2rem(3px);
+        }
       }
 
       .#{$ns}Form-itemColumn--xs {
