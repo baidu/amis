@@ -478,32 +478,32 @@
   &Cell-sortBtn {
     cursor: pointer;
     width: $TableCell-sortBtn-width;
+    height: px2rem(20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     right: $TableCell-paddingX - $TableCell-sortBtn-width / 2;
     top: 50%;
     transform: translateY(-50%);
-    color: $Table-thead-iconColor;
+    color: $icon-color;
 
-    &--up:before {
-      display: inline-block;
-      content: $TableCell-sortBtn--up-icon;
-      font-family: $TableCell-sortBtn--up-iconVendor;
+    &:hover {
+      color: $icon-onHover-color;
     }
 
-    &--down:before {
-      display: inline-block;
-      content: $TableCell-sortBtn--down-icon;
-      font-family: $TableCell-sortBtn--down-iconVendor;
-    }
-
-    &--default:before {
-      display: inline-block;
-      content: $TableCell-sortBtn--default-icon;
-      font-family: $TableCell-sortBtn--default-iconVendor;
+    &--up > svg,
+    &--down > svg,
+    &--default > svg {
+      color: inherit;
+      width: 12x;
+      height: 12px;
     }
 
     &--up,
-    &--down {
+    &--down,
+    &--default {
       display: none;
       position: absolute;
       z-index: 2;
@@ -515,13 +515,8 @@
     }
 
     &--default {
-      font-style: normal;
-      z-index: 1;
-      display: inline-block;
-      opacity: $TableCell-sortBtn--default-opacity;
-
       &.is-active {
-        opacity: $TableCell-sortBtn--default-onActive-opacity;
+        color: $text--muted-color;
       }
     }
   }

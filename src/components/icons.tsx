@@ -104,6 +104,30 @@ import QuestionIcon from '../icons/question.svg';
 // @ts-ignore
 import WindowRestoreIcon from '../icons/window-restore.svg';
 
+// @ts-ignore
+import InfoCircleIcon from '../icons/info-circle.svg';
+
+// @ts-ignore
+import WarningIcon from '../icons/warning.svg';
+
+// @ts-ignore
+import ScheduleIcon from '../icons/schedule.svg';
+
+// @ts-ignore
+import HomeIcon from '../icons/home.svg';
+
+// @ts-ignore
+import FolderIcon from '../icons/folder.svg';
+
+// @ts-ignore
+import SortDefaultIcon from '../icons/sort-default.svg';
+
+// @ts-ignore
+import SortAscIcon from '../icons/sort-asc.svg';
+
+// @ts-ignore
+import SortDescIcon from '../icons/sort-desc.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -162,10 +186,12 @@ registerIcon('upload', UploadIcon);
 registerIcon('file', FileIcon);
 registerIcon('success', SuccessIcon);
 registerIcon('fail', FailIcon);
+registerIcon('warning', WarningIcon);
 registerIcon('search', SearchIcon);
 registerIcon('back', BackIcon);
 registerIcon('move', MoveIcon);
 registerIcon('info', InfoIcon);
+registerIcon('info-circle', InfoCircleIcon);
 registerIcon('location', LocationIcon);
 registerIcon('drag-bar', DragBarIcon);
 registerIcon('reload', ReloadIcon);
@@ -181,9 +207,16 @@ registerIcon('zoom-in', ZoomInIcon);
 registerIcon('zoom-out', ZoomOutIcon);
 registerIcon('question', QuestionIcon);
 registerIcon('window-restore', WindowRestoreIcon);
+registerIcon('schedule', ScheduleIcon);
+registerIcon('home', HomeIcon);
+registerIcon('folder', FolderIcon);
+registerIcon('sort-default', SortDefaultIcon);
+registerIcon('sort-asc', SortAscIcon);
+registerIcon('sort-desc', SortDescIcon);
 
 export function Icon({
   icon,
+  className,
   ...rest
 }: {
   icon: string;
@@ -195,7 +228,7 @@ export function Icon({
 
   const Component = getIcon(icon);
   return Component ? (
-    <Component {...rest} />
+    <Component {...rest} className={`${className || ''} icon-${icon}`} />
   ) : (
     <span className="text-danger">没有 icon {icon}</span>
   );

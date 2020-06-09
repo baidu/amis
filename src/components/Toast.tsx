@@ -53,6 +53,7 @@ interface ToastComponentProps extends ThemeProps, LocaleProps {
     | 'bottom-left'
     | 'bottom-right';
   closeButton: boolean;
+  showIcon?: boolean;
   timeout: number;
   className?: string;
 }
@@ -80,6 +81,7 @@ export class ToastComponent extends React.Component<
     closeButton: false,
     timeout: 5000
   };
+  static themeKey = 'toast';
 
   // 当前ToastComponent是否真正render了
   hasRendered = false;
@@ -150,7 +152,9 @@ export class ToastComponent extends React.Component<
       className,
       timeout,
       position,
-      translate
+      showIcon,
+      translate,
+      closeButton
     } = this.props;
     const items = this.state.items;
 
@@ -171,9 +175,10 @@ export class ToastComponent extends React.Component<
             body={item.body}
             level={item.level || 'info'}
             timeout={item.timeout ?? timeout}
-            closeButton={item.closeButton}
+            closeButton={item.closeButton ?? closeButton}
             onDismiss={this.handleDismissed.bind(this, index)}
             translate={translate}
+            showIcon={showIcon}
           />
         ))}
       </div>
@@ -189,6 +194,7 @@ interface ToastMessageProps {
   level: 'info' | 'success' | 'error' | 'warning';
   timeout: number;
   closeButton?: boolean;
+  showIcon?: boolean;
   position:
     | 'top-right'
     | 'top-center'
@@ -273,6 +279,7 @@ export class ToastMessage extends React.Component<
       body,
       allowHtml,
       level,
+      showIcon,
       translate: __
     } = this.props;
 
@@ -298,6 +305,21 @@ export class ToastMessage extends React.Component<
                   <Icon icon="close" className="icon" />
                 </a>
               ) : null}
+
+              {showIcon === false ? null : (
+                <div className={cx('Toast-icon')}>
+                  {level === 'success' ? (
+                    <Icon icon="success" className="icon" />
+                  ) : level == 'error' ? (
+                    <Icon icon="fail" className="icon" />
+                  ) : level == 'info' ? (
+                    <Icon icon="info-circle" className="icon" />
+                  ) : level == 'warning' ? (
+                    <Icon icon="warning" className="icon" />
+                  ) : null}
+                </div>
+              )}
+
               {title ? (
                 <div className={cx('Toast-title')}>{__(title)}</div>
               ) : null}

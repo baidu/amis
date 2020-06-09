@@ -192,7 +192,9 @@ export default function (schema) {
             ) : null}
             {this.renderSchema()}
             {showCode !== false ? (
-              <Portal container={() => document.querySelector('.navbar-nav')}>
+              <Portal
+                container={() => document.querySelector('#headerLeftBtns')}
+              >
                 <Button
                   classPrefix={ns}
                   onClick={this.toggleCode}
@@ -205,7 +207,9 @@ export default function (schema) {
                 >
                   <i className="fa fa-code" />
                 </Button>
-                <span>←点击这里查看源码</span>
+                <span className="inline v-middle text-info">
+                  ←点击这里查看源码
+                </span>
               </Portal>
             ) : null}
           </div>

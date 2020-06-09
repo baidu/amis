@@ -75,6 +75,7 @@
     vertical-align: top;
     height: $Tree-itemHeight;
     line-height: $Tree-itemHeight;
+    padding-right: px2rem(5px);
 
     > a {
       display: inline-block;
@@ -83,10 +84,10 @@
       cursor: pointer;
 
       > svg {
-        $svgSize: px2rem(16px);
+        $svgSize: px2rem(12px);
         width: $svgSize;
         height: $svgSize;
-        top: 0.125 * $svgSize;
+        top: 0;
       }
     }
   }
@@ -164,14 +165,21 @@
     text-align: center;
     display: inline-block;
 
-    &:before {
-      font-style: normal;
-      font-family: $Tree-arrowVendor;
-      content: $Tree-unfoldedArrowContent;
+    // &:before {
+    //   font-style: normal;
+    //   font-family: $Tree-arrowVendor;
+    //   content: $Tree-unfoldedArrowContent;
+    // }
+    > svg {
+      width: 10px;
+      height: 10px;
+      display: inline-block;
+      transition: transform 0.2s;
+      top: 0;
     }
 
-    &.is-folded:before {
-      content: $Tree-foldedArrowContent;
+    &.is-folded > svg {
+      transform: rotate(90deg);
     }
   }
 
@@ -185,27 +193,12 @@
     margin-right: px2rem(3px);
   }
 
-  &-rootIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-rootIconVendor;
-      content: $Tree-rootIconContent;
-    }
-  }
-
+  &-rootIcon,
+  &-folderIcon,
   &-leafIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-leafIconVendor;
-      content: $Tree-leafIconContent;
-    }
-  }
-
-  &-folderIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-folderIconVendor;
-      content: $Tree-folderIconContent;
+    > svg {
+      width: px2rem(14px);
+      height: px2rem(14px);
     }
   }
 
@@ -219,6 +212,13 @@
 
     &.is-disabled {
       color: $text--muted-color;
+    }
+
+    > .#{$ns}Checkbox {
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      margin-top: -1px;
     }
   }
 

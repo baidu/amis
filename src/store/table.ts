@@ -31,6 +31,7 @@ export const Column = types
     label: types.optional(types.frozen(), undefined),
     type: types.string,
     name: types.maybe(types.string),
+    value: types.frozen(),
     groupName: '',
     toggled: false,
     toggable: true,

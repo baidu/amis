@@ -308,11 +308,12 @@ $Toast-borderRadius: $borderRadiusLg !default;
 $Toast-paddingY: $gap-base !default;
 $Toast-paddingX: $gap-base !default;
 $Toast-paddingL: px2rem(40px) !default;
-$Toast--info-paddingL: $Toast-paddingL !default;
 $Toast-border-width: 0 !default;
-$Toast-icon-fontSize: px2rem(30px) !default;
 $Toast-opacity: 0.8 !default;
-$Toast-display: block !default;
+$Toast-title-display: block !default;
+$Toast-icon-fillHeight: true !default;
+$Toast-icon-width: px2rem(30px) !default;
+$Toast-icon-height: $Toast-icon-width !default;
 
 $Toast-color: $white !default;
 
@@ -332,12 +333,8 @@ $Toast--warning-color: $Toast-color !default;
 $Toast--warning-bgColor: $warning !default;
 $Toast--warning-borderColor: $warning !default;
 
-$Toast-iconVendor: 'FontAwesome' !default;
-
-$Toast--error-icon: '\f06a' !default;
-$Toast--warning-icon: '\f071' !default;
-$Toast--info-icon: '\f05a' !default;
-$Toast--success-icon: '\f00c' !default;
+$Toast-close-color: $white !default;
+$Toast-close--onHover-color: $Toast-close-color !default;
 
 // alert
 $Alert-fontSize: $fontSizeBase !default;
@@ -494,20 +491,11 @@ $Table-heading-bg: $white !default;
 $Table--unsaved-heading-bg: #e8f0fe !default;
 $Table--unsaved-heading-color: #4285f4 !default;
 
-$Table-expandBtn-vendor: 'FontAwesome' !default;
-$Table-expandBtn-fontSize: px2rem(20px) !default;
 $Table-expandBtn-color: $info !default;
-$Table-expandBtn-icon: '\f105' !default;
 
 $TableCell-sortBtn-width: px2rem(8px) !default;
-$TableCell-sortBtn--down-iconVendor: 'fontAwesome' !default;
-$TableCell-sortBtn--down-icon: '\f0dd' !default;
-$TableCell-sortBtn--up-iconVendor: 'fontAwesome' !default;
-$TableCell-sortBtn--up-icon: '\f0de' !default;
-$TableCell-sortBtn--default-iconVendor: 'fontAwesome' !default;
-$TableCell-sortBtn--default-icon: '\f0dc' !default;
-$TableCell-sortBtn--default-opacity: 0.4 !default;
-$TableCell-sortBtn--default-onActive-opacity: 0.4 !default;
+$TableCell-sortBtn--default-opacity: 0 !default;
+$TableCell-sortBtn--default-onActive-opacity: 1 !default;
 
 // Cards
 $Cards-fixedTop-boxShadow: $boxShadow !default;
@@ -1318,7 +1306,7 @@ $Wizard-steps-ulDisplay: block !default;
 $Wizard-steps-height: px2rem(40px) !default;
 $Wizard-steps-padding: 0 !default;
 $Wizard-steps-liAfterContent: '' !default;
-$Wizard-steps-liVender: 'FontAwesome' !default;
+$Wizard-steps-liVender: '' !default;
 $Wizard-steps-liAfterBorder: px2rem(20px) solid transparent !default;
 $Wizard-steps-li-onActive-color: $info !default;
 $Wizard-steps-li-onActive-bg: #fff !default;
@@ -1392,16 +1380,7 @@ $Transfer-title-bg: #f6f8f8 !default;
 // Tree
 $TreeSelect-popover-bg: #fff !default;
 $Tree-indent: px2rem(20px) !default;
-$Tree-itemArrowWidth: px2rem(16px) !default;
-$Tree-arrowVendor: 'FontAwesome' !default;
-$Tree-unfoldedArrowContent: '\f107' !default;
-$Tree-foldedArrowContent: '\f105' !default;
-$Tree-rootIconVendor: 'FontAwesome' !default;
-$Tree-rootIconContent: '\f015' !default;
-$Tree-leafIconVendor: 'FontAwesome' !default;
-$Tree-leafIconContent: '\f15b' !default;
-$Tree-folderIconVendor: 'FontAwesome' !default;
-$Tree-folderIconContent: '\f07b' !default;
+$Tree-itemArrowWidth: px2rem(18px) !default;
 $Tree-itemLabel--onChecked-color: $Form-selectValue-color !default;
 $Tree-itemHeight: px2rem(30px) !default;
 $Tree-item-onHover-bg: rgba(0, 126, 255, 0.08) !default;
@@ -1474,3 +1453,7 @@ $Carousel-imageDescription-bottom: px2rem(25px) !default;
 // Picker
 $Picker-iconColor: $icon-color !default;
 $Picker-onHover-iconColor: $icon-onHover-color !default;
+
+// Status
+$Satus-icon-width: px2rem(20px) !default;
+$Satus-icon-height: $Satus-icon-width !default;

@@ -1127,7 +1127,9 @@ export default class Table extends React.Component<TableProps, object> {
                 ? 'is-active'
                 : ''
             )}
-          />
+          >
+            <Icon icon="sort-desc" className="icon" />
+          </i>
           <i
             className={cx(
               'TableCell-sortBtn--up',
@@ -1135,13 +1137,17 @@ export default class Table extends React.Component<TableProps, object> {
                 ? 'is-active'
                 : ''
             )}
-          />
+          >
+            <Icon icon="sort-asc" className="icon" />
+          </i>
           <i
             className={cx(
               'TableCell-sortBtn--default',
               store.orderBy === column.name ? '' : 'is-active'
             )}
-          />
+          >
+            <Icon icon="sort-default" className="icon" />
+          </i>
         </span>
       );
     } else if (column.filterable && column.name) {
@@ -1290,7 +1296,9 @@ export default class Table extends React.Component<TableProps, object> {
       ...props,
       btnDisabled: store.dragging,
       data: item.locals,
-      value: column.name ? resolveVariable(column.name, item.data) : undefined,
+      value: column.name
+        ? resolveVariable(column.name, item.data)
+        : column.value,
       popOverContainer: popOverContainer || this.getPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
       quickEditFormRef: this.subFormRef,
