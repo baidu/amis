@@ -14,6 +14,7 @@
 - `multiLine` 默认是横着展示一排，设置以后竖着展示
 - `addable` 是否可新增。
 - `removable` 是否可删除
+- `itemRemovableOn` 判断单条是否可删除，类型为表达式
 - `deleteApi` 如果配置了，则删除前会发送一个 api，请求成功才完成删除！
 - `deleteConfirmText` 默认为 `确认要删除？`，当配置 `deleteApi` 才生效！删除时用来做用户确认！
 - `draggable` 默认为 `false`, 是否可以拖动排序, 需要注意的是当启用拖动排序的时候，会多一个\$id 字段
