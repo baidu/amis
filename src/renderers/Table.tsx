@@ -1494,7 +1494,7 @@ export default class Table extends React.Component<TableProps, object> {
         classPrefix={ns}
         key="columns-toggable"
         size="sm"
-        label={<Icon icon="columns" className="icon" />}
+        label={<Icon icon="columns" className="icon m-r-none" />}
       >
         {store.toggableColumns.map(column => (
           <li
