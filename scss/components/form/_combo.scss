@@ -86,7 +86,6 @@
     svg {
       width: px2rem(16px);
       height: px2rem(16px);
-      top: $Combo--horizontal-dragger-top;
     }
   }
 
@@ -132,7 +131,7 @@
     }
 
     .#{$ns}Combo-itemDrager {
-      padding: 0 px2rem(6px) 0 0;
+      padding: $Combo--horizontal-dragger-top px2rem(6px) 0 0;
     }
   }
 
@@ -223,7 +222,7 @@
 
     > .#{$ns}Combo-items > .#{$ns}Combo-item > .#{$ns}Combo-itemDrager {
       position: absolute;
-      top: 0;
+      top: $Combo--horizontal-dragger-top;
       left: px2rem(-30px);
     }
 
