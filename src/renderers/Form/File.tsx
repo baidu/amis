@@ -4,7 +4,8 @@ import cx from 'classnames';
 import qs from 'qs';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
-import {mapLimit} from 'async';
+// @ts-ignore
+import mapLimit from 'async/mapLimit';
 import ImageControl from './Image';
 import {Payload, ApiObject, ApiString} from '../../types';
 import {filter} from '../../utils/tpl';
@@ -718,8 +719,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         };
 
         mapLimit(tasks, 3, uploadPartFile(state, config), function (
-          err,
-          results
+          err: any,
+          results: any
         ) {
           if (err) {
             reject(err);

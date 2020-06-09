@@ -22,7 +22,7 @@ const mapping: {
   'amis': __moduleId('../src'),
   'amis/embed': __moduleId('./embed.tsx'),
   'prop-types': __moduleId('prop-types'),
-  'async': __moduleId('async'),
+  'async/mapLimit': __moduleId('async/mapLimit'),
   'qs': __moduleId('qs')
 };
 
