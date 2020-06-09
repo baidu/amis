@@ -10980,7 +10980,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/intro.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/intro_22b9e84.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/intro_ec7834b.js",
       "type": "js"
     },
     "docs/getting_started.md": {
