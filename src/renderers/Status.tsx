@@ -16,8 +16,8 @@ export class StatusField extends React.Component<StatusProps, object> {
   static defaultProps: Partial<StatusProps> = {
     placeholder: '-',
     map: {
-      0: 'svg-success',
-      1: 'svg-fail',
+      0: 'svg-fail',
+      1: 'svg-success',
       success: 'svg-success',
       pending: 'rolling',
       fail: 'svg-fail',

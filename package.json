@@ -139,7 +139,7 @@
     "react-testing-library": "6.0.4",
     "strip-json-comments": "^2.0.1",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.5"
   },
   "jest": {
     "testEnvironment": "jsdom",
