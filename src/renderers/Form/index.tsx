@@ -603,7 +603,7 @@ export default class Form extends React.Component<FormProps, object> {
       store.setCurrentAction(action);
       return this.submit((values): any => {
         if (onSubmit && onSubmit(values, action) === false) {
-          return Promise.resolve(values);
+          return Promise.resolve(false);
         }
 
         if (target) {
@@ -665,6 +665,11 @@ export default class Form extends React.Component<FormProps, object> {
         return Promise.resolve(values);
       })
         .then(values => {
+          // 有可能 onSubmit return false 了，那么后面的就不应该再执行了。
+          if (values === false) {
+            return store.data;
+          }
+
           if (onFinished && onFinished(values, action) === false) {
             return values;
           }
