@@ -15,6 +15,13 @@
   }
 }
 
+.#{$ns}Form-static {
+  min-height: $Form-input-height;
+  padding-top: $Form-label-paddingTop;
+  padding-bottom: $Form-label-paddingTop;
+  margin-bottom: 0;
+}
+
 .#{$ns}Form-label {
   font-weight: $fontWeightNormal;
   margin-bottom: px2rem(5px);

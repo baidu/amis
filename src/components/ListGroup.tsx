@@ -7,7 +7,7 @@ export interface ListGroupProps
   expand?: boolean;
   items?: Array<any>;
   itemClassName?: string;
-  itemRender: (item: any) => JSX.Element;
+  itemRender: (item: any, index: number) => JSX.Element;
   placeholder?: JSX.Element;
   getItemProps?: (props: {item: any; index: number}) => any;
 }
@@ -28,6 +28,7 @@ export class ListGroup extends React.Component<ListGroupProps> {
       itemClassName,
       itemRender,
       getItemProps,
+      classPrefix,
       ...rest
     } = this.props;
 
@@ -54,7 +55,7 @@ export class ListGroup extends React.Component<ListGroupProps> {
                   itemProps.className
                 )}
               >
-                {itemRender(item)}
+                {itemRender(item, index)}
               </div>
             );
           })
