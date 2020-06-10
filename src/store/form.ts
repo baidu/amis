@@ -335,7 +335,7 @@ export const FormStore = ServiceStore.named('FormStore')
 
         if (fn) {
           const diff = difference(self.data, self.pristine);
-          yield fn(
+          const result = yield fn(
             createObject(
               createObject(self.data.__super, {
                 diff: diff,
@@ -345,12 +345,13 @@ export const FormStore = ServiceStore.named('FormStore')
               self.data
             )
           );
+          return result ?? self.data;
         }
+
+        return self.data;
       } finally {
         self.submiting = false;
       }
-
-      return self.data;
     });
 
     const validate: (
