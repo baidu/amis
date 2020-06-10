@@ -418,7 +418,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         <div className={cx('Transfer-mid')}>
           {showArrow /*todo 需要改成确认模式，即：点了按钮才到右边 */ ? (
             <div className={cx('Transfer-arrow')}>
-              <Icon icon="right-arrow" />
+              <Icon icon="right-arrow" className="icon" />
             </div>
           ) : null}
         </div>

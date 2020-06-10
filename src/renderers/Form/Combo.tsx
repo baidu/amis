@@ -1054,7 +1054,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                         {dragIcon ? (
                           <i className={dragIcon} />
                         ) : (
-                          <Icon icon="drag-bar" />
+                          <Icon icon="drag-bar" className="icon" />
                         )}
                       </a>
                     </div>

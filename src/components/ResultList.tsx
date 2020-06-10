@@ -144,7 +144,10 @@ export class ResultList extends React.Component<ResultListProps> {
                 key={index}
               >
                 {sortable && !disabled && value.length > 1 ? (
-                  <Icon className={cx('Selections-dragbar')} icon="drag-bar" />
+                  <Icon
+                    className={cx('Selections-dragbar icon')}
+                    icon="drag-bar"
+                  />
                 ) : null}
 
                 <label>{itemRender(option)}</label>
@@ -155,7 +158,7 @@ export class ResultList extends React.Component<ResultListProps> {
                     data-index={index}
                     onClick={this.handleRemove}
                   >
-                    <Icon icon="close" />
+                    <Icon icon="close" className="icon" />
                   </a>
                 ) : null}
               </div>

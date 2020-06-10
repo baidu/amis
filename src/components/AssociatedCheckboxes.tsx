@@ -153,7 +153,7 @@ export class AssociatedCheckboxes extends BaseCheckboxes<
                         : this.handleRetry.bind(this, selectdOption)
                     }
                   >
-                    <Icon icon="reload" />
+                    <Icon icon="reload" className="icon" />
                   </div>
 
                   {selectdOption.loading ? (

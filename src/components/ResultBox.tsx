@@ -122,7 +122,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
                 {itemRender(item)}
               </span>
               <a data-index={index} onClick={this.removeItem}>
-                <Icon icon="close" />
+                <Icon icon="close" className="icon" />
               </a>
             </div>
           ))
