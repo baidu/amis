@@ -1,6 +1,5 @@
 import React from 'react';
 import {FormItem, FormControlProps} from './Item';
-import cx from 'classnames';
 import {TableCell} from '../Table';
 import PopOver from '../PopOver';
 import QuickEdit from '../QuickEdit';
@@ -50,6 +49,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
       render,
       children,
       data,
+      classnames: cx,
       ...rest
     } = this.props;
 
@@ -63,7 +63,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
     };
 
     return (
-      <div className="form-control-static">
+      <div className={cx('Form-static')}>
         {render(
           'field',
           {
