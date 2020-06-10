@@ -172,7 +172,7 @@ export class LocationPicker extends React.Component<
         ) : null}
 
         <a className={cx('LocationPicker-toggler')}>
-          <Icon icon="location" />
+          <Icon icon="location" className="icon" />
         </a>
 
         <Overlay

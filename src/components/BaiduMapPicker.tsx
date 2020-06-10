@@ -2,7 +2,7 @@ import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
 import {Icon} from '..';
 import {loadScript, autobind, uuid} from '../utils/helper';
-import { threadId } from 'worker_threads';
+import {threadId} from 'worker_threads';
 import debounce from 'lodash/debounce';
 
 declare const BMap: any;
@@ -43,7 +43,7 @@ export class BaiduMapPicker extends React.Component<
     inputValue: '',
     locs: [],
     locIndex: -1,
-    sugs: [],
+    sugs: []
   };
 
   id = uuid();
@@ -51,27 +51,29 @@ export class BaiduMapPicker extends React.Component<
   placeholderInput: HTMLInputElement;
   map: any;
   ac: any;
-  search = debounce(() => {
-    if (this.state.inputValue) {
-      this.ac?.search(this.state.inputValue);
-    } else {
-      this.setState({
-        sugs: []
-      })
+  search = debounce(
+    () => {
+      if (this.state.inputValue) {
+        this.ac?.search(this.state.inputValue);
+      } else {
+        this.setState({
+          sugs: []
+        });
+      }
+    },
+    250,
+    {
+      trailing: true,
+      leading: false
     }
-  }, 250, {
-    trailing: true,
-    leading: false
-  });
+  );
 
   componentDidMount() {
     if ((window as any).BMap) {
       this.initMap();
     } else {
       loadScript(
-        `http://api.map.baidu.com/api?v=2.0&ak=${
-          this.props.ak
-        }&callback={{callback}}`
+        `http://api.map.baidu.com/api?v=2.0&ak=${this.props.ak}&callback={{callback}}`
       ).then(this.initMap);
     }
   }
@@ -91,7 +93,9 @@ export class BaiduMapPicker extends React.Component<
     this.map = map;
 
     const value = this.props.value;
-    let point = value ?  new BMap.Point(value.lng, value.lat) : new BMap.Point(116.404, 39.915);
+    let point = value
+      ? new BMap.Point(value.lng, value.lat)
+      : new BMap.Point(116.404, 39.915);
     map.centerAndZoom(point, 15);
 
     const geolocationControl = new BMap.GeolocationControl();
@@ -112,16 +116,26 @@ export class BaiduMapPicker extends React.Component<
     this.ac = new BMap.Autocomplete({
       input,
       location: map,
-      onSearchComplete: (e:any) => {
+      onSearchComplete: (e: any) => {
         // 说明已经销毁了。
         if (!this.map) {
           return;
         }
-        
-        const sugs:Array<string> = [];
+
+        const sugs: Array<string> = [];
         if (Array.isArray(e.Ir)) {
-          e.Ir.forEach((item:any) => {
-            sugs.push([item.province, item.city, item.district, item.street, item.business].filter(item => item).join(' '))
+          e.Ir.forEach((item: any) => {
+            sugs.push(
+              [
+                item.province,
+                item.city,
+                item.district,
+                item.street,
+                item.business
+              ]
+                .filter(item => item)
+                .join(' ')
+            );
           });
 
           this.setState({
@@ -172,53 +186,62 @@ export class BaiduMapPicker extends React.Component<
         });
       }
 
-      this.setState({
-        locIndex: index,
-        locs
-      }, () => {
-        if (!select) {
-          return;
-        }
+      this.setState(
+        {
+          locIndex: index,
+          locs
+        },
+        () => {
+          if (!select) {
+            return;
+          }
 
-        this.props?.onChange({
-          address: locs[0].address,
-          lat: locs[0].lat,
-          lng: locs[0].lng,
-          city: locs[0].city
-        })
-      });
+          this.props?.onChange({
+            address: locs[0].address,
+            lat: locs[0].lat,
+            lng: locs[0].lng,
+            city: locs[0].city
+          });
+        }
+      );
     });
   }
 
   @autobind
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      inputValue: e.currentTarget.value
-    }, this.search);
+    this.setState(
+      {
+        inputValue: e.currentTarget.value
+      },
+      this.search
+    );
   }
 
   @autobind
   handleSelect(e: React.MouseEvent<HTMLElement>) {
-    const index= parseInt(e.currentTarget.getAttribute('data-index')!, 10);
+    const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
     const loc = this.state.locs[index];
 
-    this.setState({
-      locIndex: index
-    }, () => {
-      const point = new BMap.Point(loc.lng, loc.lat);
-      
-      this.map.clearOverlays();
-      const mk = new BMap.Marker(point);
-      this.map.addOverlay(mk);
-      this.map.panTo(point);
+    this.setState(
+      {
+        locIndex: index
+      },
+      () => {
+        const point = new BMap.Point(loc.lng, loc.lat);
 
-      this.props?.onChange({
-        address: loc.address.trim() || loc.title,
-        lat: loc.lat,
-        lng: loc.lng,
-        city: loc.city
-      })
-    })
+        this.map.clearOverlays();
+        const mk = new BMap.Marker(point);
+        this.map.addOverlay(mk);
+        this.map.panTo(point);
+
+        this.props?.onChange({
+          address: loc.address.trim() || loc.title,
+          lat: loc.lat,
+          lng: loc.lng,
+          city: loc.city
+        });
+      }
+    );
   }
 
   @autobind
@@ -228,18 +251,19 @@ export class BaiduMapPicker extends React.Component<
       inputValue: value
     });
 
-    var local = new BMap.LocalSearch(this.map, { //智能搜索
-		  onSearchComplete: () => {
+    var local = new BMap.LocalSearch(this.map, {
+      //智能搜索
+      onSearchComplete: () => {
         const results = local.getResults();
         const poi = results.getPoi(0);
         this.setState({
           inputValue: poi.title,
           sugs: []
         });
-        this.getLocations(poi.point, true)
+        this.getLocations(poi.point, true);
       }
-		});
-		local.search(value);
+    });
+    local.search(value);
   }
 
   render() {
@@ -251,34 +275,56 @@ export class BaiduMapPicker extends React.Component<
       <div className={cx('MapPicker')}>
         <div className={cx('MapPicker-search TextControl-control')}>
           <div className={cx('TextControl-input')}>
-            <input onChange={this.handleChange} value={inputValue} placeholder="搜索地点" />
+            <input
+              onChange={this.handleChange}
+              value={inputValue}
+              placeholder="搜索地点"
+            />
             <span>
-              <Icon icon="search" />
+              <Icon icon="search" className="icon" />
             </span>
           </div>
         </div>
 
-        <div ref={this.mapRef} className={cx('MapPicker-map', {
-          invisible: hasSug
-        })} />
+        <div
+          ref={this.mapRef}
+          className={cx('MapPicker-map', {
+            invisible: hasSug
+          })}
+        />
 
-        <div className={cx('MapPicker-result', {
-          invisible: hasSug
-        })}>
+        <div
+          className={cx('MapPicker-result', {
+            invisible: hasSug
+          })}
+        >
           {locs.map((item, index) => (
-            <div onClick={this.handleSelect} key={index} data-index={index} className={cx('MapPicker-item')}>
+            <div
+              onClick={this.handleSelect}
+              key={index}
+              data-index={index}
+              className={cx('MapPicker-item')}
+            >
               <div className={cx('MapPicker-itemTitle')}>{item.title}</div>
               <div className={cx('MapPicker-itemDesc')}>{item.address}</div>
-              {locIndex === index ? <Icon icon="success" /> : null}
+              {locIndex === index ? (
+                <Icon icon="success" className="icon" />
+              ) : null}
             </div>
           ))}
         </div>
 
         {hasSug ? (
           <div className={cx('MapPicker-sug')}>
-            {sugs.map(item => 
-              <div onClick={this.handleSugSelect} className={cx('MapPicker-sugItem')} key={item}>{item}</div>
-            )}
+            {sugs.map(item => (
+              <div
+                onClick={this.handleSugSelect}
+                className={cx('MapPicker-sugItem')}
+                key={item}
+              >
+                {item}
+              </div>
+            ))}
           </div>
         ) : null}
       </div>

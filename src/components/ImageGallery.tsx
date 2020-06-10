@@ -108,7 +108,7 @@ export class ImageGallery extends React.Component<
             className={cx('ImageGallery-close')}
             onClick={this.close}
           >
-            <Icon icon="close" />
+            <Icon icon="close" className="icon" />
           </a>
           {~index && items[index] ? (
             <>
@@ -127,7 +127,7 @@ export class ImageGallery extends React.Component<
                       )}
                       onClick={this.prev}
                     >
-                      <Icon icon="prev" />
+                      <Icon icon="prev" className="icon" />
                     </a>
                     <a
                       className={cx(
@@ -136,7 +136,7 @@ export class ImageGallery extends React.Component<
                       )}
                       onClick={this.next}
                     >
-                      <Icon icon="next" />
+                      <Icon icon="next" className="icon" />
                     </a>
                   </>
                 ) : null}
@@ -146,7 +146,7 @@ export class ImageGallery extends React.Component<
           {items.length > 1 ? (
             <div className={cx('ImageGallery-footer')}>
               <a className={cx('ImageGallery-prevList is-disabled')}>
-                <Icon icon="prev" />
+                <Icon icon="prev" className="icon" />
               </a>
               <div className={cx('ImageGallery-itemsWrap')}>
                 <div className={cx('ImageGallery-items')}>
@@ -166,7 +166,7 @@ export class ImageGallery extends React.Component<
                 </div>
               </div>
               <a className={cx('ImageGallery-nextList is-disabled')}>
-                <Icon icon="next" />
+                <Icon icon="next" className="icon" />
               </a>
             </div>
           ) : null}

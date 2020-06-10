@@ -894,7 +894,7 @@ export class ListItem extends React.Component<ListItemProps> {
     if (dragging) {
       return (
         <div className={cx('ListItem-dragBtn')}>
-          <Icon icon="drag-bar" />
+          <Icon icon="drag-bar" className="icon" />
         </div>
       );
     } else if (selectable && !hideCheckToggler) {
