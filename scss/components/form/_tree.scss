@@ -162,8 +162,8 @@
   &-itemArrow {
     cursor: pointer;
     width: $Tree-itemArrowWidth;
-    text-align: center;
     display: inline-block;
+    margin-right: px2rem(5px);
 
     // &:before {
     //   font-style: normal;
@@ -171,8 +171,8 @@
     //   content: $Tree-unfoldedArrowContent;
     // }
     > svg {
-      width: 10px;
-      height: 10px;
+      width: $Tree-itemArrowWidth;
+      height: $Tree-itemArrowWidth;
       display: inline-block;
       transition: transform 0.2s;
       top: 0;
@@ -190,7 +190,7 @@
 
   &-itemIcon {
     display: inline-block;
-    margin-right: px2rem(3px);
+    margin-right: px2rem(5px);
   }
 
   &-rootIcon,
@@ -216,15 +216,16 @@
 
     > .#{$ns}Checkbox {
       line-height: 1;
-      display: inline-flex;
-      align-items: center;
-      margin-top: -1px;
+      display: inline-block;
+      padding-top: $Form-label-paddingTop - px2rem(1px);
     }
   }
 
   &-itemText {
     cursor: pointer;
     flex: 1 auto;
+    line-height: $lineHeightBase;
+    padding: px2rem(4px) 0;
   }
 
   &-placeholder {

@@ -582,6 +582,22 @@ export class TreeSelector extends React.Component<
 
               {checkbox}
 
+              {showIcon ? (
+                <i
+                  className={cx(
+                    `Tree-itemIcon ${
+                      item[iconField] ||
+                      (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')
+                    }`
+                  )}
+                >
+                  <Icon
+                    icon={childrenItems ? 'folder' : 'file'}
+                    className="icon"
+                  />
+                </i>
+              ) : null}
+
               <span
                 className={cx('Tree-itemText')}
                 onClick={() =>
@@ -591,22 +607,6 @@ export class TreeSelector extends React.Component<
                     : this.handleSelect(item))
                 }
               >
-                {showIcon ? (
-                  <i
-                    className={cx(
-                      `Tree-itemIcon ${
-                        item[iconField] ||
-                        (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')
-                      }`
-                    )}
-                  >
-                    <Icon
-                      icon={childrenItems ? 'folder' : 'file'}
-                      className="icon"
-                    />
-                  </i>
-                ) : null}
-
                 {highlightTxt
                   ? highlight(item[labelField], highlightTxt)
                   : item[labelField]}
