@@ -13,7 +13,7 @@ import {findDOMNode} from 'react-dom';
 import React from 'react';
 import {calculatePosition, getContainer, ownerDocument} from '../utils/dom';
 import {autobind} from '../utils/helper';
-import {resizeSensor} from '../utils/resize-sensor';
+import {resizeSensor, getComputedStyle} from '../utils/resize-sensor';
 
 // @ts-ignore
 BasePosition.propTypes.placement = () => null;
@@ -38,7 +38,10 @@ class Position extends BasePosition {
       });
     }
 
-    if (!this.watchedTarget || this.watchedTarget !== target) {
+    if (
+      (!this.watchedTarget || this.watchedTarget !== target) &&
+      getComputedStyle(target, 'position') !== 'static'
+    ) {
       this.resizeDispose?.();
       this.watchedTarget = target;
       this.resizeDispose = resizeSensor(target, () =>

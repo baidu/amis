@@ -17,7 +17,7 @@ class EventQueue {
   }
 }
 
-function getComputedStyle(element: HTMLElement, prop: string) {
+export function getComputedStyle(element: HTMLElement, prop: string) {
   if ((element as any).currentStyle) {
     return (element as any).currentStyle[prop];
   } else if (window.getComputedStyle) {
