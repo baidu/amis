@@ -234,7 +234,6 @@ export interface DateProps extends LocaleProps, ThemeProps {
   inputFormat?: string;
   timeFormat?: string;
   format?: string;
-  timeConstrainst?: object;
   closeOnSelect: boolean;
   disabled?: boolean;
   minDate?: moment.Moment;
