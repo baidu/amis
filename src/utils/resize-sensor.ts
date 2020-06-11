@@ -56,8 +56,12 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
   <div class="resize-sensor-appear" style="${style}animation-name: apearSensor; animation-duration: 0.2s;"></div>`;
   // 要定义 resizeSensor 这个动画，靠这个监听出现。
   element.appendChild(resizeSensor);
-
-  if (!~['fixed', 'absolute'].indexOf(getComputedStyle(element, 'position'))) {
+  (element as any).hasInlineStyle = element.hasAttribute('style');
+  const position = ((element as any).originPosition = getComputedStyle(
+    element,
+    'position'
+  ));
+  if (!~['fixed', 'absolute'].indexOf(position)) {
     element.style.position = 'relative';
   }
 
@@ -113,11 +117,18 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
 
 function detach(element: HTMLElement) {
   if ((element as any).resizeSensor) {
+    if ((element as any).hasInlineStyle) {
+      element.style.position = (element as any).originPosition;
+    } else {
+      element.removeAttribute('style');
+    }
     try {
       element.removeChild((element as any).resizeSensor);
     } catch (e) {}
     delete (element as any).resizeSensor;
     delete (element as any).resizedAttached;
+    delete (element as any).hasInlineStyle;
+    delete (element as any).originPosition;
   }
 }
 

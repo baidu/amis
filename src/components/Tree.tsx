@@ -590,6 +590,12 @@ export class TreeSelector extends React.Component<
                       (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')
                     }`
                   )}
+                  onClick={() =>
+                    !nodeDisabled &&
+                    (multiple
+                      ? this.handleCheck(item, !selfChecked)
+                      : this.handleSelect(item))
+                  }
                 >
                   <Icon
                     icon={childrenItems ? 'folder' : 'file'}
