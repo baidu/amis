@@ -251,7 +251,7 @@ JSSDK 的代码从以下地址获取：
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="amis/sdk.js" />
+    <link rel="stylesheet" href="amis/sdk.css" />
     <style>
       html,
       body,
@@ -266,7 +266,7 @@ JSSDK 的代码从以下地址获取：
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <script src="amis/sdk.css"></script>
+    <script src="amis/sdk.js"></script>
     <script type="text/javascript">
       (function () {
         var amis = amisRequire('amis/embed');
