@@ -11,7 +11,7 @@ export interface DateProps extends FormControlProps {
   inputFormat?: string;
   timeFormat?: string;
   format?: string;
-  timeConstrainst?: object;
+  timeConstraints?: object;
   closeOnSelect?: boolean;
   disabled: boolean;
   iconClassName?: string;
@@ -33,7 +33,7 @@ export default class DateControl extends React.PureComponent<
     format: 'X',
     viewMode: 'days',
     inputFormat: 'YYYY-MM-DD',
-    timeConstrainst: {
+    timeConstraints: {
       minutes: {
         step: 1
       }
