@@ -585,10 +585,13 @@ export default class Table extends React.Component<TableProps, object> {
     let heights: {
       [propName: string]: number;
     } = (this.heights = {});
+
+    heights.header ||
+      (heights.header = table.querySelector('thead')!.offsetHeight);
+
     forEach(
       table.querySelectorAll('thead>tr:last-child>th'),
       (item: HTMLElement) => {
-        heights.header || (heights.header = item.offsetHeight);
         widths[item.getAttribute('data-index') as string] = item.offsetWidth;
       }
     );
