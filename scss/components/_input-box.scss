@@ -1,6 +1,10 @@
 .#{$ns}InputBox {
   @include input-input();
 
+  &--inline {
+    display: inline-flex;
+  }
+
   > input[readonly] {
     cursor: inherit;
   }

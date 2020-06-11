@@ -4,6 +4,7 @@
   text-align: left;
   outline: none;
   position: relative;
+  font-size: $Form-input-fontSize;
   border: $Form-select-borderWidth solid $Form-select-borderColor;
   background: $Form-select-bg;
   border-radius: $Form-select-borderRadius;
@@ -273,6 +274,7 @@
       fill: $Form-input-iconColor;
       width: px2rem(10px);
       height: px2rem(10px);
+      top: 0;
     }
 
     &:hover svg {
