@@ -13,7 +13,7 @@ export interface ResultBoxProps
     Omit<InputBoxProps, 'result' | 'prefix' | 'onChange' | 'translate'> {
   onChange?: (value: string) => void;
   onResultClick?: (e: React.MouseEvent<HTMLElement>) => void;
-  result?: Array<any>;
+  result?: Array<any> | any;
   itemRender: (value: any) => JSX.Element;
   onResultChange?: (value: Array<any>) => void;
   allowInput?: boolean;
@@ -36,6 +36,16 @@ export class ResultBox extends React.Component<ResultBoxProps> {
   state = {
     isFocused: false
   };
+
+  inputRef: React.RefObject<any> = React.createRef();
+
+  focus() {
+    this.inputRef.current?.focus();
+  }
+
+  blur() {
+    this.inputRef.current?.blur();
+  }
 
   @autobind
   clearValue(e: React.MouseEvent<any>) {
@@ -100,6 +110,9 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       onResultClick,
       translate: __,
       locale,
+      onKeyPress,
+      onFocus,
+      onBlur,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -114,6 +127,10 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           hasError ? 'is-error' : ''
         )}
         onClick={onResultClick}
+        tabIndex={!allowInput && onFocus ? 0 : -1}
+        onKeyPress={allowInput ? undefined : onKeyPress}
+        onFocus={allowInput ? undefined : onFocus}
+        onBlur={allowInput ? undefined : onBlur}
       >
         {Array.isArray(result) && result.length ? (
           result.map((item, index) => (
@@ -126,6 +143,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               </a>
             </div>
           ))
+        ) : result && !Array.isArray(result) ? (
+          <span className={cx('ResultBox-singleValue')}>{result}</span>
         ) : allowInput ? null : (
           <span className={cx('ResultBox-placeholder')}>
             {__(placeholder || '无')}
@@ -135,19 +154,23 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         {allowInput ? (
           <Input
             {...rest}
+            onKeyPress={onKeyPress}
+            ref={this.inputRef}
             value={value || ''}
             onChange={this.handleChange}
-            placeholder={
+            placeholder={__(
               Array.isArray(result) && result.length
                 ? inputPlaceholder
                 : placeholder
-            }
+            )}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
           />
         ) : (
           <span className={cx('ResultBox-mid')} />
         )}
+
+        {children}
 
         {clearable && !disabled && Array.isArray(result) && result.length ? (
           <a
@@ -159,8 +182,6 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             <Icon icon="close" className="icon" />
           </a>
         ) : null}
-
-        {children}
       </div>
     );
   }

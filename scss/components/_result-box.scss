@@ -1,7 +1,7 @@
 .#{$ns}ResultBox {
   @include input-input();
   flex-wrap: wrap;
-  padding: 0 3px;
+  padding: 0 px2rem(3px);
   min-height: $Form-input-height;
   align-items: center;
 
@@ -27,6 +27,10 @@
     color: $text--muted-color;
     background: $Form-input-onDisabled-bg;
     border-color: $Form-input-onDisabled-borderColor;
+  }
+
+  &-singleValue {
+    padding: 0 ($Form-input-paddingX - px2rem(3px));
   }
 
   &-clear {

@@ -13,6 +13,7 @@ import {findDOMNode} from 'react-dom';
 import React from 'react';
 import {calculatePosition, getContainer, ownerDocument} from '../utils/dom';
 import {autobind} from '../utils/helper';
+import {resizeSensor} from '../utils/resize-sensor';
 
 // @ts-ignore
 BasePosition.propTypes.placement = () => null;
@@ -21,6 +22,8 @@ BasePosition.propTypes.placement = () => null;
 class Position extends BasePosition {
   props: any;
   _lastTarget: any;
+  resizeDispose: () => void;
+  watchedTarget: any;
   setState: (state: any) => void;
 
   updatePosition(target: any) {
@@ -33,6 +36,14 @@ class Position extends BasePosition {
         arrowOffsetLeft: null,
         arrowOffsetTop: null
       });
+    }
+
+    if (!this.watchedTarget || this.watchedTarget !== target) {
+      this.resizeDispose?.();
+      this.watchedTarget = target;
+      this.resizeDispose = resizeSensor(target, () =>
+        this.updatePosition(target)
+      );
     }
 
     const overlay = findDOMNode(this as any);
@@ -50,6 +61,10 @@ class Position extends BasePosition {
         this.props.containerPadding
       )
     );
+  }
+
+  componentWillUnmount() {
+    this.resizeDispose?.();
   }
 }
 
