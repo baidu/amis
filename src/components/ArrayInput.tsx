@@ -13,12 +13,12 @@ export interface ArrayInputProps extends ThemeProps, LocaleProps {
   value?: Array<any>;
   onChange?: (value: Array<any>) => void;
   placeholder: string;
-  itemRender: (
-    value: any,
-    onChange: (value: any) => void,
-    index: number,
-    disabled?: boolean
-  ) => JSX.Element;
+  itemRender: (props: {
+    value: any;
+    onChange: (value: any) => void;
+    index: number;
+    disabled?: boolean;
+  }) => JSX.Element;
   itemInitalValue?: any;
   maxLength?: number;
   minLength?: number;
@@ -33,9 +33,15 @@ export interface ArrayInputProps extends ThemeProps, LocaleProps {
 export class ArrayInput extends React.Component<ArrayInputProps> {
   static defaultProps = {
     placeholder: '<空>',
-    itemRender: (value: any, onChange: (value: any) => void, index: number) => (
-      <InputBox value={value} onChange={onChange} />
-    )
+    itemRender: ({
+      value,
+      onChange
+    }: {
+      value: any;
+      onChange: (value: any) => void;
+      index: number;
+      disabled?: boolean;
+    }) => <InputBox value={value} onChange={onChange} />
   };
 
   id: string = guid();
@@ -144,12 +150,12 @@ export class ArrayInput extends React.Component<ArrayInputProps> {
           </a>
         ) : null}
 
-        {itemRender(
+        {itemRender({
           value,
-          this.handleItemOnChange.bind(this, index),
+          onChange: this.handleItemOnChange.bind(this, index),
           index,
           disabled
-        )}
+        })}
 
         {removable !== false &&
         !disabled &&
