@@ -64,6 +64,7 @@ register('en', {
   '请输入街道信息': 'Enter street info',
   '删除': 'Delete',
   '新增': 'New',
+  '新增一条': 'Add a data',
   '新增一条数据': 'Add a data',
   '类型': 'Type',
   '拖拽排序': 'Drag to sort',

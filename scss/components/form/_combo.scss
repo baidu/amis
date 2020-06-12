@@ -1,7 +1,7 @@
 .#{$ns}Combo {
   &-placeholder {
     color: $text--muted-color;
-    padding-top: px2rem(7px);
+    padding-top: $Form-label-paddingTop;
   }
 
   &-toolbarBtn {

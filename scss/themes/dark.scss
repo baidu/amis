@@ -166,12 +166,14 @@ pre {
 @import '../layout/aside';
 @import '../layout/hbox';
 @import '../layout/vbox';
+@import '../components/button'; // 这个要放在最前面
 @import '../components/modal';
 @import '../components/drawer';
 @import '../components/tooltip';
 @import '../components/popover';
 @import '../components/toast';
 @import '../components/alert';
+@import '../components/array-input';
 @import '../components/tabs';
 @import '../components/nav';
 @import '../components/page';
@@ -182,7 +184,6 @@ pre {
 @import '../components/panel';
 @import '../components/service';
 @import '../components/spinner';
-@import '../components/button';
 @import '../components/button-group';
 @import '../components/dropdown';
 @import '../components/collapse';
