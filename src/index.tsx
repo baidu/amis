@@ -155,7 +155,7 @@ import {
   resolveVariable,
   resolveVariableAndFilter
 } from './utils/tpl-builtin';
-import {addRule, str2rules} from './utils/validations';
+import {addRule, str2rules, validate} from './utils/validations';
 import {normalizeOptions} from './components/Select';
 import {OptionsControl} from './renderers/Form/Options';
 
@@ -204,6 +204,7 @@ export {
   registerIcon,
   Scoped,
   ScopedContext,
+  validate,
   setDefaultTheme,
   theme,
   getTheme,
