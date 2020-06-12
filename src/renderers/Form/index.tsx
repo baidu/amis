@@ -658,11 +658,11 @@ export default class Form extends React.Component<FormProps, object> {
                 }
               }
 
-              return values;
+              // return values;
             });
         }
 
-        return Promise.resolve(values);
+        return Promise.resolve(null);
       })
         .then(values => {
           // 有可能 onSubmit return false 了，那么后面的就不应该再执行了。
