@@ -30,6 +30,7 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
   sizeMutable?: boolean;
   weight?: number;
   extendsData?: boolean;
+  showErrorMsg?: boolean;
 
   // 兼容老用法，新用法直接在 Component 里面定义 validate 方法即可。
   validate?: (values: any, value: any) => string | boolean;
@@ -91,6 +92,7 @@ export interface FormItemProps extends RendererProps {
   };
   // error string
   error?: string;
+  showErrorMsg?: boolean;
 }
 
 // 下发下去的属性
@@ -247,7 +249,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderLabel,
       renderDescription,
       hint,
-      data
+      data,
+      showErrorMsg
     } = this.props;
 
     // 强制不渲染 label 的话
@@ -334,7 +337,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               })
             : null}
 
-          {model && !model.valid ? (
+          {model && !model.valid && showErrorMsg !== false ? (
             <ul className={cx(`Form-feedback`)}>
               {model.errors.map((msg: string, key: number) => (
                 <li key={key}>{msg}</li>
@@ -373,7 +376,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderDescription,
       hint,
       formMode,
-      data
+      data,
+      showErrorMsg
     } = this.props;
 
     description = description || desc;
@@ -431,7 +435,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             })
           : null}
 
-        {model && !model.valid ? (
+        {model && !model.valid && showErrorMsg !== false ? (
           <ul className={cx(`Form-feedback`)}>
             {model.errors.map((msg: string, key: number) => (
               <li key={key}>{msg}</li>
@@ -468,7 +472,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       hint,
       renderLabel,
       renderDescription,
-      data
+      data,
+      showErrorMsg
     } = this.props;
 
     description = description || desc;
@@ -529,7 +534,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               })
             : null}
 
-          {model && !model.valid ? (
+          {model && !model.valid && showErrorMsg !== false ? (
             <ul className={cx(`Form-feedback`)}>
               {model.errors.map((msg: string, key: number) => (
                 <li key={key}>{msg}</li>
@@ -568,7 +573,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderDescription,
       hint,
       formMode,
-      data
+      data,
+      showErrorMsg
     } = this.props;
 
     description = description || desc;
@@ -630,7 +636,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             })
           : null}
 
-        {model && !model.valid ? (
+        {model && !model.valid && showErrorMsg !== false ? (
           <ul className={cx('Form-feedback')}>
             {model.errors.map((msg: string, key: number) => (
               <li key={key}>{msg}</li>
@@ -778,6 +784,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
           renderDescription: config.renderDescription,
           sizeMutable: config.sizeMutable,
           wrap: config.wrap,
+          showErrorMsg: config.showErrorMsg,
           ...Control.defaultProps
         };
         static propsList: any = [
