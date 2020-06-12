@@ -50,6 +50,7 @@ import InputBox from './InputBox';
 import ListRadios from './ListRadios';
 import TreeRadios from './TreeRadios';
 import ListGroup from './ListGroup';
+import NumberInput from './NumberInput';
 
 export {
   NotFound,
@@ -102,5 +103,6 @@ export {
   InputBox,
   ListRadios,
   TreeRadios,
-  ListGroup
+  ListGroup,
+  NumberInput
 };
