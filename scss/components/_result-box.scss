@@ -19,6 +19,19 @@
     }
   }
 
+  &.is-clickable {
+    cursor: pointer;
+
+    &:hover {
+      border-color: $Form-input-onFocused-borderColor;
+      box-shadow: $Form-input-boxShadow;
+
+      @if $Form-input-onFocused-bg !=$Form-input-bg {
+        background-color: $Form-input-onFocused-bg;
+      }
+    }
+  }
+
   &.is-error.is-focused {
     border-color: $Form-input-onError-borderColor;
   }
