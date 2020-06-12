@@ -257,36 +257,68 @@ export function validate(
 ): Array<string> {
   const errors: Array<string> = [];
 
-  Object.keys(rules).forEach(ruleName => {
-    if (!rules[ruleName]) {
-      return;
-    } else if (typeof validations[ruleName] !== 'function') {
-      throw new Error('Validation `' + ruleName + '` not exists!');
-    }
+  rules &&
+    Object.keys(rules).forEach(ruleName => {
+      if (!rules[ruleName]) {
+        return;
+      } else if (typeof validations[ruleName] !== 'function') {
+        throw new Error('Validation `' + ruleName + '` not exists!');
+      }
 
-    const fn = validations[ruleName];
+      const fn = validations[ruleName];
 
-    if (
-      !fn(
-        values,
-        value,
-        ...(Array.isArray(rules[ruleName])
-          ? rules[ruleName]
-          : [rules[ruleName]])
-      )
-    ) {
-      errors.push(
-        filter(
-          __((messages && messages[ruleName]) || validateMessages[ruleName]),
-          {
-            ...[''].concat(rules[ruleName])
-          }
+      if (
+        !fn(
+          values,
+          value,
+          ...(Array.isArray(rules[ruleName])
+            ? rules[ruleName]
+            : [rules[ruleName]])
         )
-      );
+      ) {
+        errors.push(
+          filter(
+            __((messages && messages[ruleName]) || validateMessages[ruleName]),
+            {
+              ...[''].concat(rules[ruleName])
+            }
+          )
+        );
+      }
+    });
+
+  return errors;
+}
+
+export function validateObject(
+  values: {[propName: string]: any},
+  rules: {[propName: string]: any},
+  messages?: {[propName: string]: string},
+  __ = (str: string) => str
+) {
+  const ret: {
+    [propName: string]: string[];
+  } = {};
+
+  Object.keys(rules).forEach(key => {
+    const msgs = validate(
+      values[key],
+      values,
+      rules[key] === true
+        ? {
+            isRequired: true
+          }
+        : rules[key],
+      messages,
+      __
+    );
+
+    if (msgs.length) {
+      ret[key] = msgs;
     }
   });
 
-  return errors;
+  return ret;
 }
 
 const splitValidations = function (str: string): Array<string> {
