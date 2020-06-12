@@ -194,7 +194,14 @@ export class ArrayInput extends React.Component<ArrayInputProps> {
           <div className={cx('ArrayInput-placeholder')}>{__(placeholder)}</div>
         )}
 
-        <div className={cx('ArrayInput-toolbar')}>
+        <div
+          className={cx(
+            'ArrayInput-toolbar',
+            sortable && Array.isArray(value) && value.length > 1
+              ? 'ArrayInput-toolbar--dnd'
+              : ''
+          )}
+        >
           {!Array.isArray(value) || !maxLength || value.length < maxLength ? (
             <Button
               className={cx('ArrayInput-addBtn')}
@@ -208,7 +215,7 @@ export class ArrayInput extends React.Component<ArrayInputProps> {
           ) : null}
 
           {sortable && Array.isArray(value) && value.length ? (
-            <span className={cx(`Combo-dragableTip`)} ref={this.dragTipRef}>
+            <span className={cx(`ArrayInput-sortTip`)} ref={this.dragTipRef}>
               {Array.isArray(value) && value.length > 1 ? __(sortTip) : ''}
             </span>
           ) : null}

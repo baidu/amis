@@ -30,7 +30,8 @@ export class NumberInput extends React.Component<NumberProps, any> {
       max,
       min,
       disabled,
-      placeholder
+      placeholder,
+      onChange
     } = this.props;
 
     let precisionProps: any = {};
@@ -47,7 +48,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
         step={step}
         max={max}
         min={min}
-        onChange={onchange}
+        onChange={onChange}
         disabled={disabled}
         placeholder={placeholder}
         {...precisionProps}

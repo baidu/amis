@@ -41,13 +41,25 @@
 
   &-toolbar {
     margin-top: $gap-sm;
+
+    &--dnd {
+      padding-left: 29px;
+    }
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &-sortTip {
+    color: $text--muted-color;
   }
 
   &-item {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    margin-bottom: $gap-sm;
+    margin-bottom: $gap-xs;
 
     > div {
       flex-grow: 1;
