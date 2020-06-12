@@ -1,9 +1,8 @@
 import React from 'react';
 import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
-// @ts-ignore
-import InputNumber from 'rc-input-number';
 import {filter} from '../../utils/tpl';
+import NumberInput from '../../components/NumberInput';
 
 export interface NumberProps extends FormControlProps {
   placeholder?: string;
@@ -60,8 +59,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
 
     return (
       <div className={cx(`${ns}NumberControl`, className)}>
-        <InputNumber
-          prefixCls={`${ns}Number`}
+        <NumberInput
           value={value}
           step={step}
           max={this.filterNum(max)}
@@ -69,7 +67,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
           onChange={this.handleChange}
           disabled={disabled}
           placeholder={placeholder}
-          {...precisionProps}
+          precision={precision}
         />
       </div>
     );
