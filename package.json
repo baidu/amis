@@ -66,7 +66,7 @@
     "react-progress-2": "^4.4.2",
     "react-select": "1.2.1",
     "react-textarea-autosize": "5.1.0",
-    "react-transition-group": "2.2.1",
+    "react-transition-group": "4.4.1",
     "react-visibility-sensor": "3.11.0",
     "redux": "^3.7.2",
     "setimmediate": "1.0.5",

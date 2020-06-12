@@ -124,7 +124,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           className,
           isFocused ? 'is-focused' : '',
           disabled ? 'is-disabled' : '',
-          hasError ? 'is-error' : ''
+          hasError ? 'is-error' : '',
+          onResultClick ? 'is-clickable' : ''
         )}
         onClick={onResultClick}
         tabIndex={!allowInput && onFocus ? 0 : -1}
