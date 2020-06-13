@@ -68,8 +68,7 @@
 
     .#{$ns}Tooltip-arrow::before,
     .#{$ns}Tooltip-arrow::after {
-      border-width: ($Tooltip-arrow-width / 2) $Tooltip-arrow-height
-        ($Tooltip-arrow-width / 2) 0;
+      border-width: ($Tooltip-arrow-width / 2) $Tooltip-arrow-height ($Tooltip-arrow-width / 2) 0;
     }
 
     .#{$ns}Tooltip-arrow::before {
@@ -92,8 +91,7 @@
 
     .#{$ns}Tooltip-arrow::before,
     .#{$ns}Tooltip-arrow::after {
-      border-width: 0 ($Tooltip-arrow-width / 2) $Tooltip-arrow-height
-        ($Tooltip-arrow-width / 2);
+      border-width: 0 ($Tooltip-arrow-width / 2) $Tooltip-arrow-height ($Tooltip-arrow-width / 2);
     }
 
     .#{$ns}Tooltip-arrow::before {
@@ -133,8 +131,7 @@
 
     .#{$ns}Tooltip-arrow::before,
     .#{$ns}Tooltip-arrow::after {
-      border-width: ($Tooltip-arrow-width / 2) 0 ($Tooltip-arrow-width / 2)
-        $Tooltip-arrow-height;
+      border-width: ($Tooltip-arrow-width / 2) 0 ($Tooltip-arrow-width / 2) $Tooltip-arrow-height;
     }
 
     .#{$ns}Tooltip-arrow::before {
@@ -189,7 +186,9 @@
     font-size: $Tooltip--attr-fontSize;
     line-height: $Tooltip--attr-lineHeigt;
     text-align: left;
-    white-space: nowrap;
+    white-space: normal;
+    width: max-content;
+    max-width: 300px;
     background: $Tooltip--attr-bg;
     border: $Tooltip--attr-borderWidth solid $Tooltip--attr-borderColor;
     border-radius: $Tooltip--attr-borderRadius;
@@ -200,6 +199,11 @@
     display: none;
     animation-duration: 0.2s;
     animation-fill-mode: both;
+
+    @media screen and (min-width:0\0) {
+      white-space: nowrap;
+      max-width: unset;
+    }
   }
 
   &:not(.is-disabled):hover:after {
