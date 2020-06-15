@@ -434,6 +434,7 @@ export class CardItemFieldRenderer extends TableCell {
 
   render() {
     let {
+      type,
       className,
       render,
       style,
