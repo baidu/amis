@@ -24,7 +24,7 @@
     line-height: px2rem(17px);
     margin-top: px2rem(2px);
 
-    &::before {
+    &:empty:before {
       content: '';
       display: inline-block;
       transform-origin: center;
@@ -36,9 +36,21 @@
       background-repeat: no-repeat;
     }
 
-    .#{$ns}AsideNav-item.is-open > a > &::before {
+    .#{$ns}AsideNav-item.is-open > a > &:empty:before {
       transform: rotate(90deg);
       color: $Layout-asideLink-onActive-arrowColor;
+    }
+
+    > svg {
+      color: $Layout-asideLink-color;
+      width: px2rem(10px);
+      height: px2rem(10px);
+      transform-origin: center;
+      transition: transform 0.2s ease;
+    }
+
+    .#{$ns}AsideNav-item.is-open > a > & > svg {
+      transform: rotate(90deg);
     }
   }
 
