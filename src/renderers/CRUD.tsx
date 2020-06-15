@@ -359,7 +359,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           redirect && !action.blank && env.jumpTo(redirect, action);
           action.reload
             ? this.reloadTarget(action.reload, data)
-            : this.search(undefined, undefined, true);
+            : this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
     } else if (
