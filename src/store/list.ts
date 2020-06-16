@@ -9,7 +9,13 @@ import {
 import {iRendererStore} from './iRenderer';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
-import {createObject, isObject, guid, immutableExtends} from '../utils/helper';
+import {
+  createObject,
+  isObject,
+  guid,
+  immutableExtends,
+  extendObject
+} from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 
 export const Item = types
@@ -41,7 +47,7 @@ export const Item = types
 
     get locals(): any {
       return createObject(
-        createObject((getParent(self, 2) as IListStore).data, {
+        extendObject((getParent(self, 2) as IListStore).data, {
           index: self.index
         }),
         self.data

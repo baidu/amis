@@ -6,7 +6,7 @@ import {Icon} from './icons';
 
 export interface InputBoxProps
   extends ThemeProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'prefix' | 'onChange'> {
+    Omit<React.DOMAttributes<HTMLInputElement>, 'prefix' | 'onChange'> {
   value?: string;
   onChange?: (value: string) => void;
   onClear?: (e: React.MouseEvent<any>) => void;

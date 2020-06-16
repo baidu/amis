@@ -126,6 +126,17 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
     tinymce.init(this.config);
   }
 
+  componentDidUpdate(prevProps: TinymceEditorProps) {
+    const props = this.props;
+
+    if (
+      props.model !== prevProps.model &&
+      props.model !== this.currentContent
+    ) {
+      this.editor?.setContent(props.model || '');
+    }
+  }
+
   componentWillUnmount() {
     tinymce.remove(this.editor);
   }

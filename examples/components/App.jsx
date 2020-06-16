@@ -1,9 +1,11 @@
 import React from 'react';
 import NotFound from '../../src/components/404';
+import NotFound from '../../src/components/404';
 import Layout from '../../src/components/Layout';
 import AsideNav from '../../src/components/AsideNav';
 import {AlertComponent, ToastComponent} from '../../src/components/index';
 import {mapTree} from '../../src/utils/helper';
+import {Icon} from '../../src/components/icons';
 import '../../src/locale/en';
 import {
   Router,
@@ -668,7 +670,9 @@ export class App extends React.PureComponent {
                 key="expand-toggle"
                 className={cx('AsideNav-itemArrow')}
                 onClick={e => toggleExpand(link, e)}
-              />
+              >
+                <Icon icon="right-arrow-bold" className="icon" />
+              </span>
             );
           }
 

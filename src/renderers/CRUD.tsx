@@ -359,7 +359,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           redirect && !action.blank && env.jumpTo(redirect, action);
           action.reload
             ? this.reloadTarget(action.reload, data)
-            : this.search(undefined, undefined, true);
+            : this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
     } else if (
@@ -630,6 +630,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             this.search(
               dialogAction.__from ? {[pageField || 'page']: 1} : undefined,
               undefined,
+              true,
               true
             );
         } else if (
@@ -757,7 +758,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                   evalExpression(stopAutoRefreshWhen, data)
                 )) &&
               (this.timer = setTimeout(
-                silentPolling ? this.silentSearch : this.search,
+                silentPolling
+                  ? this.silentSearch.bind(this, undefined, undefined, true)
+                  : this.search.bind(
+                      this,
+                      undefined,
+                      undefined,
+                      undefined,
+                      true
+                    ),
                 Math.max(interval, 3000)
               ));
             return value;
@@ -765,8 +774,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       : source && store.initFromScope(data, source);
   }
 
-  silentSearch(values?: object) {
-    return this.search(values, true);
+  silentSearch(values?: object, clearSelection?: boolean, forceReload = false) {
+    return this.search(values, true, clearSelection, forceReload);
   }
 
   handleChangePage(page: number, perPage?: number) {
