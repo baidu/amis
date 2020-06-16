@@ -22,7 +22,8 @@ import {
   flattenTree,
   eachTree,
   difference,
-  immutableExtends
+  immutableExtends,
+  extendObject
 } from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 
@@ -128,7 +129,7 @@ export const Row = types
 
     get locals(): any {
       return createObject(
-        createObject((getParent(self, self.depth * 2) as ITableStore).data, {
+        extendObject((getParent(self, self.depth * 2) as ITableStore).data, {
           index: self.index
         }),
         self.data

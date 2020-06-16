@@ -169,6 +169,7 @@ export default class RichTextControl extends React.Component<
     } else {
       const fetcher = props.env.fetcher;
       this.config = {
+        ...props.options,
         images_upload_url: props.reciever,
         images_upload_handler: async (
           blobInfo: any,

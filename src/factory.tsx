@@ -799,6 +799,7 @@ export function HocStoreFactory(renderer: {
               props.data.__super,
               false
             )) &&
+            // nextProps.data.__super !== props.data.__super) &&
             store.initData(
               createObject(nextProps.data.__super, {
                 ...nextProps.data,
