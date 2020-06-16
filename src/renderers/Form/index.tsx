@@ -158,6 +158,7 @@ export default class Form extends React.Component<FormProps, object> {
     'onChange',
     'onFailed',
     'onFinished',
+    'onSaved',
     'canAccessSuperData',
     'lazyChange',
     'formLazyChange',

@@ -306,7 +306,10 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
       disabled: (body && (body as any).disabled) || store.loading,
       onAction: this.handleAction,
       onFinished: this.handleChildFinished,
-      affixOffsetTop: 0
+      affixOffsetTop: 0,
+      onChange: this.handleFormChange,
+      onInit: this.handleFormInit,
+      onSaved: this.handleFormSaved
     };
 
     if (!(body as Schema).type) {
@@ -322,10 +325,6 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         submitText: null,
         ...schema
       };
-
-      subProps.onChange = this.handleFormChange;
-      subProps.onInit = this.handleFormInit;
-      subProps.onSaved = this.handleFormSaved;
     }
 
     return render(`body${key ? `/${key}` : ''}`, schema, subProps);

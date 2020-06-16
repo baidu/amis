@@ -276,7 +276,10 @@ export default class Drawer extends React.Component<DrawerProps, object> {
       disabled: store.loading,
       onAction: this.handleAction,
       onFinished: this.handleChildFinished,
-      popOverContainer: this.getPopOverContainer
+      popOverContainer: this.getPopOverContainer,
+      onChange: this.handleFormChange,
+      onInit: this.handleFormInit,
+      onSaved: this.handleFormSaved
     };
 
     if (schema.type === 'form') {
@@ -286,11 +289,6 @@ export default class Drawer extends React.Component<DrawerProps, object> {
         submitText: null,
         ...schema
       };
-
-      // 同步数据到 Dialog 层，方便 actions 根据表单数据联动。
-      subProps.onChange = this.handleFormChange;
-      subProps.onInit = this.handleFormInit;
-      subProps.onSaved = this.handleFormSaved;
     }
 
     return render(`body${key ? `/${key}` : ''}`, schema, subProps);
