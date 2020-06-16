@@ -85,4 +85,8 @@
     border: none;
     box-shadow: none;
   }
+
+  > .#{$ns}Button {
+    min-width: unset;
+  }
 }
