@@ -75,6 +75,7 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
   onDelete?: (value: Option) => void;
+  autoFill?: Object;
 }
 
 // 自己接收的属性。
