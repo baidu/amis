@@ -318,8 +318,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       env,
       pageField,
-      stopAutoRefreshWhenModalIsOpen,
-      onClose
+      stopAutoRefreshWhenModalIsOpen
     } = this.props;
 
     if (action.actionType === 'dialog') {
