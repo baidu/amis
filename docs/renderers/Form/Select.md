@@ -21,7 +21,7 @@
 - `checkAllLabel` 默认为 `全选`, 全选的文字
 - `defaultCheckAll` 是否默认全选，默认为`false`
 - `autoFill` 将当前已选中的选项的某个字段的值自动填充到表单中某个表单项中，只在单选时有效
-  - 配置`"autoFill": {"address": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前表单项中`name` 为`address` 中
+  - 配置`"autoFill": {"address": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前`name`为`address`的表单项中
 - **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 单选

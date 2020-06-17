@@ -8,7 +8,7 @@ import find from 'lodash/find';
 import qs from 'qs';
 import {Payload} from '../../types';
 import {buildApi} from '../../utils/api';
-import {createObject, qsstringify, guid} from '../../utils/helper';
+import {createObject, qsstringify, guid, isEmpty} from '../../utils/helper';
 import {Icon} from '../../components/icons';
 import Button from '../../components/Button';
 // @ts-ignore
@@ -16,6 +16,7 @@ import accepts from 'attr-accept';
 import {getNameFromUrl} from './File';
 import ImageComponent, {ImageThumbProps} from '../Image';
 import {TranslateFn} from '../../locale';
+import {dataMapping} from '../../utils/tpl-builtin';
 
 let preventEvent = (e: any) => e.stopPropagation();
 
@@ -57,6 +58,7 @@ export interface ImageProps extends FormControlProps {
       >;
     }
   ) => void;
+  autoFill?: Object;
 }
 
 export interface ImageState {
@@ -762,7 +764,7 @@ export default class ImageControl extends React.Component<
     cb: (error: null | string, file: Blob, obj?: FileValue) => void,
     onProgress: (progress: number) => void
   ) {
-    const __ = this.props.translate;
+    const {translate: __, multiple, autoFill, onBulkChange} = this.props;
     this._send(file, this.props.reciever as string, {}, onProgress)
       .then((ret: Payload) => {
         if (ret.status) {
@@ -774,6 +776,13 @@ export default class ImageControl extends React.Component<
           state: 'uploaded'
         };
         obj.value = obj.value || obj.url;
+
+        const sendTo =
+          !multiple &&
+          autoFill &&
+          !isEmpty(autoFill) &&
+          dataMapping(autoFill, obj);
+        sendTo && onBulkChange(sendTo);
 
         cb(null, file, obj);
       })
