@@ -36,6 +36,7 @@ export interface IScopedContext {
   getComponents: () => Array<ScopedComponentType>;
   reload: (target: string, ctx: RendererData) => void;
   send: (target: string, ctx: RendererData) => void;
+  close: (target: string) => void;
 }
 type AlisIScopedContext = IScopedContext;
 export const ScopedContext = React.createContext(createScopedTools(''));
@@ -159,6 +160,22 @@ function createScopedTools(
           env.updateLocation(link);
         }
       });
+    },
+
+    /**
+     * 主要是用来关闭指定弹框的
+     *
+     * @param target 目标 name
+     */
+    close(target: string) {
+      const scoped = this;
+      let targets =
+        typeof target === 'string' ? target.split(/\s*,\s*/) : target;
+
+      targets.forEach(name => {
+        const component = scoped.getComponentByName(name);
+        component && component.props.onClose && component.props.onClose();
+      });
     }
   };
 }
@@ -182,8 +199,9 @@ export function HocScoped<
       scopeRef?: (ref: any) => void;
     }
   > {
-    static displayName = `Scoped(${ComposedComponent.displayName ||
-      ComposedComponent.name})`;
+    static displayName = `Scoped(${
+      ComposedComponent.displayName || ComposedComponent.name
+    })`;
     static contextType = ScopedContext;
     static ComposedComponent = ComposedComponent;
     ref: any;
@@ -218,7 +236,12 @@ export function HocScoped<
 
       return (
         <ScopedContext.Provider value={this.scoped}>
-          <ComposedComponent {...rest as any /* todo */} ref={this.childRef} />
+          <ComposedComponent
+            {
+              ...(rest as any) /* todo */
+            }
+            ref={this.childRef}
+          />
         </ScopedContext.Provider>
       );
     }

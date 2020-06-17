@@ -305,6 +305,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
       key,
       disabled: (body && (body as any).disabled) || store.loading,
       onAction: this.handleAction,
+      onClose: this.handleSelfClose,
       onFinished: this.handleChildFinished,
       affixOffsetTop: 0,
       onChange: this.handleFormChange,
@@ -595,7 +596,9 @@ export class DialogRenderer extends Dialog {
           ) {
             onConfirm && onConfirm(values, rawAction || action, ctx, targets);
           } else if (action.close) {
-            this.handleSelfClose();
+            action.close === true
+              ? this.handleSelfClose()
+              : this.closeTarget(action.close);
           }
           store.markBusying(false);
         })
@@ -639,6 +642,7 @@ export class DialogRenderer extends Dialog {
     ) {
       store.setCurrentAction(action);
       this.handleSelfClose();
+      action.close && this.closeTarget(action.close);
     } else if (action.actionType === 'confirm') {
       store.setCurrentAction(action);
       this.tryChildrenToHandle(
@@ -691,7 +695,10 @@ export class DialogRenderer extends Dialog {
             action.redirect && filter(action.redirect, store.data);
           reidrect && env.jumpTo(reidrect, action);
           action.reload && this.reloadTarget(action.reload, store.data);
-          action.close && this.handleSelfClose();
+          if (action.close) {
+            this.handleSelfClose();
+            this.closeTarget(action.close);
+          }
         })
         .catch(() => {});
     } else if (onAction) {
@@ -778,5 +785,10 @@ export class DialogRenderer extends Dialog {
   reloadTarget(target: string, data?: any) {
     const scoped = this.context as IScopedContext;
     scoped.reload(target, data);
+  }
+
+  closeTarget(target: string) {
+    const scoped = this.context as IScopedContext;
+    scoped.close(target);
   }
 }

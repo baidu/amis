@@ -558,6 +558,7 @@ export default class Form extends React.Component<FormProps, object> {
       onReset,
       onFinished,
       onFailed,
+      onClose,
       redirect,
       reload,
       target,
@@ -688,6 +689,7 @@ export default class Form extends React.Component<FormProps, object> {
             this.reloadTarget(action.reload || reload, store.data);
           }
 
+          action.close && this.closeTarget(action.close);
           return values;
         })
         .catch(reason => {
@@ -746,6 +748,10 @@ export default class Form extends React.Component<FormProps, object> {
           redirect && env.jumpTo(redirect, action);
 
           action.reload && this.reloadTarget(action.reload, store.data);
+          if (action.close) {
+            onClose();
+            this.closeTarget(action.close);
+          }
         })
         .catch(() => {});
     } else if (action.actionType === 'reload') {
@@ -824,6 +830,10 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   reloadTarget(target: string, data?: any) {
+    // 会被覆写
+  }
+
+  closeTarget(target: string) {
     // 会被覆写
   }
 
@@ -1275,6 +1285,11 @@ export class FormRenderer extends Form {
   reloadTarget(target: string, data: any) {
     const scoped = this.context as IScopedContext;
     scoped.reload(target, data);
+  }
+
+  closeTarget(target: string) {
+    const scoped = this.context as IScopedContext;
+    scoped.close(target);
   }
 
   reload(target?: string, query?: any, ctx?: any, silent?: boolean) {

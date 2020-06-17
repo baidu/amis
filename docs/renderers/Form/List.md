@@ -15,7 +15,7 @@
 - `delimiter` 默认为 `,`
 - `extractValue` 默认为 `false`, `joinValues`设置为`false`时生效, 开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。
 - `autoFill` 将当前已选中的选项的某个字段的值自动填充到表单中某个表单项中，只在单选时有效
-  - 配置`"autoFill": {"address": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前表单项中`name` 为`address` 中
+  - 配置`"autoFill": {"address": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前`name`为`address`的表单项中
 - **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 单选

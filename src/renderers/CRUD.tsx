@@ -318,7 +318,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       pickerMode,
       env,
       pageField,
-      stopAutoRefreshWhenModalIsOpen
+      stopAutoRefreshWhenModalIsOpen,
+      onClose
     } = this.props;
 
     if (action.actionType === 'dialog') {
@@ -363,6 +364,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           action.reload
             ? this.reloadTarget(action.reload, data)
             : this.search(undefined, undefined, true, true);
+          if (action.close) {
+            onClose();
+            this.closeTarget(action.close);
+          }
         })
         .catch(() => {});
     } else if (
@@ -391,7 +396,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       messages,
       pageField,
       stopAutoRefreshWhenModalIsOpen,
-      env
+      env,
+      onClose
     } = this.props;
 
     if (!selectedItems.length && action.requireSelected !== false) {
@@ -443,6 +449,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             action.reload
               ? this.reloadTarget(action.reload, data)
               : this.search({[pageField || 'page']: 1}, undefined, true);
+            if (action.close) {
+              onClose();
+              this.closeTarget(action.close);
+            }
 
             const redirect = action.redirect && filter(action.redirect, data);
             redirect && env.jumpTo(redirect, action);
@@ -1143,6 +1153,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     // implement this.
   }
 
+  closeTarget(target: string) {
+    // implement this.
+  }
+
   doAction(action: Action, data: object, throwErrors: boolean = false) {
     return this.handleAction(undefined, action, data, throwErrors);
   }
@@ -1778,5 +1792,10 @@ export class CRUDRenderer extends CRUD {
   reloadTarget(target: string, data: any) {
     const scoped = this.context as IScopedContext;
     scoped.reload(target, data);
+  }
+
+  closeTarget(target: string) {
+    const scoped = this.context as IScopedContext;
+    scoped.close(target);
   }
 }
