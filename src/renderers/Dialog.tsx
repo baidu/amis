@@ -408,7 +408,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
           <div className={cx('Modal-header', headerClassName)}>
             {showCloseButton !== false && !store.loading ? (
               <a
-                data-tooltip={__('关闭弹窗')}
+                data-tooltip={__('关闭')}
                 data-position="left"
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
@@ -424,7 +424,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
           <div className={cx('Modal-header', headerClassName)}>
             {showCloseButton !== false && !store.loading ? (
               <a
-                data-tooltip={__('关闭弹窗')}
+                data-tooltip={__('关闭')}
                 onClick={this.handleSelfClose}
                 className={cx('Modal-close')}
               >
@@ -437,7 +437,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
           </div>
         ) : showCloseButton !== false && !store.loading ? (
           <a
-            data-tooltip={__('关闭弹窗')}
+            data-tooltip={__('关闭')}
             onClick={this.handleSelfClose}
             className={cx('Modal-close')}
           >
@@ -548,6 +548,15 @@ export class DialogRenderer extends Dialog {
     }
 
     if (!targets.length) {
+      const page = findLast(
+        components,
+        component => component.props.type === 'page'
+      );
+
+      if (page) {
+        components.push(...page.context.getComponents());
+      }
+
       const form = findLast(
         components,
         component => component.props.type === 'form'
