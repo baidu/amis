@@ -275,7 +275,6 @@ export default class Drawer extends React.Component<DrawerProps, object> {
       key,
       disabled: store.loading,
       onAction: this.handleAction,
-      onClose: this.handleSelfClose,
       onFinished: this.handleChildFinished,
       popOverContainer: this.getPopOverContainer,
       onChange: this.handleFormChange,

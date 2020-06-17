@@ -26,13 +26,14 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
     query?: RendererData | null,
     ctx?: RendererData
   ) => void;
+  context: any;
 }
 
 export interface IScopedContext {
   parent?: AlisIScopedContext;
   registerComponent: (component: ScopedComponentType) => void;
   unRegisterComponent: (component: ScopedComponentType) => void;
-  getComponentByName: (name: string) => ScopedComponentType | void;
+  getComponentByName: (name: string) => ScopedComponentType;
   getComponents: () => Array<ScopedComponentType>;
   reload: (target: string, ctx: RendererData) => void;
   send: (target: string, ctx: RendererData) => void;
@@ -172,12 +173,26 @@ function createScopedTools(
       let targets =
         typeof target === 'string' ? target.split(/\s*,\s*/) : target;
 
-      targets.forEach(name => {
-        const component = scoped.getComponentByName(name);
-        component && component.props.onClose && component.props.onClose();
-      });
+      // 过滤已经关掉的，当用户 close 配置多个弹框 name 时会出现这种情况
+      targets
+        .map(name => scoped.getComponentByName(name))
+        .filter(component => component && component.props.show)
+        .forEach(closeDialog);
     }
   };
+}
+
+function closeDialog(component: ScopedComponentType) {
+  (component.context as IScopedContext)
+    .getComponents()
+    .filter(
+      item =>
+        item &&
+        (item.props.type === 'dialog' || item.props.type === 'drawer') &&
+        item.props.show
+    )
+    .forEach(closeDialog);
+  component.props.onClose && component.props.onClose();
 }
 
 export function HocScoped<

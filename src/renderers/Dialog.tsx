@@ -305,7 +305,6 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
       key,
       disabled: (body && (body as any).disabled) || store.loading,
       onAction: this.handleAction,
-      onClose: this.handleSelfClose,
       onFinished: this.handleChildFinished,
       affixOffsetTop: 0,
       onChange: this.handleFormChange,

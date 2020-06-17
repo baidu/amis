@@ -364,10 +364,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           action.reload
             ? this.reloadTarget(action.reload, data)
             : this.search(undefined, undefined, true, true);
-          if (action.close) {
-            onClose();
-            this.closeTarget(action.close);
-          }
+          action.close && this.closeTarget(action.close);
         })
         .catch(() => {});
     } else if (
