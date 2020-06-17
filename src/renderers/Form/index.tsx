@@ -748,10 +748,7 @@ export default class Form extends React.Component<FormProps, object> {
           redirect && env.jumpTo(redirect, action);
 
           action.reload && this.reloadTarget(action.reload, store.data);
-          if (action.close) {
-            onClose();
-            this.closeTarget(action.close);
-          }
+          action.close && this.closeTarget(action.close);
         })
         .catch(() => {});
     } else if (action.actionType === 'reload') {
