@@ -393,8 +393,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       messages,
       pageField,
       stopAutoRefreshWhenModalIsOpen,
-      env,
-      onClose
+      env
     } = this.props;
 
     if (!selectedItems.length && action.requireSelected !== false) {
@@ -446,10 +445,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             action.reload
               ? this.reloadTarget(action.reload, data)
               : this.search({[pageField || 'page']: 1}, undefined, true);
-            if (action.close) {
-              onClose();
-              this.closeTarget(action.close);
-            }
+            action.close && this.closeTarget(action.close);
 
             const redirect = action.redirect && filter(action.redirect, data);
             redirect && env.jumpTo(redirect, action);

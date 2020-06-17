@@ -558,7 +558,6 @@ export default class Form extends React.Component<FormProps, object> {
       onReset,
       onFinished,
       onFailed,
-      onClose,
       redirect,
       reload,
       target,
