@@ -363,6 +363,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           action.reload
             ? this.reloadTarget(action.reload, data)
             : this.search(undefined, undefined, true, true);
+          action.close && this.closeTarget(action.close);
         })
         .catch(() => {});
     } else if (
@@ -443,6 +444,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             action.reload
               ? this.reloadTarget(action.reload, data)
               : this.search({[pageField || 'page']: 1}, undefined, true);
+            action.close && this.closeTarget(action.close);
 
             const redirect = action.redirect && filter(action.redirect, data);
             redirect && env.jumpTo(redirect, action);
@@ -1143,6 +1145,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     // implement this.
   }
 
+  closeTarget(target: string) {
+    // implement this.
+  }
+
   doAction(action: Action, data: object, throwErrors: boolean = false) {
     return this.handleAction(undefined, action, data, throwErrors);
   }
@@ -1778,5 +1784,10 @@ export class CRUDRenderer extends CRUD {
   reloadTarget(target: string, data: any) {
     const scoped = this.context as IScopedContext;
     scoped.reload(target, data);
+  }
+
+  closeTarget(target: string) {
+    const scoped = this.context as IScopedContext;
+    scoped.close(target);
   }
 }

@@ -621,7 +621,9 @@ export class DrawerRenderer extends Drawer {
           ) {
             onConfirm && onConfirm(values, rawAction || action, ctx, targets);
           } else if (action.close) {
-            this.handleSelfClose();
+            action.close === true
+              ? this.handleSelfClose()
+              : this.closeTarget(action.close);
           }
           store.markBusying(false);
         })
@@ -656,6 +658,7 @@ export class DrawerRenderer extends Drawer {
     if (action.actionType === 'close' || action.actionType === 'cancel') {
       store.setCurrentAction(action);
       onClose();
+      action.close && this.closeTarget(action.close);
     } else if (action.actionType === 'confirm') {
       store.setCurrentAction(action);
       this.tryChildrenToHandle(action, data) || onClose();
@@ -686,7 +689,10 @@ export class DrawerRenderer extends Drawer {
             action.redirect && filter(action.redirect, store.data);
           redirect && env.jumpTo(redirect, action);
           action.reload && this.reloadTarget(action.reload, store.data);
-          action.close && this.handleSelfClose();
+          if (action.close) {
+            this.handleSelfClose();
+            this.closeTarget(action.close);
+          }
         })
         .catch(() => {});
     } else if (onAction) {
@@ -768,5 +774,10 @@ export class DrawerRenderer extends Drawer {
   reloadTarget(target: string, data?: any) {
     const scoped = this.context as IScopedContext;
     scoped.reload(target, data);
+  }
+
+  closeTarget(target: string) {
+    const scoped = this.context as IScopedContext;
+    scoped.close(target);
   }
 }
