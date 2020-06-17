@@ -574,6 +574,15 @@ export class DrawerRenderer extends Drawer {
     }
 
     if (!targets.length) {
+      const page = findLast(
+        components,
+        component => component.props.type === 'page'
+      );
+
+      if (page) {
+        components.push(...page.context.getComponents());
+      }
+
       const form = findLast(
         components,
         component => component.props.type === 'form'
