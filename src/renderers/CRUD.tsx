@@ -121,7 +121,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'source',
     'header',
     'columns',
-    'size'
+    'size',
+    'onChange',
+    'onInit',
+    'onSaved'
   ];
   static defaultProps = {
     toolbarInline: true,
