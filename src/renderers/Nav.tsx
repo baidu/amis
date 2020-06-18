@@ -159,7 +159,7 @@ export class Navigation extends React.Component<
 
           this.setState(
             {
-              links: this.syncLinks(this.props, links, true)
+              links: this.syncLinks(this.props, links)
             },
             () => {
               if (
