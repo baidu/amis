@@ -20,23 +20,25 @@ export class MappingField extends React.Component<MappingProps, object> {
   };
 
   render() {
-    const {
-      className,
-      value,
-      placeholder,
-      map,
-      render,
-      classnames: cx
-    } = this.props;
+    const {className, placeholder, map, render, classnames: cx} = this.props;
+    let key = this.props.value;
 
     let viewValue: React.ReactNode = (
       <span className="text-muted">{placeholder}</span>
     );
-    let key = value === true ? '1' : value;
+
     key = typeof key === 'string' ? key.trim() : key; // trim 一下，干掉一些空白字符。
 
-    if (typeof value !== 'undefined' && map && (map[key] || map['*'])) {
-      viewValue = render('tpl', map[key] || map['*']);
+    if (typeof key !== 'undefined' && map && (map[key] ?? map['*'])) {
+      viewValue = render(
+        'tpl',
+        map[key] ??
+          (key === true && map['1']
+            ? map['1']
+            : key === false && map['0']
+            ? map['0']
+            : map['*']) // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
+      );
     }
 
     return <span className={cx('MappingField', className)}>{viewValue}</span>;
