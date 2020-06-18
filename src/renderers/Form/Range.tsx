@@ -68,7 +68,7 @@ export function formatValue(
       };
     }
   }
-  return value || props.min;
+  return value ?? props.min;
 }
 
 type PropsWithDefaults = RangeProps & DefaultProps;
