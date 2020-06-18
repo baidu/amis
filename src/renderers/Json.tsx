@@ -6,6 +6,7 @@ import {filter} from '../utils/tpl';
 import cx from 'classnames';
 
 import JSONTree from 'react-json-tree';
+import {autobind} from '../utils/helper';
 
 export interface JSONProps extends RendererProps {
   className?: string;
@@ -98,16 +99,13 @@ export class JSONField extends React.Component<JSONProps, object> {
     jsonTheme: 'twilight'
   };
 
+  @autobind
   valueRenderer(raw: any) {
+    const cx = this.props.classnames;
     if (typeof raw === 'string' && /^\"?https?:\/\//.test(raw)) {
       return (
         <a
-          className="word-break"
-          style={{
-            whiteSpace: 'normal',
-            wordBreak: 'break-all',
-            wordWrap: 'break-word'
-          }}
+          className={cx('JsonField-nodeValue')}
           href={raw.replace(/^\"(.*)\"$/, '$1')}
           target="_blank"
         >
@@ -115,17 +113,7 @@ export class JSONField extends React.Component<JSONProps, object> {
         </a>
       );
     }
-    return (
-      <span
-        style={{
-          whiteSpace: 'normal',
-          wordBreak: 'break-all',
-          wordWrap: 'break-word'
-        }}
-      >
-        {raw}
-      </span>
-    );
+    return <span className={cx('JsonField-nodeValue')}>{raw}</span>;
   }
 
   shouldExpandNode = (keyName: any, data: any, level: any) => {
