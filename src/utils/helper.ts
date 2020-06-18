@@ -929,7 +929,17 @@ export function someTree<T extends TreeItem>(
   tree: Array<T>,
   iterator: (item: T, key: number, level: number, paths: Array<T>) => boolean
 ): boolean {
-  return !everyTree(tree, iterator);
+  let result = false;
+
+  everyTree(tree, (item: T, key: number, level: number, paths: Array<T>) => {
+    if (iterator(item, key, level, paths)) {
+      result = true;
+      return false;
+    }
+    return true;
+  });
+
+  return result;
 }
 
 /**
