@@ -45,7 +45,8 @@ const twilight = {
     WebkitUserSelect: 'none',
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
     whiteSpace: 'nowrap',
-    display: 'inline-block'
+    display: 'inline-block',
+    width: '100%'
   }
 };
 
@@ -80,7 +81,8 @@ const eighties = {
     WebkitUserSelect: 'none',
     backgroundColor: '#2D2D2D',
     whiteSpace: 'nowrap',
-    display: 'inline-block'
+    display: 'inline-block',
+    width: '100%'
   }
 };
 
@@ -99,12 +101,31 @@ export class JSONField extends React.Component<JSONProps, object> {
   valueRenderer(raw: any) {
     if (typeof raw === 'string' && /^\"?https?:\/\//.test(raw)) {
       return (
-        <a href={raw.replace(/^\"(.*)\"$/, '$1')} target="_blank">
+        <a
+          className="word-break"
+          style={{
+            whiteSpace: 'normal',
+            wordBreak: 'break-all',
+            wordWrap: 'break-word'
+          }}
+          href={raw.replace(/^\"(.*)\"$/, '$1')}
+          target="_blank"
+        >
           {raw}
         </a>
       );
     }
-    return raw;
+    return (
+      <span
+        style={{
+          whiteSpace: 'normal',
+          wordBreak: 'break-all',
+          wordWrap: 'break-word'
+        }}
+      >
+        {raw}
+      </span>
+    );
   }
 
   shouldExpandNode = (keyName: any, data: any, level: any) => {
