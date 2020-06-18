@@ -22,6 +22,8 @@
 - `startChunkApi` 默认 `/api/upload/startChunk` 想自己存储时才需要关注。
 - `chunkApi` 默认 `/api/upload/chunk` 想自己存储时才需要关注。
 - `finishChunkApi` 默认 `/api/upload/finishChunk` 想自己存储时才需要关注。
+- `autoFill` 将当前已选中的选项的某个字段的值自动填充到表单中某个表单项中，只在单选时有效
+  - 配置`"autoFill": {"address": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前`name`为`address`的表单项中
 - **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="250" scope="form-item"

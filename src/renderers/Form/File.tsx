@@ -10,11 +10,12 @@ import ImageControl from './Image';
 import {Payload, ApiObject, ApiString} from '../../types';
 import {filter} from '../../utils/tpl';
 import Alert from '../../components/Alert2';
-import {qsstringify, createObject, guid} from '../../utils/helper';
+import {qsstringify, createObject, guid, isEmpty} from '../../utils/helper';
 import {buildApi} from '../../utils/api';
 import Button from '../../components/Button';
 import {Icon} from '../../components/icons';
 import DropZone from 'react-dropzone';
+import {dataMapping} from '../../utils/tpl-builtin';
 
 export interface FileProps extends FormControlProps {
   maxSize: number;
@@ -47,6 +48,7 @@ export interface FileProps extends FormControlProps {
   asBase64?: boolean;
   asBlob?: boolean;
   resetValue?: string;
+  autoFill?: Object;
 }
 
 export interface FileX extends File {
@@ -496,7 +498,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       asBase64,
       asBlob,
       data,
-      translate: __
+      translate: __,
+      multiple,
+      autoFill,
+      onBulkChange
     } = this.props;
 
     if (asBase64) {
@@ -557,6 +562,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
         onProgress(1);
         const value = (ret.data as any).value || ret.data;
+
+        const sendTo =
+          !multiple &&
+          autoFill &&
+          !isEmpty(autoFill) &&
+          dataMapping(autoFill, ret.data);
+        sendTo && onBulkChange(sendTo);
 
         cb(null, file, {
           ...(isPlainObject(ret.data) ? ret.data : null),
