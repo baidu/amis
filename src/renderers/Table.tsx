@@ -1323,9 +1323,14 @@ export default class Table extends React.Component<TableProps, object> {
 
   renderAffixHeader(tableClassName: string) {
     const {store, affixHeader, render, classnames: cx} = this.props;
+    const hideHeader = store.filteredColumns.every(column => !column.label);
 
     return affixHeader ? (
-      <div className={cx('Table-fixedTop')}>
+      <div
+        className={cx('Table-fixedTop', {
+          'is-fakeHide': hideHeader
+        })}
+      >
         {this.renderHeading()}
         {this.renderHeader(false)}
         <div className={cx('Table-fixedLeft')}>
@@ -1398,6 +1403,7 @@ export default class Table extends React.Component<TableProps, object> {
       render,
       data
     } = this.props;
+    const hideHeader = store.filteredColumns.every(column => !column.label);
 
     return (
       <table
@@ -1425,7 +1431,7 @@ export default class Table extends React.Component<TableProps, object> {
               })}
             </tr>
           ) : null}
-          <tr>
+          <tr className={hideHeader ? 'fake-hide' : ''}>
             {columns.map(column =>
               this.renderHeadCell(column, {
                 'key': column.index,
@@ -1867,6 +1873,7 @@ export default class Table extends React.Component<TableProps, object> {
       store.combineNum > 0 ? 'Table-table--withCombine' : '',
       this.props.tableClassName
     );
+    const hideHeader = store.filteredColumns.every(column => !column.label);
 
     return (
       <div
@@ -1889,15 +1896,13 @@ export default class Table extends React.Component<TableProps, object> {
                 ))}
               </tr>
             ) : null}
-            <tr>
-              {store.filteredColumns.some(column => !!column.label)
-                ? store.filteredColumns.map(column =>
-                    this.renderHeadCell(column, {
-                      'data-index': column.index,
-                      'key': column.index
-                    })
-                  )
-                : null}
+            <tr className={hideHeader ? 'fake-hide' : ''}>
+              {store.filteredColumns.map(column =>
+                this.renderHeadCell(column, {
+                  'data-index': column.index,
+                  'key': column.index
+                })
+              )}
             </tr>
           </thead>
           <tbody>
