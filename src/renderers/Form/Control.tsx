@@ -28,7 +28,7 @@ export interface ControlProps extends RendererProps {
     unique?: boolean;
     pipeIn?: (value: any, data: any) => any;
     pipeOut?: (value: any, originValue: any, data: any) => any;
-    validate?: (value: any, values: any) => any;
+    validate?: (value: any, values: any, name: string) => any;
   } & Schema;
   formStore: IFormStore;
   store: IIRendererStore;
@@ -158,13 +158,15 @@ export default class FormControl extends React.PureComponent<
     const formItem = this.model as IFormItemStore;
     if (formItem && validate) {
       let finalValidate = promisify(validate.bind(formItem));
-      this.hook2 = function() {
+      this.hook2 = function () {
         formItem.clearError('control:valdiate');
-        return finalValidate(form.data, formItem.value).then((ret: any) => {
-          if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
-            formItem.addError(ret, 'control:valdiate');
+        return finalValidate(form.data, formItem.value, formItem.name).then(
+          (ret: any) => {
+            if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
+              formItem.addError(ret, 'control:valdiate');
+            }
           }
-        });
+        );
       };
       addHook(this.hook2);
     }
@@ -312,10 +314,10 @@ export default class FormControl extends React.PureComponent<
     if (control && control.validate && this.model) {
       const formItem = this.model as IFormItemStore;
       let validate = promisify(control.validate.bind(control));
-      this.hook = function() {
+      this.hook = function () {
         formItem.clearError('component:valdiate');
 
-        return validate(form.data, formItem.value).then(ret => {
+        return validate(form.data, formItem.value, formItem.name).then(ret => {
           if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
             formItem.setError(ret, 'component:valdiate');
           }
