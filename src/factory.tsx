@@ -152,7 +152,7 @@ export interface RenderOptions {
   fetcher?: (config: fetcherConfig) => Promise<fetcherResult>;
   isCancel?: (value: any) => boolean;
   notify?: (type: 'error' | 'success', msg: string) => void;
-  jumpTo?: (to: string) => void;
+  jumpTo?: (to: string, action?: Action, ctx?: object) => void;
   alert?: (msg: string) => void;
   confirm?: (msg: string, title?: string) => boolean | Promise<boolean>;
   rendererResolver?: (
