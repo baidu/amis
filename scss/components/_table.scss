@@ -206,7 +206,8 @@
       }
     }
 
-    > thead > tr {
+    > thead > tr,
+    > tbody > tr {
       background-color: $Table-thead-bg;
 
       > th {

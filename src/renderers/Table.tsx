@@ -1890,12 +1890,14 @@ export default class Table extends React.Component<TableProps, object> {
               </tr>
             ) : null}
             <tr>
-              {store.filteredColumns.map(column =>
-                this.renderHeadCell(column, {
-                  'data-index': column.index,
-                  'key': column.index
-                })
-              )}
+              {store.filteredColumns.some(column => !!column.label)
+                ? store.filteredColumns.map(column =>
+                    this.renderHeadCell(column, {
+                      'data-index': column.index,
+                      'key': column.index
+                    })
+                  )
+                : null}
             </tr>
           </thead>
           <tbody>
@@ -2618,6 +2620,7 @@ export class TableCell extends React.Component<RendererProps> {
       remark,
       prefix,
       affix,
+      isHead,
       ...rest
     } = this.props;
 
@@ -2657,6 +2660,10 @@ export class TableCell extends React.Component<RendererProps> {
 
     if (!Component) {
       return body as JSX.Element;
+    }
+
+    if (isHead) {
+      Component = 'th';
     }
 
     return (
