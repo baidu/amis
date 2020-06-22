@@ -68,6 +68,15 @@
     > .#{$ns}Table-wrapper {
       border-top: $Table-borderWidth solid $Table-borderColor;
     }
+
+    &.is-fakeHide {
+      > .#{$ns}Table-fixedLeft,
+      > .#{$ns}Table-fixedRight,
+      > .#{$ns}Table-wrapper {
+        visibility: hidden;
+        position: absolute;
+      }
+    }
   }
 
   &-heading {
@@ -206,7 +215,8 @@
       }
     }
 
-    > thead > tr {
+    > thead > tr,
+    > tbody > tr {
       background-color: $Table-thead-bg;
 
       > th {
@@ -249,6 +259,10 @@
 
     > tbody > tr {
       border-top: $Table-borderWidth solid $Table-borderColor;
+
+      > th {
+        background-color: $Table-thead-bg;
+      }
 
       > td {
         padding: $TableCell-paddingY $TableCell-paddingX;
@@ -738,6 +752,11 @@
   &-table > tbody > tr.is-dragging .#{$ns}Table-dragBtn,
   &-table > tbody > tr.is-drop-allowed .#{$ns}Table-dragBtn {
     visibility: visible;
+  }
+
+  .fake-hide {
+    visibility: hidden;
+    position: absolute;
   }
 }
 

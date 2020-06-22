@@ -61,6 +61,7 @@ import FootableCrudSchema from './CRUD/Footable';
 import NestedCrudSchema from './CRUD/Nested';
 import MergeCellSchema from './CRUD/MergeCell';
 import HeaderGroupSchema from './CRUD/HeaderGroup';
+import HeaderHideSchema from './CRUD/HeaderHide';
 import LoadOnceTableCrudSchema from './CRUD/LoadOnce';
 import SdkTest from './Sdk/Test';
 import JSONSchemaForm from './Form/Schem';
@@ -330,6 +331,11 @@ const navigations = [
             label: '表头分组',
             path: 'crud/header-group',
             component: makeSchemaRenderer(HeaderGroupSchema)
+          },
+          {
+            label: '表头隐藏',
+            path: 'crud/header-hide',
+            component: makeSchemaRenderer(HeaderHideSchema)
           },
           {
             label: '带边栏',
