@@ -94,7 +94,7 @@
     padding: $ListItem-paddingY $ListItem-paddingX;
     margin-bottom: px2rem(-1px);
     background-color: $white;
-    border: $ListItem-borderWidth solid $ListItem-borderColor;
+    border: $ListItem-borderWidth solid $List-borderColor;
 
     &:first-child {
       border-top-left-radius: $borderRadius;

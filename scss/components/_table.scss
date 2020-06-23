@@ -215,11 +215,10 @@
       }
     }
 
-    > thead > tr,
-    > tbody > tr {
-      background-color: $Table-thead-bg;
-
+    > thead > tr {
       > th {
+        background-color: $Table-thead-bg;
+
         &[colspan] {
           text-align: center;
         }
@@ -237,6 +236,7 @@
         &:not(:last-child) {
           border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
         }
+        border-bottom: $Table-thead-borderWidth solid $Table-thead-borderColor;
 
         font-size: $Table-thead-fontSize;
         color: $Table-thead-color;
@@ -257,14 +257,29 @@
       border-top: $Table-borderWidth solid $Table-borderColor;
     }
 
+    > thead > tr {
+      border-bottom: $Table-borderWidth solid $Table-borderColor;
+    }
+
     > tbody > tr {
-      border-top: $Table-borderWidth solid $Table-borderColor;
+      & + tr {
+        border-top: $Table-borderWidth solid $Table-borderColor;
+        > th {
+          border-top: $Table-thead-borderWidth solid $Table-thead-borderColor;
+        }
+      }
 
       > th {
         background-color: $Table-thead-bg;
+        // font-size: $Table-thead-fontSize;
+        color: $Table-thead-color;
+        font-weight: $fontWeightNormal;
+        white-space: nowrap;
+        border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
       }
 
-      > td {
+      > td,
+      > th {
         padding: $TableCell-paddingY $TableCell-paddingX;
         vertical-align: top;
 
