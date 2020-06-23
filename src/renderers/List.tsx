@@ -1113,8 +1113,10 @@ export class ListItemFieldRenderer extends TableCell {
   };
   static propsList = [
     'quickEdit',
+    'quickEditEnabledOn',
     'popOver',
     'copyable',
+    'inline',
     ...TableCell.propsList
   ];
 
