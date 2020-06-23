@@ -553,13 +553,16 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             }
 
             const finalRedirect =
-              (action.redirect || redirect) &&
-              filter(action.redirect || redirect, store.data);
+              (action.redirect || step.redirect || redirect) &&
+              filter(action.redirect || step.redirect || redirect, store.data);
 
             if (finalRedirect) {
               env.jumpTo(finalRedirect, action);
-            } else if (action.reload || reload) {
-              this.reloadTarget(action.reload || reload, store.data);
+            } else if (action.reload || step.reload || reload) {
+              this.reloadTarget(
+                action.reload || step.reload || reload,
+                store.data
+              );
             }
 
             return value;
