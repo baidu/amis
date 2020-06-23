@@ -427,8 +427,10 @@ export class CardItemFieldRenderer extends TableCell {
 
   static propsList = [
     'quickEdit',
+    'quickEditEnabledOn',
     'popOver',
     'copyable',
+    'inline',
     ...TableCell.propsList
   ];
 

@@ -335,11 +335,8 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
           schema = {
             title: '',
             autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
-            mode:
-              (quickEdit as QuickEditConfig).mode === 'inline'
-                ? 'inline'
-                : 'normal',
             ...quickEdit,
+            mode: 'noraml',
             type: 'form'
           };
         } else {
@@ -348,15 +345,13 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
             className: quickEdit.formClassName,
             type: 'form',
             autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
-            mode:
-              (quickEdit as QuickEditConfig).mode === 'inline'
-                ? 'inline'
-                : 'normal',
+            mode: 'normal',
             controls: [
               {
                 type: quickEdit.type || 'text',
                 name: quickEdit.name || name,
-                ...quickEdit
+                ...quickEdit,
+                mode: undefined
               }
             ]
           };
