@@ -247,7 +247,7 @@ export const filters: {
       fn = value => !!~list.indexOf(value);
     } else if (directive === 'notIn') {
       let list: Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
-      list = Array.isArray(list) ? list : [];
+      list = Array.isArray(list) ? list : [list];
       fn = value => !~list.indexOf(value);
     } else {
       if (directive !== 'match') {
