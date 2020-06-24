@@ -113,7 +113,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     startChunkApi: '/api/upload/startChunk',
     chunkApi: '/api/upload/chunk',
     finishChunkApi: '/api/upload/finishChunk',
-    accept: 'text/plain',
+    accept: '',
     multiple: false,
     autoUpload: true,
     hideUploadButton: false,
