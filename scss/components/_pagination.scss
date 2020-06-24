@@ -1,7 +1,8 @@
 .#{$ns}Pagination {
   display: inline-block;
   padding-left: 0;
-  margin-bottom: px2rem(-10px);
+  padding: 0;
+  margin: 0 0 px2rem(-10px);
   border-radius: px2rem(4px);
 
   > li {
