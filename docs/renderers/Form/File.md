@@ -4,10 +4,9 @@
 
 - `type` 请设置成 `file`
 - `reciever` 默认 `/api/upload/file` 如果想自己存储，请设置此选项。(PS: 如果想存自己的 bos, 系统配置中可以直接填写自己的 bos 配置。)
-- `accept` 默认 `text/plain` 默认只支持纯文本，要支持其他类型，请配置此属性为文件后缀`.xxx`
+- `accept` 默认支持所有类型，如果限制只能选某些类型的文件，请配置此属性为文件后缀名`.xxx`
   - 例如：`.png`；
   - 也可以配置多个，用逗号分隔：`.mp3,.mp4`。
-  - 允许任意类型：`*`
 - `maxSize` 默认没有限制，当设置后，文件大小大于此值将不允许上传。
 - `multiple` 是否多选。
 - `maxLength` 默认没有限制，当设置后，一次只允许上传指定数量文件。
@@ -22,8 +21,8 @@
 - `startChunkApi` 默认 `/api/upload/startChunk` 想自己存储时才需要关注。
 - `chunkApi` 默认 `/api/upload/chunk` 想自己存储时才需要关注。
 - `finishChunkApi` 默认 `/api/upload/finishChunk` 想自己存储时才需要关注。
-- `autoFill` 将当前已选中的选项的某个字段的值自动填充到表单中某个表单项中，只在单选时有效
-  - 配置`"autoFill": {"address": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前`name`为`address`的表单项中
+- `autoFill` 将上传成功后接口返回值的某个字段，自动填充到表单中某个表单项中，只在单选时有效
+  - 配置`"autoFill": {"filename": "${filename}"}`，表示将选中项中的`filename`的值，自动填充到当前`name`为`filename`的表单项中
 - **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="250" scope="form-item"
