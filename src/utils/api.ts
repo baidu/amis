@@ -175,7 +175,7 @@ function responseAdaptor(ret: fetcherResult) {
 export function wrapFetcher(
   fn: (config: fetcherConfig) => Promise<fetcherResult>
 ): (api: Api, data: object, options?: object) => Promise<Payload | void> {
-  return function(api, data, options) {
+  return function (api, data, options) {
     api = buildApi(api, data, options) as ApiObject;
 
     api.requestAdaptor && (api = api.requestAdaptor(api) || api);
@@ -233,6 +233,10 @@ export function isApiOutdated(
 ): boolean {
   const url: string =
     (nextApi && (nextApi as ApiObject).url) || (nextApi as string);
+
+  if (nextApi && (nextApi as ApiObject).autoRefresh === false) {
+    return false;
+  }
 
   if (url && typeof url === 'string' && ~url.indexOf('$')) {
     prevApi = buildApi(prevApi as Api, prevData as object, {ignoreData: true});
