@@ -7,7 +7,7 @@ export interface ApiObject {
     withCredentials?: boolean;
     cancelExecutor?: (cancel: Function) => void;
   };
-  autoRefresh: boolean; // 是否自动刷新，当 url 中的取值结果变化时，自动刷新数据。
+  autoRefresh?: boolean; // 是否自动刷新，当 url 中的取值结果变化时，自动刷新数据。
   reload?: string;
   sendOn?: string;
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
