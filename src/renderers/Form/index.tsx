@@ -1219,7 +1219,11 @@ export class FormRenderer extends Form {
     super.componentWillUnmount();
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean = false) {
+  doAction(
+    action: Action,
+    data: object = this.props.store.data,
+    throwErrors: boolean = false
+  ) {
     return this.handleAction(undefined, action, data, throwErrors);
   }
 
