@@ -30,7 +30,7 @@ function amisRequire(...args: Array<any>) {
   let id = args.shift();
   id = Array.isArray(id) ? id.map(id => mapping[id] || id) : mapping[id] || id;
   args.unshift(id);
-  return require.apply(this, args);
+  return amis.require.apply(this, args);
 }
 
 (window as any).amisRequire = amisRequire;
