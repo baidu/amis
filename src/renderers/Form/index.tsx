@@ -460,6 +460,18 @@ export default class Form extends React.Component<FormProps, object> {
     return store.clearErrors();
   }
 
+  getValues() {
+    const {store} = this.props;
+    this.flush();
+    return store.data;
+  }
+
+  setValues(value: any) {
+    const {store} = this.props;
+    this.flush();
+    store.setValues(value);
+  }
+
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
     const {store, messages, translate: __} = this.props;
     this.flush();
