@@ -24,7 +24,7 @@ export default {
     {
       type: 'iframe',
       className: 'b-a',
-      src: 'https://www.baidu.com/s?wd=${keywords|url_encode}',
+      src: 'https://www.baidu.com/s?wd=${keywords|raw}',
       height: 500
     }
   ]
