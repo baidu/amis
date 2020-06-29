@@ -72,6 +72,7 @@ export class StatusField extends React.Component<StatusProps, object> {
           <Icon
             icon={svgIcon}
             className={cx('Status-icon icon', itemClassName)}
+            key="icon"
           />
         );
       } else if (itemClassName) {
