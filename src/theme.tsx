@@ -124,7 +124,7 @@ export interface ThemeProps {
 }
 
 export let defaultTheme: string = 'default';
-export const ThemeContext = React.createContext(undefined);
+export const ThemeContext = React.createContext('');
 
 export function themeable<
   T extends React.ComponentType<React.ComponentProps<T> & ThemeProps> & {
