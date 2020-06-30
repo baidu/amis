@@ -201,7 +201,8 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       title,
       confirmBtnLevel,
       alertBtnLevel,
-      classnames: cx
+      classnames: cx,
+      theme
     } = this.props;
     const __ = this.props.translate;
     const finalTitle = __(this.state.title ?? title);
@@ -226,7 +227,8 @@ export class Alert extends React.Component<AlertProps, AlertState> {
               this.state.controls,
               this.state.value,
               this.handleFormSubmit,
-              this.scopeRef
+              this.scopeRef,
+              theme
             )
           ) : (
             <Html html={this.state.content} />
@@ -258,7 +260,8 @@ function renderForm(
   controls: Array<any>,
   value: PlainObject = {},
   callback?: (values: PlainObject) => void,
-  scopeRef?: (value: any) => void
+  scopeRef?: (value: any) => void,
+  theme?: string
 ) {
   return renderSchema(
     {
@@ -271,7 +274,8 @@ function renderForm(
     {
       data: value,
       onFinished: callback,
-      scopeRef
+      scopeRef,
+      theme
     },
     {
       session: 'prompt'
