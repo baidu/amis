@@ -789,7 +789,9 @@ export default class List extends React.Component<ListProps, object> {
             )}
           </div>
         ) : (
-          <div className={cx('List-placeholder')}>{__(placeholder)}</div>
+          <div className={cx('List-placeholder')}>
+            {render('placeholder', __(placeholder))}
+          </div>
         )}
 
         {this.renderFooter()}
