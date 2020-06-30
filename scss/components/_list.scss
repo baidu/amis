@@ -78,7 +78,7 @@
   &-placeholder {
     color: $text--muted-color;
     text-align: center;
-    height: $List-placeholder-height;
+    min-height: $List-placeholder-height;
     line-height: $List-placeholder-height;
   }
 }
