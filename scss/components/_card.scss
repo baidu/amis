@@ -144,7 +144,7 @@
       color: $text-color;
       text-align: center;
       line-height: px2rem(40px);
-      // font-size: $fontSizeBase;
+      font-size: $Card-actions-fontSize;
 
       &:not(.is-disabled) {
         cursor: pointer;

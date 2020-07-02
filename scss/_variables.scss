@@ -512,6 +512,7 @@ $Card-actions-borderColor: lighten($Card-borderColor, 5%) !default;
 $Card-actions-onHover-bg: darken($white, 5%) !default;
 $Card-actions-onHover-color: darken($text-color, 5%) !default;
 $Card-actions-onChecked-onHover-bg: darken(#d9f3fb, 5%) !default;
+$Card-actions-fontSize: $fontSizeBase !default;
 
 $Card-onChecked-bg: #d9f3fb !default;
 $Card-onChecked-borderColor: darken($Table-onChecked-bg, 10%) !default;
