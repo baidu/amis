@@ -839,7 +839,7 @@ export default class Cards extends React.Component<GridProps, object> {
           </div>
         ) : (
           <div className={cx('Cards-placeholder')}>
-            {filter(__(placeholder), data)}
+            {render('placeholder', __(placeholder))}
           </div>
         )}
 
