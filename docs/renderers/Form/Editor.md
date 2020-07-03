@@ -5,6 +5,7 @@
 - `type` 请设置成 `editor` 或者 `bat-editor`、`c-editor`、`coffeescript-editor`、`cpp-editor`、`csharp-editor`、`css-editor`、`dockerfile-editor`、`fsharp-editor`、`go-editor`、`handlebars-editor`、`html-editor`、`ini-editor`、`java-editor`、`javascript-editor`、`json-editor`、`less-editor`、`lua-editor`、`markdown-editor`、`msdax-editor`、`objective-c-editor`、`php-editor`、`plaintext-editor`、`postiats-editor`、`powershell-editor`、`pug-editor`、`python-editor`、`r-editor`、`razor-editor`、`ruby-editor`、`sb-editor`、`scss-editor`、`sol-editor`、`sql-editor`、`swift-editor`、`typescript-editor`、`vb-editor`、`xml-editor`、`yaml-editor`。
 - `language` 默认为 `javascript` 当 `type` 为 `editor` 的时候有用。
 - `size` 编辑器高度，取值可以是 `md`、`lg`、`xl`、`xxl`。
+- `options` monaco 编辑器的其它配置，比如是否显示行号等，请参考[这里](https://microsoft.github.io/monaco-editor/api/enums/monaco.editor.editoroption.html)。
 - **还有更多通用配置请参考** [FormItem](./FormItem.md)
 
 ```schema:height="350" scope="form-item"
