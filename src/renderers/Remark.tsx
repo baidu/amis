@@ -76,6 +76,7 @@ class Remark extends React.Component<RemarkProps> {
           classPrefix={ns}
           classnames={cx}
           tooltip={filterContents(tooltip || content, data)}
+          tooltipClassName={tooltip && tooltip.tooltipClassName}
           placement={(tooltip && tooltip.placement) || placement}
           rootClose={(tooltip && tooltip.rootClose) || rootClose}
           trigger={(tooltip && tooltip.trigger) || trigger}

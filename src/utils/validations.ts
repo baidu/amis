@@ -259,7 +259,7 @@ export function validate(
 
   rules &&
     Object.keys(rules).forEach(ruleName => {
-      if (!rules[ruleName]) {
+      if (!isExisty(rules[ruleName]) || isEmpty(rules[ruleName])) {
         return;
       } else if (typeof validations[ruleName] !== 'function') {
         throw new Error('Validation `' + ruleName + '` not exists!');
