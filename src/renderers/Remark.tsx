@@ -66,16 +66,12 @@ class Remark extends React.Component<RemarkProps> {
     const finalIcon = (tooltip && tooltip.icon) || icon;
 
     return (
-      <div
-        className={cx(
-          `Remark`,
-          (tooltip && tooltip.className) || className || `Remark--warning`
-        )}
-      >
+      <div className={cx(`Remark`, className || `Remark--warning`)}>
         <TooltipWrapper
           classPrefix={ns}
           classnames={cx}
           tooltip={filterContents(tooltip || content, data)}
+          tooltipClassName={tooltip && tooltip.className}
           placement={(tooltip && tooltip.placement) || placement}
           rootClose={(tooltip && tooltip.rootClose) || rootClose}
           trigger={(tooltip && tooltip.trigger) || trigger}
