@@ -120,10 +120,11 @@ export interface ThemeProps {
   className?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
+  theme?: string;
 }
 
-export const ThemeContext = React.createContext('theme');
 export let defaultTheme: string = 'default';
+export const ThemeContext = React.createContext('');
 
 export function themeable<
   T extends React.ComponentType<React.ComponentProps<T> & ThemeProps> & {
@@ -156,9 +157,11 @@ export function themeable<
         const injectedProps: {
           classPrefix: string;
           classnames: ClassNamesFn;
+          theme: string;
         } = {
           classPrefix: config.classPrefix as string,
-          classnames: config.classnames
+          classnames: config.classnames,
+          theme
         };
 
         return (

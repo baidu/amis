@@ -168,16 +168,17 @@ function createScopedTools(
      *
      * @param target 目标 name
      */
-    close(target: string) {
+    close(target: string | boolean) {
       const scoped = this;
-      let targets =
-        typeof target === 'string' ? target.split(/\s*,\s*/) : target;
 
-      // 过滤已经关掉的，当用户 close 配置多个弹框 name 时会出现这种情况
-      targets
-        .map(name => scoped.getComponentByName(name))
-        .filter(component => component && component.props.show)
-        .forEach(closeDialog);
+      if (typeof target === 'string') {
+        // 过滤已经关掉的，当用户 close 配置多个弹框 name 时会出现这种情况
+        target
+          .split(/\s*,\s*/)
+          .map(name => scoped.getComponentByName(name))
+          .filter(component => component && component.props.show)
+          .forEach(closeDialog);
+      }
     }
   };
 }

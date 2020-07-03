@@ -460,6 +460,18 @@ export default class Form extends React.Component<FormProps, object> {
     return store.clearErrors();
   }
 
+  getValues() {
+    const {store} = this.props;
+    this.flush();
+    return store.data;
+  }
+
+  setValues(value: any) {
+    const {store} = this.props;
+    this.flush();
+    store.setValues(value);
+  }
+
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
     const {store, messages, translate: __} = this.props;
     this.flush();
@@ -1219,7 +1231,11 @@ export class FormRenderer extends Form {
     super.componentWillUnmount();
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean = false) {
+  doAction(
+    action: Action,
+    data: object = this.props.store.data,
+    throwErrors: boolean = false
+  ) {
     return this.handleAction(undefined, action, data, throwErrors);
   }
 

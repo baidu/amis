@@ -5,7 +5,7 @@
  */
 
 import NotFound from './404';
-import {default as Alert, alert, confirm} from './Alert';
+import {default as Alert, alert, confirm, prompt} from './Alert';
 import {default as ContextMenu, openContextMenus} from './ContextMenu';
 import AsideNav from './AsideNav';
 import Button from './Button';
@@ -57,10 +57,11 @@ export {
   NotFound,
   Alert as AlertComponent,
   alert,
+  confirm,
+  prompt,
   ContextMenu,
   openContextMenus,
   Alert2,
-  confirm,
   AsideNav,
   Button,
   Checkbox,
