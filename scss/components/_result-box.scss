@@ -10,7 +10,9 @@
     background-color: $Form-input-onError-bg;
   }
 
-  &.is-focused {
+  &.is-focused,
+  &:focus {
+    outline: none;
     border-color: $Form-input-onFocused-borderColor;
     box-shadow: $Form-input-boxShadow;
 

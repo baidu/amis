@@ -454,6 +454,9 @@ $Card-actions-onHover-bg: white;
 $Card-actions-onHover-color: $primary;
 $Card-actions-onChecked-onHover-bg: $white;
 
+$Card-actions-borderColor: lighten($borderColor, 2.5%);
+$Card-actions-fontSize: px2rem(12px);
+
 // Combo
 $Combo--horizontal-dragger-top: px2rem(5px);
 

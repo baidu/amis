@@ -443,7 +443,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
             action.reload
               ? this.reloadTarget(action.reload, data)
-              : this.search({[pageField || 'page']: 1}, undefined, true);
+              : this.search({[pageField || 'page']: 1}, undefined, true, true);
             action.close && this.closeTarget(action.close);
 
             const redirect = action.redirect && filter(action.redirect, data);

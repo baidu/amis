@@ -42,7 +42,7 @@ const entityMap: {
   '/': '&#x2F;'
 };
 export const escapeHtml = (str: string) =>
-  String(str).replace(/[&<>"'\/]/g, function(s) {
+  String(str).replace(/[&<>"'\/]/g, function (s) {
     return entityMap[s];
   });
 
@@ -218,13 +218,13 @@ export const filters: {
     Array.isArray(input)
       ? input.map(item => resolveVariable(path, item) || item)
       : resolveVariable(path, input) || input,
-  str2date: function(input, inputFormat = 'X', outputFormat = 'X') {
+  str2date: function (input, inputFormat = 'X', outputFormat = 'X') {
     return input
       ? filterDate(input, this, inputFormat).format(outputFormat)
       : '';
   },
   asArray: input => (Array.isArray(input) ? input : input ? [input] : input),
-  filter: function(input, keys, expOrDirective, arg1) {
+  filter: function (input, keys, expOrDirective, arg1) {
     if (!Array.isArray(input) || !keys || !expOrDirective) {
       return input;
     }
@@ -243,7 +243,7 @@ export const filters: {
       fn = value => arg1 == value;
     } else if (directive === 'isIn') {
       let list: Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
-      list = Array.isArray(list) ? list : [];
+      list = Array.isArray(list) ? list : [list];
       fn = value => !!~list.indexOf(value);
     } else if (directive === 'notIn') {
       let list: Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
@@ -284,7 +284,7 @@ export const filters: {
     return decodeURIComponent(
       atob(str)
         .split('')
-        .map(function(c) {
+        .map(function (c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         })
         .join('')
