@@ -138,6 +138,16 @@ $gap-lg: px2rem(30px) !default;
 $icon-color: $gray600 !default;
 $icon-onHover-color: $gray900 !default;
 
+$label--default-bg: $gray700 !default;
+$label--primary-bg: $primary !default;
+$label--success-bg: $success !default;
+$label--info-bg: $info !default;
+$label--warning-bg: $warning !default;
+$label--danger-bg: $danger !default;
+
+$label-color: #fff !default;
+$label-link--hover-color: #fff !default;
+
 // Components
 $scrollbar-width: px2rem(17px) !default;
 
