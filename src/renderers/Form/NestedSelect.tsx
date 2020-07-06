@@ -562,7 +562,9 @@ export default class NestedSelectControl extends React.Component<
 
           {this.renderClear()}
 
-          <span className={cx('Select-arrow')} />
+          <span className={cx('Select-arrow')}>
+            <Icon icon="caret" className="icon" />
+          </span>
         </div>
 
         {this.state.isOpened ? this.renderOuter() : null}
