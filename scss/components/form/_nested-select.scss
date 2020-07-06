@@ -6,7 +6,7 @@
   border: $Form-select-borderWidth solid $Form-select-borderColor;
   background: $Form-select-bg;
   border-radius: $Form-select-borderRadius;
-  height: $Form-selectOption-height;
+  min-height: $Form-selectOption-height;
   $paddingY: (
       $Form-selectOption-height - $Form-input-lineHeight * $Form-input-fontSize -
         $Form-select-borderWidth * 2
