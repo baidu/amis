@@ -31,10 +31,8 @@
     }
   }
 
-  &.is-opened {
-    .#{$ns}Select-arrow:before {
-      transform: rotate(180deg);
-    }
+  &.is-opened .#{$ns}Select-arrow > svg {
+    transform: rotate(180deg);
   }
 
   &:not(.is-disabled):hover {
