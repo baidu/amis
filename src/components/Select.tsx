@@ -407,34 +407,29 @@ export class Select extends React.Component<SelectProps, SelectState> {
       props.value !== nextProps.value ||
       JSON.stringify(props.options) !== JSON.stringify(nextProps.options)
     ) {
+      let selection;
       if (
-        props.value !== nextProps.value ||
-        JSON.stringify(props.options) !== JSON.stringify(nextProps.options)
+        (
+          !props.options
+          || !props.options.length
+        )
+        && nextProps.options.length
       ) {
-        let selection;
-        if (
-          (
-            !props.options
-            || !props.options.length
-          )
-          && nextProps.options.length
-        ) {
-          const {selection: stateSelection} = this.state;
-          const {multiple, defaultCheckAll, options, onChange, simpleValue} = nextProps;
-          if (multiple && defaultCheckAll && options.length) {
-            selection = union(options, stateSelection);
-            onChange(simpleValue ? selection.map(item => item.value) : selection);
-          } else {
-            selection = value2array(nextProps.value, nextProps);
-          }
+        const {selection: stateSelection} = this.state;
+        const {multiple, defaultCheckAll, options, onChange, simpleValue} = nextProps;
+        if (multiple && defaultCheckAll && options.length) {
+          selection = union(options, stateSelection);
+          onChange(simpleValue ? selection.map(item => item.value) : selection);
         } else {
           selection = value2array(nextProps.value, nextProps);
         }
-
-        this.setState({
-          selection: selection
-        });
+      } else {
+        selection = value2array(nextProps.value, nextProps);
       }
+
+      this.setState({
+        selection: selection
+      });
     }
   }
 
