@@ -53,6 +53,7 @@
     width: px2rem(26px);
     height: px2rem(26px);
     margin: 0 px2rem(-2px);
+    margin-left: auto;
 
     &:hover {
       background: $ResultBox-value-bg;
