@@ -10986,7 +10986,7 @@ require.resourceMap({
       "type": "js"
     },
     "p2": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/tinymce_8db0b6e.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/tinymce_b5b4f5b.js",
       "type": "js"
     },
     "p3": {
