@@ -866,7 +866,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         })
         .then(() => {
           reload && this.reloadTarget(reload, data);
-          this.search();
+          this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
     } else {
@@ -886,7 +886,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .saveRemote(quickSaveItemApi, sendData)
         .then(() => {
           reload && this.reloadTarget(reload, data);
-          this.search();
+          this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
     }
@@ -995,7 +995,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .saveRemote(saveOrderApi, model)
         .then(() => {
           reload && this.reloadTarget(reload, model);
-          this.search();
+          this.search(undefined, undefined, true, true);
         })
         .catch(() => {});
   }
