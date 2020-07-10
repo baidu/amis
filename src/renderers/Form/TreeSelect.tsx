@@ -327,10 +327,16 @@ export default class TreeSelectControl extends React.Component<
       extractValue,
       delimiter,
       valueField,
-      onChange
+      onChange,
+      multiple
     } = this.props;
 
     let newValue: any = Array.isArray(value) ? value.concat() : [];
+
+    if (!multiple && !newValue.length) {
+      onChange('');
+      return;
+    }
 
     if (joinValues || extractValue) {
       newValue = value.map(item => item[valueField || 'value']);

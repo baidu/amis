@@ -173,7 +173,9 @@ export class ResultBox extends React.Component<ResultBoxProps> {
 
         {children}
 
-        {clearable && !disabled && Array.isArray(result) && result.length ? (
+        {clearable &&
+        !disabled &&
+        (Array.isArray(result) ? result.length : result) ? (
           <a
             // data-tooltip="清空"
             // data-position="bottom"
