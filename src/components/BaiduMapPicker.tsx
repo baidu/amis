@@ -1,9 +1,8 @@
 import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
-import {Icon} from '..';
 import {loadScript, autobind, uuid} from '../utils/helper';
-import {threadId} from 'worker_threads';
 import debounce from 'lodash/debounce';
+import {Icon} from './icons';
 
 declare const BMap: any;
 
