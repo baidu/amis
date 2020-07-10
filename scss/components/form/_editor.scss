@@ -23,6 +23,14 @@
     border-color: $Form-input-onFocused-borderColor;
   }
 
+  &--sm {
+    min-height: 100px;
+
+    > .#{$ns}MonacoEditor {
+      min-height: 100px;
+    }
+  }
+
   &--md {
     min-height: 250px;
 
