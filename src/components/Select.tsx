@@ -402,12 +402,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   componentDidUpdate(prevProps: SelectProps) {
     const props = this.props;
+    let fn:() => void = noop;
 
     if (
       props.value !== prevProps.value ||
       JSON.stringify(props.options) !== JSON.stringify(prevProps.options)
     ) {
-      let selection;
+      let selection: Array<Option>;
       if (
         (
           !prevProps.options
@@ -419,7 +420,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         const {multiple, defaultCheckAll, options, onChange, simpleValue} = props;
         if (multiple && defaultCheckAll && options.length) {
           selection = union(options, stateSelection);
-          onChange(simpleValue ? selection.map(item => item.value) : selection);
+          fn = () => onChange(simpleValue ? selection.map(item => item.value) : selection);
         } else {
           selection = value2array(props.value, props);
         }
@@ -429,7 +430,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
       this.setState({
         selection: selection
-      });
+      }, fn);
     }
   }
 
