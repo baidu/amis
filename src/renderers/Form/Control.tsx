@@ -365,8 +365,11 @@ export default class FormControl extends React.PureComponent<
       formInited
     } = this.props;
 
-    // todo 以后想办法不要強耦合类型。
-    if (!this.model || ~['service'].indexOf(type)) {
+    if (
+      !this.model ||
+      // todo 以后想办法不要強耦合类型。
+      ~['service', 'group', 'hbox', 'panel', 'grid'].indexOf(type)
+    ) {
       onChange && onChange(...(arguments as any));
       return;
     }
