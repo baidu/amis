@@ -436,7 +436,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     // 当有 action 触发，如果指定了 reload 目标组件，有可能会来到这里面来
     @autobind
     reload() {
-      this.reloadOptions();
+      return this.reloadOptions();
     }
 
     @autobind
