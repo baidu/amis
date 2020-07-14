@@ -120,7 +120,8 @@ export class ChainedCheckboxes extends BaseCheckboxes<
       placeholder,
       classnames: cx,
       option2value,
-      itemRender
+      itemRender,
+      translate: __
     } = this.props;
 
     this.valueArray = BaseCheckboxes.value2array(value, options, option2value);
@@ -137,18 +138,21 @@ export class ChainedCheckboxes extends BaseCheckboxes<
             body,
             options,
             subTitle,
-            indexes
+            indexes,
+            placeholder
           }: {
             body: Array<React.ReactNode>;
             options: Array<Option> | null;
             subTitle?: string;
             indexes: Array<number>;
+            placeholder?: string;
           },
           selected,
           depth
         ) => {
           let nextOptions: Array<Option> = [];
           let nextSubTitle: string = '';
+          let nextPlaceholder: string = '';
           let nextIndexes = indexes;
 
           body.push(
@@ -158,25 +162,31 @@ export class ChainedCheckboxes extends BaseCheckboxes<
                   {subTitle}
                 </div>
               ) : null}
-              {Array.isArray(options) && options.length
-                ? options.map((option, index) => {
-                    const id = indexes.concat(index).join('-');
+              {Array.isArray(options) && options.length ? (
+                options.map((option, index) => {
+                  const id = indexes.concat(index).join('-');
 
-                    if (id === selected) {
-                      nextSubTitle = option.subTitle;
-                      nextOptions = option.children!;
-                      nextIndexes = indexes.concat(index);
-                    }
+                  if (id === selected) {
+                    nextSubTitle = option.subTitle;
+                    nextOptions = option.children!;
+                    nextIndexes = indexes.concat(index);
+                    nextPlaceholder = option.placeholder;
+                  }
 
-                    return this.renderOption(option, index, depth, id);
-                  })
-                : null}
+                  return this.renderOption(option, index, depth, id);
+                })
+              ) : (
+                <div className={cx('ChainedCheckboxes-placeholder')}>
+                  {__(placeholder)}
+                </div>
+              )}
             </div>
           );
 
           return {
             options: nextOptions,
             subTitle: nextSubTitle,
+            placeholder: nextPlaceholder,
             indexes: nextIndexes,
             body: body
           };
@@ -184,12 +194,11 @@ export class ChainedCheckboxes extends BaseCheckboxes<
         {
           options,
           body,
-          indexes: []
+          indexes: [],
+          placeholder
         }
       );
     }
-
-    const __ = this.props.translate;
 
     return (
       <div className={cx('ChainedCheckboxes', className)}>
