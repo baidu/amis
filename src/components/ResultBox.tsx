@@ -128,7 +128,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           onResultClick ? 'is-clickable' : ''
         )}
         onClick={onResultClick}
-        tabIndex={!allowInput && onFocus ? 0 : -1}
+        tabIndex={!allowInput && !disabled && onFocus ? 0 : -1}
         onKeyPress={allowInput ? undefined : onKeyPress}
         onFocus={allowInput ? undefined : onFocus}
         onBlur={allowInput ? undefined : onBlur}
@@ -139,20 +139,22 @@ export class ResultBox extends React.Component<ResultBoxProps> {
               <span className={cx('ResultBox-valueLabel')}>
                 {itemRender(item)}
               </span>
-              <a data-index={index} onClick={this.removeItem}>
-                <Icon icon="close" className="icon" />
-              </a>
+              {!disabled ? (
+                <a data-index={index} onClick={this.removeItem}>
+                  <Icon icon="close" className="icon" />
+                </a>
+              ) : null}
             </div>
           ))
         ) : result && !Array.isArray(result) ? (
           <span className={cx('ResultBox-singleValue')}>{result}</span>
-        ) : allowInput ? null : (
+        ) : allowInput && !disabled ? null : (
           <span className={cx('ResultBox-placeholder')}>
             {__(placeholder || '无')}
           </span>
         )}
 
-        {allowInput ? (
+        {allowInput && !disabled ? (
           <Input
             {...rest}
             onKeyPress={onKeyPress}

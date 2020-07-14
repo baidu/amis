@@ -5,6 +5,11 @@
     border-radius: 0;
   }
 
+  &-input.is-disabled {
+    border-style: dashed;
+    background: transparent;
+  }
+
   &.is-inline {
     display: inline-block;
   }
