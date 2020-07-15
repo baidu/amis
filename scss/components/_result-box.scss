@@ -75,10 +75,6 @@
     cursor: pointer;
   }
 
-  &-mid {
-    flex-grow: 1;
-  }
-
   &-value {
     background: $ResultBox-value-bg;
     color: $ResultBox-value-color;
