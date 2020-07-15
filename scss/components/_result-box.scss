@@ -21,7 +21,7 @@
     }
   }
 
-  &.is-clickable {
+  &.is-clickable:not(.is-disabled) {
     cursor: pointer;
 
     &:hover {
