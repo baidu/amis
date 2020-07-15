@@ -1,6 +1,6 @@
 ### Image
 
-图片格式输入，默认 amis 会直接存储在 FEX 的 hiphoto 里面，提交到 form 是直接的图片 url。
+用于上传图片的控件。
 
 - `type` 请设置成 `image`
 - `reciever` 默认 `/api/upload` 如果想自己存储，请设置此选项。
@@ -13,6 +13,7 @@
 - `maxSize` 默认没有限制，当设置后，文件大小大于此值将不允许上传。
 - `crop` 用来设置是否支持裁剪。
   - `aspectRatio` 浮点型，默认 `1` 即 `1:1`，如果要设置 `16:9` 请设置 `1.7777777777777777` 即 `16 / 9`。
+- `accept` 默认是 png/jpg/gif 图片，可以通过修改这个来扩充或缩小支持的图片格式，比如 `.png, .gif` 就只支持 png 和 gif。
 - `limit` 限制图片大小，超出不让上传。
   - `width` 限制图片宽度。
   - `height` 限制图片高度。
@@ -24,6 +25,8 @@
 - `autoFill` 将上传成功后接口返回值的某个字段，自动填充到表单中某个表单项中，只在单选时有效
   - 配置`"autoFill": {"filename": "${filename}"}`，表示将选中项中的`filename`的值，自动填充到当前`name`为`filename`的表单项中
 - **还有更多通用配置请参考** [FormItem](./FormItem.md)
+
+> 由于 github pages 只能是静态页面，下面的示例暂未实现上传功能
 
 ```schema:height="250" scope="form-item"
 {
