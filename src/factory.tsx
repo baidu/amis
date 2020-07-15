@@ -961,25 +961,28 @@ export function render(
 
   const locale = props.locale || getDefaultLocale();
   const translate = props.translate || makeTranslator(locale);
-  let store =
-    stores[options.session || 'global'] ||
-    (stores[options.session || 'global'] = RendererStore.create(
-      {},
-      {
-        ...options,
-        fetcher: options.fetcher
-          ? wrapFetcher(options.fetcher)
-          : defaultOptions.fetcher,
-        confirm: options.confirm
-          ? promisify(options.confirm)
-          : defaultOptions.confirm,
-        locale,
-        translate
-      }
-    ));
+  let store = stores[options.session || 'global'];
+
+  if (!store) {
+    options = {
+      ...options,
+      fetcher: options.fetcher
+        ? wrapFetcher(options.fetcher)
+        : defaultOptions.fetcher,
+      confirm: options.confirm
+        ? promisify(options.confirm)
+        : defaultOptions.confirm,
+      locale,
+      translate
+    } as any;
+
+    store = RendererStore.create({}, options);
+    stores[options.session || 'global'] = store;
+  }
 
   (window as any).amisStore = store; // 为了方便 debug.
   const env = getEnv(store);
+
   const theme = props.theme || options.theme || 'default';
   env.theme = getTheme(theme);
 
@@ -1002,6 +1005,8 @@ export function render(
   );
 }
 
+// 默认 env 会被缓存，所以新传入的 env 不会替换旧的。
+// 除非先删了旧的，新的才会生效。
 export function clearStoresCache(
   sessions: Array<string> | string = Object.keys(stores)
 ) {
@@ -1015,6 +1020,32 @@ export function clearStoresCache(
 
     store && destroy(store);
   });
+}
+
+// 当然也可以直接这样更新。
+// 主要是有时候第一创建的时候并没有准备多少接口，
+// 可以后续补充点，比如 amis 自己实现的，prompt 里面的表单。
+export function updateEnv(options: Partial<RenderOptions>, session = 'global') {
+  options = {
+    ...options
+  };
+
+  if (options.fetcher) {
+    options.fetcher = wrapFetcher(options.fetcher) as any;
+  }
+
+  if (options.confirm) {
+    options.confirm = promisify(options.confirm);
+  }
+
+  let store = stores[options.session || session];
+  if (!store) {
+    store = RendererStore.create({}, options);
+    stores[options.session || 'global'] = store;
+  } else {
+    const env = getEnv(store);
+    Object.assign(env, options);
+  }
 }
 
 let cache: {[propName: string]: RendererConfig} = {};
