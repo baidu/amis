@@ -11,7 +11,7 @@
 ## 相关工具及平台
 
 - 通过 amis 搭建自己的后台系统：https://github.com/fex-team/amis-admin
-- 可视化编辑器：http://fex-team.github.io/amis-editor
+- 可视化编辑器：https://github.com/fex-team/amis-editor
 
 ## 开发指南
 
