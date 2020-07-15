@@ -169,9 +169,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
           />
-        ) : (
-          <span className={cx('ResultBox-mid')} />
-        )}
+        ) : null}
 
         {children}
 

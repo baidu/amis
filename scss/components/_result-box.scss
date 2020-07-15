@@ -21,7 +21,7 @@
     }
   }
 
-  &.is-clickable {
+  &.is-clickable:not(.is-disabled) {
     cursor: pointer;
 
     &:hover {
@@ -73,10 +73,6 @@
 
   > a {
     cursor: pointer;
-  }
-
-  &-mid {
-    flex-grow: 1;
   }
 
   &-value {
