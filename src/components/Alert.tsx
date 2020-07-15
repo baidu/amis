@@ -269,7 +269,10 @@ function renderForm(
       type: 'form',
       wrapWithPanel: false,
       mode: 'horizontal',
-      controls
+      controls,
+      messages: {
+        validateFailed: ''
+      }
     },
     {
       data: value,
