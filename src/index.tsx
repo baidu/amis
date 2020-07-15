@@ -11,7 +11,8 @@ import {
   getRendererByName,
   resolveRenderer,
   filterSchema,
-  clearStoresCache
+  clearStoresCache,
+  updateEnv
 } from './factory';
 import {wrapFetcher, buildApi} from './utils/api';
 import {
@@ -178,6 +179,7 @@ export * from './components/index';
 export {
   render,
   clearStoresCache,
+  updateEnv,
   Renderer,
   RegisterStore,
   FormItem,
