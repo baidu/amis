@@ -1037,7 +1037,7 @@ export function updateEnv(options: Partial<RenderOptions>, session = 'global') {
   let store = stores[options.session || session];
   if (!store) {
     store = RendererStore.create({}, options);
-    stores[options.session || 'global'] = store;
+    stores[options.session || session] = store;
   } else {
     const env = getEnv(store);
     Object.assign(env, options);
