@@ -954,17 +954,13 @@ export function render(
   options: RenderOptions = {},
   pathPrefix: string = ''
 ): JSX.Element {
-  options = {
-    ...defaultOptions,
-    ...options
-  };
-
   const locale = props.locale || getDefaultLocale();
   const translate = props.translate || makeTranslator(locale);
   let store = stores[options.session || 'global'];
 
   if (!store) {
     options = {
+      ...defaultOptions,
       ...options,
       fetcher: options.fetcher
         ? wrapFetcher(options.fetcher)
