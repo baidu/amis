@@ -4,10 +4,14 @@ import {filter} from '../utils/tpl';
 import {autobind, createObject} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {buildApi} from '../utils/api';
+import {ActionProps} from './Action';
 
 export interface IFrameProps extends RendererProps {
   className?: string;
   src?: string;
+  events?: {
+    [eventName: string]: Object;
+  };
 }
 
 export default class IFrame extends React.Component<IFrameProps, object> {
@@ -19,6 +23,40 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     height: '100%',
     frameBorder: 0
   };
+
+  componentDidMount() {
+    window.addEventListener('message', this.onMessage);
+  }
+
+  componentDidUpdate(prevProps: IFrameProps) {
+    const data = this.props.data;
+
+    if (data !== prevProps.data) {
+      this.postMessage(data);
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('message', this.onMessage);
+  }
+
+  @autobind
+  onMessage(e: MessageEvent) {
+    const {events, onAction, data} = this.props;
+
+    if (!e.data || e.data === '' || !events) {
+      return;
+    }
+
+    const action = events[e.data.event];
+    action && onAction(e, action, createObject(data, e.data.data));
+  }
+
+  @autobind
+  onLoad() {
+    const {src, data} = this.props;
+    src && this.postMessage(data);
+  }
 
   // 当别的组件通知 iframe reload 的时候执行。
   @autobind
@@ -34,6 +72,8 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         src,
         data
       ).url;
+
+      this.postMessage(data);
     }
   }
 
@@ -47,7 +87,17 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         src,
         createObject(data, values)
       ).url;
+
+      this.postMessage(createObject(data, values));
     }
+  }
+
+  @autobind
+  postMessage(data: any) {
+    (this.IFrameRef.current as HTMLIFrameElement).contentWindow?.postMessage(
+      data,
+      '*'
+    );
   }
 
   render() {
@@ -66,6 +116,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         frameBorder={frameBorder}
         style={style}
         ref={this.IFrameRef}
+        onLoad={this.onLoad}
         src={src ? buildApi(src, data).url : undefined}
       />
     );
