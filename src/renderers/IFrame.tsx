@@ -4,7 +4,6 @@ import {filter} from '../utils/tpl';
 import {autobind, createObject} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {buildApi} from '../utils/api';
-import {ActionProps} from './Action';
 
 export interface IFrameProps extends RendererProps {
   className?: string;
