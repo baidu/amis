@@ -132,11 +132,13 @@ module.exports = function (ret, pack, settings, opt) {
     } catch (e) {
         d = (/((?:https?|file)\:.*)$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
     }
-    ${contents
-      .replace(/\"url\"\s*\:\s*('|")(\.\/.*)\1/g, function (_, quote, value) {
-        return `"url": d + ${quote}${value.substring(1)}${quote}`;
-      })
-      .replace(/require\.resourceMap/, 'amis.require.resourceMap')}
+    ${contents.replace(/\"url\"\s*\:\s*('|")(\.\/.*)\1/g, function (
+      _,
+      quote,
+      value
+    ) {
+      return `"url": d + ${quote}${value.substring(1)}${quote}`;
+    })}
         })()`;
         }
 
