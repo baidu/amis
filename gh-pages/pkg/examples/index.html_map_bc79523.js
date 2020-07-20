@@ -10996,7 +10996,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers_bbdddec.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers_834992f.js",
       "type": "js"
     },
     "docs/renderers/Action.md": {
@@ -11132,7 +11132,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Form/Editor.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Editor_405c77b.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Editor_9c1052c.js",
       "type": "js"
     },
     "docs/renderers/Form/Email.md": {
@@ -11176,7 +11176,7 @@ require.resourceMap({
       "type": "js"
     },
     "docs/renderers/Form/Image.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Image_dee9a9b.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Form/Image_36c3397.js",
       "type": "js"
     },
     "docs/renderers/Form/Input-Group.md": {
@@ -11301,6 +11301,10 @@ require.resourceMap({
     },
     "docs/renderers/Html.md": {
       "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/Html_066cc57.js",
+      "type": "js"
+    },
+    "docs/renderers/JSON.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/renderers/JSON_02c4cdc.js",
       "type": "js"
     },
     "docs/renderers/List.md": {
