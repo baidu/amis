@@ -70,7 +70,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
   @autobind
   onLoad() {
     const {src, data} = this.props;
-    src && this.postMessage('load', data);
+    src && this.postMessage('init', data);
   }
 
   // 当别的组件通知 iframe reload 的时候执行。
