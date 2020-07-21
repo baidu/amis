@@ -26,7 +26,7 @@ window.addEventListener('message', e => {
 
 ```json
 {
-  "type": "amis:load", // 当前事件类型
+  "type": "amis:init", // 当前事件类型
   "data": {
     //... 当前数据域数据
   }
