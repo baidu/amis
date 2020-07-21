@@ -34,7 +34,7 @@ window.addEventListener('message', e => {
 ```
 
 - **type**: 当前事件类型
-  - amis:load：初始化的时候触发
+  - amis:init：初始化的时候触发
   - amis:update：组件更新时触发
   - amis:receive：组件通过 target 接收到其他组件发送来数据的时候
 - **data**：当前数据源数据
