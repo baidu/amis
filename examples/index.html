@@ -62,7 +62,7 @@
       })();
 
       /* @require ./index.jsx 标记为同步依赖，提前加载 */
-      require(['./index.jsx'], function (app) {
+      amis.require(['./index.jsx'], function (app) {
         var initialState = {};
         app.bootstrap(document.getElementById('root'), initialState);
       });
