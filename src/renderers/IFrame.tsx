@@ -18,9 +18,12 @@ export default class IFrame extends React.Component<IFrameProps, object> {
   static propsList: Array<string> = ['src', 'className'];
   static defaultProps: Partial<IFrameProps> = {
     className: '',
-    width: '100%',
-    height: '100%',
     frameBorder: 0
+  };
+
+  state = {
+    width: this.props.width || '100%',
+    height: this.props.height || '100%'
   };
 
   componentDidMount() {
@@ -31,7 +34,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     const data = this.props.data;
 
     if (data !== prevProps.data) {
-      this.postMessage(data);
+      this.postMessage('update', data);
     }
   }
 
@@ -47,14 +50,27 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       return;
     }
 
-    const action = events[e.data.event];
-    action && onAction(e, action, createObject(data, e.data.data));
+    const [prefix, type] = e.data.type.split(':');
+
+    if (prefix !== 'amis' || !type) {
+      return;
+    }
+
+    if (type === 'resize' && e.data.data) {
+      this.setState({
+        width: e.data.data.width || '100%',
+        height: e.data.data.height || '100%'
+      });
+    } else {
+      const action = events[type];
+      action && onAction(e, action, createObject(data, e.data.data));
+    }
   }
 
   @autobind
   onLoad() {
     const {src, data} = this.props;
-    src && this.postMessage(data);
+    src && this.postMessage('load', data);
   }
 
   // 当别的组件通知 iframe reload 的时候执行。
@@ -71,8 +87,6 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         src,
         data
       ).url;
-
-      this.postMessage(data);
     }
   }
 
@@ -87,20 +101,24 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         createObject(data, values)
       ).url;
 
-      this.postMessage(createObject(data, values));
+      this.postMessage('receive', createObject(data, values));
     }
   }
 
   @autobind
-  postMessage(data: any) {
+  postMessage(type: string, data: any) {
     (this.IFrameRef.current as HTMLIFrameElement).contentWindow?.postMessage(
-      data,
+      {
+        type: `amis:${type}`,
+        data
+      },
       '*'
     );
   }
 
   render() {
-    let {className, src, width, height, frameBorder, data, style} = this.props;
+    const {width, height} = this.state;
+    let {className, src, frameBorder, data, style} = this.props;
 
     style = {
       ...style
