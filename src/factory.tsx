@@ -954,17 +954,13 @@ export function render(
   options: RenderOptions = {},
   pathPrefix: string = ''
 ): JSX.Element {
-  options = {
-    ...defaultOptions,
-    ...options
-  };
-
   const locale = props.locale || getDefaultLocale();
   const translate = props.translate || makeTranslator(locale);
   let store = stores[options.session || 'global'];
 
   if (!store) {
     options = {
+      ...defaultOptions,
       ...options,
       fetcher: options.fetcher
         ? wrapFetcher(options.fetcher)
@@ -1041,7 +1037,7 @@ export function updateEnv(options: Partial<RenderOptions>, session = 'global') {
   let store = stores[options.session || session];
   if (!store) {
     store = RendererStore.create({}, options);
-    stores[options.session || 'global'] = store;
+    stores[options.session || session] = store;
   } else {
     const env = getEnv(store);
     Object.assign(env, options);
