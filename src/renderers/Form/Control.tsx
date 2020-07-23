@@ -269,8 +269,7 @@ export default class FormControl extends React.PureComponent<
     if (
       form !== store &&
       data !== prevProps.data &&
-      (value = getVariable(data as any, name)) !==
-        getVariable(prevProps.data, name)
+      (value = getVariable(data as any, name)) !== this.getValue()
     ) {
       this.handleChange(value, false, true);
     }
