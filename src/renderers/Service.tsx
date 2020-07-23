@@ -47,6 +47,7 @@ export default class Service extends React.Component<ServiceProps> {
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
     this.initInterval = this.initInterval.bind(this);
+    this.afterDataFetch = this.afterDataFetch.bind(this);
   }
 
   componentDidMount() {
@@ -68,7 +69,7 @@ export default class Service extends React.Component<ServiceProps> {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed
         })
-        .then(this.initInterval);
+        .then(this.afterDataFetch);
 
     isApiOutdated(
       prevProps.schemaApi,
@@ -114,12 +115,18 @@ export default class Service extends React.Component<ServiceProps> {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed
         })
-        .then(this.initInterval);
+        .then(this.afterDataFetch);
     }
+  }
+
+  afterDataFetch(data: any) {
+    this.initInterval(data);
   }
 
   initInterval(value: any) {
     const {interval, silentPolling, stopAutoRefreshWhen, data} = this.props;
+
+    clearTimeout(this.timer);
 
     interval &&
       this.mounted &&
@@ -164,7 +171,7 @@ export default class Service extends React.Component<ServiceProps> {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed
         })
-        .then(this.initInterval);
+        .then(this.afterDataFetch);
     }
   }
 
@@ -222,7 +229,9 @@ export default class Service extends React.Component<ServiceProps> {
           successMessage: __(action.messages && action.messages.success),
           errorMessage: __(action.messages && action.messages.failed)
         })
-        .then(async () => {
+        .then(async (payload: any) => {
+          this.afterDataFetch(payload);
+
           if (action.feedback && isVisible(action.feedback, store.data)) {
             await this.openFeedback(action.feedback, store.data);
           }
