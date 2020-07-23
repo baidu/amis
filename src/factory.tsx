@@ -751,12 +751,17 @@ export function HocStoreFactory(renderer: {
         const store = this.store;
 
         if (renderer.extendsData === false) {
-          (props.defaultData !== nextProps.defaultData ||
+          if (
+            props.defaultData !== nextProps.defaultData ||
             isObjectShallowModified(props.data, nextProps.data) ||
+            //
+            // 特殊处理 CRUD。
             // CRUD 中 toolbar 里面的 data 是空对象，但是 __super 会不一样
-            (nextProps.data &&
+            (nextProps.store?.storeType === 'CRUDStore' &&
+              nextProps.data &&
               props.data &&
-              nextProps.data.__super !== props.data.__super)) &&
+              nextProps.data.__super !== props.data.__super)
+          ) {
             store.initData(
               extendObject(nextProps.data, {
                 ...(store.hasRemoteData ? store.data : null), // todo 只保留 remote 数据
@@ -764,6 +769,7 @@ export function HocStoreFactory(renderer: {
                 ...this.formatData(nextProps.data)
               })
             );
+          }
         } else if (isObjectShallowModified(props.data, nextProps.data)) {
           if (nextProps.store && nextProps.store.data === nextProps.data) {
             store.initData(

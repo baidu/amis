@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../../factory';
 import BasicService, {ServiceProps} from '../Service';
-import {Schema} from '../../types';
+import {Schema, Payload} from '../../types';
 import Scoped, {ScopedContext, IScopedContext} from '../../Scoped';
 import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from '../../store/service';
+import {IFormStore} from '../../store/form';
 
 @Renderer({
   test: /(^|\/)form\/(.*)\/service$/,
@@ -52,6 +53,52 @@ export class ServiceRenderer extends BasicService {
     super.componentWillUnmount();
   }
 
+  afterDataFetch(payload: Payload) {
+    const formStore: IFormStore = this.props.formStore;
+    const onChange = this.props.onChange;
+
+    if (
+      formStore &&
+      formStore === this.props.store.parentStore &&
+      this.isFormMode()
+    ) {
+      const keys = Object.keys(payload.data);
+
+      if (keys.length) {
+        formStore.setValues(payload.data);
+        onChange(keys[0], payload.data[keys[0]]);
+      }
+    }
+
+    return super.afterDataFetch(payload);
+  }
+
+  isFormMode() {
+    const {
+      store,
+      body: schema,
+      controls,
+      tabs,
+      feildSet,
+      renderFormItems,
+      classnames: cx
+    } = this.props;
+
+    const finnalSchema = store.schema ||
+      schema || {
+        controls,
+        tabs,
+        feildSet
+      };
+
+    return (
+      finnalSchema &&
+      !finnalSchema.type &&
+      (finnalSchema.controls || finnalSchema.tabs || finnalSchema.feildSet) &&
+      renderFormItems
+    );
+  }
+
   renderBody(): JSX.Element {
     const {
       render,
@@ -62,22 +109,17 @@ export class ServiceRenderer extends BasicService {
       feildSet,
       renderFormItems,
       formMode,
-      $path,
       classnames: cx
     } = this.props;
 
-    const finnalSchema = store.schema ||
-      schema || {
-        controls,
-        tabs,
-        feildSet
-      };
-    if (
-      finnalSchema &&
-      !finnalSchema.type &&
-      (finnalSchema.controls || finnalSchema.tabs || finnalSchema.feildSet) &&
-      renderFormItems
-    ) {
+    if (this.isFormMode()) {
+      const finnalSchema = store.schema ||
+        schema || {
+          controls,
+          tabs,
+          feildSet
+        };
+
       return (
         <div
           key={store.schemaKey || 'forms'}
