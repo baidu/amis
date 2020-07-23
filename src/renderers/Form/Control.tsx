@@ -141,13 +141,6 @@ export default class FormControl extends React.PureComponent<
       addHook
     } = this.props;
 
-    if (name && form !== store) {
-      const value = getVariable(store.data, name);
-      if (typeof value !== 'undefined' && value !== this.getValue()) {
-        this.handleChange(value, false, true);
-      }
-    }
-
     // 提交前先把之前的 lazyEmit 执行一下。
     this.hook3 = () => {
       this.lazyEmitChange.flush();
@@ -249,30 +242,6 @@ export default class FormControl extends React.PureComponent<
         extractValue: nextProps.control.extractValue,
         messages: nextProps.control.validationErrors
       });
-    }
-  }
-
-  componentDidUpdate(prevProps: ControlProps) {
-    const {
-      store,
-      formStore: form,
-      data,
-      control: {name}
-    } = this.props;
-
-    if (!name) {
-      return;
-    }
-
-    // form 里面部分塞 service 的用法
-    let value: any;
-    if (
-      form !== store &&
-      data !== prevProps.data &&
-      (value = getVariable(data as any, name)) !==
-        getVariable(prevProps.data, name)
-    ) {
-      this.handleChange(value, false, true);
     }
   }
 
@@ -445,7 +414,11 @@ export default class FormControl extends React.PureComponent<
 
     if (!isObject(values)) {
       return;
-    } else if (!this.model || ~['service'].indexOf(type)) {
+    } else if (
+      !this.model ||
+      // todo 以后想办法不要強耦合类型。
+      ~['service', 'group', 'hbox', 'panel', 'grid'].indexOf(type)
+    ) {
       onBulkChange && onBulkChange(values);
       return;
     }
