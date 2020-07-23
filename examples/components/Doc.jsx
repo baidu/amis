@@ -7,6 +7,7 @@ export default {
   children: [
     {
       label: 'AMIS 是什么？',
+      group: '开始',
       icon: 'fa fa-home',
       path: '/docs/intro',
       getComponent: (location, cb) =>
@@ -17,6 +18,7 @@ export default {
 
     {
       label: '快速开始',
+      group: '开始',
       icon: 'fa fa-flash',
       path: '/docs/getting-started',
       getComponent: (location, cb) =>
@@ -27,6 +29,7 @@ export default {
 
     {
       label: '基本用法',
+      group: '开始',
       icon: 'fa fa-file',
       path: '/docs/basic',
       getComponent: (location, cb) =>
@@ -37,6 +40,7 @@ export default {
 
     {
       label: '高级用法',
+      group: '开始',
       icon: 'fa fa-rocket',
       path: '/docs/advanced',
       getComponent: (location, cb) =>
@@ -49,6 +53,7 @@ export default {
 
     {
       label: '动态数据',
+      group: '开始',
       path: '/docs/api',
       icon: 'fa fa-cloud',
       getComponent: (location, cb) =>
@@ -59,6 +64,7 @@ export default {
 
     {
       label: '定制功能',
+      group: '开始',
       path: '/docs/custom',
       icon: 'fa fa-cubes',
       getComponent: (location, cb) =>
@@ -69,6 +75,7 @@ export default {
 
     {
       label: '定制样式',
+      group: '开始',
       path: '/docs/style',
       icon: 'fa fa-laptop',
       getComponent: (location, cb) =>

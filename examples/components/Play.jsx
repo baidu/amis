@@ -262,7 +262,7 @@ export default class PlayGround extends React.Component {
               </div>
             </div>
           </div>
-          <div className="row-row" style={{height: 200}}>
+          <div className="row-row b-t" style={{height: 200}}>
             <div className="cell">{this.renderEditor()}</div>
           </div>
         </div>

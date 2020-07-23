@@ -21,3 +21,5 @@ node_modules
 /toolkit/output
 /coverage
 /package-lock.json
+_examples
+docs-new

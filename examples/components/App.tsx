@@ -1,6 +1,5 @@
 import React from 'react';
 import NotFound from '../../src/components/404';
-import NotFound from '../../src/components/404';
 import Layout from '../../src/components/Layout';
 import AsideNav from '../../src/components/AsideNav';
 import {AlertComponent, ToastComponent} from '../../src/components/index';
@@ -95,6 +94,8 @@ import TestComponent from './Test';
 import Select from '../../src/components/Select';
 import Button from '../../src/components/Button';
 import DocSearch from './DocSearch';
+import {groupBy} from 'lodash';
+import classnames from 'classnames';
 
 let PathPrefix = '/examples';
 let ContextPath = '';
@@ -571,7 +572,7 @@ const themes = [
 
 const locales = [
   {
-    label: '默认',
+    label: '中文',
     value: 'zh-cn'
   },
 
@@ -590,7 +591,8 @@ export class App extends React.PureComponent {
     themeIndex: 0,
     themes: themes,
     theme: themes[localStorage.getItem('themeIndex') || 0],
-    locale: localStorage.getItem('locale') || ''
+    locale: localStorage.getItem('locale') || '',
+    docs: Docs.children
   };
 
   constructor(props) {
@@ -655,81 +657,11 @@ export class App extends React.PureComponent {
   }
 
   renderAside() {
-    const location = this.props.location;
-
-    if (location.pathname === '/edit') {
-      return null;
-    }
-
-    const theme = this.state.theme;
-
     return (
       <AsideNav
-        theme={theme.value}
-        navigations={navigations}
-        renderLink={({link, active, toggleExpand, classnames: cx}) => {
-          let children = [];
-
-          if (link.children) {
-            children.push(
-              <span
-                key="expand-toggle"
-                className={cx('AsideNav-itemArrow')}
-                onClick={e => toggleExpand(link, e)}
-              >
-                <Icon icon="right-arrow-bold" className="icon" />
-              </span>
-            );
-          }
-
-          link.badge &&
-            children.push(
-              <b
-                key="badge"
-                className={cx(
-                  `AsideNav-itemBadge`,
-                  link.badgeClassName || 'bg-info'
-                )}
-              >
-                {link.badge}
-              </b>
-            );
-
-          link.icon &&
-            children.push(
-              <i key="icon" className={cx(`AsideNav-itemIcon`, link.icon)} />
-            );
-
-          children.push(
-            <span className={cx(`AsideNav-itemLabel`)} key="label">
-              {link.label}
-            </span>
-          );
-
-          return link.path ? (
-            <Link
-              to={
-                link.path[0] === '/'
-                  ? ContextPath + link.path
-                  : `${ContextPath}${PathPrefix}/${link.path}`
-              }
-            >
-              {children}
-            </Link>
-          ) : (
-            <a onClick={link.children ? () => toggleExpand(link) : null}>
-              {children}
-            </a>
-          );
+        renderLink={() => {
+          return null;
         }}
-        isActive={link =>
-          isActive(
-            link.path && link.path[0] === '/'
-              ? ContextPath + link.path
-              : `${ContextPath}${PathPrefix}/${link.path}`,
-            location
-          )
-        }
       />
     );
   }
@@ -747,7 +679,7 @@ export class App extends React.PureComponent {
     }
 
     return (
-      <div>
+      <>
         <div className={`${theme.ns}Layout-brandBar`}>
           <button
             onClick={() => this.setState({offScreen: !this.state.offScreen})}
@@ -755,106 +687,147 @@ export class App extends React.PureComponent {
           >
             <i className="glyphicon glyphicon-align-justify" />
           </button>
+
           <div className={`${theme.ns}Layout-brand`}>
             <i className="fa fa-paw" />
-            <span className="hidden-folded m-l-sm">AMis Renderer</span>
+            <span className="hidden-folded m-l-sm">AMIS</span>
           </div>
         </div>
+
         <div className={`${theme.ns}Layout-headerBar`}>
-          <div className="nav navbar-nav hidden-xs">
-            <div id="headerLeftBtns" className="m-t-sm">
-              <Button
-                theme={this.state.theme.value}
-                level="link"
-                className="no-shadow navbar-btn"
-                onClick={this.toggleAside}
-                tooltip="展开或收起侧边栏"
-                placement="bottom"
-                iconOnly
-              >
-                <i
-                  className={
-                    this.state.asideFolded ? 'fa fa-indent' : 'fa fa-dedent'
-                  }
-                />
-              </Button>
+          <ul className={`${theme.ns}Layout-headerBar-links pull-left`}>
+            <Link to="/docs">文档</Link>
+            <Link to="/examples">示例</Link>
+          </ul>
 
-              <Button
-                theme={this.state.theme.value}
-                level="link"
-                className="no-shadow navbar-btn"
-                href="https://github.com/baidu/amis"
-                tooltip="前往 Github 仓库地址"
-                placement="bottom"
-                iconOnly
-              >
-                <i className={'fa fa-github'} />
-              </Button>
-            </div>
+          <div className="hidden-xs p-t pull-right m-l-sm">
+            <Select
+              clearable={false}
+              theme={this.state.theme.value}
+              value={this.state.locale || 'zh-cn'}
+              options={locales}
+              onChange={locale => {
+                this.setState({locale: locale.value});
+                localStorage.setItem('locale', locale.value);
+              }}
+            />
           </div>
 
-          <div className="hidden-xs p-t-sm pull-right m-l-sm">
-            语言：
-            {
-              <Select
-                clearable={false}
-                theme={this.state.theme.value}
-                value={this.state.locale || 'zh-cn'}
-                options={locales}
-                onChange={locale => {
-                  this.setState({locale: locale.value});
-                  localStorage.setItem('locale', locale.value);
-                }}
-              />
-            }
-          </div>
-
-          <div className="hidden-xs p-t-sm pull-right">
-            主题：
-            {
-              <Select
-                clearable={false}
-                theme={this.state.theme.value}
-                value={this.state.theme}
-                options={this.state.themes}
-                onChange={theme => {
-                  this.setState({theme});
-                  localStorage.setItem(
-                    'themeIndex',
-                    this.state.themes.indexOf(theme)
-                  );
-                }}
-              />
-            }
+          <div className="hidden-xs p-t pull-right">
+            <Select
+              clearable={false}
+              theme={this.state.theme.value}
+              value={this.state.theme}
+              options={this.state.themes}
+              onChange={theme => {
+                this.setState({theme});
+                localStorage.setItem(
+                  'themeIndex',
+                  this.state.themes.indexOf(theme)
+                );
+              }}
+            />
           </div>
 
           <DocSearch theme={this.state.theme.value} />
         </div>
-      </div>
+      </>
     );
+  }
+
+  toggleOpen(e, item) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const docs = mapTree(this.state.docs, i => ({
+      ...i,
+      isOpen: item.id === i.id ? !i.isOpen : i.isOpen
+    }));
+
+    this.setState({
+      docs
+    });
+  }
+
+  renderNavigation(children, parent) {
+    return children.map(child => {
+      const path = child.path;
+      const hasChildren =
+        Array.isArray(child.children) && child.children.length;
+
+      return (
+        <div
+          key={child.id}
+          className={classnames('Doc-navigation-item', {
+            'is-active': path === location.pathname,
+            'is-top': !parent,
+            'is-open': child.isOpen
+          })}
+        >
+          <Link to={path}>
+            {child.label}
+            {hasChildren ? (
+              <i
+                className={`iconfont icon-down-arrow ${
+                  child.isOpen ? '' : 'is-flipped'
+                }`}
+                onClick={e => this.toggleOpen(e, child)}
+              ></i>
+            ) : null}
+          </Link>
+
+          {hasChildren && child.isOpen
+            ? this.renderNavigation(child.children, {
+                ...child,
+                path
+              })
+            : null}
+        </div>
+      );
+    });
   }
 
   render() {
     // const pathname = this.props.location.pathname;
     const theme = this.state.theme;
+    const groups = groupBy(this.state.docs, d => d.group);
+    groups['组件'] = groups['undefined'][0].children;
+
     return (
       <Layout
         theme={theme.value}
+        boxed={true}
         offScreen={this.state.offScreen}
         header={this.state.headerVisible ? this.renderHeader() : null}
-        folded={this.state.asideFolded}
-        aside={this.renderAside()}
+        // folded={this.state.asideFolded}
+        // aside={this.renderAside()}
       >
         <ToastComponent theme={theme.value} locale={this.state.locale} />
         <AlertComponent theme={theme.value} locale={this.state.locale} />
-        {React.cloneElement(this.props.children, {
-          ...this.props.children.props,
-          setAsideFolded: this.setAsideFolded,
-          setHeaderVisible: this.setHeaderVisible,
-          theme: theme.value,
-          classPrefix: theme.ns,
-          locale: this.state.locale
-        })}
+
+        <div className="Doc">
+          <div className="Doc-nav">
+            <div className="Doc-navigation">
+              {Object.keys(groups).map(groupName => (
+                <div className="Doc-navigationGroup" key={groupName}>
+                  <div className="Doc-navigationGroup-name">
+                    {groupName || '其他'}
+                  </div>
+                  {this.renderNavigation(groups[groupName])}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {React.cloneElement(this.props.children, {
+            ...this.props.children.props,
+            setAsideFolded: this.setAsideFolded,
+            setHeaderVisible: this.setHeaderVisible,
+            theme: theme.value,
+            classPrefix: theme.ns,
+            locale: this.state.locale
+          })}
+        </div>
       </Layout>
     );
   }
