@@ -9,6 +9,7 @@ import Overlay from '../../src/components/Overlay';
 import PopOver from '../../src/components/PopOver';
 import NestedLinks from '../../src/components/AsideNav';
 import {Portal} from 'react-overlays';
+import classnames from 'classnames';
 
 class CodePreview extends React.Component {
   state = {
@@ -44,11 +45,11 @@ class CodePreview extends React.Component {
             show
           >
             <PopOver
-              offset={{x: 0, y: -height}}
+              offset={{x: 0, y: 50 - height}}
               style={{height}}
-              className="doc-shcema-preview-popover"
+              className=":MDPreview-shcema-preview-popover"
             >
-              <div className="doc-schema-preview">
+              <div className="MDPreview-schema-preview">
                 <PlayGround {...rest} vertical />
               </div>
             </PopOver>
@@ -63,7 +64,7 @@ function isActive(link, location) {
   return !!(link.fullPath && link.fullPath === location.hash);
 }
 
-export default function(doc) {
+export default function (doc) {
   return class extends React.Component {
     static displayName = 'MarkdownRenderer';
     ref = null;
@@ -151,79 +152,108 @@ export default function(doc) {
       }
     }
 
+    renderHeading(children) {
+      return children.map((child, idx) => (
+        <div
+          key={`${child.fullPath}-${idx}`}
+          className={classnames('Doc-headingList-item', {
+            'is-active': this.props.location.hash === child.fullPath
+          })}
+        >
+          <a href={`#${child.fragment}`}>{child.label}</a>
+
+          {child.children && child.children.length
+            ? this.renderHeading(child.children)
+            : null}
+        </div>
+      ));
+    }
+
     render() {
       const {location} = this.props;
 
       return (
-        <div className="pos-rlt text-left">
-          {doc.title ? <TitleBar title={doc.title} /> : null}
-          <div className="markdown-body" ref={this.divRef}>
-            Doc
+        <>
+          <div className="Doc-content">
+            {doc.title ? (
+              <div className="Doc-title">
+                <h1>{doc.title}</h1>
+              </div>
+            ) : null}
+
+            <div className="markdown-body" ref={this.divRef}>
+              Doc
+            </div>
           </div>
           {doc.toc && doc.toc.children && doc.toc.children.length > 1 ? (
-            <Portal container={() => document.querySelector('#asideInner')}>
-              <NestedLinks
-                navigations={[doc.toc]}
-                renderLink={({
-                  link,
-                  active,
-                  toggleExpand,
-                  depth,
-                  classnames: cx
-                }) => {
-                  let children = [];
+            // <Portal container={() => document.querySelector('#asideInner')}>
+            //   <NestedLinks
+            //     navigations={[doc.toc]}
+            //     renderLink={({
+            //       link,
+            //       active,
+            //       toggleExpand,
+            //       depth,
+            //       classnames: cx
+            //     }) => {
+            //       let children = [];
 
-                  if (link.children) {
-                    children.push(
-                      <span
-                        key="expand-toggle"
-                        className={cx(`AsideNav-itemArrow`)}
-                      />
-                    );
-                  }
+            //       if (link.children) {
+            //         children.push(
+            //           <span
+            //             key="expand-toggle"
+            //             className={cx(`AsideNav-itemArrow`)}
+            //           />
+            //         );
+            //       }
 
-                  link.badge &&
-                    children.push(
-                      <b
-                        key="badge"
-                        className={cx(
-                          'AsideNav-itemBadge',
-                          link.badgeClassName || 'bg-info'
-                        )}
-                      >
-                        {link.badge}
-                      </b>
-                    );
+            //       link.badge &&
+            //         children.push(
+            //           <b
+            //             key="badge"
+            //             className={cx(
+            //               'AsideNav-itemBadge',
+            //               link.badgeClassName || 'bg-info'
+            //             )}
+            //           >
+            //             {link.badge}
+            //           </b>
+            //         );
 
-                  depth === 1 &&
-                    children.push(
-                      <i
-                        key="icon"
-                        className={cx('AsideNav-itemIcon fa fa-flag')}
-                      />
-                    );
+            //       depth === 1 &&
+            //         children.push(
+            //           <i
+            //             key="icon"
+            //             className={cx('AsideNav-itemIcon fa fa-flag')}
+            //           />
+            //         );
 
-                  children.push(
-                    <span key="label" className={cx('AsideNav-itemLabel')}>
-                      {link.label}
-                    </span>
-                  );
+            //       children.push(
+            //         <span key="label" className={cx('AsideNav-itemLabel')}>
+            //           {link.label}
+            //         </span>
+            //       );
 
-                  return link.fragment ? (
-                    <a href={`#${link.fragment}`}>{children}</a>
-                  ) : (
-                    <a
-                      onClick={link.children ? () => toggleExpand(link) : null}
-                    >
-                      {children}
-                    </a>
-                  );
-                }}
-                isActive={link => isActive(link, location)}
-              />
-            </Portal>
+            //       return link.fragment ? (
+            //         <a href={`#${link.fragment}`}>{children}</a>
+            //       ) : (
+            //         <a
+            //           onClick={link.children ? () => toggleExpand(link) : null}
+            //         >
+            //           {children}
+            //         </a>
+            //       );
+            //     }}
+            //     isActive={link => isActive(link, location)}
+            //   />
+            // </Portal>
+            <div className="Doc-toc">
+              <div className="Doc-headingList">
+                {this.renderHeading(doc.toc.children)}
+              </div>
+            </div>
           ) : null}
-        </div>
+        </>
       );
     }
   };
