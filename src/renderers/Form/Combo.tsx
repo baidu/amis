@@ -23,6 +23,7 @@ import {isEffectiveApi} from '../../utils/api';
 import {Alert2} from '../../components';
 import memoize from 'lodash/memoize';
 import {Icon} from '../../components/icons';
+import {isAlive} from 'mobx-state-tree';
 export interface Condition {
   test: string;
   controls: Array<Schema>;
@@ -382,8 +383,10 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     this.props.onChange(value, submitOnChange, true);
 
-    store.forms.forEach(item =>
-      item.items.forEach(item => item.unique && item.syncOptions())
+    store.forms.forEach(
+      item =>
+        isAlive(item) &&
+        item.items.forEach(item => item.unique && item.syncOptions())
     );
   }
 
