@@ -95,6 +95,10 @@ body {
 }
 
 .app-wrapper {
+  // .#{$ns}Layout {
+  //   background: #000;
+  // }
+
   .a-Layout {
     &-headerBar {
       height: 64px;
@@ -120,9 +124,28 @@ body {
         height: 64px;
         line-height: 64px;
         font-size: 14px;
+        padding-left: 10px;
+
         > a {
+          display: inline-block;
           color: #333;
-          padding-right: 30px;
+          padding: 0px 22px;
+          text-decoration: none;
+          font-weight: 500;
+
+          &.is-active {
+            color: #108cee;
+            position: relative;
+
+            &::before {
+              content: '';
+              border-bottom: 2px solid #108cee;
+              position: absolute;
+              width: 100%;
+              left: 0;
+              bottom: 0;
+            }
+          }
         }
       }
     }
@@ -258,6 +281,7 @@ body {
         padding-left: 0;
         border-left: 0;
         display: block;
+        cursor: pointer;
 
         > a {
           color: #333;
