@@ -57,11 +57,7 @@ export class ServiceRenderer extends BasicService {
     const formStore: IFormStore = this.props.formStore;
     const onChange = this.props.onChange;
 
-    if (
-      formStore &&
-      formStore === this.props.store.parentStore &&
-      this.isFormMode()
-    ) {
+    if (formStore && this.isFormMode()) {
       const keys = Object.keys(payload.data);
 
       if (keys.length) {
