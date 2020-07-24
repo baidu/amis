@@ -7,6 +7,7 @@ import Scoped, {ScopedContext, IScopedContext} from '../../Scoped';
 import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from '../../store/service';
 import {IFormStore} from '../../store/form';
+import {isObject} from '../../utils/helper';
 
 @Renderer({
   test: /(^|\/)form\/(.*)\/service$/,
@@ -59,7 +60,7 @@ export class ServiceRenderer extends BasicService {
 
     // 有可能有很多层 serivce，这里需要注意。
     if (formStore && this.isFormMode()) {
-      const keys = Object.keys(payload.data);
+      const keys = isObject(payload?.data) ? Object.keys(payload.data) : [];
 
       if (keys.length) {
         formStore.setValues(payload.data);

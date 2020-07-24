@@ -304,7 +304,7 @@ export function renderChild(
       props.hidden ||
       props.visible === false)
   ) {
-    return (<></>);
+    return null;
   }
 
   const transform = props.propsTransform;
