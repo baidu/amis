@@ -57,12 +57,13 @@ export class ServiceRenderer extends BasicService {
     const formStore: IFormStore = this.props.formStore;
     const onChange = this.props.onChange;
 
+    // 有可能有很多层 serivce，这里需要注意。
     if (formStore && this.isFormMode()) {
       const keys = Object.keys(payload.data);
 
       if (keys.length) {
         formStore.setValues(payload.data);
-        onChange(keys[0], payload.data[keys[0]]);
+        onChange(payload.data[keys[0]], keys[0]);
       }
     }
 
