@@ -691,7 +691,7 @@ if (fis.project.currentMedia() === 'publish') {
 }
 
 function docsGennerator(contents, file) {
-  if (file.subpath !== '/examples/components/Doc.jsx') {
+  if (file.subpath !== '/examples/components/Doc.tsx') {
     return contents;
   }
 

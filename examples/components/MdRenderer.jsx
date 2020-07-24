@@ -45,7 +45,7 @@ class CodePreview extends React.Component {
             show
           >
             <PopOver
-              offset={{x: 0, y: 50 - height}}
+              offset={{x: 0, y: -height}}
               style={{height}}
               className=":MDPreview-shcema-preview-popover"
             >
@@ -64,94 +64,107 @@ function isActive(link, location) {
   return !!(link.fullPath && link.fullPath === location.hash);
 }
 
+class Preview extends React.Component {
+  static displayName = 'MarkdownRenderer';
+  ref = null;
+  doms = [];
+  constructor(props) {
+    super(props);
+    this.divRef = this.divRef.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    this.renderSchema();
+
+    if (location.hash && location.hash.length > 1) {
+      // 禁用自动跳转
+      if (window.history && 'scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'manual';
+      }
+
+      const dom = document.querySelector(
+        `[name="${location.hash.substring(1)}"]`
+      );
+      dom && dom.scrollIntoView();
+    }
+  }
+
+  componentDidUpdate() {
+    this.renderSchema();
+  }
+
+  componentWillUnmount() {
+    this.doms.forEach(dom => ReactDOM.unmountComponentAtNode(dom));
+  }
+
+  handleClick(e) {
+    const href = e.target.getAttribute('href');
+    if (href && href[0] !== '#' && !/^http/.test(href)) {
+      e.preventDefault();
+      this.props.push(href);
+    }
+  }
+
+  divRef(ref) {
+    this.ref = ref;
+
+    if (ref) {
+      ref.innerHTML = this.props.doc.html;
+    }
+  }
+
+  renderSchema() {
+    const scripts = document.querySelectorAll('script[type="text/schema"]');
+    if (!scripts && !scripts.length) {
+      return;
+    }
+
+    for (let i = 0, len = scripts.length; i < len; i++) {
+      let script = scripts[i];
+      let props = {};
+      [].slice.apply(script.attributes).forEach(item => {
+        props[item.name] = item.value;
+      });
+
+      let dom = document.createElement('div');
+      let height = props.height ? parseInt(props.height, 10) : 200;
+      dom.setAttribute('class', 'doc-play-ground');
+      dom.setAttribute('style', `height: ${height}px;`);
+      script.parentNode.replaceChild(dom, script);
+
+      this.doms.push(dom);
+      ReactDOM.unstable_renderSubtreeIntoContainer(
+        this,
+        <LazyComponent
+          {...this.props}
+          height={height}
+          container={() => ReactDOM.findDOMNode(this)}
+          height={height}
+          component={CodePreview}
+          code={script.innerText}
+          scope={props.scope}
+          unMountOnHidden
+          placeholder="加载中，请稍后。。。"
+        />,
+        dom
+      );
+    }
+  }
+
+  render() {
+    return (
+      <div className="MDPreview">
+        <div className="markdown-body" ref={this.divRef}>
+          Doc
+        </div>
+      </div>
+    );
+  }
+}
+
 export default function (doc) {
   return class extends React.Component {
-    static displayName = 'MarkdownRenderer';
-    ref = null;
-    doms = [];
-    constructor(props) {
-      super(props);
-      this.divRef = this.divRef.bind(this);
-      this.handleClick = this.handleClick.bind(this);
-    }
-
-    componentDidMount() {
-      this.renderSchema();
-
-      if (location.hash && location.hash.length > 1) {
-        // 禁用自动跳转
-        if (window.history && 'scrollRestoration' in window.history) {
-          window.history.scrollRestoration = 'manual';
-        }
-
-        const dom = document.querySelector(
-          `[name="${location.hash.substring(1)}"]`
-        );
-        dom && dom.scrollIntoView();
-      }
-    }
-
-    componentDidUpdate() {
-      this.renderSchema();
-    }
-
-    componentWillUnmount() {
-      this.doms.forEach(dom => ReactDOM.unmountComponentAtNode(dom));
-    }
-
-    handleClick(e) {
-      const href = e.target.getAttribute('href');
-      if (href && href[0] !== '#' && !/^http/.test(href)) {
-        e.preventDefault();
-        this.props.push(href);
-      }
-    }
-
-    divRef(ref) {
-      this.ref = ref;
-
-      if (ref) {
-        ref.innerHTML = doc.html;
-      }
-    }
-
-    renderSchema() {
-      const scripts = document.querySelectorAll('script[type="text/schema"]');
-      if (!scripts && !scripts.length) {
-        return;
-      }
-
-      for (let i = 0, len = scripts.length; i < len; i++) {
-        let script = scripts[i];
-        let props = {};
-        [].slice.apply(script.attributes).forEach(item => {
-          props[item.name] = item.value;
-        });
-
-        let dom = document.createElement('div');
-        let height = props.height ? parseInt(props.height, 10) : 200;
-        dom.setAttribute('class', 'doc-play-ground');
-        dom.setAttribute('style', `height: ${height}px;`);
-        script.parentNode.replaceChild(dom, script);
-
-        this.doms.push(dom);
-        ReactDOM.unstable_renderSubtreeIntoContainer(
-          this,
-          <LazyComponent
-            {...this.props}
-            container={() => ReactDOM.findDOMNode(this)}
-            height={height}
-            component={CodePreview}
-            code={script.innerText}
-            scope={props.scope}
-            unMountOnHidden
-            placeholder="加载中，请稍后。。。"
-          />,
-          dom
-        );
-      }
-    }
-
     renderHeading(children) {
       return children.map((child, idx) => (
         <div
@@ -170,8 +183,6 @@ export default function (doc) {
     }
 
     render() {
-      const {location} = this.props;
-
       return (
         <>
           <div className="Doc-content">
@@ -180,73 +191,9 @@ export default function (doc) {
                 <h1>{doc.title}</h1>
               </div>
             ) : null}
-
-            <div className="markdown-body" ref={this.divRef}>
-              Doc
-            </div>
+            <Preview {...this.props} doc={doc} />
           </div>
           {doc.toc && doc.toc.children && doc.toc.children.length > 1 ? (
-            // <Portal container={() => document.querySelector('#asideInner')}>
-            //   <NestedLinks
-            //     navigations={[doc.toc]}
-            //     renderLink={({
-            //       link,
-            //       active,
-            //       toggleExpand,
-            //       depth,
-            //       classnames: cx
-            //     }) => {
-            //       let children = [];
-
-            //       if (link.children) {
-            //         children.push(
-            //           <span
-            //             key="expand-toggle"
-            //             className={cx(`AsideNav-itemArrow`)}
-            //           />
-            //         );
-            //       }
-
-            //       link.badge &&
-            //         children.push(
-            //           <b
-            //             key="badge"
-            //             className={cx(
-            //               'AsideNav-itemBadge',
-            //               link.badgeClassName || 'bg-info'
-            //             )}
-            //           >
-            //             {link.badge}
-            //           </b>
-            //         );
-
-            //       depth === 1 &&
-            //         children.push(
-            //           <i
-            //             key="icon"
-            //             className={cx('AsideNav-itemIcon fa fa-flag')}
-            //           />
-            //         );
-
-            //       children.push(
-            //         <span key="label" className={cx('AsideNav-itemLabel')}>
-            //           {link.label}
-            //         </span>
-            //       );
-
-            //       return link.fragment ? (
-            //         <a href={`#${link.fragment}`}>{children}</a>
-            //       ) : (
-            //         <a
-            //           onClick={link.children ? () => toggleExpand(link) : null}
-            //         >
-            //           {children}
-            //         </a>
-            //       );
-            //     }}
-            //     isActive={link => isActive(link, location)}
-            //   />
-            // </Portal>
             <div className="Doc-toc">
               <div className="Doc-headingList">
                 {this.renderHeading(doc.toc.children)}
