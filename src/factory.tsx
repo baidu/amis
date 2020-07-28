@@ -636,6 +636,12 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const {data: defaultData, ...restSchema} = schema;
     const Component = renderer.component;
 
+    if (schema.type === 'page') {
+      console.log(schema);
+      console.log(schema.title);
+      console.log('='.repeat(10));
+    }
+
     return (
       <Component
         {...theme.getRendererConfig(renderer.name)}

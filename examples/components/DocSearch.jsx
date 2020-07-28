@@ -5,7 +5,7 @@ const FormComponent = makeSchemaRenderer({
   type: 'form',
   mode: 'inline',
   wrapWithPanel: false,
-  className: 'Doc-search',
+  className: ':Doc-search',
   controls: [
     {
       type: 'input-group',
