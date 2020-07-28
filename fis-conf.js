@@ -155,7 +155,7 @@ fis.on('compile:optimizer', function (file) {
 
 fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
   parser: [
-    docsGennerator,
+    // docsGennerator,
     fis.plugin('typescript', {
       importHelpers: true,
       esModuleInterop: true,
@@ -224,7 +224,7 @@ if (fis.project.currentMedia() === 'publish') {
 
   publishEnv.match('/src/**.{jsx,tsx,js,ts}', {
     parser: [
-      docsGennerator,
+      // docsGennerator,
       fis.plugin('typescript', {
         importHelpers: true,
         sourceMap: true,
@@ -331,7 +331,7 @@ if (fis.project.currentMedia() === 'publish') {
 
   env.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
     parser: [
-      docsGennerator,
+      // docsGennerator,
       fis.plugin('typescript', {
         importHelpers: true,
         esModuleInterop: true,
@@ -668,7 +668,7 @@ if (fis.project.currentMedia() === 'publish') {
       return fis.util.md5('amis' + path);
     },
     parser: [
-      docsGennerator,
+      // docsGennerator,
       fis.plugin('typescript', {
         sourceMap: false,
         importHelpers: true,
@@ -690,82 +690,82 @@ if (fis.project.currentMedia() === 'publish') {
   });
 }
 
-function docsGennerator(contents, file) {
-  if (file.subpath !== '/examples/components/Doc.tsx') {
-    return contents;
-  }
+// function docsGennerator(contents, file) {
+//   if (file.subpath !== '/examples/components/Doc.tsx') {
+//     return contents;
+//   }
 
-  return contents.replace('// {{renderer-docs}}', function () {
-    const dir = path.join(__dirname, 'docs/renderers');
-    const files = [];
+//   return contents.replace('// {{renderer-docs}}', function () {
+//     const dir = path.join(__dirname, 'docs/renderers');
+//     const files = [];
 
-    let fn = (dir, colleciton, prefix = '') => {
-      const entries = fs.readdirSync(dir);
+//     let fn = (dir, colleciton, prefix = '') => {
+//       const entries = fs.readdirSync(dir);
 
-      entries.forEach(entry => {
-        const subdir = path.join(dir, entry);
+//       entries.forEach(entry => {
+//         const subdir = path.join(dir, entry);
 
-        if (fs.lstatSync(subdir).isDirectory()) {
-          let files = [];
-          fn(subdir, files, path.join(prefix, entry));
-          colleciton.push({
-            name: entry,
-            children: files,
-            path: path.join(prefix, entry)
-          });
-        } else if (/\.md$/.test(entry)) {
-          colleciton.push({
-            name: path.basename(entry, '.md'),
-            path: path.join(prefix, entry)
-          });
-        }
-      });
-    };
+//         if (fs.lstatSync(subdir).isDirectory()) {
+//           let files = [];
+//           fn(subdir, files, path.join(prefix, entry));
+//           colleciton.push({
+//             name: entry,
+//             children: files,
+//             path: path.join(prefix, entry)
+//           });
+//         } else if (/\.md$/.test(entry)) {
+//           colleciton.push({
+//             name: path.basename(entry, '.md'),
+//             path: path.join(prefix, entry)
+//           });
+//         }
+//       });
+//     };
 
-    let fn2 = item => {
-      if (item.children) {
-        const child = item.children.find(
-          child => child.name === `${item.name}.md`
-        );
-        return `{
-                  label: '${item.name}',
-                  ${
-                    child
-                      ? `path: '/docs/renderers/${child.path.replace(
-                          /\.md$/,
-                          ''
-                        )}',`
-                      : ''
-                  }
-                  children: [
-                      ${item.children.map(fn2).join(',\n')}
-                  ]
-              }`;
-      }
+//     let fn2 = item => {
+//       if (item.children) {
+//         const child = item.children.find(
+//           child => child.name === `${item.name}.md`
+//         );
+//         return `{
+//                   label: '${item.name}',
+//                   ${
+//                     child
+//                       ? `path: '/docs/renderers/${child.path.replace(
+//                           /\.md$/,
+//                           ''
+//                         )}',`
+//                       : ''
+//                   }
+//                   children: [
+//                       ${item.children.map(fn2).join(',\n')}
+//                   ]
+//               }`;
+//       }
 
-      return `{
-              label: '${item.name}',
-              path: '/docs/renderers/${item.path.replace(/\.md$/, '')}',
-                getComponent: (location, cb) =>
-                require(['../../docs/renderers/${item.path}'], doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                })
-          }`;
-    };
+//       return `{
+//               label: '${item.name}',
+//               path: '/docs/renderers/${item.path.replace(/\.md$/, '')}',
+//                 getComponent: (location, cb) =>
+//                 require(['../../docs/renderers/${item.path}'], doc => {
+//                   cb(null, makeMarkdownRenderer(doc));
+//                 })
+//           }`;
+//     };
 
-    fn(dir, files);
+//     fn(dir, files);
 
-    return `{
-          label: '渲染器手册',
-          icon: 'fa fa-diamond',
-          path: '/docs/renderers',
-          getComponent: (location, cb) =>
-          require(['../../docs/renderers.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          }),
-          children: [
-              ${files.map(fn2).join(',\n')}
-          ]
-      },`;
-  });
-}
+//     return `{
+//           label: '渲染器手册',
+//           icon: 'fa fa-diamond',
+//           path: '/docs/renderers',
+//           getComponent: (location, cb) =>
+//           require(['../../docs/renderers.md'], doc => {
+//             cb(null, makeMarkdownRenderer(doc));
+//           }),
+//           children: [
+//               ${files.map(fn2).join(',\n')}
+//           ]
+//       },`;
+//   });
+// }

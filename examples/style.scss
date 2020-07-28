@@ -59,7 +59,7 @@ body {
     box-shadow: none !important;
     margin-top: -1px !important;
     padding: 0 45px !important;
-    left: 1px !important;
+    left: 0 !important;
     width: 100% !important;
     // max-width: 980px !important;
     z-index: 1 !important;
@@ -95,11 +95,11 @@ body {
 }
 
 .app-wrapper {
-  // .#{$ns}Layout {
-  //   background: #000;
-  // }
+  .a-Layout,
+  .cxd-Layout,
+  .dark-Layout {
+    padding-top: 64px;
 
-  .a-Layout {
     &-headerBar {
       height: 64px;
       padding-right: 20px;
@@ -155,7 +155,9 @@ body {
       position: absolute;
       left: -220px;
 
-      .a-Layout-brand {
+      .a-Layout-brand,
+      .cxd-Layout-brand,
+      .dark-Layout-brand {
         color: #333;
         height: 64px;
         line-height: 64px;
@@ -188,7 +190,7 @@ body {
         box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
       }
 
-      .a-Doc-search {
+      .Doc-search {
         position: absolute;
         right: -160px;
         padding-top: 15px;
@@ -338,6 +340,15 @@ body {
   }
 
   &-content {
+    position: relative;
+
+    > .schema-wrapper > .a-Page {
+      position: absolute;
+      top: 36px;
+      left: 0;
+      right: 0;
+    }
+
     .Doc-title {
       margin-top: 50px;
       padding-left: 45px;
@@ -350,8 +361,6 @@ body {
     }
 
     .markdown-body {
-      margin-top: 20px;
-
       > *:first-child {
         margin-top: 36px !important;
       }

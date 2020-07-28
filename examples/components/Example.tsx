@@ -533,21 +533,21 @@ export default class Example extends React.PureComponent {
   componentDidMount() {
     this.props.setNavigations(examples);
   }
-  componentDidUpdate() {
-    console.log('update');
 
+  componentDidUpdate() {
     this.props.setNavigations(examples);
   }
+
   render() {
     return (
-      <>
+      <div className="Doc-content">
         {React.cloneElement(this.props.children, {
           ...this.props.children.props,
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
           locale: this.props.locale
         })}
-      </>
+      </div>
     );
   }
 }

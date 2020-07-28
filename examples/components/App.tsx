@@ -379,7 +379,8 @@ export default function entry({pathPrefix}) {
       <Route component={App}>
         <Redirect from={`${ContextPath}/`} to={`${ContextPath}/docs/intro`} />
         <Redirect from={`/examples`} to={`/examples/pages/simple`} />
-        <Redirect from={`/docs`} to={`/docs/intro`} />
+        <Redirect from={`/docs`} to={`/docs/index`} />
+
         <Route path="/docs" component={Doc}>
           {navigations2route('/docs', docs)}
         </Route>
