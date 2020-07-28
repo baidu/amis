@@ -8,6 +8,7 @@ import LazyComponent from '../../src/components/LazyComponent';
 import {default as DrawerContainer} from '../../src/components/Drawer';
 import {Portal} from 'react-overlays';
 import {withRouter} from 'react-router';
+import copy from 'copy-to-clipboard';
 function loadEditor() {
   return new Promise(resolve =>
     require(['../../src/components/Editor'], component =>
@@ -30,6 +31,10 @@ export default function (schema) {
         this.setState({
           open: !this.state.open
         });
+      copyCode = () => {
+        copy(JSON.stringify(schema));
+        toast.success('页面配置JSON已复制到粘贴板');
+      };
       close = () =>
         this.setState({
           open: false
@@ -178,25 +183,48 @@ export default function (schema) {
         const ns = this.props.classPrefix;
         const showCode = this.props.showCode;
         return (
-          <div className="schema-wrapper">
+          <>
+            <div className="schema-wrapper">
+              {showCode !== false ? (
+                <DrawerContainer
+                  classPrefix={ns}
+                  size="lg"
+                  onHide={this.close}
+                  show={this.state.open}
+                  overlay={false}
+                  closeOnOutside={true}
+                  position="right"
+                >
+                  {this.state.open ? this.renderCode() : null}
+                </DrawerContainer>
+              ) : null}
+              {this.renderSchema()}
+            </div>
             {showCode !== false ? (
-              <DrawerContainer
-                classPrefix={ns}
-                size="lg"
-                onHide={this.close}
-                show={this.state.open}
-                position="right"
-              >
-                {this.state.open ? this.renderCode() : null}
-              </DrawerContainer>
+              // <div className="schema-toolbar-wrapper">
+              //   <div onClick={this.toggleCode}>
+              //     查看页面配置 <i className="fa fa-code p-l-xs"></i>
+              //   </div>
+              //   <div onClick={this.copyCode}>
+              //     复制页面配置 <i className="fa fa-copy p-l-xs"></i>
+              //   </div>
+              // </div>
+              <div className="Doc-toc">
+                <div className="Doc-headingList">
+                  <div className="Doc-headingList-item">
+                    <a onClick={this.toggleCode}>
+                      查看页面配置 <i className="fa fa-code p-l-xs"></i>
+                    </a>
+                  </div>
+                  <div className="Doc-headingList-item">
+                    <a onClick={this.copyCode}>
+                      复制页面配置 <i className="fa fa-copy p-l-xs"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
             ) : null}
-            {this.renderSchema()}
-            {showCode !== false ? (
-              <span onClick={this.toggleCode} className="view-code-btn">
-                查看配置 <i className="fa fa-code p-l-xs"></i>
-              </span>
-            ) : null}
-          </div>
+          </>
         );
       }
     }

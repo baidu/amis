@@ -184,8 +184,6 @@ export default function (doc) {
     }
 
     render() {
-      console.log('this.props', this.props);
-
       const {prevDoc, nextDoc} = this.props;
 
       return (

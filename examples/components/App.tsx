@@ -72,7 +72,8 @@ export class App extends React.PureComponent {
     themes: themes,
     theme: themes[localStorage.getItem('themeIndex') || 0],
     locale: localStorage.getItem('locale') || '',
-    navigations: []
+    navigations: [],
+    scrollTop: 0
   };
 
   constructor(props) {
@@ -93,6 +94,7 @@ export class App extends React.PureComponent {
         `link[title=${this.state.theme.value}]`
       ).disabled = false;
     }
+    document.addEventListener('scroll', this.handleScroll.bind(this));
   }
 
   componentDidUpdate(preProps, preState) {
@@ -118,6 +120,16 @@ export class App extends React.PureComponent {
       const pageURL = props.location.pathname;
       _hmt && _hmt.push(['_trackPageview', pageURL]);
     }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  handleScroll(e) {
+    this.setState({
+      scrollTop: e.target.scrollingElement.scrollTop
+    });
   }
 
   toggleAside() {
@@ -326,6 +338,14 @@ export class App extends React.PureComponent {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* 完了加个动画吧 */}
+          <div
+            className={`Backtop ${this.state.scrollTop > 450 ? 'visible' : ''}`}
+            onClick={() => scrollTo({top: 0})}
+          >
+            <i className="fa fa-rocket"></i>
           </div>
 
           {React.cloneElement(this.props.children, {

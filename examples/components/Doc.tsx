@@ -1,11 +1,11 @@
 import React from 'react';
 import makeMarkdownRenderer from './MdRenderer';
-import {flattenTree, filterTree} from '../../src/utils/helper';
+import {flattenTree, filterTree, mapTree} from '../../src/utils/helper';
 
 export const docs = [
   {
     // prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
-    label: '开始',
+    label: '📌 开始',
     children: [
       {
         label: '介绍',
@@ -18,15 +18,15 @@ export const docs = [
 
       {
         label: '快速开始',
-        path: '/docs/start/usage',
+        path: '/docs/start/getting-started',
         getComponent: (location, cb) =>
-          require(['../../docs/start/usage.md'], doc => {
+          require(['../../docs/start/getting-started.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },
 
       {
-        label: '自定义组件',
+        label: '自定义',
         path: '/docs/start/custom',
         getComponent: (location, cb) =>
           require(['../../docs/start/custom.md'], doc => {
@@ -57,7 +57,7 @@ export const docs = [
   },
 
   {
-    label: '概念',
+    label: '💡 概念',
     children: [
       {
         label: '配置与组件',
@@ -127,7 +127,7 @@ export const docs = [
   },
 
   {
-    label: '类型',
+    label: '🎼 类型',
     children: [
       {
         label: 'SchemaNode',
@@ -149,7 +149,7 @@ export const docs = [
   },
 
   {
-    label: '组件',
+    label: '⚙ 组件',
     children: [
       {
         label: '组件介绍',
@@ -985,7 +985,17 @@ export default class Doc extends React.PureComponent {
   }
 
   setDocFooter() {
-    const flattenDocs = flattenTree(docs).filter(i => !!i.path);
+    const newDocs = mapTree(docs, doc => ({
+      ...doc,
+      children:
+        Array.isArray(doc.children) && doc.children.length
+          ? doc.children.map(item => ({
+              ...item,
+              group: doc.group || doc.label
+            }))
+          : null
+    }));
+    const flattenDocs = flattenTree(newDocs).filter(i => !!i.path);
     const docIndex = flattenDocs.findIndex(d => d.path === location.pathname);
     this.setState({
       prevDoc: flattenDocs[docIndex - 1],

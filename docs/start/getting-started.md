@@ -3,10 +3,6 @@ title: 快速开始
 description:
 ---
 
-## 速搭
-
-suda
-
 ## npm
 
 ### 安装
@@ -15,7 +11,7 @@ suda
 npm i amis
 ```
 
-### 使用说明
+### 使用
 
 可以在 React Component 这么使用（TypeScript）。
 
