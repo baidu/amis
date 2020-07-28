@@ -185,32 +185,16 @@ export default function (schema) {
                 size="lg"
                 onHide={this.close}
                 show={this.state.open}
-                position="left"
+                position="right"
               >
                 {this.state.open ? this.renderCode() : null}
               </DrawerContainer>
             ) : null}
             {this.renderSchema()}
             {showCode !== false ? (
-              <Portal
-                container={() => document.querySelector('#headerLeftBtns')}
-              >
-                <Button
-                  classPrefix={ns}
-                  onClick={this.toggleCode}
-                  active={this.state.open}
-                  iconOnly
-                  tooltip="查看源码"
-                  level="link"
-                  placement="bottom"
-                  className="view-code"
-                >
-                  <i className="fa fa-code" />
-                </Button>
-                <span className="inline v-middle text-info">
-                  ←点击这里查看源码
-                </span>
-              </Portal>
+              <span onClick={this.toggleCode} className="view-code-btn">
+                查看配置 <i className="fa fa-code p-l-xs"></i>
+              </span>
             ) : null}
           </div>
         );

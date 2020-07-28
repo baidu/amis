@@ -185,8 +185,6 @@ export default class PlayGround extends React.Component {
       locale: this.props.locale
     };
 
-    console.log('render', render(schema, props, this.env));
-
     if (!this.props.useIFrame) {
       return render(schema, props, this.env);
     }

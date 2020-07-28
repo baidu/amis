@@ -10,6 +10,7 @@ import PopOver from '../../src/components/PopOver';
 import NestedLinks from '../../src/components/AsideNav';
 import {Portal} from 'react-overlays';
 import classnames from 'classnames';
+import {Link} from 'react-router';
 
 class CodePreview extends React.Component {
   state = {
@@ -183,6 +184,10 @@ export default function (doc) {
     }
 
     render() {
+      console.log('this.props', this.props);
+
+      const {prevDoc, nextDoc} = this.props;
+
       return (
         <>
           <div className="Doc-content">
@@ -191,7 +196,42 @@ export default function (doc) {
                 <h1>{doc.title}</h1>
               </div>
             ) : null}
+
             <Preview {...this.props} doc={doc} />
+
+            <div className="Doc-footer">
+              <div className="Doc-navLinks">
+                {prevDoc ? (
+                  <Link className="Doc-navLinks--prev" to={prevDoc.path}>
+                    <div className="Doc-navLinks-icon">
+                      <i className="iconfont icon-arrow-left"></i>
+                    </div>
+
+                    <div className="Doc-navLinks-body text-right">
+                      <div className="Doc-navLinks-subtitle">
+                        上一篇 - {prevDoc.group || '其他'}
+                      </div>
+                      <div className="Doc-navLinks-title">{prevDoc.label} </div>
+                    </div>
+                  </Link>
+                ) : null}
+
+                {nextDoc ? (
+                  <Link className="Doc-navLinks--next" to={nextDoc.path}>
+                    <div className="Doc-navLinks-body">
+                      <div className="Doc-navLinks-subtitle">
+                        下一篇 - {nextDoc.group || '其他'}
+                      </div>
+                      <div className="Doc-navLinks-title">{nextDoc.label}</div>
+                    </div>
+
+                    <div className="Doc-navLinks-icon">
+                      <i className="iconfont icon-arrow-right"></i>
+                    </div>
+                  </Link>
+                ) : null}
+              </div>
+            </div>
           </div>
           {doc.toc && doc.toc.children && doc.toc.children.length > 1 ? (
             <div className="Doc-toc">

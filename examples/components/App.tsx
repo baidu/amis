@@ -267,7 +267,15 @@ export class App extends React.PureComponent {
             'is-open': isOpen
           })}
         >
-          <Link to={`${path || (hasChildren && nav.children[0].path)}`}>
+          <Link
+            onClick={e => {
+              browserHistory.push(
+                `${path || (hasChildren && nav.children[0].path)}`
+              );
+              this.toggleOpen(e, nav);
+            }}
+            // to={`${path || (hasChildren && nav.children[0].path)}`}
+          >
             {nav.label}
             {hasChildren ? (
               <i
