@@ -6,10 +6,7 @@
     list-style: none;
     user-select: none;
 
-    &::before {
-      display: table;
-      content: ' ';
-    }
+    @include clearfix();
 
     > .#{$ns}Tabs-link {
       margin-bottom: -$Tabs-borderWidth;
