@@ -131,13 +131,14 @@
 
   &-actions {
     border-top: $Card-borderWidth solid $Card-actions-borderColor;
-    display: table;
+    display: flex;
+    flex-direction: row;
     width: 100%;
     table-layout: fixed;
 
     > a {
       background-color: transparent;
-      display: table-cell;
+      flex-grow: 1;
       border-color: $Card-actions-borderColor;
       border-style: solid;
       border-width: 0 $Card-borderWidth 0 0;
