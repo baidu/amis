@@ -1,13 +1,14 @@
 ---
 title: Page 页面
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Page 页面
-icon: 
+icon:
 order: 23
 ---
-Page 组件是 amis 页面结构中，**必须也是唯一的** 顶级容器组件，是整个页面配置的入口组件。
+
+Page 组件是 amis 页面 JSON 配置中，**唯一的** 顶级容器组件，是整个页面配置的入口组件。
 
 ## 基本用法
 
@@ -85,14 +86,14 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 }
 ```
 
-具体 API 规范查看 [API文档](./api)。
+具体 API 规范查看 [API 文档](./api)。
 
 ## 轮训初始化接口
 
 想要在页面渲染后，轮训请求初始化接口，步骤如下：
 
 1. 配置 initApi；
-2. 配置 interval：单位为ms，最低值3000，低于该值按3000处理。
+2. 配置 interval：单位为 ms，最低值 3000，低于该值按 3000 处理。
 
 ```schema:height="200"
 {
@@ -147,8 +148,3 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | interval            | `number`                         | `3000`                                     | 刷新时间(最低 3000)                                                                   |
 | silentPolling       | `boolean`                        | `false`                                    | 配置刷新时是否显示加载动画                                                            |
 | stopAutoRefreshWhen | [表达式](./expression)           | `""`                                       | 通过表达式来配置停止刷新的条件                                                        |
-
-
-
-
-

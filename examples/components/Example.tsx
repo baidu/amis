@@ -511,20 +511,22 @@ export const examples = [
         icon: 'fa fa-cloud',
         path: '/examples/iframe',
         component: makeSchemaRenderer(IFrameSchema)
-      },
-      {
-        label: 'SDK',
-        icon: 'fa fa-rocket',
-        path: '/examples/sdk',
-        component: SdkTest
-      },
-
-      {
-        label: 'Test',
-        icon: 'fa fa-code',
-        path: '/examples/test',
-        component: TestComponent
       }
+
+      // 放到使用中
+      // {
+      //   label: 'SDK',
+      //   icon: 'fa fa-rocket',
+      //   path: '/examples/sdk',
+      //   component: SdkTest
+      // }
+
+      // {
+      //   label: 'Test',
+      //   icon: 'fa fa-code',
+      //   path: '/examples/test',
+      //   component: TestComponent
+      // }
     ]
   }
 ];
@@ -540,14 +542,14 @@ export default class Example extends React.PureComponent {
 
   render() {
     return (
-      <div className="Doc-content">
+      <>
         {React.cloneElement(this.props.children, {
           ...this.props.children.props,
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
           locale: this.props.locale
         })}
-      </div>
+      </>
     );
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import makeMarkdownRenderer from './MdRenderer';
+import {flattenTree, filterTree} from '../../src/utils/helper';
 
 export const docs = [
   {
@@ -7,7 +8,7 @@ export const docs = [
     label: '开始',
     children: [
       {
-        label: 'AMIS 是什么？',
+        label: '介绍',
         path: '/docs/index',
         getComponent: (location, cb) =>
           require(['../../docs/index.md'], doc => {
@@ -16,10 +17,19 @@ export const docs = [
       },
 
       {
-        label: '使用',
+        label: '快速开始',
         path: '/docs/start/usage',
         getComponent: (location, cb) =>
           require(['../../docs/start/usage.md'], doc => {
+            cb(null, makeMarkdownRenderer(doc));
+          })
+      },
+
+      {
+        label: '自定义组件',
+        path: '/docs/start/custom',
+        getComponent: (location, cb) =>
+          require(['../../docs/start/custom.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       }
@@ -159,12 +169,21 @@ export const docs = [
       },
       {
         label: 'Form 表单',
-        path: '/docs/components/form/index',
-        getComponent: (location, cb) =>
-          require(['../../docs/components/form/index.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          }),
+        // path: '/docs/components/form/index',
+        // getComponent: (location, cb) =>
+        //   require(['../../docs/components/form/index.md'], doc => {
+        //     cb(null, makeMarkdownRenderer(doc));
+        //   }),
         children: [
+          // @todo 完了想办法把这个放上面，暂时先这样
+          {
+            label: 'Form 表单',
+            path: '/docs/components/form/index',
+            getComponent: (location, cb) =>
+              require(['../../docs/components/form/index.md'], doc => {
+                cb(null, makeMarkdownRenderer(doc));
+              })
+          },
           {
             label: 'FormItem 表单项',
             path: '/docs/components/form/formitem',
@@ -948,12 +967,30 @@ export const docs = [
 ];
 
 export default class Doc extends React.PureComponent {
+  state = {
+    prevDoc: null,
+    nextDoc: null
+  };
+
   componentDidMount() {
     this.props.setNavigations(docs);
+    this.setDocFooter();
   }
 
-  componentDidUpdate() {
-    this.props.setNavigations(docs);
+  componentDidUpdate(preProps) {
+    if (this.props.location.pathname !== preProps.location.pathname) {
+      this.props.setNavigations(docs);
+      this.setDocFooter();
+    }
+  }
+
+  setDocFooter() {
+    const flattenDocs = flattenTree(docs).filter(i => !!i.path);
+    const docIndex = flattenDocs.findIndex(d => d.path === location.pathname);
+    this.setState({
+      prevDoc: flattenDocs[docIndex - 1],
+      nextDoc: flattenDocs[docIndex + 1]
+    });
   }
 
   render() {
@@ -963,7 +1000,9 @@ export default class Doc extends React.PureComponent {
           ...this.props.children.props,
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
-          locale: this.props.locale
+          locale: this.props.locale,
+          prevDoc: this.state.prevDoc,
+          nextDoc: this.state.nextDoc
         })}
       </>
     );

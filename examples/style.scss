@@ -342,16 +342,9 @@ body {
   &-content {
     position: relative;
 
-    > .schema-wrapper > .a-Page {
-      position: absolute;
-      top: 36px;
-      left: 0;
-      right: 0;
-    }
-
     .Doc-title {
       margin-top: 50px;
-      padding-left: 45px;
+      padding-left: 40px;
 
       h1 {
         margin: 0;
@@ -444,6 +437,49 @@ body {
   .is-flipped {
     transform: rotateX(180deg);
   }
+
+  > .schema-wrapper {
+    .view-code-btn {
+      position: absolute;
+      font-weight: bold;
+      right: -100px;
+      top: 112px;
+      color: #666;
+      cursor: pointer;
+
+      &::before {
+        position: absolute;
+        top: 0;
+        left: -21px;
+        bottom: 0;
+        content: ' ';
+        border-left: 1px solid #e8ebee;
+        width: 1px;
+      }
+
+      &:hover {
+        color: #333;
+      }
+
+      > i {
+        font-weight: bold;
+      }
+    }
+
+    > .a-Page,
+    > .cxd-Page,
+    > .dark-Page {
+      position: absolute;
+      top: 100px;
+      left: 30px;
+      right: 60px;
+      bottom: 0;
+      height: auto;
+      &--withSidebar {
+        padding-right: 80px;
+      }
+    }
+  }
 }
 
 @include media-breakpoint-up(lg) {
@@ -457,7 +493,7 @@ body {
     }
 
     &-toc {
-      margin-left: 30px;
+      margin-left: 20px;
     }
 
     &-toc > div {
