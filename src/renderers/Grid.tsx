@@ -103,27 +103,32 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
           fromBsClass((column as Column).columnClassName)
         )}
       >
-        {Array.isArray(column)
-          ? this.renderColumns(column)
-          : this.renderChild(`column/${key}`, column, key, length)}
-      </div>
-    );
-  }
-
-  renderColumns(columns: ColumnArray): React.ReactElement<any> | null {
-    const {className, classnames: cx} = this.props;
-
-    return (
-      <div className={cx('Grid', className)}>
-        {columns.map((column, key) =>
-          this.renderColumn(column, key, columns.length)
+        {Array.isArray(column) ? (
+          <div className={cx('Grid')}>
+            {column.map((column, key) =>
+              this.renderColumn(column, key, column.length)
+            )}
+          </div>
+        ) : (
+          this.renderChild(`column/${key}`, column, key, length)
         )}
       </div>
     );
   }
 
+  renderColumns(columns: ColumnArray) {
+    return columns.map((column, key) =>
+      this.renderColumn(column, key, columns.length)
+    );
+  }
+
   render() {
-    return this.renderColumns(this.props.columns);
+    const {className, classnames: cx} = this.props;
+    return (
+      <div className={cx('Grid', className)}>
+        {this.renderColumns(this.props.columns)}
+      </div>
+    );
   }
 }
 
