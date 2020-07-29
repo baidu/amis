@@ -233,8 +233,10 @@ export default function (doc) {
           </div>
           {doc.toc && doc.toc.children && doc.toc.children.length > 1 ? (
             <div className="Doc-toc">
-              <div className="Doc-headingList">
-                {this.renderHeading(doc.toc.children)}
+              <div>
+                <div className="Doc-headingList">
+                  {this.renderHeading(doc.toc.children)}
+                </div>
               </div>
             </div>
           ) : null}

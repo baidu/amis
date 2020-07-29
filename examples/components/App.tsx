@@ -284,7 +284,7 @@ export class App extends React.PureComponent {
               browserHistory.push(
                 `${path || (hasChildren && nav.children[0].path)}`
               );
-              this.toggleOpen(e, nav);
+              !isOpen && this.toggleOpen(e, nav);
             }}
             // to={`${path || (hasChildren && nav.children[0].path)}`}
           >
@@ -405,7 +405,7 @@ export default function entry({pathPrefix}) {
   return (
     <Router history={browserHistory}>
       <Route component={App}>
-        <Redirect from={`${ContextPath}/`} to={`${ContextPath}/docs/intro`} />
+        <Redirect from={`${ContextPath}/`} to={`${ContextPath}/docs/index`} />
         <Redirect from={`/examples`} to={`/examples/pages/simple`} />
         <Redirect from={`/docs`} to={`/docs/index`} />
 

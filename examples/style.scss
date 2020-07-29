@@ -98,7 +98,7 @@ body {
   .a-Layout,
   .cxd-Layout,
   .dark-Layout {
-    padding-top: 64px;
+    padding-top: 100px;
 
     &-headerBar {
       height: 64px;
@@ -200,6 +200,8 @@ body {
 }
 
 .Doc {
+  height: 100%;
+
   .anchor {
     padding-top: 100px;
     margin-top: -100px;
@@ -319,6 +321,7 @@ body {
   &-headingList {
     font-size: 12px;
     font-weight: 500;
+    border-left: 1px solid #e8ebee;
 
     &-item {
       padding-left: 15px;
@@ -347,7 +350,7 @@ body {
     position: relative;
 
     .Doc-title {
-      margin-top: 50px;
+      // margin-top: 50px;
       padding-left: 40px;
 
       h1 {
@@ -443,20 +446,20 @@ body {
   }
 
   > .schema-wrapper {
-    flex: 1 auto;
-    width: 0;
+    position: relative;
     > .a-Page,
     > .cxd-Page,
     > .dark-Page {
-      position: absolute;
-      top: 100px;
-      left: 30px;
-      right: 60px;
-      bottom: 0;
-      height: auto;
-      &--withSidebar {
-        padding-right: 80px;
-      }
+      padding: 0 45px;
+      // position: absolute;
+      // top: 100px;
+      // left: 30px;
+      // right: 60px;
+      // bottom: 0;
+
+      // &--withSidebar {
+      //   padding-right: 80px;
+      // }
     }
   }
 }
@@ -478,6 +481,7 @@ body {
   font-size: 16px;
   transition: all 0.3s ease-in-out;
   opacity: 0;
+  z-index: -2;
 
   &:hover {
     color: #108cee;
@@ -485,6 +489,7 @@ body {
 
   &.visible {
     opacity: 1;
+    z-index: 0;
   }
 }
 
@@ -493,7 +498,8 @@ body {
     display: flex;
     flex-direction: row;
 
-    &-content {
+    &-content,
+    .schema-wrapper {
       flex: 1 auto;
       width: 0;
     }
@@ -505,9 +511,8 @@ body {
     &-toc > div {
       position: fixed;
       width: 220px;
-      border-left: 1px solid #e8ebee;
       top: 100px;
-      // bottom: 30px;
+      bottom: 21px;
       overflow: auto;
     }
 
