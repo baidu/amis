@@ -201,12 +201,12 @@ export class App extends React.PureComponent {
     return (
       <>
         <div className={`${theme.ns}Layout-brandBar`}>
-          <button
+          {/* <button
             onClick={() => this.setState({offScreen: !this.state.offScreen})}
             className="pull-right visible-xs"
           >
             <i className="glyphicon glyphicon-align-justify" />
-          </button>
+          </button> */}
 
           <div className={`${theme.ns}Layout-brand`}>
             <i className="fa fa-paw" />
@@ -252,7 +252,8 @@ export class App extends React.PureComponent {
               }}
             />
           </div>
-
+        </div>
+        <div className={`${theme.ns}Layout-searchBar`}>
           <DocSearch theme={this.state.theme.value} />
         </div>
       </>
