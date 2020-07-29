@@ -1,12 +1,13 @@
 ---
 title: Carousel 轮播图
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Carousel 幻灯片
-icon: 
+icon:
 order: 33
 ---
+
 ## 基本用法
 
 ```schema:height="350" scope="body"
@@ -39,7 +40,7 @@ order: 33
 | options.titleClassName       | `string`  |                      | 图片标题类名                                            |
 | options.description          | `string`  |                      | 图片描述                                                |
 | options.descriptionClassName | `string`  |                      | 图片描述类名                                            |
-| options.html                 | `string`  |                      | HTML 自定义，同[Tpl](./Tpl.md)一致                      |
+| options.html                 | `string`  |                      | HTML 自定义，同[Tpl](./tpl)一致                         |
 | itemSchema                   | `object`  |                      | 自定义`schema`来展示数据                                |
 | auto                         | `boolean` | `true`               | 是否自动轮播                                            |
 | interval                     | `string`  | `5s`                 | 切换动画间隔                                            |
@@ -49,8 +50,6 @@ order: 33
 | controls                     | `array`   | `['dots', 'arrows']` | 显示左右箭头、底部圆点索引                              |
 | controlsTheme                | `string`  | `light`              | 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`模式 |
 | animation                    | `string`  | fade                 | 切换动画效果，默认`fade`，另有`slide`模式               |
-
-
 
 - `type` 请设置成 `carousel`
 - `className` 外层 Dom 的类名
@@ -72,11 +71,3 @@ order: 33
 - `controls` 显示左右箭头、底部圆点索引，默认`['dots', 'arrows']`
 - `controlsTheme` 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`模式
 - `animation` 切换动画效果，默认`fade`，另有`slide`模式
-
-
-
-
-
-
-
-

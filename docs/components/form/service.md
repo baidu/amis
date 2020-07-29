@@ -1,10 +1,10 @@
 ---
 title: Service 功能容器
-description: 
+description:
 type: 0
 group: null
 menuName: Service
-icon: 
+icon:
 order: 49
 ---
 
@@ -30,7 +30,7 @@ order: 49
 }
 ```
 
-上例中我们在`text`表单项外，嵌套一层service，用于初始化该表单项
+上例中我们在`text`表单项外，嵌套一层 service，用于初始化该表单项
 
 > 一般初始化表单项是使用 form 的`initApi`配置，当你需要多个接口来初始化一个表单中的表单项时，可以考虑使用 service
 
@@ -82,7 +82,7 @@ order: 49
 
 Service 中的`api`和`schemaApi`都支持**接口联动**。
 
-下面例子中，`数据模板`下拉框的值变化后，会触发service重新拉取api接口，从而更新数据源，变化表单项的值，更多用法查看 [接口联动](./linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)。
+下面例子中，`数据模板`下拉框的值变化后，会触发 service 重新拉取 api 接口，从而更新数据源，变化表单项的值，更多用法查看 [接口联动](../concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)。
 
 ```schema:height="300" scope="body"
 {
@@ -169,9 +169,3 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
 ```
 
 `schemaApi` 同样支持 []()
-
-
-
-
-
-

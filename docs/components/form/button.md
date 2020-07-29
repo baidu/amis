@@ -1,14 +1,14 @@
 ---
 title: Button 按钮
-description: 
+description:
 type: 0
 group: null
 menuName: Button
-icon: 
+icon:
 order: 4
 ---
 
-`form`中除了支持 [行为按钮](./action-button)以外，还支持一些特定的按钮。
+`form`中除了支持 [行为按钮](./action)以外，还支持一些特定的按钮。
 
 ## 基本用法
 
@@ -81,12 +81,4 @@ order: 4
 
 ## 属性表
 
-见 [Action 行为按钮](../action-button)
-
-
-
-
-
-
-
-
+见 [Action 行为按钮](../action)

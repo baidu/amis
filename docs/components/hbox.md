@@ -1,10 +1,10 @@
 ---
 title: HBox 布局
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: HBox
-icon: 
+icon:
 order: 48
 ---
 
@@ -48,11 +48,5 @@ order: 48
 | type                       | `string`                          | `"hbox"`       | 指定为 HBox 渲染器   |
 | className                  | `string`                          |                | 外层 Dom 的类名      |
 | columns                    | `Array`                           |                | 列集合               |
-| columns[x]                 | [Container](./Types.md#Container) |                | 成员可以是其他渲染器 |
+| columns[x]                 | [SchemaNode](../types/schemanode) |                | 成员可以是其他渲染器 |
 | columns[x].columnClassName | `string`                          | `"wrapper-xs"` | 列上类名             |
-
-
-
-
-
-

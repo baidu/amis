@@ -1,12 +1,13 @@
 ---
 title: Wrapper 包裹容器
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Wrapper
-icon: 
+icon:
 order: 72
 ---
+
 简单的一个包裹容器组件
 
 ## 基本用法
@@ -18,7 +19,6 @@ order: 72
     "className": "b"
 }
 ```
-
 
 ## 不同内边距
 
@@ -86,11 +86,4 @@ order: 72
 | type      | `string`                          | `"wrapper"` | 指定为 Wrapper 渲染器        |
 | className | `string`                          |             | 外层 Dom 的类名              |
 | size      | `string`                          |             | 支持: `xs`、`sm`、`md`和`lg` |
-| body      | [SchemaNode](./types-schemanode) |             | 内容容器                     |
-
-
-
-
-
-
-
+| body      | [SchemaNode](../types/schemanode) |             | 内容容器                     |

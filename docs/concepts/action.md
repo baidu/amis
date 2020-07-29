@@ -1,9 +1,9 @@
 ---
-title: 数据映射
+title: 行为
 description:
 type: 0
 group: 💡 概念
-menuName: 数据映射
+menuName: 行为
 icon:
 order: 12
 ---

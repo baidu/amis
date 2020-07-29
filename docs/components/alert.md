@@ -1,12 +1,13 @@
 ---
 title: Alert 提示
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Alert 提示
-icon: 
+icon:
 order: 27
 ---
+
 用来做文字特殊提示，分为四类：提示类、成功类、警告类和危险类。
 
 ## 基本使用
@@ -58,16 +59,10 @@ order: 27
 
 ## 属性表
 
-| 属性名          | 类型                                 | 默认值    | 说明                                                     |
-| --------------- | ------------------------------------ | --------- | -------------------------------------------------------- |
-| type            | `string`                             | `"alert"` | 指定为 alert 渲染器                                      |
-| className       | `string`                             |           | 外层 Dom 的类名                                          |
-| level           | `string`                             | `info`    | 级别，可以是：`info`、`success`、`warning` 或者 `danger` |
-| body            | [SchemaNode](/docs/types-schemanode) |           | 显示内容                                                 |
-| showCloseButton | `boolean`                            | false     | 是否显示关闭按钮                                         |
-
-
-
-
-
-
+| 属性名          | 类型                              | 默认值    | 说明                                                     |
+| --------------- | --------------------------------- | --------- | -------------------------------------------------------- |
+| type            | `string`                          | `"alert"` | 指定为 alert 渲染器                                      |
+| className       | `string`                          |           | 外层 Dom 的类名                                          |
+| level           | `string`                          | `info`    | 级别，可以是：`info`、`success`、`warning` 或者 `danger` |
+| body            | [SchemaNode](../types/schemanode) |           | 显示内容                                                 |
+| showCloseButton | `boolean`                         | false     | 是否显示关闭按钮                                         |

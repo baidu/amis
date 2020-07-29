@@ -1,12 +1,13 @@
 ---
 title: Dialog 对话框
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Dialog 对话框
-icon: 
+icon:
 order: 41
 ---
+
 Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框以供用户操作。
 
 ## 基本用法
@@ -173,7 +174,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 }
 ```
 
-### 提交表单 或 ajax请求
+### 提交表单 或 ajax 请求
 
 弹框中通过配置`form`或`ajax`行为按钮，可以实现`form`提交和`ajax`请求操作。
 
@@ -228,9 +229,9 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 }
 ```
 
-### 提交表单 或 ajax请求 后不关闭弹框
+### 提交表单 或 ajax 请求 后不关闭弹框
 
-默认情况下，当弹框中配置了form并进行了**提交表单操作（confirm）**或进行了**`ajax`请求**，请求成功后，会自动关闭当前弹框，你可以通过手动设置`"close": true` 来禁止该默认特性。
+默认情况下，当弹框中配置了 form 并进行了**提交表单操作（confirm）**或进行了**`ajax`请求**，请求成功后，会自动关闭当前弹框，你可以通过手动设置`"close": true` 来禁止该默认特性。
 
 ```schema:height="100" scope="body"
 {
@@ -286,7 +287,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 ## feedback 反馈弹框
 
-feedback 反馈弹框是指，在ajax请求后，可以显示一个弹框，进行反馈操作
+feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，进行反馈操作
 
 ### 基本使用
 
@@ -308,7 +309,7 @@ feedback 反馈弹框是指，在ajax请求后，可以显示一个弹框，进�
 
 #### 关闭 feedback 弹框时，同时关闭上层弹框
 
-当你在弹框中配置了feedback，操作之后，你希望关闭当前feedback弹框同时，关闭上层的弹框，具体有两种方式
+当你在弹框中配置了 feedback，操作之后，你希望关闭当前 feedback 弹框同时，关闭上层的弹框，具体有两种方式
 
 ##### 1. 不请求接口，直接关闭
 
@@ -386,7 +387,7 @@ feedback 反馈弹框是指，在ajax请求后，可以显示一个弹框，进�
 
 ##### 2. 请求接口，请求成功后，关闭所有弹框
 
-需要在 feedback 的 `body` 中添加Form组件，并配置`"actionType": "confirm"`，
+需要在 feedback 的 `body` 中添加 Form 组件，并配置`"actionType": "confirm"`，
 
 ```schema:height="100" scope="body"
 {
@@ -481,7 +482,7 @@ feedback 反馈弹框是指，在ajax请求后，可以显示一个弹框，进�
 
 #### 关闭 feedback 弹框时，不同时关闭上层弹框
 
-改场景只适用于**不请求接口关闭弹框**的场景，需要在feedback层添加`"skipRestOnCancel": true`
+改场景只适用于**不请求接口关闭弹框**的场景，需要在 feedback 层添加`"skipRestOnCancel": true`
 
 ```schema:height="100" scope="body"
 {
@@ -524,7 +525,7 @@ feedback 反馈弹框是指，在ajax请求后，可以显示一个弹框，进�
 
 ### 根据条件显示 feedback
 
-可以根据条件弹出，例如下面这个例子，只有当接口返回的时间戳可以整除2时才显示弹框。
+可以根据条件弹出，例如下面这个例子，只有当接口返回的时间戳可以整除 2 时才显示弹框。
 
 ```schema:height="100" scope="body"
 {
@@ -540,26 +541,18 @@ feedback 反馈弹框是指，在ajax请求后，可以显示一个弹框，进�
 }
 ```
 
-
 ## 属性表
 
-| 属性名          | 类型                             | 默认值             | 说明                                                                           |
-| --------------- | -------------------------------- | ------------------ | ------------------------------------------------------------------------------ |
-| type            | `string`                         |                    | `"dialog"` 指定为 Dialog 渲染器                                                |
-| title           | [SchemaNode](./types-schemanode) |                    | 弹出层标题                                                                     |
-| body            | [SchemaNode](./types-schemanode) |                    | 往 Dialog 内容区加内容                                                         |
-| size            | `string`                         |                    | 指定 dialog 大小，支持: `xs`、`sm`、`md`、`lg`                                 |
-| bodyClassName   | `string`                         | `modal-body`       | Dialog body 区域的样式类名                                                     |
-| closeOnEsc      | `boolean`                        | `false`            | 是否支持按 `Esc` 关闭 Dialog                                                   |
-| showCloseButton | `boolean`                        | `true`             | 是否显示右上角的关闭按钮                                                               |
-| showErrorMsg    | `boolean`                        | `true`             | 是否在弹框左下角显示报错信息                                                   |
-| disabled        | `boolean`                        | `false`            | 如果设置此属性，则该 Dialog 只读没有提交操作。                                 |
-| actions         | Array<[Action](./action)>        | 【确认】和【取消】 | 如果想不显示底部按钮，可以配置：`[]`                                           |
-| data            | `object`                         |                    | 支持[数据映射](./data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |
-
-
-
-
-
-
-
+| 属性名          | 类型                              | 默认值             | 说明                                                                                     |
+| --------------- | --------------------------------- | ------------------ | ---------------------------------------------------------------------------------------- |
+| type            | `string`                          |                    | `"dialog"` 指定为 Dialog 渲染器                                                          |
+| title           | [SchemaNode](../types/schemanode) |                    | 弹出层标题                                                                               |
+| body            | [SchemaNode](../types/schemanode) |                    | 往 Dialog 内容区加内容                                                                   |
+| size            | `string`                          |                    | 指定 dialog 大小，支持: `xs`、`sm`、`md`、`lg`                                           |
+| bodyClassName   | `string`                          | `modal-body`       | Dialog body 区域的样式类名                                                               |
+| closeOnEsc      | `boolean`                         | `false`            | 是否支持按 `Esc` 关闭 Dialog                                                             |
+| showCloseButton | `boolean`                         | `true`             | 是否显示右上角的关闭按钮                                                                 |
+| showErrorMsg    | `boolean`                         | `true`             | 是否在弹框左下角显示报错信息                                                             |
+| disabled        | `boolean`                         | `false`            | 如果设置此属性，则该 Dialog 只读没有提交操作。                                           |
+| actions         | Array<[Action](./action)>         | 【确认】和【取消】 | 如果想不显示底部按钮，可以配置：`[]`                                                     |
+| data            | `object`                          |                    | 支持[数据映射](../concepts/data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |

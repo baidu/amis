@@ -1,13 +1,14 @@
 ---
 title: Chart 图表
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Chart 图标
-icon: 
+icon:
 order: 34
 ---
-图表渲染器，采用 echarts 渲染，配置格式跟 echarts 相同，[echarts配置文档](http://echarts.baidu.com/option.html#title)
+
+图表渲染器，采用 echarts 渲染，配置格式跟 echarts 相同，[echarts 配置文档](http://echarts.baidu.com/option.html#title)
 
 ## 基本用法
 
@@ -131,7 +132,7 @@ order: 34
 
 ## 配置图表点击行为
 
-可以通过配置`"clickAction": {}`，来指定图表节点的点击行为，支持amis的[行为](./action)。
+可以通过配置`"clickAction": {}`，来指定图表节点的点击行为，支持 amis 的[行为](./action)。
 
 > 点击下面坐标中的节点查看效果！
 
@@ -318,22 +319,16 @@ order: 34
 
 ## 属性表
 
-| 属性名             | 类型                             | 默认值    | 说明                                                               |
-| ------------------ | -------------------------------- | --------- | ------------------------------------------------------------------ |
-| type               | `string`                         | `"chart"` | 指定为 chart 渲染器                                                |
-| className          | `string`                         |           | 外层 Dom 的类名                                                    |
-| body               | [SchemaNode](./types-schemanode) |           | 内容容器                                                           |
-| api                | [api](./types-api)               |           | 配置项接口地址                                                     |
-| initFetch          | `boolean`                        |           | 组件初始化时，是否请求接口                                         |
-| interval           | `number`                         |           | 刷新时间(最低 3000)                                                |
-| config             | `object | string`                |           | 设置 eschars 的配置项,当为`string`的时候可以设置 function 等配置项 |
-| style              | `object`                         |           | 设置根元素的 style                                                 |
-| width              | `string`                         |           | 设置根元素的宽度                                                   |
-| height             | `string`                         |           | 设置根元素的高度                                                   |
-| replaceChartOption | `boolean`                        | `false`   | 每次更新是完全覆盖配置项还是追加？                                 |
-
-
-
-
-
-
+| 属性名             | 类型                              | 默认值    | 说明                                                               |
+| ------------------ | --------------------------------- | --------- | ------------------------------------------------------------------ |
+| type               | `string`                          | `"chart"` | 指定为 chart 渲染器                                                |
+| className          | `string`                          |           | 外层 Dom 的类名                                                    |
+| body               | [SchemaNode](../types/schemanode) |           | 内容容器                                                           |
+| api                | [api](../types/api)               |           | 配置项接口地址                                                     |
+| initFetch          | `boolean`                         |           | 组件初始化时，是否请求接口                                         |
+| interval           | `number`                          |           | 刷新时间(最低 3000)                                                |
+| config             | `object | string`                 |           | 设置 eschars 的配置项,当为`string`的时候可以设置 function 等配置项 |
+| style              | `object`                          |           | 设置根元素的 style                                                 |
+| width              | `string`                          |           | 设置根元素的宽度                                                   |
+| height             | `string`                          |           | 设置根元素的高度                                                   |
+| replaceChartOption | `boolean`                         | `false`   | 每次更新是完全覆盖配置项还是追加？                                 |

@@ -1,12 +1,13 @@
 ---
 title: Nav 导航
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Nav
-icon: 
+icon:
 order: 58
 ---
+
 用于展示链接导航
 
 ## 基本用法
@@ -61,20 +62,14 @@ order: 58
 
 ## 属性表
 
-| 属性名            | 类型                   | 默认值   | 说明                                   |
-| ----------------- | ---------------------- | -------- | -------------------------------------- |
-| type              | `string`               | `"nav"` | 指定为 Nav 渲染器                      |
-| className         | `string`               |          | 外层 Dom 的类名                        |
-| stacked           | `boolean`              | `true`   | 设置成 false 可以以 tabs 的形式展示    |
-| links             | `Array`                |          | 链接集合                               |
-| links[x].label    | `string`               |          | 名称                                   |
-| links[x].to       | [模板](./template)     |          | 链接地址                               |
-| links[x].icon     | `string`               |          | 图标                                   |
-| links[x].active   | `boolean`              |          | 是否高亮                               |
-| links[x].activeOn | [表达式](./expression) |          | 是否高亮的条件，留空将自动分析链接地址 |
-
-
-
-
-
-
+| 属性名            | 类型                             | 默认值  | 说明                                   |
+| ----------------- | -------------------------------- | ------- | -------------------------------------- |
+| type              | `string`                         | `"nav"` | 指定为 Nav 渲染器                      |
+| className         | `string`                         |         | 外层 Dom 的类名                        |
+| stacked           | `boolean`                        | `true`  | 设置成 false 可以以 tabs 的形式展示    |
+| links             | `Array`                          |         | 链接集合                               |
+| links[x].label    | `string`                         |         | 名称                                   |
+| links[x].to       | [模板](../concepts/template)     |         | 链接地址                               |
+| links[x].icon     | `string`                         |         | 图标                                   |
+| links[x].active   | `boolean`                        |         | 是否高亮                               |
+| links[x].activeOn | [表达式](../concepts/expression) |         | 是否高亮的条件，留空将自动分析链接地址 |

@@ -1,12 +1,13 @@
 ---
 title: FormItem 普通表单项
-description: 
+description:
 type: 0
 group: null
 menuName: Formula 普通表单项
-icon: 
+icon:
 order: 1
 ---
+
 **表单项** 是组成一个表单的基本单位，它具有的一些特性会帮助我们更好地实现表单操作。
 
 > 所有派生自`FormItem`的组件，都具有`FormItem`的特性。
@@ -27,6 +28,7 @@ order: 1
   ]
 }
 ```
+
 - `name`: **必填属性**，标识表单数据域中，当前表单项值的`key`
 - `type`: **必填属性**，标识表单项类型
 - `label`: 标识表单项的标签
@@ -162,7 +164,7 @@ order: 1
 
 ##### 通过条件配置是否禁用
 
-你也通过[表达式](../expression)配置`disabledOn`，来实现在某个条件下禁用当前表单项.
+你也通过[表达式](../../concepts/expression)配置`disabledOn`，来实现在某个条件下禁用当前表单项.
 
 ```schema:height="400" scope="body"
 {
@@ -216,7 +218,7 @@ order: 1
 
 ##### 通过条件配置显隐
 
-你也通过[表达式](../expression)配置`hiddenOn`，来实现在某个条件下禁用当前表单项.
+你也通过[表达式](../../concepts/expression)配置`hiddenOn`，来实现在某个条件下禁用当前表单项.
 
 ```schema:height="400" scope="body"
 {
@@ -532,7 +534,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 }
 ```
 
-点击提交，api接口返回中，需要在errors变量中，返回某个表单项的报错信息，`key`值为该表单项的`name`值。
+点击提交，api 接口返回中，需要在 errors 变量中，返回某个表单项的报错信息，`key`值为该表单项的`name`值。
 
 如上，接口返回的格式如下，提交后，`test2`表达项会显示报错信息
 
@@ -547,31 +549,24 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 }
 ```
 
-
 ## 属性表
 
-| 属性名         | 类型                           | 默认值 | 说明                                                       |
-| -------------- | ------------------------------ | ------ | ---------------------------------------------------------- |
-| type           | `string`                       |        | 指定表单项类型                                             |
-| className      | `string`                       |        | 表单最外层类名                                             |
-| inputClassName | `string`                       |        | 表单控制器类名                                             |
-| labelClassName | `string`                       |        | label 的类名                                               |
-| name           | `string`                       |        | 字段名，指定该表单项提交时的 key                           |
-| label          | [模板](../template) 或 `false` |        | 表单项标签                                                 |
-| description    | [模板](../template)            |        | 表单项描述                                                 |
-| placeholder    | `string`                       |        | 表单项描述                                                 |
-| inline         | `boolean`                      |        | 是否为 内联 模式                                           |
-| submitOnChange | `boolean`                      |        | 是否该表单项值发生变化时就提交当前表单。                   |
-| disabled       | `boolean`                      |        | 当前表单项是否是禁用状态                                   |
-| disabledOn     | [表达式](../expression)        |        | 当前表单项是否禁用的条件                                   |
-| visible        | [表达式](../expression)        |        | 当前表单项是否禁用的条件                                   |
-| visibleOn      | [表达式](../expression)        |        | 当前表单项是否禁用的条件                                   |
-| required       | `boolean`                      |        | 是否为必填。                                               |
-| requiredOn     | [表达式](../expression)        |        | 过[表达式](../Types.md#表达式)来配置当前表单项是否为必填。 |
-| validations    | [表达式](../expression)        |        | 表单项值格式验证，支持设置多个，多个规则用英文逗号隔开。             |
-
-
-
-
-
-
+| 属性名         | 类型                                | 默认值 | 说明                                                       |
+| -------------- | ----------------------------------- | ------ | ---------------------------------------------------------- |
+| type           | `string`                            |        | 指定表单项类型                                             |
+| className      | `string`                            |        | 表单最外层类名                                             |
+| inputClassName | `string`                            |        | 表单控制器类名                                             |
+| labelClassName | `string`                            |        | label 的类名                                               |
+| name           | `string`                            |        | 字段名，指定该表单项提交时的 key                           |
+| label          | [模板](../template) 或 `false`      |        | 表单项标签                                                 |
+| description    | [模板](../template)                 |        | 表单项描述                                                 |
+| placeholder    | `string`                            |        | 表单项描述                                                 |
+| inline         | `boolean`                           |        | 是否为 内联 模式                                           |
+| submitOnChange | `boolean`                           |        | 是否该表单项值发生变化时就提交当前表单。                   |
+| disabled       | `boolean`                           |        | 当前表单项是否是禁用状态                                   |
+| disabledOn     | [表达式](../../concepts/expression) |        | 当前表单项是否禁用的条件                                   |
+| visible        | [表达式](../../concepts/expression) |        | 当前表单项是否禁用的条件                                   |
+| visibleOn      | [表达式](../../concepts/expression) |        | 当前表单项是否禁用的条件                                   |
+| required       | `boolean`                           |        | 是否为必填。                                               |
+| requiredOn     | [表达式](../../concepts/expression) |        | 过[表达式](../Types.md#表达式)来配置当前表单项是否为必填。 |
+| validations    | [表达式](../../concepts/expression) |        | 表单项值格式验证，支持设置多个，多个规则用英文逗号隔开。   |
