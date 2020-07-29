@@ -4,6 +4,9 @@
 
 body {
   background-color: #fff;
+  &.dark {
+    background-color: #333538;
+  }
 }
 
 .page-play,
@@ -100,10 +103,6 @@ body {
   .dark-Layout {
     padding-top: 100px;
 
-    &::before {
-      background-color: #fff;
-    }
-
     &-header {
       height: 64px;
       box-shadow: none;
@@ -115,7 +114,6 @@ body {
         z-index: -1;
         left: 0;
         right: 0;
-        background: #fff;
         box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
       }
     }
@@ -143,7 +141,6 @@ body {
       .a-Layout-brand,
       .cxd-Layout-brand,
       .dark-Layout-brand {
-        color: #333;
         height: 64px;
         line-height: 64px;
         font-size: 24px;
@@ -153,6 +150,11 @@ body {
         i {
           color: #108cee;
         }
+      }
+
+      .a-Layout-brand,
+      .cxd-Layout-brand {
+        color: #333;
       }
     }
 
@@ -164,7 +166,7 @@ body {
         height: 64px;
         line-height: 64px;
         font-size: 14px;
-        padding-left: 30px;
+        padding-left: 35px;
 
         > a {
           display: inline-block;
@@ -200,6 +202,29 @@ body {
       &::before {
         left: 0;
       }
+    }
+  }
+
+  .dark-Layout {
+    &-header::before {
+      background-color: #191c22;
+    }
+    .Doc-search .dark-TextControl-input {
+      background-color: #191c22;
+    }
+
+    &-headerBar-links > a {
+      color: #eee;
+    }
+  }
+
+  .a-Layout,
+  .cxd-Layout {
+    &::before {
+      background-color: #fff;
+    }
+    &-header::before {
+      background: #fff;
     }
   }
 }
@@ -458,6 +483,58 @@ body {
     > .dark-Page {
       padding: 0 45px;
     }
+  }
+}
+
+.dark-Layout .Doc {
+  .Doc-headingList-item a {
+    color: #fff;
+    &:hover {
+      color: #999;
+    }
+  }
+
+  .Doc-navigation-item {
+    > a {
+      color: #ccc;
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    &.is-top > a {
+      color: #eee;
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    &.is-active > a,
+    &.is-active.is-top > a {
+      color: #108cee;
+    }
+  }
+
+  &-footer {
+    .Doc-navLinks--prev,
+    .Doc-navLinks--next {
+      color: #eee;
+    }
+
+    .Doc-navLinks-title {
+      color: #fff;
+    }
+  }
+
+  .Backtop {
+    color: #eee;
+    &:hover {
+      color: #108cee;
+    }
+  }
+
+  .markdown-body pre {
+    background-color: #282c34;
   }
 }
 
