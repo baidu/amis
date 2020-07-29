@@ -56,16 +56,17 @@ export default class HBox extends React.Component<HBoxProps, object> {
     );
   }
 
-  render() {
-    const {className, columns, classPrefix: ns} = this.props;
+  renderColumns() {
+    const {columns} = this.props;
 
-    return (
-      <div className={cx(`${ns}Hbox`, className)}>
-        {columns.map((column, key) =>
-          this.renderColumn(column, key, columns.length)
-        )}
-      </div>
+    return columns.map((column, key) =>
+      this.renderColumn(column, key, columns.length)
     );
+  }
+
+  render() {
+    const {className, classnames: cx} = this.props;
+    return <div className={cx(`Hbox`, className)}>{this.renderColumns()}</div>;
   }
 }
 

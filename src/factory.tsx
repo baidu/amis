@@ -757,8 +757,7 @@ export function HocStoreFactory(renderer: {
             //
             // 特殊处理 CRUD。
             // CRUD 中 toolbar 里面的 data 是空对象，但是 __super 会不一样
-            (nextProps.store?.storeType === 'CRUDStore' &&
-              nextProps.data &&
+            (nextProps.data &&
               props.data &&
               nextProps.data.__super !== props.data.__super)
           ) {
