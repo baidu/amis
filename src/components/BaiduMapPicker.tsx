@@ -72,7 +72,7 @@ export class BaiduMapPicker extends React.Component<
       this.initMap();
     } else {
       loadScript(
-        `http://api.map.baidu.com/api?v=2.0&ak=${this.props.ak}&callback={{callback}}`
+        `//api.map.baidu.com/api?v=2.0&ak=${this.props.ak}&callback={{callback}}`
       ).then(this.initMap);
     }
   }

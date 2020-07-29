@@ -79,7 +79,7 @@
   }
 
   .#{$ns}Form-remark {
-    margin-top: ($Form-input-height - $fontSizeBase) / 2;
+    padding-top: $Form-label-paddingTop;
     vertical-align: top;
   }
 
@@ -269,10 +269,6 @@
         > .#{$ns}Form-control {
           vertical-align: top;
           display: inline-block;
-        }
-
-        > .#{$ns}Remark {
-          padding-top: $Form-label-paddingTop;
         }
 
         > .#{$ns}Form-control.#{$ns}InputGroup {
