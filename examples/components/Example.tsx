@@ -511,15 +511,14 @@ export const examples = [
         icon: 'fa fa-cloud',
         path: '/examples/iframe',
         component: makeSchemaRenderer(IFrameSchema)
-      }
+      },
 
-      // 放到使用中
-      // {
-      //   label: 'SDK',
-      //   icon: 'fa fa-rocket',
-      //   path: '/examples/sdk',
-      //   component: SdkTest
-      // }
+      {
+        label: 'SDK',
+        icon: 'fa fa-rocket',
+        path: '/examples/sdk',
+        component: SdkTest
+      }
 
       // {
       //   label: 'Test',

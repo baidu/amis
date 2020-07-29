@@ -93,6 +93,10 @@ export class App extends React.PureComponent {
       document.querySelector(
         `link[title=${this.state.theme.value}]`
       ).disabled = false;
+
+      if (this.state.theme.value === 'dark') {
+        document.querySelector('body').classList.add('dark');
+      }
     }
     document.addEventListener('scroll', this.handleScroll.bind(this));
   }
@@ -249,6 +253,9 @@ export class App extends React.PureComponent {
                   'themeIndex',
                   this.state.themes.indexOf(theme)
                 );
+                document
+                  .querySelector('body')
+                  .classList[theme.value === 'dark' ? 'add' : 'remove']('dark');
               }}
             />
           </div>
