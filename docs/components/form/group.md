@@ -1,14 +1,14 @@
 ---
 title: Group 表单项组
-description: 
+description:
 type: 0
 group: null
 menuName: Group
-icon: 
+icon:
 order: 24
 ---
 
-表单项，默认都是一行显示一个，Group组件用于在一行展示多个表单项
+表单项，默认都是一行显示一个，Group 组件用于在一行展示多个表单项
 
 ## 基本用法
 
@@ -45,7 +45,7 @@ order: 24
 
 ## 展示
 
-可以给`group`组件设置`mode`调整展示模式，用法同 [Form 展示](../form#%E8%A1%A8%E5%8D%95%E5%B1%95%E7%A4%BA)
+可以给`group`组件设置`mode`调整展示模式，用法同 [Form 展示](../form/index#%E8%A1%A8%E5%8D%95%E5%B1%95%E7%A4%BA)
 
 下面`group`我们配置了`"mode": "horizontal"`，观察显示情况
 
@@ -156,13 +156,8 @@ order: 24
 | 属性名    | 类型                        | 默认值         | 说明                                                                       |
 | --------- | --------------------------- | -------------- | -------------------------------------------------------------------------- |
 | className | `string`                    |                | CSS 类名                                                                   |
-| label     | `string`                    |                | group的标签                                                                |
+| label     | `string`                    |                | group 的标签                                                               |
 | controls  | Array<[表单项](./formitem)> |                | 表单项集合                                                                 |
-| mode      | `string`                    |                | 展示默认，同 [Form](./form) 中的模式                                       |
+| mode      | `string`                    |                | 展示默认，同 [Form](./form/index) 中的模式                                 |
 | gap       | `string`                    |                | 表单项之间的间距，可选：                                                   |
 | direction | `string`                    | `"horizontal"` | 可以配置水平展示还是垂直展示。对应的配置项分别是：`vertical`、`horizontal` |
-
-
-
-
-

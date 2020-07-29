@@ -167,7 +167,7 @@ class MyComponent extends React.Component<any, any> {
 
 ## SDK
 
-SDK 适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，直接引入代码就能使用，但需要注意这种方式不支持[定制组件](../sdk)，只能使用 amis 内置的组件。
+SDK 适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，直接引入代码就能使用，但需要注意这种方式不支持 [自定义组件](./custom)，只能使用 amis 内置的组件。
 
 JSSDK 的代码从以下地址获取：
 

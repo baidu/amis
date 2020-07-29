@@ -395,7 +395,7 @@ export default class CustomCheckbox extends React.Component {
 
 #### 组件间通信
 
-关于组件间通信，amis 中有个机制就是，把需要被引用的组件设置一个 name 值，然后其他组件就可以通过这个 name 与其通信，比如这个[栗子](./advanced.md#组件间通信)。其实内部是依赖于内部的一个 Scoped Context。你的组件希望可以被别的组件引用，你需要把自己注册进去，默认自定义的非表单类组件并没有把自己注册进去，可以参考以下代码做添加。
+关于组件间通信，amis 中有个机制就是，把需要被引用的组件设置一个 name 值，然后其他组件就可以通过这个 name 与其通信，比如这个[栗子](../concepts/linkage)。其实内部是依赖于内部的一个 Scoped Context。你的组件希望可以被别的组件引用，你需要把自己注册进去，默认自定义的非表单类组件并没有把自己注册进去，可以参考以下代码做添加。
 
 ```js
 import * as React from 'react';

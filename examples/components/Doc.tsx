@@ -61,65 +61,65 @@ export const docs = [
     children: [
       {
         label: '配置与组件',
-        path: '/docs/concept/schema',
+        path: '/docs/concepts/schema',
         getComponent: (location, cb) =>
-          require(['../../docs/concept/schema.md'], doc => {
+          require(['../../docs/concepts/schema.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },
       {
         label: '数据域与数据链',
-        path: '/docs/concept/datascope-and-datachain',
+        path: '/docs/concepts/datascope-and-datachain',
         getComponent: (location, cb) =>
-          require(['../../docs/concept/datascope-and-datachain.md'], doc => {
+          require(['../../docs/concepts/datascope-and-datachain.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },
       {
         label: '模板',
-        path: '/docs/concept/template',
+        path: '/docs/concepts/template',
         getComponent: (location, cb) =>
-          require(['../../docs/concept/template.md'], doc => {
+          require(['../../docs/concepts/template.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },
       {
         label: '数据映射',
-        path: '/docs/concept/data-mapping',
+        path: '/docs/concepts/data-mapping',
         getComponent: (location, cb) =>
-          require(['../../docs/concept/data-mapping.md'], doc => {
+          require(['../../docs/concepts/data-mapping.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },
       {
         label: '表达式',
-        path: '/docs/concept/expression',
+        path: '/docs/concepts/expression',
         getComponent: (location, cb) =>
-          require(['../../docs/concept/expression.md'], doc => {
+          require(['../../docs/concepts/expression.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },
       {
         label: '联动',
-        path: '/docs/concept/linkage',
+        path: '/docs/concepts/linkage',
         getComponent: (location, cb) =>
-          require(['../../docs/concept/linkage.md'], doc => {
+          require(['../../docs/concepts/linkage.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },
       {
         label: '行为',
-        path: '/docs/concept/action',
+        path: '/docs/concepts/action',
         getComponent: (location, cb) =>
-          require(['../../docs/concept/action.md'], doc => {
+          require(['../../docs/concepts/action.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },
       {
         label: '样式',
-        path: '/docs/concept/style',
+        path: '/docs/concepts/style',
         getComponent: (location, cb) =>
-          require(['../../docs/concept/style.md'], doc => {
+          require(['../../docs/concepts/style.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       }

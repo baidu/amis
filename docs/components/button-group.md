@@ -1,12 +1,13 @@
 ---
 title: ButtonGroup 按钮组
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: ButtonGroup
-icon: 
+icon:
 order: 30
 ---
+
 ## 基本用法
 
 ```schema:height="200" scope="body"
@@ -67,18 +68,11 @@ order: 30
 ]
 ```
 
-
 ## 属性表
 
-| 属性名    | 类型                             | 默认值           | 说明                       |
-| --------- | -------------------------------- | ---------------- | -------------------------- |
-| type      | `string`                         | `"button-group"` | 指定为 button-group 渲染器 |
-| className | `string`                         |                  | 外层 Dom 的类名            |
-| buttons   | Array<[Action](./action-button)> |                  | 行为按钮组                 |
-| vertical  | `string`                         |                  | 是否使用垂直模式           |
-
-
-
-
-
-
+| 属性名    | 类型                      | 默认值           | 说明                       |
+| --------- | ------------------------- | ---------------- | -------------------------- |
+| type      | `string`                  | `"button-group"` | 指定为 button-group 渲染器 |
+| className | `string`                  |                  | 外层 Dom 的类名            |
+| buttons   | Array<[Action](./action)> |                  | 行为按钮组                 |
+| vertical  | `string`                  |                  | 是否使用垂直模式           |

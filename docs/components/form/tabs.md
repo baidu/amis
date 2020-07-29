@@ -1,10 +1,10 @@
 ---
 title: Tabs 选项卡
-description: 
+description:
 type: 0
 group: null
 menuName: Tabs 选项卡
-icon: 
+icon:
 order: 53
 ---
 
@@ -61,16 +61,11 @@ order: 53
 
 ## 属性表
 
-| 属性名           | 类型                              | 默认值 | 说明                |
-| ---------------- | --------------------------------- | ------ | ------------------- |
-| tabs             | `Array`                           |        | tabs 内容           |
-| toolbar          | [SchemaNode](../types-schemanode) |        | tabs 中的工具栏     |
-| toolbarClassName | `string`                          |        | tabs 中工具栏的类名 |
-| tabs[x].title    | `string`                          |        | Tab 标题            |
-| tabs[x].body     | [SchemaNode](../types-schemanode) |        | 内容容器            |
-| tabs[x].controls | Array<[表单项](./formitem)>       |        | 表单项集合。        |
-
-
-
-
-
+| 属性名           | 类型                                 | 默认值 | 说明                |
+| ---------------- | ------------------------------------ | ------ | ------------------- |
+| tabs             | `Array`                              |        | tabs 内容           |
+| toolbar          | [SchemaNode](../../types/schemanode) |        | tabs 中的工具栏     |
+| toolbarClassName | `string`                             |        | tabs 中工具栏的类名 |
+| tabs[x].title    | `string`                             |        | Tab 标题            |
+| tabs[x].body     | [SchemaNode](../../types/schemanode) |        | 内容容器            |
+| tabs[x].controls | Array<[表单项](./formitem)>          |        | 表单项集合。        |

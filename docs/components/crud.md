@@ -1,12 +1,13 @@
 ---
 title: CRUD 增删改查
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: CRUD 增删改查
-icon: 
+icon:
 order: 25
 ---
+
 CRUD，即增删改查组件，主要用来展现数据列表，并支持各类【增】【删】【改】【查】等操作。
 
 ## 基本用法
@@ -57,10 +58,11 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
   "msg": "",
   "data": {
     "items": [
-        { // 每一行的数据
-            "id": 1,
-            "xxx": "xxxx"
-        }
+      {
+        // 每一行的数据
+        "id": 1,
+        "xxx": "xxxx"
+      }
     ],
 
     "total": 200 // 注意！！！这里不是当前请求返回的 items 的长度，而是数据库中一共有多少条数据，用于生成分页组件
@@ -77,10 +79,11 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
   "msg": "",
   "data": {
     "items": [
-        { // 每个成员的数据。
-            "id": 1,
-            "xxx": "xxxx"
-        }
+      {
+        // 每个成员的数据。
+        "id": 1,
+        "xxx": "xxxx"
+      }
     ],
 
     "hasNext": true // 是否有下一页。
@@ -92,7 +95,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 
 ## 展示模式
 
-CRUD 支持下面3种展示模式，默认为 Table表格模式。
+CRUD 支持下面 3 种展示模式，默认为 Table 表格模式。
 
 ### Table 表格模式
 
@@ -286,7 +289,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 大部分表格展示有对数据进行检索的需求，CRUD 自身支持通过配置`filter`，实现查询条件过滤表单
 
-`filter` 配置实际上同 [Form](./form) 组件，因此支持绝大部分`form`的功能。
+`filter` 配置实际上同 [Form](./form/index) 组件，因此支持绝大部分`form`的功能。
 
 ```schema:height="800" scope="body"
 {
@@ -331,7 +334,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 }
 ```
 
-**请注意**：在默认没有自定义配置api数据映射时，提交查询条件表单，会自动将表单中的表单项值，发送给`crud`所配置的接口，然后通过后端接口，实现对数据的过滤操作，前端默认是不会进行任何的数据过滤操作
+**请注意**：在默认没有自定义配置 api 数据映射时，提交查询条件表单，会自动将表单中的表单项值，发送给`crud`所配置的接口，然后通过后端接口，实现对数据的过滤操作，前端默认是不会进行任何的数据过滤操作
 
 如果想前端实现过滤功能，请看[前端一次性加载](#前端一次性加载)部分。
 
@@ -377,7 +380,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 ## 列配置
 
-除了支持 [Table中的列配置](./table#%E5%88%97%E9%85%8D%E7%BD%AE) 以外，crud 还支持下面这些配置，帮助更好的操作数据
+除了支持 [Table 中的列配置](./table#%E5%88%97%E9%85%8D%E7%BD%AE) 以外，crud 还支持下面这些配置，帮助更好的操作数据
 
 ### 排序检索
 
@@ -405,12 +408,12 @@ amis 只负责生成排序组件，并将排序参数传递给接口，而不会
 
 ```json
 {
-    "orderBy": "engine", // 这里为所配置列的 name
-    "orderDir": "asc" // asc 为升序，desc 为降序
+  "orderBy": "engine", // 这里为所配置列的 name
+  "orderDir": "asc" // asc 为升序，desc 为降序
 }
 ```
 
-你可以通过[数据映射](./data-mapping)，在`api`中获取这些参数。
+你可以通过[数据映射](../concepts/data-mapping)，在`api`中获取这些参数。
 
 ### 快速搜索
 
@@ -438,11 +441,11 @@ amis 只负责生成搜索组件，并将搜索参数传递给接口，而不会
 
 ```json
 {
-    "engine": "xxx", // 这里的key是列的 name，value是输入的关键字
+  "engine": "xxx" // 这里的key是列的 name，value是输入的关键字
 }
 ```
 
-你可以通过[数据映射](./data-mapping)，在`api`中获取这些参数。
+你可以通过[数据映射](../concepts/data-mapping)，在`api`中获取这些参数。
 
 ### 快速过滤
 
@@ -478,11 +481,11 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 ```json
 {
-    "grade": "xxx", // 这里的key是列的 name，value是选中项的value值
+  "grade": "xxx" // 这里的key是列的 name，value是选中项的value值
 }
 ```
 
-你可以通过[数据映射](./data-mapping)，在`api`中获取这些参数。
+你可以通过[数据映射](../concepts/data-mapping)，在`api`中获取这些参数。
 
 ### 快速编辑
 
@@ -610,7 +613,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 }
 ```
 
-你也可以在`saveImmediately`中配置api，实现即时保存
+你也可以在`saveImmediately`中配置 api，实现即时保存
 
 ```schema:height="750" scope="body"
 {
@@ -644,10 +647,9 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 }
 ```
 
-
 ## 顶部和底部工具栏
 
-crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在表格顶部和底部渲染组件，
+crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在表格顶部和底部渲染组件，
 
 ```schema:height="600" scope="body"
 {
@@ -704,21 +706,21 @@ crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在�
 
 上例中我们在顶部渲染了一段模板，通过`${count}`取到数据域中，CRUD 返回的`count`变量值；然后我们在底部渲染了一个按钮。
 
-从上面一些例子中你可能已经发现，当我们不配置该属性时，crud默认会在顶部和底部渲染一些组件，实际上，`headerToolbar`和`footerToolbar`默认会有下面这些配置：
+从上面一些例子中你可能已经发现，当我们不配置该属性时，crud 默认会在顶部和底部渲染一些组件，实际上，`headerToolbar`和`footerToolbar`默认会有下面这些配置：
 
 ```json
 {
-    "headerToolbar": ["bulkActions", "pagination"],
-    "footerToolbar": ["statistics", "pagination"]
+  "headerToolbar": ["bulkActions", "pagination"],
+  "footerToolbar": ["statistics", "pagination"]
 }
 ```
 
-- 在顶部工具栏中：渲染批量操作按钮（如果在crud中，配置了bulkActions的话）和 分页组件
+- 在顶部工具栏中：渲染批量操作按钮（如果在 crud 中，配置了 bulkActions 的话）和 分页组件
 - 在底部工具栏中：渲染数据统计组件 和 分页组件
 
 > 如果你不希望在顶部或者底部渲染默认组件，你可以设置`headerToolbar`和`footerToolbar`为空数组`[]`
 
-除了可以配置[SchemaNode类型](./types-schemanode)以外，`headerToolbar`和`footerToolbar`还支持一些针对列表场景而内置的一些常用组件，下面分别介绍：
+除了可以配置[SchemaNode 类型](../types/schemanode)以外，`headerToolbar`和`footerToolbar`还支持一些针对列表场景而内置的一些常用组件，下面分别介绍：
 
 ### 分页
 
@@ -761,30 +763,33 @@ crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在�
 `crud`默认不会处理数据分页，只是会把分页参数传给后端，由后端实现分页，并返回需要展示的数据 和 总数据数`total`变量：
 
 默认传给后端的分页参数格式为：
+
 ```json
 {
-    "page": 1,
-    "perPage": 10
+  "page": 1,
+  "perPage": 10
 }
 ```
 
 你可以通过配置`pageField`和`perPageField`来修改传给后端的分页数据格式，如：
+
 ```json
 {
-    "pageField": "pageNo",
-    "perPageField": "pageSize"
+  "pageField": "pageNo",
+  "perPageField": "pageSize"
 }
 ```
 
 这样传给后端的参数格式将为：
+
 ```json
 {
-    "pageNo": 1,
-    "pageSize": 10
+  "pageNo": 1,
+  "pageSize": 10
 }
 ```
 
-你可以通过[数据映射](./data-mapping)，在`api`中获取这些参数。
+你可以通过[数据映射](../concepts/data-mapping)，在`api`中获取这些参数。
 
 ```json
 {
@@ -792,7 +797,7 @@ crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在�
     "api": {
         "method": "get",
         "url": "xxxxxx",
-        "data": {            
+        "data": {
             "pageNo": "${page}",
             "pageSize": "${perPage}",
             ... // 一些其他参数
@@ -830,6 +835,7 @@ crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在�
 ##### 2. 不知道数据总数
 
 如果后端无法知道数据总数，那么可以返回`hasNext`字段，来标识是否有下一页。
+
 ```json
 {
   "status": 0,
@@ -850,10 +856,9 @@ crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在�
 
 这样 amis 会在配置分页组件的地方，渲染出一个简单的页面跳转控件。
 
-
 ### 批量操作
 
-在`headerToolbar`或者`footerToolbar`数组中添加`bulkActions`字符串，并且在crud上配置`bulkActions`行为按钮数组，可以实现选中表格项并批量操作的功能。
+在`headerToolbar`或者`footerToolbar`数组中添加`bulkActions`字符串，并且在 crud 上配置`bulkActions`行为按钮数组，可以实现选中表格项并批量操作的功能。
 
 ```schema:height="600" scope="body"
 {
@@ -923,13 +928,13 @@ crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在�
 
 批量操作会默认将下面数据添加到数据域中以供按钮行为使用
 
-* `items` `Array<object>` 选中的行数据。
-* `rows` items 的别名，推荐用 items。
-* `unselectedItems` `Array<object>` 没选中的行数据也可获取。
-* `ids` `Array<number|string>` 前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段。
-* `第一行所有行数据` 还有第一行的所有行数据也会包含进去。
+- `items` `Array<object>` 选中的行数据。
+- `rows` items 的别名，推荐用 items。
+- `unselectedItems` `Array<object>` 没选中的行数据也可获取。
+- `ids` `Array<number|string>` 前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段。
+- `第一行所有行数据` 还有第一行的所有行数据也会包含进去。
 
-你可以通过[数据映射](./data-mapping)，在`api`中获取这些参数。
+你可以通过[数据映射](../concepts/data-mapping)，在`api`中获取这些参数。
 
 ### 数据统计
 
@@ -1009,7 +1014,7 @@ crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在�
 
 ### 显隐显示查询条件表单
 
-在`headerToolbar`或者`footerToolbar`数组中添加`filter-toggler`字符串，并且在crud中配置`"filterTogglable": true`后，可以渲染一个可以切换显示查询表单的功能按钮
+在`headerToolbar`或者`footerToolbar`数组中添加`filter-toggler`字符串，并且在 crud 中配置`"filterTogglable": true`后，可以渲染一个可以切换显示查询表单的功能按钮
 
 ```schema:height="800" scope="body"
 {
@@ -1058,7 +1063,6 @@ crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在�
 }
 ```
 
-
 ## 拖拽排序
 
 通过配置`"draggable": true`和保存排序接口`saveOrderApi`，可以实现拖拽排序功能，
@@ -1101,33 +1105,33 @@ crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在�
 
 发送方式默认为`POST`，会包含以下信息。
 
-* `ids` 字符串如： `2,3,1,4,5,6` 用 id 来记录新的顺序。 前提是你的列表接口返回了 id 字段。另外如果你的 primaryField 不是 `id`，则需要配置如： `primaryField: "order_id"`。注意：无论你配置成什么 primayField，这个字段名始终是 ids。
-* `rows` `Array<Item>` 数组格式，新的顺序，数组里面包含所有原始信息。
-* `insertAfter` 或者 `insertBefore`  这是 amis 生成的 diff 信息，对象格式，key 为目标成员的 primaryField 值，即 id，value 为数组，数组中存放成员 primaryField 值。如： 
+- `ids` 字符串如： `2,3,1,4,5,6` 用 id 来记录新的顺序。 前提是你的列表接口返回了 id 字段。另外如果你的 primaryField 不是 `id`，则需要配置如： `primaryField: "order_id"`。注意：无论你配置成什么 primayField，这个字段名始终是 ids。
+- `rows` `Array<Item>` 数组格式，新的顺序，数组里面包含所有原始信息。
+- `insertAfter` 或者 `insertBefore` 这是 amis 生成的 diff 信息，对象格式，key 为目标成员的 primaryField 值，即 id，value 为数组，数组中存放成员 primaryField 值。如：
 
-    ```json
-    {
-        "insertAfter": {
-            "2": ["1", "3"],
-            "6": ["4", "5"]
-        }
+  ```json
+  {
+    "insertAfter": {
+      "2": ["1", "3"],
+      "6": ["4", "5"]
     }
-    ```
+  }
+  ```
 
-    表示：成员 1 和成员 3 插入到了成员 2 的后面。成员 4 和 成员 5 插入到了 成员 6 的后面。
+  表示：成员 1 和成员 3 插入到了成员 2 的后面。成员 4 和 成员 5 插入到了 成员 6 的后面。
 
-你可以通过[数据映射](./data-mapping)，在`api`中获取这些参数。
+你可以通过[数据映射](../concepts/data-mapping)，在`api`中获取这些参数。
 
 如下:
 
 ```json
 {
-    "saveOrderApi": {
-        "url": "/api/xxxx",
-        "data": {
-            "ids": "${ids}"
-        }
+  "saveOrderApi": {
+    "url": "/api/xxxx",
+    "data": {
+      "ids": "${ids}"
     }
+  }
 }
 ```
 
@@ -1139,23 +1143,23 @@ crud组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在�
 
 CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一个按钮就行了。CRUD 在处理按钮行为的时候会把当前行的完整数据传递过去，如果你的按钮行为是弹出时，还会包含一下信息：
 
-* `hasNext` `boolean` 当按钮行为是弹框时，还会携带这个数据可以用来判断当前页中是否有下一条数据。
-* `hasPrev` `boolean` 当按钮行为是弹框时，还会携带这个数据可以判断用来当前页中是否有上一条数据。
-* `index`  `number` 当按钮行为是弹框时，还会携带这个数据可以用来获取当前行数据在这一页中的位置。
-* `prevIndex` `number`
-* `nextIndex` `number`
+- `hasNext` `boolean` 当按钮行为是弹框时，还会携带这个数据可以用来判断当前页中是否有下一条数据。
+- `hasPrev` `boolean` 当按钮行为是弹框时，还会携带这个数据可以判断用来当前页中是否有上一条数据。
+- `index` `number` 当按钮行为是弹框时，还会携带这个数据可以用来获取当前行数据在这一页中的位置。
+- `prevIndex` `number`
+- `nextIndex` `number`
 
-你可以通过[数据映射](./data-mapping)，在`api`中获取这些参数。
+你可以通过[数据映射](../concepts/data-mapping)，在`api`中获取这些参数。
 
 如果你的按钮类型是 ajax，你也可以限定只发送部分数据比如。
 
 ```json
 {
-    "type": "button",
-    "label": "删除",
-    "actionType": "ajax",
-    "api": "delete:/api/xxxx/$id",
-    "confirmText": "确定要删除？"
+  "type": "button",
+  "label": "删除",
+  "actionType": "ajax",
+  "api": "delete:/api/xxxx/$id",
+  "confirmText": "确定要删除？"
 }
 ```
 
@@ -1163,26 +1167,26 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 
 ```json
 {
-    "type": "button",
-    "label": "删除",
-    "actionType": "ajax",
-    "api": {
-        "method": "post",
-        "url": "/api/xxxx/$id",
-        "data": {
-            "&": "$$",
-            "op": "delete"
-        }
-    },
-    "confirmText": "确定要删除？"
+  "type": "button",
+  "label": "删除",
+  "actionType": "ajax",
+  "api": {
+    "method": "post",
+    "url": "/api/xxxx/$id",
+    "data": {
+      "&": "$$",
+      "op": "delete"
+    }
+  },
+  "confirmText": "确定要删除？"
 }
 ```
 
 ## 过滤条件参数同步地址栏
 
-默认CRUD会将过滤条件参数同步至浏览器地址栏中，
+默认 CRUD 会将过滤条件参数同步至浏览器地址栏中，
 
-不过，如果你了解 [数据链](./data-scope-and-chain#%E6%95%B0%E6%8D%AE%E9%93%BE) 的话，在开启同步地址栏时，地址栏中的参数数据会合并到顶层的数据链中，可能会造成一些预期中的问题，例如：会自动给某些同名的表单项设置默认值等。可以手动设置`syncLocation: false`来关闭此特性
+不过，如果你了解 [数据链](../concepts/datascope-and-datachain#%E6%95%B0%E6%8D%AE%E9%93%BE) 的话，在开启同步地址栏时，地址栏中的参数数据会合并到顶层的数据链中，可能会造成一些预期中的问题，例如：会自动给某些同名的表单项设置默认值等。可以手动设置`syncLocation: false`来关闭此特性
 
 ## 前端一次性加载
 
@@ -1223,7 +1227,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 }
 ```
 
-配置一次性加载后，基本的分页、快速排序操作将会在前端进行完成。如果想实现前端检索，需要用到[数据映射](./data-mapping)功能：
+配置一次性加载后，基本的分页、快速排序操作将会在前端进行完成。如果想实现前端检索，需要用到[数据映射](../concepts/data-mapping)功能：
 
 ```schema:height="600" scope="body"
 {
@@ -1281,24 +1285,24 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | mode                                  | `string`                  | `"table"`                       | `"table" 、 "cards" 或者 "list"`                                                                                      |
 | title                                 | `string`                  | `""`                            | 可设置成空，当设置成空时，没有标题栏                                                                                  |
 | className                             | `string`                  |                                 | 表格外层 Dom 的类名                                                                                                   |
-| api                                   | [API](./types-api)        |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
+| api                                   | [API](../types/api)       |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
 | loadDataOnce                          | `boolean`                 |                                 | 是否一次性加载所有数据（前端分页）                                                                                    |
-| loadDataOnceFetchOnFilter             | `boolean`                 | `true`                          | 在开启loadDataOnce时，filter时是否去重新请求api                                                                       |
+| loadDataOnceFetchOnFilter             | `boolean`                 | `true`                          | 在开启 loadDataOnce 时，filter 时是否去重新请求 api                                                                   |
 | source                                | `string`                  |                                 | 数据映射接口返回某字段的值，不设置会默认把接口返回的`items`或者`rows`填充进`mode`区域                                 |
-| filter                                | [Form](./form)            |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 `mode` 刷新列表。                                                        |
+| filter                                | [Form](./form/index)      |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 `mode` 刷新列表。                                                        |
 | filterTogglable                       | `boolean`                 | `false`                         | 是否可显隐过滤器                                                                                                      |
 | filterDefaultVisible                  | `boolean`                 | `true`                          | 设置过滤器默认是否可见。                                                                                              |
 | initFetch                             | `boolean`                 | `true`                          | 是否初始化的时候拉取数据, 只针对有 filter 的情况, 没有 filter 初始都会拉取数据                                        |
 | interval                              | `number`                  | `3000`                          | 刷新时间(最低 3000)                                                                                                   |
 | silentPolling                         | `boolean`                 | `false`                         | 配置刷新时是否隐藏加载动画                                                                                            |
-| stopAutoRefreshWhen                   | `string`                  | `""`                            | 通过[表达式](./Types.md#表达式)来配置停止刷新的条件                                                                   |
+| stopAutoRefreshWhen                   | `string`                  | `""`                            | 通过[表达式](../concepts/expression)来配置停止刷新的条件                                                              |
 | stopAutoRefreshWhenModalIsOpen        | `boolean`                 | `false`                         | 当有弹框时关闭自动刷新，关闭弹框又恢复                                                                                |
 | syncLocation                          | `boolean`                 | `true`                          | 是否将过滤条件的参数同步到地址栏                                                                                      |
 | draggable                             | `boolean`                 | `false`                         | 是否可通过拖拽排序                                                                                                    |
-| itemDraggableOn                       | `boolean`                 |                                 | 用[表达式](./Types.md#表达式)来配置是否可拖拽排序                                                                     |
-| [saveOrderApi](#saveOrderApi)         | [API](./types-api)        |                                 | 保存排序的 api。                                                                                                      |
-| [quickSaveApi](#quickSaveApi)         | [API](./types-api)        |                                 | 快速编辑后用来批量保存的 API。                                                                                        |
-| [quickSaveItemApi](#quickSaveItemApi) | [API](./types-api)        |                                 | 快速编辑配置成及时保存时使用的 API。                                                                                  |
+| itemDraggableOn                       | `boolean`                 |                                 | 用[表达式](../concepts/expression)来配置是否可拖拽排序                                                                |
+| [saveOrderApi](#saveOrderApi)         | [API](../types/api)       |                                 | 保存排序的 api。                                                                                                      |
+| [quickSaveApi](#quickSaveApi)         | [API](../types/api)       |                                 | 快速编辑后用来批量保存的 API。                                                                                        |
+| [quickSaveItemApi](#quickSaveItemApi) | [API](../types/api)       |                                 | 快速编辑配置成及时保存时使用的 API。                                                                                  |
 | bulkActions                           | Array<[Action](./action)> |                                 | 批量操作列表，配置后，表格可进行选中操作。                                                                            |
 | defaultChecked                        | `boolean`                 | `false`                         | 当可批量操作时，默认是否全部勾选。                                                                                    |
 | messages                              | `Object`                  |                                 | 覆盖消息提示，如果不指定，将采用 api 返回的 message                                                                   |
@@ -1320,8 +1324,3 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | labelTpl                              | `string`                  |                                 | 单条描述模板，`keepItemSelectionOnPageChange`设置为`true`后会把所有已选择条目列出来，此选项可以用来定制条目展示文案。 |
 | headerToolbar                         | Array                     | `['bulkActions', 'pagination']` | 顶部工具栏配置                                                                                                        |
 | footerToolbar                         | Array                     | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
-
-
-
-
-

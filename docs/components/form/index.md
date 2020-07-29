@@ -1,17 +1,18 @@
 ---
 title: Form 表单
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Form 表单
-icon: 
+icon:
 order: 24
 ---
+
 表单是 amis 中核心组件之一，主要作用是提交或者展示表单数据。
 
 ## 基本用法
 
-最基本的用法是配置 [表单项](./form/formitem) 和 提交接口`api`。
+最基本的用法是配置 [表单项](./form/index/formitem) 和 提交接口`api`。
 
 如下我们配置姓名和邮箱表单项，并可以填写数据并提交给接口`/api/mock2/form/saveForm`。
 
@@ -276,7 +277,7 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 
 #### 配置若干自定义按钮
 
- 同样，你可以通过actions属性，配置任意你想要的行为按钮。
+同样，你可以通过 actions 属性，配置任意你想要的行为按钮。
 
 ```schema:height="330" scope="body"
 {
@@ -447,7 +448,7 @@ Form 支持轮训初始化接口，步骤如下：
 }
 ```
 
-当你需要配置特定的请求方式，请求体，`header`时，使用对象类型api配置，并使用 数据映射 进行数据配置。下面示例我们更改了请求方法为`PUT`，并在原提交数据的基础上添加一个字段`"_from"`。更多用法查看 [API文档](https://suda.bce.baidu.com/docs/api) 和 [数据映射](https://suda.bce.baidu.com/docs/data-mapping)文档
+当你需要配置特定的请求方式，请求体，`header`时，使用对象类型 api 配置，并使用 数据映射 进行数据配置。下面示例我们更改了请求方法为`PUT`，并在原提交数据的基础上添加一个字段`"_from"`。更多用法查看 [API 文档](../../types/api) 和 [数据映射](../../concepts/data-mapping)文档
 
 ```schema:height="330" scope="body"
 {
@@ -573,7 +574,7 @@ Form 支持轮训初始化接口，步骤如下：
 
 默认表单是可以获取到完整数据链中的数据的，但是该默认行为不适用于所有场景，例如：
 
-在CRUD的列表项中配置弹框，弹框中有一个表单，则该表单项中所有的同`name`表单项都会根据上层`crud`的行数据进行初始化，如果你是实现编辑的功能那并没有是什么问题，但是如果你是新建功能，那么这将不符合你的预期，你可以手动设置`"canAccessSuperData": false`来关闭该行为
+在 CRUD 的列表项中配置弹框，弹框中有一个表单，则该表单项中所有的同`name`表单项都会根据上层`crud`的行数据进行初始化，如果你是实现编辑的功能那并没有是什么问题，但是如果你是新建功能，那么这将不符合你的预期，你可以手动设置`"canAccessSuperData": false`来关闭该行为
 
 ## 提交后行为
 
@@ -667,7 +668,7 @@ Form 支持轮训初始化接口，步骤如下：
 
 上例中`form`提交成功后，会触发`name`为`my_service`的`Service`组件重新请求初始化接口
 
-上面示例是一种[组件间联动](https://suda.bce.baidu.com/docs/linkage#%E7%BB%84%E4%BB%B6%E9%97%B4%E8%81%94%E5%8A%A8)
+上面示例是一种[组件间联动](../concepts/linkage#%E7%BB%84%E4%BB%B6%E9%97%B4%E8%81%94%E5%8A%A8)
 
 ### 将数据域发送给目标组件
 
@@ -719,7 +720,7 @@ Form 支持轮训初始化接口，步骤如下：
 
 第一个表单在提交时，会将它的表单数据域数据发送给`detailForm`表单，触发`detailForm`的初始化接口联动，重新请求接口更新数据域，并更新关键字表单项。
 
-上面示例组合使用了 [组件间联动](https://suda.bce.baidu.com/docs/linkage#%E7%BB%84%E4%BB%B6%E9%97%B4%E8%81%94%E5%8A%A8) 和 [接口联动](https://suda.bce.baidu.com/docs/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)
+上面示例组合使用了 [组件间联动](../concepts/linkage#%E7%BB%84%E4%BB%B6%E9%97%B4%E8%81%94%E5%8A%A8) 和 [接口联动](../concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)
 
 ## 持久化保存表单项数据
 
@@ -730,6 +731,7 @@ Form 支持轮训初始化接口，步骤如下：
 ## 修改表单项变化方式
 
 @todo
+
 - lazyChange
 - formLazyChange
 
@@ -779,8 +781,3 @@ Form 支持轮训初始化接口，步骤如下：
 | persistData                   | `boolean`                            | `true`                                                                 | 指定表单是否开启本地缓存                                                                                                                                                                                                                                                                                                                                     |
 | clearPersistDataAfterSubmit   | `boolean`                            | `true`                                                                 | 指定表单提交成功后是否清除本地缓存                                                                                                                                                                                                                                                                                                                           |
 | name                          | `string`                             |                                                                        | 设置一个名字后，方便其他组件与其通信                                                                                                                                                                                                                                                                                                                         |
-
-
-
-
-

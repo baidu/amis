@@ -1,10 +1,10 @@
 ---
 title: Options 选择器表单项
-description: 
+description:
 type: 0
 group: null
 menuName: Options 选择器表单项
-icon: 
+icon:
 order: 2
 ---
 
@@ -101,7 +101,6 @@ order: 2
 }
 ```
 
-
 ##### 简单格式
 
 也可以配置简单的字符串或数字数组，此时默认`label`和`value`保持一致
@@ -125,7 +124,7 @@ order: 2
 
 ### 通过数据域中变量配置
 
-你也可以配置`source`属性，利用 [数据映射](../data-mapping)，获取当前数据链中的变量
+你也可以配置`source`属性，利用 [数据映射](.../concepts/data-mapping)，获取当前数据链中的变量
 
 ```schema:height="260" scope="body"
 {
@@ -157,11 +156,11 @@ order: 2
 }
 ```
 
-上例中，我们给select组件，配置`"source": "${items}"`，获取了当前数据域中的`items`变量作为选项组。
+上例中，我们给 select 组件，配置`"source": "${items}"`，获取了当前数据域中的`items`变量作为选项组。
 
 ### 远程拉取
 
-除了可以通过数据映射获取当前数据域中的变量以外，`source`还支持配置接口，格式为 [API](../types-api)，用于动态返回选项组。
+除了可以通过数据映射获取当前数据域中的变量以外，`source`还支持配置接口，格式为 [API](../../types/api)，用于动态返回选项组。
 
 ```schema:height="260" scope="body"
 {
@@ -177,28 +176,27 @@ order: 2
 }
 ```
 
-远程拉取接口时，返回的数据结构除了需要满足 [amis接口要求的基本数据结构](../types-api#%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E6%A0%BC%E5%BC%8F-%E9%87%8D%E8%A6%81-) 以外，必须用`"options"`作为选项组的`key`值，如下
+远程拉取接口时，返回的数据结构除了需要满足 [amis 接口要求的基本数据结构](../../types/api#%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E6%A0%BC%E5%BC%8F-%E9%87%8D%E8%A6%81-) 以外，必须用`"options"`作为选项组的`key`值，如下
 
 ```json
 {
   "status": 0,
   "msg": "",
   "data": {
-
     // 必须用 options 作为选项组的 key 值
     "options": [
-        {
-            "label":"A",
-            "value":"a"
-        },
-        {
-            "label":"B",
-            "value":"b"
-        },
-        {
-            "label":"C",
-            "value":"c"
-        }
+      {
+        "label": "A",
+        "value": "a"
+      },
+      {
+        "label": "B",
+        "value": "b"
+      },
+      {
+        "label": "C",
+        "value": "c"
+      }
     ]
   }
 }
@@ -255,18 +253,18 @@ order: 2
   "data": {
     "value": "b", // 这样就会自动选中b选项
     "options": [
-        {
-            "label":"A",
-            "value":"a"
-        },
-        {
-            "label":"B",
-            "value":"b"
-        },
-        {
-            "label":"C",
-            "value":"c"
-        }
+      {
+        "label": "A",
+        "value": "a"
+      },
+      {
+        "label": "B",
+        "value": "b"
+      },
+      {
+        "label": "C",
+        "value": "c"
+      }
     ]
   }
 }
@@ -518,7 +516,7 @@ order: 2
 
 当你通过`joinValues`调整选择器表单项的数据结构后，设置默认值时，格式也要和设置的数据结构保持一致
 
-例如下面这个例子，当你给`select`设置了`"joinValues": false`时，选中B选项，则该表单项值为`{"label":"B","value":"b"}`，如果你想要默认选中某一项，则也需要设置`value`为完整的对象：`{"label":"B","value":"b"}`
+例如下面这个例子，当你给`select`设置了`"joinValues": false`时，选中 B 选项，则该表单项值为`{"label":"B","value":"b"}`，如果你想要默认选中某一项，则也需要设置`value`为完整的对象：`{"label":"B","value":"b"}`
 
 ```schema:height="400" scope="body"
 {
@@ -555,7 +553,7 @@ order: 2
 
 ## 提取多选值 extractValue
 
-当`"joinValues": false`时，默认会将选中的所有选项组成的对象数组，作为表单项的值，如果你想只抽取选项中的value值，拼成新的数组，那么可以配置`"extractValue": true`
+当`"joinValues": false`时，默认会将选中的所有选项组成的对象数组，作为表单项的值，如果你想只抽取选项中的 value 值，拼成新的数组，那么可以配置`"extractValue": true`
 
 ```schema:height="400" scope="body"
 {
@@ -594,7 +592,7 @@ order: 2
 
 当你通过`joinValues`和`extractValue`调整选择器表单项的数据结构后，设置默认值时，格式也要和设置的数据结构保持一致
 
-例如下面这个例子，当你给`select`设置了`"joinValues": false`和`"extractValue": true`时，选中A、B选项，则该表单项值为`["a", "b"]`，如果你想要默认选中某一项，则也需要设置`value`为同样格式：`["a", "b"]`
+例如下面这个例子，当你给`select`设置了`"joinValues": false`和`"extractValue": true`时，选中 A、B 选项，则该表单项值为`["a", "b"]`，如果你想要默认选中某一项，则也需要设置`value`为同样格式：`["a", "b"]`
 
 ```schema:height="400" scope="body"
 {
@@ -653,7 +651,7 @@ order: 2
 
 默认渲染选项组，会获取每一项中的`label`变量作为展示文本，如果你的选中项中没有`label`字段，可能会有显示问题
 
-例如下例中，options中只有`text`和`value`字段而没有value字段，这时点开下拉框，你会发现选项无法正常显示。
+例如下例中，options 中只有`text`和`value`字段而没有 value 字段，这时点开下拉框，你会发现选项无法正常显示。
 
 ```schema:height="400" scope="body"
 {
@@ -720,7 +718,7 @@ order: 2
 
 默认渲染选项组，会获取每一项中的`value`变量作为表单项值，如果你的选中项中没有`value`字段，将会无法选中
 
-例如下例中，options中只有`label`和`val`字段而没有`value`字段，这时点开下拉框，你会发现选项无法正常选中。
+例如下例中，options 中只有`label`和`val`字段而没有`value`字段，这时点开下拉框，你会发现选项无法正常选中。
 
 ```schema:height="400" scope="body"
 {
@@ -931,7 +929,7 @@ order: 2
 ```
 
 > 配置`addApi`实际上将该配置值设置给该表单的`api`属性。
-> 
+>
 > 如果同时配置了`source`和`addApi`，添加选项成功后会重新获取请求`source`接口
 
 ## 编辑选项
@@ -1078,7 +1076,7 @@ order: 2
 ```
 
 > 配置`editApi`实际上将该配置值设置给编辑表单的`api`属性。
-> 
+>
 > 如果同时配置了`source`和`editApi`，添加选项成功后会重新获取请求`source`接口
 
 ## 删除选项
@@ -1126,7 +1124,7 @@ order: 2
 
 ## 自动填充 autoFill
 
-一些选择器组件，支持配置`autoFill`，将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，**只在单选时有效**，支持[数据映射](../data-mapping)
+一些选择器组件，支持配置`autoFill`，将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，**只在单选时有效**，支持[数据映射](.../concepts/data-mapping)
 
 ```schema:height="400" scope="body"
 {
@@ -1168,17 +1166,12 @@ order: 2
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名       | 类型                             | 默认值    | 说明                                                                   |
-| ------------ | -------------------------------- | --------- | ---------------------------------------------------------------------- |
-| options      | `Array<object>`或`Array<string>` |           | 选项组，供用户选择                                                     |
-| source       | `string`或 [API](../types-api)   |           | 选项组源，可通过数据映射获取当前数据域变量、或者配置API对象            |
-| multiple     | `boolean`                        | `false`   | 是否多选                                                               |
-| labelField   | `boolean`                        | `"label"` | 标识选项中哪个字段是`label`值                                          |
-| valueField   | `boolean`                        | `"value"` | 标识选项中哪个字段是`value`值                                          |
-| joinValues   | `boolean`                        | `true`    | 是否拼接`value`值                                                      |
-| extractValue | `boolean`                        | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效 |
-
-
-
-
-
+| 属性名       | 类型                              | 默认值    | 说明                                                                   |
+| ------------ | --------------------------------- | --------- | ---------------------------------------------------------------------- |
+| options      | `Array<object>`或`Array<string>`  |           | 选项组，供用户选择                                                     |
+| source       | `string`或 [API](../../types/api) |           | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象          |
+| multiple     | `boolean`                         | `false`   | 是否多选                                                               |
+| labelField   | `boolean`                         | `"label"` | 标识选项中哪个字段是`label`值                                          |
+| valueField   | `boolean`                         | `"value"` | 标识选项中哪个字段是`value`值                                          |
+| joinValues   | `boolean`                         | `true`    | 是否拼接`value`值                                                      |
+| extractValue | `boolean`                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效 |

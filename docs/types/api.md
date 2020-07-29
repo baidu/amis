@@ -119,7 +119,7 @@ API 还支持配置对象类型
 
 ### 配置请求地址
 
-可以配置`url`指定接口请求地址，支持[模板字符串](./template)。
+可以配置`url`指定接口请求地址，支持[模板字符串](../concepts/template)。
 
 ### 配置请求数据
 
@@ -349,7 +349,7 @@ API 还支持配置对象类型
 }
 ```
 
-查看 **选项 2** 的`source`属性，他是 API 类型值，支持配置`sendOn` [表达式](./expression)，实现根据条件请求接口。
+查看 **选项 2** 的`source`属性，他是 API 类型值，支持配置`sendOn` [表达式](../concepts/expression)，实现根据条件请求接口。
 
 ### 配置接口缓存
 
@@ -591,7 +591,7 @@ const schema = {
 | dataType       | 数据体格式   | 字符串                                                                                               | 默认为 `json` 可以配置成 `form` 或者 `form-data`。当 `data` 中包含文件时，自动会采用 `form-data（multipart/form-data）` 格式。当配置为 `form` 时为 `application/x-www-form-urlencoded` 格式。 |
 | qsOptions      | --           | 对象或字符串                                                                                         | 当 dataType 为 form 或者 form-data 的时候有用。具体参数请参考这里，默认设置为: `{ arrayFormat: 'indices', encodeValuesOnly: true }`                                                           |
 | headers        | 请求头       | 对象                                                                                                 | -                                                                                                                                                                                             |
-| sendOn         | 请求条件     | [表达式](https://suda.bce.baidu.com/docs/expression)                                                 | -                                                                                                                                                                                             |
+| sendOn         | 请求条件     | [表达式](../concepts/expression)                                                                     | -                                                                                                                                                                                             |
 | cache          | 接口缓存时间 | 整型数字                                                                                             | -                                                                                                                                                                                             |
 | requestAdaptor | 发送适配器   | 字符串                                                                                               | ，支持字符串串格式，或者直接就是函数如：                                                                                                                                                      |
 | adaptor        | 接收适配器   | 字符串                                                                                               | 如果接口返回不符合要求，可以通过配置一个适配器来处理成 amis 需要的。同样支持 Function 或者 字符串函数体格式                                                                                   |

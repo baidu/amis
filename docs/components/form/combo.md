@@ -1,12 +1,13 @@
 ---
 title: Combo 组合
-description: 
+description:
 type: 0
 group: null
 menuName: Combo
-icon: 
+icon:
 order: 12
 ---
+
 组合模式，支持自由组合多个表单项。当设置成单选时数据格式为对象，当设置成多选时数据格式为数组，数组成员是对象（flat 模式可以直接是某个表单单项的数值）。
 
 ## 基本使用
@@ -42,7 +43,7 @@ order: 12
 
 ## 多行展示模式
 
-默认，combo内表单项是横着展示一排，如果想换行展示，可以配置`"multiLine": true`
+默认，combo 内表单项是横着展示一排，如果想换行展示，可以配置`"multiLine": true`
 
 ```schema:height="450" scope="body"
 {
@@ -96,7 +97,7 @@ order: 12
 
 ## 多选模式
 
-默认，combo为单选模式，可以配置`"multiple": true`实现多选模式
+默认，combo 为单选模式，可以配置`"multiple": true`实现多选模式
 
 ```schema:height="400" scope="body"
 {
@@ -307,10 +308,7 @@ order: 12
 
 ```json
 {
-  "combo2": [
-    "aaa",
-    "bbb"
-  ]
+  "combo2": ["aaa", "bbb"]
 }
 ```
 
@@ -353,7 +351,7 @@ order: 12
 }
 ```
 
-上例中，`text`和`select`都配置了`"unique": true`，新增多条combo，在任意两个`text`输入框的值相同时，提交时都会报错`"当前值不唯一"`，而`select`选择框也不可选择重复的选项
+上例中，`text`和`select`都配置了`"unique": true`，新增多条 combo，在任意两个`text`输入框的值相同时，提交时都会报错`"当前值不唯一"`，而`select`选择框也不可选择重复的选项
 
 ## 拖拽排序
 
@@ -604,9 +602,9 @@ order: 12
 
 ## 同步更新内部表单项
 
-配置`canAccessSuperData`可以获取父级数据域值，但是为了效率，在父级数据域变化的时候，默认combo内部是不会进行同步的
+配置`canAccessSuperData`可以获取父级数据域值，但是为了效率，在父级数据域变化的时候，默认 combo 内部是不会进行同步的
 
-如下，添加一组combo，然后可以看到默认会映射父级变量值`123`，但是当你在更改父级数据域`super_text`文本框值后，combo内部文本框并没有同步更新
+如下，添加一组 combo，然后可以看到默认会映射父级变量值`123`，但是当你在更改父级数据域`super_text`文本框值后，combo 内部文本框并没有同步更新
 
 ```schema:height="500" scope="body"
 {
@@ -643,8 +641,7 @@ order: 12
 - 配置`"strictMode": false`
 - 配置`syncFields`字符串数组，数组项是需要同步的变量名
 
-以上面为例，我们在combo上配置`"strictMode": false`和`"syncFields": ["super_text"]`，即可实现同步
-
+以上面为例，我们在 combo 上配置`"strictMode": false`和`"syncFields": ["super_text"]`，即可实现同步
 
 ```schema:height="500" scope="body"
 {
@@ -730,7 +727,7 @@ order: 12
 | delimeter                   | `string`                    | `false`                                        | 当扁平化开启并且 joinValues 为 true 时，用什么分隔符。                                                                                                          |
 | addable                     | `boolean`                   | `false`                                        | 是否可新增                                                                                                                                                      |
 | removable                   | `boolean`                   | `false`                                        | 是否可删除                                                                                                                                                      |
-| deleteApi                   | [API](../types-api)          |                                                | 如果配置了，则删除前会发送一个 api，请求成功才完成删除                                                                                                          |
+| deleteApi                   | [API](../../types/api)      |                                                | 如果配置了，则删除前会发送一个 api，请求成功才完成删除                                                                                                          |
 | deleteConfirmText           | `string`                    | `"确认要删除？"`                               | 当配置 `deleteApi` 才生效！删除时用来做用户确认                                                                                                                 |
 | draggable                   | `boolean`                   | `false`                                        | 是否可以拖动排序, 需要注意的是当启用拖动排序的时候，会多一个\$id 字段                                                                                           |
 | draggableTip                | `string`                    | `"可通过拖动每行中的【交换】按钮进行顺序调整"` | 可拖拽的提示文字                                                                                                                                                |
@@ -742,8 +739,3 @@ order: 12
 | noBorder                    | `boolean`                   | `false`                                        | 单组表单项是否显示边框                                                                                                                                          |
 | strictMode                  | `boolean`                   | `true`                                         | 默认为严格模式，设置为 false 时，当其他表单项更新是，里面的表单项也可以及时获取，否则不会。                                                                     |
 | syncFields                  | `Array<string>`             | `true`                                         | 配置同步字段。只有 strictMode 为 false 时有效。如果 combo 层级比较深，底层的获取外层的数据可能不同步。但是给 combo 配置这个属性就能同步下来。输入格式：`["os"]` |
-
-
-
-
-

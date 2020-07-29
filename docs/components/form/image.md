@@ -1,12 +1,13 @@
 ---
 title: Image 图片
-description: 
+description:
 type: 0
 group: null
 menuName: Image
-icon: 
+icon:
 order: 27
 ---
+
 图片格式输入，默认 amis 会直接存储在 FEX 的 hiphoto 里面，提交到 form 是直接的图片 url。
 
 ## 基本用法
@@ -73,7 +74,7 @@ order: 27
 
 | 属性名           | 类型                            | 默认值       | 说明                                                                                                  |
 | ---------------- | ------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------- |
-| reciever         | [API](../types-api)             |              | 上传文件接口                                                                                          |
+| reciever         | [API](../../types/api)          |              | 上传文件接口                                                                                          |
 | accept           | `string`                        | `text/plain` | 默认只支持`image/jpeg, image/jpg, image/png, image/gif`，要支持其他类型，请配置此属性为图片后缀`.xxx` |
 | maxSize          | `string`                        |              | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`KB`                                      |
 | maxLength        | `number`                        |              | 默认没有限制，当设置后，一次只允许上传指定数量文件。                                                  |
@@ -99,8 +100,3 @@ order: 27
 | maxWidth    | `number` |        | 限制图片最大宽度。                                                                                                                                  |
 | maxHeight   | `number` |        | 限制图片最大高度。                                                                                                                                  |
 | aspectRatio | `number` |        | 限制图片宽高比，格式为浮点型数字，默认 `1` 即 `1:1`，如果要设置 `16:9` 请设置 `1.7777777777777777` 即 `16 / 9`。 如果不想限制比率，请设置空字符串。 |
-
-
-
-
-
