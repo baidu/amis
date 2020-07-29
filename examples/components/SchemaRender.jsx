@@ -191,7 +191,7 @@ export default function (schema) {
                   size="lg"
                   onHide={this.close}
                   show={this.state.open}
-                  overlay={false}
+                  // overlay={false}
                   closeOnOutside={true}
                   position="right"
                 >
@@ -210,16 +210,18 @@ export default function (schema) {
               //   </div>
               // </div>
               <div className="Doc-toc">
-                <div className="Doc-headingList">
-                  <div className="Doc-headingList-item">
-                    <a onClick={this.toggleCode}>
-                      查看页面配置 <i className="fa fa-code p-l-xs"></i>
-                    </a>
-                  </div>
-                  <div className="Doc-headingList-item">
-                    <a onClick={this.copyCode}>
-                      复制页面配置 <i className="fa fa-copy p-l-xs"></i>
-                    </a>
+                <div>
+                  <div className="Doc-headingList">
+                    <div className="Doc-headingList-item">
+                      <a onClick={this.toggleCode}>
+                        查看页面配置 <i className="fa fa-code p-l-xs"></i>
+                      </a>
+                    </div>
+                    <div className="Doc-headingList-item">
+                      <a onClick={this.copyCode}>
+                        复制页面配置 <i className="fa fa-copy p-l-xs"></i>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
