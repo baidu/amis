@@ -1,12 +1,13 @@
 ---
 title: Input-Group 输入框组合
-description: 
+description:
 type: 0
 group: null
 menuName: Input-Group
-icon: 
+icon:
 order: 28
 ---
+
 **输入框组合选择器** 可用于输入框与其他组件进行组合。
 
 ## 基本用法
@@ -91,15 +92,16 @@ order: 28
 
 ```
 
+## 校验
+
+input-group 配置校验方法较为特殊，需要配置下面步骤：
+
+1. input-group 上配置任意`name`值
+2. input-group 的 controls 内配置的表单项上配置校验规则
+
 ## 属性表
 
 | 属性名    | 类型                        | 默认值 | 说明       |
 | --------- | --------------------------- | ------ | ---------- |
 | className | `string`                    |        | CSS 类名   |
 | controls  | Array<[表单项](./formitem)> |        | 表单项集合 |
-
-
-
-
-
-
