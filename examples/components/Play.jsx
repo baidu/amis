@@ -179,8 +179,14 @@ export default class PlayGround extends React.Component {
   renderPreview() {
     const schema = this.state.schema;
 
+    const props = {
+      ...this.schemaProps,
+      theme: this.props.theme,
+      locale: this.props.locale
+    };
+
     if (!this.props.useIFrame) {
-      return render(schema, this.schemaProps, this.env);
+      return render(schema, props, this.env);
     }
 
     return (
@@ -190,7 +196,7 @@ export default class PlayGround extends React.Component {
         frameBorder={0}
         initialContent={this.frameTemplate}
       >
-        {render(schema, this.schemaProps, this.env)}
+        {render(schema, props, this.env)}
       </Frame>
     );
   }
@@ -262,7 +268,7 @@ export default class PlayGround extends React.Component {
               </div>
             </div>
           </div>
-          <div className="row-row" style={{height: 200}}>
+          <div className="row-row b-t" style={{height: 200}}>
             <div className="cell">{this.renderEditor()}</div>
           </div>
         </div>
