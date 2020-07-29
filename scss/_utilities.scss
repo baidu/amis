@@ -1458,14 +1458,17 @@
 }
 
 .hbox {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  display: table;
+  table-layout: fixed;
+  border-spacing: 0;
   width: 100%;
   height: 100%;
 
   & > .col {
-    flex-grow: 1;
+    display: table-cell;
+    vertical-align: top;
+    height: 100%;
+    float: none;
   }
 }
 
