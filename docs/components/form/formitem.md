@@ -327,7 +327,7 @@ order: 1
 
 ### 满足条件校验必填
 
-你也通过[表达式](/docs/expression)配置`requiredOn`，来实现在某个条件下使当前表单项必填。
+你也通过[表达式](../../concepts/expression)配置`requiredOn`，来实现在某个条件下使当前表单项必填。
 
 ```schema:height="400" scope="body"
 {
@@ -551,22 +551,22 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 
 ## 属性表
 
-| 属性名         | 类型                                | 默认值 | 说明                                                       |
-| -------------- | ----------------------------------- | ------ | ---------------------------------------------------------- |
-| type           | `string`                            |        | 指定表单项类型                                             |
-| className      | `string`                            |        | 表单最外层类名                                             |
-| inputClassName | `string`                            |        | 表单控制器类名                                             |
-| labelClassName | `string`                            |        | label 的类名                                               |
-| name           | `string`                            |        | 字段名，指定该表单项提交时的 key                           |
-| label          | [模板](../template) 或 `false`      |        | 表单项标签                                                 |
-| description    | [模板](../template)                 |        | 表单项描述                                                 |
-| placeholder    | `string`                            |        | 表单项描述                                                 |
-| inline         | `boolean`                           |        | 是否为 内联 模式                                           |
-| submitOnChange | `boolean`                           |        | 是否该表单项值发生变化时就提交当前表单。                   |
-| disabled       | `boolean`                           |        | 当前表单项是否是禁用状态                                   |
-| disabledOn     | [表达式](../../concepts/expression) |        | 当前表单项是否禁用的条件                                   |
-| visible        | [表达式](../../concepts/expression) |        | 当前表单项是否禁用的条件                                   |
-| visibleOn      | [表达式](../../concepts/expression) |        | 当前表单项是否禁用的条件                                   |
-| required       | `boolean`                           |        | 是否为必填。                                               |
-| requiredOn     | [表达式](../../concepts/expression) |        | 过[表达式](../Types.md#表达式)来配置当前表单项是否为必填。 |
-| validations    | [表达式](../../concepts/expression) |        | 表单项值格式验证，支持设置多个，多个规则用英文逗号隔开。   |
+| 属性名         | 类型                                       | 默认值 | 说明                                                       |
+| -------------- | ------------------------------------------ | ------ | ---------------------------------------------------------- |
+| type           | `string`                                   |        | 指定表单项类型                                             |
+| className      | `string`                                   |        | 表单最外层类名                                             |
+| inputClassName | `string`                                   |        | 表单控制器类名                                             |
+| labelClassName | `string`                                   |        | label 的类名                                               |
+| name           | `string`                                   |        | 字段名，指定该表单项提交时的 key                           |
+| label          | [模板](../../concepts/template) 或 `false` |        | 表单项标签                                                 |
+| description    | [模板](../../concepts/template)            |        | 表单项描述                                                 |
+| placeholder    | `string`                                   |        | 表单项描述                                                 |
+| inline         | `boolean`                                  |        | 是否为 内联 模式                                           |
+| submitOnChange | `boolean`                                  |        | 是否该表单项值发生变化时就提交当前表单。                   |
+| disabled       | `boolean`                                  |        | 当前表单项是否是禁用状态                                   |
+| disabledOn     | [表达式](../../concepts/expression)        |        | 当前表单项是否禁用的条件                                   |
+| visible        | [表达式](../../concepts/expression)        |        | 当前表单项是否禁用的条件                                   |
+| visibleOn      | [表达式](../../concepts/expression)        |        | 当前表单项是否禁用的条件                                   |
+| required       | `boolean`                                  |        | 是否为必填。                                               |
+| requiredOn     | [表达式](../../concepts/expression)        |        | 过[表达式](../Types.md#表达式)来配置当前表单项是否为必填。 |
+| validations    | [表达式](../../concepts/expression)        |        | 表单项值格式验证，支持设置多个，多个规则用英文逗号隔开。   |

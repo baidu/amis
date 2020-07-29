@@ -8,7 +8,7 @@ icon:
 order: 70
 ---
 
-输出 [模板](./concepts/template) 的常用组件
+输出 [模板](../concepts/template) 的常用组件
 
 ## 基本用法
 

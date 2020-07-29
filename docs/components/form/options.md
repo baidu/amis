@@ -124,7 +124,7 @@ order: 2
 
 ### 通过数据域中变量配置
 
-你也可以配置`source`属性，利用 [数据映射](.../concepts/data-mapping)，获取当前数据链中的变量
+你也可以配置`source`属性，利用 [数据映射](../../concepts/data-mapping)，获取当前数据链中的变量
 
 ```schema:height="260" scope="body"
 {
@@ -1124,7 +1124,7 @@ order: 2
 
 ## 自动填充 autoFill
 
-一些选择器组件，支持配置`autoFill`，将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，**只在单选时有效**，支持[数据映射](.../concepts/data-mapping)
+一些选择器组件，支持配置`autoFill`，将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，**只在单选时有效**，支持[数据映射](../../concepts/data-mapping)
 
 ```schema:height="400" scope="body"
 {

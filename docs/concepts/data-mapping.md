@@ -1,10 +1,10 @@
 ---
 title: 数据映射
-description: 
+description:
 type: 0
 group: 💡 概念
 menuName: 数据映射
-icon: 
+icon:
 order: 12
 ---
 
@@ -56,7 +56,7 @@ order: 12
   },
   "body": {
     "type": "tpl",
-    "tpl": "my name is ${name}, I work for ${company.name}" // 输出 my name is rick, I work for baidu  
+    "tpl": "my name is ${name}, I work for ${company.name}" // 输出 my name is rick, I work for baidu
   }
 }
 ```
@@ -143,11 +143,119 @@ order: 12
 
 ## 复杂配置
 
-### 获取数据域中所有值
+### 展开所配置的数据
+
+可以使用`"&"`，作为数据映射 key，展开所配置的变量，例如：
+
+下面例子中，我们想在提交的时候，除了提交 `name` 和 `email` 变量以外，还想添加 `c` 下面的所有变量 `e`,`f`,`g`，但是按照之前所讲的， api 应该这么配置：
+
+```schema:height="350" scope="body"
+{
+  "type": "form",
+  "data": {
+    "a": "1",
+    "b": "2",
+    "c": {
+      "e": "3",
+      "f": "4",
+      "g": "5"
+    }
+  },
+  "api": {
+    "url": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "method": "post",
+    "data": {
+      "name": "${name}",
+      "email": "${email}",
+      "e": "${c.e}",
+      "f": "${c.f}",
+      "g": "${c.g}"
+    }
+  },
+  "controls": [
+    {
+      "type": "text",
+      "name": "name",
+      "label": "姓名："
+    },
+    {
+      "name": "email",
+      "type": "text",
+      "label": "邮箱："
+    }
+  ]
+}
+```
+
+点击提交查看网络面板数据，你会发现数据是符合预期的：
 
 ```json
 {
-  "&": "$$"
+  "name": "rick",
+  "email": "rick@gmail.comn",
+  "e": "3",
+  "f": "4",
+  "g": "5"
+}
+```
+
+但是当变量字段过多的时候，你需要一一映射配置，也许有点麻烦，所以可以使用`"&"`标识符，来展开所配置变量：
+
+```schema:height="350" scope="body"
+{
+  "type": "form",
+  "data": {
+    "a": "1",
+    "b": "2",
+    "c": {
+      "e": "3",
+      "f": "4",
+      "g": "5"
+    }
+  },
+  "api": {
+    "url": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "method": "post",
+    "data": {
+      "name": "${name}",
+      "email": "${email}",
+      "&": "${c}"
+    }
+  },
+  "controls": [
+    {
+      "type": "text",
+      "name": "name",
+      "label": "姓名："
+    },
+    {
+      "name": "email",
+      "type": "text",
+      "label": "邮箱："
+    }
+  ]
+}
+```
+
+上例中我们 api.data 配置如下：
+
+```json
+"data": {
+  "name": "${name}",
+  "email": "${email}",
+  "&": "${c}"
+}
+```
+
+`"&"`标识符会将所配置的`c`变量的`value`值，展开并拼接在`data`中。查看网络面板可以看到数据如下：
+
+```json
+{
+  "name": "rick",
+  "email": "rick@gmail.comn",
+  "e": "3",
+  "f": "4",
+  "g": "5"
 }
 ```
 
@@ -306,9 +414,9 @@ ${xxx | raw}
 ```
 
 > **注意！！！**
-> 
+>
 > `raw`过滤器虽然支持显示原始文本，也就意味着可以输出 HTML 片段，但是动态渲染 HTML 是非常危险的，容易导致 **XSS** 攻击。
-> 
+>
 > 因此在 使用`raw`过滤器的时候，请确保变量的内容可信，且永远不要渲染用户填写的内容。
 
 ### json
@@ -364,7 +472,7 @@ ${xxx | toJson}
 }
 ```
 
-对`Javascript`的直接输出会显示`[object Object]`，你可以使用 [json过滤器](./data-mapping#json) 来格式化显示`json`文本。
+对`Javascript`的直接输出会显示`[object Object]`，你可以使用 [json 过滤器](./data-mapping#json) 来格式化显示`json`文本。
 
 ### date
 
@@ -504,6 +612,7 @@ ${xxx | percent[:decimals]}
 ### round
 
 四舍五入取整
+
 ```
 ${xxx | round[:decimals]}
 ```
@@ -548,6 +657,7 @@ ${xxx | round[:decimals]}
 ```
 ${xxx | truncate[:length][:mask]}
 ```
+
 - **length**：指定多长的字符后省略，默认为`200`
 - **mask**：省略时显示的字符，默认为`"..."`
 
@@ -809,7 +919,7 @@ ${xxx | pick[:path]}
 }
 ```
 
-##### 遍历数组对象，并自定义key
+##### 遍历数组对象，并自定义 key
 
 ```schema:height="200"
 {
@@ -1015,7 +1125,7 @@ ${xxx | isTrue[:trueValue][:falseValue]
 - **falseValue**: 如果变量为 [假](https://developer.mozilla.org/en-US/docs/Glossary/Falsy)，则返回该值。
 
 > 配置`trueValue`和`falseValue`时，如果想要返回当前数据域中某个变量的值，那么参数可以直接配置变量名而不需要在两边添加引号；如果想返回某字符串，那么需要给参数两边添加单引号或双引号，
-> 
+>
 > 例如 `${xxx|isTrue:'foo':bar}`，当 `xxx` 变量为真，那么会返回 **字符串`'foo'`**，如果不为真，那么返回数据域中 **变量`bar`** 的值。
 
 ```schema:height="200"
@@ -1080,7 +1190,7 @@ ${xxx | isTrue[:trueValue][:falseValue]
 ${xxx | isFalse[:falseValue][:trueValue]
 ```
 
-用法与 [isTrue过滤器](#istrue) 相同，判断逻辑相反
+用法与 [isTrue 过滤器](#istrue) 相同，判断逻辑相反
 
 ### isMatch
 
@@ -1091,9 +1201,10 @@ ${xxx | isFalse[:falseValue][:trueValue]
 ```
 ${xxx | isMatch[:matchParam][:trueValue][:falseValue]
 ```
+
 - **matchParam**: 匹配关键字参数
-    - 如果想模糊匹配特定字符串，那么参数需要在两边添加单引号或者双引号；
-    - 如果想模糊匹配某个变量值，那么参数不需要添加引号。
+  - 如果想模糊匹配特定字符串，那么参数需要在两边添加单引号或者双引号；
+  - 如果想模糊匹配某个变量值，那么参数不需要添加引号。
 - **trueValue**: 如果模糊匹配成功，即返回该值；
 - **falseValue**: 如果模糊匹配失败，则返回该值。
 
@@ -1170,8 +1281,8 @@ ${xxx | isEquals[:equalsValue][:trueValue][:falseValue]
 ```
 
 - **equalsValue**: 全等匹配关键字参数
-    - 如果想判断等于特定字符串，那么参数需要在两边添加单引号或者双引号；
-    - 如果想判断等于某个变量值，那么参数不需要添加引号。
+  - 如果想判断等于特定字符串，那么参数需要在两边添加单引号或者双引号；
+  - 如果想判断等于某个变量值，那么参数不需要添加引号。
 - **trueValue**: 如果模糊匹配成功，即返回该值；
 - **falseValue**: 如果模糊匹配失败，则返回该值。
 
@@ -1248,6 +1359,7 @@ ${xxx | notEquals[:equalsValue][:trueValue][:falseValue]
 ```
 ${xxx | filter[:keys][:directive][:arg1]}
 ```
+
 - **keys**: 参与过滤的字段集合
 - **directive**: 用于过滤数组的指令，包含下面这几种
   - `isTrue` 目标值为真通过筛选。
@@ -1287,9 +1399,3 @@ ${xxx|filter1|filter2|...}
 1. 会先执行`split`过滤器，将字符串`a,b,c`，拆分成数组`["a", "b", "c"]`；
 2. 然后将该数据传给下一个过滤器`first`，执行该过滤器，获取数组第一个元素，为`"a"`
 3. 输出`"a"`
-
-
-
-
-
-

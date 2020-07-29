@@ -1,12 +1,13 @@
 ---
 title: Table 表格
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Table 表格
-icon: 
+icon:
 order: 67
 ---
+
 表格展示，不支持配置初始化接口初始化数据域，所以需要搭配类似像`Service`这样的，具有配置接口初始化数据域功能的组件，或者手动进行数据域初始化，然后通过`source`属性，获取数据链中的数据，完成数据展示。
 
 ## 基本用法
@@ -510,7 +511,6 @@ order: 67
 }
 ```
 
-
 还可以配置"offset"，实现弹出框位置调整自定义
 
 ```schema:height="600" scope="body"
@@ -538,7 +538,6 @@ order: 67
     ]
 }
 ```
-
 
 ## 嵌套
 
@@ -782,14 +781,13 @@ order: 67
 
 ```json
 {
-    "footable": {
-        "expand": "first"
-    }
+  "footable": {
+    "expand": "first"
+  }
 }
 ```
 
 当配置成 `all` 时表示全部展开。
-
 
 ## 合并单元格
 
@@ -1017,24 +1015,18 @@ order: 67
 
 ## 属性表
 
-| 属性名           | 类型                           | 默认值                    | 说明                                                    |
-| ---------------- | ------------------------------ | ------------------------- | ------------------------------------------------------- |
-| type             | `string`                       |                           | `"type"` 指定为 table 渲染器                            |
-| title            | `string`                       |                           | 标题                                                    |
-| source           | `string`                       | `${items}`                | 数据源, 绑定当前环境变量                                |
-| affixHeader      | `boolean`                      | `true`                    | 是否固定表头                                            |
-| columnsTogglable | `auto` 或者 `boolean`          | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启 |
-| placeholder      | string                         | `暂无数据`                | 当没数据的时候的文字提示                                |
-| className        | `string`                       | `panel-default`           | 外层 CSS 类名                                           |
-| tableClassName   | `string`                       | `table-db table-striped`  | 表格 CSS 类名                                           |
-| headerClassName  | `string`                       | `Action.md-table-header`  | 顶部外层 CSS 类名                                       |
-| footerClassName  | `string`                       | `Action.md-table-footer`  | 底部外层 CSS 类名                                       |
-| toolbarClassName | `string`                       | `Action.md-table-toolbar` | 工具栏 CSS 类名                                         |
-| columns          | Array of [Column](./Column.md) |                           | 用来设置列信息                                          |
-| combineNum       | `number`                       |                           | 自动合并单元格                                          |
-
-
-
-
-
-
+| 属性名           | 类型                                          | 默认值                    | 说明                                                    |
+| ---------------- | --------------------------------------------- | ------------------------- | ------------------------------------------------------- |
+| type             | `string`                                      |                           | `"type"` 指定为 table 渲染器                            |
+| title            | `string`                                      |                           | 标题                                                    |
+| source           | `string`                                      | `${items}`                | 数据源, 绑定当前环境变量                                |
+| affixHeader      | `boolean`                                     | `true`                    | 是否固定表头                                            |
+| columnsTogglable | `auto` 或者 `boolean`                         | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启 |
+| placeholder      | string                                        | `暂无数据`                | 当没数据的时候的文字提示                                |
+| className        | `string`                                      | `panel-default`           | 外层 CSS 类名                                           |
+| tableClassName   | `string`                                      | `table-db table-striped`  | 表格 CSS 类名                                           |
+| headerClassName  | `string`                                      | `Action.md-table-header`  | 顶部外层 CSS 类名                                       |
+| footerClassName  | `string`                                      | `Action.md-table-footer`  | 底部外层 CSS 类名                                       |
+| toolbarClassName | `string`                                      | `Action.md-table-toolbar` | 工具栏 CSS 类名                                         |
+| columns          | Array<[Column](#%E5%88%97%E9%85%8D%E7%BD%AE)> |                           | 用来设置列信息                                          |
+| combineNum       | `number`                                      |                           | 自动合并单元格                                          |

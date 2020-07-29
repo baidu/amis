@@ -1,12 +1,13 @@
 ---
 title: Table 表格
-description: 
+description:
 type: 0
 group: null
 menuName: Table 表格
-icon: 
+icon:
 order: 54
 ---
+
 ## 基本用法
 
 可以用来展示数组类型的数据。配置`columns` 数组，来定义列信息。
@@ -85,7 +86,6 @@ order: 54
 ### 按钮触发新增行
 
 按钮上配置`"actionType": "add"`和`target`指定表格`name`，可以实现点击按钮添加一行的效果。
-        
 
 ```schema:height="400" scope="body"
 {
@@ -233,9 +233,9 @@ order: 54
 | editable                     | `boolean`               | `false`          | 是否可编辑                               |
 | removable                    | `boolean`               | `false`          | 是否可删除                               |
 | showAddBtn                   | `boolean`               | `true`           | 是否显示添加按钮                         |
-| addApi                       | [api](../Types.md#Api)  | -                | 新增时提交的 API                         |
-| updateApi                    | [api](../Types.md#Api)  | -                | 修改时提交的 API                         |
-| deleteApi                    | [api](../Types.md#Api)  | -                | 删除时提交的 API                         |
+| addApi                       | [API](../../types/api)  | -                | 新增时提交的 API                         |
+| updateApi                    | [API](../../types/api)  | -                | 修改时提交的 API                         |
+| deleteApi                    | [API](../../types/api)  | -                | 删除时提交的 API                         |
 | addBtnLabel                  | `string`                |                  | 增加按钮名称                             |
 | addBtnIcon                   | `string`                | `"fa fa-plus"`   | 增加按钮图标                             |
 | updateBtnLabel               | `string`                | `""`             | 更新按钮名称                             |
@@ -249,8 +249,3 @@ order: 54
 | columns                      | `array`                 | []               | 列信息                                   |
 | columns[x].quickEdit         | `boolean` 或者 `object` | -                | 配合 editable 为 true 一起使用           |
 | columns[x].quickEditOnUpdate | `boolean` 或者 `object` | -                | 可以用来区分新建模式和更新模式的编辑配置 |
-
-
-
-
-
