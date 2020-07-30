@@ -263,6 +263,14 @@ export class App extends React.PureComponent {
         <div className={`${theme.ns}Layout-searchBar`}>
           <DocSearch theme={this.state.theme.value} />
         </div>
+
+        <a
+          className="gh-icon"
+          href="https://github.com/baidu/amis"
+          target="_blank"
+        >
+          <i className="fa fa-github" />
+        </a>
       </>
     );
   }

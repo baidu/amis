@@ -187,6 +187,7 @@ export default function (schema) {
             <div className="schema-wrapper">
               {showCode !== false ? (
                 <DrawerContainer
+                  disabled
                   classPrefix={ns}
                   size="lg"
                   onHide={this.close}
