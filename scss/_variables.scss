@@ -1335,6 +1335,7 @@ $Wizard-steps-bg--isComplete: #f1f5f9 !default;
 
 // Page
 $Page-aside-width: px2rem(200px) !default;
+$Page-aside-maxWidth: px2rem(300px) !default;
 $Page-aside-bg: desaturate(darken($light, 3%), 2.5%) !default;
 $Page-content-paddingY: 0 !default;
 $Page-content-paddingX: 0 !default;
