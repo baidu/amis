@@ -23,11 +23,13 @@ import classnames from 'classnames';
 import Doc, {docs} from './Doc';
 import Example, {examples} from './Example';
 
-let PathPrefix = '/examples';
+let ExamplePathPrefix = '/examples';
+let DocPathPrefix = '/docs';
 let ContextPath = '';
 
 if (process.env.NODE_ENV === 'production') {
-  PathPrefix = '';
+  ExamplePathPrefix = '';
+  DocPathPrefix = '';
   ContextPath = '/amis';
 }
 
@@ -61,6 +63,14 @@ const locales = [
     value: 'en'
   }
 ];
+
+function getPath(path) {
+  return path
+    ? path[0] === '/'
+      ? ContextPath + path
+      : `${ContextPath}/${path}`
+    : '';
+}
 
 @withRouter
 export class App extends React.PureComponent {
@@ -178,7 +188,9 @@ export class App extends React.PureComponent {
         i.isOpen ??
         (Array.isArray(i.children) &&
           i.children.length &&
-          !!~i.children.findIndex(item => item.path === location.pathname));
+          !!~i.children.findIndex(
+            item => getPath(item.path) === location.pathname
+          ));
       return {
         ...i,
         isOpen: item.label === i.label ? !defaultOpen : defaultOpen
@@ -220,10 +232,10 @@ export class App extends React.PureComponent {
 
         <div className={`${theme.ns}Layout-headerBar`}>
           <ul className={`${theme.ns}Layout-headerBar-links pull-left`}>
-            <Link to="/docs" activeClassName="is-active">
+            <Link to={`${ContextPath}/docs`} activeClassName="is-active">
               文档
             </Link>
-            <Link to="/examples" activeClassName="is-active">
+            <Link to={`${ContextPath}/examples`} activeClassName="is-active">
               示例
             </Link>
           </ul>
@@ -278,13 +290,13 @@ export class App extends React.PureComponent {
   renderNavigation(navs, parent?: any) {
     const pathname = location.pathname;
     return navs.map(nav => {
-      const path = nav.path;
+      const path = getPath(nav.path);
       const hasChildren = Array.isArray(nav.children) && nav.children.length;
       const isOpen =
         nav.isOpen ||
         (nav.isOpen !== false &&
           hasChildren &&
-          !!~nav.children.findIndex(item => item.path === pathname));
+          !!~nav.children.findIndex(item => getPath(item.path) === pathname));
 
       return (
         <div
@@ -298,7 +310,7 @@ export class App extends React.PureComponent {
           <Link
             onClick={e => {
               browserHistory.push(
-                `${path || (hasChildren && nav.children[0].path)}`
+                `${path || (hasChildren && getPath(nav.children[0].path))}`
               );
               !isOpen && this.toggleOpen(e, nav);
             }}
@@ -379,7 +391,7 @@ export class App extends React.PureComponent {
   }
 }
 
-function navigations2route(pathPrefix = PathPrefix, navigations) {
+function navigations2route(pathPrefix = DocPathPrefix, navigations) {
   let routes = [];
 
   navigations.forEach(root => {
@@ -392,7 +404,7 @@ function navigations2route(pathPrefix = PathPrefix, navigations) {
               path={
                 item.path[0] === '/'
                   ? ContextPath + item.path
-                  : `${ContextPath}${pathPrefix}/${item.path}`
+                  : `${ContextPath}/${item.path}`
               }
               component={item.component}
             />
@@ -404,7 +416,7 @@ function navigations2route(pathPrefix = PathPrefix, navigations) {
               path={
                 item.path[0] === '/'
                   ? ContextPath + item.path
-                  : `${ContextPath}${pathPrefix}/${item.path}`
+                  : `${ContextPath}/${item.path}`
               }
               getComponent={item.getComponent}
             />
@@ -417,19 +429,25 @@ function navigations2route(pathPrefix = PathPrefix, navigations) {
 }
 
 export default function entry({pathPrefix}) {
-  PathPrefix = pathPrefix || PathPrefix;
+  // PathPrefix = pathPrefix || DocPathPrefix;
   return (
     <Router history={browserHistory}>
       <Route component={App}>
         <Redirect from={`${ContextPath}/`} to={`${ContextPath}/docs/index`} />
-        <Redirect from={`/examples`} to={`/examples/pages/simple`} />
-        <Redirect from={`/docs`} to={`/docs/index`} />
+        <Redirect
+          from={`${ContextPath}/docs`}
+          to={`${ContextPath}/docs/index`}
+        />
+        <Redirect
+          from={`${ContextPath}/examples`}
+          to={`${ContextPath}/examples/pages/simple`}
+        />
 
-        <Route path="/docs" component={Doc}>
-          {navigations2route('/docs', docs)}
+        <Route path={`${ContextPath}/docs`} component={Doc}>
+          {navigations2route(DocPathPrefix, docs)}
         </Route>
-        <Route path="/examples" component={Example}>
-          {navigations2route('/examples', examples)}
+        <Route path={`${ContextPath}/examples`} component={Example}>
+          {navigations2route(ExamplePathPrefix, examples)}
         </Route>
       </Route>
 
