@@ -613,8 +613,8 @@ if (fis.project.currentMedia() === 'publish') {
       }),
       function (ret) {
         const indexHtml = ret.src['/examples/index.html'];
-        const appJs = ret.src['/examples/components/App.jsx'];
-        const DocJs = ret.src['/examples/components/Doc.jsx'];
+        const appJs = ret.src['/examples/components/App.tsx'];
+        const DocJs = ret.src['/examples/components/Doc.tsx'];
 
         const pages = [];
         const source = [appJs.getContent(), DocJs.getContent()].join('\n');
