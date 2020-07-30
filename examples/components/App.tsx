@@ -299,7 +299,7 @@ export class App extends React.PureComponent {
             {nav.label}
             {hasChildren ? (
               <i
-                className={`iconfont icon-down-arrow ${
+                className={`iconfont icon-xialajiantou ${
                   isOpen ? '' : 'is-flipped'
                 }`}
                 onClick={e => this.toggleOpen(e, nav)}
