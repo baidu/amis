@@ -292,8 +292,9 @@ body {
       position: relative;
 
       > a {
-        font-size: 16px;
-        font-weight: 700;
+        // font-size: 16px;
+        // font-weight: 700;
+        font-size: 14px;
         color: #666;
         padding-left: 0;
         padding-right: 20px;
@@ -305,10 +306,23 @@ body {
 
       i {
         font-size: 12px;
-        padding: 5px;
+        padding: 0;
+        display: block;
         position: absolute;
-        right: 15px;
-        top: 0;
+        right: 20px;
+        top: 10px;
+        color: #666;
+
+        &:hover {
+          color: #333;
+        }
+
+        &:before {
+          display: block;
+          transform-origin: 50% 50%;
+          transform: rotate(0deg);
+          transition: transform 0.3s ease-out;
+        }
       }
 
       &.is-top {
@@ -472,7 +486,9 @@ body {
   }
 
   .is-flipped {
-    transform: rotateX(180deg);
+    &::before {
+      transform: rotate(180deg);
+    }
   }
 
   > .schema-wrapper {
