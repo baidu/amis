@@ -585,12 +585,6 @@ body {
 }
 
 @include media-breakpoint-up(lg) {
-  // .a-Layout--boxed,
-  // .cxd-Layout--boxed,
-  // .dark-Layout--boxed {
-  //   width: 75.75rem;
-  // }
-
   .Doc {
     display: flex;
     flex-direction: row;
