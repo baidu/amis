@@ -3,9 +3,9 @@
 @import '../scss/variables';
 
 body {
-  background-color: #fff;
+  background-color: #fff !important;
   &.dark {
-    background-color: #333538;
+    background-color: #333538 !important;
   }
 }
 
