@@ -193,7 +193,7 @@ body {
     }
 
     &-searchBar {
-      width: 220px;
+      width: 120px;
 
       .Doc-search {
         top: 15px;
@@ -282,7 +282,7 @@ body {
 
   &-toc {
     margin: 30px 0;
-    width: 220px;
+    width: 120px;
   }
 
   &-navigation {
@@ -293,7 +293,7 @@ body {
 
       > a {
         // font-size: 16px;
-        // font-weight: 700;
+        font-weight: 700;
         font-size: 14px;
         color: #666;
         padding-left: 0;
@@ -310,7 +310,7 @@ body {
         display: block;
         position: absolute;
         right: 20px;
-        top: 10px;
+        top: 5px;
         // color: #666;
 
         // &:hover {
@@ -497,7 +497,7 @@ body {
     > .a-Page,
     > .cxd-Page,
     > .dark-Page {
-      padding: 0 45px;
+      padding: 0 35px;
     }
   }
 }
@@ -580,10 +580,17 @@ body {
   &.visible {
     opacity: 1;
     z-index: 0;
+    z-index: 1;
   }
 }
 
 @include media-breakpoint-up(lg) {
+  // .a-Layout--boxed,
+  // .cxd-Layout--boxed,
+  // .dark-Layout--boxed {
+  //   width: 75.75rem;
+  // }
+
   .Doc {
     display: flex;
     flex-direction: row;
