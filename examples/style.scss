@@ -116,6 +116,19 @@ body {
         right: 0;
         box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
       }
+
+      .gh-icon {
+        position: fixed;
+        right: 20px;
+        top: 15px;
+        font-size: 22px;
+        padding: 0 10px;
+        color: #333;
+
+        &:hover {
+          color: #333;
+        }
+      }
     }
 
     &-brandBar,
