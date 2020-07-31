@@ -225,8 +225,10 @@ export class App extends React.PureComponent {
           </button> */}
 
           <div className={`${theme.ns}Layout-brand`}>
-            <i className="fa fa-paw" />
-            <span className="hidden-folded m-l-sm">AMIS</span>
+            <Link to={`${ContextPath}/docs`}>
+              <i className="fa fa-paw" />
+              <span className="hidden-folded m-l-sm">AMIS</span>
+            </Link>
           </div>
         </div>
 
@@ -238,6 +240,12 @@ export class App extends React.PureComponent {
             <Link to={`${ContextPath}/examples`} activeClassName="is-active">
               示例
             </Link>
+            <a href="https://fex-team.github.io/amis-editor" target="_blank">
+              可视化编辑器
+            </a>
+            <a href="https://suda.bce.baidu.com" target="_blank">
+              爱速搭
+            </a>
           </ul>
 
           <div className="hidden-xs p-t pull-right m-l-sm">

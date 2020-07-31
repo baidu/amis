@@ -9,6 +9,10 @@ body {
   }
 }
 
+a {
+  text-decoration: none !important;
+}
+
 .page-play,
 .page-edit {
   &:before {
@@ -165,9 +169,12 @@ body {
         }
       }
 
-      .a-Layout-brand,
-      .cxd-Layout-brand {
+      .a-Layout-brand > a,
+      .cxd-Layout-brand > a {
         color: #333;
+      }
+      .dark-Layout-brand > a {
+        color: #fff;
       }
     }
 
@@ -185,7 +192,6 @@ body {
           display: inline-block;
           color: #333;
           padding: 0px 22px;
-          text-decoration: none;
           font-weight: 500;
 
           &.is-active {
@@ -250,10 +256,6 @@ body {
     margin-top: -100px;
   }
 
-  a {
-    text-decoration: none;
-  }
-
   &-nav,
   &-toc {
     margin-top: 30px;
@@ -299,6 +301,8 @@ body {
   }
 
   &-navigation {
+    user-select: none;
+
     &-item {
       padding-left: 20px;
       border-left: 1px solid #e8ebee;
@@ -379,6 +383,7 @@ body {
     font-size: 12px;
     font-weight: 500;
     border-left: 1px solid #e8ebee;
+    user-select: none;
 
     &-item {
       padding-left: 15px;
@@ -439,6 +444,10 @@ body {
       > table,
       > pre {
         margin-bottom: 30px;
+      }
+
+      table:not(.table) {
+        word-break: normal;
       }
     }
   }
