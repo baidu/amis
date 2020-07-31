@@ -12,6 +12,12 @@ import {Portal} from 'react-overlays';
 import classnames from 'classnames';
 import {Link} from 'react-router';
 
+let ContextPath = '';
+
+if (process.env.NODE_ENV === 'production') {
+  ContextPath = '/amis';
+}
+
 class CodePreview extends React.Component {
   state = {
     PlayGround: null
@@ -200,7 +206,10 @@ export default function (doc) {
             <div className="Doc-footer">
               <div className="Doc-navLinks">
                 {prevDoc ? (
-                  <Link className="Doc-navLinks--prev" to={prevDoc.path}>
+                  <Link
+                    className="Doc-navLinks--prev"
+                    to={`${ContextPath}${prevDoc.path}`}
+                  >
                     <div className="Doc-navLinks-icon">
                       <i className="iconfont icon-arrow-left"></i>
                     </div>
@@ -215,7 +224,10 @@ export default function (doc) {
                 ) : null}
 
                 {nextDoc ? (
-                  <Link className="Doc-navLinks--next" to={nextDoc.path}>
+                  <Link
+                    className="Doc-navLinks--next"
+                    to={`${ContextPath}${nextDoc.path}`}
+                  >
                     <div className="Doc-navLinks-body">
                       <div className="Doc-navLinks-subtitle">
                         下一篇 - {nextDoc.group || '其他'}
