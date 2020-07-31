@@ -243,9 +243,9 @@ export class App extends React.PureComponent {
             <a href="https://fex-team.github.io/amis-editor" target="_blank">
               可视化编辑器
             </a>
-            <a href="https://suda.bce.baidu.com" target="_blank">
+            {/* <a href="https://suda.bce.baidu.com" target="_blank">
               爱速搭
-            </a>
+            </a> */}
           </ul>
 
           <div className="hidden-xs p-t pull-right m-l-sm">
