@@ -652,9 +652,9 @@ export const docs = [
       },
       {
         label: 'Cards 卡片组',
-        path: '/docs/components/component',
+        path: '/docs/components/cards',
         getComponent: (location, cb) =>
-          require(['../../docs/components/component.md'], doc => {
+          require(['../../docs/components/cards.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },

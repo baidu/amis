@@ -73,20 +73,6 @@ import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
-import Select from '../../src/components/Select';
-import Button from '../../src/components/Button';
-import DocSearch from './DocSearch';
-import {groupBy} from 'lodash';
-import classnames from 'classnames';
-import Doc, {docs} from './Doc';
-
-let PathPrefix = '/examples';
-let ContextPath = '';
-
-if (process.env.NODE_ENV === 'production') {
-  PathPrefix = '';
-  ContextPath = '/amis';
-}
 
 export const examples = [
   {
