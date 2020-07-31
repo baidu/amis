@@ -124,9 +124,6 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
           "body": {
             "type": "tpl",
             "tpl": "就是为了演示有个叫 popOver 的功能"
-          },
-          "offset": {
-            "y": 50
           }
         },
         "sortable": true,
