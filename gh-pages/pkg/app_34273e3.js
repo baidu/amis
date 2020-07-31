@@ -16,6 +16,758 @@ amis.define("9a80175",function(e,n){"use strict";function r(e,n,r){e&&Object.isF
 amis.define("4e7c54b",function(e,n){"use strict";Object.defineProperty(n,"__esModule",{value:!0}),n.AsideNav=void 0;var a=e("node_modules/tslib/tslib"),i=a.__importDefault(e("node_modules/react/index")),t=e("9a80175"),s=e("256b65d"),r=function(e){function n(n){var i=e.call(this,n)||this,s=n.isOpen,r=1;return i.state={navigations:t.mapTree(n.navigations,function(e){var i="undefined"==typeof e.active?n.isActive(e):e.active;return a.__assign(a.__assign({},e),{id:r++,active:i,open:i||s(e)})},1,!0)},i.renderLink=i.renderLink.bind(i),i.toggleExpand=i.toggleExpand.bind(i),i}return a.__extends(n,e),n.prototype.componentWillReceiveProps=function(e){var n=this.props,i=n.isOpen;if(n.navigations!==e.navigations||n.isActive!==e.isActive){var s=1;this.setState({navigations:t.mapTree(e.navigations,function(n){var t="undefined"==typeof n.active?e.isActive(n):n.active;return a.__assign(a.__assign({},n),{id:s++,active:t,open:t||i(n)})},1,!0)})}},n.prototype.toggleExpand=function(e,n){n&&(n.stopPropagation(),n.preventDefault()),this.setState({navigations:t.mapTree(this.state.navigations,function(n){return a.__assign(a.__assign({},n),{open:e.id===n.id?!n.open:n.open})},1,!0)})},n.prototype.renderLink=function(e,n,t,s){var r;void 0===t&&(t={}),void 0===s&&(s=1);var l=this.props,o=l.renderLink,c=(l.isActive,l.renderSubLinks),d=l.classnames,u=a.__rest(l,["renderLink","isActive","renderSubLinks","classnames"]),p=o(a.__assign({link:e,active:e.active,open:e.open,toggleExpand:this.toggleExpand,depth:s,classnames:d},u));return p?i.default.createElement("li",a.__assign({},t,{key:n,className:d("AsideNav-item",e.className,(r={},r["is-open"]=e.open,r["is-active"]=e.active,r))}),p,c(e,this.renderLink,s,this.props)):void 0},n.prototype.render=function(){var e=this,n=this.state.navigations,t=[],s=this.props,r=s.className,l=s.classnames;return n.forEach(function(n,s){if(n.prefix){var r="function"==typeof n.prefix?n.prefix(e.props):n.prefix;t.push(i.default.cloneElement(r,a.__assign(a.__assign({},r.props),{key:s+"-prefix"})))}if(n.label&&t.push(i.default.createElement("li",{key:s+"-label",className:l("AsideNav-label",n.className)},i.default.createElement("span",null,n.label))),n.children.forEach(function(n,a){var i=e.renderLink(n,s+"-"+a);i&&t.push(i)}),n.affix){var o="function"==typeof n.affix?n.affix(e.props):n.affix;t.push(i.default.cloneElement(o,a.__assign(a.__assign({},o.props),{key:s+"-affix"})))}}),i.default.createElement("nav",{className:l("AsideNav",r)},i.default.createElement("ul",{className:l("AsideNav-list")},t))},n.defaultProps={renderLink:function(e){return i.default.createElement("a",null,e.label)},renderSubLinks:function(e,n,a,t){var s=t.classnames;return e.children&&e.children.length?i.default.createElement("ul",{className:s("AsideNav-subList")},e.label?i.default.createElement("li",{key:"subHeader",className:s("AsideNav-subHeader")},i.default.createElement("a",null,e.label)):null,e.children.map(function(e,i){return n(e,i,{},a+1)})):e.label&&1===a?i.default.createElement("div",{className:s("AsideNav-tooltip")},e.label):null},isActive:function(e){return e.open},isOpen:function(e){return e.children?e.children.some(function(e){return e.open}):!1}},n}(i.default.Component);n.AsideNav=r,n.default=s.themeable(r)});
 ;/*!src/components/ModalManager.ts*/
 amis.define("8768414",function(e,n){"use strict";function o(){return l.length}function d(){return l[l.length-1]}function r(e){l.push(e)}function t(){l.pop()}function i(e){var n=a.default(e);if("esc"===n){var o=d();if(o){var r=o.props,t=r.disabled,i=r.closeOnEsc;i&&!t&&o.props.onHide(e)}}}Object.defineProperty(n,"__esModule",{value:!0}),n.removeModal=n.addModal=n.currentModal=n.current=void 0;var u=e("node_modules/tslib/tslib"),a=u.__importDefault(e("node_modules/keycode/index")),l=[];n.current=o,n.currentModal=d,n.addModal=r,n.removeModal=t,window.addEventListener("keydown",i)});
+;/*!src/icons/close.svg*/
+amis.define('src/icons/close.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Close = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 12 12", className: "icon" }, props),
+      react_1.default.createElement("polygon", { id: "path-1", points: "6.0003653 5.2970518 10.5993691 0.6980479600000002 11.3064759 1.4051547400000004 6.7074721 6.0041586 11.3009516 10.5976381 10.5938448 11.3047449 6.0003653 6.7112654 1.4056713299999997 11.3059593 0.6985645500000004 10.5988525 5.2932585 6.0041586 0.6956119200000002 1.4065120000000002 1.4027187000000003 0.69940522" })); };
+  exports.default = Close;
+  
+
+});
+
+;/*!src/icons/undo.svg*/
+amis.define('src/icons/undo.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Undo = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 854 768", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "undo", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M576.333333,213.333333 L82.04,213.333333 L265.293333,30.08 L235,0 L0.333333,234.666667 L235,469.333333 L265.08,439.253333 L82.04,256 L576.333333,256 C705.930172,256.00846 810.984681,361.069827 810.984681,490.666667 C810.984681,620.263506 705.930172,725.324873 576.333333,725.333333 L363,725.333333 L363,768 L576.333333,768 C729.500304,768 853.666667,643.833637 853.666667,490.666667 C853.666667,337.499696 729.500304,213.333333 576.333333,213.333333 Z", id: "\\u8DEF\\u5F84" }))); };
+  exports.default = Undo;
+  
+
+});
+
+;/*!src/icons/redo.svg*/
+amis.define('src/icons/redo.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Redo = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 854 768", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "redo", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M619,0 L588.92,30.08 L771.96,213.333333 L277.666667,213.333333 C124.499696,213.333333 0.3333335,337.499696 0.3333335,490.666667 C0.3333335,643.833637 124.499696,768 277.666667,768 L491,768 L491,725.333333 L277.666667,725.333333 C148.069828,725.324873 43.0153188,620.263506 43.0153188,490.666667 C43.0153188,361.069827 148.069828,256.00846 277.666667,256 L771.96,256 L588.706667,439.253333 L619,469.333333 L853.666667,234.666667 L619,0 Z", id: "\\u8DEF\\u5F84" }))); };
+  exports.default = Redo;
+  
+
+});
+
+;/*!src/icons/enter.svg*/
+amis.define('src/icons/enter.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Enter = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 1024 1024", "p-id": 1463, className: "icon" }, props),
+      react_1.default.createElement("path", { d: "M864 192c-19.2 0-32 12.8-32 32v224c0 89.6-70.4 160-160 160H236.8l105.6-105.6c12.8-12.8 12.8-32 0-44.8s-32-12.8-44.8 0l-160 160c-3.2 3.2-6.4 6.4-6.4 9.6-3.2 6.4-3.2 16 0 25.6 3.2 3.2 3.2 6.4 6.4 9.6l160 160c6.4 6.4 12.8 9.6 22.4 9.6s16-3.2 22.4-9.6c12.8-12.8 12.8-32 0-44.8L236.8 672H672c124.8 0 224-99.2 224-224V224c0-19.2-12.8-32-32-32z" })); };
+  exports.default = Enter;
+  
+
+});
+
+;/*!src/icons/volume.svg*/
+amis.define('src/icons/volume.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Volume = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 1024 1024", "p-id": 1463, className: "icon" }, props),
+      react_1.default.createElement("path", { d: "M536.319574 5.11991a63.99888 63.99888 0 0 0-69.758779 13.439765L229.764939 255.99552H64.00784a63.99888 63.99888 0 0 0-63.99888 63.99888v383.99328a63.99888 63.99888 0 0 0 63.99888 63.99888h165.757099l236.795856 237.435845A63.99888 63.99888 0 0 0 512 1023.98208a53.759059 53.759059 0 0 0 24.319574-5.11991A63.99888 63.99888 0 0 0 575.99888 959.9832V63.99888a63.99888 63.99888 0 0 0-39.679306-58.87897zM192.0056 639.9888H128.00672V383.99328h63.99888z m255.99552 165.757099l-127.99776-127.99776V346.233941l127.99776-127.99776zM879.353571 148.477402a63.99888 63.99888 0 0 0-94.718342 87.038476 402.552955 402.552955 0 0 1 0 552.950324A63.99888 63.99888 0 0 0 831.9944 895.98432a63.99888 63.99888 0 0 0 46.719183-20.479641 531.830693 531.830693 0 0 0 0-727.027277z", fill: "#606670", "p-id": 3605 }),
+      react_1.default.createElement("path", { d: "M751.9958 277.11515a63.99888 63.99888 0 0 0-95.99832 85.7585A218.236181 218.236181 0 0 1 703.99664 511.99104a221.436125 221.436125 0 0 1-47.359171 149.117391 63.99888 63.99888 0 0 0 4.479921 90.23842A63.99888 63.99888 0 0 0 703.99664 767.98656a63.99888 63.99888 0 0 0 47.359171-21.11963A349.433885 349.433885 0 0 0 831.9944 511.99104a353.273818 353.273818 0 0 0-79.9986-234.87589z", fill: "#606670", "p-id": 3606 })); };
+  exports.default = Volume;
+  
+
+});
+
+;/*!src/icons/mute.svg*/
+amis.define('src/icons/mute.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Mute = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 1024 1024", "p-id": 1463, className: "icon" }, props),
+      react_1.default.createElement("path", { d: "M536.310615 5.11991a63.99888 63.99888 0 0 0-69.75878 13.439765L229.755979 255.99552H63.99888a63.99888 63.99888 0 0 0-63.99888 63.99888v383.99328a63.99888 63.99888 0 0 0 63.99888 63.99888h165.757099l236.795856 237.435845A63.99888 63.99888 0 0 0 511.99104 1023.98208a53.759059 53.759059 0 0 0 24.319575-5.11991A63.99888 63.99888 0 0 0 575.98992 959.9832V63.99888a63.99888 63.99888 0 0 0-39.679305-58.87897zM191.99664 639.9888H127.99776V383.99328h63.99888z m255.99552 165.757099l-127.99776-127.99776V346.233941l127.99776-127.99776zM914.543995 511.99104l90.87841-90.238421a63.99888 63.99888 0 1 0-90.87841-90.878409l-90.23842 90.878409-90.238421-90.878409a63.99888 63.99888 0 0 0-90.87841 90.878409L734.067154 511.99104l-90.87841 90.238421a63.99888 63.99888 0 0 0 90.87841 90.87841l90.238421-90.87841 90.23842 90.87841a63.99888 63.99888 0 1 0 90.87841-90.87841z", fill: "#606670", "p-id": 2312 })); };
+  exports.default = Mute;
+  
+
+});
+
+;/*!src/icons/play.svg*/
+amis.define('src/icons/play.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Play = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 14 16", "p-id": 1463, className: "icon" }, props),
+      react_1.default.createElement("path", { d: "M13.5722,7.254 L1.2838,0.115 C1.019,-0.038 0.6926,-0.038 0.4278,0.115 C0.163,0.269 -1.83725092e-07,0.554 -1.83725092e-07,0.861 L-1.83725092e-07,15.139 C-0.0002,15.446 0.1629,15.731 0.4278,15.885 C0.6927,16.039 1.019,16.038 1.2838,15.884 L13.5721,8.746 C13.8368,8.592 13.9999998,8.308 13.9999998,8 C13.9999998,7.692 13.837,7.408 13.5722,7.254 Z", id: "path-1" })); };
+  exports.default = Play;
+  
+
+});
+
+;/*!src/icons/pause.svg*/
+amis.define('src/icons/pause.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Pause = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 1024 1024", "p-id": 1463, className: "icon" }, props),
+      react_1.default.createElement("path", { d: "M757.52 73.107h-62.493c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.493c34.516 0 62.502-27.968 62.502-62.493v-749.953c-0.001-34.524-27.984-62.509-62.502-62.509z", "p-id": 7567, fill: "#606670" }),
+      react_1.default.createElement("path", { d: "M320.054 73.107h-62.502c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.502c34.505 0 62.493-27.968 62.493-62.493v-749.953c-0.001-34.524-27.984-62.509-62.493-62.509z", "p-id": 7568, fill: "#606670" })); };
+  exports.default = Pause;
+  
+
+});
+
+;/*!src/icons/left-arrow.svg*/
+amis.define('src/icons/left-arrow.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var LeftArrow = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 577 1024", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "left-arrow", transform: "translate(-1.000000, 0.000000)", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M101.211517,511.805631 L564.889594,73.082583 C581.083814,56.452218 581.083814,29.107879 564.889594,12.477515 C548.695374,-4.15285 522.393987,-4.15285 506.275618,12.477515 L12.750113,479.360302 C4.103082,488.3297 0.405338,500.295219 1.03111,511.805631 C0.386375,523.714261 4.103082,535.67978 12.750113,544.630216 L506.256655,1011.513 C522.375024,1028.16233 548.695373,1028.16233 564.870631,1011.513 C581.064851,994.427533 581.064851,967.5383 564.870631,950.907936 L101.211517,511.805631", id: "\\u8DEF\\u5F84" }))); };
+  exports.default = LeftArrow;
+  
+
+});
+
+;/*!src/icons/right-arrow.svg*/
+amis.define('src/icons/right-arrow.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var RightArrow = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 513 1021", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "right-arrow", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M56.559054,1013.77369 L512.908116,512.684524 L56.559054,12.234501 C49.4114678,2.93455912 37.6664238,-1.59188176 26.1262324,0.505948246 C14.586041,2.60377825 5.18544409,10.9741727 1.76815516,22.1946471 C-1.64913377,33.4151214 1.48980228,45.6045351 9.901516,53.778884 L424.706197,512.684524 L12.458094,969.672731 C2.45820596,982.551498 4.01297737,1000.9483 16.0324422,1011.96615 C28.0519071,1022.98399 46.5142346,1022.93619 58.476487,1011.85626 L56.559054,1013.77369 Z", id: "\\u8DEF\\u5F84" }))); };
+  exports.default = RightArrow;
+  
+
+});
+
+;/*!src/icons/check.svg*/
+amis.define('src/icons/check.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Check = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 13 9", "p-id": 3506, className: "icon" }, props),
+      react_1.default.createElement("g", { transform: "translate(6.656854, 2.656854) scale(-1, 1) rotate(-315.000000) translate(-6.656854, -2.656854) " },
+          react_1.default.createElement("polygon", { id: "path-1", points: "11.1568542 5.15685425 11.1568542 -0.843145751 12.1568542 -0.843145751 12.1568542 6.15685425 1.15685425 6.15685425 1.15685425 5.15685425" }))); };
+  exports.default = Check;
+  
+
+});
+
+;/*!src/icons/plus.svg*/
+amis.define('src/icons/plus.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Plus = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 12 12", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "\\u9875\\u9762-1", stroke: "none", strokeWidth: 1, fill: "none", fillRule: "evenodd" },
+          react_1.default.createElement("g", { id: "plus", fill: "currentColor", fillRule: "nonzero" },
+              react_1.default.createElement("polygon", { id: "path-1", points: "6.6 6.6 6.6 12 5.4 12 5.4 6.6 0 6.6 0 5.4 5.4 5.4 5.4 0 6.6 0 6.6 5.4 12 5.4 12 6.6" })))); };
+  exports.default = Plus;
+  
+
+});
+
+;/*!src/icons/minus.svg*/
+amis.define('src/icons/minus.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Minus = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 12 2", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "minus", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("polygon", { id: "path-1", points: "0 1.6 0 0.4 12 0.4 12 1.6" }))); };
+  exports.default = Minus;
+  
+
+});
+
+;/*!src/icons/pencil.svg*/
+amis.define('src/icons/pencil.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Pencil = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 14 14", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "pencil", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M10.496,0.834 L13.168,3.506 C13.48,3.818 13.48,4.322 13.168,4.634 L10.904,6.898 L4.4,13.402 L0.6,13.402 L0.6,9.602 L7.848,2.354 L7.848,2.354 L9.368,0.834 C9.68,0.522 10.184,0.522 10.496,0.834 Z M7.67,3.663 L1.4,9.9333708 L1.4,12.602 L4.06862915,12.602 L10.338,6.331 L7.67,3.663 Z M9.932,1.40137085 L8.23537085,3.098 L10.904,5.76662915 L12.6006292,4.07 L9.932,1.40137085 Z M7,12.6 L11.8,12.6 L11.8,13.4 L7,13.4 L7,12.6 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = Pencil;
+  
+
+});
+
+;/*!src/icons/view.svg*/
+amis.define('src/icons/view.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var View = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 16 10", "p-id": 1463, className: "icon" }, props),
+      react_1.default.createElement("g", null,
+          react_1.default.createElement("path", { d: "M8,1 C11,1 13.7,3.8 14.7,5 C13.7,6.2 11,9 8,9 C5,9 2.3,6.2 1.3,5 C2.3,3.8 5,1 8,1 L8,1 Z M8,0 C3.6,0 0,5 0,5 C0,5 3.6,10 8,10 C12.4,10 16,5 16,5 C16,5 12.4,0 8,0 L8,0 Z" }),
+          react_1.default.createElement("path", { d: "M8,2 C9.7,2 11,3.3 11,5 C11,6.7 9.7,8 8,8 C6.3,8 5,6.7 5,5 C5,3.3 6.3,2 8,2 L8,2 Z M8,1 C5.8,1 4,2.8 4,5 C4,7.2 5.8,9 8,9 C10.2,9 12,7.2 12,5 C12,2.8 10.2,1 8,1 L8,1 Z" }))); };
+  exports.default = View;
+  
+
+});
+
+;/*!src/icons/remove.svg*/
+amis.define('src/icons/remove.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Remove = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 12 12", "p-id": 1463, className: "icon" }, props),
+      react_1.default.createElement("g", null,
+          react_1.default.createElement("rect", { id: "Rectangle-path", x: 4, y: 5, width: 1, height: 4 }),
+          react_1.default.createElement("rect", { id: "Rectangle-path", x: 7, y: 5, width: 1, height: 4 }),
+          react_1.default.createElement("path", { d: "M0,2 L0,3 L1,3 L1,11 L1,11.5 L1,12 L11,12 L11,11.5 L11,11 L11,3 L12,3 L12,2 L0,2 Z M10,11 L2,11 L2,3 L10,3 L10,11 Z", id: "Shape" }),
+          react_1.default.createElement("rect", { id: "Rectangle-path", x: 4, y: 0, width: 4, height: 1 }))); };
+  exports.default = Remove;
+  
+
+});
+
+;/*!src/icons/retry.svg*/
+amis.define('src/icons/retry.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Retry = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 15 17", className: "icon" }, props),
+      react_1.default.createElement("g", { transform: "translate(1.000000, 0.000000)" },
+          react_1.default.createElement("polygon", { id: "Fill-1", fill: "#666666", points: "5.0003 0.0003 5.0003 7.0703 9.5353 3.5353" }),
+          react_1.default.createElement("path", { fill: "none", d: "M13,9.5355 C13,13.1255 10.09,16.0355 6.5,16.0355 C2.91,16.0355 0,13.1255 0,9.5355 C0,5.9455 2.91,3.0355 6.5,3.0355", stroke: "#666666", strokeWidth: 2 }))); };
+  exports.default = Retry;
+  
+
+});
+
+;/*!src/icons/upload.svg*/
+amis.define('src/icons/upload.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Upload = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 16 16", "p-id": 1463, className: "icon" }, props),
+      react_1.default.createElement("g", { stroke: "currentColor", strokeWidth: 2, fill: "none", fillRule: "evenodd" },
+          react_1.default.createElement("path", { d: "M8,12.2426 L8,1.2426" }),
+          react_1.default.createElement("path", { d: "M4.4648,4.9496 L8.7068,0.7076" }),
+          react_1.default.createElement("path", { d: "M11.5352,4.9496 L7.2932,0.7076" }),
+          react_1.default.createElement("path", { d: "M0,14.2426 L16,14.2426" }),
+          react_1.default.createElement("path", { d: "M1,9.2426 L1,15.2426" }),
+          react_1.default.createElement("path", { d: "M15,9.2426 L15,15.2426" }))); };
+  exports.default = Upload;
+  
+
+});
+
+;/*!src/icons/file.svg*/
+amis.define('src/icons/file.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var File = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 14 16", className: "icon" }, props),
+      react_1.default.createElement("g", null,
+          react_1.default.createElement("path", { d: "M0,0 L0,16 L14,16 L14,4.001 L9.939,0 L0,0 Z M1,1 L9,1 L9,4.001 L9,5 L10,5 L13,5 L13,15 L1,15 L1,1 Z M10,1.464 L12.575,4.001 L10,4.001 L10,1.464 Z", id: "Fill-1" }),
+          react_1.default.createElement("polygon", { points: "4 12.0002 10 12.0002 10 10.9992 4 10.9992" }),
+          react_1.default.createElement("polygon", { points: "4 9.0002 10 9.0002 10 8.0002 4 8.0002" }))); };
+  exports.default = File;
+  
+
+});
+
+;/*!src/icons/success.svg*/
+amis.define('src/icons/success.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Success = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 32 32", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "Group-5" },
+          react_1.default.createElement("circle", { stroke: "currentColor", fill: "none", cx: 16, cy: 16, r: 15.5 }),
+          react_1.default.createElement("g", { transform: "translate(5.647059, 7.529412)", fill: "currentColor", fillRule: "nonzero" },
+              react_1.default.createElement("polygon", { id: "Shape", points: "21.1764706 2.76408669 18.7058824 0.26749226 7.41176471 11.6804954 2.47058824 6.50897833 0 9.18390093 4.94117647 14.1770898 4.94117647 14.1770898 7.41176471 16.6736842 9.88235294 14.1770898 9.88235294 14.1770898" })))); };
+  exports.default = Success;
+  
+
+});
+
+;/*!src/icons/fail.svg*/
+amis.define('src/icons/fail.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Fail = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 34 34", className: "icon" }, props),
+      react_1.default.createElement("g", { transform: "translate(1.000000, 1.000000)" },
+          react_1.default.createElement("circle", { stroke: "currentColor", cx: 16, cy: 16, r: 16, fill: "none" }),
+          react_1.default.createElement("polygon", { fill: "currentColor", fillRule: "nonzero", points: "24 10.1052632 21.8947368 8 16 14.0350877 10.1052632 8 8 10.1052632 14.0350877 16 8 21.8947368 10.1052632 24 16 17.9649123 21.8947368 24 24 21.8947368 17.9649123 16" }))); };
+  exports.default = Fail;
+  
+
+});
+
+;/*!src/icons/search.svg*/
+amis.define('src/icons/search.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Search = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 18 18", className: "icon" }, props),
+      react_1.default.createElement("path", { d: "M2,8 C2,4.691 4.691,2 8,2 C11.309,2 14,4.691 14,8 C14,11.309 11.309,14 8,14 C4.691,14 2,11.309 2,8 L2,8 Z M18,16.586 L14.314,12.9 C15.367,11.545 16,9.849 16,8 C16,3.582 12.418,0 8,0 C3.582,0 0,3.582 0,8 C0,12.418 3.582,16 8,16 C9.849,16 11.545,15.367 12.9,14.314 L16.586,18 L18,16.586 Z" })); };
+  exports.default = Search;
+  
+
+});
+
+;/*!src/icons/back.svg*/
+amis.define('src/icons/back.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Back = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 9 12", "p-id": 3506, className: "icon" }, props),
+      react_1.default.createElement("g", { stroke: "none", strokeWidth: 1, fill: "none", fillRule: "evenodd" },
+          react_1.default.createElement("g", { transform: "translate(-11.000000, -9.000000)", fill: "currentColor", fillRule: "nonzero" },
+              react_1.default.createElement("g", { transform: "translate(11.000000, 9.000000)" },
+                  react_1.default.createElement("polygon", { transform: "translate(4.294118, 6.000000) rotate(-270.000000) translate(-4.294118, -6.000000) ", points: "8.76684493 2 4.29411765 6.79999999 -0.178609633 2 -1.70588235 3.6 4.29411765 10 10.2941176 3.6" }))))); };
+  exports.default = Back;
+  
+
+});
+
+;/*!src/icons/move.svg*/
+amis.define('src/icons/move.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Move = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 16 16", className: "icon" }, props),
+      react_1.default.createElement("g", { stroke: "none", strokeWidth: 1, fill: "none", fillRule: "evenodd" },
+          react_1.default.createElement("g", { fill: "currentColor" },
+              react_1.default.createElement("polygon", { points: "8.02 0 5.161 2.859 6.161 3.859 7.02 3.001 7.02 7.02 3.001 7.02 3.859 6.16 2.859 5.161 0 8.02 2.82 10.84 3.82 9.84 3.001 9.02 7.02 9.02 7.02 13.001 6.161 12.141 5.161 13.141 8.02 16 10.839 13.18 9.839 12.181 9.02 13.001 9.02 9.02 13.001 9.02 12.18 9.84 13.18 10.84 16 8.02 13.141 5.161 12.141 6.16 13.001 7.02 9.02 7.02 9.02 3.001 9.839 3.82 10.839 2.82" })))); };
+  exports.default = Move;
+  
+
+});
+
+;/*!src/icons/info.svg*/
+amis.define('src/icons/info.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Info = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 16 16", "p-id": 1463, className: "icon" }, props),
+      react_1.default.createElement("g", { id: "Group-9" },
+          react_1.default.createElement("circle", { id: "Oval-7", stroke: "currentColor", fill: "transparent", cx: 8, cy: 8, r: 7.5 }),
+          react_1.default.createElement("rect", { id: "Rectangle-26", fill: "currentColor", x: 7, y: 3, width: 2, height: 2 }),
+          react_1.default.createElement("rect", { id: "Rectangle-26-Copy", fill: "currentColor", x: 7, y: 6, width: 2, height: 7 }))); };
+  exports.default = Info;
+  
+
+});
+
+;/*!src/icons/location.svg*/
+amis.define('src/icons/location.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Location = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ t: 1585402743083, className: "icon", viewBox: "0 0 1024 1024", "p-id": 2408 }, props),
+      react_1.default.createElement("defs", null,
+          react_1.default.createElement("style", { type: "text/css" })),
+      react_1.default.createElement("path", { d: "M511.968 0c-207.84 0-376.96 169.12-376.96 376.992 0 54.208 11.104 105.984 32.96 153.888 94.24 206.24 274.976 424 328.128 485.824 3.968 4.608 9.792 7.296 15.904 7.296s11.904-2.656 15.904-7.296c53.12-61.824 233.856-279.552 328.128-485.824 21.888-47.904 32.96-99.648 32.96-153.888-0.032-207.872-169.152-376.992-376.992-376.992zM511.968 572.8c-107.968 0-195.808-87.84-195.808-195.808s87.84-195.84 195.808-195.84 195.808 87.84 195.808 195.84c0 107.968-87.84 195.808-195.808 195.808z", "p-id": 2409 })); };
+  exports.default = Location;
+  
+
+});
+
+;/*!src/icons/drag-bar.svg*/
+amis.define('src/icons/drag-bar.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var DragBar = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 428 684", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "drag-bar", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M171.333333,86 C171.333333,133.128298 133.128298,171.333333 86,171.333333 C38.8717015,171.333333 0.666667,133.128298 0.666667,86 C0.666667,38.8717015 38.8717015,0.666667 86,0.666667 C133.128298,0.666667 171.333333,38.8717015 171.333333,86 L171.333333,86 Z M86,256.666667 C38.8717015,256.666667 0.666667,294.871702 0.666667,342 C0.666667,389.128298 38.8717015,427.333333 86,427.333333 C133.128298,427.333333 171.333333,389.128298 171.333333,342 C171.333333,294.871702 133.128298,256.666667 86,256.666667 L86,256.666667 Z M86,512.666667 C38.8717015,512.666667 0.666667,550.871702 0.666667,598 C0.666667,645.128298 38.8717015,683.333333 86,683.333333 C133.128298,683.333333 171.333333,645.128298 171.333333,598 C171.333333,550.871702 133.128298,512.666667 86,512.666667 L86,512.666667 Z M342,171.333333 C389.128298,171.333333 427.333333,133.128298 427.333333,86 C427.333333,38.8717015 389.128298,0.666667 342,0.666667 C294.871702,0.666667 256.666667,38.8717015 256.666667,86 C256.666667,133.128298 294.871702,171.333333 342,171.333333 L342,171.333333 Z M342,256.666667 C294.871702,256.666667 256.666667,294.871702 256.666667,342 C256.666667,389.128298 294.871702,427.333333 342,427.333333 C389.128298,427.333333 427.333333,389.128298 427.333333,342 C427.333333,294.871702 389.128298,256.666667 342,256.666667 L342,256.666667 Z M342,512.666667 C294.871702,512.666667 256.666667,550.871702 256.666667,598 C256.666667,645.128298 294.871702,683.333333 342,683.333333 C389.128298,683.333333 427.333333,645.128298 427.333333,598 C427.333333,575.368193 418.342883,553.663326 402.339778,537.660222 C386.336674,521.657117 364.631807,512.666667 342,512.666667 L342,512.666667 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = DragBar;
+  
+
+});
+
+;/*!src/icons/reload.svg*/
+amis.define('src/icons/reload.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Reload = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 16 16", className: "icon" }, props),
+      react_1.default.createElement("g", { fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M8.05031447,14.0555556 C5.93710692,14.0555556 4.02515723,12.9861111 2.91823899,11.2361111 L5.03144654,9.19444444 L0,9.19444444 L0,14.0555556 L1.40880503,12.6944444 C2.91823899,14.7361111 5.33333333,16 8.05031447,16 C12.0754717,16 15.4968553,13.1805556 16,9.29166667 L13.9874214,9 C13.5849057,11.9166667 11.0691824,14.0555556 8.05031447,14.0555556 Z M14.591195,3.30555556 C13.081761,1.26388889 10.6666667,0 7.94968553,0 C3.9245283,0 0.503144654,2.81944444 0,6.70833333 L2.01257862,7 C2.41509434,4.08333333 4.93081761,1.94444444 7.94968553,1.94444444 C10.0628931,1.94444444 11.9748428,3.01388889 13.081761,4.76388889 L10.9685535,6.80555556 L16,6.80555556 L16,1.94444444 L14.591195,3.30555556 Z", id: "Shape" }))); };
+  exports.default = Reload;
+  
+
+});
+
+;/*!src/icons/exchange.svg*/
+amis.define('src/icons/exchange.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Exchange = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 175 201", className: "icon" }, props),
+      react_1.default.createElement("g", { stroke: "none", strokeWidth: 1, fill: "none", fillRule: "evenodd" },
+          react_1.default.createElement("path", { d: "M-1.01710969,84.1828903 L176.48289,84.1828903 C182.68289,84.1828903 187.78289,79.0828903 187.78289,72.8828903 C187.78289,69.4828903 186.28289,66.3828903 183.68289,64.1828903 C183.08289,63.3828903 182.28289,62.6828903 181.48289,62.0828903 L115.18289,15.5828903 C110.08289,11.9828903 103.08289,13.1828903 99.4828903,18.2828903 C95.8828903,23.3828903 97.1828903,30.3828903 102.28289,33.9828903 L141.58289,61.5828903 L-1.01710969,61.5828903 C-7.21710969,61.6828903 -12.3171097,66.7828903 -12.3171097,72.9828903 C-12.3171097,79.1828903 -7.21710969,84.1828903 -1.01710969,84.1828903 Z M-1.01710969,117.38289 C-7.21710969,117.38289 -12.3171097,122.48289 -12.3171097,128.68289 C-12.3171097,132.08289 -10.8171097,135.18289 -8.21710969,137.38289 C-7.51710969,138.18289 -6.81710969,138.88289 -6.01710969,139.48289 L60.2828903,185.98289 C62.1828903,187.28289 64.3828903,187.98289 66.7828903,187.98289 C70.4828903,187.98289 73.8828903,186.18289 75.9828903,183.18289 C77.6828903,180.68289 78.3828903,177.78289 77.8828903,174.78289 C77.3828903,171.78289 75.6828903,169.28289 73.2828903,167.48289 L33.9828903,139.88289 L176.48289,139.88289 C182.68289,139.88289 187.78289,134.78289 187.78289,128.58289 C187.68289,122.38289 182.58289,117.38289 176.38289,117.38289 L-1.01710969,117.38289 Z", fill: "currentColor", fillRule: "nonzero", transform: "translate(87.732890, 100.745312) rotate(-270.000000) translate(-87.732890, -100.745312) " }))); };
+  exports.default = Exchange;
+  
+
+});
+
+;/*!src/icons/columns.svg*/
+amis.define('src/icons/columns.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Columns = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 122 123", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "th", transform: "translate(0.062500, 0.671875)", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M5.5208334,0.078125 L27.6041666,0.078125 C29.2708332,0.078125 30.5208332,0.494791602 31.3541666,1.7447916 C32.1875,2.9947916 33.0208334,4.2447916 33.0208334,5.4947916 L33.0208334,27.578125 C33.0208334,29.2447916 32.6041666,30.4947916 31.3541666,31.328125 C30.1041666,32.1614584 28.8541666,32.9947916 27.6041666,32.9947916 L5.5208334,32.9947916 C3.8541668,32.9947916 2.6041666,32.578125 1.7708334,31.328125 C0.520833398,30.078125 0.104166602,28.828125 0.104166602,27.578125 L0.104166602,5.4947916 C0.104166602,3.828125 0.520833203,2.578125 1.7708334,1.7447916 C2.6041666,0.911458203 3.8541668,0.078125 5.5208334,0.078125 Z M49.6875,0.078125 L71.7708334,0.078125 C73.4375,0.078125 74.6875,0.494791602 75.5208334,1.7447916 C76.7708334,2.9947916 77.1875,4.2447916 77.1875,5.4947916 L77.1875,27.578125 C77.1875,29.2447916 76.7708334,30.4947916 75.5208334,31.328125 C74.2708334,32.578125 73.0208334,32.9947916 71.7708334,32.9947916 L49.6875,32.9947916 C48.0208334,32.9947916 46.7708334,32.578125 45.9375,31.328125 C44.6875,30.078125 44.2708334,28.828125 44.2708334,27.578125 L44.2708334,5.4947916 C44.2708334,3.828125 44.6875,2.578125 45.9375,1.7447916 C46.7708334,0.911458203 48.4375,0.078125 49.6875,0.078125 L49.6875,0.078125 Z M94.2708334,0.078125 L116.354167,0.078125 C118.020833,0.078125 119.270833,0.494791602 120.104167,1.7447916 C120.9375,2.9947916 121.770833,4.2447916 121.770833,5.4947916 L121.770833,27.578125 C121.770833,29.2447916 121.354167,30.4947916 120.104167,31.328125 C118.854167,32.1614584 117.604167,32.9947916 116.354167,32.9947916 L94.2708334,32.9947916 C92.6041668,32.9947916 91.3541666,32.578125 90.5208334,31.328125 C89.6875,30.078125 88.8541666,28.828125 88.8541666,27.578125 L88.8541666,5.4947916 C88.8541666,3.828125 89.2708332,2.578125 90.5208334,1.7447916 C91.7708336,0.911458203 92.6041668,0.078125 94.2708334,0.078125 Z M5.5208334,44.6614584 L27.6041666,44.6614584 C29.2708332,44.6614584 30.5208332,45.078125 31.3541666,46.328125 C32.6041666,47.578125 33.0208334,48.828125 33.0208334,50.078125 L33.0208334,72.1614584 C33.0208334,73.828125 32.6041666,75.078125 31.3541666,75.9114584 C30.1041666,76.7447918 28.8541666,77.578125 27.6041666,77.578125 L5.5208334,77.578125 C3.8541668,77.578125 2.6041666,77.1614584 1.7708334,75.9114584 C0.520833398,74.6614584 0.104166602,73.4114584 0.104166602,72.1614584 L0.104166602,50.078125 C0.104166602,48.4114584 0.520833203,47.1614584 1.7708334,46.328125 C2.6041666,45.078125 3.8541668,44.6614584 5.5208334,44.6614584 Z M49.6875,44.6614584 L71.7708334,44.6614584 C73.4375,44.6614584 74.6875,45.078125 75.5208334,46.328125 C76.7708334,47.578125 77.1875,48.828125 77.1875,50.078125 L77.1875,72.1614584 C77.1875,73.828125 76.7708334,75.078125 75.5208334,75.9114584 C74.2708334,77.1614584 73.0208334,77.578125 71.7708334,77.578125 L49.6875,77.578125 C48.0208334,77.578125 46.7708334,77.1614584 45.9375,75.9114584 C44.6875,74.6614584 44.2708334,73.4114584 44.2708334,72.1614584 L44.2708334,50.078125 C44.2708334,48.4114584 44.6875,47.1614584 45.9375,46.328125 C46.7708334,45.078125 48.4375,44.6614584 49.6875,44.6614584 L49.6875,44.6614584 Z M94.2708334,44.6614584 L116.354167,44.6614584 C118.020833,44.6614584 119.270833,45.078125 120.104167,46.328125 C121.354167,47.578125 121.770833,48.828125 121.770833,50.078125 L121.770833,72.1614584 C121.770833,73.828125 121.354167,75.078125 120.104167,75.9114584 C118.854167,76.7447918 117.604167,77.578125 116.354167,77.578125 L94.2708334,77.578125 C92.6041668,77.578125 91.3541666,77.1614584 90.5208334,75.9114584 C89.6875,74.6614584 88.8541666,73.4114584 88.8541666,72.1614584 L88.8541666,50.078125 C88.8541666,48.4114584 89.2708332,47.1614584 90.5208334,46.328125 C91.3541666,45.078125 92.6041668,44.6614584 94.2708334,44.6614584 Z M5.5208334,89.2447916 L27.6041666,89.2447916 C29.2708332,89.2447916 30.5208332,89.6614582 31.3541666,90.9114584 C32.1875,92.1614586 33.0208334,93.4114584 33.0208334,94.6614584 L33.0208334,116.744792 C33.0208334,118.411458 32.6041666,119.661458 31.3541666,120.494792 C30.1041666,121.328125 28.8541666,122.161458 27.6041666,122.161458 L5.5208334,122.161458 C3.8541668,122.161458 2.6041666,121.744792 1.7708334,120.494792 C0.520833398,119.244792 0.104166602,117.994792 0.104166602,116.744792 L0.104166602,94.6614584 C0.104166602,92.9947918 0.520833203,91.7447916 1.7708334,90.9114584 C2.6041666,89.6614584 3.8541668,89.2447916 5.5208334,89.2447916 Z M49.6875,89.2447916 L71.7708334,89.2447916 C73.4375,89.2447916 74.6875,89.6614582 75.5208334,90.9114584 C76.7708334,92.1614584 77.1875,93.4114584 77.1875,94.6614584 L77.1875,116.744792 C77.1875,118.411458 76.7708334,119.661458 75.5208334,120.494792 C74.2708334,121.744792 73.0208334,122.161458 71.7708334,122.161458 L49.6875,122.161458 C48.0208334,122.161458 46.7708334,121.744792 45.9375,120.494792 C44.6875,119.244792 44.2708334,117.994792 44.2708334,116.744792 L44.2708334,94.6614584 C44.2708334,92.9947918 44.6875,91.7447916 45.9375,90.9114584 C46.7708334,89.6614584 48.4375,89.2447916 49.6875,89.2447916 L49.6875,89.2447916 Z M94.2708334,89.2447916 L116.354167,89.2447916 C118.020833,89.2447916 119.270833,89.6614582 120.104167,90.9114584 C120.9375,92.1614586 121.770833,93.4114584 121.770833,94.6614584 L121.770833,116.744792 C121.770833,118.411458 121.354167,119.661458 120.104167,120.494792 C118.854167,121.328125 117.604167,122.161458 116.354167,122.161458 L94.2708334,122.161458 C92.6041668,122.161458 91.3541666,121.744792 90.5208334,120.494792 C89.6875,119.244792 88.8541666,117.994792 88.8541666,116.744792 L88.8541666,94.6614584 C88.8541666,92.9947918 89.2708332,91.7447916 90.5208334,90.9114584 C91.3541666,89.6614584 92.6041668,89.2447916 94.2708334,89.2447916 Z" }))); };
+  exports.default = Columns;
+  
+
+});
+
+;/*!src/icons/calendar.svg*/
+amis.define('src/icons/calendar.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Calendar = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 14 14", className: "icon" }, props),
+      react_1.default.createElement("g", { stroke: "none", strokeWidth: 1, fill: "none", fillRule: "evenodd" },
+          react_1.default.createElement("g", { transform: "translate(-136.000000, -8.000000)" },
+              react_1.default.createElement("path", { d: "M159.5,0.5 L0.5,0.5 L0.5,29.5 L159.5,29.5 L159.5,0.5 Z", stroke: "currentColor" }),
+              react_1.default.createElement("g", { transform: "translate(136.000000, 8.000000)", fill: "currentColor", fillRule: "nonzero" },
+                  react_1.default.createElement("path", { d: "M0,14 L14,14 L14,3 L0,3 L0,14 Z M2,5 L12,5 L12,12 L2,12 L2,5 Z", id: "Shape" }),
+                  react_1.default.createElement("rect", { id: "Rectangle-path", x: 0, y: 0, width: 14, height: 2 }),
+                  react_1.default.createElement("rect", { id: "Rectangle-path", x: 9, y: 6, width: 2, height: 2 }),
+                  react_1.default.createElement("rect", { id: "Rectangle-path", x: 9, y: 9, width: 2, height: 2 }),
+                  react_1.default.createElement("rect", { id: "Rectangle-path", x: 6, y: 6, width: 2, height: 2 }),
+                  react_1.default.createElement("rect", { id: "Rectangle-path", x: 6, y: 9, width: 2, height: 2 }),
+                  react_1.default.createElement("rect", { id: "Rectangle-path", x: 3, y: 6, width: 2, height: 2 }),
+                  react_1.default.createElement("rect", { id: "Rectangle-path", x: 3, y: 9, width: 2, height: 2 }))))); };
+  exports.default = Calendar;
+  
+
+});
+
+;/*!src/icons/copy.svg*/
+amis.define('src/icons/copy.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Copy = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 12 12", className: "icon" }, props),
+      react_1.default.createElement("g", { stroke: "none", strokeWidth: 1, fill: "none", fillRule: "evenodd" },
+          react_1.default.createElement("polyline", { id: "Stroke-1", stroke: "currentColor", points: "2.5 9.5 0.5 9.5 0.5 0.5 9.5 0.5 9.5 2.5" }),
+          react_1.default.createElement("polygon", { id: "Stroke-3", stroke: "currentColor", points: "2.5 11.5 11.5 11.5 11.5 2.5 2.5 2.5" }))); };
+  exports.default = Copy;
+  
+
+});
+
+;/*!src/icons/filter.svg*/
+amis.define('src/icons/filter.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Filter = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 150 100", className: "icon" }, props),
+      react_1.default.createElement("g", { fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M58.3333334,100 L91.6666666,100 L91.6666666,83.3333334 L58.3333334,83.3333334 L58.3333334,100 L58.3333334,100 Z M0,0 L0,16.6666666 L150,16.6666666 L150,0 L0,0 Z M25,58.3333334 L125,58.3333334 L125,41.6666666 L25,41.6666666 L25,58.3333334 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = Filter;
+  
+
+});
+
+;/*!src/icons/caret.svg*/
+amis.define('src/icons/caret.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Caret = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 12 8", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "04\\u4E0B\\u62C9/24px/\\u9ED8\\u8BA4\\u7981\\u7528", transform: "translate(-115.000000, -8.000000)" },
+          react_1.default.createElement("polygon", { id: "Shape", fill: "currentColor", fillRule: "nonzero", points: "125.472727 8 121 12.8 116.527273 8 115 9.6 121 16 127 9.6" }))); };
+  exports.default = Caret;
+  
+
+});
+
+;/*!src/icons/right-arrow-bold.svg*/
+amis.define('src/icons/right-arrow-bold.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var RightArrowBold = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 99 176", className: "icon" }, props),
+      react_1.default.createElement("g", { transform: "translate(-0.132812, 0.304688)", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M95.6353697,79.4031346 C95.3433678,79.1111326 95.037575,78.8417152 94.7219891,78.5906854 L19.819373,3.29993262 C15.6492004,-0.870040234 8.88818437,-0.870040234 4.71821172,3.29993262 C0.548238867,7.47010527 0.548238867,14.2309215 4.71821172,18.4010939 L72.9329621,87.0041811 L3.25320488,156.617783 C-0.916767969,160.787956 -0.916767969,167.548772 3.25320488,171.719144 C7.42317773,175.889117 14.1841937,175.889117 18.3543662,171.719144 L94.7211895,95.4180764 C95.0369754,95.1668467 95.342968,94.8976293 95.6351697,94.6054273 C97.7329475,92.5076496 98.7744412,89.7539166 98.7615739,87.0043809 C98.7746414,84.2544453 97.7331475,81.5009123 95.6353697,79.4031346 Z", id: "\\u8DEF\\u5F84" }))); };
+  exports.default = RightArrowBold;
+  
+
+});
+
+;/*!src/icons/column-filter.svg*/
+amis.define('src/icons/column-filter.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var ColumnFilter = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 12 12", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "\\u7EC4\\u4EF6", stroke: "none", strokeWidth: 1, fill: "none", fillRule: "evenodd" },
+          react_1.default.createElement("g", { fill: "currentColor" },
+              react_1.default.createElement("path", { d: "M0,0 L4,4.999 L4.082,10 L8,12 L8,4.999 L12,0 L0,0 Z M5.0528196,9.05445227 L4.97933146,4.82735426 L4.97320745,4.49967969 L4.75580505,4.24311339 L2,1 L10,1 L7.24419495,4.24311339 L7.02066854,4.50640615 L7.02066854,4.84272902 L7.02066854,10 L5.0528196,9.05445227 Z", id: "Page-1" })))); };
+  exports.default = ColumnFilter;
+  
+
+});
+
+;/*!src/icons/zoom-in.svg*/
+amis.define('src/icons/zoom-in.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var ZoomIn = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 201 200", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "Zoom-In-(1)", transform: "translate(-0.195312, 0.000000)", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M200.969037,185.426237 L186.577193,199.885458 L132.526927,145.673486 C118.265005,157.063662 100.555788,163.269253 82.3037053,163.2725 C44.3450876,163.501364 11.2373309,137.535745 2.41322763,100.616316 C-6.41087568,63.6968867 11.3773428,25.5666334 45.3369837,8.60633202 C79.2966246,-8.35396931 120.465786,0.331480961 144.679988,29.5647067 C168.894189,58.7979325 169.763336,100.864327 146.777278,131.072772 L200.969037,185.426237 Z M82.3037053,18.6663447 C56.751881,18.5686211 33.6615322,33.8854576 23.8157876,57.4644032 C13.970043,81.0433489 19.3114596,108.232298 37.3456107,126.334087 C55.3797618,144.435876 82.5485248,149.879037 106.164163,140.121629 C129.779801,130.364221 145.182969,107.331373 145.180448,81.7793602 C145.206592,47.004448 117.078472,18.7708318 82.3037053,18.6663447 L82.3037053,18.6663447 Z M91.4198871,118.452958 L73.1605725,118.452958 L73.1605725,90.9427063 L45.7783383,90.9427063 L45.7783383,72.6092764 L73.1605725,72.6092764 L73.1605725,45.1192381 L91.4198871,45.1192381 L91.4198871,72.6092764 L118.822334,72.6092764 L118.822334,90.9427063 L91.4198871,90.9427063 L91.4198871,118.452958 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = ZoomIn;
+  
+
+});
+
+;/*!src/icons/zoom-out.svg*/
+amis.define('src/icons/zoom-out.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var ZoomOut = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 187 187", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "Zoom-In", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M45.4545455,90.9090908 L118.181818,90.9090908 L118.181818,72.7272727 L45.4545455,72.7272727 L45.4545455,90.9090908 Z M145.709091,132.854546 C157.32865,118.383803 163.653932,100.376636 163.636364,81.8181818 C163.636364,36.6272727 127.009091,0 81.8181818,0 C36.6272727,0 0,36.6272727 0,81.8181818 C0,127.009091 36.6272727,163.636364 81.8181818,163.636364 C101.136364,163.636364 118.854546,156.909091 132.854546,145.709091 L173.827273,186.681818 L186.681818,173.827273 L145.709091,132.854546 Z M81.8181818,145.454546 C46.6727886,145.454546 18.1818182,116.963575 18.1818182,81.8181818 C18.1818182,46.6727886 46.6727886,18.1818182 81.8181818,18.1818182 C116.963575,18.1818182 145.454546,46.6727886 145.454546,81.8181818 C145.454546,116.963575 116.963575,145.454546 81.8181818,145.454546 L81.8181818,145.454546 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = ZoomOut;
+  
+
+});
+
+;/*!src/icons/question.svg*/
+amis.define('src/icons/question.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Question = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 175 175", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "question-(1)", transform: "translate(0.304688, 0.500000)", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M167.56875,53.3876953 C163.179297,43.0103516 156.89707,33.6917969 148.896094,25.6910156 C140.895312,17.6902344 131.576758,11.4078125 121.199414,7.01855469 C110.452539,2.47285156 99.0396484,0.16796875 87.2785156,0.16796875 C75.5173828,0.16796875 64.1046875,2.47285156 53.3574219,7.01855469 C42.9800781,11.4078125 33.6615234,17.6902344 25.6607422,25.6910156 C17.6599609,33.6917969 11.3775391,43.0103516 6.98828125,53.3876953 C2.44257813,64.1349609 0.137695313,75.5474609 0.137695313,87.3087891 C0.137695313,99.0701172 2.44257813,110.482617 6.98828125,121.229883 C11.3775391,131.607227 17.6599609,140.925781 25.6607422,148.926562 C33.6615234,156.927539 42.9800781,163.209766 53.3574219,167.599219 C64.1046875,172.144727 75.5171875,174.449609 87.2785156,174.449609 C99.0396484,174.449609 110.452344,172.144727 121.199609,167.599219 C131.576953,163.209766 140.895508,156.927539 148.896289,148.926562 C156.897266,140.925781 163.179492,131.607227 167.568945,121.229883 C172.114453,110.482617 174.419336,99.0699219 174.419336,87.3087891 C174.419336,75.5476562 172.114453,64.1349609 167.56875,53.3876953 L167.56875,53.3876953 Z M95.5601563,149.20625 C93.1902344,151.314648 90.4513672,152.366016 87.3447266,152.366016 C84.1318359,152.366016 81.328125,151.326172 78.9310547,149.246484 C76.5353516,147.166797 75.3375,144.256836 75.3375,140.519727 C75.3375,137.199023 76.4951172,134.409766 78.8132813,132.143359 C81.1300781,129.879883 83.9738281,128.748047 87.3447266,128.748047 C90.6625,128.748047 93.453125,129.879883 95.7181641,132.143359 C97.9816406,134.409766 99.1150391,137.199023 99.1150391,140.519727 C99.1150391,144.205273 97.9298828,147.100781 95.5601563,149.20625 Z M125.063867,76.0599609 C123.248437,79.4294922 121.088281,82.3392578 118.586328,84.7867187 C116.085742,87.2369141 111.595898,91.35625 105.118359,97.1501953 C103.327344,98.7818359 101.892578,100.218164 100.813867,101.456055 C99.7337891,102.694141 98.9294922,103.825977 98.4037109,104.851367 C97.8765625,105.879688 97.46875,106.905273 97.1800781,107.933594 C96.8900391,108.95918 96.4546875,110.763086 95.8759766,113.345508 C94.875,118.820508 91.7410156,121.560937 86.4755859,121.560937 C83.7365234,121.560937 81.4328125,120.664648 79.5628906,118.872266 C77.6943359,117.082617 76.759375,114.422656 76.759375,110.895312 C76.759375,106.47168 77.4429687,102.639648 78.8132812,99.4023437 C80.1820312,96.1621094 81.9990234,93.3183594 84.2638672,90.8708984 C86.5273437,88.4207031 89.5824219,85.5107422 93.4273437,82.1412109 C96.796875,79.1910156 99.2341797,76.9677734 100.733594,75.4654297 C102.225903,73.9792131 103.50228,72.290943 104.525391,70.45 C105.553711,68.6058594 106.066602,66.6066406 106.066602,64.4464844 C106.066602,60.2324219 104.499609,56.6791016 101.365625,53.7806641 C98.2332031,50.8851562 94.1900391,49.4373047 89.240625,49.4373047 C83.4466797,49.4373047 79.1810547,50.8994141 76.4433594,53.8207031 C73.7044922,56.7449219 71.3876953,61.0480469 69.4917969,66.7357422 C67.7007812,72.6876953 64.3039062,75.6636719 59.3015625,75.6636719 C56.3515625,75.6636719 53.8638672,74.6238281 51.8373047,72.5441406 C49.809375,70.4644531 48.7953125,68.2123047 48.7953125,65.7878906 C48.7953125,60.7867187 50.4009766,55.7167969 53.6140625,50.5835937 C56.8255859,45.4474609 61.5134766,41.1960937 67.6751953,37.8265625 C73.8367187,34.4542969 81.0253906,32.7708984 89.2408203,32.7708984 C96.8759766,32.7708984 103.617969,34.1785156 109.463477,36.9964844 C115.308984,39.8144531 119.824805,43.6435547 123.010352,48.4894531 C126.197461,53.3353516 127.790234,58.6007812 127.790234,64.2884766 C127.790234,68.7636719 126.882227,72.6875 125.063867,76.0599609 L125.063867,76.0599609 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = Question;
+  
+
+});
+
+;/*!src/icons/window-restore.svg*/
+amis.define('src/icons/window-restore.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var WindowRestore = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 200 200", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "window-restore", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M181.25,0 L56.25,0 C45.8984375,0 37.5,8.3984375 37.5,18.75 L37.5,37.5 L18.75,37.5 C8.3984375,37.5 0,45.8984375 0,56.25 L0,181.25 C0,191.601562 8.3984375,200 18.75,200 L143.75,200 C154.101562,200 162.5,191.601562 162.5,181.25 L162.5,162.5 L181.25,162.5 C191.601562,162.5 200,154.101562 200,143.75 L200,18.75 C200,8.3984375 191.601562,0 181.25,0 Z M143.75,181.25 L18.75,181.25 L18.75,100 L143.75,100 L143.75,181.25 Z M181.25,143.75 L162.5,143.75 L162.5,56.25 C162.5,45.8984375 154.101562,37.5 143.75,37.5 L56.25,37.5 L56.25,18.75 L181.25,18.75 L181.25,143.75 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = WindowRestore;
+  
+
+});
+
+;/*!src/icons/info-circle.svg*/
+amis.define('src/icons/info-circle.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var InfoCircle = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 172 172", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "info-circle", transform: "translate(0.257812, 0.257812)", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M114.313616,139.313616 L114.313616,121.456473 C114.313616,120.414807 113.978795,119.559152 113.309152,118.889509 C112.639509,118.219866 111.783854,117.885045 110.742187,117.885045 L100.027902,117.885045 L100.027902,60.7421875 C100.027902,59.7005208 99.6930803,58.8448661 99.0234375,58.1752232 C98.3537947,57.5055804 97.4981399,57.170759 96.4564732,57.170759 L60.7421875,57.170759 C59.7005208,57.170759 58.8448661,57.5055804 58.1752232,58.1752232 C57.5055804,58.8448661 57.170759,59.7005208 57.170759,60.7421875 L57.170759,78.5993303 C57.170759,79.6409969 57.5055804,80.4966517 58.1752232,81.1662945 C58.8448661,81.8359374 59.7005208,82.170759 60.7421875,82.170759 L71.4564732,82.170759 L71.4564732,117.885045 L60.7421875,117.885045 C59.7005208,117.885045 58.8448661,118.219866 58.1752232,118.889509 C57.5055804,119.559152 57.170759,120.414806 57.170759,121.456473 L57.170759,139.313616 C57.170759,140.355282 57.5055804,141.210937 58.1752232,141.88058 C58.8448661,142.550223 59.7005208,142.885044 60.7421875,142.885044 L110.742187,142.885044 C111.783854,142.885044 112.639509,142.550223 113.309152,141.88058 C113.978795,141.210937 114.313616,140.355282 114.313616,139.313616 L114.313616,139.313616 Z M100.027902,39.313616 L100.027902,21.4564732 C100.027902,20.4148066 99.6930803,19.5591518 99.0234375,18.889509 C98.3537947,18.2198661 97.4981399,17.8850447 96.4564732,17.8850447 L75.0279018,17.8850447 C73.9862351,17.8850447 73.1305803,18.2198661 72.4609375,18.889509 C71.7912947,19.5591518 71.4564732,20.4148066 71.4564732,21.4564732 L71.4564732,39.313616 C71.4564732,40.3552827 71.7912947,41.2109374 72.4609375,41.8805803 C73.1305803,42.5502231 73.9862351,42.8850447 75.0279018,42.8850447 L96.4564732,42.8850447 C97.4981399,42.8850447 98.3537947,42.5502231 99.0234375,41.8805803 C99.6930803,41.2109374 100.027902,40.3552827 100.027902,39.313616 Z M171.456473,85.7421875 C171.456473,101.292783 167.624628,115.634301 159.960938,128.766741 C152.297247,141.899182 141.899182,152.297247 128.766741,159.960938 C115.634301,167.624628 101.292783,171.456473 85.7421875,171.456473 C70.1915923,171.456473 55.8500745,167.624628 42.717634,159.960938 C29.5851935,152.297247 19.187128,141.899182 11.5234375,128.766741 C3.85974701,115.634301 0.0279017578,101.292783 0.0279017578,85.7421875 C0.0279017578,70.1915923 3.85974701,55.8500745 11.5234375,42.717634 C19.187128,29.5851935 29.5851935,19.187128 42.717634,11.5234375 C55.8500745,3.85974701 70.1915923,0.0279017578 85.7421875,0.0279017578 C101.292783,0.0279017578 115.634301,3.85974701 128.766741,11.5234375 C141.899182,19.187128 152.297247,29.5851935 159.960938,42.717634 C167.624628,55.8500745 171.456473,70.1915923 171.456473,85.7421875 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = InfoCircle;
+  
+
+});
+
+;/*!src/icons/warning.svg*/
+amis.define('src/icons/warning.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Warning = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 150 138", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "warning", transform: "translate(0.390625, 0.882812)", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M80.6802084,1.5963541 C82.7195697,2.72968791 84.4010413,4.41115959 85.534375,6.4505209 L147.626042,118.213021 C149.777654,122.085674 149.718692,126.807897 147.471057,130.62562 C145.223423,134.443344 141.122931,136.78617 136.692708,136.783856 L12.5260416,136.783856 C8.09656245,136.783856 3.99742458,134.441281 1.75080345,130.623824 C-0.495817677,126.806367 -0.554375449,122.085024 1.596875,118.213021 L63.684375,6.4505209 C67.0377886,0.417546946 74.64639,-1.7555398 80.6802084,1.5963541 Z M74.609375,12.5213541 L12.521875,124.283854 L136.692708,124.283854 L74.609375,12.5213541 Z M80.859375,99.2838541 L80.859375,111.783854 L68.359375,111.783854 L68.359375,99.2838541 L80.859375,99.2838541 Z M80.859375,45.2921875 L80.859375,90.9505209 L68.359375,90.9505209 L68.359375,45.2921875 L80.859375,45.2921875 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = Warning;
+  
+
+});
+
+;/*!src/icons/schedule.svg*/
+amis.define('src/icons/schedule.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Schedule = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 176 176", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "schedule", transform: "translate(0.500000, 0.304688)", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M87.4999,0.154665039 C39.4624693,0.154665039 0.159116992,39.4580174 0.159116992,87.495448 C0.159116992,135.532879 39.4624693,174.836231 87.4999,174.836231 C135.537331,174.836231 174.840683,135.532879 174.840683,87.495448 C174.840683,39.4580174 135.537131,0.154665039 87.4999,0.154665039 Z M87.4999,157.368074 C49.075152,157.368074 17.6272736,125.92879 17.6272736,87.495448 C17.6272736,49.0621059 49.075152,17.6228217 87.4999,17.6228217 C125.924648,17.6228217 157.372526,49.0621059 157.372526,87.495448 C157.372526,125.92879 125.924648,157.368074 87.4999,157.368074 Z", id: "\\u5F62\\u72B6" }),
+          react_1.default.createElement("polygon", { id: "\\u8DEF\\u5F84", points: "91.8667393 43.8250564 78.7656219 43.8250564 78.7656219 96.2295262 124.184628 124.180176 131.170092 112.827673 91.8667393 89.2438625" }))); };
+  exports.default = Schedule;
+  
+
+});
+
+;/*!src/icons/home.svg*/
+amis.define('src/icons/home.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Home = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 200 189", className: "icon" }, props),
+      react_1.default.createElement("g", { transform: "translate(0.000000, -0.195312)", fill: "currentColor", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M195.85125,93.1203125 L110.60125,7.9453125 L104.91375,2.1953125 C102.202931,-0.499697856 97.8245686,-0.499697856 95.11375,2.1953125 L4.15125,93.1203125 C1.45507434,95.8051128 -0.0415864607,99.4656205 0.000355140024,103.270313 C0.158203791,111.052241 6.53032046,117.268533 14.31375,117.232812 L23.68875,117.232812 L23.68875,189.082812 L176.31375,189.082812 L176.31375,117.232812 L185.88875,117.232812 C189.65125,117.232812 193.20125,115.757812 195.87625,113.095312 C198.55125,110.420312 200.00125,106.870312 200.00125,103.095312 C200.00125,99.3453125 198.52625,95.7953125 195.85125,93.1203125 Z M112.35125,173.207812 L87.65125,173.207812 L87.65125,128.207812 L112.35125,128.207812 L112.35125,173.207812 L112.35125,173.207812 Z M160.42625,101.357812 L160.42625,173.207812 L126.47625,173.207812 L126.47625,122.907812 C126.47625,118.0339 122.525163,114.082812 117.65125,114.082812 L82.35125,114.082812 C77.4773371,114.082812 73.52625,118.0339 73.52625,122.907812 L73.52625,173.207812 L39.57625,173.207812 L39.57625,101.357812 L18.40125,101.357812 L100.02625,19.7953125 L105.11375,24.8953125 L181.61375,101.357812 L160.42625,101.357812 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = Home;
+  
+
+});
+
+;/*!src/icons/folder.svg*/
+amis.define('src/icons/folder.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var Folder = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 200 168", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "folder-(1)", transform: "translate(0.000000, 0.601562)", fill: "currentFolder", fillRule: "nonzero" },
+          react_1.default.createElement("path", { d: "M166.666667,166.731771 L8.3333334,166.731771 C3.3333334,166.731771 0,163.398437 0,158.398437 L0,8.3984375 C0,3.3984375 3.3333334,0.0651041016 8.3333334,0.0651041016 L66.6666668,0.0651041016 C71.6666668,0.0651041016 75,3.3984375 75,8.3984375 L75,16.7317709 L166.666667,16.7317709 C171.666667,16.7317709 175,20.0651041 175,25.0651041 L175,58.3984377 C175,63.3984377 171.666667,66.7317711 166.666667,66.7317711 C161.666667,66.7317711 158.333333,63.3984377 158.333333,58.3984377 L158.333333,33.3984375 L66.6666666,33.3984375 C61.6666666,33.3984375 58.3333334,30.0651041 58.3333334,25.0651041 L58.3333334,16.7317709 L16.6666666,16.7317709 L16.6666666,150.065104 L166.666667,150.065104 C171.666667,150.065104 175,153.398438 175,158.398438 C175,163.398438 171.666667,166.731771 166.666667,166.731771 Z", id: "\\u8DEF\\u5F84" }),
+          react_1.default.createElement("path", { d: "M166.666667,166.731771 L8.3333334,166.731771 C5.8333334,166.731771 3.3333334,165.898438 1.6666668,163.398438 C0,160.898438 0,159.231771 0,156.731771 L25,56.7317709 C25.8333334,52.5651041 29.1666666,50.0651041 33.3333334,50.0651041 L191.666667,50.0651041 C194.166667,50.0651041 196.666667,50.8984375 198.333333,53.3984375 C200,55.8984375 200,57.5651041 200,60.0651041 L175,160.065104 C174.166667,164.231771 170.833333,166.731771 166.666667,166.731771 Z M19.1666666,150.065104 L160,150.065104 L180.833333,66.7317707 L40,66.7317707 L19.1666666,150.065104 Z", id: "\\u5F62\\u72B6" }))); };
+  exports.default = Folder;
+  
+
+});
+
+;/*!src/icons/sort-default.svg*/
+amis.define('src/icons/sort-default.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var SortDefault = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 7 12", className: "icon" }, props),
+      react_1.default.createElement("g", { fill: "currentColor" },
+          react_1.default.createElement("polygon", { points: "3.5354 0.0004 2.8284 0.7064 0.0004 3.5344 0.7074 4.2424 3.0354 1.9134 3.0354 5.0354 4.0354 5.0354 4.0354 1.9134 6.3634 4.2424 7.0704 3.5344 4.2424 0.7064" }),
+          react_1.default.createElement("polygon", { points: "3.035 7.0348 3.035 10.1558 0.708 7.8278 0 8.5348 2.828 11.3628 3.535 12.0708 4.243 11.3628 7.071 8.5348 6.363 7.8278 4.036 10.1558 4.036 7.0348" }))); };
+  exports.default = SortDefault;
+  
+
+});
+
+;/*!src/icons/sort-asc.svg*/
+amis.define('src/icons/sort-asc.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var SortAsc = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 7 10", className: "icon" }, props),
+      react_1.default.createElement("g", { fill: "currentColor" },
+          react_1.default.createElement("polygon", { points: "3.5 0 2.8 0.703 0 3.514 0.7 4.217 3.005 1.903 3.005 10 3.995 10 3.995 1.903 6.3 4.217 7 3.514 4.2 0.703" }))); };
+  exports.default = SortAsc;
+  
+
+});
+
+;/*!src/icons/sort-desc.svg*/
+amis.define('src/icons/sort-desc.svg', function(require, exports, module, define) {
+
+  "use strict";
+  Object.defineProperty(exports, "__esModule", { value: true });
+  var tslib_1 = require("node_modules/tslib/tslib");
+  var react_1 = tslib_1.__importDefault(require("node_modules/react/index"));
+  var SortDesc = function (props) { return react_1.default.createElement("svg", tslib_1.__assign({ viewBox: "0 0 7 10", className: "icon" }, props),
+      react_1.default.createElement("g", { id: "07icon/\\u8868\\u5934/\\u6392\\u5E8F\\u4E0B", fill: "currentColor" },
+          react_1.default.createElement("polygon", { id: "07icon/\\u6392\\u5E8F/\\u6B63\\u5E8F", transform: "translate(3.500000, 5.000000) scale(1, -1) translate(-3.500000, -5.000000) ", points: "3.5 0 2.8 0.703 0 3.514 0.7 4.217 3.005 1.903 3.005 10 3.995 10 3.995 1.903 6.3 4.217 7 3.514 4.2 0.703" }))); };
+  exports.default = SortDesc;
+  
+
+});
+
 ;/*!src/components/icons.tsx*/
 amis.define("b7bbd16",function(e,t){"use strict";function o(e){return tt[e]}function l(e,t){tt[e]=t}function a(e){var t=e.icon,l=e.className,a=c.__rest(e,["icon","className"]);"undefined"!=typeof jest&&(a.icon=t);var s=o(t);return s?r.default.createElement(s,c.__assign({},a,{className:(l||"")+" icon-"+t})):r.default.createElement("span",{className:"text-danger"},"没有 icon ",t)}Object.defineProperty(t,"__esModule",{value:!0}),t.PencilIcon=t.MinusIcon=t.PlusIcon=t.CheckIcon=t.RightArrowIcon=t.LeftArrowIcon=t.PauseIcon=t.PlayIcon=t.MuteIcon=t.VolumeIcon=t.EnterIcon=t.ReDoIcon=t.UnDoIcon=t.CloseIcon=t.Icon=t.registerIcon=t.getIcon=t.rightArrowIcon=t.leftArrowIcon=t.pauseIcon=t.playIcon=t.muteIcon=t.volumeIcon=t.enterIcon=t.reDoIcon=t.unDoIcon=t.closeIcon=void 0;var c=e("node_modules/tslib/tslib"),r=c.__importDefault(e("node_modules/react/index")),s=c.__importDefault(e("src/icons/close.svg"));t.CloseIcon=s.default;var u=c.__importDefault(e("src/icons/undo.svg"));t.UnDoIcon=u.default;var n=c.__importDefault(e("src/icons/redo.svg"));t.ReDoIcon=n.default;var f=c.__importDefault(e("src/icons/enter.svg"));t.EnterIcon=f.default;var i=c.__importDefault(e("src/icons/volume.svg"));t.VolumeIcon=i.default;var d=c.__importDefault(e("src/icons/mute.svg"));t.MuteIcon=d.default;var _=c.__importDefault(e("src/icons/play.svg"));t.PlayIcon=_.default;var m=c.__importDefault(e("src/icons/pause.svg"));t.PauseIcon=m.default;var v=c.__importDefault(e("src/icons/left-arrow.svg"));t.LeftArrowIcon=v.default;var p=c.__importDefault(e("src/icons/right-arrow.svg"));t.RightArrowIcon=p.default;var g=c.__importDefault(e("src/icons/check.svg"));t.CheckIcon=g.default;var D=c.__importDefault(e("src/icons/plus.svg"));t.PlusIcon=D.default;var I=c.__importDefault(e("src/icons/minus.svg"));t.MinusIcon=I.default;var w=c.__importDefault(e("src/icons/pencil.svg"));t.PencilIcon=w.default;var h=c.__importDefault(e("src/icons/view.svg")),E=c.__importDefault(e("src/icons/remove.svg")),b=c.__importDefault(e("src/icons/retry.svg")),y=c.__importDefault(e("src/icons/upload.svg")),P=c.__importDefault(e("src/icons/file.svg")),A=c.__importDefault(e("src/icons/success.svg")),k=c.__importDefault(e("src/icons/fail.svg")),x=c.__importDefault(e("src/icons/search.svg")),M=c.__importDefault(e("src/icons/back.svg")),z=c.__importDefault(e("src/icons/move.svg")),C=c.__importDefault(e("src/icons/info.svg")),N=c.__importDefault(e("src/icons/location.svg")),R=c.__importDefault(e("src/icons/drag-bar.svg")),j=c.__importDefault(e("src/icons/reload.svg")),q=c.__importDefault(e("src/icons/exchange.svg")),L=c.__importDefault(e("src/icons/columns.svg")),U=c.__importDefault(e("src/icons/calendar.svg")),V=c.__importDefault(e("src/icons/copy.svg")),O=c.__importDefault(e("src/icons/filter.svg")),B=c.__importDefault(e("src/icons/caret.svg")),F=c.__importDefault(e("src/icons/right-arrow-bold.svg")),G=c.__importDefault(e("src/icons/column-filter.svg")),H=c.__importDefault(e("src/icons/zoom-in.svg")),J=c.__importDefault(e("src/icons/zoom-out.svg")),K=c.__importDefault(e("src/icons/question.svg")),Q=c.__importDefault(e("src/icons/window-restore.svg")),S=c.__importDefault(e("src/icons/info-circle.svg")),T=c.__importDefault(e("src/icons/warning.svg")),W=c.__importDefault(e("src/icons/schedule.svg")),X=c.__importDefault(e("src/icons/home.svg")),Y=c.__importDefault(e("src/icons/folder.svg")),Z=c.__importDefault(e("src/icons/sort-default.svg")),$=c.__importDefault(e("src/icons/sort-asc.svg")),et=c.__importDefault(e("src/icons/sort-desc.svg"));t.closeIcon=r.default.createElement(s.default,null),t.unDoIcon=r.default.createElement(u.default,null),t.reDoIcon=r.default.createElement(n.default,null),t.enterIcon=r.default.createElement(f.default,null),t.volumeIcon=r.default.createElement(i.default,null),t.muteIcon=r.default.createElement(d.default,null),t.playIcon=r.default.createElement(_.default,null),t.pauseIcon=r.default.createElement(m.default,null),t.leftArrowIcon=r.default.createElement(v.default,null),t.rightArrowIcon=r.default.createElement(p.default,null);var tt={};t.getIcon=o,t.registerIcon=l,l("close",s.default),l("undo",u.default),l("redo",n.default),l("enter",f.default),l("volume",i.default),l("mute",d.default),l("play",_.default),l("pause",m.default),l("left-arrow",v.default),l("right-arrow",p.default),l("prev",v.default),l("next",p.default),l("check",g.default),l("plus",D.default),l("add",D.default),l("minus",I.default),l("pencil",w.default),l("view",h.default),l("remove",E.default),l("retry",b.default),l("upload",y.default),l("file",P.default),l("success",A.default),l("fail",k.default),l("warning",T.default),l("search",x.default),l("back",M.default),l("move",z.default),l("info",C.default),l("info-circle",S.default),l("location",N.default),l("drag-bar",R.default),l("reload",j.default),l("exchange",q.default),l("columns",L.default),l("calendar",U.default),l("copy",V.default),l("filter",O.default),l("column-filter",G.default),l("caret",B.default),l("right-arrow-bold",F.default),l("zoom-in",H.default),l("zoom-out",J.default),l("question",K.default),l("window-restore",Q.default),l("schedule",W.default),l("home",X.default),l("folder",Y.default),l("sort-default",Z.default),l("sort-asc",$.default),l("sort-desc",et.default),t.Icon=a});
 ;/*!src/locale.tsx*/
@@ -547,28 +1299,6 @@ amis.define("23a8cd0",function(e,a){"use strict";Object.defineProperty(a,"__esMo
 ;/*!examples/components/Tabs/Tab3.jsx*/
 amis.define("a8b725e",function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),t.default={type:"page",title:"选项卡3页面",body:["<p>也可以多个页面，利用导航<code>nav</code>渲染期模拟 tabs 的效果。</p>",{type:"nav",links:[{label:"选项卡1",icon:"fa fa-cloud",to:"./tab1"},{label:"选项卡2",to:"./tab2"},{label:"选项卡3",icon:"fa fa-youtube",to:"./tab3"}]},{type:"wrapper",className:"wrapper bg-white b-l b-b b-r",body:{type:"chart",config:{title:{text:"极坐标双数值轴"},legend:{data:["line"]},polar:{center:["50%","54%"]},tooltip:{trigger:"axis",axisPointer:{type:"cross"}},angleAxis:{type:"value",startAngle:0},radiusAxis:{min:0},series:[{coordinateSystem:"polar",name:"line",type:"line",showSymbol:!1,data:[[0,0],[.03487823687206265,1],[.06958655048003272,2],[.10395584540887964,3],[.13781867790849958,4],[.17101007166283433,5],[.2033683215379001,6],[.2347357813929454,7],[.26495963211660245,8],[.2938926261462365,9],[.3213938048432697,10]]}],animationDuration:2e3}}}]}});
 ;/*!examples/components/Example.tsx*/
-amis.define("9413ffe",function(e,a){"use strict";Object.defineProperty(a,"__esModule",{value:!0}),a.examples=void 0;var t=e("node_modules/tslib/tslib"),l=t.__importDefault(e("node_modules/react/index")),o=t.__importDefault(e("ec59a60")),p=t.__importDefault(e("da274e0")),f=t.__importDefault(e("2d1fe26")),m=t.__importDefault(e("71fbd58")),u=t.__importDefault(e("0fa6650")),d=t.__importDefault(e("65795e0")),n=t.__importDefault(e("1e9ff20")),r=t.__importDefault(e("3d2e3d4")),c=t.__importDefault(e("6f89d30")),i=t.__importDefault(e("ee53c68")),s=t.__importDefault(e("c9cebe3")),_=t.__importDefault(e("d2ec869")),b=t.__importDefault(e("435ef3d")),h=t.__importDefault(e("90d3d67")),x=t.__importDefault(e("4f1646b")),D=t.__importDefault(e("c6bae66")),g=t.__importDefault(e("c938c8b")),v=t.__importDefault(e("9b0994b")),k=t.__importDefault(e("6bc539d")),y=t.__importDefault(e("4d416d7")),N=t.__importDefault(e("48c8d88")),S=t.__importDefault(e("b382a0f")),F=t.__importDefault(e("78c2565")),P=t.__importDefault(e("efdb183")),j=t.__importDefault(e("6f62c3a")),E=t.__importDefault(e("3ef3393")),w=t.__importDefault(e("638fc16")),z=t.__importDefault(e("c9850e3")),C=t.__importDefault(e("660d1f0")),M=t.__importDefault(e("a9122cf")),T=t.__importDefault(e("97ac54d")),A=t.__importDefault(e("11455ca")),I=t.__importDefault(e("4e9a795")),J=t.__importDefault(e("ddb86b3")),K=t.__importDefault(e("cd82b91")),O=t.__importDefault(e("77adc0a")),U=t.__importDefault(e("31055e7")),q=t.__importDefault(e("aec9e68")),B=t.__importDefault(e("d6f26ec")),G=t.__importDefault(e("8624815")),H=t.__importDefault(e("6baaf1a")),L=t.__importDefault(e("324bb13")),Q=t.__importDefault(e("8c8c87b")),R=t.__importDefault(e("aa693dc")),V=t.__importDefault(e("8744105")),W=t.__importDefault(e("34cc2e3")),X=t.__importDefault(e("1697a1b")),Y=t.__importDefault(e("84cfdf0")),Z=t.__importDefault(e("2b09ee3")),$=t.__importDefault(e("9aaa8bb")),ea=t.__importDefault(e("083a456")),aa=t.__importDefault(e("91e25e6")),ta=t.__importDefault(e("07c797d")),la=t.__importDefault(e("9a6615a")),oa=t.__importDefault(e("62761e6")),pa=t.__importDefault(e("09f8832")),fa=t.__importDefault(e("1aa7d40")),ma=t.__importDefault(e("45bc56b")),ua=t.__importDefault(e("65f0d23")),da=t.__importDefault(e("2c4132a")),na=t.__importDefault(e("4c89be2")),ra=t.__importDefault(e("524d91c")),ca=t.__importDefault(e("46b14bf")),ia=t.__importDefault(e("a5238eb")),sa=t.__importDefault(e("23a8cd0")),_a=t.__importDefault(e("a8b725e")),ba="/examples",ha="";ba="",ha="/amis",a.examples=[{prefix:function(e){var a=e.classnames;return l.default.createElement("li",{className:a("AsideNav-divider")})},label:"示例",children:[{label:"页面",icon:"glyphicon glyphicon-th",badge:3,badgeClassName:"bg-info",children:[{label:"简单页面",path:"/examples/pages/simple",component:o.default(p.default)},{label:"初始化出错",path:"/examples/pages/error",component:o.default(f.default)},{label:"表单页面",path:"/examples/pages/form",component:o.default(m.default)}]},{label:"表单",icon:"fa fa-list-alt",children:[{label:"表单展示模式",path:"/examples/form/mode",component:o.default(u.default)},{label:"所有类型汇总",path:"/examples/form/full",component:o.default(s.default)},{label:"静态展示",path:"/examples/form/static",component:o.default(_.default)},{label:"输入提示",path:"/examples/form/hint",component:o.default(b.default)},{label:"FieldSet",path:"/examples/form/fieldset",component:o.default(d.default)},{label:"Tabs",path:"/examples/form/tabs",component:o.default(n.default)},{label:"FieldSet Tabs 组合",path:"/examples/form/fields-tabs",component:o.default(h.default)},{label:"动态数据",path:"/examples/form/remote",component:o.default(r.default)},{label:"显隐状态联动",path:"/examples/form/reaction",component:o.default(c.default)},{label:"表单验证",path:"/examples/form/validation",component:o.default(i.default)},{label:"组合类型",path:"/examples/form/combo",component:o.default(x.default)},{label:"穿梭器",path:"/examples/form/transfer",component:o.default(k.default)},{label:"多功能选择器",path:"/examples/form/picker",component:o.default(N.default)},{label:"子表单",path:"/examples/form/sub-form",component:o.default(D.default)},{label:"JSon Schema表单",path:"/examples/form/json-schema",component:L.default},{label:"富文本",path:"/examples/form/rich-text",component:o.default(g.default)},{label:"代码编辑器",path:"/examples/form/ide",component:o.default(v.default)},{label:"自定义组件",path:"/examples/form/custom",component:o.default(F.default)},{label:"表格编辑",path:"/examples/form/table",component:o.default(y.default)},{label:"公式示例",path:"/examples/form/formula",component:o.default(S.default)},{label:"引用",path:"/examples/form/definitions",component:o.default(P.default)}]},{label:"增删改查",icon:"fa fa-table",children:[{label:"表格模式",path:"/examples/crud/table",component:o.default(j.default)},{label:"卡片模式",path:"/examples/crud/grid",component:o.default(w.default)},{label:"列表模式",path:"/examples/crud/list",component:o.default(z.default)},{label:"加载更多模式",path:"/examples/crud/load-more",component:o.default(C.default)},{label:"操作交互显示",path:"/examples/crud/item-actions",component:o.default(E.default)},{label:"列类型汇总",path:"/examples/crud/columns",component:o.default(A.default)},{label:"可折叠",path:"/examples/crud/footable",component:o.default(K.default)},{label:"嵌套",path:"/examples/crud/nested",component:o.default(O.default)},{label:"合并单元格",path:"/examples/crud/merge-cell",component:o.default(U.default)},{label:"表头分组",path:"/examples/crud/header-group",component:o.default(q.default)},{label:"表头隐藏",path:"/examples/crud/header-hide",component:o.default(B.default)},{label:"带边栏",path:"/examples/crud/aside",component:o.default(T.default)},{label:"固定表头/列",path:"/examples/crud/fixed",component:o.default(M.default)},{label:"键盘操作编辑",path:"/examples/crud/keyboards",component:o.default(J.default)},{label:"操作并下一个",path:"/examples/crud/jump-next",component:o.default(I.default)},{label:"一次性加载",path:"/examples/crud/load-once",component:o.default(G.default)}]},{label:"弹框",icon:"fa fa-bomb",children:[{label:"对话框",path:"/examples/dialog/simple",component:o.default(Q.default)},{label:"侧边弹出",path:"/examples/dialog/drawer",component:o.default(R.default)}]},{label:"选项卡",icon:"fa fa-clone",children:[{label:"常规选项卡",path:"/examples/tabs/normal",component:o.default(ra.default)},{label:"表单中选项卡分组",path:"/examples/tabs/form",component:o.default(ca.default)},{label:"选项卡页面1",path:"/examples/tabs/tab1",component:o.default(ia.default)},{label:"选项卡页面2",path:"/examples/tabs/tab2",component:o.default(sa.default)},{label:"选项卡页面3",path:"/examples/tabs/tab3",component:o.default(_a.default)}]},{label:"联动",icon:"fa fa-bolt",children:[{label:"地址栏变化自动更新",path:"/examples/linkpage/page",component:o.default(V.default)},{label:"选项联动",path:"/examples/linkpage/options-local",component:o.default($.default)},{label:"选项远程联动",path:"/examples/linkpage/options",component:o.default(Z.default)},{label:"表单和表单联动",path:"/examples/linkpage/form",component:o.default(W.default)},{label:"表单自动更新",path:"/examples/linkpage/form2",component:o.default(X.default)},{label:"表单和列表联动",path:"/examples/linkpage/crud",component:o.default(Y.default)}]},{label:"动态加载",icon:"fa fa-magic",children:[{label:"动态加载数据",path:"/examples/services/data",component:o.default(ma.default)},{label:"动态加载页面",path:"/examples/services/schema",component:o.default(ua.default)},{label:"动态加载部分表单",path:"/examples/services/form",component:o.default(da.default)}]},{label:"向导",icon:"fa fa-desktop",path:"/examples/wizard",component:o.default(ea.default)},{label:"排版",icon:"fa fa-columns",path:"/examples/horizontal",component:o.default(ta.default)},{label:"图表",icon:"fa fa-bar-chart",path:"/examples/chart",component:o.default(aa.default)},{label:"轮播图",icon:"fa fa-pause",path:"/examples/carousel",component:o.default(pa.default)},{label:"音频",icon:"fa fa-volume-up",path:"/examples/audio",component:o.default(oa.default)},{label:"视频",icon:"fa fa-video-camera",path:"/examples/video",component:o.default(la.default)},{label:"异步任务",icon:"fa fa-tasks",path:"/examples/task",component:o.default(fa.default)},{label:"IFrame",icon:"fa fa-cloud",path:"/examples/iframe",component:o.default(na.default)},{label:"SDK",icon:"fa fa-rocket",path:"/examples/sdk",component:H.default}]}];var xa=function(e){function o(){return null!==e&&e.apply(this,arguments)||this}return t.__extends(o,e),o.prototype.componentDidMount=function(){this.props.setNavigations(a.examples)},o.prototype.componentDidUpdate=function(){this.props.setNavigations(a.examples)},o.prototype.render=function(){return l.default.createElement(l.default.Fragment,null,l.default.cloneElement(this.props.children,t.__assign(t.__assign({},this.props.children.props),{theme:this.props.theme,classPrefix:this.props.classPrefix,locale:this.props.locale})))},o}(l.default.PureComponent);a.default=xa});
+amis.define("9413ffe",function(e,a){"use strict";Object.defineProperty(a,"__esModule",{value:!0}),a.examples=void 0;var t=e("node_modules/tslib/tslib"),l=t.__importDefault(e("node_modules/react/index")),o=t.__importDefault(e("ec59a60")),p=t.__importDefault(e("da274e0")),f=t.__importDefault(e("2d1fe26")),m=t.__importDefault(e("71fbd58")),u=t.__importDefault(e("0fa6650")),d=t.__importDefault(e("65795e0")),n=t.__importDefault(e("1e9ff20")),r=t.__importDefault(e("3d2e3d4")),c=t.__importDefault(e("6f89d30")),i=t.__importDefault(e("ee53c68")),s=t.__importDefault(e("c9cebe3")),_=t.__importDefault(e("d2ec869")),b=t.__importDefault(e("435ef3d")),h=t.__importDefault(e("90d3d67")),x=t.__importDefault(e("4f1646b")),D=t.__importDefault(e("c6bae66")),g=t.__importDefault(e("c938c8b")),v=t.__importDefault(e("9b0994b")),k=t.__importDefault(e("6bc539d")),y=t.__importDefault(e("4d416d7")),N=t.__importDefault(e("48c8d88")),S=t.__importDefault(e("b382a0f")),F=t.__importDefault(e("78c2565")),P=t.__importDefault(e("efdb183")),j=t.__importDefault(e("6f62c3a")),E=t.__importDefault(e("3ef3393")),w=t.__importDefault(e("638fc16")),z=t.__importDefault(e("c9850e3")),C=t.__importDefault(e("660d1f0")),M=t.__importDefault(e("a9122cf")),T=t.__importDefault(e("97ac54d")),A=t.__importDefault(e("11455ca")),I=t.__importDefault(e("4e9a795")),J=t.__importDefault(e("ddb86b3")),K=t.__importDefault(e("cd82b91")),O=t.__importDefault(e("77adc0a")),U=t.__importDefault(e("31055e7")),q=t.__importDefault(e("aec9e68")),B=t.__importDefault(e("d6f26ec")),G=t.__importDefault(e("8624815")),H=t.__importDefault(e("6baaf1a")),L=t.__importDefault(e("324bb13")),Q=t.__importDefault(e("8c8c87b")),R=t.__importDefault(e("aa693dc")),V=t.__importDefault(e("8744105")),W=t.__importDefault(e("34cc2e3")),X=t.__importDefault(e("1697a1b")),Y=t.__importDefault(e("84cfdf0")),Z=t.__importDefault(e("2b09ee3")),$=t.__importDefault(e("9aaa8bb")),ea=t.__importDefault(e("083a456")),aa=t.__importDefault(e("91e25e6")),ta=t.__importDefault(e("07c797d")),la=t.__importDefault(e("9a6615a")),oa=t.__importDefault(e("62761e6")),pa=t.__importDefault(e("09f8832")),fa=t.__importDefault(e("1aa7d40")),ma=t.__importDefault(e("45bc56b")),ua=t.__importDefault(e("65f0d23")),da=t.__importDefault(e("2c4132a")),na=t.__importDefault(e("4c89be2")),ra=t.__importDefault(e("524d91c")),ca=t.__importDefault(e("46b14bf")),ia=t.__importDefault(e("a5238eb")),sa=t.__importDefault(e("23a8cd0")),_a=t.__importDefault(e("a8b725e"));a.examples=[{prefix:function(e){var a=e.classnames;return l.default.createElement("li",{className:a("AsideNav-divider")})},label:"示例",children:[{label:"页面",icon:"glyphicon glyphicon-th",badge:3,badgeClassName:"bg-info",children:[{label:"简单页面",path:"/examples/pages/simple",component:o.default(p.default)},{label:"初始化出错",path:"/examples/pages/error",component:o.default(f.default)},{label:"表单页面",path:"/examples/pages/form",component:o.default(m.default)}]},{label:"表单",icon:"fa fa-list-alt",children:[{label:"表单展示模式",path:"/examples/form/mode",component:o.default(u.default)},{label:"所有类型汇总",path:"/examples/form/full",component:o.default(s.default)},{label:"静态展示",path:"/examples/form/static",component:o.default(_.default)},{label:"输入提示",path:"/examples/form/hint",component:o.default(b.default)},{label:"FieldSet",path:"/examples/form/fieldset",component:o.default(d.default)},{label:"Tabs",path:"/examples/form/tabs",component:o.default(n.default)},{label:"FieldSet Tabs 组合",path:"/examples/form/fields-tabs",component:o.default(h.default)},{label:"动态数据",path:"/examples/form/remote",component:o.default(r.default)},{label:"显隐状态联动",path:"/examples/form/reaction",component:o.default(c.default)},{label:"表单验证",path:"/examples/form/validation",component:o.default(i.default)},{label:"组合类型",path:"/examples/form/combo",component:o.default(x.default)},{label:"穿梭器",path:"/examples/form/transfer",component:o.default(k.default)},{label:"多功能选择器",path:"/examples/form/picker",component:o.default(N.default)},{label:"子表单",path:"/examples/form/sub-form",component:o.default(D.default)},{label:"JSon Schema表单",path:"/examples/form/json-schema",component:L.default},{label:"富文本",path:"/examples/form/rich-text",component:o.default(g.default)},{label:"代码编辑器",path:"/examples/form/ide",component:o.default(v.default)},{label:"自定义组件",path:"/examples/form/custom",component:o.default(F.default)},{label:"表格编辑",path:"/examples/form/table",component:o.default(y.default)},{label:"公式示例",path:"/examples/form/formula",component:o.default(S.default)},{label:"引用",path:"/examples/form/definitions",component:o.default(P.default)}]},{label:"增删改查",icon:"fa fa-table",children:[{label:"表格模式",path:"/examples/crud/table",component:o.default(j.default)},{label:"卡片模式",path:"/examples/crud/grid",component:o.default(w.default)},{label:"列表模式",path:"/examples/crud/list",component:o.default(z.default)},{label:"加载更多模式",path:"/examples/crud/load-more",component:o.default(C.default)},{label:"操作交互显示",path:"/examples/crud/item-actions",component:o.default(E.default)},{label:"列类型汇总",path:"/examples/crud/columns",component:o.default(A.default)},{label:"可折叠",path:"/examples/crud/footable",component:o.default(K.default)},{label:"嵌套",path:"/examples/crud/nested",component:o.default(O.default)},{label:"合并单元格",path:"/examples/crud/merge-cell",component:o.default(U.default)},{label:"表头分组",path:"/examples/crud/header-group",component:o.default(q.default)},{label:"表头隐藏",path:"/examples/crud/header-hide",component:o.default(B.default)},{label:"带边栏",path:"/examples/crud/aside",component:o.default(T.default)},{label:"固定表头/列",path:"/examples/crud/fixed",component:o.default(M.default)},{label:"键盘操作编辑",path:"/examples/crud/keyboards",component:o.default(J.default)},{label:"操作并下一个",path:"/examples/crud/jump-next",component:o.default(I.default)},{label:"一次性加载",path:"/examples/crud/load-once",component:o.default(G.default)}]},{label:"弹框",icon:"fa fa-bomb",children:[{label:"对话框",path:"/examples/dialog/simple",component:o.default(Q.default)},{label:"侧边弹出",path:"/examples/dialog/drawer",component:o.default(R.default)}]},{label:"选项卡",icon:"fa fa-clone",children:[{label:"常规选项卡",path:"/examples/tabs/normal",component:o.default(ra.default)},{label:"表单中选项卡分组",path:"/examples/tabs/form",component:o.default(ca.default)},{label:"选项卡页面1",path:"/examples/tabs/tab1",component:o.default(ia.default)},{label:"选项卡页面2",path:"/examples/tabs/tab2",component:o.default(sa.default)},{label:"选项卡页面3",path:"/examples/tabs/tab3",component:o.default(_a.default)}]},{label:"联动",icon:"fa fa-bolt",children:[{label:"地址栏变化自动更新",path:"/examples/linkpage/page",component:o.default(V.default)},{label:"选项联动",path:"/examples/linkpage/options-local",component:o.default($.default)},{label:"选项远程联动",path:"/examples/linkpage/options",component:o.default(Z.default)},{label:"表单和表单联动",path:"/examples/linkpage/form",component:o.default(W.default)},{label:"表单自动更新",path:"/examples/linkpage/form2",component:o.default(X.default)},{label:"表单和列表联动",path:"/examples/linkpage/crud",component:o.default(Y.default)}]},{label:"动态加载",icon:"fa fa-magic",children:[{label:"动态加载数据",path:"/examples/services/data",component:o.default(ma.default)},{label:"动态加载页面",path:"/examples/services/schema",component:o.default(ua.default)},{label:"动态加载部分表单",path:"/examples/services/form",component:o.default(da.default)}]},{label:"向导",icon:"fa fa-desktop",path:"/examples/wizard",component:o.default(ea.default)},{label:"排版",icon:"fa fa-columns",path:"/examples/horizontal",component:o.default(ta.default)},{label:"图表",icon:"fa fa-bar-chart",path:"/examples/chart",component:o.default(aa.default)},{label:"轮播图",icon:"fa fa-pause",path:"/examples/carousel",component:o.default(pa.default)},{label:"音频",icon:"fa fa-volume-up",path:"/examples/audio",component:o.default(oa.default)},{label:"视频",icon:"fa fa-video-camera",path:"/examples/video",component:o.default(la.default)},{label:"异步任务",icon:"fa fa-tasks",path:"/examples/task",component:o.default(fa.default)},{label:"IFrame",icon:"fa fa-cloud",path:"/examples/iframe",component:o.default(na.default)},{label:"SDK",icon:"fa fa-rocket",path:"/examples/sdk",component:H.default}]}];var ba=function(e){function o(){return null!==e&&e.apply(this,arguments)||this}return t.__extends(o,e),o.prototype.componentDidMount=function(){this.props.setNavigations(a.examples)},o.prototype.componentDidUpdate=function(){this.props.setNavigations(a.examples)},o.prototype.render=function(){return l.default.createElement(l.default.Fragment,null,l.default.cloneElement(this.props.children,t.__assign(t.__assign({},this.props.children.props),{theme:this.props.theme,classPrefix:this.props.classPrefix,locale:this.props.locale})))},o}(l.default.PureComponent);a.default=ba});
 ;/*!examples/components/App.tsx*/
-amis.define("5f106aa",function(e,t){"use strict";function a(e){return e?"/"===e[0]?_+e:_+"/"+e:""}function l(e,t){void 0===e&&(e=E);var a=[];return t.forEach(function(e){e.children&&u.mapTree(e.children,function(e){e.path&&e.component?a.push(o.default.createElement(m.Route,{key:a.length+1,path:"/"===e.path[0]?_+e.path:_+"/"+e.path,component:e.component})):e.path&&e.getComponent&&a.push(o.default.createElement(m.Route,{key:a.length+1,path:"/"===e.path[0]?_+e.path:_+"/"+e.path,getComponent:e.getComponent}))})}),a}function n(e){e.pathPrefix;return o.default.createElement(m.Router,{history:m.browserHistory},o.default.createElement(m.Route,{component:S},o.default.createElement(m.Redirect,{from:_+"/",to:_+"/docs/index"}),o.default.createElement(m.Redirect,{from:_+"/docs",to:_+"/docs/index"}),o.default.createElement(m.Redirect,{from:_+"/examples",to:_+"/examples/pages/simple"}),o.default.createElement(m.Route,{path:_+"/docs",component:v.default},l(E,v.docs)),o.default.createElement(m.Route,{path:_+"/examples",component:g.default},l(b,g.examples))),o.default.createElement(m.Route,{path:"*",component:s.default}))}Object.defineProperty(t,"__esModule",{value:!0}),t.App=void 0;var i=e("node_modules/tslib/tslib"),o=i.__importDefault(e("node_modules/react/index")),s=i.__importDefault(e("bb0be5b")),r=i.__importDefault(e("4c26fd3")),d=i.__importDefault(e("4e7c54b")),c=e("1953fc1"),u=e("9a80175");e("ee0cecb");var m=e("node_modules/react-router/lib/index"),h=i.__importDefault(e("d57879c")),p=i.__importDefault(e("c6757fd")),f=i.__importDefault(e("node_modules/classnames/index")),v=i.__importStar(e("85a7530")),g=i.__importStar(e("9413ffe")),b="/examples",E="/docs",_="";b="",E="",_="/amis";var y=[{label:"默认主题",ns:"a-",value:"default"},{label:"百度云舍",ns:"cxd-",value:"cxd"},{label:"Dark",ns:"dark-",value:"dark"}],N=[{label:"中文",value:"zh-cn"},{label:"English",value:"en"}],S=function(e){function t(t){var a=e.call(this,t)||this;return a.state={asideFolded:"true"===localStorage.getItem("asideFolded"),offScreen:!1,headerVisible:!0,themeIndex:0,themes:y,theme:y[localStorage.getItem("themeIndex")||0],locale:localStorage.getItem("locale")||"",navigations:[],scrollTop:0},a.toggleAside=a.toggleAside.bind(a),a.setAsideFolded=a.setAsideFolded.bind(a),a.setHeaderVisible=a.setHeaderVisible.bind(a),a.setNavigations=a.setNavigations.bind(a),a}return i.__extends(t,e),t.prototype.componentDidMount=function(){"default"!==this.state.theme.value&&(document.querySelectorAll("link[title]").forEach(function(e){e.disabled=!0}),document.querySelector("link[title="+this.state.theme.value+"]").disabled=!1,"dark"===this.state.theme.value&&document.querySelector("body").classList.add("dark")),document.addEventListener("scroll",this.handleScroll.bind(this))},t.prototype.componentDidUpdate=function(e,t){var a=this.props;if(t.theme.value!==this.state.theme.value&&(document.querySelector("link[title="+t.theme.value+"]").disabled=!0,document.querySelector("link[title="+this.state.theme.value+"]").disabled=!1),a.location.pathname!==e.location.pathname){this.setState({offScreen:!1},function(){return window.scrollTo(0,0)});var l=a.location.pathname;_hmt&&_hmt.push(["_trackPageview",l])}},t.prototype.componentWillUnmount=function(){document.removeEventListener("scroll",this.handleScroll.bind(this))},t.prototype.handleScroll=function(e){this.setState({scrollTop:e.target.scrollingElement.scrollTop})},t.prototype.toggleAside=function(){this.setAsideFolded(!this.state.asideFolded)},t.prototype.setAsideFolded=function(e){void 0===e&&(e=!1),localStorage.setItem("asideFolded",JSON.stringify(e)),this.setState({asideFolded:e})},t.prototype.setHeaderVisible=function(e){void 0===e&&(e=!1),this.setState({headerVisible:e})},t.prototype.renderAside=function(){return o.default.createElement(d.default,{renderLink:function(){return null}})},t.prototype.setNavigations=function(e){this.setState({navigations:e})},t.prototype.toggleOpen=function(e,t){e.stopPropagation(),e.preventDefault();var l=u.mapTree(this.state.navigations,function(e){var l,n=null!==(l=e.isOpen)&&void 0!==l?l:Array.isArray(e.children)&&e.children.length&&!!~e.children.findIndex(function(e){return a(e.path)===location.pathname});return i.__assign(i.__assign({},e),{isOpen:t.label===e.label?!n:n})});this.setState({navigations:l})},t.prototype.renderHeader=function(){var e=this,t=this.props.location,a=this.state.theme;return"/edit"===t.pathname?o.default.createElement("div",{id:"headerBar",className:"box-shadow bg-dark"},o.default.createElement("div",{className:a.ns+"Layout-brand"},"AMis 可视化编辑器")):o.default.createElement(o.default.Fragment,null,o.default.createElement("div",{className:a.ns+"Layout-brandBar"},o.default.createElement("div",{className:a.ns+"Layout-brand"},o.default.createElement("i",{className:"fa fa-paw"}),o.default.createElement("span",{className:"hidden-folded m-l-sm"},"AMIS"))),o.default.createElement("div",{className:a.ns+"Layout-headerBar"},o.default.createElement("ul",{className:a.ns+"Layout-headerBar-links pull-left"},o.default.createElement(m.Link,{to:_+"/docs",activeClassName:"is-active"},"文档"),o.default.createElement(m.Link,{to:_+"/examples",activeClassName:"is-active"},"示例")),o.default.createElement("div",{className:"hidden-xs p-t pull-right m-l-sm"},o.default.createElement(h.default,{clearable:!1,theme:this.state.theme.value,value:this.state.locale||"zh-cn",options:N,onChange:function(t){e.setState({locale:t.value}),localStorage.setItem("locale",t.value)}})),o.default.createElement("div",{className:"hidden-xs p-t pull-right"},o.default.createElement(h.default,{clearable:!1,theme:this.state.theme.value,value:this.state.theme,options:this.state.themes,onChange:function(t){e.setState({theme:t}),localStorage.setItem("themeIndex",e.state.themes.indexOf(t)),document.querySelector("body").classList["dark"===t.value?"add":"remove"]("dark")}}))),o.default.createElement("div",{className:a.ns+"Layout-searchBar"},o.default.createElement(p.default,{theme:this.state.theme.value})),o.default.createElement("a",{className:"gh-icon",href:"https://github.com/baidu/amis",target:"_blank"},o.default.createElement("i",{className:"fa fa-github"})))},t.prototype.renderNavigation=function(e,t){var l=this,n=location.pathname;return e.map(function(e){var s=a(e.path),r=Array.isArray(e.children)&&e.children.length,d=e.isOpen||e.isOpen!==!1&&r&&!!~e.children.findIndex(function(e){return a(e.path)===n});return o.default.createElement("div",{key:e.label,className:f.default("Doc-navigation-item",{"is-active":s===location.pathname,"is-top":!t,"is-open":d})},o.default.createElement(m.Link,{onClick:function(t){m.browserHistory.push(""+(s||r&&a(e.children[0].path))),!d&&l.toggleOpen(t,e)}},e.label,r?o.default.createElement("i",{className:"iconfont icon-xialajiantou "+(d?"":"is-flipped"),onClick:function(t){return l.toggleOpen(t,e)}}):null),d?l.renderNavigation(e.children||[],i.__assign(i.__assign({},e),{path:s})):null)})},t.prototype.render=function(){var e=this,t=this.state.theme,a=this.state.navigations;return o.default.createElement(r.default,{theme:t.value,boxed:!0,offScreen:this.state.offScreen,header:this.state.headerVisible?this.renderHeader():null},o.default.createElement(c.ToastComponent,{theme:t.value,locale:this.state.locale}),o.default.createElement(c.AlertComponent,{theme:t.value,locale:this.state.locale}),o.default.createElement("div",{className:"Doc"},o.default.createElement("div",{className:"Doc-nav"},o.default.createElement("div",{className:"Doc-navigation"},a.map(function(t){return o.default.createElement("div",{className:"Doc-navigationGroup",key:t.label},o.default.createElement("div",{className:"Doc-navigationGroup-name"},t.label||"其他"),e.renderNavigation(t.children))}))),o.default.createElement("div",{className:"Backtop "+(this.state.scrollTop>450?"visible":""),onClick:function(){return scrollTo({top:0})}},o.default.createElement("i",{className:"fa fa-rocket"})),o.default.cloneElement(this.props.children,i.__assign(i.__assign({},this.props.children.props),{setNavigations:this.setNavigations,setAsideFolded:this.setAsideFolded,setHeaderVisible:this.setHeaderVisible,theme:t.value,classPrefix:t.ns,locale:this.state.locale}))))},t=i.__decorate([m.withRouter,i.__metadata("design:paramtypes",[Object])],t)}(o.default.PureComponent);t.App=S,t.default=n});
-;/*!examples/index.jsx*/
-amis.define("ca626e1",function(e,t){"use strict";function o(e){l.render(a.default.createElement(n.default,null),e)}Object.defineProperty(t,"__esModule",{value:!0}),t.bootstrap=void 0;var d=e("node_modules/tslib/tslib"),a=d.__importDefault(e("node_modules/react/index")),l=e("node_modules/react-dom/index"),n=d.__importDefault(e("5f106aa"));t.bootstrap=o});
-;/*!examples/polyfills/Object.assign.ts*/
-amis.define("d89b1f2",function(){"function"!=typeof Object.assign&&Object.defineProperty(Object,"assign",{value:function(e){"use strict";if(null==e)throw new TypeError("Cannot convert undefined or null to object");for(var n=Object(e),t=1;t<arguments.length;t++){var r=arguments[t];if(null!=r)for(var o in r)Object.prototype.hasOwnProperty.call(r,o)&&(n[o]=r[o])}return n},writable:!0,configurable:!0})});
-;/*!examples/polyfills/Array.from.ts*/
-amis.define("804ccfd",function(){Array.from||(Array.from=function(){var r=Object.prototype.toString,n=function(n){return"function"==typeof n||"[object Function]"===r.call(n)},e=function(r){var n=Number(r);return isNaN(n)?0:0!==n&&isFinite(n)?(n>0?1:-1)*Math.floor(Math.abs(n)):n},t=Math.pow(2,53)-1,o=function(r){var n=e(r);return Math.min(Math.max(n,0),t)};return function(r){var e=this,t=Object(r);if(null==r)throw new TypeError("Array.from requires an array-like object - not null or undefined");var a,i=arguments.length>1?arguments[1]:void 0;if("undefined"!=typeof i){if(!n(i))throw new TypeError("Array.from: when provided, the second argument must be a function");arguments.length>2&&(a=arguments[2])}for(var u,f=o(t.length),c=n(e)?Object(new e(f)):new Array(f),h=0;f>h;)u=t[h],c[h]=i?"undefined"==typeof a?i(u,h):i.call(a,u,h):u,h+=1;return c.length=f,c}}())});
-;/*!examples/polyfills/Array.find.ts*/
-amis.define("5982bcf",function(){Array.prototype.find||Object.defineProperty(Array.prototype,"find",{value:function(r){if(null==this)throw new TypeError('"this" is null or not defined');var e=Object(this),t=e.length>>>0;if("function"!=typeof r)throw new TypeError("predicate must be a function");for(var n=arguments[1],i=0;t>i;){var o=e[i];if(r.call(n,o,i,e))return o;i++}return void 0},configurable:!0,writable:!0})});
-;/*!examples/polyfills/cloest.ts*/
-amis.define("ba41ebe",function(){Element.prototype.matches||(Element.prototype.matches=Element.prototype.msMatchesSelector||Element.prototype.webkitMatchesSelector),Element.prototype.closest||(Element.prototype.closest=function(e){var t=this;if(!document.documentElement.contains(t))return null;do{if(t.matches(e))return t;t=t.parentElement}while(null!==t);return null})});
-;/*!examples/polyfills/index.ts*/
-amis.define("835699d",function(e,d){"use strict";Object.defineProperty(d,"__esModule",{value:!0}),e("d89b1f2"),e("804ccfd"),e("5982bcf"),e("ba41ebe"),e("node_modules/promise/polyfill"),e("node_modules/es6-symbol/implement")});
-;/*!examples/embed.tsx*/
-amis.define("2ab197b",function(e,t){"use strict";function n(e,t,n,c){if("string"==typeof e&&(e=document.querySelector(e)),!e)return void console.error("选择器不对，页面上没有此元素");if("BODY"===e.tagName){var l=document.createElement("div");e.appendChild(l),e=l}e.classList.add("amis-scope");var f,p=function(e){e=e||"";var t=window.location;e&&"#"===e[0]?e=t.pathname+t.search+e:e&&"?"===e[0]&&(e=t.pathname+e);var n=e.indexOf("?"),r=e.indexOf("#"),o=~n?e.substring(0,n):~r?e.substring(0,r):e,a=~n?e.substring(n,~r?r:void 0):"",i=~r?e.substring(r):t.hash;if(o){if("/"!=o[0]&&!/^https?\:\/\//.test(o)){var s=t.pathname,u=s.split("/");u.pop();for(var d=void 0;d=/^\.\.?\//.exec(o);)"../"===d[0]&&u.pop(),o=o.substring(d[0].length);o=u.concat(o).join("/")}}else o=t.pathname;return o+a+i},m=function(e){return function(t){var n=t.data;if(c&&c.responseAdpater){var o=(e.url,e.url.indexOf("?")),a=~o?u.default.parse(e.url.substring(o)):{},i=r.__assign(r.__assign({},e),{query:a,body:e.data});n=c.responseAdpater(e,n,a,i)}else n.hasOwnProperty("errno")?(n.status=n.errno,n.msg=n.errmsg):n.hasOwnProperty("no")&&(n.status=n.no,n.msg=n.error);var s=r.__assign(r.__assign({},t),{data:n});return s}};return a.render(o.default.createElement("div",{className:"amis-routes-wrapper"},o.default.createElement(d.ToastComponent,{position:c&&c.toastPosition||"top-right",closeButton:!1,timeOut:5e3,extendedTimeOut:3e3}),o.default.createElement(d.AlertComponent,{container:e}),d.render(t,r.__assign(r.__assign({},n),{scopeRef:function(e){return f=e}}),r.__assign({getModalContainer:function(){return document.querySelector(".amis-scope")},notify:function(e,t){return d.toast[e]?d.toast[e](t,"error"===e?"系统错误":"系统消息"):console.warn("[Notify]",e,t)},alert:d.alert,confirm:d.confirm,updateLocation:function(e,t){return"goBack"===e?window.history.back():void(t||(location.href=p(e)))},isCurrentUrl:function(e){var t=p(e),n=window.location,r=t,o="",a=t.indexOf("?");if(~a&&(r=t.substring(0,a),o=t.substring(a)),o){if(r!==n.pathname||!n.search)return!1;var i=u.default.parse(o.substring(1)),s=u.default.parse(n.search.substring(1));return Object.keys(i).every(function(e){return i[e]===s[e]})}return r===n.pathname?!0:!1},jumpTo:function(e,t){return"goBack"===e?window.history.back():(e=p(e),t&&"url"===t.actionType?void(t.blank===!1?window.location.href=e:window.open(e)):void(/^https?:\/\//.test(e)?window.location.replace(e):location.href=e))},fetcher:function(e){var t=e.url,n=e.method,r=e.data,o=e.responseType,a=e.config,s=e.headers;return a=a||{},a.withCredentials=!0,o&&(a.responseType=o),a.cancelExecutor&&(a.cancelToken=new i.default.CancelToken(a.cancelExecutor)),a.headers=s||{},a.method=n,"get"===n&&r?a.params=r:r&&r instanceof FormData||!r||"string"==typeof r||r instanceof Blob||r instanceof ArrayBuffer||(r=JSON.stringify(r),a.headers["Content-Type"]="application/json"),r&&(a.data=r),i.default(t,a).then(m(e))},isCancel:function(e){return i.default.isCancel(e)},copy:function(e,t){void 0===t&&(t={});var n=s.default(e,t);return n&&t.shutup!==!0&&d.toast.info("内容已拷贝到剪切板"),n},richTextToken:"",affixOffsetBottom:0},c))),e),f}Object.defineProperty(t,"__esModule",{value:!0}),t.embed=void 0;var r=e("node_modules/tslib/tslib");e("835699d");var o=r.__importDefault(e("node_modules/react/index")),a=e("node_modules/react-dom/index"),i=r.__importDefault(e("node_modules/axios/index")),s=r.__importDefault(e("node_modules/copy-to-clipboard/index")),u=r.__importDefault(e("node_modules/qs/lib/index")),d=e("d019970");t.embed=n});
-;/*!examples/loader.ts*/
-amis.define("3be4436",function(){function e(){for(var e=[],o=0;o<arguments.length;o++)e[o]=arguments[o];var n=e.shift();return n=Array.isArray(n)?n.map(function(e){return d[e]||e}):d[n]||n,e.unshift(n),amis.require.apply(this,e)}var d={jquery:"node_modules/jquery/dist/jquery",react:"node_modules/react/index","react-dom":"node_modules/react-dom/index","react-addons-update":"node_modules/react-addons-update/index","immutability-helper":"node_modules/react-addons-update/index","react-cropper":"node_modules/react-cropper/dist/react-cropper","react-dropzone":"node_modules/react-dropzone/dist/index",classnames:"node_modules/classnames/index",axios:"node_modules/axios/index",moment:"node_modules/moment/moment",mobx:"node_modules/mobx/lib/index","mobx-state-tree":"node_modules/mobx-state-tree/dist/mobx-state-tree","react-transition-group":"node_modules/react-transition-group/index",echarts:"node_modules/echarts/index",zrender:"node_modules/zrender/index",sortablejs:"node_modules/sortablejs/Sortable",amis:"d019970","amis/embed":"2ab197b","prop-types":"node_modules/prop-types/index","async/mapLimit":"node_modules/async/mapLimit",qs:"node_modules/qs/lib/index"};window.amisRequire=e});
-;/*!src/components/RichText.tsx*/
-amis.define("1e5b785",function(e,i){"use strict";Object.defineProperty(i,"__esModule",{value:!0});var t=e("node_modules/tslib/tslib"),o=t.__importDefault(e("node_modules/react/index")),n=t.__importDefault(e("node_modules/jquery/dist/jquery"));[e("node_modules/froala-editor/js/froala_editor.min"),e("node_modules/froala-editor/js/plugins/align.min"),e("node_modules/froala-editor/js/plugins/char_counter.min"),e("node_modules/froala-editor/js/plugins/code_beautifier.min"),e("node_modules/froala-editor/js/plugins/code_view.min"),e("node_modules/froala-editor/js/plugins/colors.min"),e("node_modules/froala-editor/js/plugins/draggable.min"),e("node_modules/froala-editor/js/plugins/emoticons.min"),e("node_modules/froala-editor/js/plugins/entities.min"),e("node_modules/froala-editor/js/plugins/font_family.min"),e("node_modules/froala-editor/js/plugins/font_size.min"),e("node_modules/froala-editor/js/plugins/forms.min"),e("node_modules/froala-editor/js/plugins/fullscreen.min"),e("node_modules/froala-editor/js/plugins/help.min"),e("node_modules/froala-editor/js/plugins/image.min"),e("node_modules/froala-editor/js/plugins/image_manager.min"),e("node_modules/froala-editor/js/plugins/inline_class.min"),e("node_modules/froala-editor/js/plugins/inline_style.min"),e("node_modules/froala-editor/js/plugins/line_breaker.min"),e("node_modules/froala-editor/js/plugins/line_height.min"),e("node_modules/froala-editor/js/plugins/link.min"),e("node_modules/froala-editor/js/plugins/lists.min"),e("node_modules/froala-editor/js/plugins/paragraph_format.min"),e("node_modules/froala-editor/js/plugins/paragraph_style.min"),e("node_modules/froala-editor/js/plugins/print.min"),e("node_modules/froala-editor/js/plugins/quick_insert.min"),e("node_modules/froala-editor/js/plugins/quote.min"),e("node_modules/froala-editor/js/plugins/save.min"),e("node_modules/froala-editor/js/plugins/special_characters.min"),e("node_modules/froala-editor/js/plugins/table.min"),e("node_modules/froala-editor/js/plugins/url.min"),e("node_modules/froala-editor/js/plugins/video.min"),e("node_modules/froala-editor/js/plugins/word_paste.min")].forEach(function(e){return e()});var a=e("67d35e6"),l=function(e){function i(i){var t=e.call(this,i)||this;return t.listeningEvents=[],t.$element=null,t.$editor=null,t.config={immediateReactModelUpdate:!1,reactIgnoreAttrs:null},t.editorInitialized=!1,t.oldModel=null,t.textareaRef=t.textareaRef.bind(t),t}return t.__extends(i,e),i.prototype.componentDidUpdate=function(){JSON.stringify(this.oldModel)!=JSON.stringify(this.props.model)&&this.setContent()},i.prototype.textareaRef=function(e){e?this.createEditor(e):this.destroyEditor()},i.prototype.createEditor=function(e){this.editorInitialized||(this.config=this.props.config||this.config,this.$element=n.default(e),this.setContent(!0),this.registerEvents(),a.resizeSensor(e.parentElement,function(){n.default(e).prev(".fr-box").find(".fr-toolbar").css("width","")}),this.$editor=this.$element.froalaEditor(this.config).data("froala.editor").$el,this.initListeners(),this.editorInitialized=!0)},i.prototype.setContent=function(e){void 0===e&&(e=!1),(this.editorInitialized||e)&&(this.props.model||""==this.props.model)&&(this.oldModel=this.props.model,this.setNormalTagContent(e))},i.prototype.setNormalTagContent=function(e){function i(){t.$element.froalaEditor("html.set",t.props.model||"",!0),t.$element.froalaEditor("undo.reset"),t.$element.froalaEditor("undo.saveStep")}var t=this;e?this.registerEvent(this.$element,"froalaEditor.initialized",i):i()},i.prototype.getEditor=function(){return this.$element?this.$element.froalaEditor.bind(this.$element):null},i.prototype.updateModel=function(){if(this.props.onModelChange){var e="",i=this.$element.froalaEditor("html.get");"string"==typeof i&&(e=i),this.oldModel=e,this.props.onModelChange(e)}},i.prototype.initListeners=function(){var e=this;this.registerEvent(this.$element,"froalaEditor.contentChanged",function(){e.updateModel()}),this.config.immediateReactModelUpdate&&this.registerEvent(this.$editor,"keyup",function(){e.updateModel()})},i.prototype.registerEvent=function(e,i,t){e&&i&&t&&(this.listeningEvents.push(i),e.on(i,t))},i.prototype.registerEvents=function(){var e=this.config.events;if(e)for(var i in e)e.hasOwnProperty(i)&&this.registerEvent(this.$element,i,e[i])},i.prototype.destroyEditor=function(){this.$element&&(this.listeningEvents&&this.$element.off(this.listeningEvents.join(" ")),this.$editor.off("keyup"),this.$element.froalaEditor("destroy"),this.listeningEvents.length=0,this.$element=null,this.editorInitialized=!1)},i.prototype.render=function(){return o.default.createElement("textarea",{ref:this.textareaRef})},i}(o.default.Component);i.default=l,n.default.FE.VIDEO_PROVIDERS=[{test_regex:/.*/,url_regex:"",url_text:"",html:'<span class="fr-video fr-dvb fr-draggable" contenteditable="false" draggable="true"><video class="fr-draggable" controls="" data-msg="ok" data-status="0" src="{url}" style="width: 600px;"></video></span>'}],n.default.FE.LANGUAGE.zh_cn={translation:{"Type something":"输入一些内容",Bold:"粗体",Italic:"斜体",Underline:"下划线",Strikethrough:"删除线",Insert:"插入",Delete:"删除",Cancel:"取消",OK:"确定",Back:"背部",Remove:"去掉",More:"更多",Update:"更新",Style:"风格","Font Family":"字体","Font Size":"字号",Colors:"颜色",Background:"背景",Text:"文字","Paragraph Format":"格式",Normal:"正常",Code:"代码","Heading 1":"标题1","Heading 2":"标题2","Heading 3":"标题3","Heading 4":"标题4","Paragraph Style":"段落样式","Inline Style":"内联样式",Align:"对齐方式","Align Left":"左对齐","Align Center":"居中","Align Right":"右对齐","Align Justify":"两端对齐",None:"无","Ordered List":"编号列表","Unordered List":"项目符号","Decrease Indent":"减少缩进","Increase Indent":"增加缩进","Insert Link":"插入链接","Open in new tab":"开启在新标签页","Open Link":"打开链接","Edit Link":"编辑链接",Unlink:"删除链接","Choose Link":"选择链接","Insert Image":"插入图片","Upload Image":"上传图片","By URL":"通过网址",Browse:"浏览","Drop image":"图像拖放","or click":"或点击","Manage Images":"管理图像",Loading:"载入中",Deleting:"删除",Tags:"标签","Are you sure? Image will be deleted.":"你确定吗？图像将被删除。",Replace:"更换",Uploading:"上传","Loading image":"导入图像",Display:"显示",Inline:"排队","Break Text":"断开文本","Alternate Text":"备用文本","Change Size":"尺寸变化",Width:"宽度",Height:"高度","Something went wrong. Please try again.":"出了些问题。 请再试一次。","Insert Video":"插入视频","Embedded Code":"嵌入式代码","Insert Table":"插入表格","Table Header":"表头","Remove Table":"删除表","Table Style":"表格样式","Horizontal Align":"水平对齐方式",Row:"行","Insert row above":"在上方插入","Insert row below":"在下方插入","Delete row":"删除行",Column:"列","Insert column before":"在左侧插入","Insert column after":"在右侧插入","Delete column":"删除列",Cell:"单元格","Merge cells":"合并单元格","Horizontal split":"水平分割","Vertical split":"垂直分割","Cell Background":"单元格背景","Vertical Align":"垂直对齐方式",Top:"最佳",Middle:"中间",Bottom:"底部","Align Top":"顶部对齐","Align Middle":"中间对齐","Align Bottom":"底部对齐","Cell Style":"单元格样式","Upload File":"上传文件","Drop file":"文件拖放",Emoticons:"表情","Grinning face":"脸上笑嘻嘻","Grinning face with smiling eyes":"","Face with tears of joy":"笑嘻嘻的脸，含笑的眼睛","Smiling face with open mouth":"笑脸张开嘴","Smiling face with open mouth and smiling eyes":"笑脸张开嘴微笑的眼睛","Smiling face with open mouth and cold sweat":"笑脸张开嘴，一身冷汗","Smiling face with open mouth and tightly-closed eyes":"笑脸张开嘴，紧紧闭着眼睛","Smiling face with halo":"笑脸晕","Smiling face with horns":"微笑的脸角","Winking face":"眨眼表情","Smiling face with smiling eyes":"面带微笑的眼睛","Face savoring delicious food":"面对品尝美味的食物","Relieved face":"面对如释重负","Smiling face with heart-shaped eyes":"微笑的脸，心脏形的眼睛","Smiling face with sunglasses":"笑脸太阳镜","Smirking face":"面对面带笑容","Neutral face":"中性面","Expressionless face":"面无表情","Unamused face":"一脸不快的脸","Face with cold sweat":"面对冷汗","Pensive face":"沉思的脸","Confused face":"面对困惑","Confounded face":"该死的脸","Kissing face":"面对接吻","Face throwing a kiss":"面对投掷一个吻","Kissing face with smiling eyes":"接吻脸，含笑的眼睛","Kissing face with closed eyes":"接吻的脸闭着眼睛","Face with stuck out tongue":"面对伸出舌头","Face with stuck out tongue and winking eye":"面对伸出舌头和眨动的眼睛","Face with stuck out tongue and tightly-closed eyes":"面对伸出舌头和紧闭的眼睛","Disappointed face":"面对失望","Worried face":"面对担心","Angry face":"愤怒的脸","Pouting face":"面对噘嘴","Crying face":"哭泣的脸","Persevering face":"怎奈脸","Face with look of triumph":"面带看的胜利","Disappointed but relieved face":"失望，但脸上释然","Frowning face with open mouth":"面对皱着眉头张口","Anguished face":"面对痛苦","Fearful face":"可怕的脸","Weary face":"面对厌倦","Sleepy face":"面对困","Tired face":"疲惫的脸","Grimacing face":"狰狞的脸","Loudly crying face":"大声哭脸","Face with open mouth":"面对张开嘴","Hushed face":"安静的脸","Face with open mouth and cold sweat":"","Face screaming in fear":"面对张开嘴，一身冷汗","Astonished face":"面对惊讶","Flushed face":"红扑扑的脸蛋","Sleeping face":"熟睡的脸","Dizzy face":"面对眩","Face without mouth":"脸上没有嘴","Face with medical mask":"面对医疗口罩",Break:"破",Subscript:"下标",Superscript:"上标",Fullscreen:"全屏","Insert Horizontal Line":"插入水平线","Clear Formatting":"格式化删除",Undo:"撤消",Redo:"重复","Select All":"全选","Code View":"代码视图",Quote:"引用",Increase:"增加引用",Decrease:"删除引用","Quick Insert":"快插"},direction:"ltr"}});
-;/*!examples/loadMonacoEditor.ts*/
-amis.define("b961301",function(s,a){"use strict";function e(s){var a="https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/loader_e45cf1a.js",e=amis.require.loadJs(c(a));e.onload=function(){return i(window.require,s)}}function c(s){return s}function i(s,a){var e={"vs/nls":{availableLanguages:{"*":"zh-cn"}},paths:{vs:"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/editor/editor.main_147bfda.js".replace(/\/vs\/.*$/,""),"vs/base/worker/workerMain":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/base/worker/workerMain_3c46a35.js","vs/basic-languages/apex/apex":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/apex/apex_d4ae4dd.js","vs/basic-languages/azcli/azcli":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/azcli/azcli_1b0ef3f.js","vs/basic-languages/clojure/clojure":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/clojure/clojure_903e94b.js","vs/basic-languages/bat/bat":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/bat/bat_9d67e6c.js","vs/basic-languages/coffee/coffee":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/coffee/coffee_ed86fc7.js","vs/basic-languages/cpp/cpp":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/cpp/cpp_4f3f527.js","vs/basic-languages/csharp/csharp":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/csharp/csharp_6d526d9.js","vs/basic-languages/css/css":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/css/css_9b5d23e.js","vs/basic-languages/dockerfile/dockerfile":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/dockerfile/dockerfile_ae15175.js","vs/basic-languages/fsharp/fsharp":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/fsharp/fsharp_899ae6c.js","vs/basic-languages/go/go":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/go/go_c9012ae.js","vs/basic-languages/handlebars/handlebars":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/handlebars/handlebars_3b4ba3a.js","vs/basic-languages/html/html":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/html/html_cae751f.js","vs/basic-languages/ini/ini":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/ini/ini_d156643.js","vs/basic-languages/java/java":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/java/java_d1eb191.js","vs/basic-languages/javascript/javascript":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/javascript/javascript_b58352d.js","vs/basic-languages/less/less":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/less/less_a309479.js","vs/basic-languages/lua/lua":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/lua/lua_c8b58eb.js","vs/basic-languages/markdown/markdown":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/markdown/markdown_7c5bc2f.js","vs/basic-languages/msdax/msdax":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/msdax/msdax_d5bc491.js","vs/basic-languages/objective-c/objective-c":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/objective-c/objective-c_1fec7dc.js","vs/basic-languages/php/php":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/php/php_b5da4f5.js","vs/basic-languages/postiats/postiats":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/postiats/postiats_20abb55.js","vs/basic-languages/powershell/powershell":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/powershell/powershell_d8ffc04.js","vs/basic-languages/pug/pug":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/pug/pug_a30d087.js","vs/basic-languages/python/python":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/python/python_5acdbdf.js","vs/basic-languages/r/r":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/r/r_079ab6e.js","vs/basic-languages/razor/razor":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/razor/razor_7730201.js","vs/basic-languages/redis/redis":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/redis/redis_26463cb.js","vs/basic-languages/redshift/redshift":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/redshift/redshift_13e3c26.js","vs/basic-languages/ruby/ruby":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/ruby/ruby_3457027.js","vs/basic-languages/rust/rust":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/rust/rust_13de2a3.js","vs/basic-languages/sb/sb":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/sb/sb_902b8f0.js","vs/basic-languages/scheme/scheme":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/scheme/scheme_3e818b9.js","vs/basic-languages/scss/scss":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/scss/scss_709c082.js","vs/basic-languages/shell/shell":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/shell/shell_c765862.js","vs/basic-languages/solidity/solidity":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/solidity/solidity_ed089ae.js","vs/basic-languages/sql/sql":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/sql/sql_0164782.js","vs/basic-languages/st/st":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/st/st_7af06b2.js","vs/basic-languages/swift/swift":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/swift/swift_ac12a14.js","vs/basic-languages/typescript/typescript":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/typescript/typescript_b47f441.js","vs/basic-languages/vb/vb":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/vb/vb_ee7309d.js","vs/basic-languages/xml/xml":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/xml/xml_9dfe430.js","vs/basic-languages/yaml/yaml":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/basic-languages/yaml/yaml_02e29fb.js","vs/editor/editor.main":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/editor/editor.main_147bfda.js","vs/editor/editor.main.css":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/editor/editor.main_9e19735.css","vs/editor/editor.main.nls":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/editor/editor.main.nls_5589f51.js","vs/editor/editor.main.nls.zh-cn":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/editor/editor.main.nls.zh-cn_1c18a71.js","vs/language/typescript/tsMode":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/language/typescript/tsMode_3dc8f50.js","vs/language/typescript/tsWorker":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/language/typescript/tsWorker_a0d7746.js","vs/language/json/jsonMode":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/language/json/jsonMode_999a98d.js","vs/language/json/jsonWorker":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/language/json/jsonWorker_1d6259b.js","vs/language/html/htmlMode":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/language/html/htmlMode_825d6c1.js","vs/language/html/htmlWorker":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/language/html/htmlWorker_9d83687.js","vs/language/css/cssMode":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/language/css/cssMode_b2e5099.js","vs/language/css/cssWorker":"https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/language/css/cssWorker_0c03514.js"}};Object.keys(e.paths).forEach(function(s){e.paths[s]=c(e.paths[s].replace(/\.js$/,""))}),s.config(e),/^(https?:)?\/\//.test(e.paths.vs)?window.MonacoEnvironment={getWorkerUrl:function(){return"data:text/javascript;charset=utf-8,"+encodeURIComponent("\n              self.MonacoEnvironment = {\n                  baseUrl: '"+e.paths.vs+"',\n                  paths: "+JSON.stringify(e.paths)+"\n              };\n              importScripts('https://bce.bdstatic.com/fex/amis-gh-pages/n/monaco-editor/min/vs/base/worker/workerMain_3c46a35.js');")}}:delete window.MonacoEnvironment,s(["vs/editor/editor.main"],function(s){a(s)})}Object.defineProperty(a,"__esModule",{value:!0}),a.__mod__async__load=void 0,a.__mod__async__load=e});
-;/*!examples/components/Play.jsx*/
-amis.define("9b1667d",function(e,t){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=e("node_modules/tslib/tslib"),n=o.__importDefault(e("node_modules/react/index")),a=e("6ae88e0"),s=e("d019970"),i=o.__importDefault(e("node_modules/axios/index")),r=o.__importDefault(e("node_modules/react-frame-component/lib/index")),l=o.__importDefault(e("node_modules/strip-json-comments/index")),d=o.__importDefault(e("997c87d")),h='{\n    "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",\n    "type": "page",\n    "title": "Title",\n    "body": "Body",\n    "aside": "Aside",\n    "toolbar": "Toolbar"\n}',u={none:"",body:'{\n        "type": "page",\n        "body": SCHEMA_PLACEHOLDER\n    }',form:'{\n        "type": "page",\n        "body": {\n            "title": "",\n            "type": "form",\n            "autoFocus": false,\n            "api": "https://houtai.baidu.com/api/mock2/saveForm?waitSeconds=1",\n            "mode": "horizontal",\n            "controls": SCHEMA_PLACEHOLDER,\n            "submitText": null,\n            "actions": []\n        }\n    }',"form-item":'{\n        "type": "page",\n        "body": {\n            "title": "",\n            "type": "form",\n            "mode": "horizontal",\n            "autoFocus": false,\n            "controls": [\n                SCHEMA_PLACEHOLDER\n            ],\n            "submitText": null,\n            "actions": []\n        }\n    }'},c=function(e){function t(t){var n=e.call(this,t)||this;n.state=null,n.startX=0,n.oldContents="";var s=n.buildSchema(t.code||h,t);n.state={asideWidth:t.asideWidth||Math.max(300,.3*window.innerWidth),schema:s,schemaCode:JSON.stringify(s,null,2)},n.handleMouseDown=n.handleMouseDown.bind(n),n.handleMouseMove=n.handleMouseMove.bind(n),n.handleMouseUp=n.handleMouseUp.bind(n),n.removeWindowEvents=n.removeWindowEvents.bind(n),n.handleChange=n.handleChange.bind(n),n.schemaProps={style:{height:"100%"}},n.env={updateLocation:function(){},fetcher:function(e){return e=o.__assign({dataType:"json"},e),"json"===e.dataType&&e.data&&(e.data=JSON.stringify(e.data),e.headers=e.headers||{},e.headers["Content-Type"]="application/json"),i.default[e.method](e.url,e.data,e)},notify:function(e,t){return a.toast[e]?a.toast[e](t,"error"===e?"系统错误":"系统消息"):console.warn("[Notify]",e,t)}};var r=[].slice.call(document.head.querySelectorAll("link,style")).map(function(e){return e.outerHTML});return n.frameTemplate="<!DOCTYPE html><html><head>"+r.join("")+"</head><body><div></div></body></html>",n}return o.__extends(t,e),t.prototype.componentWillReceiveProps=function(e){var t=this.props;if(t.code!==e.code){var o=this.buildSchema(e.code||h,e);this.setState({schema:o,schemaCode:JSON.stringify(o,null,2)})}},t.prototype.componentDidMount=function(){this.props.setAsideFolded&&this.props.setAsideFolded(!0)},t.prototype.componentWillUnmount=function(){this.props.setAsideFolded&&this.props.setAsideFolded(!1)},t.prototype.buildSchema=function(e,t){void 0===t&&(t=this.props);var o=t.location.query;try{var n=o.scope||t.scope;return n&&u[n]&&(e=u[n].replace("SCHEMA_PLACEHOLDER",e)),e=l.default(e).replace(/('|")raw:/g,"$1"),JSON.parse(e)}catch(a){console.error(this.formatMessage(a.message,e))}return{}},t.prototype.formatMessage=function(e,t){if(/position\s?(\d+)$/.test(e)){var o=t.substring(0,parseInt(RegExp.$1,10)).split(/\n|\r\n|\r/);e="Json 语法错误，请检测。出错位置："+o.length+"，列："+o[o.length-1].length+"。"}return e},t.prototype.renderPreview=function(){var e=this.state.schema,t=o.__assign(o.__assign({},this.schemaProps),{theme:this.props.theme,locale:this.props.locale});return this.props.useIFrame?n.default.createElement(r.default,{width:"100%",height:"100%",frameBorder:0,initialContent:this.frameTemplate},s.render(e,t,this.env)):s.render(e,t,this.env)},t.prototype.handleChange=function(e){this.setState({schemaCode:e});try{var t=JSON.parse(e);this.setState({schema:t})}catch(o){}},t.prototype.handleMouseDown=function(e){return this.startX=e.clientX,this.startWidth=this.state.asideWidth,window.addEventListener("mouseup",this.handleMouseUp),window.addEventListener("mousemove",this.handleMouseMove),!1},t.prototype.handleMouseMove=function(e){var t=this.startX-e.clientX;e.preventDefault(),this.setState({asideWidth:Math.min(800,Math.max(200,this.startWidth+t))})},t.prototype.handleMouseUp=function(){this.removeWindowEvents()},t.prototype.removeWindowEvents=function(){window.removeEventListener("mouseup",this.handleMouseUp),window.removeEventListener("mousemove",this.handleMouseMove)},t.prototype.renderEditor=function(){return n.default.createElement(d.default,{value:this.state.schemaCode,onChange:this.handleChange,language:"json"})},t.prototype.render=function(){var e=this.props.vertical;return e?n.default.createElement("div",{className:"vbox"},n.default.createElement("div",{className:"row-row"},n.default.createElement("div",{className:"cell pos-rlt"},n.default.createElement("div",{className:"scroll-y h-full pos-abt w-full"},this.renderPreview()))),n.default.createElement("div",{className:"row-row b-t",style:{height:200}},n.default.createElement("div",{className:"cell"},this.renderEditor()))):n.default.createElement("div",{style:{position:"absolute",top:50,bottom:0}},n.default.createElement("div",{className:"hbox"},n.default.createElement("div",{className:"col pos-rlt"},n.default.createElement("div",{className:"scroll-y h-full pos-abt w-full"},this.renderPreview())),n.default.createElement("div",{className:"col bg-light lter b-l bg-auto pos-rlt",style:{width:this.state.asideWidth}},n.default.createElement("div",{className:"resizer",onMouseDown:this.handleMouseDown}),this.renderEditor())))},t.defaultProps={useIFrame:!1,vertical:!1},t}(n.default.Component);t.default=c});
+amis.define("5f106aa",function(e,t){"use strict";function a(e){return e?"/"===e[0]?_+e:_+"/"+e:""}function l(e,t){void 0===e&&(e=E);var a=[];return t.forEach(function(e){e.children&&u.mapTree(e.children,function(e){e.path&&e.component?a.push(o.default.createElement(m.Route,{key:a.length+1,path:"/"===e.path[0]?_+e.path:_+"/"+e.path,component:e.component})):e.path&&e.getComponent&&a.push(o.default.createElement(m.Route,{key:a.length+1,path:"/"===e.path[0]?_+e.path:_+"/"+e.path,getComponent:e.getComponent}))})}),a}function n(e){e.pathPrefix;return o.default.createElement(m.Router,{history:m.browserHistory},o.default.createElement(m.Route,{component:S},o.default.createElement(m.Redirect,{from:_+"/",to:_+"/docs/index"}),o.default.createElement(m.Redirect,{from:_+"/docs",to:_+"/docs/index"}),o.default.createElement(m.Redirect,{from:_+"/examples",to:_+"/examples/pages/simple"}),o.default.createElement(m.Route,{path:_+"/docs",component:v.default},l(E,v.docs)),o.default.createElement(m.Route,{path:_+"/examples",component:g.default},l(b,g.examples))),o.default.createElement(m.Route,{path:"*",component:s.default}))}Object.defineProperty(t,"__esModule",{value:!0}),t.App=void 0;var i=e("node_modules/tslib/tslib"),o=i.__importDefault(e("node_modules/react/index")),s=i.__importDefault(e("bb0be5b")),r=i.__importDefault(e("4c26fd3")),d=i.__importDefault(e("4e7c54b")),c=e("1953fc1"),u=e("9a80175");e("ee0cecb");var m=e("node_modules/react-router/lib/index"),h=i.__importDefault(e("d57879c")),p=i.__importDefault(e("c6757fd")),f=i.__importDefault(e("node_modules/classnames/index")),v=i.__importStar(e("85a7530")),g=i.__importStar(e("9413ffe")),b="/examples",E="/docs",_="";b="",E="",_="/amis";var y=[{label:"默认主题",ns:"a-",value:"default"},{label:"百度云舍",ns:"cxd-",value:"cxd"},{label:"Dark",ns:"dark-",value:"dark"}],N=[{label:"中文",value:"zh-cn"},{label:"English",value:"en"}],S=function(e){function t(t){var a=e.call(this,t)||this;return a.state={asideFolded:"true"===localStorage.getItem("asideFolded"),offScreen:!1,headerVisible:!0,themeIndex:0,themes:y,theme:y[localStorage.getItem("themeIndex")||0],locale:localStorage.getItem("locale")||"",navigations:[],scrollTop:0},a.toggleAside=a.toggleAside.bind(a),a.setAsideFolded=a.setAsideFolded.bind(a),a.setHeaderVisible=a.setHeaderVisible.bind(a),a.setNavigations=a.setNavigations.bind(a),a}return i.__extends(t,e),t.prototype.componentDidMount=function(){"default"!==this.state.theme.value&&(document.querySelectorAll("link[title]").forEach(function(e){e.disabled=!0}),document.querySelector("link[title="+this.state.theme.value+"]").disabled=!1,"dark"===this.state.theme.value&&document.querySelector("body").classList.add("dark")),document.addEventListener("scroll",this.handleScroll.bind(this))},t.prototype.componentDidUpdate=function(e,t){var a=this.props;if(t.theme.value!==this.state.theme.value&&(document.querySelector("link[title="+t.theme.value+"]").disabled=!0,document.querySelector("link[title="+this.state.theme.value+"]").disabled=!1),a.location.pathname!==e.location.pathname){this.setState({offScreen:!1},function(){return window.scrollTo(0,0)});var l=a.location.pathname;_hmt&&_hmt.push(["_trackPageview",l])}},t.prototype.componentWillUnmount=function(){document.removeEventListener("scroll",this.handleScroll.bind(this))},t.prototype.handleScroll=function(e){this.setState({scrollTop:e.target.scrollingElement.scrollTop})},t.prototype.toggleAside=function(){this.setAsideFolded(!this.state.asideFolded)},t.prototype.setAsideFolded=function(e){void 0===e&&(e=!1),localStorage.setItem("asideFolded",JSON.stringify(e)),this.setState({asideFolded:e})},t.prototype.setHeaderVisible=function(e){void 0===e&&(e=!1),this.setState({headerVisible:e})},t.prototype.renderAside=function(){return o.default.createElement(d.default,{renderLink:function(){return null}})},t.prototype.setNavigations=function(e){this.setState({navigations:e})},t.prototype.toggleOpen=function(e,t){e.stopPropagation(),e.preventDefault();var l=u.mapTree(this.state.navigations,function(e){var l,n=null!==(l=e.isOpen)&&void 0!==l?l:Array.isArray(e.children)&&e.children.length&&!!~e.children.findIndex(function(e){return a(e.path)===location.pathname});return i.__assign(i.__assign({},e),{isOpen:t.label===e.label?!n:n})});this.setState({navigations:l})},t.prototype.renderHeader=function(){var e=this,t=this.props.location,a=this.state.theme;return"/edit"===t.pathname?o.default.createElement("div",{id:"headerBar",className:"box-shadow bg-dark"},o.default.createElement("div",{className:a.ns+"Layout-brand"},"AMis 可视化编辑器")):o.default.createElement(o.default.Fragment,null,o.default.createElement("div",{className:a.ns+"Layout-brandBar"},o.default.createElement("div",{className:a.ns+"Layout-brand"},o.default.createElement(m.Link,{to:_+"/docs"},o.default.createElement("i",{className:"fa fa-paw"}),o.default.createElement("span",{className:"hidden-folded m-l-sm"},"AMIS")))),o.default.createElement("div",{className:a.ns+"Layout-headerBar"},o.default.createElement("ul",{className:a.ns+"Layout-headerBar-links pull-left"},o.default.createElement(m.Link,{to:_+"/docs",activeClassName:"is-active"},"文档"),o.default.createElement(m.Link,{to:_+"/examples",activeClassName:"is-active"},"示例"),o.default.createElement("a",{href:"https://fex-team.github.io/amis-editor",target:"_blank"},"可视化编辑器")),o.default.createElement("div",{className:"hidden-xs p-t pull-right m-l-sm"},o.default.createElement(h.default,{clearable:!1,theme:this.state.theme.value,value:this.state.locale||"zh-cn",options:N,onChange:function(t){e.setState({locale:t.value}),localStorage.setItem("locale",t.value)}})),o.default.createElement("div",{className:"hidden-xs p-t pull-right"},o.default.createElement(h.default,{clearable:!1,theme:this.state.theme.value,value:this.state.theme,options:this.state.themes,onChange:function(t){e.setState({theme:t}),localStorage.setItem("themeIndex",e.state.themes.indexOf(t)),document.querySelector("body").classList["dark"===t.value?"add":"remove"]("dark")}}))),o.default.createElement("div",{className:a.ns+"Layout-searchBar"},o.default.createElement(p.default,{theme:this.state.theme.value})),o.default.createElement("a",{className:"gh-icon",href:"https://github.com/baidu/amis",target:"_blank"},o.default.createElement("i",{className:"fa fa-github"})))},t.prototype.renderNavigation=function(e,t){var l=this,n=location.pathname;return e.map(function(e){var s=a(e.path),r=Array.isArray(e.children)&&e.children.length,d=e.isOpen||e.isOpen!==!1&&r&&!!~e.children.findIndex(function(e){return a(e.path)===n});return o.default.createElement("div",{key:e.label,className:f.default("Doc-navigation-item",{"is-active":s===location.pathname,"is-top":!t,"is-open":d})},o.default.createElement(m.Link,{onClick:function(t){m.browserHistory.push(""+(s||r&&a(e.children[0].path))),!d&&l.toggleOpen(t,e)}},e.label,r?o.default.createElement("i",{className:"iconfont icon-xialajiantou "+(d?"":"is-flipped"),onClick:function(t){return l.toggleOpen(t,e)}}):null),d?l.renderNavigation(e.children||[],i.__assign(i.__assign({},e),{path:s})):null)})},t.prototype.render=function(){var e=this,t=this.state.theme,a=this.state.navigations;return o.default.createElement(r.default,{theme:t.value,boxed:!0,offScreen:this.state.offScreen,header:this.state.headerVisible?this.renderHeader():null},o.default.createElement(c.ToastComponent,{theme:t.value,locale:this.state.locale}),o.default.createElement(c.AlertComponent,{theme:t.value,locale:this.state.locale}),o.default.createElement("div",{className:"Doc"},o.default.createElement("div",{className:"Doc-nav"},o.default.createElement("div",{className:"Doc-navigation"},a.map(function(t){return o.default.createElement("div",{className:"Doc-navigationGroup",key:t.label},o.default.createElement("div",{className:"Doc-navigationGroup-name"},t.label||"其他"),e.renderNavigation(t.children))}))),o.default.createElement("div",{className:"Backtop "+(this.state.scrollTop>450?"visible":""),onClick:function(){return scrollTo({top:0})}},o.default.createElement("i",{className:"fa fa-rocket"})),o.default.cloneElement(this.props.children,i.__assign(i.__assign({},this.props.children.props),{setNavigations:this.setNavigations,setAsideFolded:this.setAsideFolded,setHeaderVisible:this.setHeaderVisible,theme:t.value,classPrefix:t.ns,locale:this.state.locale}))))},t=i.__decorate([m.withRouter,i.__metadata("design:paramtypes",[Object])],t)}(o.default.PureComponent);t.App=S,t.default=n});
