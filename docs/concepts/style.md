@@ -1,13 +1,73 @@
 ---
 title: 样式
-description: 
+description:
 type: 0
 group: 💡 概念
 menuName: 样式
-icon: 
+icon:
 order: 18
 ---
+
 amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，也可以用在自定义组件开发中，掌握这些 class, 几乎可以不用写样式。
+
+## 基本使用
+
+例如，下面这个例子，我们内容区渲染了两个按钮，但是可以看到，两个按钮紧贴在一起，并不是很美观，于是我们想添加一定的间隔
+
+```schema:height="100" scope="body"
+[
+  {
+    "type": "action",
+    "label": "按钮1",
+    "actionType": "dialog",
+    "dialog": {
+      "title": "弹框",
+      "body": "Hello World!"
+    }
+  },
+  {
+    "type": "action",
+    "label": "按钮2",
+    "actionType": "dialog",
+    "dialog": {
+      "title": "弹框",
+      "body": "Hello World!"
+    }
+  }
+]
+```
+
+1. 通过查阅按钮文档可知，按钮支持 className 配置项，也就是说可以在按钮上添加 CSS 类名；
+2. 再查阅当前页面下面 [外边距部分](#%E5%A4%96%E8%BE%B9%E8%B7%9D) 可知，我们可以添加`m-l`类名实现`margin-left: 15px;`的 CSS 效果
+3. 于是我们在`按钮2`的配置中添加`"className": "m-l"`，就能实现间距效果了
+
+```schema:height="100" scope="body"
+[
+  {
+    "type": "action",
+    "label": "按钮1",
+    "actionType": "dialog",
+    "dialog": {
+      "title": "弹框",
+      "body": "Hello World!"
+    }
+  },
+  {
+    "type": "action",
+    "label": "按钮2",
+    "className": "m-l",
+    "actionType": "dialog",
+    "dialog": {
+      "title": "弹框",
+      "body": "Hello World!"
+    }
+  }
+]
+```
+
+绝大部分组件都支持各种形式的 CSS 类名自定义，然后搭配该文档中的各种类名可以实现各式各样的样式调整。具体请查阅组件文档；
+
+> 你可能需要掌握一些基础的 CSS 知识
 
 ## 图标
 
@@ -633,7 +693,7 @@ amis 集成了 [fontawesome](http://fontawesome.io/icons/)，所以关于图标�
   visibility: visible;
 }
 .line {
-  *width: 100%;
+  width: 100%;
   height: 2px;
   margin: 10px 0;
   font-size: 0;
@@ -676,6 +736,12 @@ amis 集成了 [fontawesome](http://fontawesome.io/icons/)，所以关于图标�
 .none {
   display: none;
 }
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
+}
 .pull-none {
   float: none;
 }
@@ -699,8 +765,3 @@ amis 集成了 [fontawesome](http://fontawesome.io/icons/)，所以关于图标�
   user-select: none;
 }
 ```
-
-
-
-
-
