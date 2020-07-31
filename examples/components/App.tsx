@@ -385,6 +385,7 @@ export class App extends React.PureComponent {
           </div>
 
           {React.cloneElement(this.props.children, {
+            key: theme.value,
             ...this.props.children.props,
             setNavigations: this.setNavigations,
             setAsideFolded: this.setAsideFolded,
