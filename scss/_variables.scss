@@ -507,6 +507,10 @@ $TableCell-sortBtn-width: px2rem(8px) !default;
 $TableCell-sortBtn--default-opacity: 0 !default;
 $TableCell-sortBtn--default-onActive-opacity: 1 !default;
 
+$TableCell-searchBtn--onActive-color: $primary !default;
+$TableCell-filterBtn--onActive-color: $primary !default;
+$TableCell-sortBtn--onActive-color: $primary !default;
+
 // Cards
 $Cards-fixedTop-boxShadow: $boxShadow !default;
 $Cards-toolbar-paddingY: 0 !default;
