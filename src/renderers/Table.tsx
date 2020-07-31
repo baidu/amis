@@ -1108,10 +1108,19 @@ export default class Table extends React.Component<TableProps, object> {
           className={cx('TableCell-sortBtn')}
           onClick={() => {
             if (column.name === store.orderBy) {
-              store.setOrderByInfo(
-                column.name,
-                store.orderDir === 'desc' ? 'asc' : 'desc'
-              );
+              if (store.orderDir === 'desc') {
+                // 降序之后取消排序
+                store.setOrderByInfo(
+                  '',
+                  'asc'
+                );
+              } else {
+                // 升序之后降序
+                store.setOrderByInfo(
+                  column.name,
+                  'desc'
+                );
+              }
             } else {
               store.setOrderByInfo(column.name as string, 'asc');
             }
@@ -2175,6 +2184,7 @@ export class HeadCellSearchDropDown extends React.Component<
     isOpened: false
   };
 
+  formItems: Array<string> = [];
   constructor(props: HeadCellSearchProps) {
     super(props);
 
@@ -2249,11 +2259,26 @@ export class HeadCellSearchDropDown extends React.Component<
     }
 
     if (schema) {
+      const formItems = [];
+      if (schema.controls) {
+        for (let item of schema.controls) {
+          if (item.name) {
+            formItems.push(item.name);
+          }
+        }
+      }
+      this.formItems = formItems;
       schema = {
         ...schema,
         type: 'form',
         wrapperComponent: 'div',
         actions: [
+          {
+            type: 'button',
+            label: __('重置'),
+            actionType: 'reset'
+          },
+
           {
             type: 'button',
             label: __('取消'),
@@ -2296,7 +2321,30 @@ export class HeadCellSearchDropDown extends React.Component<
       return;
     }
 
+    if (action.actionType === 'reset') {
+      this.close();
+      this.handleReset();
+      return;
+    }
+
     onAction && onAction(e, action, ctx);
+  }
+
+  handleReset() {
+    const {onQuery, data, name} = this.props;
+    const values = {...data};
+    for (let item of this.formItems) {
+      if (item !== 'orderBy' && item !== 'orderDir') {
+        if (values[item]) {
+          values[item] = undefined;
+        }
+      }
+    }
+    if (values.orderBy && values.orderBy === name) {
+      values.orderBy = '';
+      values.orderDir = 'asc';
+    }
+    onQuery(values);
   }
 
   handleSubmit(values: any) {
@@ -2314,6 +2362,21 @@ export class HeadCellSearchDropDown extends React.Component<
     onQuery(values);
   }
 
+  isActive() {
+    const {data, name} = this.props;
+    if (data.orderBy === name) {
+      return true;
+    }
+    for (let item of this.formItems) {
+      if (item !== 'orderBy' && item !== 'orderDir') {
+        if (data[`${item}`]) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   render() {
     const {
       render,
@@ -2326,8 +2389,11 @@ export class HeadCellSearchDropDown extends React.Component<
       classPrefix: ns
     } = this.props;
 
+    const formSchema = this.buildSchema();
+    const isActive = this.isActive();
+
     return (
-      <span className={cx(`${ns}TableCell-searchBtn`)}>
+      <span className={cx(`${ns}TableCell-searchBtn`, isActive ? 'is-active' : '')}>
         <span onClick={this.open}>
           <Icon icon="search" className="icon" />
         </span>
@@ -2350,7 +2416,7 @@ export class HeadCellSearchDropDown extends React.Component<
               overlay
             >
               {
-                render('quick-search-form', this.buildSchema(), {
+                render('quick-search-form', formSchema, {
                   data: {
                     ...data,
                     orderBy: orderBy,
@@ -2518,17 +2584,28 @@ export class HeadCellFilterDropDown extends React.Component<
     });
   }
 
+  handleReset() {
+    const {name, onQuery} = this.props;
+    onQuery({
+      [name]: undefined
+    })
+    this.close();
+  }
+
   render() {
     const {isOpened, filterOptions} = this.state;
     const {
+      data,
+      name,
       filterable,
       popOverContainer,
       classPrefix: ns,
-      classnames: cx
+      classnames: cx,
+      translate: __
     } = this.props;
 
     return (
-      <span className={cx(`${ns}TableCell-filterBtn`)}>
+      <span className={cx(`${ns}TableCell-filterBtn`, data[name] ? 'is-active' : '')}>
         <span onClick={this.open}>
           <Icon icon="column-filter" className="icon" />
         </span>
@@ -2575,6 +2652,7 @@ export class HeadCellFilterDropDown extends React.Component<
                           </Checkbox>
                         </li>
                       ))}
+                  <li key="DropDown-menu-reset" className={cx('DropDown-divider')} onClick={this.handleReset.bind(this)}>{__('重置')}</li>
                 </ul>
               ) : null}
             </PopOver>
