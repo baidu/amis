@@ -226,7 +226,7 @@ export class App extends React.PureComponent {
 
           <div className={`${theme.ns}Layout-brand`}>
             <Link to={`${ContextPath}/docs`}>
-              <i className="fa fa-paw" />
+              {/* <i className="fa fa-paw" /> */}
               <span className="hidden-folded m-l-sm">AMIS</span>
             </Link>
           </div>

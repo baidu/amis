@@ -191,11 +191,11 @@ export const examples = [
             component: makeSchemaRenderer(SubFormSchema)
           },
 
-          {
-            label: 'JSon Schema表单',
-            path: '/examples/form/json-schema',
-            component: JSONSchemaForm
-          },
+          // {
+          //   label: 'JSon Schema表单',
+          //   path: '/examples/form/json-schema',
+          //   component: JSONSchemaForm
+          // },
 
           {
             label: '富文本',
