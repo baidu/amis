@@ -235,6 +235,19 @@ export default function (doc) {
                   </Link>
                 ) : null}
               </div>
+              <div className="Doc-footer-divider"></div>
+              <div className="Doc-footer-fixme">
+                文档有误？
+                <a
+                  href={`https://github.com/baidu/amis/tree/master${location.pathname.replace(
+                    ContextPath,
+                    ''
+                  )}.md`}
+                  target="_blank"
+                >
+                  在 Github 上编辑此页！
+                </a>
+              </div>
             </div>
           </div>
           {doc.toc && doc.toc.children && doc.toc.children.length > 1 ? (
