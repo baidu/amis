@@ -4,9 +4,9 @@
 
 目前在百度广泛用于内部平台的前端开发，已有 100+ 部门使用，创建了 3w+ 页面。
 
-## 入门介绍
+## 文档
 
-请阅读 <https://baidu.github.io/amis/docs/index>
+<https://baidu.github.io/amis/docs/index>
 
 ## 相关工具及平台
 
@@ -15,7 +15,7 @@
 
 ## 开发指南
 
-以下是参与开发 amis 才需要看的，使用请看前面的入门文档。
+以下是参与开发 amis 才需要看的，使用请看前面的文档。
 
 > 如果 github 下载慢可以使用 [gitee](https://gitee.com/baidu/amis) 上的镜像。
 
