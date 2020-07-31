@@ -574,8 +574,8 @@ if (fis.project.currentMedia() === 'publish') {
       'pkg/charts.js': ['zrender/**', 'echarts/**'],
       'pkg/api-mock.js': ['mock/*.ts'],
       'pkg/app.js': [
-        '/examples/components/App.jsx',
-        '/examples/components/App.jsx:deps'
+        '/examples/components/App.tsx',
+        '/examples/components/App.tsx:deps'
       ],
 
       'pkg/rest.js': [
@@ -615,9 +615,14 @@ if (fis.project.currentMedia() === 'publish') {
         const indexHtml = ret.src['/examples/index.html'];
         const appJs = ret.src['/examples/components/App.tsx'];
         const DocJs = ret.src['/examples/components/Doc.tsx'];
+        const ExampleJs = ret.src['/examples/components/Example.tsx'];
 
         const pages = [];
-        const source = [appJs.getContent(), DocJs.getContent()].join('\n');
+        const source = [
+          appJs.getContent(),
+          DocJs.getContent(),
+          ExampleJs.getContent()
+        ].join('\n');
         source.replace(/\bpath\b\s*\:\s*('|")(.*?)\1/g, function (
           _,
           qutoa,

@@ -106,8 +106,8 @@ export interface FormProps extends RendererProps, FormSchema {
     saveFailed?: string;
     validateFailed?: string;
   };
-  lazyChange?: boolean;
-  formLazyChange?: boolean;
+  lazyChange?: boolean; // 表单项的
+  formLazyChange?: boolean; // 表单的
 }
 
 export default class Form extends React.Component<FormProps, object> {

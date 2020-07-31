@@ -951,10 +951,6 @@ ${xxx | pick[:path]}
 }
 ```
 
-### str2date
-
-@todo
-
 ### duration
 
 秒值格式化成时间格式
