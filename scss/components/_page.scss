@@ -81,7 +81,8 @@
       border: inherit;
     }
 
-    width: $Page-aside-width;
+    min-width: $Page-aside-width;
+    max-width: $Page-aside-maxWidth;
     border-right: $borderWidth solid $borderColor;
   }
 

@@ -6,7 +6,7 @@
 
 ## 入门介绍
 
-请阅读 <https://baidu.github.io/amis/docs/intro>
+请阅读 <https://baidu.github.io/amis/docs/index>
 
 ## 相关工具及平台
 
