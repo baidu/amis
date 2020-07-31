@@ -5216,7 +5216,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/concepts/schema.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/schema_990f7b2.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/schema_8534813.js",
       "type": "js"
     },
     "docs/concepts/datascope-and-datachain.md": {
@@ -5244,7 +5244,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/concepts/style.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/style_a38cafb.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/style_7972b37.js",
       "type": "js"
     },
     "docs/types/schemanode.md": {
