@@ -391,7 +391,8 @@ export class App extends React.PureComponent {
             setHeaderVisible: this.setHeaderVisible,
             theme: theme.value,
             classPrefix: theme.ns,
-            locale: this.state.locale
+            locale: this.state.locale,
+            ContextPath
           })}
         </div>
       </Layout>

@@ -12,12 +12,6 @@ import {Portal} from 'react-overlays';
 import classnames from 'classnames';
 import {Link} from 'react-router';
 
-let ContextPath = '';
-
-if (process.env.NODE_ENV === 'production') {
-  ContextPath = '/amis';
-}
-
 class CodePreview extends React.Component {
   state = {
     PlayGround: null
@@ -190,7 +184,7 @@ export default function (doc) {
     }
 
     render() {
-      const {prevDoc, nextDoc} = this.props;
+      const {prevDoc, nextDoc, ContextPath} = this.props;
 
       return (
         <>
