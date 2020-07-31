@@ -996,7 +996,9 @@ export default class Doc extends React.PureComponent {
           : null
     }));
     const flattenDocs = flattenTree(newDocs).filter(i => !!i.path);
-    const docIndex = flattenDocs.findIndex(d => d.path === location.pathname);
+    const docIndex = flattenDocs.findIndex(
+      d => `${this.props.ContextPath}${d.path}` === location.pathname
+    );
     this.setState({
       prevDoc: flattenDocs[docIndex - 1],
       nextDoc: flattenDocs[docIndex + 1]
@@ -1011,6 +1013,7 @@ export default class Doc extends React.PureComponent {
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
           locale: this.props.locale,
+          ContextPath: this.props.ContextPath,
           prevDoc: this.state.prevDoc,
           nextDoc: this.state.nextDoc
         })}
