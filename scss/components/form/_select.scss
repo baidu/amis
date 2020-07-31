@@ -293,7 +293,9 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   min-width: px2rem(100px);
-  z-index: 10;
+
+  // PopOver 上已经配置了，这个要是配置就会覆盖，所以先干掉好了
+  // z-index: 10;
 
   &.#{$ns}PopOver--leftTopLeftBottom {
     margin-top: -($Form-select-popoverGap - $Form-select-outer-borderWidth);
