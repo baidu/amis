@@ -310,7 +310,7 @@ a {
 
       > a {
         // font-size: 16px;
-        font-weight: 700;
+        font-weight: 600;
         font-size: 14px;
         color: #666;
         padding-left: 0;
@@ -455,7 +455,22 @@ a {
   &-footer {
     margin: 60px 40px 80px;
     padding-bottom: 25px;
-    border-bottom: 2px solid #e0e8ef;
+
+    &-divider {
+      border-top: 2px solid #e0e8ef;
+      margin: 25px 0;
+    }
+
+    &-fixme {
+      font-size: 16px;
+      color: #333;
+      text-align: right;
+
+      > a {
+        color: #108cee;
+        font-weight: 600;
+      }
+    }
 
     .Doc-navLinks {
       display: flex;
@@ -560,6 +575,9 @@ a {
     }
 
     .Doc-navLinks-title {
+      color: #fff;
+    }
+    &-fixme {
       color: #fff;
     }
   }
