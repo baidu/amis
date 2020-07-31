@@ -108,8 +108,8 @@ a {
     padding-top: 100px;
 
     &-header {
-      height: 64px;
-      box-shadow: none;
+      height: 64px !important;
+      box-shadow: none !important;
 
       &::before {
         position: fixed;
