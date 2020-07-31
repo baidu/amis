@@ -100,7 +100,8 @@ export interface Action extends Button {
     | 'cancel'
     | 'close'
     | 'next'
-    | 'prev';
+    | 'prev'
+    | 'reset';
   api?: Api;
   asyncApi?: Api;
   payload?: any;
