@@ -3,7 +3,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "allOf": [
         {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
+            "$ref": "https://houtai.baidu.com/v2/schemas/form/date-range.json#/definitions/common"
         },
         {
             "additionalProperties": false,
@@ -32,7 +32,7 @@
             "description": "日期范围格式说明",
             "allOf": [
                 {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/form/date-range.json#/definitions/common"
+                    "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
                 },
                 {
                     "properties": {
