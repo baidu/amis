@@ -346,7 +346,7 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  renderBody() {
+  renderBody({popOverContainer}: any) {
     const {
       render,
       selectedOptions,
@@ -363,7 +363,8 @@ export default class PickerControl extends React.PureComponent<
       options: options,
       multiple,
       onSelect: embed ? this.handleChange : undefined,
-      ref: this.crudRef
+      ref: this.crudRef,
+      popOverContainer
     }) as JSX.Element;
   }
 
