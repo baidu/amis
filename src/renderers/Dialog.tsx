@@ -5,7 +5,7 @@ import {SchemaNode, Schema, Action} from '../types';
 import {filter} from '../utils/tpl';
 import Modal from '../components/Modal';
 import findLast from 'lodash/findLast';
-import {guid, isVisible} from '../utils/helper';
+import {guid, isVisible, autobind} from '../utils/helper';
 import {reaction} from 'mobx';
 import {Icon} from '../components/icons';
 import {ModalStore, IModalStore} from '../store/modal';
@@ -294,6 +294,13 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     });
   }
 
+  @autobind
+  getPopOverContainer() {
+    return (findDOMNode(this) as HTMLElement).querySelector(
+      `.${this.props.classPrefix}Modal-content`
+    );
+  }
+
   renderBody(body: SchemaNode, key?: any): React.ReactNode {
     let {render, store} = this.props;
 
@@ -306,6 +313,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
       disabled: (body && (body as any).disabled) || store.loading,
       onAction: this.handleAction,
       onFinished: this.handleChildFinished,
+      popOverContainer: this.getPopOverContainer,
       affixOffsetTop: 0,
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
