@@ -916,7 +916,7 @@ export const docs = [
       },
       {
         label: 'Tabs 选项卡',
-        path: '/docs/components/tabstabs',
+        path: '/docs/components/tabs',
         getComponent: (location, cb) =>
           require(['../../docs/components/tabs.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
