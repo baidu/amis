@@ -159,5 +159,5 @@ order: 24
 | label     | `string`                    |                | group 的标签                                                               |
 | controls  | Array<[表单项](./formitem)> |                | 表单项集合                                                                 |
 | mode      | `string`                    |                | 展示默认，同 [Form](./form/index) 中的模式                                 |
-| gap       | `string`                    |                | 表单项之间的间距，可选：                                                   |
+| gap       | `string`                    |                | 表单项之间的间距，可选：`xs`、`sm`、`normal`                               |
 | direction | `string`                    | `"horizontal"` | 可以配置水平展示还是垂直展示。对应的配置项分别是：`vertical`、`horizontal` |
