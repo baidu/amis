@@ -80,7 +80,7 @@ class MyComponent extends React.Component<any, any> {
 
 参数说明：
 
-- `schema` 即页面配置，请前往[基本用法](./basic.md)了解.
+- `schema` 即页面配置，请前往 [配置与组件](../concepts/schema) 了解.
 - `props` 一般都用不上，如果你想传递一些数据给渲染器内部使用，可以传递 data 数据进去。如：
 
   ```jsx
