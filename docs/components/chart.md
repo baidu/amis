@@ -319,16 +319,17 @@ order: 34
 
 ## 属性表
 
-| 属性名             | 类型                              | 默认值    | 说明                                                               |
-| ------------------ | --------------------------------- | --------- | ------------------------------------------------------------------ |
-| type               | `string`                          | `"chart"` | 指定为 chart 渲染器                                                |
-| className          | `string`                          |           | 外层 Dom 的类名                                                    |
-| body               | [SchemaNode](../types/schemanode) |           | 内容容器                                                           |
-| api                | [api](../types/api)               |           | 配置项接口地址                                                     |
-| initFetch          | `boolean`                         |           | 组件初始化时，是否请求接口                                         |
-| interval           | `number`                          |           | 刷新时间(最低 3000)                                                |
-| config             | `object | string`                 |           | 设置 eschars 的配置项,当为`string`的时候可以设置 function 等配置项 |
-| style              | `object`                          |           | 设置根元素的 style                                                 |
-| width              | `string`                          |           | 设置根元素的宽度                                                   |
-| height             | `string`                          |           | 设置根元素的高度                                                   |
-| replaceChartOption | `boolean`                         | `false`   | 每次更新是完全覆盖配置项还是追加？                                 |
+| 属性名             | 类型                                 | 默认值    | 说明                                                               |
+| ------------------ | ------------------------------------ | --------- | ------------------------------------------------------------------ |
+| type               | `string`                             | `"chart"` | 指定为 chart 渲染器                                                |
+| className          | `string`                             |           | 外层 Dom 的类名                                                    |
+| body               | [SchemaNode](../types/schemanode)    |           | 内容容器                                                           |
+| api                | [api](../types/api)                  |           | 配置项接口地址                                                     |
+| source             | [数据映射](../concepts/data-mapping) |           | 通过数据映射获取数据链中变量值作为配置                             |
+| initFetch          | `boolean`                            |           | 组件初始化时，是否请求接口                                         |
+| interval           | `number`                             |           | 刷新时间(最低 3000)                                                |
+| config             | `object | string`                    |           | 设置 eschars 的配置项,当为`string`的时候可以设置 function 等配置项 |
+| style              | `object`                             |           | 设置根元素的 style                                                 |
+| width              | `string`                             |           | 设置根元素的宽度                                                   |
+| height             | `string`                             |           | 设置根元素的高度                                                   |
+| replaceChartOption | `boolean`                            | `false`   | 每次更新是完全覆盖配置项还是追加？                                 |
