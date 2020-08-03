@@ -264,6 +264,32 @@ order: 1
 
 如上例，更改姓名表单项值，可以改变表单数据域中`name`变量的值。
 
+也支持链式配置 `name`属性，例如：`aaa.bbb`
+
+```schema:height="350" scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "controls": [
+    {
+      "type": "text",
+      "label": "姓名",
+      "name": "person.name"
+    }
+  ]
+}
+```
+
+观察上例，这样更改表单项值，会改变数据域中`person.name`的值
+
+```json
+{
+  "person": {
+    "name": "xxx"
+  }
+}
+```
+
 ## 配置默认值
 
 通过配置`value`属性，可以设置表单项的默认值。
