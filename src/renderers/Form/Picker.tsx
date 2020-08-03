@@ -346,7 +346,7 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  renderBody({popOverContainer}: any) {
+  renderBody({popOverContainer}: any = {}) {
     const {
       render,
       selectedOptions,
@@ -384,12 +384,15 @@ export default class PickerControl extends React.PureComponent<
       embed,
       value,
       selectedOptions,
-      translate: __
+      translate: __,
+      popOverContainer
     } = this.props;
     return (
       <div className={cx(`PickerControl`, className)}>
         {embed ? (
-          <div className={cx('Picker')}>{this.renderBody()}</div>
+          <div className={cx('Picker')}>
+            {this.renderBody({popOverContainer})}
+          </div>
         ) : (
           <div
             className={cx(`Picker`, {
