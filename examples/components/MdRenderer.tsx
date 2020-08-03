@@ -46,6 +46,7 @@ class CodePreview extends React.Component {
             show
           >
             <PopOver
+              theme={(rest as any).theme}
               offset={{x: 0, y: -height}}
               style={{height}}
               className=":MDPreview-shcema-preview-popover"

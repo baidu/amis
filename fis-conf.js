@@ -229,7 +229,8 @@ if (fis.project.currentMedia() === 'publish') {
         importHelpers: true,
         sourceMap: true,
         experimentalDecorators: true,
-        esModuleInterop: true
+        esModuleInterop: true,
+        allowUmdGlobalAccess: true
       }),
       function (contents) {
         return contents.replace(

@@ -549,8 +549,14 @@
       &.is-active {
         color: $text--muted-color;
         &:hover {
-          color: $icon-onHover-color;
+          color: $text-color;
         }
+      }
+    }
+    &--up,
+    &--down {
+      &.is-active {
+        color: $TableCell-sortBtn--onActive-color;
       }
     }
   }
@@ -571,6 +577,9 @@
 
     &:hover {
       color: $text-color;
+    }
+    &.is-active {
+      color: $TableCell-searchBtn--onActive-color;
     }
   }
 
@@ -600,6 +609,10 @@
 
     &:hover {
       color: $text-color;
+    }
+
+    &.is-active {
+      color: $TableCell-filterBtn--onActive-color;
     }
 
     .#{$ns}Remark {

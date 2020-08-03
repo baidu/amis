@@ -205,5 +205,6 @@ register('en', {
   '保存并下一步': 'Save & Next',
   '完成': 'Finish',
   '点击选择图片或者将图片拖入该区域':
-    'Click to select the picture or drag the picture into the area'
+    'Click to select the picture or drag the picture into the area',
+  '重置': 'Reset'
 });

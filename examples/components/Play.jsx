@@ -85,6 +85,7 @@ export default class PlayGround extends React.Component {
       }
     };
     this.env = {
+      session: 'doc',
       updateLocation: () => {},
       fetcher: config => {
         config = {
@@ -182,7 +183,9 @@ export default class PlayGround extends React.Component {
     const props = {
       ...this.schemaProps,
       theme: this.props.theme,
-      locale: this.props.locale
+      locale: this.props.locale,
+      affixHeader: false,
+      affixFooter: false
     };
 
     if (!this.props.useIFrame) {

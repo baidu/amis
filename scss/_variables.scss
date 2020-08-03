@@ -215,7 +215,7 @@ $Modal-bg: $background !default;
 $Modal-overlay-bg: rgba(0, 0, 0, 0.6) !default;
 $Modal-content-startMarginTop: px2rem(60px) !default;
 $Modal-content-stepMarginTop: px2rem(30px) !default;
-$Modal-content-minHeight: px2rem(200px) !default;
+$Modal-content-minHeight: unset !default;
 $Modal-content-borderWidth: $borderWidth !default;
 $Modal-content-borderColor: $borderColor !default;
 $Modal-content-borderRadius: $borderRadius !default;
@@ -506,6 +506,10 @@ $Table-expandBtn-color: $info !default;
 $TableCell-sortBtn-width: px2rem(8px) !default;
 $TableCell-sortBtn--default-opacity: 0 !default;
 $TableCell-sortBtn--default-onActive-opacity: 1 !default;
+
+$TableCell-searchBtn--onActive-color: $primary !default;
+$TableCell-filterBtn--onActive-color: $primary !default;
+$TableCell-sortBtn--onActive-color: $primary !default;
 
 // Cards
 $Cards-fixedTop-boxShadow: $boxShadow !default;
