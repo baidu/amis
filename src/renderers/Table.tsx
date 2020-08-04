@@ -2201,7 +2201,8 @@ export class HeadCellSearchDropDown extends React.Component<
           {
             type: 'text',
             name,
-            placeholder: label
+            placeholder: label,
+            clearable: true
           }
         ]
       };
@@ -2253,14 +2254,14 @@ export class HeadCellSearchDropDown extends React.Component<
     }
 
     if (schema) {
-      const formItems = [];
-      if (schema.controls) {
-        for (let item of schema.controls) {
-          if (item.name) {
-            formItems.push(item.name);
-          }
-        }
-      }
+      const formItems: Array<string> = [];
+      schema.controls?.forEach(
+        (item: any) =>
+          item.name &&
+          item.name !== 'orderBy' &&
+          item.name !== 'orderDir' &&
+          formItems.push(item.name)
+      );
       this.formItems = formItems;
       schema = {
         ...schema,
@@ -2327,14 +2328,9 @@ export class HeadCellSearchDropDown extends React.Component<
   handleReset() {
     const {onQuery, data, name} = this.props;
     const values = {...data};
-    for (let item of this.formItems) {
-      if (item !== 'orderBy' && item !== 'orderDir') {
-        if (values[item]) {
-          values[item] = undefined;
-        }
-      }
-    }
-    if (values.orderBy && values.orderBy === name) {
+    this.formItems.forEach(key => (values[key] = undefined));
+
+    if (values.orderBy === name) {
       values.orderBy = '';
       values.orderDir = 'asc';
     }
@@ -2358,17 +2354,8 @@ export class HeadCellSearchDropDown extends React.Component<
 
   isActive() {
     const {data, name} = this.props;
-    if (data?.orderBy === name) {
-      return true;
-    }
-    for (let item of this.formItems) {
-      if (item !== 'orderBy' && item !== 'orderDir') {
-        if (data?.[`${item}`]) {
-          return true;
-        }
-      }
-    }
-    return false;
+
+    return data.orderBy === name || this.formItems.some(key => data?.[key]);
   }
 
   render() {
