@@ -1110,16 +1110,10 @@ export default class Table extends React.Component<TableProps, object> {
             if (column.name === store.orderBy) {
               if (store.orderDir === 'desc') {
                 // 降序之后取消排序
-                store.setOrderByInfo(
-                  '',
-                  'asc'
-                );
+                store.setOrderByInfo('', 'asc');
               } else {
                 // 升序之后降序
-                store.setOrderByInfo(
-                  column.name,
-                  'desc'
-                );
+                store.setOrderByInfo(column.name, 'desc');
               }
             } else {
               store.setOrderByInfo(column.name as string, 'asc');
@@ -2364,12 +2358,12 @@ export class HeadCellSearchDropDown extends React.Component<
 
   isActive() {
     const {data, name} = this.props;
-    if (data.orderBy === name) {
+    if (data?.orderBy === name) {
       return true;
     }
     for (let item of this.formItems) {
       if (item !== 'orderBy' && item !== 'orderDir') {
-        if (data[`${item}`]) {
+        if (data?.[`${item}`]) {
           return true;
         }
       }
@@ -2393,7 +2387,9 @@ export class HeadCellSearchDropDown extends React.Component<
     const isActive = this.isActive();
 
     return (
-      <span className={cx(`${ns}TableCell-searchBtn`, isActive ? 'is-active' : '')}>
+      <span
+        className={cx(`${ns}TableCell-searchBtn`, isActive ? 'is-active' : '')}
+      >
         <span onClick={this.open}>
           <Icon icon="search" className="icon" />
         </span>
@@ -2588,7 +2584,7 @@ export class HeadCellFilterDropDown extends React.Component<
     const {name, onQuery} = this.props;
     onQuery({
       [name]: undefined
-    })
+    });
     this.close();
   }
 
@@ -2605,7 +2601,12 @@ export class HeadCellFilterDropDown extends React.Component<
     } = this.props;
 
     return (
-      <span className={cx(`${ns}TableCell-filterBtn`, data[name] ? 'is-active' : '')}>
+      <span
+        className={cx(
+          `${ns}TableCell-filterBtn`,
+          data[name] ? 'is-active' : ''
+        )}
+      >
         <span onClick={this.open}>
           <Icon icon="column-filter" className="icon" />
         </span>
@@ -2652,7 +2653,13 @@ export class HeadCellFilterDropDown extends React.Component<
                           </Checkbox>
                         </li>
                       ))}
-                  <li key="DropDown-menu-reset" className={cx('DropDown-divider')} onClick={this.handleReset.bind(this)}>{__('重置')}</li>
+                  <li
+                    key="DropDown-menu-reset"
+                    className={cx('DropDown-divider')}
+                    onClick={this.handleReset.bind(this)}
+                  >
+                    {__('重置')}
+                  </li>
                 </ul>
               ) : null}
             </PopOver>
