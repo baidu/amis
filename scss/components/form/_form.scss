@@ -323,7 +323,7 @@
       flex-grow: 1;
 
       &:not(.#{$ns}Form-control--withSize) {
-        min-width: unset;
+        width: $Form-control-widthBase;
       }
     }
   }
