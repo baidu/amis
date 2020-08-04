@@ -1,12 +1,13 @@
 ---
 title: Time 时间
-description: 
+description:
 type: 0
 group: null
 menuName: Time 时间
-icon: 
+icon:
 order: 58
 ---
+
 ## 基本用法
 
 ```schema:height="400" scope="body"
@@ -152,8 +153,3 @@ order: 58
 | placeholder     | `string`  | `"请选择时间"` | 占位文本                                                                            |
 | clearable       | `boolean` | `true`         | 是否可清除                                                                          |
 | timeConstrainst | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)           |
-
-
-
-
-
