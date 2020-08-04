@@ -2353,9 +2353,9 @@ export class HeadCellSearchDropDown extends React.Component<
   }
 
   isActive() {
-    const {data, name} = this.props;
+    const {data, name, orderBy} = this.props;
 
-    return data.orderBy === name || this.formItems.some(key => data?.[key]);
+    return orderBy === name || this.formItems.some(key => data?.[key]);
   }
 
   render() {
