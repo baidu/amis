@@ -253,6 +253,10 @@
       display: inline-block;
       vertical-align: top;
 
+      .#{$ns}TextControl {
+        width: $Form-control-widthBase;
+      }
+
       > .#{$ns}Form-label {
         padding-top: $Form-label-paddingTop;
         margin-bottom: 0;

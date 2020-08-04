@@ -330,10 +330,11 @@
 
 @mixin input-text {
   position: relative;
-  min-width: $Form-control-widthBase;
+  max-width: 100%;
 
   &.is-inline {
     display: inline-block;
+    width: $Form-control-widthBase;
   }
 
   &-input {
