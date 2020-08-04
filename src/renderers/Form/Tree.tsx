@@ -70,6 +70,7 @@ export default class TreeControl extends React.Component<TreeProps> {
       onDelete,
       rootCreatable,
       rootCreateTip,
+      labelField,
       translate: __
     } = this.props;
 
@@ -79,6 +80,7 @@ export default class TreeControl extends React.Component<TreeProps> {
         {loading ? null : (
           <TreeSelector
             classPrefix={ns}
+            labelField={labelField}
             valueField={valueField}
             disabled={disabled}
             onChange={onChange}
@@ -100,7 +102,6 @@ export default class TreeControl extends React.Component<TreeProps> {
             cascade={cascade}
             foldedField="collapsed"
             value={value || ''}
-            labelField="label"
             selfDisabledAffectChildren={false}
             onAdd={onAdd}
             creatable={creatable}
