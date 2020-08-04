@@ -376,20 +376,12 @@ amis.require.resourceMap({
       "type": "js",
       "pkg": "p3"
     },
-    "node_modules/zrender/lib/core/dom": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/env",
-        "node_modules/zrender/lib/core/fourPointsTransform"
-      ],
-      "pkg": "p3"
-    },
     "node_modules/zrender/lib/core/event": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/mixin/Eventful",
         "node_modules/zrender/lib/core/env",
-        "node_modules/zrender/lib/core/dom"
+        "node_modules/zrender/lib/core/fourPointsTransform"
       ],
       "pkg": "p3"
     },
@@ -1519,8 +1511,7 @@ amis.require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/graphic",
-        "node_modules/zrender/lib/contain/text"
+        "node_modules/echarts/lib/util/graphic"
       ],
       "pkg": "p3"
     },
@@ -1933,7 +1924,6 @@ amis.require.resourceMap({
       "deps": [
         "node_modules/echarts/lib/config",
         "node_modules/zrender/lib/core/util",
-        "node_modules/zrender/lib/core/bbox",
         "node_modules/echarts/lib/chart/helper/SymbolDraw",
         "node_modules/echarts/lib/chart/helper/Symbol",
         "node_modules/echarts/lib/chart/line/lineAnimationDiff",
@@ -2080,14 +2070,6 @@ amis.require.resourceMap({
       ],
       "pkg": "p3"
     },
-    "node_modules/echarts/lib/component/axis/axisSplitHelper": {
-      "type": "js",
-      "deps": [
-        "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/graphic"
-      ],
-      "pkg": "p3"
-    },
     "node_modules/echarts/lib/component/axis/CartesianAxisView": {
       "type": "js",
       "deps": [
@@ -2095,8 +2077,7 @@ amis.require.resourceMap({
         "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/component/axis/AxisBuilder",
         "node_modules/echarts/lib/component/axis/AxisView",
-        "node_modules/echarts/lib/coord/cartesian/cartesianAxisHelper",
-        "node_modules/echarts/lib/component/axis/axisSplitHelper"
+        "node_modules/echarts/lib/coord/cartesian/cartesianAxisHelper"
       ],
       "pkg": "p3"
     },
@@ -2180,7 +2161,6 @@ amis.require.resourceMap({
         "node_modules/echarts/lib/model/Model",
         "node_modules/echarts/lib/chart/bar/barItemStyle",
         "node_modules/zrender/lib/graphic/Path",
-        "node_modules/zrender/lib/container/Group",
         "node_modules/echarts/lib/util/throttle",
         "node_modules/echarts/lib/chart/helper/createClipPathFromCoordSys",
         "node_modules/echarts/lib/util/shape/sausage"
@@ -2541,8 +2521,7 @@ amis.require.resourceMap({
         "node_modules/echarts/lib/component/helper/cursorHelper",
         "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/coord/geo/geoSourceManager",
-        "node_modules/echarts/lib/util/component",
-        "node_modules/zrender/lib/mixin/Transformable"
+        "node_modules/echarts/lib/util/component"
       ],
       "pkg": "p3"
     },
@@ -2668,8 +2647,7 @@ amis.require.resourceMap({
       "deps": [
         "node_modules/echarts/lib/model/Series",
         "node_modules/echarts/lib/data/Tree",
-        "node_modules/echarts/lib/util/format",
-        "node_modules/echarts/lib/model/Model"
+        "node_modules/echarts/lib/util/format"
       ],
       "pkg": "p3"
     },
@@ -2692,9 +2670,7 @@ amis.require.resourceMap({
         "node_modules/echarts/lib/coord/View",
         "node_modules/echarts/lib/component/helper/roamHelper",
         "node_modules/echarts/lib/component/helper/RoamController",
-        "node_modules/echarts/lib/component/helper/cursorHelper",
-        "node_modules/echarts/lib/config",
-        "node_modules/echarts/lib/util/number"
+        "node_modules/echarts/lib/component/helper/cursorHelper"
       ],
       "pkg": "p3"
     },
@@ -2779,8 +2755,7 @@ amis.require.resourceMap({
         "node_modules/zrender/lib/core/BoundingRect",
         "node_modules/zrender/lib/core/matrix",
         "node_modules/echarts/lib/util/animation",
-        "node_modules/echarts/lib/model/mixin/makeStyleMapper",
-        "node_modules/echarts/lib/util/format"
+        "node_modules/echarts/lib/model/mixin/makeStyleMapper"
       ],
       "pkg": "p3"
     },
@@ -3665,8 +3640,7 @@ amis.require.resourceMap({
         "node_modules/echarts/lib/component/axis/AxisBuilder",
         "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/coord/single/singleAxisHelper",
-        "node_modules/echarts/lib/component/axis/AxisView",
-        "node_modules/echarts/lib/component/axis/axisSplitHelper"
+        "node_modules/echarts/lib/component/axis/AxisView"
       ],
       "pkg": "p3"
     },
@@ -3870,8 +3844,7 @@ amis.require.resourceMap({
         "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/view/Chart",
         "node_modules/echarts/lib/chart/sunburst/SunburstPiece",
-        "node_modules/echarts/lib/data/DataDiffer",
-        "node_modules/echarts/lib/util/format"
+        "node_modules/echarts/lib/data/DataDiffer"
       ],
       "pkg": "p3"
     },
@@ -4407,7 +4380,6 @@ amis.require.resourceMap({
         "node_modules/zrender/lib/core/util",
         "node_modules/zrender/lib/tool/color",
         "node_modules/zrender/lib/core/event",
-        "node_modules/zrender/lib/core/dom",
         "node_modules/zrender/lib/core/env",
         "node_modules/echarts/lib/util/format"
       ],
@@ -4505,8 +4477,7 @@ amis.require.resourceMap({
       "deps": [
         "node_modules/echarts/lib/echarts",
         "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/component/helper/BrushController",
-        "node_modules/echarts/lib/component/brush/visualEncoding"
+        "node_modules/echarts/lib/component/helper/BrushController"
       ],
       "pkg": "p3"
     },
@@ -4545,8 +4516,7 @@ amis.require.resourceMap({
         "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/echarts",
         "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/util/layout",
-        "node_modules/echarts/lib/util/format"
+        "node_modules/echarts/lib/util/layout"
       ],
       "pkg": "p3"
     },
@@ -5166,8 +5136,7 @@ amis.require.resourceMap({
     "node_modules/echarts/extension/bmap/BMapView": {
       "type": "js",
       "deps": [
-        "node_modules/echarts/index",
-        "node_modules/zrender/lib/core/util"
+        "node_modules/echarts/index"
       ],
       "pkg": "p3"
     },
@@ -5206,7 +5175,7 @@ amis.require.resourceMap({
   },
   "pkg": {
     "p6": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/rest_a42f484.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/rest_f83f018.js",
       "type": "js"
     },
     "p2": {
@@ -5214,7 +5183,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "p3": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/charts_1139e21.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/charts_e26cdd4.js",
       "type": "js"
     }
   }
