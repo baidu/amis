@@ -5609,7 +5609,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/components/video.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/video_aa75752.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/video_35ba53a.js",
       "type": "js"
     },
     "docs/components/wrapper.md": {
