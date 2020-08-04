@@ -17,6 +17,8 @@ npm i amis
 
 1. 引入样式文件：
 
+html 中引入：
+
 ```html
 <link href="./node_modules/amis/lib/themes/default.css" />
 <!-- 或 <link href="./node_modules/amis/lib/themes/cxd.css" /> -->
@@ -42,11 +44,10 @@ renderAmis(
     title: '简单页面',
     body: '内容'
   },
-  {
-    theme: 'default' // cxd 或 dark
-  },
+  {},
   {
     // env...
+    theme: 'default' // cxd 或 dark
   }
 );
 ```
