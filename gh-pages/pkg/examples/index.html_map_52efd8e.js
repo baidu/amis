@@ -376,12 +376,20 @@ amis.require.resourceMap({
       "type": "js",
       "pkg": "p3"
     },
+    "node_modules/zrender/lib/core/dom": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/env",
+        "node_modules/zrender/lib/core/fourPointsTransform"
+      ],
+      "pkg": "p3"
+    },
     "node_modules/zrender/lib/core/event": {
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/mixin/Eventful",
         "node_modules/zrender/lib/core/env",
-        "node_modules/zrender/lib/core/fourPointsTransform"
+        "node_modules/zrender/lib/core/dom"
       ],
       "pkg": "p3"
     },
@@ -1511,7 +1519,8 @@ amis.require.resourceMap({
       "type": "js",
       "deps": [
         "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/util/graphic"
+        "node_modules/echarts/lib/util/graphic",
+        "node_modules/zrender/lib/contain/text"
       ],
       "pkg": "p3"
     },
@@ -1924,6 +1933,7 @@ amis.require.resourceMap({
       "deps": [
         "node_modules/echarts/lib/config",
         "node_modules/zrender/lib/core/util",
+        "node_modules/zrender/lib/core/bbox",
         "node_modules/echarts/lib/chart/helper/SymbolDraw",
         "node_modules/echarts/lib/chart/helper/Symbol",
         "node_modules/echarts/lib/chart/line/lineAnimationDiff",
@@ -2070,6 +2080,14 @@ amis.require.resourceMap({
       ],
       "pkg": "p3"
     },
+    "node_modules/echarts/lib/component/axis/axisSplitHelper": {
+      "type": "js",
+      "deps": [
+        "node_modules/zrender/lib/core/util",
+        "node_modules/echarts/lib/util/graphic"
+      ],
+      "pkg": "p3"
+    },
     "node_modules/echarts/lib/component/axis/CartesianAxisView": {
       "type": "js",
       "deps": [
@@ -2077,7 +2095,8 @@ amis.require.resourceMap({
         "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/component/axis/AxisBuilder",
         "node_modules/echarts/lib/component/axis/AxisView",
-        "node_modules/echarts/lib/coord/cartesian/cartesianAxisHelper"
+        "node_modules/echarts/lib/coord/cartesian/cartesianAxisHelper",
+        "node_modules/echarts/lib/component/axis/axisSplitHelper"
       ],
       "pkg": "p3"
     },
@@ -2161,6 +2180,7 @@ amis.require.resourceMap({
         "node_modules/echarts/lib/model/Model",
         "node_modules/echarts/lib/chart/bar/barItemStyle",
         "node_modules/zrender/lib/graphic/Path",
+        "node_modules/zrender/lib/container/Group",
         "node_modules/echarts/lib/util/throttle",
         "node_modules/echarts/lib/chart/helper/createClipPathFromCoordSys",
         "node_modules/echarts/lib/util/shape/sausage"
@@ -2521,7 +2541,8 @@ amis.require.resourceMap({
         "node_modules/echarts/lib/component/helper/cursorHelper",
         "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/coord/geo/geoSourceManager",
-        "node_modules/echarts/lib/util/component"
+        "node_modules/echarts/lib/util/component",
+        "node_modules/zrender/lib/mixin/Transformable"
       ],
       "pkg": "p3"
     },
@@ -2647,7 +2668,8 @@ amis.require.resourceMap({
       "deps": [
         "node_modules/echarts/lib/model/Series",
         "node_modules/echarts/lib/data/Tree",
-        "node_modules/echarts/lib/util/format"
+        "node_modules/echarts/lib/util/format",
+        "node_modules/echarts/lib/model/Model"
       ],
       "pkg": "p3"
     },
@@ -2670,7 +2692,9 @@ amis.require.resourceMap({
         "node_modules/echarts/lib/coord/View",
         "node_modules/echarts/lib/component/helper/roamHelper",
         "node_modules/echarts/lib/component/helper/RoamController",
-        "node_modules/echarts/lib/component/helper/cursorHelper"
+        "node_modules/echarts/lib/component/helper/cursorHelper",
+        "node_modules/echarts/lib/config",
+        "node_modules/echarts/lib/util/number"
       ],
       "pkg": "p3"
     },
@@ -2755,7 +2779,8 @@ amis.require.resourceMap({
         "node_modules/zrender/lib/core/BoundingRect",
         "node_modules/zrender/lib/core/matrix",
         "node_modules/echarts/lib/util/animation",
-        "node_modules/echarts/lib/model/mixin/makeStyleMapper"
+        "node_modules/echarts/lib/model/mixin/makeStyleMapper",
+        "node_modules/echarts/lib/util/format"
       ],
       "pkg": "p3"
     },
@@ -3640,7 +3665,8 @@ amis.require.resourceMap({
         "node_modules/echarts/lib/component/axis/AxisBuilder",
         "node_modules/echarts/lib/util/graphic",
         "node_modules/echarts/lib/coord/single/singleAxisHelper",
-        "node_modules/echarts/lib/component/axis/AxisView"
+        "node_modules/echarts/lib/component/axis/AxisView",
+        "node_modules/echarts/lib/component/axis/axisSplitHelper"
       ],
       "pkg": "p3"
     },
@@ -3844,7 +3870,8 @@ amis.require.resourceMap({
         "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/view/Chart",
         "node_modules/echarts/lib/chart/sunburst/SunburstPiece",
-        "node_modules/echarts/lib/data/DataDiffer"
+        "node_modules/echarts/lib/data/DataDiffer",
+        "node_modules/echarts/lib/util/format"
       ],
       "pkg": "p3"
     },
@@ -4380,6 +4407,7 @@ amis.require.resourceMap({
         "node_modules/zrender/lib/core/util",
         "node_modules/zrender/lib/tool/color",
         "node_modules/zrender/lib/core/event",
+        "node_modules/zrender/lib/core/dom",
         "node_modules/zrender/lib/core/env",
         "node_modules/echarts/lib/util/format"
       ],
@@ -4477,7 +4505,8 @@ amis.require.resourceMap({
       "deps": [
         "node_modules/echarts/lib/echarts",
         "node_modules/zrender/lib/core/util",
-        "node_modules/echarts/lib/component/helper/BrushController"
+        "node_modules/echarts/lib/component/helper/BrushController",
+        "node_modules/echarts/lib/component/brush/visualEncoding"
       ],
       "pkg": "p3"
     },
@@ -4516,7 +4545,8 @@ amis.require.resourceMap({
         "node_modules/zrender/lib/core/util",
         "node_modules/echarts/lib/echarts",
         "node_modules/echarts/lib/util/graphic",
-        "node_modules/echarts/lib/util/layout"
+        "node_modules/echarts/lib/util/layout",
+        "node_modules/echarts/lib/util/format"
       ],
       "pkg": "p3"
     },
@@ -5136,7 +5166,8 @@ amis.require.resourceMap({
     "node_modules/echarts/extension/bmap/BMapView": {
       "type": "js",
       "deps": [
-        "node_modules/echarts/index"
+        "node_modules/echarts/index",
+        "node_modules/zrender/lib/core/util"
       ],
       "pkg": "p3"
     },
@@ -5171,11 +5202,467 @@ amis.require.resourceMap({
     "node_modules/hls.js/dist/hls": {
       "url": "https://bce.bdstatic.com/fex/amis-gh-pages/n/hls.js/dist/hls_a1c9175.js",
       "type": "js"
+    },
+    "docs/index.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/index_64ff072.js",
+      "type": "js"
+    },
+    "docs/start/getting-started.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/start/getting-started_3465d9a.js",
+      "type": "js"
+    },
+    "docs/start/custom.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/start/custom_a165cb2.js",
+      "type": "js"
+    },
+    "docs/concepts/schema.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/schema_8534813.js",
+      "type": "js"
+    },
+    "docs/concepts/datascope-and-datachain.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/datascope-and-datachain_9b7aaf7.js",
+      "type": "js"
+    },
+    "docs/concepts/template.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/template_6fdf01a.js",
+      "type": "js"
+    },
+    "docs/concepts/data-mapping.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/data-mapping_7b3f134.js",
+      "type": "js"
+    },
+    "docs/concepts/expression.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/expression_ad06709.js",
+      "type": "js"
+    },
+    "docs/concepts/linkage.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/linkage_cf54698.js",
+      "type": "js"
+    },
+    "docs/concepts/action.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/action_1571cc0.js",
+      "type": "js"
+    },
+    "docs/concepts/style.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/style_7972b37.js",
+      "type": "js"
+    },
+    "docs/types/schemanode.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/types/schemanode_d42b346.js",
+      "type": "js"
+    },
+    "docs/types/api.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/types/api_102dfdc.js",
+      "type": "js"
+    },
+    "docs/components/component.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/component_0427056.js",
+      "type": "js"
+    },
+    "docs/components/page.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/page_caa5013.js",
+      "type": "js"
+    },
+    "docs/components/form/index.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/index_bd485a5.js",
+      "type": "js"
+    },
+    "docs/components/form/formitem.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/formitem_27bd1da.js",
+      "type": "js"
+    },
+    "docs/components/form/options.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/options_907450f.js",
+      "type": "js"
+    },
+    "docs/components/form/array.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/array_281ba79.js",
+      "type": "js"
+    },
+    "docs/components/form/button.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/button_59dbe73.js",
+      "type": "js"
+    },
+    "docs/components/form/button-toolbar.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/button-toolbar_ecc5c9a.js",
+      "type": "js"
+    },
+    "docs/components/form/button-group.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/button-group_302a6cd.js",
+      "type": "js"
+    },
+    "docs/components/form/chain-select.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/chain-select_5730717.js",
+      "type": "js"
+    },
+    "docs/components/form/checkbox.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/checkbox_0f3c4a4.js",
+      "type": "js"
+    },
+    "docs/components/form/checkboxes.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/checkboxes_b3f66f0.js",
+      "type": "js"
+    },
+    "docs/components/form/city.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/city_b2ae470.js",
+      "type": "js"
+    },
+    "docs/components/form/color.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/color_2e3cfe6.js",
+      "type": "js"
+    },
+    "docs/components/form/combo.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/combo_d115739.js",
+      "type": "js"
+    },
+    "docs/components/form/date.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/date_2b84501.js",
+      "type": "js"
+    },
+    "docs/components/form/datetime.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/datetime_fff2baa.js",
+      "type": "js"
+    },
+    "docs/components/form/date-range.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/date-range_cf725ad.js",
+      "type": "js"
+    },
+    "docs/components/form/datetime-range.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/datetime-range_1aa262b.js",
+      "type": "js"
+    },
+    "docs/components/form/diff-editor.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/diff-editor_2cdb917.js",
+      "type": "js"
+    },
+    "docs/components/form/editor.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/editor_66729c0.js",
+      "type": "js"
+    },
+    "docs/components/form/fieldset.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/fieldset_a7c8a60.js",
+      "type": "js"
+    },
+    "docs/components/form/file.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/file_d0f0212.js",
+      "type": "js"
+    },
+    "docs/components/form/formula.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/formula_92cc019.js",
+      "type": "js"
+    },
+    "docs/components/form/grid.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/grid_9ac0207.js",
+      "type": "js"
+    },
+    "docs/components/form/group.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/group_fe326d1.js",
+      "type": "js"
+    },
+    "docs/components/form/hbox.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/hbox_70c4e2a.js",
+      "type": "js"
+    },
+    "docs/components/form/hidden.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/hidden_66404f8.js",
+      "type": "js"
+    },
+    "docs/components/form/image.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/image_c6fe3b6.js",
+      "type": "js"
+    },
+    "docs/components/form/input-group.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/input-group_0207619.js",
+      "type": "js"
+    },
+    "docs/components/form/list.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/list_8445f10.js",
+      "type": "js"
+    },
+    "docs/components/form/matrix.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/matrix_b19da5c.js",
+      "type": "js"
+    },
+    "docs/components/form/nestedselect.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/nestedselect_5cb111c.js",
+      "type": "js"
+    },
+    "docs/components/form/number.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/number_25ae740.js",
+      "type": "js"
+    },
+    "docs/components/form/panel.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/panel_a25fc7f.js",
+      "type": "js"
+    },
+    "docs/components/form/picker.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/picker_5475b7b.js",
+      "type": "js"
+    },
+    "docs/components/form/radios.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/radios_150cedb.js",
+      "type": "js"
+    },
+    "docs/components/form/rating.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/rating_d8a03f7.js",
+      "type": "js"
+    },
+    "docs/components/form/range.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/range_03f7f4d.js",
+      "type": "js"
+    },
+    "docs/components/form/repeat.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/repeat_0dd0d65.js",
+      "type": "js"
+    },
+    "docs/components/form/rich-text.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/rich-text_834e56f.js",
+      "type": "js"
+    },
+    "docs/components/form/select.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/select_54b9a53.js",
+      "type": "js"
+    },
+    "docs/components/form/service.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/service_272f05f.js",
+      "type": "js"
+    },
+    "docs/components/form/subform.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/subform_0d92a4d.js",
+      "type": "js"
+    },
+    "docs/components/form/switch.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/switch_d67faa6.js",
+      "type": "js"
+    },
+    "docs/components/form/static.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/static_99a4237.js",
+      "type": "js"
+    },
+    "docs/components/form/tabs.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/tabs_58991e8.js",
+      "type": "js"
+    },
+    "docs/components/form/table.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/table_f742e94.js",
+      "type": "js"
+    },
+    "docs/components/form/tag.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/tag_66c7895.js",
+      "type": "js"
+    },
+    "docs/components/form/text.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/text_8c0b817.js",
+      "type": "js"
+    },
+    "docs/components/form/textarea.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/textarea_1e5d429.js",
+      "type": "js"
+    },
+    "docs/components/form/time.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/time_ddec400.js",
+      "type": "js"
+    },
+    "docs/components/form/transfer.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/transfer_c09c07e.js",
+      "type": "js"
+    },
+    "docs/components/form/tabs-transfer.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/tabs-transfer_869da79.js",
+      "type": "js"
+    },
+    "docs/components/form/tree.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/tree_471c535.js",
+      "type": "js"
+    },
+    "docs/components/form/treeselect.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/treeselect_45dddc3.js",
+      "type": "js"
+    },
+    "docs/components/crud.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/crud_3c02c38.js",
+      "type": "js"
+    },
+    "docs/components/action.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/action_d8e6841.js",
+      "type": "js"
+    },
+    "docs/components/alert.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/alert_01e045b.js",
+      "type": "js"
+    },
+    "docs/components/audio.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/audio_1f5c5a9.js",
+      "type": "js"
+    },
+    "docs/components/button.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/button_b10165a.js",
+      "type": "js"
+    },
+    "docs/components/card.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/card_5089ddc.js",
+      "type": "js"
+    },
+    "docs/components/cards.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/cards_25ddea3.js",
+      "type": "js"
+    },
+    "docs/components/carousel.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/carousel_306f7cd.js",
+      "type": "js"
+    },
+    "docs/components/chart.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/chart_767d11a.js",
+      "type": "js"
+    },
+    "docs/components/collapse.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/collapse_cc8d533.js",
+      "type": "js"
+    },
+    "docs/components/color.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/color_4f5b643.js",
+      "type": "js"
+    },
+    "docs/components/container.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/container_32c292f.js",
+      "type": "js"
+    },
+    "docs/components/date.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/date_4d93d99.js",
+      "type": "js"
+    },
+    "docs/components/dialog.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/dialog_470fe73.js",
+      "type": "js"
+    },
+    "docs/components/divider.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/divider_efe5635.js",
+      "type": "js"
+    },
+    "docs/components/drawer.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/drawer_3ee7135.js",
+      "type": "js"
+    },
+    "docs/components/dropdown-button.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/dropdown-button_9d8957d.js",
+      "type": "js"
+    },
+    "docs/components/each.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/each_dbf646e.js",
+      "type": "js"
+    },
+    "docs/components/grid.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/grid_ea077bf.js",
+      "type": "js"
+    },
+    "docs/components/hbox.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/hbox_03de3cd.js",
+      "type": "js"
+    },
+    "docs/components/html.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/html_503cc79.js",
+      "type": "js"
+    },
+    "docs/components/icon.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/icon_7e31078.js",
+      "type": "js"
+    },
+    "docs/components/iframe.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/iframe_9c5dffc.js",
+      "type": "js"
+    },
+    "docs/components/image.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/image_88e9d67.js",
+      "type": "js"
+    },
+    "docs/components/images.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/images_4ebab74.js",
+      "type": "js"
+    },
+    "docs/components/json.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/json_66a54da.js",
+      "type": "js"
+    },
+    "docs/components/link.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/link_cda4d11.js",
+      "type": "js"
+    },
+    "docs/components/list.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/list_2d73202.js",
+      "type": "js"
+    },
+    "docs/components/mapping.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/mapping_a299efb.js",
+      "type": "js"
+    },
+    "docs/components/nav.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/nav_81426ec.js",
+      "type": "js"
+    },
+    "docs/components/panel.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/panel_707cc10.js",
+      "type": "js"
+    },
+    "docs/components/progress.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/progress_28f96a5.js",
+      "type": "js"
+    },
+    "docs/components/qrcode.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/qrcode_22fc31a.js",
+      "type": "js"
+    },
+    "docs/components/remark.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/remark_4b0dc53.js",
+      "type": "js"
+    },
+    "docs/components/service.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/service_0d0dc92.js",
+      "type": "js"
+    },
+    "docs/components/spinner.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/spinner_9b73f11.js",
+      "type": "js"
+    },
+    "docs/components/status.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/status_f2af3fb.js",
+      "type": "js"
+    },
+    "docs/components/switch.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/switch_5b27078.js",
+      "type": "js"
+    },
+    "docs/components/table.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/table_f351105.js",
+      "type": "js"
+    },
+    "docs/components/tabs.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/tabs_7fe91d3.js",
+      "type": "js"
+    },
+    "docs/components/tasks.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/tasks_52f543f.js",
+      "type": "js"
+    },
+    "docs/components/tpl.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/tpl_9288c7b.js",
+      "type": "js"
+    },
+    "docs/components/video.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/video_35ba53a.js",
+      "type": "js"
+    },
+    "docs/components/wrapper.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/wrapper_d26aaaf.js",
+      "type": "js"
+    },
+    "docs/components/wizard.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/wizard_29a668b.js",
+      "type": "js"
     }
   },
   "pkg": {
     "p6": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/rest_f83f018.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/rest_a42f484.js",
       "type": "js"
     },
     "p2": {
@@ -5183,7 +5670,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "p3": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/charts_e26cdd4.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/charts_1139e21.js",
       "type": "js"
     }
   }
