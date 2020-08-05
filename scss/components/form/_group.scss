@@ -91,10 +91,6 @@
     width: 0;
     max-width: 100%;
     margin-bottom: 0;
-
-    .#{$ns}TextControl {
-      min-width: unset;
-    }
   }
 
   @for $i from (1) through $Form--horizontal-columns {
