@@ -428,7 +428,6 @@ export default {
           ]
         },
 
-        ,
         {
           label: '关联选择模式',
           type: 'transfer',
