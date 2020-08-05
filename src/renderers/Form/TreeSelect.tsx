@@ -47,12 +47,16 @@ export default class TreeSelectControl extends React.Component<
   };
 
   container: React.RefObject<HTMLDivElement> = React.createRef();
-  target: React.RefObject<any> = React.createRef();
+
   input: React.RefObject<any> = React.createRef();
 
   cache: {
     [propName: string]: any;
   } = {};
+
+  target: HTMLElement | null;
+  targetRef = (ref: any) =>
+    (this.target = ref ? (findDOMNode(ref) as HTMLElement) : null);
 
   constructor(props: TreeSelectProps) {
     super(props);
@@ -395,16 +399,14 @@ export default class TreeSelectControl extends React.Component<
     return (
       <Overlay
         container={popOverContainer || (() => this.container.current)}
-        target={() => this.target.current}
+        target={() => this.target}
         show
       >
         <PopOver
           classPrefix={ns}
           className={`${ns}TreeSelect-popover`}
           style={{
-            minWidth: this.target.current
-              ? (findDOMNode(this.target.current) as HTMLElement).offsetWidth
-              : undefined
+            minWidth: this.target ? this.target.offsetWidth : undefined
           }}
           onHide={this.close}
           overlay
@@ -464,7 +466,7 @@ export default class TreeSelectControl extends React.Component<
       <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
         <ResultBox
           disabled={disabled}
-          ref={this.target}
+          ref={this.targetRef}
           placeholder={__(placeholder || '空')}
           className={cx(`TreeSelect`, {
             'TreeSelect--inline': inline,
