@@ -23,6 +23,9 @@ import classnames from 'classnames';
 import Doc, {docs} from './Doc';
 import Example, {examples} from './Example';
 
+// @ts-ignore
+import Logo from '../static/logo.svg';
+
 let ExamplePathPrefix = '/examples';
 let DocPathPrefix = '/docs';
 let ContextPath = '';
@@ -226,8 +229,7 @@ export class App extends React.PureComponent {
 
           <div className={`${theme.ns}Layout-brand`}>
             <Link to={`${ContextPath}/docs`}>
-              {/* <i className="fa fa-paw" /> */}
-              <span className="hidden-folded m-l-sm">AMIS</span>
+              <div className="logo"></div>
             </Link>
           </div>
         </div>
@@ -280,7 +282,7 @@ export class App extends React.PureComponent {
             />
           </div>
         </div>
-        <div className={`${theme.ns}Layout-searchBar`}>
+        <div className={`${theme.ns}Layout-searchBar hidden-xs hidden-sm`}>
           <DocSearch theme={this.state.theme.value} />
         </div>
 
@@ -363,7 +365,7 @@ export class App extends React.PureComponent {
         <AlertComponent theme={theme.value} locale={this.state.locale} />
 
         <div className="Doc">
-          <div className="Doc-nav">
+          <div className="Doc-nav hidden-xs hidden-sm">
             <div className="Doc-navigation">
               {navigations.map(item => (
                 <div className="Doc-navigationGroup" key={item.label}>
