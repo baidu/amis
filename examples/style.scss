@@ -447,7 +447,7 @@ a {
       }
 
       table:not(.table) {
-        word-break: normal;
+        word-break: break-word;
       }
     }
   }
