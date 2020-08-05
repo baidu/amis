@@ -15,6 +15,7 @@ import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import ResultBox from '../../components/ResultBox';
 import {autobind} from '../../utils/helper';
+import {findDOMNode} from 'react-dom';
 
 export interface TreeSelectProps extends OptionsControlProps {
   placeholder?: any;
@@ -402,7 +403,7 @@ export default class TreeSelectControl extends React.Component<
           className={`${ns}TreeSelect-popover`}
           style={{
             minWidth: this.target.current
-              ? this.target.current.offsetWidth
+              ? (findDOMNode(this.target.current) as HTMLElement).offsetWidth
               : undefined
           }}
           onHide={this.close}
