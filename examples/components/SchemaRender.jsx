@@ -139,7 +139,10 @@ export default function (schema) {
               : console.warn('[Notify]', type, msg),
           alert,
           confirm,
-          copy: content => console.log('Copy', content)
+          copy: content => {
+            copy(content);
+            toast.success('内容已复制到粘贴板');
+          }
         };
 
         this.handleEditorMount = this.handleEditorMount.bind(this);

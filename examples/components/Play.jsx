@@ -1,10 +1,12 @@
 import React from 'react';
 import {toast} from '../../src/components/Toast';
 import {render} from '../../src/index';
+import {alert, confirm} from '../../src/components/Alert';
 import axios from 'axios';
 import Frame from 'react-frame-component';
 import stripJsonComments from 'strip-json-comments';
 import CodeEditor from '../../src/components/Editor';
+import copy from 'copy-to-clipboard';
 
 const DEFAULT_CONTENT = `{
     "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",
@@ -67,6 +69,8 @@ export default class PlayGround extends React.Component {
   constructor(props) {
     super(props);
 
+    const {router} = props;
+
     const schema = this.buildSchema(props.code || DEFAULT_CONTENT, props);
     this.state = {
       asideWidth: props.asideWidth || Math.max(300, window.innerWidth * 0.3),
@@ -84,9 +88,62 @@ export default class PlayGround extends React.Component {
         height: '100%'
       }
     };
+    const normalizeLink = to => {
+      to = to || '';
+      const location = router.getCurrentLocation();
+
+      if (to && to[0] === '#') {
+        to = location.pathname + location.search + to;
+      } else if (to && to[0] === '?') {
+        to = location.pathname + to;
+      }
+
+      const idx = to.indexOf('?');
+      const idx2 = to.indexOf('#');
+      let pathname = ~idx
+        ? to.substring(0, idx)
+        : ~idx2
+        ? to.substring(0, idx2)
+        : to;
+      let search = ~idx ? to.substring(idx, ~idx2 ? idx2 : undefined) : '';
+      let hash = ~idx2 ? to.substring(idx2) : location.hash;
+
+      if (!pathname) {
+        pathname = location.pathname;
+      } else if (pathname[0] != '/' && !/^https?:\/\//.test(pathname)) {
+        let relativeBase = location.pathname;
+        const paths = relativeBase.split('/');
+        paths.pop();
+        let m;
+        while ((m = /^\.\.?\//.exec(pathname))) {
+          if (m[0] === '../') {
+            paths.pop();
+          }
+          pathname = pathname.substring(m[0].length);
+        }
+        pathname = paths.concat(pathname).join('/');
+      }
+
+      return pathname + search + hash;
+    };
     this.env = {
       session: 'doc',
-      updateLocation: () => {},
+      updateLocation: (location, replace) => {
+        router[replace ? 'replace' : 'push'](normalizeLink(location));
+      },
+      isCurrentUrl: to => {
+        const link = normalizeLink(to);
+        return router.isActive(link);
+      },
+      jumpTo: to => {
+        to = normalizeLink(to);
+
+        if (/^https?:\/\//.test(to)) {
+          window.location.replace(to);
+        } else {
+          router.push(to);
+        }
+      },
       fetcher: config => {
         config = {
           dataType: 'json',
@@ -101,10 +158,17 @@ export default class PlayGround extends React.Component {
 
         return axios[config.method](config.url, config.data, config);
       },
+      isCancel: value => axios.isCancel(value),
       notify: (type, msg) =>
         toast[type]
           ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
-          : console.warn('[Notify]', type, msg)
+          : console.warn('[Notify]', type, msg),
+      alert,
+      confirm,
+      copy: content => {
+        copy(content);
+        toast.success('内容已复制到粘贴板');
+      }
     };
 
     const links = [].slice
