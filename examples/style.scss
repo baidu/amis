@@ -161,11 +161,14 @@ a {
         height: 64px;
         line-height: 64px;
         font-size: 24px;
-        padding: 0;
         font-weight: 400;
+        width: 200px;
+        padding: 0;
 
-        i {
-          color: #108cee;
+        .logo {
+          background: url('./static/logo.png') left/contain no-repeat;
+          height: 40px;
+          margin-top: 12px;
         }
       }
 
