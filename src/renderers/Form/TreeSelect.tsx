@@ -382,6 +382,7 @@ export default class TreeSelectControl extends React.Component<
       autoComplete,
       maxLength,
       minLength,
+      labelField,
       translate: __
     } = this.props;
 
@@ -410,6 +411,7 @@ export default class TreeSelectControl extends React.Component<
           <TreeSelector
             classPrefix={ns}
             onlyChildren={onlyChildren}
+            labelField={labelField}
             valueField={valueField}
             disabled={disabled}
             onChange={this.handleChange}
@@ -431,7 +433,6 @@ export default class TreeSelectControl extends React.Component<
             foldedField="collapsed"
             hideRoot
             value={value || ''}
-            labelField="label"
             maxLength={maxLength}
             minLength={minLength}
           />
