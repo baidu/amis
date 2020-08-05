@@ -577,6 +577,22 @@ export const docs = [
               })
           },
           {
+            label: 'Transfer 穿梭器',
+            path: '/docs/components/form/transfer',
+            getComponent: (location, cb) =>
+              require(['../../docs/components/form/transfer.md'], doc => {
+                cb(null, makeMarkdownRenderer(doc));
+              })
+          },
+          {
+            label: 'TabsTransfer 组合穿梭器',
+            path: '/docs/components/form/tabs-transfer',
+            getComponent: (location, cb) =>
+              require(['../../docs/components/form/tabs-transfer.md'], doc => {
+                cb(null, makeMarkdownRenderer(doc));
+              })
+          },
+          {
             label: 'Tree 树形选择框',
             path: '/docs/components/form/tree',
             getComponent: (location, cb) =>
