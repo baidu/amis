@@ -1,12 +1,13 @@
 ---
 title: Datetime 日期时间
-description: 
+description:
 type: 0
 group: null
 menuName: Datetime
-icon: 
+icon:
 order: 14
 ---
+
 ## 基本用法
 
 ```schema:height="500" scope="body"
@@ -167,7 +168,7 @@ order: 14
         }
     ]
 }
-``` 
+```
 
 ### 支持相对值
 
@@ -245,8 +246,8 @@ order: 14
 支持的快捷键除了 [Date](./date#%E5%BF%AB%E6%8D%B7%E9%94%AE) 中的以外，还支持：
 
 - `now`: 现在
-- `{n}hoursago` : n小时前，例如：`1daysago`，下面用法相同
-- `{n}hourslater` : n小时前，例如：`1daysago`，下面用法相同
+- `{n}hoursago` : n 小时前，例如：`1daysago`，下面用法相同
+- `{n}hourslater` : n 小时前，例如：`1daysago`，下面用法相同
 
 ## UTC
 
@@ -284,13 +285,8 @@ order: 14
 | inputFormat     | `string`  | `YYYY-MM-DD HH:mm:ss`  | 日期时间选择器显示格式，即时间戳格式，更多格式类型请参考 [moment](http://momentjs.com/) |
 | placeholder     | `string`  | `"请选择日期以及时间"` | 占位文本                                                                                |
 | shortcuts       | `string`  |                        | 日期时间快捷键                                                                          |
-| minDate         | `string`  |                        | 限制最大日期时间                                                                        |
+| minDate         | `string`  |                        | 限制最小日期时间                                                                        |
 | maxDate         | `string`  |                        | 限制最大日期时间                                                                        |
-| utc             | `boolean` | `false`                | 保存utc值                                                                               |
+| utc             | `boolean` | `false`                | 保存 utc 值                                                                             |
 | clearable       | `boolean` | `true`                 | 是否可清除                                                                              |
 | timeConstrainst | `object`  | `true`                 | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)               |
-
-
-
-
-
