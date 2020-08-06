@@ -6,7 +6,7 @@
 
 ## 文档
 
-<https://baidu.github.io/amis/docs/index>
+<https://baidu.gitee.io/amis/docs/index>
 
 ## 相关工具及平台
 
