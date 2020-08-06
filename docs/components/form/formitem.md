@@ -137,6 +137,30 @@ order: 1
 }
 ```
 
+### 表单项标签提示
+
+配置`labelRemark`可以实现标签描述提示
+
+```schema:height="350" scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "controls": [
+    {
+      "type": "text",
+      "label": "无标签提示",
+      "name": "text1"
+    },
+    {
+      "type": "text",
+      "label": "有标签提示",
+      "labelRemark": "这是一段提示",
+      "name": "text2"
+    }
+  ]
+}
+```
+
 ### 配置禁用
 
 ##### 静态配置
@@ -585,6 +609,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 | labelClassName | `string`                                   |        | label 的类名                                               |
 | name           | `string`                                   |        | 字段名，指定该表单项提交时的 key                           |
 | label          | [模板](../../concepts/template) 或 `false` |        | 表单项标签                                                 |
+| labelRemark    | [Remark](../../components/remark)          |        | 表单项标签描述                                             |
 | description    | [模板](../../concepts/template)            |        | 表单项描述                                                 |
 | placeholder    | `string`                                   |        | 表单项描述                                                 |
 | inline         | `boolean`                                  |        | 是否为 内联 模式                                           |
