@@ -652,9 +652,9 @@ export const docs = [
       },
       {
         label: 'ButtonGroup 按钮组',
-        path: '/docs/components/buttongroup',
+        path: '/docs/components/button-group',
         getComponent: (location, cb) =>
-          require(['../../docs/components/buttongroup.md'], doc => {
+          require(['../../docs/components/button-group.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },

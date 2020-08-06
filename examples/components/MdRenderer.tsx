@@ -251,7 +251,7 @@ export default function (doc) {
               </div>
             </div>
           </div>
-          {doc.toc && doc.toc.children && doc.toc.children.length > 1 ? (
+          {doc.toc && doc.toc.children && doc.toc.children.length > 0 ? (
             <div className="Doc-toc hidden-xs hidden-sm">
               <div>
                 <div className="Doc-headingList">
