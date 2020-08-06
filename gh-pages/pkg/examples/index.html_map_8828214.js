@@ -5232,7 +5232,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/concepts/expression.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/expression_ad06709.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/concepts/expression_40c937a.js",
       "type": "js"
     },
     "docs/concepts/linkage.md": {
@@ -5497,6 +5497,10 @@ amis.require.resourceMap({
     },
     "docs/components/button.md": {
       "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/button_b10165a.js",
+      "type": "js"
+    },
+    "docs/components/button-group.md": {
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/button-group_29b8d93.js",
       "type": "js"
     },
     "docs/components/card.md": {
