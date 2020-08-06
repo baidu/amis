@@ -5272,7 +5272,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/components/form/options.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/options_907450f.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/options_f85c3d3.js",
       "type": "js"
     },
     "docs/components/form/array.md": {
@@ -5320,7 +5320,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/components/form/datetime.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/datetime_fff2baa.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/datetime_bb0daae.js",
       "type": "js"
     },
     "docs/components/form/date-range.md": {
