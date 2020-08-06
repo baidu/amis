@@ -83,7 +83,7 @@
   "use_anchors": false,
   "selectors": {
     "default": {
-      "lvl0": ".markdown-body h1, .a-TitleBar .h3",
+      "lvl0": ".Doc-title h1",
       "lvl1": ".markdown-body h2",
       "lvl2": ".markdown-body h3",
       "lvl3": ".markdown-body h4",
@@ -92,8 +92,8 @@
     },
     "component": {
       "lvl0": {
-        "selector": ".markdown-body h1, .a-TitleBar .h3",
-        "default_value": "\u6e32\u67d3\u5668\u624b\u518c"
+        "selector": ".Doc-title h1",
+        "default_value": "\u7ec4\u4ef6\u6587\u6863"
       },
       "lvl1": ".markdown-body h2",
       "lvl2": ".markdown-body h3",
@@ -103,8 +103,8 @@
     },
     "formitem": {
       "lvl0": {
-        "selector": ".markdown-body h1, .a-TitleBar .h3",
-        "default_value": "\u6e32\u67d3\u5668\u624b\u518c"
+        "selector": ".Doc-title h1",
+        "default_value": "\u7ec4\u4ef6\u6587\u6863"
       },
       "lvl1": {
         "selector": ".markdown-body h2",
