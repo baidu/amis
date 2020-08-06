@@ -5268,7 +5268,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/components/form/formitem.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/formitem_27bd1da.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/formitem_a7775b1.js",
       "type": "js"
     },
     "docs/components/form/options.md": {
