@@ -83,9 +83,8 @@ export const FormStore = ServiceStore.named('FormStore')
     function setValues(values: object, tag?: object, replace?: boolean) {
       self.updateData(values, tag, replace);
 
-      self.items.forEach(
-        item => getVariable(values, item.name) !== undefined && item.reset()
-      );
+      // 如果数据域中有数据变化，就都reset一下，去掉之前残留的验证消息
+      self.items.forEach(item => item.reset());
 
       // 同步 options
       syncOptions();
