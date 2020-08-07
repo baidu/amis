@@ -1,24 +1,24 @@
 {
   "index_name": "gh_pages",
   "start_urls": [
-    "https://baidu.github.io/amis/docs/index",
-    "https://baidu.github.io/amis/docs/concepts/schema",
-    "https://baidu.github.io/amis/docs/concepts/datascope-and-datachain",
-    "https://baidu.github.io/amis/docs/concepts/template",
-    "https://baidu.github.io/amis/docs/concepts/data-mapping",
-    "https://baidu.github.io/amis/docs/concepts/expression",
-    "https://baidu.github.io/amis/docs/concepts/linkage",
-    "https://baidu.github.io/amis/docs/concepts/action",
-    "https://baidu.github.io/amis/docs/concepts/style",
-    "https://baidu.github.io/amis/docs/types/schemanode",
-    "https://baidu.github.io/amis/docs/types/api",
+    "https://baidu.gitee.io/amis/docs/index",
+    "https://baidu.gitee.io/amis/docs/concepts/schema",
+    "https://baidu.gitee.io/amis/docs/concepts/datascope-and-datachain",
+    "https://baidu.gitee.io/amis/docs/concepts/template",
+    "https://baidu.gitee.io/amis/docs/concepts/data-mapping",
+    "https://baidu.gitee.io/amis/docs/concepts/expression",
+    "https://baidu.gitee.io/amis/docs/concepts/linkage",
+    "https://baidu.gitee.io/amis/docs/concepts/action",
+    "https://baidu.gitee.io/amis/docs/concepts/style",
+    "https://baidu.gitee.io/amis/docs/types/schemanode",
+    "https://baidu.gitee.io/amis/docs/types/api",
 
     {
-      "url": "https://baidu.github.io/amis/docs/components",
+      "url": "https://baidu.gitee.io/amis/docs/components",
       "selectors_key": "component"
     },
     {
-      "url": "https://baidu.github.io/amis/docs/components/form/(?P<formItem>.*?$)",
+      "url": "https://baidu.gitee.io/amis/docs/components/form/(?P<formItem>.*?$)",
       "selectors_key": "formitem",
       "variables": {
         "formItem": [
