@@ -63,6 +63,8 @@
 
   &-itemLabel {
     display: flex;
+    align-items: center;
+
     &:hover {
       background: $Tree-item-onHover-bg;
     }
