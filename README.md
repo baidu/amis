@@ -60,4 +60,5 @@ npm run coverage
 ## 讨论
 
 - Issues: https://github.com/baidu/amis/issues
+- [如流](https://infoflow.baidu.com/)群：3395342
 - QQ 群: 1147750223
