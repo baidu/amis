@@ -83,6 +83,10 @@ export const FormStore = ServiceStore.named('FormStore')
     function setValues(values: object, tag?: object, replace?: boolean) {
       self.updateData(values, tag, replace);
 
+      self.items.forEach(
+        item => getVariable(values, item.name) !== undefined && item.reset()
+      );
+
       // 同步 options
       syncOptions();
     }
