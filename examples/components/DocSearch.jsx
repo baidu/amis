@@ -34,7 +34,7 @@ export default class DocSearch extends React.Component {
     const inputSelector = 'input[name="docsearch"]';
     docsearch({
       appId: 'S08MJHBHFJ',
-      apiKey: 'f2d788a048dcc0bdc87a1d8c54bee363',
+      apiKey: '5fba814bb773d08b5d2a3f6074f926a5',
       indexName: 'gh_pages',
       inputSelector,
       debug: false
