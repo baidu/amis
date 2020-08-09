@@ -33,6 +33,7 @@
   &-result {
     width: 0;
     min-width: px2rem(200px);
+    max-height: px2rem(400px);
     flex-grow: 1;
     border: $Form-input-borderWidth solid $Form-input-borderColor;
     display: flex;
