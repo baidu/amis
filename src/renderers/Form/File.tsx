@@ -400,7 +400,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       return;
     }
 
-    const __ = this.props.translate;
+    const {translate: __, multiple, autoFill, onBulkChange} = this.props;
     const file = find(
       this.state.files,
       item => item.state === 'pending'
@@ -441,7 +441,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   error: error ? error : null,
                   files: files
                 },
-                this.tick
+                () => {
+                  const sendTo =
+                    !multiple &&
+                    autoFill &&
+                    !isEmpty(autoFill) &&
+                    dataMapping(autoFill, obj || {});
+                  sendTo && onBulkChange(sendTo);
+
+                  this.tick();
+                }
               );
             },
             progress => {
@@ -498,10 +507,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       asBase64,
       asBlob,
       data,
-      translate: __,
-      multiple,
-      autoFill,
-      onBulkChange
+      translate: __
     } = this.props;
 
     if (asBase64) {
@@ -562,13 +568,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
         onProgress(1);
         const value = (ret.data as any).value || ret.data;
-
-        const sendTo =
-          !multiple &&
-          autoFill &&
-          !isEmpty(autoFill) &&
-          dataMapping(autoFill, ret.data);
-        sendTo && onBulkChange(sendTo);
 
         cb(null, file, {
           ...(isPlainObject(ret.data) ? ret.data : null),
