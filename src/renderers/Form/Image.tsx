@@ -334,6 +334,7 @@ export default class ImageControl extends React.Component<
 
   startUpload(retry: boolean = false) {
     if (this.state.uploading) {
+      this.resolve && this.resolve(null);
       return;
     }
 
