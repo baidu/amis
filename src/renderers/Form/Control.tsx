@@ -380,7 +380,7 @@ export default class FormControl extends React.PureComponent<
       (validateOnChange !== false && (form.submited || this.model.validated))
     ) {
       this.lazyValidate();
-    } else if (validateOnChange === false && !this.model.valid) {
+    } else if (validateOnChange === false) {
       this.model.reset();
     }
 
