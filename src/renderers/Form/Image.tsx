@@ -774,7 +774,7 @@ export default class ImageControl extends React.Component<
     cb: (error: null | string, file: Blob, obj?: FileValue) => void,
     onProgress: (progress: number) => void
   ) {
-    const {translate: __} = this.props;
+    const __ = this.props.translate;
     this._send(file, this.props.reciever as string, {}, onProgress)
       .then((ret: Payload) => {
         if (ret.status) {
