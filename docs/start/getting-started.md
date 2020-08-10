@@ -141,7 +141,20 @@ class MyComponent extends React.Component<any, any> {
     });
   ```
 
-  这样，内部所有组件都能拿到 `username` 这个变量的值。
+  这样，内部所有组件都能拿到 `username` 这个变量的值。当然，这里的key并不一定必须是 data , 你也可以是其它key，但必须配合schema中的 `detectField` 属性一起使用。 如：
+  
+  ```jsx
+  () =>
+    renderAmis({
+      //其它配置
+      detectField: 'somekey'
+    }, 
+    {
+      somekey: {
+        username: 'amis'
+      }
+    });
+  ```
 
 - `env` 环境变量，可以理解为这个渲染器工具的配置项，需要调用者实现部分接口。
 
