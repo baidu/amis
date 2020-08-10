@@ -369,6 +369,7 @@ export default class ImageControl extends React.Component<
   }
 
   tick() {
+    const {multiple, autoFill, onBulkChange} = this.props;
     if (this.current || !this.state.uploading) {
       return;
     }
@@ -428,7 +429,16 @@ export default class ImageControl extends React.Component<
                 {
                   files: this.files = files
                 },
-                this.tick
+                () => {
+                  const sendTo =
+                    !multiple &&
+                    autoFill &&
+                    !isEmpty(autoFill) &&
+                    dataMapping(autoFill, obj || {});
+                  sendTo && onBulkChange(sendTo);
+
+                  this.tick();
+                }
               );
             },
             progress => {
@@ -776,13 +786,6 @@ export default class ImageControl extends React.Component<
           state: 'uploaded'
         };
         obj.value = obj.value || obj.url;
-
-        const sendTo =
-          !multiple &&
-          autoFill &&
-          !isEmpty(autoFill) &&
-          dataMapping(autoFill, obj);
-        sendTo && onBulkChange(sendTo);
 
         cb(null, file, obj);
       })
