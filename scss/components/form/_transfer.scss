@@ -3,6 +3,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   min-height: px2rem(300px);
+  position: relative;
 
   &--inline {
     display: inline-flex;
