@@ -338,6 +338,48 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 如果想前端实现过滤功能，请看[前端一次性加载](#前端一次性加载)部分。
 
+## 配置默认请求参数
+
+可以配置`defaultParams`，来指定拉取接口时的默认参数：
+
+```schema:height="600" scope="body"
+{
+    "type": "crud",
+    "api": "https://houtai.baidu.com/api/sample",
+    "defaultParams": {
+        "perPage": 50
+    },
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+例如上例中，配置`{ perPage: 50 }`，指定分页的默认每页数据条数为 50 条。
+
 ## 数据源接口轮训
 
 可以配置`interval`来实现数据接口轮训功能，默认最低为`3000`毫秒，
