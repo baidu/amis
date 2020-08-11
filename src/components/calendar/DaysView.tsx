@@ -94,7 +94,7 @@ export class CustomDaysView extends DaysView {
   };
 
   confirm = () => {
-    const date = this.props.viewDate.clone();
+    const date = (this.props.selectedDate || this.props.viewDate).clone();
 
     this.props.setDateTimeState({
       selectedDate: date
