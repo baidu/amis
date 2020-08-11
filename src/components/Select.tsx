@@ -7,6 +7,7 @@
 
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
+import VirtualList from 'react-tiny-virtual-list';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
@@ -402,7 +403,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   componentDidUpdate(prevProps: SelectProps) {
     const props = this.props;
-    let fn:() => void = noop;
+    let fn: () => void = noop;
 
     if (
       props.value !== prevProps.value ||
@@ -410,17 +411,23 @@ export class Select extends React.Component<SelectProps, SelectState> {
     ) {
       let selection: Array<Option>;
       if (
-        (
-          !prevProps.options
-          || !prevProps.options.length
-        )
-        && props.options.length
+        (!prevProps.options || !prevProps.options.length) &&
+        props.options.length
       ) {
         const {selection: stateSelection} = this.state;
-        const {multiple, defaultCheckAll, options, onChange, simpleValue} = props;
+        const {
+          multiple,
+          defaultCheckAll,
+          options,
+          onChange,
+          simpleValue
+        } = props;
         if (multiple && defaultCheckAll && options.length) {
           selection = union(options, stateSelection);
-          fn = () => onChange(simpleValue ? selection.map(item => item.value) : selection);
+          fn = () =>
+            onChange(
+              simpleValue ? selection.map(item => item.value) : selection
+            );
         } else {
           selection = value2array(props.value, props);
         }
@@ -428,9 +435,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
         selection = value2array(props.value, props);
       }
 
-      this.setState({
-        selection: selection
-      }, fn);
+      this.setState(
+        {
+          selection: selection
+        },
+        fn
+      );
     }
   }
 
@@ -774,83 +784,88 @@ export class Select extends React.Component<SelectProps, SelectState> {
           </div>
         ) : null}
 
-        {/* todo 当数目比较多的时候会卡顿，需要优化这个滚动。 */}
         {filtedOptions.length ? (
-          filtedOptions.map((item, index) => {
-            const checked =
-              selectedItem === item ||
-              !!~selectionValues.indexOf(item[valueField]);
+          <VirtualList
+            height={280}
+            itemCount={filtedOptions.length}
+            itemSize={35}
+            renderItem={({index, style}) => {
+              const item = filtedOptions[index];
+              const checked =
+                selectedItem === item ||
+                !!~selectionValues.indexOf(item[valueField]);
+              return (
+                <div
+                  {...getItemProps({
+                    key:
+                      typeof item.value === 'string'
+                        ? `${item.label}-${item.value}`
+                        : index,
+                    index,
+                    item,
+                    disabled: item.disabled
+                  })}
+                  style={style}
+                  className={cx(`Select-option`, {
+                    'is-disabled': item.disabled,
+                    'is-highlight': highlightedIndex === index,
+                    'is-active': checked
+                  })}
+                >
+                  {removable ? (
+                    <a data-tooltip="移除" data-position="left">
+                      <Icon
+                        icon="minus"
+                        className="icon"
+                        onClick={(e: any) => this.handleDeleteClick(e, item)}
+                      />
+                    </a>
+                  ) : null}
+                  {editable ? (
+                    <a data-tooltip="编辑" data-position="left">
+                      <Icon
+                        icon="pencil"
+                        className="icon"
+                        onClick={(e: any) => this.handleEditClick(e, item)}
+                      />
+                    </a>
+                  ) : null}
 
-            return (
-              <div
-                {...getItemProps({
-                  key:
-                    typeof item.value === 'string'
-                      ? `${item.label}-${item.value}`
-                      : index,
-                  index,
-                  item,
-                  disabled: item.disabled
-                })}
-                className={cx(`Select-option`, {
-                  'is-disabled': item.disabled,
-                  'is-highlight': highlightedIndex === index,
-                  'is-active': checked
-                })}
-              >
-                {removable ? (
-                  <a data-tooltip="移除" data-position="left">
-                    <Icon
-                      icon="minus"
-                      className="icon"
-                      onClick={(e: any) => this.handleDeleteClick(e, item)}
-                    />
-                  </a>
-                ) : null}
-                {editable ? (
-                  <a data-tooltip="编辑" data-position="left">
-                    <Icon
-                      icon="pencil"
-                      className="icon"
-                      onClick={(e: any) => this.handleEditClick(e, item)}
-                    />
-                  </a>
-                ) : null}
+                  {checkAll || multiple ? (
+                    <Checkbox
+                      checked={checked}
+                      trueValue={item.value}
+                      onChange={() => {
+                        this.handleChange(item);
+                      }}
+                      disabled={item.disabled}
+                    >
+                      {item.disabled
+                        ? item[labelField]
+                        : highlight(
+                            item[labelField],
+                            inputValue as string,
+                            cx('Select-option-hl')
+                          )}
 
-                {checkAll || multiple ? (
-                  <Checkbox
-                    checked={checked}
-                    trueValue={item.value}
-                    onChange={() => {
-                      this.handleChange(item);
-                    }}
-                    disabled={item.disabled}
-                  >
-                    {item.disabled
-                      ? item[labelField]
-                      : highlight(
-                          item[labelField],
-                          inputValue as string,
-                          cx('Select-option-hl')
-                        )}
-
-                    {item.tip}
-                  </Checkbox>
-                ) : (
-                  <span>
-                    {item.disabled
-                      ? item[labelField]
-                      : highlight(
-                          item[labelField],
-                          inputValue as string,
-                          cx('Select-option-hl')
-                        )}
-                    {item.tip}
-                  </span>
-                )}
-              </div>
-            );
-          })
+                      {item.tip}
+                    </Checkbox>
+                  ) : (
+                    <span>
+                      {item.disabled
+                        ? item[labelField]
+                        : highlight(
+                            item[labelField],
+                            inputValue as string,
+                            cx('Select-option-hl')
+                          )}
+                      {item.tip}
+                    </span>
+                  )}
+                </div>
+              );
+            }}
+          />
         ) : (
           <div className={cx('Select-noResult')}>{__(noResultsText)}</div>
         )}
