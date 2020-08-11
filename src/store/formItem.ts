@@ -565,6 +565,12 @@ export const FormItemStore = types
 
       const form = self.form;
       const value = self.value;
+
+      // 有可能销毁了
+      if (!form) {
+        return;
+      }
+
       const selected = Array.isArray(value)
         ? value.map(item =>
             item && item.hasOwnProperty(self.valueField || 'value')
