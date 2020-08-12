@@ -7,14 +7,14 @@
 
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
-import VirtualList from '../utils/virtual-list';
+import VirtualList from './virtual-list';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
 // @ts-ignore
 import matchSorter from 'match-sorter';
-import {noop, isObject, findTree} from '../utils/helper';
+import {noop, isObject, findTree, autobind} from '../utils/helper';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 import union from 'lodash/union';
@@ -311,6 +311,7 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
 }
 
 interface SelectState {
+  itemHeight: number;
   isOpen: boolean;
   isFocused: boolean;
   inputValue: string;
@@ -371,7 +372,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       isFocused: false,
       inputValue: '',
       highlightedIndex: -1,
-      selection: value2array(props.value, props)
+      selection: value2array(props.value, props),
+      itemHeight: 35
     };
   }
 
@@ -653,6 +655,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onDelete && onDelete(item);
   }
 
+  @autobind
+  menuItemRef(ref: any) {
+    ref && this.setState({itemHeight: ref.offsetHeight});
+  }
+
   renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
     const {
       multiple,
@@ -750,6 +757,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       );
     }
 
+    const itemHeight = this.state.itemHeight;
+
     const menu = (
       <div ref={this.menu} className={cx('Select-menu')}>
         {searchable ? (
@@ -784,11 +793,17 @@ export class Select extends React.Component<SelectProps, SelectState> {
           </div>
         ) : null}
 
+        <div ref={this.menuItemRef} className={cx('Select-option invisible')}>
+          <span>Placeholder</span>
+        </div>
+
         {filtedOptions.length ? (
           <VirtualList
-            height={filtedOptions.length > 8 ? 280 : filtedOptions.length * 35}
+            height={
+              filtedOptions.length > 8 ? 280 : filtedOptions.length * itemHeight
+            }
             itemCount={filtedOptions.length}
-            itemSize={35}
+            itemSize={itemHeight}
             renderItem={({index, style}) => {
               const item = filtedOptions[index];
               const checked =
