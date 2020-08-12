@@ -42,12 +42,14 @@ order: 48
 }
 ```
 
+更多设置项请参考 [Options](./options.md)
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
 | 属性名          | 类型                              | 默认值       | 说明                                                                                                                |
-| --------------- | --------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------- |
+|-----------------|-----------------------------------|--------------|-------------------------------------------------------------------------------------------------------------------|
 | options         | `Array<object>`或`Array<string>`  |              | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                                           |
 | source          | `string`或 [API](../../types/api) |              | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                                        |
 | autoComplete    | [API](../../types/api)            |              | [自动提示补全](./options#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8-autocomplete)                                         |
@@ -60,6 +62,8 @@ order: 48
 | checkAllLabel   | `string`                          | `全选`       | 全选的文字                                                                                                          |
 | defaultCheckAll | `boolean`                         | `false`      | 默认是否全选                                                                                                        |
 | creatable       | `boolean`                         | `false`      | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                |
+| multiple        | `boolean`                         | `false`      | [多选](./options#多选-multiple)                                                                                     |
+| searchable      | `boolean`                         | `false`      | [检索](./options#检索-searchable)                                                                                   |
 | createBtnLabel  | `string`                          | `"新增选项"` | [新增选项](./options#%E6%96%B0%E5%A2%9E%E9%80%89%E9%A1%B9)                                                          |
 | addControls     | Array<[表单项](./formitem)>       |              | [自定义新增表单项](./options#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%B0%E5%A2%9E%E8%A1%A8%E5%8D%95%E9%A1%B9-addcontrols)  |
 | addApi          | [API](../types/api)               |              | [配置新增选项接口](./options#%E9%85%8D%E7%BD%AE%E6%96%B0%E5%A2%9E%E6%8E%A5%E5%8F%A3-addapi)                         |
