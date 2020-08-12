@@ -7,7 +7,7 @@
 
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
-import VirtualList from 'react-tiny-virtual-list';
+import VirtualList from '../utils/virtual-list';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
@@ -786,7 +786,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
         {filtedOptions.length ? (
           <VirtualList
-            height={280}
+            height={filtedOptions.length > 8 ? 280 : filtedOptions.length * 35}
             itemCount={filtedOptions.length}
             itemSize={35}
             renderItem={({index, style}) => {
