@@ -3,6 +3,15 @@ title: 快速开始
 description:
 ---
 
+amis 有两种使用方法：
+
+- [npm](#npm)
+- [JS SDK](#SDK)
+
+npm 适合用在 React 项目中，可以完整使用 amis 的所有功能，方便扩展。
+
+SDK 适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，直接引入代码就能使用，但需要注意这种方式难以支持 [自定义组件](./custom)，只能使用 amis 内置的组件。
+
 ## npm
 
 ### 安装
@@ -141,19 +150,21 @@ class MyComponent extends React.Component<any, any> {
     });
   ```
 
-  这样，内部所有组件都能拿到 `username` 这个变量的值。当然，这里的key并不一定必须是 data , 你也可以是其它key，但必须配合schema中的 `detectField` 属性一起使用。 如：
-  
+  这样，内部所有组件都能拿到 `username` 这个变量的值。当然，这里的 key 并不一定必须是 data , 你也可以是其它 key，但必须配合 schema 中的 `detectField` 属性一起使用。 如：
+
   ```jsx
   () =>
-    renderAmis({
-      //其它配置
-      detectField: 'somekey'
-    }, 
-    {
-      somekey: {
-        username: 'amis'
+    renderAmis(
+      {
+        //其它配置
+        detectField: 'somekey'
+      },
+      {
+        somekey: {
+          username: 'amis'
+        }
       }
-    });
+    );
   ```
 
 - `env` 环境变量，可以理解为这个渲染器工具的配置项，需要调用者实现部分接口。
@@ -229,71 +240,12 @@ class MyComponent extends React.Component<any, any> {
 
 ## SDK
 
-SDK 适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，直接引入代码就能使用，但需要注意这种方式不支持 [自定义组件](./custom)，只能使用 amis 内置的组件。
-
 JSSDK 的代码从以下地址获取：
 
 - JS： https://houtai.baidu.com/v2/jssdk
 - CSS： https://houtai.baidu.com/v2/csssdk
 
-然后在页面中插入下面的代码就能渲染出来了：
-
-```js
-(function () {
-  var amis = amisRequire('amis/embed');
-  amis.embed(
-    '#container',
-    {
-      type: 'page',
-      title: 'AMIS Demo',
-      body: 'This is a simple amis page.'
-    },
-    {
-      // props 一般不用传。
-    },
-    {
-      // env
-      fetcher: () => {
-        // 可以不传，用来实现 ajax 请求
-      },
-
-      jumpTo: () => {
-        // 可以不传，用来实现页面跳转
-      },
-
-      updateLocation: () => {
-        // 可以不传，用来实现地址栏更新
-      },
-
-      isCurrentUrl: () => {
-        // 可以不传，用来判断是否目标地址当前地址。
-      },
-
-      copy: () => {
-        // 可以不传，用来实现复制到剪切板
-      },
-
-      notify: () => {
-        // 可以不传，用来实现通知
-      },
-
-      alert: () => {
-        // 可以不传，用来实现提示
-      },
-
-      confirm: () => {
-        // 可以不传，用来实现确认框。
-      }
-    }
-  );
-})();
-```
-
-注意：以上的 SDK 地址是一个页面跳转，会跳转到一个 CDN 地址，而且每次跳转都是最新的版本，随着 amis 的升级这个地址会一直变动，如果你的页面已经完成功能回归，请直接使用某个固定地址，这样才不会因为 amis 升级而导致你的页面不可用。
-
-另外，sdk 代码也伴随 npm 一起发布了，不使用 CDN 版本，直接替换成 npm 包里面的 `amis/sdk.js` 和 `amis/sdk.css` 即可。
-
-完整示例:
+以上的 SDK 地址是一个页面跳转，会跳转到一个 CDN 地址，而且每次跳转都是最新的版本，随着 amis 的升级这个地址会一直变动，需要将这两个文件下载到本地，分别命名为 sdk.js 和 sdk.css，然后类似如下的方式使用:
 
 ```html
 <!DOCTYPE html>
@@ -335,4 +287,53 @@ JSSDK 的代码从以下地址获取：
     </script>
   </body>
 </html>
+```
+
+`amis.embed` 函数还支持以下配置项来控制 amis 的行为，比如在 fetcher 的时候加入自己的处理逻辑，这些函数参数的说明在前面也有介绍。
+
+```js
+amis.embed(
+  '#root',
+  {
+    type: 'page',
+    title: 'AMIS Demo',
+    body: 'This is a simple amis page.'
+  },
+  {
+    // props 一般不用传。
+  },
+  {
+    fetcher: (url, method, data, config) => {
+      // 可以不传，用来实现 ajax 请求
+    },
+
+    jumpTo: (location) => {
+      // 可以不传，用来实现页面跳转
+    },
+
+    updateLocation: (location, replace) => {
+      // 可以不传，用来实现地址栏更新
+    },
+
+    isCurrentUrl: (url) => {
+      // 可以不传，用来判断是否目标地址当前地址。
+    },
+
+    copy: (content) => {
+      // 可以不传，用来实现复制到剪切板
+    },
+
+    notify: (type, msg) => {
+      // 可以不传，用来实现通知
+    },
+
+    alert: (content) => {
+      // 可以不传，用来实现提示
+    },
+
+    confirm: (content) => {
+      // 可以不传，用来实现确认框。
+    }
+  }
+);
 ```
