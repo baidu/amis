@@ -277,8 +277,8 @@ JSSDK 的代码从以下地址获取：
     <script src="amis/sdk.js"></script>
     <script type="text/javascript">
       (function () {
-        var amis = amisRequire('amis/embed');
-        amis.embed('#root', {
+        let amis = amisRequire('amis/embed');
+        let amisScoped = amis.embed('#root', {
           type: 'page',
           title: 'AMIS Demo',
           body: 'hello world'
@@ -289,10 +289,12 @@ JSSDK 的代码从以下地址获取：
 </html>
 ```
 
+### 控制 amis 的行为
+
 `amis.embed` 函数还支持以下配置项来控制 amis 的行为，比如在 fetcher 的时候加入自己的处理逻辑，这些函数参数的说明在前面也有介绍。
 
 ```js
-amis.embed(
+let amisScoped = amis.embed(
   '#root',
   {
     type: 'page',
@@ -337,3 +339,28 @@ amis.embed(
   }
 );
 ```
+
+同时返回的 `amisScoped` 对象可以获取到 amis 渲染的内部信息，它有如下方法：
+
+`getComponentByName(name)` 用于获取渲染出来的组件，比如下面的示例
+
+```json
+{
+  "type": "page",
+  "name": "page1",
+  "title": "表单页面",
+  "body": {
+      "type": "form",
+      "name": "form1",
+      "controls": [
+          {
+              "label": "Name",
+              "type": "text",
+              "name": "name1"
+          }
+      ]
+  }
+}
+```
+
+可以通过 `amisScoped.getComponentByName('page1.form1').getValues()` 来获取到所有表单的值，需要注意 page 和 form 都需要有 name 属性。
