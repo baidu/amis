@@ -1,8 +1,11 @@
-type TypedMap<T> = {
-  [key: string]: T;
-};
-
-export type FieldTypes = 'text' | 'number' | 'boolean' | 'date' | 'datetime';
+export type FieldTypes =
+  | 'text'
+  | 'number'
+  | 'boolean'
+  | 'date'
+  | 'time'
+  | 'datetime'
+  | 'select';
 
 export type OperatorType =
   | 'equals'
@@ -42,13 +45,13 @@ export interface ConditionRule {
   right: ConditionRightValue | Array<ConditionRightValue>;
 }
 
-export interface ConditionGroup {
+export interface ConditionGroupValue {
   conjunction: 'and' | 'or';
   not?: boolean;
-  children?: Array<ConditionRule | ConditionGroup>;
+  children?: Array<ConditionRule | ConditionGroupValue>;
 }
 
-export interface ConditionValue extends ConditionGroup {}
+export interface ConditionValue extends ConditionGroupValue {}
 
 interface BaseField {
   type: FieldTypes;
@@ -61,11 +64,73 @@ interface BaseField {
   defaultValue?: any;
 }
 
+type FieldGroup = {
+  label: string;
+  children: Array<FieldSimple>;
+};
+
 interface TextField extends BaseField {
+  name: string;
   type: 'text';
+  minLength?: number;
+  maxLength?: number;
 }
 
-type Field = TextField;
+interface NumberField extends BaseField {
+  name: string;
+  type: 'number';
+  maximum?: number;
+  minimum?: number;
+}
+
+interface DateField extends BaseField {
+  name: string;
+  type: 'date';
+  minDate?: any;
+  maxDate?: any;
+}
+
+interface TimeField extends BaseField {
+  name: string;
+  type: 'time';
+  minTime?: any;
+  maxTime?: any;
+}
+
+interface DatetimeField extends BaseField {
+  type: 'datetime';
+  name: string;
+}
+
+interface SelectField extends BaseField {
+  type: 'select';
+  name: string;
+  multiple?: boolean;
+  options?: Array<any>;
+}
+
+interface BooleanField extends BaseField {
+  type: 'boolean';
+  name: string;
+}
+
+interface GroupField {
+  type: 'group';
+  label: string;
+  name: string;
+  children: Array<FieldSimple>;
+}
+
+type FieldSimple =
+  | TextField
+  | NumberField
+  | DateField
+  | TimeField
+  | DatetimeField
+  | SelectField
+  | BooleanField;
+
+type Field = FieldSimple | FieldGroup | GroupField;
 
 interface FuncGroup {
   label: string;
