@@ -57,6 +57,9 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   hideRoot?: boolean;
   rootLabel?: string;
   rootValue?: any;
+
+  // 这个配置名字没取好，目前的含义是，如果这个配置成true，点父级的时候，孩子几点不会自选中。
+  // 否则点击父级，孩子节点选中。
   cascade?: boolean;
   selfDisabledAffectChildren?: boolean;
   minLength?: number;
@@ -247,16 +250,18 @@ export class TreeSelector extends React.Component<
 
         if (onlyChildren) {
           // 父级选中的时候，子节点也都选中，但是自己不选中
-          !~idx && children.length && value.shift();
+          !~idx && children.length && value.pop();
 
           while (children.length) {
             let child = children.shift();
             let index = value.indexOf(child);
 
+            if (!~index && child.value !== 'undefined') {
+              value.push(child);
+            }
+
             if (child.children) {
               children.push.apply(children, child.children);
-            } else {
-              ~index || value.push(child);
             }
           }
         } else {
@@ -279,7 +284,7 @@ export class TreeSelector extends React.Component<
           }
         }
       }
-    } else if (!checked) {
+    } else {
       ~idx && value.splice(idx, 1);
 
       if (!props.cascade && (props.withChildren || onlyChildren)) {
@@ -535,7 +540,7 @@ export class TreeSelector extends React.Component<
           size="sm"
           disabled={nodeDisabled}
           checked={checked}
-          onChange={this.handleCheck.bind(this, item)}
+          onChange={this.handleCheck.bind(this, item, !selfChecked)}
         />
       ) : showRadio ? (
         <Checkbox
