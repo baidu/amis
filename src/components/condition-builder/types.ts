@@ -40,12 +40,14 @@ export type ConditionRightValue =
     };
 
 export interface ConditionRule {
-  left: string;
-  op: OperatorType;
-  right: ConditionRightValue | Array<ConditionRightValue>;
+  id: any;
+  left?: string;
+  op?: OperatorType;
+  right?: ConditionRightValue | Array<ConditionRightValue>;
 }
 
 export interface ConditionGroupValue {
+  id: string;
   conjunction: 'and' | 'or';
   not?: boolean;
   children?: Array<ConditionRule | ConditionGroupValue>;
