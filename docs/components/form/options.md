@@ -1274,12 +1274,12 @@ order: 2
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名       | 类型                              | 默认值    | 说明                                                                  |
-|--------------|-----------------------------------|-----------|---------------------------------------------------------------------|
-| options      | `Array<object>`或`Array<string>`  |           | 选项组，供用户选择                                                     |
-| source       | `string`或 [API](../../types/api) |           | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象           |
-| multiple     | `boolean`                         | `false`   | 是否支持多选                                                          |
-| labelField   | `boolean`                         | `"label"` | 标识选项中哪个字段是`label`值                                         |
-| valueField   | `boolean`                         | `"value"` | 标识选项中哪个字段是`value`值                                         |
-| joinValues   | `boolean`                         | `true`    | 是否拼接`value`值                                                     |
-| extractValue | `boolean`                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效 |
+| 属性名       | 类型                                                              | 默认值    | 说明                                                                   |
+| ------------ | ----------------------------------------------------------------- | --------- | ---------------------------------------------------------------------- |
+| options      | `Array<object>`或`Array<string>`                                  |           | 选项组，供用户选择                                                     |
+| source       | [API](../../types/api) 或 [数据映射](../../concepts/data-mapping) |           | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象          |
+| multiple     | `boolean`                                                         | `false`   | 是否支持多选                                                           |
+| labelField   | `boolean`                                                         | `"label"` | 标识选项中哪个字段是`label`值                                          |
+| valueField   | `boolean`                                                         | `"value"` | 标识选项中哪个字段是`value`值                                          |
+| joinValues   | `boolean`                                                         | `true`    | 是否拼接`value`值                                                      |
+| extractValue | `boolean`                                                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效 |
