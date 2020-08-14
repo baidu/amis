@@ -310,6 +310,7 @@
   padding: $Form-input-paddingY $Form-input-paddingX;
   font-size: $Form-input-fontSize;
   flex-wrap: wrap;
+  justify-content: space-between;
 
   input {
     flex-basis: px2rem(80px);
@@ -402,5 +403,13 @@
     &:focus {
       background-color: darken($color, 10%);
     }
+  }
+}
+
+@mixin icon-color {
+  color: $icon-color;
+
+  &:hover {
+    color: $icon-onHover-color;
   }
 }

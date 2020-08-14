@@ -50,7 +50,7 @@ export class PopOverContainer extends React.Component<
 
   @autobind
   getTarget() {
-    return findDOMNode(this.target || this) as HTMLElement;
+    return this.target || (findDOMNode(this) as HTMLElement);
   }
 
   @autobind
@@ -82,7 +82,11 @@ export class PopOverContainer extends React.Component<
           <PopOver
             overlay
             className={popOverClassName}
-            style={{minWidth: this.target ? this.target.offsetWidth : 'auto'}}
+            style={{
+              minWidth: this.target
+                ? Math.max(this.target.offsetWidth, 100)
+                : 'auto'
+            }}
             onHide={this.close}
           >
             {dropdownRender({onClose: this.close})}
