@@ -1,5 +1,5 @@
 import React from 'react';
-import ConditionBuilder from '../../../src/components/condition-builder/ConditionBuilder';
+import ConditionBuilder from '../../../src/components/condition-builder';
 
 const fields = [
   {
@@ -25,14 +25,33 @@ const fields = [
     children: [
       {
         label: '姓名',
-        name: 'name',
+        name: 'name2',
         type: 'text'
       },
 
       {
         label: '年龄',
-        name: 'age',
+        name: 'age2',
         type: 'number'
+      }
+    ]
+  }
+];
+
+const funcs = [
+  {
+    label: '文本',
+    children: [
+      {
+        type: 'LOWERCASE',
+        label: '转小写',
+        returnType: 'text',
+        args: [
+          {
+            type: 'text',
+            label: '文本'
+          }
+        ]
       }
     ]
   }
@@ -68,7 +87,12 @@ export default {
       {
         name: 'a',
         component: ({value, onChange}) => (
-          <ConditionBuilder value={value} onChange={onChange} fields={fields} />
+          <ConditionBuilder
+            value={value}
+            onChange={onChange}
+            fields={fields}
+            funcs={funcs}
+          />
         )
       }
     ]

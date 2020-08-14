@@ -18,32 +18,32 @@ export type FieldItem = {
   operators: Array<OperatorType>;
 };
 
-export type ConditionRightValueLiteral = string | number | object | undefined;
-export type ConditionRightValue =
-  | ConditionRightValueLiteral
+export type ExpressionSimple = string | number | object | undefined;
+export type ExpressionComplex =
+  | ExpressionSimple
   | {
-      type: 'raw';
-      value: ConditionRightValueLiteral;
+      type: 'value';
+      value: ExpressionSimple;
     }
   | {
       type: 'func';
       func: string;
-      args: Array<ConditionRightValue>;
+      args: Array<ExpressionComplex>;
     }
   | {
       type: 'field';
       field: string;
     }
   | {
-      type: 'expression';
+      type: 'raw';
       field: string;
     };
 
 export interface ConditionRule {
   id: any;
-  left?: string;
+  left?: ExpressionComplex;
   op?: OperatorType;
-  right?: ConditionRightValue | Array<ConditionRightValue>;
+  right?: ExpressionComplex | Array<ExpressionComplex>;
 }
 
 export interface ConditionGroupValue {
@@ -58,7 +58,7 @@ export interface ConditionValue extends ConditionGroupValue {}
 interface BaseField {
   type: FieldTypes;
   label: string;
-  valueTypes?: Array<'raw' | 'field' | 'func' | 'expression'>;
+  valueTypes?: Array<'value' | 'field' | 'func' | 'expression'>;
 
   // valueTypes 里面配置 func 才有效。
   funcs?: Array<string>;
@@ -132,7 +132,7 @@ type FieldSimple =
   | SelectField
   | BooleanField;
 
-type Field = FieldSimple | FieldGroup | GroupField;
+export type Field = FieldSimple | FieldGroup | GroupField;
 
 interface FuncGroup {
   label: string;

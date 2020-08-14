@@ -11,6 +11,7 @@
   }
 
   &.is-focused,
+  &.is-active,
   &:focus {
     outline: none;
     border-color: $Form-input-onFocused-borderColor;
