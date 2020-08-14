@@ -38,7 +38,9 @@ export default class NestedSelectControl extends React.Component<
   static defaultProps: Partial<NestedSelectProps> = {
     cascade: false,
     withChildren: false,
-    searchPromptText: '输入内容进行检索'
+    searchPromptText: '输入内容进行检索',
+    checkAll: true,
+    checkAllLabel: '全选',
   };
   target: any;
   input: HTMLInputElement;
@@ -395,6 +397,8 @@ export default class NestedSelectControl extends React.Component<
       options,
       disabled,
       searchable,
+      checkAll,
+      checkAllLabel,
       searchPromptText,
       translate: __,
       labelField
@@ -430,7 +434,7 @@ export default class NestedSelectControl extends React.Component<
         {stack.map((options, index) => (
           <div key={index} className={cx('NestedSelect-menu')}>
             {index === 0 ? searchInput : null}
-            {multiple && index === 0 ? (
+            {multiple && checkAll && index === 0 ? (
               <div
                 className={cx('NestedSelect-option', 'checkall')}
                 onMouseEnter={this.onMouseEnterAll}
@@ -440,7 +444,7 @@ export default class NestedSelectControl extends React.Component<
                   checked={partialChecked}
                   partial={partialChecked && !allChecked}
                 >
-                  全选
+                  {__(checkAllLabel)}
                 </Checkbox>
               </div>
             ) : null}
