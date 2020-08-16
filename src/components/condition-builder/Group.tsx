@@ -4,8 +4,10 @@ import {ClassNamesFn} from '../../theme';
 import Button from '../Button';
 import {ConditionItem} from './Item';
 import {autobind, guid} from '../../utils/helper';
+import {Config} from './config';
 
 export interface ConditionGroupProps {
+  config: Config;
   value?: ConditionGroupValue;
   fields: Fields;
   funcs?: Funcs;
@@ -85,7 +87,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
   }
 
   render() {
-    const {classnames: cx, value, fields, funcs} = this.props;
+    const {classnames: cx, value, fields, funcs, config} = this.props;
 
     return (
       <div className={cx('CBGroup')}>
@@ -125,6 +127,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
           ? value!.children.map((item, index) =>
               (item as ConditionGroupValue).conjunction ? (
                 <ConditionGroup
+                  config={config}
                   key={item.id}
                   fields={fields}
                   value={item as ConditionGroupValue}
@@ -135,6 +138,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 />
               ) : (
                 <ConditionItem
+                  config={config}
                   key={item.id}
                   fields={fields}
                   value={item}

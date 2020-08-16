@@ -1,17 +1,22 @@
 .#{$ns}CBGroup {
+  font-size: $fontSizeSm;
+
   &-toolbar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
 
-  &-field {
+  &-field,
+  &-operator {
     position: relative;
     display: inline-block;
     min-width: px2rem(120px);
+    margin-left: $gap-xs;
   }
 
-  &-fieldCaret {
+  &-fieldCaret,
+  &-operatorCaret {
     transition: transform 0.3s ease-out;
     margin: 0 $gap-xs;
     display: flex;
@@ -27,7 +32,8 @@
     }
   }
 
-  &-fieldInput.is-active &-fieldCaret {
+  &-fieldInput.is-active &-fieldCaret,
+  &-operatorInput.is-active &-operatorCaret {
     transform: rotate(180deg);
   }
 }
@@ -97,7 +103,7 @@
 .#{$ns}CBInputSwitch {
   position: relative;
   display: inline-block;
-  margin: 0 5px;
+  margin-left: 5px;
   cursor: pointer;
   > a {
     @include icon-color();
@@ -106,5 +112,31 @@
   svg {
     width: px2rem(10px);
     height: px2rem(10px);
+  }
+}
+
+.#{$ns}CBFunc {
+  display: inline-block;
+
+  &-select {
+    display: inline-block;
+    position: relative;
+  }
+
+  &-error {
+    color: $danger;
+  }
+
+  &-args {
+    display: inline-block;
+    > span {
+      display: inline-block;
+      padding: 0 5px;
+      color: $info;
+    }
+
+    > div {
+      display: inline-block;
+    }
   }
 }

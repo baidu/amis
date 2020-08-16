@@ -2,21 +2,20 @@ import React from 'react';
 import PopOverContainer from '../PopOverContainer';
 import ListRadios from '../ListRadios';
 import ResultBox from '../ResultBox';
-import {ClassNamesFn} from '../../theme';
+import {ClassNamesFn, ThemeProps, themeable} from '../../theme';
 import {Icon} from '../icons';
 import {find} from 'lodash';
 import {findTree, noop} from '../../utils/helper';
 
-export interface ConditionFieldProps {
+export interface ConditionFieldProps extends ThemeProps {
   options: Array<any>;
   value: any;
   onChange: (value: any) => void;
-  classnames: ClassNamesFn;
 }
 
 const option2value = (item: any) => item.name;
 
-export default function ConditionField({
+export function ConditionField({
   options,
   onChange,
   value,
@@ -57,3 +56,5 @@ export default function ConditionField({
     </PopOverContainer>
   );
 }
+
+export default themeable(ConditionField);
