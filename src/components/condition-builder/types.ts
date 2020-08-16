@@ -19,25 +19,31 @@ export type FieldItem = {
 };
 
 export type ExpressionSimple = string | number | object | undefined;
-export type ExpressionComplex =
+export type ExpressionValue =
   | ExpressionSimple
   | {
       type: 'value';
       value: ExpressionSimple;
-    }
-  | {
-      type: 'func';
-      func: string;
-      args: Array<ExpressionComplex>;
-    }
-  | {
-      type: 'field';
-      field: string;
-    }
-  | {
-      type: 'raw';
-      field: string;
     };
+export type ExpressionFunc = {
+  type: 'func';
+  func: string;
+  args: Array<ExpressionComplex>;
+};
+export type ExpressionField = {
+  type: 'field';
+  field: string;
+};
+export type ExpressionRaw = {
+  type: 'raw';
+  value: string;
+};
+
+export type ExpressionComplex =
+  | ExpressionValue
+  | ExpressionFunc
+  | ExpressionField
+  | ExpressionRaw;
 
 export interface ConditionRule {
   id: any;
@@ -59,6 +65,7 @@ interface BaseField {
   type: FieldTypes;
   label: string;
   valueTypes?: Array<'value' | 'field' | 'func' | 'expression'>;
+  operators?: Array<string>;
 
   // valueTypes 里面配置 func 才有效。
   funcs?: Array<string>;
@@ -123,7 +130,7 @@ interface GroupField {
   children: Array<FieldSimple>;
 }
 
-type FieldSimple =
+export type FieldSimple =
   | TextField
   | NumberField
   | DateField
@@ -150,3 +157,7 @@ export interface FuncArg extends BaseField {
 }
 export type Funcs = Array<Func | FuncGroup>;
 export type Fields = Array<Field>;
+
+export type Type = {
+  operators: Array<string>;
+};
