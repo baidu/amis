@@ -1,5 +1,5 @@
 ---
-name: 回报bug
+name: 报告bug
 about: Create a report to help us improve
 title: ''
 labels: need confirm
