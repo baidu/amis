@@ -8,9 +8,10 @@ import {
   Func,
   Field,
   FieldSimple,
-  ExpressionField
+  ExpressionField,
+  OperatorType
 } from './types';
-import {ClassNamesFn} from '../../theme';
+import {ThemeProps, themeable} from '../../theme';
 import {Icon} from '../icons';
 import {autobind, findTree, noop} from '../../utils/helper';
 import Expression from './Expression';
@@ -21,13 +22,12 @@ import ResultBox from '../ResultBox';
 
 const option2value = (item: any) => item.value;
 
-export interface ConditionItemProps {
+export interface ConditionItemProps extends ThemeProps {
   config: Config;
   fields: Fields;
   funcs?: Funcs;
   index?: number;
   value: ConditionRule;
-  classnames: ClassNamesFn;
   onChange: (value: ConditionRule, index?: number) => void;
 }
 
@@ -63,7 +63,18 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   @autobind
-  handleOperatorChange() {}
+  handleOperatorChange(op: OperatorType) {
+    const value = {...this.props.value, op: op};
+    this.props.onChange(value, this.props.index);
+  }
+
+  @autobind
+  handleRightChange(rightValue: any) {
+    const value = {...this.props.value, right: rightValue};
+    const onChange = this.props.onChange;
+
+    onChange(value, this.props.index);
+  }
 
   renderLeft() {
     const {value, fields, funcs} = this.props;
@@ -101,7 +112,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       ) as FieldSimple;
 
       if (field) {
-        operators = field.operators || config.types[field.type].operators;
+        operators = field.operators || config.types[field.type]?.operators;
       }
     }
 
@@ -149,8 +160,79 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
     return null;
   }
 
-  renderItem() {
+  renderRight() {
+    const {value, funcs, fields} = this.props;
+
+    if (!value?.op) {
+      return null;
+    }
+
+    const left = value?.left;
+    let leftType = '';
+
+    if ((left as ExpressionFunc)?.type === 'func') {
+      const func: Func = findTree(
+        funcs!,
+        (i: Func) => i.type === (left as ExpressionFunc).type
+      ) as Func;
+
+      if (func) {
+        leftType = func.returnType;
+      }
+    } else if ((left as ExpressionField)?.type === 'field') {
+      const field: FieldSimple = findTree(
+        fields,
+        (i: FieldSimple) => i.name === (left as ExpressionField).field
+      ) as FieldSimple;
+
+      if (field) {
+        leftType = field.type;
+      }
+    }
+
+    if (leftType) {
+      return this.renderRightWidgets(leftType, value.op!);
+    }
+
     return null;
+  }
+
+  renderRightWidgets(type: string, op: OperatorType) {
+    const {funcs, value, fields, config} = this.props;
+    let field = {
+      ...config.types[type],
+      type
+    } as FieldSimple;
+
+    if ((value?.left as ExpressionField)?.type === 'field') {
+      const leftField: FieldSimple = findTree(
+        fields,
+        (i: FieldSimple) => i.name === (value?.left as ExpressionField).field
+      ) as FieldSimple;
+
+      if (leftField) {
+        field = {
+          ...field,
+          ...leftField
+        };
+      }
+    }
+
+    if (op === 'is_empty' || op === 'is_not_empty') {
+      return null;
+    }
+
+    return (
+      <Expression
+        funcs={funcs}
+        valueField={field}
+        value={value.right}
+        onChange={this.handleRightChange}
+        fields={fields}
+        defaultType="value"
+        allowedTypes={field?.valueTypes || ['value', 'field', 'func', 'raw']}
+      />
+    );
   }
 
   render() {
@@ -158,16 +240,12 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
     return (
       <div className={cx('CBItem')}>
-        <a className={cx('CBItem-dragbar')}>
-          <Icon icon="drag-bar" className="icon" />
-        </a>
-
-        <div className={cx('CBItem-itemBody')}>
-          {this.renderLeft()}
-          {this.renderOperator()}
-          {this.renderItem()}
-        </div>
+        {this.renderLeft()}
+        {this.renderOperator()}
+        {this.renderRight()}
       </div>
     );
   }
 }
+
+export default themeable(ConditionItem);

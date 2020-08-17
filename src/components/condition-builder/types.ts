@@ -8,10 +8,14 @@ export type FieldTypes =
   | 'select';
 
 export type OperatorType =
-  | 'equals'
-  | 'not_equals'
-  | 'less_than'
-  | 'less_than_or_equals';
+  | 'equal'
+  | 'not_equal'
+  | 'is_empty'
+  | 'is_not_empty'
+  | 'like'
+  | 'not_like'
+  | 'starts_with'
+  | 'ends_with';
 
 export type FieldItem = {
   type: 'text';
@@ -64,7 +68,7 @@ export interface ConditionValue extends ConditionGroupValue {}
 interface BaseField {
   type: FieldTypes;
   label: string;
-  valueTypes?: Array<'value' | 'field' | 'func' | 'expression'>;
+  valueTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
   operators?: Array<string>;
 
   // valueTypes 里面配置 func 才有效。
@@ -81,6 +85,7 @@ type FieldGroup = {
 interface TextField extends BaseField {
   name: string;
   type: 'text';
+  placeholder?: string;
   minLength?: number;
   maxLength?: number;
 }
@@ -160,4 +165,5 @@ export type Fields = Array<Field>;
 
 export type Type = {
   operators: Array<string>;
+  placeholder?: string;
 };
