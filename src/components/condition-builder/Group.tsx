@@ -6,6 +6,8 @@ import GroupOrItem from './GroupOrItem';
 import {autobind, guid} from '../../utils/helper';
 import {Config} from './config';
 import {Icon} from '../icons';
+import PopOverContainer from '../PopOverContainer';
+import ListRadios from '../ListRadios';
 
 export interface ConditionGroupProps extends ThemeProps {
   config: Config;
@@ -122,33 +124,49 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       <div className={cx('CBGroup')} data-group-id={value?.id}>
         <div className={cx('CBGroup-toolbar')}>
           <div className={cx('CBGroup-toolbarLeft')}>
-            <Button onClick={this.handleNotClick} size="sm" active={value?.not}>
+            <Button
+              onClick={this.handleNotClick}
+              className="m-r-xs"
+              size="xs"
+              active={value?.not}
+            >
               非
             </Button>
-            <div className={cx('ButtonGroup m-l-xs')}>
+            <div className={cx('ButtonGroup')}>
               <Button
-                size="sm"
+                size="xs"
                 onClick={this.handleConjunctionClick}
                 active={value?.conjunction !== 'or'}
+                level={value?.conjunction !== 'or' ? 'info' : 'default'}
               >
                 并且
               </Button>
               <Button
-                size="sm"
+                size="xs"
                 onClick={this.handleConjunctionClick}
                 active={value?.conjunction === 'or'}
+                level={value?.conjunction === 'or' ? 'info' : 'default'}
               >
                 或者
               </Button>
             </div>
           </div>
           <div className={cx('CBGroup-toolbarRight')}>
-            <Button onClick={this.handleAdd} size="sm" className="m-r-xs">
-              添加条件
-            </Button>
-            <Button onClick={this.handleAddGroup} size="sm" className="m-r-xs">
-              添加条件组
-            </Button>
+            <div className={cx('ButtonGroup')}>
+              <Button onClick={this.handleAdd} size="xs">
+                <Icon icon="plus" className="icon" />
+                添加条件
+              </Button>
+              <Button
+                onClick={this.handleAddGroup}
+                size="xs"
+                className="m-r-xs"
+              >
+                <Icon icon="plus" className="icon" />
+                添加条件组
+              </Button>
+            </div>
+
             {removeable ? (
               <a className={cx('CBDelete')} onClick={onRemove}>
                 <Icon icon="close" className="icon" />
