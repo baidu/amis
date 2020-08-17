@@ -5,7 +5,7 @@ import {uncontrollable} from 'uncontrollable';
 import {Fields, ConditionGroupValue, Funcs} from './types';
 import ConditionGroup from './Group';
 import defaultConfig from './config';
-import {autobind, findTreeIndex} from '../../utils/helper';
+import {autobind, findTreeIndex, spliceTree, getTree} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
 import animtion from '../../utils/Animation';
 
@@ -39,11 +39,9 @@ export class QueryBuilder extends React.Component<QueryBuilderProps> {
 
     e.dataTransfer.setDragImage(item.firstChild as HTMLElement, 0, 0);
 
-    const dom = findDOMNode(this) as HTMLElement;
-
     target.addEventListener('dragend', this.handleDragEnd);
-    dom.addEventListener('dragover', this.handleDragOver);
-    dom.addEventListener('drop', this.handleDragDrop);
+    document.body.addEventListener('dragover', this.handleDragOver);
+    document.body.addEventListener('drop', this.handleDragDrop);
     this.lastX = e.clientX;
     this.lastY = e.clientY;
 
@@ -128,32 +126,41 @@ export class QueryBuilder extends React.Component<QueryBuilderProps> {
 
   @autobind
   handleDragDrop() {
+    const onChange = this.props.onChange;
     const fromId = this.dragTarget.getAttribute('data-id')!;
     const toId = this.host.getAttribute('data-group-id')!;
-    const toIndex =
-      [].slice.call(this.ghost.parentElement!.children).indexOf(this.ghost) - 1;
-    const value = this.props.value!;
+    const children = [].slice.call(this.ghost.parentElement!.children);
+    const idx = children.indexOf(this.dragTarget);
+
+    if (~idx) {
+      children.splice(idx, 1);
+    }
+
+    const toIndex = children.indexOf(this.ghost);
+    let value = this.props.value!;
 
     const indexes = findTreeIndex([value], item => item.id === fromId);
 
     if (indexes) {
-      // model.setOptions(
-      //   spliceTree(model.options, indexes, 1, {
-      //     ...origin,
-      //     ...result
-      //   })
-      // );
+      const origin = getTree([value], indexes.concat())!;
+      [value] = spliceTree([value]!, indexes, 1);
+
+      const indexes2 = findTreeIndex([value], item => item.id === toId);
+
+      if (indexes2) {
+        [value] = spliceTree([value]!, indexes2.concat(toIndex), 0, origin);
+        onChange(value);
+      }
     }
   }
 
   @autobind
   handleDragEnd(e: Event) {
-    const dom = findDOMNode(this) as HTMLElement;
     const target = e.target as HTMLElement;
 
     target.removeEventListener('dragend', this.handleDragEnd);
-    dom.removeEventListener('dragover', this.handleDragOver);
-    dom.removeEventListener('drop', this.handleDragDrop);
+    document.body.removeEventListener('dragover', this.handleDragOver);
+    document.body.removeEventListener('drop', this.handleDragDrop);
 
     this.dragTarget.classList.remove('is-dragging');
     delete this.dragTarget;
