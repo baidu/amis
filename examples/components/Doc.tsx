@@ -5,7 +5,7 @@ import {flattenTree, filterTree, mapTree} from '../../src/utils/helper';
 export const docs = [
   {
     // prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
-    label: '📌 开始',
+    label: '📌  开始',
     children: [
       {
         label: '介绍',
@@ -57,7 +57,7 @@ export const docs = [
   },
 
   {
-    label: '💡 概念',
+    label: '💡  概念',
     children: [
       {
         label: '配置与组件',
@@ -127,7 +127,7 @@ export const docs = [
   },
 
   {
-    label: '🎼 类型',
+    label: '🎼  类型',
     children: [
       {
         label: 'SchemaNode',
@@ -149,7 +149,7 @@ export const docs = [
   },
 
   {
-    label: '⚙ 组件',
+    label: '⚙  组件',
     children: [
       {
         label: '组件介绍',
