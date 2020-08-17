@@ -162,7 +162,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 size="xs"
                 className="m-r-xs"
               >
-                <Icon icon="plus" className="icon" />
+                <Icon icon="plus-cicle" className="icon" />
                 添加条件组
               </Button>
             </div>
