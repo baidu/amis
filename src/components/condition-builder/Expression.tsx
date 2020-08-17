@@ -1,4 +1,12 @@
-import {ExpressionComplex, Field, Funcs, Func, ExpressionFunc} from './types';
+import {
+  ExpressionComplex,
+  Field,
+  Funcs,
+  Func,
+  ExpressionFunc,
+  Type,
+  FieldSimple
+} from './types';
 import React from 'react';
 import ConditionField from './Field';
 import {autobind, findTree} from '../../utils/helper';
@@ -20,7 +28,7 @@ export interface ExpressionProps extends ThemeProps {
   value: ExpressionComplex;
   index?: number;
   onChange: (value: ExpressionComplex, index?: number) => void;
-  valueField?: Field;
+  valueField?: FieldSimple;
   fields?: Field[];
   funcs?: Funcs;
   defaultType?: 'value' | 'field' | 'func' | 'raw';
@@ -94,7 +102,14 @@ export class Expression extends React.Component<ExpressionProps> {
   handleRawChange() {}
 
   render() {
-    const {value, defaultType, allowedTypes, funcs, fields} = this.props;
+    const {
+      value,
+      valueField,
+      defaultType,
+      allowedTypes,
+      funcs,
+      fields
+    } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
         ? 'field'
@@ -128,7 +143,13 @@ export class Expression extends React.Component<ExpressionProps> {
           />
         ) : null}
 
-        {inputType === 'value' ? <Value /> : null}
+        {inputType === 'value' ? (
+          <Value
+            field={valueField!}
+            value={value}
+            onChange={this.handleValueChange}
+          />
+        ) : null}
 
         {inputType === 'field' ? (
           <ConditionField

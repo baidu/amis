@@ -18,15 +18,16 @@ export const OperationMap = {
   not_equal: '不等于',
   is_empty: '为空',
   is_not_empty: '不为空',
-  like: 'LIKE',
-  not_like: 'NOT LIKE',
-  starts_with: 'Start With',
-  ends_with: 'Ends With'
+  like: '模糊匹配',
+  not_like: '不匹配',
+  starts_with: '匹配开头',
+  ends_with: '匹配结尾'
 };
 
 const defaultConfig: Config = {
   types: {
     text: {
+      placeholder: '请输入文本',
       operators: [
         'equal',
         'not_equal',

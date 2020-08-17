@@ -1,25 +1,27 @@
 import React from 'react';
 import {Fields, ConditionGroupValue, Funcs} from './types';
-import {ClassNamesFn} from '../../theme';
+import {ClassNamesFn, ThemeProps, themeable} from '../../theme';
 import Button from '../Button';
-import {ConditionItem} from './Item';
+import GroupOrItem from './GroupOrItem';
 import {autobind, guid} from '../../utils/helper';
 import {Config} from './config';
+import {Icon} from '../icons';
 
-export interface ConditionGroupProps {
+export interface ConditionGroupProps extends ThemeProps {
   config: Config;
   value?: ConditionGroupValue;
   fields: Fields;
   funcs?: Funcs;
-  index?: number;
-  onChange: (value: ConditionGroupValue, index?: number) => void;
-  classnames: ClassNamesFn;
+  onChange: (value: ConditionGroupValue) => void;
   removeable?: boolean;
+  onRemove?: (e: React.MouseEvent) => void;
+  onDragStart?: (e: React.MouseEvent) => void;
 }
 
 export class ConditionGroup extends React.Component<ConditionGroupProps> {
   getValue() {
     return {
+      id: guid(),
       conjunction: 'and' as 'and',
       ...this.props.value
     } as ConditionGroupValue;
@@ -31,7 +33,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
     let value = this.getValue();
     value.not = !value.not;
 
-    onChange(value, this.props.index);
+    onChange(value);
   }
 
   @autobind
@@ -39,7 +41,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
     const onChange = this.props.onChange;
     let value = this.getValue();
     value.conjunction = value.conjunction === 'and' ? 'or' : 'and';
-    onChange(value, this.props.index);
+    onChange(value);
   }
 
   @autobind
@@ -54,7 +56,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
     value.children.push({
       id: guid()
     });
-    onChange(value, this.props.index);
+    onChange(value);
   }
 
   @autobind
@@ -68,13 +70,18 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
 
     value.children.push({
       id: guid(),
-      conjunction: 'and'
+      conjunction: 'and',
+      children: [
+        {
+          id: guid()
+        }
+      ]
     });
-    onChange(value, this.props.index);
+    onChange(value);
   }
 
   @autobind
-  handleItemChange(item: any, index?: number) {
+  handleItemChange(item: any, index: number) {
     const onChange = this.props.onChange;
     let value = this.getValue();
 
@@ -83,14 +90,36 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       : [];
 
     value.children.splice(index!, 1, item);
-    onChange(value, this.props.index);
+    onChange(value);
+  }
+
+  @autobind
+  handleItemRemove(index: number) {
+    const onChange = this.props.onChange;
+    let value = this.getValue();
+
+    value.children = Array.isArray(value.children)
+      ? value.children.concat()
+      : [];
+
+    value.children.splice(index, 1);
+    onChange(value);
   }
 
   render() {
-    const {classnames: cx, value, fields, funcs, config} = this.props;
+    const {
+      classnames: cx,
+      value,
+      fields,
+      funcs,
+      config,
+      removeable,
+      onRemove,
+      onDragStart
+    } = this.props;
 
     return (
-      <div className={cx('CBGroup')}>
+      <div className={cx('CBGroup')} data-group-id={value?.id}>
         <div className={cx('CBGroup-toolbar')}>
           <div className={cx('CBGroup-toolbarLeft')}>
             <Button onClick={this.handleNotClick} size="sm" active={value?.not}>
@@ -114,43 +143,41 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
             </div>
           </div>
           <div className={cx('CBGroup-toolbarRight')}>
-            <Button onClick={this.handleAdd} size="sm">
+            <Button onClick={this.handleAdd} size="sm" className="m-r-xs">
               添加条件
             </Button>
-            <Button onClick={this.handleAddGroup} size="sm" className="m-l-xs">
+            <Button onClick={this.handleAddGroup} size="sm" className="m-r-xs">
               添加条件组
             </Button>
+            {removeable ? (
+              <a className={cx('CBDelete')} onClick={onRemove}>
+                <Icon icon="close" className="icon" />
+              </a>
+            ) : null}
           </div>
         </div>
 
-        {Array.isArray(value?.children)
-          ? value!.children.map((item, index) =>
-              (item as ConditionGroupValue).conjunction ? (
-                <ConditionGroup
+        <div className={cx('CBGroup-body')}>
+          {Array.isArray(value?.children)
+            ? value!.children.map((item, index) => (
+                <GroupOrItem
+                  draggable={value!.children!.length > 1}
+                  onDragStart={onDragStart}
                   config={config}
                   key={item.id}
                   fields={fields}
                   value={item as ConditionGroupValue}
-                  classnames={cx}
                   index={index}
                   onChange={this.handleItemChange}
                   funcs={funcs}
+                  onRemove={this.handleItemRemove}
                 />
-              ) : (
-                <ConditionItem
-                  config={config}
-                  key={item.id}
-                  fields={fields}
-                  value={item}
-                  classnames={cx}
-                  index={index}
-                  onChange={this.handleItemChange}
-                  funcs={funcs}
-                />
-              )
-            )
-          : null}
+              ))
+            : null}
+        </div>
       </div>
     );
   }
 }
+
+export default themeable(ConditionGroup);
