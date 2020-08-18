@@ -15,6 +15,18 @@ const fields = [
   },
 
   {
+    label: '出生日期',
+    name: 'birthday',
+    type: 'date'
+  },
+
+  {
+    label: '起床时间',
+    name: 'wakeupAt',
+    type: 'time'
+  },
+
+  {
     label: '入职时间',
     name: 'ruzhi',
     type: 'datetime'
@@ -39,22 +51,22 @@ const fields = [
 ];
 
 const funcs = [
-  {
-    label: '文本',
-    children: [
-      {
-        type: 'LOWERCASE',
-        label: '转小写',
-        returnType: 'text',
-        args: [
-          {
-            type: 'text',
-            label: '文本'
-          }
-        ]
-      }
-    ]
-  }
+  // {
+  //   label: '文本',
+  //   children: [
+  //     {
+  //       type: 'LOWERCASE',
+  //       label: '转小写',
+  //       returnType: 'text',
+  //       args: [
+  //         {
+  //           type: 'text',
+  //           label: '文本'
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }
 ];
 
 export default {
@@ -64,25 +76,39 @@ export default {
     type: 'form',
     mode: 'horizontal',
     title: '',
+    data: {a: [{b: 1, c: [{d: 2}]}]},
+    // debug: true,
     api: '/api/mock2/form/saveForm',
     controls: [
-      {
-        label: 'Name',
-        type: 'text',
-        name: 'name'
-      },
+      // {
+      //   label: 'Name',
+      //   type: 'text',
+      //   name: 'name'
+      // },
 
-      {
-        label: 'Email',
-        type: 'email',
-        name: 'email'
-      },
+      // {
+      //   label: 'Email',
+      //   type: 'email',
+      //   name: 'email'
+      // },
 
-      {
-        name: 'a',
-        type: 'static',
-        tpl: '${a|json:2}'
-      },
+      // {
+      //   name: 'a',
+      //   type: 'static',
+      //   tpl: '${a|json:2}'
+      // },
+
+      // {
+      //   name: 'a.0.b',
+      //   type: 'text',
+      //   label: 'B'
+      // },
+
+      // {
+      //   name: 'a.0.c.0.d',
+      //   type: 'number',
+      //   label: 'D'
+      // },
 
       {
         name: 'a',

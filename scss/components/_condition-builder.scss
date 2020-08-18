@@ -41,14 +41,14 @@
   &-operator {
     position: relative;
     display: inline-block;
-    min-width: px2rem(120px);
-    margin-left: $gap-xs;
+    margin: px2rem(3px);
+    vertical-align: middle;
   }
 
   &-fieldCaret,
   &-operatorCaret {
     transition: transform 0.3s ease-out;
-    margin: 0 $gap-xs;
+    margin: 3px;
     display: flex;
     color: $icon-color;
     &:hover {
@@ -65,6 +65,46 @@
   &-fieldInput.is-active &-fieldCaret,
   &-operatorInput.is-active &-operatorCaret {
     transform: rotate(180deg);
+  }
+
+  &-placeholder {
+    color: $text--muted-color;
+    position: relative;
+    margin-left: 30px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 5px;
+
+    &:before {
+      position: absolute;
+      content: '';
+      top: -10px;
+      left: -30px;
+      width: 20px;
+      border-left: solid 1px $borderColor;
+      bottom: 0;
+    }
+
+    &:after {
+      position: absolute;
+      content: '';
+      top: 50%;
+      width: 20px;
+      left: -30px;
+      border-top: solid 1px $borderColor;
+    }
+
+    &:last-child {
+      &:before {
+        border-bottom-left-radius: 5px;
+        border-bottom: solid 1px $borderColor;
+        bottom: 50%;
+      }
+
+      &:after {
+        display: none;
+      }
+    }
   }
 }
 
@@ -85,7 +125,7 @@
 
   &-body {
     display: flex;
-    padding: 5px 10px;
+    padding: 2px 7px;
     border-radius: 5px;
     flex-direction: row;
     align-items: center;
@@ -125,7 +165,6 @@
   }
 
   .#{$ns}CBGroup {
-    margin-left: $gap-xs;
     flex-grow: 1;
   }
 
@@ -172,7 +211,8 @@
 .#{$ns}CBInputSwitch {
   position: relative;
   display: inline-block;
-  margin-left: 5px;
+  vertical-align: middle;
+  // margin: px2rem(3px);
   cursor: pointer;
   > a {
     @include icon-color();
@@ -186,7 +226,8 @@
 
 .#{$ns}CBFunc {
   display: inline-block;
-  margin-left: $gap-xs;
+  vertical-align: middle;
+  margin: px2rem(3px);
 
   &-select {
     display: inline-block;
@@ -214,5 +255,13 @@
 .#{$ns}CBValue {
   position: relative;
   display: inline-block;
-  margin-left: $gap-xs;
+  vertical-align: middle;
+  margin: px2rem(3px);
+}
+
+.#{$ns}CBSeprator {
+  width: 20px;
+  text-align: center;
+  display: inline-block;
+  user-select: none;
 }

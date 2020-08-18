@@ -15,7 +15,13 @@ export type OperatorType =
   | 'like'
   | 'not_like'
   | 'starts_with'
-  | 'ends_with';
+  | 'ends_with'
+  | 'less'
+  | 'less_or_equal'
+  | 'greater'
+  | 'greater_or_equal'
+  | 'between'
+  | 'not_between';
 
 export type FieldItem = {
   type: 'text';
@@ -75,9 +81,10 @@ interface BaseField {
   funcs?: Array<string>;
 
   defaultValue?: any;
+  placeholder?: string;
 }
 
-type FieldGroup = {
+export type FieldGroup = {
   label: string;
   children: Array<FieldSimple>;
 };
@@ -85,7 +92,6 @@ type FieldGroup = {
 interface TextField extends BaseField {
   name: string;
   type: 'text';
-  placeholder?: string;
   minLength?: number;
   maxLength?: number;
 }
@@ -100,6 +106,8 @@ interface NumberField extends BaseField {
 interface DateField extends BaseField {
   name: string;
   type: 'date';
+  format?: string;
+  inputFormat?: string;
   minDate?: any;
   maxDate?: any;
 }
@@ -109,11 +117,16 @@ interface TimeField extends BaseField {
   type: 'time';
   minTime?: any;
   maxTime?: any;
+  format?: string;
+  inputFormat?: string;
 }
 
 interface DatetimeField extends BaseField {
   type: 'datetime';
   name: string;
+  format?: string;
+  inputFormat?: string;
+  timeFormat?: string;
 }
 
 interface SelectField extends BaseField {
@@ -164,6 +177,7 @@ export type Funcs = Array<Func | FuncGroup>;
 export type Fields = Array<Field>;
 
 export type Type = {
-  operators: Array<string>;
+  defaultOp?: OperatorType;
+  operators: Array<OperatorType>;
   placeholder?: string;
 };

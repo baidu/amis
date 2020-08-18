@@ -5,11 +5,12 @@ import {
   Func,
   ExpressionFunc,
   Type,
-  FieldSimple
+  FieldSimple,
+  FieldGroup
 } from './types';
 import React from 'react';
 import ConditionField from './Field';
-import {autobind, findTree} from '../../utils/helper';
+import {autobind, findTree, filterTree} from '../../utils/helper';
 import Value from './Value';
 import InputSwitch from './InputSwitch';
 import ConditionFunc from './Func';
@@ -132,17 +133,6 @@ export class Expression extends React.Component<ExpressionProps> {
 
     return (
       <>
-        {types.length > 1 ? (
-          <InputSwitch
-            value={inputType}
-            onChange={this.handleInputTypeChange}
-            options={types.map(item => ({
-              label: fieldMap[item],
-              value: item
-            }))}
-          />
-        ) : null}
-
         {inputType === 'value' ? (
           <Value
             field={valueField!}
@@ -155,7 +145,16 @@ export class Expression extends React.Component<ExpressionProps> {
           <ConditionField
             value={(value as any)?.field}
             onChange={this.handleFieldChange}
-            options={fields!}
+            options={
+              valueField
+                ? filterTree(
+                    fields!,
+                    item =>
+                      (item as any).children ||
+                      (item as FieldSimple).type === valueField.type
+                  )
+                : fields!
+            }
           />
         ) : null}
 
@@ -167,6 +166,17 @@ export class Expression extends React.Component<ExpressionProps> {
             fields={fields}
             defaultType={defaultType}
             allowedTypes={allowedTypes}
+          />
+        ) : null}
+
+        {types.length > 1 ? (
+          <InputSwitch
+            value={inputType}
+            onChange={this.handleInputTypeChange}
+            options={types.map(item => ({
+              label: fieldMap[item],
+              value: item
+            }))}
           />
         ) : null}
       </>

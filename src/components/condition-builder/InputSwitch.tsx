@@ -34,7 +34,7 @@ export function InputSwitch({
       {({onClick, isOpened, ref}) => (
         <div className={cx('CBInputSwitch', isOpened ? 'is-active' : '')}>
           <a onClick={onClick} ref={ref}>
-            <Icon icon="setting" />
+            <Icon icon="ellipsis-v" />
           </a>
         </div>
       )}

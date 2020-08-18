@@ -2,6 +2,8 @@ import React from 'react';
 import {FieldSimple} from './types';
 import {ThemeProps, themeable} from '../../theme';
 import InputBox from '../InputBox';
+import NumberInput from '../NumberInput';
+import DatePicker from '../DatePicker';
 
 export interface ValueProps extends ThemeProps {
   value: any;
@@ -17,9 +19,54 @@ export class Value extends React.Component<ValueProps> {
     if (field.type === 'text') {
       input = (
         <InputBox
-          value={value}
+          value={value ?? field.defaultValue}
           onChange={onChange}
           placeholder={field.placeholder}
+        />
+      );
+    } else if (field.type === 'number') {
+      input = (
+        <NumberInput
+          placeholder={field.placeholder || '请选择日期'}
+          min={field.minimum}
+          max={field.maximum}
+          value={value ?? field.defaultValue}
+          onChange={onChange}
+        />
+      );
+    } else if (field.type === 'date') {
+      input = (
+        <DatePicker
+          placeholder={field.placeholder || '请选择日期'}
+          format={field.format || 'YYYY-MM-DD'}
+          inputFormat={field.inputFormat || 'YYYY-MM-DD'}
+          value={value ?? field.defaultValue}
+          onChange={onChange}
+          timeFormat=""
+        />
+      );
+    } else if (field.type === 'time') {
+      input = (
+        <DatePicker
+          viewMode="time"
+          placeholder={field.placeholder || '请选择时间'}
+          format={field.format || 'HH:mm'}
+          inputFormat={field.inputFormat || 'HH:mm'}
+          value={value ?? field.defaultValue}
+          onChange={onChange}
+          dateFormat=""
+          timeFormat={field.format || 'HH:mm'}
+        />
+      );
+    } else if (field.type === 'datetime') {
+      input = (
+        <DatePicker
+          placeholder={field.placeholder || '请选择日期时间'}
+          format={field.format || ''}
+          inputFormat={field.inputFormat || 'YYYY-MM-DD HH:mm'}
+          value={value ?? field.defaultValue}
+          onChange={onChange}
+          timeFormat={field.timeFormat || 'HH:mm'}
         />
       );
     }

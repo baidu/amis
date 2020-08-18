@@ -129,6 +129,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
               className="m-r-xs"
               size="xs"
               active={value?.not}
+              level={value?.not ? 'info' : 'default'}
             >
               非
             </Button>
@@ -176,22 +177,24 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
         </div>
 
         <div className={cx('CBGroup-body')}>
-          {Array.isArray(value?.children)
-            ? value!.children.map((item, index) => (
-                <GroupOrItem
-                  draggable={value!.children!.length > 1}
-                  onDragStart={onDragStart}
-                  config={config}
-                  key={item.id}
-                  fields={fields}
-                  value={item as ConditionGroupValue}
-                  index={index}
-                  onChange={this.handleItemChange}
-                  funcs={funcs}
-                  onRemove={this.handleItemRemove}
-                />
-              ))
-            : null}
+          {Array.isArray(value?.children) && value!.children.length ? (
+            value!.children.map((item, index) => (
+              <GroupOrItem
+                draggable={value!.children!.length > 1}
+                onDragStart={onDragStart}
+                config={config}
+                key={item.id}
+                fields={fields}
+                value={item as ConditionGroupValue}
+                index={index}
+                onChange={this.handleItemChange}
+                funcs={funcs}
+                onRemove={this.handleItemRemove}
+              />
+            ))
+          ) : (
+            <div className={cx('CBGroup-placeholder')}>空</div>
+          )}
         </div>
       </div>
     );
