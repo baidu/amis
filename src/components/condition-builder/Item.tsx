@@ -9,7 +9,8 @@ import {
   Field,
   FieldSimple,
   ExpressionField,
-  OperatorType
+  OperatorType,
+  ExpressionComplex
 } from './types';
 import {ThemeProps, themeable} from '../../theme';
 import {Icon} from '../icons';
@@ -56,7 +57,12 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
   @autobind
   handleLeftChange(leftValue: any) {
-    const value = {...this.props.value, left: leftValue};
+    const value = {
+      ...this.props.value,
+      left: leftValue,
+      op: undefined,
+      right: undefined
+    };
     const onChange = this.props.onChange;
 
     onChange(value, this.props.index);
@@ -64,13 +70,25 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
   @autobind
   handleOperatorChange(op: OperatorType) {
-    const value = {...this.props.value, op: op};
+    const value = {...this.props.value, op: op, right: undefined};
     this.props.onChange(value, this.props.index);
   }
 
   @autobind
   handleRightChange(rightValue: any) {
     const value = {...this.props.value, right: rightValue};
+    const onChange = this.props.onChange;
+
+    onChange(value, this.props.index);
+  }
+
+  handleRightSubChange(index: number, rightValue: any) {
+    const origin = Array.isArray(this.props.value?.right)
+      ? this.props.value.right.concat()
+      : [];
+
+    origin[index] = rightValue;
+    const value = {...this.props.value, right: origin};
     const onChange = this.props.onChange;
 
     onChange(value, this.props.index);
@@ -99,7 +117,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
     if ((left as ExpressionFunc)?.type === 'func') {
       const func: Func = findTree(
         funcs!,
-        (i: Func) => i.type === (left as ExpressionFunc).type
+        (i: Func) => i.type === (left as ExpressionFunc).func
       ) as Func;
 
       if (func) {
@@ -173,7 +191,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
     if ((left as ExpressionFunc)?.type === 'func') {
       const func: Func = findTree(
         funcs!,
-        (i: Func) => i.type === (left as ExpressionFunc).type
+        (i: Func) => i.type === (left as ExpressionFunc).func
       ) as Func;
 
       if (func) {
@@ -198,7 +216,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderRightWidgets(type: string, op: OperatorType) {
-    const {funcs, value, fields, config} = this.props;
+    const {funcs, value, fields, config, classnames: cx} = this.props;
     let field = {
       ...config.types[type],
       type
@@ -220,6 +238,36 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
     if (op === 'is_empty' || op === 'is_not_empty') {
       return null;
+    } else if (op === 'between' || op === 'not_between') {
+      return (
+        <>
+          <Expression
+            funcs={funcs}
+            valueField={field}
+            value={(value.right as Array<ExpressionComplex>)?.[0]}
+            onChange={this.handleRightSubChange.bind(this, 0)}
+            fields={fields}
+            defaultType="value"
+            allowedTypes={
+              field?.valueTypes || ['value', 'field', 'func', 'raw']
+            }
+          />
+
+          <span className={cx('CBSeprator')}>~</span>
+
+          <Expression
+            funcs={funcs}
+            valueField={field}
+            value={(value.right as Array<ExpressionComplex>)?.[1]}
+            onChange={this.handleRightSubChange.bind(this, 1)}
+            fields={fields}
+            defaultType="value"
+            allowedTypes={
+              field?.valueTypes || ['value', 'field', 'func', 'raw']
+            }
+          />
+        </>
+      );
     }
 
     return (

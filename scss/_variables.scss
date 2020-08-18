@@ -1020,12 +1020,12 @@ $ColorPicker-paddingY: (
   )/2 - $ColorPicker-borderWidth !default;
 $ColorPicker-placeholderColor: $Form-input-placeholderColor !default;
 $ColorPicker-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
-$DatePicker-onHover-borderColor: $Form-input-borderColor !default;
 
 // datepicker
 $DatePicker-color: $Form-input-color !default;
 $DatePicker-bg: $white !default;
-$DatePicker-onHover-bg: darken($DatePicker-bg, 5%) !default;
+$DatePicker-onHover-borderColor: $Form-input-onFocused-borderColor !default;
+$DatePicker-onHover-bg: $DatePicker-bg !default;
 $DatePicker-borderWidth: $Form-input-borderWidth !default;
 $DatePicker-borderColor: $Form-input-borderColor !default;
 $DatePicker-borderRadius: $Form-input-borderRadius !default;
