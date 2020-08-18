@@ -6,7 +6,8 @@ import {
   ExpressionFunc,
   Type,
   FieldSimple,
-  FieldGroup
+  FieldGroup,
+  OperatorType
 } from './types';
 import React from 'react';
 import ConditionField from './Field';
@@ -34,6 +35,7 @@ export interface ExpressionProps extends ThemeProps {
   funcs?: Funcs;
   defaultType?: 'value' | 'field' | 'func' | 'raw';
   allowedTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
+  op?: OperatorType;
 }
 
 const fieldMap = {
@@ -109,7 +111,8 @@ export class Expression extends React.Component<ExpressionProps> {
       defaultType,
       allowedTypes,
       funcs,
-      fields
+      fields,
+      op
     } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
@@ -138,6 +141,7 @@ export class Expression extends React.Component<ExpressionProps> {
             field={valueField!}
             value={value}
             onChange={this.handleValueChange}
+            op={op}
           />
         ) : null}
 

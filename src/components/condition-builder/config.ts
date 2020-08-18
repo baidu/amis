@@ -5,6 +5,7 @@ export interface BaseFieldConfig {
 }
 
 export interface Config {
+  valueTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
   fields: Fields;
   funcs?: Funcs;
   maxLevel?: number;
@@ -27,10 +28,15 @@ export const OperationMap = {
   like: '模糊匹配',
   not_like: '不匹配',
   starts_with: '匹配开头',
-  ends_with: '匹配结尾'
+  ends_with: '匹配结尾',
+  select_equals: '等于',
+  select_not_equals: '不等于',
+  select_any_in: '包含',
+  select_not_any_in: '不包含'
 };
 
 const defaultConfig: Config = {
+  valueTypes: ['value'],
   types: {
     text: {
       placeholder: '请输入文本',
@@ -103,6 +109,20 @@ const defaultConfig: Config = {
         'is_empty',
         'is_not_empty'
       ]
+    },
+
+    select: {
+      operators: [
+        'select_equals',
+        'select_not_equals',
+        'select_any_in',
+        'select_not_any_in'
+      ],
+      valueTypes: ['value']
+    },
+
+    boolean: {
+      operators: ['equal', 'not_equal']
     }
   },
 
