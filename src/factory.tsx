@@ -919,7 +919,7 @@ const defaultOptions: RenderOptions = {
   },
   isCancel() {
     console.error(
-      'Please implements this. see https://baidu.github.io/amis/docs/getting-started#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8'
+      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
     return false;
   },
@@ -928,7 +928,7 @@ const defaultOptions: RenderOptions = {
   },
   updateLocation() {
     console.error(
-      'Please implements this. see https://baidu.github.io/amis/docs/getting-started#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8'
+      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
   },
   confirm(msg: string) {
@@ -939,7 +939,7 @@ const defaultOptions: RenderOptions = {
   },
   jumpTo() {
     console.error(
-      'Please implements this. see https://baidu.github.io/amis/docs/getting-started#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8'
+      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
   },
   isCurrentUrl() {

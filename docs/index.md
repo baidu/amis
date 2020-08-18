@@ -83,6 +83,13 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
       "filter-toggler",
       "bulkActions",
       {
+        "type": "action",
+        "label": "重置测试数据",
+        "actionType": "ajax",
+        "size": "sm",
+        "api": "https://houtai.baidu.com/api/sample/reset"
+      },
+      {
         "type": "tpl",
         "tpl": "一共有 ${count} 行数据。",
         "className": "v-middle"
