@@ -61,13 +61,28 @@ renderAmis(
 );
 ```
 
-### 使用
+### 使用指南
 
 可以在 React Component 这么使用（TypeScript）。
 
+1. 安装部分示例需要的插件库
+
+```
+npm i axios copy-to-clipboard
+```
+
+> 为了方便示例，上面选用了我们常用几个插件库，你完全可以选择自己喜欢的插件并重新实现
+
+2. 代码实现
+
 ```tsx
 import * as React from 'react';
+import axios from 'axios';
+import copy from 'copy-to-clipboard';
+
 import {render as renderAmis} from 'amis';
+import {alert, confirm} from 'amis/lib/components/Alert';
+import {toast} from 'amis/lib/components/Toast';
 
 class MyComponent extends React.Component<any, any> {
   render() {
@@ -76,55 +91,87 @@ class MyComponent extends React.Component<any, any> {
         <p>通过 amis 渲染页面</p>
         {renderAmis(
           {
-            // schema
             // 这里是 amis 的 Json 配置。
             type: 'page',
             title: '简单页面',
             body: '内容'
           },
           {
-            // props
+            // props...
           },
           {
             // env
             // 这些是 amis 需要的一些接口实现
             // 可以参考后面的参数介绍。
 
+            jumpTo: (location: string /*目标地址*/) => {
+              // 用来实现页面跳转, actionType:link、url 都会进来。
+              // 因为不清楚所在环境中是否使用了 spa 模式，所以自己实现这个方法吧。
+            },
+
             updateLocation: (
               location: string /*目标地址*/,
               replace: boolean /*是replace，还是push？*/
             ) => {
-              // 用来更新地址栏
-            },
-
-            jumpTo: (location: string /*目标地址*/) => {
-              // 页面跳转， actionType:  link、url 都会进来。
+              // 地址替换，跟 jumpTo 类似
             },
 
             fetcher: ({
-              url,
-              method,
-              data,
-              config
-            }: {
-              url: string /*目标地址*/;
-              method: 'get' | 'post' | 'put' | 'delete' /*发送方式*/;
-              data: object | void /*数据*/;
-              config: object /*其他配置*/;
-            }) => {
-              // 用来发送 Ajax 请求，建议使用 axios
+              url, // 接口地址
+              method, // 请求方法 get、post、put、delete
+              data, // 请求数据
+              responseType,
+              config, // 其他配置
+              headers // 请求头
+            }: any) => {
+              config = config || {};
+              config.withCredentials = true;
+              responseType && (config.responseType = responseType);
+
+              if (config.cancelExecutor) {
+                config.cancelToken = new (axios as any).CancelToken(
+                  config.cancelExecutor
+                );
+              }
+
+              config.headers = headers || {};
+
+              if (method !== 'post' && method !== 'put' && method !== 'patch') {
+                if (data) {
+                  config.params = data;
+                }
+
+                return (axios as any)[method](url, config);
+              } else if (data && data instanceof FormData) {
+                config.headers = config.headers || {};
+                config.headers['Content-Type'] = 'multipart/form-data';
+              } else if (
+                data &&
+                typeof data !== 'string' &&
+                !(data instanceof Blob) &&
+                !(data instanceof ArrayBuffer)
+              ) {
+                data = JSON.stringify(data);
+                config.headers = config.headers || {};
+                config.headers['Content-Type'] = 'application/json';
+              }
+
+              return (axios as any)[method](url, data, config);
             },
+            isCancel: (value: any) => (axios as any).isCancel(value),
             notify: (
               type: 'error' | 'success' /**/,
               msg: string /*提示内容*/
             ) => {
-              // 用来提示用户
+              toast[type]
+                ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
+                : console.warn('[Notify]', type, msg);
             },
-            alert: (content: string /*提示信息*/) => {
-              // 另外一种提示，可以直接用系统框
-            },
-            confirm: (content: string /*提示信息*/) => {
-              // 确认框。
+            alert,
+            confirm,
+            copy: content => {
+              copy(content);
+              toast.success('内容已复制到粘贴板');
             }
           }
         )}
@@ -134,109 +181,158 @@ class MyComponent extends React.Component<any, any> {
 }
 ```
 
-`(schema:Schema, props?:any, env?: any) => JSX.Element`
+### render 函数介绍
 
-参数说明：
+```js
+(schema, props, env) => JSX.Element;
+```
 
-- `schema` 即页面配置，请前往 [配置与组件](../concepts/schema) 了解.
-- `props` 一般都用不上，如果你想传递一些数据给渲染器内部使用，可以传递 data 数据进去。如：
+#### schema
 
-  ```jsx
-  () =>
-    renderAmis(schema, {
-      data: {
+即页面配置，请前往 [配置与组件](../concepts/schema) 了解
+
+#### props
+
+一般都用不上，如果你想传递一些数据给渲染器内部使用，可以传递 data 数据进去。如：
+
+```jsx
+() =>
+  renderAmis(schema, {
+    data: {
+      username: 'amis'
+    }
+  });
+```
+
+这样，内部所有组件都能拿到 `username` 这个变量的值。当然，这里的 key 并不一定必须是 data , 你也可以是其它 key，但必须配合 schema 中的 `detectField` 属性一起使用。 如：
+
+```jsx
+() =>
+  renderAmis(
+    {
+      //其它配置
+      detectField: 'somekey'
+    },
+    {
+      somekey: {
         username: 'amis'
       }
-    });
-  ```
-
-  这样，内部所有组件都能拿到 `username` 这个变量的值。当然，这里的 key 并不一定必须是 data , 你也可以是其它 key，但必须配合 schema 中的 `detectField` 属性一起使用。 如：
-
-  ```jsx
-  () =>
-    renderAmis(
-      {
-        //其它配置
-        detectField: 'somekey'
-      },
-      {
-        somekey: {
-          username: 'amis'
-        }
-      }
-    );
-  ```
-
-- `env` 环境变量，可以理解为这个渲染器工具的配置项，需要调用者实现部分接口。
-
-  - `session: string` 默认为 'global'，决定 store 是否为全局共用的，如果想单占一个 store，请设置不同的值。
-  - `fetcher: (config: fetcherConfig) => Promise<fetcherResult>` 用来实现 ajax 发送。
-
-    示例
-
-    ```js
-    fetcher: ({
-        url,
-        method,
-        data,
-        responseType,
-        config,
-        headers
-    }: any) => {
-        config = config || {};
-        config.withCredentials = true;
-        responseType && (config.responseType = responseType);
-
-        if (config.cancelExecutor) {
-            config.cancelToken = new (axios as any).CancelToken(config.cancelExecutor);
-        }
-
-        config.headers = headers || {};
-
-        if (method !== 'post' && method !== 'put' && method !== 'patch') {
-            if (data) {
-                config.params = data;
-            }
-
-            return (axios as any)[method](url, config);
-        } else if (data && data instanceof FormData) {
-            // config.headers = config.headers || {};
-            // config.headers['Content-Type'] = 'multipart/form-data';
-        } else if (data
-            && typeof data !== 'string'
-            && !(data instanceof Blob)
-            && !(data instanceof ArrayBuffer)
-        ) {
-            data = JSON.stringify(data);
-            // config.headers = config.headers || {};
-            config.headers['Content-Type'] = 'application/json';
-        }
-
-        return (axios as any)[method](url, data, config);
     }
-    ```
+  );
+```
 
-  - `isCancel: (e:error) => boolean` 判断 ajax 异常是否为一个 cancel 请求。
+#### env
 
-    示例
+环境变量，可以理解为这个渲染器工具的配置项，需要使用 amis 用户实现部分接口。他有下面若干参数：
 
-    ```js
-    isCancel: (value: any) => (axios as any).isCancel(value)
-    ```
+##### fetcher（必须实现）
 
-  - `notify: (type:string, msg: string) => void` 用来实现消息提示。
-  - `alert: (msg:string) => void` 用来实现警告提示。
-  - `confirm: (msg:string) => boolean | Promise<boolean>` 用来实现确认框。
-  - `jumpTo: (to:string, action?: Action, ctx?: object) => void` 用来实现页面跳转，因为不清楚所在环境中是否使用了 spa 模式，所以用户自己实现吧。
-  - `updateLocation: (location:any, replace?:boolean) => void` 地址替换，跟 jumpTo 类似。
-  - `isCurrentUrl: (link:string) => boolean` 判断目标地址是否为当前页面。
-  - `theme: 'default' | 'cxd'` 目前支持两种主题。
-  - `copy: (contents:string, options?: {shutup: boolean}) => void` 用来实现，内容复制。
-  - `getModalContainer: () => HTMLElement` 用来决定弹框容器。
-  - `loadRenderer: (chema:any, path:string) => Promise<Function>` 可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。
-  - `affixOffsetTop: number` 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
-  - `affixOffsetBottom: number` 固底间距，当你的有其他固底元素时，需要设置一定的偏移量，否则会重叠。
-  - `richTextToken: string` 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
+接口请求器，实现该函数才可以实现 ajax 发送，函数签名如下：
+
+```ts
+(config: {
+  url; // 接口地址
+  method; // 请求方法 get、post、put、delete
+  data; // 请求数据
+  responseType;
+  config; // 其他配置
+  headers; // 请求头
+}) => Promise<fetcherResult>;
+```
+
+> 你可以使用任何你喜欢的 ajax 请求库来实现这个接口
+
+##### notify
+
+```ts
+(type: string, msg: string) => void
+```
+
+用来实现消息提示。
+
+##### alert
+
+```ts
+(msg: string) => void
+```
+
+用来实现警告提示。
+
+##### confirm
+
+```ts
+(msg: string) => boolean | Promise<boolean>
+```
+
+用来实现确认框。返回 boolean 值
+
+##### jumpTo
+
+```ts
+(to: string, action?: Action, ctx?: object) => void
+```
+
+用来实现页面跳转，因为不清楚所在环境中是否使用了 spa 模式，所以用户自己实现吧。
+
+##### updateLocation
+
+```ts
+(location: any, replace?: boolean) => void
+```
+
+地址替换，跟 jumpTo 类似。
+
+##### theme: string
+
+目前支持是三种主题：`default`、`cxd` 和 `dark`
+
+##### isCurrentUrl
+
+```ts
+(link: string) => boolean;
+```
+
+判断目标地址是否为当前页面。
+
+##### copy
+
+```ts
+(contents: string, options?: {shutup: boolean})
+```
+
+用来实现内容复制。
+
+##### session
+
+默认为 'global'，决定 store 是否为全局共用的，如果想单占一个 store，请设置不同的值。
+
+##### getModalContainer
+
+```ts
+() => HTMLElement;
+```
+
+用来决定弹框容器。
+
+##### loadRenderer
+
+```ts
+(schema: any, path: string) => Promise<Function>
+```
+
+可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。
+
+##### affixOffsetTop: number
+
+固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
+
+##### affixOffsetBottom: number
+
+固底间距，当你的有其他固底元素时，需要设置一定的偏移量，否则会重叠。
+
+##### richTextToken: string
+
+内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
 
 ## SDK
 
@@ -309,7 +405,7 @@ let amisScoped = amis.embed(
       // 可以不传，用来实现 ajax 请求
     },
 
-    jumpTo: (location) => {
+    jumpTo: location => {
       // 可以不传，用来实现页面跳转
     },
 
@@ -317,11 +413,11 @@ let amisScoped = amis.embed(
       // 可以不传，用来实现地址栏更新
     },
 
-    isCurrentUrl: (url) => {
+    isCurrentUrl: url => {
       // 可以不传，用来判断是否目标地址当前地址。
     },
 
-    copy: (content) => {
+    copy: content => {
       // 可以不传，用来实现复制到剪切板
     },
 
@@ -329,11 +425,11 @@ let amisScoped = amis.embed(
       // 可以不传，用来实现通知
     },
 
-    alert: (content) => {
+    alert: content => {
       // 可以不传，用来实现提示
     },
 
-    confirm: (content) => {
+    confirm: content => {
       // 可以不传，用来实现确认框。
     }
   }
@@ -350,15 +446,15 @@ let amisScoped = amis.embed(
   "name": "page1",
   "title": "表单页面",
   "body": {
-      "type": "form",
-      "name": "form1",
-      "controls": [
-          {
-              "label": "Name",
-              "type": "text",
-              "name": "name1"
-          }
-      ]
+    "type": "form",
+    "name": "form1",
+    "controls": [
+      {
+        "label": "Name",
+        "type": "text",
+        "name": "name1"
+      }
+    ]
   }
 }
 ```
