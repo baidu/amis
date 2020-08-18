@@ -22,19 +22,35 @@
     width: px2rem(20px);
     text-align: center;
     line-height: px2rem(17px);
+    margin-top: px2rem(2px);
 
-    &::before {
-      content: $Layout-asideLink-arrowIcon;
+    &:empty:before {
+      content: '';
       display: inline-block;
-      font-family: $Layout-asideLink-arrowVendor;
       transform-origin: center;
-      color: $Layout-asideLink-arrowColor;
-      font-size: $Layout-asideLink-arrowFontSize;
+      transition: transform 0.2s ease;
+      background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB2aWV3Qm94PSIwIDAgNTEzIDEwMjEiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+Cgk8ZyBpZD0icmlnaHQtYXJyb3ciIGZpbGw9IiNmZmZmZmYiIGZpbGwtcnVsZT0ibm9uemVybyI+CgkJPHBhdGggZD0iTTU2LjU1OTA1NCwxMDEzLjc3MzY5IEw1MTIuOTA4MTE2LDUxMi42ODQ1MjQgTDU2LjU1OTA1NCwxMi4yMzQ1MDEgQzQ5LjQxMTQ2NzgsMi45MzQ1NTkxMiAzNy42NjY0MjM4LC0xLjU5MTg4MTc2IDI2LjEyNjIzMjQsMC41MDU5NDgyNDYgQzE0LjU4NjA0MSwyLjYwMzc3ODI1IDUuMTg1NDQ0MDksMTAuOTc0MTcyNyAxLjc2ODE1NTE2LDIyLjE5NDY0NzEgQy0xLjY0OTEzMzc3LDMzLjQxNTEyMTQgMS40ODk4MDIyOCw0NS42MDQ1MzUxIDkuOTAxNTE2LDUzLjc3ODg4NCBMNDI0LjcwNjE5Nyw1MTIuNjg0NTI0IEwxMi40NTgwOTQsOTY5LjY3MjczMSBDMi40NTgyMDU5Niw5ODIuNTUxNDk4IDQuMDEyOTc3MzcsMTAwMC45NDgzIDE2LjAzMjQ0MjIsMTAxMS45NjYxNSBDMjguMDUxOTA3MSwxMDIyLjk4Mzk5IDQ2LjUxNDIzNDYsMTAyMi45MzYxOSA1OC40NzY0ODcsMTAxMS44NTYyNiBMNTYuNTU5MDU0LDEwMTMuNzczNjkgWiIgaWQ9Iui3r+W+hCI+CgkJPC9wYXRoPgoJPC9nPgo8L3N2Zz4K);
+      width: px2rem(10px);
+      height: px2rem(10px);
+      background-position: center center;
+      background-repeat: no-repeat;
     }
 
-    .#{$ns}AsideNav-item.is-open > a > &::before {
+    .#{$ns}AsideNav-item.is-open > a > &:empty:before {
       transform: rotate(90deg);
       color: $Layout-asideLink-onActive-arrowColor;
+    }
+
+    > svg {
+      color: $Layout-asideLink-color;
+      width: px2rem(10px);
+      height: px2rem(10px);
+      transform-origin: center;
+      transition: transform 0.2s ease;
+    }
+
+    .#{$ns}AsideNav-item.is-open > a > & > svg {
+      transform: rotate(90deg);
     }
   }
 

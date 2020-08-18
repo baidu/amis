@@ -7,9 +7,15 @@ import {
   getRoot
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
-import isEqual = require('lodash/isEqual');
-import find = require('lodash/find');
-import {createObject, isObject, guid} from '../utils/helper';
+import isEqual from 'lodash/isEqual';
+import find from 'lodash/find';
+import {
+  createObject,
+  isObject,
+  guid,
+  immutableExtends,
+  extendObject
+} from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 
 export const Item = types
@@ -41,7 +47,7 @@ export const Item = types
 
     get locals(): any {
       return createObject(
-        createObject((getParent(self, 2) as IListStore).data, {
+        extendObject((getParent(self, 2) as IListStore).data, {
           index: self.index
         }),
         self.data
@@ -68,15 +74,8 @@ export const Item = types
     },
 
     change(values: object, savePristine?: boolean) {
-      self.data = {
-        ...self.data,
-        ...values
-      };
-
-      savePristine &&
-        (self.pristine = {
-          ...self.data
-        });
+      self.data = immutableExtends(self.data, values);
+      savePristine && (self.pristine = self.data);
     },
 
     reset() {

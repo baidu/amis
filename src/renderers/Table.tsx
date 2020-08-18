@@ -1,15 +1,15 @@
-import React from "react";
-import { findDOMNode } from "react-dom";
-import { Renderer, RendererProps } from "../factory";
-import { SchemaNode, Action, Schema, Api, ApiObject } from "../types";
-import forEach = require("lodash/forEach");
-import { filter } from "../utils/tpl";
-import cx from "classnames";
-import DropDownButton from "./DropDownButton";
-import Checkbox from "../components/Checkbox";
-import Button from "../components/Button";
-import { TableStore, ITableStore, IColumn, IRow } from "../store/table";
-import { observer } from "mobx-react";
+import React from 'react';
+import {findDOMNode} from 'react-dom';
+import {Renderer, RendererProps} from '../factory';
+import {SchemaNode, Action, Schema, Api, ApiObject} from '../types';
+import forEach from 'lodash/forEach';
+import {filter} from '../utils/tpl';
+import cx from 'classnames';
+import DropDownButton from './DropDownButton';
+import Checkbox from '../components/Checkbox';
+import Button from '../components/Button';
+import {TableStore, ITableStore, IColumn, IRow} from '../store/table';
+import {observer} from 'mobx-react';
 import {
   anyChanged,
   getScrollParent,
@@ -17,25 +17,26 @@ import {
   noop,
   autobind,
   isArrayChildrenModified
-} from "../utils/helper";
-import { resolveVariable } from "../utils/tpl-builtin";
+} from '../utils/helper';
+import {resolveVariable} from '../utils/tpl-builtin';
 import {
   isEffectiveApi,
   isApiOutdated,
   buildApi,
   normalizeApi
-} from "../utils/api";
-import debounce = require("lodash/debounce");
-import xor = require("lodash/xor");
-import QuickEdit from "./QuickEdit";
-import PopOver from "../components/PopOver";
-import Copyable from "./Copyable";
-import Sortable = require("sortablejs");
-import flatMap = require("lodash/flatMap");
-import { resizeSensor } from "../utils/resize-sensor";
-import find = require("lodash/find");
-import Overlay from "../components/Overlay";
-import PopOverable from "./PopOver";
+} from '../utils/api';
+import debounce from 'lodash/debounce';
+import xor from 'lodash/xor';
+import QuickEdit from './QuickEdit';
+import PopOver from '../components/PopOver';
+import Copyable from './Copyable';
+import Sortable from 'sortablejs';
+import flatMap from 'lodash/flatMap';
+import {resizeSensor} from '../utils/resize-sensor';
+import find from 'lodash/find';
+import Overlay from '../components/Overlay';
+import PopOverable from './PopOver';
+import {Icon} from '../components/icons';
 
 export interface Column {
   type: string;
@@ -52,24 +53,29 @@ export interface TableProps extends RendererProps {
   footerClassName?: string;
   store: ITableStore;
   columns?: Array<Column>;
+  headingClassName?: string;
+  toolbarClassName?: string;
+  headerToolbarClassName?: string;
+  footerToolbarClassName?: string;
   tableClassName?: string;
   source?: string;
   selectable?: boolean;
   selected?: Array<any>;
   valueField?: string;
   draggable?: boolean;
-  columnsTogglable?: boolean | "auto";
+  columnsTogglable?: boolean | 'auto';
   affixHeader?: boolean;
+  affixColumns?: boolean;
   combineNum?: number;
   footable?:
     | boolean
     | {
-        expand?: "first" | "all" | "none";
+        expand?: 'first' | 'all' | 'none';
         expandAll?: boolean;
         accordion?: boolean;
       };
   expandConfig?: {
-    expand?: "first" | "all" | "none";
+    expand?: 'first' | 'all' | 'none';
     expandAll?: boolean;
     accordion?: boolean;
   };
@@ -89,57 +95,71 @@ export interface TableProps extends RendererProps {
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
+  onImageEnlarge?: (data: any, target: any) => void;
   buildItemProps?: (item: any, index: number) => any;
   checkOnItemClick?: boolean;
   hideCheckToggler?: boolean;
+  rowClassName?: string;
+  rowClassNameExpr?: string;
+  popOverContainer?: any;
 }
 
 export default class Table extends React.Component<TableProps, object> {
   static propsList: Array<string> = [
-    "header",
-    "headerToolbarRender",
-    "footer",
-    "footerToolbarRender",
-    "footable",
-    "expandConfig",
-    "placeholder",
-    "tableClassName",
-    "source",
-    "selectable",
-    "columnsTogglable",
-    "affixHeader",
-    "headerClassName",
-    "footerClassName",
-    "selected",
-    "multiple",
-    "primaryField",
-    "hideQuickSaveBtn",
-    "itemCheckableOn",
-    "itemDraggableOn",
-    "checkOnItemClick",
-    "hideCheckToggler",
-    "itemActions",
-    "combineNum",
-    "items",
-    "valueField",
-    "saveImmediately"
+    'header',
+    'headerToolbarRender',
+    'footer',
+    'footerToolbarRender',
+    'footable',
+    'expandConfig',
+    'placeholder',
+    'tableClassName',
+    'headingClassName',
+    'source',
+    'selectable',
+    'columnsTogglable',
+    'affixHeader',
+    'affixColumns',
+    'headerClassName',
+    'footerClassName',
+    'selected',
+    'multiple',
+    'primaryField',
+    'hideQuickSaveBtn',
+    'itemCheckableOn',
+    'itemDraggableOn',
+    'checkOnItemClick',
+    'hideCheckToggler',
+    'itemActions',
+    'combineNum',
+    'items',
+    'columns',
+    'valueField',
+    'saveImmediately',
+    'rowClassName',
+    'rowClassNameExpr',
+    'popOverContainer',
+    'headerToolbarClassName',
+    'toolbarClassName',
+    'footerToolbarClassName'
   ];
   static defaultProps: Partial<TableProps> = {
-    className: "",
-    placeholder: "暂无数据",
-    tableClassName: "",
-    source: "$items",
+    className: '',
+    placeholder: '暂无数据',
+    tableClassName: '',
+    source: '$items',
     selectable: false,
-    columnsTogglable: "auto",
+    columnsTogglable: 'auto',
     affixHeader: true,
-    headerClassName: "",
-    footerClassName: "",
-    toolbarClassName: "",
-    primaryField: "id",
-    itemCheckableOn: "",
-    itemDraggableOn: "",
-    hideCheckToggler: false,
-    dragIcon: "glyphicon glyphicon-sort"
+    headerClassName: '',
+    footerClassName: '',
+    toolbarClassName: '',
+    headerToolbarClassName: '',
+    footerToolbarClassName: '',
+    primaryField: 'id',
+    itemCheckableOn: '',
+    itemDraggableOn: '',
+    hideCheckToggler: false
   };
 
   table?: HTMLTableElement;
@@ -170,7 +190,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.affixDetect = this.affixDetect.bind(this);
     this.updateTableInfoLazy = debounce(this.updateTableInfo.bind(this), 250, {
       trailing: true,
-      leading: false
+      leading: true
     });
     this.tableRef = this.tableRef.bind(this);
     this.affixedTableRef = this.affixedTableRef.bind(this);
@@ -202,7 +222,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     if (Array.isArray(value)) {
       rows = value;
-    } else if (typeof source === "string") {
+    } else if (typeof source === 'string') {
       const resolved = resolveVariable(source, props.data);
       const prev = prevProps ? resolveVariable(source, prevProps.data) : null;
 
@@ -214,7 +234,7 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     updateRows && store.initRows(rows, props.getEntryId);
-    typeof props.selected !== "undefined" &&
+    typeof props.selected !== 'undefined' &&
       store.updateSelected(props.selected, props.valueField);
   }
 
@@ -271,13 +291,13 @@ export default class Table extends React.Component<TableProps, object> {
     this.updateTableInfo();
 
     const dom = findDOMNode(this) as HTMLElement;
-    if (dom.closest(".modal-body")) {
+    if (dom.closest('.modal-body')) {
       return;
     }
 
     this.affixDetect();
-    parent.addEventListener("scroll", this.affixDetect);
-    window.addEventListener("resize", this.affixDetect);
+    parent.addEventListener('scroll', this.affixDetect);
+    window.addEventListener('resize', this.affixDetect);
   }
 
   componentWillReceiveProps(nextProps: TableProps) {
@@ -287,19 +307,19 @@ export default class Table extends React.Component<TableProps, object> {
     if (
       anyChanged(
         [
-          "selectable",
-          "columnsTogglable",
-          "draggable",
-          "orderBy",
-          "orderDir",
-          "multiple",
-          "footable",
-          "primaryField",
-          "itemCheckableOn",
-          "itemDraggableOn",
-          "hideCheckToggler",
-          "combineNum",
-          "expandConfig"
+          'selectable',
+          'columnsTogglable',
+          'draggable',
+          'orderBy',
+          'orderDir',
+          'multiple',
+          'footable',
+          'primaryField',
+          'itemCheckableOn',
+          'itemDraggableOn',
+          'hideCheckToggler',
+          'combineNum',
+          'expandConfig'
         ],
         props,
         nextProps
@@ -329,7 +349,7 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     if (
-      anyChanged(["source", "value", "items"], props, nextProps) ||
+      anyChanged(['source', 'value', 'items'], props, nextProps) ||
       (!nextProps.value && !nextProps.items && nextProps.data !== props.data)
     ) {
       Table.syncRows(store, nextProps, props);
@@ -340,23 +360,27 @@ export default class Table extends React.Component<TableProps, object> {
     }
   }
 
+  componentDidUpdate() {
+    this.updateTableInfoLazy();
+  }
+
   componentWillUnmount() {
     const parent = this.parentNode;
-    parent && parent.removeEventListener("scroll", this.affixDetect);
-    window.removeEventListener("resize", this.affixDetect);
+    parent && parent.removeEventListener('scroll', this.affixDetect);
+    window.removeEventListener('resize', this.affixDetect);
     (this.updateTableInfoLazy as any).cancel();
     this.unSensor && this.unSensor();
   }
 
   subFormRef(form: any, x: number, y: number) {
-    const { quickEditFormRef } = this.props;
+    const {quickEditFormRef} = this.props;
 
     quickEditFormRef && quickEditFormRef(form, x, y);
     this.subForms[`${x}-${y}`] = form;
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
-    const { onAction } = this.props;
+    const {onAction} = this.props;
 
     // todo
     onAction(e, action, ctx);
@@ -368,7 +392,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   handleCheckAll() {
-    const { store } = this.props;
+    const {store} = this.props;
 
     store.toggleAll();
     this.syncSelected();
@@ -380,12 +404,16 @@ export default class Table extends React.Component<TableProps, object> {
     saveImmediately?: boolean | any,
     savePristine?: boolean
   ) {
-    const { onSave, saveImmediately: propsSaveImmediately } = this.props;
+    const {
+      onSave,
+      saveImmediately: propsSaveImmediately,
+      primaryField
+    } = this.props;
 
     item.change(values, savePristine);
 
     // 值发生变化了，需要通过 onSelect 通知到外面，否则会出现数据不同步的问题
-    this.syncSelected();
+    item.modified && this.syncSelected();
 
     if ((!saveImmediately && !propsSaveImmediately) || savePristine) {
       return;
@@ -395,7 +423,7 @@ export default class Table extends React.Component<TableProps, object> {
       this.props.onAction(
         null,
         {
-          actionType: "ajax",
+          actionType: 'ajax',
           api: saveImmediately.api
         },
         values
@@ -409,7 +437,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     onSave(
       item.data,
-      difference(item.data, item.pristine),
+      difference(item.data, item.pristine, ['id', primaryField]),
       item.index,
       undefined,
       item.pristine
@@ -417,7 +445,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   async handleSave() {
-    const { store, onSave } = this.props;
+    const {store, onSave, primaryField} = this.props;
 
     if (!onSave || !store.modifiedRows.length) {
       return;
@@ -438,7 +466,7 @@ export default class Table extends React.Component<TableProps, object> {
     const rows = store.modifiedRows.map(item => item.data);
     const rowIndexes = store.modifiedRows.map(item => item.index);
     const diff = store.modifiedRows.map(item =>
-      difference(item.data, item.pristine)
+      difference(item.data, item.pristine, ['id', primaryField])
     );
     const unModifiedRows = store.rows
       .filter(item => !item.modified)
@@ -453,7 +481,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   handleSaveOrder() {
-    const { store, onSaveOrder } = this.props;
+    const {store, onSaveOrder} = this.props;
 
     if (!onSaveOrder || !store.movedRows.length) {
       return;
@@ -466,7 +494,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   syncSelected() {
-    const { store, onSelect } = this.props;
+    const {store, onSelect} = this.props;
 
     onSelect &&
       onSelect(
@@ -476,7 +504,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   reset() {
-    const { store } = this.props;
+    const {store} = this.props;
 
     store.reset();
 
@@ -488,14 +516,14 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   bulkUpdate(value: any, items: Array<object>) {
-    const { store, primaryField } = this.props;
+    const {store, primaryField} = this.props;
 
     if (primaryField && value.ids) {
-      const ids = value.ids.split(",");
+      const ids = value.ids.split(',');
       const rows = store.rows.filter(item =>
         find(ids, (id: any) => id && id == item.data[primaryField])
       );
-      const newValue = { ...value, ids: undefined };
+      const newValue = {...value, ids: undefined};
       rows.forEach(row => row.change(newValue));
     } else {
       const rows = store.rows.filter(item => ~items.indexOf(item.pristine));
@@ -504,7 +532,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   getSelected() {
-    const { store } = this.props;
+    const {store} = this.props;
 
     return store.selectedRows.map(item => item.data);
   }
@@ -517,7 +545,8 @@ export default class Table extends React.Component<TableProps, object> {
     const ns = this.props.classPrefix;
     const dom = findDOMNode(this) as HTMLElement;
     const clip = (this.table as HTMLElement).getBoundingClientRect();
-    const offsetY = this.props.env.affixOffsetTop || 0;
+    const offsetY =
+      this.props.affixOffsetTop || this.props.env.affixOffsetTop || 0;
     const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
     const affixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
 
@@ -525,8 +554,8 @@ export default class Table extends React.Component<TableProps, object> {
       (this.table.parentNode as HTMLElement).offsetWidth
     }px`;
     affixed
-      ? affixedDom.classList.add("in")
-      : affixedDom.classList.remove("in");
+      ? affixedDom.classList.add('in')
+      : affixedDom.classList.remove('in');
     // store.markHeaderAffix(clip.top < offsetY && (clip.top + clip.height - 40) > offsetY);
   }
 
@@ -556,15 +585,18 @@ export default class Table extends React.Component<TableProps, object> {
     let heights: {
       [propName: string]: number;
     } = (this.heights = {});
+
+    heights.header ||
+      (heights.header = table.querySelector('thead')!.offsetHeight);
+
     forEach(
-      table.querySelectorAll("thead>tr:last-child>th"),
+      table.querySelectorAll('thead>tr:last-child>th'),
       (item: HTMLElement) => {
-        heights.header || (heights.header = item.offsetHeight);
-        widths[item.getAttribute("data-index") as string] = item.offsetWidth;
+        widths[item.getAttribute('data-index') as string] = item.offsetWidth;
       }
     );
     forEach(
-      table.querySelectorAll("tbody>tr>*:last-child"),
+      table.querySelectorAll('tbody>tr>*:last-child'),
       (item: HTMLElement, index: number) => (heights[index] = item.offsetHeight)
     );
 
@@ -596,16 +628,16 @@ export default class Table extends React.Component<TableProps, object> {
         let totalWidth = 0;
 
         forEach(
-          table.querySelectorAll("thead>tr:last-child>th"),
+          table.querySelectorAll('thead>tr:last-child>th'),
           (item: HTMLElement) => {
             const width = this.widths[
-              parseInt(item.getAttribute("data-index") as string, 10)
+              parseInt(item.getAttribute('data-index') as string, 10)
             ];
 
             const style = getComputedStyle(item);
             const borderWidth =
-              (parseInt(style.getPropertyValue("border-left-width"), 10) || 0) +
-              (parseInt(style.getPropertyValue("border-right-width"), 10) || 0);
+              (parseInt(style.getPropertyValue('border-left-width'), 10) || 0) +
+              (parseInt(style.getPropertyValue('border-right-width'), 10) || 0);
 
             item.style.cssText += `width: ${width - borderWidth}px`;
             totalWidth += width;
@@ -613,7 +645,7 @@ export default class Table extends React.Component<TableProps, object> {
         );
 
         forEach(
-          table.querySelectorAll("tbody>tr"),
+          table.querySelectorAll('tbody>tr'),
           (item: HTMLElement, index) => {
             item.style.cssText += `height: ${this.heights[index]}px`;
           }
@@ -649,7 +681,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (fixedLeft && fixedLeft.length) {
       for (let i = 0, len = fixedLeft.length; i < len; i++) {
         let node = fixedLeft[i];
-        leading ? node.classList.remove("in") : node.classList.add("in");
+        leading ? node.classList.remove('in') : node.classList.add('in');
       }
     }
 
@@ -657,7 +689,7 @@ export default class Table extends React.Component<TableProps, object> {
     if (fixedRight && fixedRight.length) {
       for (let i = 0, len = fixedRight.length; i < len; i++) {
         let node = fixedRight[i];
-        trailing ? node.classList.remove("in") : node.classList.add("in");
+        trailing ? node.classList.remove('in') : node.classList.add('in');
       }
     }
     const table = this.affixedTable;
@@ -698,12 +730,12 @@ export default class Table extends React.Component<TableProps, object> {
     const store = this.props.store;
     const ns = this.props.classPrefix;
     this.sortable = new Sortable(
-      (this.table as HTMLElement).querySelector("tbody") as HTMLElement,
+      (this.table as HTMLElement).querySelector('tbody') as HTMLElement,
       {
-        group: "table",
+        group: 'table',
         animation: 150,
         handle: `.${ns}Table-dragCell`,
-        ghostClass: "is-dragging",
+        ghostClass: 'is-dragging',
         onEnd: (e: any) => {
           // 没有移动
           if (e.newIndex === e.oldIndex) {
@@ -733,15 +765,19 @@ export default class Table extends React.Component<TableProps, object> {
 
   handleMouseMove(e: React.MouseEvent<any>) {
     const tr: HTMLElement = (e.target as HTMLElement).closest(
-      "tr[data-index]"
+      'tr[data-index]'
     ) as HTMLElement;
 
-    if (!tr) {
+    if (
+      !tr ||
+      !this.props.itemActions ||
+      !this.props.itemActions.filter(item => !item.hiddenOnHover).length
+    ) {
       return;
     }
 
     const store = this.props.store;
-    const index = parseInt(tr.getAttribute("data-index") as string, 10);
+    const index = parseInt(tr.getAttribute('data-index') as string, 10);
     if (store.hoverIndex !== index) {
       store.rows.forEach((item, key) => item.setIsHover(index === key));
     }
@@ -763,15 +799,15 @@ export default class Table extends React.Component<TableProps, object> {
   handleDragStart(e: React.DragEvent) {
     const store = this.props.store;
     const target = e.currentTarget;
-    const tr = (this.draggingTr = target.closest("tr")!);
-    const id = tr.getAttribute("data-id")!;
+    const tr = (this.draggingTr = target.closest('tr')!);
+    const id = tr.getAttribute('data-id')!;
     const tbody = tr.parentNode!;
     this.originIndex = Array.prototype.indexOf.call(tbody.childNodes, tr);
 
-    tr.classList.add("is-dragging");
+    tr.classList.add('is-dragging');
 
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/plain", id);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', id);
 
     e.dataTransfer.setDragImage(tr, 0, 0);
     const item = store.getRowById(id)!;
@@ -784,19 +820,19 @@ export default class Table extends React.Component<TableProps, object> {
     }
     siblings = siblings.filter(sibling => sibling !== item);
 
-    tbody.addEventListener("dragover", this.handleDragOver);
-    tbody.addEventListener("drop", this.handleDrop);
+    tbody.addEventListener('dragover', this.handleDragOver);
+    tbody.addEventListener('drop', this.handleDrop);
 
     this.draggingSibling = siblings.map(item => {
       let tr: HTMLTableRowElement = tbody.querySelector(
         `tr[data-id="${item.id}"]`
       ) as HTMLTableRowElement;
 
-      tr.classList.add("is-drop-allowed");
+      tr.classList.add('is-drop-allowed');
 
       return tr;
     });
-    tr.addEventListener("dragend", this.handleDragEnd);
+    tr.addEventListener('dragend', this.handleDragEnd);
   }
 
   @autobind
@@ -805,12 +841,12 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
     e.preventDefault();
-    e.dataTransfer!.dropEffect = "move";
+    e.dataTransfer!.dropEffect = 'move';
 
-    const overTr: HTMLElement = (e.target as HTMLElement).closest("tr")!;
+    const overTr: HTMLElement = (e.target as HTMLElement).closest('tr')!;
     if (
       !overTr ||
-      !~overTr.className.indexOf("is-drop-allowed") ||
+      !~overTr.className.indexOf('is-drop-allowed') ||
       overTr === this.draggingTr
     ) {
       return;
@@ -831,7 +867,7 @@ export default class Table extends React.Component<TableProps, object> {
     const tr = this.draggingTr;
     const tbody = tr.parentElement!;
     const index = Array.prototype.indexOf.call(tbody.childNodes, tr);
-    const item: IRow = store.getRowById(tr.getAttribute("data-id")!) as any;
+    const item: IRow = store.getRowById(tr.getAttribute('data-id')!) as any;
 
     // destroy
     this.handleDragEnd();
@@ -851,13 +887,71 @@ export default class Table extends React.Component<TableProps, object> {
       ]
     );
 
-    tr.classList.remove("is-dragging");
-    tr.removeEventListener("dragend", this.handleDragEnd);
-    tbody.removeEventListener("dragover", this.handleDragOver);
-    tbody.removeEventListener("drop", this.handleDrop);
+    tr.classList.remove('is-dragging');
+    tr.removeEventListener('dragend', this.handleDragEnd);
+    tbody.removeEventListener('dragover', this.handleDragOver);
+    tbody.removeEventListener('drop', this.handleDrop);
     this.draggingSibling.forEach(item =>
-      item.classList.remove("is-drop-allowed")
+      item.classList.remove('is-drop-allowed')
     );
+  }
+
+  @autobind
+  handleImageEnlarge(info: any, target: {rowIndex: number; colIndex: number}) {
+    const onImageEnlarge = this.props.onImageEnlarge;
+
+    // 如果已经是多张了，直接跳过
+    if (Array.isArray(info.list)) {
+      return onImageEnlarge && onImageEnlarge(info, target);
+    }
+
+    // 从列表中收集所有图片，然后作为一个图片集合派送出去。
+    const store = this.props.store;
+    const column = store.filteredColumns[target.colIndex].pristine;
+
+    let index = target.rowIndex;
+    const list: Array<any> = [];
+    store.rows.forEach((row, i) => {
+      const src = resolveVariable(column.name, row.data);
+
+      if (!src) {
+        if (i < target.rowIndex) {
+          index--;
+        }
+        return;
+      }
+
+      list.push({
+        src,
+        originalSrc: column.originalSrc
+          ? filter(column.originalSrc, row.data)
+          : src,
+        title: column.enlargeTitle
+          ? filter(column.enlargeTitle, row.data)
+          : column.title
+          ? filter(column.title, row.data)
+          : undefined,
+        caption: column.enlargeCaption
+          ? filter(column.enlargeCaption, row.data)
+          : column.caption
+          ? filter(column.caption, row.data)
+          : undefined
+      });
+    });
+
+    if (list.length > 1) {
+      onImageEnlarge &&
+        onImageEnlarge(
+          {
+            ...info,
+            list,
+            index
+          },
+          target
+        );
+    } else {
+      onImageEnlarge && onImageEnlarge(info, target);
+    }
   }
 
   renderHeading() {
@@ -867,7 +961,9 @@ export default class Table extends React.Component<TableProps, object> {
       hideQuickSaveBtn,
       data,
       classnames: cx,
-      saveImmediately
+      saveImmediately,
+      headingClassName,
+      translate: __
     } = this.props;
 
     if (
@@ -876,51 +972,58 @@ export default class Table extends React.Component<TableProps, object> {
       store.moved
     ) {
       return (
-        <div className={cx("Table-heading")} key="heading">
+        <div className={cx('Table-heading', headingClassName)} key="heading">
           {!saveImmediately && store.modified && !hideQuickSaveBtn ? (
             <span>
-              {`当前有 ${store.modified} 条记录修改了内容, 但并没有提交。请选择:`}
+              {__(
+                '当前有 {{modified}} 条记录修改了内容, 但并没有提交。请选择:',
+                {
+                  modified: store.modified
+                }
+              )}
               <button
                 type="button"
-                className={cx("Button Button--xs Button--success m-l-sm")}
+                className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
-                <i className="fa fa-check m-r-xs" />
-                提交
+                <Icon icon="check" className="icon m-r-xs" />
+                {__('提交')}
               </button>
               <button
                 type="button"
-                className={cx("Button Button--xs Button--danger m-l-sm")}
+                className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
-                放弃
+                <Icon icon="close" className="icon m-r-xs" />
+                {__('放弃')}
               </button>
             </span>
           ) : store.moved ? (
             <span>
-              {`当前有 ${store.moved} 条记录修改了顺序, 但并没有提交。请选择:`}
+              {__('当前有 {{moved}} 条记录修改了顺序, 但并没有提交。请选择:', {
+                moved: store.moved
+              })}
               <button
                 type="button"
-                className={cx("Button Button--xs Button--success m-l-sm")}
+                className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSaveOrder}
               >
-                <i className="fa fa-check m-r-xs" />
-                提交
+                <Icon icon="check" className="icon m-r-xs" />
+                {__('提交')}
               </button>
               <button
                 type="button"
-                className={cx("Button Button--xs Button--danger m-l-sm")}
+                className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
-                放弃
+                <Icon icon="close" className="icon m-r-xs" />
+                {__('放弃')}
               </button>
             </span>
           ) : title ? (
             filter(title, data)
           ) : (
-            ""
+            ''
           )}
         </div>
       );
@@ -941,7 +1044,7 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx
     } = this.props;
 
-    if (column.type === "__checkme") {
+    if (column.type === '__checkme') {
       return (
         <th {...props} className={cx(column.pristine.className)}>
           {store.rows.length && multiple ? (
@@ -951,12 +1054,14 @@ export default class Table extends React.Component<TableProps, object> {
               checked={store.someChecked}
               onChange={this.handleCheckAll}
             />
-          ) : null}
+          ) : (
+            '\u00A0'
+          )}
         </th>
       );
-    } else if (column.type === "__dragme") {
+    } else if (column.type === '__dragme') {
       return <th {...props} className={cx(column.pristine.className)} />;
-    } else if (column.type === "__expandme") {
+    } else if (column.type === '__expandme') {
       return (
         <th {...props} className={cx(column.pristine.className)}>
           {(store.footable &&
@@ -966,14 +1071,14 @@ export default class Table extends React.Component<TableProps, object> {
               store.expandConfig.accordion)) ? null : (
             <a
               className={cx(
-                "Table-expandBtn",
-                store.allExpanded ? "is-active" : ""
+                'Table-expandBtn',
+                store.allExpanded ? 'is-active' : ''
               )}
               // data-tooltip="展开/收起全部"
               // data-position="top"
               onClick={store.toggleExpandAll}
             >
-              <i />
+              <Icon icon="right-arrow-bold" className="icon" />
             </a>
           )}
         </th>
@@ -1000,15 +1105,18 @@ export default class Table extends React.Component<TableProps, object> {
     } else if (column.sortable && column.name) {
       affix = (
         <span
-          className={cx("TableCell-sortBtn")}
+          className={cx('TableCell-sortBtn')}
           onClick={() => {
             if (column.name === store.orderBy) {
-              store.setOrderByInfo(
-                column.name,
-                store.orderDir === "desc" ? "asc" : "desc"
-              );
+              if (store.orderDir === 'desc') {
+                // 降序之后取消排序
+                store.setOrderByInfo('', 'asc');
+              } else {
+                // 升序之后降序
+                store.setOrderByInfo(column.name, 'desc');
+              }
             } else {
-              store.setOrderByInfo(column.name as string, "asc");
+              store.setOrderByInfo(column.name as string, 'asc');
             }
 
             onQuery &&
@@ -1020,26 +1128,32 @@ export default class Table extends React.Component<TableProps, object> {
         >
           <i
             className={cx(
-              "TableCell-sortBtn--down",
-              store.orderBy === column.name && store.orderDir === "desc"
-                ? "is-active"
-                : ""
+              'TableCell-sortBtn--down',
+              store.orderBy === column.name && store.orderDir === 'desc'
+                ? 'is-active'
+                : ''
             )}
-          />
+          >
+            <Icon icon="sort-desc" className="icon" />
+          </i>
           <i
             className={cx(
-              "TableCell-sortBtn--up",
-              store.orderBy === column.name && store.orderDir === "asc"
-                ? "is-active"
-                : ""
+              'TableCell-sortBtn--up',
+              store.orderBy === column.name && store.orderDir === 'asc'
+                ? 'is-active'
+                : ''
             )}
-          />
+          >
+            <Icon icon="sort-asc" className="icon" />
+          </i>
           <i
             className={cx(
-              "TableCell-sortBtn--default",
-              store.orderBy === column.name ? "" : "is-active"
+              'TableCell-sortBtn--default',
+              store.orderBy === column.name ? '' : 'is-active'
             )}
-          />
+          >
+            <Icon icon="sort-default" className="icon" />
+          </i>
         </span>
       );
     } else if (column.filterable && column.name) {
@@ -1065,22 +1179,22 @@ export default class Table extends React.Component<TableProps, object> {
       <th
         {...props}
         className={cx(
-          props ? (props as any).className : "",
+          props ? (props as any).className : '',
           column.pristine.className,
           {
-            "TableCell--sortable": column.sortable,
-            "TableCell--searchable": column.searchable,
-            "TableCell--filterable": column.filterable,
-            "Table-operationCell": column.type === "operation"
+            'TableCell--sortable': column.sortable,
+            'TableCell--searchable': column.searchable,
+            'TableCell--filterable': column.filterable,
+            'Table-operationCell': column.type === 'operation'
           }
         )}
       >
         <div className={cx(`${ns}TableCell--title`)}>
-          {render("tpl", column.label)}
+          {column.label ? render('tpl', column.label) : null}
 
           {column.remark
-            ? render("remark", {
-                type: "remark",
+            ? render('remark', {
+                type: 'remark',
                 tooltip: column.remark,
                 container:
                   env && env.getModalContainer
@@ -1095,7 +1209,13 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  renderCell(region: string, column: IColumn, item: IRow, props: any) {
+  renderCell(
+    region: string,
+    column: IColumn,
+    item: IRow,
+    props: any,
+    ignoreDrag = false
+  ) {
     const {
       render,
       store,
@@ -1103,20 +1223,21 @@ export default class Table extends React.Component<TableProps, object> {
       env,
       classPrefix: ns,
       classnames: cx,
-      checkOnItemClick
+      checkOnItemClick,
+      popOverContainer
     } = this.props;
 
     if (column.name && item.rowSpans[column.name] === 0) {
       return null;
     }
 
-    if (column.type === "__checkme") {
+    if (column.type === '__checkme') {
       return (
         <td key={props.key} className={cx(column.pristine.className)}>
           {item.checkable ? (
             <Checkbox
               classPrefix={ns}
-              type={multiple ? "checkbox" : "radio"}
+              type={multiple ? 'checkbox' : 'radio'}
               checked={item.checked}
               onChange={
                 checkOnItemClick ? noop : this.handleCheck.bind(this, item)
@@ -1125,32 +1246,32 @@ export default class Table extends React.Component<TableProps, object> {
           ) : null}
         </td>
       );
-    } else if (column.type === "__dragme") {
+    } else if (column.type === '__dragme') {
       return (
         <td key={props.key} className={cx(column.pristine.className)}>
-          {item.draggable ? <i className="glyphicon glyphicon-sort" /> : null}
+          {item.draggable ? <Icon icon="drag-bar" className="icon" /> : null}
         </td>
       );
-    } else if (column.type === "__expandme") {
+    } else if (column.type === '__expandme') {
       return (
         <td key={props.key} className={cx(column.pristine.className)}>
           {item.depth > 2
-            ? Array.from({ length: item.depth - 2 }).map((_, index) => (
-                <i key={index} className={cx("Table-divider-" + (index + 1))} />
+            ? Array.from({length: item.depth - 2}).map((_, index) => (
+                <i key={index} className={cx('Table-divider-' + (index + 1))} />
               ))
             : null}
 
           {item.expandable ? (
             <a
               className={cx(
-                "Table-expandBtn",
-                item.expanded ? "is-active" : ""
+                'Table-expandBtn',
+                item.expanded ? 'is-active' : ''
               )}
               // data-tooltip="展开/收起"
               // data-position="top"
               onClick={item.toggleExpanded}
             >
-              <i />
+              <Icon icon="right-arrow-bold" className="icon" />
             </a>
           ) : null}
         </td>
@@ -1160,6 +1281,7 @@ export default class Table extends React.Component<TableProps, object> {
     let prefix: React.ReactNode = null;
 
     if (
+      !ignoreDrag &&
       column.isPrimary &&
       store.isNested &&
       store.draggable &&
@@ -1169,9 +1291,9 @@ export default class Table extends React.Component<TableProps, object> {
         <a
           draggable
           onDragStart={this.handleDragStart}
-          className={cx("Table-dragBtn")}
+          className={cx('Table-dragBtn')}
         >
-          <i className="glyphicon glyphicon-sort" />
+          <Icon icon="drag-bar" className="icon" />
         </a>
       );
     }
@@ -1180,11 +1302,14 @@ export default class Table extends React.Component<TableProps, object> {
       ...props,
       btnDisabled: store.dragging,
       data: item.locals,
-      value: column.name ? resolveVariable(column.name, item.data) : undefined,
-      popOverContainer: this.getPopOverContainer,
+      value: column.name
+        ? resolveVariable(column.name, item.data)
+        : column.value,
+      popOverContainer: popOverContainer || this.getPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
       quickEditFormRef: this.subFormRef,
-      prefix
+      prefix,
+      onImageEnlarge: this.handleImageEnlarge
     };
     delete subProps.label;
 
@@ -1193,38 +1318,45 @@ export default class Table extends React.Component<TableProps, object> {
       {
         ...column.pristine,
         column: column.pristine,
-        type: "cell"
+        type: 'cell'
       },
       subProps
     );
   }
 
   renderAffixHeader(tableClassName: string) {
-    const { store, affixHeader, render, classnames: cx } = this.props;
+    const {store, affixHeader, render, classnames: cx} = this.props;
+    const hideHeader = store.filteredColumns.every(column => !column.label);
 
     return affixHeader ? (
-      <div className={cx("Table-fixedTop")}>
+      <div
+        className={cx('Table-fixedTop', {
+          'is-fakeHide': hideHeader
+        })}
+      >
         {this.renderHeading()}
         {this.renderHeader(false)}
-        <div className={cx("Table-fixedLeft")}>
+        <div className={cx('Table-fixedLeft')}>
           {store.leftFixedColumns.length
             ? this.renderFixedColumns(
+                store.rows,
                 store.leftFixedColumns,
                 true,
                 tableClassName
               )
             : null}
         </div>
-        <div className={cx("Table-fixedRight")}>
+        <div className={cx('Table-fixedRight')}>
           {store.rightFixedColumns.length
             ? this.renderFixedColumns(
+                store.rows,
                 store.rightFixedColumns,
                 true,
                 tableClassName
               )
             : null}
         </div>
-        <div className={cx("Table-wrapper")}>
+        <div className={cx('Table-wrapper')}>
           <table ref={this.affixedTableRef} className={tableClassName}>
             <thead>
               {store.columnGroup.length ? (
@@ -1235,7 +1367,7 @@ export default class Table extends React.Component<TableProps, object> {
                       data-index={item.index}
                       colSpan={item.colSpan}
                     >
-                      {render("tpl", item.label)}
+                      {item.label ? render('tpl', item.label) : null}
                     </th>
                   ))}
                 </tr>
@@ -1243,8 +1375,8 @@ export default class Table extends React.Component<TableProps, object> {
               <tr>
                 {store.filteredColumns.map(column =>
                   this.renderHeadCell(column, {
-                    key: column.index,
-                    "data-index": column.index
+                    'key': column.index,
+                    'data-index': column.index
                   })
                 )}
               </tr>
@@ -1256,9 +1388,10 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderFixedColumns(
+    rows: Array<any>,
     columns: Array<IColumn>,
     headerOnly: boolean = false,
-    tableClassName: string = ""
+    tableClassName: string = ''
   ) {
     const {
       rowClassName,
@@ -1273,30 +1406,39 @@ export default class Table extends React.Component<TableProps, object> {
       render,
       data
     } = this.props;
+    const hideHeader = store.filteredColumns.every(column => !column.label);
 
     return (
       <table
         className={cx(
-          "Table-table",
-          store.combineNum > 0 ? "Table-table--withCombine" : "",
+          'Table-table',
+          store.combineNum > 0 ? 'Table-table--withCombine' : '',
           tableClassName
         )}
       >
         <thead>
           {store.columnGroup.length ? (
             <tr>
-              {store.columnGroup.map((item, index) => (
-                <th key={index} data-index={item.index} colSpan={item.colSpan}>
-                  {render("tpl", item.label)}
-                </th>
-              ))}
+              {store.columnGroup.map((item, index) => {
+                const renderColumns = columns.filter(a => ~item.has.indexOf(a));
+
+                return renderColumns.length ? (
+                  <th
+                    key={index}
+                    data-index={item.index}
+                    colSpan={renderColumns.length}
+                  >
+                    {'\u00A0'}
+                  </th>
+                ) : null;
+              })}
             </tr>
           ) : null}
-          <tr>
+          <tr className={hideHeader ? 'fake-hide' : ''}>
             {columns.map(column =>
               this.renderHeadCell(column, {
-                key: column.index,
-                "data-index": column.index
+                'key': column.index,
+                'data-index': column.index
               })
             )}
           </tr>
@@ -1304,41 +1446,20 @@ export default class Table extends React.Component<TableProps, object> {
 
         {headerOnly ? null : (
           <tbody>
-            {store.rows.length ? (
-              store.rows.map((item, rowIndex) => {
-                const itemProps = buildItemProps
-                  ? buildItemProps(item, rowIndex)
-                  : null;
-
-                return (
-                  <TableRow
-                    {...itemProps}
-                    classPrefix={ns}
-                    checkOnItemClick={checkOnItemClick}
-                    key={item.id}
-                    itemIndex={rowIndex}
-                    item={item}
-                    itemClassName={cx(
-                      rowClassNameExpr
-                        ? filter(rowClassNameExpr, item.data)
-                        : rowClassName
-                    )}
-                    columns={columns}
-                    renderCell={this.renderCell}
-                    render={render}
-                    regionPrefix="fixed/"
-                    onCheck={this.handleCheck}
-                    onAction={onAction}
-                    onQuickChange={
-                      store.dragging ? null : this.handleQuickChange
-                    }
-                  />
-                );
+            {rows.length ? (
+              this.renderRows(rows, columns, {
+                regionPrefix: 'fixed/',
+                renderCell: (
+                  region: string,
+                  column: IColumn,
+                  item: IRow,
+                  props: any
+                ) => this.renderCell(region, column, item, props, true)
               })
             ) : (
-              <tr className={cx("Table-placeholder")}>
+              <tr className={cx('Table-placeholder')}>
                 <td colSpan={columns.length}>
-                  {render("placeholder", placeholder, { data })}
+                  {render('placeholder', placeholder, {data})}
                 </td>
               </tr>
             )}
@@ -1351,10 +1472,10 @@ export default class Table extends React.Component<TableProps, object> {
   renderToolbar(toolbar: SchemaNode, index: number) {
     const type = (toolbar as Schema).type || (toolbar as string);
 
-    if (type === "columns-toggler") {
+    if (type === 'columns-toggler') {
       this.renderedToolbars.push(type);
       return this.renderColumnsToggler(toolbar as any);
-    } else if (type === "drag-toggler") {
+    } else if (type === 'drag-toggler') {
       this.renderedToolbars.push(type);
       return this.renderDragToggler();
     }
@@ -1363,7 +1484,13 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderColumnsToggler(config?: any) {
-    const { store, classPrefix: ns, classnames: cx, ...rest } = this.props;
+    const {
+      className,
+      store,
+      classPrefix: ns,
+      classnames: cx,
+      ...rest
+    } = this.props;
 
     const render = this.props.render;
 
@@ -1374,22 +1501,21 @@ export default class Table extends React.Component<TableProps, object> {
     return (
       <DropDownButton
         {...rest}
-        iconOnly
-        align={config ? config.align : "left"}
+        align={config ? config.align : 'left'}
         classnames={cx}
         classPrefix={ns}
         key="columns-toggable"
         size="sm"
-        label={<i className="glyphicon glyphicon-th icon-th" />}
+        label={<Icon icon="columns" className="icon m-r-none" />}
       >
         {store.toggableColumns.map(column => (
-          <li className={cx("DropDown-menuItem")} key={column.index}>
-            <Checkbox
-              classPrefix={ns}
-              checked={column.toggled}
-              onChange={column.toggleToggle}
-            >
-              {render("tpl", column.label)}
+          <li
+            className={cx('DropDown-menuItem')}
+            key={column.index}
+            onClick={column.toggleToggle}
+          >
+            <Checkbox size="sm" classPrefix={ns} checked={column.toggled}>
+              {column.label ? render('tpl', column.label) : null}
             </Checkbox>
           </li>
         ))}
@@ -1398,7 +1524,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderDragToggler() {
-    const { store, env, draggable, classPrefix: ns, dragIcon } = this.props;
+    const {store, env, draggable, classPrefix: ns, translate: __} = this.props;
 
     if (!draggable || store.isNested) {
       return null;
@@ -1409,7 +1535,7 @@ export default class Table extends React.Component<TableProps, object> {
         disabled={!!store.modified}
         classPrefix={ns}
         key="dragging-toggle"
-        tooltip="点击开始排序"
+        tooltip={__('点击开始排序')}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
@@ -1422,23 +1548,23 @@ export default class Table extends React.Component<TableProps, object> {
         }}
         iconOnly
       >
-        <i className={dragIcon} />
+        <Icon icon="exchange" className="icon" />
       </Button>
     );
   }
 
   renderActions(region: string) {
-    let { actions, render, store, classnames: cx, data } = this.props;
+    let {actions, render, store, classnames: cx, data} = this.props;
 
     actions = Array.isArray(actions) ? actions.concat() : [];
 
     if (
       store.toggable &&
-      region === "header" &&
-      !~this.renderedToolbars.indexOf("columns-toggler")
+      region === 'header' &&
+      !~this.renderedToolbars.indexOf('columns-toggler')
     ) {
       actions.push({
-        type: "button",
+        type: 'button',
         children: this.renderColumnsToggler()
       });
     }
@@ -1446,23 +1572,23 @@ export default class Table extends React.Component<TableProps, object> {
     if (
       store.draggable &&
       !store.isNested &&
-      region === "header" &&
+      region === 'header' &&
       store.rows.length > 1 &&
-      !~this.renderedToolbars.indexOf("drag-toggler")
+      !~this.renderedToolbars.indexOf('drag-toggler')
     ) {
       actions.push({
-        type: "button",
+        type: 'button',
         children: this.renderDragToggler()
       });
     }
 
     return Array.isArray(actions) && actions.length ? (
-      <div className={cx("Table-actions")}>
+      <div className={cx('Table-actions')}>
         {actions.map((action, key) =>
           render(
             `action/${key}`,
             {
-              type: "button",
+              type: 'button',
               ...(action as any)
             },
             {
@@ -1482,12 +1608,14 @@ export default class Table extends React.Component<TableProps, object> {
       header,
       headerClassName,
       toolbarClassName,
+      headerToolbarClassName,
       headerToolbarRender,
       render,
       showHeader,
       store,
       classnames: cx,
-      data
+      data,
+      translate: __
     } = this.props;
 
     if (showHeader === false) {
@@ -1509,27 +1637,31 @@ export default class Table extends React.Component<TableProps, object> {
           this.renderToolbar
         )
       : null;
-    const actions = this.renderActions("header");
+    const actions = this.renderActions('header');
 
     const toolbarNode =
       actions || child || store.dragging ? (
         <div
-          className={cx("Table-toolbar Table-headToolbar", toolbarClassName)}
+          className={cx(
+            'Table-toolbar Table-headToolbar',
+            toolbarClassName,
+            headerToolbarClassName
+          )}
           key="header-toolbar"
         >
           {actions}
           {child}
           {store.dragging ? (
-            <div className={cx("Table-dragTip")} ref={this.dragTipRef}>
-              请拖动左边的按钮进行排序
+            <div className={cx('Table-dragTip')} ref={this.dragTipRef}>
+              {__('请拖动左边的按钮进行排序')}
             </div>
           ) : null}
         </div>
       ) : null;
     const headerNode =
       header && (!Array.isArray(header) || header.length) ? (
-        <div className={cx("Table-header", headerClassName)} key="header">
-          {render("header", header, {
+        <div className={cx('Table-header', headerClassName)} key="header">
+          {render('header', header, {
             ...(editable === false ? otherProps : null),
             data: store.getData(data)
           })}
@@ -1545,6 +1677,7 @@ export default class Table extends React.Component<TableProps, object> {
     const {
       footer,
       toolbarClassName,
+      footerToolbarClassName,
       footerClassName,
       footerToolbarRender,
       render,
@@ -1568,12 +1701,16 @@ export default class Table extends React.Component<TableProps, object> {
           this.renderToolbar
         )
       : null;
-    const actions = this.renderActions("footer");
+    const actions = this.renderActions('footer');
 
     const toolbarNode =
       actions || child ? (
         <div
-          className={cx("Table-toolbar Table-footToolbar", toolbarClassName)}
+          className={cx(
+            'Table-toolbar Table-footToolbar',
+            toolbarClassName,
+            footerToolbarClassName
+          )}
           key="footer-toolbar"
         >
           {actions}
@@ -1582,8 +1719,8 @@ export default class Table extends React.Component<TableProps, object> {
       ) : null;
     const footerNode =
       footer && (!Array.isArray(footer) || footer.length) ? (
-        <div className={cx("Table-footer", footerClassName)} key="footer">
-          {render("footer", footer, {
+        <div className={cx('Table-footer', footerClassName)} key="footer">
+          {render('footer', footer, {
             data: store.getData(data)
           })}
         </div>
@@ -1593,7 +1730,11 @@ export default class Table extends React.Component<TableProps, object> {
       : footerNode || toolbarNode || null;
   }
 
-  renderRows(rows: Array<any>): any {
+  renderRows(
+    rows: Array<any>,
+    columns = this.props.store.filteredColumns,
+    rowProps: any = {}
+  ): any {
     const {
       store,
       rowClassName,
@@ -1622,18 +1763,19 @@ export default class Table extends React.Component<TableProps, object> {
               ? filter(rowClassNameExpr, item.data)
               : rowClassName,
             {
-              "is-last": item.depth > 1 && rowIndex === rows.length - 1,
-              "is-expanded": item.expanded,
-              "is-expandable": item.expandable
+              'is-last': item.depth > 1 && rowIndex === rows.length - 1,
+              'is-expanded': item.expanded,
+              'is-expandable': item.expandable
             }
           )}
-          columns={store.filteredColumns}
+          columns={columns}
           renderCell={this.renderCell}
           render={render}
           onAction={onAction}
           onCheck={this.handleCheck}
           // todo 先注释 quickEditEnabled={item.depth === 1}
           onQuickChange={store.dragging ? null : this.handleQuickChange}
+          {...rowProps}
         />
       ];
 
@@ -1661,12 +1803,13 @@ export default class Table extends React.Component<TableProps, object> {
                 footableMode
                 footableColSpan={store.filteredColumns.length}
                 onQuickChange={store.dragging ? null : this.handleQuickChange}
+                {...rowProps}
               />
             );
           }
         } else if (Array.isArray(item.data.children)) {
           // 嵌套表格
-          doms.push(...this.renderRows(item.children));
+          doms.push(...this.renderRows(item.children, columns, rowProps));
         }
       }
       return doms;
@@ -1674,10 +1817,13 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderItemActions() {
-    const { itemActions, render, store, classnames: cx } = this.props;
+    const {itemActions, render, store, classnames: cx} = this.props;
+    const finnalActions = Array.isArray(itemActions)
+      ? itemActions.filter(action => !action.hiddenOnHover)
+      : [];
 
     const rowIndex = store.hoverIndex;
-    if (!~rowIndex || !itemActions || !itemActions.length) {
+    if (!~rowIndex || !finnalActions.length) {
       return null;
     }
 
@@ -1695,29 +1841,27 @@ export default class Table extends React.Component<TableProps, object> {
 
     return (
       <div
-        className={cx("Table-itemActions-wrap")}
+        className={cx('Table-itemActions-wrap')}
         style={{
           top,
           height
         }}
       >
-        <div className={cx("Table-itemActions")}>
-          {itemActions.map((action, index) =>
-            action.hiddenOnHover
-              ? null
-              : render(
-                  `itemAction/${index}`,
-                  {
-                    ...(action as any),
-                    isMenuItem: true
-                  },
-                  {
-                    key: index,
-                    item: store.rows[rowIndex],
-                    data: store.rows[rowIndex].locals,
-                    rowIndex
-                  }
-                )
+        <div className={cx('Table-itemActions')}>
+          {finnalActions.map((action, index) =>
+            render(
+              `itemAction/${index}`,
+              {
+                ...(action as any),
+                isMenuItem: true
+              },
+              {
+                key: index,
+                item: store.rows[rowIndex],
+                data: store.rows[rowIndex].locals,
+                rowIndex
+              }
+            )
           )}
         </div>
       </div>
@@ -1725,18 +1869,19 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderTableContent() {
-    const { store, placeholder, classnames: cx, data, render } = this.props;
+    const {store, placeholder, classnames: cx, data, render} = this.props;
 
     const tableClassName = cx(
-      "Table-table",
-      store.combineNum > 0 ? "Table-table--withCombine" : "",
+      'Table-table',
+      store.combineNum > 0 ? 'Table-table--withCombine' : '',
       this.props.tableClassName
     );
+    const hideHeader = store.filteredColumns.every(column => !column.label);
 
     return (
       <div
         onMouseMove={this.handleMouseMove}
-        className={cx("Table-content")}
+        className={cx('Table-content')}
         onScroll={this.handleOutterScroll}
       >
         <table ref={this.tableRef} className={tableClassName}>
@@ -1749,27 +1894,27 @@ export default class Table extends React.Component<TableProps, object> {
                     data-index={item.index}
                     colSpan={item.colSpan}
                   >
-                    {render("tpl", item.label)}
+                    {item.label ? render('tpl', item.label) : null}
                   </th>
                 ))}
               </tr>
             ) : null}
-            <tr>
+            <tr className={hideHeader ? 'fake-hide' : ''}>
               {store.filteredColumns.map(column =>
                 this.renderHeadCell(column, {
-                  "data-index": column.index,
-                  key: column.index
+                  'data-index': column.index,
+                  'key': column.index
                 })
               )}
             </tr>
           </thead>
           <tbody>
             {store.rows.length ? (
-              this.renderRows(store.rows)
+              this.renderRows(store.rows, store.filteredColumns)
             ) : (
-              <tr className={cx("Table-placeholder")}>
+              <tr className={cx('Table-placeholder')}>
                 <td colSpan={store.filteredColumns.length}>
-                  {render("placeholder", placeholder, { data })}
+                  {render('placeholder', placeholder, {data})}
                 </td>
               </tr>
             )}
@@ -1785,6 +1930,7 @@ export default class Table extends React.Component<TableProps, object> {
       store,
       placeholder,
       classnames: cx,
+      affixColumns,
       data,
       render
     } = this.props;
@@ -1794,36 +1940,37 @@ export default class Table extends React.Component<TableProps, object> {
     const header = this.renderHeader();
     const footer = this.renderFooter();
     const tableClassName = cx(
-      "Table-table",
-      store.combineNum > 0 ? "Table-table--withCombine" : "",
+      'Table-table',
+      store.combineNum > 0 ? 'Table-table--withCombine' : '',
       this.props.tableClassName
     );
 
     return (
       <div
-        className={cx("Table", className, {
-          "Table--unsaved": !!store.modified || !!store.moved
+        className={cx('Table', className, {
+          'Table--unsaved': !!store.modified || !!store.moved
         })}
       >
-        {this.renderAffixHeader(tableClassName)}
         {heading}
         {header}
         <div
-          className={cx("Table-contentWrap")}
+          className={cx('Table-contentWrap')}
           onMouseLeave={this.handleMouseLeave}
         >
-          <div className={cx("Table-fixedLeft")}>
-            {store.leftFixedColumns.length
+          <div className={cx('Table-fixedLeft')}>
+            {affixColumns !== false && store.leftFixedColumns.length
               ? this.renderFixedColumns(
+                  store.rows,
                   store.leftFixedColumns,
                   false,
                   tableClassName
                 )
               : null}
           </div>
-          <div className={cx("Table-fixedRight")}>
-            {store.rightFixedColumns.length
+          <div className={cx('Table-fixedRight')}>
+            {affixColumns !== false && store.rightFixedColumns.length
               ? this.renderFixedColumns(
+                  store.rows,
                   store.rightFixedColumns,
                   false,
                   tableClassName
@@ -1833,13 +1980,14 @@ export default class Table extends React.Component<TableProps, object> {
           {this.renderTableContent()}
           {~store.hoverIndex ? this.renderItemActions() : null}
         </div>
+        {this.renderAffixHeader(tableClassName)}
         {footer}
       </div>
     );
   }
 }
 
-interface TableRowProps extends Pick<RendererProps, "render"> {
+interface TableRowProps extends Pick<RendererProps, 'render'> {
   onCheck: (item: IRow) => void;
   classPrefix: string;
   renderCell: (
@@ -1873,7 +2021,7 @@ class TableRow extends React.Component<TableRowProps> {
 
     if (
       !e.currentTarget.contains(target) ||
-      ~["INPUT", "TEXTAREA"].indexOf(target.tagName) ||
+      ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
       ((formItem = target.closest(`button, a, .${ns}Form-item`)) &&
         e.currentTarget.contains(formItem))
     ) {
@@ -1884,7 +2032,7 @@ class TableRow extends React.Component<TableRowProps> {
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: any) {
-    const { onAction, item } = this.props;
+    const {onAction, item} = this.props;
     onAction && onAction(e, action, ctx || item.data);
   }
 
@@ -1893,7 +2041,7 @@ class TableRow extends React.Component<TableRowProps> {
     saveImmediately?: boolean,
     savePristine?: boolean
   ) {
-    const { onQuickChange, item } = this.props;
+    const {onQuickChange, item} = this.props;
     onQuickChange && onQuickChange(item, values, saveImmediately, savePristine);
   }
 
@@ -1921,10 +2069,10 @@ class TableRow extends React.Component<TableRowProps> {
           data-index={item.newIndex}
           onClick={checkOnItemClick ? this.handleClick : undefined}
           className={cx(itemClassName, {
-            "is-hovered": item.isHover,
-            "is-checked": item.checked,
-            "is-modified": item.modified,
-            "is-moved": item.moved,
+            'is-hovered': item.isHover,
+            'is-checked': item.checked,
+            'is-modified': item.modified,
+            'is-moved': item.moved,
             [`${ns}Table-tr--odd`]: itemIndex % 2 === 0,
             [`${ns}Table-tr--even`]: itemIndex % 2 === 1
           })}
@@ -1974,10 +2122,10 @@ class TableRow extends React.Component<TableRowProps> {
         className={cx(
           itemClassName,
           {
-            "is-hovered": item.isHover,
-            "is-checked": item.checked,
-            "is-modified": item.modified,
-            "is-moved": item.moved,
+            'is-hovered': item.isHover,
+            'is-checked': item.checked,
+            'is-modified': item.modified,
+            'is-moved': item.moved,
             [`${ns}Table-tr--odd`]: itemIndex % 2 === 0,
             [`${ns}Table-tr--even`]: itemIndex % 2 === 1
           },
@@ -2003,7 +2151,7 @@ class TableRow extends React.Component<TableRowProps> {
   test: (path: string) =>
     /(^|\/)table$/.test(path) /* && !/(^|\/)table$/.test(path)*/,
   storeType: TableStore.name,
-  name: "table"
+  name: 'table'
 })
 export class TableRenderer extends Table {}
 
@@ -2030,6 +2178,7 @@ export class HeadCellSearchDropDown extends React.Component<
     isOpened: false
   };
 
+  formItems: Array<string> = [];
   constructor(props: HeadCellSearchProps) {
     super(props);
 
@@ -2041,34 +2190,35 @@ export class HeadCellSearchDropDown extends React.Component<
   }
 
   buildSchema() {
-    const { searchable, sortable, name, label } = this.props;
+    const {searchable, sortable, name, label, translate: __} = this.props;
 
     let schema;
 
     if (searchable === true) {
       schema = {
-        title: "",
+        title: '',
         controls: [
           {
-            type: "text",
+            type: 'text',
             name,
-            placeholder: label
+            placeholder: label,
+            clearable: true
           }
         ]
       };
     } else if (searchable) {
       if (searchable.controls || searchable.tabs || searchable.fieldSet) {
         schema = {
-          title: "",
+          title: '',
           ...searchable
         };
       } else {
         schema = {
-          title: "",
+          title: '',
           className: searchable.formClassName,
           controls: [
             {
-              type: searchable.type || "text",
+              type: searchable.type || 'text',
               name: searchable.name || name,
               placeholder: label,
               ...searchable
@@ -2081,22 +2231,22 @@ export class HeadCellSearchDropDown extends React.Component<
     if (schema && schema.controls && sortable) {
       schema.controls.unshift(
         {
-          type: "hidden",
-          name: "orderBy",
+          type: 'hidden',
+          name: 'orderBy',
           value: name
         },
         {
-          type: "button-group",
-          name: "orderDir",
-          label: "排序",
+          type: 'button-group',
+          name: 'orderDir',
+          label: __('排序'),
           options: [
             {
-              label: "正序",
-              value: "asc"
+              label: __('正序'),
+              value: 'asc'
             },
             {
-              label: "降序",
-              value: "desc"
+              label: __('降序'),
+              value: 'desc'
             }
           ]
         }
@@ -2104,27 +2254,42 @@ export class HeadCellSearchDropDown extends React.Component<
     }
 
     if (schema) {
+      const formItems: Array<string> = [];
+      schema.controls?.forEach(
+        (item: any) =>
+          item.name &&
+          item.name !== 'orderBy' &&
+          item.name !== 'orderDir' &&
+          formItems.push(item.name)
+      );
+      this.formItems = formItems;
       schema = {
         ...schema,
-        type: "form",
-        wrapperComponent: "div",
+        type: 'form',
+        wrapperComponent: 'div',
         actions: [
           {
-            type: "button",
-            label: "取消",
-            actionType: "cancel"
+            type: 'button',
+            label: __('重置'),
+            actionType: 'reset'
           },
 
           {
-            label: "搜索",
-            type: "submit",
+            type: 'button',
+            label: __('取消'),
+            actionType: 'cancel'
+          },
+
+          {
+            label: __('搜索'),
+            type: 'submit',
             primary: true
           }
         ]
       };
     }
 
-    return schema || "error";
+    return schema || 'error';
   }
 
   handleClickOutside() {
@@ -2144,18 +2309,36 @@ export class HeadCellSearchDropDown extends React.Component<
   }
 
   handleAction(e: any, action: Action, ctx: object) {
-    const { onAction } = this.props;
+    const {onAction} = this.props;
 
-    if (action.actionType === "cancel" || action.actionType === "close") {
+    if (action.actionType === 'cancel' || action.actionType === 'close') {
       this.close();
+      return;
+    }
+
+    if (action.actionType === 'reset') {
+      this.close();
+      this.handleReset();
       return;
     }
 
     onAction && onAction(e, action, ctx);
   }
 
+  handleReset() {
+    const {onQuery, data, name} = this.props;
+    const values = {...data};
+    this.formItems.forEach(key => (values[key] = undefined));
+
+    if (values.orderBy === name) {
+      values.orderBy = '';
+      values.orderDir = 'asc';
+    }
+    onQuery(values);
+  }
+
   handleSubmit(values: any) {
-    const { onQuery, name } = this.props;
+    const {onQuery, name} = this.props;
 
     this.close();
 
@@ -2167,6 +2350,12 @@ export class HeadCellSearchDropDown extends React.Component<
     }
 
     onQuery(values);
+  }
+
+  isActive() {
+    const {data, name, orderBy} = this.props;
+
+    return orderBy === name || this.formItems.some(key => data?.[key]);
   }
 
   render() {
@@ -2181,9 +2370,16 @@ export class HeadCellSearchDropDown extends React.Component<
       classPrefix: ns
     } = this.props;
 
+    const formSchema = this.buildSchema();
+    const isActive = this.isActive();
+
     return (
-      <span className={cx(`${ns}TableCell-searchBtn`)}>
-        <i className="fa fa-search" onClick={this.open} />
+      <span
+        className={cx(`${ns}TableCell-searchBtn`, isActive ? 'is-active' : '')}
+      >
+        <span onClick={this.open}>
+          <Icon icon="search" className="icon" />
+        </span>
         {this.state.isOpened ? (
           <Overlay
             container={popOverContainer || (() => findDOMNode(this))}
@@ -2203,12 +2399,12 @@ export class HeadCellSearchDropDown extends React.Component<
               overlay
             >
               {
-                render("quick-search-form", this.buildSchema(), {
+                render('quick-search-form', formSchema, {
                   data: {
                     ...data,
                     orderBy: orderBy,
                     orderDir:
-                      orderBy === name ? (store as ITableStore).orderDir : ""
+                      orderBy === name ? (store as ITableStore).orderDir : ''
                   },
                   onSubmit: this.handleSubmit,
                   onAction: this.handleAction
@@ -2256,7 +2452,7 @@ export class HeadCellFilterDropDown extends React.Component<
   }
 
   componentDidMount() {
-    const { filterable } = this.props;
+    const {filterable} = this.props;
 
     if (filterable.source) {
       this.fetchOptions();
@@ -2295,7 +2491,7 @@ export class HeadCellFilterDropDown extends React.Component<
   }
 
   fetchOptions() {
-    const { env, filterable, data } = this.props;
+    const {env, filterable, data} = this.props;
 
     if (!isEffectiveApi(filterable.source, data)) {
       return;
@@ -2313,13 +2509,13 @@ export class HeadCellFilterDropDown extends React.Component<
   }
 
   alterOptions(options: Array<any>) {
-    const { data, filterable, name } = this.props;
-    const filterValue = (data && data[name]) || "";
+    const {data, filterable, name} = this.props;
+    const filterValue = (data && data[name]) || '';
 
     if (filterable.multiple) {
       options = options.map(option => ({
         ...option,
-        selected: filterValue.split(",").indexOf(option.value) > -1
+        selected: filterValue.split(',').indexOf(option.value) > -1
       }));
     } else {
       options = options.map(option => ({
@@ -2347,7 +2543,7 @@ export class HeadCellFilterDropDown extends React.Component<
   }
 
   handleClick(value: string) {
-    const { onQuery, name } = this.props;
+    const {onQuery, name} = this.props;
 
     onQuery({
       [name]: value
@@ -2356,14 +2552,14 @@ export class HeadCellFilterDropDown extends React.Component<
   }
 
   handleCheck(value: string) {
-    const { data, name, onQuery } = this.props;
+    const {data, name, onQuery} = this.props;
     let query: string;
 
     if (data[name] && data[name] === value) {
-      query = "";
+      query = '';
     } else {
       query =
-        (data[name] && xor(data[name].split(","), [value]).join(",")) || value;
+        (data[name] && xor(data[name].split(','), [value]).join(',')) || value;
     }
 
     onQuery({
@@ -2371,18 +2567,36 @@ export class HeadCellFilterDropDown extends React.Component<
     });
   }
 
+  handleReset() {
+    const {name, onQuery} = this.props;
+    onQuery({
+      [name]: undefined
+    });
+    this.close();
+  }
+
   render() {
-    const { isOpened, filterOptions } = this.state;
+    const {isOpened, filterOptions} = this.state;
     const {
+      data,
+      name,
       filterable,
       popOverContainer,
       classPrefix: ns,
-      classnames: cx
+      classnames: cx,
+      translate: __
     } = this.props;
 
     return (
-      <span className={cx(`${ns}TableCell-filterBtn`)}>
-        <i className="fa fa-filter" onClick={this.open} />
+      <span
+        className={cx(
+          `${ns}TableCell-filterBtn`,
+          data[name] ? 'is-active' : ''
+        )}
+      >
+        <span onClick={this.open}>
+          <Icon icon="column-filter" className="icon" />
+        </span>
         {isOpened ? (
           <Overlay
             container={popOverContainer || (() => findDOMNode(this))}
@@ -2402,13 +2616,13 @@ export class HeadCellFilterDropDown extends React.Component<
               overlay
             >
               {filterOptions && filterOptions.length > 0 ? (
-                <ul className={cx("DropDown-menu")}>
+                <ul className={cx('DropDown-menu')}>
                   {!filterable.multiple
                     ? filterOptions.map((option: any, index) => (
                         <li
                           key={index}
-                          className={cx("DropDown-divider", {
-                            "is-selected": option.selected
+                          className={cx('DropDown-divider', {
+                            'is-selected': option.selected
                           })}
                           onClick={this.handleClick.bind(this, option.value)}
                         >
@@ -2416,7 +2630,7 @@ export class HeadCellFilterDropDown extends React.Component<
                         </li>
                       ))
                     : filterOptions.map((option: any, index) => (
-                        <li key={index} className={cx("DropDown-divider")}>
+                        <li key={index} className={cx('DropDown-divider')}>
                           <Checkbox
                             classPrefix={ns}
                             onChange={this.handleCheck.bind(this, option.value)}
@@ -2426,6 +2640,13 @@ export class HeadCellFilterDropDown extends React.Component<
                           </Checkbox>
                         </li>
                       ))}
+                  <li
+                    key="DropDown-menu-reset"
+                    className={cx('DropDown-divider')}
+                    onClick={this.handleReset.bind(this)}
+                  >
+                    {__('重置')}
+                  </li>
                 </ul>
               ) : null}
             </PopOver>
@@ -2442,17 +2663,17 @@ export interface TableCellProps extends RendererProps {
 }
 export class TableCell extends React.Component<RendererProps> {
   static defaultProps = {
-    wrapperComponent: "td"
+    wrapperComponent: 'td'
   };
 
   static propsList: Array<string> = [
-    "type",
-    "label",
-    "column",
-    "body",
-    "tpl",
-    "rowSpan",
-    "remark"
+    'type',
+    'label',
+    'column',
+    'body',
+    'tpl',
+    'rowSpan',
+    'remark'
   ];
 
   render() {
@@ -2476,18 +2697,19 @@ export class TableCell extends React.Component<RendererProps> {
       remark,
       prefix,
       affix,
+      isHead,
       ...rest
     } = this.props;
 
     const schema = {
       ...column,
       className: innerClassName,
-      type: (column && column.type) || "plain"
+      type: (column && column.type) || 'plain'
     };
 
     let body = children
       ? children
-      : render("field", schema, {
+      : render('field', schema, {
           ...rest,
           value,
           data
@@ -2501,7 +2723,7 @@ export class TableCell extends React.Component<RendererProps> {
 
       if (!/%$/.test(String(style.width))) {
         body = (
-          <div style={{ width: style.width }}>
+          <div style={{width: style.width}}>
             {prefix}
             {body}
             {affix}
@@ -2515,6 +2737,10 @@ export class TableCell extends React.Component<RendererProps> {
 
     if (!Component) {
       return body as JSX.Element;
+    }
+
+    if (isHead) {
+      Component = 'th';
     }
 
     return (
@@ -2535,7 +2761,7 @@ export class TableCell extends React.Component<RendererProps> {
 
 @Renderer({
   test: /(^|\/)table\/(?:.*\/)?cell$/,
-  name: "table-cell"
+  name: 'table-cell'
 })
 @QuickEdit()
 @PopOverable()
@@ -2543,24 +2769,24 @@ export class TableCell extends React.Component<RendererProps> {
 @observer
 export class TableCellRenderer extends TableCell {
   static propsList = [
-    "quickEdit",
-    "quickEditEnabledOn",
-    "popOver",
-    "copyable",
-    "inline",
+    'quickEdit',
+    'quickEditEnabledOn',
+    'popOver',
+    'copyable',
+    'inline',
     ...TableCell.propsList
   ];
 }
 
 @Renderer({
   test: /(^|\/)field$/,
-  name: "field"
+  name: 'field'
 })
 @PopOverable()
 @Copyable()
 export class FieldRenderer extends TableCell {
   static defaultProps = {
     ...TableCell.defaultProps,
-    wrapperComponent: "div"
+    wrapperComponent: 'div'
   };
 }

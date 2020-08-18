@@ -10,10 +10,13 @@ import {resizeSensor} from '../utils/resize-sensor';
 import {resolveVariableAndFilter, isPureVariable} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
+import {createObject} from '../utils/helper';
+import Spinner from '../components/Spinner';
 
 export interface ChartProps extends RendererProps {
   chartRef?: (echart: any) => void;
-  onDataFilter?: (config: any) => any;
+  onDataFilter?: (config: any, echarts: any) => any;
+  dataFilter?: string;
   api?: Api;
   source?: string;
   config?: object;
@@ -88,18 +91,27 @@ export class Chart extends React.Component<ChartProps> {
   }
 
   handleClick(ctx: object) {
-    const {onAction, clickAction} = this.props;
+    const {onAction, clickAction, data} = this.props;
 
-    clickAction && onAction && onAction(null, clickAction, ctx);
+    clickAction &&
+      onAction &&
+      onAction(null, clickAction, createObject(data, ctx));
   }
 
   refFn(ref: any) {
     const chartRef = this.props.chartRef;
     if (ref) {
       (require as any)(
-        ['echarts', 'echarts/map/js/china', 'echarts/map/js/world'],
-        (echarts: any) => {
+        [
+          'echarts',
+          'echarts/extension/dataTool',
+          'echarts/extension/bmap/bmap',
+          'echarts/map/js/china',
+          'echarts/map/js/world'
+        ],
+        (echarts: any, dataTool: any) => {
           (window as any).echarts = echarts;
+          echarts.dataTool = dataTool;
           this.echarts = echarts.init(ref);
           this.echarts.on('click', this.handleClick);
           this.unSensor = resizeSensor(ref, () => {
@@ -123,7 +135,7 @@ export class Chart extends React.Component<ChartProps> {
     this.ref = ref;
   }
 
-  reload(query?: any) {
+  reload(subpath?: string, query?: any) {
     const {api, env, store, interval} = this.props;
 
     if (query) {
@@ -146,7 +158,16 @@ export class Chart extends React.Component<ChartProps> {
       })
       .then(result => {
         if (!result.ok) {
-          return env.notify('error', result.msg || '加载失败，请重试！');
+          return env.notify(
+            'error',
+            result.msg || '加载失败，请重试！',
+            result.msgTimeout !== undefined
+              ? {
+                  closeButton: true,
+                  timeout: result.msgTimeout
+                }
+              : undefined
+          );
         }
         delete this.reloadCancel;
         this.renderChart(result.data || {});
@@ -178,13 +199,23 @@ export class Chart extends React.Component<ChartProps> {
     if (!this.echarts) {
       return;
     }
-    const onDataFilter = this.props.onDataFilter;
+    let onDataFilter = this.props.onDataFilter;
+    const dataFilter = this.props.dataFilter;
+
+    if (!onDataFilter && typeof dataFilter === 'string') {
+      onDataFilter = new Function('config', 'echarts', dataFilter) as any;
+    }
 
     config = config || this.pending;
     if (typeof config === 'string') {
       config = new Function('return ' + config)();
     }
-    onDataFilter && (config = onDataFilter(config) || config);
+    try {
+      onDataFilter &&
+        (config = onDataFilter(config, (window as any).echarts) || config);
+    } catch (e) {
+      console.warn(e);
+    }
 
     if (config) {
       try {
@@ -208,7 +239,11 @@ export class Chart extends React.Component<ChartProps> {
         placeholder={
           <div className={cx(`${ns}Chart`, className)} style={style}>
             <div className={`${ns}Chart-placeholder`}>
-              <i key="loading" className="fa fa-spinner fa-spin fa-2x fa-fw" />
+              <Spinner
+                show
+                icon="reload"
+                spinnerClassName={cx('Chart-spinner')}
+              />
             </div>
           </div>
         }

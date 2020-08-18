@@ -14,10 +14,10 @@
  */
 
 import React from 'react';
-import uncontrollable = require('uncontrollable');
+import {uncontrollable} from 'uncontrollable';
 import Checkbox from './Checkbox';
-import {value2array, OptionProps, Option} from './Checkboxes';
-import chunk = require('lodash/chunk');
+import {value2array, OptionProps, Option} from './Select';
+import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable} from '../theme';
 
 interface RadioProps extends OptionProps {
@@ -31,6 +31,7 @@ interface RadioProps extends OptionProps {
   onChange?: Function;
   columnsCount: number;
   itemClassName?: string;
+  labelField?: string;
   labelClassName?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
@@ -38,6 +39,7 @@ interface RadioProps extends OptionProps {
 
 export class Radios extends React.Component<RadioProps, any> {
   static defaultProps = {
+    type: 'radio',
     joinValues: true,
     clearable: false,
     columnsCount: 1 // 一行显示一个
@@ -102,7 +104,8 @@ export class Radios extends React.Component<RadioProps, any> {
       inline,
       itemClassName,
       classnames: cx,
-      labelClassName
+      labelClassName,
+      labelField
     } = this.props;
 
     return (
@@ -117,7 +120,7 @@ export class Radios extends React.Component<RadioProps, any> {
         inline={inline}
         labelClassName={labelClassName}
       >
-        {option.label}
+        {option[labelField || 'label']}
       </Checkbox>
     );
   }
@@ -143,9 +146,7 @@ export class Radios extends React.Component<RadioProps, any> {
       multiple: false,
       delimiter,
       valueField,
-      options,
-      joinValues,
-      extractValue
+      options
     });
     let body: Array<React.ReactNode> = [];
 

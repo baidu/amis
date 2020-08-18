@@ -19,9 +19,10 @@ import {
 import {resolveVariable} from '../utils/tpl-builtin';
 import QuickEdit from './QuickEdit';
 import PopOver from './PopOver';
-import Sortable = require('sortablejs');
+import Sortable from 'sortablejs';
 import {TableCell} from './Table';
 import Copyable from './Copyable';
+import {Icon} from '../components/icons';
 
 export interface Column {
   type: string;
@@ -167,9 +168,9 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   componentDidMount() {
-    let parent: HTMLElement | Window | null = getScrollParent(findDOMNode(
-      this
-    ) as HTMLElement);
+    let parent: HTMLElement | Window | null = getScrollParent(
+      findDOMNode(this) as HTMLElement
+    );
     if (!parent || parent === document.body) {
       parent = window;
     }
@@ -251,9 +252,7 @@ export default class List extends React.Component<ListProps, object> {
     const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
 
     this.body.offsetWidth &&
-      (afixedDom.style.cssText = `top: ${offsetY}px;width: ${
-        this.body.offsetWidth
-      }px;`);
+      (afixedDom.style.cssText = `top: ${offsetY}px;width: ${this.body.offsetWidth}px;`);
     affixed ? afixedDom.classList.add('in') : afixedDom.classList.remove('in');
     // store.markHeaderAffix(clip.top < offsetY && (clip.top + clip.height - 40) > offsetY);
   }
@@ -315,7 +314,7 @@ export default class List extends React.Component<ListProps, object> {
       return;
     }
 
-    const {onSave} = this.props;
+    const {onSave, primaryField} = this.props;
 
     if (!onSave) {
       return;
@@ -323,7 +322,7 @@ export default class List extends React.Component<ListProps, object> {
 
     onSave(
       item.data,
-      difference(item.data, item.pristine),
+      difference(item.data, item.pristine, ['id', primaryField]),
       item.index,
       undefined,
       item.pristine
@@ -331,7 +330,7 @@ export default class List extends React.Component<ListProps, object> {
   }
 
   handleSave() {
-    const {store, onSave} = this.props;
+    const {store, onSave, primaryField} = this.props;
 
     if (!onSave || !store.modifiedItems.length) {
       return;
@@ -340,7 +339,7 @@ export default class List extends React.Component<ListProps, object> {
     const items = store.modifiedItems.map(item => item.data);
     const itemIndexes = store.modifiedItems.map(item => item.index);
     const diff = store.modifiedItems.map(item =>
-      difference(item.data, item.pristine)
+      difference(item.data, item.pristine, ['id', primaryField])
     );
     const unModifiedItems = store.items
       .filter(item => !item.modified)
@@ -494,15 +493,13 @@ export default class List extends React.Component<ListProps, object> {
         <div className={cx('List-heading')}>
           {store.modified && !hideQuickSaveBtn ? (
             <span>
-              {`当前有 ${
-                store.modified
-              } 条记录修改了内容, 但并没有提交。请选择:`}
+              {`当前有 ${store.modified} 条记录修改了内容, 但并没有提交。请选择:`}
               <button
                 type="button"
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
-                <i className="fa fa-check m-r-xs" />
+                <Icon icon="check" className="icon m-r-xs" />
                 提交
               </button>
               <button
@@ -510,7 +507,7 @@ export default class List extends React.Component<ListProps, object> {
                 className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
+                <Icon icon="close" className="icon m-r-xs" />
                 放弃
               </button>
             </span>
@@ -522,7 +519,7 @@ export default class List extends React.Component<ListProps, object> {
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSaveOrder}
               >
-                <i className="fa fa-check m-r-xs" />
+                <Icon icon="check" className="icon m-r-xs" />
                 提交
               </button>
               <button
@@ -530,7 +527,7 @@ export default class List extends React.Component<ListProps, object> {
                 className={cx('Button Button--xs Button--danger m-l-sm')}
                 onClick={this.reset}
               >
-                <i className="fa fa-times m-r-xs" />
+                <Icon icon="close" className="icon m-r-xs" />
                 放弃
               </button>
             </span>
@@ -699,7 +696,7 @@ export default class List extends React.Component<ListProps, object> {
           store.dragging && store.clear();
         }}
       >
-        <i className="fa fa-exchange" />
+        <Icon icon="exchange" className="icon r90" />
       </Button>
     );
   }
@@ -732,7 +729,8 @@ export default class List extends React.Component<ListProps, object> {
       checkOnItemClick,
       affixHeader,
       classnames: cx,
-      size
+      size,
+      translate: __
     } = this.props;
 
     this.renderedToolbars = [];
@@ -791,7 +789,9 @@ export default class List extends React.Component<ListProps, object> {
             )}
           </div>
         ) : (
-          <div className={cx('List-placeholder')}>{placeholder}</div>
+          <div className={cx('List-placeholder')}>
+            {render('placeholder', __(placeholder))}
+          </div>
         )}
 
         {this.renderFooter()}
@@ -896,7 +896,7 @@ export class ListItem extends React.Component<ListItemProps> {
     if (dragging) {
       return (
         <div className={cx('ListItem-dragBtn')}>
-          <i className="glyphicon glyphicon-sort" />
+          <Icon icon="drag-bar" className="icon" />
         </div>
       );
     } else if (selectable && !hideCheckToggler) {
@@ -1115,8 +1115,10 @@ export class ListItemFieldRenderer extends TableCell {
   };
   static propsList = [
     'quickEdit',
+    'quickEditEnabledOn',
     'popOver',
     'copyable',
+    'inline',
     ...TableCell.propsList
   ];
 

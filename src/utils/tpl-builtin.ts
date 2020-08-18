@@ -1,7 +1,7 @@
 import {reigsterTplEnginer, filter} from './tpl';
 import moment from 'moment';
 import {PlainObject} from '../types';
-import isPlainObject = require('lodash/isPlainObject');
+import isPlainObject from 'lodash/isPlainObject';
 import {createObject, isObject, setVariable, qsstringify} from './helper';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -42,7 +42,7 @@ const entityMap: {
   '/': '&#x2F;'
 };
 export const escapeHtml = (str: string) =>
-  String(str).replace(/[&<>"'\/]/g, function(s) {
+  String(str).replace(/[&<>"'\/]/g, function (s) {
     return entityMap[s];
   });
 
@@ -54,7 +54,7 @@ export function formatDuration(value: number): string {
 
   while (len--) {
     if (steps[len] && value >= steps[len]) {
-      parts.push(Math.round(value / steps[len]) + unit[len]);
+      parts.push(Math.floor(value / steps[len]) + unit[len]);
       value %= steps[len];
     } else if (len === 0 && value) {
       parts.push((value.toFixed ? value.toFixed(2) : '0') + unit[0]);
@@ -83,9 +83,11 @@ export const relativeValueRe = /^(.+)?(\+|-)(\d+)(minute|min|hour|day|week|month
 export const filterDate = (
   value: string,
   data: object = {},
-  format = 'X'
+  format = 'X',
+  utc: boolean = false
 ): moment.Moment => {
-  let m;
+  let m,
+    mm = utc ? moment.utc : moment;
 
   if (typeof value === 'string') {
     value = value.trim();
@@ -97,8 +99,8 @@ export const filterDate = (
     const date = new Date();
     const step = parseInt(m[3], 10);
     const from = m[1]
-      ? filterDate(m[1], data, format)
-      : moment(
+      ? filterDate(m[1], data, format, utc)
+      : mm(
           /(minute|min|hour|second)s?/.test(m[4])
             ? [
                 date.getFullYear(),
@@ -116,12 +118,12 @@ export const filterDate = (
       : from.add(step, timeUnitMap[m[4]] as moment.DurationInputArg2);
     //   return from[m[2] === '-' ? 'subtract' : 'add'](step, mapping[m[4]] || m[4]);
   } else if (value === 'now') {
-    return moment();
+    return mm();
   } else if (value === 'today') {
     const date = new Date();
-    return moment([date.getFullYear(), date.getMonth(), date.getDate()]);
+    return mm([date.getFullYear(), date.getMonth(), date.getDate()]);
   } else {
-    return moment(value, format);
+    return mm(value, format);
   }
 };
 
@@ -164,12 +166,12 @@ export const filters: {
   },
   duration: input => (input ? formatDuration(input) : input),
   bytes: input => (input ? prettyBytes(parseFloat(input)) : input),
-  round: (input, decimals = 0) => {
+  round: (input, decimals = 2) => {
     if (isNaN(input)) {
       return 0;
     }
 
-    decimals = parseInt(decimals, 10) || 2;
+    decimals = parseInt(decimals, 10) ?? 2;
 
     let multiplier = Math.pow(10, decimals);
     return (Math.round(input * multiplier) / multiplier).toFixed(decimals);
@@ -216,13 +218,13 @@ export const filters: {
     Array.isArray(input)
       ? input.map(item => resolveVariable(path, item) || item)
       : resolveVariable(path, input) || input,
-  str2date: function(input, inputFormat = 'X', outputFormat = 'X') {
+  str2date: function (input, inputFormat = 'X', outputFormat = 'X') {
     return input
       ? filterDate(input, this, inputFormat).format(outputFormat)
       : '';
   },
   asArray: input => (Array.isArray(input) ? input : input ? [input] : input),
-  filter: function(input, keys, expOrDirective, arg1) {
+  filter: function (input, keys, expOrDirective, arg1) {
     if (!Array.isArray(input) || !keys || !expOrDirective) {
       return input;
     }
@@ -236,16 +238,23 @@ export const filters: {
       fn = value => !value;
     } else if (directive === 'isExists') {
       fn = value => typeof value !== 'undefined';
+    } else if (directive === 'equals' || directive === 'equal') {
+      arg1 = arg1 ? getStrOrVariable(arg1, this) : '';
+      fn = value => arg1 == value;
+    } else if (directive === 'isIn') {
+      let list: Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
+      list = Array.isArray(list) ? list : [list];
+      fn = value => !!~list.indexOf(value);
+    } else if (directive === 'notIn') {
+      let list: Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
+      list = Array.isArray(list) ? list : [list];
+      fn = value => !~list.indexOf(value);
     } else {
       if (directive !== 'match') {
         directive = 'match';
         arg1 = expOrDirective;
       }
-      arg1 = arg1
-        ? /^('|")(.*)\1$/.test(arg1)
-          ? RegExp.$2
-          : resolveVariable(arg1, this as any)
-        : '';
+      arg1 = arg1 ? getStrOrVariable(arg1, this) : '';
 
       // 比对的值是空时直接返回。
       if (!arg1) {
@@ -275,7 +284,7 @@ export const filters: {
     return decodeURIComponent(
       atob(str)
         .split('')
-        .map(function(c) {
+        .map(function (c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         })
         .join('')
@@ -285,14 +294,100 @@ export const filters: {
   lowerCase: input =>
     input && typeof input === 'string' ? input.toLowerCase() : input,
   upperCase: input =>
-    input && typeof input === 'string' ? input.toUpperCase() : input
+    input && typeof input === 'string' ? input.toUpperCase() : input,
+
+  isTrue(input, trueValue, falseValue) {
+    return getConditionValue(input, !!input, trueValue, falseValue, this);
+  },
+  isFalse(input, trueValue, falseValue) {
+    return getConditionValue(input, !input, trueValue, falseValue, this);
+  },
+  isMatch(input, matchArg, trueValue, falseValue) {
+    matchArg = getStrOrVariable(matchArg, this as any);
+    return getConditionValue(
+      input,
+      matchArg && new RegExp(matchArg, 'i').test(String(input)),
+      trueValue,
+      falseValue,
+      this
+    );
+  },
+  notMatch(input, matchArg, trueValue, falseValue) {
+    matchArg = getStrOrVariable(matchArg, this as any);
+    return getConditionValue(
+      input,
+      matchArg && !new RegExp(matchArg, 'i').test(String(input)),
+      trueValue,
+      falseValue,
+      this
+    );
+  },
+  isEquals(input, equalsValue, trueValue, falseValue) {
+    equalsValue = /^\d+$/.test(equalsValue)
+      ? parseInt(equalsValue, 10)
+      : getStrOrVariable(equalsValue, this as any);
+    return getConditionValue(
+      input,
+      input === equalsValue,
+      trueValue,
+      falseValue,
+      this
+    );
+  },
+  notEquals(input, equalsValue, trueValue, falseValue) {
+    equalsValue = /^\d+$/.test(equalsValue)
+      ? parseInt(equalsValue, 10)
+      : getStrOrVariable(equalsValue, this as any);
+    return getConditionValue(
+      input,
+      input !== equalsValue,
+      trueValue,
+      falseValue,
+      this
+    );
+  }
 };
+
+/**
+ * 如果当前传入字符为：'xxx'或者"xxx"，则返回字符xxx
+ * 否则去数据域中，获取变量xxx
+ *
+ * @param value 传入字符
+ * @param data 数据域
+ */
+function getStrOrVariable(value: string, data: any) {
+  return /^('|")(.*)\1$/.test(value)
+    ? RegExp.$2
+    : /^-?\d+$/.test(value)
+    ? parseInt(value, 10)
+    : /^(-?\d+)\.\d+?$/.test(value)
+    ? parseFloat(value)
+    : /,/.test(value)
+    ? value.split(/\s*,\s*/)
+    : resolveVariable(value, data);
+}
+
+function getConditionValue(
+  input: string,
+  isTrue: boolean,
+  trueValue: string,
+  falseValue: string,
+  data: any
+) {
+  return isTrue || (!isTrue && falseValue)
+    ? getStrOrVariable(isTrue ? trueValue : falseValue, data)
+    : input;
+}
 
 export function registerFilter(
   name: string,
   fn: (input: any, ...args: any[]) => any
 ): void {
   filters[name] = fn;
+}
+
+export function getFilters() {
+  return filters;
 }
 
 export function pickValues(names: string, data: object) {
@@ -351,11 +446,13 @@ export const resolveVariable = (path: string, data: any = {}): any => {
   }, data);
 };
 
-export const isPureVariable = (path: string) =>
-  /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(path);
+export const isPureVariable = (path?: any) =>
+  typeof path === 'string'
+    ? /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(path)
+    : false;
 
 export const resolveVariableAndFilter = (
-  path: string,
+  path?: string,
   data: object = {},
   defaultFilter: string = '| html'
 ): any => {
@@ -380,7 +477,7 @@ export const resolveVariableAndFilter = (
 
   // 先只支持一层吧
   finalKey = finalKey.replace(
-    /(\\)?\$(?:([a-z0-9_.]+)|{([^}{]+)})/g,
+    /(\\|\\\$)?\$(?:([a-z0-9_.]+)|{([^}{]+)})/g,
     (_, escape) => {
       return escape
         ? _.substring(1)
@@ -399,6 +496,8 @@ export const resolveVariableAndFilter = (
 
   let ret = resolveVariable(finalKey, data);
 
+  let prevConInputChanged = false; // 前一个类三元过滤器生效，则跳过后续类三元过滤器
+
   return ret == null && !~originalKey.indexOf('default')
     ? ''
     : paths.reduce((input, filter) => {
@@ -415,6 +514,28 @@ export const resolveVariableAndFilter = (
             )
           );
         let key = params.shift() as string;
+
+        if (
+          ~[
+            'isTrue',
+            'isFalse',
+            'isMatch',
+            'isEquals',
+            'notMatch',
+            'notEquals'
+          ].indexOf(key)
+        ) {
+          if (prevConInputChanged) {
+            return input;
+          } else {
+            const result = filters[key].call(data, input, ...params);
+            prevConInputChanged = result !== input;
+            return result;
+          }
+        } else {
+          // 后面再遇到非类三元filter就重置了吧，不影响再后面的其他三元filter
+          prevConInputChanged = false;
+        }
 
         return (filters[key] || filters.raw).call(data, input, ...params);
       }, ret);
@@ -557,8 +678,10 @@ export function dataMapping(to: any, from: PlainObject): any {
   return ret;
 }
 
-reigsterTplEnginer('builtin', {
-  test: str => !!~str.indexOf('$'),
-  compile: (str: string, data: object, defaultFilter = '| html') =>
-    tokenize(str, data, defaultFilter)
-});
+export function register() {
+  reigsterTplEnginer('builtin', {
+    test: str => !!~str.indexOf('$'),
+    compile: (str: string, data: object, defaultFilter = '| html') =>
+      tokenize(str, data, defaultFilter)
+  });
+}

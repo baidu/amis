@@ -7,12 +7,11 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {RendererProps} from '../factory';
 import cx from 'classnames';
-import hoistNonReactStatic = require('hoist-non-react-statics');
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import {RootCloseWrapper} from 'react-overlays';
 import PopOver, {Offset} from '../components/PopOver';
 import Overlay from '../components/Overlay';
-
-const allowedPositions = ['center', 'top'];
+import {Icon} from '../components/icons';
 
 export interface PopOverConfig {
   saveImmediately?: boolean;
@@ -30,8 +29,8 @@ export interface PopOverConfig {
     | 'fixed-right-top'
     | 'fixed-left-bottom'
     | 'fixed-right-bottom';
+  offset?: Offset;
   [propName: string]: any;
-  offset: Offset;
 }
 
 export interface PopOverProps extends RendererProps {
@@ -93,7 +92,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
     }
 
     buildSchema() {
-      const {popOver, name, label} = this.props;
+      const {popOver, name, label, translate: __} = this.props;
 
       let schema;
 
@@ -110,7 +109,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
           type: popOver.mode,
           actions: [
             {
-              label: '关闭',
+              label: __('关闭'),
               type: 'button',
               actionType: 'cancel'
             }
@@ -159,6 +158,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
       const isFixed = /^fixed\-/.test(position);
 
       return isFixed ? (
+        // @ts-ignore
         <RootCloseWrapper
           disabled={!this.state.isOpened}
           onRootClose={this.closePopOver}
@@ -179,7 +179,7 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
           <PopOver
             classPrefix={ns}
             className={cx('PopOverAble-popover')}
-            offset={popOver.offset}
+            offset={(popOver as PopOverConfig).offset}
           >
             {content}
           </PopOver>
@@ -189,13 +189,11 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
 
     render() {
       const {
-        onQuickChange,
         popOver,
         popOverEnabled,
         className,
         noHoc,
-        classnames: cx,
-        render
+        classnames: cx
       } = this.props;
 
       if (!popOver || popOverEnabled === false || noHoc) {
@@ -215,11 +213,13 @@ export const HocPopOver = (config: Partial<PopOverConfig> = {}) => (
             noHoc
             ref={this.targetRef}
           />
-          <i
+          <span
             key="popover-btn"
-            className={cx('Field-popOverBtn fa fa-search-plus')}
+            className={cx('Field-popOverBtn')}
             onClick={this.openPopOver}
-          />
+          >
+            <Icon icon="zoom-in" className="icon" />
+          </span>
           {this.state.isOpened ? this.renderPopOver() : null}
         </Component>
       );

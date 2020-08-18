@@ -9,6 +9,7 @@ import {FormControlProps, FormItem} from './Item';
 import {buildApi, isValidApi, isEffectiveApi} from '../../utils/api';
 import {Checkbox, Spinner} from '../../components';
 import {autobind, setVariable} from '../../utils/helper';
+import {ApiObject} from '../../types';
 
 export interface Column {
   label: string;
@@ -86,8 +87,8 @@ export default class MatrixCheckbox extends React.Component<
         rows: nextProps.rows || []
       });
     } else if (
-      nextProps.source !== props.source ||
-      props.data !== nextProps.data
+      nextProps.formInited &&
+      (nextProps.source !== props.source || props.data !== nextProps.data)
     ) {
       let prevApi = buildApi(props.source as string, props.data as object, {
         ignoreData: true
@@ -130,7 +131,7 @@ export default class MatrixCheckbox extends React.Component<
   }
 
   async reload() {
-    const {source, data, env, onChange} = this.props;
+    const {source, data, env, onChange, translate: __} = this.props;
 
     if (!isEffectiveApi(source, data) || this.state.loading) {
       return;
@@ -158,7 +159,7 @@ export default class MatrixCheckbox extends React.Component<
             .fetcher(source, data)
             .then(ret => {
               if (!ret.ok) {
-                throw new Error(ret.msg || '数据请求错误');
+                throw new Error(ret.msg || __('数据请求错误'));
               }
               if (!this.mounted) {
                 return resolve();
@@ -170,13 +171,12 @@ export default class MatrixCheckbox extends React.Component<
                   columns: (ret.data as any).columns || []
                 },
                 () => {
+                  let replace = source && (source as ApiObject).replaceData;
                   let value = (ret.data as any).value;
                   if (value) {
-                    value = mergeValue(
-                      value,
-                      this.state.columns,
-                      this.state.rows
-                    );
+                    value = (source as ApiObject).replaceData
+                      ? value
+                      : mergeValue(value, this.state.columns, this.state.rows);
                     onChange(value);
                   }
                   resolve();

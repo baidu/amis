@@ -1,7 +1,8 @@
 .#{$ns}Pagination {
   display: inline-block;
   padding-left: 0;
-  margin-bottom: px2rem(-10px);
+  padding: 0;
+  margin: 0 0 px2rem(-10px);
   border-radius: px2rem(4px);
 
   > li {
@@ -10,6 +11,7 @@
     > a,
     > span {
       user-select: none;
+      cursor: pointer;
       position: relative;
       float: left;
       text-decoration: none;
@@ -34,7 +36,7 @@
     }
   }
 
-  > li.disabled {
+  > li.is-disabled {
     > span,
     > a {
       cursor: not-allowed;
@@ -50,7 +52,7 @@
     }
   }
 
-  > li.active {
+  > li.is-active {
     > a,
     > span,
     > a:hover,
@@ -63,18 +65,9 @@
     }
   }
 
-  &-prev,
-  &-next {
-    font-family: $Pagination-arrowVendor;
-  }
-
   &-prev {
     > span {
       cursor: pointer;
-
-      &::before {
-        content: $Pagination-prevArrowContent;
-      }
     }
   }
 
@@ -88,10 +81,6 @@
   &-next {
     > span {
       cursor: pointer;
-
-      &::before {
-        content: $Pagination-nextArrowContent;
-      }
     }
   }
 

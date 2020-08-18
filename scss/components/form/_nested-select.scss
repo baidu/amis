@@ -6,7 +6,7 @@
   border: $Form-select-borderWidth solid $Form-select-borderColor;
   background: $Form-select-bg;
   border-radius: $Form-select-borderRadius;
-  height: $Form-selectOption-height;
+  min-height: $Form-selectOption-height;
   $paddingY: (
       $Form-selectOption-height - $Form-input-lineHeight * $Form-input-fontSize -
         $Form-select-borderWidth * 2
@@ -31,14 +31,32 @@
     }
   }
 
-  &.is-opened {
-    .#{$ns}Select-arrow:before {
-      transform: rotate(180deg);
-    }
+  &.is-opened .#{$ns}Select-arrow > svg {
+    transform: rotate(180deg);
   }
 
   &:not(.is-disabled):hover {
     background: $Form-select-onHover-bg;
+  }
+
+  &--multi {
+    .#{$ns}Select-value {
+      position: static;
+      user-select: none;
+      line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+      display: inline-block;
+      vertical-align: middle;
+      font-size: $Form-selectValue-fontSize;
+      color: $Form-selectValue-color;
+      background: $Form-selectValue-bg;
+      border: px2rem(1px) solid $Form-selectValue-borderColor;
+      border-radius: px2rem(2px);
+      margin-right: $gap-xs;
+      margin-bottom: $gap-xs;
+    }
+    .#{$ns}Select-valueLabel {
+      padding: 0 $gap-xs;
+    }
   }
 
   &-placeholder {
@@ -74,8 +92,7 @@
 
   &-optionArrowRight {
     display: inline-block;
-    position: absolute;
-    right: px2rem(10px);
+    padding-right: px2rem(10px);
 
     svg {
       width: px2rem(12px);
@@ -84,22 +101,41 @@
     }
   }
 
-  &-menuOuter,
-  &-childrenOuter {
-    z-index: 10;
-    position: absolute;
+  &-menuOuter {
+    display: flex;
+  }
+
+  &-menu {
+    width: px2rem(160px);
+    max-height: px2rem(300px);
     background: $Form-select-menu-bg;
     color: $Form-select-menu-color;
     border: $Form-select-outer-borderWidth solid
       $Form-input-onFocused-borderColor;
     box-shadow: $Form-select-outer-boxShadow;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &:not(:first-child) {
+      border-left: 0;
+    }
 
     .#{$ns}NestedSelect-option {
       position: relative;
       padding-left: px2rem(10px);
-      height: $Form-input-height;
+      min-height: $Form-input-height;
       line-height: $Form-input-height;
       cursor: pointer;
+      display: flex;
+
+      > .#{$ns}NestedSelect-optionLabel {
+        flex: 1;
+        cursor: pointer;
+        span {
+          display: inline-flex;
+          word-break: break-all;
+        }
+      }
 
       &.is-active {
         color: $Form-select-menu-onActive-color;
@@ -125,14 +161,14 @@
       }
     }
   }
+}
 
-  &-childrenOuter {
-    display: none;
-    position: relative;
-    width: 100%;
-    left: 100%;
-    transform: translateY(-$Form-input-height);
-    padding: 0;
-    margin: 0;
+// 需要能撑开
+@include media-breakpoint-up(sm) {
+  .#{$ns}Form-control--sizeXs > .#{$ns}NestedSelect,
+  .#{$ns}Form-control--sizeSm > .#{$ns}NestedSelect,
+  .#{$ns}Form-control--sizeMd > .#{$ns}NestedSelect,
+  .#{$ns}Form-control--sizeLg > .#{$ns}NestedSelect {
+    display: inline-flex !important;
   }
 }

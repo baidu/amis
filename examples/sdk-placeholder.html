@@ -1,33 +1,28 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <link rel="stylesheet"
-        href="font-awesome/css/font-awesome.css">
-    <link rel="stylesheet"
-        href="bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet"
-        href="animate.css/animate.css">
-    <link rel="stylesheet"
-        href="highlight.js/styles/github.css">
-    <link rel="stylesheet" href="highlight.js/styles/github.css">
-    <link rel="stylesheet" title="default" href="../scss/themes/default.scss">
+  <head>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="animate.css/animate.css" />
+    <link rel="stylesheet" href="prismjs/themes/prism.css" />
+    <link rel="stylesheet" title="default" href="../scss/themes/default.scss" />
     <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
     <!--STYLE_PLACEHOLDER-->
-</head>
-<body>
-    <script data-loader src="./sdk-mod.js"></script>
+  </head>
+  <body>
+    <script data-loader src="./mod.js"></script>
     <script>
-    /* @require "./embed.tsx" */
-    /* @require "./loader" */
-    (function (w) {
+      /* @require "./embed.tsx" */
+      /* @require "./loader" */
+      (function (w) {
         var amis = w.amis || {};
         amis.resource = {
-            css: css,
-            js: js,
-            moduleId:__moduleId('./embed.tsx')
+          css: css,
+          js: js,
+          moduleId: __moduleId('./embed.tsx')
         };
         w.amis = amis;
-    })(window);
+      })(window);
     </script>
-</body>
+  </body>
 </html>

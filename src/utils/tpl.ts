@@ -1,3 +1,7 @@
+import {createObject} from './helper';
+import {register as registerBulitin, getFilters} from './tpl-builtin';
+import {register as registerLodash} from './tpl-lodash';
+
 export interface Enginer {
   test: (tpl: string) => boolean;
   compile: (tpl: string, data: object, ...rest: Array<any>) => string;
@@ -10,6 +14,8 @@ const enginers: {
 export function reigsterTplEnginer(name: string, enginer: Enginer) {
   enginers[name] = enginer;
 }
+
+[registerBulitin, registerLodash].forEach(fn => fn());
 
 export function filter(
   tpl?: string,
@@ -31,7 +37,20 @@ export function filter(
   return tpl;
 }
 
+let customEvalExpressionFn: (expression: string, data?: any) => boolean;
+export function setCustomEvalExpression(
+  fn: (expression: string, data?: any) => boolean
+) {
+  customEvalExpressionFn = fn;
+}
+
+// 几乎所有的 visibleOn requiredOn 都是通过这个方法判断出来结果，很粗暴也存在风险，建议自己实现。
+// 如果想自己实现，请通过 setCustomEvalExpression 来替换。
 export function evalExpression(expression: string, data?: object): boolean {
+  if (typeof customEvalExpressionFn === 'function') {
+    return customEvalExpressionFn(expression, data);
+  }
+
   if (!expression || typeof expression !== 'string') {
     return false;
   }
@@ -47,25 +66,38 @@ export function evalExpression(expression: string, data?: object): boolean {
 
     const fn = new Function(
       'data',
+      'utils',
       `with(data) {${debug ? 'debugger;' : ''}return !!(${expression});}`
     );
     data = data || {};
-    return fn.call(data, data);
+    return fn.call(data, data, getFilters());
   } catch (e) {
     console.warn(e);
     return false;
   }
 }
 
+let customEvalJsFn: (expression: string, data?: any) => any;
+export function setCustomEvalJs(fn: (expression: string, data?: any) => any) {
+  customEvalJsFn = fn;
+}
+
+// 这个主要用在 formula 里面，用来动态的改变某个值。也很粗暴，建议自己实现。
+// 如果想自己实现，请通过 setCustomEvalJs 来替换。
 export function evalJS(js: string, data: object): any {
+  if (typeof customEvalJsFn === 'function') {
+    return customEvalJsFn(js, data);
+  }
+
   /* jshint evil:true */
   try {
     const fn = new Function(
       'data',
-      `with(data) {${~js.indexOf('return') ? '' : 'return '}${js};}`
+      'utils',
+      `with(data) {${/^\s*return\b/.test(js) ? '' : 'return '}${js};}`
     );
     data = data || {};
-    return fn.call(data, data);
+    return fn.call(data, data, getFilters());
   } catch (e) {
     console.warn(e);
     return null;

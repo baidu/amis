@@ -263,7 +263,8 @@ export default {
               mode: 'inline',
               placeholder: '请输入邮箱地址',
               label: '邮箱',
-              size: 'full'
+              size: 'full',
+              columnClassName: 'v-bottom'
             },
             {
               type: 'password',
@@ -293,7 +294,8 @@ export default {
               label: '密码',
               placeholder: '请输入密码',
               mode: 'inline',
-              size: 'full'
+              size: 'full',
+              columnClassName: 'v-bottom'
             }
           ]
         },

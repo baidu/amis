@@ -14,6 +14,7 @@
     align-items: center;
     border: $borderWidth solid $borderColor;
     cursor: pointer;
+    margin-right: $gap-base;
 
     @include button-variant(
       $ImageControl-addBtn-bg,
@@ -75,6 +76,7 @@
     margin-right: $gap-base;
     margin-bottom: $gap-base;
     position: relative;
+    width: px2rem(120px);
   }
 
   &-image {

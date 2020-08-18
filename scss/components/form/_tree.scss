@@ -62,6 +62,9 @@
   }
 
   &-itemLabel {
+    display: flex;
+    align-items: center;
+
     &:hover {
       background: $Tree-item-onHover-bg;
     }
@@ -74,6 +77,7 @@
     vertical-align: top;
     height: $Tree-itemHeight;
     line-height: $Tree-itemHeight;
+    padding-right: px2rem(5px);
 
     > a {
       display: inline-block;
@@ -82,10 +86,10 @@
       cursor: pointer;
 
       > svg {
-        $svgSize: px2rem(16px);
+        $svgSize: px2rem(12px);
         width: $svgSize;
         height: $svgSize;
-        top: 0.125 * $svgSize;
+        top: 0;
       }
     }
   }
@@ -160,51 +164,44 @@
   &-itemArrow {
     cursor: pointer;
     width: $Tree-itemArrowWidth;
-    text-align: center;
     display: inline-block;
+    margin-right: px2rem(5px);
 
-    &:before {
-      font-style: normal;
-      font-family: $Tree-arrowVendor;
-      content: $Tree-unfoldedArrowContent;
+    // &:before {
+    //   font-style: normal;
+    //   font-family: $Tree-arrowVendor;
+    //   content: $Tree-unfoldedArrowContent;
+    // }
+    > svg {
+      width: $Tree-itemArrowWidth;
+      height: $Tree-itemArrowWidth;
+      display: inline-block;
+      transition: transform 0.2s;
+      top: 0;
+      transform: rotate(90deg);
     }
 
-    &.is-folded:before {
-      content: $Tree-foldedArrowContent;
+    &.is-folded > svg {
+      transform: rotate(0deg);
     }
   }
 
   &-itemArrowPlaceholder {
     display: inline-block;
-    width: $Tree-itemArrowWidth;
+    width: $Tree-itemArrowWidth + px2rem(5px);
   }
 
   &-itemIcon {
     display: inline-block;
-    margin-right: px2rem(3px);
+    margin-right: px2rem(5px);
   }
 
-  &-rootIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-rootIconVendor;
-      content: $Tree-rootIconContent;
-    }
-  }
-
+  &-rootIcon,
+  &-folderIcon,
   &-leafIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-leafIconVendor;
-      content: $Tree-leafIconContent;
-    }
-  }
-
-  &-folderIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-folderIconVendor;
-      content: $Tree-folderIconContent;
+    > svg {
+      width: px2rem(14px);
+      height: px2rem(14px);
     }
   }
 
@@ -219,10 +216,18 @@
     &.is-disabled {
       color: $text--muted-color;
     }
+
+    > .#{$ns}Checkbox {
+      line-height: 1;
+      display: inline-block;
+    }
   }
 
   &-itemText {
     cursor: pointer;
+    flex: 1 auto;
+    line-height: $lineHeightBase;
+    padding: px2rem(4px) 0;
   }
 
   &-placeholder {

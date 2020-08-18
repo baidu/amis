@@ -1,8 +1,8 @@
-import isPlainObject = require('lodash/isPlainObject');
-import transform = require('lodash/transform');
-import isEqual = require('lodash/isEqual');
-import lodashIsObject = require('lodash/isObject');
-import uniq = require('lodash/uniq');
+import isPlainObject from 'lodash/isPlainObject';
+import transform from 'lodash/transform';
+import isEqual from 'lodash/isEqual';
+import lodashIsObject from 'lodash/isObject';
+import uniq from 'lodash/uniq';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
 import {boundMethod} from 'autobind-decorator';
@@ -30,28 +30,38 @@ export function createObject(
         }
       })
     : Object.create(Object.prototype, properties);
-  props && Object.keys(props).forEach(key => (obj[key] = props[key]));
+
+  props &&
+    isObject(props) &&
+    Object.keys(props).forEach(key => (obj[key] = props[key]));
+
   return obj;
 }
 
-export function cloneObject(from: any) {
+export function cloneObject(target: any, persistOwnProps: boolean = true) {
   const obj =
-    from && from.__super
-      ? Object.create(from.__super, {
+    target && target.__super
+      ? Object.create(target.__super, {
           __super: {
-            value: from.__super,
+            value: target.__super,
             writable: false,
             enumerable: false
           }
         })
       : Object.create(Object.prototype);
-  from && Object.keys(from).forEach(key => (obj[key] = from[key]));
+  persistOwnProps &&
+    target &&
+    Object.keys(target).forEach(key => (obj[key] = target[key]));
   return obj;
 }
 
-export function extendObject(to: any, from?: any) {
-  const obj = cloneObject(to);
-  from && Object.keys(from).forEach(key => (obj[key] = from[key]));
+export function extendObject(
+  target: any,
+  src?: any,
+  persistOwnProps: boolean = true
+) {
+  const obj = cloneObject(target, persistOwnProps);
+  src && Object.keys(src).forEach(key => (obj[key] = src[key]));
   return obj;
 }
 
@@ -59,32 +69,36 @@ export function syncDataFromSuper(
   data: any,
   superObject: any,
   prevSuperObject: any,
-  force?: boolean,
-  store?: IIRendererStore
+  store: IIRendererStore,
+  force: boolean
 ) {
   const obj = {
     ...data
   };
 
-  let keys = Object.keys(obj);
+  let keys: Array<string> = [];
 
   // 如果是 form store，则从父级同步 formItem 种东西。
   if (store && store.storeType === 'FormStore') {
     keys = uniq(
-      (store as IFormStore).items.map(item =>
-        `${item.name}`.replace(/\..*$/, '')
-      )
+      (store as IFormStore).items
+        .map(item => `${item.name}`.replace(/\..*$/, ''))
+        .concat(Object.keys(obj))
     );
-    force = false;
+  } else if (force) {
+    keys = Object.keys(obj);
   }
 
   if (superObject || prevSuperObject) {
     keys.forEach(key => {
+      if (!key) {
+        return;
+      }
+
       if (
         ((superObject && typeof superObject[key] !== 'undefined') ||
           (prevSuperObject && typeof prevSuperObject[key] !== 'undefined')) &&
-        (force ||
-          (prevSuperObject && !superObject) ||
+        ((prevSuperObject && !superObject) ||
           (!prevSuperObject && superObject) ||
           prevSuperObject[key] !== superObject[key])
       ) {
@@ -237,9 +251,10 @@ export function anyChanged(
   to: {[propName: string]: any},
   strictMode: boolean = true
 ): boolean {
-  return (typeof attrs === 'string' ? attrs.split(/\s*,\s*/) : attrs).some(
-    key => (strictMode ? from[key] !== to[key] : from[key] != to[key])
-  );
+  return (typeof attrs === 'string'
+    ? attrs.split(/\s*,\s*/)
+    : attrs
+  ).some(key => (strictMode ? from[key] !== to[key] : from[key] != to[key]));
 }
 
 export function rmUndefined(obj: PlainObject) {
@@ -317,6 +332,29 @@ export function isArrayChildrenModified(
   return false;
 }
 
+export function immutableExtends(to: any, from: any, deep = false) {
+  // 不是对象，不可以merge
+  if (!isObject(to) || !isObject(from)) {
+    return to;
+  }
+
+  let ret = to;
+
+  Object.keys(from).forEach(key => {
+    const origin = to[key];
+    const value = from[key];
+
+    // todo 支持深度merge
+    if (origin !== value) {
+      // 一旦有修改，就创建个新对象。
+      ret = ret !== to ? ret : {...to};
+      ret[key] = value;
+    }
+  });
+
+  return ret;
+}
+
 // 即将抛弃
 export function makeColumnClassBuild(
   steps: number,
@@ -325,7 +363,7 @@ export function makeColumnClassBuild(
   let count = 12;
   let step = Math.floor(count / steps);
 
-  return function(schema: Schema) {
+  return function (schema: Schema) {
     if (
       schema.columnClassName &&
       /\bcol-(?:xs|sm|md|lg)-(\d+)\b/.test(schema.columnClassName)
@@ -433,7 +471,7 @@ export function promisify<T extends Function>(
 ) => Promise<any> & {
   raw: T;
 } {
-  let promisified = function() {
+  let promisified = function () {
     try {
       const ret = fn.apply(null, arguments);
       if (ret && ret.then) {
@@ -487,7 +525,7 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
 export function difference<
   T extends {[propName: string]: any},
   U extends {[propName: string]: any}
->(object: T, base: U): {[propName: string]: any} {
+>(object: T, base: U, keepProps?: Array<string>): {[propName: string]: any} {
   function changes(object: T, base: U) {
     const keys: Array<keyof T & keyof U> = uniq(
       Object.keys(object).concat(Object.keys(base))
@@ -497,6 +535,10 @@ export function difference<
     keys.forEach(key => {
       const a: any = object[key as keyof T];
       const b: any = base[key as keyof U];
+
+      if (keepProps && ~keepProps.indexOf(key as string)) {
+        result[key] = a;
+      }
 
       if (isEqual(a, b)) {
         return;
@@ -565,7 +607,7 @@ export function isBreakpoint(str: string): boolean {
 
   const breaks = str.split(/\s*,\s*|\s+/);
 
-  if (window.matchMedia) {
+  if ((window as any).matchMedia) {
     return breaks.some(
       item =>
         item === '*' ||
@@ -815,19 +857,32 @@ export function getTree<T extends TreeItem>(
 export function filterTree<T extends TreeItem>(
   tree: Array<T>,
   iterator: (item: T, key: number, level: number) => boolean,
-  level: number = 1
+  level: number = 1,
+  depthFirst: boolean = false
 ) {
-  return tree.filter((item, index) => {
-    if (!iterator(item, index, level)) {
-      return false;
-    }
+  if (depthFirst) {
+    return tree
+      .map(item => {
+        let children: TreeArray | undefined = item.children
+          ? filterTree(item.children, iterator, level + 1, depthFirst)
+          : undefined;
+        children && (item = {...item, children: children});
+        return item;
+      })
+      .filter((item, index) => iterator(item, index, level));
+  }
 
-    if (item.children && item.children.splice) {
-      item.children = filterTree(item.children, iterator, level + 1);
-    }
-
-    return true;
-  });
+  return tree
+    .filter((item, index) => iterator(item, index, level))
+    .map(item => {
+      if (item.children && item.children.splice) {
+        item = {
+          ...item,
+          children: filterTree(item.children, iterator, level + 1, depthFirst)
+        };
+      }
+      return item;
+    });
 }
 
 /**
@@ -837,15 +892,28 @@ export function filterTree<T extends TreeItem>(
  */
 export function everyTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number, paths: Array<T>) => boolean,
+  iterator: (
+    item: T,
+    key: number,
+    level: number,
+    paths: Array<T>,
+    indexes: Array<number>
+  ) => boolean,
   level: number = 1,
-  paths: Array<T> = []
+  paths: Array<T> = [],
+  indexes: Array<number> = []
 ): boolean {
   return tree.every((item, index) => {
-    const value: any = iterator(item, index, level, paths);
+    const value: any = iterator(item, index, level, paths, indexes);
 
     if (value && item.children && item.children.splice) {
-      return everyTree(item.children, iterator, level + 1, paths.concat(item));
+      return everyTree(
+        item.children,
+        iterator,
+        level + 1,
+        paths.concat(item),
+        indexes.concat(index)
+      );
     }
 
     return value;
@@ -861,7 +929,17 @@ export function someTree<T extends TreeItem>(
   tree: Array<T>,
   iterator: (item: T, key: number, level: number, paths: Array<T>) => boolean
 ): boolean {
-  return !everyTree(tree, iterator);
+  let result = false;
+
+  everyTree(tree, (item: T, key: number, level: number, paths: Array<T>) => {
+    if (iterator(item, key, level, paths)) {
+      result = true;
+      return false;
+    }
+    return true;
+  });
+
+  return result;
 }
 
 /**
@@ -920,6 +998,7 @@ export function spliceTree<T extends TreeItem>(
   if (typeof idx === 'number') {
     list.splice(idx, deleteCount, ...items);
   } else if (Array.isArray(idx) && idx.length) {
+    idx = idx.concat();
     const lastIdx = idx.pop()!;
     let host = idx.reduce((list: Array<T>, idx) => {
       const child = {
@@ -933,6 +1012,22 @@ export function spliceTree<T extends TreeItem>(
   }
 
   return list;
+}
+
+/**
+ * 计算树的深度
+ * @param tree
+ */
+export function getTreeDepth<T extends TreeItem>(tree: Array<T>): number {
+  return Math.max(
+    ...tree.map(item => {
+      if (Array.isArray(item.children)) {
+        return 1 + getTreeDepth(item.children);
+      }
+
+      return 1;
+    })
+  );
 }
 
 export function ucFirst(str?: string) {
@@ -952,12 +1047,12 @@ export function camel(str?: string) {
     : '';
 }
 
-export function getWidthRate(value: any): number {
+export function getWidthRate(value: any, strictMode = false): number {
   if (typeof value === 'string' && /\bcol\-\w+\-(\d+)\b/.test(value)) {
     return parseInt(RegExp.$1, 10);
   }
 
-  return value || 0;
+  return strictMode ? 0 : value || 0;
 }
 
 export function getLevelFromClassName(
@@ -975,6 +1070,17 @@ export function getLevelFromClassName(
   return defaultValue;
 }
 
+export function string2regExp(value: string, caseSensitive = false) {
+  if (typeof value !== 'string') {
+    throw new TypeError('Expected a string');
+  }
+
+  return new RegExp(
+    value.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d'),
+    !caseSensitive ? 'i' : ''
+  );
+}
+
 export function pickEventsProps(props: any) {
   const ret: any = {};
   props &&
@@ -986,7 +1092,7 @@ export function pickEventsProps(props: any) {
 
 export const autobind = boundMethod;
 
-export const bulkBindFunctions = function<
+export const bulkBindFunctions = function <
   T extends {
     [propName: string]: any;
   }
@@ -999,7 +1105,7 @@ export function sortArray<T extends any>(
   field: string,
   dir: -1 | 1
 ): Array<T> {
-  return items.sort((a, b) => {
+  return items.sort((a: any, b: any) => {
     let ret: number;
     const a1 = a[field];
     const b1 = b[field];
@@ -1075,9 +1181,35 @@ export function object2formData(
 export function chainFunctions(
   ...fns: Array<(...args: Array<any>) => void>
 ): (...args: Array<any>) => void {
-  return (...args: Array<any>) => {
-    fns.forEach(fn => fn && fn(...args));
-  };
+  return (...args: Array<any>) =>
+    fns.reduce(
+      (ret: any, fn: any) =>
+        ret === false
+          ? false
+          : typeof fn == 'function'
+          ? fn(...args)
+          : undefined,
+      undefined
+    );
+}
+
+export function chainEvents(props: any, schema: any) {
+  const ret: any = {};
+
+  Object.keys(props).forEach(key => {
+    if (
+      key.substr(0, 2) === 'on' &&
+      typeof props[key] === 'function' &&
+      typeof schema[key] === 'function' &&
+      schema[key] !== props[key]
+    ) {
+      ret[key] = chainFunctions(schema[key], props[key]);
+    } else {
+      ret[key] = props[key];
+    }
+  });
+
+  return ret;
 }
 
 export function mapObject(value: any, fn: Function): any {
@@ -1096,3 +1228,26 @@ export function mapObject(value: any, fn: Function): any {
   }
   return fn(value);
 }
+
+export function loadScript(src: string) {
+  return new Promise((ok, fail) => {
+    const script = document.createElement('script');
+    script.onerror = reason => fail(reason);
+
+    if (~src.indexOf('{{callback}}')) {
+      const callbackFn = `loadscriptcallback_${uuid()}`;
+      (window as any)[callbackFn] = () => {
+        ok();
+        delete (window as any)[callbackFn];
+      };
+      src = src.replace('{{callback}}', callbackFn);
+    } else {
+      script.onload = () => ok();
+    }
+
+    script.src = src;
+    document.head.appendChild(script);
+  });
+}
+
+export class SkipOperation extends Error {}

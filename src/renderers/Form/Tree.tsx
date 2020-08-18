@@ -59,13 +59,19 @@ export default class TreeControl extends React.Component<TreeProps> {
       showRadio,
       onAdd,
       creatable,
+      createTip,
       addControls,
       onEdit,
       editable,
+      editTip,
       editControls,
       removable,
+      removeTip,
       onDelete,
-      rootCreatable
+      rootCreatable,
+      rootCreateTip,
+      labelField,
+      translate: __
     } = this.props;
 
     return (
@@ -74,13 +80,14 @@ export default class TreeControl extends React.Component<TreeProps> {
         {loading ? null : (
           <TreeSelector
             classPrefix={ns}
+            labelField={labelField}
             valueField={valueField}
             disabled={disabled}
             onChange={onChange}
             joinValues={joinValues}
             extractValue={extractValue}
             delimiter={delimiter}
-            placeholder={placeholder}
+            placeholder={__(placeholder)}
             options={options}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
@@ -88,21 +95,24 @@ export default class TreeControl extends React.Component<TreeProps> {
             withChildren={withChildren}
             onlyChildren={onlyChildren}
             hideRoot={hideRoot}
-            rootLabel={rootLabel}
+            rootLabel={__(rootLabel)}
             rootValue={rootValue}
             showIcon={showIcon}
             showRadio={showRadio}
             cascade={cascade}
             foldedField="collapsed"
             value={value || ''}
-            labelField="label"
             selfDisabledAffectChildren={false}
             onAdd={onAdd}
             creatable={creatable}
+            createTip={createTip}
             rootCreatable={rootCreatable}
+            rootCreateTip={rootCreateTip}
             onEdit={onEdit}
             editable={editable}
+            editTip={editTip}
             removable={removable}
+            removeTip={removeTip}
             onDelete={onDelete}
             bultinCUD={!addControls && !editControls}
           />

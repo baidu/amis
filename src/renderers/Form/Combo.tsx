@@ -14,20 +14,29 @@ import {
   autobind,
   isObjectShallowModified
 } from '../../utils/helper';
-import Sortable = require('sortablejs');
+import Sortable from 'sortablejs';
 import {evalExpression, filter} from '../../utils/tpl';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import Select from '../../components/Select';
-import {dataMapping} from '../../utils/tpl-builtin';
+import {dataMapping, resolveVariable} from '../../utils/tpl-builtin';
 import {isEffectiveApi} from '../../utils/api';
 import {Alert2} from '../../components';
-
+import memoize from 'lodash/memoize';
+import {Icon} from '../../components/icons';
+import {isAlive} from 'mobx-state-tree';
 export interface Condition {
   test: string;
   controls: Array<Schema>;
   label: string;
   scaffold?: any;
   mode?: string;
+}
+
+function pickVars(vars: any, fields: Array<string>) {
+  return fields.reduce((data: any, key: string) => {
+    data[key] = resolveVariable(key, vars);
+    return data;
+  }, {});
 }
 
 export interface ComboProps extends FormControlProps {
@@ -60,6 +69,10 @@ export interface ComboProps extends FormControlProps {
   tabsMode: boolean;
   tabsStyle: '' | 'line' | 'card' | 'radio';
   tabsLabelTpl?: string;
+  lazyLoad?: boolean;
+  changeImmediately?: boolean;
+  strictMode?: boolean;
+  nullable?: boolean;
   messages?: {
     validateFailed?: string;
     minLengthValidateFailed?: string;
@@ -68,7 +81,25 @@ export interface ComboProps extends FormControlProps {
 }
 
 export default class ComboControl extends React.Component<ComboProps> {
-  static defaultProps = {
+  static defaultProps: Pick<
+    ComboProps,
+    | 'minLength'
+    | 'maxLength'
+    | 'multiple'
+    | 'multiLine'
+    | 'addButtonClassName'
+    | 'formClassName'
+    | 'subFormMode'
+    | 'draggableTip'
+    | 'addButtonText'
+    | 'canAccessSuperData'
+    | 'addIcon'
+    | 'dragIcon'
+    | 'deleteIcon'
+    | 'tabsMode'
+    | 'tabsStyle'
+    | 'placeholder'
+  > = {
     minLength: 0,
     maxLength: 0,
     multiple: false,
@@ -79,11 +110,12 @@ export default class ComboControl extends React.Component<ComboProps> {
     draggableTip: '可拖拽排序',
     addButtonText: '新增',
     canAccessSuperData: false,
-    addIcon: 'fa fa-plus',
-    dragIcon: 'glyphicon glyphicon-sort',
-    deleteIcon: 'glyphicon glyphicon-remove',
+    addIcon: true,
+    dragIcon: '',
+    deleteIcon: '',
     tabsMode: false,
-    tabsStyle: ''
+    tabsStyle: '',
+    placeholder: '<空>'
   };
   static propsList: Array<string> = [
     'minLength',
@@ -103,7 +135,13 @@ export default class ComboControl extends React.Component<ComboProps> {
     'noBorder',
     'conditions',
     'tabsMode',
-    'tabsStyle'
+    'tabsStyle',
+    'lazyLoad',
+    'changeImmediately',
+    'strictMode',
+    'controls',
+    'conditions',
+    'messages'
   ];
 
   subForms: Array<any> = [];
@@ -117,6 +155,8 @@ export default class ComboControl extends React.Component<ComboProps> {
   dragTip?: HTMLElement;
   sortable?: Sortable;
   defaultValue?: any;
+  toDispose: Array<Function> = [];
+  id: string = guid();
   constructor(props: ComboProps) {
     super(props);
 
@@ -128,6 +168,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.dragTipRef = this.dragTipRef.bind(this);
+    this.flush = this.flush.bind(this);
     this.handleComboTypeChange = this.handleComboTypeChange.bind(this);
     this.defaultValue = {
       ...props.scaffold
@@ -135,7 +176,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   componentWillMount() {
-    const {store, value, minLength, maxLength, formItem} = this.props;
+    const {store, value, minLength, maxLength, formItem, addHook} = this.props;
 
     store.config({
       minLength,
@@ -144,6 +185,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     });
 
     formItem && formItem.setSubStore(store);
+    addHook && this.toDispose.push(addHook(this.flush, 'flush'));
   }
 
   componentWillReceiveProps(nextProps: ComboProps) {
@@ -162,6 +204,23 @@ export default class ComboControl extends React.Component<ComboProps> {
       if (store.activeKey >= values.length) {
         store.setActiveKey(Math.max(0, values.length - 1));
       }
+
+      // combo 进来了新的值，且这次 form 初始化时带来的新值变化，但是之前的值已经 onInit 过了
+      // 所以，之前 onInit 设置进去的初始值是过时了的。这个时候修复一下。
+      if (
+        nextProps.value !== props.value &&
+        !props.formInited &&
+        this.subFormDefaultValues.length
+      ) {
+        this.subFormDefaultValues = this.subFormDefaultValues.map(
+          (item, index) => {
+            return {
+              ...item,
+              values: values[index]
+            };
+          }
+        );
+      }
     }
   }
 
@@ -169,6 +228,11 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {formItem} = this.props;
 
     formItem && formItem.setSubStore(null);
+
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
+    this.memoizedFormatValue.cache.clear?.();
+    this.makeFormRef.cache.clear?.();
   }
 
   getValueAsArray(props = this.props) {
@@ -258,7 +322,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       deleteApi,
       deleteConfirmText,
       data,
-      env
+      env,
+      translate: __
     } = this.props;
 
     if (disabled) {
@@ -270,7 +335,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     if (isEffectiveApi(deleteApi, ctx)) {
       const confirmed = await env.confirm(
-        deleteConfirmText ? filter(deleteConfirmText, ctx) : '确认要删除？'
+        deleteConfirmText ? filter(deleteConfirmText, ctx) : __('确认要删除？')
       );
       if (!confirmed) {
         // 如果不确认，则跳过！
@@ -280,7 +345,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       const result = await env.fetcher(deleteApi as Api, ctx);
 
       if (!result.ok) {
-        env.notify('error', '删除失败');
+        env.notify('error', __('删除失败'));
         return;
       }
     }
@@ -297,13 +362,11 @@ export default class ComboControl extends React.Component<ComboProps> {
 
   handleChange(values: any, diff: any, {index}: any) {
     const {
-      formItem,
       flat,
       store,
       joinValues,
       delimiter,
       disabled,
-      validateOnChange,
       submitOnChange
     } = this.props;
 
@@ -320,12 +383,10 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     this.props.onChange(value, submitOnChange, true);
 
-    if (validateOnChange !== false && formItem && formItem.validated) {
-      this.subForms.forEach(item => item.validate());
-    }
-
-    store.forms.forEach(item =>
-      item.items.forEach(item => item.unique && item.syncOptions())
+    store.forms.forEach(
+      item =>
+        isAlive(item) &&
+        item.items.forEach(item => item.unique && item.syncOptions())
     );
   }
 
@@ -342,7 +403,6 @@ export default class ComboControl extends React.Component<ComboProps> {
   handleFormInit(values: any, {index}: any) {
     const {
       syncDefaultValue,
-      disabled,
       flat,
       joinValues,
       delimiter,
@@ -352,17 +412,16 @@ export default class ComboControl extends React.Component<ComboProps> {
       setPrinstineValue
     } = this.props;
 
-    if (syncDefaultValue === false || disabled) {
-      return;
-    }
-
     this.subFormDefaultValues.push({
       index,
       values,
       setted: false
     });
 
-    if (this.subFormDefaultValues.length !== this.subForms.length) {
+    if (
+      syncDefaultValue === false ||
+      this.subFormDefaultValues.length !== this.subForms.length
+    ) {
       return;
     }
 
@@ -399,11 +458,18 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   handleSingleFormInit(values: any) {
-    this.props.syncDefaultValue !== false &&
-      this.props.setPrinstineValue &&
-      this.props.setPrinstineValue({
+    const {syncDefaultValue, setPrinstineValue, value, nullable} = this.props;
+
+    if (
+      syncDefaultValue !== false &&
+      !nullable &&
+      isObjectShallowModified(value, values) &&
+      setPrinstineValue
+    ) {
+      setPrinstineValue({
         ...values
       });
+    }
   }
 
   handleAction(action: Action): any {
@@ -418,25 +484,34 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   validate(): any {
-    const {value, minLength, maxLength, messages} = this.props;
+    const {
+      value,
+      minLength,
+      maxLength,
+      messages,
+      nullable,
+      translate: __
+    } = this.props;
 
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
-      return (
+      return __(
         (messages && messages.minLengthValidateFailed) ||
-        `组合表单成员数量不够，低于设定的最小${minLength}个，请添加更多的成员。`
+          '组合表单成员数量不够，低于设定的最小{{minLength}}个，请添加更多的成员。',
+        {minLength}
       );
     } else if (maxLength && Array.isArray(value) && value.length > maxLength) {
-      return (
+      return __(
         (messages && messages.maxLengthValidateFailed) ||
-        `组合表单成员数量超出，超出设定的最大${maxLength}个，请删除多余的成员。`
+          '组合表单成员数量超出，超出设定的最大{{maxLength}}个，请删除多余的成员。',
+        {maxLength}
       );
-    } else if (this.subForms.length) {
+    } else if (this.subForms.length && (!nullable || value)) {
       return Promise.all(this.subForms.map(item => item.validate())).then(
         values => {
           if (~values.indexOf(false)) {
-            return (
+            return __(
               (messages && messages.validateFailed) ||
-              '子表单验证失败，请仔细检查'
+                '子表单验证失败，请仔细检查'
             );
           }
 
@@ -444,6 +519,10 @@ export default class ComboControl extends React.Component<ComboProps> {
         }
       );
     }
+  }
+
+  flush() {
+    this.subForms.forEach(form => form.flush());
   }
 
   dragTipRef(ref: any) {
@@ -463,7 +542,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.sortable = new Sortable(
       dom.querySelector(`.${ns}Combo-items`) as HTMLElement,
       {
-        group: 'combo',
+        group: `combo-${this.id}`,
         animation: 150,
         handle: `.${ns}Combo-itemDrager`,
         ghostClass: `${ns}Combo-item--dragging`,
@@ -498,9 +577,14 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.sortable && this.sortable.destroy();
   }
 
-  refsMap:{
-    [propName: number]: any
+  refsMap: {
+    [propName: number]: any;
   } = {};
+
+  makeFormRef = memoize((index: number) => (ref: any) =>
+    this.formRef(ref, index)
+  );
+
   formRef(ref: any, index: number = 0) {
     if (ref) {
       while (ref && ref.getWrappedInstance) {
@@ -511,13 +595,45 @@ export default class ComboControl extends React.Component<ComboProps> {
     } else {
       const form = this.refsMap[index];
       this.subForms = this.subForms.filter(item => item !== form);
-      this.subFormDefaultValues = this.subFormDefaultValues.filter(({index: dIndex}) => dIndex !== index);
+      this.subFormDefaultValues = this.subFormDefaultValues.filter(
+        ({index: dIndex}) => dIndex !== index
+      );
       delete this.refsMap[index];
     }
   }
 
-  formatValue(value: any, index: number) {
-    const {flat, data} = this.props;
+  memoizedFormatValue = memoize(
+    (
+      strictMode: boolean,
+      syncFields: Array<string> | void,
+      value: any,
+      index: number,
+      data: any
+    ) => {
+      return createObject(
+        extendObject(data, {index, __index: index, ...data}),
+        {
+          ...value,
+          ...(Array.isArray(syncFields) ? pickVars(data, syncFields!) : null)
+        }
+      );
+    },
+    (
+      strictMode: boolean,
+      syncFields: Array<string> | void,
+      value: any,
+      index: number,
+      data: any
+    ) =>
+      Array.isArray(syncFields)
+        ? JSON.stringify([value, index, data, pickVars(data, syncFields)])
+        : strictMode
+        ? JSON.stringify([value, index])
+        : JSON.stringify([value, index, data])
+  );
+
+  formatValue(value: any, index: number = -1) {
+    const {flat, data, strictMode, syncFields} = this.props;
 
     if (flat) {
       value = {
@@ -526,9 +642,13 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     value = value || this.defaultValue;
-    return createObject(
-      extendObject(data, {index, __index: index, ...data}),
-      value
+
+    return this.memoizedFormatValue(
+      strictMode !== false,
+      syncFields,
+      value,
+      index,
+      data
     );
   }
 
@@ -578,10 +698,21 @@ export default class ComboControl extends React.Component<ComboProps> {
     store.setActiveKey(key);
   }
 
+  @autobind
+  setNull(e: React.MouseEvent) {
+    e.preventDefault();
+    const {onChange} = this.props;
+    onChange(null);
+
+    Array.isArray(this.subForms) &&
+      this.subForms.forEach(subForm => {
+        subForm.clearErrors();
+      });
+  }
+
   renderPlaceholder() {
-    return (
-      <span className="text-muted">{this.props.placeholder || '没有数据'}</span>
-    );
+    const {placeholder, translate: __} = this.props;
+    return <span className="text-muted">{__(placeholder || '没有数据')}</span>;
   }
 
   renderTabsMode() {
@@ -605,7 +736,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       addIcon,
       deleteIcon,
       tabsLabelTpl,
-      conditions
+      conditions,
+      changeImmediately,
+      translate: __
     } = this.props;
 
     let controls = this.props.controls;
@@ -628,20 +761,25 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     return (
       <CTabs
+        className={'ComboTabs'}
         mode={tabsStyle}
         activeKey={store.activeKey}
         onSelect={this.handleTabSelect}
         additionBtns={
           !disabled ? (
-            <li className={cx(`Tabs-link`)}>
+            <li className={cx(`Tabs-link ComboTabs-addLink`)}>
               {store.addable && addable !== false ? (
                 Array.isArray(conditions) && conditions.length ? (
                   render(
                     'add-button',
                     {
                       type: 'dropdown-button',
-                      icon: addIcon,
-                      label: addButtonText || '新增',
+                      icon: addIcon ? (
+                        <Icon icon="plus" className="icon" />
+                      ) : (
+                        ''
+                      ),
+                      label: __(addButtonText || '新增'),
                       level: 'info',
                       size: 'sm',
                       closeOnClick: true
@@ -657,9 +795,13 @@ export default class ComboControl extends React.Component<ComboProps> {
                     }
                   )
                 ) : (
-                  <a onClick={this.addItem} data-tooltip="新增一条数据">
-                    {addIcon ? <i className={cx('m-r-xs', addIcon)} /> : null}
-                    <span>{addButtonText || '新增'}</span>
+                  <a
+                    onClick={this.addItem}
+                    data-position="left"
+                    data-tooltip={__('新增一条数据')}
+                  >
+                    {addIcon ? <Icon icon="plus" className="icon" /> : null}
+                    <span>{__(addButtonText || '新增')}</span>
                   </a>
                 )
               ) : null}
@@ -683,10 +825,14 @@ export default class ComboControl extends React.Component<ComboProps> {
                 className={cx(
                   `Combo-toolbarBtn ${!store.removable ? 'is-disabled' : ''}`
                 )}
-                data-tooltip="删除"
+                data-tooltip={__('删除')}
                 data-position="bottom"
               >
-                <i className={deleteIcon} />
+                {deleteIcon ? (
+                  <i className={deleteIcon} />
+                ) : (
+                  <Icon icon="close" className="icon" />
+                )}
               </a>
             );
           }
@@ -708,16 +854,21 @@ export default class ComboControl extends React.Component<ComboProps> {
 
           return (
             <Tab
-              title={filter(tabsLabelTpl || '成员${index|plus}', data)}
+              title={filter(
+                tabsLabelTpl ||
+                  __('成员{{index}}', {index: (data as any).index + 1}),
+                data
+              )}
               key={this.keys[index] || (this.keys[index] = guid())}
               toolbar={toolbar}
               eventKey={index}
-              mountOnEnter={true}
+              // 不能按需渲染，因为 unique 会失效。
+              mountOnEnter={false}
               unmountOnExit={false}
             >
               {condition && typeSwitchable !== false ? (
                 <div className={cx('Combo-itemTag')}>
-                  <label>类型</label>
+                  <label>{__('类型')}</label>
                   <Select
                     onChange={this.handleComboTypeChange.bind(this, index)}
                     options={(conditions as Array<Condition>).map(item => ({
@@ -739,9 +890,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       wrapperComponent: 'div',
                       wrapWithPanel: false,
                       mode: subFormMode,
-                      className: cx(`Combo-form`, formClassName),
-                      lazyChange: false,
-                      formLazyChange: false
+                      className: cx(`Combo-form`, formClassName)
                     },
                     {
                       index,
@@ -750,15 +899,17 @@ export default class ComboControl extends React.Component<ComboProps> {
                       onChange: this.handleChange,
                       onInit: this.handleFormInit,
                       onAction: this.handleAction,
-                      ref: (ref: any) => this.formRef(ref, index),
+                      ref: this.makeFormRef(index),
                       canAccessSuperData,
+                      lazyChange: changeImmediately ? false : true,
+                      lazyFormChange: changeImmediately ? false : true,
                       value: undefined,
                       formItemValue: undefined
                     }
                   )
                 ) : (
                   <Alert2 level="warning" className="m-b-none">
-                    数据非法，或者数据已失效，请移除
+                    {__('数据非法，或者数据已失效，请移除')}
                   </Alert2>
                 )}
               </div>
@@ -798,7 +949,11 @@ export default class ComboControl extends React.Component<ComboProps> {
       dragIcon,
       deleteIcon,
       noBorder,
-      conditions
+      conditions,
+      lazyLoad,
+      changeImmediately,
+      placeholder,
+      translate: __
     } = this.props;
 
     let controls = this.props.controls;
@@ -818,131 +973,152 @@ export default class ComboControl extends React.Component<ComboProps> {
         className={cx(
           `Combo Combo--multi`,
           multiLine ? `Combo--ver` : `Combo--hor`,
-          noBorder ? `Combo--noBorder` : ''
+          noBorder ? `Combo--noBorder` : '',
+          disabled ? 'is-disabled' : '',
+          !disabled && draggable && Array.isArray(value) && value.length > 1
+            ? 'is-draggable'
+            : ''
         )}
       >
         <div className={cx(`Combo-items`)}>
-          {Array.isArray(value)
-            ? value.map((value, index, thelist) => {
-                const toolbar: Array<any> = [];
+          {Array.isArray(value) && value.length ? (
+            value.map((value, index, thelist) => {
+              const toolbar: Array<any> = [];
 
-                if (!disabled && draggable && thelist.length > 1) {
-                  toolbar.push(
-                    <a
-                      key="drag"
-                      className={cx(`Combo-toolbarBtn Combo-itemDrager`)}
-                      data-tooltip="拖拽排序"
-                      data-position="bottom"
-                    >
-                      <i className={dragIcon} />
-                    </a>
-                  );
-                }
+              // if (!disabled && draggable && thelist.length > 1) {
+              //   toolbar.push(
+              //     <a
+              //       key="drag"
+              //       className={cx(`Combo-toolbarBtn Combo-itemDrager`)}
+              //       data-tooltip="拖拽排序"
+              //       data-position="bottom"
+              //     >
+              //       <i className={dragIcon} />
+              //     </a>
+              //   );
+              // }
 
-                if (
-                  finnalRemovable && // 表达式判断单条是否可删除
-                  (!itemRemovableOn ||
-                    evalExpression(itemRemovableOn, value) !== false)
-                ) {
-                  toolbar.push(
-                    <a
-                      onClick={this.removeItem.bind(this, index)}
-                      key="remove"
-                      className={cx(
-                        `Combo-toolbarBtn ${
-                          !store.removable ? 'is-disabled' : ''
-                        }`
-                      )}
-                      data-tooltip="删除"
-                      data-position="bottom"
-                    >
-                      <i className={deleteIcon} />
-                    </a>
-                  );
-                }
-
-                const data = this.formatValue(value, index);
-                let condition: Condition | null = null;
-
-                if (Array.isArray(conditions) && conditions.length) {
-                  condition = this.pickCondition(data);
-                  controls = condition ? condition.controls : undefined;
-                }
-
-                let finnalControls =
-                  flat && controls
-                    ? [
-                        {
-                          ...(controls && controls[0]),
-                          name: 'flat'
-                        }
-                      ]
-                    : controls;
-
-                return (
-                  <div
-                    className={cx(`Combo-item`)}
-                    key={this.keys[index] || (this.keys[index] = guid())}
+              if (
+                finnalRemovable && // 表达式判断单条是否可删除
+                (!itemRemovableOn ||
+                  evalExpression(itemRemovableOn, value) !== false)
+              ) {
+                toolbar.push(
+                  <a
+                    onClick={this.removeItem.bind(this, index)}
+                    key="remove"
+                    className={cx(
+                      `Combo-toolbarBtn ${
+                        !store.removable ? 'is-disabled' : ''
+                      }`
+                    )}
+                    data-tooltip={__('删除')}
+                    data-position="bottom"
                   >
-                    {condition && typeSwitchable !== false ? (
-                      <div className={cx('Combo-itemTag')}>
-                        <label>类型</label>
-                        <Select
-                          onChange={this.handleComboTypeChange.bind(
-                            this,
-                            index
-                          )}
-                          options={(conditions as Array<Condition>).map(
-                            item => ({
-                              label: item.label,
-                              value: item.label
-                            })
-                          )}
-                          value={condition.label}
-                          clearable={false}
-                        />
-                      </div>
-                    ) : null}
-                    <div className={cx(`Combo-itemInner`)}>
-                      {finnalControls ? (
-                        render(
-                          `multiple/${index}`,
-                          {
-                            type: 'form',
-                            controls: finnalControls,
-                            wrapperComponent: 'div',
-                            wrapWithPanel: false,
-                            mode: multiLine ? subFormMode : 'row',
-                            className: cx(`Combo-form`, formClassName),
-                            lazyChange: false,
-                            formLazyChange: false
-                          },
-                          {
-                            index,
-                            disabled,
-                            data,
-                            onChange: this.handleChange,
-                            onInit: this.handleFormInit,
-                            onAction: this.handleAction,
-                            ref: (ref: any) => this.formRef(ref, index),
-                            canAccessSuperData,
-                            value: undefined,
-                            formItemValue: undefined
-                          }
-                        )
-                      ) : (
-                        <Alert2 level="warning" className="m-b-none">
-                          数据非法，或者数据已失效，请移除
-                        </Alert2>
-                      )}
-                    </div>
-                    {toolbar.length ? (
-                      <div className={cx(`Combo-itemToolbar`)}>{toolbar}</div>
-                    ) : null}
-                  </div>
+                    {deleteIcon ? (
+                      <i className={deleteIcon} />
+                    ) : (
+                      <Icon icon="close" className="icon" />
+                    )}
+                  </a>
                 );
-              })
-            : null}
+              }
+
+              const data = this.formatValue(value, index);
+              let condition: Condition | null = null;
+
+              if (Array.isArray(conditions) && conditions.length) {
+                condition = this.pickCondition(data);
+                controls = condition ? condition.controls : undefined;
+              }
+
+              let finnalControls =
+                flat && controls
+                  ? [
+                      {
+                        ...(controls && controls[0]),
+                        name: 'flat'
+                      }
+                    ]
+                  : controls;
+
+              return (
+                <div
+                  className={cx(`Combo-item`)}
+                  key={this.keys[index] || (this.keys[index] = guid())}
+                >
+                  {!disabled && draggable && thelist.length > 1 ? (
+                    <div className={cx('Combo-itemDrager')}>
+                      <a
+                        key="drag"
+                        data-tooltip={__('拖拽排序')}
+                        data-position="bottom"
+                      >
+                        {dragIcon ? (
+                          <i className={dragIcon} />
+                        ) : (
+                          <Icon icon="drag-bar" className="icon" />
+                        )}
+                      </a>
+                    </div>
+                  ) : null}
+                  {condition && typeSwitchable !== false ? (
+                    <div className={cx('Combo-itemTag')}>
+                      <label>{__('类型')}</label>
+                      <Select
+                        onChange={this.handleComboTypeChange.bind(this, index)}
+                        options={(conditions as Array<Condition>).map(item => ({
+                          label: item.label,
+                          value: item.label
+                        }))}
+                        value={condition.label}
+                        clearable={false}
+                      />
+                    </div>
+                  ) : null}
+                  <div className={cx(`Combo-itemInner`)}>
+                    {finnalControls ? (
+                      render(
+                        `multiple/${index}`,
+                        {
+                          type: 'form',
+                          controls: finnalControls,
+                          wrapperComponent: 'div',
+                          wrapWithPanel: false,
+                          mode: multiLine ? subFormMode : 'row',
+                          className: cx(`Combo-form`, formClassName)
+                        },
+                        {
+                          index,
+                          disabled,
+                          data,
+                          onChange: this.handleChange,
+                          onInit: this.handleFormInit,
+                          onAction: this.handleAction,
+                          ref: this.makeFormRef(index),
+                          lazyChange: changeImmediately ? false : true,
+                          lazyFormChange: changeImmediately ? false : true,
+                          lazyLoad,
+                          canAccessSuperData,
+                          value: undefined,
+                          formItemValue: undefined
+                        }
+                      )
+                    ) : (
+                      <Alert2 level="warning" className="m-b-none">
+                        {__('数据非法，或者数据已失效，请移除')}
+                      </Alert2>
+                    )}
+                  </div>
+                  {toolbar.length ? (
+                    <div className={cx(`Combo-itemToolbar`)}>{toolbar}</div>
+                  ) : null}
+                </div>
+              );
+            })
+          ) : placeholder ? (
+            <div className={cx(`Combo-placeholder`)}>{__(placeholder)}</div>
+          ) : null}
         </div>
         {!disabled ? (
           <div className={cx(`Combo-toolbar`)}>
@@ -952,8 +1128,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   'add-button',
                   {
                     type: 'dropdown-button',
-                    icon: addIcon,
-                    label: addButtonText || '新增',
+                    label: __(addButtonText || '新增'),
                     level: 'info',
                     size: 'sm',
                     closeOnClick: true
@@ -973,18 +1148,18 @@ export default class ComboControl extends React.Component<ComboProps> {
                   type="button"
                   onClick={this.addItem}
                   className={cx(`Button Combo-addBtn`, addButtonClassName)}
-                  data-tooltip="新增一条数据"
+                  data-tooltip={__('新增一条数据')}
                 >
-                  {addIcon ? (
-                    <i className={cx('Button-icon', addIcon)} />
-                  ) : null}
-                  <span>{addButtonText || '新增'}</span>
+                  {addIcon ? <Icon icon="plus" className="icon" /> : null}
+                  <span>{__(addButtonText || '新增')}</span>
                 </button>
               )
             ) : null}
             {draggable ? (
               <span className={cx(`Combo-dragableTip`)} ref={this.dragTipRef}>
-                {Array.isArray(value) && value.length > 1 ? draggableTip : ''}
+                {Array.isArray(value) && value.length > 1
+                  ? __(draggableTip)
+                  : ''}
               </span>
             ) : null}
           </div>
@@ -1004,11 +1179,13 @@ export default class ComboControl extends React.Component<ComboProps> {
       canAccessSuperData,
       noBorder,
       disabled,
-      typeSwitchable
+      typeSwitchable,
+      nullable,
+      translate: __
     } = this.props;
 
     let controls = this.props.controls;
-    const data = isObject(value) ? value : this.defaultValue;
+    const data = isObject(value) ? this.formatValue(value) : this.defaultValue;
     let condition: Condition | null = null;
 
     if (Array.isArray(conditions) && conditions.length) {
@@ -1021,13 +1198,14 @@ export default class ComboControl extends React.Component<ComboProps> {
         className={cx(
           `Combo Combo--single`,
           multiLine ? `Combo--ver` : `Combo--hor`,
-          noBorder ? `Combo--noBorder` : ''
+          noBorder ? `Combo--noBorder` : '',
+          disabled ? 'is-disabled' : ''
         )}
       >
         <div className={cx(`Combo-item`)}>
           {condition && typeSwitchable !== false ? (
             <div className={cx('Combo-itemTag')}>
-              <label>类型</label>
+              <label>{__('类型')}</label>
               <Select
                 onChange={this.handleComboTypeChange.bind(this, 0)}
                 options={(conditions as Array<Condition>).map(item => ({
@@ -1050,38 +1228,48 @@ export default class ComboControl extends React.Component<ComboProps> {
                   wrapperComponent: 'div',
                   wrapWithPanel: false,
                   mode: multiLine ? 'normal' : 'row',
-                  className: cx(`Combo-form`, formClassName),
-                  lazyChange: false,
-                  formLazyChange: false
+                  className: cx(`Combo-form`, formClassName)
                 },
                 {
                   disabled: disabled,
-                  data: isObject(value) ? value : this.defaultValue,
+                  data: data,
                   onChange: this.handleSingleFormChange,
-                  ref: (ref: any) => this.formRef(ref),
+                  ref: this.makeFormRef(0),
                   onInit: this.handleSingleFormInit,
                   canAccessSuperData
                 }
               )
             ) : (
               <Alert2 level="warning" className="m-b-none">
-                数据非法，或者数据已失效，请移除
+                {__('数据非法，或者数据已失效，请移除')}
               </Alert2>
             )}
           </div>
         </div>
+        {value && nullable ? (
+          <a className={cx('Combo-setNullBtn')} href="#" onClick={this.setNull}>
+            {__('清空数据')}
+          </a>
+        ) : null}
       </div>
     );
   }
 
   render() {
-    const {multiple, className, classPrefix: ns, classnames: cx} = this.props;
+    const {
+      formInited,
+      multiple,
+      className,
+      classPrefix: ns,
+      classnames: cx,
+      disabled
+    } = this.props;
 
-    return (
+    return formInited ? (
       <div className={cx(`ComboControl`, className)}>
         {multiple ? this.renderMultipe() : this.renderSingle()}
       </div>
-    );
+    ) : null;
   }
 }
 

@@ -3,7 +3,7 @@
  * List、ButtonGroup 等等
  */
 import {Api, Schema} from '../../types';
-import {isEffectiveApi, isApiOutdated} from '../../utils/api';
+import {isEffectiveApi, isApiOutdated, isValidApi} from '../../utils/api';
 import {isAlive} from 'mobx-state-tree';
 import {
   anyChanged,
@@ -59,9 +59,10 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   ) => void;
   onToggleAll: () => void;
   selectedOptions: Array<Option>;
-  setOptions: (value: Array<any>) => void;
+  setOptions: (value: Array<any>, skipNormalize?: boolean) => void;
   setLoading: (value: boolean) => void;
-  reloadOptions: () => void;
+  reloadOptions: (setError?: boolean) => void;
+  deferLoad: (option: Option) => void;
   creatable?: boolean;
   onAdd?: (
     idx?: number | Array<number>,
@@ -74,11 +75,13 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
   onDelete?: (value: Option) => void;
+  autoFill?: Object;
 }
 
 // 自己接收的属性。
 export interface OptionsProps extends FormControlProps, OptionProps {
   source?: Api;
+  deferApi?: Api;
   creatable?: boolean;
   addApi?: Api;
   addControls?: Array<any>;
@@ -158,15 +161,6 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       let loadOptions: boolean = initFetch !== false;
 
-      if (isPureVariable(source as string) && formItem) {
-        formItem.setOptions(
-          normalizeOptions(
-            resolveVariableAndFilter(source as string, data, '| raw') || []
-          )
-        );
-        loadOptions = false;
-      }
-
       if (formItem && joinValues === false && defaultValue) {
         const selectedOptions = extractValue
           ? formItem
@@ -210,7 +204,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       const props = this.props;
       const formItem = props.formItem as IFormItemStore;
 
-      if (!formItem) {
+      if (!formItem || !props.formInited) {
         return;
       } else if (!prevProps.formItem) {
         // todo 优化 name 变化情况。
@@ -222,6 +216,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(normalizeOptions(props.options || []));
+        this.normalizeValue();
       } else if (
         config.autoLoadOptionsFromSource !== false &&
         props.source &&
@@ -241,7 +236,10 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
           prevOptions !== options &&
             formItem.setOptions(normalizeOptions(options || []));
+
+          this.normalizeValue();
         } else if (
+          isEffectiveApi(props.source, props.data) &&
           isApiOutdated(
             prevProps.source,
             props.source,
@@ -249,17 +247,17 @@ export function registerOptionsControl(config: OptionsConfig) {
             props.data
           )
         ) {
-          formItem.loadOptions(
-            props.source,
-            props.data,
-            undefined,
-            true,
-            props.onChange
-          );
+          formItem
+            .loadOptions(
+              props.source,
+              props.data,
+              undefined,
+              true,
+              props.onChange
+            )
+            .then(() => this.normalizeValue());
         }
       }
-
-      this.normalizeValue();
     }
 
     componentWillUnmount() {
@@ -347,7 +345,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       let valueArray = formItem.getSelectedOptions(value).concat();
       const idx = findIndex(
         valueArray,
-        optionValueCompare(option.value, valueField || 'value')
+        optionValueCompare(option[valueField || 'value'], valueField || 'value')
       );
       let newValue: string | Array<Option> | Option = '';
 
@@ -378,7 +376,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
         newValue = valueArray[0] || resetValue;
 
-        if (joinValues && newValue) {
+        if ((joinValues || extractValue) && newValue) {
           newValue = (newValue as any)[valueField || 'value'];
         }
       }
@@ -438,13 +436,53 @@ export function registerOptionsControl(config: OptionsConfig) {
     // 当有 action 触发，如果指定了 reload 目标组件，有可能会来到这里面来
     @autobind
     reload() {
+      return this.reloadOptions();
+    }
+
+    @autobind
+    reloadOptions(setError?: boolean) {
       const {source, formItem, data, onChange} = this.props;
 
-      if (!formItem || !isEffectiveApi(source, data)) {
+      if (formItem && isPureVariable(source as string)) {
+        formItem.setOptions(
+          normalizeOptions(
+            resolveVariableAndFilter(source as string, data, '| raw') || []
+          )
+        );
+        return;
+      } else if (!formItem || !isEffectiveApi(source, data)) {
         return;
       }
 
-      return formItem.loadOptions(source, data, undefined, false, onChange);
+      return formItem.loadOptions(
+        source,
+        data,
+        undefined,
+        false,
+        onChange,
+        setError
+      );
+    }
+
+    @autobind
+    deferLoad(option: Option) {
+      const {deferApi, source, env, formItem, data} = this.props;
+
+      if (option.loaded) {
+        return;
+      }
+
+      const api = option.deferApi || deferApi || source;
+
+      if (!api) {
+        env.notify(
+          'error',
+          '请在选项中设置 `deferApi` 或者表单项中设置 `deferApi`，用来加载子选项。'
+        );
+        return;
+      }
+
+      formItem?.deferLoadOptions(option, api, createObject(data, option));
     }
 
     @autobind
@@ -464,9 +502,12 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    setOptions(options: Array<any>) {
+    setOptions(options: Array<any>, skipNormalize = false) {
       const formItem = this.props.formItem as IFormItemStore;
-      formItem && formItem.setOptions(normalizeOptions(options || []));
+      formItem &&
+        formItem.setOptions(
+          skipNormalize ? options : normalizeOptions(options || [])
+        );
     }
 
     @autobind
@@ -499,7 +540,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         valueField,
         formItem: model,
         createBtnLabel,
-        env
+        env,
+        translate: __
       } = this.props;
 
       // 禁用或者没有配置 name
@@ -514,7 +556,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             type: 'text',
             name: labelField || 'label',
             label: false,
-            placeholder: '请输入名称'
+            placeholder: __('请输入名称')
           }
         ];
       }
@@ -610,7 +652,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         source,
         data,
         formItem: model,
-        optionLabel
+        optionLabel,
+        translate: __
       } = this.props;
 
       if (disabled || !model) {
@@ -623,7 +666,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             type: 'text',
             name: labelField || 'label',
             label: false,
-            placeholder: '请输入名称'
+            placeholder: __('请输入名称')
           }
         ];
       }
@@ -633,7 +676,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         : await onOpenDialog(
             {
               type: 'dialog',
-              title: `编辑${optionLabel || '选项'}`,
+              title: __('编辑{{label}}', {
+                label: optionLabel || '选项'
+              }),
               body: {
                 type: 'form',
                 api: editApi,
@@ -655,7 +700,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || '保存失败，请仔细检查');
+            env.notify('error', payload.msg || __('保存失败，请仔细检查'));
             result = null;
           } else {
             result = payload.data || result;
@@ -698,7 +743,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         env,
         formItem: model,
         source,
-        valueField
+        valueField,
+        translate: __
       } = this.props;
 
       if (disabled || !model) {
@@ -718,7 +764,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       // 通过 deleteApi 删除。
       try {
         if (!deleteApi) {
-          throw new Error('请配置 deleteApi');
+          throw new Error(__('请配置 deleteApi'));
         }
 
         const result = await env.fetcher(deleteApi!, ctx, {
@@ -726,7 +772,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         });
 
         if (!result.ok) {
-          env.notify('error', result.msg || '删除失败，请重试');
+          env.notify('error', result.msg || __('删除失败，请重试'));
         } else if (source) {
           this.reload();
         } else {
@@ -772,9 +818,14 @@ export function registerOptionsControl(config: OptionsConfig) {
           setOptions={this.setOptions}
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
-          creatable={creatable || isEffectiveApi(addApi)}
-          editable={editable || isEffectiveApi(editApi)}
-          removable={removable || isEffectiveApi(deleteApi)}
+          deferLoad={this.deferLoad}
+          creatable={
+            creatable || (creatable !== false && isEffectiveApi(addApi))
+          }
+          editable={editable || (editable !== false && isEffectiveApi(editApi))}
+          removable={
+            removable || (removable !== false && isEffectiveApi(deleteApi))
+          }
           onAdd={this.handleOptionAdd}
           onEdit={this.handleOptionEdit}
           onDelete={this.handleOptionDelete}
@@ -791,7 +842,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 }
 
 export function OptionsControl(config: OptionsBasicConfig) {
-  return function<T extends React.ComponentType<OptionsControlProps>>(
+  return function <T extends React.ComponentType<OptionsControlProps>>(
     component: T
   ): T {
     const renderer = registerOptionsControl({
@@ -813,7 +864,7 @@ export function highlight(
 
   text = String(text);
   const reg = new RegExp(
-    input.replace(/([\$\^\*\+\-\?\.\(\)\|\[\]\\])/, '\\$1'),
+    input.replace(/([\$\^\*\+\-\?\.\(\)\|\[\]\\])/g, '\\$1'),
     'i'
   );
   if (!reg.test(text)) {

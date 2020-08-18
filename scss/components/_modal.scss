@@ -80,6 +80,7 @@
     left: 0;
     z-index: 1;
     background-color: $Modal-overlay-bg;
+    pointer-events: none; // 很重要，如果不设置，弹框虽然滚轮可滚，但是鼠标没办法操作滚动条。
     opacity: 0;
 
     &.in {
@@ -217,4 +218,24 @@
 
 .#{$ns}Dialog-error {
   color: $danger;
+}
+
+.#{$ns}Modal--full {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > .#{$ns}Modal-content {
+    flex-basis: 0;
+    flex-grow: 1;
+    margin: 30px;
+    width: calc(100% - 60px);
+    max-width: unset;
+
+    > .#{$ns}Modal-body {
+      height: 0;
+      overflow: auto;
+    }
+  }
 }

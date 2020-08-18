@@ -11,10 +11,13 @@ export interface DateProps extends FormControlProps {
   inputFormat?: string;
   timeFormat?: string;
   format?: string;
-  timeConstrainst?: object;
+  timeConstraints?: object;
   closeOnSelect?: boolean;
   disabled: boolean;
   iconClassName?: string;
+  utc?: boolean; // 设定是否存储 utc 时间。
+  minDate?: string;
+  maxDate?: string;
 }
 
 interface DateControlState {
@@ -22,18 +25,20 @@ interface DateControlState {
   maxDate?: moment.Moment;
 }
 
-export default class DateControl extends React.PureComponent<DateProps> {
+export default class DateControl extends React.PureComponent<
+  DateProps,
+  DateControlState
+> {
   static defaultProps = {
     format: 'X',
     viewMode: 'days',
     inputFormat: 'YYYY-MM-DD',
-    timeConstrainst: {
+    timeConstraints: {
       minutes: {
         step: 1
       }
     },
-    clearable: true,
-    iconClassName: 'fa fa-calendar'
+    clearable: true
   };
 
   componentWillMount() {
@@ -44,11 +49,13 @@ export default class DateControl extends React.PureComponent<DateProps> {
       defaultValue,
       setPrinstineValue,
       data,
-      format
+      format,
+      utc
     } = this.props;
 
     if (defaultValue && value === defaultValue) {
-      setPrinstineValue(filterDate(defaultValue, data, format).format(format));
+      const date = filterDate(defaultValue, data, format);
+      setPrinstineValue((utc ? moment.utc(date) : date).format(format));
     }
 
     this.setState({
@@ -61,8 +68,13 @@ export default class DateControl extends React.PureComponent<DateProps> {
     const props = this.props;
 
     if (props.defaultValue !== nextProps.defaultValue) {
+      const date = filterDate(
+        nextProps.defaultValue,
+        nextProps.data,
+        nextProps.format
+      );
       nextProps.setPrinstineValue(
-        filterDate(nextProps.defaultValue, nextProps.data)
+        (nextProps.utc ? moment.utc(date) : date).format(nextProps.format)
       );
     }
 
@@ -85,15 +97,17 @@ export default class DateControl extends React.PureComponent<DateProps> {
   render() {
     const {
       className,
-      classPrefix: ns,
       defaultValue,
       defaultData,
+      classnames: cx,
+      minDate,
+      maxDate,
       ...rest
     } = this.props;
 
     return (
-      <div className={cx(`${ns}DateControl`, className)}>
-        <DatePicker {...rest} {...this.state} classPrefix={ns} />
+      <div className={cx(`DateControl`, className)}>
+        <DatePicker {...rest} {...this.state} classnames={cx} />
       </div>
     );
   }

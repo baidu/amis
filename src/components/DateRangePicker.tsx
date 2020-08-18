@@ -4,8 +4,8 @@
  * @author fex
  */
 
-import React = require('react');
-import moment = require('moment');
+import React from 'react';
+import moment from 'moment';
 import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import {Icon} from './icons';
@@ -13,21 +13,20 @@ import Overlay from './Overlay';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
 import Calendar from './calendar/Calendar';
 import PopOver from './PopOver';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
 import {noop} from '../utils/helper';
+import {LocaleProps, localeable} from '../locale';
 
-export interface DateRangePickerProps {
+export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   placeholder?: string;
   theme?: any;
   format: string;
+  utc?: boolean;
   inputFormat?: string;
   ranges?: string | Array<ShortCuts>;
   clearable?: boolean;
-  iconClassName?: string;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
   joinValues: boolean;
@@ -37,7 +36,11 @@ export interface DateRangePickerProps {
   data?: any;
   disabled?: boolean;
   closeOnSelect?: boolean;
-  [propName: string]: any;
+  overlayPlacement: string;
+  timeFormat?: string;
+  resetValue?: any;
+  popOverContainer?: any;
+  dateFormat?: string;
 }
 
 export interface DateRangePickerState {
@@ -104,10 +107,7 @@ const availableRanges: {[propName: string]: any} = {
       return now.startOf('week').add(-1, 'weeks');
     },
     endDate: (now: moment.Moment) => {
-      return now
-        .startOf('week')
-        .add(-1, 'days')
-        .endOf('day');
+      return now.startOf('week').add(-1, 'days').endOf('day');
     }
   },
 
@@ -127,10 +127,7 @@ const availableRanges: {[propName: string]: any} = {
       return now.startOf('month').add(-1, 'month');
     },
     endDate: (now: moment.Moment) => {
-      return now
-        .startOf('month')
-        .add(-1, 'day')
-        .endOf('day');
+      return now.startOf('month').add(-1, 'day').endOf('day');
     }
   },
 
@@ -140,10 +137,7 @@ const availableRanges: {[propName: string]: any} = {
       return now.startOf('quarter').add(-1, 'quarter');
     },
     endDate: (now: moment.Moment) => {
-      return now
-        .startOf('quarter')
-        .add(-1, 'day')
-        .endOf('day');
+      return now.startOf('quarter').add(-1, 'day').endOf('day');
     }
   },
 
@@ -170,9 +164,9 @@ export class DateRangePicker extends React.Component<
     clearable: true,
     delimiter: ',',
     ranges: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
-    iconClassName: 'fa fa-calendar',
     resetValue: '',
-    closeOnSelect: true
+    closeOnSelect: true,
+    overlayPlacement: 'auto'
   };
 
   innerDom: any;
@@ -183,11 +177,14 @@ export class DateRangePicker extends React.Component<
     newValue: any,
     format: string,
     joinValues: boolean,
-    delimiter: string
+    delimiter: string,
+    utc = false
   ) {
     newValue = [
-      newValue.startDate.format(format),
-      newValue.endDate.format(format)
+      (utc ? moment.utc(newValue.startDate) : newValue.startDate).format(
+        format
+      ),
+      (utc ? moment.utc(newValue.endDate) : newValue.endDate).format(format)
     ];
 
     if (joinValues) {
@@ -320,6 +317,7 @@ export class DateRangePicker extends React.Component<
   handleKeyPress(e: React.KeyboardEvent) {
     if (e.key === ' ') {
       this.handleClick();
+      e.preventDefault();
     }
   }
 
@@ -338,7 +336,8 @@ export class DateRangePicker extends React.Component<
         },
         this.props.format,
         this.props.joinValues,
-        this.props.delimiter
+        this.props.delimiter,
+        this.props.utc
       )
     );
     this.close();
@@ -382,12 +381,16 @@ export class DateRangePicker extends React.Component<
   }
 
   selectRannge(range: PlainObject) {
-    const {closeOnSelect} = this.props;
+    const {closeOnSelect, minDate, maxDate} = this.props;
     const now = moment();
     this.setState(
       {
-        startDate: range.startDate(now.clone()),
-        endDate: range.endDate(now.clone())
+        startDate: minDate
+          ? moment.max(range.startDate(now.clone()), minDate)
+          : range.startDate(now.clone()),
+        endDate: maxDate
+          ? moment.min(maxDate, range.endDate(now.clone()))
+          : range.endDate(now.clone())
       },
       closeOnSelect ? this.confirm : noop
     );
@@ -404,6 +407,8 @@ export class DateRangePicker extends React.Component<
     } else {
       rangeArr = ranges;
     }
+    const __ = this.props.translate;
+
     return (
       <ul className={`${ns}DateRangePicker-rangers`}>
         {rangeArr.map(item => {
@@ -430,7 +435,7 @@ export class DateRangePicker extends React.Component<
               onClick={() => this.selectRannge(range)}
               key={range.key || range.label}
             >
-              <a>{range.label}</a>
+              <a>{__(range.label)}</a>
             </li>
           );
         })}
@@ -511,13 +516,15 @@ export class DateRangePicker extends React.Component<
       popOverContainer,
       inputFormat,
       format,
+      dateFormat,
       joinValues,
       delimiter,
       clearable,
       timeFormat,
       ranges,
       disabled,
-      iconClassName
+      locale,
+      overlayPlacement
     } = this.props;
 
     const {isOpened, isFocused, startDate, endDate} = this.state;
@@ -537,6 +544,7 @@ export class DateRangePicker extends React.Component<
     const arr = [];
     startViewValue && arr.push(startViewValue);
     endViewValue && arr.push(endViewValue);
+    const __ = this.props.translate;
 
     return (
       <div
@@ -557,11 +565,11 @@ export class DateRangePicker extends React.Component<
       >
         {arr.length ? (
           <span className={`${ns}DateRangePicker-value`}>
-            {arr.join(' 至 ')}
+            {arr.join(__(' 至 '))}
           </span>
         ) : (
           <span className={`${ns}DateRangePicker-placeholder`}>
-            {placeholder}
+            {__(placeholder)}
           </span>
         )}
 
@@ -572,7 +580,7 @@ export class DateRangePicker extends React.Component<
         ) : null}
 
         <a className={`${ns}DateRangePicker-toggler`}>
-          <i className={iconClassName} />
+          <Icon icon="calendar" className="icon" />
         </a>
 
         {isOpened ? (
@@ -581,6 +589,7 @@ export class DateRangePicker extends React.Component<
             onHide={this.close}
             container={popOverContainer || (() => findDOMNode(this))}
             rootClose={false}
+            placement={overlayPlacement}
             show
           >
             <PopOver
@@ -598,13 +607,14 @@ export class DateRangePicker extends React.Component<
                   value={startDate}
                   onChange={this.handleStartChange}
                   requiredConfirm={false}
-                  dateFormat={format}
+                  dateFormat={dateFormat}
                   timeFormat={timeFormat}
                   isValidDate={this.checkStartIsValidDate}
                   viewMode="days"
                   input={false}
                   onClose={this.close}
                   renderDay={this.renderDay}
+                  locale={locale}
                 />
 
                 <Calendar
@@ -612,7 +622,7 @@ export class DateRangePicker extends React.Component<
                   value={endDate}
                   onChange={this.handleEndChange}
                   requiredConfirm={false}
-                  dateFormat={format}
+                  dateFormat={dateFormat}
                   timeFormat={timeFormat}
                   viewDate={this.nextMonth}
                   isEndDate
@@ -621,6 +631,7 @@ export class DateRangePicker extends React.Component<
                   input={false}
                   onClose={this.close}
                   renderDay={this.renderDay}
+                  locale={locale}
                 />
 
                 <div key="button" className={`${ns}DateRangePicker-actions`}>
@@ -631,10 +642,10 @@ export class DateRangePicker extends React.Component<
                     })}
                     onClick={this.confirm}
                   >
-                    确认
+                    {__('确认')}
                   </a>
                   <a className="rdtBtn rdtBtnCancel" onClick={this.close}>
-                    取消
+                    {__('取消')}
                   </a>
                 </div>
               </div>
@@ -646,4 +657,4 @@ export class DateRangePicker extends React.Component<
   }
 }
 
-export default themeable(DateRangePicker);
+export default themeable(localeable(DateRangePicker));

@@ -2,15 +2,16 @@
  * @file video
  * @author fex
  */
-/* eslint fecs-indent: [0, "space", 2, 2] */
 
 import React from 'react';
+
 import {
   Player,
   Shortcut,
   BigPlayButton,
   ControlBar,
   PlaybackRateMenuButton
+  // @ts-ignore
 } from 'video-react';
 import {padArr} from '../utils/helper';
 import cx from 'classnames';
@@ -21,14 +22,16 @@ import {filter} from '../utils/tpl';
 import 'video-react/dist/video-react.css';
 
 const str2seconds: (str: string) => number = str =>
-  str
-    .split(':')
-    .reverse()
-    .reduce(
-      (seconds, value, index) =>
-        seconds + (parseInt(value, 10) || 0) * Math.pow(60, index),
-      0
-    );
+  str.indexOf(':')
+    ? str
+        .split(':')
+        .reverse()
+        .reduce(
+          (seconds, value, index) =>
+            seconds + (parseInt(value, 10) || 0) * Math.pow(60, index),
+          0
+        )
+    : parseInt(str, 10);
 
 export interface FlvSourceProps {
   src?: string;
@@ -192,6 +195,7 @@ export interface VideoProps extends RendererProps {
   columnsCount?: number;
   isLive?: boolean;
   jumpFrame?: boolean;
+  jumpBufferDuration?: number;
   src?: string;
 }
 
@@ -278,17 +282,15 @@ export default class Video extends React.Component<VideoProps, VideoState> {
         return;
       }
 
+      const jumpBufferDuration = this.props.jumpBufferDuration || 0;
       let index = 0;
       const times = this.times;
       const len = times.length;
-      while (index < len) {
+      while (index < len - 1) {
         if (
-          times[index - 1] &&
-          state.currentTime <=
-            times[index + 1] - (times[index + 1] - times[index]) / 2
+          times[index + 1] &&
+          state.currentTime < times[index + 1] - jumpBufferDuration
         ) {
-          break;
-        } else if (state.currentTime <= times[index]) {
           break;
         }
 
@@ -315,10 +317,9 @@ export default class Video extends React.Component<VideoProps, VideoState> {
       const rect = item.getBoundingClientRect();
       this.cursorDom.setAttribute(
         'style',
-        `width: ${rect.width - 4}px; height: ${rect.height -
-          4}px; left: ${rect.left + 2 - frameRect.left}px; top: ${rect.top +
-          2 -
-          frameRect.top}px;`
+        `width: ${rect.width - 4}px; height: ${rect.height - 4}px; left: ${
+          rect.left + 2 - frameRect.left
+        }px; top: ${rect.top + 2 - frameRect.top}px;`
       );
     }
   }
@@ -327,10 +328,11 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     if (!this.times || !this.player || !this.props.jumpFrame) {
       return;
     }
+    const jumpBufferDuration = this.props.jumpBufferDuration || 0;
     const times = this.times;
     const player = this.player;
 
-    player.seek(times[index] - (times[index] - (times[index - 1] || 0)) / 2);
+    player.seek(times[index] - jumpBufferDuration);
     player.play();
   }
 
@@ -360,10 +362,6 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     const items: Array<object> = [];
     const times: Array<number> = (this.times = []);
     Object.keys(frames).forEach(time => {
-      if (!frames[time]) {
-        return;
-      }
-
       times.push(str2seconds(time));
 
       items.push({
@@ -400,19 +398,23 @@ export default class Video extends React.Component<VideoProps, VideoState> {
                       this.jumpToIndex(i * (columnsCount as number) + key)
                     }
                   >
-                    <img className="w-full" alt="poster" src={item.src} />
-                    <div className={`${ns}Text--center`}>{item.time}</div>
+                    {item.src ? (
+                      <img className="w-full" alt="poster" src={item.src} />
+                    ) : null}
+                    <div className={`${ns}Video-frameLabel`}>{item.time}</div>
                   </div>
                 ))}
 
-                {/* 补充空白 */ restCount
-                  ? blankArray.map((_, index) => (
-                      <div
-                        className={`${ns}Hbox-col Wrapper--xxs`}
-                        key={`blank_${index}`}
-                      />
-                    ))
-                  : null}
+                {
+                  /* 补充空白 */ restCount
+                    ? blankArray.map((_, index) => (
+                        <div
+                          className={`${ns}Hbox-col Wrapper--xxs`}
+                          key={`blank_${index}`}
+                        />
+                      ))
+                    : null
+                }
               </div>
             </div>
           );

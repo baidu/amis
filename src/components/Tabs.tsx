@@ -7,7 +7,8 @@
 import React from 'react';
 import {Schema} from '../types';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
-import {ClassNamesFn, themeable} from '../theme';
+import {themeable, ThemeProps} from '../theme';
+import {uncontrollable} from 'uncontrollable';
 
 const transitionStyles: {
   [propName: string]: string;
@@ -16,14 +17,13 @@ const transitionStyles: {
   [ENTERED]: 'in'
 };
 
-export interface TabProps {
+export interface TabProps extends ThemeProps {
   title?: string; // 标题
   icon?: string;
   disabled?: boolean | string;
   eventKey: string | number;
   tab?: Schema;
   className?: string;
-  classnames?: ClassNamesFn;
   activeKey?: string | number;
   reload?: boolean;
   mountOnEnter?: boolean;
@@ -31,115 +31,7 @@ export interface TabProps {
   toolbar?: React.ReactNode;
 }
 
-export interface TabsProps {
-  mode?: '' | 'line' | 'card' | 'radio' | 'vertical';
-  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
-  additionBtns?: React.ReactNode;
-  onSelect?: (key: string | number) => void;
-  classPrefix: string;
-  classnames: ClassNamesFn;
-  activeKey: string | number;
-  contentClassName: string;
-  className?: string;
-  tabs?: Array<TabProps>;
-  tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
-}
-
-export class Tabs extends React.Component<TabsProps> {
-  static defaultProps: Pick<TabsProps, 'mode' | 'contentClassName'> = {
-    mode: '',
-    contentClassName: ''
-  };
-
-  handleSelect(key: string | number) {
-    const {onSelect} = this.props;
-    onSelect && onSelect(key);
-  }
-
-  renderNav(child: any, index: number) {
-    if (!child) {
-      return;
-    }
-
-    const {classnames: cx, activeKey} = this.props;
-    const {eventKey, disabled, icon, title, toolbar} = child.props;
-
-    return (
-      <li
-        className={cx(
-          'Tabs-link',
-          activeKey === eventKey ? 'is-active' : '',
-          disabled ? 'is-disabled' : ''
-        )}
-        key={index}
-        onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
-      >
-        <a>
-          {icon ? <i className={icon} /> : null} {title}
-        </a>
-        {React.isValidElement(toolbar) ? toolbar : null}
-      </li>
-    );
-  }
-
-  renderTab(child: any, index: number) {
-    if (!child) {
-      return;
-    }
-
-    const {activeKey, classnames} = this.props;
-
-    return React.cloneElement(child, {
-      ...child.props,
-      key: index,
-      classnames: classnames,
-      activeKey: activeKey
-    });
-  }
-
-  render() {
-    const {
-      classnames: cx,
-      contentClassName,
-      className,
-      mode: dMode,
-      tabsMode,
-      children,
-      additionBtns
-    } = this.props;
-
-    if (!Array.isArray(children)) {
-      return null;
-    }
-
-    const mode = tabsMode || dMode;
-
-    return (
-      <div
-        className={cx(
-          `Tabs`,
-          {
-            [`Tabs--${mode}`]: mode
-          },
-          className
-        )}
-      >
-        <ul className={cx('Tabs-links')} role="tablist">
-          {children.map((tab, index) => this.renderNav(tab, index))}
-          {additionBtns}
-        </ul>
-
-        <div className={cx('Tabs-content', contentClassName)}>
-          {children.map((child, index) => {
-            return this.renderTab(child, index);
-          })}
-        </div>
-      </div>
-    );
-  }
-}
-
-export class Tab extends React.PureComponent<TabProps> {
+class TabComponent extends React.PureComponent<TabProps> {
   contentDom: any;
   contentRef = (ref: any) => (this.contentDom = ref);
 
@@ -169,15 +61,12 @@ export class Tab extends React.PureComponent<TabProps> {
           return (
             <div
               ref={this.contentRef}
-              className={
-                cx &&
-                cx(
-                  transitionStyles[status],
-                  activeKey === eventKey ? 'is-active' : '',
-                  'Tabs-pane',
-                  className
-                )
-              }
+              className={cx(
+                transitionStyles[status],
+                activeKey === eventKey ? 'is-active' : '',
+                'Tabs-pane',
+                className
+              )}
             >
               {children}
             </div>
@@ -188,4 +77,130 @@ export class Tab extends React.PureComponent<TabProps> {
   }
 }
 
-export default themeable(Tabs);
+export const Tab = themeable(TabComponent);
+
+export interface TabsProps extends ThemeProps {
+  mode: '' | 'line' | 'card' | 'radio' | 'vertical';
+  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
+  additionBtns?: React.ReactNode;
+  onSelect?: (key: string | number) => void;
+  activeKey?: string | number;
+  contentClassName: string;
+  className?: string;
+  tabs?: Array<TabProps>;
+  tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
+  toolbar?: React.ReactNode;
+}
+
+export class Tabs extends React.Component<TabsProps> {
+  static defaultProps: Pick<TabsProps, 'mode' | 'contentClassName'> = {
+    mode: '',
+    contentClassName: ''
+  };
+
+  static Tab = Tab;
+
+  handleSelect(key: string | number) {
+    const {onSelect} = this.props;
+    onSelect && onSelect(key);
+  }
+
+  renderNav(child: any, index: number) {
+    if (!child) {
+      return;
+    }
+
+    const {classnames: cx, activeKey: activeKeyProp} = this.props;
+    const {eventKey, disabled, icon, title, toolbar} = child.props;
+    const activeKey =
+      activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
+
+    return (
+      <li
+        className={cx(
+          'Tabs-link',
+          activeKey === eventKey ? 'is-active' : '',
+          disabled ? 'is-disabled' : ''
+        )}
+        key={index}
+        onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
+      >
+        <a>
+          {icon ? <i className={icon} /> : null} {title}
+        </a>
+        {React.isValidElement(toolbar) ? toolbar : null}
+      </li>
+    );
+  }
+
+  renderTab(child: any, index: number) {
+    if (!child) {
+      return;
+    }
+
+    const {activeKey: activeKeyProp, classnames} = this.props;
+    const eventKey = child.props.eventKey;
+    const activeKey =
+      activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
+
+    return React.cloneElement(child, {
+      ...child.props,
+      key: index,
+      classnames: classnames,
+      activeKey: activeKey
+    });
+  }
+
+  render() {
+    const {
+      classnames: cx,
+      contentClassName,
+      className,
+      mode: dMode,
+      tabsMode,
+      children,
+      additionBtns,
+      toolbar
+    } = this.props;
+
+    if (!Array.isArray(children)) {
+      return null;
+    }
+
+    const mode = tabsMode || dMode;
+
+    return (
+      <div
+        className={cx(
+          `Tabs`,
+          {
+            [`Tabs--${mode}`]: mode
+          },
+          className
+        )}
+      >
+        <ul className={cx('Tabs-links')} role="tablist">
+          {children.map((tab, index) => this.renderNav(tab, index))}
+          {additionBtns}
+          {toolbar}
+        </ul>
+
+        <div className={cx('Tabs-content', contentClassName)}>
+          {children.map((child, index) => {
+            return this.renderTab(child, index);
+          })}
+        </div>
+      </div>
+    );
+  }
+}
+
+const ThemedTabs = themeable(
+  uncontrollable(Tabs, {
+    activeKey: 'onSelect'
+  })
+);
+
+export default ThemedTabs as typeof ThemedTabs & {
+  Tab: typeof Tab;
+};

@@ -5,7 +5,7 @@ const FormComponent = makeSchemaRenderer({
   type: 'form',
   mode: 'inline',
   wrapWithPanel: false,
-  className: 'pull-right m-t-sm m-r',
+  className: ':Doc-search',
   controls: [
     {
       type: 'input-group',
@@ -13,15 +13,15 @@ const FormComponent = makeSchemaRenderer({
       controls: [
         {
           type: 'icon',
-          addOnclassName: 'no-bg',
+          addOnclassName: 'no-bg no-border p-r-none p-l',
           className: 'text-sm',
           icon: 'search',
           vendor: 'iconfont'
         },
         {
           type: 'text',
-          placeholder: '搜索文档',
-          inputClassName: 'b-l-none p-l-none',
+          placeholder: '搜索...',
+          inputClassName: 'no-border',
           name: 'docsearch'
         }
       ]
@@ -33,8 +33,8 @@ export default class DocSearch extends React.Component {
   componentDidMount() {
     const inputSelector = 'input[name="docsearch"]';
     docsearch({
-      appId: '3W0NHYOWPE',
-      apiKey: '469f5cf3d54f9b86127970f913dc0725',
+      appId: 'S08MJHBHFJ',
+      apiKey: '5fba814bb773d08b5d2a3f6074f926a5',
       indexName: 'gh_pages',
       inputSelector,
       debug: false

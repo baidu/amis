@@ -8,6 +8,7 @@ import {CRUDStore} from './crud';
 import {TableStore} from './table';
 import {ListStore} from './list';
 import {ModalStore} from './modal';
+import {TranslateFn} from '../locale';
 
 setLivelynessChecking(
   process.env.NODE_ENV === 'production' ? 'ignore' : 'error'
@@ -56,6 +57,10 @@ export const RendererStore = types
 
     get isCancel(): (value: any) => boolean {
       return getEnv(self).isCancel;
+    },
+
+    get __(): TranslateFn {
+      return getEnv(self).translate;
     }
   }))
   .views(self => ({
@@ -85,3 +90,6 @@ export const RendererStore = types
 
 export type IRendererStore = typeof RendererStore.Type;
 export {iRendererStore, IIRendererStore};
+export const RegisterStore = function (store: any) {
+  allowedStoreList.push(store as any);
+};

@@ -10,6 +10,7 @@ export interface RadiosProps extends OptionsControlProps {
   placeholder?: any;
   columnsCount?: number;
   labelClassName?: string;
+  labelField?: string;
 }
 
 export default class RadiosControl extends React.Component<RadiosProps, any> {
@@ -61,7 +62,9 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       columnsCount,
       classPrefix,
       itemClassName,
-      labelClassName
+      labelClassName,
+      labelField,
+      translate: __
     } = this.props;
 
     return (
@@ -72,10 +75,11 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         disabled={disabled}
         onChange={this.handleChange}
         joinValues={joinValues}
-        extractValue={extractValue}
-        delimiter={delimiter}
+        extractValue={extractValue!}
+        delimiter={delimiter!}
         labelClassName={labelClassName}
-        placeholder={placeholder}
+        labelField={labelField}
+        placeholder={__(placeholder)}
         options={options}
         columnsCount={columnsCount}
         classPrefix={classPrefix}

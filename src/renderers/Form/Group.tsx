@@ -8,6 +8,7 @@ import {
 } from '../../utils/helper';
 import cx from 'classnames';
 import {FormItemWrap} from './Item';
+import getExprProperties from '../../utils/filter-schema';
 
 export interface InputGroupProps extends RendererProps {
   formMode?: string;
@@ -27,7 +28,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderControl(control: any, index: any, otherProps?: any) {
-    const {render} = this.props;
+    const {render, disabled, data} = this.props;
 
     if (!control) {
       return null;
@@ -43,12 +44,19 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
     if (subSchema.control) {
       let control = subSchema.control as Schema;
+
+      control = subSchema.control = {
+        ...control,
+        ...getExprProperties(control, data)
+      };
+
       control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
       control.visibleOn && (subSchema.visibleOn = control.visibleOn);
     }
 
     return render(`${index}`, subSchema, {
-      ...otherProps
+      ...otherProps,
+      disabled
     });
   }
 
@@ -95,6 +103,14 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
     formMode = mode || formMode;
 
+    let horizontalDeeper =
+      horizontal ||
+      makeHorizontalDeeper(
+        formHorizontal,
+        controls.filter(item => item.mode !== 'inline' && isVisible(item, data))
+          .length
+      );
+
     return (
       <div
         className={cx(
@@ -122,20 +138,15 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
           const columnWidth =
             control.columnRatio ||
-            getWidthRate(control && control.columnClassName);
-          let horizontalDeeper =
-            horizontal ||
-            makeHorizontalDeeper(
-              formHorizontal,
-              controls.filter(item => item.mode !== 'inline').length
-            );
+            getWidthRate(control && control.columnClassName, true);
 
           return (
             <div
               key={index}
               className={cx(
                 `${ns}Form-groupColumn`,
-                columnWidth ? `${ns}Form-groupColumn--${columnWidth}` : ''
+                columnWidth ? `${ns}Form-groupColumn--${columnWidth}` : '',
+                control && control.columnClassName
               )}
             >
               {this.renderControl(control, index, {

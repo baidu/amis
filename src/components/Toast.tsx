@@ -13,8 +13,15 @@ import Transition, {
 import React from 'react';
 import cx from 'classnames';
 import Html from './Html';
-import {uuid, autobind} from '../utils/helper';
-import {ClassNamesFn, themeable} from '../theme';
+import {uuid, autobind, noop} from '../utils/helper';
+import {ClassNamesFn, themeable, classnames, ThemeProps} from '../theme';
+import {Icon} from './icons';
+import {LocaleProps, localeable, TranslateFn} from '../locale';
+
+interface Config {
+  closeButton?: boolean;
+  timeout?: number;
+}
 
 const fadeStyles: {
   [propName: string]: string;
@@ -25,12 +32,6 @@ const fadeStyles: {
 };
 
 let toastRef: any = null;
-let config: {
-  closeButton?: boolean;
-  timeOut?: number;
-  extendedTimeOut?: number;
-} = {};
-
 const show = (
   content: string,
   title: string = '',
@@ -40,10 +41,10 @@ const show = (
   if (!toastRef || !toastRef[method]) {
     return;
   }
-  toastRef[method](content, title || '', {...config, ...conf});
+  toastRef[method](content, title || '', {...conf});
 };
 
-interface ToastComponentProps {
+interface ToastComponentProps extends ThemeProps, LocaleProps {
   position:
     | 'top-right'
     | 'top-center'
@@ -52,14 +53,12 @@ interface ToastComponentProps {
     | 'bottom-left'
     | 'bottom-right';
   closeButton: boolean;
-  timeOut: number;
-  extendedTimeOut: number;
-  classPrefix: string;
-  classnames: ClassNamesFn;
+  showIcon?: boolean;
+  timeout: number;
   className?: string;
 }
 
-interface Item {
+interface Item extends Config {
   title?: string;
   body: string;
   level: 'info' | 'success' | 'error' | 'warning';
@@ -76,28 +75,19 @@ export class ToastComponent extends React.Component<
 > {
   static defaultProps: Pick<
     ToastComponentProps,
-    'position' | 'closeButton' | 'timeOut' | 'extendedTimeOut'
+    'position' | 'closeButton' | 'timeout'
   > = {
     position: 'top-right',
     closeButton: false,
-    timeOut: 5000,
-    extendedTimeOut: 3000
+    timeout: 5000
   };
+  static themeKey = 'toast';
 
   // 当前ToastComponent是否真正render了
   hasRendered = false;
   state: ToastComponentState = {
     items: []
   };
-
-  componentWillMount() {
-    const {closeButton, timeOut, extendedTimeOut} = this.props;
-    config = {
-      closeButton,
-      timeOut,
-      extendedTimeOut
-    };
-  }
 
   componentDidMount() {
     this.hasRendered = true;
@@ -157,28 +147,38 @@ export class ToastComponent extends React.Component<
       return null;
     }
 
-    const {classPrefix: ns, className, timeOut, position} = this.props;
+    const {
+      classnames: cx,
+      className,
+      timeout,
+      position,
+      showIcon,
+      translate,
+      closeButton
+    } = this.props;
     const items = this.state.items;
 
     return (
       <div
         className={cx(
-          `${ns}Toast-wrap ${ns}Toast-wrap--${position.replace(
-            /\-(\w)/g,
-            (_, l) => l.toUpperCase()
+          `Toast-wrap Toast-wrap--${position.replace(/\-(\w)/g, (_, l) =>
+            l.toUpperCase()
           )}`,
           className
         )}
       >
         {items.map((item, index) => (
           <ToastMessage
+            classnames={cx}
             key={item.id}
-            classPrefix={ns}
             title={item.title}
             body={item.body}
             level={item.level || 'info'}
-            timeOut={timeOut}
+            timeout={item.timeout ?? timeout}
+            closeButton={item.closeButton ?? closeButton}
             onDismiss={this.handleDismissed.bind(this, index)}
+            translate={translate}
+            showIcon={showIcon}
           />
         ))}
       </div>
@@ -186,13 +186,15 @@ export class ToastComponent extends React.Component<
   }
 }
 
-export default themeable(ToastComponent);
+export default themeable(localeable(ToastComponent));
 
 interface ToastMessageProps {
   title?: string;
   body: string;
   level: 'info' | 'success' | 'error' | 'warning';
-  timeOut: number;
+  timeout: number;
+  closeButton?: boolean;
+  showIcon?: boolean;
   position:
     | 'top-right'
     | 'top-center'
@@ -201,7 +203,8 @@ interface ToastMessageProps {
     | 'bottom-left'
     | 'bottom-right';
   onDismiss?: () => void;
-  classPrefix: string;
+  classnames: ClassNamesFn;
+  translate: TranslateFn;
   allowHtml: boolean;
 }
 
@@ -209,9 +212,12 @@ interface ToastMessageState {
   visible: boolean;
 }
 
-export class ToastMessage extends React.Component<ToastMessageProps> {
+export class ToastMessage extends React.Component<
+  ToastMessageProps,
+  ToastMessageState
+> {
   static defaultProps = {
-    timeOut: 5000,
+    timeout: 5000,
     classPrefix: '',
     position: 'top-right',
     allowHtml: true,
@@ -225,15 +231,6 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
   // content: React.RefObject<HTMLDivElement>;
   timer: NodeJS.Timeout;
   mounted: boolean = false;
-  constructor(props: ToastMessageProps) {
-    super(props);
-
-    // this.content = React.createRef();
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
-    this.handleEntered = this.handleEntered.bind(this);
-    this.close = this.close.bind(this);
-  }
 
   componentDidMount() {
     this.mounted = true;
@@ -247,21 +244,25 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
     this.mounted = false;
   }
 
+  @autobind
   handleMouseEnter() {
     clearTimeout(this.timer);
   }
 
+  @autobind
   handleMouseLeave() {
     this.handleEntered();
   }
 
+  @autobind
   handleEntered() {
-    const timeOut = this.props.timeOut;
-    if (this.mounted) {
-      this.timer = setTimeout(this.close, timeOut);
+    const timeout = this.props.timeout;
+    if (this.mounted && timeout) {
+      this.timer = setTimeout(this.close, timeout);
     }
   }
 
+  @autobind
   close() {
     clearTimeout(this.timer);
     this.setState({
@@ -272,12 +273,14 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
   render() {
     const {
       onDismiss,
-      classPrefix: ns,
-      position,
+      classnames: cx,
+      closeButton,
       title,
       body,
       allowHtml,
-      level
+      level,
+      showIcon,
+      translate: __
     } = this.props;
 
     return (
@@ -290,26 +293,37 @@ export class ToastMessage extends React.Component<ToastMessageProps> {
         onExited={onDismiss}
       >
         {(status: string) => {
-          // if (status === ENTERING) {
-          //     // force reflow
-          //     // 由于从 mount 进来到加上 in 这个 class 估计是时间太短，上次的样式还没应用进去，所以这里强制reflow一把。
-          //     // 否则看不到动画。
-          //     this.content.current && this.content.current.offsetWidth;
-          // }
-
           return (
             <div
-              // ref={this.content}
-              className={cx(
-                `${ns}Toast ${ns}Toast--${level}`,
-                fadeStyles[status]
-              )}
+              className={cx(`Toast Toast--${level}`, fadeStyles[status])}
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
-              onClick={this.close}
+              onClick={closeButton ? noop : this.close}
             >
-              {title ? <div className={`${ns}Toast-title`}>{title}</div> : null}
-              <div className={`${ns}Toast-body`}>
+              {closeButton ? (
+                <a onClick={this.close} className={cx(`Toast-close`)}>
+                  <Icon icon="close" className="icon" />
+                </a>
+              ) : null}
+
+              {showIcon === false ? null : (
+                <div className={cx('Toast-icon')}>
+                  {level === 'success' ? (
+                    <Icon icon="success" className="icon" />
+                  ) : level == 'error' ? (
+                    <Icon icon="fail" className="icon" />
+                  ) : level == 'info' ? (
+                    <Icon icon="info-circle" className="icon" />
+                  ) : level == 'warning' ? (
+                    <Icon icon="warning" className="icon" />
+                  ) : null}
+                </div>
+              )}
+
+              {title ? (
+                <div className={cx('Toast-title')}>{__(title)}</div>
+              ) : null}
+              <div className={cx('Toast-body')}>
                 {allowHtml ? <Html html={body} /> : body}
               </div>
             </div>

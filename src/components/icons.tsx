@@ -60,6 +60,74 @@ import MoveIcon from '../icons/move.svg';
 // @ts-ignore
 import InfoIcon from '../icons/info.svg';
 
+// @ts-ignore
+import LocationIcon from '../icons/location.svg';
+
+// @ts-ignore
+import DragBarIcon from '../icons/drag-bar.svg';
+
+// @ts-ignore
+import ReloadIcon from '../icons/reload.svg';
+
+// @ts-ignore
+import ExchangeIcon from '../icons/exchange.svg';
+
+// @ts-ignore
+import ColmunsIcon from '../icons/columns.svg';
+
+// @ts-ignore
+import CalendarIcon from '../icons/calendar.svg';
+
+// @ts-ignore
+import CopyIcon from '../icons/copy.svg';
+
+// @ts-ignore
+import FilterIcon from '../icons/filter.svg';
+
+// @ts-ignore
+import CaretIcon from '../icons/caret.svg';
+
+// @ts-ignore
+import RightArrowBoldIcon from '../icons/right-arrow-bold.svg';
+
+// @ts-ignore
+import ColumnFilterIcon from '../icons/column-filter.svg';
+
+// @ts-ignore
+import ZoomInIcon from '../icons/zoom-in.svg';
+// @ts-ignore
+import ZoomOutIcon from '../icons/zoom-out.svg';
+
+// @ts-ignore
+import QuestionIcon from '../icons/question.svg';
+
+// @ts-ignore
+import WindowRestoreIcon from '../icons/window-restore.svg';
+
+// @ts-ignore
+import InfoCircleIcon from '../icons/info-circle.svg';
+
+// @ts-ignore
+import WarningIcon from '../icons/warning.svg';
+
+// @ts-ignore
+import ScheduleIcon from '../icons/schedule.svg';
+
+// @ts-ignore
+import HomeIcon from '../icons/home.svg';
+
+// @ts-ignore
+import FolderIcon from '../icons/folder.svg';
+
+// @ts-ignore
+import SortDefaultIcon from '../icons/sort-default.svg';
+
+// @ts-ignore
+import SortAscIcon from '../icons/sort-asc.svg';
+
+// @ts-ignore
+import SortDescIcon from '../icons/sort-desc.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -104,8 +172,11 @@ registerIcon('play', PlayIcon);
 registerIcon('pause', PauseIcon);
 registerIcon('left-arrow', LeftArrowIcon);
 registerIcon('right-arrow', RightArrowIcon);
+registerIcon('prev', LeftArrowIcon);
+registerIcon('next', RightArrowIcon);
 registerIcon('check', CheckIcon);
 registerIcon('plus', PlusIcon);
+registerIcon('add', PlusIcon);
 registerIcon('minus', MinusIcon);
 registerIcon('pencil', PencilIcon);
 registerIcon('view', ViewIcon);
@@ -115,20 +186,49 @@ registerIcon('upload', UploadIcon);
 registerIcon('file', FileIcon);
 registerIcon('success', SuccessIcon);
 registerIcon('fail', FailIcon);
+registerIcon('warning', WarningIcon);
 registerIcon('search', SearchIcon);
 registerIcon('back', BackIcon);
 registerIcon('move', MoveIcon);
 registerIcon('info', InfoIcon);
+registerIcon('info-circle', InfoCircleIcon);
+registerIcon('location', LocationIcon);
+registerIcon('drag-bar', DragBarIcon);
+registerIcon('reload', ReloadIcon);
+registerIcon('exchange', ExchangeIcon);
+registerIcon('columns', ColmunsIcon);
+registerIcon('calendar', CalendarIcon);
+registerIcon('copy', CopyIcon);
+registerIcon('filter', FilterIcon);
+registerIcon('column-filter', ColumnFilterIcon);
+registerIcon('caret', CaretIcon);
+registerIcon('right-arrow-bold', RightArrowBoldIcon);
+registerIcon('zoom-in', ZoomInIcon);
+registerIcon('zoom-out', ZoomOutIcon);
+registerIcon('question', QuestionIcon);
+registerIcon('window-restore', WindowRestoreIcon);
+registerIcon('schedule', ScheduleIcon);
+registerIcon('home', HomeIcon);
+registerIcon('folder', FolderIcon);
+registerIcon('sort-default', SortDefaultIcon);
+registerIcon('sort-asc', SortAscIcon);
+registerIcon('sort-desc', SortDescIcon);
 
 export function Icon({
   icon,
+  className,
   ...rest
 }: {
   icon: string;
 } & React.ComponentProps<any>) {
+  // jest 运行环境下，把指定的 icon 也输出到 snapshot 中。
+  if (typeof jest !== 'undefined') {
+    rest.icon = icon;
+  }
+
   const Component = getIcon(icon);
   return Component ? (
-    <Component {...rest} />
+    <Component {...rest} className={`${className || ''} icon-${icon}`} />
   ) : (
     <span className="text-danger">没有 icon {icon}</span>
   );

@@ -60,7 +60,8 @@ export default class ListControl extends React.Component<ListProps, any> {
       imageClassName,
       submitOnDBClick,
       itemSchema,
-      data
+      data,
+      labelField
     } = this.props;
 
     let body: JSX.Element | null = null;
@@ -94,12 +95,15 @@ export default class ListControl extends React.Component<ListProps, any> {
                         key="image"
                         className={cx('ListControl-itemImage', imageClassName)}
                       >
-                        <img src={option.image} alt={option.label} />
+                        <img
+                          src={option.image}
+                          alt={option[labelField || 'label']}
+                        />
                       </div>
                     ) : null,
-                    option.label ? (
+                    option[labelField || 'label'] ? (
                       <div key="label" className={cx('ListControl-itemLabel')}>
-                        {option.label}
+                        {option[labelField || 'label']}
                       </div>
                     ) : null
                     // {/* {option.tip ? (<div className={`${ns}ListControl-tip`}>{option.tip}</div>) : null} */}

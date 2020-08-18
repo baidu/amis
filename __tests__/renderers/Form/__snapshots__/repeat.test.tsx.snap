@@ -116,7 +116,7 @@ exports[`Renderer:repeat 1`] = `
                   aria-haspopup="listbox"
                   aria-labelledby="downshift-0-label"
                   aria-owns="downshift-0-menu"
-                  class="a-Select is-opened pull-right"
+                  class="a-Select is-opened pull-right has-popover"
                   role="combobox"
                   tabindex="0"
                 >
@@ -133,8 +133,12 @@ exports[`Renderer:repeat 1`] = `
                     class="a-Select-arrow"
                   />
                   <div
-                    class="a-Select-menuOuter"
+                    class="a-PopOver a-Select-popover a-PopOver--leftBottomLeftTop"
+                    style="display: block; min-width: 0; left: 0px; top: 0px;"
                   >
+                    <div
+                      class="a-PopOver-overlay"
+                    />
                     <div
                       class="a-Select-menu"
                     >
@@ -144,7 +148,9 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-0"
                         role="option"
                       >
-                        不重复
+                        <span>
+                          不重复
+                        </span>
                       </div>
                       <div
                         aria-selected="false"
@@ -152,7 +158,9 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-1"
                         role="option"
                       >
-                        秒
+                        <span>
+                          秒
+                        </span>
                       </div>
                       <div
                         aria-selected="false"
@@ -160,7 +168,9 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-2"
                         role="option"
                       >
-                        分
+                        <span>
+                          分
+                        </span>
                       </div>
                       <div
                         aria-selected="false"
@@ -168,7 +178,9 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-3"
                         role="option"
                       >
-                        时
+                        <span>
+                          时
+                        </span>
                       </div>
                       <div
                         aria-selected="false"
@@ -176,7 +188,9 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-4"
                         role="option"
                       >
-                        天
+                        <span>
+                          天
+                        </span>
                       </div>
                       <div
                         aria-selected="false"
@@ -184,7 +198,9 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-5"
                         role="option"
                       >
-                        周中
+                        <span>
+                          周中
+                        </span>
                       </div>
                       <div
                         aria-selected="false"
@@ -192,7 +208,9 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-6"
                         role="option"
                       >
-                        周
+                        <span>
+                          周
+                        </span>
                       </div>
                       <div
                         aria-selected="false"
@@ -200,7 +218,9 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-7"
                         role="option"
                       >
-                        月
+                        <span>
+                          月
+                        </span>
                       </div>
                       <div
                         aria-selected="false"
@@ -208,7 +228,9 @@ exports[`Renderer:repeat 1`] = `
                         id="downshift-0-item-8"
                         role="option"
                       >
-                        年
+                        <span>
+                          年
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -223,22 +245,40 @@ exports[`Renderer:repeat 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>

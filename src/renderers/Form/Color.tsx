@@ -6,9 +6,10 @@ import ColorPicker from '../../components/ColorPicker';
 export interface ColorProps extends FormControlProps {
   placeholder?: string;
   format?: string;
-  timeConstrainst?: object;
   closeOnSelect?: boolean;
   presetColors?: string[];
+  resetValue?: string;
+  allowCustomColor?: boolean;
 }
 
 export interface ColorControlState {

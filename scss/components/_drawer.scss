@@ -115,6 +115,8 @@
   }
 
   &.#{$ns}Drawer--noOverlay {
+    pointer-events: none;
+
     .#{$ns}Drawer-close svg {
       margin-top: px2rem(2px);
       width: px2rem(20px);
@@ -129,7 +131,7 @@
     background-color: $white;
     border-radius: $borderRadius;
     font-size: $fontSizeSm;
-    line-height: $fontSizeSm;
+    line-height: px2rem(10px);
     text-align: center;
     user-select: none;
   }
@@ -207,7 +209,7 @@
     bottom: px2rem(-6px);
     left: 50%;
     cursor: ns-resize;
-    width: px2rem(20px);
+    width: px2rem(24px);
     height: px2rem(12px);
   }
 }
@@ -265,7 +267,7 @@
     cursor: ew-resize;
     writing-mode: vertical-lr;
     width: px2rem(12px);
-    height: px2rem(20px);
+    height: px2rem(24px);
   }
 }
 
@@ -300,7 +302,7 @@
     top: px2rem(-6px);
     left: 50%;
     cursor: ns-resize;
-    width: px2rem(20px);
+    width: px2rem(24px);
     height: px2rem(12px);
   }
 }
@@ -338,6 +340,6 @@
     cursor: ew-resize;
     writing-mode: vertical-lr;
     width: px2rem(12px);
-    height: px2rem(20px);
+    height: px2rem(24px);
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import hoistNonReactStatic = require('hoist-non-react-statics');
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import {IFormItemStore, IFormStore} from '../../store/form';
 import {reaction} from 'mobx';
 
@@ -14,6 +14,7 @@ import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchema} from '.';
 import {Schema} from '../../types';
+import {filter} from '../../utils/tpl';
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
   type?: string;
@@ -29,6 +30,7 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
   sizeMutable?: boolean;
   weight?: number;
   extendsData?: boolean;
+  showErrorMsg?: boolean;
 
   // 兼容老用法，新用法直接在 Component 里面定义 validate 方法即可。
   validate?: (values: any, value: any) => string | boolean;
@@ -44,7 +46,7 @@ export interface FormItemProps extends RendererProps {
   formHorizontal: FormHorizontal;
   defaultSize?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
-  disabled: boolean;
+  disabled?: boolean;
   btnDisabled: boolean;
   defaultValue: any;
   value: any;
@@ -59,8 +61,8 @@ export interface FormItemProps extends RendererProps {
     values: {[propName: string]: any},
     submitOnChange?: boolean
   ) => void;
-  addHook: (fn: Function, mode?: 'validate' | 'init') => () => void;
-  removeHook: (fn: Function, mode?: 'validate' | 'init') => void;
+  addHook: (fn: Function, mode?: 'validate' | 'init' | 'flush') => () => void;
+  removeHook: (fn: Function, mode?: 'validate' | 'init' | 'flush') => void;
   renderFormItems: (
     schema: FormSchema,
     region: string,
@@ -90,6 +92,7 @@ export interface FormItemProps extends RendererProps {
   };
   // error string
   error?: string;
+  showErrorMsg?: boolean;
 }
 
 // 下发下去的属性
@@ -210,7 +213,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {
             'is-inline': !!rest.inline,
             'is-error': model && !model.valid,
-            [`Form-control--size${ucFirst(controlSize)}`]:
+            [`Form-control--withSize Form-control--size${ucFirst(
+              controlSize
+            )}`]:
               sizeMutable !== false &&
               typeof controlSize === 'string' &&
               !!controlSize &&
@@ -243,7 +248,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       formItem: model,
       renderLabel,
       renderDescription,
-      hint
+      hint,
+      data,
+      showErrorMsg
     } = this.props;
 
     // 强制不渲染 label 的话
@@ -279,8 +286,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             )}
           >
             <span>
-              {label}
-              {required ? <span className={cx(`Form-star`)}>*</span> : null}
+              {filter(label, data)}
+              {required && (label || labelRemark) ? (
+                <span className={cx(`Form-star`)}>*</span>
+              ) : null}
               {labelRemark
                 ? render('label-remark', {
                     type: 'remark',
@@ -328,7 +337,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               })
             : null}
 
-          {model && !model.valid ? (
+          {model && !model.valid && showErrorMsg !== false ? (
             <ul className={cx(`Form-feedback`)}>
               {model.errors.map((msg: string, key: number) => (
                 <li key={key}>{msg}</li>
@@ -366,7 +375,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderLabel,
       renderDescription,
       hint,
-      formMode
+      formMode,
+      data,
+      showErrorMsg
     } = this.props;
 
     description = description || desc;
@@ -381,8 +392,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {label && renderLabel !== false ? (
           <label className={cx(`Form-label`, labelClassName)}>
             <span>
-              {label}
-              {required ? <span className={cx(`Form-star`)}>*</span> : null}
+              {filter(label, data)}
+              {required && (label || labelRemark) ? (
+                <span className={cx(`Form-star`)}>*</span>
+              ) : null}
               {labelRemark
                 ? render('label-remark', {
                     type: 'remark',
@@ -422,7 +435,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             })
           : null}
 
-        {model && !model.valid ? (
+        {model && !model.valid && showErrorMsg !== false ? (
           <ul className={cx(`Form-feedback`)}>
             {model.errors.map((msg: string, key: number) => (
               <li key={key}>{msg}</li>
@@ -458,7 +471,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       env,
       hint,
       renderLabel,
-      renderDescription
+      renderDescription,
+      data,
+      showErrorMsg
     } = this.props;
 
     description = description || desc;
@@ -473,8 +488,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {label && renderLabel !== false ? (
           <label className={cx(`Form-label`, labelClassName)}>
             <span>
-              {label}
-              {required ? <span className={cx(`Form-star`)}>*</span> : null}
+              {filter(label, data)}
+              {required && (label || labelRemark) ? (
+                <span className={cx(`Form-star`)}>*</span>
+              ) : null}
               {labelRemark
                 ? render('label-remark', {
                     type: 'remark',
@@ -517,7 +534,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               })
             : null}
 
-          {model && !model.valid ? (
+          {model && !model.valid && showErrorMsg !== false ? (
             <ul className={cx(`Form-feedback`)}>
               {model.errors.map((msg: string, key: number) => (
                 <li key={key}>{msg}</li>
@@ -555,7 +572,9 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderLabel,
       renderDescription,
       hint,
-      formMode
+      formMode,
+      data,
+      showErrorMsg
     } = this.props;
 
     description = description || desc;
@@ -571,8 +590,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, labelClassName)}>
               <span>
-                {label}
-                {required ? <span className={cx(`Form-star`)}>*</span> : null}
+                {filter(label, data)}
+                {required && (label || labelRemark) ? (
+                  <span className={cx(`Form-star`)}>*</span>
+                ) : null}
                 {labelRemark
                   ? render('label-remark', {
                       type: 'remark',
@@ -615,7 +636,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             })
           : null}
 
-        {model && !model.valid ? (
+        {model && !model.valid && showErrorMsg !== false ? (
           <ul className={cx('Form-feedback')}>
             {model.errors.map((msg: string, key: number) => (
               <li key={key}>{msg}</li>
@@ -672,6 +693,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 // 除非配置  strictMode
 export const detectProps = [
   'formPristine', // 这个千万不能干掉。
+  'formInited',
   'addable',
   'addButtonClassName',
   'addButtonText',
@@ -725,142 +747,152 @@ export const detectProps = [
   'diffValue'
 ];
 
-export function registerFormItem(config: FormItemConfig): RendererConfig {
-  let Control = config.component;
+export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
+  return (Control: FormControlComponent) => {
+    const isSFC = !(Control.prototype instanceof React.Component);
 
-  // 兼容老的 FormItem 用法。
-  if (config.validate && !Control.prototype.validate) {
-    const fn = config.validate;
-    Control.prototype.validate = function() {
-      // console.warn('推荐直接在类中定义，而不是 FormItem HOC 的参数中传入。');
-      const host = {
-        input: this
+    // 兼容老的 FormItem 用法。
+    if (config.validate && !Control.prototype.validate) {
+      const fn = config.validate;
+      Control.prototype.validate = function () {
+        // console.warn('推荐直接在类中定义，而不是 FormItem HOC 的参数中传入。');
+        const host = {
+          input: this
+        };
+
+        return fn.apply(host, arguments);
       };
-
-      return fn.apply(host, arguments);
-    };
-  } else if (config.validate) {
-    console.error(
-      'FormItem配置中的 validate 将不起作用，因为类的成员函数中已经定义了 validate 方法，将优先使用类里面的实现。'
-    );
-  }
-
-  if (config.storeType) {
-    Control = HocStoreFactory({
-      storeType: config.storeType,
-      extendsData: config.extendsData
-    })(observer(Control));
-    delete config.storeType;
-  }
-
-  // @observer
-  class FormItemRenderer extends FormItemWrap {
-    static defaultProps = {
-      className: '',
-      renderLabel: config.renderLabel,
-      renderDescription: config.renderDescription,
-      sizeMutable: config.sizeMutable,
-      wrap: config.wrap,
-      ...Control.defaultProps
-    };
-    static propsList: any = [
-      'value',
-      'defaultValue',
-      'onChange',
-      'setPrinstineValue',
-      'readOnly',
-      'strictMode',
-      ...((Control as any).propsList || [])
-    ];
-
-    static displayName = `FormItem${config.type ? `(${config.type})` : ''}`;
-    static ComposedComponent = Control;
-
-    ref: any;
-
-    constructor(props: FormItemProps) {
-      super(props);
-      this.refFn = this.refFn.bind(this);
-    }
-
-    componentWillMount() {
-      const {validations, formItem: model} = this.props;
-
-      // 组件注册的时候可能默认指定验证器类型
-      if (model && !validations && config.validations) {
-        model.config({
-          rules: config.validations
-        });
-      }
-
-      super.componentWillMount();
-    }
-
-    shouldComponentUpdate(nextProps: FormControlProps) {
-      if (nextProps.strictMode === false || config.strictMode === false) {
-        return true;
-      }
-
-      // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
-      if (anyChanged(detectProps, this.props, nextProps)) {
-        return true;
-      }
-
-      return false;
-    }
-
-    getWrappedInstance() {
-      return this.ref;
-    }
-
-    refFn(ref: any) {
-      this.ref = ref;
-    }
-
-    renderControl() {
-      const {
-        inputClassName,
-        formItem: model,
-        classnames: cx,
-        children,
-        type,
-        size,
-        defaultSize,
-        ...rest
-      } = this.props;
-
-      const controlSize = size || defaultSize;
-
-      return (
-        <Control
-          {...rest}
-          onOpenDialog={this.handleOpenDialog}
-          size={config.sizeMutable !== false ? undefined : size}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          type={type}
-          classnames={cx}
-          ref={this.refFn}
-          formItem={model}
-          className={cx(
-            `Form-control`,
-            {
-              'is-inline': !!rest.inline,
-              'is-error': model && !model.valid,
-              [`Form-control--size${ucFirst(controlSize)}`]:
-                config.sizeMutable !== false &&
-                typeof controlSize === 'string' &&
-                !!controlSize &&
-                controlSize !== 'full'
-            },
-            inputClassName
-          )}
-        />
+    } else if (config.validate) {
+      console.error(
+        'FormItem配置中的 validate 将不起作用，因为类的成员函数中已经定义了 validate 方法，将优先使用类里面的实现。'
       );
     }
-  }
 
-  hoistNonReactStatic(FormItemRenderer, Control);
+    if (config.storeType) {
+      Control = HocStoreFactory({
+        storeType: config.storeType,
+        extendsData: config.extendsData
+      })(observer(Control));
+      delete config.storeType;
+    }
+
+    return hoistNonReactStatic(
+      class extends FormItemWrap {
+        static defaultProps = {
+          className: '',
+          renderLabel: config.renderLabel,
+          renderDescription: config.renderDescription,
+          sizeMutable: config.sizeMutable,
+          wrap: config.wrap,
+          showErrorMsg: config.showErrorMsg,
+          ...Control.defaultProps
+        };
+        static propsList: any = [
+          'value',
+          'defaultValue',
+          'onChange',
+          'setPrinstineValue',
+          'readOnly',
+          'strictMode',
+          ...((Control as any).propsList || [])
+        ];
+
+        static displayName = `FormItem${config.type ? `(${config.type})` : ''}`;
+        static ComposedComponent = Control;
+
+        ref: any;
+
+        constructor(props: FormItemProps) {
+          super(props);
+          this.refFn = this.refFn.bind(this);
+        }
+
+        componentWillMount() {
+          const {validations, formItem: model} = this.props;
+
+          // 组件注册的时候可能默认指定验证器类型
+          if (model && !validations && config.validations) {
+            model.config({
+              rules: config.validations
+            });
+          }
+
+          super.componentWillMount();
+        }
+
+        shouldComponentUpdate(nextProps: FormControlProps) {
+          if (nextProps.strictMode === false || config.strictMode === false) {
+            return true;
+          }
+
+          // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
+          if (anyChanged(detectProps, this.props, nextProps)) {
+            return true;
+          }
+
+          return false;
+        }
+
+        getWrappedInstance() {
+          return this.ref;
+        }
+
+        refFn(ref: any) {
+          this.ref = ref;
+        }
+
+        renderControl() {
+          const {
+            inputClassName,
+            formItem: model,
+            classnames: cx,
+            children,
+            type,
+            size,
+            defaultSize,
+            ...rest
+          } = this.props;
+
+          const controlSize = size || defaultSize;
+
+          return (
+            <Control
+              {...rest}
+              onOpenDialog={this.handleOpenDialog}
+              size={config.sizeMutable !== false ? undefined : size}
+              onFocus={this.handleFocus}
+              onBlur={this.handleBlur}
+              type={type}
+              classnames={cx}
+              ref={isSFC ? undefined : this.refFn}
+              forwardedRef={isSFC ? this.refFn : undefined}
+              formItem={model}
+              className={cx(
+                `Form-control`,
+                {
+                  'is-inline': !!rest.inline,
+                  'is-error': model && !model.valid,
+                  [`Form-control--withSize Form-control--size${ucFirst(
+                    controlSize
+                  )}`]:
+                    config.sizeMutable !== false &&
+                    typeof controlSize === 'string' &&
+                    !!controlSize &&
+                    controlSize !== 'full'
+                },
+                inputClassName
+              )}
+            />
+          );
+        }
+      },
+      Control
+    );
+  };
+}
+
+export function registerFormItem(config: FormItemConfig): RendererConfig {
+  let Control = asFormItem(config)(config.component);
 
   return registerRenderer({
     ...config,
@@ -872,13 +904,13 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
         `(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?${config.type}$`,
         'i'
       ),
-    component: FormItemRenderer,
+    component: Control,
     isFormItem: true
   });
 }
 
 export function FormItem(config: FormItemBasicConfig) {
-  return function(component: FormControlComponent): any {
+  return function (component: FormControlComponent): any {
     const renderer = registerFormItem({
       ...config,
       component

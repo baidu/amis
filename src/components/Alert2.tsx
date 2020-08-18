@@ -5,6 +5,7 @@
 
 import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
+import {Icon} from './icons';
 
 export interface AlertProps {
   level: 'danger' | 'info' | 'success' | 'warning';
@@ -70,7 +71,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
             onClick={this.handleClick}
             type="button"
           >
-            <span>×</span>
+            <Icon icon="close" className="icon" />
           </button>
         ) : null}
         {children}

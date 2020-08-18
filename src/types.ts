@@ -7,6 +7,7 @@ export interface ApiObject {
     withCredentials?: boolean;
     cancelExecutor?: (cancel: Function) => void;
   };
+  autoRefresh?: boolean; // 是否自动刷新，当 url 中的取值结果变化时，自动刷新数据。
   reload?: string;
   sendOn?: string;
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
@@ -14,6 +15,7 @@ export interface ApiObject {
   cache?: number;
   qsOptions?: any;
   dataType?: 'json' | 'form-data' | 'form';
+  replaceData?: boolean;
 }
 export type ApiString = string;
 export type Api = ApiString | ApiObject;
@@ -23,6 +25,7 @@ export interface fetcherResult {
     data: object;
     status: number;
     msg: string;
+    msgTimeout?: number;
     errors?: {
       [propName: string]: string;
     };
@@ -45,6 +48,7 @@ export interface fetchOptions {
 export interface Payload {
   ok: boolean;
   msg: string;
+  msgTimeout?: number;
   data: any;
   status: number;
   errors?: {
@@ -96,7 +100,8 @@ export interface Action extends Button {
     | 'cancel'
     | 'close'
     | 'next'
-    | 'prev';
+    | 'prev'
+    | 'reset';
   api?: Api;
   asyncApi?: Api;
   payload?: any;
@@ -137,15 +142,15 @@ export interface RendererData {
 type RendererDataAlis = RendererData;
 
 export type FunctionPropertyNames<T> = {
-  [K in keyof T]: T[K] extends Function ? K : never
+  [K in keyof T]: T[K] extends Function ? K : never;
 }[keyof T];
 
 export interface JSONSchema {
   [propsName: string]: any;
 }
 
-export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;
-export type Override<M, N> = Omit<M, Extract<keyof M, keyof N>> & N;
-export type ExtractProps<
-  TComponentOrTProps
-> = TComponentOrTProps extends React.ComponentType<infer P> ? P : never;
+// export type Omit<T, K extends keyof T & any> = Pick<T, Exclude<keyof T, K>>;
+// export type Override<M, N> = Omit<M, Extract<keyof M, keyof N>> & N;
+// export type ExtractProps<
+//   TComponentOrTProps
+// > = TComponentOrTProps extends React.ComponentType<infer P> ? P : never;

@@ -1,8 +1,9 @@
-import {types, getRoot, Instance, destroy} from 'mobx-state-tree';
+import {types, getRoot, Instance, destroy, isAlive} from 'mobx-state-tree';
 import {extendObject, createObject} from '../utils/helper';
 import {IRendererStore} from './index';
 import {dataMapping} from '../utils/tpl-builtin';
 import {SimpleMap} from '../utils/SimpleMap';
+import {TranslateFn} from '../locale';
 
 export const iRendererStore = types
   .model('iRendererStore', {
@@ -11,6 +12,7 @@ export const iRendererStore = types
     storeType: types.string,
     hasRemoteData: types.optional(types.boolean, false),
     data: types.optional(types.frozen(), {}),
+    initedAt: 0, // 初始 init 的时刻
     updatedAt: 0, // 从服务端更新时刻
     pristine: types.optional(types.frozen(), {}),
     disposed: false,
@@ -24,13 +26,21 @@ export const iRendererStore = types
   })
   .views(self => {
     return {
-      // todo 不能自己引用自己
       get parentStore(): any {
-        return self.parentId &&
+        return isAlive(self) &&
+          self.parentId &&
           getRoot(self) &&
           (getRoot(self) as IRendererStore).storeType === 'RendererStore'
           ? (getRoot(self) as IRendererStore).stores.get(self.parentId)
           : null;
+      },
+
+      get __(): TranslateFn {
+        return isAlive(self) &&
+          getRoot(self) &&
+          (getRoot(self) as IRendererStore).storeType === 'RendererStore'
+          ? (getRoot(self) as IRendererStore).__
+          : (str: string) => str;
       }
     };
   })
@@ -51,6 +61,7 @@ export const iRendererStore = types
 
     return {
       initData(data: object = {}) {
+        self.initedAt = Date.now();
         self.pristine = data;
         self.data = data;
       },
@@ -59,17 +70,17 @@ export const iRendererStore = types
         self.data = self.pristine;
       },
 
-      updateData(data: object = {}, tag?: object) {
+      updateData(data: object = {}, tag?: object, replace?: boolean) {
         const prev = self.data;
         let newData;
         if (tag) {
           let proto = createObject((self.data as any).__super || null, tag);
           newData = createObject(proto, {
-            ...self.data,
+            ...(replace ? {} : self.data),
             ...data
           });
         } else {
-          newData = extendObject(self.data, data);
+          newData = extendObject(self.data, data, !replace);
         }
 
         Object.defineProperty(newData, '__prev', {

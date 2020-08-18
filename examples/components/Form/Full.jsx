@@ -65,7 +65,40 @@ export default {
           label: '标签',
           placeholder: '',
           clearable: true,
-          options: ['lixiaolong', 'zhouxingxing', 'yipingpei', 'liyuanfang']
+          // dropdown: false, 保留原来的展现方式。
+          // size: 'md',
+          // inline: true,
+          options: [
+            {
+              label: '诸葛亮',
+              value: 'zhugeliang'
+            },
+            {
+              label: '曹操',
+              value: 'caocao'
+            },
+            {
+              label: '钟无艳',
+              value: 'zhongwuyan'
+            },
+            {
+              label: '野核',
+              children: [
+                {
+                  label: '李白',
+                  value: 'libai'
+                },
+                {
+                  label: '韩信',
+                  value: 'hanxin'
+                },
+                {
+                  label: '云中君',
+                  value: 'yunzhongjun'
+                }
+              ]
+            }
+          ]
         },
         {
           type: 'divider'
@@ -750,6 +783,20 @@ export default {
           type: 'divider'
         },
         {
+          label: '穿梭器',
+          name: 'a',
+          type: 'transfer',
+          source: '/api/mock2/form/getOptions?waitSeconds=1',
+          searchable: true,
+          searchApi: '/api/mock2/options/autoComplete2?term=$term',
+          selectMode: 'list',
+          sortable: true,
+          inline: true
+        },
+        {
+          type: 'divider'
+        },
+        {
           type: 'json-editor',
           name: 'json',
           value: `{
@@ -775,9 +822,61 @@ export default {
           type: 'divider'
         },
         {
-          type: 'repeat',
-          name: 'repeat',
-          label: '时间频率'
+          label: '时间频率',
+          type: 'group',
+          controls: [
+            {
+              name: 'repeatCount',
+              type: 'range',
+              label: false,
+              visibleOn: 'data.repeatUnit == "year"'
+            },
+
+            {
+              name: 'repeatCount',
+              type: 'range',
+              label: false,
+              max: 11,
+              min: 1,
+              visibleOn: 'data.repeatUnit == "month"'
+            },
+
+            {
+              name: 'repeatCount',
+              type: 'range',
+              label: false,
+              max: 29,
+              min: 1,
+              visibleOn: 'data.repeatUnit == "day"'
+            },
+
+            {
+              type: 'select',
+              name: 'repeatUnit',
+              label: false,
+              value: 'none',
+              // mode: 'inline',
+              columnClassName: 'v-middle w-ssm no-grow',
+              options: [
+                {
+                  label: '不重复',
+                  value: 'none'
+                },
+                {
+                  label: '年',
+                  value: 'year'
+                },
+                {
+                  label: '月',
+                  value: 'month'
+                },
+                {
+                  label: '日',
+                  value: 'day'
+                }
+              ]
+            }
+          ]
         },
         {
           type: 'divider'

@@ -9,7 +9,7 @@ body {
 }
 
 .#{$ns}Layout {
-  height: auto;
+  height: 100%;
   min-height: 100%;
   width: 100%;
   position: relative;
@@ -152,6 +152,7 @@ body {
   &-body {
     padding-bottom: $Layout-header-height;
     width: 100%;
+    height: 100%;
   }
 
   &--noFooter &-body {

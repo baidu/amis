@@ -4,9 +4,9 @@
  */
 
 import React from 'react';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import PropTypes from 'prop-types';
-import hoistNonReactStatic = require('hoist-non-react-statics');
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import qs from 'qs';
 import {dataMapping} from './utils/tpl-builtin';
 import {RendererEnv, RendererProps} from './factory';
@@ -26,16 +26,18 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
     query?: RendererData | null,
     ctx?: RendererData
   ) => void;
+  context: any;
 }
 
 export interface IScopedContext {
   parent?: AlisIScopedContext;
   registerComponent: (component: ScopedComponentType) => void;
   unRegisterComponent: (component: ScopedComponentType) => void;
-  getComponentByName: (name: string) => ScopedComponentType | void;
+  getComponentByName: (name: string) => ScopedComponentType;
   getComponents: () => Array<ScopedComponentType>;
   reload: (target: string, ctx: RendererData) => void;
   send: (target: string, ctx: RendererData) => void;
+  close: (target: string) => void;
 }
 type AlisIScopedContext = IScopedContext;
 export const ScopedContext = React.createContext(createScopedTools(''));
@@ -159,8 +161,39 @@ function createScopedTools(
           env.updateLocation(link);
         }
       });
+    },
+
+    /**
+     * 主要是用来关闭指定弹框的
+     *
+     * @param target 目标 name
+     */
+    close(target: string | boolean) {
+      const scoped = this;
+
+      if (typeof target === 'string') {
+        // 过滤已经关掉的，当用户 close 配置多个弹框 name 时会出现这种情况
+        target
+          .split(/\s*,\s*/)
+          .map(name => scoped.getComponentByName(name))
+          .filter(component => component && component.props.show)
+          .forEach(closeDialog);
+      }
     }
   };
+}
+
+function closeDialog(component: ScopedComponentType) {
+  (component.context as IScopedContext)
+    .getComponents()
+    .filter(
+      item =>
+        item &&
+        (item.props.type === 'dialog' || item.props.type === 'drawer') &&
+        item.props.show
+    )
+    .forEach(closeDialog);
+  component.props.onClose && component.props.onClose();
 }
 
 export function HocScoped<
@@ -182,8 +215,9 @@ export function HocScoped<
       scopeRef?: (ref: any) => void;
     }
   > {
-    static displayName = `Scoped(${ComposedComponent.displayName ||
-      ComposedComponent.name})`;
+    static displayName = `Scoped(${
+      ComposedComponent.displayName || ComposedComponent.name
+    })`;
     static contextType = ScopedContext;
     static ComposedComponent = ComposedComponent;
     ref: any;
@@ -218,7 +252,12 @@ export function HocScoped<
 
       return (
         <ScopedContext.Provider value={this.scoped}>
-          <ComposedComponent {...rest as any /* todo */} ref={this.childRef} />
+          <ComposedComponent
+            {
+              ...(rest as any) /* todo */
+            }
+            ref={this.childRef}
+          />
         </ScopedContext.Provider>
       );
     }

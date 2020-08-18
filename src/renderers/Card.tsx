@@ -12,6 +12,7 @@ import QuickEdit from './QuickEdit';
 import PopOver from './PopOver';
 import {TableCell} from './Table';
 import Copyable from './Copyable';
+import {Icon} from '../components/icons';
 
 export interface CardProps extends RendererProps {
   onCheck: (item: IItem) => void;
@@ -115,7 +116,7 @@ export class Card extends React.Component<CardProps> {
     if (dragging) {
       return (
         <div className={cx('Card-dragBtn')}>
-          <i className="fa fa-exchange" />
+          <Icon icon="drag-bar" className="icon" />
         </div>
       );
     } else if (selectable && !hideCheckToggler) {
@@ -280,9 +281,12 @@ export class Card extends React.Component<CardProps> {
       subTitleClassName,
       descClassName,
       checkOnItemClick,
+      avatarClassName,
       checkable,
       classnames: cx,
-      classPrefix: ns
+      classPrefix: ns,
+      imageClassName,
+      avatarTextClassName
     } = this.props;
 
     let heading = null;
@@ -291,8 +295,7 @@ export class Card extends React.Component<CardProps> {
       const {
         highlight: highlightTpl,
         avatar: avatarTpl,
-        avatarClassName,
-        imageClassName,
+        avatarText: avatarTextTpl,
         title: titleTpl,
         subTitle: subTitleTpl,
         subTitlePlaceholder,
@@ -301,7 +304,8 @@ export class Card extends React.Component<CardProps> {
       } = header;
 
       const highlight = !!evalExpression(highlightTpl, data as object);
-      const avatar = filter(avatarTpl, data);
+      const avatar = filter(avatarTpl, data, '| raw');
+      const avatarText = filter(avatarTextTpl, data);
       const title = filter(titleTpl, data);
       const subTitle = filter(subTitleTpl, data);
       const desc = filter(descTpl, data);
@@ -322,6 +326,15 @@ export class Card extends React.Component<CardProps> {
                 )}
                 src={avatar}
               />
+            </span>
+          ) : avatarText ? (
+            <span
+              className={cx(
+                'Card-avtarText',
+                header.avatarTextClassName || avatarTextClassName
+              )}
+            >
+              {avatarText}
             </span>
           ) : null}
           <div className={cx('Card-meta')}>
@@ -414,13 +427,16 @@ export class CardItemFieldRenderer extends TableCell {
 
   static propsList = [
     'quickEdit',
+    'quickEditEnabledOn',
     'popOver',
     'copyable',
+    'inline',
     ...TableCell.propsList
   ];
 
   render() {
     let {
+      type,
       className,
       render,
       style,

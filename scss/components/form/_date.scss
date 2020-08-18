@@ -33,7 +33,7 @@
   &.is-disabled {
     background: $gray200;
 
-    >&-input {
+    > &-input {
       color: $text--muted-color;
     }
   }
@@ -42,6 +42,7 @@
     color: $DatePicker-placeholderColor;
     user-select: none;
     margin-right: $gap-base;
+    min-width: px2rem(50px);
     flex-basis: 0;
     flex-grow: 1;
   }
@@ -59,15 +60,6 @@
     &:hover {
       color: $DatePicker-onHover-iconColor;
     }
-
-    &:before {
-      line-height: 1;
-      color: inherit;
-      content: $DatePicker-toggler-icon;
-      display: inline-block;
-      font-size: $DatePicker-toggler-fontSize;
-      font-family: $DatePicker-toggler-vendor;
-    }
   }
 
   &-clear {
@@ -78,24 +70,26 @@
   }
 }
 
-.#{$ns}DateControl:not(.is-inline)>.#{$ns}DatePicker {
+.#{$ns}DateControl:not(.is-inline) > .#{$ns}DatePicker {
   display: flex;
 }
 
 .#{$ns}DatePicker-shortcuts {
   margin: 0;
   background: $Calendar-shortcuts-bg;
-  padding: ($Calendar-shortcuts-height - $Calendar-fontSize * $lineHeightBase) / 2 $gap-sm;
+  padding: ($Calendar-shortcuts-height - $Calendar-fontSize * $lineHeightBase) /
+    2 $gap-sm;
   list-style: none;
+  width: px2rem(250px);
 
-  &+.rdt .rdtPicker {
+  & + .rdt .rdtPicker {
     padding-top: 0;
   }
 }
 
 .#{$ns}DatePicker-shortcut {
   display: inline-block;
-  margin-right: $gap-md;
+  margin-right: $gap-sm;
 
   a {
     font-size: $Calendar-fontSize;
@@ -164,8 +158,6 @@
     td.rdtActive:hover {
       background: $Calendar-cell-onActive-bg;
     }
-
-
 
     td.rdtDisabled,
     td.rdtDisabled:hover {
@@ -261,7 +253,8 @@
     font-size: $fontSizeSm;
   }
 
-  @include button-variant($Calendar-btn-bg,
+  @include button-variant(
+    $Calendar-btn-bg,
     $Calendar-btn-border,
     $Calendar-btn-color,
     $Calendar-btn-onHover-bg,
@@ -269,16 +262,18 @@
     $Calendar-btn-onHover-color,
     $Calendar-btn-onActive-bg,
     $Calendar-btn-onActive-border,
-    $Calendar-btn-onActive-color);
+    $Calendar-btn-onActive-color
+  );
 
   border-radius: $Calendar-btn-borderRadius;
 
-  &+.rdtBtn {
+  & + .rdtBtn {
     margin-left: $gap-xs;
   }
 
   &Cancel {
-    @include button-variant($Calendar-btnCancel-bg,
+    @include button-variant(
+      $Calendar-btnCancel-bg,
       $Calendar-btnCancel-border,
       $Calendar-btnCancel-color,
       $Calendar-btnCancel-onHover-bg,
@@ -286,7 +281,8 @@
       $Calendar-btnCancel-onHover-color,
       $Calendar-btnCancel-onActive-bg,
       $Calendar-btnCancel-onActive-border,
-      $Calendar-btnCancel-onActive-color);
+      $Calendar-btnCancel-onActive-color
+    );
   }
 }
 
@@ -296,18 +292,6 @@
   color: inherit;
   font-style: normal;
   line-height: 1;
-}
-
-.rdtBtnPrev:before {
-  font-family: $DatePicker-prevBtn-vendor;
-  font-size: $DatePicker-prevBtn-fontSize;
-  content: $DatePicker-prevBtn-icon;
-}
-
-.rdtBtnNext:before {
-  font-family: $DatePicker-nextBtn-vendor;
-  font-size: $DatePicker-nextBtn-fontSize;
-  content: $DatePicker-nextBtn-icon;
 }
 
 .rdtPrev,
@@ -346,13 +330,13 @@
   width: 100%;
   // padding: 0 10px;
 
-  >* {
+  > * {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
   }
 
-  .rdtSwitch+.rdtSwitch {
+  .rdtSwitch + .rdtSwitch {
     margin-left: $gap-xs;
   }
 }
@@ -362,7 +346,7 @@ td.rdtYear {
   width: px2rem(50px);
   height: px2rem(40px);
 
-  >span {
+  > span {
     height: px2rem(24px);
     display: block;
   }
@@ -371,7 +355,7 @@ td.rdtYear {
   &.rdtActive {
     background: transparent !important;
 
-    >span {
+    > span {
       background: $info;
       color: $white;
     }
@@ -380,7 +364,7 @@ td.rdtYear {
   &.rdtDisabled {
     background: transparent !important;
 
-    >span {
+    > span {
       background: #edf1f2;
       color: #999;
     }

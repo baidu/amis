@@ -11,21 +11,21 @@ import Transition, {
   EXITING
 } from 'react-transition-group/Transition';
 import {Portal} from 'react-overlays';
-import cx from 'classnames';
 import {current, addModal, removeModal} from './ModalManager';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import {Icon} from './icons';
+import {LocaleProps, localeable} from '../locale';
 
-export interface ModalProps {
+export interface ModalProps extends ThemeProps, LocaleProps {
   className?: string;
+  contentClassName?: string;
   size?: any;
   overlay?: boolean;
-  onHide: () => void;
+  onHide: (e: any) => void;
   closeOnEsc?: boolean;
   container?: any;
   show?: boolean;
   disabled?: boolean;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   onExited?: () => void;
   onEntered?: () => void;
 }
@@ -43,6 +43,92 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     size: '',
     overlay: true
   };
+
+  static Header = themeable(
+    localeable(
+      ({
+        classnames: cx,
+        className,
+        showCloseButton,
+        onClose,
+        children,
+        classPrefix,
+        translate: __,
+        ...rest
+      }: ThemeProps &
+        LocaleProps & {
+          className?: string;
+          showCloseButton?: boolean;
+          onClose?: () => void;
+          children?: React.ReactNode;
+        } & React.HTMLAttributes<HTMLDivElement>) => (
+        <div {...rest} className={cx('Modal-header', className)}>
+          {showCloseButton !== false ? (
+            <a
+              data-tooltip={__('关闭弹窗')}
+              data-position="left"
+              onClick={onClose}
+              className={cx('Modal-close')}
+            >
+              <Icon icon="close" className="icon" />
+            </a>
+          ) : null}
+          {children}
+        </div>
+      )
+    )
+  );
+
+  static Title = themeable(
+    ({
+      classnames: cx,
+      className,
+      children,
+      classPrefix,
+      ...rest
+    }: ThemeProps & {
+      className?: string;
+      children?: React.ReactNode;
+    } & React.HTMLAttributes<HTMLDivElement>) => (
+      <div {...rest} className={cx('Modal-title', className)}>
+        {children}
+      </div>
+    )
+  );
+
+  static Body = themeable(
+    ({
+      classnames: cx,
+      className,
+      children,
+      classPrefix,
+      ...rest
+    }: ThemeProps & {
+      className?: string;
+      children?: React.ReactNode;
+    } & React.HTMLAttributes<HTMLDivElement>) => (
+      <div {...rest} className={cx('Modal-body', className)}>
+        {children}
+      </div>
+    )
+  );
+
+  static Footer = themeable(
+    ({
+      classnames: cx,
+      className,
+      children,
+      classPrefix,
+      ...rest
+    }: ThemeProps & {
+      className?: string;
+      children?: React.ReactNode;
+    } & React.HTMLAttributes<HTMLDivElement>) => (
+      <div {...rest} className={cx('Modal-footer', className)}>
+        {children}
+      </div>
+    )
+  );
 
   componentDidMount() {
     if (this.props.show) {
@@ -83,15 +169,17 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   render() {
     const {
       className,
+      contentClassName,
       children,
       container,
       show,
       size,
       overlay,
-      classPrefix: ns
+      classnames: cx
     } = this.props;
 
     return (
+      // @ts-ignore
       <Portal container={container}>
         <Transition
           mountOnEnter
@@ -106,17 +194,23 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               ref={this.modalRef}
               role="dialog"
               className={cx(
-                `amis-dialog-widget ${ns}Modal`,
+                `amis-dialog-widget Modal`,
                 {
-                  [`${ns}Modal--${size}`]: size
+                  [`Modal--${size}`]: size
                 },
                 className
               )}
             >
               {overlay ? (
-                <div className={cx(`${ns}Modal-overlay`, fadeStyles[status])} />
+                <div className={cx(`Modal-overlay`, fadeStyles[status])} />
               ) : null}
-              <div className={cx(`${ns}Modal-content`, fadeStyles[status])}>
+              <div
+                className={cx(
+                  `Modal-content`,
+                  contentClassName,
+                  fadeStyles[status]
+                )}
+              >
                 {children}
               </div>
             </div>
@@ -127,4 +221,11 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   }
 }
 
-export default themeable(Modal);
+const FinalModal = themeable(localeable(Modal));
+
+export default FinalModal as typeof FinalModal & {
+  Header: typeof Modal.Header;
+  Title: typeof Modal.Title;
+  Body: typeof Modal.Body;
+  Footer: typeof Modal.Footer;
+};

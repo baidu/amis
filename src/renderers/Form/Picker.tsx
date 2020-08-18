@@ -3,15 +3,16 @@ import {OptionsControl, OptionsControlProps, Option} from './Options';
 import cx from 'classnames';
 import Button from '../../components/Button';
 import {SchemaNode, Schema, Action} from '../../types';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import {
   anyChanged,
   autobind,
   getVariable,
   noop,
-  createObject
+  createObject,
+  isObjectShallowModified
 } from '../../utils/helper';
-import findIndex = require('lodash/findIndex');
+import findIndex from 'lodash/findIndex';
 import Html from '../../components/Html';
 import {filter} from '../../utils/tpl';
 import {Icon} from '../../components/icons';
@@ -51,10 +52,12 @@ export default class PickerControl extends React.PureComponent<
     modalMode: 'dialog',
     multiple: false,
     placeholder: '请点击按钮选择',
+    labelField: 'label',
+    valueField: 'value',
     pickerSchema: {
       mode: 'list',
       listItem: {
-        title: '${label}'
+        title: '${label|raw}'
       }
     },
     embed: false
@@ -85,20 +88,22 @@ export default class PickerControl extends React.PureComponent<
   componentDidUpdate(prevProps: PickerProps) {
     const props = this.props;
 
-    if (props.value !== prevProps.value) {
+    if (JSON.stringify(props.value) !== JSON.stringify(prevProps.value)) {
       this.fetchOptions();
     }
   }
 
   fetchOptions() {
     const {value, formItem, valueField, labelField, source, data} = this.props;
+    let selectedOptions: any;
 
     if (
       !source ||
       !formItem ||
-      !formItem.selectedOptions.length ||
-      formItem.selectedOptions[0][valueField || 'value'] !==
-        formItem.selectedOptions[0][labelField || 'label']
+      ((selectedOptions = formItem.getSelectedOptions(value)) &&
+        (!selectedOptions.length ||
+          selectedOptions[0][valueField || 'value'] !==
+            selectedOptions[0][labelField || 'label']))
     ) {
       return;
     }
@@ -269,6 +274,7 @@ export default class PickerControl extends React.PureComponent<
 
     if (e.key === ' ') {
       this.open();
+      e.preventDefault();
     } else if (selectedOptions.length && e.key == 'Backspace') {
       this.removeItem(selectedOptions.length - 1);
     }
@@ -340,7 +346,7 @@ export default class PickerControl extends React.PureComponent<
   }
 
   @autobind
-  renderBody() {
+  renderBody({popOverContainer}: any = {}) {
     const {
       render,
       selectedOptions,
@@ -353,10 +359,12 @@ export default class PickerControl extends React.PureComponent<
     return render('modal-body', this.state.schema, {
       value: selectedOptions,
       valueField,
+      primaryField: valueField,
       options: options,
       multiple,
       onSelect: embed ? this.handleChange : undefined,
-      ref: this.crudRef
+      ref: this.crudRef,
+      popOverContainer
     }) as JSX.Element;
   }
 
@@ -375,12 +383,16 @@ export default class PickerControl extends React.PureComponent<
       placeholder,
       embed,
       value,
-      selectedOptions
+      selectedOptions,
+      translate: __,
+      popOverContainer
     } = this.props;
     return (
       <div className={cx(`PickerControl`, className)}>
         {embed ? (
-          <div className={cx('Picker')}>{this.renderBody()}</div>
+          <div className={cx('Picker')}>
+            {this.renderBody({popOverContainer})}
+          </div>
         ) : (
           <div
             className={cx(`Picker`, {
@@ -392,7 +404,9 @@ export default class PickerControl extends React.PureComponent<
           >
             <div onClick={this.handleClick} className={cx('Picker-input')}>
               {!selectedOptions.length && placeholder ? (
-                <div className={cx('Picker-placeholder')}>{placeholder}</div>
+                <div className={cx('Picker-placeholder')}>
+                  {__(placeholder)}
+                </div>
               ) : null}
 
               <div className={cx('Picker-valueWrap')}>
@@ -414,13 +428,15 @@ export default class PickerControl extends React.PureComponent<
                 </a>
               ) : null}
 
-              <span onClick={this.open} className={cx('Picker-btn')} />
+              <span onClick={this.open} className={cx('Picker-btn')}>
+                <Icon icon="window-restore" className="icon" />
+              </span>
             </div>
 
             {render(
               'modal',
               {
-                title: '请选择',
+                title: __('请选择'),
                 size: size,
                 type: modalMode,
                 body: {

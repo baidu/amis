@@ -68,19 +68,22 @@ export class ContextMenu extends React.Component<
   };
 
   menuRef: React.RefObject<HTMLDivElement> = React.createRef();
+  originInstance: this | null;
   componentWillMount() {
+    this.originInstance = ContextMenu.instance;
     ContextMenu.instance = this;
   }
 
   componentDidMount() {
-    // document.body.addEventListener('click', this.handleOutClick, true);
+    document.body.addEventListener('click', this.handleOutClick, true);
     document.addEventListener('keydown', this.handleKeyDown);
   }
 
   componentWillUnmount() {
-    ContextMenu.instance = null;
-    // document.body.removeEventListener('click', this.handleOutClick, true);
+    ContextMenu.instance = this.originInstance;
+    document.body.removeEventListener('click', this.handleOutClick, true);
     document.removeEventListener('keydown', this.handleKeyDown);
+    delete this.originInstance;
   }
 
   @autobind
@@ -103,20 +106,20 @@ export class ContextMenu extends React.Component<
     });
   }
 
-  // @autobind
-  // handleOutClick(e: Event) {
-  //   if (
-  //     !e.target ||
-  //     !this.menuRef.current ||
-  //     this.menuRef.current.contains(e.target as HTMLElement)
-  //   ) {
-  //     return;
-  //   }
-  //   if (this.state.isOpened) {
-  //     e.preventDefault();
-  //     this.close();
-  //   }
-  // }
+  @autobind
+  handleOutClick(e: Event) {
+    if (
+      !e.target ||
+      !this.menuRef.current ||
+      this.menuRef.current.contains(e.target as HTMLElement)
+    ) {
+      return;
+    }
+    if (this.state.isOpened) {
+      e.preventDefault();
+      this.close();
+    }
+  }
 
   handleClick(item: MenuItem) {
     item.disabled ||
@@ -154,7 +157,7 @@ export class ContextMenu extends React.Component<
     const info = calculatePosition(
       'auto',
       menu.lastChild,
-      menu.children[1],
+      menu.children[1] as HTMLElement,
       document.body
     );
 
@@ -169,9 +172,8 @@ export class ContextMenu extends React.Component<
   }
 
   @autobind
-  handleOverlayContextMenu(e: React.MouseEvent) {
+  handleSelfContextMenu(e: React.MouseEvent) {
     e.preventDefault();
-    this.close();
   }
 
   renderMenus(menus: Array<MenuItem | MenuDivider>) {
@@ -185,7 +187,7 @@ export class ContextMenu extends React.Component<
       const hasChildren = Array.isArray(item.children) && item.children.length;
       return (
         <li
-          key={item.label}
+          key={`${item.label}-${index}`}
           className={cx('ContextMenu-item', {
             'has-child': hasChildren,
             'is-disabled': item.disabled
@@ -233,12 +235,9 @@ export class ContextMenu extends React.Component<
               },
               className
             )}
+            onContextMenu={this.handleSelfContextMenu}
           >
-            <div
-              onContextMenu={this.handleOverlayContextMenu}
-              onClick={this.close}
-              className={cx(`ContextMenu-overlay`, fadeStyles[status])}
-            />
+            <div className={cx(`ContextMenu-overlay`, fadeStyles[status])} />
             <div
               className={cx(`ContextMenu-cursor`)}
               style={{left: `${this.state.x}px`, top: `${this.state.y}px`}}

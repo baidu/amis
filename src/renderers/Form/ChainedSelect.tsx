@@ -58,7 +58,7 @@ export default class ChainedSelectControl extends React.Component<
   componentDidUpdate(prevProps: ChainedSelectProps) {
     const props = this.props;
 
-    if (props.value !== prevProps.value) {
+    if (props.formInited && props.value !== prevProps.value) {
       this.loadMore();
     }
   }
@@ -118,6 +118,8 @@ export default class ChainedSelectControl extends React.Component<
             parent: arr[idx]
           })
           .then(ret => {
+            // todo 没有检测 response.ok
+
             const stack = this.state.stack.concat();
             const remoteValue = ret.data ? ret.data.value : undefined;
             let options = (ret.data && (ret.data as any).options) || ret.data;

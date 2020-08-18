@@ -1,68 +1,34 @@
 .#{$ns}TagControl {
-  @include input-text();
+  position: relative;
 
-  &-placeholder {
-    color: $Form-input-placeholderColor;
-    user-select: none;
-    position: absolute;
-    left: $Form-input-paddingX;
-    top: $Form-input-paddingY;
-    margin-top: 2 * $Form-input-borderWidth;
-    line-height: $Form-input-lineHeight;
+  &-input.is-focused {
+    border-radius: 0;
   }
 
-  &-input {
-    min-height: $Form-input-height;
-    height: auto;
+  &-input.is-disabled {
+    border-style: dashed;
+    background: transparent;
   }
 
-  &-valueWrap {
-    flex-grow: 1;
-    margin-bottom: -$gap-xs;
-    line-height: 1;
-
-    > input {
-      width: px2rem(100px);
-      vertical-align: middle;
-      position: relative;
-      z-index: 2;
-      margin-bottom: $gap-xs;
-    }
-  }
-
-  &-value {
-    cursor: pointer;
-    user-select: none;
-    white-space: nowrap;
-    vertical-align: middle;
-    line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+  &.is-inline {
     display: inline-block;
-    font-size: $Form-selectValue-fontSize;
-    color: $Form-selectValue-color;
-    background: $Form-selectValue-bg;
-    border: px2rem(1px) solid $Form-selectValue-borderColor;
-    border-radius: 2px;
-    margin-right: $gap-xs;
-    margin-bottom: $gap-xs;
-
-    &.is-disabled {
-      pointer-events: none;
-      opacity: $Button-onDisabled-opacity;
-    }
   }
 
-  &-valueIcon {
-    cursor: pointer;
-    border-right: px2rem(1px) solid $Form-selectValue-borderColor;
-    padding: 1px 5px;
+  > .#{$ns}TagControl-popover {
+    // box-shadow: none;
+    padding: 0;
+    border: none;
+    width: 100%;
+    margin-top: $Form-select-popoverGap - $Form-select-outer-borderWidth;
 
-    &:hover {
-      background-color: darken($Form-selectValue-bg, 5%);
+    &.#{$ns}PopOver--leftBottomLeftTop {
+      top: 100% !important;
     }
-  }
 
-  &-valueLabel {
-    padding: 0 $gap-xs;
+    &.#{$ns}PopOver--leftTopLeftBottom {
+      top: auto !important;
+      bottom: 100% !important;
+    }
   }
 
   &-sug {
@@ -108,5 +74,17 @@
         opacity: $Button-onDisabled-opacity;
       }
     }
+  }
+}
+
+.#{$ns}TagControl-popover {
+  &.#{$ns}PopOver--leftBottomLeftTop > .#{$ns}ListMenu {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  &.#{$ns}PopOver--leftTopLeftBottom > .#{$ns}ListMenu {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 }

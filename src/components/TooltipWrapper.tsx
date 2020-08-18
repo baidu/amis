@@ -4,17 +4,19 @@
  * @author fex
  */
 
-import React = require('react');
-import {Overlay} from 'react-overlays';
+import React from 'react';
 import Html from './Html';
-import uncontrollable = require('uncontrollable');
+import {uncontrollable} from 'uncontrollable';
 import {findDOMNode} from 'react-dom';
 import Tooltip from './Tooltip';
 import {ClassNamesFn, themeable} from '../theme';
+import Overlay from './Overlay';
 
 export interface TooltipObject {
   title?: string;
   content?: string;
+  render?: () => JSX.Element;
+  dom?: JSX.Element;
 }
 
 export type Trigger = 'hover' | 'click' | 'focus';
@@ -30,6 +32,7 @@ export interface TooltipWrapperProps {
   overlay?: any;
   delay: number;
   theme?: string;
+  tooltipClassName?: string;
 }
 
 interface TooltipWrapperState {
@@ -58,7 +61,6 @@ export class TooltipWrapper extends React.Component<
   constructor(props: TooltipWrapperProps) {
     super(props);
 
-    this.targetRef = this.targetRef.bind(this);
     this.getTarget = this.getTarget.bind(this);
     this.show = this.show.bind(this);
     this.hide = this.hide.bind(this);
@@ -81,11 +83,7 @@ export class TooltipWrapper extends React.Component<
   }
 
   getTarget() {
-    return this.target ? findDOMNode(this.target) : null;
-  }
-
-  targetRef(ref: HTMLElement) {
-    this.target = ref;
+    return findDOMNode(this);
   }
 
   show() {
@@ -174,7 +172,8 @@ export class TooltipWrapper extends React.Component<
       placement,
       container,
       trigger,
-      rootClose
+      rootClose,
+      tooltipClassName
     } = this.props;
 
     const child = React.Children.only(children);
@@ -184,7 +183,6 @@ export class TooltipWrapper extends React.Component<
     }
 
     const childProps: any = {
-      ref: this.targetRef,
       key: 'target'
     };
 
@@ -218,10 +216,17 @@ export class TooltipWrapper extends React.Component<
       >
         <Tooltip
           title={typeof tooltip !== 'string' ? tooltip.title : undefined}
+          className={tooltipClassName}
         >
-          <Html
-            html={typeof tooltip === 'string' ? tooltip : tooltip.content}
-          />
+          {tooltip && (tooltip as TooltipObject).render ? (
+            (tooltip as TooltipObject).render!()
+          ) : tooltip && (tooltip as TooltipObject).dom ? (
+            (tooltip as TooltipObject).dom!
+          ) : (
+            <Html
+              html={typeof tooltip === 'string' ? tooltip : tooltip.content}
+            />
+          )}
         </Tooltip>
       </Overlay>
     ];

@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import hoistNonReactStatic = require('hoist-non-react-statics');
-import domHelperWwnerDocument = require('dom-helpers/ownerDocument');
-import getOffset = require('dom-helpers/query/offset');
-import getPosition = require('dom-helpers/query/position');
-import getScrollTop = require('dom-helpers/query/scrollTop');
+import hoistNonReactStatic from 'hoist-non-react-statics';
+import domOwnerDocument from 'dom-helpers/ownerDocument';
+import css from 'dom-helpers/style/index';
+import getOffset from 'dom-helpers/query/offset';
+import getPosition from 'dom-helpers/query/position';
+import getScrollTop from 'dom-helpers/query/scrollTop';
 
 const bsMapping: {
   [propName: string]: string;
@@ -55,7 +56,7 @@ export function getContainer(container: any, defaultContainer: any) {
 }
 
 export function ownerDocument(componentOrElement: any) {
-  return domHelperWwnerDocument(ReactDOM.findDOMNode(componentOrElement));
+  return domOwnerDocument(ReactDOM.findDOMNode(componentOrElement) as Element);
 }
 
 function getContainerDimensions(containerNode: any) {
@@ -69,7 +70,7 @@ function getContainerDimensions(containerNode: any) {
       getScrollTop(ownerDocument(containerNode).documentElement) ||
       getScrollTop(containerNode);
   } else {
-    ({width, height} = getOffset(containerNode));
+    ({width, height} = getOffset(containerNode) as any);
     scroll = getScrollTop(containerNode);
   }
 
@@ -119,18 +120,46 @@ function getLeftDelta(
   return 0;
 }
 
+// function position(node: HTMLElement, offsetParent: HTMLElement) {
+//   const rect = offsetParent.getBoundingClientRect();
+//   const rect2 = node.getBoundingClientRect();
+//   return {
+//     width:
+//       rect2.width -
+//         (parseInt(css(node, 'borderLeftWidth') || '', 10) || 0) -
+//         parseInt(css(node, 'borderRightWidth') || '', 10) || 0,
+//     height:
+//       rect2.height -
+//         (parseInt(css(node, 'borderTopWidth') || '', 10) || 0) -
+//         parseInt(css(node, 'borderBottomWidth') || '', 10) || 0,
+//     top: rect2.top - rect.top,
+//     left: rect2.left - rect.left
+//   };
+// }
+
 export function calculatePosition(
   placement: any,
   overlayNode: any,
-  target: any,
+  target: HTMLElement,
   container: any,
   padding: any = 0
 ) {
-  const childOffset =
+  const childOffset: any =
     container.tagName === 'BODY'
       ? getOffset(target)
       : getPosition(target, container);
-  const {height: overlayHeight, width: overlayWidth} = getOffset(overlayNode);
+  const {height: overlayHeight, width: overlayWidth} = getOffset(
+    overlayNode
+  ) as any;
+
+  const clip = container.getBoundingClientRect();
+  const clip2 = overlayNode.getBoundingClientRect();
+  const scaleX = overlayNode.offsetWidth
+    ? clip2.width / overlayNode.offsetWidth
+    : 1;
+  const scaleY = overlayNode.offsetHeight
+    ? clip2.height / overlayNode.offsetHeight
+    : 1;
 
   // auto 尝试四个方向对齐。
   placement =
@@ -177,10 +206,9 @@ export function calculatePosition(
 
       // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
       if (tests.length) {
-        let clip = target.getBoundingClientRect();
         const transformed = {
-          x: clip.x + positionLeft - childOffset.left,
-          y: clip.y + positionTop - childOffset.top,
+          x: clip.x + positionLeft / scaleX,
+          y: clip.y + positionTop / scaleY,
           width: overlayWidth,
           height: overlayHeight
         };
@@ -237,7 +265,7 @@ export function calculatePosition(
 
     positionLeft += leftDelta;
     arrowOffsetLeft = 50 * (1 - (2 * leftDelta) / overlayHeight) + '%';
-  } else if ((placement = 'center')) {
+  } else if (placement === 'center') {
     // atX = atY = myX = myY = 'center';
     positionLeft = childOffset.left + (childOffset.width - overlayWidth) / 2;
     positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;
@@ -249,10 +277,10 @@ export function calculatePosition(
   }
 
   return {
-    positionLeft,
-    positionTop,
-    arrowOffsetLeft,
-    arrowOffsetTop,
+    positionLeft: positionLeft / scaleX,
+    positionTop: positionTop / scaleY,
+    arrowOffsetLeft: arrowOffsetLeft / scaleX,
+    arrowOffsetTop: arrowOffsetTop / scaleY,
     activePlacement
   };
 }

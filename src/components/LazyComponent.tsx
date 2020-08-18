@@ -5,7 +5,9 @@
  */
 
 import React from 'react';
-import VisibilitySensor = require('react-visibility-sensor');
+// @ts-ignore
+import VisibilitySensor from 'react-visibility-sensor';
+import Spinner from './Spinner';
 
 export interface LazyComponentProps {
   component?: React.ReactType;
@@ -27,7 +29,7 @@ export default class LazyComponent extends React.Component<
   LazyComponentState
 > {
   static defaultProps = {
-    placeholder: '加载中...',
+    placeholder: <Spinner />,
     unMountOnHidden: false,
     partialVisibility: true
   };
@@ -89,6 +91,7 @@ export default class LazyComponent extends React.Component<
       childProps,
       visiblilityProps,
       partialVisibility,
+      children,
       ...rest
     } = this.props;
 
@@ -105,6 +108,8 @@ export default class LazyComponent extends React.Component<
           <div className="visibility-sensor">
             {Component && visible ? (
               <Component {...rest} {...childProps} />
+            ) : children && visible ? (
+              children
             ) : (
               placeholder
             )}
@@ -126,6 +131,8 @@ export default class LazyComponent extends React.Component<
     } else if (Component) {
       // 只监听不可见到可见，一旦可见了，就销毁检查。
       return <Component {...rest} {...childProps} />;
+    } else if (children) {
+      return children;
     }
 
     return <div>{placeholder}</div>;

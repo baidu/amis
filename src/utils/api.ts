@@ -161,6 +161,7 @@ function responseAdaptor(ret: fetcherResult) {
     ok: data.status == 0,
     status: data.status,
     msg: data.msg,
+    msgTimeout: data.msgTimeout,
     data: data.data
   };
 
@@ -174,18 +175,30 @@ function responseAdaptor(ret: fetcherResult) {
 export function wrapFetcher(
   fn: (config: fetcherConfig) => Promise<fetcherResult>
 ): (api: Api, data: object, options?: object) => Promise<Payload | void> {
-  return function(api, data, options) {
+  return function (api, data, options) {
     api = buildApi(api, data, options) as ApiObject;
+
+    api.requestAdaptor && (api = api.requestAdaptor(api) || api);
 
     if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
       api.data = object2formData(api.data, api.qsOptions);
-    } else if (api.data && api.dataType === 'form') {
+    } else if (
+      api.data &&
+      typeof api.data !== 'string' &&
+      api.dataType === 'form'
+    ) {
       api.data = qsstringify(api.data, api.qsOptions) as any;
       api.headers = api.headers || (api.headers = {});
       api.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    } else if (
+      api.data &&
+      typeof api.data !== 'string' &&
+      api.dataType === 'json'
+    ) {
+      api.data = JSON.stringify(api.data) as any;
+      api.headers = api.headers || (api.headers = {});
+      api.headers['Content-Type'] = 'application/json';
     }
-
-    api.requestAdaptor && (api = api.requestAdaptor(api) || api);
 
     if (typeof api.cache === 'number' && api.cache > 0) {
       const apiCache = getApiCache(api);
@@ -221,6 +234,10 @@ export function isApiOutdated(
   const url: string =
     (nextApi && (nextApi as ApiObject).url) || (nextApi as string);
 
+  if (nextApi && (nextApi as ApiObject).autoRefresh === false) {
+    return false;
+  }
+
   if (url && typeof url === 'string' && ~url.indexOf('$')) {
     prevApi = buildApi(prevApi as Api, prevData as object, {ignoreData: true});
     nextApi = buildApi(nextApi as Api, nextData as object, {ignoreData: true});
@@ -236,7 +253,10 @@ export function isApiOutdated(
 }
 
 export function isValidApi(api: string) {
-  return api && /^(?:https?:\/\/[^\/]+)?(\/[^\s\/\?]*){1,}(\?.*)?$/.test(api);
+  return (
+    api &&
+    /^(?:(https?|wss?|taf):\/\/[^\/]+)?(\/[^\s\/\?]*){1,}(\?.*)?$/.test(api)
+  );
 }
 
 export function isEffectiveApi(

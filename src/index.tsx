@@ -10,59 +10,30 @@ import {
   Renderer,
   getRendererByName,
   resolveRenderer,
-  filterSchema
+  filterSchema,
+  clearStoresCache,
+  updateEnv
 } from './factory';
 import {wrapFetcher, buildApi} from './utils/api';
-import {filter, reigsterTplEnginer, evalExpression} from './utils/tpl';
-import './utils/tpl-builtin';
-import './utils/tpl-lodash';
+import {
+  filter,
+  reigsterTplEnginer,
+  evalExpression,
+  evalJS,
+  setCustomEvalJs,
+  setCustomEvalExpression
+} from './utils/tpl';
 import * as utils from './utils/helper';
 import {resizeSensor} from './utils/resize-sensor';
 import {setIconVendor} from './renderers/Form/IconPickerIcons';
 import {Icon, registerIcon} from './components/icons';
-
+import {RegisterStore} from './store';
 import {
-  NotFound,
-  AlertComponent,
-  alert,
-  ContextMenu,
-  openContextMenus,
-  Alert2,
-  confirm,
-  AsideNav,
-  Button,
-  Checkbox,
-  Checkboxes,
-  Collapse,
-  ColorPicker,
-  DatePicker,
-  DateRangePicker,
-  Drawer,
-  Tabs,
-  Tab,
-  // Editor,
-  Icons,
-  Html,
-  Layout,
-  LazyComponent,
-  Modal,
-  Overlay,
-  PopOver,
-  Radios,
-  Range,
-  Rating,
-  // RichText,
-  Select,
-  Spinner,
-  Switch,
-  Textarea,
-  TitleBar,
-  ToastComponent,
-  toast,
-  Tooltip,
-  TooltipWrapper,
-  Tree
-} from './components/index';
+  setDefaultLocale,
+  getDefaultLocale,
+  makeTranslator,
+  register as registerLocale
+} from './locale';
 
 // 注册渲染器
 import './renderers/Action';
@@ -98,6 +69,7 @@ import './renderers/Form/ButtonGroup';
 import './renderers/Form/ButtonToolbar';
 import './renderers/Form/Radios';
 import './renderers/Form/List';
+import './renderers/Form/Location';
 import './renderers/Form/Select';
 import './renderers/Form/Static';
 import './renderers/Form/Date';
@@ -122,7 +94,7 @@ import './renderers/Form/Panel';
 import './renderers/Form/Color';
 import './renderers/Form/ChainedSelect';
 import './renderers/Form/NestedSelect';
-import './renderers/Form/TransferSelect';
+import './renderers/Form/Transfer';
 import './renderers/Form/Service';
 import './renderers/Form/Table';
 import './renderers/Form/Picker';
@@ -130,6 +102,7 @@ import './renderers/Form/IconPicker';
 import './renderers/Form/Formula';
 import './renderers/Form/FieldSet';
 import './renderers/Form/Tabs';
+import './renderers/Form/TabsTransfer';
 import './renderers/Form/Group';
 import './renderers/Form/InputGroup';
 import './renderers/Grid';
@@ -180,69 +153,49 @@ import {
   registerFilter,
   filterDate,
   relativeValueRe,
-  resolveVariable
+  resolveVariable,
+  resolveVariableAndFilter
 } from './utils/tpl-builtin';
-import {addRule, str2rules} from './utils/validations';
+import {
+  addRule,
+  str2rules,
+  validate,
+  validateObject
+} from './utils/validations';
 import {normalizeOptions} from './components/Select';
 import {OptionsControl} from './renderers/Form/Options';
 
-import {classnames, getClassPrefix, setDefaultTheme} from './theme';
+import {
+  classnames,
+  getClassPrefix,
+  setDefaultTheme,
+  theme,
+  getTheme
+} from './theme';
 const classPrefix = getClassPrefix();
+
+export * from './components/index';
 
 export {
   render,
+  clearStoresCache,
+  updateEnv,
   Renderer,
+  RegisterStore,
   FormItem,
   OptionsControl,
   wrapFetcher,
   buildApi,
   filter,
-  NotFound,
-  AlertComponent,
-  alert,
-  ContextMenu,
-  openContextMenus,
-  Alert2,
-  confirm,
-  AsideNav,
-  Button,
-  Checkbox,
-  Checkboxes,
-  Collapse,
-  ColorPicker,
-  DatePicker,
-  DateRangePicker,
-  Drawer,
-  Tabs,
-  Tab,
-  // Editor,
-  Html,
-  Icons,
-  Layout,
-  LazyComponent,
-  Modal,
-  Overlay,
-  PopOver,
-  Radios,
-  Range,
-  Rating,
-  // RichText,
-  Select,
-  Spinner,
-  Switch,
-  Textarea,
-  TitleBar,
-  ToastComponent,
-  toast,
-  Tooltip,
-  TooltipWrapper,
-  Tree,
   // 其他功能类方法
   utils,
   resizeSensor,
   registerFilter,
   reigsterTplEnginer,
   evalExpression,
+  evalJS,
+  setCustomEvalJs,
+  setCustomEvalExpression,
   addRule,
   str2rules,
   normalizeOptions,
@@ -252,13 +205,23 @@ export {
   filterDate,
   relativeValueRe,
   resolveVariable,
+  resolveVariableAndFilter,
   setIconVendor,
   Icon,
   registerIcon,
   Scoped,
   ScopedContext,
+  validate,
+  validateObject,
   setDefaultTheme,
+  theme,
+  getTheme,
   classPrefix,
   getClassPrefix,
-  classnames
+  classnames,
+  // 多语言相关
+  getDefaultLocale,
+  setDefaultLocale,
+  registerLocale,
+  makeTranslator
 };
