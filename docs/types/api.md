@@ -465,6 +465,9 @@ function (api) {
 上例中的适配器实际上是如下代码的字符串形式：
 
 ```js
+// 进行一些操作
+
+// 一定要将调整后的 api 对象 return 出去
 return {
   ...api,
   data: {
@@ -569,6 +572,9 @@ function (payload, responsee) {
 上例中的适配器实际上是如下代码的字符串形式：
 
 ```js
+// 进行一些操作
+
+// 一定要将调整后的 payload 对象 return 出去
 return {
   ...payload,
   status: payload.code === 200 ? 0 : payload.code
