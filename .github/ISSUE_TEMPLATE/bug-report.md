@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: 报告问题，以帮助我们做的更好
+about: 报告问题，帮助我们做的更好
 title: ''
 labels: need confirm
 assignees: ''
