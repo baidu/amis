@@ -56,17 +56,12 @@ export default {
             label: 'Color',
             name: 'color',
             quickEdit: {
-              type: 'color',
-              mode: 'inline'
+              type: 'color'
             }
           },
           {
             label: '说明文字',
-            name: 'name',
-            quickEdit: {
-              type: 'text',
-              mode: 'inline'
-            }
+            name: 'name'
           }
         ]
       },
