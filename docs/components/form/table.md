@@ -224,6 +224,55 @@ order: 54
 }
 ```
 
+## 非确认模式
+
+配置`"needConfirm": false`，不需要确认，那么就是一直就是处于编辑形态。
+
+```schema:height="400" scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ]
+  },
+  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "controls": [
+    {
+      "type": "table",
+      "name": "table",
+      "label": "Table",
+      "needConfirm": false,
+      "addable": true,
+      "removable": true,
+      "columns": [
+        {
+          "label": "A",
+          "name": "a",
+          "quickEdit": true
+        },
+        {
+          "label": "B",
+          "name": "b",
+          "quickEdit": true
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名                       | 类型                    | 默认值           | 说明                                     |

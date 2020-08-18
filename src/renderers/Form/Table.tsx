@@ -36,6 +36,7 @@ export interface TableProps extends FormControlProps {
   scaffold?: any;
   deleteConfirmText?: string;
   valueField?: string;
+  needConfirm?: boolean;
 }
 
 export interface TableState {
@@ -69,7 +70,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'editable',
     'addApi',
     'updateApi',
-    'deleteApi'
+    'deleteApi',
+    'needConfirm'
   ];
 
   entries: SimpleMap<any, number>;
@@ -359,12 +361,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       : [];
     const ns = this.props.classPrefix;
     const __ = this.props.translate;
+    const needConfirm = this.props.needConfirm;
 
     let btns = [];
     if (props.addable && props.showAddBtn !== false) {
       btns.push({
         children: ({key, rowIndex}: {key: any; rowIndex: number}) =>
-          ~this.state.editIndex ? null : (
+          ~this.state.editIndex && needConfirm !== false ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -385,7 +388,23 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     }
 
-    if (props.editable) {
+    if (props.needConfirm === false) {
+      columns = columns.map(column => {
+        const quickEdit = column.quickEdit;
+
+        return quickEdit === false
+          ? omit(column, ['quickEdit'])
+          : {
+              ...column,
+              quickEdit: {
+                type: 'text',
+                ...quickEdit,
+                saveImmediately: true,
+                mode: 'inline'
+              }
+            };
+      });
+    } else if (props.editable) {
       columns = columns.map(column => {
         const quickEdit =
           !isCreateMode && column.hasOwnProperty('quickEditOnUpdate')
@@ -497,7 +516,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           rowIndex: number;
           data: any;
         }) =>
-          ~this.state.editIndex || (data && data.__isPlaceholder) ? null : (
+          (~this.state.editIndex || (data && data.__isPlaceholder)) &&
+          needConfirm !== false ? null : (
             <Button
               classPrefix={ns}
               size="sm"
@@ -525,7 +545,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         type: 'operation',
         buttons: btns,
         width: 150,
-        label: __('操作')
+        label: __('操作'),
+        className: 'v-middle'
       });
     }
 
@@ -537,16 +558,19 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     diff: Array<object> | object,
     rowIndexes: Array<number> | number
   ) {
-    const {onChange, value} = this.props;
+    const {onChange, value, needConfirm} = this.props;
 
     const newValue = Array.isArray(value) ? value.concat() : [];
 
     if (~this.state.editIndex) {
-      this.setState({
-        editting: this.editting = {
-          ...rows
-        }
-      });
+      this.setState(
+        {
+          editting: this.editting = {
+            ...rows
+          }
+        },
+        needConfirm === false ? this.confirmEdit : undefined
+      );
       return;
     } else if (Array.isArray(rows)) {
       (rowIndexes as Array<number>).forEach((rowIndex, index) => {
