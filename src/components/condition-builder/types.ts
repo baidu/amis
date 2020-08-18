@@ -21,7 +21,11 @@ export type OperatorType =
   | 'greater'
   | 'greater_or_equal'
   | 'between'
-  | 'not_between';
+  | 'not_between'
+  | 'select_equals'
+  | 'select_not_equals'
+  | 'select_any_in'
+  | 'select_not_any_in';
 
 export type FieldItem = {
   type: 'text';
@@ -180,4 +184,5 @@ export type Type = {
   defaultOp?: OperatorType;
   operators: Array<OperatorType>;
   placeholder?: string;
+  valueTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
 };

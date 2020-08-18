@@ -31,6 +31,10 @@
       transition: opacity 0.2s;
       display: flex;
       align-items: center;
+
+      .#{$ns}CBDelete {
+        margin-left: $gap-xs;
+      }
     }
     &:not(:hover) .#{$ns}CBGroup-toolbarRight {
       opacity: 0;
@@ -168,7 +172,7 @@
     flex-grow: 1;
   }
 
-  &:hover {
+  &:hover > &-body {
     background-color: rgba(0, 0, 0, 0.05);
   }
 

@@ -1,19 +1,22 @@
 import React from 'react';
-import {FieldSimple} from './types';
+import {FieldSimple, OperatorType} from './types';
 import {ThemeProps, themeable} from '../../theme';
 import InputBox from '../InputBox';
 import NumberInput from '../NumberInput';
 import DatePicker from '../DatePicker';
+import Select from '../Select';
+import Switch from '../Switch';
 
 export interface ValueProps extends ThemeProps {
   value: any;
   onChange: (value: any) => void;
   field: FieldSimple;
+  op?: OperatorType;
 }
 
 export class Value extends React.Component<ValueProps> {
   render() {
-    const {classnames: cx, field, value, onChange} = this.props;
+    const {classnames: cx, field, value, onChange, op} = this.props;
     let input: JSX.Element | undefined = undefined;
 
     if (field.type === 'text') {
@@ -27,7 +30,7 @@ export class Value extends React.Component<ValueProps> {
     } else if (field.type === 'number') {
       input = (
         <NumberInput
-          placeholder={field.placeholder || '请选择日期'}
+          placeholder={field.placeholder || '请输入数字'}
           min={field.minimum}
           max={field.maximum}
           value={value ?? field.defaultValue}
@@ -68,6 +71,20 @@ export class Value extends React.Component<ValueProps> {
           onChange={onChange}
           timeFormat={field.timeFormat || 'HH:mm'}
         />
+      );
+    } else if (field.type === 'select') {
+      input = (
+        <Select
+          simpleValue
+          options={field.options!}
+          value={value ?? field.defaultValue}
+          onChange={onChange}
+          multiple={op === 'select_any_in' || op === 'select_not_any_in'}
+        />
+      );
+    } else if (field.type === 'boolean') {
+      input = (
+        <Switch value={value ?? field.defaultValue} onChange={onChange} />
       );
     }
 

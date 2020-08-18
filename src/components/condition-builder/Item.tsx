@@ -95,7 +95,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderLeft() {
-    const {value, fields, funcs} = this.props;
+    const {value, fields, funcs, config} = this.props;
 
     return (
       <Expression
@@ -104,7 +104,9 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         onChange={this.handleLeftChange}
         fields={fields}
         defaultType="field"
-        allowedTypes={['field', 'func']}
+        allowedTypes={(config.valueTypes || ['field', 'func']).filter(
+          type => type === 'field' || type === 'func'
+        )}
       />
     );
   }
@@ -272,13 +274,17 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
     return (
       <Expression
+        op={op}
         funcs={funcs}
         valueField={field}
         value={value.right}
         onChange={this.handleRightChange}
         fields={fields}
         defaultType="value"
-        allowedTypes={field?.valueTypes || ['value', 'field', 'func', 'raw']}
+        allowedTypes={
+          field?.valueTypes ||
+          config.valueTypes || ['value', 'field', 'func', 'raw']
+        }
       />
     );
   }
