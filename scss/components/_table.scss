@@ -243,10 +243,10 @@
         font-weight: $fontWeightNormal;
         white-space: nowrap;
 
-        .#{$ns}TableCell--title {
-          display: flex;
-          align-items: center;
-        }
+        // .#{$ns}TableCell--title {
+        //   display: flex;
+        //   align-items: center;
+        // }
         .#{$ns}Remark {
           margin-left: $gap-xs;
         }

@@ -260,12 +260,11 @@ order: 54
         {
           "label": "A",
           "name": "a",
-          "quickEdit": true
+          "quickEdit": false
         },
         {
           "label": "B",
-          "name": "b",
-          "quickEdit": true
+          "name": "b"
         }
       ]
     }

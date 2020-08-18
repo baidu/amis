@@ -211,14 +211,19 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   addItem(index: number, payload: any = this.props.scaffold) {
-    const {value, onChange} = this.props;
+    const {value, onChange, needConfirm} = this.props;
     let newValue = Array.isArray(value) ? value.concat() : [];
     newValue.splice(index + 1, 0, {
       ...payload
     });
     onChange(newValue);
     index = Math.min(index + 1, newValue.length - 1);
-    this.startEdit(index, newValue[index], true);
+
+    if (needConfirm === false) {
+      onChange(newValue);
+    } else {
+      this.startEdit(index, newValue[index], true);
+    }
   }
 
   startEdit(index: number, editting?: any, isCreate: boolean = false) {
@@ -544,9 +549,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       columns.push({
         type: 'operation',
         buttons: btns,
-        width: 150,
         label: __('操作'),
-        className: 'v-middle'
+        className: 'v-middle nowrap',
+        fixed: 'right',
+        width: '1%',
+        innerClassName: 'm-n'
       });
     }
 
@@ -563,14 +570,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const newValue = Array.isArray(value) ? value.concat() : [];
 
     if (~this.state.editIndex) {
-      this.setState(
-        {
-          editting: this.editting = {
-            ...rows
-          }
-        },
-        needConfirm === false ? this.confirmEdit : undefined
-      );
+      this.setState({
+        editting: this.editting = {
+          ...rows
+        }
+      });
       return;
     } else if (Array.isArray(rows)) {
       (rowIndexes as Array<number>).forEach((rowIndex, index) => {
