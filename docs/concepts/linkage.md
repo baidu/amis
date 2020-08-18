@@ -342,6 +342,91 @@ order: 14
 
 > 当然，`crud`组件内置已经支持此功能，你只需要配置`crud`中的`filter`属性，就可以实现上面的效果，更多内容查看 [crud -> filter](../components/crud) 文档。
 
-我们再来一个例子，这次我们实现两个`form`之间的联动：
+我们再来一个例子，这次我们实现 [两个 form 之间的联动](../components/form/index#%E5%B0%86%E6%95%B0%E6%8D%AE%E5%9F%9F%E5%8F%91%E9%80%81%E7%BB%99%E7%9B%AE%E6%A0%87%E7%BB%84%E4%BB%B6)
+
+### 发送指定数据
+
+`target`属性支持通过配置参数来发送指定数据，例如：`"target" :"xxx?a=${a}&b=${b}"`，这样就会把当前数据域中的`a`变量和`b`变量发送给目标组件
+
+```schema:height="800" scope="body"
+[
+  {
+    "type": "form",
+    "title": "form1",
+    "mode": "horizontal",
+    "api": "/api/mock2/form/saveForm",
+    "controls": [
+      {
+        "label": "Name",
+        "type": "text",
+        "name": "name"
+      },
+
+      {
+        "label": "Email",
+        "type": "text",
+        "name": "email"
+      },
+
+      {
+        "label": "Company",
+        "type": "text",
+        "name": "company"
+      }
+    ],
+    "actions": [
+      {
+        "type": "action",
+        "actionType": "reload",
+        "label": "发送到 form2",
+        "target": "form2?name=${name}&email=${email}"
+      }
+    ]
+  },
+  {
+    "type": "form",
+    "title": "form2",
+    "name": "form2",
+    "mode": "horizontal",
+    "api": "/api/mock2/form/saveForm",
+    "controls": [
+      {
+        "label": "MyName",
+        "type": "text",
+        "name": "name"
+      },
+
+      {
+        "label": "MyEmail",
+        "type": "text",
+        "name": "email"
+      },
+
+      {
+        "label": "Company",
+        "type": "text",
+        "name": "company"
+      }
+    ]
+  }
+]
+```
+
+上例中我们给按钮上配置了`"target": "form2?name=${name}&email=${email}"`,可以把当前数据链中的`name`变量和`email`变量发送给`form2`
+
+### 配置多个目标
+
+`target`支持配置多个目标组件 name，用逗号隔开，例如：
+
+```json
+{
+  "type": "action",
+  "actionType": "reload",
+  "label": "刷新目标组件",
+  "target": "target1,target2"
+}
+```
+
+上例中点击按钮会刷新`target1`和`target2`组件。
 
 事实上，**组件间联动也可以实现上述任意的 [基本联动效果](./linkage#%E5%9F%BA%E6%9C%AC%E8%81%94%E5%8A%A8)（显隐联动、接口联动等其他联动）。**
