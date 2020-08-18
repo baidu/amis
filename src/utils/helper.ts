@@ -182,6 +182,9 @@ export function setVariable(
       data = data[key] = {
         ...data[key]
       };
+    } else if (Array.isArray(data[key])) {
+      data[key] = data[key].concat();
+      data = data[key];
     } else if (data[key]) {
       // throw new Error(`目标路径不是纯对象，不能覆盖`);
       // 强行转成对象
