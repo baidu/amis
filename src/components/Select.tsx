@@ -759,6 +759,84 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     const itemHeight = this.state.itemHeight;
 
+    // 渲染单个选项
+    const renderItem = ({index, style}) => {
+      const item = filtedOptions[index];
+      const checked =
+        selectedItem === item ||
+        !!~selectionValues.indexOf(item[valueField]);
+      return (
+        <div
+          {...getItemProps({
+            key:
+              typeof item.value === 'string'
+                ? `${item.label}-${item.value}`
+                : index,
+            index,
+            item,
+            disabled: item.disabled
+          })}
+          style={style}
+          className={cx(`Select-option`, {
+            'is-disabled': item.disabled,
+            'is-highlight': highlightedIndex === index,
+            'is-active': checked
+          })}
+        >
+          {removable ? (
+            <a data-tooltip="移除" data-position="left">
+              <Icon
+                icon="minus"
+                className="icon"
+                onClick={(e: any) => this.handleDeleteClick(e, item)}
+              />
+            </a>
+          ) : null}
+          {editable ? (
+            <a data-tooltip="编辑" data-position="left">
+              <Icon
+                icon="pencil"
+                className="icon"
+                onClick={(e: any) => this.handleEditClick(e, item)}
+              />
+            </a>
+          ) : null}
+
+          {checkAll || multiple ? (
+            <Checkbox
+              checked={checked}
+              trueValue={item.value}
+              onChange={() => {
+                this.handleChange(item);
+              }}
+              disabled={item.disabled}
+            >
+              {item.disabled
+                ? item[labelField]
+                : highlight(
+                    item[labelField],
+                    inputValue as string,
+                    cx('Select-option-hl')
+                  )}
+
+              {item.tip}
+            </Checkbox>
+          ) : (
+            <span>
+              {item.disabled
+                ? item[labelField]
+                : highlight(
+                    item[labelField],
+                    inputValue as string,
+                    cx('Select-option-hl')
+                  )}
+              {item.tip}
+            </span>
+          )}
+        </div>
+      );
+    }
+
     const menu = (
       <div ref={this.menu} className={cx('Select-menu')}>
         {searchable ? (
@@ -798,89 +876,17 @@ export class Select extends React.Component<SelectProps, SelectState> {
         </div>
 
         {filtedOptions.length ? (
+          filtedOptions.length > 100 ? ( // 超过 100 个数据才启用 virtuallist 避免滚动条问题
           <VirtualList
             height={
               filtedOptions.length > 8 ? 280 : filtedOptions.length * itemHeight
             }
             itemCount={filtedOptions.length}
             itemSize={itemHeight}
-            renderItem={({index, style}) => {
-              const item = filtedOptions[index];
-              const checked =
-                selectedItem === item ||
-                !!~selectionValues.indexOf(item[valueField]);
-              return (
-                <div
-                  {...getItemProps({
-                    key:
-                      typeof item.value === 'string'
-                        ? `${item.label}-${item.value}`
-                        : index,
-                    index,
-                    item,
-                    disabled: item.disabled
-                  })}
-                  style={style}
-                  className={cx(`Select-option`, {
-                    'is-disabled': item.disabled,
-                    'is-highlight': highlightedIndex === index,
-                    'is-active': checked
-                  })}
-                >
-                  {removable ? (
-                    <a data-tooltip="移除" data-position="left">
-                      <Icon
-                        icon="minus"
-                        className="icon"
-                        onClick={(e: any) => this.handleDeleteClick(e, item)}
-                      />
-                    </a>
-                  ) : null}
-                  {editable ? (
-                    <a data-tooltip="编辑" data-position="left">
-                      <Icon
-                        icon="pencil"
-                        className="icon"
-                        onClick={(e: any) => this.handleEditClick(e, item)}
-                      />
-                    </a>
-                  ) : null}
-
-                  {checkAll || multiple ? (
-                    <Checkbox
-                      checked={checked}
-                      trueValue={item.value}
-                      onChange={() => {
-                        this.handleChange(item);
-                      }}
-                      disabled={item.disabled}
-                    >
-                      {item.disabled
-                        ? item[labelField]
-                        : highlight(
-                            item[labelField],
-                            inputValue as string,
-                            cx('Select-option-hl')
-                          )}
-
-                      {item.tip}
-                    </Checkbox>
-                  ) : (
-                    <span>
-                      {item.disabled
-                        ? item[labelField]
-                        : highlight(
-                            item[labelField],
-                            inputValue as string,
-                            cx('Select-option-hl')
-                          )}
-                      {item.tip}
-                    </span>
-                  )}
-                </div>
-              );
-            }}
-          />
+            renderItem={renderItem}
+          />): (
+            filtedOptions.map((item, index) => { return renderItem({index}) })
+          )
         ) : (
           <div className={cx('Select-noResult')}>{__(noResultsText)}</div>
         )}
