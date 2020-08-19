@@ -341,7 +341,7 @@ JSSDK 的代码从以下地址获取：
 - JS： https://houtai.baidu.com/v2/jssdk
 - CSS： https://houtai.baidu.com/v2/csssdk
 
-以上的 SDK 地址是一个页面跳转，会跳转到一个 CDN 地址，而且每次跳转都是最新的版本，随着 amis 的升级这个地址会一直变动，需要将这两个文件下载到本地，分别命名为 sdk.js 和 sdk.css，然后类似如下的方式使用:
+以上的 SDK 地址是一个页面跳转，会跳转到一个 CDN 地址，而且每次跳转都是最新的版本，随着 amis 的升级这个地址会一直变动。npm 包里面也包含 sdk 文件，要固定某个版本可以先 amis 安装到本地，然后去 sdk 目录拷贝文件。然后类似如下的方式使用:
 
 ```html
 <!DOCTYPE html>
