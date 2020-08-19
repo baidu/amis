@@ -5208,7 +5208,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/start/getting-started.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/start/getting-started_0f2c46d.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/start/getting-started_f7f7daf.js",
       "type": "js"
     },
     "docs/start/custom.md": {
@@ -5444,7 +5444,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/components/form/table.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/table_f742e94.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/form/table_aa301da.js",
       "type": "js"
     },
     "docs/components/form/tag.md": {
@@ -5480,7 +5480,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/components/crud.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/crud_339d30b.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/crud_feceb01.js",
       "type": "js"
     },
     "docs/components/action.md": {
@@ -5636,7 +5636,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/components/table.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/table_f351105.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/components/table_8a27ff2.js",
       "type": "js"
     },
     "docs/components/tabs.md": {
