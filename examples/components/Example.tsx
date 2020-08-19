@@ -15,6 +15,7 @@ import StaticFormSchema from './Form/Static';
 import HintFormSchema from './Form/Hint';
 import FieldSetInTabsFormSchema from './Form/FieldSetInTabs';
 import ComboFormSchema from './Form/Combo';
+import ConditionBuilderSchema from './Form/ConditionBuilder';
 import SubFormSchema from './Form/SubForm';
 import RichTextSchema from './Form/RichText';
 import EditorSchema from './Form/Editor';
@@ -225,6 +226,11 @@ export const examples = [
             label: '公式示例',
             path: '/examples/form/formula',
             component: makeSchemaRenderer(FormulaFormSchema)
+          },
+          {
+            label: '条件组合',
+            path: '/examples/form/condition-builder',
+            component: makeSchemaRenderer(ConditionBuilderSchema)
           },
 
           {

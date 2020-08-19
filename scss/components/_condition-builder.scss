@@ -137,6 +137,10 @@
 
     background: rgba(0, 0, 0, 0.03);
     transition: all 0.3s ease-out;
+
+    > .#{$ns}CBGroup {
+      margin: 3px;
+    }
   }
 
   &-body:not(:hover) .#{$ns}CBDelete {

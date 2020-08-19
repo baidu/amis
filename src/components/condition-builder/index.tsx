@@ -9,17 +9,19 @@ import {autobind, findTreeIndex, spliceTree, getTree} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
 import animtion from '../../utils/Animation';
 
-export interface QueryBuilderProps extends ThemeProps, LocaleProps {
+export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   fields: Fields;
   funcs?: Funcs;
+  showNot?: boolean;
   value?: ConditionGroupValue;
   onChange: (value: ConditionGroupValue) => void;
 }
 
-export class QueryBuilder extends React.Component<QueryBuilderProps> {
+export class QueryBuilder extends React.Component<ConditionBuilderProps> {
   config = defaultConfig;
 
   dragTarget: HTMLElement;
+  // dragNextSibling: Element | null;
   ghost: HTMLElement;
   host: HTMLElement;
   lastX: number;
@@ -31,6 +33,7 @@ export class QueryBuilder extends React.Component<QueryBuilderProps> {
     const target = e.currentTarget;
     const item = target.closest('[data-id]') as HTMLElement;
     this.dragTarget = item;
+    // this.dragNextSibling = item.nextElementSibling;
     this.host = item.closest('[data-group-id]') as HTMLElement;
 
     const ghost = item.cloneNode(true) as HTMLElement;
@@ -48,10 +51,10 @@ export class QueryBuilder extends React.Component<QueryBuilderProps> {
     // 应该是 chrome 的一个bug，如果你马上修改，会马上执行 dragend
     setTimeout(() => {
       item.classList.add('is-dragging');
-      item.parentElement!.insertBefore(
-        item,
-        item.parentElement!.firstElementChild
-      ); // 挪到第一个，主要是因为样式问题。
+      // item.parentElement!.insertBefore(
+      //   item,
+      //   item.parentElement!.firstElementChild
+      // ); // 挪到第一个，主要是因为样式问题。
     }, 5);
   }
 
@@ -163,24 +166,41 @@ export class QueryBuilder extends React.Component<QueryBuilderProps> {
     document.body.removeEventListener('drop', this.handleDragDrop);
 
     this.dragTarget.classList.remove('is-dragging');
+    // if (this.dragNextSibling) {
+    //   this.dragTarget.parentElement!.insertBefore(
+    //     this.dragTarget,
+    //     this.dragNextSibling
+    //   );
+    // } else {
+    //   this.dragTarget.parentElement!.appendChild(this.dragTarget);
+    // }
     delete this.dragTarget;
+    // delete this.dragNextSibling;
     this.ghost.parentElement?.removeChild(this.ghost);
     delete this.ghost;
   }
 
   render() {
-    const {classnames: cx, fields, funcs, onChange, value} = this.props;
+    const {
+      classnames: cx,
+      fields,
+      funcs,
+      onChange,
+      value,
+      showNot
+    } = this.props;
 
     return (
       <ConditionGroup
         config={this.config}
-        funcs={funcs}
-        fields={fields}
+        funcs={funcs || this.config.funcs}
+        fields={fields || this.config.fields}
         value={value}
         onChange={onChange}
         classnames={cx}
         removeable={false}
         onDragStart={this.handleDragStart}
+        showNot={showNot}
       />
     );
   }

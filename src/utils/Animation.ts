@@ -1,4 +1,8 @@
-// 基本上都是从 sortable 那抄的，让拖拽看起来更流畅。
+// 基本上都是从 sortable 那抄的，让拖拽切换有个动画，看起来更流畅。
+// 用法是移动前先 animat.capture(container) 把移动前的位置信息记住
+// 然后移动节点
+// 然后 animate.animateAll(); 计算移动后的位置，然后马上通过 css transform 到原来的位置
+// 然后开始动画到移动后的位置。
 
 interface Rect {
   top: number;

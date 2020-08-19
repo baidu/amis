@@ -6,9 +6,9 @@ export interface BaseFieldConfig {
 
 export interface Config {
   valueTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
-  fields: Fields;
+  fields?: Fields;
   funcs?: Funcs;
-  maxLevel?: number;
+  maxLevel?: number; // 还没实现
   types: {
     [propName: string]: Type;
   };
@@ -124,40 +124,6 @@ const defaultConfig: Config = {
     boolean: {
       operators: ['equal', 'not_equal']
     }
-  },
-
-  fields: [
-    // {
-    //   type: 'text',
-    //   name: 'test',
-    //   label: 'Text'
-    // },
-    // {
-    //   label: 'Group',
-    //   children: [
-    //   ]
-    // }
-  ],
-
-  // 函数配置示例
-  funcs: [
-    // {
-    //   label: '文本',
-    //   children: [
-    //     {
-    //       type: 'LOWERCASE',
-    //       label: '转小写',
-    //       returnType: 'text',
-    //       args: [
-    //         {
-    //           type: 'text',
-    //           label: '文本',
-    //           valueTypes: ['raw', 'field']
-    //         }
-    //       ]
-    //     }
-    //   ]
-    // }
-  ]
+  }
 };
 export default defaultConfig;

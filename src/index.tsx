@@ -83,6 +83,7 @@ import './renderers/Form/Matrix';
 import './renderers/Form/Range';
 import './renderers/Form/Array';
 import './renderers/Form/Combo';
+import './renderers/Form/ConditionBuilder';
 import './renderers/Form/Container';
 import './renderers/Form/SubForm';
 import './renderers/Form/RichText';
