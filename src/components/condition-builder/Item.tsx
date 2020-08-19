@@ -251,7 +251,8 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             fields={fields}
             defaultType="value"
             allowedTypes={
-              field?.valueTypes || ['value', 'field', 'func', 'raw']
+              field?.valueTypes ||
+              config.valueTypes || ['value', 'field', 'func', 'raw']
             }
           />
 
@@ -265,7 +266,8 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             fields={fields}
             defaultType="value"
             allowedTypes={
-              field?.valueTypes || ['value', 'field', 'func', 'raw']
+              field?.valueTypes ||
+              config.valueTypes || ['value', 'field', 'func', 'raw']
             }
           />
         </>

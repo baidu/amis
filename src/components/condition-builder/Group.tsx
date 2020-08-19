@@ -14,6 +14,7 @@ export interface ConditionGroupProps extends ThemeProps {
   value?: ConditionGroupValue;
   fields: Fields;
   funcs?: Funcs;
+  showNot?: boolean;
   onChange: (value: ConditionGroupValue) => void;
   removeable?: boolean;
   onRemove?: (e: React.MouseEvent) => void;
@@ -117,22 +118,25 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       config,
       removeable,
       onRemove,
-      onDragStart
+      onDragStart,
+      showNot
     } = this.props;
 
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>
         <div className={cx('CBGroup-toolbar')}>
           <div className={cx('CBGroup-toolbarLeft')}>
-            <Button
-              onClick={this.handleNotClick}
-              className="m-r-xs"
-              size="xs"
-              active={value?.not}
-              level={value?.not ? 'info' : 'default'}
-            >
-              非
-            </Button>
+            {showNot ? (
+              <Button
+                onClick={this.handleNotClick}
+                className="m-r-xs"
+                size="xs"
+                active={value?.not}
+                level={value?.not ? 'info' : 'default'}
+              >
+                非
+              </Button>
+            ) : null}
             <div className={cx('ButtonGroup')}>
               <Button
                 size="xs"
