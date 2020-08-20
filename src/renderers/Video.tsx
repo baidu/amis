@@ -43,6 +43,7 @@ export interface FlvSourceProps {
   autoPlay?: boolean;
   actions?: any;
   order?: number;
+  setError: (error: string) => void;
 }
 
 // let currentPlaying: any = null;
@@ -50,10 +51,18 @@ export interface FlvSourceProps {
 export class FlvSource extends React.Component<FlvSourceProps, any> {
   flvPlayer: any;
   componentDidMount() {
-    let {src, video, config, manager, isLive, autoPlay, actions} = this.props;
+    let {
+      src,
+      video,
+      config,
+      manager,
+      isLive,
+      autoPlay,
+      actions,
+      setError
+    } = this.props;
 
     (require as any)(['flv.js'], (flvjs: any) => {
-      // load hls video source base on hls.js
       if (flvjs.isSupported()) {
         video = video || (manager.video && manager.video.video);
 
@@ -95,10 +104,10 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
         });
 
         flvPlayer.on(flvjs.Events.RECOVERED_EARLY_EOF, () => {
-          alert('直播已经结束');
+          setError('直播已经结束');
         });
         flvPlayer.on(flvjs.Events.ERROR, () => {
-          alert('视频加载失败');
+          setError('视频加载失败');
         });
 
         if (autoPlay) {
@@ -112,6 +121,7 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
     if (this.flvPlayer) {
       this.flvPlayer.unload();
       this.flvPlayer.detachMediaElement();
+      this.props.setError?.('');
     }
   }
 
@@ -202,6 +212,7 @@ export interface VideoProps extends RendererProps {
 export interface VideoState {
   posterInfo?: any;
   videoState?: any;
+  error?: string;
 }
 
 export default class Video extends React.Component<VideoProps, VideoState> {
@@ -230,6 +241,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     this.playerRef = this.playerRef.bind(this);
     this.onImageLoaded = this.onImageLoaded.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.setError = this.setError.bind(this);
   }
 
   onImageLoaded(e: Event) {
@@ -341,6 +353,16 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     e.preventDefault();
   }
 
+  setError(error?: string) {
+    const player = this.player;
+
+    this.setState({
+      error: error
+    });
+
+    player?.pause();
+  }
+
   renderFrames() {
     let {
       frames,
@@ -441,7 +463,8 @@ export default class Video extends React.Component<VideoProps, VideoState> {
       playerClassName,
       classPrefix: ns,
       aspectRatio,
-      rates
+      rates,
+      classnames: cx
     } = this.props;
 
     let source =
@@ -455,6 +478,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
       videoState.duration < minVideoDuration;
     let src = filter(source, data, '| raw');
     let sourceNode;
+    const error = this.state.error;
 
     if (
       (src && /\.flv(?:$|\?)/.test(src) && isLive) ||
@@ -466,6 +490,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
           order={999.0}
           isLive={isLive}
           src={src}
+          setError={this.setError}
         />
       );
     } else if (
@@ -478,7 +503,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     }
 
     return (
-      <div className={playerClassName}>
+      <div className={cx('Video-player', playerClassName)}>
         <Player
           ref={this.playerRef}
           poster={filter(poster, data, '| raw')}
@@ -497,6 +522,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
           <Shortcut disabled />
         </Player>
 
+        {error ? <div className={cx('Video-error')}>{error}</div> : null}
         {highlight ? (
           <p className={`m-t-xs ${ns}Text--danger`}>
             视频时长小于 {minVideoDuration} 秒
