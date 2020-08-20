@@ -760,11 +760,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const itemHeight = this.state.itemHeight;
 
     // 渲染单个选项
-    const renderItem = ({index, style}) => {
+    const renderItem = ({index, style}: {index: number; style?: object}) => {
       const item = filtedOptions[index];
       const checked =
-        selectedItem === item ||
-        !!~selectionValues.indexOf(item[valueField]);
+        selectedItem === item || !!~selectionValues.indexOf(item[valueField]);
       return (
         <div
           {...getItemProps({
@@ -835,7 +834,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           )}
         </div>
       );
-    }
+    };
 
     const menu = (
       <div ref={this.menu} className={cx('Select-menu')}>
@@ -877,15 +876,20 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
         {filtedOptions.length ? (
           filtedOptions.length > 100 ? ( // 超过 100 个数据才启用 virtuallist 避免滚动条问题
-          <VirtualList
-            height={
-              filtedOptions.length > 8 ? 280 : filtedOptions.length * itemHeight
-            }
-            itemCount={filtedOptions.length}
-            itemSize={itemHeight}
-            renderItem={renderItem}
-          />): (
-            filtedOptions.map((item, index) => { return renderItem({index}) })
+            <VirtualList
+              height={
+                filtedOptions.length > 8
+                  ? 280
+                  : filtedOptions.length * itemHeight
+              }
+              itemCount={filtedOptions.length}
+              itemSize={itemHeight}
+              renderItem={renderItem}
+            />
+          ) : (
+            filtedOptions.map((item, index) => {
+              return renderItem({index});
+            })
           )
         ) : (
           <div className={cx('Select-noResult')}>{__(noResultsText)}</div>
