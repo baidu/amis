@@ -31,14 +31,14 @@ const FormComponent = makeSchemaRenderer({
 
 export default class DocSearch extends React.Component {
   componentDidMount() {
-    const inputSelector = 'input[name="docsearch"]';
-    docsearch({
-      appId: 'S08MJHBHFJ',
-      apiKey: '5fba814bb773d08b5d2a3f6074f926a5',
-      indexName: 'gh_pages',
-      inputSelector,
-      debug: false
-    });
+    // const inputSelector = 'input[name="docsearch"]';
+    // docsearch({
+    //   appId: 'S08MJHBHFJ',
+    //   apiKey: '5fba814bb773d08b5d2a3f6074f926a5',
+    //   indexName: 'gh_pages',
+    //   inputSelector,
+    //   debug: false
+    // });
   }
 
   render() {

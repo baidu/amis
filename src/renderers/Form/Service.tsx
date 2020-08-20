@@ -71,6 +71,24 @@ export class ServiceRenderer extends BasicService {
     return super.afterDataFetch(payload);
   }
 
+  // schema 接口可能会返回数据，需要把它同步到表单上，否则会没用。
+  afterSchemaFetch(schema: any) {
+    const formStore: IFormStore = this.props.formStore;
+    const onChange = this.props.onChange;
+
+    // 有可能有很多层 serivce，这里需要注意。
+    if (formStore && this.isFormMode()) {
+      const keys = isObject(schema?.data) ? Object.keys(schema.data) : [];
+
+      if (keys.length) {
+        formStore.setValues(schema.data);
+        onChange(schema.data[keys[0]], keys[0]);
+      }
+    }
+
+    return super.afterSchemaFetch(schema);
+  }
+
   isFormMode() {
     const {
       store,

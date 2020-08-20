@@ -48,6 +48,7 @@ export default class Service extends React.Component<ServiceProps> {
     this.silentReload = this.silentReload.bind(this);
     this.initInterval = this.initInterval.bind(this);
     this.afterDataFetch = this.afterDataFetch.bind(this);
+    this.afterSchemaFetch = this.afterSchemaFetch.bind(this);
   }
 
   componentDidMount() {
@@ -82,7 +83,7 @@ export default class Service extends React.Component<ServiceProps> {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed
         })
-        .then(this.initInterval);
+        .then(this.afterSchemaFetch);
   }
 
   componentWillUnmount() {
@@ -103,10 +104,12 @@ export default class Service extends React.Component<ServiceProps> {
     } = this.props;
 
     if (isEffectiveApi(schemaApi, store.data, initFetchSchema)) {
-      store.fetchSchema(schemaApi, store.data, {
-        successMessage: fetchSuccess,
-        errorMessage: fetchFailed
-      });
+      store
+        .fetchSchema(schemaApi, store.data, {
+          successMessage: fetchSuccess,
+          errorMessage: fetchFailed
+        })
+        .then(this.afterSchemaFetch);
     }
 
     if (isEffectiveApi(api, store.data, initFetch, initFetchOn)) {
@@ -121,6 +124,10 @@ export default class Service extends React.Component<ServiceProps> {
 
   afterDataFetch(data: any) {
     this.initInterval(data);
+  }
+
+  afterSchemaFetch(schema: any) {
+    this.initInterval(schema);
   }
 
   initInterval(value: any) {
@@ -161,7 +168,7 @@ export default class Service extends React.Component<ServiceProps> {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed
         })
-        .then(this.initInterval);
+        .then(this.afterSchemaFetch);
     }
 
     if (isEffectiveApi(api, store.data)) {
