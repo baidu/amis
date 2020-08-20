@@ -179,6 +179,8 @@ export default class VirtualList extends React.PureComponent<Props, State> {
   // 自适应宽度
   updateRootWidth() {
     const itemsDom = this.rootNode.children[0].children;
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth || 15;
     const containerWidth = this.rootNode.parentElement!.getBoundingClientRect()
       .width;
     let maxItemWidth = 0;
@@ -188,10 +190,8 @@ export default class VirtualList extends React.PureComponent<Props, State> {
         maxItemWidth = itemWidth;
       }
     }
-    if (containerWidth >= maxItemWidth) {
-      this.rootNode.style.width = containerWidth + 'px';
-    } else {
-      this.rootNode.style.width = maxItemWidth + 'px';
+    if (maxItemWidth > containerWidth) {
+      this.rootNode.style.width = maxItemWidth + scrollbarWidth + 'px';
     }
   }
 
@@ -253,7 +253,6 @@ export default class VirtualList extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(_: Props, prevState: State) {
-    this.updateRootWidth();
     const {offset, scrollChangeReason} = this.state;
     if (
       prevState.offset !== offset &&
