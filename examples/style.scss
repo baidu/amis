@@ -123,7 +123,7 @@ a {
 
       .gh-icon {
         position: fixed;
-        right: 20px;
+        right: 15px;
         top: 15px;
         font-size: 22px;
         padding: 0 10px;
@@ -709,5 +709,15 @@ a {
         width: 1px;
       }
     }
+  }
+}
+
+.search-result {
+  background-color: #fff;
+}
+
+.dark {
+  .search-result {
+    background-color: #333538;
   }
 }
