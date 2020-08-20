@@ -874,8 +874,15 @@ export class Select extends React.Component<SelectProps, SelectState> {
           <span>Placeholder</span>
         </div>
 
+        {creatable && !disabled ? (
+          <a className={cx('Select-addBtn')} onClick={this.handleAddClick}>
+            <Icon icon="plus" className="icon" />
+            {__(createBtnLabel)}
+          </a>
+        ) : null}
+
         {filtedOptions.length ? (
-          filtedOptions.length > 100 ? ( // 超过 100 个数据才启用 virtuallist 避免滚动条问题
+          filtedOptions.length > 100 ? ( // 超过 100 行数据才启用 virtuallist 避免滚动条问题
             <VirtualList
               height={
                 filtedOptions.length > 8
@@ -894,13 +901,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
         ) : (
           <div className={cx('Select-noResult')}>{__(noResultsText)}</div>
         )}
-
-        {creatable && !disabled ? (
-          <a className={cx('Select-addBtn')} onClick={this.handleAddClick}>
-            <Icon icon="plus" className="icon" />
-            {__(createBtnLabel)}
-          </a>
-        ) : null}
       </div>
     );
 
