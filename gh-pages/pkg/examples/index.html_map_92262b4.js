@@ -5208,7 +5208,7 @@ amis.require.resourceMap({
       "type": "js"
     },
     "docs/start/getting-started.md": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/start/getting-started_f7f7daf.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/docs/start/getting-started_6d89720.js",
       "type": "js"
     },
     "docs/start/custom.md": {
