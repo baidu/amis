@@ -407,6 +407,7 @@ export const ServiceStore = iRendererStore
         }
 
         self.initializing = false;
+        return json.data;
       } catch (e) {
         const root = getRoot(self) as IRendererStore;
         if (!isAlive(root) || root.storeType !== 'RendererStore') {
