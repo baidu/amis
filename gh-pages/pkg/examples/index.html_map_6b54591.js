@@ -5666,7 +5666,7 @@ amis.require.resourceMap({
   },
   "pkg": {
     "p6": {
-      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/rest_ec2f976.js",
+      "url": "https://bce.bdstatic.com/fex/amis-gh-pages/pkg/rest_3368c0d.js",
       "type": "js"
     },
     "p2": {
