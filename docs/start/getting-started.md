@@ -104,7 +104,10 @@ class MyComponent extends React.Component<any, any> {
             // 这些是 amis 需要的一些接口实现
             // 可以参考后面的参数介绍。
 
-            jumpTo: (location: string /*目标地址*/) => {
+            jumpTo: (
+              location: string /*目标地址*/,
+              action: any /* action对象*/
+            ) => {
               // 用来实现页面跳转, actionType:link、url 都会进来。
               // 因为不清楚所在环境中是否使用了 spa 模式，所以自己实现这个方法吧。
             },
