@@ -135,8 +135,15 @@ export default class PlayGround extends React.Component {
         const link = normalizeLink(to);
         return router.isActive(link);
       },
-      jumpTo: to => {
+      jumpTo: (to, action) => {
         to = normalizeLink(to);
+
+        if (action && action.actionType === 'url') {
+          action.blank === false
+            ? (window.location.href = to)
+            : window.open(to);
+          return;
+        }
 
         if (/^https?:\/\//.test(to)) {
           window.location.replace(to);
