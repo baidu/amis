@@ -252,16 +252,15 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ### 单页跳转
 
-```schema:height="100"
+```schema:height="100" scope="body"
 {
-  "body": {
     "label": "进入介绍页",
     "type": "button",
     "level": "info",
     "actionType": "link",
     "link": "../index"
-  }
 }
+
 ```
 
 ** 属性表 **
@@ -273,15 +272,13 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ### 直接跳转
 
-```schema:height="100"
+```schema:height="100" scope="body"
 {
-  "body": {
     "label": "打开 Baidu",
     "type": "button",
     "level": "success",
     "actionType": "url",
     "url": "http://www.baidu.com/"
-  }
 }
 ```
 
@@ -297,26 +294,24 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ## 弹框
 
-```schema:height="100"
+```schema:height="100" scope="body"
 {
-  "body": {
-    "label": "Dialog Form",
-    "type": "button",
-    "level": "primary",
-    "actionType": "dialog",
-    "dialog": {
-      "title": "表单设置",
-      "body": {
-        "type": "form",
-        "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
-        "controls": [
-          {
-            "type": "text",
-            "name": "text",
-            "label": "文本"
-          }
-        ]
-      }
+  "label": "Dialog Form",
+  "type": "button",
+  "level": "primary",
+  "actionType": "dialog",
+  "dialog": {
+    "title": "表单设置",
+    "body": {
+      "type": "form",
+      "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+      "controls": [
+        {
+          "type": "text",
+          "name": "text",
+          "label": "文本"
+        }
+      ]
     }
   }
 }
@@ -332,28 +327,26 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ## 抽屉
 
-```schema:height="100"
-  {
+```schema:height="100"  scope="body"
+{
+  "label": "Drawer Form",
+  "type": "button",
+  "actionType": "drawer",
+  "drawer": {
+    "title": "表单设置",
     "body": {
-      "label": "Drawer Form",
-      "type": "button",
-      "actionType": "drawer",
-      "drawer": {
-        "title": "表单设置",
-        "body": {
-          "type": "form",
-          "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
-          "controls": [
-            {
-              "type": "text",
-              "name": "text",
-              "label": "文本"
-            }
-          ]
+      "type": "form",
+      "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+      "controls": [
+        {
+          "type": "text",
+          "name": "text",
+          "label": "文本"
         }
-      }
+      ]
     }
   }
+}
 ```
 
 ** 属性表 **
