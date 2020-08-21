@@ -7,7 +7,7 @@ npm-debug.log
 # Folders
 .idea/
 .sass-cache
-_gh_pages
+gh_pages
 _site
 node_modules
 /dist

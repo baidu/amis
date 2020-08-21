@@ -11,7 +11,8 @@
     "dev": "fis3 release -cwd ./public",
     "publish2npm": "sh publish.sh && npm publish",
     "build": "sh publish.sh",
-    "prettier": "prettier --write '{src,examples,scss}/**/*.{tsx,ts,jsx,scss}'"
+    "prettier": "prettier --write '{src,examples,scss}/**/*.{tsx,ts,jsx,scss}'",
+    "deploy-gh-page": "sh ./deploy-gh-pages.sh"
   },
   "repository": {
     "type": "git",
