@@ -33,7 +33,7 @@ export default class DocSearch extends React.Component {
   }
 
   onSearch(query) {
-    query = query.toLowerCase();
+    query = query.trim().toLowerCase();
     if (query === '') {
       this.setState({searchResults: []});
       return;
