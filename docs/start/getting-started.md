@@ -351,7 +351,7 @@ JSSDK 的代码从以下地址获取：
 <html lang="zh">
   <head>
     <meta charset="UTF-8" />
-    <title>AMIS Demo</title>
+    <title>amis demo</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta
       name="viewport"
@@ -379,7 +379,7 @@ JSSDK 的代码从以下地址获取：
         let amis = amisRequire('amis/embed');
         let amisScoped = amis.embed('#root', {
           type: 'page',
-          title: 'AMIS Demo',
+          title: 'amis demo',
           body: 'hello world'
         });
       })();
@@ -397,7 +397,7 @@ let amisScoped = amis.embed(
   '#root',
   {
     type: 'page',
-    title: 'AMIS Demo',
+    title: 'amis demo',
     body: 'This is a simple amis page.'
   },
   {
