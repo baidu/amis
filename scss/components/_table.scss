@@ -795,6 +795,9 @@
   > .#{$ns}Button,
   > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
     margin: px2rem(3px);
+  }
+
+  > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
     padding: 0;
   }
 
