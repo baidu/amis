@@ -6,7 +6,7 @@ import Axios from 'axios';
 import SearchBox from '../../src/components/SearchBox';
 
 export default class DocSearch extends React.Component {
-  docs;
+  docs = [];
   constructor(props) {
     super(props);
     this.state = {
