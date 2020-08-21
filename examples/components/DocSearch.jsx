@@ -27,6 +27,7 @@ export default class DocSearch extends React.Component {
   }
 
   onSearch(query) {
+    query = query.toLowerCase();
     if (query === '') {
       this.setState({searchResults: []});
       return;
@@ -43,7 +44,13 @@ export default class DocSearch extends React.Component {
             .substring(Math.max(0, index - 20), index + 60)
             .replace(query, `<strong>${query}</strong>`)
         });
-      } else if (doc.title.indexOf(query) !== -1) {
+      } else if (doc.title.toLowerCase().indexOf(query) !== -1) {
+        results.push({
+          title: doc.title,
+          path: doc.path,
+          abstract: ''
+        });
+      } else if (doc.path.toLowerCase().indexOf(query) !== -1) {
         results.push({
           title: doc.title,
           path: doc.path,
