@@ -714,11 +714,19 @@ a {
 
 .search-result {
   background-color: #fff;
-  top: 45px;
+  top: 50px;
   bottom: 0;
   position: fixed;
   overflow-y: scroll;
   overflow-x: hidden;
+  box-shadow: 0px 2px 7px #888888;
+  a {
+    padding: 0 5px;
+    display: block;
+  }
+  a:hover {
+    background-color: $gray200;
+  }
 }
 
 .dark {

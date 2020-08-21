@@ -68,18 +68,20 @@ export default class DocSearch extends React.Component {
   render() {
     const searchResults = this.state.searchResults;
     return (
-      <div className="p-l p-t">
+      <div className="p-r">
         <SearchBox onSearch={this.onSearch} onCancel={this.onSearchCancel} />
-        <div className="search-result">
-          {searchResults.map(item => {
-            return (
-              <a href={'/' + item.path} key={`list_${item.path}`}>
-                <h5>{item.title}</h5>
-                <p dangerouslySetInnerHTML={{__html: item.abstract}} />
-              </a>
-            );
-          })}
-        </div>
+        {searchResults.length > 0 ? (
+          <div className="search-result">
+            {searchResults.map(item => {
+              return (
+                <a href={'/' + item.path} key={`list_${item.path}`}>
+                  <h5>{item.title}</h5>
+                  <p dangerouslySetInnerHTML={{__html: item.abstract}} />
+                </a>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
     );
   }
