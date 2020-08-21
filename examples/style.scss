@@ -714,6 +714,11 @@ a {
 
 .search-result {
   background-color: #fff;
+  top: 45px;
+  bottom: 0;
+  position: fixed;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .dark {
