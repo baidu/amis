@@ -3,8 +3,8 @@ const fs = require('fs');
 const walk = require('fs-walk');
 const path = require('path');
 
-const ak = process.argv[2];
-const sk = process.argv[3];
+const ak = process.env.BOS_AK;
+const sk = process.env.BOS_SK;
 
 if (!ak || !sk) {
   console.error('ak and sk is required for deploy cdn!');
