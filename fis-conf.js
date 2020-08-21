@@ -694,6 +694,9 @@ if (fis.project.currentMedia() === 'publish') {
   ghPages.match('{*.min.js,monaco-editor/min/**.js}', {
     optimizer: null
   });
+  ghPages.match('docs.json', {
+    domain: null
+  });
 }
 
 // function docsGennerator(contents, file) {
