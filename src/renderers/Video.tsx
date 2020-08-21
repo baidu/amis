@@ -50,6 +50,10 @@ export interface FlvSourceProps {
 
 export class FlvSource extends React.Component<FlvSourceProps, any> {
   flvPlayer: any;
+  loaded = false;
+  timer: any;
+  unsubscribe: any;
+
   componentDidMount() {
     let {
       src,
@@ -62,59 +66,47 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
       setError
     } = this.props;
 
-    (require as any)(['flv.js'], (flvjs: any) => {
-      if (flvjs.isSupported()) {
-        video = video || (manager.video && manager.video.video);
-
-        let flvPlayer = flvjs.createPlayer(
-          {
-            type: 'flv',
-            url: src,
-            isLive: isLive
-          },
-          config
-        );
-        flvPlayer.attachMediaElement(video);
-        this.flvPlayer = flvPlayer;
-        let loaded = false;
-        let timer: any;
-
-        manager.subscribeToOperationStateChange((operation: any) => {
-          const type = operation.operation.action;
-
-          if (type === 'play') {
-            clearTimeout(timer);
-            if (!loaded) {
-              loaded = true;
-              flvPlayer.load();
-            }
-
-            flvPlayer.play();
-          } else if (type === 'pause') {
-            flvPlayer.pause();
-
-            if (isLive) {
-              timer = setTimeout(() => {
-                actions.seek(0);
-                flvPlayer.unload();
-                loaded = false;
-              }, 30000);
-            }
-          }
-        });
-
-        flvPlayer.on(flvjs.Events.RECOVERED_EARLY_EOF, () => {
-          setError('直播已经结束');
-        });
-        flvPlayer.on(flvjs.Events.ERROR, () => {
-          setError('视频加载失败');
-        });
-
-        if (autoPlay) {
-          setTimeout(() => actions.play(), 200);
-        }
-      }
+    this.initFlv({
+      video,
+      manager,
+      src,
+      isLive,
+      config,
+      actions,
+      setError,
+      autoPlay
     });
+  }
+
+  componentDidUpdate(prevProps: FlvSourceProps) {
+    const props = this.props;
+    let {
+      autoPlay,
+      actions,
+      src,
+      setError,
+      isLive,
+      config,
+      video,
+      manager
+    } = props;
+
+    if (src !== prevProps.src) {
+      setError('');
+      this.flvPlayer?.destroy();
+      this.unsubscribe?.();
+      this.loaded = false;
+      this.initFlv({
+        video,
+        manager,
+        src,
+        isLive,
+        config,
+        actions,
+        setError,
+        autoPlay
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -123,6 +115,70 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
       this.flvPlayer.detachMediaElement();
       this.props.setError?.('');
     }
+  }
+
+  initFlv({
+    video,
+    manager,
+    src,
+    isLive,
+    config,
+    actions,
+    setError,
+    autoPlay
+  }: any) {
+    (require as any)(['flv.js'], (flvjs: any) => {
+      video = video || (manager.video && manager.video.video);
+
+      let flvPlayer = flvjs.createPlayer(
+        {
+          type: 'flv',
+          url: src,
+          isLive: isLive
+        },
+        config
+      );
+      flvPlayer.attachMediaElement(video);
+      this.flvPlayer = flvPlayer;
+
+      this.unsubscribe = manager.subscribeToOperationStateChange(
+        (operation: any) => {
+          const type = operation.operation.action;
+
+          if (type === 'play') {
+            clearTimeout(this.timer);
+            if (!this.loaded) {
+              this.loaded = true;
+              flvPlayer.load();
+            }
+
+            flvPlayer.play();
+          } else if (type === 'pause') {
+            flvPlayer.pause();
+
+            if (isLive) {
+              this.timer = setTimeout(() => {
+                actions.seek(0);
+                flvPlayer.unload();
+                this.loaded = false;
+              }, 30000);
+            }
+          }
+        }
+      );
+
+      flvPlayer.on(flvjs.Events.RECOVERED_EARLY_EOF, () => {
+        setError('直播已经结束');
+      });
+      flvPlayer.on(flvjs.Events.ERROR, () => {
+        setError('视频加载失败');
+        flvPlayer.unload();
+      });
+
+      if (autoPlay) {
+        setTimeout(() => actions.play(), 200);
+      }
+    });
   }
 
   render() {
