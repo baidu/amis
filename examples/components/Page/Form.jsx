@@ -4,8 +4,6 @@ export default {
   body: {
     type: 'form',
     mode: 'horizontal',
-    title: '',
-    debug: true,
     api: '/api/mock2/form/saveForm',
     controls: [
       {

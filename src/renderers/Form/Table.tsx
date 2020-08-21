@@ -137,7 +137,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
   }
 
-  doAction(action: Action, ctx: RendererData, ...rest: Array<any>) {
+  async doAction(action: Action, ctx: RendererData, ...rest: Array<any>) {
     const {
       onAction,
       value,
@@ -145,14 +145,27 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       env,
       onChange,
       editable,
+      addApi,
       translate: __
     } = this.props;
 
     if (action.actionType === 'add') {
       const rows = Array.isArray(value) ? value.concat() : [];
 
-      if (action.payload) {
-        let toAdd = dataMapping(action.payload, ctx);
+      if (addApi || action.payload) {
+        let toAdd = null;
+
+        if (isEffectiveApi(addApi, ctx)) {
+          const payload = await env.fetcher(addApi, ctx);
+          if (payload && !payload.ok) {
+            env.notify('error', payload.msg || __('请求失败'));
+            return;
+          } else if (payload && payload.ok) {
+            toAdd = payload.data;
+          }
+        } else {
+          toAdd = dataMapping(action.payload, ctx);
+        }
 
         toAdd = Array.isArray(toAdd) ? toAdd : [toAdd];
 
@@ -161,7 +174,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             rows,
             item => item[valueField as string] == toAdd[valueField as string]
           );
-          if (~idx) {
+          // 应该只有配置了 valueField 的时候，才去删重复项
+          if (~idx && valueField) {
             rows.splice(idx, 1);
           }
           rows.push(toAdd);
@@ -173,7 +187,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           this.startEdit(rows.length - 1, rows[rows.length - 1], true);
         }
 
-        // todo 如果配置新增 Api 怎么办？
         return;
       } else {
         return this.addItem(rows.length - 1);
@@ -231,7 +244,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const scaffold = this.props.scaffold;
     this.setState({
       editIndex: index,
-      editting: editting || (value && value[index]) || scaffold || {},
+      editting: this.editting =
+        editting || (value && value[index]) || scaffold || {},
       isCreateMode: isCreate,
       columns:
         this.state.isCreateMode === isCreate
