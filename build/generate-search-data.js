@@ -30,9 +30,8 @@ glob('./docs/**/*.md', {}, function (er, docs) {
         .replace(/!?\[.*\]\(.*\)/g, '')
         .replace(/\n/g, '')
         .replace(/```.*```/g, '')
-
         .toLowerCase(),
-      path: doc.replace('.md', '')
+      path: doc.slice(1).replace('.md', '')
     });
   }
   fs.writeFileSync('./examples/docs.json', JSON.stringify(resultData));
