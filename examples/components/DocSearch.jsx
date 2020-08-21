@@ -29,7 +29,6 @@ export default class DocSearch extends React.Component {
     this.onOpen = this.onOpen.bind(this);
     this.onClose = this.onClose.bind(this);
     this.onEntered = this.onEntered.bind(this);
-    this.onExited = this.onExited.bind(this);
     this.clearValue = this.clearValue.bind(this);
   }
 
@@ -105,10 +104,6 @@ export default class DocSearch extends React.Component {
     this.ref.current.focus();
   }
 
-  onExited() {
-    this.setState({searchResults: []});
-  }
-
   clearValue() {
     this.setState(
       {
@@ -136,7 +131,6 @@ export default class DocSearch extends React.Component {
           closeOnOutside
           onHide={this.onClose}
           onEntered={this.onEntered}
-          onExited={this.onExited}
           show={this.state.show}
           position={'right'}
         >
