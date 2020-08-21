@@ -244,7 +244,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const scaffold = this.props.scaffold;
     this.setState({
       editIndex: index,
-      editting: editting || (value && value[index]) || scaffold || {},
+      editting: this.editting =
+        editting || (value && value[index]) || scaffold || {},
       isCreateMode: isCreate,
       columns:
         this.state.isCreateMode === isCreate
