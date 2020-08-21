@@ -35,5 +35,5 @@ glob('./docs/**/*.md', {}, function (er, docs) {
       path: doc.replace('.md', '')
     });
   }
-  fs.writeFileSync('./gh-pages/docs/docs.json', JSON.stringify(resultData));
+  fs.writeFileSync('./examples/docs.json', JSON.stringify(resultData));
 });

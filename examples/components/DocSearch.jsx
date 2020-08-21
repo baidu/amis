@@ -17,7 +17,7 @@ export default class DocSearch extends React.Component {
     this.onSearchCancel = this.onSearchCancel.bind(this);
   }
   componentDidMount() {
-    Axios.get('/docs/docs.json')
+    Axios.get(__uri('../docs.json'))
       .then(result => {
         this.docs = result.data.docs;
       })
