@@ -4,7 +4,7 @@ set -e
 rm -rf gh-pages
 
 echo "Cloning"
-git clone -b gh-pages https://github.com/baidu/amis.git gh-pages
+git clone -b gh-pages https://$GH_TOKEN@github.com/baidu/amis.git gh-pages
 
 echo "building"
 node ./build/generate-search-data.js
@@ -23,6 +23,6 @@ git config user.name "liaoxuezhi"
 git add .
 git commit --allow-empty -m "自动同步 gh-pages"
 
-git push --tags https://github.com/baidu/amis.git gh-pages
+git push --tags https://$GH_TOKEN@github.com/baidu/amis.git gh-pages
 
 echo "done"
