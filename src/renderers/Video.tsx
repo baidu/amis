@@ -111,8 +111,7 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
 
   componentWillUnmount() {
     if (this.flvPlayer) {
-      this.flvPlayer.unload();
-      this.flvPlayer.detachMediaElement();
+      this.flvPlayer.destroy();
       this.props.setError?.('');
     }
   }
@@ -201,9 +200,46 @@ export interface HlsSourceProps {
 }
 export class HlsSource extends React.Component<HlsSourceProps, any> {
   hls: any;
+  loaded = false;
+  unsubscribe: any;
   componentDidMount() {
     let {src, video, config, manager, isLive, autoPlay, actions} = this.props;
+    this.initHls({
+      video,
+      manager,
+      src,
+      autoPlay,
+      actions
+    });
+  }
 
+  componentWillUnmount() {
+    if (this.hls) {
+      this.hls.stopLoad();
+      this.hls.detachMedia();
+    }
+  }
+
+  componentDidUpdate(prevProps: FlvSourceProps) {
+    const props = this.props;
+    let {autoPlay, actions, src, isLive, config, video, manager} = props;
+
+    if (src !== prevProps.src) {
+      this.hls?.stopLoad();
+      this.hls?.detachMedia();
+      this.unsubscribe?.();
+      this.loaded = false;
+      this.initHls({
+        video,
+        manager,
+        src,
+        autoPlay,
+        actions
+      });
+    }
+  }
+
+  initHls({video, manager, src, autoPlay, actions}: any) {
     (require as any)(['hls.js'], (Hls: any) => {
       // load hls video source base on hls.js
       if (Hls.isSupported()) {
@@ -215,35 +251,28 @@ export class HlsSource extends React.Component<HlsSourceProps, any> {
         hls.attachMedia(video);
         hls.loadSource(src);
 
-        let loaded = false;
+        this.unsubscribe = manager.subscribeToOperationStateChange(
+          (operation: any) => {
+            const type = operation.operation.action;
 
-        manager.subscribeToOperationStateChange((operation: any) => {
-          const type = operation.operation.action;
+            if (type === 'play') {
+              if (!this.loaded) {
+                this.loaded = true;
+                hls.startLoad();
+              }
 
-          if (type === 'play') {
-            if (!loaded) {
-              loaded = true;
-              hls.startLoad();
+              video.play();
+            } else if (type === 'pause') {
+              video.pause();
+              hls.stopLoad();
+              this.loaded = false;
             }
-
-            video.play();
-          } else if (type === 'pause') {
-            video.pause();
-            hls.stopLoad();
-            loaded = false;
           }
-        });
+        );
 
         autoPlay && setTimeout(actions.play, 200);
       }
     });
-  }
-
-  componentWillUnmount() {
-    if (this.hls) {
-      this.hls.stopLoad();
-      this.hls.detachMedia();
-    }
   }
 
   render() {
