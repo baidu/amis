@@ -5,6 +5,12 @@ import React from 'react';
 import Axios from 'axios';
 import SearchBox from '../../src/components/SearchBox';
 
+let ContextPath = '';
+
+if (process.env.NODE_ENV === 'production') {
+  ContextPath = '/amis';
+}
+
 export default class DocSearch extends React.Component {
   docs = [];
   constructor(props) {
@@ -74,7 +80,7 @@ export default class DocSearch extends React.Component {
           <div className="search-result">
             {searchResults.map(item => {
               return (
-                <a href={'/' + item.path} key={`list_${item.path}`}>
+                <a href={ContextPath + item.path} key={`list_${item.path}`}>
                   <h5>{item.title}</h5>
                   <p dangerouslySetInnerHTML={{__html: item.abstract}} />
                 </a>
