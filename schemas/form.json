@@ -34,7 +34,7 @@
       }
     },
     "common": {
-      "description": "AMis Form 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#form",
+      "description": "amis Form 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#form",
       "dependencies": {
         "checkInterval": ["asyncApi"],
         "finishedField": ["asyncApi"]
@@ -1263,6 +1263,6 @@
       ]
     }
   },
-  "description": "AMis Form 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#form",
+  "description": "amis Form 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#form",
   "type": "object"
 }
