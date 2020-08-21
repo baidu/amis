@@ -2510,7 +2510,8 @@ export class HeadCellFilterDropDown extends React.Component<
 
   alterOptions(options: Array<any>) {
     const {data, filterable, name} = this.props;
-    const filterValue = (data && data[name]) || '';
+    const filterValue =
+      data && typeof data[name] !== 'undefined' ? data[name] : '';
 
     if (filterable.multiple) {
       options = options.map(option => ({
@@ -2591,7 +2592,7 @@ export class HeadCellFilterDropDown extends React.Component<
       <span
         className={cx(
           `${ns}TableCell-filterBtn`,
-          data[name] ? 'is-active' : ''
+          typeof data[name] !== 'undefined' ? 'is-active' : ''
         )}
       >
         <span onClick={this.open}>
