@@ -8,7 +8,7 @@ icon:
 order: 34
 ---
 
-图表渲染器，采用 echarts 渲染，配置格式跟 echarts 相同，[echarts 配置文档](http://echarts.baidu.com/option.html#title)
+图表渲染器，采用 echarts 渲染，配置格式跟 echarts 相同，[echarts 配置文档](https://echarts.apache.org/zh/option.html#title)
 
 ## 基本用法
 
