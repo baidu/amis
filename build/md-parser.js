@@ -21,7 +21,7 @@ marked.setOptions({
 // Synchronous highlighting with prism.js
 marked.setOptions({
   highlight: function (code, lang) {
-    if (lang) {
+    if (lang && prism.languages[lang]) {
       return prism.highlight(code, prism.languages[lang], lang);
     } else {
       return code;
