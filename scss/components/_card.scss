@@ -66,6 +66,21 @@
     }
   }
 
+  &-avtarText {
+    background-color: $primary;
+    color: $white;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 500px;
+    float: left;
+    margin-right: $gap-base;
+    font-size: $fontSizeXl;
+    text-transform: uppercase();
+  }
+
   &-meta {
     display: block;
     height: 100%;
@@ -116,19 +131,21 @@
 
   &-actions {
     border-top: $Card-borderWidth solid $Card-actions-borderColor;
-    display: table;
+    display: flex;
+    flex-direction: row;
     width: 100%;
+    table-layout: fixed;
 
     > a {
       background-color: transparent;
-      display: table-cell;
+      flex-grow: 1;
       border-color: $Card-actions-borderColor;
       border-style: solid;
       border-width: 0 $Card-borderWidth 0 0;
       color: $text-color;
       text-align: center;
       line-height: px2rem(40px);
-      // font-size: $fontSizeBase;
+      font-size: $Card-actions-fontSize;
 
       &:not(.is-disabled) {
         cursor: pointer;

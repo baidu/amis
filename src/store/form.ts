@@ -1,8 +1,8 @@
 import {types, getEnv, flow, getRoot, detach} from 'mobx-state-tree';
-import debounce = require('lodash/debounce');
+import debounce from 'lodash/debounce';
 import {ServiceStore} from './service';
 import {FormItemStore, IFormItemStore, SFormItemStore} from './formItem';
-import {Api, fetchOptions, Payload} from '../types';
+import {Api, ApiObject, fetchOptions, Payload} from '../types';
 import {ServerError} from '../utils/errors';
 import {
   getVariable,
@@ -12,12 +12,11 @@ import {
   createObject,
   difference,
   guid,
-  isObject,
   isEmpty,
   mapObject
 } from '../utils/helper';
 import {IComboStore} from './combo';
-import isEqual = require('lodash/isEqual');
+import isEqual from 'lodash/isEqual';
 import {IRendererStore} from '.';
 
 export const FormStore = ServiceStore.named('FormStore')
@@ -81,8 +80,11 @@ export const FormStore = ServiceStore.named('FormStore')
     }
   }))
   .actions(self => {
-    function setValues(values: object, tag?: object) {
-      self.updateData(values, tag);
+    function setValues(values: object, tag?: object, replace?: boolean) {
+      self.updateData(values, tag, replace);
+
+      // 如果数据域中有数据变化，就都reset一下，去掉之前残留的验证消息
+      self.items.forEach(item => item.reset());
 
       // 同步 options
       syncOptions();
@@ -198,7 +200,7 @@ export const FormStore = ServiceStore.named('FormStore')
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* saveRemote(
-      api: string,
+      api: Api,
       data: object,
       options: fetchOptions = {}
     ) {
@@ -227,12 +229,17 @@ export const FormStore = ServiceStore.named('FormStore')
           options
         );
 
-        // 失败也同样 merge，如果有数据的话。
+        // 失败也同样修改数据，如果有数据的话。
         if (!isEmpty(json.data) || json.ok) {
-          setValues(json.data, {
-            __saved: Date.now()
-          });
           self.updatedAt = Date.now();
+
+          setValues(
+            json.data,
+            {
+              __saved: Date.now()
+            },
+            !!(api as ApiObject).replaceData
+          );
         }
 
         if (!json.ok) {
@@ -252,7 +259,9 @@ export const FormStore = ServiceStore.named('FormStore')
             });
 
             self.updateMessage(
-              json.msg || (options && options.errorMessage) || '验证错误',
+              json.msg ||
+                (options && options.errorMessage) ||
+                self.__('验证错误'),
               true
             );
           } else {
@@ -322,16 +331,14 @@ export const FormStore = ServiceStore.named('FormStore')
         let valid = yield validate(hooks);
 
         if (!valid) {
-          (getRoot(self) as IRendererStore).notify(
-            'error',
-            failedMessage || '表单验证失败，请仔细检查'
-          );
-          throw new Error('验证失败');
+          const msg = failedMessage ?? self.__('表单验证失败，请仔细检查');
+          msg && (getRoot(self) as IRendererStore).notify('error', msg);
+          throw new Error(self.__('验证失败'));
         }
 
         if (fn) {
           const diff = difference(self.data, self.pristine);
-          yield fn(
+          const result = yield fn(
             createObject(
               createObject(self.data.__super, {
                 diff: diff,
@@ -341,12 +348,13 @@ export const FormStore = ServiceStore.named('FormStore')
               self.data
             )
           );
+          return result ?? self.data;
         }
+
+        return self.data;
       } finally {
         self.submiting = false;
       }
-
-      return self.data;
     });
 
     const validate: (
@@ -362,7 +370,8 @@ export const FormStore = ServiceStore.named('FormStore')
       for (let i = 0, len = items.length; i < len; i++) {
         let item = items[i] as IFormItemStore;
 
-        if (!item.validated || forceValidate) {
+        // 验证过，或者是 unique 的表单项，或者强制验证
+        if (!item.validated || item.unique || forceValidate) {
           yield item.validate();
         }
       }

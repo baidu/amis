@@ -347,3 +347,15 @@ svg.icon {
   position: relative;
   fill: currentColor;
 }
+
+svg.r90 {
+  transform: rotate(90deg);
+}
+
+svg.icon-success {
+  color: $success;
+}
+
+svg.icon-fail {
+  color: $danger;
+}

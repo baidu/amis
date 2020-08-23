@@ -40,6 +40,7 @@ export interface PageProps extends RendererProps {
   body?: SchemaNode;
   aside?: SchemaNode;
   // primaryField?: string, // 指定主键的字段名，默认为 `id`
+  showErrorMsg?: boolean;
   location?: Location;
   store: IServiceStore;
   messages?: {
@@ -66,7 +67,7 @@ export default class Page extends React.Component<PageProps> {
 
   static propsList: Array<string> = [
     'title',
-    'subtitle',
+    'subTitle',
     'initApi',
     'initFetchOn',
     'initFetch',
@@ -78,7 +79,8 @@ export default class Page extends React.Component<PageProps> {
     'body',
     'aside',
     'messages',
-    'style'
+    'style',
+    'showErrorMsg'
   ];
 
   componentWillMount() {
@@ -186,8 +188,6 @@ export default class Page extends React.Component<PageProps> {
   ) {
     const {env, store, messages} = this.props;
 
-    store.setCurrentAction(action);
-
     if (
       action.actionType === 'url' ||
       action.actionType === 'link' ||
@@ -198,15 +198,22 @@ export default class Page extends React.Component<PageProps> {
       }
 
       env.jumpTo(
-        filter((action.to || action.url || action.link) as string, ctx),
+        filter(
+          (action.to || action.url || action.link) as string,
+          ctx,
+          '| raw'
+        ),
         action,
         ctx
       );
     } else if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       store.openDialog(ctx);
     } else if (action.actionType === 'drawer') {
+      store.setCurrentAction(action);
       store.openDrawer(ctx);
     } else if (action.actionType === 'ajax') {
+      store.setCurrentAction(action);
       store
         .saveRemote(action.api as string, ctx, {
           successMessage:
@@ -221,8 +228,9 @@ export default class Page extends React.Component<PageProps> {
             await this.openFeedback(action.feedback, store.data);
           }
 
-          action.redirect &&
-            env.jumpTo(filter(action.redirect, store.data), action);
+          const redirect =
+            action.redirect && filter(action.redirect, store.data);
+          redirect && env.jumpTo(redirect, action);
           action.reload && this.reloadTarget(action.reload, store.data);
         })
         .catch(() => {});
@@ -230,7 +238,7 @@ export default class Page extends React.Component<PageProps> {
       action.actionType === 'copy' &&
       (action.content || action.copy)
     ) {
-      env.copy && env.copy(filter(action.content || action.copy, ctx));
+      env.copy && env.copy(filter(action.content || action.copy, ctx, '| raw'));
     }
   }
 
@@ -424,7 +432,8 @@ export default class Page extends React.Component<PageProps> {
       aside,
       asideClassName,
       classnames: cx,
-      header
+      header,
+      showErrorMsg
     } = this.props;
 
     const subProps = {
@@ -460,7 +469,7 @@ export default class Page extends React.Component<PageProps> {
             <div className={cx(`Page-body`, bodyClassName)}>
               <Spinner size="lg" overlay key="info" show={store.loading} />
 
-              {store.error ? (
+              {store.error && showErrorMsg !== false ? (
                 <Alert
                   level="danger"
                   showCloseButton

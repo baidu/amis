@@ -5,18 +5,19 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import PropTypes from 'prop-types';
-import isPlainObject = require('lodash/isPlainObject');
+import isPlainObject from 'lodash/isPlainObject';
 import {RendererProps} from '../factory';
 import cx from 'classnames';
-import hoistNonReactStatic = require('hoist-non-react-statics');
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import onClickOutside from 'react-onclickoutside';
 import {Action} from '../types';
 import keycode from 'keycode';
-import matches = require('dom-helpers/query/matches');
+import matches from 'dom-helpers/query/matches';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
+import {Icon} from '../components/icons';
 
 export interface QuickEditConfig {}
 
@@ -304,7 +305,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
     }
 
     buildSchema() {
-      const {quickEdit, name, label} = this.props;
+      const {quickEdit, name, label, translate: __} = this.props;
 
       let schema;
 
@@ -334,11 +335,8 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
           schema = {
             title: '',
             autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
-            mode:
-              (quickEdit as QuickEditConfig).mode === 'inline'
-                ? 'inline'
-                : 'normal',
             ...quickEdit,
+            mode: 'noraml',
             type: 'form'
           };
         } else {
@@ -347,15 +345,13 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
             className: quickEdit.formClassName,
             type: 'form',
             autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
-            mode:
-              (quickEdit as QuickEditConfig).mode === 'inline'
-                ? 'inline'
-                : 'normal',
+            mode: 'normal',
             controls: [
               {
                 type: quickEdit.type || 'text',
                 name: quickEdit.name || name,
-                ...quickEdit
+                ...quickEdit,
+                mode: undefined
               }
             ]
           };
@@ -372,12 +368,12 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
               : [
                   {
                     type: 'button',
-                    label: '取消',
+                    label: __('取消'),
                     actionType: 'cancel'
                   },
 
                   {
-                    label: '确认',
+                    label: __('确认'),
                     type: 'submit',
                     primary: true
                   }
@@ -491,11 +487,13 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
             onKeyUp={this.handleKeyUp}
           >
             <Component {...this.props} wrapperComponent={''} noHoc />
-            <i
+            <span
               key="edit-btn"
-              className={cx('Field-quickEditBtn fa fa-edit')}
+              className={cx('Field-quickEditBtn')}
               onClick={this.openQuickEdit}
-            />
+            >
+              <Icon icon="pencil" className="icon" />
+            </span>
             {this.state.isOpened ? this.renderPopOver() : null}
           </Component>
         );

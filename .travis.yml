@@ -1,0 +1,4 @@
+language: node_js
+node_js:
+  - 10
+script: sh deploy-gh-pages.sh

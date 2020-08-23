@@ -24,7 +24,7 @@ export interface DrawerProps {
   bodyClassName?: string;
   size: any;
   overlay: boolean;
-  onHide: () => void;
+  onHide: (e: any) => void;
   closeOnEsc?: boolean;
   container: any;
   show?: boolean;
@@ -35,8 +35,6 @@ export interface DrawerProps {
   classnames: ClassNamesFn;
   onExited?: () => void;
   onEntered?: () => void;
-  disableOnClickOutside: () => void;
-  enableOnClickOutside: () => void;
 }
 export interface DrawerState {}
 const fadeStyles: {
@@ -48,33 +46,38 @@ const fadeStyles: {
 export class Drawer extends React.Component<DrawerProps, DrawerState> {
   static defaultProps: Pick<
     DrawerProps,
-    | 'container'
-    | 'position'
-    | 'size'
-    | 'overlay'
-    | 'disableOnClickOutside'
-    | 'enableOnClickOutside'
+    'container' | 'position' | 'size' | 'overlay'
   > = {
     container: document.body,
     position: 'left',
     size: 'md',
-    overlay: true,
-    disableOnClickOutside: noop,
-    enableOnClickOutside: noop
+    overlay: true
   };
 
-  contentDom: any;
+  modalDom: HTMLElement;
+  contentDom: HTMLElement;
+  isRootClosed = false;
 
   componentDidMount() {
     if (this.props.show) {
       this.handleEntered();
     }
+
+    document.body.addEventListener('click', this.handleRootClickCapture, true);
+    document.body.addEventListener('click', this.handleRootClick);
   }
 
   componentWillUnmount() {
     if (this.props.show) {
       this.handleExited();
     }
+
+    document.body.removeEventListener('click', this.handleRootClick);
+    document.body.removeEventListener(
+      'click',
+      this.handleRootClickCapture,
+      true
+    );
   }
 
   contentRef = (ref: any) => (this.contentDom = ref);
@@ -94,6 +97,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   };
 
   modalRef = (ref: any) => {
+    this.modalDom = ref;
     if (ref) {
       addModal(this);
       (ref as HTMLElement).classList.add(
@@ -105,12 +109,28 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   };
 
   @autobind
-  handleWidgetClick(e: React.MouseEvent) {
-    const {classPrefix: ns, closeOnOutside, onHide} = this.props;
-    if ((e.target as HTMLElement).closest(`.${ns}Drawer-content`)) {
-      return;
-    }
-    closeOnOutside && onHide && onHide();
+  handleRootClickCapture(e: MouseEvent) {
+    const target = e.target as HTMLElement;
+    const {closeOnOutside, classPrefix: ns} = this.props;
+    const isLeftButton =
+      (e.button === 1 && window.event !== null) || e.button === 0;
+
+    this.isRootClosed = !!(
+      isLeftButton &&
+      closeOnOutside &&
+      target &&
+      this.modalDom &&
+      ((!this.modalDom.contains(target) && !target.closest('[role=dialog]')) ||
+        (target.matches(`.${ns}Drawer-overlay`) &&
+          target.parentElement === this.modalDom))
+    ); // 干脆过滤掉来自弹框里面的点击
+  }
+
+  @autobind
+  handleRootClick(e: MouseEvent) {
+    const {onHide} = this.props;
+
+    this.isRootClosed && !e.defaultPrevented && onHide(e);
   }
 
   render() {
@@ -159,7 +179,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                   },
                   className
                 )}
-                onClick={this.handleWidgetClick} // 其实不需要插件，直接写逻辑吧
+                // onClick={this.handleWidgetClick} // 其实不需要插件，直接写逻辑吧
               >
                 {overlay ? (
                   <div

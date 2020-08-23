@@ -115,19 +115,10 @@ exports[`Renderer:number 1`] = `
             <a
               class="a-InputRange-clear is-active"
             >
-              <svg
-                class="icon"
-                p-id="1463"
-                version="1.1"
-                viewBox="0 0 1024 1024"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M967.81435 106.836237 917.16274 56.18565 512 461.34839 106.836237 56.18565 56.184627 106.836237 461.34839 512 56.184627 917.163763 106.836237 967.815373 512 562.65161 917.16274 967.815373 967.81435 917.163763 562.650587 512Z"
-                  data-spm-anchor-id="a313x.7781069.0.i0"
-                  p-id="1464"
-                />
-              </svg>
+              <icon-mock
+                classname="icon"
+                icon="close"
+              />
             </a>
           </div>
         </div>
@@ -137,22 +128,40 @@ exports[`Renderer:number 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -307,19 +316,10 @@ exports[`Renderer:range:multiple 1`] = `
             <a
               class="a-InputRange-clear is-active"
             >
-              <svg
-                class="icon"
-                p-id="1463"
-                version="1.1"
-                viewBox="0 0 1024 1024"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M967.81435 106.836237 917.16274 56.18565 512 461.34839 106.836237 56.18565 56.184627 106.836237 461.34839 512 56.184627 917.163763 106.836237 967.815373 512 562.65161 917.16274 967.815373 967.81435 917.163763 562.650587 512Z"
-                  data-spm-anchor-id="a313x.7781069.0.i0"
-                  p-id="1464"
-                />
-              </svg>
+              <icon-mock
+                classname="icon"
+                icon="close"
+              />
             </a>
           </div>
         </div>
@@ -329,22 +329,40 @@ exports[`Renderer:range:multiple 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>

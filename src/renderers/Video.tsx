@@ -2,15 +2,16 @@
  * @file video
  * @author fex
  */
-/* eslint fecs-indent: [0, "space", 2, 2] */
 
 import React from 'react';
+
 import {
   Player,
   Shortcut,
   BigPlayButton,
   ControlBar,
   PlaybackRateMenuButton
+  // @ts-ignore
 } from 'video-react';
 import {padArr} from '../utils/helper';
 import cx from 'classnames';
@@ -21,14 +22,16 @@ import {filter} from '../utils/tpl';
 import 'video-react/dist/video-react.css';
 
 const str2seconds: (str: string) => number = str =>
-  str
-    .split(':')
-    .reverse()
-    .reduce(
-      (seconds, value, index) =>
-        seconds + (parseInt(value, 10) || 0) * Math.pow(60, index),
-      0
-    );
+  str.indexOf(':')
+    ? str
+        .split(':')
+        .reverse()
+        .reduce(
+          (seconds, value, index) =>
+            seconds + (parseInt(value, 10) || 0) * Math.pow(60, index),
+          0
+        )
+    : parseInt(str, 10);
 
 export interface FlvSourceProps {
   src?: string;
@@ -40,40 +43,111 @@ export interface FlvSourceProps {
   autoPlay?: boolean;
   actions?: any;
   order?: number;
+  setError: (error: string) => void;
 }
 
 // let currentPlaying: any = null;
 
 export class FlvSource extends React.Component<FlvSourceProps, any> {
   flvPlayer: any;
+  loaded = false;
+  timer: any;
+  unsubscribe: any;
+
   componentDidMount() {
-    let {src, video, config, manager, isLive, autoPlay, actions} = this.props;
+    let {
+      src,
+      video,
+      config,
+      manager,
+      isLive,
+      autoPlay,
+      actions,
+      setError
+    } = this.props;
 
+    this.initFlv({
+      video,
+      manager,
+      src,
+      isLive,
+      config,
+      actions,
+      setError,
+      autoPlay
+    });
+  }
+
+  componentDidUpdate(prevProps: FlvSourceProps) {
+    const props = this.props;
+    let {
+      autoPlay,
+      actions,
+      src,
+      setError,
+      isLive,
+      config,
+      video,
+      manager
+    } = props;
+
+    if (src !== prevProps.src) {
+      setError('');
+      this.flvPlayer?.destroy();
+      this.unsubscribe?.();
+      this.loaded = false;
+      this.initFlv({
+        video,
+        manager,
+        src,
+        isLive,
+        config,
+        actions,
+        setError,
+        autoPlay
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.flvPlayer) {
+      this.flvPlayer.destroy();
+      this.props.setError?.('');
+    }
+  }
+
+  initFlv({
+    video,
+    manager,
+    src,
+    isLive,
+    config,
+    actions,
+    setError,
+    autoPlay
+  }: any) {
     (require as any)(['flv.js'], (flvjs: any) => {
-      // load hls video source base on hls.js
-      if (flvjs.isSupported()) {
-        video = video || (manager.video && manager.video.video);
+      video = video || (manager.video && manager.video.video);
 
-        let flvPlayer = flvjs.createPlayer(
-          {
-            type: 'flv',
-            url: src,
-            isLive: isLive
-          },
-          config
-        );
-        flvPlayer.attachMediaElement(video);
-        this.flvPlayer = flvPlayer;
-        let loaded = false;
-        let timer: any;
+      let flvPlayer = flvjs.createPlayer(
+        {
+          type: 'flv',
+          url: src,
+          isLive: isLive
+        },
+        config
+      );
+      flvPlayer.attachMediaElement(video);
+      this.flvPlayer = flvPlayer;
 
-        manager.subscribeToOperationStateChange((operation: any) => {
+      this.unsubscribe = manager.subscribeToOperationStateChange(
+        (operation: any) => {
           const type = operation.operation.action;
 
           if (type === 'play') {
-            clearTimeout(timer);
-            if (!loaded) {
-              loaded = true;
+            clearTimeout(this.timer);
+            if (!this.loaded) {
+              this.loaded = true;
               flvPlayer.load();
             }
 
@@ -82,34 +156,28 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
             flvPlayer.pause();
 
             if (isLive) {
-              timer = setTimeout(() => {
+              this.timer = setTimeout(() => {
                 actions.seek(0);
                 flvPlayer.unload();
-                loaded = false;
+                this.loaded = false;
               }, 30000);
             }
           }
-        });
-
-        flvPlayer.on(flvjs.Events.RECOVERED_EARLY_EOF, () => {
-          alert('直播已经结束');
-        });
-        flvPlayer.on(flvjs.Events.ERROR, () => {
-          alert('视频加载失败');
-        });
-
-        if (autoPlay) {
-          setTimeout(() => actions.play(), 200);
         }
+      );
+
+      flvPlayer.on(flvjs.Events.RECOVERED_EARLY_EOF, () => {
+        setError('直播已经结束');
+      });
+      flvPlayer.on(flvjs.Events.ERROR, () => {
+        setError('视频加载失败');
+        flvPlayer.unload();
+      });
+
+      if (autoPlay) {
+        setTimeout(() => actions.play(), 200);
       }
     });
-  }
-
-  componentWillUnmount() {
-    if (this.flvPlayer) {
-      this.flvPlayer.unload();
-      this.flvPlayer.detachMediaElement();
-    }
   }
 
   render() {
@@ -132,9 +200,46 @@ export interface HlsSourceProps {
 }
 export class HlsSource extends React.Component<HlsSourceProps, any> {
   hls: any;
+  loaded = false;
+  unsubscribe: any;
   componentDidMount() {
     let {src, video, config, manager, isLive, autoPlay, actions} = this.props;
+    this.initHls({
+      video,
+      manager,
+      src,
+      autoPlay,
+      actions
+    });
+  }
 
+  componentWillUnmount() {
+    if (this.hls) {
+      this.hls.stopLoad();
+      this.hls.detachMedia();
+    }
+  }
+
+  componentDidUpdate(prevProps: FlvSourceProps) {
+    const props = this.props;
+    let {autoPlay, actions, src, isLive, config, video, manager} = props;
+
+    if (src !== prevProps.src) {
+      this.hls?.stopLoad();
+      this.hls?.detachMedia();
+      this.unsubscribe?.();
+      this.loaded = false;
+      this.initHls({
+        video,
+        manager,
+        src,
+        autoPlay,
+        actions
+      });
+    }
+  }
+
+  initHls({video, manager, src, autoPlay, actions}: any) {
     (require as any)(['hls.js'], (Hls: any) => {
       // load hls video source base on hls.js
       if (Hls.isSupported()) {
@@ -146,35 +251,28 @@ export class HlsSource extends React.Component<HlsSourceProps, any> {
         hls.attachMedia(video);
         hls.loadSource(src);
 
-        let loaded = false;
+        this.unsubscribe = manager.subscribeToOperationStateChange(
+          (operation: any) => {
+            const type = operation.operation.action;
 
-        manager.subscribeToOperationStateChange((operation: any) => {
-          const type = operation.operation.action;
+            if (type === 'play') {
+              if (!this.loaded) {
+                this.loaded = true;
+                hls.startLoad();
+              }
 
-          if (type === 'play') {
-            if (!loaded) {
-              loaded = true;
-              hls.startLoad();
+              video.play();
+            } else if (type === 'pause') {
+              video.pause();
+              hls.stopLoad();
+              this.loaded = false;
             }
-
-            video.play();
-          } else if (type === 'pause') {
-            video.pause();
-            hls.stopLoad();
-            loaded = false;
           }
-        });
+        );
 
         autoPlay && setTimeout(actions.play, 200);
       }
     });
-  }
-
-  componentWillUnmount() {
-    if (this.hls) {
-      this.hls.stopLoad();
-      this.hls.detachMedia();
-    }
   }
 
   render() {
@@ -192,12 +290,14 @@ export interface VideoProps extends RendererProps {
   columnsCount?: number;
   isLive?: boolean;
   jumpFrame?: boolean;
+  jumpBufferDuration?: number;
   src?: string;
 }
 
 export interface VideoState {
   posterInfo?: any;
   videoState?: any;
+  error?: string;
 }
 
 export default class Video extends React.Component<VideoProps, VideoState> {
@@ -226,6 +326,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     this.playerRef = this.playerRef.bind(this);
     this.onImageLoaded = this.onImageLoaded.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.setError = this.setError.bind(this);
   }
 
   onImageLoaded(e: Event) {
@@ -278,17 +379,15 @@ export default class Video extends React.Component<VideoProps, VideoState> {
         return;
       }
 
+      const jumpBufferDuration = this.props.jumpBufferDuration || 0;
       let index = 0;
       const times = this.times;
       const len = times.length;
-      while (index < len) {
+      while (index < len - 1) {
         if (
-          times[index - 1] &&
-          state.currentTime <=
-            times[index + 1] - (times[index + 1] - times[index]) / 2
+          times[index + 1] &&
+          state.currentTime < times[index + 1] - jumpBufferDuration
         ) {
-          break;
-        } else if (state.currentTime <= times[index]) {
           break;
         }
 
@@ -315,10 +414,9 @@ export default class Video extends React.Component<VideoProps, VideoState> {
       const rect = item.getBoundingClientRect();
       this.cursorDom.setAttribute(
         'style',
-        `width: ${rect.width - 4}px; height: ${rect.height -
-          4}px; left: ${rect.left + 2 - frameRect.left}px; top: ${rect.top +
-          2 -
-          frameRect.top}px;`
+        `width: ${rect.width - 4}px; height: ${rect.height - 4}px; left: ${
+          rect.left + 2 - frameRect.left
+        }px; top: ${rect.top + 2 - frameRect.top}px;`
       );
     }
   }
@@ -327,16 +425,27 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     if (!this.times || !this.player || !this.props.jumpFrame) {
       return;
     }
+    const jumpBufferDuration = this.props.jumpBufferDuration || 0;
     const times = this.times;
     const player = this.player;
 
-    player.seek(times[index] - (times[index] - (times[index - 1] || 0)) / 2);
+    player.seek(times[index] - jumpBufferDuration);
     player.play();
   }
 
   onClick(e: Event) {
     // 避免把所在 form 给提交了。
     e.preventDefault();
+  }
+
+  setError(error?: string) {
+    const player = this.player;
+
+    this.setState({
+      error: error
+    });
+
+    player?.pause();
   }
 
   renderFrames() {
@@ -360,10 +469,6 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     const items: Array<object> = [];
     const times: Array<number> = (this.times = []);
     Object.keys(frames).forEach(time => {
-      if (!frames[time]) {
-        return;
-      }
-
       times.push(str2seconds(time));
 
       items.push({
@@ -400,19 +505,23 @@ export default class Video extends React.Component<VideoProps, VideoState> {
                       this.jumpToIndex(i * (columnsCount as number) + key)
                     }
                   >
-                    <img className="w-full" alt="poster" src={item.src} />
-                    <div className={`${ns}Text--center`}>{item.time}</div>
+                    {item.src ? (
+                      <img className="w-full" alt="poster" src={item.src} />
+                    ) : null}
+                    <div className={`${ns}Video-frameLabel`}>{item.time}</div>
                   </div>
                 ))}
 
-                {/* 补充空白 */ restCount
-                  ? blankArray.map((_, index) => (
-                      <div
-                        className={`${ns}Hbox-col Wrapper--xxs`}
-                        key={`blank_${index}`}
-                      />
-                    ))
-                  : null}
+                {
+                  /* 补充空白 */ restCount
+                    ? blankArray.map((_, index) => (
+                        <div
+                          className={`${ns}Hbox-col Wrapper--xxs`}
+                          key={`blank_${index}`}
+                        />
+                      ))
+                    : null
+                }
               </div>
             </div>
           );
@@ -439,7 +548,8 @@ export default class Video extends React.Component<VideoProps, VideoState> {
       playerClassName,
       classPrefix: ns,
       aspectRatio,
-      rates
+      rates,
+      classnames: cx
     } = this.props;
 
     let source =
@@ -453,6 +563,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
       videoState.duration < minVideoDuration;
     let src = filter(source, data, '| raw');
     let sourceNode;
+    const error = this.state.error;
 
     if (
       (src && /\.flv(?:$|\?)/.test(src) && isLive) ||
@@ -464,6 +575,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
           order={999.0}
           isLive={isLive}
           src={src}
+          setError={this.setError}
         />
       );
     } else if (
@@ -476,7 +588,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     }
 
     return (
-      <div className={playerClassName}>
+      <div className={cx('Video-player', playerClassName)}>
         <Player
           ref={this.playerRef}
           poster={filter(poster, data, '| raw')}
@@ -495,6 +607,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
           <Shortcut disabled />
         </Player>
 
+        {error ? <div className={cx('Video-error')}>{error}</div> : null}
         {highlight ? (
           <p className={`m-t-xs ${ns}Text--danger`}>
             视频时长小于 {minVideoDuration} 秒

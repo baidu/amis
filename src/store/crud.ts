@@ -1,4 +1,11 @@
-import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree';
+import {
+  types,
+  getParent,
+  flow,
+  getEnv,
+  getRoot,
+  isAlive
+} from 'mobx-state-tree';
 import {IRendererStore} from './index';
 import {ServiceStore} from './service';
 import {
@@ -9,9 +16,9 @@ import {
   isEmpty,
   qsstringify
 } from '../utils/helper';
-import {Api, Payload, fetchOptions, Action} from '../types';
+import {Api, Payload, fetchOptions, Action, ApiObject} from '../types';
 import qs from 'qs';
-import pick = require('lodash/pick');
+import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 class ServerError extends Error {
@@ -101,7 +108,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
       updater &&
         isObjectShallowModified(originQuery, self.query, false) &&
-        setTimeout(() => updater(`?${qsstringify(self.query)}`), 4);
+        setTimeout(updater.bind(null, `?${qsstringify(self.query)}`), 4);
     }
 
     const fetchInitData: (
@@ -116,7 +123,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         syncResponse2Query?: boolean;
       }
     ) => Promise<any> = flow(function* getInitData(
-      api: string,
+      api: Api,
       data: object,
       options: fetchOptions & {
         forceReload?: boolean;
@@ -128,11 +135,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       } = {}
     ) {
       try {
-        if (
-          !options.forceReload &&
-          options.loadDataOnce &&
-          self.total
-        ) {
+        if (!options.forceReload && options.loadDataOnce && self.total) {
           let items = options.source
             ? resolveVariableAndFilter(
                 options.source,
@@ -193,7 +196,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg || options.errorMessage || '获取失败',
+            json.msg || options.errorMessage || self.__('获取失败'),
             true
           );
           (getRoot(self) as IRendererStore).notify(
@@ -208,7 +211,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           );
         } else {
           if (!json.data) {
-            throw new Error('返回数据格式不正确，payload.data 没有数据');
+            throw new Error(
+              self.__('返回数据格式不正确，payload.data 没有数据')
+            );
           }
 
           self.updatedAt = Date.now();
@@ -243,7 +248,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
           if (!Array.isArray(items)) {
             throw new Error(
-              '返回数据格式不正确，payload.data.items 必须是数组'
+              self.__('返回数据格式不正确，payload.data.items 必须是数组')
             );
           } else {
             // 确保成员是对象。
@@ -262,7 +267,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           const data = {
-            ...self.pristine,
+            ...((api as ApiObject).replaceData ? {} : self.pristine),
             items: rowsData,
             count: count,
             total: total,
@@ -285,7 +290,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           self.items.replace(rowsData);
-          self.reInitData(data);
+          self.reInitData(data, !!(api as ApiObject).replaceData);
           options.syncResponse2Query !== false &&
             updateQuery(
               pick(rest, Object.keys(self.query)),
@@ -317,7 +322,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       } catch (e) {
         const root = getRoot(self) as IRendererStore;
 
-        if (root.storeType !== 'RendererStore') {
+        if (!isAlive(root) || root.storeType !== 'RendererStore') {
           // 已经销毁了，不管这些数据了。
           return;
         }
@@ -330,6 +335,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         console.error(e.stack);
         root.notify('error', e.message);
+        return;
       }
     });
 
@@ -347,7 +353,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* saveRemote(
-      api: string,
+      api: Api,
       data: object,
       options: fetchOptions = {}
     ) {
@@ -366,15 +372,19 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         self.markSaving(false);
 
         if (!isEmpty(json.data) || json.ok) {
-          self.updateData(json.data, {
-            __saved: Date.now()
-          });
+          self.updateData(
+            json.data,
+            {
+              __saved: Date.now()
+            },
+            !!api && (api as ApiObject).replaceData
+          );
           self.updatedAt = Date.now();
         }
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg || options.errorMessage || '保存失败',
+            json.msg || options.errorMessage || self.__('保存失败'),
             true
           );
           (getRoot(self) as IRendererStore).notify(
@@ -425,7 +435,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       self.hasInnerModalOpen = value;
     };
 
-    const initFromScope = function(scope: any, source: string) {
+    const initFromScope = function (scope: any, source: string) {
       let rowsData: Array<any> = resolveVariableAndFilter(
         source,
         scope,

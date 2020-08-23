@@ -39,7 +39,7 @@ export default {
         {
           name: 'url',
           type: 'url',
-          label: 'Url'
+          label: 'URL'
         },
         {
           type: 'divider'

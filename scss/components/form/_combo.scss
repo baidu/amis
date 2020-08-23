@@ -1,4 +1,9 @@
 .#{$ns}Combo {
+  &-placeholder {
+    color: $text--muted-color;
+    padding-top: $Form-label-paddingTop;
+  }
+
   &-toolbarBtn {
     line-height: $Combo-toolbarBtn-lineHeight;
     height: $Combo-toolbarBtn-height;
@@ -11,7 +16,17 @@
     }
   }
 
+  &-setNullBtn {
+    margin-top: $gap-xs;
+    display: inline-block;
+  }
+
   &-addBtn {
+    > svg {
+      width: $Combo-addBtn-fontSize;
+      height: $Combo-addBtn-fontSize;
+    }
+
     font-size: $Combo-addBtn-fontSize;
 
     @include button-size(
@@ -54,7 +69,24 @@
   }
 
   &-item {
-    background: $white;
+    background: $Page-main-bg;
+  }
+
+  &-itemDrager {
+    cursor: move;
+
+    > a {
+      color: $icon-color;
+
+      &:hover {
+        color: $icon-onHover-color;
+      }
+    }
+
+    svg {
+      width: px2rem(16px);
+      height: px2rem(16px);
+    }
   }
 
   &--hor {
@@ -93,13 +125,31 @@
         opacity: $Button-onDisabled-opacity;
       }
     }
+
+    &.is-draggable .#{$ns}Combo-toolbar {
+      padding-left: px2rem(24px);
+    }
+
+    .#{$ns}Combo-itemDrager {
+      padding: $Combo--horizontal-dragger-top px2rem(6px) 0 0;
+    }
   }
+
+  // &--ver {
+  //   .#{$ns}Combo-item {
+  //     background: $white;
+  //   }
+  // }
 
   &--ver:not(&--noBorder) {
     @include clearfix();
     > .#{$ns}Combo-items {
       margin: (-$Combo--vertical-item-gap * 2) (-$Combo--vertical-item-gap * 2)
         0 (-$Combo--vertical-item-gap * 2);
+
+      > .#{$ns}Combo-placeholder {
+        margin: $Combo--vertical-item-gap * 2;
+      }
     }
 
     .#{$ns}Combo-itemTag {
@@ -169,6 +219,21 @@
         opacity: 1;
       }
     }
+
+    > .#{$ns}Combo-items > .#{$ns}Combo-item > .#{$ns}Combo-itemDrager {
+      position: absolute;
+      top: $Combo--horizontal-dragger-top;
+      left: px2rem(-30px);
+    }
+
+    &.is-draggable {
+      > .#{$ns}Combo-items > .#{$ns}Combo-item {
+        margin-left: px2rem(35px);
+      }
+      > .#{$ns}Combo-toolbar {
+        padding-left: px2rem(25px);
+      }
+    }
   }
 
   &-item--dragging {
@@ -190,6 +255,14 @@
   }
 }
 
+.#{$ns}ComboTabs > .#{$ns}Tabs-links {
+  @include clearfix();
+}
+
+.#{$ns}ComboTabs-addLink {
+  float: right;
+}
+
 .#{$ns}Combo-dragableTip {
   color: $text--muted-color;
   font-size: $fontSizeSm;
@@ -208,6 +281,7 @@
 
   .#{$ns}Combo--ver .#{$ns}Combo-item {
     display: inline-block;
+    min-width: $Form-control-widthBase;
   }
 }
 

@@ -63,8 +63,16 @@
   width: $Toast-width;
   pointer-events: auto;
   margin-bottom: $gap-xs;
-  padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY
-    ($Toast-paddingX + $Toast-paddingL);
+
+  @if $Toast-icon-fillHeight {
+    padding: $Toast-paddingY
+      $Toast-paddingX
+      $Toast-paddingY
+      ($Toast-paddingX + $Toast-paddingL);
+  } @else {
+    padding: $Toast-paddingY $Toast-paddingX;
+  }
+
   box-shadow: $Toast-box-shadow;
   border-radius: $Toast-borderRadius;
   border: $Toast-border-width solid;
@@ -94,34 +102,52 @@
     position: absolute;
     top: $gap-xs;
     right: $gap-sm;
-    color: $white;
+    color: $Toast-close-color;
     line-height: 1;
     opacity: 0.8;
 
     &:hover {
-      color: $white;
+      color: $Toast-close--onHover-color;
       opacity: 1;
     }
   }
 
   &-title {
-    display: $Toast-display;
+    display: $Toast-title-display;
+    margin-right: $gap-base;
     font-size: $fontSizeMd;
+    vertical-align: middle;
   }
 
   &-body {
-    display: $Toast-display;
+    display: $Toast-title-display;
+    vertical-align: middle;
   }
 
-  &::before {
-    display: inline-block;
-    font-family: $Toast-iconVendor;
-    font-size: $Toast-icon-fontSize;
+  &-icon {
+    display: inline-flex;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
-    position: absolute;
-    left: $Toast-paddingX;
-    top: $Toast-paddingY;
+    vertical-align: middle;
+
+    @if $Toast-icon-fillHeight {
+      position: absolute;
+      left: $Toast-paddingX;
+      top: $Toast-paddingY;
+      width: $Toast-paddingL - $Toast-paddingX;
+      height: $Toast-paddingL - $Toast-paddingX;
+      align-items: center;
+      justify-content: center;
+    } @else {
+      margin-right: $gap-xs;
+    }
+
+    > svg {
+      top: 0;
+      width: $Toast-icon-width;
+      height: $Toast-icon-height;
+      color: inherit;
+    }
   }
 
   // colors
@@ -129,42 +155,24 @@
     color: $Toast--danger-color;
     border-color: $Toast--danger-borderColor;
     background-color: $Toast--danger-bgColor;
-
-    &::before {
-      content: $Toast--error-icon;
-    }
   }
 
   &--warning {
     color: $Toast--warning-color;
     border-color: $Toast--warning-borderColor;
     background-color: $Toast--warning-bgColor;
-
-    &::before {
-      content: $Toast--warning-icon;
-    }
   }
 
   &--info {
     color: $Toast--info-color;
     border-color: $Toast--info-borderColor;
     background-color: $Toast--info-bgColor;
-    padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY
-      ($Toast-paddingX + $Toast--info-paddingL);
-
-    &::before {
-      content: $Toast--info-icon;
-    }
   }
 
   &--success {
     color: $Toast--success-color;
     border-color: $Toast--success-borderColor;
     background-color: $Toast--success-bgColor;
-
-    &::before {
-      content: $Toast--success-icon;
-    }
   }
 
   // positions

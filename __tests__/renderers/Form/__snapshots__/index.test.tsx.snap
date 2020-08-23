@@ -46,6 +46,7 @@ exports[`Renderer:Form 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="123"
               />
@@ -72,22 +73,40 @@ exports[`Renderer:Form 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -136,6 +155,12 @@ exports[`Renderer:Form initApi 1`] = `
         novalidate=""
       >
         <div
+          class="a-Spinner-overlay"
+        />
+        <div
+          class="a-Spinner a-Spinner--overlay"
+        />
+        <div
           class="a-Form-item a-Form-item--normal"
         >
           <label
@@ -155,6 +180,7 @@ exports[`Renderer:Form initApi 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="1"
               />
@@ -181,6 +207,7 @@ exports[`Renderer:Form initApi 1`] = `
                 autocomplete="off"
                 name="b"
                 placeholder=""
+                size="10"
                 type="text"
                 value="2"
               />
@@ -207,22 +234,40 @@ exports[`Renderer:Form initApi 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -255,6 +300,12 @@ exports[`Renderer:Form sendOn:true 1`] = `
         novalidate=""
       >
         <div
+          class="a-Spinner-overlay"
+        />
+        <div
+          class="a-Spinner a-Spinner--overlay"
+        />
+        <div
           class="a-Form-item a-Form-item--normal"
         >
           <label
@@ -274,6 +325,7 @@ exports[`Renderer:Form sendOn:true 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="1"
               />
@@ -300,6 +352,7 @@ exports[`Renderer:Form sendOn:true 1`] = `
                 autocomplete="off"
                 name="b"
                 placeholder=""
+                size="10"
                 type="text"
                 value="2"
               />
@@ -326,22 +379,40 @@ exports[`Renderer:Form sendOn:true 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -393,6 +464,7 @@ exports[`Renderer:Form:onValidate 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="1"
               />
@@ -426,6 +498,7 @@ exports[`Renderer:Form:onValidate 1`] = `
                 autocomplete="off"
                 name="b"
                 placeholder=""
+                size="10"
                 type="text"
                 value="2"
               />
@@ -462,22 +535,40 @@ exports[`Renderer:Form:onValidate 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -536,6 +627,7 @@ exports[`Renderer:Form:onValidate 3`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="1"
               />
@@ -562,6 +654,7 @@ exports[`Renderer:Form:onValidate 3`] = `
                 autocomplete="off"
                 name="b"
                 placeholder=""
+                size="10"
                 type="text"
                 value="2"
               />
@@ -588,22 +681,40 @@ exports[`Renderer:Form:onValidate 3`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -643,6 +754,12 @@ exports[`Renderer:Form:remoteValidate 1`] = `
         novalidate=""
       >
         <div
+          class="a-Spinner-overlay"
+        />
+        <div
+          class="a-Spinner a-Spinner--overlay"
+        />
+        <div
           class="a-Form-item a-Form-item--normal is-error"
         >
           <label
@@ -662,6 +779,7 @@ exports[`Renderer:Form:remoteValidate 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value=""
               />
@@ -695,22 +813,40 @@ exports[`Renderer:Form:remoteValidate 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -767,6 +903,7 @@ exports[`Renderer:Form:valdiate 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value=""
               />
@@ -801,22 +938,40 @@ exports[`Renderer:Form:valdiate 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -873,6 +1028,7 @@ exports[`Renderer:Form:valdiate 2`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="123"
               />
@@ -899,22 +1055,40 @@ exports[`Renderer:Form:valdiate 2`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>

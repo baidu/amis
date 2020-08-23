@@ -1,0 +1,137 @@
+.#{$ns}LocationPicker {
+  position: relative;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  border: $DatePicker-borderWidth solid $DatePicker-borderColor;
+  font-size: $DatePicker-fontSize;
+  padding: $DatePicker-paddingY $DatePicker-paddingX;
+  height: $DatePicker-height;
+  outline: none;
+  white-space: nowrap;
+  color: $DatePicker-color;
+  background-color: $DatePicker-bg;
+  border-radius: $DatePicker-borderRadius;
+
+  &:not(.is-disabled) {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $DatePicker-onHover-bg;
+      border-color: $DatePicker-onHover-borderColor;
+
+      .#{$ns}DatePicker-toggler:before {
+        color: $DatePicker-onHover-iconColor;
+      }
+    }
+  }
+
+  &.is-focused,
+  &.is-active {
+    border-color: $DatePicker-onFocused-borderColor;
+    box-shadow: $Form-input-boxShadow;
+  }
+
+  &.is-disabled {
+    background: $gray200;
+
+    > &-input {
+      color: $text--muted-color;
+    }
+  }
+
+  &-placeholder {
+    color: $DatePicker-placeholderColor;
+    user-select: none;
+    margin-right: $gap-base;
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  &-value {
+    margin-right: $gap-base;
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  &-toggler {
+    cursor: pointer;
+    color: $DatePicker-iconColor;
+
+    &:hover {
+      color: $DatePicker-onHover-iconColor;
+    }
+  }
+
+  &-clear {
+    display: inline-block;
+    @include input-clear();
+    line-height: 1;
+    margin-right: $gap-xs;
+  }
+}
+
+.#{$ns}LocationControl {
+  position: relative;
+  width: 100%;
+}
+
+.#{$ns}LocationControl:not(.is-inline) > .#{$ns}LocationPicker {
+  display: flex;
+}
+
+.#{$ns}LocationPicker-popover {
+  min-width: 320px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: -1px;
+  border-color: $Form-input-onFocused-borderColor;
+}
+
+.#{$ns}MapPicker {
+  &-search {
+    padding: 5px 10px;
+  }
+
+  &-map {
+    display: block;
+    width: 100%;
+    height: 200px;
+  }
+
+  &-item {
+    padding: 10px 10px;
+    position: relative;
+    border-top: 1px solid $borderColor;
+
+    > svg {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  &-itemTitle {
+    font-size: $fontSizeBase;
+  }
+
+  &-itemDesc {
+    font-size: $fontSizeSm;
+  }
+
+  &-sugItem {
+    cursor: pointer;
+    padding: (
+        $Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize
+      )/2 $Form-select-paddingX;
+
+    &:hover {
+      color: $Form-select-menu-onActive-color;
+      background-color: $Form-select-menu-onActive-bg;
+    }
+  }
+}
+
+.tangram-suggestion-main {
+  display: none !important;
+}

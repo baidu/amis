@@ -5,13 +5,14 @@ import {Action} from '../../types';
 import Downshift, {StateChangeOptions} from 'downshift';
 // @ts-ignore
 import matchSorter from 'match-sorter';
-import debouce = require('lodash/debounce');
+import debouce from 'lodash/debounce';
 import {filter} from '../../utils/tpl';
-import find = require('lodash/find');
+import find from 'lodash/find';
 import {Icon} from '../../components/icons';
 import Input from '../../components/Input';
 import {autobind, createObject, setVariable} from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
+import Spinner from '../../components/Spinner';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
 
@@ -74,8 +75,7 @@ export default class TextControl extends React.PureComponent<
     labelField: 'label',
     valueField: 'value',
     placeholder: '',
-    allowInputText: true,
-    spinnerClassName: 'fa fa-spinner fa-spin fa-1x fa-fw'
+    allowInputText: true
   };
 
   componentWillReceiveProps(nextProps: TextProps) {
@@ -415,7 +415,7 @@ export default class TextControl extends React.PureComponent<
       labelField,
       valueField,
       multiple,
-      spinnerClassName
+      translate: __
     } = this.props;
 
     return (
@@ -451,7 +451,7 @@ export default class TextControl extends React.PureComponent<
             filtedOptions.push({
               [labelField || 'label']: this.state.inputValue,
               [valueField || 'value']: this.state.inputValue,
-              'isNew': true
+              isNew: true
             });
           }
 
@@ -470,7 +470,8 @@ export default class TextControl extends React.PureComponent<
               <div className={cx('TextControl-valueWrap')}>
                 {placeholder &&
                 !selectedOptions.length &&
-                !this.state.inputValue ? (
+                !this.state.inputValue &&
+                !this.state.isFocused ? (
                   <div className={cx('TextControl-placeholder')}>
                     {placeholder}
                   </div>
@@ -508,6 +509,7 @@ export default class TextControl extends React.PureComponent<
                     onKeyDown: this.handleKeyDown
                   })}
                   autoComplete="off"
+                  size={10}
                 />
               </div>
 
@@ -520,7 +522,11 @@ export default class TextControl extends React.PureComponent<
                 </a>
               ) : null}
               {loading ? (
-                <i className={cx(`TextControl-spinner`, spinnerClassName)} />
+                <Spinner
+                  show
+                  icon="reload"
+                  spinnerClassName={cx('TextControl-spinner')}
+                />
               ) : null}
               {isOpen && filtedOptions.length ? (
                 <div className={cx('TextControl-sugs')}>
@@ -540,7 +546,7 @@ export default class TextControl extends React.PureComponent<
                       >
                         {option.isNew ? (
                           <span>
-                            新增：{option.label}
+                            {__('新增：{{label}}', {label: option.label})}
                             <Icon icon="enter" className="icon" />
                           </span>
                         ) : (
@@ -591,6 +597,7 @@ export default class TextControl extends React.PureComponent<
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           autoComplete="off"
+          size={10}
           onChange={this.handleNormalInputChange}
           value={
             typeof value === 'undefined' || value === null

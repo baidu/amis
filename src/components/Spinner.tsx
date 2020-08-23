@@ -6,8 +6,9 @@
  */
 
 import React from 'react';
-import {ClassNamesFn, themeable} from '../theme';
+import {themeable, ThemeProps} from '../theme';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
+import {Icon} from './icons';
 
 const fadeStyles: {
   [propName: string]: string;
@@ -16,14 +17,13 @@ const fadeStyles: {
   [ENTERED]: 'in'
 };
 
-interface SpinnerProps {
+interface SpinnerProps extends ThemeProps {
   overlay: boolean;
   spinnerClassName: string;
   mode: string;
-  size: string;
-  classPrefix: string;
-  classnames: ClassNamesFn;
+  size: 'sm' | 'lg' | '';
   show: boolean;
+  icon?: string;
 }
 
 export class Spinner extends React.Component<SpinnerProps, object> {
@@ -31,7 +31,7 @@ export class Spinner extends React.Component<SpinnerProps, object> {
     overlay: false,
     spinnerClassName: '',
     mode: '',
-    size: '',
+    size: '' as '',
     show: true
   };
 
@@ -45,7 +45,8 @@ export class Spinner extends React.Component<SpinnerProps, object> {
       spinnerClassName,
       mode,
       size,
-      overlay
+      overlay,
+      icon
     } = this.props;
     return (
       <Transition mountOnEnter unmountOnExit in={show} timeout={350}>
@@ -72,9 +73,12 @@ export class Spinner extends React.Component<SpinnerProps, object> {
                 className={cx(`Spinner`, spinnerClassName, fadeStyles[status], {
                   [`Spinner--${mode}`]: mode,
                   [`Spinner--overlay`]: overlay,
-                  [`Spinner--${size}`]: size
+                  [`Spinner--${size}`]: size,
+                  [`Spinner--icon`]: icon
                 })}
-              />
+              >
+                {icon ? <Icon icon={icon} className="icon" /> : null}
+              </div>
             </>
           );
         }}

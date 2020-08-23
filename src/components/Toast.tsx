@@ -14,8 +14,9 @@ import React from 'react';
 import cx from 'classnames';
 import Html from './Html';
 import {uuid, autobind, noop} from '../utils/helper';
-import {ClassNamesFn, themeable, classnames} from '../theme';
+import {ClassNamesFn, themeable, classnames, ThemeProps} from '../theme';
 import {Icon} from './icons';
+import {LocaleProps, localeable, TranslateFn} from '../locale';
 
 interface Config {
   closeButton?: boolean;
@@ -43,7 +44,7 @@ const show = (
   toastRef[method](content, title || '', {...conf});
 };
 
-interface ToastComponentProps {
+interface ToastComponentProps extends ThemeProps, LocaleProps {
   position:
     | 'top-right'
     | 'top-center'
@@ -52,9 +53,8 @@ interface ToastComponentProps {
     | 'bottom-left'
     | 'bottom-right';
   closeButton: boolean;
+  showIcon?: boolean;
   timeout: number;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   className?: string;
 }
 
@@ -81,6 +81,7 @@ export class ToastComponent extends React.Component<
     closeButton: false,
     timeout: 5000
   };
+  static themeKey = 'toast';
 
   // 当前ToastComponent是否真正render了
   hasRendered = false;
@@ -146,7 +147,15 @@ export class ToastComponent extends React.Component<
       return null;
     }
 
-    const {classnames: cx, className, timeout, position} = this.props;
+    const {
+      classnames: cx,
+      className,
+      timeout,
+      position,
+      showIcon,
+      translate,
+      closeButton
+    } = this.props;
     const items = this.state.items;
 
     return (
@@ -166,8 +175,10 @@ export class ToastComponent extends React.Component<
             body={item.body}
             level={item.level || 'info'}
             timeout={item.timeout ?? timeout}
-            closeButton={item.closeButton}
+            closeButton={item.closeButton ?? closeButton}
             onDismiss={this.handleDismissed.bind(this, index)}
+            translate={translate}
+            showIcon={showIcon}
           />
         ))}
       </div>
@@ -175,7 +186,7 @@ export class ToastComponent extends React.Component<
   }
 }
 
-export default themeable(ToastComponent);
+export default themeable(localeable(ToastComponent));
 
 interface ToastMessageProps {
   title?: string;
@@ -183,6 +194,7 @@ interface ToastMessageProps {
   level: 'info' | 'success' | 'error' | 'warning';
   timeout: number;
   closeButton?: boolean;
+  showIcon?: boolean;
   position:
     | 'top-right'
     | 'top-center'
@@ -192,6 +204,7 @@ interface ToastMessageProps {
     | 'bottom-right';
   onDismiss?: () => void;
   classnames: ClassNamesFn;
+  translate: TranslateFn;
   allowHtml: boolean;
 }
 
@@ -265,7 +278,9 @@ export class ToastMessage extends React.Component<
       title,
       body,
       allowHtml,
-      level
+      level,
+      showIcon,
+      translate: __
     } = this.props;
 
     return (
@@ -290,7 +305,24 @@ export class ToastMessage extends React.Component<
                   <Icon icon="close" className="icon" />
                 </a>
               ) : null}
-              {title ? <div className={cx('Toast-title')}>{title}</div> : null}
+
+              {showIcon === false ? null : (
+                <div className={cx('Toast-icon')}>
+                  {level === 'success' ? (
+                    <Icon icon="success" className="icon" />
+                  ) : level == 'error' ? (
+                    <Icon icon="fail" className="icon" />
+                  ) : level == 'info' ? (
+                    <Icon icon="info-circle" className="icon" />
+                  ) : level == 'warning' ? (
+                    <Icon icon="warning" className="icon" />
+                  ) : null}
+                </div>
+              )}
+
+              {title ? (
+                <div className={cx('Toast-title')}>{__(title)}</div>
+              ) : null}
               <div className={cx('Toast-body')}>
                 {allowHtml ? <Html html={body} /> : body}
               </div>

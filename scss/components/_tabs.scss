@@ -1,14 +1,12 @@
 .#{$ns}Tabs {
   &-links {
+    margin: 0;
+    padding: 0;
     border-bottom: $Tabs-borderWidth solid $Tabs-borderColor;
-    padding-left: 0;
-    margin-bottom: 0;
     list-style: none;
+    user-select: none;
 
-    &::before {
-      display: table;
-      content: ' ';
-    }
+    @include clearfix();
 
     > .#{$ns}Tabs-link {
       margin-bottom: -$Tabs-borderWidth;
@@ -47,12 +45,16 @@
         text-decoration: none;
       }
 
-      &.disabled > a:first-child,
-      &.is-disabled > a:first-child {
-        color: $Tabs-onDisabled-color;
-        background-color: transparent;
-        border-color: transparent;
-        pointer-events: none;
+      &.disabled,
+      &.is-disabled {
+        cursor: not-allowed;
+
+        > a:first-child {
+          color: $Tabs-onDisabled-color;
+          background-color: transparent;
+          border-color: transparent;
+          pointer-events: none;
+        }
       }
 
       &.active > a:first-child,
@@ -264,8 +266,8 @@
   }
 
   &-toolbar {
-      display: inline-block;
-      float: right;
-      padding-top: $gap-xs;
+    display: inline-block;
+    float: right;
+    padding-top: $gap-xs;
   }
 }

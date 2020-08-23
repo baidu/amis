@@ -76,7 +76,7 @@ export default class SdkTest extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="schema-wrapper">
         <TitleBar title="API 调用 集成在你的 React 应用中" />
         <div className="wrapper">
           {this.renderForm()}

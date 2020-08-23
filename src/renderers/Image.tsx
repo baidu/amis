@@ -1,11 +1,12 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {autobind} from '../utils/helper';
 import {Icon} from '../components/icons';
+import {LocaleProps, localeable} from '../locale';
 
-export interface ImageThumbProps {
+export interface ImageThumbProps extends LocaleProps, ThemeProps {
   src: string;
   originalSrc?: string; // 原图
   enlargeAble?: boolean;
@@ -19,8 +20,6 @@ export interface ImageThumbProps {
   caption?: string;
   thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
   thumbRatio?: '1:1' | '4:3' | '16:9';
-  classnames: ClassNamesFn;
-  classPrefix: string;
   onLoad?: React.EventHandler<any>;
 }
 
@@ -43,7 +42,8 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
       title,
       caption,
       onLoad,
-      enlargeAble
+      enlargeAble,
+      translate: __
     } = this.props;
 
     return (
@@ -65,7 +65,7 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
           {enlargeAble ? (
             <div key="overlay" className={cx('Image-overlay')}>
               <a
-                data-tooltip="查看大图"
+                data-tooltip={__('查看大图')}
                 data-position="bottom"
                 target="_blank"
                 onClick={this.handleEnlarge}
@@ -87,7 +87,7 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
     );
   }
 }
-const ThemedImageThumb = themeable(ImageThumb);
+const ThemedImageThumb = themeable(localeable(ImageThumb));
 export default ThemedImageThumb;
 
 export interface ImageFieldProps extends RendererProps {

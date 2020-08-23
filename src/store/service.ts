@@ -1,4 +1,11 @@
-import {types, getParent, flow, getEnv, getRoot} from 'mobx-state-tree';
+import {
+  types,
+  getParent,
+  flow,
+  getEnv,
+  getRoot,
+  isAlive
+} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {IRendererStore} from './index';
 import {Api, ApiObject, Payload, fetchOptions} from '../types';
@@ -39,8 +46,8 @@ export const ServiceStore = iRendererStore
       self.busying = busying;
     }
 
-    function reInitData(data: object | undefined) {
-      const newData = extendObject(self.pristine, data);
+    function reInitData(data: object | undefined, replace: boolean = false) {
+      const newData = extendObject(self.pristine, data, !replace);
       self.data = self.pristine = newData;
     }
 
@@ -58,7 +65,7 @@ export const ServiceStore = iRendererStore
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* getInitData(
-      api: string,
+      api: Api,
       data: object,
       options?: fetchOptions
     ) {
@@ -97,11 +104,13 @@ export const ServiceStore = iRendererStore
               : undefined
           );
         } else {
-          reInitData({
-            ...self.data,
-            ...json.data
-          });
           self.updatedAt = Date.now();
+          let replace = !!(api as ApiObject).replaceData;
+          let data = {
+            ...(replace ? {} : self.data),
+            ...json.data
+          };
+          reInitData(data, replace);
           self.hasRemoteData = true;
           if (options && options.onSuccess) {
             const ret = options.onSuccess(json);
@@ -123,7 +132,7 @@ export const ServiceStore = iRendererStore
         return json;
       } catch (e) {
         const root = getRoot(self) as IRendererStore;
-        if (root.storeType !== 'RendererStore') {
+        if (!isAlive(root) || root.storeType !== 'RendererStore') {
           // 已经销毁了，不管这些数据了。
           return;
         }
@@ -135,6 +144,7 @@ export const ServiceStore = iRendererStore
         markFetching(false);
         e.stack && console.error(e.stack);
         root.notify('error', e.message || e);
+        return;
       }
     });
 
@@ -143,7 +153,7 @@ export const ServiceStore = iRendererStore
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* getInitData(
-      api: string,
+      api: Api,
       data: object,
       options?: fetchOptions
     ) {
@@ -168,8 +178,15 @@ export const ServiceStore = iRendererStore
         fetchCancel = null;
 
         if (!isEmpty(json.data) || json.ok) {
-          json.data && self.updateData(json.data);
           self.updatedAt = Date.now();
+
+          json.data &&
+            self.updateData(
+              json.data,
+              undefined,
+              !!(api as ApiObject).replaceData
+            );
+
           self.hasRemoteData = true;
         }
 
@@ -206,7 +223,7 @@ export const ServiceStore = iRendererStore
         return json;
       } catch (e) {
         const root = getRoot(self) as IRendererStore;
-        if (root.storeType !== 'RendererStore') {
+        if (!isAlive(root) || root.storeType !== 'RendererStore') {
           // 已经销毁了，不管这些数据了。
           return;
         }
@@ -218,6 +235,7 @@ export const ServiceStore = iRendererStore
         markFetching(false);
         e.stack && console.error(e.stack);
         root.notify('error', e.message || e);
+        return;
       }
     });
 
@@ -226,7 +244,7 @@ export const ServiceStore = iRendererStore
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* saveRemote(
-      api: string,
+      api: Api,
       data: object,
       options: fetchOptions = {}
     ) {
@@ -248,13 +266,21 @@ export const ServiceStore = iRendererStore
         );
 
         if (!isEmpty(json.data) || json.ok) {
-          json.data && self.updateData(json.data);
           self.updatedAt = Date.now();
+
+          json.data &&
+            self.updateData(
+              json.data,
+              undefined,
+              !!(api as ApiObject).replaceData
+            );
         }
 
         if (!json.ok) {
           updateMessage(
-            json.msg || (options && options.errorMessage) || '保存失败',
+            json.msg ||
+              (options && options.errorMessage) ||
+              self.__('保存失败'),
             true
           );
           throw new ServerError(self.msg, json);
@@ -302,7 +328,7 @@ export const ServiceStore = iRendererStore
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* fetchSchema(
-      api: string,
+      api: Api,
       data: object,
       options: fetchOptions = {}
     ) {
@@ -346,7 +372,9 @@ export const ServiceStore = iRendererStore
 
         if (!json.ok) {
           updateMessage(
-            json.msg || (options && options.errorMessage) || '获取失败，请重试',
+            json.msg ||
+              (options && options.errorMessage) ||
+              self.__('获取失败，请重试'),
             true
           );
           (getRoot(self) as IRendererStore).notify(
@@ -363,7 +391,12 @@ export const ServiceStore = iRendererStore
           if (json.data) {
             self.schema = json.data;
             self.schemaKey = '' + Date.now();
-            isObject(json.data.data) && self.updateData(json.data.data);
+            isObject(json.data.data) &&
+              self.updateData(
+                json.data.data,
+                undefined,
+                !!(api as ApiObject).replaceData
+              );
           }
           updateMessage(json.msg || (options && options.successMessage));
 
@@ -374,9 +407,10 @@ export const ServiceStore = iRendererStore
         }
 
         self.initializing = false;
+        return json.data;
       } catch (e) {
         const root = getRoot(self) as IRendererStore;
-        if (root.storeType !== 'RendererStore') {
+        if (!isAlive(root) || root.storeType !== 'RendererStore') {
           // 已经销毁了，不管这些数据了。
           return;
         }
@@ -397,7 +431,7 @@ export const ServiceStore = iRendererStore
       data?: object,
       options?: fetchOptions
     ) => Promise<any> = flow(function* checkRemote(
-      api: string,
+      api: Api,
       data: object,
       options?: fetchOptions
     ) {
@@ -412,7 +446,12 @@ export const ServiceStore = iRendererStore
           data,
           options
         );
-        json.ok && self.updateData(json.data);
+        json.ok &&
+          self.updateData(
+            json.data,
+            undefined,
+            !!(api as ApiObject).replaceData
+          );
 
         if (!json.ok) {
           throw new Error(json.msg);

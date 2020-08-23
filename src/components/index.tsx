@@ -5,7 +5,7 @@
  */
 
 import NotFound from './404';
-import {default as Alert, alert, confirm} from './Alert';
+import {default as Alert, alert, confirm, prompt} from './Alert';
 import {default as ContextMenu, openContextMenus} from './ContextMenu';
 import AsideNav from './AsideNav';
 import Button from './Button';
@@ -39,15 +39,30 @@ import Tooltip from './Tooltip';
 import TooltipWrapper from './TooltipWrapper';
 import Tree from './Tree';
 import Alert2 from './Alert2';
+import Transfer from './Transfer';
+import TabsTransfer from './TabsTransfer';
+import ListCheckboxes from './ListCheckboxes';
+import TableCheckboxes from './TableCheckboxes';
+import TreeCheckboxes from './TreeCheckboxes';
+import ChainedCheckboxes from './ChainedCheckboxes';
+import ResultBox from './ResultBox';
+import InputBox from './InputBox';
+import ListRadios from './ListRadios';
+import TreeRadios from './TreeRadios';
+import ListGroup from './ListGroup';
+import NumberInput from './NumberInput';
+import ArrayInput from './ArrayInput';
+import SearchBox from './SearchBox';
 
 export {
   NotFound,
   Alert as AlertComponent,
   alert,
+  confirm,
+  prompt,
   ContextMenu,
   openContextMenus,
   Alert2,
-  confirm,
   AsideNav,
   Button,
   Checkbox,
@@ -80,5 +95,19 @@ export {
   toast,
   Tooltip,
   TooltipWrapper,
-  Tree
+  Tree,
+  Transfer,
+  TabsTransfer,
+  ListCheckboxes,
+  TableCheckboxes,
+  TreeCheckboxes,
+  ChainedCheckboxes,
+  ResultBox,
+  InputBox,
+  ListRadios,
+  SearchBox,
+  TreeRadios,
+  ListGroup,
+  NumberInput,
+  ArrayInput
 };

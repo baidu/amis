@@ -2,23 +2,34 @@ import React from 'react';
 import {OptionsControl, OptionsControlProps, Option} from './Options';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
-import chunk = require('lodash/chunk');
+import chunk from 'lodash/chunk';
+import {Icon} from '../../components/icons';
+import {Api} from '../../types';
+import {autobind} from '../../utils/helper';
 
 export interface CheckboxesProps extends OptionsControlProps {
   placeholder?: any;
   itemClassName?: string;
   columnsCount?: number;
   labelClassName?: string;
+  onAdd?: () => void;
+  addApi?: Api;
+  creatable: boolean;
+  createBtnLabel: string;
+  editable?: boolean;
+  removable?: boolean;
 }
 
 export default class CheckboxesControl extends React.Component<
   CheckboxesProps,
   any
 > {
-  static defaultProps: Partial<CheckboxesProps> = {
+  static defaultProps = {
     columnsCount: 1,
     multiple: true,
-    placeholder: '暂无选项'
+    placeholder: '暂无选项',
+    creatable: false,
+    createBtnLabel: '新增选项'
   };
 
   componentDidMount() {
@@ -41,8 +52,30 @@ export default class CheckboxesControl extends React.Component<
     reload && reload();
   }
 
+  @autobind
+  handleAddClick() {
+    const {onAdd} = this.props;
+    onAdd && onAdd();
+  }
+
+  @autobind
+  handleEditClick(e: Event, item: any) {
+    const {onEdit} = this.props;
+    e.preventDefault();
+    e.stopPropagation();
+    onEdit && onEdit(item);
+  }
+
+  @autobind
+  handleDeleteClick(e: Event, item: any) {
+    const {onDelete} = this.props;
+    e.preventDefault();
+    e.stopPropagation();
+    onDelete && onDelete(item);
+  }
+
   renderGroup(option: Option, index: number) {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, labelField} = this.props;
 
     return (
       <div
@@ -52,7 +85,7 @@ export default class CheckboxesControl extends React.Component<
         <label
           className={cx('CheckboxesControl-groupLabel', option.labelClassName)}
         >
-          {option.label}
+          {option[labelField || 'label']}
         </label>
 
         {option.children && option.children.length
@@ -75,7 +108,10 @@ export default class CheckboxesControl extends React.Component<
       selectedOptions,
       disabled,
       inline,
-      labelClassName
+      labelClassName,
+      labelField,
+      removable,
+      editable
     } = this.props;
 
     return (
@@ -87,8 +123,27 @@ export default class CheckboxesControl extends React.Component<
         disabled={disabled || option.disabled}
         inline={inline}
         labelClassName={labelClassName}
+        description={option.description}
       >
-        {option.label}
+        {removable ? (
+          <a data-tooltip="移除" data-position="left">
+            <Icon
+              icon="minus"
+              className="icon"
+              onClick={(e: any) => this.handleDeleteClick(e, option)}
+            />
+          </a>
+        ) : null}
+        {editable ? (
+          <a data-tooltip="编辑" data-position="left">
+            <Icon
+              icon="pencil"
+              className="icon"
+              onClick={(e: any) => this.handleEditClick(e, option)}
+            />
+          </a>
+        ) : null}
+        {option[labelField || 'label']}
       </Checkbox>
     );
   }
@@ -107,7 +162,11 @@ export default class CheckboxesControl extends React.Component<
       checkAll,
       classnames: cx,
       itemClassName,
-      labelClassName
+      labelClassName,
+      creatable,
+      addApi,
+      createBtnLabel,
+      translate: __
     } = this.props;
 
     let body: Array<React.ReactNode> = [];
@@ -159,8 +218,15 @@ export default class CheckboxesControl extends React.Component<
         {body && body.length ? (
           body
         ) : (
-          <span className={`Form-placeholder`}>{placeholder}</span>
+          <span className={`Form-placeholder`}>{__(placeholder)}</span>
         )}
+
+        {(creatable || addApi) && !disabled ? (
+          <a className={cx('Checkboxes-addBtn')} onClick={this.handleAddClick}>
+            <Icon icon="plus" className="icon" />
+            {__(createBtnLabel)}
+          </a>
+        ) : null}
       </div>
     );
   }

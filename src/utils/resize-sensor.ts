@@ -2,7 +2,6 @@
  * @file resize-sensor.js.
  * @author fex
  */
-/* eslint-disable */
 
 class EventQueue {
   q: Array<Function> = [];
@@ -18,7 +17,7 @@ class EventQueue {
   }
 }
 
-function getComputedStyle(element: HTMLElement, prop: string) {
+export function getComputedStyle(element: HTMLElement, prop: string) {
   if ((element as any).currentStyle) {
     return (element as any).currentStyle[prop];
   } else if (window.getComputedStyle) {
@@ -57,8 +56,12 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
   <div class="resize-sensor-appear" style="${style}animation-name: apearSensor; animation-duration: 0.2s;"></div>`;
   // 要定义 resizeSensor 这个动画，靠这个监听出现。
   element.appendChild(resizeSensor);
-
-  if (!~['fixed', 'absolute'].indexOf(getComputedStyle(element, 'position'))) {
+  (element as any).hasInlineStyle = element.hasAttribute('style');
+  const position = ((element as any).originPosition = getComputedStyle(
+    element,
+    'position'
+  ));
+  if (!~['fixed', 'absolute'].indexOf(position)) {
     element.style.position = 'relative';
   }
 
@@ -70,7 +73,7 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
 
   let lastWidth: number, lastHeight: number;
 
-  const reset = function() {
+  const reset = function () {
     expandChild.style.width = expand.offsetWidth + 10 + 'px';
     expandChild.style.height = expand.offsetHeight + 10 + 'px';
     expand.scrollLeft = expand.scrollWidth;
@@ -83,13 +86,13 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
 
   reset();
 
-  let changed = function() {
+  let changed = function () {
     if ((element as any).resizedAttached) {
       (element as any).resizedAttached.call();
     }
   };
 
-  let addEvent = function(el: HTMLElement, name: string, cb: Function) {
+  let addEvent = function (el: HTMLElement, name: string, cb: Function) {
     if ((el as any).attachEvent) {
       (el as any).attachEvent('on' + name, cb);
     } else {
@@ -97,7 +100,7 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
     }
   };
 
-  let onScroll = function(e: Event) {
+  let onScroll = function (e: Event) {
     if (
       element.offsetWidth != lastWidth ||
       element.offsetHeight != lastHeight
@@ -114,19 +117,42 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
 
 function detach(element: HTMLElement) {
   if ((element as any).resizeSensor) {
+    if ((element as any).hasInlineStyle) {
+      element.style.position = (element as any).originPosition;
+    } else {
+      element.removeAttribute('style');
+    }
     try {
       element.removeChild((element as any).resizeSensor);
     } catch (e) {}
     delete (element as any).resizeSensor;
     delete (element as any).resizedAttached;
+    delete (element as any).hasInlineStyle;
+    delete (element as any).originPosition;
   }
 }
 
-export function resizeSensor(element: HTMLElement, callback: Function) {
+export function resizeSensor(
+  element: HTMLElement,
+  callback: Function
+): () => void;
+export function resizeSensor(
+  element: HTMLElement,
+  callback: Function,
+  once: boolean = false
+) {
+  if (once) {
+    attachResizeEvent(element, function (this: any) {
+      callback.apply(this, arguments);
+      detach(element);
+    });
+    return;
+  }
+
   attachResizeEvent(element, callback);
   let detached = false;
 
-  return function() {
+  return function () {
     if (detached) return;
     detached = true;
     detach(element);

@@ -1,0 +1,55 @@
+.#{$ns}InputBox {
+  @include input-input();
+
+  &--inline {
+    display: inline-flex;
+  }
+
+  > input[readonly] {
+    cursor: inherit;
+  }
+
+  &.is-error {
+    border-color: $Form-input-onError-borderColor;
+    background-color: $Form-input-onError-bg;
+  }
+
+  &.is-focused {
+    border-color: $Form-input-onFocused-borderColor;
+    box-shadow: $Form-input-boxShadow;
+
+    @if $Form-input-onFocused-bg !=$Form-input-bg {
+      background-color: $Form-input-onFocused-bg;
+    }
+  }
+
+  &.is-clickable:hover {
+    border-color: $Form-input-onFocused-borderColor;
+    box-shadow: $Form-input-boxShadow;
+    cursor: pointer;
+  }
+
+  &.is-error.is-focused {
+    border-color: $Form-input-onError-borderColor;
+  }
+
+  &.is-disabled {
+    color: $text--muted-color;
+    background: $Form-input-onDisabled-bg;
+    border-color: $Form-input-onDisabled-borderColor;
+  }
+
+  &-clear {
+    @include input-clear();
+  }
+
+  > svg {
+    display: inline-block;
+    width: 14px;
+    color: $icon-color;
+  }
+
+  > a {
+    cursor: pointer;
+  }
+}

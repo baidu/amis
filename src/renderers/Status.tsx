@@ -4,6 +4,7 @@ import {ServiceStore, IServiceStore} from '../store/service';
 import {Api, SchemaNode, PlainObject} from '../types';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
+import {Icon} from '../components/icons';
 
 export interface StatusProps extends RendererProps {
   className?: string;
@@ -15,12 +16,20 @@ export class StatusField extends React.Component<StatusProps, object> {
   static defaultProps: Partial<StatusProps> = {
     placeholder: '-',
     map: {
-      0: 'fa fa-times text-danger',
-      1: 'fa fa-check text-success'
+      0: 'svg-fail',
+      1: 'svg-success',
+      success: 'svg-success',
+      pending: 'rolling',
+      fail: 'svg-fail',
+      queue: 'svg-warning',
+      schedule: 'svg-schedule'
     },
     labelMap: {
-      // 0: '失败',
-      // 1: '成功'
+      success: '成功',
+      pending: '运行中',
+      fail: '失败',
+      queue: '排队中',
+      schedule: '调度中'
     }
   };
 
@@ -47,9 +56,30 @@ export class StatusField extends React.Component<StatusProps, object> {
       }
 
       wrapClassName = `StatusField--${value}`;
-      viewValue = (
-        <i className={cx('StatusField-icon', map[value])} key="icon" />
+      let itemClassName = map[value] || '';
+      let svgIcon: string = '';
+
+      itemClassName = itemClassName.replace(
+        /\bsvg-([^\s|$]+)\b/g,
+        (_: string, icon: string) => {
+          svgIcon = icon;
+          return 'icon';
+        }
       );
+
+      if (svgIcon) {
+        viewValue = (
+          <Icon
+            icon={svgIcon}
+            className={cx('Status-icon icon', itemClassName)}
+            key="icon"
+          />
+        );
+      } else if (itemClassName) {
+        viewValue = (
+          <i className={cx('Status-icon', itemClassName)} key="icon" />
+        );
+      }
 
       if (labelMap && labelMap[value]) {
         viewValue = [

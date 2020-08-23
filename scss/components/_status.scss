@@ -1,5 +1,9 @@
 .#{$ns}StatusField {
   white-space: nowrap;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
 
   &-label {
     font-size: $fontSizeSm;
@@ -8,120 +12,90 @@
 
   @keyframes animation-rolling_red {
     0% {
-      left: 0;
+      transform: translateX(0);
     }
 
     50% {
-      left: px2rem(13px);
+      transform: translateX(20px);
     }
 
     100% {
-      left: 0;
+      transform: translateX(0);
     }
   }
 
   @keyframes animation-rolling_blue {
     0% {
-      left: $gap-sm + $gap-base;
+      transform: translateX(0);
     }
 
     50% {
-      left: px2rem(12px);
+      transform: translateX(-20px);
     }
 
     100% {
-      left: $gap-sm + $gap-base;
+      transform: translateX(0);
     }
   }
 
+  svg.#{$ns}Status-icon {
+    width: $Satus-icon-width;
+    height: $Satus-icon-height;
+    top: 0;
+  }
+
   .#{$ns}Status-icon {
-    &--danger,
-    &--primary,
-    &--rolling,
-    &--success,
-    &--warning {
-      &::before {
-        font-family: 'iconfont';
-        content: '\e632';
-        font-style: normal;
-      }
-    }
-
-    &--rolling {
-      color: $warning;
+    &.rolling {
+      width: 30px;
+      height: 10px;
+      display: inline-block;
+      vertical-align: middle;
       position: relative;
-      left: $gap-md;
 
       &::before {
-        font-size: inherit;
-        color: $danger;
+        content: '';
+        display: inline-block;
+        border: 5px solid $danger;
+        border-radius: 500px;
         position: absolute;
+        top: 0;
         left: 0;
-        top: px2rem(1px);
-        margin-left: px2rem(-27px);
         animation: animation-rolling_red 2s;
         animation-iteration-count: infinite;
       }
 
       &::after {
-        font-family: 'iconfont';
-        content: '\e632';
-        font-style: normal;
-        font-size: inherit;
-        color: $primary;
+        content: '';
+        display: inline-block;
+        border: 5px solid $primary;
+        border-radius: 500px;
         position: absolute;
-        left: $gap-sm + $gap-base;
-        top: px2rem(1px);
-        margin-left: px2rem(-39px);
+        top: 0;
+        left: 20px;
+
         animation: animation-rolling_blue 2s;
         animation-iteration-count: infinite;
       }
     }
 
-    &--success {
-      &::before {
-        color: $success;
-      }
-    }
-
-    &--danger {
-      &::before {
-        color: $danger;
-      }
-    }
-
-    &--warning {
-      &::before {
-        color: $warning;
-      }
-    }
-
-    &--primary {
-      &::before {
-        color: $primary;
-      }
+    &.icon-warning {
+      color: $warning;
     }
   }
 
-  .#{$ns}Status-icon--rolling + &-label {
+  .#{$ns}Status-icon.rolling + &-label {
     color: $warning;
-    position: relative;
-    left: $gap-md;
   }
 
-  .#{$ns}Status-icon--success + &-label {
+  .#{$ns}Status-icon.icon-success + &-label {
     color: $success;
   }
 
-  .#{$ns}Status-icon--danger + &-label {
+  .#{$ns}Status-icon.icon-fail + &-label {
     color: $danger;
   }
 
-  .#{$ns}Status-icon--warning + &-label {
+  .#{$ns}Status-icon.icon-warning + &-label {
     color: $warning;
-  }
-
-  .#{$ns}Status-icon--primary + &-label {
-    color: $primary;
   }
 }

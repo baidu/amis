@@ -16,7 +16,7 @@ function filterUrl(url: string) {
 }
 
 (window as any).MonacoEnvironment = {
-  getWorkerUrl: function(moduleId: string, label: string) {
+  getWorkerUrl: function (moduleId: string, label: string) {
     let url = '/pkg/editor.worker.js';
 
     if (label === 'json') {
@@ -83,11 +83,6 @@ export interface EditorProps {
   editorWillMount?: (monaco: any) => void;
   editorWillUnmount?: (editor: any, monaco: any) => void;
   editorFactory?: (conatainer: HTMLElement, monaco: any, options: any) => any;
-  requireConfig: {
-    url: string;
-    paths?: any;
-    [propName: string]: any;
-  };
 }
 
 export class Editor extends React.Component<EditorProps, any> {
@@ -207,9 +202,10 @@ export class Editor extends React.Component<EditorProps, any> {
     });
 
     // json 默认开启验证。
-    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+    monaco.languages.json?.jsonDefaults.setDiagnosticsOptions({
       enableSchemaRequest: true,
-      validate: true
+      validate: true,
+      allowComments: true
     });
 
     // After initializing monaco editor
