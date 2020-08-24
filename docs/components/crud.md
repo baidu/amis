@@ -1074,6 +1074,8 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 在`headerToolbar`或者`footerToolbar`数组中添加`bulkActions`字符串，并且在 crud 上配置`bulkActions`行为按钮数组，可以实现选中表格项并批量操作的功能。
 
+> 需要设置`primaryField`用于标识选中状态，配置当前行数据中的某一**唯一标识字段**，例如`id`，否则可能会出现无法选中的问题
+
 ```schema:height="600" scope="body"
 {
     "type": "crud",
