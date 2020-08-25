@@ -289,6 +289,18 @@
   text-decoration: underline;
 }
 
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
 .box-shadow {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
 }
@@ -1147,12 +1159,20 @@
   height: 90px;
 }
 
+.w-ssm {
+  width: 120px;
+}
+
 .w-sm {
   width: 150px;
 }
 
 .h-sm {
   height: 150px;
+}
+
+.h-ssm {
+  height: 120px;
 }
 
 .w {
@@ -1195,6 +1215,14 @@
   height: 360px;
 }
 
+.w-xxxl {
+  width: 420px;
+}
+
+.h-xxxl {
+  height: 420px;
+}
+
 .w-full {
   width: 100%;
 }
@@ -1213,6 +1241,7 @@
 
 .no-grow {
   flex-grow: unset !important;
+  flex-basis: unset !important;
 }
 
 .nowrap {
@@ -1295,10 +1324,19 @@
   }
 }
 
+.v-top {
+  vertical-align: top !important;
+  align-self: flex-start;
+}
+
 .v-middle {
-  // display: inline-flex;
-  // align-items: center;
   vertical-align: middle !important;
+  align-self: center;
+}
+
+.v-bottom {
+  vertical-align: bottom !important;
+  align-self: flex-end;
 }
 
 .scrollable {
@@ -1479,6 +1517,69 @@
   word-wrap: break-word;
 }
 
+//
+// Labels
+// --------------------------------------------------
+
+.label {
+  display: inline;
+  padding: 0.2em 0.6em 0.3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  color: $label-color;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25em;
+
+  // Empty labels collapse automatically (not available in IE8)
+  &:empty {
+    display: none;
+  }
+
+  // Quick fix for labels in buttons
+  .btn & {
+    position: relative;
+    top: -1px;
+  }
+}
+a.label {
+  &:hover,
+  &:focus {
+    color: $label-link--hover-color;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+
+// Colors
+// Contextual variations (linked labels get darker on :hover)
+
+.label-default {
+  @include label-variant($label--default-bg);
+}
+
+.label-primary {
+  @include label-variant($label--primary-bg);
+}
+
+.label-success {
+  @include label-variant($label--success-bg);
+}
+
+.label-info {
+  @include label-variant($label--info-bg);
+}
+
+.label-warning {
+  @include label-variant($label--warning-bg);
+}
+
+.label-danger {
+  @include label-variant($label--danger-bg);
+}
+
 @keyframes apearSensor {
   from {
     opacity: 0;
@@ -1536,8 +1637,16 @@
   }
 }
 
+.visible-xs {
+  display: none;
+}
+
 /*phone*/
 @media (max-width: 767px) {
+  .visible-xs {
+    display: block;
+  }
+
   .w-auto-xs {
     width: auto;
   }

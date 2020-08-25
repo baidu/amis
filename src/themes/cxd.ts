@@ -4,6 +4,12 @@ import {theme} from '../theme';
 theme('cxd', {
   classPrefix: 'cxd-',
 
+  components: {
+    toast: {
+      closeButton: true
+    }
+  },
+
   renderers: {
     'form': {
       horizontal: {
@@ -36,23 +42,6 @@ theme('cxd', {
     'range-control': {
       showInput: true,
       clearable: true
-    },
-
-    'status': {
-      map: {
-        success: 'Status-icon--success',
-        pending: 'Status-icon--rolling',
-        fail: 'Status-icon--danger',
-        queue: 'Status-icon--warning',
-        schedule: 'Status-icon--primary'
-      },
-      labelMap: {
-        success: '成功',
-        pending: '运行中',
-        fail: '失败',
-        queue: '排队中',
-        schedule: '调度中'
-      }
     }
   }
 });

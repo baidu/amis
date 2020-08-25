@@ -5,12 +5,13 @@ import {
   flow,
   getEnv,
   getRoot,
-  IAnyModelType
+  IAnyModelType,
+  isAlive
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {resolveVariable} from '../utils/tpl-builtin';
-import isEqual = require('lodash/isEqual');
-import find = require('lodash/find');
+import isEqual from 'lodash/isEqual';
+import find from 'lodash/find';
 import {
   isBreakpoint,
   createObject,
@@ -20,7 +21,9 @@ import {
   findTree,
   flattenTree,
   eachTree,
-  difference
+  difference,
+  immutableExtends,
+  extendObject
 } from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 
@@ -29,6 +32,7 @@ export const Column = types
     label: types.optional(types.frozen(), undefined),
     type: types.string,
     name: types.maybe(types.string),
+    value: types.frozen(),
     groupName: '',
     toggled: false,
     toggable: true,
@@ -125,7 +129,7 @@ export const Row = types
 
     get locals(): any {
       return createObject(
-        createObject((getParent(self, self.depth * 2) as ITableStore).data, {
+        extendObject((getParent(self, self.depth * 2) as ITableStore).data, {
           index: self.index
         }),
         self.data
@@ -158,15 +162,8 @@ export const Row = types
     },
 
     change(values: object, savePristine?: boolean) {
-      self.data = {
-        ...self.data,
-        ...values
-      };
-
-      savePristine &&
-        (self.pristine = {
-          ...self.data
-        });
+      self.data = immutableExtends(self.data, values);
+      savePristine && (self.pristine = self.data);
     },
 
     reset() {
@@ -239,7 +236,9 @@ export const TableStore = iRendererStore
         item.type === '__expandme'
           ? false
           : (item.toggled || !item.toggable) &&
-            (self.footable && item.breakpoint && isBreakpoint(item.breakpoint))
+            self.footable &&
+            item.breakpoint &&
+            isBreakpoint(item.breakpoint)
       );
     }
 
@@ -248,7 +247,16 @@ export const TableStore = iRendererStore
         return [];
       }
 
-      return getFilteredColumns().filter(item => item.fixed === 'left');
+      let columns = getFilteredColumns().filter(item => item.fixed === 'left');
+
+      // 有才带过去，没有就不带了
+      if (columns.length) {
+        columns = getFilteredColumns().filter(
+          item => item.fixed === 'left' || /^__/.test(item.type)
+        );
+      }
+
+      return columns;
     }
 
     function getRightFixedColumns() {
@@ -332,6 +340,7 @@ export const TableStore = iRendererStore
       label: string;
       index: number;
       colSpan: number;
+      has: Array<any>;
     }> {
       const columsn = getFilteredColumns();
       const len = columsn.length;
@@ -344,11 +353,13 @@ export const TableStore = iRendererStore
         label: string;
         index: number;
         colSpan: number;
+        has: Array<any>;
       }> = [
         {
           label: columsn[0].groupName,
           colSpan: 1,
-          index: columsn[0].index
+          index: columsn[0].index,
+          has: [columsn[0]]
         }
       ];
 
@@ -363,11 +374,13 @@ export const TableStore = iRendererStore
 
         if (current.groupName === prev.label) {
           prev.colSpan++;
+          prev.has.push(current);
         } else {
           result.push({
             label: current.groupName,
             colSpan: 1,
-            index: current.index
+            index: current.index,
+            has: [current]
           });
         }
       }
@@ -511,14 +524,13 @@ export const TableStore = iRendererStore
         columns.unshift({
           type: '__expandme',
           toggable: false,
-          // fixed: 'left',
           className: 'Table-expandCell'
         });
 
         columns.unshift({
           type: '__checkme',
-          toggable: false,
           fixed: 'left',
+          toggable: false,
           className: 'Table-checkCell'
         });
 
@@ -555,7 +567,7 @@ export const TableStore = iRendererStore
       let value = resolveVariable(key, row.data);
       for (let i = 1, len = arr.length; i < len; i++) {
         const current = arr[i];
-        if (resolveVariable(key, current.data) == value) {
+        if (isEqual(resolveVariable(key, current.data), value)) {
           row.rowSpans[key] += 1;
           current.rowSpans[key] = 0;
         } else {
@@ -865,6 +877,9 @@ export const TableStore = iRendererStore
       // events
       afterAttach() {
         setTimeout(() => {
+          if (!isAlive(self)) {
+            return;
+          }
           const key =
             location.pathname +
             self.path +

@@ -49,6 +49,7 @@ import $ from 'jquery';
 // Require Editor CSS files.
 import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
+import {resizeSensor} from '../utils/resize-sensor';
 
 export default class FroalaEditor extends React.Component<any, any> {
   listeningEvents: Array<any> = [];
@@ -87,6 +88,9 @@ export default class FroalaEditor extends React.Component<any, any> {
     this.$element = $(ref);
     this.setContent(true);
     this.registerEvents();
+    resizeSensor(ref.parentElement, () => {
+      $(ref).prev('.fr-box').find('.fr-toolbar').css('width', '');
+    });
     this.$editor = this.$element
       .froalaEditor(this.config)
       .data('froala.editor').$el;
@@ -153,12 +157,12 @@ export default class FroalaEditor extends React.Component<any, any> {
     this.registerEvent(
       this.$element,
       'froalaEditor.contentChanged',
-      function() {
+      function () {
         self.updateModel();
       }
     );
     if (this.config.immediateReactModelUpdate) {
-      this.registerEvent(this.$editor, 'keyup', function() {
+      this.registerEvent(this.$editor, 'keyup', function () {
         self.updateModel();
       });
     }
@@ -203,9 +207,10 @@ export default class FroalaEditor extends React.Component<any, any> {
   }
 }
 
+// 不限制视频插入。
 ($ as any).FE.VIDEO_PROVIDERS = [
   {
-    test_regex: /^.+(bcebos.com)\/[^_&]+/,
+    test_regex: /.*/,
     url_regex: '',
     url_text: '',
     html:

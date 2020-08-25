@@ -4,174 +4,204 @@
  * @author fex
  */
 
-import React from "react";
-import cx from "classnames";
-import moment from "moment";
-import "moment/locale/zh-cn";
-import { Icon } from "./icons";
-import PopOver from "./PopOver";
-import Overlay from "./Overlay";
-import { ClassNamesFn, themeable } from "../theme";
-import { PlainObject } from "../types";
-import Calendar from "./calendar/Calendar";
+import React from 'react';
+import cx from 'classnames';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+import {Icon} from './icons';
+import PopOver from './PopOver';
+import Overlay from './Overlay';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import {PlainObject} from '../types';
+import Calendar from './calendar/Calendar';
+import 'react-datetime/css/react-datetime.css';
+import {localeable, LocaleProps, TranslateFn} from '../locale';
 
-const availableShortcuts: { [propName: string]: any } = {
-  today: {
-    label: "今天",
+const availableShortcuts: {[propName: string]: any} = {
+  now: {
+    label: '现在',
     date: (now: moment.Moment) => {
-      return now.startOf("day");
+      return now;
+    }
+  },
+  today: {
+    label: '今天',
+    date: (now: moment.Moment) => {
+      return now.startOf('day');
     }
   },
 
   yesterday: {
-    label: "昨天",
+    label: '昨天',
     date: (now: moment.Moment) => {
-      return now.add(-1, "days").startOf("day");
+      return now.add(-1, 'days').startOf('day');
     }
   },
 
   thisweek: {
-    label: "本周一",
+    label: '本周一',
     date: (now: moment.Moment) => {
-      return now.startOf("week").add(-1, "weeks");
+      return now.startOf('week').startOf('day');
     }
   },
 
   thismonth: {
-    label: "本月初",
+    label: '本月初',
     date: (now: moment.Moment) => {
-      return now.startOf("month");
+      return now.startOf('month');
     }
   },
 
   prevmonth: {
-    label: "上个月初",
+    label: '上个月初',
     date: (now: moment.Moment) => {
-      return now.startOf("month").add(-1, "month");
+      return now.startOf('month').add(-1, 'month');
     }
   },
 
   prevquarter: {
-    label: "上个季节初",
+    label: '上个季节初',
     date: (now: moment.Moment) => {
-      return now.startOf("quarter").add(-1, "quarter");
+      return now.startOf('quarter').add(-1, 'quarter');
     }
   },
 
   thisquarter: {
-    label: "本季度初",
+    label: '本季度初',
     date: (now: moment.Moment) => {
-      return now.startOf("quarter");
+      return now.startOf('quarter');
     }
   },
 
   tomorrow: {
-    label: "明天",
+    label: '明天',
     date: (now: moment.Moment) => {
-      return now.add(1, "days").startOf("day");
+      return now.add(1, 'days').startOf('day');
     }
   },
 
   endofthisweek: {
-    label: "本周日",
+    label: '本周日',
     date: (now: moment.Moment) => {
-      return now.endOf("week");
+      return now.endOf('week');
     }
   },
 
   endofthismonth: {
-    label: "本月底",
+    label: '本月底',
     date: (now: moment.Moment) => {
-      return now.endOf("month");
+      return now.endOf('month');
     }
   }
 };
 
 const advancedShortcuts = [
   {
-    regexp: /^(\d+)daysago$/,
-    resolve: (_: string, days: string) => {
+    regexp: /^(\d+)hoursago$/,
+    resolve: (__: TranslateFn, _: string, hours: string) => {
       return {
-        label: `${days}天前`,
+        label: __('{{hours}}小时前', {hours}),
         date: (now: moment.Moment) => {
-          return now.subtract(days, "days");
+          return now.subtract(hours, 'hours');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)hourslater$/,
+    resolve: (__: TranslateFn, _: string, hours: string) => {
+      return {
+        label: __('{{hours}}小时后', {hours}),
+        date: (now: moment.Moment) => {
+          return now.add(hours, 'hours');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)daysago$/,
+    resolve: (__: TranslateFn, _: string, days: string) => {
+      return {
+        label: __('{{days}}天前', {days}),
+        date: (now: moment.Moment) => {
+          return now.subtract(days, 'days');
         }
       };
     }
   },
   {
     regexp: /^(\d+)dayslater$/,
-    resolve: (_: string, days: string) => {
+    resolve: (__: TranslateFn, _: string, days: string) => {
       return {
-        label: `${days}天后`,
+        label: __('{{days}}天后', {days}),
         date: (now: moment.Moment) => {
-          return now.add(days, "days");
+          return now.add(days, 'days');
         }
       };
     }
   },
   {
     regexp: /^(\d+)weeksago$/,
-    resolve: (_: string, weeks: string) => {
+    resolve: (__: TranslateFn, _: string, weeks: string) => {
       return {
-        label: `${weeks}周前`,
+        label: __('{{weeks}}周前', {weeks}),
         date: (now: moment.Moment) => {
-          return now.subtract(weeks, "weeks");
+          return now.subtract(weeks, 'weeks');
         }
       };
     }
   },
   {
     regexp: /^(\d+)weekslater$/,
-    resolve: (_: string, weeks: string) => {
+    resolve: (__: TranslateFn, _: string, weeks: string) => {
       return {
-        label: `${weeks}周后`,
+        label: __('{{weeks}}周后', {weeks}),
         date: (now: moment.Moment) => {
-          return now.add(weeks, "weeks");
+          return now.add(weeks, 'weeks');
         }
       };
     }
   },
   {
     regexp: /^(\d+)monthsago$/,
-    resolve: (_: string, months: string) => {
+    resolve: (__: TranslateFn, _: string, months: string) => {
       return {
-        label: `${months}月前`,
+        label: __('{{months}}月前', {months}),
         date: (now: moment.Moment) => {
-          return now.subtract(months, "months");
+          return now.subtract(months, 'months');
         }
       };
     }
   },
   {
     regexp: /^(\d+)monthslater$/,
-    resolve: (_: string, months: string) => {
+    resolve: (__: TranslateFn, _: string, months: string) => {
       return {
-        label: `${months}月后`,
+        label: __('{{months}}月后', {months}),
         date: (now: moment.Moment) => {
-          return now.add(months, "months");
+          return now.add(months, 'months');
         }
       };
     }
   },
   {
     regexp: /^(\d+)quartersago$/,
-    resolve: (_: string, quarters: string) => {
+    resolve: (__: TranslateFn, _: string, quarters: string) => {
       return {
-        label: `${quarters}季度前`,
+        label: __('{{quarters}}季度前', {quarters}),
         date: (now: moment.Moment) => {
-          return now.subtract(quarters, "quarters");
+          return now.subtract(quarters, 'quarters');
         }
       };
     }
   },
   {
     regexp: /^(\d+)quarterslater$/,
-    resolve: (_: string, quarters: string) => {
+    resolve: (__: TranslateFn, _: string, quarters: string) => {
       return {
-        label: `${quarters}季度后`,
+        label: __('{{quarters}}季度后', {quarters}),
         date: (now: moment.Moment) => {
-          return now.add(quarters, "quarters");
+          return now.add(quarters, 'quarters');
         }
       };
     }
@@ -197,22 +227,17 @@ export type ShortCuts =
   | ShortCutDate
   | ShortCutDateRange;
 
-export interface DateProps {
-  viewMode: "years" | "months" | "days" | "time";
+export interface DateProps extends LocaleProps, ThemeProps {
+  viewMode: 'years' | 'months' | 'days' | 'time';
   className?: string;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   placeholder?: string;
   inputFormat?: string;
   timeFormat?: string;
   format?: string;
-  timeConstrainst?: object;
-  closeOnSelect?: boolean;
+  closeOnSelect: boolean;
   disabled?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
-  minTime?: moment.Moment;
-  maxTime?: moment.Moment;
   clearable?: boolean;
   defaultValue?: any;
   utc?: boolean;
@@ -220,7 +245,14 @@ export interface DateProps {
   value: any;
   shortcuts: string | Array<ShortCuts>;
   overlayPlacement: string;
-  [propName: string]: any;
+  minTime?: moment.Moment;
+  maxTime?: moment.Moment;
+  dateFormat?: string;
+  timeConstraints?: any;
+  popOverContainer?: any;
+
+  // 下面那个千万不要写，写了就会导致 keyof DateProps 得到的结果是 string | number;
+  // [propName: string]: any;
 }
 
 export interface DatePickerState {
@@ -229,25 +261,25 @@ export interface DatePickerState {
   value: moment.Moment | undefined;
 }
 
+function normalizeValue(value: any, format?: string) {
+  if (!value || value === '0') {
+    return undefined;
+  }
+  const v = moment(value, format, true);
+  return v.isValid() ? v : undefined;
+}
+
 export class DatePicker extends React.Component<DateProps, DatePickerState> {
-  static defaultProps: Pick<
-    DateProps,
-    "viewMode" | "shortcuts" | "closeOnSelect" | "overlayPlacement"
-  > = {
-    viewMode: "days",
-    shortcuts: "",
+  static defaultProps = {
+    viewMode: 'days' as 'years' | 'months' | 'days' | 'time',
+    shortcuts: '',
     closeOnSelect: true,
-    overlayPlacement: "auto"
+    overlayPlacement: 'auto'
   };
   state: DatePickerState = {
     isOpened: false,
     isFocused: false,
-    value: this.props.value
-      ? (this.props.utc ? moment.utc : moment)(
-          this.props.value,
-          this.props.format
-        )
-      : undefined
+    value: normalizeValue(this.props.value, this.props.format)
   };
   constructor(props: DateProps) {
     super(props);
@@ -273,12 +305,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   componentWillReceiveProps(nextProps: DateProps) {
     if (this.props.value !== nextProps.value) {
       this.setState({
-        value: nextProps.value
-          ? (nextProps.utc ? moment.utc : moment)(
-              nextProps.value,
-              nextProps.format
-            )
-          : undefined
+        value: normalizeValue(nextProps.value, nextProps.format)
       });
     }
   }
@@ -304,8 +331,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
-    if (e.key === " ") {
+    if (e.key === ' ') {
       this.handleClick();
+      e.preventDefault();
     }
   }
 
@@ -338,7 +366,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     e.preventDefault();
     e.stopPropagation();
     const onChange = this.props.onChange;
-    onChange("");
+    onChange('');
   }
 
   handleChange(value: moment.Moment) {
@@ -349,20 +377,21 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       maxTime,
       dateFormat,
       timeFormat,
-      closeOnSelect
+      closeOnSelect,
+      utc
     } = this.props;
 
     if (!moment.isMoment(value)) {
       return;
     }
 
-    if (minTime && value && value.isBefore(minTime, "second")) {
+    if (minTime && value && value.isBefore(minTime, 'second')) {
       value = minTime;
-    } else if (maxTime && value && value.isAfter(maxTime, "second")) {
+    } else if (maxTime && value && value.isAfter(maxTime, 'second')) {
       value = maxTime;
     }
 
-    onChange(value.format(format));
+    onChange(utc ? moment.utc(value).format(format) : value.format(format));
 
     if (closeOnSelect && dateFormat && !timeFormat) {
       this.close();
@@ -370,7 +399,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 
   selectRannge(item: any) {
-    const { closeOnSelect } = this.props;
+    const {closeOnSelect} = this.props;
     const now = moment();
     this.handleChange(item.date(now));
 
@@ -378,11 +407,11 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 
   checkIsValidDate(currentDate: moment.Moment) {
-    const { minDate, maxDate } = this.props;
+    const {minDate, maxDate} = this.props;
 
-    if (minDate && currentDate.isBefore(minDate, "day")) {
+    if (minDate && currentDate.isBefore(minDate, 'day')) {
       return false;
-    } else if (maxDate && currentDate.isAfter(maxDate, "day")) {
+    } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
       return false;
     }
 
@@ -406,12 +435,14 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       return availableShortcuts[key];
     }
 
+    const __ = this.props.translate;
+
     for (let i = 0, len = advancedShortcuts.length; i < len; i++) {
       let item = advancedShortcuts[i];
       const m = item.regexp.exec(key);
 
       if (m) {
-        return item.resolve.apply(item, m);
+        return item.resolve.apply(item, [__, ...m]);
       }
     }
 
@@ -422,13 +453,15 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     if (!shortcuts) {
       return null;
     }
-    const { classPrefix: ns } = this.props;
+    const {classPrefix: ns} = this.props;
     let shortcutArr: Array<string | ShortCuts>;
-    if (typeof shortcuts === "string") {
-      shortcutArr = shortcuts.split(",");
+    if (typeof shortcuts === 'string') {
+      shortcutArr = shortcuts.split(',');
     } else {
       shortcutArr = shortcuts;
     }
+
+    const __ = this.props.translate;
     return (
       <ul className={`${ns}DatePicker-shortcuts`}>
         {shortcutArr.map(item => {
@@ -436,7 +469,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             return null;
           }
           let shortcut: PlainObject = {};
-          if (typeof item === "string") {
+          if (typeof item === 'string') {
             shortcut = this.getAvailableShortcuts(item);
             shortcut.key = item;
           } else if ((item as ShortCutDate).date) {
@@ -451,7 +484,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               onClick={() => this.selectRannge(shortcut)}
               key={shortcut.key || shortcut.label}
             >
-              <a>{shortcut.label}</a>
+              <a>{__(shortcut.label)}</a>
             </li>
           );
         })}
@@ -475,9 +508,12 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       clearable,
       shortcuts,
       utc,
-      overlayPlacement
+      overlayPlacement,
+      locale,
+      format
     } = this.props;
 
+    const __ = this.props.translate;
     const isOpened = this.state.isOpened;
     let date: moment.Moment | undefined = this.state.value;
 
@@ -490,8 +526,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         className={cx(
           `${ns}DatePicker`,
           {
-            "is-disabled": disabled,
-            "is-focused": this.state.isFocused
+            'is-disabled': disabled,
+            'is-focused': this.state.isFocused
           },
           className
         )}
@@ -503,16 +539,20 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             {date.format(inputFormat)}
           </span>
         ) : (
-          <span className={`${ns}DatePicker-placeholder`}>{placeholder}</span>
+          <span className={`${ns}DatePicker-placeholder`}>
+            {__(placeholder)}
+          </span>
         )}
 
-        {clearable && !disabled && value ? (
+        {clearable && !disabled && normalizeValue(value, format) ? (
           <a className={`${ns}DatePicker-clear`} onClick={this.clearValue}>
             <Icon icon="close" className="icon" />
           </a>
         ) : null}
 
-        <a className={`${ns}DatePicker-toggler`} />
+        <a className={`${ns}DatePicker-toggler`}>
+          <Icon icon="calendar" className="icon" />
+        </a>
 
         {isOpened ? (
           <Overlay
@@ -542,7 +582,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 timeConstraints={timeConstraints}
                 input={false}
                 onClose={this.close}
-                utc={utc}
+                locale={locale}
+                // utc={utc}
               />
             </PopOver>
           </Overlay>
@@ -552,4 +593,4 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 }
 
-export default themeable(DatePicker);
+export default themeable(localeable(DatePicker));

@@ -37,7 +37,6 @@ export default class RatingControl extends React.Component<RatingProps, any> {
           count={count}
           half={half}
           readOnly={readOnly}
-          size={size}
           onChange={(value: any) => onChange(value)}
         />
       </div>

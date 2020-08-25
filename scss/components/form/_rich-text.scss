@@ -5,6 +5,14 @@
 }
 
 .#{$ns}RichTextControl {
+  > .tox-tinymce {
+    border: 0;
+  }
+
+  > textarea {
+    width: 100%;
+  }
+
   min-height: px2rem(200px);
   height: auto;
   border: $Form-input-borderWidth solid $Form-input-borderColor;

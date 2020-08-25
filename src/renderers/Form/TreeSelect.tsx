@@ -8,10 +8,14 @@ import {Icon} from '../../components/icons';
 import TreeSelector from '../../components/Tree';
 // @ts-ignore
 import matchSorter from 'match-sorter';
-import debouce = require('lodash/debounce');
-import find = require('lodash/find');
+import debouce from 'lodash/debounce';
+import find from 'lodash/find';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
+import Spinner from '../../components/Spinner';
+import ResultBox from '../../components/ResultBox';
+import {autobind} from '../../utils/helper';
+import {findDOMNode} from 'react-dom';
 
 export interface TreeSelectProps extends OptionsControlProps {
   placeholder?: any;
@@ -39,17 +43,20 @@ export default class TreeSelectControl extends React.Component<
     joinValues: true,
     extractValue: false,
     delimiter: ',',
-    resetValue: '',
-    spinnerClassName: 'fa fa-spinner fa-spin fa-1x fa-fw'
+    resetValue: ''
   };
 
-  container: React.RefObject<HTMLDivElement>;
-  target: React.RefObject<HTMLDivElement>;
-  input: React.RefObject<HTMLInputElement> = React.createRef();
+  container: React.RefObject<HTMLDivElement> = React.createRef();
+
+  input: React.RefObject<any> = React.createRef();
 
   cache: {
     [propName: string]: any;
   } = {};
+
+  target: HTMLElement | null;
+  targetRef = (ref: any) =>
+    (this.target = ref ? (findDOMNode(ref) as HTMLElement) : null);
 
   constructor(props: TreeSelectProps) {
     super(props);
@@ -64,11 +71,8 @@ export default class TreeSelectControl extends React.Component<
     this.close = this.close.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.clearValue = this.clearValue.bind(this);
-    this.target = React.createRef();
-    this.container = React.createRef();
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
-    this.handleClick = this.handleClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
@@ -118,28 +122,29 @@ export default class TreeSelectControl extends React.Component<
     });
   }
 
-  handleClick() {
-    this.state.isOpened
-      ? this.close()
-      : this.open(() => this.input.current && this.input.current.focus());
-  }
-
   handleKeyPress(e: React.KeyboardEvent) {
     if (e.key === ' ') {
-      this.handleClick();
+      this.handleOutClick(e as any);
+      e.preventDefault();
     }
   }
 
   validate(): any {
-    const {value, minLength, maxLength, delimiter} = this.props;
+    const {value, minLength, maxLength, delimiter, translate: __} = this.props;
 
     let curValue = Array.isArray(value)
       ? value
       : (value ? String(value) : '').split(delimiter || ',');
     if (minLength && curValue.length < minLength) {
-      return `已选择数量低于设定的最小个数${minLength}，请选择更多的选项。`;
+      return __(
+        '已选择数量低于设定的最小个数${minLength}，请选择更多的选项。',
+        {minLength}
+      );
     } else if (maxLength && curValue.length > maxLength) {
-      return `已选择数量超出设定的最大个数${maxLength}，请取消选择超出的选项。`;
+      return __(
+        '已选择数量超出设定的最大个数{{maxLength}}，请取消选择超出的选项。',
+        {maxLength}
+      );
     }
   }
 
@@ -193,12 +198,12 @@ export default class TreeSelectControl extends React.Component<
         );
   }
 
-  handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  handleInputChange(value: string) {
     const {autoComplete, data} = this.props;
 
     this.setState(
       {
-        inputValue: e.currentTarget.value
+        inputValue: value
       },
       isEffectiveApi(autoComplete, data)
         ? () => this.loadRemote(this.state.inputValue)
@@ -312,51 +317,47 @@ export default class TreeSelectControl extends React.Component<
     reload && reload();
   }
 
-  renderValues() {
+  @autobind
+  handleOutClick(e: React.MouseEvent<any>) {
+    e.defaultPrevented ||
+      this.setState({
+        isOpened: true
+      });
+  }
+
+  @autobind
+  handleResultChange(value: Array<Option>) {
     const {
-      classPrefix: ns,
-      selectedOptions,
-      multiple,
-      labelField,
-      disabled,
-      placeholder,
-      classnames: cx
+      joinValues,
+      extractValue,
+      delimiter,
+      valueField,
+      onChange,
+      multiple
     } = this.props;
 
-    if ((!multiple || !selectedOptions.length) && this.state.inputValue) {
-      return null;
+    let newValue: any = Array.isArray(value) ? value.concat() : [];
+
+    if (!multiple && !newValue.length) {
+      onChange('');
+      return;
     }
 
-    return selectedOptions.length ? (
-      selectedOptions.map((item, index) =>
-        multiple ? (
-          <div
-            key={index}
-            className={cx(`TreeSelect-value`, {
-              disabled
-            })}
-          >
-            <span
-              className={cx('TreeSelect-valueIcon')}
-              onClick={this.removeItem.bind(this, index)}
-            >
-              ×
-            </span>
-            <span className={cx('TreeSelect-valueLabel')}>
-              {item[labelField || 'label']}
-            </span>
-          </div>
-        ) : (
-          <div className={cx('TreeSelect-value')} key={index}>
-            {item[labelField || 'label']}
-          </div>
-        )
-      )
-    ) : (
-      <span key="placeholder" className={cx('TreeSelect-placeholder')}>
-        {placeholder}
-      </span>
-    );
+    if (joinValues || extractValue) {
+      newValue = value.map(item => item[valueField || 'value']);
+    }
+
+    if (joinValues) {
+      newValue = newValue.join(delimiter || ',');
+    }
+
+    onChange(newValue);
+  }
+
+  @autobind
+  renderItem(item: Option) {
+    const {labelField} = this.props;
+    return item[labelField || 'label'];
   }
 
   renderOuter() {
@@ -385,7 +386,9 @@ export default class TreeSelectControl extends React.Component<
       searchable,
       autoComplete,
       maxLength,
-      minLength
+      minLength,
+      labelField,
+      translate: __
     } = this.props;
 
     let filtedOptions =
@@ -396,16 +399,14 @@ export default class TreeSelectControl extends React.Component<
     return (
       <Overlay
         container={popOverContainer || (() => this.container.current)}
-        target={() => this.target.current}
+        target={() => this.target}
         show
       >
         <PopOver
           classPrefix={ns}
           className={`${ns}TreeSelect-popover`}
           style={{
-            minWidth: this.target.current
-              ? this.target.current.offsetWidth
-              : undefined
+            minWidth: this.target ? this.target.offsetWidth : undefined
           }}
           onHide={this.close}
           overlay
@@ -413,20 +414,21 @@ export default class TreeSelectControl extends React.Component<
           <TreeSelector
             classPrefix={ns}
             onlyChildren={onlyChildren}
+            labelField={labelField}
             valueField={valueField}
             disabled={disabled}
             onChange={this.handleChange}
             joinValues={joinValues}
             extractValue={extractValue}
             delimiter={delimiter}
-            placeholder={optionsPlaceholder}
+            placeholder={__(optionsPlaceholder)}
             options={filtedOptions}
             highlightTxt={this.state.inputValue}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
             unfoldedLevel={unfoldedLevel}
             withChildren={withChildren}
-            rootLabel={rootLabel}
+            rootLabel={__(rootLabel)}
             rootValue={rootValue}
             showIcon={showIcon}
             showRadio={showRadio}
@@ -434,7 +436,6 @@ export default class TreeSelectControl extends React.Component<
             foldedField="collapsed"
             hideRoot
             value={value || ''}
-            labelField="label"
             maxLength={maxLength}
             minLength={minLength}
           />
@@ -447,7 +448,6 @@ export default class TreeSelectControl extends React.Component<
     const {
       className,
       disabled,
-      spinnerClassName,
       inline,
       loading,
       multiple,
@@ -457,17 +457,17 @@ export default class TreeSelectControl extends React.Component<
       classnames: cx,
       searchable,
       autoComplete,
-      selectedOptions
+      selectedOptions,
+      placeholder,
+      translate: __
     } = this.props;
 
     return (
       <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
-        <div
-          tabIndex={0}
-          onKeyPress={this.handleKeyPress}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          ref={this.target}
+        <ResultBox
+          disabled={disabled}
+          ref={this.targetRef}
+          placeholder={__(placeholder || '空')}
           className={cx(`TreeSelect`, {
             'TreeSelect--inline': inline,
             'TreeSelect--single': !multiple,
@@ -478,49 +478,29 @@ export default class TreeSelectControl extends React.Component<
             'is-focused': this.state.isFocused,
             'is-disabled': disabled
           })}
+          result={
+            multiple
+              ? selectedOptions
+              : selectedOptions.length
+              ? this.renderItem(selectedOptions[0])
+              : ''
+          }
+          onResultClick={this.handleOutClick}
+          value={this.state.inputValue}
+          onChange={this.handleInputChange}
+          onResultChange={this.handleResultChange}
+          itemRender={this.renderItem}
+          onKeyPress={this.handleKeyPress}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          onKeyDown={this.handleInputKeyDown}
+          clearable={clearable}
+          allowInput={searchable || isEffectiveApi(autoComplete)}
+          inputPlaceholder={''}
         >
-          <div onClick={this.handleClick} className={cx('TreeSelect-input')}>
-            <div className={cx('TreeSelect-valueWrap')}>
-              {this.renderValues()}
-
-              {searchable || isEffectiveApi(autoComplete) ? (
-                <input
-                  onChange={this.handleInputChange}
-                  value={this.state.inputValue}
-                  ref={this.input}
-                  onKeyDown={this.handleInputKeyDown}
-                  // {...getInputProps({
-                  //     className: `${ns}Select-input`,
-                  //     onFocus: this.onFocus,
-                  //     onBlur: this.onBlur,
-                  //     onKeyDown: (event) => {
-                  //         if (event.key === 'Backspace' && !inputValue) {
-                  //             this.removeItem(value.length - 1);
-                  //         }
-                  //     },
-                  //     onChange: this.handleInputChange,
-                  //     ref: this.inputRef
-                  // })}
-                />
-              ) : null}
-            </div>
-
-            {clearable && !disabled && selectedOptions.length ? (
-              <a onClick={this.clearValue} className={`${ns}TreeSelect-clear`}>
-                <Icon icon="close" className="icon" />
-              </a>
-            ) : null}
-
-            {loading ? (
-              <span className={cx('TreeSelect-spinner')}>
-                <i className={spinnerClassName} />
-              </span>
-            ) : null}
-            <span className={cx('TreeSelect-arrow')} />
-          </div>
-
-          {this.state.isOpened ? this.renderOuter() : null}
-        </div>
+          {loading ? <Spinner size="sm" /> : undefined}
+        </ResultBox>
+        {this.state.isOpened ? this.renderOuter() : null}
       </div>
     );
   }

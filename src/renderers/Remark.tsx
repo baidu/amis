@@ -5,6 +5,7 @@ import cx from 'classnames';
 import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
 import {themeable} from '../theme';
+import {Icon} from '../components/icons';
 
 export function filterContents(
   tooltip:
@@ -43,7 +44,7 @@ type RemarkProps = {
 class Remark extends React.Component<RemarkProps> {
   static propsList: Array<string> = [];
   static defaultProps = {
-    icon: 'fa fa-question-circle',
+    icon: '',
     trigger: ['hover', 'focus']
   };
 
@@ -62,6 +63,8 @@ class Remark extends React.Component<RemarkProps> {
       data
     } = this.props;
 
+    const finalIcon = (tooltip && tooltip.icon) || icon;
+
     return (
       <div
         className={cx(
@@ -73,13 +76,18 @@ class Remark extends React.Component<RemarkProps> {
           classPrefix={ns}
           classnames={cx}
           tooltip={filterContents(tooltip || content, data)}
+          tooltipClassName={tooltip && tooltip.tooltipClassName}
           placement={(tooltip && tooltip.placement) || placement}
           rootClose={(tooltip && tooltip.rootClose) || rootClose}
           trigger={(tooltip && tooltip.trigger) || trigger}
           container={container}
           delay={tooltip && tooltip.delay}
         >
-          <i className={cx('Remark-icon', (tooltip && tooltip.icon) || icon)} />
+          {finalIcon ? (
+            <i className={cx('Remark-icon', finalIcon)} />
+          ) : (
+            <Icon icon="question" className="icon" />
+          )}
         </TooltipWrapper>
       </div>
     );

@@ -22,7 +22,7 @@ const mapping: {
   'amis': __moduleId('../src'),
   'amis/embed': __moduleId('./embed.tsx'),
   'prop-types': __moduleId('prop-types'),
-  'async': __moduleId('async'),
+  'async/mapLimit': __moduleId('async/mapLimit'),
   'qs': __moduleId('qs')
 };
 
@@ -30,7 +30,7 @@ function amisRequire(...args: Array<any>) {
   let id = args.shift();
   id = Array.isArray(id) ? id.map(id => mapping[id] || id) : mapping[id] || id;
   args.unshift(id);
-  return require.apply(this, args);
+  return amis.require.apply(this, args);
 }
 
 (window as any).amisRequire = amisRequire;

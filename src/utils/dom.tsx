@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import hoistNonReactStatic = require('hoist-non-react-statics');
-import domOwnerDocument = require('dom-helpers/ownerDocument');
-import css = require('dom-helpers/style/index');
-import getOffset = require('dom-helpers/query/offset');
-import getPosition = require('dom-helpers/query/position');
-import getScrollTop = require('dom-helpers/query/scrollTop');
+import hoistNonReactStatic from 'hoist-non-react-statics';
+import domOwnerDocument from 'dom-helpers/ownerDocument';
+import css from 'dom-helpers/style/index';
+import getOffset from 'dom-helpers/query/offset';
+import getPosition from 'dom-helpers/query/position';
+import getScrollTop from 'dom-helpers/query/scrollTop';
 
 const bsMapping: {
   [propName: string]: string;
@@ -70,7 +70,7 @@ function getContainerDimensions(containerNode: any) {
       getScrollTop(ownerDocument(containerNode).documentElement) ||
       getScrollTop(containerNode);
   } else {
-    ({width, height} = getOffset(containerNode));
+    ({width, height} = getOffset(containerNode) as any);
     scroll = getScrollTop(containerNode);
   }
 
@@ -144,14 +144,22 @@ export function calculatePosition(
   container: any,
   padding: any = 0
 ) {
-  const childOffset =
+  const childOffset: any =
     container.tagName === 'BODY'
       ? getOffset(target)
       : getPosition(target, container);
-  const {height: overlayHeight, width: overlayWidth} = getOffset(overlayNode);
-  const clip = target.getBoundingClientRect();
-  const scaleX = clip.width / target.offsetWidth;
-  const scaleY = clip.height / target.offsetHeight;
+  const {height: overlayHeight, width: overlayWidth} = getOffset(
+    overlayNode
+  ) as any;
+
+  const clip = container.getBoundingClientRect();
+  const clip2 = overlayNode.getBoundingClientRect();
+  const scaleX = overlayNode.offsetWidth
+    ? clip2.width / overlayNode.offsetWidth
+    : 1;
+  const scaleY = overlayNode.offsetHeight
+    ? clip2.height / overlayNode.offsetHeight
+    : 1;
 
   // auto 尝试四个方向对齐。
   placement =
@@ -199,8 +207,8 @@ export function calculatePosition(
       // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
       if (tests.length) {
         const transformed = {
-          x: clip.x + positionLeft / scaleX - childOffset.left,
-          y: clip.y + positionTop / scaleY - childOffset.top,
+          x: clip.x + positionLeft / scaleX,
+          y: clip.y + positionTop / scaleY,
           width: overlayWidth,
           height: overlayHeight
         };
@@ -257,7 +265,7 @@ export function calculatePosition(
 
     positionLeft += leftDelta;
     arrowOffsetLeft = 50 * (1 - (2 * leftDelta) / overlayHeight) + '%';
-  } else if ((placement = 'center')) {
+  } else if (placement === 'center') {
     // atX = atY = myX = myY = 'center';
     positionLeft = childOffset.left + (childOffset.width - overlayWidth) / 2;
     positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;

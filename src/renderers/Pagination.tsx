@@ -1,6 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {autobind} from '../utils/helper';
+import {Icon} from '../components/icons';
 
 export interface PaginationProps extends RendererProps {
   activePage: number;
@@ -48,7 +49,7 @@ export default class Pagination extends React.Component<
       <ul className={cx('Pagination', 'Pagination--sm')}>
         <li
           className={cx({
-            disabled: activePage < 2
+            'is-disabled': activePage < 2
           })}
           onClick={
             activePage < 2
@@ -57,12 +58,12 @@ export default class Pagination extends React.Component<
           }
         >
           <a>
-            <i className="fa fa-chevron-left" />
+            <Icon icon="left-arrow" className="icon" />
           </a>
         </li>
         <li
           className={cx({
-            disabled: !hasNext
+            'is-disabled': !hasNext
           })}
           onClick={
             !hasNext
@@ -71,7 +72,7 @@ export default class Pagination extends React.Component<
           }
         >
           <a>
-            <i className="fa fa-chevron-right" />
+            <Icon icon="right-arrow" className="icon" />
           </a>
         </li>
       </ul>
@@ -133,7 +134,7 @@ export default class Pagination extends React.Component<
           onClick={() => onPageChange(page)}
           key={page}
           className={cx({
-            active: page === activePage
+            'is-active': page === activePage
           })}
         >
           <a role="button">{page}</a>
@@ -155,7 +156,7 @@ export default class Pagination extends React.Component<
           onClick={() => onPageChange(1)}
           key={1}
           className={cx({
-            active: 1 === activePage
+            'is-active': 1 === activePage
           })}
         >
           <a role="button">{1}</a>
@@ -183,7 +184,7 @@ export default class Pagination extends React.Component<
           onClick={() => onPageChange(items)}
           key={items}
           className={cx({
-            active: items === activePage
+            'is-active': items === activePage
           })}
         >
           <a role="button">{items}</a>
@@ -194,7 +195,7 @@ export default class Pagination extends React.Component<
     pageButtons.unshift(
       <li
         className={cx('Pagination-prev', {
-          disabled: activePage === 1
+          'is-disabled': activePage === 1
         })}
         onClick={
           activePage === 1
@@ -203,14 +204,16 @@ export default class Pagination extends React.Component<
         }
         key="prev"
       >
-        <span />
+        <span>
+          <Icon icon="left-arrow" className="icon" />
+        </span>
       </li>
     );
 
     pageButtons.push(
       <li
         className={cx('Pagination-next', {
-          disabled: activePage === items
+          'is-disabled': activePage === items
         })}
         onClick={
           activePage === items
@@ -219,7 +222,9 @@ export default class Pagination extends React.Component<
         }
         key="next"
       >
-        <span />
+        <span>
+          <Icon icon="right-arrow" className="icon" />
+        </span>
       </li>
     );
 

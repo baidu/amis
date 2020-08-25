@@ -5,8 +5,9 @@ import {ClassNamesFn, themeable} from '../../theme';
 import {Select} from '../../components';
 import {autobind} from '../../utils/helper';
 import {Option} from './Options';
+import {localeable, LocaleProps} from '../../locale';
 
-export interface CityPickerProps {
+export interface CityPickerProps extends LocaleProps {
   value: any;
   onChange: (value: any) => void;
   extractValue: boolean;
@@ -18,7 +19,7 @@ export interface CityPickerProps {
   disabled?: boolean;
   allowCity: boolean;
   allowDistrict: boolean;
-  // allowStreet: boolean;
+  allowStreet: boolean;
 }
 
 export interface CityPickerState {
@@ -41,8 +42,8 @@ export class CityPicker extends React.Component<
     extractValue: true,
     delimiter: ',',
     allowCity: true,
-    allowDistrict: true
-    // allowStreet: false
+    allowDistrict: true,
+    allowStreet: false
   };
 
   state = {
@@ -56,15 +57,15 @@ export class CityPicker extends React.Component<
     street: ''
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.syncIn();
   }
 
-  componentWillReceiveProps(nextProps: CityPickerProps) {
+  componentDidUpdate(prevProps: CityPickerProps) {
     const props = this.props;
 
-    if (props.value !== nextProps.value) {
-      this.syncIn(nextProps);
+    if (props.value !== prevProps.value) {
+      this.syncIn(props);
     }
   }
 
@@ -192,26 +193,20 @@ export class CityPicker extends React.Component<
   syncOut() {
     const {
       onChange,
-      // allowStreet,
+      allowStreet,
       joinValues,
       extractValue,
       delimiter
     } = this.props;
 
-    const {
-      code,
-      province,
-      city,
-      district
-      // street
-    } = this.state;
+    const {code, province, city, district, street} = this.state;
 
     if (typeof extractValue === 'undefined' ? joinValues : extractValue) {
       code
         ? onChange(
-            /*allowStreet && street ? [code, street].join(delimiter) :*/ String(
-              code
-            )
+            allowStreet && street
+              ? [code, street].join(delimiter)
+              : String(code)
           )
         : onChange('');
     } else {
@@ -219,8 +214,8 @@ export class CityPicker extends React.Component<
         code,
         province,
         city,
-        district
-        // street
+        district,
+        street
       });
     }
   }
@@ -231,8 +226,9 @@ export class CityPicker extends React.Component<
       className,
       disabled,
       allowCity,
-      allowDistrict
-      // allowStreet
+      allowDistrict,
+      allowStreet,
+      translate: __
     } = this.props;
 
     const {provinceCode, cityCode, districtCode, street} = this.state;
@@ -290,20 +286,21 @@ export class CityPicker extends React.Component<
           />
         ) : null}
 
-        {/*allowStreet && districtCode ? (
-                    <input
-                        className={cx('CityPicker-input')}
-                        value={street}
-                        onChange={this.handleStreetChange}
-                        onBlur={this.handleStreetEnd}
-                    />
-                ) : null*/}
+        {allowStreet && provinceCode ? (
+          <input
+            className={cx('CityPicker-input')}
+            value={street}
+            onChange={this.handleStreetChange}
+            onBlur={this.handleStreetEnd}
+            placeholder={__('请输入街道信息')}
+          />
+        ) : null}
       </div>
     );
   }
 }
 
-const ThemedCity = themeable(CityPicker);
+const ThemedCity = themeable(localeable(CityPicker));
 export default ThemedCity;
 
 export interface LocationControlProps extends FormControlProps {
@@ -311,7 +308,7 @@ export interface LocationControlProps extends FormControlProps {
   allowDistrict?: boolean;
   extractValue?: boolean;
   joinValues?: boolean;
-  // allowStreet?: boolean;
+  allowStreet?: boolean;
 }
 export class LocationControl extends React.Component<LocationControlProps> {
   render() {
@@ -321,8 +318,8 @@ export class LocationControl extends React.Component<LocationControlProps> {
       allowCity,
       allowDistrict,
       extractValue,
-      joinValues
-      // allowStreet
+      joinValues,
+      allowStreet
     } = this.props;
     return (
       <ThemedCity
@@ -332,7 +329,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
         allowDistrict={allowDistrict}
         extractValue={extractValue}
         joinValues={joinValues}
-        // allowStreet={allowStreet}
+        allowStreet={allowStreet}
       />
     );
   }

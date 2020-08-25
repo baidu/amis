@@ -2,8 +2,9 @@ import moment from 'moment';
 // @ts-ignore
 import DaysView from 'react-datetime/src/DaysView';
 import React from 'react';
+import {LocaleProps, localeable} from '../../locale';
 
-interface CustomDaysViewProps {
+interface CustomDaysViewProps extends LocaleProps {
   classPrefix?: string;
   prevIcon?: string;
   nextIcon?: string;
@@ -36,7 +37,7 @@ interface CustomDaysViewProps {
   handleClickOutside: () => void;
 }
 
-export default class CustomDaysView extends DaysView {
+export class CustomDaysView extends DaysView {
   props: CustomDaysViewProps;
   getDaysOfWeek: (locale: any) => any;
   renderDays: () => JSX.Element;
@@ -93,7 +94,7 @@ export default class CustomDaysView extends DaysView {
   };
 
   confirm = () => {
-    const date = this.props.viewDate.clone();
+    const date = (this.props.selectedDate || this.props.viewDate).clone();
 
     this.props.setDateTimeState({
       selectedDate: date
@@ -160,6 +161,8 @@ export default class CustomDaysView extends DaysView {
       return null;
     }
 
+    const __ = this.props.translate;
+
     return (
       <tfoot key="tf">
         <tr>
@@ -168,10 +171,10 @@ export default class CustomDaysView extends DaysView {
             {this.props.requiredConfirm ? (
               <div key="button" className="rdtActions">
                 <a className="rdtBtn rdtBtnConfirm" onClick={this.confirm}>
-                  确认
+                  {__('确认')}
                 </a>
                 <a className="rdtBtn rdtBtnCancel" onClick={this.cancel}>
-                  取消
+                  {__('取消')}
                 </a>
               </div>
             ) : null}
@@ -185,6 +188,7 @@ export default class CustomDaysView extends DaysView {
     const footer = this.renderFooter();
     const date = this.props.viewDate;
     const locale = date.localeData();
+    const __ = this.props.translate;
 
     const tableChildren = [
       <thead key="th">
@@ -206,13 +210,13 @@ export default class CustomDaysView extends DaysView {
 
               <div className="rdtCenter">
                 <a className="rdtSwitch" onClick={this.props.showView('years')}>
-                  {date.format('YYYY年')}
+                  {date.format(__('YYYY年'))}
                 </a>
                 <a
                   className="rdtSwitch"
                   onClick={this.props.showView('months')}
                 >
-                  {date.format('MM月')}
+                  {date.format(__('MMM'))}
                 </a>
               </div>
 
@@ -246,3 +250,7 @@ export default class CustomDaysView extends DaysView {
     );
   }
 }
+
+export default localeable(
+  (CustomDaysView as any) as React.ComponentClass<CustomDaysViewProps>
+);

@@ -31,7 +31,7 @@ export class OperationField extends React.Component<OperationProps, object> {
                   level:
                     button.level ||
                     (button.icon && !button.label ? 'link' : ''),
-                  ...button
+                  ...(button as any)
                 },
                 {
                   key: index

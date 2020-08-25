@@ -3,8 +3,11 @@ import {Renderer} from '../../factory';
 import cx from 'classnames';
 import Container from '../Container';
 import FormItem, {FormControlProps} from './Item';
+import {IIRendererStore} from '../../store/iRenderer';
 
-export interface ContainerProps extends FormControlProps {}
+export interface ContainerProps extends FormControlProps {
+  store: IIRendererStore;
+}
 
 @FormItem({
   type: 'container',
@@ -12,6 +15,8 @@ export interface ContainerProps extends FormControlProps {}
   sizeMutable: false
 })
 export class ContainerControlRenderer extends Container<ContainerProps> {
+  static propsList: Array<string> = ['onChange'];
+
   renderBody(): JSX.Element | null {
     const {
       renderFormItems,

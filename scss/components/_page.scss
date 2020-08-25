@@ -1,4 +1,6 @@
 .#{$ns}Page {
+  width: 100%;
+
   &-header {
     padding: $Page-header-paddingY $Page-header-paddingX;
   }
@@ -21,15 +23,13 @@
   &-headerRow {
     border-bottom: $borderWidth solid $borderColor;
 
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-    border-spacing: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
     .#{$ns}Page-header,
     .#{$ns}Page-toolbar {
-      display: table-cell;
-      vertical-align: middle;
+      flex-grow: 1;
     }
 
     .#{$ns}Page-toolbar {
@@ -81,24 +81,18 @@
     }
 
     width: $Page-aside-width;
+    max-width: $Page-aside-maxWidth;
     border-right: $borderWidth solid $borderColor;
   }
 
   .#{$ns}Page--withSidebar {
-    display: table;
-    table-layout: fixed;
-    width: 100%;
-    height: 100%;
-    border-spacing: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
 
-    .#{$ns}Page-aside,
-    .#{$ns}Page-content {
-      display: table-cell;
-      vertical-align: top;
-    }
-
-    .#{$ns}Page-content {
-      width: 100%;
+    > .#{$ns}Page-content {
+      width: 0;
+      flex-grow: 1;
     }
   }
 }

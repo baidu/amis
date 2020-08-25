@@ -4,176 +4,73 @@
  * @author fex
  */
 
-import React from "react";
-import uncontrollable = require("uncontrollable");
-import Checkbox from "./Checkbox";
-import find = require("lodash/find");
-import chunk = require("lodash/chunk");
-import { flattenTree, isObject } from "../utils/helper";
-import { ClassNamesFn, themeable } from "../theme";
-import { optionValueCompare } from "./Select";
-// import isPlainObject = require('lodash/isPlainObject');
+import React from 'react';
+import {uncontrollable} from 'uncontrollable';
+import Checkbox from './Checkbox';
+import chunk from 'lodash/chunk';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import {Option, value2array, Options} from './Select';
+import find from 'lodash/find';
+import {autobind, findTree} from '../utils/helper';
+import isEqual from 'lodash/isEqual';
+import {LocaleProps, localeable} from '../locale';
+// import isPlainObject from 'lodash/isPlainObject';
 
-export interface Option {
-  label?: string;
-  value?: any;
-  disabled?: boolean;
-  children?: Options;
-  description?: string;
-  [propName: string]: any;
-}
-export interface Options extends Array<Option> {}
-
-export interface OptionProps {
-  multi?: boolean;
-  multiple?: boolean;
-  valueField?: string;
-  options?: Options;
-  joinValues: boolean;
-  extractValue: boolean;
-  delimiter: string;
-  clearable: boolean;
+export interface BaseCheckboxesProps extends ThemeProps, LocaleProps {
+  options: Options;
+  className?: string;
   placeholder?: string;
+  value?: Array<any>;
+  onChange?: (value: Array<Option>) => void;
+  onDeferLoad?: (option: Option) => void;
+  inline?: boolean;
+  labelClassName?: string;
+  option2value?: (option: Option) => any;
+  itemClassName?: string;
+  itemRender: (option: Option) => JSX.Element;
+
+  disabled?: boolean;
 }
 
-export type OptionValue = string | number | null | undefined | Option;
+export class BaseCheckboxes<
+  T extends BaseCheckboxesProps = BaseCheckboxesProps,
+  S = any
+> extends React.Component<T, S> {
+  static defaultProps = {
+    placeholder: '暂无选项',
+    itemRender: (option: Option) => <span>{option.label}</span>
+  };
 
-export function value2array(
-  value: OptionValue | Array<OptionValue>,
-  props: Partial<OptionProps>
-): Array<Option> {
-  if (props.multi || props.multiple) {
-    if (typeof value === "string") {
-      value = value.split(props.delimiter || ",");
+  static value2array(
+    value: any,
+    options: Options,
+    option2value: (option: Option) => any = (option: Option) => option
+  ): Options {
+    if (value === void 0) {
+      return [];
     }
 
     if (!Array.isArray(value)) {
-      if (value === null || value === undefined) {
-        return [];
-      }
-
       value = [value];
     }
 
-    return (value as Array<OptionValue>)
-      .map((value: OptionValue) =>
-        expandValue(
-          !props.joinValues &&
-            value &&
-            value.hasOwnProperty(props.valueField || "value")
-            ? (value as any)[props.valueField || "value"]
-            : value,
-          props
-        )
-      )
-      .filter((item: Option) => item) as Array<Option>;
+    return value.map((value: any) => {
+      const option = findTree(options, option =>
+        isEqual(option2value(option), value)
+      );
+      return option || value;
+    });
   }
-
-  let expandedValue = expandValue(value as OptionValue, props);
-  return expandedValue ? [expandedValue] : [];
-}
-
-export function expandValue(
-  value: OptionValue,
-  props: Partial<OptionProps>
-): Option | null {
-  const valueType = typeof value;
-
-  if (
-    valueType !== "string" &&
-    valueType !== "number" &&
-    valueType !== "boolean" &&
-    valueType !== "object"
-  ) {
-    return null;
-  }
-
-  let { options, valueField } = props;
-
-  if (!options) {
-    return null;
-  }
-
-  if (
-    valueType === "object" &&
-    value &&
-    value.hasOwnProperty(valueField || "value")
-  ) {
-    value = (value as Option)[valueField || "value"] || "";
-  }
-
-  return find(
-    flattenTree(options),
-    optionValueCompare(value, valueField || "value")
-  ) as Option;
-}
-
-/**
- * 参数说明：
- *
- * options: [
- *   {
- *      label: '显示的名字',
- *      value: '值',
- *      disabled: false
- *   }
- * ]
- */
-interface CheckboxesProps extends OptionProps {
-  id?: string;
-  key?: string;
-  className?: string;
-  type: string;
-  placeholder?: string;
-  disabled?: boolean;
-  value?: string;
-  onChange?: Function;
-  inline?: boolean;
-  columnsCount?: number;
-  checked?: boolean;
-  labelClassName?: string;
-  classPrefix: string;
-  classnames: ClassNamesFn;
-}
-
-export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
-  static defaultProps = {
-    joinValues: true,
-    extractValue: false,
-    inline: false,
-    delimiter: ",",
-    columnsCount: 1 // 一行显示一个
-  };
 
   toggleOption(option: Option) {
-    const {
-      value,
-      onChange,
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField,
-      options
-    } = this.props;
+    const {value, onChange, option2value, options} = this.props;
 
-    let valueArray = value2array(value, {
-      multiple: true,
-      valueField,
-      delimiter,
-      options
-    });
-    let idx = valueArray.indexOf(option);
-
-    if (!~idx) {
-      option =
-        value2array(option[valueField || "value"], {
-          multiple: true,
-          valueField,
-          delimiter,
-          options
-        })[0] || option;
-      idx = valueArray.indexOf(option);
+    if (option.disabled) {
+      return;
     }
+
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    let idx = valueArray.indexOf(option);
 
     if (~idx) {
       valueArray.splice(idx, 1);
@@ -181,15 +78,25 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
       valueArray.push(option);
     }
 
-    let newValue: string | Array<Option> = valueArray;
+    let newValue: string | Array<Option> = option2value
+      ? valueArray.map(item => option2value(item))
+      : valueArray;
 
-    if (joinValues) {
-      newValue = newValue
-        .map(item => item[valueField || "value"])
-        .join(delimiter);
-    } else if (extractValue) {
-      newValue = newValue.map(item => item[valueField || "value"]);
+    onChange && onChange(newValue);
+  }
+
+  @autobind
+  toggleAll() {
+    const {value, onChange, option2value, options} = this.props;
+    let valueArray: Array<Option> = [];
+
+    if (!Array.isArray(value) || !value.length) {
+      valueArray = options.filter(option => !option.disabled);
     }
+
+    let newValue: string | Array<Option> = option2value
+      ? valueArray.map(item => option2value(item))
+      : valueArray;
 
     onChange && onChange(newValue);
   }
@@ -197,66 +104,59 @@ export class Checkboxes extends React.PureComponent<CheckboxesProps, any> {
   render() {
     const {
       value,
-      valueField,
-      delimiter,
       options,
       className,
       placeholder,
-      columnsCount,
-      disabled,
       inline,
-      labelClassName
+      labelClassName,
+      disabled,
+      classnames: cx,
+      option2value,
+      itemClassName,
+      itemRender
     } = this.props;
 
-    let valueArray = value2array(value, {
-      multiple: true,
-      valueField,
-      delimiter,
-      options
-    });
+    const __ = this.props.translate;
+
+    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
-    if (options) {
+    if (Array.isArray(options) && options.length) {
       body = options.map((option, key) => (
         <Checkbox
+          className={cx(itemClassName, option.className)}
           key={key}
           onChange={() => this.toggleOption(option)}
           checked={!!~valueArray.indexOf(option)}
           disabled={disabled || option.disabled}
-          inline={inline}
           labelClassName={labelClassName}
+          description={option.description}
         >
-          {option.label}
+          {itemRender(option)}
         </Checkbox>
       ));
     }
 
-    if (!inline && (columnsCount as number) > 1) {
-      let cellClassName = `col-sm-${(12 / (columnsCount as number))
-        .toFixed(1)
-        .replace(/\.0$/, "")
-        .replace(/\./, "-")}`;
-      body = chunk(body, columnsCount).map((group, groupIndex) => (
-        <div className="row" key={groupIndex}>
-          {group.map((item, index) => (
-            <div key={index} className={cellClassName}>
-              {item}
-            </div>
-          ))}
-        </div>
-      ));
-    }
-
     return (
-      <div className={className}>
-        {body && body.length ? body : placeholder}
+      <div
+        className={cx(
+          'Checkboxes',
+          className,
+          inline ? 'Checkboxes--inline' : ''
+        )}
+      >
+        {body && body.length ? body : <div>{__(placeholder)}</div>}
       </div>
     );
   }
 }
 
+export class Checkboxes extends BaseCheckboxes {}
+
 export default themeable(
-  uncontrollable(Checkboxes, {
-    value: "onChange"
-  })
+  localeable(
+    uncontrollable(Checkboxes, {
+      value: 'onChange'
+    })
+  )
 );

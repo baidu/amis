@@ -39,6 +39,7 @@ export default class Panel extends React.Component<PanelProps> {
   unSensor: Function;
   affixDom: React.RefObject<HTMLDivElement> = React.createRef();
   footerDom: React.RefObject<HTMLDivElement> = React.createRef();
+  timer: NodeJS.Timeout;
 
   componentDidMount() {
     const dom = findDOMNode(this) as HTMLElement;
@@ -56,6 +57,7 @@ export default class Panel extends React.Component<PanelProps> {
     const parent = this.parentNode;
     parent && parent.removeEventListener('scroll', this.affixDetect);
     this.unSensor && this.unSensor();
+    clearTimeout(this.timer);
   }
 
   @autobind
@@ -71,8 +73,13 @@ export default class Panel extends React.Component<PanelProps> {
     const affixDom = this.affixDom.current;
     const footerDom = this.footerDom.current;
     let affixed = false;
-    footerDom.offsetWidth &&
-      (affixDom.style.cssText = `width: ${footerDom.offsetWidth}px;`);
+
+    if (footerDom.offsetWidth) {
+      affixDom.style.cssText = `width: ${footerDom.offsetWidth}px`;
+    } else {
+      this.timer = setTimeout(this.affixDetect, 250);
+      return;
+    }
 
     if (this.props.affixFooter === 'always') {
       affixed = true;

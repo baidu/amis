@@ -1,4 +1,5 @@
 .#{$ns}Collapse {
+  border: none;
   padding: 0;
   margin-bottom: $Form-item-gap;
 
@@ -43,6 +44,7 @@
 
   &-content {
     transition: height 0.35s ease;
+
     &.in,
     &.out {
       height: 0;

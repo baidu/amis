@@ -7,18 +7,19 @@ import React from 'react';
 import {render} from 'react-dom';
 import Modal from './Modal';
 import Button from './Button';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import {LocaleProps, localeable} from '../locale';
+import Html from './Html';
+import {PlainObject} from '../types';
+import {render as renderSchema} from '../factory';
 
-export interface AlertProps {
+export interface AlertProps extends ThemeProps, LocaleProps {
   container?: any;
   confirmText?: string;
   cancelText?: string;
   title?: string;
   confirmBtnLevel?: string;
   alertBtnLevel?: string;
-  classPrefix: string;
-  classnames: ClassNamesFn;
-  theme?: string;
 }
 
 export interface AlertState {
@@ -26,6 +27,10 @@ export interface AlertState {
   title?: string;
   content: string;
   confirm: boolean;
+  prompt?: boolean;
+  controls?: any;
+  value?: any;
+  confirmText?: string;
 }
 
 export class Alert extends React.Component<AlertProps, AlertState> {
@@ -36,7 +41,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       const container = document.body;
       const div = document.createElement('div');
       container.appendChild(div);
-      render(<ThemedAlert />, div);
+      render(<FinnalAlert />, div);
     }
 
     return Alert.instance;
@@ -58,7 +63,8 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     this.handleConfirm = this.handleConfirm.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.modalRef = this.modalRef.bind(this);
-    this.bodyRef = this.bodyRef.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.scopeRef = this.scopeRef.bind(this);
   }
 
   static defaultProps = {
@@ -87,8 +93,19 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     Alert.instance = null;
   }
 
+  schemaSope: any;
+  scopeRef(schemaSope: any) {
+    this.schemaSope = schemaSope;
+  }
+
   handleConfirm() {
-    this.close(true);
+    const form = this.schemaSope?.getComponentByName('form');
+
+    if (form) {
+      form.doAction({type: 'submit'});
+    } else {
+      this.close(true);
+    }
   }
 
   handleCancel() {
@@ -96,7 +113,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
   }
 
   close(confirmed: boolean) {
-    const isConfirm = this.state.confirm;
+    const isConfirm = this.state.confirm || this.state.prompt;
 
     this.setState(
       {
@@ -115,12 +132,52 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     });
   }
 
-  confirm(content: string, title?: string) {
+  confirm(content: string, title?: string, confirmText?: string) {
     this.setState({
       title,
       content,
       show: true,
-      confirm: true
+      confirm: true,
+      confirmText
+    });
+
+    return new Promise(resolve => {
+      this._resolve = resolve;
+    });
+  }
+
+  prompt(
+    controls: any,
+    defaultValue?: any,
+    title: string = '请输入',
+    confirmText: string = '确认'
+  ) {
+    if (typeof controls === 'string') {
+      // 兼容浏览器标准用法。
+      controls = [
+        {
+          name: 'text',
+          label: controls,
+          type: 'text'
+        }
+      ];
+
+      if (typeof defaultValue === 'string') {
+        defaultValue = {
+          text: defaultValue
+        };
+      }
+    } else if (!Array.isArray(controls)) {
+      controls = [controls];
+    }
+
+    this.setState({
+      title,
+      controls,
+      show: true,
+      prompt: true,
+      value: defaultValue,
+      confirmText
     });
 
     return new Promise(resolve => {
@@ -132,9 +189,8 @@ export class Alert extends React.Component<AlertProps, AlertState> {
     this._modal = ref;
   }
 
-  bodyRef(ref: any) {
-    this._body = ref;
-    this._body && (this._body.innerHTML = this.state.content);
+  handleFormSubmit(values: any) {
+    this.close(values);
   }
 
   render() {
@@ -146,44 +202,106 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       confirmBtnLevel,
       alertBtnLevel,
       classnames: cx,
-      classPrefix
+      theme
     } = this.props;
+    const __ = this.props.translate;
+    const finalTitle = __(this.state.title ?? title);
+    const finalConfirmText = __(this.state.confirmText ?? confirmText);
+
     return (
       <Modal
         show={this.state.show}
         onHide={this.handleCancel}
         container={container}
         ref={this.modalRef}
+        closeOnEsc
       >
-        <div className={cx('Modal-header')}>
-          <div className={cx('Modal-title')}>{this.state.title || title}</div>
-        </div>
+        {finalTitle ? (
+          <div className={cx('Modal-header')}>
+            <div className={cx('Modal-title')}>{finalTitle}</div>
+          </div>
+        ) : null}
         <div className={cx('Modal-body')}>
-          <div ref={this.bodyRef} />
+          {this.state.prompt ? (
+            renderForm(
+              this.state.controls,
+              this.state.value,
+              this.handleFormSubmit,
+              this.scopeRef,
+              theme
+            )
+          ) : (
+            <Html html={this.state.content} />
+          )}
         </div>
-        <div className={cx('Modal-footer')}>
-          {this.state.confirm ? (
-            <Button onClick={this.handleCancel}>{cancelText}</Button>
-          ) : null}
-          <Button
-            level={this.state.confirm ? confirmBtnLevel : alertBtnLevel}
-            onClick={this.handleConfirm}
-          >
-            {confirmText}
-          </Button>
-        </div>
+        {finalConfirmText ? (
+          <div className={cx('Modal-footer')}>
+            {this.state.confirm || this.state.prompt ? (
+              <Button onClick={this.handleCancel}>{__(cancelText)}</Button>
+            ) : null}
+            <Button
+              level={
+                this.state.confirm || this.state.prompt
+                  ? confirmBtnLevel
+                  : alertBtnLevel
+              }
+              onClick={this.handleConfirm}
+            >
+              {finalConfirmText}
+            </Button>
+          </div>
+        ) : null}
       </Modal>
     );
   }
+}
+
+function renderForm(
+  controls: Array<any>,
+  value: PlainObject = {},
+  callback?: (values: PlainObject) => void,
+  scopeRef?: (value: any) => void,
+  theme?: string
+) {
+  return renderSchema(
+    {
+      name: 'form',
+      type: 'form',
+      wrapWithPanel: false,
+      mode: 'horizontal',
+      controls,
+      messages: {
+        validateFailed: ''
+      }
+    },
+    {
+      data: value,
+      onFinished: callback,
+      scopeRef,
+      theme
+    },
+    {
+      session: 'prompt'
+    }
+  );
 }
 
 export const alert: (content: string, title?: string) => void = (
   content,
   title
 ) => Alert.getInstance().alert(content, title);
-export const confirm: (content: string, title?: string) => Promise<any> = (
-  content,
-  title
-) => Alert.getInstance().confirm(content, title);
-export const ThemedAlert = themeable(Alert);
-export default ThemedAlert;
+export const confirm: (
+  content: string,
+  title?: string,
+  confirmText?: string
+) => Promise<any> = (content, title, confirmText) =>
+  Alert.getInstance().confirm(content, title, confirmText);
+export const prompt: (
+  controls: any,
+  defaultvalue?: any,
+  title?: string,
+  confirmText?: string
+) => Promise<any> = (controls, defaultvalue, title, confirmText) =>
+  Alert.getInstance().prompt(controls, defaultvalue, title, confirmText);
+export const FinnalAlert = themeable(localeable(Alert));
+export default FinnalAlert;

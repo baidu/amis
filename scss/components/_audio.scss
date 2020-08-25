@@ -92,7 +92,7 @@
   }
 
   &-times {
-    width: $Audio-times-width;
+    min-width: $Audio-times-width;
     margin-right: $Audio-item-margin;
     cursor: default;
     flex-shrink: 0;

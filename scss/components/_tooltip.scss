@@ -189,7 +189,10 @@
     font-size: $Tooltip--attr-fontSize;
     line-height: $Tooltip--attr-lineHeigt;
     text-align: left;
-    white-space: nowrap;
+    white-space: normal;
+    width: max-content;
+    box-sizing: content-box;
+    max-width: 300px;
     background: $Tooltip--attr-bg;
     border: $Tooltip--attr-borderWidth solid $Tooltip--attr-borderColor;
     border-radius: $Tooltip--attr-borderRadius;
@@ -200,6 +203,11 @@
     display: none;
     animation-duration: 0.2s;
     animation-fill-mode: both;
+
+    @media screen and (min-width: 0\0) {
+      white-space: nowrap;
+      max-width: unset;
+    }
   }
 
   &:not(.is-disabled):hover:after {

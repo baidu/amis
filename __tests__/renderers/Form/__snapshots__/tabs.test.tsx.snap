@@ -28,51 +28,33 @@ exports[`Renderer:tabs 1`] = `
       >
         <div
           class="a-Tabs"
-          id="0"
         >
           <ul
-            class="a-Tabs-links nav"
+            class="a-Tabs-links"
             role="tablist"
           >
             <li
-              class="a-Tabs-link active"
-              role="presentation"
+              class="a-Tabs-link is-active"
             >
-              <a
-                aria-controls="0-pane-0"
-                aria-selected="true"
-                href="#"
-                id="0-tab-0"
-                role="tab"
-              >
+              <a>
+                 
                 基本配置
               </a>
             </li>
             <li
               class="a-Tabs-link"
-              role="presentation"
             >
-              <a
-                aria-controls="0-pane-1"
-                aria-selected="false"
-                href="#"
-                id="0-tab-1"
-                role="tab"
-                tabindex="-1"
-              >
+              <a>
+                 
                 其他配置
               </a>
             </li>
           </ul>
           <div
-            class="a-Tabs-content tab-content"
+            class="a-Tabs-content"
           >
             <div
-              aria-hidden="false"
-              aria-labelledby="0-tab-0"
-              class="fade tab-pane active in"
-              id="0-pane-0"
-              role="tabpanel"
+              class="in is-active a-Tabs-pane"
             >
               <span
                 class="a-TplField"
@@ -83,11 +65,7 @@ exports[`Renderer:tabs 1`] = `
               </span>
             </div>
             <div
-              aria-hidden="true"
-              aria-labelledby="0-tab-1"
-              class="fade tab-pane"
-              id="0-pane-1"
-              role="tabpanel"
+              class="a-Tabs-pane"
             >
               <div
                 class="a-Form--normal"
@@ -112,6 +90,7 @@ exports[`Renderer:tabs 1`] = `
                         autocomplete="off"
                         name="c"
                         placeholder=""
+                        size="10"
                         type="text"
                         value=""
                       />
@@ -138,6 +117,7 @@ exports[`Renderer:tabs 1`] = `
                         autocomplete="off"
                         name="d"
                         placeholder=""
+                        size="10"
                         type="text"
                         value=""
                       />
@@ -154,22 +134,40 @@ exports[`Renderer:tabs 1`] = `
       class="resize-sensor"
       style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
     >
+      
+  
       <div
         class="resize-sensor-expand"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
         />
+        
+  
       </div>
+      
+  
       <div
         class="resize-sensor-shrink"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
       >
+        
+    
         <div
           style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
         />
+        
+  
       </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>

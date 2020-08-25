@@ -1,7 +1,7 @@
 import React from 'react';
 import qs from 'qs';
 import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
-import {getEnv} from 'mobx-state-tree';
+import {getEnv, destroy} from 'mobx-state-tree';
 import {Location} from 'history';
 import {wrapFetcher} from './utils/api';
 import {
@@ -24,21 +24,33 @@ import {
   SchemaNode,
   Schema,
   Action,
-  Omit,
   RendererData
 } from './types';
 import {observer} from 'mobx-react';
 import getExprProperties from './utils/filter-schema';
-import hoistNonReactStatic = require('hoist-non-react-statics');
-import omit = require('lodash/omit');
-import difference = require('lodash/difference');
-import isPlainObject = require('lodash/isPlainObject');
+import hoistNonReactStatic from 'hoist-non-react-statics';
+import omit from 'lodash/omit';
+import difference from 'lodash/difference';
+import isPlainObject from 'lodash/isPlainObject';
 import Scoped from './Scoped';
-import {getTheme, ThemeInstance, ClassNamesFn, ThemeContext} from './theme';
-import find = require('lodash/find');
+import {
+  getTheme,
+  ThemeInstance,
+  ClassNamesFn,
+  ThemeContext,
+  ThemeProps
+} from './theme';
+import find from 'lodash/find';
 import Alert from './components/Alert2';
 import {LazyComponent} from './components';
 import ImageGallery from './components/ImageGallery';
+import {
+  TranslateFn,
+  getDefaultLocale,
+  makeTranslator,
+  LocaleContext,
+  LocaleProps
+} from './locale';
 
 export interface TestFunc {
   (
@@ -98,13 +110,12 @@ export interface RendererEnv {
   [propName: string]: any;
 }
 
-export interface RendererProps {
+export interface RendererProps extends ThemeProps, LocaleProps {
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
   env: RendererEnv;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   $path: string; // 当前组件所在的层级信息
   store?: IIRendererStore;
+  syncSuperStore?: boolean;
   data: {
     [propName: string]: any;
   };
@@ -141,7 +152,7 @@ export interface RenderOptions {
   fetcher?: (config: fetcherConfig) => Promise<fetcherResult>;
   isCancel?: (value: any) => boolean;
   notify?: (type: 'error' | 'success', msg: string) => void;
-  jumpTo?: (to: string) => void;
+  jumpTo?: (to: string, action?: Action, ctx?: object) => void;
   alert?: (msg: string) => void;
   confirm?: (msg: string, title?: string) => boolean | Promise<boolean>;
   rendererResolver?: (
@@ -192,7 +203,7 @@ export function filterSchema(
 }
 
 export function Renderer(config: RendererBasicConfig) {
-  return function<T extends RendererComponent>(component: T): T {
+  return function <T extends RendererComponent>(component: T): T {
     const renderer = registerRenderer({
       ...config,
       component: component
@@ -214,9 +225,7 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
 
   if (~rendererNames.indexOf(config.name)) {
     throw new Error(
-      `The renderer with name "${
-        config.name
-      }" has already exists, please try another name!`
+      `The renderer with name "${config.name}" has already exists, please try another name!`
     );
   }
 
@@ -321,6 +330,8 @@ export interface RootRendererProps {
   env: RendererEnv;
   theme: string;
   pathPrefix?: string;
+  locale?: string;
+  translate?: TranslateFn;
   [propName: string]: any;
 }
 
@@ -361,6 +372,8 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       pathPrefix,
       location,
       data,
+      locale,
+      translate,
       ...rest
     } = this.props;
 
@@ -384,28 +397,32 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     return (
       <RootStoreContext.Provider value={rootStore}>
         <ThemeContext.Provider value={this.props.theme || 'default'}>
-          <ImageGallery>
-            {
-              renderChild(
-                pathPrefix || '',
-                isPlainObject(schema)
-                  ? {
-                      type: 'page',
-                      ...(schema as Schema)
-                    }
-                  : schema,
-                {
-                  ...rest,
-                  resolveDefinitions: this.resolveDefinitions,
-                  location: location,
-                  data: finalData,
-                  env,
-                  classnames: theme.classnames,
-                  classPrefix: theme.classPrefix
-                }
-              ) as JSX.Element
-            }
-          </ImageGallery>
+          <LocaleContext.Provider value={this.props.locale!}>
+            <ImageGallery modalContainer={env.getModalContainer}>
+              {
+                renderChild(
+                  pathPrefix || '',
+                  isPlainObject(schema)
+                    ? {
+                        type: 'page',
+                        ...(schema as any)
+                      }
+                    : schema,
+                  {
+                    ...rest,
+                    resolveDefinitions: this.resolveDefinitions,
+                    location: location,
+                    data: finalData,
+                    env,
+                    classnames: theme.classnames,
+                    classPrefix: theme.classPrefix,
+                    locale,
+                    translate
+                  }
+                ) as JSX.Element
+              }
+            </ImageGallery>
+          </LocaleContext.Provider>
         </ThemeContext.Provider>
       </RootStoreContext.Provider>
     );
@@ -435,7 +452,10 @@ const defaultOmitList = [
   'disabled',
   'disabledOn',
   'component',
-  'detectField'
+  'detectField',
+  'required',
+  'requiredOn',
+  'syncSuperStore'
 ];
 
 class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
@@ -573,12 +593,17 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         : (schema.children as Function)({
             ...rest,
             $path: $path,
-            render: this.renderChild
+            render: this.renderChild,
+            forwardedRef: this.refFn
           });
     } else if (typeof schema.component === 'function') {
+      const isSFC = !(schema.component.prototype instanceof React.Component);
       return React.createElement(schema.component as any, {
         ...rest,
+        ...schema,
         $path: $path,
+        ref: isSFC ? undefined : this.refFn,
+        forwardedRef: isSFC ? this.refFn : undefined,
         render: this.renderChild
       });
     } else if (!this.renderer) {
@@ -629,7 +654,7 @@ export function HocStoreFactory(renderer: {
   storeType: string;
   extendsData?: boolean;
 }): any {
-  return function<T extends React.ComponentType<RendererProps>>(Component: T) {
+  return function <T extends React.ComponentType<RendererProps>>(Component: T) {
     type Props = Omit<
       RendererProps,
       'store' | 'data' | 'dataUpdatedAt' | 'scope'
@@ -641,8 +666,9 @@ export function HocStoreFactory(renderer: {
 
     @observer
     class StoreFactory extends React.Component<Props> {
-      static displayName = `WithStore(${Component.displayName ||
-        Component.name})`;
+      static displayName = `WithStore(${
+        Component.displayName || Component.name
+      })`;
       static ComposedComponent = Component;
       static contextType = RootStoreContext;
       store: IIRendererStore;
@@ -725,12 +751,16 @@ export function HocStoreFactory(renderer: {
         const store = this.store;
 
         if (renderer.extendsData === false) {
-          (props.defaultData !== nextProps.defaultData ||
+          if (
+            props.defaultData !== nextProps.defaultData ||
             isObjectShallowModified(props.data, nextProps.data) ||
+            //
+            // 特殊处理 CRUD。
             // CRUD 中 toolbar 里面的 data 是空对象，但是 __super 会不一样
             (nextProps.data &&
               props.data &&
-              nextProps.data.__super !== props.data.__super)) &&
+              nextProps.data.__super !== props.data.__super)
+          ) {
             store.initData(
               extendObject(nextProps.data, {
                 ...(store.hasRemoteData ? store.data : null), // todo 只保留 remote 数据
@@ -738,18 +768,23 @@ export function HocStoreFactory(renderer: {
                 ...this.formatData(nextProps.data)
               })
             );
+          }
         } else if (isObjectShallowModified(props.data, nextProps.data)) {
           if (nextProps.store && nextProps.store.data === nextProps.data) {
             store.initData(
               createObject(
                 nextProps.store.data,
-                syncDataFromSuper(
-                  store.data,
-                  nextProps.store.data,
-                  props.scope,
-                  nextProps.dataUpdatedAt !== props.dataUpdatedAt,
-                  store
-                )
+                nextProps.syncSuperStore === false
+                  ? {
+                      ...store.data
+                    }
+                  : syncDataFromSuper(
+                      store.data,
+                      nextProps.store.data,
+                      props.scope,
+                      store,
+                      nextProps.syncSuperStore === true
+                    )
               )
             );
           } else if (nextProps.data && (nextProps.data as any).__super) {
@@ -769,6 +804,7 @@ export function HocStoreFactory(renderer: {
               props.data.__super,
               false
             )) &&
+            // nextProps.data.__super !== props.data.__super) &&
             store.initData(
               createObject(nextProps.data.__super, {
                 ...nextProps.data,
@@ -830,7 +866,7 @@ export function HocStoreFactory(renderer: {
         return (
           <Component
             {
-              ...rest as any /* todo */
+              ...(rest as any) /* todo */
             }
             {...exprProps}
             ref={this.refFn}
@@ -883,7 +919,7 @@ const defaultOptions: RenderOptions = {
   },
   isCancel() {
     console.error(
-      'Please implements this. see https://baidu.github.io/amis/docs/getting-started#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8'
+      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
     return false;
   },
@@ -892,7 +928,7 @@ const defaultOptions: RenderOptions = {
   },
   updateLocation() {
     console.error(
-      'Please implements this. see https://baidu.github.io/amis/docs/getting-started#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8'
+      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
   },
   confirm(msg: string) {
@@ -903,7 +939,7 @@ const defaultOptions: RenderOptions = {
   },
   jumpTo() {
     console.error(
-      'Please implements this. see https://baidu.github.io/amis/docs/getting-started#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8'
+      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
   },
   isCurrentUrl() {
@@ -923,30 +959,38 @@ export function render(
   options: RenderOptions = {},
   pathPrefix: string = ''
 ): JSX.Element {
-  options = {
-    ...defaultOptions,
-    ...options
-  };
+  const locale = props.locale || getDefaultLocale();
+  const translate = props.translate || makeTranslator(locale);
+  let store = stores[options.session || 'global'];
 
-  let store =
-    stores[options.session || 'global'] ||
-    (stores[options.session || 'global'] = RendererStore.create(
-      {},
-      {
-        ...options,
-        fetcher: options.fetcher
-          ? wrapFetcher(options.fetcher)
-          : defaultOptions.fetcher,
-        confirm: options.confirm
-          ? promisify(options.confirm)
-          : defaultOptions.confirm
-      }
-    ));
+  if (!store) {
+    options = {
+      ...defaultOptions,
+      ...options,
+      fetcher: options.fetcher
+        ? wrapFetcher(options.fetcher)
+        : defaultOptions.fetcher,
+      confirm: options.confirm
+        ? promisify(options.confirm)
+        : defaultOptions.confirm,
+      locale,
+      translate
+    } as any;
+
+    store = RendererStore.create({}, options);
+    stores[options.session || 'global'] = store;
+  }
 
   (window as any).amisStore = store; // 为了方便 debug.
   const env = getEnv(store);
+
   const theme = props.theme || options.theme || 'default';
   env.theme = getTheme(theme);
+
+  if (props.locale !== undefined) {
+    env.translate = translate;
+    env.locale = locale;
+  }
 
   return (
     <ScopedRootRenderer
@@ -956,15 +1000,52 @@ export function render(
       rootStore={store}
       env={env}
       theme={theme}
+      locale={locale}
+      translate={translate}
     />
   );
 }
 
-export function clearStoresCache(sessions?: Array<string>) {
-  if (Array.isArray(sessions) && sessions.length) {
-    sessions.forEach(key => delete stores[key]);
+// 默认 env 会被缓存，所以新传入的 env 不会替换旧的。
+// 除非先删了旧的，新的才会生效。
+export function clearStoresCache(
+  sessions: Array<string> | string = Object.keys(stores)
+) {
+  if (!Array.isArray(sessions)) {
+    sessions = [sessions];
+  }
+
+  sessions.forEach(key => {
+    const store = stores[key];
+    delete stores[key];
+
+    store && destroy(store);
+  });
+}
+
+// 当然也可以直接这样更新。
+// 主要是有时候第一创建的时候并没有准备多少接口，
+// 可以后续补充点，比如 amis 自己实现的，prompt 里面的表单。
+export function updateEnv(options: Partial<RenderOptions>, session = 'global') {
+  options = {
+    ...options
+  };
+
+  if (options.fetcher) {
+    options.fetcher = wrapFetcher(options.fetcher) as any;
+  }
+
+  if (options.confirm) {
+    options.confirm = promisify(options.confirm);
+  }
+
+  let store = stores[options.session || session];
+  if (!store) {
+    store = RendererStore.create({}, options);
+    stores[options.session || session] = store;
   } else {
-    stores = {};
+    const env = getEnv(store);
+    Object.assign(env, options);
   }
 }
 

@@ -8,13 +8,14 @@ import LazyComponent from '../../src/components/LazyComponent';
 import {default as DrawerContainer} from '../../src/components/Drawer';
 import {Portal} from 'react-overlays';
 import {withRouter} from 'react-router';
+import copy from 'copy-to-clipboard';
 function loadEditor() {
   return new Promise(resolve =>
     require(['../../src/components/Editor'], component =>
       resolve(component.default))
   );
 }
-export default function(schema) {
+export default function (schema) {
   if (!schema['$schema']) {
     schema = {
       $schema: 'https://houtai.baidu.com/v2/schemas/page.json',
@@ -30,6 +31,10 @@ export default function(schema) {
         this.setState({
           open: !this.state.open
         });
+      copyCode = () => {
+        copy(JSON.stringify(schema));
+        toast.success('页面配置JSON已复制到粘贴板');
+      };
       close = () =>
         this.setState({
           open: false
@@ -83,8 +88,15 @@ export default function(schema) {
             const link = normalizeLink(to);
             return router.isActive(link);
           },
-          jumpTo: to => {
+          jumpTo: (to, action) => {
             to = normalizeLink(to);
+
+            if (action && action.actionType === 'url') {
+              action.blank === false
+                ? (window.location.href = to)
+                : window.open(to);
+              return;
+            }
 
             if (/^https?:\/\//.test(to)) {
               window.location.replace(to);
@@ -95,6 +107,10 @@ export default function(schema) {
           fetcher: ({url, method, data, config, headers}) => {
             config = config || {};
             config.headers = headers || {};
+
+            if (config.cancelExecutor) {
+              config.cancelToken = new axios.CancelToken(config.cancelExecutor);
+            }
 
             if (data && data instanceof FormData) {
               // config.headers = config.headers || {};
@@ -130,7 +146,10 @@ export default function(schema) {
               : console.warn('[Notify]', type, msg),
           alert,
           confirm,
-          copy: content => console.log('Copy', content)
+          copy: content => {
+            copy(content);
+            toast.success('内容已复制到粘贴板');
+          }
         };
 
         this.handleEditorMount = this.handleEditorMount.bind(this);
@@ -157,13 +176,14 @@ export default function(schema) {
       }
 
       renderSchema() {
-        const {router, location, theme} = this.props;
+        const {router, location, theme, locale} = this.props;
 
         return render(
           schema,
           {
             location,
-            theme
+            theme,
+            locale
           },
           this.env
         );
@@ -173,36 +193,50 @@ export default function(schema) {
         const ns = this.props.classPrefix;
         const showCode = this.props.showCode;
         return (
-          <div className="schema-wrapper">
-            {showCode !== false ? (
-              <DrawerContainer
-                classPrefix={ns}
-                size="lg"
-                onHide={this.close}
-                show={this.state.open}
-                position="left"
-              >
-                {this.state.open ? this.renderCode() : null}
-              </DrawerContainer>
-            ) : null}
-            {this.renderSchema()}
-            {showCode !== false ? (
-              <Portal container={() => document.querySelector('.navbar-nav')}>
-                <Button
+          <>
+            <div className="schema-wrapper">
+              {showCode !== false ? (
+                <DrawerContainer
                   classPrefix={ns}
-                  onClick={this.toggleCode}
-                  active={this.state.open}
-                  iconOnly
-                  tooltip="查看源码"
-                  level="link"
-                  placement="bottom"
-                  className="view-code"
+                  size="lg"
+                  onHide={this.close}
+                  show={this.state.open}
+                  // overlay={false}
+                  closeOnOutside={true}
+                  position="right"
                 >
-                  <i className="fa fa-code" />
-                </Button>
-              </Portal>
+                  {this.state.open ? this.renderCode() : null}
+                </DrawerContainer>
+              ) : null}
+              {this.renderSchema()}
+            </div>
+            {showCode !== false ? (
+              // <div className="schema-toolbar-wrapper">
+              //   <div onClick={this.toggleCode}>
+              //     查看页面配置 <i className="fa fa-code p-l-xs"></i>
+              //   </div>
+              //   <div onClick={this.copyCode}>
+              //     复制页面配置 <i className="fa fa-copy p-l-xs"></i>
+              //   </div>
+              // </div>
+              <div className="Doc-toc">
+                <div>
+                  <div className="Doc-headingList">
+                    <div className="Doc-headingList-item">
+                      <a onClick={this.toggleCode}>
+                        查看页面配置 <i className="fa fa-code p-l-xs"></i>
+                      </a>
+                    </div>
+                    <div className="Doc-headingList-item">
+                      <a onClick={this.copyCode}>
+                        复制页面配置 <i className="fa fa-copy p-l-xs"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ) : null}
-          </div>
+          </>
         );
       }
     }

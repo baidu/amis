@@ -4,6 +4,19 @@
 
   &-caret {
     margin-left: $DropDown-caret-marginLeft;
+    display: inline-block;
+    vertical-align: top;
+    transition: transform 0.2s ease;
+
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0.125em;
+    }
+  }
+
+  &.is-opened &-caret {
+    transform: rotate(180deg);
   }
 
   &--block {
@@ -71,5 +84,9 @@
   &-popover {
     border: none;
     box-shadow: none;
+  }
+
+  > .#{$ns}Button {
+    min-width: unset;
   }
 }

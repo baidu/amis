@@ -1,7 +1,7 @@
 function property2control(property: any, key: any, schema: any) {
   const requiredList = schema.required || [];
-  const rest = {};
-  const validations = {};
+  const rest: any = {};
+  const validations: any = {};
   let type = 'text';
 
   if (property.type === 'integer') {

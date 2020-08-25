@@ -1,5 +1,5 @@
 import React from 'react';
-import upperFirst = require('lodash/upperFirst');
+import upperFirst from 'lodash/upperFirst';
 import {Renderer, RendererProps} from '../factory';
 import {autobind} from '../utils/helper';
 import {Icon} from '../components/icons';
@@ -33,8 +33,8 @@ export interface AudioState {
 
 export class Audio extends React.Component<AudioProps, AudioState> {
   audio: any;
-  progressTimeout: number;
-  durationTimeout: number;
+  progressTimeout: NodeJS.Timeout;
+  durationTimeout: NodeJS.Timeout;
 
   static defaultProps: Pick<
     AudioProps,

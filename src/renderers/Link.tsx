@@ -24,7 +24,8 @@ export class LinkField extends React.Component<LinkProps, object> {
       blank,
       htmlTarget,
       data,
-      render
+      render,
+      translate: __
     } = this.props;
 
     let value = this.props.value;
@@ -36,7 +37,7 @@ export class LinkField extends React.Component<LinkProps, object> {
         target={htmlTarget || (blank ? '_blank' : '_self')}
         className={cx('Link', className)}
       >
-        {body ? render('body', body) : finnalHref || value || '链接'}
+        {body ? render('body', body) : finnalHref || value || __('链接')}
       </a>
     );
   }

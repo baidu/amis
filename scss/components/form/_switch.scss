@@ -61,6 +61,7 @@
         &:before {
           color: $Switch-onDisabled-color;
           background-color: $Switch-onDisabled-bgColor;
+          cursor: not-allowed;
         }
 
         &:after {

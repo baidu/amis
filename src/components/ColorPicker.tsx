@@ -7,15 +7,16 @@
 import React from 'react';
 import cx from 'classnames';
 import {findDOMNode} from 'react-dom';
-import {SketchPicker, GithubPicker, ColorResult} from 'react-color';
+import {SketchPicker, GithubPicker, ColorState} from 'react-color';
 import {Icon} from './icons';
 import Overlay from './Overlay';
-import uncontrollable = require('uncontrollable');
+import {uncontrollable} from 'uncontrollable';
 import PopOver from './PopOver';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {autobind} from '../utils/helper';
+import {localeable, LocaleProps} from '../locale';
 
-export interface ColorProps {
+export interface ColorProps extends LocaleProps, ThemeProps {
   placeholder?: string;
   format: string;
   // closeOnSelect:boolean;
@@ -25,8 +26,6 @@ export interface ColorProps {
   popOverContainer?: any;
   placement?: string;
   value: any;
-  classPrefix: string;
-  classnames: ClassNamesFn;
   onChange: (value: any) => void;
   presetColors?: string[];
   resetValue?: string;
@@ -177,7 +176,7 @@ export class ColorControl extends React.PureComponent<
     return image.style.color !== 'rgb(255, 255, 255)';
   }
 
-  handleChange(color: ColorResult) {
+  handleChange(color: ColorState) {
     const {
       onChange,
       format
@@ -219,6 +218,7 @@ export class ColorControl extends React.PureComponent<
       allowCustomColor
     } = this.props;
 
+    const __ = this.props.translate;
     const isOpened = this.state.isOpened;
     const isFocused = this.state.isFocused;
 
@@ -234,13 +234,13 @@ export class ColorControl extends React.PureComponent<
         )}
       >
         <input
-          size={10}
           ref={this.input}
           type="text"
           autoComplete="off"
+          size={10}
           className={cx('ColorPicker-input')}
           value={this.state.inputValue || ''}
-          placeholder={placeholder}
+          placeholder={__(placeholder)}
           disabled={disabled}
           onChange={this.handleInputChange}
           onFocus={this.handleFocus}
@@ -264,9 +264,7 @@ export class ColorControl extends React.PureComponent<
 
         {isOpened ? (
           <Overlay
-            placement={
-              placement || 'left-bottom-left-top  right-bottom-right-top'
-            }
+            placement={placement || 'auto'}
             target={() => findDOMNode(this)}
             onHide={this.close}
             container={popOverContainer || (() => findDOMNode(this))}
@@ -302,7 +300,9 @@ export class ColorControl extends React.PureComponent<
 }
 
 export default themeable(
-  uncontrollable(ColorControl, {
-    value: 'onChange'
-  })
+  localeable(
+    uncontrollable(ColorControl, {
+      value: 'onChange'
+    })
+  )
 );

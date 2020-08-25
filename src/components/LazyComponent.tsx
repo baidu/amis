@@ -5,7 +5,8 @@
  */
 
 import React from 'react';
-import VisibilitySensor = require('react-visibility-sensor');
+// @ts-ignore
+import VisibilitySensor from 'react-visibility-sensor';
 import Spinner from './Spinner';
 
 export interface LazyComponentProps {

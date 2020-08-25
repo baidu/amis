@@ -8,6 +8,7 @@ import {
 } from '../../utils/helper';
 import cx from 'classnames';
 import {FormItemWrap} from './Item';
+import getExprProperties from '../../utils/filter-schema';
 
 export interface InputGroupProps extends RendererProps {
   formMode?: string;
@@ -27,7 +28,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderControl(control: any, index: any, otherProps?: any) {
-    const {render, disabled} = this.props;
+    const {render, disabled, data} = this.props;
 
     if (!control) {
       return null;
@@ -43,6 +44,12 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
     if (subSchema.control) {
       let control = subSchema.control as Schema;
+
+      control = subSchema.control = {
+        ...control,
+        ...getExprProperties(control, data)
+      };
+
       control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
       control.visibleOn && (subSchema.visibleOn = control.visibleOn);
     }
@@ -131,14 +138,15 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
           const columnWidth =
             control.columnRatio ||
-            getWidthRate(control && control.columnClassName);
+            getWidthRate(control && control.columnClassName, true);
 
           return (
             <div
               key={index}
               className={cx(
                 `${ns}Form-groupColumn`,
-                columnWidth ? `${ns}Form-groupColumn--${columnWidth}` : ''
+                columnWidth ? `${ns}Form-groupColumn--${columnWidth}` : '',
+                control && control.columnClassName
               )}
             >
               {this.renderControl(control, index, {
