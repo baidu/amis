@@ -34,6 +34,8 @@ import {LazyComponent} from '../../components';
 import {isAlive} from 'mobx-state-tree';
 import {asFormItem} from './Item';
 import {SimpleMap} from '../../utils/SimpleMap';
+import {trace} from 'mobx';
+
 export type FormGroup = FormSchema & {
   title?: string;
   className?: string;
@@ -92,6 +94,7 @@ export interface FormProps extends RendererProps, FormSchema {
   clearPersistDataAfterSubmit: boolean; // 提交成功后清空本地缓存
   trimValues?: boolean;
   lazyLoad?: boolean;
+  simpleMode?: boolean;
   onInit?: (values: object, props: any) => any;
   onReset?: (values: object) => void;
   onSubmit?: (values: object, action: any) => any;
@@ -163,7 +166,8 @@ export default class Form extends React.Component<FormProps, object> {
     'lazyChange',
     'formLazyChange',
     'lazyLoad',
-    'formInited'
+    'formInited',
+    'simpleMode'
   ];
 
   hooks: {
@@ -201,10 +205,14 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   componentWillMount() {
-    const {store, canAccessSuperData, persistData} = this.props;
+    const {store, canAccessSuperData, persistData, simpleMode} = this.props;
 
     store.setCanAccessSuperData(canAccessSuperData !== false);
     persistData && store.getPersistData();
+
+    if (simpleMode) {
+      store.setInited(true);
+    }
 
     if (
       store &&
@@ -1164,6 +1172,9 @@ export default class Form extends React.Component<FormProps, object> {
       lazyLoad,
       translate: __
     } = this.props;
+
+    // trace(true);
+    // console.log('Form');
 
     let body: JSX.Element = this.renderBody();
 

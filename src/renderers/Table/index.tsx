@@ -1,15 +1,13 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../../factory';
-import {SchemaNode, Action, Schema, Api, ApiObject} from '../../types';
+import {SchemaNode, Action, Schema} from '../../types';
 import forEach from 'lodash/forEach';
 import {filter} from '../../utils/tpl';
-import cx from 'classnames';
 import DropDownButton from '../DropDownButton';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
 import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
-import {observer} from 'mobx-react';
 import {
   anyChanged,
   getScrollParent,
@@ -19,23 +17,10 @@ import {
   isArrayChildrenModified
 } from '../../utils/helper';
 import {resolveVariable} from '../../utils/tpl-builtin';
-import {
-  isEffectiveApi,
-  isApiOutdated,
-  buildApi,
-  normalizeApi
-} from '../../utils/api';
 import debounce from 'lodash/debounce';
-import xor from 'lodash/xor';
-import QuickEdit from '../QuickEdit';
-import PopOver from '../../components/PopOver';
-import Copyable from '../Copyable';
 import Sortable from 'sortablejs';
-import flatMap from 'lodash/flatMap';
 import {resizeSensor} from '../../utils/resize-sensor';
 import find from 'lodash/find';
-import Overlay from '../../components/Overlay';
-import PopOverable from '../PopOver';
 import {Icon} from '../../components/icons';
 import {TableCell} from './TableCell';
 import {TableRow} from './TableRow';
@@ -1224,7 +1209,6 @@ export default class Table extends React.Component<TableProps, object> {
       render,
       store,
       multiple,
-      env,
       classPrefix: ns,
       classnames: cx,
       checkOnItemClick,
@@ -1397,19 +1381,7 @@ export default class Table extends React.Component<TableProps, object> {
     headerOnly: boolean = false,
     tableClassName: string = ''
   ) {
-    const {
-      rowClassName,
-      rowClassNameExpr,
-      placeholder,
-      store,
-      onAction,
-      buildItemProps,
-      classnames: cx,
-      classPrefix: ns,
-      checkOnItemClick,
-      render,
-      data
-    } = this.props;
+    const {placeholder, store, classnames: cx, render, data} = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
 
     return (
@@ -1473,7 +1445,7 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  renderToolbar(toolbar: SchemaNode, index: number) {
+  renderToolbar(toolbar: SchemaNode) {
     const type = (toolbar as Schema).type || (toolbar as string);
 
     if (type === 'columns-toggler') {
@@ -1931,15 +1903,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   render() {
-    const {
-      className,
-      store,
-      placeholder,
-      classnames: cx,
-      affixColumns,
-      data,
-      render
-    } = this.props;
+    const {className, store, classnames: cx, affixColumns} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
     const heading = this.renderHeading();
