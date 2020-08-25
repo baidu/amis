@@ -78,6 +78,8 @@ order: 49
 }
 ```
 
+
+
 ## 接口联动
 
 Service 中的`api`和`schemaApi`都支持**接口联动**。
@@ -168,4 +170,27 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
 }
 ```
 
-`schemaApi` 同样支持 []()
+`schemaApi` 除了能返回表单项之外，还能同时返回表单数据，如果你这样返回接口
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "data": {
+      "a": "b" // 这样返回的选项会选中第二个选项B
+    },
+    "controls": [
+      {
+        "type": "select",
+        "name": "a",
+        "label": "选项",
+        "options": [
+          {"label": "A", "value": "a"},
+          {"label": "B", "value": "b"}
+        ]
+      }
+    ]
+  }
+}
+```
