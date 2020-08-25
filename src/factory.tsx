@@ -68,6 +68,7 @@ export interface RendererBasicConfig {
   test: RegExp | TestFunc;
   name?: string;
   storeType?: string;
+  shouldSyncSuperStore?: (store: any, props: any, prevProps: any) => boolean;
   storeExtendsData?: boolean; // 是否需要继承上层数据。
   weight?: number; // 权重，值越低越优先命中。
   isolateScope?: boolean;
@@ -232,7 +233,8 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
   if (config.storeType && config.component) {
     config.component = HocStoreFactory({
       storeType: config.storeType,
-      extendsData: config.storeExtendsData
+      extendsData: config.storeExtendsData,
+      shouldSyncSuperStore: config.shouldSyncSuperStore
     })(observer(config.component));
   }
 
@@ -653,6 +655,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 export function HocStoreFactory(renderer: {
   storeType: string;
   extendsData?: boolean;
+  shouldSyncSuperStore?: (store: any, props: any, prevProps: any) => boolean;
 }): any {
   return function <T extends React.ComponentType<RendererProps>>(Component: T) {
     type Props = Omit<
@@ -749,6 +752,12 @@ export function HocStoreFactory(renderer: {
       componentWillReceiveProps(nextProps: RendererProps) {
         const props = this.props;
         const store = this.store;
+
+        if (
+          renderer.shouldSyncSuperStore?.(store, nextProps, props) === false
+        ) {
+          return;
+        }
 
         if (renderer.extendsData === false) {
           if (

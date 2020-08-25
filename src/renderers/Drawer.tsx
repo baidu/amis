@@ -536,7 +536,8 @@ export default class Drawer extends React.Component<DrawerProps, object> {
   storeType: ModalStore.name,
   storeExtendsData: false,
   name: 'drawer',
-  isolateScope: true
+  isolateScope: true,
+  shouldSyncSuperStore: () => false
 })
 export class DrawerRenderer extends Drawer {
   static contextType = ScopedContext;

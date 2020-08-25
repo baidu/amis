@@ -518,7 +518,8 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
   storeType: ModalStore.name,
   storeExtendsData: false,
   name: 'dialog',
-  isolateScope: true
+  isolateScope: true,
+  shouldSyncSuperStore: () => false
 })
 export class DialogRenderer extends Dialog {
   static contextType = ScopedContext;
