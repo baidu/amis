@@ -31,9 +31,8 @@ export function removeModal() {
   modals.pop();
 }
 
-window.addEventListener('keydown', handleWindowKeyDown);
 
-function handleWindowKeyDown(e: Event) {
+export function handleWindowKeyDown(e: Event) {
   const code = keycode(e);
   if (code !== 'esc') {
     return;

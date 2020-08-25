@@ -13,9 +13,9 @@ import Transition, {
 import {Portal} from 'react-overlays';
 import {Icon} from './icons';
 import cx from 'classnames';
-import {current, addModal, removeModal} from './ModalManager';
 import {ClassNamesFn, themeable} from '../theme';
 import {noop, autobind} from '../utils/helper';
+import { current, addModal, removeModal, handleWindowKeyDown } from './ModalManager';
 
 type DrawerPosition = 'top' | 'right' | 'bottom' | 'left';
 
@@ -69,12 +69,14 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     if (this.props.show) {
       this.handleEntered();
     }
+    window.addEventListener('keydown', handleWindowKeyDown);
   }
 
   componentWillUnmount() {
     if (this.props.show) {
       this.handleExited();
     }
+    window.removeEventListener('keydown', handleWindowKeyDown);
   }
 
   contentRef = (ref: any) => (this.contentDom = ref);

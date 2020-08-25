@@ -12,8 +12,8 @@ import Transition, {
 } from 'react-transition-group/Transition';
 import {Portal} from 'react-overlays';
 import cx from 'classnames';
-import {current, addModal, removeModal} from './ModalManager';
 import {ClassNamesFn, themeable} from '../theme';
+import { current, addModal, removeModal, handleWindowKeyDown } from './ModalManager';
 
 export interface ModalProps {
   className?: string;
@@ -49,12 +49,14 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     if (this.props.show) {
       this.handleEntered();
     }
+    window.addEventListener('keydown', handleWindowKeyDown);
   }
 
   componentWillUnmount() {
     if (this.props.show) {
       this.handleExited();
     }
+    window.removeEventListener('keydown', handleWindowKeyDown);
   }
 
   handleEntered = () => {
