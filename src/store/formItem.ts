@@ -5,7 +5,8 @@ import {
   flow,
   getRoot,
   hasParent,
-  isAlive
+  isAlive,
+  getEnv
 } from 'mobx-state-tree';
 import {IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
@@ -80,7 +81,7 @@ export const FormItemStore = types
     }
 
     function getValue(): any {
-      return getForm() ? getForm().getValueByName(self.name) : undefined;
+      return getForm()?.getValueByName(self.name);
     }
 
     function getLastOptionValue(): any {
@@ -105,9 +106,7 @@ export const FormItemStore = types
       },
 
       get prinstine(): any {
-        return (getParent(self, 2) as IFormStore).getPristineValueByName(
-          self.name
-        );
+        return (getForm() as IFormStore).getPristineValueByName(self.name);
       },
 
       get errors() {
@@ -204,11 +203,7 @@ export const FormItemStore = types
       },
 
       get __(): TranslateFn {
-        return isAlive(self) &&
-          getRoot(self) &&
-          (getRoot(self) as IRendererStore).storeType === 'RendererStore'
-          ? (getRoot(self) as IRendererStore).__
-          : (str: string) => str;
+        return getEnv(self).__;
       }
     };
   })
@@ -399,15 +394,11 @@ export const FormItemStore = types
 
         self.loading = true;
 
-        const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(
-          api,
-          data,
-          {
-            autoAppend: false,
-            cancelExecutor: (executor: Function) => (loadCancel = executor),
-            ...config
-          }
-        );
+        const json: Payload = yield getEnv(self).fetcher(api, data, {
+          autoAppend: false,
+          cancelExecutor: (executor: Function) => (loadCancel = executor),
+          ...config
+        });
         loadCancel = null;
         let result: any = null;
 
@@ -418,7 +409,7 @@ export const FormItemStore = types
                 reason: json.msg || (config && config.errorMessage)
               })
             );
-          (getRoot(self) as IRendererStore).notify(
+          getEnv(self).notify(
             'error',
             self.errors.join(''),
             json.msgTimeout !== undefined
@@ -435,21 +426,16 @@ export const FormItemStore = types
         self.loading = false;
         return result;
       } catch (e) {
-        const root = getRoot(self) as IRendererStore;
-        if (root.storeType !== 'RendererStore') {
-          // 已经销毁了，不管这些数据了。
-          return;
-        }
+        const env = getEnv(self);
 
         self.loading = false;
 
-        if (root.isCancel(e)) {
+        if (env.isCancel(e)) {
           return;
         }
 
         console.error(e.stack);
-        getRoot(self) &&
-          (getRoot(self) as IRendererStore).notify('error', e.message);
+        env.notify('error', e.message);
         return;
       }
     } as any);

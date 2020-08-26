@@ -1,4 +1,4 @@
-import {types, SnapshotIn, isAlive} from 'mobx-state-tree';
+import {types, SnapshotIn, isAlive, onAction} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {FormItemStore, IFormItemStore} from './formItem';
 import {FormStore, IFormStore} from './form';
@@ -14,7 +14,7 @@ export const ComboStore = iRendererStore
   .named('ComboStore')
   .props({
     uniques: types.map(UniqueGroup),
-    forms: types.array(types.reference(types.late(() => FormStore))),
+    forms: types.array(types.late(() => FormStore)),
     minLength: 0,
     maxLength: 0,
     length: 0,
@@ -90,12 +90,23 @@ export const ComboStore = iRendererStore
 
     function addForm(form: IFormStore) {
       self.forms.push(form);
+      self.childrenIds.push(form.id);
     }
 
     function removeForm(form: IFormStore) {
       // form 可能再它自己销毁的是已经被移除了。因为调用的是 destroy，所以 self.forms 里面也被一起移除。
       // 再来尝试移除，会报错。
-      self.forms.includes(form) && self.forms.remove(form);
+      // if (self.forms.includes(form)) {
+      //   const forms = self.forms.concat();
+      //   self.forms.replace(forms.filter(member => member !== form));
+      //   console.log(self.forms.length);
+      //   // self.childrenIds.remove(form.id);
+      //   // self.disposed && self.dispose();
+      // }
+    }
+
+    function onChildStoreDispose(child: any) {
+      debugger;
     }
 
     function setActiveKey(key: number) {
@@ -108,7 +119,8 @@ export const ComboStore = iRendererStore
       bindUniuqueItem,
       unBindUniuqueItem,
       addForm,
-      removeForm
+      removeForm,
+      onChildStoreDispose
     };
   });
 

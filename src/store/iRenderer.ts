@@ -1,6 +1,14 @@
-import {types, getRoot, Instance, destroy, isAlive} from 'mobx-state-tree';
+import {
+  types,
+  getRoot,
+  Instance,
+  destroy,
+  detach,
+  isAlive,
+  getEnv
+} from 'mobx-state-tree';
 import {extendObject, createObject} from '../utils/helper';
-import {IRendererStore} from './index';
+import {IRendererStore, getStoreById} from './index';
 import {dataMapping} from '../utils/tpl-builtin';
 import {SimpleMap} from '../utils/SimpleMap';
 import {TranslateFn} from '../locale';
@@ -27,35 +35,41 @@ export const iRendererStore = types
   .views(self => {
     return {
       get parentStore(): any {
-        return isAlive(self) &&
-          self.parentId &&
-          getRoot(self) &&
-          (getRoot(self) as IRendererStore).storeType === 'RendererStore'
-          ? (getRoot(self) as IRendererStore).stores.get(self.parentId)
+        return isAlive(self) && self.parentId
+          ? getStoreById(self.parentId)
           : null;
       },
 
       get __(): TranslateFn {
-        return isAlive(self) &&
-          getRoot(self) &&
-          (getRoot(self) as IRendererStore).storeType === 'RendererStore'
-          ? (getRoot(self) as IRendererStore).__
-          : (str: string) => str;
+        return getEnv(self).__;
       }
     };
   })
   .actions(self => {
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
 
+    function addChildId(id: string) {
+      self.childrenIds.push(id);
+    }
+
     function dispose() {
       // 先标记自己是要销毁的。
       self.disposed = true;
       const parent = self.parentStore;
 
+      // 如果是叶子节点才自我销毁
       if (!self.childrenIds.length) {
         const id = self.id;
-        destroy(self);
+        detach(self);
         parent && parent.onChildDispose(id);
+      }
+    }
+
+    function beforeDetach() {
+      const parent = self.parentStore;
+
+      if (parent && parent.onChildStoreDispose) {
+        parent.onChildStoreDispose(self);
       }
     }
 
@@ -186,7 +200,9 @@ export const iRendererStore = types
         self.disposed && dispose();
       },
 
-      dispose
+      dispose,
+      beforeDetach,
+      addChildId
     };
   });
 

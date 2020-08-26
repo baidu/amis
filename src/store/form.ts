@@ -1,4 +1,4 @@
-import {types, getEnv, flow, getRoot, detach} from 'mobx-state-tree';
+import {types, getEnv, flow, getRoot, detach, destroy} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import {ServiceStore} from './service';
 import {FormItemStore, IFormItemStore, SFormItemStore} from './formItem';
@@ -223,11 +223,7 @@ export const FormStore = ServiceStore.named('FormStore')
         }
 
         self.markSaving(true);
-        const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(
-          api,
-          data,
-          options
-        );
+        const json: Payload = yield getEnv(self).fetcher(api, data, options);
 
         // 失败也同样修改数据，如果有数据的话。
         if (!isEmpty(json.data) || json.ok) {
@@ -282,22 +278,16 @@ export const FormStore = ServiceStore.named('FormStore')
           }
           self.markSaving(false);
           self.updateMessage(json.msg || (options && options.successMessage));
-          self.msg &&
-            (getRoot(self) as IRendererStore).notify('success', self.msg);
+          self.msg && getEnv(self).notify('success', self.msg);
           return json.data;
         }
       } catch (e) {
-        if ((getRoot(self) as IRendererStore).storeType !== 'RendererStore') {
-          // 已经销毁了，不管这些数据了。
-          return;
-        }
-
         self.markSaving(false);
         // console.error(e.stack);`
 
         if (e.type === 'ServerError') {
           const result = (e as ServerError).response;
-          (getRoot(self) as IRendererStore).notify(
+          getEnv(self).notify(
             'error',
             e.message,
             result.msgTimeout !== undefined
@@ -308,7 +298,7 @@ export const FormStore = ServiceStore.named('FormStore')
               : undefined
           );
         } else {
-          (getRoot(self) as IRendererStore).notify('error', e.message);
+          getEnv(self).notify('error', e.message);
         }
 
         throw e;
@@ -332,7 +322,7 @@ export const FormStore = ServiceStore.named('FormStore')
 
         if (!valid) {
           const msg = failedMessage ?? self.__('表单验证失败，请仔细检查');
-          msg && (getRoot(self) as IRendererStore).notify('error', msg);
+          msg && getEnv(self).notify('error', msg);
           throw new Error(self.__('验证失败'));
         }
 
@@ -444,7 +434,7 @@ export const FormStore = ServiceStore.named('FormStore')
     }
 
     function unRegistryItem(item: IFormItemStore) {
-      detach(item);
+      destroy(item);
     }
 
     function beforeDetach() {

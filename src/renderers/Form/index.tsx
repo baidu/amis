@@ -327,16 +327,6 @@ export default class Form extends React.Component<FormProps, object> {
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
     this.componentCache.dispose();
-    const store = this.props.store;
-
-    if (
-      store &&
-      store.parentStore &&
-      store.parentStore.storeType === 'ComboStore'
-    ) {
-      const combo = store.parentStore as IComboStore;
-      isAlive(combo) && combo.removeForm(store);
-    }
   }
 
   async onInit() {
