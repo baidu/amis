@@ -30,6 +30,7 @@ import find from 'lodash/find';
 import {SimpleMap} from '../utils/SimpleMap';
 import memoize from 'lodash/memoize';
 import {TranslateFn} from '../locale';
+import {storeNode} from './node';
 
 interface IOption {
   value?: string | number | null;
@@ -45,9 +46,9 @@ const ErrorDetail = types.model('ErrorDetail', {
   tag: ''
 });
 
-export const FormItemStore = types
-  .model('FormItemStore', {
-    identifier: types.identifier,
+export const FormItemStore = storeNode
+  .named('FormItemStore')
+  .props({
     isFocused: false,
     type: '',
     unique: false,
@@ -57,7 +58,7 @@ export const FormItemStore = types
     messages: types.optional(types.frozen(), {}),
     errorData: types.optional(types.array(ErrorDetail), []),
     name: types.string,
-    id: '', // 因为 name 可能会重名，所以加个 id 进来，如果有需要用来定位具体某一个
+    itemId: '', // 因为 name 可能会重名，所以加个 id 进来，如果有需要用来定位具体某一个
     unsetValueOnInvisible: false,
     validated: false,
     validating: false,
@@ -77,7 +78,7 @@ export const FormItemStore = types
   })
   .views(self => {
     function getForm(): any {
-      return hasParent(self, 2) ? getParent(self, 2) : null;
+      return self.parentStore;
     }
 
     function getValue(): any {
@@ -246,7 +247,7 @@ export const FormItemStore = types
       }
 
       typeof type !== 'undefined' && (self.type = type);
-      typeof id !== 'undefined' && (self.id = id);
+      typeof id !== 'undefined' && (self.itemId = id);
       typeof messages !== 'undefined' && (self.messages = messages);
       typeof required !== 'undefined' && (self.required = !!required);
       typeof unique !== 'undefined' && (self.unique = !!unique);

@@ -337,7 +337,9 @@ export interface RootRendererProps {
   [propName: string]: any;
 }
 
-const RootStoreContext = React.createContext<IRendererStore>(undefined as any);
+export const RootStoreContext = React.createContext<IRendererStore>(
+  undefined as any
+);
 
 export class RootRenderer extends React.Component<RootRendererProps> {
   state = {
@@ -701,12 +703,13 @@ export function HocStoreFactory(renderer: {
         this.renderChild = this.renderChild.bind(this);
         this.refFn = this.refFn.bind(this);
 
-        const store = (this.store = rootStore.addStore({
+        const store = rootStore.addStore({
           id: guid(),
           path: this.props.$path,
           storeType: renderer.storeType,
           parentId: this.props.store ? this.props.store.id : ''
-        } as any));
+        }) as IIRendererStore;
+        this.store = store;
 
         if (renderer.extendsData === false) {
           store.initData(
@@ -1107,4 +1110,51 @@ export function getRenderers() {
 
 export function getRendererByName(name: string) {
   return find(renderers, item => item.name === name);
+}
+
+export function withRootStore<
+  T extends React.ComponentType<
+    React.ComponentProps<T> & {
+      rootStore: IRendererStore;
+    }
+  >
+>(ComposedComponent: T) {
+  type OuterProps = JSX.LibraryManagedAttributes<
+    T,
+    Omit<React.ComponentProps<T>, 'rootStore'>
+  >;
+
+  const result = hoistNonReactStatic(
+    class extends React.Component<OuterProps> {
+      static displayName = `WithRootStore(${
+        ComposedComponent.displayName || ComposedComponent.name
+      })`;
+      static contextType = RootStoreContext;
+      static ComposedComponent = ComposedComponent;
+
+      render() {
+        const rootStore = this.context;
+        const injectedProps: {
+          rootStore: IRendererStore;
+        } = {
+          rootStore
+        };
+
+        return (
+          <ComposedComponent
+            {...(this.props as JSX.LibraryManagedAttributes<
+              T,
+              React.ComponentProps<T>
+            >)}
+            {...injectedProps}
+          />
+        );
+      }
+    },
+    ComposedComponent
+  );
+
+  return result as typeof result & {
+    ComposedComponent: T;
+  };
 }

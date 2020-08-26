@@ -17,7 +17,7 @@ import {
 } from '../utils/helper';
 import {IComboStore} from './combo';
 import isEqual from 'lodash/isEqual';
-import {IRendererStore} from '.';
+import {IRendererStore, getStoreById, removeStore} from '.';
 
 export const FormStore = ServiceStore.named('FormStore')
   .props({
@@ -26,59 +26,70 @@ export const FormStore = ServiceStore.named('FormStore')
     submited: false,
     submiting: false,
     validating: false,
-    items: types.optional(types.array(types.late(() => FormItemStore)), []),
+    // items: types.optional(types.array(types.late(() => FormItemStore)), []),
+    itemsRef: types.optional(types.array(types.string), []),
     canAccessSuperData: true,
     persistData: false
   })
-  .views(self => ({
-    get loading() {
-      return self.saving || self.fetching;
-    },
-
-    get errors() {
-      let errors: {
-        [propName: string]: Array<string>;
-      } = {};
-
-      self.items.forEach(item => {
-        if (!item.valid) {
-          errors[item.name] = Array.isArray(errors[item.name])
-            ? errors[item.name].concat(item.errors)
-            : item.errors.concat();
-        }
-      });
-
-      return errors;
-    },
-
-    getValueByName(name: string) {
-      return getVariable(self.data, name, self.canAccessSuperData);
-    },
-
-    getPristineValueByName(name: string) {
-      return getVariable(self.pristine, name);
-    },
-
-    getItemById(id: string) {
-      return self.items.find(item => item.id === id);
-    },
-
-    getItemByName(name: string) {
-      return self.items.find(item => item.name === name);
-    },
-
-    getItemsByName(name: string) {
-      return self.items.filter(item => item.name === name);
-    },
-
-    get valid() {
-      return self.items.every(item => item.valid);
-    },
-
-    get isPristine() {
-      return isEqual(self.pristine, self.data);
+  .views(self => {
+    function getItems() {
+      return self.itemsRef.map(item => getStoreById(item) as IFormItemStore);
     }
-  }))
+
+    return {
+      get loading() {
+        return self.saving || self.fetching;
+      },
+
+      get items() {
+        return getItems();
+      },
+
+      get errors() {
+        let errors: {
+          [propName: string]: Array<string>;
+        } = {};
+
+        getItems().forEach(item => {
+          if (!item.valid) {
+            errors[item.name] = Array.isArray(errors[item.name])
+              ? errors[item.name].concat(item.errors)
+              : item.errors.concat();
+          }
+        });
+
+        return errors;
+      },
+
+      getValueByName(name: string) {
+        return getVariable(self.data, name, self.canAccessSuperData);
+      },
+
+      getPristineValueByName(name: string) {
+        return getVariable(self.pristine, name);
+      },
+
+      getItemById(id: string) {
+        return getItems().find(item => item.itemId === id);
+      },
+
+      getItemByName(name: string) {
+        return getItems().find(item => item.name === name);
+      },
+
+      getItemsByName(name: string) {
+        return getItems().filter(item => item.name === name);
+      },
+
+      get valid() {
+        return getItems().every(item => item.valid);
+      },
+
+      get isPristine() {
+        return isEqual(self.pristine, self.data);
+      }
+    };
+  })
   .actions(self => {
     function setValues(values: object, tag?: object, replace?: boolean) {
       self.updateData(values, tag, replace);
@@ -410,51 +421,14 @@ export const FormStore = ServiceStore.named('FormStore')
       cb && cb(self.data);
     }
 
-    function registryItem(
-      name: string,
-      options?: Partial<SFormItemStore> & {
-        value?: any;
-      }
-    ): IFormItemStore {
-      let item: IFormItemStore;
-
-      self.items.push({
-        identifier: guid(),
-        name
-      } as any);
-
-      item = self.items[self.items.length - 1] as IFormItemStore;
-
+    function addFormItem(item: IFormItemStore) {
+      self.itemsRef.push(item.id);
       // 默认值可能在原型上，把他挪到当前对象上。
       setValueByName(item.name, item.value, false, false);
-
-      options && item.config(options);
-
-      return item;
     }
 
-    function unRegistryItem(item: IFormItemStore) {
-      destroy(item);
-    }
-
-    function beforeDetach() {
-      // 本来是想在组件销毁的时候处理，
-      // 但是 componentWillUnmout 是父级先执行，form 都销毁了 formItem 就取不到 父级就不是 combo 了。
-      if (self.parentStore && self.parentStore.storeType === 'ComboStore') {
-        const combo = self.parentStore as IComboStore;
-        self.items.forEach(item => {
-          if (item.unique) {
-            combo.unBindUniuqueItem(item);
-          }
-        });
-
-        combo.removeForm(self as IFormStore);
-        combo.forms.forEach(item =>
-          item.items.forEach(item => item.unique && item.syncOptions())
-        );
-      }
-
-      self.items.forEach(item => detach(item));
+    function removeFormItem(item: IFormItemStore) {
+      removeStore(item);
     }
 
     function setCanAccessSuperData(value: boolean = true) {
@@ -490,6 +464,14 @@ export const FormStore = ServiceStore.named('FormStore')
       localStorage.removeItem(location.pathname + self.path);
     }
 
+    function onChildStoreDispose(child: IFormItemStore) {
+      if (child.storeType === FormItemStore.name) {
+        const itemsRef = self.itemsRef.filter(id => id !== child.id);
+        self.itemsRef.replace(itemsRef);
+      }
+      self.removeChildId(child.id);
+    }
+
     return {
       setInited,
       setValues,
@@ -501,15 +483,15 @@ export const FormStore = ServiceStore.named('FormStore')
       clearErrors,
       saveRemote,
       reset,
-      registryItem,
-      unRegistryItem,
-      beforeDetach,
+      addFormItem,
+      removeFormItem,
       syncOptions,
       setCanAccessSuperData,
       deleteValueByName,
       getPersistData,
       setPersistData,
       clearPersistData,
+      onChildStoreDispose,
       beforeDestroy() {
         syncOptions.cancel();
         setPersistData.cancel();

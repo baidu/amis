@@ -1,12 +1,30 @@
 import {types, SnapshotIn, isAlive, onAction} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
-import {FormItemStore, IFormItemStore} from './formItem';
-import {FormStore, IFormStore} from './form';
+import {FormItemStore} from './formItem';
+import {FormStore, IFormStore, IFormItemStore} from './form';
+import {getStoreById} from './index';
 
-export const UniqueGroup = types.model('UniqueGroup', {
-  name: types.identifier,
-  items: types.array(types.reference(types.late(() => FormItemStore)))
-});
+export const UniqueGroup = types
+  .model('UniqueGroup', {
+    name: types.identifier,
+    itemsRef: types.array(types.string)
+  })
+  .views(self => ({
+    get items() {
+      return self.itemsRef.map(
+        id => (getStoreById(id) as any) as IFormItemStore
+      );
+    }
+  }))
+  .actions(self => ({
+    removeItem(item: IFormItemStore) {
+      self.itemsRef.replace(self.itemsRef.filter(id => id !== item.id));
+    },
+
+    addItem(item: IFormItemStore) {
+      self.itemsRef.push(item.id);
+    }
+  }));
 
 export type IUniqueGroup = typeof UniqueGroup.Type;
 
@@ -14,13 +32,16 @@ export const ComboStore = iRendererStore
   .named('ComboStore')
   .props({
     uniques: types.map(UniqueGroup),
-    forms: types.array(types.late(() => FormStore)),
+    formsRef: types.optional(types.array(types.string), []),
     minLength: 0,
     maxLength: 0,
     length: 0,
     activeKey: 0
   })
   .views(self => ({
+    get forms() {
+      return self.formsRef.map(item => getStoreById(item) as IFormStore);
+    },
     get addable() {
       if (self.maxLength && self.length >= self.maxLength) {
         return false;
@@ -77,36 +98,38 @@ export const ComboStore = iRendererStore
         });
       }
       let group: IUniqueGroup = self.uniques.get(item.name) as IUniqueGroup;
-      group.items.push(item);
+      group.addItem(item);
     }
 
     function unBindUniuqueItem(item: IFormItemStore) {
       let group: IUniqueGroup = self.uniques.get(item.name) as IUniqueGroup;
-      group.items.remove(item);
+      group.removeItem(item);
       if (!group.items.length) {
         self.uniques.delete(item.name);
       }
     }
 
     function addForm(form: IFormStore) {
-      self.forms.push(form);
-      self.childrenIds.push(form.id);
+      self.formsRef.push(form.id);
     }
 
-    function removeForm(form: IFormStore) {
-      // form 可能再它自己销毁的是已经被移除了。因为调用的是 destroy，所以 self.forms 里面也被一起移除。
-      // 再来尝试移除，会报错。
-      // if (self.forms.includes(form)) {
-      //   const forms = self.forms.concat();
-      //   self.forms.replace(forms.filter(member => member !== form));
-      //   console.log(self.forms.length);
-      //   // self.childrenIds.remove(form.id);
-      //   // self.disposed && self.dispose();
-      // }
-    }
+    function onChildStoreDispose(child: IFormStore) {
+      if (child.storeType === FormStore.name) {
+        const idx = self.formsRef.indexOf(child.id);
+        if (~idx) {
+          self.formsRef.splice(idx, 1);
+          child.items.forEach(item => {
+            if (item.unique) {
+              unBindUniuqueItem(item);
+            }
+          });
 
-    function onChildStoreDispose(child: any) {
-      debugger;
+          self.forms.forEach(item =>
+            item.items.forEach(item => item.unique && item.syncOptions())
+          );
+        }
+      }
+      self.removeChildId(child.id);
     }
 
     function setActiveKey(key: number) {
@@ -119,7 +142,6 @@ export const ComboStore = iRendererStore
       bindUniuqueItem,
       unBindUniuqueItem,
       addForm,
-      removeForm,
       onChildStoreDispose
     };
   });

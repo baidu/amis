@@ -10,6 +10,8 @@ import {ListStore} from './list';
 import {ModalStore} from './modal';
 import {TranslateFn} from '../locale';
 import find from 'lodash/find';
+import {IStoreNode} from './node';
+import {FormItemStore} from './formItem';
 
 setLivelynessChecking(
   process.env.NODE_ENV === 'production' ? 'ignore' : 'error'
@@ -22,7 +24,8 @@ const allowedStoreList = [
   CRUDStore,
   TableStore,
   ListStore,
-  ModalStore
+  ModalStore,
+  FormItemStore
 ];
 
 export const RendererStore = types
@@ -50,7 +53,13 @@ export const RendererStore = types
     }
   }))
   .actions(self => ({
-    addStore(store: SIRendererStore): IIRendererStore {
+    addStore(store: {
+      storeType: string;
+      id: string;
+      path: string;
+      parentId?: string;
+      [propName: string]: any;
+    }): IStoreNode {
       const factory = find(
         allowedStoreList,
         item => item.name === store.storeType
@@ -71,7 +80,7 @@ export const RendererStore = types
       // return self.stores.get(store.id) as IIRendererStore;
     },
 
-    removeStore(store: IIRendererStore) {
+    removeStore(store: IStoreNode) {
       // store.dispose();
       removeStore(store);
     }
@@ -84,10 +93,10 @@ export const RegisterStore = function (store: any) {
 };
 
 const stores: {
-  [propName: string]: IIRendererStore;
+  [propName: string]: IStoreNode;
 } = {};
 
-export function addStore(store: IIRendererStore) {
+export function addStore(store: IStoreNode) {
   if (stores[store.id]) {
     return stores[store.id];
   }
@@ -103,9 +112,9 @@ export function addStore(store: IIRendererStore) {
   return store;
 }
 
-export function removeStore(store: IIRendererStore) {
-  delete stores[store.id];
-  store.dispose();
+export function removeStore(store: IStoreNode) {
+  const id = store.id;
+  store.dispose(() => delete stores[id]);
 }
 
 export function getStoreById(id: string) {

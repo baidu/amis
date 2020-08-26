@@ -1,77 +1,25 @@
-import {
-  types,
-  getRoot,
-  Instance,
-  destroy,
-  detach,
-  isAlive,
-  getEnv
-} from 'mobx-state-tree';
+import {types} from 'mobx-state-tree';
 import {extendObject, createObject} from '../utils/helper';
-import {IRendererStore, getStoreById} from './index';
 import {dataMapping} from '../utils/tpl-builtin';
 import {SimpleMap} from '../utils/SimpleMap';
-import {TranslateFn} from '../locale';
+import {storeNode} from './node';
 
-export const iRendererStore = types
-  .model('iRendererStore', {
-    id: types.identifier,
-    path: '',
-    storeType: types.string,
+export const iRendererStore = storeNode
+  .named('iRendererStore')
+  .props({
     hasRemoteData: types.optional(types.boolean, false),
     data: types.optional(types.frozen(), {}),
     initedAt: 0, // 初始 init 的时刻
     updatedAt: 0, // 从服务端更新时刻
     pristine: types.optional(types.frozen(), {}),
-    disposed: false,
-    parentId: '',
-    childrenIds: types.optional(types.array(types.string), []),
     action: types.optional(types.frozen(), undefined),
     dialogOpen: false,
     dialogData: types.optional(types.frozen(), undefined),
     drawerOpen: false,
     drawerData: types.optional(types.frozen(), undefined)
   })
-  .views(self => {
-    return {
-      get parentStore(): any {
-        return isAlive(self) && self.parentId
-          ? getStoreById(self.parentId)
-          : null;
-      },
-
-      get __(): TranslateFn {
-        return getEnv(self).__;
-      }
-    };
-  })
   .actions(self => {
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
-
-    function addChildId(id: string) {
-      self.childrenIds.push(id);
-    }
-
-    function dispose() {
-      // 先标记自己是要销毁的。
-      self.disposed = true;
-      const parent = self.parentStore;
-
-      // 如果是叶子节点才自我销毁
-      if (!self.childrenIds.length) {
-        const id = self.id;
-        detach(self);
-        parent && parent.onChildDispose(id);
-      }
-    }
-
-    function beforeDetach() {
-      const parent = self.parentStore;
-
-      if (parent && parent.onChildStoreDispose) {
-        parent.onChildStoreDispose(self);
-      }
-    }
 
     return {
       initData(data: object = {}) {
@@ -191,18 +139,7 @@ export const iRendererStore = types
           dialogCallbacks.delete(self.drawerData);
           setTimeout(() => callback(result), 200);
         }
-      },
-
-      onChildDispose(childId: string) {
-        const childrenIds = self.childrenIds.filter(item => item !== childId);
-        self.childrenIds.replace(childrenIds);
-
-        self.disposed && dispose();
-      },
-
-      dispose,
-      beforeDetach,
-      addChildId
+      }
     };
   });
 
