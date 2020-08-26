@@ -114,6 +114,7 @@ export class TableCell extends React.Component<RendererProps> {
 @QuickEdit()
 @PopOverable()
 @Copyable()
+@observer
 export class TableCellRenderer extends TableCell {
   static propsList = [
     'quickEdit',
@@ -123,10 +124,6 @@ export class TableCellRenderer extends TableCell {
     'inline',
     ...TableCell.propsList
   ];
-
-  shouldComponentUpdate() {
-    return false;
-  }
 }
 
 @Renderer({

@@ -26,6 +26,7 @@ import {TableCell} from './TableCell';
 import {TableRow} from './TableRow';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
+import {TableContent} from './TableContent';
 
 export interface Column {
   type: string;
@@ -193,6 +194,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.dragTipRef = this.dragTipRef.bind(this);
     this.getPopOverContainer = this.getPopOverContainer.bind(this);
     this.renderCell = this.renderCell.bind(this);
+    this.renderHeadCell = this.renderHeadCell.bind(this);
     this.renderToolbar = this.renderToolbar.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
@@ -1756,40 +1758,39 @@ export default class Table extends React.Component<TableProps, object> {
         />
       ];
 
-      if (item.expanded && !store.dragging) {
-        if (store.footable && store.footableColumns.length) {
-          if (item.depth === 1) {
-            doms.push(
-              <TableRow
-                {...itemProps}
-                classPrefix={ns}
-                classnames={cx}
-                checkOnItemClick={checkOnItemClick}
-                key={`foot-${item.id}`}
-                itemIndex={rowIndex}
-                item={item}
-                itemClassName={cx(
-                  rowClassNameExpr
-                    ? filter(rowClassNameExpr, item.data)
-                    : rowClassName
-                )}
-                columns={store.footableColumns}
-                renderCell={this.renderCell}
-                render={render}
-                onAction={onAction}
-                onCheck={this.handleCheck}
-                footableMode
-                footableColSpan={store.filteredColumns.length}
-                onQuickChange={store.dragging ? null : this.handleQuickChange}
-                {...rowProps}
-              />
-            );
-          }
-        } else if (Array.isArray(item.data.children)) {
-          // 嵌套表格
-          doms.push(...this.renderRows(item.children, columns, rowProps));
+      if (store.footable && store.footableColumns.length) {
+        if (item.depth === 1) {
+          doms.push(
+            <TableRow
+              {...itemProps}
+              classPrefix={ns}
+              classnames={cx}
+              checkOnItemClick={checkOnItemClick}
+              key={`foot-${item.id}`}
+              itemIndex={rowIndex}
+              item={item}
+              itemClassName={cx(
+                rowClassNameExpr
+                  ? filter(rowClassNameExpr, item.data)
+                  : rowClassName
+              )}
+              columns={store.footableColumns}
+              renderCell={this.renderCell}
+              render={render}
+              onAction={onAction}
+              onCheck={this.handleCheck}
+              footableMode
+              footableColSpan={store.filteredColumns.length}
+              onQuickChange={store.dragging ? null : this.handleQuickChange}
+              {...rowProps}
+            />
+          );
         }
+      } else if (Array.isArray(item.data.children)) {
+        // 嵌套表格
+        doms.push(...this.renderRows(item.children, columns, rowProps));
       }
+
       return doms;
     });
   }
@@ -1847,58 +1848,45 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderTableContent() {
-    const {store, placeholder, classnames: cx, data, render} = this.props;
-
-    const tableClassName = cx(
-      'Table-table',
-      store.combineNum > 0 ? 'Table-table--withCombine' : '',
-      this.props.tableClassName
-    );
-    const hideHeader = store.filteredColumns.every(column => !column.label);
+    const {
+      classnames: cx,
+      tableClassName,
+      store,
+      placeholder,
+      render,
+      checkOnItemClick,
+      buildItemProps,
+      rowClassNameExpr,
+      rowClassName
+    } = this.props;
 
     return (
-      <div
+      <TableContent
+        tableClassName={cx(
+          store.combineNum > 0 ? 'Table-table--withCombine' : '',
+          tableClassName
+        )}
+        classnames={cx}
+        columns={store.filteredColumns}
+        columnsGroup={store.columnGroup}
+        rows={store.rows}
+        placeholder={placeholder}
+        render={render}
         onMouseMove={this.handleMouseMove}
-        className={cx('Table-content')}
         onScroll={this.handleOutterScroll}
-      >
-        <table ref={this.tableRef} className={tableClassName}>
-          <thead>
-            {store.columnGroup.length ? (
-              <tr>
-                {store.columnGroup.map((item, index) => (
-                  <th
-                    key={index}
-                    data-index={item.index}
-                    colSpan={item.colSpan}
-                  >
-                    {item.label ? render('tpl', item.label) : null}
-                  </th>
-                ))}
-              </tr>
-            ) : null}
-            <tr className={hideHeader ? 'fake-hide' : ''}>
-              {store.filteredColumns.map(column =>
-                this.renderHeadCell(column, {
-                  'data-index': column.index,
-                  'key': column.index
-                })
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {store.rows.length ? (
-              this.renderRows(store.rows, store.filteredColumns)
-            ) : (
-              <tr className={cx('Table-placeholder')}>
-                <td colSpan={store.filteredColumns.length}>
-                  {render('placeholder', placeholder, {data})}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+        tableRef={this.tableRef}
+        renderHeadCell={this.renderHeadCell}
+        renderCell={this.renderCell}
+        onCheck={this.handleCheck}
+        onQuickChange={store.dragging ? undefined : this.handleQuickChange}
+        footable={store.footable}
+        footableColumns={store.footableColumns}
+        checkOnItemClick={checkOnItemClick}
+        buildItemProps={buildItemProps}
+        onAction={this.handleAction}
+        rowClassNameExpr={rowClassNameExpr}
+        rowClassName={rowClassName}
+      />
     );
   }
 

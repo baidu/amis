@@ -118,9 +118,9 @@ export const Row = types
     },
 
     get expanded(): boolean {
-      return (getParent(self, self.depth * 2) as ITableStore).isExpanded(
-        self as IRow
-      );
+      const table = getParent(self, self.depth * 2) as ITableStore;
+
+      return !table.dragging && table.isExpanded(self as IRow);
     },
 
     get moved() {

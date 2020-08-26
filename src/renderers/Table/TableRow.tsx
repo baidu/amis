@@ -3,6 +3,7 @@ import React from 'react';
 import {IRow, IColumn} from '../../store/table';
 import {RendererProps} from '../../factory';
 import {Action} from '../Action';
+import {reaction} from 'mobx';
 
 interface TableRowProps extends Pick<RendererProps, 'render'> {
   onCheck: (item: IRow) => void;
@@ -15,6 +16,7 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
   ) => React.ReactNode;
   columns: Array<IColumn>;
   item: IRow;
+  parent?: IRow;
   itemClassName?: string;
   itemIndex: number;
   regionPrefix?: string;
@@ -23,16 +25,32 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
 }
 
 export class TableRow extends React.Component<TableRowProps> {
+  reaction?: () => void;
   constructor(props: TableRowProps) {
     super(props);
     this.handleAction = this.handleAction.bind(this);
     this.handleQuickChange = this.handleQuickChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+
+    const item = props.item;
+    const parent = props.parent;
+    this.reaction = reaction(
+      () =>
+        `${item.isHover}${item.checked}${item.moved}${item.modified}${item.expanded}${parent?.expanded}`,
+      () => this.forceUpdate(),
+      {
+        onError: () => this.reaction!()
+      }
+    );
   }
 
   shouldComponentUpdate() {
     // 不需要更新，因为孩子节点已经 observer 了
     return false;
+  }
+
+  componentWillUnmount() {
+    this.reaction?.();
   }
 
   handleClick(e: React.MouseEvent<HTMLTableRowElement>) {
@@ -81,12 +99,17 @@ export class TableRow extends React.Component<TableRowProps> {
       classPrefix: ns,
       render,
       classnames: cx,
+      parent,
       ...rest
     } = this.props;
 
     // console.log('TableRow');
 
     if (footableMode) {
+      if (!item.expanded) {
+        return null;
+      }
+
       return (
         <tr
           data-id={item.id}
@@ -136,6 +159,10 @@ export class TableRow extends React.Component<TableRowProps> {
           </td>
         </tr>
       );
+    }
+
+    if (parent && !parent.expanded) {
+      return null;
     }
 
     return (

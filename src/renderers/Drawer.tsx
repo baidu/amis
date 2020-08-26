@@ -10,6 +10,7 @@ import {findDOMNode} from 'react-dom';
 import {IModalStore, ModalStore} from '../store/modal';
 import {filter} from '../utils/tpl';
 import {Spinner} from '../components';
+import {IServiceStore} from '../store/service';
 
 export interface DrawerProps extends RendererProps {
   title?: string; // 标题
@@ -537,7 +538,8 @@ export default class Drawer extends React.Component<DrawerProps, object> {
   storeExtendsData: false,
   name: 'drawer',
   isolateScope: true,
-  shouldSyncSuperStore: () => false
+  shouldSyncSuperStore: (store: IServiceStore, props: any) =>
+    store.drawerOpen || props.show
 })
 export class DrawerRenderer extends Drawer {
   static contextType = ScopedContext;
