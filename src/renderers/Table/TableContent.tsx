@@ -106,9 +106,7 @@ export class TableContent extends React.Component<TableContentProps> {
               ? filter(rowClassNameExpr, item.data)
               : rowClassName,
             {
-              'is-last': item.depth > 1 && rowIndex === rows.length - 1,
-              'is-expanded': item.expanded,
-              'is-expandable': item.expandable
+              'is-last': item.depth > 1 && rowIndex === rows.length - 1
             }
           )}
           columns={columns}

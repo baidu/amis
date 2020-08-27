@@ -177,6 +177,8 @@ export class TableRow extends React.Component<TableRowProps> {
             'is-checked': item.checked,
             'is-modified': item.modified,
             'is-moved': item.moved,
+            'is-expanded': item.expanded,
+            'is-expandable': item.expandable,
             [`Table-tr--odd`]: itemIndex % 2 === 0,
             [`Table-tr--even`]: itemIndex % 2 === 1
           },
