@@ -53,6 +53,7 @@ export class TableContent extends React.Component<TableContentProps> {
     super(props);
 
     const rows = props.rows;
+
     this.reaction = reaction(
       () => `${rows.map(item => item.id).join(',')}`,
       () => this.forceUpdate(),
@@ -62,7 +63,13 @@ export class TableContent extends React.Component<TableContentProps> {
     );
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps: TableContentProps) {
+    const props = this.props;
+
+    if (props.columns !== nextProps.columns) {
+      return true;
+    }
+
     return false;
   }
 

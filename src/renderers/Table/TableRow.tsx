@@ -34,11 +34,12 @@ export class TableRow extends React.Component<TableRowProps> {
 
     const item = props.item;
     const parent = props.parent;
+    const columns = props.columns;
     this.reaction = reaction(
       () =>
         `${item.isHover}${item.checked}${JSON.stringify(item.data)}${
           item.moved
-        }${item.modified}${item.expanded}${parent?.expanded}`,
+        }${item.modified}${item.expanded}${parent?.expanded}${columns.length}`,
       () => this.forceUpdate(),
       {
         onError: () => this.reaction!()
@@ -46,7 +47,12 @@ export class TableRow extends React.Component<TableRowProps> {
     );
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(nextProps: TableRowProps) {
+    const props = this.props;
+    if (props.columns !== nextProps.columns) {
+      return true;
+    }
+
     // 不需要更新，因为孩子节点已经 observer 了
     return false;
   }
