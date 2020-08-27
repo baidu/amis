@@ -134,6 +134,36 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 }
 ```
 
+## 行为后关闭弹框
+
+在弹框中配置行为按钮，可以在按钮上配置`"close": true`，在行为完成后，关闭当前弹框。
+
+```schema:height="100" scope="body"
+{
+    "type": "button",
+    "label": "弹个框",
+    "actionType": "dialog",
+    "dialog": {
+        "title": "弹框",
+        "body": [
+          {
+            "type": "action",
+            "label": "默认的 ajax 请求",
+            "actionType": "ajax",
+            "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1"
+          },
+          {
+            "type": "action",
+            "label": "ajax 请求成功后关闭弹框",
+            "actionType": "ajax",
+            "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+            "close": true
+          }
+        ]
+    }
+}
+```
+
 ## 弹框中配置表单
 
 ### 基本使用
