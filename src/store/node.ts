@@ -1,8 +1,8 @@
 import {types, destroy, isAlive, detach, getEnv} from 'mobx-state-tree';
 import {getStoreById} from './index';
 
-export const storeNode = types
-  .model('storeNode', {
+export const StoreNode = types
+  .model('StoreNode', {
     id: types.identifier,
     path: '',
     storeType: types.string,
@@ -62,5 +62,5 @@ export const storeNode = types
     };
   });
 
-export type IStoreNode = typeof storeNode.Type;
-export type SIStoreNode = typeof storeNode.SnapshotType;
+export type IStoreNode = typeof StoreNode.Type;
+export type SIStoreNode = typeof StoreNode.SnapshotType;

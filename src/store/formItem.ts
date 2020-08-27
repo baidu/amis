@@ -30,7 +30,7 @@ import find from 'lodash/find';
 import {SimpleMap} from '../utils/SimpleMap';
 import memoize from 'lodash/memoize';
 import {TranslateFn} from '../locale';
-import {storeNode} from './node';
+import {StoreNode} from './node';
 
 interface IOption {
   value?: string | number | null;
@@ -46,8 +46,7 @@ const ErrorDetail = types.model('ErrorDetail', {
   tag: ''
 });
 
-export const FormItemStore = storeNode
-  .named('FormItemStore')
+export const FormItemStore = StoreNode.named('FormItemStore')
   .props({
     isFocused: false,
     type: '',

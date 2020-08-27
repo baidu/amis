@@ -2,10 +2,9 @@ import {types} from 'mobx-state-tree';
 import {extendObject, createObject} from '../utils/helper';
 import {dataMapping} from '../utils/tpl-builtin';
 import {SimpleMap} from '../utils/SimpleMap';
-import {storeNode} from './node';
+import {StoreNode} from './node';
 
-export const iRendererStore = storeNode
-  .named('iRendererStore')
+export const iRendererStore = StoreNode.named('iRendererStore')
   .props({
     hasRemoteData: types.optional(types.boolean, false),
     data: types.optional(types.frozen(), {}),

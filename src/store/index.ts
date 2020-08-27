@@ -1,4 +1,10 @@
-import {types, getEnv, detach, setLivelynessChecking} from 'mobx-state-tree';
+import {
+  types,
+  getEnv,
+  detach,
+  setLivelynessChecking,
+  isAlive
+} from 'mobx-state-tree';
 import 'setimmediate';
 import {iRendererStore, IIRendererStore, SIRendererStore} from './iRenderer';
 import {ServiceStore} from './service';
@@ -50,6 +56,10 @@ export const RendererStore = types
     },
     getStoreById(id: string) {
       return getStoreById(id);
+    },
+
+    get stores() {
+      return stores;
     }
   }))
   .actions(self => ({
@@ -65,19 +75,7 @@ export const RendererStore = types
         item => item.name === store.storeType
       )!;
 
-      return addStore(factory.create(store, getEnv(self)));
-
-      // if (self.stores.has(store.id as string)) {
-      //   return self.stores.get(store.id) as IIRendererStore;
-      // }
-
-      // if (store.parentId) {
-      //   const parent = self.stores.get(store.parentId) as IIRendererStore;
-      //   parent.childrenIds.push(store.id);
-      // }
-
-      // self.stores.put(store);
-      // return self.stores.get(store.id) as IIRendererStore;
+      return addStore(factory.create(store as any, getEnv(self)));
     },
 
     removeStore(store: IStoreNode) {
@@ -109,12 +107,31 @@ export function addStore(store: IStoreNode) {
     parent.addChildId(store.id);
   }
 
+  cleanUp();
   return store;
 }
 
+const toDelete: Array<string> = [];
+
 export function removeStore(store: IStoreNode) {
   const id = store.id;
-  store.dispose(() => delete stores[id]);
+  toDelete.push(id);
+  store.dispose(cleanUp);
+}
+
+function cleanUp() {
+  let index = toDelete.length - 1;
+  while (index >= 0) {
+    const id = toDelete[index];
+    const store = stores[id];
+
+    if (store && !isAlive(store)) {
+      delete stores[id];
+      toDelete.splice(index, 1);
+    } else {
+      index--;
+    }
+  }
 }
 
 export function getStoreById(id: string) {
