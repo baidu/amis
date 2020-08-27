@@ -98,7 +98,7 @@ export class TableContent extends React.Component<TableContentProps> {
           {...itemProps}
           classnames={cx}
           checkOnItemClick={checkOnItemClick}
-          key={item.id}
+          key={item.index}
           itemIndex={rowIndex}
           item={item}
           itemClassName={cx(
@@ -127,7 +127,7 @@ export class TableContent extends React.Component<TableContentProps> {
               {...itemProps}
               classnames={cx}
               checkOnItemClick={checkOnItemClick}
-              key={`foot-${item.id}`}
+              key={`foot-${item.index}`}
               itemIndex={rowIndex}
               item={item}
               itemClassName={cx(
