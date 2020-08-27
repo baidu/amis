@@ -683,7 +683,7 @@ if (fis.project.currentMedia() === 'publish') {
     ]
   });
   ghPages.match('*', {
-    domain: 'https://bce.bdstatic.com/fex/amis-gh-pages',
+    domain: '/amis',
     deploy: [
       fis.plugin('skip-packed'),
       fis.plugin('local-deliver', {

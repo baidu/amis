@@ -105,10 +105,6 @@ function createScopedTools(
     reload(target: string, ctx: any) {
       const scoped = this;
 
-      if (target === 'window') {
-        return location.reload();
-      }
-
       let targets =
         typeof target === 'string' ? target.split(/\s*,\s*/) : target;
       targets.forEach(name => {
@@ -128,8 +124,19 @@ function createScopedTools(
           name = name.substring(0, idx);
         }
 
-        const component = scoped.getComponentByName(name);
-        component && component.reload && component.reload(subPath, query, ctx);
+        if (name === 'window') {
+          if (query) {
+            const link = location.pathname + '?' + qsstringify(query);
+            env ? env.updateLocation(link, true) : location.replace(link);
+          } else {
+            location.reload();
+          }
+        } else {
+          const component = scoped.getComponentByName(name);
+          component &&
+            component.reload &&
+            component.reload(subPath, query, ctx);
+        }
       });
     },
 

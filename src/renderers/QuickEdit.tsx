@@ -467,6 +467,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
               wrapperComponent: 'div',
               className: cx('Form--quickEdit'),
               ref: this.formRef,
+              simpleMode: true,
               onInit: this.handleInit,
               onChange: this.handleChange
             })}

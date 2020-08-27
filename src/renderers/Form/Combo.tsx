@@ -227,7 +227,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   componentWillUnmount() {
     const {formItem} = this.props;
 
-    formItem && formItem.setSubStore(null);
+    formItem && isAlive(formItem) && formItem.setSubStore(null);
 
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];

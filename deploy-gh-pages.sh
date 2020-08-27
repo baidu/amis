@@ -11,7 +11,8 @@ node ./build/generate-search-data.js
 
 fis3 release gh-pages -c
 
-node ./build/upload2cdn.js $1 $2
+# 不走 cdn 了
+# node ./build/upload2cdn.js $1 $2
 
 echo "pushing"
 

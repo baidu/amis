@@ -11,6 +11,7 @@ import {Icon} from '../components/icons';
 import {ModalStore, IModalStore} from '../store/modal';
 import {findDOMNode} from 'react-dom';
 import {Spinner} from '../components';
+import {IServiceStore} from '../store/service';
 
 export interface DialogProps extends RendererProps {
   title?: string; // 标题
@@ -518,7 +519,9 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
   storeType: ModalStore.name,
   storeExtendsData: false,
   name: 'dialog',
-  isolateScope: true
+  isolateScope: true,
+  shouldSyncSuperStore: (store: IServiceStore, props: any) =>
+    store.dialogOpen || props.show
 })
 export class DialogRenderer extends Dialog {
   static contextType = ScopedContext;

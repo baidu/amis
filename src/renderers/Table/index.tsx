@@ -1,15 +1,13 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Action, Schema, Api, ApiObject} from '../types';
+import {Renderer, RendererProps} from '../../factory';
+import {SchemaNode, Action, Schema} from '../../types';
 import forEach from 'lodash/forEach';
-import {filter} from '../utils/tpl';
-import cx from 'classnames';
-import DropDownButton from './DropDownButton';
-import Checkbox from '../components/Checkbox';
-import Button from '../components/Button';
-import {TableStore, ITableStore, IColumn, IRow} from '../store/table';
-import {observer} from 'mobx-react';
+import {filter} from '../../utils/tpl';
+import DropDownButton from '../DropDownButton';
+import Checkbox from '../../components/Checkbox';
+import Button from '../../components/Button';
+import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
 import {
   anyChanged,
   getScrollParent,
@@ -17,26 +15,18 @@ import {
   noop,
   autobind,
   isArrayChildrenModified
-} from '../utils/helper';
-import {resolveVariable} from '../utils/tpl-builtin';
-import {
-  isEffectiveApi,
-  isApiOutdated,
-  buildApi,
-  normalizeApi
-} from '../utils/api';
+} from '../../utils/helper';
+import {resolveVariable} from '../../utils/tpl-builtin';
 import debounce from 'lodash/debounce';
-import xor from 'lodash/xor';
-import QuickEdit from './QuickEdit';
-import PopOver from '../components/PopOver';
-import Copyable from './Copyable';
 import Sortable from 'sortablejs';
-import flatMap from 'lodash/flatMap';
-import {resizeSensor} from '../utils/resize-sensor';
+import {resizeSensor} from '../../utils/resize-sensor';
 import find from 'lodash/find';
-import Overlay from '../components/Overlay';
-import PopOverable from './PopOver';
-import {Icon} from '../components/icons';
+import {Icon} from '../../components/icons';
+import {TableCell} from './TableCell';
+import {TableRow} from './TableRow';
+import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
+import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
+import {TableContent} from './TableContent';
 
 export interface Column {
   type: string;
@@ -204,6 +194,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.dragTipRef = this.dragTipRef.bind(this);
     this.getPopOverContainer = this.getPopOverContainer.bind(this);
     this.renderCell = this.renderCell.bind(this);
+    this.renderHeadCell = this.renderHeadCell.bind(this);
     this.renderToolbar = this.renderToolbar.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
@@ -1220,7 +1211,6 @@ export default class Table extends React.Component<TableProps, object> {
       render,
       store,
       multiple,
-      env,
       classPrefix: ns,
       classnames: cx,
       checkOnItemClick,
@@ -1393,19 +1383,7 @@ export default class Table extends React.Component<TableProps, object> {
     headerOnly: boolean = false,
     tableClassName: string = ''
   ) {
-    const {
-      rowClassName,
-      rowClassNameExpr,
-      placeholder,
-      store,
-      onAction,
-      buildItemProps,
-      classnames: cx,
-      classPrefix: ns,
-      checkOnItemClick,
-      render,
-      data
-    } = this.props;
+    const {placeholder, store, classnames: cx, render, data} = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
 
     return (
@@ -1469,7 +1447,7 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  renderToolbar(toolbar: SchemaNode, index: number) {
+  renderToolbar(toolbar: SchemaNode) {
     const type = (toolbar as Schema).type || (toolbar as string);
 
     if (type === 'columns-toggler') {
@@ -1754,6 +1732,7 @@ export default class Table extends React.Component<TableProps, object> {
         <TableRow
           {...itemProps}
           classPrefix={ns}
+          classnames={cx}
           checkOnItemClick={checkOnItemClick}
           key={item.id}
           itemIndex={rowIndex}
@@ -1779,39 +1758,39 @@ export default class Table extends React.Component<TableProps, object> {
         />
       ];
 
-      if (item.expanded && !store.dragging) {
-        if (store.footable && store.footableColumns.length) {
-          if (item.depth === 1) {
-            doms.push(
-              <TableRow
-                {...itemProps}
-                classPrefix={ns}
-                checkOnItemClick={checkOnItemClick}
-                key={`foot-${item.id}`}
-                itemIndex={rowIndex}
-                item={item}
-                itemClassName={cx(
-                  rowClassNameExpr
-                    ? filter(rowClassNameExpr, item.data)
-                    : rowClassName
-                )}
-                columns={store.footableColumns}
-                renderCell={this.renderCell}
-                render={render}
-                onAction={onAction}
-                onCheck={this.handleCheck}
-                footableMode
-                footableColSpan={store.filteredColumns.length}
-                onQuickChange={store.dragging ? null : this.handleQuickChange}
-                {...rowProps}
-              />
-            );
-          }
-        } else if (Array.isArray(item.data.children)) {
-          // 嵌套表格
-          doms.push(...this.renderRows(item.children, columns, rowProps));
+      if (store.footable && store.footableColumns.length) {
+        if (item.depth === 1) {
+          doms.push(
+            <TableRow
+              {...itemProps}
+              classPrefix={ns}
+              classnames={cx}
+              checkOnItemClick={checkOnItemClick}
+              key={`foot-${item.id}`}
+              itemIndex={rowIndex}
+              item={item}
+              itemClassName={cx(
+                rowClassNameExpr
+                  ? filter(rowClassNameExpr, item.data)
+                  : rowClassName
+              )}
+              columns={store.footableColumns}
+              renderCell={this.renderCell}
+              render={render}
+              onAction={onAction}
+              onCheck={this.handleCheck}
+              footableMode
+              footableColSpan={store.filteredColumns.length}
+              onQuickChange={store.dragging ? null : this.handleQuickChange}
+              {...rowProps}
+            />
+          );
         }
+      } else if (Array.isArray(item.data.children)) {
+        // 嵌套表格
+        doms.push(...this.renderRows(item.children, columns, rowProps));
       }
+
       return doms;
     });
   }
@@ -1869,71 +1848,50 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderTableContent() {
-    const {store, placeholder, classnames: cx, data, render} = this.props;
-
-    const tableClassName = cx(
-      'Table-table',
-      store.combineNum > 0 ? 'Table-table--withCombine' : '',
-      this.props.tableClassName
-    );
-    const hideHeader = store.filteredColumns.every(column => !column.label);
+    const {
+      classnames: cx,
+      tableClassName,
+      store,
+      placeholder,
+      render,
+      checkOnItemClick,
+      buildItemProps,
+      rowClassNameExpr,
+      rowClassName
+    } = this.props;
 
     return (
-      <div
+      <TableContent
+        tableClassName={cx(
+          store.combineNum > 0 ? 'Table-table--withCombine' : '',
+          tableClassName
+        )}
+        classnames={cx}
+        columns={store.filteredColumns}
+        columnsGroup={store.columnGroup}
+        rows={store.rows}
+        placeholder={placeholder}
+        render={render}
         onMouseMove={this.handleMouseMove}
-        className={cx('Table-content')}
         onScroll={this.handleOutterScroll}
-      >
-        <table ref={this.tableRef} className={tableClassName}>
-          <thead>
-            {store.columnGroup.length ? (
-              <tr>
-                {store.columnGroup.map((item, index) => (
-                  <th
-                    key={index}
-                    data-index={item.index}
-                    colSpan={item.colSpan}
-                  >
-                    {item.label ? render('tpl', item.label) : null}
-                  </th>
-                ))}
-              </tr>
-            ) : null}
-            <tr className={hideHeader ? 'fake-hide' : ''}>
-              {store.filteredColumns.map(column =>
-                this.renderHeadCell(column, {
-                  'data-index': column.index,
-                  'key': column.index
-                })
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {store.rows.length ? (
-              this.renderRows(store.rows, store.filteredColumns)
-            ) : (
-              <tr className={cx('Table-placeholder')}>
-                <td colSpan={store.filteredColumns.length}>
-                  {render('placeholder', placeholder, {data})}
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+        tableRef={this.tableRef}
+        renderHeadCell={this.renderHeadCell}
+        renderCell={this.renderCell}
+        onCheck={this.handleCheck}
+        onQuickChange={store.dragging ? undefined : this.handleQuickChange}
+        footable={store.footable}
+        footableColumns={store.footableColumns}
+        checkOnItemClick={checkOnItemClick}
+        buildItemProps={buildItemProps}
+        onAction={this.handleAction}
+        rowClassNameExpr={rowClassNameExpr}
+        rowClassName={rowClassName}
+      />
     );
   }
 
   render() {
-    const {
-      className,
-      store,
-      placeholder,
-      classnames: cx,
-      affixColumns,
-      data,
-      render
-    } = this.props;
+    const {className, store, classnames: cx, affixColumns} = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
     const heading = this.renderHeading();
@@ -1987,166 +1945,6 @@ export default class Table extends React.Component<TableProps, object> {
   }
 }
 
-interface TableRowProps extends Pick<RendererProps, 'render'> {
-  onCheck: (item: IRow) => void;
-  classPrefix: string;
-  renderCell: (
-    region: string,
-    column: IColumn,
-    item: IRow,
-    props: any
-  ) => React.ReactNode;
-  columns: Array<IColumn>;
-  item: IRow;
-  itemClassName?: string;
-  itemIndex: number;
-  regionPrefix?: string;
-  checkOnItemClick?: boolean;
-  [propName: string]: any;
-}
-
-@observer
-class TableRow extends React.Component<TableRowProps> {
-  constructor(props: TableRowProps) {
-    super(props);
-    this.handleAction = this.handleAction.bind(this);
-    this.handleQuickChange = this.handleQuickChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e: React.MouseEvent<HTMLTableRowElement>) {
-    const target: HTMLElement = e.target as HTMLElement;
-    const ns = this.props.classPrefix;
-    let formItem;
-
-    if (
-      !e.currentTarget.contains(target) ||
-      ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-      ((formItem = target.closest(`button, a, .${ns}Form-item`)) &&
-        e.currentTarget.contains(formItem))
-    ) {
-      return;
-    }
-
-    this.props.onCheck(this.props.item);
-  }
-
-  handleAction(e: React.UIEvent<any>, action: Action, ctx: any) {
-    const {onAction, item} = this.props;
-    onAction && onAction(e, action, ctx || item.data);
-  }
-
-  handleQuickChange(
-    values: object,
-    saveImmediately?: boolean,
-    savePristine?: boolean
-  ) {
-    const {onQuickChange, item} = this.props;
-    onQuickChange && onQuickChange(item, values, saveImmediately, savePristine);
-  }
-
-  render() {
-    const {
-      itemClassName,
-      itemIndex,
-      item,
-      columns,
-      renderCell,
-      children,
-      footableMode,
-      footableColSpan,
-      regionPrefix,
-      checkOnItemClick,
-      classPrefix: ns,
-      render,
-      ...rest
-    } = this.props;
-
-    if (footableMode) {
-      return (
-        <tr
-          data-id={item.id}
-          data-index={item.newIndex}
-          onClick={checkOnItemClick ? this.handleClick : undefined}
-          className={cx(itemClassName, {
-            'is-hovered': item.isHover,
-            'is-checked': item.checked,
-            'is-modified': item.modified,
-            'is-moved': item.moved,
-            [`${ns}Table-tr--odd`]: itemIndex % 2 === 0,
-            [`${ns}Table-tr--even`]: itemIndex % 2 === 1
-          })}
-        >
-          <td className={`${ns}Table-foot`} colSpan={footableColSpan}>
-            <table className={`${ns}Table-footTable`}>
-              <tbody>
-                {columns.map(column => (
-                  <tr key={column.index}>
-                    {column.label !== false ? (
-                      <th>
-                        {render(
-                          `${regionPrefix}${itemIndex}/${column.index}/tpl`,
-                          column.label
-                        )}
-                      </th>
-                    ) : null}
-
-                    {renderCell(
-                      `${regionPrefix}${itemIndex}/${column.index}`,
-                      column,
-                      item,
-                      {
-                        ...rest,
-                        width: null,
-                        rowIndex: itemIndex,
-                        colIndex: column.rawIndex,
-                        key: column.index,
-                        onAction: this.handleAction,
-                        onQuickChange: this.handleQuickChange
-                      }
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      );
-    }
-
-    return (
-      <tr
-        onClick={checkOnItemClick ? this.handleClick : undefined}
-        data-index={item.depth === 1 ? item.newIndex : undefined}
-        data-id={item.id}
-        className={cx(
-          itemClassName,
-          {
-            'is-hovered': item.isHover,
-            'is-checked': item.checked,
-            'is-modified': item.modified,
-            'is-moved': item.moved,
-            [`${ns}Table-tr--odd`]: itemIndex % 2 === 0,
-            [`${ns}Table-tr--even`]: itemIndex % 2 === 1
-          },
-          `${ns}Table-tr--${item.depth}th`
-        )}
-      >
-        {columns.map(column =>
-          renderCell(`${itemIndex}/${column.index}`, column, item, {
-            ...rest,
-            rowIndex: itemIndex,
-            colIndex: column.rawIndex,
-            key: column.index,
-            onAction: this.handleAction,
-            onQuickChange: this.handleQuickChange
-          })
-        )}
-      </tr>
-    );
-  }
-}
-
 @Renderer({
   test: (path: string) =>
     /(^|\/)table$/.test(path) /* && !/(^|\/)table$/.test(path)*/,
@@ -2155,639 +1953,4 @@ class TableRow extends React.Component<TableRowProps> {
 })
 export class TableRenderer extends Table {}
 
-export interface QuickSearchConfig {
-  type?: string;
-  controls?: any;
-  tabs?: any;
-  fieldSet?: any;
-  [propName: string]: any;
-}
-
-export interface HeadCellSearchProps extends RendererProps {
-  name: string;
-  searchable: boolean | QuickSearchConfig;
-  classPrefix: string;
-  onQuery: (values: object) => void;
-}
-
-export class HeadCellSearchDropDown extends React.Component<
-  HeadCellSearchProps,
-  any
-> {
-  state = {
-    isOpened: false
-  };
-
-  formItems: Array<string> = [];
-  constructor(props: HeadCellSearchProps) {
-    super(props);
-
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.close = this.close.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleAction = this.handleAction.bind(this);
-  }
-
-  buildSchema() {
-    const {searchable, sortable, name, label, translate: __} = this.props;
-
-    let schema;
-
-    if (searchable === true) {
-      schema = {
-        title: '',
-        controls: [
-          {
-            type: 'text',
-            name,
-            placeholder: label,
-            clearable: true
-          }
-        ]
-      };
-    } else if (searchable) {
-      if (searchable.controls || searchable.tabs || searchable.fieldSet) {
-        schema = {
-          title: '',
-          ...searchable
-        };
-      } else {
-        schema = {
-          title: '',
-          className: searchable.formClassName,
-          controls: [
-            {
-              type: searchable.type || 'text',
-              name: searchable.name || name,
-              placeholder: label,
-              ...searchable
-            }
-          ]
-        };
-      }
-    }
-
-    if (schema && schema.controls && sortable) {
-      schema.controls.unshift(
-        {
-          type: 'hidden',
-          name: 'orderBy',
-          value: name
-        },
-        {
-          type: 'button-group',
-          name: 'orderDir',
-          label: __('排序'),
-          options: [
-            {
-              label: __('正序'),
-              value: 'asc'
-            },
-            {
-              label: __('降序'),
-              value: 'desc'
-            }
-          ]
-        }
-      );
-    }
-
-    if (schema) {
-      const formItems: Array<string> = [];
-      schema.controls?.forEach(
-        (item: any) =>
-          item.name &&
-          item.name !== 'orderBy' &&
-          item.name !== 'orderDir' &&
-          formItems.push(item.name)
-      );
-      this.formItems = formItems;
-      schema = {
-        ...schema,
-        type: 'form',
-        wrapperComponent: 'div',
-        actions: [
-          {
-            type: 'button',
-            label: __('重置'),
-            actionType: 'reset'
-          },
-
-          {
-            type: 'button',
-            label: __('取消'),
-            actionType: 'cancel'
-          },
-
-          {
-            label: __('搜索'),
-            type: 'submit',
-            primary: true
-          }
-        ]
-      };
-    }
-
-    return schema || 'error';
-  }
-
-  handleClickOutside() {
-    this.close();
-  }
-
-  open() {
-    this.setState({
-      isOpened: true
-    });
-  }
-
-  close() {
-    this.setState({
-      isOpened: false
-    });
-  }
-
-  handleAction(e: any, action: Action, ctx: object) {
-    const {onAction} = this.props;
-
-    if (action.actionType === 'cancel' || action.actionType === 'close') {
-      this.close();
-      return;
-    }
-
-    if (action.actionType === 'reset') {
-      this.close();
-      this.handleReset();
-      return;
-    }
-
-    onAction && onAction(e, action, ctx);
-  }
-
-  handleReset() {
-    const {onQuery, data, name} = this.props;
-    const values = {...data};
-    this.formItems.forEach(key => (values[key] = undefined));
-
-    if (values.orderBy === name) {
-      values.orderBy = '';
-      values.orderDir = 'asc';
-    }
-    onQuery(values);
-  }
-
-  handleSubmit(values: any) {
-    const {onQuery, name} = this.props;
-
-    this.close();
-
-    if (values.orderDir) {
-      values = {
-        ...values,
-        orderBy: name
-      };
-    }
-
-    onQuery(values);
-  }
-
-  isActive() {
-    const {data, name, orderBy} = this.props;
-
-    return orderBy === name || this.formItems.some(key => data?.[key]);
-  }
-
-  render() {
-    const {
-      render,
-      name,
-      data,
-      searchable,
-      store,
-      orderBy,
-      popOverContainer,
-      classPrefix: ns
-    } = this.props;
-
-    const formSchema = this.buildSchema();
-    const isActive = this.isActive();
-
-    return (
-      <span
-        className={cx(`${ns}TableCell-searchBtn`, isActive ? 'is-active' : '')}
-      >
-        <span onClick={this.open}>
-          <Icon icon="search" className="icon" />
-        </span>
-        {this.state.isOpened ? (
-          <Overlay
-            container={popOverContainer || (() => findDOMNode(this))}
-            placement="left-bottom-left-top right-bottom-right-top"
-            target={
-              popOverContainer ? () => findDOMNode(this)!.parentNode : null
-            }
-            show
-          >
-            <PopOver
-              classPrefix={ns}
-              onHide={this.close}
-              className={cx(
-                `${ns}TableCell-searchPopOver`,
-                (searchable as any).className
-              )}
-              overlay
-            >
-              {
-                render('quick-search-form', formSchema, {
-                  data: {
-                    ...data,
-                    orderBy: orderBy,
-                    orderDir:
-                      orderBy === name ? (store as ITableStore).orderDir : ''
-                  },
-                  onSubmit: this.handleSubmit,
-                  onAction: this.handleAction
-                }) as JSX.Element
-              }
-            </PopOver>
-          </Overlay>
-        ) : null}
-      </span>
-    );
-  }
-}
-
-export interface QuickFilterConfig {
-  options: Array<any>;
-  source: Api;
-  multiple: boolean;
-  [propName: string]: any;
-}
-
-export interface HeadCellFilterProps extends RendererProps {
-  data: any;
-  name: string;
-  filterable: QuickFilterConfig;
-  onQuery: (values: object) => void;
-}
-
-export class HeadCellFilterDropDown extends React.Component<
-  HeadCellFilterProps,
-  any
-> {
-  state = {
-    isOpened: false,
-    filterOptions: []
-  };
-
-  sourceInvalid: boolean = false;
-  constructor(props: HeadCellFilterProps) {
-    super(props);
-
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleCheck = this.handleCheck.bind(this);
-  }
-
-  componentDidMount() {
-    const {filterable} = this.props;
-
-    if (filterable.source) {
-      this.fetchOptions();
-    } else if (filterable.options.length > 0) {
-      this.setState({
-        filterOptions: this.alterOptions(filterable.options)
-      });
-    }
-  }
-
-  componentWillReceiveProps(nextProps: HeadCellFilterProps) {
-    const props = this.props;
-
-    if (
-      props.name !== nextProps.name ||
-      props.filterable !== nextProps.filterable ||
-      props.data !== nextProps.data
-    ) {
-      if (nextProps.filterable.source) {
-        this.sourceInvalid = isApiOutdated(
-          props.filterable.source,
-          nextProps.filterable.source,
-          props.data,
-          nextProps.data
-        );
-      } else if (nextProps.filterable.options) {
-        this.setState({
-          filterOptions: this.alterOptions(nextProps.filterable.options || [])
-        });
-      }
-    }
-  }
-
-  componentDidUpdate() {
-    this.sourceInvalid && this.fetchOptions();
-  }
-
-  fetchOptions() {
-    const {env, filterable, data} = this.props;
-
-    if (!isEffectiveApi(filterable.source, data)) {
-      return;
-    }
-
-    const api = normalizeApi(filterable.source);
-    api.cache = 3000; // 开启 3s 缓存，因为固顶位置渲染1次会额外多次请求。
-
-    env.fetcher(api, data).then(ret => {
-      let options = (ret.data && ret.data.options) || [];
-      this.setState({
-        filterOptions: ret && ret.data && this.alterOptions(options)
-      });
-    });
-  }
-
-  alterOptions(options: Array<any>) {
-    const {data, filterable, name} = this.props;
-    const filterValue =
-      data && typeof data[name] !== 'undefined' ? data[name] : '';
-
-    if (filterable.multiple) {
-      options = options.map(option => ({
-        ...option,
-        selected: filterValue.split(',').indexOf(option.value) > -1
-      }));
-    } else {
-      options = options.map(option => ({
-        ...option,
-        selected: option.value === filterValue
-      }));
-    }
-    return options;
-  }
-
-  handleClickOutside() {
-    this.close();
-  }
-
-  open() {
-    this.setState({
-      isOpened: true
-    });
-  }
-
-  close() {
-    this.setState({
-      isOpened: false
-    });
-  }
-
-  handleClick(value: string) {
-    const {onQuery, name} = this.props;
-
-    onQuery({
-      [name]: value
-    });
-    this.close();
-  }
-
-  handleCheck(value: string) {
-    const {data, name, onQuery} = this.props;
-    let query: string;
-
-    if (data[name] && data[name] === value) {
-      query = '';
-    } else {
-      query =
-        (data[name] && xor(data[name].split(','), [value]).join(',')) || value;
-    }
-
-    onQuery({
-      [name]: query
-    });
-  }
-
-  handleReset() {
-    const {name, onQuery} = this.props;
-    onQuery({
-      [name]: undefined
-    });
-    this.close();
-  }
-
-  render() {
-    const {isOpened, filterOptions} = this.state;
-    const {
-      data,
-      name,
-      filterable,
-      popOverContainer,
-      classPrefix: ns,
-      classnames: cx,
-      translate: __
-    } = this.props;
-
-    return (
-      <span
-        className={cx(
-          `${ns}TableCell-filterBtn`,
-          typeof data[name] !== 'undefined' ? 'is-active' : ''
-        )}
-      >
-        <span onClick={this.open}>
-          <Icon icon="column-filter" className="icon" />
-        </span>
-        {isOpened ? (
-          <Overlay
-            container={popOverContainer || (() => findDOMNode(this))}
-            placement="left-bottom-left-top right-bottom-right-top"
-            target={
-              popOverContainer ? () => findDOMNode(this)!.parentNode : null
-            }
-            show
-          >
-            <PopOver
-              classPrefix={ns}
-              onHide={this.close}
-              className={cx(
-                `${ns}TableCell-filterPopOver`,
-                (filterable as any).className
-              )}
-              overlay
-            >
-              {filterOptions && filterOptions.length > 0 ? (
-                <ul className={cx('DropDown-menu')}>
-                  {!filterable.multiple
-                    ? filterOptions.map((option: any, index) => (
-                        <li
-                          key={index}
-                          className={cx('DropDown-divider', {
-                            'is-selected': option.selected
-                          })}
-                          onClick={this.handleClick.bind(this, option.value)}
-                        >
-                          {option.label}
-                        </li>
-                      ))
-                    : filterOptions.map((option: any, index) => (
-                        <li key={index} className={cx('DropDown-divider')}>
-                          <Checkbox
-                            classPrefix={ns}
-                            onChange={this.handleCheck.bind(this, option.value)}
-                            checked={option.selected}
-                          >
-                            {option.label}
-                          </Checkbox>
-                        </li>
-                      ))}
-                  <li
-                    key="DropDown-menu-reset"
-                    className={cx('DropDown-divider')}
-                    onClick={this.handleReset.bind(this)}
-                  >
-                    {__('重置')}
-                  </li>
-                </ul>
-              ) : null}
-            </PopOver>
-          </Overlay>
-        ) : null}
-      </span>
-    );
-  }
-}
-
-export interface TableCellProps extends RendererProps {
-  wrapperComponent?: React.ReactType;
-  column: object;
-}
-export class TableCell extends React.Component<RendererProps> {
-  static defaultProps = {
-    wrapperComponent: 'td'
-  };
-
-  static propsList: Array<string> = [
-    'type',
-    'label',
-    'column',
-    'body',
-    'tpl',
-    'rowSpan',
-    'remark'
-  ];
-
-  render() {
-    let {
-      className,
-      render,
-      style,
-      wrapperComponent: Component,
-      column,
-      value,
-      data,
-      children,
-      width,
-      innerClassName,
-      label,
-      tabIndex,
-      onKeyUp,
-      rowSpan,
-      body: _body,
-      tpl,
-      remark,
-      prefix,
-      affix,
-      isHead,
-      ...rest
-    } = this.props;
-
-    const schema = {
-      ...column,
-      className: innerClassName,
-      type: (column && column.type) || 'plain'
-    };
-
-    let body = children
-      ? children
-      : render('field', schema, {
-          ...rest,
-          value,
-          data
-        });
-
-    if (width) {
-      style = {
-        ...style,
-        width: (style && style.width) || width
-      };
-
-      if (!/%$/.test(String(style.width))) {
-        body = (
-          <div style={{width: style.width}}>
-            {prefix}
-            {body}
-            {affix}
-          </div>
-        );
-        prefix = null;
-        affix = null;
-        // delete style.width;
-      }
-    }
-
-    if (!Component) {
-      return body as JSX.Element;
-    }
-
-    if (isHead) {
-      Component = 'th';
-    }
-
-    return (
-      <Component
-        rowSpan={rowSpan > 1 ? rowSpan : undefined}
-        style={style}
-        className={className}
-        tabIndex={tabIndex}
-        onKeyUp={onKeyUp}
-      >
-        {prefix}
-        {body}
-        {affix}
-      </Component>
-    );
-  }
-}
-
-@Renderer({
-  test: /(^|\/)table\/(?:.*\/)?cell$/,
-  name: 'table-cell'
-})
-@QuickEdit()
-@PopOverable()
-@Copyable()
-@observer
-export class TableCellRenderer extends TableCell {
-  static propsList = [
-    'quickEdit',
-    'quickEditEnabledOn',
-    'popOver',
-    'copyable',
-    'inline',
-    ...TableCell.propsList
-  ];
-}
-
-@Renderer({
-  test: /(^|\/)field$/,
-  name: 'field'
-})
-@PopOverable()
-@Copyable()
-export class FieldRenderer extends TableCell {
-  static defaultProps = {
-    ...TableCell.defaultProps,
-    wrapperComponent: 'div'
-  };
-}
+export {TableCell};

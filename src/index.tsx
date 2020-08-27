@@ -117,7 +117,7 @@ import './renderers/Page';
 import './renderers/Panel';
 import './renderers/Plain';
 import './renderers/Spinner';
-import './renderers/Table';
+import './renderers/Table/index';
 import './renderers/Tabs';
 import './renderers/Tpl';
 import './renderers/Mapping';
