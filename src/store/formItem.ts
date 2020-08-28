@@ -200,10 +200,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         });
 
         return selectedOptions;
-      },
-
-      get __(): TranslateFn {
-        return getEnv(self).__;
       }
     };
   })
