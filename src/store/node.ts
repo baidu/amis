@@ -19,7 +19,7 @@ export const StoreNode = types
       },
 
       get __() {
-        return getEnv(self).__;
+        return getEnv(self).translate;
       }
     };
   })
