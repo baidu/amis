@@ -129,6 +129,10 @@ export const ServiceStore = iRendererStore
       } catch (e) {
         const env = getEnv(self);
 
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
+
         if (env.isCancel(e)) {
           return;
         }
@@ -216,6 +220,10 @@ export const ServiceStore = iRendererStore
       } catch (e) {
         const env = getEnv(self);
 
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
+
         if (env.isCancel(e)) {
           return;
         }
@@ -285,6 +293,11 @@ export const ServiceStore = iRendererStore
         return json.data;
       } catch (e) {
         self.saving = false;
+
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
+
         // console.log(e.stack);
         if (e.type === 'ServerError') {
           const result = (e as ServerError).response;
@@ -391,6 +404,9 @@ export const ServiceStore = iRendererStore
         const env = getEnv(self);
 
         self.initializing = false;
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
 
         if (env.isCancel(e)) {
           return;

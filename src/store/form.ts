@@ -1,4 +1,12 @@
-import {types, getEnv, flow, getRoot, detach, destroy} from 'mobx-state-tree';
+import {
+  types,
+  getEnv,
+  flow,
+  getRoot,
+  detach,
+  destroy,
+  isAlive
+} from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import {ServiceStore} from './service';
 import {FormItemStore, IFormItemStore, SFormItemStore} from './formItem';
@@ -295,6 +303,10 @@ export const FormStore = ServiceStore.named('FormStore')
       } catch (e) {
         self.markSaving(false);
         // console.error(e.stack);`
+
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
 
         if (e.type === 'ServerError') {
           const result = (e as ServerError).response;

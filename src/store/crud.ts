@@ -318,6 +318,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       } catch (e) {
         const env = getEnv(self) as IRendererStore;
 
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
+
         self.markFetching(false);
 
         if (env.isCancel(e)) {
@@ -392,6 +396,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         return json.data;
       } catch (e) {
         self.markSaving(false);
+
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
+
         e.type !== 'ServerError' && getEnv(self).notify('error', e.message);
         throw e;
       }

@@ -426,6 +426,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
         self.loading = false;
 
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
+
         if (env.isCancel(e)) {
           return;
         }
