@@ -362,6 +362,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           redirect && !action.blank && env.jumpTo(redirect, action);
           action.reload
             ? this.reloadTarget(action.reload, data)
+            : redirect
+            ? null
             : this.search(undefined, undefined, true, true);
           action.close && this.closeTarget(action.close);
         })
