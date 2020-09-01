@@ -110,6 +110,9 @@ amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json
 Page 组件的示例代码
 
 ```jsx
+import * as React from 'react';
+import {Renderer} from 'amis';
+
 @Renderer({
   test: /^page$/
   // ... 其他信息隐藏了
@@ -132,6 +135,15 @@ export class PageRenderer extends React.Component {
     );
   }
 }
+
+// 如果不支持 Decorators 语法也可以使用如下写法
+export Renderer({
+  test: /^page$/
+})(class PageRenderer extends React.Component {
+  render() {
+    // ...同上
+  }
+})
 ```
 
 Form 组件的示例代码
