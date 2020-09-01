@@ -543,28 +543,28 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 ### 支持的格式校验
 
 - `isEmptyString` 必须是空白字符。**注意！** 该格式校验是值，校验空白字符，而不是当前表单项是否为空，想校验是否为空，请配置 [必填校验](#%E8%A1%A8%E5%8D%95%E9%A1%B9%E5%BF%85%E5%A1%AB)
-  - `isEmail` 必须是 Email。
-  - `isUrl` 必须是 Url。
-  - `isNumeric` 必须是 数值。
-  - `isAlpha` 必须是 字母。
-  - `isAlphanumeric` 必须是 字母或者数字。
-  - `isInt` 必须是 整形。
-  - `isFloat` 必须是 浮点形。
-  - `isLength:length` 是否长度正好等于设定值。
-  - `minLength:length` 最小长度。
-  - `maxLength:length` 最大长度。
-  - `maximum:number` 最大值。
-  - `minimum:number` 最小值。
-  - `equals:xxx` 当前值必须完全等于 xxx。
-  - `equalsField:xxx` 当前值必须与 xxx 变量值一致。
-  - `isJson` 是否是合法的 Json 字符串。
-  - `notEmptyString` 要求输入内容不是空白。
-  - `isUrlPath` 是 url 路径。
-  - `matchRegexp:/foo/` 必须命中某个正则。
-  - `matchRegexp1:/foo/` 必须命中某个正则。
-  - `matchRegexp2:/foo/` 必须命中某个正则。
-  - `matchRegexp3:/foo/` 必须命中某个正则。
-  - `matchRegexp4:/foo/` 必须命中某个正则。
+- `isEmail` 必须是 Email。
+- `isUrl` 必须是 Url。
+- `isNumeric` 必须是 数值。
+- `isAlpha` 必须是 字母。
+- `isAlphanumeric` 必须是 字母或者数字。
+- `isInt` 必须是 整形。
+- `isFloat` 必须是 浮点形。
+- `isLength:length` 是否长度正好等于设定值。
+- `minLength:length` 最小长度。
+- `maxLength:length` 最大长度。
+- `maximum:number` 最大值。
+- `minimum:number` 最小值。
+- `equals:xxx` 当前值必须完全等于 xxx。
+- `equalsField:xxx` 当前值必须与 xxx 变量值一致。
+- `isJson` 是否是合法的 Json 字符串。
+- `notEmptyString` 要求输入内容不是空白。
+- `isUrlPath` 是 url 路径。
+- `matchRegexp:/foo/` 必须命中某个正则。
+- `matchRegexp1:/foo/` 必须命中某个正则。
+- `matchRegexp2:/foo/` 必须命中某个正则。
+- `matchRegexp3:/foo/` 必须命中某个正则。
+- `matchRegexp4:/foo/` 必须命中某个正则。
 
 ## 服务端校验
 
