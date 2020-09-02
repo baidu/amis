@@ -244,10 +244,12 @@ body {
       width: 100%;
     }
 
-    &-content {
+    &-content,
+    & > &-body {
       flex-grow: 1;
       width: 0;
       position: relative;
+      height: auto;
     }
 
     &--boxed {
