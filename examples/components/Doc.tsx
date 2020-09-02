@@ -144,6 +144,14 @@ export const docs = [
           require(['../../docs/types/api.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
+      },
+      {
+        label: 'Definitions',
+        path: '/docs/types/definitions',
+        getComponent: (location, cb) =>
+          require(['../../docs/types/definitions.md'], doc => {
+            cb(null, makeMarkdownRenderer(doc));
+          })
       }
     ]
   },
