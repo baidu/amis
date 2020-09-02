@@ -120,13 +120,15 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     const {width, height} = this.state;
     let {className, src, frameBorder, data, style} = this.props;
 
+    let tempStyle: any = {};
+    
+    width !== void 0 && (tempStyle.width = width);
+    height !== void 0 && (tempStyle.height = height);
+    
     style = {
+      ...tempStyle,
       ...style
     };
-
-    width !== void 0 && (style.width = width);
-    height !== void 0 && (style.height = height);
-
     return (
       <iframe
         className={className}
