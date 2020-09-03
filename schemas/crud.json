@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/crud.json#",
+  "$id": "/schemas/crud.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/crud.json#/definitions/common"
+      "$ref": "/schemas/crud.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -31,7 +31,7 @@
       "description": "amis crud 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#crud",
       "allOf": [
         {
-          "$ref": "https://houtai.baidu.com/v2/schemas/crud.json#/definitions/commonProps"
+          "$ref": "/schemas/crud.json#/definitions/commonProps"
         },
         {
           "if": {
@@ -42,7 +42,7 @@
             }
           },
           "then": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/list.json#/definitions/common"
+            "$ref": "/schemas/list.json#/definitions/common"
           },
           "else": {
             "if": {
@@ -53,10 +53,10 @@
               }
             },
             "then": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/cards.json#/definitions/common"
+              "$ref": "/schemas/cards.json#/definitions/common"
             },
             "else": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/table.json#/definitions/common"
+              "$ref": "/schemas/table.json#/definitions/common"
             }
           }
         }
@@ -65,7 +65,7 @@
     "commonProps": {
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "api": {
@@ -77,10 +77,10 @@
           "items": {
             "allOf": [
               {
-                "$ref": "https://houtai.baidu.com/v2/schemas/action.json#/definitions/baseAction"
+                "$ref": "/schemas/action.json#/definitions/baseAction"
               },
               {
-                "$ref": "https://houtai.baidu.com/v2/schemas/action.json#/definitions/baseButton"
+                "$ref": "/schemas/action.json#/definitions/baseButton"
               }
             ]
           },
@@ -99,11 +99,11 @@
           "type": "string"
         },
         "draggableOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "Js 表达式。如 data.type == 1,用表达式来配置是否可拖拽排序"
         },
         "filter": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/common",
+          "$ref": "/schemas/form.json#/definitions/common",
           "description": "过滤器表单"
         },
         "initFetch": {
@@ -116,7 +116,7 @@
           "type": "string"
         },
         "innerClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置内部 DOM 的 className"
         },
         "interval": {
@@ -148,15 +148,15 @@
           "type": "string"
         },
         "quickSaveApi": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "快速编辑后用来批量保存的 API"
         },
         "quickSaveItemApi": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "快速编辑配置成及时保存时使用的 API"
         },
         "saveOrderApi": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "保存排序的 api"
         },
         "showFooter": {
@@ -174,11 +174,11 @@
           "type": "boolean"
         },
         "toolbar": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+          "$ref": "/schemas/page.json#/definitions/container",
           "description": "CRUD 中可以在 toolbar 中额外加入内容，默认将独占一行，如果想和批量操作，分页放在一起，请设置  toolbarInline"
         },
         "toolbarClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置 toolbar 的 class"
         },
         "toolbarInline": {

@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/form/nested-select.json#",
+  "$id": "/schemas/form/nested-select.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/form/nested-select.json#/definitions/common"
+      "$ref": "/schemas/form/nested-select.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -22,9 +22,7 @@
         }
       },
       "type": "object",
-      "required": [
-        "type"
-      ]
+      "required": ["type"]
     }
   ],
   "definitions": {
@@ -32,50 +30,50 @@
       "description": "nested-select 选择框格式说明",
       "allOf": [
         {
-          "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
+          "$ref": "/schemas/form.json#/definitions/item"
         },
         {
           "properties": {
-              "$ref": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
-                  "description": "引用页面中的定义"
-              },
-              "multiple": {
-                  "default": false,
-                  "description": "是否为多选",
-                  "type": "boolean"
-              },
-              "joinValues": {
-                  "default": true,
-                  "description": "* 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。\n* 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。",
-                  "type": "boolean"
-              },
-              "delimiter": {
-                  "default": ",",
-                  "description": "分割符",
-                  "type": "string"
-              },
-              "extractValue": {
-                  "default": true,
-                  "description": "开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。",
-                  "type": "boolean"
-              },
-              "resetValue": {
-                  "default": "",
-                  "description": "清除时设置的值"
-              },
-              "clearValue": {
-                  "description": "是否显示清除按钮",
-                  "type": "boolean"
-              },
-              "options": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/optionsType",
-                  "description": "选项集合"
-              },
-              "source": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
-                  "description": "可用来通过 API 拉取 options。详情：https://baidu.github.io/amis/docs/api#formitem，也可以从当前作用域拉取数据 $typeOptions"
-              }
+            "$ref": {
+              "$ref": "/schemas/page.json#/definitions/$ref",
+              "description": "引用页面中的定义"
+            },
+            "multiple": {
+              "default": false,
+              "description": "是否为多选",
+              "type": "boolean"
+            },
+            "joinValues": {
+              "default": true,
+              "description": "* 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。\n* 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。",
+              "type": "boolean"
+            },
+            "delimiter": {
+              "default": ",",
+              "description": "分割符",
+              "type": "string"
+            },
+            "extractValue": {
+              "default": true,
+              "description": "开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。",
+              "type": "boolean"
+            },
+            "resetValue": {
+              "default": "",
+              "description": "清除时设置的值"
+            },
+            "clearValue": {
+              "description": "是否显示清除按钮",
+              "type": "boolean"
+            },
+            "options": {
+              "$ref": "/schemas/form.json#/definitions/optionsType",
+              "description": "选项集合"
+            },
+            "source": {
+              "$ref": "/schemas/page.json#/definitions/api",
+              "description": "可用来通过 API 拉取 options。详情：https://baidu.github.io/amis/docs/api#formitem，也可以从当前作用域拉取数据 $typeOptions"
+            }
           },
           "type": "object"
         }

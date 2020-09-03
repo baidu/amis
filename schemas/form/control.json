@@ -1,66 +1,61 @@
 {
-    "$id": "https://houtai.baidu.com/v2/schemas/form/control.json#",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "allOf": [
-        {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form/control.json#/definitions/common"
-        },
-        {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^(\\$ref|control)$": {}
-            },
-            "properties": {
-                "$schema": {
-                    "format": "uri",
-                    "type": "string",
-                    "description": "绑定 JSON 格式说明，可忽略！"
-                },
-                "type": {
-                    "const": "control",
-                    "description": "指定为 Control 表单输入项"
-                }
-            },
-            "required": [
-                "type"
-            ],
-            "type": "object"
-        }
-    ],
-    "definitions": {
-        "common": {
-            "description": "隐藏域格式说明",
-            "properties": {
-                "$ref": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
-                    "description": "引用页面中的定义"
-                },
-                "$schema": {
-                    "description": "绑定 JSON 格式说明，可忽略！",
-                    "format": "uri",
-                    "type": "string"
-                },
-                "control": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/controlItem"
-                },
-                "type": {
-                    "const": "control",
-                    "description": "指定为输入框"
-                }
-            },
-            "required": [
-                "type"
-            ],
-            "type": "object"
-        },
-        "test": {
-            "properties": {
-                "type": {
-                    "const": "control"
-                }
-            }
-        }
+  "$id": "/schemas/form/control.json#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/schemas/form/control.json#/definitions/common"
     },
-    "description": "隐藏域格式说明"
-    
+    {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(\\$ref|control)$": {}
+      },
+      "properties": {
+        "$schema": {
+          "format": "uri",
+          "type": "string",
+          "description": "绑定 JSON 格式说明，可忽略！"
+        },
+        "type": {
+          "const": "control",
+          "description": "指定为 Control 表单输入项"
+        }
+      },
+      "required": ["type"],
+      "type": "object"
+    }
+  ],
+  "definitions": {
+    "common": {
+      "description": "隐藏域格式说明",
+      "properties": {
+        "$ref": {
+          "$ref": "/schemas/page.json#/definitions/$ref",
+          "description": "引用页面中的定义"
+        },
+        "$schema": {
+          "description": "绑定 JSON 格式说明，可忽略！",
+          "format": "uri",
+          "type": "string"
+        },
+        "control": {
+          "$ref": "/schemas/form.json#/definitions/controlItem"
+        },
+        "type": {
+          "const": "control",
+          "description": "指定为输入框"
+        }
+      },
+      "required": ["type"],
+      "type": "object"
+    },
+    "test": {
+      "properties": {
+        "type": {
+          "const": "control"
+        }
+      }
+    }
+  },
+  "description": "隐藏域格式说明"
 }

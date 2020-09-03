@@ -1,96 +1,94 @@
 {
-    "$id": "https://houtai.baidu.com/v2/schemas/form/service.json#",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "allOf": [
-        {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form/service.json#/definitions/common"
-        },
-        {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^(\\$ref|className|api|body|schemaApi|initFetch|fetchOn|messages|visible|visibleOn|hidden|hiddenOn)$": {}
-            },
-            "properties": {
-                "$schema": {
-                    "format": "uri",
-                    "type": "string",
-                    "description": "绑定 JSON 格式说明，可忽略！"
-                },
-                "type": {
-                    "const": "service",
-                    "description": "指定为文本类型"
-                }
-            },
-            "required": [
-                "type"
-            ],
-            "type": "object"
-        }
-    ],
-    "definitions": {
-        "common": {
-            "description": "Service格式说明",
-            "properties": {
-                "$ref": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
-                    "description": "引用页面中的定义"
-                },
-                "api": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
-                    "description": "页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。"
-                },
-                "body": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
-                    "description": "内容区域"
-                },
-                "className": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
-                    "description": "配置容器 className"
-                },
-                "fetchOn": {
-                    "default": true,
-                    "description": "是否要拉取？通过表达式来决定",
-                    "type": "string"
-                },
-                "initFetch": {
-                    "default": true,
-                    "description": "是否默认就拉取？",
-                    "type": "boolean"
-                },
-                "initFetchOn": {
-                    "default": true,
-                    "description": "是否默认就拉取？通过表达式来决定",
-                    "type": "string"
-                },
-                "messages": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "fetchFailed": {
-                            "description": "用来配置当 api 拉取失败时提示的信息",
-                            "type": "string"
-                        },
-                        "fetchSuccess": {
-                            "description": "用来配置当 api 拉取成功时提示的信息，当然不设置的话就不会提示。",
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                },
-                "schemaApi": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
-                    "description": "用来获取远程 Schema 的 api"
-                }
-            },
-            "type": "object"
-        },
-        "test": {
-            "properties": {
-                "type": {
-                    "const": "service"
-                }
-            }
-        }
+  "$id": "/schemas/form/service.json#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/schemas/form/service.json#/definitions/common"
     },
-    "description": "Service格式说明",
-    "type": "object"
+    {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(\\$ref|className|api|body|schemaApi|initFetch|fetchOn|messages|visible|visibleOn|hidden|hiddenOn)$": {}
+      },
+      "properties": {
+        "$schema": {
+          "format": "uri",
+          "type": "string",
+          "description": "绑定 JSON 格式说明，可忽略！"
+        },
+        "type": {
+          "const": "service",
+          "description": "指定为文本类型"
+        }
+      },
+      "required": ["type"],
+      "type": "object"
+    }
+  ],
+  "definitions": {
+    "common": {
+      "description": "Service格式说明",
+      "properties": {
+        "$ref": {
+          "$ref": "/schemas/page.json#/definitions/$ref",
+          "description": "引用页面中的定义"
+        },
+        "api": {
+          "$ref": "/schemas/page.json#/definitions/api",
+          "description": "页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。"
+        },
+        "body": {
+          "$ref": "/schemas/page.json#/definitions/container",
+          "description": "内容区域"
+        },
+        "className": {
+          "$ref": "/schemas/page.json#/definitions/className",
+          "description": "配置容器 className"
+        },
+        "fetchOn": {
+          "default": true,
+          "description": "是否要拉取？通过表达式来决定",
+          "type": "string"
+        },
+        "initFetch": {
+          "default": true,
+          "description": "是否默认就拉取？",
+          "type": "boolean"
+        },
+        "initFetchOn": {
+          "default": true,
+          "description": "是否默认就拉取？通过表达式来决定",
+          "type": "string"
+        },
+        "messages": {
+          "additionalProperties": false,
+          "properties": {
+            "fetchFailed": {
+              "description": "用来配置当 api 拉取失败时提示的信息",
+              "type": "string"
+            },
+            "fetchSuccess": {
+              "description": "用来配置当 api 拉取成功时提示的信息，当然不设置的话就不会提示。",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "schemaApi": {
+          "$ref": "/schemas/page.json#/definitions/api",
+          "description": "用来获取远程 Schema 的 api"
+        }
+      },
+      "type": "object"
+    },
+    "test": {
+      "properties": {
+        "type": {
+          "const": "service"
+        }
+      }
+    }
+  },
+  "description": "Service格式说明",
+  "type": "object"
 }

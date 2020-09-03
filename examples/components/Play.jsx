@@ -9,7 +9,7 @@ import CodeEditor from '../../src/components/Editor';
 import copy from 'copy-to-clipboard';
 
 const DEFAULT_CONTENT = `{
-    "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",
+    "$schema": "/schemas/page.json#",
     "type": "page",
     "title": "Title",
     "body": "Body",
@@ -227,7 +227,12 @@ export default class PlayGround extends React.Component {
         '$1'
       ); // 去掉注释
 
-      return JSON.parse(schemaContent);
+      const json = {
+        $schema: `${window.location.protocol}//${window.location.host}/schemas/page.json#`,
+        ...JSON.parse(schemaContent)
+      };
+
+      return json;
     } catch (e) {
       console.error(this.formatMessage(e.message, schemaContent));
     }

@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/alert.json#",
+  "$id": "/schemas/alert.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/alert.json#/definitions/common"
+      "$ref": "/schemas/alert.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -31,15 +31,15 @@
       "description": "amis Wrapper 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers/Alert",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "body": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+          "$ref": "/schemas/page.json#/definitions/container",
           "description": "内容区域"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置外层 className"
         },
         "level": {

@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/button-group.json#",
+  "$id": "/schemas/button-group.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/button-group.json#/definitions/common"
+      "$ref": "/schemas/button-group.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -37,22 +37,22 @@
       "description": "amis Button Group 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#buttongroup",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "btnClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "给 Button 配置 className。"
         },
         "buttons": {
           "description": "按钮集合",
           "items": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/action.json#"
+            "$ref": "/schemas/action.json#"
           },
           "type": "array"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 className"
         },
         "disabled": {
@@ -60,15 +60,15 @@
           "type": "boolean"
         },
         "disabledOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项的禁用状态。"
         },
         "hiddenOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项是否隐藏。"
         },
         "visibleOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项是否显示"
         },
         "size": {

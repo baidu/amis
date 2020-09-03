@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/wizard.json#",
+  "$id": "/schemas/wizard.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/wizard.json#/definitions/common"
+      "$ref": "/schemas/wizard.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -32,11 +32,11 @@
       "description": "amis Wizard 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#wizard",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "actionClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置按钮 className"
         },
         "actionFinishLabel": {
@@ -56,7 +56,7 @@
           "type": "string"
         },
         "api": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "Wizard 用来保存数据的 api。[详情](https://baidu.github.io/amis/docs/api#wizard)"
         },
         "bulkSubmit": {
@@ -65,7 +65,7 @@
           "type": "boolean"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 className"
         },
         "disabled": {
@@ -73,15 +73,15 @@
           "type": "boolean"
         },
         "disabledOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项的禁用状态。"
         },
         "hiddenOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项是否隐藏。"
         },
         "initApi": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "Wizard 用来获取初始数据的 api。[详情](https://baidu.github.io/amis/docs/api#wizard)"
         },
         "messages": {
@@ -113,7 +113,7 @@
           "type": "string"
         },
         "name": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/name",
+          "$ref": "/schemas/page.json#/definitions/name",
           "description": "给当前 wizard 取个名字，可用来跟其他 Renderer 交互。"
         },
         "readOnly": {
@@ -135,11 +135,11 @@
               {
                 "properties": {
                   "api": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+                    "$ref": "/schemas/page.json#/definitions/api",
                     "description": "当前步骤用来保存数据的 api。[详情](https://baidu.github.io/amis/docs/api#form)"
                   },
                   "initApi": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+                    "$ref": "/schemas/page.json#/definitions/api",
                     "description": "当前步骤用来获取初始数据的 api。[详情](https://baidu.github.io/amis/docs/api#form)"
                   },
                   "jumpable": {
@@ -147,7 +147,7 @@
                     "type": "boolean"
                   },
                   "jumpableOn": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+                    "$ref": "/schemas/page.json#/definitions/expression",
                     "description": "通过 JS 表达式来配置当前步骤可否被直接跳转到。"
                   },
                   "label": {
@@ -162,7 +162,7 @@
                 "type": "object"
               },
               {
-                "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/common"
+                "$ref": "/schemas/form.json#/definitions/common"
               }
             ],
             "description": "步骤详情"
@@ -174,7 +174,7 @@
           "type": "string"
         },
         "visibleOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项是否显示"
         }
       }

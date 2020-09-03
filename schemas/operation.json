@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/operation.json#",
+  "$id": "/schemas/operation.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/operation.json#/definitions/common"
+      "$ref": "/schemas/operation.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -34,12 +34,12 @@
         "buttons": {
           "description": "操作按钮集合",
           "items": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/action.json#"
+            "$ref": "/schemas/action.json#"
           },
           "type": "array"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 className"
         },
         "placeholder": {

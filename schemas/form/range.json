@@ -1,96 +1,94 @@
 {
-    "$id": "https://houtai.baidu.com/v2/schemas/form/range.json#",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "allOf": [
-        {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form/range.json#/definitions/common"
-        },
-        {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^(\\$ref|min|max|step|unit|showInput|multiple|joinValues|delimiter|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|validations|validationErrors|validateOnChange|submitOnChange|disabled|disabledOn|visible|visibleOn|hidden|hiddenOn|required)$": {}
-            },
-            "properties": {
-                "$schema": {
-                    "format": "uri",
-                    "type": "string",
-                    "description": "绑定 JSON 格式说明，可忽略！"
-                },
-                "type": {
-                    "const": "range",
-                    "description": "指定为数字范围类型"
-                }
-            },
-            "required": [
-                "type"
-            ],
-            "type": "object"
-        }
-    ],
-    "definitions": {
-        "common": {
-            "description": "数字范围框格式说明",
-            "allOf": [
-                {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
-                },
-                {
-                    "properties": {
-                        "$ref": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
-                            "description": "引用页面中的定义"
-                        },
-                        "max": {
-                            "default": 100,
-                            "description": "最大值",
-                            "type": "number"
-                        },
-                        "min": {
-                            "default": 1,
-                            "description": "最小值",
-                            "type": "number"
-                        },
-                        "step": {
-                            "default": 1,
-                            "description": "每次操作的值",
-                            "type": "number"
-                        },
-                        "unit": {
-                            "description": "单位",
-                            "type": "string"
-                        },
-                        "showInput": {
-                            "description": "是否显示输入框",
-                            "type": "boolean"
-                        },
-                        "multiple": {
-                            "default": false,
-                            "description": "是否为选择范围",
-                            "type": "boolean"
-                        },
-                        "joinValues": {
-                            "default": true,
-                            "description": "选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。",
-                            "type": "boolean"
-                        },
-                        "delimiter": {
-                            "default": ",",
-                            "description": "分割符",
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                }
-            ]
-        },
-        "test": {
-            "properties": {
-                "type": {
-                    "const": "range"
-                }
-            }
-        }
+  "$id": "/schemas/form/range.json#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/schemas/form/range.json#/definitions/common"
     },
-    "description": "数字范围框格式说明",
-    "type": "object"
+    {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(\\$ref|min|max|step|unit|showInput|multiple|joinValues|delimiter|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|validations|validationErrors|validateOnChange|submitOnChange|disabled|disabledOn|visible|visibleOn|hidden|hiddenOn|required)$": {}
+      },
+      "properties": {
+        "$schema": {
+          "format": "uri",
+          "type": "string",
+          "description": "绑定 JSON 格式说明，可忽略！"
+        },
+        "type": {
+          "const": "range",
+          "description": "指定为数字范围类型"
+        }
+      },
+      "required": ["type"],
+      "type": "object"
+    }
+  ],
+  "definitions": {
+    "common": {
+      "description": "数字范围框格式说明",
+      "allOf": [
+        {
+          "$ref": "/schemas/form.json#/definitions/item"
+        },
+        {
+          "properties": {
+            "$ref": {
+              "$ref": "/schemas/page.json#/definitions/$ref",
+              "description": "引用页面中的定义"
+            },
+            "max": {
+              "default": 100,
+              "description": "最大值",
+              "type": "number"
+            },
+            "min": {
+              "default": 1,
+              "description": "最小值",
+              "type": "number"
+            },
+            "step": {
+              "default": 1,
+              "description": "每次操作的值",
+              "type": "number"
+            },
+            "unit": {
+              "description": "单位",
+              "type": "string"
+            },
+            "showInput": {
+              "description": "是否显示输入框",
+              "type": "boolean"
+            },
+            "multiple": {
+              "default": false,
+              "description": "是否为选择范围",
+              "type": "boolean"
+            },
+            "joinValues": {
+              "default": true,
+              "description": "选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。",
+              "type": "boolean"
+            },
+            "delimiter": {
+              "default": ",",
+              "description": "分割符",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      ]
+    },
+    "test": {
+      "properties": {
+        "type": {
+          "const": "range"
+        }
+      }
+    }
+  },
+  "description": "数字范围框格式说明",
+  "type": "object"
 }

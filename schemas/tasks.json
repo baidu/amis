@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/tasks.json#",
+  "$id": "/schemas/tasks.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/tasks.json#/definitions/common"
+      "$ref": "/schemas/tasks.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -31,11 +31,11 @@
       "description": "amis Tasks 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#tasks",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "btnClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "default": "btn-sm btn-default",
           "description": "配置容器按钮 className"
         },
@@ -45,11 +45,11 @@
           "type": "string"
         },
         "checkApi": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "用来获取任务状态的 API，当没有进行时任务时不会发送。"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "default": "b-a bg-white table-responsive",
           "description": "配置容器 className"
         },
@@ -81,7 +81,7 @@
           "type": "array"
         },
         "name": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/name",
+          "$ref": "/schemas/page.json#/definitions/name",
           "description": "给当前组件设定一个名，方便其他组件引用。"
         },
         "operationLabel": {
@@ -90,7 +90,7 @@
           "type": "string"
         },
         "reSubmitApi": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "如果任务失败，且可以重试，提交的时候会使用此 API"
         },
         "remarkLabel": {
@@ -99,7 +99,7 @@
           "type": "string"
         },
         "retryBtnClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "default": "btn-sm btn-danger",
           "description": "配置容器重试按钮 className"
         },
@@ -131,11 +131,11 @@
           "type": "array"
         },
         "submitApi": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "提交任务使用的 API"
         },
         "tableClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "default": "table table-striped m-b-none",
           "description": "配置 table className"
         },

@@ -1,95 +1,93 @@
 {
-    "$id": "https://houtai.baidu.com/v2/schemas/form/grid.json#",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "allOf": [
-        {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form/text.json#/definitions/common"
-        },
-        {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^(\\$ref|columns|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|visible|visibleOn|hidden|hiddenOn|required)$": {}
-            },
-            "properties": {
-                "$schema": {
-                    "description": "绑定 JSON 格式说明，可忽略！",
-                    "format": "uri",
-                    "type": "string"
-                },
-                "type": {
-                    "const": "grid",
-                    "description": "指定为grid类型"
-                }
-            },
-            "required": [
-                "type"
-            ],
-            "type": "object"
-        }
-    ],
-    "definitions": {
-        "column": {
-            "allOf": [
-                {
-                    "oneOf": [
-                        {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/subRenderer"
-                        },
-
-                        {
-                            "type": "object",
-                            "properties": {
-                                "controls": {
-                                    "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/controls",
-                                    "description": "FormItem 集合"
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/grid.json#/definitions/commonColumn"
-                }
-            ],
-            "description": "列"
-        },
-        "$ref": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
-            "description": "引用页面中的定义"
-        },
-        "columns": {
-            "description": "列集合",
-            "items": {
-                "$ref": "https://houtai.baidu.com/v2/schemas/form/grid.json#/definitions/column"
-            },
-            "type": "array"
-        },
-        "common": {
-            "description": "Grid 格式说明",
-            "allOf": [
-                {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
-                },
-                {
-                    "properties": {
-                        "columns": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/form/grid.json#/definitions/columns",
-                            "description": "列集合"
-                        }
-                    },
-                    "type": "object"
-                }
-            ],
-            "type": "object"
-        },
-        "test": {
-            "properties": {
-                "type": {
-                    "const": "grid"
-                }
-            }
-        }
+  "$id": "/schemas/form/grid.json#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/schemas/form/text.json#/definitions/common"
     },
-    "description": "Grid 格式说明",
-    "type": "object"
+    {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(\\$ref|columns|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|visible|visibleOn|hidden|hiddenOn|required)$": {}
+      },
+      "properties": {
+        "$schema": {
+          "description": "绑定 JSON 格式说明，可忽略！",
+          "format": "uri",
+          "type": "string"
+        },
+        "type": {
+          "const": "grid",
+          "description": "指定为grid类型"
+        }
+      },
+      "required": ["type"],
+      "type": "object"
+    }
+  ],
+  "definitions": {
+    "column": {
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "$ref": "/schemas/page.json#/definitions/subRenderer"
+            },
+
+            {
+              "type": "object",
+              "properties": {
+                "controls": {
+                  "$ref": "/schemas/form.json#/definitions/controls",
+                  "description": "FormItem 集合"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "$ref": "/schemas/grid.json#/definitions/commonColumn"
+        }
+      ],
+      "description": "列"
+    },
+    "$ref": {
+      "$ref": "/schemas/page.json#/definitions/$ref",
+      "description": "引用页面中的定义"
+    },
+    "columns": {
+      "description": "列集合",
+      "items": {
+        "$ref": "/schemas/form/grid.json#/definitions/column"
+      },
+      "type": "array"
+    },
+    "common": {
+      "description": "Grid 格式说明",
+      "allOf": [
+        {
+          "$ref": "/schemas/form.json#/definitions/item"
+        },
+        {
+          "properties": {
+            "columns": {
+              "$ref": "/schemas/form/grid.json#/definitions/columns",
+              "description": "列集合"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "type": "object"
+    },
+    "test": {
+      "properties": {
+        "type": {
+          "const": "grid"
+        }
+      }
+    }
+  },
+  "description": "Grid 格式说明",
+  "type": "object"
 }

@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/progress.json#",
+  "$id": "/schemas/progress.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/progress.json#/definitions/common"
+      "$ref": "/schemas/progress.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -32,11 +32,11 @@
       "description": "amis progress 渲染器格式说明。",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 className"
         },
         "map": {

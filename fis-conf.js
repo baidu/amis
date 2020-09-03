@@ -34,7 +34,8 @@ fis.set('project.files', [
   '/examples/*.html',
   '/examples/*.tpl',
   '/src/**.html',
-  'mock/**'
+  'mock/**',
+  'schemas/**'
 ]);
 
 fis.match('/mock/**', {

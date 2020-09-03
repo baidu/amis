@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/form/file.json#",
+  "$id": "/schemas/form/file.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/form/file.json#/definitions/common"
+      "$ref": "/schemas/form/file.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -30,12 +30,12 @@
       "description": "文件上传格式说明",
       "allOf": [
         {
-          "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
+          "$ref": "/schemas/form.json#/definitions/item"
         },
         {
           "properties": {
             "$ref": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+              "$ref": "/schemas/page.json#/definitions/$ref",
               "description": "引用页面中的定义"
             },
             "btnLabel": {
@@ -59,7 +59,7 @@
               "type": "boolean"
             },
             "chunkApi": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+              "$ref": "/schemas/page.json#/definitions/api",
               "default": "/api/upload/chunk",
               "description": "默认 `/api/upload/chunk` 想自己存储时才需要关注。"
             },
@@ -83,7 +83,7 @@
               "type": "string"
             },
             "finishChunkApi": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+              "$ref": "/schemas/page.json#/definitions/api",
               "default": "/api/upload/finishChunkApi",
               "description": "默认 `/api/upload/finishChunkApi` 想自己存储时才需要关注。"
             },
@@ -102,12 +102,12 @@
               "type": "number"
             },
             "reciever": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+              "$ref": "/schemas/page.json#/definitions/api",
               "default": "/api/upload/file",
               "description": "默认 `/api/upload/file` 如果想自己存储，请设置此选项。"
             },
             "startChunkApi": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+              "$ref": "/schemas/page.json#/definitions/api",
               "default": "/api/upload/startChunk",
               "description": "默认 `/api/upload/startChunk` 想自己存储时才需要关注。"
             },

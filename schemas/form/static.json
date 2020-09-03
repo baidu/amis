@@ -1,91 +1,87 @@
 {
-    "$id": "https://houtai.baidu.com/v2/schemas/form/static.json#",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "allOf": [
-        {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form/static.json#/definitions/common"
-        },
-        {
-            "dependencies": {
-                "value": [
-                    "name"
-                ]
-            },
-            "properties": {
-                "$schema": {
-                    "format": "uri",
-                    "type": "string",
-                    "description": "绑定 JSON 格式说明，可忽略！"
-                },
-                "type": {
-                    "description": "指定为静态类型",
-                    "enum": [
-                        "static",
-                        "static-plain",
-                        "static-tpl",
-                        "static-image",
-                        "static-progress",
-                        "static-date",
-                        "static-mapping",
-                        "static-status",
-                        "static-list",
-                        "static-hbox"
-                    ]
-                }
-            },
-            "type": "object",
-            "required": [
-                "type"
-            ]
-        }
-    ],
-    "definitions": {
-        "common": {
-            "description": "Static FormItem 渲染器格式说明",
-            "allOf": [
-                {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
-                },
-                {
-                    "properties": {
-                        "$ref": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
-                            "description": "引用页面中的定义"
-                        },
-                        "text": {
-                            "description": "不支持模板，要使用变量，请使用 tpl 渲染器。",
-                            "title": "Text 字符串",
-                            "type": "string"
-                        },
-                        "tpl": {
-                            "description": "支持模板, 可通过 $xxx 或者 ${xxx} 取值，或者直接用 lodash.tempalte 模板引擎。详情： https://baidu.github.io/amis/docs/renderers#tpl",
-                            "title": "模板",
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                }
-            ]
-        },
-        "test": {
-            "properties": {
-                "type": {
-                    "enum": [
-                        "static",
-                        "static-plain",
-                        "static-tpl",
-                        "static-image",
-                        "static-progress",
-                        "static-date",
-                        "static-mapping",
-                        "static-status",
-                        "static-list",
-                        "static-hbox"
-                    ]
-                }
-            }
-        }
+  "$id": "/schemas/form/static.json#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/schemas/form/static.json#/definitions/common"
     },
-    "description": "Static FormItem 渲染器格式说明",
-    "type": "object"
+    {
+      "dependencies": {
+        "value": ["name"]
+      },
+      "properties": {
+        "$schema": {
+          "format": "uri",
+          "type": "string",
+          "description": "绑定 JSON 格式说明，可忽略！"
+        },
+        "type": {
+          "description": "指定为静态类型",
+          "enum": [
+            "static",
+            "static-plain",
+            "static-tpl",
+            "static-image",
+            "static-progress",
+            "static-date",
+            "static-mapping",
+            "static-status",
+            "static-list",
+            "static-hbox"
+          ]
+        }
+      },
+      "type": "object",
+      "required": ["type"]
+    }
+  ],
+  "definitions": {
+    "common": {
+      "description": "Static FormItem 渲染器格式说明",
+      "allOf": [
+        {
+          "$ref": "/schemas/form.json#/definitions/item"
+        },
+        {
+          "properties": {
+            "$ref": {
+              "$ref": "/schemas/page.json#/definitions/$ref",
+              "description": "引用页面中的定义"
+            },
+            "text": {
+              "description": "不支持模板，要使用变量，请使用 tpl 渲染器。",
+              "title": "Text 字符串",
+              "type": "string"
+            },
+            "tpl": {
+              "description": "支持模板, 可通过 $xxx 或者 ${xxx} 取值，或者直接用 lodash.tempalte 模板引擎。详情： https://baidu.github.io/amis/docs/renderers#tpl",
+              "title": "模板",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      ]
+    },
+    "test": {
+      "properties": {
+        "type": {
+          "enum": [
+            "static",
+            "static-plain",
+            "static-tpl",
+            "static-image",
+            "static-progress",
+            "static-date",
+            "static-mapping",
+            "static-status",
+            "static-list",
+            "static-hbox"
+          ]
+        }
+      }
+    }
+  },
+  "description": "Static FormItem 渲染器格式说明",
+  "type": "object"
 }

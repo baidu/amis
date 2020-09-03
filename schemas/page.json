@@ -1,5 +1,5 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/page.json#",
+  "$id": "/schemas/page.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "additionalProperties": false,
   "definitions": {
@@ -66,15 +66,15 @@
     "container": {
       "oneOf": [
         {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/string",
+          "$ref": "/schemas/page.json#/definitions/string",
           "description": "当值为字符串时会被当做模板来处理，要指定其他渲染类型请使用对象定义如：\n{\n\n\t  \"type\": \"form\" \n } \n 可通过 $xxx 或者 ${xxx} 取值，或者直接用 lodash.template 模板引擎。\n\n详情： https://baidu.github.io/amis/docs/renderers#tpl"
         },
         {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/subRenderer"
+          "$ref": "/schemas/page.json#/definitions/subRenderer"
         },
         {
           "items": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container"
+            "$ref": "/schemas/page.json#/definitions/container"
           },
           "type": "array"
         }
@@ -117,230 +117,230 @@
     },
     "subRenderer": {
       "if": {
-        "$ref": "https://houtai.baidu.com/v2/schemas/action.json#/definitions/test"
+        "$ref": "/schemas/action.json#/definitions/test"
       },
       "then": {
-        "$ref": "https://houtai.baidu.com/v2/schemas/action.json#/definitions/common"
+        "$ref": "/schemas/action.json#/definitions/common"
       },
       "else": {
         "if": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/button-group.json#/definitions/test"
+          "$ref": "/schemas/button-group.json#/definitions/test"
         },
         "then": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/button-group.json#/definitions/common"
+          "$ref": "/schemas/button-group.json#/definitions/common"
         },
         "else": {
           "if": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/cards.json#/definitions/test"
+            "$ref": "/schemas/cards.json#/definitions/test"
           },
           "then": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/cards.json#/definitions/common"
+            "$ref": "/schemas/cards.json#/definitions/common"
           },
           "else": {
             "if": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/chart.json#/definitions/test"
+              "$ref": "/schemas/chart.json#/definitions/test"
             },
             "then": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/chart.json#/definitions/common"
+              "$ref": "/schemas/chart.json#/definitions/common"
             },
             "else": {
               "if": {
-                "$ref": "https://houtai.baidu.com/v2/schemas/collapse.json#/definitions/test"
+                "$ref": "/schemas/collapse.json#/definitions/test"
               },
               "then": {
-                "$ref": "https://houtai.baidu.com/v2/schemas/collapse.json#/definitions/common"
+                "$ref": "/schemas/collapse.json#/definitions/common"
               },
               "else": {
                 "if": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/divider.json#/definitions/test"
+                  "$ref": "/schemas/divider.json#/definitions/test"
                 },
                 "then": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/divider.json#/definitions/common"
+                  "$ref": "/schemas/divider.json#/definitions/common"
                 },
                 "else": {
                   "if": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/crud.json#/definitions/test"
+                    "$ref": "/schemas/crud.json#/definitions/test"
                   },
                   "then": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/crud.json#/definitions/common"
+                    "$ref": "/schemas/crud.json#/definitions/common"
                   },
                   "else": {
                     "if": {
-                      "$ref": "https://houtai.baidu.com/v2/schemas/date.json#/definitions/test"
+                      "$ref": "/schemas/date.json#/definitions/test"
                     },
                     "then": {
-                      "$ref": "https://houtai.baidu.com/v2/schemas/date.json#/definitions/common"
+                      "$ref": "/schemas/date.json#/definitions/common"
                     },
                     "else": {
                       "if": {
-                        "$ref": "https://houtai.baidu.com/v2/schemas/dropdown-button.json#/definitions/test"
+                        "$ref": "/schemas/dropdown-button.json#/definitions/test"
                       },
                       "then": {
-                        "$ref": "https://houtai.baidu.com/v2/schemas/dropdown-button.json#/definitions/common"
+                        "$ref": "/schemas/dropdown-button.json#/definitions/common"
                       },
                       "else": {
                         "if": {
-                          "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/test"
+                          "$ref": "/schemas/form.json#/definitions/test"
                         },
                         "then": {
-                          "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/common"
+                          "$ref": "/schemas/form.json#/definitions/common"
                         },
                         "else": {
                           "if": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/grid.json#/definitions/test"
+                            "$ref": "/schemas/grid.json#/definitions/test"
                           },
                           "then": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/grid.json#/definitions/common"
+                            "$ref": "/schemas/grid.json#/definitions/common"
                           },
                           "else": {
                             "if": {
-                              "$ref": "https://houtai.baidu.com/v2/schemas/hbox.json#/definitions/test"
+                              "$ref": "/schemas/hbox.json#/definitions/test"
                             },
                             "then": {
-                              "$ref": "https://houtai.baidu.com/v2/schemas/hbox.json#/definitions/common"
+                              "$ref": "/schemas/hbox.json#/definitions/common"
                             },
                             "else": {
                               "if": {
-                                "$ref": "https://houtai.baidu.com/v2/schemas/iframe.json#/definitions/test"
+                                "$ref": "/schemas/iframe.json#/definitions/test"
                               },
                               "then": {
-                                "$ref": "https://houtai.baidu.com/v2/schemas/iframe.json#/definitions/common"
+                                "$ref": "/schemas/iframe.json#/definitions/common"
                               },
                               "else": {
                                 "if": {
-                                  "$ref": "https://houtai.baidu.com/v2/schemas/image.json#/definitions/test"
+                                  "$ref": "/schemas/image.json#/definitions/test"
                                 },
                                 "then": {
-                                  "$ref": "https://houtai.baidu.com/v2/schemas/image.json#/definitions/common"
+                                  "$ref": "/schemas/image.json#/definitions/common"
                                 },
                                 "else": {
                                   "if": {
-                                    "$ref": "https://houtai.baidu.com/v2/schemas/json.json#/definitions/test"
+                                    "$ref": "/schemas/json.json#/definitions/test"
                                   },
                                   "then": {
-                                    "$ref": "https://houtai.baidu.com/v2/schemas/json.json#/definitions/common"
+                                    "$ref": "/schemas/json.json#/definitions/common"
                                   },
                                   "else": {
                                     "if": {
-                                      "$ref": "https://houtai.baidu.com/v2/schemas/list.json#/definitions/test"
+                                      "$ref": "/schemas/list.json#/definitions/test"
                                     },
                                     "then": {
-                                      "$ref": "https://houtai.baidu.com/v2/schemas/list.json#/definitions/common"
+                                      "$ref": "/schemas/list.json#/definitions/common"
                                     },
                                     "else": {
                                       "if": {
-                                        "$ref": "https://houtai.baidu.com/v2/schemas/mapping.json#/definitions/test"
+                                        "$ref": "/schemas/mapping.json#/definitions/test"
                                       },
                                       "then": {
-                                        "$ref": "https://houtai.baidu.com/v2/schemas/mapping.json#/definitions/common"
+                                        "$ref": "/schemas/mapping.json#/definitions/common"
                                       },
                                       "else": {
                                         "if": {
-                                          "$ref": "https://houtai.baidu.com/v2/schemas/nav.json#/definitions/test"
+                                          "$ref": "/schemas/nav.json#/definitions/test"
                                         },
                                         "then": {
-                                          "$ref": "https://houtai.baidu.com/v2/schemas/nav.json#/definitions/common"
+                                          "$ref": "/schemas/nav.json#/definitions/common"
                                         },
                                         "else": {
                                           "if": {
-                                            "$ref": "https://houtai.baidu.com/v2/schemas/operation.json#/definitions/test"
+                                            "$ref": "/schemas/operation.json#/definitions/test"
                                           },
                                           "then": {
-                                            "$ref": "https://houtai.baidu.com/v2/schemas/operation.json#/definitions/common"
+                                            "$ref": "/schemas/operation.json#/definitions/common"
                                           },
                                           "else": {
                                             "if": {
-                                              "$ref": "https://houtai.baidu.com/v2/schemas/panel.json#/definitions/test"
+                                              "$ref": "/schemas/panel.json#/definitions/test"
                                             },
                                             "then": {
-                                              "$ref": "https://houtai.baidu.com/v2/schemas/panel.json#/definitions/common"
+                                              "$ref": "/schemas/panel.json#/definitions/common"
                                             },
                                             "else": {
                                               "if": {
-                                                "$ref": "https://houtai.baidu.com/v2/schemas/plain.json#/definitions/test"
+                                                "$ref": "/schemas/plain.json#/definitions/test"
                                               },
                                               "then": {
-                                                "$ref": "https://houtai.baidu.com/v2/schemas/plain.json#/definitions/common"
+                                                "$ref": "/schemas/plain.json#/definitions/common"
                                               },
                                               "else": {
                                                 "if": {
-                                                  "$ref": "https://houtai.baidu.com/v2/schemas/progress.json#/definitions/test"
+                                                  "$ref": "/schemas/progress.json#/definitions/test"
                                                 },
                                                 "then": {
-                                                  "$ref": "https://houtai.baidu.com/v2/schemas/progress.json#/definitions/common"
+                                                  "$ref": "/schemas/progress.json#/definitions/common"
                                                 },
                                                 "else": {
                                                   "if": {
-                                                    "$ref": "https://houtai.baidu.com/v2/schemas/service.json#/definitions/test"
+                                                    "$ref": "/schemas/service.json#/definitions/test"
                                                   },
                                                   "then": {
-                                                    "$ref": "https://houtai.baidu.com/v2/schemas/service.json#/definitions/common"
+                                                    "$ref": "/schemas/service.json#/definitions/common"
                                                   },
                                                   "else": {
                                                     "if": {
-                                                      "$ref": "https://houtai.baidu.com/v2/schemas/status.json#/definitions/test"
+                                                      "$ref": "/schemas/status.json#/definitions/test"
                                                     },
                                                     "then": {
-                                                      "$ref": "https://houtai.baidu.com/v2/schemas/status.json#/definitions/common"
+                                                      "$ref": "/schemas/status.json#/definitions/common"
                                                     },
                                                     "else": {
                                                       "if": {
-                                                        "$ref": "https://houtai.baidu.com/v2/schemas/switch.json#/definitions/test"
+                                                        "$ref": "/schemas/switch.json#/definitions/test"
                                                       },
                                                       "then": {
-                                                        "$ref": "https://houtai.baidu.com/v2/schemas/switch.json#/definitions/common"
+                                                        "$ref": "/schemas/switch.json#/definitions/common"
                                                       },
                                                       "else": {
                                                         "if": {
-                                                          "$ref": "https://houtai.baidu.com/v2/schemas/table.json#/definitions/test"
+                                                          "$ref": "/schemas/table.json#/definitions/test"
                                                         },
                                                         "then": {
-                                                          "$ref": "https://houtai.baidu.com/v2/schemas/table.json#/definitions/common"
+                                                          "$ref": "/schemas/table.json#/definitions/common"
                                                         },
                                                         "else": {
                                                           "if": {
-                                                            "$ref": "https://houtai.baidu.com/v2/schemas/tabs.json#/definitions/test"
+                                                            "$ref": "/schemas/tabs.json#/definitions/test"
                                                           },
                                                           "then": {
-                                                            "$ref": "https://houtai.baidu.com/v2/schemas/tabs.json#/definitions/common"
+                                                            "$ref": "/schemas/tabs.json#/definitions/common"
                                                           },
                                                           "else": {
                                                             "if": {
-                                                              "$ref": "https://houtai.baidu.com/v2/schemas/tasks.json#/definitions/test"
+                                                              "$ref": "/schemas/tasks.json#/definitions/test"
                                                             },
                                                             "then": {
-                                                              "$ref": "https://houtai.baidu.com/v2/schemas/tasks.json#/definitions/common"
+                                                              "$ref": "/schemas/tasks.json#/definitions/common"
                                                             },
                                                             "else": {
                                                               "if": {
-                                                                "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/test"
+                                                                "$ref": "/schemas/tpl.json#/definitions/test"
                                                               },
                                                               "then": {
-                                                                "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/common"
+                                                                "$ref": "/schemas/tpl.json#/definitions/common"
                                                               },
                                                               "else": {
                                                                 "if": {
-                                                                  "$ref": "https://houtai.baidu.com/v2/schemas/video.json#/definitions/test"
+                                                                  "$ref": "/schemas/video.json#/definitions/test"
                                                                 },
                                                                 "then": {
-                                                                  "$ref": "https://houtai.baidu.com/v2/schemas/video.json#/definitions/common"
+                                                                  "$ref": "/schemas/video.json#/definitions/common"
                                                                 },
                                                                 "else": {
                                                                   "if": {
-                                                                    "$ref": "https://houtai.baidu.com/v2/schemas/wizard.json#/definitions/test"
+                                                                    "$ref": "/schemas/wizard.json#/definitions/test"
                                                                   },
                                                                   "then": {
-                                                                    "$ref": "https://houtai.baidu.com/v2/schemas/wizard.json#/definitions/common"
+                                                                    "$ref": "/schemas/wizard.json#/definitions/common"
                                                                   },
                                                                   "else": {
                                                                     "if": {
-                                                                      "$ref": "https://houtai.baidu.com/v2/schemas/wrapper.json#/definitions/test"
+                                                                      "$ref": "/schemas/wrapper.json#/definitions/test"
                                                                     },
                                                                     "then": {
-                                                                      "$ref": "https://houtai.baidu.com/v2/schemas/wrapper.json#/definitions/common"
+                                                                      "$ref": "/schemas/wrapper.json#/definitions/common"
                                                                     },
                                                                     "else": {
-                                                                      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/customRenderer"
+                                                                      "$ref": "/schemas/page.json#/definitions/customRenderer"
                                                                     }
                                                                   }
                                                                 }
@@ -397,23 +397,23 @@
       "type": "string"
     },
     "aside": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+      "$ref": "/schemas/page.json#/definitions/container",
       "title": "左边栏容器"
     },
     "asideClassName": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+      "$ref": "/schemas/page.json#/definitions/className",
       "description": "配置 aside 容器 className"
     },
     "body": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+      "$ref": "/schemas/page.json#/definitions/container",
       "title": "页面内容区域"
     },
     "bodyClassName": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+      "$ref": "/schemas/page.json#/definitions/className",
       "description": "配置 body 容器 className"
     },
     "className": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+      "$ref": "/schemas/page.json#/definitions/className",
       "description": "配置容器 className"
     },
     "data": {
@@ -421,7 +421,7 @@
       "type": "object"
     },
     "headerClassName": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+      "$ref": "/schemas/page.json#/definitions/className",
       "description": "配置 header 容器 className"
     },
     "initApi": {
@@ -452,27 +452,27 @@
       "type": "object"
     },
     "name": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/name",
+      "$ref": "/schemas/page.json#/definitions/name",
       "description": "给当前组件设定一个名，方便其他组件引用。"
     },
     "remark": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/stringOrNull",
+      "$ref": "/schemas/page.json#/definitions/stringOrNull",
       "description": "页面描述"
     },
     "subTitle": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/stringOrNull",
+      "$ref": "/schemas/page.json#/definitions/stringOrNull",
       "description": "页面副标题"
     },
     "title": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/stringOrNull",
+      "$ref": "/schemas/page.json#/definitions/stringOrNull",
       "description": "页面标题"
     },
     "toolbar": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+      "$ref": "/schemas/page.json#/definitions/container",
       "description": "页面顶部区域，当存在 title 时在右上角显示。"
     },
     "toolbarClassName": {
-      "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+      "$ref": "/schemas/page.json#/definitions/className",
       "description": "配置 toolbar 容器 className"
     },
     "type": {

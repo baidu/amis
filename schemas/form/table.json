@@ -1,146 +1,144 @@
 {
-    "$id": "https://houtai.baidu.com/v2/schemas/form/table.json#",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "allOf": [
-        {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form/table.json#/definitions/common"
-        },
-        {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^(\\$ref|columns|addable|addApi|addBtnLabel|addBtnIcon|showAddBtn|removable|deleteApi|editable|updateBtnLabel|updateBtnIcon|confirmBtnLabel|confirmBtnIcon|cancelBtnLabel|cancelBtnIcon|deleteBtnLabel|deleteBtnIcon|updateApi|scaffold|deleteConfirmText|valueField|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|validations|validationErrors|validateOnChange|submitOnChange|disabled|disabledOn|visible|visibleOn|hidden|hiddenOn|required)$": {}
-            },
-            "properties": {
-                "$schema": {
-                    "format": "uri",
-                    "type": "string",
-                    "description": "绑定 JSON 格式说明，可忽略！"
-                },
-                "type": {
-                    "const": "table",
-                    "description": "指定为表格编辑类型"
-                }
-            },
-            "type": "object",
-            "required": [
-                "type"
-            ]
-        }
-    ],
-    "definitions": {
-        "common": {
-            "description": "Text文本框格式说明",
-            "allOf": [
-                {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
-                },
-                {
-                    "properties": {
-                        "$ref": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
-                            "description": "引用页面中的定义"
-                        },
-                        "addable": {
-                            "type": "boolean",
-                            "description": "是否可新增"
-                        },
-                        "removable": {
-                            "type": "boolean",
-                            "description": "是否可删除"
-                        },
-                        "editable": {
-                            "type": "boolean",
-                            "description": "是否可修改"
-                        },
-                        "draggable": {
-                            "type": "boolean",
-                            "description": "是否可拖拽排序"
-                        },
-                        "columns": {
-                            "description": "列信息配置"
-                        },
-                        "addApi": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
-                            "description": "添加API"
-                        },
-                        "addBtnLabel": {
-                            "description": "添加按钮文字",
-                            "type": "string"
-                        },
-                        "addBtnIcon": {
-                            "description": "添加按钮图标",
-                            "type": "string"
-                        },
-                        "showAddBtn": {
-                            "description": "是否显示添加按钮",
-                            "type": "boolean"
-                        },
-                        "deleteApi": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
-                            "description": "删除API"
-                        },
-                        "updateBtnLabel": {
-                            "description": "编辑按钮文字",
-                            "type": "string"
-                        },
-                        "updateBtnIcon": {
-                            "description": "编辑按钮图标",
-                            "type": "string"
-                        },
-                        "confirmBtnLabel": {
-                            "description": "确认按钮文字",
-                            "type": "string"
-                        },
-                        "confirmBtnIcon": {
-                            "description": "确认按钮图标",
-                            "type": "string"
-                        },
-                        "cancelBtnLabel": {
-                            "description": "取消按钮文字",
-                            "type": "string"
-                        },
-                        "cancelBtnIcon": {
-                            "description": "取消按钮图标",
-                            "type": "string"
-                        },
-                        "deleteBtnLabel": {
-                            "description": "删除按钮文字",
-                            "type": "string"
-                        },
-                        "deleteBtnIcon": {
-                            "description": "删除按钮图标",
-                            "type": "string"
-                        },
-                        "updateApi": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
-                            "description": "更新API"
-                        },
-                        "deleteConfirmText": {
-                            "description": "确认删除文字",
-                            "type": "string"
-                        },
-                        "valueField": {
-                            "description": "value的替代键值，默认为value",
-                            "type": "string"
-                        },
-                        "scaffold": {
-                            "description": "初始值",
-                            "type": "object"
-                        }
-                    },
-                    "type": "object"
-                }
-            ],
-            "type": "object"
-        },
-        "test": {
-            "properties": {
-                "type": {
-                    "const": "table"
-                }
-            }
-        }
+  "$id": "/schemas/form/table.json#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/schemas/form/table.json#/definitions/common"
     },
-    "description": "Text文本框格式说明",
-    "type": "object"
+    {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(\\$ref|columns|addable|addApi|addBtnLabel|addBtnIcon|showAddBtn|removable|deleteApi|editable|updateBtnLabel|updateBtnIcon|confirmBtnLabel|confirmBtnIcon|cancelBtnLabel|cancelBtnIcon|deleteBtnLabel|deleteBtnIcon|updateApi|scaffold|deleteConfirmText|valueField|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|validations|validationErrors|validateOnChange|submitOnChange|disabled|disabledOn|visible|visibleOn|hidden|hiddenOn|required)$": {}
+      },
+      "properties": {
+        "$schema": {
+          "format": "uri",
+          "type": "string",
+          "description": "绑定 JSON 格式说明，可忽略！"
+        },
+        "type": {
+          "const": "table",
+          "description": "指定为表格编辑类型"
+        }
+      },
+      "type": "object",
+      "required": ["type"]
+    }
+  ],
+  "definitions": {
+    "common": {
+      "description": "Text文本框格式说明",
+      "allOf": [
+        {
+          "$ref": "/schemas/form.json#/definitions/item"
+        },
+        {
+          "properties": {
+            "$ref": {
+              "$ref": "/schemas/page.json#/definitions/$ref",
+              "description": "引用页面中的定义"
+            },
+            "addable": {
+              "type": "boolean",
+              "description": "是否可新增"
+            },
+            "removable": {
+              "type": "boolean",
+              "description": "是否可删除"
+            },
+            "editable": {
+              "type": "boolean",
+              "description": "是否可修改"
+            },
+            "draggable": {
+              "type": "boolean",
+              "description": "是否可拖拽排序"
+            },
+            "columns": {
+              "description": "列信息配置"
+            },
+            "addApi": {
+              "$ref": "/schemas/page.json#/definitions/api",
+              "description": "添加API"
+            },
+            "addBtnLabel": {
+              "description": "添加按钮文字",
+              "type": "string"
+            },
+            "addBtnIcon": {
+              "description": "添加按钮图标",
+              "type": "string"
+            },
+            "showAddBtn": {
+              "description": "是否显示添加按钮",
+              "type": "boolean"
+            },
+            "deleteApi": {
+              "$ref": "/schemas/page.json#/definitions/api",
+              "description": "删除API"
+            },
+            "updateBtnLabel": {
+              "description": "编辑按钮文字",
+              "type": "string"
+            },
+            "updateBtnIcon": {
+              "description": "编辑按钮图标",
+              "type": "string"
+            },
+            "confirmBtnLabel": {
+              "description": "确认按钮文字",
+              "type": "string"
+            },
+            "confirmBtnIcon": {
+              "description": "确认按钮图标",
+              "type": "string"
+            },
+            "cancelBtnLabel": {
+              "description": "取消按钮文字",
+              "type": "string"
+            },
+            "cancelBtnIcon": {
+              "description": "取消按钮图标",
+              "type": "string"
+            },
+            "deleteBtnLabel": {
+              "description": "删除按钮文字",
+              "type": "string"
+            },
+            "deleteBtnIcon": {
+              "description": "删除按钮图标",
+              "type": "string"
+            },
+            "updateApi": {
+              "$ref": "/schemas/page.json#/definitions/api",
+              "description": "更新API"
+            },
+            "deleteConfirmText": {
+              "description": "确认删除文字",
+              "type": "string"
+            },
+            "valueField": {
+              "description": "value的替代键值，默认为value",
+              "type": "string"
+            },
+            "scaffold": {
+              "description": "初始值",
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "type": "object"
+    },
+    "test": {
+      "properties": {
+        "type": {
+          "const": "table"
+        }
+      }
+    }
+  },
+  "description": "Text文本框格式说明",
+  "type": "object"
 }

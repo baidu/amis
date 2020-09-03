@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/grid.json#",
+  "$id": "/schemas/grid.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/grid.json#/definitions/common"
+      "$ref": "/schemas/grid.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -29,10 +29,10 @@
     "column": {
       "allOf": [
         {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/subRenderer"
+          "$ref": "/schemas/page.json#/definitions/subRenderer"
         },
         {
-          "$ref": "https://houtai.baidu.com/v2/schemas/grid.json#/definitions/commonColumn"
+          "$ref": "/schemas/grid.json#/definitions/commonColumn"
         }
       ],
       "description": "列"
@@ -42,10 +42,10 @@
       "items": {
         "oneOf": [
           {
-            "$ref": "https://houtai.baidu.com/v2/schemas/grid.json#/definitions/column"
+            "$ref": "/schemas/grid.json#/definitions/column"
           },
           {
-            "$ref": "https://houtai.baidu.com/v2/schemas/grid.json#/definitions/columns",
+            "$ref": "/schemas/grid.json#/definitions/columns",
             "description": "列集合, 不推荐，建议再包一个 grid 如果真有必要。"
           }
         ]
@@ -56,7 +56,7 @@
       "description": "amis Grid 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#grid",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "className": {
@@ -64,7 +64,7 @@
           "type": "string"
         },
         "columns": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/grid.json#/definitions/columns"
+          "$ref": "/schemas/grid.json#/definitions/columns"
         }
       },
       "type": "object"

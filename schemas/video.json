@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/video.json#/definitions/common"
+      "$ref": "/schemas/video.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -30,7 +30,7 @@
       "description": "amis Video 渲染器，用来生成视频播放器",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "autoPlay": {
@@ -38,7 +38,7 @@
           "type": "boolean"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 className"
         },
         "columnsCount": {
@@ -49,7 +49,7 @@
           "description": "设置后，可以显示切帧"
         },
         "framesClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置帧列表容器className"
         },
         "isLive": {
@@ -84,7 +84,7 @@
           "type": "boolean"
         },
         "playerClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置播放器 className"
         },
         "poster": {
@@ -125,6 +125,6 @@
     }
   },
   "description": "amis Video 渲染器，用来生成视频播放器",
-  "id": "https://houtai.baidu.com/v2/schemas/video.json#",
+  "id": "/schemas/video.json#",
   "type": "object"
 }

@@ -1,73 +1,66 @@
 {
-    "$id": "https://houtai.baidu.com/v2/schemas/form/color.json#",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "allOf": [
-        {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form/color.json#/definitions/common"
-        },
-        {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^(\\$ref|format|clearable|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|validations|validationErrors|validateOnChange|submitOnChange|disabled|disabledOn|visible|visibleOn|hidden|hiddenOn|required)$": {}
-            },
-            "properties": {
-                "$schema": {
-                    "format": "uri",
-                    "type": "string",
-                    "description": "绑定 JSON 格式说明，可忽略！"
-                },
-                "type": {
-                    "const": "color",
-                    "description": "指定为 color 类型"
-                }
-            },
-            "required": [
-                "type"
-            ],
-            "type": "object"
-        }
-    ],
-    "definitions": {
-        "common": {
-            "description": "颜色输入框格式说明",
-            "allOf": [
-                {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
-                },
-                {
-                    "properties": {
-                        "$ref": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
-                            "description": "引用页面中的定义"
-                        },
-                        "clearable": {
-                            "default": true,
-                            "description": "是否显示清除按钮",
-                            "type": "boolean"
-                        },
-                        "format": {
-                            "description": "颜色格式",
-                            "enum": [
-                                "hex",
-                                "rgb",
-                                "rgba",
-                                "hls"
-                            ],
-                            "type": "string"
-                        }
-                    },
-                    "type": "object"
-                }
-            ]
-        },
-        "test": {
-            "properties": {
-                "type": {
-                    "const": "color"
-                }
-            }
-        }
+  "$id": "/schemas/form/color.json#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/schemas/form/color.json#/definitions/common"
     },
-    "description": "颜色输入框格式说明",
-    "type": "object"
+    {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(\\$ref|format|clearable|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|validations|validationErrors|validateOnChange|submitOnChange|disabled|disabledOn|visible|visibleOn|hidden|hiddenOn|required)$": {}
+      },
+      "properties": {
+        "$schema": {
+          "format": "uri",
+          "type": "string",
+          "description": "绑定 JSON 格式说明，可忽略！"
+        },
+        "type": {
+          "const": "color",
+          "description": "指定为 color 类型"
+        }
+      },
+      "required": ["type"],
+      "type": "object"
+    }
+  ],
+  "definitions": {
+    "common": {
+      "description": "颜色输入框格式说明",
+      "allOf": [
+        {
+          "$ref": "/schemas/form.json#/definitions/item"
+        },
+        {
+          "properties": {
+            "$ref": {
+              "$ref": "/schemas/page.json#/definitions/$ref",
+              "description": "引用页面中的定义"
+            },
+            "clearable": {
+              "default": true,
+              "description": "是否显示清除按钮",
+              "type": "boolean"
+            },
+            "format": {
+              "description": "颜色格式",
+              "enum": ["hex", "rgb", "rgba", "hls"],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      ]
+    },
+    "test": {
+      "properties": {
+        "type": {
+          "const": "color"
+        }
+      }
+    }
+  },
+  "description": "颜色输入框格式说明",
+  "type": "object"
 }

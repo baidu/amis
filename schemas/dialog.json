@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/dialog.json#",
+  "$id": "/schemas/dialog.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/dialog.json#/definitions/common"
+      "$ref": "/schemas/dialog.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -33,20 +33,20 @@
         "actions": {
           "description": "默认不用填写，自动会创建确认和取消按钮。",
           "items": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/action.json#"
+            "$ref": "/schemas/action.json#"
           },
           "type": "array"
         },
         "body": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+          "$ref": "/schemas/page.json#/definitions/container",
           "description": "内容区域"
         },
         "bodyClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置 Body 容器 className"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 className"
         },
         "closeOnEsc": {
@@ -55,7 +55,7 @@
           "type": "boolean"
         },
         "initApi": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。"
         },
         "initFetch": {
@@ -78,7 +78,7 @@
           "type": "object"
         },
         "name": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/name",
+          "$ref": "/schemas/page.json#/definitions/name",
           "description": "给当前 dialog 取个名字，可用来跟其他 Renderer 交互。"
         },
         "size": {
@@ -86,7 +86,7 @@
           "enum": ["xs", "sm", "md", "lg"]
         },
         "title": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+          "$ref": "/schemas/page.json#/definitions/container",
           "default": "请通过配置 title 设置标题",
           "description": "Dialog 标题"
         }

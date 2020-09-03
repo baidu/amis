@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/form/tabs.json#",
+  "$id": "/schemas/form/tabs.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/form/tabs.json#/definitions/common"
+      "$ref": "/schemas/form/tabs.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -29,31 +29,31 @@
       "description": "amis Tabs 渲染器格式说明",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 Tabs className"
         },
         "hiddenOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项是否隐藏。"
         },
         "tabClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 Tab className"
         },
         "tabs": {
           "description": "选项卡信息",
           "items": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form/tabs.json#/definitions/tab",
+            "$ref": "/schemas/form/tabs.json#/definitions/tab",
             "type": ["object"]
           },
           "type": "array"
         },
         "visibleOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项是否显示"
         }
       },
@@ -63,23 +63,23 @@
       "additionalProperties": false,
       "properties": {
         "body": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+          "$ref": "/schemas/page.json#/definitions/container",
           "title": "内容区域"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 fieldSet className"
         },
         "controls": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/controls",
+          "$ref": "/schemas/form.json#/definitions/controls",
           "description": "FormItem 集合"
         },
         "disabledOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前 Tab 是否禁用。"
         },
         "hiddenOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前 Tab 是否隐藏。"
         },
         "horizontal": {
@@ -122,7 +122,7 @@
           "type": "string"
         },
         "visibleOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前 Tab 是否显示"
         }
       },

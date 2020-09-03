@@ -1,75 +1,73 @@
 {
-    "$id": "https://houtai.baidu.com/v2/schemas/form/switch.json#",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "allOf": [
-        {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form/switch.json#/definitions/common"
-        },
-        {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^(\\$ref|trueValue|falseValue|option|optionAtLeft|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|validations|validationErrors|validateOnChange|submitOnChange|disabled|disabledOn|visible|visibleOn|hidden|hiddenOn|required)$": {}
-            },
-            "properties": {
-                "$schema": {
-                    "format": "uri",
-                    "type": "string",
-                    "description": "绑定 JSON 格式说明，可忽略！"
-                },
-                "type": {
-                    "const": "switch",
-                    "description": "指定为开关"
-                }
-            },
-            "type": "object",
-            "required": [
-                "type"
-            ]
-        }
-    ],
-    "definitions": {
-        "common": {
-            "description": "开关格式说明",
-            "allOf": [
-                {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
-                },
-                {
-                    "properties": {
-                        "$ref": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
-                            "description": "引用页面中的定义"
-                        },
-                        "falseValue": {
-                            "default": false,
-                            "description": "未勾选值"
-                        },
-                        "trueValue": {
-                            "default": true,
-                            "description": "勾选值"
-                        },
-                        "option": {
-                            "description": "选项说明",
-                            "type": "string"
-                        },
-                        "optionAtLeft": {
-                            "default": "false",
-                            "description": "选项说明放在左边，默认在右边",
-                            "type": "boolean"
-                        }
-                    },
-                    "type": "object"
-                }
-            ]
-        },
-        "test": {
-            "properties": {
-                "type": {
-                    "const": "switch"
-                }
-            }
-        }
+  "$id": "/schemas/form/switch.json#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/schemas/form/switch.json#/definitions/common"
     },
-    "description": "开关格式说明",
-    "type": "object"
+    {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(\\$ref|trueValue|falseValue|option|optionAtLeft|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|validations|validationErrors|validateOnChange|submitOnChange|disabled|disabledOn|visible|visibleOn|hidden|hiddenOn|required)$": {}
+      },
+      "properties": {
+        "$schema": {
+          "format": "uri",
+          "type": "string",
+          "description": "绑定 JSON 格式说明，可忽略！"
+        },
+        "type": {
+          "const": "switch",
+          "description": "指定为开关"
+        }
+      },
+      "type": "object",
+      "required": ["type"]
+    }
+  ],
+  "definitions": {
+    "common": {
+      "description": "开关格式说明",
+      "allOf": [
+        {
+          "$ref": "/schemas/form.json#/definitions/item"
+        },
+        {
+          "properties": {
+            "$ref": {
+              "$ref": "/schemas/page.json#/definitions/$ref",
+              "description": "引用页面中的定义"
+            },
+            "falseValue": {
+              "default": false,
+              "description": "未勾选值"
+            },
+            "trueValue": {
+              "default": true,
+              "description": "勾选值"
+            },
+            "option": {
+              "description": "选项说明",
+              "type": "string"
+            },
+            "optionAtLeft": {
+              "default": "false",
+              "description": "选项说明放在左边，默认在右边",
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        }
+      ]
+    },
+    "test": {
+      "properties": {
+        "type": {
+          "const": "switch"
+        }
+      }
+    }
+  },
+  "description": "开关格式说明",
+  "type": "object"
 }

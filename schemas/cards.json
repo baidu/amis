@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/cards.json#",
+  "$id": "/schemas/cards.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/cards.json#/definitions/common"
+      "$ref": "/schemas/cards.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -31,18 +31,18 @@
       "description": "内容容器",
       "oneOf": [
         {
-          "$ref": "https://houtai.baidu.com/v2/schemas/cards.json#/definitions/field"
+          "$ref": "/schemas/cards.json#/definitions/field"
         },
         {
           "items": {
             "oneOf": [
               {
-                "$ref": "https://houtai.baidu.com/v2/schemas/cards.json#/definitions/field"
+                "$ref": "/schemas/cards.json#/definitions/field"
               },
               {
                 "description": "**不推荐使用数组，请用 hbox 包裹**",
                 "items": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/cards.json#/definitions/field"
+                  "$ref": "/schemas/cards.json#/definitions/field"
                 },
                 "type": "array"
               }
@@ -56,7 +56,7 @@
       "type": "object",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "type": {
@@ -65,7 +65,7 @@
         },
         "actions": {
           "items": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/action.json#"
+            "$ref": "/schemas/action.json#"
           },
           "type": "array"
         },
@@ -78,7 +78,7 @@
           "type": "string"
         },
         "body": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/cards.json#/definitions/body"
+          "$ref": "/schemas/cards.json#/definitions/body"
         },
         "bodyClassName": {
           "description": "内容区 CSS 类名",
@@ -96,11 +96,11 @@
           "description": "头部内容",
           "properties": {
             "avatar": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/tpl",
+              "$ref": "/schemas/tpl.json#/definitions/tpl",
               "description": "头像,支持tpl"
             },
             "desc": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/tpl",
+              "$ref": "/schemas/tpl.json#/definitions/tpl",
               "description": "描述,支持tpl"
             },
             "descClassName": {
@@ -111,11 +111,11 @@
               "description": "头部内容",
               "properties": {
                 "avatar": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/tpl",
+                  "$ref": "/schemas/tpl.json#/definitions/tpl",
                   "description": "头像,支持tpl"
                 },
                 "desc": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/tpl",
+                  "$ref": "/schemas/tpl.json#/definitions/tpl",
                   "description": "描述,支持tpl"
                 },
                 "highlight": {
@@ -123,11 +123,11 @@
                   "type": "string"
                 },
                 "subTitle": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/tpl",
+                  "$ref": "/schemas/tpl.json#/definitions/tpl",
                   "description": "副标题, 支持tpl"
                 },
                 "title": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/tpl",
+                  "$ref": "/schemas/tpl.json#/definitions/tpl",
                   "description": "标题, 支持tpl"
                 }
               },
@@ -138,11 +138,11 @@
               "type": "string"
             },
             "subTitle": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/tpl",
+              "$ref": "/schemas/tpl.json#/definitions/tpl",
               "description": "副标题, 支持tpl"
             },
             "title": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/tpl",
+              "$ref": "/schemas/tpl.json#/definitions/tpl",
               "description": "标题, 支持tpl"
             }
           },
@@ -166,11 +166,11 @@
       "description": "amis cards 渲染器格式说明。",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "card": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/cards.json#/definitions/card",
+          "$ref": "/schemas/cards.json#/definitions/card",
           "type": "object"
         },
         "className": {
@@ -221,90 +221,90 @@
       "allOf": [
         {
           "if": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/test"
+            "$ref": "/schemas/tpl.json#/definitions/test"
           },
           "then": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/tpl.json#/definitions/common"
+            "$ref": "/schemas/tpl.json#/definitions/common"
           },
           "else": {
             "if": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/image.json#/definitions/test"
+              "$ref": "/schemas/image.json#/definitions/test"
             },
             "then": {
-              "$ref": "https://houtai.baidu.com/v2/schemas/image.json#/definitions/common"
+              "$ref": "/schemas/image.json#/definitions/common"
             },
             "else": {
               "if": {
-                "$ref": "https://houtai.baidu.com/v2/schemas/date.json#/definitions/test"
+                "$ref": "/schemas/date.json#/definitions/test"
               },
               "then": {
-                "$ref": "https://houtai.baidu.com/v2/schemas/date.json#/definitions/common"
+                "$ref": "/schemas/date.json#/definitions/common"
               },
               "else": {
                 "if": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/status.json#/definitions/test"
+                  "$ref": "/schemas/status.json#/definitions/test"
                 },
                 "then": {
-                  "$ref": "https://houtai.baidu.com/v2/schemas/status.json#/definitions/common"
+                  "$ref": "/schemas/status.json#/definitions/common"
                 },
                 "else": {
                   "if": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/mapping.json#/definitions/test"
+                    "$ref": "/schemas/mapping.json#/definitions/test"
                   },
                   "then": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/mapping.json#/definitions/common"
+                    "$ref": "/schemas/mapping.json#/definitions/common"
                   },
                   "else": {
                     "if": {
-                      "$ref": "https://houtai.baidu.com/v2/schemas/progress.json#/definitions/test"
+                      "$ref": "/schemas/progress.json#/definitions/test"
                     },
                     "then": {
-                      "$ref": "https://houtai.baidu.com/v2/schemas/progress.json#/definitions/common"
+                      "$ref": "/schemas/progress.json#/definitions/common"
                     },
                     "else": {
                       "if": {
-                        "$ref": "https://houtai.baidu.com/v2/schemas/switch.json#/definitions/test"
+                        "$ref": "/schemas/switch.json#/definitions/test"
                       },
                       "then": {
-                        "$ref": "https://houtai.baidu.com/v2/schemas/switch.json#/definitions/common"
+                        "$ref": "/schemas/switch.json#/definitions/common"
                       },
                       "else": {
                         "if": {
-                          "$ref": "https://houtai.baidu.com/v2/schemas/hbox.json#/definitions/test"
+                          "$ref": "/schemas/hbox.json#/definitions/test"
                         },
                         "then": {
-                          "$ref": "https://houtai.baidu.com/v2/schemas/hbox.json#/definitions/common"
+                          "$ref": "/schemas/hbox.json#/definitions/common"
                         },
                         "else": {
                           "if": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/grid.json#/definitions/test"
+                            "$ref": "/schemas/grid.json#/definitions/test"
                           },
                           "then": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/grid.json#/definitions/common"
+                            "$ref": "/schemas/grid.json#/definitions/common"
                           },
                           "else": {
                             "if": {
-                              "$ref": "https://houtai.baidu.com/v2/schemas/json.json#/definitions/test"
+                              "$ref": "/schemas/json.json#/definitions/test"
                             },
                             "then": {
-                              "$ref": "https://houtai.baidu.com/v2/schemas/json.json#/definitions/common"
+                              "$ref": "/schemas/json.json#/definitions/common"
                             },
                             "else": {
                               "if": {
-                                "$ref": "https://houtai.baidu.com/v2/schemas/list.json#/definitions/test"
+                                "$ref": "/schemas/list.json#/definitions/test"
                               },
                               "then": {
-                                "$ref": "https://houtai.baidu.com/v2/schemas/list.json#/definitions/common"
+                                "$ref": "/schemas/list.json#/definitions/common"
                               },
                               "else": {
                                 "if": {
-                                  "$ref": "https://houtai.baidu.com/v2/schemas/operation.json#/definitions/test"
+                                  "$ref": "/schemas/operation.json#/definitions/test"
                                 },
                                 "then": {
-                                  "$ref": "https://houtai.baidu.com/v2/schemas/operation.json#/definitions/common"
+                                  "$ref": "/schemas/operation.json#/definitions/common"
                                 },
                                 "else": {
-                                  "$ref": "https://houtai.baidu.com/v2/schemas/plain.json#/definitions/common"
+                                  "$ref": "/schemas/plain.json#/definitions/common"
                                 }
                               }
                             }

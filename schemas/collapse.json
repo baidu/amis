@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/collapse.json#",
+  "$id": "/schemas/collapse.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/collapse.json#/definitions/common"
+      "$ref": "/schemas/collapse.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -31,19 +31,19 @@
       "description": "amis collapse 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#wrapper",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "body": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+          "$ref": "/schemas/page.json#/definitions/container",
           "description": "内容区域"
         },
         "bodyClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置 Body 容器 className"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "default": "bg-white wrapper",
           "description": "配置容器 className"
         },

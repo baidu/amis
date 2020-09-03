@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/service.json#",
+  "$id": "/schemas/service.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/service.json#/definitions/common"
+      "$ref": "/schemas/service.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -32,19 +32,19 @@
       "description": "amis Service 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#service",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "api": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。"
         },
         "body": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+          "$ref": "/schemas/page.json#/definitions/container",
           "description": "内容区域"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 className"
         },
         "fetchOn": {
@@ -77,11 +77,11 @@
           "type": "object"
         },
         "name": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/name",
+          "$ref": "/schemas/page.json#/definitions/name",
           "description": "给当前组件设定一个名，方便其他组件引用。"
         },
         "schemaApi": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/api",
+          "$ref": "/schemas/page.json#/definitions/api",
           "description": "用来获取远程 Schema 的 api"
         }
       },

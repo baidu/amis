@@ -1,100 +1,98 @@
 {
-    "$id": "https://houtai.baidu.com/v2/schemas/form/sub-form.json#",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "allOf": [
-        {
-            "$ref": "https://houtai.baidu.com/v2/schemas/form/sub-form.json#/definitions/common"
-        },
-        {
-            "additionalProperties": false,
-            "patternProperties": {
-                "^(\\$ref|controls|addButtonClassName|btnClassName|btnLabel|editButtonClassName|form|labelField|maxLength|minLength|multiple|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|validations|validationErrors|validateOnChange|submitOnChange|disabled|disabledOn|visible|visibleOn|hidden|hiddenOn|required)$": {}
-            },
-            "properties": {
-                "$schema": {
-                    "format": "uri",
-                    "type": "string",
-                    "description": "绑定 JSON 格式说明，可忽略！"
-                },
-                "type": {
-                    "const": "form",
-                    "description": "指定为子表单类型"
-                }
-            },
-            "required": [
-                "type"
-            ],
-            "type": "object"
-        }
-    ],
-    "definitions": {
-        "common": {
-            "description": "Text文本框格式说明",
-            "allOf": [
-                {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/item"
-                },
-                {
-                    "properties": {
-                        "$ref": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
-                            "description": "引用页面中的定义"
-                        },
-                        "controls": {
-                            "$ref": "https://houtai.baidu.com/v2/schemas/form.json#/definitions/controls",
-                            "description": "FormItem 集合"
-                        },
-                        "addButtonClassName": {
-                            "description": "新增按钮CSS类名",
-                            "type": "string"
-                        },
-                        "btnClassName": {
-                            "description": "按钮CSS类名",
-                            "type": "string"
-                        },
-                        "btnLabel": {
-                            "default": "点击设置",
-                            "description": "按钮默认文字",
-                            "type": "string"
-                        },
-                        "editButtonClassName": {
-                            "description": "编辑按钮CSS类名",
-                            "type": "string"
-                        },
-                        "form": {
-                            "description": "字表单项设置"
-                        },
-                        "labelField": {
-                            "default": "label",
-                            "description": "按钮默认显示的字段",
-                            "type": "string"
-                        },
-                        "maxLength": {
-                            "description": "限制最大个数",
-                            "type": "number"
-                        },
-                        "minLength": {
-                            "description": "限制最小个数",
-                            "type": "number"
-                        },
-                        "multiple": {
-                            "description": "是否可多选",
-                            "type": "boolean"
-                        }
-                    },
-                    "type": "object"
-                }
-            ],
-            "type": "object"
-        },
-        "test": {
-            "properties": {
-                "type": {
-                    "const": "form"
-                }
-            }
-        }
+  "$id": "/schemas/form/sub-form.json#",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$ref": "/schemas/form/sub-form.json#/definitions/common"
     },
-    "description": "Text文本框格式说明",
-    "type": "object"
+    {
+      "additionalProperties": false,
+      "patternProperties": {
+        "^(\\$ref|controls|addButtonClassName|btnClassName|btnLabel|editButtonClassName|form|labelField|maxLength|minLength|multiple|name|value|placeholder|label|remark|labelRemark|desc|description|inline|mode|horizontal|className|labelClassName|inputClassName|descriptionClassName|validations|validationErrors|validateOnChange|submitOnChange|disabled|disabledOn|visible|visibleOn|hidden|hiddenOn|required)$": {}
+      },
+      "properties": {
+        "$schema": {
+          "format": "uri",
+          "type": "string",
+          "description": "绑定 JSON 格式说明，可忽略！"
+        },
+        "type": {
+          "const": "form",
+          "description": "指定为子表单类型"
+        }
+      },
+      "required": ["type"],
+      "type": "object"
+    }
+  ],
+  "definitions": {
+    "common": {
+      "description": "Text文本框格式说明",
+      "allOf": [
+        {
+          "$ref": "/schemas/form.json#/definitions/item"
+        },
+        {
+          "properties": {
+            "$ref": {
+              "$ref": "/schemas/page.json#/definitions/$ref",
+              "description": "引用页面中的定义"
+            },
+            "controls": {
+              "$ref": "/schemas/form.json#/definitions/controls",
+              "description": "FormItem 集合"
+            },
+            "addButtonClassName": {
+              "description": "新增按钮CSS类名",
+              "type": "string"
+            },
+            "btnClassName": {
+              "description": "按钮CSS类名",
+              "type": "string"
+            },
+            "btnLabel": {
+              "default": "点击设置",
+              "description": "按钮默认文字",
+              "type": "string"
+            },
+            "editButtonClassName": {
+              "description": "编辑按钮CSS类名",
+              "type": "string"
+            },
+            "form": {
+              "description": "字表单项设置"
+            },
+            "labelField": {
+              "default": "label",
+              "description": "按钮默认显示的字段",
+              "type": "string"
+            },
+            "maxLength": {
+              "description": "限制最大个数",
+              "type": "number"
+            },
+            "minLength": {
+              "description": "限制最小个数",
+              "type": "number"
+            },
+            "multiple": {
+              "description": "是否可多选",
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        }
+      ],
+      "type": "object"
+    },
+    "test": {
+      "properties": {
+        "type": {
+          "const": "form"
+        }
+      }
+    }
+  },
+  "description": "Text文本框格式说明",
+  "type": "object"
 }

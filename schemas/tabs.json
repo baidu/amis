@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/tabs.json#",
+  "$id": "/schemas/tabs.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/tabs.json#/definitions/common"
+      "$ref": "/schemas/tabs.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -31,11 +31,11 @@
       "description": "amis Tabs 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#tabs",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 className"
         },
         "completeIcon": {
@@ -50,12 +50,12 @@
         "tabs": {
           "description": "tabs集合",
           "items": {
-            "$ref": "https://houtai.baidu.com/v2/schemas/tabs.json#/definitions/tab"
+            "$ref": "/schemas/tabs.json#/definitions/tab"
           },
           "type": "array"
         },
         "tabsClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置 tabs 容器 className"
         },
         "unCompleteIcon": {
@@ -84,7 +84,7 @@
           "type": "string"
         },
         "hiddenOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项是否隐藏。"
         },
         "icon": {
@@ -98,7 +98,7 @@
         "tab": {
           "anyOf": [
             {
-              "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container"
+              "$ref": "/schemas/page.json#/definitions/container"
             }
           ]
         },
@@ -107,15 +107,15 @@
           "type": "string"
         },
         "toolbar": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/container",
+          "$ref": "/schemas/page.json#/definitions/container",
           "description": "Tab 的顶部位置内容配置"
         },
         "toolbarClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 className"
         },
         "visibleOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项是否显示"
         }
       },

@@ -1,9 +1,9 @@
 {
-  "$id": "https://houtai.baidu.com/v2/schemas/dropdown-button.json#",
+  "$id": "/schemas/dropdown-button.json#",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "allOf": [
     {
-      "$ref": "https://houtai.baidu.com/v2/schemas/dropdown-button.json#/definitions/common"
+      "$ref": "/schemas/dropdown-button.json#/definitions/common"
     },
     {
       "additionalProperties": false,
@@ -30,7 +30,7 @@
       "description": "amis Dropdown Button 渲染器，格式说明。https://baidu.github.io/amis/docs/renderers#dropdown-button",
       "properties": {
         "$ref": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/$ref",
+          "$ref": "/schemas/page.json#/definitions/$ref",
           "description": "引用页面中的定义"
         },
         "block": {
@@ -39,7 +39,7 @@
           "type": "boolean"
         },
         "btnClassName": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "给 Button 配置 className。"
         },
         "buttons": {
@@ -49,7 +49,7 @@
               {
                 "oneOf": [
                   {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/action.json#/definitions/baseAction"
+                    "$ref": "/schemas/action.json#/definitions/baseAction"
                   },
 
                   {
@@ -67,7 +67,7 @@
               {
                 "properties": {
                   "className": {
-                    "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+                    "$ref": "/schemas/page.json#/definitions/className",
                     "description": "配置容器 className"
                   },
                   "icon": {
@@ -86,7 +86,7 @@
           "type": "array"
         },
         "className": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/className",
+          "$ref": "/schemas/page.json#/definitions/className",
           "description": "配置容器 className"
         },
         "disabled": {
@@ -94,11 +94,11 @@
           "type": "boolean"
         },
         "disabledOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项的禁用状态。"
         },
         "hiddenOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项是否隐藏。"
         },
         "label": {
@@ -129,7 +129,7 @@
           "type": "string"
         },
         "visibleOn": {
-          "$ref": "https://houtai.baidu.com/v2/schemas/page.json#/definitions/expression",
+          "$ref": "/schemas/page.json#/definitions/expression",
           "description": "通过 JS 表达式来配置当前表单项是否显示"
         },
         "closeOnOutside": {
