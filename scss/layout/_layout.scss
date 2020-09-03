@@ -367,6 +367,28 @@ body {
       }
     }
 
+    &--asideFixed.#{$ns}Layout--folded {
+      .#{$ns}Layout-aside {
+        position: static;
+      }
+
+      .#{$ns}Layout-brandBar {
+        position: static;
+      }
+
+      .#{$ns}Layout-asideWrap {
+        overflow: visible;
+        position: relative;
+        top: 0;
+        z-index: 15;
+      }
+
+      .#{$ns}Layout-asideInner {
+        overflow: visible;
+        padding-right: 17px;
+      }
+    }
+
     &--sm:not(.#{$ns}Layout--folded) {
       .#{$ns}Layout-brand,
       .#{$ns}Layout-brandBar,
