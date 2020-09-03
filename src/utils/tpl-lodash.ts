@@ -1,6 +1,6 @@
-import {reigsterTplEnginer, filter, Enginer} from './tpl';
+import { registerTplEnginer, filter, Enginer } from './tpl';
 import template from 'lodash/template';
-import {getFilters} from './tpl-builtin';
+import { getFilters } from './tpl-builtin';
 import React from 'react';
 import moment from 'moment';
 
@@ -47,7 +47,7 @@ function lodashCompile(str: string, data: object) {
   }
 }
 
-export function register(): Enginer & {name: string} {
+export function register(): Enginer & { name: string } {
   return {
     name: 'lodash',
     test: (str: string) => !!~str.indexOf('<%'),

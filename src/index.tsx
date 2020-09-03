@@ -14,20 +14,20 @@ import {
   clearStoresCache,
   updateEnv
 } from './factory';
-import {wrapFetcher, buildApi} from './utils/api';
+import { wrapFetcher, buildApi } from './utils/api';
 import {
   filter,
-  reigsterTplEnginer,
+  registerTplEnginer,
   evalExpression,
   evalJS,
   setCustomEvalJs,
   setCustomEvalExpression
 } from './utils/tpl';
 import * as utils from './utils/helper';
-import {resizeSensor} from './utils/resize-sensor';
-import {setIconVendor} from './renderers/Form/IconPickerIcons';
-import {Icon, registerIcon} from './components/icons';
-import {RegisterStore} from './store';
+import { resizeSensor } from './utils/resize-sensor';
+import { setIconVendor } from './renderers/Form/IconPickerIcons';
+import { Icon, registerIcon } from './components/icons';
+import { RegisterStore } from './store';
 import {
   setDefaultLocale,
   getDefaultLocale,
@@ -140,9 +140,9 @@ import './renderers/IFrame';
 import './renderers/QRCode';
 import './renderers/Icon';
 import './renderers/Carousel';
-import Scoped, {ScopedContext} from './Scoped';
+import Scoped, { ScopedContext } from './Scoped';
 
-import {FormItem} from './renderers/Form/Item';
+import { FormItem } from './renderers/Form/Item';
 
 // 兼容旧版本用法
 import './compat';
@@ -163,8 +163,8 @@ import {
   validate,
   validateObject
 } from './utils/validations';
-import {normalizeOptions} from './components/Select';
-import {OptionsControl} from './renderers/Form/Options';
+import { normalizeOptions } from './components/Select';
+import { OptionsControl } from './renderers/Form/Options';
 
 import {
   classnames,
@@ -192,7 +192,7 @@ export {
   utils,
   resizeSensor,
   registerFilter,
-  reigsterTplEnginer,
+  registerTplEnginer,
   evalExpression,
   evalJS,
   setCustomEvalJs,
