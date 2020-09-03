@@ -227,8 +227,15 @@ export default class PlayGround extends React.Component {
         '$1'
       ); // 去掉注释
 
+      let host = `${window.location.protocol}//${window.location.host}`;
+
+      // 如果在 gh-pages 里面
+      if (/^\/amis/.test(window.location.pathname)) {
+        host = '/amis';
+      }
+
       const json = {
-        $schema: `${window.location.protocol}//${window.location.host}/schemas/page.json#`,
+        $schema: `${host}/schemas/page.json#`,
         ...JSON.parse(schemaContent)
       };
 
