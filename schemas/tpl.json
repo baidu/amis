@@ -62,7 +62,6 @@
           "type": "string"
         },
         "$schema": {
-          "enum": ["/schemas/tpl.json#", "/schemas/tpl.json"],
           "description": "绑定 JSON 格式说明"
         }
       }
