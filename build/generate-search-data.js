@@ -29,7 +29,7 @@ glob('./docs/**/*.md', {}, function (er, docs) {
         .replace(/<\!---.+-->/g, '')
         .replace(/!?\[.*\]\(.*\)/g, '')
         .replace(/\n/g, '')
-        .replace(/```.*```/g, '')
+        .replace(/```[^`]*```/g, '')
         .toLowerCase(),
       path: doc.slice(1).replace('.md', '')
     });
