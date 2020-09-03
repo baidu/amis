@@ -55,7 +55,11 @@ export class TableContent extends React.Component<TableContentProps> {
     const rows = props.rows;
 
     this.reaction = reaction(
-      () => `${rows.map(item => item.id).join(',')}`,
+      () =>
+        `${rows.map(item => item.id).join(',')}${rows
+          .filter(item => item.checked)
+          .map(item => item.id)
+          .join(',')}`,
       () => this.forceUpdate(),
       {
         onError: () => this.reaction!()
