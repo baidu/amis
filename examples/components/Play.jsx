@@ -231,7 +231,7 @@ export default class PlayGround extends React.Component {
 
       // 如果在 gh-pages 里面
       if (/^\/amis/.test(window.location.pathname)) {
-        host = '/amis';
+        host += '/amis';
       }
 
       const json = {
