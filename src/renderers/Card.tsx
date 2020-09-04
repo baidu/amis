@@ -299,16 +299,18 @@ export class Card extends React.Component<CardProps> {
         title: titleTpl,
         subTitle: subTitleTpl,
         subTitlePlaceholder,
-        desc: descTpl,
-        descPlaceholder
+        desc: descTpl
       } = header;
+
+      const descPlaceholder =
+        header.descriptionPlaceholder || header.descPlaceholder;
 
       const highlight = !!evalExpression(highlightTpl, data as object);
       const avatar = filter(avatarTpl, data, '| raw');
       const avatarText = filter(avatarTextTpl, data);
       const title = filter(titleTpl, data);
       const subTitle = filter(subTitleTpl, data);
-      const desc = filter(descTpl, data);
+      const desc = filter(header.description || descTpl, data);
 
       heading = (
         <div className={cx('Card-heading', header.className)}>
