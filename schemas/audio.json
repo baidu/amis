@@ -79,6 +79,6 @@
     }
   },
   "description": "amis Audio 渲染器，用来生成视频播放器",
-  "id": "/schemas/audio.json#",
+  "$id": "/schemas/audio.json#",
   "type": "object"
 }

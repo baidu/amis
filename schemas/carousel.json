@@ -126,6 +126,6 @@
     }
   },
   "description": "amis 轮播渲染器",
-  "id": "/schemas/carousel.json#",
+  "$id": "/schemas/carousel.json#",
   "type": "object"
 }

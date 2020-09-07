@@ -125,6 +125,6 @@
     }
   },
   "description": "amis Video 渲染器，用来生成视频播放器",
-  "id": "/schemas/video.json#",
+  "$id": "/schemas/video.json#",
   "type": "object"
 }
