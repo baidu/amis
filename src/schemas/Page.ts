@@ -7,6 +7,7 @@ import {
   SchemaDefaultData,
   BaseSchema
 } from './Schema';
+import {SchemaRemark} from './Remark';
 
 /**
  * amis Page 渲染器。详情请见：https://baidu.gitee.io/amis/docs/components/page
@@ -30,7 +31,7 @@ export interface PageSchema extends BaseSchema {
   /**
    * 页面描述, 标题旁边会出现个小图标，放上去会显示这个属性配置的内容。
    */
-  remark?: string; // todo
+  remark?: SchemaRemark;
 
   /**
    * 内容区域

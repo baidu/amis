@@ -6,6 +6,7 @@ import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
 import {themeable} from '../theme';
 import {Icon} from '../components/icons';
+import {RemarkSchema} from '../schemas/Remark';
 
 export function filterContents(
   tooltip:
@@ -32,20 +33,16 @@ export function filterContents(
   return tooltip;
 }
 
-type RemarkProps = {
+export interface RemarkProps extends RendererProps, RemarkSchema {
   icon: string;
-  className?: string;
-  trigger: Array<string>;
-  title?: string;
-  content: string;
-  placement?: string;
-} & RendererProps;
+  trigger: Array<'hover' | 'click' | 'focus'>;
+}
 
 class Remark extends React.Component<RemarkProps> {
   static propsList: Array<string> = [];
   static defaultProps = {
     icon: '',
-    trigger: ['hover', 'focus']
+    trigger: ['hover', 'focus'] as Array<'hover' | 'click' | 'focus'>
   };
 
   render() {
