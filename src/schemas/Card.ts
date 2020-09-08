@@ -94,7 +94,7 @@ export interface CardSchema extends BaseSchema {
   /**
    * 内容区域
    */
-  body?: SchemaCollection;
+  body?: SchemaCollection; // todo 实际上应该只有固定的一些 field
 
   /**
    * 底部按钮集合。

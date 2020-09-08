@@ -7,6 +7,8 @@ import {AlertSchema} from './Alert';
 import {AudioSchema} from './Audio';
 import {ButtonGroupSchema} from './ButtonGroup';
 import {ButtonToolbarSchema} from './ButtonToolbar';
+import {CardSchema} from './Card';
+import {CardsSchema} from './Cards';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -22,7 +24,8 @@ export type SchemaType =
   | 'audio'
   | 'button-group'
   | 'button-toolbar'
-  | 'card';
+  | 'card'
+  | 'cards';
 
 export type SchemaObject =
   | PageSchema
@@ -34,7 +37,8 @@ export type SchemaObject =
   | AudioSchema
   | ButtonGroupSchema
   | ButtonToolbarSchema
-  | CardSchema;
+  | CardSchema
+  | CardsSchema;
 
 export type SchemaCollection = SchemaObject | Array<SchemaObject> | SchemaTpl;
 

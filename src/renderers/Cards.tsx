@@ -2,7 +2,6 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Action, Schema} from '../types';
-import cx from 'classnames';
 import Button from '../components/Button';
 import {ListStore, IListStore, IItem} from '../store/list';
 import {observer} from 'mobx-react';
@@ -15,27 +14,16 @@ import {
 import {resolveVariable} from '../utils/tpl-builtin';
 import Sortable from 'sortablejs';
 import {filter} from '../utils/tpl';
-import debounce from 'lodash/debounce';
-import {resizeSensor} from '../utils/resize-sensor';
 import {Icon} from '../components/icons';
+import {CardsSchema} from '../schemas/Cards';
 
 export interface Column {
   type: string;
   [propName: string]: any;
 }
 
-export interface GridProps extends RendererProps {
-  title?: string; // 标题
-  header?: SchemaNode;
-  body?: SchemaNode;
-  footer?: SchemaNode;
+export interface GridProps extends RendererProps, CardsSchema {
   store: IListStore;
-  className?: string;
-  headerClassName?: string;
-  footerClassName?: string;
-  itemClassName?: string;
-  card?: any;
-  source?: string;
   selectable?: boolean;
   selected?: Array<any>;
   multiple?: boolean;
@@ -54,11 +42,6 @@ export interface GridProps extends RendererProps {
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
-  hideCheckToggler?: boolean;
-  itemCheckableOn?: string;
-  itemDraggableOn?: string;
-  checkOnItemClick?: boolean;
-  masonryLayout?: boolean;
 }
 
 export default class Cards extends React.Component<GridProps, object> {
@@ -805,6 +788,7 @@ export default class Cards extends React.Component<GridProps, object> {
                   {render(
                     `${index}`,
                     {
+                      // @ts-ignore
                       type: 'card',
                       ...card
                     },
