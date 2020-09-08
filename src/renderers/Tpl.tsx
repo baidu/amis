@@ -4,13 +4,10 @@ import {filter} from '../utils/tpl';
 import cx from 'classnames';
 import {anyChanged} from '../utils/helper';
 import {escapeHtml} from '../utils/tpl-builtin';
+import {TplSchema} from '../schemas/Tpl';
 
-export interface TplProps extends RendererProps {
+export interface TplProps extends RendererProps, TplSchema {
   className?: string;
-  tpl?: string;
-  html?: string;
-  text?: string;
-  raw?: string;
   value?: string;
   wrapperComponent?: any;
   inline?: boolean;

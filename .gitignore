@@ -21,3 +21,4 @@ node_modules
 /toolkit/output
 /coverage
 /package-lock.json
+/schema.json

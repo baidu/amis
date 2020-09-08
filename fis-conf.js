@@ -4,7 +4,7 @@
 const path = require('path');
 const fs = require('fs');
 const package = require('./package.json');
-const parserMarkdown = require('./build/md-parser');
+const parserMarkdown = require('./scripts/md-parser');
 fis.get('project.ignore').push('public/**', 'gh-pages/**', '.*/**');
 // 配置只编译哪些文件。
 
@@ -35,7 +35,8 @@ fis.set('project.files', [
   '/examples/*.tpl',
   '/src/**.html',
   'mock/**',
-  'schemas/**'
+  'schemas/**',
+  '/schema.json'
 ]);
 
 fis.match('/mock/**', {
@@ -414,7 +415,7 @@ if (fis.project.currentMedia() === 'publish') {
         resourceType: 'mod'
       }),
 
-      require('./build/embed-packager')
+      require('./scripts/embed-packager')
     ]
   });
 
