@@ -5,16 +5,9 @@ import {autobind} from '../utils/helper';
 import {Icon} from '../components/icons';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
+import {AudioSchema} from '../schemas/Audio';
 
-export interface AudioProps extends RendererProps {
-  className?: string;
-  inline?: boolean;
-  src?: string;
-  autoPlay?: boolean;
-  loop?: boolean;
-  rates?: number[];
-  controls?: string[];
-}
+export interface AudioProps extends RendererProps, AudioSchema {}
 
 export interface AudioState {
   src?: string;

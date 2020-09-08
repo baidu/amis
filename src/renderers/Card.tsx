@@ -13,8 +13,9 @@ import PopOver from './PopOver';
 import {TableCell} from './Table';
 import Copyable from './Copyable';
 import {Icon} from '../components/icons';
+import {CardSchema} from '../schemas/Card';
 
-export interface CardProps extends RendererProps {
+export interface CardProps extends RendererProps, CardSchema {
   onCheck: (item: IItem) => void;
   itemIndex?: number;
   multiple?: boolean;
@@ -305,7 +306,7 @@ export class Card extends React.Component<CardProps> {
       const descPlaceholder =
         header.descriptionPlaceholder || header.descPlaceholder;
 
-      const highlight = !!evalExpression(highlightTpl, data as object);
+      const highlight = !!evalExpression(highlightTpl!, data as object);
       const avatar = filter(avatarTpl, data, '| raw');
       const avatarText = filter(avatarTextTpl, data);
       const title = filter(titleTpl, data);
@@ -367,7 +368,7 @@ export class Card extends React.Component<CardProps> {
                   header.subTitleClassName || subTitleClassName
                 )}
               >
-                {render('sub-title', subTitle || subTitlePlaceholder, {
+                {render('sub-title', subTitle || subTitlePlaceholder!, {
                   className: cx(!subTitle ? 'Card-placeholder' : undefined)
                 })}
               </div>
@@ -377,10 +378,12 @@ export class Card extends React.Component<CardProps> {
               <div
                 className={cx(
                   'Card-desc',
-                  header.descClassName || descClassName
+                  header.descriptionClassName ||
+                    header.descClassName ||
+                    descClassName
                 )}
               >
-                {render('desc', desc || descPlaceholder, {
+                {render('desc', desc || descPlaceholder!, {
                   className: !desc ? 'text-muted' : undefined
                 })}
               </div>

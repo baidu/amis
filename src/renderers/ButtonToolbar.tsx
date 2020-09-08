@@ -1,10 +1,11 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Action} from '../types';
+import {ButtonToolbarSchema} from '../schemas/ButtonToolbar';
 
-export interface ButtonToolbarProps extends RendererProps {
-  buttons: Array<Action>;
-}
+export interface ButtonToolbarProps
+  extends RendererProps,
+    ButtonToolbarSchema {}
 
 export default class ButtonToolbar extends React.Component<
   ButtonToolbarProps,

@@ -3,6 +3,10 @@ import {FormSchema} from './Form';
 import {TplSchema} from './Tpl';
 import {RemarkSchema} from './Remark';
 import {ActionSchema} from './Action';
+import {AlertSchema} from './Alert';
+import {AudioSchema} from './Audio';
+import {ButtonGroupSchema} from './ButtonGroup';
+import {ButtonToolbarSchema} from './ButtonToolbar';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -13,14 +17,24 @@ export type SchemaType =
   | 'remark'
   | 'button'
   | 'submit'
-  | 'reset';
+  | 'reset'
+  | 'alert'
+  | 'audio'
+  | 'button-group'
+  | 'button-toolbar'
+  | 'card';
 
 export type SchemaObject =
   | PageSchema
   | FormSchema
   | TplSchema
   | RemarkSchema
-  | ActionSchema;
+  | ActionSchema
+  | AlertSchema
+  | AudioSchema
+  | ButtonGroupSchema
+  | ButtonToolbarSchema
+  | CardSchema;
 
 export type SchemaCollection = SchemaObject | Array<SchemaObject> | SchemaTpl;
 
@@ -61,7 +75,7 @@ export interface SchemaApiObject {
   /**
    * API 发送目标地址
    */
-  url: string;
+  url: SchemaUrlPath;
 
   /**
    * 用来控制携带数据. 当key 为 `&` 值为 `$$` 时, 将所有原始数据打平设置到 data 中. 当值为 $$ 将所有原始数据赋值到对应的 key 中. 当值为 $ 打头时, 将变量值设置到 key 中.
@@ -162,6 +176,10 @@ export type SchemaSchema = string;
  * iconfont 里面的类名。
  */
 export type SchemaIcon = string;
+
+export type TokenizeableString = string;
+
+export type SchemaUrlPath = TokenizeableString;
 
 export type SchemaTooltip =
   | string
