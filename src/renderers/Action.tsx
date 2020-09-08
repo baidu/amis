@@ -39,49 +39,53 @@ const ActionProps = [
   'requireSelected'
 ];
 import {filterContents} from './Remark';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {autobind} from '../utils/helper';
+import {
+  ButtonSchema,
+  ActionSchema,
+  AjaxActionSchema,
+  UrlActionSchema,
+  LinkActionSchema,
+  DialogActionSchema,
+  CopyActionSchema,
+  OtherActionSchema,
+  ReloadActionSchema,
+  DrawerActionSchema
+} from '../schemas/Action';
 
-export interface ActionProps {
-  className?: string;
-  type: 'submit' | 'reset' | 'button';
-  actionType?: string;
-  label?: string;
-  icon?: string;
-  iconClassName?: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  level?: 'info' | 'success' | 'warning' | 'danger' | 'link';
-  onAction?: (e: React.MouseEvent<any> | void | null, action: object) => void;
+export interface ActionProps
+  extends ButtonSchema,
+    ThemeProps,
+    AjaxActionSchema,
+    UrlActionSchema,
+    LinkActionSchema,
+    DialogActionSchema,
+    DrawerActionSchema,
+    CopyActionSchema,
+    ReloadActionSchema,
+    OtherActionSchema {
+  actionType: any;
+  onAction?: (
+    e: React.MouseEvent<any> | void | null,
+    action: ActionSchema
+  ) => void;
   isCurrentUrl?: (link: string) => boolean;
   onClick?: (e: React.MouseEvent<any>, props: any) => void;
-  primary?: boolean;
-  activeClassName: string;
   componentClass: React.ReactType;
-  tooltipPlacement: 'bottom' | 'top' | 'right' | 'left' | undefined;
-  disabled?: boolean;
-  block?: boolean;
+  tooltipContainer?: any;
   data?: any;
-  link?: string;
-  disabledTip?: string;
-  tooltip?: any;
   isMenuItem?: boolean;
   active?: boolean;
-  activeLevel?: string;
-  tooltipContainer?: any;
-  classPrefix: string;
-  classnames: ClassNamesFn;
 }
 
 const allowedType = ['button', 'submit', 'reset'];
 
 export class Action extends React.Component<ActionProps> {
-  static defaultProps: Pick<
-    ActionProps,
-    'type' | 'componentClass' | 'tooltipPlacement' | 'activeClassName'
-  > = {
-    type: 'button',
-    componentClass: 'button',
-    tooltipPlacement: 'bottom',
+  static defaultProps = {
+    type: 'button' as 'button',
+    componentClass: 'button' as React.ReactType,
+    tooltipPlacement: 'bottom' as 'bottom',
     activeClassName: 'is-active'
   };
 
@@ -98,7 +102,7 @@ export class Action extends React.Component<ActionProps> {
     }
 
     e.preventDefault();
-    const action = pick(this.props, ActionProps);
+    const action = pick(this.props, ActionProps) as ActionSchema;
     onAction(e, action);
   }
 
@@ -217,7 +221,8 @@ export class ActionRenderer extends React.Component<
 
     return (
       <Action
-        {...rest}
+        {...(rest as any)}
+        type="button"
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
         isCurrentUrl={this.isCurrentAction}

@@ -2,10 +2,25 @@ import {PageSchema} from './Page';
 import {FormSchema} from './Form';
 import {TplSchema} from './Tpl';
 import {RemarkSchema} from './Remark';
+import {ActionSchema} from './Action';
 
 // 每加个类型，这补充一下。
-export type SchemaType = 'page' | 'form' | 'tpl' | 'html' | 'remark';
-export type SchemaObject = PageSchema | FormSchema | TplSchema | RemarkSchema;
+export type SchemaType =
+  | 'page'
+  | 'form'
+  | 'tpl'
+  | 'html'
+  | 'remark'
+  | 'button'
+  | 'submit'
+  | 'reset';
+
+export type SchemaObject =
+  | PageSchema
+  | FormSchema
+  | TplSchema
+  | RemarkSchema
+  | ActionSchema;
 
 export type SchemaCollection = SchemaObject | Array<SchemaObject> | SchemaTpl;
 
@@ -147,6 +162,20 @@ export type SchemaSchema = string;
  * iconfont 里面的类名。
  */
 export type SchemaIcon = string;
+
+export type SchemaTooltip =
+  | string
+  | {
+      /**
+       * 标题
+       */
+      title?: string;
+
+      /**
+       * 内容
+       */
+      content: string;
+    };
 
 export interface BaseSchema {
   $schema?: SchemaSchema;
