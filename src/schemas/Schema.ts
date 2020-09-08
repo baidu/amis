@@ -6,7 +6,7 @@ import {TplSchema} from './Tpl';
 export type SchemaType = 'page' | 'form' | 'tpl' | 'html';
 export type SchemaObject = PageSchema | FormSchema | TplSchema;
 
-export type SchemaContainer = SchemaObject | Array<SchemaObject> | SchemaTpl;
+export type SchemaCollection = SchemaObject | Array<SchemaObject> | SchemaTpl;
 
 /**
  * 表达式，语法 `data.xxx > 5`。
@@ -36,48 +36,72 @@ export type SchemaExpression = string;
  */
 export type SchemaClassName = string; // todo 支持上面那种格式。
 
-export type SchemaApi =
-  | string
-  | {
-      /**
-       * API 发送类型
-       */
-      method?: 'get' | 'post' | 'put' | 'delete' | 'patch';
+export interface SchemaApiObject {
+  /**
+   * API 发送类型
+   */
+  method?: 'get' | 'post' | 'put' | 'delete' | 'patch';
 
-      /**
-       * API 发送目标地址
-       */
-      url: string;
+  /**
+   * API 发送目标地址
+   */
+  url: string;
 
-      /**
-       * 用来控制携带数据. 当key 为 `&` 值为 `$$` 时, 将所有原始数据打平设置到 data 中. 当值为 $$ 将所有原始数据赋值到对应的 key 中. 当值为 $ 打头时, 将变量值设置到 key 中.
-       */
-      data?: {
-        [propName: string]: any;
-      };
+  /**
+   * 用来控制携带数据. 当key 为 `&` 值为 `$$` 时, 将所有原始数据打平设置到 data 中. 当值为 $$ 将所有原始数据赋值到对应的 key 中. 当值为 $ 打头时, 将变量值设置到 key 中.
+   */
+  data?: {
+    [propName: string]: any;
+  };
 
-      /**
-       * 发送体的格式
-       */
-      dataType?: 'json' | 'form-data' | 'form';
+  /**
+   * 发送体的格式
+   */
+  dataType?: 'json' | 'form-data' | 'form';
 
-      /**
-       * 如果是文件下载接口，请配置这个。
-       */
-      responseType?: 'blob';
+  /**
+   * 如果是文件下载接口，请配置这个。
+   */
+  responseType?: 'blob';
 
-      /**
-       * 携带 headers，用法和 data 一样，可以用变量。
-       */
-      headers?: {
-        [propName: string]: string;
-      };
+  /**
+   * 携带 headers，用法和 data 一样，可以用变量。
+   */
+  headers?: {
+    [propName: string]: string;
+  };
 
-      /**
-       * 设置发送条件
-       */
-      sendOn?: SchemaExpression;
-    };
+  /**
+   * 设置发送条件
+   */
+  sendOn?: SchemaExpression;
+
+  /**
+   * 默认都是追加模式，如果想完全替换把这个配置成 true
+   */
+  replaceData?: boolean;
+
+  /**
+   * 是否自动刷新，当 url 中的取值结果变化时，自动刷新数据。
+   */
+  autoRefresh?: boolean;
+
+  /**
+   * 如果设置了值，同一个接口，相同参数，指定的时间（单位：ms）内请求将直接走缓存。
+   */
+  cache?: number;
+
+  /**
+   * qs 配置项
+   */
+  qsOptions?: {
+    arrayFormat?: 'indices' | 'brackets' | 'repeat' | 'comma';
+    indices?: boolean;
+    allowDots?: boolean;
+  };
+}
+
+export type SchemaApi = string | SchemaApiObject;
 
 /**
  * 组件名字，这个名字可以用来定位，用于组件通信
@@ -109,7 +133,9 @@ export type SchemaTpl = string;
 /**
  * 初始数据，设置得值可用于组件内部模板使用。
  */
-export type SchemaDefaultData = object;
+export type SchemaDefaultData = {
+  [propName: string]: any;
+};
 
 /**
  * 用来关联 json schema 的，不用管。

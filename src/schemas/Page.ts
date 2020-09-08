@@ -1,11 +1,10 @@
 import {
-  SchemaContainer,
+  SchemaCollection,
   SchemaClassName,
   SchemaApi,
   SchemaExpression,
   SchemaName,
   SchemaDefaultData,
-  SchemaSchema,
   BaseSchema
 } from './Schema';
 
@@ -36,7 +35,7 @@ export interface PageSchema extends BaseSchema {
   /**
    * 内容区域
    */
-  body?: SchemaContainer;
+  body?: SchemaCollection;
 
   /**
    * 内容区 css 类名
@@ -46,7 +45,7 @@ export interface PageSchema extends BaseSchema {
   /**
    * 边栏区域
    */
-  aside?: SchemaContainer;
+  aside?: SchemaCollection;
 
   /**
    * 边栏区 css 类名
@@ -80,9 +79,14 @@ export interface PageSchema extends BaseSchema {
    */
   initFetchOn?: SchemaExpression;
 
+  /**
+   * 默认的消息提示信息，注意：如果接口返回了 msg 始终是接口返回的优先级更高。
+   */
   messages?: {
     fetchFailed?: string;
     fetchSuccess?: string;
+    saveFailed?: string;
+    saveSuccess?: string;
   };
 
   name?: SchemaName;
@@ -90,12 +94,33 @@ export interface PageSchema extends BaseSchema {
   /**
    * 页面顶部区域，当存在 title 时在右上角显示。
    */
-  toolbar?: SchemaContainer;
+  toolbar?: SchemaCollection;
 
   /**
    * 配置 toolbar 容器 className
    */
   toolbarClassName?: SchemaClassName;
 
-  definitions?: any;
+  definitions?: any; // todo
+
+  /**
+   * 配置轮询间隔，配置后 initApi 将轮询加载。
+   */
+  interval?: number;
+
+  /**
+   * 是否要静默加载，也就是说不显示进度
+   */
+  silentPolling?: boolean;
+
+  /**
+   * 配置停止轮询的条件。
+   */
+  stopAutoRefreshWhen?: SchemaExpression;
+  // primaryField?: string, // 指定主键的字段名，默认为 `id`
+
+  /**
+   * 是否显示错误信息，默认是显示的。
+   */
+  showErrorMsg?: boolean;
 }

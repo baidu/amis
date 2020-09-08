@@ -1,21 +1,12 @@
-export interface ApiObject {
-  url: string;
-  method: 'get' | 'post' | 'put' | 'patch' | 'delete';
-  data?: object;
-  headers?: PlainObject;
+import {SchemaApiObject} from './schemas/Schema';
+
+export interface ApiObject extends SchemaApiObject {
   config?: {
     withCredentials?: boolean;
     cancelExecutor?: (cancel: Function) => void;
   };
-  autoRefresh?: boolean; // 是否自动刷新，当 url 中的取值结果变化时，自动刷新数据。
-  reload?: string;
-  sendOn?: string;
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
   requestAdaptor?: (api: ApiObject) => ApiObject;
-  cache?: number;
-  qsOptions?: any;
-  dataType?: 'json' | 'form-data' | 'form';
-  replaceData?: boolean;
 }
 export type ApiString = string;
 export type Api = ApiString | ApiObject;

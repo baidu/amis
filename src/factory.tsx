@@ -130,7 +130,7 @@ export interface renderChildProps extends Partial<RendererProps> {
 }
 
 export type RendererComponent = React.ComponentType<RendererProps> & {
-  propsList?: Array<string>;
+  propsList?: Array<any>;
 };
 
 export interface RendererConfig extends RendererBasicConfig {
