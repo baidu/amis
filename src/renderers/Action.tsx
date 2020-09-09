@@ -11,31 +11,9 @@ export interface ButtonSchema extends BaseSchema {
   block?: boolean;
 
   /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-
-  /**
-   * 是否禁用表达式
-   */
-  disabledOn?: SchemaExpression;
-
-  /**
    * 禁用时的文案提示。
    */
   disabledTip?: string;
-
-  /**
-   * 是否隐藏
-   * @deprecated 推荐用 visible
-   */
-  hidden?: boolean;
-
-  /**
-   * 是否隐藏表达式
-   * @deprecated 推荐用 visibleOn
-   */
-  hiddenOn?: SchemaExpression;
 
   /**
    * 按钮图标， iconfont 的类名
@@ -74,17 +52,6 @@ export interface ButtonSchema extends BaseSchema {
    * 指定按钮类型，支持 button、submit或者reset三种类型。
    */
   type: 'button' | 'submit' | 'reset';
-
-  /**
-   * 是否显示
-   */
-
-  visible?: boolean;
-
-  /**
-   * 是否显示表达式
-   */
-  visibleOn?: SchemaExpression;
 
   /**
    * 提示文字，配置了操作前会要求用户确认。

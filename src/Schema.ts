@@ -17,6 +17,14 @@ import {ContainerSchema} from './renderers/Container';
 import {CRUDSchema} from './renderers/CRUD';
 import {DateSchema} from './renderers/Date';
 import {DividerSchema} from './renderers/Divider';
+import {DropdownButtonSchema} from './renderers/DropDownButton';
+import {EachSchema} from './renderers/Each';
+import {GridSchema} from './renderers/Grid';
+import {HboxSchema} from './renderers/HBox';
+import {IconSchema} from './renderers/Icon';
+import {IFrameSchema} from './renderers/IFrame';
+import {ImageSchema} from './renderers/Image';
+import {ImagesSchema} from './renderers/Images';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -43,7 +51,15 @@ export type SchemaType =
   | 'date'
   | 'datetime'
   | 'time'
-  | 'divider';
+  | 'divider'
+  | 'dropdown-button'
+  | 'each'
+  | 'grid'
+  | 'hbox'
+  | 'icon'
+  | 'iframe'
+  | 'image'
+  | 'images';
 
 export type SchemaObject =
   | PageSchema
@@ -64,7 +80,15 @@ export type SchemaObject =
   | ContainerSchema
   | CRUDSchema
   | DateSchema
-  | DividerSchema;
+  | DividerSchema
+  | DropdownButtonSchema
+  | EachSchema
+  | GridSchema
+  | HboxSchema
+  | IconSchema
+  | IFrameSchema
+  | ImageSchema
+  | ImagesSchema;
 
 export type SchemaCollection =
   | SchemaObject
@@ -234,6 +258,39 @@ export interface BaseSchema {
   $schema?: SchemaSchema;
   type: SchemaType;
   className?: SchemaClassName;
+
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean;
+
+  /**
+   * 是否禁用表达式
+   */
+  disabledOn?: SchemaExpression;
+
+  /**
+   * 是否隐藏
+   * @deprecated 推荐用 visible
+   */
+  hidden?: boolean;
+
+  /**
+   * 是否隐藏表达式
+   * @deprecated 推荐用 visibleOn
+   */
+  hiddenOn?: SchemaExpression;
+
+  /**
+   * 是否显示
+   */
+
+  visible?: boolean;
+
+  /**
+   * 是否显示表达式
+   */
+  visibleOn?: SchemaExpression;
 }
 
 export {PageSchema};

@@ -3,13 +3,32 @@ import {Renderer, RendererProps} from '../factory';
 import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
 import {isVisible} from '../utils/helper';
+import {BaseSchema, SchemaObject} from '../Schema';
 
-export type Column = Schema & {
+export type HBoxColumn = {
   columnClassName?: string;
-};
 
-export interface HBoxProps extends RendererProps {
-  columns: Array<Column>;
+  width?: number | string;
+  height?: number | string;
+
+  style?: {
+    [propName: string]: any;
+  };
+} & BaseSchema; // 不能用 SchemaObject 呢，会报错
+
+/**
+ * Hbox 水平布局渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/hbox
+ */
+export interface HboxSchema extends BaseSchema {
+  /**
+   * 指定为each展示类型
+   */
+  type: 'hbox';
+  columns: Array<HBoxColumn>;
+}
+
+export interface HBoxProps extends RendererProps, HboxSchema {
   className: string;
   itemRender?: (
     item: any,
@@ -30,7 +49,7 @@ export default class HBox extends React.Component<HBoxProps, object> {
     return render(region, node);
   }
 
-  renderColumn(column: Column, key: number, length: number) {
+  renderColumn(column: HBoxColumn, key: number, length: number) {
     const {itemRender, data, classPrefix: ns} = this.props;
 
     if (!isVisible(column, data)) {
@@ -46,7 +65,7 @@ export default class HBox extends React.Component<HBoxProps, object> {
     return (
       <div
         key={key}
-        className={cx(`${ns}Hbox-col`, (column as Column).columnClassName)}
+        className={cx(`${ns}Hbox-col`, (column as HBoxColumn).columnClassName)}
         style={style}
       >
         {itemRender

@@ -1362,8 +1362,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return false;
     }
 
-    let bulkBtns: Array<Action> = [];
-    let itemBtns: Array<Action> = [];
+    let bulkBtns: Array<ActionSchema> = [];
+    let itemBtns: Array<ActionSchema> = [];
     const ctx = store.mergedData;
 
     if (bulkActions && bulkActions.length) {
@@ -1408,8 +1408,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const selectedItems = store.selectedItems;
     const unSelectedItems = store.unSelectedItems;
 
-    let bulkBtns: Array<Action> = [];
-    let itemBtns: Array<Action> = [];
+    let bulkBtns: Array<ActionSchema> = [];
+    let itemBtns: Array<ActionSchema> = [];
 
     const ctx = store.mergedData;
 
