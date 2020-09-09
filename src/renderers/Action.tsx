@@ -104,7 +104,7 @@ export interface ButtonSchema extends BaseSchema {
   /**
    * 激活状态时的类名
    */
-  activeClassName: string;
+  activeClassName?: string;
 
   /**
    * 如果按钮在弹框中，可以配置这个动作完成后是否关闭弹窗，或者指定关闭目标弹框。
@@ -128,8 +128,7 @@ export interface AjaxActionSchema extends ButtonSchema {
    */
   api: SchemaApi;
 
-  // todo
-  feedback?: any;
+  feedback?: DialogSchema;
 
   reload?: SchemaReload;
   redirect?: string;
@@ -158,8 +157,7 @@ export interface DialogActionSchema extends ButtonSchema {
    */
   actionType: 'dialog';
 
-  // todo
-  dialog: any;
+  dialog: DialogSchema;
 
   /**
    * 是否有下一个的表达式，正常可以不用配置，如果想要刷掉某些数据可以配置这个。
@@ -174,8 +172,10 @@ export interface DrawerActionSchema extends ButtonSchema {
    * 指定为打开弹窗，抽出式弹窗
    */
   actionType: 'drawer';
-  // todo
-  drawer: any;
+  /**
+   * 弹窗内容
+   */
+  drawer: DrawerSchema;
 
   /**
    * 是否有下一个的表达式，正常可以不用配置，如果想要刷掉某些数据可以配置这个。
@@ -284,6 +284,8 @@ import {
   SchemaTooltip,
   SchemaTpl
 } from '../Schema';
+import {DialogSchema} from './Dialog';
+import {DrawerSchema} from './Drawer';
 
 export interface ActionProps
   extends ButtonSchema,

@@ -15,6 +15,8 @@ import {CollapseSchema} from './renderers/Collapse';
 import {ColorSchema} from './renderers/Color';
 import {ContainerSchema} from './renderers/Container';
 import {CRUDSchema} from './renderers/CRUD';
+import {DateSchema} from './renderers/Date';
+import {DividerSchema} from './renderers/Divider';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -37,7 +39,11 @@ export type SchemaType =
   | 'collapse'
   | 'color'
   | 'container'
-  | 'crud';
+  | 'crud'
+  | 'date'
+  | 'datetime'
+  | 'time'
+  | 'divider';
 
 export type SchemaObject =
   | PageSchema
@@ -56,7 +62,9 @@ export type SchemaObject =
   | CollapseSchema
   | ColorSchema
   | ContainerSchema
-  | CRUDSchema;
+  | CRUDSchema
+  | DateSchema
+  | DividerSchema;
 
 export type SchemaCollection =
   | SchemaObject

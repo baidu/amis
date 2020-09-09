@@ -12,11 +12,75 @@ import {ModalStore, IModalStore} from '../store/modal';
 import {findDOMNode} from 'react-dom';
 import {Spinner} from '../components';
 import {IServiceStore} from '../store/service';
+import {
+  BaseSchema,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaName,
+  SchemaObject,
+  SchemaTpl
+} from '../Schema';
+import {ActionSchema} from './Action';
 
-export interface DialogProps extends RendererProps {
-  title?: string; // 标题
-  size?: 'md' | 'lg' | 'sm' | 'xl' | 'full';
+/**
+ * Dialog 弹框渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/dialog
+ */
+export interface DialogSchema extends Omit<BaseSchema, 'type'> {
+  /**
+   * 默认不用填写，自动会创建确认和取消按钮。
+   */
+  actions?: Array<ActionSchema>;
+
+  /**
+   * 内容区域
+   */
+  body?: SchemaCollection;
+
+  /**
+   * 配置 Body 容器 className
+   */
+  bodyClassName?: SchemaClassName;
+
+  /**
+   * 是否支持按 ESC 关闭 Dialog
+   */
   closeOnEsc?: boolean;
+
+  name?: SchemaName;
+
+  /**
+   * Dialog 大小
+   */
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+
+  /**
+   * 请通过配置 title 设置标题
+   */
+  title?: SchemaTpl | SchemaObject;
+
+  header?: SchemaTpl | SchemaObject;
+  headerClassName?: SchemaClassName;
+
+  footer?: SchemaTpl | SchemaObject;
+
+  /**
+   * 影响自动生成的按钮，如果自己配置了按钮这个配置无效。
+   */
+  confirm?: boolean;
+
+  /**
+   * 是否显示关闭按钮
+   */
+  showCloseButton?: boolean;
+
+  /**
+   * 是否显示错误信息
+   */
+  showErrorMsg?: boolean;
+}
+
+export interface DialogProps extends RendererProps, DialogSchema {
   onClose: () => void;
   onConfirm: (
     values: Array<object>,
@@ -26,18 +90,9 @@ export interface DialogProps extends RendererProps {
   ) => void;
   children?: React.ReactNode | ((props?: any) => React.ReactNode);
   store: IModalStore;
-  className?: string;
-  header?: SchemaNode;
-  body?: SchemaNode;
-  headerClassName?: string;
-  bodyClassName?: string;
-  footer?: SchemaNode;
-  confirm?: boolean;
   show?: boolean;
   lazyRender?: boolean;
-  wrapperComponent: React.ReactType;
-  showCloseButton?: boolean;
-  showErrorMsg?: boolean;
+  wrapperComponent: React.ElementType;
 }
 
 export interface DialogState {
@@ -122,14 +177,14 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     this.isDead = true;
   }
 
-  buildActions(): Array<Action> {
+  buildActions(): Array<ActionSchema> {
     const {actions, confirm, translate: __} = this.props;
 
     if (typeof actions !== 'undefined') {
       return actions;
     }
 
-    let ret: Array<Action> = [];
+    let ret: Array<ActionSchema> = [];
     ret.push({
       type: 'button',
       actionType: 'cancel',
