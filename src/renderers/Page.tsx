@@ -27,7 +27,7 @@ import {
   SchemaApi,
   SchemaExpression,
   SchemaName
-} from '../Schemas';
+} from '../Schema';
 import {SchemaRemark} from './Remark';
 
 /**

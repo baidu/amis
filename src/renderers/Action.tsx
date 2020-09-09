@@ -283,7 +283,7 @@ import {
   SchemaReload,
   SchemaTooltip,
   SchemaTpl
-} from '../Schemas';
+} from '../Schema';
 
 export interface ActionProps
   extends ButtonSchema,

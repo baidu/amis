@@ -1,6 +1,6 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {BaseSchema} from '../Schemas';
+import {BaseSchema} from '../Schema';
 import {ActionSchema} from './Action';
 
 /**

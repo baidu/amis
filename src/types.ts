@@ -1,4 +1,4 @@
-import {SchemaApiObject} from './Schemas';
+import {SchemaApiObject} from './Schema';
 
 export interface ApiObject extends SchemaApiObject {
   config?: {

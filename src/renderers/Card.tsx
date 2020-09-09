@@ -20,11 +20,11 @@ import {
   SchemaExpression,
   SchemaTpl,
   SchemaUrlPath
-} from '../Schemas';
+} from '../Schema';
 import {ActionSchema} from './Action';
 
 /**
- * Card 渲染器，格式说明，文档：https://baidu.gitee.io/amis/docs/components/card
+ * Card 卡片渲染器，格式说明，文档：https://baidu.gitee.io/amis/docs/components/card
  */
 export interface CardSchema extends BaseSchema {
   /**

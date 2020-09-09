@@ -1,7 +1,7 @@
 import {Renderer, RendererProps} from '../factory';
 import React from 'react';
 import Alert, {AlertProps} from '../components/Alert2';
-import {BaseSchema, SchemaCollection} from '../Schemas';
+import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**
  * Alert 提示渲染器，文档：https://baidu.gitee.io/amis/docs/components/alert

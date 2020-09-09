@@ -4,7 +4,7 @@ import {filter} from '../utils/tpl';
 import cx from 'classnames';
 import {anyChanged} from '../utils/helper';
 import {escapeHtml} from '../utils/tpl-builtin';
-import {BaseSchema, SchemaTpl} from '../Schemas';
+import {BaseSchema, SchemaTpl} from '../Schema';
 
 /**
  * tpl 渲染器

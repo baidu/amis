@@ -6,7 +6,7 @@ import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
 import {themeable} from '../theme';
 import {Icon} from '../components/icons';
-import {BaseSchema, SchemaIcon, SchemaTpl} from '../Schemas';
+import {BaseSchema, SchemaIcon, SchemaTpl} from '../Schema';
 
 /**
  * 提示渲染器，默认会显示个小图标，鼠标放上来的时候显示配置的内容。

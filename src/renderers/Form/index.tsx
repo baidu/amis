@@ -35,7 +35,7 @@ import {isAlive} from 'mobx-state-tree';
 import {asFormItem} from './Item';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {trace} from 'mobx';
-import {BaseSchema, SchemaApi, SchemaDefaultData} from '../../Schemas';
+import {BaseSchema, SchemaApi, SchemaDefaultData} from '../../Schema';
 import {ActionSchema} from '../Action';
 
 /**

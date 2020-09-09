@@ -1,7 +1,7 @@
 import React from 'react';
 import ButtonGroup from './Form/ButtonGroup';
 import {Renderer} from '../factory';
-import {BaseSchema, SchemaClassName, SchemaExpression} from '../Schemas';
+import {BaseSchema, SchemaClassName, SchemaExpression} from '../Schema';
 import {ActionSchema} from './Action';
 
 /**

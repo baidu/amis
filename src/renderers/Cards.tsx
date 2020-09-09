@@ -22,11 +22,11 @@ import {
   SchemaExpression,
   SchemaTpl,
   TokenizeableString
-} from '../Schemas';
+} from '../Schema';
 import {CardSchema} from './Card';
 
 /**
- * Card 渲染器，格式说明，文档：https://baidu.gitee.io/amis/docs/components/card
+ * Cards 卡片集合渲染器，格式说明，文档：https://baidu.gitee.io/amis/docs/components/card
  */
 export interface CardsSchema extends BaseSchema {
   /**

@@ -9,6 +9,8 @@ import {ButtonToolbarSchema} from './renderers/ButtonToolbar';
 import {CardSchema} from './renderers/Card';
 import {CardsSchema} from './renderers/Cards';
 import {FormSchema} from './renderers/Form';
+import {CarouselSchema} from './renderers/Carousel';
+import {ChartSchema} from './renderers/Chart';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -25,7 +27,9 @@ export type SchemaType =
   | 'button-group'
   | 'button-toolbar'
   | 'card'
-  | 'cards';
+  | 'cards'
+  | 'carousel'
+  | 'chart';
 
 export type SchemaObject =
   | PageSchema
@@ -38,7 +42,9 @@ export type SchemaObject =
   | ButtonGroupSchema
   | ButtonToolbarSchema
   | CardSchema
-  | CardsSchema;
+  | CardsSchema
+  | CarouselSchema
+  | ChartSchema;
 
 export type SchemaCollection = SchemaObject | Array<SchemaObject> | SchemaTpl;
 
@@ -181,9 +187,9 @@ export type SchemaSchema = string;
  */
 export type SchemaIcon = string;
 
-export type TokenizeableString = string;
+export type SchemaTokenizeableString = string;
 
-export type SchemaUrlPath = TokenizeableString;
+export type SchemaUrlPath = SchemaTokenizeableString;
 
 export type SchemaTooltip =
   | string
@@ -198,6 +204,8 @@ export type SchemaTooltip =
        */
       content: string;
     };
+
+export type SchemaFunction = string | Function;
 
 export interface BaseSchema {
   $schema?: SchemaSchema;

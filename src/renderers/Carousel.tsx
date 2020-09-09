@@ -13,6 +13,71 @@ import {
   isArrayChildrenModified
 } from '../utils/helper';
 import {Icon} from '../components/icons';
+import {BaseSchema, SchemaName, SchemaObject, SchemaTpl} from '../Schema';
+
+/**
+ * Carousel 轮播图渲染器，格式说明，文档：https://baidu.gitee.io/amis/docs/components/carousel
+ */
+export interface CarouselSchema extends BaseSchema {
+  /**
+   * 指定为轮播图类型
+   */
+  type: 'carousel';
+
+  /**
+   * 是否自动播放
+   */
+  auto?: boolean;
+
+  /**
+   * 轮播间隔时间
+   */
+  interval?: number;
+
+  /**
+   * 动画时长
+   */
+  duration?: number;
+
+  /**
+   * 设置宽度
+   */
+  width?: number;
+
+  /**
+   * 设置高度
+   */
+  height?: number;
+
+  controlsTheme?: 'light' | 'dark';
+
+  /**
+   * 占位
+   */
+  placeholder?: string;
+
+  /**
+   * 配置控件内容
+   */
+  controls?: Array<'dots' | 'arrows'>;
+
+  /**
+   * 动画类型
+   */
+  animation?: 'fade' | 'slide';
+
+  /**
+   * 配置单条呈现模板
+   */
+  itemSchema?: SchemaObject | SchemaTpl;
+
+  name?: SchemaName;
+
+  /**
+   * 配置固定值
+   */
+  options?: Array<any>;
+}
 
 const animationStyles: {
   [propName: string]: string;
@@ -22,18 +87,8 @@ const animationStyles: {
   [EXITING]: 'out'
 };
 
-export interface CarouselProps extends RendererProps {
-  className?: string;
-  auto?: boolean;
+export interface CarouselProps extends RendererProps, CarouselSchema {
   value?: any;
-  placeholder?: any;
-  width?: number;
-  height?: number;
-  controls: string[];
-  interval: number;
-  duration: number;
-  controlsTheme: 'light' | 'dark';
-  animation: 'fade' | 'slide';
 }
 
 export interface CarouselState {
@@ -74,8 +129,8 @@ const defaultSchema = {
 
 export class Carousel extends React.Component<CarouselProps, CarouselState> {
   wrapperRef: React.RefObject<HTMLDivElement> = React.createRef();
-  intervalTimeout: NodeJS.Timer;
-  durationTimeout: NodeJS.Timer;
+  intervalTimeout: NodeJS.Timer | number;
+  durationTimeout: NodeJS.Timer | number;
 
   static defaultProps: Pick<
     CarouselProps,
@@ -212,8 +267,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   @autobind
   clearAutoTimeout() {
-    clearTimeout(this.intervalTimeout);
-    clearTimeout(this.durationTimeout);
+    clearTimeout(this.intervalTimeout as number);
+    clearTimeout(this.durationTimeout as number);
   }
 
   renderDots() {
@@ -293,8 +348,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     width ? (carouselStyles.width = width + 'px') : '';
     height ? (carouselStyles.height = height + 'px') : '';
     const [dots, arrows] = [
-      controls.indexOf('dots') > -1,
-      controls.indexOf('arrows') > -1
+      controls!.indexOf('dots') > -1,
+      controls!.indexOf('arrows') > -1
     ];
     const animationName = nextAnimation || animation;
 
@@ -338,7 +393,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                           data,
                           isObject(option)
                             ? option
-                            : {item: option, [name]: option}
+                            : {item: option, [name!]: option}
                         )
                       }
                     )}

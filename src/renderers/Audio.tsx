@@ -5,7 +5,7 @@ import {autobind} from '../utils/helper';
 import {Icon} from '../components/icons';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
-import {BaseSchema, SchemaUrlPath} from '../Schemas';
+import {BaseSchema, SchemaUrlPath} from '../Schema';
 
 /**
  * Audio 音频渲染器，文档：https://baidu.gitee.io/amis/docs/components/audio
