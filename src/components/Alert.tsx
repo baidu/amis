@@ -12,6 +12,7 @@ import {LocaleProps, localeable} from '../locale';
 import Html from './Html';
 import {PlainObject} from '../types';
 import {render as renderSchema} from '../factory';
+import {SchemaObject} from '../Schema';
 
 export interface AlertProps extends ThemeProps, LocaleProps {
   container?: any;

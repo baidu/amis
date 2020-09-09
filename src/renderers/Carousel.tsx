@@ -98,7 +98,7 @@ export interface CarouselState {
   nextAnimation: string;
 }
 
-const defaultSchema = {
+const defaultSchema: SchemaObject = {
   type: 'tpl',
   tpl: `
     <% if (data.hasOwnProperty('image')) { %>

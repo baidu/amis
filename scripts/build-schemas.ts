@@ -6,7 +6,7 @@ import fs = require('fs');
 import path = require('path');
 import tsj = require('ts-json-schema-generator');
 import mkdirp = require('mkdirp');
-import {DiagnosticError} from 'ts-json-schema-generator';
+import {DiagnosticError, UnknownNodeError} from 'ts-json-schema-generator';
 
 /**
  * 程序主入口
@@ -47,6 +47,18 @@ main().catch(e => {
       console.log(diagnostic.messageText);
       console.log('\n');
     });
+    return;
+  } else if (e instanceof UnknownNodeError) {
+    let node = e.getNode();
+
+    const sourceFile = node.getSourceFile();
+    const position = sourceFile.getLineAndCharacterOfPosition(node.pos);
+    console.log(
+      `\x1b[36m${sourceFile.fileName}:${position.line + 1}:${
+        position.character + 1
+      }\x1b[0m - \x1b[31m类型不支持转 JSON Schema\x1b[0m\n`
+    );
+
     return;
   }
 

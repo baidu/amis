@@ -923,18 +923,14 @@ export default class Form extends React.Component<FormProps, object> {
     region: string = '',
     otherProps: Partial<FormProps> = {}
   ): React.ReactNode {
-    return this.renderControls(
-      schema.controls as SchemaNode,
-      region,
-      otherProps
-    );
+    return this.renderControls(schema.controls!, region, otherProps);
 
     // return schema.tabs ? this.renderTabs(schema.tabs, schema, region)
     // : schema.fieldSet ? this.renderFiledSet(schema.fieldSet, schema, region) : this.renderControls(schema.controls as SchemaNode, schema, region);
   }
 
   renderControls(
-    controls: SchemaNode,
+    controls: Array<any>,
     region: string,
     otherProps: Partial<FormProps> = {}
   ): React.ReactNode {

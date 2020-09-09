@@ -51,6 +51,7 @@ import {
   LocaleContext,
   LocaleProps
 } from './locale';
+import {SchemaCollection, SchemaObject, SchemaTpl} from './Schema';
 
 export interface TestFunc {
   (
@@ -139,7 +140,7 @@ export interface RendererConfig extends RendererBasicConfig {
 }
 
 export interface RenderSchemaFilter {
-  (schema: Schema, renderer: RendererConfig, props?: object): SchemaNode;
+  (schema: Schema, renderer: RendererConfig, props?: object): SchemaObject;
 }
 
 export interface RootRenderProps {
@@ -593,7 +594,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const theme = this.props.env.theme;
 
     if (Array.isArray(schema)) {
-      return renderChildren($path, schema, rest) as JSX.Element;
+      return renderChildren($path, schema as any, rest) as JSX.Element;
     } else if (schema.children) {
       return React.isValidElement(schema.children)
         ? schema.children
@@ -971,7 +972,7 @@ let stores: {
   [propName: string]: IRendererStore;
 } = {};
 export function render(
-  schema: SchemaNode,
+  schema: Schema,
   props: RootRenderProps = {},
   options: RenderOptions = {},
   pathPrefix: string = ''

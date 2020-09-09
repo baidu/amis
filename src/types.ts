@@ -66,7 +66,7 @@ export interface Button {
   className?: string;
 }
 
-export type SchemaNode = number | string | Schema | SchemaArray;
+export type SchemaNode = Schema | string | Array<Schema | string>;
 export interface SchemaArray extends Array<SchemaNode> {}
 export interface Definitions {
   [propName: string]: SchemaNode;

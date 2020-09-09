@@ -11,6 +11,10 @@ import {CardsSchema} from './renderers/Cards';
 import {FormSchema} from './renderers/Form';
 import {CarouselSchema} from './renderers/Carousel';
 import {ChartSchema} from './renderers/Chart';
+import {CollapseSchema} from './renderers/Collapse';
+import {ColorSchema} from './renderers/Color';
+import {ContainerSchema} from './renderers/Container';
+import {CRUDSchema} from './renderers/CRUD';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -29,7 +33,11 @@ export type SchemaType =
   | 'card'
   | 'cards'
   | 'carousel'
-  | 'chart';
+  | 'chart'
+  | 'collapse'
+  | 'color'
+  | 'container'
+  | 'crud';
 
 export type SchemaObject =
   | PageSchema
@@ -44,9 +52,16 @@ export type SchemaObject =
   | CardSchema
   | CardsSchema
   | CarouselSchema
-  | ChartSchema;
+  | ChartSchema
+  | CollapseSchema
+  | ColorSchema
+  | ContainerSchema
+  | CRUDSchema;
 
-export type SchemaCollection = SchemaObject | Array<SchemaObject> | SchemaTpl;
+export type SchemaCollection =
+  | SchemaObject
+  | SchemaTpl
+  | Array<SchemaObject | SchemaTpl>;
 
 /**
  * 表达式，语法 `data.xxx > 5`。

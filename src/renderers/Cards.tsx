@@ -21,7 +21,7 @@ import {
   SchemaCollection,
   SchemaExpression,
   SchemaTpl,
-  TokenizeableString
+  SchemaTokenizeableString
 } from '../Schema';
 import {CardSchema} from './Card';
 
@@ -75,7 +75,7 @@ export interface CardsSchema extends BaseSchema {
    *
    * @default ${items}
    */
-  source?: TokenizeableString;
+  source?: SchemaTokenizeableString;
 
   /**
    * 标题
