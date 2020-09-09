@@ -13,8 +13,21 @@ import Input from '../../components/Input';
 import {autobind, createObject, setVariable} from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
+import {FormBaseControl} from './Item';
+import {ActionSchema} from '../Action';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
+
+export interface TextControlSchema extends FormBaseControl {
+  type: 'text' | 'email' | 'url' | 'password';
+
+  addOn?: {
+    position?: 'left' | 'right';
+    label?: string;
+    icon?: string;
+    className?: string;
+  } & ActionSchema;
+}
 
 export interface TextProps extends OptionsControlProps {
   placeholder?: string;
