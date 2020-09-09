@@ -755,15 +755,19 @@ export function HocStoreFactory(renderer: {
       componentWillReceiveProps(nextProps: RendererProps) {
         const props = this.props;
         const store = this.store;
+        const shouldSync = renderer.shouldSyncSuperStore?.(
+          store,
+          nextProps,
+          props
+        );
 
-        if (
-          renderer.shouldSyncSuperStore?.(store, nextProps, props) === false
-        ) {
+        if (shouldSync === false) {
           return;
         }
 
         if (renderer.extendsData === false) {
           if (
+            shouldSync === true ||
             props.defaultData !== nextProps.defaultData ||
             isObjectShallowModified(props.data, nextProps.data) ||
             //
@@ -781,7 +785,10 @@ export function HocStoreFactory(renderer: {
               })
             );
           }
-        } else if (isObjectShallowModified(props.data, nextProps.data)) {
+        } else if (
+          shouldSync === true ||
+          isObjectShallowModified(props.data, nextProps.data)
+        ) {
           if (nextProps.store && nextProps.store.data === nextProps.data) {
             store.initData(
               createObject(
@@ -805,7 +812,9 @@ export function HocStoreFactory(renderer: {
             store.initData(createObject(nextProps.scope, nextProps.data));
           }
         } else if (
-          (!nextProps.store || nextProps.data !== nextProps.store.data) &&
+          (shouldSync === true ||
+            !nextProps.store ||
+            nextProps.data !== nextProps.store.data) &&
           nextProps.data &&
           nextProps.data.__super
         ) {
@@ -826,7 +835,7 @@ export function HocStoreFactory(renderer: {
         } else if (
           nextProps.scope &&
           nextProps.data === nextProps.store!.data &&
-          props.data !== nextProps.data
+          (shouldSync === true || props.data !== nextProps.data)
         ) {
           store.initData(
             createObject(nextProps.scope, {
