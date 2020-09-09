@@ -16,6 +16,34 @@ import {FormHorizontal, FormSchema} from '.';
 import {Schema} from '../../types';
 import {filter} from '../../utils/tpl';
 
+export interface FormBaseControl {
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+
+  label?: string;
+
+  name?: string;
+
+  // todo
+  remark?: string;
+
+  // todo
+  labelRemark?: string;
+
+  /**
+   * 输入提示，聚焦的时候显示
+   */
+  hint?: string;
+
+  /**
+   * 当修改完的时候是否提交表单。
+   */
+  submitOnChange?: boolean;
+
+  readOnly?: boolean;
+
+  disabled?: boolean;
+}
+
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
   type?: string;
   wrap?: boolean;
@@ -64,7 +92,7 @@ export interface FormItemProps extends RendererProps {
   addHook: (fn: Function, mode?: 'validate' | 'init' | 'flush') => () => void;
   removeHook: (fn: Function, mode?: 'validate' | 'init' | 'flush') => void;
   renderFormItems: (
-    schema: FormSchema,
+    schema: Partial<FormSchema>,
     region: string,
     props: any
   ) => JSX.Element;

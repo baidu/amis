@@ -83,6 +83,8 @@ export class ContextMenu extends React.Component<
     ContextMenu.instance = this.originInstance;
     document.body.removeEventListener('click', this.handleOutClick, true);
     document.removeEventListener('keydown', this.handleKeyDown);
+
+    // @ts-ignore
     delete this.originInstance;
   }
 

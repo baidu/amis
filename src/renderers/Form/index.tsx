@@ -35,6 +35,43 @@ import {isAlive} from 'mobx-state-tree';
 import {asFormItem} from './Item';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {trace} from 'mobx';
+import {BaseSchema, SchemaApi, SchemaDefaultData} from '../../Schemas';
+import {ActionSchema} from '../Action';
+
+/**
+ * amis Form 渲染器，格式说明。https://baidu.gitee.io/amis/docs/components/form/index
+ */
+export interface FormSchema extends BaseSchema {
+  type: 'form';
+  title?: string;
+
+  actions?: Array<ActionSchema>;
+  controls?: Array<any>; // todo
+
+  /**
+   * @deprecated
+   */
+  tabs?: any;
+
+  /**
+   * @deprecated
+   */
+  fieldSet?: any;
+
+  data?: SchemaDefaultData;
+
+  debug?: boolean;
+
+  /**
+   * Form 用来保存数据的 api。
+   */
+  api?: SchemaApi;
+
+  /**
+   * 用来初始化表单数据
+   */
+  initApi?: SchemaApi;
+}
 
 export type FormGroup = FormSchema & {
   title?: string;
@@ -42,14 +79,6 @@ export type FormGroup = FormSchema & {
 };
 export type FormGroupNode = FormGroup | FormGroupArray;
 export interface FormGroupArray extends Array<FormGroupNode> {}
-
-export interface FormSchema {
-  fieldSetClassName?: string;
-  tabsClassName?: string;
-  controls?: SchemaNode;
-  tabs?: FormGroupNode;
-  fieldSet?: FormGroupNode;
-}
 
 export interface FormHorizontal {
   leftFixed?: boolean | string;
@@ -59,6 +88,7 @@ export interface FormHorizontal {
 }
 
 export interface FormProps extends RendererProps, FormSchema {
+  data: any;
   store: IFormStore;
   wrapperComponent: React.ReactType;
   title?: string; // 标题
@@ -889,7 +919,7 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   renderFormItems(
-    schema: FormSchema,
+    schema: Partial<FormSchema>,
     region: string = '',
     otherProps: Partial<FormProps> = {}
   ): React.ReactNode {

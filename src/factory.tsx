@@ -176,7 +176,7 @@ export interface RenderOptions {
 
 export interface fetcherConfig {
   url: string;
-  method: 'get' | 'post' | 'put' | 'patch' | 'delete';
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
   data?: any;
   config?: any;
 }
@@ -312,6 +312,7 @@ export function renderChild(
   const transform = props.propsTransform;
 
   if (transform) {
+    // @ts-ignore
     delete props.propsTransform;
     props = transform(props);
   }
@@ -527,6 +528,8 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         ...props.resolveDefinitions(schema.$ref),
         ...schema
       };
+
+      // @ts-ignore
       delete schema.$ref;
       path = path.replace(/(?!.*\/).*/, schema.type);
     }
@@ -841,6 +844,8 @@ export function HocStoreFactory(renderer: {
         const rootStore = this.context as IRendererStore;
         const store = this.store;
         rootStore.removeStore(store);
+
+        // @ts-ignore
         delete this.store;
       }
 
@@ -1029,6 +1034,8 @@ export function clearStoresCache(
 
   sessions.forEach(key => {
     const store = stores[key];
+
+    // @ts-ignore
     delete stores[key];
 
     store && destroy(store);

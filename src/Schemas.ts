@@ -1,14 +1,14 @@
-import {PageSchema} from './Page';
-import {FormSchema} from './Form';
-import {TplSchema} from './Tpl';
-import {RemarkSchema} from './Remark';
-import {ActionSchema} from './Action';
-import {AlertSchema} from './Alert';
-import {AudioSchema} from './Audio';
-import {ButtonGroupSchema} from './ButtonGroup';
-import {ButtonToolbarSchema} from './ButtonToolbar';
-import {CardSchema} from './Card';
-import {CardsSchema} from './Cards';
+import {PageSchema} from './renderers/Page';
+import {TplSchema} from './renderers/Tpl';
+import {RemarkSchema} from './renderers/Remark';
+import {ActionSchema} from './renderers/Action';
+import {AlertSchema} from './renderers/Alert';
+import {AudioSchema} from './renderers/Audio';
+import {ButtonGroupSchema} from './renderers/ButtonGroup';
+import {ButtonToolbarSchema} from './renderers/ButtonToolbar';
+import {CardSchema} from './renderers/Card';
+import {CardsSchema} from './renderers/Cards';
+import {FormSchema} from './renderers/Form';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -204,3 +204,5 @@ export interface BaseSchema {
   type: SchemaType;
   className?: SchemaClassName;
 }
+
+export {PageSchema};

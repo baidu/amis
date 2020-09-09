@@ -848,7 +848,7 @@ export default class ImageControl extends React.Component<
     const imgDom = e.currentTarget;
     const img = new Image();
     img.onload = () => {
-      delete img.onload;
+      delete (img as any).onload;
       const files = this.files.concat();
       const file = files[index];
 

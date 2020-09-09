@@ -162,7 +162,7 @@ export default class Table extends React.Component<TableProps, object> {
   totalHeight: number = 0;
   outterWidth: number = 0;
   outterHeight: number = 0;
-  unSensor: Function;
+  unSensor?: Function;
   updateTableInfoLazy: () => void;
   widths: {
     [propName: string]: number;

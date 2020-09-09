@@ -39,7 +39,7 @@ export class Chart extends React.Component<ChartProps> {
   pending?: object;
   timer: NodeJS.Timeout;
   mounted: boolean;
-  reloadCancel: Function;
+  reloadCancel?: Function;
 
   constructor(props: ChartProps) {
     super(props);
