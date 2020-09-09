@@ -408,7 +408,7 @@ export function isVisible(
 export function isDisabled(
   schema: {
     disabledOn?: string;
-    disabled?: string;
+    disabled?: boolean;
   },
   data?: object
 ) {

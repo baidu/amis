@@ -4,20 +4,76 @@ import {SchemaNode, Action} from '../types';
 import {getScrollParent, autobind} from '../utils/helper';
 import {findDOMNode} from 'react-dom';
 import {resizeSensor} from '../utils/resize-sensor';
+import {
+  BaseSchema,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaTpl
+} from '../Schema';
+import {ActionSchema} from './Action';
 
-export interface PanelProps extends RendererProps {
-  title?: string; // 标题
-  header?: SchemaNode;
-  body?: SchemaNode;
-  footer?: SchemaNode;
-  actions?: Action[];
-  className?: string;
-  headerClassName?: string;
-  footerClassName?: string;
-  actionsClassName?: string;
-  bodyClassName?: string;
+/**
+ * Panel渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/panel
+ */
+export interface PanelSchema extends BaseSchema {
+  /**
+   * 指定为Panel渲染器。
+   */
+  type: 'panel';
+
+  /**
+   * 按钮集合
+   */
+  actions?: Array<ActionSchema>;
+
+  /**
+   * 按钮集合外层类名
+   */
+  actionsClassName?: SchemaClassName;
+
+  /**
+   * 内容区域
+   */
+  body?: SchemaCollection;
+
+  /**
+   * 配置 Body 容器 className
+   */
+  bodyClassName?: SchemaClassName;
+
+  /**
+   * 底部内容区域
+   */
+  footer?: SchemaCollection;
+
+  /**
+   * 配置 footer 容器 className
+   */
+  footerClassName?: SchemaClassName;
+
+  /**
+   * 头部内容, 和 title 二选一。
+   */
+  header?: SchemaCollection;
+
+  /**
+   * 配置 header 容器 className
+   */
+  headerClassName?: SchemaClassName;
+
+  /**
+   * Panel 标题
+   */
+  title?: SchemaTpl;
+
+  /**
+   * 固定底部, 想要把按钮固定在底部的时候配置。
+   */
   affixFooter?: boolean | 'always';
 }
+
+export interface PanelProps extends RendererProps, PanelSchema {}
 
 export default class Panel extends React.Component<PanelProps> {
   static propsList: Array<string> = [

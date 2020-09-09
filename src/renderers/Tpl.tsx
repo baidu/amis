@@ -21,6 +21,11 @@ export interface TplSchema extends BaseSchema {
   html?: SchemaTpl;
   text?: SchemaTpl;
   raw?: string;
+
+  /**
+   * 是否内联显示？
+   */
+  inline?: boolean;
 }
 
 export interface TplProps extends RendererProps, TplSchema {

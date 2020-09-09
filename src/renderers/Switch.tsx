@@ -6,14 +6,47 @@ import {filter} from '../utils/tpl';
 import cx from 'classnames';
 import Switch from '../components/Switch';
 import {resolveVariable} from '../utils/tpl-builtin';
+import {BaseSchema} from '../Schema';
 
-export interface SwitchProps extends RendererProps {
-  className?: string;
+/**
+ * 开关展示控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/switch
+ */
+export interface SwitchSchema extends BaseSchema {
+  /**
+   * 指定为状态展示控件
+   */
+  type: 'switch';
+
+  /**
+   * 占位符
+   * @default -
+   */
   placeholder?: string;
-  format?: string;
-  valueFormat?: string;
-  map: PlainObject;
+
+  /**
+   * 为真时的值
+   */
+  trueValue?: any;
+
+  /**
+   * 为假时的值
+   */
+  falseValue?: any;
+
+  /**
+   * 默认为只读，要开启编辑请配置这个为 false
+   * @default true
+   */
+  readOnly?: boolean;
+
+  /**
+   * 是否立即保存。关乎到是否立即调用保存接口。
+   */
+  saveImmediately?: boolean;
 }
+
+export interface SwitchProps extends RendererProps, SwitchSchema {}
 
 export class SwitchField extends React.Component<SwitchProps, object> {
   static defaultProps: Partial<SwitchProps> = {

@@ -1,5 +1,5 @@
 import {Renderer, RendererProps} from '../../factory';
-import Grid, {ColumnNode, Column, ColProps, ColumnArray} from '../Grid';
+import Grid, {ColumnNode, GridColumn, ColProps, ColumnArray} from '../Grid';
 import {Schema} from '../../types';
 
 import {FormItem, FormControlProps} from './Item';

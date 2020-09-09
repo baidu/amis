@@ -25,6 +25,22 @@ import {IconSchema} from './renderers/Icon';
 import {IFrameSchema} from './renderers/IFrame';
 import {ImageSchema} from './renderers/Image';
 import {ImagesSchema} from './renderers/Images';
+import {JsonSchema} from './renderers/Json';
+import {LinkSchema} from './renderers/Link';
+import {ListSchema} from './renderers/List';
+import {MappingSchema} from './renderers/Mapping';
+import {NavSchema} from './renderers/Nav';
+import {OperationSchema} from './renderers/Operation';
+import {PanelSchema} from './renderers/Panel';
+import {PlainSchema} from './renderers/Plain';
+import {ProgressSchema} from './renderers/Progress';
+import {QRCodeSchema} from './renderers/QRCode';
+import {ServiceSchema} from './renderers/Service';
+import {StatusSchema} from './renderers/Status';
+import {SwitchSchema} from './renderers/Switch';
+import {TabsSchema} from './renderers/Tabs';
+import {TasksSchema} from './renderers/Tasks';
+import {VBoxSchema} from './renderers/VBox';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -59,7 +75,26 @@ export type SchemaType =
   | 'icon'
   | 'iframe'
   | 'image'
-  | 'images';
+  | 'images'
+  | 'json'
+  | 'link'
+  | 'list'
+  | 'map'
+  | 'mapping'
+  | 'nav'
+  | 'operation'
+  | 'panel'
+  | 'plain'
+  | 'text'
+  | 'progress'
+  | 'qrcode'
+  | 'qr-code'
+  | 'service'
+  | 'status'
+  | 'switch'
+  | 'tabs'
+  | 'tasks'
+  | 'vbox';
 
 export type SchemaObject =
   | PageSchema
@@ -88,7 +123,23 @@ export type SchemaObject =
   | IconSchema
   | IFrameSchema
   | ImageSchema
-  | ImagesSchema;
+  | ImagesSchema
+  | JsonSchema
+  | LinkSchema
+  | ListSchema
+  | MappingSchema
+  | NavSchema
+  | OperationSchema
+  | PanelSchema
+  | PlainSchema
+  | ProgressSchema
+  | QRCodeSchema
+  | ServiceSchema
+  | StatusSchema
+  | SwitchSchema
+  | TabsSchema
+  | TasksSchema
+  | VBoxSchema;
 
 export type SchemaCollection =
   | SchemaObject

@@ -2,6 +2,15 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
+import {BaseSchema} from '../Schema';
+
+/**
+ * 垂直布局控件
+ * 文档：https://baidu.gitee.io/amis/docs/components/vbox
+ */
+export interface VBoxSchema extends BaseSchema {
+  type: 'vbox';
+}
 
 export type Row = Schema & {
   rowClassName?: string;

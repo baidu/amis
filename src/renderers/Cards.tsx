@@ -121,6 +121,11 @@ export interface CardsSchema extends BaseSchema {
    * 是否为瀑布流布局？
    */
   masonryLayout?: boolean;
+
+  /**
+   * 可以用来作为值的字段
+   */
+  valueField?: string;
 }
 
 export interface Column {

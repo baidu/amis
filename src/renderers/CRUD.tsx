@@ -48,6 +48,7 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
+import {ListSchema} from './List';
 
 export interface CRUDCommonSchema extends BaseSchema {
   /**
@@ -229,11 +230,15 @@ export type CRUDCardsSchema = CRUDCommonSchema & {
   mode: 'cards';
 } & Omit<CardsSchema, 'type'>;
 
+export type CRUDListSchema = CRUDCommonSchema & {
+  mode: 'list';
+} & Omit<ListSchema, 'type'>;
+
 /**
  * CRUD 增删改查渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/crud
  */
-export type CRUDSchema = CRUDCardsSchema; // todo
+export type CRUDSchema = CRUDCardsSchema | CRUDListSchema; // todo
 
 export interface CRUDProps extends RendererProps, CRUDCommonSchema {
   store: ICRUDStore;
