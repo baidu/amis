@@ -13,7 +13,7 @@
     right: 0;
   }
 
-  > legend {
+  > header {
     position: absolute;
     top: 0;
     left: 0;
@@ -31,7 +31,7 @@
 }
 
 fieldset.#{$ns}Collapse {
-  > legend {
+  > header {
     font-weight: $fontWeightNormal;
     padding: $gap-xs 0;
     font-size: $fontSizeMd;
@@ -48,7 +48,7 @@ fieldset.#{$ns}Collapse {
     @extend %fieldSetBase;
     padding: 20px 5px 5px 5px;
 
-    > legend {
+    > header {
       left: 5px;
       font-size: $fontSizeXs;
       padding: 0 3px;
@@ -65,7 +65,7 @@ fieldset.#{$ns}Collapse {
 
     padding: 25px 10px 10px 10px;
 
-    > legend {
+    > header {
       left: 10px;
       font-size: $fontSizeSm;
       padding: 0 5px;
@@ -82,7 +82,7 @@ fieldset.#{$ns}Collapse {
 
     padding: 30px 15px 15px 15px;
 
-    > legend {
+    > header {
       left: 15px;
       font-size: $fontSizeBase;
       padding: 0 8px;
@@ -98,7 +98,7 @@ fieldset.#{$ns}Collapse {
     @extend %fieldSetBase;
     padding: 30px 20px 20px 20px;
 
-    > legend {
+    > header {
       left: 20px;
       font-size: $fontSizeMd;
       padding: 0 10px;
@@ -114,7 +114,7 @@ fieldset.#{$ns}Collapse {
     @extend %fieldSetBase;
     padding: 40px 30px 30px 30px;
 
-    > legend {
+    > header {
       left: 30px;
       font-size: $fontSizeLg;
       padding: 0 15px;

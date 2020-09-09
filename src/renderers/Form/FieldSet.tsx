@@ -85,7 +85,7 @@ export default class FieldSetControl extends React.Component<
         className={className}
         children={this.renderBody}
         wrapperComponent="fieldset"
-        headingComponent="legend"
+        headingComponent="header"
       />
     );
   }
