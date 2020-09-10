@@ -1,17 +1,31 @@
 import React from 'react';
 import cx from 'classnames';
-import {OptionsControl, OptionsControlProps, Option} from './Options';
+import {
+  OptionsControl,
+  OptionsControlProps,
+  Option,
+  FormOptionsControl
+} from './Options';
 import {Button} from '../../types';
 import {getLevelFromClassName, autobind, isEmpty} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
+import {ButtonGroupSchema} from '../ButtonGroup';
+import {FormBaseControl} from './Item';
 
-export interface ButtonGroupProps extends OptionsControlProps {
-  buttons?: Array<Button>;
-  btnLevel: string;
-  btnActiveLevel: string;
-  btnClassName: string;
-  btnActiveClassName: string;
-  vertical?: boolean;
+/**
+ * 按钮组控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/button-group
+ */
+export interface ButtonGroupControlSchema
+  extends ButtonGroupSchema,
+    Omit<FormOptionsControl, 'size'> {
+  type: 'button-group';
+}
+
+export interface ButtonGroupProps
+  extends OptionsControlProps,
+    Omit<ButtonGroupControlSchema, 'size' | 'source'> {
+  options: Array<Option>;
 }
 
 export default class ButtonGroupControl extends React.Component<

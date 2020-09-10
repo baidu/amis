@@ -20,9 +20,29 @@ export interface ButtonGroupSchema extends BaseSchema {
   btnClassName?: SchemaClassName;
 
   /**
+   * 给选中态 Button 配置 className。
+   */
+  btnActiveClassName: string;
+
+  /**
    * 按钮集合
    */
   buttons?: Array<ActionSchema>;
+
+  /**
+   * 按钮样式级别
+   */
+  btnLevel: string;
+
+  /**
+   * 按钮选中的样式级别
+   */
+  btnActiveLevel: string;
+
+  /**
+   * 垂直展示？
+   */
+  vertical?: boolean;
 
   /**
    * 是否为禁用状态。

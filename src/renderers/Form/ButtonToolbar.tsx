@@ -1,11 +1,22 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import {Button} from '../../types';
+import {ButtonToolbarSchema} from '../ButtonToolbar';
 
-export interface ButtonToolbarProps extends FormControlProps {
-  buttons?: Array<Button>;
+/**
+ * 按钮工具栏控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/button-toolbar
+ */
+export interface ButtonToolbarControlSchema
+  extends ButtonToolbarSchema,
+    FormBaseControl {
+  type: 'button-toolbar';
 }
+
+export interface ButtonToolbarProps
+  extends FormControlProps,
+    ButtonToolbarControlSchema {}
 
 export class ButtonToolbarControl extends React.Component<ButtonToolbarProps> {
   static defaultProps = {};

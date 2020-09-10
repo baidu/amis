@@ -20,7 +20,8 @@ import {
   registerFormItem,
   FormItemBasicConfig,
   detectProps as itemDetectProps,
-  FormBaseControl
+  FormBaseControl,
+  FormControlSchema
 } from './Item';
 import {IFormItemStore} from '../../store/formItem';
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
@@ -38,7 +39,7 @@ import {
 } from '../../components/Select';
 import {filter} from '../../utils/tpl';
 import findIndex from 'lodash/findIndex';
-import {SchemaApi} from '../../Schema';
+import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
 
 export {Option};
 
@@ -51,7 +52,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 可用来通过 API 拉取 options。
    */
-  source?: SchemaApi;
+  source?: SchemaApi | SchemaTokenizeableString;
 
   /**
    * 是否为多选模式
@@ -85,6 +86,68 @@ export interface FormOptionsControl extends FormBaseControl {
    * @default ''
    */
   resetValue?: string;
+
+  /**
+   * 延时加载的 API，当选项中有 defer: true 的选项时，点开会通过此接口扩充。
+   */
+  deferApi?: SchemaApi;
+
+  /**
+   * 添加时调用的接口
+   */
+  addApi?: Api;
+
+  /**
+   * 新增时的表单项。
+   */
+  addControls?: Array<FormControlSchema>;
+
+  /**
+   * 是否可以新增
+   */
+  creatable?: boolean;
+
+  /**
+   * 新增文字
+   */
+  createBtnLabel?: string;
+
+  /**
+   * 是否可以编辑
+   */
+  editable?: boolean;
+
+  /**
+   * 编辑时调用的 API
+   */
+  editApi?: SchemaApi;
+
+  /**
+   * 选项修改的表单项
+   */
+  editControls?: Array<FormControlSchema>;
+
+  /**
+   * 是否可删除
+   */
+  removable?: boolean;
+
+  /**
+   * 选项删除 API
+   */
+  deleteApi?: SchemaApi;
+
+  /**
+   * 选项删除提示文字。
+   */
+  deleteConfirmText?: string;
+
+  /**
+   * 自动填充，当选项被选择的时候，将选项中的其他值同步设置到表单内。
+   */
+  autoFill?: {
+    [propName: string]: SchemaTokenizeableString;
+  };
 }
 
 export interface OptionsBasicConfig extends FormItemBasicConfig {
@@ -96,9 +159,10 @@ export interface OptionsConfig extends OptionsBasicConfig {
 }
 
 // 下发给注册进来的组件的属性。
-export interface OptionsControlProps extends FormControlProps, OptionProps {
-  source?: Api;
-  name?: string;
+export interface OptionsControlProps
+  extends FormControlProps,
+    Omit<FormOptionsControl, 'type'> {
+  options: Array<Option>;
   onToggle: (
     option: Option,
     submitOnChange?: boolean,
@@ -110,19 +174,13 @@ export interface OptionsControlProps extends FormControlProps, OptionProps {
   setLoading: (value: boolean) => void;
   reloadOptions: (setError?: boolean) => void;
   deferLoad: (option: Option) => void;
-  creatable?: boolean;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
     skipForm?: boolean
   ) => void;
-  addControls?: Array<any>;
-  editable?: boolean;
-  editControls?: Array<any>;
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
-  removable?: boolean;
   onDelete?: (value: Option) => void;
-  autoFill?: Object;
 }
 
 // 自己接收的属性。

@@ -1,14 +1,27 @@
 import React from 'react';
 import cx from 'classnames';
-import {OptionsControl, OptionsControlProps, Option} from './Options';
+import {
+  OptionsControl,
+  OptionsControlProps,
+  Option,
+  FormOptionsControl
+} from './Options';
 import Select from '../../components/Select';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
+import {SchemaApi} from '../../Schema';
 
-export interface ChainedSelectProps extends OptionsControlProps {
-  autoComplete?: Api;
-  searchable?: boolean;
+/**
+ * 级联选择框
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/chained-select
+ */
+export interface ChainedSelectControlSchema extends FormOptionsControl {
+  type: 'chained-select';
 }
+
+export interface ChainedSelectProps
+  extends OptionsControlProps,
+    Omit<ChainedSelectControlSchema, 'options' | 'source'> {}
 
 export interface SelectState {
   stack: Array<{

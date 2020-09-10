@@ -31,7 +31,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   maxDate?: moment.Moment;
   joinValues: boolean;
   delimiter: string;
-  value: any;
+  value?: any;
   onChange: (value: any) => void;
   data?: any;
   disabled?: boolean;

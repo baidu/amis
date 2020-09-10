@@ -1,13 +1,47 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../../factory';
-import {FormItem, FormControlProps} from './Item';
-import HBox from '../HBox';
+import {
+  FormItem,
+  FormControlProps,
+  FormControlSchema,
+  FormBaseControl
+} from './Item';
+import HBox, {HBoxColumnObject, HBoxSchema} from '../HBox';
 import {Schema} from '../../types';
 import cx from 'classnames';
 import {isVisible} from '../../utils/helper';
 import {IIRendererStore} from '../../store/iRenderer';
 
-interface HBoxProps extends FormControlProps {
+/**
+ * HBox 水平布局控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/hbox
+ */
+export interface HBoxControlSchema
+  extends FormBaseControl,
+    Omit<HBoxSchema, 'columns'> {
+  type: 'hbox';
+
+  columns: Array<
+    HBoxColumnObject & {
+      /**
+       * 表单项集合
+       */
+      controls?: Array<FormControlSchema>;
+
+      /**
+       * @deprecated 请用类型 tabs
+       */
+      tabs?: any;
+
+      /**
+       * @deprecated 请用类型 fieldSet
+       */
+      fieldSet?: any;
+    }
+  >;
+}
+
+interface HBoxProps extends FormControlProps, HBoxControlSchema {
   store: IIRendererStore;
 }
 

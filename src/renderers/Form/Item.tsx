@@ -20,8 +20,74 @@ import {BaseSchema, SchemaClassName} from '../../Schema';
 import {TextControlSchema} from './Text';
 import {SelectControlSchema} from './Select';
 import {TextareaControlSchema} from './Textarea';
+import {ArrayControlSchema} from './Array';
+import {ComboControlSchema} from './Combo';
+import {ButtonControlSchema} from './Button';
+import {ButtonGroupControlSchema} from './ButtonGroup';
+import {ButtonToolbarControlSchema} from './ButtonToolbar';
+import {ChainedSelectControlSchema} from './ChainedSelect';
+import {CheckboxControlSchema} from './Checkbox';
+import {CheckboxesControlSchema} from './Checkboxes';
+import {CityControlSchema} from './City';
+import {ColorControlSchema} from './Color';
+import {ConditionBuilderControlSchema} from './ConditionBuilder';
+import {ContainerControlSchema} from './Container';
+import {
+  DateControlSchema,
+  DateTimeControlSchema,
+  TimeControlSchema
+} from './Date';
+import {DateRangeControlSchema} from './DateRange';
+import {DiffControlSchema} from './DiffEditor';
+import {EditorControlSchema} from './Editor';
+import {FieldSetControlSchema} from './FieldSet';
+import {FileControlSchema} from './File';
+import {FormulaControlSchema} from './Formula';
+import {GridControlSchema} from './Grid';
+import {GroupControlSchema} from './Group';
+import {HBoxControlSchema} from './HBox';
+import {HiddenControlSchema} from './Hidden';
+import {IconPickerControlSchema} from './IconPicker';
+import {ImageControlSchema} from './Image';
+import {InputGroupControlSchema} from './InputGroup';
+import {ListControlSchema} from './List';
+import {LocationControlSchema} from './Location';
+import {MatrixControlSchema} from './Matrix';
 
 export type FormControlType =
+  | 'array'
+  | 'button'
+  | 'submit'
+  | 'reset'
+  | 'button-group'
+  | 'button-toolbar'
+  | 'chained-select'
+  | 'checkbox'
+  | 'checkboxes'
+  | 'city'
+  | 'color'
+  | 'combo'
+  | 'condition-builder'
+  | 'container'
+  | 'date'
+  | 'datetime'
+  | 'time'
+  | 'date-range'
+  | 'diff'
+  | 'editor'
+  | 'fieldset'
+  | 'file'
+  | 'formula'
+  | 'grid'
+  | 'group'
+  | 'hbox'
+  | 'hidden'
+  | 'icon-picker'
+  | 'image'
+  | 'input-group'
+  | 'list'
+  | 'location'
+  | 'matrix'
   | 'text'
   | 'password'
   | 'email'
@@ -31,6 +97,37 @@ export type FormControlType =
   | 'textarea';
 
 export type FormControlSchema =
+  | ArrayControlSchema
+  | ButtonControlSchema
+  | ButtonGroupControlSchema
+  | ButtonToolbarControlSchema
+  | ChainedSelectControlSchema
+  | CheckboxControlSchema
+  | CheckboxesControlSchema
+  | CityControlSchema
+  | ColorControlSchema
+  | ComboControlSchema
+  | ConditionBuilderControlSchema
+  | ContainerControlSchema
+  | DateControlSchema
+  | DateTimeControlSchema
+  | TimeControlSchema
+  | DateRangeControlSchema
+  | DiffControlSchema
+  | EditorControlSchema
+  | FieldSetControlSchema
+  | FileControlSchema
+  | FormulaControlSchema
+  | GridControlSchema
+  | GroupControlSchema
+  | HBoxControlSchema
+  | HiddenControlSchema
+  | IconPickerControlSchema
+  | ImageControlSchema
+  | InputGroupControlSchema
+  | ListControlSchema
+  | LocationControlSchema
+  | MatrixControlSchema
   | TextControlSchema
   | SelectControlSchema
   | TextareaControlSchema;
@@ -44,7 +141,7 @@ export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
   /**
    * 表单项大小
    */
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
 
   /**
    * 描述标题
@@ -299,7 +396,7 @@ export interface FormItemProps extends RendererProps {
   disabled?: boolean;
   btnDisabled: boolean;
   defaultValue: any;
-  value: any;
+  value?: any;
   prinstine: any;
   setPrinstineValue: (value: any) => void;
   onChange: (

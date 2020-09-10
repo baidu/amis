@@ -54,7 +54,9 @@ export interface CollapseSchema extends BaseSchema {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'base';
 }
 
-export interface CollapseProps extends RendererProps, CollapseSchema {
+export interface CollapseProps
+  extends RendererProps,
+    Omit<CollapseSchema, 'type'> {
   wrapperComponent?: any;
   headingComponent?: any;
 

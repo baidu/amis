@@ -1,13 +1,157 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import {filterDate} from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
 
+export interface DateBaseControlSchema extends FormBaseControl {
+  /**
+   * 指定为日期选择控件
+   */
+  type: 'date' | 'datetime' | 'time';
+
+  /**
+   * 是否显示清除按钮
+   */
+  clearable?: boolean;
+
+  /**
+   * 日期存储格式
+   */
+  format?: string;
+
+  /**
+   * 日期展示格式
+   */
+  inputFormat?: string;
+
+  /**
+   * 设定是否存储 utc 时间。
+   */
+  utc?: boolean;
+}
+
+/**
+ * Date日期选择控件
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/date
+ */
+export interface DateControlSchema extends DateBaseControlSchema {
+  /**
+   * 指定为日期选择控件
+   */
+  type: 'date';
+
+  /**
+   * 日期存储格式
+   * @default X
+   */
+  format?: string;
+
+  /**
+   * 日期展示格式
+   * @default YYYY-MM-DD
+   */
+  inputFormat?: string;
+
+  /**
+   * 点选日期后是否关闭弹窗
+   */
+  closeOnSelect?: boolean;
+
+  /**
+   * 限制最小日期
+   */
+  minDate?: string;
+
+  /**
+   * 限制最大日期
+   */
+  maxDate?: string;
+}
+
+/**
+ * Datetime日期时间选择控件
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/datetime
+ */
+export interface DateTimeControlSchema extends DateBaseControlSchema {
+  /**
+   * 指定为日期时间选择控件
+   */
+  type: 'datetime';
+
+  /**
+   * 日期存储格式
+   * @default X
+   */
+  format?: string;
+
+  /**
+   * 日期展示格式
+   * @default YYYY-MM-DD HH:mm
+   */
+  inputFormat?: string;
+
+  /**
+   * 时间的格式。
+   *
+   * @default HH:mm
+   */
+  timeFormat?: string;
+
+  /**
+   * 限制最小日期
+   */
+  minDate?: string;
+
+  /**
+   * 限制最大日期
+   */
+  maxDate?: string;
+
+  /**
+   * 不记得了
+   */
+  timeConstraints?: any;
+}
+
+/**
+ * Time 时间选择控件
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/time
+ */
+export interface TimeControlSchema extends DateBaseControlSchema {
+  /**
+   * 指定为日期时间选择控件
+   */
+  type: 'time';
+
+  /**
+   * 日期存储格式
+   * @default X
+   */
+  format?: string;
+
+  /**
+   * 日期展示格式
+   * @default YYYY-MM-DD HH:mm
+   */
+  inputFormat?: string;
+
+  /**
+   * 时间的格式。
+   *
+   * @default HH:mm
+   */
+  timeFormat?: string;
+
+  /**
+   * 不记得了
+   */
+  timeConstraints?: any;
+}
+
 export interface DateProps extends FormControlProps {
-  placeholder?: string;
   inputFormat?: string;
   timeFormat?: string;
   format?: string;

@@ -6,7 +6,7 @@ import {BaseSchema, SchemaClassName, SchemaObject} from '../Schema';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
-export type GridColumn = BaseSchema & {
+export type GridColumnObject = {
   /**
    * 极小屏（<768px）时宽度占比
    */
@@ -111,6 +111,8 @@ export type GridColumn = BaseSchema & {
    */
   columnClassName?: SchemaClassName;
 };
+
+export type GridColumn = BaseSchema & GridColumnObject;
 export type ColumnNode = GridColumn | ColumnArray;
 export interface ColumnArray extends Array<ColumnNode> {}
 

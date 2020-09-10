@@ -5,7 +5,7 @@ import cx from 'classnames';
 import {isVisible} from '../utils/helper';
 import {BaseSchema, SchemaObject} from '../Schema';
 
-export type HBoxColumn = {
+export type HBoxColumnObject = {
   columnClassName?: string;
 
   width?: number | string;
@@ -14,13 +14,15 @@ export type HBoxColumn = {
   style?: {
     [propName: string]: any;
   };
-} & BaseSchema; // 不能用 SchemaObject 呢，会报错
+};
+
+export type HBoxColumn = HBoxColumnObject & BaseSchema; // 不能用 SchemaObject 呢，会报错
 
 /**
  * Hbox 水平布局渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/hbox
  */
-export interface HboxSchema extends BaseSchema {
+export interface HBoxSchema extends BaseSchema {
   /**
    * 指定为each展示类型
    */
@@ -28,7 +30,7 @@ export interface HboxSchema extends BaseSchema {
   columns: Array<HBoxColumn>;
 }
 
-export interface HBoxProps extends RendererProps, HboxSchema {
+export interface HBoxProps extends RendererProps, HBoxSchema {
   className: string;
   itemRender?: (
     item: any,

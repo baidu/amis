@@ -20,7 +20,7 @@ import {DividerSchema} from './renderers/Divider';
 import {DropdownButtonSchema} from './renderers/DropDownButton';
 import {EachSchema} from './renderers/Each';
 import {GridSchema} from './renderers/Grid';
-import {HboxSchema} from './renderers/HBox';
+import {HBoxSchema} from './renderers/HBox';
 import {IconSchema} from './renderers/Icon';
 import {IFrameSchema} from './renderers/IFrame';
 import {ImageSchema} from './renderers/Image';
@@ -127,7 +127,7 @@ export type SchemaObject =
   | DropdownButtonSchema
   | EachSchema
   | GridSchema
-  | HboxSchema
+  | HBoxSchema
   | IconSchema
   | IFrameSchema
   | ImageSchema
