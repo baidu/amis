@@ -521,7 +521,31 @@ Form 支持轮训初始化接口，步骤如下：
 }
 ```
 
-当你需要配置特定的请求方式，请求体，`header`时，使用对象类型 api 配置，并使用 数据映射 进行数据配置。下面示例我们更改了请求方法为`PUT`，并在原提交数据的基础上添加一个字段`"_from"`。更多用法查看 [API 文档](../../types/api) 和 [数据映射](../../concepts/data-mapping)文档
+发送请求默认为 `POST` 方式，会将所有表单项整理成一个对象发送过过去。除此之外你可以主动获取以下信息。
+
+- `diff` 只会包含 `diff` 结果
+- `prinstine` 原始数据
+  如:
+
+```json
+{
+  "api": {
+    "method": "post",
+    "url": "/api/xxx/save",
+    "data": {
+      "modified": "$$",
+      "diff": "${diff}",
+      "origin": "${prinstine}"
+    }
+  }
+}
+```
+
+> 如果 返回了 `data` 对象，且是对象，会把结果 merge 到表单数据里面。
+
+当你需要配置特定的请求方式，请求体，`header`时，使用对象类型 api 配置，并使用 数据映射 进行数据配置。
+
+下面示例我们更改了请求方法为`PUT`，并在原提交数据的基础上添加一个字段`"_from"`。更多用法查看 [API 文档](../../types/api) 和 [数据映射](../../concepts/data-mapping)文档
 
 ```schema:height="330" scope="body"
 {
