@@ -13,7 +13,7 @@ import {
   isArrayChildrenModified
 } from '../utils/helper';
 import {Icon} from '../components/icons';
-import {BaseSchema, SchemaName, SchemaObject, SchemaTpl} from '../Schema';
+import {BaseSchema, SchemaCollection, SchemaName, SchemaTpl} from '../Schema';
 
 /**
  * Carousel 轮播图渲染器。
@@ -70,7 +70,7 @@ export interface CarouselSchema extends BaseSchema {
   /**
    * 配置单条呈现模板
    */
-  itemSchema?: SchemaObject | SchemaTpl;
+  itemSchema?: SchemaCollection;
 
   name?: SchemaName;
 
@@ -99,7 +99,7 @@ export interface CarouselState {
   nextAnimation: string;
 }
 
-const defaultSchema: SchemaObject = {
+const defaultSchema = {
   type: 'tpl',
   tpl: `
     <% if (data.hasOwnProperty('image')) { %>

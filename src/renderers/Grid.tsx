@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Schema} from '../types';
 import pick from 'lodash/pick';
-import {BaseSchema, SchemaClassName, SchemaObject} from '../Schema';
+import {BaseSchema, SchemaClassName} from '../Schema';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 

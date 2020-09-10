@@ -15,9 +15,7 @@ import {
   BaseSchema,
   SchemaClassName,
   SchemaCollection,
-  SchemaName,
-  SchemaObject,
-  SchemaTpl
+  SchemaName
 } from '../Schema';
 import {ActionSchema} from './Action';
 
@@ -56,7 +54,7 @@ export interface DrawerSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 请通过配置 title 设置标题
    */
-  title?: SchemaTpl | SchemaObject;
+  title?: SchemaCollection;
 
   /**
    * 从什么位置弹出

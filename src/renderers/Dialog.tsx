@@ -17,7 +17,6 @@ import {
   SchemaClassName,
   SchemaCollection,
   SchemaName,
-  SchemaObject,
   SchemaTpl
 } from '../Schema';
 import {ActionSchema} from './Action';
@@ -57,12 +56,12 @@ export interface DialogSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 请通过配置 title 设置标题
    */
-  title?: SchemaTpl | SchemaObject;
+  title?: SchemaCollection;
 
-  header?: SchemaTpl | SchemaObject;
+  header?: SchemaCollection;
   headerClassName?: SchemaClassName;
 
-  footer?: SchemaTpl | SchemaObject;
+  footer?: SchemaCollection;
 
   /**
    * 影响自动生成的按钮，如果自己配置了按钮这个配置无效。

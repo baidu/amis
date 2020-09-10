@@ -30,7 +30,6 @@ import {TableContent} from './TableContent';
 import {
   BaseSchema,
   SchemaClassName,
-  SchemaObject,
   SchemaTokenizeableString
 } from '../../Schema';
 import {FormControlSchema, FormControlType} from '../Form/Item';

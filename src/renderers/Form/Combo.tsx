@@ -4,7 +4,8 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  FormControlSchema
+  FormControlSchema,
+  FormControlSchemaAlias
 } from './Item';
 import {Schema, Action, Api} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';

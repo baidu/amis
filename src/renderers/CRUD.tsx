@@ -43,7 +43,6 @@ import {
   SchemaClassName,
   SchemaExpression,
   SchemaName,
-  SchemaObject,
   SchemaTokenizeableString
 } from '../Schema';
 import {ActionSchema} from './Action';
@@ -162,12 +161,12 @@ export interface CRUDCommonSchema extends BaseSchema {
   /**
    * 顶部工具栏
    */
-  headerToolbar?: Array<SchemaObject>; // todo
+  headerToolbar?: Array<any>; // todo
 
   /**
    * 底部工具栏
    */
-  footerToolbar?: Array<SchemaObject>; // todo
+  footerToolbar?: Array<any>; // todo
 
   /**
    * 每页显示多少个空间成员的配置如： [10, 20, 50, 100]。

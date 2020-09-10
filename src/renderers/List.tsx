@@ -28,7 +28,6 @@ import {
   SchemaClassName,
   SchemaCollection,
   SchemaExpression,
-  SchemaObject,
   SchemaTokenizeableString,
   SchemaTpl,
   SchemaUrlPath

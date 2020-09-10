@@ -3,7 +3,7 @@ import {Renderer, RendererProps} from '../factory';
 import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
 import {isVisible} from '../utils/helper';
-import {BaseSchema, SchemaObject} from '../Schema';
+import {BaseSchema} from '../Schema';
 
 export type HBoxColumnObject = {
   columnClassName?: string;

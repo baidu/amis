@@ -192,6 +192,8 @@ export type FormControlSchema =
   | TreeControlSchema
   | TreeSelectControlSchema;
 
+export type FormControlSchemaAlias = FormControlSchema;
+
 export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
   /**
    * 表单项类型

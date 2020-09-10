@@ -3,7 +3,7 @@ import {Renderer, RendererProps} from '../factory';
 import {Schema} from '../types';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {createObject, isObject} from '../utils/helper';
-import {BaseSchema, SchemaObject, SchemaTpl} from '../Schema';
+import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**
  * Each 循环功能渲染器。
@@ -20,7 +20,7 @@ export interface EachSchema extends BaseSchema {
    */
   name?: string;
 
-  items?: SchemaObject | SchemaTpl;
+  items?: SchemaCollection;
 }
 
 export interface EachProps extends RendererProps {

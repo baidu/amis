@@ -18,7 +18,6 @@ import {
   SchemaClassName,
   SchemaCollection,
   SchemaExpression,
-  SchemaObject,
   SchemaTpl,
   SchemaUrlPath
 } from '../Schema';
