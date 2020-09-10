@@ -355,7 +355,7 @@ icon:
       "type": "transfer",
       "name": "transfer7",
       "selectMode": "tree",
-      "deferApi": "/api/mock2/form/deferOptions?label=${label}",
+      "deferApi": "https://houtai.baidu.com/api/mock2/form/deferOptions?label=${label}",
       "options": [
         {
           "label": "法师",
@@ -406,7 +406,7 @@ icon:
       "name": "b",
       "sortable": true,
       "searchable": true,
-      "deferApi": "/api/mock2/form/deferOptions?label=${label}",
+      "deferApi": "https://houtai.baidu.com/api/mock/form/deferOptions?label=${label}",
       "selectMode": "associated",
       "leftMode": "tree",
       "leftOptions": [

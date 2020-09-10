@@ -105,12 +105,11 @@ export class BaseTransferRenderer<
 
         return result.map(item => {
           let resolved: any = null;
+          const value = item[valueField || 'value'];
 
-          if (Array.isArray(options)) {
-            resolved = find(
-              options,
-              optionValueCompare(item[valueField || 'value'], valueField)
-            );
+          // 只有 value 值有意义的时候，再去找；否则直接返回
+          if (Array.isArray(options) && value !== null && value !== undefined) {
+            resolved = find(options, optionValueCompare(value, valueField));
           }
 
           return resolved || item;
