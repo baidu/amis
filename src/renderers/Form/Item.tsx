@@ -12,22 +12,52 @@ import {
 } from '../../factory';
 import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
 import {observer} from 'mobx-react';
-import {FormHorizontal, FormSchema} from '.';
+import {FormHorizontal, FormSchema, FormSchemaHorizontal} from '.';
 import {Schema} from '../../types';
 import {filter} from '../../utils/tpl';
+import {SchemaRemark} from '../Remark';
+import {BaseSchema, SchemaClassName} from '../../Schema';
+import {TextControlSchema} from './Text';
 
-export interface FormBaseControl {
+export type FormControlType = 'text' | 'password' | 'email' | 'url';
+
+export type FormControlSchema = TextControlSchema;
+
+export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
+  /**
+   * 表单项类型
+   */
+  type: FormControlType;
+
+  /**
+   * 表单项大小
+   */
   size?: 'xs' | 'sm' | 'md' | 'lg';
 
+  /**
+   * 描述标题
+   */
   label?: string;
 
+  /**
+   * 配置 label className
+   */
+  labelClassName?: SchemaClassName;
+
+  /**
+   * 字段名，表单提交时的 key，支持多层级，用.连接，如： a.b.c
+   */
   name?: string;
 
-  // todo
-  remark?: string;
+  /**
+   * 显示一个小图标, 鼠标放上去的时候显示提示内容
+   */
+  remark?: SchemaRemark;
 
-  // todo
-  labelRemark?: string;
+  /**
+   * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
+   */
+  labelRemark?: SchemaRemark;
 
   /**
    * 输入提示，聚焦的时候显示
@@ -39,9 +69,189 @@ export interface FormBaseControl {
    */
   submitOnChange?: boolean;
 
+  /**
+   * 是否只读
+   */
   readOnly?: boolean;
 
-  disabled?: boolean;
+  /**
+   * 不设置时，当表单提交过后表单项每次修改都会触发重新验证，
+   * 如果设置了，则由此配置项来决定要不要每次修改都触发验证。
+   */
+  validateOnChange?: boolean;
+
+  /**
+   * 描述内容，支持 Html 片段。
+   */
+  description?: string;
+
+  /**
+   * 配置描述上的 className
+   */
+  descriptionClassName?: SchemaClassName;
+
+  /**
+   * 配置当前表单项展示模式
+   */
+  mode?: 'normal' | 'inline' | 'horizontal';
+
+  /**
+   * 当配置为水平布局的时候，用来配置具体的左右分配。
+   */
+  horizontal?: FormSchemaHorizontal;
+
+  /**
+   * 表单 control 是否为 inline 模式。
+   */
+  inline?: boolean;
+
+  /**
+   * 配置 input className
+   */
+  inputClassName?: SchemaClassName;
+
+  /**
+   * 占位符
+   */
+  placeholder?: string;
+
+  /**
+   * 是否为必填
+   */
+  required?: boolean;
+
+  /**
+   * 验证失败的提示信息
+   */
+  validationErrors?: {
+    isAlpha?: string;
+    isAlphanumeric?: string;
+    isEmail?: string;
+    isFloat?: string;
+    isInt?: string;
+    isJson?: string;
+    isLength?: string;
+    isNumeric?: string;
+    isRequired?: string;
+    isUrl?: string;
+    matchRegexp?: string;
+    matchRegexp2?: string;
+    matchRegexp3?: string;
+    matchRegexp4?: string;
+    matchRegexp5?: string;
+    maxLength?: string;
+    maximum?: string;
+    minLength?: string;
+    minimum?: string;
+
+    [propName: string]: any;
+  };
+
+  validations?:
+    | string
+    | {
+        /**
+         * 是否是字母
+         */
+        isAlpha?: boolean;
+
+        /**
+         * 是否为字母数字
+         */
+        isAlphanumeric?: boolean;
+
+        /**
+         * 是否为邮箱地址
+         */
+        isEmail?: boolean;
+
+        /**
+         * 是否为浮点型
+         */
+        isFloat?: boolean;
+
+        /**
+         * 是否为整型
+         */
+        isInt?: boolean;
+
+        /**
+         * 是否为 json
+         */
+        isJson?: boolean;
+
+        /**
+         * 长度等于指定值
+         */
+        isLength?: number;
+
+        /**
+         * 是否为数字
+         */
+        isNumeric?: boolean;
+
+        /**
+         * 是否为必填
+         */
+        isRequired?: boolean;
+
+        /**
+         * 是否为 URL 地址
+         */
+        isUrl?: boolean;
+
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp?: string;
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp1?: string;
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp2?: string;
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp3?: string;
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp4?: string;
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp5?: string;
+
+        /**
+         * 最大长度为指定值
+         */
+        maxLength?: number;
+
+        /**
+         * 最大值为指定值
+         */
+        maximum?: number;
+
+        /**
+         * 最小长度为指定值
+         */
+        minLength?: number;
+
+        /**
+         * 最小值为指定值
+         */
+        minimum?: number;
+
+        [propName: string]: any;
+      };
+
+  /**
+   * 默认值，切记只能是静态值，不支持取变量，跟数据关联是通过设置 name 属性来实现的。
+   */
+  value?: any;
 }
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {

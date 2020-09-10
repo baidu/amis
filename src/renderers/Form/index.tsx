@@ -38,6 +38,12 @@ import {trace} from 'mobx';
 import {BaseSchema, SchemaApi, SchemaDefaultData} from '../../Schema';
 import {ActionSchema} from '../Action';
 
+export interface FormSchemaHorizontal {
+  left?: number;
+  right?: number;
+  leftField?: boolean | number | 'xs' | 'sm' | 'md' | 'lg';
+}
+
 /**
  * amis Form 渲染器，格式说明。https://baidu.gitee.io/amis/docs/components/form/index
  */
@@ -71,6 +77,9 @@ export interface FormSchema extends BaseSchema {
    * 用来初始化表单数据
    */
   initApi?: SchemaApi;
+
+  mode?: 'normal' | 'inline' | 'horizontal';
+  horizontal?: FormSchemaHorizontal;
 }
 
 export type FormGroup = FormSchema & {
