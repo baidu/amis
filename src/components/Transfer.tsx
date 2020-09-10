@@ -131,16 +131,21 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
 
   @autobind
   handleSearch(text: string) {
-    this.setState(
-      {
-        inputValue: text
-      },
-      () => {
-        // 如果有取消搜索，先取消掉。
-        this.cancelSearch && this.cancelSearch();
-        this.lazySearch(text);
-      }
-    );
+    // text 有值的时候，走搜索否则直接走 handleSeachCancel ，等同于右侧的 clear 按钮
+    if (text) {
+      this.setState(
+        {
+          inputValue: text
+        },
+        () => {
+          // 如果有取消搜索，先取消掉。
+          this.cancelSearch && this.cancelSearch();
+          this.lazySearch(text);
+        }
+      );
+    } else {
+      this.handleSeachCancel();
+    }
   }
 
   @autobind
