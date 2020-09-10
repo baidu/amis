@@ -4,23 +4,25 @@ import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
 import {BaseSchema} from '../Schema';
 
+export type HboxRow = BaseSchema & {
+  rowClassName?: string;
+  cellClassName?: string;
+};
+
 /**
  * 垂直布局控件
  * 文档：https://baidu.gitee.io/amis/docs/components/vbox
  */
 export interface VBoxSchema extends BaseSchema {
   type: 'vbox';
+
+  /**
+   * 行集合
+   */
+  rows?: Array<HboxRow>;
 }
 
-export type Row = Schema & {
-  rowClassName?: string;
-  cellClassName?: string;
-};
-
-export interface HBoxProps extends RendererProps {
-  rows?: Array<Row>;
-  className?: string;
-}
+export interface HBoxProps extends RendererProps, VBoxSchema {}
 
 export default class VBox extends React.Component<HBoxProps, object> {
   static propsList: Array<string> = ['rows'];
@@ -33,10 +35,10 @@ export default class VBox extends React.Component<HBoxProps, object> {
     return render(region, node);
   }
 
-  renderCell(row: Row, key: any) {
+  renderCell(row: HboxRow, key: any) {
     const {classPrefix: ns} = this.props;
     return (
-      <div className={cx(`${ns}Vbox-cell`, (row as Row).cellClassName)}>
+      <div className={cx(`${ns}Vbox-cell`, (row as HboxRow).cellClassName)}>
         {this.renderChild(`row/${key}`, row)}
       </div>
     );
@@ -50,7 +52,7 @@ export default class VBox extends React.Component<HBoxProps, object> {
         {Array.isArray(rows)
           ? rows.map((row, key) => (
               <div
-                className={cx('row-row', (row as Row).rowClassName)}
+                className={cx('row-row', (row as HboxRow).rowClassName)}
                 key={key}
               >
                 {this.renderCell(row, key)}

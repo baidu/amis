@@ -41,6 +41,9 @@ import {SwitchSchema} from './renderers/Switch';
 import {TabsSchema} from './renderers/Tabs';
 import {TasksSchema} from './renderers/Tasks';
 import {VBoxSchema} from './renderers/VBox';
+import {VideoSchema} from './renderers/Video';
+import {WizardSchema} from './renderers/Wizard';
+import {WrapperSchema} from './renderers/Wrapper';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -94,7 +97,10 @@ export type SchemaType =
   | 'switch'
   | 'tabs'
   | 'tasks'
-  | 'vbox';
+  | 'vbox'
+  | 'video'
+  | 'wizard'
+  | 'wrapper';
 
 export type SchemaObject =
   | PageSchema
@@ -139,7 +145,10 @@ export type SchemaObject =
   | SwitchSchema
   | TabsSchema
   | TasksSchema
-  | VBoxSchema;
+  | VBoxSchema
+  | VideoSchema
+  | WizardSchema
+  | WrapperSchema;
 
 export type SchemaCollection =
   | SchemaObject
