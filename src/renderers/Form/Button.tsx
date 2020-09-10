@@ -8,7 +8,7 @@ import {ActionSchema} from '../Action';
  * 按钮控件。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/button
  */
-export type ButtonControlSchema = ActionSchema;
+export type ButtonControlSchema = ActionSchema & FormBaseControl;
 
 export interface ButtonProps extends FormControlProps, Omit<Button, 'size'> {}
 

@@ -26,6 +26,7 @@ import Input from './Input';
 import {Api} from '../types';
 import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
+import {SchemaApi} from '../Schema';
 
 export interface Option {
   label?: string;
@@ -56,7 +57,7 @@ export interface Option {
   defer?: boolean;
 
   // 如果设置了，优先级更高，不设置走 source 接口加载。
-  deferApi?: Api;
+  deferApi?: SchemaApi;
 
   // 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
   loading?: boolean;

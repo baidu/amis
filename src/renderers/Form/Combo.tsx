@@ -32,13 +32,13 @@ import {Icon} from '../../components/icons';
 import {isAlive} from 'mobx-state-tree';
 import {SchemaApi, SchemaClassName, SchemaIcon, SchemaTpl} from '../../Schema';
 
-export interface ComboCondition {
+export type ComboCondition = {
   test: string;
   controls: Array<FormControlSchema>;
   label: string;
   scaffold?: any;
   mode?: string;
-}
+};
 
 /**
  * Combo 组合输入框类型
@@ -106,14 +106,7 @@ export interface ComboControlSchema extends FormBaseControl {
   /**
    * 数组输入框的子项
    */
-  controls?: Array<
-    FormControlSchema & {
-      /**
-       * 是否唯一
-       */
-      unique?: boolean;
-    }
-  >;
+  controls?: Array<FormControlSchema>;
 
   /**
    * 是否可拖拽排序

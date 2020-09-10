@@ -29,14 +29,7 @@ export interface InputGroupControlSchema extends FormBaseControl {
   /**
    * FormItem 集合
    */
-  controls: Array<
-    FormControlSchema & {
-      /**
-       * 列类名
-       */
-      columnClassName?: SchemaClassName;
-    }
-  >;
+  controls: Array<FormControlSchema>;
 }
 
 export interface InputGroupProps extends FormControlProps {

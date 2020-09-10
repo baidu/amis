@@ -21,24 +21,7 @@ export interface GroupControlSchema extends FormBaseControl {
   /**
    * FormItem 集合
    */
-  controls: Array<
-    FormControlSchema & {
-      /**
-       * 展示模式
-       */
-      mode?: 'normal' | 'inline' | 'horizontal';
-
-      /**
-       * 列类名
-       */
-      columnClassName?: SchemaClassName;
-
-      /**
-       * 宽度占用比率。
-       */
-      columnRatio?: number;
-    }
-  >;
+  controls: Array<FormControlSchema>;
 
   /**
    * 子表单项默认的展示模式

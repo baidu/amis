@@ -25,9 +25,7 @@ export interface ArrayControlSchema
   /**
    * 成员渲染器配置
    */
-  items: FormControlSchema & {
-    unique?: boolean;
-  };
+  items: FormControlSchema;
 }
 
 export interface ArrayProps extends FormControlProps, ArrayControlSchema {

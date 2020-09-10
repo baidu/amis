@@ -95,7 +95,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 添加时调用的接口
    */
-  addApi?: Api;
+  addApi?: SchemaApi;
 
   /**
    * 新增时的表单项。

@@ -423,6 +423,21 @@ export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
    * 默认值，切记只能是静态值，不支持取变量，跟数据关联是通过设置 name 属性来实现的。
    */
   value?: any;
+
+  /**
+   * 是否唯一, 只有在 combo 里面才有用
+   */
+  unique?: boolean;
+
+  /**
+   * 列类名, 在某些容器里面有用比如 group
+   */
+  columnClassName?: SchemaClassName;
+
+  /**
+   * 宽度占用比率。在某些容器里面有用比如 group
+   */
+  columnRatio?: number;
 }
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {

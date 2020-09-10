@@ -106,7 +106,6 @@ export type SchemaType =
 
 export type SchemaObject =
   | PageSchema
-  | FormSchema
   | TplSchema
   | RemarkSchema
   | ActionSchema
@@ -151,7 +150,8 @@ export type SchemaObject =
   | VBoxSchema
   | VideoSchema
   | WizardSchema
-  | WrapperSchema;
+  | WrapperSchema
+  | FormSchema;
 
 export type SchemaCollection =
   | SchemaObject
