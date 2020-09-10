@@ -70,13 +70,12 @@
     "react-textarea-autosize": "5.1.0",
     "react-transition-group": "2.9.0",
     "react-visibility-sensor": "3.11.0",
-    "redux": "^3.7.2",
     "setimmediate": "1.0.5",
     "sortablejs": "1.10.0",
     "tinymce": "5.4.2",
     "tslib": "^1.10.0",
     "uncontrollable": "7.0.2",
-    "video-react": "0.9.4"
+    "video-react": "0.14.1"
   },
   "devDependencies": {
     "@types/async": "^2.0.45",

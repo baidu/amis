@@ -32,6 +32,15 @@ export const docs = [
           require(['../../docs/start/custom.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
+      },
+
+      {
+        label: '常见问题',
+        path: '/docs/start/ faq',
+        getComponent: (location, cb) =>
+          require(['../../docs/start/faq.md'], doc => {
+            cb(null, makeMarkdownRenderer(doc));
+          })
       }
 
       // {
