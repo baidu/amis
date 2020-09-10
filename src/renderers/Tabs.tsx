@@ -51,7 +51,14 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    */
   reload?: boolean;
 
+  /**
+   * 点开时才加载卡片内容
+   */
   mountOnEnter?: boolean;
+
+  /**
+   * 卡片隐藏就销毁卡片节点。
+   */
   unmountOnExit?: boolean;
 }
 
