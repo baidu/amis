@@ -18,10 +18,22 @@ import {filter} from '../../utils/tpl';
 import {SchemaRemark} from '../Remark';
 import {BaseSchema, SchemaClassName} from '../../Schema';
 import {TextControlSchema} from './Text';
+import {SelectControlSchema} from './Select';
+import {TextareaControlSchema} from './Textarea';
 
-export type FormControlType = 'text' | 'password' | 'email' | 'url';
+export type FormControlType =
+  | 'text'
+  | 'password'
+  | 'email'
+  | 'url'
+  | 'select'
+  | 'multi-select'
+  | 'textarea';
 
-export type FormControlSchema = TextControlSchema;
+export type FormControlSchema =
+  | TextControlSchema
+  | SelectControlSchema
+  | TextareaControlSchema;
 
 export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
   /**

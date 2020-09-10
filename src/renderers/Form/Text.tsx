@@ -1,5 +1,10 @@
 import React from 'react';
-import {OptionsControl, OptionsControlProps, highlight} from './Options';
+import {
+  OptionsControl,
+  OptionsControlProps,
+  highlight,
+  FormOptionsControl
+} from './Options';
 import cx from 'classnames';
 import {Action} from '../../types';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -22,7 +27,7 @@ import {ActionSchema} from '../Action';
  * Text 文本输入框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/text
  */
-export interface TextControlSchema extends FormBaseControl {
+export interface TextControlSchema extends FormOptionsControl {
   type: 'text' | 'email' | 'url' | 'password';
 
   addOn?: {
@@ -36,18 +41,6 @@ export interface TextControlSchema extends FormBaseControl {
    * 是否去除首尾空白文本。
    */
   trimContents?: boolean;
-
-  /**
-   * 是否可清除。
-   */
-  clearable?: boolean;
-
-  /**
-   * 点清除按钮时，将表单项设置成当前配置的值。
-   *
-   * @default ''
-   */
-  resetValue?: string;
 }
 
 export interface TextProps extends OptionsControlProps {

@@ -32,7 +32,7 @@ import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {LazyComponent} from '../../components';
 import {isAlive} from 'mobx-state-tree';
-import {asFormItem} from './Item';
+import {asFormItem, FormControlSchema} from './Item';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {trace} from 'mobx';
 import {BaseSchema, SchemaApi, SchemaDefaultData} from '../../Schema';
@@ -45,27 +45,39 @@ export interface FormSchemaHorizontal {
 }
 
 /**
- * amis Form 渲染器，格式说明。https://baidu.gitee.io/amis/docs/components/form/index
+ * Form 表单渲染器。
+ *
+ * 说明：https://baidu.gitee.io/amis/docs/components/form/index
  */
 export interface FormSchema extends BaseSchema {
   type: 'form';
   title?: string;
 
+  /**
+   * 按钮集合，会固定在底部显示。
+   */
   actions?: Array<ActionSchema>;
-  controls?: Array<any>; // todo
 
   /**
-   * @deprecated
+   * 表单项集合
+   */
+  controls?: Array<FormControlSchema>;
+
+  /**
+   * @deprecated 请用类型 tabs
    */
   tabs?: any;
 
   /**
-   * @deprecated
+   * @deprecated 请用类型 fieldSet
    */
   fieldSet?: any;
 
   data?: SchemaDefaultData;
 
+  /**
+   * 是否开启调试，开启后会在顶部实时显示表单项数据。
+   */
   debug?: boolean;
 
   /**

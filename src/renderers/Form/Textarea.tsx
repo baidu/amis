@@ -1,9 +1,29 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import Textarea from '../../components/Textarea';
 import {findDOMNode} from 'react-dom';
 import {autobind} from '../../utils/helper';
+/**
+ * TextArea 多行文本输入框。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/textarea
+ */
+export interface TextareaControlSchema extends FormBaseControl {
+  /**
+   * 指定为多行文本输入框
+   */
+  type: 'textarea';
+
+  /**
+   * 最大行数
+   */
+  maxRows?: number;
+
+  /**
+   * 最小行数
+   */
+  minRows?: number;
+}
 
 export interface TextAreaProps extends FormControlProps {
   placeholder?: string;
