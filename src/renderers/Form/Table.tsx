@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import Button from '../../components/Button';
 import {createObject, isObjectShallowModified} from '../../utils/helper';
@@ -12,32 +12,121 @@ import findIndex from 'lodash/findIndex';
 import memoize from 'lodash/memoize';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {Icon} from '../../components/icons';
+import {TableSchema} from '../Table';
+import {SchemaApi} from '../../Schema';
 
-export interface TableProps extends FormControlProps {
-  placeholder?: string;
-  columns?: Array<any>;
+export interface TableControlSchema extends FormBaseControl, TableSchema {
+  type: 'table';
+
+  /**
+   * 可新增
+   */
   addable?: boolean;
-  addApi?: Api;
+
+  /**
+   * 新增 API
+   */
+  addApi?: SchemaApi;
+
+  /**
+   * 新增按钮
+   */
   addBtnLabel?: string;
+
+  /**
+   * 新增图标
+   */
   addBtnIcon?: string;
+
+  /**
+   * 显示新增按钮
+   */
   showAddBtn?: boolean;
+
+  /**
+   * 可否删除
+   */
   removable?: boolean;
-  deleteApi?: Api;
+
+  /**
+   * 删除的 API
+   */
+  deleteApi?: SchemaApi;
+
+  /**
+   * 可否编辑
+   */
   editable?: boolean;
+
+  /**
+   * 更新按钮名称
+   */
   updateBtnLabel?: string;
+
+  /**
+   * 更新按钮图标
+   */
   updateBtnIcon?: string;
+
+  /**
+   * 确认按钮文字
+   */
   confirmBtnLabel?: string;
+
+  /**
+   * 确认按钮图标
+   */
   confirmBtnIcon?: string;
+
+  /**
+   * 取消按钮文字
+   */
   cancelBtnLabel?: string;
+
+  /**
+   * 取消按钮图标
+   */
   cancelBtnIcon?: string;
+
+  /**
+   * 删除按钮文字
+   */
   deleteBtnLabel?: string;
+
+  /**
+   * 删除按钮图标
+   */
   deleteBtnIcon?: string;
-  updateApi?: Api;
+
+  /**
+   * 更新 API
+   */
+  updateApi?: SchemaApi;
+
+  /**
+   * 初始值，新增的时候
+   */
   scaffold?: any;
+
+  /**
+   * 删除确认文字
+   */
   deleteConfirmText?: string;
+
+  /**
+   * 值字段
+   */
   valueField?: string;
+
+  /**
+   * 是否为确认的编辑模式。
+   */
   needConfirm?: boolean;
 }
+
+export interface TableProps
+  extends FormControlProps,
+    Omit<TableControlSchema, 'type'> {}
 
 export interface TableState {
   columns: Array<any>;

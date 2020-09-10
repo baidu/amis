@@ -1,22 +1,64 @@
 import React from 'react';
 import cx from 'classnames';
 import TreeSelector from '../../components/Tree';
-import {OptionsControl, OptionsControlProps} from './Options';
+import {
+  FormOptionsControl,
+  OptionsControl,
+  OptionsControlProps
+} from './Options';
 import {Spinner} from '../../components';
 
-export interface TreeProps extends OptionsControlProps {
-  placeholder?: any;
+/**
+ * Tree 下拉选择框。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/tree
+ */
+export interface TreeControlSchema extends FormOptionsControl {
+  type: 'tree';
+
+  /**
+   * 是否隐藏顶级
+   */
   hideRoot?: boolean;
+
+  /**
+   * 顶级选项的名称
+   */
   rootLabel?: string;
+
+  /**
+   * 顶级选项的值
+   */
   rootValue?: any;
+
+  /**
+   * 显示图标
+   */
   showIcon?: boolean;
-  cascade?: boolean; // 父子之间是否完全独立。
-  withChildren?: boolean; // 选父级的时候是否把子节点的值也包含在内。
-  onlyChildren?: boolean; // 选父级的时候，是否只把子节点的值包含在内
-  addControls?: Array<any>;
-  updateControls?: Array<any>;
+
+  /**
+   * 父子之间是否完全独立。
+   */
+  cascade?: boolean;
+
+  /**
+   * 选父级的时候是否把子节点的值也包含在内。
+   */
+  withChildren?: boolean;
+
+  /**
+   * 选父级的时候，是否只把子节点的值包含在内
+   */
+  onlyChildren?: boolean;
+
+  /**
+   * 顶级节点是否可以创建子节点
+   */
   rootCreatable?: boolean;
 }
+
+export interface TreeProps
+  extends OptionsControlProps,
+    Omit<TreeControlSchema, 'type' | 'options'> {}
 
 export default class TreeControl extends React.Component<TreeProps> {
   static defaultProps: Partial<TreeProps> = {

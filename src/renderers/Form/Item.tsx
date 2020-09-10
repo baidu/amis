@@ -53,6 +53,26 @@ import {InputGroupControlSchema} from './InputGroup';
 import {ListControlSchema} from './List';
 import {LocationControlSchema} from './Location';
 import {MatrixControlSchema} from './Matrix';
+import {NestedSelectControlSchema} from './NestedSelect';
+import {NumberControlSchema} from './Number';
+import {PanelControlSchema} from './Panel';
+import {PickerControlSchema} from './Picker';
+import {RadiosControlSchema} from './Radios';
+import {RangeControlSchema} from './Range';
+import {RatingControlSchema} from './Rating';
+import {RepeatControlSchema} from './Repeat';
+import {RichTextControlSchema} from './RichText';
+import {ServiceControlSchema} from './Service';
+import {StaticControlSchema} from './Static';
+import {SubFormControlSchema} from './SubForm';
+import {SwitchControlSchema} from './Switch';
+import {TableControlSchema} from './Table';
+import {TabsControlSchema} from './Tabs';
+import {TabsTransferControlSchema} from './TabsTransfer';
+import {TagControlSchema} from './Tag';
+import {TransferControlSchema} from './Transfer';
+import {TreeControlSchema} from './Tree';
+import {TreeSelectControlSchema} from './TreeSelect';
 
 export type FormControlType =
   | 'array'
@@ -88,13 +108,33 @@ export type FormControlType =
   | 'list'
   | 'location'
   | 'matrix'
+  | 'nested-select'
+  | 'number'
+  | 'panel'
+  | 'picker'
+  | 'radios'
+  | 'range'
+  | 'rating'
+  | 'repeat'
+  | 'rich-text'
+  | 'select'
+  | 'service'
+  | 'static'
+  | 'form'
+  | 'switch'
+  | 'table'
+  | 'tabs'
+  | 'tabs-transfer'
+  | 'tag'
   | 'text'
   | 'password'
   | 'email'
   | 'url'
-  | 'select'
   | 'multi-select'
-  | 'textarea';
+  | 'textarea'
+  | 'transfer'
+  | 'tree'
+  | 'tree-select';
 
 export type FormControlSchema =
   | ArrayControlSchema
@@ -128,9 +168,29 @@ export type FormControlSchema =
   | ListControlSchema
   | LocationControlSchema
   | MatrixControlSchema
-  | TextControlSchema
+  | NestedSelectControlSchema
+  | NumberControlSchema
+  | PanelControlSchema
+  | PickerControlSchema
+  | RadiosControlSchema
+  | RangeControlSchema
+  | RatingControlSchema
+  | RichTextControlSchema
+  | RepeatControlSchema
   | SelectControlSchema
-  | TextareaControlSchema;
+  | ServiceControlSchema
+  | SubFormControlSchema
+  | SwitchControlSchema
+  | StaticControlSchema
+  | TableControlSchema
+  | TabsControlSchema
+  | TabsTransferControlSchema
+  | TagControlSchema
+  | TextControlSchema
+  | TextareaControlSchema
+  | TransferControlSchema
+  | TreeControlSchema
+  | TreeSelectControlSchema;
 
 export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
   /**
