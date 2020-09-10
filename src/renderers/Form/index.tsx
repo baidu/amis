@@ -89,14 +89,9 @@ export type FormGroup = FormSchema & {
 export type FormGroupNode = FormGroup | FormGroupArray;
 export interface FormGroupArray extends Array<FormGroupNode> {}
 
-export interface FormHorizontal {
-  leftFixed?: boolean | string;
-  left: string | number;
-  right: string | number;
-  offset: string | number;
-}
+export type FormHorizontal = FormSchemaHorizontal;
 
-export interface FormProps extends RendererProps, FormSchema {
+export interface FormProps extends RendererProps, Omit<FormSchema, 'mode'> {
   data: any;
   store: IFormStore;
   wrapperComponent: React.ReactType;

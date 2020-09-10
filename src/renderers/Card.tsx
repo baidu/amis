@@ -8,10 +8,10 @@ import Checkbox from '../components/Checkbox';
 import {IItem} from '../store/list';
 import {padArr, isVisible, isDisabled, noop} from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
-import QuickEdit from './QuickEdit';
-import PopOver from './PopOver';
+import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
+import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
-import Copyable from './Copyable';
+import Copyable, {SchemaCopyable} from './Copyable';
 import {Icon} from '../components/icons';
 import {
   BaseSchema,
@@ -24,8 +24,36 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 
+export type CardBodyField = BaseSchema & {
+  /**
+   * 列标题
+   */
+  label: string;
+
+  /**
+   * 绑定字段名
+   */
+  name?: string;
+
+  /**
+   * 配置查看详情功能
+   */
+  popOver?: SchemaPopOver;
+
+  /**
+   * 配置快速编辑功能
+   */
+  quickEdit?: SchemaQuickEdit;
+
+  /**
+   * 配置点击复制功能
+   */
+  copyable?: SchemaCopyable;
+};
+
 /**
- * Card 卡片渲染器，格式说明，文档：https://baidu.gitee.io/amis/docs/components/card
+ * Card 卡片渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/card
  */
 export interface CardSchema extends BaseSchema {
   /**
@@ -110,7 +138,7 @@ export interface CardSchema extends BaseSchema {
   /**
    * 内容区域
    */
-  body?: SchemaCollection; // todo 实际上应该只有固定的一些 field
+  body?: Array<CardBodyField>;
 
   /**
    * 底部按钮集合。

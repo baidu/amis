@@ -8,7 +8,8 @@ import {filter} from '../utils/tpl';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 
 /**
- * Audio 音频渲染器，文档：https://baidu.gitee.io/amis/docs/components/audio
+ * Audio 音频渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/audio
  */
 export interface AudioSchema extends BaseSchema {
   /**

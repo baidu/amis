@@ -44,6 +44,7 @@ import {VBoxSchema} from './renderers/VBox';
 import {VideoSchema} from './renderers/Video';
 import {WizardSchema} from './renderers/Wizard';
 import {WrapperSchema} from './renderers/Wrapper';
+import {TableSchema} from './renderers/Table';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -95,6 +96,7 @@ export type SchemaType =
   | 'service'
   | 'status'
   | 'switch'
+  | 'table'
   | 'tabs'
   | 'tasks'
   | 'vbox'
@@ -143,6 +145,7 @@ export type SchemaObject =
   | ServiceSchema
   | StatusSchema
   | SwitchSchema
+  | TableSchema
   | TabsSchema
   | TasksSchema
   | VBoxSchema

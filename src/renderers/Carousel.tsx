@@ -16,7 +16,8 @@ import {Icon} from '../components/icons';
 import {BaseSchema, SchemaName, SchemaObject, SchemaTpl} from '../Schema';
 
 /**
- * Carousel 轮播图渲染器，格式说明，文档：https://baidu.gitee.io/amis/docs/components/carousel
+ * Carousel 轮播图渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/carousel
  */
 export interface CarouselSchema extends BaseSchema {
   /**

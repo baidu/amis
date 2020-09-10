@@ -52,7 +52,7 @@ export interface ServiceSchema extends BaseSchema {
    *
    * @deprecated 改成 api 的 sendOn。
    */
-  initFetchOn?: boolean;
+  initFetchOn?: SchemaExpression;
 
   /**
    * 用来获取远程 Schema 的 api
@@ -93,6 +93,10 @@ export interface ServiceSchema extends BaseSchema {
 
 export interface ServiceProps extends RendererProps, ServiceSchema {
   store: IServiceStore;
+  messages: {
+    fetchSuccess?: string;
+    fetchFailed?: string;
+  };
 }
 export default class Service extends React.Component<ServiceProps> {
   timer: NodeJS.Timeout;
@@ -127,9 +131,7 @@ export default class Service extends React.Component<ServiceProps> {
     const props = this.props;
     const store = props.store;
 
-    const {
-      messages: {fetchSuccess, fetchFailed}
-    } = props;
+    const {fetchSuccess, fetchFailed} = props.messages!;
 
     isApiOutdated(prevProps.api, props.api, prevProps.data, props.data) &&
       store

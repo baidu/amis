@@ -23,7 +23,8 @@ import {
 import {ActionSchema} from './Action';
 
 /**
- * Chart 图表渲染器，格式说明，文档：https://baidu.gitee.io/amis/docs/components/carousel
+ * Chart 图表渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/carousel
  */
 export interface ChartSchema extends BaseSchema {
   /**

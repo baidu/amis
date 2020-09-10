@@ -6,7 +6,12 @@ import {isVisible, autobind, isDisabled} from '../utils/helper';
 import findIndex from 'lodash/findIndex';
 import {Tabs as CTabs, Tab} from '../components/Tabs';
 import {ClassNamesFn} from '../theme';
-import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
+import {
+  BaseSchema,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaIcon
+} from '../Schema';
 import {ActionSchema} from './Action';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
@@ -19,12 +24,12 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    * 内容
    * @deprecated 用 body 属性
    */
-  tab?: SchemaNode;
+  tab?: SchemaCollection;
 
   /**
    * 内容
    */
-  body?: SchemaNode;
+  body?: SchemaCollection;
 
   /**
    * 徽标

@@ -17,11 +17,11 @@ import {
   noop
 } from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
-import QuickEdit from './QuickEdit';
-import PopOver from './PopOver';
+import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
+import PopOver, {SchemaPopOver} from './PopOver';
 import Sortable from 'sortablejs';
 import {TableCell} from './Table';
-import Copyable from './Copyable';
+import Copyable, {SchemaCopyable} from './Copyable';
 import {Icon} from '../components/icons';
 import {
   BaseSchema,
@@ -36,6 +36,33 @@ import {
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
 
+export type ListBodyField = BaseSchema & {
+  /**
+   * 列标题
+   */
+  label: string;
+
+  /**
+   * 绑定字段名
+   */
+  name?: string;
+
+  /**
+   * 配置查看详情功能
+   */
+  popOver?: SchemaPopOver;
+
+  /**
+   * 配置快速编辑功能
+   */
+  quickEdit?: SchemaQuickEdit;
+
+  /**
+   * 配置点击复制功能
+   */
+  copyable?: SchemaCopyable;
+};
+
 export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
   actions?: Array<ActionSchema>;
 
@@ -47,7 +74,7 @@ export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 内容区域
    */
-  body?: SchemaCollection; // todo 实际上应该只有固定的一些 field
+  body?: Array<ListBodyField>;
 
   /**
    * 描述

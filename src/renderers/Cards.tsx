@@ -26,7 +26,8 @@ import {
 import {CardSchema} from './Card';
 
 /**
- * Cards 卡片集合渲染器，格式说明，文档：https://baidu.gitee.io/amis/docs/components/card
+ * Cards 卡片集合渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/card
  */
 export interface CardsSchema extends BaseSchema {
   /**

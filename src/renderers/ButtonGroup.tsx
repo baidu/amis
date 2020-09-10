@@ -5,7 +5,8 @@ import {BaseSchema, SchemaClassName, SchemaExpression} from '../Schema';
 import {ActionSchema} from './Action';
 
 /**
- * Button Group 渲染器，文档：https://baidu.gitee.io/amis/docs/components/button-group
+ * Button Group 渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/button-group
  */
 export interface ButtonGroupSchema extends BaseSchema {
   /**
