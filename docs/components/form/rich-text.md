@@ -26,6 +26,35 @@ order: 47
 }
 ```
 
+### tinymce 自定义配置
+
+可以设置 options 属性来自定义编辑器的展现，详细配置项请参考[官方文档](https://www.froala.com/wysiwyg-editor/docs/options)。
+
+注意在下面的编辑器里修改 JSON 配置后不会实时生效。
+
+```schema:height="320" scope="body"
+{
+    "type": "form",
+    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "controls": [
+        {
+            "type": "rich-text",
+            "name": "rich",
+            "options": {
+                "menubar": false,
+                "height": 200,
+                "plugins": [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table paste code help wordcount"
+                ],
+                "toolbar ": "undo redo | formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help"
+            }
+        }
+    ]
+}
+```
+
 ## 使用 froala 编辑器
 
 只需要加一行 `"vendor": "froala"` 配置就行，froala 是付费产品，需要设置 [richTextToken](../../start/getting-started#richtexttoken-string) 才能去掉水印。
