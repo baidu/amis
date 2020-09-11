@@ -35,7 +35,17 @@ import {isAlive} from 'mobx-state-tree';
 import {asFormItem, FormControlSchema} from './Item';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {trace} from 'mobx';
-import {BaseSchema, SchemaApi, SchemaDefaultData} from '../../Schema';
+import {
+  BaseSchema,
+  SchemaApi,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaDefaultData,
+  SchemaExpression,
+  SchemaName,
+  SchemaRedirect,
+  SchemaReload
+} from '../../Schema';
 import {ActionSchema} from '../Action';
 
 export interface FormSchemaHorizontal {
@@ -50,7 +60,14 @@ export interface FormSchemaHorizontal {
  * 说明：https://baidu.gitee.io/amis/docs/components/form/index
  */
 export interface FormSchema extends BaseSchema {
+  /**
+   * 指定为表单渲染器。
+   */
   type: 'form';
+
+  /**
+   * 表单标题
+   */
   title?: string;
 
   /**
@@ -81,17 +98,152 @@ export interface FormSchema extends BaseSchema {
   debug?: boolean;
 
   /**
+   * 用来初始化表单数据
+   */
+  initApi?: SchemaApi;
+
+  /**
+   * Form 用来获取初始数据的 api,与initApi不同的是，会一直轮训请求该接口，直到返回 finished 属性为 true 才 结束。
+   */
+  initAsyncApi?: SchemaApi;
+
+  /**
+   * 设置了initAsyncApi后，默认会从返回数据的data.finished来判断是否完成，也可以设置成其他的xxx，就会从data.xxx中获取
+   */
+  initFinishedField?: string;
+
+  /**
+   * 设置了initAsyncApi以后，默认拉取的时间间隔
+   */
+  initCheckInterval?: number;
+
+  /**
+   * 是否初始加载
+   */
+  initFetch?: boolean;
+
+  /**
+   * 建议改成 api 的 sendOn 属性。
+   */
+  initFetchOn: SchemaExpression;
+
+  /**
+   * 设置后将轮询调用 initApi
+   */
+  interval?: number;
+
+  /**
+   * 是否静默拉取
+   */
+  silentPolling?: boolean;
+
+  /**
+   * 配置停止轮询的条件
+   */
+  stopAutoRefreshWhen?: string;
+
+  /**
+   * 是否开启本地缓存
+   */
+  persistData?: boolean;
+
+  /**
+   * 提交成功后清空本地缓存
+   */
+  clearPersistDataAfterSubmit?: boolean;
+
+  /**
    * Form 用来保存数据的 api。
    */
   api?: SchemaApi;
 
   /**
-   * 用来初始化表单数据
+   * 设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束。
    */
-  initApi?: SchemaApi;
+  asyncApi?: SchemaApi;
+
+  /**
+   * 轮训请求的时间间隔，默认为 3秒。设置 asyncApi 才有效
+   */
+  checkInterval?: number;
+
+  /**
+   * 如果决定结束的字段名不是 `finished` 请设置此属性，比如 `is_success`
+   */
+  finishedField?: string;
+
+  /**
+   * 提交完后重置表单
+   */
+  resetAfterSubmit?: boolean;
 
   mode?: 'normal' | 'inline' | 'horizontal';
   horizontal?: FormSchemaHorizontal;
+
+  /**
+   * 是否自动将第一个表单元素聚焦。
+   */
+  autoFocus?: boolean;
+
+  messages?: {
+    fetchFailed?: string;
+    fetchSuccess?: string;
+    saveFailed?: string;
+    saveSuccess?: string;
+    validateFailed?: string;
+  };
+
+  name?: SchemaName;
+
+  /**
+   * 配置容器 panel className
+   */
+  panelClassName?: SchemaClassName;
+
+  /**
+   * 设置主键 id, 当设置后，检测表单是否完成时（asyncApi），只会携带此数据。
+   * @default id
+   */
+  primaryField?: string;
+
+  redirect?: SchemaRedirect;
+
+  reload?: SchemaReload;
+
+  /**
+   * 修改的时候是否直接提交表单。
+   */
+  submitOnChange?: boolean;
+
+  /**
+   * 表单初始先提交一次，联动的时候有用
+   */
+  submitOnInit?: boolean;
+
+  /**
+   * 默认的提交按钮名称，如果设置成空，则可以把默认按钮去掉。
+   */
+  submitText?: string;
+
+  /**
+   * 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi` 和 `schemaApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。
+   */
+  target?: string;
+
+  /**
+   * 是否用 panel 包裹起来
+   */
+  wrapWithPanel?: boolean;
+
+  /**
+   * 内容区
+   */
+  body?: SchemaCollection;
+
+  /**
+   * 是否固定底下的按钮在底部。
+   */
+  affixFooter?: boolean;
 }
 
 export type FormGroup = FormSchema & {
@@ -106,38 +258,8 @@ export type FormHorizontal = FormSchemaHorizontal;
 export interface FormProps extends RendererProps, Omit<FormSchema, 'mode'> {
   data: any;
   store: IFormStore;
-  wrapperComponent: React.ReactType;
-  title?: string; // 标题
-  submitText?: string;
-  submitOnChange?: boolean; // 设置是否一修改就提交。
-  submitOnInit?: boolean;
-  resetAfterSubmit?: boolean;
-  initApi?: Api; // 可以用来设置初始数据。
-  initAsyncApi?: Api; // 如果 api 处理时间过长，可以开启 initAsyncApi 来处理。轮询检测是否真的完成了。
-  initCheckInterval?: number;
-  initFinishedField?: string;
-  interval?: number;
-  silentPolling?: boolean;
-  stopAutoRefreshWhen?: string;
-  api?: Api; // 用来保存的 api
-  asyncApi?: Api; // 如果 api 处理时间过长，可以开启 asyncApi 来处理。轮询检测是否真的完成了。
-  checkInterval?: number;
-  finishedField?: string;
-  initFetch?: boolean; // 是否初始拉取？
-  initFetchOn?: string;
-  className?: string;
-  body?: SchemaNode;
-  wrapWithPanel?: boolean;
-  panelClassName?: string;
-  mode?: 'normal' | 'inline' | 'horizontal' | 'row';
-  affixFooter?: boolean;
-  collapsable?: boolean;
-  debug?: boolean;
-  autoFocus?: boolean;
-  horizontal: FormHorizontal;
+  wrapperComponent: React.ElementType;
   canAccessSuperData: boolean;
-  persistData: boolean; // 开启本地缓存
-  clearPersistDataAfterSubmit: boolean; // 提交成功后清空本地缓存
   trimValues?: boolean;
   lazyLoad?: boolean;
   simpleMode?: boolean;
