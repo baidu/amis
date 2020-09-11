@@ -73,7 +73,7 @@ npm i axios copy-to-clipboard
 
 > 为了方便示例，上面选用了我们常用几个插件库，你完全可以选择自己喜欢的插件并重新实现
 
-2. 代码实现
+2. 代码实现（React Typescript）
 
 ```tsx
 import * as React from 'react';
