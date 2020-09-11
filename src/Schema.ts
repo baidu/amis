@@ -323,7 +323,6 @@ export type SchemaTooltip =
 export type SchemaFunction = string | Function;
 
 export interface BaseSchema {
-  $schema?: SchemaSchema;
   type: SchemaType;
   className?: SchemaClassName;
 
