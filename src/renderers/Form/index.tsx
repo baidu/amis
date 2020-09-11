@@ -863,7 +863,7 @@ export default class Form extends React.Component<FormProps, object> {
             );
             finalRedirect && env.jumpTo(finalRedirect, action);
           } else if (action.reload || reload) {
-            this.reloadTarget(action.reload || reload, store.data);
+            this.reloadTarget(action.reload || reload!, store.data);
           }
 
           action.close && this.closeTarget(action.close);
