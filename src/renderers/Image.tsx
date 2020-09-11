@@ -5,21 +5,80 @@ import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {autobind} from '../utils/helper';
 import {Icon} from '../components/icons';
 import {LocaleProps, localeable} from '../locale';
+import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
 
-export interface ImageThumbProps extends LocaleProps, ThemeProps {
-  src: string;
-  originalSrc?: string; // 原图
+/**
+ * 图片展示控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/image
+ */
+export interface ImageSchema extends BaseSchema {
+  /**
+   * 指定为图片展示类型
+   */
+  type: 'image';
+
+  /**
+   * 默认图片地址
+   */
+  defaultImage?: SchemaUrlPath;
+
+  /**
+   * 图片描述
+   */
+  description?: SchemaTpl;
+
+  /**
+   * 图片标题
+   */
+  title?: SchemaTpl;
+
+  /**
+   * 关联字段名，也可以直接配置 src
+   */
+  name?: string;
+
+  /**
+   * 图片地址，如果配置了 name，这个属性不用配置。
+   */
+  src?: SchemaUrlPath;
+
+  /**
+   * 大图地址，不设置用 src
+   */
+  originalSrc?: SchemaUrlPath;
+
+  /**
+   * 是否启动放大功能。
+   */
   enlargeAble?: boolean;
-  onEnlarge?: (info: ImageThumbProps) => void;
+
+  /**
+   * 是否显示尺寸。
+   */
   showDimensions?: boolean;
-  title?: string;
+
   alt?: string;
-  index?: number;
-  className?: string;
-  imageClassName?: string;
-  caption?: string;
+
+  imageClassName?: SchemaClassName;
+  caption?: SchemaTpl;
+
+  /**
+   * 预览图模式
+   */
   thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+
+  /**
+   * 预览图比率
+   */
   thumbRatio?: '1:1' | '4:3' | '16:9';
+}
+
+export interface ImageThumbProps
+  extends LocaleProps,
+    ThemeProps,
+    Omit<ImageSchema, 'type'> {
+  onEnlarge?: (info: ImageThumbProps) => void;
+  index?: number;
   onLoad?: React.EventHandler<any>;
 }
 
@@ -141,8 +200,8 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     onImageEnlarge &&
       onImageEnlarge(
         {
-          src,
-          originalSrc: originalSrc || src,
+          src: src!,
+          originalSrc: originalSrc || src!,
           title: enlargeTitle || title,
           caption: enlargeCaption || caption,
           thumbMode,

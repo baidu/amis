@@ -1,6 +1,24 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import Rating from '../../components/Rating';
+
+/**
+ * Rating
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/rating
+ */
+export interface RatingControlSchema extends FormBaseControl {
+  type: 'rating';
+
+  /**
+   * 分数
+   */
+  count?: number;
+
+  /**
+   * 允许半颗星
+   */
+  half?: boolean;
+}
 
 export interface RatingProps extends FormControlProps {
   value: number;

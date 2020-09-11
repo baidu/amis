@@ -1,9 +1,23 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
+import {BaseSchema} from '../Schema';
 
-export interface IconProps extends RendererProps {
+/**
+ * Icon 图表渲染器
+ * 文档：https://baidu.gitee.io/amis/docs/components/icon
+ */
+export interface IconSchema extends BaseSchema {
+  type: 'icon';
+
+  /**
+   * 按钮类型
+   */
   icon: string;
+
+  vendor?: 'iconfont' | 'fa';
 }
+
+export interface IconProps extends RendererProps, IconSchema {}
 
 export class Icon extends React.Component<IconProps, object> {
   static defaultProps: Partial<IconProps> = {

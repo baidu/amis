@@ -4,12 +4,32 @@ import {ServiceStore, IServiceStore} from '../store/service';
 import {Api, SchemaNode, PlainObject} from '../types';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
+import {BaseSchema, SchemaTpl} from '../Schema';
 
-export interface MappingProps extends RendererProps {
-  className?: string;
+/**
+ * Mapping 映射展示控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/mapping
+ */
+export interface MappingSchema extends BaseSchema {
+  type: 'map' | 'mapping';
+
+  /**
+   * 关联字段名。
+   */
+  name?: string;
+
+  map?: {
+    '*': SchemaTpl;
+    [propName: string]: SchemaTpl;
+  };
+
+  /**
+   * 占位符
+   */
   placeholder?: string;
-  map: PlainObject;
 }
+
+export interface MappingProps extends RendererProps, MappingSchema {}
 
 export class MappingField extends React.Component<MappingProps, object> {
   static defaultProps: Partial<MappingProps> = {

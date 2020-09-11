@@ -1,13 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../../factory';
-import BasicService, {ServiceProps} from '../Service';
+import BasicService, {ServiceProps, ServiceSchema} from '../Service';
 import {Schema, Payload} from '../../types';
 import Scoped, {ScopedContext, IScopedContext} from '../../Scoped';
 import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from '../../store/service';
 import {IFormStore} from '../../store/form';
 import {isObject} from '../../utils/helper';
+import {FormBaseControl, FormControlSchema} from './Item';
+
+/**
+ * Sevice
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/sevice
+ */
+export interface ServiceControlSchema extends FormBaseControl, ServiceSchema {
+  type: 'service';
+
+  /**
+   * 表单项集合
+   */
+  controls?: Array<FormControlSchema>;
+
+  /**
+   * @deprecated 请用类型 tabs
+   */
+  tabs?: any;
+
+  /**
+   * @deprecated 请用类型 fieldSet
+   */
+  fieldSet?: any;
+}
 
 @Renderer({
   test: /(^|\/)form\/(.*)\/service$/,

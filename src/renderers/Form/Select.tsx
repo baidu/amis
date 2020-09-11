@@ -1,6 +1,11 @@
 import React from 'react';
 import cx from 'classnames';
-import {OptionsControl, OptionsControlProps, Option} from './Options';
+import {
+  OptionsControl,
+  OptionsControlProps,
+  Option,
+  FormOptionsControl
+} from './Options';
 import Select from '../../components/Select';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
@@ -8,6 +13,25 @@ import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {isEmpty, createObject} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
+import {SchemaApi} from '../../Schema';
+
+/**
+ * Select 下拉选择框。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/select
+ */
+export interface SelectControlSchema extends FormOptionsControl {
+  type: 'select' | 'multi-select';
+
+  /**
+   * 自动完成接口，请不要跟 source 同时使用。
+   */
+  autoComplete?: SchemaApi;
+
+  /**
+   * 是否可以搜索值
+   */
+  searchable?: boolean;
+}
 
 export interface SelectProps extends OptionsControlProps {
   autoComplete?: Api;

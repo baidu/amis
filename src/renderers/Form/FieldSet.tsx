@@ -1,21 +1,36 @@
 import React from 'react';
+import {FormSchemaHorizontal} from '.';
 import {Renderer, RendererProps} from '../../factory';
-import Collapse from '../Collapse';
-import cx from 'classnames';
+import {SchemaCollection, SchemaTpl} from '../../Schema';
+import Collapse, {CollapseSchema} from '../Collapse';
+import {FormBaseControl, FormControlSchema} from './Item';
 
-export interface FieldSetProps extends RendererProps {
-  title?: string;
-  collapsed?: boolean;
-  mode?: 'normal' | 'inline' | 'horizontal' | 'row';
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'base';
-  formClassName?: string;
-  collapsable?: boolean;
-  horizontal: {
-    left: string;
-    right: string;
-    offset: string;
-  };
+/**
+ * FieldSet 表单项集合
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/fieldset
+ */
+export interface FieldSetControlSchema
+  extends Omit<FormBaseControl, 'size'>,
+    Omit<CollapseSchema, 'type'> {
+  /**
+   * 指定为表单项集合
+   */
+  type: 'fieldset';
+
+  /**
+   * 表单项集合
+   */
+  controls?: Array<FormControlSchema>;
+
+  /**
+   * 标题
+   */
+  title?: SchemaTpl;
 }
+
+export interface FieldSetProps
+  extends RendererProps,
+    Omit<FieldSetControlSchema, 'type'> {}
 
 export default class FieldSetControl extends React.Component<
   FieldSetProps,

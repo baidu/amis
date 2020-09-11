@@ -11,12 +11,88 @@ import {IModalStore, ModalStore} from '../store/modal';
 import {filter} from '../utils/tpl';
 import {Spinner} from '../components';
 import {IServiceStore} from '../store/service';
+import {
+  BaseSchema,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaName
+} from '../Schema';
+import {ActionSchema} from './Action';
 
-export interface DrawerProps extends RendererProps {
-  title?: string; // 标题
-  size?: 'md' | 'lg' | 'xs' | 'sm';
-  position?: 'left' | 'right' | 'top' | 'bottom';
+/**
+ * Drawer 抽出式弹框。
+ * 文档：https://baidu.gitee.io/amis/docs/components/drawer
+ */
+export interface DrawerSchema extends Omit<BaseSchema, 'type'> {
+  /**
+   * 默认不用填写，自动会创建确认和取消按钮。
+   */
+  actions?: Array<ActionSchema>;
+
+  /**
+   * 内容区域
+   */
+  body?: SchemaCollection;
+
+  /**
+   * 配置 Body 容器 className
+   */
+  bodyClassName?: SchemaClassName;
+
+  /**
+   * 是否支持按 ESC 关闭 Dialog
+   */
   closeOnEsc?: boolean;
+
+  name?: SchemaName;
+
+  /**
+   * Dialog 大小
+   */
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+
+  /**
+   * 请通过配置 title 设置标题
+   */
+  title?: SchemaCollection;
+
+  /**
+   * 从什么位置弹出
+   */
+  position?: 'left' | 'right' | 'top' | 'bottom';
+
+  /**
+   * 头部
+   */
+  header?: SchemaCollection;
+
+  /**
+   * 底部
+   */
+  footer?: SchemaCollection;
+
+  /**
+   * 影响自动生成的按钮，如果自己配置了按钮这个配置无效。
+   */
+  confirm?: boolean;
+
+  /**
+   * 是否可以拖动弹窗大小
+   */
+  resizable?: boolean;
+
+  /**
+   * 是否显示蒙层
+   */
+  overlay?: boolean;
+
+  /**
+   * 点击外部的时候是否关闭弹框。
+   */
+  closeOnOutside?: boolean;
+}
+
+export interface DrawerProps extends RendererProps, DrawerSchema {
   onClose: () => void;
   onConfirm: (
     values: Array<object>,
@@ -26,16 +102,8 @@ export interface DrawerProps extends RendererProps {
   ) => void;
   children?: React.ReactNode | ((props?: any) => React.ReactNode);
   store: IModalStore;
-  className?: string;
-  header?: SchemaNode;
-  body?: SchemaNode;
-  bodyClassName?: string;
-  footer?: SchemaNode;
-  confirm?: boolean;
+
   show?: boolean;
-  resizable?: boolean;
-  overlay?: boolean;
-  closeOnOutside?: boolean;
   drawerContainer?: () => HTMLElement;
 }
 
@@ -113,14 +181,14 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     this.reaction && this.reaction();
   }
 
-  buildActions(): Array<Action> {
+  buildActions(): Array<ActionSchema> {
     const {actions, confirm, translate: __} = this.props;
 
     if (typeof actions !== 'undefined') {
       return actions;
     }
 
-    let ret: Array<Action> = [];
+    let ret: Array<ActionSchema> = [];
     ret.push({
       type: 'button',
       actionType: 'close',

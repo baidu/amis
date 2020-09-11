@@ -1,7 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Schema, Action, Api, ApiObject} from '../types';
+import {
+  SchemaNode,
+  Schema,
+  Action,
+  Api,
+  ApiObject,
+  PlainObject
+} from '../types';
 import {CRUDStore, ICRUDStore} from '../store/crud';
 import {
   createObject,
@@ -30,53 +37,220 @@ import findIndex from 'lodash/findIndex';
 import Html from '../components/Html';
 import {Spinner} from '../components';
 import {Icon} from '../components/icons';
+import {
+  BaseSchema,
+  SchemaApi,
+  SchemaClassName,
+  SchemaExpression,
+  SchemaName,
+  SchemaTokenizeableString
+} from '../Schema';
+import {ActionSchema} from './Action';
+import {CardsSchema} from './Cards';
+import {ListSchema} from './List';
+import {TableSchema} from './Table';
 
-export interface CRUDProps extends RendererProps {
-  api?: Api;
-  filter?: Schema;
-  store: ICRUDStore;
-  defaultParams: object;
-  syncLocation?: boolean;
-  primaryField?: string;
+export interface CRUDCommonSchema extends BaseSchema {
+  /**
+   *  指定为 CRUD 渲染器。
+   */
+  type: 'crud';
+
+  /**
+   * 指定内容区的展示模式。
+   */
   mode?: 'table' | 'grid' | 'cards' | /* grid 的别名*/ 'list';
-  toolbarInline?: boolean;
-  toolbar?: SchemaNode; // 不推荐，但是还是要兼容老用法。
-  headerToolbar?: SchemaNode;
-  footerToolbar?: SchemaNode;
-  bulkActions?: Array<Action>;
-  itemActions?: Array<Action>;
-  orderField?: string;
-  saveOrderApi?: Api;
-  quickSaveApi?: Api;
-  quickSaveItemApi?: Api;
+
+  /**
+   * 初始化数据 API
+   */
+  api?: SchemaApi;
+
+  /**
+   * 批量操作
+   */
+  bulkActions?: Array<ActionSchema>;
+
+  /**
+   * 单条操作
+   */
+  itemActions?: Array<ActionSchema>;
+
+  /**
+   * 可以默认给定初始参数如： {\"perPage\": 24}
+   */
+  defaultParams?: PlainObject;
+
+  /**
+   * 是否可通过拖拽排序
+   */
+  draggable?: boolean;
+
+  /**
+   * 是否可通过拖拽排序，通过表达式来配置
+   */
+  draggableOn?: SchemaExpression;
+
+  name?: SchemaName;
+
+  /**
+   * 过滤器表单
+   */
+  filter?: any; // todo
+
+  /**
+   * 初始是否拉取
+   * @deprecated 建议用 api 的 sendOn 代替。
+   */
   initFetch?: boolean;
-  perPageAvailable?: Array<number | string>;
-  messages: {
+
+  /**
+   * 初始是否拉取，用表达式来配置。
+   * @deprecated 建议用 api 的 sendOn 代替。
+   */
+  initFetchOn?: SchemaExpression;
+
+  /**
+   * 配置内部 DOM 的 className
+   */
+  innerClassName?: SchemaClassName;
+
+  /**
+   * 设置自动刷新时间
+   */
+  interval?: number;
+
+  /**
+   * 设置用来确定位置的字段名，设置后新的顺序将被赋值到该字段中。
+   */
+  orderField?: string;
+
+  /**
+   * 设置分页页码字段名。
+   * @default page
+   */
+  pageField?: string;
+
+  /**
+   * 设置分页一页显示的多少条数据的字段名。
+   * @default perPage
+   */
+  perPageField?: string;
+
+  /**
+   * 快速编辑后用来批量保存的 API
+   */
+  quickSaveApi?: SchemaApi;
+
+  /**
+   * 快速编辑配置成及时保存时使用的 API
+   */
+  quickSaveItemApi?: SchemaApi;
+
+  /**
+   * 保存排序的 api
+   */
+  saveOrderApi?: SchemaApi;
+
+  /**
+   * 是否将过滤条件的参数同步到地址栏,默认为true
+   * @default true
+   */
+  syncLocation?: boolean;
+
+  /**
+   * 顶部工具栏
+   */
+  headerToolbar?: Array<any>; // todo
+
+  /**
+   * 底部工具栏
+   */
+  footerToolbar?: Array<any>; // todo
+
+  /**
+   * 每页显示多少个空间成员的配置如： [10, 20, 50, 100]。
+   */
+  perPageAvailable?: Array<number>;
+
+  messages?: {
     fetchFailed?: string;
     fetchSuccess?: string;
     saveFailed?: string;
     saveSuccess?: string;
   };
-  pickerMode?: boolean; // 选择模式，用做表单中的选择操作
-  pageField?: string;
-  perPageField?: string;
+
+  /**
+   * 是否隐藏快速编辑的按钮。
+   */
   hideQuickSaveBtn?: boolean;
-  autoJumpToTopOnPagerChange?: boolean; // 是否自动跳顶部，当切分页的时候。
-  interval?: number;
+
+  /**
+   * 是否自动跳顶部，当切分页的时候。
+   */
+  autoJumpToTopOnPagerChange?: boolean;
+
+  /**
+   * 静默拉取
+   */
   silentPolling?: boolean;
-  stopAutoRefreshWhen?: string;
+  stopAutoRefreshWhen?: SchemaExpression;
+
   stopAutoRefreshWhenModalIsOpen?: boolean;
   filterTogglable?: boolean;
   filterDefaultVisible?: boolean;
+
+  /**
+   * 是否将接口返回的内容自动同步到地址栏，前提是开启了同步地址栏。
+   */
   syncResponse2Query?: boolean;
+
+  /**
+   * 分页的时候是否保留用户选择。
+   */
   keepItemSelectionOnPageChange?: boolean;
+
+  /**
+   * 是否为前端单次加载模式，可以用来实现前端分页。
+   */
   loadDataOnce?: boolean;
-  loadDataOnceFetchOnFilter?: boolean; // 在开启loadDataOnce时，filter时是否去重新请求api
-  source?: string;
+
+  /**
+   * 在开启loadDataOnce时，filter时是否去重新请求api
+   */
+  loadDataOnceFetchOnFilter?: boolean;
+
+  /**
+   * 也可以直接从环境变量中读取，但是不太推荐。
+   */
+  source?: SchemaTokenizeableString;
+}
+
+export type CRUDCardsSchema = CRUDCommonSchema & {
+  mode: 'cards';
+} & Omit<CardsSchema, 'type'>;
+
+export type CRUDListSchema = CRUDCommonSchema & {
+  mode: 'list';
+} & Omit<ListSchema, 'type'>;
+
+export type CRUDTableSchem = CRUDCommonSchema & {
+  mode?: 'table';
+} & Omit<TableSchema, 'type'>;
+
+/**
+ * CRUD 增删改查渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/crud
+ */
+export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchem;
+
+export interface CRUDProps extends RendererProps, CRUDCommonSchema {
+  store: ICRUDStore;
+  pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
 
 export default class CRUD extends React.Component<CRUDProps, any> {
-  static propsList: Array<string> = [
+  static propsList: Array<keyof CRUDProps> = [
     'bulkActions',
     'itemActions',
     'mode',
@@ -1197,8 +1371,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return false;
     }
 
-    let bulkBtns: Array<Action> = [];
-    let itemBtns: Array<Action> = [];
+    let bulkBtns: Array<ActionSchema> = [];
+    let itemBtns: Array<ActionSchema> = [];
     const ctx = store.mergedData;
 
     if (bulkActions && bulkActions.length) {
@@ -1243,8 +1417,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const selectedItems = store.selectedItems;
     const unSelectedItems = store.unSelectedItems;
 
-    let bulkBtns: Array<Action> = [];
-    let itemBtns: Array<Action> = [];
+    let bulkBtns: Array<ActionSchema> = [];
+    let itemBtns: Array<ActionSchema> = [];
 
     const ctx = store.mergedData;
 
@@ -1569,7 +1743,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       }
     }
 
-    return this.renderToolbar(headerToolbar, 0, childProps, toolbarRenderer);
+    return this.renderToolbar(
+      headerToolbar || [],
+      0,
+      childProps,
+      toolbarRenderer
+    );
   }
 
   renderFooterToolbar(

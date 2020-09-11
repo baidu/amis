@@ -235,7 +235,7 @@ export default class PlayGround extends React.Component {
       }
 
       const json = {
-        $schema: `${host}/schemas/page.json#`,
+        $schema: `${host}/schema.json#`,
         ...JSON.parse(schemaContent)
       };
 

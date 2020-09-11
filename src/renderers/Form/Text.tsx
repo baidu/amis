@@ -1,5 +1,10 @@
 import React from 'react';
-import {OptionsControl, OptionsControlProps, highlight} from './Options';
+import {
+  OptionsControl,
+  OptionsControlProps,
+  highlight,
+  FormOptionsControl
+} from './Options';
 import cx from 'classnames';
 import {Action} from '../../types';
 import Downshift, {StateChangeOptions} from 'downshift';
@@ -13,8 +18,30 @@ import Input from '../../components/Input';
 import {autobind, createObject, setVariable} from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
+import {FormBaseControl} from './Item';
+import {ActionSchema} from '../Action';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
+
+/**
+ * Text 文本输入框。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/text
+ */
+export interface TextControlSchema extends FormOptionsControl {
+  type: 'text' | 'email' | 'url' | 'password';
+
+  addOn?: {
+    position?: 'left' | 'right';
+    label?: string;
+    icon?: string;
+    className?: string;
+  } & ActionSchema;
+
+  /**
+   * 是否去除首尾空白文本。
+   */
+  trimContents?: boolean;
+}
 
 export interface TextProps extends OptionsControlProps {
   placeholder?: string;

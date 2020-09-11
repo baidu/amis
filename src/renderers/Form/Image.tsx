@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'react-cropper';
 import DropZone from 'react-dropzone';
@@ -17,39 +17,218 @@ import {getNameFromUrl} from './File';
 import ImageComponent, {ImageThumbProps} from '../Image';
 import {TranslateFn} from '../../locale';
 import {dataMapping} from '../../utils/tpl-builtin';
+import {
+  SchemaApi,
+  SchemaClassName,
+  SchemaTokenizeableString,
+  SchemaUrlPath
+} from '../../Schema';
 
-let preventEvent = (e: any) => e.stopPropagation();
+/**
+ * Image 图片上传控件
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/image
+ */
+export interface ImageControlSchema extends FormBaseControl {
+  /**
+   * 指定为图片上传控件
+   */
+  type: 'image';
 
-export interface ImageProps extends FormControlProps {
-  placeholder?: string;
-  reciever?: string;
-  limit?: {
-    width?: number;
-    height?: number;
-    maxWidth?: number;
-    minWidth?: number;
+  /**
+   * 默认展示图片的链接
+   */
+  src?: SchemaUrlPath;
+
+  /**
+   * 默认展示图片的类名
+   */
+  imageClassName?: string;
+
+  /**
+   * 配置接收的图片类型
+   *
+   * 建议直接填写文件后缀
+   * 如：.txt,.csv
+   *
+   * 多个类型用逗号隔开。
+   */
+  accept?: string;
+
+  /**
+   * 默认都是通过用户选择图片后上传返回图片地址，如果开启此选项，则可以允许用户图片地址。
+   */
+  allowInput?: boolean;
+
+  /**
+   * 是否自动开始上传
+   */
+  autoUpload?: boolean;
+
+  /**
+   * 选择图片按钮的 CSS 类名
+   */
+  btnClassName?: SchemaClassName;
+
+  /**
+   * 上传按钮的 CSS 类名
+   */
+  btnUploadClassName?: SchemaClassName;
+
+  /**
+   * @deprecated
+   */
+  compress?: boolean;
+
+  /**
+   * @deprecated
+   */
+  compressOptions?: {
     maxHeight?: number;
-    minHeight?: number;
-    aspectRatio?: number;
-    aspectRatioLabel?: string;
+    maxWidth?: number;
   };
-  reCropable: boolean;
+
   crop?:
     | boolean
     | {
+        /**
+         * 默认 `1` 即 `1:1`
+         *
+         * 留空将不限制
+         */
         aspectRatio?: number;
-        [propName: string]: any;
-      };
-  accept?: string;
 
+        guides?: boolean;
+        dragMode?: string;
+        viewMode?: number;
+        rotatable?: boolean;
+        scalable?: boolean;
+      };
+
+  /**
+   * 是否允许二次裁剪。
+   */
+  reCropable?: boolean;
+
+  /**
+   * 是否隐藏上传按钮
+   */
   hideUploadButton?: boolean;
-  joinValues?: boolean;
-  extractValue?: boolean;
-  delimiter?: string;
-  autoUpload?: boolean;
+
+  /**
+   * 限制图片大小，超出不让上传。
+   */
+  limit?: {
+    /**
+     * 比率不对时的提示文字
+     */
+    aspectRatioLabel?: string;
+    /**
+     * 限制比率
+     */
+    aspectRatio?: number;
+
+    /**
+     * 限制图片高度
+     */
+    height?: number;
+
+    /**
+     *  限制图片宽度
+     */
+    width?: number;
+
+    /**
+     * 限制图片最大高度
+     */
+    maxHeight?: number;
+
+    /**
+     * 限制图片最大宽度
+     */
+    maxWidth?: number;
+
+    /**
+     * 限制图片最小高度
+     */
+    minHeight?: number;
+
+    /**
+     *  限制图片最小宽度
+     */
+    minWidth?: number;
+  };
+
+  /**
+   * 最多的个数
+   */
+  maxLength?: number;
+
+  /**
+   * 默认没有限制，当设置后，文件大小大于此值将不允许上传。
+   */
+  maxSize?: number;
+
+  /**
+   * 默认 `/api/upload` 如果想自己存储，请设置此选项。
+   */
+  reciever?: SchemaApi;
+
+  /**
+   * 默认为 false, 开启后，允许用户输入压缩选项。
+   *
+   * @deprecated
+   */
+  showCompressOptions?: boolean;
+
+  /**
+   * 是否为多选
+   */
   multiple?: boolean;
+
+  /**
+   * 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。
+   * 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。
+   */
+  joinValues?: boolean;
+
+  /**
+   * 分割符
+   */
+  delimiter?: string;
+
+  /**
+   * 开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。
+   */
+  extractValue?: boolean;
+
+  /**
+   * 清除时设置的值
+   */
+  resetValue?: any;
+
+  /**
+   * 缩路图展示模式
+   */
   thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+
+  /**
+   * 缩路图展示比率。
+   */
   thumbRatio?: '1:1' | '4:3' | '16:9';
+
+  /**
+   * 上传后把其他字段同步到表单内部。
+   */
+  autoFill?: {
+    [propName: string]: SchemaTokenizeableString;
+  };
+}
+
+let preventEvent = (e: any) => e.stopPropagation();
+
+export interface ImageProps
+  extends FormControlProps,
+    Omit<ImageControlSchema, 'type'> {
   onImageEnlarge?: (
     info: Pick<ImageThumbProps, 'src' | 'originalSrc' | 'title' | 'caption'> & {
       index?: number;
@@ -58,7 +237,6 @@ export interface ImageProps extends FormControlProps {
       >;
     }
   ) => void;
-  autoFill?: Object;
 }
 
 export interface ImageState {
@@ -848,7 +1026,7 @@ export default class ImageControl extends React.Component<
     const imgDom = e.currentTarget;
     const img = new Image();
     img.onload = () => {
-      delete img.onload;
+      delete (img as any).onload;
       const files = this.files.concat();
       const file = files[index];
 

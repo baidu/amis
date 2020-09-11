@@ -1,12 +1,17 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {ServiceStore, IServiceStore} from '../store/service';
-import {filter} from '../utils/tpl';
-import cx from 'classnames';
+import {BaseSchema} from '../Schema';
 
-export interface DividerProps extends RendererProps {
-  lineStyle: 'dashed' | 'solid';
+/**
+ * Divider 分割线渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/divider
+ */
+export interface DividerSchema extends BaseSchema {
+  type: 'divider';
+  lineStyle?: 'dashed' | 'solid';
 }
+
+export interface DividerProps extends RendererProps, DividerSchema {}
 
 export default class Divider extends React.Component<DividerProps, object> {
   static defaultProps: Pick<DividerProps, 'className' | 'lineStyle'> = {

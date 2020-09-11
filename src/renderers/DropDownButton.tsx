@@ -7,15 +7,86 @@ import cx from 'classnames';
 import {isVisible, noop} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {Icon} from '../components/icons';
+import {
+  BaseSchema,
+  SchemaClassName,
+  SchemaExpression,
+  SchemaTooltip
+} from '../Schema';
+import {ActionSchema} from './Action';
+import {DividerSchema} from './Divider';
 
-export interface DropDownButtonProps extends RendererProps {
+/**
+ * 下拉按钮渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/dropdown-button
+ */
+export interface DropdownButtonSchema extends BaseSchema {
+  /**
+   * 指定为 DropDown Button 类型
+   */
+  type: 'dropdown-button';
+
+  /**
+   * 是否独占一行 `display: block`
+   */
   block?: boolean;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  align?: 'left' | 'right';
-  buttons?: Array<any>;
-  iconOnly?: boolean;
-  defaultIsOpened?: boolean;
+
+  /**
+   * 给 Button 配置 className。
+   */
+  btnClassName?: SchemaClassName;
+
+  /**
+   * 按钮集合
+   */
+  buttons?: Array<ActionSchema | DividerSchema | 'divider'>;
+
+  /**
+   * 按钮文字
+   */
+  label?: string;
+
+  /**
+   * 按钮级别，样式
+   */
+  level?: 'info' | 'success' | 'danger' | 'warning' | 'primary' | 'link';
+
+  /**
+   * 按钮提示文字，hover 时显示
+   */
+  tooltip?: SchemaTooltip;
+
+  /**
+   * 点击外部是否关闭
+   */
   closeOnOutside?: boolean;
+
+  /**
+   * 点击内容是否关闭
+   */
+  closeOnClick?: boolean;
+
+  /**
+   * 按钮大小
+   */
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+
+  /**
+   * 对齐方式
+   */
+  align?: 'left' | 'right';
+
+  /**
+   * 是否只显示图标。
+   */
+  iconOnly?: boolean;
+}
+
+export interface DropDownButtonProps
+  extends RendererProps,
+    Omit<DropdownButtonSchema, 'type'> {
+  defaultIsOpened?: boolean;
+  label?: any;
 }
 
 export interface DropDownButtonState {
@@ -101,7 +172,7 @@ export default class DropDownButton extends React.Component<
             ? children
             : Array.isArray(buttons)
             ? buttons.map((button, index) => {
-                if (!isVisible(button, data)) {
+                if (typeof button !== 'string' && !isVisible(button, data)) {
                   return null;
                 } else if (button === 'divider' || button.type === 'divider') {
                   return <li key={index} className={cx('DropDown-divider')} />;
@@ -111,7 +182,7 @@ export default class DropDownButton extends React.Component<
                   <li key={index}>
                     {render(`button/${index}`, {
                       type: 'button',
-                      ...button,
+                      ...(button as any),
                       isMenuItem: true
                     })}
                   </li>

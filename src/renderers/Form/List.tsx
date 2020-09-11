@@ -1,14 +1,41 @@
 import React from 'react';
-import {OptionsControl, OptionsControlProps, Option} from './Options';
+import {
+  OptionsControl,
+  OptionsControlProps,
+  Option,
+  FormOptionsControl
+} from './Options';
 import {Schema} from '../../types';
 import {createObject, isEmpty} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
+import {SchemaCollection} from '../../Schema';
 
-export interface ListProps extends OptionsControlProps {
-  imageClassName: string;
+/**
+ * List 复选框
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/list
+ */
+export interface ListControlSchema extends FormOptionsControl {
+  type: 'list';
+
+  /**
+   * 开启双击点选并提交。
+   */
   submitOnDBClick?: boolean;
-  itemSchema?: Schema;
+
+  /**
+   * 图片div类名
+   */
+  imageClassName: string;
+
+  /**
+   * 可以自定义展示模板。
+   */
+  itemSchema?: SchemaCollection;
 }
+
+export interface ListProps
+  extends OptionsControlProps,
+    Omit<ListControlSchema, 'type' | 'options'> {}
 
 export default class ListControl extends React.Component<ListProps, any> {
   static propsList = ['itemSchema', 'value', 'renderFormItems'];

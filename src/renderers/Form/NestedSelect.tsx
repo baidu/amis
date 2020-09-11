@@ -14,10 +14,22 @@ import {
   string2regExp
 } from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
-import {OptionsControl, OptionsControlProps} from '../Form/Options';
+import {
+  FormOptionsControl,
+  OptionsControl,
+  OptionsControlProps
+} from '../Form/Options';
 import {Option, Options} from '../../components/Select';
 import Input from '../../components/Input';
 import {findDOMNode} from 'react-dom';
+
+/**
+ * Nested Select
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/nested-select
+ */
+export interface NestedSelectControlSchema extends FormOptionsControl {
+  type: 'nested-select';
+}
 
 export interface NestedSelectProps extends OptionsControlProps {
   cascade?: boolean;
@@ -40,7 +52,7 @@ export default class NestedSelectControl extends React.Component<
     withChildren: false,
     searchPromptText: '输入内容进行检索',
     checkAll: true,
-    checkAllLabel: '全选',
+    checkAllLabel: '全选'
   };
   target: any;
   input: HTMLInputElement;

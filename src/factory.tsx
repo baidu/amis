@@ -51,6 +51,7 @@ import {
   LocaleContext,
   LocaleProps
 } from './locale';
+import {SchemaCollection, SchemaObject, SchemaTpl} from './Schema';
 
 export interface TestFunc {
   (
@@ -130,7 +131,7 @@ export interface renderChildProps extends Partial<RendererProps> {
 }
 
 export type RendererComponent = React.ComponentType<RendererProps> & {
-  propsList?: Array<string>;
+  propsList?: Array<any>;
 };
 
 export interface RendererConfig extends RendererBasicConfig {
@@ -139,7 +140,7 @@ export interface RendererConfig extends RendererBasicConfig {
 }
 
 export interface RenderSchemaFilter {
-  (schema: Schema, renderer: RendererConfig, props?: object): SchemaNode;
+  (schema: Schema, renderer: RendererConfig, props?: object): SchemaObject;
 }
 
 export interface RootRenderProps {
@@ -176,7 +177,7 @@ export interface RenderOptions {
 
 export interface fetcherConfig {
   url: string;
-  method: 'get' | 'post' | 'put' | 'patch' | 'delete';
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
   data?: any;
   config?: any;
 }
@@ -312,6 +313,7 @@ export function renderChild(
   const transform = props.propsTransform;
 
   if (transform) {
+    // @ts-ignore
     delete props.propsTransform;
     props = transform(props);
   }
@@ -527,6 +529,8 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         ...props.resolveDefinitions(schema.$ref),
         ...schema
       };
+
+      // @ts-ignore
       delete schema.$ref;
       path = path.replace(/(?!.*\/).*/, schema.type);
     }
@@ -590,7 +594,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const theme = this.props.env.theme;
 
     if (Array.isArray(schema)) {
-      return renderChildren($path, schema, rest) as JSX.Element;
+      return renderChildren($path, schema as any, rest) as JSX.Element;
     } else if (schema.children) {
       return React.isValidElement(schema.children)
         ? schema.children
@@ -850,6 +854,8 @@ export function HocStoreFactory(renderer: {
         const rootStore = this.context as IRendererStore;
         const store = this.store;
         rootStore.removeStore(store);
+
+        // @ts-ignore
         delete this.store;
       }
 
@@ -975,7 +981,7 @@ let stores: {
   [propName: string]: IRendererStore;
 } = {};
 export function render(
-  schema: SchemaNode,
+  schema: Schema,
   props: RootRenderProps = {},
   options: RenderOptions = {},
   pathPrefix: string = ''
@@ -1038,6 +1044,8 @@ export function clearStoresCache(
 
   sessions.forEach(key => {
     const store = stores[key];
+
+    // @ts-ignore
     delete stores[key];
 
     store && destroy(store);

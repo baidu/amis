@@ -1,44 +1,134 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Schema} from '../types';
-import cx from 'classnames';
 import pick from 'lodash/pick';
+import {BaseSchema, SchemaClassName} from '../Schema';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
-export type Column = Schema & {
+export type GridColumnObject = {
+  /**
+   * 极小屏（<768px）时宽度占比
+   */
   xs?: number;
+
+  /**
+   * 极小屏（<768px）时是否隐藏该列
+   */
   xsHidden?: boolean;
+
+  /**
+   * 极小屏（<768px）时宽度偏移量
+   */
   xsOffset?: number;
+
+  /**
+   * 极小屏（<768px）时宽度右偏移量
+   */
   xsPull?: number;
+
+  /**
+   * 极小屏（<768px）时宽度左偏移量
+   */
   xsPush?: number;
 
+  /**
+   * 小屏时（>=768px）宽度占比
+   */
   sm?: number;
+
+  /**
+   * 小屏时（>=768px）是否隐藏该列
+   */
   smHidden?: boolean;
+
+  /**
+   * 小屏时（>=768px）宽度偏移量
+   */
   smOffset?: number;
+
+  /**
+   * 小屏时（>=768px）宽度右偏移量
+   */
   smPull?: number;
+
+  /**
+   * 小屏时（>=768px）宽度左偏移量
+   */
   smPush?: number;
 
+  /**
+   * 中屏时(>=992px)宽度占比
+   */
   md?: number;
+
+  /**
+   * 中屏时(>=992px)是否隐藏该列
+   */
   mdHidden?: boolean;
+
+  /**
+   * 中屏时(>=992px)宽度偏移量
+   */
   mdOffset?: number;
+
+  /**
+   * 中屏时(>=992px)宽度右偏移量
+   */
   mdPull?: number;
+
+  /**
+   * 中屏时(>=992px)宽度左偏移量
+   */
   mdPush?: number;
 
+  /**
+   * 大屏时(>=1200px)宽度占比
+   */
   lg?: number;
+  /**
+   * 大屏时(>=1200px)是否隐藏该列
+   */
   lgHidden?: boolean;
+  /**
+   * 大屏时(>=1200px)宽度偏移量
+   */
   lgOffset?: number;
+  /**
+   * 大屏时(>=1200px)宽度右偏移量
+   */
   lgPull?: number;
+  /**
+   * 大屏时(>=1200px)宽度左偏移量
+   */
   lgPush?: number;
 
   mode?: string;
   horizontal?: any;
+
+  /**
+   * 列类名
+   */
+  columnClassName?: SchemaClassName;
 };
-export type ColumnNode = Column | ColumnArray;
+
+export type GridColumn = BaseSchema & GridColumnObject;
+export type ColumnNode = GridColumn | ColumnArray;
 export interface ColumnArray extends Array<ColumnNode> {}
 
-export interface GridProps extends RendererProps {
-  columns: Array<Column>;
+/**
+ * Grid 格子布局渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/grid
+ */
+export interface GridSchema extends BaseSchema {
+  /**
+   * 指定为each展示类型
+   */
+  type: 'grid';
+  columns: Array<GridColumn>;
+}
+
+export interface GridProps extends RendererProps, GridSchema {
   itemRender?: (
     item: any,
     key: number,
@@ -100,13 +190,17 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         key={key}
         className={cx(
           copProps2Class(colProps),
-          fromBsClass((column as Column).columnClassName)
+          fromBsClass((column as GridColumn).columnClassName!)
         )}
       >
         {Array.isArray(column) ? (
           <div className={cx('Grid')}>
             {column.map((column, key) =>
-              this.renderColumn(column, key, column.length)
+              this.renderColumn(
+                column,
+                key,
+                (column as Array<GridColumn>).length
+              )
             )}
           </div>
         ) : (

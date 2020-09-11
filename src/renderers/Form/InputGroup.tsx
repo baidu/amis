@@ -10,8 +10,27 @@ import {
 } from '../../utils/helper';
 import cx from 'classnames';
 import getExprProperties from '../../utils/filter-schema';
-import {FormItem, FormControlProps} from './Item';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  FormControlSchema
+} from './Item';
 import {IFormStore} from '../../store/form';
+import {SchemaClassName} from '../../Schema';
+
+/**
+ * InputGroup
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/input-group
+ */
+export interface InputGroupControlSchema extends FormBaseControl {
+  type: 'input-group';
+
+  /**
+   * FormItem 集合
+   */
+  controls: Array<FormControlSchema>;
+}
 
 export interface InputGroupProps extends FormControlProps {
   controls: Array<any>;

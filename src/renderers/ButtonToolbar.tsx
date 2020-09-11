@@ -1,10 +1,24 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {Action} from '../types';
+import {BaseSchema} from '../Schema';
+import {ActionSchema} from './Action';
 
-export interface ButtonToolbarProps extends RendererProps {
-  buttons: Array<Action>;
+/**
+ * Button Toolar 渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/button-toolbar
+ */
+export interface ButtonToolbarSchema extends BaseSchema {
+  /**
+   * 指定为按钮工具集合类型
+   */
+  type: 'button-toolbar';
+
+  buttons: Array<ActionSchema>;
 }
+
+export interface ButtonToolbarProps
+  extends RendererProps,
+    ButtonToolbarSchema {}
 
 export default class ButtonToolbar extends React.Component<
   ButtonToolbarProps,

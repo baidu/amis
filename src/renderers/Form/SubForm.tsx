@@ -1,10 +1,43 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import {createObject} from '../../utils/helper';
 import {Icon} from '../../components/icons';
+
+/**
+ * Static
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/static
+ */
+export interface SubFormControlSchema extends FormBaseControl {
+  type: 'form';
+
+  /**
+   * 占位符
+   */
+  placeholder?: string;
+
+  /**
+   * 是否多选
+   */
+  multiple?: boolean;
+
+  /**
+   * 最少个数
+   */
+  minLength?: number;
+
+  /**
+   * 最多个数
+   */
+  maxLength?: number;
+
+  /**
+   * 按钮名称字段。
+   */
+  labelField?: string;
+}
 
 export interface SubFormProps extends FormControlProps {
   placeholder?: string;
