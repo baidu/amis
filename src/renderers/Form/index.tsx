@@ -125,7 +125,7 @@ export interface FormSchema extends BaseSchema {
   /**
    * 建议改成 api 的 sendOn 属性。
    */
-  initFetchOn: SchemaExpression;
+  initFetchOn?: SchemaExpression;
 
   /**
    * 设置后将轮询调用 initApi
