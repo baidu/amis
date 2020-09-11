@@ -140,7 +140,7 @@ export interface RendererConfig extends RendererBasicConfig {
 }
 
 export interface RenderSchemaFilter {
-  (schema: Schema, renderer: RendererConfig, props?: object): SchemaObject;
+  (schema: Schema, renderer: RendererConfig, props?: object): Schema;
 }
 
 export interface RootRenderProps {

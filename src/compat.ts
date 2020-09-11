@@ -225,7 +225,7 @@ function convertArray2Hbox(arr: Array<any>): any {
 }
 
 // CRUD/List  和 CRUD/Card 的 body 中的数组用法转成 hbox
-addSchemaFilter(function(schema: Schema, renderer) {
+addSchemaFilter(function (schema: Schema, renderer) {
   if (
     renderer.component !== CardRenderer &&
     renderer.component !== ListItemRenderer
@@ -255,7 +255,7 @@ addSchemaFilter(function(schema: Schema, renderer) {
 });
 
 // button group 的 btnClassName 和 btnActiveClassName 改成 btnLevel 和 btnActiveLevel 了
-addSchemaFilter(function(scheam: Schema, renderer) {
+addSchemaFilter(function (scheam: Schema, renderer) {
   if (renderer.component !== ButtonGroupControlRenderer) {
     return scheam;
   }
@@ -275,7 +275,7 @@ addSchemaFilter(function(scheam: Schema, renderer) {
 });
 
 // FieldSet  className 定制样式方式改成 size 来配置
-addSchemaFilter(function(scheam: Schema, renderer) {
+addSchemaFilter(function (scheam: Schema, renderer) {
   if (renderer.component !== FieldSetRenderer) {
     return scheam;
   }
@@ -302,7 +302,7 @@ addSchemaFilter(function(scheam: Schema, renderer) {
 });
 
 // FieldSet  className 定制样式方式改成 size 来配置
-addSchemaFilter(function(scheam: Schema, renderer) {
+addSchemaFilter(function (scheam: Schema, renderer) {
   if (renderer.component !== ServiceRenderer) {
     return scheam;
   }

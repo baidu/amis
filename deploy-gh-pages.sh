@@ -7,12 +7,12 @@ echo "Cloning"
 git clone -b gh-pages https://$GH_TOKEN@github.com/baidu/amis.git gh-pages
 
 echo "building"
-node ./build/generate-search-data.js
+node ./scripts/generate-search-data.js
 
 fis3 release gh-pages -c
 
 # 不走 cdn 了
-# node ./build/upload2cdn.js $1 $2
+# node ./scripts/upload2cdn.js $1 $2
 
 echo "pushing"
 
