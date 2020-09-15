@@ -193,6 +193,10 @@ export interface OtherActionSchema extends ButtonSchema {
   [propName: string]: any;
 }
 
+export interface VanillaAction extends ButtonSchema {
+  actionType?: string;
+}
+
 export type ActionSchema =
   | AjaxActionSchema
   | UrlActionSchema
@@ -201,7 +205,8 @@ export type ActionSchema =
   | DrawerActionSchema
   | CopyActionSchema
   | ReloadActionSchema
-  | OtherActionSchema;
+  | OtherActionSchema
+  | VanillaAction;
 
 const ActionProps = [
   'dialog',
