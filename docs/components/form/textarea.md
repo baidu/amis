@@ -1,12 +1,13 @@
 ---
 title: Textarea 多行文本输入框
-description: 
+description:
 type: 0
 group: null
 menuName: Textarea 多行文本输入框
-icon: 
+icon:
 order: 57
 ---
+
 ## 基本使用
 
 ```schema:height="400" scope="body"
@@ -15,9 +16,10 @@ order: 57
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
     "controls": [
         {
-        "name": "textarea",
-        "type": "textarea",
-        "label": "多行文本"
+            "name": "textarea",
+            "type": "textarea",
+            "label": "多行文本"
+        }
     ]
 }
 ```
@@ -31,10 +33,3 @@ order: 57
 | minRows      | `number`  |        | 最小行数               |
 | maxRows      | `number`  |        | 最大行数               |
 | trimContents | `boolean` |        | 是否去除首尾空白文本。 |
-
-
-
-
-
-
-
