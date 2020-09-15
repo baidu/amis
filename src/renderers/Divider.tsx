@@ -9,6 +9,7 @@ import {BaseSchema} from '../Schema';
 export interface DividerSchema extends BaseSchema {
   type: 'divider';
   lineStyle?: 'dashed' | 'solid';
+  [propName: string]: any;
 }
 
 export interface DividerProps extends RendererProps, DividerSchema {}

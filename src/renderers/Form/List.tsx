@@ -25,7 +25,7 @@ export interface ListControlSchema extends FormOptionsControl {
   /**
    * 图片div类名
    */
-  imageClassName: string;
+  imageClassName?: string;
 
   /**
    * 可以自定义展示模板。

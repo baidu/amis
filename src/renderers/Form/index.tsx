@@ -51,7 +51,7 @@ import {ActionSchema} from '../Action';
 export interface FormSchemaHorizontal {
   left?: number;
   right?: number;
-  leftField?: boolean | number | 'xs' | 'sm' | 'md' | 'lg';
+  leftFixed?: boolean | number | 'xs' | 'sm' | 'md' | 'lg';
 }
 
 /**
@@ -177,7 +177,14 @@ export interface FormSchema extends BaseSchema {
    */
   resetAfterSubmit?: boolean;
 
+  /**
+   * 配置表单项默认的展示方式。
+   */
   mode?: 'normal' | 'inline' | 'horizontal';
+
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
   horizontal?: FormSchemaHorizontal;
 
   /**

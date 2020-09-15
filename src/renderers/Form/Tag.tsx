@@ -25,7 +25,7 @@ export interface TagControlSchema extends FormOptionsControl {
   /**
    * 选项提示信息
    */
-  optionsTip: string;
+  optionsTip?: string;
 
   /**
    * 是否为下拉模式

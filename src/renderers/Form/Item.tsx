@@ -63,7 +63,7 @@ import {RatingControlSchema} from './Rating';
 import {RepeatControlSchema} from './Repeat';
 import {RichTextControlSchema} from './RichText';
 import {ServiceControlSchema} from './Service';
-import {StaticControlSchema} from './Static';
+import {StaticControlRestSchema, StaticControlSchema} from './Static';
 import {SubFormControlSchema} from './SubForm';
 import {SwitchControlSchema} from './Switch';
 import {TableControlSchema} from './Table';
@@ -73,6 +73,9 @@ import {TagControlSchema} from './Tag';
 import {TransferControlSchema} from './Transfer';
 import {TreeControlSchema} from './Tree';
 import {TreeSelectControlSchema} from './TreeSelect';
+import {PlainSchema} from '../Plain';
+import {TplSchema} from '../Tpl';
+import {DividerSchema} from '../Divider';
 
 export type FormControlType =
   | 'array'
@@ -94,7 +97,49 @@ export type FormControlType =
   | 'time'
   | 'date-range'
   | 'diff'
+
+  // editor 系列
   | 'editor'
+  | 'bat-editor'
+  | 'c-editor'
+  | 'coffeescript-editor'
+  | 'cpp-editor'
+  | 'csharp-editor'
+  | 'css-editor'
+  | 'dockerfile-editor'
+  | 'fsharp-editor'
+  | 'go-editor'
+  | 'handlebars-editor'
+  | 'html-editor'
+  | 'ini-editor'
+  | 'java-editor'
+  | 'javascript-editor'
+  | 'json-editor'
+  | 'less-editor'
+  | 'lua-editor'
+  | 'markdown-editor'
+  | 'msdax-editor'
+  | 'objective-c-editor'
+  | 'php-editor'
+  | 'plaintext-editor'
+  | 'postiats-editor'
+  | 'powershell-editor'
+  | 'pug-editor'
+  | 'python-editor'
+  | 'r-editor'
+  | 'razor-editor'
+  | 'ruby-editor'
+  | 'sb-editor'
+  | 'scss-editor'
+  | 'sol-editor'
+  | 'sql-editor'
+  | 'swift-editor'
+  | 'typescript-editor'
+  | 'vb-editor'
+  | 'xml-editor'
+  | 'yaml-editor'
+
+  //
   | 'fieldset'
   | 'file'
   | 'formula'
@@ -134,7 +179,13 @@ export type FormControlType =
   | 'textarea'
   | 'transfer'
   | 'tree'
-  | 'tree-select';
+  | 'tree-select'
+
+  // 非表单项但是也可以放进来
+  | 'divider'
+  | 'html'
+  | 'plain'
+  | 'tpl';
 
 export type FormControlSchema =
   | ArrayControlSchema
@@ -182,6 +233,7 @@ export type FormControlSchema =
   | SubFormControlSchema
   | SwitchControlSchema
   | StaticControlSchema
+  | StaticControlRestSchema
   | TableControlSchema
   | TabsControlSchema
   | TabsTransferControlSchema
@@ -190,7 +242,10 @@ export type FormControlSchema =
   | TextareaControlSchema
   | TransferControlSchema
   | TreeControlSchema
-  | TreeSelectControlSchema;
+  | TreeSelectControlSchema
+
+  // 非表单项，但是也可以放进来。
+  | DividerSchema;
 
 export type FormControlSchemaAlias = FormControlSchema;
 
@@ -208,7 +263,7 @@ export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
   /**
    * 描述标题
    */
-  label?: string;
+  label?: string | false;
 
   /**
    * 配置 label className
@@ -255,6 +310,11 @@ export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
    * 描述内容，支持 Html 片段。
    */
   description?: string;
+
+  /**
+   * @deprecated 用 description 代替
+   */
+  desc?: string;
 
   /**
    * 配置描述上的 className

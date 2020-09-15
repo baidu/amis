@@ -1,12 +1,12 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {TableCell} from '../Table';
-import PopOver from '../PopOver';
-import QuickEdit from '../QuickEdit';
+import PopOver, {SchemaPopOver} from '../PopOver';
+import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
 import {Renderer} from '../../factory';
-import Copyable from '../Copyable';
+import Copyable, {SchemaCopyable} from '../Copyable';
 import {extendObject} from '../../utils/helper';
-import {SchemaTpl} from '../../Schema';
+import {SchemaTpl, SchemaType} from '../../Schema';
 
 /**
  * Static
@@ -24,6 +24,28 @@ export interface StaticControlSchema extends FormBaseControl {
    * 内容模板，不支持 HTML
    */
   text?: SchemaTpl;
+
+  /**
+   * 配置查看详情功能
+   */
+  popOver?: SchemaPopOver;
+
+  /**
+   * 配置快速编辑功能
+   */
+  quickEdit?: SchemaQuickEdit;
+
+  /**
+   * 配置点击复制功能
+   */
+  copyable?: SchemaCopyable;
+}
+
+export interface StaticControlRestSchema
+  extends Omit<StaticControlSchema, 'type'> {
+  type: SchemaType;
+
+  [propName: string]: any;
 }
 
 export interface StaticProps extends FormControlProps {
