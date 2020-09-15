@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Schema} from '../types';
 import pick from 'lodash/pick';
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, SchemaClassName, SchemaObject} from '../Schema';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
@@ -112,7 +112,7 @@ export type GridColumnObject = {
   columnClassName?: SchemaClassName;
 };
 
-export type GridColumn = BaseSchema & GridColumnObject;
+export type GridColumn = GridColumnObject & SchemaObject;
 export type ColumnNode = GridColumn | ColumnArray;
 export interface ColumnArray extends Array<ColumnNode> {}
 

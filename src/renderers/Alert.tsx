@@ -21,7 +21,7 @@ export interface AlertSchema extends BaseSchema {
   /**
    * 提示类型
    */
-  level?: 'info' | 'warning' | 'error' | 'danger';
+  level?: 'info' | 'warning' | 'success' | 'error' | 'danger';
 
   /**
    * 是否显示关闭按钮

@@ -8,9 +8,17 @@ import tsj = require('ts-json-schema-generator');
 import mkdirp = require('mkdirp');
 import {
   DiagnosticError,
+  IntersectionTypeFormatter,
+  ObjectTypeFormatter,
+  SubTypeFormatter,
   UnknownNodeError,
-  UnknownTypeError
+  UnknownTypeError,
+  IntersectionNodeParser,
+  SubNodeParser
 } from 'ts-json-schema-generator';
+import {IntersectionTypeFormatter as MyIntersectionTypeFormatter} from './TypeFormatter/IntersectionTypeFormatter';
+import {ObjectTypeFormatter as MyObjectTypeFormatter} from './TypeFormatter/ObjectTypeFormatter';
+import {IntersectionNodeParser as MyIntersectionNodeParser} from './NodeParser/IntersectionNodeParser';
 
 /**
  * 程序主入口
@@ -27,11 +35,63 @@ async function main() {
   };
 
   const generator = tsj.createGenerator(config);
+  hackIt(generator);
   const schema = generator.createSchema(config.type);
 
   const outputFile = path.join(outDir, 'schema.json');
   mkdirp(path.dirname(outputFile));
   fs.writeFileSync(outputFile, JSON.stringify(schema, null, 2));
+}
+
+function hackIt(generator: any) {
+  const circularReferenceTypeFormatter = generator.typeFormatter;
+  const typeFormatters =
+    circularReferenceTypeFormatter.childTypeFormatter.typeFormatters;
+
+  replaceTypeFormatter(
+    typeFormatters,
+    IntersectionTypeFormatter,
+    new MyIntersectionTypeFormatter(circularReferenceTypeFormatter)
+  );
+
+  replaceTypeFormatter(
+    typeFormatters,
+    ObjectTypeFormatter,
+    new MyObjectTypeFormatter(circularReferenceTypeFormatter)
+  );
+
+  const chainNodeParser = generator.nodeParser.childNodeParser;
+  const typeChecker = generator.program.getTypeChecker();
+
+  replaceNodeParser(
+    chainNodeParser.nodeParsers,
+    IntersectionNodeParser,
+    new MyIntersectionNodeParser(typeChecker, chainNodeParser)
+  );
+}
+
+function replaceTypeFormatter(
+  typeFormatters: Array<SubTypeFormatter>,
+  Klass: any,
+  replaceWith: SubTypeFormatter
+) {
+  const idx = typeFormatters.findIndex(item => item instanceof Klass);
+
+  if (~idx) {
+    typeFormatters.splice(idx, 1, replaceWith);
+  }
+}
+
+function replaceNodeParser(
+  nodeParsers: Array<SubNodeParser>,
+  Klass: any,
+  replaceWith: SubNodeParser
+) {
+  const idx = nodeParsers.findIndex(item => item instanceof Klass);
+
+  if (~idx) {
+    nodeParsers.splice(idx, 1, replaceWith);
+  }
 }
 
 main().catch(e => {
