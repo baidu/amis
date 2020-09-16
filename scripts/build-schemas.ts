@@ -93,7 +93,22 @@ function copyAnyOf(
 
     if (Array.isArray(definition.anyOf)) {
       const anyOf = definition.anyOf.map((item: any) => {
-        if (!/^#\/definitions\/(.*?)$/.test(item.$ref || '')) {
+        if (item.properties) {
+          const keys = Object.keys(patternProperties)[0];
+          const extenedPatternProperties = {
+            [`^(${uniqueArray(
+              Object.keys(item.properties).concat(
+                keys.substring(2, keys.length - 2).split('|')
+              )
+            ).join('|')})$`]: {}
+          };
+
+          return {
+            ...item,
+            additionalProperties: false,
+            patternProperties: extenedPatternProperties
+          };
+        } else if (!/^#\/definitions\/(.*?)$/.test(item.$ref || '')) {
           return item;
         }
         const baseKey = RegExp.$1;
@@ -106,9 +121,25 @@ function copyAnyOf(
           return item;
         }
 
-        if (Array.isArray(baseDefinition.anyOf)) {
-          // todo
-          return item;
+        if (
+          Array.isArray(baseDefinition.anyOf) &&
+          baseDefinition.anyOf.length
+        ) {
+          if (baseKey === 'ButtonControlSchema') {
+            copyAnyOf(schema, [
+              {
+                referenceKey: baseKey,
+                definationKey,
+                patternProperties
+              }
+            ]);
+
+            return {
+              $ref: '#/definitions/' + baseKey + definationKey
+            };
+          } else {
+            return item;
+          }
         } else if (!baseDefinition.properties) {
           return item;
         }

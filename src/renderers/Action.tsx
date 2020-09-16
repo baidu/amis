@@ -94,6 +94,11 @@ export interface ButtonSchema extends BaseSchema {
    * 是否将弹框中数据 merge 到父级作用域。
    */
   mergeData?: boolean;
+
+  /**
+   * 可以指定让谁来触发这个动作。
+   */
+  target?: string;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -197,11 +202,18 @@ export interface ReloadActionSchema extends ButtonSchema {
   /**
    * 指定目标组件。
    */
-  target: SchemaReload;
+  target?: SchemaReload;
 }
 
 export interface OtherActionSchema extends ButtonSchema {
-  actionType: 'prev' | 'next' | 'cancel' | 'close' | 'submit' | 'confirm';
+  actionType:
+    | 'prev'
+    | 'next'
+    | 'cancel'
+    | 'close'
+    | 'submit'
+    | 'confirm'
+    | 'add';
   [propName: string]: any;
 }
 

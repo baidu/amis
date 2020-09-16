@@ -22,9 +22,9 @@ export class IntersectionNodeParser extends BaseIntersectionNodeParser {
   ): BaseType | undefined {
     // 这两个只能用 allOf 来了，提取不了。
     const shouldBeReference = (type: any) =>
-      type.typeName?.escapedText === 'SchemaObject' ||
-      type.typeName?.escapedText === 'FormControlSchema';
-
+      ['SchemaObject', 'FormControlSchema'].includes(
+        type.typeName?.escapedText
+      );
     const matched = node.types.some(shouldBeReference);
 
     // 跟 SchemaObject and 一般都有问题，改成 allOf 不要支持 additional props false 了

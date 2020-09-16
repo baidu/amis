@@ -30,7 +30,7 @@ import {evalExpression} from '../utils/tpl';
 export const Column = types
   .model('Column', {
     label: types.optional(types.frozen(), undefined),
-    type: types.string,
+    type: types.optional(types.string, 'plain'),
     name: types.maybe(types.string),
     value: types.frozen(),
     groupName: '',

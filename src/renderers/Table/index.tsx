@@ -31,14 +31,18 @@ import {
   BaseSchema,
   SchemaClassName,
   SchemaObject,
-  SchemaTokenizeableString
+  SchemaTokenizeableString,
+  SchemaType
 } from '../../Schema';
 import {FormControlSchema, FormControlType} from '../Form/Item';
 import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';
 
-export type TableColumn = SchemaObject & {
+/**
+ * 表格列，不指定类型时默认为文本类型。
+ */
+export type TableColumnObject = {
   /**
    * 列标题
    */
@@ -63,6 +67,11 @@ export type TableColumn = SchemaObject & {
    * 配置快速编辑功能
    */
   quickEdit?: SchemaQuickEdit;
+
+  /**
+   * 作为表单项时，可以单独配置编辑时的快速编辑面板。
+   */
+  quickEditOnUpdate?: SchemaQuickEdit;
 
   /**
    * 配置点击复制功能
@@ -96,6 +105,8 @@ export type TableColumn = SchemaObject & {
   breakpoint?: '*' | 'xs' | 'sm' | 'md' | 'lg';
 };
 
+export type TableColumn = SchemaObject & TableColumnObject;
+
 /**
  * Table 表格渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/table
@@ -114,7 +125,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 表格的列信息
    */
-  columns?: Array<TableColumn>;
+  columns?: Array<TableColumn | TableColumnObject>;
 
   /**
    * 展示列显示开关，自动即：列数量大于或等于5个时自动开启
@@ -394,7 +405,7 @@ export default class Table extends React.Component<TableProps, object> {
     store.update({
       selectable,
       draggable,
-      columns,
+      columns: columns,
       columnsTogglable,
       orderBy,
       orderDir,

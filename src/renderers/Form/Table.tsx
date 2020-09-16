@@ -24,6 +24,11 @@ export interface TableControlSchema extends FormBaseControl, TableSchema {
   addable?: boolean;
 
   /**
+   * 是否可以拖拽排序
+   */
+  draggable?: boolean;
+
+  /**
    * 新增 API
    */
   addApi?: SchemaApi;
