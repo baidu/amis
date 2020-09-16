@@ -227,15 +227,7 @@ export default class PlayGround extends React.Component {
         '$1'
       ); // 去掉注释
 
-      let host = `${window.location.protocol}//${window.location.host}`;
-
-      // 如果在 gh-pages 里面
-      if (/^\/amis/.test(window.location.pathname)) {
-        host += '/amis';
-      }
-
       const json = {
-        $schema: `${host}/schema.json#`,
         ...JSON.parse(schemaContent)
       };
 
@@ -332,11 +324,61 @@ export default class PlayGround extends React.Component {
     window.removeEventListener('mousemove', this.handleMouseMove);
   }
 
+  editorDidMount = (editor, monaco) => {
+    this.editor = editor;
+    this.monaco = monaco;
+
+    let host = `${window.location.protocol}//${window.location.host}`;
+
+    // 如果在 gh-pages 里面
+    if (/^\/amis/.test(window.location.pathname)) {
+      host += '/amis';
+    }
+
+    const schemaUrl = `${host}/schema.json`;
+
+    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      schemas: [
+        {
+          uri: schemaUrl,
+          fileMatch: ['*']
+        }
+      ],
+      validate: true,
+      enableSchemaRequest: true,
+      allowComments: true
+    });
+  };
+
+  // editorFactory = (containerElement, monaco, options) => {
+  //   this.model = monaco.editor.createModel(
+  //     this.state.schemaCode,
+  //     'json',
+  //     monaco.Uri.parse(`isuda://schemas/page.json`)
+  //   );
+
+  //   return monaco.editor.create(containerElement, {
+  //     autoIndent: true,
+  //     formatOnType: true,
+  //     formatOnPaste: true,
+  //     selectOnLineNumbers: true,
+  //     scrollBeyondLastLine: false,
+  //     folding: true,
+  //     minimap: {
+  //       enabled: false
+  //     },
+  //     ...options,
+  //     model: this.model
+  //   });
+  // };
+
   renderEditor() {
     return (
       <CodeEditor
         value={this.state.schemaCode}
         onChange={this.handleChange}
+        // editorFactory={this.editorFactory}
+        editorDidMount={this.editorDidMount}
         language="json"
       />
     );
