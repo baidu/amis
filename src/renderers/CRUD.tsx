@@ -45,12 +45,36 @@ import {
   SchemaExpression,
   SchemaMessage,
   SchemaName,
-  SchemaTokenizeableString
+  SchemaObject,
+  SchemaTokenizeableString,
+  SchemaTpl
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
+
+export interface CRUDBultinToolbar extends Omit<BaseSchema, 'type'> {
+  type:
+    | 'columns-toggler'
+    | 'drag-toggler'
+    | 'pagination'
+    | 'bulkActions'
+    | 'bulk-actions'
+    | 'statistics'
+    | 'switch-per-page'
+    | 'load-more'
+    | 'filter-toggler';
+}
+
+export type CRUDToolbarChild = SchemaObject | CRUDBultinToolbar;
+
+export type CRUDToolbarObject = {
+  /**
+   * 对齐方式
+   */
+  align?: 'left' | 'right';
+};
 
 export interface CRUDCommonSchema extends BaseSchema {
   /**
@@ -163,12 +187,12 @@ export interface CRUDCommonSchema extends BaseSchema {
   /**
    * 顶部工具栏
    */
-  headerToolbar?: SchemaCollection;
+  headerToolbar?: Array<CRUDToolbarChild & CRUDToolbarObject>;
 
   /**
    * 底部工具栏
    */
-  footerToolbar?: SchemaCollection;
+  footerToolbar?: Array<CRUDToolbarChild & CRUDToolbarObject>;
 
   /**
    * 每页显示多少个空间成员的配置如： [10, 20, 50, 100]。
@@ -208,6 +232,11 @@ export interface CRUDCommonSchema extends BaseSchema {
   keepItemSelectionOnPageChange?: boolean;
 
   /**
+   * 当配置 keepItemSelectionOnPageChange 时有用，用来配置已勾选项的文案。
+   */
+  labelTpl?: SchemaTpl;
+
+  /**
    * 是否为前端单次加载模式，可以用来实现前端分页。
    */
   loadDataOnce?: boolean;
@@ -221,6 +250,26 @@ export interface CRUDCommonSchema extends BaseSchema {
    * 也可以直接从环境变量中读取，但是不太推荐。
    */
   source?: SchemaTokenizeableString;
+
+  /**
+   * 如果时内嵌模式，可以通过这个来配置默认的展开选项。
+   */
+  expandConfig?: {
+    /**
+     * 默认是展开第一个、所有、还是都不展开。
+     */
+    expand?: 'first' | 'all' | 'none';
+
+    /**
+     * 是否显示全部切换按钮
+     */
+    expandAll?: boolean;
+
+    /**
+     * 是否为手风琴模式
+     */
+    accordion?: boolean;
+  };
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {

@@ -20,7 +20,7 @@ export interface AudioSchema extends BaseSchema {
   /**
    * 是否是内联模式
    */
-  inline: boolean;
+  inline?: boolean;
 
   /**
    * "视频播放地址, 支持 $ 取变量。

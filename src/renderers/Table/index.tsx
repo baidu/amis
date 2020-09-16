@@ -38,6 +38,7 @@ import {FormControlSchema, FormControlType} from '../Form/Item';
 import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';
+import {SchemaRemark} from '../Remark';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -99,10 +100,20 @@ export type TableColumnObject = {
   width?: number | string;
 
   /**
+   * todo
+   */
+  filterable?: any;
+
+  /**
    * 结合表格的 footable 一起使用。
    * 填写 *、xs、sm、md、lg指定 footable 的触发条件，可以填写多个用空格隔开
    */
   breakpoint?: '*' | 'xs' | 'sm' | 'md' | 'lg';
+
+  /**
+   * 提示信息
+   */
+  remark?: SchemaRemark;
 };
 
 export type TableColumn = SchemaObject & TableColumnObject;
@@ -139,6 +150,11 @@ export interface TableSchema extends BaseSchema {
     | boolean
     | {
         expand?: 'first' | 'all' | 'none';
+
+        /**
+         * 是否为手风琴模式
+         */
+        accordion?: boolean;
       };
 
   /**
@@ -185,6 +201,11 @@ export interface TableSchema extends BaseSchema {
    * 工具栏 CSS 类名
    */
   toolbarClassName?: SchemaClassName;
+
+  /**
+   * 合并单元格配置，配置数字表示从左到右的多少列自动合并单元格。
+   */
+  combineNum?: number;
 }
 
 export interface TableProps extends RendererProps {
