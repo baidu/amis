@@ -294,7 +294,7 @@ class CustomRenderer extends React.Component {
 
 ### 表单项的扩展
 
-以上是普通渲染器的注册方式，如果是表单项，为了更简单的扩充，请使用 `FormItem` 注解，而不是 `Renderer`。 原因是如果用 `FormItem` 是不用关心：label 怎么摆，表单验证器怎么实现，如何适配表单的 3 中展现方式（水平、上下和内联模式），而只用关心：有了值后如何回显，响应用户交互设置新值。
+以上是普通渲染器的注册方式，如果是表单项，为了更简单的扩充，请使用 `FormItem` 注解，而不是 `Renderer`。 原因是如果用 `FormItem` 是不用关心：label 怎么摆，表单验证器怎么实现，如何适配表单的 3 种展现方式（水平、上下和内联模式），而只用关心：有了值后如何回显，响应用户交互设置新值。
 
 ```jsx
 import * as React from 'react';
