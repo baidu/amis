@@ -15,7 +15,7 @@ export interface ImageSchema extends BaseSchema {
   /**
    * 指定为图片展示类型
    */
-  type: 'image';
+  type: 'image' | 'static-image';
 
   /**
    * 默认图片地址
@@ -36,6 +36,11 @@ export interface ImageSchema extends BaseSchema {
    * 关联字段名，也可以直接配置 src
    */
   name?: string;
+
+  /**
+   * 图片描述信息
+   */
+  imageCaption?: SchemaTpl;
 
   /**
    * 图片地址，如果配置了 name，这个属性不用配置。

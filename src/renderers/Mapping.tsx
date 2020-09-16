@@ -18,8 +18,10 @@ export interface MappingSchema extends BaseSchema {
    */
   name?: string;
 
+  /**
+   * 配置映射规则，值可以使用模板语法。当 key 为 * 时表示 else，也就是说值没有映射到任何规则时用 * 对应的值展示。
+   */
   map?: {
-    '*': SchemaTpl;
     [propName: string]: SchemaTpl;
   };
 

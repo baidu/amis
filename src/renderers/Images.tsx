@@ -14,7 +14,7 @@ export interface ImagesSchema extends BaseSchema {
   /**
    * 指定为图片集渲染器
    */
-  type: 'images';
+  type: 'images' | 'static-images';
 
   /**
    * 默认图片地址

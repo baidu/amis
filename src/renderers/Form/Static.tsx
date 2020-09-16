@@ -6,7 +6,7 @@ import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
 import {Renderer} from '../../factory';
 import Copyable, {SchemaCopyable} from '../Copyable';
 import {extendObject} from '../../utils/helper';
-import {SchemaTpl, SchemaType} from '../../Schema';
+import {SchemaObject, SchemaTpl, SchemaType} from '../../Schema';
 
 /**
  * Static
@@ -41,12 +41,8 @@ export interface StaticControlSchema extends FormBaseControl {
   copyable?: SchemaCopyable;
 }
 
-export interface StaticControlRestSchema
-  extends Omit<StaticControlSchema, 'type'> {
-  type: SchemaType;
-
-  [propName: string]: any;
-}
+export type StaticControlRestSchema = Omit<StaticControlSchema, 'type'> &
+  SchemaObject;
 
 export interface StaticProps extends FormControlProps {
   placeholder?: string;

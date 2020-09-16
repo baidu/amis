@@ -11,7 +11,13 @@ export interface DateSchema extends BaseSchema {
   /**
    * 指定为日期展示类型
    */
-  type: 'date' | 'datetime' | 'time';
+  type:
+    | 'date'
+    | 'datetime'
+    | 'time'
+    | 'static-date'
+    | 'static-datetime'
+    | 'static-time';
 
   /**
    * 展示的时间格式，参考 moment 中的格式说明。

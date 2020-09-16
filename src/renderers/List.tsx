@@ -105,7 +105,7 @@ export interface ListSchema extends BaseSchema {
   /**
    * 指定为 List 列表展示控件。
    */
-  type: 'list';
+  type: 'list' | 'static-list';
 
   /**
    * 标题

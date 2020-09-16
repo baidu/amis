@@ -69,8 +69,11 @@ export type SchemaType =
   | 'container'
   | 'crud'
   | 'date'
+  | 'static-date' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'datetime'
+  | 'static-datetime' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'time'
+  | 'static-time' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'divider'
   | 'dropdown-button'
   | 'each'
@@ -79,10 +82,14 @@ export type SchemaType =
   | 'icon'
   | 'iframe'
   | 'image'
+  | 'static-image' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'images'
+  | 'static-images' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'json'
+  | 'static-json' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'link'
   | 'list'
+  | 'static-list' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'map'
   | 'mapping'
   | 'nav'
@@ -97,6 +104,7 @@ export type SchemaType =
   | 'status'
   | 'switch'
   | 'table'
+  | 'static-table' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'tabs'
   | 'tasks'
   | 'vbox'

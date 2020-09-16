@@ -13,7 +13,7 @@ export interface JsonSchema extends BaseSchema {
   /**
    * 指定为Json展示类型
    */
-  type: 'json';
+  type: 'json' | 'static-json';
 
   /**
    * 默认展开的级别

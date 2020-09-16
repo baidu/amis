@@ -99,7 +99,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 指定为表格渲染器。
    */
-  type: 'table';
+  type: 'table' | 'static-table';
 
   /**
    * 是否固定表头
