@@ -104,31 +104,29 @@ export default {
             {
               type: 'service',
               api: '/api/mock2/form/initData?tpl=${tpl}',
-              body: {
-                controls: [
-                  {
-                    label: '名称',
-                    type: 'text',
-                    labelClassName: 'text-muted',
-                    name: 'name'
-                  },
+              controls: [
+                {
+                  label: '名称',
+                  type: 'text',
+                  labelClassName: 'text-muted',
+                  name: 'name'
+                },
 
-                  {
-                    label: '作者',
-                    type: 'text',
-                    labelClassName: 'text-muted',
-                    name: 'author'
-                  },
+                {
+                  label: '作者',
+                  type: 'text',
+                  labelClassName: 'text-muted',
+                  name: 'author'
+                },
 
-                  {
-                    label: '请求时间',
-                    type: 'datetime',
-                    labelClassName: 'text-muted',
-                    inputFormat: 'YYYY-MM-DD HH:mm:ss',
-                    name: 'date'
-                  }
-                ]
-              }
+                {
+                  label: '请求时间',
+                  type: 'datetime',
+                  labelClassName: 'text-muted',
+                  inputFormat: 'YYYY-MM-DD HH:mm:ss',
+                  name: 'date'
+                }
+              ]
             }
           ]
         },
@@ -190,31 +188,29 @@ export default {
                   tpl: '${tpl}'
                 }
               },
-              body: {
-                controls: [
-                  {
-                    label: '名称',
-                    type: 'text',
-                    labelClassName: 'text-muted',
-                    name: 'name'
-                  },
+              controls: [
+                {
+                  label: '名称',
+                  type: 'text',
+                  labelClassName: 'text-muted',
+                  name: 'name'
+                },
 
-                  {
-                    label: '作者',
-                    type: 'text',
-                    labelClassName: 'text-muted',
-                    name: 'author'
-                  },
+                {
+                  label: '作者',
+                  type: 'text',
+                  labelClassName: 'text-muted',
+                  name: 'author'
+                },
 
-                  {
-                    label: '请求时间',
-                    type: 'datetime',
-                    labelClassName: 'text-muted',
-                    inputFormat: 'YYYY-MM-DD HH:mm:ss',
-                    name: 'date'
-                  }
-                ]
-              }
+                {
+                  label: '请求时间',
+                  type: 'datetime',
+                  labelClassName: 'text-muted',
+                  inputFormat: 'YYYY-MM-DD HH:mm:ss',
+                  name: 'date'
+                }
+              ]
             }
           ]
         }

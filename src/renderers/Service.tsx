@@ -15,7 +15,8 @@ import {
   SchemaApi,
   SchemaCollection,
   SchemaExpression,
-  SchemaMessage
+  SchemaMessage,
+  SchemaName
 } from '../Schema';
 
 /**
@@ -87,6 +88,8 @@ export interface ServiceSchema extends BaseSchema {
   stopAutoRefreshWhen?: SchemaExpression;
 
   messages?: SchemaMessage;
+
+  name?: SchemaName;
 }
 
 export interface ServiceProps extends RendererProps, ServiceSchema {

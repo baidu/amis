@@ -149,18 +149,21 @@ export default {
             label: 'Rendering engine',
             labelClassName: 'w-sm'
           },
-          [
-            {
-              name: 'browser',
-              label: 'Browser',
-              labelClassName: 'w-sm'
-            },
-            {
-              name: 'platform',
-              label: 'Platform(s)',
-              labelClassName: 'w-sm'
-            }
-          ],
+          {
+            type: 'hbox',
+            columns: [
+              {
+                name: 'browser',
+                label: 'Browser',
+                labelClassName: 'w-sm'
+              },
+              {
+                name: 'platform',
+                label: 'Platform(s)',
+                labelClassName: 'w-sm'
+              }
+            ]
+          },
           {
             name: 'version',
             label: 'Engine version',

@@ -39,7 +39,11 @@ import {
 } from '../../components/Select';
 import {filter} from '../../utils/tpl';
 import findIndex from 'lodash/findIndex';
-import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
+import {
+  SchemaApi,
+  SchemaExpression,
+  SchemaTokenizeableString
+} from '../../Schema';
 
 export {Option};
 
@@ -53,6 +57,20 @@ export interface FormOptionsControl extends FormBaseControl {
    * 可用来通过 API 拉取 options。
    */
   source?: SchemaApi | SchemaTokenizeableString;
+
+  /**
+   * 用表达式来配置 source 接口初始要不要拉取
+   *
+   * @deprecated 建议用 source 接口的 sendOn
+   */
+  initFetchOn?: SchemaExpression;
+
+  /**
+   * 配置 source 接口初始拉不拉取。
+   *
+   * @deprecated 建议用 source 接口的 sendOn
+   */
+  initFetch?: boolean;
 
   /**
    * 是否为多选模式

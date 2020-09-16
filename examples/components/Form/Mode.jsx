@@ -35,7 +35,6 @@ export default {
             },
             {
               type: 'submit',
-              btnClassName: 'btn-default',
               label: '登录'
             }
           ]
@@ -71,7 +70,6 @@ export default {
             },
             {
               type: 'submit',
-              btnClassName: 'btn-default',
               label: '登录'
             }
           ]
@@ -309,7 +307,6 @@ export default {
         },
         {
           type: 'submit',
-          btnClassName: 'btn-default',
           label: '提交'
         }
       ]
@@ -494,7 +491,6 @@ export default {
         },
         {
           type: 'submit',
-          btnClassName: 'btn-default',
           label: 'Submit'
         }
       ]
