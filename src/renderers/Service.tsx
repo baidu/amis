@@ -14,7 +14,8 @@ import {
   BaseSchema,
   SchemaApi,
   SchemaCollection,
-  SchemaExpression
+  SchemaExpression,
+  SchemaMessage
 } from '../Schema';
 
 /**
@@ -85,18 +86,12 @@ export interface ServiceSchema extends BaseSchema {
    */
   stopAutoRefreshWhen?: SchemaExpression;
 
-  messages?: {
-    fetchSuccess?: string;
-    fetchFailed?: string;
-  };
+  messages?: SchemaMessage;
 }
 
 export interface ServiceProps extends RendererProps, ServiceSchema {
   store: IServiceStore;
-  messages: {
-    fetchSuccess?: string;
-    fetchFailed?: string;
-  };
+  messages: SchemaMessage;
 }
 export default class Service extends React.Component<ServiceProps> {
   timer: NodeJS.Timeout;

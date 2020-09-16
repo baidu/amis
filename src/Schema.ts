@@ -328,6 +328,31 @@ export type SchemaTooltip =
       content: string;
     };
 
+/**
+ * 消息文案配置，记住这个优先级是最低的，如果你的接口返回了 msg，接口返回的优先。
+ */
+export type SchemaMessage = {
+  /**
+   * 获取失败时的提示
+   */
+  fetchFailed?: string;
+
+  /**
+   * 获取成功的提示，默认为空。
+   */
+  fetchSuccess?: string;
+
+  /**
+   * 保存失败时的提示。
+   */
+  saveFailed?: string;
+
+  /**
+   * 保存成功时的提示。
+   */
+  saveSuccess?: string;
+};
+
 export type SchemaFunction = string | Function;
 
 export interface BaseSchema {

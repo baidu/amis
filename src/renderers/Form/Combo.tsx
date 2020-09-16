@@ -45,6 +45,11 @@ export type ComboSubControl = FormControlSchema & {
    * 是否唯一, 只有在 combo 里面才有用
    */
   unique?: boolean;
+
+  /**
+   * 列类名，可以用来修改这类宽度。
+   */
+  columnClassName?: SchemaClassName;
 };
 
 /**
@@ -168,7 +173,7 @@ export interface ComboControlSchema extends FormBaseControl {
   /**
    * 是否可删除
    */
-  removeAble?: boolean;
+  removable?: boolean;
 
   /**
    * 子表单的模式。

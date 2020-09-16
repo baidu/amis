@@ -75,6 +75,11 @@ export type TableColumn = SchemaObject & {
   sortable?: boolean;
 
   /**
+   * 是否可快速搜索
+   */
+  searchable?: boolean;
+
+  /**
    * 配置是否默认展示
    */
   toggled?: boolean;
@@ -109,7 +114,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 表格的列信息
    */
-  columns: Array<TableColumn>;
+  columns?: Array<TableColumn>;
 
   /**
    * 展示列显示开关，自动即：列数量大于或等于5个时自动开启

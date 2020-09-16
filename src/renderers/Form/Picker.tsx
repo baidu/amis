@@ -52,7 +52,7 @@ export interface PickerControlSchema extends FormOptionsControl {
   /**
    * 弹窗选择框详情。
    */
-  pickerSchema?: CRUDSchema;
+  pickerSchema?: any; // Omit<CRUDSchema, 'type'>;
 
   /**
    * 弹窗模式，dialog 或者 drawer

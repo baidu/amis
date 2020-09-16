@@ -35,7 +35,7 @@ export interface CardsSchema extends BaseSchema {
    */
   type: 'cards';
 
-  card: CardSchema;
+  card?: Omit<CardSchema, 'type'>;
 
   /**
    * 头部 CSS 类名

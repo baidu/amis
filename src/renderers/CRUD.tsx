@@ -41,7 +41,9 @@ import {
   BaseSchema,
   SchemaApi,
   SchemaClassName,
+  SchemaCollection,
   SchemaExpression,
+  SchemaMessage,
   SchemaName,
   SchemaTokenizeableString
 } from '../Schema';
@@ -161,24 +163,19 @@ export interface CRUDCommonSchema extends BaseSchema {
   /**
    * 顶部工具栏
    */
-  headerToolbar?: Array<any>; // todo
+  headerToolbar?: SchemaCollection;
 
   /**
    * 底部工具栏
    */
-  footerToolbar?: Array<any>; // todo
+  footerToolbar?: SchemaCollection;
 
   /**
    * 每页显示多少个空间成员的配置如： [10, 20, 50, 100]。
    */
   perPageAvailable?: Array<number>;
 
-  messages?: {
-    fetchFailed?: string;
-    fetchSuccess?: string;
-    saveFailed?: string;
-    saveSuccess?: string;
-  };
+  messages?: SchemaMessage;
 
   /**
    * 是否隐藏快速编辑的按钮。

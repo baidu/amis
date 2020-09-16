@@ -11,16 +11,21 @@ import {FormBaseControl, FormControlSchema} from './Item';
  */
 export interface FieldSetControlSchema
   extends Omit<FormBaseControl, 'size'>,
-    Omit<CollapseSchema, 'type'> {
+    Omit<CollapseSchema, 'type' | 'body'> {
   /**
    * 指定为表单项集合
    */
-  type: 'fieldset';
+  type: 'fieldset' | 'fieldSet';
 
   /**
    * 表单项集合
    */
   controls?: Array<FormControlSchema>;
+
+  /**
+   * 内容区域
+   */
+  body?: SchemaCollection;
 
   /**
    * 标题
@@ -63,7 +68,7 @@ export default class FieldSetControl extends React.Component<
     } = this.props;
 
     if (!controls) {
-      return render('body', body) as JSX.Element;
+      return render('body', body!) as JSX.Element;
     }
 
     let props: any = {
@@ -92,11 +97,12 @@ export default class FieldSetControl extends React.Component<
   }
 
   render() {
-    const {controls, className, mode, ...rest} = this.props;
+    const {controls, className, mode, body, ...rest} = this.props;
 
     return (
       <Collapse
         {...rest}
+        body={body!}
         className={className}
         children={this.renderBody}
         wrapperComponent="fieldset"

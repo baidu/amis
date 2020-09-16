@@ -20,6 +20,7 @@ import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {FormBaseControl} from './Item';
 import {ActionSchema} from '../Action';
+import {SchemaApi} from '../../Schema';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
 
@@ -41,6 +42,12 @@ export interface TextControlSchema extends FormOptionsControl {
    * 是否去除首尾空白文本。
    */
   trimContents?: boolean;
+
+  /**
+   * 自动完成 API，当输入部分文字的时候，会将这些文字通过 ${term} 可以取到，发送给接口。
+   * 接口可以返回匹配到的选项，帮助用户输入。
+   */
+  autoComplete?: SchemaApi;
 }
 
 export interface TextProps extends OptionsControlProps {

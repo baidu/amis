@@ -31,6 +31,11 @@ export type CardBodyField = SchemaObject & {
   label: string;
 
   /**
+   * label 类名
+   */
+  labelClassName?: SchemaClassName;
+
+  /**
    * 绑定字段名
    */
   name?: string;

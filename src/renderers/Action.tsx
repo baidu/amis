@@ -33,7 +33,14 @@ export interface ButtonSchema extends BaseSchema {
   /**
    * 按钮样式
    */
-  level?: 'info' | 'success' | 'warning' | 'danger' | 'link' | 'primary';
+  level?:
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'danger'
+    | 'link'
+    | 'primary'
+    | 'dark';
 
   /**
    * @deprecated 通过 level 来配置
@@ -82,6 +89,11 @@ export interface ButtonSchema extends BaseSchema {
    * 当按钮时批量操作按钮时，默认必须有勾选元素才能可点击，如果此属性配置成 false，则没有点选成员也能点击。
    */
   requireSelected?: boolean;
+
+  /**
+   * 是否将弹框中数据 merge 到父级作用域。
+   */
+  mergeData?: boolean;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {

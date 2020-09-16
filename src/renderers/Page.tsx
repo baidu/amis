@@ -26,7 +26,8 @@ import {
   SchemaDefaultData,
   SchemaApi,
   SchemaExpression,
-  SchemaName
+  SchemaName,
+  SchemaMessage
 } from '../Schema';
 import {SchemaRemark} from './Remark';
 
@@ -101,15 +102,7 @@ export interface PageSchema extends BaseSchema {
    */
   initFetchOn?: SchemaExpression;
 
-  /**
-   * 默认的消息提示信息，注意：如果接口返回了 msg 始终是接口返回的优先级更高。
-   */
-  messages?: {
-    fetchFailed?: string;
-    fetchSuccess?: string;
-    saveFailed?: string;
-    saveSuccess?: string;
-  };
+  messages?: SchemaMessage;
 
   name?: SchemaName;
 

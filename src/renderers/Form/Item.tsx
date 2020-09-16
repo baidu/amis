@@ -141,6 +141,7 @@ export type FormControlType =
 
   //
   | 'fieldset'
+  | 'fieldSet'
   | 'file'
   | 'formula'
   | 'grid'

@@ -43,6 +43,11 @@ export type ListBodyField = SchemaObject & {
   label: string;
 
   /**
+   * label 类名
+   */
+  labelClassName?: SchemaClassName;
+
+  /**
    * 绑定字段名
    */
   name?: string;
@@ -135,7 +140,7 @@ export interface ListSchema extends BaseSchema {
   /**
    * 单条数据展示内容配置
    */
-  listItem: ListItemSchema;
+  listItem?: ListItemSchema;
 
   /**
    * 数据源: 绑定当前环境变量

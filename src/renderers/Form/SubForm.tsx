@@ -5,12 +5,17 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import {createObject} from '../../utils/helper';
 import {Icon} from '../../components/icons';
+import {SchemaClassName} from '../../Schema';
+import {FormSchema} from '.';
 
 /**
- * Static
- * 文档：https://baidu.gitee.io/amis/docs/components/form/static
+ * SubForm 子表单
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/subform
  */
 export interface SubFormControlSchema extends FormBaseControl {
+  /**
+   * 指定为 SubForm 子表单
+   */
   type: 'form';
 
   /**
@@ -34,9 +39,30 @@ export interface SubFormControlSchema extends FormBaseControl {
   maxLength?: number;
 
   /**
-   * 按钮名称字段。
+   * 当值中存在这个字段，则按钮名称将使用此字段的值来展示。
    */
   labelField?: string;
+
+  /**
+   * 按钮默认名称
+   * @default 设置
+   */
+  btnLabel?: string;
+
+  /**
+   * 新增按钮 CSS 类名
+   */
+  addButtonClassName?: SchemaClassName;
+
+  /**
+   * 修改按钮 CSS 类名
+   */
+  editButtonClassName?: SchemaClassName;
+
+  /**
+   * 子表单详情
+   */
+  form?: Omit<FormSchema, 'type'>;
 }
 
 export interface SubFormProps extends FormControlProps {
