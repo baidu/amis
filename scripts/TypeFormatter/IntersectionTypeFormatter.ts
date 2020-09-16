@@ -32,15 +32,29 @@ export class IntersectionTypeFormatter extends BaseIntersectionTypeFormatter {
         }
       });
 
+      const mainDefinition = rest.reduce(
+        getAllOfDefinitionReducer(this.childFormatter),
+        {
+          type: 'object',
+          additionalProperties: true // 这里只能是 true 了
+        } as Definition
+      );
+
+      const patternProperties: any = {};
+      patternProperties[
+        `^(${Object.keys(mainDefinition.properties).join('|')})$`
+      ] = {};
+
       return {
         allOf: references
-          .map((type: any) => this.childFormatter.getDefinition(type))
-          .concat(
-            rest.reduce(getAllOfDefinitionReducer(this.childFormatter), {
-              type: 'object',
-              additionalProperties: true // 这里只能是 true 了
-            } as Definition)
-          )
+          .map((type: any) => {
+            const definition = this.childFormatter.getDefinition(type)!;
+            return {
+              ...definition,
+              patternProperties: patternProperties
+            };
+          })
+          .concat(mainDefinition)
           .filter((item: any) => item)
       } as any;
     }

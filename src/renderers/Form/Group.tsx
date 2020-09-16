@@ -13,7 +13,7 @@ import {SchemaClassName} from '../../Schema';
 
 export type GroupSubControl = FormControlSchema & {
   /**
-   * 列类名, 在某些容器里面有用比如 group
+   * 列类名
    */
   columnClassName?: SchemaClassName;
 

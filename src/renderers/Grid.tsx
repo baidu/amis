@@ -122,7 +122,7 @@ export interface ColumnArray extends Array<ColumnNode> {}
  */
 export interface GridSchema extends BaseSchema {
   /**
-   * 指定为each展示类型
+   * 指定为 Grid 格子布局渲染器。
    */
   type: 'grid';
   columns: Array<GridColumn>;

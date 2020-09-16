@@ -14,7 +14,9 @@ import {
   UnknownNodeError,
   UnknownTypeError,
   IntersectionNodeParser,
-  SubNodeParser
+  SubNodeParser,
+  Schema,
+  uniqueArray
 } from 'ts-json-schema-generator';
 import {IntersectionTypeFormatter as MyIntersectionTypeFormatter} from './TypeFormatter/IntersectionTypeFormatter';
 import {IntersectionNodeParser as MyIntersectionNodeParser} from './NodeParser/IntersectionNodeParser';
@@ -37,9 +39,101 @@ async function main() {
   hackIt(generator);
   const schema = generator.createSchema(config.type);
 
+  fixSchema(schema);
+
   const outputFile = path.join(outDir, 'schema.json');
   mkdirp(path.dirname(outputFile));
   fs.writeFileSync(outputFile, JSON.stringify(schema, null, 2));
+}
+
+function fixSchema(schema: Schema) {
+  const keys = Object.keys(schema.definitions!);
+  const list: Array<{
+    patternProperties: any;
+    referenceKey: string;
+    definationKey: string;
+  }> = [];
+
+  keys.forEach(definationKey => {
+    const definition: any = schema.definitions![definationKey];
+
+    if (
+      Array.isArray(definition.allOf) &&
+      definition.allOf.length &&
+      definition.allOf[0].patternProperties &&
+      /^#\/definitions\/(.*?)$/.test(definition.allOf[0].$ref || '')
+    ) {
+      const referenceKey = RegExp.$1;
+
+      if (schema.definitions![referenceKey]) {
+        list.push({
+          patternProperties: definition.allOf[0].patternProperties,
+          referenceKey,
+          definationKey
+        });
+        definition.allOf[0].$ref =
+          '#/definitions/' + referenceKey + definationKey;
+      }
+    }
+  });
+
+  copyAnyOf(schema, list);
+}
+
+function copyAnyOf(
+  schema: Schema,
+  list: Array<{
+    patternProperties: any;
+    referenceKey: string;
+    definationKey: string;
+  }>
+) {
+  list.forEach(({referenceKey, definationKey, patternProperties}) => {
+    const definition: any = schema.definitions![referenceKey];
+
+    if (Array.isArray(definition.anyOf)) {
+      const anyOf = definition.anyOf.map((item: any) => {
+        if (!/^#\/definitions\/(.*?)$/.test(item.$ref || '')) {
+          return item;
+        }
+        const baseKey = RegExp.$1;
+        if (!baseKey || !schema.definitions![baseKey]) {
+          return item;
+        }
+        const baseDefinition: any = schema.definitions![baseKey]!;
+
+        if (!baseDefinition) {
+          return item;
+        }
+
+        if (Array.isArray(baseDefinition.anyOf)) {
+          // todo
+          return item;
+        } else if (!baseDefinition.properties) {
+          return item;
+        }
+
+        const keys = Object.keys(patternProperties)[0];
+        const extenedPatternProperties = {
+          [`^(${uniqueArray(
+            Object.keys(baseDefinition.properties).concat(
+              keys.substring(2, keys.length - 2).split('|')
+            )
+          ).join('|')})$`]: {}
+        };
+
+        return {
+          ...item,
+          additionalProperties: false,
+          patternProperties: extenedPatternProperties
+        };
+      });
+
+      schema.definitions![`${referenceKey}${definationKey}`] = {
+        anyOf: anyOf
+      };
+    }
+  });
 }
 
 function hackIt(generator: any) {
