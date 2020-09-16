@@ -11,6 +11,9 @@ import {BaseSchema, SchemaTpl} from '../Schema';
  * 文档：https://baidu.gitee.io/amis/docs/components/mapping
  */
 export interface MappingSchema extends BaseSchema {
+  /**
+   * 指定为映射展示控件
+   */
   type: 'map' | 'mapping';
 
   /**

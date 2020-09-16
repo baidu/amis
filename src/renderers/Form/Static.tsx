@@ -12,7 +12,7 @@ import {SchemaObject, SchemaTpl, SchemaType} from '../../Schema';
  * Static
  * 文档：https://baidu.gitee.io/amis/docs/components/form/static
  */
-export interface StaticControlSchema extends FormBaseControl {
+export interface StaticExactControlSchema extends FormBaseControl {
   type: 'static';
 
   /**
@@ -41,8 +41,12 @@ export interface StaticControlSchema extends FormBaseControl {
   copyable?: SchemaCopyable;
 }
 
-export type StaticControlRestSchema = Omit<StaticControlSchema, 'type'> &
+export type StaticControlRestSchema = Omit<StaticExactControlSchema, 'type'> &
   SchemaObject;
+
+export type StaticControlSchema =
+  | StaticControlRestSchema
+  | StaticExactControlSchema;
 
 export interface StaticProps extends FormControlProps {
   placeholder?: string;
