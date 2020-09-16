@@ -2,9 +2,9 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
-import {BaseSchema} from '../Schema';
+import {BaseSchema, SchemaObject} from '../Schema';
 
-export type HboxRow = BaseSchema & {
+export type HboxRow = SchemaObject & {
   rowClassName?: string;
   cellClassName?: string;
 };

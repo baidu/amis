@@ -40,6 +40,13 @@ export type ComboCondition = {
   mode?: string;
 };
 
+export type ComboSubControl = FormControlSchema & {
+  /**
+   * 是否唯一, 只有在 combo 里面才有用
+   */
+  unique?: boolean;
+};
+
 /**
  * Combo 组合输入框类型
  * 文档：https://baidu.gitee.io/amis/docs/components/form/combo
@@ -106,7 +113,7 @@ export interface ComboControlSchema extends FormBaseControl {
   /**
    * 数组输入框的子项
    */
-  controls?: Array<FormControlSchema>;
+  controls?: Array<ComboSubControl>;
 
   /**
    * 是否可拖拽排序

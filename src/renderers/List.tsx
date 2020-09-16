@@ -28,6 +28,7 @@ import {
   SchemaClassName,
   SchemaCollection,
   SchemaExpression,
+  SchemaObject,
   SchemaTokenizeableString,
   SchemaTpl,
   SchemaUrlPath
@@ -35,7 +36,7 @@ import {
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
 
-export type ListBodyField = BaseSchema & {
+export type ListBodyField = SchemaObject & {
   /**
    * 列标题
    */

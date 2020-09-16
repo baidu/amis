@@ -3,7 +3,7 @@ import {Renderer, RendererProps} from '../factory';
 import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
 import {isVisible} from '../utils/helper';
-import {BaseSchema} from '../Schema';
+import {BaseSchema, SchemaObject} from '../Schema';
 
 export type HBoxColumnObject = {
   columnClassName?: string;
@@ -16,7 +16,7 @@ export type HBoxColumnObject = {
   };
 };
 
-export type HBoxColumn = HBoxColumnObject & BaseSchema; // 不能用 SchemaObject 呢，会报错
+export type HBoxColumn = HBoxColumnObject & SchemaObject; // 不能用 SchemaObject 呢，会报错
 
 /**
  * Hbox 水平布局渲染器。

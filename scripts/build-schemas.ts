@@ -17,7 +17,6 @@ import {
   SubNodeParser
 } from 'ts-json-schema-generator';
 import {IntersectionTypeFormatter as MyIntersectionTypeFormatter} from './TypeFormatter/IntersectionTypeFormatter';
-import {ObjectTypeFormatter as MyObjectTypeFormatter} from './TypeFormatter/ObjectTypeFormatter';
 import {IntersectionNodeParser as MyIntersectionNodeParser} from './NodeParser/IntersectionNodeParser';
 
 /**
@@ -52,12 +51,6 @@ function hackIt(generator: any) {
     typeFormatters,
     IntersectionTypeFormatter,
     new MyIntersectionTypeFormatter(circularReferenceTypeFormatter)
-  );
-
-  replaceTypeFormatter(
-    typeFormatters,
-    ObjectTypeFormatter,
-    new MyObjectTypeFormatter(circularReferenceTypeFormatter)
   );
 
   const chainNodeParser = generator.nodeParser.childNodeParser;

@@ -18,12 +18,13 @@ import {
   SchemaClassName,
   SchemaCollection,
   SchemaExpression,
+  SchemaObject,
   SchemaTpl,
   SchemaUrlPath
 } from '../Schema';
 import {ActionSchema} from './Action';
 
-export type CardBodyField = BaseSchema & {
+export type CardBodyField = SchemaObject & {
   /**
    * 列标题
    */

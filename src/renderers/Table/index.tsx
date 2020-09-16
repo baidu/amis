@@ -30,6 +30,7 @@ import {TableContent} from './TableContent';
 import {
   BaseSchema,
   SchemaClassName,
+  SchemaObject,
   SchemaTokenizeableString
 } from '../../Schema';
 import {FormControlSchema, FormControlType} from '../Form/Item';
@@ -37,7 +38,7 @@ import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';
 
-export type TableColumn = BaseSchema & {
+export type TableColumn = SchemaObject & {
   /**
    * 列标题
    */

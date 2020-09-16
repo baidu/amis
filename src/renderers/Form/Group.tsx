@@ -11,6 +11,18 @@ import {FormBaseControl, FormControlSchema, FormItemWrap} from './Item';
 import getExprProperties from '../../utils/filter-schema';
 import {SchemaClassName} from '../../Schema';
 
+export type GroupSubControl = FormControlSchema & {
+  /**
+   * 列类名, 在某些容器里面有用比如 group
+   */
+  columnClassName?: SchemaClassName;
+
+  /**
+   * 宽度占用比率。在某些容器里面有用比如 group
+   */
+  columnRatio?: number;
+};
+
 /**
  * Group 表单集合渲染器，能让多个表单在一行显示
  * 文档：https://baidu.gitee.io/amis/docs/components/form/group
@@ -21,7 +33,7 @@ export interface GroupControlSchema extends FormBaseControl {
   /**
    * FormItem 集合
    */
-  controls: Array<FormControlSchema>;
+  controls: Array<GroupSubControl>;
 
   /**
    * 子表单项默认的展示模式
