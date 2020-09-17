@@ -110,7 +110,7 @@ export interface WizardSchema extends BaseSchema {
   affixFooter?: boolean | 'always';
 
   steps: Array<
-    FormSchema & {
+    Omit<FormSchema, 'type'> & {
       /**
        * 当前步骤用来保存数据的 api。
        */

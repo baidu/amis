@@ -36,7 +36,10 @@ import {
 import {ActionSchema} from './Action';
 import {SchemaRemark} from './Remark';
 
-export type ListBodyField = SchemaObject & {
+/**
+ * 不指定类型默认就是文本
+ */
+export type ListBodyFieldObject = {
   /**
    * 列标题
    */
@@ -68,6 +71,8 @@ export type ListBodyField = SchemaObject & {
   copyable?: SchemaCopyable;
 };
 
+export type ListBodyField = SchemaObject & ListBodyFieldObject;
+
 export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
   actions?: Array<ActionSchema>;
 
@@ -79,7 +84,7 @@ export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 内容区域
    */
-  body?: Array<ListBodyField>;
+  body?: Array<ListBodyField | ListBodyFieldObject>;
 
   /**
    * 描述
@@ -1202,7 +1207,14 @@ export class ListItem extends React.Component<ListItemProps> {
       return null;
     } else if (Array.isArray(body)) {
       return body.map((child, index) =>
-        this.renderChild(child, `body/${index}`, index)
+        this.renderChild(
+          {
+            type: 'plain',
+            ...child
+          },
+          `body/${index}`,
+          index
+        )
       );
     }
 

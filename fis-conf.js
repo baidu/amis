@@ -5,7 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const package = require('./package.json');
 const parserMarkdown = require('./scripts/md-parser');
-fis.get('project.ignore').push('public/**', 'gh-pages/**', '.*/**');
+fis.get('project.ignore').push('public/**', 'gh-pages/**');
 // 配置只编译哪些文件。
 
 const Resource = fis.require('postpackager-loader/lib/resource.js');
@@ -30,14 +30,17 @@ Resource.extend({
 });
 
 fis.set('project.files', [
+  'schema.json',
   'scss/**.scss',
   '/examples/*.html',
   '/examples/*.tpl',
   '/src/**.html',
-  'mock/**',
-  'schemas/**',
-  '/schema.json'
+  'mock/**'
 ]);
+
+fis.match('/schema.json', {
+  release: '/$0'
+});
 
 fis.match('/mock/**', {
   useCompile: false

@@ -28,7 +28,7 @@ export type NavItemSchema = {
   to?: SchemaUrlPath;
 
   children?: Array<NavItemSchema>;
-};
+} & Omit<BaseSchema, 'type'>;
 
 /**
  * Nav 导航渲染器

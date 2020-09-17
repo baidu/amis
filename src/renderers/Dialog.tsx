@@ -51,7 +51,7 @@ export interface DialogSchema extends Omit<BaseSchema, 'type'> {
   /**
    * Dialog 大小
    */
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
   /**
    * 请通过配置 title 设置标题
