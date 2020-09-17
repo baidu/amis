@@ -451,7 +451,6 @@ export class ActionRenderer extends React.Component<
     return (
       <Action
         {...(rest as any)}
-        type="button"
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
         isCurrentUrl={this.isCurrentAction}
