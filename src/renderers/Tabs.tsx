@@ -86,9 +86,19 @@ export interface TabsSchema extends BaseSchema {
    */
   contentClassName?: SchemaClassName;
 
+  /**
+   * 卡片是否只有在点开的时候加载？
+   */
   mountOnEnter?: boolean;
+
+  /**
+   * 卡片隐藏的时候是否销毁卡片内容
+   */
   unmountOnExit?: boolean;
 
+  /**
+   * 可以在右侧配置点其他功能按钮。
+   */
   toolbar?: ActionSchema;
 }
 
