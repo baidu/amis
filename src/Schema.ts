@@ -357,7 +357,16 @@ export type SchemaFunction = string | Function;
 
 export interface BaseSchema {
   type: SchemaType;
+
+  /**
+   * 容器 css 类名
+   */
   className?: SchemaClassName;
+
+  /**
+   * 配合 definitions 一起使用，可以实现无限循环的渲染器。
+   */
+  $ref?: string;
 
   /**
    * 是否禁用

@@ -467,4 +467,4 @@ class MyComponent extends React.Component<any, any> {
 
 ##### richTextToken: string
 
-内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
+内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者用免费的 Tinymce，不设置 token 默认就是 Tinymce。
