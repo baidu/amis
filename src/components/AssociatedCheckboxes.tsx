@@ -105,6 +105,7 @@ export class AssociatedCheckboxes extends BaseCheckboxes<
       onChange,
       columns,
       value,
+      disabled,
       leftMode,
       cellRender
     } = this.props;
@@ -124,6 +125,7 @@ export class AssociatedCheckboxes extends BaseCheckboxes<
               option2value={this.leftOption2Value}
               options={leftOptions}
               value={this.state.leftValue}
+              disabled={disabled}
               onChange={this.handleLeftSelect}
               showRadio={false}
             />
@@ -132,6 +134,7 @@ export class AssociatedCheckboxes extends BaseCheckboxes<
               option2value={this.leftOption2Value}
               options={leftOptions}
               value={this.state.leftValue}
+              disabled={disabled}
               onChange={this.handleLeftSelect}
               showRadio={false}
             />
@@ -166,6 +169,7 @@ export class AssociatedCheckboxes extends BaseCheckboxes<
                 <TableCheckboxes
                   columns={columns!}
                   value={value}
+                  disabled={disabled}
                   options={selectdOption.children || []}
                   onChange={onChange}
                   option2value={option2value}
@@ -174,6 +178,7 @@ export class AssociatedCheckboxes extends BaseCheckboxes<
               ) : rightMode === 'tree' ? (
                 <TreeCheckboxes
                   value={value}
+                  disabled={disabled}
                   options={selectdOption.children || []}
                   onChange={onChange}
                   option2value={option2value}
@@ -181,6 +186,7 @@ export class AssociatedCheckboxes extends BaseCheckboxes<
               ) : rightMode === 'chained' ? (
                 <ChainedCheckboxes
                   value={value}
+                  disabled={disabled}
                   options={selectdOption.children || []}
                   onChange={onChange}
                   option2value={option2value}
@@ -188,6 +194,7 @@ export class AssociatedCheckboxes extends BaseCheckboxes<
               ) : (
                 <ListCheckboxes
                   value={value}
+                  disabled={disabled}
                   options={selectdOption.children || []}
                   onChange={onChange}
                   option2value={option2value}
