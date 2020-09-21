@@ -535,12 +535,13 @@ a {
   }
 
   > .schema-wrapper {
-    position: relative;
+    padding: 0 35px;
 
     > .a-Page,
     > .cxd-Page,
     > .dark-Page {
-      padding: 0 35px;
+      position: relative;
+      height: 100%;
     }
   }
 }
