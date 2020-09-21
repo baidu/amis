@@ -30,7 +30,7 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
 }
 
 export interface IScopedContext {
-  parent?: AlisIScopedContext;
+  parent?: AliasIScopedContext;
   registerComponent: (component: ScopedComponentType) => void;
   unRegisterComponent: (component: ScopedComponentType) => void;
   getComponentByName: (name: string) => ScopedComponentType;
@@ -39,12 +39,12 @@ export interface IScopedContext {
   send: (target: string, ctx: RendererData) => void;
   close: (target: string) => void;
 }
-type AlisIScopedContext = IScopedContext;
+type AliasIScopedContext = IScopedContext;
 export const ScopedContext = React.createContext(createScopedTools(''));
 
 function createScopedTools(
   path?: string,
-  parent?: AlisIScopedContext,
+  parent?: AliasIScopedContext,
   env?: RendererEnv
 ): IScopedContext {
   const components: Array<ScopedComponentType> = [];

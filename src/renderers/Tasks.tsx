@@ -241,7 +241,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     }
 
     if (interval && !isEffectiveApi(checkApi)) {
-      return alert('checkApi 没有设置, 不能及时获取任务状态');
+      return env.alert('checkApi 没有设置, 不能及时获取任务状态');
     }
 
     isEffectiveApi(checkApi, data) &&
@@ -254,7 +254,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
 
   handleLoaded(ret: Payload) {
     if (!Array.isArray(ret.data)) {
-      return alert(
+      return this.props.env.alert(
         '返回格式不正确, 期望 response.data 为数组, 包含每个 task 的状态信息'
       );
     }
@@ -279,9 +279,9 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     } = this.props;
 
     if (!retry && !isEffectiveApi(submitApi)) {
-      return alert('submitApi 没有配置');
+      return env.alert('submitApi 没有配置');
     } else if (retry && !isEffectiveApi(reSubmitApi)) {
-      return alert('reSubmitApi 没有配置');
+      return env.alert('reSubmitApi 没有配置');
     }
 
     this.setState(
