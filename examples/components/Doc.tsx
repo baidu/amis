@@ -338,7 +338,7 @@ export const docs = [
               })
           },
           {
-            label: 'Editor 编辑器',
+            label: 'Editor 代码编辑器',
             path: '/docs/components/form/editor',
             getComponent: (location, cb) =>
               require(['../../docs/components/form/editor.md'], doc => {
