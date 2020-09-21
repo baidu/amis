@@ -76,9 +76,16 @@ export class TreeCheckboxes extends BaseCheckboxes<
   }
 
   toggleOption(option: Option) {
-    const {value, onChange, option2value, options, onDeferLoad} = this.props;
+    const {
+      value,
+      onChange,
+      option2value,
+      options,
+      onDeferLoad,
+      disabled
+    } = this.props;
 
-    if (option.disabled) {
+    if (disabled || option.disabled) {
       return;
     } else if (option.defer && !option.loaded) {
       onDeferLoad?.(option);

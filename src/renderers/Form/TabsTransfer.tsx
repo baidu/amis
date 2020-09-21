@@ -64,13 +64,15 @@ export class TabsTransferRenderer extends BaseTransferRenderer<
       searchable,
       searchResultMode,
       showArrow,
-      deferLoad
+      deferLoad,
+      disabled
     } = this.props;
 
     return (
       <div className={cx('TabsTransferControl', className)}>
         <TabsTransfer
           value={selectedOptions}
+          disabled={disabled}
           options={options}
           onChange={this.handleChange}
           option2value={this.option2value}

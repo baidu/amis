@@ -50,7 +50,7 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
   }
 
   renderTHead() {
-    const {options, classnames: cx, value, option2value} = this.props;
+    const {options, classnames: cx, value, disabled, option2value} = this.props;
     let columns = this.getColumns();
     let valueArray = BaseCheckboxes.value2array(value, options, option2value);
     const availableOptions = options.filter(option => !option.disabled);
@@ -74,6 +74,7 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
             <th className={cx('Table-checkCell')}>
               <Checkbox
                 size="sm"
+                disabled={disabled}
                 onChange={this.toggleAll}
                 checked={partialChecked}
                 partial={partialChecked && !allChecked}
@@ -95,6 +96,7 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
       classnames: cx,
       cellRender,
       value,
+      disabled,
       option2value,
       translate: __
     } = this.props;
@@ -113,7 +115,7 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
                 onClick={e => e.defaultPrevented || this.toggleOption(option)}
               >
                 <td className={cx('Table-checkCell')}>
-                  <Checkbox size="sm" checked={checked} />
+                  <Checkbox size="sm" checked={checked} disabled={disabled} />
                 </td>
                 {columns.map((column, colIndex) => (
                   <td key={colIndex}>

@@ -235,7 +235,8 @@ export class BaseTransferRenderer<
       deferLoad,
       leftOptions,
       leftMode,
-      rightMode
+      rightMode,
+      disabled
     } = this.props;
 
     return (
@@ -243,6 +244,7 @@ export class BaseTransferRenderer<
         <Transfer
           value={selectedOptions}
           options={options}
+          disabled={disabled}
           onChange={this.handleChange}
           option2value={this.option2value}
           sortable={sortable}
