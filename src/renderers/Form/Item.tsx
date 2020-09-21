@@ -12,9 +12,479 @@ import {
 } from '../../factory';
 import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
 import {observer} from 'mobx-react';
-import {FormHorizontal, FormSchema} from '.';
+import {FormHorizontal, FormSchema, FormSchemaHorizontal} from '.';
 import {Schema} from '../../types';
 import {filter} from '../../utils/tpl';
+import {SchemaRemark} from '../Remark';
+import {BaseSchema, SchemaClassName} from '../../Schema';
+import {TextControlSchema} from './Text';
+import {SelectControlSchema} from './Select';
+import {TextareaControlSchema} from './Textarea';
+import {ArrayControlSchema} from './Array';
+import {ComboControlSchema} from './Combo';
+import {ButtonControlSchema} from './Button';
+import {ButtonGroupControlSchema} from './ButtonGroup';
+import {ButtonToolbarControlSchema} from './ButtonToolbar';
+import {ChainedSelectControlSchema} from './ChainedSelect';
+import {CheckboxControlSchema} from './Checkbox';
+import {CheckboxesControlSchema} from './Checkboxes';
+import {CityControlSchema} from './City';
+import {ColorControlSchema} from './Color';
+import {ConditionBuilderControlSchema} from './ConditionBuilder';
+import {ContainerControlSchema} from './Container';
+import {
+  DateControlSchema,
+  DateTimeControlSchema,
+  TimeControlSchema
+} from './Date';
+import {DateRangeControlSchema} from './DateRange';
+import {DiffControlSchema} from './DiffEditor';
+import {EditorControlSchema} from './Editor';
+import {FieldSetControlSchema} from './FieldSet';
+import {FileControlSchema} from './File';
+import {FormulaControlSchema} from './Formula';
+import {GridControlSchema} from './Grid';
+import {GroupControlSchema} from './Group';
+import {HBoxControlSchema} from './HBox';
+import {HiddenControlSchema} from './Hidden';
+import {IconPickerControlSchema} from './IconPicker';
+import {ImageControlSchema} from './Image';
+import {InputGroupControlSchema} from './InputGroup';
+import {ListControlSchema} from './List';
+import {LocationControlSchema} from './Location';
+import {MatrixControlSchema} from './Matrix';
+import {NestedSelectControlSchema} from './NestedSelect';
+import {NumberControlSchema} from './Number';
+import {PanelControlSchema} from './Panel';
+import {PickerControlSchema} from './Picker';
+import {RadiosControlSchema} from './Radios';
+import {RangeControlSchema} from './Range';
+import {RatingControlSchema} from './Rating';
+import {RepeatControlSchema} from './Repeat';
+import {RichTextControlSchema} from './RichText';
+import {ServiceControlSchema} from './Service';
+import {StaticControlRestSchema, StaticControlSchema} from './Static';
+import {SubFormControlSchema} from './SubForm';
+import {SwitchControlSchema} from './Switch';
+import {TableControlSchema} from './Table';
+import {TabsControlSchema} from './Tabs';
+import {TabsTransferControlSchema} from './TabsTransfer';
+import {TagControlSchema} from './Tag';
+import {TransferControlSchema} from './Transfer';
+import {TreeControlSchema} from './Tree';
+import {TreeSelectControlSchema} from './TreeSelect';
+import {PlainSchema} from '../Plain';
+import {TplSchema} from '../Tpl';
+import {DividerSchema} from '../Divider';
+
+export type FormControlType =
+  | 'array'
+  | 'button'
+  | 'submit'
+  | 'reset'
+  | 'button-group'
+  | 'button-toolbar'
+  | 'chained-select'
+  | 'checkbox'
+  | 'checkboxes'
+  | 'city'
+  | 'color'
+  | 'combo'
+  | 'condition-builder'
+  | 'container'
+  | 'date'
+  | 'datetime'
+  | 'time'
+  | 'date-range'
+  | 'diff'
+
+  // editor 系列
+  | 'editor'
+  | 'bat-editor'
+  | 'c-editor'
+  | 'coffeescript-editor'
+  | 'cpp-editor'
+  | 'csharp-editor'
+  | 'css-editor'
+  | 'dockerfile-editor'
+  | 'fsharp-editor'
+  | 'go-editor'
+  | 'handlebars-editor'
+  | 'html-editor'
+  | 'ini-editor'
+  | 'java-editor'
+  | 'javascript-editor'
+  | 'json-editor'
+  | 'less-editor'
+  | 'lua-editor'
+  | 'markdown-editor'
+  | 'msdax-editor'
+  | 'objective-c-editor'
+  | 'php-editor'
+  | 'plaintext-editor'
+  | 'postiats-editor'
+  | 'powershell-editor'
+  | 'pug-editor'
+  | 'python-editor'
+  | 'r-editor'
+  | 'razor-editor'
+  | 'ruby-editor'
+  | 'sb-editor'
+  | 'scss-editor'
+  | 'sol-editor'
+  | 'sql-editor'
+  | 'swift-editor'
+  | 'typescript-editor'
+  | 'vb-editor'
+  | 'xml-editor'
+  | 'yaml-editor'
+
+  //
+  | 'fieldset'
+  | 'fieldSet'
+  | 'file'
+  | 'formula'
+  | 'grid'
+  | 'group'
+  | 'hbox'
+  | 'hidden'
+  | 'icon-picker'
+  | 'image'
+  | 'input-group'
+  | 'list'
+  | 'location'
+  | 'matrix'
+  | 'nested-select'
+  | 'number'
+  | 'panel'
+  | 'picker'
+  | 'radios'
+  | 'range'
+  | 'rating'
+  | 'repeat'
+  | 'rich-text'
+  | 'select'
+  | 'service'
+  | 'static'
+  | 'form'
+  | 'switch'
+  | 'table'
+  | 'tabs'
+  | 'tabs-transfer'
+  | 'tag'
+  | 'text'
+  | 'password'
+  | 'email'
+  | 'url'
+  | 'multi-select'
+  | 'textarea'
+  | 'transfer'
+  | 'tree'
+  | 'tree-select'
+
+  // 非表单项但是也可以放进来
+  | 'divider'
+  | 'html'
+  | 'plain'
+  | 'tpl';
+
+export type FormControlSchema =
+  | ArrayControlSchema
+  | ButtonControlSchema
+  | ButtonGroupControlSchema
+  | ButtonToolbarControlSchema
+  | ChainedSelectControlSchema
+  | CheckboxControlSchema
+  | CheckboxesControlSchema
+  | CityControlSchema
+  | ColorControlSchema
+  | ComboControlSchema
+  | ConditionBuilderControlSchema
+  | ContainerControlSchema
+  | DateControlSchema
+  | DateTimeControlSchema
+  | TimeControlSchema
+  | DateRangeControlSchema
+  | DiffControlSchema
+  | EditorControlSchema
+  | FieldSetControlSchema
+  | FileControlSchema
+  | FormulaControlSchema
+  | GridControlSchema
+  | GroupControlSchema
+  | HBoxControlSchema
+  | HiddenControlSchema
+  | IconPickerControlSchema
+  | ImageControlSchema
+  | InputGroupControlSchema
+  | ListControlSchema
+  | LocationControlSchema
+  | MatrixControlSchema
+  | NestedSelectControlSchema
+  | NumberControlSchema
+  | PanelControlSchema
+  | PickerControlSchema
+  | RadiosControlSchema
+  | RangeControlSchema
+  | RatingControlSchema
+  | RichTextControlSchema
+  | RepeatControlSchema
+  | SelectControlSchema
+  | ServiceControlSchema
+  | SubFormControlSchema
+  | SwitchControlSchema
+  | StaticControlSchema
+  | StaticControlRestSchema
+  | TableControlSchema
+  | TabsControlSchema
+  | TabsTransferControlSchema
+  | TagControlSchema
+  | TextControlSchema
+  | TextareaControlSchema
+  | TransferControlSchema
+  | TreeControlSchema
+  | TreeSelectControlSchema
+
+  // 非表单项，但是也可以放进来。
+  | DividerSchema;
+
+export type FormControlSchemaAlias = FormControlSchema;
+
+export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
+  /**
+   * 表单项类型
+   */
+  type: FormControlType;
+
+  /**
+   * 表单项大小
+   */
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'full';
+
+  /**
+   * 描述标题
+   */
+  label?: string | false;
+
+  /**
+   * 配置 label className
+   */
+  labelClassName?: SchemaClassName;
+
+  /**
+   * 字段名，表单提交时的 key，支持多层级，用.连接，如： a.b.c
+   */
+  name?: string;
+
+  /**
+   * 显示一个小图标, 鼠标放上去的时候显示提示内容
+   */
+  remark?: SchemaRemark;
+
+  /**
+   * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
+   */
+  labelRemark?: SchemaRemark;
+
+  /**
+   * 输入提示，聚焦的时候显示
+   */
+  hint?: string;
+
+  /**
+   * 当修改完的时候是否提交表单。
+   */
+  submitOnChange?: boolean;
+
+  /**
+   * 是否只读
+   */
+  readOnly?: boolean;
+
+  /**
+   * 不设置时，当表单提交过后表单项每次修改都会触发重新验证，
+   * 如果设置了，则由此配置项来决定要不要每次修改都触发验证。
+   */
+  validateOnChange?: boolean;
+
+  /**
+   * 描述内容，支持 Html 片段。
+   */
+  description?: string;
+
+  /**
+   * @deprecated 用 description 代替
+   */
+  desc?: string;
+
+  /**
+   * 配置描述上的 className
+   */
+  descriptionClassName?: SchemaClassName;
+
+  /**
+   * 配置当前表单项展示模式
+   */
+  mode?: 'normal' | 'inline' | 'horizontal';
+
+  /**
+   * 当配置为水平布局的时候，用来配置具体的左右分配。
+   */
+  horizontal?: FormSchemaHorizontal;
+
+  /**
+   * 表单 control 是否为 inline 模式。
+   */
+  inline?: boolean;
+
+  /**
+   * 配置 input className
+   */
+  inputClassName?: SchemaClassName;
+
+  /**
+   * 占位符
+   */
+  placeholder?: string;
+
+  /**
+   * 是否为必填
+   */
+  required?: boolean;
+
+  /**
+   * 验证失败的提示信息
+   */
+  validationErrors?: {
+    isAlpha?: string;
+    isAlphanumeric?: string;
+    isEmail?: string;
+    isFloat?: string;
+    isInt?: string;
+    isJson?: string;
+    isLength?: string;
+    isNumeric?: string;
+    isRequired?: string;
+    isUrl?: string;
+    matchRegexp?: string;
+    matchRegexp2?: string;
+    matchRegexp3?: string;
+    matchRegexp4?: string;
+    matchRegexp5?: string;
+    maxLength?: string;
+    maximum?: string;
+    minLength?: string;
+    minimum?: string;
+
+    [propName: string]: any;
+  };
+
+  validations?:
+    | string
+    | {
+        /**
+         * 是否是字母
+         */
+        isAlpha?: boolean;
+
+        /**
+         * 是否为字母数字
+         */
+        isAlphanumeric?: boolean;
+
+        /**
+         * 是否为邮箱地址
+         */
+        isEmail?: boolean;
+
+        /**
+         * 是否为浮点型
+         */
+        isFloat?: boolean;
+
+        /**
+         * 是否为整型
+         */
+        isInt?: boolean;
+
+        /**
+         * 是否为 json
+         */
+        isJson?: boolean;
+
+        /**
+         * 长度等于指定值
+         */
+        isLength?: number;
+
+        /**
+         * 是否为数字
+         */
+        isNumeric?: boolean;
+
+        /**
+         * 是否为必填
+         */
+        isRequired?: boolean;
+
+        /**
+         * 是否为 URL 地址
+         */
+        isUrl?: boolean;
+
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp?: string;
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp1?: string;
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp2?: string;
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp3?: string;
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp4?: string;
+        /**
+         * 内容命中指定正则
+         */
+        matchRegexp5?: string;
+
+        /**
+         * 最大长度为指定值
+         */
+        maxLength?: number;
+
+        /**
+         * 最大值为指定值
+         */
+        maximum?: number;
+
+        /**
+         * 最小长度为指定值
+         */
+        minLength?: number;
+
+        /**
+         * 最小值为指定值
+         */
+        minimum?: number;
+
+        [propName: string]: any;
+      };
+
+  /**
+   * 默认值，切记只能是静态值，不支持取变量，跟数据关联是通过设置 name 属性来实现的。
+   */
+  value?: any;
+}
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
   type?: string;
@@ -49,7 +519,7 @@ export interface FormItemProps extends RendererProps {
   disabled?: boolean;
   btnDisabled: boolean;
   defaultValue: any;
-  value: any;
+  value?: any;
   prinstine: any;
   setPrinstineValue: (value: any) => void;
   onChange: (
@@ -64,7 +534,7 @@ export interface FormItemProps extends RendererProps {
   addHook: (fn: Function, mode?: 'validate' | 'init' | 'flush') => () => void;
   removeHook: (fn: Function, mode?: 'validate' | 'init' | 'flush') => void;
   renderFormItems: (
-    schema: FormSchema,
+    schema: Partial<FormSchema>,
     region: string,
     props: any
   ) => JSX.Element;

@@ -60,7 +60,7 @@ export default class FormControl extends React.PureComponent<
   static propsList: any = ['control'];
   public model: IFormItemStore | undefined;
   control: any;
-  value?: any;
+  value?: any = undefined;
   hook?: () => any;
   hook2?: () => any;
   hook3?: () => any;

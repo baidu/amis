@@ -27,10 +27,185 @@ import {TableRow} from './TableRow';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import {TableContent} from './TableContent';
+import {
+  BaseSchema,
+  SchemaClassName,
+  SchemaObject,
+  SchemaTokenizeableString,
+  SchemaType
+} from '../../Schema';
+import {FormControlSchema, FormControlType} from '../Form/Item';
+import {SchemaPopOver} from '../PopOver';
+import {SchemaQuickEdit} from '../QuickEdit';
+import {SchemaCopyable} from '../Copyable';
+import {SchemaRemark} from '../Remark';
 
-export interface Column {
-  type: string;
-  [propName: string]: any;
+/**
+ * 表格列，不指定类型时默认为文本类型。
+ */
+export type TableColumnObject = {
+  /**
+   * 列标题
+   */
+  label: string;
+
+  /**
+   * 配置是否固定当前列
+   */
+  fixed?: 'left' | 'right' | 'none';
+
+  /**
+   * 绑定字段名
+   */
+  name?: string;
+
+  /**
+   * 配置查看详情功能
+   */
+  popOver?: SchemaPopOver;
+
+  /**
+   * 配置快速编辑功能
+   */
+  quickEdit?: SchemaQuickEdit;
+
+  /**
+   * 作为表单项时，可以单独配置编辑时的快速编辑面板。
+   */
+  quickEditOnUpdate?: SchemaQuickEdit;
+
+  /**
+   * 配置点击复制功能
+   */
+  copyable?: SchemaCopyable;
+
+  /**
+   * 配置是否可以排序
+   */
+  sortable?: boolean;
+
+  /**
+   * 是否可快速搜索
+   */
+  searchable?: boolean;
+
+  /**
+   * 配置是否默认展示
+   */
+  toggled?: boolean;
+
+  /**
+   * 列宽度
+   */
+  width?: number | string;
+
+  /**
+   * todo
+   */
+  filterable?: any;
+
+  /**
+   * 结合表格的 footable 一起使用。
+   * 填写 *、xs、sm、md、lg指定 footable 的触发条件，可以填写多个用空格隔开
+   */
+  breakpoint?: '*' | 'xs' | 'sm' | 'md' | 'lg';
+
+  /**
+   * 提示信息
+   */
+  remark?: SchemaRemark;
+};
+
+export type TableColumn = SchemaObject & TableColumnObject;
+
+/**
+ * Table 表格渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/table
+ */
+export interface TableSchema extends BaseSchema {
+  /**
+   * 指定为表格渲染器。
+   */
+  type: 'table' | 'static-table';
+
+  /**
+   * 是否固定表头
+   */
+  affixHeader?: boolean;
+
+  /**
+   * 表格的列信息
+   */
+  columns?: Array<TableColumn | TableColumnObject>;
+
+  /**
+   * 展示列显示开关，自动即：列数量大于或等于5个时自动开启
+   */
+  columnsTogglable?: boolean | 'auto';
+
+  /**
+   * 是否开启底部展示功能，适合移动端展示
+   */
+  footable?:
+    | boolean
+    | {
+        expand?: 'first' | 'all' | 'none';
+
+        /**
+         * 是否为手风琴模式
+         */
+        accordion?: boolean;
+      };
+
+  /**
+   * 底部外层 CSS 类名
+   */
+  footerClassName?: SchemaClassName;
+
+  /**
+   * 顶部外层 CSS 类名
+   */
+  headerClassName?: SchemaClassName;
+
+  /**
+   * 占位符
+   */
+  placeholder?: string;
+
+  /**
+   * 是否显示底部
+   */
+  showFooter?: boolean;
+
+  /**
+   * 是否显示头部
+   */
+  showHeader?: boolean;
+
+  /**
+   * 数据源：绑定当前环境变量
+   */
+  source?: SchemaTokenizeableString;
+
+  /**
+   * 表格 CSS 类名
+   */
+  tableClassName?: SchemaClassName;
+
+  /**
+   * 标题
+   */
+  title?: string;
+
+  /**
+   * 工具栏 CSS 类名
+   */
+  toolbarClassName?: SchemaClassName;
+
+  /**
+   * 合并单元格配置，配置数字表示从左到右的多少列自动合并单元格。
+   */
+  combineNum?: number;
 }
 
 export interface TableProps extends RendererProps {
@@ -42,7 +217,7 @@ export interface TableProps extends RendererProps {
   headerClassName?: string;
   footerClassName?: string;
   store: ITableStore;
-  columns?: Array<Column>;
+  columns?: Array<TableColumn>;
   headingClassName?: string;
   toolbarClassName?: string;
   headerToolbarClassName?: string;
@@ -162,7 +337,7 @@ export default class Table extends React.Component<TableProps, object> {
   totalHeight: number = 0;
   outterWidth: number = 0;
   outterHeight: number = 0;
-  unSensor: Function;
+  unSensor?: Function;
   updateTableInfoLazy: () => void;
   widths: {
     [propName: string]: number;
@@ -251,7 +426,7 @@ export default class Table extends React.Component<TableProps, object> {
     store.update({
       selectable,
       draggable,
-      columns,
+      columns: columns,
       columnsTogglable,
       orderBy,
       orderDir,

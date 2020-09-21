@@ -16,17 +16,151 @@ import {IFormStore} from '../store/form';
 import {Spinner} from '../components';
 import {findDOMNode} from 'react-dom';
 import {resizeSensor} from '../utils/resize-sensor';
+import {
+  BaseSchema,
+  SchemaApi,
+  SchemaClassName,
+  SchemaExpression,
+  SchemaName,
+  SchemaReload
+} from '../Schema';
+import {FormSchema} from './Form';
+import {ActionSchema} from './Action';
 
-export interface WizardProps extends RendererProps {
-  store: IServiceStore;
-  readOnly?: boolean;
-  actionClassName?: string;
-  actionPrevLabel?: string;
-  actionNextLabel?: string;
-  actionNextSaveLabel?: string;
+/**
+ * 表单向导
+ * 文档：https://baidu.gitee.io/amis/docs/components/wizard
+ */
+export interface WizardSchema extends BaseSchema {
+  /**
+   * 指定为表单向导
+   */
+  type: 'wizard';
+
+  /**
+   * 配置按钮 className
+   */
+  actionClassName?: SchemaClassName;
+
+  /**
+   * 完成按钮的文字描述
+   */
   actionFinishLabel?: string;
-  mode?: 'horizontal' | 'vertical';
+
+  /**
+   * 下一步按钮的文字描述
+   */
+  actionNextLabel?: string;
+
+  /**
+   * 下一步并且保存按钮的文字描述
+   */
+  actionNextSaveLabel?: string;
+
+  /**
+   * 上一步按钮的文字描述
+   */
+  actionPrevLabel?: string;
+
+  /**
+   * Wizard 用来保存数据的 api。
+   * [详情](https://baidu.github.io/amis/docs/api#wizard)
+   */
+  api?: SchemaApi;
+
+  /**
+   * 是否合并后再提交
+   */
+  bulkSubmit?: boolean;
+
+  /**
+   * Wizard 用来获取初始数据的 api。
+   */
+  initApi?: SchemaApi;
+
+  /**
+   * 展示模式
+   *
+   * @default vertical
+   */
+  mode?: 'vertical' | 'horizontal';
+
+  name?: SchemaName;
+
+  /**
+   * 是否为只读模式。
+   */
+  readOnly?: boolean;
+
+  /**
+   * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时可以通过 $xxx 使用变量
+   */
+  redirect?: string;
+
+  reload?: SchemaReload;
+
+  /**
+   * 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi` 和 `schemaApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。
+   */
+  target?: string;
+
+  /**
+   * 是否将底部按钮固定在底部。
+   */
   affixFooter?: boolean | 'always';
+
+  steps: Array<
+    Omit<FormSchema, 'type'> & {
+      /**
+       * 当前步骤用来保存数据的 api。
+       */
+      api?: SchemaApi;
+
+      asyncApi?: SchemaApi;
+
+      /**
+       * 当前步骤用来获取初始数据的 api
+       */
+      initApi?: SchemaApi;
+
+      /**
+       * 是否可直接跳转到该步骤，一般编辑模式需要可直接跳转查看。
+       */
+      jumpable?: boolean;
+
+      /**
+       * 通过 JS 表达式来配置当前步骤可否被直接跳转到。
+       */
+      jumpableOn?: SchemaExpression;
+
+      /**
+       * Step 标题
+       */
+      title?: string;
+      label?: string;
+
+      /**
+       * 每一步可以单独配置按钮。如果不配置wizard会自动生成。
+       */
+      actions?: Array<ActionSchema>;
+
+      /**
+       * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时可以通过 $xxx 使用变量
+       */
+      redirect?: string;
+
+      reload?: SchemaReload;
+
+      /**
+       * 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi` 和 `schemaApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。
+       */
+      target?: string;
+    }
+  >;
+}
+
+export interface WizardProps extends RendererProps, WizardSchema {
+  store: IServiceStore;
   onFinished: (values: object, action: any) => any;
 }
 
@@ -475,7 +609,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
       if (isEffectiveApi(action.api || step.api, store.data)) {
         store
-          .saveRemote(action.api || step.api, store.data, {
+          .saveRemote(action.api || step.api!, store.data, {
             onSuccess: () => {
               if (
                 !isEffectiveApi(finnalAsyncApi, store.data) ||
@@ -522,7 +656,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         store.markSaving(true);
 
         formStore
-          .saveRemote(action.api || step.api || api, store.data, {
+          .saveRemote(action.api || step.api || api!, store.data, {
             onSuccess: () => {
               if (
                 !isEffectiveApi(finnalAsyncApi, store.data) ||
@@ -560,7 +694,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
               env.jumpTo(finalRedirect, action);
             } else if (action.reload || step.reload || reload) {
               this.reloadTarget(
-                action.reload || step.reload || reload,
+                action.reload || step.reload || reload!,
                 store.data
               );
             }
@@ -680,7 +814,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     if (step.actions && Array.isArray(step.actions)) {
       return step.actions.length ? (
         <>
-          {step.actions.map((action: Action, index: number) =>
+          {step.actions.map((action, index) =>
             render(`action/${index}`, action, {
               key: index,
               onAction: this.handleAction,

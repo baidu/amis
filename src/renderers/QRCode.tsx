@@ -5,15 +5,53 @@ import {FormItem, FormControlProps} from './Form/Item';
 import {filter} from '../utils/tpl';
 // @ts-ignore
 import QrCode from 'qrcode.react';
+import {BaseSchema, SchemaClassName} from '../Schema';
 
-export interface QRCodeProps extends FormControlProps {
-  qrcodeClassName?: string;
+/**
+ * 二维码展示控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/qrcode
+ */
+export interface QRCodeSchema extends BaseSchema {
+  type: 'qrcode' | 'qr-code';
+
+  /**
+   * 关联字段名。
+   */
+  name?: string;
+
+  /**
+   * css 类名
+   */
+  qrcodeClassName?: SchemaClassName;
+
+  /**
+   * 二维码的宽高大小，默认 128
+   * @default 128
+   */
   codeSize?: number;
+
+  /**
+   * 背景色
+   */
   backgroundColor?: string;
+
+  /**
+   * 前景色
+   */
   foregroundColor?: string;
-  level?: string;
-  placeholder: string;
+
+  /**
+   * 二维码复杂级别
+   */
+  level?: 'L' | 'M' | 'Q' | 'H';
+
+  /**
+   * 占位符
+   */
+  placeholder?: string;
 }
+
+export interface QRCodeProps extends FormControlProps, QRCodeSchema {}
 
 export default class QRCode extends React.Component<QRCodeProps, any> {
   static defaultProps: Partial<QRCodeProps> = {

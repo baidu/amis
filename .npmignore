@@ -16,3 +16,10 @@ fis-conf.js
 /coverage
 /publish.sh
 /gh-pages
+/.github
+/docs
+/examples
+/scripts
+/.travis.yml
+/deploy-gh-pages.sh
+/tsconfig.json

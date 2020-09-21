@@ -12,7 +12,8 @@
     "publish2npm": "sh publish.sh && npm publish",
     "build": "sh publish.sh",
     "prettier": "prettier --write '{src,examples,scss}/**/*.{tsx,ts,jsx,scss}'",
-    "deploy-gh-page": "sh ./deploy-gh-pages.sh"
+    "deploy-gh-page": "sh ./deploy-gh-pages.sh",
+    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' scripts/build-schemas.ts"
   },
   "repository": {
     "type": "git",
@@ -86,6 +87,7 @@
     "@types/jest": "^24.0.11",
     "@types/jquery": "^3.3.1",
     "@types/lodash": "^4.14.76",
+    "@types/mkdirp": "^1.0.1",
     "@types/node": "^12.7.1",
     "@types/pretty-bytes": "^4.0.0",
     "@types/prop-types": "^15.5.2",
@@ -134,7 +136,8 @@
     "jest-canvas-mock": "^2.1.0",
     "js-yaml": "^3.10.0",
     "lint-staged": "^8.1.6",
-    "marked": "^0.3.7",
+    "marked": "^1.1.1",
+    "mkdirp": "^1.0.4",
     "mobx-wiretap": "^0.12.0",
     "prettier": "^2.0.5",
     "prismjs": "^1.20.0",
@@ -144,7 +147,9 @@
     "react-testing-library": "6.0.4",
     "strip-json-comments": "^2.0.1",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.9.5"
+    "ts-json-schema-generator": "^0.73.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.2"
   },
   "jest": {
     "testEnvironment": "jsdom",

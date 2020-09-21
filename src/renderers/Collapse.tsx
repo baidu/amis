@@ -1,15 +1,65 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Collapse as BasicCollapse} from '../components/Collapse';
+import {
+  BaseSchema,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaTpl
+} from '../Schema';
 
-export interface CollapseProps extends RendererProps {
-  title?: string; // 标题
+/**
+ * Collapse 折叠渲染器，格式说明。
+ * 文档：https://baidu.gitee.io/amis/docs/components/collapse
+ */
+export interface CollapseSchema extends BaseSchema {
+  /**
+   * 指定为折叠器类型
+   */
+  type: 'collapse';
+
+  /**
+   * 内容区域
+   */
+  body: SchemaCollection;
+
+  /**
+   * 配置 Body 容器 className
+   */
+  bodyClassName?: SchemaClassName;
+
+  /**
+   * 是否可折叠
+   */
+  collapsable?: boolean;
+
+  /**
+   * 默认是否折叠
+   */
+  collapsed?: boolean;
+
+  /**
+   * 标题 CSS 类名
+   */
+  headingClassName?: string;
+
+  /**
+   * 标题
+   */
+  title?: SchemaTpl;
+
+  /**
+   * 控件大小
+   */
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'base';
+}
+
+export interface CollapseProps
+  extends RendererProps,
+    Omit<CollapseSchema, 'type'> {
   wrapperComponent?: any;
   headingComponent?: any;
-  collapsed?: boolean;
-  bodyClassName?: string;
-  headingClassName?: string;
+
   // 内容口子
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }

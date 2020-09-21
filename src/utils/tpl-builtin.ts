@@ -419,7 +419,7 @@ export function pickValues(names: string, data: object) {
   return ret;
 }
 
-export const resolveVariable = (path: string, data: any = {}): any => {
+export const resolveVariable = (path?: string, data: any = {}): any => {
   if (!path) {
     return undefined;
   }

@@ -1,11 +1,31 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
+import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 import {SchemaNode} from '../types';
 
-export interface ContainerProps extends RendererProps {
-  body?: SchemaNode;
+/**
+ * Container 容器渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/container
+ */
+export interface ContainerSchema extends BaseSchema {
+  /**
+   * 指定为 container 类型
+   */
+  type: 'container';
+
+  /**
+   * 内容
+   */
+  body: SchemaCollection;
+
+  /**
+   * body 类名
+   */
+  bodyClassName?: SchemaClassName;
+}
+
+export interface ContainerProps extends RendererProps, ContainerSchema {
   children?: (props: any) => React.ReactNode;
-  className?: string;
 }
 
 export default class Container<T> extends React.Component<

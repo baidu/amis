@@ -36,7 +36,7 @@ export const docs = [
 
       {
         label: '常见问题',
-        path: '/docs/start/ faq',
+        path: '/docs/start/faq',
         getComponent: (location, cb) =>
           require(['../../docs/start/faq.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));

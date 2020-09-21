@@ -338,7 +338,10 @@ export default {
                   name: 'combo777',
                   label: '可拖拽排序',
                   multiple: true,
-                  value: [{a: '1', b: 'a'}, {a: '2', b: 'b'}],
+                  value: [
+                    {a: '1', b: 'a'},
+                    {a: '2', b: 'b'}
+                  ],
                   draggable: true,
                   controls: [
                     {
@@ -413,7 +416,11 @@ export default {
               className: 'm-t',
               // debug: true,
               controls: [
-                '<p class="m-b-xl">添加时可选择类型，比如这个栗子，可以选择是文本类型还是数字类型</p>',
+                {
+                  type: 'tpl',
+                  tpl:
+                    '<p class="m-b-xl">添加时可选择类型，比如这个栗子，可以选择是文本类型还是数字类型</p>'
+                },
                 {
                   type: 'combo',
                   name: 'combo-conditions1',

@@ -18,8 +18,42 @@ import matches from 'dom-helpers/query/matches';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import {Icon} from '../components/icons';
+import {FormControlSchema} from './Form/Item';
 
-export interface QuickEditConfig {}
+export type SchemaQuickEditObject =
+  /**
+   * 直接就是个表单项
+   */
+  | ({
+      /**
+       * 是否立即保存
+       */
+      saveImmediately?: boolean;
+
+      /**
+       * 是否直接内嵌
+       */
+      mode?: 'inline';
+    } & FormControlSchema)
+
+  /**
+   * 表单项集合
+   */
+  | {
+      /**
+       * 是否立即保存
+       */
+      saveImmediately?: boolean;
+
+      /**
+       * 是否直接内嵌
+       */
+      mode?: 'inline';
+
+      controls: Array<FormControlSchema>;
+    };
+
+export type SchemaQuickEdit = boolean | SchemaQuickEditObject;
 
 export interface QuickEditConfig {
   saveImmediately?: boolean;

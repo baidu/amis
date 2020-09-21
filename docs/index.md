@@ -48,12 +48,14 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
     },
     "bulkActions": [
       {
+        "type": "button",
         "label": "批量删除",
         "actionType": "ajax",
         "api": "delete:https://houtai.baidu.com/api/sample/${ids|raw}",
         "confirmText": "确定要批量删除?"
       },
       {
+        "type": "button",
         "label": "批量修改",
         "actionType": "dialog",
         "dialog": {
@@ -84,7 +86,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
       "filter-toggler",
       "bulkActions",
       {
-        "type": "action",
+        "type": "button",
         "label": "重置测试数据",
         "actionType": "ajax",
         "size": "sm",

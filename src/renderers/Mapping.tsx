@@ -4,12 +4,37 @@ import {ServiceStore, IServiceStore} from '../store/service';
 import {Api, SchemaNode, PlainObject} from '../types';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
+import {BaseSchema, SchemaTpl} from '../Schema';
 
-export interface MappingProps extends RendererProps {
-  className?: string;
+/**
+ * Mapping 映射展示控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/mapping
+ */
+export interface MappingSchema extends BaseSchema {
+  /**
+   * 指定为映射展示控件
+   */
+  type: 'map' | 'mapping';
+
+  /**
+   * 关联字段名。
+   */
+  name?: string;
+
+  /**
+   * 配置映射规则，值可以使用模板语法。当 key 为 * 时表示 else，也就是说值没有映射到任何规则时用 * 对应的值展示。
+   */
+  map?: {
+    [propName: string]: SchemaTpl;
+  };
+
+  /**
+   * 占位符
+   */
   placeholder?: string;
-  map: PlainObject;
 }
+
+export interface MappingProps extends RendererProps, MappingSchema {}
 
 export class MappingField extends React.Component<MappingProps, object> {
   static defaultProps: Partial<MappingProps> = {

@@ -2,9 +2,27 @@ import React from 'react';
 import {FormItem, FormControlProps} from './Item';
 import cx from 'classnames';
 import Radios from '../../components/Radios';
-import {OptionsControl, OptionsControlProps, Option} from './Options';
+import {
+  OptionsControl,
+  OptionsControlProps,
+  Option,
+  FormOptionsControl
+} from './Options';
 import {autobind, isEmpty} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
+
+/**
+ * Radio 单选框。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/radios
+ */
+export interface RadiosControlSchema extends FormOptionsControl {
+  type: 'radios';
+
+  /**
+   * 每行显示多少个
+   */
+  columnsCount?: number;
+}
 
 export interface RadiosProps extends OptionsControlProps {
   placeholder?: any;

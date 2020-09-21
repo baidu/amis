@@ -10,8 +10,51 @@ import {resolveVariable, isPureVariable} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {Api} from '../types';
-import {ClassNamesFn, themeable} from '../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {Icon} from '../components/icons';
+import {BaseSchema, SchemaApi, SchemaIcon, SchemaUrlPath} from '../Schema';
+
+export type NavItemSchema = {
+  /**
+   * 文字说明
+   */
+  label?: string;
+
+  /**
+   * 图标类名，参考 fontawesome 4。
+   */
+  icon?: SchemaIcon;
+
+  to?: SchemaUrlPath;
+
+  children?: Array<NavItemSchema>;
+} & Omit<BaseSchema, 'type'>;
+
+/**
+ * Nav 导航渲染器
+ * 文档：https://baidu.gitee.io/amis/docs/components/nav
+ */
+export interface NavSchema extends BaseSchema {
+  /**
+   * 指定为 Nav 导航渲染器
+   */
+  type: 'nav';
+
+  /**
+   * 链接地址集合
+   */
+  links?: Array<NavItemSchema>;
+
+  /**
+   * 可以通过 API 拉取。
+   */
+  source?: SchemaApi;
+
+  /**
+   * true 为垂直排列，false 为水平排列类似如 tabs。
+   */
+  stacked?: boolean;
+}
 
 export interface Link {
   className?: string;
@@ -31,13 +74,7 @@ export interface NavigationState {
   error?: string;
 }
 
-export interface NavigationProps extends RendererProps {
-  classnames: ClassNamesFn;
-  classPrefix: string;
-  className?: string;
-  stacked?: boolean;
-  links?: Links;
-  source?: Api;
+export interface NavigationProps extends RendererProps, ThemeProps, NavSchema {
   onSelect?: (item: Link) => any;
 }
 

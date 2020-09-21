@@ -3,7 +3,12 @@ import cx from 'classnames';
 import Overlay from '../../components/Overlay';
 import PopOver from '../../components/PopOver';
 
-import {OptionsControl, OptionsControlProps, Option} from './Options';
+import {
+  OptionsControl,
+  OptionsControlProps,
+  Option,
+  FormOptionsControl
+} from './Options';
 import {Icon} from '../../components/icons';
 import TreeSelector from '../../components/Tree';
 // @ts-ignore
@@ -16,6 +21,54 @@ import Spinner from '../../components/Spinner';
 import ResultBox from '../../components/ResultBox';
 import {autobind} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
+
+/**
+ * Tree 下拉选择框。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/tree
+ */
+export interface TreeSelectControlSchema extends FormOptionsControl {
+  type: 'tree-select';
+
+  /**
+   * 是否隐藏顶级
+   */
+  hideRoot?: boolean;
+
+  /**
+   * 顶级选项的名称
+   */
+  rootLabel?: string;
+
+  /**
+   * 顶级选项的值
+   */
+  rootValue?: any;
+
+  /**
+   * 显示图标
+   */
+  showIcon?: boolean;
+
+  /**
+   * 父子之间是否完全独立。
+   */
+  cascade?: boolean;
+
+  /**
+   * 选父级的时候是否把子节点的值也包含在内。
+   */
+  withChildren?: boolean;
+
+  /**
+   * 选父级的时候，是否只把子节点的值包含在内
+   */
+  onlyChildren?: boolean;
+
+  /**
+   * 顶级节点是否可以创建子节点
+   */
+  rootCreatable?: boolean;
+}
 
 export interface TreeSelectProps extends OptionsControlProps {
   placeholder?: any;

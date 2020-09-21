@@ -1,5 +1,10 @@
 import React from 'react';
-import {OptionsControl, OptionsControlProps, Option} from './Options';
+import {
+  OptionsControl,
+  OptionsControlProps,
+  Option,
+  FormOptionsControl
+} from './Options';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 import chunk from 'lodash/chunk';
@@ -7,7 +12,32 @@ import {Icon} from '../../components/icons';
 import {Api} from '../../types';
 import {autobind} from '../../utils/helper';
 
-export interface CheckboxesProps extends OptionsControlProps {
+/**
+ * 复选框
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/checkboxes
+ */
+export interface CheckboxesControlSchema extends FormOptionsControl {
+  type: 'checkboxes';
+
+  /**
+   * 是否开启全选功能
+   */
+  checkAll?: boolean;
+
+  /**
+   * 是否默认全选
+   */
+  defaultCheckAll?: boolean;
+
+  /**
+   * 每行显示多少个
+   */
+  columnsCount?: number;
+}
+
+export interface CheckboxesProps
+  extends OptionsControlProps,
+    Omit<CheckboxesControlSchema, 'options'> {
   placeholder?: any;
   itemClassName?: string;
   columnsCount?: number;
