@@ -302,6 +302,9 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
   }
 
   handleExited() {
+    const {store} = this.props;
+    store.setFormData({});
+
     this.state.entered &&
       this.setState({
         entered: false
