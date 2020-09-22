@@ -846,7 +846,7 @@ export default class ImageControl extends React.Component<
 
     [].slice.call(files, 0, allowed).forEach((file: FileX) => {
       if (maxSize && file.size > maxSize) {
-        alert(
+        this.props.env.alert(
           __(
             '您选择的文件 {{filename}} 大小为 {{actualSize}} 超出了最大为 {{maxSize}} 的限制，请重新选择。',
             {

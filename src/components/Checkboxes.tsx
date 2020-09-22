@@ -63,9 +63,9 @@ export class BaseCheckboxes<
   }
 
   toggleOption(option: Option) {
-    const {value, onChange, option2value, options} = this.props;
+    const {value, onChange, option2value, options, disabled} = this.props;
 
-    if (option.disabled) {
+    if (disabled || option.disabled) {
       return;
     }
 

@@ -43,6 +43,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       searchResultColumns,
       classnames: cx,
       value,
+      disabled,
       onChange,
       option2value,
       cellRender
@@ -57,6 +58,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
         columns={searchResultColumns!}
         options={options}
         value={value}
+        disabled={disabled}
         onChange={onChange}
         option2value={option2value}
         cellRender={cellRender}
@@ -67,6 +69,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
         className={cx('Transfer-checkboxes')}
         options={options}
         value={value}
+        disabled={disabled}
         onChange={onChange}
         option2value={option2value}
       />
@@ -76,6 +79,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
         className={cx('Transfer-checkboxes')}
         options={options}
         value={value}
+        disabled={disabled}
         onChange={onChange}
         option2value={option2value}
       />
@@ -85,6 +89,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
         className={cx('Transfer-checkboxes')}
         options={options}
         value={value}
+        disabled={disabled}
         onChange={onChange}
         option2value={option2value}
       />
@@ -98,6 +103,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       placeholder,
       classnames: cx,
       value,
+      disabled,
       onChange,
       onSearch: searchable,
       option2value,
@@ -146,6 +152,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     columns={option.columns as any}
                     options={option.children || []}
                     value={value}
+                    disabled={disabled}
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
@@ -156,6 +163,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     className={cx('Transfer-checkboxes')}
                     options={option.children || []}
                     value={value}
+                    disabled={disabled}
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
@@ -165,6 +173,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     className={cx('Transfer-checkboxes')}
                     options={option.children || []}
                     value={value}
+                    disabled={disabled}
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
@@ -175,6 +184,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     className={cx('Transfer-checkboxes')}
                     options={option.children || []}
                     value={value}
+                    disabled={disabled}
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
@@ -187,6 +197,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     className={cx('Transfer-checkboxes')}
                     options={option.children || []}
                     value={value}
+                    disabled={disabled}
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
