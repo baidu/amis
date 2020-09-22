@@ -174,6 +174,11 @@ export interface CRUDCommonSchema extends BaseSchema {
   quickSaveItemApi?: SchemaApi;
 
   /**
+   * 当快速编辑接口请求失败时，是否重置表格编辑状态
+   */
+  resetOnQuickSaveFailed?: boolean;
+
+  /**
    * 保存排序的 api
    */
   saveOrderApi?: SchemaApi;
@@ -360,7 +365,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     filterTogglable: false,
     filterDefaultVisible: true,
     loadDataOnce: false,
-    loadDataOnceFetchOnFilter: true
+    loadDataOnceFetchOnFilter: true,
+    resetOnQuickSaveFailed: false
   };
 
   control: any;
@@ -1055,7 +1061,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       primaryField,
       env,
       messages,
-      reload
+      reload,
+      resetOnQuickSaveFailed
     } = this.props;
 
     if (Array.isArray(rows)) {
@@ -1110,7 +1117,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           reload && this.reloadTarget(reload, data);
           this.search(undefined, undefined, true, true);
         })
-        .catch(() => {});
+        .catch(() => {
+          resetOnQuickSaveFailed && this.control.reset();
+        });
     }
   }
 
