@@ -150,7 +150,8 @@ export interface GridProps extends RendererProps, CardsSchema {
     diff: Array<object> | object,
     rowIndexes: Array<number> | number,
     unModifiedItems?: Array<object>,
-    rowOrigins?: Array<object> | object
+    rowOrigins?: Array<object> | object,
+    resetOnFailed?: boolean
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
@@ -418,7 +419,8 @@ export default class Cards extends React.Component<GridProps, object> {
     item: IItem,
     values: object,
     saveImmediately?: boolean | any,
-    saveSilent?: boolean
+    saveSilent?: boolean,
+    resetOnFailed?: boolean
   ) {
     item.change(values, saveSilent);
 
@@ -449,7 +451,8 @@ export default class Cards extends React.Component<GridProps, object> {
       difference(item.data, item.pristine, ['id', primaryField]),
       item.index,
       undefined,
-      item.pristine
+      item.pristine,
+      resetOnFailed
     );
   }
 
