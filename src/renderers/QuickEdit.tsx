@@ -31,6 +31,11 @@ export type SchemaQuickEditObject =
       saveImmediately?: boolean;
 
       /**
+       * 接口保存失败后，是否重置组件编辑状态
+       */
+      resetOnFailed?: boolean;
+
+      /**
        * 是否直接内嵌
        */
       mode?: 'inline';
@@ -46,6 +51,11 @@ export type SchemaQuickEditObject =
       saveImmediately?: boolean;
 
       /**
+       * 接口保存失败后，是否重置组件编辑状态
+       */
+      resetOnFailed?: boolean;
+
+      /**
        * 是否直接内嵌
        */
       mode?: 'inline';
@@ -57,6 +67,7 @@ export type SchemaQuickEdit = boolean | SchemaQuickEditObject;
 
 export interface QuickEditConfig {
   saveImmediately?: boolean;
+  resetOnFailed?: boolean;
   mode?: 'inline' | 'dialog' | 'popOver' | 'append';
   type?: string;
   controls?: any;
@@ -295,7 +306,12 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
       const {onQuickChange, quickEdit} = this.props;
 
       this.closeQuickEdit();
-      onQuickChange(values, (quickEdit as QuickEditConfig).saveImmediately);
+      onQuickChange(
+        values,
+        (quickEdit as QuickEditConfig).saveImmediately,
+        false,
+        (quickEdit as QuickEditConfig).resetOnFailed
+      );
     }
 
     handleInit(values: object) {
@@ -306,7 +322,12 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
     handleChange(values: object) {
       const {onQuickChange, quickEdit} = this.props;
 
-      onQuickChange(values, (quickEdit as QuickEditConfig).saveImmediately);
+      onQuickChange(
+        values,
+        (quickEdit as QuickEditConfig).saveImmediately,
+        false,
+        (quickEdit as QuickEditConfig).resetOnFailed
+      );
     }
 
     openQuickEdit() {
