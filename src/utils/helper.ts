@@ -282,8 +282,24 @@ export function isObjectShallowModified(
   next: any,
   strictMode: boolean = true,
   ignoreUndefined: boolean = false
-) {
-  if (null == prev || null == next || !isObject(prev) || !isObject(next)) {
+): boolean {
+  if (Array.isArray(prev) && Array.isArray(next)) {
+    return prev.length !== next.length
+      ? true
+      : prev.some((prev, index) =>
+          isObjectShallowModified(
+            prev,
+            next[index],
+            strictMode,
+            ignoreUndefined
+          )
+        );
+  } else if (
+    null == prev ||
+    null == next ||
+    !isObject(prev) ||
+    !isObject(next)
+  ) {
     return strictMode ? prev !== next : prev != next;
   }
 
@@ -296,7 +312,7 @@ export function isObjectShallowModified(
   const nextKeys = Object.keys(next);
   if (
     keys.length !== nextKeys.length ||
-    keys.join(',') !== nextKeys.join(',')
+    keys.sort().join(',') !== nextKeys.sort().join(',')
   ) {
     return true;
   }
