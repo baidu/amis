@@ -256,7 +256,8 @@ export interface TableProps extends RendererProps {
     diff: Array<object> | object,
     rowIndexes: Array<number> | number,
     unModifiedItems?: Array<object>,
-    rowOrigins?: Array<object> | object
+    rowOrigins?: Array<object> | object,
+    resetOnFailed?: boolean
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
@@ -568,7 +569,8 @@ export default class Table extends React.Component<TableProps, object> {
     item: IRow,
     values: object,
     saveImmediately?: boolean | any,
-    savePristine?: boolean
+    savePristine?: boolean,
+    resetOnFailed?: boolean
   ) {
     const {
       onSave,
@@ -606,7 +608,8 @@ export default class Table extends React.Component<TableProps, object> {
       difference(item.data, item.pristine, ['id', primaryField]),
       item.index,
       undefined,
-      item.pristine
+      item.pristine,
+      resetOnFailed
     );
   }
 

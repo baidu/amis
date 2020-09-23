@@ -86,10 +86,12 @@ export class TableRow extends React.Component<TableRowProps> {
   handleQuickChange(
     values: object,
     saveImmediately?: boolean,
-    savePristine?: boolean
+    savePristine?: boolean,
+    resetOnFailed?: boolean
   ) {
     const {onQuickChange, item} = this.props;
-    onQuickChange && onQuickChange(item, values, saveImmediately, savePristine);
+    onQuickChange &&
+      onQuickChange(item, values, saveImmediately, savePristine, resetOnFailed);
   }
 
   render() {

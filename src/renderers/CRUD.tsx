@@ -1046,7 +1046,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     diff: Array<object> | object,
     indexes: Array<number>,
     unModifiedItems?: Array<any>,
-    rowsOrigin?: Array<object> | object
+    rowsOrigin?: Array<object> | object,
+    resetOnFailed?: boolean
   ) {
     const {
       store,
@@ -1110,7 +1111,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           reload && this.reloadTarget(reload, data);
           this.search(undefined, undefined, true, true);
         })
-        .catch(() => {});
+        .catch(() => {
+          resetOnFailed && this.control.reset();
+        });
     }
   }
 
