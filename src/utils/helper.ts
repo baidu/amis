@@ -562,7 +562,7 @@ export function difference<
             });
 
             let len = b.length - a.length;
-            while (len--) {
+            while (len-- > 0) {
               result[key].push(undefined);
             }
           } else {
