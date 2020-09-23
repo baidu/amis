@@ -528,8 +528,13 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
 export function difference<
   T extends {[propName: string]: any},
   U extends {[propName: string]: any}
->(object: T, base: U, keepProps?: Array<string>): {[propName: string]: any} {
-  function changes(object: T, base: U) {
+>(
+  object: T,
+  base: U,
+  keepProps?: Array<string>,
+  strict: boolean = false
+): {[propName: string]: any} {
+  function changes(object: T, base: U, strict: boolean = false) {
     const keys: Array<keyof T & keyof U> = uniq(
       Object.keys(object).concat(Object.keys(base))
     );
@@ -550,8 +555,18 @@ export function difference<
       if (!object.hasOwnProperty(key)) {
         result[key] = undefined;
       } else if (Array.isArray(a) && Array.isArray(b)) {
-        // todo 数组要不要深入分析？我看先别了。
-        result[key] = a;
+        if (strict) {
+          result[key] = a.map((item, index) => {
+            return changes(item, b[index], strict);
+          });
+
+          let len = b.length - a.length;
+          while (len--) {
+            result[key].push(undefined);
+          }
+        } else {
+          result[key] = a;
+        }
       } else if (lodashIsObject(a) && lodashIsObject(b)) {
         result[key] = changes(a as any, b as any);
       } else {
@@ -561,7 +576,7 @@ export function difference<
 
     return result;
   }
-  return changes(object, base);
+  return changes(object, base, strict);
 }
 
 export const padArr = (arr: Array<any>, size = 4): Array<Array<any>> => {
