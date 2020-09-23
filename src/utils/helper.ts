@@ -534,49 +534,51 @@ export function difference<
   keepProps?: Array<string>,
   strict: boolean = false
 ): {[propName: string]: any} {
-  function changes(object: T, base: U, strict: boolean = false) {
-    const keys: Array<keyof T & keyof U> = uniq(
-      Object.keys(object).concat(Object.keys(base))
-    );
-    let result: any = {};
+  function changes(object: T, base: U) {
+    if (lodashIsObject(object) && lodashIsObject(base)) {
+      const keys: Array<keyof T & keyof U> = uniq(
+        Object.keys(object).concat(Object.keys(base))
+      );
+      let result: any = {};
 
-    keys.forEach(key => {
-      const a: any = object[key as keyof T];
-      const b: any = base[key as keyof U];
+      keys.forEach(key => {
+        const a: any = object[key as keyof T];
+        const b: any = base[key as keyof U];
 
-      if (keepProps && ~keepProps.indexOf(key as string)) {
-        result[key] = a;
-      }
-
-      if (isEqual(a, b)) {
-        return;
-      }
-
-      if (!object.hasOwnProperty(key)) {
-        result[key] = undefined;
-      } else if (Array.isArray(a) && Array.isArray(b)) {
-        if (strict) {
-          result[key] = a.map((item, index) => {
-            return changes(item, b[index], strict);
-          });
-
-          let len = b.length - a.length;
-          while (len--) {
-            result[key].push(undefined);
-          }
-        } else {
+        if (keepProps && ~keepProps.indexOf(key as string)) {
           result[key] = a;
         }
-      } else if (lodashIsObject(a) && lodashIsObject(b)) {
-        result[key] = changes(a as any, b as any);
-      } else {
-        result[key] = a;
-      }
-    });
 
-    return result;
+        if (isEqual(a, b)) {
+          return;
+        }
+
+        if (!object.hasOwnProperty(key)) {
+          result[key] = undefined;
+        } else if (Array.isArray(a) && Array.isArray(b)) {
+          if (strict) {
+            result[key] = a.map((item, index) => {
+              return changes(item, b[index]);
+            });
+
+            let len = b.length - a.length;
+            while (len--) {
+              result[key].push(undefined);
+            }
+          } else {
+            result[key] = a;
+          }
+        } else {
+          result[key] = changes(a as any, b as any);
+        }
+      });
+
+      return result;
+    } else {
+      return object;
+    }
   }
-  return changes(object, base, strict);
+  return changes(object, base);
 }
 
 export const padArr = (arr: Array<any>, size = 4): Array<Array<any>> => {
