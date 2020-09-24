@@ -1,10 +1,10 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import { Renderer, RendererProps } from '../factory';
 
 import JSONTree from 'react-json-tree';
-import {autobind} from '../utils/helper';
-import {BaseSchema} from '../Schema';
-
+import { autobind } from '../utils/helper';
+import { BaseSchema } from '../Schema';
+import { resolveVariable } from '../utils/tpl-builtin';
 /**
  * JSON 数据展示控件。
  * 文档：https://baidu.gitee.io/amis/docs/components/json
@@ -19,6 +19,16 @@ export interface JsonSchema extends BaseSchema {
    * 默认展开的级别
    */
   levelExpand?: number;
+
+  /**
+   * 是否隐藏根节点
+   */
+  hideRoot?: boolean;
+
+  /**
+   * 支持从数据链取值
+   */
+  source?: string;
 }
 
 export interface JSONProps extends RendererProps, JsonSchema {
@@ -26,6 +36,8 @@ export interface JSONProps extends RendererProps, JsonSchema {
   className?: string;
   placeholder?: string;
   jsonTheme: string;
+  hideRoot?: boolean;
+  source?: string;
 }
 
 const twilight = {
@@ -109,7 +121,9 @@ export class JSONField extends React.Component<JSONProps, object> {
   static defaultProps: Partial<JSONProps> = {
     placeholder: '-',
     levelExpand: 1,
-    jsonTheme: 'twilight'
+    jsonTheme: 'twilight',
+    hideRoot: false,
+    source: ''
   };
 
   @autobind
@@ -130,16 +144,17 @@ export class JSONField extends React.Component<JSONProps, object> {
   }
 
   shouldExpandNode = (keyName: any, data: any, level: any) => {
-    const {levelExpand} = this.props;
+    const { levelExpand } = this.props;
     return level < levelExpand;
   };
 
   render() {
-    const {className, value, jsonTheme, classnames: cx} = this.props;
+    const { className, value, jsonTheme, classnames: cx, hideRoot, source } = this.props;
 
     let data = value;
-
-    if (typeof value === 'string') {
+    if (source !== undefined && source !== '') {
+      data = resolveVariable(source, this.props.data)
+    } else if (typeof value === 'string') {
       try {
         data = JSON.parse(value);
       } catch (e) {
@@ -158,6 +173,7 @@ export class JSONField extends React.Component<JSONProps, object> {
           theme={theme}
           shouldExpandNode={this.shouldExpandNode}
           valueRenderer={this.valueRenderer}
+          hideRoot={hideRoot}
         />
       </div>
     );
@@ -168,4 +184,4 @@ export class JSONField extends React.Component<JSONProps, object> {
   test: /(^|\/)json$/,
   name: 'json'
 })
-export class JSONFieldRenderer extends JSONField {}
+export class JSONFieldRenderer extends JSONField { }
