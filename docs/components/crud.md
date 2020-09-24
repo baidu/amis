@@ -71,7 +71,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 }
 ```
 
-如果无法知道数据总数，只能知道是否有下一页，请返回如下格式，AMIS 会简单生成一个简单版本的分页控件。
+如果无法知道数据总数，只能知道是否有下一页，请返回如下格式，amis 会简单生成一个简单版本的分页控件。
 
 ```json
 {
@@ -92,6 +92,178 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 ```
 
 如果不需要分页，或者配置了 `loadDataOnce` 则可以忽略掉 `total` 和 `hasNext` 参数。
+
+## 功能
+
+既然这个渲染器叫增删改查，那接下来分开介绍这几个功能吧。
+
+### 增
+
+其实这个渲染器并不没有包含新增功能，新增功能其实还是依靠其他位置放个弹框表单完成，弹框完事了会自动让页面里面的 CRUD 刷新如：
+
+```schema:height="600" scope="body"
+[
+    {
+        "label": "新增",
+        "type": "button",
+        "actionType": "dialog",
+        "level": "primary",
+        "className": "m-b-sm",
+        "dialog": {
+            "title": "新增表单",
+            "body": {
+                "type": "form",
+                "api": "post:/api/sample?waitSeconds=1",
+                "controls": [
+                    {
+                        "type": "text",
+                        "name": "engine",
+                        "label": "Engine"
+                    },
+                    {
+                        "type": "text",
+                        "name": "browser",
+                        "label": "Browser"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "type": "crud",
+        "api": "/api/sample?waitSeconds=1&orderBy=id&orderDir=desc",
+        "columns": [
+            {
+                "name": "id",
+                "label": "ID"
+            },
+            {
+                "name": "engine",
+                "label": "Rendering engine"
+            },
+            {
+                "name": "browser",
+                "label": "Browser"
+            },
+            {
+                "name": "platform",
+                "label": "Platform(s)"
+            },
+            {
+                "name": "version",
+                "label": "Engine version"
+            },
+            {
+                "name": "grade",
+                "label": "CSS grade"
+            }
+        ]
+    }
+]
+```
+
+当然如果你不想要自动刷新，那么给按钮配置 reload: "none" 就行了。
+
+### 删
+
+删除功能主要有三种实现：[单条操作](#单条操作)、[批量操作](#批量操作)或者直接添加一个操作栏，在里面放个类型为 ajax 类型的按钮即可。在这个按钮里面能获得对应的行数据，而且完成后也会自动刷新这个 CRUD 列表。
+
+```schema:height="600" scope="body"
+{
+    "type": "crud",
+    "api": "/api/sample?waitSeconds=1&orderBy=id&orderDir=desc",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "type": "operation",
+            "label": "操作",
+            "buttons": [
+                {
+                    "label": "删除",
+                    "type": "button",
+                    "actionType": "ajax",
+                    "level": "danger",
+                    "confirmText": "确认要删除？",
+                    "api": "delete:/api/sample/${id}?waitSeconds=1"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### 改
+
+改和删其实是差不多的，唯一的区别在于，配置不同的 api，按钮类型改成弹框。
+
+```schema:height="600" scope="body"
+{
+    "type": "crud",
+    "api": "/api/sample?waitSeconds=1&orderBy=id&orderDir=desc",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "type": "operation",
+            "label": "操作",
+            "buttons": [
+                {
+                    "label": "修改",
+                    "type": "button",
+                    "actionType": "drawer",
+                    "drawer": {
+                        "title": "新增表单",
+                        "body": {
+                            "type": "form",
+                            "initApi": "/api/sample/${id}",
+                            "api": "post:/api/sample/${id}?waitSeconds=1",
+                            "controls": [
+                                {
+                                    "type": "text",
+                                    "name": "engine",
+                                    "label": "Engine"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "browser",
+                                    "label": "Browser"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+弹框里面可用数据自动就是点击的那一行的行数据，如果列表没有返回，可以在 form 里面再配置个 initApi 初始化数据，如果行数据里面有倒是不需要再拉取了。表单项的 name 跟数据 key 对应上便自动回显了。默认发送给表单的保存接口只会包含配置了的表单项，如果不够，请在 api 上配置数据映射，或者直接添加 hidden 类型的表单项（即隐藏域 input[type=hidden]）。
+
+### 查
+
+查，就不单独介绍了，这个文档绝大部分都是关于查的。
 
 ## 展示模式
 
@@ -901,6 +1073,8 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ### 批量操作
 
 在`headerToolbar`或者`footerToolbar`数组中添加`bulkActions`字符串，并且在 crud 上配置`bulkActions`行为按钮数组，可以实现选中表格项并批量操作的功能。
+
+> 需要设置`primaryField`用于标识选中状态，配置当前行数据中的某一**唯一标识字段**，例如`id`，否则可能会出现无法选中的问题
 
 ```schema:height="600" scope="body"
 {

@@ -1,22 +1,62 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import db, {province, city, district} from './CityDB';
-import {ClassNamesFn, themeable} from '../../theme';
+import {ClassNamesFn, themeable, ThemeProps} from '../../theme';
 import {Select} from '../../components';
 import {autobind} from '../../utils/helper';
 import {Option} from './Options';
 import {localeable, LocaleProps} from '../../locale';
 
-export interface CityPickerProps extends LocaleProps {
+/**
+ * City 城市选择框。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/city
+ */
+export interface CityControlSchema extends FormBaseControl {
+  /**
+   * 指定为城市选择框。
+   */
+  type: 'city';
+
+  /**
+   * 开启后只会存城市的 code 信息
+   */
+  extractValue?: boolean;
+
+  /**
+   * 是否将各个信息拼接成字符串。
+   */
+  joinValues?: boolean;
+
+  /**
+   * 拼接的符号是啥？
+   */
+  delimiter?: string;
+
+  /**
+   * 允许选择城市？
+   */
+  allowCity?: boolean;
+
+  /**
+   * 允许选择地区？
+   */
+  allowDistrict?: boolean;
+
+  /**
+   * 允许选择街道？
+   */
+  allowStreet?: boolean;
+}
+
+export interface CityPickerProps
+  extends Omit<CityControlSchema, 'type'>,
+    LocaleProps,
+    ThemeProps {
   value: any;
   onChange: (value: any) => void;
+
   extractValue: boolean;
-  joinValues?: boolean;
   delimiter: string;
-  classnames: ClassNamesFn;
-  classPrefix: string;
-  className?: string;
-  disabled?: boolean;
   allowCity: boolean;
   allowDistrict: boolean;
   allowStreet: boolean;

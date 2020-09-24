@@ -2,15 +2,36 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
+import {BaseSchema, SchemaTpl} from '../Schema';
 
-export interface PlainProps extends RendererProps {
-  className?: string;
-  tpl?: string;
-  html?: string;
-  text?: string;
-  raw?: string;
-  wrapperComponent?: any;
+/**
+ * Plain 纯文本渲染器
+ * 文档：https://baidu.gitee.io/amis/docs/components/plain
+ */
+export interface PlainSchema extends BaseSchema {
+  /**
+   * 指定为模板渲染器。
+   *
+   * 文档：https://baidu.gitee.io/amis/docs/concepts/template
+   */
+  type: 'plain' | 'text';
+
+  tpl?: SchemaTpl;
+  text?: SchemaTpl;
+
+  /**
+   * 是否内联显示？
+   */
   inline?: boolean;
+
+  /**
+   * 占位符
+   * @deprecated -
+   */
+  placeholder?: string;
+}
+export interface PlainProps extends RendererProps, PlainSchema {
+  wrapperComponent?: any;
 }
 
 export class Plain extends React.Component<PlainProps, object> {

@@ -48,23 +48,20 @@ export default {
         name: 'colors',
         label: 'Table',
         draggable: true,
+        addable: true,
+        removable: true,
+        needConfirm: false,
         columns: [
           {
             label: 'Color',
             name: 'color',
             quickEdit: {
-              type: 'color',
-              saveImmediately: true
+              type: 'color'
             }
           },
           {
             label: '说明文字',
-            name: 'name',
-            quickEdit: {
-              type: 'text',
-              mode: 'inline',
-              saveImmediately: true
-            }
+            name: 'name'
           }
         ]
       },

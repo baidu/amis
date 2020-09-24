@@ -128,6 +128,15 @@ import SortAscIcon from '../icons/sort-asc.svg';
 // @ts-ignore
 import SortDescIcon from '../icons/sort-desc.svg';
 
+// @ts-ignore
+import SettingIcon from '../icons/setting.svg';
+
+// @ts-ignore
+import PlusCicleIcon from '../icons/plus-cicle.svg';
+
+// @ts-ignore
+import EllipsisVIcon from '../icons/ellipsis-v.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -213,6 +222,9 @@ registerIcon('folder', FolderIcon);
 registerIcon('sort-default', SortDefaultIcon);
 registerIcon('sort-asc', SortAscIcon);
 registerIcon('sort-desc', SortDescIcon);
+registerIcon('setting', SettingIcon);
+registerIcon('plus-cicle', PlusCicleIcon);
+registerIcon('ellipsis-v', EllipsisVIcon);
 
 export function Icon({
   icon,

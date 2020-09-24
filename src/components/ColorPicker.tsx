@@ -25,7 +25,7 @@ export interface ColorProps extends LocaleProps, ThemeProps {
   disabled?: boolean;
   popOverContainer?: any;
   placement?: string;
-  value: any;
+  value?: any;
   onChange: (value: any) => void;
   presetColors?: string[];
   resetValue?: string;

@@ -6,8 +6,18 @@ import keycode from 'keycode';
 import Downshift, {StateChangeOptions} from 'downshift';
 import {autobind} from '../../utils/helper';
 import {ICONS} from './IconPickerIcons';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {Option} from '../../components/Select';
+
+/**
+ * 图标选择器
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/icon-picker
+ */
+export interface IconPickerControlSchema extends FormBaseControl {
+  type: 'icon-picker';
+
+  // 这就不应该成为一个 amis 控件。。。
+}
 
 export interface IconPickerProps extends FormControlProps {
   placeholder?: string;

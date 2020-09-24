@@ -19,36 +19,131 @@ import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {Spinner} from '../components';
+import {
+  BaseSchema,
+  SchemaCollection,
+  SchemaClassName,
+  SchemaDefaultData,
+  SchemaApi,
+  SchemaExpression,
+  SchemaName,
+  SchemaMessage
+} from '../Schema';
+import {SchemaRemark} from './Remark';
 
-export interface PageProps extends RendererProps {
-  title?: string; // 标题
-  subTitle?: string; // 副标题
-  remark?: any; // 描述
-  initApi?: Api; // 可以用来设置初始数据。
-  initFetchOn?: string; // 判断是否构成拉取的条件。
-  initFetch?: boolean; // 是否初始拉取？
+/**
+ * amis Page 渲染器。详情请见：https://baidu.gitee.io/amis/docs/components/page
+ */
+export interface PageSchema extends BaseSchema {
+  /**
+   * 指定为 page 渲染器。
+   */
+  type: 'page';
+
+  /**
+   * 页面标题
+   */
+  title?: string;
+
+  /**
+   * 页面副标题
+   */
+  subTitle?: string;
+
+  /**
+   * 页面描述, 标题旁边会出现个小图标，放上去会显示这个属性配置的内容。
+   */
+  remark?: SchemaRemark;
+
+  /**
+   * 内容区域
+   */
+  body?: SchemaCollection;
+
+  /**
+   * 内容区 css 类名
+   */
+  bodyClassName?: SchemaClassName;
+
+  /**
+   * 边栏区域
+   */
+  aside?: SchemaCollection;
+
+  /**
+   * 边栏区 css 类名
+   */
+  asideClassName?: SchemaClassName;
+
+  /**
+   * 配置容器 className
+   */
+  className?: SchemaClassName;
+
+  data?: SchemaDefaultData;
+
+  /**
+   * 配置 header 容器 className
+   */
+  headerClassName?: SchemaClassName;
+
+  /**
+   * 页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。
+   */
+  initApi?: SchemaApi;
+
+  /**
+   * 是否默认就拉取？
+   */
+  initFetch?: boolean;
+
+  /**
+   * 是否默认就拉取表达式
+   */
+  initFetchOn?: SchemaExpression;
+
+  messages?: SchemaMessage;
+
+  name?: SchemaName;
+
+  /**
+   * 页面顶部区域，当存在 title 时在右上角显示。
+   */
+  toolbar?: SchemaCollection;
+
+  /**
+   * 配置 toolbar 容器 className
+   */
+  toolbarClassName?: SchemaClassName;
+
+  definitions?: any; // todo
+
+  /**
+   * 配置轮询间隔，配置后 initApi 将轮询加载。
+   */
   interval?: number;
+
+  /**
+   * 是否要静默加载，也就是说不显示进度
+   */
   silentPolling?: boolean;
-  stopAutoRefreshWhen?: string;
-  className?: string;
-  headerClassName?: string;
-  bodyClassName?: string;
-  asideClassName?: string;
-  toolbarClassName?: string;
-  header?: SchemaNode;
-  toolbar?: SchemaNode;
-  body?: SchemaNode;
-  aside?: SchemaNode;
+
+  /**
+   * 配置停止轮询的条件。
+   */
+  stopAutoRefreshWhen?: SchemaExpression;
   // primaryField?: string, // 指定主键的字段名，默认为 `id`
+
+  /**
+   * 是否显示错误信息，默认是显示的。
+   */
   showErrorMsg?: boolean;
-  location?: Location;
+}
+
+export interface PageProps extends RendererProps, PageSchema {
+  data: any;
   store: IServiceStore;
-  messages?: {
-    fetchFailed?: string;
-    fetchSuccess?: string;
-    saveFailed?: string;
-    saveSuccess?: string;
-  };
+  location?: Location;
 }
 
 export default class Page extends React.Component<PageProps> {
@@ -65,7 +160,7 @@ export default class Page extends React.Component<PageProps> {
     messages: {}
   };
 
-  static propsList: Array<string> = [
+  static propsList: Array<keyof PageProps> = [
     'title',
     'subTitle',
     'initApi',
@@ -98,22 +193,6 @@ export default class Page extends React.Component<PageProps> {
       'silentReload',
       'initInterval'
     ]);
-
-    // if (location && location.search) {
-    //     const query = location.query || qs.parse(location.search.substring(1));
-
-    //     store.reInitData({
-    //         ...query,
-    //         query: query,
-    //     });
-    // } else if (!location && window.location.search) {
-    //     const query = qs.parse(window.location.search.substring(1));
-
-    //     store.reInitData({
-    //         ...query,
-    //         query: query,
-    //     });
-    // }
   }
 
   componentDidMount() {
@@ -129,22 +208,6 @@ export default class Page extends React.Component<PageProps> {
         })
         .then(this.initInterval);
     }
-  }
-
-  componentWillReceiveProps(nextProps: PageProps) {
-    const props = this.props;
-    const store = props.store;
-
-    // if (nextProps.location && (!props.location || props.location.search !== nextProps.location.search)) {
-    //     const query =
-    //         nextProps.location.query ||
-    //         (nextProps.location.search && qs.parse(nextProps.location.search.substring(1))) ||
-    //         {};
-    //     store.updateData({
-    //         ...query,
-    //         query: query,
-    //     });
-    // }
   }
 
   componentDidUpdate(prevProps: PageProps) {

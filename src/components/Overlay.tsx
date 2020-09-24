@@ -22,7 +22,7 @@ BasePosition.propTypes.placement = () => null;
 class Position extends BasePosition {
   props: any;
   _lastTarget: any;
-  resizeDispose: () => void;
+  resizeDispose: Array<() => void>;
   watchedTarget: any;
   setState: (state: any) => void;
 
@@ -38,22 +38,23 @@ class Position extends BasePosition {
       });
     }
 
-    if (
-      (!this.watchedTarget || this.watchedTarget !== target) &&
-      getComputedStyle(target, 'position') !== 'static'
-    ) {
-      this.resizeDispose?.();
-      this.watchedTarget = target;
-      this.resizeDispose = resizeSensor(target, () =>
-        this.updatePosition(target)
-      );
-    }
-
-    const overlay = findDOMNode(this as any);
+    const overlay = findDOMNode(this as any) as HTMLElement;
     const container = getContainer(
       this.props.container,
       ownerDocument(this).body
     );
+
+    if (
+      (!this.watchedTarget || this.watchedTarget !== target) &&
+      getComputedStyle(target, 'position') !== 'static'
+    ) {
+      this.resizeDispose?.forEach(fn => fn());
+      this.watchedTarget = target;
+      this.resizeDispose = [
+        resizeSensor(target, () => this.updatePosition(target)),
+        resizeSensor(overlay, () => this.updatePosition(target))
+      ];
+    }
 
     this.setState(
       calculatePosition(
@@ -67,7 +68,7 @@ class Position extends BasePosition {
   }
 
   componentWillUnmount() {
-    this.resizeDispose?.();
+    this.resizeDispose?.forEach(fn => fn());
   }
 }
 

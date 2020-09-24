@@ -10,22 +10,91 @@ import {observer} from 'mobx-react';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {Spinner} from '../components';
 import {autobind, isVisible} from '../utils/helper';
+import {
+  BaseSchema,
+  SchemaApi,
+  SchemaCollection,
+  SchemaExpression,
+  SchemaMessage,
+  SchemaName
+} from '../Schema';
 
-export interface ServiceProps extends RendererProps {
-  api?: Api;
-  schemaApi?: Api;
+/**
+ * Service 服务类控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/service
+ */
+export interface ServiceSchema extends BaseSchema {
+  /**
+   * 指定为 Service 数据拉取控件。
+   */
+  type: 'service';
+
+  /**
+   * 页面初始化的时候，可以设置一个 API 让其取拉取，发送数据会携带当前 data 数据（包含地址栏参数），获取得数据会合并到 data 中，供组件内使用。
+   */
+  api?: SchemaApi;
+
+  /**
+   * 内容区域
+   */
+  body?: SchemaCollection;
+
+  /**
+   * @deprecated 改成 api 的 sendOn。
+   */
+  fetchOn?: SchemaExpression;
+
+  /**
+   * 是否默认就拉取？
+   */
   initFetch?: boolean;
-  initFetchOn?: string;
+
+  /**
+   * 是否默认就拉取？通过表达式来决定.
+   *
+   * @deprecated 改成 api 的 sendOn。
+   */
+  initFetchOn?: SchemaExpression;
+
+  /**
+   * 用来获取远程 Schema 的 api
+   */
+  schemaApi?: SchemaApi;
+
+  /**
+   * 是否默认加载 schemaApi
+   */
   initFetchSchema?: boolean;
+
+  /**
+   * 用表达式来配置。
+   * @deprecated 改成 api 的 sendOn。
+   */
+  initFetchSchemaOn?: SchemaExpression;
+
+  /**
+   * 是否轮询拉取
+   */
   interval?: number;
+
+  /**
+   * 是否静默拉取
+   */
   silentPolling?: boolean;
-  stopAutoRefreshWhen?: string;
+
+  /**
+   * 关闭轮询的条件。
+   */
+  stopAutoRefreshWhen?: SchemaExpression;
+
+  messages?: SchemaMessage;
+
+  name?: SchemaName;
+}
+
+export interface ServiceProps extends RendererProps, ServiceSchema {
   store: IServiceStore;
-  body?: SchemaNode;
-  messages: {
-    fetchSuccess?: string;
-    fetchFailed?: string;
-  };
+  messages: SchemaMessage;
 }
 export default class Service extends React.Component<ServiceProps> {
   timer: NodeJS.Timeout;
@@ -48,6 +117,7 @@ export default class Service extends React.Component<ServiceProps> {
     this.silentReload = this.silentReload.bind(this);
     this.initInterval = this.initInterval.bind(this);
     this.afterDataFetch = this.afterDataFetch.bind(this);
+    this.afterSchemaFetch = this.afterSchemaFetch.bind(this);
   }
 
   componentDidMount() {
@@ -59,9 +129,7 @@ export default class Service extends React.Component<ServiceProps> {
     const props = this.props;
     const store = props.store;
 
-    const {
-      messages: {fetchSuccess, fetchFailed}
-    } = props;
+    const {fetchSuccess, fetchFailed} = props.messages!;
 
     isApiOutdated(prevProps.api, props.api, prevProps.data, props.data) &&
       store
@@ -82,7 +150,7 @@ export default class Service extends React.Component<ServiceProps> {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed
         })
-        .then(this.initInterval);
+        .then(this.afterSchemaFetch);
   }
 
   componentWillUnmount() {
@@ -103,10 +171,12 @@ export default class Service extends React.Component<ServiceProps> {
     } = this.props;
 
     if (isEffectiveApi(schemaApi, store.data, initFetchSchema)) {
-      store.fetchSchema(schemaApi, store.data, {
-        successMessage: fetchSuccess,
-        errorMessage: fetchFailed
-      });
+      store
+        .fetchSchema(schemaApi, store.data, {
+          successMessage: fetchSuccess,
+          errorMessage: fetchFailed
+        })
+        .then(this.afterSchemaFetch);
     }
 
     if (isEffectiveApi(api, store.data, initFetch, initFetchOn)) {
@@ -121,6 +191,10 @@ export default class Service extends React.Component<ServiceProps> {
 
   afterDataFetch(data: any) {
     this.initInterval(data);
+  }
+
+  afterSchemaFetch(schema: any) {
+    this.initInterval(schema);
   }
 
   initInterval(value: any) {
@@ -161,7 +235,7 @@ export default class Service extends React.Component<ServiceProps> {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed
         })
-        .then(this.initInterval);
+        .then(this.afterSchemaFetch);
     }
 
     if (isEffectiveApi(api, store.data)) {

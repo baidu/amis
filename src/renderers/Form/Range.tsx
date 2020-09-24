@@ -2,10 +2,39 @@ import React from 'react';
 import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 import isEqual from 'lodash/isEqual';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import InputRange from '../../components/Range';
 import {Icon} from '../../components/icons';
+import {FormOptionsControl} from './Options';
+
+/**
+ * Range
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/range
+ */
+export interface RangeControlSchema extends FormBaseControl {
+  type: 'range';
+
+  /**
+   * 最大值
+   */
+  max?: number;
+
+  /**
+   * 最小值
+   */
+  min?: number;
+
+  /**
+   * 步长
+   */
+  step?: number;
+
+  /**
+   * 单位
+   */
+  unit?: string;
+}
 
 export interface RangeProps extends FormControlProps {
   max?: number;

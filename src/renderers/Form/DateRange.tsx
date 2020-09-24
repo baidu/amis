@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import {filterDate} from '../../utils/tpl-builtin';
 import moment from 'moment';
@@ -8,14 +8,59 @@ import DateRangePicker, {
   DateRangePicker as BaseDateRangePicker
 } from '../../components/DateRangePicker';
 
-export interface DateRangeProps extends FormControlProps {
-  placeholder?: string;
-  disabled: boolean;
+/**
+ * DateRange 日期范围控件
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/date-range
+ */
+export interface DateRangeControlSchema extends FormBaseControl {
+  /**
+   * 指定为日期范围控件
+   */
+  type: 'date-range';
+
+  /**
+   * 分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。
+   *
+   */
+  delimiter?: string;
+
+  /**
+   * 默认 `X` 即时间戳格式，用来提交的时间格式。更多格式类型请参考 moment.
+   */
+  format?: string;
+
+  /**
+   * 默认 `YYYY-MM-DD` 用来配置显示的时间格式。
+   */
+  inputFormat?: string;
+
+  /**
+   * 开启后将选中的选项 value 的值用连接符拼接起来，作为当前表单项的值。如： `value1,value2` 否则为 `[value1, value2]`
+   */
+  joinValues?: boolean;
+
+  /**
+   * 最大日期限制，支持变量 $xxx 来取值，或者用相对值如：* `-2mins` 2分钟前\n * `+2days` 2天后\n* `-10week` 十周前\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。
+   */
+  maxDate?: string;
+
+  /**
+   * 最小日期限制，支持变量 $xxx 来取值，或者用相对值如：* `-2mins` 2分钟前\n * `+2days` 2天后\n* `-10week` 十周前\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。
+   */
+  minDate?: string;
+
+  /**
+   * 这里面 value 需要特殊说明一下，因为支持相对值。* `-2mins` 2分钟前\n * `+2days` 2天后\n* `-10week` 十周前\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。
+   */
+  value?: any;
+}
+
+export interface DateRangeProps
+  extends FormControlProps,
+    Omit<DateRangeControlSchema, 'type'> {
+  delimiter: string;
   format: string;
   joinValues: boolean;
-  delimiter: string;
-  minDate?: any;
-  maxDate?: any;
 }
 
 interface DateControlState {
@@ -132,6 +177,8 @@ export default class DateRangeControl extends React.Component<
       classPrefix: ns,
       defaultValue,
       defaultData,
+      minDate,
+      maxDate,
       ...rest
     } = this.props;
 

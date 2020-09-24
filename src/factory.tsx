@@ -51,6 +51,7 @@ import {
   LocaleContext,
   LocaleProps
 } from './locale';
+import {SchemaCollection, SchemaObject, SchemaTpl} from './Schema';
 
 export interface TestFunc {
   (
@@ -68,6 +69,7 @@ export interface RendererBasicConfig {
   test: RegExp | TestFunc;
   name?: string;
   storeType?: string;
+  shouldSyncSuperStore?: (store: any, props: any, prevProps: any) => boolean;
   storeExtendsData?: boolean; // 是否需要继承上层数据。
   weight?: number; // 权重，值越低越优先命中。
   isolateScope?: boolean;
@@ -129,7 +131,7 @@ export interface renderChildProps extends Partial<RendererProps> {
 }
 
 export type RendererComponent = React.ComponentType<RendererProps> & {
-  propsList?: Array<string>;
+  propsList?: Array<any>;
 };
 
 export interface RendererConfig extends RendererBasicConfig {
@@ -138,7 +140,7 @@ export interface RendererConfig extends RendererBasicConfig {
 }
 
 export interface RenderSchemaFilter {
-  (schema: Schema, renderer: RendererConfig, props?: object): SchemaNode;
+  (schema: Schema, renderer: RendererConfig, props?: object): Schema;
 }
 
 export interface RootRenderProps {
@@ -175,7 +177,7 @@ export interface RenderOptions {
 
 export interface fetcherConfig {
   url: string;
-  method: 'get' | 'post' | 'put' | 'patch' | 'delete';
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
   data?: any;
   config?: any;
 }
@@ -232,7 +234,8 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
   if (config.storeType && config.component) {
     config.component = HocStoreFactory({
       storeType: config.storeType,
-      extendsData: config.storeExtendsData
+      extendsData: config.storeExtendsData,
+      shouldSyncSuperStore: config.shouldSyncSuperStore
     })(observer(config.component));
   }
 
@@ -310,6 +313,7 @@ export function renderChild(
   const transform = props.propsTransform;
 
   if (transform) {
+    // @ts-ignore
     delete props.propsTransform;
     props = transform(props);
   }
@@ -335,7 +339,9 @@ export interface RootRendererProps {
   [propName: string]: any;
 }
 
-const RootStoreContext = React.createContext<IRendererStore>(undefined as any);
+export const RootStoreContext = React.createContext<IRendererStore>(
+  undefined as any
+);
 
 export class RootRenderer extends React.Component<RootRendererProps> {
   state = {
@@ -388,7 +394,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           {
             ...(data && data.__super ? data.__super : null),
             ...query,
-            query
+            __query: query
           },
           data
         )
@@ -523,6 +529,8 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         ...props.resolveDefinitions(schema.$ref),
         ...schema
       };
+
+      // @ts-ignore
       delete schema.$ref;
       path = path.replace(/(?!.*\/).*/, schema.type);
     }
@@ -586,7 +594,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const theme = this.props.env.theme;
 
     if (Array.isArray(schema)) {
-      return renderChildren($path, schema, rest) as JSX.Element;
+      return renderChildren($path, schema as any, rest) as JSX.Element;
     } else if (schema.children) {
       return React.isValidElement(schema.children)
         ? schema.children
@@ -653,6 +661,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 export function HocStoreFactory(renderer: {
   storeType: string;
   extendsData?: boolean;
+  shouldSyncSuperStore?: (store: any, props: any, prevProps: any) => boolean;
 }): any {
   return function <T extends React.ComponentType<RendererProps>>(Component: T) {
     type Props = Omit<
@@ -698,12 +707,13 @@ export function HocStoreFactory(renderer: {
         this.renderChild = this.renderChild.bind(this);
         this.refFn = this.refFn.bind(this);
 
-        const store = (this.store = rootStore.addStore({
+        const store = rootStore.addStore({
           id: guid(),
           path: this.props.$path,
           storeType: renderer.storeType,
           parentId: this.props.store ? this.props.store.id : ''
-        } as any));
+        }) as IIRendererStore;
+        this.store = store;
 
         if (renderer.extendsData === false) {
           store.initData(
@@ -749,9 +759,19 @@ export function HocStoreFactory(renderer: {
       componentWillReceiveProps(nextProps: RendererProps) {
         const props = this.props;
         const store = this.store;
+        const shouldSync = renderer.shouldSyncSuperStore?.(
+          store,
+          nextProps,
+          props
+        );
+
+        if (shouldSync === false) {
+          return;
+        }
 
         if (renderer.extendsData === false) {
           if (
+            shouldSync === true ||
             props.defaultData !== nextProps.defaultData ||
             isObjectShallowModified(props.data, nextProps.data) ||
             //
@@ -769,7 +789,10 @@ export function HocStoreFactory(renderer: {
               })
             );
           }
-        } else if (isObjectShallowModified(props.data, nextProps.data)) {
+        } else if (
+          shouldSync === true ||
+          isObjectShallowModified(props.data, nextProps.data)
+        ) {
           if (nextProps.store && nextProps.store.data === nextProps.data) {
             store.initData(
               createObject(
@@ -793,7 +816,9 @@ export function HocStoreFactory(renderer: {
             store.initData(createObject(nextProps.scope, nextProps.data));
           }
         } else if (
-          (!nextProps.store || nextProps.data !== nextProps.store.data) &&
+          (shouldSync === true ||
+            !nextProps.store ||
+            nextProps.data !== nextProps.store.data) &&
           nextProps.data &&
           nextProps.data.__super
         ) {
@@ -814,7 +839,7 @@ export function HocStoreFactory(renderer: {
         } else if (
           nextProps.scope &&
           nextProps.data === nextProps.store!.data &&
-          props.data !== nextProps.data
+          (shouldSync === true || props.data !== nextProps.data)
         ) {
           store.initData(
             createObject(nextProps.scope, {
@@ -829,6 +854,8 @@ export function HocStoreFactory(renderer: {
         const rootStore = this.context as IRendererStore;
         const store = this.store;
         rootStore.removeStore(store);
+
+        // @ts-ignore
         delete this.store;
       }
 
@@ -954,7 +981,7 @@ let stores: {
   [propName: string]: IRendererStore;
 } = {};
 export function render(
-  schema: SchemaNode,
+  schema: Schema,
   props: RootRenderProps = {},
   options: RenderOptions = {},
   pathPrefix: string = ''
@@ -1017,6 +1044,8 @@ export function clearStoresCache(
 
   sessions.forEach(key => {
     const store = stores[key];
+
+    // @ts-ignore
     delete stores[key];
 
     store && destroy(store);
@@ -1098,4 +1127,51 @@ export function getRenderers() {
 
 export function getRendererByName(name: string) {
   return find(renderers, item => item.name === name);
+}
+
+export function withRootStore<
+  T extends React.ComponentType<
+    React.ComponentProps<T> & {
+      rootStore: IRendererStore;
+    }
+  >
+>(ComposedComponent: T) {
+  type OuterProps = JSX.LibraryManagedAttributes<
+    T,
+    Omit<React.ComponentProps<T>, 'rootStore'>
+  >;
+
+  const result = hoistNonReactStatic(
+    class extends React.Component<OuterProps> {
+      static displayName = `WithRootStore(${
+        ComposedComponent.displayName || ComposedComponent.name
+      })`;
+      static contextType = RootStoreContext;
+      static ComposedComponent = ComposedComponent;
+
+      render() {
+        const rootStore = this.context;
+        const injectedProps: {
+          rootStore: IRendererStore;
+        } = {
+          rootStore
+        };
+
+        return (
+          <ComposedComponent
+            {...(this.props as JSX.LibraryManagedAttributes<
+              T,
+              React.ComponentProps<T>
+            >)}
+            {...injectedProps}
+          />
+        );
+      }
+    },
+    ComposedComponent
+  );
+
+  return result as typeof result & {
+    ComposedComponent: T;
+  };
 }

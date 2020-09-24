@@ -123,8 +123,8 @@ $zindex-affix: 900 !default;
 $zindex-dropdown: 1000 !default;
 $zindex-sticky: 1100 !default;
 $zindex-fixed: 1200 !default;
-$zindex-modal: 1300 !default;
-$zindex-popover: 1400 !default;
+$zindex-popover: 1300 !default;
+$zindex-modal: 1400 !default;
 $zindex-contextmenu: 1500 !default;
 $zindex-tooltip: 1600 !default;
 $zindex-toast: 2000 !default;
@@ -1020,12 +1020,12 @@ $ColorPicker-paddingY: (
   )/2 - $ColorPicker-borderWidth !default;
 $ColorPicker-placeholderColor: $Form-input-placeholderColor !default;
 $ColorPicker-onFocused-borderColor: $Form-input-onFocused-borderColor !default;
-$DatePicker-onHover-borderColor: $Form-input-borderColor !default;
 
 // datepicker
 $DatePicker-color: $Form-input-color !default;
 $DatePicker-bg: $white !default;
-$DatePicker-onHover-bg: darken($DatePicker-bg, 5%) !default;
+$DatePicker-onHover-borderColor: $Form-input-onFocused-borderColor !default;
+$DatePicker-onHover-bg: $DatePicker-bg !default;
 $DatePicker-borderWidth: $Form-input-borderWidth !default;
 $DatePicker-borderColor: $Form-input-borderColor !default;
 $DatePicker-borderRadius: $Form-input-borderRadius !default;

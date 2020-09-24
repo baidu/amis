@@ -1,13 +1,37 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 
-export interface CheckboxProps extends FormControlProps {
-  option?: string;
+/**
+ * Checkbox 勾选框。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/checkbox
+ */
+export interface CheckboxControlSchema extends FormBaseControl {
+  /**
+   * 指定为多行文本输入框
+   */
+  type: 'checkbox';
+
+  /**
+   * 勾选值
+   */
   trueValue?: any;
+
+  /**
+   * 未勾选值
+   */
   falseValue?: any;
+
+  /**
+   * 选项说明
+   */
+  option?: string;
 }
+
+export interface CheckboxProps
+  extends FormControlProps,
+    CheckboxControlSchema {}
 
 export default class CheckboxControl extends React.Component<
   CheckboxProps,

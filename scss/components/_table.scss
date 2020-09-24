@@ -243,10 +243,10 @@
         font-weight: $fontWeightNormal;
         white-space: nowrap;
 
-        .#{$ns}TableCell--title {
-          display: flex;
-          align-items: center;
-        }
+        // .#{$ns}TableCell--title {
+        //   display: flex;
+        //   align-items: center;
+        // }
         .#{$ns}Remark {
           margin-left: $gap-xs;
         }
@@ -270,6 +270,7 @@
       }
 
       > th {
+        text-align: left;
         background-color: $Table-thead-bg;
         // font-size: $Table-thead-fontSize;
         color: $Table-thead-color;
@@ -794,6 +795,10 @@
   > .#{$ns}Button,
   > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
     margin: px2rem(3px);
+  }
+
+  > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
+    padding: 0;
   }
 
   > .#{$ns}Button--link {

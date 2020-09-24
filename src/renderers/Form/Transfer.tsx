@@ -1,4 +1,8 @@
-import {OptionsControlProps, OptionsControl} from './Options';
+import {
+  OptionsControlProps,
+  OptionsControl,
+  FormOptionsControl
+} from './Options';
 import React from 'react';
 import Transfer from '../../components/Transfer';
 import {Option} from './Options';
@@ -14,20 +18,69 @@ import Spinner from '../../components/Spinner';
 import find from 'lodash/find';
 import {optionValueCompare} from '../../components/Select';
 import {resolveVariable} from '../../utils/tpl-builtin';
+import {SchemaApi} from '../../Schema';
 
-export interface BaseTransferProps extends OptionsControlProps {
+/**
+ * Transfer
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer
+ */
+export interface TransferControlSchema extends FormOptionsControl {
+  type: 'transfer';
+
+  /**
+   * 是否显示剪头
+   */
   showArrow?: boolean;
+
+  /**
+   * 可排序？
+   */
   sortable?: boolean;
+
+  /**
+   * 勾选展示模式
+   */
   selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
+
+  /**
+   * 当 selectMode 为 associated 时用来定义左侧的选项
+   */
   leftOptions?: Array<Option>;
+
+  /**
+   * 当 selectMode 为 associated 时用来定义左侧的选择模式
+   */
   leftMode?: 'tree' | 'list';
+
+  /**
+   * 当 selectMode 为 associated 时用来定义右侧的选择模式
+   */
   rightMode?: 'table' | 'list' | 'tree' | 'chained';
 
+  /**
+   * 搜索结果展示模式
+   */
   searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
+
+  /**
+   * 当 selectMode 为 table 时定义表格列信息。
+   */
   columns?: Array<any>;
+
+  /**
+   * 可搜索？
+   */
   searchable?: boolean;
-  searchApi?: Api;
+
+  /**
+   * 搜索 API
+   */
+  searchApi?: SchemaApi;
 }
+
+export interface BaseTransferProps
+  extends OptionsControlProps,
+    Omit<TransferControlSchema, 'type' | 'options'> {}
 
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
@@ -105,12 +158,11 @@ export class BaseTransferRenderer<
 
         return result.map(item => {
           let resolved: any = null;
+          const value = item[valueField || 'value'];
 
-          if (Array.isArray(options)) {
-            resolved = find(
-              options,
-              optionValueCompare(item[valueField || 'value'], valueField)
-            );
+          // 只有 value 值有意义的时候，再去找；否则直接返回
+          if (Array.isArray(options) && value !== null && value !== undefined) {
+            resolved = find(options, optionValueCompare(value, valueField));
           }
 
           return resolved || item;
@@ -183,7 +235,8 @@ export class BaseTransferRenderer<
       deferLoad,
       leftOptions,
       leftMode,
-      rightMode
+      rightMode,
+      disabled
     } = this.props;
 
     return (
@@ -191,6 +244,7 @@ export class BaseTransferRenderer<
         <Transfer
           value={selectedOptions}
           options={options}
+          disabled={disabled}
           onChange={this.handleChange}
           option2value={this.option2value}
           sortable={sortable}

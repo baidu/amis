@@ -27,6 +27,8 @@ order: 51
 | frameBorder | `Array`  |            | frameBorder          |
 | style       | `object` |            | 样式                 |
 | src         | `string` |            | iframe地址           |
+| height      | `string` | `"100%"`   | iframe高           |
+| width       | `string` | `"100%"`   | iframe宽           |
 
 
 

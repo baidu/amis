@@ -141,7 +141,7 @@ export default class VirtualList extends React.PureComponent<Props, State> {
   };
 
   itemSizeGetter = (itemSize: Props['itemSize']) => {
-    return index => this.getSize(index, itemSize);
+    return (index: any) => this.getSize(index, itemSize);
   };
 
   sizeAndPositionManager = new SizeAndPositionManager({
@@ -177,13 +177,10 @@ export default class VirtualList extends React.PureComponent<Props, State> {
   }
 
   // 自适应宽度
-  updateRootWidth(isDidUpdate: boolean = false) {
-    let scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth || 15;
-    if (isDidUpdate) {
-      scrollbarWidth = 0;
-    }
+  updateRootWidth() {
     const itemsDom = this.rootNode.children[0].children;
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth || 15;
     const containerWidth = this.rootNode.parentElement!.getBoundingClientRect()
       .width;
     let maxItemWidth = 0;
@@ -193,9 +190,7 @@ export default class VirtualList extends React.PureComponent<Props, State> {
         maxItemWidth = itemWidth;
       }
     }
-    if (containerWidth >= maxItemWidth) {
-      this.rootNode.style.width = containerWidth + 'px';
-    } else {
+    if (maxItemWidth > containerWidth) {
       this.rootNode.style.width = maxItemWidth + scrollbarWidth + 'px';
     }
   }
@@ -258,7 +253,6 @@ export default class VirtualList extends React.PureComponent<Props, State> {
   }
 
   componentDidUpdate(_: Props, prevState: State) {
-    this.updateRootWidth(true);
     const {offset, scrollChangeReason} = this.state;
     if (
       prevState.offset !== offset &&
@@ -275,7 +269,7 @@ export default class VirtualList extends React.PureComponent<Props, State> {
   scrollTo(value: number) {
     const {scrollDirection = DIRECTION.VERTICAL} = this.props;
 
-    this.rootNode[scrollProp[scrollDirection]] = value;
+    (this.rootNode as any)[scrollProp[scrollDirection]] = value;
   }
 
   getOffsetForIndex(
@@ -291,7 +285,7 @@ export default class VirtualList extends React.PureComponent<Props, State> {
 
     return this.sizeAndPositionManager.getUpdatedOffsetForIndex({
       align: scrollToAlignment,
-      containerSize: this.props[sizeProp[scrollDirection]],
+      containerSize: this.props[sizeProp[scrollDirection] as 'scrollOffset']!,
       currentOffset: (this.state && this.state.offset) || 0,
       targetIndex: index
     });
@@ -323,7 +317,7 @@ export default class VirtualList extends React.PureComponent<Props, State> {
     } = this.props;
     const {offset} = this.state;
     const {start, stop} = this.sizeAndPositionManager.getVisibleRange({
-      containerSize: this.props[sizeProp[scrollDirection]] || 0,
+      containerSize: (this as any).props[sizeProp[scrollDirection]] || 0,
       offset,
       overscanCount
     });
@@ -407,7 +401,7 @@ export default class VirtualList extends React.PureComponent<Props, State> {
   private getNodeOffset() {
     const {scrollDirection = DIRECTION.VERTICAL} = this.props;
 
-    return this.rootNode[scrollProp[scrollDirection]];
+    return (this as any).rootNode[scrollProp[scrollDirection]];
   }
 
   private getEstimatedItemSize(props = this.props) {
@@ -418,7 +412,7 @@ export default class VirtualList extends React.PureComponent<Props, State> {
     );
   }
 
-  private getSize(index: number, itemSize) {
+  private getSize(index: number, itemSize: any) {
     if (typeof itemSize === 'function') {
       return itemSize(index);
     }

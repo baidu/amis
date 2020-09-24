@@ -110,6 +110,9 @@ amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json
 Page 组件的示例代码
 
 ```jsx
+import * as React from 'react';
+import {Renderer} from 'amis';
+
 @Renderer({
   test: /^page$/
   // ... 其他信息隐藏了
@@ -132,6 +135,15 @@ export class PageRenderer extends React.Component {
     );
   }
 }
+
+// 如果不支持 Decorators 语法也可以使用如下写法
+export Renderer({
+  test: /^page$/
+})(class PageRenderer extends React.Component {
+  render() {
+    // ...同上
+  }
+})
 ```
 
 Form 组件的示例代码
@@ -282,7 +294,7 @@ class CustomRenderer extends React.Component {
 
 ### 表单项的扩展
 
-以上是普通渲染器的注册方式，如果是表单项，为了更简单的扩充，请使用 `FormItem` 注解，而不是 `Renderer`。 原因是如果用 `FormItem` 是不用关心：label 怎么摆，表单验证器怎么实现，如何适配表单的 3 中展现方式（水平、上下和内联模式），而只用关心：有了值后如何回显，响应用户交互设置新值。
+以上是普通渲染器的注册方式，如果是表单项，为了更简单的扩充，请使用 `FormItem` 注解，而不是 `Renderer`。 原因是如果用 `FormItem` 是不用关心：label 怎么摆，表单验证器怎么实现，如何适配表单的 3 种展现方式（水平、上下和内联模式），而只用关心：有了值后如何回显，响应用户交互设置新值。
 
 ```jsx
 import * as React from 'react';

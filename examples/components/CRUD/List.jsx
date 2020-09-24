@@ -193,16 +193,19 @@ export default {
           sortable: true,
           quickEdit: true
         },
-        [
-          {
-            name: 'browser',
-            label: 'Browser'
-          },
-          {
-            name: 'platform',
-            label: 'Platform(s)'
-          }
-        ],
+        {
+          type: 'hbox',
+          columns: [
+            {
+              name: 'browser',
+              label: 'Browser'
+            },
+            {
+              name: 'platform',
+              label: 'Platform(s)'
+            }
+          ]
+        },
         {
           name: 'version',
           label: 'Engine version'

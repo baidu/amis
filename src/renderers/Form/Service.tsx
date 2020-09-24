@@ -1,13 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../../factory';
-import BasicService, {ServiceProps} from '../Service';
+import BasicService, {ServiceProps, ServiceSchema} from '../Service';
 import {Schema, Payload} from '../../types';
 import Scoped, {ScopedContext, IScopedContext} from '../../Scoped';
 import {observer} from 'mobx-react';
 import {ServiceStore, IServiceStore} from '../../store/service';
 import {IFormStore} from '../../store/form';
 import {isObject} from '../../utils/helper';
+import {FormBaseControl, FormControlSchema} from './Item';
+
+/**
+ * Sevice
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/sevice
+ */
+export interface ServiceControlSchema extends FormBaseControl, ServiceSchema {
+  type: 'service';
+
+  /**
+   * 表单项集合
+   */
+  controls?: Array<FormControlSchema>;
+
+  /**
+   * @deprecated 请用类型 tabs
+   */
+  tabs?: any;
+
+  /**
+   * @deprecated 请用类型 fieldSet
+   */
+  fieldSet?: any;
+}
 
 @Renderer({
   test: /(^|\/)form\/(.*)\/service$/,
@@ -69,6 +93,24 @@ export class ServiceRenderer extends BasicService {
     }
 
     return super.afterDataFetch(payload);
+  }
+
+  // schema 接口可能会返回数据，需要把它同步到表单上，否则会没用。
+  afterSchemaFetch(schema: any) {
+    const formStore: IFormStore = this.props.formStore;
+    const onChange = this.props.onChange;
+
+    // 有可能有很多层 serivce，这里需要注意。
+    if (formStore && this.isFormMode()) {
+      const keys = isObject(schema?.data) ? Object.keys(schema.data) : [];
+
+      if (keys.length) {
+        formStore.setValues(schema.data);
+        onChange(schema.data[keys[0]], keys[0]);
+      }
+    }
+
+    return super.afterSchemaFetch(schema);
   }
 
   isFormMode() {

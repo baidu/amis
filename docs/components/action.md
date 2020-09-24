@@ -222,6 +222,62 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 更多内容查看[Dialog 文档](./dialog#feedback-%E5%8F%8D%E9%A6%88%E5%BC%B9%E6%A1%86)
 
+### 请求成功后，刷新目标组件
+
+1. 目标组件需要配置 `name` 属性
+2. Action 上添加 `"reload": "xxx"`，`xxx` 为目标组件的 `name` 属性值，如果配置多个组件，`name` 用逗号分隔
+
+```schema:height="700"
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "button",
+      "label": "ajax 请求",
+      "actionType": "ajax",
+      "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+      "reload": "crud"
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "crud",
+      "name": "crud",
+      "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+      "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+      ]
+    }
+  ]
+}
+```
+
+> 配置 `"reload": "window"` 可刷新当前页面
+
 ### 自定义 toast 文字
 
 可以通过配置`messages`，自定义接口返回`toast`信息
@@ -252,16 +308,15 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ### 单页跳转
 
-```schema:height="100"
+```schema:height="100" scope="body"
 {
-  "body": {
     "label": "进入介绍页",
     "type": "button",
     "level": "info",
     "actionType": "link",
     "link": "../index"
-  }
 }
+
 ```
 
 ** 属性表 **
@@ -273,15 +328,13 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ### 直接跳转
 
-```schema:height="100"
+```schema:height="100" scope="body"
 {
-  "body": {
     "label": "打开 Baidu",
     "type": "button",
     "level": "success",
     "actionType": "url",
     "url": "http://www.baidu.com/"
-  }
 }
 ```
 
@@ -297,26 +350,24 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ## 弹框
 
-```schema:height="100"
+```schema:height="100" scope="body"
 {
-  "body": {
-    "label": "Dialog Form",
-    "type": "button",
-    "level": "primary",
-    "actionType": "dialog",
-    "dialog": {
-      "title": "表单设置",
-      "body": {
-        "type": "form",
-        "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
-        "controls": [
-          {
-            "type": "text",
-            "name": "text",
-            "label": "文本"
-          }
-        ]
-      }
+  "label": "Dialog Form",
+  "type": "button",
+  "level": "primary",
+  "actionType": "dialog",
+  "dialog": {
+    "title": "表单设置",
+    "body": {
+      "type": "form",
+      "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+      "controls": [
+        {
+          "type": "text",
+          "name": "text",
+          "label": "文本"
+        }
+      ]
     }
   }
 }
@@ -332,28 +383,26 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ## 抽屉
 
-```schema:height="100"
-  {
+```schema:height="100"  scope="body"
+{
+  "label": "Drawer Form",
+  "type": "button",
+  "actionType": "drawer",
+  "drawer": {
+    "title": "表单设置",
     "body": {
-      "label": "Drawer Form",
-      "type": "button",
-      "actionType": "drawer",
-      "drawer": {
-        "title": "表单设置",
-        "body": {
-          "type": "form",
-          "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
-          "controls": [
-            {
-              "type": "text",
-              "name": "text",
-              "label": "文本"
-            }
-          ]
+      "type": "form",
+      "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+      "controls": [
+        {
+          "type": "text",
+          "name": "text",
+          "label": "文本"
         }
-      }
+      ]
     }
   }
+}
 ```
 
 ** 属性表 **

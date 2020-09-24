@@ -282,8 +282,9 @@ export class App extends React.PureComponent {
             />
           </div>
         </div>
+
         <div className={`${theme.ns}Layout-searchBar hidden-xs hidden-sm`}>
-          <DocSearch theme={this.state.theme.value} />
+          <DocSearch theme={theme} />
         </div>
 
         <a

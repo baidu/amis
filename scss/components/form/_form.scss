@@ -328,3 +328,7 @@
     }
   }
 }
+
+.#{$ns}Form--quickEdit {
+  min-width: $Form-control-widthSm;
+}

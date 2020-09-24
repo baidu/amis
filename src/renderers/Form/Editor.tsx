@@ -1,8 +1,103 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import LazyComponent from '../../components/LazyComponent';
 import debouce from 'lodash/debounce';
 import Editor from '../../components/Editor';
+
+/**
+ * Editor 代码编辑器
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/editor
+ */
+export interface EditorControlSchema extends Omit<FormBaseControl, 'size'> {
+  type:
+    | 'editor'
+    | 'bat-editor'
+    | 'c-editor'
+    | 'coffeescript-editor'
+    | 'cpp-editor'
+    | 'csharp-editor'
+    | 'css-editor'
+    | 'dockerfile-editor'
+    | 'fsharp-editor'
+    | 'go-editor'
+    | 'handlebars-editor'
+    | 'html-editor'
+    | 'ini-editor'
+    | 'java-editor'
+    | 'javascript-editor'
+    | 'json-editor'
+    | 'less-editor'
+    | 'lua-editor'
+    | 'markdown-editor'
+    | 'msdax-editor'
+    | 'objective-c-editor'
+    | 'php-editor'
+    | 'plaintext-editor'
+    | 'postiats-editor'
+    | 'powershell-editor'
+    | 'pug-editor'
+    | 'python-editor'
+    | 'r-editor'
+    | 'razor-editor'
+    | 'ruby-editor'
+    | 'sb-editor'
+    | 'scss-editor'
+    | 'sol-editor'
+    | 'sql-editor'
+    | 'swift-editor'
+    | 'typescript-editor'
+    | 'vb-editor'
+    | 'xml-editor'
+    | 'yaml-editor';
+
+  /**
+   * 语言类型
+   */
+  language?:
+    | 'bat'
+    | 'c'
+    | 'coffeescript'
+    | 'cpp'
+    | 'csharp'
+    | 'css'
+    | 'dockerfile'
+    | 'fsharp'
+    | 'go'
+    | 'handlebars'
+    | 'html'
+    | 'ini'
+    | 'java'
+    | 'javascript'
+    | 'json'
+    | 'less'
+    | 'lua'
+    | 'markdown'
+    | 'msdax'
+    | 'objective-c'
+    | 'php'
+    | 'plaintext'
+    | 'postiats'
+    | 'powershell'
+    | 'pug'
+    | 'python'
+    | 'r'
+    | 'razor'
+    | 'ruby'
+    | 'sb'
+    | 'scss'
+    | 'sol'
+    | 'sql'
+    | 'swift'
+    | 'typescript'
+    | 'vb'
+    | 'xml'
+    | 'yaml';
+
+  /**
+   * 编辑器大小
+   */
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+}
 
 export interface EditorProps extends FormControlProps {
   options?: object;
@@ -178,26 +273,26 @@ export const availableLanguages = [
   'yaml'
 ];
 
-export const EditorControls: Array<
-  typeof EditorControl
-> = availableLanguages.map((lang: string) => {
-  @FormItem({
-    type: `${lang}-editor`,
-    sizeMutable: false
-  })
-  class EditorControlRenderer extends EditorControl {
-    static lang = lang;
-    static displayName = `${lang[0].toUpperCase()}${lang.substring(
-      1
-    )}EditorControlRenderer`;
-    static defaultProps = {
-      ...EditorControl.defaultProps,
-      language: lang
-    };
-  }
+export const EditorControls: Array<typeof EditorControl> = availableLanguages.map(
+  (lang: string) => {
+    @FormItem({
+      type: `${lang}-editor`,
+      sizeMutable: false
+    })
+    class EditorControlRenderer extends EditorControl {
+      static lang = lang;
+      static displayName = `${lang[0].toUpperCase()}${lang.substring(
+        1
+      )}EditorControlRenderer`;
+      static defaultProps = {
+        ...EditorControl.defaultProps,
+        language: lang
+      };
+    }
 
-  return EditorControlRenderer;
-});
+    return EditorControlRenderer;
+  }
+);
 
 @FormItem({
   type: 'js-editor',

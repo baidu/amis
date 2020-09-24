@@ -4,8 +4,8 @@
 const path = require('path');
 const fs = require('fs');
 const package = require('./package.json');
-const parserMarkdown = require('./build/md-parser');
-fis.get('project.ignore').push('public/**', 'gh-pages/**', '.*/**');
+const parserMarkdown = require('./scripts/md-parser');
+fis.get('project.ignore').push('public/**', 'gh-pages/**');
 // 配置只编译哪些文件。
 
 const Resource = fis.require('postpackager-loader/lib/resource.js');
@@ -30,12 +30,17 @@ Resource.extend({
 });
 
 fis.set('project.files', [
+  'schema.json',
   'scss/**.scss',
   '/examples/*.html',
   '/examples/*.tpl',
   '/src/**.html',
   'mock/**'
 ]);
+
+fis.match('/schema.json', {
+  release: '/$0'
+});
 
 fis.match('/mock/**', {
   useCompile: false
@@ -413,7 +418,7 @@ if (fis.project.currentMedia() === 'publish') {
         resourceType: 'mod'
       }),
 
-      require('./build/embed-packager')
+      require('./scripts/embed-packager')
     ]
   });
 
@@ -683,7 +688,7 @@ if (fis.project.currentMedia() === 'publish') {
     ]
   });
   ghPages.match('*', {
-    domain: 'https://bce.bdstatic.com/fex/amis-gh-pages',
+    domain: '/amis',
     deploy: [
       fis.plugin('skip-packed'),
       fis.plugin('local-deliver', {
@@ -693,6 +698,9 @@ if (fis.project.currentMedia() === 'publish') {
   });
   ghPages.match('{*.min.js,monaco-editor/min/**.js}', {
     optimizer: null
+  });
+  ghPages.match('docs.json', {
+    domain: null
   });
 }
 

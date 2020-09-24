@@ -4,6 +4,7 @@ import React from 'react';
 import tinymce from 'tinymce/tinymce';
 
 // A theme is also required
+import 'tinymce/icons/default/index';
 import 'tinymce/themes/silver';
 import 'tinymce/skins/ui/oxide/skin.css';
 

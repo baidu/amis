@@ -4,14 +4,33 @@ import {filter} from '../utils/tpl';
 import {autobind, createObject} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {buildApi} from '../utils/api';
+import {BaseSchema, SchemaUrlPath} from '../Schema';
+import {ActionSchema} from './Action';
 
-export interface IFrameProps extends RendererProps {
-  className?: string;
-  src?: string;
+/**
+ * IFrame 渲染器
+ * 文档：https://baidu.gitee.io/amis/docs/components/iframe
+ */
+export interface IFrameSchema extends BaseSchema {
+  type: 'iframe';
+
+  /**
+   * 页面地址
+   */
+  src: SchemaUrlPath;
+
+  /**
+   * 事件相应，配置后当 iframe 通过 postMessage 发送事件时，可以触发 AMIS 内部的动作。
+   */
   events?: {
-    [eventName: string]: Object;
+    [eventName: string]: ActionSchema;
   };
+
+  width?: number | string;
+  height?: number | string;
 }
+
+export interface IFrameProps extends RendererProps, IFrameSchema {}
 
 export default class IFrame extends React.Component<IFrameProps, object> {
   IFrameRef: React.RefObject<HTMLIFrameElement> = React.createRef();
@@ -120,13 +139,15 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     const {width, height} = this.state;
     let {className, src, frameBorder, data, style} = this.props;
 
+    let tempStyle: any = {};
+
+    width !== void 0 && (tempStyle.width = width);
+    height !== void 0 && (tempStyle.height = height);
+
     style = {
+      ...tempStyle,
       ...style
     };
-
-    width !== void 0 && (style.width = width);
-    height !== void 0 && (style.height = height);
-
     return (
       <iframe
         className={className}

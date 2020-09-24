@@ -230,7 +230,7 @@ export function isApiOutdated(
   nextApi: Api | undefined,
   prevData: any,
   nextData: any
-): boolean {
+): nextApi is Api {
   const url: string =
     (nextApi && (nextApi as ApiObject).url) || (nextApi as string);
 

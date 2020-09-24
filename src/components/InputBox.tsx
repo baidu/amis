@@ -103,6 +103,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
           placeholder={placeholder}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
+          size={12}
         />
 
         {children}

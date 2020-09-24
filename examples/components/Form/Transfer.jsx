@@ -434,7 +434,7 @@ export default {
           name: 'b',
           sortable: true,
           searchable: true,
-          deferApi: '/api/mock2/form/deferOptions?label=${label}',
+          deferApi: '/api/mock/form/deferOptions?label=${label}',
           selectMode: 'associated',
           leftMode: 'tree',
           leftOptions: [

@@ -30,7 +30,7 @@ import {evalExpression} from '../utils/tpl';
 export const Column = types
   .model('Column', {
     label: types.optional(types.frozen(), undefined),
-    type: types.string,
+    type: types.optional(types.string, 'plain'),
     name: types.maybe(types.string),
     value: types.frozen(),
     groupName: '',
@@ -118,9 +118,9 @@ export const Row = types
     },
 
     get expanded(): boolean {
-      return (getParent(self, self.depth * 2) as ITableStore).isExpanded(
-        self as IRow
-      );
+      const table = getParent(self, self.depth * 2) as ITableStore;
+
+      return !table.dragging && table.isExpanded(self as IRow);
     },
 
     get moved() {
@@ -173,6 +173,11 @@ export const Row = types
 
     setIsHover(value: boolean) {
       self.isHover = value;
+    },
+
+    replaceWith(data: any) {
+      delete data.id;
+      Object.keys(data).forEach(key => ((self as any)[key] = data[key]));
     }
   }));
 
@@ -680,7 +685,6 @@ export const TableStore = iRendererStore
           pristine: item,
           data: item,
           rowSpans: {},
-          modified: false,
           children:
             item && Array.isArray(item.children)
               ? initChildren(item.children, 1, key, id)
@@ -696,7 +700,7 @@ export const TableStore = iRendererStore
         arr = autoCombineCell(arr, self.columns, self.combineNum);
       }
 
-      self.rows.replace(arr as Array<IRow>);
+      replaceRow(arr);
       self.isNested = self.rows.some(item => item.children.length);
 
       const expand = self.footable && self.footable.expand;
@@ -715,6 +719,30 @@ export const TableStore = iRendererStore
       }
 
       self.dragging = false;
+    }
+
+    // 尽可能的复用 row
+    function replaceRow(arr: Array<SRow>) {
+      const pool = arr.concat();
+
+      // 把多的删了先
+      if (self.rows.length > arr.length) {
+        self.rows.splice(arr.length, self.rows.length - arr.length);
+      }
+
+      let index = 0;
+      const len = self.rows.length;
+      while (pool.length) {
+        const item = pool.shift()!;
+
+        if (index < len) {
+          self.rows[index].replaceWith(item);
+        } else {
+          const row = Row.create(item);
+          self.rows.push(row);
+        }
+        index++;
+      }
     }
 
     function updateSelected(selected: Array<any>, valueField?: string) {

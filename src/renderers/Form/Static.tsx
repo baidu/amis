@@ -1,11 +1,52 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {TableCell} from '../Table';
-import PopOver from '../PopOver';
-import QuickEdit from '../QuickEdit';
+import PopOver, {SchemaPopOver} from '../PopOver';
+import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
 import {Renderer} from '../../factory';
-import Copyable from '../Copyable';
+import Copyable, {SchemaCopyable} from '../Copyable';
 import {extendObject} from '../../utils/helper';
+import {SchemaObject, SchemaTpl, SchemaType} from '../../Schema';
+
+/**
+ * Static
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/static
+ */
+export interface StaticExactControlSchema extends FormBaseControl {
+  type: 'static';
+
+  /**
+   * 内容模板， 支持 HTML
+   */
+  tpl?: SchemaTpl;
+
+  /**
+   * 内容模板，不支持 HTML
+   */
+  text?: SchemaTpl;
+
+  /**
+   * 配置查看详情功能
+   */
+  popOver?: SchemaPopOver;
+
+  /**
+   * 配置快速编辑功能
+   */
+  quickEdit?: SchemaQuickEdit;
+
+  /**
+   * 配置点击复制功能
+   */
+  copyable?: SchemaCopyable;
+}
+
+export type StaticControlRestSchema = Omit<StaticExactControlSchema, 'type'> &
+  SchemaObject;
+
+export type StaticControlSchema =
+  | StaticControlRestSchema
+  | StaticExactControlSchema;
 
 export interface StaticProps extends FormControlProps {
   placeholder?: string;

@@ -133,6 +133,8 @@ order: 54
 }
 ```
 
+当表格上配置了`addApi`时，会请求该 `api`，并将返回数据添加到目标表格。
+
 ### 编辑行配置
 
 还可以在列上配置`quickEdit`实现编辑配置，更多配置参考 [快速编辑](../crud#%E5%BF%AB%E9%80%9F%E7%BC%96%E8%BE%91)
@@ -213,6 +215,54 @@ order: 54
         {
           "label": "A",
           "name": "a"
+        },
+        {
+          "label": "B",
+          "name": "b"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 非确认模式
+
+配置`"needConfirm": false`，不需要确认，那么就是一直就是处于编辑形态。
+
+```schema:height="400" scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ]
+  },
+  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "controls": [
+    {
+      "type": "table",
+      "name": "table",
+      "label": "Table",
+      "needConfirm": false,
+      "addable": true,
+      "removable": true,
+      "columns": [
+        {
+          "label": "A",
+          "name": "a",
+          "quickEdit": false
         },
         {
           "label": "B",

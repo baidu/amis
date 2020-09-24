@@ -96,6 +96,9 @@
 
   &-itemInput {
     padding-left: $Tree-itemArrowWidth;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
 
     > a {
       display: inline-block;
@@ -110,6 +113,8 @@
     }
 
     > input {
+      flex-grow: 1;
+      width: 100%;
       outline: none;
       background-color: $Form-input-bg;
       border: $Form-input-borderWidth solid $Form-input-borderColor;

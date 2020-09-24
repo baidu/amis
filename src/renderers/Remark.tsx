@@ -6,6 +6,46 @@ import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
 import {themeable} from '../theme';
 import {Icon} from '../components/icons';
+import {BaseSchema, SchemaIcon, SchemaTpl} from '../Schema';
+
+/**
+ * 提示渲染器，默认会显示个小图标，鼠标放上来的时候显示配置的内容。
+ */
+export interface RemarkSchema extends BaseSchema {
+  /**
+   * 指定为提示类型
+   */
+  type: 'remark';
+
+  icon?: SchemaIcon;
+
+  /**
+   * 触发规则
+   */
+  trigger?: Array<'click' | 'hover' | 'focus'>;
+
+  /**
+   * 提示标题
+   */
+  title?: string;
+
+  /**
+   * 提示内容
+   */
+  content: SchemaTpl;
+
+  /**
+   * 显示位置
+   */
+  placement?: 'top' | 'right' | 'bottom' | 'left';
+
+  /**
+   * 点击其他内容时是否关闭弹框信息
+   */
+  rootClose?: boolean;
+}
+
+export type SchemaRemark = string | Omit<RemarkSchema, 'type'>;
 
 export function filterContents(
   tooltip:
@@ -32,20 +72,16 @@ export function filterContents(
   return tooltip;
 }
 
-type RemarkProps = {
+export interface RemarkProps extends RendererProps, RemarkSchema {
   icon: string;
-  className?: string;
-  trigger: Array<string>;
-  title?: string;
-  content: string;
-  placement?: string;
-} & RendererProps;
+  trigger: Array<'hover' | 'click' | 'focus'>;
+}
 
 class Remark extends React.Component<RemarkProps> {
   static propsList: Array<string> = [];
   static defaultProps = {
     icon: '',
-    trigger: ['hover', 'focus']
+    trigger: ['hover', 'focus'] as Array<'hover' | 'click' | 'focus'>
   };
 
   render() {

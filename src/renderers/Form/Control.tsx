@@ -2,13 +2,25 @@ import React from 'react';
 import {IFormStore, IFormItemStore} from '../../store/form';
 import debouce from 'lodash/debounce';
 
-import {RendererProps, Renderer} from '../../factory';
+import {
+  RendererProps,
+  Renderer,
+  RootStoreContext,
+  withRootStore
+} from '../../factory';
 import {ComboStore, IComboStore, IUniqueGroup} from '../../store/combo';
-import {anyChanged, promisify, isObject, getVariable} from '../../utils/helper';
+import {
+  anyChanged,
+  promisify,
+  isObject,
+  getVariable,
+  guid
+} from '../../utils/helper';
 import {Schema} from '../../types';
-import {IIRendererStore} from '../../store';
+import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
 import {reaction} from 'mobx';
+import {FormItemStore} from '../../store/formItem';
 
 export interface ControlProps extends RendererProps {
   control: {
@@ -30,6 +42,7 @@ export interface ControlProps extends RendererProps {
     pipeOut?: (value: any, originValue: any, data: any) => any;
     validate?: (value: any, values: any, name: string) => any;
   } & Schema;
+  rootStore: IRendererStore;
   formStore: IFormStore;
   store: IIRendererStore;
   addHook: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
@@ -45,10 +58,9 @@ export default class FormControl extends React.PureComponent<
   ControlState
 > {
   static propsList: any = ['control'];
-
   public model: IFormItemStore | undefined;
   control: any;
-  value?: any;
+  value?: any = undefined;
   hook?: () => any;
   hook2?: () => any;
   hook3?: () => any;
@@ -68,6 +80,7 @@ export default class FormControl extends React.PureComponent<
   componentWillMount() {
     const {
       formStore: form,
+      rootStore,
       control: {
         name,
         id,
@@ -98,7 +111,16 @@ export default class FormControl extends React.PureComponent<
       return;
     }
 
-    const model = (this.model = form.registryItem(name, {
+    const model = rootStore.addStore({
+      id: guid(),
+      path: this.props.$path,
+      storeType: FormItemStore.name,
+      parentId: form.id,
+      name
+    }) as IFormItemStore;
+    this.model = model;
+    form.addFormItem(model);
+    model.config({
       id,
       type,
       required,
@@ -112,15 +134,11 @@ export default class FormControl extends React.PureComponent<
       labelField,
       joinValues,
       extractValue
-    }));
+    });
 
-    if (
-      this.model.unique &&
-      form.parentStore &&
-      form.parentStore.storeType === ComboStore.name
-    ) {
+    if (this.model.unique && form.parentStore?.storeType === ComboStore.name) {
       const combo = form.parentStore as IComboStore;
-      combo.bindUniuqueItem(this.model);
+      combo.bindUniuqueItem(model);
     }
 
     // 同步 value
@@ -269,7 +287,7 @@ export default class FormControl extends React.PureComponent<
       combo.unBindUniuqueItem(this.model);
     }
 
-    this.model && form.unRegistryItem(this.model);
+    this.model && form.removeFormItem(this.model);
   }
 
   controlRef(control: any) {
@@ -536,6 +554,8 @@ export default class FormControl extends React.PureComponent<
     !/\/control\/control$/i.test(path),
   name: 'control'
 })
+// @ts-ignore
+@withRootStore
 export class FormControlRenderer extends FormControl {
   static displayName = 'Control';
   static contextType = ScopedContext;

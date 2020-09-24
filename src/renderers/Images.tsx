@@ -4,21 +4,60 @@ import {filter} from '../utils/tpl';
 import {resolveVariable, isPureVariable} from '../utils/tpl-builtin';
 import Image, {ImageThumbProps} from './Image';
 import {autobind} from '../utils/helper';
+import {BaseSchema, SchemaUrlPath} from '../Schema';
 
-export interface ImagesProps extends RendererProps {
-  className: string;
-  defaultImage: string;
-  placeholder: string;
-  delimiter: string;
-  thumbMode: 'w-full' | 'h-full' | 'contain' | 'cover';
-  thumbRatio: '1:1' | '4:3' | '16:9';
+/**
+ * 图片集展示控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/images
+ */
+export interface ImagesSchema extends BaseSchema {
+  /**
+   * 指定为图片集渲染器
+   */
+  type: 'images' | 'static-images';
 
+  /**
+   * 默认图片地址
+   */
+  defaultImage?: SchemaUrlPath;
+
+  /**
+   * 列表为空时显示
+   */
+  placeholder?: string;
+
+  /**
+   * 配置值的连接符
+   * @default ,
+   */
+  delimiter?: string;
+
+  /**
+   * 预览图模式
+   */
+  thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+
+  /**
+   * 预览图比率
+   */
+  thumbRatio?: '1:1' | '4:3' | '16:9';
+
+  /**
+   * 关联字段名，也可以直接配置 src
+   */
   name?: string;
-  value?: any;
+
+  value?: any; // todo 补充 description
   source?: string;
   src?: string;
   originalSrc?: string; // 原图
   enlargeAble?: boolean;
+  showDimensions?: boolean;
+}
+
+export interface ImagesProps extends RendererProps, Omit<ImagesSchema, 'type'> {
+  delimiter: string;
+
   onEnlarge?: (
     info: ImageThumbProps & {
       list?: Array<
@@ -26,7 +65,6 @@ export interface ImagesProps extends RendererProps {
       >;
     }
   ) => void;
-  showDimensions?: boolean;
 }
 
 export class ImagesField extends React.Component<ImagesProps> {

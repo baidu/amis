@@ -5,12 +5,144 @@ description:
 
 amis 有两种使用方法：
 
-- [npm](#npm)
 - [JS SDK](#SDK)
+- [npm](#npm)
+
 
 npm 适合用在 React 项目中，可以完整使用 amis 的所有功能，方便扩展。
 
 SDK 适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，直接引入代码就能使用，但需要注意这种方式难以支持 [自定义组件](./custom)，只能使用 amis 内置的组件。
+
+## SDK
+
+JSSDK 版本的代码从以下地址获取：
+
+- JS： https://houtai.baidu.com/v2/jssdk
+- CSS： https://houtai.baidu.com/v2/csssdk
+
+上面的地址是一个页面跳转，会跳转到一个 CDN 地址，
+
+> 通过这种方式拿到的是最新 beta 版，如果需要固定某个版本可以从 npm 下载，拷贝其中 sdk 目录下的文件。
+
+简单示例如下，将其中的 `amis/sdk.css` 和 `amis/sdk.js` 改成实际的路径:
+
+```html
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>amis demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="amis/sdk.css" />
+    <style>
+      html,
+      body,
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="amis/sdk.js"></script>
+    <script type="text/javascript">
+      (function () {
+        let amis = amisRequire('amis/embed');
+        let amisScoped = amis.embed('#root', {
+          type: 'page',
+          title: 'amis demo',
+          body: 'hello world'
+        });
+      })();
+    </script>
+  </body>
+</html>
+```
+
+### 控制 amis 的行为
+
+`amis.embed` 函数还支持以下配置项来控制 amis 的行为，比如在 fetcher 的时候加入自己的处理逻辑，这些函数参数的说明在前面也有介绍。
+
+```js
+let amisScoped = amis.embed(
+  '#root',
+  {
+    type: 'page',
+    title: 'amis demo',
+    body: 'This is a simple amis page.'
+  },
+  {
+    // props 一般不用传。
+  },
+  {
+    fetcher: (url, method, data, config) => {
+      // 可以不传，用来实现 ajax 请求
+    },
+
+    jumpTo: location => {
+      // 可以不传，用来实现页面跳转
+    },
+
+    updateLocation: (location, replace) => {
+      // 可以不传，用来实现地址栏更新
+    },
+
+    isCurrentUrl: url => {
+      // 可以不传，用来判断是否目标地址当前地址。
+    },
+
+    copy: content => {
+      // 可以不传，用来实现复制到剪切板
+    },
+
+    notify: (type, msg) => {
+      // 可以不传，用来实现通知
+    },
+
+    alert: content => {
+      // 可以不传，用来实现提示
+    },
+
+    confirm: content => {
+      // 可以不传，用来实现确认框。
+    }
+  }
+);
+```
+
+同时返回的 `amisScoped` 对象可以获取到 amis 渲染的内部信息，它有如下方法：
+
+`getComponentByName(name)` 用于获取渲染出来的组件，比如下面的示例
+
+```json
+{
+  "type": "page",
+  "name": "page1",
+  "title": "表单页面",
+  "body": {
+    "type": "form",
+    "name": "form1",
+    "controls": [
+      {
+        "label": "Name",
+        "type": "text",
+        "name": "name1"
+      }
+    ]
+  }
+}
+```
+
+可以通过 `amisScoped.getComponentByName('page1.form1').getValues()` 来获取到所有表单的值，需要注意 page 和 form 都需要有 name 属性。
 
 ## npm
 
@@ -73,7 +205,7 @@ npm i axios copy-to-clipboard
 
 > 为了方便示例，上面选用了我们常用几个插件库，你完全可以选择自己喜欢的插件并重新实现
 
-2. 代码实现
+2. 代码实现（React Typescript）
 
 ```tsx
 import * as React from 'react';
@@ -104,7 +236,10 @@ class MyComponent extends React.Component<any, any> {
             // 这些是 amis 需要的一些接口实现
             // 可以参考后面的参数介绍。
 
-            jumpTo: (location: string /*目标地址*/) => {
+            jumpTo: (
+              location: string /*目标地址*/,
+              action: any /* action对象*/
+            ) => {
               // 用来实现页面跳转, actionType:link、url 都会进来。
               // 因为不清楚所在环境中是否使用了 spa 模式，所以自己实现这个方法吧。
             },
@@ -332,131 +467,4 @@ class MyComponent extends React.Component<any, any> {
 
 ##### richTextToken: string
 
-内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
-
-## SDK
-
-JSSDK 的代码从以下地址获取：
-
-- JS： https://houtai.baidu.com/v2/jssdk
-- CSS： https://houtai.baidu.com/v2/csssdk
-
-以上的 SDK 地址是一个页面跳转，会跳转到一个 CDN 地址，而且每次跳转都是最新的版本，随着 amis 的升级这个地址会一直变动，需要将这两个文件下载到本地，分别命名为 sdk.js 和 sdk.css，然后类似如下的方式使用:
-
-```html
-<!DOCTYPE html>
-<html lang="zh">
-  <head>
-    <meta charset="UTF-8" />
-    <title>AMIS Demo</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1"
-    />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="amis/sdk.css" />
-    <style>
-      html,
-      body,
-      .app-wrapper {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root" class="app-wrapper"></div>
-    <script src="amis/sdk.js"></script>
-    <script type="text/javascript">
-      (function () {
-        let amis = amisRequire('amis/embed');
-        let amisScoped = amis.embed('#root', {
-          type: 'page',
-          title: 'AMIS Demo',
-          body: 'hello world'
-        });
-      })();
-    </script>
-  </body>
-</html>
-```
-
-### 控制 amis 的行为
-
-`amis.embed` 函数还支持以下配置项来控制 amis 的行为，比如在 fetcher 的时候加入自己的处理逻辑，这些函数参数的说明在前面也有介绍。
-
-```js
-let amisScoped = amis.embed(
-  '#root',
-  {
-    type: 'page',
-    title: 'AMIS Demo',
-    body: 'This is a simple amis page.'
-  },
-  {
-    // props 一般不用传。
-  },
-  {
-    fetcher: (url, method, data, config) => {
-      // 可以不传，用来实现 ajax 请求
-    },
-
-    jumpTo: location => {
-      // 可以不传，用来实现页面跳转
-    },
-
-    updateLocation: (location, replace) => {
-      // 可以不传，用来实现地址栏更新
-    },
-
-    isCurrentUrl: url => {
-      // 可以不传，用来判断是否目标地址当前地址。
-    },
-
-    copy: content => {
-      // 可以不传，用来实现复制到剪切板
-    },
-
-    notify: (type, msg) => {
-      // 可以不传，用来实现通知
-    },
-
-    alert: content => {
-      // 可以不传，用来实现提示
-    },
-
-    confirm: content => {
-      // 可以不传，用来实现确认框。
-    }
-  }
-);
-```
-
-同时返回的 `amisScoped` 对象可以获取到 amis 渲染的内部信息，它有如下方法：
-
-`getComponentByName(name)` 用于获取渲染出来的组件，比如下面的示例
-
-```json
-{
-  "type": "page",
-  "name": "page1",
-  "title": "表单页面",
-  "body": {
-    "type": "form",
-    "name": "form1",
-    "controls": [
-      {
-        "label": "Name",
-        "type": "text",
-        "name": "name1"
-      }
-    ]
-  }
-}
-```
-
-可以通过 `amisScoped.getComponentByName('page1.form1').getValues()` 来获取到所有表单的值，需要注意 page 和 form 都需要有 name 属性。
+内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者用免费的 Tinymce，不设置 token 默认就是 Tinymce。

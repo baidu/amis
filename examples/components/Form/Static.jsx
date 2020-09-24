@@ -56,7 +56,7 @@ export default {
         },
 
         {
-          type: 'static-tpl',
+          type: 'static',
           label: '模板',
           tpl: '自己拼接 HTML 取变量 \\${id}: ${id}'
         },
@@ -86,7 +86,7 @@ export default {
         },
 
         {
-          type: 'static-mapping',
+          type: 'mapping',
           label: '映射',
           value: Math.floor(Math.random() * 5),
           map: {
@@ -104,7 +104,7 @@ export default {
         },
 
         {
-          type: 'static-progress',
+          type: 'progress',
           label: '进度',
           value: 66.66
         },

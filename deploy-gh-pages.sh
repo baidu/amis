@@ -1,36 +1,33 @@
 #!/bin/bash
 set -e
 
-if [ -z "$(git status --porcelain)" ]; then 
-  # Working directory clean
-  echo "Working directory clean"
-else 
-  # Uncommitted changes
-  read -p "You got uncommitted changes, press y to continue? " -n 1 -r
-  echo    # (optional) move to a new line
-  if [[ ! $REPLY =~ ^[Yy]$ ]]
-  then
-    echo "Skiped!"
-    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1 # handle exits from shell or function but don't exit interactive shell
-  fi
-fi
-
 rm -rf gh-pages
+
+echo "Cloning"
+git clone -b gh-pages https://$GH_TOKEN@github.com/baidu/amis.git gh-pages
+
+echo "building"
+node ./scripts/generate-search-data.js
+
+npm run build-schemas
 
 fis3 release gh-pages -c
 
-node ./build/upload2cdn.js $1
+cp ./schema.json ./gh-pages
 
-git add gh-pages -f
+# 不走 cdn 了
+# node ./scripts/upload2cdn.js $1 $2
 
-git commit -m "更新 gh-pages"
+echo "pushing"
 
-git push
+cd gh-pages
 
-git subtree push --prefix gh-pages origin gh-pages
+git config user.email "liaoxuezhi@icloud.com"
+git config user.name "liaoxuezhi"
 
-git commit -m 'rebuild pages' --allow-empty
+git add .
+git commit --allow-empty -m "自动同步 gh-pages"
 
-git push origin
+git push --tags https://$GH_TOKEN@github.com/baidu/amis.git gh-pages
 
 echo "done"

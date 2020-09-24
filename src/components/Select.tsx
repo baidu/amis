@@ -26,42 +26,71 @@ import Input from './Input';
 import {Api} from '../types';
 import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
+import {SchemaApi} from '../Schema';
 
 export interface Option {
+  /**
+   * 用来显示的文字
+   */
   label?: string;
 
-  // 可以用来给 Option 标记个范围，让数据展示更清晰。
-  // 这个只有在数值展示的时候显示。
+  /**
+   * 可以用来给 Option 标记个范围，让数据展示更清晰。
+   *
+   * 这个只有在数值展示的时候显示。
+   */
   scopeLabel?: string;
 
-  // 请保证数值唯一，多个选项值一致会认为是同一个选项。
+  /**
+   * 请保证数值唯一，多个选项值一致会认为是同一个选项。
+   */
   value?: any;
 
-  // 是否禁用
+  /**
+   * 是否禁用
+   */
   disabled?: boolean;
 
-  // 支持嵌套
+  /**
+   * 支持嵌套
+   */
   children?: Options;
 
-  // 是否可见
+  /**
+   * 是否可见
+   */
   visible?: boolean;
 
-  // 最好不要用！因为有 visible 就够了。
+  /**
+   * 最好不要用！因为有 visible 就够了。
+   *
+   * @deprecated 用 visible
+   */
   hidden?: boolean;
 
-  // 描述
+  /**
+   * 描述，部分控件支持
+   */
   description?: string;
 
-  // 标记后数据延时加载
+  /**
+   * 标记后数据延时加载
+   */
   defer?: boolean;
 
-  // 如果设置了，优先级更高，不设置走 source 接口加载。
-  deferApi?: Api;
+  /**
+   * 如果设置了，优先级更高，不设置走 source 接口加载。
+   */
+  deferApi?: SchemaApi;
 
-  // 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
+  /**
+   * 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
+   */
   loading?: boolean;
 
-  // 只有设置了 defer 才有意义，内部字段不可以外部设置
+  /**
+   * 只有设置了 defer 才有意义，内部字段不可以外部设置
+   */
   loaded?: boolean;
 
   [propName: string]: any;
@@ -759,6 +788,83 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     const itemHeight = this.state.itemHeight;
 
+    // 渲染单个选项
+    const renderItem = ({index, style}: {index: number; style?: object}) => {
+      const item = filtedOptions[index];
+      const checked =
+        selectedItem === item || !!~selectionValues.indexOf(item[valueField]);
+      return (
+        <div
+          {...getItemProps({
+            key:
+              typeof item.value === 'string'
+                ? `${item.label}-${item.value}`
+                : index,
+            index,
+            item,
+            disabled: item.disabled
+          })}
+          style={style}
+          className={cx(`Select-option`, {
+            'is-disabled': item.disabled,
+            'is-highlight': highlightedIndex === index,
+            'is-active': checked
+          })}
+        >
+          {removable ? (
+            <a data-tooltip="移除" data-position="left">
+              <Icon
+                icon="minus"
+                className="icon"
+                onClick={(e: any) => this.handleDeleteClick(e, item)}
+              />
+            </a>
+          ) : null}
+          {editable ? (
+            <a data-tooltip="编辑" data-position="left">
+              <Icon
+                icon="pencil"
+                className="icon"
+                onClick={(e: any) => this.handleEditClick(e, item)}
+              />
+            </a>
+          ) : null}
+
+          {checkAll || multiple ? (
+            <Checkbox
+              checked={checked}
+              trueValue={item.value}
+              onChange={() => {
+                this.handleChange(item);
+              }}
+              disabled={item.disabled}
+            >
+              {item.disabled
+                ? item[labelField]
+                : highlight(
+                    item[labelField],
+                    inputValue as string,
+                    cx('Select-option-hl')
+                  )}
+
+              {item.tip}
+            </Checkbox>
+          ) : (
+            <span>
+              {item.disabled
+                ? item[labelField]
+                : highlight(
+                    item[labelField],
+                    inputValue as string,
+                    cx('Select-option-hl')
+                  )}
+              {item.tip}
+            </span>
+          )}
+        </div>
+      );
+    };
+
     const menu = (
       <div ref={this.menu} className={cx('Select-menu')}>
         {searchable ? (
@@ -797,100 +903,33 @@ export class Select extends React.Component<SelectProps, SelectState> {
           <span>Placeholder</span>
         </div>
 
-        {filtedOptions.length ? (
-          <VirtualList
-            height={
-              filtedOptions.length > 8 ? 280 : filtedOptions.length * itemHeight
-            }
-            itemCount={filtedOptions.length}
-            itemSize={itemHeight}
-            renderItem={({index, style}) => {
-              const item = filtedOptions[index];
-              const checked =
-                selectedItem === item ||
-                !!~selectionValues.indexOf(item[valueField]);
-              return (
-                <div
-                  {...getItemProps({
-                    key:
-                      typeof item.value === 'string'
-                        ? `${item.label}-${item.value}`
-                        : index,
-                    index,
-                    item,
-                    disabled: item.disabled
-                  })}
-                  style={style}
-                  className={cx(`Select-option`, {
-                    'is-disabled': item.disabled,
-                    'is-highlight': highlightedIndex === index,
-                    'is-active': checked
-                  })}
-                >
-                  {removable ? (
-                    <a data-tooltip="移除" data-position="left">
-                      <Icon
-                        icon="minus"
-                        className="icon"
-                        onClick={(e: any) => this.handleDeleteClick(e, item)}
-                      />
-                    </a>
-                  ) : null}
-                  {editable ? (
-                    <a data-tooltip="编辑" data-position="left">
-                      <Icon
-                        icon="pencil"
-                        className="icon"
-                        onClick={(e: any) => this.handleEditClick(e, item)}
-                      />
-                    </a>
-                  ) : null}
-
-                  {checkAll || multiple ? (
-                    <Checkbox
-                      checked={checked}
-                      trueValue={item.value}
-                      onChange={() => {
-                        this.handleChange(item);
-                      }}
-                      disabled={item.disabled}
-                    >
-                      {item.disabled
-                        ? item[labelField]
-                        : highlight(
-                            item[labelField],
-                            inputValue as string,
-                            cx('Select-option-hl')
-                          )}
-
-                      {item.tip}
-                    </Checkbox>
-                  ) : (
-                    <span>
-                      {item.disabled
-                        ? item[labelField]
-                        : highlight(
-                            item[labelField],
-                            inputValue as string,
-                            cx('Select-option-hl')
-                          )}
-                      {item.tip}
-                    </span>
-                  )}
-                </div>
-              );
-            }}
-          />
-        ) : (
-          <div className={cx('Select-noResult')}>{__(noResultsText)}</div>
-        )}
-
         {creatable && !disabled ? (
           <a className={cx('Select-addBtn')} onClick={this.handleAddClick}>
             <Icon icon="plus" className="icon" />
             {__(createBtnLabel)}
           </a>
         ) : null}
+
+        {filtedOptions.length ? (
+          filtedOptions.length > 100 ? ( // 超过 100 行数据才启用 virtuallist 避免滚动条问题
+            <VirtualList
+              height={
+                filtedOptions.length > 8
+                  ? 280
+                  : filtedOptions.length * itemHeight
+              }
+              itemCount={filtedOptions.length}
+              itemSize={itemHeight}
+              renderItem={renderItem}
+            />
+          ) : (
+            filtedOptions.map((item, index) => {
+              return renderItem({index});
+            })
+          )
+        ) : (
+          <div className={cx('Select-noResult')}>{__(noResultsText)}</div>
+        )}
       </div>
     );
 

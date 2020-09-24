@@ -17,7 +17,7 @@ import {
 import {wrapFetcher, buildApi} from './utils/api';
 import {
   filter,
-  reigsterTplEnginer,
+  registerTplEnginer,
   evalExpression,
   evalJS,
   setCustomEvalJs,
@@ -34,6 +34,9 @@ import {
   makeTranslator,
   register as registerLocale
 } from './locale';
+import animation from './utils/Animation';
+
+export * from './Schema';
 
 // 注册渲染器
 import './renderers/Action';
@@ -83,6 +86,7 @@ import './renderers/Form/Matrix';
 import './renderers/Form/Range';
 import './renderers/Form/Array';
 import './renderers/Form/Combo';
+import './renderers/Form/ConditionBuilder';
 import './renderers/Form/Container';
 import './renderers/Form/SubForm';
 import './renderers/Form/RichText';
@@ -116,7 +120,7 @@ import './renderers/Page';
 import './renderers/Panel';
 import './renderers/Plain';
 import './renderers/Spinner';
-import './renderers/Table';
+import './renderers/Table/index';
 import './renderers/Tabs';
 import './renderers/Tpl';
 import './renderers/Mapping';
@@ -191,7 +195,7 @@ export {
   utils,
   resizeSensor,
   registerFilter,
-  reigsterTplEnginer,
+  registerTplEnginer,
   evalExpression,
   evalJS,
   setCustomEvalJs,
@@ -223,5 +227,6 @@ export {
   getDefaultLocale,
   setDefaultLocale,
   registerLocale,
-  makeTranslator
+  makeTranslator,
+  animation
 };

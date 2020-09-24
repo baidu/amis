@@ -1,13 +1,28 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
+import {BaseSchema, SchemaCollection} from '../Schema';
 import {SchemaNode} from '../types';
-import cx from 'classnames';
 
-export interface WrapperProps extends RendererProps {
-  body?: SchemaNode;
-  className?: string;
-  children?: JSX.Element | ((props?: any) => JSX.Element);
+/**
+ * Wrapper 容器渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/wrapper
+ */
+export interface WrapperSchema extends BaseSchema {
+  /**
+   * 指定为 container 类型
+   */
+  type: 'wrapper';
+
+  /**
+   * 内容
+   */
+  body: SchemaCollection;
+
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'none';
+}
+
+export interface WrapperProps extends RendererProps, WrapperSchema {
+  children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
 export default class Wrapper extends React.Component<WrapperProps, object> {

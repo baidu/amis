@@ -182,6 +182,9 @@ export function setVariable(
       data = data[key] = {
         ...data[key]
       };
+    } else if (Array.isArray(data[key])) {
+      data[key] = data[key].concat();
+      data = data[key];
     } else if (data[key]) {
       // throw new Error(`目标路径不是纯对象，不能覆盖`);
       // 强行转成对象
@@ -279,8 +282,24 @@ export function isObjectShallowModified(
   next: any,
   strictMode: boolean = true,
   ignoreUndefined: boolean = false
-) {
-  if (null == prev || null == next || !isObject(prev) || !isObject(next)) {
+): boolean {
+  if (Array.isArray(prev) && Array.isArray(next)) {
+    return prev.length !== next.length
+      ? true
+      : prev.some((prev, index) =>
+          isObjectShallowModified(
+            prev,
+            next[index],
+            strictMode,
+            ignoreUndefined
+          )
+        );
+  } else if (
+    null == prev ||
+    null == next ||
+    !isObject(prev) ||
+    !isObject(next)
+  ) {
     return strictMode ? prev !== next : prev != next;
   }
 
@@ -293,7 +312,7 @@ export function isObjectShallowModified(
   const nextKeys = Object.keys(next);
   if (
     keys.length !== nextKeys.length ||
-    keys.join(',') !== nextKeys.join(',')
+    keys.sort().join(',') !== nextKeys.sort().join(',')
   ) {
     return true;
   }
@@ -405,7 +424,7 @@ export function isVisible(
 export function isDisabled(
   schema: {
     disabledOn?: string;
-    disabled?: string;
+    disabled?: boolean;
   },
   data?: object
 ) {
@@ -525,38 +544,55 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
 export function difference<
   T extends {[propName: string]: any},
   U extends {[propName: string]: any}
->(object: T, base: U, keepProps?: Array<string>): {[propName: string]: any} {
+>(
+  object: T,
+  base: U,
+  keepProps?: Array<string>,
+  strict: boolean = false
+): {[propName: string]: any} {
   function changes(object: T, base: U) {
-    const keys: Array<keyof T & keyof U> = uniq(
-      Object.keys(object).concat(Object.keys(base))
-    );
-    let result: any = {};
+    if (lodashIsObject(object) && lodashIsObject(base)) {
+      const keys: Array<keyof T & keyof U> = uniq(
+        Object.keys(object).concat(Object.keys(base))
+      );
+      let result: any = {};
 
-    keys.forEach(key => {
-      const a: any = object[key as keyof T];
-      const b: any = base[key as keyof U];
+      keys.forEach(key => {
+        const a: any = object[key as keyof T];
+        const b: any = base[key as keyof U];
 
-      if (keepProps && ~keepProps.indexOf(key as string)) {
-        result[key] = a;
-      }
+        if (keepProps && ~keepProps.indexOf(key as string)) {
+          result[key] = a;
+        }
 
-      if (isEqual(a, b)) {
-        return;
-      }
+        if (isEqual(a, b)) {
+          return;
+        }
 
-      if (!object.hasOwnProperty(key)) {
-        result[key] = undefined;
-      } else if (Array.isArray(a) && Array.isArray(b)) {
-        // todo 数组要不要深入分析？我看先别了。
-        result[key] = a;
-      } else if (lodashIsObject(a) && lodashIsObject(b)) {
-        result[key] = changes(a as any, b as any);
-      } else {
-        result[key] = a;
-      }
-    });
+        if (!object.hasOwnProperty(key)) {
+          result[key] = undefined;
+        } else if (Array.isArray(a) && Array.isArray(b)) {
+          if (strict) {
+            result[key] = a.map((item, index) => {
+              return changes(item, b[index]);
+            });
 
-    return result;
+            let len = b.length - a.length;
+            while (len-- > 0) {
+              result[key].push(undefined);
+            }
+          } else {
+            result[key] = a;
+          }
+        } else {
+          result[key] = changes(a as any, b as any);
+        }
+      });
+
+      return result;
+    } else {
+      return object;
+    }
   }
   return changes(object, base);
 }

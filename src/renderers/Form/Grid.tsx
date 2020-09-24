@@ -1,14 +1,57 @@
 import {Renderer, RendererProps} from '../../factory';
-import Grid, {ColumnNode, Column, ColProps, ColumnArray} from '../Grid';
+import Grid, {
+  ColumnNode,
+  GridColumn,
+  ColProps,
+  ColumnArray,
+  GridSchema,
+  GridColumnObject
+} from '../Grid';
 import {Schema} from '../../types';
 
-import {FormItem, FormControlProps} from './Item';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  FormControlSchema
+} from './Item';
 import pick from 'lodash/pick';
 import React from 'react';
 import cx from 'classnames';
 import {IIRendererStore} from '../../store/iRenderer';
 
-export interface GridProps extends FormControlProps {
+/**
+ * Grid 格子布局
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/grid
+ */
+export interface GridControlSchema
+  extends FormBaseControl,
+    Omit<GridSchema, 'columns'> {
+  type: 'grid';
+
+  columns: Array<
+    GridColumnObject & {
+      /**
+       * 表单项集合
+       */
+      controls?: Array<FormControlSchema>;
+
+      /**
+       * @deprecated 请用类型 tabs
+       */
+      tabs?: any;
+
+      /**
+       * @deprecated 请用类型 fieldSet
+       */
+      fieldSet?: any;
+    }
+  >;
+}
+
+export interface GridProps
+  extends FormControlProps,
+    Omit<GridControlSchema, 'type'> {
   store: IIRendererStore;
 }
 const defaultHorizontal = {
