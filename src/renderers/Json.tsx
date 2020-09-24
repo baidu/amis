@@ -4,7 +4,7 @@ import { Renderer, RendererProps } from '../factory';
 import JSONTree from 'react-json-tree';
 import { autobind } from '../utils/helper';
 import { BaseSchema } from '../Schema';
-import { resolveVariable } from '../utils/tpl-builtin';
+import { resolveVariableAndFilter, isPureVariable } from '../utils/tpl-builtin';
 /**
  * JSON 数据展示控件。
  * 文档：https://baidu.gitee.io/amis/docs/components/json
@@ -152,8 +152,8 @@ export class JSONField extends React.Component<JSONProps, object> {
     const { className, value, jsonTheme, classnames: cx, hideRoot, source } = this.props;
 
     let data = value;
-    if (source !== undefined && source !== '') {
-      data = resolveVariable(source, this.props.data)
+    if (source !== undefined && isPureVariable(source)) {
+      data = resolveVariableAndFilter(source, this.props.data, '| raw')
     } else if (typeof value === 'string') {
       try {
         data = JSON.parse(value);
