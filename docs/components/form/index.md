@@ -12,7 +12,7 @@ order: 24
 
 ## 基本用法
 
-最基本的用法是配置 [表单项](./form/index/formitem) 和 提交接口`api`。
+最基本的用法是配置 [表单项](./formitem) 和 提交接口`api`。
 
 如下我们配置姓名和邮箱表单项，并可以填写数据并提交给接口`/api/mock2/form/saveForm`。
 

@@ -394,7 +394,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           {
             ...(data && data.__super ? data.__super : null),
             ...query,
-            query
+            __query: query
           },
           data
         )

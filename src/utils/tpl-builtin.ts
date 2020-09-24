@@ -212,7 +212,9 @@ export const filters: {
   plus: (input, step = 1) => (parseInt(input, 10) || 0) + parseInt(step, 10),
   pick: (input, path = '&') =>
     Array.isArray(input) && !/^\d+$/.test(path)
-      ? input.map(item => pickValues(path, item))
+      ? input.map((item, index) =>
+          pickValues(path, createObject({index}, item))
+        )
       : pickValues(path, input),
   pick_if_exist: (input, path = '&') =>
     Array.isArray(input)
