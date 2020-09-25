@@ -127,4 +127,4 @@ window.parent.postMessage(
 | style       | `object`           |            | 样式对象             |
 | src         | `string`           |            | iframe 地址          |
 | height      | `number`或`string` | `"100%"`   | iframe 高度          |
-| width       | `number`或`string` | `"100%"`   | iframe 高度          |
+| width       | `number`或`string` | `"100%"`   | iframe 宽度          |
