@@ -982,7 +982,6 @@ export default class ImageControl extends React.Component<
       method: 'post'
     });
     const fileField = this.props.fileField || 'file';
-    fd.append(fileField, file, (file as File).name);
 
     const idx = api.url.indexOf('?');
 
@@ -1004,6 +1003,9 @@ export default class ImageControl extends React.Component<
           fd.append(parts[0], decodeURIComponent(parts[1]));
         });
     }
+
+    // Note: File类型字段放在后面，可以支持第三方云存储鉴权
+    fd.append(fileField, file, (file as File).name);
 
     const env = this.props.env;
 

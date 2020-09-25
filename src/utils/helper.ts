@@ -1186,18 +1186,20 @@ export function object2formData(
   },
   fd: FormData = new FormData()
 ): any {
+  let fileObjects: any = [];
   let others: any = {};
+
   Object.keys(data).forEach(key => {
     const value = data[key];
 
     if (value instanceof File) {
-      fd.append(key, value, value.name);
+      fileObjects.push([key, value]);
     } else if (
       Array.isArray(value) &&
       value.length &&
       value[0] instanceof File
     ) {
-      value.forEach(value => fd.append(`${key}[]`, value, value.name));
+      value.forEach(value => fileObjects.push([`${key}[]`, value]));
     } else {
       others[key] = value;
     }
@@ -1211,6 +1213,10 @@ export function object2formData(
       // form-data/multipart 是不需要 encode 值的。
       parts[0] && fd.append(parts[0], decodeURIComponent(parts[1]));
     });
+
+  // Note: File类型字段放在后面，可以支持第三方云存储鉴权
+  fileObjects.forEach((fileObject: any[]) => fd.append(fileObject[0], fileObject[1], fileObject[1].name));
+
   return fd;
 }
 
