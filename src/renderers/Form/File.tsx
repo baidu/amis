@@ -810,6 +810,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         fd.append(parts[0], decodeURIComponent(parts[1]));
       });
 
+    // Note: File类型字段放在后面，可以支持第三方云存储鉴权
     fd.append(config.fieldName || 'file', file);
 
     return this._send(api, fd, {}, onProgress);
@@ -947,6 +948,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           fd.append('uploadId', state.uploadId);
           fd.append('partNumber', task.partNumber.toString());
           fd.append('partSize', task.partSize.toString());
+
+          // Note: File类型字段放在后面，可以支持第三方云存储鉴权
           fd.append(config.fieldName || 'file', blob, file.name);
 
           return self
