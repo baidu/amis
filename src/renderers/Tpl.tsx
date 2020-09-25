@@ -91,7 +91,7 @@ export class Tpl extends React.Component<TplProps, object> {
       return;
     }
 
-    this.dom.innerHTML = this.getContent();
+    this.dom.firstChild.innerHTML = this.getContent();
   }
 
   render() {
@@ -100,10 +100,11 @@ export class Tpl extends React.Component<TplProps, object> {
 
     return (
       <Component
-        children={this.getContent()}
         ref={this.htmlRef}
         className={cx('TplField', inline ? 'is-inline' : '', className)}
-      />
+      >
+        <span>{this.getContent()}</span>
+      </Component>
     );
   }
 }

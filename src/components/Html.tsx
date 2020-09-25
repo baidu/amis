@@ -50,7 +50,7 @@ export class Html extends React.Component<HtmlProps> {
     const {html} = this.props;
 
     if (html) {
-      this.dom.innerHTML = html;
+      this.dom.firstChild.innerHTML = html;
     }
   }
 
@@ -60,7 +60,9 @@ export class Html extends React.Component<HtmlProps> {
     const Component = wrapperComponent || (inline ? 'span' : 'div');
 
     return (
-      <Component ref={this.htmlRef} className={cx(`${ns}Html`, className)} />
+      <Component ref={this.htmlRef} className={cx(`${ns}Html`, className)}>
+        <span />
+      </Component>
     );
   }
 }
