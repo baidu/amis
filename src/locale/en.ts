@@ -202,6 +202,7 @@ register('en', {
   '可拖拽排序': 'Drag and drop sorting',
   '上一步': 'Prev',
   '下一步': 'Next',
+  '导出 CSV': 'Export CSV',
   '保存并下一步': 'Save & Next',
   '完成': 'Finish',
   '点击选择图片或者将图片拖入该区域':
