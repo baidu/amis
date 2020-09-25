@@ -1,5 +1,4 @@
 import React from 'react';
-import papaparse from 'papaparse';
 import {saveAs} from 'file-saver';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
@@ -66,7 +65,8 @@ export interface CRUDBultinToolbar extends Omit<BaseSchema, 'type'> {
     | 'statistics'
     | 'switch-per-page'
     | 'load-more'
-    | 'filter-toggler';
+    | 'filter-toggler'
+    | 'export-csv';
 }
 
 export type CRUDToolbarChild = SchemaObject | CRUDBultinToolbar;
@@ -1684,13 +1684,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       <Button
         classPrefix={ns}
         onClick={() => {
-          const csvText = papaparse.unparse(store.data.items);
-          if (csvText) {
-            const blob = new Blob([csvText], {
-              type: 'text/plain;charset=utf-8'
-            });
-            saveAs(blob, 'data.csv');
-          }
+          (require as any)(['papaparse'], (papaparse: any) => {
+            const csvText = papaparse.unparse(store.data.items);
+            if (csvText) {
+              const blob = new Blob([csvText], {
+                type: 'text/plain;charset=utf-8'
+              });
+              saveAs(blob, 'data.csv');
+            }
+          });
         }}
         size="sm"
       >
