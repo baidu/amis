@@ -1,4 +1,6 @@
 import React from 'react';
+import papaparse from 'papaparse';
+import {saveAs} from 'file-saver';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
 import {
@@ -1675,6 +1677,28 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     );
   }
 
+  renderExportCSV() {
+    const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
+
+    return (
+      <Button
+        classPrefix={ns}
+        onClick={() => {
+          const csvText = papaparse.unparse(store.data.items);
+          if (csvText) {
+            const blob = new Blob([csvText], {
+              type: 'text/plain;charset=utf-8'
+            });
+            saveAs(blob, 'data.csv');
+          }
+        }}
+        size="sm"
+      >
+        {__('导出 CSV')}
+      </Button>
+    );
+  }
+
   renderToolbar(
     toolbar?: SchemaNode,
     index: number = 0,
@@ -1699,6 +1723,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return this.renderLoadMore();
     } else if (type === 'filter-toggler') {
       return this.renderFilterToggler();
+    } else if (type === 'export-csv') {
+      return this.renderExportCSV();
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
         .map((toolbar, index) => ({
