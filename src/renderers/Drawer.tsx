@@ -94,6 +94,8 @@ export interface DrawerSchema extends BaseSchema {
   closeOnOutside?: boolean;
 }
 
+export type DrawerSchemaBase = Omit<DrawerSchema, 'type'>;
+
 export interface DrawerProps extends RendererProps, DrawerSchema {
   onClose: () => void;
   onConfirm: (

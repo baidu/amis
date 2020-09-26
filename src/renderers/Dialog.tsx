@@ -81,6 +81,8 @@ export interface DialogSchema extends BaseSchema {
   showErrorMsg?: boolean;
 }
 
+export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
+
 export interface DialogProps extends RendererProps, DialogSchema {
   onClose: () => void;
   onConfirm: (
