@@ -23,7 +23,9 @@ import {ActionSchema} from './Action';
  * Drawer 抽出式弹框。
  * 文档：https://baidu.gitee.io/amis/docs/components/drawer
  */
-export interface DrawerSchema extends Omit<BaseSchema, 'type'> {
+export interface DrawerSchema extends BaseSchema {
+  type: 'drawer';
+
   /**
    * 默认不用填写，自动会创建确认和取消按钮。
    */

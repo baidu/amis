@@ -25,7 +25,9 @@ import {ActionSchema} from './Action';
  * Dialog 弹框渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/dialog
  */
-export interface DialogSchema extends Omit<BaseSchema, 'type'> {
+export interface DialogSchema extends BaseSchema {
+  type: 'dialog';
+
   /**
    * 默认不用填写，自动会创建确认和取消按钮。
    */

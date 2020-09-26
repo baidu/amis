@@ -74,8 +74,10 @@ export type SchemaType =
   | 'static-datetime' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'time'
   | 'static-time' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
+  | 'dialog'
   | 'divider'
   | 'dropdown-button'
+  | 'drawer'
   | 'each'
   | 'grid'
   | 'hbox'
