@@ -55,18 +55,20 @@ import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
 
+export type CRUDBultinToolbarType =
+  | 'columns-toggler'
+  | 'drag-toggler'
+  | 'pagination'
+  | 'bulkActions'
+  | 'bulk-actions'
+  | 'statistics'
+  | 'switch-per-page'
+  | 'load-more'
+  | 'filter-toggler'
+  | 'export-csv';
+
 export interface CRUDBultinToolbar extends Omit<BaseSchema, 'type'> {
-  type:
-    | 'columns-toggler'
-    | 'drag-toggler'
-    | 'pagination'
-    | 'bulkActions'
-    | 'bulk-actions'
-    | 'statistics'
-    | 'switch-per-page'
-    | 'load-more'
-    | 'filter-toggler'
-    | 'export-csv';
+  type: CRUDBultinToolbarType;
 }
 
 export type CRUDToolbarChild = SchemaObject | CRUDBultinToolbar;
@@ -189,12 +191,16 @@ export interface CRUDCommonSchema extends BaseSchema {
   /**
    * 顶部工具栏
    */
-  headerToolbar?: Array<CRUDToolbarChild & CRUDToolbarObject>;
+  headerToolbar?: Array<
+    (CRUDToolbarChild & CRUDToolbarObject) | CRUDBultinToolbarType
+  >;
 
   /**
    * 底部工具栏
    */
-  footerToolbar?: Array<CRUDToolbarChild & CRUDToolbarObject>;
+  footerToolbar?: Array<
+    (CRUDToolbarChild & CRUDToolbarObject) | CRUDBultinToolbarType
+  >;
 
   /**
    * 每页显示多少个空间成员的配置如： [10, 20, 50, 100]。
