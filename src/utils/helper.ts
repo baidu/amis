@@ -1,7 +1,5 @@
 import isPlainObject from 'lodash/isPlainObject';
-import transform from 'lodash/transform';
 import isEqual from 'lodash/isEqual';
-import lodashIsObject from 'lodash/isObject';
 import uniq from 'lodash/uniq';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
@@ -551,7 +549,7 @@ export function difference<
   strict: boolean = false
 ): {[propName: string]: any} {
   function changes(object: T, base: U) {
-    if (lodashIsObject(object) && lodashIsObject(base)) {
+    if (isPlainObject(object) && isPlainObject(base)) {
       const keys: Array<keyof T & keyof U> = uniq(
         Object.keys(object).concat(Object.keys(base))
       );
@@ -1215,7 +1213,9 @@ export function object2formData(
     });
 
   // Note: File类型字段放在后面，可以支持第三方云存储鉴权
-  fileObjects.forEach((fileObject: any[]) => fd.append(fileObject[0], fileObject[1], fileObject[1].name));
+  fileObjects.forEach((fileObject: any[]) =>
+    fd.append(fileObject[0], fileObject[1], fileObject[1].name)
+  );
 
   return fd;
 }
