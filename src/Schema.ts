@@ -45,6 +45,8 @@ import {VideoSchema} from './renderers/Video';
 import {WizardSchema} from './renderers/Wizard';
 import {WrapperSchema} from './renderers/Wrapper';
 import {TableSchema} from './renderers/Table';
+import {DialogSchema} from './renderers/Dialog';
+import {DrawerSchema} from './renderers/Drawer';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -132,7 +134,9 @@ export type SchemaObject =
   | ContainerSchema
   | CRUDSchema
   | DateSchema
+  | DialogSchema
   | DividerSchema
+  | DrawerSchema
   | DropdownButtonSchema
   | EachSchema
   | GridSchema
