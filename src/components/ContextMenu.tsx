@@ -30,6 +30,7 @@ export type MenuItem = {
   disabled?: boolean;
   children?: Array<MenuItem | MenuDivider>;
   data?: any;
+  className?: string;
   onSelect?: (data: any) => void;
   onHighlight?: (isHiglight: boolean, data: any) => void;
 };
@@ -190,7 +191,7 @@ export class ContextMenu extends React.Component<
       return (
         <li
           key={`${item.label}-${index}`}
-          className={cx('ContextMenu-item', {
+          className={cx('ContextMenu-item', item.className, {
             'has-child': hasChildren,
             'is-disabled': item.disabled
           })}
