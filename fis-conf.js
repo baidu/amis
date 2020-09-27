@@ -313,7 +313,7 @@ if (fis.project.currentMedia() === 'publish') {
   env.get('project.ignore').push('sdk/**');
   env.set('project.files', ['examples/sdk-placeholder.html']);
 
-  env.match('/{examples,scss}/(**)', {
+  env.match('/{examples,scss,src}/(**)', {
     release: '/$1'
   });
 
@@ -354,8 +354,9 @@ if (fis.project.currentMedia() === 'publish') {
     rExt: '.js'
   });
 
-  env.match('/examples/sdk-mod.js', {
-    isMod: false
+  env.match('/examples/mod.js', {
+    isMod: false,
+    optimizer: fis.plugin('uglify-js')
   });
 
   env.match('*.{js,jsx,ts,tsx}', {
@@ -388,7 +389,10 @@ if (fis.project.currentMedia() === 'publish') {
         '!echarts/**',
         '!papaparse/**',
         '!docsearch.js/**',
-        '!monaco-editor/**.css'
+        '!monaco-editor/**.css',
+        '!src/components/RichText.tsx',
+        '!src/components/Tinymce.tsx',
+        '!src/lib/renderers/Form/CityDB.js'
       ],
 
       'rich-text.js': [
