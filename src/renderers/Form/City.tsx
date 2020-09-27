@@ -129,7 +129,7 @@ export class CityPicker extends React.Component<
       return;
     }
 
-    (require as any)(['./CityDB.ts'], (db: any) =>
+    (require as any)(['./CityDB'], (db: any) =>
       this.setState(
         {
           db: {
