@@ -116,7 +116,8 @@ export type TableColumnObject = {
   remark?: SchemaRemark;
 };
 
-export type TableColumn = SchemaObject & TableColumnObject;
+export type TableColumnWithType = SchemaObject & TableColumnObject;
+export type TableColumn = TableColumnWithType | TableColumnObject;
 
 /**
  * Table 表格渲染器。
@@ -136,7 +137,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 表格的列信息
    */
-  columns?: Array<TableColumn | TableColumnObject>;
+  columns?: Array<TableColumn>;
 
   /**
    * 展示列显示开关，自动即：列数量大于或等于5个时自动开启
