@@ -520,7 +520,9 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
           : null}
 
         {!this.state.entered && lazyRender ? (
-          <div className={cx('Modal-body', bodyClassName)} />
+          <div className={cx('Modal-body', bodyClassName)}>
+            <Spinner overlay show size="lg" />
+          </div>
         ) : body ? (
           <div className={cx('Modal-body', bodyClassName)}>
             {this.renderBody(body, 'body')}
