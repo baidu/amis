@@ -221,6 +221,10 @@ export interface VanillaAction extends ButtonSchema {
   actionType?: string;
 }
 
+/**
+ * 按钮动作渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/action
+ */
 export type ActionSchema =
   | AjaxActionSchema
   | UrlActionSchema
