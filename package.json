@@ -54,7 +54,7 @@
     "mobx-react": "^6.1.4",
     "mobx-state-tree": "^3.7.0",
     "moment": "^2.19.3",
-    "monaco-editor": "0.17.1",
+    "monaco-editor": "0.21.2",
     "papaparse": "^5.3.0",
     "prop-types": "^15.6.1",
     "qrcode.react": "^0.8.0",
