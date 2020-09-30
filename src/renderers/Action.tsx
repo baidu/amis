@@ -141,6 +141,10 @@ export interface DialogActionSchema extends ButtonSchema {
    */
   actionType: 'dialog';
 
+  /**
+   * 弹框详情
+   * 文档：https://baidu.gitee.io/amis/docs/components/dialog
+   */
   dialog: DialogSchemaBase;
 
   /**
@@ -156,8 +160,10 @@ export interface DrawerActionSchema extends ButtonSchema {
    * 指定为打开弹窗，抽出式弹窗
    */
   actionType: 'drawer';
+
   /**
-   * 弹窗内容
+   * 抽出式弹框详情
+   * 文档：https://baidu.gitee.io/amis/docs/components/drawer
    */
   drawer: DrawerSchemaBase;
 
