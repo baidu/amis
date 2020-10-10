@@ -81,9 +81,13 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   }
 
   contentRef = (ref: any) => (this.contentDom = ref);
+
+  handleEnter = () => {
+    document.body.classList.add(`is-modalOpened`);
+  };
+
   handleEntered = () => {
     const onEntered = this.props.onEntered;
-    document.body.classList.add(`is-modalOpened`);
     onEntered && onEntered();
   };
   handleExited = () => {
@@ -155,6 +159,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
           unmountOnExit
           in={show}
           timeout={500}
+          onEnter={this.handleEnter}
           onExited={this.handleExited}
           onEntered={this.handleEntered}
         >

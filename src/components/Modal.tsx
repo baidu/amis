@@ -142,9 +142,13 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
   }
 
+  handleEnter = () => {
+    document.body.classList.add(`is-modalOpened`);
+  };
+
   handleEntered = () => {
     const onEntered = this.props.onEntered;
-    document.body.classList.add(`is-modalOpened`);
+
     onEntered && onEntered();
   };
   handleExited = () => {
@@ -186,6 +190,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
           unmountOnExit
           in={show}
           timeout={500}
+          onEnter={this.handleEnter}
           onExited={this.handleExited}
           onEntered={this.handleEntered}
         >
