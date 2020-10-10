@@ -216,7 +216,8 @@ export class Editor extends React.Component<EditorProps, any> {
     monaco.languages.json?.jsonDefaults.setDiagnosticsOptions({
       enableSchemaRequest: true,
       validate: true,
-      allowComments: true
+      allowComments: true,
+      ...monaco.languages.json?.jsonDefaults.diagnosticsOptions
     });
 
     // After initializing monaco editor
