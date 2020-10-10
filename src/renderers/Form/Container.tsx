@@ -8,6 +8,7 @@ import FormItem, {
   FormControlSchema
 } from './Item';
 import {IIRendererStore} from '../../store/iRenderer';
+import {SchemaCollection} from '../../Schema';
 
 /**
  * 容器空间
@@ -15,8 +16,10 @@ import {IIRendererStore} from '../../store/iRenderer';
  */
 export interface ContainerControlSchema
   extends FormBaseControl,
-    ContainerSchema {
+    Omit<ContainerSchema, 'body'> {
   type: 'container';
+
+  body?: SchemaCollection;
 
   /**
    * 表单项集合
