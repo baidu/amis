@@ -99,7 +99,13 @@
     transition: all 0.2s ease-in-out 0s;
     background-color: $Layout-aside-subList-bg;
 
+    .#{$ns}Layout--folded .#{$ns}AsideNav-item > & {
+      display: block;
+      overflow: hidden;
+    }
+
     .is-open > &,
+    .#{$ns}Layout--folded .#{$ns}AsideNav-item .#{$ns}AsideNav-item.is-open > &,
     .#{$ns}Layout--folded .#{$ns}AsideNav-item:hover > &,
     .#{$ns}Layout--folded .#{$ns}AsideNav-item:focus > &,
     .#{$ns}Layout--folded .#{$ns}AsideNav-item:active > & {
@@ -107,10 +113,6 @@
       margin-left: 0;
       height: auto !important;
       overflow: visible;
-    }
-
-    .#{$ns}Layout--folded .#{$ns}AsideNav-item.is-open > & {
-      overflow: hidden;
     }
   }
 
