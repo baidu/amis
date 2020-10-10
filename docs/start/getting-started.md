@@ -8,23 +8,17 @@ amis 有两种使用方法：
 - [JS SDK](#SDK)
 - [npm](#npm)
 
-
 npm 适合用在 React 项目中，可以完整使用 amis 的所有功能，方便扩展。
 
 SDK 适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，直接引入代码就能使用，但需要注意这种方式难以支持 [自定义组件](./custom)，只能使用 amis 内置的组件。
 
 ## SDK
 
-JSSDK 版本的代码从以下地址获取：
+JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releases) 页面下载，比如 sdk.tar.gz。
 
-- JS： https://houtai.baidu.com/v2/jssdk
-- CSS： https://houtai.baidu.com/v2/csssdk
+或者可以使用 `npm i amis` 来下载，在 `node_modules\amis\sdk` 目录里就能找到。
 
-上面的地址是一个页面跳转，会跳转到一个 CDN 地址，
-
-> 通过这种方式拿到的是最新 beta 版，如果需要固定某个版本可以从 npm 下载，拷贝其中 sdk 目录下的文件。
-
-简单示例如下，将其中的 `amis/sdk.css` 和 `amis/sdk.js` 改成实际的路径:
+新建一个 html 文件，简单示例如下，将其中的 `sdk.css` 和 `sdk.js` 改成实际的路径:
 
 ```html
 <!DOCTYPE html>
@@ -38,7 +32,7 @@ JSSDK 版本的代码从以下地址获取：
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <link rel="stylesheet" href="amis/sdk.css" />
+    <link rel="stylesheet" href="sdk.css" />
     <style>
       html,
       body,
@@ -53,14 +47,31 @@ JSSDK 版本的代码从以下地址获取：
   </head>
   <body>
     <div id="root" class="app-wrapper"></div>
-    <script src="amis/sdk.js"></script>
+    <script src="sdk.js"></script>
     <script type="text/javascript">
       (function () {
         let amis = amisRequire('amis/embed');
+        // 通过替换下面这个配置来生成不同页面
         let amisScoped = amis.embed('#root', {
           type: 'page',
-          title: 'amis demo',
-          body: 'hello world'
+          title: '表单页面',
+          body: {
+            type: 'form',
+            mode: 'horizontal',
+            api: '/saveForm',
+            controls: [
+              {
+                label: 'Name',
+                type: 'text',
+                name: 'name'
+              },
+              {
+                label: 'Email',
+                type: 'email',
+                name: 'email'
+              }
+            ]
+          }
         });
       })();
     </script>
