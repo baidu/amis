@@ -69,7 +69,6 @@
 
   &-content {
     background-color: $Tabs-content-bg;
-    padding: $gap-base;
     border-style: solid;
     border-width: 0 $Tabs-borderWidth $Tabs-borderWidth;
     border-color: $Tabs-borderColor;
@@ -77,6 +76,7 @@
 
   &-pane {
     display: none;
+    padding: $gap-base;
     opacity: 0;
     transition: opacity 0.35s linear;
 
