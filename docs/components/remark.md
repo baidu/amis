@@ -1,13 +1,14 @@
 ---
 title: Remark 标记
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Remark
-icon: 
+icon:
 order: 62
 ---
-用于展示颜色
+
+用于展示提示文本
 
 ## 基本用法
 
@@ -73,8 +74,3 @@ order: 62
 | placement | `string` |                         | 弹出位置      |
 | trigger   | `string` | `['hover', 'focus']`    | 触发条件      |
 | icon      | `string` | `fa fa-question-circle` | 图标          |
-
-
-
-
-
