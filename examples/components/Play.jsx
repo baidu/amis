@@ -391,7 +391,7 @@ export default class PlayGround extends React.Component {
         <div className="vbox">
           <div className="row-row">
             <div className="cell pos-rlt">
-              <div className="scroll-y h-full pos-abt w-full">
+              <div className="scroll-y h-full pos-abt w-full b-b">
                 {this.renderPreview()}
               </div>
             </div>
@@ -413,7 +413,7 @@ export default class PlayGround extends React.Component {
       >
         <div className="hbox">
           <div className="col pos-rlt">
-            <div className="scroll-y h-full pos-abt w-full">
+            <div className="scroll-y h-full pos-abt w-full b-b">
               {this.renderPreview()}
             </div>
           </div>
