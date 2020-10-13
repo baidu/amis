@@ -79,7 +79,6 @@
     padding: $gap-base;
     opacity: 0;
     transition: opacity 0.35s linear;
-    min-height: 100%;
 
     &.is-active {
       display: block;
@@ -263,6 +262,10 @@
     > .#{$ns}Tabs-content {
       border: none;
       flex-grow: 1;
+
+      > .#{$ns}Tabs-pane {
+        height: 100%;
+      }
     }
   }
 
