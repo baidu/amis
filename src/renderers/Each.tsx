@@ -21,6 +21,8 @@ export interface EachSchema extends BaseSchema {
   name?: string;
 
   items?: SchemaCollection;
+
+  placeholder?: string;
 }
 
 export interface EachProps extends RendererProps {
@@ -30,12 +32,23 @@ export interface EachProps extends RendererProps {
 
 export default class Each extends React.Component<EachProps> {
   static propsList: Array<string> = ['name', 'items', 'value'];
-  static defaultProps: Partial<EachProps> = {
-    className: ''
+  static defaultProps = {
+    className: '',
+    placeholder: '暂无内容'
   };
 
   render() {
-    const {data, name, className, render, value, items} = this.props;
+    const {
+      data,
+      name,
+      className,
+      render,
+      value,
+      items,
+      placeholder,
+      classnames: cx,
+      translate: __
+    } = this.props;
 
     const arr =
       typeof value !== 'undefined'
@@ -50,18 +63,22 @@ export default class Each extends React.Component<EachProps> {
         : resolveVariable(name, data);
 
     return (
-      <div className={className}>
-        {Array.isArray(arr) && items
-          ? arr.map((item: any, index: number) =>
-              render(`item/${index}`, items, {
-                data: createObject(
-                  data,
-                  isObject(item) ? item : {[name]: item, item: item}
-                ),
-                key: index
-              })
-            )
-          : null}
+      <div className={cx('Each', className)}>
+        {Array.isArray(arr) && items ? (
+          arr.map((item: any, index: number) =>
+            render(`item/${index}`, items, {
+              data: createObject(
+                data,
+                isObject(item) ? item : {[name]: item, item: item}
+              ),
+              key: index
+            })
+          )
+        ) : (
+          <div className={cx('Each-placeholder')}>
+            {render('placeholder', __(placeholder))}
+          </div>
+        )}
       </div>
     );
   }
