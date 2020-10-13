@@ -79,6 +79,7 @@
     padding: $gap-base;
     opacity: 0;
     transition: opacity 0.35s linear;
+    min-height: 100%;
 
     &.is-active {
       display: block;
