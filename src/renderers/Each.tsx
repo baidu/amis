@@ -69,7 +69,9 @@ export default class Each extends React.Component<EachProps> {
             render(`item/${index}`, items, {
               data: createObject(
                 data,
-                isObject(item) ? item : {[name]: item, item: item}
+                isObject(item)
+                  ? {index, ...item}
+                  : {[name]: item, item: item, index}
               ),
               key: index
             })
