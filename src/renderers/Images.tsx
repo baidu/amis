@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import {resolveVariable, isPureVariable} from '../utils/tpl-builtin';
-import Image, {ImageThumbProps} from './Image';
+import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind} from '../utils/helper';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 
@@ -79,8 +79,7 @@ export class ImagesField extends React.Component<ImagesProps> {
   > = {
     className: '',
     delimiter: ',',
-    defaultImage:
-      'https://fex.bdstatic.com/n/static/amis/renderers/crud/field/placeholder_cfad9b1.png',
+    defaultImage: imagePlaceholder,
     placehoder: '-',
     thumbMode: 'contain',
     thumbRatio: '1:1'
