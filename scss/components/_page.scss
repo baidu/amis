@@ -14,6 +14,9 @@
 
   &-content {
     padding: $Page-content-paddingY $Page-content-paddingX;
+    position: relative;
+    height: 100%;
+    width: 100%;
   }
 
   &-main > &-header {
