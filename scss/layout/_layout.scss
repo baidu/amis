@@ -235,7 +235,7 @@ body {
 @include media-breakpoint-up(md) {
   .#{$ns}Layout {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: stretch;
 
@@ -247,9 +247,8 @@ body {
     &-content,
     & > &-body {
       flex-grow: 1;
-      width: 0;
+      height: 0;
       position: relative;
-      height: auto;
     }
 
     &--boxed {
