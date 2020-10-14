@@ -79,12 +79,12 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
       >
         {itemRender
           ? itemRender(column, key, length, this.props)
-          : this.renderChild(`column/${key}`, column)}
+          : this.renderChild(`column/${key}`, column, key)}
       </div>
     );
   }
 
-  renderChild(region: string, node: Schema) {
+  renderChild(region: string, node: Schema, index: number) {
     const {render, renderFormItems, formMode, store, $path} = this.props;
 
     if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
