@@ -23,11 +23,6 @@ export interface ImageSchema extends BaseSchema {
   defaultImage?: SchemaUrlPath;
 
   /**
-   * 图片描述
-   */
-  description?: SchemaTpl;
-
-  /**
    * 图片标题
    */
   title?: SchemaTpl;

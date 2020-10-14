@@ -112,4 +112,11 @@
 .#{$ns}ImageField {
   display: inline-block;
   position: relative;
+  @include clearfix();
+  // margin-bottom: $gap-md;
+}
+
+.#{$ns}ImagesField {
+  position: relative;
+  @include clearfix();
 }
