@@ -108,6 +108,14 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
     return render(region, node.body || node);
   }
 
+  renderColumns() {
+    const {columns} = this.props;
+
+    return columns.map((column, key) =>
+      this.renderColumn(column, key, columns.length)
+    );
+  }
+
   render() {
     const {className, columns, gap, classPrefix: ns} = this.props;
 
@@ -119,11 +127,7 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
           className
         )}
       >
-        <div className={`${ns}Hbox`}>
-          {columns.map((column: any, key: number) =>
-            this.renderColumn(column, key, columns.length)
-          )}
-        </div>
+        <div className={`${ns}Hbox`}>{this.renderColumns()}</div>
       </div>
     );
   }
