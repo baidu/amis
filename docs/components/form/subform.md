@@ -86,8 +86,8 @@ order: 50
 | multiple            | `boolean`       | `false`                     | 是否为多选模式                                         |
 | labelField          | `string`        |                             | 当值中存在这个字段，则按钮名称将使用此字段的值来展示。 |
 | btnLabel            | `string`        | `"设置"`                    | 按钮默认名称                                           |
-| minLength           | `number`        | `0`                         | 限制最小长度。                                         |
-| maxLength           | `number`        | `0`                         | 限制最大长度。                                         |
+| minLength           | `number`        | `0`                         | 限制最小个数。                                         |
+| maxLength           | `number`        | `0`                         | 限制最大个数。                                         |
 | addButtonClassName  | `string`        | `btn-success btn-sm`        | 新增按钮 CSS 类名                                      |
 | editButtonClassName | `string`        | `btn-info btn-addon btn-sm` | 修改按钮 CSS 类名                                      |
 | form                | [Form](./index) |                             | 子表单配置，同 [Form](./index)                         |
