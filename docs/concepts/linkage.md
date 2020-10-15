@@ -140,7 +140,7 @@ order: 14
 > 接口联动一般只适用于初始化接口，例如：
 >
 > - `form`组件中的`initApi`；
-> - `select`组件中的`source`选项源接口；
+> - `select`组件中的`source`选项源接口url,data只能用于主动联动；
 > - `service`组件中的`api`和`schemaApi`；
 > - `crud`组件中的`api`；
 > - 等等...
