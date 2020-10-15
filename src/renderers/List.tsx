@@ -418,7 +418,7 @@ export default class List extends React.Component<ListProps, object> {
 
     const clip = (this.body as HTMLElement).getBoundingClientRect();
     const offsetY =
-      this.props.affixOffsetTop || this.props.env.affixOffsetTop || 0;
+      this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
     const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
 
     this.body.offsetWidth &&
