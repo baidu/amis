@@ -282,7 +282,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     addButtonClassName: '',
     formClassName: '',
     subFormMode: 'normal',
-    draggableTip: '可拖拽排序',
+    draggableTip: '',
     addButtonText: '新增',
     canAccessSuperData: false,
     addIcon: true,
