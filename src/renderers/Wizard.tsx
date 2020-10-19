@@ -740,10 +740,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const currentStep = this.state.currentStep;
 
     return (
-      <div
-        className={`${ns}Wizard-steps ${ns}Wizard--${mode}`}
-        id="form-wizard"
-      >
+      <div className={`${ns}Wizard-steps`} id="form-wizard">
         {Array.isArray(steps) && steps.length ? (
           <ul>
             {steps.map((step, key) => {
@@ -881,12 +878,19 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
     return (
       <>
-        <div ref={this.footerDom} className={cx('Panel-footer')}>
+        <div
+          role="wizard-footer"
+          ref={this.footerDom}
+          className={cx('Panel-footer Wizard-footer')}
+        >
           {actions}
         </div>
 
         {affixFooter ? (
-          <div ref={this.affixDom} className={cx('Panel-fixedBottom')}>
+          <div
+            ref={this.affixDom}
+            className={cx('Panel-fixedBottom Wizard-footer')}
+          >
             <div className={cx('Panel-footer')}>{actions}</div>
           </div>
         ) : null}
@@ -902,7 +906,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       store,
       classPrefix: ns,
       classnames: cx,
-      popOverContainer
+      popOverContainer,
+      mode
     } = this.props;
 
     const currentStep = this.state.currentStep;
@@ -911,7 +916,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     return (
       <div
         ref={this.domRef}
-        className={cx(`${ns}Panel ${ns}Panel--default ${ns}Wizard`, className)}
+        className={cx(
+          `${ns}Panel ${ns}Panel--default ${ns}Wizard ${ns}Wizard--${mode}`,
+          className
+        )}
       >
         <div className={`${ns}Wizard-step`}>
           {this.renderSteps()}
