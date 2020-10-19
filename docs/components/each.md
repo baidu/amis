@@ -73,18 +73,12 @@ List 的内容、Card 卡片的内容配置同上
 {
     "type": "form",
     "data": {
-        "json": {
-            "a": "a",
-            "b": {
-                "c": "c"
-            }
-        }
+        "each": ["A", "B", "C"]
     },
     "controls": [
         {
-            "type": "static-json",
-            "name": "json",
-            "label": "颜色"
+            "type": "tpl",
+            "tpl": "<span class='label label-info m-l-sm'><%= data.item %></span>"
         }
     ]
 }
