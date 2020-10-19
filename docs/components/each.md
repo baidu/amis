@@ -27,7 +27,7 @@ order: 45
 
 ### Table 中的列类型
 
-```schema:height="400" scope="body"
+```schema:height="300" scope="body"
 {
     "type": "table",
     "data": {
