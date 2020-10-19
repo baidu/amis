@@ -77,8 +77,13 @@ List 的内容、Card 卡片的内容配置同上
     },
     "controls": [
         {
-            "type": "tpl",
-            "tpl": "<span class='label label-info m-l-sm'><%= data.item %></span>"
+            "type": "each",
+            "label": "静态展示each",
+            "name": "each",
+            "items": {
+                "type": "tpl",
+                "tpl": "<span class='label label-info m-l-sm'><%= data.item %></span>"
+            }
         }
     ]
 }
