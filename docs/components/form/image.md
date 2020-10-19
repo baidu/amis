@@ -87,6 +87,9 @@ order: 27
 | fileField        | `string`                        | `file`                 | 如果你不想自己存储，则可以忽略此属性。                                                             |
 | crop             | `boolean`或`{"aspectRatio":""}` |                        | 用来设置是否支持裁剪。                                                                             |
 | crop.aspectRatio | `number`                        |                        | 裁剪比例。浮点型，默认 `1` 即 `1:1`，如果要设置 `16:9` 请设置 `1.7777777777777777` 即 `16 / 9`。。 |
+| crop.rotatable   | `boolean`                       | `false`                | 裁剪时是否可旋转                                                                                   |
+| crop.scalable    | `boolean`                       | `false`                | 裁剪时是否可缩放                                                                                   |
+| crop.viewMode    | `number`                        | `1`                    | 裁剪时的查看模式，0 是无限制                                                                       |
 | limit            | Limit                           |                        | 限制图片大小，超出不让上传。                                                                       |
 
 ### Limit 属性表
