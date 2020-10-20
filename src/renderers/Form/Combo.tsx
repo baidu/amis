@@ -1,6 +1,12 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {FormItem, FormControlProps} from './Item';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  FormControlSchema,
+  FormControlSchemaAlias
+} from './Item';
 import {Schema, Action, Api} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import {default as CTabs, Tab} from '../../components/Tabs';
@@ -24,12 +30,217 @@ import {Alert2} from '../../components';
 import memoize from 'lodash/memoize';
 import {Icon} from '../../components/icons';
 import {isAlive} from 'mobx-state-tree';
-export interface Condition {
+import {SchemaApi, SchemaClassName, SchemaIcon, SchemaTpl} from '../../Schema';
+
+export type ComboCondition = {
   test: string;
-  controls: Array<Schema>;
+  controls: Array<FormControlSchema>;
   label: string;
   scaffold?: any;
   mode?: string;
+};
+
+export type ComboSubControl = FormControlSchema & {
+  /**
+   * 是否唯一, 只有在 combo 里面才有用
+   */
+  unique?: boolean;
+
+  /**
+   * 列类名，可以用来修改这类宽度。
+   */
+  columnClassName?: SchemaClassName;
+};
+
+/**
+ * Combo 组合输入框类型
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/combo
+ */
+export interface ComboControlSchema extends FormBaseControl {
+  /**
+   * 指定为组合输入框类型
+   */
+  type: 'combo';
+
+  /**
+   * 单组表单项初始值。默认为 `{}`
+   *
+   * @default {}
+   */
+  scaffold?: any;
+
+  /**
+   * 是否含有边框
+   */
+  noBorder?: boolean;
+
+  /**
+   * 确认删除时的提示
+   */
+  deleteConfirmText?: string;
+
+  /**
+   * 删除时调用的api
+   */
+  deleteApi?: SchemaApi;
+
+  /**
+   * 是否可切换条件，配合`conditions`使用
+   */
+  typeSwitchable?: boolean;
+
+  /**
+   * 符合某类条件后才渲染的schema
+   */
+  conditions?: Array<ComboCondition>;
+
+  /**
+   * 内部单组表单项的类名
+   */
+  formClassName?: SchemaClassName;
+
+  /**
+   * 新增按钮CSS类名
+   */
+  addButtonClassName?: SchemaClassName;
+
+  /**
+   * 新增按钮文字
+   * @default 新增
+   */
+  addButtonText?: string;
+
+  /**
+   * 是否可新增
+   */
+  addable?: boolean;
+
+  /**
+   * 数组输入框的子项
+   */
+  controls?: Array<ComboSubControl>;
+
+  /**
+   * 是否可拖拽排序
+   */
+  draggable?: boolean;
+
+  /**
+   * 可拖拽排序的提示信息。
+   *
+   * @default 可拖拽排序
+   */
+  draggableTip?: string;
+
+  /**
+   * 是否将结果扁平化(去掉name),只有当controls的length为1且multiple为true的时候才有效
+   */
+  flat?: boolean;
+
+  /**
+   * 当扁平化开启并且joinValues为true时，用什么分隔符
+   *
+   * @deprecated
+   */
+  delimiter?: string;
+
+  /**
+   * 当扁平化开启的时候，是否用分隔符的形式发送给后端，否则采用array的方式
+   * @deprecated
+   */
+  joinValues?: boolean;
+
+  /**
+   * 限制最大个数
+   */
+  maxLength?: number;
+
+  /**
+   * 限制最小个数
+   */
+  minLength?: number;
+
+  /**
+   * 是否多行模式，默认一行展示完
+   */
+  multiLine?: boolean;
+
+  /**
+   * 是否可多选
+   */
+  multiple?: boolean;
+
+  /**
+   * 是否可删除
+   */
+  removable?: boolean;
+
+  /**
+   * 子表单的模式。
+   */
+  subFormMode?: 'normal' | 'horizontal' | 'inline';
+
+  /**
+   * 没有成员时显示。
+   * @default <空>
+   */
+  placeholder?: string;
+
+  /**
+   * 是否可以访问父级数据，正常 combo 已经关联到数组成员，是不能访问父级数据的。
+   */
+  canAccessSuperData?: boolean;
+
+  /**
+   * 采用 Tabs 展示方式？
+   */
+  tabsMode?: boolean;
+
+  /**
+   * Tabs 的展示模式。
+   */
+  tabsStyle?: '' | 'line' | 'card' | 'radio';
+
+  /**
+   * 选项卡标题的生成模板。
+   */
+  tabsLabelTpl?: SchemaTpl;
+
+  /**
+   * 数据比较多，比较卡时，可以试试开启。
+   */
+  lazyLoad?: boolean;
+
+  /**
+   * 严格模式，为了性能默认不开的。
+   */
+  strictMode?: boolean;
+
+  /**
+   * 允许为空，如果子表单项里面配置验证器，且又是单条模式。可以允许用户选择清空（不填）。
+   */
+  nullable?: boolean;
+
+  /**
+   * 提示信息
+   */
+  messages?: {
+    /**
+     * 验证错误提示
+     */
+    validateFailed?: string;
+
+    /**
+     * 最小值验证错误提示
+     */
+    minLengthValidateFailed?: string;
+
+    /**
+     * 最大值验证错误提示
+     */
+
+    maxLengthValidateFailed?: string;
+  };
 }
 
 function pickVars(vars: any, fields: Array<string>) {
@@ -39,45 +250,9 @@ function pickVars(vars: any, fields: Array<string>) {
   }, {});
 }
 
-export interface ComboProps extends FormControlProps {
-  placeholder?: string;
-  flat?: boolean; // 是否把值打平，即原来是对象现在只有对象中的值。
-  draggable?: boolean; // 是否可拖拽
-  controls?: Array<Schema>;
-  conditions?: Array<Condition>;
-  multiple?: boolean;
-  multiLine?: boolean;
-  minLength?: number;
-  maxLength?: number;
-  scaffold?: any;
-  addButtonClassName?: string;
-  formClassName?: string;
-  addButtonText?: string;
-  addable?: boolean;
-  typeSwitchable?: boolean;
-  removable?: boolean;
-  deleteApi?: Api;
-  deleteConfirmText?: string;
-  canAccessSuperData?: boolean;
-  subFormMode?: 'normal' | 'inline' | 'horizontal';
-  noBorder?: boolean;
-  joinValues?: boolean;
-  delimiter?: string;
-  dragIcon: string;
-  deleteIcon: string;
+export interface ComboProps extends FormControlProps, ComboControlSchema {
   store: IComboStore;
-  tabsMode: boolean;
-  tabsStyle: '' | 'line' | 'card' | 'radio';
-  tabsLabelTpl?: string;
-  lazyLoad?: boolean;
   changeImmediately?: boolean;
-  strictMode?: boolean;
-  nullable?: boolean;
-  messages?: {
-    validateFailed?: string;
-    minLengthValidateFailed?: string;
-    maxLengthValidateFailed?: string;
-  };
 }
 
 export default class ComboControl extends React.Component<ComboProps> {
@@ -107,7 +282,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     addButtonClassName: '',
     formClassName: '',
     subFormMode: 'normal',
-    draggableTip: '可拖拽排序',
+    draggableTip: '',
     addButtonText: '新增',
     canAccessSuperData: false,
     addIcon: true,
@@ -227,7 +402,7 @@ export default class ComboControl extends React.Component<ComboProps> {
   componentWillUnmount() {
     const {formItem} = this.props;
 
-    formItem && formItem.setSubStore(null);
+    formItem && isAlive(formItem) && formItem.setSubStore(null);
 
     this.toDispose.forEach(fn => fn());
     this.toDispose = [];
@@ -249,7 +424,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     return value;
   }
 
-  addItemWith(condition: Condition) {
+  addItemWith(condition: ComboCondition) {
     const {
       flat,
       joinValues,
@@ -652,19 +827,19 @@ export default class ComboControl extends React.Component<ComboProps> {
     );
   }
 
-  pickCondition(value: any): Condition | null {
-    const conditions: Array<Condition> = this.props.conditions!;
+  pickCondition(value: any): ComboCondition | null {
+    const conditions: Array<ComboCondition> = this.props.conditions!;
     return find(
       conditions,
       item => item.test && evalExpression(item.test, value)
-    ) as Condition | null;
+    ) as ComboCondition | null;
   }
 
   handleComboTypeChange(index: number, selection: any) {
     const {multiple, onChange, value, flat, submitOnChange} = this.props;
 
-    const conditions: Array<Condition> = this.props.conditions as Array<
-      Condition
+    const conditions: Array<ComboCondition> = this.props.conditions as Array<
+      ComboCondition
     >;
     const condition = find(conditions, item => item.label === selection.label);
 
@@ -811,7 +986,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       >
         {value.map((value, index) => {
           const data = this.formatValue(value, index);
-          let condition: Condition | null | undefined = null;
+          let condition: ComboCondition | null | undefined = null;
           let toolbar = undefined;
           if (
             finnalRemovable && // 表达式判断单条是否可删除
@@ -871,10 +1046,12 @@ export default class ComboControl extends React.Component<ComboProps> {
                   <label>{__('类型')}</label>
                   <Select
                     onChange={this.handleComboTypeChange.bind(this, index)}
-                    options={(conditions as Array<Condition>).map(item => ({
-                      label: item.label,
-                      value: item.label
-                    }))}
+                    options={(conditions as Array<ComboCondition>).map(
+                      item => ({
+                        label: item.label,
+                        value: item.label
+                      })
+                    )}
                     value={condition.label}
                     clearable={false}
                   />
@@ -1025,7 +1202,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               }
 
               const data = this.formatValue(value, index);
-              let condition: Condition | null = null;
+              let condition: ComboCondition | null = null;
 
               if (Array.isArray(conditions) && conditions.length) {
                 condition = this.pickCondition(data);
@@ -1067,10 +1244,12 @@ export default class ComboControl extends React.Component<ComboProps> {
                       <label>{__('类型')}</label>
                       <Select
                         onChange={this.handleComboTypeChange.bind(this, index)}
-                        options={(conditions as Array<Condition>).map(item => ({
-                          label: item.label,
-                          value: item.label
-                        }))}
+                        options={(conditions as Array<ComboCondition>).map(
+                          item => ({
+                            label: item.label,
+                            value: item.label
+                          })
+                        )}
                         value={condition.label}
                         clearable={false}
                       />
@@ -1186,7 +1365,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     let controls = this.props.controls;
     const data = isObject(value) ? this.formatValue(value) : this.defaultValue;
-    let condition: Condition | null = null;
+    let condition: ComboCondition | null = null;
 
     if (Array.isArray(conditions) && conditions.length) {
       condition = this.pickCondition(data);
@@ -1208,7 +1387,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               <label>{__('类型')}</label>
               <Select
                 onChange={this.handleComboTypeChange.bind(this, 0)}
-                options={(conditions as Array<Condition>).map(item => ({
+                options={(conditions as Array<ComboCondition>).map(item => ({
                   label: item.label,
                   value: item.label
                 }))}

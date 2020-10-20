@@ -1,13 +1,47 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../../factory';
-import {FormItem, FormControlProps} from './Item';
-import HBox from '../HBox';
+import {
+  FormItem,
+  FormControlProps,
+  FormControlSchema,
+  FormBaseControl
+} from './Item';
+import HBox, {HBoxColumnObject, HBoxSchema} from '../HBox';
 import {Schema} from '../../types';
 import cx from 'classnames';
 import {isVisible} from '../../utils/helper';
 import {IIRendererStore} from '../../store/iRenderer';
 
-interface HBoxProps extends FormControlProps {
+/**
+ * HBox 水平布局控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/hbox
+ */
+export interface HBoxControlSchema
+  extends FormBaseControl,
+    Omit<HBoxSchema, 'columns'> {
+  type: 'hbox';
+
+  columns: Array<
+    HBoxColumnObject & {
+      /**
+       * 表单项集合
+       */
+      controls?: Array<FormControlSchema>;
+
+      /**
+       * @deprecated 请用类型 tabs
+       */
+      tabs?: any;
+
+      /**
+       * @deprecated 请用类型 fieldSet
+       */
+      fieldSet?: any;
+    }
+  >;
+}
+
+interface HBoxProps extends FormControlProps, HBoxControlSchema {
   store: IIRendererStore;
 }
 
@@ -45,12 +79,12 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
       >
         {itemRender
           ? itemRender(column, key, length, this.props)
-          : this.renderChild(`column/${key}`, column)}
+          : this.renderChild(`column/${key}`, column, key)}
       </div>
     );
   }
 
-  renderChild(region: string, node: Schema) {
+  renderChild(region: string, node: Schema, index: number) {
     const {render, renderFormItems, formMode, store, $path} = this.props;
 
     if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
@@ -74,6 +108,14 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
     return render(region, node.body || node);
   }
 
+  renderColumns() {
+    const {columns} = this.props;
+
+    return columns.map((column, key) =>
+      this.renderColumn(column, key, columns.length)
+    );
+  }
+
   render() {
     const {className, columns, gap, classPrefix: ns} = this.props;
 
@@ -85,11 +127,7 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
           className
         )}
       >
-        <div className={`${ns}Hbox`}>
-          {columns.map((column: any, key: number) =>
-            this.renderColumn(column, key, columns.length)
-          )}
-        </div>
+        <div className={`${ns}Hbox`}>{this.renderColumns()}</div>
       </div>
     );
   }

@@ -9,7 +9,7 @@ import CodeEditor from '../../src/components/Editor';
 import copy from 'copy-to-clipboard';
 
 const DEFAULT_CONTENT = `{
-    "$schema": "https://houtai.baidu.com/v2/schemas/page.json#",
+    "$schema": "/schemas/page.json#",
     "type": "page",
     "title": "Title",
     "body": "Body",
@@ -227,7 +227,11 @@ export default class PlayGround extends React.Component {
         '$1'
       ); // 去掉注释
 
-      return JSON.parse(schemaContent);
+      const json = {
+        ...JSON.parse(schemaContent)
+      };
+
+      return json;
     } catch (e) {
       console.error(this.formatMessage(e.message, schemaContent));
     }
@@ -320,11 +324,61 @@ export default class PlayGround extends React.Component {
     window.removeEventListener('mousemove', this.handleMouseMove);
   }
 
+  editorDidMount = (editor, monaco) => {
+    this.editor = editor;
+    this.monaco = monaco;
+
+    let host = `${window.location.protocol}//${window.location.host}`;
+
+    // 如果在 gh-pages 里面
+    if (/^\/amis/.test(window.location.pathname)) {
+      host += '/amis';
+    }
+
+    const schemaUrl = `${host}/schema.json`;
+
+    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      schemas: [
+        {
+          uri: schemaUrl,
+          fileMatch: ['*']
+        }
+      ],
+      validate: true,
+      enableSchemaRequest: true,
+      allowComments: true
+    });
+  };
+
+  // editorFactory = (containerElement, monaco, options) => {
+  //   this.model = monaco.editor.createModel(
+  //     this.state.schemaCode,
+  //     'json',
+  //     monaco.Uri.parse(`isuda://schemas/page.json`)
+  //   );
+
+  //   return monaco.editor.create(containerElement, {
+  //     autoIndent: true,
+  //     formatOnType: true,
+  //     formatOnPaste: true,
+  //     selectOnLineNumbers: true,
+  //     scrollBeyondLastLine: false,
+  //     folding: true,
+  //     minimap: {
+  //       enabled: false
+  //     },
+  //     ...options,
+  //     model: this.model
+  //   });
+  // };
+
   renderEditor() {
     return (
       <CodeEditor
         value={this.state.schemaCode}
         onChange={this.handleChange}
+        // editorFactory={this.editorFactory}
+        editorDidMount={this.editorDidMount}
         language="json"
       />
     );
@@ -337,7 +391,7 @@ export default class PlayGround extends React.Component {
         <div className="vbox">
           <div className="row-row">
             <div className="cell pos-rlt">
-              <div className="scroll-y h-full pos-abt w-full">
+              <div className="scroll-y h-full pos-abt w-full b-b">
                 {this.renderPreview()}
               </div>
             </div>
@@ -359,7 +413,7 @@ export default class PlayGround extends React.Component {
       >
         <div className="hbox">
           <div className="col pos-rlt">
-            <div className="scroll-y h-full pos-abt w-full">
+            <div className="scroll-y h-full pos-abt w-full b-b">
               {this.renderPreview()}
             </div>
           </div>

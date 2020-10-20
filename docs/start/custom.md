@@ -29,7 +29,8 @@ amis 的 JSON 配置最终会转成 React 组件来执行，所以如果只是�
         "name": "mycustom",
         "children": ({
           value,
-          onChange
+          onChange,
+          data
         }) => (
           <div>
             <p>这个是个自定义组件</p>
@@ -45,7 +46,7 @@ amis 的 JSON 配置最终会转成 React 组件来执行，所以如果只是�
 }
 ```
 
-其中的 `mycustom` 就是一个临时扩展，它的 `children` 属性是一个函数，它的返回内容和 React 的 Render 方法一样，即 jsx，在这个方法里你可以写任意 JavaScript 来实现自己的定制需求，这个函数有两个参数 `value` 和 `onChange`，`value` 就是组件的值，`onChange` 方法用来改变这个值，比如上面的例子中，点击链接后就会修改 `mycustom` 为一个随机数，在提交表单的时候就变成了这个随机数。
+其中的 `mycustom` 就是一个临时扩展，它的 `children` 属性是一个函数，它的返回内容和 React 的 Render 方法一样，即 jsx，在这个方法里你可以写任意 JavaScript 来实现自己的定制需求，这个函数有两个参数 `value` 和 `onChange`，`value` 就是组件的值，`onChange` 方法用来改变这个值，比如上面的例子中，点击链接后就会修改 `mycustom` 为一个随机数，在提交表单的时候就变成了这个随机数，而 `data` 可以拿到其它控件的值，比如 `data.username`。
 
 与之类似的还有个 `component` 属性，这个属性可以传入 React Component，如果想用 React Hooks，请通过 `component` 传递，而不是 `children`。
 
@@ -110,6 +111,9 @@ amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json
 Page 组件的示例代码
 
 ```jsx
+import * as React from 'react';
+import {Renderer} from 'amis';
+
 @Renderer({
   test: /^page$/
   // ... 其他信息隐藏了
@@ -132,6 +136,15 @@ export class PageRenderer extends React.Component {
     );
   }
 }
+
+// 如果不支持 Decorators 语法也可以使用如下写法
+export Renderer({
+  test: /^page$/
+})(class PageRenderer extends React.Component {
+  render() {
+    // ...同上
+  }
+})
 ```
 
 Form 组件的示例代码
@@ -282,7 +295,7 @@ class CustomRenderer extends React.Component {
 
 ### 表单项的扩展
 
-以上是普通渲染器的注册方式，如果是表单项，为了更简单的扩充，请使用 `FormItem` 注解，而不是 `Renderer`。 原因是如果用 `FormItem` 是不用关心：label 怎么摆，表单验证器怎么实现，如何适配表单的 3 中展现方式（水平、上下和内联模式），而只用关心：有了值后如何回显，响应用户交互设置新值。
+以上是普通渲染器的注册方式，如果是表单项，为了更简单的扩充，请使用 `FormItem` 注解，而不是 `Renderer`。 原因是如果用 `FormItem` 是不用关心：label 怎么摆，表单验证器怎么实现，如何适配表单的 3 种展现方式（水平、上下和内联模式），而只用关心：有了值后如何回显，响应用户交互设置新值。
 
 ```jsx
 import * as React from 'react';

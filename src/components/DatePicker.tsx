@@ -242,7 +242,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
   defaultValue?: any;
   utc?: boolean;
   onChange: (value: any) => void;
-  value: any;
+  value?: any;
   shortcuts: string | Array<ShortCuts>;
   overlayPlacement: string;
   minTime?: moment.Moment;

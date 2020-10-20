@@ -53,13 +53,13 @@ order: 2
         {
             "label": "xxx1",
             "value": "value1",
-            "chlidren": []
+            "children": []
             ... // 其他变量值
         },
         {
             "label": "xxx2",
             "value": "value2",
-            "chlidren": []
+            "children": []
             ... // 其他变量值
         }
     ]
@@ -70,7 +70,7 @@ order: 2
 
 - `label`：标识当前选项的显示文本，帮助用户选择
 - `value`：标识当前选项的值，用作数据保存和映射
-- `chlidren`：嵌套子选项，只有在 Tree 或 Nested-Select 等支持嵌套功能的组件中才有用
+- `children`：嵌套子选项，只有在 Tree 或 Nested-Select 等支持嵌套功能的组件中才有用
 
 查看下面例子，修改选项你会发现数据域会发发生变化，改数据域中该表单项的值为选中选项的`value`值。
 
@@ -353,6 +353,7 @@ order: 2
 ```schema:height="400" scope="body"
 {
     "type": "form",
+    "debug": true,
     "data": {
         "options": [
             {
@@ -390,37 +391,7 @@ order: 2
 }
 ```
 
-## 检索 searchable
-
-可以配置 `"searchable": true` 显示前端过滤，适合用于有大量内容的列表。
-
-```schema:height="400" scope="body"
-{
-    "type": "form",
-    "controls": [
-        {
-            "label": "选项",
-            "type": "select",
-            "name": "select",
-            "searchable": true,
-            "options": [
-                {
-                    "label":"A",
-                    "value":"a"
-                },
-                {
-                    "label":"B",
-                    "value":"b"
-                },
-                {
-                    "label":"C",
-                    "value":"c"
-                }
-            ]
-        }
-    ]
-}
-```
+默认多选的值格式为逗号拼接 value 值，例如：`1,2,3`，如果需要改变值格式，请阅读下面 [拼接符 delimiter](#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)、[拼接值 joinValues](#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues) 和 [提取多选值 extractValue](#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)配置项。
 
 ## 拼接符 delimiter
 
@@ -715,6 +686,38 @@ order: 2
             "joinValues": false,
             "extractValue": true,
             "value": ["a", "b"],
+            "options": [
+                {
+                    "label":"A",
+                    "value":"a"
+                },
+                {
+                    "label":"B",
+                    "value":"b"
+                },
+                {
+                    "label":"C",
+                    "value":"c"
+                }
+            ]
+        }
+    ]
+}
+```
+
+## 检索 searchable
+
+可以配置 `"searchable": true` 显示前端过滤，适合用于有大量内容的列表。
+
+```schema:height="400" scope="body"
+{
+    "type": "form",
+    "controls": [
+        {
+            "label": "选项",
+            "type": "select",
+            "name": "select",
+            "searchable": true,
             "options": [
                 {
                     "label":"A",

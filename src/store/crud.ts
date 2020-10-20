@@ -184,14 +184,10 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           delete ctx[options.perPageField || 'perPage'];
         }
 
-        const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(
-          api,
-          ctx,
-          {
-            ...options,
-            cancelExecutor: (executor: Function) => (fetchCancel = executor)
-          }
-        );
+        const json: Payload = yield getEnv(self).fetcher(api, ctx, {
+          ...options,
+          cancelExecutor: (executor: Function) => (fetchCancel = executor)
+        });
         fetchCancel = null;
 
         if (!json.ok) {
@@ -199,7 +195,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             json.msg || options.errorMessage || self.__('获取失败'),
             true
           );
-          (getRoot(self) as IRendererStore).notify(
+          getEnv(self).notify(
             'error',
             json.msg,
             json.msgTimeout !== undefined
@@ -314,27 +310,26 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           // 配置了获取成功提示后提示，默认是空不会提示。
           options &&
             options.successMessage &&
-            (getRoot(self) as IRendererStore).notify('success', self.msg);
+            getEnv(self).notify('success', self.msg);
         }
 
         self.markFetching(false);
         return json;
       } catch (e) {
-        const root = getRoot(self) as IRendererStore;
+        const env = getEnv(self) as IRendererStore;
 
-        if (!isAlive(root) || root.storeType !== 'RendererStore') {
-          // 已经销毁了，不管这些数据了。
+        if (!isAlive(self) || self.disposed) {
           return;
         }
 
         self.markFetching(false);
 
-        if (root.isCancel(e)) {
+        if (env.isCancel(e)) {
           return;
         }
 
         console.error(e.stack);
-        root.notify('error', e.message);
+        env.notify('error', e.message);
         return;
       }
     });
@@ -364,11 +359,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         };
 
         self.markSaving(true);
-        const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(
-          api,
-          data,
-          options
-        );
+        const json: Payload = yield getEnv(self).fetcher(api, data, options);
         self.markSaving(false);
 
         if (!isEmpty(json.data) || json.ok) {
@@ -387,7 +378,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             json.msg || options.errorMessage || self.__('保存失败'),
             true
           );
-          (getRoot(self) as IRendererStore).notify(
+          getEnv(self).notify(
             'error',
             self.msg,
             json.msgTimeout !== undefined
@@ -400,15 +391,17 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           throw new ServerError(self.msg);
         } else {
           self.updateMessage(json.msg || options.successMessage);
-          self.msg &&
-            (getRoot(self) as IRendererStore).notify('success', self.msg);
+          self.msg && getEnv(self).notify('success', self.msg);
         }
         return json.data;
       } catch (e) {
         self.markSaving(false);
-        e.type !== 'ServerError' &&
-          (getRoot(self) as IRendererStore) &&
-          (getRoot(self) as IRendererStore).notify('error', e.message);
+
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
+
+        e.type !== 'ServerError' && getEnv(self).notify('error', e.message);
         throw e;
       }
     });

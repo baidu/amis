@@ -1,8 +1,23 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
 import {noop} from '../../utils/helper';
+
+/**
+ * RichText
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/rich-text
+ */
+export interface RichTextControlSchema extends FormBaseControl {
+  type: 'rich-text';
+
+  vendor?: 'froala' | 'tinymce';
+
+  reciever?: string;
+  videoReciever?: string;
+
+  options?: any;
+}
 
 export interface RichTextProps extends FormControlProps {
   options?: any;

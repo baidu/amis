@@ -2,7 +2,7 @@
 name: Usage question
 about: amis 使用方法问题
 title: ''
-labels: document
+labels: ''
 assignees: ''
 
 ---

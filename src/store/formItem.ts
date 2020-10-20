@@ -5,7 +5,8 @@ import {
   flow,
   getRoot,
   hasParent,
-  isAlive
+  isAlive,
+  getEnv
 } from 'mobx-state-tree';
 import {IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
@@ -29,6 +30,7 @@ import find from 'lodash/find';
 import {SimpleMap} from '../utils/SimpleMap';
 import memoize from 'lodash/memoize';
 import {TranslateFn} from '../locale';
+import {StoreNode} from './node';
 
 interface IOption {
   value?: string | number | null;
@@ -44,9 +46,8 @@ const ErrorDetail = types.model('ErrorDetail', {
   tag: ''
 });
 
-export const FormItemStore = types
-  .model('FormItemStore', {
-    identifier: types.identifier,
+export const FormItemStore = StoreNode.named('FormItemStore')
+  .props({
     isFocused: false,
     type: '',
     unique: false,
@@ -56,7 +57,7 @@ export const FormItemStore = types
     messages: types.optional(types.frozen(), {}),
     errorData: types.optional(types.array(ErrorDetail), []),
     name: types.string,
-    id: '', // 因为 name 可能会重名，所以加个 id 进来，如果有需要用来定位具体某一个
+    itemId: '', // 因为 name 可能会重名，所以加个 id 进来，如果有需要用来定位具体某一个
     unsetValueOnInvisible: false,
     validated: false,
     validating: false,
@@ -76,11 +77,11 @@ export const FormItemStore = types
   })
   .views(self => {
     function getForm(): any {
-      return hasParent(self, 2) ? getParent(self, 2) : null;
+      return self.parentStore;
     }
 
     function getValue(): any {
-      return getForm() ? getForm().getValueByName(self.name) : undefined;
+      return getForm()?.getValueByName(self.name);
     }
 
     function getLastOptionValue(): any {
@@ -105,9 +106,7 @@ export const FormItemStore = types
       },
 
       get prinstine(): any {
-        return (getParent(self, 2) as IFormStore).getPristineValueByName(
-          self.name
-        );
+        return (getForm() as IFormStore).getPristineValueByName(self.name);
       },
 
       get errors() {
@@ -201,14 +200,6 @@ export const FormItemStore = types
         });
 
         return selectedOptions;
-      },
-
-      get __(): TranslateFn {
-        return isAlive(self) &&
-          getRoot(self) &&
-          (getRoot(self) as IRendererStore).storeType === 'RendererStore'
-          ? (getRoot(self) as IRendererStore).__
-          : (str: string) => str;
       }
     };
   })
@@ -251,7 +242,7 @@ export const FormItemStore = types
       }
 
       typeof type !== 'undefined' && (self.type = type);
-      typeof id !== 'undefined' && (self.id = id);
+      typeof id !== 'undefined' && (self.itemId = id);
       typeof messages !== 'undefined' && (self.messages = messages);
       typeof required !== 'undefined' && (self.required = !!required);
       typeof unique !== 'undefined' && (self.unique = !!unique);
@@ -399,15 +390,11 @@ export const FormItemStore = types
 
         self.loading = true;
 
-        const json: Payload = yield (getRoot(self) as IRendererStore).fetcher(
-          api,
-          data,
-          {
-            autoAppend: false,
-            cancelExecutor: (executor: Function) => (loadCancel = executor),
-            ...config
-          }
-        );
+        const json: Payload = yield getEnv(self).fetcher(api, data, {
+          autoAppend: false,
+          cancelExecutor: (executor: Function) => (loadCancel = executor),
+          ...config
+        });
         loadCancel = null;
         let result: any = null;
 
@@ -418,7 +405,7 @@ export const FormItemStore = types
                 reason: json.msg || (config && config.errorMessage)
               })
             );
-          (getRoot(self) as IRendererStore).notify(
+          getEnv(self).notify(
             'error',
             self.errors.join(''),
             json.msgTimeout !== undefined
@@ -435,21 +422,20 @@ export const FormItemStore = types
         self.loading = false;
         return result;
       } catch (e) {
-        const root = getRoot(self) as IRendererStore;
-        if (root.storeType !== 'RendererStore') {
-          // 已经销毁了，不管这些数据了。
-          return;
-        }
+        const env = getEnv(self);
 
         self.loading = false;
 
-        if (root.isCancel(e)) {
+        if (!isAlive(self) || self.disposed) {
+          return;
+        }
+
+        if (env.isCancel(e)) {
           return;
         }
 
         console.error(e.stack);
-        getRoot(self) &&
-          (getRoot(self) as IRendererStore).notify('error', e.message);
+        env.notify('error', e.message);
         return;
       }
     } as any);

@@ -8,33 +8,136 @@ import update from 'react-addons-update';
 import {isEffectiveApi, isApiOutdated} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Spinner from '../components/Spinner';
+import {BaseSchema, SchemaApi, SchemaClassName, SchemaName} from '../Schema';
 
-export interface TaskProps extends RendererProps {
-  className?: string;
-  items: Array<TaskItem>;
-  checkApi: Api;
-  submitApi: Api;
-  reSubmitApi: Api;
+/**
+ * Tasks 渲染器，格式说明
+ * 文档：https://baidu.gitee.io/amis/docs/components/tasks
+ */
+export interface TasksSchema extends BaseSchema {
+  /** 指定为任务类型 */
+  type: 'tasks';
 
-  tableClassName?: string;
-  taskNameLabel?: string;
-  operationLabel?: string;
-  statusLabel?: string;
-  remarkLabel?: string;
+  btnClassName?: SchemaClassName;
+
+  /**
+   * 操作按钮文字
+   * @default 上线
+   */
   btnText?: string;
-  retryBtnText?: string;
-  btnClassName?: string;
-  retryBtnClassName?: string;
-  statusLabelMap?: Array<string>;
-  statusTextMap?: Array<string>;
-  initialStatusCode?: any;
-  readyStatusCode?: any;
-  loadingStatusCode?: any;
-  errorStatusCode?: any;
-  finishStatusCode?: any;
-  canRetryStatusCode?: any;
+
+  /**
+   * 用来获取任务状态的 API，当没有进行时任务时不会发送。
+   */
+  checkApi?: SchemaApi;
+
+  /**
+   * 当有任务进行中，会每隔一段时间再次检测，而时间间隔就是通过此项配置，默认 3s。
+   * @default 3000
+   */
   interval?: number;
+
+  items?: Array<{
+    /**
+     * 任务键值，请唯一区分
+     */
+    key?: string;
+
+    /**
+     * 任务名称
+     */
+    label?: string;
+
+    /**
+     * 当前任务状态，支持 html
+     */
+    remark?: string;
+
+    /**
+     * 任务状态：
+     * 0: 初始状态，不可操作。
+     * 1: 就绪，可操作状态。
+     * 2: 进行中，还没有结束。
+     * 3：有错误，不可重试。
+     * 4: 已正常结束。
+     * 5：有错误，且可以重试。
+     */
+    status?: 0 | 1 | 2 | 3 | 4 | 5;
+  }>;
+
+  name?: SchemaName;
+
+  /**
+   * 操作列说明
+   */
+  operationLabel?: string;
+
+  /**
+   * 如果任务失败，且可以重试，提交的时候会使用此 API
+   */
+  reSubmitApi?: SchemaApi;
+
+  /**
+   * 备注列说明
+   * @default 备注
+   */
+  remarkLabel?: string;
+
+  /**
+   * 配置容器重试按钮 className
+   * @default btn-sm btn-danger
+   */
+  retryBtnClassName?: SchemaClassName;
+
+  /**
+   * 重试操作按钮文字
+   * @default 重试
+   */
+  retryBtnText?: string;
+
+  /**
+   * 状态列说明
+   * @default 状态
+   */
+  statusLabel?: string;
+
+  /**
+   * 状态显示对应的类名配置。
+   * @default [ "label-warning", "label-info", "label-success", "label-danger", "label-default", "label-danger" ]
+   */
+  statusLabelMap?: Array<string>;
+
+  /**
+   * 状态显示对应的文字显示配置。
+   * @default ["未开始", "就绪", "进行中", "出错", "已完成", "出错"],
+   */
+  statusTextMap?: Array<string>;
+
+  /**
+   * 提交任务使用的 API
+   */
+  submitApi?: SchemaApi;
+
+  /**
+   * 配置 table className
+   */
+  tableClassName?: SchemaClassName;
+
+  /**
+   * 任务名称列说明
+   * @default 任务名称
+   */
+  taskNameLabel?: string;
+
+  initialStatusCode?: number;
+  readyStatusCode?: number;
+  loadingStatusCode?: number;
+  canRetryStatusCode?: number;
+  finishStatusCode?: number;
+  errorStatusCode?: number;
 }
+
+export interface TaskProps extends RendererProps, TasksSchema {}
 
 export interface TaskItem {
   label?: string;
@@ -138,7 +241,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     }
 
     if (interval && !isEffectiveApi(checkApi)) {
-      return alert('checkApi 没有设置, 不能及时获取任务状态');
+      return env.alert('checkApi 没有设置, 不能及时获取任务状态');
     }
 
     isEffectiveApi(checkApi, data) &&
@@ -151,7 +254,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
 
   handleLoaded(ret: Payload) {
     if (!Array.isArray(ret.data)) {
-      return alert(
+      return this.props.env.alert(
         '返回格式不正确, 期望 response.data 为数组, 包含每个 task 的状态信息'
       );
     }
@@ -176,9 +279,9 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     } = this.props;
 
     if (!retry && !isEffectiveApi(submitApi)) {
-      return alert('submitApi 没有配置');
+      return env.alert('submitApi 没有配置');
     } else if (retry && !isEffectiveApi(reSubmitApi)) {
-      return alert('reSubmitApi 没有配置');
+      return env.alert('reSubmitApi 没有配置');
     }
 
     this.setState(
@@ -211,11 +314,11 @@ export default class Task extends React.Component<TaskProps, TaskState> {
             if (Array.isArray(ret.data)) {
               this.handleLoaded(ret);
             } else {
-              let replace = api && (api as ApiObject).replaceData;
+              let replace = api && (api as any).replaceData;
               const items = this.state.items.map(item =>
                 item.key === ret.data.key
                   ? {
-                      ...((api as ApiObject).replaceData ? {} : item),
+                      ...((api as any).replaceData ? {} : item),
                       ...ret.data
                     }
                   : item

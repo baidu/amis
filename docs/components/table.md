@@ -471,6 +471,35 @@ order: 67
 }
 ```
 
+可以结合 truncate 用来优化表格中的长内容展示，比如默认只展示 20 个字符，剩下的点击查看更多出现。
+
+```schema:height="600" scope="body"
+{
+    "type": "crud",
+    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "type": "tpl",
+            "name": "engine",
+            "label": "Rendering engine",
+            "tpl": "${engine|truncate:2}",
+            "popOver": {
+                "body": {
+                    "type": "tpl",
+                    "tpl": "${engine}"
+                }
+            }
+        }
+    ]
+}
+```
+
+> 示例内容没那么长，直接配置成 2 个字符了。
+
 ### 表头样式
 
 可以配置`"isHead": true`，来让当前列以表头的样式展示。应用场景是：

@@ -16,6 +16,7 @@ const mapping: {
   'mobx': __moduleId('mobx'),
   'mobx-state-tree': __moduleId('mobx-state-tree'),
   'react-transition-group': __moduleId('react-transition-group'),
+  'papaparse': __moduleId('papaparse'),
   'echarts': __moduleId('echarts'),
   'zrender': __moduleId('zrender'),
   'sortablejs': __moduleId('sortablejs'),

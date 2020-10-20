@@ -159,6 +159,7 @@
     padding: $Panel-footerPadding;
     border-style: solid;
     border-width: $Panel-borderWidth 0 0 0;
+    clear: both;
 
     .#{$ns}Button + .#{$ns}Button {
       margin-left: $Panel-footerButtomMarginLeft;

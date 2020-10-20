@@ -1,8 +1,37 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import {filter} from '../../utils/tpl';
 import NumberInput from '../../components/NumberInput';
+import {FormOptionsControl} from './Options';
+
+/**
+ * 数字输入框
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/number
+ */
+export interface NumberControlSchema extends FormBaseControl {
+  type: 'number';
+
+  /**
+   * 最大值
+   */
+  max?: number;
+
+  /**
+   * 最小值
+   */
+  min?: number;
+
+  /**
+   * 步长
+   */
+  step?: number;
+
+  /**
+   * 精度
+   */
+  precision?: number;
+}
 
 export interface NumberProps extends FormControlProps {
   placeholder?: string;

@@ -18,7 +18,6 @@ function loadEditor() {
 export default function (schema) {
   if (!schema['$schema']) {
     schema = {
-      $schema: 'https://houtai.baidu.com/v2/schemas/page.json',
       ...schema
     };
   }
@@ -156,9 +155,25 @@ export default function (schema) {
       }
 
       handleEditorMount(editor, monaco) {
+        let host = `${window.location.protocol}//${window.location.host}`;
+
+        // 如果在 gh-pages 里面
+        if (/^\/amis/.test(window.location.pathname)) {
+          host += '/amis';
+        }
+
+        const schemaUrl = `${host}/schema.json`;
+
         monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+          schemas: [
+            {
+              uri: schemaUrl,
+              fileMatch: ['*']
+            }
+          ],
+          validate: true,
           enableSchemaRequest: true,
-          validate: true
+          allowComments: true
         });
       }
 

@@ -1,7 +1,33 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import Switch from '../../components/Switch';
+
+/**
+ * Switch
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/switch
+ */
+export interface SwitchControlSchema extends FormBaseControl {
+  /**
+   * 指定为多行文本输入框
+   */
+  type: 'switch';
+
+  /**
+   * 勾选值
+   */
+  trueValue?: any;
+
+  /**
+   * 未勾选值
+   */
+  falseValue?: any;
+
+  /**
+   * 选项说明
+   */
+  option?: string;
+}
 
 export interface SwitchProps extends FormControlProps {
   option?: string;

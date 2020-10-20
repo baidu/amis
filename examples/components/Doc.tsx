@@ -32,6 +32,15 @@ export const docs = [
           require(['../../docs/start/custom.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
+      },
+
+      {
+        label: '常见问题',
+        path: '/docs/start/faq',
+        getComponent: (location, cb) =>
+          require(['../../docs/start/faq.md'], doc => {
+            cb(null, makeMarkdownRenderer(doc));
+          })
       }
 
       // {
@@ -142,6 +151,14 @@ export const docs = [
         path: '/docs/types/api',
         getComponent: (location, cb) =>
           require(['../../docs/types/api.md'], doc => {
+            cb(null, makeMarkdownRenderer(doc));
+          })
+      },
+      {
+        label: 'Definitions',
+        path: '/docs/types/definitions',
+        getComponent: (location, cb) =>
+          require(['../../docs/types/definitions.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       }
@@ -321,7 +338,7 @@ export const docs = [
               })
           },
           {
-            label: 'Editor 编辑器',
+            label: 'Editor 代码编辑器',
             path: '/docs/components/form/editor',
             getComponent: (location, cb) =>
               require(['../../docs/components/form/editor.md'], doc => {

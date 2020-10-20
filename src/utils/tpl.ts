@@ -1,6 +1,6 @@
-import {createObject} from './helper';
-import {register as registerBulitin, getFilters} from './tpl-builtin';
-import {register as registerLodash} from './tpl-lodash';
+import { createObject } from './helper';
+import { register as registerBulitin, getFilters } from './tpl-builtin';
+import { register as registerLodash } from './tpl-lodash';
 
 export interface Enginer {
   test: (tpl: string) => boolean;
@@ -11,11 +11,9 @@ const enginers: {
   [propName: string]: Enginer;
 } = {};
 
-export function reigsterTplEnginer(name: string, enginer: Enginer) {
+export function registerTplEnginer(name: string, enginer: Enginer) {
   enginers[name] = enginer;
 }
-
-[registerBulitin, registerLodash].forEach(fn => fn());
 
 export function filter(
   tpl?: string,
@@ -103,3 +101,12 @@ export function evalJS(js: string, data: object): any {
     return null;
   }
 }
+
+[registerBulitin, registerLodash].forEach(fn => {
+  const info = fn();
+
+  registerTplEnginer(info.name, {
+    test: info.test,
+    compile: info.compile
+  });
+});

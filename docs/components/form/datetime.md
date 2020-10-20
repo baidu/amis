@@ -28,7 +28,7 @@ order: 14
 
 选中任意日期时间，可以看到默认显示日期的格式是像`2020-04-14 12:20:10`这样的格式，如果你想要自定义显示格式，那么可以配置`inputFormat`。
 
-例如你想显示`2020年04月14日 12时20分10秒`这样的格式，查找 moment 文档可知配置格式应为 `YYYY年MM月DD日 HH时mm分ss秒`，即：
+例如你想显示`2020年04月14日 12时20分10秒`这样的格式，查找 [moment 文档](https://momentjs.com/docs/#/displaying/format/) 可知配置格式应为 `YYYY年MM月DD日 HH时mm分ss秒`，即：
 
 ```schema:height="500" scope="body"
 {
@@ -68,7 +68,7 @@ order: 14
 
 如果你想要其他格式的日期值，，那么可以配置`format`参数用于调整表单项的值格式。
 
-例如你调整值为`2020-04-14 12:20:10`这样的格式，查找 moment 文档可知配置格式应为 `YYYY-MM-DD HH:mm:ss`，即：
+例如你调整值为`2020-04-14 12:20:10`这样的格式，查找 [moment 文档](https://momentjs.com/docs/#/displaying/format/) 可知配置格式应为 `YYYY-MM-DD HH:mm:ss`，即：
 
 ```schema:height="500" scope="body"
 {
@@ -278,15 +278,15 @@ order: 14
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名          | 类型      | 默认值                 | 说明                                                                                    |
-| --------------- | --------- | ---------------------- | --------------------------------------------------------------------------------------- |
-| value           | `string`  |                        | [默认值](./datetime#%E9%BB%98%E8%AE%A4%E5%80%BC)                                        |
-| format          | `string`  | `X`                    | 日期时间选择器值格式，更多格式类型请参考 [moment](http://momentjs.com/)                 |
-| inputFormat     | `string`  | `YYYY-MM-DD HH:mm:ss`  | 日期时间选择器显示格式，即时间戳格式，更多格式类型请参考 [moment](http://momentjs.com/) |
-| placeholder     | `string`  | `"请选择日期以及时间"` | 占位文本                                                                                |
-| shortcuts       | `string`  |                        | 日期时间快捷键                                                                          |
-| minDate         | `string`  |                        | 限制最小日期时间                                                                        |
-| maxDate         | `string`  |                        | 限制最大日期时间                                                                        |
-| utc             | `boolean` | `false`                | 保存 utc 值                                                                             |
-| clearable       | `boolean` | `true`                 | 是否可清除                                                                              |
-| timeConstrainst | `object`  | `true`                 | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)               |
+| 属性名          | 类型      | 默认值                 | 说明                                                                                                            |
+| --------------- | --------- | ---------------------- | --------------------------------------------------------------------------------------------------------------- |
+| value           | `string`  |                        | [默认值](./datetime#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
+| format          | `string`  | `X`                    | 日期时间选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 |
+| inputFormat     | `string`  | `YYYY-MM-DD HH:mm:ss`  | 日期时间选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
+| placeholder     | `string`  | `"请选择日期以及时间"` | 占位文本                                                                                                        |
+| shortcuts       | `string`  |                        | 日期时间快捷键                                                                                                  |
+| minDate         | `string`  |                        | 限制最小日期时间                                                                                                |
+| maxDate         | `string`  |                        | 限制最大日期时间                                                                                                |
+| utc             | `boolean` | `false`                | 保存 utc 值                                                                                                     |
+| clearable       | `boolean` | `true`                 | 是否可清除                                                                                                      |
+| timeConstrainst | `object`  | `true`                 | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                       |

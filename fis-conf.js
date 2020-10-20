@@ -4,8 +4,8 @@
 const path = require('path');
 const fs = require('fs');
 const package = require('./package.json');
-const parserMarkdown = require('./build/md-parser');
-fis.get('project.ignore').push('public/**', 'gh-pages/**', '.*/**');
+const parserMarkdown = require('./scripts/md-parser');
+fis.get('project.ignore').push('public/**', 'gh-pages/**');
 // 配置只编译哪些文件。
 
 const Resource = fis.require('postpackager-loader/lib/resource.js');
@@ -30,12 +30,17 @@ Resource.extend({
 });
 
 fis.set('project.files', [
+  'schema.json',
   'scss/**.scss',
   '/examples/*.html',
   '/examples/*.tpl',
   '/src/**.html',
   'mock/**'
 ]);
+
+fis.match('/schema.json', {
+  release: '/$0'
+});
 
 fis.match('/mock/**', {
   useCompile: false
@@ -308,7 +313,7 @@ if (fis.project.currentMedia() === 'publish') {
   env.get('project.ignore').push('sdk/**');
   env.set('project.files', ['examples/sdk-placeholder.html']);
 
-  env.match('/{examples,scss}/(**)', {
+  env.match('/{examples,scss,src}/(**)', {
     release: '/$1'
   });
 
@@ -349,8 +354,9 @@ if (fis.project.currentMedia() === 'publish') {
     rExt: '.js'
   });
 
-  env.match('/examples/sdk-mod.js', {
-    isMod: false
+  env.match('/examples/mod.js', {
+    isMod: false,
+    optimizer: fis.plugin('uglify-js')
   });
 
   env.match('*.{js,jsx,ts,tsx}', {
@@ -381,8 +387,12 @@ if (fis.project.currentMedia() === 'publish') {
         '!jquery/**',
         '!zrender/**',
         '!echarts/**',
+        '!papaparse/**',
         '!docsearch.js/**',
-        '!monaco-editor/**.css'
+        '!monaco-editor/**.css',
+        '!src/components/RichText.tsx',
+        '!src/components/Tinymce.tsx',
+        '!src/lib/renderers/Form/CityDB.js'
       ],
 
       'rich-text.js': [
@@ -392,6 +402,8 @@ if (fis.project.currentMedia() === 'publish') {
       ],
 
       'tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
+
+      'papaparse.js': ['papaparse/**'],
 
       'charts.js': ['zrender/**', 'echarts/**'],
 
@@ -404,7 +416,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!src/components/RichText.tsx',
         '!jquery/**',
         '!zrender/**',
-        '!echarts/**'
+        '!echarts/**',
+        '!papaparse/**'
       ]
     }),
     postpackager: [
@@ -413,7 +426,7 @@ if (fis.project.currentMedia() === 'publish') {
         resourceType: 'mod'
       }),
 
-      require('./build/embed-packager')
+      require('./scripts/embed-packager')
     ]
   });
 
@@ -564,7 +577,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!tinymce/**',
         '!jquery/**',
         '!zrender/**',
-        '!echarts/**'
+        '!echarts/**',
+        '!papaparse/**'
       ],
       'pkg/rich-text.js': [
         'src/components/RichText.js',
@@ -573,6 +587,7 @@ if (fis.project.currentMedia() === 'publish') {
       ],
       'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
       'pkg/charts.js': ['zrender/**', 'echarts/**'],
+      'pkg/papaparse.js': ['papaparse/**'],
       'pkg/api-mock.js': ['mock/*.ts'],
       'pkg/app.js': [
         '/examples/components/App.tsx',
@@ -583,14 +598,14 @@ if (fis.project.currentMedia() === 'publish') {
         '**.{js,jsx,ts,tsx}',
         '!static/mod.js',
         '!monaco-editor/**',
-        '!echarts/**',
         '!flv.js/**',
         '!hls.js/**',
         '!froala-editor/**',
         '!jquery/**',
         '!src/components/RichText.js',
         '!zrender/**',
-        '!echarts/**'
+        '!echarts/**',
+        '!papaparse/**'
       ],
 
       'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**'],
@@ -683,7 +698,7 @@ if (fis.project.currentMedia() === 'publish') {
     ]
   });
   ghPages.match('*', {
-    domain: 'https://bce.bdstatic.com/fex/amis-gh-pages',
+    domain: '/amis',
     deploy: [
       fis.plugin('skip-packed'),
       fis.plugin('local-deliver', {

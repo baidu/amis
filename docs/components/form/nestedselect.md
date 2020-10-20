@@ -240,4 +240,6 @@ order: 31
 | autoFill         | `object`                          |                      | [自动填充](./options#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85-autofill)                         |
 | cascade          | `boolean`                         | `false`              | 设置 `true`时，当选中父节点时不自动选择子节点。                                             |
 | withChildren     | `boolean`                         | `false`              | 设置 `true`时，选中父节点时，值里面将包含子节点的值，否则只会保留父节点的值。               |
+| searchable       | `boolean`                         | `false`              | 可否搜索                                                                                    |
 | searchPromptText | `string`                          | `"输入内容进行检索"` | 搜索框占位文本                                                                              |
+| multiple         | `boolean`                         | `false`              | 可否多选                                                                                    |

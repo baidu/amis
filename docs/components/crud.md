@@ -17,7 +17,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "columns": [
         {
             "name": "id",
@@ -99,7 +99,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 
 ### 增
 
-其实这个渲染器并不没有包含新增功能，新增功能其实还是依靠其他位置放个弹框表单完成，弹框完事了会自动让页面里面的 CRUD 刷新如：
+其实这个渲染器并没有包含新增功能，新增功能其实还是依靠其他位置放个弹框表单完成，弹框完事了会自动让页面里面的 CRUD 刷新如：
 
 ```schema:height="600" scope="body"
 [
@@ -113,7 +113,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
             "title": "新增表单",
             "body": {
                 "type": "form",
-                "api": "post:/api/sample?waitSeconds=1",
+                "api": "post:/api/sample",
                 "controls": [
                     {
                         "type": "text",
@@ -131,7 +131,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
     },
     {
         "type": "crud",
-        "api": "/api/sample?waitSeconds=1&orderBy=id&orderDir=desc",
+        "api": "/api/sample?orderBy=id&orderDir=desc",
         "columns": [
             {
                 "name": "id",
@@ -171,7 +171,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "/api/sample?waitSeconds=1&orderBy=id&orderDir=desc",
+    "api": "/api/sample?orderBy=id&orderDir=desc",
     "columns": [
         {
             "name": "id",
@@ -195,7 +195,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
                     "actionType": "ajax",
                     "level": "danger",
                     "confirmText": "确认要删除？",
-                    "api": "delete:/api/sample/${id}?waitSeconds=1"
+                    "api": "delete:/api/sample/${id}"
                 }
             ]
         }
@@ -210,7 +210,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "/api/sample?waitSeconds=1&orderBy=id&orderDir=desc",
+    "api": "/api/sample?orderBy=id&orderDir=desc",
     "columns": [
         {
             "name": "id",
@@ -237,7 +237,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
                         "body": {
                             "type": "form",
                             "initApi": "/api/sample/${id}",
-                            "api": "post:/api/sample/${id}?waitSeconds=1",
+                            "api": "post:/api/sample/${id}",
                             "controls": [
                                 {
                                     "type": "text",
@@ -466,7 +466,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema:height="800" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
      "filter": {
         "title": "条件搜索",
         "controls": [
@@ -559,7 +559,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "interval": 3000,
     "columns": [
         {
@@ -603,7 +603,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "columns": [
         {
             "name": "id",
@@ -636,7 +636,7 @@ amis 只负责生成排序组件，并将排序参数传递给接口，而不会
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "columns": [
         {
             "name": "id",
@@ -668,7 +668,7 @@ amis 只负责生成搜索组件，并将搜索参数传递给接口，而不会
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "columns": [
         {
             "name": "id",
@@ -710,7 +710,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "quickSaveApi": "https://houtai.baidu.com/api/sample/bulkUpdate",
     "columns": [
         {
@@ -733,7 +733,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "quickSaveApi": "https://houtai.baidu.com/api/sample/bulkUpdate",
     "columns": [
         {
@@ -765,7 +765,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```schema:height="750" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "quickSaveApi": "https://houtai.baidu.com/api/sample/bulkUpdate",
     "columns": [
         {
@@ -799,7 +799,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```schema:height="750" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "quickSaveItemApi": "https://houtai.baidu.com/api/sample/$id",
     "columns": [
         {
@@ -832,7 +832,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```schema:height="750" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "columns": [
         {
             "name": "id",
@@ -868,7 +868,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "headerToolbar": [
         {
             "type": "tpl",
@@ -943,7 +943,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema:height="700" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "headerToolbar": [],
     "footerToolbar": ["switch-per-page", "pagination"],
     "columns": [
@@ -1074,10 +1074,12 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 在`headerToolbar`或者`footerToolbar`数组中添加`bulkActions`字符串，并且在 crud 上配置`bulkActions`行为按钮数组，可以实现选中表格项并批量操作的功能。
 
+> 需要设置`primaryField`用于标识选中状态，配置当前行数据中的某一**唯一标识字段**，例如`id`，否则可能会出现无法选中的问题
+
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "headerToolbar": [
         "bulkActions"
     ],
@@ -1157,7 +1159,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "headerToolbar": ["statistics"],
     "columns": [
         {
@@ -1195,8 +1197,46 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "headerToolbar": ["load-more"],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+### 导出 CSV
+
+在`headerToolbar`或者`footerToolbar`数组中添加`export-csv`字符串，可以实现点击下载 CSV 的功能，注意这里只包括当前分页的数据，要下载全部数据需要通过后端 API 实现。
+
+```schema:height="600" scope="body"
+{
+    "type": "crud",
+    "api": "https://houtai.baidu.com/api/sample",
+    "headerToolbar": ["export-csv"],
     "columns": [
         {
             "name": "id",
@@ -1233,7 +1273,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema:height="800" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
      "filter": {
         "title": "条件搜索",
         "controls": [
@@ -1284,7 +1324,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "draggable": true,
     "columns": [
         {
@@ -1402,6 +1442,8 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 
 不过，如果你了解 [数据链](../concepts/datascope-and-datachain#%E6%95%B0%E6%8D%AE%E9%93%BE) 的话，在开启同步地址栏时，地址栏中的参数数据会合并到顶层的数据链中，可能会造成一些预期中的问题，例如：会自动给某些同名的表单项设置默认值等。可以手动设置`syncLocation: false`来关闭此特性
 
+> **注意：** 如果需要使用接口联动，需要设置`syncLocation: false`
+
 ## 前端一次性加载
 
 如果你的数据并不是很大，而且后端不方便做分页和条件过滤操作，那么通过配置`loadDataOnce`实现前端一次性加载并支持分页和条件过滤操作
@@ -1409,7 +1451,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "loadDataOnce": true,
     "columns": [
         {
@@ -1446,7 +1488,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 ```schema:height="600" scope="body"
 {
     "type": "crud",
-    "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+    "api": "https://houtai.baidu.com/api/sample",
     "loadDataOnce": true,
     "source": "${rows | filter:engine:match:keywords}",
     "filter":{

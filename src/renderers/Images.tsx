@@ -2,23 +2,88 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import {resolveVariable, isPureVariable} from '../utils/tpl-builtin';
-import Image, {ImageThumbProps} from './Image';
+import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind} from '../utils/helper';
+import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
 
-export interface ImagesProps extends RendererProps {
-  className: string;
-  defaultImage: string;
-  placeholder: string;
-  delimiter: string;
-  thumbMode: 'w-full' | 'h-full' | 'contain' | 'cover';
-  thumbRatio: '1:1' | '4:3' | '16:9';
+/**
+ * 图片集展示控件。
+ * 文档：https://baidu.gitee.io/amis/docs/components/images
+ */
+export interface ImagesSchema extends BaseSchema {
+  /**
+   * 指定为图片集渲染器
+   */
+  type: 'images' | 'static-images';
 
+  /**
+   * 默认图片地址
+   */
+  defaultImage?: SchemaUrlPath;
+
+  /**
+   * 列表为空时显示
+   */
+  placeholder?: string;
+
+  /**
+   * 配置值的连接符
+   * @default ,
+   */
+  delimiter?: string;
+
+  /**
+   * 预览图模式
+   */
+  thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+
+  /**
+   * 预览图比率
+   */
+  thumbRatio?: '1:1' | '4:3' | '16:9';
+
+  /**
+   * 关联字段名，也可以直接配置 src
+   */
   name?: string;
-  value?: any;
+
+  value?: any; // todo 补充 description
   source?: string;
+
+  /**
+   * 图片地址，如果配置了 name，这个属性不用配置。
+   */
   src?: string;
+
+  /**
+   * 大图地址，不设置用 src
+   */
   originalSrc?: string; // 原图
+
+  /**
+   * 是否启动放大功能。
+   */
   enlargeAble?: boolean;
+
+  /**
+   * 是否显示尺寸。
+   */
+  showDimensions?: boolean;
+
+  /**
+   * 外层 CSS 类名
+   */
+  className?: SchemaClassName;
+
+  /**
+   * 列表 CSS 类名
+   */
+  listClassName?: SchemaClassName;
+}
+
+export interface ImagesProps extends RendererProps, Omit<ImagesSchema, 'type'> {
+  delimiter: string;
+
   onEnlarge?: (
     info: ImageThumbProps & {
       list?: Array<
@@ -26,7 +91,6 @@ export interface ImagesProps extends RendererProps {
       >;
     }
   ) => void;
-  showDimensions?: boolean;
 }
 
 export class ImagesField extends React.Component<ImagesProps> {
@@ -41,8 +105,7 @@ export class ImagesField extends React.Component<ImagesProps> {
   > = {
     className: '',
     delimiter: ',',
-    defaultImage:
-      'https://fex.bdstatic.com/n/static/amis/renderers/crud/field/placeholder_cfad9b1.png',
+    defaultImage: imagePlaceholder,
     placehoder: '-',
     thumbMode: 'contain',
     thumbRatio: '1:1'
@@ -90,7 +153,8 @@ export class ImagesField extends React.Component<ImagesProps> {
       delimiter,
       enlargeAble,
       src,
-      originalSrc
+      originalSrc,
+      listClassName
     } = this.props;
 
     let list: any;
@@ -114,7 +178,7 @@ export class ImagesField extends React.Component<ImagesProps> {
     return (
       <div className={cx('ImagesField', className)}>
         {Array.isArray(list) ? (
-          <div className={cx('Images')}>
+          <div className={cx('Images', listClassName)}>
             {list.map((item: any, index: number) => (
               <Image
                 index={index}
@@ -139,12 +203,14 @@ export class ImagesField extends React.Component<ImagesProps> {
             ))}
           </div>
         ) : defaultImage ? (
-          <Image
-            className={cx('Images-item')}
-            src={defaultImage}
-            thumbMode={thumbMode}
-            thumbRatio={thumbRatio}
-          />
+          <div className={cx('Images', listClassName)}>
+            <Image
+              className={cx('Images-item')}
+              src={defaultImage}
+              thumbMode={thumbMode}
+              thumbRatio={thumbRatio}
+            />
+          </div>
         ) : (
           placeholder
         )}
@@ -154,6 +220,7 @@ export class ImagesField extends React.Component<ImagesProps> {
 }
 
 @Renderer({
-  test: /(^|\/)images$/
+  test: /(^|\/)images$/,
+  name: 'images'
 })
 export class ImagesFieldRenderer extends ImagesField {}

@@ -23,6 +23,8 @@ order: 13
 ## 表达式语法
 
 > 表达式语法实际上是 JavaScript 代码，更多 JavaScript 知识查看 [这里](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript)。
+>
+> 表达式中不要使用`${xxx}`语法，这个是数据映射的语法规则，不要搞混淆了！
 
 在 amis 的实现过程中，当正则匹配到某个组件存在`xxxOn`语法的属性名时，会尝试进行下面步骤（以上面配置为例）：
 

@@ -106,16 +106,7 @@ export class Editor extends React.Component<EditorProps, any> {
     this.currentValue = props.value;
   }
 
-  componentWillReceiveProps(nextProps: EditorProps) {
-    if (
-      this.props.options.readOnly !== nextProps.options.readOnly &&
-      this.editor
-    ) {
-      this.editor.updateOptions && this.editor.updateOptions(nextProps.options);
-    }
-  }
-
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: EditorProps) {
     if (this.props.value !== this.currentValue && this.editor) {
       let value = String(this.props.value);
 
@@ -125,9 +116,28 @@ export class Editor extends React.Component<EditorProps, any> {
         } catch (e) {}
       }
 
+      const model = this.editor.getModel();
       this.preventTriggerChangeEvent = true;
-      this.editor.setValue && this.editor.setValue(value);
+      this.editor.pushUndoStop();
+      // pushEditOperations says it expects a cursorComputer, but doesn't seem to need one.
+      model.pushEditOperations(
+        [],
+        [
+          {
+            range: model.getFullModelRange(),
+            text: value
+          }
+        ]
+      );
+      this.editor.pushUndoStop();
       this.preventTriggerChangeEvent = false;
+    }
+
+    if (
+      this.props.options.readOnly !== prevProps.options.readOnly &&
+      this.editor
+    ) {
+      this.editor.updateOptions?.(this.props.options);
     }
   }
 
@@ -140,6 +150,7 @@ export class Editor extends React.Component<EditorProps, any> {
     }
     this.disposes.forEach(({dispose}) => dispose());
     this.disposes = [];
+    this.editor?.dispose();
   }
 
   wrapperRef(ref: any) {
@@ -205,7 +216,8 @@ export class Editor extends React.Component<EditorProps, any> {
     monaco.languages.json?.jsonDefaults.setDiagnosticsOptions({
       enableSchemaRequest: true,
       validate: true,
-      allowComments: true
+      allowComments: true,
+      ...monaco.languages.json?.jsonDefaults.diagnosticsOptions
     });
 
     // After initializing monaco editor

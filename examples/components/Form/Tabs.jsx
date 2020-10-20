@@ -37,37 +37,43 @@ export default {
                     {
                       title: '基本信息',
                       controls: [
-                        [
-                          {
-                            type: 'email',
-                            name: 'email1',
-                            placeholder: '请输入邮箱地址',
-                            label: '邮箱'
-                          },
-                          {
-                            type: 'password',
-                            name: 'password',
-                            placeholder: '密码',
-                            label: false
-                          }
-                        ],
+                        {
+                          type: 'group',
+                          controls: [
+                            {
+                              type: 'email',
+                              name: 'email1',
+                              placeholder: '请输入邮箱地址',
+                              label: '邮箱'
+                            },
+                            {
+                              type: 'password',
+                              name: 'password',
+                              placeholder: '密码',
+                              label: false
+                            }
+                          ]
+                        },
                         {
                           type: 'divider'
                         },
-                        [
-                          {
-                            type: 'email',
-                            name: 'email2',
-                            placeholder: '请输入邮箱地址',
-                            label: '邮箱'
-                          },
-                          {
-                            type: 'checkbox',
-                            name: 'rememberMe',
-                            label: false,
-                            option: '记住我'
-                          }
-                        ]
+                        {
+                          type: 'group',
+                          controls: [
+                            {
+                              type: 'email',
+                              name: 'email2',
+                              placeholder: '请输入邮箱地址',
+                              label: '邮箱'
+                            },
+                            {
+                              type: 'checkbox',
+                              name: 'rememberMe',
+                              label: false,
+                              option: '记住我'
+                            }
+                          ]
+                        }
                       ]
                     },
                     {
@@ -110,37 +116,43 @@ export default {
               title: '基本信息',
               hash: 'tab1',
               controls: [
-                [
-                  {
-                    type: 'email',
-                    name: 'email',
-                    placeholder: '请输入邮箱地址',
-                    label: '邮箱'
-                  },
-                  {
-                    type: 'password',
-                    name: 'password',
-                    placeholder: '密码',
-                    label: false
-                  }
-                ],
+                {
+                  type: 'group',
+                  controls: [
+                    {
+                      type: 'email',
+                      name: 'email',
+                      placeholder: '请输入邮箱地址',
+                      label: '邮箱'
+                    },
+                    {
+                      type: 'password',
+                      name: 'password',
+                      placeholder: '密码',
+                      label: false
+                    }
+                  ]
+                },
                 {
                   type: 'divider'
                 },
-                [
-                  {
-                    type: 'email',
-                    name: 'email2',
-                    placeholder: '请输入邮箱地址',
-                    label: '邮箱'
-                  },
-                  {
-                    type: 'checkbox',
-                    name: 'rememberMe',
-                    label: false,
-                    option: '记住我'
-                  }
-                ]
+                {
+                  type: 'group',
+                  controls: [
+                    {
+                      type: 'email',
+                      name: 'email2',
+                      placeholder: '请输入邮箱地址',
+                      label: '邮箱'
+                    },
+                    {
+                      type: 'checkbox',
+                      name: 'rememberMe',
+                      label: false,
+                      option: '记住我'
+                    }
+                  ]
+                }
               ]
             },
             {

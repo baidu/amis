@@ -10,19 +10,26 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import Button from '../components/Button';
 import {filter} from '../utils/tpl';
 import {Icon} from '../components/icons';
+import {SchemaIcon, SchemaTpl} from '../Schema';
 
-export interface CopyableConfig {}
+export interface SchemaCopyableObject {
+  /**
+   * 可以配置图标
+   */
+  icon?: SchemaIcon;
 
-export interface CopyableConfig {
-  icon?: string;
-  content?: string;
-  [propName: string]: any;
+  /**
+   * 配置复制时的内容模板。
+   */
+  content?: SchemaTpl;
 }
+
+export type SchemaCopyable = boolean | SchemaCopyableObject;
 
 export interface CopyableProps extends RendererProps {
   name?: string;
   label?: string;
-  copyable: boolean | CopyableConfig;
+  copyable: SchemaCopyable;
 }
 
 export const HocCopyable = () => (Component: React.ComponentType<any>): any => {
@@ -45,7 +52,8 @@ export const HocCopyable = () => (Component: React.ComponentType<any>): any => {
 
       if (copyable && !noHoc) {
         const content = filter(
-          (copyable as CopyableConfig).content || '${' + name + ' | raw }',
+          (copyable as SchemaCopyableObject).content ||
+            '${' + name + ' | raw }',
           data
         );
         if (content) {

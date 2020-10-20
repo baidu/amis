@@ -1,19 +1,34 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import {
+  FormItem,
+  FormControlProps,
+  FormBaseControl,
+  FormControlSchema
+} from './Item';
 import {Schema} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import {observer} from 'mobx-react';
-import Combo from './Combo';
+import Combo, {ComboControlSchema} from './Combo';
+import {SchemaApi} from '../../Schema';
 
-export interface ArrayProps extends FormControlProps {
-  placeholder?: string;
-  controls: Array<Schema>;
-  minLength?: number;
-  maxLength?: number;
-  addButtonClassName?: string;
-  items: Schema & {
-    unique?: boolean;
-  };
+/**
+ * Array 数组输入框。 combo 的别名。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/array
+ */
+export interface ArrayControlSchema
+  extends Omit<ComboControlSchema, 'type' | 'controls' | 'conditions'> {
+  /**
+   * 指定为数组输入框类型
+   */
+  type: 'array';
+
+  /**
+   * 成员渲染器配置
+   */
+  items: FormControlSchema;
+}
+
+export interface ArrayProps extends FormControlProps, ArrayControlSchema {
   store: IComboStore;
 }
 

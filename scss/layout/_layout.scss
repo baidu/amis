@@ -9,7 +9,6 @@ body {
 }
 
 .#{$ns}Layout {
-  height: 100%;
   min-height: 100%;
   width: 100%;
   position: relative;
@@ -97,7 +96,7 @@ body {
   }
 
   &-aside {
-    float: left;
+    position: relative;
     background: $Layout-aside-bg;
     color: $Layout-aside-color;
 
@@ -128,11 +127,6 @@ body {
     }
   }
 
-  &-content {
-    height: 100%;
-    @include clearfix();
-  }
-
   // &-content--full {
   //     position: absolute;
   //     top: $Layout-header-height;
@@ -157,10 +151,6 @@ body {
 
   &--noFooter &-body {
     padding-bottom: 0;
-  }
-
-  &-content &-body {
-    float: left;
   }
 
   &-footer {
@@ -192,10 +182,10 @@ body {
 }
 
 @include media-breakpoint-down(sm) {
-  .#{$ns}Layout {
-    // Layout 层没有出现滚动条件，导致移动端无法响应固定顶部/底部效果
-    // overflow-x: hidden;
-  }
+  // .#{$ns}Layout {
+  // Layout 层没有出现滚动条件，导致移动端无法响应固定顶部/底部效果
+  // overflow-x: hidden;
+  // }
 
   .#{$ns}Layout-content {
     transition: transform 0.2s ease;
@@ -244,6 +234,23 @@ body {
 
 @include media-breakpoint-up(md) {
   .#{$ns}Layout {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: stretch;
+
+    &-header,
+    &-footer {
+      width: 100%;
+    }
+
+    &-content,
+    & > &-body {
+      flex-grow: 1;
+      height: 0;
+      position: relative;
+    }
+
     &--boxed {
       width: px2rem(760px);
 
@@ -256,6 +263,7 @@ body {
     &-brandBar,
     &-aside {
       width: $Layout-aside-width;
+      transition: width 0.3s ease;
     }
 
     &-brandBar {
@@ -264,9 +272,9 @@ body {
 
     &--withAside {
       .#{$ns}Layout-headerBar,
-      .#{$ns}Layout-content,
       .#{$ns}Layout-footer {
         margin-left: $Layout-aside-width;
+        transition: margin 0.3s ease;
       }
     }
 
@@ -302,7 +310,6 @@ body {
 
       &.#{$ns}Layout--withAside {
         .#{$ns}Layout-headerBar,
-        .#{$ns}Layout-content,
         .#{$ns}Layout-footer {
           margin-left: $Layout-aside--folded-width;
         }
@@ -336,12 +343,13 @@ body {
         top: $Layout-header-height;
         bottom: 0;
         left: 0;
-        width: $Layout-aside-width - px2rem(1px);
+        width: inherit;
         z-index: $zindex-fixed;
       }
 
       .#{$ns}Layout-asideInner {
-        width: $Layout-aside-width + $scrollbar-width;
+        width: calc(100% + 17px);
+
         position: relative;
         height: 100%;
         overflow-x: hidden;
@@ -353,11 +361,7 @@ body {
         }
 
         &::-webkit-scrollbar:vertical {
-          width: $scrollbar-width;
-        }
-
-        & > * {
-          width: $Layout-aside-width;
+          width: 17px;
         }
       }
     }
@@ -373,19 +377,14 @@ body {
 
       .#{$ns}Layout-asideWrap {
         overflow: visible;
-        position: relative;
-        top: 0;
+        // position: relative;
+        // top: 0;
         z-index: 15;
-        width: $Layout-aside--folded-width - px2rem(1px);
       }
 
       .#{$ns}Layout-asideInner {
         overflow: visible;
-        width: $Layout-aside--folded-width + $scrollbar-width;
-
-        > * {
-          width: $Layout-aside--folded-width;
-        }
+        padding-right: 17px;
       }
     }
 
@@ -395,28 +394,6 @@ body {
       .#{$ns}Layout-aside {
         width: $Layout-aside--sm-width;
       }
-
-      &.#{$ns}Layout--withAside {
-        .#{$ns}Layout-headerBar,
-        .#{$ns}Layout-content,
-        .#{$ns}Layout-footer {
-          margin-left: $Layout-aside--sm-width;
-        }
-      }
-
-      &.#{$ns}Layout--asideFixed {
-        .#{$ns}Layout-asideWrap {
-          width: $Layout-aside--sm-width - px2rem(1px);
-        }
-
-        .#{$ns}Layout-asideInner {
-          width: $Layout-aside--sm-width + $scrollbar-width;
-
-          & > * {
-            width: $Layout-aside--sm-width;
-          }
-        }
-      }
     }
 
     &--md:not(.#{$ns}Layout--folded) {
@@ -425,28 +402,6 @@ body {
       .#{$ns}Layout-aside {
         width: $Layout-aside--md-width;
       }
-
-      &.#{$ns}Layout--withAside {
-        .#{$ns}Layout-headerBar,
-        .#{$ns}Layout-content,
-        .#{$ns}Layout-footer {
-          margin-left: $Layout-aside--md-width;
-        }
-      }
-
-      &.#{$ns}Layout--asideFixed {
-        .#{$ns}Layout-asideWrap {
-          width: $Layout-aside--md-width - px2rem(1px);
-        }
-
-        .#{$ns}Layout-asideInner {
-          width: $Layout-aside--md-width + $scrollbar-width;
-
-          & > * {
-            width: $Layout-aside--md-width;
-          }
-        }
-      }
     }
 
     &--lg:not(.#{$ns}Layout--folded) {
@@ -454,28 +409,6 @@ body {
       .#{$ns}Layout-brandBar,
       .#{$ns}Layout-aside {
         width: $Layout-aside--lg-width;
-      }
-
-      &.#{$ns}Layout--withAside {
-        .#{$ns}Layout-headerBar,
-        .#{$ns}Layout-content,
-        .#{$ns}Layout-footer {
-          margin-left: $Layout-aside--lg-width;
-        }
-      }
-
-      &.#{$ns}Layout--asideFixed {
-        .#{$ns}Layout-asideWrap {
-          width: $Layout-aside--lg-width - px2rem(1px);
-        }
-
-        .#{$ns}Layout-asideInner {
-          width: $Layout-aside--lg-width + $scrollbar-width;
-
-          & > * {
-            width: $Layout-aside--lg-width;
-          }
-        }
       }
     }
   }

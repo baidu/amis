@@ -5,8 +5,6 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
-import {classPrefix, classnames} from '../themes/default';
 import {ClassNamesFn, themeable} from '../theme';
 
 export interface HtmlProps {
@@ -55,12 +53,21 @@ export class Html extends React.Component<HtmlProps> {
   }
 
   render() {
-    const {className, wrapperComponent, inline, classPrefix: ns} = this.props;
+    const {
+      className,
+      wrapperComponent,
+      inline,
+      classPrefix: ns,
+      classnames: cx
+    } = this.props;
 
     const Component = wrapperComponent || (inline ? 'span' : 'div');
 
     return (
-      <Component ref={this.htmlRef} className={cx(`${ns}Html`, className)} />
+      <Component
+        ref={this.htmlRef}
+        className={cx(`Html`, className)}
+      ></Component>
     );
   }
 }

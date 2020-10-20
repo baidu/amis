@@ -1,22 +1,61 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
-import db, {province, city, district} from './CityDB';
-import {ClassNamesFn, themeable} from '../../theme';
-import {Select} from '../../components';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {ClassNamesFn, themeable, ThemeProps} from '../../theme';
+import {Select, Spinner} from '../../components';
 import {autobind} from '../../utils/helper';
 import {Option} from './Options';
 import {localeable, LocaleProps} from '../../locale';
 
-export interface CityPickerProps extends LocaleProps {
+/**
+ * City 城市选择框。
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/city
+ */
+export interface CityControlSchema extends FormBaseControl {
+  /**
+   * 指定为城市选择框。
+   */
+  type: 'city';
+
+  /**
+   * 开启后只会存城市的 code 信息
+   */
+  extractValue?: boolean;
+
+  /**
+   * 是否将各个信息拼接成字符串。
+   */
+  joinValues?: boolean;
+
+  /**
+   * 拼接的符号是啥？
+   */
+  delimiter?: string;
+
+  /**
+   * 允许选择城市？
+   */
+  allowCity?: boolean;
+
+  /**
+   * 允许选择地区？
+   */
+  allowDistrict?: boolean;
+
+  /**
+   * 允许选择街道？
+   */
+  allowStreet?: boolean;
+}
+
+export interface CityPickerProps
+  extends Omit<CityControlSchema, 'type'>,
+    LocaleProps,
+    ThemeProps {
   value: any;
   onChange: (value: any) => void;
+
   extractValue: boolean;
-  joinValues?: boolean;
   delimiter: string;
-  classnames: ClassNamesFn;
-  classPrefix: string;
-  className?: string;
-  disabled?: boolean;
   allowCity: boolean;
   allowDistrict: boolean;
   allowStreet: boolean;
@@ -31,6 +70,21 @@ export interface CityPickerState {
   district: string;
   districtCode: number;
   street: string;
+
+  db?: {
+    province: Array<string>;
+    city: {
+      [propName: number]: Array<number>;
+    };
+    district: {
+      [propName: number]:
+        | {
+            [propName: number]: Array<number>;
+          }
+        | Array<number>;
+    };
+    [propName: string]: any;
+  };
 }
 
 export class CityPicker extends React.Component<
@@ -46,7 +100,7 @@ export class CityPicker extends React.Component<
     allowStreet: false
   };
 
-  state = {
+  state: CityPickerState = {
     code: 0,
     province: '',
     provinceCode: 0,
@@ -58,15 +112,36 @@ export class CityPicker extends React.Component<
   };
 
   componentDidMount() {
-    this.syncIn();
+    this.loadDb(() => this.syncIn());
   }
 
   componentDidUpdate(prevProps: CityPickerProps) {
     const props = this.props;
 
     if (props.value !== prevProps.value) {
-      this.syncIn(props);
+      this.loadDb(() => this.syncIn(props));
     }
+  }
+
+  loadDb(callback?: () => void) {
+    if (this.state.db) {
+      callback?.();
+      return;
+    }
+
+    (require as any)(['./CityDB'], (db: any) =>
+      this.setState(
+        {
+          db: {
+            ...db.default,
+            province: db.province,
+            city: db.city,
+            district: db.district
+          }
+        },
+        callback
+      )
+    );
   }
 
   @autobind
@@ -138,7 +213,12 @@ export class CityPicker extends React.Component<
 
   @autobind
   syncIn(props = this.props) {
+    const db = this.state.db!;
     const {value, delimiter} = props;
+
+    if (!db) {
+      return;
+    }
 
     const state = {
       code: 0,
@@ -231,13 +311,13 @@ export class CityPicker extends React.Component<
       translate: __
     } = this.props;
 
-    const {provinceCode, cityCode, districtCode, street} = this.state;
+    const {provinceCode, cityCode, districtCode, street, db} = this.state;
 
-    return (
+    return db ? (
       <div className={cx('CityPicker', className)}>
         <Select
           disabled={disabled}
-          options={province.map(item => ({
+          options={db.province.map(item => ({
             label: db[item],
             value: item
           }))}
@@ -247,20 +327,22 @@ export class CityPicker extends React.Component<
 
         {provinceCode &&
         allowDistrict &&
-        Array.isArray(district[provinceCode]) ? (
+        Array.isArray(db.district[provinceCode]) ? (
           <Select
             disabled={disabled}
-            options={(district[provinceCode] as Array<number>).map(item => ({
+            options={(db.district[provinceCode] as Array<number>).map(item => ({
               label: db[item],
               value: item
             }))}
             value={districtCode}
             onChange={this.handleDistrictChange}
           />
-        ) : allowCity && city[provinceCode] && city[provinceCode].length ? (
+        ) : allowCity &&
+          db.city[provinceCode] &&
+          db.city[provinceCode].length ? (
           <Select
             disabled={disabled}
-            options={city[provinceCode].map(item => ({
+            options={db.city[provinceCode].map(item => ({
               label: db[item],
               value: item
             }))}
@@ -271,11 +353,11 @@ export class CityPicker extends React.Component<
 
         {cityCode &&
         allowDistrict &&
-        district[provinceCode] &&
-        district[provinceCode][cityCode] ? (
+        db.district[provinceCode] &&
+        db.district[provinceCode][cityCode] ? (
           <Select
             disabled={disabled}
-            options={(district[provinceCode][cityCode] as Array<number>).map(
+            options={(db.district[provinceCode][cityCode] as Array<number>).map(
               item => ({
                 label: db[item],
                 value: item
@@ -296,6 +378,8 @@ export class CityPicker extends React.Component<
           />
         ) : null}
       </div>
+    ) : (
+      <Spinner show size="sm" />
     );
   }
 }

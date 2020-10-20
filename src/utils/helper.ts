@@ -1,7 +1,5 @@
 import isPlainObject from 'lodash/isPlainObject';
-import transform from 'lodash/transform';
 import isEqual from 'lodash/isEqual';
-import lodashIsObject from 'lodash/isObject';
 import uniq from 'lodash/uniq';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
@@ -282,8 +280,24 @@ export function isObjectShallowModified(
   next: any,
   strictMode: boolean = true,
   ignoreUndefined: boolean = false
-) {
-  if (null == prev || null == next || !isObject(prev) || !isObject(next)) {
+): boolean {
+  if (Array.isArray(prev) && Array.isArray(next)) {
+    return prev.length !== next.length
+      ? true
+      : prev.some((prev, index) =>
+          isObjectShallowModified(
+            prev,
+            next[index],
+            strictMode,
+            ignoreUndefined
+          )
+        );
+  } else if (
+    null == prev ||
+    null == next ||
+    !isObject(prev) ||
+    !isObject(next)
+  ) {
     return strictMode ? prev !== next : prev != next;
   }
 
@@ -296,7 +310,7 @@ export function isObjectShallowModified(
   const nextKeys = Object.keys(next);
   if (
     keys.length !== nextKeys.length ||
-    keys.join(',') !== nextKeys.join(',')
+    keys.sort().join(',') !== nextKeys.sort().join(',')
   ) {
     return true;
   }
@@ -408,7 +422,7 @@ export function isVisible(
 export function isDisabled(
   schema: {
     disabledOn?: string;
-    disabled?: string;
+    disabled?: boolean;
   },
   data?: object
 ) {
@@ -530,36 +544,37 @@ export function difference<
   U extends {[propName: string]: any}
 >(object: T, base: U, keepProps?: Array<string>): {[propName: string]: any} {
   function changes(object: T, base: U) {
-    const keys: Array<keyof T & keyof U> = uniq(
-      Object.keys(object).concat(Object.keys(base))
-    );
-    let result: any = {};
+    if (isPlainObject(object) && isPlainObject(base)) {
+      const keys: Array<keyof T & keyof U> = uniq(
+        Object.keys(object).concat(Object.keys(base))
+      );
+      let result: any = {};
 
-    keys.forEach(key => {
-      const a: any = object[key as keyof T];
-      const b: any = base[key as keyof U];
+      keys.forEach(key => {
+        const a: any = object[key as keyof T];
+        const b: any = base[key as keyof U];
 
-      if (keepProps && ~keepProps.indexOf(key as string)) {
-        result[key] = a;
-      }
+        if (keepProps && ~keepProps.indexOf(key as string)) {
+          result[key] = a;
+        }
 
-      if (isEqual(a, b)) {
-        return;
-      }
+        if (isEqual(a, b)) {
+          return;
+        }
 
-      if (!object.hasOwnProperty(key)) {
-        result[key] = undefined;
-      } else if (Array.isArray(a) && Array.isArray(b)) {
-        // todo 数组要不要深入分析？我看先别了。
-        result[key] = a;
-      } else if (lodashIsObject(a) && lodashIsObject(b)) {
-        result[key] = changes(a as any, b as any);
-      } else {
-        result[key] = a;
-      }
-    });
+        if (!object.hasOwnProperty(key)) {
+          result[key] = undefined;
+        } else if (Array.isArray(a) && Array.isArray(b)) {
+          result[key] = a;
+        } else {
+          result[key] = changes(a as any, b as any);
+        }
+      });
 
-    return result;
+      return result;
+    } else {
+      return object;
+    }
   }
   return changes(object, base);
 }
@@ -1153,18 +1168,20 @@ export function object2formData(
   },
   fd: FormData = new FormData()
 ): any {
+  let fileObjects: any = [];
   let others: any = {};
+
   Object.keys(data).forEach(key => {
     const value = data[key];
 
     if (value instanceof File) {
-      fd.append(key, value, value.name);
+      fileObjects.push([key, value]);
     } else if (
       Array.isArray(value) &&
       value.length &&
       value[0] instanceof File
     ) {
-      value.forEach(value => fd.append(`${key}[]`, value, value.name));
+      value.forEach(value => fileObjects.push([`${key}[]`, value]));
     } else {
       others[key] = value;
     }
@@ -1178,6 +1195,12 @@ export function object2formData(
       // form-data/multipart 是不需要 encode 值的。
       parts[0] && fd.append(parts[0], decodeURIComponent(parts[1]));
     });
+
+  // Note: File类型字段放在后面，可以支持第三方云存储鉴权
+  fileObjects.forEach((fileObject: any[]) =>
+    fd.append(fileObject[0], fileObject[1], fileObject[1].name)
+  );
+
   return fd;
 }
 

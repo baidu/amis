@@ -222,6 +222,62 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 更多内容查看[Dialog 文档](./dialog#feedback-%E5%8F%8D%E9%A6%88%E5%BC%B9%E6%A1%86)
 
+### 请求成功后，刷新目标组件
+
+1. 目标组件需要配置 `name` 属性
+2. Action 上添加 `"reload": "xxx"`，`xxx` 为目标组件的 `name` 属性值，如果配置多个组件，`name` 用逗号分隔
+
+```schema:height="700"
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "button",
+      "label": "ajax 请求",
+      "actionType": "ajax",
+      "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+      "reload": "crud"
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "crud",
+      "name": "crud",
+      "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+      "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+      ]
+    }
+  ]
+}
+```
+
+> 配置 `"reload": "window"` 可刷新当前页面
+
 ### 自定义 toast 文字
 
 可以通过配置`messages`，自定义接口返回`toast`信息

@@ -22,3 +22,5 @@ done
 cd ..
 
 rm -rf output
+
+npm run build-schemas

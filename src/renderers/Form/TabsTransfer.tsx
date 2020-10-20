@@ -1,17 +1,51 @@
-import {OptionsControlProps, OptionsControl} from './Options';
+import {
+  OptionsControlProps,
+  OptionsControl,
+  FormOptionsControl
+} from './Options';
 import React from 'react';
 import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
 import {BaseTransferRenderer} from './Transfer';
 import TabsTransfer from '../../components/TabsTransfer';
+import {SchemaApi} from '../../Schema';
 
-export interface TabsTransferProps extends OptionsControlProps {
+/**
+ * TabsTransfer
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer
+ */
+export interface TabsTransferControlSchema extends FormOptionsControl {
+  type: 'tabs-transfer';
+
+  /**
+   * 是否显示剪头
+   */
   showArrow?: boolean;
+
+  /**
+   * 可排序？
+   */
   sortable?: boolean;
+
+  /**
+   * 搜索结果展示模式
+   */
   searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
+
+  /**
+   * 可搜索？
+   */
   searchable?: boolean;
-  searchApi?: Api;
+
+  /**
+   * 搜索 API
+   */
+  searchApi?: SchemaApi;
 }
+
+export interface TabsTransferProps
+  extends OptionsControlProps,
+    Omit<TabsTransferControlSchema, 'type' | 'options'> {}
 
 @OptionsControl({
   type: 'tabs-transfer'
@@ -30,13 +64,15 @@ export class TabsTransferRenderer extends BaseTransferRenderer<
       searchable,
       searchResultMode,
       showArrow,
-      deferLoad
+      deferLoad,
+      disabled
     } = this.props;
 
     return (
       <div className={cx('TabsTransferControl', className)}>
         <TabsTransfer
           value={selectedOptions}
+          disabled={disabled}
           options={options}
           onChange={this.handleChange}
           option2value={this.option2value}

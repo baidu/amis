@@ -20,9 +20,9 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
 export class QueryBuilder extends React.Component<ConditionBuilderProps> {
   config = defaultConfig;
 
-  dragTarget: HTMLElement;
+  dragTarget?: HTMLElement;
   // dragNextSibling: Element | null;
-  ghost: HTMLElement;
+  ghost?: HTMLElement;
   host: HTMLElement;
   lastX: number;
   lastY: number;
@@ -105,8 +105,8 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
 
     const idx = children.indexOf(item);
 
-    if (this.ghost.parentElement !== container) {
-      container.appendChild(this.ghost);
+    if (this.ghost!.parentElement !== container) {
+      container.appendChild(this.ghost!);
     }
 
     const rect = item.getBoundingClientRect();
@@ -118,9 +118,9 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
       animtion.capture(container);
 
       if (gIdx === children.length - 1) {
-        container.appendChild(this.ghost);
+        container.appendChild(this.ghost!);
       } else {
-        container.insertBefore(this.ghost, children[gIdx + 1]);
+        container.insertBefore(this.ghost!, children[gIdx + 1]);
       }
 
       animtion.animateAll();
@@ -130,9 +130,9 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
   @autobind
   handleDragDrop() {
     const onChange = this.props.onChange;
-    const fromId = this.dragTarget.getAttribute('data-id')!;
+    const fromId = this.dragTarget!.getAttribute('data-id')!;
     const toId = this.host.getAttribute('data-group-id')!;
-    const children = [].slice.call(this.ghost.parentElement!.children);
+    const children = [].slice.call(this.ghost!.parentElement!.children);
     const idx = children.indexOf(this.dragTarget);
 
     if (~idx) {
@@ -165,7 +165,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
     document.body.removeEventListener('dragover', this.handleDragOver);
     document.body.removeEventListener('drop', this.handleDragDrop);
 
-    this.dragTarget.classList.remove('is-dragging');
+    this.dragTarget!.classList.remove('is-dragging');
     // if (this.dragNextSibling) {
     //   this.dragTarget.parentElement!.insertBefore(
     //     this.dragTarget,
@@ -176,7 +176,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
     // }
     delete this.dragTarget;
     // delete this.dragNextSibling;
-    this.ghost.parentElement?.removeChild(this.ghost);
+    this.ghost!.parentElement?.removeChild(this.ghost!);
     delete this.ghost;
   }
 

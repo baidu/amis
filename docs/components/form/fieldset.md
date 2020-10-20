@@ -42,7 +42,7 @@ FieldSet 是用于分组展示表单项的一种容器型组件。
 
 ## 展示模式
 
-可以通过设置`mode`调整展示模式，用法同 [Form 展示模式](../form/index#%E8%A1%A8%E5%8D%95%E5%B1%95%E7%A4%BA)
+可以通过设置`mode`调整展示模式，用法同 [Form 展示模式](./index#%E8%A1%A8%E5%8D%95%E5%B1%95%E7%A4%BA)
 
 下面`group`我们配置了`"mode": "horizontal"`，观察显示情况
 
@@ -145,13 +145,13 @@ FieldSet 是用于分组展示表单项的一种容器型组件。
 
 ## 属性表
 
-| 属性名           | 类型                                 | 默认值  | 说明                                       |
-| ---------------- | ------------------------------------ | ------- | ------------------------------------------ |
-| className        | `string`                             |         | CSS 类名                                   |
-| headingClassName | `string`                             |         | 标题 CSS 类名                              |
-| bodyClassName    | `string`                             |         | 内容区域 CSS 类名                          |
-| title            | [SchemaNode](../../types/schemanode) |         | 标题                                       |
-| controls         | Array<[表单项](./formitem)>          |         | 表单项集合                                 |
-| mode             | `string`                             |         | 展示默认，同 [Form](./form/index) 中的模式 |
-| collapsable      | `boolean`                            | `false` | 配置是否可折叠                             |
-| collapsed        | `booelan`                            |         | 展示默认，同 [Form](./form/index) 中的模式 |
+| 属性名           | 类型                                 | 默认值  | 说明                                                                       |
+| ---------------- | ------------------------------------ | ------- | -------------------------------------------------------------------------- |
+| className        | `string`                             |         | CSS 类名                                                                   |
+| headingClassName | `string`                             |         | 标题 CSS 类名                                                              |
+| bodyClassName    | `string`                             |         | 内容区域 CSS 类名                                                          |
+| title            | [SchemaNode](../../types/schemanode) |         | 标题                                                                       |
+| controls         | Array<[表单项](./formitem)>          |         | 表单项集合                                                                 |
+| mode             | `string`                             |         | 展示默认，同 [Form](./index#%E8%A1%A8%E5%8D%95%E5%B1%95%E7%A4%BA) 中的模式 |
+| collapsable      | `boolean`                            | `false` | 是否可折叠                                                                 |
+| collapsed        | `booelan`                            | `false` | 默认是否折叠                                                               |

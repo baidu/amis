@@ -4,7 +4,6 @@ import ListRadios from '../ListRadios';
 import ResultBox from '../ResultBox';
 import {ClassNamesFn, ThemeProps, themeable} from '../../theme';
 import {Icon} from '../icons';
-import {find} from 'lodash';
 import {findTree, noop} from '../../utils/helper';
 
 export interface ConditionFieldProps extends ThemeProps {

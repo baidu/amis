@@ -71,19 +71,20 @@ export default {
             {
               type: 'button',
               label: 'Baidu',
-              href: 'http://www.baidu.com?a=1&b=$test4'
+              actionType: 'url',
+              url: 'http://www.baidu.com?a=1&b=$test4'
             },
             {
               type: 'button',
               actionType: 'ajax',
               label: 'No Submit',
-              action: '/api/mock2/saveForm?waitSeconds=5'
+              api: '/api/mock2/saveForm?waitSeconds=5'
             },
             {
               type: 'submit',
               actionType: 'ajax',
               label: 'Submit',
-              action: '/api/mock2/saveForm?waitSeconds=5'
+              api: '/api/mock2/saveForm?waitSeconds=5'
             }
           ]
         }

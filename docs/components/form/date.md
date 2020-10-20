@@ -1,12 +1,13 @@
 ---
 title: Date 日期
-description: 
+description:
 type: 0
 group: null
 menuName: Date
-icon: 
+icon:
 order: 13
 ---
+
 ## 基本用法
 
 ```schema:height="400" scope="body"
@@ -27,7 +28,7 @@ order: 13
 
 选中任意日期，可以看到默认显示日期的格式是像`2020-04-14`这样的格式，如果你想要自定义显示格式，那么可以配置`inputFormat`。
 
-例如你想显示`2020年04月14日`这样的格式，查找 moment 文档可知配置格式应为 `YYYY年MM月DD日`，即：
+例如你想显示`2020年04月14日`这样的格式，查找 [moment 文档](https://momentjs.com/docs/#/displaying/format/) 可知配置格式应为 `YYYY年MM月DD日`，即：
 
 ```schema:height="400" scope="body"
 {
@@ -67,7 +68,7 @@ order: 13
 
 如果你想要其他格式的日期值，，那么可以配置`format`参数用于调整表单项的值格式。
 
-例如你调整值为`2020-04-14`这样的格式，查找 moment 文档可知配置格式应为 `YYYY-MM-DD`，即：
+例如你调整值为`2020-04-14`这样的格式，查找 [moment 文档](https://momentjs.com/docs/#/displaying/format/) 可知配置格式应为 `YYYY-MM-DD`，即：
 
 ```schema:height="400" scope="body"
 {
@@ -169,7 +170,7 @@ order: 13
         }
     ]
 }
-``` 
+```
 
 ### 支持相对值
 
@@ -253,16 +254,15 @@ order: 13
 - `thisquarter`: 本季度初
 - `tomorrow`: 明天
 - `endofthisweek`: 本周日
-- `endofthismonth`:本月底 
-- `{n}daysago` : n天前，例如：`1daysago`，下面用法相同
-- `{n}dayslater`: n天后
-- `{n}weeksago`: n周前
-- `{n}weekslater`: n周后
-- `{n}monthsago`: n月前
-- `{n}monthslater`: n月后
-- `{n}quartersago`: n季度前
-- `{n}quarterslater`: n季度后
-
+- `endofthismonth`:本月底
+- `{n}daysago` : n 天前，例如：`1daysago`，下面用法相同
+- `{n}dayslater`: n 天后
+- `{n}weeksago`: n 周前
+- `{n}weekslater`: n 周后
+- `{n}monthsago`: n 月前
+- `{n}monthslater`: n 月后
+- `{n}quartersago`: n 季度前
+- `{n}quarterslater`: n 季度后
 
 ## UTC
 
@@ -293,21 +293,16 @@ order: 13
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名          | 类型      | 默认值         | 说明                                                                                |
-| --------------- | --------- | -------------- | ----------------------------------------------------------------------------------- |
-| value           | `string`  |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                        |
-| format          | `string`  | `X`            | 日期选择器值格式，更多格式类型请参考 [moment](http://momentjs.com/)                 |
-| inputFormat     | `string`  | `YYYY-DD-MM`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [moment](http://momentjs.com/) |
-| closeOnSelect   | `boolean` | `false`        | 点选日期后，是否马上关闭选择框                                                      |
-| placeholder     | `string`  | `"请选择日期"` | 占位文本                                                                            |
-| shortcuts       | `string`  |                | 日期快捷键                                                                          |
-| minDate         | `string`  |                | 限制最小日期                                                                        |
-| maxDate         | `string`  |                | 限制最大日期                                                                        |
-| utc             | `boolean` | `false`        | 保存utc值                                                                           |
-| clearable       | `boolean` | `true`         | 是否可清除                                                                          |
-| timeConstrainst | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)           |
-
-
-
-
-
+| 属性名          | 类型      | 默认值         | 说明                                                                                                        |
+| --------------- | --------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
+| value           | `string`  |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
+| format          | `string`  | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 |
+| inputFormat     | `string`  | `YYYY-DD-MM`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
+| closeOnSelect   | `boolean` | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
+| placeholder     | `string`  | `"请选择日期"` | 占位文本                                                                                                    |
+| shortcuts       | `string`  |                | 日期快捷键                                                                                                  |
+| minDate         | `string`  |                | 限制最小日期                                                                                                |
+| maxDate         | `string`  |                | 限制最大日期                                                                                                |
+| utc             | `boolean` | `false`        | 保存 utc 值                                                                                                 |
+| clearable       | `boolean` | `true`         | 是否可清除                                                                                                  |
+| timeConstrainst | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                   |

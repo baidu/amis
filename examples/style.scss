@@ -218,7 +218,13 @@ a {
       width: 120px;
 
       .Doc-search {
-        top: 15px;
+        margin-top: 15px;
+        border: 0;
+
+        > .icon-search {
+          margin-right: 8px;
+          top: 3px;
+        }
       }
 
       &::before {
@@ -529,12 +535,13 @@ a {
   }
 
   > .schema-wrapper {
-    position: relative;
+    padding: 0 35px;
 
     > .a-Page,
     > .cxd-Page,
     > .dark-Page {
-      padding: 0 35px;
+      position: relative;
+      height: 100%;
     }
   }
 }
@@ -712,20 +719,84 @@ a {
   }
 }
 
-.search-result {
-  background-color: #fff;
-  top: 50px;
-  bottom: 0;
-  position: fixed;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  box-shadow: 0px 2px 7px #888888;
-  a {
-    padding: 0 5px;
-    display: block;
+.Doc-searchDrawer {
+  border: 0;
+
+  .a-Drawer-content,
+  .cxd-Drawer-content,
+  .dark-Drawer-content {
+    border: 0;
   }
-  a:hover {
-    background-color: $gray200;
+
+  .a-Drawer-close,
+  .cxd-Drawer-close,
+  .dark-Drawer-close {
+    display: none;
+  }
+
+  .a-Drawer-overlay,
+  .cxd-Drawer-overlay,
+  .dark-Drawer-overlay {
+    background-color: rgba(25, 35, 60, 0.3);
+  }
+
+  .search-bar {
+    padding: 22px 20px;
+    border: 0;
+    border-bottom: 1px solid #e8ebee;
+    border-radius: 0;
+    font-size: 16px;
+    font-weight: 500;
+
+    > .icon-search {
+      margin-right: 10px;
+      top: 1px;
+    }
+  }
+
+  .search-result {
+    // background-color: #fff;
+    top: 65px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    // box-shadow: 0px 2px 7px #888888;
+
+    h4,
+    p {
+      padding: 20px;
+      border-bottom: 1px solid #e8ebee;
+      margin: 0;
+
+      &:hover {
+        background-color: #f5f7f9;
+      }
+    }
+
+    h4 {
+      font-weight: 500;
+      position: relative;
+      color: #000;
+
+      &::before {
+        content: ' ';
+        border-left: 2px solid #108cee;
+        margin-right: 10px;
+      }
+    }
+
+    p {
+      color: #666;
+
+      strong {
+        color: #19233c;
+        background-color: rgba(16, 140, 238, 0.3);
+        font-weight: 700;
+      }
+    }
   }
 }
 

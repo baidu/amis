@@ -1,8 +1,8 @@
-import {reigsterTplEnginer, filter} from './tpl';
 import moment from 'moment';
 import {PlainObject} from '../types';
 import isPlainObject from 'lodash/isPlainObject';
 import {createObject, isObject, setVariable, qsstringify} from './helper';
+import {Enginer} from './tpl';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
@@ -93,7 +93,7 @@ export const filterDate = (
     value = value.trim();
   }
 
-  value = filter(value, data);
+  value = tokenize(value, data);
 
   if (value && typeof value === 'string' && (m = relativeValueRe.exec(value))) {
     const date = new Date();
@@ -212,7 +212,9 @@ export const filters: {
   plus: (input, step = 1) => (parseInt(input, 10) || 0) + parseInt(step, 10),
   pick: (input, path = '&') =>
     Array.isArray(input) && !/^\d+$/.test(path)
-      ? input.map(item => pickValues(path, item))
+      ? input.map((item, index) =>
+          pickValues(path, createObject({index}, item))
+        )
       : pickValues(path, input),
   pick_if_exist: (input, path = '&') =>
     Array.isArray(input)
@@ -419,7 +421,7 @@ export function pickValues(names: string, data: object) {
   return ret;
 }
 
-export const resolveVariable = (path: string, data: any = {}): any => {
+export const resolveVariable = (path?: string, data: any = {}): any => {
   if (!path) {
     return undefined;
   }
@@ -678,10 +680,11 @@ export function dataMapping(to: any, from: PlainObject): any {
   return ret;
 }
 
-export function register() {
-  reigsterTplEnginer('builtin', {
-    test: str => !!~str.indexOf('$'),
+export function register(): Enginer & {name: string} {
+  return {
+    name: 'builtin',
+    test: (str: string) => !!~str.indexOf('$'),
     compile: (str: string, data: object, defaultFilter = '| html') =>
       tokenize(str, data, defaultFilter)
-  });
+  };
 }

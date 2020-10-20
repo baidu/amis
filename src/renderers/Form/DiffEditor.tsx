@@ -1,11 +1,38 @@
 import React from 'react';
 import {Renderer} from '../../factory';
-import {FormItem, FormControlProps} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {filter} from '../../utils/tpl';
 import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
 import debouce from 'lodash/debounce';
 import {isPureVariable} from '../../utils/tpl-builtin';
+import {SchemaTokenizeableString} from '../../Schema';
+
+/**
+ * Diff 编辑器
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/diff
+ */
+export interface DiffControlSchema extends FormBaseControl {
+  /**
+   * 指定为 Diff 编辑器
+   */
+  type: 'diff';
+
+  /**
+   * 左侧面板的值， 支持取变量。
+   */
+  diffValue?: SchemaTokenizeableString;
+
+  /**
+   * 语言，参考 monaco-editor
+   */
+  language?: string;
+
+  /**
+   * 编辑器配置
+   */
+  options?: any;
+}
 
 function loadComponent(): Promise<React.ReactType> {
   return new Promise(resolve =>
@@ -15,11 +42,9 @@ function loadComponent(): Promise<React.ReactType> {
   );
 }
 
-export interface DiffEditorProps extends FormControlProps {
-  options?: object;
-  language?: string;
-  diffValue?: string;
-}
+export interface DiffEditorProps
+  extends FormControlProps,
+    Omit<DiffControlSchema, 'type'> {}
 
 function normalizeValue(value: any, language?: string) {
   if (value && typeof value !== 'string') {
