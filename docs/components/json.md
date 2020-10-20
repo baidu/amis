@@ -188,13 +188,13 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 属性表
 
-| 属性名      | 类型      | 默认值     | 说明                                                                                 |
-| ----------- | --------- | ---------- | ------------------------------------------------------------------------------------ |
-| type        | `string`  |            | 如果在 Table、Card 和 List 中，为`"json"`；在 Form 中用作静态展示，为`"static-json"` |
-| className   | `string`  |            | 外层 CSS 类名                                                                        |
-| value       | `object`  |            | json 值                                                                              |
-| source      | `string`  | `''`       | 通过数据映射获取数据链中的值                                                         |
-| placeholder | `string`  | `-`        | 占位文本                                                                             |
-| levelExpand | `number`  | `1`        | 默认展开的层级                                                                       |
-| hideRoot    | `boolean` | `false`    | 是否隐藏根节点                                                                       |
-| jsonTheme   | `string`  | `twilight` | 主题，可选`twilight`和`eighties`                                                     |
+| 属性名      | 类型              | 默认值     | 说明                                                                                 |
+| ----------- | ----------------- | ---------- | ------------------------------------------------------------------------------------ |
+| type        | `string`          |            | 如果在 Table、Card 和 List 中，为`"json"`；在 Form 中用作静态展示，为`"static-json"` |
+| className   | `string`          |            | 外层 CSS 类名                                                                        |
+| value       | `object`/`string` |            | json 值，如果是 string 会自动 parse                                                  |
+| source      | `string`          | `''`       | 通过数据映射获取数据链中的值                                                         |
+| placeholder | `string`          | `-`        | 占位文本                                                                             |
+| levelExpand | `number`          | `1`        | 默认展开的层级                                                                       |
+| hideRoot    | `boolean`         | `false`    | 是否隐藏根节点                                                                       |
+| jsonTheme   | `string`          | `twilight` | 主题，可选`twilight`和`eighties`                                                     |
