@@ -1,7 +1,7 @@
 import React from 'react';
-import {FormItem, FormControlProps} from './Item';
+import { FormItem, FormControlProps } from './Item';
 import cx from 'classnames';
-import {filterDate} from '../../utils/tpl-builtin';
+import { filterDate } from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
@@ -28,7 +28,7 @@ interface DateControlState {
 export default class DateControl extends React.PureComponent<
   DateProps,
   DateControlState
-> {
+  > {
   static defaultProps = {
     format: 'X',
     viewMode: 'days',
@@ -153,6 +153,21 @@ export class TimeControlRenderer extends DateControl {
     dateFormat: '',
     timeFormat: 'HH:mm',
     viewMode: 'time',
+    closeOnSelect: false
+  };
+}
+
+@FormItem({
+  type: 'months'
+})
+export class MonthControlRenderer extends DateControl {
+  static defaultProps = {
+    ...DateControl.defaultProps,
+    placeholder: '请选择月份',
+    inputFormat: 'MM',
+    dateFormat: 'MM',
+    timeFormat: 'MM',
+    viewMode: 'months',
     closeOnSelect: false
   };
 }

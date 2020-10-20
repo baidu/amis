@@ -120,7 +120,7 @@ export class TimeFieldRenderer extends DateField {
   };
 }
 @Renderer({
-  test: /(^|\/)month$/,
+  test: /(^|\/)months$/,
   name: 'month-field'
 })
 export class MonthFieldRenderer extends DateField {

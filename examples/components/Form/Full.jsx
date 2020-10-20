@@ -578,6 +578,15 @@ export default {
           type: 'divider'
         },
         {
+          type: 'months',
+          name: 'month',
+          inline: true,
+          label: '月份'
+        },
+        {
+          type: 'divider'
+        },
+        {
           type: 'date-range',
           name: 'daterangee',
           inline: true,
