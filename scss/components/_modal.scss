@@ -1,6 +1,9 @@
 .is-modalOpened {
   overflow: hidden;
-  padding-right: px2rem(15px);
+
+  &.has-scrollbar {
+    padding-right: px2rem(15px);
+  }
 
   .#{$ns}Modal {
     overflow-x: hidden;
