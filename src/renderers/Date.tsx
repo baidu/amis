@@ -119,3 +119,13 @@ export class TimeFieldRenderer extends DateField {
     format: 'HH:mm'
   };
 }
+@Renderer({
+  test: /(^|\/)month$/,
+  name: 'month-field'
+})
+export class MonthFieldRenderer extends DateField {
+  static defaultProps: Partial<DateProps> = {
+    ...DateField.defaultProps,
+    format: 'MM'
+  };
+}
