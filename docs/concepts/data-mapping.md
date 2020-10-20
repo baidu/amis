@@ -994,6 +994,47 @@ ${xxx | duration}
 }
 ```
 
+### bytes
+
+字节格式化展示
+
+##### 基本用法
+
+```
+${xxx | bytes}
+```
+
+```schema:height="200"
+{
+  "type": "page",
+  "data": {
+    "bytes1": 2333,
+    "bytes2": 2333333,
+    "bytes3": 2333333333
+  },
+  "body": [
+    {
+        "type": "tpl",
+        "tpl": "bytes1 is ${bytes1|bytes}"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "tpl",
+        "tpl": "bytes2 is ${bytes2|bytes}"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "tpl",
+        "tpl": "bytes3 is ${bytes3|bytes}"
+    }
+  ]
+}
+```
+
 ### asArray
 
 将数据包成数组
