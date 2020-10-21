@@ -84,16 +84,6 @@ export default {
         {
           type: 'divider'
         },
-        
-        {
-          type: 'static-month',
-          label: '月份',
-          value: Math.round(Date.now() / 1000)
-        },
-
-        {
-          type: 'divider'
-        },
 
         {
           type: 'mapping',

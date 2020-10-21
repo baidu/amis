@@ -10,7 +10,7 @@ export interface DateBaseControlSchema extends FormBaseControl {
   /**
    * 指定为日期选择控件
    */
-  type: 'date' | 'datetime' | 'time';
+  type: 'date' | 'datetime' | 'time' | 'month';
 
   /**
    * 是否显示清除按钮
@@ -142,6 +142,41 @@ export interface TimeControlSchema extends DateBaseControlSchema {
    * 时间的格式。
    *
    * @default HH:mm
+   */
+  timeFormat?: string;
+
+  /**
+   * 不记得了
+   */
+  timeConstraints?: any;
+}
+
+/**
+ * Month 月份选择控件
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/Month
+ */
+export interface MonthControlSchema extends DateBaseControlSchema {
+  /**
+   * 指定为月份时间选择控件
+   */
+  type: 'month';
+
+  /**
+   * 月份存储格式
+   * @default X
+   */
+  format?: string;
+
+  /**
+   * 月份展示格式
+   * @default YYYY-MM
+   */
+  inputFormat?: string;
+
+  /**
+   * 月份的格式。
+   *
+   * @default MM
    */
   timeFormat?: string;
 
