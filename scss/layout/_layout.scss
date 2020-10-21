@@ -242,7 +242,7 @@ body {
       width: 100%;
     }
 
-    > &-body {
+    > .#{$ns}Layout-body {
       flex-grow: 1;
       position: relative;
     }
