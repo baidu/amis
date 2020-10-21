@@ -35,6 +35,7 @@ import {ContainerControlSchema} from './Container';
 import {
   DateControlSchema,
   DateTimeControlSchema,
+  MonthControlSchema,
   TimeControlSchema
 } from './Date';
 import {DateRangeControlSchema} from './DateRange';
@@ -95,6 +96,7 @@ export type FormControlType =
   | 'date'
   | 'datetime'
   | 'time'
+  | 'month'
   | 'date-range'
   | 'diff'
 
@@ -204,6 +206,7 @@ export type FormControlSchema =
   | DateControlSchema
   | DateTimeControlSchema
   | TimeControlSchema
+  | MonthControlSchema
   | DateRangeControlSchema
   | DiffControlSchema
   | EditorControlSchema

@@ -314,6 +314,14 @@ export const docs = [
               })
           },
           {
+            label: 'Month 月份选择器',
+            path: '/docs/components/form/month',
+            getComponent: (location, cb) =>
+              require(['../../docs/components/form/month.md'], doc => {
+                cb(null, makeMarkdownRenderer(doc));
+              })
+          },
+          {
             label: 'Date-Range 日期范围选择器',
             path: '/docs/components/form/date-range',
             getComponent: (location, cb) =>

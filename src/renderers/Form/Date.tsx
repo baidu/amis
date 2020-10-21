@@ -1,7 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
-import {filterDate} from '../../utils/tpl-builtin';
+import { filterDate } from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
@@ -10,7 +10,7 @@ export interface DateBaseControlSchema extends FormBaseControl {
   /**
    * 指定为日期选择控件
    */
-  type: 'date' | 'datetime' | 'time';
+  type: 'date' | 'datetime' | 'time' | 'month';
 
   /**
    * 是否显示清除按钮
@@ -151,6 +151,30 @@ export interface TimeControlSchema extends DateBaseControlSchema {
   timeConstraints?: any;
 }
 
+/**
+ * Month 月份选择控件
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/Month
+ */
+export interface MonthControlSchema extends DateBaseControlSchema {
+  /**
+   * 指定为月份时间选择控件
+   */
+  type: 'month';
+
+  /**
+   * 月份存储格式
+   * @default X
+   */
+  format?: string;
+
+  /**
+   * 月份展示格式
+   * @default YYYY-MM
+   */
+  inputFormat?: string;
+
+}
+
 export interface DateProps extends FormControlProps {
   inputFormat?: string;
   timeFormat?: string;
@@ -172,7 +196,7 @@ interface DateControlState {
 export default class DateControl extends React.PureComponent<
   DateProps,
   DateControlState
-> {
+  > {
   static defaultProps = {
     format: 'X',
     viewMode: 'days',
@@ -297,6 +321,21 @@ export class TimeControlRenderer extends DateControl {
     dateFormat: '',
     timeFormat: 'HH:mm',
     viewMode: 'time',
+    closeOnSelect: false
+  };
+}
+
+@FormItem({
+  type: 'month'
+})
+export class MonthControlRenderer extends DateControl {
+  static defaultProps = {
+    ...DateControl.defaultProps,
+    placeholder: '请选择月份',
+    inputFormat: 'MM',
+    dateFormat: 'MM',
+    timeFormat: 'MM',
+    viewMode: 'months',
     closeOnSelect: false
   };
 }
