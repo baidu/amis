@@ -302,7 +302,7 @@ export class TimeControlRenderer extends DateControl {
 }
 
 @FormItem({
-  type: 'months'
+  type: 'month'
 })
 export class MonthControlRenderer extends DateControl {
   static defaultProps = {

@@ -578,7 +578,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'months',
+          type: 'month',
           name: 'month',
           inline: true,
           label: '月份'
