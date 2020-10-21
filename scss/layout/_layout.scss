@@ -236,18 +236,14 @@ body {
   .#{$ns}Layout {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: stretch;
 
     &-header,
     &-footer {
       width: 100%;
     }
 
-    &-content,
-    & > &-body {
+    > &-body {
       flex-grow: 1;
-      height: 0;
       position: relative;
     }
 
@@ -271,6 +267,15 @@ body {
     }
 
     &--withAside {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: stretch;
+
+      > .#{$ns}Layout-content {
+        flex-grow: 1;
+        width: 0;
+      }
+
       .#{$ns}Layout-headerBar,
       .#{$ns}Layout-footer {
         margin-left: $Layout-aside-width;
