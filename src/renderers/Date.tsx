@@ -165,6 +165,6 @@ export class TimeFieldRenderer extends DateField {
 export class MonthFieldRenderer extends DateField {
   static defaultProps: Partial<DateProps> = {
     ...DateField.defaultProps,
-    format: 'MM'
+    format: 'YYYY-MM'
   };
 }
