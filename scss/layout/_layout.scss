@@ -274,6 +274,7 @@ body {
       > .#{$ns}Layout-content {
         flex-grow: 1;
         width: 0;
+        position: relative;
       }
 
       .#{$ns}Layout-headerBar,
