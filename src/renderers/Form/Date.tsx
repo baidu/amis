@@ -173,17 +173,6 @@ export interface MonthControlSchema extends DateBaseControlSchema {
    */
   inputFormat?: string;
 
-  /**
-   * 月份的格式。
-   *
-   * @default MM
-   */
-  timeFormat?: string;
-
-  /**
-   * 不记得了
-   */
-  timeConstraints?: any;
 }
 
 export interface DateProps extends FormControlProps {
