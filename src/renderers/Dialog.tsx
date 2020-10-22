@@ -20,6 +20,7 @@ import {
   SchemaTpl
 } from '../Schema';
 import {ActionSchema} from './Action';
+import {isAlive} from 'mobx-state-tree';
 
 /**
  * Dialog 弹框渲染器。
@@ -307,7 +308,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
   handleExited() {
     const {store} = this.props;
-    store.setFormData({});
+    isAlive(store) && store.setFormData({});
 
     this.state.entered &&
       this.setState({
