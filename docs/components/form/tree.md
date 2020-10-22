@@ -482,6 +482,7 @@ order: 59
 | editApi       | [API](../../types/api)               |                  | [配置编辑选项接口](./options#%E9%85%8D%E7%BD%AE%E7%BC%96%E8%BE%91%E6%8E%A5%E5%8F%A3-editapi)                        |
 | removable     | `boolean`                            | `false`          | [删除选项](./options#%E5%88%A0%E9%99%A4%E9%80%89%E9%A1%B9)                                                          |
 | deleteApi     | [API](../../types/api)               |                  | [配置删除选项接口](./options#%E9%85%8D%E7%BD%AE%E5%88%A0%E9%99%A4%E6%8E%A5%E5%8F%A3-deleteapi)                      |
+| searchable    | `boolean`                            | `false`          | 是否可检索，仅在 type 为 `tree-select` 的时候生效                                                                   |
 | hideRoot      | `boolean`                            | `true`           | 如果想要显示个顶级节点，请设置为 `false`                                                                            |
 | rootLabel     | `boolean`                            | `"顶级"`         | 当 `hideRoot` 不为 `false` 时有用，用来设置顶级节点的文字。                                                         |
 | showIcon      | `boolean`                            | `true`           | 是否显示图标                                                                                                        |
