@@ -242,7 +242,10 @@ export class App extends React.PureComponent {
             <Link to={`${ContextPath}/examples`} activeClassName="is-active">
               示例
             </Link>
-            <a href="https://github.com/fex-team/amis-editor" target="_blank">
+            <a
+              href="https://github.com/fex-team/amis-editor-demo"
+              target="_blank"
+            >
               可视化编辑器
             </a>
             {/* <a href="https://suda.bce.baidu.com" target="_blank">
