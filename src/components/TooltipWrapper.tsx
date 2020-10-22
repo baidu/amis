@@ -224,7 +224,9 @@ export class TooltipWrapper extends React.Component<
             (tooltip as TooltipObject).dom!
           ) : (
             <Html
-              html={typeof tooltip === 'string' ? tooltip : tooltip.content}
+              html={
+                typeof tooltip === 'string' ? tooltip : tooltip.content || ''
+              }
             />
           )}
         </Tooltip>
