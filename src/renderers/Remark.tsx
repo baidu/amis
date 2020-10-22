@@ -61,7 +61,7 @@ export function filterContents(
   } else if (tooltip) {
     return tooltip.title
       ? {
-          render: tooltip.render,
+          render: tooltip.render ? () => tooltip.render(data) : undefined,
           title: filter(tooltip.title, data),
           content:
             tooltip.content || tooltip.body

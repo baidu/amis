@@ -219,7 +219,9 @@ export class TooltipWrapper extends React.Component<
           className={tooltipClassName}
         >
           {tooltip && (tooltip as TooltipObject).render ? (
-            (tooltip as TooltipObject).render!()
+            this.state.show ? (
+              (tooltip as TooltipObject).render!()
+            ) : null
           ) : tooltip && (tooltip as TooltipObject).dom ? (
             (tooltip as TooltipObject).dom!
           ) : (
