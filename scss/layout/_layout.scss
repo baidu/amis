@@ -245,6 +245,7 @@ body {
     > .#{$ns}Layout-body {
       flex-grow: 1;
       position: relative;
+      height: 0;
     }
 
     &--boxed {
