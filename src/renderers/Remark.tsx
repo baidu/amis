@@ -96,7 +96,8 @@ class Remark extends React.Component<RemarkProps> {
       classPrefix: ns,
       classnames: cx,
       content,
-      data
+      data,
+      env
     } = this.props;
 
     const finalIcon = (tooltip && tooltip.icon) || icon;
@@ -116,7 +117,7 @@ class Remark extends React.Component<RemarkProps> {
           placement={(tooltip && tooltip.placement) || placement}
           rootClose={(tooltip && tooltip.rootClose) || rootClose}
           trigger={(tooltip && tooltip.trigger) || trigger}
-          container={container}
+          container={container || env.getModalContainer}
           delay={tooltip && tooltip.delay}
         >
           {finalIcon ? (
