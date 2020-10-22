@@ -384,9 +384,11 @@ a {
         &.is-active {
           > a {
             color: #108cee;
+            background: transparent;
 
             &:hover {
               color: #108cee;
+              background: transparent;
             }
           }
         }
