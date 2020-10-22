@@ -43,7 +43,7 @@ export type ListBodyFieldObject = {
   /**
    * 列标题
    */
-  label: string;
+  label?: string;
 
   /**
    * label 类名

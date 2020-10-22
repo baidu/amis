@@ -84,6 +84,9 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
 
   handleEnter = () => {
     document.body.classList.add(`is-modalOpened`);
+    if (document.body.scrollHeight > window.innerHeight) {
+      document.body.classList.add(`has-scrollbar`);
+    }
   };
 
   handleEntered = () => {
@@ -95,8 +98,10 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     document.activeElement && (document.activeElement as HTMLElement).blur();
     onExited && onExited();
     setTimeout(() => {
-      document.querySelector('.amis-dialog-widget') ||
+      if (!document.querySelector('.amis-dialog-widget')) {
         document.body.classList.remove(`is-modalOpened`);
+        document.body.classList.remove(`has-scrollbar`);
+      }
     }, 200);
   };
 

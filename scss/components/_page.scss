@@ -61,7 +61,7 @@
 }
 
 .#{$ns}Page-toolbar {
-  .#{$ns}Button + .#{$ns}Button {
+  > * + * {
     margin-left: $gap-xs;
   }
 }

@@ -542,12 +542,7 @@ export function getScrollParent(node: HTMLElement): HTMLElement | null {
 export function difference<
   T extends {[propName: string]: any},
   U extends {[propName: string]: any}
->(
-  object: T,
-  base: U,
-  keepProps?: Array<string>,
-  strict: boolean = false
-): {[propName: string]: any} {
+>(object: T, base: U, keepProps?: Array<string>): {[propName: string]: any} {
   function changes(object: T, base: U) {
     if (isPlainObject(object) && isPlainObject(base)) {
       const keys: Array<keyof T & keyof U> = uniq(
@@ -570,18 +565,7 @@ export function difference<
         if (!object.hasOwnProperty(key)) {
           result[key] = undefined;
         } else if (Array.isArray(a) && Array.isArray(b)) {
-          if (strict) {
-            result[key] = a.map((item, index) => {
-              return changes(item, b[index]);
-            });
-
-            let len = b.length - a.length;
-            while (len-- > 0) {
-              result[key].push(undefined);
-            }
-          } else {
-            result[key] = a;
-          }
+          result[key] = a;
         } else {
           result[key] = changes(a as any, b as any);
         }

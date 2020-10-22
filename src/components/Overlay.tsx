@@ -162,8 +162,7 @@ export default class Overlay extends React.Component<
           containerPadding,
           target,
           placement,
-          shouldUpdatePosition,
-          watchTargetSizeChange
+          shouldUpdatePosition
         }}
       >
         {child}
