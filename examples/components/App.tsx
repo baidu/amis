@@ -346,7 +346,7 @@ export class App extends React.PureComponent {
               ) : (
                 <Link
                   to={
-                    link.path ||
+                    getPath(link.path) ||
                     (link.children && getPath(link.children[0].path))
                   }
                 >
@@ -424,7 +424,7 @@ export class App extends React.PureComponent {
 }
 
 function isActive(link: any, location: any) {
-  return !!(link.path && link.path === location.pathname);
+  return !!(link.path && getPath(link.path) === location.pathname);
 }
 
 function navigations2route(pathPrefix = DocPathPrefix, navigations) {
