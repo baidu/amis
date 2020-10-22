@@ -353,8 +353,7 @@ a {
           font-size: px2rem(14px);
           font-weight: 700;
           color: #666;
-          padding-left: 0;
-          padding-right: px2rem(20px);
+          padding: px2rem(5px) px2rem(20px) px2rem(5px) 0;
           background: transparent;
           border-left: 0;
 
@@ -581,6 +580,9 @@ a {
   }
 }
 
+.a-AsideNav-item .a-AsideNav-item a,
+.cxd-AsideNav-item .cxd-AsideNav-item a,
+.dark-AsideNav-item .dark-AsideNav-item a,
 .a-AsideNav-item .a-AsideNav-item .a-AsideNav-item a,
 .cxd-AsideNav-item .cxd-AsideNav-item .cxd-AsideNav-item a,
 .dark-AsideNav-item .dark-AsideNav-item .dark-AsideNav-item a {
