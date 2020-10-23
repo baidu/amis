@@ -80,6 +80,7 @@ a {
     position: relative;
     height: 100%;
     width: 100%;
+    overflow: auto;
   }
 }
 
@@ -588,7 +589,7 @@ a {
 .a-AsideNav-item .a-AsideNav-item .a-AsideNav-item a,
 .cxd-AsideNav-item .cxd-AsideNav-item .cxd-AsideNav-item a,
 .dark-AsideNav-item .dark-AsideNav-item .dark-AsideNav-item a {
-  padding-left: 0;
+  padding-left: 0 !important;
 }
 
 .Doc-navDrawer {
@@ -602,7 +603,8 @@ a {
     &-content {
       width: px2rem(220px);
       padding: px2rem(30px) 0 px2rem(30px) px2rem(30px);
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     &-close {
