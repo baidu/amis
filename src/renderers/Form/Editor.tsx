@@ -3,6 +3,7 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import LazyComponent from '../../components/LazyComponent';
 import debouce from 'lodash/debounce';
 import Editor from '../../components/Editor';
+import {autobind} from '../../utils/helper';
 
 /**
  * Editor 代码编辑器
@@ -123,21 +124,13 @@ export default class EditorControl extends React.Component<EditorProps, any> {
   };
   editor: any;
   toDispose: Array<Function> = [];
+  divRef = React.createRef<HTMLDivElement>();
   constructor(props: EditorProps) {
     super(props);
 
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleEditorMounted = this.handleEditorMounted.bind(this);
-    this.updateContainerSize = debouce(
-      this.updateContainerSize.bind(this),
-      250,
-      {
-        trailing: true,
-        leading: false
-      }
-    );
-    this.toDispose.push((this.updateContainerSize as any).cancel);
   }
 
   componentWillUnmount() {
@@ -159,25 +152,32 @@ export default class EditorControl extends React.Component<EditorProps, any> {
   handleEditorMounted(editor: any, monaco: any) {
     this.editor = editor;
     this.toDispose.push(
-      editor.onDidFocusEditorWidget(this.updateContainerSize).dispose
-    );
-    this.toDispose.push(
-      editor.onDidChangeModelContent(this.updateContainerSize).dispose
+      editor.onDidChangeModelDecorations(() => {
+        this.updateContainerSize(editor, monaco); // typing
+        requestAnimationFrame(
+          this.updateContainerSize.bind(this, editor, monaco)
+        ); // folding
+      }).dispose
     );
     this.props.editorDidMount && this.props.editorDidMount(editor, monaco);
   }
 
-  updateContainerSize() {
-    const editor = this.editor;
-    const parentDom = editor._domElement.parentNode;
-    const configuration = editor.getConfiguration();
-    const lineHeight = configuration.lineHeight;
-    const lineCount = editor.getModel().getLineCount();
-    const contentHeight = lineHeight * lineCount;
-    const horizontalScrollbarHeight =
-      configuration.layoutInfo.horizontalScrollbarHeight;
-    const editorHeight = contentHeight + horizontalScrollbarHeight;
-    parentDom.style.cssText = `height:${editorHeight}px`;
+  prevHeight = 0;
+  @autobind
+  updateContainerSize(editor: any, monaco: any) {
+    if (!this.divRef.current) {
+      return;
+    }
+
+    const lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
+    const lineCount = editor.getModel()?.getLineCount() || 1;
+    const height = editor.getTopForLineNumber(lineCount + 1) + lineHeight;
+
+    if (this.prevHeight !== height) {
+      this.prevHeight = height;
+      this.divRef.current.style.height = `${height}px`;
+      editor.layout();
+    }
   }
 
   render() {
@@ -202,6 +202,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
 
     return (
       <div
+        ref={this.divRef}
         className={cx(
           `EditorControl`,
           {

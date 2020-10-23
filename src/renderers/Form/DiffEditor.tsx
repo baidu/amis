@@ -7,6 +7,7 @@ import LazyComponent from '../../components/LazyComponent';
 import debouce from 'lodash/debounce';
 import {isPureVariable} from '../../utils/tpl-builtin';
 import {SchemaTokenizeableString} from '../../Schema';
+import {autobind} from '../../utils/helper';
 
 /**
  * Diff 编辑器
@@ -89,6 +90,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
   originalEditor: any;
   modifiedEditor: any;
   toDispose: Array<Function> = [];
+  divRef = React.createRef<HTMLDivElement>();
 
   constructor(props: DiffEditorProps) {
     super(props);
@@ -100,15 +102,6 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     this.handleModifiedEditorChange = this.handleModifiedEditorChange.bind(
       this
     );
-    this.updateContainerSize = debouce(
-      this.updateContainerSize.bind(this),
-      250,
-      {
-        trailing: true,
-        leading: false
-      }
-    );
-    this.toDispose.push((this.updateContainerSize as any).cancel);
   }
 
   componentWillUnmount() {
@@ -178,6 +171,15 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
       ).dispose
     );
 
+    this.toDispose.push(
+      this.modifiedEditor.onDidChangeModelDecorations(() => {
+        this.updateContainerSize(this.modifiedEditor, monaco); // typing
+        requestAnimationFrame(
+          this.updateContainerSize.bind(this, this.modifiedEditor, monaco)
+        ); // folding
+      }).dispose
+    );
+
     this.editor.setModel({
       original: this.monaco.editor.createModel(
         isPureVariable(diffValue as string)
@@ -190,27 +192,29 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
         language
       )
     });
-
-    this.updateContainerSize();
   }
 
   handleModifiedEditorChange() {
     const {onChange} = this.props;
     onChange && onChange(this.modifiedEditor.getModel().getValue());
-    this.updateContainerSize();
   }
 
-  updateContainerSize() {
-    const editor = this.modifiedEditor;
-    const parentDom = editor._domElement.parentNode.parentNode.parentNode;
-    const configuration = editor.getConfiguration();
-    const lineHeight = configuration.lineHeight;
-    const lineCount = editor.getModel().getLineCount();
-    const contentHeight = lineHeight * lineCount;
-    const horizontalScrollbarHeight =
-      configuration.layoutInfo.horizontalScrollbarHeight;
-    const editorHeight = contentHeight + horizontalScrollbarHeight;
-    parentDom.style.cssText = `height:${editorHeight}px`;
+  prevHeight = 0;
+  @autobind
+  updateContainerSize(editor: any, monaco: any) {
+    if (!this.divRef.current) {
+      return;
+    }
+
+    const lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
+    const lineCount = editor.getModel()?.getLineCount() || 1;
+    const height = editor.getTopForLineNumber(lineCount + 1) + lineHeight;
+
+    if (this.prevHeight !== height) {
+      this.prevHeight = height;
+      this.divRef.current.style.height = `${height}px`;
+      editor.layout();
+    }
   }
 
   render() {
@@ -228,6 +232,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
 
     return (
       <div
+        ref={this.divRef}
         className={cx(
           'EditorControl',
           size ? `EditorControl--${size}` : '',
