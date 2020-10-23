@@ -6,11 +6,24 @@ import {isVisible} from '../utils/helper';
 import {BaseSchema, SchemaObject} from '../Schema';
 
 export type HBoxColumnObject = {
+  /**
+   * 列上 CSS 类名
+   */
   columnClassName?: string;
 
+  /**
+   * 宽度
+   */
   width?: number | string;
+
+  /**
+   * 高度
+   */
   height?: number | string;
 
+  /**
+   * 其他样式
+   */
   style?: {
     [propName: string]: any;
   };

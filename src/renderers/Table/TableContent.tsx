@@ -6,6 +6,7 @@ import {TableRow} from './TableRow';
 import {filter} from '../../utils/tpl';
 import {observer} from 'mobx-react';
 import {trace, reaction} from 'mobx';
+import {flattenTree} from '../../utils/helper';
 
 export interface TableContentProps {
   className?: string;
@@ -56,7 +57,9 @@ export class TableContent extends React.Component<TableContentProps> {
 
     this.reaction = reaction(
       () =>
-        `${rows.map(item => item.id).join(',')}${rows
+        `${flattenTree(rows)
+          .map(item => `${item.id}`)
+          .join(',')}${rows
           .filter(item => item.checked)
           .map(item => item.id)
           .join(',')}`,
@@ -109,7 +112,7 @@ export class TableContent extends React.Component<TableContentProps> {
           {...itemProps}
           classnames={cx}
           checkOnItemClick={checkOnItemClick}
-          key={item.index}
+          key={item.id}
           itemIndex={rowIndex}
           item={item}
           itemClassName={cx(
@@ -138,7 +141,7 @@ export class TableContent extends React.Component<TableContentProps> {
               {...itemProps}
               classnames={cx}
               checkOnItemClick={checkOnItemClick}
-              key={`foot-${item.index}`}
+              key={`foot-${item.id}`}
               itemIndex={rowIndex}
               item={item}
               itemClassName={cx(
@@ -158,7 +161,7 @@ export class TableContent extends React.Component<TableContentProps> {
             />
           );
         }
-      } else if (Array.isArray(item.data.children)) {
+      } else if (item.children.length) {
         // 嵌套表格
         doms.push(
           ...this.renderRows(item.children, columns, {

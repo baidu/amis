@@ -54,6 +54,14 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
     if (data !== prevProps.data) {
       this.postMessage('update', data);
+    } else if (
+      this.props.width !== prevProps.width ||
+      this.props.height !== prevProps.height
+    ) {
+      this.setState({
+        width: this.props.width || '100%',
+        height: this.props.height || '100%'
+      });
     }
   }
 

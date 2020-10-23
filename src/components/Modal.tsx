@@ -142,17 +142,26 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
   }
 
+  handleEnter = () => {
+    document.body.classList.add(`is-modalOpened`);
+    if (document.body.scrollHeight > window.innerHeight) {
+      document.body.classList.add(`has-scrollbar`);
+    }
+  };
+
   handleEntered = () => {
     const onEntered = this.props.onEntered;
-    document.body.classList.add(`is-modalOpened`);
+
     onEntered && onEntered();
   };
   handleExited = () => {
     const onExited = this.props.onExited;
     onExited && onExited();
     setTimeout(() => {
-      document.querySelector('.amis-dialog-widget') ||
+      if (!document.querySelector('.amis-dialog-widget')) {
         document.body.classList.remove(`is-modalOpened`);
+        document.body.classList.remove(`has-scrollbar`);
+      }
     }, 200);
   };
 
@@ -186,6 +195,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
           unmountOnExit
           in={show}
           timeout={500}
+          onEnter={this.handleEnter}
           onExited={this.handleExited}
           onEntered={this.handleEntered}
         >

@@ -40,6 +40,10 @@
       margin-left: $ButtonGroup-divider-width;
     }
   }
+
+  &--block {
+    display: block;
+  }
 }
 
 .#{$ns}ButtonToolbar {

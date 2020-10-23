@@ -78,6 +78,11 @@ function fixSchema(schema: Schema) {
   });
 
   copyAnyOf(schema, list);
+
+  schema.definitions!['UnkownSchema'] = {
+    type: 'object',
+    description: '不能识别渲染器类型，无法提供提示信息。'
+  };
 }
 
 function copyAnyOf(

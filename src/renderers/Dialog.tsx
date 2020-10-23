@@ -20,12 +20,15 @@ import {
   SchemaTpl
 } from '../Schema';
 import {ActionSchema} from './Action';
+import {isAlive} from 'mobx-state-tree';
 
 /**
  * Dialog 弹框渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/dialog
  */
-export interface DialogSchema extends Omit<BaseSchema, 'type'> {
+export interface DialogSchema extends BaseSchema {
+  type: 'dialog';
+
   /**
    * 默认不用填写，自动会创建确认和取消按钮。
    */
@@ -78,6 +81,8 @@ export interface DialogSchema extends Omit<BaseSchema, 'type'> {
    */
   showErrorMsg?: boolean;
 }
+
+export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
 
 export interface DialogProps extends RendererProps, DialogSchema {
   onClose: () => void;
@@ -302,6 +307,9 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
   }
 
   handleExited() {
+    const {store} = this.props;
+    isAlive(store) && store.setFormData({});
+
     this.state.entered &&
       this.setState({
         entered: false
@@ -513,7 +521,9 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
           : null}
 
         {!this.state.entered && lazyRender ? (
-          <div className={cx('Modal-body', bodyClassName)} />
+          <div className={cx('Modal-body', bodyClassName)}>
+            <Spinner overlay show size="lg" />
+          </div>
         ) : body ? (
           <div className={cx('Modal-body', bodyClassName)}>
             {this.renderBody(body, 'body')}

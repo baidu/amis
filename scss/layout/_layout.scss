@@ -235,21 +235,17 @@ body {
 @include media-breakpoint-up(md) {
   .#{$ns}Layout {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: stretch;
+    flex-direction: column;
 
     &-header,
     &-footer {
       width: 100%;
     }
 
-    &-content,
-    & > &-body {
+    > .#{$ns}Layout-body {
       flex-grow: 1;
-      width: 0;
       position: relative;
-      height: auto;
+      height: 0;
     }
 
     &--boxed {
@@ -272,6 +268,16 @@ body {
     }
 
     &--withAside {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: stretch;
+
+      > .#{$ns}Layout-content {
+        flex-grow: 1;
+        width: 0;
+        position: relative;
+      }
+
       .#{$ns}Layout-headerBar,
       .#{$ns}Layout-footer {
         margin-left: $Layout-aside-width;
@@ -378,8 +384,8 @@ body {
 
       .#{$ns}Layout-asideWrap {
         overflow: visible;
-        position: relative;
-        top: 0;
+        // position: relative;
+        // top: 0;
         z-index: 15;
       }
 

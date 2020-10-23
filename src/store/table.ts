@@ -176,8 +176,35 @@ export const Row = types
     },
 
     replaceWith(data: any) {
-      delete data.id;
-      Object.keys(data).forEach(key => ((self as any)[key] = data[key]));
+      Object.keys(data).forEach(key => {
+        if (key !== 'id') {
+          (self as any)[key] = data[key];
+        }
+      });
+
+      if (Array.isArray(data.children)) {
+        const arr = data.children;
+        const pool = arr.concat();
+
+        // 把多的删了先
+        if (self.children.length > arr.length) {
+          self.children.splice(arr.length, self.children.length - arr.length);
+        }
+
+        let index = 0;
+        const len = self.children.length;
+        while (pool.length) {
+          const item = pool.shift()!;
+
+          if (index < len) {
+            self.children[index].replaceWith(item);
+          } else {
+            const row = Row.create(item);
+            self.children.push(row);
+          }
+          index++;
+        }
+      }
     }
   }));
 
@@ -653,7 +680,6 @@ export const TableStore = iRendererStore
           pristine: item,
           data: item,
           rowSpans: {},
-          modified: false,
           children:
             item && Array.isArray(item.children)
               ? initChildren(item.children, depth, key, id)

@@ -28,7 +28,7 @@ order: 47
 
 ### tinymce 自定义配置
 
-可以设置 options 属性来自定义编辑器的展现，详细配置项请参考[官方文档](https://www.froala.com/wysiwyg-editor/docs/options)。
+可以设置 options 属性来自定义编辑器的展现，详细配置项请参考[官方文档](https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/)。
 
 注意在下面的编辑器里修改 JSON 配置后不会实时生效。
 

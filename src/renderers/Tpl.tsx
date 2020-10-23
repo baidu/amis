@@ -91,20 +91,20 @@ export class Tpl extends React.Component<TplProps, object> {
       return;
     }
 
-    this.dom.innerHTML = this.getContent();
+    this.dom.firstChild.innerHTML = this.getContent();
   }
 
   render() {
     const {className, wrapperComponent, inline, classnames: cx} = this.props;
-
-    const Component = wrapperComponent || (inline ? 'span' : 'div');
+    const Component = wrapperComponent || 'div';
 
     return (
       <Component
-        children={this.getContent()}
         ref={this.htmlRef}
-        className={cx('TplField', className)}
-      />
+        className={cx('TplField', inline ? 'is-inline' : '', className)}
+      >
+        <span>{this.getContent()}</span>
+      </Component>
     );
   }
 }

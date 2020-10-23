@@ -45,6 +45,8 @@ import {VideoSchema} from './renderers/Video';
 import {WizardSchema} from './renderers/Wizard';
 import {WrapperSchema} from './renderers/Wrapper';
 import {TableSchema} from './renderers/Table';
+import {DialogSchema} from './renderers/Dialog';
+import {DrawerSchema} from './renderers/Drawer';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -74,8 +76,12 @@ export type SchemaType =
   | 'static-datetime' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'time'
   | 'static-time' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
+  | 'month'
+  | 'static-month' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
+  | 'dialog'
   | 'divider'
   | 'dropdown-button'
+  | 'drawer'
   | 'each'
   | 'grid'
   | 'hbox'
@@ -130,7 +136,9 @@ export type SchemaObject =
   | ContainerSchema
   | CRUDSchema
   | DateSchema
+  | DialogSchema
   | DividerSchema
+  | DrawerSchema
   | DropdownButtonSchema
   | EachSchema
   | GridSchema

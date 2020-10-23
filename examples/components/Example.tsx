@@ -77,7 +77,7 @@ import TestComponent from './Test';
 
 export const examples = [
   {
-    prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
+    // prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
     label: '示例',
     children: [
       {
@@ -538,7 +538,8 @@ export default class Example extends React.PureComponent {
           ...this.props.children.props,
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
-          locale: this.props.locale
+          locale: this.props.locale,
+          offScreen: this.props.offScreen
         })}
       </>
     );

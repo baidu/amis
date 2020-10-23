@@ -112,7 +112,7 @@ export interface AjaxActionSchema extends ButtonSchema {
    */
   api: SchemaApi;
 
-  feedback?: DialogSchema;
+  feedback?: DialogSchemaBase;
 
   reload?: SchemaReload;
   redirect?: string;
@@ -141,7 +141,11 @@ export interface DialogActionSchema extends ButtonSchema {
    */
   actionType: 'dialog';
 
-  dialog: DialogSchema;
+  /**
+   * 弹框详情
+   * 文档：https://baidu.gitee.io/amis/docs/components/dialog
+   */
+  dialog: DialogSchemaBase;
 
   /**
    * 是否有下一个的表达式，正常可以不用配置，如果想要刷掉某些数据可以配置这个。
@@ -156,10 +160,12 @@ export interface DrawerActionSchema extends ButtonSchema {
    * 指定为打开弹窗，抽出式弹窗
    */
   actionType: 'drawer';
+
   /**
-   * 弹窗内容
+   * 抽出式弹框详情
+   * 文档：https://baidu.gitee.io/amis/docs/components/drawer
    */
-  drawer: DrawerSchema;
+  drawer: DrawerSchemaBase;
 
   /**
    * 是否有下一个的表达式，正常可以不用配置，如果想要刷掉某些数据可以配置这个。
@@ -221,6 +227,10 @@ export interface VanillaAction extends ButtonSchema {
   actionType?: string;
 }
 
+/**
+ * 按钮动作渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/action
+ */
 export type ActionSchema =
   | AjaxActionSchema
   | UrlActionSchema
@@ -280,8 +290,8 @@ import {
   SchemaTooltip,
   SchemaTpl
 } from '../Schema';
-import {DialogSchema} from './Dialog';
-import {DrawerSchema} from './Drawer';
+import {DialogSchema, DialogSchemaBase} from './Dialog';
+import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 
 export interface ActionProps
   extends ButtonSchema,

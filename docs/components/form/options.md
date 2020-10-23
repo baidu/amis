@@ -53,13 +53,13 @@ order: 2
         {
             "label": "xxx1",
             "value": "value1",
-            "chlidren": []
+            "children": []
             ... // 其他变量值
         },
         {
             "label": "xxx2",
             "value": "value2",
-            "chlidren": []
+            "children": []
             ... // 其他变量值
         }
     ]
@@ -70,7 +70,7 @@ order: 2
 
 - `label`：标识当前选项的显示文本，帮助用户选择
 - `value`：标识当前选项的值，用作数据保存和映射
-- `chlidren`：嵌套子选项，只有在 Tree 或 Nested-Select 等支持嵌套功能的组件中才有用
+- `children`：嵌套子选项，只有在 Tree 或 Nested-Select 等支持嵌套功能的组件中才有用
 
 查看下面例子，修改选项你会发现数据域会发发生变化，改数据域中该表单项的值为选中选项的`value`值。
 

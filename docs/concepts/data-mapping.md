@@ -951,6 +951,8 @@ ${xxx | pick[:path]}
 }
 ```
 
+可以用变量 index 来获取下标。
+
 ### duration
 
 秒值格式化成时间格式
@@ -987,6 +989,47 @@ ${xxx | duration}
     {
         "type": "tpl",
         "tpl": "time3 is ${time3|duration}"
+    }
+  ]
+}
+```
+
+### bytes
+
+字节格式化展示
+
+##### 基本用法
+
+```
+${xxx | bytes}
+```
+
+```schema:height="200"
+{
+  "type": "page",
+  "data": {
+    "bytes1": 2333,
+    "bytes2": 2333333,
+    "bytes3": 2333333333
+  },
+  "body": [
+    {
+        "type": "tpl",
+        "tpl": "bytes1 is ${bytes1|bytes}"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "tpl",
+        "tpl": "bytes2 is ${bytes2|bytes}"
+    },
+    {
+        "type": "divider"
+    },
+    {
+        "type": "tpl",
+        "tpl": "bytes3 is ${bytes3|bytes}"
     }
   ]
 }
@@ -1358,10 +1401,15 @@ ${xxx | filter[:keys][:directive][:arg1]}
 
 - **keys**: 参与过滤的字段集合
 - **directive**: 用于过滤数组的指令，包含下面这几种
+
   - `isTrue` 目标值为真通过筛选。
   - `isFalse` 目标值为假时通过筛选。
+  - `isExists` 目标值是否存在。
   - `match` 模糊匹配后面的参数。`${xxx|filter:a,b:match:keywords}` 表示 xxx 里面的成员，如果字段 a 或者 字段 b 模糊匹配 keywords 变量的值，则通过筛选。
   - `equals` 相对于模糊匹配，这个就相对精确匹配了，用法跟 `match` 一样。
+  - `isIn` 目标值是否在一个范围内？`${xxx|filter:yyy:isIn:a,b}` xxx 数组内的 yyy 变量是否是字符串 `"a"` 或者 `"b"`，如果要取变量就是 `${xxx|filter:yyy:isIn:zzz}` xxx 数组内的 yyy 属性，必须在 zzz 变量这个数组内。
+  - `notIn`目标值是否不在一个范围内，参考 `isIn`。
+
 - **arg1**: 字符串或变量名
 
   比如: `${xxx|filter:readonly:isTrue}` 将 xxx 数组中 readonly 为 true 的成员提取出来。

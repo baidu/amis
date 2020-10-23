@@ -1,4 +1,5 @@
 import React from 'react';
+import {saveAs} from 'file-saver';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
 import {
@@ -54,17 +55,20 @@ import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
 
+export type CRUDBultinToolbarType =
+  | 'columns-toggler'
+  | 'drag-toggler'
+  | 'pagination'
+  | 'bulkActions'
+  | 'bulk-actions'
+  | 'statistics'
+  | 'switch-per-page'
+  | 'load-more'
+  | 'filter-toggler'
+  | 'export-csv';
+
 export interface CRUDBultinToolbar extends Omit<BaseSchema, 'type'> {
-  type:
-    | 'columns-toggler'
-    | 'drag-toggler'
-    | 'pagination'
-    | 'bulkActions'
-    | 'bulk-actions'
-    | 'statistics'
-    | 'switch-per-page'
-    | 'load-more'
-    | 'filter-toggler';
+  type: CRUDBultinToolbarType;
 }
 
 export type CRUDToolbarChild = SchemaObject | CRUDBultinToolbar;
@@ -187,12 +191,16 @@ export interface CRUDCommonSchema extends BaseSchema {
   /**
    * 顶部工具栏
    */
-  headerToolbar?: Array<CRUDToolbarChild & CRUDToolbarObject>;
+  headerToolbar?: Array<
+    (CRUDToolbarChild & CRUDToolbarObject) | CRUDBultinToolbarType
+  >;
 
   /**
    * 底部工具栏
    */
-  footerToolbar?: Array<CRUDToolbarChild & CRUDToolbarObject>;
+  footerToolbar?: Array<
+    (CRUDToolbarChild & CRUDToolbarObject) | CRUDBultinToolbarType
+  >;
 
   /**
    * 每页显示多少个空间成员的配置如： [10, 20, 50, 100]。
@@ -1012,7 +1020,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env,
       pageField,
       perPageField,
-      autoJumpToTopOnPagerChange
+      autoJumpToTopOnPagerChange,
+      affixOffsetTop
     } = this.props;
 
     let query: any = {
@@ -1025,9 +1034,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     store.updateQuery(
       query,
-      syncLocation && env && env.updateLocation
-        ? env.updateLocation
-        : undefined,
+      syncLocation && env?.updateLocation ? env.updateLocation : undefined,
       pageField,
       perPageField
     );
@@ -1037,7 +1044,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();
       const scrolledY = window.scrollY;
-      scrolledY && window.scroll(0, scrolledY - 50);
+      const offsetTop = affixOffsetTop ?? env?.affixOffsetTop ?? 50;
+      scrolledY && window.scroll(0, scrolledY - offsetTop);
     }
   }
 
@@ -1046,7 +1054,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     diff: Array<object> | object,
     indexes: Array<number>,
     unModifiedItems?: Array<any>,
-    rowsOrigin?: Array<object> | object
+    rowsOrigin?: Array<object> | object,
+    resetOnFailed?: boolean
   ) {
     const {
       store,
@@ -1110,7 +1119,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           reload && this.reloadTarget(reload, data);
           this.search(undefined, undefined, true, true);
         })
-        .catch(() => {});
+        .catch(() => {
+          resetOnFailed && this.control.reset();
+        });
     }
   }
 
@@ -1672,6 +1683,30 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     );
   }
 
+  renderExportCSV() {
+    const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
+
+    return (
+      <Button
+        classPrefix={ns}
+        onClick={() => {
+          (require as any)(['papaparse'], (papaparse: any) => {
+            const csvText = papaparse.unparse(store.data.items);
+            if (csvText) {
+              const blob = new Blob([csvText], {
+                type: 'text/plain;charset=utf-8'
+              });
+              saveAs(blob, 'data.csv');
+            }
+          });
+        }}
+        size="sm"
+      >
+        {__('导出 CSV')}
+      </Button>
+    );
+  }
+
   renderToolbar(
     toolbar?: SchemaNode,
     index: number = 0,
@@ -1696,6 +1731,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return this.renderLoadMore();
     } else if (type === 'filter-toggler') {
       return this.renderFilterToggler();
+    } else if (type === 'export-csv') {
+      return this.renderExportCSV();
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
         .map((toolbar, index) => ({

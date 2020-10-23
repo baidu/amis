@@ -118,10 +118,7 @@ export default {
       }
     ],
     quickSaveApi: '/api/sample/bulkUpdate',
-    quickSaveItemApi: {
-      url: '/api/sample/$id',
-      data: {requestUrl: '$requestUrl', apiAlias: '$apiAlias'}
-    },
+    quickSaveItemApi: '/api/sample/$id',
     filterTogglable: true,
     headerToolbar: [
       'filter-toggler',
@@ -212,14 +209,14 @@ export default {
         }
       },
       {
-        name: 'grade',
-        label: '操作',
         type: 'text',
-        remark: '应用日志可编辑 设置备注',
+        name: 'grade',
+        label: 'CSS grade',
         quickEdit: {
-          type: 'text',
-          required: true,
-          saveImmediately: true
+          saveImmediately: true,
+          mode: 'inline',
+          type: 'select',
+          options: ['A', 'B', 'C', 'D', 'X']
         }
       },
       {

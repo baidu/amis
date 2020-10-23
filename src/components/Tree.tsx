@@ -399,7 +399,7 @@ export class TreeSelector extends React.Component<
             (addingParent &&
               findTreeIndex(options, item => item === addingParent)) ||
             [];
-          onAdd(idx.concat(0), {[labelField]: value}, true);
+          onAdd(idx, {[labelField]: value}, true);
         } else if (isEditing && onEdit) {
           onEdit(
             {
@@ -768,6 +768,7 @@ export class TreeSelector extends React.Component<
                         <a
                           onClick={this.handleAdd.bind(this, null)}
                           data-tooltip={rootCreateTip}
+                          data-position="left"
                         >
                           <Icon icon="plus" className="icon" />
                         </a>

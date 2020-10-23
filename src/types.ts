@@ -127,10 +127,10 @@ export interface PlainObject {
 
 export interface RendererData {
   [propsName: string]: any;
-  __prev?: RendererDataAlis;
+  __prev?: RendererDataAlias;
   __super?: RendererData;
 }
-type RendererDataAlis = RendererData;
+type RendererDataAlias = RendererData;
 
 export type FunctionPropertyNames<T> = {
   [K in keyof T]: T[K] extends Function ? K : never;

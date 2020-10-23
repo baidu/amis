@@ -4,6 +4,23 @@ import {Schema} from '../../types';
 import Tabs, {TabSchema, TabsSchema} from '../Tabs';
 import {FormBaseControl, FormControlSchema} from './Item';
 
+export type TabControlSchema = TabSchema & {
+  /**
+   * 表单项集合
+   */
+  controls?: Array<FormControlSchema>;
+
+  /**
+   * @deprecated 请用类型 tabs
+   */
+  tabs?: any;
+
+  /**
+   * @deprecated 请用类型 fieldSet
+   */
+  fieldSet?: any;
+};
+
 /**
  * Tabs
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs
@@ -13,24 +30,7 @@ export interface TabsControlSchema
     Omit<TabsSchema, 'tabs'> {
   type: 'tabs';
 
-  tabs: Array<
-    TabSchema & {
-      /**
-       * 表单项集合
-       */
-      controls?: Array<FormControlSchema>;
-
-      /**
-       * @deprecated 请用类型 tabs
-       */
-      tabs?: any;
-
-      /**
-       * @deprecated 请用类型 fieldSet
-       */
-      fieldSet?: any;
-    }
-  >;
+  tabs: Array<TabControlSchema>;
 }
 
 export interface TabsProps extends RendererProps {}

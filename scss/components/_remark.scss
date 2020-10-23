@@ -1,6 +1,10 @@
 .#{$ns}Remark {
   display: inline-block;
   margin-left: $Remark-marginLeft;
+  > span {
+    color: $Remark-iconColor;
+    font-size: $fontSizeSm;
+  }
 
   cursor: pointer;
   text-align: center;
@@ -17,6 +21,10 @@
     align-items: center;
     justify-content: center;
     font-size: $fontSizeBase;
+  }
+
+  > span + .#{$ns}Remark-icon {
+    margin-left: $gap-xs;
   }
 
   &:hover > &-icon {

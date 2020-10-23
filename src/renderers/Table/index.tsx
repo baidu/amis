@@ -116,7 +116,8 @@ export type TableColumnObject = {
   remark?: SchemaRemark;
 };
 
-export type TableColumn = SchemaObject & TableColumnObject;
+export type TableColumnWithType = SchemaObject & TableColumnObject;
+export type TableColumn = TableColumnWithType | TableColumnObject;
 
 /**
  * Table 表格渲染器。
@@ -136,7 +137,7 @@ export interface TableSchema extends BaseSchema {
   /**
    * 表格的列信息
    */
-  columns?: Array<TableColumn | TableColumnObject>;
+  columns?: Array<TableColumn>;
 
   /**
    * 展示列显示开关，自动即：列数量大于或等于5个时自动开启
@@ -256,7 +257,8 @@ export interface TableProps extends RendererProps {
     diff: Array<object> | object,
     rowIndexes: Array<number> | number,
     unModifiedItems?: Array<object>,
-    rowOrigins?: Array<object> | object
+    rowOrigins?: Array<object> | object,
+    resetOnFailed?: boolean
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
@@ -568,7 +570,8 @@ export default class Table extends React.Component<TableProps, object> {
     item: IRow,
     values: object,
     saveImmediately?: boolean | any,
-    savePristine?: boolean
+    savePristine?: boolean,
+    resetOnFailed?: boolean
   ) {
     const {
       onSave,
@@ -606,7 +609,8 @@ export default class Table extends React.Component<TableProps, object> {
       difference(item.data, item.pristine, ['id', primaryField]),
       item.index,
       undefined,
-      item.pristine
+      item.pristine,
+      resetOnFailed
     );
   }
 
@@ -712,7 +716,7 @@ export default class Table extends React.Component<TableProps, object> {
     const dom = findDOMNode(this) as HTMLElement;
     const clip = (this.table as HTMLElement).getBoundingClientRect();
     const offsetY =
-      this.props.affixOffsetTop || this.props.env.affixOffsetTop || 0;
+      this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
     const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
     const affixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
 
