@@ -399,7 +399,7 @@ export class TreeSelector extends React.Component<
             (addingParent &&
               findTreeIndex(options, item => item === addingParent)) ||
             [];
-          onAdd(idx.concat(0), {[labelField]: value}, true);
+          onAdd(idx, {[labelField]: value}, true);
         } else if (isEditing && onEdit) {
           onEdit(
             {

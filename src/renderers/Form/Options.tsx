@@ -648,7 +648,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     @autobind
     async handleOptionAdd(
       idx: number | Array<number> = -1,
-      value: any,
+      value?: any,
       skipForm: boolean = false
     ) {
       let {
@@ -683,11 +683,12 @@ export function registerOptionsControl(config: OptionsConfig) {
           }
         ];
       }
+
       const ctx = createObject(
         data,
         Array.isArray(idx)
           ? {
-              parent: getTree(model.options, idx.slice(0, idx.length - 1)),
+              parent: getTree(model.options, idx),
               ...value
             }
           : value
