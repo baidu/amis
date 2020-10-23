@@ -111,6 +111,9 @@ import InfoCircleIcon from '../icons/info-circle.svg';
 import WarningIcon from '../icons/warning.svg';
 
 // @ts-ignore
+import WarningMarkIcon from '../icons/warning-mark.svg';
+
+// @ts-ignore
 import ScheduleIcon from '../icons/schedule.svg';
 
 // @ts-ignore
@@ -196,6 +199,7 @@ registerIcon('file', FileIcon);
 registerIcon('success', SuccessIcon);
 registerIcon('fail', FailIcon);
 registerIcon('warning', WarningIcon);
+registerIcon('warning-mark', WarningMarkIcon);
 registerIcon('search', SearchIcon);
 registerIcon('back', BackIcon);
 registerIcon('move', MoveIcon);

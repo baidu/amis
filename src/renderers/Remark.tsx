@@ -129,7 +129,7 @@ class Remark extends React.Component<RemarkProps> {
           {finalIcon ? (
             <i className={cx('Remark-icon', finalIcon)} />
           ) : finalIcon === false && finalLabel ? null : (
-            <Icon icon="question" className={cx('Remark-icon icon')} />
+            <Icon icon="warning-mark" className={cx('Remark-icon icon')} />
           )}
         </div>
       </TooltipWrapper>

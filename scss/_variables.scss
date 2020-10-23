@@ -584,12 +584,12 @@ $PopOver-bg: white !default;
 $Remark-width: 1rem !default;
 $Remark-icon-fontSize: $fontSizeBase !default;
 $Remark-iconColor: $icon-color !default;
-$Remark-onHover-iconColor: $icon-onHover-color !default;
-$Remark-bg: transparent !default;
-$Remark-onHover-bg: transparent !default;
-$Remark-borderWidth: 0 !default;
+$Remark-onHover-iconColor: #fff !default;
+$Remark-bg: #fff !default;
+$Remark-onHover-bg: $primary !default;
+$Remark-borderWidth: px2rem(1px) !default;
 $Remark-borderColor: $borderColor !default;
-$Remark-onHover-borderColor: $borderColor !default;
+$Remark-onHover-borderColor: $primary !default;
 $Remark-marginLeft: $gap-sm !default;
 
 // ResultBox
