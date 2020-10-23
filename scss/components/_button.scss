@@ -343,6 +343,11 @@ input[type='button'] {
     margin-left: px2rem(5px);
     margin-top: px2rem(5px);
   }
+
+  > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
+    margin-left: px2rem(5px);
+    margin-top: px2rem(5px);
+  }
 }
 
 .#{$ns}Button--disabled-wrap {
