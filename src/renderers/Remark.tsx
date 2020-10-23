@@ -5,7 +5,7 @@ import cx from 'classnames';
 import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
 import {themeable} from '../theme';
-import {Icon} from '../components/icons';
+import {hasIcon, Icon} from '../components/icons';
 import {BaseSchema, SchemaIcon, SchemaTpl} from '../Schema';
 
 /**
@@ -127,7 +127,11 @@ class Remark extends React.Component<RemarkProps> {
         >
           {finalLabel ? <span>{finalLabel}</span> : null}
           {finalIcon ? (
-            <i className={cx('Remark-icon', finalIcon)} />
+            hasIcon(finalIcon) ? (
+              <Icon icon={finalIcon} className={cx('Remark-icon icon')} />
+            ) : (
+              <i className={cx('Remark-icon', finalIcon)} />
+            )
           ) : finalIcon === false && finalLabel ? null : (
             <Icon icon="warning-mark" className={cx('Remark-icon icon')} />
           )}
