@@ -74,26 +74,51 @@ function getPath(path) {
     : '';
 }
 
+class BackTop extends React.PureComponent {
+  state = {
+    show: false
+  };
+
+  componentDidMount() {
+    document.addEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  handleScroll(e) {
+    this.setState({
+      show: e.target.scrollingElement.scrollTop > 350
+    });
+  }
+
+  render() {
+    return (
+      <div
+        className={`Backtop ${this.state.show ? 'visible' : ''}`}
+        onClick={() => scrollTo({top: 0})}
+      >
+        <i className="fa fa-rocket"></i>
+      </div>
+    );
+  }
+}
+
 @withRouter
 export class App extends React.PureComponent {
   state = {
-    asideFolded: localStorage.getItem('asideFolded') === 'true',
     offScreen: false,
     headerVisible: true,
     themeIndex: 0,
     themes: themes,
     theme: themes[localStorage.getItem('themeIndex') || 0],
     locale: localStorage.getItem('locale') || '',
-    navigations: [],
-    scrollTop: 0
+    navigations: []
   };
 
   constructor(props) {
     super(props);
-
-    this.toggleAside = this.toggleAside.bind(this);
-    this.setAsideFolded = this.setAsideFolded.bind(this);
-    this.setHeaderVisible = this.setHeaderVisible.bind(this);
     this.setNavigations = this.setNavigations.bind(this);
   }
 
@@ -102,6 +127,7 @@ export class App extends React.PureComponent {
       document.querySelectorAll('link[title]').forEach(item => {
         item.disabled = true;
       });
+
       document.querySelector(
         `link[title=${this.state.theme.value}]`
       ).disabled = false;
@@ -110,7 +136,6 @@ export class App extends React.PureComponent {
         document.querySelector('body').classList.add('dark');
       }
     }
-    document.addEventListener('scroll', this.handleScroll.bind(this));
   }
 
   componentDidUpdate(preProps, preState) {
@@ -120,6 +145,7 @@ export class App extends React.PureComponent {
       document.querySelector(
         `link[title=${preState.theme.value}]`
       ).disabled = true;
+
       document.querySelector(
         `link[title=${this.state.theme.value}]`
       ).disabled = false;
@@ -133,74 +159,13 @@ export class App extends React.PureComponent {
         () => window.scrollTo(0, 0)
       );
 
-      const pageURL = props.location.pathname;
-      _hmt && _hmt.push(['_trackPageview', pageURL]);
+      _hmt && _hmt.push(['_trackPageview', props.location.pathname]);
     }
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('scroll', this.handleScroll.bind(this));
-  }
-
-  handleScroll(e) {
-    this.setState({
-      scrollTop: e.target.scrollingElement.scrollTop
-    });
-  }
-
-  toggleAside() {
-    this.setAsideFolded(!this.state.asideFolded);
-  }
-
-  setAsideFolded(folded = false) {
-    localStorage.setItem('asideFolded', JSON.stringify(folded));
-    this.setState({
-      asideFolded: folded
-    });
-  }
-
-  setHeaderVisible(visible = false) {
-    this.setState({
-      headerVisible: visible
-    });
-  }
-
-  renderAside() {
-    return (
-      <AsideNav
-        renderLink={() => {
-          return null;
-        }}
-      />
-    );
   }
 
   setNavigations(items) {
     this.setState({
       navigations: items
-    });
-  }
-
-  toggleOpen(e, item) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    const navigations = mapTree(this.state.navigations, i => {
-      const defaultOpen =
-        i.isOpen ??
-        (Array.isArray(i.children) &&
-          i.children.length &&
-          !!~i.children.findIndex(
-            item => getPath(item.path) === location.pathname
-          ));
-      return {
-        ...i,
-        isOpen: item.label === i.label ? !defaultOpen : defaultOpen
-      };
-    });
-
-    this.setState({
-      navigations
     });
   }
 
@@ -374,8 +339,6 @@ export class App extends React.PureComponent {
         boxed={true}
         offScreen={this.state.offScreen}
         header={this.state.headerVisible ? this.renderHeader() : null}
-        // folded={this.state.asideFolded}
-        // aside={this.renderAside()}
       >
         <ToastComponent theme={theme.value} locale={this.state.locale} />
         <AlertComponent theme={theme.value} locale={this.state.locale} />
@@ -397,20 +360,12 @@ export class App extends React.PureComponent {
             {this.renderNavigation()}
           </Drawer>
 
-          {/* 完了加个动画吧 */}
-          <div
-            className={`Backtop ${this.state.scrollTop > 350 ? 'visible' : ''}`}
-            onClick={() => scrollTo({top: 0})}
-          >
-            <i className="fa fa-rocket"></i>
-          </div>
+          <BackTop />
 
           {React.cloneElement(this.props.children, {
             key: theme.value,
             ...this.props.children.props,
             setNavigations: this.setNavigations,
-            setAsideFolded: this.setAsideFolded,
-            setHeaderVisible: this.setHeaderVisible,
             theme: theme.value,
             classPrefix: theme.ns,
             locale: this.state.locale,
