@@ -768,6 +768,7 @@ export class TreeSelector extends React.Component<
                         <a
                           onClick={this.handleAdd.bind(this, null)}
                           data-tooltip={rootCreateTip}
+                          data-position="left"
                         >
                           <Icon icon="plus" className="icon" />
                         </a>
