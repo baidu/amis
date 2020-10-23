@@ -234,7 +234,7 @@ export default function (schema) {
               //     复制页面配置 <i className="fa fa-copy p-l-xs"></i>
               //   </div>
               // </div>
-              <div className="Doc-toc">
+              <div className="Doc-toc hidden-xs hidden-sm">
                 <div>
                   <div className="Doc-headingList">
                     <div className="Doc-headingList-item">
