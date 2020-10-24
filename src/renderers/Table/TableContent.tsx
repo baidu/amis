@@ -73,7 +73,10 @@ export class TableContent extends React.Component<TableContentProps> {
   shouldComponentUpdate(nextProps: TableContentProps) {
     const props = this.props;
 
-    if (props.columns !== nextProps.columns) {
+    if (
+      props.columns !== nextProps.columns ||
+      props.buildItemProps !== nextProps.buildItemProps
+    ) {
       return true;
     }
 
