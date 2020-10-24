@@ -21,6 +21,12 @@
     align-items: center;
     justify-content: center;
     font-size: $fontSizeSm;
+    user-select: none;
+
+    > svg {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   > span + .#{$ns}Remark-icon {
