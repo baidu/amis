@@ -1,5 +1,6 @@
 .#{$ns}Remark {
   display: inline-block;
+  vertical-align: middle;
   margin-left: $Remark-marginLeft;
   > span {
     color: $Remark-iconColor;
