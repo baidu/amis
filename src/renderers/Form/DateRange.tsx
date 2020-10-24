@@ -53,6 +53,11 @@ export interface DateRangeControlSchema extends FormBaseControl {
    * 这里面 value 需要特殊说明一下，因为支持相对值。* `-2mins` 2分钟前\n * `+2days` 2天后\n* `-10week` 十周前\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。
    */
   value?: any;
+
+  /**
+   * 开启后变成非弹出模式，即内联模式。
+   */
+  embed?: boolean;
 }
 
 export interface DateRangeProps

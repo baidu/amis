@@ -251,6 +251,9 @@ export interface DateProps extends LocaleProps, ThemeProps {
   timeConstraints?: any;
   popOverContainer?: any;
 
+  // 是否为内嵌模式，如果开启就不是 picker 了，直接页面点选。
+  embed?: boolean;
+
   // 下面那个千万不要写，写了就会导致 keyof DateProps 得到的结果是 string | number;
   // [propName: string]: any;
 }
@@ -510,12 +513,42 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       utc,
       overlayPlacement,
       locale,
-      format
+      format,
+      embed
     } = this.props;
 
     const __ = this.props.translate;
     const isOpened = this.state.isOpened;
     let date: moment.Moment | undefined = this.state.value;
+
+    if (embed) {
+      return (
+        <div
+          className={cx(
+            `${ns}DateCalendar`,
+            {
+              'is-disabled': disabled
+            },
+            className
+          )}
+        >
+          <Calendar
+            value={date}
+            onChange={this.handleChange}
+            requiredConfirm={false}
+            dateFormat={dateFormat}
+            timeFormat={timeFormat}
+            isValidDate={this.checkIsValidDate}
+            viewMode={viewMode}
+            timeConstraints={timeConstraints}
+            input={false}
+            onClose={this.close}
+            locale={locale}
+            // utc={utc}
+          />
+        </div>
+      );
+    }
 
     return (
       <div

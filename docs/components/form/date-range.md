@@ -24,6 +24,24 @@ order: 15
 }
 ```
 
+## 内嵌模式
+
+```schema:height="600" scope="body"
+{
+    "type": "form",
+    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "debug": true,
+    "controls": [
+        {
+            "type": "date-range",
+            "name": "date",
+            "label": "日期范围",
+            "embed": true
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -38,3 +56,4 @@ order: 15
 | maxDate     | `string`                  |                                                                 | 限制最大日期，用法同 [限制范围](./date#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4)                                                    |
 | utc         | `boolean`                 | `false`                                                         | [保存 UTC 值](./date#utc)                                                                                                       |
 | clearable   | `boolean`                 | `true`                                                          | 是否可清除                                                                                                                      |
+| embed   | `boolean`                 | `false`                                                          | 是否内联模式                                                                                                                      |

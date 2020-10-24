@@ -370,3 +370,10 @@ td.rdtYear {
     }
   }
 }
+
+.#{$ns}DateCalendar {
+  display: inline-block;
+  border: $DatePicker-borderWidth solid $DatePicker-borderColor;
+  background-color: $DatePicker-bg;
+  border-radius: $DatePicker-borderRadius;
+}

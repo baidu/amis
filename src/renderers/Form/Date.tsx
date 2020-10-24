@@ -31,6 +31,11 @@ export interface DateBaseControlSchema extends FormBaseControl {
    * 设定是否存储 utc 时间。
    */
   utc?: boolean;
+
+  /**
+   * 是否为内联模式？
+   */
+  emebed?: boolean;
 }
 
 /**

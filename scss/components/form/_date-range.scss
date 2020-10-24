@@ -133,3 +133,10 @@
     margin-left: $gap-sm;
   }
 }
+
+.#{$ns}DateRangeCalendar {
+  display: inline-block;
+  border: $DatePicker-borderWidth solid $DatePicker-borderColor;
+  background-color: $DatePicker-bg;
+  border-radius: $DatePicker-borderRadius;
+}
