@@ -23,6 +23,7 @@
 
   .#{$ns}Form-item--inline > .#{$ns}Form-value > & {
     display: inline-block;
+    vertical-align: top;
   }
 }
 
@@ -73,9 +74,6 @@
   }
 
   .#{$ns}Form--inline > &--inline {
-    margin-bottom: $Form-item-gap/2;
-    margin-right: $Form-item-gap/2;
-
     &:last-child {
       margin-right: 0;
       margin-bottom: 0;
@@ -85,6 +83,11 @@
   .#{$ns}Form-remark {
     padding-top: $Form-label-paddingTop;
     vertical-align: top;
+  }
+
+  &--inline {
+    margin-bottom: $Form-item-gap/2;
+    margin-right: $Form-item-gap/2;
   }
 
   &--horizontal {
