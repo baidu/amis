@@ -214,6 +214,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   validate(): any {
     const {value, minLength, maxLength, translate: __} = this.props;
 
+    // todo: 如果当前正在编辑中，表单提交了，应该先让正在编辑的东西提交然后再做验证。
+    if (~this.state.editIndex) {
+      return __('请先处理表格编辑项');
+    }
+
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return __(
         '组合表单成员数量不够，低于设定的最小{{minLength}}个，请添加更多的成员。',
