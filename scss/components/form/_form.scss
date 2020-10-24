@@ -20,6 +20,10 @@
   padding-top: $Form-label-paddingTop;
   padding-bottom: $Form-label-paddingTop;
   margin-bottom: 0;
+
+  .#{$ns}Form-item--inline > .#{$ns}Form-value > & {
+    display: inline-block;
+  }
 }
 
 .#{$ns}Form-label {
