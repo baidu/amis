@@ -20,7 +20,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: $fontSizeBase;
+    font-size: $fontSizeSm;
   }
 
   > span + .#{$ns}Remark-icon {

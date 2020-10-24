@@ -1,0 +1,17 @@
+.#{$ns}Progress {
+  height: 10px;
+  background: #ebebeb;
+  overflow: hidden;
+
+  &-bar {
+    float: left;
+    width: 0;
+    height: 100%;
+    font-size: 12px;
+    line-height: 10px;
+    color: #fff;
+    text-align: center;
+    background-color: $primary;
+    transition: width 0.6s ease;
+  }
+}
