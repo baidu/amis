@@ -52,6 +52,7 @@ import {
   LocaleProps
 } from './locale';
 import {SchemaCollection, SchemaObject, SchemaTpl} from './Schema';
+import {result} from 'lodash';
 
 export interface TestFunc {
   (
@@ -469,6 +470,8 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   renderer: RendererConfig | null;
   ref: any;
+  schema: any;
+  path: string;
 
   constructor(props: SchemaRendererProps) {
     super(props);
@@ -520,10 +523,10 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     return false;
   }
 
-  resolveRenderer(props: SchemaRendererProps): any {
+  resolveRenderer(props: SchemaRendererProps, skipResolve = false): any {
     let schema = props.schema;
     let path = props.$path;
-    const rendererResolver = props.env.rendererResolver || resolveRenderer;
+
     if (schema.$ref) {
       schema = {
         ...props.resolveDefinitions(schema.$ref),
@@ -534,16 +537,13 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       delete schema.$ref;
       path = path.replace(/(?!.*\/).*/, schema.type);
     }
-    // value 会提前从 control 中获取到，所有需要把control中的属性也补充完整
-    // if (schema.control && schema.control.$ref) {
-    //     schema.control = {
-    //         ...props.resolveDefinitions(schema.control.$ref),
-    //         ...schema.control
-    //     }
-    //     delete schema.control.$ref;
-    // }
-    this.renderer = rendererResolver(path, schema, props);
-    return schema;
+
+    if (!skipResolve) {
+      const rendererResolver = props.env.rendererResolver || resolveRenderer;
+      this.renderer = rendererResolver(path, schema, props);
+    }
+
+    return {path, schema};
   }
 
   getWrappedInstance() {
@@ -563,6 +563,12 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     } = {}
   ) {
     let {schema, $path, env, ...rest} = this.props;
+
+    if (schema.$ref) {
+      const result = this.resolveRenderer(this.props, true);
+      schema = result.schema;
+      $path = result.path;
+    }
 
     const omitList = defaultOmitList.concat();
     if (this.renderer) {
@@ -588,7 +594,9 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     let {$path, schema, ...rest} = this.props;
 
     if (schema.$ref) {
-      schema = this.resolveRenderer(this.props);
+      const result = this.resolveRenderer(this.props, true);
+      schema = result.schema;
+      $path = result.path;
     }
 
     const theme = this.props.env.theme;
