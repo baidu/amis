@@ -4,7 +4,7 @@ set -e
 rm -rf npm
 
 echo "Cloning"
-git clone -b npm https://$GH_TOKEN@github.com/baidu/amis.git npm
+git clone -b npm --depth=1 https://$GH_TOKEN@github.com/baidu/amis.git npm
 
 echo "building"
 sh publish.sh

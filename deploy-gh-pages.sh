@@ -4,7 +4,7 @@ set -e
 rm -rf gh-pages
 
 echo "Cloning"
-git clone -b gh-pages https://$GH_TOKEN@github.com/baidu/amis.git gh-pages
+git clone -b gh-pages --depth=1 https://$GH_TOKEN@github.com/baidu/amis.git gh-pages
 
 echo "building"
 node ./scripts/generate-search-data.js
