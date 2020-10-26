@@ -1,26 +1,21 @@
 #!/bin/bash
 set -e
 
-rm -rf lib
-rm -rf output
+rm -rf npm
+mkdir npm
 
-fis3 release publish -c
-rm -rf lib/node_modules
+cp -rf lib npm
+cp package.json npm
+cp schema.json npm
+cp -rf scss npm
+cp -rf examples npm
+cp -rf sdk npm
 
-# 生成 sdk
-rm -rf sdk && fis3 release publish-sdk -c
+cd npm
 
-# 生成 .d.ts 文件
-./node_modules/.bin/tsc --allowJs --declaration
+sed -i '' -e 's/\"name\": \"amis\"/\"name\": \"@fex\/amis\"/g' ./package.json
 
-cd output
-
-for f in $(find . -name "*.d.ts"); do
-    mkdir -p ../lib/$(dirname $f) && mv $f ../lib/$(dirname $f)
-done
+npm publish --registry=http://registry.npm.baidu-int.com
 
 cd ..
-
-rm -rf output
-
-npm run build-schemas
+rm -rf npm
