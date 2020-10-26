@@ -1,24 +1,5 @@
 // 默认主题
-
-// 更新时间: 2019-08-14 14:31:00
-$ns: 'a-';
-
-$primary: #7266ba;
-$info: #23b7e5;
-$success: #27c24c;
-$warning: #fad733;
-$danger: #f05050;
-$light: #edf1f2;
-$dark: #3a3f51;
-$black: #1c2b36;
-
-$text-color: #58666e;
-$link-color: $info;
-
-$Form-input-borderColor: #cfdadd;
-
-@import '../functions';
-@import '../variables';
+@import './default-variables';
 @import '../mixins';
 @import '../base/reset';
 @import '../base/normalize';

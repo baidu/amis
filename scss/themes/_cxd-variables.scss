@@ -1,4 +1,5 @@
-// 等以后 @use 语句支持了，就不用搞得这么麻烦了。
+@import '../functions';
+
 $remFactor: 16px;
 
 $ns: 'cxd-';
@@ -469,3 +470,5 @@ $ListMenu-item--onHover-bg: #eaf6fe;
 $Transfer-title-bg: $Table-thead-bg;
 
 $Satus-icon-width: px2rem(14px);
+
+@import '../variables';
