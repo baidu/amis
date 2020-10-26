@@ -6,6 +6,10 @@ body {
   background-color: #fff !important;
   &.dark {
     background-color: #333538 !important;
+
+    .markdown-body {
+      color: #fff;
+    }
   }
 }
 
@@ -322,7 +326,7 @@ a {
     .cxd-AsideNav,
     .dark-AsideNav {
       &-subList {
-        background: #fff;
+        background: transparent;
       }
 
       &-label {
@@ -343,12 +347,6 @@ a {
         padding-left: px2rem(20px);
         border-left: px2rem(1px) solid #e8ebee;
         position: relative;
-
-        &Arrow:empty:before {
-          background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB2aWV3Qm94PSIwIDAgOTkgMTc2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgoJPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTAuMTMyODEyLCAwLjMwNDY4OCkiIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1ydWxlPSJub256ZXJvIj4KCQk8cGF0aCBkPSJNOTUuNjM1MzY5Nyw3OS40MDMxMzQ2IEM5NS4zNDMzNjc4LDc5LjExMTEzMjYgOTUuMDM3NTc1LDc4Ljg0MTcxNTIgOTQuNzIxOTg5MSw3OC41OTA2ODU0IEwxOS44MTkzNzMsMy4yOTk5MzI2MiBDMTUuNjQ5MjAwNCwtMC44NzAwNDAyMzQgOC44ODgxODQzNywtMC44NzAwNDAyMzQgNC43MTgyMTE3MiwzLjI5OTkzMjYyIEMwLjU0ODIzODg2Nyw3LjQ3MDEwNTI3IDAuNTQ4MjM4ODY3LDE0LjIzMDkyMTUgNC43MTgyMTE3MiwxOC40MDEwOTM5IEw3Mi45MzI5NjIxLDg3LjAwNDE4MTEgTDMuMjUzMjA0ODgsMTU2LjYxNzc4MyBDLTAuOTE2NzY3OTY5LDE2MC43ODc5NTYgLTAuOTE2NzY3OTY5LDE2Ny41NDg3NzIgMy4yNTMyMDQ4OCwxNzEuNzE5MTQ0IEM3LjQyMzE3NzczLDE3NS44ODkxMTcgMTQuMTg0MTkzNywxNzUuODg5MTE3IDE4LjM1NDM2NjIsMTcxLjcxOTE0NCBMOTQuNzIxMTg5NSw5NS40MTgwNzY0IEM5NS4wMzY5NzU0LDk1LjE2Njg0NjcgOTUuMzQyOTY4LDk0Ljg5NzYyOTMgOTUuNjM1MTY5Nyw5NC42MDU0MjczIEM5Ny43MzI5NDc1LDkyLjUwNzY0OTYgOTguNzc0NDQxMiw4OS43NTM5MTY2IDk4Ljc2MTU3MzksODcuMDA0MzgwOSBDOTguNzc0NjQxNCw4NC4yNTQ0NDUzIDk3LjczMzE0NzUsODEuNTAwOTEyMyA5NS42MzUzNjk3LDc5LjQwMzEzNDYgWiIgaWQ9Iui3r+W+hCI+CgkJPC9wYXRoPgoJPC9nPgo8L3N2Zz4K);
-          background-position: center center;
-          background-repeat: no-repeat;
-        }
 
         a {
           font-size: px2rem(14px);
@@ -393,6 +391,15 @@ a {
             }
           }
         }
+      }
+    }
+
+    .a-AsideNav,
+    .cxd-AsideNav {
+      &-itemArrow:empty:before {
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB2aWV3Qm94PSIwIDAgOTkgMTc2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgoJPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTAuMTMyODEyLCAwLjMwNDY4OCkiIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1ydWxlPSJub256ZXJvIj4KCQk8cGF0aCBkPSJNOTUuNjM1MzY5Nyw3OS40MDMxMzQ2IEM5NS4zNDMzNjc4LDc5LjExMTEzMjYgOTUuMDM3NTc1LDc4Ljg0MTcxNTIgOTQuNzIxOTg5MSw3OC41OTA2ODU0IEwxOS44MTkzNzMsMy4yOTk5MzI2MiBDMTUuNjQ5MjAwNCwtMC44NzAwNDAyMzQgOC44ODgxODQzNywtMC44NzAwNDAyMzQgNC43MTgyMTE3MiwzLjI5OTkzMjYyIEMwLjU0ODIzODg2Nyw3LjQ3MDEwNTI3IDAuNTQ4MjM4ODY3LDE0LjIzMDkyMTUgNC43MTgyMTE3MiwxOC40MDEwOTM5IEw3Mi45MzI5NjIxLDg3LjAwNDE4MTEgTDMuMjUzMjA0ODgsMTU2LjYxNzc4MyBDLTAuOTE2NzY3OTY5LDE2MC43ODc5NTYgLTAuOTE2NzY3OTY5LDE2Ny41NDg3NzIgMy4yNTMyMDQ4OCwxNzEuNzE5MTQ0IEM3LjQyMzE3NzczLDE3NS44ODkxMTcgMTQuMTg0MTkzNywxNzUuODg5MTE3IDE4LjM1NDM2NjIsMTcxLjcxOTE0NCBMOTQuNzIxMTg5NSw5NS40MTgwNzY0IEM5NS4wMzY5NzU0LDk1LjE2Njg0NjcgOTUuMzQyOTY4LDk0Ljg5NzYyOTMgOTUuNjM1MTY5Nyw5NC42MDU0MjczIEM5Ny43MzI5NDc1LDkyLjUwNzY0OTYgOTguNzc0NDQxMiw4OS43NTM5MTY2IDk4Ljc2MTU3MzksODcuMDA0MzgwOSBDOTguNzc0NjQxNCw4NC4yNTQ0NDUzIDk3LjczMzE0NzUsODEuNTAwOTEyMyA5NS42MzUzNjk3LDc5LjQwMzEzNDYgWiIgaWQ9Iui3r+W+hCI+CgkJPC9wYXRoPgoJPC9nPgo8L3N2Zz4K);
+        background-position: center center;
+        background-repeat: no-repeat;
       }
     }
   }
@@ -613,14 +620,8 @@ a {
   }
 }
 
+.Doc-navDrawer,
 .dark-Layout .Doc {
-  .Doc-headingList-item a {
-    color: #fff;
-    &:hover {
-      color: #999;
-    }
-  }
-
   .dark-AsideNav-item {
     > a {
       color: #ccc;
@@ -641,6 +642,15 @@ a {
       color: #108cee;
     }
   }
+}
+
+.dark-Layout .Doc {
+  .Doc-headingList-item a {
+    color: #fff;
+    &:hover {
+      color: #999;
+    }
+  }
 
   &-footer {
     .Doc-navLinks--prev,
@@ -657,7 +667,7 @@ a {
   }
 
   .Backtop {
-    color: #eee;
+    color: #666;
     &:hover {
       color: #108cee;
     }
@@ -665,6 +675,10 @@ a {
 
   .markdown-body pre {
     background-color: #282c34;
+  }
+
+  .dark-AsideNav-label {
+    color: #ccc;
   }
 }
 
