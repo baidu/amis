@@ -1216,7 +1216,7 @@ export class ListItem extends React.Component<ListItemProps> {
         this.renderChild(
           {
             type: 'plain',
-            ...child
+            ...(typeof child === 'string' ? {type: 'tpl', tpl: child} : child)
           },
           `body/${index}`,
           index
