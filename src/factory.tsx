@@ -533,8 +533,6 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         ...schema
       };
 
-      // @ts-ignore
-      delete schema.$ref;
       path = path.replace(/(?!.*\/).*/, schema.type);
     }
 

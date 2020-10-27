@@ -1212,7 +1212,6 @@ export default class Form extends React.Component<FormProps, object> {
           ...control,
           ...getExprProperties(control, store.data)
         };
-        delete control.$ref;
       } else {
         subSchema.control = control = {
           ...control,

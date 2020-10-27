@@ -19,4 +19,4 @@ sed -i '' -e 's/\"name\": \"amis\"/\"name\": \"@fex\/amis\"/g' ./package.json
 npm publish --registry=http://registry.npm.baidu-int.com
 
 cd ..
-rm -rf npm
+# rm -rf npm
