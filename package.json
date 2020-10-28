@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "1.0.17",
+  "version": "1.0.18-beta.12",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "scripts": {
@@ -9,8 +9,8 @@
     "start": "fis3 server start --www ./public --port 8888 --no-daemon --no-browse",
     "stop": "fis3 server stop",
     "dev": "fis3 release -cwd ./public",
-    "publish2npm": "sh publish.sh && npm publish",
-    "build": "sh publish.sh",
+    "publish-to-internal": "sh build.sh && sh publish.sh",
+    "build": "sh build.sh",
     "prettier": "prettier --write '{src,examples,scss}/**/*.{tsx,ts,jsx,scss}'",
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
     "build-schemas": "ts-node -O '{\"target\":\"es6\"}' scripts/build-schemas.ts"

@@ -289,6 +289,28 @@ order: 13
 }
 ```
 
+## 内嵌模式
+
+```schema:height="600" scope="body"
+{
+    "type": "form",
+    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "controls": [
+        {
+            "type": "static-date",
+            "name": "date",
+            "label": "当前值"
+        },
+        {
+            "type": "date",
+            "name": "date",
+            "label": "日期",
+            "embed": true
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -305,4 +327,5 @@ order: 13
 | maxDate         | `string`  |                | 限制最大日期                                                                                                |
 | utc             | `boolean` | `false`        | 保存 utc 值                                                                                                 |
 | clearable       | `boolean` | `true`         | 是否可清除                                                                                                  |
+| embed           | `boolean` | `false`        | 是否内联模式                                                                                                |
 | timeConstrainst | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                   |

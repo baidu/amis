@@ -14,7 +14,7 @@ fis-conf.js
 /__tests__
 /__mocks__
 /coverage
-/publish.sh
+/build.sh
 /gh-pages
 /.github
 /docs
@@ -23,3 +23,4 @@ fis-conf.js
 /.travis.yml
 /deploy-gh-pages.sh
 /tsconfig.json
+/npm

@@ -130,7 +130,7 @@ module.exports = function (ret, pack, settings, opt) {
     try {
         throw new Error()
     } catch (e) {
-        d = (/((?:https?|file)\:.*)$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
+        d = (/((?:https?|file)\:.*)$/.test(e.stack) ? RegExp.$1 : '').replace(/\\/[^\\/]*$/, '');
     }
     ${contents.replace(/\"url\"\s*\:\s*('|")(\.\/.*)\1/g, function (
       _,

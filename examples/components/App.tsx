@@ -2,7 +2,11 @@ import React from 'react';
 import NotFound from '../../src/components/404';
 import Layout from '../../src/components/Layout';
 import AsideNav from '../../src/components/AsideNav';
-import {AlertComponent, ToastComponent} from '../../src/components/index';
+import {
+  AlertComponent,
+  Drawer,
+  ToastComponent
+} from '../../src/components/index';
 import {mapTree} from '../../src/utils/helper';
 import {Icon} from '../../src/components/icons';
 import '../../src/locale/en';
@@ -18,13 +22,8 @@ import {
 } from 'react-router';
 import Select from '../../src/components/Select';
 import DocSearch from './DocSearch';
-import {groupBy} from 'lodash';
-import classnames from 'classnames';
 import Doc, {docs} from './Doc';
 import Example, {examples} from './Example';
-
-// @ts-ignore
-import Logo from '../static/logo.svg';
 
 let ExamplePathPrefix = '/examples';
 let DocPathPrefix = '/docs';
@@ -75,26 +74,51 @@ function getPath(path) {
     : '';
 }
 
+class BackTop extends React.PureComponent {
+  state = {
+    show: false
+  };
+
+  componentDidMount() {
+    document.addEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  handleScroll(e) {
+    this.setState({
+      show: e.target.scrollingElement.scrollTop > 350
+    });
+  }
+
+  render() {
+    return (
+      <div
+        className={`Backtop ${this.state.show ? 'visible' : ''}`}
+        onClick={() => scrollTo({top: 0})}
+      >
+        <i className="fa fa-rocket"></i>
+      </div>
+    );
+  }
+}
+
 @withRouter
 export class App extends React.PureComponent {
   state = {
-    asideFolded: localStorage.getItem('asideFolded') === 'true',
     offScreen: false,
     headerVisible: true,
     themeIndex: 0,
     themes: themes,
     theme: themes[localStorage.getItem('themeIndex') || 0],
     locale: localStorage.getItem('locale') || '',
-    navigations: [],
-    scrollTop: 0
+    navigations: []
   };
 
   constructor(props) {
     super(props);
-
-    this.toggleAside = this.toggleAside.bind(this);
-    this.setAsideFolded = this.setAsideFolded.bind(this);
-    this.setHeaderVisible = this.setHeaderVisible.bind(this);
     this.setNavigations = this.setNavigations.bind(this);
   }
 
@@ -103,6 +127,7 @@ export class App extends React.PureComponent {
       document.querySelectorAll('link[title]').forEach(item => {
         item.disabled = true;
       });
+
       document.querySelector(
         `link[title=${this.state.theme.value}]`
       ).disabled = false;
@@ -111,7 +136,6 @@ export class App extends React.PureComponent {
         document.querySelector('body').classList.add('dark');
       }
     }
-    document.addEventListener('scroll', this.handleScroll.bind(this));
   }
 
   componentDidUpdate(preProps, preState) {
@@ -121,6 +145,7 @@ export class App extends React.PureComponent {
       document.querySelector(
         `link[title=${preState.theme.value}]`
       ).disabled = true;
+
       document.querySelector(
         `link[title=${this.state.theme.value}]`
       ).disabled = false;
@@ -134,74 +159,13 @@ export class App extends React.PureComponent {
         () => window.scrollTo(0, 0)
       );
 
-      const pageURL = props.location.pathname;
-      _hmt && _hmt.push(['_trackPageview', pageURL]);
+      _hmt && _hmt.push(['_trackPageview', props.location.pathname]);
     }
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('scroll', this.handleScroll.bind(this));
-  }
-
-  handleScroll(e) {
-    this.setState({
-      scrollTop: e.target.scrollingElement.scrollTop
-    });
-  }
-
-  toggleAside() {
-    this.setAsideFolded(!this.state.asideFolded);
-  }
-
-  setAsideFolded(folded = false) {
-    localStorage.setItem('asideFolded', JSON.stringify(folded));
-    this.setState({
-      asideFolded: folded
-    });
-  }
-
-  setHeaderVisible(visible = false) {
-    this.setState({
-      headerVisible: visible
-    });
-  }
-
-  renderAside() {
-    return (
-      <AsideNav
-        renderLink={() => {
-          return null;
-        }}
-      />
-    );
   }
 
   setNavigations(items) {
     this.setState({
       navigations: items
-    });
-  }
-
-  toggleOpen(e, item) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    const navigations = mapTree(this.state.navigations, i => {
-      const defaultOpen =
-        i.isOpen ??
-        (Array.isArray(i.children) &&
-          i.children.length &&
-          !!~i.children.findIndex(
-            item => getPath(item.path) === location.pathname
-          ));
-      return {
-        ...i,
-        isOpen: item.label === i.label ? !defaultOpen : defaultOpen
-      };
-    });
-
-    this.setState({
-      navigations
     });
   }
 
@@ -220,12 +184,12 @@ export class App extends React.PureComponent {
     return (
       <>
         <div className={`${theme.ns}Layout-brandBar`}>
-          {/* <button
+          <div
             onClick={() => this.setState({offScreen: !this.state.offScreen})}
-            className="pull-right visible-xs"
+            className={`${theme.ns}Layout-offScreen-btn pull-left visible-xs`}
           >
-            <i className="glyphicon glyphicon-align-justify" />
-          </button> */}
+            <i className="bui-icon iconfont icon-collapse"></i>
+          </div>
 
           <div className={`${theme.ns}Layout-brand`}>
             <Link to={`${ContextPath}/docs`}>
@@ -242,7 +206,10 @@ export class App extends React.PureComponent {
             <Link to={`${ContextPath}/examples`} activeClassName="is-active">
               示例
             </Link>
-            <a href="https://github.com/fex-team/amis-editor" target="_blank">
+            <a
+              href="https://github.com/fex-team/amis-editor-demo"
+              target="_blank"
+            >
               可视化编辑器
             </a>
             {/* <a href="https://suda.bce.baidu.com" target="_blank">
@@ -298,60 +265,73 @@ export class App extends React.PureComponent {
     );
   }
 
-  renderNavigation(navs, parent?: any) {
-    const pathname = location.pathname;
-    return navs.map(nav => {
-      const path = getPath(nav.path);
-      const hasChildren = Array.isArray(nav.children) && nav.children.length;
-      const isOpen =
-        nav.isOpen ||
-        (nav.isOpen !== false &&
-          hasChildren &&
-          !!~nav.children.findIndex(item => getPath(item.path) === pathname));
+  renderNavigation() {
+    return (
+      <div className="Doc-navigation">
+        <AsideNav
+          navigations={this.state.navigations.map(item => ({
+            ...item,
+            children: item.children
+              ? item.children.map(item => ({
+                  ...item,
+                  className: 'is-top'
+                }))
+              : []
+          }))}
+          renderLink={({
+            link,
+            active,
+            toggleExpand,
+            classnames: cx,
+            depth
+          }: any) => {
+            let children = [];
 
-      return (
-        <div
-          key={nav.label}
-          className={classnames('Doc-navigation-item', {
-            'is-active': path === location.pathname,
-            'is-top': !parent,
-            'is-open': isOpen
-          })}
-        >
-          <Link
-            onClick={e => {
-              browserHistory.push(
-                `${path || (hasChildren && getPath(nav.children[0].path))}`
+            if (link.children && link.children.length) {
+              children.push(
+                <span
+                  key="expand-toggle"
+                  className={cx('AsideNav-itemArrow')}
+                  onClick={e => toggleExpand(link, e)}
+                ></span>
               );
-              !isOpen && this.toggleOpen(e, nav);
-            }}
-            // to={`${path || (hasChildren && nav.children[0].path)}`}
-          >
-            {nav.label}
-            {hasChildren ? (
-              <i
-                className={`iconfont icon-xialajiantou ${
-                  isOpen ? '' : 'is-flipped'
-                }`}
-                onClick={e => this.toggleOpen(e, nav)}
-              ></i>
-            ) : null}
-          </Link>
+            }
 
-          {isOpen
-            ? this.renderNavigation(nav.children || [], {
-                ...nav,
-                path
-              })
-            : null}
-        </div>
-      );
-    });
+            children.push(
+              <span className={cx('AsideNav-itemLabel')} key="label">
+                {link.label}
+              </span>
+            );
+
+            return link.path ? (
+              /^https?\:/.test(link.path) ? (
+                <a target="_blank" href={link.path}>
+                  {children}
+                </a>
+              ) : (
+                <Link
+                  to={
+                    getPath(link.path) ||
+                    (link.children && getPath(link.children[0].path))
+                  }
+                >
+                  {children}
+                </Link>
+              )
+            ) : (
+              <a onClick={link.children ? () => toggleExpand(link) : undefined}>
+                {children}
+              </a>
+            );
+          }}
+          isActive={(link: any) => isActive(link, location)}
+        />
+      </div>
+    );
   }
 
   render() {
     const theme = this.state.theme;
-    const navigations = this.state.navigations;
 
     return (
       <Layout
@@ -359,49 +339,47 @@ export class App extends React.PureComponent {
         boxed={true}
         offScreen={this.state.offScreen}
         header={this.state.headerVisible ? this.renderHeader() : null}
-        // folded={this.state.asideFolded}
-        // aside={this.renderAside()}
       >
         <ToastComponent theme={theme.value} locale={this.state.locale} />
         <AlertComponent theme={theme.value} locale={this.state.locale} />
 
         <div className="Doc">
           <div className="Doc-nav hidden-xs hidden-sm">
-            <div className="Doc-navigation">
-              {navigations.map(item => (
-                <div className="Doc-navigationGroup" key={item.label}>
-                  <div className="Doc-navigationGroup-name">
-                    {item.label || '其他'}
-                  </div>
-                  {this.renderNavigation(item.children)}
-                </div>
-              ))}
-            </div>
+            {this.renderNavigation()}
           </div>
 
-          {/* 完了加个动画吧 */}
-          <div
-            className={`Backtop ${this.state.scrollTop > 450 ? 'visible' : ''}`}
-            onClick={() => scrollTo({top: 0})}
+          <Drawer
+            size="xs"
+            className="Doc-navDrawer"
+            overlay
+            closeOnOutside
+            onHide={() => this.setState({offScreen: false})}
+            show={this.state.offScreen}
+            position="left"
           >
-            <i className="fa fa-rocket"></i>
-          </div>
+            {this.renderNavigation()}
+          </Drawer>
+
+          <BackTop />
 
           {React.cloneElement(this.props.children, {
             key: theme.value,
             ...this.props.children.props,
             setNavigations: this.setNavigations,
-            setAsideFolded: this.setAsideFolded,
-            setHeaderVisible: this.setHeaderVisible,
             theme: theme.value,
             classPrefix: theme.ns,
             locale: this.state.locale,
+            offScreen: this.state.offScreen,
             ContextPath
           })}
         </div>
       </Layout>
     );
   }
+}
+
+function isActive(link: any, location: any) {
+  return !!(link.path && getPath(link.path) === location.pathname);
 }
 
 function navigations2route(pathPrefix = DocPathPrefix, navigations) {

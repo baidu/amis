@@ -115,26 +115,26 @@
       flex-grow: 1;
       @include clearfix();
     }
-  }
 
-  &-toolbar-item {
-    margin-left: $Crud-toolbar-gap;
-    line-height: $Crud-toolbar-lineHeight;
-    height: $Crud-toolbar-height;
-    vertical-align: middle;
-
-    &--left {
-      float: left;
-    }
-
-    &--right {
-      float: right;
-    }
-  }
-
-  &-actions {
-    > .#{$ns}Button + .#{$ns}Button {
+    &-toolbar-item {
       margin-left: $Crud-toolbar-gap;
+      line-height: $Crud-toolbar-lineHeight;
+      height: $Crud-toolbar-height;
+      vertical-align: middle;
+
+      &--left {
+        float: left;
+      }
+
+      &--right {
+        float: right;
+      }
+    }
+
+    &-actions {
+      > .#{$ns}Button + .#{$ns}Button {
+        margin-left: $Crud-toolbar-gap;
+      }
     }
   }
 }

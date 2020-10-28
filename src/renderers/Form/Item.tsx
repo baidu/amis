@@ -811,7 +811,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               })
             : null}
 
-          {model && !model.valid && showErrorMsg !== false ? (
+          {model &&
+          !model.valid &&
+          showErrorMsg !== false &&
+          Array.isArray(model.errors) ? (
             <ul className={cx(`Form-feedback`)}>
               {model.errors.map((msg: string, key: number) => (
                 <li key={key}>{msg}</li>
@@ -910,7 +913,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             })
           : null}
 
-        {model && !model.valid && showErrorMsg !== false ? (
+        {model &&
+        !model.valid &&
+        showErrorMsg !== false &&
+        Array.isArray(model.errors) ? (
           <ul className={cx(`Form-feedback`)}>
             {model.errors.map((msg: string, key: number) => (
               <li key={key}>{msg}</li>
@@ -1010,7 +1016,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               })
             : null}
 
-          {model && !model.valid && showErrorMsg !== false ? (
+          {model &&
+          !model.valid &&
+          showErrorMsg !== false &&
+          Array.isArray(model.errors) ? (
             <ul className={cx(`Form-feedback`)}>
               {model.errors.map((msg: string, key: number) => (
                 <li key={key}>{msg}</li>
@@ -1113,7 +1122,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             })
           : null}
 
-        {model && !model.valid && showErrorMsg !== false ? (
+        {model &&
+        !model.valid &&
+        showErrorMsg !== false &&
+        Array.isArray(model.errors) ? (
           <ul className={cx('Form-feedback')}>
             {model.errors.map((msg: string, key: number) => (
               <li key={key}>{msg}</li>

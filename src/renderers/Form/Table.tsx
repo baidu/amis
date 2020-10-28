@@ -136,6 +136,7 @@ export interface TableProps
 export interface TableState {
   columns: Array<any>;
   editIndex: number;
+  buildItemProps: (props: any) => any;
   editting?: any;
   isCreateMode?: boolean;
 }
@@ -177,7 +178,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     this.state = {
       columns: this.buildColumns(props),
-      editIndex: -1
+      editIndex: -1,
+      buildItemProps: this.buildItemProps.bind(this)
     };
 
     this.entries = new SimpleMap();
@@ -188,6 +190,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.handleTableSave = this.handleTableSave.bind(this);
     this.getEntryId = this.getEntryId.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
+  }
+
+  componentDidUpdate(nextProps: TableProps) {
+    const props = this.props;
+
+    if (props.columns !== nextProps.columns) {
+      this.setState({
+        columns: this.buildColumns(props)
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -201,6 +213,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
   validate(): any {
     const {value, minLength, maxLength, translate: __} = this.props;
+
+    // todo: 如果当前正在编辑中，表单提交了，应该先让正在编辑的东西提交然后再做验证。
+    if (~this.state.editIndex) {
+      return __('请先处理表格编辑项');
+    }
 
     if (minLength && (!Array.isArray(value) || value.length < minLength)) {
       return __(
@@ -338,12 +355,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const scaffold = this.props.scaffold;
     this.setState({
       editIndex: index,
+      buildItemProps: this.buildItemProps.bind(this),
       editting: this.editting =
         editting || (value && value[index]) || scaffold || {},
       isCreateMode: isCreate,
       columns:
         this.state.isCreateMode === isCreate
-          ? this.state.columns
+          ? this.state.columns.concat()
           : this.buildColumns(this.props, isCreate)
     });
   }
@@ -398,6 +416,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     this.setState({
       editIndex: -1,
+      columns: this.state.columns.concat(),
+      buildItemProps: this.buildItemProps.bind(this),
       editting: null
     });
     onChange(newValue);
@@ -413,7 +433,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     this.setState({
-      editIndex: -1
+      editIndex: -1,
+      columns: this.state.columns.concat(),
+      buildItemProps: this.buildItemProps.bind(this)
     });
   }
 
@@ -781,7 +803,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             getEntryId: this.getEntryId,
             onSave: this.handleTableSave,
             onSaveOrder: this.handleSaveTableOrder,
-            buildItemProps: this.buildItemProps,
+            buildItemProps: this.state.buildItemProps,
             quickEditFormRef: this.subFormRef,
             columnsTogglable: columnsTogglable,
             combineNum: combineNum

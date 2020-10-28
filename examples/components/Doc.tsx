@@ -186,21 +186,12 @@ export const docs = [
       },
       {
         label: 'Form 表单',
-        // path: '/docs/components/form/index',
-        // getComponent: (location, cb) =>
-        //   require(['../../docs/components/form/index.md'], doc => {
-        //     cb(null, makeMarkdownRenderer(doc));
-        //   }),
+        path: '/docs/components/form/index',
+        getComponent: (location, cb) =>
+          require(['../../docs/components/form/index.md'], doc => {
+            cb(null, makeMarkdownRenderer(doc));
+          }),
         children: [
-          // @todo 完了想办法把这个放上面，暂时先这样
-          {
-            label: 'Form 表单',
-            path: '/docs/components/form/index',
-            getComponent: (location, cb) =>
-              require(['../../docs/components/form/index.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
-          },
           {
             label: 'FormItem 表单项',
             path: '/docs/components/form/formitem',
@@ -1054,6 +1045,7 @@ export default class Doc extends React.PureComponent {
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
           locale: this.props.locale,
+          offScreen: this.props.offScreen,
           ContextPath: this.props.ContextPath,
           prevDoc: this.state.prevDoc,
           nextDoc: this.state.nextDoc

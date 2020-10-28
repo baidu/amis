@@ -162,7 +162,7 @@
       width: $svgSize;
       height: $svgSize;
       top: $svgSize * 0.125;
-      margin-right: $Tree-itemArrowWidth - px2rem(14px); // icon 的宽度是14px
+      margin-right: $gap-xs;
     }
   }
 

@@ -41,6 +41,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   resetValue?: any;
   popOverContainer?: any;
   dateFormat?: string;
+  embed?: boolean;
 }
 
 export interface DateRangePickerState {
@@ -153,508 +154,559 @@ const availableRanges: {[propName: string]: any} = {
 };
 
 export class DateRangePicker extends React.Component<
-  DateRangePickerProps,
-  DateRangePickerState
-> {
-  static defaultProps = {
-    placeholder: '请选择日期范围',
-    format: 'X',
-    inputFormat: 'YYYY-MM-DD',
-    joinValues: true,
-    clearable: true,
-    delimiter: ',',
-    ranges: 'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
-    resetValue: '',
-    closeOnSelect: true,
-    overlayPlacement: 'auto'
-  };
+         DateRangePickerProps,
+         DateRangePickerState
+       > {
+         static defaultProps = {
+           placeholder: '请选择日期范围',
+           format: 'X',
+           inputFormat: 'YYYY-MM-DD',
+           joinValues: true,
+           clearable: true,
+           delimiter: ',',
+           ranges:
+             'yesterday,7daysago,prevweek,thismonth,prevmonth,prevquarter',
+           resetValue: '',
+           closeOnSelect: true,
+           overlayPlacement: 'auto'
+         };
 
-  innerDom: any;
-  popover: any;
-  input?: HTMLInputElement;
+         innerDom: any;
+         popover: any;
+         input?: HTMLInputElement;
 
-  static formatValue(
-    newValue: any,
-    format: string,
-    joinValues: boolean,
-    delimiter: string,
-    utc = false
-  ) {
-    newValue = [
-      (utc ? moment.utc(newValue.startDate) : newValue.startDate).format(
-        format
-      ),
-      (utc ? moment.utc(newValue.endDate) : newValue.endDate).format(format)
-    ];
+         static formatValue(
+           newValue: any,
+           format: string,
+           joinValues: boolean,
+           delimiter: string,
+           utc = false
+         ) {
+           newValue = [
+             (utc ? moment.utc(newValue.startDate) : newValue.startDate).format(
+               format
+             ),
+             (utc ? moment.utc(newValue.endDate) : newValue.endDate).format(
+               format
+             )
+           ];
 
-    if (joinValues) {
-      newValue = newValue.join(delimiter);
-    }
+           if (joinValues) {
+             newValue = newValue.join(delimiter);
+           }
 
-    return newValue;
-  }
+           return newValue;
+         }
 
-  static unFormatValue(
-    value: any,
-    format: string,
-    joinValues: boolean,
-    delimiter: string
-  ) {
-    if (!value) {
-      return {
-        startDate: undefined,
-        endDate: undefined
-      };
-    }
+         static unFormatValue(
+           value: any,
+           format: string,
+           joinValues: boolean,
+           delimiter: string
+         ) {
+           if (!value) {
+             return {
+               startDate: undefined,
+               endDate: undefined
+             };
+           }
 
-    if (joinValues && typeof value === 'string') {
-      value = value.split(delimiter);
-    }
+           if (joinValues && typeof value === 'string') {
+             value = value.split(delimiter);
+           }
 
-    return {
-      startDate: value[0] ? moment(value[0], format) : undefined,
-      endDate: value[1] ? moment(value[1], format) : undefined
-    };
-  }
+           return {
+             startDate: value[0] ? moment(value[0], format) : undefined,
+             endDate: value[1] ? moment(value[1], format) : undefined
+           };
+         }
 
-  dom: React.RefObject<HTMLDivElement>;
-  nextMonth = moment().add(1, 'months');
+         dom: React.RefObject<HTMLDivElement>;
+         nextMonth = moment().add(1, 'months');
 
-  constructor(props: DateRangePickerProps) {
-    super(props);
+         constructor(props: DateRangePickerProps) {
+           super(props);
 
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.handleStartChange = this.handleStartChange.bind(this);
-    this.handleEndChange = this.handleEndChange.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.checkStartIsValidDate = this.checkStartIsValidDate.bind(this);
-    this.checkEndIsValidDate = this.checkEndIsValidDate.bind(this);
-    this.confirm = this.confirm.bind(this);
-    this.clearValue = this.clearValue.bind(this);
-    this.dom = React.createRef();
-    this.handleClick = this.handleClick.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handlePopOverClick = this.handlePopOverClick.bind(this);
-    this.renderDay = this.renderDay.bind(this);
-    const {format, joinValues, delimiter, value} = this.props;
+           this.open = this.open.bind(this);
+           this.close = this.close.bind(this);
+           this.handleStartChange = this.handleStartChange.bind(this);
+           this.handleEndChange = this.handleEndChange.bind(this);
+           this.handleFocus = this.handleFocus.bind(this);
+           this.handleBlur = this.handleBlur.bind(this);
+           this.checkStartIsValidDate = this.checkStartIsValidDate.bind(this);
+           this.checkEndIsValidDate = this.checkEndIsValidDate.bind(this);
+           this.confirm = this.confirm.bind(this);
+           this.clearValue = this.clearValue.bind(this);
+           this.dom = React.createRef();
+           this.handleClick = this.handleClick.bind(this);
+           this.handleKeyPress = this.handleKeyPress.bind(this);
+           this.handlePopOverClick = this.handlePopOverClick.bind(this);
+           this.renderDay = this.renderDay.bind(this);
+           const {format, joinValues, delimiter, value} = this.props;
 
-    this.state = {
-      isOpened: false,
-      isFocused: false,
-      ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
-    };
-  }
+           this.state = {
+             isOpened: false,
+             isFocused: false,
+             ...DateRangePicker.unFormatValue(
+               value,
+               format,
+               joinValues,
+               delimiter
+             )
+           };
+         }
 
-  componentWillReceiveProps(nextProps: DateRangePickerProps) {
-    const props = this.props;
-    const {value, format, joinValues, delimiter} = nextProps;
+         componentWillReceiveProps(nextProps: DateRangePickerProps) {
+           const props = this.props;
+           const {value, format, joinValues, delimiter} = nextProps;
 
-    if (props.value !== value) {
-      this.setState({
-        ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
-      });
-    }
-  }
+           if (props.value !== value) {
+             this.setState({
+               ...DateRangePicker.unFormatValue(
+                 value,
+                 format,
+                 joinValues,
+                 delimiter
+               )
+             });
+           }
+         }
 
-  focus() {
-    if (!this.dom.current || this.props.disabled) {
-      return;
-    }
+         focus() {
+           if (!this.dom.current || this.props.disabled) {
+             return;
+           }
 
-    this.dom.current.focus();
-  }
+           this.dom.current.focus();
+         }
 
-  blur() {
-    if (!this.dom.current || this.props.disabled) {
-      return;
-    }
+         blur() {
+           if (!this.dom.current || this.props.disabled) {
+             return;
+           }
 
-    this.dom.current.blur();
-  }
+           this.dom.current.blur();
+         }
 
-  handleFocus() {
-    this.setState({
-      isFocused: true
-    });
-  }
+         handleFocus() {
+           this.setState({
+             isFocused: true
+           });
+         }
 
-  handleBlur() {
-    this.setState({
-      isFocused: false
-    });
-  }
+         handleBlur() {
+           this.setState({
+             isFocused: false
+           });
+         }
 
-  open() {
-    if (this.props.disabled) {
-      return;
-    }
+         open() {
+           if (this.props.disabled) {
+             return;
+           }
 
-    this.setState({
-      isOpened: true
-    });
-  }
+           this.setState({
+             isOpened: true
+           });
+         }
 
-  close() {
-    this.setState(
-      {
-        isOpened: false
-      },
-      this.blur
-    );
-  }
+         close() {
+           this.setState(
+             {
+               isOpened: false
+             },
+             this.blur
+           );
+         }
 
-  handleClick() {
-    this.state.isOpened ? this.close() : this.open();
-  }
+         handleClick() {
+           this.state.isOpened ? this.close() : this.open();
+         }
 
-  handlePopOverClick(e: React.MouseEvent<any>) {
-    e.stopPropagation();
-    e.preventDefault();
-  }
+         handlePopOverClick(e: React.MouseEvent<any>) {
+           e.stopPropagation();
+           e.preventDefault();
+         }
 
-  handleKeyPress(e: React.KeyboardEvent) {
-    if (e.key === ' ') {
-      this.handleClick();
-      e.preventDefault();
-    }
-  }
+         handleKeyPress(e: React.KeyboardEvent) {
+           if (e.key === ' ') {
+             this.handleClick();
+             e.preventDefault();
+           }
+         }
 
-  confirm() {
-    if (!this.state.startDate || !this.state.endDate) {
-      return;
-    } else if (this.state.startDate.isAfter(this.state.endDate)) {
-      return;
-    }
+         confirm() {
+           if (!this.state.startDate || !this.state.endDate) {
+             return;
+           } else if (this.state.startDate.isAfter(this.state.endDate)) {
+             return;
+           }
 
-    this.props.onChange(
-      DateRangePicker.formatValue(
-        {
-          startDate: this.state.startDate,
-          endDate: this.state.endDate
-        },
-        this.props.format,
-        this.props.joinValues,
-        this.props.delimiter,
-        this.props.utc
-      )
-    );
-    this.close();
-  }
+           this.props.onChange(
+             DateRangePicker.formatValue(
+               {
+                 startDate: this.state.startDate,
+                 endDate: this.state.endDate
+               },
+               this.props.format,
+               this.props.joinValues,
+               this.props.delimiter,
+               this.props.utc
+             )
+           );
+           this.close();
+         }
 
-  handleStartChange(newValue: moment.Moment) {
-    if (
-      this.state.startDate &&
-      !this.state.endDate &&
-      newValue.isAfter(this.state.startDate)
-    ) {
-      return this.setState({
-        endDate: newValue.clone()
-      });
-    }
+         handleStartChange(newValue: moment.Moment) {
+           if (
+             this.state.startDate &&
+             !this.state.endDate &&
+             newValue.isAfter(this.state.startDate)
+           ) {
+             return this.setState({
+               endDate: newValue.clone()
+             });
+           }
 
-    this.setState({
-      startDate: newValue.clone()
-    });
-  }
+           this.setState({
+             startDate: newValue.clone()
+           });
+         }
 
-  handleEndChange(newValue: moment.Moment) {
-    newValue =
-      !this.state.endDate && !this.props.timeFormat
-        ? newValue.endOf('day')
-        : newValue;
+         handleEndChange(newValue: moment.Moment) {
+           newValue =
+             !this.state.endDate && !this.props.timeFormat
+               ? newValue.endOf('day')
+               : newValue;
 
-    if (
-      this.state.endDate &&
-      !this.state.startDate &&
-      newValue.isBefore(this.state.endDate)
-    ) {
-      return this.setState({
-        startDate: newValue.clone()
-      });
-    }
+           if (
+             this.state.endDate &&
+             !this.state.startDate &&
+             newValue.isBefore(this.state.endDate)
+           ) {
+             return this.setState({
+               startDate: newValue.clone()
+             });
+           }
 
-    this.setState({
-      endDate: newValue.clone()
-    });
-  }
+           this.setState({
+             endDate: newValue.clone()
+           }, () => {
+             this.props.embed && this.confirm();
+           });
+         }
 
-  selectRannge(range: PlainObject) {
-    const {closeOnSelect, minDate, maxDate} = this.props;
-    const now = moment();
-    this.setState(
-      {
-        startDate: minDate
-          ? moment.max(range.startDate(now.clone()), minDate)
-          : range.startDate(now.clone()),
-        endDate: maxDate
-          ? moment.min(maxDate, range.endDate(now.clone()))
-          : range.endDate(now.clone())
-      },
-      closeOnSelect ? this.confirm : noop
-    );
-  }
+         selectRannge(range: PlainObject) {
+           const {closeOnSelect, minDate, maxDate} = this.props;
+           const now = moment();
+           this.setState(
+             {
+               startDate: minDate
+                 ? moment.max(range.startDate(now.clone()), minDate)
+                 : range.startDate(now.clone()),
+               endDate: maxDate
+                 ? moment.min(maxDate, range.endDate(now.clone()))
+                 : range.endDate(now.clone())
+             },
+             closeOnSelect ? this.confirm : noop
+           );
+         }
 
-  renderRanges(ranges: string | Array<ShortCuts> | undefined) {
-    if (!ranges) {
-      return null;
-    }
-    const {classPrefix: ns} = this.props;
-    let rangeArr: Array<string | ShortCuts>;
-    if (typeof ranges === 'string') {
-      rangeArr = ranges.split(',');
-    } else {
-      rangeArr = ranges;
-    }
-    const __ = this.props.translate;
+         renderRanges(ranges: string | Array<ShortCuts> | undefined) {
+           if (!ranges) {
+             return null;
+           }
+           const {classPrefix: ns} = this.props;
+           let rangeArr: Array<string | ShortCuts>;
+           if (typeof ranges === 'string') {
+             rangeArr = ranges.split(',');
+           } else {
+             rangeArr = ranges;
+           }
+           const __ = this.props.translate;
 
-    return (
-      <ul className={`${ns}DateRangePicker-rangers`}>
-        {rangeArr.map(item => {
-          if (!item) {
-            return null;
-          }
-          let range: PlainObject = {};
-          if (typeof item === 'string') {
-            range = availableRanges[item];
-            range.key = item;
-          } else if (
-            (item as ShortCutDateRange).startDate &&
-            (item as ShortCutDateRange).endDate
-          ) {
-            range = {
-              ...item,
-              startDate: () => (item as ShortCutDateRange).startDate,
-              endDate: () => (item as ShortCutDateRange).endDate
-            };
-          }
-          return (
-            <li
-              className={`${ns}DateRangePicker-ranger`}
-              onClick={() => this.selectRannge(range)}
-              key={range.key || range.label}
-            >
-              <a>{__(range.label)}</a>
-            </li>
-          );
-        })}
-      </ul>
-    );
-  }
+           return (
+             <ul className={`${ns}DateRangePicker-rangers`}>
+               {rangeArr.map(item => {
+                 if (!item) {
+                   return null;
+                 }
+                 let range: PlainObject = {};
+                 if (typeof item === 'string') {
+                   range = availableRanges[item];
+                   range.key = item;
+                 } else if (
+                   (item as ShortCutDateRange).startDate &&
+                   (item as ShortCutDateRange).endDate
+                 ) {
+                   range = {
+                     ...item,
+                     startDate: () => (item as ShortCutDateRange).startDate,
+                     endDate: () => (item as ShortCutDateRange).endDate
+                   };
+                 }
+                 return (
+                   <li
+                     className={`${ns}DateRangePicker-ranger`}
+                     onClick={() => this.selectRannge(range)}
+                     key={range.key || range.label}
+                   >
+                     <a>{__(range.label)}</a>
+                   </li>
+                 );
+               })}
+             </ul>
+           );
+         }
 
-  clearValue(e: React.MouseEvent<any>) {
-    e.preventDefault();
-    e.stopPropagation();
-    const {resetValue, onChange} = this.props;
+         clearValue(e: React.MouseEvent<any>) {
+           e.preventDefault();
+           e.stopPropagation();
+           const {resetValue, onChange} = this.props;
 
-    onChange(resetValue);
-  }
+           onChange(resetValue);
+         }
 
-  checkStartIsValidDate(currentDate: moment.Moment) {
-    let {endDate} = this.state;
+         checkStartIsValidDate(currentDate: moment.Moment) {
+           let {endDate} = this.state;
 
-    let {minDate, maxDate} = this.props;
+           let {minDate, maxDate} = this.props;
 
-    maxDate =
-      maxDate && endDate
-        ? maxDate.isBefore(endDate)
-          ? maxDate
-          : endDate
-        : maxDate || endDate;
+           maxDate =
+             maxDate && endDate
+               ? maxDate.isBefore(endDate)
+                 ? maxDate
+                 : endDate
+               : maxDate || endDate;
 
-    if (minDate && currentDate.isBefore(minDate, 'day')) {
-      return false;
-    } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
-      return false;
-    }
+           if (minDate && currentDate.isBefore(minDate, 'day')) {
+             return false;
+           } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
+             return false;
+           }
 
-    return true;
-  }
+           return true;
+         }
 
-  checkEndIsValidDate(currentDate: moment.Moment) {
-    let {startDate} = this.state;
+         checkEndIsValidDate(currentDate: moment.Moment) {
+           let {startDate} = this.state;
 
-    let {minDate, maxDate} = this.props;
+           let {minDate, maxDate} = this.props;
 
-    minDate =
-      minDate && startDate
-        ? minDate.isAfter(startDate)
-          ? minDate
-          : startDate
-        : minDate || startDate;
+           minDate =
+             minDate && startDate
+               ? minDate.isAfter(startDate)
+                 ? minDate
+                 : startDate
+               : minDate || startDate;
 
-    if (minDate && currentDate.isBefore(minDate, 'day')) {
-      return false;
-    } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
-      return false;
-    }
+           if (minDate && currentDate.isBefore(minDate, 'day')) {
+             return false;
+           } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
+             return false;
+           }
 
-    return true;
-  }
+           return true;
+         }
 
-  renderDay(props: any, currentDate: moment.Moment) {
-    let {startDate, endDate} = this.state;
+         renderDay(props: any, currentDate: moment.Moment) {
+           let {startDate, endDate} = this.state;
 
-    if (
-      startDate &&
-      endDate &&
-      currentDate.isBetween(startDate, endDate, 'day', '[]')
-    ) {
-      props.className += ' rdtBetween';
-    }
+           if (
+             startDate &&
+             endDate &&
+             currentDate.isBetween(startDate, endDate, 'day', '[]')
+           ) {
+             props.className += ' rdtBetween';
+           }
 
-    return <td {...props}>{currentDate.date()}</td>;
-  }
+           return <td {...props}>{currentDate.date()}</td>;
+         }
 
-  render() {
-    const {
-      className,
-      classPrefix: ns,
-      value,
-      placeholder,
-      popOverContainer,
-      inputFormat,
-      format,
-      dateFormat,
-      joinValues,
-      delimiter,
-      clearable,
-      timeFormat,
-      ranges,
-      disabled,
-      locale,
-      overlayPlacement
-    } = this.props;
+         renderCalendar() {
+           const {
+             classPrefix: ns,
+             dateFormat,
+             timeFormat,
+             ranges,
+             locale,
+             embed
+           } = this.props;
+           const __ = this.props.translate;
 
-    const {isOpened, isFocused, startDate, endDate} = this.state;
+           const {startDate, endDate} = this.state;
+           return (
+             <div className={`${ns}DateRangePicker-wrap`}>
+               {this.renderRanges(ranges)}
 
-    const selectedDate = DateRangePicker.unFormatValue(
-      value,
-      format,
-      joinValues,
-      delimiter
-    );
-    const startViewValue = selectedDate.startDate
-      ? selectedDate.startDate.format(inputFormat)
-      : '';
-    const endViewValue = selectedDate.endDate
-      ? selectedDate.endDate.format(inputFormat)
-      : '';
-    const arr = [];
-    startViewValue && arr.push(startViewValue);
-    endViewValue && arr.push(endViewValue);
-    const __ = this.props.translate;
+               <Calendar
+                 className={`${ns}DateRangePicker-start`}
+                 value={startDate}
+                 onChange={this.handleStartChange}
+                 requiredConfirm={false}
+                 dateFormat={dateFormat}
+                 timeFormat={timeFormat}
+                 isValidDate={this.checkStartIsValidDate}
+                 viewMode="days"
+                 input={false}
+                 onClose={this.close}
+                 renderDay={this.renderDay}
+                 locale={locale}
+               />
 
-    return (
-      <div
-        tabIndex={0}
-        onKeyPress={this.handleKeyPress}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        className={cx(
-          `${ns}DateRangePicker`,
-          {
-            'is-disabled': disabled,
-            'is-focused': isFocused
-          },
-          className
-        )}
-        ref={this.dom}
-        onClick={this.handleClick}
-      >
-        {arr.length ? (
-          <span className={`${ns}DateRangePicker-value`}>
-            {arr.join(__(' 至 '))}
-          </span>
-        ) : (
-          <span className={`${ns}DateRangePicker-placeholder`}>
-            {__(placeholder)}
-          </span>
-        )}
+               <Calendar
+                 className={`${ns}DateRangePicker-end`}
+                 value={endDate}
+                 onChange={this.handleEndChange}
+                 requiredConfirm={false}
+                 dateFormat={dateFormat}
+                 timeFormat={timeFormat}
+                 viewDate={this.nextMonth}
+                 isEndDate
+                 isValidDate={this.checkEndIsValidDate}
+                 viewMode="days"
+                 input={false}
+                 onClose={this.close}
+                 renderDay={this.renderDay}
+                 locale={locale}
+               />
 
-        {clearable && !disabled && value ? (
-          <a className={`${ns}DateRangePicker-clear`} onClick={this.clearValue}>
-            <Icon icon="close" className="icon" />
-          </a>
-        ) : null}
+               {embed ? null : (
+                 <div key="button" className={`${ns}DateRangePicker-actions`}>
+                     <a
+                       className={cx('rdtBtn rdtBtnConfirm', {
+                         'is-disabled':
+                  
+                               !this.state.startDate || !this.state.endDate
+                       })}
+                       onClick={this.confirm}
+                     >
+                       {__('确认')}
+                     </a>
+                     <a className="rdtBtn rdtBtnCancel" onClick={this.close}>
+                       {__('取消')}
+                     </a>
+                   </div>
+               )}
+             </div>
+           );
+         }
 
-        <a className={`${ns}DateRangePicker-toggler`}>
-          <Icon icon="calendar" className="icon" />
-        </a>
+         render() {
+           const {
+             className,
+             classPrefix: ns,
+             value,
+             placeholder,
+             popOverContainer,
+             inputFormat,
+             format,
+             joinValues,
+             delimiter,
+             clearable,
+             disabled,
+             embed,
+             overlayPlacement
+           } = this.props;
 
-        {isOpened ? (
-          <Overlay
-            target={() => this.dom.current}
-            onHide={this.close}
-            container={popOverContainer || (() => findDOMNode(this))}
-            rootClose={false}
-            placement={overlayPlacement}
-            show
-          >
-            <PopOver
-              classPrefix={ns}
-              className={`${ns}DateRangePicker-popover`}
-              onHide={this.close}
-              onClick={this.handlePopOverClick}
-              overlay
-            >
-              <div className={`${ns}DateRangePicker-wrap`}>
-                {this.renderRanges(ranges)}
+           const {isOpened, isFocused} = this.state;
 
-                <Calendar
-                  className={`${ns}DateRangePicker-start`}
-                  value={startDate}
-                  onChange={this.handleStartChange}
-                  requiredConfirm={false}
-                  dateFormat={dateFormat}
-                  timeFormat={timeFormat}
-                  isValidDate={this.checkStartIsValidDate}
-                  viewMode="days"
-                  input={false}
-                  onClose={this.close}
-                  renderDay={this.renderDay}
-                  locale={locale}
-                />
+           const selectedDate = DateRangePicker.unFormatValue(
+             value,
+             format,
+             joinValues,
+             delimiter
+           );
+           const startViewValue = selectedDate.startDate
+             ? selectedDate.startDate.format(inputFormat)
+             : '';
+           const endViewValue = selectedDate.endDate
+             ? selectedDate.endDate.format(inputFormat)
+             : '';
+           const arr = [];
+           startViewValue && arr.push(startViewValue);
+           endViewValue && arr.push(endViewValue);
+           const __ = this.props.translate;
 
-                <Calendar
-                  className={`${ns}DateRangePicker-end`}
-                  value={endDate}
-                  onChange={this.handleEndChange}
-                  requiredConfirm={false}
-                  dateFormat={dateFormat}
-                  timeFormat={timeFormat}
-                  viewDate={this.nextMonth}
-                  isEndDate
-                  isValidDate={this.checkEndIsValidDate}
-                  viewMode="days"
-                  input={false}
-                  onClose={this.close}
-                  renderDay={this.renderDay}
-                  locale={locale}
-                />
+           if (embed) {
+             return (
+               <div
+                 className={cx(
+                   `${ns}DateRangeCalendar`,
+                   {
+                     'is-disabled': disabled
+                   },
+                   className
+                 )}
+               >
+                 {this.renderCalendar()}
+               </div>
+             );
+           }
 
-                <div key="button" className={`${ns}DateRangePicker-actions`}>
-                  <a
-                    className={cx('rdtBtn rdtBtnConfirm', {
-                      'is-disabled':
-                        !this.state.startDate || !this.state.endDate
-                    })}
-                    onClick={this.confirm}
-                  >
-                    {__('确认')}
-                  </a>
-                  <a className="rdtBtn rdtBtnCancel" onClick={this.close}>
-                    {__('取消')}
-                  </a>
-                </div>
-              </div>
-            </PopOver>
-          </Overlay>
-        ) : null}
-      </div>
-    );
-  }
-}
+           return (
+             <div
+               tabIndex={0}
+               onKeyPress={this.handleKeyPress}
+               onFocus={this.handleFocus}
+               onBlur={this.handleBlur}
+               className={cx(
+                 `${ns}DateRangePicker`,
+                 {
+                   'is-disabled': disabled,
+                   'is-focused': isFocused
+                 },
+                 className
+               )}
+               ref={this.dom}
+               onClick={this.handleClick}
+             >
+               {arr.length ? (
+                 <span className={`${ns}DateRangePicker-value`}>
+                   {arr.join(__(' 至 '))}
+                 </span>
+               ) : (
+                 <span className={`${ns}DateRangePicker-placeholder`}>
+                   {__(placeholder)}
+                 </span>
+               )}
+
+               {clearable && !disabled && value ? (
+                 <a
+                   className={`${ns}DateRangePicker-clear`}
+                   onClick={this.clearValue}
+                 >
+                   <Icon icon="close" className="icon" />
+                 </a>
+               ) : null}
+
+               <a className={`${ns}DateRangePicker-toggler`}>
+                 <Icon icon="calendar" className="icon" />
+               </a>
+
+               {isOpened ? (
+                 <Overlay
+                   target={() => this.dom.current}
+                   onHide={this.close}
+                   container={popOverContainer || (() => findDOMNode(this))}
+                   rootClose={false}
+                   placement={overlayPlacement}
+                   show
+                 >
+                   <PopOver
+                     classPrefix={ns}
+                     className={`${ns}DateRangePicker-popover`}
+                     onHide={this.close}
+                     onClick={this.handlePopOverClick}
+                     overlay
+                   >
+                     {this.renderCalendar()}
+                   </PopOver>
+                 </Overlay>
+               ) : null}
+             </div>
+           );
+         }
+       }
 
 export default themeable(localeable(DateRangePicker));

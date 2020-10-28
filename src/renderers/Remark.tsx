@@ -5,7 +5,7 @@ import cx from 'classnames';
 import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
 import {themeable} from '../theme';
-import {Icon} from '../components/icons';
+import {hasIcon, Icon} from '../components/icons';
 import {BaseSchema, SchemaIcon, SchemaTpl} from '../Schema';
 
 /**
@@ -16,6 +16,8 @@ export interface RemarkSchema extends BaseSchema {
    * 指定为提示类型
    */
   type: 'remark';
+
+  label?: string;
 
   icon?: SchemaIcon;
 
@@ -51,7 +53,7 @@ export function filterContents(
   tooltip:
     | string
     | undefined
-    | {title?: string; content?: string; body?: string},
+    | {title?: string; render?: any; content?: string; body?: string},
   data: any
 ) {
   if (typeof tooltip === 'string') {
@@ -59,6 +61,7 @@ export function filterContents(
   } else if (tooltip) {
     return tooltip.title
       ? {
+          render: tooltip.render ? () => tooltip.render(data) : undefined,
           title: filter(tooltip.title, data),
           content:
             tooltip.content || tooltip.body
@@ -88,6 +91,7 @@ class Remark extends React.Component<RemarkProps> {
     const {
       className,
       icon,
+      label,
       tooltip,
       placement,
       rootClose,
@@ -100,33 +104,43 @@ class Remark extends React.Component<RemarkProps> {
       env
     } = this.props;
 
-    const finalIcon = (tooltip && tooltip.icon) || icon;
+    const finalIcon = tooltip?.icon ?? icon;
+    const finalLabel = tooltip?.label ?? label;
 
     return (
-      <div
-        className={cx(
-          `Remark`,
-          (tooltip && tooltip.className) || className || `Remark--warning`
-        )}
+      <TooltipWrapper
+        classPrefix={ns}
+        classnames={cx}
+        tooltip={filterContents(tooltip || content, data)}
+        tooltipClassName={tooltip && tooltip.tooltipClassName}
+        placement={(tooltip && tooltip.placement) || placement}
+        rootClose={(tooltip && tooltip.rootClose) || rootClose}
+        trigger={(tooltip && tooltip.trigger) || trigger}
+        container={container || env.getModalContainer}
+        delay={tooltip && tooltip.delay}
       >
-        <TooltipWrapper
-          classPrefix={ns}
-          classnames={cx}
-          tooltip={filterContents(tooltip || content, data)}
-          tooltipClassName={tooltip && tooltip.tooltipClassName}
-          placement={(tooltip && tooltip.placement) || placement}
-          rootClose={(tooltip && tooltip.rootClose) || rootClose}
-          trigger={(tooltip && tooltip.trigger) || trigger}
-          container={container || env.getModalContainer}
-          delay={tooltip && tooltip.delay}
-        >
-          {finalIcon ? (
-            <i className={cx('Remark-icon', finalIcon)} />
-          ) : (
-            <Icon icon="question" className="icon" />
+        <div
+          className={cx(
+            `Remark`,
+            (tooltip && tooltip.className) || className || `Remark--warning`
           )}
-        </TooltipWrapper>
-      </div>
+        >
+          {finalLabel ? <span>{finalLabel}</span> : null}
+          {finalIcon ? (
+            hasIcon(finalIcon) ? (
+              <span className={cx('Remark-icon')}>
+                <Icon icon={finalIcon} />
+              </span>
+            ) : (
+              <i className={cx('Remark-icon', finalIcon)} />
+            )
+          ) : finalIcon === false && finalLabel ? null : (
+            <span className={cx('Remark-icon icon')}>
+              <Icon icon="warning-mark" />
+            </span>
+          )}
+        </div>
+      </TooltipWrapper>
     );
   }
 }

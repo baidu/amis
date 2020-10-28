@@ -62,10 +62,6 @@ class CodePreview extends React.Component {
   }
 }
 
-function isActive(link, location) {
-  return !!(link.fullPath && link.fullPath === location.hash);
-}
-
 class Preview extends React.Component {
   static displayName = 'MarkdownRenderer';
   ref = null;
@@ -167,6 +163,16 @@ class Preview extends React.Component {
 
 export default function (doc) {
   return class extends React.Component {
+    popoverDom = null;
+
+    state = {
+      headingPopover: false
+    };
+
+    popoverRef = (ref: HTMLDivElement) => {
+      this.popoverDom = ref;
+    };
+
     renderHeading(children) {
       return children.map((child, idx) => (
         <div
@@ -184,6 +190,34 @@ export default function (doc) {
       ));
     }
 
+    handlePopOverClick(e: React.MouseEvent<any>) {
+      this.setState({headingPopover: false});
+      e.stopPropagation();
+      e.preventDefault();
+    }
+
+    renderHeadingPopover() {
+      return this.state.headingPopover ? (
+        <Overlay
+          target={this.popoverDom}
+          container={this.popoverDom}
+          rootClose={false}
+          placement="right-bottom-right-top"
+          show
+        >
+          <PopOver
+            classPrefix="cxd-"
+            className=":Doc-headingPopover"
+            onHide={() => this.setState({headingPopover: false})}
+            overlay
+            onClick={this.handlePopOverClick}
+          >
+            {this.renderHeading(doc.toc.children)}
+          </PopOver>
+        </Overlay>
+      ) : null;
+    }
+
     render() {
       const {prevDoc, nextDoc, ContextPath} = this.props;
 
@@ -193,6 +227,21 @@ export default function (doc) {
             {doc.title ? (
               <div className="Doc-title">
                 <h1>{doc.title}</h1>
+
+                {doc?.toc.children?.length ? (
+                  <div
+                    ref={this.popoverRef}
+                    onClick={e =>
+                      this.setState({
+                        headingPopover: !this.state.headingPopover
+                      })
+                    }
+                    className="Doc-headingPopBtn visible-xs"
+                  >
+                    <i className="fa fa-align-right"></i>
+                    {this.renderHeadingPopover()}
+                  </div>
+                ) : null}
               </div>
             ) : null}
 

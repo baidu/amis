@@ -1,6 +1,11 @@
 .#{$ns}Remark {
   display: inline-block;
+  vertical-align: middle;
   margin-left: $Remark-marginLeft;
+  > span {
+    color: $Remark-iconColor;
+    font-size: $fontSizeSm;
+  }
 
   cursor: pointer;
   text-align: center;
@@ -16,7 +21,17 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: $fontSizeBase;
+    font-size: $fontSizeSm;
+    user-select: none;
+
+    > svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  > span + .#{$ns}Remark-icon {
+    margin-left: $gap-xs;
   }
 
   &:hover > &-icon {

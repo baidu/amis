@@ -51,7 +51,7 @@ export interface ProgressProps extends RendererProps, ProgressSchema {
 export class ProgressField extends React.Component<ProgressProps, object> {
   static defaultProps = {
     placeholder: '-',
-    progressClassName: 'progress-xs progress-striped active m-b-none',
+    progressClassName: '',
     progressBarClassName: '',
     map: ['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success'],
     showLabel: true
@@ -86,10 +86,10 @@ export class ProgressField extends React.Component<ProgressProps, object> {
 
     if (typeof value === 'number') {
       viewValue = [
-        <div key="progress" className={cx('progress', progressClassName)}>
+        <div key="progress" className={cx('Progress', progressClassName)}>
           <div
             className={cx(
-              'progress-bar',
+              'Progress-bar',
               progressBarClassName || this.autoClassName(value)
             )}
             title={`${value}%`}

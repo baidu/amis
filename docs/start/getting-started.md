@@ -98,6 +98,13 @@ let amisScoped = amis.embed(
     fetcher: (url, method, data, config) => {
       // 可以不传，用来实现 ajax 请求
     },
+    
+    // 全局 api 适配器。
+    // api 自己也可以配置适配器，这里最好只处理通用逻辑。
+    responseAdpater(api, response, query, request) {
+      debugger;
+      return response;
+    },
 
     jumpTo: location => {
       // 可以不传，用来实现页面跳转

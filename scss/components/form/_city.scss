@@ -30,3 +30,7 @@
     }
   }
 }
+
+.#{$ns}Form-item--inline > .#{$ns}Form-value > .#{$ns}CityPicker {
+  display: inline-block;
+}

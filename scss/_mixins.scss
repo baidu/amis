@@ -136,31 +136,31 @@
 }
 
 @mixin text-wariant($bg-color, $name) {
-  a.bg-#{$name}:hover {
+  a.bg-#{'' + $name}:hover {
     background-color: darken($bg-color, 5%);
   }
 
-  a.text-#{$name}:hover {
+  a.text-#{'' + $name}:hover {
     color: darken($bg-color, 5%);
   }
 
-  .text-#{$name} {
+  .text-#{'' + $name} {
     color: $bg-color;
   }
 
-  .text-#{$name}-lt {
+  .text-#{'' + $name}-lt {
     color: darken($bg-color, 5%);
   }
 
-  .text-#{$name}-lter {
+  .text-#{'' + $name}-lter {
     color: darken($bg-color, 10%);
   }
 
-  .text-#{$name}-dk {
+  .text-#{'' + $name}-dk {
     color: darken($bg-color, 5%);
   }
 
-  .text-#{$name}-dker {
+  .text-#{'' + $name}-dker {
     color: darken($bg-color, 10%);
   }
 }
