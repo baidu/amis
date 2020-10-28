@@ -41,10 +41,8 @@ export class CustomMonthsView extends MonthsView {
   };
   render() {
     const __ = this.props.translate;
-    console.log('CustomMonthsView',this.props);
     const showYearHead = this.props.inputFormat.toUpperCase() !== 'MM'
     const canClick = this.props.inputFormat.toUpperCase() === 'YYYY-MM'
-    console.log('canClick',canClick);
     return (
       <div className="rdtMonths">
         <table>
@@ -67,9 +65,7 @@ export class CustomMonthsView extends MonthsView {
                   {this.props.viewDate.format(__('YYYY年'))}
                 </th>
               }
-              {/*<th className="rdtSwitch" onClick={this.props.showView('years')}>*/}
-              {/*  {this.props.viewDate.format(__('YYYY年'))}*/}
-              {/*</th>*/}
+
               <th className="rdtNext" onClick={this.props.addTime(1, 'years')}>
                 »
               </th>
