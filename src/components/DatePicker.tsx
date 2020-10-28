@@ -576,6 +576,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 onChange={this.handleChange}
                 requiredConfirm={!!(dateFormat && timeFormat)}
                 dateFormat={dateFormat}
+                inputFormat={inputFormat}
                 timeFormat={timeFormat}
                 isValidDate={this.checkIsValidDate}
                 viewMode={viewMode}
