@@ -98,6 +98,29 @@ order: 68
 }
 ```
 
+### 垂直
+
+```schema:height="300" scope="body"
+{
+    "type": "tabs",
+    "mode": "vertical",
+    "tabs": [
+        {
+            "title": "选项卡1",
+            "body": "选项卡内容1"
+        },
+        {
+            "title": "选项卡2",
+            "body": "选项卡内容2"
+        },
+        {
+            "title": "选项卡3",
+            "body": "选项卡内容3"
+        }
+    ]
+}
+```
+
 ## 配置顶部工具栏
 
 配置`toolbar`实现顶部工具栏。
@@ -211,6 +234,7 @@ order: 68
 | --------------------- | --------------------------------- | ----------------------------------- | -------------------------------------------------------- |
 | type                  | `string`                          | `"tabs"`                            | 指定为 Tabs 渲染器                                       |
 | className             | `string`                          |                                     | 外层 Dom 的类名                                          |
+| mode                  | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`   |
 | tabsClassName         | `string`                          |                                     | Tabs Dom 的类名                                          |
 | tabs                  | `Array`                           |                                     | tabs 内容                                                |
 | toolbar               | [SchemaNode](../types/schemanode) |                                     | tabs 中的工具栏                                          |

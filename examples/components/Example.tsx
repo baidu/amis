@@ -16,6 +16,7 @@ import HintFormSchema from './Form/Hint';
 import FieldSetInTabsFormSchema from './Form/FieldSetInTabs';
 import ComboFormSchema from './Form/Combo';
 import ConditionBuilderSchema from './Form/ConditionBuilder';
+import StyleBuilderSchema from './Form/StyleBuilder';
 import SubFormSchema from './Form/SubForm';
 import RichTextSchema from './Form/RichText';
 import EditorSchema from './Form/Editor';
@@ -237,6 +238,12 @@ export const examples = [
             label: '引用',
             path: '/examples/form/definitions',
             component: makeSchemaRenderer(Definitions)
+          },
+
+          {
+            label: '样式编辑',
+            path: '/examples/form/style-builder',
+            component: makeSchemaRenderer(StyleBuilderSchema)
           }
 
           // {
