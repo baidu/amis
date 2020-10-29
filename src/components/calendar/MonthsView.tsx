@@ -5,7 +5,7 @@ import React from 'react';
 import {LocaleProps, localeable, TranslateFn} from '../../locale';
 
 export interface OtherProps {
-  inputFormat: string;
+  inputFormat?: string;
 }
 
 export class CustomMonthsView extends MonthsView {
@@ -22,7 +22,8 @@ export class CustomMonthsView extends MonthsView {
       toSelected?: moment.Moment
     ) => () => void;
     showView: (view: string) => () => void;
-  } & LocaleProps & OtherProps;
+  } & LocaleProps &
+    OtherProps;
   renderMonths: () => JSX.Element;
   renderMonth = (props: any, month: number) => {
     var localMoment = this.props.viewDate;
@@ -41,36 +42,43 @@ export class CustomMonthsView extends MonthsView {
   };
   render() {
     const __ = this.props.translate;
-    const showYearHead = this.props.inputFormat.toUpperCase() !== 'MM'
-    const canClick = this.props.inputFormat.toUpperCase() === 'YYYY-MM'
+    const showYearHead = !/^mm$/i.test(this.props.inputFormat || '');
+    const canClick = /yy/i.test(this.props.inputFormat || '');
+
     return (
       <div className="rdtMonths">
         <table>
-          {showYearHead&&<thead>
-            <tr>
-              <th
-                className="rdtPrev"
-                onClick={this.props.subtractTime(1, 'years')}
-              >
-                «
-              </th>
-              {
-                canClick
-                  ?
-                <th className="rdtSwitch" onClick={this.props.showView('years')}>
-                  {this.props.viewDate.format(__('YYYY年'))}
+          {showYearHead && (
+            <thead>
+              <tr>
+                <th
+                  className="rdtPrev"
+                  onClick={this.props.subtractTime(1, 'years')}
+                >
+                  «
                 </th>
-                  :
-                <th className="rdtSwitch">
-                  {this.props.viewDate.format(__('YYYY年'))}
-                </th>
-              }
+                {canClick ? (
+                  <th
+                    className="rdtSwitch"
+                    onClick={this.props.showView('years')}
+                  >
+                    {this.props.viewDate.format(__('YYYY年'))}
+                  </th>
+                ) : (
+                  <th className="rdtSwitch">
+                    {this.props.viewDate.format(__('YYYY年'))}
+                  </th>
+                )}
 
-              <th className="rdtNext" onClick={this.props.addTime(1, 'years')}>
-                »
-              </th>
-            </tr>
-          </thead>}
+                <th
+                  className="rdtNext"
+                  onClick={this.props.addTime(1, 'years')}
+                >
+                  »
+                </th>
+              </tr>
+            </thead>
+          )}
         </table>
         <table>
           <tbody>{this.renderMonths()}</tbody>
