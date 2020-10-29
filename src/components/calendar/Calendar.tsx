@@ -47,7 +47,7 @@ class BaseDatePicker extends ReactDatePicker {
   setDate = (type: 'month' | 'year') => {
     const currentShould =
       this.props.viewMode === 'months' &&
-      this.props.inputFormat.toUpperCase() !== 'MM';
+      !/^mm$/i.test(this.props.inputFormat || '');
     const nextViews = {
       month: currentShould ? 'months' : 'days',
       year: currentShould ? 'months' : 'days'
