@@ -767,7 +767,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               {labelRemark
                 ? render('label-remark', {
                     type: 'remark',
-                    icon: 'warning-mark',
+                    icon: labelRemark.icon || 'warning-mark',
                     tooltip: labelRemark,
                     className: cx(`Form-labelRemark`),
                     container:
@@ -797,7 +797,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {remark
             ? render('remark', {
                 type: 'remark',
-                icon: 'warning-mark',
+                icon: remark.icon || 'warning-mark',
                 tooltip: remark,
                 className: cx(`Form-remark`),
                 container:
@@ -879,7 +879,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               {labelRemark
                 ? render('label-remark', {
                     type: 'remark',
-                    icon: 'warning-mark',
+                    icon: labelRemark.icon || 'warning-mark',
                     tooltip: labelRemark,
                     className: cx(`Form-lableRemark`),
                     container:
@@ -903,7 +903,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {remark
           ? render('remark', {
               type: 'remark',
-              icon: 'warning-mark',
+              icon: remark.icon || 'warning-mark',
               className: cx(`Form-remark`),
               tooltip: remark,
               container:
@@ -981,7 +981,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               {labelRemark
                 ? render('label-remark', {
                     type: 'remark',
-                    icon: 'warning-mark',
+                    icon: labelRemark.icon || 'warning-mark',
                     tooltip: labelRemark,
                     className: cx(`Form-lableRemark`),
                     container:
@@ -1006,7 +1006,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {remark
             ? render('remark', {
                 type: 'remark',
-                icon: 'warning-mark',
+                icon: remark.icon || 'warning-mark',
                 className: cx(`Form-remark`),
                 tooltip: remark,
                 container:
@@ -1089,7 +1089,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 {labelRemark
                   ? render('label-remark', {
                       type: 'remark',
-                      icon: 'warning-mark',
+                      icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
                       container:
@@ -1113,7 +1113,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {remark
             ? render('remark', {
                 type: 'remark',
-                icon: 'warning-mark',
+                icon: remark.icon || 'warning-mark',
                 className: cx(`Form-remark`),
                 tooltip: remark,
                 container:
