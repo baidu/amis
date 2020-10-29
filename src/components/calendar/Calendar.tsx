@@ -8,6 +8,7 @@ import cx from 'classnames';
 import moment from 'moment';
 
 interface BaseDatePickerProps extends ReactDatePicker.DatetimepickerProps {
+  inputFormat: string;
   onViewModeChange?: (type: string) => void;
   requiredConfirm?: boolean;
   onClose?: () => void;
@@ -29,6 +30,7 @@ class BaseDatePicker extends ReactDatePicker {
       props.setDateTimeState = this.setState.bind(this);
 
       [
+        'inputFormat',
         'onChange',
         'onClose',
         'requiredConfirm',
@@ -43,9 +45,10 @@ class BaseDatePicker extends ReactDatePicker {
   })((this as any).getComponentProps);
 
   setDate = (type: 'month' | 'year') => {
+    const currentShould = this.props.viewMode === 'months' && this.props.inputFormat.toUpperCase() !== 'MM'
     const nextViews = {
-      month: 'days',
-      year: 'days'
+      month: currentShould?'months':'days',
+      year: currentShould?'months':'days'
     };
 
     return (e: any) => {

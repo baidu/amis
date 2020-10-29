@@ -2,7 +2,11 @@
 import MonthsView from 'react-datetime/src/MonthsView';
 import moment from 'moment';
 import React from 'react';
-import {LocaleProps, localeable} from '../../locale';
+import {LocaleProps, localeable, TranslateFn} from '../../locale';
+
+export interface OtherProps {
+  inputFormat: string;
+}
 
 export class CustomMonthsView extends MonthsView {
   props: {
@@ -17,7 +21,8 @@ export class CustomMonthsView extends MonthsView {
       type: string,
       toSelected?: moment.Moment
     ) => () => void;
-  } & LocaleProps;
+    showView: (view: string) => () => void;
+  } & LocaleProps & OtherProps;
   renderMonths: () => JSX.Element;
   renderMonth = (props: any, month: number) => {
     var localMoment = this.props.viewDate;
@@ -36,11 +41,12 @@ export class CustomMonthsView extends MonthsView {
   };
   render() {
     const __ = this.props.translate;
-
+    const showYearHead = this.props.inputFormat.toUpperCase() !== 'MM'
+    const canClick = this.props.inputFormat.toUpperCase() === 'YYYY-MM'
     return (
       <div className="rdtMonths">
         <table>
-          <thead>
+          {showYearHead&&<thead>
             <tr>
               <th
                 className="rdtPrev"
@@ -48,14 +54,23 @@ export class CustomMonthsView extends MonthsView {
               >
                 «
               </th>
-              <th className="rdtSwitch">
-                {this.props.viewDate.format(__('YYYY年'))}
-              </th>
+              {
+                canClick
+                  ?
+                <th className="rdtSwitch" onClick={this.props.showView('years')}>
+                  {this.props.viewDate.format(__('YYYY年'))}
+                </th>
+                  :
+                <th className="rdtSwitch">
+                  {this.props.viewDate.format(__('YYYY年'))}
+                </th>
+              }
+
               <th className="rdtNext" onClick={this.props.addTime(1, 'years')}>
                 »
               </th>
             </tr>
-          </thead>
+          </thead>}
         </table>
         <table>
           <tbody>{this.renderMonths()}</tbody>
