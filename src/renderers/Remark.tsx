@@ -136,7 +136,7 @@ class Remark extends React.Component<RemarkProps> {
             )
           ) : finalIcon === false && finalLabel ? null : (
             <span className={cx('Remark-icon icon')}>
-              <Icon icon="warning-mark" />
+              <Icon icon="question-mark" />
             </span>
           )}
         </div>
