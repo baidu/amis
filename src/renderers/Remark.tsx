@@ -103,7 +103,8 @@ class Remark extends React.Component<RemarkProps> {
       classnames: cx,
       content,
       data,
-      env
+      env,
+      tooltipClassName
     } = this.props;
 
     const finalIcon = tooltip?.icon ?? icon;
@@ -114,7 +115,9 @@ class Remark extends React.Component<RemarkProps> {
         classPrefix={ns}
         classnames={cx}
         tooltip={filterContents(tooltip || content, data)}
-        tooltipClassName={tooltip && tooltip.tooltipClassName}
+        tooltipClassName={
+          (tooltip && tooltip.tooltipClassName) || tooltipClassName
+        }
         placement={(tooltip && tooltip.placement) || placement}
         rootClose={(tooltip && tooltip.rootClose) || rootClose}
         trigger={(tooltip && tooltip.trigger) || trigger}
