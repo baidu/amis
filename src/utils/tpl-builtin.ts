@@ -427,7 +427,7 @@ export function pickValues(names: string, data: object) {
 }
 
 export const resolveVariable = (path?: string, data: any = {}): any => {
-  if (!path) {
+  if (!path || !data) {
     return undefined;
   }
 
