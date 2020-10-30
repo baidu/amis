@@ -6,7 +6,7 @@ import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
 import {themeable} from '../theme';
 import {hasIcon, Icon} from '../components/icons';
-import {BaseSchema, SchemaIcon, SchemaTpl} from '../Schema';
+import {BaseSchema, SchemaClassName, SchemaIcon, SchemaTpl} from '../Schema';
 
 /**
  * 提示渲染器，默认会显示个小图标，鼠标放上来的时候显示配置的内容。
@@ -20,6 +20,8 @@ export interface RemarkSchema extends BaseSchema {
   label?: string;
 
   icon?: SchemaIcon;
+
+  tooltipClassName?: SchemaClassName;
 
   /**
    * 触发规则
@@ -101,7 +103,8 @@ class Remark extends React.Component<RemarkProps> {
       classnames: cx,
       content,
       data,
-      env
+      env,
+      tooltipClassName
     } = this.props;
 
     const finalIcon = tooltip?.icon ?? icon;
@@ -112,7 +115,9 @@ class Remark extends React.Component<RemarkProps> {
         classPrefix={ns}
         classnames={cx}
         tooltip={filterContents(tooltip || content, data)}
-        tooltipClassName={tooltip && tooltip.tooltipClassName}
+        tooltipClassName={
+          (tooltip && tooltip.tooltipClassName) || tooltipClassName
+        }
         placement={(tooltip && tooltip.placement) || placement}
         rootClose={(tooltip && tooltip.rootClose) || rootClose}
         trigger={(tooltip && tooltip.trigger) || trigger}
@@ -136,7 +141,7 @@ class Remark extends React.Component<RemarkProps> {
             )
           ) : finalIcon === false && finalLabel ? null : (
             <span className={cx('Remark-icon icon')}>
-              <Icon icon="warning-mark" />
+              <Icon icon="question-mark" />
             </span>
           )}
         </div>

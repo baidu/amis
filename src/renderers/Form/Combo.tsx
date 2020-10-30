@@ -359,7 +359,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       length: this.getValueAsArray().length
     });
 
-    formItem && formItem.setSubStore(store);
+    formItem && isAlive(formItem) && formItem.setSubStore(store);
     addHook && this.toDispose.push(addHook(this.flush, 'flush'));
   }
 

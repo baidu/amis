@@ -736,6 +736,9 @@ a {
   .Doc {
     display: flex;
     flex-direction: row;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
 
     &-content,
     .schema-wrapper {

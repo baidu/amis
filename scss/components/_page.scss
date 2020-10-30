@@ -33,6 +33,7 @@
     .#{$ns}Page-header,
     .#{$ns}Page-toolbar {
       flex-grow: 1;
+      min-height: 100%;
     }
 
     .#{$ns}Page-toolbar {

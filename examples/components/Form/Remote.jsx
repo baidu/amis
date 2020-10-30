@@ -44,7 +44,8 @@ export default {
           name: 'text',
           label: '文本提示',
           source: '/api/mock2/form/getOptions?waitSeconds=1',
-          placeholder: '请选择'
+          placeholder: '请选择',
+          creatable: true
         },
         {
           type: 'divider'
