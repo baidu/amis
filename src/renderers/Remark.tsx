@@ -6,7 +6,7 @@ import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
 import {themeable} from '../theme';
 import {hasIcon, Icon} from '../components/icons';
-import {BaseSchema, SchemaIcon, SchemaTpl} from '../Schema';
+import {BaseSchema, SchemaClassName, SchemaIcon, SchemaTpl} from '../Schema';
 
 /**
  * 提示渲染器，默认会显示个小图标，鼠标放上来的时候显示配置的内容。
@@ -20,6 +20,8 @@ export interface RemarkSchema extends BaseSchema {
   label?: string;
 
   icon?: SchemaIcon;
+
+  tooltipClassName?: SchemaClassName;
 
   /**
    * 触发规则
