@@ -311,7 +311,14 @@ export const formatter = (label: string) => {
  * selectedMode 的简便写法
  * @param label
  */
-export const selectedMode = (label: string) => {};
+export const selectedMode = (label: string) => {
+  return booleanOrKeyword(
+    'selectedMode',
+    `${label}选择的模式`,
+    '改变模式类型',
+    ['single', 'multiple']
+  );
+};
 
 /**
  * 用于生成类似 padding 那种可以是数字或数组的控件
@@ -438,13 +445,13 @@ export const keywordOrNumber = (
 };
 
 /**
- * 关键字或布尔类型
+ * 布尔类型或关键字，优先布尔类型
  * @param name
  * @param label
  * @param labelForSwitch
  * @param keywordList
  */
-export const keywordOrBoolean = (
+export const booleanOrKeyword = (
   name: string,
   label: string,
   labelForSwitch: string,
@@ -460,29 +467,29 @@ export const keywordOrBoolean = (
         name: name,
         pipeIn: (value: any, data) => {
           if (typeof data[name] === 'undefined') {
-            return false;
+            return true;
           }
           return typeof data[name] !== 'string';
         },
         pipeOut: (value: any, oldValue: any, data: any) => {
           if (value) {
-            return defaultBoolean;
-          } else {
             return keywordList[0];
+          } else {
+            return defaultBoolean;
           }
         }
       },
       {
         type: 'switch',
         name: name,
-        visibleOn: `typeof(data.${name}) === 'boolean'`,
+        visibleOn: `typeof(data.${name}) === 'undefined' || typeof(data.${name}) === 'boolean'`,
         label: label
       },
       {
         type: 'select',
         name: name,
         label: label,
-        visibleOn: `typeof(data.${name}) === 'undefined' || typeof(data.${name}) === 'string'`,
+        visibleOn: `typeof(data.${name}) === 'string'`,
         options: keywordList
       }
     ]

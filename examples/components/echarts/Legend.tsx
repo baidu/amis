@@ -17,6 +17,7 @@ import {
   select,
   viewport,
   formatter,
+  selectedMode,
   createHierarchy
 } from './Common';
 
@@ -44,7 +45,8 @@ export default {
             number('itemWidth', '图例标记的图形宽度'),
             number('itemHeight', '图例标记的图形高度'),
             trueSwitch('symbolKeepAspect', '是否在缩放时保持该图形的长宽比'),
-            formatter('图例')
+            formatter('图例'),
+            selectedMode('图例')
           ])
         ])
       ]
