@@ -915,8 +915,8 @@ a {
 
 // 让 echarts 编辑器的 tabs 更紧凑
 .echarts-editor > .a-Tabs-links {
-  width: 3rem;
+  width: 4rem;
   > .a-Tabs-link > a {
-    padding: 5px 5px 5px 7px;
+    padding: 0.625rem 0.9375rem;
   }
 }

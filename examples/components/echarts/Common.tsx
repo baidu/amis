@@ -34,6 +34,94 @@ export const color = (name: string, label: string) => {
 };
 
 /**
+ * 默认值是 true 的 switch，并且 inline
+ * @param name
+ * @param label
+ */
+export const trueSwitch = (name: string, label: string) => {
+  return {
+    type: 'switch',
+    name: name,
+    mode: 'inline',
+    label: label,
+    pipeIn: (value: any) => {
+      if (typeof value === 'undefined') {
+        return true;
+      }
+      return value;
+    }
+  };
+};
+
+/**
+ * 默认值是 false 的 switch，并且 inline
+ * @param name
+ * @param label
+ */
+export const falseSwitch = (name: string, label: string) => {
+  return {
+    type: 'switch',
+    name: name,
+    mode: 'inline',
+    label: label
+  };
+};
+
+/**
+ * 如果没数据就默认用第一个的 select
+ * @param name
+ * @param label
+ * @param options
+ */
+export const select = (name: string, label: string, options: any[]) => {
+  return {
+    type: 'select',
+    name: name,
+    label: label,
+    pipeIn: (value: any) => {
+      if (typeof value === 'undefined') {
+        return options[0];
+      }
+      return value;
+    },
+    options: options
+  };
+};
+
+/**
+ * fieldSet 辅助
+ * @param label
+ * @param controls
+ * @param collapsed
+ */
+export const fieldSet = (
+  label: string,
+  controls: any[],
+  collapsed: boolean = false
+) => {
+  return {
+    type: 'fieldSet',
+    title: label,
+    collapsable: true,
+    collapsed: collapsed,
+    controls: controls
+  };
+};
+
+/**
+ * 控制一组控件的显隐
+ * @param visibleOn
+ * @param controls
+ */
+export const visibleOn = (visibleOn: string, controls: any[]) => {
+  return {
+    type: 'container',
+    visibleOn: visibleOn,
+    controls: controls
+  };
+};
+
+/**
  * 方便生成数字类的控件
  * @param name
  * @param label
@@ -136,9 +224,94 @@ export const viewportControl = (
   ];
 };
 
+/**
+ * 设置某个组件在容器中的距离
+ * @param label 组件名
+ */
+export const viewport = (label: string) => {
+  return {
+    type: 'fieldSet',
+    title: '离容器边距',
+    collapsable: true,
+    collapsed: true,
+    controls: [
+      ...viewportControl('left', `${label}离容器左侧的距离`, '左侧距离值类型', [
+        'auto',
+        'left',
+        'center',
+        'right'
+      ]),
+      ...viewportControl('top', `${label}离容器上侧的距离`, '上侧距离值类型', [
+        'auto',
+        'top',
+        'middle',
+        'bottom'
+      ]),
+      ...viewportControl(
+        'right',
+        `${label}离容器右侧的距离`,
+        '右侧距离值类型',
+        ['auto']
+      ),
+      ...viewportControl(
+        'bottom',
+        `${label}离容器下侧的距离`,
+        '下侧距离值类型',
+        ['auto']
+      )
+    ]
+  };
+};
+
+/**
+ * 设置宽度的便捷方法
+ * @param label
+ */
+export const width = (label: string) => {
+  return keywordOrNumber('width', `${label}的宽度`, '宽度的单位', ['auto']);
+};
+
+/**
+ * 设置高度的便捷方法
+ * @param label
+ */
+export const height = (label: string) => {
+  return keywordOrNumber('height', `${label}的高度`, '高度的单位', ['auto']);
+};
+
+/**
+ * 设置 padding 的便捷方法
+ * @param label
+ */
 export const padding = (label: string) => {
   return numberOrArray('padding', label + '内边距', '单独设置每个内边距');
 };
+
+/**
+ * 设置 orient 的便捷方法
+ * @param label
+ */
+export const origin = (label: string) => {
+  return select('origin', `${label}列表的布局朝向`, ['horizontal', 'vertical']);
+};
+
+/**
+ * formatter 的简便方法，不过这里不支持函数
+ * @param label
+ */
+export const formatter = (label: string) => {
+  return {
+    type: 'text',
+    name: 'formatter',
+    label: `格式化${label}文本`
+  };
+};
+
+/**
+ * selectedMode 的简便写法
+ * @param label
+ */
+export const selectedMode = (label: string) => {};
 
 /**
  * 用于生成类似 padding 那种可以是数字或数组的控件
@@ -226,44 +399,94 @@ export const keywordOrNumber = (
   keywordList: string[],
   defaultNumber: number = 100
 ) => {
-  return [
-    {
-      type: 'group',
-      controls: [
-        {
-          type: 'switch',
-          label: labelForSwitch,
-          name: name,
-          pipeIn: (value: any, data) => {
-            if (typeof data[name] === 'undefined') {
-              return false;
-            }
-            return typeof data[name] !== 'string';
-          },
-          pipeOut: (value: any, oldValue: any, data: any) => {
-            if (value) {
-              return defaultNumber;
-            } else {
-              return keywordList[0];
-            }
+  return {
+    type: 'group',
+    controls: [
+      {
+        type: 'switch',
+        label: labelForSwitch,
+        name: name,
+        pipeIn: (value: any, data) => {
+          if (typeof data[name] === 'undefined') {
+            return false;
           }
+          return typeof data[name] !== 'string';
         },
-        {
-          type: 'number',
-          name: name,
-          visibleOn: `typeof(data.${name}) === 'number'`,
-          label: label
-        },
-        {
-          type: 'select',
-          name: name,
-          label: label,
-          visibleOn: `typeof(data.${name}) === 'undefined' || typeof(data.${name}) === 'string'`,
-          options: keywordList
+        pipeOut: (value: any, oldValue: any, data: any) => {
+          if (value) {
+            return defaultNumber;
+          } else {
+            return keywordList[0];
+          }
         }
-      ]
-    }
-  ];
+      },
+      {
+        type: 'number',
+        name: name,
+        visibleOn: `typeof(data.${name}) === 'number'`,
+        label: label
+      },
+      {
+        type: 'select',
+        name: name,
+        label: label,
+        visibleOn: `typeof(data.${name}) === 'undefined' || typeof(data.${name}) === 'string'`,
+        options: keywordList
+      }
+    ]
+  };
+};
+
+/**
+ * 关键字或布尔类型
+ * @param name
+ * @param label
+ * @param labelForSwitch
+ * @param keywordList
+ */
+export const keywordOrBoolean = (
+  name: string,
+  label: string,
+  labelForSwitch: string,
+  keywordList: string[],
+  defaultBoolean: boolean = true
+) => {
+  return {
+    type: 'group',
+    controls: [
+      {
+        type: 'switch',
+        label: labelForSwitch,
+        name: name,
+        pipeIn: (value: any, data) => {
+          if (typeof data[name] === 'undefined') {
+            return false;
+          }
+          return typeof data[name] !== 'string';
+        },
+        pipeOut: (value: any, oldValue: any, data: any) => {
+          if (value) {
+            return defaultBoolean;
+          } else {
+            return keywordList[0];
+          }
+        }
+      },
+      {
+        type: 'switch',
+        name: name,
+        visibleOn: `typeof(data.${name}) === 'boolean'`,
+        label: label
+      },
+      {
+        type: 'select',
+        name: name,
+        label: label,
+        visibleOn: `typeof(data.${name}) === 'undefined' || typeof(data.${name}) === 'string'`,
+        options: keywordList
+      }
+    ]
+  };
 };
 
 /**
@@ -331,13 +554,12 @@ export const textStyleControls = (name: string, label: string) => {
       collapsable: true,
       controls: [
         color('color', `${label}文字的颜色`),
-        {
-          type: 'select',
-          name: 'fontStyle',
-          label: `${label}文字字体的风格`,
-          options: ['normal', 'italic', 'oblique']
-        },
-        ...keywordOrNumber(
+        select('fontStyle', `${label}文字字体的风格`, [
+          'normal',
+          'italic',
+          'oblique'
+        ]),
+        keywordOrNumber(
           'fontWeight',
           `${label}文字字体的粗细`,
           '字体粗细格式使用数字',

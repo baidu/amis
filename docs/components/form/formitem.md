@@ -39,7 +39,7 @@ order: 1
 
 ### 内联模式
 
-通过配置`"inline": true`，标识当前表单项使用内联模式。
+通过配置`"mode": "inline"`，标识当前表单项使用内联模式。
 
 ```schema:height="320" scope="body"
 {

@@ -2,97 +2,15 @@
  * @file 基于 amis 实现 ECharts 图表可视化编辑
  */
 
-import title from './echarts/Title';
-import {createHierarchy} from './echarts/Common';
-import titleStyle from './echarts/TitleStyle';
-import titleTextStyle from './echarts/TitleTextStyle';
-import titlePosition from './echarts/TitlePosition';
-
-const titleControl = {
-  type: 'tabs',
-  tabs: [
-    {
-      title: '内容',
-      controls: [title]
-    },
-    {
-      title: '位置',
-      controls: [titlePosition]
-    },
-    {
-      title: '样式',
-      controls: [titleStyle]
-    },
-    {
-      title: '文字样式',
-      controls: [titleTextStyle]
-    }
-  ]
-};
+import {createHierarchy} from './Echarts/Common';
+import example from './Echarts/Example';
+import title from './Echarts/Title';
+import legend from './Echarts/Legend';
 
 export default {
   title: 'ECharts 编辑器',
   data: {
-    config: {
-      title: {
-        text: '未来一周气温变化',
-        subtext: '纯属虚构'
-      },
-      tooltip: {
-        trigger: 'axis'
-      },
-      legend: {
-        data: ['最高气温', '最低气温']
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          mark: {
-            show: true
-          },
-          dataView: {
-            show: true,
-            readOnly: true
-          },
-          magicType: {
-            show: false,
-            type: ['line', 'bar']
-          },
-          restore: {
-            show: true
-          },
-          saveAsImage: {
-            show: true
-          }
-        }
-      },
-      calculable: true,
-      xAxis: [
-        {
-          type: 'category',
-          boundaryGap: false,
-          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-        }
-      ],
-      yAxis: [
-        {
-          type: 'value',
-          name: '°C'
-        }
-      ],
-      series: [
-        {
-          name: '最高气温',
-          type: 'line',
-          data: [11, 11, 15, 13, 12, 13, 10]
-        },
-        {
-          name: '最低气温',
-          type: 'line',
-          data: [1, -2, 2, 5, 3, 2, 0]
-        }
-      ]
-    }
+    config: example
   },
   body: [
     {
@@ -126,7 +44,11 @@ export default {
                       // },
                       {
                         title: '标题',
-                        controls: [titleControl]
+                        controls: [title]
+                      },
+                      {
+                        title: '图例',
+                        controls: [legend]
                       },
                       {
                         title: '视区',
@@ -144,10 +66,6 @@ export default {
                       },
                       {
                         title: 'Y 轴',
-                        tab: 'Content 2'
-                      },
-                      {
-                        title: '图例',
                         tab: 'Content 2'
                       },
                       {
