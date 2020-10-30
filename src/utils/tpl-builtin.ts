@@ -226,6 +226,11 @@ export const filters: {
       : '';
   },
   asArray: input => (Array.isArray(input) ? input : input ? [input] : input),
+  concat(input, ...args: any[]) {
+    return Array.isArray(input)
+      ? input.concat(...args.map(arg => getStrOrVariable(arg, this)))
+      : input;
+  },
   filter: function (input, keys, expOrDirective, arg1) {
     if (!Array.isArray(input) || !keys || !expOrDirective) {
       return input;
