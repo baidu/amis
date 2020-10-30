@@ -58,6 +58,7 @@ export interface TextProps extends OptionsControlProps {
     icon?: string;
     className?: string;
   };
+  creatable?: boolean;
   clearable: boolean;
   resetValue?: any;
   autoComplete?: any;
@@ -449,6 +450,7 @@ export default class TextControl extends React.PureComponent<
       labelField,
       valueField,
       multiple,
+      creatable,
       translate: __
     } = this.props;
 
@@ -481,7 +483,7 @@ export default class TextControl extends React.PureComponent<
             (option: any) => !~selectedItem.indexOf(option.value)
           );
 
-          if (!filtedOptions.length && this.state.inputValue) {
+          if (creatable !== false && this.state.inputValue) {
             filtedOptions.push({
               [labelField || 'label']: this.state.inputValue,
               [valueField || 'value']: this.state.inputValue,
