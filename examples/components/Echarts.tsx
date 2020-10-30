@@ -3,7 +3,10 @@
  */
 
 import title from './echarts/Title';
+import {createHierarchy} from './echarts/Common';
 import titleStyle from './echarts/TitleStyle';
+import titleTextStyle from './echarts/TitleTextStyle';
+import titlePosition from './echarts/TitlePosition';
 
 const titleControl = {
   type: 'tabs',
@@ -13,14 +16,21 @@ const titleControl = {
       controls: [title]
     },
     {
+      title: '位置',
+      controls: [titlePosition]
+    },
+    {
       title: '样式',
       controls: [titleStyle]
+    },
+    {
+      title: '文字样式',
+      controls: [titleTextStyle]
     }
   ]
 };
 
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'ECharts 编辑器',
   data: {
     config: {
@@ -104,64 +114,57 @@ export default {
             {
               md: 5,
               controls: [
-                {
-                  name: 'config',
-                  type: 'combo',
-                  label: '',
-                  noBorder: true,
-                  multiLine: true,
-                  controls: [
-                    {
-                      type: 'tabs',
-                      mode: 'vertical',
-                      className: 'echarts-editor',
-                      tabs: [
-                        // {
-                        //   title: '基础',
-                        //   tab: 'Content 2'
-                        // },
-                        {
-                          title: '标题',
-                          controls: [titleControl]
-                        },
-                        {
-                          title: '视区',
-                          controls: [
-                            {
-                              name: 'config.text',
-                              type: 'text',
-                              label: 'text'
-                            }
-                          ]
-                        },
-                        {
-                          title: 'X 轴',
-                          tab: 'Content 2'
-                        },
-                        {
-                          title: 'Y 轴',
-                          tab: 'Content 2'
-                        },
-                        {
-                          title: '图例',
-                          tab: 'Content 2'
-                        },
-                        {
-                          title: '提示',
-                          tab: 'Content 2'
-                        },
-                        {
-                          title: '工具',
-                          tab: 'Content 2'
-                        },
-                        {
-                          title: '标题',
-                          tab: 'Content 2'
-                        }
-                      ]
-                    }
-                  ]
-                }
+                createHierarchy('config', [
+                  {
+                    type: 'tabs',
+                    mode: 'vertical',
+                    className: 'echarts-editor',
+                    tabs: [
+                      // {
+                      //   title: '基础',
+                      //   tab: 'Content 2'
+                      // },
+                      {
+                        title: '标题',
+                        controls: [titleControl]
+                      },
+                      {
+                        title: '视区',
+                        controls: [
+                          {
+                            name: 'config.text',
+                            type: 'text',
+                            label: 'text'
+                          }
+                        ]
+                      },
+                      {
+                        title: 'X 轴',
+                        tab: 'Content 2'
+                      },
+                      {
+                        title: 'Y 轴',
+                        tab: 'Content 2'
+                      },
+                      {
+                        title: '图例',
+                        tab: 'Content 2'
+                      },
+                      {
+                        title: '提示',
+                        tab: 'Content 2'
+                      },
+                      {
+                        title: '工具',
+                        tab: 'Content 2'
+                      },
+                      {
+                        title: '标题',
+                        tab: 'Content 2'
+                      }
+                    ]
+                  }
+                ])
               ]
             }
           ]
@@ -170,6 +173,10 @@ export default {
           type: 'editor',
           name: 'config',
           language: 'json',
+          disabled: true,
+          options: {
+            lineNumbers: 'off'
+          },
           source: '${config}'
         }
       ]

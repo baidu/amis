@@ -113,7 +113,7 @@ FieldSet 是用于分组展示表单项的一种容器型组件。
 
 ### 默认是否折叠
 
-默认是展开的，如果想默认折叠，那么配置`"collapsed": false`默认折叠。
+默认是展开的，如果想默认折叠，那么配置`"collapsed": true`默认折叠。
 
 ```schema:height="400" scope="body"
 {
@@ -124,7 +124,7 @@ FieldSet 是用于分组展示表单项的一种容器型组件。
       "type": "fieldSet",
       "title": "基本配置",
       "collapsable": true,
-      "collapsed": false,
+      "collapsed": true,
       "controls": [
         {
           "name": "text1",
