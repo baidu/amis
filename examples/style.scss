@@ -923,3 +923,8 @@ a {
     padding: 0.625rem 0.9375rem;
   }
 }
+
+.echarts-tab {
+  max-height: 70vh;
+  overflow: auto;
+}

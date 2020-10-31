@@ -21,25 +21,29 @@ export default {
           type: 'grid',
           columns: [
             {
-              md: 7,
+              sm: 12,
+              md: 5,
               controls: [
                 {
                   type: 'chart',
-                  source: '${config}'
+                  source: '${config}',
+                  unMountOnHidden: false
                 }
               ]
             },
             {
-              md: 5,
+              sm: 12,
+              md: 7,
               controls: [
                 createHierarchy('config', [
                   {
                     type: 'tabs',
+                    // unmountOnExit: true, // 加了更慢的样子
                     mode: 'vertical',
                     className: 'echarts-editor',
                     tabs: [
                       // {
-                      //   title: '基础',
+                      //   title: '图表',
                       //   tab: 'Content 2'
                       // },
                       {

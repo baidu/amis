@@ -2,6 +2,8 @@
  * @file 生成一些通用的配置项
  */
 
+import {debug} from 'console';
+
 /**
  * 创建一个层级，比如 name 是 title，这里面的子组件 name 就相当于 title.name
  * @param name
@@ -24,10 +26,31 @@ export const createHierarchy = (name: string, controls: any[]) => {
  * @param name
  * @param label
  */
-export const color = (name: string, label: string) => {
+export const color = (
+  name: string,
+  label: string,
+  defaultColor?: string,
+  labelRemark?: string
+) => {
   return {
     type: 'color',
     format: 'rgba',
+    pipeIn: (value: any) => {
+      if (
+        typeof value === 'undefined' &&
+        defaultColor &&
+        defaultColor !== 'null'
+      ) {
+        return defaultColor;
+      }
+      return value;
+    },
+    labelRemark: labelRemark
+      ? {
+          type: 'remark',
+          content: labelRemark
+        }
+      : undefined,
     name: name,
     label: label
   };
@@ -38,12 +61,23 @@ export const color = (name: string, label: string) => {
  * @param name
  * @param label
  */
-export const trueSwitch = (name: string, label: string) => {
+export const trueSwitch = (
+  name: string,
+  label: string,
+  labelRemark?: string
+) => {
   return {
     type: 'switch',
     name: name,
     mode: 'inline',
+    className: 'w-full',
     label: label,
+    labelRemark: labelRemark
+      ? {
+          type: 'remark',
+          content: labelRemark
+        }
+      : undefined,
     pipeIn: (value: any) => {
       if (typeof value === 'undefined') {
         return true;
@@ -58,11 +92,22 @@ export const trueSwitch = (name: string, label: string) => {
  * @param name
  * @param label
  */
-export const falseSwitch = (name: string, label: string) => {
+export const falseSwitch = (
+  name: string,
+  label: string,
+  labelRemark?: string
+) => {
   return {
     type: 'switch',
     name: name,
     mode: 'inline',
+    className: 'w-full',
+    labelRemark: labelRemark
+      ? {
+          type: 'remark',
+          content: labelRemark
+        }
+      : undefined,
     label: label
   };
 };
@@ -73,11 +118,22 @@ export const falseSwitch = (name: string, label: string) => {
  * @param label
  * @param options
  */
-export const select = (name: string, label: string, options: any[]) => {
+export const select = (
+  name: string,
+  label: string,
+  options: any[],
+  labelRemark?: string
+) => {
   return {
     type: 'select',
     name: name,
     label: label,
+    labelRemark: labelRemark
+      ? {
+          type: 'remark',
+          content: labelRemark
+        }
+      : undefined,
     pipeIn: (value: any) => {
       if (typeof value === 'undefined') {
         return options[0];
@@ -130,14 +186,70 @@ export const visibleOn = (visibleOn: string, controls: any[]) => {
 export const number = (
   name: string,
   label: string,
-  isInteger: boolean = true
+  labelRemark?: string,
+  defaultNumber?: number,
+  min: number = -1e4,
+  max: number = 1e4,
+  step: number = 1
 ) => {
   const control: any = {
     type: 'number',
+    name: name,
     label: label
   };
-  if (isInteger) {
-    control.min = 0;
+  if (labelRemark) {
+    control.labelRemark = {
+      type: 'remark',
+      content: labelRemark
+    };
+  }
+  if (typeof defaultNumber !== 'undefined') {
+    control.pipeIn = (value: any) => {
+      if (typeof value === 'undefined') {
+        return defaultNumber;
+      }
+      return value;
+    };
+  }
+  control.min = min;
+  control.max = max;
+  control.step = step;
+  return control;
+};
+
+/**
+ * 生成文本控件
+ * @param name
+ * @param label
+ * @param labelRemark
+ * @param defaultText
+ */
+export const text = (
+  name: string,
+  label: string,
+  labelRemark?: string,
+  defaultText?: string
+) => {
+  const control: any = {
+    type: 'text',
+    name: name,
+    label: label
+  };
+  if (labelRemark) {
+    if (labelRemark) {
+      control.labelRemark = {
+        type: 'remark',
+        content: labelRemark
+      };
+    }
+  }
+  if (typeof defaultText !== 'undefined') {
+    control.pipeIn = (value: any) => {
+      if (typeof value === 'undefined') {
+        return defaultText;
+      }
+      return value;
+    };
   }
   return control;
 };
@@ -312,11 +424,40 @@ export const formatter = (label: string) => {
  * @param label
  */
 export const selectedMode = (label: string) => {
-  return booleanOrKeyword(
-    'selectedMode',
-    `${label}选择的模式`,
-    '改变模式类型',
-    ['single', 'multiple']
+  return booleanOrKeyword('selectedMode', `${label}选择的模式`, [
+    {label: '单选', value: 'single'},
+    {label: '多选', value: 'multiple'}
+  ]);
+};
+
+/**
+ * icon 的简版写法
+ */
+export const icon = (label: string) => {
+  return keywordOrString(
+    'icon',
+    `${label}的 icon`,
+    '切换类型为 url',
+    [
+      'circle',
+      'rect',
+      'roundRect',
+      'triangle',
+      'diamond',
+      'pin',
+      'arrow',
+      'none'
+    ],
+    'image://http://',
+    `可以通过 'image://url' 设置为图片，其中 URL 为图片的链接，或者 dataURI。
+
+  URL 为图片链接例如：
+
+  'image://http://xxx.xxx.xxx/a/b.png'
+  URL 为 dataURI 例如：
+
+  'image://data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7'
+  可以通过 'path://' 将图标设置为任意的矢量路径。这种方式相比于使用图片的方式，不用担心因为缩放而产生锯齿或模糊，而且可以设置为任意颜色。路径图形会自适应调整为合适的大小。路径的格式参见 SVG PathData。可以从 Adobe Illustrator 等工具编辑导出。`
   );
 };
 
@@ -363,7 +504,68 @@ export const numberOrArray = (
       type: 'array',
       name: name,
       label: label,
-      remark: '设置两个值将分别是上下、左右；设置四个值则分别是上、右、下、左',
+      labelRemark:
+        '设置两个值将分别是上下、左右；设置四个值则分别是上、右、下、左',
+      visibleOn: `Array.isArray(data.${name})`,
+      minLength: 2,
+      maxLength: 4,
+      items: {
+        type: 'number'
+      }
+    }
+  ];
+};
+
+/**
+ * 用于生成类似 padding 那种可以是数字或数组的控件
+ * @param name
+ * @param label
+ * @param labelForSwitch 切换按钮的文字
+ * @param labelRemark remark
+ * @param defaultNumber 默认数字
+ * @param defaultArray 默认数组
+ */
+export const vector = (
+  name: string,
+  label: string,
+  labelForSwitch: string,
+  labelRemark?: string,
+  defaultNumber: number = 0,
+  defaultArray = [0, 0, 0, 0]
+) => {
+  return [
+    {
+      type: 'group',
+      controls: [
+        {
+          type: 'number',
+          name: name,
+          hiddenOn: `Array.isArray(data.${name})`,
+          label: label + '-k'
+        },
+        {
+          type: 'switch',
+          name: name,
+          label: labelForSwitch,
+          pipeIn: (value: any) => {
+            return Array.isArray(value);
+          },
+          pipeOut: (value: any) => {
+            return value ? defaultArray : defaultNumber;
+          },
+          labelRemark: labelRemark
+            ? {
+                type: 'remark',
+                content: labelRemark
+              }
+            : undefined
+        }
+      ]
+    },
+    {
+      type: 'array',
+      name: name,
+      label: label + '-*',
       visibleOn: `Array.isArray(data.${name})`,
       minLength: 2,
       maxLength: 4,
@@ -445,18 +647,20 @@ export const keywordOrNumber = (
 };
 
 /**
- * 布尔类型或关键字，优先布尔类型
+ * 可以是关键字或者是字符串
  * @param name
  * @param label
  * @param labelForSwitch
  * @param keywordList
+ * @param remark
  */
-export const booleanOrKeyword = (
+export const keywordOrString = (
   name: string,
   label: string,
   labelForSwitch: string,
   keywordList: string[],
-  defaultBoolean: boolean = true
+  defaultString: string = '',
+  remark?: string
 ) => {
   return {
     type: 'group',
@@ -465,34 +669,140 @@ export const booleanOrKeyword = (
         type: 'switch',
         label: labelForSwitch,
         name: name,
-        pipeIn: (value: any, data) => {
-          if (typeof data[name] === 'undefined') {
-            return true;
+        pipeIn: (value: any) => {
+          if (typeof value === 'undefined') {
+            return false;
           }
-          return typeof data[name] !== 'string';
+          return keywordList.indexOf(value) === -1;
         },
         pipeOut: (value: any, oldValue: any, data: any) => {
           if (value) {
-            return keywordList[0];
+            return defaultString;
           } else {
-            return defaultBoolean;
+            return keywordList[0];
           }
-        }
+        },
+        labelRemark: remark
       },
       {
-        type: 'switch',
+        type: 'text',
         name: name,
-        visibleOn: `typeof(data.${name}) === 'undefined' || typeof(data.${name}) === 'boolean'`,
+        visibleOn: `data.${name} && ${JSON.stringify(
+          keywordList
+        )}.indexOf(data.${name}) === -1`,
         label: label
       },
       {
         type: 'select',
         name: name,
         label: label,
-        visibleOn: `typeof(data.${name}) === 'string'`,
+        visibleOn: `typeof(data.${name}) === 'undefined' || ${JSON.stringify(
+          keywordList
+        )}.indexOf(data.${name}) !== -1`,
         options: keywordList
       }
     ]
+  };
+};
+
+/**
+ * 常见样式设置
+ * @param label
+ */
+export const commonStyle = (label: string) => {
+  return [
+    color('backgroundColor', `${label}背景色，默认透明`),
+    color('borderColor', `${label}的边框颜色`),
+    number('borderWidth', `${label}的边框线宽`),
+    ...numberOrArray('borderRadius', '圆角半径', '单独设置每个圆角半径'),
+    shadowControls()
+  ];
+};
+
+/**
+ * 布尔类型或关键字，优先布尔类型
+ * @param name
+ * @param label
+ * @param keywordList
+ */
+export const booleanOrKeyword = (
+  name: string,
+  label: string,
+  keywordList: any[],
+  defaultBoolean: boolean = true
+) => {
+  return {
+    type: 'select',
+    name: name,
+    label: label,
+    pipeIn: (value: any) => {
+      if (typeof value === 'undefined') {
+        return defaultBoolean ? 'true' : 'false';
+      }
+      return value;
+    },
+    pipeOut: (value: any) => {
+      if (value === 'true') {
+        return true;
+      } else if (value === 'false') {
+        return false;
+      } else {
+        return value;
+      }
+    },
+    options: [
+      {label: '开启', value: 'true'},
+      {label: '关闭', value: 'false'},
+      ...keywordList
+    ]
+  };
+};
+
+/**
+ * enum 辅助方法
+ * @param name
+ * @param label
+ * @param keywordList
+ */
+export const enumControl = (
+  name: string,
+  label: string,
+  keywordList: any[],
+  defaultValue: string,
+  labelRemark?: string
+) => {
+  return {
+    type: 'select',
+    name: name,
+    label: label,
+    labelRemark: labelRemark
+      ? {
+          type: 'remark',
+          content: labelRemark
+        }
+      : undefined,
+    pipeIn: (value: any) => {
+      if (typeof value === 'undefined') {
+        defaultValue;
+      }
+      if (value === true) {
+        return 'true';
+      }
+      if (value === false) {
+        return 'false';
+      }
+      return value;
+    },
+    pipeOut: (value: any) => {
+      if (value === 'true') {
+        return true;
+      } else if (value === 'false') {
+        return false;
+      } else {
+        return value;
+      }
+    },
+    options: keywordList
   };
 };
 
@@ -507,7 +817,8 @@ export const numberOrPercentage = (
   name: string,
   label: string,
   labelForSwitch: string,
-  defaultPercent: string = '100%',
+  labelRemark?: string,
+  defaultPercent: string = '1%',
   defaultNumber: number = 100
 ) => {
   return [
@@ -518,11 +829,11 @@ export const numberOrPercentage = (
           type: 'switch',
           label: labelForSwitch,
           name: name,
-          pipeIn: (value: any, data) => {
-            if (typeof data[name] === 'undefined') {
+          pipeIn: (value: any) => {
+            if (typeof value === 'undefined') {
               return false;
             }
-            return typeof data[name] !== 'string';
+            return typeof value !== 'string';
           },
           pipeOut: (value: any) => {
             if (value) {
@@ -530,7 +841,13 @@ export const numberOrPercentage = (
             } else {
               return defaultPercent;
             }
-          }
+          },
+          labelRemark: labelRemark
+            ? {
+                type: 'remark',
+                content: labelRemark
+              }
+            : undefined
         },
         {
           type: 'number',
@@ -598,7 +915,7 @@ export const textStyleControls = (name: string, label: string) => {
           ]
         },
         number('fontSize', `${label}文字的字体大小`),
-        number('lineHeight', `${label}行高`, false),
+        number('lineHeight', `${label}行高`),
         // TODO：用处不大，要不别支持了
         numberOrPercentage('width', '文字块宽度', '宽度使用数字'),
         numberOrPercentage('height', '文字块高度', '高度使用数字'),
@@ -612,4 +929,172 @@ export const textStyleControls = (name: string, label: string) => {
       ]
     }
   ]);
+};
+
+/**
+ * 构建某个基于文档的控件
+ * @param name
+ * @param option
+ */
+const buildOneOption = (name: string, option: any) => {
+  const desc = option.desc.trim();
+  const uiControl = option.uiControl;
+  if (!desc) {
+    console.warn('must have desc', name);
+    return false;
+  }
+  const descSplit = desc.split('。');
+  let label = descSplit[0]
+    .trim()
+    .replace('<p>', '')
+    .replace(/&#39;/g, '')
+    .replace(/<\/?[^>]+(>|$)/g, '');
+
+  let remark =
+    descSplit.length > 1 ? descSplit[1].trim().replace('</p>', '') : '';
+  // 有些描述太长了，再通过逗号拆分一下
+  const labelSplitComma = label.split('，');
+  if (labelSplitComma.length > 1) {
+    label = labelSplitComma[0];
+    remark = labelSplitComma[1] + remark;
+  }
+  // 特殊处理
+  if (name === 'symbolKeepAspect') {
+    label = '是否在缩放时保持该图形的长宽比';
+    remark = undefined;
+  }
+  if (!uiControl || !uiControl.type) {
+    // 这种可能只有 desc
+    return text(name, label, remark);
+  }
+  const uiControlType = uiControl.type;
+  if (uiControlType === 'boolean') {
+    if (uiControl.default) {
+      return trueSwitch(name, label, remark);
+    } else {
+      return falseSwitch(name, label, remark);
+    }
+  } else if (uiControlType === 'color') {
+    return color(name, label, uiControl.default, remark);
+  } else if (uiControlType === 'number' || uiControlType === 'angle') {
+    const defaultValue =
+      typeof uiControl.default === 'undefined' ? 0 : +uiControl.default;
+    const min = typeof uiControl.min === 'undefined' ? -1e4 : +uiControl.min;
+    const max = typeof uiControl.max === 'undefined' ? 1e4 : +uiControl.max;
+    const step = typeof uiControl.min === 'undefined' ? 1 : +uiControl.step;
+    return number(name, label, remark, defaultValue, min, max, step);
+  } else if (uiControlType === 'percent') {
+    return numberOrPercentage(name, label, '使用绝对值', remark);
+  } else if (uiControlType === 'enum') {
+    return enumControl(
+      name,
+      label,
+      uiControl.options.split(',').map((item: string) => item.trim()),
+      uiControl.default,
+      remark
+    );
+  } else if (uiControlType === 'vector') {
+    return vector(name, label, '单独设置', remark);
+  } else if (uiControlType === 'percentvector') {
+    // TODO: 可能需要特殊处理
+    return vector(name, label, '单独设置', remark);
+  } else if (uiControlType === 'text') {
+    return text(name, label, remark, uiControl.default);
+  } else {
+    console.warn('unknow type', name, uiControlType);
+  }
+};
+
+export const buildGroupOptions = (parentName: string, options: any) => {
+  const controls = [];
+  for (const name in options) {
+    if (name.startsWith(parentName + '.')) {
+      const control = buildOneOption(name, options[name]);
+      if (control) {
+        controls.push(control);
+      }
+    }
+  }
+  return controls;
+};
+
+/**
+ * 基于 ECharts 文档的数据构建控件，对常见元素做分组
+ * @param label
+ * @param options
+ */
+export const buildOptions = (options: any) => {
+  const commonStyleKeys = new Set([
+    'backgroundColor',
+    'borderColor',
+    'borderWidth',
+    'borderRadius'
+  ]);
+
+  const viewportKeys = new Set(['left', 'top', 'right', 'bottom']);
+
+  // 没啥用的
+  const uselessKeys = new Set(['id', 'z', 'zlevel']);
+
+  const controls = [];
+
+  // 有些属性有深层结构，对它们进行特殊处理，使用 fieldSet 来自动折叠
+  const groupKeys = new Set();
+
+  for (const name in options) {
+    if (name.indexOf('<') !== -1) {
+      // TODO: 暂时跳过
+      continue;
+    }
+    if (name.indexOf('.') !== -1) {
+      groupKeys.add(name.split('.')[0]);
+    }
+  }
+
+  for (const name in options) {
+    if (name !== 'padding') {
+      continue; // 用于开发时单独测试某个属性
+    }
+
+    // 这些样式单独处理或忽略
+    if (
+      commonStyleKeys.has(name) ||
+      viewportKeys.has(name) ||
+      uselessKeys.has(name)
+    ) {
+      continue;
+    }
+    if (
+      name.startsWith('textStyle') ||
+      name.startsWith('subtextStyle') ||
+      name.startsWith('pageTextStyle')
+    ) {
+      continue;
+    }
+    if (name === 'data') {
+      continue;
+    }
+    if (name.indexOf('<') !== -1) {
+      // TODO: 暂时不支持
+      continue;
+    }
+
+    if (groupKeys.has(name)) {
+      controls.push(fieldSet(name, buildGroupOptions(name, options), true));
+    }
+
+    if (name.indexOf('.') !== -1) {
+      // 前面已经处理了
+      continue;
+    }
+
+    const control = buildOneOption(name, options[name]);
+    if (control) {
+      controls.push(control);
+    } else {
+      console.warn('build control error', name);
+    }
+  }
+
+  return controls;
 };

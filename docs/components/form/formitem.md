@@ -156,6 +156,14 @@ order: 1
       "label": "有标签提示",
       "labelRemark": "这是一段提示",
       "name": "text2"
+    },
+    {
+      "type": "text",
+      "label": "更复杂的标签提示",
+      "labelRemark": {
+        "type": "remark", "title": "提示", "content": "<pre>first \nsecond\n${text1}</pre>"
+      },
+      "name": "text3"
     }
   ]
 }
