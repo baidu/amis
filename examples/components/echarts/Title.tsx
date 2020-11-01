@@ -19,22 +19,22 @@ export default {
     {
       title: '内容',
       className: 'echarts-tab',
-      controls: [createHierarchy('title', buildOptions(titleOptions))]
+      controls: buildOptions('title', titleOptions)
     },
     {
       title: '位置',
-      controls: [createHierarchy('title', [viewport('标题')])]
+      controls: [viewport('title', '标题')]
     },
     {
       title: '样式',
-      controls: [createHierarchy('title', commonStyle('标题'))]
+      controls: commonStyle('title', '标题')
     },
     {
       title: '文字样式',
       controls: [
         createHierarchy('title', [
-          textStyleControls('textStyle', '主标题'),
-          textStyleControls('subtextStyle', '副标题')
+          textStyleControls('title.textStyle', '主标题'),
+          textStyleControls('title.subtextStyle', '副标题')
         ])
       ]
     }

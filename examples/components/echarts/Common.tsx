@@ -338,9 +338,10 @@ export const viewportControl = (
 
 /**
  * 设置某个组件在容器中的距离
+ * @param label 前缀
  * @param label 组件名
  */
-export const viewport = (label: string) => {
+export const viewport = (scope: string, label: string) => {
   return {
     type: 'fieldSet',
     title: '离容器边距',
@@ -535,13 +536,24 @@ export const vector = (
 ) => {
   return [
     {
+      type: 'array',
+      name: name,
+      label: label,
+      visibleOn: `Array.isArray(data.${name})`,
+      minLength: 2,
+      maxLength: 4,
+      items: {
+        type: 'number'
+      }
+    },
+    {
       type: 'group',
       controls: [
         {
           type: 'number',
           name: name,
           hiddenOn: `Array.isArray(data.${name})`,
-          label: label + '-k'
+          label: label
         },
         {
           type: 'switch',
@@ -561,17 +573,6 @@ export const vector = (
             : undefined
         }
       ]
-    },
-    {
-      type: 'array',
-      name: name,
-      label: label + '-*',
-      visibleOn: `Array.isArray(data.${name})`,
-      minLength: 2,
-      maxLength: 4,
-      items: {
-        type: 'number'
-      }
     }
   ];
 };
@@ -579,17 +580,17 @@ export const vector = (
 /**
  * 阴影相关的控件
  */
-export const shadowControls = () => {
+export const shadowControls = (scope: string) => {
   return {
     type: 'fieldSet',
     title: '阴影',
     collapsable: true,
     collapsed: true,
     controls: [
-      color('shadowColor', '阴影颜色'),
-      number('shadowBlur', '阴影模糊大小'),
-      number('shadowOffsetX', '阴影水平方向上的偏移距离'),
-      number('shadowOffsetY', '阴影垂直方向上的偏移距离')
+      color(`${scope}.shadowColor`, '阴影颜色'),
+      number(`${scope}.shadowBlur`, '阴影模糊大小'),
+      number(`${scope}.shadowOffsetX`, '阴影水平方向上的偏移距离'),
+      number(`${scope}.shadowOffsetY`, '阴影垂直方向上的偏移距离')
     ]
   };
 };
@@ -709,13 +710,17 @@ export const keywordOrString = (
  * 常见样式设置
  * @param label
  */
-export const commonStyle = (label: string) => {
+export const commonStyle = (scope: string, label: string) => {
   return [
-    color('backgroundColor', `${label}背景色，默认透明`),
-    color('borderColor', `${label}的边框颜色`),
-    number('borderWidth', `${label}的边框线宽`),
-    ...numberOrArray('borderRadius', '圆角半径', '单独设置每个圆角半径'),
-    shadowControls()
+    color(`${scope}.backgroundColor`, `${label}背景色，默认透明`),
+    color(`${scope}.borderColor`, `${label}的边框颜色`),
+    number(`${scope}.borderWidth`, `${label}的边框线宽`),
+    ...numberOrArray(
+      `${scope}.borderRadius`,
+      '圆角半径',
+      '单独设置每个圆角半径'
+    ),
+    shadowControls(scope)
   ];
 };
 
@@ -868,10 +873,10 @@ export const numberOrPercentage = (
 
 /**
  * 生成文本样式的控件
- * @param name
+ * @param scope
  */
-export const textStyleControls = (name: string, label: string) => {
-  return createHierarchy(name, [
+export const textStyleControls = (scope: string, label: string) => {
+  return createHierarchy(scope, [
     {
       type: 'fieldSet',
       title: label,
@@ -931,12 +936,26 @@ export const textStyleControls = (name: string, label: string) => {
   ]);
 };
 
+// 对于一些没正确识别的 label 手动处理
+const FIX_LABEL = {
+  symbolKeepAspect: '是否在缩放时保持该图形的长宽比',
+  pageIcons: '图例控制块的图标',
+  pageIconColor: '翻页按钮的颜色',
+  pageIconInactiveColor: '翻页按钮不激活时（即翻页到头时）的颜色',
+  pageIconSize: '翻页按钮的大小',
+  scrollDataIndex: '图例当前最左上显示项的 dataIndex',
+  pageButtonItemGap: '图例控制块中，按钮和页信息之间的间隔',
+  pageButtonGap: '图例控制块和图例项之间的间隔',
+  pageButtonPosition: '图例控制块的位置',
+  pageFormatter: '图例控制块中，页信息的显示格式'
+};
+
 /**
  * 构建某个基于文档的控件
  * @param name
  * @param option
  */
-const buildOneOption = (name: string, option: any) => {
+const buildOneOption = (scope: string, name: string, option: any) => {
   const desc = option.desc.trim();
   const uiControl = option.uiControl;
   if (!desc) {
@@ -958,11 +977,14 @@ const buildOneOption = (name: string, option: any) => {
     label = labelSplitComma[0];
     remark = labelSplitComma[1] + remark;
   }
-  // 特殊处理
-  if (name === 'symbolKeepAspect') {
-    label = '是否在缩放时保持该图形的长宽比';
-    remark = undefined;
+
+  if (name in FIX_LABEL) {
+    label = FIX_LABEL[name];
   }
+
+  remark = `「${name}」${remark}`;
+
+  name = scope + '.' + name;
   if (!uiControl || !uiControl.type) {
     // 这种可能只有 desc
     return text(name, label, remark);
@@ -1005,11 +1027,15 @@ const buildOneOption = (name: string, option: any) => {
   }
 };
 
-export const buildGroupOptions = (parentName: string, options: any) => {
+export const buildGroupOptions = (
+  scope: string,
+  parentName: string,
+  options: any
+) => {
   const controls = [];
   for (const name in options) {
     if (name.startsWith(parentName + '.')) {
-      const control = buildOneOption(name, options[name]);
+      const control = buildOneOption(scope, name, options[name]);
       if (control) {
         controls.push(control);
       }
@@ -1023,7 +1049,7 @@ export const buildGroupOptions = (parentName: string, options: any) => {
  * @param label
  * @param options
  */
-export const buildOptions = (options: any) => {
+export const buildOptions = (scope: string, options: any) => {
   const commonStyleKeys = new Set([
     'backgroundColor',
     'borderColor',
@@ -1052,9 +1078,9 @@ export const buildOptions = (options: any) => {
   }
 
   for (const name in options) {
-    if (name !== 'padding') {
-      continue; // 用于开发时单独测试某个属性
-    }
+    // if (name !== 'padding') {
+    //   continue; // 用于开发时单独测试某个属性
+    // }
 
     // 这些样式单独处理或忽略
     if (
@@ -1071,7 +1097,8 @@ export const buildOptions = (options: any) => {
     ) {
       continue;
     }
-    if (name === 'data') {
+    // TODO: 后续单独处理
+    if (name === 'data' || name === 'tooltip') {
       continue;
     }
     if (name.indexOf('<') !== -1) {
@@ -1080,7 +1107,9 @@ export const buildOptions = (options: any) => {
     }
 
     if (groupKeys.has(name)) {
-      controls.push(fieldSet(name, buildGroupOptions(name, options), true));
+      controls.push(
+        fieldSet(name, buildGroupOptions(scope, name, options), true)
+      );
     }
 
     if (name.indexOf('.') !== -1) {
@@ -1088,7 +1117,7 @@ export const buildOptions = (options: any) => {
       continue;
     }
 
-    const control = buildOneOption(name, options[name]);
+    const control = buildOneOption(scope, name, options[name]);
     if (control) {
       controls.push(control);
     } else {
