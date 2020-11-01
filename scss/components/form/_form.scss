@@ -30,8 +30,6 @@
 .#{$ns}Form-label {
   font-weight: $fontWeightNormal;
   margin-bottom: px2rem(5px);
-  display: inline-block;
-  max-width: 100%;
   position: relative;
 
   > span {
@@ -126,6 +124,11 @@
 }
 
 @include media-breakpoint-up(sm) {
+  .#{$ns}Form-label {
+    display: inline-block;
+    max-width: 100%;
+  }
+
   .#{$ns}Form-control--sizeXs {
     // min-width: $Form-control-widthXs;
     // width: auto;
