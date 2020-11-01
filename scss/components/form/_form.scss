@@ -210,6 +210,7 @@
       .#{$ns}Form-itemColumn--xs,
       .#{$ns}Form-itemColumn--sm,
       .#{$ns}Form-itemColumn--normal,
+      .#{$ns}Form-itemColumn--auto,
       .#{$ns}Form-itemColumn--md,
       .#{$ns}Form-itemColumn--lg {
         flex-grow: unset;
@@ -245,6 +246,10 @@
 
       .#{$ns}Form-itemColumn--lg {
         width: $Form--horizontal-label-widthLg;
+      }
+
+      .#{$ns}Form-itemColumn--auto {
+        width: auto;
       }
 
       @for $i from (1) through $Form--horizontal-columns {
