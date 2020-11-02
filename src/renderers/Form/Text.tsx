@@ -483,7 +483,12 @@ export default class TextControl extends React.PureComponent<
             (option: any) => !~selectedItem.indexOf(option.value)
           );
 
-          if (creatable !== false && this.state.inputValue) {
+          if (
+            this.state.inputValue &&
+            !filtedOptions.some(
+              (option: any) => option.value === this.state.inputValue
+            )
+          ) {
             filtedOptions.push({
               [labelField || 'label']: this.state.inputValue,
               [valueField || 'value']: this.state.inputValue,

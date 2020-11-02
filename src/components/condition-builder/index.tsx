@@ -4,7 +4,7 @@ import {LocaleProps, localeable} from '../../locale';
 import {uncontrollable} from 'uncontrollable';
 import {Fields, ConditionGroupValue, Funcs} from './types';
 import ConditionGroup from './Group';
-import defaultConfig from './config';
+import defaultConfig, {Config} from './config';
 import {autobind, findTreeIndex, spliceTree, getTree} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
 import animtion from '../../utils/Animation';
@@ -15,10 +15,11 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   showNot?: boolean;
   value?: ConditionGroupValue;
   onChange: (value: ConditionGroupValue) => void;
+  config?: Config;
 }
 
 export class QueryBuilder extends React.Component<ConditionBuilderProps> {
-  config = defaultConfig;
+  config = {...defaultConfig, ...this.props.config};
 
   dragTarget?: HTMLElement;
   // dragNextSibling: Element | null;

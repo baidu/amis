@@ -152,7 +152,7 @@ export const filters: {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     return parts.join('.');
   },
-  trim: input => input.trim(),
+  trim: input => (typeof input === 'string' ? input.trim() : input),
   percent: (input, decimals = 0) => {
     input = parseFloat(input) || 0;
     decimals = parseInt(decimals, 10) || 0;
@@ -177,6 +177,10 @@ export const filters: {
     return (Math.round(input * multiplier) / multiplier).toFixed(decimals);
   },
   truncate: (input, length, end) => {
+    if (typeof input !== 'string') {
+      return input;
+    }
+
     end = end || '...';
 
     if (length == null) {
