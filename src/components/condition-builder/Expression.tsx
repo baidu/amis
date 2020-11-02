@@ -186,7 +186,7 @@ export class Expression extends React.Component<ExpressionProps> {
 
         {inputType === 'formula' ? (
           <Formula
-            value={(value as any).value}
+            value={(value as any)?.value}
             onChange={this.handleFormulaChange}
           />
         ) : null}
