@@ -52,16 +52,16 @@
   &-fieldCaret,
   &-operatorCaret {
     transition: transform 0.3s ease-out;
-    margin: 3px;
+    margin: 5px;
     display: flex;
-    color: $icon-color;
+    color: $Form-select-caret-iconColor;
     &:hover {
-      color: $icon-onHover-color;
+      color: $Form-select-caret-onHover-iconColor;
     }
 
     > svg {
-      width: px2rem(12px);
-      height: px2rem(12px);
+      width: px2rem(10px);
+      height: px2rem(10px);
       top: 0;
     }
   }
@@ -265,6 +265,25 @@
   display: inline-block;
   vertical-align: middle;
   margin: px2rem(3px);
+}
+
+.#{$ns}CBFormula {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: px2rem(3px);
+
+  &-label {
+    background: $ResultBox-value-bg;
+    color: $text--muted-color;
+    display: block;
+    font-size: $fontSizeSm;
+    align-self: center;
+    margin: -5px 0 -5px -8px;
+    padding: 5px;
+    border-radius: 5px;
+    user-select: none;
+  }
 }
 
 .#{$ns}CBSeprator {

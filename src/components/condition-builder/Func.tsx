@@ -13,8 +13,8 @@ export interface ConditionFuncProps extends ThemeProps {
   onChange: (value: ExpressionFunc) => void;
   fields?: Field[];
   funcs?: Funcs;
-  defaultType?: 'value' | 'field' | 'func' | 'raw';
-  allowedTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
+  defaultType?: 'value' | 'field' | 'func' | 'formula';
+  allowedTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
 }
 
 const option2value = (item: Func) => item.type;

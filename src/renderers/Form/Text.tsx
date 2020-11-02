@@ -483,7 +483,7 @@ export default class TextControl extends React.PureComponent<
             (option: any) => !~selectedItem.indexOf(option.value)
           );
 
-          if (creatable !== false && this.state.inputValue) {
+          if (!filtedOptions.length && this.state.inputValue) {
             filtedOptions.push({
               [labelField || 'label']: this.state.inputValue,
               [valueField || 'value']: this.state.inputValue,
@@ -578,7 +578,7 @@ export default class TextControl extends React.PureComponent<
                             'is-disabled': option.disabled
                           })
                         })}
-                        key={option.value}
+                        key={`${option.label}-${option.value}`}
                       >
                         {option.isNew ? (
                           <span>

@@ -99,6 +99,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
     return (
       <Expression
+        config={config}
         funcs={funcs}
         value={value.left}
         onChange={this.handleLeftChange}
@@ -244,6 +245,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       return (
         <>
           <Expression
+            config={config}
             funcs={funcs}
             valueField={field}
             value={(value.right as Array<ExpressionComplex>)?.[0]}
@@ -252,13 +254,14 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             defaultType="value"
             allowedTypes={
               field?.valueTypes ||
-              config.valueTypes || ['value', 'field', 'func', 'raw']
+              config.valueTypes || ['value', 'field', 'func', 'formula']
             }
           />
 
           <span className={cx('CBSeprator')}>~</span>
 
           <Expression
+            config={config}
             funcs={funcs}
             valueField={field}
             value={(value.right as Array<ExpressionComplex>)?.[1]}
@@ -267,7 +270,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             defaultType="value"
             allowedTypes={
               field?.valueTypes ||
-              config.valueTypes || ['value', 'field', 'func', 'raw']
+              config.valueTypes || ['value', 'field', 'func', 'formula']
             }
           />
         </>
@@ -276,6 +279,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
     return (
       <Expression
+        config={config}
         op={op}
         funcs={funcs}
         valueField={field}
@@ -285,7 +289,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         defaultType="value"
         allowedTypes={
           field?.valueTypes ||
-          config.valueTypes || ['value', 'field', 'func', 'raw']
+          config.valueTypes || ['value', 'field', 'func', 'formula']
         }
       />
     );
