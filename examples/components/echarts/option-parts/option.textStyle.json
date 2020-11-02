@@ -1,0 +1,100 @@
+{
+  "color": {
+    "desc": "\n\n<p>文字的颜色。</p>\n",
+    "uiControl": {
+      "type": "color",
+      "default": "null"
+    }
+  },
+  "fontStyle": {
+    "desc": "\n\n<p>文字字体的风格。</p>\n<p>可选：</p>\n<ul>\n<li><code class=\"codespan\">&#39;normal&#39;</code></li>\n<li><code class=\"codespan\">&#39;italic&#39;</code></li>\n<li><code class=\"codespan\">&#39;oblique&#39;</code></li>\n</ul>\n",
+    "uiControl": {
+      "type": "enum",
+      "default": "normal",
+      "options": "normal,italic,oblique"
+    }
+  },
+  "fontWeight": {
+    "desc": "\n\n<p>文字字体的粗细。</p>\n<p>可选：</p>\n<ul>\n<li><code class=\"codespan\">&#39;normal&#39;</code></li>\n<li><code class=\"codespan\">&#39;bold&#39;</code></li>\n<li><code class=\"codespan\">&#39;bolder&#39;</code></li>\n<li><code class=\"codespan\">&#39;lighter&#39;</code></li>\n<li>100 | 200 | 300 | 400...</li>\n</ul>\n",
+    "uiControl": {
+      "type": "enum",
+      "default": "normal",
+      "options": "normal,bold,bolder,lighter"
+    }
+  },
+  "fontFamily": {
+    "desc": "\n\n<p>文字的字体系列。</p>\n<p>还可以是 &#39;serif&#39; , &#39;monospace&#39;, &#39;Arial&#39;, &#39;Courier New&#39;, &#39;Microsoft YaHei&#39;, ...</p>\n",
+    "uiControl": {
+      "type": "enum",
+      "default": "sans-serif",
+      "options": "sans-serif,serif,monospace,Arial,Courier New"
+    }
+  },
+  "fontSize": {
+    "desc": "\n\n<p>文字的字体大小。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "default": "12",
+      "min": "1",
+      "step": "1"
+    }
+  },
+  "lineHeight": {
+    "desc": "\n\n<p>行高。</p>\n<p><code class=\"codespan\">rich</code> 中如果没有设置 <code class=\"codespan\">lineHeight</code>，则会取父层级的 <code class=\"codespan\">lineHeight</code>。例如：</p>\n<pre><code class=\"lang-js\">{\n    lineHeight: 56,\n    rich: {\n        a: {\n            // 没有设置 `lineHeight`，则 `lineHeight` 为 56\n        }\n    }\n}\n</code></pre>\n",
+    "uiControl": {
+      "type": "number",
+      "min": "0",
+      "step": "1",
+      "default": "12"
+    }
+  },
+  "width": {
+    "desc": "<p>文字块的宽度。一般不用指定，不指定则自动是文字的宽度。在想做表格项或者使用图片（参见 <code class=\"codespan\">backgroundColor</code>）时，可能会使用它。</p>\n<p>注意，文字块的 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code> 指定的是内容高宽，不包含 <code class=\"codespan\">padding</code>。</p>\n<p><code class=\"codespan\">width</code> 也可以是百分比字符串，如 <code class=\"codespan\">&#39;100%&#39;</code>。表示的是所在文本块的 <code class=\"codespan\">contentWidth</code>（即不包含文本块的 <code class=\"codespan\">padding</code>）的百分之多少。之所以以 <code class=\"codespan\">contentWidth</code> 做基数，因为每个文本片段只能基于 <code class=\"codespan\">content box</code> 布局。如果以 <code class=\"codespan\">outerWidth</code> 做基数，则百分比的计算在实用中不具有意义，可能会超出。</p>\n<p>注意，如果不定义 <code class=\"codespan\">rich</code> 属性，则不能指定 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code>。</p>\n"
+  },
+  "height": {
+    "desc": "<p>文字块的高度。一般不用指定，不指定则自动是文字的高度。在使用图片（参见 <code class=\"codespan\">backgroundColor</code>）时，可能会使用它。</p>\n<p>注意，文字块的 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code> 指定的是内容高宽，不包含 <code class=\"codespan\">padding</code>。</p>\n<p>注意，如果不定义 <code class=\"codespan\">rich</code> 属性，则不能指定 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code>。</p>\n"
+  },
+  "textBorderColor": {
+    "desc": "\n\n<p>文字本身的描边颜色。</p>\n",
+    "uiControl": {
+      "type": "color"
+    }
+  },
+  "textBorderWidth": {
+    "desc": "\n\n<p>文字本身的描边宽度。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "min": "0",
+      "step": "0.5"
+    }
+  },
+  "textShadowColor": {
+    "desc": "\n\n<p>文字本身的阴影颜色。</p>\n",
+    "uiControl": {
+      "type": "color",
+      "default": "#000"
+    }
+  },
+  "textShadowBlur": {
+    "desc": "\n\n<p>文字本身的阴影长度。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "min": "0",
+      "step": "0.5"
+    }
+  },
+  "textShadowOffsetX": {
+    "desc": "\n\n<p>文字本身的阴影 X 偏移。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "step": "0.5"
+    }
+  },
+  "textShadowOffsetY": {
+    "desc": "\n\n<p>文字本身的阴影 Y 偏移。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "step": "0.5"
+    }
+  }
+}

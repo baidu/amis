@@ -136,7 +136,7 @@ order: 22
 可以配置`condition`用来指定作用条件，有两种写法：
 
 - 用 tpl 语法，把关联的字段写上如： `${xxx} ${yyy}` 意思是当 xxx 和 yyy 的取值结果变化了就再应用一次公式结果。
-- 自己写判断如: `data.xxx == "a" && data.xxx !== data.__prev.xxx` 当 xxx 变化了，且新的值是字符 "a" 时应用，可以写更加复杂的判断。
+- 自己写判断如: `this.xxx == "a" && this.xxx !== this.__prev.xxx` 当 xxx 变化了，且新的值是字符 "a" 时应用，可以写更加复杂的判断。
 
 ```schema:height="400" scope="body"
 {

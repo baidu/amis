@@ -59,6 +59,7 @@ import OptionsPageSchema from './Linkage/Options';
 import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
+import EchartsEditorSchema from './Echarts';
 import HorizontalSchema from './Horizontal';
 import VideoSchema from './Video';
 import AudioSchema from './Audio';
@@ -480,6 +481,13 @@ export const examples = [
         icon: 'fa fa-bar-chart',
         path: '/examples/chart',
         component: makeSchemaRenderer(ChartSchema)
+      },
+
+      {
+        label: 'Echarts 编辑器',
+        icon: 'fa fa-bar-chart',
+        path: '/examples/echarts',
+        component: makeSchemaRenderer(EchartsEditorSchema)
       },
       {
         label: '轮播图',

@@ -390,7 +390,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
       "avatarClassName": "pull-left thumb-md avatar b-3x m-r"
     },
     "bodyClassName": "padder",
-    "body": "\n      <% if (data.roles && data.roles.length) { %>\n        <% data.roles.map(function(role) { %>\n          <span class=\"label label-default\"><%- role.name %></span>\n        <% }) %>\n      <% } else { %>\n        <p class=\"text-muted\">没有分配角色</p>\n      <% } %>\n      ",
+    "body": "\n      <% if (this.roles && this.roles.length) { %>\n        <% this.roles.map(function(role) { %>\n          <span class=\"label label-default\"><%- role.name %></span>\n        <% }) %>\n      <% } else { %>\n        <p class=\"text-muted\">没有分配角色</p>\n      <% } %>\n      ",
     "actions": [
       {
         "label": "编辑",

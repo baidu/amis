@@ -340,7 +340,7 @@ API 还支持配置对象类型
         "source": {
             "method": "get",
             "url": "https://houtai.baidu.com/api/mock2/options/level2?a=${a}",
-            "sendOn": "data.a === 2"
+            "sendOn": "this.a === 2"
         },
         "description": "只有<code>选项1</code>选择<code>B</code>的时候，才触发<code>选项2</code>的<code>source</code>接口重新拉取"
       }

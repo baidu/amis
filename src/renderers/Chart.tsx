@@ -91,6 +91,11 @@ export interface ChartSchema extends BaseSchema {
    * 默认配置时追加的，如果更新配置想完全替换配置请配置为 true.
    */
   replaceChartOption?: boolean;
+
+  /**
+   * 不可见的时候隐藏
+   */
+  unMountOnHidden?: boolean;
 }
 
 export interface ChartProps extends RendererProps, ChartSchema {
@@ -101,7 +106,8 @@ export interface ChartProps extends RendererProps, ChartSchema {
 export class Chart extends React.Component<ChartProps> {
   static defaultProps: Partial<ChartProps> = {
     offsetY: 50,
-    replaceChartOption: false
+    replaceChartOption: false,
+    unMountOnHidden: true
   };
 
   static propsList: Array<string> = [];
@@ -300,7 +306,13 @@ export class Chart extends React.Component<ChartProps> {
   }
 
   render() {
-    const {className, width, height, classPrefix: ns} = this.props;
+    const {
+      className,
+      width,
+      height,
+      classPrefix: ns,
+      unMountOnHidden
+    } = this.props;
     let style = this.props.style || {};
 
     width && (style.width = width);
@@ -308,7 +320,7 @@ export class Chart extends React.Component<ChartProps> {
 
     return (
       <LazyComponent
-        unMountOnHidden
+        unMountOnHidden={unMountOnHidden}
         placeholder={
           <div className={cx(`${ns}Chart`, className)} style={style}>
             <div className={`${ns}Chart-placeholder`}>

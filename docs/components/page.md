@@ -115,7 +115,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 {
   "type": "page",
   "initApi": "https://houtai.baidu.com/api/mock2/page/initData",
-  "stopAutoRefreshWhen": "data.time % 5", // 当时间戳能被5整除时，停止轮训
+  "stopAutoRefreshWhen": "this.time % 5", // 当时间戳能被5整除时，停止轮训
   "interval": 3000,
   "body": [
     {

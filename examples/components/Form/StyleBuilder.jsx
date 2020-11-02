@@ -262,6 +262,7 @@ export default {
               label: '属性',
               type: 'select',
               searchable: true,
+              unique: true,
               options: propertiesOptions
             },
             ...valueTypeControls,

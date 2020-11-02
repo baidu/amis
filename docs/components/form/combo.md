@@ -694,7 +694,7 @@ order: 12
         "controls": [
             {
                 "type": "tpl",
-                "tpl": "<%= data.index + 1%>",
+                "tpl": "<%= this.index + 1%>",
                 "className": "p-t-xs",
                 "mode": "inline"
             },

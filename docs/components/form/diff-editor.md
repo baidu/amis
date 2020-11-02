@@ -41,7 +41,7 @@ order: 17
             "label": "Diff-Editor",
             "diffValue": "hello world",
             "value": "hello",
-            "disabledOn": "data.isDisabled"
+            "disabledOn": "this.isDisabled"
         },
         {
             "type": "switch",

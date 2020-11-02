@@ -915,3 +915,16 @@ a {
     background-color: #333538;
   }
 }
+
+// 让 echarts 编辑器的 tabs 更紧凑
+.echarts-editor > .a-Tabs-links {
+  width: 4rem;
+  > .a-Tabs-link > a {
+    padding: 0.5rem 0.5rem;
+  }
+}
+
+.echarts-tab {
+  max-height: 70vh;
+  overflow: auto;
+}

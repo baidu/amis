@@ -404,7 +404,7 @@ Form 支持轮训初始化接口，步骤如下：
     "initApi": "https://houtai.baidu.com/api/mock2/page/initData",
     "interval": 3000,
     "title": "表单",
-    "stopAutoRefreshWhen": "data.date % 5",
+    "stopAutoRefreshWhen": "this.date % 5",
     "controls": [
       {
         "type": "text",
