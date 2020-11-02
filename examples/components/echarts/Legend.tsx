@@ -18,15 +18,15 @@ export default {
     {
       title: '基础',
       className: 'echarts-tab',
-      controls: buildOptions('legend', legendOptions)
+      controls: buildOptions('legend.', legendOptions)
     },
     {
       title: '位置',
-      controls: [viewport('legend', '标题')]
+      controls: [viewport('legend.', '标题')]
     },
     {
       title: '样式',
-      controls: commonStyle('legend', '标题')
+      controls: commonStyle('legend.', '标题')
     },
     {
       title: '文字样式',

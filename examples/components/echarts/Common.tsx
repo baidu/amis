@@ -319,19 +319,19 @@ export const viewportControl = (
       name: name,
       label: label,
       options: keywordList,
-      visibleOn: `(typeof data.${name} === "undefined") || ((typeof data.${name} === "string") && (data.${name}.indexOf("%") === -1))`
+      visibleOn: `(typeof this.${name} === "undefined") || ((typeof this.${name} === "string") && (this.${name}.indexOf("%") === -1))`
     },
     {
       type: 'number',
       name: name,
       label: label,
-      visibleOn: `(typeof data.${name} === "number")`
+      visibleOn: `(typeof this.${name} === "number")`
     },
     {
       type: 'text',
       name: name,
       label: label,
-      visibleOn: `(typeof data.${name} === "string") && (data.${name}.indexOf("%") !== -1)`
+      visibleOn: `(typeof this.${name} === "string") && (this.${name}.indexOf("%") !== -1)`
     }
   ];
 };
@@ -348,26 +348,26 @@ export const viewport = (scope: string, label: string) => {
     collapsable: true,
     collapsed: true,
     controls: [
-      ...viewportControl('left', `${label}离容器左侧的距离`, '左侧距离值类型', [
-        'auto',
-        'left',
-        'center',
-        'right'
-      ]),
-      ...viewportControl('top', `${label}离容器上侧的距离`, '上侧距离值类型', [
-        'auto',
-        'top',
-        'middle',
-        'bottom'
-      ]),
       ...viewportControl(
-        'right',
+        `${scope}left`,
+        `${label}离容器左侧的距离`,
+        '左侧距离值类型',
+        ['auto', 'left', 'center', 'right']
+      ),
+      ...viewportControl(
+        `${scope}top`,
+        `${label}离容器上侧的距离`,
+        '上侧距离值类型',
+        ['auto', 'top', 'middle', 'bottom']
+      ),
+      ...viewportControl(
+        `${scope}right`,
         `${label}离容器右侧的距离`,
         '右侧距离值类型',
         ['auto']
       ),
       ...viewportControl(
-        'bottom',
+        `${scope}bottom`,
         `${label}离容器下侧的距离`,
         '下侧距离值类型',
         ['auto']
@@ -432,6 +432,86 @@ export const selectedMode = (label: string) => {
 };
 
 /**
+ * 生成动画相关的控件
+ * @param scope
+ */
+export const animation = (scope?: string, collapsed: boolean = true) => {
+  let prefix = '';
+  if (scope) {
+    prefix = `${scope}.`;
+  }
+  const easing = [
+    'linear',
+    'quadraticIn',
+    'quadraticOut',
+    'quadraticInOut',
+    'cubicIn',
+    'cubicOut',
+    'cubicInOut',
+    'quarticIn',
+    'quarticOut',
+    'quarticInOut',
+    'quinticIn',
+    'quinticOut',
+    'quinticInOut',
+    'sinusoidalIn',
+    'sinusoidalOut',
+    'sinusoidalInOut',
+    'exponentialIn',
+    'exponentialOut',
+    'exponentialInOut',
+    'circularIn',
+    'circularOut',
+    'circularInOut',
+    'elasticIn',
+    'elasticOut',
+    'elasticInOut',
+    'backIn',
+    'backOut',
+    'backInOut',
+    'bounceIn',
+    'bounceOut',
+    'bounceInOut'
+  ];
+  return fieldSet('动画', [
+    trueSwitch(`${prefix}animation`, '是否开启动画'),
+    visibleOn(`this.${prefix}animation`, [
+      number(
+        `${prefix}animationThreshold`,
+        '是否开启动画的阈值',
+        '当单个系列显示的图形数量大于这个阈值时会关闭动画',
+        2000
+      ),
+      number(
+        `${prefix}animationDuration`,
+        '初始动画的时长',
+        '支持回调函数，可以通过每个数据返回不同的时长实现更戏剧的初始动画效果，不过只能写代码',
+        1000
+      ),
+      select(`${prefix}animationEasing`, '初始动画的缓动效果', easing),
+      number(
+        `${prefix}animationDelay`,
+        '初始动画的延迟',
+        '初始动画的延迟，支持回调函数，可以通过每个数据返回不同的 delay 时间实现更戏剧的初始动画效果',
+        0
+      )
+    ]),
+    number(
+      `${prefix}animationDurationUpdate`,
+      '数据更新动画的时长',
+      '支持回调函数，可以通过每个数据返回不同的时长实现更戏剧的更新动画效果',
+      200
+    ),
+    select(`${prefix}animationEasingUpdate`, '数据更新动画的缓动效果', easing),
+    number(
+      `${prefix}animationDelayUpdate`,
+      '数据更新动画的延迟',
+      '支持回调函数，可以通过每个数据返回不同的 delay 时间实现更戏剧的更新动画效果'
+    )
+  ]);
+};
+
+/**
  * icon 的简版写法
  */
 export const icon = (label: string) => {
@@ -484,7 +564,7 @@ export const numberOrArray = (
         {
           type: 'number',
           name: name,
-          hiddenOn: `Array.isArray(data.${name})`,
+          hiddenOn: `Array.isArray(this.${name})`,
           label: label
         },
         {
@@ -507,7 +587,7 @@ export const numberOrArray = (
       label: label,
       labelRemark:
         '设置两个值将分别是上下、左右；设置四个值则分别是上、右、下、左',
-      visibleOn: `Array.isArray(data.${name})`,
+      visibleOn: `Array.isArray(this.${name})`,
       minLength: 2,
       maxLength: 4,
       items: {
@@ -539,7 +619,7 @@ export const vector = (
       type: 'array',
       name: name,
       label: label,
-      visibleOn: `Array.isArray(data.${name})`,
+      visibleOn: `Array.isArray(this.${name})`,
       minLength: 2,
       maxLength: 4,
       items: {
@@ -552,7 +632,7 @@ export const vector = (
         {
           type: 'number',
           name: name,
-          hiddenOn: `Array.isArray(data.${name})`,
+          hiddenOn: `Array.isArray(this.${name})`,
           label: label
         },
         {
@@ -587,10 +667,10 @@ export const shadowControls = (scope: string) => {
     collapsable: true,
     collapsed: true,
     controls: [
-      color(`${scope}.shadowColor`, '阴影颜色'),
-      number(`${scope}.shadowBlur`, '阴影模糊大小'),
-      number(`${scope}.shadowOffsetX`, '阴影水平方向上的偏移距离'),
-      number(`${scope}.shadowOffsetY`, '阴影垂直方向上的偏移距离')
+      color(`${scope}shadowColor`, '阴影颜色'),
+      number(`${scope}shadowBlur`, '阴影模糊大小'),
+      number(`${scope}shadowOffsetX`, '阴影水平方向上的偏移距离'),
+      number(`${scope}shadowOffsetY`, '阴影垂直方向上的偏移距离')
     ]
   };
 };
@@ -633,14 +713,14 @@ export const keywordOrNumber = (
       {
         type: 'number',
         name: name,
-        visibleOn: `typeof(data.${name}) === 'number'`,
+        visibleOn: `typeof(this.${name}) === 'number'`,
         label: label
       },
       {
         type: 'select',
         name: name,
         label: label,
-        visibleOn: `typeof(data.${name}) === 'undefined' || typeof(data.${name}) === 'string'`,
+        visibleOn: `typeof(this.${name}) === 'undefined' || typeof(this.${name}) === 'string'`,
         options: keywordList
       }
     ]
@@ -688,22 +768,85 @@ export const keywordOrString = (
       {
         type: 'text',
         name: name,
-        visibleOn: `data.${name} && ${JSON.stringify(
+        visibleOn: `this.${name} && ${JSON.stringify(
           keywordList
-        )}.indexOf(data.${name}) === -1`,
+        )}.indexOf(this.${name}) === -1`,
         label: label
       },
       {
         type: 'select',
         name: name,
         label: label,
-        visibleOn: `typeof(data.${name}) === 'undefined' || ${JSON.stringify(
+        visibleOn: `typeof(this.${name}) === 'undefined' || ${JSON.stringify(
           keywordList
-        )}.indexOf(data.${name}) !== -1`,
+        )}.indexOf(this.${name}) !== -1`,
         options: keywordList
       }
     ]
   };
+};
+
+/**
+ * 对象或者对象数组
+ * TODO: 这样会造成配置项 double，是否有更好的方法？
+ * @param name
+ * @param label
+ * @param labelForSwitch
+ * @param keywordList
+ * @param controls
+ */
+export const objectOrArray = (
+  name: string,
+  labelForSwitch: string,
+  controls: any[]
+) => {
+  return [
+    {
+      type: 'switch',
+      label: labelForSwitch,
+      mode: 'inline',
+      name: name,
+      pipeIn: (value: any) => {
+        if (typeof value === 'undefined') {
+          return false;
+        }
+        return Array.isArray(value);
+      },
+      pipeOut: (value: any, oldValue: any, data: any) => {
+        if (value) {
+          if (data[name]) {
+            return [data[name]];
+          }
+          return [{}];
+        } else {
+          if (data[name] && Array.isArray(data[name])) {
+            return data[name][0];
+          }
+          return {};
+        }
+      }
+    },
+    {
+      type: 'combo',
+      name: name,
+      label: '',
+      noBorder: true,
+      multiLine: true,
+      visibleOn: `typeof(this.${name}) === 'undefined' || !Array.isArray(this.${name})`,
+      multiple: false,
+      controls: controls
+    },
+    {
+      type: 'combo',
+      name: name,
+      label: '',
+      noBorder: true,
+      multiLine: true,
+      visibleOn: `Array.isArray(this.${name})`,
+      multiple: true,
+      controls: controls
+    }
+  ];
 };
 
 /**
@@ -712,11 +855,11 @@ export const keywordOrString = (
  */
 export const commonStyle = (scope: string, label: string) => {
   return [
-    color(`${scope}.backgroundColor`, `${label}背景色，默认透明`),
-    color(`${scope}.borderColor`, `${label}的边框颜色`),
-    number(`${scope}.borderWidth`, `${label}的边框线宽`),
+    color(`${scope}backgroundColor`, `${label}背景色，默认透明`),
+    color(`${scope}borderColor`, `${label}的边框颜色`),
+    number(`${scope}borderWidth`, `${label}的边框线宽`),
     ...numberOrArray(
-      `${scope}.borderRadius`,
+      `${scope}borderRadius`,
       '圆角半径',
       '单独设置每个圆角半径'
     ),
@@ -857,14 +1000,14 @@ export const numberOrPercentage = (
         {
           type: 'number',
           name: name,
-          visibleOn: `typeof(data.${name}) === 'number'`,
+          visibleOn: `typeof(this.${name}) === 'number'`,
           label: label
         },
         {
           type: 'text',
           name: name,
           label: label,
-          visibleOn: `typeof(data.${name}) === 'undefined' || typeof(data.${name}) === 'string'`
+          visibleOn: `typeof(this.${name}) === 'undefined' || typeof(this.${name}) === 'string'`
         }
       ]
     }
@@ -947,7 +1090,8 @@ const FIX_LABEL = {
   pageButtonItemGap: '图例控制块中，按钮和页信息之间的间隔',
   pageButtonGap: '图例控制块和图例项之间的间隔',
   pageButtonPosition: '图例控制块的位置',
-  pageFormatter: '图例控制块中，页信息的显示格式'
+  pageFormatter: '图例控制块中，页信息的显示格式',
+  appendToBody: '是否添加为 HTML 的 <body> 的子节点'
 };
 
 /**
@@ -966,6 +1110,8 @@ const buildOneOption = (scope: string, name: string, option: any) => {
   let label = descSplit[0]
     .trim()
     .replace('<p>', '')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
     .replace(/&#39;/g, '')
     .replace(/<\/?[^>]+(>|$)/g, '');
 
@@ -984,7 +1130,7 @@ const buildOneOption = (scope: string, name: string, option: any) => {
 
   remark = `「${name}」${remark}`;
 
-  name = scope + '.' + name;
+  name = scope + name;
   if (!uiControl || !uiControl.type) {
     // 这种可能只有 desc
     return text(name, label, remark);
@@ -1003,18 +1149,23 @@ const buildOneOption = (scope: string, name: string, option: any) => {
       typeof uiControl.default === 'undefined' ? 0 : +uiControl.default;
     const min = typeof uiControl.min === 'undefined' ? -1e4 : +uiControl.min;
     const max = typeof uiControl.max === 'undefined' ? 1e4 : +uiControl.max;
-    const step = typeof uiControl.min === 'undefined' ? 1 : +uiControl.step;
+    const step = typeof uiControl.step === 'undefined' ? 1 : +uiControl.step;
     return number(name, label, remark, defaultValue, min, max, step);
   } else if (uiControlType === 'percent') {
     return numberOrPercentage(name, label, '使用绝对值', remark);
   } else if (uiControlType === 'enum') {
-    return enumControl(
-      name,
-      label,
-      uiControl.options.split(',').map((item: string) => item.trim()),
-      uiControl.default,
-      remark
-    );
+    if (uiControl.options) {
+      return enumControl(
+        name,
+        label,
+        uiControl.options.split(',').map((item: string) => item.trim()),
+        uiControl.default,
+        remark
+      );
+    } else {
+      console.warn('enum do not have options, fallback to text', name);
+      return text(name, label, remark);
+    }
   } else if (uiControlType === 'vector') {
     return vector(name, label, '单独设置', remark);
   } else if (uiControlType === 'percentvector') {
@@ -1046,7 +1197,7 @@ export const buildGroupOptions = (
 
 /**
  * 基于 ECharts 文档的数据构建控件，对常见元素做分组
- * @param label
+ * @param scope 前缀，虽然可以用 combo，但加前缀可以方便 debug，空字符串就是没前缀
  * @param options
  */
 export const buildOptions = (scope: string, options: any) => {
@@ -1093,7 +1244,8 @@ export const buildOptions = (scope: string, options: any) => {
     if (
       name.startsWith('textStyle') ||
       name.startsWith('subtextStyle') ||
-      name.startsWith('pageTextStyle')
+      name.startsWith('pageTextStyle') ||
+      name.startsWith('animation')
     ) {
       continue;
     }
