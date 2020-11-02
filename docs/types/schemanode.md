@@ -106,7 +106,7 @@ SchemaNode 是指每一个 amis 配置节点的类型，支持`模板`、`Schema
       "type": "text",
       "label": "文本",
       "name": "text",
-      "hiddenOn": "data.number > 1",
+      "hiddenOn": "this.number > 1",
       "description": "当数量大于1的时候，该文本框会隐藏"
     }
   ]

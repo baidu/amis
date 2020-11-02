@@ -16,7 +16,7 @@ order: 45
     "value": ["A", "B", "C"],
     "items": {
         "type": "tpl",
-        "tpl": "<span class='label label-default m-l-sm'><%= data.item %></span> "
+        "tpl": "<span class='label label-default m-l-sm'><%= this.item %></span> "
     }
 }
 ```
@@ -58,7 +58,7 @@ order: 45
             "type": "each",
             "items": {
                 "type": "tpl",
-                "tpl": "<span class='label label-info m-l-sm'><%= data.item %></span>"
+                "tpl": "<span class='label label-info m-l-sm'><%= this.item %></span>"
             }
         }
     ]
@@ -82,7 +82,7 @@ List 的内容、Card 卡片的内容配置同上
             "name": "each",
             "items": {
                 "type": "tpl",
-                "tpl": "<span class='label label-info m-l-sm'><%= data.item %></span>"
+                "tpl": "<span class='label label-info m-l-sm'><%= this.item %></span>"
             }
         }
     ]

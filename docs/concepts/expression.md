@@ -14,11 +14,11 @@ order: 13
 {
   "type": "tpl",
   "tpl": "当前作用域中变量 show 是 1 的时候才可以看得到我哦~",
-  "visibleOn": "data.show === 1"
+  "visibleOn": "this.show === 1"
 }
 ```
 
-其中：`data.show === 1` 就是表达式。
+其中：`this.show === 1` 就是表达式。
 
 ## 表达式语法
 
@@ -28,7 +28,7 @@ order: 13
 
 在 amis 的实现过程中，当正则匹配到某个组件存在`xxxOn`语法的属性名时，会尝试进行下面步骤（以上面配置为例）：
 
-1. 提取`visibleOn`配置项配置的 JavaScript 语句`data.show === 1`，并以当前组件的数据域为这段代码的数据作用域，执行这段 js 代码；
+1. 提取`visibleOn`配置项配置的 JavaScript 语句`this.show === 1`，并以当前组件的数据域为这段代码的数据作用域，执行这段 js 代码；
 2. 之后将执行结果赋值给`visible`并添加到组件属性中
 3. 执行渲染。当前示例中：`visible`代表着是否显示当前组件；
 

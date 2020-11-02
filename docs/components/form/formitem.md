@@ -213,7 +213,7 @@ order: 1
       "type": "text",
       "label": "文本",
       "name": "text",
-      "disabledOn": "data.number > 1",
+      "disabledOn": "this.number > 1",
       "description": "当数量大于1的时候，该文本框会被禁用"
     }
   ]
@@ -267,7 +267,7 @@ order: 1
       "type": "text",
       "label": "文本",
       "name": "text",
-      "hiddenOn": "data.number > 1",
+      "hiddenOn": "this.number > 1",
       "description": "当数量大于1的时候，该文本框会隐藏"
     }
   ]
@@ -403,7 +403,7 @@ order: 1
       "type": "text",
       "label": "文本",
       "name": "text",
-      "requiredOn": "data.number > 1",
+      "requiredOn": "this.number > 1",
       "description": "当数量大于1的时候，该文本框为必填"
     }
   ]
