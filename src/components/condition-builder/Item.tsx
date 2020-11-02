@@ -104,10 +104,11 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         value={value.left}
         onChange={this.handleLeftChange}
         fields={fields}
-        defaultType="field"
-        allowedTypes={(config.valueTypes || ['field', 'func']).filter(
-          type => type === 'field' || type === 'func'
-        )}
+        allowedTypes={
+          ['field', 'func'].filter(
+            type => type === 'field' || type === 'func'
+          ) as any
+        }
       />
     );
   }
@@ -251,7 +252,6 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             value={(value.right as Array<ExpressionComplex>)?.[0]}
             onChange={this.handleRightSubChange.bind(this, 0)}
             fields={fields}
-            defaultType="value"
             allowedTypes={
               field?.valueTypes ||
               config.valueTypes || ['value', 'field', 'func', 'formula']
@@ -267,7 +267,6 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             value={(value.right as Array<ExpressionComplex>)?.[1]}
             onChange={this.handleRightSubChange.bind(this, 1)}
             fields={fields}
-            defaultType="value"
             allowedTypes={
               field?.valueTypes ||
               config.valueTypes || ['value', 'field', 'func', 'formula']
@@ -286,7 +285,6 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         value={value.right}
         onChange={this.handleRightChange}
         fields={fields}
-        defaultType="value"
         allowedTypes={
           field?.valueTypes ||
           config.valueTypes || ['value', 'field', 'func', 'formula']

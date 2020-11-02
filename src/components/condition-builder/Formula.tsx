@@ -14,10 +14,10 @@ export class Formula extends React.Component<FormulaProps> {
     return (
       <div className={cx('CBFormula')}>
         <InputBox
-          value={(value as any).value}
+          value={value}
           onChange={onChange}
           placeholder="请输入公式"
-          prefix={<span className={cx('CBFormula-label')}>公式</span>}
+          prefix={<span className={cx('CBFormula-label')}>表达式</span>}
         />
       </div>
     );
