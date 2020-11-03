@@ -1640,7 +1640,7 @@ export default class Table extends React.Component<TableProps, object> {
     return void 0;
   }
 
-  renderColumnsToggler(config?: any, options?: any) {
+  renderColumnsToggler(config?: any) {
     const {
       className,
       store,
