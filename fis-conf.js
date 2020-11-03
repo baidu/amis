@@ -330,7 +330,7 @@ if (fis.project.currentMedia() === 'publish') {
   });
 
   env.match('*.scss', {
-    parser: fis.plugin('node-sass', {
+    parser: fis.plugin('sass', {
       sourceMap: false
     })
   });
