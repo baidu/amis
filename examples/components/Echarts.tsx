@@ -2,16 +2,16 @@
  * @file 基于 amis 实现 ECharts 图表可视化编辑
  */
 
-import {createHierarchy} from './Echarts/Common';
-import example from './Echarts/Example';
-// import title from './Echarts/Title';
-// import legend from './Echarts/Legend';
-// import Global from './Echarts/Global';
-// import Axis from './Echarts/Axis';
-// import polar from './Echarts/Polar';
-// import tooltip from './Echarts/Tooltip';
-// import toolbox from './Echarts/Toolbox';
-// import series from './Echarts/Series';
+import {createHierarchy} from './EChartsEditor/Common';
+import example from './EChartsEditor/Example';
+// import title from './EChartsEditor/Title';
+// import legend from './EChartsEditor/Legend';
+// import Global from './EChartsEditor/Global';
+// import Axis from './EChartsEditor/Axis';
+// import polar from './EChartsEditor/Polar';
+// import tooltip from './EChartsEditor/Tooltip';
+// import toolbox from './EChartsEditor/Toolbox';
+// import series from './EChartsEditor/Series';
 
 export default {
   title: 'ECharts 编辑器',
@@ -44,6 +44,7 @@ export default {
                 createHierarchy('config', [
                   {
                     type: 'tabs',
+                    mountOnEnter: true,
                     // unmountOnExit: true, // 加了更慢的样子
                     mode: 'vertical',
                     className: 'echarts-editor',
