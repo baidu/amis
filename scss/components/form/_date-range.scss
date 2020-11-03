@@ -33,7 +33,7 @@
   &.is-disabled {
     background: $gray200;
 
-    >&-input {
+    > .#{$ns}DateRangePicker-input {
       color: $text--muted-color;
     }
   }
@@ -110,7 +110,7 @@
   margin-top: $gap-sm;
 }
 
-.#{$ns}DateRangeControl:not(.is-inline)>.#{$ns}DateRangePicker {
+.#{$ns}DateRangeControl:not(.is-inline) > .#{$ns}DateRangePicker {
   display: flex;
 }
 
