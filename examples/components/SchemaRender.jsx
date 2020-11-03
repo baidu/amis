@@ -31,7 +31,7 @@ export default function (schema) {
           open: !this.state.open
         });
       copyCode = () => {
-        copy(JSON.stringify(schema));
+        copy(JSON.stringify(schema, null, 2));
         toast.success('页面配置JSON已复制到粘贴板');
       };
       close = () =>
