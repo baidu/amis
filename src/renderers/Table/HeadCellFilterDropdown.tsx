@@ -77,7 +77,19 @@ export class HeadCellFilterDropDown extends React.Component<
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: HeadCellFilterProps, prevState: any) {
+    const name = this.props.name;
+
+    if (
+      this.props.data[name] !== prevProps.data[name] &&
+      this.props.filterable.source &&
+      prevState.filterOptions !== this.props.filterOptions
+    ) {
+      this.setState({
+        filterOptions: this.alterOptions(this.state.filterOptions)
+      });
+    }
+
     this.sourceInvalid && this.fetchOptions();
   }
 

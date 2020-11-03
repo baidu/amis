@@ -36,7 +36,6 @@ export interface ExpressionProps extends ThemeProps {
   valueField?: FieldSimple;
   fields?: Field[];
   funcs?: Funcs;
-  defaultType?: 'value' | 'field' | 'func' | 'formula';
   allowedTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
   op?: OperatorType;
   config: Config;
@@ -120,12 +119,12 @@ export class Expression extends React.Component<ExpressionProps> {
     const {
       value,
       valueField,
-      defaultType,
       allowedTypes,
       funcs,
       fields,
       op,
-      classnames: cx
+      classnames: cx,
+      config
     } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
@@ -137,7 +136,6 @@ export class Expression extends React.Component<ExpressionProps> {
         : value !== undefined
         ? 'value'
         : undefined) ||
-      defaultType ||
       allowedTypes?.[0] ||
       'value';
 
@@ -177,18 +175,18 @@ export class Expression extends React.Component<ExpressionProps> {
 
         {inputType === 'func' ? (
           <ConditionFunc
+            config={config}
             value={value as ExpressionFunc}
             onChange={this.handleFuncChange}
             funcs={funcs}
             fields={fields}
-            defaultType={defaultType}
             allowedTypes={allowedTypes}
           />
         ) : null}
 
         {inputType === 'formula' ? (
           <Formula
-            value={(value as any).value}
+            value={(value as any)?.value}
             onChange={this.handleFormulaChange}
           />
         ) : null}
