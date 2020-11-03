@@ -33,7 +33,7 @@
   &.is-disabled {
     background: $gray200;
 
-    > &-input {
+    > .#{$ns}DatePicker-input {
       color: $text--muted-color;
     }
   }

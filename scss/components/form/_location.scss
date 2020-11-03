@@ -34,7 +34,7 @@
   &.is-disabled {
     background: $gray200;
 
-    > &-input {
+    > #{$ns}LocationPicker-input {
       color: $text--muted-color;
     }
   }
