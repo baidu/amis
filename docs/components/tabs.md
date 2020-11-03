@@ -224,9 +224,13 @@ order: 68
 }
 ```
 
+## mountOnEnter
+
+只有在点击卡片的时候才会渲染，在内容较多的时候可以提升性能，但第一次点击的时候会有卡顿。
+
 ## unmountOnExit
 
-如果你想在切换 tab 时，自动销毁掉隐藏的 tab，请配置`"unmountOnExit": true`
+如果你想在切换 tab 时，自动销毁掉隐藏的 tab，请配置`"unmountOnExit": true`。
 
 ## 属性表
 
@@ -234,7 +238,7 @@ order: 68
 | --------------------- | --------------------------------- | ----------------------------------- | -------------------------------------------------------- |
 | type                  | `string`                          | `"tabs"`                            | 指定为 Tabs 渲染器                                       |
 | className             | `string`                          |                                     | 外层 Dom 的类名                                          |
-| mode                  | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`   |
+| mode                  | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical` |
 | tabsClassName         | `string`                          |                                     | Tabs Dom 的类名                                          |
 | tabs                  | `Array`                           |                                     | tabs 内容                                                |
 | toolbar               | [SchemaNode](../types/schemanode) |                                     | tabs 中的工具栏                                          |
@@ -246,3 +250,5 @@ order: 68
 | tabs[x].reload        | `boolean`                         |                                     | 设置以后内容每次都会重新渲染，对于 crud 的重新拉取很有用 |
 | tabs[x].unmountOnExit | `boolean`                         |                                     | 每次退出都会销毁当前 tab 栏内容                          |
 | tabs[x].className     | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                             |
+| mountOnEnter          | `boolean`                         | false                               | 只有在点中 tab 的时候才渲染                              |
+| unmountOnExit         | `boolean`                         | false                               | 切换 tab 的时候销毁                                      |
