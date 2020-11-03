@@ -146,6 +146,7 @@ register('en', {
   '当前有 {{moved}} 条记录修改了顺序, 但并没有提交。请选择:':
     'There are currently {{moved}} records that have changed the order, but have not been committed. Please select:',
   '点击开始排序': 'Click to start sorting',
+  '点击选择显示列': 'Click to select columns to display',
   '请拖动左边的按钮进行排序': 'Please drag the button on the left to sort',
   '排序': 'Sort',
   '正序': 'Asc',
