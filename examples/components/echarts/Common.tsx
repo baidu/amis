@@ -1100,6 +1100,15 @@ const FIX_LABEL = {
  * @param option
  */
 const buildOneOption = (scope: string, name: string, option: any) => {
+  if (name.indexOf('<') !== -1) {
+    return;
+  }
+  if (name.indexOf('.0') != -1) {
+    return;
+  }
+  if (name.indexOf('.1') != -1) {
+    return;
+  }
   const desc = option.desc.trim();
   const uiControl = option.uiControl;
   if (!desc) {
@@ -1170,9 +1179,9 @@ const buildOneOption = (scope: string, name: string, option: any) => {
     return vector(name, label, '单独设置', remark);
   } else if (uiControlType === 'percentvector') {
     // TODO: 可能需要特殊处理
-    return vector(name, label, '单独设置', remark);
+    // return vector(name, label, '单独设置', remark);
   } else if (uiControlType === 'text') {
-    return text(name, label, remark, uiControl.default);
+    // return text(name, label, remark, uiControl.default);
   } else {
     console.warn('unknow type', name, uiControlType);
   }
@@ -1183,12 +1192,16 @@ export const buildGroupOptions = (
   parentName: string,
   options: any
 ) => {
-  const controls = [];
+  let controls = [];
   for (const name in options) {
     if (name.startsWith(parentName + '.')) {
       const control = buildOneOption(scope, name, options[name]);
       if (control) {
-        controls.push(control);
+        if (Array.isArray(control)) {
+          controls = controls.concat(control);
+        } else {
+          controls.push(control);
+        }
       }
     }
   }
@@ -1213,26 +1226,21 @@ export const buildOptions = (scope: string, options: any) => {
   // 没啥用的
   const uselessKeys = new Set(['id', 'z', 'zlevel']);
 
-  const controls = [];
+  let controls = [];
 
   // 有些属性有深层结构，对它们进行特殊处理，使用 fieldSet 来自动折叠
   const groupKeys = new Set();
 
   for (const name in options) {
-    if (name.indexOf('<') !== -1) {
-      // TODO: 暂时跳过
-      continue;
-    }
     if (name.indexOf('.') !== -1) {
       groupKeys.add(name.split('.')[0]);
     }
   }
 
   for (const name in options) {
-    // if (name !== 'padding') {
+    // if (!name.startsWith('label.padding')) {
     //   continue; // 用于开发时单独测试某个属性
     // }
-
     // 这些样式单独处理或忽略
     if (
       commonStyleKeys.has(name) ||
@@ -1253,10 +1261,6 @@ export const buildOptions = (scope: string, options: any) => {
     if (name === 'data' || name === 'tooltip') {
       continue;
     }
-    if (name.indexOf('<') !== -1) {
-      // TODO: 暂时不支持
-      continue;
-    }
 
     if (groupKeys.has(name)) {
       controls.push(
@@ -1270,8 +1274,13 @@ export const buildOptions = (scope: string, options: any) => {
     }
 
     const control = buildOneOption(scope, name, options[name]);
+
     if (control) {
-      controls.push(control);
+      if (Array.isArray(control)) {
+        controls = controls.concat(control);
+      } else {
+        controls.push(control);
+      }
     } else {
       console.warn('build control error', name);
     }

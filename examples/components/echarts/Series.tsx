@@ -10,7 +10,7 @@ const lineOptions = __inline('./option-parts/option.series-line.json');
 const buildSerieOptions = (type: string, options: any) => {
   return {
     type: 'container',
-    visibleOn: `this.type === ${type}`,
+    visibleOn: `this.type == "${type}"`,
     controls: buildOptions('', options)
   };
 };
