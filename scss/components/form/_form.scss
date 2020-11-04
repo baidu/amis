@@ -283,7 +283,7 @@
       }
 
       > .#{$ns}Form-value {
-        display: inline;
+        display: inline-block;
 
         > .#{$ns}Form-control {
           vertical-align: top;
