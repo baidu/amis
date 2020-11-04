@@ -284,6 +284,7 @@
 
       > .#{$ns}Form-value {
         display: inline-block;
+        vertical-align: top;
 
         > .#{$ns}Form-control {
           vertical-align: top;
