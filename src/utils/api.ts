@@ -96,6 +96,22 @@ export function buildApi(
   if (api.method === 'get') {
     if (!~raw.indexOf('$') && !api.data && autoAppend) {
       api.data = data;
+    } else if (
+      api.attachDataToQuery === false &&
+      api.data &&
+      !~raw.indexOf('$') &&
+      autoAppend
+    ) {
+      const idx = api.url.indexOf('?');
+      if (~idx) {
+        let params = {
+          ...qs.parse(api.url.substring(idx + 1)),
+          ...data
+        };
+        api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
+      } else {
+        api.url += '?' + qsstringify(data);
+      }
     }
 
     if (api.data && api.attachDataToQuery !== false) {
