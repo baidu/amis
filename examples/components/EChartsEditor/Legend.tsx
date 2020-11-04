@@ -18,21 +18,23 @@ export default {
     {
       title: '基础',
       className: 'echarts-tab',
-      controls: buildOptions('legend.', legendOptions)
+      controls: [createHierarchy('legend', buildOptions('', legendOptions))]
     },
     {
       title: '位置',
-      controls: [viewport('legend.', '标题')]
+      controls: [createHierarchy('legend', [viewport('', '图例')])]
     },
     {
       title: '样式',
-      controls: commonStyle('legend.', '标题')
+      controls: [createHierarchy('legend', commonStyle('', '图例'))]
     },
     {
       title: '文字样式',
       controls: [
-        textStyleControls('legend.textStyle', '图例'),
-        textStyleControls('legend.pageTextStyle', '图例页信息')
+        createHierarchy('legend', [
+          textStyleControls('textStyle', '图例'),
+          textStyleControls('pageTextStyle', '图例页信息')
+        ])
       ]
     },
     {
