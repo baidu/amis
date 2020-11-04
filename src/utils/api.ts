@@ -98,7 +98,7 @@ export function buildApi(
       api.data = data;
     }
 
-    if (api.data) {
+    if (api.data && api.attachDataToQuery !== false) {
       const idx = api.url.indexOf('?');
       if (~idx) {
         let params = {
