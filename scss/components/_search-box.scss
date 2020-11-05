@@ -30,6 +30,7 @@
   }
 
   &-activeBtn,
+  &-searchBtn,
   &-cancelBtn {
     cursor: pointer;
     color: $icon-color;
@@ -37,6 +38,13 @@
     &:hover {
       color: $icon-onHover-color;
     }
+  }
+
+  &.is-disabled &-activeBtn,
+  &.is-disabled &-searchBtn,
+  &.is-disabled &-cancelBtn {
+    color: $icon-onDisabled-color;
+    pointer-events: none;
   }
 
   > input {

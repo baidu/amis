@@ -47,14 +47,11 @@ import {WrapperSchema} from './renderers/Wrapper';
 import {TableSchema} from './renderers/Table';
 import {DialogSchema} from './renderers/Dialog';
 import {DrawerSchema} from './renderers/Drawer';
+import {SearchBoxSchema} from './renderers/SearchBox';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
-  | 'page'
   | 'form'
-  | 'tpl'
-  | 'html'
-  | 'remark'
   | 'button'
   | 'submit'
   | 'reset'
@@ -99,6 +96,7 @@ export type SchemaType =
   | 'map'
   | 'mapping'
   | 'nav'
+  | 'page'
   | 'operation'
   | 'panel'
   | 'plain'
@@ -106,12 +104,16 @@ export type SchemaType =
   | 'progress'
   | 'qrcode'
   | 'qr-code'
+  | 'remark'
+  | 'search-box'
   | 'service'
   | 'status'
   | 'switch'
   | 'table'
   | 'static-table' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'tabs'
+  | 'html'
+  | 'tpl'
   | 'tasks'
   | 'vbox'
   | 'video'
@@ -157,6 +159,7 @@ export type SchemaObject =
   | PlainSchema
   | ProgressSchema
   | QRCodeSchema
+  | SearchBoxSchema
   | ServiceSchema
   | StatusSchema
   | SwitchSchema
