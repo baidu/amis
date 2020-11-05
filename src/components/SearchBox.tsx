@@ -4,6 +4,7 @@ import {Icon} from './icons';
 import {uncontrollable} from 'uncontrollable';
 import {autobind} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
+import debounce from 'lodash/debounce';
 
 export interface SearchBoxProps extends ThemeProps, LocaleProps {
   name?: string;
@@ -28,6 +29,22 @@ export class SearchBox extends React.Component<SearchBoxProps> {
     searchImediately: true
   };
 
+  lazyEmitSearch = debounce(
+    () => {
+      const onSearch = this.props.onSearch;
+      onSearch?.(this.props.value || '');
+    },
+    250,
+    {
+      leading: false,
+      trailing: true
+    }
+  );
+
+  componentWillUnmount() {
+    this.lazyEmitSearch.cancel();
+  }
+
   @autobind
   handleActive() {
     const {onActiveChange} = this.props;
@@ -47,7 +64,7 @@ export class SearchBox extends React.Component<SearchBoxProps> {
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const {onChange, onSearch, searchImediately} = this.props;
     onChange?.(e.currentTarget.value);
-    searchImediately && onSearch?.(e.currentTarget.value);
+    searchImediately && this.lazyEmitSearch();
   }
 
   @autobind
