@@ -47,6 +47,7 @@ import {WrapperSchema} from './renderers/Wrapper';
 import {TableSchema} from './renderers/Table';
 import {DialogSchema} from './renderers/Dialog';
 import {DrawerSchema} from './renderers/Drawer';
+import {SearchBoxSchema} from './renderers/SearchBox';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -158,6 +159,7 @@ export type SchemaObject =
   | PlainSchema
   | ProgressSchema
   | QRCodeSchema
+  | SearchBoxSchema
   | ServiceSchema
   | StatusSchema
   | SwitchSchema
