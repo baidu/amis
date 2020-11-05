@@ -6,7 +6,7 @@ import SearchBox from '../components/SearchBox';
 import {autobind, getVariable, setVariable} from '../utils/helper';
 
 /**
- * tpl 渲染器
+ * 搜索框渲染器
  */
 export interface SearchBoxSchema extends BaseSchema {
   /**
