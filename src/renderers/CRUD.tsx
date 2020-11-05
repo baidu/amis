@@ -396,7 +396,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.handleChildPopOverClose = this.handleChildPopOverClose.bind(this);
     this.search = this.search.bind(this);
     this.silentSearch = this.silentSearch.bind(this);
-    this.handlQuery = this.handlQuery.bind(this);
+    this.handleQuery = this.handleQuery.bind(this);
     this.renderHeaderToolbar = this.renderHeaderToolbar.bind(this);
     this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     this.clearSelection = this.clearSelection.bind(this);
@@ -1345,7 +1345,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
   }
 
-  handlQuery(values: object, forceReload: boolean = false) {
+  handleQuery(values: object, forceReload: boolean = false) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
     store.updateQuery(
@@ -1371,7 +1371,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   receive(values: object) {
-    this.handlQuery(values, true);
+    this.handleQuery(values, true);
   }
 
   reloadTarget(target: string, data: any) {
@@ -1801,6 +1801,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       lastPage: store.lastPage,
       perPage: store.perPage,
       total: store.total,
+      onQuery: this.handleQuery,
       onAction: this.handleAction,
       onChangePage: this.handleChangePage,
       onBulkAction: this.handleBulkAction,
@@ -1992,7 +1993,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             onAction: this.handleAction,
             onSave: this.handleSave,
             onSaveOrder: this.handleSaveOrder,
-            onQuery: this.handlQuery,
+            onQuery: this.handleQuery,
             onSelect: this.handleSelect,
             onPopOverOpened: this.handleChildPopOverOpen,
             onPopOverClosed: this.handleChildPopOverClose,

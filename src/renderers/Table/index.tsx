@@ -428,7 +428,7 @@ export default class Table extends React.Component<TableProps, object> {
     store.update({
       selectable,
       draggable,
-      columns: columns,
+      columns,
       columnsTogglable,
       orderBy,
       orderDir,
@@ -1648,6 +1648,8 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       ...rest
     } = this.props;
+    const __ = rest.translate
+    const env = rest.env
 
     const render = this.props.render;
 
@@ -1658,6 +1660,10 @@ export default class Table extends React.Component<TableProps, object> {
     return (
       <DropDownButton
         {...rest}
+        tooltip={__('点击选择显示列')}
+        tooltipContainer={
+          env && env.getModalContainer ? env.getModalContainer : undefined
+        }
         align={config ? config.align : 'left'}
         classnames={cx}
         classPrefix={ns}

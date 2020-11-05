@@ -539,6 +539,15 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     }
   }
 
+  @autobind
+  handleQuery(query: any) {
+    if (this.props.initApi) {
+      this.receive(query);
+    } else {
+      this.props.onQuery?.(query);
+    }
+  }
+
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
@@ -945,6 +954,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                   onReset: this.handleReset,
                   onSubmit: this.handleSubmit,
                   onAction: this.handleAction,
+                  onQuery: this.handleQuery,
                   disabled: store.loading,
                   popOverContainer:
                     popOverContainer || this.getPopOverContainer,

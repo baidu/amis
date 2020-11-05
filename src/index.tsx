@@ -132,6 +132,7 @@ import './renderers/Switch';
 import './renderers/Wizard';
 import './renderers/Chart';
 import './renderers/Container';
+import './renderers/SearchBox';
 import './renderers/Service';
 import './renderers/Video';
 import './renderers/Audio';

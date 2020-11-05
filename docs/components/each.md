@@ -10,13 +10,19 @@ order: 45
 
 ## 基本用法
 
-```schema:height="160" scope="body"
+```schema:height="160" scope="page"
 {
-    "type": "each",
-    "value": ["A", "B", "C"],
-    "items": {
-        "type": "tpl",
-        "tpl": "<span class='label label-default m-l-sm'><%= this.item %></span> "
+  "type": "page",
+  "data": {
+    "arr": ["A", "B", "C"]
+  },
+  "body": {
+        "type": "each",
+        "name": "arr",
+        "items": {
+            "type": "tpl",
+            "tpl": "<span class='label label-default m-l-sm'><%= data.item %></span> "
+        }
     }
 }
 ```

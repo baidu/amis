@@ -47,14 +47,11 @@ import {WrapperSchema} from './renderers/Wrapper';
 import {TableSchema} from './renderers/Table';
 import {DialogSchema} from './renderers/Dialog';
 import {DrawerSchema} from './renderers/Drawer';
+import {SearchBoxSchema} from './renderers/SearchBox';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
-  | 'page'
   | 'form'
-  | 'tpl'
-  | 'html'
-  | 'remark'
   | 'button'
   | 'submit'
   | 'reset'
@@ -99,6 +96,7 @@ export type SchemaType =
   | 'map'
   | 'mapping'
   | 'nav'
+  | 'page'
   | 'operation'
   | 'panel'
   | 'plain'
@@ -106,12 +104,16 @@ export type SchemaType =
   | 'progress'
   | 'qrcode'
   | 'qr-code'
+  | 'remark'
+  | 'search-box'
   | 'service'
   | 'status'
   | 'switch'
   | 'table'
   | 'static-table' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'tabs'
+  | 'html'
+  | 'tpl'
   | 'tasks'
   | 'vbox'
   | 'video'
@@ -157,6 +159,7 @@ export type SchemaObject =
   | PlainSchema
   | ProgressSchema
   | QRCodeSchema
+  | SearchBoxSchema
   | ServiceSchema
   | StatusSchema
   | SwitchSchema
@@ -219,6 +222,16 @@ export interface SchemaApiObject {
   data?: {
     [propName: string]: any;
   };
+
+  /**
+   * 如果 method 为 get 的接口，设置了 data 信息。
+   * 默认 data 会自动附带在 query 里面发送给后端。
+   *
+   * 如果想通过 body 发送给后端，那么请把这个配置成 false。
+   *
+   * 但是，浏览器还不支持啊，设置了只是摆设。
+   */
+  attachDataToQuery?: boolean;
 
   /**
    * 发送体的格式
