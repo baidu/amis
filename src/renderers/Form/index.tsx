@@ -368,6 +368,7 @@ export default class Form extends React.Component<FormProps, object> {
 
     this.onInit = this.onInit.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.handleQuery = this.handleQuery.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleDrawerConfirm = this.handleDrawerConfirm.bind(this);
@@ -954,6 +955,14 @@ export default class Form extends React.Component<FormProps, object> {
     }
   }
 
+  handleQuery(query: any) {
+    if (this.props.initApi) {
+      this.receive(query);
+    } else {
+      this.props.onQuery?.(query);
+    }
+  }
+
   handleDialogConfirm(
     values: object[],
     action: Action,
@@ -1188,6 +1197,7 @@ export default class Form extends React.Component<FormProps, object> {
       disabled: disabled || (control as Schema).disabled || form.loading,
       btnDisabled: form.loading || form.validating,
       onAction: this.handleAction,
+      onQuery: this.handleQuery,
       onChange:
         formLazyChange === false ? this.handleChange : this.lazyHandleChange,
       addHook: this.addHook,
@@ -1355,6 +1365,7 @@ export default class Form extends React.Component<FormProps, object> {
           children: body,
           actions: this.buildActions(),
           onAction: this.handleAction,
+          onQuery: this.handleQuery,
           disabled: store.loading,
           btnDisabled: store.loading || store.validating,
           headerClassName,

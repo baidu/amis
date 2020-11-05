@@ -261,7 +261,11 @@ export default class Service extends React.Component<ServiceProps> {
   }
 
   handleQuery(query: any) {
-    this.receive(query);
+    if (this.props.api || this.props.schemaApi) {
+      this.receive(query);
+    } else {
+      this.props.onQuery?.(query);
+    }
   }
 
   reloadTarget(target: string, data?: any) {

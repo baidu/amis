@@ -184,6 +184,7 @@ export default class Page extends React.Component<PageProps> {
     // autobind 会让继承里面的 super 指向有问题，所以先这样！
     bulkBindFunctions<Page /*为毛 this 的类型自动识别不出来？*/>(this, [
       'handleAction',
+      'handleQuery',
       'handleDialogConfirm',
       'handleDialogClose',
       'handleDrawerConfirm',
@@ -303,6 +304,10 @@ export default class Page extends React.Component<PageProps> {
     ) {
       env.copy && env.copy(filter(action.content || action.copy, ctx, '| raw'));
     }
+  }
+
+  handleQuery(query: any) {
+    this.receive(query);
   }
 
   handleDialogConfirm(values: object[], action: Action, ...args: Array<any>) {
@@ -428,12 +433,14 @@ export default class Page extends React.Component<PageProps> {
       toolbar,
       render,
       store,
+      initApi,
       env,
       classnames: cx
     } = this.props;
 
     const subProps = {
-      onAction: this.handleAction
+      onAction: this.handleAction,
+      onQuery: initApi ? this.handleQuery : undefined
     };
     let header, right;
 
@@ -496,11 +503,13 @@ export default class Page extends React.Component<PageProps> {
       asideClassName,
       classnames: cx,
       header,
-      showErrorMsg
+      showErrorMsg,
+      initApi
     } = this.props;
 
     const subProps = {
       onAction: this.handleAction,
+      onQuery: initApi ? this.handleQuery : undefined,
       loading: store.loading
     };
 
@@ -560,7 +569,8 @@ export default class Page extends React.Component<PageProps> {
             onConfirm: this.handleDialogConfirm,
             onClose: this.handleDialogClose,
             show: store.dialogOpen,
-            onAction: this.handleAction
+            onAction: this.handleAction,
+            onQuery: initApi ? this.handleQuery : undefined
           }
         )}
 
@@ -577,7 +587,8 @@ export default class Page extends React.Component<PageProps> {
             onConfirm: this.handleDrawerConfirm,
             onClose: this.handleDrawerClose,
             show: store.drawerOpen,
-            onAction: this.handleAction
+            onAction: this.handleAction,
+            onQuery: initApi ? this.handleQuery : undefined
           }
         )}
       </div>
