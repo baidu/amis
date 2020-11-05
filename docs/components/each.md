@@ -21,7 +21,7 @@ order: 45
         "name": "arr",
         "items": {
             "type": "tpl",
-            "tpl": "<span class='label label-default m-l-sm'><%= this.item %></span> "
+            "tpl": "<span class='label label-default m-l-sm'><%= data.item %></span> "
         }
     }
 }
