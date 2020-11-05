@@ -592,8 +592,12 @@ export default class Form extends React.Component<FormProps, object> {
               );
             }
           })
-          .then(this.initInterval)
-          .then(() => store.reset(undefined, false))
+          .then((result: Payload) => {
+            if (result?.ok) {
+              this.initInterval(result);
+              store.reset(undefined, false);
+            }
+          })
       : store.reset(undefined, false);
   }
 
