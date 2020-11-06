@@ -3,7 +3,7 @@ import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import {autobind, createObject} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
-import {buildApi} from '../utils/api';
+import {buildApi, isApiOutdated} from '../utils/api';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 import {ActionSchema} from './Action';
 
@@ -121,14 +121,15 @@ export default class IFrame extends React.Component<IFrameProps, object> {
   @autobind
   receive(values: object) {
     const {src, data} = this.props;
+    const newData = createObject(data, values);
 
-    if (src) {
+    this.postMessage('receive', newData);
+
+    if (isApiOutdated(src, src, data, newData)) {
       (this.IFrameRef.current as HTMLIFrameElement).src = buildApi(
         src,
-        createObject(data, values)
+        newData
       ).url;
-
-      this.postMessage('receive', createObject(data, values));
     }
   }
 
