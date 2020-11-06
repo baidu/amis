@@ -359,7 +359,3 @@ ECharts 中有些配置项可以写函数，比如 formatter 和 sort，但在 J
 | width              | `string`                             |           | 设置根元素的宽度                                                   |
 | height             | `string`                             |           | 设置根元素的高度                                                   |
 | replaceChartOption | `boolean`                            | `false`   | 每次更新是完全覆盖配置项还是追加？                                 |
-
-```
-
-```
