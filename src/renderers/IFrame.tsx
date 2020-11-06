@@ -110,10 +110,10 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     const {src, data} = this.props;
 
     if (src) {
-      (this.IFrameRef.current as HTMLIFrameElement).src = buildApi(
-        src,
-        data
-      ).url;
+      const newSrc = buildApi(src, data).url;
+      if (src !== newSrc) {
+        (this.IFrameRef.current as HTMLIFrameElement).src = newSrc;
+      }
     }
   }
 
@@ -122,13 +122,13 @@ export default class IFrame extends React.Component<IFrameProps, object> {
   receive(values: object) {
     const {src, data} = this.props;
 
-    if (src) {
-      (this.IFrameRef.current as HTMLIFrameElement).src = buildApi(
-        src,
-        createObject(data, values)
-      ).url;
+    this.postMessage('receive', createObject(data, values));
 
-      this.postMessage('receive', createObject(data, values));
+    if (src) {
+      const newSrc = buildApi(src, createObject(data, values)).url;
+      if (newSrc !== src) {
+        (this.IFrameRef.current as HTMLIFrameElement).src = newSrc;
+      }
     }
   }
 
