@@ -14,7 +14,7 @@ SDK 适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpac
 
 ## SDK
 
-JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releases) 页面下载，比如 sdk.tar.gz。
+JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releases) 或 gitee 的[发布](https://gitee.com/baidu/amis/releases)页面下载，文件是 sdk.tar.gz。
 
 或者可以使用 `npm i amis` 来下载，在 `node_modules\amis\sdk` 目录里就能找到。
 
@@ -98,7 +98,7 @@ let amisScoped = amis.embed(
     fetcher: (url, method, data, config) => {
       // 可以不传，用来实现 ajax 请求
     },
-    
+
     // 全局 api 适配器。
     // api 自己也可以配置适配器，这里最好只处理通用逻辑。
     responseAdpater(api, response, query, request) {

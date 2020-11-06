@@ -197,7 +197,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
     let finnalValue = value;
 
     if (finnalValue && typeof finnalValue !== 'string') {
-      finnalValue = JSON.stringify(finnalValue, null, 4);
+      finnalValue = JSON.stringify(finnalValue, null, 2);
     }
 
     return (
