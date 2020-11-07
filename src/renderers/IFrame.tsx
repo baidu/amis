@@ -73,7 +73,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
   onMessage(e: MessageEvent) {
     const {events, onAction, data} = this.props;
 
-    if (!e.data || e.data === '' || !events) {
+    if (typeof e?.data?.type !== 'string' || !events) {
       return;
     }
 
