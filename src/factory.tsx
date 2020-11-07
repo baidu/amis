@@ -298,9 +298,7 @@ export function renderChild(
   const detectData =
     schema.detectField === '&' ? props : props[schema.detectField || 'data'];
   const exprProps = detectData
-    ? getExprProperties(schema, detectData, undefined, {
-        __props: props
-      })
+    ? getExprProperties(schema, detectData, undefined, props)
     : null;
 
   if (

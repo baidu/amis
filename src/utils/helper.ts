@@ -60,9 +60,9 @@ export function cloneObject(target: any, persistOwnProps: boolean = true) {
  */
 export function injectPropsToObject(target: any, props: any) {
   const sup = Object.create(target.__super || null);
-  Object.assign(sup, props);
+  Object.keys(props).forEach(key => (sup[key] = props[key]));
   const result = Object.create(sup);
-  Object.assign(result, target);
+  Object.keys(target).forEach(key => (result[key] = target[key]));
   return result;
 }
 

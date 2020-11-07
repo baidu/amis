@@ -39,10 +39,21 @@ export default function getExprProperties(
       key = parts[1];
 
       if (parts[2] === 'On' || parts[2] === 'Expr') {
-        ctx = ctx || (props ? injectPropsToObject(data, props) : data);
+        if (
+          !ctx &&
+          props &&
+          typeof value === 'string' &&
+          ~value.indexOf('__props')
+        ) {
+          ctx = injectPropsToObject(data, {
+            __props: props
+          });
+        }
 
         value =
-          parts[2] === 'On' ? evalExpression(value, data) : filter(value, data);
+          parts[2] === 'On'
+            ? evalExpression(value, ctx || data)
+            : filter(value, ctx || data);
       }
 
       exprProps[key] = value;
