@@ -1113,7 +1113,9 @@ export default class Form extends React.Component<FormProps, object> {
 
         const exprProps = getExprProperties(
           item as Schema,
-          this.props.store.data
+          this.props.store.data,
+          undefined,
+          this.props
         );
         if (exprProps.hidden || exprProps.visible === false) {
           return false;
@@ -1224,12 +1226,12 @@ export default class Form extends React.Component<FormProps, object> {
         subSchema.control = control = {
           ...resolveDefinitions(control.$ref),
           ...control,
-          ...getExprProperties(control, store.data)
+          ...getExprProperties(control, store.data, undefined, subProps)
         };
       } else {
         subSchema.control = control = {
           ...control,
-          ...getExprProperties(control, store.data)
+          ...getExprProperties(control, store.data, undefined, subProps)
         };
       }
 

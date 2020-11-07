@@ -891,7 +891,7 @@ export function HocStoreFactory(renderer: {
 
         let exprProps: any = {};
         if (!detectField || detectField === 'data') {
-          exprProps = getExprProperties(rest, this.store.data);
+          exprProps = getExprProperties(rest, this.store.data, undefined, rest);
 
           if (exprProps.hidden || exprProps.visible === false) {
             return null;
