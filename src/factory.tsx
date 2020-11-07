@@ -297,7 +297,11 @@ export function renderChild(
       : (node as Schema);
   const detectData =
     schema.detectField === '&' ? props : props[schema.detectField || 'data'];
-  const exprProps = detectData ? getExprProperties(schema, detectData) : null;
+  const exprProps = detectData
+    ? getExprProperties(schema, detectData, undefined, {
+        __props: props
+      })
+    : null;
 
   if (
     exprProps &&
