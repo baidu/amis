@@ -49,7 +49,7 @@ export interface DiffEditorProps
 
 function normalizeValue(value: any, language?: string) {
   if (value && typeof value !== 'string') {
-    value = JSON.stringify(value, null, 4);
+    value = JSON.stringify(value, null, 2);
   }
 
   if (language && language === 'json') {
@@ -57,7 +57,7 @@ function normalizeValue(value: any, language?: string) {
       value = JSON.stringify(
         typeof value === 'string' ? JSON.parse(value) : value,
         null,
-        4
+        2
       );
     } catch (e) {}
   }

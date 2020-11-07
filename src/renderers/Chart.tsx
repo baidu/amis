@@ -98,6 +98,50 @@ export interface ChartSchema extends BaseSchema {
   unMountOnHidden?: boolean;
 }
 
+/**
+ * 深度查找具有某个 key 名字段的对象
+ * @param obj
+ * @param key
+ */
+function findObjectsWithKey(obj: any, key: string) {
+  let objects: any[] = [];
+  for (const k in obj) {
+    if (!obj.hasOwnProperty(k)) continue;
+    if (typeof obj[k] === 'object') {
+      objects = objects.concat(findObjectsWithKey(obj[k], key));
+    } else if (k === key) {
+      objects.push(obj);
+    }
+  }
+  return objects;
+}
+
+const EVAL_CACHE: {[key: string]: Function} = {};
+/**
+ * ECharts 中有些配置项可以写函数，但 JSON 中无法支持，为了实现这个功能，需要将看起来像函数的字符串转成函数类型
+ * 目前 ECharts 中可能有函数的配置项有如下：interval、formatter、color、min、max、labelFormatter、pageFormatter、optionToContent、contentToOption、animationDelay、animationDurationUpdate、animationDelayUpdate、animationDuration、position、sort
+ * 其中用得最多的是 formatter、sort，所以目前先只支持它们
+ * @param config ECharts 配置
+ */
+function recoverFunctionType(config: object) {
+  ['formatter', 'sort'].forEach((key: string) => {
+    const objects = findObjectsWithKey(config, key);
+    for (const object of objects) {
+      const code = object[key];
+      if (typeof code === 'string' && code.trim().startsWith('function ')) {
+        try {
+          if (!(code in EVAL_CACHE)) {
+            EVAL_CACHE[code] = eval('(' + code + ')');
+          }
+          object[key] = EVAL_CACHE[code];
+        } catch (e) {
+          console.warn(code, e);
+        }
+      }
+    }
+  });
+}
+
 export interface ChartProps extends RendererProps, ChartSchema {
   chartRef?: (echart: any) => void;
   onDataFilter?: (config: any, echarts: any) => any;
@@ -298,6 +342,7 @@ export class Chart extends React.Component<ChartProps> {
 
     if (config) {
       try {
+        recoverFunctionType(config);
         this.echarts.setOption(config, this.props.replaceChartOption);
       } catch (e) {
         console.warn(e);

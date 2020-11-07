@@ -112,7 +112,7 @@ export class Editor extends React.Component<EditorProps, any> {
 
       if (this.props.language === 'json') {
         try {
-          value = JSON.stringify(JSON.parse(value), null, 4);
+          value = JSON.stringify(JSON.parse(value), null, 2);
         } catch (e) {}
       }
 
@@ -198,7 +198,7 @@ export class Editor extends React.Component<EditorProps, any> {
         value = JSON.stringify(
           typeof value === 'string' ? JSON.parse(value) : value,
           null,
-          4
+          2
         );
       } catch (e) {
         // ignore

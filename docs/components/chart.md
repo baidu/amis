@@ -317,6 +317,32 @@ order: 34
 ]
 ```
 
+## 对函数配置的特殊支持
+
+ECharts 中有些配置项可以写函数，比如 formatter 和 sort，但在 JSON 里无法写函数，因此我们做了特殊支持，将看起来像函数的字符串转成了函数：
+
+```schema:height="350" scope="body"
+{
+    "type": "chart",
+    "config": {
+        "legend": {
+            "formatter": "function (name) { return 'Legend ' + name;}"
+        },
+        "dataset": {
+            "source": [["type","2012","2013","2014","2015","2016"],["Forest",320,332,301,334,390],["Steppe",220,182,191,234,290],["Desert",150,232,201,154,190],["Wetland",98,77,101,99,40]]
+        },
+        "xAxis": {
+            "type": "category",
+            "axisTick": {
+                "show": false
+            }
+        },
+        "yAxis": {},
+        "series": [{"type":"bar","seriesLayoutBy":"row"},{"type":"bar","seriesLayoutBy":"row"},{"type":"bar","seriesLayoutBy":"row"},{"type":"bar","seriesLayoutBy":"row"}]
+    }
+}
+```
+
 ## 属性表
 
 | 属性名             | 类型                                 | 默认值    | 说明                                                               |
