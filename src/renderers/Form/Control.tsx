@@ -21,6 +21,7 @@ import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
 import {reaction} from 'mobx';
 import {FormItemStore} from '../../store/formItem';
+import {isAlive} from 'mobx-state-tree';
 
 export interface ControlProps extends RendererProps {
   control: {
@@ -395,7 +396,8 @@ export default class FormControl extends React.PureComponent<
 
     if (
       validateOnChange === true ||
-      (validateOnChange !== false && (form.submited || this.model.validated))
+      (validateOnChange !== false &&
+        (form.submited || (isAlive(this.model) && this.model.validated)))
     ) {
       this.lazyValidate();
     } else if (validateOnChange === false) {

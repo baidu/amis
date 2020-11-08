@@ -297,7 +297,9 @@ export function renderChild(
       : (node as Schema);
   const detectData =
     schema.detectField === '&' ? props : props[schema.detectField || 'data'];
-  const exprProps = detectData ? getExprProperties(schema, detectData) : null;
+  const exprProps = detectData
+    ? getExprProperties(schema, detectData, undefined, props)
+    : null;
 
   if (
     exprProps &&
@@ -889,7 +891,7 @@ export function HocStoreFactory(renderer: {
 
         let exprProps: any = {};
         if (!detectField || detectField === 'data') {
-          exprProps = getExprProperties(rest, this.store.data);
+          exprProps = getExprProperties(rest, this.store.data, undefined, rest);
 
           if (exprProps.hidden || exprProps.visible === false) {
             return null;
