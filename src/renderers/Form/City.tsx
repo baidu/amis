@@ -250,7 +250,7 @@ export class CityPicker extends React.Component<
       if (db[cityCode]) {
         state.cityCode = cityCode;
         state.city = db[cityCode];
-      } else if (~db.city[provinceCode].indexOf(code)) {
+      } else if (~db.city[provinceCode]?.indexOf(code)) {
         state.cityCode = code;
         state.city = db[code];
       }
