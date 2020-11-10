@@ -250,6 +250,9 @@ export class CityPicker extends React.Component<
       if (db[cityCode]) {
         state.cityCode = cityCode;
         state.city = db[cityCode];
+      } else if (~db.city[provinceCode]?.indexOf(code)) {
+        state.cityCode = code;
+        state.city = db[code];
       }
 
       if (code % 100) {
@@ -353,8 +356,7 @@ export class CityPicker extends React.Component<
 
         {cityCode &&
         allowDistrict &&
-        db.district[provinceCode] &&
-        db.district[provinceCode][cityCode] ? (
+        (db.district[provinceCode]?.[cityCode] as any)?.length ? (
           <Select
             disabled={disabled}
             options={(db.district[provinceCode][cityCode] as Array<number>).map(

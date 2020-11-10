@@ -9,6 +9,7 @@
 
     .#{$ns}Button {
       transition: padding 0.2s;
+      min-width: unset;
 
       svg {
         width: 10px;

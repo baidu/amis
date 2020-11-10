@@ -53,6 +53,19 @@ export function cloneObject(target: any, persistOwnProps: boolean = true) {
   return obj;
 }
 
+/**
+ * 给目标对象添加其他属性，可读取但是不会被遍历。
+ * @param target
+ * @param props
+ */
+export function injectPropsToObject(target: any, props: any) {
+  const sup = Object.create(target.__super || null);
+  Object.keys(props).forEach(key => (sup[key] = props[key]));
+  const result = Object.create(sup);
+  Object.keys(target).forEach(key => (result[key] = target[key]));
+  return result;
+}
+
 export function extendObject(
   target: any,
   src?: any,
