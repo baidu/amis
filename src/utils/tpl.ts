@@ -80,7 +80,7 @@ export function evalExpression(expression: string, data?: object): boolean {
     data = data || {};
     return fn.call(data, data, getFilters());
   } catch (e) {
-    console.warn(e);
+    console.warn(expression, e);
     return false;
   }
 }
@@ -107,7 +107,7 @@ export function evalJS(js: string, data: object): any {
     data = data || {};
     return fn.call(data, data, getFilters());
   } catch (e) {
-    console.warn(e);
+    console.warn(js, e);
     return null;
   }
 }
