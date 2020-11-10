@@ -71,14 +71,14 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
     "body": [
         {
             "type": "tpl",
-            "tpl": "User: <%= this.user %>"
+            "tpl": "User: <%= data.user %>"
         },
         {
             "type": "divider"
         },
         {
             "type": "tpl",
-            "tpl": "<% if (this.items && this.items.length) { %>Array: <% this.items.forEach(function(item) { %> <span class='label label-default'><%= item %></span> <% }); %><% } %>"
+            "tpl": "<% if (data.items && data.items.length) { %>Array: <% data.items.forEach(function(item) { %> <span class='label label-default'><%= item %></span> <% }); %><% } %>"
         }
     ]
 }
@@ -86,7 +86,7 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
 
 > 注意到了吗？
 >
-> 在 JavaScript 模板引擎中，我们获取数据域变量的方式是`this.xxx`，而不是之前的`${xxx}`，如果你熟悉 JavaScript 的话，这里模板引擎其实是将数据域，当做当前代码的数据作用域进行执行，因此需要使用`this.xxx`进行取值
+> 在 JavaScript 模板引擎中，我们获取数据域变量的方式是`data.xxx`，而不是之前的`${xxx}`，如果你熟悉 JavaScript 的话，这里模板引擎其实是将数据域，当做当前代码的数据作用域进行执行，因此需要使用`data.xxx`进行取值
 >
 > 要注意使用模板的时候在不同的场景下要使用正确的取值方式。
 
@@ -97,7 +97,7 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
 - `formatNumber(number)` 格式化数字格式，加上千分位。
 - `countDown(value)` 倒计时，显示离指定时间还剩下多少天，只支持时间戳。
 
-下面 filters 中的方法也可以使用如： `<%= date(this.xxx, 'YYYY-MM-DD') %>`
+下面 filters 中的方法也可以使用如： `<%= date(data.xxx, 'YYYY-MM-DD') %>`
 
 ## 注意事项
 
@@ -108,6 +108,6 @@ amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [loda
 ```json
 {
   "type": "tpl",
-  "tpl": "${this.xxx === 'a'}" //错误！
+  "tpl": "${data.xxx === 'a'}" //错误！
 }
 ```
