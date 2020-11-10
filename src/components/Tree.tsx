@@ -349,13 +349,18 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleEdit(item: Option) {
-    const labelField = this.props.labelField;
-    this.setState({
-      isEditing: true,
-      isAdding: false,
-      editingItem: item,
-      inputValue: item[labelField]
-    });
+    const {bultinCUD, onEdit, labelField, options} = this.props;
+
+    if (!bultinCUD) {
+      onEdit?.(item);
+    } else {
+      this.setState({
+        isEditing: true,
+        isAdding: false,
+        editingItem: item,
+        inputValue: item[labelField]
+      });
+    }
   }
 
   @autobind
