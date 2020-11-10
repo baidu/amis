@@ -1,11 +1,11 @@
 import React from 'react';
 import {Renderer} from '../../factory';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {filter} from '../../utils/tpl';
-import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
-import debouce from 'lodash/debounce';
-import {isPureVariable} from '../../utils/tpl-builtin';
+import {
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 import {SchemaTokenizeableString} from '../../Schema';
 import {autobind} from '../../utils/helper';
 
@@ -132,7 +132,10 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
         .getModel()
         .setValue(
           isPureVariable(diffValue as string)
-            ? normalizeValue(filter(diffValue || '', data, '| raw'), language)
+            ? normalizeValue(
+                resolveVariableAndFilter(diffValue || '', data, '| raw'),
+                language
+              )
             : normalizeValue(diffValue, language)
         );
     }
@@ -183,7 +186,10 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     this.editor.setModel({
       original: this.monaco.editor.createModel(
         isPureVariable(diffValue as string)
-          ? normalizeValue(filter(diffValue || '', data, '| raw'), language)
+          ? normalizeValue(
+              resolveVariableAndFilter(diffValue || '', data, '| raw'),
+              language
+            )
           : normalizeValue(diffValue, language),
         language
       ),
