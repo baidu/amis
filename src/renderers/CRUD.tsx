@@ -1254,8 +1254,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         const idx = findIndex(
           oldItems,
           a =>
-            a[primaryField || 'id'] &&
-            a[primaryField || 'id'] == item[primaryField || 'id']
+            a === item ||
+            (a[primaryField || 'id'] &&
+              a[primaryField || 'id'] == item[primaryField || 'id'])
         );
 
         if (~idx) {
@@ -1263,21 +1264,35 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         } else {
           oldItems.push(item);
         }
+
+        const idx2 = findIndex(
+          oldUnselectedItems,
+          a =>
+            a === item ||
+            (a[primaryField || 'id'] &&
+              a[primaryField || 'id'] == item[primaryField || 'id'])
+        );
+
+        if (~idx2) {
+          oldUnselectedItems.splice(idx2, 1);
+        }
       });
 
       unSelectedItems.forEach(item => {
         const idx = findIndex(
           oldUnselectedItems,
           a =>
-            a[primaryField || 'id'] &&
-            a[primaryField || 'id'] == item[primaryField || 'id']
+            a === item ||
+            (a[primaryField || 'id'] &&
+              a[primaryField || 'id'] == item[primaryField || 'id'])
         );
 
         const idx2 = findIndex(
           oldItems,
           a =>
-            a[primaryField || 'id'] &&
-            a[primaryField || 'id'] == item[primaryField || 'id']
+            a === item ||
+            (a[primaryField || 'id'] &&
+              a[primaryField || 'id'] == item[primaryField || 'id'])
         );
 
         if (~idx) {
