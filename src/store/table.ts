@@ -780,6 +780,7 @@ export const TableStore = iRendererStore
           find(
             selected,
             a =>
+              a[valueField || 'value'] &&
               a[valueField || 'value'] == item.pristine[valueField || 'value']
           )
         ) {
