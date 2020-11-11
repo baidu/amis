@@ -89,7 +89,6 @@ export interface Action extends Button {
     | 'delete'
     | 'edit'
     | 'cancel'
-    | 'close'
     | 'next'
     | 'prev'
     | 'reset';
