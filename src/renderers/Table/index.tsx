@@ -1648,8 +1648,8 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       ...rest
     } = this.props;
-    const __ = rest.translate
-    const env = rest.env
+    const __ = rest.translate;
+    const env = rest.env;
 
     const render = this.props.render;
 
