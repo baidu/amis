@@ -88,6 +88,28 @@ order: 58
 
 调整时间，观察数据域中表单项值的变化
 
+## 显示秒
+
+默认显示的是时和分，要显示秒请参考以下配置
+
+```schema:height="400" scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "controls": [
+        {
+            "type": "time",
+            "name": "time",
+            "label": "时间",
+            "format": "HH:mm:ss",
+            "timeFormat": "HH:mm:ss",
+            "inputFormat": "HH:mm:ss"
+        }
+    ]
+}
+```
+
 ## 默认值
 
 可以设置`value`属性，设置日期选择器的默认值
@@ -148,6 +170,7 @@ order: 58
 | 属性名          | 类型      | 默认值         | 说明                                                                                |
 | --------------- | --------- | -------------- | ----------------------------------------------------------------------------------- |
 | value           | `string`  |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                        |
+| timeFormat      | `string`  | `HH:mm`        | 时间选择器值格式，更多格式类型请参考 [moment](http://momentjs.com/)                 |
 | format          | `string`  | `X`            | 时间选择器值格式，更多格式类型请参考 [moment](http://momentjs.com/)                 |
 | inputFormat     | `string`  | `HH:mm`        | 时间选择器显示格式，即时间戳格式，更多格式类型请参考 [moment](http://momentjs.com/) |
 | placeholder     | `string`  | `"请选择时间"` | 占位文本                                                                            |
