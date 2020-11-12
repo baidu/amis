@@ -162,6 +162,8 @@ let amisScoped = amis.embed(
 
 可以通过 `amisScoped.getComponentByName('page1.form1').getValues()` 来获取到所有表单的值，需要注意 page 和 form 都需要有 name 属性。
 
+还可以通过 `amisScoped.getComponentByName('page1.form1').setValues({'name1': 'othername'})` 来修改表单中的值。
+
 ## npm
 
 ### 安装
