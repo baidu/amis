@@ -9,6 +9,7 @@ import {isEffectiveApi, isApiOutdated} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Spinner from '../components/Spinner';
 import {BaseSchema, SchemaApi, SchemaClassName, SchemaName} from '../Schema';
+import {createObject} from '../utils/helper';
 
 /**
  * Tasks 渲染器，格式说明
@@ -305,10 +306,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     isEffectiveApi(api, data) &&
       env &&
       env
-        .fetcher(api, {
-          ...data,
-          ...item
-        })
+        .fetcher(api, createObject(data, item))
         .then((ret: Payload) => {
           if (ret && ret.data) {
             if (Array.isArray(ret.data)) {
