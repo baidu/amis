@@ -173,7 +173,6 @@ order: 58
 | timeFormat      | `string`  | `HH:mm`        | 时间选择器值格式，更多格式类型请参考 [moment](http://momentjs.com/)                 |
 | format          | `string`  | `X`            | 时间选择器值格式，更多格式类型请参考 [moment](http://momentjs.com/)                 |
 | inputFormat     | `string`  | `HH:mm`        | 时间选择器显示格式，即时间戳格式，更多格式类型请参考 [moment](http://momentjs.com/) |
-| timeFormat      | `string`  | `HH:mm`        | 时间选择器格式，默认是时分                                                          |
 | placeholder     | `string`  | `"请选择时间"` | 占位文本                                                                            |
 | clearable       | `boolean` | `true`         | 是否可清除                                                                          |
 | timeConstrainst | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)           |
