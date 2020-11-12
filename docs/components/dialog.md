@@ -83,6 +83,127 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 }
 ```
 
+## 弹框与数据映射
+
+默认弹框内由于数据链的存在，会自动映射父级同名变量，例如下例：
+
+```schema:height="600" scope="body"
+{
+  "type": "crud",
+  "api": "https://houtai.baidu.com/api/sample",
+  "draggable": true,
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version"
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    },
+    {
+      "type": "button",
+      "label": "一个弹框",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "一个弹框",
+        "body": [
+          {
+            "type": "form",
+            "api": "/api/sample/$id",
+            "controls": [
+              {
+                "type": "text",
+                "name": "engine",
+                "label": "Engine"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+上例弹框中的表单项 `Engine` 会自动映射到父级数据中的 `engine` 变量，如果想调整当前特性，如你想调整父级映射变量的字段，可以利用[数据映射](../concepts/data-mapping)，例如：
+
+```schema:height="600" scope="body"
+{
+  "type": "crud",
+  "api": "https://houtai.baidu.com/api/sample",
+  "draggable": true,
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version"
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    },
+    {
+      "type": "button",
+      "label": "一个弹框",
+      "actionType": "dialog",
+      "dialog": {
+        "data": {
+          "engine2": "${engine}"
+        },
+        "title": "一个弹框",
+        "body": [
+          {
+            "type": "form",
+            "api": "/api/sample/$id",
+            "controls": [
+              {
+                "type": "text",
+                "name": "engine2",
+                "label": "Engine"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+上例给 `dialog` 中配置 `data` 属性，可以将上层的 `engine` 变量映射为 `engine2`
+
 ## 多级弹框
 
 ```schema:height="100" scope="body"

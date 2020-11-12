@@ -1317,6 +1317,80 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
+## 弹框与数据链
+
+一般 CRUD 中会有弹框，然后进行数据展示或进行二次编辑的需求，通过在列中配置按钮，然后配置弹框，弹框内配置相应的组件即可。
+
+现在问题是，如何获取到当前操作行的数据呢？
+
+实际上，你操作当前行数据，会成为弹框这层节点的父级节点，因此你可以通过 [数据链](../concepts/datascope-and-datachain)，获取到上层，也就是点击的行的数据，具体获取方法和普通组件获取数据域中数据的方法相同，
+
+```schema:height="600" scope="body"
+{
+  "type": "crud",
+  "api": "https://houtai.baidu.com/api/sample",
+  "draggable": true,
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    },
+    {
+      "name": "browser",
+      "label": "Browser"
+    },
+    {
+      "name": "platform",
+      "label": "Platform(s)"
+    },
+    {
+      "name": "version",
+      "label": "Engine version"
+    },
+    {
+      "name": "grade",
+      "label": "CSS grade"
+    },
+    {
+      "type": "button",
+      "label": "一个弹框",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "一个弹框",
+        "body": [
+          {
+            "type": "tpl",
+            "tpl": "行数据中 Browser 值为：${browser}"
+          },
+          {
+            "type": "divider"
+          },
+          {
+            "type": "form",
+            "api": "/api/sample/$id",
+            "controls": [
+              {
+                "type": "text",
+                "name": "engine",
+                "label": "Engine"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+例如上例中 Tpl 用 `${browser}` 获取 `browser` 变量，Form 中配置`"name": "engine"` 映射 `engine` 变量。
+
+> 遇到数据字段冲突时，可以在 [弹框上通过配置数据映射](./dialog#%E5%BC%B9%E6%A1%86%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%98%A0%E5%B0%84) 解决。
+
 ## 拖拽排序
 
 通过配置`"draggable": true`和保存排序接口`saveOrderApi`，可以实现拖拽排序功能，
