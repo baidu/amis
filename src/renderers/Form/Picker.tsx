@@ -92,7 +92,8 @@ export default class PickerControl extends React.PureComponent<
     'multiple',
     'embed',
     'resetValue',
-    'placeholder'
+    'placeholder',
+    'onQuery' // 防止 Form 的 onQuery 事件透传下去，不然会导致 table 先后触发 Form 和 Crud 的 onQuery
   ];
   static defaultProps: Partial<PickerProps> = {
     modalMode: 'dialog',
