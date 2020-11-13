@@ -168,9 +168,8 @@ function responseAdaptor(ret: fetcherResult) {
   if (!data) {
     throw new Error('Response is empty!');
   } else if (!data.hasOwnProperty('status')) {
-    throw new Error(
-      '接口返回格式不符合，请参考 http://amis.baidu.com/v2/docs/api'
-    );
+    // 兼容不返回 status 字段的情况
+    data.status = 0;
   }
 
   const payload: Payload = {
@@ -178,7 +177,7 @@ function responseAdaptor(ret: fetcherResult) {
     status: data.status,
     msg: data.msg,
     msgTimeout: data.msgTimeout,
-    data: data.data
+    data: data.data ? data.data : data // 兼容直接返回数据的情况
   };
 
   if (payload.status == 422) {

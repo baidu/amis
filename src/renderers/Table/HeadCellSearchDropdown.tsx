@@ -6,6 +6,7 @@ import Overlay from '../../components/Overlay';
 import {findDOMNode} from 'react-dom';
 import PopOver from '../../components/PopOver';
 import {ITableStore} from '../../store/table';
+import {setVariable} from '../../utils/helper';
 
 export interface QuickSearchConfig {
   type?: string;
@@ -180,7 +181,7 @@ export class HeadCellSearchDropDown extends React.Component<
   handleReset() {
     const {onQuery, data, name} = this.props;
     const values = {...data};
-    this.formItems.forEach(key => (values[key] = undefined));
+    this.formItems.forEach(key => setVariable(values, key, undefined));
 
     if (values.orderBy === name) {
       values.orderBy = '';
