@@ -132,6 +132,7 @@ export default class RichTextControl extends React.Component<
       props.vendor || (props.env.richTextToken ? 'froala' : 'tinymce');
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.handleChange = this.handleChange.bind(this);
 
     if (finnalVendor === 'froala') {
       this.config = {
@@ -225,6 +226,20 @@ export default class RichTextControl extends React.Component<
     });
   }
 
+  handleChange(
+    value: any,
+    submitOnChange?: boolean,
+    changeImmediately?: boolean
+  ) {
+    const {onChange, disabled} = this.props;
+
+    if (disabled) {
+      return;
+    }
+
+    onChange?.(value, submitOnChange, changeImmediately);
+  }
+
   render() {
     const {
       className,
@@ -251,7 +266,7 @@ export default class RichTextControl extends React.Component<
         <LazyComponent
           getComponent={loadRichText(finnalVendor)}
           model={value}
-          onModelChange={disabled ? noop : onChange}
+          onModelChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           config={this.config}
