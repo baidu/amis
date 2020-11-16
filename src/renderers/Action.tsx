@@ -412,7 +412,7 @@ export class Action extends React.Component<ActionProps> {
         block={block}
         iconOnly={!!(icon && !label && level !== 'link')}
       >
-        {label ? <span>{filter(label, data)}</span> : null}
+        {label ? <span>{filter(String(label), data)}</span> : null}
         {icon ? <i className={cx('Button-icon', icon, iconClassName)} /> : null}
       </Button>
     );

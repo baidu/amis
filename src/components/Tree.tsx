@@ -623,9 +623,11 @@ export class TreeSelector extends React.Component<
                     : this.handleSelect(item))
                 }
               >
-                {highlightTxt
-                  ? highlight(item[labelField], highlightTxt)
-                  : item[labelField]}
+                {`${
+                  highlightTxt
+                    ? highlight(item[labelField], highlightTxt)
+                    : item[labelField]
+                }`}
               </span>
 
               {!nodeDisabled && !isAdding && !isEditing ? (
