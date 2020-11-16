@@ -839,7 +839,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     this.lastScrollLeft = scrollLeft;
     let leading = scrollLeft === 0;
-    let trailing = scrollLeft + this.outterWidth === this.totalWidth;
+    let trailing = Math.ceil(scrollLeft) + this.outterWidth >= this.totalWidth;
     // console.log(scrollLeft, store.outterWidth, store.totalWidth, (scrollLeft + store.outterWidth) === store.totalWidth);
     // store.setLeading(leading);
     // store.setTrailing(trailing);
