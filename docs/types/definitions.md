@@ -1,14 +1,16 @@
 ---
 title: Definitions
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Definitions
-icon: 
+icon:
 order: 40
 ---
 
-`Definitions`建立当前页面公共的配置项，在其他组件中可以通过`$ref`来引用当前配置项中的内容。注意 definitions 只能在顶级节点中定义，定义在其他位置，将引用不到。
+`Definitions`建立当前页面公共的配置项，在其他组件中可以通过`$ref`来引用当前配置项中的内容。
+
+> 注意 definitions 只能在顶级节点中定义。
 
 ```schema:height="300"
 {
@@ -37,9 +39,11 @@ order: 40
 }
 ```
 
-`Definitions` 最大的作用其实是能够实现对数据格式的递归引用。来看这个栗子吧。
+## 树形结构
 
-```schema:height="600"
+`Definitions` 最大的作用其实是能够实现对数据格式的递归引用，实现无限层级编辑：
+
+```schema:height="800"
 {
   "definitions": {
           "options": {
@@ -105,7 +109,3 @@ order: 40
       ]
 }
 ```
-
-
-
-
