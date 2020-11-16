@@ -528,7 +528,7 @@ export default class TextControl extends React.PureComponent<
                         ×
                       </span>
                       <span className={cx('TextControl-valueLabel')}>
-                        {item[labelField || 'label']}
+                        {`${item[labelField || 'label']}`}
                       </span>
                     </div>
                   ) : inputValue && isOpen ? null : (
