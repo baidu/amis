@@ -120,7 +120,7 @@ export class Radios extends React.Component<RadioProps, any> {
         inline={inline}
         labelClassName={labelClassName}
       >
-        {option[labelField || 'label']}
+        {`${option[labelField || 'label']}`}
       </Checkbox>
     );
   }

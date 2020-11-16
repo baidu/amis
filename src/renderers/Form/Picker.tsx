@@ -382,8 +382,10 @@ export default class PickerControl extends React.PureComponent<
               {labelTpl ? (
                 <Html html={filter(labelTpl, item)} />
               ) : (
-                getVariable(item, labelField || 'label') ||
-                getVariable(item, 'id')
+                `${
+                  getVariable(item, labelField || 'label') ||
+                  getVariable(item, 'id')
+                }`
               )}
             </span>
           </div>
