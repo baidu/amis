@@ -130,7 +130,7 @@ export default class ListControl extends React.Component<ListProps, any> {
                     ) : null,
                     option[labelField || 'label'] ? (
                       <div key="label" className={cx('ListControl-itemLabel')}>
-                        {option[labelField || 'label']}
+                        {String(option[labelField || 'label'])}
                       </div>
                     ) : null
                     // {/* {option.tip ? (<div className={`${ns}ListControl-tip`}>{option.tip}</div>) : null} */}
