@@ -127,6 +127,11 @@ export interface TableControlSchema extends FormBaseControl, TableSchema {
    * 是否为确认的编辑模式。
    */
   needConfirm?: boolean;
+
+  /**
+   * 是否可以访问父级数据，正常 combo 已经关联到数组成员，是不能访问父级数据的。
+   */
+  canAccessSuperData?: boolean;
 }
 
 export interface TableProps
@@ -166,7 +171,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'addApi',
     'updateApi',
     'deleteApi',
-    'needConfirm'
+    'needConfirm',
+    'canAccessSuperData'
   ];
 
   entries: SimpleMap<any, number>;
@@ -774,7 +780,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       addable,
       columnsTogglable,
       combineNum,
-      translate: __
+      translate: __,
+      canAccessSuperData
     } = this.props;
 
     return (
@@ -806,7 +813,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             buildItemProps: this.state.buildItemProps,
             quickEditFormRef: this.subFormRef,
             columnsTogglable: columnsTogglable,
-            combineNum: combineNum
+            combineNum: combineNum,
+            canAccessSuperData
           }
         )}
       </div>

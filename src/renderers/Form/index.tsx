@@ -1397,7 +1397,19 @@ export default class Form extends React.Component<FormProps, object> {
     !/(^|\/)form(?:\/.+)?\/control\/form$/.test(path),
   storeType: FormStore.name,
   name: 'form',
-  isolateScope: true
+  isolateScope: true,
+  shouldSyncSuperStore: (store, nextProps) => {
+    // 如果是 QuickEdit，让 store 同步 __super 数据。
+    if (
+      nextProps.canAccessSuperData &&
+      nextProps.quickEditFormRef &&
+      nextProps.onQuickChange
+    ) {
+      return true;
+    }
+
+    return undefined;
+  }
 })
 export class FormRenderer extends Form {
   static contextType = ScopedContext;

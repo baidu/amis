@@ -274,6 +274,93 @@ order: 54
 }
 ```
 
+## 获取父级数据
+
+默认情况下，Table 内表达项无法获取父级数据域的数据，如下，我们添加 Table 表单项时，尽管 Combo 内的文本框的`name`与父级数据域中的`super_text`变量同名，但是没有自动映射值。
+
+```schema:height="500" scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "mode": "horizontal",
+  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "controls": [
+    {
+        "type": "text",
+        "label": "父级文本框",
+        "name": "super_text",
+        "value": "123"
+    },
+    {
+        "type": "table",
+        "name": "list",
+        "label": "不可获取父级数据",
+        "addable": true,
+        "needConfirm": false,
+        "columns": [
+            {
+                "name": "super_text",
+                "type": "text",
+                "label": "A"
+            }
+        ]
+    }
+  ]
+}
+```
+
+可以配置`"canAccessSuperData": true` 同时配置 `"strictMode": false` 开启此特性，如下，配置了该配置项后，添加 Table 的`text`表单项会初始会自动映射父级数据域的同名变量。需要注意的是，这里只会初始会映射，一旦修改过就是当前数据为主了。也就是说，表单项类型的，只会启动初始值的作用。如果为非表单项则会同步更新，比如这个栗子的第二列。同时非表单项字段可以用在表单项字段中做联动。
+
+```schema:height="500" scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "mode": "horizontal",
+  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "controls": [
+    {
+        "type": "text",
+        "label": "父级文本框",
+        "name": "super_text",
+        "value": "123"
+    },
+    {
+        "type": "switch",
+        "label": "父级勾选框",
+        "name": "super_switch",
+        "value": false
+    },
+    {
+        "type": "table",
+        "name": "list",
+        "label": "可获取父级数据",
+        "addable": true,
+        "needConfirm": false,
+        "canAccessSuperData": true,
+        "strictMode": false,
+        "value": [{}],
+        "columns": [
+            {
+                "name": "super_text",
+                "type": "text",
+                "label": "表单项",
+                "quickEdit": {
+                  "disabledOn": "this.super_switch"
+                }
+            },
+
+            {
+                "name": "super_switch",
+                "type": "status",
+                "quickEdit": false,
+                "label": "非表单项"
+            }
+        ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名                       | 类型                    | 默认值           | 说明                                     |

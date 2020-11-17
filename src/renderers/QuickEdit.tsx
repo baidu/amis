@@ -457,7 +457,8 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
         render,
         popOverContainer,
         classPrefix: ns,
-        classnames: cx
+        classnames: cx,
+        canAccessSuperData
       } = this.props;
 
       const content = (
@@ -470,7 +471,8 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
             onAction: this.handleAction,
             onChange: null,
             ref: this.formRef,
-            popOverContainer: () => this.overlay
+            popOverContainer: () => this.overlay,
+            canAccessSuperData
           })}
         </div>
       );
@@ -508,7 +510,8 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
         className,
         classnames: cx,
         render,
-        noHoc
+        noHoc,
+        canAccessSuperData
       } = this.props;
 
       if (!quickEdit || !onQuickChange || quickEditEnabled === false || noHoc) {
@@ -524,7 +527,8 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
               ref: this.formRef,
               simpleMode: true,
               onInit: this.handleInit,
-              onChange: this.handleChange
+              onChange: this.handleChange,
+              canAccessSuperData
             })}
           </Component>
         );
