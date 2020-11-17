@@ -276,7 +276,7 @@ order: 54
 
 ## 获取父级数据
 
-默认情况下，Table 内表达项无法获取父级数据域的数据，如下，我们添加 Table 表单项时，尽管 Combo 内的文本框的`name`与父级数据域中的`super_text`变量同名，但是没有自动映射值。
+默认情况下，Table 内表达项无法获取父级数据域的数据，如下，我们添加 Table 表单项时，尽管 Table 内的文本框的`name`与父级数据域中的`super_text`变量同名，但是没有自动映射值。
 
 ```schema:height="500" scope="body"
 {
@@ -309,7 +309,7 @@ order: 54
 }
 ```
 
-可以配置`"canAccessSuperData": true` 同时配置 `"strictMode": false` 开启此特性，如下，配置了该配置项后，添加 Table 的`text`表单项会初始会自动映射父级数据域的同名变量。需要注意的是，这里只会初始会映射，一旦修改过就是当前数据为主了。也就是说，表单项类型的，只会启动初始值的作用。如果为非表单项则会同步更新，比如这个栗子的第二列。同时非表单项字段可以用在表单项字段中做联动。
+可以配置`"canAccessSuperData": true` 同时配置 `"strictMode": false` 开启此特性，如下，配置了该配置项后，添加 Table 的`text`表单项会初始会自动映射父级数据域的同名变量。需要注意的是，这里只会初始会映射，一旦修改过就是当前行数据为主了。也就是说，表单项类型的，只会起到初始值的作用。如果为非表单项则会同步更新，比如这个栗子的第二列。同时非表单项字段可以用在表单项字段中做联动。
 
 ```schema:height="500" scope="body"
 {
@@ -363,26 +363,29 @@ order: 54
 
 ## 属性表
 
-| 属性名                       | 类型                    | 默认值           | 说明                                     |
-| ---------------------------- | ----------------------- | ---------------- | ---------------------------------------- |
-| type                         | `string`                | `"table"`        | 指定为 Table 渲染器                      |
-| addable                      | `boolean`               | `false`          | 是否可增加一行                           |
-| editable                     | `boolean`               | `false`          | 是否可编辑                               |
-| removable                    | `boolean`               | `false`          | 是否可删除                               |
-| showAddBtn                   | `boolean`               | `true`           | 是否显示添加按钮                         |
-| addApi                       | [API](../../types/api)  | -                | 新增时提交的 API                         |
-| updateApi                    | [API](../../types/api)  | -                | 修改时提交的 API                         |
-| deleteApi                    | [API](../../types/api)  | -                | 删除时提交的 API                         |
-| addBtnLabel                  | `string`                |                  | 增加按钮名称                             |
-| addBtnIcon                   | `string`                | `"fa fa-plus"`   | 增加按钮图标                             |
-| updateBtnLabel               | `string`                | `""`             | 更新按钮名称                             |
-| updateBtnIcon                | `string`                | `"fa fa-pencil"` | 更新按钮图标                             |
-| deleteBtnLabel               | `string`                | `""`             | 删除按钮名称                             |
-| deleteBtnIcon                | `string`                | `"fa fa-minus"`  | 删除按钮图标                             |
-| confirmBtnLabel              | `string`                | `""`             | 确认编辑按钮名称                         |
-| confirmBtnIcon               | `string`                | `"fa fa-check"`  | 确认编辑按钮图标                         |
-| cancelBtnLabel               | `string`                | `""`             | 取消编辑按钮名称                         |
-| cancelBtnIcon                | `string`                | `"fa fa-times"`  | 取消编辑按钮图标                         |
-| columns                      | `array`                 | []               | 列信息                                   |
-| columns[x].quickEdit         | `boolean` 或者 `object` | -                | 配合 editable 为 true 一起使用           |
-| columns[x].quickEditOnUpdate | `boolean` 或者 `object` | -                | 可以用来区分新建模式和更新模式的编辑配置 |
+| 属性名                       | 类型                    | 默认值           | 说明                                                                                                 |
+| ---------------------------- | ----------------------- | ---------------- | ---------------------------------------------------------------------------------------------------- |
+| type                         | `string`                | `"table"`        | 指定为 Table 渲染器                                                                                  |
+| addable                      | `boolean`               | `false`          | 是否可增加一行                                                                                       |
+| editable                     | `boolean`               | `false`          | 是否可编辑                                                                                           |
+| removable                    | `boolean`               | `false`          | 是否可删除                                                                                           |
+| showAddBtn                   | `boolean`               | `true`           | 是否显示添加按钮                                                                                     |
+| addApi                       | [API](../../types/api)  | -                | 新增时提交的 API                                                                                     |
+| updateApi                    | [API](../../types/api)  | -                | 修改时提交的 API                                                                                     |
+| deleteApi                    | [API](../../types/api)  | -                | 删除时提交的 API                                                                                     |
+| addBtnLabel                  | `string`                |                  | 增加按钮名称                                                                                         |
+| addBtnIcon                   | `string`                | `"fa fa-plus"`   | 增加按钮图标                                                                                         |
+| updateBtnLabel               | `string`                | `""`             | 更新按钮名称                                                                                         |
+| updateBtnIcon                | `string`                | `"fa fa-pencil"` | 更新按钮图标                                                                                         |
+| deleteBtnLabel               | `string`                | `""`             | 删除按钮名称                                                                                         |
+| deleteBtnIcon                | `string`                | `"fa fa-minus"`  | 删除按钮图标                                                                                         |
+| confirmBtnLabel              | `string`                | `""`             | 确认编辑按钮名称                                                                                     |
+| confirmBtnIcon               | `string`                | `"fa fa-check"`  | 确认编辑按钮图标                                                                                     |
+| cancelBtnLabel               | `string`                | `""`             | 取消编辑按钮名称                                                                                     |
+| cancelBtnIcon                | `string`                | `"fa fa-times"`  | 取消编辑按钮图标                                                                                     |
+| needConfirm                  | `boolean`               | `true`           | 是否需要确认操作，，可用来控控制表格的操作交互                                                       |
+| canAccessSuperData           | `boolean`               | `false`          | 是否可以访问父级数据，也就是表单中的同级数据，通常需要跟 strictMode 搭配使用                         |
+| strictMode                   | `boolean`               | `true`           | 为了性能，默认其他表单项项值变化不会让当前表格更新，有时候为了同步获取其他表单项字段，需要开启这个。 |
+| columns                      | `array`                 | []               | 列信息                                                                                               |
+| columns[x].quickEdit         | `boolean` 或者 `object` | -                | 配合 editable 为 true 一起使用                                                                       |
+| columns[x].quickEditOnUpdate | `boolean` 或者 `object` | -                | 可以用来区分新建模式和更新模式的编辑配置                                                             |
