@@ -7,7 +7,7 @@ export default {
     data: {
       items: [
         {
-          icon: '../../../examples/static/ie.png',
+          icon: __uri('../../static/ie.png'),
           link: 'https://www.microsoft.com/',
           engine: 'Trident',
           browser: 'Internet Explorer 4.2',
@@ -16,7 +16,7 @@ export default {
           grade: 'A'
         },
         {
-          icon: '../../../examples/static/ie.png',
+          icon: __uri('../../static/ie.png'),
           link: 'https://www.microsoft.com/',
           engine: 'Trident',
           browser: 'Internet Explorer 4.2',
@@ -25,7 +25,7 @@ export default {
           grade: 'B'
         },
         {
-          icon: '../../../examples/static/ie.png',
+          icon: __uri('../../static/ie.png'),
           link: 'https://www.microsoft.com/',
           engine: 'Trident',
           browser: 'AOL browser (AOL desktop)',
@@ -34,7 +34,7 @@ export default {
           grade: 'C'
         },
         {
-          icon: '../../../examples/static/ie.png',
+          icon: __uri('../../static/ie.png'),
           link: 'https://www.microsoft.com/',
           engine: 'Trident',
           browser: 'AOL browser (AOL desktop)',
@@ -43,7 +43,7 @@ export default {
           grade: 'A'
         },
         {
-          icon: '../../../examples/static/ie.png',
+          icon: __uri('../../static/ie.png'),
           link: 'https://www.microsoft.com/',
           engine: 'Trident',
           browser: 'AOL browser (AOL desktop)',
@@ -52,7 +52,7 @@ export default {
           grade: 'A'
         },
         {
-          icon: '../../../examples/static/firefox.png',
+          icon: __uri('../../static/firefox.png'),
           link: 'https://www.mozilla.org/',
           engine: 'Gecko',
           browser: 'Firefox 1.0',
@@ -61,7 +61,7 @@ export default {
           grade: 'A'
         },
         {
-          icon: '../../../examples/static/firefox.png',
+          icon: __uri('../../static/firefox.png'),
           link: 'https://www.mozilla.org/',
           engine: 'Gecko',
           browser: 'Firefox 1.0',
@@ -70,7 +70,7 @@ export default {
           grade: 'A'
         },
         {
-          icon: '../../../examples/static/firefox.png',
+          icon: __uri('../../static/firefox.png'),
           link: 'https://www.mozilla.org/',
           engine: 'Gecko',
           browser: 'Firefox 2.0',
@@ -79,7 +79,7 @@ export default {
           grade: 'B'
         },
         {
-          icon: '../../../examples/static/firefox.png',
+          icon: __uri('../../static/firefox.png'),
           link: 'https://www.mozilla.org/',
           engine: 'Gecko',
           browser: 'Firefox 2.0',
@@ -88,7 +88,7 @@ export default {
           grade: 'C'
         },
         {
-          icon: '../../../examples/static/firefox.png',
+          icon: __uri('../../static/firefox.png'),
           link: 'https://www.mozilla.org/',
           engine: 'Gecko',
           browser: 'Firefox 2.0',
