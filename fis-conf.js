@@ -34,6 +34,7 @@ fis.set('project.files', [
   'scss/**.scss',
   '/examples/*.html',
   '/examples/*.tpl',
+  '/examples/static/*.png',
   '/src/**.html',
   'mock/**'
 ]);
@@ -388,6 +389,7 @@ if (fis.project.currentMedia() === 'publish') {
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
+        '!exceljs/**',
         '!docsearch.js/**',
         '!monaco-editor/**.css',
         '!src/components/RichText.tsx',
@@ -405,6 +407,8 @@ if (fis.project.currentMedia() === 'publish') {
 
       'papaparse.js': ['papaparse/**'],
 
+      'exceljs.js': ['exceljs/**'],
+
       'charts.js': ['zrender/**', 'echarts/**'],
 
       'rest.js': [
@@ -417,7 +421,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!jquery/**',
         '!zrender/**',
         '!echarts/**',
-        '!papaparse/**'
+        '!papaparse/**',
+        '!exceljs/**'
       ]
     }),
     postpackager: [
@@ -578,7 +583,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!jquery/**',
         '!zrender/**',
         '!echarts/**',
-        '!papaparse/**'
+        '!papaparse/**',
+        '!exceljs/**'
       ],
       'pkg/rich-text.js': [
         'src/components/RichText.js',
@@ -588,6 +594,7 @@ if (fis.project.currentMedia() === 'publish') {
       'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
       'pkg/charts.js': ['zrender/**', 'echarts/**'],
       'pkg/papaparse.js': ['papaparse/**'],
+      'pkg/exceljs.js': ['exceljs/**'],
       'pkg/api-mock.js': ['mock/*.ts'],
       'pkg/app.js': [
         '/examples/components/App.tsx',
@@ -605,7 +612,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!src/components/RichText.js',
         '!zrender/**',
         '!echarts/**',
-        '!papaparse/**'
+        '!papaparse/**',
+        '!exceljs/**'
       ],
 
       'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**'],

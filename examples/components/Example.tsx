@@ -46,6 +46,7 @@ import MergeCellSchema from './CRUD/MergeCell';
 import HeaderGroupSchema from './CRUD/HeaderGroup';
 import HeaderHideSchema from './CRUD/HeaderHide';
 import LoadOnceTableCrudSchema from './CRUD/LoadOnce';
+import ExportCSVExcelSchema from './CRUD/ExportCSVExcel';
 import SdkTest from './Sdk/Test';
 import JSONSchemaForm from './Form/Schem';
 import SimpleDialogSchema from './Dialog/Simple';
@@ -344,6 +345,11 @@ export const examples = [
             label: '一次性加载',
             path: '/examples/crud/load-once',
             component: makeSchemaRenderer(LoadOnceTableCrudSchema)
+          },
+          {
+            label: '导出 Excel/CSV',
+            path: '/examples/crud/export-excel-csv',
+            component: makeSchemaRenderer(ExportCSVExcelSchema)
           }
           // {
           //     label: '测试',
