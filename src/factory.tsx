@@ -70,7 +70,11 @@ export interface RendererBasicConfig {
   test: RegExp | TestFunc;
   name?: string;
   storeType?: string;
-  shouldSyncSuperStore?: (store: any, props: any, prevProps: any) => boolean;
+  shouldSyncSuperStore?: (
+    store: any,
+    props: any,
+    prevProps: any
+  ) => boolean | undefined;
   storeExtendsData?: boolean; // 是否需要继承上层数据。
   weight?: number; // 权重，值越低越优先命中。
   isolateScope?: boolean;
@@ -669,7 +673,11 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 export function HocStoreFactory(renderer: {
   storeType: string;
   extendsData?: boolean;
-  shouldSyncSuperStore?: (store: any, props: any, prevProps: any) => boolean;
+  shouldSyncSuperStore?: (
+    store: any,
+    props: any,
+    prevProps: any
+  ) => boolean | undefined;
 }): any {
   return function <T extends React.ComponentType<RendererProps>>(Component: T) {
     type Props = Omit<

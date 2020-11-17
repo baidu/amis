@@ -148,12 +148,12 @@ export default class NestedSelectControl extends React.Component<
             ×
           </span>
           <span className={cx('Select-valueLabel')}>
-            {item[labelField || 'label']}
+            {`${item[labelField || 'label']}`}
           </span>
         </div>
       ) : (
         <div className={cx('Select-value')} key={index}>
-          {item[labelField || 'label']}
+          {`${item[labelField || 'label']}`}
         </div>
       )
     );
@@ -485,11 +485,11 @@ export default class NestedSelectControl extends React.Component<
                       checked={selfChecked}
                       disabled={nodeDisabled}
                     >
-                      {option[labelField || 'label']}
+                      {`${option[labelField || 'label']}`}
                     </Checkbox>
                   ) : (
                     <div className={cx('NestedSelect-optionLabel')}>
-                      <span>{option[labelField || 'label']}</span>
+                      <span>{`${option[labelField || 'label']}`}</span>
                     </div>
                   )}
 

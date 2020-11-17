@@ -155,7 +155,7 @@ export default class CheckboxesControl extends React.Component<
         labelClassName={labelClassName}
         description={option.description}
       >
-        {option[labelField || 'label']}
+        {String(option[labelField || 'label'])}
         {removable ? (
           <a data-tooltip="移除" data-position="left">
             <Icon

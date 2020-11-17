@@ -722,12 +722,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
             ×
           </span>
           <span className={`${ns}Select-valueLabel`}>
-            {item[labelField || 'label']}
+            {`${item[labelField || 'label']}`}
           </span>
         </div>
       ) : (
         <div className={`${ns}Select-value`} key={index}>
-          {item[labelField || 'label']}
+          {`${item[labelField || 'label']}`}
         </div>
       )
     );
@@ -983,7 +983,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             : this.handleChange
         }
         onStateChange={this.handleStateChange}
-        itemToString={item => (item ? item[labelField] : '')}
+        itemToString={item => (item ? `${item[labelField]}` : '')}
       >
         {(options: ControllerStateAndHelpers<any>) => {
           const {isOpen} = options;

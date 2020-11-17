@@ -91,6 +91,54 @@ order: 21
 
 如果文件过大，则可能需要使用分块上传
 
+## 自动填充
+
+上传成功后，可以通过配置 `autoFill` 将上传接口返回的值填充到某个表单项中：
+
+```schema:height="300" scope="body"
+{
+  "type": "form",
+  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "controls": [
+    {
+      "type": "file",
+      "name": "file",
+      "label": "File",
+      "accept": "*",
+      "reciever": "https://houtai.baidu.com/api/upload/file",
+      "autoFill": {
+        "myUrl": "${url}"
+      }
+    },
+    {
+      "type": "text",
+      "name": "myUrl",
+      "label": "url"
+    }
+  ]
+}
+```
+
+上例中，file 组件上传后，接口返回格式例如如下：
+
+```json
+{
+  "value": "xxxxxxx",
+  "filename": "xxxx.csv",
+  "url": "http://xxxx.xxx.xxx"
+}
+```
+
+然后 file 上配置：
+
+```json
+"autoFill": {
+    "myUrl": "${url}"
+}
+```
+
+这样上传成功后，会把接口中的 `url` 变量，赋值给 `myUrl` 变量
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

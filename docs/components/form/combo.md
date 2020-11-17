@@ -312,6 +312,38 @@ order: 12
 }
 ```
 
+## 增加层级
+
+combo 还有一个作用是增加层级，比如返回的数据是一个深层对象
+
+```json
+{
+  "a": {
+    "b": "data"
+  }
+}
+```
+
+如果要用文本框显示，name 必须是 `a.b`，但使用 combo 创建层级后，name 就可以只是 `b`：
+
+```json
+{
+  "name": "a",
+  "type": "combo",
+  "label": "",
+  "noBorder": true,
+  "multiLine": true,
+  "controls": [
+    {
+      "type": "text",
+      "name": "b"
+    }
+  ]
+}
+```
+
+这样就能结合 [definitions](../../types/definitions#树形结构) 实现无限层级结构。
+
 ## 唯一验证
 
 可以在配置的`controls`项上，配置`"unique": true`，指定当前表单项不可重复

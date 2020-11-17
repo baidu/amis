@@ -269,6 +269,7 @@ export interface TableProps extends RendererProps {
   rowClassName?: string;
   rowClassNameExpr?: string;
   popOverContainer?: any;
+  canAccessSuperData?: boolean;
 }
 
 export default class Table extends React.Component<TableProps, object> {
@@ -326,7 +327,8 @@ export default class Table extends React.Component<TableProps, object> {
     primaryField: 'id',
     itemCheckableOn: '',
     itemDraggableOn: '',
-    hideCheckToggler: false
+    hideCheckToggler: false,
+    canAccessSuperData: false
   };
 
   table?: HTMLTableElement;
@@ -839,7 +841,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     this.lastScrollLeft = scrollLeft;
     let leading = scrollLeft === 0;
-    let trailing = scrollLeft + this.outterWidth === this.totalWidth;
+    let trailing = Math.ceil(scrollLeft) + this.outterWidth >= this.totalWidth;
     // console.log(scrollLeft, store.outterWidth, store.totalWidth, (scrollLeft + store.outterWidth) === store.totalWidth);
     // store.setLeading(leading);
     // store.setTrailing(trailing);
@@ -1393,7 +1395,8 @@ export default class Table extends React.Component<TableProps, object> {
       classPrefix: ns,
       classnames: cx,
       checkOnItemClick,
-      popOverContainer
+      popOverContainer,
+      canAccessSuperData
     } = this.props;
 
     if (column.name && item.rowSpans[column.name] === 0) {
@@ -1472,13 +1475,17 @@ export default class Table extends React.Component<TableProps, object> {
       btnDisabled: store.dragging,
       data: item.locals,
       value: column.name
-        ? resolveVariable(column.name, item.data)
+        ? resolveVariable(
+            column.name,
+            canAccessSuperData ? item.locals : item.data
+          )
         : column.value,
       popOverContainer: popOverContainer || this.getPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
       quickEditFormRef: this.subFormRef,
       prefix,
-      onImageEnlarge: this.handleImageEnlarge
+      onImageEnlarge: this.handleImageEnlarge,
+      canAccessSuperData
     };
     delete subProps.label;
 
