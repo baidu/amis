@@ -1,6 +1,6 @@
 export default {
   $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
-  title: 'CSV 导出的是原始数据，Excel 尽可能还原展现效果',
+  title: 'CSV 导出的是原始数据，而 Excel 是尽可能还原展现效果',
   body: {
     type: 'crud',
     headerToolbar: ['export-excel', 'export-csv'],

@@ -277,7 +277,6 @@ export interface TableProps extends RendererProps {
  */
 const getAbsoluteUrl = (function () {
   let link: HTMLAnchorElement;
-
   return function (url: string) {
     if (!link) link = document.createElement('a');
     link.href = url;
@@ -1882,8 +1881,6 @@ export default class Table extends React.Component<TableProps, object> {
                 }
               }
             }
-
-            // return;
 
             const buffer = await workbook.xlsx.writeBuffer();
 
