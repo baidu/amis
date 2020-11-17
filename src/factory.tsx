@@ -673,7 +673,11 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 export function HocStoreFactory(renderer: {
   storeType: string;
   extendsData?: boolean;
-  shouldSyncSuperStore?: (store: any, props: any, prevProps: any) => boolean;
+  shouldSyncSuperStore?: (
+    store: any,
+    props: any,
+    prevProps: any
+  ) => boolean | undefined;
 }): any {
   return function <T extends React.ComponentType<RendererProps>>(Component: T) {
     type Props = Omit<
