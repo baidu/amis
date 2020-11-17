@@ -1805,5 +1805,5 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | syncResponse2Query                    | `boolean`                 | `true`                          | 将返回数据同步到过滤器上。                                                                                            |
 | keepItemSelectionOnPageChange         | `boolean`                 | `true`                          | 保留条目选择，默认分页、搜素后，用户选择条目会被清空，开启此选项后会保留用户选择，可以实现跨页面批量操作。            |
 | labelTpl                              | `string`                  |                                 | 单条描述模板，`keepItemSelectionOnPageChange`设置为`true`后会把所有已选择条目列出来，此选项可以用来定制条目展示文案。 |
-| headerToolbar                         | Array                     | `[1bulkActions1, 'pagination']` | 顶部工具栏配置                                                                                                        |
+| headerToolbar                         | Array                     | `['bulkActions', 'pagination']` | 顶部工具栏配置                                                                                                        |
 | footerToolbar                         | Array                     | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |

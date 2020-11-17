@@ -272,24 +272,6 @@ export interface TableProps extends RendererProps {
   popOverContainer?: any;
   canAccessSuperData?: boolean;
 }
-
-/**
- * 用于将数值转成 Excel 中的列名
- * @param num
- */
-function colName(num: number) {
-  let ordA = 'a'.charCodeAt(0);
-  let ordZ = 'z'.charCodeAt(0);
-  let len = ordZ - ordA + 1;
-
-  let s = '';
-  while (num >= 0) {
-    s = String.fromCharCode((num % len) + ordA) + s;
-    num = Math.floor(num / len) - 1;
-  }
-  return s.toLocaleUpperCase();
-}
-
 /**
  * 将 url 转成绝对地址
  */
@@ -1800,7 +1782,16 @@ export default class Table extends React.Component<TableProps, object> {
             });
             const firstRow = worksheet.getRow(1);
             firstRow.values = firstRowLabels;
-            worksheet.autoFilter = `A1:${colName(firstRowKeys.length - 1)}1`;
+            worksheet.autoFilter = {
+              from: {
+                row: 1,
+                column: 1
+              },
+              to: {
+                row: 1,
+                column: firstRowKeys.length
+              }
+            };
             // 数据从第二行开始
             let rowIndex = 1;
             for (const row of store.rows) {
