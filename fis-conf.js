@@ -439,6 +439,10 @@ if (fis.project.currentMedia() === 'publish') {
     optimizer: null
   });
 
+  env.match('monaco-editor/**.css', {
+    standard: false
+  });
+
   fis.on('compile:optimizer', function (file) {
     if (file.isJsLike && file.isMod) {
       var contents = file.getContent();

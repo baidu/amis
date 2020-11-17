@@ -33,6 +33,9 @@ function onLoad(req: any, callback: (result: any) => void) {
       'vs/base/worker/workerMain': __uri(
         'monaco-editor/min/vs/base/worker/workerMain.js'
       ),
+      'vs/base/browser/ui/codicons/codicon/codicon.ttf': __uri(
+        'monaco-editor/min/vs/base/browser/ui/codicons/codicon/codicon.ttf'
+      ),
       'vs/basic-languages/apex/apex': __uri(
         'monaco-editor/min/vs/basic-languages/apex/apex'
       ),
@@ -204,7 +207,7 @@ function onLoad(req: any, callback: (result: any) => void) {
       ),
       'vs/language/css/cssWorker': __uri(
         'monaco-editor/min/vs/language/css/cssWorker.js'
-      )
+      ),
     }
   };
   Object.keys(config.paths).forEach((key: keyof typeof config.paths) => {
@@ -220,9 +223,9 @@ function onLoad(req: any, callback: (result: any) => void) {
                   baseUrl: '${config.paths.vs}',
                   paths: ${JSON.stringify(config.paths)}
               };
-              importScripts('${__uri(
+              importScripts('${filterUrl(__uri(
                 'monaco-editor/min/vs/base/worker/workerMain.js'
-              )}');`)}`;
+              ))}');`)}`;
       }
     };
   } else {
