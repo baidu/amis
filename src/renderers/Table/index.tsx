@@ -1768,7 +1768,9 @@ export default class Table extends React.Component<TableProps, object> {
               return;
             }
             const workbook = new ExcelJS.Workbook();
-            const worksheet = workbook.addWorksheet('sheet');
+            const worksheet = workbook.addWorksheet('sheet', {
+              properties: {defaultColWidth: 15}
+            });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
             const items = store.data.items;
