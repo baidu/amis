@@ -1266,6 +1266,157 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
+### 导出 Excel
+
+在`headerToolbar`或者`footerToolbar`数组中添加`export-excel`字符串，可以实现点击下载 Excel 的功能，和导出 CSV 一样只包括当前分页的数据，但它们有明显区别：
+
+1. 导出 CSV 是将 api 返回数据导出，表头是数据里的 key，而 Excel 的表头使用的是 label。
+2. 导出 Excel 更重视展现一致，支持合并单元格、链接、mapping 映射、图片（需要加[跨域 Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)）。
+3. 导出 Excel 只在 `mode` 为 `table` 时能用。
+
+可以通过点下面的按钮来了解它们的区别：
+
+```schema:height="600" scope="body"
+{
+    "type": "crud",
+    "headerToolbar": ["export-excel", "export-csv"],
+    "data": {
+      "items": [
+        {
+          "icon": "../../../examples/static/ie.png",
+          "link": "https://www.microsoft.com/",
+          "engine": "Trident",
+          "browser": "Internet Explorer 4.2",
+          "platform": "Win 95+",
+          "version": "4",
+          "grade": "A"
+        },
+        {
+          "icon": "../../../examples/static/ie.png",
+          "link": "https://www.microsoft.com/",
+          "engine": "Trident",
+          "browser": "Internet Explorer 4.2",
+          "platform": "Win 95+",
+          "version": "4",
+          "grade": "B"
+        },
+        {
+          "icon": "../../../examples/static/ie.png",
+          "link": "https://www.microsoft.com/",
+          "engine": "Trident",
+          "browser": "AOL browser (AOL desktop)",
+          "platform": "Win 95+",
+          "version": "4",
+          "grade": "C"
+        },
+        {
+          "icon": "../../../examples/static/ie.png",
+          "link": "https://www.microsoft.com/",
+          "engine": "Trident",
+          "browser": "AOL browser (AOL desktop)",
+          "platform": "Win 98",
+          "version": "3",
+          "grade": "A"
+        },
+        {
+          "icon": "../../../examples/static/ie.png",
+          "link": "https://www.microsoft.com/",
+          "engine": "Trident",
+          "browser": "AOL browser (AOL desktop)",
+          "platform": "Win 98",
+          "version": "4",
+          "grade": "A"
+        },
+        {
+          "icon": "../../../examples/static/firefox.png",
+          "link": "https://www.mozilla.org/",
+          "engine": "Gecko",
+          "browser": "Firefox 1.0",
+          "platform": "Win 98+ / OSX.2+",
+          "version": "4",
+          "grade": "A"
+        },
+        {
+          "icon": "../../../examples/static/firefox.png",
+          "link": "https://www.mozilla.org/",
+          "engine": "Gecko",
+          "browser": "Firefox 1.0",
+          "platform": "Win 98+ / OSX.2+",
+          "version": "5",
+          "grade": "A"
+        },
+        {
+          "icon": "../../../examples/static/firefox.png",
+          "link": "https://www.mozilla.org/",
+          "engine": "Gecko",
+          "browser": "Firefox 2.0",
+          "platform": "Win 98+ / OSX.2+",
+          "version": "5",
+          "grade": "B"
+        },
+        {
+          "icon": "../../../examples/static/firefox.png",
+          "link": "https://www.mozilla.org/",
+          "engine": "Gecko",
+          "browser": "Firefox 2.0",
+          "platform": "Win 98+ / OSX.2+",
+          "version": "5",
+          "grade": "C"
+        },
+        {
+          "icon": "../../../examples/static/firefox.png",
+          "link": "https://www.mozilla.org/",
+          "engine": "Gecko",
+          "browser": "Firefox 2.0",
+          "platform": "Win 98+ / OSX.2+",
+          "version": "5",
+          "grade": "D"
+        }
+      ]
+    },
+    "combineNum": 3,
+    "columns": [
+      {
+        "name": "icon",
+        "label": "图标",
+        "type": "image"
+      },
+      {
+        "name": "link",
+        "label": "官网",
+        "type": "link"
+      },
+      {
+        "name": "engine",
+        "label": "引擎"
+      },
+      {
+        "name": "browser",
+        "label": "浏览器"
+      },
+      {
+        "name": "platform",
+        "label": "操作系统"
+      },
+      {
+        "name": "version",
+        "label": "引擎版本"
+      },
+      {
+        "name": "grade",
+        "label": "CSS等级",
+        "type": "mapping",
+        "map": {
+          "A": "优",
+          "B": "中",
+          "C": "差",
+          "D": "极差"
+        }
+      }
+    ]
+}
+```
+
 ### 显隐显示查询条件表单
 
 在`headerToolbar`或者`footerToolbar`数组中添加`filter-toggler`字符串，并且在 crud 中配置`"filterTogglable": true`后，可以渲染一个可以切换显示查询表单的功能按钮
@@ -1654,5 +1805,5 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | syncResponse2Query                    | `boolean`                 | `true`                          | 将返回数据同步到过滤器上。                                                                                            |
 | keepItemSelectionOnPageChange         | `boolean`                 | `true`                          | 保留条目选择，默认分页、搜素后，用户选择条目会被清空，开启此选项后会保留用户选择，可以实现跨页面批量操作。            |
 | labelTpl                              | `string`                  |                                 | 单条描述模板，`keepItemSelectionOnPageChange`设置为`true`后会把所有已选择条目列出来，此选项可以用来定制条目展示文案。 |
-| headerToolbar                         | Array                     | `['bulkActions', 'pagination']` | 顶部工具栏配置                                                                                                        |
+| headerToolbar                         | Array                     | `[1bulkActions1, 'pagination']` | 顶部工具栏配置                                                                                                        |
 | footerToolbar                         | Array                     | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
