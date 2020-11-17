@@ -264,6 +264,13 @@ export function unRegisterRenderer(config: RendererConfig | string) {
       : renderers.indexOf(config);
   ~idx && renderers.splice(idx, 1);
 
+  let idx2 =
+    typeof config === 'string'
+      ? findIndex(rendererNames, item => item === config)
+      : rendererNames.indexOf(config.name || '');
+
+  ~idx2 && rendererNames.splice(idx2, 1);
+
   // 清空渲染器定位缓存
   cache = {};
 }
