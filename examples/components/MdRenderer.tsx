@@ -138,7 +138,6 @@ class Preview extends React.Component {
           {...this.props}
           height={height}
           container={() => ReactDOM.findDOMNode(this)}
-          height={height}
           component={CodePreview}
           code={script.innerText}
           scope={props.scope}

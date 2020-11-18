@@ -10,39 +10,7 @@ order: 48
 
 ## 基本用法
 
-```schema:height="400" scope="body"
-{
-    "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
-    "controls": [
-        {
-        "name": "select",
-        "type": "select",
-        "label": "选择框",
-        "options": [
-            {
-                "label": "OptionA",
-                "value": "a"
-            },
-            {
-                "label": "OptionB",
-                "value": "b"
-            },
-            {
-                "label": "OptionC",
-                "value": "c"
-            },
-            {
-                "label": "OptionD",
-                "value": "d"
-            }
-            ]
-        }
-    ]
-}
-```
-
-更多设置项请参考 [Options](./options.md)
+参考 [Options](./options.md)
 
 ## 属性表
 

@@ -4,7 +4,7 @@ import {ServiceStore, IServiceStore} from '../store/service';
 import cx from 'classnames';
 import getExprProperties from '../utils/filter-schema';
 import {Api, ApiObject, Payload} from '../types';
-import update from 'react-addons-update';
+import update from 'immutability-helper';
 import {isEffectiveApi, isApiOutdated} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Spinner from '../components/Spinner';

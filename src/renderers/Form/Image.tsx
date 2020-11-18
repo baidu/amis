@@ -3,6 +3,7 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import 'cropperjs/dist/cropper.css';
 import Cropper from 'react-cropper';
 import DropZone from 'react-dropzone';
+import {FileRejection} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
 import qs from 'qs';
@@ -11,7 +12,6 @@ import {buildApi} from '../../utils/api';
 import {createObject, qsstringify, guid, isEmpty} from '../../utils/helper';
 import {Icon} from '../../components/icons';
 import Button from '../../components/Button';
-// @ts-ignore
 import accepts from 'attr-accept';
 import {getNameFromUrl} from './File';
 import ImageComponent, {ImageThumbProps} from '../Image';
@@ -481,17 +481,20 @@ export default class ImageControl extends React.Component<
     return crop;
   }
 
-  handleDropRejected(rejectedFiles: any, evt: React.DragEvent<any>) {
+  handleDropRejected(
+    rejectedFiles: FileRejection[],
+    evt: React.DragEvent<any>
+  ) {
     if (evt.type !== 'change' && evt.type !== 'drop') {
       return;
     }
     const {multiple, env, accept, translate: __} = this.props;
 
-    const files = rejectedFiles.map((file: any) => ({
-      ...file,
+    const files = rejectedFiles.map(fileRejection => ({
+      ...fileRejection.file,
       state: 'invalid',
       id: guid(),
-      name: file.name
+      name: fileRejection.file.name
     }));
 
     // this.setState({
@@ -782,7 +785,7 @@ export default class ImageControl extends React.Component<
     const event = e.nativeEvent as any;
     const files: Array<FileX> = [];
     const items = event.clipboardData.items;
-    const accept = this.props.accept;
+    const accept = this.props.accept || '*';
 
     [].slice.call(items).forEach((item: DataTransferItem) => {
       let blob: FileX;
