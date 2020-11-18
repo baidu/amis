@@ -148,7 +148,7 @@ import './renderers/Icon';
 import './renderers/Carousel';
 import Scoped, {ScopedContext} from './Scoped';
 
-import {FormItem} from './renderers/Form/Item';
+import {FormItem, registerFormItem} from './renderers/Form/Item';
 
 // 兼容旧版本用法
 import './compat';
@@ -170,7 +170,7 @@ import {
   validateObject
 } from './utils/validations';
 import {normalizeOptions} from './components/Select';
-import {OptionsControl} from './renderers/Form/Options';
+import {OptionsControl, registerOptionsControl} from './renderers/Form/Options';
 
 import {
   classnames,
@@ -209,6 +209,8 @@ export {
   getRendererByName,
   registerRenderer,
   unRegisterRenderer,
+  registerFormItem,
+  registerOptionsControl,
   resolveRenderer,
   filterSchema,
   filterDate,
