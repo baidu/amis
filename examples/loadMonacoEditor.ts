@@ -220,8 +220,8 @@ function onLoad(req: any, callback: (result: any) => void) {
                   baseUrl: '${config.paths.vs}',
                   paths: ${JSON.stringify(config.paths)}
               };
-              importScripts('${__uri(
-                'monaco-editor/min/vs/base/worker/workerMain.js'
+              importScripts('${filterUrl(
+                __uri('monaco-editor/min/vs/base/worker/workerMain.js')
               )}');`)}`;
       }
     };

@@ -132,6 +132,7 @@ module.exports = function (ret, pack, settings, opt) {
     } catch (e) {
         d = (/((?:https?|file)\:.*)$/.test(e.stack) ? RegExp.$1 : '').replace(/\\/[^\\/]*$/, '');
     }
+    amis.host = d;
     ${contents.replace(/\"url\"\s*\:\s*('|")(\.\/.*)\1/g, function (
       _,
       quote,
@@ -141,7 +142,6 @@ module.exports = function (ret, pack, settings, opt) {
     })}
         })()`;
         }
-
         jsContents += contents + ';\n';
       }
     } else if (

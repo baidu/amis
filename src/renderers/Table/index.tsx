@@ -39,6 +39,7 @@ import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';
 import {SchemaRemark} from '../Remark';
+import {toDataURL, getImageDimensions} from '../../utils/image';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -271,6 +272,17 @@ export interface TableProps extends RendererProps {
   popOverContainer?: any;
   canAccessSuperData?: boolean;
 }
+/**
+ * 将 url 转成绝对地址
+ */
+const getAbsoluteUrl = (function () {
+  let link: HTMLAnchorElement;
+  return function (url: string) {
+    if (!link) link = document.createElement('a');
+    link.href = url;
+    return link.href;
+  };
+})();
 
 export default class Table extends React.Component<TableProps, object> {
   static propsList: Array<string> = [
@@ -1642,6 +1654,8 @@ export default class Table extends React.Component<TableProps, object> {
     } else if (type === 'drag-toggler') {
       this.renderedToolbars.push(type);
       return this.renderDragToggler();
+    } else if (type === 'export-excel') {
+      return this.renderExportExcel();
     }
 
     return void 0;
@@ -1719,6 +1733,169 @@ export default class Table extends React.Component<TableProps, object> {
         iconOnly
       >
         <Icon icon="exchange" className="icon" />
+      </Button>
+    );
+  }
+
+  renderExportExcel() {
+    const {
+      store,
+      classPrefix: ns,
+      classnames: cx,
+      translate: __,
+      columns
+    } = this.props;
+
+    if (!columns) {
+      return null;
+    }
+
+    // 按名字快速查找列信息
+    const columnNameMap: {[key: string]: any} = {};
+    for (const column of columns) {
+      if (column.name) {
+        columnNameMap[column.name] = column;
+      }
+    }
+
+    return (
+      <Button
+        classPrefix={ns}
+        onClick={() => {
+          (require as any)(['exceljs'], async (ExcelJS: any) => {
+            if (!store.data.items || store.data.items.length === 0) {
+              return;
+            }
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('sheet');
+            worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
+
+            const items = store.data.items;
+            // 基于第一行数据来生成列名，所以必须保证第一行数据是完整的
+            const firstRowKeys = Object.keys(items[0]);
+            const firstRowLabels = firstRowKeys.map(key => {
+              if (key in columnNameMap) {
+                return columnNameMap[key].label || key;
+              }
+              return key;
+            });
+            const firstRow = worksheet.getRow(1);
+            firstRow.values = firstRowLabels;
+            worksheet.autoFilter = {
+              from: {
+                row: 1,
+                column: 1
+              },
+              to: {
+                row: 1,
+                column: firstRowKeys.length
+              }
+            };
+            // 数据从第二行开始
+            let rowIndex = 1;
+            for (const row of store.rows) {
+              rowIndex += 1;
+              const sheetRow = worksheet.getRow(rowIndex);
+              let columIndex = 0;
+              for (const key of firstRowKeys) {
+                columIndex += 1;
+                if (!(key in row.data)) {
+                  continue;
+                }
+                // 处理合并单元格
+                if (key in row.rowSpans) {
+                  if (row.rowSpans[key] === 0) {
+                    continue;
+                  } else {
+                    // start row, start column, end row, end column
+                    worksheet.mergeCells(
+                      rowIndex,
+                      columIndex,
+                      rowIndex + row.rowSpans[key] - 1,
+                      columIndex
+                    );
+                  }
+                }
+                const value = row.data[key];
+                const type = columnNameMap[key]?.type || 'plain';
+                if (type === 'image') {
+                  const imageData = await toDataURL(value);
+                  const imageDimensions = await getImageDimensions(imageData);
+                  const imageMatch = imageData.match(/data:image\/(.*);/);
+                  let imageExt = 'png';
+                  if (imageMatch) {
+                    imageExt = imageMatch[1];
+                  }
+                  // 目前 excel 只支持这些格式，所以其它格式直接输出 url
+                  if (
+                    imageExt != 'png' &&
+                    imageExt != 'jpeg' &&
+                    imageExt != 'gif'
+                  ) {
+                    sheetRow.getCell(columIndex).value = value;
+                    continue;
+                  }
+                  const imageId = workbook.addImage({
+                    base64: imageData,
+                    extension: imageExt
+                  });
+                  const linkURL = getAbsoluteUrl(value);
+                  worksheet.addImage(imageId, {
+                    // 这里坐标位置是从 0 开始的，所以要减一
+                    tl: {col: columIndex - 1, row: rowIndex - 1},
+                    ext: {
+                      width: imageDimensions.width,
+                      height: imageDimensions.height
+                    },
+                    hyperlinks: {
+                      tooltip: linkURL
+                    }
+                  });
+                } else if (type == 'link') {
+                  const linkURL = getAbsoluteUrl(value);
+                  sheetRow.getCell(columIndex).value = {
+                    text: value,
+                    hyperlink: linkURL
+                  };
+                } else if (type === 'mapping') {
+                  // 拷贝自 Mapping.tsx
+                  const map = columnNameMap[key].map;
+                  if (
+                    typeof value !== 'undefined' &&
+                    map &&
+                    (map[value] ?? map['*'])
+                  ) {
+                    const viewValue =
+                      map[value] ??
+                      (value === true && map['1']
+                        ? map['1']
+                        : value === false && map['0']
+                        ? map['0']
+                        : map['*']); // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
+                    sheetRow.getCell(columIndex).value = viewValue;
+                  } else {
+                    sheetRow.getCell(columIndex).value = value;
+                  }
+                } else {
+                  sheetRow.getCell(columIndex).value = value;
+                }
+              }
+            }
+
+            const buffer = await workbook.xlsx.writeBuffer();
+
+            if (buffer) {
+              var blob = new Blob([buffer], {
+                type:
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+              });
+              saveAs(blob, 'data.xlsx');
+            }
+          });
+        }}
+        size="sm"
+      >
+        {__('导出 Excel')}
       </Button>
     );
   }

@@ -65,7 +65,8 @@ export type CRUDBultinToolbarType =
   | 'switch-per-page'
   | 'load-more'
   | 'filter-toggler'
-  | 'export-csv';
+  | 'export-csv'
+  | 'export-excel';
 
 export interface CRUDBultinToolbar extends Omit<BaseSchema, 'type'> {
   type: CRUDBultinToolbarType;
