@@ -18,6 +18,11 @@ export interface FieldSetControlSchema
   type: 'fieldset' | 'fieldSet';
 
   /**
+   *  标题展示模式
+   */
+  titlePosition: 'top' | 'bottom';
+
+  /**
    * 表单项集合
    */
   controls?: Array<FormControlSchema>;
@@ -31,6 +36,11 @@ export interface FieldSetControlSchema
    * 标题
    */
   title?: SchemaTpl;
+
+  /**
+   * 收起的标题
+   */
+  collapseTitle?: SchemaTpl;
 }
 
 export interface FieldSetProps
@@ -47,6 +57,7 @@ export default class FieldSetControl extends React.Component<
   }
 
   static defaultProps = {
+    titlePosition: 'top',
     headingClassName: '',
     collapsable: false
   };

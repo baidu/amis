@@ -55,7 +55,7 @@ register('en', {
   '清空': 'Clear',
   '当前选择': 'Selected',
   '添加一级节点': 'Add root node',
-  '添加孩子节点': 'Add child',
+  '添加子节点': 'Add child',
   '编辑该节点': 'Edit this node',
   '移除该节点': 'Remove this node',
   '请输入': 'Enter',

@@ -53,7 +53,7 @@ export class TableRow extends React.Component<TableRowProps> {
       return true;
     }
 
-    // 不需要更新，因为孩子节点已经 observer 了
+    // 不需要更新，因为子节点已经 observer 了
     return false;
   }
 

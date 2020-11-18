@@ -19,6 +19,11 @@ export interface CollapseSchema extends BaseSchema {
   type: 'collapse';
 
   /**
+   *  标题展示模式
+   */
+  titlePosition: 'top' | 'bottom';
+
+  /**
    * 内容区域
    */
   body: SchemaCollection;
@@ -47,6 +52,11 @@ export interface CollapseSchema extends BaseSchema {
    * 标题
    */
   title?: SchemaTpl;
+
+  /**
+   * 收起的标题
+   */
+  collapseTitle?: SchemaTpl;
 
   /**
    * 控件大小
@@ -81,6 +91,7 @@ export default class Collapse extends React.Component<
   ];
 
   static defaultProps: Partial<CollapseProps> = {
+    titlePosition: 'top',
     wrapperComponent: 'div',
     headingComponent: 'h4',
     className: '',
@@ -126,12 +137,15 @@ export default class Collapse extends React.Component<
       headingComponent: HeadingComponent,
       className,
       title,
+      collapseTitle,
       headingClassName,
       children,
+      titlePosition,
       body,
       bodyClassName,
       render,
-      collapsable
+      collapsable,
+      translate: __
     } = this.props;
 
     return (
@@ -141,17 +155,24 @@ export default class Collapse extends React.Component<
           {
             'is-collapsed': this.state.collapsed,
             [`Collapse--${size}`]: size,
-            'Collapse--collapsable': collapsable
+            'Collapse--collapsable': collapsable,
+            'Collapse--title-bottom': titlePosition === 'bottom'
           },
           className
         )}
       >
-        {title ? (
+        {titlePosition === 'top' ? (
           <HeadingComponent
             onClick={this.toggleCollapsed}
             className={cx(`Collapse-header`, headingClassName)}
           >
-            {render('heading', title)}
+            {this.state.collapsed
+              ? title
+                ? render('heading', title)
+                : __('展开')
+              : collapseTitle
+              ? render('heading', collapseTitle)
+              : __('收起')}
             {collapsable && <span className={cx('Collapse-arrow')} />}
           </HeadingComponent>
         ) : null}
@@ -171,6 +192,22 @@ export default class Collapse extends React.Component<
               : null}
           </div>
         </BasicCollapse>
+
+        {titlePosition === 'bottom' ? (
+          <div
+            className={cx(`Collapse-header`, headingClassName)}
+            onClick={this.toggleCollapsed}
+          >
+            {this.state.collapsed
+              ? title
+                ? render('heading', title)
+                : __('展开')
+              : collapseTitle
+              ? render('heading', collapseTitle)
+              : __('收起')}
+            {collapsable && <span className={cx('Collapse-arrow')} />}
+          </div>
+        ) : null}
       </WrapperComponent>
     );
   }

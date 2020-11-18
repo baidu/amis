@@ -39,7 +39,26 @@
   }
 
   &--collapsable &-header {
+    cursor: pointer;
     user-select: none;
+  }
+
+  // title 显示在底部的模式
+  &--title-bottom &-header {
+    text-align: center;
+    color: $link-color;
+  }
+
+  &--title-bottom &-arrow:before {
+    top: px2rem(2px);
+    transform: rotate(-45deg);
+    transform-origin: 0% 50%;
+  }
+
+  &--title-bottom.is-collapsed &-arrow:before {
+    top: px2rem(-6px);
+    transform: rotate(135deg);
+    transform-origin: 0% 50%;
   }
 
   &-content {

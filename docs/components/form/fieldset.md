@@ -143,6 +143,42 @@ FieldSet 是用于分组展示表单项的一种容器型组件。
 }
 ```
 
+## 标题放底部
+
+fieldSet 的另一种标题展现样式，不同的是展开的时候收起文本是在下方的，如果组件比较多的时候更容易收起。
+
+设置 `"titlePosition": "bottom"`。
+
+```schema:height="400" scope="body"
+{
+  "type": "form",
+  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "controls": [
+    {
+      "type": "fieldSet",
+      "title": "展开更多设置",
+      "collapseTitle": "收起设置",
+      "titlePosition": "bottom",
+      "collapsable": true,
+      "collapsed": true,
+      "controls": [
+        {
+          "name": "text1",
+          "type": "text",
+          "label": "文本1"
+        },
+
+        {
+          "name": "text2",
+          "type": "text",
+          "label": "文本2"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名           | 类型                                 | 默认值  | 说明                                                                       |
@@ -155,3 +191,4 @@ FieldSet 是用于分组展示表单项的一种容器型组件。
 | mode             | `string`                             |         | 展示默认，同 [Form](./index#%E8%A1%A8%E5%8D%95%E5%B1%95%E7%A4%BA) 中的模式 |
 | collapsable      | `boolean`                            | `false` | 是否可折叠                                                                 |
 | collapsed        | `booelan`                            | `false` | 默认是否折叠                                                               |
+| collapseTitle    | [SchemaNode](../../types/schemanode) | `收起`  | 收起的标题                                                                 |
