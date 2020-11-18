@@ -4,6 +4,7 @@ import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv, destroy} from 'mobx-state-tree';
 import {Location} from 'history';
 import {wrapFetcher} from './utils/api';
+import {normalizeLink} from './utils/normalizeLink';
 import {
   createObject,
   extendObject,
@@ -42,6 +43,8 @@ import {
 } from './theme';
 import find from 'lodash/find';
 import Alert from './components/Alert2';
+import {toast} from './components/Toast';
+import {alert, confirm} from './components/Alert';
 import {LazyComponent} from './components';
 import ImageGallery from './components/ImageGallery';
 import {
@@ -972,26 +975,53 @@ const defaultOptions: RenderOptions = {
     );
     return false;
   },
-  alert(msg: string) {
-    alert(msg);
-  },
   updateLocation() {
     console.error(
       'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
   },
-  confirm(msg: string) {
-    return confirm(msg);
+  alert,
+  confirm,
+  notify: (type, msg) =>
+    toast[type]
+      ? toast[type](msg, type === 'error' ? 'Error' : 'Info')
+      : console.warn('[Notify]', type, msg),
+
+  jumpTo: (to: string, action?: any) => {
+    if (to === 'goBack') {
+      return window.history.back();
+    }
+    to = normalizeLink(to);
+    if (action && action.actionType === 'url') {
+      action.blank === false ? (window.location.href = to) : window.open(to);
+      return;
+    }
+    if (/^https?:\/\//.test(to)) {
+      window.location.replace(to);
+    } else {
+      location.href = to;
+    }
   },
-  notify(msg) {
-    alert(msg);
-  },
-  jumpTo() {
-    console.error(
-      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
-    );
-  },
-  isCurrentUrl() {
+  isCurrentUrl: (to: string) => {
+    const link = normalizeLink(to);
+    const location = window.location;
+    let pathname = link;
+    let search = '';
+    const idx = link.indexOf('?');
+    if (~idx) {
+      pathname = link.substring(0, idx);
+      search = link.substring(idx);
+    }
+    if (search) {
+      if (pathname !== location.pathname || !location.search) {
+        return false;
+      }
+      const query = qs.parse(search.substring(1));
+      const currentQuery = qs.parse(location.search.substring(1));
+      return Object.keys(query).every(key => query[key] === currentQuery[key]);
+    } else if (pathname === location.pathname) {
+      return true;
+    }
     return false;
   },
   copy(contents: string) {

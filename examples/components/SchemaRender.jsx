@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from '../../src/index';
 import axios from 'axios';
 import {toast} from '../../src/components/Toast';
-import {alert, confirm} from '../../src/components/Alert';
+import {normalizeLink} from '../../src/utils/normalizeLink';
 import Button from '../../src/components/Button';
 import LazyComponent from '../../src/components/LazyComponent';
 import {default as DrawerContainer} from '../../src/components/Drawer';
@@ -41,44 +41,6 @@ export default function (schema) {
       constructor(props) {
         super(props);
         const {router} = props;
-        const normalizeLink = to => {
-          to = to || '';
-          const location = router.getCurrentLocation();
-
-          if (to && to[0] === '#') {
-            to = location.pathname + location.search + to;
-          } else if (to && to[0] === '?') {
-            to = location.pathname + to;
-          }
-
-          const idx = to.indexOf('?');
-          const idx2 = to.indexOf('#');
-          let pathname = ~idx
-            ? to.substring(0, idx)
-            : ~idx2
-            ? to.substring(0, idx2)
-            : to;
-          let search = ~idx ? to.substring(idx, ~idx2 ? idx2 : undefined) : '';
-          let hash = ~idx2 ? to.substring(idx2) : location.hash;
-
-          if (!pathname) {
-            pathname = location.pathname;
-          } else if (pathname[0] != '/' && !/^https?:\/\//.test(pathname)) {
-            let relativeBase = location.pathname;
-            const paths = relativeBase.split('/');
-            paths.pop();
-            let m;
-            while ((m = /^\.\.?\//.exec(pathname))) {
-              if (m[0] === '../') {
-                paths.pop();
-              }
-              pathname = pathname.substring(m[0].length);
-            }
-            pathname = paths.concat(pathname).join('/');
-          }
-
-          return pathname + search + hash;
-        };
         this.env = {
           updateLocation: (location, replace) => {
             router[replace ? 'replace' : 'push'](normalizeLink(location));
@@ -86,22 +48,6 @@ export default function (schema) {
           isCurrentUrl: to => {
             const link = normalizeLink(to);
             return router.isActive(link);
-          },
-          jumpTo: (to, action) => {
-            to = normalizeLink(to);
-
-            if (action && action.actionType === 'url') {
-              action.blank === false
-                ? (window.location.href = to)
-                : window.open(to);
-              return;
-            }
-
-            if (/^https?:\/\//.test(to)) {
-              window.location.replace(to);
-            } else {
-              router.push(to);
-            }
           },
           fetcher: ({url, method, data, config, headers}) => {
             config = config || {};
@@ -139,12 +85,6 @@ export default function (schema) {
             return axios[method](url, data, config);
           },
           isCancel: value => axios.isCancel(value),
-          notify: (type, msg) =>
-            toast[type]
-              ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
-              : console.warn('[Notify]', type, msg),
-          alert,
-          confirm,
           copy: content => {
             copy(content);
             toast.success('内容已复制到粘贴板');

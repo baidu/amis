@@ -104,35 +104,28 @@ let amisScoped = amis.embed(
     responseAdpater(api, response, query, request) {
       debugger;
       return response;
-    },
-
-    jumpTo: location => {
-      // 可以不传，用来实现页面跳转
-    },
-
-    updateLocation: (location, replace) => {
-      // 可以不传，用来实现地址栏更新
-    },
-
-    isCurrentUrl: url => {
-      // 可以不传，用来判断是否目标地址当前地址。
-    },
-
-    copy: content => {
-      // 可以不传，用来实现复制到剪切板
-    },
-
-    notify: (type, msg) => {
-      // 可以不传，用来实现通知
-    },
-
-    alert: content => {
-      // 可以不传，用来实现提示
-    },
-
-    confirm: content => {
-      // 可以不传，用来实现确认框。
     }
+
+    // // 可以不传，用来实现页面跳转
+    // jumpTo: location => {},
+
+    // // 可以不传，用来实现地址栏更新
+    // updateLocation: (location, replace) => {},
+
+    // // 可以不传，用来判断是否目标地址当前地址。
+    // isCurrentUrl: url => {},
+
+    // // 可以不传，用来实现复制到剪切板
+    // copy: content => {},
+
+    // // 可以不传，用来实现通知
+    // notify: (type, msg) => {},
+
+    // // 可以不传，用来实现提示
+    // alert: content => {},
+
+    // // 可以不传，用来实现确认框。
+    // confirm: content => {}
   }
 );
 ```
@@ -252,25 +245,7 @@ class MyComponent extends React.Component<any, any> {
             // props...
           },
           {
-            // env
-            // 这些是 amis 需要的一些接口实现
-            // 可以参考后面的参数介绍。
-
-            jumpTo: (
-              location: string /*目标地址*/,
-              action: any /* action对象*/
-            ) => {
-              // 用来实现页面跳转, actionType:link、url 都会进来。
-              // 因为不清楚所在环境中是否使用了 spa 模式，所以自己实现这个方法吧。
-            },
-
-            updateLocation: (
-              location: string /*目标地址*/,
-              replace: boolean /*是replace，还是push？*/
-            ) => {
-              // 地址替换，跟 jumpTo 类似
-            },
-
+            // 下面三个接口必须实现
             fetcher: ({
               url, // 接口地址
               method, // 请求方法 get、post、put、delete
@@ -314,20 +289,44 @@ class MyComponent extends React.Component<any, any> {
               return (axios as any)[method](url, data, config);
             },
             isCancel: (value: any) => (axios as any).isCancel(value),
-            notify: (
-              type: 'error' | 'success' /**/,
-              msg: string /*提示内容*/
-            ) => {
-              toast[type]
-                ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
-                : console.warn('[Notify]', type, msg);
-            },
-            alert,
-            confirm,
             copy: content => {
               copy(content);
               toast.success('内容已复制到粘贴板');
             }
+
+            // 后面这些接口可以不用实现
+
+            // 默认是地址跳转
+            // jumpTo: (
+            //   location: string /*目标地址*/,
+            //   action: any /* action对象*/
+            // ) => {
+            //   // 用来实现页面跳转, actionType:link、url 都会进来。
+            // },
+
+            // updateLocation: (
+            //   location: string /*目标地址*/,
+            //   replace: boolean /*是replace，还是push？*/
+            // ) => {
+            //   // 地址替换，跟 jumpTo 类似
+            // },
+
+            // isCurrentUrl: (
+            //   url: string /*url地址*/,
+            // ) => {
+            //   // 用来判断是否目标地址当前地址
+            // },
+
+            // notify: (
+            //   type: 'error' | 'success' /**/,
+            //   msg: string /*提示内容*/
+            // ) => {
+            //   toast[type]
+            //     ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
+            //     : console.warn('[Notify]', type, msg);
+            // },
+            // alert,
+            // confirm,
           }
         )}
       </div>
