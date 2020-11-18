@@ -272,6 +272,7 @@ export interface TableProps extends RendererProps {
   popOverContainer?: any;
   canAccessSuperData?: boolean;
 }
+
 /**
  * 将 url 转成绝对地址
  */
@@ -1767,7 +1768,9 @@ export default class Table extends React.Component<TableProps, object> {
               return;
             }
             const workbook = new ExcelJS.Workbook();
-            const worksheet = workbook.addWorksheet('sheet');
+            const worksheet = workbook.addWorksheet('sheet', {
+              properties: {defaultColWidth: 15}
+            });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
             const items = store.data.items;
@@ -1821,6 +1824,21 @@ export default class Table extends React.Component<TableProps, object> {
                 if (type === 'image') {
                   const imageData = await toDataURL(value);
                   const imageDimensions = await getImageDimensions(imageData);
+                  let imageWidth = imageDimensions.width;
+                  let imageHeight = imageDimensions.height;
+                  // 限制一下图片高宽
+                  const imageMaxSize = 100;
+                  if (imageWidth > imageHeight) {
+                    if (imageWidth > imageMaxSize) {
+                      imageHeight = (imageMaxSize * imageHeight) / imageWidth;
+                      imageWidth = imageMaxSize;
+                    }
+                  } else {
+                    if (imageHeight > imageMaxSize) {
+                      imageWidth = (imageMaxSize * imageWidth) / imageHeight;
+                      imageHeight = imageMaxSize;
+                    }
+                  }
                   const imageMatch = imageData.match(/data:image\/(.*);/);
                   let imageExt = 'png';
                   if (imageMatch) {
@@ -1844,8 +1862,8 @@ export default class Table extends React.Component<TableProps, object> {
                     // 这里坐标位置是从 0 开始的，所以要减一
                     tl: {col: columIndex - 1, row: rowIndex - 1},
                     ext: {
-                      width: imageDimensions.width,
-                      height: imageDimensions.height
+                      width: imageWidth,
+                      height: imageHeight
                     },
                     hyperlinks: {
                       tooltip: linkURL
