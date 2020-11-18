@@ -14,21 +14,24 @@
     position: absolute;
     background: $Table-bg;
     z-index: 5;
-    top: -999999px;
-
-    &.in {
-      top: auto;
-    }
+    top: auto;
+    box-shadow: none;
   }
 
   &-fixedLeft {
-    box-shadow: $Table-fixedLeft-boxShadow;
     left: 0;
+
+    &.in {
+      box-shadow: $Table-fixedLeft-boxShadow;
+    }
   }
 
   &-fixedRight {
-    box-shadow: $Table-fixedRight-boxShadow;
     right: 0;
+
+    &.in {
+      box-shadow: $Table-fixedRight-boxShadow;
+    }
 
     .#{$ns}Table-table > thead > tr > th:first-child,
     .#{$ns}Table-table > tbody > tr > td:first-child {
