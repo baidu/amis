@@ -89,7 +89,7 @@ class BackTop extends React.PureComponent {
 
   handleScroll(e) {
     this.setState({
-      show: e.target.scrollingElement.scrollTop > 350
+      show: e.target.scrollingElement?.scrollTop > 350
     });
   }
 
