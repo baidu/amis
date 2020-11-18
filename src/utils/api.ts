@@ -177,7 +177,7 @@ function responseAdaptor(ret: fetcherResult) {
     status: data.status,
     msg: data.msg,
     msgTimeout: data.msgTimeout,
-    data: data.data ? data.data : data // 兼容直接返回数据的情况
+    data: !data.data && !data.hasOwnProperty('status') ? data : data.data // 兼容直接返回数据的情况
   };
 
   if (payload.status == 422) {
