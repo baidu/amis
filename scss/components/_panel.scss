@@ -162,7 +162,7 @@
     clear: both;
 
     .#{$ns}Button + .#{$ns}Button {
-      margin-left: $Panel-footerbottomMarginLeft;
+      margin-left: $Panel-footerbuttonMarginLeft;
     }
   }
 
@@ -171,7 +171,7 @@
     text-align: $Panel-btnToolbarTextAlign;
 
     .#{$ns}Button {
-      margin-left: $Panel-footerbottomMarginLeft;
+      margin-left: $Panel-footerbuttonMarginLeft;
     }
 
     &:empty {
