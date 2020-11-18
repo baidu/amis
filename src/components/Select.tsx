@@ -633,6 +633,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         break;
       case DownshiftChangeTypes.changeInput:
         update.highlightedIndex = 0;
+        break;
       case DownshiftChangeTypes.keyDownArrowDown:
       case DownshiftChangeTypes.keyDownArrowUp:
       case DownshiftChangeTypes.itemMouseEnter:

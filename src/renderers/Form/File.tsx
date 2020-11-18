@@ -15,6 +15,7 @@ import {buildApi} from '../../utils/api';
 import Button from '../../components/Button';
 import {Icon} from '../../components/icons';
 import DropZone from 'react-dropzone';
+import {FileRejection} from 'react-dropzone';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {
   SchemaApi,
@@ -471,26 +472,29 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     );
   }
 
-  handleDropRejected(rejectedFiles: any, evt: React.DragEvent<any>) {
+  handleDropRejected(
+    rejectedFiles: FileRejection[],
+    evt: React.DragEvent<any>
+  ) {
     if (evt.type !== 'change' && evt.type !== 'drop') {
       return;
     }
     const {multiple, env, accept, translate: __} = this.props;
 
-    const files = rejectedFiles.map((file: any) => ({
-      ...file,
+    const files = rejectedFiles.map(fileRejection => ({
+      ...fileRejection.file,
       state: 'invalid',
       id: guid(),
-      name: file.name
+      name: fileRejection.file.name
     }));
 
-    this.setState({
-      files: multiple
-        ? this.state.files.concat(files)
-        : this.state.files.length
-        ? this.state.files
-        : files.slice(0, 1)
-    });
+    // this.setState({
+    //   files: multiple
+    //     ? this.state.files.concat(files)
+    //     : this.state.files.length
+    //     ? this.state.files
+    //     : files.slice(0, 1)
+    // });
 
     env.alert(
       __('您添加的文件{{files}}不符合类型的`{{accept}}`的设定，请仔细检查。', {
