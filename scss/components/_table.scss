@@ -14,25 +14,38 @@
     position: absolute;
     background: $Table-bg;
     z-index: 5;
-    top: -999999px;
-
-    &.in {
-      top: auto;
-    }
+    top: auto;
+    box-shadow: none;
   }
 
   &-fixedLeft {
-    box-shadow: $Table-fixedLeft-boxShadow;
     left: 0;
+
+    &.in {
+      box-shadow: $Table-fixedLeft-boxShadow;
+    }
+
+    .#{$ns}Table-table > thead > tr > th:last-child {
+      border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
+    }
   }
 
   &-fixedRight {
-    box-shadow: $Table-fixedRight-boxShadow;
     right: 0;
 
-    .#{$ns}Table-table > thead > tr > th:first-child,
-    .#{$ns}Table-table > tbody > tr > td:first-child {
-      padding-left: $TableCell-paddingX;
+    &.in {
+      box-shadow: $Table-fixedRight-boxShadow;
+    }
+
+    .#{$ns}Table-table {
+      > thead > tr > th:first-child,
+      > tbody > tr > td:first-child {
+        padding-left: $TableCell-paddingX;
+      }
+
+      > thead > tr > th:first-child {
+        border-left: $Table-thead-borderWidth solid $Table-thead-borderColor;
+      }
     }
   }
 
