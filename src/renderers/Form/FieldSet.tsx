@@ -18,7 +18,7 @@ export interface FieldSetControlSchema
   type: 'fieldset' | 'fieldSet';
 
   /**
-   *  标题展示模式
+   * 标题展示位置
    */
   titlePosition: 'top' | 'bottom';
 

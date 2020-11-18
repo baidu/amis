@@ -19,7 +19,7 @@ export interface CollapseSchema extends BaseSchema {
   type: 'collapse';
 
   /**
-   *  标题展示模式
+   * 标题展示位置
    */
   titlePosition: 'top' | 'bottom';
 
