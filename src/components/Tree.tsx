@@ -58,8 +58,8 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   rootLabel?: string;
   rootValue?: any;
 
-  // 这个配置名字没取好，目前的含义是，如果这个配置成true，点父级的时候，孩子几点不会自选中。
-  // 否则点击父级，孩子节点选中。
+  // 这个配置名字没取好，目前的含义是，如果这个配置成true，点父级的时候，子级点不会自选中。
+  // 否则点击父级，子节点选中。
   cascade?: boolean;
   selfDisabledAffectChildren?: boolean;
   minLength?: number;
@@ -123,7 +123,7 @@ export class TreeSelector extends React.Component<
     cascade: false,
     selfDisabledAffectChildren: true,
     rootCreateTip: '添加一级节点',
-    createTip: '添加孩子节点',
+    createTip: '添加子节点',
     editTip: '编辑该节点',
     removeTip: '移除该节点'
   };

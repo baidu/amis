@@ -52,7 +52,7 @@ function createScopedTools(
   return {
     parent,
     registerComponent(component: ScopedComponentType) {
-      // 不要把自己注册在自己的 Scoped 上，自己的 Scoped 是给孩子们注册的。
+      // 不要把自己注册在自己的 Scoped 上，自己的 Scoped 是给子节点们注册的。
       if (component.props.$path === path && parent) {
         return parent.registerComponent(component);
       }
