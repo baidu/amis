@@ -15,6 +15,9 @@ function loadEditor() {
       resolve(component.default))
   );
 }
+
+const viewMode = localStorage.getItem('viewMode') || 'pc';
+
 export default function (schema) {
   if (!schema['$schema']) {
     schema = {
@@ -25,7 +28,8 @@ export default function (schema) {
   return withRouter(
     class extends React.Component {
       static displayName = 'SchemaRenderer';
-      state = {open: false};
+      iframeRef;
+      state = {open: false, schema: {}};
       toggleCode = () =>
         this.setState({
           open: !this.state.open
@@ -40,6 +44,7 @@ export default function (schema) {
         });
       constructor(props) {
         super(props);
+
         const {router} = props;
         this.env = {
           updateLocation: (location, replace) => {
@@ -92,6 +97,10 @@ export default function (schema) {
         };
 
         this.handleEditorMount = this.handleEditorMount.bind(this);
+
+        this.iframeRef = React.createRef();
+        this.watchIframeReady = this.watchIframeReady.bind(this);
+        window.addEventListener('message', this.watchIframeReady, false);
       }
 
       handleEditorMount(editor, monaco) {
@@ -130,8 +139,50 @@ export default function (schema) {
         );
       }
 
+      watchIframeReady(event) {
+        // iframe 里面的 amis 初始化了就可以发数据
+        if (event.data && event.data === 'amisReady') {
+          this.updateIframe();
+        }
+      }
+
+      updateIframe() {
+        if (this.iframeRef && this.iframeRef.current) {
+          this.iframeRef.current.contentWindow.postMessage(
+            {
+              schema: schema,
+              props: {
+                location: this.props.location,
+                theme: this.props.theme,
+                locale: this.props.locale
+              }
+            },
+            '*'
+          );
+        }
+      }
+
+      componentWillUnmount() {
+        this.props.setAsideFolded && this.props.setAsideFolded(false);
+        window.removeEventListener('message', this.watchIframeReady, false);
+      }
+
       renderSchema() {
         const {router, location, theme, locale} = this.props;
+
+        if (viewMode === 'mobile') {
+          return (
+            <iframe
+              width="375"
+              height="100%"
+              frameBorder={0}
+              className="mobile-frame"
+              ref={this.iframeRef}
+              // @ts-ignore
+              src={__uri('../index.html#mobileView')}
+            ></iframe>
+          );
+        }
 
         return render(
           schema,

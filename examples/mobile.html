@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MobileView</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="image/x-icon" rel="shortcut icon" href="./static/favicon.png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="animate.css/animate.css" />
+    <link rel="stylesheet" title="default" href="../scss/themes/default.scss" />
+    <link
+      rel="stylesheet"
+      title="cxd"
+      disabled
+      href="../scss/themes/cxd.scss"
+    />
+    <link
+      rel="stylesheet"
+      title="dark"
+      disabled
+      href="../scss/themes/dark.scss"
+    />
+    <style>
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="./mod.js"></script>
+    <script type="text/javascript">
+      const themes = [
+        {
+          label: '默认主题',
+          ns: 'a-',
+          value: 'default'
+        },
+
+        {
+          label: '百度云舍',
+          ns: 'cxd-',
+          value: 'cxd'
+        },
+        {
+          label: 'Dark',
+          ns: 'dark-',
+          value: 'dark'
+        }
+      ];
+      const theme = themes[localStorage.getItem('themeIndex') || 0];
+      if (theme.value !== 'default') {
+        document.querySelectorAll('link[title]').forEach(item => {
+          item.disabled = true;
+        });
+        document.querySelector(`link[title=${theme.value}]`).disabled = false;
+        if (theme.value === 'dark') {
+          document.querySelector('body').classList.add('dark');
+        }
+      }
+      amis.require(['./mobile.tsx'], function (app) {
+        var initialState = {};
+        app.bootstrap(document.getElementById('root'), initialState);
+      });
+    </script>
+  </body>
+</html>

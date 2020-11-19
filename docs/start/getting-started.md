@@ -8,9 +8,9 @@ amis 有两种使用方法：
 - [JS SDK](#SDK)
 - [React](#react)
 
-React 可以完整使用 amis 的所有功能，方便扩展。
+React 版本可以完整使用 amis 的所有功能，方便扩展。
 
-SDK 适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，直接引入代码就能使用，但需要注意这种方式难以支持 [自定义组件](./custom)，只能使用 amis 内置的组件。
+SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，可以像 Vue/jQuery 那样外链代码就能使用，但需要注意这种方式难以支持 [自定义组件](./custom)，只能使用 amis 内置的组件。
 
 ## SDK
 
