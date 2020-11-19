@@ -139,6 +139,7 @@ export default class Collapse extends React.Component<
       headingClassName,
       children,
       titlePosition,
+      title,
       collapseTitle,
       body,
       bodyClassName,
@@ -147,7 +148,41 @@ export default class Collapse extends React.Component<
       translate: __
     } = this.props;
     // 默认给个 title，不然没法点
-    const title = this.props.title || 'Collapse';
+    const finalTitle = this.state.collapsed ? title : collapseTitle || title;
+
+    let dom = [
+      finalTitle ? (
+        <HeadingComponent
+          key="title"
+          onClick={this.toggleCollapsed}
+          className={cx(`Collapse-header`, headingClassName)}
+        >
+          {render('heading', finalTitle)}
+          {collapsable && <span className={cx('Collapse-arrow')} />}
+        </HeadingComponent>
+      ) : null,
+
+      <BasicCollapse
+        show={collapsable ? !this.state.collapsed : true}
+        classnames={cx}
+        classPrefix={ns}
+        key="body"
+      >
+        <div className={cx(`Collapse-body`, bodyClassName)}>
+          {children
+            ? typeof children === 'function'
+              ? children(this.props)
+              : children
+            : body
+            ? render('body', body)
+            : null}
+        </div>
+      </BasicCollapse>
+    ];
+
+    if (titlePosition === 'bottom') {
+      dom.reverse();
+    }
 
     return (
       <WrapperComponent
@@ -162,45 +197,7 @@ export default class Collapse extends React.Component<
           className
         )}
       >
-        {titlePosition === 'top' ? (
-          <HeadingComponent
-            onClick={this.toggleCollapsed}
-            className={cx(`Collapse-header`, headingClassName)}
-          >
-            {this.state.collapsed
-              ? render('heading', title)
-              : render('heading', collapseTitle || title)}
-            {collapsable && <span className={cx('Collapse-arrow')} />}
-          </HeadingComponent>
-        ) : null}
-
-        <BasicCollapse
-          show={collapsable ? !this.state.collapsed : true}
-          classnames={cx}
-          classPrefix={ns}
-        >
-          <div className={cx(`Collapse-body`, bodyClassName)}>
-            {children
-              ? typeof children === 'function'
-                ? children(this.props)
-                : children
-              : body
-              ? render('body', body)
-              : null}
-          </div>
-        </BasicCollapse>
-
-        {titlePosition === 'bottom' ? (
-          <div
-            className={cx(`Collapse-header`, headingClassName)}
-            onClick={this.toggleCollapsed}
-          >
-            {this.state.collapsed
-              ? render('heading', title)
-              : render('heading', collapseTitle || title)}
-            {collapsable && <span className={cx('Collapse-arrow')} />}
-          </div>
-        ) : null}
+        {dom}
       </WrapperComponent>
     );
   }

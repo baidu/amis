@@ -117,7 +117,7 @@ export default class FieldSetControl extends React.Component<
         className={className}
         children={this.renderBody}
         wrapperComponent="fieldset"
-        headingComponent="legend"
+        headingComponent={rest.titlePosition === 'bottom' ? 'div' : 'legend'}
       />
     );
   }
