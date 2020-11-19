@@ -47,6 +47,8 @@
   &--title-bottom &-header {
     text-align: center;
     color: $link-color;
+    border-left: none;
+    font-size: $fontSizeBase;
   }
 
   &--title-bottom &-arrow:before {
