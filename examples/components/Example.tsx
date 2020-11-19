@@ -560,6 +560,7 @@ export default class Example extends React.PureComponent {
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
           locale: this.props.locale,
+          viewMode: this.props.viewMode,
           offScreen: this.props.offScreen
         })}
       </>

@@ -66,6 +66,18 @@ const locales = [
   }
 ];
 
+const viewModes = [
+  {
+    label: '桌面端',
+    value: 'pc'
+  },
+
+  {
+    label: '移动端',
+    value: 'mobile'
+  }
+];
+
 function getPath(path) {
   return path
     ? path[0] === '/'
@@ -108,6 +120,7 @@ class BackTop extends React.PureComponent {
 @withRouter
 export class App extends React.PureComponent {
   state = {
+    viewMode: localStorage.getItem('viewMode') || 'pc',
     offScreen: false,
     headerVisible: true,
     themeIndex: 0,
@@ -226,11 +239,12 @@ export class App extends React.PureComponent {
               onChange={locale => {
                 this.setState({locale: locale.value});
                 localStorage.setItem('locale', locale.value);
+                window.location.reload();
               }}
             />
           </div>
 
-          <div className="hidden-xs p-t pull-right">
+          <div className="hidden-xs p-t pull-right m-l-sm">
             <Select
               clearable={false}
               theme={this.state.theme.value}
@@ -245,6 +259,20 @@ export class App extends React.PureComponent {
                 document
                   .querySelector('body')
                   .classList[theme.value === 'dark' ? 'add' : 'remove']('dark');
+              }}
+            />
+          </div>
+
+          <div className="hidden-xs p-t pull-right">
+            <Select
+              clearable={false}
+              theme={this.state.theme.value}
+              value={this.state.viewMode || 'pc'}
+              options={viewModes}
+              onChange={viewMode => {
+                this.setState({viewMode: viewMode.value});
+                localStorage.setItem('viewMode', viewMode.value);
+                window.location.reload();
               }}
             />
           </div>
@@ -368,6 +396,7 @@ export class App extends React.PureComponent {
             setNavigations: this.setNavigations,
             theme: theme.value,
             classPrefix: theme.ns,
+            viewMode: this.state.viewMode,
             locale: this.state.locale,
             offScreen: this.state.offScreen,
             ContextPath

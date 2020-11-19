@@ -24,17 +24,19 @@ class CodePreview extends React.Component {
   }
 
   render() {
-    const {
-      container,
-      height,
-      setAsideFolded,
-      setHeaderVisible,
-      ...rest
-    } = this.props;
+    const {container, setAsideFolded, setHeaderVisible, ...rest} = this.props;
+
+    let height = this.props.height;
 
     const PlayGround = this.state.PlayGround;
     // 不要放在 .markdown-body 下面，因为样式会干扰，复写又麻烦，所以通过 Overlay 渲染到同级
 
+    if (this.props.viewMode === 'mobile') {
+      // 移动端下高度不能太低
+      if (height < 500) {
+        height = 500;
+      }
+    }
     return (
       <div>
         <span style={{display: 'block', height: height}} ref="span" />

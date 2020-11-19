@@ -1045,6 +1045,7 @@ export default class Doc extends React.PureComponent {
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
           locale: this.props.locale,
+          viewMode: this.props.viewMode,
           offScreen: this.props.offScreen,
           ContextPath: this.props.ContextPath,
           prevDoc: this.state.prevDoc,

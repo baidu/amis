@@ -61,15 +61,15 @@ export default class PlayGround extends React.Component {
   startX = 0;
   oldContents = '';
   frameTemplate;
+  iframeRef;
 
   static defaultProps = {
-    useIFrame: false,
     vertical: false
   };
 
   constructor(props) {
     super(props);
-
+    this.iframeRef = React.createRef();
     const {router} = props;
 
     const schema = this.buildSchema(props.code || DEFAULT_CONTENT, props);
@@ -139,12 +139,27 @@ export default class PlayGround extends React.Component {
       }
     };
 
-    const links = [].slice
-      .call(document.head.querySelectorAll('link,style'))
-      .map(item => item.outerHTML);
-    this.frameTemplate = `<!DOCTYPE html><html><head>${links.join(
-      ''
-    )}</head><body><div></div></body></html>`;
+    this.watchIframeReady = this.watchIframeReady.bind(this);
+    window.addEventListener('message', this.watchIframeReady, false);
+  }
+
+  watchIframeReady(event) {
+    // iframe 里面的 amis 初始化了就可以发数据
+    if (event.data && event.data === 'amisReady') {
+      this.updateIframe();
+    }
+  }
+
+  updateIframe() {
+    if (this.iframeRef && this.iframeRef.current) {
+      this.iframeRef.current.contentWindow.postMessage(
+        {
+          schema: this.state.schema,
+          props: {theme: this.props.theme, locale: this.props.locale}
+        },
+        '*'
+      );
+    }
   }
 
   componentWillReceiveProps(nextprops) {
@@ -168,6 +183,7 @@ export default class PlayGround extends React.Component {
 
   componentWillUnmount() {
     this.props.setAsideFolded && this.props.setAsideFolded(false);
+    window.removeEventListener('message', this.watchIframeReady, false);
   }
 
   buildSchema(schemaContent, props = this.props) {
@@ -224,33 +240,37 @@ export default class PlayGround extends React.Component {
       affixFooter: false
     };
 
-    if (!this.props.useIFrame) {
-      return render(schema, props, this.env);
+    if (this.props.viewMode === 'mobile') {
+      return (
+        <iframe
+          width="375"
+          height="100%"
+          frameBorder={0}
+          className="mobile-frame"
+          ref={this.iframeRef}
+          // @ts-ignore
+          src={__uri('../index.html#mobileView')}
+        ></iframe>
+      );
     }
 
-    return (
-      <Frame
-        width="100%"
-        height="100%"
-        frameBorder={0}
-        initialContent={this.frameTemplate}
-      >
-        {render(schema, props, this.env)}
-      </Frame>
-    );
+    return render(schema, props, this.env);
   }
 
   handleChange(value) {
     this.setState({
       schemaCode: value
     });
-
     try {
       const schema = JSON.parse(value);
-
-      this.setState({
-        schema
-      });
+      this.setState(
+        {
+          schema
+        },
+        () => {
+          this.updateIframe();
+        }
+      );
     } catch (e) {
       //ignore
     }
