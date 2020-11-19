@@ -14,39 +14,50 @@
     position: absolute;
     background: $Table-bg;
     z-index: 5;
-    top: auto;
-    box-shadow: none;
+
+    // https://github.com/baidu/amis/pull/1080
+    // top: auto;
+    // box-shadow: none;
+
+    top: -999999px;
+    &.in {
+      top: auto;
+    }
   }
 
   &-fixedLeft {
+    box-shadow: $Table-fixedLeft-boxShadow;
     left: 0;
 
-    &.in {
-      box-shadow: $Table-fixedLeft-boxShadow;
-    }
+    // https://github.com/baidu/amis/pull/1080
+    // &.in {
+    //   box-shadow: $Table-fixedLeft-boxShadow;
+    // }
 
-    .#{$ns}Table-table > thead > tr > th:last-child {
-      border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
-    }
+    // .#{$ns}Table-table > thead > tr > th:last-child {
+    //   border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
+    // }
   }
 
   &-fixedRight {
+    box-shadow: $Table-fixedRight-boxShadow;
     right: 0;
 
-    &.in {
-      box-shadow: $Table-fixedRight-boxShadow;
-    }
+    // https://github.com/baidu/amis/pull/1080
+    // &.in {
+    //   box-shadow: $Table-fixedRight-boxShadow;
+    // }
 
-    .#{$ns}Table-table {
-      > thead > tr > th:first-child,
-      > tbody > tr > td:first-child {
-        padding-left: $TableCell-paddingX;
-      }
+    // .#{$ns}Table-table {
+    //   > thead > tr > th:first-child,
+    //   > tbody > tr > td:first-child {
+    //     padding-left: $TableCell-paddingX;
+    //   }
 
-      > thead > tr > th:first-child {
-        border-left: $Table-thead-borderWidth solid $Table-thead-borderColor;
-      }
-    }
+    //   > thead > tr > th:first-child {
+    //     border-left: $Table-thead-borderWidth solid $Table-thead-borderColor;
+    //   }
+    // }
   }
 
   &-fixedTop {
