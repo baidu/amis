@@ -1,7 +1,11 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
-import {resolveVariable, isPureVariable} from '../utils/tpl-builtin';
+import {
+  resolveVariable,
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../utils/tpl-builtin';
 import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind} from '../utils/helper';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
@@ -160,7 +164,7 @@ export class ImagesField extends React.Component<ImagesProps> {
     let list: any;
 
     if (typeof source === 'string' && isPureVariable(source)) {
-      list = resolveVariable(source, data) || undefined;
+      list = resolveVariableAndFilter(source, data, '| raw') || undefined;
     } else if (Array.isArray(value)) {
       list = value;
     } else if (name && data[name]) {
