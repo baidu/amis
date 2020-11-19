@@ -136,17 +136,18 @@ export default class Collapse extends React.Component<
       wrapperComponent: WrapperComponent,
       headingComponent: HeadingComponent,
       className,
-      title,
-      collapseTitle,
       headingClassName,
       children,
       titlePosition,
+      collapseTitle,
       body,
       bodyClassName,
       render,
       collapsable,
       translate: __
     } = this.props;
+    // 默认给个 title，不然没法点
+    const title = this.props.title || 'Collapse';
 
     return (
       <WrapperComponent
@@ -167,12 +168,8 @@ export default class Collapse extends React.Component<
             className={cx(`Collapse-header`, headingClassName)}
           >
             {this.state.collapsed
-              ? title
-                ? render('heading', title)
-                : __('展开')
-              : collapseTitle
-              ? render('heading', collapseTitle)
-              : __('收起')}
+              ? render('heading', title)
+              : render('heading', collapseTitle || title)}
             {collapsable && <span className={cx('Collapse-arrow')} />}
           </HeadingComponent>
         ) : null}
@@ -199,12 +196,8 @@ export default class Collapse extends React.Component<
             onClick={this.toggleCollapsed}
           >
             {this.state.collapsed
-              ? title
-                ? render('heading', title)
-                : __('展开')
-              : collapseTitle
-              ? render('heading', collapseTitle)
-              : __('收起')}
+              ? render('heading', title)
+              : render('heading', collapseTitle || title)}
             {collapsable && <span className={cx('Collapse-arrow')} />}
           </div>
         ) : null}
