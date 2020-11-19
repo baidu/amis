@@ -74,7 +74,7 @@ export class SearchBox extends React.Component<SearchBoxProps> {
   }
 
   @autobind
-  handleKeyUp(e: React.KeyboardEvent<any>) {
+  handleKeyDown(e: React.KeyboardEvent<any>) {
     if (e.key === 'Enter') {
       this.handleSearch();
       e.preventDefault();
@@ -110,7 +110,7 @@ export class SearchBox extends React.Component<SearchBoxProps> {
           placeholder={__(placeholder || '输入关键字')}
           ref={this.inputRef}
           autoComplete="off"
-          onKeyUp={this.handleKeyUp}
+          onKeyDown={this.handleKeyDown}
         />
 
         {!mini ? (

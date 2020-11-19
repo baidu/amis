@@ -130,6 +130,13 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
   }
 
   @autobind
+  handleSearchKeyDown(e: React.KeyboardEvent<any>) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  }
+
+  @autobind
   handleSearch(text: string) {
     // text 有值的时候，走搜索否则直接走 handleSeachCancel ，等同于右侧的 clear 按钮
     if (text) {
@@ -243,6 +250,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
               onChange={this.handleSearch}
               placeholder={__('请输入关键字')}
               clearable={false}
+              onKeyDown={this.handleSearchKeyDown}
             >
               {this.state.searchResult !== null ? (
                 <a onClick={this.handleSeachCancel}>
