@@ -44,53 +44,21 @@
     <div id="root" class="app-wrapper"></div>
     <script src="./mod.js"></script>
     <script type="text/javascript">
-      if (location.hash === '#mobileView') {
-        // TODO: 本来应该使用 mobile.html 的，但 gh-pages 编译时 themes 下的 scss hash 不一致导致出错，所以先和 index.html 放一起
-        const themes = [
-          {
-            label: '默认主题',
-            value: 'default'
-          },
-          {
-            label: '百度云舍',
-            value: 'cxd'
-          },
-          {
-            label: 'Dark',
-            value: 'dark'
-          }
-        ];
-        const theme = themes[localStorage.getItem('themeIndex') || 0];
-        // mobile 下先禁掉所有外链避免影响
-        document.querySelectorAll('link').forEach(item => {
-          item.disabled = true;
-        });
-        document.querySelector(`link[title=${theme.value}]`).disabled = false;
-        if (theme.value === 'dark') {
-          document.querySelector('body').classList.add('dark');
-        }
+      var _hmt = _hmt || [];
 
-        amis.require(['./mobile.tsx'], function (app) {
-          app.bootstrap(document.getElementById('root'), {});
-        });
-      } else {
-        var _hmt = _hmt || [];
+      // 百度统计
+      (function () {
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?1f80f2c9dbe21dc3af239cf9eee90f1f';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
 
-        // 百度统计
-        (function () {
-          var hm = document.createElement('script');
-          hm.src =
-            'https://hm.baidu.com/hm.js?1f80f2c9dbe21dc3af239cf9eee90f1f';
-          var s = document.getElementsByTagName('script')[0];
-          s.parentNode.insertBefore(hm, s);
-        })();
-
-        /* @require ./index.jsx 标记为同步依赖，提前加载 */
-        amis.require(['./index.jsx'], function (app) {
-          var initialState = {};
-          app.bootstrap(document.getElementById('root'), initialState);
-        });
-      }
+      /* @require ./index.jsx 标记为同步依赖，提前加载 */
+      amis.require(['./index.jsx'], function (app) {
+        var initialState = {};
+        app.bootstrap(document.getElementById('root'), initialState);
+      });
     </script>
   </body>
 </html>

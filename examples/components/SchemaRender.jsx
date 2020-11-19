@@ -179,7 +179,7 @@ export default function (schema) {
               className="mobile-frame"
               ref={this.iframeRef}
               // @ts-ignore
-              src={__uri('../index.html#mobileView')}
+              src={__uri('../mobile.html')}
             ></iframe>
           );
         }

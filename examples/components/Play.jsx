@@ -249,7 +249,7 @@ export default class PlayGround extends React.Component {
           className="mobile-frame"
           ref={this.iframeRef}
           // @ts-ignore
-          src={__uri('../index.html#mobileView')}
+          src={__uri('../mobile.html')}
         ></iframe>
       );
     }
