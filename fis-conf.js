@@ -507,6 +507,13 @@ if (fis.project.currentMedia() === 'publish') {
 } else if (fis.project.currentMedia() === 'gh-pages') {
   const ghPages = fis.media('gh-pages');
 
+  ghPages.match('*.scss', {
+    parser: fis.plugin('sass', {
+      sourceMap: false
+    }),
+    rExt: '.css'
+  });
+
   ghPages.match('/docs/**.md', {
     rExt: 'js',
     isMod: true,

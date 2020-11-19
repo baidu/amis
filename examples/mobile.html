@@ -41,34 +41,29 @@
       const themes = [
         {
           label: '默认主题',
-          ns: 'a-',
           value: 'default'
         },
-
         {
           label: '百度云舍',
-          ns: 'cxd-',
           value: 'cxd'
         },
         {
           label: 'Dark',
-          ns: 'dark-',
           value: 'dark'
         }
       ];
       const theme = themes[localStorage.getItem('themeIndex') || 0];
-      if (theme.value !== 'default') {
-        document.querySelectorAll('link[title]').forEach(item => {
-          item.disabled = true;
-        });
-        document.querySelector(`link[title=${theme.value}]`).disabled = false;
-        if (theme.value === 'dark') {
-          document.querySelector('body').classList.add('dark');
-        }
+      // mobile 下先禁掉所有外链避免影响
+      document.querySelectorAll('link').forEach(item => {
+        item.disabled = true;
+      });
+      document.querySelector(`link[title=${theme.value}]`).disabled = false;
+      if (theme.value === 'dark') {
+        document.querySelector('body').classList.add('dark');
       }
+
       amis.require(['./mobile.tsx'], function (app) {
-        var initialState = {};
-        app.bootstrap(document.getElementById('root'), initialState);
+        app.bootstrap(document.getElementById('root'), {});
       });
     </script>
   </body>

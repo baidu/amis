@@ -78,7 +78,8 @@ class AMISComponent extends React.Component {
           copy: content => {
             copy(content);
             toast.success('内容已复制到粘贴板');
-          }
+          },
+          affixOffsetTop: 0
         })}
       </div>
     ) : null;

@@ -463,6 +463,7 @@
     > tbody > tr > td.#{$ns}Table-checkCell {
       border-right: 0;
       width: px2rem(1px);
+      padding-right: $TableCell-paddingX;
 
       .#{$ns}Checkbox {
         margin: 0;
