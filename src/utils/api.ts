@@ -53,7 +53,7 @@ export function buildApi(
   api.config = {
     ...rest
   };
-  api.method = api.method || (options as any).method || 'get';
+  api.method = (api.method || (options as any).method || 'get').toLowerCase();
 
   if (!data) {
     return api;
