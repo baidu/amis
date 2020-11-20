@@ -110,7 +110,7 @@ export default class ButtonGroupControl extends React.Component<
           }
         );
       });
-    } else if (buttons) {
+    } else if (Array.isArray(buttons)) {
       body = buttons.map((button, key) =>
         render(
           `button/${key}`,
