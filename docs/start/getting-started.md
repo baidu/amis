@@ -159,6 +159,10 @@ let amisScoped = amis.embed(
 
 ## react
 
+初始项目请参考 <https://github.com/fex-team/amis-react-starter>。
+
+如果在已有项目中，React 版本需要是 `^16.8.6`，mobx 需要 `^4.5.0`。
+
 ### 安装
 
 ```
