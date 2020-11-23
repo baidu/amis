@@ -1,0 +1,10 @@
+# 避免 windows 下自动转
+*.md text eol=crlf
+*.ts text eol=crlf
+*.js text eol=crlf
+*.tsx text eol=crlf
+*.jsx text eol=crlf
+*.scss text eol=crlf
+*.css text eol=crlf
+*.svg text eol=crlf
+*.json text eol=crlf
