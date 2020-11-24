@@ -1,6 +1,32 @@
 // 类名前缀
 $ns: '' !default;
 
+$devices: (
+  default: '',
+  mobile: 'max-width: 767px'
+) !default;
+
+$color: #9333ea;
+
+// 生成颜色的工具有很多，可以参考这些链接来弄。
+// https://tailwind.ink/
+// https://www.tailwindshades.com/
+// https://tailwind.simeongriggs.dev/
+
+// https://javisperez.github.io/tailwindcolorshades/#/
+// body {
+//   color50: tint($color, 0.95);
+//   color100: tint($color, 0.9);
+//   color200: tint($color, 0.75);
+//   color300: tint($color, 0.6);
+//   color400: tint($color, 0.3);
+//   color500: $color;
+//   color600: shade($color, 0.9);
+//   color700: shade($color, 0.6);
+//   color800: shade($color, 0.45);
+//   color900: shade($color, 0.3);
+// }
+
 // 颜色
 $white: #fff !default;
 $gray100: #f8f9fa !default;
@@ -85,6 +111,8 @@ $boxShadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
 $boxShadowLg: 0 1rem 3rem rgba($black, 0.175) !default;
 
 // 窗口适配
+// @deprecated 不打算支持这么多视图，只区分 pc 和 移动端
+// 改用 devices 了
 $breakpoints: (
   xs: 0,
   sm: 576px,

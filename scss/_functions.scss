@@ -40,3 +40,23 @@
 
   @return $pixels / $context * 1rem;
 }
+
+@function tint($color, $intensity) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  @return rgb(
+    $r + (255 - $r) * $intensity,
+    $g + (255 - $g) * $intensity,
+    $b + (255 - $b) * $intensity
+  );
+}
+
+@function shade($color, $intensity) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  @return rgb($r * $intensity, $g * $intensity, $b * $intensity);
+}
