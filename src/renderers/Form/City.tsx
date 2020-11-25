@@ -377,6 +377,7 @@ export class CityPicker extends React.Component<
             onChange={this.handleStreetChange}
             onBlur={this.handleStreetEnd}
             placeholder={__('请输入街道信息')}
+            disabled={disabled}
           />
         ) : null}
       </div>
@@ -405,7 +406,8 @@ export class LocationControl extends React.Component<LocationControlProps> {
       allowDistrict,
       extractValue,
       joinValues,
-      allowStreet
+      allowStreet,
+      disabled
     } = this.props;
     return (
       <ThemedCity
@@ -416,6 +418,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
         extractValue={extractValue}
         joinValues={joinValues}
         allowStreet={allowStreet}
+        disabled={disabled}
       />
     );
   }
