@@ -8,6 +8,7 @@ import PopOver from '../../components/PopOver';
 import {findDOMNode} from 'react-dom';
 import Checkbox from '../../components/Checkbox';
 import xor from 'lodash/xor';
+import {normalizeOptions} from '../../components/Select';
 
 export interface QuickFilterConfig {
   options: Array<any>;
@@ -115,6 +116,7 @@ export class HeadCellFilterDropDown extends React.Component<
     const {data, filterable, name} = this.props;
     const filterValue =
       data && typeof data[name] !== 'undefined' ? data[name] : '';
+    options = normalizeOptions(options);
 
     if (filterable.multiple) {
       options = options.map(option => ({
