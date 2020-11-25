@@ -1,0 +1,11 @@
+@mixin make-box-sizing($prefix: '.') {
+  #{$prefix}box-border {
+    box-sizing: border-box;
+  }
+
+  #{$prefix}box-content {
+    box-sizing: content-box;
+  }
+}
+
+@include make-box-sizing();

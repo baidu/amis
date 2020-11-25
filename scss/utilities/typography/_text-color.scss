@@ -1,36 +1,36 @@
-@mixin text-colors-map($colors: $colors, $namePrefix: '', $prefix: '') {
+@mixin text-colors-map($colors: $colors, $namePrefix: '', $prefix: '.') {
   @each $name, $color in $colors {
     @if (is-map($color)) {
       @include text-colors-map($color, #{'-' + $name}, $prefix);
     } @else {
-      #{$prefix}.text#{$namePrefix}-#{'' + $name} {
+      #{$prefix}text#{$namePrefix}-#{'' + $name} {
         color: $color;
       }
     }
   }
 }
 
-@mixin text-colors() {
-  .text-transparent {
+@mixin text-colors($prefix: '.') {
+  #{$prefix}text-transparent {
     color: transparent;
   }
-  .text-current {
+  #{$prefix}text-current {
     color: currentColor;
   }
-  .text-muted {
+  #{$prefix}text-muted {
     color: $text--muted-color;
   }
-  .text-loud {
+  #{$prefix}text-loud {
     color: $text--loud-color;
   }
 
-  @include text-colors-map($colors);
+  @include text-colors-map($colors, '', #{$prefix});
 }
 
 @include text-colors();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {
-    @include text-colors();
+    @include text-colors('.' + selector-escape($deivce + ':'));
   }
 }
 

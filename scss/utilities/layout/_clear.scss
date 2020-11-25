@@ -1,0 +1,24 @@
+@mixin make-clear($prefix: '.') {
+  #{$prefix}clear-right {
+    clear: right;
+  }
+
+  #{$prefix}clear-left {
+    clear: left;
+  }
+
+  #{$prefix}clear-none {
+    clear: none;
+  }
+
+  #{$prefix}clear-both {
+    clear: both;
+  }
+}
+
+@include make-clear();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-clear('.' + selector-escape($deivce + ':'));
+  }
+}

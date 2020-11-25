@@ -1,22 +1,22 @@
-@mixin border-colors-map($colors: $colors, $namePrefix: '', $prefix: '') {
+@mixin border-colors-map($colors: $colors, $namePrefix: '', $prefix: '.') {
   @each $name, $color in $colors {
     @if (is-map($color)) {
       @include border-colors-map($color, #{'-' + $name}, $prefix);
     } @else {
-      #{$prefix}.border#{$namePrefix}-#{'' + $name} {
+      #{$prefix}border#{$namePrefix}-#{'' + $name} {
         border-color: $color;
       }
     }
   }
 }
 
-@mixin border-colors() {
-  @include border-colors-map($colors);
+@mixin border-colors($prefix: '.') {
+  @include border-colors-map($colors, '', $prefix);
 }
 
 @include border-colors();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {
-    @include border-colors();
+    @include border-colors('.' + selector-escape($deivce + ':'));
   }
 }

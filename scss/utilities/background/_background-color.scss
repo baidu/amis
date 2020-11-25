@@ -1,26 +1,26 @@
-@mixin bg-colors-map($colors: $colors, $namePrefix: '', $prefix: '') {
+@mixin bg-colors-map($colors: $colors, $namePrefix: '', $prefix: '.') {
   @each $name, $color in $colors {
     @if (is-map($color)) {
       @include bg-colors-map($color, #{'-' + $name}, $prefix);
     } @else {
-      #{$prefix}.bg#{$namePrefix}-#{'' + $name} {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name} {
         background-color: $color;
       }
     }
   }
 }
 
-@mixin bg-colors() {
-  .bg-transparent {
+@mixin bg-colors($prefix: '.') {
+  #{$prefix}bg-transparent {
     background-color: transparent;
   }
-  @include bg-colors-map($colors);
+  @include bg-colors-map($colors, '', $prefix);
 }
 
 @include bg-colors();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {
-    @include bg-colors();
+    @include bg-colors('.' + selector-escape($deivce + ':'));
   }
 }
 // todo 设成 mobile\:bg-xxx {}  这样的，这样用户可选择性决定 mobile:bg-xxx 来给移动端设置不同的颜色。
