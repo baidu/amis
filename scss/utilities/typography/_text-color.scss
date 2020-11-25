@@ -1,0 +1,46 @@
+@mixin text-colors-map($colors: $colors, $namePrefix: '', $prefix: '') {
+  @each $name, $color in $colors {
+    @if (is-map($color)) {
+      @include text-colors-map($color, #{'-' + $name}, $prefix);
+    } @else {
+      #{$prefix}.text#{$namePrefix}-#{'' + $name} {
+        color: $color;
+      }
+    }
+  }
+}
+
+@mixin text-colors() {
+  .text-transparent {
+    color: transparent;
+  }
+  .text-current {
+    color: currentColor;
+  }
+  .text-muted {
+    color: $text--muted-color;
+  }
+  .text-loud {
+    color: $text--loud-color;
+  }
+
+  @include text-colors-map($colors);
+}
+
+@include text-colors();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include text-colors();
+  }
+}
+
+// text colors
+
+// @include text-wariant($primary, primary);
+// @include text-wariant($info, info);
+// @include text-wariant($success, success);
+// @include text-wariant($warning, warning);
+// @include text-wariant($danger, danger);
+// @include text-wariant($dark, dark);
+// @include text-wariant($white, white);
+// @include text-wariant($black, black);

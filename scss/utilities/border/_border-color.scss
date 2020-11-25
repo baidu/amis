@@ -1,0 +1,22 @@
+@mixin border-colors-map($colors: $colors, $namePrefix: '', $prefix: '') {
+  @each $name, $color in $colors {
+    @if (is-map($color)) {
+      @include border-colors-map($color, #{'-' + $name}, $prefix);
+    } @else {
+      #{$prefix}.border#{$namePrefix}-#{'' + $name} {
+        border-color: $color;
+      }
+    }
+  }
+}
+
+@mixin border-colors() {
+  @include border-colors-map($colors);
+}
+
+@include border-colors();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include border-colors();
+  }
+}

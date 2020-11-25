@@ -1,0 +1,43 @@
+@mixin height-sizing($map: $heights, $prefix: '') {
+  @each $name, $value in $map {
+    @if $name == default {
+      #{$prefix}.h {
+        height: $value;
+      }
+    } @else {
+      #{$prefix}.h-#{'' + selector-escape($name)} {
+        height: $value;
+      }
+    }
+  }
+}
+
+@mixin max-height-sizing($map: $maxHeights, $prefix: '') {
+  @each $name, $value in $map {
+    @if $name == default {
+      #{$prefix}.max-h {
+        max-height: $value;
+      }
+    } @else {
+      #{$prefix}.max-h-#{'' + selector-escape($name)} {
+        max-height: $value;
+      }
+    }
+  }
+}
+
+@include height-sizing();
+
+.min-h-0 {
+  min-height: 0px;
+}
+
+.min-h-full {
+  min-height: 100%;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+@include max-height-sizing();

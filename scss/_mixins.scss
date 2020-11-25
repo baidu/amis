@@ -53,14 +53,17 @@
   }
 }
 
+// @deprecated 不建议用了
 @mixin color-schema($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
   background-color: saturate(darken($bg-color, $percent), $sat-percent);
 }
 
+// @deprecated 不建议用了
 @mixin color-schema-lt($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
   background-color: desaturate(lighten($bg-color, $percent), $sat-percent);
 }
 
+// @deprecated 不建议用了
 @mixin color-variant(
   $bg-color: #555,
   $lt-percent: 10%,
@@ -96,6 +99,7 @@
   }
 }
 
+// @deprecated 不建议用了
 @mixin font-variant($bg-color) {
   $font-color: desaturate(lighten($bg-color, 40%), 10%);
   $link-color: desaturate(lighten($bg-color, 50%), 10%);
@@ -143,6 +147,7 @@
   // }
 }
 
+// @deprecated 不建议用了
 @mixin text-wariant($bg-color, $name) {
   a.bg-#{'' + $name}:hover {
     background-color: darken($bg-color, 5%);

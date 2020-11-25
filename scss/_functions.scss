@@ -60,3 +60,32 @@
 
   @return rgb($r * $intensity, $g * $intensity, $b * $intensity);
 }
+
+// 判断对象是否是 map
+@function is-map($var) {
+  @return type-of($var) == 'map';
+}
+
+@function str-replace($string, $search, $replace: '') {
+  $str: #{'' + $string};
+  $index: str-index($str, $search);
+
+  @if $index {
+    @return str-slice($str, 1, $index - 1) + $replace +
+      str-replace(
+        str-slice($str, $index + str-length($search)),
+        $search,
+        $replace
+      );
+  }
+
+  @return $str;
+}
+
+@function selector-escape($str) {
+  @return str-replace(
+    str-replace(str-replace($str, '.', '\\.'), ':', '\\:'),
+    '/',
+    '\\/'
+  );
+}

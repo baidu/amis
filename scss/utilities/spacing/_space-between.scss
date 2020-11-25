@@ -1,0 +1,54 @@
+@mixin space-x-spacing($spacing: $spacing, $prefix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}.space-x {
+        & > :not([hidden]) ~ :not([hidden]) {
+          margin-left: $value;
+        }
+
+        &.space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+          margin-right: $value;
+        }
+      }
+    } @else {
+      #{$prefix}.space-x-#{'' + selector-escape($name)} {
+        & > :not([hidden]) ~ :not([hidden]) {
+          margin-left: $value;
+        }
+
+        &.space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+          margin-right: $value;
+        }
+      }
+    }
+  }
+}
+
+@mixin space-y-spacing($spacing: $spacing, $prefix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}.space-y {
+        & > :not([hidden]) ~ :not([hidden]) {
+          margin-top: $value;
+        }
+
+        &.space-y-reverse > :not([hidden]) ~ :not([hidden]) {
+          margin-bottom: $value;
+        }
+      }
+    } @else {
+      #{$prefix}.space-y-#{'' + selector-escape($name)} {
+        & > :not([hidden]) ~ :not([hidden]) {
+          margin-top: $value;
+        }
+
+        &.space-y-reverse > :not([hidden]) ~ :not([hidden]) {
+          margin-bottom: $value;
+        }
+      }
+    }
+  }
+}
+
+@include space-x-spacing();
+@include space-y-spacing();
