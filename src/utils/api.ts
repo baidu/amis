@@ -232,10 +232,18 @@ export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
   const adaptor = api.adaptor;
   return adaptor
     ? promise
-        .then(response => ({
-          ...response,
-          data: adaptor((response as any).data, response, api)
-        }))
+        .then(async response => {
+          let result = adaptor((response as any).data, response, api);
+
+          if (result?.then) {
+            result = await result;
+          }
+
+          return {
+            ...response,
+            data: result
+          };
+        })
         .then(responseAdaptor)
     : promise.then(responseAdaptor);
 }
