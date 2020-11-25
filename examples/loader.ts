@@ -11,6 +11,7 @@ const mapping: {
   'react-dropzone': __moduleId('react-dropzone'),
   'classnames': __moduleId('classnames'),
   'axios': __moduleId('axios'),
+  'exceljs': __moduleId('exceljs'),
   'moment': __moduleId('moment'),
   'mobx': __moduleId('mobx'),
   'mobx-state-tree': __moduleId('mobx-state-tree'),
