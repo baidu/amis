@@ -802,7 +802,7 @@ Form 支持轮训初始化接口，步骤如下：
         {
           "label": "关键字",
           "type": "static",
-          "name": "${keywords}"
+          "name": "keywords"
         },
         {
           "label": "请求时间",
