@@ -1,7 +1,7 @@
-@mixin space-x-spacing($spacing: $spacing, $prefix: '') {
+@mixin space-x-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}.space-x {
+      #{$prefix}space-x#{$suffix} {
         & > :not([hidden]) ~ :not([hidden]) {
           margin-left: $value;
         }
@@ -11,7 +11,7 @@
         }
       }
     } @else {
-      #{$prefix}.space-x-#{'' + selector-escape($name)} {
+      #{$prefix}space-x-#{'' + selector-escape($name)}#{$suffix} {
         & > :not([hidden]) ~ :not([hidden]) {
           margin-left: $value;
         }
@@ -24,10 +24,10 @@
   }
 }
 
-@mixin space-y-spacing($spacing: $spacing, $prefix: '') {
+@mixin space-y-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}.space-y {
+      #{$prefix}space-y#{$suffix} {
         & > :not([hidden]) ~ :not([hidden]) {
           margin-top: $value;
         }
@@ -37,7 +37,7 @@
         }
       }
     } @else {
-      #{$prefix}.space-y-#{'' + selector-escape($name)} {
+      #{$prefix}space-y-#{'' + selector-escape($name)}#{$suffix} {
         & > :not([hidden]) ~ :not([hidden]) {
           margin-top: $value;
         }
@@ -50,5 +50,14 @@
   }
 }
 
-@include space-x-spacing();
-@include space-y-spacing();
+@mixin make-spaces($prefix: '.', $suffix: '') {
+  @include space-x-spacing($spacing, $prefix, $suffix);
+  @include space-y-spacing($spacing, $prefix, $suffix);
+}
+
+@include make-spaces();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-spaces('.' + selector-escape($deivce + ':'));
+  }
+}

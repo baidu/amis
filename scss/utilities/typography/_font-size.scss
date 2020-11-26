@@ -1,0 +1,15 @@
+@mixin make-font-size($prefix: '.', $suffix: '') {
+  @each $name, $values in $fontSizes {
+    #{$prefix}text-#{$name}#{$suffix} {
+      font-size: nth($values, 1);
+      line-height: nth($values, 2);
+    }
+  }
+}
+
+@include make-font-size();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-font-size('.' + selector-escape($deivce + ':'));
+  }
+}

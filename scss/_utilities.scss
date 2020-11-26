@@ -33,6 +33,16 @@
 @import './utilities/grid/row-start-end';
 @import './utilities/grid/rows';
 
+@import './utilities/box-alignment/align-content';
+@import './utilities/box-alignment/align-items';
+@import './utilities/box-alignment/align-self';
+@import './utilities/box-alignment/justify-content';
+@import './utilities/box-alignment/justify-items';
+@import './utilities/box-alignment/justify-self';
+@import './utilities/box-alignment/place-content';
+@import './utilities/box-alignment/place-items';
+@import './utilities/box-alignment/place-self';
+
 @import './utilities/spacing/margin';
 @import './utilities/spacing/padding';
 @import './utilities/spacing/space-between';
@@ -40,26 +50,14 @@
 @import './utilities/sizing/width';
 @import './utilities/sizing/height';
 
+@import './utilities/typography/font-size';
+@import './utilities/typography/font-weight';
+@import './utilities/typography/line-height';
+@import './utilities/typography/text-align';
 @import './utilities/typography/text-color';
 
 .clearfix {
   @include clearfix();
-}
-
-.pos-rlt {
-  position: relative;
-}
-
-.pos-stc {
-  position: static !important;
-}
-
-.pos-abt {
-  position: absolute;
-}
-
-.pos-fix {
-  position: fixed;
 }
 
 .show {
@@ -119,26 +117,6 @@
   border-radius: 0;
 }
 
-.block {
-  display: block;
-}
-
-.block.hide {
-  display: none;
-}
-
-.inline {
-  display: inline-block !important;
-}
-
-.none {
-  display: none;
-}
-
-.pull-none {
-  float: none;
-}
-
 .rounded {
   border-radius: 500px;
 }
@@ -195,50 +173,6 @@
 
 .font-bold {
   font-weight: 700;
-}
-
-.text-5x {
-  font-size: 5em;
-}
-
-.text-4x {
-  font-size: 4em;
-}
-
-.text-3x {
-  font-size: 3em;
-}
-
-.text-2x {
-  font-size: 2em;
-}
-
-.text-xl {
-  font-size: $fontSizeXl !important;
-}
-
-.text-lg {
-  font-size: $fontSizeLg !important;
-}
-
-.text-md {
-  font-size: $fontSizeMd !important;
-}
-
-.text-base {
-  font-size: $fontSizeBase !important;
-}
-
-.text-sm {
-  font-size: $fontSizeSm !important;
-}
-
-.text-xs {
-  font-size: $fontSizeXs !important;
-}
-
-.text-xxs {
-  text-indent: -9999px;
 }
 
 .text-ellipsis {
@@ -966,6 +900,7 @@ a.label {
   @include label-variant($label--danger-bg);
 }
 
+// js 功能依赖这个
 @keyframes apearSensor {
   from {
     opacity: 0;
