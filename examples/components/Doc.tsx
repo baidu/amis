@@ -635,6 +635,14 @@ export const docs = [
           })
       },
       {
+        label: 'Table 表格',
+        path: '/docs/components/table',
+        getComponent: (location, cb) =>
+          require(['../../docs/components/table.md'], doc => {
+            cb(null, makeMarkdownRenderer(doc));
+          })
+      },
+      {
         label: 'Action 行为按钮',
         path: '/docs/components/action',
         getComponent: (location, cb) =>
@@ -935,14 +943,6 @@ export const docs = [
         path: '/docs/components/switch',
         getComponent: (location, cb) =>
           require(['../../docs/components/switch.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
-      },
-      {
-        label: 'Table 表格',
-        path: '/docs/components/table',
-        getComponent: (location, cb) =>
-          require(['../../docs/components/table.md'], doc => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },
