@@ -1,20 +1,28 @@
-@mixin bg-colors-map($colors: $colors, $namePrefix: '', $prefix: '.') {
+@mixin bg-colors-map(
+  $colors: $colors,
+  $namePrefix: '',
+  $prefix: '.',
+  $suffix: ''
+) {
   @each $name, $color in $colors {
     @if (is-map($color)) {
-      @include bg-colors-map($color, #{'-' + $name}, $prefix);
+      @include bg-colors-map($color, #{'-' + $name}, $prefix, $suffix);
     } @else {
-      #{$prefix}bg#{$namePrefix}-#{'' + $name} {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}#{$suffix} {
         background-color: $color;
       }
     }
   }
 }
 
-@mixin bg-colors($prefix: '.') {
-  #{$prefix}bg-transparent {
+@mixin bg-colors($prefix: '.', $suffix: '') {
+  #{$prefix}bg-transparent#{$suffix} {
     background-color: transparent;
   }
-  @include bg-colors-map($colors, '', $prefix);
+  #{$prefix}bg-none#{$suffix} {
+    background: none !important;
+  }
+  @include bg-colors-map($colors, '', $prefix, $suffix);
 }
 
 @include bg-colors();
@@ -23,7 +31,9 @@
     @include bg-colors('.' + selector-escape($deivce + ':'));
   }
 }
-// todo 设成 mobile\:bg-xxx {}  这样的，这样用户可选择性决定 mobile:bg-xxx 来给移动端设置不同的颜色。
+
+@include bg-colors('.' + selector-escape('hover:'), ':hover');
+@include bg-colors('.group:hover .' + selector-escape('group-hover:'));
 
 // 这是原来的，看来是有些 breakchange
 // .bg-light {

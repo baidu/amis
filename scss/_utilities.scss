@@ -8,8 +8,30 @@
 @import './utilities/border/border-color';
 
 @import './utilities/layout/box-sizing';
+@import './utilities/layout/clear';
 @import './utilities/layout/display';
 @import './utilities/layout/float';
+@import './utilities/layout/overflow';
+@import './utilities/layout/position';
+@import './utilities/layout/top-right-bottom-left';
+@import './utilities/layout/visibility';
+@import './utilities/layout/z-index';
+
+@import './utilities/flex/direction';
+@import './utilities/flex/flex';
+@import './utilities/flex/grow';
+@import './utilities/flex/order';
+@import './utilities/flex/shrink';
+@import './utilities/flex/wrap';
+
+@import './utilities/grid/auto-columns';
+@import './utilities/grid/auto-flow';
+@import './utilities/grid/auto-rows';
+@import './utilities/grid/column-start-end';
+@import './utilities/grid/columns';
+@import './utilities/grid/gap';
+@import './utilities/grid/row-start-end';
+@import './utilities/grid/rows';
 
 @import './utilities/spacing/margin';
 @import './utilities/spacing/padding';

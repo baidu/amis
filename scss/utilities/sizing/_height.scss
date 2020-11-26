@@ -1,43 +1,52 @@
-@mixin height-sizing($map: $heights, $prefix: '') {
+@mixin height-sizing($map: $heights, $prefix: '.') {
   @each $name, $value in $map {
     @if $name == default {
-      #{$prefix}.h {
+      #{$prefix}h {
         height: $value;
       }
     } @else {
-      #{$prefix}.h-#{'' + selector-escape($name)} {
+      #{$prefix}h-#{'' + selector-escape($name)} {
         height: $value;
       }
     }
   }
 }
 
-@mixin max-height-sizing($map: $maxHeights, $prefix: '') {
+@mixin max-height-sizing($map: $maxHeights, $prefix: '.') {
   @each $name, $value in $map {
     @if $name == default {
-      #{$prefix}.max-h {
+      #{$prefix}max-h {
         max-height: $value;
       }
     } @else {
-      #{$prefix}.max-h-#{'' + selector-escape($name)} {
+      #{$prefix}max-h-#{'' + selector-escape($name)} {
         max-height: $value;
       }
     }
   }
 }
 
-@include height-sizing();
+@mixin make-heights($prefix: '.') {
+  @include height-sizing($heights, $prefix);
 
-.min-h-0 {
-  min-height: 0px;
+  #{$prefix}min-h-0 {
+    min-height: 0px;
+  }
+
+  #{$prefix}min-h-full {
+    min-height: 100%;
+  }
+
+  #{$prefix}min-h-screen {
+    min-height: 100vh;
+  }
+
+  @include max-height-sizing($maxHeights, $prefix);
 }
 
-.min-h-full {
-  min-height: 100%;
+@include make-heights();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-heights('.' + selector-escape($deivce + ':'));
+  }
 }
-
-.min-h-screen {
-  min-height: 100vh;
-}
-
-@include max-height-sizing();

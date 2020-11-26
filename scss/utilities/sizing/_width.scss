@@ -1,49 +1,58 @@
-@mixin width-sizing($map: $widths, $prefix: '') {
+@mixin width-sizing($map: $widths, $prefix: '.') {
   @each $name, $value in $map {
     @if $name == default {
-      #{$prefix}.w {
+      #{$prefix}w {
         width: $value;
       }
     } @else {
-      #{$prefix}.w-#{'' + selector-escape($name)} {
+      #{$prefix}w-#{'' + selector-escape($name)} {
         width: $value;
       }
     }
   }
 }
 
-@mixin max-width-sizing($map: $maxWidths, $prefix: '') {
+@mixin max-width-sizing($map: $maxWidths, $prefix: '.') {
   @each $name, $value in $map {
     @if $name == default {
-      #{$prefix}.max-w {
+      #{$prefix}max-w {
         max-width: $value;
       }
     } @else {
-      #{$prefix}.max-w-#{'' + selector-escape($name)} {
+      #{$prefix}max-w-#{'' + selector-escape($name)} {
         max-width: $value;
       }
     }
   }
 }
 
-@include width-sizing();
-.min-w-0 {
-  min-width: 0px;
+@mixin make-widths($prefix: '.') {
+  @include width-sizing($widths, $prefix);
+  #{$prefix}min-w-0 {
+    min-width: 0px;
+  }
+
+  #{$prefix}min-w-full {
+    min-width: 100%;
+  }
+
+  #{$prefix}min-w-min {
+    min-width: min-content;
+  }
+
+  #{$prefix}min-w-max {
+    min-width: max-content;
+  }
+
+  @include max-width-sizing($maxWidths, $prefix);
 }
 
-.min-w-full {
-  min-width: 100%;
+@include make-widths();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-widths('.' + selector-escape($deivce + ':'));
+  }
 }
-
-.min-w-min {
-  min-width: min-content;
-}
-
-.min-w-max {
-  min-width: max-content;
-}
-
-@include max-width-sizing();
 
 // .w-1x {
 //   width: 1em;

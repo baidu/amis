@@ -1,0 +1,32 @@
+@mixin make-gaps($prefix: '.') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}gap {
+        gap: $value;
+      }
+      #{$prefix}gap-x {
+        column-gap: $value;
+      }
+      #{$prefix}gap-y {
+        row-gap: $value;
+      }
+    } @else {
+      #{$prefix}gap-#{'' + selector-escape($name)} {
+        gap: $value;
+      }
+      #{$prefix}gap-x-#{'' + selector-escape($name)} {
+        column-gap: $value;
+      }
+      #{$prefix}gap-y-#{'' + selector-escape($name)} {
+        row-gap: $value;
+      }
+    }
+  }
+}
+
+@include make-gaps();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-gaps('.' + selector-escape($deivce + ':'));
+  }
+}

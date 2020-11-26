@@ -1,0 +1,22 @@
+@mixin make-visibility($prefix: '.') {
+  #{$prefix}visible {
+    visibility: visible;
+  }
+
+  #{$prefix}invisible {
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+
+  #{$prefix}invisible2 {
+    visibility: hidden;
+  }
+}
+
+@include make-visibility();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-visibility('.' + selector-escape($deivce + ':'));
+  }
+}

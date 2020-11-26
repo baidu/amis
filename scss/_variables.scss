@@ -186,11 +186,11 @@ $spacing: (
   xl: px2rem(40px),
   xxl: px2rem(50px),
   //
-    // 上面是原来设定
-    //
-    // 下面是参考 tailwind
-    //
-    px: px2rem(1px),
+  // 上面是原来设定
+  //
+  // 下面是参考 tailwind
+  //
+  px: px2rem(1px),
   0: 0,
   none: 0,
   0.5: px2rem(2px),
@@ -226,6 +226,20 @@ $spacing: (
   72: px2rem(288px),
   80: px2rem(320px),
   96: px2rem(384px)
+) !default;
+
+$inset: map-merge(
+  $spacing,
+  (
+    auto: auto,
+    '1/2': 50%,
+    '1/3': 33.333333%,
+    '2/3': 66.666667%,
+    '1/4': 25%,
+    '2/4': 50%,
+    '3/4': 75%,
+    'full': 100%
+  )
 ) !default;
 
 $widths: map-merge(

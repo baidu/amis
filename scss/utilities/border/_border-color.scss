@@ -1,17 +1,22 @@
-@mixin border-colors-map($colors: $colors, $namePrefix: '', $prefix: '.') {
+@mixin border-colors-map(
+  $colors: $colors,
+  $namePrefix: '',
+  $prefix: '.',
+  $suffix: ''
+) {
   @each $name, $color in $colors {
     @if (is-map($color)) {
-      @include border-colors-map($color, #{'-' + $name}, $prefix);
+      @include border-colors-map($color, #{'-' + $name}, $prefix, $suffix);
     } @else {
-      #{$prefix}border#{$namePrefix}-#{'' + $name} {
+      #{$prefix}border#{$namePrefix}-#{'' + $name}#{$suffix} {
         border-color: $color;
       }
     }
   }
 }
 
-@mixin border-colors($prefix: '.') {
-  @include border-colors-map($colors, '', $prefix);
+@mixin border-colors($prefix: '.', $suffix: '') {
+  @include border-colors-map($colors, '', $prefix, $suffix);
 }
 
 @include border-colors();
@@ -20,3 +25,6 @@
     @include border-colors('.' + selector-escape($deivce + ':'));
   }
 }
+
+@include border-colors('.' + selector-escape('hover:'), ':hover');
+@include border-colors('.group:hover .' + selector-escape('group-hover:'));
