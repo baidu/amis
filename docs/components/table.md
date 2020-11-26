@@ -400,6 +400,59 @@ order: 67
 }
 ```
 
+### 固定列
+
+列太多可以让重要的几列固定，可以配置固定在左侧还是右侧，只需要给需要固定的列上配置 `fixed` 属性，配置 `left` 或者 `right`。
+
+```schema:height="530" scope="body"
+{
+    "type": "service",
+    "api": "https://houtai.baidu.com/api/sample?perPage=5",
+    "className": "w-xxl",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "className": "m-b-none",
+            "columnsTogglable": false,
+            "columns": [
+                {
+                    "name": "engine",
+                    "label": "Engine",
+                    "fixed": "left"
+                },
+
+                {
+                    "name": "grade",
+                    "label": "Grade"
+                },
+
+                {
+                    "name": "version",
+                    "label": "Version"
+                },
+
+                {
+                    "name": "browser",
+                    "label": "Browser"
+                },
+
+                {
+                    "name": "id",
+                    "label": "ID"
+                },
+
+                {
+                    "name": "platform",
+                    "label": "Platform",
+                    "fixed": "right"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ### 可复制
 
 可以在列上配置`"copyable": true`，会在该列的内容区里，渲染一个复制内容的图标，点击可复制该显示内容
@@ -989,26 +1042,25 @@ order: 67
 }
 ```
 
-## 固定列
+## 高亮行
 
-列太多可以让重要的几列固定，可以配置固定在左侧还是右侧，只需要给需要固定的列上配置 `fixed` 属性，配置 `left` 或者 `right`。
+可以通过配置`rowClassNameExpr`来为行添加 CSS 类，支持 [模板](../concepts/template) 语法。
+
+例如下例，`"<%= data.id % 2 ? "bg-success" : "" %>"` 表示当行数据的 `id` 变量为 不能被 `2` 整除时，给当前行添加`bg-success` CSS 类名，即绿色背景色
 
 ```schema:height="530" scope="body"
 {
     "type": "service",
-    "api": "https://houtai.baidu.com/api/sample?perPage=5",
-    "className": "w-xxl",
+    "api": "https://houtai.baidu.com/api/sample?perPage=10",
     "body": [
         {
             "type": "table",
             "source": "$rows",
-            "className": "m-b-none",
-            "columnsTogglable": false,
+            "rowClassNameExpr": "<%= data.id % 2 ? 'bg-success' : '' %>",
             "columns": [
                 {
                     "name": "engine",
-                    "label": "Engine",
-                    "fixed": "left"
+                    "label": "Engine"
                 },
 
                 {
@@ -1033,8 +1085,7 @@ order: 67
 
                 {
                     "name": "platform",
-                    "label": "Platform",
-                    "fixed": "right"
+                    "label": "Platform"
                 }
             ]
         }
@@ -1063,3 +1114,5 @@ order: 67
 | itemCheckableOn  | [表达式](../concepts/expression)              |                           | 配置当前行是否可勾选的条件，要用 [表达式](../concepts/expression) |
 | itemDraggableOn  | [表达式](../concepts/expression)              |                           | 配置当前行是否可拖拽的条件，要用 [表达式](../concepts/expression) |
 | checkOnItemClick | `boolean`                                     | `false`                   | 点击数据行是否可以勾选当前行                                      |
+| rowClassName     | `string`                                      |                           | 给行添加 CSS 类名                                                 |
+| rowClassNameExpr | [模板](../concepts/template)                  |                           | 通过模板给行添加 CSS 类名                                         |
