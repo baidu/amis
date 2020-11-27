@@ -24,6 +24,7 @@ import Select from '../../src/components/Select';
 import DocSearch from './DocSearch';
 import Doc, {docs} from './Doc';
 import Example, {examples} from './Example';
+import Style from './Style';
 
 let ExamplePathPrefix = '/examples';
 let DocPathPrefix = '/docs';
@@ -224,6 +225,9 @@ export class App extends React.PureComponent {
             </Link>
             <Link to={`${ContextPath}/examples`} activeClassName="is-active">
               示例
+            </Link>
+            <Link to={`${ContextPath}/style`} activeClassName="is-active">
+              样式定制
             </Link>
             <a
               href="https://github.com/fex-team/amis-editor-demo"
@@ -458,6 +462,8 @@ export default function entry({pathPrefix}) {
   // PathPrefix = pathPrefix || DocPathPrefix;
   return (
     <Router history={browserHistory}>
+      <Route path={`${ContextPath}/style`} component={Style}></Route>
+
       <Route component={App}>
         <Redirect from={`${ContextPath}/`} to={`${ContextPath}/docs/index`} />
         <Redirect
