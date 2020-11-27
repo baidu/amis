@@ -25,6 +25,11 @@
   @include bg-colors-map($colors, '', $prefix, $suffix);
 }
 
+.no-bg {
+  background-color: transparent;
+  color: inherit;
+}
+
 @include bg-colors();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {
@@ -33,6 +38,7 @@
 }
 
 @include bg-colors('.' + selector-escape('hover:'), ':hover');
+@include bg-colors('.' + selector-escape('active:'), '.is-active');
 @include bg-colors('.group:hover .' + selector-escape('group-hover:'));
 
 // 这是原来的，看来是有些 breakchange

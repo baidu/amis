@@ -110,6 +110,74 @@
   @include padding-left-spacing($spacing, $prefix, $suffix);
 }
 
+.wrapper-xs {
+  padding: 5px;
+}
+
+.wrapper-sm {
+  padding: 10px;
+}
+
+.wrapper {
+  padding: 15px;
+}
+
+.wrapper-md {
+  padding: 20px;
+}
+
+.wrapper-lg {
+  padding: 30px;
+}
+
+.wrapper-xl {
+  padding: 50px;
+}
+
+.padder-lg {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.padder-md {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.padder {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.padder-v-xs {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.padder-v-sm {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.padder-v {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.padder-v-md {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.padder-v-lg {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.no-padder {
+  padding: 0 !important;
+}
+
 @include make-padding();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {
@@ -117,6 +185,7 @@
   }
 }
 // @include bg-colors('.' + selector-escape('hover:'), ':hover');
+// @include bg-colors('.' + selector-escape('active:'), '.is-active');
 // @include bg-colors('.group:hover .' + selector-escape('group-hover:'));
 
 // 以下是原来的

@@ -27,4 +27,5 @@
 }
 
 @include border-colors('.' + selector-escape('hover:'), ':hover');
+@include border-colors('.' + selector-escape('active:'), '.is-active');
 @include border-colors('.group:hover .' + selector-escape('group-hover:'));

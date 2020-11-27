@@ -1,0 +1,203 @@
+@mixin border-widths($prefix: '.', $suffix: '') {
+  @each $name, $value in $borderWidths {
+    #{$prefix}border#{suffixName($name)}#{$suffix} {
+      border-width: $value;
+    }
+  }
+
+  @each $name, $value in $borderWidths {
+    #{$prefix}border-t#{suffixName($name)}#{$suffix} {
+      border-top-width: $value;
+    }
+    #{$prefix}border-r#{suffixName($name)}#{$suffix} {
+      border-right-width: $value;
+    }
+    #{$prefix}border-b#{suffixName($name)}#{$suffix} {
+      border-bottom-width: $value;
+    }
+    #{$prefix}border-l#{suffixName($name)}#{$suffix} {
+      border-left-width: $value;
+    }
+  }
+}
+
+.b {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.b-a {
+  border: 1px solid $borderColor;
+}
+
+.b-t {
+  border-top: 1px solid $borderColor;
+}
+
+.b-t-none {
+  border-top-width: 0;
+}
+
+.b-r {
+  border-right: 1px solid $borderColor;
+}
+
+.b-r-none {
+  border-right-width: 0;
+}
+
+.b-b {
+  border-bottom: 1px solid $borderColor;
+}
+
+.b-b-none {
+  border-bottom-width: 0;
+}
+
+.b-l {
+  border-left: 1px solid $borderColor;
+}
+
+.b-l-none {
+  border-left-width: 0;
+}
+
+.b-light {
+  border-color: $light;
+}
+
+.b-dark {
+  border-color: $dark;
+}
+
+.b-black {
+  border-color: $dark;
+}
+
+.b-primary {
+  border-color: $primary;
+}
+
+.b-success {
+  border-color: $success;
+}
+
+.b-info {
+  border-color: $info;
+}
+
+.b-warning {
+  border-color: $warning;
+}
+
+.b-danger {
+  border-color: $danger;
+}
+
+.b-white {
+  border-color: #fff;
+}
+
+.b-dashed {
+  border-style: dashed !important;
+}
+
+.b-l-light {
+  border-left-color: $light;
+}
+
+.b-l-dark {
+  border-left-color: $dark;
+}
+
+.b-l-black {
+  border-left-color: $dark;
+}
+
+.b-l-primary {
+  border-left-color: $primary;
+}
+
+.b-l-success {
+  border-left-color: $success;
+}
+
+.b-l-info {
+  border-left-color: $info;
+}
+
+.b-l-warning {
+  border-left-color: $warning;
+}
+
+.b-l-danger {
+  border-left-color: $danger;
+}
+
+.b-l-white {
+  border-left-color: #fff;
+}
+
+.b-l-2x {
+  border-left-width: 2px;
+}
+
+.b-l-3x {
+  border-left-width: 3px;
+}
+
+.b-l-4x {
+  border-left-width: 4px;
+}
+
+.b-l-5x {
+  border-left-width: 5px;
+}
+
+.b-2x {
+  border-width: 2px;
+}
+
+.b-3x {
+  border-width: 3px;
+}
+
+.b-4x {
+  border-width: 4px;
+}
+
+.b-5x {
+  border-width: 5px;
+}
+
+.no-border,
+.no-borders {
+  border-color: transparent;
+  border-width: 0;
+}
+
+.no-b-t {
+  border-top-width: 0;
+}
+
+.no-b-r {
+  border-right-width: 0;
+}
+
+.no-b-b {
+  border-bottom-width: 0;
+}
+
+.no-b-l {
+  border-left-width: 0;
+}
+
+@include border-widths();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include border-widths('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// @include border-radius('.' + selector-escape('hover:'), ':hover');
+// @include border-radius('.' + selector-escape('active:'), '.is-active');
+// @include border-radius('.group:hover .' + selector-escape('group-hover:'));

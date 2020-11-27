@@ -1,0 +1,90 @@
+@mixin border-radius($prefix: '.', $suffix: '') {
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded#{suffixName($name)}#{$suffix} {
+      border-radius: $value;
+    }
+  }
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded-t#{suffixName($name)}#{$suffix} {
+      border-top-left-radius: $value;
+      border-top-right-radius: $value;
+    }
+  }
+
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded-r#{suffixName($name)}#{$suffix} {
+      border-top-right-radius: $value;
+      border-bottom-right-radius: $value;
+    }
+  }
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded-b#{suffixName($name)}#{$suffix} {
+      border-bottom-right-radius: $value;
+      border-bottom-left-radius: $value;
+    }
+  }
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded-l#{suffixName($name)}#{$suffix} {
+      border-top-left-radius: $value;
+      border-bottom-left-radius: $value;
+    }
+  }
+
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded-tl#{suffixName($name)}#{$suffix} {
+      border-top-left-radius: $value;
+    }
+    #{$prefix}rounded-tr#{suffixName($name)}#{$suffix} {
+      border-top-right-radius: $value;
+    }
+    #{$prefix}rounded-br#{suffixName($name)}#{$suffix} {
+      border-bottom-right-radius: $value;
+    }
+    #{$prefix}rounded-bl#{suffixName($name)}#{$suffix} {
+      border-bottom-left-radius: $value;
+    }
+  }
+}
+
+.r {
+  border-radius: $borderRadius $borderRadius $borderRadius $borderRadius;
+}
+
+.r-2x {
+  border-radius: $borderRadiusMd;
+}
+
+.r-3x {
+  border-radius: $borderRadiusLg;
+}
+
+.r-l {
+  border-radius: $borderRadius 0 0 $borderRadius;
+}
+
+.r-r {
+  border-radius: 0 $borderRadius $borderRadius 0;
+}
+
+.r-t {
+  border-radius: $borderRadius $borderRadius 0 0;
+}
+
+.r-b {
+  border-radius: 0 0 $borderRadius $borderRadius;
+}
+
+.no-radius {
+  border-radius: 0;
+}
+
+@include border-radius();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include border-radius('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// @include border-radius('.' + selector-escape('hover:'), ':hover');
+// @include border-radius('.' + selector-escape('active:'), '.is-active');
+// @include border-radius('.group:hover .' + selector-escape('group-hover:'));

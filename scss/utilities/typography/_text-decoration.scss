@@ -1,0 +1,28 @@
+@mixin make-text-decoration($prefix: '.') {
+  #{$prefix}underline {
+    text-decoration: underline;
+  }
+  #{$prefix}line-through {
+    text-decoration: line-through;
+  }
+  #{$prefix}no-underline {
+    text-decoration: none;
+  }
+}
+
+.text-l-t {
+  text-decoration: line-through;
+}
+
+.text-u-l {
+  text-decoration: underline;
+}
+
+@include make-text-decoration();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-text-decoration('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

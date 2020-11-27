@@ -1,0 +1,27 @@
+@mixin make-word-break($prefix: '.') {
+  #{$prefix}break-normal {
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  #{$prefix}break-words {
+    overflow-wrap: break-word;
+  }
+  #{$prefix}break-all {
+    word-break: break-all;
+  }
+}
+
+.word-break {
+  white-space: normal;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+@include make-word-break();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-word-break('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

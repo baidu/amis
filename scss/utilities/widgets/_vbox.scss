@@ -1,0 +1,38 @@
+.vbox {
+  display: table;
+  border-spacing: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+
+  & .row-row {
+    display: table-row;
+    height: 100%;
+
+    & .cell {
+      position: relative;
+      height: 100%;
+      width: 100%;
+
+      .ie & {
+        display: table-cell;
+        overflow: auto;
+
+        & .cell-inner {
+          overflow: visible !important;
+        }
+      }
+
+      & .cell-inner {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        -webkit-overflow-scrolling: touch;
+        overflow: auto;
+      }
+    }
+  }
+}

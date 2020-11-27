@@ -29,6 +29,10 @@
   }
 }
 
+.show {
+  visibility: visible;
+}
+
 @include make-display();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {

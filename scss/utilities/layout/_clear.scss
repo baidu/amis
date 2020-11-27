@@ -16,6 +16,15 @@
   }
 }
 
+.clear {
+  display: block;
+  overflow: hidden;
+}
+
+.clearfix {
+  @include clearfix();
+}
+
 @include make-clear();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {

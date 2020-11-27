@@ -1,0 +1,36 @@
+@mixin make-box-shadow($prefix: '.', $suffix: '') {
+  @each $name, $value in $boxShadows {
+    #{$prefix}shadow#{suffixName($name)}#{$suffix} {
+      box-shadow: #{$value};
+    }
+  }
+}
+
+.box-shadow {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.box-shadow-lg {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.text-shadow {
+  font-size: 170px;
+  text-shadow: 0 1px 0 $borderColor, 0 2px 0 lighten($borderColor, 10%),
+    0 5px 10px rgba(0, 0, 0, 0.125), 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.no-shadow {
+  box-shadow: none !important;
+}
+
+@include make-box-shadow();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-box-shadow('.' + selector-escape($deivce + ':'));
+  }
+}
+
+@include make-box-shadow('.' + selector-escape('hover:'), ':hover');
+@include make-box-shadow('.' + selector-escape('active:'), '.is-active');
+@include make-box-shadow('.group:hover .' + selector-escape('group-hover:'));

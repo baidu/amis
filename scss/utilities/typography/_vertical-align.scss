@@ -1,0 +1,41 @@
+@mixin make-vertical-align($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'baseline': baseline,
+        'top': top,
+        'middle': middle,
+        'bottom': bottom,
+        'text-top': text-top,
+        'text-bottom': text-bottom
+      )
+  {
+    #{$prefix}align-#{$name} {
+      vertical-align: $value;
+    }
+  }
+}
+
+.v-top {
+  vertical-align: top !important;
+  align-self: flex-start;
+}
+
+.v-middle {
+  vertical-align: middle !important;
+  align-self: center;
+}
+
+.v-bottom {
+  vertical-align: bottom !important;
+  align-self: flex-end;
+}
+
+@include make-vertical-align();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-vertical-align('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

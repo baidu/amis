@@ -89,3 +89,11 @@
     '\\/'
   );
 }
+
+@function suffixName($str) {
+  @if $str == default {
+    @return '';
+  } @else {
+    @return '-' + $str;
+  }
+}

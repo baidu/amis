@@ -141,9 +141,11 @@ export class App extends React.PureComponent {
         item.disabled = true;
       });
 
-      document.querySelector(
-        `link[title=${this.state.theme.value}]`
-      ).disabled = false;
+      document
+        .querySelectorAll(`link[title=${this.state.theme.value}]`)
+        .forEach(item => {
+          item.disabled = false;
+        });
 
       if (this.state.theme.value === 'dark') {
         document.querySelector('body').classList.add('dark');
@@ -155,13 +157,17 @@ export class App extends React.PureComponent {
     const props = this.props;
 
     if (preState.theme.value !== this.state.theme.value) {
-      document.querySelector(
-        `link[title=${preState.theme.value}]`
-      ).disabled = true;
+      document
+        .querySelectorAll(`link[title=${preState.theme.value}]`)
+        .forEach(item => {
+          item.disabled = true;
+        });
 
-      document.querySelector(
-        `link[title=${this.state.theme.value}]`
-      ).disabled = false;
+      document
+        .querySelectorAll(`link[title=${this.state.theme.value}]`)
+        .forEach(item => {
+          item.disabled = false;
+        });
     }
 
     if (props.location.pathname !== preProps.location.pathname) {
