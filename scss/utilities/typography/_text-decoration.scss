@@ -10,14 +10,6 @@
   }
 }
 
-.text-l-t {
-  text-decoration: line-through;
-}
-
-.text-u-l {
-  text-decoration: underline;
-}
-
 @include make-text-decoration();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {

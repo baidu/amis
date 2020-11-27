@@ -24,22 +24,6 @@
   }
 }
 
-.l-h {
-  line-height: $lineHeightBase;
-}
-
-.l-h-0x {
-  line-height: 0;
-}
-
-.l-h-1x {
-  line-height: 1.2;
-}
-
-.l-h-2x {
-  line-height: 2em;
-}
-
 @include make-line-height();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {

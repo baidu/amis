@@ -16,21 +16,6 @@
   }
 }
 
-.v-top {
-  vertical-align: top !important;
-  align-self: flex-start;
-}
-
-.v-middle {
-  vertical-align: middle !important;
-  align-self: center;
-}
-
-.v-bottom {
-  vertical-align: bottom !important;
-  align-self: flex-end;
-}
-
 @include make-vertical-align();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {

@@ -7,11 +7,6 @@
   }
 }
 
-.no-grow {
-  flex-grow: unset !important;
-  flex-basis: unset !important;
-}
-
 @include make-flex-grow();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {

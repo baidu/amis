@@ -13,22 +13,6 @@
       display: $value;
     }
   }
-
-  #{$prefix}pos-rlt {
-    position: relative;
-  }
-
-  #{$prefix}pos-stc {
-    position: static !important;
-  }
-
-  #{$prefix}pos-abt {
-    position: absolute;
-  }
-
-  #{$prefix}pos-fix {
-    position: fixed;
-  }
 }
 
 @include make-position();

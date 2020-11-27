@@ -11,12 +11,6 @@
   }
 }
 
-.word-break {
-  white-space: normal;
-  word-break: break-all;
-  word-wrap: break-word;
-}
-
 @include make-word-break();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {

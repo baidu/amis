@@ -16,18 +16,6 @@
   }
 }
 
-.l-s-1x {
-  letter-spacing: 1;
-}
-
-.l-s-2x {
-  letter-spacing: 2;
-}
-
-.l-s-3x {
-  letter-spacing: 3;
-}
-
 @include make-letter-spacing();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {
