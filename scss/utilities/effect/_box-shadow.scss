@@ -15,4 +15,5 @@
 
 @include make-box-shadow('.' + selector-escape('hover:'), ':hover');
 @include make-box-shadow('.' + selector-escape('active:'), '.is-active');
+@include make-box-shadow('.' + selector-escape('disabled:'), '.is-disabled');
 @include make-box-shadow('.group:hover .' + selector-escape('group-hover:'));

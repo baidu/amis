@@ -41,4 +41,5 @@
 
 @include text-colors('.' + selector-escape('hover:'), ':hover');
 @include text-colors('.' + selector-escape('active:'), '.is-active');
+@include text-colors('.' + selector-escape('disabled:'), '.is-disabled');
 @include text-colors('.group:hover .' + selector-escape('group-hover:'));

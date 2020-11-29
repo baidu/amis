@@ -24,6 +24,8 @@ import Select from '../../src/components/Select';
 import DocSearch from './DocSearch';
 import Doc, {docs} from './Doc';
 import Example, {examples} from './Example';
+import CssDocs, {cssDocs} from './CssDocs';
+import CSSDocs from './CssDocs';
 
 let ExamplePathPrefix = '/examples';
 let DocPathPrefix = '/docs';
@@ -33,6 +35,10 @@ if (process.env.NODE_ENV === 'production') {
   ExamplePathPrefix = '';
   DocPathPrefix = '';
   ContextPath = '/amis';
+}
+
+export function getContextPath() {
+  return ContextPath;
 }
 
 const themes = [
@@ -224,6 +230,9 @@ export class App extends React.PureComponent {
             </Link>
             <Link to={`${ContextPath}/examples`} activeClassName="is-active">
               示例
+            </Link>
+            <Link to={`${ContextPath}/style`} activeClassName="is-active">
+              样式
             </Link>
             <a
               href="https://github.com/fex-team/amis-editor-demo"
@@ -468,12 +477,19 @@ export default function entry({pathPrefix}) {
           from={`${ContextPath}/examples`}
           to={`${ContextPath}/examples/pages/simple`}
         />
+        <Redirect
+          from={`${ContextPath}/style`}
+          to={`${ContextPath}/style/index`}
+        />
 
         <Route path={`${ContextPath}/docs`} component={Doc}>
           {navigations2route(DocPathPrefix, docs)}
         </Route>
         <Route path={`${ContextPath}/examples`} component={Example}>
           {navigations2route(ExamplePathPrefix, examples)}
+        </Route>
+        <Route path={`${ContextPath}/style`} component={CSSDocs}>
+          {navigations2route(ExamplePathPrefix, cssDocs)}
         </Route>
       </Route>
 

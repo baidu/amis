@@ -46,38 +46,6 @@
   }
 }
 
-.r {
-  border-radius: $borderRadius $borderRadius $borderRadius $borderRadius;
-}
-
-.r-2x {
-  border-radius: $borderRadiusMd;
-}
-
-.r-3x {
-  border-radius: $borderRadiusLg;
-}
-
-.r-l {
-  border-radius: $borderRadius 0 0 $borderRadius;
-}
-
-.r-r {
-  border-radius: 0 $borderRadius $borderRadius 0;
-}
-
-.r-t {
-  border-radius: $borderRadius $borderRadius 0 0;
-}
-
-.r-b {
-  border-radius: 0 0 $borderRadius $borderRadius;
-}
-
-.no-radius {
-  border-radius: 0;
-}
-
 @include border-radius();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {
@@ -87,4 +55,5 @@
 
 // @include border-radius('.' + selector-escape('hover:'), ':hover');
 // @include border-radius('.' + selector-escape('active:'), '.is-active');
+// @include border-radius('.' + selector-escape('disabled:'), '.is-disabled');
 // @include border-radius('.group:hover .' + selector-escape('group-hover:'));

@@ -10,6 +10,9 @@
       }
     }
   }
+  #{$prefix}m-auto#{$suffix} {
+    margin: auto;
+  }
 }
 
 @mixin margin-negative-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
@@ -39,6 +42,11 @@
         margin-right: $value;
       }
     }
+  }
+
+  #{$prefix}m-x-auto#{$suffix} {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -75,6 +83,11 @@
         margin-bottom: $value;
       }
     }
+  }
+
+  #{$prefix}m-y-auto#{$suffix} {
+    margin-top: auto;
+    margin-bottom: auto;
   }
 }
 
@@ -252,4 +265,5 @@
 
 // @include bg-colors('.' + selector-escape('hover:'), ':hover');
 // @include bg-colors('.' + selector-escape('active:'), '.is-active');
+// @include bg-colors('.' + selector-escape('disabled:'), '.is-disabled');
 // @include bg-colors('.group:hover .' + selector-escape('group-hover:'));

@@ -110,7 +110,7 @@
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
-.markdown-body a:not(.btn) {
+/* .markdown-body a:not(.btn) {
   color: #4078c0;
   text-decoration: none;
 }
@@ -119,7 +119,7 @@
 .markdown-body a:active:not(.btn) {
   color: #4078c0;
   text-decoration: underline;
-}
+} */
 
 .markdown-body hr {
   height: 0;

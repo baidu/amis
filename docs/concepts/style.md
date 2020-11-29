@@ -10,6 +10,11 @@ order: 18
 
 amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，也可以用在自定义组件开发中，掌握这些 class, 几乎可以不用写样式。
 
+<div class="bg-pink-500 text-light shadow p-4 rounded-md hover:bg-pink-600">
+  <div class="text-lg b-b p-b-sm">注意</div>
+  <div class="p-t-xs">CSS辅助类样式做了全新的升级，请前往<a class="text-light underline hover:text-pink-300" href="/style">新版样式</a>查看使用文档。旧版本可以继续，但将不再做迭代更新。</div>
+</div>
+
 ## 基本使用
 
 例如，下面这个例子，我们内容区渲染了两个按钮，但是可以看到，两个按钮紧贴在一起，并不是很美观，于是我们想添加一定的间隔
@@ -17,7 +22,7 @@ amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，
 ```schema:height="100" scope="body"
 [
   {
-    "type": "action",
+    "type": "button",
     "label": "按钮1",
     "actionType": "dialog",
     "dialog": {
@@ -26,7 +31,7 @@ amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，
     }
   },
   {
-    "type": "action",
+    "type": "button",
     "label": "按钮2",
     "actionType": "dialog",
     "dialog": {
@@ -44,7 +49,7 @@ amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，
 ```schema:height="100" scope="body"
 [
   {
-    "type": "action",
+    "type": "button",
     "label": "按钮1",
     "actionType": "dialog",
     "dialog": {
@@ -53,7 +58,7 @@ amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，
     }
   },
   {
-    "type": "action",
+    "type": "button",
     "label": "按钮2",
     "className": "m-l",
     "actionType": "dialog",
