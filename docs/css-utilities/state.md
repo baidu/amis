@@ -8,7 +8,7 @@ title: 状态样式
 {
   "type": "button",
   "label": "按钮",
-  "className": "bg-pink-400 hover:bg-pink-600",
+  "className": "rounded-xl text-light bg-pink-400 border-pink-600 hover:bg-pink-500 hover:border-pink-800 active:bg-pink-600 active:border-pink-900",
   "actionType": "dialog",
   "dialog": {
     "title": "弹框",

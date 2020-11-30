@@ -246,23 +246,44 @@
   box-shadow: $Button-boxShadow;
 
   @include hover {
-    color: $hover-color;
-    background-color: $hover-background;
-    border-color: $hover-border;
+    @if ($color != $hover-color) {
+      color: $hover-color;
+    }
+    @if ($background != $hover-background) {
+      background-color: $hover-background;
+    }
+    @if ($border != $hover-border) {
+      border-color: $hover-border;
+    }
   }
 
-  @include focus {
-    color: $color;
-    background-color: $background;
-    border-color: $border;
-    box-shadow: $Button-boxShadow;
-  }
+  // @include focus {
+  //   color: $color;
+  //   background-color: $background;
+  //   border-color: $border;
+  //   box-shadow: $Button-boxShadow;
+  // }
 
   @include hover-focus {
-    color: $hover-color;
-    background-color: $hover-background;
-    border-color: $hover-border;
+    // color: $hover-color;
+    // background-color: $hover-background;
+    // border-color: $hover-border;
     box-shadow: $Button-boxShadow;
+  }
+
+  &:active,
+  &.is-active {
+    @if ($active-color != $color) {
+      color: $active-color;
+    }
+
+    @if ($active-background != $background) {
+      background-color: $active-background;
+    }
+
+    @if ($active-border != $border) {
+      border-color: $active-border;
+    }
   }
 
   &.is-disabled,
@@ -284,13 +305,6 @@
     } @else {
       border-color: $border;
     }
-  }
-
-  &:not(:disabled):not(.is-disabled):active,
-  &:not(:disabled):not(.is-disabled).is-active {
-    color: $active-color;
-    background-color: $active-background;
-    border-color: $active-border;
   }
 }
 

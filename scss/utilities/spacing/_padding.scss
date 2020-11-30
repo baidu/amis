@@ -118,5 +118,7 @@
 }
 // @include bg-colors('.' + selector-escape('hover:'), ':hover');
 // @include bg-colors('.' + selector-escape('active:'), '.is-active');
+// @include bg-colors('.' + selector-escape('active:'), ':active');
+// @include bg-colors('.' + selector-escape('focus:'), ':focus');
 // @include bg-colors('.' + selector-escape('disabled:'), '.is-disabled');
 // @include bg-colors('.group:hover .' + selector-escape('group-hover:'));

@@ -13,6 +13,15 @@
     min-width: $Button-mimWidth;
   }
 
+  &:active,
+  &.is-active {
+    box-shadow: $Button-onActive-boxShadow;
+
+    &:focus {
+      box-shadow: $Button-onActive-boxShadow;
+    }
+  }
+
   @include button-size(
     $Button-paddingY,
     $Button-paddingX,
@@ -23,7 +32,7 @@
   );
 
   @include hover-focus {
-    color: $text-color;
+    // color: $text-color;
     text-decoration: none;
   }
 
@@ -58,15 +67,6 @@
 
   &:not(:disabled):not(.is-disabled) {
     cursor: pointer;
-  }
-
-  &:not(:disabled):not(.is-disabled):active,
-  &:not(:disabled):not(.is-disabled).is-active {
-    box-shadow: $Button-onActive-boxShadow;
-
-    &:focus {
-      box-shadow: $Button-onActive-boxShadow;
-    }
   }
 
   > .pull-left,
