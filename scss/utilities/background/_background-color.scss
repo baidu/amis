@@ -1,9 +1,28 @@
+/*!markdown
+
+---
+title: 介绍
+---
+
+233
+
+
+*/
+
 @mixin bg-colors-map(
   $colors: $colors,
   $namePrefix: '',
   $prefix: '.',
   $suffix: ''
 ) {
+  #{$prefix}bg#{$namePrefix}-transparent#{$suffix} {
+    background-color: transparent;
+  }
+
+  #{$prefix}bg#{$namePrefix}-current#{$suffix} {
+    background-color: currentColor;
+  }
+
   @each $name, $color in $colors {
     @if (is-map($color)) {
       @include bg-colors-map($color, #{'-' + $name}, $prefix, $suffix);
@@ -25,11 +44,6 @@
   @include bg-colors-map($colors, '', $prefix, $suffix);
 }
 
-.no-bg {
-  background-color: transparent;
-  color: inherit;
-}
-
 @include bg-colors();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {
@@ -39,45 +53,5 @@
 
 @include bg-colors('.' + selector-escape('hover:'), ':hover');
 @include bg-colors('.' + selector-escape('active:'), '.is-active');
+@include bg-colors('.' + selector-escape('disabled:'), '.is-disabled');
 @include bg-colors('.group:hover .' + selector-escape('group-hover:'));
-
-// 这是原来的，看来是有些 breakchange
-// .bg-light {
-//   @include color-variant($light, 2%, 3%, 3%, 5%);
-//   color: $text-color;
-// }
-// .bg-dark {
-//   @include color-variant($dark, 5%, 10%, 5%, 10%);
-//   @include font-variant($dark);
-// }
-// .bg-black {
-//   @include color-variant($black, 5%, 10%, 5%, 10%);
-//   @include font-variant($black);
-// }
-// .bg-primary {
-//   @include color-variant($primary, 5%, 10%, 5%, 10%);
-//   @include font-variant($primary);
-// }
-// .bg-success {
-//   @include color-variant($success, 5%, 10%, 5%, 10%);
-//   @include font-variant($success);
-// }
-// .bg-info {
-//   @include color-variant($info, 5%, 10%, 5%, 10%);
-//   @include font-variant($info);
-// }
-// .bg-warning {
-//   @include color-variant($warning, 5%, 10%, 5%, 10%);
-//   @include font-variant($warning);
-// }
-// .bg-danger {
-//   @include color-variant($danger, 5%, 10%, 5%, 10%);
-//   @include font-variant($danger);
-// }
-// .bg-white {
-//   @include color-variant($white, 5%, 10%, 5%, 10%);
-//   color: $text-color;
-// }
-// .bg-none {
-//   background: none !important;
-// }

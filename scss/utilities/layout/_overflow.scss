@@ -37,20 +37,6 @@
   }
 }
 
-.scroll-x,
-.scroll-y {
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
-}
-
-.scroll-y {
-  overflow-y: auto;
-}
-
-.scroll-x {
-  overflow-x: auto;
-}
-
 @include make-overflow();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {

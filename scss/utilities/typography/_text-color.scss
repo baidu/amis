@@ -41,14 +41,5 @@
 
 @include text-colors('.' + selector-escape('hover:'), ':hover');
 @include text-colors('.' + selector-escape('active:'), '.is-active');
+@include text-colors('.' + selector-escape('disabled:'), '.is-disabled');
 @include text-colors('.group:hover .' + selector-escape('group-hover:'));
-// text colors
-
-// @include text-wariant($primary, primary);
-// @include text-wariant($info, info);
-// @include text-wariant($success, success);
-// @include text-wariant($warning, warning);
-// @include text-wariant($danger, danger);
-// @include text-wariant($dark, dark);
-// @include text-wariant($white, white);
-// @include text-wariant($black, black);

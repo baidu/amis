@@ -14,10 +14,6 @@
   }
 }
 
-.text-u-c {
-  text-transform: uppercase;
-}
-
 @include make-text-transform();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {

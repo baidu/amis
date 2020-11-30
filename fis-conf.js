@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const package = require('./package.json');
 const parserMarkdown = require('./scripts/md-parser');
+const parserCodeMarkdown = require('./scripts/code-md-parser');
 fis.get('project.ignore').push('public/**', 'npm/**', 'gh-pages/**');
 // 配置只编译哪些文件。
 
@@ -31,7 +32,8 @@ Resource.extend({
 
 fis.set('project.files', [
   'schema.json',
-  'scss/**.scss',
+  '/scss/utilities.scss',
+  '/scss/themes/*.scss',
   '/examples/*.html',
   '/examples/*.tpl',
   '/examples/static/*.png',
@@ -81,7 +83,9 @@ fis.match('/src/icons/**.svg', {
 });
 
 fis.match('_*.scss', {
-  release: false
+  parser: parserCodeMarkdown,
+  isMod: true,
+  rExt: '.js'
 });
 
 fis.match('/node_modules/**.js', {

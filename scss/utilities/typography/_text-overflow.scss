@@ -14,13 +14,6 @@
   }
 }
 
-.text-ellipsis {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 @include make-text-overflow();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {

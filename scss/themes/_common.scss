@@ -96,9 +96,4 @@
 @import '../components/form/icon-picker';
 @import '../components/form/form';
 
-// js 功能依赖这个
-@keyframes apearSensor {
-  from {
-    opacity: 0;
-  }
-}
+@import '../utilities';

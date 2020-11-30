@@ -13,9 +13,9 @@ body {
   }
 }
 
-a {
-  text-decoration: none !important;
-}
+// a {
+//   text-decoration: none !important;
+// }
 
 .page-play,
 .page-edit {
@@ -200,10 +200,13 @@ a {
           color: #333;
           padding: 0px 22px;
           font-weight: 500;
+          text-decoration: none;
 
+          &:hover,
           &.is-active {
             color: #108cee;
             position: relative;
+            text-decoration: none;
 
             &::before {
               content: '';

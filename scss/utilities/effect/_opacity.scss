@@ -34,4 +34,5 @@
 
 // @include border-radius('.' + selector-escape('hover:'), ':hover');
 // @include border-radius('.' + selector-escape('active:'), '.is-active');
+// @include border-radius('.' + selector-escape('disabled:'), '.is-disabled');
 // @include border-radius('.group:hover .' + selector-escape('group-hover:'));

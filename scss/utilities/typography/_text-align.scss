@@ -9,18 +9,6 @@
   }
 }
 
-// .text-left {
-//   text-align: left;
-// }
-
-// .text-center {
-//   text-align: center;
-// }
-
-// .text-right {
-//   text-align: right;
-// }
-
 @include make-text-align();
 @each $deivce in map-keys($devices) {
   @include media-device($deivce) {
