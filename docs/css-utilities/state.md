@@ -2,12 +2,17 @@
 title: 状态样式
 ---
 
-响应式设计目前只支持 pc 端和手机端，其他设备目前不支持，貌似也没必要支持。默认就是 pc，如果你在 css 类名前面再加个 `mobile:` 开头，就是专门给移动设备设置样式了。
+除了给默认状态设置样式外，还支持几个特定状态的样式设置比如：hover（鼠标悬停）、active（当前选中）或者 disabled（当前不可用）。
 
-```html
-<div class="text-black-500 mobile:text-red-500">
-  这是一段文字，pc 端我是黑色的，在移动端查看，我是红色的。
-</div>
+```schema:height="100" scope="body"
+{
+  "type": "button",
+  "label": "按钮",
+  "className": "bg-pink-400 hover:bg-pink-600",
+  "actionType": "dialog",
+  "dialog": {
+    "title": "弹框",
+    "body": "Hello World!"
+  }
+}
 ```
-
-几乎所有的类名都可以在开头处加个 `mobile:` 用来表示是移动端样式。

@@ -31,12 +31,6 @@ class CodePreview extends React.Component {
     const PlayGround = this.state.PlayGround;
     // 不要放在 .markdown-body 下面，因为样式会干扰，复写又麻烦，所以通过 Overlay 渲染到同级
 
-    if (this.props.viewMode === 'mobile') {
-      // 移动端下高度不能太低
-      if (height < 500) {
-        height = 500;
-      }
-    }
     return (
       <div>
         <span style={{display: 'block', height: height}} ref="span" />
@@ -129,9 +123,18 @@ class Preview extends React.Component {
 
       let dom = document.createElement('div');
       let height = props.height ? parseInt(props.height, 10) : 200;
+
+      if (this.props.viewMode === 'mobile') {
+        // 移动端下高度不能太低
+        if (height < 500) {
+          height = 500;
+        }
+      }
+
       dom.setAttribute('class', 'doc-play-ground');
       dom.setAttribute('style', `height: ${height}px;`);
-      script.parentNode.replaceChild(dom, script);
+      const origin = script.parentNode;
+      origin.parentNode.replaceChild(dom, origin);
 
       this.doms.push(dom);
       ReactDOM.unstable_renderSubtreeIntoContainer(

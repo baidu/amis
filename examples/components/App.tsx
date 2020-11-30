@@ -148,7 +148,7 @@ export class App extends React.PureComponent {
       });
 
       document
-        .querySelectorAll(`link[title=${this.state.theme.value}]`)
+        .querySelectorAll(`link[title="${this.state.theme.value}"]`)
         .forEach(item => {
           item.disabled = false;
         });
@@ -164,13 +164,13 @@ export class App extends React.PureComponent {
 
     if (preState.theme.value !== this.state.theme.value) {
       document
-        .querySelectorAll(`link[title=${preState.theme.value}]`)
+        .querySelectorAll(`link[title="${preState.theme.value}"]`)
         .forEach(item => {
           item.disabled = true;
         });
 
       document
-        .querySelectorAll(`link[title=${this.state.theme.value}]`)
+        .querySelectorAll(`link[title="${this.state.theme.value}"]`)
         .forEach(item => {
           item.disabled = false;
         });
@@ -295,15 +295,14 @@ export class App extends React.PureComponent {
 
         <div className={`${theme.ns}Layout-searchBar hidden-xs hidden-sm`}>
           <DocSearch theme={theme} />
+          <a
+            className="gh-icon"
+            href="https://github.com/baidu/amis"
+            target="_blank"
+          >
+            <i className="fa fa-github" />
+          </a>
         </div>
-
-        <a
-          className="gh-icon"
-          href="https://github.com/baidu/amis"
-          target="_blank"
-        >
-          <i className="fa fa-github" />
-        </a>
       </>
     );
   }

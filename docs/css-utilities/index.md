@@ -4,13 +4,13 @@ title: 快速开始
 
 amis 参考 [tailwindcss](https://tailwindcss.com/) 加入了大量的帮助类 css，掌握这些用法，完全不用手写 css。
 
-理念来自[tailwindcss](https://tailwindcss.com/), 不过这边做了一定的筛选，把一些不常用的用法剔除了，另外响应式方面只做了 pc 端和手机端，其他的设备并没有支持。这个文件未压缩版本大概是 300K 左右，比官方的要小很多。目前这个文件没有和主题文件合并在一起，用户可以选择性加载。
+理念来自于[tailwindcss](https://tailwindcss.com/), 不过根据我们经验分析，做了一定的筛选，把一些不常用的用法剔除了，另外响应式方面只做了 pc 端和手机端，其他的设备并没有支持。这个文件未压缩版本大概是 300K 左右，比官方的要小很多。目前这个文件没有和主题文件合并在一起，用户可以选择性加载。
 
 ```html
 <link rel="stylesheet" href="amis/lib/utilities.css" />
 ```
 
-引入这个 css 后，就可以像下面那样直接给 html 标签加类名的方式来设定样式了。
+引入这个 css 后，就可以像下面那样直接用 html 标签加类名的方式来设定样式了。
 
 ```html
 <div
@@ -65,3 +65,5 @@ amis 参考 [tailwindcss](https://tailwindcss.com/) 加入了大量的帮助类 
 - 通过 `rounded-xl` 设置圆角。
 - 通过 `text-xl`、`font-medium` 设置字体大小粗细。
 - 等等。。
+
+具体用法请查看相关章节的文档。
