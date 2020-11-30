@@ -288,22 +288,25 @@
 
   &.is-disabled,
   &:disabled {
-    @if variable-exists(Button-onDisabled-bg) {
+    @if variable-exists(Button-onDisabled-bg) and
+      $Button-onDisabled-bg !=
+      $background
+    {
       background-color: $Button-onDisabled-bg;
-    } @else {
-      background-color: $background;
     }
 
-    @if variable-exists(Button-onDisabled-color) {
+    @if variable-exists(Button-onDisabled-color) and
+      $Button-onDisabled-color !=
+      $color
+    {
       color: $Button-onDisabled-color;
-    } @else {
-      color: $color;
     }
 
-    @if variable-exists(Button-onDisabled-borderColor) {
+    @if variable-exists(Button-onDisabled-borderColor) and
+      $Button-onDisabled-borderColor !=
+      $border
+    {
       border-color: $Button-onDisabled-borderColor;
-    } @else {
-      border-color: $border;
     }
   }
 }
