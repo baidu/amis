@@ -1281,6 +1281,7 @@ export default class ImageControl extends React.Component<
                                     data-tooltip={__('查看大图')}
                                     data-position="bottom"
                                     target="_blank"
+                                    rel="noopener"
                                     href={file.url || file.preview}
                                     onClick={this.previewImage.bind(
                                       this,

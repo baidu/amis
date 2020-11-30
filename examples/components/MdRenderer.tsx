@@ -294,6 +294,7 @@ export default function (doc) {
                     ContextPath,
                     ''
                   )}.md`}
+                  rel="noopener"
                   target="_blank"
                 >
                   在 Github 上编辑此页！

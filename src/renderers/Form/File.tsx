@@ -1136,6 +1136,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                               <a
                                 className={cx('FileControl-itemInfoText')}
                                 target="_blank"
+                                rel="noopener"
                                 href={(file as FileValue).url}
                               >
                                 {file.name || (file as FileValue).filename}

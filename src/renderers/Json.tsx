@@ -1,10 +1,10 @@
 import React from 'react';
-import { Renderer, RendererProps } from '../factory';
+import {Renderer, RendererProps} from '../factory';
 
 import JSONTree from 'react-json-tree';
-import { autobind } from '../utils/helper';
-import { BaseSchema } from '../Schema';
-import { resolveVariableAndFilter, isPureVariable } from '../utils/tpl-builtin';
+import {autobind} from '../utils/helper';
+import {BaseSchema} from '../Schema';
+import {resolveVariableAndFilter, isPureVariable} from '../utils/tpl-builtin';
 /**
  * JSON 数据展示控件。
  * 文档：https://baidu.gitee.io/amis/docs/components/json
@@ -133,6 +133,7 @@ export class JSONField extends React.Component<JSONProps, object> {
       return (
         <a
           className={cx('JsonField-nodeValue')}
+          rel="noopener"
           href={raw.replace(/^\"(.*)\"$/, '$1')}
           target="_blank"
         >
@@ -144,16 +145,23 @@ export class JSONField extends React.Component<JSONProps, object> {
   }
 
   shouldExpandNode = (keyName: any, data: any, level: any) => {
-    const { levelExpand } = this.props;
+    const {levelExpand} = this.props;
     return level < levelExpand;
   };
 
   render() {
-    const { className, value, jsonTheme, classnames: cx, hideRoot, source } = this.props;
+    const {
+      className,
+      value,
+      jsonTheme,
+      classnames: cx,
+      hideRoot,
+      source
+    } = this.props;
 
     let data = value;
     if (source !== undefined && isPureVariable(source)) {
-      data = resolveVariableAndFilter(source, this.props.data, '| raw')
+      data = resolveVariableAndFilter(source, this.props.data, '| raw');
     } else if (typeof value === 'string') {
       try {
         data = JSON.parse(value);
@@ -184,4 +192,4 @@ export class JSONField extends React.Component<JSONProps, object> {
   test: /(^|\/)json$/,
   name: 'json'
 })
-export class JSONFieldRenderer extends JSONField { }
+export class JSONFieldRenderer extends JSONField {}
