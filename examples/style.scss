@@ -80,6 +80,7 @@ body {
 
   &-schema-preview {
     border: 1px solid #ddd;
+    background: $body-bg;
     // background: rgb(240, 243, 244);
     position: relative;
     height: 100%;
@@ -187,7 +188,6 @@ body {
 
     &-headerBar {
       height: 64px;
-      padding-right: 15px;
 
       &-links {
         height: 64px;
@@ -222,9 +222,9 @@ body {
     }
 
     &-searchBar {
-      width: 65px;
+      width: 55px;
       align-self: center;
-      padding-left: 15px;
+      padding-left: 10px;
 
       > a {
         cursor: pointer;

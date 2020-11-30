@@ -729,6 +729,7 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  margin-bottom: 15px;
 }
 
 .doc-play-ground .nav-tabs {
