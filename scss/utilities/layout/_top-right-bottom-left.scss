@@ -1,3 +1,19 @@
+/*!markdown
+
+---
+title: Top / Right / Bottom / Left
+---
+
+Utilities for controlling the placement of positioned elements.
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
 @mixin make-single-position(
   $selector,
   $direction,

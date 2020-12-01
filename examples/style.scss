@@ -7,6 +7,10 @@ body {
   &.dark {
     background-color: #333538 !important;
 
+    pre {
+      color: #fff;
+    }
+
     .markdown-body {
       color: #fff;
     }
@@ -87,6 +91,11 @@ body {
     width: 100%;
     // overflow: auto;
   }
+}
+
+body.dark .MDPreview-schema-preview {
+  background: #191c22;
+  color: #fff;
 }
 
 // .view-code {
@@ -938,7 +947,7 @@ body {
   }
 }
 
-.dark {
+body.dark {
   .search-result {
     background-color: #333538;
   }

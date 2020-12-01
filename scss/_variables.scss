@@ -3,7 +3,8 @@ $ns: '' !default;
 $remFactor: 16px !default;
 
 $devices: (
-  mobile: '(max-width: 767px)'
+  m: '(max-width: 768px)',
+  pc: '(min-width: 769px)'
 ) !default;
 
 // 生成颜色的工具有很多，可以参考这些链接来弄。

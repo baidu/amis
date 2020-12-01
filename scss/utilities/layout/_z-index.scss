@@ -1,3 +1,21 @@
+/*!markdown
+
+---
+title: Z-Index
+---
+
+Utilities for controlling the stack order of an element.
+
+
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
 @mixin make-z-index($prefix: '.') {
   @each $name,
     $value

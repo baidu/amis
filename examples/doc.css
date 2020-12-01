@@ -770,6 +770,11 @@
   background-color: #dbeafe;
 }
 
+body.dark .amis-doc > .preview {
+  background: #191c22;
+  color: #fff;
+}
+
 .amis-doc > pre {
   border-top-left-radius: 0;
   border-top-right-radius: 0;

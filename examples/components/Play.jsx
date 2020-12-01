@@ -354,6 +354,7 @@ export default class PlayGround extends React.Component {
   // };
 
   renderEditor() {
+    const {theme} = this.props;
     return (
       <CodeEditor
         value={this.state.schemaCode}
@@ -361,6 +362,7 @@ export default class PlayGround extends React.Component {
         // editorFactory={this.editorFactory}
         editorDidMount={this.editorDidMount}
         language="json"
+        editorTheme={theme === 'dark' ? 'vs-dark' : 'vs'}
       />
     );
   }

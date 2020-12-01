@@ -1,21 +1,53 @@
 @mixin make-box-shadow($prefix: '.', $suffix: '') {
   @each $name, $value in $boxShadows {
-    #{$prefix}shadow#{suffixName($name)}#{$suffix} {
-      box-shadow: #{$value};
+    @if $suffix == 'is-active' {
+      #{$prefix}shadow#{suffixName($name)}.is-active,
+      #{$prefix}shadow#{suffixName($name)}:active {
+        box-shadow: #{$value};
+      }
+    } @else if $suffix == 'is-disabled' {
+      #{$prefix}shadow#{suffixName($name)}.is-disabled,
+      #{$prefix}shadow#{suffixName($name)}:disabled {
+        box-shadow: #{$value};
+      }
+    } @else {
+      #{$prefix}shadow#{suffixName($name)}#{$suffix} {
+        box-shadow: #{$value};
+      }
     }
   }
 }
 
 @include make-box-shadow();
-@each $deivce in map-keys($devices) {
-  @include media-device($deivce) {
-    @include make-box-shadow('.' + selector-escape($deivce + ':'));
-  }
-}
-
 @include make-box-shadow('.' + selector-escape('hover:'), ':hover');
 @include make-box-shadow('.' + selector-escape('active:'), '.is-active');
-@include make-box-shadow('.' + selector-escape('active:'), ':active');
 @include make-box-shadow('.' + selector-escape('focus:'), ':focus');
 @include make-box-shadow('.' + selector-escape('disabled:'), '.is-disabled');
 @include make-box-shadow('.group:hover .' + selector-escape('group-hover:'));
+
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-box-shadow('.' + selector-escape($deivce + ':'));
+
+    @include make-box-shadow(
+      '.' + selector-escape($deivce + ':') + selector-escape('hover:'),
+      ':hover'
+    );
+    @include make-box-shadow(
+      '.' + selector-escape($deivce + ':') + selector-escape('active:'),
+      '.is-active'
+    );
+    @include make-box-shadow(
+      '.' + selector-escape($deivce + ':') + selector-escape('focus:'),
+      ':focus'
+    );
+    @include make-box-shadow(
+      '.' + selector-escape($deivce + ':') + selector-escape('disabled:'),
+      '.is-disabled'
+    );
+    @include make-box-shadow(
+      '.group:hover .' + selector-escape($deivce + ':') +
+        selector-escape('group-hover:')
+    );
+  }
+}

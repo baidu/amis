@@ -1,3 +1,20 @@
+/*!markdown
+
+---
+title: Clear
+---
+
+Utilities for controlling the wrapping of content around an element.
+
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
 @mixin make-clear($prefix: '.') {
   #{$prefix}clear-right {
     clear: right;

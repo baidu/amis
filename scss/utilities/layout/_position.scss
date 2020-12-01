@@ -1,3 +1,19 @@
+/*!markdown
+
+---
+title: Position
+---
+
+Utilities for controlling how an element is positioned in the DOM.
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
 @mixin make-position($prefix: '.') {
   @each $name,
     $value

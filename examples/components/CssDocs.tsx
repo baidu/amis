@@ -43,13 +43,110 @@ export const cssDocs = [
 
   {
     // prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
+    label: 'Layout',
     children: [
       {
-        label: 'CSS',
-        path: '/style/css',
+        label: 'Box Sizing',
+        path: '/style/layout/box-sizing',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/background/_background-color.scss'],
+            ['../../scss/utilities/layout/_box-sizing.scss'],
+            (doc: any) => {
+              cb(null, makeMarkdownRenderer(doc));
+            }
+          )
+      },
+
+      {
+        label: 'Display',
+        path: '/style/layout/display',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(
+            ['../../scss/utilities/layout/_display.scss'],
+            (doc: any) => {
+              cb(null, makeMarkdownRenderer(doc));
+            }
+          )
+      },
+
+      {
+        label: 'Floats',
+        path: '/style/layout/floats',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(
+            ['../../scss/utilities/layout/_float.scss'],
+            (doc: any) => {
+              cb(null, makeMarkdownRenderer(doc));
+            }
+          )
+      },
+
+      {
+        label: 'Clear',
+        path: '/style/layout/clear',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(
+            ['../../scss/utilities/layout/_clear.scss'],
+            (doc: any) => {
+              cb(null, makeMarkdownRenderer(doc));
+            }
+          )
+      },
+
+      {
+        label: 'Overflow',
+        path: '/style/layout/overflow',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(
+            ['../../scss/utilities/layout/_overflow.scss'],
+            (doc: any) => {
+              cb(null, makeMarkdownRenderer(doc));
+            }
+          )
+      },
+
+      {
+        label: 'Position',
+        path: '/style/layout/position',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(
+            ['../../scss/utilities/layout/_position.scss'],
+            (doc: any) => {
+              cb(null, makeMarkdownRenderer(doc));
+            }
+          )
+      },
+
+      {
+        label: 'Top / Right / Bottom / Left',
+        path: '/style/layout/top-right-bottom-left',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(
+            ['../../scss/utilities/layout/_top-right-bottom-left.scss'],
+            (doc: any) => {
+              cb(null, makeMarkdownRenderer(doc));
+            }
+          )
+      },
+
+      {
+        label: 'Visibility',
+        path: '/style/layout/visibility',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(
+            ['../../scss/utilities/layout/_Visibility.scss'],
+            (doc: any) => {
+              cb(null, makeMarkdownRenderer(doc));
+            }
+          )
+      },
+
+      {
+        label: 'Z-Index',
+        path: '/style/layout/z-index',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(
+            ['../../scss/utilities/layout/_z-index.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }

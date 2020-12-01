@@ -1,3 +1,19 @@
+/*!markdown
+
+---
+title: Overflow
+---
+
+Utilities for controlling how an element handles content that is too large for the container.
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
 @mixin make-overflow($prefix: '.') {
   #{$prefix}overflow-auto {
     overflow: auto;

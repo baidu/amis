@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {render} from '../../src/index';
+import {getTheme, render} from '../../src/index';
 import axios from 'axios';
 import TitleBar from '../../src/components/TitleBar';
 import LazyComponent from '../../src/components/LazyComponent';
@@ -58,6 +58,18 @@ class CodePreview extends React.Component {
   }
 }
 
+function eachDom(dom: HTMLElement, iterator: (dom: HTMLElement) => void) {
+  if (!dom) {
+    return;
+  }
+
+  iterator(dom);
+
+  if (dom.children && dom.children.length) {
+    [].slice.call(dom.children).forEach(dom => eachDom(dom, iterator));
+  }
+}
+
 class Preview extends React.Component {
   static displayName = 'MarkdownRenderer';
   ref = null;
@@ -70,6 +82,7 @@ class Preview extends React.Component {
 
   componentDidMount() {
     this.renderSchema();
+    this.fixHtmlPreview();
 
     if (location.hash && location.hash.length > 1) {
       // 禁用自动跳转
@@ -86,6 +99,8 @@ class Preview extends React.Component {
 
   componentDidUpdate() {
     this.renderSchema();
+
+    this.fixHtmlPreview();
   }
 
   componentWillUnmount() {
@@ -152,6 +167,26 @@ class Preview extends React.Component {
         dom
       );
     }
+  }
+
+  fixHtmlPreview() {
+    const htmlPreviews = document.querySelectorAll('.amis-doc>.preview');
+    if (!htmlPreviews && !htmlPreviews.length) {
+      return;
+    }
+    const ns = getTheme((this.props as any).theme)?.classPrefix;
+    htmlPreviews.forEach(dom => {
+      eachDom(dom as HTMLElement, dom => {
+        if (typeof dom.className !== 'string') {
+          return;
+        }
+
+        dom.className = dom.className.replace(
+          /(^|\s)([A-Z])/g,
+          '$1' + ns + '$2'
+        );
+      });
+    });
   }
 
   render() {

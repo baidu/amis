@@ -7,6 +7,16 @@
   @each $name, $color in $colors {
     @if (is-map($color)) {
       @include text-colors-map($color, #{'-' + $name}, $prefix, $suffix);
+    } @else if $suffix == 'is-active' {
+      #{$prefix}text#{$namePrefix}-#{'' + $name}.is-active,
+      #{$prefix}text#{$namePrefix}-#{'' + $name}:active {
+        color: $color;
+      }
+    } @else if $suffix == 'is-disabled' {
+      #{$prefix}text#{$namePrefix}-#{'' + $name}.is-disabled,
+      #{$prefix}text#{$namePrefix}-#{'' + $name}:disabled {
+        color: $color;
+      }
     } @else {
       #{$prefix}text#{$namePrefix}-#{'' + $name}#{$suffix} {
         color: $color;
@@ -33,15 +43,35 @@
 }
 
 @include text-colors();
-@each $deivce in map-keys($devices) {
-  @include media-device($deivce) {
-    @include text-colors('.' + selector-escape($deivce + ':'));
-  }
-}
-
 @include text-colors('.' + selector-escape('hover:'), ':hover');
 @include text-colors('.' + selector-escape('active:'), '.is-active');
-@include text-colors('.' + selector-escape('active:'), ':active');
 @include text-colors('.' + selector-escape('focus:'), ':focus');
 @include text-colors('.' + selector-escape('disabled:'), '.is-disabled');
 @include text-colors('.group:hover .' + selector-escape('group-hover:'));
+
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include text-colors('.' + selector-escape($deivce + ':'));
+
+    @include text-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('hover:'),
+      ':hover'
+    );
+    @include text-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('active:'),
+      '.is-active'
+    );
+    @include text-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('focus:'),
+      ':focus'
+    );
+    @include text-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('disabled:'),
+      '.is-disabled'
+    );
+    @include text-colors(
+      '.group:hover .' + selector-escape($deivce + ':') +
+        selector-escape('group-hover:')
+    );
+  }
+}
