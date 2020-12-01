@@ -800,7 +800,7 @@ export default class Table extends React.Component<TableProps, object> {
           (item: HTMLElement) => {
             const width = widths[item.getAttribute('data-index') as string];
 
-            item.style.cssText += `width: ${width}px`;
+            item.style.cssText += `width: ${width}px; height: ${heights.header}px`;
             totalWidth += width;
           }
         );
