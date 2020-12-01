@@ -14,6 +14,6 @@ title: 响应式设计
 {
   "type": "tpl",
   "className": "text-blue-500 m:text-red-500",
-  "tpl": "这是一段文字，pc 端是蓝色的，在移动端查是红色的。"
+  "tpl": "这是一段文字，pc 端是蓝色的，在移动端查看是红色的。"
 }
 ```
