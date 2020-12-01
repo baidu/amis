@@ -789,23 +789,6 @@ export default class Table extends React.Component<TableProps, object> {
     const dom = findDOMNode(this) as HTMLElement;
 
     forEach(
-      dom.querySelectorAll(`.${ns}Table-fixedLeft, .${ns}Table-fixedRight`),
-      (item: HTMLElement) =>
-        item.parentNode === dom &&
-        (item.style.cssText += `height:${this.totalHeight}px;`)
-    );
-
-    if (affixHeader) {
-      (dom.querySelector(
-        `.${ns}Table-fixedTop>.${ns}Table-wrapper`
-      ) as HTMLElement).style.cssText += `width: ${this.outterWidth}px`;
-      let affixedTable = dom.querySelector(
-        `.${ns}Table-wrapper table`
-      ) as HTMLElement;
-      affixedTable.style.cssText += `width: ${this.totalWidth}px`;
-    }
-
-    forEach(
       dom.querySelectorAll(
         `.${ns}Table-fixedTop table, .${ns}Table-fixedLeft table, .${ns}Table-fixedRight table`
       ),
@@ -815,16 +798,9 @@ export default class Table extends React.Component<TableProps, object> {
         forEach(
           table.querySelectorAll('thead>tr:last-child>th'),
           (item: HTMLElement) => {
-            const width = this.widths[
-              parseInt(item.getAttribute('data-index') as string, 10)
-            ];
+            const width = widths[item.getAttribute('data-index') as string];
 
-            const style = getComputedStyle(item);
-            const borderWidth =
-              (parseInt(style.getPropertyValue('border-left-width'), 10) || 0) +
-              (parseInt(style.getPropertyValue('border-right-width'), 10) || 0);
-
-            item.style.cssText += `width: ${width - borderWidth}px`;
+            item.style.cssText += `width: ${width}px`;
             totalWidth += width;
           }
         );
@@ -832,13 +808,19 @@ export default class Table extends React.Component<TableProps, object> {
         forEach(
           table.querySelectorAll('tbody>tr'),
           (item: HTMLElement, index) => {
-            item.style.cssText += `height: ${this.heights[index]}px`;
+            item.style.cssText += `height: ${heights[index]}px`;
           }
         );
 
         table.style.cssText += `width: ${totalWidth}px;table-layout: fixed;`;
       }
     );
+
+    if (affixHeader) {
+      (dom.querySelector(
+        `.${ns}Table-fixedTop>.${ns}Table-wrapper`
+      ) as HTMLElement).style.cssText += `width: ${this.outterWidth}px`;
+    }
 
     this.lastScrollLeft = -1;
     this.handleOutterScroll();
@@ -953,19 +935,27 @@ export default class Table extends React.Component<TableProps, object> {
       'tr[data-index]'
     ) as HTMLElement;
 
+    if (!tr) {
+      return;
+    }
+
+    const {store, affixColumns, itemActions} = this.props;
+
     if (
-      !tr ||
-      !this.props.itemActions ||
-      !this.props.itemActions.filter(item => !item.hiddenOnHover).length
+      (affixColumns === false ||
+        (store.leftFixedColumns.length === 0 &&
+          store.rightFixedColumns.length === 0)) &&
+      (!itemActions || !itemActions.filter(item => !item.hiddenOnHover).length)
     ) {
       return;
     }
 
-    const store = this.props.store;
     const index = parseInt(tr.getAttribute('data-index') as string, 10);
-    if (store.hoverIndex !== index) {
-      store.rows.forEach((item, key) => item.setIsHover(index === key));
+
+    if (store.hoverIndex === index) {
+      return;
     }
+    store.rows.forEach((item, key) => item.setIsHover(index === key));
   }
 
   handleMouseLeave() {
@@ -2184,15 +2174,14 @@ export default class Table extends React.Component<TableProps, object> {
 
   renderItemActions() {
     const {itemActions, render, store, classnames: cx} = this.props;
-    const finnalActions = Array.isArray(itemActions)
+    const finalActions = Array.isArray(itemActions)
       ? itemActions.filter(action => !action.hiddenOnHover)
       : [];
 
-    const rowIndex = store.hoverIndex;
-    if (!~rowIndex || !finnalActions.length) {
+    if (!finalActions.length) {
       return null;
     }
-
+    const rowIndex = store.hoverIndex;
     const heights = this.heights;
     let height = 40;
     let top = 0;
@@ -2214,7 +2203,7 @@ export default class Table extends React.Component<TableProps, object> {
         }}
       >
         <div className={cx('Table-itemActions')}>
-          {finnalActions.map((action, index) =>
+          {finalActions.map((action, index) =>
             render(
               `itemAction/${index}`,
               {
@@ -2302,7 +2291,10 @@ export default class Table extends React.Component<TableProps, object> {
           className={cx('Table-contentWrap')}
           onMouseLeave={this.handleMouseLeave}
         >
-          <div className={cx('Table-fixedLeft')}>
+          <div
+            className={cx('Table-fixedLeft')}
+            onMouseMove={this.handleMouseMove}
+          >
             {affixColumns !== false && store.leftFixedColumns.length
               ? this.renderFixedColumns(
                   store.rows,
@@ -2312,7 +2304,10 @@ export default class Table extends React.Component<TableProps, object> {
                 )
               : null}
           </div>
-          <div className={cx('Table-fixedRight')}>
+          <div
+            className={cx('Table-fixedRight')}
+            onMouseMove={this.handleMouseMove}
+          >
             {affixColumns !== false && store.rightFixedColumns.length
               ? this.renderFixedColumns(
                   store.rows,
