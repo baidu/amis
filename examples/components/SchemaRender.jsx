@@ -50,6 +50,23 @@ export default function (schema) {
           updateLocation: (location, replace) => {
             router[replace ? 'replace' : 'push'](normalizeLink(location));
           },
+          jumpTo: (to, action) => {
+            if (to === 'goBack') {
+              return router.location.goBack();
+            }
+            to = normalizeLink(to);
+            if (action && action.actionType === 'url') {
+              action.blank === false
+                ? (window.location.href = to)
+                : window.open(to);
+              return;
+            }
+            if (/^https?:\/\//.test(to)) {
+              window.location.replace(to);
+            } else {
+              router.push(to);
+            }
+          },
           isCurrentUrl: to => {
             const link = normalizeLink(to);
             return router.isActive(link);
