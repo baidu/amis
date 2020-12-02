@@ -798,4 +798,31 @@ export class TreeSelector extends React.Component<
   }
 }
 
+/**
+ * 查找某个值的所有祖先节点
+ * @param ancestors
+ * @param options
+ * @param value
+ */
+export function findAncestorsWithValue(
+  ancestors: any[],
+  options: any[],
+  value: any
+) {
+  for (let option of options) {
+    if (option.value === value) {
+      return true;
+    }
+    // 如果没有就在 children 中查找
+    if (option.children) {
+      const inChild = findAncestorsWithValue(ancestors, option.children, value);
+      if (inChild) {
+        ancestors.unshift(option);
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 export default themeable(localeable(TreeSelector));
