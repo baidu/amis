@@ -1,12 +1,13 @@
 ---
 title: City 城市选择器
-description: 
+description:
 type: 0
 group: null
 menuName: City
-icon: 
+icon:
 order: 10
 ---
+
 城市选择器，可用于让用户输入城市。
 
 ## 基本用法
@@ -20,7 +21,8 @@ order: 10
         {
             "name": "city",
             "type": "city",
-            "label": "城市"
+            "label": "城市",
+            "searchable": true
         }
     ]
 }
@@ -73,13 +75,9 @@ order: 10
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名        | 类型      | 默认值 | 说明                                                                                                                  |
-| ------------- | --------- | ------ | --------------------------------------------------------------------------------------------------------------------- |
-| allowCity     | `boolean` | `true` | 允许选择城市                                                                                                          |
-| allowDistrict | `boolean` | `true` | 允许选择区域                                                                                                          |
-| extractValue  | `boolean` | `true` | 默认 `true` 是否抽取值，如果设置成 `false` 值格式会变成对象，包含 `code`、`province`、`city` 和 `district` 文字信息。 |
-
-
-
-
-
+| 属性名        | 类型      | 默认值  | 说明                                                                                                                  |
+| ------------- | --------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| allowCity     | `boolean` | `true`  | 允许选择城市                                                                                                          |
+| allowDistrict | `boolean` | `true`  | 允许选择区域                                                                                                          |
+| searchable    | `boolean` | `false` | 是否出搜索框                                                                                                          |
+| extractValue  | `boolean` | `true`  | 默认 `true` 是否抽取值，如果设置成 `false` 值格式会变成对象，包含 `code`、`province`、`city` 和 `district` 文字信息。 |
