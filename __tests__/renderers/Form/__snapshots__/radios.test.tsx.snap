@@ -15,7 +15,9 @@ exports[`Renderer:radios 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,6 +30,7 @@ exports[`Renderer:radios 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -95,6 +98,7 @@ exports[`Renderer:radios 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -104,7 +108,7 @@ exports[`Renderer:radios 1`] = `
             </span>
           </label>
           <div
-            class="form-control-static"
+            class="a-Form-static"
           >
             <div
               class="a-Form-control"
@@ -112,10 +116,12 @@ exports[`Renderer:radios 1`] = `
               <span
                 class="a-TplField"
               >
-                <span
-                  class="text-muted"
-                >
-                  -
+                <span>
+                  <span
+                    class="text-muted"
+                  >
+                    -
+                  </span>
                 </span>
               </span>
             </div>
@@ -181,7 +187,9 @@ exports[`Renderer:radios 2`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -194,6 +202,7 @@ exports[`Renderer:radios 2`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -261,6 +270,7 @@ exports[`Renderer:radios 2`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -270,7 +280,7 @@ exports[`Renderer:radios 2`] = `
             </span>
           </label>
           <div
-            class="form-control-static"
+            class="a-Form-static"
           >
             <div
               class="a-Form-control"
@@ -278,10 +288,8 @@ exports[`Renderer:radios 2`] = `
               <span
                 class="a-TplField"
               >
-                <span
-                  class="text-muted"
-                >
-                  -
+                <span>
+                  a
                 </span>
               </span>
             </div>

@@ -15,7 +15,9 @@ exports[`Renderer:button-toolbar 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,6 +30,7 @@ exports[`Renderer:button-toolbar 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <div
             class="a-ButtonToolbar a-Form-control"
@@ -118,7 +121,9 @@ exports[`Renderer:button-toolbar 2`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -131,6 +136,7 @@ exports[`Renderer:button-toolbar 2`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <div
             class="a-ButtonToolbar a-Form-control"

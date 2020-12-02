@@ -23,18 +23,25 @@ exports[`Renderer:Page 1`] = `
             <span
               className="a-TplField"
             >
-              This is Title
+              <span>
+                This is Title
+              </span>
             </span>
             <div
               className="a-Remark a-Remark--warning"
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
             >
-              <i
-                className="a-Remark-icon fa fa-question-circle"
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              />
+              <span
+                className="a-Remark-icon icon"
+              >
+                <icon-mock
+                  className=" icon-question-mark"
+                  icon="question-mark"
+                />
+              </span>
             </div>
           </h2>
           <small
@@ -43,7 +50,9 @@ exports[`Renderer:Page 1`] = `
             <span
               className="a-TplField"
             >
-              This is SubTitle
+              <span>
+                This is SubTitle
+              </span>
             </span>
           </small>
         </div>
@@ -53,7 +62,9 @@ exports[`Renderer:Page 1`] = `
           <span
             className="a-TplField"
           >
-            This is toolbar
+            <span>
+              This is toolbar
+            </span>
           </span>
         </div>
       </div>
@@ -63,7 +74,9 @@ exports[`Renderer:Page 1`] = `
         <span
           className="a-TplField"
         >
-          This is body
+          <span>
+            This is body
+          </span>
         </span>
       </div>
     </div>
@@ -82,7 +95,9 @@ exports[`Renderer:Page classNames 1`] = `
     <div
       className="a-TplField a-Page-asideTplWrapper"
     >
-      This is aside
+      <span>
+        This is aside
+      </span>
     </div>
   </div>
   <div
@@ -103,18 +118,25 @@ exports[`Renderer:Page classNames 1`] = `
             <span
               className="a-TplField"
             >
-              This is Title
+              <span>
+                This is Title
+              </span>
             </span>
             <div
               className="a-Remark a-Remark--warning"
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onMouseOut={[Function]}
+              onMouseOver={[Function]}
             >
-              <i
-                className="a-Remark-icon fa fa-question-circle"
-                onBlur={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
-              />
+              <span
+                className="a-Remark-icon icon"
+              >
+                <icon-mock
+                  className=" icon-question-mark"
+                  icon="question-mark"
+                />
+              </span>
             </div>
           </h2>
           <small
@@ -123,7 +145,9 @@ exports[`Renderer:Page classNames 1`] = `
             <span
               className="a-TplField"
             >
-              This is SubTitle
+              <span>
+                This is SubTitle
+              </span>
             </span>
           </small>
         </div>
@@ -133,7 +157,9 @@ exports[`Renderer:Page classNames 1`] = `
           <span
             className="a-TplField"
           >
-            This is toolbar
+            <span>
+              This is toolbar
+            </span>
           </span>
         </div>
       </div>
@@ -143,7 +169,9 @@ exports[`Renderer:Page classNames 1`] = `
         <span
           className="a-TplField"
         >
-          This is body
+          <span>
+            This is body
+          </span>
         </span>
       </div>
     </div>
@@ -186,7 +214,9 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
           <span
             class="a-TplField"
           >
-            The variable a is 6
+            <span>
+              The variable a is 6
+            </span>
           </span>
         </div>
       </div>
@@ -224,7 +254,9 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
           <span
             class="a-TplField"
           >
-            The variable a is 6
+            <span>
+              The variable a is 6
+            </span>
           </span>
         </div>
       </div>
@@ -268,7 +300,9 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
           <span
             class="a-TplField"
           >
-            The variable a is 6
+            <span>
+              The variable a is 6
+            </span>
           </span>
         </div>
       </div>
@@ -370,7 +404,9 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
           <span
             class="a-TplField"
           >
-            The variable a is 
+            <span>
+              The variable a is 
+            </span>
           </span>
         </div>
       </div>
@@ -408,7 +444,9 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
           <span
             class="a-TplField"
           >
-            The variable a is 3
+            <span>
+              The variable a is 3
+            </span>
           </span>
         </div>
       </div>
@@ -510,7 +548,9 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
           <span
             class="a-TplField"
           >
-            The variable a is 
+            <span>
+              The variable a is 
+            </span>
           </span>
         </div>
       </div>
@@ -548,7 +588,9 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
           <span
             class="a-TplField"
           >
-            The variable a is 3
+            <span>
+              The variable a is 3
+            </span>
           </span>
         </div>
       </div>
@@ -580,7 +622,9 @@ exports[`Renderer:Page initApi 1`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 2
+          <span>
+            The variable value is 2
+          </span>
         </span>
       </div>
     </div>
@@ -617,7 +661,7 @@ exports[`Renderer:Page initApi error show Message 1`] = `
             type="button"
           >
             <icon-mock
-              className="icon"
+              className="icon icon-close"
               icon="close"
             />
           </button>
@@ -652,7 +696,9 @@ exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 1
+          <span>
+            The variable value is 1
+          </span>
         </span>
       </div>
     </div>
@@ -677,7 +723,9 @@ exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 2
+          <span>
+            The variable value is 2
+          </span>
         </span>
       </div>
     </div>
@@ -720,7 +768,9 @@ exports[`Renderer:Page initApi reload by Dialog action 1`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 1
+            <span>
+              The variable value is 1
+            </span>
           </span>
         </div>
       </div>
@@ -758,7 +808,9 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 1
+            <span>
+              The variable value is 1
+            </span>
           </span>
         </div>
       </div>
@@ -796,7 +848,9 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 2
+            <span>
+              The variable value is 2
+            </span>
           </span>
         </div>
       </div>
@@ -840,7 +894,9 @@ exports[`Renderer:Page initApi reload by Drawer action 1`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 1
+            <span>
+              The variable value is 1
+            </span>
           </span>
         </div>
       </div>
@@ -878,7 +934,9 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 1
+            <span>
+              The variable value is 1
+            </span>
           </span>
         </div>
       </div>
@@ -922,7 +980,9 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 2
+            <span>
+              The variable value is 2
+            </span>
           </span>
         </div>
       </div>
@@ -958,7 +1018,9 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
                 <span
                   class="a-TplField"
                 >
-                  表单
+                  <span>
+                    表单
+                  </span>
                 </span>
               </h3>
             </div>
@@ -971,6 +1033,7 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
               >
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <div
                     class="a-Form-control a-TextControl"
@@ -1058,7 +1121,9 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 1
+            <span>
+              The variable value is 1
+            </span>
           </span>
         </div>
       </div>
@@ -1094,7 +1159,9 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                 <span
                   class="a-TplField"
                 >
-                  表单
+                  <span>
+                    表单
+                  </span>
                 </span>
               </h3>
             </div>
@@ -1107,6 +1174,7 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
               >
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <div
                     class="a-Form-control a-TextControl"
@@ -1194,7 +1262,9 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 2
+            <span>
+              The variable value is 2
+            </span>
           </span>
         </div>
       </div>
@@ -1238,7 +1308,9 @@ exports[`Renderer:Page initApi reload by action 1`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 1
+            <span>
+              The variable value is 1
+            </span>
           </span>
         </div>
       </div>
@@ -1282,7 +1354,9 @@ exports[`Renderer:Page initApi reload by action 2`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 2
+            <span>
+              The variable value is 2
+            </span>
           </span>
         </div>
       </div>
@@ -1314,7 +1388,9 @@ exports[`Renderer:Page initApi show loading 1`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 
+          <span>
+            The variable value is 
+          </span>
         </span>
       </div>
     </div>
@@ -1345,7 +1421,9 @@ exports[`Renderer:Page initApi show loading 2`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 3
+          <span>
+            The variable value is 3
+          </span>
         </span>
       </div>
     </div>
@@ -1376,7 +1454,9 @@ exports[`Renderer:Page initApi silentPolling 1`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 
+          <span>
+            The variable value is 
+          </span>
         </span>
       </div>
     </div>
@@ -1407,7 +1487,9 @@ exports[`Renderer:Page initApi silentPolling 2`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 3
+          <span>
+            The variable value is 3
+          </span>
         </span>
       </div>
     </div>
@@ -1432,7 +1514,9 @@ exports[`Renderer:Page initApi silentPolling 3`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 3
+          <span>
+            The variable value is 3
+          </span>
         </span>
       </div>
     </div>
@@ -1457,7 +1541,9 @@ exports[`Renderer:Page initApi silentPolling 4`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 4
+          <span>
+            The variable value is 4
+          </span>
         </span>
       </div>
     </div>
@@ -1482,7 +1568,9 @@ exports[`Renderer:Page initData 1`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 1
+          <span>
+            The variable value is 1
+          </span>
         </span>
       </div>
     </div>
@@ -1513,7 +1601,9 @@ exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes 
         <span
           className="a-TplField"
         >
-          The variable value is 6
+          <span>
+            The variable value is 6
+          </span>
         </span>
       </div>
     </div>
@@ -1538,7 +1628,9 @@ exports[`Renderer:Page location query 1`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 5
+          <span>
+            The variable value is 5
+          </span>
         </span>
       </div>
     </div>
@@ -1563,7 +1655,9 @@ exports[`Renderer:Page location query 2`] = `
         <span
           className="a-TplField"
         >
-          The variable value is 6
+          <span>
+            The variable value is 6
+          </span>
         </span>
       </div>
     </div>

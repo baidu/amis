@@ -8,9 +8,14 @@ exports[`Renderer:dropdown-button 1`] = `
     <button
       class="a-Button show a-Button--primary"
     >
-      <i
-        class="a-DropDown-caret fa fa-angle-down"
-      />
+      <span
+        class="a-DropDown-caret"
+      >
+        <icon-mock
+          classname="icon icon-caret"
+          icon="caret"
+        />
+      </span>
     </button>
     <ul
       class="a-DropDown-menu"
@@ -42,9 +47,14 @@ exports[`Renderer:dropdown-button 2`] = `
     <button
       class="a-Button show a-Button--primary"
     >
-      <i
-        class="a-DropDown-caret fa fa-angle-down"
-      />
+      <span
+        class="a-DropDown-caret"
+      >
+        <icon-mock
+          classname="icon icon-caret"
+          icon="caret"
+        />
+      </span>
     </button>
   </div>
 </div>

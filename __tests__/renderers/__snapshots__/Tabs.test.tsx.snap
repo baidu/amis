@@ -35,9 +35,11 @@ exports[`Renderer:tabs 1`] = `
         <span
           class="a-TplField"
         >
-          <p>
-            tab1 内容
-          </p>
+          <span>
+            <p>
+              tab1 内容
+            </p>
+          </span>
         </span>
       </div>
     </div>

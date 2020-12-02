@@ -20,7 +20,9 @@ exports[`Renderer:alert 1`] = `
             <span
               class="a-TplField"
             >
-              提示内容
+              <span>
+                提示内容
+              </span>
             </span>
           </div>
         </div>

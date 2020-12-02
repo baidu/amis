@@ -3,17 +3,21 @@
 exports[`Renderer:each 1`] = `
 <div>
   <div
-    class="show"
+    class="a-Each show"
   >
     <span
       class="a-TplField"
     >
-      jack
+      <span>
+        jack
+      </span>
     </span>
     <span
       class="a-TplField"
     >
-      martin
+      <span>
+        martin
+      </span>
     </span>
   </div>
 </div>

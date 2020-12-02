@@ -35,7 +35,9 @@ exports[`api:cache 1`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 1
+            <span>
+              The variable value is 1
+            </span>
           </span>
         </div>
       </div>
@@ -79,7 +81,9 @@ exports[`api:cache 2`] = `
           <span
             class="a-TplField"
           >
-            The variable value is 1
+            <span>
+              The variable value is 1
+            </span>
           </span>
         </div>
       </div>
