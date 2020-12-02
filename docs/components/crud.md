@@ -552,9 +552,9 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 例如上例中，配置`{ perPage: 50 }`，指定分页的默认每页数据条数为 50 条。
 
-## 数据源接口轮训
+## 数据源接口轮询
 
-可以配置`interval`来实现数据接口轮训功能，默认最低为`3000`毫秒，
+可以配置`interval`来实现数据接口轮询功能，默认最低为`3000`毫秒，
 
 ```schema:height="600" scope="body"
 {
@@ -590,7 +590,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 }
 ```
 
-配置`stopAutoRefreshWhen`表达式，来实现满足条件，停止轮训
+配置`stopAutoRefreshWhen`表达式，来实现满足条件，停止轮询
 
 ## 列配置
 

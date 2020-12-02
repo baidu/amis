@@ -373,9 +373,9 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 }
 ```
 
-### 轮训初始化请求
+### 轮询初始化请求
 
-Form 支持轮训初始化接口，步骤如下：
+Form 支持轮询初始化接口，步骤如下：
 
 1. 配置`initApi`
 2. 配置 `interval`：单位为`ms`，最低值`3000`，低于该值按`3000`处理
@@ -396,7 +396,7 @@ Form 支持轮训初始化接口，步骤如下：
   }
 ```
 
-如果希望在满足某个条件的情况下停止轮训，配置`stopAutoRefreshWhen`表达式。
+如果希望在满足某个条件的情况下停止轮询，配置`stopAutoRefreshWhen`表达式。
 
 ```schema:height="300" scope="body"
 {
@@ -580,9 +580,9 @@ Form 支持轮训初始化接口，步骤如下：
 2. 为行为按钮配置`"actionType": "submit"`
 3. 配置`"type": "submit"`的按钮
 
-### 轮训提交请求
+### 轮询提交请求
 
-通过设置`asyncApi`，当表单提交发送保存接口后，还会继续轮训请求该接口，默认间隔为`3秒`，直到返回 `finished` 属性为 `true` 才 结束。
+通过设置`asyncApi`，当表单提交发送保存接口后，还会继续轮询请求该接口，默认间隔为`3秒`，直到返回 `finished` 属性为 `true` 才 结束。
 
 ```schema:height="330" scope="body"
 {
@@ -605,7 +605,7 @@ Form 支持轮训初始化接口，步骤如下：
   }
 ```
 
-如果决定结束轮训的标识字段名不是 `finished`，请设置`finishedField`属性，比如：`"finishedField": "is_success"`
+如果决定结束轮询的标识字段名不是 `finished`，请设置`finishedField`属性，比如：`"finishedField": "is_success"`
 
 ## 重置表单
 
@@ -850,13 +850,13 @@ Form 支持轮训初始化接口，步骤如下：
 | interval                    | `number`                     | `3000`                                                                 | 刷新时间(最低 3000)                                                                                                                                                                                                                                                                                                                                          |
 | silentPolling               | `boolean`                    | `false`                                                                | 配置刷新时是否显示加载动画                                                                                                                                                                                                                                                                                                                                   |
 | stopAutoRefreshWhen         | `string`                     | `""`                                                                   | 通过[表达式](./Types.md#表达式) 来配置停止刷新的条件                                                                                                                                                                                                                                                                                                         |
-| initAsyncApi                | [API](../../types/api)       |                                                                        | Form 用来获取初始数据的 api,与 initApi 不同的是，会一直轮训请求该接口，直到返回 finished 属性为 true 才 结束。                                                                                                                                                                                                                                               |
+| initAsyncApi                | [API](../../types/api)       |                                                                        | Form 用来获取初始数据的 api,与 initApi 不同的是，会一直轮询请求该接口，直到返回 finished 属性为 true 才 结束。                                                                                                                                                                                                                                               |
 | initFetch                   | `boolean`                    | `true`                                                                 | 设置了 initApi 或者 initAsyncApi 后，默认会开始就发请求，设置为 false 后就不会起始就请求接口                                                                                                                                                                                                                                                                 |
 | initFetchOn                 | `string`                     |                                                                        | 用表达式来配置                                                                                                                                                                                                                                                                                                                                               |
 | initFinishedField           | `string`                     | `finished`                                                             | 设置了 initAsyncApi 后，默认会从返回数据的 data.finished 来判断是否完成，也可以设置成其他的 xxx，就会从 data.xxx 中获取                                                                                                                                                                                                                                      |
 | initCheckInterval           | `number`                     | `3000`                                                                 | 设置了 initAsyncApi 以后，默认拉取的时间间隔                                                                                                                                                                                                                                                                                                                 |
-| asyncApi                    | [API](../../types/api)       |                                                                        | 设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 `finished` 属性为 `true` 才 结束。                                                                                                                                                                                                                                                    |
-| checkInterval               | `number`                     | 3000                                                                   | 轮训请求的时间间隔，默认为 3 秒。设置 `asyncApi` 才有效                                                                                                                                                                                                                                                                                                      |
+| asyncApi                    | [API](../../types/api)       |                                                                        | 设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 `finished` 属性为 `true` 才 结束。                                                                                                                                                                                                                                                    |
+| checkInterval               | `number`                     | 3000                                                                   | 轮询请求的时间间隔，默认为 3 秒。设置 `asyncApi` 才有效                                                                                                                                                                                                                                                                                                      |
 | finishedField               | `string`                     | `"finished"`                                                           | 如果决定结束的字段名不是 `finished` 请设置此属性，比如 `is_success`                                                                                                                                                                                                                                                                                          |
 | submitOnChange              | `boolean`                    | `false`                                                                | 表单修改即提交                                                                                                                                                                                                                                                                                                                                               |
 | submitOnInit                | `boolean`                    | `false`                                                                | 初始就提交一次                                                                                                                                                                                                                                                                                                                                               |
