@@ -142,7 +142,7 @@ order: 14
 > - `form`组件中的`initApi`；
 > - `select`组件中的`source`选项源接口`url`, `data`只能用于主动联动；
 > - `service`组件中的`api`和`schemaApi`；
-> - `crud`组件中的`api`；
+> - `crud`组件中的`api`；（crud 默认是跟地址栏联动，如果要做请关闭同步地址栏 syncLocation: false）
 > - 等等...
 
 #### 配置请求条件
