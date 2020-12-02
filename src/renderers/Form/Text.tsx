@@ -125,7 +125,14 @@ export default class TextControl extends React.PureComponent<
   }
 
   componentDidMount() {
-    const {formItem, autoComplete, addHook, formInited, data} = this.props;
+    const {
+      formItem,
+      autoComplete,
+      addHook,
+      formInited,
+      data,
+      name
+    } = this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       if (formInited) {
