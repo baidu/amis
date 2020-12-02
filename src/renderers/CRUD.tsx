@@ -1322,7 +1322,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       // newUnSelectedItems.push(...unSelectedItems);
     }
 
-    if (pickerMode && !multiple && newItems.length > 1) {
+    if (pickerMode && multiple !== false && newItems.length > 1) {
       newUnSelectedItems.push(...newItems.splice(0, newItems.length - 1));
     }
 
@@ -1969,7 +1969,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             )
           : null}
 
-        {keepItemSelectionOnPageChange && multiple
+        {keepItemSelectionOnPageChange && multiple !== false
           ? this.renderSelection()
           : null}
 
