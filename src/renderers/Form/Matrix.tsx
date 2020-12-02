@@ -181,7 +181,7 @@ export default class MatrixCheckbox extends React.Component<
     }
 
     // todo 优化这块
-    return await new Promise((resolve, reject) => {
+    return await new Promise<void>((resolve, reject) => {
       if (!this.mounted) {
         return resolve();
       }
@@ -228,7 +228,7 @@ export default class MatrixCheckbox extends React.Component<
                   error: reason,
                   loading: false
                 },
-                resolve
+                () => resolve()
               )
             );
         }

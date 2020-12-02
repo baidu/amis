@@ -1269,7 +1269,7 @@ export function mapObject(value: any, fn: Function): any {
 }
 
 export function loadScript(src: string) {
-  return new Promise((ok, fail) => {
+  return new Promise<void>((ok, fail) => {
     const script = document.createElement('script');
     script.onerror = reason => fail(reason);
 
