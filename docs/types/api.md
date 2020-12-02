@@ -155,7 +155,7 @@ API 还支持配置对象类型
 }
 ```
 
-支持[数据映射](./data-mapping)
+支持[数据映射](../concepts/data-mapping)
 
 > 当`method`配置为`get`时，`data`中的值默认会添加到请求路径中
 
