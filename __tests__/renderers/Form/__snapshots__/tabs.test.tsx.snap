@@ -15,7 +15,9 @@ exports[`Renderer:tabs 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -59,9 +61,11 @@ exports[`Renderer:tabs 1`] = `
               <span
                 class="a-TplField"
               >
-                <p>
-                  tab1 内容
-                </p>
+                <span>
+                  <p>
+                    tab1 内容
+                  </p>
+                </span>
               </span>
             </div>
             <div
@@ -72,6 +76,7 @@ exports[`Renderer:tabs 1`] = `
               >
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <label
                     class="a-Form-label"
@@ -99,6 +104,7 @@ exports[`Renderer:tabs 1`] = `
                 </div>
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <label
                     class="a-Form-label"

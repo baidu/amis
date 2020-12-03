@@ -5,7 +5,7 @@ exports[`Renderer:Wizard 1`] = `
   className="a-Alert a-Alert--danger"
 >
   <p>
-    TypeError: Cannot read property '_ownerDocument' of undefined
+    TypeError: The provided value is not of type 'Element'.
   </p>
   <pre>
     <code>
@@ -14,8 +14,9 @@ exports[`Renderer:Wizard 1`] = `
     in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
     in Scoped(WithStore(WizardRenderer)) (created by Renderer)
     in Renderer (created by RootRenderer)
-    in ImageGallery (created by Themeable(ImageGallery))
-    in Themeable(ImageGallery) (created by RootRenderer)
+    in ImageGallery (created by I18N(ImageGallery))
+    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
+    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
     in RootRenderer (created by Scoped(RootRenderer))
     in Scoped(RootRenderer)
     </code>
@@ -26,49 +27,77 @@ exports[`Renderer:Wizard 1`] = `
 exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel className actionClassName 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Wizard wizard-class-name"
+    class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal wizard-class-name"
     style="position: relative;"
   >
     <div
-      class="a-Wizard-steps a-Wizard--horizontal"
-      id="form-wizard"
+      class="a-Wizard-step"
     >
-      <ul>
-        <li
-          class="is-complete"
-        >
-          <span
-            class="a-Badge is-active"
-          >
-            1
-          </span>
-          Step 1
-        </li>
-        <li
-          class="is-active"
-        >
-          <span
-            class="a-Badge is-active"
-          >
-            2
-          </span>
-          Step 2
-        </li>
-      </ul>
-    </div>
-    <div
-      class="a-Wizard-stepContent clearfix"
-    >
-      <form
-        class="a-Form a-Form--normal"
-        novalidate=""
+      <div
+        class="a-Wizard-steps"
+        id="form-wizard"
       >
-        <span
-          class="a-TplField"
+        <ul>
+          <li
+            class="is-complete"
+          >
+            <span
+              class="a-Badge is-active"
+            >
+              1
+            </span>
+            Step 1
+          </li>
+          <li
+            class="is-active"
+          >
+            <span
+              class="a-Badge is-active"
+            >
+              2
+            </span>
+            Step 2
+          </li>
+        </ul>
+      </div>
+      <div
+        class="a-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="a-Form a-Form--normal"
+          novalidate=""
         >
-          这是最后一步了
-        </span>
-      </form>
+          <span
+            class="a-TplField"
+          >
+            <span>
+              这是最后一步了
+            </span>
+          </span>
+        </form>
+      </div>
+      <div
+        class="a-Panel-footer a-Wizard-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="a-Button a-Button--default btn-lg btn-primary"
+          type="button"
+        >
+          <span>
+            PrevStep
+          </span>
+        </button>
+        <button
+          class="a-Button a-Button--primary btn-lg btn-primary"
+          type="button"
+        >
+          <span>
+            Submit
+          </span>
+        </button>
+      </div>
     </div>
     <div
       class="resize-sensor"
@@ -108,26 +137,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
       />
-    </div>
-    <div
-      class="a-Panel-footer"
-    >
-      <button
-        class="a-Button a-Button--default btn-lg btn-primary"
-        type="button"
-      >
-        <span>
-          PrevStep
-        </span>
-      </button>
-      <button
-        class="a-Button a-Button--primary btn-lg btn-primary"
-        type="button"
-      >
-        <span>
-          Submit
-        </span>
-      </button>
     </div>
   </div>
 </div>
@@ -136,98 +145,127 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
 exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel className actionClassName 2`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Wizard wizard-class-name"
+    class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal wizard-class-name"
     style="position: relative;"
   >
     <div
-      class="a-Wizard-steps a-Wizard--horizontal"
-      id="form-wizard"
+      class="a-Wizard-step"
     >
-      <ul>
-        <li
-          class="is-active"
-        >
-          <span
-            class="a-Badge is-active"
-          >
-            1
-          </span>
-          Step 1
-        </li>
-        <li
-          class=""
-        >
-          <span
-            class="a-Badge"
-          >
-            2
-          </span>
-          Step 2
-        </li>
-      </ul>
-    </div>
-    <div
-      class="a-Wizard-stepContent clearfix"
-    >
-      <form
-        class="a-Form a-Form--normal"
-        novalidate=""
+      <div
+        class="a-Wizard-steps"
+        id="form-wizard"
       >
-        <div
-          class="a-Form-item a-Form-item--normal"
-        >
-          <label
-            class="a-Form-label"
+        <ul>
+          <li
+            class="is-active"
           >
-            <span>
-              网址
-            </span>
-          </label>
-          <div
-            class="a-Form-control a-TextControl"
-          >
-            <div
-              class="a-TextControl-input"
+            <span
+              class="a-Badge is-active"
             >
-              <input
-                autocomplete="off"
-                name="website"
-                placeholder=""
-                size="10"
-                type="url"
-                value=""
-              />
+              1
+            </span>
+            Step 1
+          </li>
+          <li
+            class=""
+          >
+            <span
+              class="a-Badge"
+            >
+              2
+            </span>
+            Step 2
+          </li>
+        </ul>
+      </div>
+      <div
+        class="a-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="a-Form a-Form--normal"
+          novalidate=""
+        >
+          <div
+            class="a-Form-item a-Form-item--normal"
+            data-role="form-item"
+          >
+            <label
+              class="a-Form-label"
+            >
+              <span>
+                网址
+              </span>
+            </label>
+            <div
+              class="a-Form-control a-TextControl"
+            >
+              <div
+                class="a-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  name="website"
+                  placeholder=""
+                  size="10"
+                  type="url"
+                  value=""
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          class="a-Form-item a-Form-item--normal"
-        >
-          <label
-            class="a-Form-label"
-          >
-            <span>
-              名称
-            </span>
-          </label>
           <div
-            class="a-Form-control a-TextControl"
+            class="a-Form-item a-Form-item--normal"
+            data-role="form-item"
           >
-            <div
-              class="a-TextControl-input"
+            <label
+              class="a-Form-label"
             >
-              <input
-                autocomplete="off"
-                name="name"
-                placeholder=""
-                size="10"
-                type="text"
-                value=""
-              />
+              <span>
+                名称
+              </span>
+            </label>
+            <div
+              class="a-Form-control a-TextControl"
+            >
+              <div
+                class="a-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  name="name"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
+      <div
+        class="a-Panel-footer a-Wizard-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="a-Button a-Button--default is-disabled btn-lg btn-primary"
+          disabled=""
+          type="button"
+        >
+          <span>
+            PrevStep
+          </span>
+        </button>
+        <button
+          class="a-Button a-Button--default btn-lg btn-primary"
+          type="button"
+        >
+          <span>
+            NextStep
+          </span>
+        </button>
+      </div>
     </div>
     <div
       class="resize-sensor"
@@ -267,27 +305,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
       />
-    </div>
-    <div
-      class="a-Panel-footer"
-    >
-      <button
-        class="a-Button a-Button--default is-disabled btn-lg btn-primary"
-        disabled=""
-        type="button"
-      >
-        <span>
-          PrevStep
-        </span>
-      </button>
-      <button
-        class="a-Button a-Button--default btn-lg btn-primary"
-        type="button"
-      >
-        <span>
-          NextStep
-        </span>
-      </button>
     </div>
   </div>
 </div>
@@ -308,110 +325,140 @@ exports[`Renderer:Wizard dialog 1`] = `
           class="a-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard"
+            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-steps a-Wizard--horizontal"
-              id="form-wizard"
+              class="a-Wizard-step"
             >
-              <ul>
-                <li
-                  class="is-active"
-                >
-                  <span
-                    class="a-Badge is-active"
-                  >
-                    1
-                  </span>
-                  Step 1
-                </li>
-                <li
-                  class=""
-                >
-                  <span
-                    class="a-Badge"
-                  >
-                    2
-                  </span>
-                  Step 2
-                </li>
-              </ul>
-            </div>
-            <div
-              class="a-Wizard-stepContent clearfix"
-            >
-              <form
-                class="a-Form a-Form--normal"
-                novalidate=""
+              <div
+                class="a-Wizard-steps"
+                id="form-wizard"
               >
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                >
-                  <label
-                    class="a-Form-label"
+                <ul>
+                  <li
+                    class="is-active"
                   >
-                    <span>
-                      网址
-                    </span>
-                  </label>
-                  <div
-                    class="a-Form-control a-TextControl"
-                  >
-                    <div
-                      class="a-TextControl-input"
+                    <span
+                      class="a-Badge is-active"
                     >
-                      <input
-                        autocomplete="off"
-                        name="website"
-                        placeholder=""
-                        size="10"
-                        type="url"
-                        value="http://amis.baidu.com"
-                      />
+                      1
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class=""
+                  >
+                    <span
+                      class="a-Badge"
+                    >
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="a-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="a-Form a-Form--normal"
+                  novalidate=""
+                >
+                  <div
+                    class="a-Form-item a-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="a-Form-label"
+                    >
+                      <span>
+                        网址
+                      </span>
+                    </label>
+                    <div
+                      class="a-Form-control a-TextControl"
+                    >
+                      <div
+                        class="a-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                >
-                  <label
-                    class="a-Form-label"
-                  >
-                    <span>
-                      名称
-                    </span>
-                  </label>
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="a-Form-item a-Form-item--normal"
+                    data-role="form-item"
                   >
-                    <div
-                      class="a-TextControl-input"
+                    <label
+                      class="a-Form-label"
                     >
-                      <input
-                        autocomplete="off"
-                        name="name"
-                        placeholder=""
-                        size="10"
-                        type="text"
-                        value="Amis"
-                      />
+                      <span>
+                        名称
+                      </span>
+                    </label>
+                    <div
+                      class="a-Form-control a-TextControl"
+                    >
+                      <div
+                        class="a-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                >
-                  <button
-                    class="a-Button a-Button--default a-Form-control"
-                    type="button"
+                  <div
+                    class="a-Form-item a-Form-item--normal"
+                    data-role="form-item"
                   >
-                    <span>
-                      OpenDialog
-                    </span>
-                  </button>
-                </div>
-              </form>
+                    <button
+                      class="a-Button a-Button--default a-Form-control"
+                      type="button"
+                    >
+                      <span>
+                        OpenDialog
+                      </span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div
+                class="a-Panel-footer a-Wizard-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="a-Button a-Button--default is-disabled"
+                  disabled=""
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="a-Button a-Button--default"
+                  type="button"
+                >
+                  <span>
+                    下一步
+                  </span>
+                </button>
+              </div>
             </div>
             <div
               class="resize-sensor"
@@ -451,27 +498,6 @@ exports[`Renderer:Wizard dialog 1`] = `
                 class="resize-sensor-appear"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
               />
-            </div>
-            <div
-              class="a-Panel-footer"
-            >
-              <button
-                class="a-Button a-Button--default is-disabled"
-                disabled=""
-                type="button"
-              >
-                <span>
-                  上一步
-                </span>
-              </button>
-              <button
-                class="a-Button a-Button--default"
-                type="button"
-              >
-                <span>
-                  下一步
-                </span>
-              </button>
             </div>
           </div>
         </div>
@@ -496,110 +522,140 @@ exports[`Renderer:Wizard dialog 2`] = `
           class="a-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard"
+            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-steps a-Wizard--horizontal"
-              id="form-wizard"
+              class="a-Wizard-step"
             >
-              <ul>
-                <li
-                  class="is-active"
-                >
-                  <span
-                    class="a-Badge is-active"
-                  >
-                    1
-                  </span>
-                  Step 1
-                </li>
-                <li
-                  class=""
-                >
-                  <span
-                    class="a-Badge"
-                  >
-                    2
-                  </span>
-                  Step 2
-                </li>
-              </ul>
-            </div>
-            <div
-              class="a-Wizard-stepContent clearfix"
-            >
-              <form
-                class="a-Form a-Form--normal"
-                novalidate=""
+              <div
+                class="a-Wizard-steps"
+                id="form-wizard"
               >
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                >
-                  <label
-                    class="a-Form-label"
+                <ul>
+                  <li
+                    class="is-active"
                   >
-                    <span>
-                      网址
-                    </span>
-                  </label>
-                  <div
-                    class="a-Form-control a-TextControl"
-                  >
-                    <div
-                      class="a-TextControl-input"
+                    <span
+                      class="a-Badge is-active"
                     >
-                      <input
-                        autocomplete="off"
-                        name="website"
-                        placeholder=""
-                        size="10"
-                        type="url"
-                        value="http://amis.baidu.com"
-                      />
+                      1
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class=""
+                  >
+                    <span
+                      class="a-Badge"
+                    >
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="a-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="a-Form a-Form--normal"
+                  novalidate=""
+                >
+                  <div
+                    class="a-Form-item a-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="a-Form-label"
+                    >
+                      <span>
+                        网址
+                      </span>
+                    </label>
+                    <div
+                      class="a-Form-control a-TextControl"
+                    >
+                      <div
+                        class="a-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                >
-                  <label
-                    class="a-Form-label"
-                  >
-                    <span>
-                      名称
-                    </span>
-                  </label>
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="a-Form-item a-Form-item--normal"
+                    data-role="form-item"
                   >
-                    <div
-                      class="a-TextControl-input"
+                    <label
+                      class="a-Form-label"
                     >
-                      <input
-                        autocomplete="off"
-                        name="name"
-                        placeholder=""
-                        size="10"
-                        type="text"
-                        value="Amis"
-                      />
+                      <span>
+                        名称
+                      </span>
+                    </label>
+                    <div
+                      class="a-Form-control a-TextControl"
+                    >
+                      <div
+                        class="a-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                >
-                  <button
-                    class="a-Button a-Button--default a-Form-control"
-                    type="button"
+                  <div
+                    class="a-Form-item a-Form-item--normal"
+                    data-role="form-item"
                   >
-                    <span>
-                      OpenDialog
-                    </span>
-                  </button>
-                </div>
-              </form>
+                    <button
+                      class="a-Button a-Button--default a-Form-control"
+                      type="button"
+                    >
+                      <span>
+                        OpenDialog
+                      </span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div
+                class="a-Panel-footer a-Wizard-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="a-Button a-Button--default is-disabled"
+                  disabled=""
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="a-Button a-Button--default"
+                  type="button"
+                >
+                  <span>
+                    下一步
+                  </span>
+                </button>
+              </div>
             </div>
             <div
               class="resize-sensor"
@@ -640,27 +696,6 @@ exports[`Renderer:Wizard dialog 2`] = `
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
               />
             </div>
-            <div
-              class="a-Panel-footer"
-            >
-              <button
-                class="a-Button a-Button--default is-disabled"
-                disabled=""
-                type="button"
-              >
-                <span>
-                  上一步
-                </span>
-              </button>
-              <button
-                class="a-Button a-Button--default"
-                type="button"
-              >
-                <span>
-                  下一步
-                </span>
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -674,7 +709,7 @@ exports[`Renderer:Wizard initApi 1`] = `
   className="a-Alert a-Alert--danger"
 >
   <p>
-    TypeError: Cannot read property '_ownerDocument' of undefined
+    TypeError: The provided value is not of type 'Element'.
   </p>
   <pre>
     <code>
@@ -683,8 +718,9 @@ exports[`Renderer:Wizard initApi 1`] = `
     in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
     in Scoped(WithStore(WizardRenderer)) (created by Renderer)
     in Renderer (created by RootRenderer)
-    in ImageGallery (created by Themeable(ImageGallery))
-    in Themeable(ImageGallery) (created by RootRenderer)
+    in ImageGallery (created by I18N(ImageGallery))
+    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
+    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
     in RootRenderer (created by Scoped(RootRenderer))
     in Scoped(RootRenderer)
     </code>
@@ -707,98 +743,127 @@ exports[`Renderer:Wizard initApi reload 1`] = `
           class="a-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard"
+            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-steps a-Wizard--horizontal"
-              id="form-wizard"
+              class="a-Wizard-step"
             >
-              <ul>
-                <li
-                  class="is-active"
-                >
-                  <span
-                    class="a-Badge is-active"
-                  >
-                    1
-                  </span>
-                  Step 1
-                </li>
-                <li
-                  class=""
-                >
-                  <span
-                    class="a-Badge"
-                  >
-                    2
-                  </span>
-                  Step 2
-                </li>
-              </ul>
-            </div>
-            <div
-              class="a-Wizard-stepContent clearfix"
-            >
-              <form
-                class="a-Form a-Form--normal"
-                novalidate=""
+              <div
+                class="a-Wizard-steps"
+                id="form-wizard"
               >
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                >
-                  <label
-                    class="a-Form-label"
+                <ul>
+                  <li
+                    class="is-active"
                   >
-                    <span>
-                      网址
-                    </span>
-                  </label>
-                  <div
-                    class="a-Form-control a-TextControl"
-                  >
-                    <div
-                      class="a-TextControl-input"
+                    <span
+                      class="a-Badge is-active"
                     >
-                      <input
-                        autocomplete="off"
-                        name="website"
-                        placeholder=""
-                        size="10"
-                        type="url"
-                        value="http://amis.baidu.com"
-                      />
+                      1
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class=""
+                  >
+                    <span
+                      class="a-Badge"
+                    >
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="a-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="a-Form a-Form--normal"
+                  novalidate=""
+                >
+                  <div
+                    class="a-Form-item a-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="a-Form-label"
+                    >
+                      <span>
+                        网址
+                      </span>
+                    </label>
+                    <div
+                      class="a-Form-control a-TextControl"
+                    >
+                      <div
+                        class="a-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                >
-                  <label
-                    class="a-Form-label"
-                  >
-                    <span>
-                      名称
-                    </span>
-                  </label>
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="a-Form-item a-Form-item--normal"
+                    data-role="form-item"
                   >
-                    <div
-                      class="a-TextControl-input"
+                    <label
+                      class="a-Form-label"
                     >
-                      <input
-                        autocomplete="off"
-                        name="name"
-                        placeholder=""
-                        size="10"
-                        type="text"
-                        value="Amis"
-                      />
+                      <span>
+                        名称
+                      </span>
+                    </label>
+                    <div
+                      class="a-Form-control a-TextControl"
+                    >
+                      <div
+                        class="a-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
+              <div
+                class="a-Panel-footer a-Wizard-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="a-Button a-Button--default is-disabled"
+                  disabled=""
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="a-Button a-Button--default"
+                  type="button"
+                >
+                  <span>
+                    下一步
+                  </span>
+                </button>
+              </div>
             </div>
             <div
               class="resize-sensor"
@@ -838,27 +903,6 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                 class="resize-sensor-appear"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
               />
-            </div>
-            <div
-              class="a-Panel-footer"
-            >
-              <button
-                class="a-Button a-Button--default is-disabled"
-                disabled=""
-                type="button"
-              >
-                <span>
-                  上一步
-                </span>
-              </button>
-              <button
-                class="a-Button a-Button--default"
-                type="button"
-              >
-                <span>
-                  下一步
-                </span>
-              </button>
             </div>
           </div>
         </div>
@@ -883,49 +927,77 @@ exports[`Renderer:Wizard initApi reload 2`] = `
           class="a-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard"
+            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-steps a-Wizard--horizontal"
-              id="form-wizard"
+              class="a-Wizard-step"
             >
-              <ul>
-                <li
-                  class="is-complete"
-                >
-                  <span
-                    class="a-Badge is-active"
-                  >
-                    1
-                  </span>
-                  Step 1
-                </li>
-                <li
-                  class="is-active"
-                >
-                  <span
-                    class="a-Badge is-active"
-                  >
-                    2
-                  </span>
-                  Step 2
-                </li>
-              </ul>
-            </div>
-            <div
-              class="a-Wizard-stepContent clearfix"
-            >
-              <form
-                class="a-Form a-Form--normal"
-                novalidate=""
+              <div
+                class="a-Wizard-steps"
+                id="form-wizard"
               >
-                <span
-                  class="a-TplField"
+                <ul>
+                  <li
+                    class="is-complete"
+                  >
+                    <span
+                      class="a-Badge is-active"
+                    >
+                      1
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class="is-active"
+                  >
+                    <span
+                      class="a-Badge is-active"
+                    >
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="a-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="a-Form a-Form--normal"
+                  novalidate=""
                 >
-                  这是最后一步了
-                </span>
-              </form>
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
+                </form>
+              </div>
+              <div
+                class="a-Panel-footer a-Wizard-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="a-Button a-Button--default"
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="a-Button a-Button--primary"
+                  type="button"
+                >
+                  <span>
+                    完成
+                  </span>
+                </button>
+              </div>
             </div>
             <div
               class="resize-sensor"
@@ -965,26 +1037,6 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                 class="resize-sensor-appear"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
               />
-            </div>
-            <div
-              class="a-Panel-footer"
-            >
-              <button
-                class="a-Button a-Button--default"
-                type="button"
-              >
-                <span>
-                  上一步
-                </span>
-              </button>
-              <button
-                class="a-Button a-Button--primary"
-                type="button"
-              >
-                <span>
-                  完成
-                </span>
-              </button>
             </div>
           </div>
         </div>
@@ -1009,49 +1061,77 @@ exports[`Renderer:Wizard initApi reload 3`] = `
           class="a-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard"
+            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-steps a-Wizard--horizontal"
-              id="form-wizard"
+              class="a-Wizard-step"
             >
-              <ul>
-                <li
-                  class="is-complete"
-                >
-                  <span
-                    class="a-Badge is-active"
-                  >
-                    1
-                  </span>
-                  Step 1
-                </li>
-                <li
-                  class="is-active"
-                >
-                  <span
-                    class="a-Badge is-active"
-                  >
-                    2
-                  </span>
-                  Step 2
-                </li>
-              </ul>
-            </div>
-            <div
-              class="a-Wizard-stepContent clearfix"
-            >
-              <form
-                class="a-Form a-Form--normal"
-                novalidate=""
+              <div
+                class="a-Wizard-steps"
+                id="form-wizard"
               >
-                <span
-                  class="a-TplField"
+                <ul>
+                  <li
+                    class="is-complete"
+                  >
+                    <span
+                      class="a-Badge is-active"
+                    >
+                      1
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class="is-active"
+                  >
+                    <span
+                      class="a-Badge is-active"
+                    >
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="a-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="a-Form a-Form--normal"
+                  novalidate=""
                 >
-                  这是最后一步了
-                </span>
-              </form>
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
+                </form>
+              </div>
+              <div
+                class="a-Panel-footer a-Wizard-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="a-Button a-Button--default"
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="a-Button a-Button--primary"
+                  type="button"
+                >
+                  <span>
+                    完成
+                  </span>
+                </button>
+              </div>
             </div>
             <div
               class="resize-sensor"
@@ -1092,26 +1172,6 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
               />
             </div>
-            <div
-              class="a-Panel-footer"
-            >
-              <button
-                class="a-Button a-Button--default"
-                type="button"
-              >
-                <span>
-                  上一步
-                </span>
-              </button>
-              <button
-                class="a-Button a-Button--primary"
-                type="button"
-              >
-                <span>
-                  完成
-                </span>
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -1125,7 +1185,7 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
   className="a-Alert a-Alert--danger"
 >
   <p>
-    TypeError: Cannot read property '_ownerDocument' of undefined
+    TypeError: The provided value is not of type 'Element'.
   </p>
   <pre>
     <code>
@@ -1134,8 +1194,9 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
     in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
     in Scoped(WithStore(WizardRenderer)) (created by Renderer)
     in Renderer (created by RootRenderer)
-    in ImageGallery (created by Themeable(ImageGallery))
-    in Themeable(ImageGallery) (created by RootRenderer)
+    in ImageGallery (created by I18N(ImageGallery))
+    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
+    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
     in RootRenderer (created by Scoped(RootRenderer))
     in Scoped(RootRenderer)
     </code>
@@ -1148,7 +1209,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
   className="a-Alert a-Alert--danger"
 >
   <p>
-    TypeError: Cannot read property '_ownerDocument' of undefined
+    TypeError: The provided value is not of type 'Element'.
   </p>
   <pre>
     <code>
@@ -1157,8 +1218,9 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
     in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
     in Scoped(WithStore(WizardRenderer)) (created by Renderer)
     in Renderer (created by RootRenderer)
-    in ImageGallery (created by Themeable(ImageGallery))
-    in Themeable(ImageGallery) (created by RootRenderer)
+    in ImageGallery (created by I18N(ImageGallery))
+    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
+    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
     in RootRenderer (created by Scoped(RootRenderer))
     in Scoped(RootRenderer)
     </code>
@@ -1171,7 +1233,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
   className="a-Alert a-Alert--danger"
 >
   <p>
-    TypeError: Cannot read property '_ownerDocument' of undefined
+    TypeError: The provided value is not of type 'Element'.
   </p>
   <pre>
     <code>
@@ -1180,8 +1242,9 @@ exports[`Renderer:Wizard readOnly 1`] = `
     in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
     in Scoped(WithStore(WizardRenderer)) (created by Renderer)
     in Renderer (created by RootRenderer)
-    in ImageGallery (created by Themeable(ImageGallery))
-    in Themeable(ImageGallery) (created by RootRenderer)
+    in ImageGallery (created by I18N(ImageGallery))
+    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
+    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
     in RootRenderer (created by Scoped(RootRenderer))
     in Scoped(RootRenderer)
     </code>
@@ -1192,49 +1255,77 @@ exports[`Renderer:Wizard readOnly 1`] = `
 exports[`Renderer:Wizard send data 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Wizard"
+    class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
     style="position: relative;"
   >
     <div
-      class="a-Wizard-steps a-Wizard--horizontal"
-      id="form-wizard"
+      class="a-Wizard-step"
     >
-      <ul>
-        <li
-          class="is-complete"
-        >
-          <span
-            class="a-Badge is-active"
-          >
-            1
-          </span>
-          Step 1
-        </li>
-        <li
-          class="is-active"
-        >
-          <span
-            class="a-Badge is-active"
-          >
-            2
-          </span>
-          Step 2
-        </li>
-      </ul>
-    </div>
-    <div
-      class="a-Wizard-stepContent clearfix"
-    >
-      <form
-        class="a-Form a-Form--normal"
-        novalidate=""
+      <div
+        class="a-Wizard-steps"
+        id="form-wizard"
       >
-        <span
-          class="a-TplField"
+        <ul>
+          <li
+            class="is-complete"
+          >
+            <span
+              class="a-Badge is-active"
+            >
+              1
+            </span>
+            Step 1
+          </li>
+          <li
+            class="is-active"
+          >
+            <span
+              class="a-Badge is-active"
+            >
+              2
+            </span>
+            Step 2
+          </li>
+        </ul>
+      </div>
+      <div
+        class="a-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="a-Form a-Form--normal"
+          novalidate=""
         >
-          这是最后一步了
-        </span>
-      </form>
+          <span
+            class="a-TplField"
+          >
+            <span>
+              这是最后一步了
+            </span>
+          </span>
+        </form>
+      </div>
+      <div
+        class="a-Panel-footer a-Wizard-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="a-Button a-Button--default"
+          type="button"
+        >
+          <span>
+            上一步
+          </span>
+        </button>
+        <button
+          class="a-Button a-Button--primary"
+          type="button"
+        >
+          <span>
+            完成
+          </span>
+        </button>
+      </div>
     </div>
     <div
       class="resize-sensor"
@@ -1274,26 +1365,6 @@ exports[`Renderer:Wizard send data 1`] = `
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
       />
-    </div>
-    <div
-      class="a-Panel-footer"
-    >
-      <button
-        class="a-Button a-Button--default"
-        type="button"
-      >
-        <span>
-          上一步
-        </span>
-      </button>
-      <button
-        class="a-Button a-Button--primary"
-        type="button"
-      >
-        <span>
-          完成
-        </span>
-      </button>
     </div>
   </div>
 </div>
@@ -1302,86 +1373,113 @@ exports[`Renderer:Wizard send data 1`] = `
 exports[`Renderer:Wizard step initApi 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Wizard"
+    class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
     style="position: relative;"
   >
     <div
-      class="a-Wizard-steps a-Wizard--horizontal"
-      id="form-wizard"
+      class="a-Wizard-step"
     >
-      <ul>
-        <li
-          class="is-complete"
-        >
-          <span
-            class="a-Badge is-active"
-          >
-            1
-          </span>
-          Step 1
-        </li>
-        <li
-          class="is-active"
-        >
-          <span
-            class="a-Badge is-active"
-          >
-            2
-          </span>
-          Step 2
-        </li>
-        <li
-          class=""
-        >
-          <span
-            class="a-Badge"
-          >
-            3
-          </span>
-          Step 3
-        </li>
-      </ul>
-    </div>
-    <div
-      class="a-Wizard-stepContent clearfix"
-    >
-      <form
-        class="a-Form a-Form--normal"
-        novalidate=""
+      <div
+        class="a-Wizard-steps"
+        id="form-wizard"
       >
-        <div
-          class="a-Form-item a-Form-item--normal is-required"
-        >
-          <label
-            class="a-Form-label"
+        <ul>
+          <li
+            class="is-complete"
           >
-            <span>
-              邮箱
-              <span
-                class="a-Form-star"
-              >
-                *
-              </span>
-            </span>
-          </label>
-          <div
-            class="a-Form-control a-TextControl"
-          >
-            <div
-              class="a-TextControl-input"
+            <span
+              class="a-Badge is-active"
             >
-              <input
-                autocomplete="off"
-                name="email"
-                placeholder=""
-                size="10"
-                type="email"
-                value="xxx@xxx.com"
-              />
+              1
+            </span>
+            Step 1
+          </li>
+          <li
+            class="is-active"
+          >
+            <span
+              class="a-Badge is-active"
+            >
+              2
+            </span>
+            Step 2
+          </li>
+          <li
+            class=""
+          >
+            <span
+              class="a-Badge"
+            >
+              3
+            </span>
+            Step 3
+          </li>
+        </ul>
+      </div>
+      <div
+        class="a-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="a-Form a-Form--normal"
+          novalidate=""
+        >
+          <div
+            class="a-Form-item a-Form-item--normal is-required"
+            data-role="form-item"
+          >
+            <label
+              class="a-Form-label"
+            >
+              <span>
+                邮箱
+                <span
+                  class="a-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="a-Form-control a-TextControl"
+            >
+              <div
+                class="a-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  name="email"
+                  placeholder=""
+                  size="10"
+                  type="email"
+                  value="xxx@xxx.com"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
+      <div
+        class="a-Panel-footer a-Wizard-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="a-Button a-Button--default"
+          type="button"
+        >
+          <span>
+            上一步
+          </span>
+        </button>
+        <button
+          class="a-Button a-Button--default"
+          type="button"
+        >
+          <span>
+            下一步
+          </span>
+        </button>
+      </div>
     </div>
     <div
       class="resize-sensor"
@@ -1421,26 +1519,6 @@ exports[`Renderer:Wizard step initApi 1`] = `
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
       />
-    </div>
-    <div
-      class="a-Panel-footer"
-    >
-      <button
-        class="a-Button a-Button--default"
-        type="button"
-      >
-        <span>
-          上一步
-        </span>
-      </button>
-      <button
-        class="a-Button a-Button--default"
-        type="button"
-      >
-        <span>
-          下一步
-        </span>
-      </button>
     </div>
   </div>
 </div>
@@ -1451,7 +1529,7 @@ exports[`Renderer:Wizard steps not array 1`] = `
   className="a-Alert a-Alert--danger"
 >
   <p>
-    TypeError: Cannot read property '_ownerDocument' of undefined
+    TypeError: The provided value is not of type 'Element'.
   </p>
   <pre>
     <code>
@@ -1460,8 +1538,9 @@ exports[`Renderer:Wizard steps not array 1`] = `
     in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
     in Scoped(WithStore(WizardRenderer)) (created by Renderer)
     in Renderer (created by RootRenderer)
-    in ImageGallery (created by Themeable(ImageGallery))
-    in Themeable(ImageGallery) (created by RootRenderer)
+    in ImageGallery (created by I18N(ImageGallery))
+    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
+    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
     in RootRenderer (created by Scoped(RootRenderer))
     in Scoped(RootRenderer)
     </code>
@@ -1484,49 +1563,77 @@ exports[`Renderer:Wizard target 1`] = `
           class="a-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard"
+            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-steps a-Wizard--horizontal"
-              id="form-wizard"
+              class="a-Wizard-step"
             >
-              <ul>
-                <li
-                  class="is-complete"
-                >
-                  <span
-                    class="a-Badge is-active"
-                  >
-                    1
-                  </span>
-                  Step 1
-                </li>
-                <li
-                  class="is-active"
-                >
-                  <span
-                    class="a-Badge is-active"
-                  >
-                    2
-                  </span>
-                  Step 2
-                </li>
-              </ul>
-            </div>
-            <div
-              class="a-Wizard-stepContent clearfix"
-            >
-              <form
-                class="a-Form a-Form--normal"
-                novalidate=""
+              <div
+                class="a-Wizard-steps"
+                id="form-wizard"
               >
-                <span
-                  class="a-TplField"
+                <ul>
+                  <li
+                    class="is-complete"
+                  >
+                    <span
+                      class="a-Badge is-active"
+                    >
+                      1
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class="is-active"
+                  >
+                    <span
+                      class="a-Badge is-active"
+                    >
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="a-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="a-Form a-Form--normal"
+                  novalidate=""
                 >
-                  这是最后一步了
-                </span>
-              </form>
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
+                </form>
+              </div>
+              <div
+                class="a-Panel-footer a-Wizard-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="a-Button a-Button--default"
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="a-Button a-Button--primary"
+                  type="button"
+                >
+                  <span>
+                    完成
+                  </span>
+                </button>
+              </div>
             </div>
             <div
               class="resize-sensor"
@@ -1567,26 +1674,6 @@ exports[`Renderer:Wizard target 1`] = `
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
               />
             </div>
-            <div
-              class="a-Panel-footer"
-            >
-              <button
-                class="a-Button a-Button--default"
-                type="button"
-              >
-                <span>
-                  上一步
-                </span>
-              </button>
-              <button
-                class="a-Button a-Button--primary"
-                type="button"
-              >
-                <span>
-                  完成
-                </span>
-              </button>
-            </div>
           </div>
           <div
             class="a-Panel a-Panel--default a-Panel--form"
@@ -1601,7 +1688,9 @@ exports[`Renderer:Wizard target 1`] = `
                 <span
                   class="a-TplField"
                 >
-                  表单
+                  <span>
+                    表单
+                  </span>
                 </span>
               </h3>
             </div>
@@ -1614,6 +1703,7 @@ exports[`Renderer:Wizard target 1`] = `
               >
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <label
                     class="a-Form-label"
@@ -1641,6 +1731,7 @@ exports[`Renderer:Wizard target 1`] = `
                 </div>
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <label
                     class="a-Form-label"
@@ -1732,132 +1823,161 @@ exports[`Renderer:Wizard target 1`] = `
 exports[`Renderer:Wizard validate 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Wizard"
+    class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
     style="position: relative;"
   >
     <div
-      class="a-Wizard-steps a-Wizard--horizontal"
-      id="form-wizard"
+      class="a-Wizard-step"
     >
-      <ul>
-        <li
-          class="is-active"
-        >
-          <span
-            class="a-Badge is-active"
-          >
-            1
-          </span>
-          Step 1
-        </li>
-        <li
-          class=""
-        >
-          <span
-            class="a-Badge"
-          >
-            2
-          </span>
-          Step 2
-        </li>
-        <li
-          class=""
-        >
-          <span
-            class="a-Badge"
-          >
-            3
-          </span>
-          Step 3
-        </li>
-      </ul>
-    </div>
-    <div
-      class="a-Wizard-stepContent clearfix"
-    >
-      <form
-        class="a-Form a-Form--normal"
-        novalidate=""
+      <div
+        class="a-Wizard-steps"
+        id="form-wizard"
       >
-        <div
-          class="a-Form-item a-Form-item--normal is-error is-required"
-        >
-          <label
-            class="a-Form-label"
+        <ul>
+          <li
+            class="is-active"
           >
-            <span>
-              网址
-              <span
-                class="a-Form-star"
-              >
-                *
-              </span>
-            </span>
-          </label>
-          <div
-            class="a-Form-control is-error a-TextControl"
-          >
-            <div
-              class="a-TextControl-input"
+            <span
+              class="a-Badge is-active"
             >
-              <input
-                autocomplete="off"
-                name="website"
-                placeholder=""
-                size="10"
-                type="url"
-                value="http"
-              />
-            </div>
-          </div>
-          <ul
-            class="a-Form-feedback"
-          >
-            <li>
-              Url 格式不正确
-            </li>
-          </ul>
-        </div>
-        <div
-          class="a-Form-item a-Form-item--normal is-error is-required"
-        >
-          <label
-            class="a-Form-label"
-          >
-            <span>
-              名称
-              <span
-                class="a-Form-star"
-              >
-                *
-              </span>
+              1
             </span>
-          </label>
-          <div
-            class="a-Form-control is-error a-TextControl"
+            Step 1
+          </li>
+          <li
+            class=""
           >
-            <div
-              class="a-TextControl-input"
+            <span
+              class="a-Badge"
             >
-              <input
-                autocomplete="off"
-                name="name"
-                placeholder=""
-                size="10"
-                type="text"
-                value=""
-              />
-            </div>
-          </div>
-          <ul
-            class="a-Form-feedback"
+              2
+            </span>
+            Step 2
+          </li>
+          <li
+            class=""
           >
-            <li>
-              这是必填项
-            </li>
-          </ul>
-        </div>
-      </form>
+            <span
+              class="a-Badge"
+            >
+              3
+            </span>
+            Step 3
+          </li>
+        </ul>
+      </div>
+      <div
+        class="a-Wizard-stepContent clearfix"
+        role="wizard-body"
+      >
+        <form
+          class="a-Form a-Form--normal"
+          novalidate=""
+        >
+          <div
+            class="a-Form-item a-Form-item--normal is-error is-required"
+            data-role="form-item"
+          >
+            <label
+              class="a-Form-label"
+            >
+              <span>
+                网址
+                <span
+                  class="a-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="a-Form-control is-error a-TextControl"
+            >
+              <div
+                class="a-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  name="website"
+                  placeholder=""
+                  size="10"
+                  type="url"
+                  value="http"
+                />
+              </div>
+            </div>
+            <ul
+              class="a-Form-feedback"
+            >
+              <li>
+                Url 格式不正确
+              </li>
+            </ul>
+          </div>
+          <div
+            class="a-Form-item a-Form-item--normal is-error is-required"
+            data-role="form-item"
+          >
+            <label
+              class="a-Form-label"
+            >
+              <span>
+                名称
+                <span
+                  class="a-Form-star"
+                >
+                  *
+                </span>
+              </span>
+            </label>
+            <div
+              class="a-Form-control is-error a-TextControl"
+            >
+              <div
+                class="a-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  name="name"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <ul
+              class="a-Form-feedback"
+            >
+              <li>
+                这是必填项
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+      <div
+        class="a-Panel-footer a-Wizard-footer"
+        role="wizard-footer"
+      >
+        <button
+          class="a-Button a-Button--default is-disabled"
+          disabled=""
+          type="button"
+        >
+          <span>
+            上一步
+          </span>
+        </button>
+        <button
+          class="a-Button a-Button--default"
+          type="button"
+        >
+          <span>
+            下一步
+          </span>
+        </button>
+      </div>
     </div>
     <div
       class="resize-sensor"
@@ -1897,27 +2017,6 @@ exports[`Renderer:Wizard validate 1`] = `
         class="resize-sensor-appear"
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
       />
-    </div>
-    <div
-      class="a-Panel-footer"
-    >
-      <button
-        class="a-Button a-Button--default is-disabled"
-        disabled=""
-        type="button"
-      >
-        <span>
-          上一步
-        </span>
-      </button>
-      <button
-        class="a-Button a-Button--default"
-        type="button"
-      >
-        <span>
-          下一步
-        </span>
-      </button>
     </div>
   </div>
 </div>

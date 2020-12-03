@@ -15,7 +15,9 @@ exports[`Renderer:Form 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,6 +30,7 @@ exports[`Renderer:Form 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -143,7 +146,9 @@ exports[`Renderer:Form initApi 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -162,6 +167,7 @@ exports[`Renderer:Form initApi 1`] = `
         />
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -189,6 +195,7 @@ exports[`Renderer:Form initApi 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -288,7 +295,9 @@ exports[`Renderer:Form sendOn:true 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -307,6 +316,7 @@ exports[`Renderer:Form sendOn:true 1`] = `
         />
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -334,6 +344,7 @@ exports[`Renderer:Form sendOn:true 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -433,7 +444,9 @@ exports[`Renderer:Form:onValidate 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -446,6 +459,7 @@ exports[`Renderer:Form:onValidate 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal is-error"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -480,6 +494,7 @@ exports[`Renderer:Form:onValidate 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal is-error"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -596,7 +611,9 @@ exports[`Renderer:Form:onValidate 3`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -609,6 +626,7 @@ exports[`Renderer:Form:onValidate 3`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -636,6 +654,7 @@ exports[`Renderer:Form:onValidate 3`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -742,7 +761,9 @@ exports[`Renderer:Form:remoteValidate 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -761,6 +782,7 @@ exports[`Renderer:Form:remoteValidate 1`] = `
         />
         <div
           class="a-Form-item a-Form-item--normal is-error"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -867,7 +889,9 @@ exports[`Renderer:Form:valdiate 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -880,6 +904,7 @@ exports[`Renderer:Form:valdiate 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal is-error is-required"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -992,7 +1017,9 @@ exports[`Renderer:Form:valdiate 2`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -1005,6 +1032,7 @@ exports[`Renderer:Form:valdiate 2`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal is-required"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
