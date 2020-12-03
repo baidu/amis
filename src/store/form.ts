@@ -23,9 +23,8 @@ import {
   isEmpty,
   mapObject
 } from '../utils/helper';
-import {IComboStore} from './combo';
 import isEqual from 'lodash/isEqual';
-import {IRendererStore, getStoreById, removeStore} from '.';
+import {getStoreById, removeStore} from './manager';
 
 export const FormStore = ServiceStore.named('FormStore')
   .props({

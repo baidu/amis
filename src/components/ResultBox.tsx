@@ -14,7 +14,7 @@ export interface ResultBoxProps
   onChange?: (value: string) => void;
   onResultClick?: (e: React.MouseEvent<HTMLElement>) => void;
   result?: Array<any> | any;
-  itemRender: (value: any) => JSX.Element;
+  itemRender: (value: any) => JSX.Element | string;
   onResultChange?: (value: Array<any>) => void;
   allowInput?: boolean;
   inputPlaceholder: string;

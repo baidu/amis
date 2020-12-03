@@ -134,19 +134,33 @@ export class CityPicker extends React.Component<
       return;
     }
 
-    (require as any)(['./CityDB'], (db: any) =>
+    import('./CityDB').then(db => {
       this.setState(
         {
           db: {
             ...db.default,
-            province: db.province,
+            province: db.province as any,
             city: db.city,
             district: db.district
           }
         },
         callback
-      )
-    );
+      );
+    });
+
+    // require.ensure(['./CityDB'], (db: any) =>
+    //   this.setState(
+    //     {
+    //       db: {
+    //         ...db.default,
+    //         province: db.province,
+    //         city: db.city,
+    //         district: db.district
+    //       }
+    //     },
+    //     callback
+    //   )
+    // );
   }
 
   @autobind

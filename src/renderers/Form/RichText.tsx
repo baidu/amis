@@ -26,17 +26,11 @@ export interface RichTextProps extends FormControlProps {
 
 function loadRichText(
   type: 'tinymce' | 'froala' = 'froala'
-): () => Promise<React.ReactType> {
+): () => Promise<any> {
   return () =>
-    new Promise(resolve =>
-      type === 'tinymce'
-        ? (require as any)(['../../components/Tinymce'], (component: any) =>
-            resolve(component.default)
-          )
-        : (require as any)(['../../components/RichText'], (component: any) =>
-            resolve(component.default)
-          )
-    );
+    type === 'tinymce'
+      ? import('../../components/Tinymce')
+      : import('../../components/RichText');
 }
 
 export default class RichTextControl extends React.Component<

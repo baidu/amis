@@ -2,7 +2,7 @@ import {types, SnapshotIn, isAlive, onAction} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {FormItemStore} from './formItem';
 import {FormStore, IFormStore, IFormItemStore} from './form';
-import {getStoreById} from './index';
+import {getStoreById} from './manager';
 
 export const UniqueGroup = types
   .model('UniqueGroup', {

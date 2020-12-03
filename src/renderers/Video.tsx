@@ -221,7 +221,7 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
     setError,
     autoPlay
   }: any) {
-    (require as any)(['flv.js'], (flvjs: any) => {
+    import('flv.js').then((flvjs: any) => {
       video = video || (manager.video && manager.video.video);
 
       let flvPlayer = flvjs.createPlayer(
@@ -335,7 +335,8 @@ export class HlsSource extends React.Component<HlsSourceProps, any> {
   }
 
   initHls({video, manager, src, autoPlay, actions}: any) {
-    (require as any)(['hls.js'], (Hls: any) => {
+    // @ts-ignore
+    import('hls.js').then((Hls: any) => {
       // load hls video source base on hls.js
       if (Hls.isSupported()) {
         video = video || (manager.video && manager.video.video);

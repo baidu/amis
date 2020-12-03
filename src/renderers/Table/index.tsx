@@ -1753,7 +1753,7 @@ export default class Table extends React.Component<TableProps, object> {
       <Button
         classPrefix={ns}
         onClick={() => {
-          (require as any)(['exceljs'], async (ExcelJS: any) => {
+          import('exceljs').then(async (ExcelJS: any) => {
             if (!store.data.items || store.data.items.length === 0) {
               return;
             }

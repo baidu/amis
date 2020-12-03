@@ -67,7 +67,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
   }
 
   @autobind
-  handleDragOver(e: React.DragEvent) {
+  handleDragOver(e: DragEvent) {
     e.preventDefault();
     const item = (e.target as HTMLElement).closest('[data-id]') as HTMLElement;
 
