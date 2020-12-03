@@ -2,6 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 import {SchemaNode} from '../types';
+import { resolveVariableAndFilter } from '../utils/tpl-builtin';
 
 /**
  * Container 容器渲染器。
@@ -38,7 +39,12 @@ export default class Container<T> extends React.Component<
   };
 
   renderBody(): JSX.Element | null {
-    const {children, body, render, classnames: cx, bodyClassName} = this.props;
+    const {children, body: bodySchema, render, classnames: cx, bodyClassName} = this.props;
+    
+      const body =
+      typeof bodySchema === 'string' && bodySchema.startsWith('$')
+        ? resolveVariableAndFilter(bodySchema, data, '| raw')
+        : bodySchema;
 
     return (
       <div className={cx('Container-body', bodyClassName)}>
