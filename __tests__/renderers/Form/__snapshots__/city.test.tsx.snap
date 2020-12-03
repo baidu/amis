@@ -15,7 +15,9 @@ exports[`Renderer:city 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,6 +30,7 @@ exports[`Renderer:city 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -58,7 +61,12 @@ exports[`Renderer:city 1`] = `
               </div>
               <span
                 class="a-Select-arrow"
-              />
+              >
+                <icon-mock
+                  classname="icon icon-caret"
+                  icon="caret"
+                />
+              </span>
             </div>
             <div
               aria-expanded="false"
@@ -79,7 +87,12 @@ exports[`Renderer:city 1`] = `
               </div>
               <span
                 class="a-Select-arrow"
-              />
+              >
+                <icon-mock
+                  classname="icon icon-caret"
+                  icon="caret"
+                />
+              </span>
             </div>
             <div
               aria-expanded="false"
@@ -100,7 +113,12 @@ exports[`Renderer:city 1`] = `
               </div>
               <span
                 class="a-Select-arrow"
-              />
+              >
+                <icon-mock
+                  classname="icon icon-caret"
+                  icon="caret"
+                />
+              </span>
             </div>
           </div>
         </div>

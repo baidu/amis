@@ -1,5 +1,5 @@
 import {types, destroy, isAlive, detach, getEnv} from 'mobx-state-tree';
-import {getStoreById} from './index';
+import {getStoreById} from './manager';
 
 export const StoreNode = types
   .model('StoreNode', {

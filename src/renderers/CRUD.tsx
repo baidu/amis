@@ -1706,7 +1706,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       <Button
         classPrefix={ns}
         onClick={() => {
-          (require as any)(['papaparse'], (papaparse: any) => {
+          import('papaparse').then((papaparse: any) => {
             const csvText = papaparse.unparse(store.data.items);
             if (csvText) {
               const blob = new Blob([csvText], {

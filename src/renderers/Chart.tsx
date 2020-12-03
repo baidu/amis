@@ -224,32 +224,34 @@ export class Chart extends React.Component<ChartProps> {
   refFn(ref: any) {
     const chartRef = this.props.chartRef;
     if (ref) {
-      (require as any)(
-        [
-          'echarts',
-          'echarts/extension/dataTool',
-          'echarts/extension/bmap/bmap',
-          'echarts/map/js/china',
-          'echarts/map/js/world'
-        ],
-        (echarts: any, dataTool: any) => {
-          (window as any).echarts = echarts;
-          echarts.dataTool = dataTool;
-          this.echarts = echarts.init(ref);
-          this.echarts.on('click', this.handleClick);
-          this.unSensor = resizeSensor(ref, () => {
-            const width = ref.offsetWidth;
-            const height = ref.offsetHeight;
-            this.echarts.resize({
-              width,
-              height
-            });
-          });
+      Promise.all([
+        import('echarts'),
 
-          chartRef && chartRef(this.echarts);
-          this.renderChart();
-        }
-      );
+        // @ts-ignore
+        import('echarts/extension/dataTool'),
+        // @ts-ignore
+        import('echarts/extension/bmap/bmap'),
+        // @ts-ignore
+        import('echarts/map/js/china'),
+        // @ts-ignore
+        import('echarts/map/js/world')
+      ]).then(([echarts, dataTool]: any) => {
+        (window as any).echarts = echarts;
+        echarts.dataTool = dataTool;
+        this.echarts = echarts.init(ref);
+        this.echarts.on('click', this.handleClick);
+        this.unSensor = resizeSensor(ref, () => {
+          const width = ref.offsetWidth;
+          const height = ref.offsetHeight;
+          this.echarts.resize({
+            width,
+            height
+          });
+        });
+
+        chartRef && chartRef(this.echarts);
+        this.renderChart();
+      });
     } else {
       chartRef && chartRef(null);
       this.unSensor && this.unSensor();

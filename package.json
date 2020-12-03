@@ -93,6 +93,7 @@
     "@types/async": "^2.0.45",
     "@types/classnames": "^2.2.3",
     "@types/dom-helpers": "^3.4.1",
+    "@types/echarts": "^4.9.2",
     "@types/history": "^4.6.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^24.9.1",
@@ -183,9 +184,40 @@
       "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
       "\\.(svg)$": "<rootDir>/__mocks__/svgMock.js"
     },
+    "setupFilesAfterEnv": [
+      "<rootDir>/__tests__/jest.setup.js"
+    ],
     "globals": {
       "ts-jest": {
-        "diagnostics": false
+        "diagnostics": false,
+        "tsconfig": {
+          "module": "commonjs",
+          "target": "es5",
+          "lib": [
+            "es6",
+            "dom",
+            "ES2015"
+          ],
+          "sourceMap": true,
+          "jsx": "react",
+          "moduleResolution": "node",
+          "rootDir": ".",
+          "importHelpers": true,
+          "esModuleInterop": true,
+          "allowSyntheticDefaultImports": true,
+          "sourceRoot": ".",
+          "noImplicitReturns": true,
+          "noImplicitThis": true,
+          "noImplicitAny": true,
+          "strictNullChecks": true,
+          "experimentalDecorators": true,
+          "emitDecoratorMetadata": false,
+          "typeRoots": [
+            "./node_modules/@types",
+            "./types"
+          ],
+          "skipLibCheck": true
+        }
       }
     }
   },
