@@ -6,17 +6,17 @@
 
 import React from 'react';
 import moment from 'moment';
-import {findDOMNode} from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import cx from 'classnames';
-import {Icon} from './icons';
+import { Icon } from './icons';
 import Overlay from './Overlay';
-import {ShortCuts, ShortCutDateRange} from './DatePicker';
+import { ShortCuts, ShortCutDateRange } from './DatePicker';
 import Calendar from './calendar/Calendar';
 import PopOver from './PopOver';
-import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {PlainObject} from '../types';
-import {noop} from '../utils/helper';
-import {LocaleProps, localeable} from '../locale';
+import { ClassNamesFn, themeable, ThemeProps } from '../theme';
+import { PlainObject } from '../types';
+import { noop } from '../utils/helper';
+import { LocaleProps, localeable } from '../locale';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -51,7 +51,7 @@ export interface DateRangePickerState {
   endDate?: moment.Moment;
 }
 
-const availableRanges: {[propName: string]: any} = {
+const availableRanges: { [propName: string]: any } = {
   'today': {
     label: '今天',
     startDate: (now: moment.Moment) => {
@@ -156,7 +156,7 @@ const availableRanges: {[propName: string]: any} = {
 export class DateRangePicker extends React.Component<
   DateRangePickerProps,
   DateRangePickerState
-> {
+  > {
   static defaultProps = {
     placeholder: '请选择日期范围',
     format: 'X',
@@ -238,7 +238,7 @@ export class DateRangePicker extends React.Component<
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
     this.renderDay = this.renderDay.bind(this);
-    const {format, joinValues, delimiter, value} = this.props;
+    const { format, joinValues, delimiter, value } = this.props;
 
     this.state = {
       isOpened: false,
@@ -249,7 +249,7 @@ export class DateRangePicker extends React.Component<
 
   componentWillReceiveProps(nextProps: DateRangePickerProps) {
     const props = this.props;
-    const {value, format, joinValues, delimiter} = nextProps;
+    const { value, format, joinValues, delimiter } = nextProps;
 
     if (props.value !== value) {
       this.setState({
@@ -368,7 +368,7 @@ export class DateRangePicker extends React.Component<
       newValue.isBefore(this.state.endDate)
     ) {
       return this.setState({
-        startDate: newValue.clone()
+        startDate: newValue.clone().startOf('day')
       });
     }
 
@@ -383,7 +383,7 @@ export class DateRangePicker extends React.Component<
   }
 
   selectRannge(range: PlainObject) {
-    const {closeOnSelect, minDate, maxDate} = this.props;
+    const { closeOnSelect, minDate, maxDate } = this.props;
     const now = moment();
     this.setState(
       {
@@ -402,7 +402,7 @@ export class DateRangePicker extends React.Component<
     if (!ranges) {
       return null;
     }
-    const {classPrefix: ns} = this.props;
+    const { classPrefix: ns } = this.props;
     let rangeArr: Array<string | ShortCuts>;
     if (typeof ranges === 'string') {
       rangeArr = ranges.split(',');
@@ -448,15 +448,15 @@ export class DateRangePicker extends React.Component<
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
     e.stopPropagation();
-    const {resetValue, onChange} = this.props;
+    const { resetValue, onChange } = this.props;
 
     onChange(resetValue);
   }
 
   checkStartIsValidDate(currentDate: moment.Moment) {
-    let {endDate} = this.state;
+    let { endDate } = this.state;
 
-    let {minDate, maxDate} = this.props;
+    let { minDate, maxDate } = this.props;
 
     maxDate =
       maxDate && endDate
@@ -475,9 +475,9 @@ export class DateRangePicker extends React.Component<
   }
 
   checkEndIsValidDate(currentDate: moment.Moment) {
-    let {startDate} = this.state;
+    let { startDate } = this.state;
 
-    let {minDate, maxDate} = this.props;
+    let { minDate, maxDate } = this.props;
 
     minDate =
       minDate && startDate
@@ -496,7 +496,7 @@ export class DateRangePicker extends React.Component<
   }
 
   renderDay(props: any, currentDate: moment.Moment) {
-    let {startDate, endDate} = this.state;
+    let { startDate, endDate } = this.state;
 
     if (
       startDate &&
@@ -520,7 +520,7 @@ export class DateRangePicker extends React.Component<
     } = this.props;
     const __ = this.props.translate;
 
-    const {startDate, endDate} = this.state;
+    const { startDate, endDate } = this.state;
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
         {this.renderRanges(ranges)}
@@ -592,7 +592,7 @@ export class DateRangePicker extends React.Component<
       overlayPlacement
     } = this.props;
 
-    const {isOpened, isFocused} = this.state;
+    const { isOpened, isFocused } = this.state;
 
     const selectedDate = DateRangePicker.unFormatValue(
       value,
@@ -649,10 +649,10 @@ export class DateRangePicker extends React.Component<
             {arr.join(__(' 至 '))}
           </span>
         ) : (
-          <span className={`${ns}DateRangePicker-placeholder`}>
-            {__(placeholder)}
-          </span>
-        )}
+            <span className={`${ns}DateRangePicker-placeholder`}>
+              {__(placeholder)}
+            </span>
+          )}
 
         {clearable && !disabled && value ? (
           <a className={`${ns}DateRangePicker-clear`} onClick={this.clearValue}>
