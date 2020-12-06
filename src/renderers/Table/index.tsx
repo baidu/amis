@@ -1,21 +1,14 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../../factory';
-import {SchemaNode, Action, Schema} from '../../types';
+import {Action, Schema, SchemaNode} from '../../types';
 import forEach from 'lodash/forEach';
 import {filter} from '../../utils/tpl';
 import DropDownButton from '../DropDownButton';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
-import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
-import {
-  anyChanged,
-  getScrollParent,
-  difference,
-  noop,
-  autobind,
-  isArrayChildrenModified
-} from '../../utils/helper';
+import {IColumn, IRow, ITableStore, TableStore} from '../../store/table';
+import {anyChanged, autobind, difference, getScrollParent, isArrayChildrenModified, noop} from '../../utils/helper';
 import {resolveVariable} from '../../utils/tpl-builtin';
 import debounce from 'lodash/debounce';
 import Sortable from 'sortablejs';
@@ -27,19 +20,12 @@ import {TableRow} from './TableRow';
 import {HeadCellFilterDropDown} from './HeadCellFilterDropdown';
 import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import {TableContent} from './TableContent';
-import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaObject,
-  SchemaTokenizeableString,
-  SchemaType
-} from '../../Schema';
-import {FormControlSchema, FormControlType} from '../Form/Item';
+import {BaseSchema, SchemaClassName, SchemaObject, SchemaTokenizeableString} from '../../Schema';
 import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';
 import {SchemaRemark} from '../Remark';
-import {toDataURL, getImageDimensions} from '../../utils/image';
+import {getImageDimensions, toDataURL} from '../../utils/image';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -48,7 +34,7 @@ export type TableColumnObject = {
   /**
    * 列标题
    */
-  label: string;
+  label: string | React.Component;
 
   /**
    * 配置是否固定当前列
@@ -151,13 +137,13 @@ export interface TableSchema extends BaseSchema {
   footable?:
     | boolean
     | {
-        expand?: 'first' | 'all' | 'none';
+    expand?: 'first' | 'all' | 'none';
 
-        /**
-         * 是否为手风琴模式
-         */
-        accordion?: boolean;
-      };
+    /**
+     * 是否为手风琴模式
+     */
+    accordion?: boolean;
+  };
 
   /**
    * 底部外层 CSS 类名
@@ -237,10 +223,10 @@ export interface TableProps extends RendererProps {
   footable?:
     | boolean
     | {
-        expand?: 'first' | 'all' | 'none';
-        expandAll?: boolean;
-        accordion?: boolean;
-      };
+    expand?: 'first' | 'all' | 'none';
+    expandAll?: boolean;
+    accordion?: boolean;
+  };
   expandConfig?: {
     expand?: 'first' | 'all' | 'none';
     expandAll?: boolean;
@@ -276,9 +262,9 @@ export interface TableProps extends RendererProps {
 /**
  * 将 url 转成绝对地址
  */
-const getAbsoluteUrl = (function () {
+const getAbsoluteUrl = (function() {
   let link: HTMLAnchorElement;
-  return function (url: string) {
+  return function(url: string) {
     if (!link) link = document.createElement('a');
     link.href = url;
     return link.href;
@@ -418,7 +404,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     updateRows && store.initRows(rows, props.getEntryId);
     typeof props.selected !== 'undefined' &&
-      store.updateSelected(props.selected, props.valueField);
+    store.updateSelected(props.selected, props.valueField);
   }
 
   componentWillMount() {
@@ -682,10 +668,10 @@ export default class Table extends React.Component<TableProps, object> {
     const {store, onSelect} = this.props;
 
     onSelect &&
-      onSelect(
-        store.selectedRows.map(item => item.data),
-        store.unSelectedRows.map(item => item.data)
-      );
+    onSelect(
+      store.selectedRows.map(item => item.data),
+      store.unSelectedRows.map(item => item.data)
+    );
   }
 
   reset() {
@@ -772,7 +758,7 @@ export default class Table extends React.Component<TableProps, object> {
     } = (this.heights = {});
 
     heights.header ||
-      (heights.header = table.querySelector('thead')!.offsetHeight);
+    (heights.header = table.querySelector('thead')!.offsetHeight);
 
     forEach(
       table.querySelectorAll('thead>tr:last-child>th'),
@@ -1059,7 +1045,7 @@ export default class Table extends React.Component<TableProps, object> {
       tr,
       tbody.childNodes[
         index < this.originIndex ? this.originIndex + 1 : this.originIndex
-      ]
+        ]
     );
 
     tr.classList.remove('is-dragging');
@@ -1104,26 +1090,26 @@ export default class Table extends React.Component<TableProps, object> {
         title: column.enlargeTitle
           ? filter(column.enlargeTitle, row.data)
           : column.title
-          ? filter(column.title, row.data)
-          : undefined,
+            ? filter(column.title, row.data)
+            : undefined,
         caption: column.enlargeCaption
           ? filter(column.enlargeCaption, row.data)
           : column.caption
-          ? filter(column.caption, row.data)
-          : undefined
+            ? filter(column.caption, row.data)
+            : undefined
       });
     });
 
     if (list.length > 1) {
       onImageEnlarge &&
-        onImageEnlarge(
-          {
-            ...info,
-            list,
-            index
-          },
-          target
-        );
+      onImageEnlarge(
+        {
+          ...info,
+          list,
+          index
+        },
+        target
+      );
     } else {
       onImageEnlarge && onImageEnlarge(info, target);
     }
@@ -1295,10 +1281,10 @@ export default class Table extends React.Component<TableProps, object> {
             }
 
             onQuery &&
-              onQuery({
-                orderBy: store.orderBy,
-                orderDir: store.orderDir
-              });
+            onQuery({
+              orderBy: store.orderBy,
+              orderDir: store.orderDir
+            });
           }}
         >
           <i
@@ -1365,17 +1351,17 @@ export default class Table extends React.Component<TableProps, object> {
         )}
       >
         <div className={cx(`${ns}TableCell--title`)}>
-          {column.label ? render('tpl', column.label) : null}
+          {column.label ? (typeof column.label == "string" ? column.label:render('tpl', column.label))  : null}
 
           {column.remark
             ? render('remark', {
-                type: 'remark',
-                tooltip: column.remark,
-                container:
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
-              })
+              type: 'remark',
+              tooltip: column.remark,
+              container:
+                env && env.getModalContainer
+                  ? env.getModalContainer
+                  : undefined
+            })
             : null}
         </div>
 
@@ -1432,8 +1418,8 @@ export default class Table extends React.Component<TableProps, object> {
         <td key={props.key} className={cx(column.pristine.className)}>
           {item.depth > 2
             ? Array.from({length: item.depth - 2}).map((_, index) => (
-                <i key={index} className={cx('Table-divider-' + (index + 1))} />
-              ))
+              <i key={index} className={cx('Table-divider-' + (index + 1))} />
+            ))
             : null}
 
           {item.expandable ? (
@@ -1479,9 +1465,9 @@ export default class Table extends React.Component<TableProps, object> {
       data: item.locals,
       value: column.name
         ? resolveVariable(
-            column.name,
-            canAccessSuperData ? item.locals : item.data
-          )
+          column.name,
+          canAccessSuperData ? item.locals : item.data
+        )
         : column.value,
       popOverContainer: popOverContainer || this.getPopOverContainer,
       rowSpan: item.rowSpans[column.name as string],
@@ -1518,47 +1504,47 @@ export default class Table extends React.Component<TableProps, object> {
         <div className={cx('Table-fixedLeft')}>
           {store.leftFixedColumns.length
             ? this.renderFixedColumns(
-                store.rows,
-                store.leftFixedColumns,
-                true,
-                tableClassName
-              )
+              store.rows,
+              store.leftFixedColumns,
+              true,
+              tableClassName
+            )
             : null}
         </div>
         <div className={cx('Table-fixedRight')}>
           {store.rightFixedColumns.length
             ? this.renderFixedColumns(
-                store.rows,
-                store.rightFixedColumns,
-                true,
-                tableClassName
-              )
+              store.rows,
+              store.rightFixedColumns,
+              true,
+              tableClassName
+            )
             : null}
         </div>
         <div className={cx('Table-wrapper')}>
           <table ref={this.affixedTableRef} className={tableClassName}>
             <thead>
-              {store.columnGroup.length ? (
-                <tr>
-                  {store.columnGroup.map((item, index) => (
-                    <th
-                      key={index}
-                      data-index={item.index}
-                      colSpan={item.colSpan}
-                    >
-                      {item.label ? render('tpl', item.label) : null}
-                    </th>
-                  ))}
-                </tr>
-              ) : null}
+            {store.columnGroup.length ? (
               <tr>
-                {store.filteredColumns.map(column =>
-                  this.renderHeadCell(column, {
-                    'key': column.index,
-                    'data-index': column.index
-                  })
-                )}
+                {store.columnGroup.map((item, index) => (
+                  <th
+                    key={index}
+                    data-index={item.index}
+                    colSpan={item.colSpan}
+                  >
+                    {item.label ? render('tpl', item.label) : null}
+                  </th>
+                ))}
               </tr>
+            ) : null}
+            <tr>
+              {store.filteredColumns.map(column =>
+                this.renderHeadCell(column, {
+                  'key': column.index,
+                  'data-index': column.index
+                })
+              )}
+            </tr>
             </thead>
           </table>
         </div>
@@ -1584,52 +1570,52 @@ export default class Table extends React.Component<TableProps, object> {
         )}
       >
         <thead>
-          {store.columnGroup.length ? (
-            <tr>
-              {store.columnGroup.map((item, index) => {
-                const renderColumns = columns.filter(a => ~item.has.indexOf(a));
+        {store.columnGroup.length ? (
+          <tr>
+            {store.columnGroup.map((item, index) => {
+              const renderColumns = columns.filter(a => ~item.has.indexOf(a));
 
-                return renderColumns.length ? (
-                  <th
-                    key={index}
-                    data-index={item.index}
-                    colSpan={renderColumns.length}
-                  >
-                    {'\u00A0'}
-                  </th>
-                ) : null;
-              })}
-            </tr>
-          ) : null}
-          <tr className={hideHeader ? 'fake-hide' : ''}>
-            {columns.map(column =>
-              this.renderHeadCell(column, {
-                'key': column.index,
-                'data-index': column.index
-              })
-            )}
+              return renderColumns.length ? (
+                <th
+                  key={index}
+                  data-index={item.index}
+                  colSpan={renderColumns.length}
+                >
+                  {'\u00A0'}
+                </th>
+              ) : null;
+            })}
           </tr>
+        ) : null}
+        <tr className={hideHeader ? 'fake-hide' : ''}>
+          {columns.map(column =>
+            this.renderHeadCell(column, {
+              'key': column.index,
+              'data-index': column.index
+            })
+          )}
+        </tr>
         </thead>
 
         {headerOnly ? null : (
           <tbody>
-            {rows.length ? (
-              this.renderRows(rows, columns, {
-                regionPrefix: 'fixed/',
-                renderCell: (
-                  region: string,
-                  column: IColumn,
-                  item: IRow,
-                  props: any
-                ) => this.renderCell(region, column, item, props, true)
-              })
-            ) : (
-              <tr className={cx('Table-placeholder')}>
-                <td colSpan={columns.length}>
-                  {render('placeholder', placeholder, {data})}
-                </td>
-              </tr>
-            )}
+          {rows.length ? (
+            this.renderRows(rows, columns, {
+              regionPrefix: 'fixed/',
+              renderCell: (
+                region: string,
+                column: IColumn,
+                item: IRow,
+                props: any
+              ) => this.renderCell(region, column, item, props, true)
+            })
+          ) : (
+            <tr className={cx('Table-placeholder')}>
+              <td colSpan={columns.length}>
+                {render('placeholder', placeholder, {data})}
+              </td>
+            </tr>
+          )}
           </tbody>
         )}
       </table>
@@ -1878,8 +1864,8 @@ export default class Table extends React.Component<TableProps, object> {
                       (value === true && map['1']
                         ? map['1']
                         : value === false && map['0']
-                        ? map['0']
-                        : map['*']); // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
+                          ? map['0']
+                          : map['*']); // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
                     sheetRow.getCell(columIndex).value = viewValue;
                   } else {
                     sheetRow.getCell(columIndex).value = value;
@@ -1982,15 +1968,15 @@ export default class Table extends React.Component<TableProps, object> {
 
     const child = headerToolbarRender
       ? headerToolbarRender(
-          {
-            ...this.props,
-            selectedItems: store.selectedRows.map(item => item.data),
-            items: store.rows.map(item => item.data),
-            unSelectedItems: store.unSelectedRows.map(item => item.data),
-            ...otherProps
-          },
-          this.renderToolbar
-        )
+        {
+          ...this.props,
+          selectedItems: store.selectedRows.map(item => item.data),
+          items: store.rows.map(item => item.data),
+          unSelectedItems: store.unSelectedRows.map(item => item.data),
+          ...otherProps
+        },
+        this.renderToolbar
+      )
       : null;
     const actions = this.renderActions('header');
 
@@ -2048,13 +2034,13 @@ export default class Table extends React.Component<TableProps, object> {
 
     const child = footerToolbarRender
       ? footerToolbarRender(
-          {
-            ...this.props,
-            selectedItems: store.selectedRows.map(item => item.data),
-            items: store.rows.map(item => item.data)
-          },
-          this.renderToolbar
-        )
+        {
+          ...this.props,
+          selectedItems: store.selectedRows.map(item => item.data),
+          items: store.rows.map(item => item.data)
+        },
+        this.renderToolbar
+      )
       : null;
     const actions = this.renderActions('footer');
 
@@ -2297,11 +2283,11 @@ export default class Table extends React.Component<TableProps, object> {
           >
             {affixColumns !== false && store.leftFixedColumns.length
               ? this.renderFixedColumns(
-                  store.rows,
-                  store.leftFixedColumns,
-                  false,
-                  tableClassName
-                )
+                store.rows,
+                store.leftFixedColumns,
+                false,
+                tableClassName
+              )
               : null}
           </div>
           <div
@@ -2310,11 +2296,11 @@ export default class Table extends React.Component<TableProps, object> {
           >
             {affixColumns !== false && store.rightFixedColumns.length
               ? this.renderFixedColumns(
-                  store.rows,
-                  store.rightFixedColumns,
-                  false,
-                  tableClassName
-                )
+                store.rows,
+                store.rightFixedColumns,
+                false,
+                tableClassName
+              )
               : null}
           </div>
           {this.renderTableContent()}
@@ -2333,6 +2319,7 @@ export default class Table extends React.Component<TableProps, object> {
   storeType: TableStore.name,
   name: 'table'
 })
-export class TableRenderer extends Table {}
+export class TableRenderer extends Table {
+}
 
 export {TableCell};
