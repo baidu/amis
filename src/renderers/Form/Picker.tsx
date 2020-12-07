@@ -7,7 +7,7 @@ import {
 } from './Options';
 import cx from 'classnames';
 import Button from '../../components/Button';
-import {SchemaNode, Schema, Action} from '../../types';
+import {SchemaNode, Schema, Action, PlainObject} from '../../types';
 import find from 'lodash/find';
 import {
   anyChanged,
@@ -67,7 +67,7 @@ export interface PickerControlSchema extends FormOptionsControl {
 
 export interface PickerProps extends OptionsControlProps {
   modalMode: 'dialog' | 'drawer';
-  pickerSchema: object;
+  pickerSchema: PlainObject;
   labelField: string;
 }
 
@@ -169,7 +169,9 @@ export default class PickerControl extends React.PureComponent<
 
   buildSchema(props: PickerProps) {
     return {
+      checkOnItemClick: true,
       ...props.pickerSchema,
+      labelTpl: props.pickerSchema?.labelTpl ?? props.labelTpl,
       type: 'crud',
       pickerMode: true,
       syncLocation: false,
@@ -177,7 +179,6 @@ export default class PickerControl extends React.PureComponent<
       keepItemSelectionOnPageChange: true,
       valueField: props.valueField,
       labelField: props.labelField,
-      checkOnItemClick: true,
 
       // 不支持批量操作，会乱套
       bulkActions: props.multiple
@@ -361,6 +362,7 @@ export default class PickerControl extends React.PureComponent<
       labelTpl,
       disabled
     } = this.props;
+
     return (
       <div className={`${ns}Picker-values`}>
         {selectedOptions.map((item, index) => (
