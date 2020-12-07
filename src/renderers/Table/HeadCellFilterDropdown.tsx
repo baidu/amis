@@ -227,7 +227,7 @@ export class HeadCellFilterDropDown extends React.Component<
                     ? filterOptions.map((option: any, index) => (
                         <li
                           key={index}
-                          className={cx('DropDown-divider', {
+                          className={cx({
                             'is-selected': option.selected
                           })}
                           onClick={this.handleClick.bind(this, option.value)}
@@ -236,7 +236,7 @@ export class HeadCellFilterDropDown extends React.Component<
                         </li>
                       ))
                     : filterOptions.map((option: any, index) => (
-                        <li key={index} className={cx('DropDown-divider')}>
+                        <li key={index}>
                           <Checkbox
                             classPrefix={ns}
                             onChange={this.handleCheck.bind(this, option.value)}
@@ -248,7 +248,6 @@ export class HeadCellFilterDropDown extends React.Component<
                       ))}
                   <li
                     key="DropDown-menu-reset"
-                    className={cx('DropDown-divider')}
                     onClick={this.handleReset.bind(this)}
                   >
                     {__('重置')}
