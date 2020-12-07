@@ -48,7 +48,7 @@ export type TableColumnObject = {
   /**
    * 列标题
    */
-  label: string;
+  label: string | React.Component;
 
   /**
    * 配置是否固定当前列
@@ -1365,7 +1365,7 @@ export default class Table extends React.Component<TableProps, object> {
         )}
       >
         <div className={cx(`${ns}TableCell--title`)}>
-          {column.label ? render('tpl', column.label) : null}
+          {column.label ? (typeof column.label === "string" ? render('tpl', column.label):column.label) : null}
 
           {column.remark
             ? render('remark', {
