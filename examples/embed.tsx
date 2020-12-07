@@ -177,7 +177,12 @@ export function embed(
               return window.history.back();
             }
 
-            replace || (location.href = normalizeLink(to));
+            if (replace && window.history.replaceState) {
+              window.history.replaceState('', document.title, to);
+              return;
+            }
+
+            location.href = normalizeLink(to);
           },
           isCurrentUrl: (to: string) => {
             const link = normalizeLink(to);
