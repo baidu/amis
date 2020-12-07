@@ -1635,6 +1635,7 @@ export default class Table extends React.Component<TableProps, object> {
             onCheck={this.handleCheck}
             onQuickChange={store.dragging ? undefined : this.handleQuickChange}
             footable={store.footable}
+            ignoreFootableContent
             footableColumns={store.footableColumns}
             checkOnItemClick={checkOnItemClick}
             buildItemProps={buildItemProps}
