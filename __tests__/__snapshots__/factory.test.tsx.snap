@@ -77,7 +77,9 @@ exports[`factory:definitions 1`] = `
             <span
               class="a-TplField"
             >
-              引用
+              <span>
+                引用
+              </span>
             </span>
           </h2>
         </div>
@@ -97,7 +99,9 @@ exports[`factory:definitions 1`] = `
                 <span
                   class="a-TplField"
                 >
-                  表单
+                  <span>
+                    表单
+                  </span>
                 </span>
               </h3>
             </div>
@@ -110,6 +114,7 @@ exports[`factory:definitions 1`] = `
               >
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <label
                     class="a-Form-label"
@@ -137,13 +142,19 @@ exports[`factory:definitions 1`] = `
                   <div
                     class="a-Remark a-Form-remark"
                   >
-                    <i
-                      class="a-Remark-icon fa fa-question-circle"
-                    />
+                    <span
+                      class="a-Remark-icon"
+                    >
+                      <icon-mock
+                        classname=" icon-warning-mark"
+                        icon="warning-mark"
+                      />
+                    </span>
                   </div>
                 </div>
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <label
                     class="a-Form-label"
@@ -173,6 +184,7 @@ exports[`factory:definitions 1`] = `
                             >
                               <div
                                 class="a-Form-item a-Form-item--normal"
+                                data-role="form-item"
                               >
                                 <label
                                   class="a-Form-label"
@@ -200,6 +212,7 @@ exports[`factory:definitions 1`] = `
                               </div>
                               <div
                                 class="a-Form-item a-Form-item--normal"
+                                data-role="form-item"
                               >
                                 <label
                                   class="a-Form-label"
@@ -227,13 +240,19 @@ exports[`factory:definitions 1`] = `
                                 <div
                                   class="a-Remark a-Form-remark"
                                 >
-                                  <i
-                                    class="a-Remark-icon fa fa-question-circle"
-                                  />
+                                  <span
+                                    class="a-Remark-icon"
+                                  >
+                                    <icon-mock
+                                      classname=" icon-warning-mark"
+                                      icon="warning-mark"
+                                    />
+                                  </span>
                                 </div>
                               </div>
                               <div
                                 class="a-Form-item a-Form-item--normal"
+                                data-role="form-item"
                               >
                                 <label
                                   class="a-Form-label"
@@ -245,9 +264,14 @@ exports[`factory:definitions 1`] = `
                                 <div
                                   class="a-Remark a-Form-remark"
                                 >
-                                  <i
-                                    class="a-Remark-icon fa fa-question-circle"
-                                  />
+                                  <span
+                                    class="a-Remark-icon"
+                                  >
+                                    <icon-mock
+                                      classname=" icon-warning-mark"
+                                      icon="warning-mark"
+                                    />
+                                  </span>
                                 </div>
                               </div>
                             </div>
@@ -261,6 +285,7 @@ exports[`factory:definitions 1`] = `
                               data-tooltip="删除"
                             >
                               <icon-mock
+                                classname="icon icon-close"
                                 icon="close"
                               />
                             </a>
@@ -275,8 +300,9 @@ exports[`factory:definitions 1`] = `
                           data-tooltip="新增一条数据"
                           type="button"
                         >
-                          <i
-                            class="a-Button-icon fa fa-plus"
+                          <icon-mock
+                            classname="icon icon-plus"
+                            icon="plus"
                           />
                           <span>
                             新增
@@ -288,9 +314,14 @@ exports[`factory:definitions 1`] = `
                   <div
                     class="a-Remark a-Form-remark"
                   >
-                    <i
-                      class="a-Remark-icon fa fa-question-circle"
-                    />
+                    <span
+                      class="a-Remark-icon"
+                    >
+                      <icon-mock
+                        classname=" icon-warning-mark"
+                        icon="warning-mark"
+                      />
+                    </span>
                   </div>
                 </div>
               </form>
@@ -362,7 +393,9 @@ exports[`factory:definitions override 1`] = `
             <span
               class="a-TplField"
             >
-              引用
+              <span>
+                引用
+              </span>
             </span>
           </h2>
         </div>
@@ -382,7 +415,9 @@ exports[`factory:definitions override 1`] = `
                 <span
                   class="a-TplField"
                 >
-                  表单
+                  <span>
+                    表单
+                  </span>
                 </span>
               </h3>
             </div>
@@ -395,6 +430,7 @@ exports[`factory:definitions override 1`] = `
               >
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <label
                     class="a-Form-label"
@@ -422,13 +458,19 @@ exports[`factory:definitions override 1`] = `
                   <div
                     class="a-Remark a-Form-remark"
                   >
-                    <i
-                      class="a-Remark-icon fa fa-question-circle"
-                    />
+                    <span
+                      class="a-Remark-icon"
+                    >
+                      <icon-mock
+                        classname=" icon-warning-mark"
+                        icon="warning-mark"
+                      />
+                    </span>
                   </div>
                 </div>
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <label
                     class="a-Form-label"
@@ -471,9 +513,14 @@ exports[`factory:definitions override 1`] = `
                   <div
                     class="a-Remark a-Form-remark"
                   >
-                    <i
-                      class="a-Remark-icon fa fa-question-circle"
-                    />
+                    <span
+                      class="a-Remark-icon"
+                    >
+                      <icon-mock
+                        classname=" icon-warning-mark"
+                        icon="warning-mark"
+                      />
+                    </span>
                   </div>
                 </div>
               </form>

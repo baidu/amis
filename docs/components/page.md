@@ -88,9 +88,9 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 
 具体 API 规范查看 [API 文档](../types/api)。
 
-## 轮训初始化接口
+## 轮询初始化接口
 
-想要在页面渲染后，轮训请求初始化接口，步骤如下：
+想要在页面渲染后，轮询请求初始化接口，步骤如下：
 
 1. 配置 initApi；
 2. 配置 interval：单位为 ms，最低值 3000，低于该值按 3000 处理。
@@ -109,13 +109,13 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 }
 ```
 
-如果希望在满足某个条件的情况下停止轮训，配置`stopAutoRefreshWhen`表达式。
+如果希望在满足某个条件的情况下停止轮询，配置`stopAutoRefreshWhen`表达式。
 
 ```schema:height="200"
 {
   "type": "page",
   "initApi": "https://houtai.baidu.com/api/mock2/page/initData",
-  "stopAutoRefreshWhen": "this.time % 5", // 当时间戳能被5整除时，停止轮训
+  "stopAutoRefreshWhen": "this.time % 5", // 当时间戳能被5整除时，停止轮询
   "interval": 3000,
   "body": [
     {

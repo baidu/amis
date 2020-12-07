@@ -40,6 +40,7 @@ import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';
 import {SchemaRemark} from '../Remark';
 import {toDataURL, getImageDimensions} from '../../utils/image';
+import {TableBody} from './TableBody';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -1572,7 +1573,17 @@ export default class Table extends React.Component<TableProps, object> {
     headerOnly: boolean = false,
     tableClassName: string = ''
   ) {
-    const {placeholder, store, classnames: cx, render, data} = this.props;
+    const {
+      placeholder,
+      store,
+      classnames: cx,
+      render,
+      data,
+      checkOnItemClick,
+      buildItemProps,
+      rowClassNameExpr,
+      rowClassName
+    } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
 
     return (
@@ -1612,25 +1623,37 @@ export default class Table extends React.Component<TableProps, object> {
         </thead>
 
         {headerOnly ? null : (
-          <tbody>
-            {rows.length ? (
-              this.renderRows(rows, columns, {
-                regionPrefix: 'fixed/',
-                renderCell: (
-                  region: string,
-                  column: IColumn,
-                  item: IRow,
-                  props: any
-                ) => this.renderCell(region, column, item, props, true)
-              })
-            ) : (
-              <tr className={cx('Table-placeholder')}>
-                <td colSpan={columns.length}>
-                  {render('placeholder', placeholder, {data})}
-                </td>
-              </tr>
+          <TableBody
+            tableClassName={cx(
+              store.combineNum > 0 ? 'Table-table--withCombine' : '',
+              tableClassName
             )}
-          </tbody>
+            classnames={cx}
+            placeholder={placeholder}
+            render={render}
+            renderCell={this.renderCell}
+            onCheck={this.handleCheck}
+            onQuickChange={store.dragging ? undefined : this.handleQuickChange}
+            footable={store.footable}
+            ignoreFootableContent
+            footableColumns={store.footableColumns}
+            checkOnItemClick={checkOnItemClick}
+            buildItemProps={buildItemProps}
+            onAction={this.handleAction}
+            rowClassNameExpr={rowClassNameExpr}
+            rowClassName={rowClassName}
+            columns={columns}
+            rows={rows}
+            rowsProps={{
+              regionPrefix: 'fixed/',
+              renderCell: (
+                region: string,
+                column: IColumn,
+                item: IRow,
+                props: any
+              ) => this.renderCell(region, column, item, props, true)
+            }}
+          />
         )}
       </table>
     );
@@ -1753,7 +1776,7 @@ export default class Table extends React.Component<TableProps, object> {
       <Button
         classPrefix={ns}
         onClick={() => {
-          (require as any)(['exceljs'], async (ExcelJS: any) => {
+          import('exceljs').then(async (ExcelJS: any) => {
             if (!store.data.items || store.data.items.length === 0) {
               return;
             }
@@ -2083,93 +2106,6 @@ export default class Table extends React.Component<TableProps, object> {
     return footerNode && toolbarNode
       ? [toolbarNode, footerNode]
       : footerNode || toolbarNode || null;
-  }
-
-  renderRows(
-    rows: Array<any>,
-    columns = this.props.store.filteredColumns,
-    rowProps: any = {}
-  ): any {
-    const {
-      store,
-      rowClassName,
-      rowClassNameExpr,
-      onAction,
-      buildItemProps,
-      checkOnItemClick,
-      classPrefix: ns,
-      classnames: cx,
-      render
-    } = this.props;
-
-    return rows.map((item: IRow, rowIndex: number) => {
-      const itemProps = buildItemProps ? buildItemProps(item, rowIndex) : null;
-
-      const doms = [
-        <TableRow
-          {...itemProps}
-          classPrefix={ns}
-          classnames={cx}
-          checkOnItemClick={checkOnItemClick}
-          key={item.id}
-          itemIndex={rowIndex}
-          item={item}
-          itemClassName={cx(
-            rowClassNameExpr
-              ? filter(rowClassNameExpr, item.data)
-              : rowClassName,
-            {
-              'is-last': item.depth > 1 && rowIndex === rows.length - 1,
-              'is-expanded': item.expanded,
-              'is-expandable': item.expandable
-            }
-          )}
-          columns={columns}
-          renderCell={this.renderCell}
-          render={render}
-          onAction={onAction}
-          onCheck={this.handleCheck}
-          // todo 先注释 quickEditEnabled={item.depth === 1}
-          onQuickChange={store.dragging ? null : this.handleQuickChange}
-          {...rowProps}
-        />
-      ];
-
-      if (store.footable && store.footableColumns.length) {
-        if (item.depth === 1) {
-          doms.push(
-            <TableRow
-              {...itemProps}
-              classPrefix={ns}
-              classnames={cx}
-              checkOnItemClick={checkOnItemClick}
-              key={`foot-${item.id}`}
-              itemIndex={rowIndex}
-              item={item}
-              itemClassName={cx(
-                rowClassNameExpr
-                  ? filter(rowClassNameExpr, item.data)
-                  : rowClassName
-              )}
-              columns={store.footableColumns}
-              renderCell={this.renderCell}
-              render={render}
-              onAction={onAction}
-              onCheck={this.handleCheck}
-              footableMode
-              footableColSpan={store.filteredColumns.length}
-              onQuickChange={store.dragging ? null : this.handleQuickChange}
-              {...rowProps}
-            />
-          );
-        }
-      } else if (Array.isArray(item.data.children)) {
-        // 嵌套表格
-        doms.push(...this.renderRows(item.children, columns, rowProps));
-      }
-
-      return doms;
-    });
   }
 
   renderItemActions() {

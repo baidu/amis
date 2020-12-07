@@ -11,6 +11,7 @@ import {
 } from './Options';
 import {Icon} from '../../components/icons';
 import TreeSelector from '../../components/Tree';
+import {findAncestorsWithValue} from '../../components/Tree';
 // @ts-ignore
 import matchSorter from 'match-sorter';
 import debouce from 'lodash/debounce';
@@ -410,7 +411,17 @@ export default class TreeSelectControl extends React.Component<
   @autobind
   renderItem(item: Option) {
     const {labelField} = this.props;
-    return item[labelField || 'label'];
+    // 将所有祖先节点也展现出来
+    const ancestors: any[] = [];
+    findAncestorsWithValue(ancestors, this.props.options, item.value);
+    let ancestorsLabel = '';
+    if (ancestors.length) {
+      ancestorsLabel =
+        ancestors
+          .map((option: any) => option[labelField || 'label'])
+          .join(' / ') + ' / ';
+    }
+    return ancestorsLabel + item[labelField || 'label'];
   }
 
   renderOuter() {

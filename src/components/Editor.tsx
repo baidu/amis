@@ -176,9 +176,7 @@ export class Editor extends React.Component<EditorProps, any> {
   }
 
   loadMonaco() {
-    (require as any)(['monaco-editor'], (monaco: any) => {
-      this.initMonaco(monaco);
-    });
+    import('monaco-editor').then(monaco => this.initMonaco(monaco));
   }
 
   initMonaco(monaco: any) {

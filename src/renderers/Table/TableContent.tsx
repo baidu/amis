@@ -7,6 +7,7 @@ import {filter} from '../../utils/tpl';
 import {observer} from 'mobx-react';
 import {trace, reaction} from 'mobx';
 import {flattenTree} from '../../utils/helper';
+import {TableBody} from './TableBody';
 
 export interface TableContentProps {
   className?: string;
@@ -52,22 +53,6 @@ export class TableContent extends React.Component<TableContentProps> {
   reaction?: () => void;
   constructor(props: TableContentProps) {
     super(props);
-
-    const rows = props.rows;
-
-    this.reaction = reaction(
-      () =>
-        `${flattenTree(rows)
-          .map(item => `${item.id}`)
-          .join(',')}${rows
-          .filter(item => item.checked)
-          .map(item => item.id)
-          .join(',')}`,
-      () => this.forceUpdate(),
-      {
-        onError: () => this.reaction!()
-      }
-    );
   }
 
   shouldComponentUpdate(nextProps: TableContentProps) {
@@ -83,100 +68,6 @@ export class TableContent extends React.Component<TableContentProps> {
     return false;
   }
 
-  componentwillUnmount() {
-    this.reaction?.();
-  }
-
-  renderRows(
-    rows: Array<any>,
-    columns = this.props.columns,
-    rowProps: any = {}
-  ): any {
-    const {
-      rowClassName,
-      rowClassNameExpr,
-      onAction,
-      buildItemProps,
-      checkOnItemClick,
-      classnames: cx,
-      render,
-      renderCell,
-      onCheck,
-      onQuickChange,
-      footable,
-      footableColumns
-    } = this.props;
-
-    return rows.map((item: IRow, rowIndex: number) => {
-      const itemProps = buildItemProps ? buildItemProps(item, rowIndex) : null;
-
-      const doms = [
-        <TableRow
-          {...itemProps}
-          classnames={cx}
-          checkOnItemClick={checkOnItemClick}
-          key={item.id}
-          itemIndex={rowIndex}
-          item={item}
-          itemClassName={cx(
-            rowClassNameExpr
-              ? filter(rowClassNameExpr, item.data)
-              : rowClassName,
-            {
-              'is-last': item.depth > 1 && rowIndex === rows.length - 1
-            }
-          )}
-          columns={columns}
-          renderCell={renderCell}
-          render={render}
-          onAction={onAction}
-          onCheck={onCheck}
-          // todo 先注释 quickEditEnabled={item.depth === 1}
-          onQuickChange={onQuickChange}
-          {...rowProps}
-        />
-      ];
-
-      if (footable && footableColumns.length) {
-        if (item.depth === 1) {
-          doms.push(
-            <TableRow
-              {...itemProps}
-              classnames={cx}
-              checkOnItemClick={checkOnItemClick}
-              key={`foot-${item.id}`}
-              itemIndex={rowIndex}
-              item={item}
-              itemClassName={cx(
-                rowClassNameExpr
-                  ? filter(rowClassNameExpr, item.data)
-                  : rowClassName
-              )}
-              columns={footableColumns}
-              renderCell={renderCell}
-              render={render}
-              onAction={onAction}
-              onCheck={onCheck}
-              footableMode
-              footableColSpan={columns.length}
-              onQuickChange={onQuickChange}
-              {...rowProps}
-            />
-          );
-        }
-      } else if (item.children.length) {
-        // 嵌套表格
-        doms.push(
-          ...this.renderRows(item.children, columns, {
-            ...rowProps,
-            parent: item
-          })
-        );
-      }
-      return doms;
-    });
-  }
-
   render() {
     const {
       placeholder,
@@ -189,7 +80,17 @@ export class TableContent extends React.Component<TableContentProps> {
       onScroll,
       tableRef,
       rows,
-      renderHeadCell
+      renderHeadCell,
+      renderCell,
+      onCheck,
+      rowClassName,
+      onQuickChange,
+      footable,
+      footableColumns,
+      checkOnItemClick,
+      buildItemProps,
+      onAction,
+      rowClassNameExpr
     } = this.props;
 
     const tableClassName = cx('Table-table', this.props.tableClassName);
@@ -225,17 +126,23 @@ export class TableContent extends React.Component<TableContentProps> {
               )}
             </tr>
           </thead>
-          <tbody>
-            {rows.length ? (
-              this.renderRows(rows, columns)
-            ) : (
-              <tr className={cx('Table-placeholder')}>
-                <td colSpan={columns.length}>
-                  {render('placeholder', placeholder || '暂无数据')}
-                </td>
-              </tr>
-            )}
-          </tbody>
+          <TableBody
+            classnames={cx}
+            placeholder={placeholder}
+            render={render}
+            renderCell={renderCell}
+            onCheck={onCheck}
+            onQuickChange={onQuickChange}
+            footable={footable}
+            footableColumns={footableColumns}
+            checkOnItemClick={checkOnItemClick}
+            buildItemProps={buildItemProps}
+            onAction={onAction}
+            rowClassNameExpr={rowClassNameExpr}
+            rowClassName={rowClassName}
+            rows={rows}
+            columns={columns}
+          ></TableBody>
         </table>
       </div>
     );

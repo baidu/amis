@@ -1,10 +1,10 @@
 ---
 title: TreeSelect 树形选择器
-description: 
+description:
 type: 0
 group: null
 menuName: TreeSelect 树形选择器
-icon: 
+icon:
 order: 60
 ---
 
@@ -41,6 +41,24 @@ order: 60
         {
           "label": "file D",
           "value": 5
+        },
+        {
+          "label": "Folder E",
+          "children": [
+            {
+              "label": "Folder G",
+              "children": [
+                {
+                  "label": "file H",
+                  "value": 6
+                },
+                {
+                  "label": "file I",
+                  "value": 7
+                }
+              ]
+            }
+          ]
         }
       ]
     }
@@ -49,7 +67,3 @@ order: 60
 ```
 
 更多用法，见 [Tree](./tree)
-
-
-
-

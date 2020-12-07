@@ -293,6 +293,6 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 | messages              | `Object`                          |                | 消息提示覆写，默认消息读取的是接口返回的 toast 提示文字，但是在此可以覆写它。 |
 | messages.fetchSuccess | `string`                          |                | 接口请求成功时的 toast 提示文字                                               |
 | messages.fetchFailed  | `string`                          | `"初始化失败"` | 接口请求失败时 toast 提示文字                                                 |
-| interval              | `number`                          |                | 轮训时间间隔(最低 3000)                                                       |
-| silentPolling         | `boolean`                         | `false`        | 配置轮训时是否显示加载动画                                                    |
-| stopAutoRefreshWhen   | [表达式](../concepts/expression)  |                | 配置停止轮训的条件                                                            |
+| interval              | `number`                          |                | 轮询时间间隔(最低 3000)                                                       |
+| silentPolling         | `boolean`                         | `false`        | 配置轮询时是否显示加载动画                                                    |
+| stopAutoRefreshWhen   | [表达式](../concepts/expression)  |                | 配置停止轮询的条件                                                            |

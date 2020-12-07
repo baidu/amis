@@ -117,10 +117,27 @@ export const Row = types
       return data;
     },
 
-    get expanded(): boolean {
+    get collapsed(): boolean {
       const table = getParent(self, self.depth * 2) as ITableStore;
+      if (table.dragging) {
+        return true;
+      }
 
-      return !table.dragging && table.isExpanded(self as IRow);
+      let from: IRow = self as any;
+
+      while (from && (from as any) !== table) {
+        if (!table.isExpanded(from)) {
+          return true;
+        }
+
+        from = getParent(from, 2);
+      }
+
+      return false;
+    },
+
+    get expanded(): boolean {
+      return !this.collapsed;
     },
 
     get moved() {

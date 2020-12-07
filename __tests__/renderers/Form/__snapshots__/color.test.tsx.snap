@@ -15,7 +15,9 @@ exports[`Renderer:color 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,6 +30,7 @@ exports[`Renderer:color 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
@@ -54,7 +57,7 @@ exports[`Renderer:color 1`] = `
                 class="a-ColorPicker-clear"
               >
                 <icon-mock
-                  classname="icon"
+                  classname="icon icon-close"
                   icon="close"
                 />
               </a>

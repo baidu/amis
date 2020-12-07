@@ -104,7 +104,7 @@ export interface FormSchema extends BaseSchema {
   initApi?: SchemaApi;
 
   /**
-   * Form 用来获取初始数据的 api,与initApi不同的是，会一直轮训请求该接口，直到返回 finished 属性为 true 才 结束。
+   * Form 用来获取初始数据的 api,与initApi不同的是，会一直轮询请求该接口，直到返回 finished 属性为 true 才 结束。
    */
   initAsyncApi?: SchemaApi;
 
@@ -161,12 +161,12 @@ export interface FormSchema extends BaseSchema {
   api?: SchemaApi;
 
   /**
-   * 设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束。
+   * 设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 finished 属性为 true 才 结束。
    */
   asyncApi?: SchemaApi;
 
   /**
-   * 轮训请求的时间间隔，默认为 3秒。设置 asyncApi 才有效
+   * 轮询请求的时间间隔，默认为 3秒。设置 asyncApi 才有效
    */
   checkInterval?: number;
 

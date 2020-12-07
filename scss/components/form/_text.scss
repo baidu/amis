@@ -15,6 +15,7 @@
     flex-grow: 1;
     line-height: 1;
     white-space: nowrap;
+    display: flex;
 
     > input {
       display: inline-block;

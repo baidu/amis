@@ -3,140 +3,23 @@
 exports[`store:index 1`] = `
 Object {
   "storeType": "RendererStore",
-  "stores": Object {},
 }
 `;
 
 exports[`store:index 2`] = `
 Object {
   "storeType": "RendererStore",
-  "stores": Object {
-    "1": Object {
-      "action": undefined,
-      "busying": false,
-      "checking": false,
-      "childrenIds": Array [],
-      "data": Object {},
-      "dialogData": undefined,
-      "dialogOpen": false,
-      "disposed": false,
-      "drawerData": undefined,
-      "drawerOpen": false,
-      "error": false,
-      "fetching": false,
-      "hasRemoteData": false,
-      "id": "1",
-      "initedAt": 0,
-      "initializing": false,
-      "msg": "",
-      "parentId": "",
-      "path": "/xxx",
-      "pristine": Object {},
-      "saving": false,
-      "schema": null,
-      "schemaKey": "",
-      "storeType": "ServiceStore",
-      "updatedAt": 0,
-    },
-  },
 }
 `;
 
 exports[`store:index 3`] = `
 Object {
   "storeType": "RendererStore",
-  "stores": Object {
-    "1": Object {
-      "action": undefined,
-      "busying": false,
-      "checking": false,
-      "childrenIds": Array [
-        "2",
-      ],
-      "data": Object {},
-      "dialogData": undefined,
-      "dialogOpen": false,
-      "disposed": false,
-      "drawerData": undefined,
-      "drawerOpen": false,
-      "error": false,
-      "fetching": false,
-      "hasRemoteData": false,
-      "id": "1",
-      "initedAt": 0,
-      "initializing": false,
-      "msg": "",
-      "parentId": "",
-      "path": "/xxx",
-      "pristine": Object {},
-      "saving": false,
-      "schema": null,
-      "schemaKey": "",
-      "storeType": "ServiceStore",
-      "updatedAt": 0,
-    },
-    "2": Object {
-      "action": undefined,
-      "busying": false,
-      "checking": false,
-      "childrenIds": Array [],
-      "data": Object {},
-      "dialogData": undefined,
-      "dialogOpen": false,
-      "disposed": false,
-      "drawerData": undefined,
-      "drawerOpen": false,
-      "error": false,
-      "fetching": false,
-      "hasRemoteData": false,
-      "id": "2",
-      "initedAt": 0,
-      "initializing": false,
-      "msg": "",
-      "parentId": "1",
-      "path": "/yyy",
-      "pristine": Object {},
-      "saving": false,
-      "schema": null,
-      "schemaKey": "",
-      "storeType": "ServiceStore",
-      "updatedAt": 0,
-    },
-  },
 }
 `;
 
 exports[`store:index 4`] = `
 Object {
   "storeType": "RendererStore",
-  "stores": Object {
-    "1": Object {
-      "action": undefined,
-      "busying": false,
-      "checking": false,
-      "childrenIds": Array [],
-      "data": Object {},
-      "dialogData": undefined,
-      "dialogOpen": false,
-      "disposed": false,
-      "drawerData": undefined,
-      "drawerOpen": false,
-      "error": false,
-      "fetching": false,
-      "hasRemoteData": false,
-      "id": "1",
-      "initedAt": 0,
-      "initializing": false,
-      "msg": "",
-      "parentId": "",
-      "path": "/xxx",
-      "pristine": Object {},
-      "saving": false,
-      "schema": null,
-      "schemaKey": "",
-      "storeType": "ServiceStore",
-      "updatedAt": 0,
-    },
-  },
 }
 `;
