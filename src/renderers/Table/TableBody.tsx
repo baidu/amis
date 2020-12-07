@@ -31,6 +31,7 @@ export interface TableBodyProps {
     savePristine?: boolean
   ) => void;
   footable?: boolean;
+  ignoreFootableContent?: boolean;
   footableColumns: Array<IColumn>;
   checkOnItemClick?: boolean;
   buildItemProps?: (item: IRow, index: number) => any;
@@ -95,6 +96,7 @@ export class TableBody extends React.Component<TableBodyProps> {
       onCheck,
       onQuickChange,
       footable,
+      ignoreFootableContent,
       footableColumns
     } = this.props;
 
@@ -151,6 +153,7 @@ export class TableBody extends React.Component<TableBodyProps> {
               footableMode
               footableColSpan={columns.length}
               onQuickChange={onQuickChange}
+              ignoreFootableContent={ignoreFootableContent}
               {...rowProps}
             />
           );
