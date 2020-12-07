@@ -13,51 +13,47 @@
   &-fixedRight {
     position: absolute;
     background: $Table-bg;
-    z-index: 5;
-
-    // https://github.com/baidu/amis/pull/1080
-    // top: auto;
-    // box-shadow: none;
-
-    top: -999999px;
-    &.in {
-      top: auto;
-    }
+    z-index: $Table-fixed-zIndex;
+    top: auto;
+    box-shadow: none;
   }
 
   &-fixedLeft {
-    box-shadow: $Table-fixedLeft-boxShadow;
     left: 0;
 
-    // https://github.com/baidu/amis/pull/1080
-    // &.in {
-    //   box-shadow: $Table-fixedLeft-boxShadow;
-    // }
+    &.in {
+      box-shadow: $Table-fixedLeft-boxShadow;
+    }
 
-    // .#{$ns}Table-table > thead > tr > th:last-child {
-    //   border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
-    // }
+    & > .#{$ns}Table-table {
+      > thead > tr > th:last-child,
+      > tbody > tr > td:last-child {
+        padding-right: $TableCell-paddingX;
+      }
+
+      // > thead > tr > th:last-child {
+      //   border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
+      // }
+    }
   }
 
   &-fixedRight {
-    box-shadow: $Table-fixedRight-boxShadow;
     right: 0;
 
-    // https://github.com/baidu/amis/pull/1080
-    // &.in {
-    //   box-shadow: $Table-fixedRight-boxShadow;
-    // }
+    &.in {
+      box-shadow: $Table-fixedRight-boxShadow;
+    }
 
-    // .#{$ns}Table-table {
-    //   > thead > tr > th:first-child,
-    //   > tbody > tr > td:first-child {
-    //     padding-left: $TableCell-paddingX;
-    //   }
+    & > .#{$ns}Table-table {
+      > thead > tr > th:first-child,
+      > tbody > tr > td:first-child {
+        padding-left: $TableCell-paddingX;
+      }
 
-    //   > thead > tr > th:first-child {
-    //     border-left: $Table-thead-borderWidth solid $Table-thead-borderColor;
-    //   }
-    // }
+      // > thead > tr > th:first-child {
+      //   border-left: $Table-thead-borderWidth solid $Table-thead-borderColor;
+      // }
+    }
   }
 
   &-fixedTop {
@@ -197,7 +193,7 @@
 
   &-table {
     width: 100%;
-    max-width: 100%;
+    min-width: 100%;
     margin-bottom: 0;
     font-size: $Table-fontSize;
     color: $Table-color;
@@ -683,6 +679,7 @@
   &-itemActions-wrap {
     position: absolute;
     width: 100%;
+    z-index: $Table-fixed-zIndex + 1;
     left: 0;
     top: 0;
     min-height: 30px;

@@ -333,7 +333,7 @@ export class App extends React.PureComponent {
 
             return link.path ? (
               /^https?\:/.test(link.path) ? (
-                <a target="_blank" href={link.path}>
+                <a target="_blank" href={link.path} rel="noopener">
                   {children}
                 </a>
               ) : (

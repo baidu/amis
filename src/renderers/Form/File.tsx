@@ -340,7 +340,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       files = (Array.isArray(value)
         ? value
         : joinValues
-        ? (((value as any).value || value) as string).split(delimiter)
+        ? `${(value as any).value || value}`.split(delimiter)
         : [((value as any).value || value) as string]
       )
         .map(item => FileControl.valueToFile(item, props) as FileValue)
@@ -883,16 +883,18 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           total: tasks.length
         };
 
-        mapLimit(tasks, 3, uploadPartFile(state, config), function (
-          err: any,
-          results: any
-        ) {
-          if (err) {
-            reject(err);
-          } else {
-            finishChunk(results, state);
+        mapLimit(
+          tasks,
+          3,
+          uploadPartFile(state, config),
+          function (err: any, results: any) {
+            if (err) {
+              reject(err);
+            } else {
+              finishChunk(results, state);
+            }
           }
-        });
+        );
       }
 
       function updateProgress(partNumber: number, progress: number) {
@@ -1136,6 +1138,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                               <a
                                 className={cx('FileControl-itemInfoText')}
                                 target="_blank"
+                                rel="noopener"
                                 href={(file as FileValue).url}
                               >
                                 {file.name || (file as FileValue).filename}
