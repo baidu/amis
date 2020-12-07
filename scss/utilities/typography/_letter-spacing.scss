@@ -1,0 +1,26 @@
+@mixin make-letter-spacing($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'tighter': -0.05em,
+        'tight': -0.025em,
+        'normal': 0em,
+        'wide': 0.025,
+        'wider': 0.05em,
+        'widest': 0.1em
+      )
+  {
+    #{$prefix}tracking-#{$name} {
+      letter-spacing: $value;
+    }
+  }
+}
+
+@include make-letter-spacing();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-letter-spacing('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

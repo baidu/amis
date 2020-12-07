@@ -110,7 +110,7 @@
     sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
-.markdown-body a:not(.btn) {
+/* .markdown-body a:not(.btn) {
   color: #4078c0;
   text-decoration: none;
 }
@@ -119,7 +119,7 @@
 .markdown-body a:active:not(.btn) {
   color: #4078c0;
   text-decoration: underline;
-}
+} */
 
 .markdown-body hr {
   height: 0;
@@ -729,6 +729,7 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  margin-bottom: 15px;
 }
 
 .doc-play-ground .nav-tabs {
@@ -758,6 +759,25 @@
   margin-bottom: 15px;
 }
 
-.amis-doc pre {
-  margin-top: 15px;
+.amis-doc > .preview {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  overflow: hidden;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  background-color: #dbeafe;
+}
+
+body.dark .amis-doc > .preview {
+  background: #191c22;
+  color: #fff;
+}
+
+.amis-doc > pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
 }

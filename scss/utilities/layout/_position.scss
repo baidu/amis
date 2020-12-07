@@ -1,0 +1,39 @@
+/*!markdown
+
+---
+title: Position
+---
+
+Utilities for controlling how an element is positioned in the DOM.
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
+@mixin make-position($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        static: static,
+        fixed: fixed,
+        absolute: absolute,
+        relative: relative,
+        sticky: sticky
+      )
+  {
+    #{$prefix + $name} {
+      display: $value;
+    }
+  }
+}
+
+@include make-position();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-position('.' + selector-escape($deivce + ':'));
+  }
+}

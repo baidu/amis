@@ -1,0 +1,61 @@
+/*!markdown
+
+---
+title: Overflow
+---
+
+Utilities for controlling how an element handles content that is too large for the container.
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
+@mixin make-overflow($prefix: '.') {
+  #{$prefix}overflow-auto {
+    overflow: auto;
+  }
+  #{$prefix}overflow-hidden {
+    overflow: hidden;
+  }
+  #{$prefix}overflow-visible {
+    overflow: visible;
+  }
+  #{$prefix}overflow-scroll {
+    overflow: scroll;
+  }
+  #{$prefix}overflow-x-auto {
+    overflow-x: auto;
+  }
+  #{$prefix}overflow-y-auto {
+    overflow-y: auto;
+  }
+  #{$prefix}overflow-x-hidden {
+    overflow-x: hidden;
+  }
+  #{$prefix}overflow-y-hidden {
+    overflow-y: hidden;
+  }
+  #{$prefix}overflow-x-visible {
+    overflow-x: visible;
+  }
+  #{$prefix}overflow-y-visible {
+    overflow-y: visible;
+  }
+  #{$prefix}overflow-x-scroll {
+    overflow-x: scroll;
+  }
+  #{$prefix}overflow-y-scroll {
+    overflow-y: scroll;
+  }
+}
+
+@include make-overflow();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-overflow('.' + selector-escape($deivce + ':'));
+  }
+}

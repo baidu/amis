@@ -24,6 +24,8 @@ import Select from '../../src/components/Select';
 import DocSearch from './DocSearch';
 import Doc, {docs} from './Doc';
 import Example, {examples} from './Example';
+import CssDocs, {cssDocs} from './CssDocs';
+import CSSDocs from './CssDocs';
 
 let ExamplePathPrefix = '/examples';
 let DocPathPrefix = '/docs';
@@ -33,6 +35,10 @@ if (process.env.NODE_ENV === 'production') {
   ExamplePathPrefix = '';
   DocPathPrefix = '';
   ContextPath = '/amis';
+}
+
+export function getContextPath() {
+  return ContextPath;
 }
 
 const themes = [
@@ -141,9 +147,11 @@ export class App extends React.PureComponent {
         item.disabled = true;
       });
 
-      document.querySelector(
-        `link[title=${this.state.theme.value}]`
-      ).disabled = false;
+      document
+        .querySelectorAll(`link[title="${this.state.theme.value}"]`)
+        .forEach(item => {
+          item.disabled = false;
+        });
 
       if (this.state.theme.value === 'dark') {
         document.querySelector('body').classList.add('dark');
@@ -155,13 +163,17 @@ export class App extends React.PureComponent {
     const props = this.props;
 
     if (preState.theme.value !== this.state.theme.value) {
-      document.querySelector(
-        `link[title=${preState.theme.value}]`
-      ).disabled = true;
+      document
+        .querySelectorAll(`link[title="${preState.theme.value}"]`)
+        .forEach(item => {
+          item.disabled = true;
+        });
 
-      document.querySelector(
-        `link[title=${this.state.theme.value}]`
-      ).disabled = false;
+      document
+        .querySelectorAll(`link[title="${this.state.theme.value}"]`)
+        .forEach(item => {
+          item.disabled = false;
+        });
     }
 
     if (props.location.pathname !== preProps.location.pathname) {
@@ -218,6 +230,9 @@ export class App extends React.PureComponent {
             </Link>
             <Link to={`${ContextPath}/examples`} activeClassName="is-active">
               示例
+            </Link>
+            <Link to={`${ContextPath}/style`} activeClassName="is-active">
+              样式
             </Link>
             <a
               href="https://github.com/fex-team/amis-editor-demo"
@@ -280,15 +295,14 @@ export class App extends React.PureComponent {
 
         <div className={`${theme.ns}Layout-searchBar hidden-xs hidden-sm`}>
           <DocSearch theme={theme} />
+          <a
+            className="gh-icon"
+            href="https://github.com/baidu/amis"
+            target="_blank"
+          >
+            <i className="fa fa-github" />
+          </a>
         </div>
-
-        <a
-          className="gh-icon"
-          href="https://github.com/baidu/amis"
-          target="_blank"
-        >
-          <i className="fa fa-github" />
-        </a>
       </>
     );
   }
@@ -462,12 +476,19 @@ export default function entry({pathPrefix}) {
           from={`${ContextPath}/examples`}
           to={`${ContextPath}/examples/pages/simple`}
         />
+        <Redirect
+          from={`${ContextPath}/style`}
+          to={`${ContextPath}/style/index`}
+        />
 
         <Route path={`${ContextPath}/docs`} component={Doc}>
           {navigations2route(DocPathPrefix, docs)}
         </Route>
         <Route path={`${ContextPath}/examples`} component={Example}>
           {navigations2route(ExamplePathPrefix, examples)}
+        </Route>
+        <Route path={`${ContextPath}/style`} component={CSSDocs}>
+          {navigations2route(ExamplePathPrefix, cssDocs)}
         </Route>
       </Route>
 

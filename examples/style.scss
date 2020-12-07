@@ -7,15 +7,19 @@ body {
   &.dark {
     background-color: #333538 !important;
 
+    pre {
+      color: #fff;
+    }
+
     .markdown-body {
       color: #fff;
     }
   }
 }
 
-a {
-  text-decoration: none !important;
-}
+// a {
+//   text-decoration: none !important;
+// }
 
 .page-play,
 .page-edit {
@@ -80,12 +84,18 @@ a {
 
   &-schema-preview {
     border: 1px solid #ddd;
+    background: $body-bg;
     // background: rgb(240, 243, 244);
     position: relative;
     height: 100%;
     width: 100%;
-    overflow: auto;
+    // overflow: auto;
   }
+}
+
+body.dark .MDPreview-schema-preview {
+  background: #191c22;
+  color: #fff;
 }
 
 // .view-code {
@@ -126,18 +136,18 @@ a {
         box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
       }
 
-      .gh-icon {
-        position: fixed;
-        right: 15px;
-        top: 15px;
-        font-size: 22px;
-        padding: 0 10px;
-        color: #333;
+      // .gh-icon {
+      //   position: fixed;
+      //   right: 15px;
+      //   top: 15px;
+      //   font-size: 22px;
+      //   padding: 0 10px;
+      //   color: #333;
 
-        &:hover {
-          color: #333;
-        }
-      }
+      //   &:hover {
+      //     color: #333;
+      //   }
+      // }
     }
 
     &-brandBar,
@@ -187,7 +197,6 @@ a {
 
     &-headerBar {
       height: 64px;
-      padding-right: 20px;
 
       &-links {
         height: 64px;
@@ -200,10 +209,13 @@ a {
           color: #333;
           padding: 0px 22px;
           font-weight: 500;
+          text-decoration: none;
 
+          &:hover,
           &.is-active {
             color: #108cee;
             position: relative;
+            text-decoration: none;
 
             &::before {
               content: '';
@@ -219,17 +231,42 @@ a {
     }
 
     &-searchBar {
-      width: 120px;
+      width: 55px;
+      align-self: center;
+      padding-left: 10px;
 
-      .Doc-search {
-        margin-top: 15px;
-        border: 0;
+      > a {
+        cursor: pointer;
+        color: #666;
 
-        > .icon-search {
-          margin-right: 8px;
-          top: 3px;
+        > svg {
+          width: 14px;
+          height: 14px;
+          top: 2px;
+        }
+
+        > i {
+          font-size: 18px;
+        }
+
+        &:hover {
+          color: #333;
+        }
+
+        & + a {
+          margin-left: 10px;
         }
       }
+
+      // .Doc-search {
+      //   margin-top: 15px;
+      //   border: 0;
+
+      //   > .icon-search {
+      //     margin-right: 8px;
+      //     top: 3px;
+      //   }
+      // }
 
       &::before {
         left: 0;
@@ -910,7 +947,7 @@ a {
   }
 }
 
-.dark {
+body.dark {
   .search-result {
     background-color: #333538;
   }

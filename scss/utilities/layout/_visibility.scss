@@ -1,0 +1,32 @@
+/*!markdown
+
+---
+title: Visibility
+---
+
+Utilities for controlling the visibility of an element.
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
+@mixin make-visibility($prefix: '.') {
+  #{$prefix}visible {
+    visibility: visible;
+  }
+
+  #{$prefix}invisible {
+    visibility: hidden;
+  }
+}
+
+@include make-visibility();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-visibility('.' + selector-escape($deivce + ':'));
+  }
+}

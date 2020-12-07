@@ -1,0 +1,43 @@
+/*!markdown
+
+---
+title: Z-Index
+---
+
+Utilities for controlling the stack order of an element.
+
+
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
+@mixin make-z-index($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        '0': 0,
+        '10': 10,
+        '20': 20,
+        '30': 30,
+        '40': 40,
+        '50': 50,
+        'auto': auto
+      )
+  {
+    #{$prefix + 'z-' + $name} {
+      z-index: $value;
+    }
+  }
+}
+
+@include make-z-index();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-z-index('.' + selector-escape($deivce + ':'));
+  }
+}

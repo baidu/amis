@@ -1,0 +1,53 @@
+/*!markdown
+
+---
+title: Display
+---
+
+Utilities for controlling the display box type of an element.
+
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+@mixin make-display($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'block': block,
+        'inline-block': inline-block,
+        'inline': inline,
+        'flex': flex,
+        'inline-flex': inline-flex,
+        'table': table,
+        'table-caption': table-caption,
+        'table-cell': table-cell,
+        'table-column': table-column,
+        'table-column-group': table-column-group,
+        'table-footer-group': table-footer-group,
+        'table-header-group': table-header-group,
+        'table-row-group': table-row-group,
+        'table-row': table-row,
+        'flow-root': flow-root,
+        'grid': grid,
+        'inline-grid': inline-grid,
+        'contents': contents,
+        'hidden': none
+      )
+  {
+    #{$prefix + $name} {
+      display: $value;
+    }
+  }
+}
+
+@include make-display();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-display('.' + selector-escape($deivce + ':'));
+  }
+}

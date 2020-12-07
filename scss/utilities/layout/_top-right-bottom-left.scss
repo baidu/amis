@@ -1,0 +1,111 @@
+/*!markdown
+
+---
+title: Top / Right / Bottom / Left
+---
+
+Utilities for controlling the placement of positioned elements.
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
+@mixin make-single-position(
+  $selector,
+  $direction,
+  $name,
+  $value,
+  $prefix: '.'
+) {
+  #{$prefix}#{'' + selector-escape($selector + '-' + $name) } {
+    #{$direction}: $value;
+  }
+}
+
+@mixin make-single-positions($direction, $map: $inset, $prefix: '.') {
+  @each $name, $value in $map {
+    @include make-single-position($direction, $direction, $name, $value);
+  }
+
+  @each $name, $value in $map {
+    @if (type-of($value) == 'number') {
+      @include make-single-position(
+        #{$direction + '-n'},
+        $direction,
+        $name,
+        ($value * -1)
+      );
+    }
+  }
+}
+
+@mixin make-inset-positions($map: $inset, $prefix: '.') {
+  @each $name, $value in $map {
+    #{$prefix}#{selector-escape('inset-' + $name) } {
+      top: $value;
+      right: $value;
+      bottom: $value;
+      left: $value;
+    }
+  }
+
+  @each $name, $value in $map {
+    @if (type-of($value) == 'number') {
+      #{$prefix}#{selector-escape('inset-n-' + $name) } {
+        top: $value * -1;
+        right: $value * -1;
+        bottom: $value * -1;
+        left: $value * -1;
+      }
+    }
+  }
+}
+
+@mixin make-inset-x-positions($map: $inset, $prefix: '.') {
+  @each $name, $value in $map {
+    #{$prefix}#{selector-escape('inset-x-' + $name) } {
+      right: $value;
+      left: $value;
+    }
+  }
+
+  @each $name, $value in $map {
+    @if (type-of($value) == 'number') {
+      #{$prefix}#{selector-escape('inset-n-' + $name) } {
+        right: $value * -1;
+        left: $value * -1;
+      }
+    }
+  }
+}
+
+@mixin make-inset-y-positions($map: $inset, $prefix: '.') {
+  @each $name, $value in $map {
+    #{$prefix}#{selector-escape('inset-y-' + $name) } {
+      top: $value;
+      bottom: $value;
+    }
+  }
+
+  @each $name, $value in $map {
+    @if (type-of($value) == 'number') {
+      #{$prefix}#{selector-escape('inset-y-' + $name) } {
+        top: $value * -1;
+        bottom: $value * -1;
+      }
+    }
+  }
+}
+
+@include make-single-positions('top');
+@include make-single-positions('right');
+@include make-single-positions('bottom');
+@include make-single-positions('left');
+
+@include make-inset-positions();
+@include make-inset-x-positions();
+@include make-inset-y-positions();

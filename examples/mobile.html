@@ -12,6 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="animate.css/animate.css" />
+    <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
     <link rel="stylesheet" title="default" href="../scss/themes/default.scss" />
     <link
       rel="stylesheet"
@@ -25,6 +26,7 @@
       disabled
       href="../scss/themes/dark.scss"
     />
+    <link rel="stylesheet" href="../scss/utilities.scss" />
     <style>
       .app-wrapper {
         position: relative;
@@ -54,7 +56,7 @@
       ];
       const theme = themes[localStorage.getItem('themeIndex') || 0];
       // mobile 下先禁掉所有外链避免影响
-      document.querySelectorAll('link').forEach(item => {
+      document.querySelectorAll('link[title]').forEach(item => {
         item.disabled = true;
       });
       document.querySelector(`link[title=${theme.value}]`).disabled = false;

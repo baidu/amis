@@ -1,0 +1,45 @@
+/*!markdown
+
+---
+title: Floats
+---
+
+Utilities for controlling the wrapping of content around an element.
+
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+
+*/
+
+@mixin make-float($prefix: '.') {
+  #{$prefix}float-right {
+    float: right;
+  }
+
+  #{$prefix}float-left {
+    float: left;
+  }
+
+  #{$prefix}float-none {
+    float: none;
+  }
+
+  #{$prefix}pull-right {
+    float: right;
+  }
+
+  #{$prefix}pull-left {
+    float: left;
+  }
+}
+
+@include make-float();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-float('.' + selector-escape($deivce + ':'));
+  }
+}

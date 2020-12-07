@@ -1,0 +1,34 @@
+/*!markdown
+
+---
+title: Box Sizing
+---
+
+Utilities for controlling how the browser should calculate an element's total size.
+
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| box-border  | box-sizing: border-box;  |
+| box-content | box-sizing: content-box; |
+
+## Include borders and padding
+
+Use box-border to set an element's box-sizing to border-box, telling the browser to include the element's borders and padding when you give it a height or width.
+
+This means a 100px × 100px element with a 2px border and 4px of padding on all sides will be rendered as 100px × 100px, with an internal content area of 88px × 88px.
+
+Tailwind makes this the default for all elements in our preflight base styles.
+*/
+
+@mixin make-box-sizing($prefix: '.') {
+  #{$prefix}box-border {
+    box-sizing: border-box;
+  }
+
+  #{$prefix}box-content {
+    box-sizing: content-box;
+  }
+}
+
+@include make-box-sizing();

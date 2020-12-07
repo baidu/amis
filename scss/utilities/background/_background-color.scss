@@ -1,0 +1,89 @@
+/*!markdown
+
+---
+title: 介绍
+---
+
+233
+
+
+*/
+
+@mixin bg-colors-map(
+  $colors: $colors,
+  $namePrefix: '',
+  $prefix: '.',
+  $suffix: ''
+) {
+  #{$prefix}bg#{$namePrefix}-transparent#{$suffix} {
+    background-color: transparent;
+  }
+
+  #{$prefix}bg#{$namePrefix}-current#{$suffix} {
+    background-color: currentColor;
+  }
+
+  @each $name, $color in $colors {
+    @if (is-map($color)) {
+      @include bg-colors-map($color, #{'-' + $name}, $prefix, $suffix);
+    } @else if $suffix == '.is-active' {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}.is-active,
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}:active {
+        background-color: $color;
+      }
+    } @else if $suffix == '.is-disabled' {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}.is-disabled,
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}:disabled {
+        background-color: $color;
+      }
+    } @else {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}#{$suffix} {
+        background-color: $color;
+      }
+    }
+  }
+}
+
+@mixin bg-colors($prefix: '.', $suffix: '') {
+  #{$prefix}bg-transparent#{$suffix} {
+    background-color: transparent;
+  }
+  #{$prefix}bg-none#{$suffix} {
+    background: none !important;
+  }
+  @include bg-colors-map($colors, '', $prefix, $suffix);
+}
+
+@include bg-colors();
+@include bg-colors('.' + selector-escape('hover:'), ':hover');
+@include bg-colors('.' + selector-escape('active:'), '.is-active');
+@include bg-colors('.' + selector-escape('focus:'), ':focus');
+@include bg-colors('.' + selector-escape('disabled:'), '.is-disabled');
+@include bg-colors('.group:hover .' + selector-escape('group-hover:'));
+
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include bg-colors('.' + selector-escape($deivce + ':'));
+
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('hover:'),
+      ':hover'
+    );
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('active:'),
+      '.is-active'
+    );
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('focus:'),
+      ':focus'
+    );
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('disabled:'),
+      '.is-disabled'
+    );
+    @include bg-colors(
+      '.group:hover .' + selector-escape($deivce + ':') +
+        selector-escape('group-hover:')
+    );
+  }
+}

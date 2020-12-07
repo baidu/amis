@@ -34,6 +34,14 @@
   }
 }
 
+@mixin media-device($name, $devices: $devices) {
+  $n: map-get($devices, $name);
+
+  @media #{$n} {
+    @content;
+  }
+}
+
 @mixin clearfix() {
   &::before,
   &::after {
@@ -45,14 +53,17 @@
   }
 }
 
+// @deprecated 不建议用了
 @mixin color-schema($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
   background-color: saturate(darken($bg-color, $percent), $sat-percent);
 }
 
+// @deprecated 不建议用了
 @mixin color-schema-lt($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
   background-color: desaturate(lighten($bg-color, $percent), $sat-percent);
 }
 
+// @deprecated 不建议用了
 @mixin color-variant(
   $bg-color: #555,
   $lt-percent: 10%,
@@ -88,6 +99,7 @@
   }
 }
 
+// @deprecated 不建议用了
 @mixin font-variant($bg-color) {
   $font-color: desaturate(lighten($bg-color, 40%), 10%);
   $link-color: desaturate(lighten($bg-color, 50%), 10%);
@@ -135,6 +147,7 @@
   // }
 }
 
+// @deprecated 不建议用了
 @mixin text-wariant($bg-color, $name) {
   a.bg-#{'' + $name}:hover {
     background-color: darken($bg-color, 5%);
@@ -233,51 +246,68 @@
   box-shadow: $Button-boxShadow;
 
   @include hover {
-    color: $hover-color;
-    background-color: $hover-background;
-    border-color: $hover-border;
+    @if ($color != $hover-color) {
+      color: $hover-color;
+    }
+    @if ($background != $hover-background) {
+      background-color: $hover-background;
+    }
+    @if ($border != $hover-border) {
+      border-color: $hover-border;
+    }
   }
 
-  @include focus {
-    color: $color;
-    background-color: $background;
-    border-color: $border;
-    box-shadow: $Button-boxShadow;
-  }
+  // @include focus {
+  //   color: $color;
+  //   background-color: $background;
+  //   border-color: $border;
+  //   box-shadow: $Button-boxShadow;
+  // }
 
   @include hover-focus {
-    color: $hover-color;
-    background-color: $hover-background;
-    border-color: $hover-border;
+    // color: $hover-color;
+    // background-color: $hover-background;
+    // border-color: $hover-border;
     box-shadow: $Button-boxShadow;
+  }
+
+  &:active,
+  &.is-active {
+    @if ($active-color != $color) {
+      color: $active-color;
+    }
+
+    @if ($active-background != $background) {
+      background-color: $active-background;
+    }
+
+    @if ($active-border != $border) {
+      border-color: $active-border;
+    }
   }
 
   &.is-disabled,
   &:disabled {
-    @if variable-exists(Button-onDisabled-bg) {
+    @if variable-exists(Button-onDisabled-bg) and
+      $Button-onDisabled-bg !=
+      $background
+    {
       background-color: $Button-onDisabled-bg;
-    } @else {
-      background-color: $background;
     }
 
-    @if variable-exists(Button-onDisabled-color) {
+    @if variable-exists(Button-onDisabled-color) and
+      $Button-onDisabled-color !=
+      $color
+    {
       color: $Button-onDisabled-color;
-    } @else {
-      color: $color;
     }
 
-    @if variable-exists(Button-onDisabled-borderColor) {
+    @if variable-exists(Button-onDisabled-borderColor) and
+      $Button-onDisabled-borderColor !=
+      $border
+    {
       border-color: $Button-onDisabled-borderColor;
-    } @else {
-      border-color: $border;
     }
-  }
-
-  &:not(:disabled):not(.is-disabled):active,
-  &:not(:disabled):not(.is-disabled).is-active {
-    color: $active-color;
-    background-color: $active-background;
-    border-color: $active-border;
   }
 }
 

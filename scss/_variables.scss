@@ -1,38 +1,388 @@
 // 类名前缀
 $ns: '' !default;
-
-// 颜色
-$white: #fff !default;
-$gray100: #f8f9fa !default;
-$gray200: #e9ecef !default;
-$gray300: #dee2e6 !default;
-$gray400: #ced4da !default;
-$gray500: #adb5bd !default;
-$gray600: #6c757d !default;
-$gray700: #495057 !default;
-$gray800: #343a40 !default;
-$gray900: #212529 !default;
-$black: #000 !default;
-
-$orange: #fd7e14 !default;
-$yellow: #ffc107 !default;
-$green: #28a745 !default;
-$turquoise: #00d1b2 !default;
-$cyan: #17a2b8 !default;
-$blue: #007bff !default;
-$purple: #6f42c1 !default;
-$red: #dc3545 !default;
-
-$primary: $blue !default;
-$secondary: $gray600 !default;
-$success: $green !default;
-$info: $cyan !default;
-$warning: $yellow !default;
-$danger: $red !default;
-$light: $gray100 !default;
-$dark: $gray800 !default;
-
 $remFactor: 16px !default;
+
+$devices: (
+  m: '(max-width: 768px)',
+  pc: '(min-width: 769px)'
+) !default;
+
+// 生成颜色的工具有很多，可以参考这些链接来弄。
+// https://tailwind.ink/
+// https://www.tailwindshades.com/
+// https://tailwind.simeongriggs.dev/
+
+// https://javisperez.github.io/tailwindcolorshades/#/
+// v1 版本 {
+//   color50: tint($color, 0.95);
+//   color100: tint($color, 0.9);
+//   color200: tint($color, 0.75);
+//   color300: tint($color, 0.6);
+//   color400: tint($color, 0.3);
+//   color500: $color;
+//   color600: shade($color, 0.9);
+//   color700: shade($color, 0.6);
+//   color800: shade($color, 0.45);
+//   color900: shade($color, 0.3);
+// }
+$colors: (
+  black: #000,
+  white: #fff,
+  primary: #007bff,
+  secondary: #6c757d,
+  success: #28a745,
+  info: #17a2b8,
+  warning: #28a745,
+  danger: #dc3545,
+  light: #f8f9fa,
+  dark: #343a40,
+  gray: (
+    50: #f9fafb,
+    100: #f3f4f6,
+    200: #e5e7eb,
+    300: #d1d5db,
+    400: #9ca3af,
+    500: #6b7280,
+    600: #4b5563,
+    700: #374151,
+    800: #1f2937,
+    900: #111827
+  ),
+  red: (
+    50: #fef2f2,
+    100: #fee2e2,
+    200: #fecaca,
+    300: #fca5a5,
+    400: #f87171,
+    500: #ef4444,
+    600: #dc2626,
+    700: #b91c1c,
+    800: #991b1b,
+    900: #7f1d1d
+  ),
+  yellow: (
+    50: #fffbeb,
+    100: #fef3c7,
+    200: #fde68a,
+    300: #fcd34d,
+    400: #fbbf24,
+    500: #f59e0b,
+    600: #d97706,
+    700: #b45309,
+    800: #92400e,
+    900: #78350f
+  ),
+  green: (
+    50: #ecfdf5,
+    100: #d1fae5,
+    200: #a7f3d0,
+    300: #6ee7b7,
+    400: #34d399,
+    500: #10b981,
+    600: #059669,
+    700: #047857,
+    800: #065f46,
+    900: #064e3b
+  ),
+  blue: (
+    50: #eff6ff,
+    100: #dbeafe,
+    200: #bfdbfe,
+    300: #93c5fd,
+    400: #60a5fa,
+    500: #3b82f6,
+    600: #2563eb,
+    700: #1d4ed8,
+    800: #1e40af,
+    900: #1e3a8a
+  ),
+  cyan: (
+    50: #ecfeff,
+    100: #cffafe,
+    200: #a5f3fc,
+    300: #67e8f9,
+    400: #22d3ee,
+    500: #06b6d4,
+    600: #0891b2,
+    700: #0e7490,
+    800: #155e75,
+    900: #164e63
+  ),
+  indigo: (
+    50: #eef2ff,
+    100: #e0e7ff,
+    200: #c7d2fe,
+    300: #a5b4fc,
+    400: #818cf8,
+    500: #6366f1,
+    600: #4f46e5,
+    700: #4338ca,
+    800: #3730a3,
+    900: #312e81
+  ),
+  purple: (
+    50: #f5f3ff,
+    100: #ede9fe,
+    200: #ddd6fe,
+    300: #c4b5fd,
+    400: #a78bfa,
+    500: #8b5cf6,
+    600: #7c3aed,
+    700: #6d28d9,
+    800: #5b21b6,
+    900: #4c1d95
+  ),
+  pink: (
+    50: #fdf2f8,
+    100: #fce7f3,
+    200: #fbcfe8,
+    300: #f9a8d4,
+    400: #f472b6,
+    500: #ec4899,
+    600: #db2777,
+    700: #be185d,
+    800: #9d174d,
+    900: #831843
+  )
+) !default;
+
+// 颜色 Alias 不要直接修改, 直接修改 colors 对象。
+$white: map-get($colors, white);
+$gray50: map-get($colors, gray, 50);
+$gray100: map-get($colors, gray, 100);
+$gray200: map-get($colors, gray, 200);
+$gray300: map-get($colors, gray, 300);
+$gray400: map-get($colors, gray, 400);
+$gray500: map-get($colors, gray, 500);
+$gray600: map-get($colors, gray, 600);
+$gray700: map-get($colors, gray, 700);
+$gray800: map-get($colors, gray, 800);
+$gray900: map-get($colors, gray, 900);
+$gray: $gray500;
+$red: map-get($colors, red, 500);
+$yellow: map-get($colors, yellow, 500);
+$green: map-get($colors, green, 500);
+$blue: map-get($colors, blue, 500);
+$cyan: map-get($colors, cyan, 500);
+$indigo: map-get($colors, indigo, 500);
+$purple: map-get($colors, purple, 500);
+$pink: map-get($colors, pink, 500);
+$black: map-get($colors, black);
+
+$primary: map-get($colors, 'primary');
+$secondary: map-get($colors, 'secondary');
+$success: map-get($colors, 'success');
+$info: map-get($colors, 'info');
+$warning: map-get($colors, 'warning');
+$danger: map-get($colors, 'danger');
+$light: map-get($colors, 'light');
+$dark: map-get($colors, 'dark');
+
+$spacing: (
+  xs: px2rem(5px),
+  sm: px2rem(10px),
+  default: px2rem(15px),
+  md: px2rem(20px),
+  lg: px2rem(30px),
+  xl: px2rem(40px),
+  xxl: px2rem(50px),
+  //
+  // 上面是原来设定
+  //
+  // 下面是参考 tailwind
+  //
+  px: px2rem(1px),
+  0: 0,
+  none: 0,
+  0.5: px2rem(2px),
+  1: px2rem(4px),
+  1.5: px2rem(6px),
+  2: px2rem(8px),
+  2.5: px2rem(10px),
+  3: px2rem(12px),
+  3.5: px2rem(14px),
+  4: px2rem(16px),
+  5: px2rem(20px),
+  6: px2rem(24px),
+  7: px2rem(28px),
+  8: px2rem(32px),
+  9: px2rem(36px),
+  10: px2rem(40px),
+  11: px2rem(44px),
+  12: px2rem(48px),
+  14: px2rem(56px),
+  16: px2rem(64px),
+  20: px2rem(80px),
+  24: px2rem(96px),
+  28: px2rem(112px),
+  32: px2rem(128px),
+  36: px2rem(144px),
+  40: px2rem(160px),
+  44: px2rem(176px),
+  48: px2rem(192px),
+  52: px2rem(208px),
+  56: px2rem(224px),
+  60: px2rem(240px),
+  64: px2rem(256px),
+  72: px2rem(288px),
+  80: px2rem(320px),
+  96: px2rem(384px)
+) !default;
+
+$inset: map-merge(
+  $spacing,
+  (
+    auto: auto,
+    '1/2': 50%,
+    '1/3': 33.333333%,
+    '2/3': 66.666667%,
+    '1/4': 25%,
+    '2/4': 50%,
+    '3/4': 75%,
+    'full': 100%
+  )
+) !default;
+
+$widths: map-merge(
+  $spacing,
+  (
+    auto: auto,
+    1x: 1em,
+    2x: 2em,
+    3x: 3em,
+    '1/2': 50%,
+    '1/3': 33.333333%,
+    '2/3': 66.666667%,
+    '1/4': 25%,
+    '2/4': 50%,
+    '3/4': 75%,
+    '1/5': 20%,
+    '2/5': 40%,
+    '3/5': 60%,
+    '4/5': 80%,
+    '1/6': 16.666667%,
+    '2/6': 33.333333%,
+    '3/6': 50%,
+    '4/6': 66.666667%,
+    '5/6': 83.333333%,
+    '1/12': 8.333333%,
+    '2/12': 16.666667%,
+    '3/12': 25%,
+    '4/12': 33.333333%,
+    '5/12': 41.666667%,
+    '6/12': 50%,
+    '7/12': 58.333333%,
+    '8/12': 66.666667%,
+    '9/12': 75%,
+    '10/12': 83.333333%,
+    '11/12': 91.666667%,
+    full: 100%,
+    screen: 100vw,
+    min: min-content,
+    max: max-content
+  )
+) !default;
+
+$maxWidths: (
+  none: none,
+  0: 0rem,
+  xs: 20rem,
+  sm: 24rem,
+  md: 28rem,
+  lg: 32rem,
+  xl: 36rem,
+  2xl: 42rem,
+  3xl: 48rem,
+  4xl: 56rem,
+  5xl: 64rem,
+  6xl: 72rem,
+  7xl: 80rem,
+  full: 100%,
+  min: min-content,
+  max: max-content,
+  prose: 65ch
+) !default;
+
+$heights: map-merge(
+  $spacing,
+  (
+    auto: auto,
+    '1/2': 50%,
+    '1/3': 33.333333%,
+    '2/3': 66.666667%,
+    '1/4': 25%,
+    '2/4': 50%,
+    '3/4': 75%,
+    '1/5': 20%,
+    '2/5': 40%,
+    '3/5': 60%,
+    '4/5': 80%,
+    '1/6': 16.666667%,
+    '2/6': 33.333333%,
+    '3/6': 50%,
+    '4/6': 66.666667%,
+    '5/6': 83.333333%,
+    full: 100%,
+    screen: 100vh
+  )
+) !default;
+
+$maxHeights: map-merge(
+  $spacing,
+  (
+    full: 100%,
+    screen: 100vh
+  )
+) !default;
+
+$fontSizes: (
+  xs: 0.75rem 1rem,
+  sm: 0.875rem 1.25rem,
+  base: 1rem 1.5rem,
+  md: 1.125rem 1.75rem,
+  lg: 1.25rem 1.75rem,
+  xl: 1.5rem 2rem,
+  2xl: 1.875rem 2.25rem,
+  3xl: 2.25rem 2.5rem,
+  4xl: 3rem 1,
+  5xl: 3.75rem 1,
+  6xl: 4.5rem 1,
+  7xl: 6rem 1,
+  8xl: 8rem 1
+) !default;
+
+$borderRadiuses: (
+  'none': 0px,
+  'sm': 0.125rem,
+  'default': 0.25rem,
+  'md': 0.375rem,
+  'lg': 0.5rem,
+  'xl': 0.75rem,
+  '2xl': 1rem,
+  '3xl': 1.5rem,
+  'full': 9999px
+) !default;
+
+$borderWidths: (
+  'default': 1px,
+  '0': 0px,
+  '2': 2px,
+  '4': 4px,
+  '8': 8px
+) !default;
+
+$boxShadows: (
+  'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+  'default': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+  'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+  'lg':
+    '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+  'xl':
+    '0 20px 25px -5px rgba(0, 0, 0, 0.1) , 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+  '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+  'inner': 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
+  'none': none
+) !default;
 
 // 字体相关
 $fontFamilySansSerif: -apple-system, BlinkMacSystemFont, 'SF Pro SC',
@@ -85,6 +435,8 @@ $boxShadow: 0 0.5rem 1rem rgba($black, 0.15) !default;
 $boxShadowLg: 0 1rem 3rem rgba($black, 0.175) !default;
 
 // 窗口适配
+// @deprecated 不打算支持这么多视图，只区分 pc 和 移动端
+// 改用 devices 了
 $breakpoints: (
   xs: 0,
   sm: 576px,
@@ -102,7 +454,7 @@ $text--loud-color: darken($text-color, 10%) !default;
 
 $background: $white !default;
 
-$code-color: $red !default;
+$code-color: $danger !default;
 $code-background: $background !default;
 
 $pre-color: $text-color !default;
@@ -329,8 +681,8 @@ $Toast-icon-height: $Toast-icon-width !default;
 $Toast-color: $white !default;
 
 $Toast--danger-color: $Toast-color !default;
-$Toast--danger-bgColor: $red !default;
-$Toast--danger-borderColor: $red !default;
+$Toast--danger-bgColor: $danger !default;
+$Toast--danger-borderColor: $danger !default;
 
 $Toast--info-color: $Toast-color !default;
 $Toast--info-bgColor: $info !default;

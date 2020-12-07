@@ -153,7 +153,7 @@ module.exports = function (content, file) {
 
       // placeholder[index] = `<iframe class="doc-iframe" width="100%" height="${setting.height || 200}px" frameBorder="0" src="/play?code=${encodeURIComponent(code)}&scope=${encodeURIComponent(setting.scope)}"></iframe>`;
       if (lang === 'html') {
-        if (~code.indexOf('<html')) {
+        if (~code.indexOf('<html') || ~code.indexOf('<link')) {
           return _;
         }
 

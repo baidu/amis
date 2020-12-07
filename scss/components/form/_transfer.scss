@@ -46,6 +46,7 @@
     flex-grow: 1;
     max-height: 100%;
     overflow: auto;
+    position: relative; // 貌似不加 relative 会有 bug。
   }
 
   &-search + &-checkboxes {

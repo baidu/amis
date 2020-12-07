@@ -1,0 +1,64 @@
+@mixin border-colors-map(
+  $colors: $colors,
+  $namePrefix: '',
+  $prefix: '.',
+  $suffix: ''
+) {
+  @each $name, $color in $colors {
+    @if (is-map($color)) {
+      @include border-colors-map($color, #{'-' + $name}, $prefix, $suffix);
+    } @else if $suffix == '.is-active' {
+      #{$prefix}border#{$namePrefix}-#{'' + $name}.is-active,
+      #{$prefix}border#{$namePrefix}-#{'' + $name}:active {
+        border-color: $color;
+      }
+    } @else if $suffix == '.is-disabled' {
+      #{$prefix}border#{$namePrefix}-#{'' + $name}.is-disabled,
+      #{$prefix}border#{$namePrefix}-#{'' + $name}:disabled {
+        border-color: $color;
+      }
+    } @else {
+      #{$prefix}border#{$namePrefix}-#{'' + $name}#{$suffix} {
+        border-color: $color;
+      }
+    }
+  }
+}
+
+@mixin border-colors($prefix: '.', $suffix: '') {
+  @include border-colors-map($colors, '', $prefix, $suffix);
+}
+
+@include border-colors();
+@include border-colors('.' + selector-escape('hover:'), ':hover');
+@include border-colors('.' + selector-escape('active:'), '.is-active');
+@include border-colors('.' + selector-escape('focus:'), ':focus');
+@include border-colors('.' + selector-escape('disabled:'), '.is-disabled');
+@include border-colors('.group:hover .' + selector-escape('group-hover:'));
+
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include border-colors('.' + selector-escape($deivce + ':'));
+
+    @include border-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('hover:'),
+      ':hover'
+    );
+    @include border-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('active:'),
+      '.is-active'
+    );
+    @include border-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('focus:'),
+      ':focus'
+    );
+    @include border-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('disabled:'),
+      '.is-disabled'
+    );
+    @include border-colors(
+      '.group:hover .' + selector-escape($deivce + ':') +
+        selector-escape('group-hover:')
+    );
+  }
+}
