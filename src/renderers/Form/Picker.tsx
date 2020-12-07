@@ -169,6 +169,7 @@ export default class PickerControl extends React.PureComponent<
 
   buildSchema(props: PickerProps) {
     return {
+      checkOnItemClick: true,
       ...props.pickerSchema,
       type: 'crud',
       pickerMode: true,
@@ -177,7 +178,6 @@ export default class PickerControl extends React.PureComponent<
       keepItemSelectionOnPageChange: true,
       valueField: props.valueField,
       labelField: props.labelField,
-      checkOnItemClick: true,
 
       // 不支持批量操作，会乱套
       bulkActions: props.multiple
