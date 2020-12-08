@@ -29,8 +29,8 @@ function loadRichText(
 ): () => Promise<any> {
   return () =>
     type === 'tinymce'
-      ? import('../../components/Tinymce')
-      : import('../../components/RichText');
+      ? import('../../components/Tinymce').then(item => item.default)
+      : import('../../components/RichText').then(item => item.default);
 }
 
 export default class RichTextControl extends React.Component<
