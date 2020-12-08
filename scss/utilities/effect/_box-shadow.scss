@@ -1,11 +1,11 @@
 @mixin make-box-shadow($prefix: '.', $suffix: '') {
   @each $name, $value in $boxShadows {
-    @if $suffix == 'is-active' {
+    @if $suffix == '.is-active' {
       #{$prefix}shadow#{suffixName($name)}.is-active,
       #{$prefix}shadow#{suffixName($name)}:active {
         box-shadow: #{$value};
       }
-    } @else if $suffix == 'is-disabled' {
+    } @else if $suffix == '.is-disabled' {
       #{$prefix}shadow#{suffixName($name)}.is-disabled,
       #{$prefix}shadow#{suffixName($name)}:disabled {
         box-shadow: #{$value};

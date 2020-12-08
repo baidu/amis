@@ -7,12 +7,12 @@
   @each $name, $color in $colors {
     @if (is-map($color)) {
       @include text-colors-map($color, #{'-' + $name}, $prefix, $suffix);
-    } @else if $suffix == 'is-active' {
+    } @else if $suffix == '.is-active' {
       #{$prefix}text#{$namePrefix}-#{'' + $name}.is-active,
       #{$prefix}text#{$namePrefix}-#{'' + $name}:active {
         color: $color;
       }
-    } @else if $suffix == 'is-disabled' {
+    } @else if $suffix == '.is-disabled' {
       #{$prefix}text#{$namePrefix}-#{'' + $name}.is-disabled,
       #{$prefix}text#{$namePrefix}-#{'' + $name}:disabled {
         color: $color;

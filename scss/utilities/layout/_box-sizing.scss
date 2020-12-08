@@ -4,7 +4,7 @@
 title: Box Sizing
 ---
 
-Utilities for controlling how the browser should calculate an element's total size.
+Box Sizing 相关样式，主要区别在于设置宽高的时候，是否包含了 padding 和 border 的大小。
 
 
 | Class       | Properties               |
@@ -12,13 +12,19 @@ Utilities for controlling how the browser should calculate an element's total si
 | box-border  | box-sizing: border-box;  |
 | box-content | box-sizing: content-box; |
 
-## Include borders and padding
+比如这个栗子：左侧是 box-border 类型，整体高宽 128px。而右侧只是内容区域是 128px + 边框(2 * 4px) + padding （2 * 16px） 一共160px。
 
-Use box-border to set an element's box-sizing to border-box, telling the browser to include the element's borders and padding when you give it a height or width.
+```html
+<div class="flex space-x-6">
+  <div class="box-border h-32 w-32 p-4 border-4 border-blue-400 bg-blue-200 rounded-md">
+    <div class="h-full w-full bg-red-400"></div>
+  </div>
 
-This means a 100px × 100px element with a 2px border and 4px of padding on all sides will be rendered as 100px × 100px, with an internal content area of 88px × 88px.
-
-Tailwind makes this the default for all elements in our preflight base styles.
+  <div class="box-content h-32 w-32 p-4 border-4 border-blue-400 bg-blue-200 rounded-md">
+    <div class="h-full w-full bg-red-400"></div>
+  </div>
+</div>
+```
 */
 
 @mixin make-box-sizing($prefix: '.') {
