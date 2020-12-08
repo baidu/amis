@@ -169,14 +169,12 @@ function responseAdaptor(ret: fetcherResult) {
   if (!data) {
     throw new Error('Response is empty!');
   } else if (!data.hasOwnProperty('status')) {
-    // 兼容不返回 status 字段的情况
-    data.status = 0;
     hasStatusField = false;
   }
 
   const payload: Payload = {
-    ok: data.status == 0,
-    status: data.status,
+    ok: hasStatusField === false || data.status == 0,
+    status: hasStatusField === false ? 0 : data.status,
     msg: data.msg,
     msgTimeout: data.msgTimeout,
     data: !data.data && !hasStatusField ? data : data.data // 兼容直接返回数据的情况
