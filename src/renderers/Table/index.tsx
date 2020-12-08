@@ -790,8 +790,9 @@ export default class Table extends React.Component<TableProps, object> {
     const dom = findDOMNode(this) as HTMLElement;
 
     forEach(
+      // 折叠 footTable 不需要改变
       dom.querySelectorAll(
-        `.${ns}Table-fixedTop table, .${ns}Table-fixedLeft table, .${ns}Table-fixedRight table`
+        `.${ns}Table-fixedTop table, .${ns}Table-fixedLeft>table, .${ns}Table-fixedRight>table`
       ),
       (table: HTMLTableElement) => {
         let totalWidth = 0;
