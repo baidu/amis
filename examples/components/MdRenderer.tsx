@@ -11,50 +11,17 @@ import NestedLinks from '../../src/components/AsideNav';
 import {Portal} from 'react-overlays';
 import classnames from 'classnames';
 import {Link} from 'react-router';
+import Play from './Play';
 
-class CodePreview extends React.Component {
+class CodePreview extends React.Component<any> {
   state = {
     PlayGround: null
   };
-  componentDidMount() {
-    require(['./Play'], component =>
-      this.setState({
-        PlayGround: component.default
-      }));
-  }
 
   render() {
     const {container, setAsideFolded, setHeaderVisible, ...rest} = this.props;
 
-    let height = this.props.height;
-
-    const PlayGround = this.state.PlayGround;
-    // 不要放在 .markdown-body 下面，因为样式会干扰，复写又麻烦，所以通过 Overlay 渲染到同级
-
-    return (
-      <div>
-        <span style={{display: 'block', height: height}} ref="span" />
-        {PlayGround ? (
-          <Overlay
-            container={container}
-            target={() => this.refs.span}
-            placement="bottom"
-            show
-          >
-            <PopOver
-              theme={(rest as any).theme}
-              offset={{x: 0, y: -height}}
-              style={{height}}
-              className=":MDPreview-shcema-preview-popover"
-            >
-              <div className="MDPreview-schema-preview">
-                <PlayGround {...rest} vertical />
-              </div>
-            </PopOver>
-          </Overlay>
-        ) : null}
-      </div>
-    );
+    return <Play {...rest} vertical />;
   }
 }
 
@@ -147,7 +114,7 @@ class Preview extends React.Component {
       }
 
       dom.setAttribute('class', 'doc-play-ground');
-      dom.setAttribute('style', `height: ${height}px;`);
+      // dom.setAttribute('style', `min-height: ${height}px;`);
       const origin = script.parentNode;
       origin.parentNode.replaceChild(dom, origin);
 
@@ -156,12 +123,12 @@ class Preview extends React.Component {
         this,
         <LazyComponent
           {...this.props}
-          height={height}
           container={() => ReactDOM.findDOMNode(this)}
           component={CodePreview}
           code={script.innerText}
           scope={props.scope}
           unMountOnHidden
+          height={height}
           placeholder="加载中，请稍后。。。"
         />,
         dom
@@ -192,7 +159,7 @@ class Preview extends React.Component {
   render() {
     return (
       <div className="MDPreview">
-        <div className="markdown-body" ref={this.divRef}>
+        <div className="markdown" ref={this.divRef}>
           Doc
         </div>
       </div>

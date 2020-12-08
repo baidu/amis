@@ -145,8 +145,7 @@ module.exports = function (content, file) {
           setting[parts[0]] = parts[1] ? decodeURIComponent(parts[1]) : '';
 
           if (parts[0] === 'height') {
-            setting.height =
-              parseInt(setting.height, 10) + 200 /*编辑器的高度*/;
+            setting.height = parseInt(setting.height, 10) /*编辑器的高度*/;
             attr = attr.replace(item, `height="${setting.height}"`);
           }
         });
@@ -159,15 +158,15 @@ module.exports = function (content, file) {
 
         placeholder[
           index
-        ] = `<div class="amis-doc"><div class="preview">${code}</div><pre><code class="lang-html">${prism.highlight(
+        ] = `<!--amis-preview-start--><div class="amis-doc"><div class="preview">${code}</div><pre><code class="lang-html">${prism.highlight(
           code,
           prism.languages[lang],
           lang
-        )}</code></pre></div>`;
+        )}</code></pre></div><!--amis-preview-end-->`;
       } else {
         placeholder[
           index
-        ] = `<div class="amis-preview" style="height: ${setting.height}px"><script type="text/schema" ${attr}>${code}</script></div>`;
+        ] = `<!--amis-preview-start--><div class="amis-preview" style="min-height: ${setting.height}px"><script type="text/schema" ${attr}>${code}</script></div><!--amis-preview-end-->`;
       }
 
       return `[[${index++}]]`;
@@ -180,7 +179,15 @@ module.exports = function (content, file) {
 
   content = fis.compile.partial(content, file, 'html');
   // + `\n\n<div class="m-t-lg b-l b-info b-3x wrapper bg-light dk">文档内容有误？欢迎大家一起来编写，文档地址：<i class="fa fa-github"></i><a href="https://github.com/baidu/amis/tree/master${file.subpath}">${file.subpath}</a>。</div>`;
-  info.html = content;
+  info.html =
+    '<div class="markdown-body">' +
+    content.replace(/<\!\-\-amis\-preview\-(start|end)\-\-\>/g, function (
+      _,
+      type
+    ) {
+      return type === 'start' ? '</div>' : '<div class="markdown-body">';
+    }) +
+    '</div>';
   info.toc = toc;
 
   return 'module.exports = ' + JSON.stringify(info, null, 2) + ';';

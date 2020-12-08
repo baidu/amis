@@ -25,6 +25,8 @@ Box Sizing 相关样式，主要区别在于设置宽高的时候，是否包含
   </div>
 </div>
 ```
+
+不支持 [「响应式设计前缀」](../../../docs/css-utilities/responsive-design.md) 和[「状态前缀」](../../../docs/css-utilities/state.md)，有需求请提 [issue](https://github.com/baidu/amis/issues)。
 */
 
 @mixin make-box-sizing($prefix: '.') {

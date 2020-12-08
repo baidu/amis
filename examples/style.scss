@@ -64,39 +64,39 @@ body {
   }
 }
 
-.MDPreview {
-  flex: 1 auto;
-  overflow: auto;
-  width: 100%;
-  position: relative;
+// .MDPreview {
+//   flex: 1 auto;
+//   overflow: auto;
+//   width: 100%;
+//   position: relative;
 
-  &-shcema-preview-popover {
-    box-shadow: none !important;
-    margin-top: -1px !important;
-    padding: 0 45px !important;
-    left: 0 !important;
-    width: 100% !important;
-    // max-width: 980px !important;
-    z-index: 1 !important;
-    background: transparent !important;
-    border: none !important;
-  }
+//   &-shcema-preview-popover {
+//     box-shadow: none !important;
+//     margin-top: -1px !important;
+//     padding: 0 45px !important;
+//     left: 0 !important;
+//     width: 100% !important;
+//     // max-width: 980px !important;
+//     z-index: 1 !important;
+//     background: transparent !important;
+//     border: none !important;
+//   }
 
-  &-schema-preview {
-    border: 1px solid #ddd;
-    background: $body-bg;
-    // background: rgb(240, 243, 244);
-    position: relative;
-    height: 100%;
-    width: 100%;
-    // overflow: auto;
-  }
-}
+//   &-schema-preview {
+//     border: 1px solid #ddd;
+//     background: $body-bg;
+//     // background: rgb(240, 243, 244);
+//     position: relative;
+//     height: 100%;
+//     width: 100%;
+//     // overflow: auto;
+//   }
+// }
 
-body.dark .MDPreview-schema-preview {
-  background: #191c22;
-  color: #fff;
-}
+// body.dark .MDPreview-schema-preview {
+//   background: #191c22;
+//   color: #fff;
+// }
 
 // .view-code {
 //     position: fixed;
@@ -514,10 +514,6 @@ body.dark .MDPreview-schema-preview {
     }
 
     .markdown-body {
-      > *:first-child {
-        margin-top: 36px !important;
-      }
-
       > h1,
       > h2 {
         border-top: 1px solid #e0e7ec;
@@ -971,4 +967,27 @@ body.dark {
   display: block;
   margin: 0 auto;
   border-radius: 30px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.Playgroud {
+  border: 1px solid #ddd;
+  background: $body-bg;
+
+  body.dark & {
+    background: #191c22;
+    color: #fff;
+  }
+
+  &-preview {
+    border-bottom: 1px solid #ddd;
+    position: relative;
+  }
+
+  &-code {
+    flex-shrink: 0;
+    height: 200px;
+  }
 }

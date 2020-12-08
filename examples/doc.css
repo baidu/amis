@@ -5,6 +5,10 @@
     format('woff');
 }
 
+.markdown {
+  padding: 25px 45px 25px;
+}
+
 .markdown-body {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -18,7 +22,6 @@
   min-width: 200px;
   /* max-width: 980px; */
   /* margin: 0 auto; */
-  padding: 25px 45px 25px;
 }
 
 .anchor {
@@ -724,12 +727,16 @@
 }
 
 .doc-play-ground {
-  border: 1px solid #ddd;
-  min-height: 200px;
+  height: auto;
   position: relative;
   width: 100%;
-  overflow: hidden;
-  margin-bottom: 15px;
+  margin: 20px 0;
+}
+
+.doc-play-ground > .visibility-sensor {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .doc-play-ground .nav-tabs {
@@ -757,6 +764,10 @@
 
 .markdown-body > .amis-preview {
   margin-bottom: 15px;
+}
+
+.amis-doc {
+  margin: 20px 0;
 }
 
 .amis-doc > .preview {

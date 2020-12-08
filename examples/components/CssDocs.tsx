@@ -7,7 +7,7 @@ export const cssDocs = [
     children: [
       {
         label: '快速开始',
-        path: '/style/index',
+        path: '/css-utilities/index',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../docs/css-utilities/index.md'],
@@ -18,7 +18,7 @@ export const cssDocs = [
       },
       {
         label: '响应式设计',
-        path: '/style/responsive-design',
+        path: '/css-utilities/responsive-design',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../docs/css-utilities/responsive-design.md'],
@@ -29,7 +29,7 @@ export const cssDocs = [
       },
       {
         label: '状态样式',
-        path: '/style/state',
+        path: '/css-utilities/state',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../docs/css-utilities/state.md'],
@@ -47,7 +47,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Box Sizing',
-        path: '/style/layout/box-sizing',
+        path: '/css-utilities/layout/box-sizing',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_box-sizing.scss'],
@@ -59,7 +59,7 @@ export const cssDocs = [
 
       {
         label: 'Display',
-        path: '/style/layout/display',
+        path: '/css-utilities/layout/display',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_display.scss'],
@@ -71,7 +71,7 @@ export const cssDocs = [
 
       {
         label: 'Floats',
-        path: '/style/layout/floats',
+        path: '/css-utilities/layout/floats',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_float.scss'],
@@ -83,7 +83,7 @@ export const cssDocs = [
 
       {
         label: 'Clear',
-        path: '/style/layout/clear',
+        path: '/css-utilities/layout/clear',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_clear.scss'],
@@ -95,7 +95,7 @@ export const cssDocs = [
 
       {
         label: 'Overflow',
-        path: '/style/layout/overflow',
+        path: '/css-utilities/layout/overflow',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_overflow.scss'],
@@ -107,7 +107,7 @@ export const cssDocs = [
 
       {
         label: 'Position',
-        path: '/style/layout/position',
+        path: '/css-utilities/layout/position',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_position.scss'],
@@ -119,7 +119,7 @@ export const cssDocs = [
 
       {
         label: 'Top / Right / Bottom / Left',
-        path: '/style/layout/top-right-bottom-left',
+        path: '/css-utilities/layout/top-right-bottom-left',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_top-right-bottom-left.scss'],
@@ -131,7 +131,7 @@ export const cssDocs = [
 
       {
         label: 'Visibility',
-        path: '/style/layout/visibility',
+        path: '/css-utilities/layout/visibility',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_Visibility.scss'],
@@ -143,7 +143,7 @@ export const cssDocs = [
 
       {
         label: 'Z-Index',
-        path: '/style/layout/z-index',
+        path: '/css-utilities/layout/z-index',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_z-index.scss'],
@@ -160,7 +160,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Flex Direction',
-        path: '/style/flexbox/direction',
+        path: '/css-utilities/flexbox/direction',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_direction.scss'],
@@ -172,7 +172,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Wrap',
-        path: '/style/flexbox/wrap',
+        path: '/css-utilities/flexbox/wrap',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_wrap.scss'],
@@ -184,7 +184,7 @@ export const cssDocs = [
 
       {
         label: 'Flex',
-        path: '/style/flexbox/flex',
+        path: '/css-utilities/flexbox/flex',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_flex.scss'],
@@ -196,7 +196,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Grow',
-        path: '/style/flexbox/grow',
+        path: '/css-utilities/flexbox/grow',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_grow.scss'],
@@ -208,7 +208,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Shrink',
-        path: '/style/flexbox/shrink',
+        path: '/css-utilities/flexbox/shrink',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_shrink.scss'],
@@ -220,7 +220,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Order',
-        path: '/style/flexbox/order',
+        path: '/css-utilities/flexbox/order',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_order.scss'],
@@ -237,7 +237,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Grid Template Columns',
-        path: '/style/grid/columns',
+        path: '/css-utilities/grid/columns',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_columns.scss'],
@@ -248,7 +248,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Column Start / End',
-        path: '/style/grid/column-start-end',
+        path: '/css-utilities/grid/column-start-end',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_column-start-end.scss'],
@@ -259,7 +259,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Template Rows',
-        path: '/style/grid/rows',
+        path: '/css-utilities/grid/rows',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_rows.scss'],
@@ -270,7 +270,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Row Start / End',
-        path: '/style/grid/row-start-end',
+        path: '/css-utilities/grid/row-start-end',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_row-start-end.scss'],
@@ -281,7 +281,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Auto Flow',
-        path: '/style/grid/auto-flow',
+        path: '/css-utilities/grid/auto-flow',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_auto-flow.scss'],
@@ -292,7 +292,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Auto Columns',
-        path: '/style/grid/auto-columns',
+        path: '/css-utilities/grid/auto-columns',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_auto-columns.scss'],
@@ -303,7 +303,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Auto Rows',
-        path: '/style/grid/auto-rows',
+        path: '/css-utilities/grid/auto-rows',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_auto-rows.scss'],
@@ -314,7 +314,7 @@ export const cssDocs = [
       },
       {
         label: 'Gap',
-        path: '/style/grid/gap',
+        path: '/css-utilities/grid/gap',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_gap.scss'],
@@ -330,7 +330,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Justify Content',
-        path: '/style/box-alignment/justify-content',
+        path: '/css-utilities/box-alignment/justify-content',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_justify-content.scss'],
@@ -342,7 +342,7 @@ export const cssDocs = [
 
       {
         label: 'Justify Items',
-        path: '/style/box-alignment/justify-items',
+        path: '/css-utilities/box-alignment/justify-items',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_justify-items.scss'],
@@ -354,7 +354,7 @@ export const cssDocs = [
 
       {
         label: 'Justify Self',
-        path: '/style/box-alignment/justify-self',
+        path: '/css-utilities/box-alignment/justify-self',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_justify-self.scss'],
@@ -366,7 +366,7 @@ export const cssDocs = [
 
       {
         label: 'Align Content',
-        path: '/style/box-alignment/align-content',
+        path: '/css-utilities/box-alignment/align-content',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_align-content.scss'],
@@ -378,7 +378,7 @@ export const cssDocs = [
 
       {
         label: 'Align Items',
-        path: '/style/box-alignment/align-items',
+        path: '/css-utilities/box-alignment/align-items',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_align-items.scss'],
@@ -390,7 +390,7 @@ export const cssDocs = [
 
       {
         label: 'Align Self',
-        path: '/style/box-alignment/align-self',
+        path: '/css-utilities/box-alignment/align-self',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_align-self.scss'],
@@ -402,7 +402,7 @@ export const cssDocs = [
 
       {
         label: 'Place Content',
-        path: '/style/box-alignment/place-content',
+        path: '/css-utilities/box-alignment/place-content',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_place-content.scss'],
@@ -414,7 +414,7 @@ export const cssDocs = [
 
       {
         label: 'Place Items',
-        path: '/style/box-alignment/place-items',
+        path: '/css-utilities/box-alignment/place-items',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_place-items.scss'],
@@ -426,7 +426,7 @@ export const cssDocs = [
 
       {
         label: 'Place Self',
-        path: '/style/box-alignment/place-self',
+        path: '/css-utilities/box-alignment/place-self',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_place-self.scss'],
@@ -443,7 +443,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Padding',
-        path: '/style/spacing/padding',
+        path: '/css-utilities/spacing/padding',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/spacing/_padding.scss'],
@@ -455,7 +455,7 @@ export const cssDocs = [
 
       {
         label: 'Margin',
-        path: '/style/spacing/margin',
+        path: '/css-utilities/spacing/margin',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/spacing/_margin.scss'],
@@ -467,7 +467,7 @@ export const cssDocs = [
 
       {
         label: 'Space Between',
-        path: '/style/spacing/space-between',
+        path: '/css-utilities/spacing/space-between',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/spacing/_space-between.scss'],
@@ -484,7 +484,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Width',
-        path: '/style/flexbox/width',
+        path: '/css-utilities/flexbox/width',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_width.scss'],
@@ -495,7 +495,7 @@ export const cssDocs = [
       },
       {
         label: 'Height',
-        path: '/style/flexbox/height',
+        path: '/css-utilities/flexbox/height',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_height.scss'],
@@ -512,7 +512,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Font Size',
-        path: '/style/typography/font-size',
+        path: '/css-utilities/typography/font-size',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_font-size.scss'],
@@ -523,8 +523,8 @@ export const cssDocs = [
       },
 
       {
-        label: 'Font Style',
-        path: '/style/typography/font-style',
+        label: 'Font css-utilities',
+        path: '/css-utilities/typography/font-style',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_font-style.scss'],
@@ -536,7 +536,7 @@ export const cssDocs = [
 
       {
         label: 'Font Weight',
-        path: '/style/typography/font-weight',
+        path: '/css-utilities/typography/font-weight',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_font-weight.scss'],
@@ -548,7 +548,7 @@ export const cssDocs = [
 
       {
         label: 'Letter Spacing',
-        path: '/style/typography/letter-spacing',
+        path: '/css-utilities/typography/letter-spacing',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_letter-spacing.scss'],
@@ -560,7 +560,7 @@ export const cssDocs = [
 
       {
         label: 'Line Height',
-        path: '/style/typography/line-height',
+        path: '/css-utilities/typography/line-height',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_line-height.scss'],
@@ -572,7 +572,7 @@ export const cssDocs = [
 
       {
         label: 'List Style Type',
-        path: '/style/typography/list-style-type',
+        path: '/css-utilities/typography/list-style-type',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_list-style-type.scss'],
@@ -584,7 +584,7 @@ export const cssDocs = [
 
       {
         label: 'Text Alignment',
-        path: '/style/typography/text-align',
+        path: '/css-utilities/typography/text-align',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_text-align.scss'],
@@ -596,7 +596,7 @@ export const cssDocs = [
 
       {
         label: 'Text Color',
-        path: '/style/typography/text-color',
+        path: '/css-utilities/typography/text-color',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_text-color.scss'],
@@ -608,7 +608,7 @@ export const cssDocs = [
 
       {
         label: 'Text Decoration',
-        path: '/style/typography/text-decoration',
+        path: '/css-utilities/typography/text-decoration',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_text-decoration.scss'],
@@ -620,7 +620,7 @@ export const cssDocs = [
 
       {
         label: 'Text Transform',
-        path: '/style/typography/text-transform',
+        path: '/css-utilities/typography/text-transform',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_text-transform.scss'],
@@ -632,7 +632,7 @@ export const cssDocs = [
 
       {
         label: 'Vertical Alignment',
-        path: '/style/typography/vertical-algin',
+        path: '/css-utilities/typography/vertical-algin',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_vertical-algin.scss'],
@@ -644,7 +644,7 @@ export const cssDocs = [
 
       {
         label: 'Whitespace',
-        path: '/style/typography/whitespace',
+        path: '/css-utilities/typography/whitespace',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_whitespace.scss'],
@@ -656,7 +656,7 @@ export const cssDocs = [
 
       {
         label: 'Word Break',
-        path: '/style/typography/word-break',
+        path: '/css-utilities/typography/word-break',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_word-break.scss'],
@@ -673,7 +673,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Background Color',
-        path: '/style/background/background-color',
+        path: '/css-utilities/background/background-color',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_background-color.scss'],
@@ -690,7 +690,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Border Radius',
-        path: '/style/border/border-radius',
+        path: '/css-utilities/border/border-radius',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_border-radius.scss'],
@@ -702,7 +702,7 @@ export const cssDocs = [
 
       {
         label: 'Border Width',
-        path: '/style/border/border-width',
+        path: '/css-utilities/border/border-width',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_border-width.scss'],
@@ -714,7 +714,7 @@ export const cssDocs = [
 
       {
         label: 'Border Color',
-        path: '/style/border/border-color',
+        path: '/css-utilities/border/border-color',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_border-color.scss'],
@@ -726,7 +726,7 @@ export const cssDocs = [
 
       {
         label: 'Border Style',
-        path: '/style/border/border-style',
+        path: '/css-utilities/border/border-style',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_border-style.scss'],
@@ -743,7 +743,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Box Shadow',
-        path: '/style/effect/box-shadow',
+        path: '/css-utilities/effect/box-shadow',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_box-shadow.scss'],
@@ -755,7 +755,7 @@ export const cssDocs = [
 
       {
         label: 'Opacity',
-        path: '/style/effect/opacity',
+        path: '/css-utilities/effect/opacity',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_opacity.scss'],

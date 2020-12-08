@@ -66,7 +66,7 @@ title: 状态样式
 
 ```html
 <div
-  class="group p-6 border border-solid border-dark
+  class="group p-4 border border-solid border-dark
   hover:bg-dark"
 >
   <p class="group-hover:text-red-500">整体hover 红色</p>
