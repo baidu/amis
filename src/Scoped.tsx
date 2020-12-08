@@ -165,7 +165,7 @@ function createScopedTools(
             ...values
           };
           const link = location.pathname + '?' + qsstringify(query);
-          env.updateLocation(link);
+          env.updateLocation(link, true);
         }
       });
     },
