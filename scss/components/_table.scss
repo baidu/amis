@@ -25,7 +25,7 @@
 
     &.in {
       box-shadow: $Table-fixedLeft-boxShadow;
-      top: 0;
+      top: auto;
     }
 
     & > .#{$ns}Table-table {
@@ -47,7 +47,7 @@
 
     &.in {
       box-shadow: $Table-fixedRight-boxShadow;
-      top: 0;
+      top: auto;
     }
 
     & > .#{$ns}Table-table {
