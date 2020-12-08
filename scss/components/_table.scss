@@ -19,10 +19,13 @@
   }
 
   &-fixedLeft {
+    // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
     left: 0;
+    top: -99999px;
 
     &.in {
       box-shadow: $Table-fixedLeft-boxShadow;
+      top: auto;
     }
 
     & > .#{$ns}Table-table {
@@ -38,10 +41,13 @@
   }
 
   &-fixedRight {
+    // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
     right: 0;
+    top: -99999px;
 
     &.in {
       box-shadow: $Table-fixedRight-boxShadow;
+      top: auto;
     }
 
     & > .#{$ns}Table-table {

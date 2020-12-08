@@ -36,7 +36,7 @@ export interface DiffControlSchema extends FormBaseControl {
 }
 
 function loadComponent(): Promise<any> {
-  return import('../../components/Editor');
+  return import('../../components/Editor').then(item => item.default);
 }
 
 export interface DiffEditorProps
