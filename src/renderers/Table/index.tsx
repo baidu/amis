@@ -1084,7 +1084,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     // 从列表中收集所有图片，然后作为一个图片集合派送出去。
     const store = this.props.store;
-    const column = store.filteredColumns[target.colIndex].pristine;
+    const column = store.columns[target.colIndex].pristine;
 
     let index = target.rowIndex;
     const list: Array<any> = [];

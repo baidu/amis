@@ -165,7 +165,7 @@ export class TableRow extends React.Component<TableRowProps> {
                             ...rest,
                             width: null,
                             rowIndex: itemIndex,
-                            colIndex: column.rawIndex,
+                            colIndex: column.index,
                             key: column.index,
                             onAction: this.handleAction,
                             onQuickChange: this.handleQuickChange
@@ -208,7 +208,7 @@ export class TableRow extends React.Component<TableRowProps> {
           renderCell(`${itemIndex}/${column.index}`, column, item, {
             ...rest,
             rowIndex: itemIndex,
-            colIndex: column.rawIndex,
+            colIndex: column.index,
             key: column.index,
             onAction: this.handleAction,
             onQuickChange: this.handleQuickChange
