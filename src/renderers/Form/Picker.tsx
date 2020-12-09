@@ -25,6 +25,7 @@ import {isEmpty} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaCollection, SchemaTpl} from '../../Schema';
 import {CRUDSchema} from '../CRUD';
+import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 
 /**
  * Picker
@@ -137,6 +138,10 @@ export default class PickerControl extends React.PureComponent<
 
     if (JSON.stringify(props.value) !== JSON.stringify(prevProps.value)) {
       this.fetchOptions();
+    } else if (
+      isApiOutdated(prevProps.source, props.source, prevProps.data, props.data)
+    ) {
+      this.fetchOptions();
     }
   }
 
@@ -155,16 +160,15 @@ export default class PickerControl extends React.PureComponent<
       return;
     }
 
-    formItem.loadOptions(
-      source,
-      createObject(data, {
-        value: value,
-        op: 'loadOptions'
-      }),
-      {
+    const ctx = createObject(data, {
+      value: value,
+      op: 'loadOptions'
+    });
+
+    isEffectiveApi(source, ctx) &&
+      formItem.loadOptions(source, ctx, {
         autoAppend: true
-      }
-    );
+      });
   }
 
   buildSchema(props: PickerProps) {
