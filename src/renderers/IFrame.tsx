@@ -160,7 +160,10 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
     const finalSrc = src ? buildApi(src, data).url : undefined;
 
-    if (typeof finalSrc === 'string' && /javascript\:/.test(finalSrc)) {
+    if (
+      typeof finalSrc === 'string' &&
+      !/^(\.\/|\.\.\/|\/|https?\:\/\/)/.test(finalSrc)
+    ) {
       return <p>请填写合法的 iframe 地址</p>;
     }
 
