@@ -48,11 +48,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   input: any;
   unHook: Function;
+  lazyloadRemote: Function;
   constructor(props: SelectProps) {
     super(props);
 
     this.changeValue = this.changeValue.bind(this);
-    this.loadRemote = debouce(this.loadRemote.bind(this), 250, {
+    this.lazyloadRemote = debouce(this.loadRemote.bind(this), 250, {
       trailing: true,
       leading: false
     });
@@ -242,7 +243,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           value={selectedOptions}
           options={options}
           loadOptions={
-            isEffectiveApi(autoComplete) ? this.loadRemote : undefined
+            isEffectiveApi(autoComplete) ? this.lazyloadRemote : undefined
           }
           creatable={creatable}
           searchable={searchable || !!autoComplete}
