@@ -972,7 +972,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     const selection = this.state.selection;
     const inputValue = this.state.inputValue;
-    const reetValue = this.props.resetValue ?? '';
+    const resetValue = this.props.resetValue ?? '';
 
     return (
       <Downshift
@@ -1014,7 +1014,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
               <div className={cx(`Select-valueWrap`)}>
                 {this.renderValue(options)}
               </div>
-              {clearable && !disabled && value !== reetValue ? (
+              {clearable &&
+              !disabled &&
+              (Array.isArray(value) ? value.length : value !== resetValue) ? (
                 <a onClick={this.clearValue} className={cx('Select-clear')}>
                   <Icon icon="close" className="icon" />
                 </a>
