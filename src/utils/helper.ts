@@ -865,7 +865,7 @@ export function getTree<T extends TreeItem>(
   tree: Array<T>,
   idx: Array<number> | number
 ): T | undefined | null {
-  const indexes = Array.isArray(idx) ? idx : [idx];
+  const indexes = Array.isArray(idx) ? idx.concat() : [idx];
   const lastIndex = indexes.pop()!;
   let list: Array<T> | null = tree;
   for (let i = 0, len = indexes.length; i < len; i++) {

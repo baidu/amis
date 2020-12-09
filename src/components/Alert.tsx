@@ -11,8 +11,6 @@ import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {LocaleProps, localeable} from '../locale';
 import Html from './Html';
 import {PlainObject} from '../types';
-import {render as renderSchema} from '../factory';
-
 export interface AlertProps extends ThemeProps, LocaleProps {
   container?: any;
   confirmText?: string;
@@ -256,6 +254,18 @@ export class Alert extends React.Component<AlertProps, AlertState> {
   }
 }
 
+export type renderSchemaFn = (
+  controls: Array<any>,
+  value: PlainObject,
+  callback?: (values: PlainObject) => void,
+  scopeRef?: (value: any) => void,
+  theme?: string
+) => JSX.Element;
+let renderSchemaFn: renderSchemaFn;
+export function setRenderSchemaFn(fn: renderSchemaFn) {
+  renderSchemaFn = fn;
+}
+
 function renderForm(
   controls: Array<any>,
   value: PlainObject = {},
@@ -263,27 +273,7 @@ function renderForm(
   scopeRef?: (value: any) => void,
   theme?: string
 ) {
-  return renderSchema(
-    {
-      name: 'form',
-      type: 'form',
-      wrapWithPanel: false,
-      mode: 'horizontal',
-      controls,
-      messages: {
-        validateFailed: ''
-      }
-    },
-    {
-      data: value,
-      onFinished: callback,
-      scopeRef,
-      theme
-    },
-    {
-      session: 'prompt'
-    }
-  );
+  return renderSchemaFn?.(controls, value, callback, scopeRef, theme);
 }
 
 export const alert: (content: string, title?: string) => void = (
