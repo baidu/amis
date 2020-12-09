@@ -157,6 +157,13 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       ...tempStyle,
       ...style
     };
+
+    const finalSrc = src ? buildApi(src, data).url : undefined;
+
+    if (typeof finalSrc === 'string' && /javascript\:/.test(finalSrc)) {
+      return <p>请填写合法的 iframe 地址</p>;
+    }
+
     return (
       <iframe
         className={className}
@@ -164,7 +171,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         style={style}
         ref={this.IFrameRef}
         onLoad={this.onLoad}
-        src={src ? buildApi(src, data).url : undefined}
+        src={finalSrc}
       />
     );
   }
