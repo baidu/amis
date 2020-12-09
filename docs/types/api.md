@@ -620,12 +620,26 @@ const schema = {
 
 如果 API 返回的是文件下载，需要加上这个配置：
 
-```
+```json
 {
     "api": {
         ... // 其他配置
         "responseType": "blob"
     }
+}
+```
+
+比如点一个按钮下载的完整示例是：
+
+```json
+{
+  "type": "button",
+  "actionType": "ajax",
+  "api": {
+    "method": "post",
+    "url": "/api",
+    "responseType": "blob"
+  }
 }
 ```
 
