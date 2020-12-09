@@ -44,7 +44,7 @@ import {
 import find from 'lodash/find';
 import Alert from './components/Alert2';
 import {toast} from './components/Toast';
-import {alert, confirm} from './components/Alert';
+import {alert, confirm, setRenderSchemaFn} from './components/Alert';
 import {LazyComponent} from './components';
 import ImageGallery from './components/ImageGallery';
 import {
@@ -1049,9 +1049,9 @@ export function render(
       fetcher: options.fetcher
         ? wrapFetcher(options.fetcher)
         : defaultOptions.fetcher,
-      confirm: options.confirm
-        ? promisify(options.confirm)
-        : defaultOptions.confirm,
+      confirm: promisify(
+        options.confirm || defaultOptions.confirm || window.confirm
+      ),
       locale,
       translate
     } as any;
@@ -1227,3 +1227,27 @@ export function withRootStore<
     ComposedComponent: T;
   };
 }
+
+setRenderSchemaFn((controls, value, callback, scopeRef, theme) => {
+  return render(
+    {
+      name: 'form',
+      type: 'form',
+      wrapWithPanel: false,
+      mode: 'horizontal',
+      controls,
+      messages: {
+        validateFailed: ''
+      }
+    },
+    {
+      data: value,
+      onFinished: callback,
+      scopeRef,
+      theme
+    },
+    {
+      session: 'prompt'
+    }
+  );
+});

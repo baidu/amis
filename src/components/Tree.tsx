@@ -331,13 +331,10 @@ export class TreeSelector extends React.Component<
   @autobind
   handleAdd(parent: Option | null = null) {
     const {bultinCUD, onAdd, options} = this.props;
-    let idx: Array<number> | undefined = undefined;
 
     if (!bultinCUD) {
-      idx = parent
-        ? findTreeIndex(options, item => item === parent)
-        : undefined;
-      return onAdd && onAdd(idx);
+      const idxes = findTreeIndex(options, item => item === parent) || [];
+      return onAdd && onAdd(idxes.concat(0));
     } else {
       this.setState({
         isEditing: false,
@@ -400,11 +397,11 @@ export class TreeSelector extends React.Component<
       },
       () => {
         if (isAdding && onAdd) {
-          let idx =
+          const idxes =
             (addingParent &&
               findTreeIndex(options, item => item === addingParent)) ||
             [];
-          onAdd(idx, {[labelField]: value}, true);
+          onAdd(idxes.concat(0), {[labelField]: value}, true);
         } else if (isEditing && onEdit) {
           onEdit(
             {
@@ -735,7 +732,7 @@ export class TreeSelector extends React.Component<
 
     return (
       <div className={cx(`Tree ${className || ''}`)}>
-        {options && options.length ? (
+        {(options && options.length) || addBtn || hideRoot === false ? (
           <ul className={cx('Tree-list')}>
             {hideRoot ? (
               <>
