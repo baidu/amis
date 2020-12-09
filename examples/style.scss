@@ -984,6 +984,13 @@ body.dark {
   &-preview {
     border-bottom: 1px solid #ddd;
     position: relative;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+
+    > div {
+      flex: 1;
+    }
   }
 
   &-code {

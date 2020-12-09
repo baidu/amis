@@ -159,7 +159,7 @@ module.exports = function (content, file) {
         placeholder[
           index
         ] = `<!--amis-preview-start--><div class="amis-doc"><div class="preview">${code}</div><pre><code class="lang-html">${prism.highlight(
-          code,
+          code.replace(/"data:(\w+\/\w+);.*?"/g, '"data:$1; ..."'),
           prism.languages[lang],
           lang
         )}</code></pre></div><!--amis-preview-end-->`;
