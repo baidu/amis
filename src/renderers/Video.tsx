@@ -336,7 +336,7 @@ export class HlsSource extends React.Component<HlsSourceProps, any> {
 
   initHls({video, manager, src, autoPlay, actions}: any) {
     // @ts-ignore
-    import('hls.js').then((Hls: any) => {
+    import('hls.js').then(({default: Hls}: any) => {
       // load hls video source base on hls.js
       if (Hls.isSupported()) {
         video = video || (manager.video && manager.video.video);
