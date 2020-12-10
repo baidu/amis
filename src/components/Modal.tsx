@@ -132,6 +132,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   componentDidMount() {
     if (this.props.show) {
+      this.handleEnter();
       this.handleEntered();
     }
   }
