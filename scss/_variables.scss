@@ -148,25 +148,28 @@ $colors: (
 
 // 颜色 Alias 不要直接修改, 直接修改 colors 对象。
 $white: map-get($colors, white);
-$gray50: map-get($colors, gray, 50);
-$gray100: map-get($colors, gray, 100);
-$gray200: map-get($colors, gray, 200);
-$gray300: map-get($colors, gray, 300);
-$gray400: map-get($colors, gray, 400);
-$gray500: map-get($colors, gray, 500);
-$gray600: map-get($colors, gray, 600);
-$gray700: map-get($colors, gray, 700);
-$gray800: map-get($colors, gray, 800);
-$gray900: map-get($colors, gray, 900);
+$gray50: map-get(
+  map-get($colors, gray),
+  50
+); // node-sass 不支持多个参数用法，所以先这么写。
+$gray100: map-get(map-get($colors, gray), 100);
+$gray200: map-get(map-get($colors, gray), 200);
+$gray300: map-get(map-get($colors, gray), 300);
+$gray400: map-get(map-get($colors, gray), 400);
+$gray500: map-get(map-get($colors, gray), 500);
+$gray600: map-get(map-get($colors, gray), 600);
+$gray700: map-get(map-get($colors, gray), 700);
+$gray800: map-get(map-get($colors, gray), 800);
+$gray900: map-get(map-get($colors, gray), 900);
 $gray: $gray500;
-$red: map-get($colors, red, 500);
-$yellow: map-get($colors, yellow, 500);
-$green: map-get($colors, green, 500);
-$blue: map-get($colors, blue, 500);
-$cyan: map-get($colors, cyan, 500);
-$indigo: map-get($colors, indigo, 500);
-$purple: map-get($colors, purple, 500);
-$pink: map-get($colors, pink, 500);
+$red: map-get(map-get($colors, red), 500);
+$yellow: map-get(map-get($colors, yellow), 500);
+$green: map-get(map-get($colors, green), 500);
+$blue: map-get(map-get($colors, blue), 500);
+$cyan: map-get(map-get($colors, cyan), 500);
+$indigo: map-get(map-get($colors, indigo), 500);
+$purple: map-get(map-get($colors, purple), 500);
+$pink: map-get(map-get($colors, pink), 500);
 $black: map-get($colors, black);
 
 $primary: map-get($colors, 'primary');
