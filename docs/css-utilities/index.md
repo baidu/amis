@@ -57,7 +57,7 @@ amis 参考 [tailwindcss](https://tailwindcss.com/) 加入了大量的帮助类 
 </div>
 ```
 
-比如这个栗子：
+比如这个例子：
 
 - 通过 `flex` `flex-shrink-0` 来设置布局方式。
 - 通过 `bg-blue-100` `bg-white` 之类的类名设置背景色。
