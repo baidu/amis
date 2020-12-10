@@ -109,6 +109,7 @@ export interface OptionProps {
   extractValue?: boolean;
   delimiter?: string;
   clearable?: boolean;
+  resetValue: any;
   placeholder?: string;
   disabled?: boolean;
   creatable?: boolean;
@@ -362,6 +363,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     placeholder: '请选择',
     valueField: 'value',
     labelField: 'label',
+    resetValue: '',
     inline: false,
     disabled: false,
     checkAll: false,
@@ -663,7 +665,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const onChange = this.props.onChange;
     e.preventDefault();
     e.stopPropagation();
-    onChange('');
+    onChange(this.props.resetValue);
   }
 
   handleAddClick() {
@@ -970,6 +972,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     const selection = this.state.selection;
     const inputValue = this.state.inputValue;
+    const resetValue = this.props.resetValue;
 
     return (
       <Downshift
@@ -1011,7 +1014,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
               <div className={cx(`Select-valueWrap`)}>
                 {this.renderValue(options)}
               </div>
-              {clearable && !disabled && value && value.length ? (
+              {clearable &&
+              !disabled &&
+              (Array.isArray(value) ? value.length : value !== resetValue) ? (
                 <a onClick={this.clearValue} className={cx('Select-clear')}>
                   <Icon icon="close" className="icon" />
                 </a>

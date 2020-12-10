@@ -238,6 +238,10 @@
   }
 }
 
+// @include media-device('mobile') {
+
+// }
+
 @include media-breakpoint-up(md) {
   .#{$ns}Layout--folded {
     .#{$ns}AsideNav-label {

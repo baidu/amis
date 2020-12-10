@@ -647,7 +647,72 @@ const schema = {
 
 返回的数据是否替换掉当前的数据，默认为 `false`（即追加），设置为`true`就是完全替换当前数据。
 
-### 属性表
+## 自动刷新
+
+凡是拉取类接口，默认都会开启自动刷新，比如 form 配置 initApi: `/api/initForm?tpl=${tpl}`。这个接口会在 form 初始化的请求。当接口中有参数时，amis 会监控这个接口的实际结果是否有变化，假如这个时候 form 里面有个字段名为 tpl 的表单项，它的值发生变化，这个 form 的 initApi 又会请求一次。
+
+```schema:scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "title": "监听表单内部的修改",
+  "initApi": "/api/mock2/form/initData?tpl=${tpl}",
+  "actions": [],
+  "controls": [
+    {
+      "label": "数据模板",
+      "type": "select",
+      "labelClassName": "text-muted",
+      "name": "tpl",
+      "value": "tpl1",
+      "inline": true,
+      "options": [
+        {
+          "label": "模板1",
+          "value": "tpl1"
+        },
+        {
+          "label": "模板2",
+          "value": "tpl2"
+        },
+        {
+          "label": "模板3",
+          "value": "tpl3"
+        }
+      ],
+      "description": "<span class=\"text-danger\">请修改这里看效果</span>"
+    },
+    {
+      "label": "名称",
+      "type": "static",
+      "labelClassName": "text-muted",
+      "name": "name"
+    },
+    {
+      "label": "作者",
+      "type": "static",
+      "labelClassName": "text-muted",
+      "name": "author"
+    },
+    {
+      "label": "请求时间",
+      "type": "static-datetime",
+      "labelClassName": "text-muted",
+      "format": "YYYY-MM-DD HH:mm:ss",
+      "name": "date"
+    }
+  ]
+}
+```
+
+这个功能是自动开启的，直接配置 api 地址（`/api/xxx?xx=${xxx}`），或者对象形式配置 `{method: 'get', url: '/api/xxx?xx=${xxx}'}` 都会自动启动这个功能。如果想要关闭这个功能，有两种方式。
+
+1. 把依赖的数据写在对象形式的 data 里面比如 `{method: 'get', url: '/api/xxx', data: {'xx': "${xxx}"}}`。
+2. 对象形式添加 `autoRefresh: false` 属性。
+
+【重点】利用这个 feature 结合 `sendOn` 接口发送条件，可以做到接口的串行加载。比如，接口 2 的地址上写上接口 1 会返回的某个字段，然后配置接口 2 的发送条件为这个字段必须存在时。这样接口 2 就会等接口 1 完了才会加载。
+
+## 属性表
 
 | 字段名         | 说明         | 类型                                                                                                 | 备注                                                                                                                                                                                          |
 | -------------- | ------------ | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -663,3 +728,4 @@ const schema = {
 | adaptor        | 接收适配器   | 字符串                                                                                               | 如果接口返回不符合要求，可以通过配置一个适配器来处理成 amis 需要的。同样支持 Function 或者 字符串函数体格式                                                                                   |
 | replaceData    | 替换当前数据 | 布尔                                                                                                 | 返回的数据是否替换掉当前的数据，默认为 `false`，即：`追加`，设置成 `true` 就是完全替换。                                                                                                      |
 | responseType   | 返回类型     | 字符串                                                                                               | 如果是下载需要设置为 'blob'                                                                                                                                                                   |
+| autoRefresh    | 是否自动刷新 | 布尔                                                                                                 | 配置是否需要自动刷新接口。                                                                                                                                                                    |

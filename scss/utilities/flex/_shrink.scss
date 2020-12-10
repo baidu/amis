@@ -1,0 +1,25 @@
+/*!markdown
+
+---
+title: Flex Shrink
+---
+
+待补充
+
+
+*/
+@mixin make-flex-shrink($prefix: '.') {
+  #{$prefix}flex-shrink-0 {
+    flex-shrink: 0;
+  }
+  #{$prefix}flex-shrink {
+    flex-shrink: 1;
+  }
+}
+
+@include make-flex-shrink();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-flex-shrink('.' + selector-escape($deivce + ':'));
+  }
+}

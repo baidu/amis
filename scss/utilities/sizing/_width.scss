@@ -1,0 +1,65 @@
+@mixin width-sizing($map: $widths, $prefix: '.') {
+  @each $name, $value in $map {
+    @if $name == default {
+      #{$prefix}w {
+        width: $value;
+      }
+    } @else {
+      #{$prefix}w-#{'' + selector-escape($name)} {
+        width: $value;
+      }
+    }
+  }
+}
+
+/*!markdown
+
+---
+title: Width
+---
+
+待补充
+
+
+*/
+@mixin max-width-sizing($map: $maxWidths, $prefix: '.') {
+  @each $name, $value in $map {
+    @if $name == default {
+      #{$prefix}max-w {
+        max-width: $value;
+      }
+    } @else {
+      #{$prefix}max-w-#{'' + selector-escape($name)} {
+        max-width: $value;
+      }
+    }
+  }
+}
+
+@mixin make-widths($prefix: '.') {
+  @include width-sizing($widths, $prefix);
+  #{$prefix}min-w-0 {
+    min-width: 0px;
+  }
+
+  #{$prefix}min-w-full {
+    min-width: 100%;
+  }
+
+  #{$prefix}min-w-min {
+    min-width: min-content;
+  }
+
+  #{$prefix}min-w-max {
+    min-width: max-content;
+  }
+
+  @include max-width-sizing($maxWidths, $prefix);
+}
+
+@include make-widths();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-widths('.' + selector-escape($deivce + ':'));
+  }
+}

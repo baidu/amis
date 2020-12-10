@@ -1,0 +1,25 @@
+/*!markdown
+
+---
+title: Flex Grow
+---
+
+待补充
+
+
+*/
+@mixin make-flex-grow($prefix: '.') {
+  #{$prefix}flex-grow-0 {
+    flex-grow: 0;
+  }
+  #{$prefix}flex-grow {
+    flex-grow: 1;
+  }
+}
+
+@include make-flex-grow();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-flex-grow('.' + selector-escape($deivce + ':'));
+  }
+}

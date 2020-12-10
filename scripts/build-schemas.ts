@@ -189,7 +189,7 @@ function hackIt(generator: any) {
   replaceNodeParser(
     chainNodeParser.nodeParsers,
     IntersectionNodeParser,
-    new MyIntersectionNodeParser(typeChecker, chainNodeParser)
+    new MyIntersectionNodeParser(typeChecker as any, chainNodeParser) as any
   );
 }
 

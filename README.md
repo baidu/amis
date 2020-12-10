@@ -1,5 +1,11 @@
 # amis
 
+![build](https://api.travis-ci.org/baidu/amis.svg?branch=master)
+![license](https://img.shields.io/github/license/baidu/amis.svg)
+![version](https://img.shields.io/npm/v/amis)
+![language](https://img.shields.io/github/languages/top/baidu/amis)
+![last](https://img.shields.io/github/last-commit/baidu/amis.svg)
+
 前端低代码框架，通过 JSON 配置就能生成各种后台页面，极大减少开发成本，甚至可以不需要了解前端。
 
 目前在百度广泛用于内部平台的前端开发，已有 100+ 部门使用，创建了 3w+ 页面。

@@ -1,0 +1,46 @@
+/*!markdown
+
+---
+title: 边框宽度
+---
+
+待补充
+
+
+*/
+
+@mixin border-widths($prefix: '.', $suffix: '') {
+  @each $name, $value in $borderWidths {
+    #{$prefix}border#{suffixName($name)}#{$suffix} {
+      border-width: $value;
+    }
+  }
+
+  @each $name, $value in $borderWidths {
+    #{$prefix}border-t#{suffixName($name)}#{$suffix} {
+      border-top-width: $value;
+    }
+    #{$prefix}border-r#{suffixName($name)}#{$suffix} {
+      border-right-width: $value;
+    }
+    #{$prefix}border-b#{suffixName($name)}#{$suffix} {
+      border-bottom-width: $value;
+    }
+    #{$prefix}border-l#{suffixName($name)}#{$suffix} {
+      border-left-width: $value;
+    }
+  }
+}
+
+@include border-widths();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include border-widths('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// @include border-radius('.' + selector-escape('hover:'), ':hover');
+// @include border-radius('.' + selector-escape('active:'), '.is-active');
+// @include border-radius('.' + selector-escape('focus:'), ':focus');
+// @include border-radius('.' + selector-escape('disabled:'), '.is-disabled');
+// @include border-radius('.group:hover .' + selector-escape('group-hover:'));

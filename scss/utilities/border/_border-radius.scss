@@ -1,0 +1,71 @@
+/*!markdown
+
+---
+title: 边框圆角
+---
+
+待补充
+
+
+*/
+
+@mixin border-radius($prefix: '.', $suffix: '') {
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded#{suffixName($name)}#{$suffix} {
+      border-radius: $value;
+    }
+  }
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded-t#{suffixName($name)}#{$suffix} {
+      border-top-left-radius: $value;
+      border-top-right-radius: $value;
+    }
+  }
+
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded-r#{suffixName($name)}#{$suffix} {
+      border-top-right-radius: $value;
+      border-bottom-right-radius: $value;
+    }
+  }
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded-b#{suffixName($name)}#{$suffix} {
+      border-bottom-right-radius: $value;
+      border-bottom-left-radius: $value;
+    }
+  }
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded-l#{suffixName($name)}#{$suffix} {
+      border-top-left-radius: $value;
+      border-bottom-left-radius: $value;
+    }
+  }
+
+  @each $name, $value in $borderRadiuses {
+    #{$prefix}rounded-tl#{suffixName($name)}#{$suffix} {
+      border-top-left-radius: $value;
+    }
+    #{$prefix}rounded-tr#{suffixName($name)}#{$suffix} {
+      border-top-right-radius: $value;
+    }
+    #{$prefix}rounded-br#{suffixName($name)}#{$suffix} {
+      border-bottom-right-radius: $value;
+    }
+    #{$prefix}rounded-bl#{suffixName($name)}#{$suffix} {
+      border-bottom-left-radius: $value;
+    }
+  }
+}
+
+@include border-radius();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include border-radius('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// @include border-radius('.' + selector-escape('hover:'), ':hover');
+// @include border-radius('.' + selector-escape('active:'), '.is-active');
+// @include border-radius('.' + selector-escape('focus:'), ':focus');
+// @include border-radius('.' + selector-escape('disabled:'), '.is-disabled');
+// @include border-radius('.group:hover .' + selector-escape('group-hover:'));

@@ -46,7 +46,7 @@ export class LinkField extends React.Component<LinkProps, object> {
     } = this.props;
 
     let value = this.props.value;
-    const finnalHref = href ? filter(href, data) : '';
+    const finnalHref = href ? filter(href, data, '| raw') : '';
 
     return (
       <a

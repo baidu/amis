@@ -1,0 +1,29 @@
+/*!markdown
+
+---
+title: Text Align
+---
+
+待补充
+
+
+*/
+@mixin make-text-align($prefix: '.') {
+  @each $name,
+    $value
+      in ('left': left, 'center': center, 'right': right, 'justify': justify)
+  {
+    #{$prefix}text-#{$name} {
+      text-align: $value;
+    }
+  }
+}
+
+@include make-text-align();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-text-align('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?
