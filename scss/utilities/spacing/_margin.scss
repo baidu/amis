@@ -18,11 +18,11 @@
 @mixin margin-negative-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-n#{$suffix} {
+      #{$prefix}-m#{$suffix} {
         margin: $value * -1;
       }
     } @else {
-      #{$prefix}m-n-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}-m-#{'' + selector-escape($name)}#{$suffix} {
         margin: $value * -1;
       }
     }
@@ -32,19 +32,19 @@
 @mixin margin-x-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-x#{$suffix} {
+      #{$prefix}mx#{$suffix} {
         margin-left: $value;
         margin-right: $value;
       }
     } @else {
-      #{$prefix}m-x-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}mx-#{'' + selector-escape($name)}#{$suffix} {
         margin-left: $value;
         margin-right: $value;
       }
     }
   }
 
-  #{$prefix}m-x-auto#{$suffix} {
+  #{$prefix}mx-auto#{$suffix} {
     margin-left: auto;
     margin-right: auto;
   }
@@ -57,12 +57,12 @@
 ) {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-n-x#{$suffix} {
+      #{$prefix}-mx#{$suffix} {
         margin-left: $value * -1;
         margin-right: $value * -1;
       }
     } @else {
-      #{$prefix}m-n-x-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}-mx-#{'' + selector-escape($name)}#{$suffix} {
         margin-left: $value * -1;
         margin-right: $value * -1;
       }
@@ -73,19 +73,19 @@
 @mixin margin-y-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-y#{$suffix} {
+      #{$prefix}my#{$suffix} {
         margin-top: $value;
         margin-bottom: $value;
       }
     } @else {
-      #{$prefix}m-y-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}my-#{'' + selector-escape($name)}#{$suffix} {
         margin-top: $value;
         margin-bottom: $value;
       }
     }
   }
 
-  #{$prefix}m-y-auto#{$suffix} {
+  #{$prefix}my-auto#{$suffix} {
     margin-top: auto;
     margin-bottom: auto;
   }
@@ -98,12 +98,12 @@
 ) {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-n-y#{$suffix} {
+      #{$prefix}-my#{$suffix} {
         margin-top: $value * -1;
         margin-bottom: $value * -1;
       }
     } @else {
-      #{$prefix}m-n-y-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}-my-#{'' + selector-escape($name)}#{$suffix} {
         margin-top: $value * -1;
         margin-bottom: $value * -1;
       }
@@ -114,11 +114,11 @@
 @mixin margin-top-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-t#{$suffix} {
+      #{$prefix}mt#{$suffix} {
         margin-top: $value;
       }
     } @else {
-      #{$prefix}m-t-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}mt-#{'' + selector-escape($name)}#{$suffix} {
         margin-top: $value;
       }
     }
@@ -132,11 +132,11 @@
 ) {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-n-t#{$suffix} {
+      #{$prefix}-mt#{$suffix} {
         margin-top: $value * -1;
       }
     } @else {
-      #{$prefix}m-n-t-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}-mt-#{'' + selector-escape($name)}#{$suffix} {
         margin-top: $value * -1;
       }
     }
@@ -146,11 +146,11 @@
 @mixin margin-right-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-r#{$suffix} {
+      #{$prefix}mr#{$suffix} {
         margin-right: $value;
       }
     } @else {
-      #{$prefix}m-r-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}mr-#{'' + selector-escape($name)}#{$suffix} {
         margin-right: $value;
       }
     }
@@ -164,11 +164,11 @@
 ) {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-n-r#{$suffix} {
+      #{$prefix}-mr#{$suffix} {
         margin-right: $value * -1;
       }
     } @else {
-      #{$prefix}m-n-r-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}-mr-#{'' + selector-escape($name)}#{$suffix} {
         margin-right: $value * -1;
       }
     }
@@ -178,11 +178,11 @@
 @mixin margin-bottom-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-b#{$suffix} {
+      #{$prefix}mb#{$suffix} {
         margin-bottom: $value;
       }
     } @else {
-      #{$prefix}m-b-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}mb-#{'' + selector-escape($name)}#{$suffix} {
         margin-bottom: $value;
       }
     }
@@ -196,11 +196,11 @@
 ) {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-n-b#{$suffix} {
+      #{$prefix}-mb#{$suffix} {
         margin-bottom: $value * -1;
       }
     } @else {
-      #{$prefix}m-n-b-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}-mb-#{'' + selector-escape($name)}#{$suffix} {
         margin-bottom: $value * -1;
       }
     }
@@ -210,11 +210,11 @@
 @mixin margin-left-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-l#{$suffix} {
+      #{$prefix}ml#{$suffix} {
         margin-left: $value;
       }
     } @else {
-      #{$prefix}m-l-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}ml-#{'' + selector-escape($name)}#{$suffix} {
         margin-left: $value;
       }
     }
@@ -228,11 +228,11 @@
 ) {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}m-n-l#{$suffix} {
+      #{$prefix}-ml#{$suffix} {
         margin-left: $value * -1;
       }
     } @else {
-      #{$prefix}m-n-l-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}-ml-#{'' + selector-escape($name)}#{$suffix} {
         margin-left: $value * -1;
       }
     }

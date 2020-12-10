@@ -134,7 +134,7 @@ export const cssDocs = [
         path: '/css-utilities/layout/visibility',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/layout/_Visibility.scss'],
+            ['../../scss/utilities/layout/_visibility.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -240,7 +240,7 @@ export const cssDocs = [
         path: '/css-utilities/grid/columns',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_columns.scss'],
+            ['../../scss/utilities/grid/_columns.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -251,7 +251,7 @@ export const cssDocs = [
         path: '/css-utilities/grid/column-start-end',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_column-start-end.scss'],
+            ['../../scss/utilities/grid/_column-start-end.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -262,7 +262,7 @@ export const cssDocs = [
         path: '/css-utilities/grid/rows',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_rows.scss'],
+            ['../../scss/utilities/grid/_rows.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -273,7 +273,7 @@ export const cssDocs = [
         path: '/css-utilities/grid/row-start-end',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_row-start-end.scss'],
+            ['../../scss/utilities/grid/_row-start-end.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -284,7 +284,7 @@ export const cssDocs = [
         path: '/css-utilities/grid/auto-flow',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_auto-flow.scss'],
+            ['../../scss/utilities/grid/_auto-flow.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -295,7 +295,7 @@ export const cssDocs = [
         path: '/css-utilities/grid/auto-columns',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_auto-columns.scss'],
+            ['../../scss/utilities/grid/_auto-columns.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -306,7 +306,7 @@ export const cssDocs = [
         path: '/css-utilities/grid/auto-rows',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_auto-rows.scss'],
+            ['../../scss/utilities/grid/_auto-rows.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -317,7 +317,7 @@ export const cssDocs = [
         path: '/css-utilities/grid/gap',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_gap.scss'],
+            ['../../scss/utilities/grid/_gap.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -484,10 +484,10 @@ export const cssDocs = [
     children: [
       {
         label: 'Width',
-        path: '/css-utilities/flexbox/width',
+        path: '/css-utilities/sizing/width',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_width.scss'],
+            ['../../scss/utilities/sizing/_width.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -495,10 +495,10 @@ export const cssDocs = [
       },
       {
         label: 'Height',
-        path: '/css-utilities/flexbox/height',
+        path: '/css-utilities/sizing/height',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_height.scss'],
+            ['../../scss/utilities/sizing/_height.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -515,7 +515,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/font-size',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_font-size.scss'],
+            ['../../scss/utilities/typography/_font-size.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -527,7 +527,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/font-style',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_font-style.scss'],
+            ['../../scss/utilities/typography/_font-style.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -539,7 +539,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/font-weight',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_font-weight.scss'],
+            ['../../scss/utilities/typography/_font-weight.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -551,7 +551,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/letter-spacing',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_letter-spacing.scss'],
+            ['../../scss/utilities/typography/_letter-spacing.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -563,7 +563,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/line-height',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_line-height.scss'],
+            ['../../scss/utilities/typography/_line-height.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -575,7 +575,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/list-style-type',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_list-style-type.scss'],
+            ['../../scss/utilities/typography/_list-style-type.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -587,7 +587,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/text-align',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_text-align.scss'],
+            ['../../scss/utilities/typography/_text-align.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -599,7 +599,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/text-color',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_text-color.scss'],
+            ['../../scss/utilities/typography/_text-color.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -611,7 +611,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/text-decoration',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_text-decoration.scss'],
+            ['../../scss/utilities/typography/_text-decoration.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -623,7 +623,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/text-transform',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_text-transform.scss'],
+            ['../../scss/utilities/typography/_text-transform.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -632,10 +632,10 @@ export const cssDocs = [
 
       {
         label: 'Vertical Alignment',
-        path: '/css-utilities/typography/vertical-algin',
+        path: '/css-utilities/typography/vertical-align',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_vertical-algin.scss'],
+            ['../../scss/utilities/typography/_vertical-align.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -647,7 +647,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/whitespace',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_whitespace.scss'],
+            ['../../scss/utilities/typography/_whitespace.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -659,7 +659,7 @@ export const cssDocs = [
         path: '/css-utilities/typography/word-break',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_word-break.scss'],
+            ['../../scss/utilities/typography/_word-break.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -676,7 +676,7 @@ export const cssDocs = [
         path: '/css-utilities/background/background-color',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_background-color.scss'],
+            ['../../scss/utilities/background/_background-color.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -693,7 +693,7 @@ export const cssDocs = [
         path: '/css-utilities/border/border-radius',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_border-radius.scss'],
+            ['../../scss/utilities/border/_border-radius.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -705,7 +705,7 @@ export const cssDocs = [
         path: '/css-utilities/border/border-width',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_border-width.scss'],
+            ['../../scss/utilities/border/_border-width.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -717,7 +717,7 @@ export const cssDocs = [
         path: '/css-utilities/border/border-color',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_border-color.scss'],
+            ['../../scss/utilities/border/_border-color.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -729,7 +729,7 @@ export const cssDocs = [
         path: '/css-utilities/border/border-style',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_border-style.scss'],
+            ['../../scss/utilities/border/_border-style.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -746,7 +746,7 @@ export const cssDocs = [
         path: '/css-utilities/effect/box-shadow',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_box-shadow.scss'],
+            ['../../scss/utilities/effect/_box-shadow.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -758,7 +758,7 @@ export const cssDocs = [
         path: '/css-utilities/effect/opacity',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../scss/utilities/flex/_opacity.scss'],
+            ['../../scss/utilities/effect/_opacity.scss'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }

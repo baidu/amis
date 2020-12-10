@@ -32,13 +32,6 @@
   #{$prefix}text-current#{$suffix} {
     color: currentColor;
   }
-  #{$prefix}text-muted#{$suffix} {
-    color: $text--muted-color;
-  }
-  #{$prefix}text-loud#{$suffix} {
-    color: $text--loud-color;
-  }
-
   @include text-colors-map($colors, '', $prefix, $suffix);
 }
 

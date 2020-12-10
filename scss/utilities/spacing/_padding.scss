@@ -15,12 +15,12 @@
 @mixin padding-x-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}p-x#{$suffix} {
+      #{$prefix}px#{$suffix} {
         padding-left: $value;
         padding-right: $value;
       }
     } @else {
-      #{$prefix}p-x-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}px-#{'' + selector-escape($name)}#{$suffix} {
         padding-left: $value;
         padding-right: $value;
       }
@@ -31,12 +31,12 @@
 @mixin padding-y-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}p-y#{$suffix} {
+      #{$prefix}py#{$suffix} {
         padding-top: $value;
         padding-bottom: $value;
       }
     } @else {
-      #{$prefix}p-y-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}py-#{'' + selector-escape($name)}#{$suffix} {
         padding-top: $value;
         padding-bottom: $value;
       }
@@ -47,11 +47,11 @@
 @mixin padding-top-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}p-t#{$suffix} {
+      #{$prefix}pt#{$suffix} {
         padding-top: $value;
       }
     } @else {
-      #{$prefix}p-t-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}pt-#{'' + selector-escape($name)}#{$suffix} {
         padding-top: $value;
       }
     }
@@ -61,11 +61,11 @@
 @mixin padding-right-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}p-r#{$suffix} {
+      #{$prefix}pr#{$suffix} {
         padding-right: $value;
       }
     } @else {
-      #{$prefix}p-r-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}pr-#{'' + selector-escape($name)}#{$suffix} {
         padding-right: $value;
       }
     }
@@ -75,11 +75,11 @@
 @mixin padding-bottom-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}p-b#{$suffix} {
+      #{$prefix}pb#{$suffix} {
         padding-bottom: $value;
       }
     } @else {
-      #{$prefix}p-b-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}pb-#{'' + selector-escape($name)}#{$suffix} {
         padding-bottom: $value;
       }
     }
@@ -89,11 +89,11 @@
 @mixin padding-left-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
     @if $name == default {
-      #{$prefix}p-l#{$suffix} {
+      #{$prefix}pl#{$suffix} {
         padding-left: $value;
       }
     } @else {
-      #{$prefix}p-l-#{'' + selector-escape($name)}#{$suffix} {
+      #{$prefix}pl-#{'' + selector-escape($name)}#{$suffix} {
         padding-left: $value;
       }
     }
