@@ -1,0 +1,280 @@
+/*!markdown
+
+---
+title: Margin
+---
+
+待补充
+
+
+*/
+@mixin margin-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}m#{$suffix} {
+        margin: $value;
+      }
+    } @else {
+      #{$prefix}m-#{'' + selector-escape($name)}#{$suffix} {
+        margin: $value;
+      }
+    }
+  }
+  #{$prefix}m-auto#{$suffix} {
+    margin: auto;
+  }
+}
+
+@mixin margin-negative-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}-m#{$suffix} {
+        margin: $value * -1;
+      }
+    } @else {
+      #{$prefix}-m-#{'' + selector-escape($name)}#{$suffix} {
+        margin: $value * -1;
+      }
+    }
+  }
+}
+
+@mixin margin-x-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}mx#{$suffix} {
+        margin-left: $value;
+        margin-right: $value;
+      }
+    } @else {
+      #{$prefix}mx-#{'' + selector-escape($name)}#{$suffix} {
+        margin-left: $value;
+        margin-right: $value;
+      }
+    }
+  }
+
+  #{$prefix}mx-auto#{$suffix} {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@mixin margin-negative-x-spacing(
+  $spacing: $spacing,
+  $prefix: '.',
+  $suffix: ''
+) {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}-mx#{$suffix} {
+        margin-left: $value * -1;
+        margin-right: $value * -1;
+      }
+    } @else {
+      #{$prefix}-mx-#{'' + selector-escape($name)}#{$suffix} {
+        margin-left: $value * -1;
+        margin-right: $value * -1;
+      }
+    }
+  }
+}
+
+@mixin margin-y-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}my#{$suffix} {
+        margin-top: $value;
+        margin-bottom: $value;
+      }
+    } @else {
+      #{$prefix}my-#{'' + selector-escape($name)}#{$suffix} {
+        margin-top: $value;
+        margin-bottom: $value;
+      }
+    }
+  }
+
+  #{$prefix}my-auto#{$suffix} {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+}
+
+@mixin margin-negative-y-spacing(
+  $spacing: $spacing,
+  $prefix: '.',
+  $suffix: ''
+) {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}-my#{$suffix} {
+        margin-top: $value * -1;
+        margin-bottom: $value * -1;
+      }
+    } @else {
+      #{$prefix}-my-#{'' + selector-escape($name)}#{$suffix} {
+        margin-top: $value * -1;
+        margin-bottom: $value * -1;
+      }
+    }
+  }
+}
+
+@mixin margin-top-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}mt#{$suffix} {
+        margin-top: $value;
+      }
+    } @else {
+      #{$prefix}mt-#{'' + selector-escape($name)}#{$suffix} {
+        margin-top: $value;
+      }
+    }
+  }
+}
+
+@mixin margin-negative-top-spacing(
+  $spacing: $spacing,
+  $prefix: '.',
+  $suffix: ''
+) {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}-mt#{$suffix} {
+        margin-top: $value * -1;
+      }
+    } @else {
+      #{$prefix}-mt-#{'' + selector-escape($name)}#{$suffix} {
+        margin-top: $value * -1;
+      }
+    }
+  }
+}
+
+@mixin margin-right-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}mr#{$suffix} {
+        margin-right: $value;
+      }
+    } @else {
+      #{$prefix}mr-#{'' + selector-escape($name)}#{$suffix} {
+        margin-right: $value;
+      }
+    }
+  }
+}
+
+@mixin margin-negative-right-spacing(
+  $spacing: $spacing,
+  $prefix: '.',
+  $suffix: ''
+) {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}-mr#{$suffix} {
+        margin-right: $value * -1;
+      }
+    } @else {
+      #{$prefix}-mr-#{'' + selector-escape($name)}#{$suffix} {
+        margin-right: $value * -1;
+      }
+    }
+  }
+}
+
+@mixin margin-bottom-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}mb#{$suffix} {
+        margin-bottom: $value;
+      }
+    } @else {
+      #{$prefix}mb-#{'' + selector-escape($name)}#{$suffix} {
+        margin-bottom: $value;
+      }
+    }
+  }
+}
+
+@mixin margin-negative-bottom-spacing(
+  $spacing: $spacing,
+  $prefix: '.',
+  $suffix: ''
+) {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}-mb#{$suffix} {
+        margin-bottom: $value * -1;
+      }
+    } @else {
+      #{$prefix}-mb-#{'' + selector-escape($name)}#{$suffix} {
+        margin-bottom: $value * -1;
+      }
+    }
+  }
+}
+
+@mixin margin-left-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}ml#{$suffix} {
+        margin-left: $value;
+      }
+    } @else {
+      #{$prefix}ml-#{'' + selector-escape($name)}#{$suffix} {
+        margin-left: $value;
+      }
+    }
+  }
+}
+
+@mixin margin-negative-left-spacing(
+  $spacing: $spacing,
+  $prefix: '.',
+  $suffix: ''
+) {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}-ml#{$suffix} {
+        margin-left: $value * -1;
+      }
+    } @else {
+      #{$prefix}-ml-#{'' + selector-escape($name)}#{$suffix} {
+        margin-left: $value * -1;
+      }
+    }
+  }
+}
+
+@mixin make-margins($prefix: '.', $suffix: '') {
+  @include margin-spacing($spacing, $prefix, $suffix);
+  @include margin-negative-spacing($spacing, $prefix, $suffix);
+  @include margin-x-spacing($spacing, $prefix, $suffix);
+  @include margin-negative-x-spacing($spacing, $prefix, $suffix);
+  @include margin-y-spacing($spacing, $prefix, $suffix);
+  @include margin-negative-y-spacing($spacing, $prefix, $suffix);
+  @include margin-top-spacing($spacing, $prefix, $suffix);
+  @include margin-negative-top-spacing($spacing, $prefix, $suffix);
+  @include margin-right-spacing($spacing, $prefix, $suffix);
+  @include margin-negative-right-spacing($spacing, $prefix, $suffix);
+  @include margin-bottom-spacing($spacing, $prefix, $suffix);
+  @include margin-negative-bottom-spacing($spacing, $prefix, $suffix);
+  @include margin-left-spacing($spacing, $prefix, $suffix);
+  @include margin-negative-left-spacing($spacing, $prefix, $suffix);
+}
+
+@include make-margins();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-margins('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// @include bg-colors('.' + selector-escape('hover:'), ':hover');
+// @include bg-colors('.' + selector-escape('active:'), '.is-active');
+// @include bg-colors('.' + selector-escape('focus:'), ':focus');
+// @include bg-colors('.' + selector-escape('disabled:'), '.is-disabled');
+// @include bg-colors('.group:hover .' + selector-escape('group-hover:'));

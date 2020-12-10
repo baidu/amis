@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const package = require('./package.json');
 const parserMarkdown = require('./scripts/md-parser');
+const parserCodeMarkdown = require('./scripts/code-md-parser');
 fis.get('project.ignore').push('public/**', 'npm/**', 'gh-pages/**');
 // 配置只编译哪些文件。
 
@@ -31,7 +32,8 @@ Resource.extend({
 
 fis.set('project.files', [
   'schema.json',
-  'scss/**.scss',
+  '/scss/utilities.scss',
+  '/scss/themes/*.scss',
   '/examples/*.html',
   '/examples/*.tpl',
   '/examples/static/*.png',
@@ -81,7 +83,32 @@ fis.match('/src/icons/**.svg', {
 });
 
 fis.match('_*.scss', {
-  release: false
+  parser: [
+    parserCodeMarkdown,
+    function (contents, file) {
+      return contents.replace(
+        /\bhref=\\('|")(.+?)\\\1/g,
+        function (_, quota, link) {
+          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+            let parts = link.split('#');
+            parts[0] = parts[0].replace('.md', '');
+
+            if (parts[0][0] !== '/') {
+              parts[0] = path
+                .resolve(path.dirname(file.subpath), parts[0])
+                .replace(/^\/docs/, '');
+            }
+
+            return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+          }
+
+          return _;
+        }
+      );
+    }
+  ],
+  isMod: true,
+  rExt: '.js'
 });
 
 fis.match('/node_modules/**.js', {
@@ -271,7 +298,32 @@ if (fis.project.currentMedia() === 'publish') {
   });
 
   publishEnv.match('_*.scss', {
-    release: false
+    parser: [
+      parserCodeMarkdown,
+      function (contents, file) {
+        return contents.replace(
+          /\bhref=\\('|")(.+?)\\\1/g,
+          function (_, quota, link) {
+            if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+              let parts = link.split('#');
+              parts[0] = parts[0].replace('.md', '');
+
+              if (parts[0][0] !== '/') {
+                parts[0] = path
+                  .resolve(path.dirname(file.subpath), parts[0])
+                  .replace(/^\/docs/, '/amis');
+              }
+
+              return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+            }
+
+            return _;
+          }
+        );
+      }
+    ],
+    isMod: true,
+    rExt: '.js'
   });
 
   publishEnv.match('*', {

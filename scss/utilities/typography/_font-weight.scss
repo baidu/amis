@@ -1,0 +1,39 @@
+/*!markdown
+
+---
+title: Font Weight
+---
+
+待补充
+
+
+*/
+@mixin make-font-weight($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'thin': 100,
+        'extralight': 200,
+        'light': 300,
+        'normal': 400,
+        'medium': 500,
+        'semibold': 600,
+        'bold': 700,
+        'extrabold': 800,
+        'black': 900
+      )
+  {
+    #{$prefix}font-#{$name} {
+      font-weight: $value;
+    }
+  }
+}
+
+@include make-font-weight();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-font-weight('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

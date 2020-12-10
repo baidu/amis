@@ -1,0 +1,73 @@
+/*!markdown
+
+---
+title: Space Between
+---
+
+待补充
+
+
+*/
+@mixin space-x-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}space-x#{$suffix} {
+        & > :not([hidden]) ~ :not([hidden]) {
+          margin-left: $value;
+        }
+
+        &.space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+          margin-right: $value;
+        }
+      }
+    } @else {
+      #{$prefix}space-x-#{'' + selector-escape($name)}#{$suffix} {
+        & > :not([hidden]) ~ :not([hidden]) {
+          margin-left: $value;
+        }
+
+        &.space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+          margin-right: $value;
+        }
+      }
+    }
+  }
+}
+
+@mixin space-y-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}space-y#{$suffix} {
+        & > :not([hidden]) ~ :not([hidden]) {
+          margin-top: $value;
+        }
+
+        &.space-y-reverse > :not([hidden]) ~ :not([hidden]) {
+          margin-bottom: $value;
+        }
+      }
+    } @else {
+      #{$prefix}space-y-#{'' + selector-escape($name)}#{$suffix} {
+        & > :not([hidden]) ~ :not([hidden]) {
+          margin-top: $value;
+        }
+
+        &.space-y-reverse > :not([hidden]) ~ :not([hidden]) {
+          margin-bottom: $value;
+        }
+      }
+    }
+  }
+}
+
+@mixin make-spaces($prefix: '.', $suffix: '') {
+  @include space-x-spacing($spacing, $prefix, $suffix);
+  @include space-y-spacing($spacing, $prefix, $suffix);
+}
+
+@include make-spaces();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-spaces('.' + selector-escape($deivce + ':'));
+  }
+}

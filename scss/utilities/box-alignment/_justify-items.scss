@@ -1,0 +1,34 @@
+/*!markdown
+
+---
+title: Justify Items
+---
+
+待补充
+
+
+*/
+@mixin make-justify-items($prefix: '.') {
+  #{$prefix}justify-items-auto {
+    justify-items: auto;
+  }
+  #{$prefix}justify-items-start {
+    justify-items: start;
+  }
+  #{$prefix}justify-items-end {
+    justify-items: end;
+  }
+  #{$prefix}justify-items-center {
+    justify-items: center;
+  }
+  #{$prefix}justify-items-stretch {
+    justify-items: stretch;
+  }
+}
+
+@include make-justify-items();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-justify-items('.' + selector-escape($deivce + ':'));
+  }
+}

@@ -1,0 +1,35 @@
+/*!markdown
+
+---
+title: Whitespace
+---
+
+待补充
+
+
+*/
+@mixin make-whitespace($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'normal': normal,
+        'nowrap': nowrap,
+        'pre': pre,
+        'pre-line': pre-line,
+        'pre-wrap': pre-wrap
+      )
+  {
+    #{$prefix}align-#{$name} {
+      vertical-align: $value;
+    }
+  }
+}
+
+@include make-whitespace();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-whitespace('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

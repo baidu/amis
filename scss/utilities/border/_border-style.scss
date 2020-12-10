@@ -1,0 +1,34 @@
+/*!markdown
+
+---
+title: 边框样式
+---
+
+待补充
+
+
+*/
+
+@mixin make-border-style($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'solid': solid,
+        'dashed': dashed,
+        'dotted': dotted,
+        'double': double,
+        'none': none
+      )
+  {
+    #{$prefix}border-#{$name} {
+      border-style: $value;
+    }
+  }
+}
+
+@include make-border-style();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-border-style('.' + selector-escape($deivce + ':'));
+  }
+}

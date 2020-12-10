@@ -1,0 +1,34 @@
+/*!markdown
+
+---
+title: Text Transform
+---
+
+待补充
+
+
+*/
+@mixin make-text-transform($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'uppercase': uppercase,
+        'lowercase': lowercase,
+        'capitalize': capitalize,
+        'normal-case': none
+      )
+  {
+    #{$prefix}#{$name} {
+      text-transform: $value;
+    }
+  }
+}
+
+@include make-text-transform();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-text-transform('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

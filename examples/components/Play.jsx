@@ -354,6 +354,7 @@ export default class PlayGround extends React.Component {
   // };
 
   renderEditor() {
+    const {theme} = this.props;
     return (
       <CodeEditor
         value={this.state.schemaCode}
@@ -361,25 +362,20 @@ export default class PlayGround extends React.Component {
         // editorFactory={this.editorFactory}
         editorDidMount={this.editorDidMount}
         language="json"
+        editorTheme={theme === 'dark' ? 'vs-dark' : 'vs'}
       />
     );
   }
 
   render() {
-    const {vertical} = this.props;
+    const {vertical, height} = this.props;
     if (vertical) {
       return (
-        <div className="vbox">
-          <div className="row-row">
-            <div className="cell pos-rlt">
-              <div className="scroll-y h-full pos-abt w-full b-b">
-                {this.renderPreview()}
-              </div>
-            </div>
+        <div className="Playgroud">
+          <div style={{minHeight: height}} className="Playgroud-preview">
+            {this.renderPreview()}
           </div>
-          <div className="row-row b-t" style={{height: 200}}>
-            <div className="cell">{this.renderEditor()}</div>
-          </div>
+          <div className="Playgroud-code">{this.renderEditor()}</div>
         </div>
       );
     }

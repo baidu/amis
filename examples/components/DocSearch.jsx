@@ -120,10 +120,13 @@ export default class DocSearch extends React.Component {
     const ns = this.props.theme.ns;
     return (
       <>
-        <div className={`${ns}TextControl-input Doc-search`}>
+        {/* <div className={`${ns}TextControl-input Doc-search`}>
           <Icon icon="search" className="icon" />
           <input readOnly placeholder={'搜索...'} onClick={this.onOpen} />
-        </div>
+        </div> */}
+        <a onClick={this.onOpen}>
+          <Icon icon="search" className="icon" />
+        </a>
 
         <Drawer
           className="Doc-searchDrawer"

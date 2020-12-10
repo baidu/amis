@@ -1,0 +1,133 @@
+/*!markdown
+
+---
+title: Padding
+---
+
+待补充
+
+
+*/
+@mixin padding-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}p#{$suffix} {
+        padding: $value;
+      }
+    } @else {
+      #{$prefix}p-#{'' + selector-escape($name)}#{$suffix} {
+        padding: $value;
+      }
+    }
+  }
+}
+
+@mixin padding-x-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}px#{$suffix} {
+        padding-left: $value;
+        padding-right: $value;
+      }
+    } @else {
+      #{$prefix}px-#{'' + selector-escape($name)}#{$suffix} {
+        padding-left: $value;
+        padding-right: $value;
+      }
+    }
+  }
+}
+
+@mixin padding-y-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}py#{$suffix} {
+        padding-top: $value;
+        padding-bottom: $value;
+      }
+    } @else {
+      #{$prefix}py-#{'' + selector-escape($name)}#{$suffix} {
+        padding-top: $value;
+        padding-bottom: $value;
+      }
+    }
+  }
+}
+
+@mixin padding-top-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}pt#{$suffix} {
+        padding-top: $value;
+      }
+    } @else {
+      #{$prefix}pt-#{'' + selector-escape($name)}#{$suffix} {
+        padding-top: $value;
+      }
+    }
+  }
+}
+
+@mixin padding-right-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}pr#{$suffix} {
+        padding-right: $value;
+      }
+    } @else {
+      #{$prefix}pr-#{'' + selector-escape($name)}#{$suffix} {
+        padding-right: $value;
+      }
+    }
+  }
+}
+
+@mixin padding-bottom-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}pb#{$suffix} {
+        padding-bottom: $value;
+      }
+    } @else {
+      #{$prefix}pb-#{'' + selector-escape($name)}#{$suffix} {
+        padding-bottom: $value;
+      }
+    }
+  }
+}
+
+@mixin padding-left-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
+  @each $name, $value in $spacing {
+    @if $name == default {
+      #{$prefix}pl#{$suffix} {
+        padding-left: $value;
+      }
+    } @else {
+      #{$prefix}pl-#{'' + selector-escape($name)}#{$suffix} {
+        padding-left: $value;
+      }
+    }
+  }
+}
+
+@mixin make-padding($prefix: '.', $suffix: '') {
+  @include padding-spacing($spacing, $prefix, $suffix);
+  @include padding-x-spacing($spacing, $prefix, $suffix);
+  @include padding-y-spacing($spacing, $prefix, $suffix);
+  @include padding-top-spacing($spacing, $prefix, $suffix);
+  @include padding-right-spacing($spacing, $prefix, $suffix);
+  @include padding-bottom-spacing($spacing, $prefix, $suffix);
+  @include padding-left-spacing($spacing, $prefix, $suffix);
+}
+
+@include make-padding();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-padding('.' + selector-escape($deivce + ':'));
+  }
+}
+// @include bg-colors('.' + selector-escape('hover:'), ':hover');
+// @include bg-colors('.' + selector-escape('active:'), '.is-active');
+// @include bg-colors('.' + selector-escape('focus:'), ':focus');
+// @include bg-colors('.' + selector-escape('disabled:'), '.is-disabled');
+// @include bg-colors('.group:hover .' + selector-escape('group-hover:'));
