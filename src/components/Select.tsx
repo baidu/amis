@@ -665,7 +665,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const onChange = this.props.onChange;
     e.preventDefault();
     e.stopPropagation();
-    onChange(this.props.resetValue ?? '');
+    onChange(this.props.resetValue);
   }
 
   handleAddClick() {
@@ -972,7 +972,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     const selection = this.state.selection;
     const inputValue = this.state.inputValue;
-    const resetValue = this.props.resetValue ?? '';
+    const resetValue = this.props.resetValue;
 
     return (
       <Downshift
