@@ -159,7 +159,9 @@ module.exports = function (content, file) {
         placeholder[
           index
         ] = `<!--amis-preview-start--><div class="amis-doc"><div class="preview">${code}</div><pre><code class="lang-html">${prism.highlight(
-          code.replace(/"data:(\w+\/\w+);.*?"/g, '"data:$1; ..."'),
+          code
+            .replace(/"data:(\w+\/\w+);.*?"/g, '"data:$1; ..."')
+            .replace(/<svg([^>]*)>[\s\S]*?<\/svg>/g, '<svg$1>...</svg>'),
           prism.languages[lang],
           lang
         )}</code></pre></div><!--amis-preview-end-->`;
@@ -181,12 +183,12 @@ module.exports = function (content, file) {
   // + `\n\n<div class="m-t-lg b-l b-info b-3x wrapper bg-light dk">文档内容有误？欢迎大家一起来编写，文档地址：<i class="fa fa-github"></i><a href="https://github.com/baidu/amis/tree/master${file.subpath}">${file.subpath}</a>。</div>`;
   info.html =
     '<div class="markdown-body">' +
-    content.replace(/<\!\-\-amis\-preview\-(start|end)\-\-\>/g, function (
-      _,
-      type
-    ) {
-      return type === 'start' ? '</div>' : '<div class="markdown-body">';
-    }) +
+    content.replace(
+      /<\!\-\-amis\-preview\-(start|end)\-\-\>/g,
+      function (_, type) {
+        return type === 'start' ? '</div>' : '<div class="markdown-body">';
+      }
+    ) +
     '</div>';
   info.toc = toc;
 
