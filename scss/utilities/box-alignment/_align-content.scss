@@ -1,3 +1,13 @@
+/*!markdown
+
+---
+title: Align Content
+---
+
+待补充
+
+
+*/
 @mixin make-align-content($prefix: '.') {
   #{$prefix}content-center {
     align-content: center;

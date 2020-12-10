@@ -1,3 +1,13 @@
+/*!markdown
+
+---
+title: Grid Template Columns
+---
+
+待补充
+
+
+*/
 @mixin make-grid-columns($prefix: '.') {
   #{$prefix}grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));

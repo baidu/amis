@@ -1,3 +1,14 @@
+/*!markdown
+
+---
+title: Text OverFlow
+---
+
+待补充
+
+
+*/
+
 @mixin make-text-overflow($prefix: '.') {
   #{$prefix}truncate {
     overflow: hidden;

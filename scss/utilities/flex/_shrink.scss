@@ -1,3 +1,13 @@
+/*!markdown
+
+---
+title: Flex Shrink
+---
+
+待补充
+
+
+*/
 @mixin make-flex-shrink($prefix: '.') {
   #{$prefix}flex-shrink-0 {
     flex-shrink: 0;

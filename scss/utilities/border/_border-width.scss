@@ -1,3 +1,14 @@
+/*!markdown
+
+---
+title: 边框宽度
+---
+
+待补充
+
+
+*/
+
 @mixin border-widths($prefix: '.', $suffix: '') {
   @each $name, $value in $borderWidths {
     #{$prefix}border#{suffixName($name)}#{$suffix} {

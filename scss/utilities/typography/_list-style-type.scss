@@ -1,3 +1,14 @@
+/*!markdown
+
+---
+title: List Style Type
+---
+
+待补充
+
+
+*/
+
 @mixin make-list-style-type($prefix: '.') {
   @each $name, $value in ('none': none, 'disc': disc, 'decimal': decimal) {
     #{$prefix}list-#{$name} {

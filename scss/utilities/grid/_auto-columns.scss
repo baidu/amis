@@ -1,3 +1,13 @@
+/*!markdown
+
+---
+title: Grid Auto Columns 
+---
+
+待补充
+
+
+*/
 @mixin make-grid-auto-columns($prefix: '.') {
   #{$prefix}auto-cols-auto {
     grid-auto-columns: auto;
