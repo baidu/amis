@@ -179,15 +179,6 @@ $light: map-get($colors, 'light');
 $dark: map-get($colors, 'dark');
 
 $spacing: (
-  xs: px2rem(5px),
-  sm: px2rem(10px),
-  default: px2rem(15px),
-  md: px2rem(20px),
-  lg: px2rem(30px),
-  xl: px2rem(40px),
-  xxl: px2rem(50px),
-  //
-  // 上面是原来设定
   //
   // 下面是参考 tailwind
   //

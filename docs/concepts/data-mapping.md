@@ -1443,3 +1443,31 @@ ${xxx|filter1|filter2|...}
 1. 会先执行`split`过滤器，将字符串`a,b,c`，拆分成数组`["a", "b", "c"]`；
 2. 然后将该数据传给下一个过滤器`first`，执行该过滤器，获取数组第一个元素，为`"a"`
 3. 输出`"a"`
+
+## 自定义过滤器
+
+amis npm 包里面暴露了 `registerFilter` 方法，通过它可以添加自己的过滤器逻辑。
+
+如：
+
+```ts
+import {registerFilter} from 'amis';
+
+registerFilter('count', (input: string) =>
+  typeof input === 'string' ? input.length : 0
+);
+```
+
+注册后可以通过 `${xxx|count}` 来返回字符串的长度。
+
+如果你的过滤器还要支持参数，可以参考这个栗子。
+
+```ts
+import {registerFilter} from 'amis';
+
+registerFilter('my-replace', (input: string, search: string, repalceWith) =>
+  typeof input === 'string' ? input.replace(search, repalceWith) : input
+);
+```
+
+用法为 `${xxxx|my-replace:aaaa:bbbb}`

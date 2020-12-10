@@ -161,7 +161,8 @@ module.exports = function (content, file) {
         ] = `<!--amis-preview-start--><div class="amis-doc"><div class="preview">${code}</div><pre><code class="lang-html">${prism.highlight(
           code
             .replace(/"data:(\w+\/\w+);.*?"/g, '"data:$1; ..."')
-            .replace(/<svg([^>]*)>[\s\S]*?<\/svg>/g, '<svg$1>...</svg>'),
+            .replace(/<svg([^>]*)>[\s\S]*?<\/svg>/g, '<svg$1>...</svg>')
+            .replace(/class="([^"]*?)\.\.\.([^"]*?)"/g, 'class="$1..."'),
           prism.languages[lang],
           lang
         )}</code></pre></div><!--amis-preview-end-->`;
