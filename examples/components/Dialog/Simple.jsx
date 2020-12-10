@@ -204,7 +204,7 @@ export default {
           label: 'Feedback2',
           actionType: 'ajax',
           api: '/api/mock2/form/initData?waitSeconds=2',
-          tooltip: '可以根据条件弹出，比如这个栗子，看当前时间戳是否可以整除3',
+          tooltip: '可以根据条件弹出，比如这个例子，看当前时间戳是否可以整除3',
           feedback: {
             visibleOn: '!(this.date % 3)',
             title: '操作成功',

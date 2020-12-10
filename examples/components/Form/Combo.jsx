@@ -419,7 +419,7 @@ export default {
                 {
                   type: 'tpl',
                   tpl:
-                    '<p class="m-b-xl">添加时可选择类型，比如这个栗子，可以选择是文本类型还是数字类型</p>'
+                    '<p class="m-b-xl">添加时可选择类型，比如这个例子，可以选择是文本类型还是数字类型</p>'
                 },
                 {
                   type: 'combo',

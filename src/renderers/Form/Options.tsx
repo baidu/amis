@@ -688,7 +688,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         data,
         Array.isArray(idx)
           ? {
-              parent: getTree(model.options, idx),
+              parent: getTree(model.options, idx.slice(0, -1)),
               ...value
             }
           : value
