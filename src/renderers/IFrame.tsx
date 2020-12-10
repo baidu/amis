@@ -135,7 +135,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
   @autobind
   postMessage(type: string, data: any) {
-    (this.IFrameRef.current as HTMLIFrameElement).contentWindow?.postMessage(
+    (this.IFrameRef.current as HTMLIFrameElement)?.contentWindow?.postMessage(
       {
         type: `amis:${type}`,
         data
@@ -162,7 +162,8 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
     if (
       typeof finalSrc === 'string' &&
-      !/^(\.\/|\.\.\/|\/|https?\:\/\/)/.test(finalSrc)
+      finalSrc &&
+      !/^(\.\/|\.\.\/|\/|https?\:\/\/|https?\%3A\%2F\%2F)/.test(finalSrc)
     ) {
       return <p>请填写合法的 iframe 地址</p>;
     }
