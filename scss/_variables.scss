@@ -1722,7 +1722,7 @@ $Panel-titleColor: inherit !default;
 $Panel-bodyPadding: px2rem(15px) !default;
 $Panel-footerBorderColor: lighten($borderColor, 5%) !default;
 $Panel-footerBorderRadius: 0 0 px2rem(2px) px2rem(2px) !default;
-$Panel-footerBg: $white !default;
+$Panel-footerBg: transparent !default;
 $Panel-footerPadding: px2rem(10px) px2rem(15px) !default;
 $Panel-borderWidth: px2rem(1px) !default;
 $Panel-footerButtonMarginLeft: $gap-sm !default;
