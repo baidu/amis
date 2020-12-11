@@ -87,7 +87,8 @@ export default class Collapse extends React.Component<
     'headingComponent',
     'bodyClassName',
     'collapsed',
-    'headingClassName'
+    'headingClassName',
+    'title'
   ];
 
   static defaultProps: Partial<CollapseProps> = {
