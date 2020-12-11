@@ -710,7 +710,6 @@ if (fis.project.currentMedia() === 'publish') {
         '!/examples/style.scss',
         '!monaco-editor/**',
         '!/scss/utilities.scss',
-        '/scss/utilities.scss',
         '/examples/style.scss' // 让它在最下面
       ]
     }),
@@ -724,12 +723,14 @@ if (fis.project.currentMedia() === 'publish') {
         const indexHtml = ret.src['/examples/index.html'];
         const appJs = ret.src['/examples/components/App.tsx'];
         const DocJs = ret.src['/examples/components/Doc.tsx'];
+        const DocCSS = ret.src['/examples/components/CssDocs.tsx'];
         const ExampleJs = ret.src['/examples/components/Example.tsx'];
 
         const pages = [];
         const source = [
           appJs.getContent(),
           DocJs.getContent(),
+          DocCSS.getContent(),
           ExampleJs.getContent()
         ].join('\n');
         source.replace(
@@ -758,7 +759,16 @@ if (fis.project.currentMedia() === 'publish') {
   });
 
   ghPages.match('*.{css,less,scss}', {
-    optimizer: fis.plugin('clean-css'),
+    optimizer: [
+      function(contents) {
+        if (typeof contents === 'string') {
+          contents = contents.replace(/\/\*\!markdown[\s\S]*?\*\//g, '');
+        }
+
+        return contents;
+      },
+      fis.plugin('clean-css')
+    ],
     useHash: true
   });
 
