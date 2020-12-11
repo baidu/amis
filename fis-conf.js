@@ -709,6 +709,8 @@ if (fis.project.currentMedia() === 'publish') {
         // 要切换主题，不能打在一起。'/scss/*.scss',
         '!/examples/style.scss',
         '!monaco-editor/**',
+        '!/scss/utilities.scss',
+        '/scss/utilities.scss',
         '/examples/style.scss' // 让它在最下面
       ]
     }),
