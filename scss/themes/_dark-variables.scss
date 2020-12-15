@@ -28,19 +28,57 @@ $text-color: rgb(243, 241, 241);
 $text--muted-color: #6c6c6c;
 $text--loud-color: lighten($text-color, 10%);
 
-$background: #333538;
-$background-head: #191c22;
-
-$body-bg: $background;
 $Page-aside-bg: #3c3c3c;
 $Panel-bg: #302d2a;
-$borderColor: $black;
 $link-color: $info;
 
-$borderColor: #656565;
+@import '../variables';
+@import '../properties';
+
+:root {
+  --borderColor: #656565;
+  --background: #333538;
+  --background-head: #191c22;
+
+  --body-bg: var(--background);
+
+  --ColorPicker-bg: var(--background);
+  --DatePicker-bg: var(--background);
+  --DatePicker-header-select-borderColor: var(--background);
+  --DropDown-menu-bg: var(--background);
+  --Fieldset-legend-bgColor: var(--background);
+
+  --Calendar-btnCancel-bg: var(--background-head);
+
+  --Tabs-onActive-borderColor: var(--borderColor);
+
+  --Form-select-bg: var(--background);
+  --Form-select-menu-bg: var(--background);
+
+  --IconPicker-tab-onActive-bg: var(--background);
+  --InputGroup-select-bg: var(--background);
+
+  --ListControl-item-bg: var(--background);
+  --ListControl-item-onActive-before-bg: var(--background);
+  --ListItem--strip-bg: var(--background);
+
+  --Number-handler-bg: var(--background);
+
+  --PopOver-bg: var(--background);
+
+  --Tabs--card-borderTopColor: var(--background);
+
+  --TransferSelect--table-heading-bg: var(--background);
+
+  --Form-select-onHover-bg: var(--background-head);
+  --Layout-aside-bg: var(--background-head);
+  --Layout-header-bg: var(--background-head);
+
+  --Wizard-steps-bg: var(--background-head);
+}
 
 $Button--default-bg: $black;
-$Calendar-btnCancel-bg: $background-head;
+
 $Calendar-cell-bg: $Panel-bg;
 
 $Card-bg: $Panel-bg;
@@ -53,49 +91,33 @@ $Card-actions-onHover-color: $text-color;
 
 $Checkbox-gb: linear-gradient(#515151, #4b4b4b);
 $Checkbox-onHover-color: $blue;
-$ColorPicker-bg: $background;
-$DatePicker-bg: $background;
-$DatePicker-header-select-borderColor: $background;
-$DropDown-menu-bg: $background;
-$Fieldset-legend-bgColor: $background;
 
 $Form-input-bg: #3c3c3c;
 
 $Form-input-addOnBg: $Form-input-bg;
 $Form-input-color: $text-color;
 $Form-input-onDisabled-bg: $Panel-bg;
-$Form-select-bg: $background;
-$Form-select-menu-bg: $background;
-$Form-select-onHover-bg: $background-head;
+
 $Form-selectValue-bg: $Panel-bg;
 $Form-selectValue-color: $text-color;
 
 $TreeSelect-popover-bg: $Panel-bg;
 
-$IconPicker-tab-onActive-bg: $background;
-$InputGroup-select-bg: $background;
 $InputGroup-select-onFocused-bg: $Panel-bg;
 $istItem-onModified-bg: $black;
 
-$Layout-aside-bg: $background-head;
 $Layout-aside-onAcitve-bg: $Panel-bg;
 $Layout-aside-onHover-bg: #404040;
 $Layout-aside-subList-bg: #131519;
-$Layout-header-bg: $background-head;
 
 $List-bg: $Panel-bg;
-$ListControl-item-bg: $background;
-$ListControl-item-onActive-before-bg: $background;
-$ListItem--strip-bg: $background;
+
 $ListItem-onChecked-bg: $black;
 $ListItem-onChecked-color: $text-color;
 $ListItem-onModified-color: $text-color;
 
-$Number-handler-bg: $background;
-
 $Panel--default-bg: linear-gradient(#524e48, #423e3a);
 $Panel-footerBg: linear-gradient(#524e48, #423e3a);
-$PopOver-bg: $background;
 
 $Table-onHover-bg: $dark;
 $Table-strip-bg: $Panel-bg;
@@ -106,23 +128,20 @@ $Table-onModified-bg: $black;
 $Table-onModified-color: $text-color;
 
 $Tabs--card-bg: #323639;
-$Tabs--card-borderTopColor: $background;
+
 $Tabs--card-onActive-bg: $Panel-bg;
 $Tabs--radio-bg: $Panel-bg;
 $Tabs-content-bg: $Panel-bg;
 $Tabs-onActive-bg: $Panel-bg;
-$Tabs-onActive-borderColor: $borderColor;
+
 $Tabs-onActive-color: lighten($text-color, 10%);
 $Tabs-onHover-borderColor: $Tabs-onActive-borderColor;
 
 $Tabs--radio-bg: $Panel-bg;
 
 $Tooltip--attr-color: $text-color;
-$TransferSelect--table-heading-bg: $background;
-$Wizard-steps-bg: $background-head;
+
 $Wizard-steps-li-onActive-arrow-bg: $Panel-bg;
 $Wizard-steps-li-onActive-bg: $Panel-bg;
 
 $Transfer-title-bg: #2f2f2f;
-
-@import '../variables';

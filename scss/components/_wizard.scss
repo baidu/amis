@@ -9,60 +9,60 @@
 
     .#{$ns}Badge {
       display: inline-block;
-      width: $Wizard-badge-size;
-      height: $Wizard-badge-size;
-      font-size: $Wizard-badge-fontSize;
-      line-height: $Wizard-badge-size;
-      color: $Wizard-badge-color;
+      width: var(--Wizard-badge-size);
+      height: var(--Wizard-badge-size);
+      font-size: var(--Wizard-badge-fontSize);
+      line-height: var(--Wizard-badge-size);
+      color: var(--Wizard-badge-color);
       text-align: center;
       white-space: nowrap;
       vertical-align: middle;
-      background-color: $Wizard-badge-bg;
-      border-radius: $Wizard-badge-borderRadius; // font-weight: 700;
+      background-color: var(--Wizard-badge-bg);
+      border-radius: var(--Wizard-badge-borderRadius); // font-weight: 700;
       text-shadow: 0 px2rem(1px) 0 rgba(0, 0, 0, 0.2);
-      margin-right: $Wizard-badge-marginRight;
-      border: $Wizard-badge-border;
+      margin-right: var(--Wizard-badge-marginRight);
+      border: var(--Wizard-badge-border);
       box-sizing: content-box;
 
       // &--primary {
-      //     background-color: $primary;
+      //     background-color: var(--primary);
       // }
 
       // &--secondary {
-      //     background-color: $secondary;
+      //     background-color: var(--secondary);
       // }
 
       // &--success {
-      //     background-color: $success;
+      //     background-color: var(--success);
       // }
 
       // &--info {
-      //     background-color: $info;
+      //     background-color: var(--info);
       // }
 
       // &--warning {
-      //     background-color: $warning;
+      //     background-color: var(--warning);
       // }
 
       // &--danger {
-      //     background-color: $danger;
+      //     background-color: var(--danger);
       // }
 
       // &--light {
-      //     background-color: $light;
+      //     background-color: var(--light);
       // }
 
       // &--dark {
-      //     background-color: $dark;
+      //     background-color: var(--dark);
       // }
       &.is-active {
-        color: $white;
-        background-color: $Wizard-badge-onActive-backgroundColor;
+        color: var(--white);
+        background-color: var(--Wizard-badge-onActive-backgroundColor);
       }
     }
 
     ul li.active {
-      color: $info;
+      color: var(--info);
     }
 
     .#{$ns}Panel-footer > .#{$ns}Form-group,
@@ -73,7 +73,7 @@
     > ul.nav {
       padding: 0;
       margin: 0;
-      border: $borderWidth solid $borderColor;
+      border: var(--borderWidth) solid var(--borderColor);
 
       li {
         position: relative;
@@ -82,8 +82,8 @@
         margin: 0;
         color: #999999;
         cursor: pointer;
-        height: $Wizard-steps-height;
-        line-height: $Wizard-steps-height;
+        height: var(--Wizard-steps-height);
+        line-height: var(--Wizard-steps-height);
 
         a {
           border: 0 none !important;
@@ -109,7 +109,7 @@
           right: px2rem(-10px);
           border: px2rem(20px) solid transparent;
           border-right: 0;
-          border-left: px2rem(10px) solid $borderColor;
+          border-left: px2rem(10px) solid var(--borderColor);
           border-left-color: rgba(0, 0, 0, 0.05);
           z-index: 1;
           bottom: 0;
@@ -117,12 +117,12 @@
 
         &:after {
           right: px2rem(-9px);
-          border-left-color: $Wizard-steps-bg;
+          border-left-color: var(--Wizard-steps-bg);
           z-index: 2;
         }
 
         &.is-active {
-          color: $Wizard-steps-li-onActive-color;
+          color: var(--Wizard-steps-li-onActive-color);
           background: #fff;
         }
 
@@ -138,15 +138,15 @@
   }
 
   &-steps {
-    font-size: $fontSizeBase;
-    padding: $Wizard-steps-padding;
-    background-color: $Wizard-steps-bg;
-    border-bottom: $Wizard-steps-borderWidth solid $borderColor;
-    text-align: $Wizard-steps-textAlign;
+    font-size: var(--fontSizeBase);
+    padding: var(--Wizard-steps-padding);
+    background-color: var(--Wizard-steps-bg);
+    border-bottom: var(--Wizard-steps-borderWidth) solid var(--borderColor);
+    text-align: var(--Wizard-steps-textAlign);
     @include clearfix();
 
     ul {
-      display: $Wizard-steps-ulDisplay;
+      display: var(--Wizard-steps-ulDisplay);
       padding: 0;
       margin: 0;
       list-style: none outside none;
@@ -158,8 +158,8 @@
         margin: 0;
         color: #999999;
         cursor: default;
-        height: $Wizard-steps-height;
-        line-height: $Wizard-steps-height;
+        height: var(--Wizard-steps-height);
+        line-height: var(--Wizard-steps-height);
 
         &:first-child {
           padding-left: px2rem(15px);
@@ -168,38 +168,38 @@
 
         &:before,
         &:after {
-          font-family: $Wizard-steps-liVender;
-          content: $Wizard-steps-liAfterContent;
+          font-family: var(--Wizard-steps-liVender);
+          content: var(--Wizard-steps-liAfterContent);
           position: absolute;
           bottom: 0;
           right: px2rem(-10px);
-          border: $Wizard-steps-liAfterBorder;
+          border: var(--Wizard-steps-liAfterBorder);
           border-right: 0;
-          border-left: px2rem(10px) solid $borderColor;
+          border-left: px2rem(10px) solid var(--borderColor);
           border-left-color: rgba(0, 0, 0, 0.05);
           z-index: 2;
         }
 
         &:after {
           right: px2rem(-9px);
-          border-left-color: $Wizard-steps-bg;
+          border-left-color: var(--Wizard-steps-bg);
           z-index: 2;
         }
 
         &.is-active {
-          color: $Wizard-steps-li-onActive-color;
-          background: $Wizard-steps-li-onActive-bg;
+          color: var(--Wizard-steps-li-onActive-color);
+          background: var(--Wizard-steps-li-onActive-bg);
         }
 
         &.is-active:after {
-          border-left-color: $Wizard-steps-li-onActive-arrow-bg;
+          border-left-color: var(--Wizard-steps-li-onActive-arrow-bg);
         }
 
         &.is-complete,
         &.is-complete:hover {
-          color: $Wizard-steps-li-onActive-color;
+          color: var(--Wizard-steps-li-onActive-color);
           cursor: pointer;
-          background: $Wizard-steps-bg--isComplete;
+          background: var(--Wizard-steps-bg--isComplete);
         }
 
         &.is-complete:after {
@@ -214,7 +214,7 @@
   }
 
   &-stepContent {
-    padding: $Wizard-stepsContent-padding;
+    padding: var(--Wizard-stepsContent-padding);
 
     & .Step-pane {
       display: none;
@@ -241,7 +241,7 @@
         border-bottom: none;
 
         li {
-          background-color: $Wizard-steps-bg;
+          background-color: var(--Wizard-steps-bg);
         }
 
         ul li {
@@ -249,7 +249,7 @@
           line-height: px2rem(40px);
           position: relative;
           float: none;
-          border-bottom: $borderWidth solid $borderColor;
+          border-bottom: var(--borderWidth) solid var(--borderColor);
           padding-left: px2rem(15px); // &:before,
           // &:after {
           // border: px2rem(20px) solid transparent;
@@ -272,8 +272,4 @@
       }
     }
   }
-
-  // &-footer {
-  //   // margin: 0 (-$Wizard-stepsContent-padding) (-$Wizard-stepsContent-padding);
-  // }
 }

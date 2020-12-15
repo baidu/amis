@@ -2,12 +2,12 @@
   @include clearfix();
 
   &-label {
-    color: $Layout-asideLabel-color;
-    margin-top: $gap-base;
-    margin-bottom: $gap-sm;
-    font-size: $fontSizeXs;
-    padding-left: $gap-base;
-    padding-right: $gap-base;
+    color: var(--Layout-asideLabel-color);
+    margin-top: var(--gap-base);
+    margin-bottom: var(--gap-sm);
+    font-size: var(--fontSizeXs);
+    padding-left: var(--gap-base);
+    padding-right: var(--gap-base);
   }
 
   &-list {
@@ -38,11 +38,11 @@
 
     .#{$ns}AsideNav-item.is-open > a > &:empty:before {
       transform: rotate(90deg);
-      color: $Layout-asideLink-onActive-arrowColor;
+      color: var(--Layout-asideLink-onActive-arrowColor);
     }
 
     > svg {
-      color: $Layout-asideLink-color;
+      color: var(--Layout-asideLink-color);
       width: px2rem(10px);
       height: px2rem(10px);
       transform-origin: center;
@@ -57,12 +57,12 @@
   &-itemBadge {
     padding: px2rem(2px) px2rem(5px);
     margin-top: px2rem(2px);
-    font-size: $fontSizeXs;
+    font-size: var(--fontSizeXs);
     text-shadow: 0 px2rem(1px) 0 rgba(0, 0, 0, 0.2);
     float: right;
     min-width: px2rem(1px);
     line-height: 1;
-    font-weight: $fontWeightBold;
+    font-weight: var(--fontWeightBold);
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
@@ -70,18 +70,23 @@
   }
 
   &-itemIcon {
-    margin: ($Layout-nav-height - $lineHeightBase * $Layout-asideLink-fontSize)/-2
+    margin: calc(
+        (
+          var(--Layout-nav-height) - var(--lineHeightBase) *
+            var(--Layout-asideLink-fontSize) / -2
+        )
+      )
       px2rem(-10px);
-    line-height: $Layout-nav-height;
-    width: $Layout-nav-height;
+    line-height: var(--Layout-nav-height);
+    width: var(--Layout-nav-height);
     vertical-align: middle;
     float: left;
     margin-right: 0;
     text-align: center;
     position: relative;
     overflow: hidden;
-    color: $Layout-asideLink-iconColor;
-    font-size: $Layout-asideLink-onHover-iconSize;
+    color: var(--Layout-asideLink-iconColor);
+    font-size: var(--Layout-asideLink-onHover-iconSize);
 
     &:before {
       position: relative;
@@ -97,7 +102,7 @@
     overflow: hidden;
     margin-left: px2rem(-20px);
     transition: all 0.2s ease-in-out 0s;
-    background-color: $Layout-aside-subList-bg;
+    background-color: var(--Layout-aside-subList-bg);
 
     .#{$ns}Layout--folded .#{$ns}AsideNav-item > & {
       display: block;
@@ -125,57 +130,66 @@
       cursor: pointer;
       text-transform: none;
       display: block;
-      font-size: $Layout-asideLink-fontSize;
-      padding: (
-          $Layout-nav-height - $lineHeightBase * $Layout-asideLink-fontSize
-        )/2 px2rem(15px);
+      font-size: var(--Layout-asideLink-fontSize);
+
+      padding: calc(
+          (
+              var(--Layout-nav-height) - var(--lineHeightBase) *
+                var(--Layout-asideLink-fontSize)
+            ) / 2
+        )
+        px2rem(15px);
       position: relative;
       transition: background-color 0.2s ease-in-out 0s;
-      color: $Layout-asideLink-color;
+      color: var(--Layout-asideLink-color);
       text-decoration: none;
       user-select: none;
 
       &:hover {
-        color: $Layout-asideLink-onHover-color;
+        color: var(--Layout-asideLink-onHover-color);
         text-decoration: none;
-        background-color: $Layout-aside-onHover-bg;
+        background-color: var(--Layout-aside-onHover-bg);
 
         .#{$ns}AsideNav-itemIcon {
-          color: $Layout-asideLink-onHover-iconColor;
+          color: var(--Layout-asideLink-onHover-iconColor);
         }
       }
     }
 
     &.is-active {
       > a {
-        background-color: $Layout-aside-onAcitve-bg;
-        color: $Layout-asideLink-onActive-color;
+        background-color: var(--Layout-aside-onAcitve-bg);
+        color: var(--Layout-asideLink-onActive-color);
 
         &:hover {
-          background-color: $Layout-aside-onHover-bg;
+          background-color: var(--Layout-aside-onHover-bg);
         }
       }
     }
 
     &.is-lg {
       > a {
-        padding: (
-            $Layout-nav-lgHeight - $lineHeightBase * $Layout-asideLink-fontSize
-          )/2 px2rem(15px);
+        padding: calc(
+            (
+                var(--Layout-nav-lgHeight) - var(--lineHeightBase) *
+                  var(--Layout-asideLink-fontSize)
+              ) / 2
+          )
+          px2rem(15px);
       }
     }
 
     .#{$ns}AsideNav-item {
       a {
-        padding-left: $Layout-nav-height + px2rem(5px);
+        padding-left: calc(var(--Layout-nav-height) + #{px2rem(5px)});
       }
 
       .#{$ns}AsideNav-item a {
-        padding-left: $Layout-nav-height + px2rem(35px);
+        padding-left: calc(var(--Layout-nav-height) + #{px2rem(35px)});
       }
 
       .#{$ns}AsideNav-item .#{$ns}AsideNav-item a {
-        padding-left: $Layout-nav-height + px2rem(65px);
+        padding-left: calc(var(--Layout-nav-height) + #{px2rem(65px)});
       }
 
       .#{$ns}AsideNav-subList {
@@ -194,14 +208,18 @@
     a {
       cursor: default;
       background: transparent;
-      color: darken($Layout-aside-color, 10%);
-      padding: (
-          $Layout-nav--folded-height - $lineHeightBase *
-            $Layout-asideLink-fontSize
-        )/2 px2rem(20px);
+      // color: darken(var(--Layout-aside-color), 10%);
+
+      padding: calc(
+          (
+              var(--Layout-nav--folded-height) - var(--lineHeightBase) *
+                var(--Layout-asideLink-fontSize)
+            ) / 2
+        )
+        px2rem(20px);
 
       &:hover {
-        color: darken($Layout-aside-color, 10%);
+        // color: darken(var(--Layout-aside-color), 10%);
         background: transparent;
       }
     }
@@ -213,28 +231,29 @@
     top: 50%;
     transform: translateY(-50%);
     position: absolute;
-    font-size: $Tooltip--attr-fontSize;
-    line-height: $Tooltip--attr-lineHeigt;
+    font-size: var(--Tooltip--attr-fontSize);
+    line-height: var(--Tooltip--attr-lineHeigt);
     text-align: left;
     white-space: nowrap;
-    background: $Tooltip--attr-bg;
-    border: $Tooltip--attr-borderWidth solid $Tooltip--attr-borderColor;
-    border-radius: $Tooltip--attr-borderRadius;
-    box-shadow: $Tooltip--attr-boxShadow;
+    background: var(--Tooltip--attr-bg);
+    border: var(--Tooltip--attr-borderWidth) solid
+      var(--Tooltip--attr-borderColor);
+    border-radius: var(--Tooltip--attr-borderRadius);
+    box-shadow: var(--Tooltip--attr-boxShadow);
     left: 100%;
-    color: $Tooltip--attr-color;
-    padding: $Tooltip--attr-paddingY $Tooltip--attr-paddingX;
+    color: var(--Tooltip--attr-color);
+    padding: var(--Tooltip--attr-paddingY) var(--Tooltip--attr-paddingX);
     opacity: 0;
-    transition: $Tooltip--attr-transition;
+    transition: var(--Tooltip--attr-transition);
   }
 
   &-divider {
     width: auto;
     height: px2rem(1px);
-    margin: $Layout-asideDivider-margin;
+    margin: var(--Layout-asideDivider-margin);
     overflow: hidden;
     font-size: 0;
-    background-color: $Layout-asideDivider-bg;
+    background-color: var(--Layout-asideDivider-bg);
   }
 }
 
@@ -255,7 +274,7 @@
     .#{$ns}AsideNav-item:hover > .#{$ns}AsideNav-tooltip {
       opacity: 1;
       z-index: $zindex-tooltip;
-      margin: 0 0 0 $Tooltip--attr-gap;
+      margin: 0 0 0 var(--Tooltip--attr-gap);
       opacity: 1;
     }
 
@@ -264,7 +283,7 @@
       position: relative;
       padding: 0;
       text-align: center;
-      height: $Layout-nav--folded-height;
+      height: var(--Layout-nav--folded-height);
       border: none;
 
       .#{$ns}AsideNav-itemArrow,
@@ -278,7 +297,7 @@
         display: block;
         font-size: px2rem(16px);
         margin: 0;
-        line-height: $Layout-nav--folded-height;
+        line-height: var(--Layout-nav--folded-height);
         border: none !important;
       }
 
@@ -291,10 +310,10 @@
     }
 
     .#{$ns}AsideNav-list > .#{$ns}AsideNav-item.is-lg > a {
-      height: $Layout-nav-lgHeight;
+      height: var(--Layout-nav-lgHeight);
 
       .#{$ns}AsideNav-itemIcon {
-        line-height: $Layout-nav-lgHeight;
+        line-height: var(--Layout-nav-lgHeight);
       }
     }
 
@@ -308,20 +327,20 @@
       left: 100%;
       top: 0 !important;
       z-index: 1050;
-      width: $Layout-aside-width;
+      width: var(--Layout-aside-width);
       box-shadow: 0 px2rem(2px) px2rem(6px) rgba(0, 0, 0, 0.1);
     }
 
     &.#{$ns}Layout--sm .#{$ns}AsideNav-subList {
-      width: $Layout-aside--sm-width;
+      width: var(--Layout-aside--sm-width);
     }
 
     &.#{$ns}Layout--md .#{$ns}AsideNav-subList {
-      width: $Layout-aside--md-width;
+      width: var(--Layout-aside--md-width);
     }
 
     &.#{$ns}Layout--lg .#{$ns}AsideNav-subList {
-      width: $Layout-aside--lg-width;
+      width: var(--Layout-aside--lg-width);
     }
   }
 }

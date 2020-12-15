@@ -5,39 +5,39 @@
   padding: 0;
 
   .#{$ns}Nav-itemIcon {
-    margin-right: $gap-xs;
+    margin-right: var(--gap-xs);
   }
 
   &--tabs {
-    border-bottom: $Tabs-borderWidth solid $Tabs-borderColor;
+    border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
 
     .#{$ns}Nav-item {
-      margin-bottom: -$Tabs-borderWidth;
+      margin-bottom: calc(var(--Tabs-borderWidth) * -1);
       display: inline-block;
 
       > a {
-        font-size: $Tabs-linkFontSize;
+        font-size: var(--Tabs-linkFontSize);
         display: block;
         outline: none;
-        border: $Tabs-borderWidth solid transparent;
-        border-top-left-radius: $Tabs-borderRadius;
-        border-top-right-radius: $Tabs-borderRadius;
-        color: $Tabs-color;
+        border: var(--Tabs-borderWidth) solid transparent;
+        border-top-left-radius: var(--Tabs-borderRadius);
+        border-top-right-radius: var(--Tabs-borderRadius);
+        color: var(--Tabs-color);
         text-decoration: none;
         margin-right: px2rem(2px);
-        padding: $gap-sm $gap-base;
+        padding: var(--gap-sm) var(--gap-base);
         cursor: pointer;
       }
 
       &:hover > a,
       > a:focus {
-        border-color: $Tabs-onHover-borderColor;
+        border-color: var(--Tabs-onHover-borderColor);
         text-decoration: none;
       }
 
       &.disabled > a,
       &.is-disabled > a {
-        color: $Tabs-onDisabled-color;
+        color: var(--Tabs-onDisabled-color);
         background-color: transparent;
         border-color: transparent;
         pointer-events: none;
@@ -45,10 +45,10 @@
 
       &.active > a,
       &.is-active > a {
-        color: $Tabs-onActive-color;
-        background-color: $Tabs-onActive-bg;
-        border-color: $Tabs-onActive-borderColor;
-        border-bottom-color: $Tabs-content-bg;
+        color: var(--Tabs-onActive-color);
+        background-color: var(--Tabs-onActive-bg);
+        border-color: var(--Tabs-onActive-borderColor);
+        border-bottom-color: var(--Tabs-content-bg);
       }
     }
   }
@@ -60,33 +60,33 @@
       > a {
         display: block;
         outline: none;
-        color: $Nav-item-color;
+        color: var(--Nav-item-color);
         text-decoration: none;
-        padding: $gap-sm $gap-base;
+        padding: var(--gap-sm) var(--gap-base);
         cursor: pointer;
-        background-color: $Nav-item-bg;
-        border-radius: $Nav-item-borderRadius;
+        background-color: var(--Nav-item-bg);
+        border-radius: var(--Nav-item-borderRadius);
       }
 
       &:hover > a,
       > a:focus {
-        border-color: $Nav-item-onHover-color;
+        border-color: var(--Nav-item-onHover-color);
         text-decoration: none;
-        background-color: $Nav-item-onHover-bg;
+        background-color: var(--Nav-item-onHover-bg);
       }
 
       &.disabled > a,
       &.is-disabled > a {
-        color: $Nav-item-onDisabled-color;
+        color: var(--Nav-item-onDisabled-color);
         background-color: transparent;
         pointer-events: none;
       }
 
       &.active > a,
       &.is-active > a {
-        color: $Nav-item-onActive-color;
-        background-color: $Nav-item-onActive-bg;
-        border-left: $Nav-item-onActive-borderLeft;
+        color: var(--Nav-item-onActive-color);
+        background-color: var(--Nav-item-onActive-bg);
+        border-left: var(--Nav-item-onActive-borderLeft);
         padding-left: px2rem(12px);
       }
 
@@ -127,7 +127,7 @@
       }
 
       .#{$ns}Nav-item {
-        font-size: $Nav-subItem-fontSize;
+        font-size: var(--Nav-subItem-fontSize);
 
         a:before {
           content: '';
@@ -142,7 +142,7 @@
 
         &.active > a:before,
         &.is-active > a:before {
-          background-color: $Nav-subItem-onActiveBeforeBg;
+          background-color: var(--Nav-subItem-onActiveBeforeBg);
         }
       }
     }

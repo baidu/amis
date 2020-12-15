@@ -40,18 +40,19 @@
     display: flex;
     flex-direction: column;
     width: 100%; // Ensure `.modal-content` extends the full width of the parent `.modal-dialog`
-    min-height: $Modal-content-minHeight;
+    min-height: var(--Modal-content-minHeight);
     pointer-events: auto;
-    background-color: $Modal-bg;
+    background-color: var(--Modal-bg);
     background-clip: padding-box;
     outline: 0;
     z-index: 2;
     margin-left: auto;
     margin-right: auto;
-    margin-top: $Modal-content-startMarginTop;
-    margin-bottom: $gap-md;
-    border: $Modal-content-borderWidth solid $Modal-content-borderColor;
-    border-radius: $Modal-content-borderRadius;
+    margin-top: var(--Modal-content-startMarginTop);
+    margin-bottom: var(--gap-md);
+    border: var(--Modal-content-borderWidth) solid
+      var(--Modal-content-borderColor);
+    border-radius: var(--Modal-content-borderRadius);
 
     // transition: ease-out all 0.3s;
     // transform: translateY(-300px) scale(0.2);
@@ -83,7 +84,7 @@
     bottom: 0;
     left: 0;
     z-index: 1;
-    background-color: $Modal-overlay-bg;
+    background-color: var(--Modal-overlay-bg);
     pointer-events: none; // 很重要，如果不设置，弹框虽然滚轮可滚，但是鼠标没办法操作滚动条。
     opacity: 0;
 
@@ -97,33 +98,34 @@
   }
 
   &-header {
-    padding: $Modal-header-paddingY $Modal-header-paddingX;
-    background-color: $Modal-header-bg;
+    padding: var(--Modal-header-paddingY) var(--Modal-header-paddingX);
+    background-color: var(--Modal-header-bg);
     @include clearfix();
-    border-bottom: $Modal-body-borderTop;
+    border-bottom: var(--Modal-body-borderTop);
 
-    @if $Modal-content-borderRadius {
-      border-top-left-radius: $Modal-content-borderRadius;
-      border-top-right-radius: $Modal-content-borderRadius;
-    }
+    // todo: 用不了了
+    // @if var(--Modal-content-borderRadius) {
+    //   border-top-left-radius: var(--Modal-content-borderRadius);
+    //   border-top-right-radius: var(--Modal-content-borderRadius);
+    // }
   }
 
   &-title {
-    font-size: $Modal-title-fontSize;
-    color: $Modal-title-color;
+    font-size: var(--Modal-title-fontSize);
+    color: var(--Modal-title-color);
   }
 
   &-close {
     float: right;
-    color: $Modal-close-color;
+    color: var(--Modal-close-color);
     line-height: inherit;
     text-decoration: none;
     vertical-align: middle;
 
     svg {
-      width: $Modal-close-width;
-      height: $Modal-close-width;
-      fill: $Modal-close-color;
+      width: var(--Modal-close-width);
+      height: var(--Modal-close-width);
+      fill: var(--Modal-close-color);
     }
 
     &:not(.is-disabled) {
@@ -131,10 +133,10 @@
 
       &:hover {
         text-decoration: none;
-        color: $Model-close-onHover-color;
+        color: var(--Model-close-onHover-color);
 
         svg {
-          fill: $Model-close-onHover-color;
+          fill: var(--Model-close-onHover-color);
         }
       }
     }
@@ -142,20 +144,20 @@
 
   &-content > &-close {
     position: absolute;
-    right: $gap-md;
-    top: $gap-sm;
+    right: var(--gap-md);
+    top: var(--gap-sm);
     z-index: 10;
   }
 
   &-body {
-    padding: $Modal-body--noHeader-paddingTop $Modal-body-paddingX
-      $Modal-body-paddingY;
+    padding: var(--Modal-body--noHeader-paddingTop) var(--Modal-body-paddingX)
+      var(--Modal-body-paddingY);
     flex-basis: 0;
     flex-grow: 1;
   }
 
   &-header + &-body {
-    padding-top: $Modal-body-paddingY;
+    padding-top: var(--Modal-body-paddingY);
   }
 
   &-footer {
@@ -163,17 +165,18 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding: $Modal-footer-padding;
-    border-top: $Modal-body-borderBottom;
-    margin: $Modal-footer-marginY $Modal-footer-marginX;
+    padding: var(--Modal-footer-padding);
+    border-top: var(--Modal-body-borderBottom);
+    margin: var(--Modal-footer-marginY) var(--Modal-footer-marginX);
 
-    @if $Modal-content-borderRadius {
-      border-bottom-left-radius: $Modal-content-borderRadius;
-      border-bottom-right-radius: $Modal-content-borderRadius;
-    }
+    // todo: 用不了了
+    // @if var(--Modal-content-borderRadius) {
+    //   border-bottom-left-radius: var(--Modal-content-borderRadius);
+    //   border-bottom-right-radius: var(--Modal-content-borderRadius);
+    // }
 
     .#{$ns}Button {
-      margin-left: $gap-sm;
+      margin-left: var(--gap-sm);
     }
   }
 }
@@ -181,36 +184,38 @@
 @for $i from (2) through 10 {
   .#{$ns}Modal--#{$i}th {
     .#{$ns}Modal-content {
-      margin-top: $Modal-content-startMarginTop +
-        ($i - 1) *
-        $Modal-content-stepMarginTop;
+      margin-top: calc(
+        var(--Modal-content-startMarginTop) +
+          ($i - 1) *
+          var(--Modal-content-stepMarginTop)
+      );
     }
   }
 }
 
 @include media-breakpoint-up(sm) {
   .#{$ns}Modal-content {
-    max-width: $Modal-widthBase;
+    max-width: var(--Modal-widthBase);
   }
 
   .#{$ns}Modal--sm .#{$ns}Modal-content {
-    max-width: $Modal-widthSm;
+    max-width: var(--Modal-widthSm);
   }
 
   .#{$ns}Modal--base .#{$ns}Modal-content {
-    max-width: $Modal-widthBase;
+    max-width: var(--Modal-widthBase);
   }
 
   .#{$ns}Modal--md .#{$ns}Modal-content {
-    max-width: $Modal-widthMd;
+    max-width: var(--Modal-widthMd);
   }
 
   .#{$ns}Modal--lg .#{$ns}Modal-content {
-    max-width: $Modal-widthLg;
+    max-width: var(--Modal-widthLg);
   }
 
   .#{$ns}Modal--xl .#{$ns}Modal-content {
-    max-width: $Modal-widthXl;
+    max-width: var(--Modal-widthXl);
   }
 }
 
@@ -221,7 +226,7 @@
 }
 
 .#{$ns}Dialog-error {
-  color: $danger;
+  color: var(--danger);
 }
 
 .#{$ns}Modal--full {

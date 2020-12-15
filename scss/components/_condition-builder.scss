@@ -1,5 +1,5 @@
 .#{$ns}CBGroup {
-  font-size: $fontSizeSm;
+  font-size: var(--fontSizeSm);
 
   &-toolbar {
     display: flex;
@@ -34,7 +34,7 @@
       align-items: center;
 
       .#{$ns}CBDelete {
-        margin-left: $gap-xs;
+        margin-left: var(--gap-xs);
       }
     }
     &:not(:hover) .#{$ns}CBGroup-toolbarRight {
@@ -55,9 +55,9 @@
     transition: transform 0.3s ease-out;
     margin: 5px;
     display: flex;
-    color: $Form-select-caret-iconColor;
+    color: var(--Form-select-caret-iconColor);
     &:hover {
-      color: $Form-select-caret-onHover-iconColor;
+      color: var(--Form-select-caret-onHover-iconColor);
     }
 
     > svg {
@@ -73,7 +73,7 @@
   }
 
   &-placeholder {
-    color: $text--muted-color;
+    color: var(--text--muted-color);
     position: relative;
     margin-left: 30px;
     padding: 10px;
@@ -86,7 +86,7 @@
       top: -10px;
       left: -30px;
       width: 20px;
-      border-left: solid 1px $borderColor;
+      border-left: solid 1px var(--borderColor);
       bottom: 0;
     }
 
@@ -96,13 +96,13 @@
       top: 50%;
       width: 20px;
       left: -30px;
-      border-top: solid 1px $borderColor;
+      border-top: solid 1px var(--borderColor);
     }
 
     &:last-child {
       &:before {
         border-bottom-left-radius: 5px;
-        border-bottom: solid 1px $borderColor;
+        border-bottom: solid 1px var(--borderColor);
         bottom: 50%;
       }
 
@@ -160,7 +160,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba($info, 0.2);
+    background: rgba(var(--info), 0.2);
   }
 
   &-dragbar {
@@ -191,7 +191,7 @@
     top: -10px;
     left: -30px;
     width: 20px;
-    border-left: solid 1px $borderColor;
+    border-left: solid 1px var(--borderColor);
     bottom: 0;
   }
 
@@ -201,13 +201,13 @@
     top: 50%;
     width: 20px;
     left: -30px;
-    border-top: solid 1px $borderColor;
+    border-top: solid 1px var(--borderColor);
   }
 
   &:last-child {
     &:before {
       border-bottom-left-radius: 5px;
-      border-bottom: solid 1px $borderColor;
+      border-bottom: solid 1px var(--borderColor);
       bottom: 50%;
     }
 
@@ -244,7 +244,7 @@
   }
 
   &-error {
-    color: $danger;
+    color: var(--danger);
   }
 
   &-args {
@@ -252,7 +252,7 @@
     > span {
       display: inline-block;
       padding: 0 5px;
-      color: $info;
+      color: var(--info);
     }
 
     > div {
@@ -275,10 +275,10 @@
   margin: px2rem(3px);
 
   &-label {
-    background: $ResultBox-value-bg;
-    color: $text--muted-color;
+    background: var(--ResultBox-value-bg);
+    color: var(--text--muted-color);
     display: block;
-    font-size: $fontSizeSm;
+    font-size: var(--fontSizeSm);
     align-self: center;
     margin: -5px 5px -5px -8px;
     padding: 5px;

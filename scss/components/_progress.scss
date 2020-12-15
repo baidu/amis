@@ -11,7 +11,7 @@
     line-height: 10px;
     color: #fff;
     text-align: center;
-    background-color: $primary;
+    background-color: var(--primary);
     transition: width 0.6s ease;
   }
 }

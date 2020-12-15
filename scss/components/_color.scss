@@ -6,7 +6,7 @@
     vertical-align: middle;
     width: px2rem(16px);
     height: px2rem(16px);
-    box-shadow: $boxShadowSm;
+    box-shadow: var(--boxShadowSm);
     background-color: #ccc;
   }
 

@@ -1,55 +1,66 @@
 <!DOCTYPE html>
 <html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>amis - 低代码前端框架</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="image/x-icon" rel="shortcut icon" href="./static/favicon.png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="./static/iconfont.css" />
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="animate.css/animate.css" />
+    <link rel="stylesheet" href="prismjs/themes/prism.css" />
+    <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
+    <link rel="stylesheet" href="./doc.css" />
+    <link rel="stylesheet" title="default" href="../scss/themes/default.scss" />
+    <link
+      rel="stylesheet"
+      title="cxd"
+      disabled
+      href="../scss/themes/cxd.scss"
+    />
+    <link
+      rel="stylesheet"
+      title="dark"
+      disabled
+      href="../scss/themes/dark.scss"
+    />
 
-<head>
-  <meta charset="UTF-8" />
-  <title>amis - 低代码前端框架</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <link type="image/x-icon" rel="shortcut icon" href="./static/favicon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-  <link rel="stylesheet" href="./static/iconfont.css" />
-  <link rel="stylesheet" href="font-awesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="animate.css/animate.css" />
-  <link rel="stylesheet" href="prismjs/themes/prism.css" />
-  <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
-  <link rel="stylesheet" href="./doc.css" />
-  <link rel="stylesheet" title="default" href="../scss/themes/default.scss" />
-  <link rel="stylesheet" title="cxd" disabled href="../scss/themes/cxd.scss" />
-  <link rel="stylesheet" title="dark" disabled href="../scss/themes/dark.scss" />
+    <link rel="stylesheet" href="../scss/helper.scss" />
+    <link rel="stylesheet" href="./style.scss" />
+    <style>
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
 
-  <link rel="stylesheet" href="../scss/utilities.scss" />
-  <link rel="stylesheet" href="./style.scss" />
-  <style>
-    .app-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
-</head>
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="./mod.js"></script>
+    <script type="text/javascript">
+      var _hmt = _hmt || [];
 
-<body>
-  <div id="root" class="app-wrapper"></div>
-  <script src="./mod.js"></script>
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
+      // 百度统计
+      (function () {
+        var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?1f80f2c9dbe21dc3af239cf9eee90f1f';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
 
-    // 百度统计
-    (function () {
-      var hm = document.createElement('script');
-      hm.src = 'https://hm.baidu.com/hm.js?1f80f2c9dbe21dc3af239cf9eee90f1f';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-
-    /* @require ./index.jsx 标记为同步依赖，提前加载 */
-    amis.require(['./index.jsx'], function (app) {
-      var initialState = {};
-      app.bootstrap(document.getElementById('root'), initialState);
-    });
-  </script>
-</body>
-
+      /* @require ./index.jsx 标记为同步依赖，提前加载 */
+      amis.require(['./index.jsx'], function (app) {
+        var initialState = {};
+        app.bootstrap(document.getElementById('root'), initialState);
+      });
+    </script>
+  </body>
 </html>

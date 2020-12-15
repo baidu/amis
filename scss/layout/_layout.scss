@@ -20,7 +20,7 @@ body {
     top: 0;
     bottom: 0;
     z-index: -1;
-    background-color: $body-bg;
+    background-color: var(--body-bg);
     border: inherit;
     display: block;
   }
@@ -32,13 +32,13 @@ body {
   }
 
   .#{$ns}Layout-header {
-    background: $Layout-header-bg;
-    box-shadow: $Layout-header-boxShadow;
-    height: $Layout-header-height;
+    background: var(--Layout-header-bg);
+    box-shadow: var(--Layout-header-boxShadow);
+    height: var(--Layout-header-height);
   }
 
   &--headerFixed {
-    padding-top: $Layout-header-height;
+    padding-top: var(--Layout-header-height);
 
     .#{$ns}Layout-header {
       position: fixed;
@@ -49,13 +49,13 @@ body {
   }
 
   &-brandBar {
-    background: $Layout-brand-bg;
-    color: $Layout-brandBar-color;
+    background: var(--Layout-brand-bg);
+    color: var(--Layout-brandBar-color);
 
     > button {
       padding: px2rem(10px) px2rem(17px);
       font-size: px2rem(16px);
-      line-height: $Layout-header-height - px2rem(20px);
+      line-height: calc(var(--Layout-header-height) - #{px2rem(20px)});
       text-decoration: none;
       background-color: transparent;
       border: none;
@@ -63,13 +63,13 @@ body {
   }
 
   &-brand {
-    color: $Layout-brand-color;
+    color: var(--Layout-brand-color);
     text-align: left;
-    font-size: $fontSizeMd;
-    font-weight: $fontWeightNormal;
+    font-size: var(--fontSizeMd);
+    font-weight: var(--fontWeightNormal);
     max-width: 100%;
     height: auto;
-    line-height: $Layout-header-height;
+    line-height: var(--Layout-header-height);
     display: inline-block;
     vertical-align: middle;
     padding: 0 px2rem(20px);
@@ -82,7 +82,7 @@ body {
     }
 
     img {
-      max-height: $Layout-header-height / 2;
+      max-height: var(--Layout-header-height) / 2;
       // margin-top: px2rem(-4px);
       vertical-align: middle;
       display: inline;
@@ -90,15 +90,15 @@ body {
   }
 
   &-headerBar {
-    border-bottom: $Layout-headerBar-borderBottom;
-    min-height: $Layout-header-height;
-    padding: 0 $gap-sm;
+    border-bottom: var(--Layout-headerBar-borderBottom);
+    min-height: var(--Layout-header-height);
+    padding: 0 var(--gap-sm);
   }
 
   &-aside {
     position: relative;
-    background: $Layout-aside-bg;
-    color: $Layout-aside-color;
+    background: var(--Layout-aside-bg);
+    color: var(--Layout-aside-color);
 
     &:before {
       content: '';
@@ -117,7 +117,7 @@ body {
     bottom: 0;
     width: 100%;
     z-index: $zindex-fixed;
-    max-width: $Layout-aside-width;
+    max-width: var(--Layout-aside-width);
 
     // .app-aside-folded & {
     //     max-width: @app-aside-folded-width;
@@ -129,8 +129,8 @@ body {
 
   // &-content--full {
   //     position: absolute;
-  //     top: $Layout-header-height;
-  //     bottom: $Layout-header-height;
+  //     top: var(--Layout-header-height);
+  //     bottom: var(--Layout-header-height);
   //     height: auto;
   //     width: auto !important;
   //     padding: 0 !important;
@@ -144,7 +144,7 @@ body {
   // }
 
   &-body {
-    padding-bottom: $Layout-header-height;
+    padding-bottom: var(--Layout-header-height);
     width: 100%;
     height: 100%;
   }
@@ -164,20 +164,20 @@ body {
 
   &--sm {
     .#{$ns}Layout-asideFooter {
-      max-width: $Layout-aside--sm-width;
+      max-width: var(--Layout-aside--sm-width);
     }
 
     .#{$ns}AsideNav-item a {
-      font-size: $fontSizeSm;
+      font-size: var(--fontSizeSm);
     }
   }
 
   &--md .#{$ns}Layout-asideFooter {
-    max-width: $Layout-aside--md-width;
+    max-width: var(--Layout-aside--md-width);
   }
 
   &--lg .#{$ns}Layout-asideFooter {
-    max-width: $Layout-aside--lg-width;
+    max-width: var(--Layout-aside--lg-width);
   }
 }
 
@@ -198,7 +198,7 @@ body {
       position: fixed;
       top: px2rem(50px);
       bottom: 0;
-      width: $Layout--offscreen-width;
+      width: var(--Layout--offscreen-width);
       display: block !important;
       visibility: visible;
       overflow-x: hidden;
@@ -215,10 +215,10 @@ body {
   .#{$ns}Layout--offScreen {
     .#{$ns}Layout-content,
     .#{$ns}Layout-footer {
-      background-color: $body-bg;
+      background-color: var(--body-bg);
       transition: transform 0.2s ease;
       backface-visibility: hidden;
-      transform: translate3d($Layout--offscreen-width, 0px, 0px);
+      transform: translate3d(var(--Layout--offscreen-width), 0px, 0px);
       overflow: hidden;
       position: fixed;
       width: 100%;
@@ -259,7 +259,7 @@ body {
     &-brand,
     &-brandBar,
     &-aside {
-      width: $Layout-aside-width;
+      width: var(--Layout-aside-width);
       transition: width 0.3s ease;
     }
 
@@ -280,7 +280,7 @@ body {
 
       .#{$ns}Layout-headerBar,
       .#{$ns}Layout-footer {
-        margin-left: $Layout-aside-width;
+        margin-left: var(--Layout-aside-width);
         transition: margin 0.3s ease;
       }
     }
@@ -312,20 +312,20 @@ body {
 
       .#{$ns}Layout-aside,
       .#{$ns}Layout-brandBar {
-        width: $Layout-aside--folded-width;
+        width: var(--Layout-aside--folded-width);
       }
 
       &.#{$ns}Layout--withAside {
         .#{$ns}Layout-headerBar,
         .#{$ns}Layout-footer {
-          margin-left: $Layout-aside--folded-width;
+          margin-left: var(--Layout-aside--folded-width);
         }
       }
 
       .#{$ns}Layout-brand {
         display: block;
         padding: 0;
-        font-size: $fontSizeLg;
+        font-size: var(--fontSizeLg);
         text-align: center;
       }
     }
@@ -347,7 +347,7 @@ body {
       .#{$ns}Layout-asideWrap {
         position: fixed;
         overflow: hidden;
-        top: $Layout-header-height;
+        top: var(--Layout-header-height);
         bottom: 0;
         left: 0;
         width: inherit;
@@ -399,7 +399,7 @@ body {
       .#{$ns}Layout-brand,
       .#{$ns}Layout-brandBar,
       .#{$ns}Layout-aside {
-        width: $Layout-aside--sm-width;
+        width: var(--Layout-aside--sm-width);
       }
     }
 
@@ -407,7 +407,7 @@ body {
       .#{$ns}Layout-brand,
       .#{$ns}Layout-brandBar,
       .#{$ns}Layout-aside {
-        width: $Layout-aside--md-width;
+        width: var(--Layout-aside--md-width);
       }
     }
 
@@ -415,7 +415,7 @@ body {
       .#{$ns}Layout-brand,
       .#{$ns}Layout-brandBar,
       .#{$ns}Layout-aside {
-        width: $Layout-aside--lg-width;
+        width: var(--Layout-aside--lg-width);
       }
     }
   }

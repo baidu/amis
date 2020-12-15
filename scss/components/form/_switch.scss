@@ -2,27 +2,27 @@
   cursor: pointer;
   position: relative;
   display: inline-block;
-  width: $Switch-width;
-  height: $Switch-height;
+  width: var(--Switch-width);
+  height: var(--Switch-height);
   overflow: hidden;
   border-radius: px2rem(30px);
-  background-color: $Switch-onActive-bgColor;
+  background-color: var(--Switch-onActive-bgColor);
   margin: 0;
   vertical-align: middle;
   text-align: left;
 
   &.is-disabled {
-    background-color: $Switch-onDisabled-bgColor;
+    background-color: var(--Switch-onDisabled-bgColor);
   }
 
   i {
     &:before {
       content: '\5173';
-      color: $Switch-valueColor;
-      text-indent: ($Switch-width / 2);
+      color: var(--Switch-valueColor);
+      text-indent: (var(--Switch-width) / 2);
       text-transform: uppercase;
-      font-size: $fontSizeSm;
-      line-height: $Switch-height;
+      font-size: var(--fontSizeSm);
+      line-height: var(--Switch-height);
       font-style: normal;
       font-weight: bold;
 
@@ -31,8 +31,8 @@
       bottom: px2rem(-1px);
       left: px2rem(-1px);
       right: px2rem(-1px);
-      background-color: $Switch-bgColor;
-      border: px2rem(1px) solid $Switch-borderColor;
+      background-color: var(--Switch-bgColor);
+      border: px2rem(1px) solid var(--Switch-borderColor);
       border-radius: px2rem(30px);
       transition: all 0.2s;
     }
@@ -40,8 +40,8 @@
     &:after {
       content: '';
       position: absolute;
-      background-color: $white;
-      width: $Switch-height - px2rem(2px);
+      background-color: var(--white);
+      width: calc(var(--Switch-height) - #{px2rem(2px)});
       top: px2rem(1px);
       bottom: px2rem(1px);
       left: px2rem(1px);
@@ -59,14 +59,14 @@
     &:disabled:checked {
       & + i {
         &:before {
-          color: $Switch-onDisabled-color;
-          background-color: $Switch-onDisabled-bgColor;
+          color: var(--Switch-onDisabled-color);
+          background-color: var(--Switch-onDisabled-bgColor);
           cursor: not-allowed;
         }
 
         &:after {
-          background-color: $Switch-onDisabled-circle-BackgroundColor;
-          color: $Switch-onDisabled-color;
+          background-color: var(--Switch-onDisabled-circle-BackgroundColor);
+          color: var(--Switch-onDisabled-color);
         }
       }
     }
@@ -79,16 +79,16 @@
         }
 
         &:after {
-          margin-left: $Switch-width - $Switch-height;
+          margin-left: calc(var(--Switch-width) - var(--Switch-height));
 
           content: '\5f00';
-          color: $white;
+          color: var(--white);
           text-indent: px2rem(-18px); // todo
           text-transform: uppercase;
-          font-size: $fontSizeSm;
+          font-size: var(--fontSizeSm);
           font-weight: bold;
           font-style: normal;
-          line-height: $Switch-height;
+          line-height: var(--Switch-height);
         }
       }
     }
@@ -97,11 +97,11 @@
 
 .#{$ns}Switch-option {
   vertical-align: middle;
-  margin-left: $Switch-gap;
+  margin-left: var(--Switch-gap);
 
   &:first-child {
     margin-left: 0;
-    margin-right: $Switch-gap;
+    margin-right: var(--Switch-gap);
   }
 
   &:empty {
@@ -110,7 +110,7 @@
 }
 
 .#{$ns}SwitchControl {
-  padding-top: ($Form-input-height - $Switch-height) / 2;
+  padding-top: calc((var(--Form-input-height) - var(--Switch-height)) / 2);
 
   &.is-inline {
     display: inline-block;

@@ -15,12 +15,13 @@
     width: 100%;
     height: 100%;
     pointer-events: auto;
-    background-color: $Drawer-bg;
+    background-color: var(--Drawer-bg);
     background-clip: padding-box;
     outline: 0;
     z-index: 2;
-    border: $Drawer-content-borderWidth solid $Drawer-content-borderColor;
-    border-radius: $Drawer-content-borderRadius;
+    border: var(--Drawer-content-borderWidth) solid
+      var(--Drawer-content-borderColor);
+    border-radius: var(--Drawer-content-borderRadius);
     transition: transform ease-in-out 0.3s;
   }
 
@@ -32,7 +33,7 @@
     bottom: 0;
     left: 0;
     z-index: 1;
-    background-color: $Drawer-overlay-bg;
+    background-color: var(--Drawer-overlay-bg);
     opacity: 0;
 
     &.in {
@@ -41,30 +42,30 @@
   }
 
   &-header {
-    padding: $Drawer-header-padding;
-    background-color: $Drawer-header-bg;
+    padding: var(--Drawer-header-padding);
+    background-color: var(--Drawer-header-bg);
     @include clearfix();
-    border-bottom: $Drawer-content-borderWidth solid
-      lighten($Drawer-content-borderColor, 5%);
-    border-top-left-radius: $Drawer-content-borderRadius;
-    border-top-right-radius: $Drawer-content-borderRadius;
+    // border-bottom: var(--Drawer-content-borderWidth) solid
+    //   lighten(var(--Drawer-content-borderColor), 5%);
+    border-top-left-radius: var(--Drawer-content-borderRadius);
+    border-top-right-radius: var(--Drawer-content-borderRadius);
   }
 
   &-title {
-    font-size: $Drawer-title-fontSize;
-    color: $Drawer-title-fontColor;
+    font-size: var(--Drawer-title-fontSize);
+    color: var(--Drawer-title-fontColor);
   }
 
   &-close {
     position: absolute;
-    color: $Drawer-close-color;
+    color: var(--Drawer-close-color);
     line-height: 1;
     text-decoration: none;
 
     svg {
       width: 30px;
       height: 30px;
-      fill: $Drawer-close-color;
+      fill: var(--Drawer-close-color);
     }
 
     &:not(.is-disabled) {
@@ -72,17 +73,17 @@
 
       &:hover {
         text-decoration: none;
-        color: $Drawer-close-onHover-color;
+        color: var(--Drawer-close-onHover-color);
 
         svg {
-          fill: $Drawer-close-onHover-color;
+          fill: var(--Drawer-close-onHover-color);
         }
       }
     }
   }
 
   &-body {
-    padding: $Drawer-body-padding;
+    padding: var(--Drawer-body-padding);
     flex-basis: 0;
     flex-grow: 1;
     overflow: auto;
@@ -92,14 +93,14 @@
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
-    padding: $Drawer-footer-padding;
-    border-top: $Drawer-content-borderWidth solid
-      lighten($Drawer-content-borderColor, 5%);
-    border-bottom-left-radius: $Drawer-content-borderRadius;
-    border-bottom-right-radius: $Drawer-content-borderRadius;
+    padding: var(--Drawer-footer-padding);
+    // border-top: var(--Drawer-content-borderWidth) solid
+    //   lighten(var(--Drawer-content-borderColor), 5%);
+    border-bottom-left-radius: var(--Drawer-content-borderRadius);
+    border-bottom-right-radius: var(--Drawer-content-borderRadius);
 
     .#{$ns}Button {
-      margin-left: $gap-xs;
+      margin-left: var(--gap-xs);
     }
 
     .#{$ns}Drawer-info {
@@ -110,7 +111,7 @@
     }
 
     .#{$ns}Drawer-error {
-      color: $danger;
+      color: var(--danger);
     }
   }
 
@@ -127,10 +128,10 @@
 
   .#{$ns}Drawer-resizeCtrl {
     position: absolute;
-    border: $borderWidth solid $borderColor;
-    background-color: $white;
-    border-radius: $borderRadius;
-    font-size: $fontSizeSm;
+    border: var(--borderWidth) solid var(--borderColor);
+    background-color: var(--white);
+    border-radius: var(--borderRadius);
+    font-size: var(--fontSizeSm);
     line-height: px2rem(10px);
     text-align: center;
     user-select: none;
@@ -140,33 +141,33 @@
 // size
 @include media-breakpoint-up(sm) {
   .#{$ns}Drawer .#{$ns}Drawer-content {
-    width: $Drawer-widthBase;
-    height: $Drawer-widthBase;
+    width: var(--Drawer-widthBase);
+    height: var(--Drawer-widthBase);
   }
 
   .#{$ns}Drawer--xs .#{$ns}Drawer-content {
-    width: $Drawer-widthXs;
-    height: $Drawer-widthXs;
+    width: var(--Drawer-widthXs);
+    height: var(--Drawer-widthXs);
   }
 
   .#{$ns}Drawer--sm .#{$ns}Drawer-content {
-    width: $Drawer-widthSm;
-    height: $Drawer-widthSm;
+    width: var(--Drawer-widthSm);
+    height: var(--Drawer-widthSm);
   }
 
   .#{$ns}Drawer--md .#{$ns}Drawer-content {
-    width: $Drawer-widthMd;
-    height: $Drawer-widthMd;
+    width: var(--Drawer-widthMd);
+    height: var(--Drawer-widthMd);
   }
 
   .#{$ns}Drawer--lg .#{$ns}Drawer-content {
-    width: $Drawer-widthLg;
-    height: $Drawer-widthLg;
+    width: var(--Drawer-widthLg);
+    height: var(--Drawer-widthLg);
   }
 
   .#{$ns}Drawer--xl .#{$ns}Drawer-content {
-    width: $Drawer-widthXl;
-    height: $Drawer-widthXl;
+    width: var(--Drawer-widthXl);
+    height: var(--Drawer-widthXl);
   }
 }
 
@@ -181,14 +182,14 @@
 .#{$ns}Drawer--top {
   .#{$ns}Drawer-close {
     top: 100%;
-    margin-top: $gap-sm;
-    left: $gap-sm;
+    margin-top: var(--gap-sm);
+    left: var(--gap-sm);
   }
 
   &.#{$ns}Drawer--noOverlay {
     .#{$ns}Drawer-close {
-      top: $gap-base;
-      right: $gap-base;
+      top: var(--gap-base);
+      right: var(--gap-base);
       left: auto;
       margin-top: 0;
     }
@@ -217,14 +218,14 @@
 .#{$ns}Drawer--right {
   .#{$ns}Drawer-close {
     right: 100%;
-    margin-right: $gap-sm;
-    top: $gap-sm;
+    margin-right: var(--gap-sm);
+    top: var(--gap-sm);
   }
 
   &.#{$ns}Drawer--noOverlay {
     .#{$ns}Drawer-close {
-      top: $gap-base;
-      right: $gap-base;
+      top: var(--gap-base);
+      right: var(--gap-base);
       margin-right: 0;
     }
   }
@@ -245,7 +246,7 @@
 
     .#{$ns}Button {
       margin-left: 0;
-      margin-right: $gap-xs;
+      margin-right: var(--gap-xs);
     }
 
     .#{$ns}Drawer-info {
@@ -257,7 +258,7 @@
     }
 
     .#{$ns}Drawer-error {
-      color: $danger;
+      color: var(--danger);
     }
   }
 
@@ -274,14 +275,14 @@
 .#{$ns}Drawer--bottom {
   .#{$ns}Drawer-close {
     bottom: 100%;
-    margin-bottom: $gap-sm;
-    left: $gap-sm;
+    margin-bottom: var(--gap-sm);
+    left: var(--gap-sm);
   }
 
   &.#{$ns}Drawer--noOverlay {
     .#{$ns}Drawer-close {
-      top: $gap-base;
-      right: $gap-base;
+      top: var(--gap-base);
+      right: var(--gap-base);
       left: auto;
       margin-bottom: 0;
     }
@@ -310,15 +311,15 @@
 .#{$ns}Drawer--left {
   .#{$ns}Drawer-close {
     left: 100%;
-    margin-left: $gap-sm;
-    top: $gap-sm;
+    margin-left: var(--gap-sm);
+    top: var(--gap-sm);
   }
 
   &.#{$ns}Drawer--noOverlay {
     .#{$ns}Drawer-close {
       left: auto;
-      right: $gap-base;
-      top: $gap-base;
+      right: var(--gap-base);
+      top: var(--gap-base);
     }
   }
 
@@ -330,7 +331,7 @@
     height: 100%;
     transform: translate3d(-100%, 0, 0);
     box-shadow: 10px 0 10px -10px rgba(0, 0, 0, 0.2);
-    border-width: 0 $Drawer-content-borderWidth 0 0;
+    border-width: 0 var(--Drawer-content-borderWidth) 0 0;
     min-width: 120px;
   }
 

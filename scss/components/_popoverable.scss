@@ -1,6 +1,6 @@
 .#{$ns}Field-popOverBtn {
-  color: $PopOverAble-iconColor;
-  margin-left: $gap-xs;
+  color: var(--PopOverAble-iconColor);
+  margin-left: var(--gap-xs);
   visibility: hidden;
   display: inline-block;
   cursor: pointer;
@@ -8,7 +8,7 @@
   vertical-align: middle;
 
   &:hover {
-    color: $PopOverAble-onHover-iconColor;
+    color: var(--PopOverAble-onHover-iconColor);
     opacity: 1;
   }
 }

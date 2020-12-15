@@ -2,8 +2,8 @@
   display: inline-flex;
   flex-direction: row;
 
-  line-height: $Form-input-lineHeight;
-  font-size: $Form-input-fontSize;
+  line-height: var(--Form-input-lineHeight);
+  font-size: var(--Form-input-fontSize);
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
@@ -13,16 +13,16 @@
   padding: 0 8px;
 
   transition: all 0.3s ease-in-out;
-  border: $Form-input-borderWidth solid transparent;
-  border-radius: $Form-input-borderRadius;
+  border: var(--Form-input-borderWidth) solid transparent;
+  border-radius: var(--Form-input-borderRadius);
 
   &:hover {
-    background-color: rgba($Form-input-bg, 0.6);
+    background-color: rgba(var(--Form-input-bg), 0.6);
   }
 
   &.is-active {
-    background-color: $Form-input-bg;
-    border: $Form-input-borderWidth solid $Form-input-borderColor;
+    background-color: var(--Form-input-bg);
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
     width: 150px;
     > input {
       flex-grow: 1;
@@ -33,17 +33,17 @@
   &-searchBtn,
   &-cancelBtn {
     cursor: pointer;
-    color: $icon-color;
+    color: var(--icon-color);
 
     &:hover {
-      color: $icon-onHover-color;
+      color: var(--icon-onHover-color);
     }
   }
 
   &.is-disabled &-activeBtn,
   &.is-disabled &-searchBtn,
   &.is-disabled &-cancelBtn {
-    color: $icon-onDisabled-color;
+    color: var(--icon-onDisabled-color);
     pointer-events: none;
   }
 
@@ -51,13 +51,13 @@
     outline: none;
     border: none;
     background: transparent;
-    color: $Form-input-color;
+    color: var(--Form-input-color);
 
     width: 0;
-    height: $Form-input-lineHeight * $Form-input-fontSize;
+    height: calc(var(--Form-input-lineHeight) * var(--Form-input-fontSize));
 
     &::placeholder {
-      color: $Form-input-placeholderColor;
+      color: var(--Form-input-placeholderColor);
       user-select: none;
     }
   }

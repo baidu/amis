@@ -1,19 +1,19 @@
 .#{$ns}Images {
   display: flex;
   flex-wrap: wrap;
-  margin: -$gap-xs;
+  margin: calc(var(--gap-xs) * -1);
 
   &-item {
     display: flex;
-    margin: $gap-xs;
+    margin: var(--gap-xs);
   }
 }
 
 .#{$ns}Image {
   display: inline-block;
   width: px2rem(120px);
-  border: $borderWidth solid $borderColor;
-  padding: $gap-xs;
+  border: var(--borderWidth) solid var(--borderColor);
+  padding: var(--gap-xs);
 
   &-thumb {
     width: 100%;
@@ -70,7 +70,7 @@
   }
 
   &-caption {
-    font-size: $fontSizeSm;
+    font-size: var(--fontSizeSm);
   }
 
   &-overlay {
@@ -113,7 +113,7 @@
   display: inline-block;
   position: relative;
   @include clearfix();
-  // margin-bottom: $gap-md;
+  // margin-bottom: var(--gap-md);
 }
 
 .#{$ns}ImagesField {

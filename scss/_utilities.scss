@@ -5,48 +5,48 @@
 // background
 
 .bg-light {
-  @include color-variant($light, 2%, 3%, 3%, 5%);
-  color: $text-color;
+  @include color-variant(var(--light), 2%, 3%, 3%, 5%);
+  color: var(--text-color);
 }
 
 .bg-dark {
-  @include color-variant($dark, 5%, 10%, 5%, 10%);
-  @include font-variant($dark);
+  @include color-variant(var(--dark), 5%, 10%, 5%, 10%);
+  @include font-variant(var(--dark));
 }
 
 .bg-black {
-  @include color-variant($black, 5%, 10%, 5%, 10%);
-  @include font-variant($black);
+  @include color-variant(var(--black), 5%, 10%, 5%, 10%);
+  // @include font-variant(var(--black));
 }
 
 .bg-primary {
-  @include color-variant($primary, 5%, 10%, 5%, 10%);
-  @include font-variant($primary);
+  @include color-variant(var(--primary), 5%, 10%, 5%, 10%);
+  // @include font-variant(var(--primary));
 }
 
 .bg-success {
-  @include color-variant($success, 5%, 10%, 5%, 10%);
-  @include font-variant($success);
+  @include color-variant(var(--success), 5%, 10%, 5%, 10%);
+  // @include font-variant(var(--success));
 }
 
 .bg-info {
-  @include color-variant($info, 5%, 10%, 5%, 10%);
-  @include font-variant($info);
+  @include color-variant(var(--info), 5%, 10%, 5%, 10%);
+  // @include font-variant(var(--info));
 }
 
 .bg-warning {
-  @include color-variant($warning, 5%, 10%, 5%, 10%);
-  @include font-variant($warning);
+  @include color-variant(var(--warning), 5%, 10%, 5%, 10%);
+  // @include font-variant(var(--warning));
 }
 
 .bg-danger {
-  @include color-variant($danger, 5%, 10%, 5%, 10%);
-  @include font-variant($danger);
+  @include color-variant(var(--danger), 5%, 10%, 5%, 10%);
+  // @include font-variant(var(--danger));
 }
 
 .bg-white {
-  @include color-variant($white, 5%, 10%, 5%, 10%);
-  color: $text-color;
+  @include color-variant(var(--white), 5%, 10%, 5%, 10%);
+  color: var(--text-color);
 }
 
 .bg-none {
@@ -54,21 +54,21 @@
 }
 
 // text colors
-@include text-wariant($primary, primary);
-@include text-wariant($info, info);
-@include text-wariant($success, success);
-@include text-wariant($warning, warning);
-@include text-wariant($danger, danger);
-@include text-wariant($dark, dark);
-@include text-wariant($white, white);
-@include text-wariant($black, black);
+// @include text-wariant(var(--primary), primary);
+// @include text-wariant(var(--info), info);
+// @include text-wariant(var(--success), success);
+// @include text-wariant(var(--warning), warning);
+// @include text-wariant(var(--danger), danger);
+// @include text-wariant(var(--dark), dark);
+// @include text-wariant(var(--white), white);
+// @include text-wariant(var(--black), black);
 
 .text-muted {
-  color: $text--muted-color;
+  color: var(--text--muted-color);
 }
 
 .text-loud {
-  color: $text--loud-color;
+  color: var(--text--loud-color);
 }
 
 .clearfix {
@@ -187,7 +187,7 @@
 }
 
 .l-h {
-  line-height: $lineHeightBase;
+  line-height: var(--lineHeightBase);
 }
 
 .l-h-0x {
@@ -243,27 +243,27 @@
 }
 
 .text-xl {
-  font-size: $fontSizeXl !important;
+  font-size: var(--fontSizeXl) !important;
 }
 
 .text-lg {
-  font-size: $fontSizeLg !important;
+  font-size: var(--fontSizeLg) !important;
 }
 
 .text-md {
-  font-size: $fontSizeMd !important;
+  font-size: var(--fontSizeMd) !important;
 }
 
 .text-base {
-  font-size: $fontSizeBase !important;
+  font-size: var(--fontSizeBase) !important;
 }
 
 .text-sm {
-  font-size: $fontSizeSm !important;
+  font-size: var(--fontSizeSm) !important;
 }
 
 .text-xs {
-  font-size: $fontSizeXs !important;
+  font-size: var(--fontSizeXs) !important;
 }
 
 .text-xxs {
@@ -311,7 +311,7 @@
 
 .text-shadow {
   font-size: 170px;
-  text-shadow: 0 1px 0 $borderColor, 0 2px 0 lighten($borderColor, 10%),
+  text-shadow: 0 1px 0 var(--borderColor), 0 2px 0 var(--borderColorLight),
     0 5px 10px rgba(0, 0, 0, 0.125), 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -411,11 +411,11 @@
 }
 
 .b-a {
-  border: 1px solid $borderColor;
+  border: 1px solid var(--borderColor);
 }
 
 .b-t {
-  border-top: 1px solid $borderColor;
+  border-top: 1px solid var(--borderColor);
 }
 
 .b-t-none {
@@ -423,7 +423,7 @@
 }
 
 .b-r {
-  border-right: 1px solid $borderColor;
+  border-right: 1px solid var(--borderColor);
 }
 
 .b-r-none {
@@ -431,7 +431,7 @@
 }
 
 .b-b {
-  border-bottom: 1px solid $borderColor;
+  border-bottom: 1px solid var(--borderColor);
 }
 
 .b-b-none {
@@ -439,7 +439,7 @@
 }
 
 .b-l {
-  border-left: 1px solid $borderColor;
+  border-left: 1px solid var(--borderColor);
 }
 
 .b-l-none {
@@ -447,35 +447,35 @@
 }
 
 .b-light {
-  border-color: $light;
+  border-color: var(--light);
 }
 
 .b-dark {
-  border-color: $dark;
+  border-color: var(--dark);
 }
 
 .b-black {
-  border-color: $dark;
+  border-color: var(--dark);
 }
 
 .b-primary {
-  border-color: $primary;
+  border-color: var(--primary);
 }
 
 .b-success {
-  border-color: $success;
+  border-color: var(--success);
 }
 
 .b-info {
-  border-color: $info;
+  border-color: var(--info);
 }
 
 .b-warning {
-  border-color: $warning;
+  border-color: var(--warning);
 }
 
 .b-danger {
-  border-color: $danger;
+  border-color: var(--danger);
 }
 
 .b-white {
@@ -487,35 +487,35 @@
 }
 
 .b-l-light {
-  border-left-color: $light;
+  border-left-color: var(--light);
 }
 
 .b-l-dark {
-  border-left-color: $dark;
+  border-left-color: var(--dark);
 }
 
 .b-l-black {
-  border-left-color: $dark;
+  border-left-color: var(--dark);
 }
 
 .b-l-primary {
-  border-left-color: $primary;
+  border-left-color: var(--primary);
 }
 
 .b-l-success {
-  border-left-color: $success;
+  border-left-color: var(--success);
 }
 
 .b-l-info {
-  border-left-color: $info;
+  border-left-color: var(--info);
 }
 
 .b-l-warning {
-  border-left-color: $warning;
+  border-left-color: var(--warning);
 }
 
 .b-l-danger {
-  border-left-color: $danger;
+  border-left-color: var(--danger);
 }
 
 .b-l-white {
@@ -555,31 +555,32 @@
 }
 
 .r {
-  border-radius: $borderRadius $borderRadius $borderRadius $borderRadius;
+  border-radius: var(--borderRadius) var(--borderRadius) var(--borderRadius)
+    var(--borderRadius);
 }
 
 .r-2x {
-  border-radius: $borderRadiusMd;
+  border-radius: var(--borderRadiusMd);
 }
 
 .r-3x {
-  border-radius: $borderRadiusLg;
+  border-radius: var(--borderRadiusLg);
 }
 
 .r-l {
-  border-radius: $borderRadius 0 0 $borderRadius;
+  border-radius: var(--borderRadius) 0 0 var(--borderRadius);
 }
 
 .r-r {
-  border-radius: 0 $borderRadius $borderRadius 0;
+  border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
 }
 
 .r-t {
-  border-radius: $borderRadius $borderRadius 0 0;
+  border-radius: var(--borderRadius) var(--borderRadius) 0 0;
 }
 
 .r-b {
-  border-radius: 0 0 $borderRadius $borderRadius;
+  border-radius: 0 0 var(--borderRadius) var(--borderRadius);
 }
 
 .m-xxs {
@@ -1100,19 +1101,19 @@
     }
 
     &.on {
-      background-color: $success;
+      background-color: var(--success);
     }
 
     &.off {
-      background-color: $text--muted-color;
+      background-color: var(--text--muted-color);
     }
 
     &.busy {
-      background-color: $danger;
+      background-color: var(--danger);
     }
 
     &.away {
-      background-color: $warning;
+      background-color: var(--warning);
     }
   }
 
@@ -1299,7 +1300,7 @@
 
 .thumb-wrapper {
   padding: 2px;
-  border: 1px solid $borderColor;
+  border: 1px solid var(--borderColor);
 }
 
 .thumb,
@@ -1528,7 +1529,7 @@
   font-size: 75%;
   font-weight: 700;
   line-height: 1;
-  color: $label-color;
+  color: var(--label-color);
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
@@ -1548,7 +1549,7 @@
 a.label {
   &:hover,
   &:focus {
-    color: $label-link--hover-color;
+    color: var(--label-link--hover-color);
     text-decoration: none;
     cursor: pointer;
   }
@@ -1557,29 +1558,29 @@ a.label {
 // Colors
 // Contextual variations (linked labels get darker on :hover)
 
-.label-default {
-  @include label-variant($label--default-bg);
-}
+// .label-default {
+//   @include label-variant(var(--label--default-bg));
+// }
 
-.label-primary {
-  @include label-variant($label--primary-bg);
-}
+// .label-primary {
+//   @include label-variant(var(--label--primary-bg));
+// }
 
-.label-success {
-  @include label-variant($label--success-bg);
-}
+// .label-success {
+//   @include label-variant(var(--label--success-bg));
+// }
 
-.label-info {
-  @include label-variant($label--info-bg);
-}
+// .label-info {
+//   @include label-variant(var(--label--info-bg));
+// }
 
-.label-warning {
-  @include label-variant($label--warning-bg);
-}
+// .label-warning {
+//   @include label-variant(var(--label--warning-bg));
+// }
 
-.label-danger {
-  @include label-variant($label--danger-bg);
-}
+// .label-danger {
+//   @include label-variant(var(--label--danger-bg));
+// }
 
 @keyframes apearSensor {
   from {

@@ -1,16 +1,16 @@
 .#{$ns}Card {
-  background-color: $Card-bg;
-  border: $Card-borderWidth solid $Card-borderColor;
-  border-radius: $Card-borderRadius;
-  margin-bottom: $gap-base;
+  background-color: var(--Card-bg);
+  border: var(--Card-borderWidth) solid var(--Card-borderColor);
+  border-radius: var(--Card-borderRadius);
+  margin-bottom: var(--gap-base);
   position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
 
   &-title {
-    color: $text--loud-color;
-    font-size: $fontSizeMd;
+    color: var(--text--loud-color);
+    font-size: var(--fontSizeMd);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -18,10 +18,10 @@
 
   &-subTitle {
     // white-space: nowrap;
-    max-height: $fontSizeBase * $lineHeightBase * 2;
+    max-height: calc(var(--fontSizeBase) * var(--lineHeightBase) * 2);
     overflow: hidden;
     text-overflow: ellipsis;
-    color: $text--muted-color;
+    color: var(--text--muted-color);
 
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -29,14 +29,14 @@
   }
 
   &-title + &-subTitle {
-    margin-top: $gap-xs;
+    margin-top: var(--gap-xs);
   }
 
   &-checkBtn {
     position: absolute;
     top: 0;
     right: 0;
-    margin: $gap-sm;
+    margin: var(--gap-sm);
     z-index: 1;
 
     .#{$ns}Checkbox {
@@ -47,18 +47,18 @@
   &-dragBtn {
     cursor: pointer;
     float: right;
-    margin: $gap-sm;
+    margin: var(--gap-sm);
   }
 
   &-heading {
     overflow: hidden;
-    padding: $gap-sm $gap-base;
+    padding: var(--gap-sm) var(--gap-base);
     flex: 1 0 auto;
   }
 
   &-avtar {
     float: left;
-    margin-right: $gap-base;
+    margin-right: var(--gap-base);
     max-width: px2rem(200px);
 
     img {
@@ -67,8 +67,8 @@
   }
 
   &-avtarText {
-    background-color: $primary;
-    color: $white;
+    background-color: var(--primary);
+    color: var(--white);
     width: 50px;
     height: 50px;
     line-height: 50px;
@@ -76,8 +76,8 @@
     vertical-align: middle;
     border-radius: 500px;
     float: left;
-    margin-right: $gap-base;
-    font-size: $fontSizeXl;
+    margin-right: var(--gap-base);
+    font-size: var(--fontSizeXl);
     text-transform: uppercase();
   }
 
@@ -86,11 +86,11 @@
     height: 100%;
     overflow: hidden;
     position: relative;
-    margin-right: $gap-md;
+    margin-right: var(--gap-md);
   }
 
   &-highlight {
-    background-color: $success;
+    background-color: var(--success);
     width: px2rem(8px);
     height: px2rem(8px);
     border-radius: 100%;
@@ -101,12 +101,12 @@
   }
 
   &-body {
-    padding: $gap-base;
+    padding: var(--gap-base);
     flex: 1 0 auto;
   }
 
   &-heading + &-body {
-    padding-top: $gap-xs;
+    padding-top: var(--gap-xs);
   }
 
   &-field {
@@ -126,11 +126,11 @@
 
   &-fieldLabel {
     width: px2rem(60px);
-    color: $text--muted-color;
+    color: var(--text--muted-color);
   }
 
   &-actions {
-    border-top: $Card-borderWidth solid $Card-actions-borderColor;
+    border-top: var(--Card-borderWidth) solid var(--Card-actions-borderColor);
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -139,20 +139,20 @@
     > a {
       background-color: transparent;
       flex-grow: 1;
-      border-color: $Card-actions-borderColor;
+      border-color: var(--Card-actions-borderColor);
       border-style: solid;
-      border-width: 0 $Card-borderWidth 0 0;
-      color: $text-color;
+      border-width: 0 var(--Card-borderWidth) 0 0;
+      color: var(--text-color);
       text-align: center;
       line-height: px2rem(40px);
-      font-size: $Card-actions-fontSize;
+      font-size: var(--Card-actions-fontSize);
 
       &:not(.is-disabled) {
         cursor: pointer;
 
         &:hover {
-          background-color: $Card-actions-onHover-bg;
-          color: $Card-actions-onHover-color;
+          background-color: var(--Card-actions-onHover-bg);
+          color: var(--Card-actions-onHover-color);
           text-decoration: none;
         }
       }
@@ -162,7 +162,7 @@
       }
 
       &.is-disabled {
-        color: $text--muted-color;
+        color: var(--text--muted-color);
 
         &:hover {
           text-decoration: none;
@@ -172,49 +172,49 @@
   }
 
   &.is-checked {
-    background-color: $Card-onChecked-bg;
-    border-color: $Card-onChecked-borderColor;
-    color: $Card-onChecked-color;
+    background-color: var(--Card-onChecked-bg);
+    border-color: var(--Card-onChecked-borderColor);
+    color: var(--Card-onChecked-color);
 
     .#{$ns}Card-actions,
     .#{$ns}Card-actions > a {
-      border-color: $Card-onChecked-borderColor;
-      color: $Card-onChecked-color;
+      border-color: var(--Card-onChecked-borderColor);
+      color: var(--Card-onChecked-color);
     }
 
     .#{$ns}Card-fieldLabel {
-      color: lighten($Card-onChecked-color, 20%);
+      color: var(--Card-onChecked-fieldLabel-color);
     }
 
     .#{$ns}Card-actions > a:hover {
-      background-color: $Card-actions-onChecked-onHover-bg;
-      color: darken($Card-onChecked-color, 10%);
+      background-color: var(--Card-actions-onChecked-onHover-bg);
+      color: var(--Card-actions-onChecked-onHover-color);
     }
   }
 
   &.is-modified,
   &.is-moved {
-    background-color: $Card-onModified-bg;
-    border-color: $Card-onModified-borderColor;
-    color: $Card-onModified-color;
+    background-color: var(--Card-onModified-bg);
+    border-color: var(--Card-onModified-borderColor);
+    color: var(--Card-onModified-color);
 
     .#{$ns}Card-actions,
     .#{$ns}Card-actions > a {
-      border-color: $Card-onModified-borderColor;
-      color: $Card-onModified-color;
+      border-color: var(--Card-onModified-borderColor);
+      color: var(--Card-onModified-color);
     }
 
     .#{$ns}Card-fieldLabel {
-      color: lighten($Card-onModified-color, 20%);
+      color: var(--Card-onModified-fieldLabel-color);
     }
 
     .#{$ns}Card-actions > a:hover {
-      background-color: darken($Card-onModified-bg, 5%);
-      color: darken($Card-onModified-color, 10%);
+      background-color: var(--Card-onModified-onHover-bg);
+      color: var(--Card-onModified-onHover-color);
     }
   }
 
   .is-dragging > & {
-    opacity: $Card-onDragging-opacity;
+    opacity: var(--Card-onDragging-opacity);
   }
 }

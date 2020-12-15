@@ -1,18 +1,18 @@
 .#{$ns}Panel {
-  margin-bottom: $Panel-marginBottom;
-  background-color: $Panel-bg;
-  border: $Panel-border;
-  border-radius: $Panel-borderRadius;
-  -webkit-box-shadow: $Panel-boxShadow;
-  box-shadow: $Panel-boxShadow;
+  margin-bottom: var(--Panel-marginBottom);
+  background-color: var(--Panel-bg);
+  border: var(--Panel-border);
+  border-radius: var(--Panel-borderRadius);
+  -webkit-box-shadow: var(--Panel-boxShadow);
+  box-shadow: var(--Panel-boxShadow);
 
   &-fixedBottom {
     position: absolute;
-    background: $white;
+    background: var(--white);
     z-index: $zindex-affix;
     bottom: 999999px;
-    box-shadow: $Panel-fixedBottom-boxShadow;
-    border-top: $Panel-fixedBottom-borderTop;
+    box-shadow: var(--Panel-fixedBottom-boxShadow);
+    border-top: var(--Panel-fixedBottom-borderTop);
 
     &.in {
       position: fixed;
@@ -22,156 +22,156 @@
 
   /* 主题 */
   &--default {
-    border-color: $borderColor;
+    border-color: var(--borderColor);
 
     > .#{$ns}Panel-heading {
-      background: $Panel--default-bg;
-      color: $Panel--default-color;
+      background: var(--Panel--default-bg);
+      color: var(--Panel--default-color);
 
       .badge {
-        color: $Panel--default-badgeColor;
-        background: $Panel--default-badgeBg;
+        color: var(--Panel--default-badgeColor);
+        background: var(--Panel--default-badgeBg);
       }
     }
 
     > .#{$ns}Panel-heading {
-      border-color: $Panel--default-headingBorderColor;
+      border-color: var(--Panel--default-headingBorderColor);
     }
   }
 
   &--primary {
-    border-color: $primary;
+    border-color: var(--primary);
 
     > .#{$ns}Panel-heading {
-      background: $primary;
-      color: $white;
+      background: var(--primary);
+      color: var(--white);
 
       .badge {
-        color: $primary;
-        background: $white;
+        color: var(--primary);
+        background: var(--white);
       }
     }
 
     > .#{$ns}Panel-heading,
     > .#{$ns}Panel-footer {
-      border-color: $primary;
+      border-color: var(--primary);
     }
   }
 
   &--success {
-    border-color: $success;
+    border-color: var(--success);
 
     > .#{$ns}Panel-heading {
-      background: $success;
-      color: $white;
+      background: var(--success);
+      color: var(--white);
 
       .badge {
-        color: $success;
-        background: $white;
+        color: var(--success);
+        background: var(--white);
       }
     }
 
     > .#{$ns}Panel-heading,
     > .#{$ns}Panel-footer {
-      border-color: $success;
+      border-color: var(--success);
     }
   }
 
   &--info {
-    border-color: $info;
+    border-color: var(--info);
 
     > .#{$ns}Panel-heading {
-      background: $info;
-      color: $white;
+      background: var(--info);
+      color: var(--white);
 
       .badge {
-        color: $info;
-        background: $white;
+        color: var(--info);
+        background: var(--white);
       }
     }
 
     > .#{$ns}Panel-heading,
     > .#{$ns}Panel-footer {
-      border-color: $info;
+      border-color: var(--info);
     }
   }
 
   &--warning {
-    border-color: $warning;
+    border-color: var(--warning);
 
     > .#{$ns}Panel-heading {
-      background: $warning;
-      color: $white;
+      background: var(--warning);
+      color: var(--white);
 
       .badge {
-        color: $warning;
-        background: $white;
+        color: var(--warning);
+        background: var(--white);
       }
     }
 
     > .#{$ns}Panel-heading,
     > .#{$ns}Panel-footer {
-      border-color: $warning;
+      border-color: var(--warning);
     }
   }
 
   &--danger {
-    border-color: $danger;
+    border-color: var(--danger);
 
     > .#{$ns}Panel-heading {
-      background: $danger;
-      color: $white;
+      background: var(--danger);
+      color: var(--white);
 
       .badge {
-        color: $danger;
-        background: $white;
+        color: var(--danger);
+        background: var(--white);
       }
     }
 
     > .#{$ns}Panel-heading,
     > .#{$ns}Panel-footer {
-      border-color: $danger;
+      border-color: var(--danger);
     }
   }
 
   /* 子组件 */
   &-heading {
-    padding: $Panel-headingPadding;
-    border-bottom: $Panel-headingBorderBottom;
-    border-radius: $Panel-headingBorderRadius;
+    padding: var(--Panel-headingPadding);
+    border-bottom: var(--Panel-headingBorderBottom);
+    border-radius: var(--Panel-headingBorderRadius);
   }
 
   &-title {
-    margin-top: $Panel-titleMarginTop;
-    margin-bottom: $Panel-titleMarginBottom;
-    font-size: $Panel-titleFontSize;
-    color: $Panel-titleColor;
+    margin-top: var(--Panel-titleMarginTop);
+    margin-bottom: var(--Panel-titleMarginBottom);
+    font-size: var(--Panel-titleFontSize);
+    color: var(--Panel-titleColor);
   }
 
   &-body {
-    padding: $Panel-bodyPadding;
+    padding: var(--Panel-bodyPadding);
   }
 
   &-footer {
-    border-color: $Panel-footerBorderColor;
-    border-radius: $Panel-footerBorderRadius;
-    background: $Panel-footerBg;
-    padding: $Panel-footerPadding;
+    border-color: var(--Panel-footerBorderColor);
+    border-radius: var(--Panel-footerBorderRadius);
+    background: var(--Panel-footerBg);
+    padding: var(--Panel-footerPadding);
     border-style: solid;
-    border-width: $Panel-borderWidth 0 0 0;
+    border-width: var(--Panel-borderWidth) 0 0 0;
     clear: both;
 
     .#{$ns}Button + .#{$ns}Button {
-      margin-left: $Panel-footerButtonMarginLeft;
+      margin-left: var(--Panel-footerButtonMarginLeft);
     }
   }
 
   &-btnToolbar {
     @include clearfix();
-    text-align: $Panel-btnToolbarTextAlign;
+    text-align: var(--Panel-btnToolbarTextAlign);
 
     .#{$ns}Button {
-      margin-left: $Panel-footerButtonMarginLeft;
+      margin-left: var(--Panel-footerButtonMarginLeft);
     }
 
     &:empty {

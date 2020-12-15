@@ -4,11 +4,11 @@
   display: block;
   float: left;
   font-size: px2rem(24px);
-  color: $dark;
+  color: var(--dark);
   cursor: pointer;
 
   &.is-active {
-    color: $info;
+    color: var(--info);
   }
 
   &.is-disabled {
@@ -24,7 +24,7 @@
     left: 0;
     width: 50%;
     content: attr(data-forhalf);
-    color: $info;
+    color: var(--info);
   }
 }
 

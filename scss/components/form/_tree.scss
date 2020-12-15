@@ -1,5 +1,5 @@
 .#{$ns}TreeControl {
-  border: 1px solid $Form-input-borderColor;
+  border: 1px solid var(--Form-input-borderColor);
   padding: 6px 12px;
   border-radius: 2px;
   max-height: 300px;
@@ -28,7 +28,7 @@
   }
 
   &-item {
-    line-height: $Tree-itemHeight;
+    line-height: var(--Tree-itemHeight);
     position: relative;
 
     > div {
@@ -53,7 +53,7 @@
   }
 
   &-rootItem {
-    line-height: $Tree-itemHeight;
+    line-height: var(--Tree-itemHeight);
   }
 
   &-item > div:hover > .#{$ns}Tree-item-icons,
@@ -66,7 +66,7 @@
     align-items: center;
 
     &:hover {
-      background: $Tree-item-onHover-bg;
+      background: var(--Tree-item-onHover-bg);
     }
   }
 
@@ -75,14 +75,14 @@
     transition: visibility 0.1s ease;
     display: inline-block;
     vertical-align: top;
-    height: $Tree-itemHeight;
-    line-height: $Tree-itemHeight;
+    height: var(--Tree-itemHeight);
+    line-height: var(--Tree-itemHeight);
     padding-right: px2rem(5px);
 
     > a {
       display: inline-block;
       vertical-align: middle;
-      margin-left: $gap-xs;
+      margin-left: var(--gap-xs);
       cursor: pointer;
 
       > svg {
@@ -95,7 +95,7 @@
   }
 
   &-itemInput {
-    padding-left: $Tree-itemArrowWidth;
+    padding-left: var(--Tree-itemArrowWidth);
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -103,11 +103,11 @@
     > a {
       display: inline-block;
       cursor: pointer;
-      margin-left: $gap-sm;
-      color: $icon-color;
+      margin-left: var(--gap-sm);
+      color: var(--icon-color);
 
       &:hover {
-        color: $icon-onHover-color;
+        color: var(--icon-onHover-color);
         text-decoration: none;
       }
     }
@@ -116,36 +116,40 @@
       flex-grow: 1;
       width: 100%;
       outline: none;
-      background-color: $Form-input-bg;
-      border: $Form-input-borderWidth solid $Form-input-borderColor;
-      border-radius: $Form-input-borderRadius;
-      line-height: $Form-input-lineHeight;
-      padding: (
-          $Tree-inputHeight - $Form-input-lineHeight * $Form-input-fontSize -
-            px2rem(2px)
-        )/2 $Form-input-paddingX;
-      font-size: $Form-input-fontSize;
+      background-color: var(--Form-input-bg);
+      border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+      border-radius: var(--Form-input-borderRadius);
+      line-height: var(--Form-input-lineHeight);
+      padding: calc(
+          (
+              var(--Tree-inputHeight) - var(--Form-input-lineHeight) *
+                var(--Form-input-fontSize) - #{px2rem(2px)}
+            ) / 2
+        )
+        var(--Form-input-paddingX);
+      font-size: var(--Form-input-fontSize);
 
       &::placeholder {
-        color: $Form-input-placeholderColor;
+        color: var(--Form-input-placeholderColor);
         user-select: none;
       }
 
       &:focus {
-        border-color: $Form-input-onFocused-borderColor;
-        box-shadow: $Form-input-boxShadow;
+        border-color: var(--Form-input-onFocused-borderColor);
+        box-shadow: var(--Form-input-boxShadow);
 
-        @if $Form-input-onFocused-bg !=$Form-input-bg {
-          background-color: $Form-input-onFocused-bg;
-        }
+        // todo: 暂时用不了
+        // @if var(--Form-input-onFocused-bg) !=var(--Form-input-bg) {
+        //   background-color: var(--Form-input-onFocused-bg);
+        // }
       }
     }
   }
 
   &-addTopBtn {
     cursor: pointer;
-    height: $Tree-itemHeight;
-    line-height: $Tree-itemHeight;
+    height: var(--Tree-itemHeight);
+    line-height: var(--Tree-itemHeight);
     display: block;
 
     &:hover {
@@ -154,7 +158,7 @@
 
     &.is-disabled {
       pointer-events: none;
-      color: $text--muted-color;
+      color: var(--text--muted-color);
     }
 
     > svg {
@@ -162,13 +166,13 @@
       width: $svgSize;
       height: $svgSize;
       top: $svgSize * 0.125;
-      margin-right: $gap-xs;
+      margin-right: var(--gap-xs);
     }
   }
 
   &-itemArrow {
     cursor: pointer;
-    width: $Tree-itemArrowWidth;
+    width: var(--Tree-itemArrowWidth);
     display: inline-block;
     margin-right: px2rem(5px);
 
@@ -178,8 +182,8 @@
     //   content: $Tree-unfoldedArrowContent;
     // }
     > svg {
-      width: $Tree-itemArrowWidth;
-      height: $Tree-itemArrowWidth;
+      width: var(--Tree-itemArrowWidth);
+      height: var(--Tree-itemArrowWidth);
       display: inline-block;
       transition: transform 0.2s;
       top: 0;
@@ -193,7 +197,7 @@
 
   &-itemArrowPlaceholder {
     display: inline-block;
-    width: $Tree-itemArrowWidth + px2rem(5px);
+    width: calc(var(--Tree-itemArrowWidth) + #{px2rem(5px)});
   }
 
   &-itemIcon {
@@ -215,11 +219,11 @@
 
     &.is-checked,
     &.is-children-checked {
-      color: $Tree-itemLabel--onChecked-color;
+      color: var(--Tree-itemLabel--onChecked-color);
     }
 
     &.is-disabled {
-      color: $text--muted-color;
+      color: var(--text--muted-color);
     }
 
     > .#{$ns}Checkbox {
@@ -231,46 +235,46 @@
   &-itemText {
     cursor: pointer;
     flex: 1 auto;
-    line-height: $lineHeightBase;
+    line-height: var(--lineHeightBase);
     padding: px2rem(4px) 0;
   }
 
   &-placeholder {
-    color: $text--muted-color;
+    color: var(--text--muted-color);
   }
 
   &-item &-item > &-itemLabel,
   &-item &-item > &-placeholder {
-    padding-left: $Tree-indent;
+    padding-left: var(--Tree-indent);
   }
 
   &-item &-item &-item > &-itemLabel,
   &-item &-item &-item > &-placeholder {
-    padding-left: $Tree-indent * 2;
+    padding-left: calc(var(--Tree-indent) * 2);
   }
 
   &-item &-item &-item &-item > &-itemLabel {
-    padding-left: $Tree-indent * 3;
+    padding-left: calc(var(--Tree-indent) * 3);
   }
 
   &-item &-item &-item &-item &-item > &-itemLabel {
-    padding-left: $Tree-indent * 4;
+    padding-left: calc(var(--Tree-indent) * 4);
   }
 
   &-item &-item &-item &-item &-item &-item > &-itemLabel {
-    padding-left: $Tree-indent * 5;
+    padding-left: calc(var(--Tree-indent) * 5);
   }
 
   &-item &-item &-item &-item &-item &-item &-item > &-itemLabel {
-    padding-left: $Tree-indent * 6;
+    padding-left: calc(var(--Tree-indent) * 6);
   }
 
   &-item &-item &-item &-item &-item &-item &-item &-item > &-itemLabel {
-    padding-left: $Tree-indent * 7;
+    padding-left: calc(var(--Tree-indent) * 7);
   }
 
   &-item &-item &-item &-item &-item &-item &-item &-item &-item > &-itemLabel {
-    padding-left: $Tree-indent * 8;
+    padding-left: calc(var(--Tree-indent) * 8);
   }
 
   &-item
@@ -284,7 +288,7 @@
     &-item
     &-item
     > &-itemLabel {
-    padding-left: $Tree-indent * 9;
+    padding-left: calc(var(--Tree-indent) * 9);
   }
 
   &-item
@@ -299,6 +303,6 @@
     &-item
     &-item
     > &-itemLabel {
-    padding-left: $Tree-indent * 10;
+    padding-left: calc(var(--Tree-indent) * 10);
   }
 }

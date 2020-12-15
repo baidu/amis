@@ -1,21 +1,21 @@
 .#{$ns}Collapse {
   border: none;
   padding: 0;
-  margin-bottom: $Form-item-gap;
+  margin-bottom: var(--Form-item-gap);
 
   &-header {
-    font-size: $fontSizeMd;
-    font-weight: $fontWeightNormal;
-    color: $text--loud-color;
+    font-size: var(--fontSizeMd);
+    font-weight: var(--fontWeightNormal);
+    color: var(--text--loud-color);
     padding: px2rem(5px) 0;
-    border-bottom: $borderWidth solid lighten($borderColor, 5%);
+    border-bottom: var(--borderWidth) solid var(--borderColorLight);
   }
 
   &-arrow {
     display: inline-block;
     width: px2rem(16px);
     text-align: center;
-    margin-left: $gap-xs;
+    margin-left: var(--gap-xs);
     cursor: pointer;
 
     &:before {
@@ -25,7 +25,7 @@
       width: px2rem(6px);
       height: px2rem(6px);
       top: px2rem(-4px);
-      border-color: $text-color;
+      border-color: var(--text-color);
       border-style: solid;
       border-width: px2rem(1px) px2rem(1px) 0 0;
       transform: rotate(135deg);
@@ -46,9 +46,9 @@
   // title 显示在底部的模式
   &--title-bottom &-header {
     text-align: center;
-    color: $link-color;
+    color: var(--link-color);
     border-left: none;
-    font-size: $fontSizeBase;
+    font-size: var(--fontSizeBase);
   }
 
   &--title-bottom &-arrow:before {

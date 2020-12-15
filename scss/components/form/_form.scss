@@ -1,5 +1,5 @@
 .#{$ns}Form {
-  font-size: $Form-fontSize;
+  font-size: var(--Form-fontSize);
   position: relative;
 
   &--quickEdit .#{$ns}Form-item:last-child {
@@ -9,16 +9,16 @@
   &--inline {
     > .#{$ns}PlainField {
       display: inline-block;
-      padding-top: $Form-input-paddingY;
-      // padding-bottom: $Form-input-paddingY;
+      padding-top: var(--Form-input-paddingY);
+      // padding-bottom: var(--Form-input-paddingY);
     }
   }
 }
 
 .#{$ns}Form-static {
-  min-height: $Form-input-height;
-  padding-top: $Form-label-paddingTop;
-  padding-bottom: $Form-label-paddingTop;
+  min-height: var(--Form-input-height);
+  padding-top: var(--Form-label-paddingTop);
+  padding-bottom: var(--Form-label-paddingTop);
   margin-bottom: 0;
 
   .#{$ns}Form-item--inline > .#{$ns}Form-value > & {
@@ -28,7 +28,7 @@
 }
 
 .#{$ns}Form-label {
-  font-weight: $fontWeightNormal;
+  font-weight: var(--fontWeightNormal);
   margin-bottom: px2rem(5px);
   position: relative;
 
@@ -38,34 +38,34 @@
 }
 
 .#{$ns}Form-star {
-  color: $danger;
-  font-size: $fontSizeXs;
+  color: var(--danger);
+  font-size: var(--fontSizeXs);
   line-height: 1;
 }
 
 .#{$ns}Form-feedback {
-  color: $danger;
-  margin: $Form-input-marginBottom 0 0;
-  padding-left: $gap-base;
-  font-size: $fontSizeSm;
+  color: var(--danger);
+  margin: var(--Form-input-marginBottom) 0 0;
+  padding-left: var(--gap-base);
+  font-size: var(--fontSizeSm);
 }
 
 .#{$ns}Form-description {
   display: block;
-  color: $Form-description-color;
-  margin: $Form-input-marginBottom 0 0;
-  font-size: $Form-description-fontSize;
+  color: var(--Form-description-color);
+  margin: var(--Form-input-marginBottom) 0 0;
+  font-size: var(--Form-description-fontSize);
 }
 
 .#{$ns}Form-hint {
   display: inline-block;
-  margin-left: $gap-sm;
-  padding-top: $Form-input-paddingY;
+  margin-left: var(--gap-sm);
+  padding-top: var(--Form-input-paddingY);
   vertical-align: top;
 }
 
 .#{$ns}Form-item {
-  margin-bottom: $Form-item-gap;
+  margin-bottom: var(--Form-item-gap);
 
   .#{$ns}Grid-form > &:last-child {
     margin-bottom: 0;
@@ -79,19 +79,19 @@
   }
 
   .#{$ns}Form-remark {
-    padding-top: $Form-label-paddingTop;
+    padding-top: var(--Form-label-paddingTop);
     vertical-align: top;
   }
 
   &--inline {
-    margin-bottom: $Form-item-gap/2;
-    margin-right: $Form-item-gap/2;
+    margin-bottom: calc(var(--Form-item-gap) / 2);
+    margin-right: calc(var(--Form-item-gap) / 2);
   }
 
   &--horizontal {
     > .#{$ns}Form-label {
-      text-align: $Form--horizontal-label-align;
-      white-space: $Form--horizontal-label-whiteSpace;
+      text-align: var(--Form--horizontal-label-align);
+      white-space: var(--Form--horizontal-label-whiteSpace);
     }
   }
 
@@ -108,18 +108,18 @@
   }
 
   &.is-error > .#{$ns}Form-label {
-    color: $danger;
+    color: var(--danger);
   }
 }
 
 .#{$ns}Form-placeholder {
-  color: $Form-input-placeholderColor;
+  color: var(--Form-input-placeholderColor);
 }
 
 .#{$ns}Form-caption {
   display: inline-block;
-  line-height: $Form-input-height;
-  height: $Form-input-height;
+  line-height: var(--Form-input-height);
+  height: var(--Form-input-height);
   margin-left: px2rem(10px);
 }
 
@@ -130,16 +130,16 @@
   }
 
   .#{$ns}Form-control--sizeXs {
-    // min-width: $Form-control-widthXs;
+    // min-width: var(--Form-control-widthXs);
     // width: auto;
-    min-width: $Form-control-widthXs;
+    min-width: var(--Form-control-widthXs);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
 
     // 非常难受，number 类型的 input 不能设置size
     &.#{$ns}NumberControl {
-      width: $Form-control-widthXs;
+      width: var(--Form-control-widthXs);
     }
 
     &.#{$ns}TextareaControl {
@@ -148,14 +148,14 @@
   }
 
   .#{$ns}Form-control--sizeSm {
-    min-width: $Form-control-widthSm;
+    min-width: var(--Form-control-widthSm);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
 
     // 非常难受，number 类型的 input 不能设置size
     &.#{$ns}NumberControl {
-      width: $Form-control-widthSm;
+      width: var(--Form-control-widthSm);
     }
 
     &.#{$ns}TextareaControl {
@@ -164,7 +164,7 @@
   }
 
   .#{$ns}Form-control--sizeMd {
-    min-width: $Form-control-widthMd;
+    min-width: var(--Form-control-widthMd);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -175,14 +175,14 @@
   }
 
   .#{$ns}Form-control--sizeLg {
-    min-width: $Form-control-widthLg;
+    min-width: var(--Form-control-widthLg);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
 
     // 非常难受，number 类型的 input 不能设置size
     &.#{$ns}NumberControl {
-      width: $Form-control-widthLg;
+      width: var(--Form-control-widthLg);
     }
 
     &.#{$ns}TextareaControl {
@@ -194,12 +194,12 @@
     &--horizontal {
       display: flex;
       flex-wrap: nowrap;
-      margin-left: -$Form--horizontal-gutterWidth / 2;
-      margin-right: -$Form--horizontal-gutterWidth / 2;
+      margin-left: calc(var(--Form--horizontal-gutterWidth) / 2 * -1);
+      margin-right: calc(var(--Form--horizontal-gutterWidth) / 2 * -1);
 
       > * {
-        padding-left: $Form--horizontal-gutterWidth / 2;
-        padding-right: $Form--horizontal-gutterWidth / 2;
+        padding-left: calc(var(--Form--horizontal-gutterWidth) / 2);
+        padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
       }
 
       > .#{$ns}Form-label,
@@ -221,7 +221,7 @@
       }
 
       > .#{$ns}Form-label {
-        padding-top: $Form-label-paddingTop;
+        padding-top: var(--Form-label-paddingTop);
         margin-bottom: 0;
 
         .#{$ns}Form-star {
@@ -232,23 +232,23 @@
       }
 
       .#{$ns}Form-itemColumn--xs {
-        width: $Form--horizontal-label-widthXs;
+        width: var(--Form--horizontal-label-widthXs);
       }
 
       .#{$ns}Form-itemColumn--sm {
-        width: $Form--horizontal-label-widthSm;
+        width: var(--Form--horizontal-label-widthSm);
       }
 
       .#{$ns}Form-itemColumn--normal {
-        width: $Form--horizontal-label-widthBase;
+        width: var(--Form--horizontal-label-widthBase);
       }
 
       .#{$ns}Form-itemColumn--md {
-        width: $Form--horizontal-label-widthMd;
+        width: var(--Form--horizontal-label-widthMd);
       }
 
       .#{$ns}Form-itemColumn--lg {
-        width: $Form--horizontal-label-widthLg;
+        width: var(--Form--horizontal-label-widthLg);
       }
 
       .#{$ns}Form-itemColumn--auto {
@@ -269,13 +269,13 @@
       vertical-align: top;
 
       .#{$ns}TextControl {
-        width: $Form-control-widthBase;
+        width: var(--Form-control-widthBase);
       }
 
       > .#{$ns}Form-label {
-        padding-top: $Form-label-paddingTop;
+        padding-top: var(--Form-label-paddingTop);
         margin-bottom: 0;
-        margin-right: $Form-item-gap/2;
+        margin-right: calc(var(--Form-item-gap) / 2);
 
         .#{$ns}Form-star {
           position: static;
@@ -297,7 +297,7 @@
 
         > .#{$ns}TextControl--withAddOn {
           display: inline-flex;
-          min-width: $Form-control-widthMd;
+          min-width: var(--Form-control-widthMd);
         }
       }
     }
@@ -307,13 +307,13 @@
     display: flex;
     flex-wrap: wrap;
 
-    margin-left: -$Form-row-gutterWidth / 2;
-    margin-right: -$Form-row-gutterWidth / 2;
+    margin-left: calc(var(--Form-row-gutterWidth) / -2);
+    margin-right: calc(var(--Form-row-gutterWidth) / -2);
     align-items: flex-start;
 
     > * {
-      padding-left: $Form-row-gutterWidth / 2;
-      padding-right: $Form-row-gutterWidth / 2;
+      padding-left: calc(var(--Form-row-gutterWidth) / 2);
+      padding-right: calc(var(--Form-row-gutterWidth) / 2);
     }
   }
 
@@ -330,8 +330,8 @@
     > .#{$ns}Form-label {
       display: inline-block;
       vertical-align: top;
-      padding-top: $Form-label-paddingTop;
-      padding-right: $Form-row-gutterWidth;
+      padding-top: var(--Form-label-paddingTop);
+      padding-right: var(--Form-row-gutterWidth);
     }
 
     > .#{$ns}Form-control {
@@ -339,12 +339,12 @@
       flex-grow: 1;
 
       // &:not(.#{$ns}Form-control--withSize) {
-      //   width: $Form-control-widthBase;
+      //   width: var(--Form-control-widthBase);
       // }
     }
   }
 }
 
 .#{$ns}Form--quickEdit {
-  min-width: $Form-control-widthSm;
+  min-width: var(--Form-control-widthSm);
 }

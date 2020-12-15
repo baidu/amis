@@ -3,32 +3,35 @@
   vertical-align: middle;
   outline: none;
   position: relative;
-  border: $Form-select-borderWidth solid $Form-select-borderColor;
-  background: $Form-select-bg;
-  border-radius: $Form-select-borderRadius;
-  min-height: $Form-selectOption-height;
-  $paddingY: (
-      $Form-selectOption-height - $Form-input-lineHeight * $Form-input-fontSize -
-        $Form-select-borderWidth * 2
-    )/2;
-  padding: $paddingY 0 $paddingY $Form-select-paddingX;
+  border: var(--Form-select-borderWidth) solid var(--Form-select-borderColor);
+  background: var(--Form-select-bg);
+  border-radius: var(--Form-select-borderRadius);
+  min-height: var(--Form-selectOption-height);
+  $paddingY: calc(
+    (
+        var(--Form-selectOption-height) - var(--Form-input-lineHeight) *
+          var(--Form-input-fontSize) - var(--Form-select-borderWidth) * 2
+      ) / 2
+  );
+  padding: $paddingY 0 $paddingY var(--Form-select-paddingX);
   cursor: pointer;
-  color: $Form-select-color;
+  color: var(--Form-select-color);
 
   &.is-disabled {
-    color: $text--muted-color;
-    background: $Form-input-onDisabled-bg;
-    border-color: $Form-input-onDisabled-borderColor;
+    color: var(--text--muted-color);
+    background: var(--Form-input-onDisabled-bg);
+    border-color: var(--Form-input-onDisabled-borderColor);
   }
 
   &.is-focused,
   &.is-opened {
-    border-color: $Form-input-onFocused-borderColor;
+    border-color: var(--Form-input-onFocused-borderColor);
     // border-bottom: 0;
 
-    @if ($Form-select-onFocused-color !=$Form-select-color) {
-      color: $Form-select-onFocused-color;
-    }
+    // todo: 暂时用不了
+    // @if (var(--Form-select-onFocused-color) !=var(--Form-select-color)) {
+    //   color: var(--Form-select-onFocused-color);
+    // }
   }
 
   &.is-opened .#{$ns}Select-arrow > svg {
@@ -36,32 +39,36 @@
   }
 
   &:not(.is-disabled):hover {
-    background: $Form-select-onHover-bg;
+    background: var(--Form-select-onHover-bg);
   }
 
   &--multi {
     .#{$ns}Select-value {
       position: static;
       user-select: none;
-      line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+      line-height: calc(
+        var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(
+            2px
+          )}
+      );
       display: inline-block;
       vertical-align: middle;
-      font-size: $Form-selectValue-fontSize;
-      color: $Form-selectValue-color;
-      background: $Form-selectValue-bg;
-      border: px2rem(1px) solid $Form-selectValue-borderColor;
+      font-size: var(--Form-selectValue-fontSize);
+      color: var(--Form-selectValue-color);
+      background: var(--Form-selectValue-bg);
+      border: px2rem(1px) solid var(--Form-selectValue-borderColor);
       border-radius: px2rem(2px);
-      margin-right: $gap-xs;
-      margin-bottom: $gap-xs;
+      margin-right: var(--gap-xs);
+      margin-bottom: var(--gap-xs);
     }
     .#{$ns}Select-valueLabel {
-      padding: 0 $gap-xs;
+      padding: 0 var(--gap-xs);
     }
   }
 
   &-placeholder {
-    color: $Form-select-placeholderColor;
-    line-height: $Form-input-lineHeight;
+    color: var(--Form-select-placeholderColor);
+    line-height: var(--Form-input-lineHeight);
   }
 
   &-valueWrap {
@@ -80,13 +87,13 @@
     z-index: 2;
 
     svg {
-      fill: $Form-input-iconColor;
+      fill: var(--Form-input-iconColor);
       width: px2rem(10px);
       height: px2rem(10px);
     }
 
     &:hover svg {
-      fill: darken($color: $Form-input-iconColor, $amount: 20%);
+      // fill: darken($color: var(--Form-input-iconColor), $amount: 20%);
     }
   }
 
@@ -97,7 +104,7 @@
     svg {
       width: px2rem(12px);
       height: px2rem(12px);
-      fill: $Form-input-iconColor;
+      fill: var(--Form-input-iconColor);
     }
   }
 
@@ -108,11 +115,11 @@
   &-menu {
     width: px2rem(160px);
     max-height: px2rem(300px);
-    background: $Form-select-menu-bg;
-    color: $Form-select-menu-color;
-    border: $Form-select-outer-borderWidth solid
-      $Form-input-onFocused-borderColor;
-    box-shadow: $Form-select-outer-boxShadow;
+    background: var(--Form-select-menu-bg);
+    color: var(--Form-select-menu-color);
+    border: var(--Form-select-outer-borderWidth) solid
+      var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-select-outer-boxShadow);
     overflow-y: auto;
     overflow-x: hidden;
 
@@ -123,8 +130,8 @@
     .#{$ns}NestedSelect-option {
       position: relative;
       padding-left: px2rem(10px);
-      min-height: $Form-input-height;
-      line-height: $Form-input-height;
+      min-height: var(--Form-input-height);
+      line-height: var(--Form-input-height);
       cursor: pointer;
       display: flex;
 
@@ -138,13 +145,13 @@
       }
 
       &.is-active {
-        color: $Form-select-menu-onActive-color;
-        background-color: $Form-select-menu-onActive-bg;
+        color: var(--Form-select-menu-onActive-color);
+        background-color: var(--Form-select-menu-onActive-bg);
       }
 
       &:hover {
-        color: $Form-select-menu-onHover-color;
-        background-color: $Form-select-menu-onHover-bg;
+        color: var(--Form-select-menu-onHover-color);
+        background-color: var(--Form-select-menu-onHover-bg);
       }
 
       &:hover > .#{$ns}NestedSelect-childrenOuter {

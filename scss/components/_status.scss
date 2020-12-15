@@ -6,8 +6,8 @@
   align-items: center;
 
   &-label {
-    font-size: $fontSizeSm;
-    margin-left: $gap-sm;
+    font-size: var(--fontSizeSm);
+    margin-left: var(--gap-sm);
   }
 
   @keyframes animation-rolling_red {
@@ -39,8 +39,8 @@
   }
 
   svg.#{$ns}Status-icon {
-    width: $Satus-icon-width;
-    height: $Satus-icon-height;
+    width: var(--Satus-icon-width);
+    height: var(--Satus-icon-height);
     top: 0;
   }
 
@@ -55,7 +55,7 @@
       &::before {
         content: '';
         display: inline-block;
-        border: 5px solid $danger;
+        border: 5px solid var(--danger);
         border-radius: 500px;
         position: absolute;
         top: 0;
@@ -67,7 +67,7 @@
       &::after {
         content: '';
         display: inline-block;
-        border: 5px solid $primary;
+        border: 5px solid var(--primary);
         border-radius: 500px;
         position: absolute;
         top: 0;
@@ -79,23 +79,23 @@
     }
 
     &.icon-warning {
-      color: $warning;
+      color: var(--warning);
     }
   }
 
   .#{$ns}Status-icon.rolling + &-label {
-    color: $warning;
+    color: var(--warning);
   }
 
   .#{$ns}Status-icon.icon-success + &-label {
-    color: $success;
+    color: var(--success);
   }
 
   .#{$ns}Status-icon.icon-fail + &-label {
-    color: $danger;
+    color: var(--danger);
   }
 
   .#{$ns}Status-icon.icon-warning + &-label {
-    color: $warning;
+    color: var(--warning);
   }
 }

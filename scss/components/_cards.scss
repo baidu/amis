@@ -1,29 +1,29 @@
 .#{$ns}Cards {
   &-toolbar {
     @include clearfix();
-    padding: $Cards-toolbar-paddingY $Cards-toolbar-paddingX;
-    margin-bottom: $gap-base;
+    padding: var(--Cards-toolbar-paddingY) var(--Cards-toolbar-paddingX);
+    margin-bottom: var(--gap-base);
   }
 
   &-actions {
     display: inline-block;
 
     > * {
-      margin-right: $Crud-toolbar-gap;
+      margin-right: var(--Crud-toolbar-gap);
     }
   }
 
   &-heading {
-    padding: $gap-xs 0;
+    padding: var(--gap-xs) 0;
   }
 
   &-header {
-    padding: $Cards-toolbar-paddingY $Cards-toolbar-paddingX;
+    padding: var(--Cards-toolbar-paddingY) var(--Cards-toolbar-paddingX);
 
     > * + .#{$ns}Button,
     > * + .#{$ns}ButtonGroup,
     > * + .#{$ns}ButtonToolbar {
-      margin-left: $Crud-toolbar-gap;
+      margin-left: var(--Crud-toolbar-gap);
     }
   }
 
@@ -33,11 +33,11 @@
 
   &-fixedTop {
     position: absolute;
-    background: $white;
+    background: var(--white);
     z-index: -1;
     opacity: 0;
-    box-shadow: $Cards-fixedTop-boxShadow;
-    padding: $gap-sm;
+    box-shadow: var(--Cards-fixedTop-boxShadow);
+    padding: var(--gap-sm);
 
     &.in {
       position: fixed;
@@ -55,28 +55,28 @@
   }
 
   &--unsaved &-heading {
-    background: $Cards--unsaved-heading-bg;
-    color: $Cards--unsaved-heading-color;
-    padding: $gap-xs $gap-sm;
-    margin-bottom: $gap-sm;
+    background: var(--Cards--unsaved-heading-bg);
+    color: var(--Cards--unsaved-heading-color);
+    padding: var(--gap-xs) var(--gap-sm);
+    margin-bottom: var(--gap-sm);
   }
 
   &-dragTip {
     width: 100%;
-    color: $info;
+    color: var(--info);
     clear: both;
-    margin-top: $gap-xs;
+    margin-top: var(--gap-xs);
   }
 
   &-placeholder {
-    background: $white;
-    color: $text--muted-color;
+    background: var(--white);
+    color: var(--text--muted-color);
     text-align: center;
-    height: $Cards-placeholder-height;
-    line-height: $Cards-placeholder-height;
+    height: var(--Cards-placeholder-height);
+    line-height: var(--Cards-placeholder-height);
 
-    border: $Card-borderWidth solid $Card-borderColor;
-    border-radius: $Card-borderRadius;
+    border: var(--Card-borderWidth) solid var(--Card-borderColor);
+    border-radius: var(--Card-borderRadius);
   }
 
   &-body > div {

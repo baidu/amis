@@ -1,13 +1,13 @@
 .#{$ns}Field-quickEditBtn {
-  color: $QuickEdit-iconColor;
-  margin-left: $gap-xs;
+  color: var(--QuickEdit-iconColor);
+  margin-left: var(--gap-xs);
   visibility: hidden;
   display: inline-block;
   cursor: pointer;
   opacity: 0.6;
 
   &:hover {
-    color: $QuickEdit-onHover-iconColor;
+    color: var(--QuickEdit-onHover-iconColor);
     opacity: 1;
   }
 }
@@ -28,8 +28,8 @@
       position: absolute;
       pointer-events: none;
       z-index: 1;
-      border: $QuickEdit-onFocus-borderWidth dashed
-        $QuickEdit-onFocus-borderColor;
+      border: var(--QuickEdit-onFocus-borderWidth) dashed
+        var(--QuickEdit-onFocus-borderColor);
     }
   }
 
