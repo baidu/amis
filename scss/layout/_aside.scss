@@ -208,7 +208,7 @@
     a {
       cursor: default;
       background: transparent;
-      // color: darken(var(--Layout-aside-color), 10%);
+      color: var(--Layout-asideLink-color);
 
       padding: calc(
           (
@@ -219,7 +219,7 @@
         px2rem(20px);
 
       &:hover {
-        // color: darken(var(--Layout-aside-color), 10%);
+        color: var(--Layout-asideLink-onHover-color);
         background: transparent;
       }
     }

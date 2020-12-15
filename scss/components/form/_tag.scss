@@ -50,27 +50,26 @@
       user-select: none;
       border: var(--TagControl-sugBtn-borderWidth) solid transparent;
 
-      // todo：用不了
-      // @include button-size(
-      //   var(--TagControl-sugBtn-paddingY),
-      //   var(--TagControl-sugBtn-paddingX),
-      //   var(--TagControl-sugBtn-fontSize),
-      //   var(--TagControl-sugBtn-lineHeight),
-      //   var(--TagControl-sugBtn-borderRadius),
-      //   var(--TagControl-sugBtn-height)
-      // );
+      @include button-size(
+        var(--TagControl-sugBtn-paddingY),
+        var(--TagControl-sugBtn-paddingX),
+        var(--TagControl-sugBtn-fontSize),
+        var(--TagControl-sugBtn-lineHeight),
+        var(--TagControl-sugBtn-borderRadius),
+        var(--TagControl-sugBtn-height)
+      );
 
-      // @include button-variant(
-      //   var(--TagControl-sugBtn-bg),
-      //   var(--TagControl-sugBtn-border),
-      //   var(--TagControl-sugBtn-color),
-      //   var(--TagControl-sugBtn-onHover-bg),
-      //   var(--TagControl-sugBtn-onHover-border),
-      //   var(--TagControl-sugBtn-onHover-color),
-      //   var(--TagControl-sugBtn-onActive-bg),
-      //   var(--TagControl-sugBtn-onActive-border),
-      //   var(--TagControl-sugBtn-onActive-color)
-      // );
+      @include button-variant(
+        var(--TagControl-sugBtn-bg),
+        var(--TagControl-sugBtn-border),
+        var(--TagControl-sugBtn-color),
+        var(--TagControl-sugBtn-onHover-bg),
+        var(--TagControl-sugBtn-onHover-border),
+        var(--TagControl-sugBtn-onHover-color),
+        var(--TagControl-sugBtn-onActive-bg),
+        var(--TagControl-sugBtn-onActive-border),
+        var(--TagControl-sugBtn-onActive-color)
+      );
 
       &.is-disabled {
         pointer-events: none;

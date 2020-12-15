@@ -55,14 +55,12 @@
 
 // @deprecated 不建议用了
 @mixin color-schema($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
-  // todo：
-  // background-color: saturate(darken($bg-color, $percent), $sat-percent);
+  background-color: saturate(darken($bg-color, $percent), $sat-percent);
 }
 
 // @deprecated 不建议用了
 @mixin color-schema-lt($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
-  // todo：
-  // background-color: desaturate(lighten($bg-color, $percent), $sat-percent);
+  background-color: desaturate(lighten($bg-color, $percent), $sat-percent);
 }
 
 // @deprecated 不建议用了
@@ -250,28 +248,28 @@
   box-shadow: var(--Button-boxShadow);
 
   @include hover {
-    @if ($color != $hover-color) {
-      color: $hover-color;
-    }
-    @if ($background != $hover-background) {
-      background-color: $hover-background;
-    }
-    @if ($border != $hover-border) {
-      border-color: $hover-border;
-    }
+    // @if ($color != $hover-color) {
+    color: $hover-color;
+    // }
+    // @if ($background != $hover-background) {
+    background-color: $hover-background;
+    // }
+    // @if ($border != $hover-border) {
+    border-color: $hover-border;
+    // }
   }
 
-  // @include focus {
-  //   color: $color;
-  //   background-color: $background;
-  //   border-color: $border;
-  //   box-shadow: var(--Button-boxShadow);
-  // }
+  @include focus {
+    color: $color;
+    background-color: $background;
+    border-color: $border;
+    box-shadow: var(--Button-boxShadow);
+  }
 
   @include hover-focus {
-    // color: $hover-color;
-    // background-color: $hover-background;
-    // border-color: $hover-border;
+    color: $hover-color;
+    background-color: $hover-background;
+    border-color: $hover-border;
     box-shadow: var(--Button-boxShadow);
   }
 

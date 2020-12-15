@@ -29,27 +29,26 @@
 
     font-size: var(--Combo-addBtn-fontSize);
 
-    // todo: 暂时不支持
-    // @include button-size(
-    //   var(--Combo-addBtn-paddingY),
-    //   var(--Combo-addBtn-paddingX),
-    //   var(--Combo-addBtn-fontSize),
-    //   var(--Combo-addBtn-lineHeight),
-    //   var(--Combo-addBtn-borderRadius),
-    //   var(--Combo-addBtn-height)
-    // );
+    @include button-size(
+      var(--Combo-addBtn-paddingY),
+      var(--Combo-addBtn-paddingX),
+      var(--Combo-addBtn-fontSize),
+      var(--Combo-addBtn-lineHeight),
+      var(--Combo-addBtn-borderRadius),
+      var(--Combo-addBtn-height)
+    );
 
-    // @include button-variant(
-    //   var(--Combo-addBtn-bg),
-    //   var(--Combo-addBtn-border),
-    //   var(--Combo-addBtn-color),
-    //   var(--Combo-addBtn-onHover-bg),
-    //   var(--Combo-addBtn-onHover-border),
-    //   var(--Combo-addBtn-onHover-color),
-    //   var(--Combo-addBtn-onActive-bg),
-    //   var(--Combo-addBtn-onActive-border),
-    //   var(--Combo-addBtn-onActive-color)
-    // );
+    @include button-variant(
+      var(--Combo-addBtn-bg),
+      var(--Combo-addBtn-border),
+      var(--Combo-addBtn-color),
+      var(--Combo-addBtn-onHover-bg),
+      var(--Combo-addBtn-onHover-border),
+      var(--Combo-addBtn-onHover-color),
+      var(--Combo-addBtn-onActive-bg),
+      var(--Combo-addBtn-onActive-border),
+      var(--Combo-addBtn-onActive-color)
+    );
 
     &.is-disabled {
       pointer-events: none;

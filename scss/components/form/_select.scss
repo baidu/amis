@@ -108,15 +108,14 @@
     padding: 1px 5px;
 
     &:hover {
-      // background-color: darken(var(--Form-selectValue-bg), 5%);
+      background-color: var(--Form-selectValue-onHover-bg);
     }
 
     &.is-disabled {
       pointer-events: none;
       display: none;
       cursor: not-allowed;
-      // background-color: lighten(var(--Form-selectValue-bg), 5%);
-      // background: lighten(var(--Form-selectValue-bg), 5%);
+      background: var(--Form-selectValue-onDisable-bg);
     }
   }
 
@@ -301,15 +300,13 @@
     }
 
     &:hover svg {
-      // fill: darken($color: var(--Form-input-iconColor), $amount: 20%);
+      fill: var(--Form-input-onHover-iconColor);
     }
   }
 }
 
 .#{$ns}Select-popover {
-  margin-top: calc(
-    var(--Form-select-popoverGap) - var(--Form-select-outer-borderWidth)
-  );
+  margin-top: calc(var(--Form-select-outer-borderWidth) * -1);
 
   background: var(--Form-select-menu-bg);
   color: var(--Form-select-menu-color);

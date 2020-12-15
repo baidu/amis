@@ -73,7 +73,7 @@
     padding: 1px 5px;
 
     &:hover {
-      // background-color: darken(var(--Form-selectValue-bg), 5%);
+      background-color: var(--Form-selectValue-onHover-bg);
     }
   }
 

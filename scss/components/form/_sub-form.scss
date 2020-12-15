@@ -27,7 +27,7 @@
     margin-top: var(--gap-xs);
 
     &:hover {
-      // background-color: darken(var(--Form-selectValue-bg), 5%);
+      background-color: var(--Form-selectValue-onHover-bg);
     }
 
     &.is-disabled {
@@ -42,7 +42,7 @@
     padding: 1px 5px;
 
     &:hover {
-      // background-color: darken(var(--Form-selectValue-bg), 5%);
+      background-color: var(--Form-selectValue-onHover-bg);
     }
   }
 
@@ -53,27 +53,26 @@
   &-addBtn {
     font-size: var(--SubForm--addBtn-fontSize);
 
-    // todo: 暂时用不了
-    // @include button-size(
-    //   var(--SubForm--addBtn-paddingY),
-    //   var(--SubForm--addBtn-paddingX),
-    //   var(--SubForm--addBtn-fontSize),
-    //   var(--SubForm--addBtn-lineHeight),
-    //   var(--SubForm--addBtn-borderRadius),
-    //   var(--SubForm--addBtn-height)
-    // );
+    @include button-size(
+      var(--SubForm--addBtn-paddingY),
+      var(--SubForm--addBtn-paddingX),
+      var(--SubForm--addBtn-fontSize),
+      var(--SubForm--addBtn-lineHeight),
+      var(--SubForm--addBtn-borderRadius),
+      var(--SubForm--addBtn-height)
+    );
 
-    // @include button-variant(
-    //   var(--SubForm--addBtn-bg),
-    //   var(--SubForm--addBtn-border),
-    //   var(--SubForm--addBtn-color),
-    //   var(--SubForm--addBtn-onHover-bg),
-    //   var(--SubForm--addBtn-onHover-border),
-    //   var(--SubForm--addBtn-onHover-color),
-    //   var(--SubForm--addBtn-onActive-bg),
-    //   var(--SubForm--addBtn-onActive-border),
-    //   var(--SubForm--addBtn-onActive-color)
-    // );
+    @include button-variant(
+      var(--SubForm--addBtn-bg),
+      var(--SubForm--addBtn-border),
+      var(--SubForm--addBtn-color),
+      var(--SubForm--addBtn-onHover-bg),
+      var(--SubForm--addBtn-onHover-border),
+      var(--SubForm--addBtn-onHover-color),
+      var(--SubForm--addBtn-onActive-bg),
+      var(--SubForm--addBtn-onActive-border),
+      var(--SubForm--addBtn-onActive-color)
+    );
 
     &.is-disabled {
       pointer-events: none;

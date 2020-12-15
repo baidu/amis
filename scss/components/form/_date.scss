@@ -259,17 +259,17 @@
   }
 
   //  todo: 暂时用不了
-  // @include button-variant(
-  //   var(--Calendar-btn-bg),
-  //   var(--Calendar-btn-border),
-  //   var(--Calendar-btn-color),
-  //   var(--Calendar-btn-onHover-bg),
-  //   var(--Calendar-btn-onHover-border),
-  //   var(--Calendar-btn-onHover-color),
-  //   var(--Calendar-btn-onActive-bg),
-  //   var(--Calendar-btn-onActive-border),
-  //   var(--Calendar-btn-onActive-color)
-  // );
+  @include button-variant(
+    var(--Calendar-btn-bg),
+    var(--Calendar-btn-border),
+    var(--Calendar-btn-color),
+    var(--Calendar-btn-onHover-bg),
+    var(--Calendar-btn-onHover-border),
+    var(--Calendar-btn-onHover-color),
+    var(--Calendar-btn-onActive-bg),
+    var(--Calendar-btn-onActive-border),
+    var(--Calendar-btn-onActive-color)
+  );
 
   border-radius: var(--Calendar-btn-borderRadius);
 
@@ -279,17 +279,17 @@
 
   &Cancel {
     // todo: 暂时用不了
-    // @include button-variant(
-    //   var(--Calendar-btnCancel-bg),
-    //   var(--Calendar-btnCancel-border),
-    //   var(--Calendar-btnCancel-color),
-    //   var(--Calendar-btnCancel-onHover-bg),
-    //   var(--Calendar-btnCancel-onHover-border),
-    //   var(--Calendar-btnCancel-onHover-color),
-    //   var(--Calendar-btnCancel-onActive-bg),
-    //   var(--Calendar-btnCancel-onActive-border),
-    //   var(--Calendar-btnCancel-onActive-color)
-    // );
+    @include button-variant(
+      var(--Calendar-btnCancel-bg),
+      var(--Calendar-btnCancel-border),
+      var(--Calendar-btnCancel-color),
+      var(--Calendar-btnCancel-onHover-bg),
+      var(--Calendar-btnCancel-onHover-border),
+      var(--Calendar-btnCancel-onHover-color),
+      var(--Calendar-btnCancel-onActive-bg),
+      var(--Calendar-btnCancel-onActive-border),
+      var(--Calendar-btnCancel-onActive-color)
+    );
   }
 }
 

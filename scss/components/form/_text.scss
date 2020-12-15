@@ -170,7 +170,7 @@
       width: px2rem(16px);
       margin-top: px2rem(4px);
       float: right;
-      // fill: darken($color: var(--Form-input-iconColor), $amount: 20%);
+      fill: var(--Form-input-onHover-iconColor);
     }
 
     &:not(.is-disabled) {
@@ -226,7 +226,7 @@
     padding: 1px 5px;
 
     &:hover {
-      // background-color: darken(var(--Form-selectValue-bg), 5%);
+      background: var(--Form-selectValue-onHover-bg);
     }
   }
 

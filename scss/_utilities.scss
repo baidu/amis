@@ -5,47 +5,48 @@
 // background
 
 .bg-light {
-  @include color-variant(var(--light), 2%, 3%, 3%, 5%);
+  // todo: 用不了
+  // @include color-variant(var(--light), 2%, 3%, 3%, 5%);
   color: var(--text-color);
 }
 
 .bg-dark {
-  @include color-variant(var(--dark), 5%, 10%, 5%, 10%);
-  @include font-variant(var(--dark));
+  // @include color-variant(var(--dark), 5%, 10%, 5%, 10%);
+  // @include font-variant(var(--dark));
 }
 
 .bg-black {
-  @include color-variant(var(--black), 5%, 10%, 5%, 10%);
+  // @include color-variant(var(--black), 5%, 10%, 5%, 10%);
   // @include font-variant(var(--black));
 }
 
 .bg-primary {
-  @include color-variant(var(--primary), 5%, 10%, 5%, 10%);
+  // @include color-variant(var(--primary), 5%, 10%, 5%, 10%);
   // @include font-variant(var(--primary));
 }
 
 .bg-success {
-  @include color-variant(var(--success), 5%, 10%, 5%, 10%);
+  // @include color-variant(var(--success), 5%, 10%, 5%, 10%);
   // @include font-variant(var(--success));
 }
 
 .bg-info {
-  @include color-variant(var(--info), 5%, 10%, 5%, 10%);
+  // @include color-variant(var(--info), 5%, 10%, 5%, 10%);
   // @include font-variant(var(--info));
 }
 
 .bg-warning {
-  @include color-variant(var(--warning), 5%, 10%, 5%, 10%);
+  // @include color-variant(var(--warning), 5%, 10%, 5%, 10%);
   // @include font-variant(var(--warning));
 }
 
 .bg-danger {
-  @include color-variant(var(--danger), 5%, 10%, 5%, 10%);
+  // @include color-variant(var(--danger), 5%, 10%, 5%, 10%);
   // @include font-variant(var(--danger));
 }
 
 .bg-white {
-  @include color-variant(var(--white), 5%, 10%, 5%, 10%);
+  // @include color-variant(var(--white), 5%, 10%, 5%, 10%);
   color: var(--text-color);
 }
 

@@ -447,9 +447,9 @@
   --Tabs-onDisabled-color: #{$gray600};
   --Tabs-onHover-borderColor: #{$gray200};
   --Tabs-onActive-color: #{gray700};
-  --Tabs-onActive-borderColor: var($borderColor);
+  --Tabs-onActive-borderColor: var(--borderColor);
 
-  --Tabs-linkPadding: var(--gap-sm) --gap-base;
+  --Tabs-linkPadding: var(--gap-sm) var(--gap-base);
   --Tabs-linkMargin: 0 #{px2rem(3px)} 0 0;
 
   --Tabs--line-onHover-color: var(--primary);
@@ -687,6 +687,7 @@
 
   --Form-input-borderWidth: #{px2rem(1px)};
   --Form-input-iconColor: var(--icon-color);
+  --Form-input-onHover-iconColor: #{darken($gray600, 20%)};
   --Form-input-onFocused-borderColor: var(--info);
   --Form-input-onFocused-bg: var(--Form-input-bg);
   --Form-input-onError-borderColor: var(--danger);
@@ -695,7 +696,7 @@
   --Form-input-onDisabled-bg: #{$gray200};
   --Form-input-height: #{px2rem(34px)};
   --Form-input-placeholderColor: var(--text--muted-color);
-  --Form-input-lineHeight: 20/14;
+  --Form-input-lineHeight: 1.4285714286;
   --Form-input-fontSize: var(--Form-fontSize);
   --Form-input-boxShadow: none;
   --Form-input-paddingY: calc(
@@ -754,6 +755,10 @@
   --Form-selectValue-color: var(--info);
   --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
   --Form-selectValue-onHover-bg: #{darken(
+      saturate(lighten($info, 40%), 2.5%),
+      5%
+    )};
+  --Form-selectValue-onDisable-bg: #{lighten(
       saturate(lighten($info, 40%), 2.5%),
       5%
     )};

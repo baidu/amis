@@ -93,7 +93,7 @@
     }
 
     &:hover svg {
-      // fill: darken($color: var(--Form-input-iconColor), $amount: 20%);
+      fill: var(--Form-input-onHover-iconColor);
     }
   }
 
