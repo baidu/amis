@@ -528,7 +528,7 @@
 
   --Table-strip-bg: #{lighten(#f6f8f8, 1%)};
   --Table-onHover-bg: #{darken(lighten(#f6f8f8, 1%), 2%)};
-  // 背景用到了 rgba
+  // 背景用到了 rgba，所以必须再提供这种写法，搜一下这个变量就知道为什么了
   --Table-onHover-bg-rgb: 243, 246, 246;
   --Table-onHover-borderColor: #{darken(darken(lighten(#f6f8f8, 1%), 2%), 10%)};
   --Table-onHover-color: var(--text-color);
