@@ -95,7 +95,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
   };
   handleExited = () => {
     const onExited = this.props.onExited;
-    document.activeElement && (document.activeElement as HTMLElement).blur();
+    document.activeElement && (document.activeElement as HTMLElement)?.blur?.();
     onExited && onExited();
     setTimeout(() => {
       if (!document.querySelector('.amis-dialog-widget')) {

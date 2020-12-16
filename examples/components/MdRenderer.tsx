@@ -142,7 +142,7 @@ class Preview extends React.Component {
       return;
     }
     const ns = getTheme((this.props as any).theme)?.classPrefix;
-    htmlPreviews.forEach(dom => {
+    [].slice.call(htmlPreviews).forEach(dom => {
       eachDom(dom as HTMLElement, dom => {
         if (typeof dom.className !== 'string') {
           return;
