@@ -716,11 +716,12 @@
     pointer-events: all;
     position: absolute;
     // background: var(--Table-onHover-bg);
+    // todo: 这里可能会不同
     background: linear-gradient(
       90deg,
-      rgba(var(--Table-onHover-bg), 0) 0%,
-      rgba(var(--Table-onHover-bg), 1) 20%,
-      rgba(var(--Table-onHover-bg), 1) 100%
+      rgba(var(--Table-onHover-bg-rgb), 0) 0%,
+      rgba(var(--Table-onHover-bg-rgb), 1) 20%,
+      rgba(var(--Table-onHover-bg-rgb), 1) 100%
     );
     top: var(--Table-borderWidth);
     bottom: 0;

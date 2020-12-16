@@ -83,8 +83,9 @@
     width: var(--InputRange-slider-width);
     height: var(--InputRange-slider-height);
     margin-left: calc(var(--InputRange-slider-width) / -2);
-    margin-top: calc(var(--InputRange-slider-height) / -2) +
-      calc(var(--InputRange-track-height) / -2);
+    margin-top: calc(
+      var(--InputRange-slider-height) / -2 + var(--InputRange-track-height) / -2
+    );
     outline: none;
     position: absolute;
     z-index: 2;

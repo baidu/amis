@@ -44,3 +44,10 @@ h6 {
 .is-matched {
   color: var(--danger);
 }
+
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--fontFamilyMonospace);
+}

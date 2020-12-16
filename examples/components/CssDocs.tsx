@@ -7,36 +7,38 @@ export const cssDocs = [
     children: [
       {
         label: '快速开始',
-        path: '/css-utilities/index',
+        path: '/style/index',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(['../../docs/style/index.md'], (doc: any) => {
+            cb(null, makeMarkdownRenderer(doc));
+          })
+      },
+      {
+        label: 'CSS 变量',
+        path: '/style/css-vars',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(['../../docs/style/css-vars.md'], (doc: any) => {
+            cb(null, makeMarkdownRenderer(doc));
+          })
+      },
+      {
+        label: '辅助类 - 响应式设计',
+        path: '/style/responsive-design',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../docs/css-utilities/index.md'],
+            ['../../docs/style/responsive-design.md'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
           )
       },
       {
-        label: '响应式设计',
-        path: '/css-utilities/responsive-design',
+        label: '辅助类 - 状态样式',
+        path: '/style/state',
         getComponent: (location: any, cb: any) =>
-          (require as any)(
-            ['../../docs/css-utilities/responsive-design.md'],
-            (doc: any) => {
-              cb(null, makeMarkdownRenderer(doc));
-            }
-          )
-      },
-      {
-        label: '状态样式',
-        path: '/css-utilities/state',
-        getComponent: (location: any, cb: any) =>
-          (require as any)(
-            ['../../docs/css-utilities/state.md'],
-            (doc: any) => {
-              cb(null, makeMarkdownRenderer(doc));
-            }
-          )
+          (require as any)(['../../docs/style/state.md'], (doc: any) => {
+            cb(null, makeMarkdownRenderer(doc));
+          })
       }
     ]
   },
@@ -47,7 +49,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Box Sizing',
-        path: '/css-utilities/layout/box-sizing',
+        path: '/style/layout/box-sizing',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_box-sizing.scss'],
@@ -59,7 +61,7 @@ export const cssDocs = [
 
       {
         label: 'Display',
-        path: '/css-utilities/layout/display',
+        path: '/style/layout/display',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_display.scss'],
@@ -71,7 +73,7 @@ export const cssDocs = [
 
       {
         label: 'Floats',
-        path: '/css-utilities/layout/floats',
+        path: '/style/layout/floats',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_float.scss'],
@@ -83,7 +85,7 @@ export const cssDocs = [
 
       {
         label: 'Clear',
-        path: '/css-utilities/layout/clear',
+        path: '/style/layout/clear',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_clear.scss'],
@@ -95,7 +97,7 @@ export const cssDocs = [
 
       {
         label: 'Overflow',
-        path: '/css-utilities/layout/overflow',
+        path: '/style/layout/overflow',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_overflow.scss'],
@@ -107,7 +109,7 @@ export const cssDocs = [
 
       {
         label: 'Position',
-        path: '/css-utilities/layout/position',
+        path: '/style/layout/position',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_position.scss'],
@@ -119,7 +121,7 @@ export const cssDocs = [
 
       {
         label: 'Top / Right / Bottom / Left',
-        path: '/css-utilities/layout/top-right-bottom-left',
+        path: '/style/layout/top-right-bottom-left',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_top-right-bottom-left.scss'],
@@ -131,7 +133,7 @@ export const cssDocs = [
 
       {
         label: 'Visibility',
-        path: '/css-utilities/layout/visibility',
+        path: '/style/layout/visibility',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_visibility.scss'],
@@ -143,7 +145,7 @@ export const cssDocs = [
 
       {
         label: 'Z-Index',
-        path: '/css-utilities/layout/z-index',
+        path: '/style/layout/z-index',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/layout/_z-index.scss'],
@@ -160,7 +162,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Flex Direction',
-        path: '/css-utilities/flexbox/direction',
+        path: '/style/flexbox/direction',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_direction.scss'],
@@ -172,7 +174,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Wrap',
-        path: '/css-utilities/flexbox/wrap',
+        path: '/style/flexbox/wrap',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_wrap.scss'],
@@ -184,7 +186,7 @@ export const cssDocs = [
 
       {
         label: 'Flex',
-        path: '/css-utilities/flexbox/flex',
+        path: '/style/flexbox/flex',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_flex.scss'],
@@ -196,7 +198,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Grow',
-        path: '/css-utilities/flexbox/grow',
+        path: '/style/flexbox/grow',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_grow.scss'],
@@ -208,7 +210,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Shrink',
-        path: '/css-utilities/flexbox/shrink',
+        path: '/style/flexbox/shrink',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_shrink.scss'],
@@ -220,7 +222,7 @@ export const cssDocs = [
 
       {
         label: 'Flex Order',
-        path: '/css-utilities/flexbox/order',
+        path: '/style/flexbox/order',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/flex/_order.scss'],
@@ -237,7 +239,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Grid Template Columns',
-        path: '/css-utilities/grid/columns',
+        path: '/style/grid/columns',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/grid/_columns.scss'],
@@ -248,7 +250,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Column Start / End',
-        path: '/css-utilities/grid/column-start-end',
+        path: '/style/grid/column-start-end',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/grid/_column-start-end.scss'],
@@ -259,7 +261,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Template Rows',
-        path: '/css-utilities/grid/rows',
+        path: '/style/grid/rows',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/grid/_rows.scss'],
@@ -270,7 +272,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Row Start / End',
-        path: '/css-utilities/grid/row-start-end',
+        path: '/style/grid/row-start-end',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/grid/_row-start-end.scss'],
@@ -281,7 +283,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Auto Flow',
-        path: '/css-utilities/grid/auto-flow',
+        path: '/style/grid/auto-flow',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/grid/_auto-flow.scss'],
@@ -292,7 +294,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Auto Columns',
-        path: '/css-utilities/grid/auto-columns',
+        path: '/style/grid/auto-columns',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/grid/_auto-columns.scss'],
@@ -303,7 +305,7 @@ export const cssDocs = [
       },
       {
         label: 'Grid Auto Rows',
-        path: '/css-utilities/grid/auto-rows',
+        path: '/style/grid/auto-rows',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/grid/_auto-rows.scss'],
@@ -314,7 +316,7 @@ export const cssDocs = [
       },
       {
         label: 'Gap',
-        path: '/css-utilities/grid/gap',
+        path: '/style/grid/gap',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/grid/_gap.scss'],
@@ -330,7 +332,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Justify Content',
-        path: '/css-utilities/box-alignment/justify-content',
+        path: '/style/box-alignment/justify-content',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_justify-content.scss'],
@@ -342,7 +344,7 @@ export const cssDocs = [
 
       {
         label: 'Justify Items',
-        path: '/css-utilities/box-alignment/justify-items',
+        path: '/style/box-alignment/justify-items',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_justify-items.scss'],
@@ -354,7 +356,7 @@ export const cssDocs = [
 
       {
         label: 'Justify Self',
-        path: '/css-utilities/box-alignment/justify-self',
+        path: '/style/box-alignment/justify-self',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_justify-self.scss'],
@@ -366,7 +368,7 @@ export const cssDocs = [
 
       {
         label: 'Align Content',
-        path: '/css-utilities/box-alignment/align-content',
+        path: '/style/box-alignment/align-content',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_align-content.scss'],
@@ -378,7 +380,7 @@ export const cssDocs = [
 
       {
         label: 'Align Items',
-        path: '/css-utilities/box-alignment/align-items',
+        path: '/style/box-alignment/align-items',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_align-items.scss'],
@@ -390,7 +392,7 @@ export const cssDocs = [
 
       {
         label: 'Align Self',
-        path: '/css-utilities/box-alignment/align-self',
+        path: '/style/box-alignment/align-self',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_align-self.scss'],
@@ -402,7 +404,7 @@ export const cssDocs = [
 
       {
         label: 'Place Content',
-        path: '/css-utilities/box-alignment/place-content',
+        path: '/style/box-alignment/place-content',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_place-content.scss'],
@@ -414,7 +416,7 @@ export const cssDocs = [
 
       {
         label: 'Place Items',
-        path: '/css-utilities/box-alignment/place-items',
+        path: '/style/box-alignment/place-items',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_place-items.scss'],
@@ -426,7 +428,7 @@ export const cssDocs = [
 
       {
         label: 'Place Self',
-        path: '/css-utilities/box-alignment/place-self',
+        path: '/style/box-alignment/place-self',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/box-alignment/_place-self.scss'],
@@ -443,7 +445,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Padding',
-        path: '/css-utilities/spacing/padding',
+        path: '/style/spacing/padding',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/spacing/_padding.scss'],
@@ -455,7 +457,7 @@ export const cssDocs = [
 
       {
         label: 'Margin',
-        path: '/css-utilities/spacing/margin',
+        path: '/style/spacing/margin',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/spacing/_margin.scss'],
@@ -467,7 +469,7 @@ export const cssDocs = [
 
       {
         label: 'Space Between',
-        path: '/css-utilities/spacing/space-between',
+        path: '/style/spacing/space-between',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/spacing/_space-between.scss'],
@@ -484,7 +486,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Width',
-        path: '/css-utilities/sizing/width',
+        path: '/style/sizing/width',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/sizing/_width.scss'],
@@ -495,7 +497,7 @@ export const cssDocs = [
       },
       {
         label: 'Height',
-        path: '/css-utilities/sizing/height',
+        path: '/style/sizing/height',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/sizing/_height.scss'],
@@ -512,7 +514,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Font Size',
-        path: '/css-utilities/typography/font-size',
+        path: '/style/typography/font-size',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_font-size.scss'],
@@ -523,8 +525,8 @@ export const cssDocs = [
       },
 
       {
-        label: 'Font css-utilities',
-        path: '/css-utilities/typography/font-style',
+        label: 'Font style',
+        path: '/style/typography/font-style',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_font-style.scss'],
@@ -536,7 +538,7 @@ export const cssDocs = [
 
       {
         label: 'Font Weight',
-        path: '/css-utilities/typography/font-weight',
+        path: '/style/typography/font-weight',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_font-weight.scss'],
@@ -548,7 +550,7 @@ export const cssDocs = [
 
       {
         label: 'Letter Spacing',
-        path: '/css-utilities/typography/letter-spacing',
+        path: '/style/typography/letter-spacing',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_letter-spacing.scss'],
@@ -560,7 +562,7 @@ export const cssDocs = [
 
       {
         label: 'Line Height',
-        path: '/css-utilities/typography/line-height',
+        path: '/style/typography/line-height',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_line-height.scss'],
@@ -572,7 +574,7 @@ export const cssDocs = [
 
       {
         label: 'List Style Type',
-        path: '/css-utilities/typography/list-style-type',
+        path: '/style/typography/list-style-type',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_list-style-type.scss'],
@@ -584,7 +586,7 @@ export const cssDocs = [
 
       {
         label: 'Text Alignment',
-        path: '/css-utilities/typography/text-align',
+        path: '/style/typography/text-align',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_text-align.scss'],
@@ -596,7 +598,7 @@ export const cssDocs = [
 
       {
         label: 'Text Color',
-        path: '/css-utilities/typography/text-color',
+        path: '/style/typography/text-color',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_text-color.scss'],
@@ -608,7 +610,7 @@ export const cssDocs = [
 
       {
         label: 'Text Decoration',
-        path: '/css-utilities/typography/text-decoration',
+        path: '/style/typography/text-decoration',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_text-decoration.scss'],
@@ -620,7 +622,7 @@ export const cssDocs = [
 
       {
         label: 'Text Transform',
-        path: '/css-utilities/typography/text-transform',
+        path: '/style/typography/text-transform',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_text-transform.scss'],
@@ -632,7 +634,7 @@ export const cssDocs = [
 
       {
         label: 'Vertical Alignment',
-        path: '/css-utilities/typography/vertical-align',
+        path: '/style/typography/vertical-align',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_vertical-align.scss'],
@@ -644,7 +646,7 @@ export const cssDocs = [
 
       {
         label: 'Whitespace',
-        path: '/css-utilities/typography/whitespace',
+        path: '/style/typography/whitespace',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_whitespace.scss'],
@@ -656,7 +658,7 @@ export const cssDocs = [
 
       {
         label: 'Word Break',
-        path: '/css-utilities/typography/word-break',
+        path: '/style/typography/word-break',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/typography/_word-break.scss'],
@@ -673,7 +675,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Background Color',
-        path: '/css-utilities/background/background-color',
+        path: '/style/background/background-color',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/background/_background-color.scss'],
@@ -690,7 +692,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Border Radius',
-        path: '/css-utilities/border/border-radius',
+        path: '/style/border/border-radius',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/border/_border-radius.scss'],
@@ -702,7 +704,7 @@ export const cssDocs = [
 
       {
         label: 'Border Width',
-        path: '/css-utilities/border/border-width',
+        path: '/style/border/border-width',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/border/_border-width.scss'],
@@ -714,7 +716,7 @@ export const cssDocs = [
 
       {
         label: 'Border Color',
-        path: '/css-utilities/border/border-color',
+        path: '/style/border/border-color',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/border/_border-color.scss'],
@@ -726,7 +728,7 @@ export const cssDocs = [
 
       {
         label: 'Border Style',
-        path: '/css-utilities/border/border-style',
+        path: '/style/border/border-style',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/border/_border-style.scss'],
@@ -743,7 +745,7 @@ export const cssDocs = [
     children: [
       {
         label: 'Box Shadow',
-        path: '/css-utilities/effect/box-shadow',
+        path: '/style/effect/box-shadow',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/effect/_box-shadow.scss'],
@@ -755,7 +757,7 @@ export const cssDocs = [
 
       {
         label: 'Opacity',
-        path: '/css-utilities/effect/opacity',
+        path: '/style/effect/opacity',
         getComponent: (location: any, cb: any) =>
           (require as any)(
             ['../../scss/utilities/effect/_opacity.scss'],

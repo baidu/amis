@@ -3,13 +3,26 @@
 :root {
   --black: #{$black};
   --white: #{$white};
+  // 因为运行不支持颜色计算，所以用 css 变量的方式需要多定义几个变量
   --primary: #{$primary};
-  --primary-onHover: #{darken(#007bff, 15%)};
+  --primary-onHover: #{darken($primary, 7.5%)};
+  --primary-onActive: #{darken($primary, 10%)};
   --secondary: #{$secondary};
+  --secondary-onHover: #{darken($secondary, 7.5%)};
+  --secondary-onActive: #{darken($secondary, 10%)};
   --success: #{$success};
+  --success-onHover: #{darken($success, 7.5%)};
+  --success-onActive: #{darken($success, 10%)};
   --info: #{$info};
+  --info-onHover: #{darken($info, 7.5%)};
+  --info-onActive: #{darken($info, 10%)};
   --warning: #{$warning};
+  --warning-onHover: #{darken($warning, 7.5%)};
+  --warning-onActive: #{darken($warning, 10%)};
   --danger: #{$danger};
+  --danger-onHover: #{darken($danger, 7.5%)};
+  --danger-onActive: #{darken($danger, 10%)};
+
   --light: #{$light};
   --dark: #{$dark};
 
@@ -28,6 +41,8 @@
   --fontSizeXs: #{px2rem(11px)};
 
   --text-color: #{$text-color};
+  --button-color: #{$white};
+
   --text--muted-color: #{lighten($text-color, 25%)};
   --text--loud-color: #{darken($text-color, 10%)};
 
@@ -39,8 +54,8 @@
   --borderRadiusMd: 0.285rem;
   --borderRadiusLg: 0.428rem;
 
-  --boxShadow: 0 0.5rem 1rem rgba(#000, 0.15);
-  --boxShadowSm: 0 0.125rem 0.25rem rgba(#000, 0.075);
+  --boxShadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --boxShadowSm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 
   --lineHeightBase: 1.5;
 
@@ -57,9 +72,9 @@
   --code-color: var(--danger);
   --code-background: var(--background);
   --pre-background: var(--background);
-  --link-color: var(--primary);
+  --link-color: var(--info);
   --link-decoration: none;
-  --link-onHover-color: var(--primary-onHover);
+  --link-onHover-color: var(--info-onHover);
   --link-onHover-decoration: underline;
 
   --body-bg: var(--light);
@@ -293,9 +308,9 @@
   --Modal-header-height: #{px2rem(40px)};
   --Modal-header-paddingY: calc(
     (
-      var(--Modal-header-height) - var(--Modal-title-lineHeight) *
-        var(--Modal-title-fontSize) / 2
-    )
+        var(--Modal-header-height) - var(--Modal-title-lineHeight) *
+          var(--Modal-title-fontSize)
+      ) / 2
   );
   --Modal-content-borderWidth: var(--borderWidth);
   --Modal-content-borderColor: var(--borderColor);
@@ -425,7 +440,7 @@
 
   --Alert--success-color: #3c763d;
   --Alert--success-bg: #dff0d8;
-  --Alert--success-borderColor: #{darken(adjust-hue($success, -10), 5%)};
+  --Alert--success-borderColor: #{darken(adjust-hue(#dff0d8, -10), 5%)};
 
   --Alert--warning-color: #8a6d3b;
   --Alert--warning-bg: #fcf8e3;
@@ -489,8 +504,8 @@
   --Table-borderRadius: var(--borderRadius);
   --Table-fixed-zIndex: 5;
 
-  --Table-fixedLeft-boxShadow: 0.42rem 0 0.42rem -0.28rem rgba(--black, 0.15);
-  --Table-fixedRight-boxShadow: -0.42rem 0 0.42rem -0.28rem rgba(--black, 0.15);
+  --Table-fixedLeft-boxShadow: 0.42rem 0 0.42rem -0.28rem rgba(0, 0, 0, 0.15);
+  --Table-fixedRight-boxShadow: -0.42rem 0 0.42rem -0.28rem rgba(0, 0, 0, 0.15);
   --Table-toolbar-paddingX: var(--gap-sm);
   --Table-toolbar-paddingY: var(--gap-sm);
   --Table-thead-bg: #f6f8f8;
@@ -513,6 +528,8 @@
 
   --Table-strip-bg: #{lighten(#f6f8f8, 1%)};
   --Table-onHover-bg: #{darken(lighten(#f6f8f8, 1%), 2%)};
+  // 背景用到了 rgba
+  --Table-onHover-bg-rgb: 243, 246, 246;
   --Table-onHover-borderColor: #{darken(darken(lighten(#f6f8f8, 1%), 2%), 10%)};
   --Table-onHover-color: var(--text-color);
 
@@ -872,10 +889,10 @@
       ) / 2
   );
 
-  --Button-boxShadow: inset 0 1px 0 rgba(--white, 0.15),
-    0 1px 1px rgba(--black, 0.075);
+  --Button-boxShadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 1px 1px rgba(0, 0, 0, 0.075);
   --Button-onFocus-boxShadow: none;
-  --Button-onActive-boxShadow: inset 0 3px 5px rgba(--black, 0.125);
+  --Button-onActive-boxShadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --Button-onDisabled-opacity: 0.65;
   --Button-onDisabled-borderColor: #dee2e6;
 
@@ -891,61 +908,61 @@
 
   --Button--primary-bg: var(--primary);
   --Button--primary-border: var(--Button--primary-bg);
-  --Button--primary-color: var(--white);
-  --Button--primary-onHover-bg: #{darken($primary, 7.5%)};
-  --Button--primary-onHover-border: #{darken($primary, 10%)};
+  --Button--primary-color: var(--button-color);
+  --Button--primary-onHover-bg: var(--primary-onHover);
+  --Button--primary-onHover-border: var(--primary-onActive);
   --Button--primary-onHover-color: var(--Button--primary-color);
-  --Button--primary-onActive-bg: #{darken($primary, 10%)};
+  --Button--primary-onActive-bg: var(--primary-onActive);
   --Button--primary-onActive-border: #{darken($primary, 12.5%)};
   --Button--primary-onActive-color: var(--Button--primary-color);
 
   --Button--secondary-bg: var(--secondary);
   --Button--secondary-border: var(--Button--secondary-bg);
-  --Button--secondary-color: var(--white);
-  --Button--secondary-onHover-bg: #{darken($secondary, 7.5%)};
-  --Button--secondary-onHover-border: #{darken($secondary, 10%)};
+  --Button--secondary-color: var(--button-color);
+  --Button--secondary-onHover-bg: var(--secondary-onHover);
+  --Button--secondary-onHover-border: var(--secondary-onActive);
   --Button--secondary-onHover-color: var(--Button--secondary-color);
-  --Button--secondary-onActive-bg: #{darken($secondary, 10%)};
+  --Button--secondary-onActive-bg: var(--secondary-onActive);
   --Button--secondary-onActive-border: #{darken($secondary, 12.5%)};
   --Button--secondary-onActive-color: var(--Button--secondary-color);
 
   --Button--success-bg: var(--success);
   --Button--success-border: var(--Button--success-bg);
-  --Button--success-color: var(--white);
-  --Button--success-onHover-bg: #{darken($success, 7.5%)};
-  --Button--success-onHover-border: #{darken($success, 10%)};
+  --Button--success-color: var(--button-color);
+  --Button--success-onHover-bg: var(--success-onHover);
+  --Button--success-onHover-border: var(--success-onActive);
   --Button--success-onHover-color: var(--Button--success-color);
-  --Button--success-onActive-bg: #{darken($success, 10%)};
+  --Button--success-onActive-bg: var(--success-onActive);
   --Button--success-onActive-border: #{darken($success, 12.5%)};
   --Button--success-onActive-color: var(--Button--success-color);
 
   --Button--info-bg: var(--info);
   --Button--info-border: var(--Button--info-bg);
-  --Button--info-color: var(--white);
-  --Button--info-onHover-bg: #{darken($info, 7.5%)};
-  --Button--info-onHover-border: #{darken($info, 10%)};
+  --Button--info-color: var(--button-color);
+  --Button--info-onHover-bg: var(--info-onHover);
+  --Button--info-onHover-border: var(--info-onActive);
   --Button--info-onHover-color: var(--Button--info-color);
-  --Button--info-onActive-bg: #{darken($info, 10%)};
+  --Button--info-onActive-bg: var(--info-onActive);
   --Button--info-onActive-border: #{darken($info, 12.5%)};
   --Button--info-onActive-color: var(--Button--info-color);
 
   --Button--warning-bg: var(--warning);
   --Button--warning-border: var(--Button--warning-bg);
-  --Button--warning-color: var(--white);
-  --Button--warning-onHover-bg: #{darken($warning, 7.5%)};
-  --Button--warning-onHover-border: #{darken($warning, 10%)};
+  --Button--warning-color: var(--button-color);
+  --Button--warning-onHover-bg: var(--warning-onHover);
+  --Button--warning-onHover-border: var(--warning-onActive);
   --Button--warning-onHover-color: var(--Button--warning-color);
-  --Button--warning-onActive-bg: #{darken($warning, 10%)};
+  --Button--warning-onActive-bg: var(--warning-onActive);
   --Button--warning-onActive-border: #{darken($warning, 12.5%)};
   --Button--warning-onActive-color: var(--Button--warning-color);
 
   --Button--danger-bg: var(--danger);
   --Button--danger-border: var(--Button--danger-bg);
-  --Button--danger-color: var(--white);
-  --Button--danger-onHover-bg: #{darken($danger, 7.5%)};
-  --Button--danger-onHover-border: #{darken($danger, 10%)};
+  --Button--danger-color: var(--button-color);
+  --Button--danger-onHover-bg: var(--danger-onHover);
+  --Button--danger-onHover-border: var(--danger-onActive);
   --Button--danger-onHover-color: var(--Button--danger-color);
-  --Button--danger-onActive-bg: #{darken($danger, 10%)};
+  --Button--danger-onActive-bg: var(--danger-onActive);
   --Button--danger-onActive-border: #{darken($danger, 12.5%)};
   --Button--danger-onActive-color: var(--Button--danger-color);
 
@@ -961,7 +978,7 @@
 
   --Button--dark-bg: var(--dark);
   --Button--dark-border: var(--Button--dark-bg);
-  --Button--dark-color: var(--white);
+  --Button--dark-color: var(--button-color);
   --Button--dark-onHover-bg: #{darken($dark, 7.5%)};
   --Button--dark-onHover-border: #{darken($dark, 10%)};
   --Button--dark-onHover-color: var(--Button--dark-color);
@@ -973,10 +990,10 @@
 
   --Button--default-color: var(--text-color);
   --Button--default-onHover-bg: #{darken($white, 7.5%)};
-  --Button--default-onHover-border: #{darken($white, 10%)};
+  --Button--default-onHover-border: #{darken($borderColor, 10%)};
   --Button--default-onHover-color: var(--Button--default-color);
   --Button--default-onActive-bg: #{darken($white, 10%)};
-  --Button--default-onActive-border: #{darken($white, 12.5%)};
+  --Button--default-onActive-border: #{darken($borderColor, 12.5%)};
   --Button--default-onActive-color: var(--Button--default-color);
 
   --Button--link-color: var(--text-color);
@@ -998,7 +1015,7 @@
   // Checks
   --Checkbox-gap: var(--gap-sm);
   --Checkbox-size: #{px2rem(20px)};
-  --Checkbox-inner-size: var(--Checkbox-size) / 2;
+  --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox--full-inner-size: #{px2rem(12px)};
   --Checkbox-color: var(--Form-input-borderColor);
   --Checkbox-onHover-color: var(--info);
@@ -1011,7 +1028,7 @@
 
   // Radio
   --Radio-size: var(--Checkbox-size);
-  --Radio-inner-size: var(--Radio-size) / 2;
+  --Radio-inner-size: calc(var(--Radio-size) / 2);
   --Radio-color: var(--Checkbox-color);
   --Radio-onHover-color: var(--Checkbox-onHover-color);
   --Radio--sm-size: var(--Checkbox--sm-size);
@@ -1128,7 +1145,7 @@
   --Calendar-cell-bg: var(--white);
   --Calendar-cell-onHover-bg: #{darken($white, 7%)};
   --Calendar-cell-onActive-bg: var(--info);
-  --Calendar-cell-onBetween-bg: rgba(--info, 0.1);
+  --Calendar-cell-onBetween-bg: #{rgba($info, 0.1)};
   --Calendar-cell-onDisabled-bg: var(--light);
 
   --Calendar-shortcuts-bg: transparent;
@@ -1376,7 +1393,7 @@
   --Panel-titleMarginTop: 0;
   --Panel-titleMarginBottom: 0;
 
-  --Panel-titleColor: inherit;
+  --Panel-titleColor: var(--text-color);
   --Panel-bodyPadding: #{px2rem(15px)};
 
   --Panel-footerBorderRadius: 0 0 #{px2rem(2px)} #{px2rem(2px)};
@@ -1385,7 +1402,7 @@
   --Panel-borderWidth: #{px2rem(1px)};
   --Panel-footerButtonMarginLeft: var(--gap-sm);
   --Panel-btnToolbarTextAlign: right;
-  --Panel-fixedBottom-boxShadow: 0 -0.5rem 1rem rgba(--black, 0.15);
+  --Panel-fixedBottom-boxShadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.15);
   --Panel-fixedBottom-borderTop: none;
 
   // Pagination

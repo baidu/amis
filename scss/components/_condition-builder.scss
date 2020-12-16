@@ -160,7 +160,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(var(--info), 0.2);
+    background: rgba($info, 0.2);
   }
 
   &-dragbar {

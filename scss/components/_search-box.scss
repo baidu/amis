@@ -17,7 +17,7 @@
   border-radius: var(--Form-input-borderRadius);
 
   &:hover {
-    background-color: rgba(var(--Form-input-bg), 0.6);
+    background-color: rgba($white, 0.6);
   }
 
   &.is-active {

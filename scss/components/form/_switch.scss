@@ -19,7 +19,7 @@
     &:before {
       content: '\5173';
       color: var(--Switch-valueColor);
-      text-indent: (var(--Switch-width) / 2);
+      text-indent: calc(var(--Switch-width) / 2);
       text-transform: uppercase;
       font-size: var(--fontSizeSm);
       line-height: var(--Switch-height);

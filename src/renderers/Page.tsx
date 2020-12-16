@@ -138,6 +138,11 @@ export interface PageSchema extends BaseSchema {
    * 是否显示错误信息，默认是显示的。
    */
   showErrorMsg?: boolean;
+
+  /**
+   * css 变量
+   */
+  cssVars?: any;
 }
 
 export interface PageProps extends RendererProps, PageSchema {
@@ -498,6 +503,7 @@ export default class Page extends React.Component<PageProps> {
       store,
       body,
       bodyClassName,
+      cssVars,
       render,
       aside,
       asideClassName,
@@ -515,11 +521,38 @@ export default class Page extends React.Component<PageProps> {
 
     const hasAside = aside && (!Array.isArray(aside) || aside.length);
 
+    let cssVarsContent = '';
+    if (cssVars) {
+      for (const key in cssVars) {
+        if (key.startsWith('--')) {
+          const value = cssVars[key];
+          // 这是为了防止 xss，可能还有别的
+          if (value.indexOf('expression(') !== -1) {
+            continue;
+          }
+          cssVarsContent += `${key}: ${value}; \n`;
+        }
+      }
+    }
+
     return (
       <div
         className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)}
         onClick={this.handleClick}
       >
+        {cssVarsContent ? (
+          <style
+            // 似乎无法用 style 属性的方式来实现，所以目前先这样做
+            dangerouslySetInnerHTML={{
+              __html: `
+          :root {
+            ${cssVarsContent}
+          }
+        `
+            }}
+          />
+        ) : null}
+
         {hasAside ? (
           <div className={cx(`Page-aside`, asideClassName)}>
             {render('aside', aside as any, {

@@ -171,8 +171,8 @@
 
     // todo: 用不了了
     // @if var(--Modal-content-borderRadius) {
-    //   border-bottom-left-radius: var(--Modal-content-borderRadius);
-    //   border-bottom-right-radius: var(--Modal-content-borderRadius);
+    border-bottom-left-radius: var(--Modal-content-borderRadius);
+    border-bottom-right-radius: var(--Modal-content-borderRadius);
     // }
 
     .#{$ns}Button {
@@ -186,7 +186,7 @@
     .#{$ns}Modal-content {
       margin-top: calc(
         var(--Modal-content-startMarginTop) +
-          ($i - 1) *
+          #{($i - 1)} *
           var(--Modal-content-stepMarginTop)
       );
     }
