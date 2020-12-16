@@ -1027,6 +1027,10 @@ export default class ComboControl extends React.Component<ComboProps> {
                 ]
               : controls;
 
+          const hasUnique =
+            Array.isArray(finnalControls) &&
+            finnalControls.some(item => item.unique);
+
           return (
             <Tab
               title={filter(
@@ -1038,7 +1042,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               toolbar={toolbar}
               eventKey={index}
               // 不能按需渲染，因为 unique 会失效。
-              mountOnEnter={false}
+              mountOnEnter={!hasUnique}
               unmountOnExit={false}
             >
               {condition && typeSwitchable !== false ? (

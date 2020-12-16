@@ -16,32 +16,25 @@ const buildSerieOptions = (type: string, options: any) => {
 };
 
 export default {
-  type: 'tabs',
-  tabs: [
+  type: 'combo',
+  name: 'series',
+  tabsMode: true,
+  tabsLabelTpl: '系列${index|plus}',
+  lazyLoad: true,
+  label: '',
+  multiLine: true,
+  multiple: true,
+  addButtonText: '新增系列',
+  controls: [
+    select('type', '图表类型', ['line', 'bar']),
+    buildSerieOptions('line', lineOptions),
     {
-      title: '系列',
-      controls: [
-        {
-          type: 'combo',
-          name: 'series',
-          label: '',
-          multiLine: true,
-          multiple: true,
-          addButtonText: '新增系列',
-          controls: [
-            select('type', '图表类型', ['line', 'bar']),
-            buildSerieOptions('line', lineOptions),
-            {
-              type: 'array',
-              name: 'data', //TODO: 目前只支持一维
-              label: '数据',
-              items: {
-                type: 'number'
-              }
-            }
-          ]
-        }
-      ]
+      type: 'array',
+      name: 'data', //TODO: 目前只支持一维
+      label: '数据',
+      items: {
+        type: 'number'
+      }
     }
   ]
 };
