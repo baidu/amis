@@ -557,7 +557,7 @@ export function difference<
   U extends {[propName: string]: any}
 >(object: T, base: U, keepProps?: Array<string>): {[propName: string]: any} {
   function changes(object: T, base: U) {
-    if (isPlainObject(object) && isPlainObject(base)) {
+    if (isObject(object) && isObject(base)) {
       const keys: Array<keyof T & keyof U> = uniq(
         Object.keys(object).concat(Object.keys(base))
       );
