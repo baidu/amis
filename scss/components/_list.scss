@@ -208,7 +208,7 @@
     }
 
     .#{$ns}ListItem-fieldLabel {
-      // color: lighten(var(--ListItem-onChecked-color), 20%);
+      color: var(--ListItem-onChecked-fieldLabel-color);
     }
   }
 
@@ -223,7 +223,7 @@
     }
 
     .#{$ns}ListItem-fieldLabel {
-      // color: lighten(var(--ListItem-onModified-color), 20%);
+      color: var(--ListItem-onModified-fieldLabel-color);
     }
   }
 

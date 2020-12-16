@@ -147,6 +147,8 @@
   --Drawer-title-fontSize: var(--fontSizeMd);
   --Drawer-content-borderWidth: var(--borderWidth);
   --Drawer-content-borderColor: var(--borderColor);
+  --Drawer-header-borderColor: #{lighten($borderColor, 5%)};
+  --Drawer-footer-borderColor: #{lighten($borderColor, 5%)};
   --Drawer-bg: var(--background);
   --Drawer-overlay-bg: rgba(0, 0, 0, 0.6);
 
@@ -512,6 +514,7 @@
 
   --Table-thead-color: var(--text--loud-color);
   --Table-thead-borderColor: var(--Table-borderColor);
+  --Table-tbody-borderTopColor: #{lighten($borderColor, 2.5%)};
   --Table-thead-borderWidth: var(--Table-borderWidth);
   --Table-thead-iconColor: var(--icon-color);
   --Table-tree-borderColor: var(--Table-borderColor);
@@ -611,9 +614,11 @@
   --ListItem-onChecked-bg: #d9f3fb;
   --ListItem-onChecked-borderColor: #{darken(#d9f3fb, 10%)};
   --ListItem-onChecked-color: #{darken(#d9f3fb, 40%)};
+  --ListItem-onChecked-fieldLabel-color: #{lighten(darken(#d9f3fb, 40%), 20%)};
   --ListItem-onModified-bg: #e8f0fe;
   --ListItem-onModified-color: #4285f4;
   --ListItem-onModified-borderColor: #{darken(#e8f0fe, 10%)};
+  --ListItem-onModified-fieldLabel-color: #{lighten(#4285f4, 20%)};
   --ListItem-onDragging-opacity: 0.1;
 
   // QuickEdit

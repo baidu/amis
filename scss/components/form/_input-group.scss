@@ -107,17 +107,19 @@
     }
 
     &:first-child .#{$ns}Select {
-      @if var(--InputGroup-select-borderRadius) {
-        border-top-left-radius: var(--InputGroup-select-borderRadius);
-        border-bottom-left-radius: var(--InputGroup-select-borderRadius);
-      }
+      // todo: 用不了
+      // @if var(--InputGroup-select-borderRadius) {
+      //   border-top-left-radius: var(--InputGroup-select-borderRadius);
+      //   border-bottom-left-radius: var(--InputGroup-select-borderRadius);
+      // }
     }
 
     &:last-child .#{$ns}Select {
-      @if var(--InputGroup-select-borderRadius) {
-        border-top-right-radius: var(--InputGroup-select-borderRadius);
-        border-bottom-right-radius: var(--InputGroup-select-borderRadius);
-      }
+      // todo: 用不了
+      // @if var(--InputGroup-select-borderRadius) {
+      //   border-top-right-radius: var(--InputGroup-select-borderRadius);
+      //   border-bottom-right-radius: var(--InputGroup-select-borderRadius);
+      // }
     }
     // }
 

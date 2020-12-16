@@ -126,11 +126,11 @@
   }
 
   & .text-muted {
-    // color: darken($font-color, 10%) !important;
+    color: darken($text-color, 10%) !important;
   }
 
   & .text-lt {
-    // color: lighten($font-color, 25%) !important;
+    color: lighten($text-color, 25%) !important;
   }
 
   // &.auto,

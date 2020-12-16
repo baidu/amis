@@ -9,9 +9,10 @@
   transition: var(--Button-transition);
   white-space: nowrap;
 
-  @if var(--Button-mimWidth) !=auto {
-    min-width: var(--Button-mimWidth);
-  }
+  // todo: 用不了
+  // @if var(--Button-mimWidth) !=auto {
+  min-width: var(--Button-mimWidth);
+  // }
 
   &:active,
   &.is-active {

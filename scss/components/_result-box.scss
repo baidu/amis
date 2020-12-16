@@ -19,7 +19,7 @@
 
     // todo: 暂时没法用
     // @if var(--Form-input-onFocused-bg) !=var(--Form-input-bg) {
-    //   background-color: var(--Form-input-onFocused-bg);
+    background-color: var(--Form-input-onFocused-bg);
     // }
   }
 
@@ -32,7 +32,7 @@
 
       // todo: 暂时没法用
       // @if var(--Form-input-onFocused-bg) !=var(--Form-input-bg) {
-      //   background-color: var(--Form-input-onFocused-bg);
+      background-color: var(--Form-input-onFocused-bg);
       // }
     }
   }
