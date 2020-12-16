@@ -7,7 +7,11 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import LazyComponent from '../components/LazyComponent';
 import {resizeSensor} from '../utils/resize-sensor';
-import {resolveVariableAndFilter, isPureVariable} from '../utils/tpl-builtin';
+import {
+  resolveVariableAndFilter,
+  isPureVariable,
+  dataMapping
+} from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {createObject} from '../utils/helper';
@@ -81,6 +85,11 @@ export interface ChartSchema extends BaseSchema {
   dataFilter?: SchemaFunction;
 
   source?: SchemaTokenizeableString;
+
+  /**
+   * 默认开启 Config 中的数据映射，如果想关闭，请开启此功能。
+   */
+  disableDataMapping?: boolean;
 
   /**
    * 点击行为配置，可以用来满足下钻操作等。
@@ -344,7 +353,11 @@ export class Chart extends React.Component<ChartProps> {
 
     if (config) {
       try {
-        recoverFunctionType(config);
+        if (!this.props.disableDataMapping) {
+          config = dataMapping(config, this.props.data);
+        }
+
+        recoverFunctionType(config!);
         this.echarts.setOption(config, this.props.replaceChartOption);
       } catch (e) {
         console.warn(e);
