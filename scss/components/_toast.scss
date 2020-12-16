@@ -134,8 +134,8 @@
     position: absolute;
     left: var(--Toast-paddingX);
     top: var(--Toast-paddingY);
-    width: var(--Toast-paddingL) - var(--Toast-paddingX);
-    height: var(--Toast-paddingL) - var(--Toast-paddingX);
+    width: calc(var(--Toast-paddingL) - var(--Toast-paddingX));
+    height: calc(var(--Toast-paddingL) - var(--Toast-paddingX));
     align-items: center;
     justify-content: center;
     // } @else {

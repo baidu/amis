@@ -48,7 +48,7 @@
   }
 
   &-singleValue {
-    padding: 0 (var(--Form-input-paddingX) - px2rem(3px));
+    padding: 0 calc(var(--Form-input-paddingX) - #{px2rem(3px)});
   }
 
   &-clear {

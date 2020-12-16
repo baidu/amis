@@ -1021,7 +1021,7 @@
   --Checkbox-onHover-color: var(--info);
 
   --Checkbox--sm-size: #{px2rem(16px)};
-  --Checkbox--sm-inner-size: var(--Checkbox--sm-size/2);
+  --Checkbox--sm-inner-size: calc(var(--Checkbox--sm-size) / 2);
   --Checkbox--sm--full-inner-size: #{px2rem(10px)};
   --Checkbox-gb: #fff;
   --Checkbox-borderRadius: var(--borderRadius);
@@ -1424,7 +1424,7 @@
   --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);
   --Tree-itemHeight: #{px2rem(30px)};
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);
-  --Tree-inputHeight: var(--Form-input-height) * 0.85;
+  --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
 
   // IconPicker
   --IconPicker-tabs-bg: #f0f3f4;

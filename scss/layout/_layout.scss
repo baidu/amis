@@ -82,7 +82,7 @@ body {
     }
 
     img {
-      max-height: var(--Layout-header-height) / 2;
+      max-height: calc(var(--Layout-header-height) / 2);
       // margin-top: px2rem(-4px);
       vertical-align: middle;
       display: inline;
