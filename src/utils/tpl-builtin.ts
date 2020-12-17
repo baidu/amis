@@ -145,6 +145,32 @@ export const filters: {
     return ret;
   },
   raw: input => input,
+  now: () => new Date(),
+  toDate: (input: any, inputFormat = '') => {
+    const data = moment(input, inputFormat);
+    data.add();
+    return data.isValid() ? data.toDate() : undefined;
+  },
+  dateModify: (
+    input: any,
+    modifier: 'add' | 'subtract' | 'endOf' | 'startOf' = 'add',
+    amount = 0,
+    unit = 'days'
+  ) => {
+    if (!(input instanceof Date)) {
+      input = new Date();
+    }
+
+    if (modifier === 'endOf' || modifier === 'startOf') {
+      return moment(input)
+        [modifier === 'endOf' ? 'endOf' : 'startOf'](amount || 'day')
+        .toDate();
+    }
+
+    return moment(input)
+      [modifier === 'add' ? 'add' : 'subtract'](amount, unit)
+      .toDate();
+  },
   date: (input, format = 'LLL', inputFormat = 'X') =>
     moment(input, inputFormat).format(format),
   number: input => {
@@ -214,6 +240,15 @@ export const filters: {
   last: input => input && (input.length ? input[input.length - 1] : null),
   minus: (input, step = 1) => (parseInt(input, 10) || 0) - parseInt(step, 10),
   plus: (input, step = 1) => (parseInt(input, 10) || 0) + parseInt(step, 10),
+  sum: (input, field) =>
+    Array.isArray(input)
+      ? input.reduce(
+          (sum, item) =>
+            sum + (parseFloat(field ? pickValues(field, item) : item) || 0),
+          0
+        )
+      : input,
+  abs: (input: any) => (typeof input === 'number' ? Math.abs(input) : input),
   pick: (input, path = '&') =>
     Array.isArray(input) && !/^\d+$/.test(path)
       ? input.map((item, index) =>
