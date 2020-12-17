@@ -258,17 +258,17 @@
     // }
   }
 
-  @include focus {
-    color: $color;
-    background-color: $background;
-    border-color: $border;
-    box-shadow: var(--Button-boxShadow);
-  }
+  // @include focus {
+  //   color: $color;
+  //   background-color: $background;
+  //   border-color: $border;
+  //   box-shadow: var(--Button-boxShadow);
+  // }
 
   @include hover-focus {
-    color: $hover-color;
-    background-color: $hover-background;
-    border-color: $hover-border;
+    // color: $hover-color;
+    // background-color: $hover-background;
+    // border-color: $hover-border;
     box-shadow: var(--Button-boxShadow);
   }
 
