@@ -422,13 +422,14 @@ export default class TextControl extends React.PureComponent<
   }
 
   loadAutoComplete() {
-    const {formItem, autoComplete, data} = this.props;
+    const {formItem, autoComplete, data, multiple} = this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       formItem.loadOptions(
         autoComplete,
         createObject(data, {
-          term: this.state.inputValue || formItem.lastSelectValue
+          term:
+            this.state.inputValue || (multiple ? '' : formItem.lastSelectValue)
         })
       );
     }

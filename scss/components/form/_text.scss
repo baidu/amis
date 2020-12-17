@@ -202,6 +202,7 @@
   }
 
   &-input--multiple &-value {
+    white-space: nowrap;
     line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
     font-size: $Form-selectValue-fontSize;
     color: $Form-selectValue-color;
