@@ -684,6 +684,12 @@ if (fis.project.currentMedia() === 'publish') {
         '/examples/components/App.tsx:deps'
       ],
 
+      'pkg/echarts-editor.js': [
+        '/examples/components/EChartsEditor/*.tsx',
+        '!/examples/components/EChartsEditor/Example.tsx',
+        '!/examples/components/EChartsEditor/Common.tsx'
+      ],
+
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',
         '!static/mod.js',
@@ -760,7 +766,7 @@ if (fis.project.currentMedia() === 'publish') {
 
   ghPages.match('*.{css,less,scss}', {
     optimizer: [
-      function(contents) {
+      function (contents) {
         if (typeof contents === 'string') {
           contents = contents.replace(/\/\*\!markdown[\s\S]*?\*\//g, '');
         }

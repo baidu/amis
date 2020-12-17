@@ -354,7 +354,7 @@ export class Chart extends React.Component<ChartProps> {
     if (config) {
       try {
         if (!this.props.disableDataMapping) {
-          config = dataMapping(config, this.props.data);
+          config = dataMapping(config, this.props.data, true);
         }
 
         recoverFunctionType(config!);
