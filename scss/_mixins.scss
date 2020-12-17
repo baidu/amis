@@ -101,16 +101,14 @@
 
 // @deprecated 不建议用了
 @mixin font-variant($bg-color) {
-  // todo
-  // $font-color: desaturate(lighten($bg-color, 40%), 10%);
-  // todo:
-  // var(--link-color): desaturate(lighten($bg-color, 50%), 10%);
+  $font-color: desaturate(lighten($bg-color, 40%), 10%);
+  $link-color: desaturate(lighten($bg-color, 50%), 10%);
   $hover-color: #fff;
-  color: var(--font-color);
+  color: $font-color;
 
   & a,
   & .#{$ns}Button--link {
-    color: var(--link-color);
+    color: $link-color;
 
     &:hover {
       color: $hover-color;
