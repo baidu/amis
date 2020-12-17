@@ -208,10 +208,24 @@
     }
   },
   "nameTextStyle.width": {
-    "desc": "<p>文字块的宽度。一般不用指定，不指定则自动是文字的宽度。在想做表格项或者使用图片（参见 <code class=\"codespan\">backgroundColor</code>）时，可能会使用它。</p>\n<p>注意，文字块的 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code> 指定的是内容高宽，不包含 <code class=\"codespan\">padding</code>。</p>\n<p><code class=\"codespan\">width</code> 也可以是百分比字符串，如 <code class=\"codespan\">&#39;100%&#39;</code>。表示的是所在文本块的 <code class=\"codespan\">contentWidth</code>（即不包含文本块的 <code class=\"codespan\">padding</code>）的百分之多少。之所以以 <code class=\"codespan\">contentWidth</code> 做基数，因为每个文本片段只能基于 <code class=\"codespan\">content box</code> 布局。如果以 <code class=\"codespan\">outerWidth</code> 做基数，则百分比的计算在实用中不具有意义，可能会超出。</p>\n<p>注意，如果不定义 <code class=\"codespan\">rich</code> 属性，则不能指定 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code>。</p>\n"
+    "desc": "\n\n<p>文本显示宽度。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "default": "100",
+      "min": "1",
+      "max": "500",
+      "step": "1"
+    }
   },
   "nameTextStyle.height": {
-    "desc": "<p>文字块的高度。一般不用指定，不指定则自动是文字的高度。在使用图片（参见 <code class=\"codespan\">backgroundColor</code>）时，可能会使用它。</p>\n<p>注意，文字块的 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code> 指定的是内容高宽，不包含 <code class=\"codespan\">padding</code>。</p>\n<p>注意，如果不定义 <code class=\"codespan\">rich</code> 属性，则不能指定 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code>。</p>\n"
+    "desc": "\n\n<p>文本显示高度。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "default": "50",
+      "min": "1",
+      "max": "500",
+      "step": "1"
+    }
   },
   "nameTextStyle.textBorderColor": {
     "desc": "\n\n<p>文字本身的描边颜色。</p>\n",
@@ -255,6 +269,19 @@
       "type": "number",
       "step": "0.5"
     }
+  },
+  "nameTextStyle.overflow": {
+    "desc": "\n\n<p>文字超出宽度是否截断或者换行。配置<code class=\"codespan\">width</code>时有效</p>\n<ul>\n<li><code class=\"codespan\">&#39;truncate&#39;</code> 截断，并在末尾显示<code class=\"codespan\">ellipsis</code>配置的文本，默认为<code class=\"codespan\">...</code></li>\n<li><code class=\"codespan\">&#39;break&#39;</code> 换行</li>\n<li><code class=\"codespan\">&#39;breakAll&#39;</code> 换行，跟<code class=\"codespan\">&#39;break&#39;</code>不同的是，在英语等拉丁文中，<code class=\"codespan\">&#39;breakAll&#39;</code>还会强制单词内换行</li>\n</ul>\n",
+    "uiControl": {
+      "type": "enum",
+      "options": "truncate,break,breakAll"
+    }
+  },
+  "nameTextStyle.ellipsis": {
+    "desc": "<p>在<code class=\"codespan\">overflow</code>配置为<code class=\"codespan\">&#39;truncate&#39;</code>的时候，可以通过该属性配置末尾显示的文本。</p>\n"
+  },
+  "nameTextStyle.lineOverflow": {
+    "desc": "<p>文本超出高度部分是否截断，配置<code class=\"codespan\">height</code>时有效。</p>\n<ul>\n<li><code class=\"codespan\">&#39;truncate&#39;</code> 在文本行数超出高度部分截断。</li>\n</ul>\n"
   },
   "nameTextStyle.rich": {
     "desc": "<p>在 <code class=\"codespan\">rich</code> 里面，可以自定义富文本样式。利用富文本样式，可以在标签中做出非常丰富的效果。</p>\n<p>例如：</p>\n<pre><code class=\"lang-js\">label: {\n    // 在文本中，可以对部分文本采用 rich 中定义样式。\n    // 这里需要在文本中使用标记符号：\n    // `{styleName|text content text content}` 标记样式名。\n    // 注意，换行仍是使用 &#39;\\n&#39;。\n    formatter: [\n        &#39;{a|这段文本采用样式a}&#39;,\n        &#39;{b|这段文本采用样式b}这段用默认样式{x|这段用样式x}&#39;\n    ].join(&#39;\\n&#39;),\n\n    rich: {\n        a: {\n            color: &#39;red&#39;,\n            lineHeight: 10\n        },\n        b: {\n            backgroundColor: {\n                image: &#39;xxx/xxx.jpg&#39;\n            },\n            height: 40\n        },\n        x: {\n            fontSize: 18,\n            fontFamily: &#39;Microsoft YaHei&#39;,\n            borderColor: &#39;#449933&#39;,\n            borderRadius: 4\n        },\n        ...\n    }\n}\n</code></pre>\n<p>详情参见教程：<a href=\"tutorial.html#%E5%AF%8C%E6%96%87%E6%9C%AC%E6%A0%87%E7%AD%BE\" target=\"_blank\">富文本标签</a></p>\n"
@@ -431,7 +458,7 @@
     }
   },
   "nameTextStyle.rich.<style_name>.textShadowOffsetY": {
-    "desc": "\n\n<p>文字本身的阴影 Y 偏移。</p>\n",
+    "desc": "\n\n<p>文字本身的阴影 Y 偏移。</p>\n\n",
     "uiControl": {
       "type": "number",
       "step": "0.5"
@@ -638,7 +665,7 @@
     }
   },
   "axisTick.interval": {
-    "desc": "\n\n\n<p>坐标轴刻度的显示间隔，在类目轴中有效。默认同 <a href=\"#parallelAxis.axisLabel.interval\">axisLabel.interval</a> 一样。</p>\n<p>默认会采用标签不重叠的策略间隔显示标签。</p>\n<p>可以设置成 0 强制显示所有标签。</p>\n<p>如果设置为 <code class=\"codespan\">1</code>，表示『隔一个标签显示一个标签』，如果值为 <code class=\"codespan\">2</code>，表示隔两个标签显示一个标签，以此类推。</p>\n<p>可以用数值表示间隔的数据，也可以通过回调函数控制。回调函数格式如下：</p>\n<pre><code class=\"lang-js\">(index:number, value: string) =&gt; boolean\n</code></pre>\n<p>第一个参数是类目的 index，第二个值是类目名称，如果跳过则返回 <code class=\"codespan\">false</code>。</p>\n",
+    "desc": "\n\n\n\n<p>坐标轴刻度的显示间隔，在类目轴中有效。默认同 <a href=\"#parallelAxis.axisLabel.interval\">axisLabel.interval</a> 一样。</p>\n<p>默认会采用标签不重叠的策略间隔显示标签。</p>\n<p>可以设置成 0 强制显示所有标签。</p>\n<p>如果设置为 <code class=\"codespan\">1</code>，表示『隔一个标签显示一个标签』，如果值为 <code class=\"codespan\">2</code>，表示隔两个标签显示一个标签，以此类推。</p>\n<p>可以用数值表示间隔的数据，也可以通过回调函数控制。回调函数格式如下：</p>\n<pre><code class=\"lang-js\">(index:number, value: string) =&gt; boolean\n</code></pre>\n<p>第一个参数是类目的 index，第二个值是类目名称，如果跳过则返回 <code class=\"codespan\">false</code>。</p>\n",
     "uiControl": {
       "type": "number",
       "min": "0",
@@ -716,7 +743,7 @@
     }
   },
   "axisTick.lineStyle.opacity": {
-    "desc": "\n\n<p>图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。</p>\n",
+    "desc": "\n\n<p>图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。</p>\n\n",
     "uiControl": {
       "type": "number",
       "default": "1",
@@ -726,7 +753,7 @@
     }
   },
   "minorTick": {
-    "desc": "<blockquote>\n<p>从 <code class=\"codespan\">v4.6.0</code> 开始支持</p>\n</blockquote>\n<p>坐标轴次刻度线相关设置。</p>\n<p>注意：次刻度线无法在类目轴（<a href=\"#parallelAxis.type\">type</a>: <code class=\"codespan\">&#39;category&#39;</code>）中使用。</p>\n<p>示例：</p>\n<p>1) 函数绘图中使用次刻度线</p>\n<iframe  data-src=\"http://localhost/incubator-echarts-website/examples/en/view.html?c=line-function&edit=1&reset=1\" width=\"600\" height=\"350\"><iframe />\n\n\n<p>2) 在对数轴中使用次刻度线</p>\n<iframe  data-src=\"http://localhost/incubator-echarts-website/examples/en/view.html?c=line-log&edit=1&reset=1\" width=\"600\" height=\"350\"><iframe />\n\n"
+    "desc": "<blockquote>\n<p>从 <code class=\"codespan\">v4.6.0</code> 开始支持</p>\n</blockquote>\n<p>坐标轴次刻度线相关设置。</p>\n<p>注意：次刻度线无法在类目轴（<a href=\"#parallelAxis.type\">type</a>: <code class=\"codespan\">&#39;category&#39;</code>）中使用。</p>\n<p>示例：</p>\n<p>1) 函数绘图中使用次刻度线</p>\n<iframe  data-src=\"http://localhost/incubator-echarts-website/next/examples/zh/view.html?c=line-function&edit=1&reset=1\" width=\"600\" height=\"350\"><iframe />\n\n\n<p>2) 在对数轴中使用次刻度线</p>\n<iframe  data-src=\"http://localhost/incubator-echarts-website/next/examples/zh/view.html?c=line-log&edit=1&reset=1\" width=\"600\" height=\"350\"><iframe />\n\n"
   },
   "minorTick.show": {
     "desc": "\n\n<p>是否显示次刻度线。</p>\n",
@@ -809,7 +836,7 @@
     }
   },
   "minorTick.lineStyle.opacity": {
-    "desc": "\n\n<p>图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。</p>\n",
+    "desc": "\n\n<p>图形透明度。支持从 0 到 1 的数字，为 0 时不绘制该图形。</p>\n\n",
     "uiControl": {
       "type": "number",
       "default": "1",
@@ -829,7 +856,7 @@
     }
   },
   "axisLabel.interval": {
-    "desc": "\n\n\n<p>坐标轴刻度标签的显示间隔，在类目轴中有效。</p>\n<p>默认会采用标签不重叠的策略间隔显示标签。</p>\n<p>可以设置成 0 强制显示所有标签。</p>\n<p>如果设置为 <code class=\"codespan\">1</code>，表示『隔一个标签显示一个标签』，如果值为 <code class=\"codespan\">2</code>，表示隔两个标签显示一个标签，以此类推。</p>\n<p>可以用数值表示间隔的数据，也可以通过回调函数控制。回调函数格式如下：</p>\n<pre><code class=\"lang-js\">(index:number, value: string) =&gt; boolean\n</code></pre>\n<p>第一个参数是类目的 index，第二个值是类目名称，如果跳过则返回 <code class=\"codespan\">false</code>。</p>\n",
+    "desc": "\n\n\n\n<p>坐标轴刻度标签的显示间隔，在类目轴中有效。</p>\n<p>默认会采用标签不重叠的策略间隔显示标签。</p>\n<p>可以设置成 0 强制显示所有标签。</p>\n<p>如果设置为 <code class=\"codespan\">1</code>，表示『隔一个标签显示一个标签』，如果值为 <code class=\"codespan\">2</code>，表示隔两个标签显示一个标签，以此类推。</p>\n<p>可以用数值表示间隔的数据，也可以通过回调函数控制。回调函数格式如下：</p>\n<pre><code class=\"lang-js\">(index:number, value: string) =&gt; boolean\n</code></pre>\n<p>第一个参数是类目的 index，第二个值是类目名称，如果跳过则返回 <code class=\"codespan\">false</code>。</p>\n",
     "uiControl": {
       "type": "number",
       "min": "0",
@@ -860,7 +887,7 @@
     }
   },
   "axisLabel.formatter": {
-    "desc": "<p>刻度标签的内容格式器，支持字符串模板和回调函数两种形式。</p>\n<p>示例:</p>\n<pre><code class=\"lang-js\">// 使用字符串模板，模板变量为刻度默认标签 {value}\nformatter: &#39;{value} kg&#39;\n\n// 使用函数模板，函数参数分别为刻度数值（类目），刻度的索引\nformatter: function (value, index) {\n    // 格式化成月/日，只在第一个刻度显示年份\n    var date = new Date(value);\n    var texts = [(date.getMonth() + 1), date.getDate()];\n    if (index === 0) {\n        texts.unshift(date.getYear());\n    }\n    return texts.join(&#39;/&#39;);\n}\n</code></pre>\n"
+    "desc": "<p>刻度标签的内容格式器，支持字符串模板和回调函数两种形式。</p>\n<p>示例:</p>\n<pre><code class=\"lang-js\">// 使用字符串模板，模板变量为刻度默认标签 {value}\nformatter: &#39;{value} kg&#39;\n</code></pre>\n<p>对于时间轴（<a href=\"#.type\">type</a>: <code class=\"codespan\">&#39;time&#39;</code>），<code class=\"codespan\">formatter</code> 的字符串模板支持多种形式：</p>\n<ul>\n<li><strong>字符串模板</strong>：简单快速实现常用日期时间模板，<code class=\"codespan\">string</code> 类型</li>\n<li><strong>回调函数</strong>：自定义 formatter，可以用来实现复杂高级的格式，<code class=\"codespan\">Function</code> 类型</li>\n<li><strong>分级模板</strong>：为不同时间粒度的标签使用不同的 formatter，<code class=\"codespan\">object</code> 类型</li>\n</ul>\n<p>下面我们分别介绍这三种形式。</p>\n<p><strong> 字符串模板 </strong></p>\n<p>使用字符串模板是一种方便实现常用日期时间格式化方式的形式。如果字符串模板可以实现你的效果，那我们优先推荐使用此方式；如果无法实现，再考虑其他两种更复杂的方式。支持的模板如下：</p>\n<table>\n<thead>\n<tr>\n<th>分类</th>\n<th>模板</th>\n<th>取值（英文）</th>\n<th>取值（中文）</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Year</td>\n<td>{yyyy}</td>\n<td>e.g., 2020, 2021, ...</td>\n<td>例：2020, 2021, ...</td>\n</tr>\n<tr>\n<td></td>\n<td>{yy}</td>\n<td>00-99</td>\n<td>00-99</td>\n</tr>\n<tr>\n<td>Quarter</td>\n<td>{Q}</td>\n<td>1, 2, 3, 4</td>\n<td>1, 2, 3, 4</td>\n</tr>\n<tr>\n<td>Month</td>\n<td>{MMMM}</td>\n<td>e.g., January, February, ...</td>\n<td>一月、二月、……</td>\n</tr>\n<tr>\n<td></td>\n<td>{MMM}</td>\n<td>e.g., Jan, Feb, ...</td>\n<td>1月、2月、……</td>\n</tr>\n<tr>\n<td></td>\n<td>{MM}</td>\n<td>01-12</td>\n<td>01-12</td>\n</tr>\n<tr>\n<td></td>\n<td>{M}</td>\n<td>1-12</td>\n<td>1-12</td>\n</tr>\n<tr>\n<td>Day of Month</td>\n<td>{dd}</td>\n<td>01-31</td>\n<td>01-31</td>\n</tr>\n<tr>\n<td></td>\n<td>{d}</td>\n<td>1-31</td>\n<td>1-31</td>\n</tr>\n<tr>\n<td>Day of Week</td>\n<td>{eeee}</td>\n<td>Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday</td>\n<td>星期日、星期一、星期二、星期三、星期四、星期五、星期六</td>\n</tr>\n<tr>\n<td></td>\n<td>{ee}</td>\n<td>Sun, Mon, Tues, Wed, Thu, Fri, Sat</td>\n<td>日、一、二、三、四、五、六</td>\n</tr>\n<tr>\n<td></td>\n<td>{e}</td>\n<td>1-54</td>\n<td>1-54</td>\n</tr>\n<tr>\n<td>Hour</td>\n<td>{HH}</td>\n<td>00-23</td>\n<td>00-23</td>\n</tr>\n<tr>\n<td></td>\n<td>{H}</td>\n<td>0-23</td>\n<td>0-23</td>\n</tr>\n<tr>\n<td></td>\n<td>{hh}</td>\n<td>01-12</td>\n<td>01-12</td>\n</tr>\n<tr>\n<td></td>\n<td>{h}</td>\n<td>1-12</td>\n<td>1-12</td>\n</tr>\n<tr>\n<td>Minute</td>\n<td>{mm}</td>\n<td>00-59</td>\n<td>00-59</td>\n</tr>\n<tr>\n<td></td>\n<td>{m}</td>\n<td>0-59</td>\n<td>0-59</td>\n</tr>\n<tr>\n<td>Second</td>\n<td>{ss}</td>\n<td>00-59</td>\n<td>00-59</td>\n</tr>\n<tr>\n<td></td>\n<td>{s}</td>\n<td>0-59</td>\n<td>0-59</td>\n</tr>\n<tr>\n<td>Millisecond</td>\n<td>{SSS}</td>\n<td>000-999</td>\n<td>000-999</td>\n</tr>\n<tr>\n<td></td>\n<td>{S}</td>\n<td>0-999</td>\n<td>0-999</td>\n</tr>\n</tbody>\n</table>\n<blockquote>\n<p>其他语言请参考相应<a href=\"https://github.com/apache/incubator-echarts/tree/master/src/i18n\" target=\"_blank\">语言包</a>中的定义，语言包可以通过 <a href=\"api.html#echarts.registerLocale\" target=\"_blank\">echarts.registerLocale</a> 注册。</p>\n</blockquote>\n<p>示例:</p>\n<pre><code class=\"lang-js\">formatter: &#39;{yyyy}-{MM}-{dd}&#39; // 得到的 label 形如：&#39;2020-12-02&#39;\nformatter: &#39;{d}日&#39; // 得到的 label 形如：&#39;2日&#39;\n</code></pre>\n<p><strong> 回调函数 </strong></p>\n<p>回调函数可以根据刻度值返回不同的格式，如果有复杂的时间格式化需求，也可以引用第三方的日期时间相关的库（如 <a href=\"https://momentjs.com/\" target=\"_blank\">Moment.js</a>、<a href=\"https://date-fns.org/\" target=\"_blank\">date-fns</a> 等），返回显示的文本。</p>\n<p>示例：</p>\n<pre><code class=\"lang-js\">// 使用函数模板，函数参数分别为刻度数值（类目），刻度的索引\nformatter: function (value, index) {\n    // 格式化成月/日，只在第一个刻度显示年份\n    var date = new Date(value);\n    var texts = [(date.getMonth() + 1), date.getDate()];\n    if (index === 0) {\n        texts.unshift(date.getYear());\n    }\n    return texts.join(&#39;/&#39;);\n}\n</code></pre>\n<p><strong> 分级模板 </strong></p>\n<p>有时候，我们希望对不同的时间粒度采用不同的格式化策略。例如，在季度图表中，我们可能希望对每个月的第一天显示月份，而其他日期显示日期。我们可以使用以下方式实现该效果：</p>\n<p>示例：</p>\n<pre><code class=\"lang-js\">formatter: {\n    month: &#39;{MMMM}&#39;, // 一月、二月、……\n    day: &#39;{d}日&#39; // 1日、2日、……\n}\n</code></pre>\n<p>支持的分级以及各自默认的取值为：</p>\n<pre><code class=\"lang-js\">{\n    year: &#39;{yyyy}&#39;,\n    month: &#39;{MMM}&#39;,\n    day: &#39;{d}&#39;,\n    hour: &#39;{HH}:{mm}&#39;,\n    minute: &#39;{HH}:{mm}&#39;,\n    second: &#39;{HH}:{mm}:{ss}&#39;,\n    millisecond: &#39;{hh}:{mm}:{ss} {SSS}&#39;,\n    none: &#39;{yyyy}-{MM}-{dd} {hh}:{mm}:{ss} {SSS}&#39;\n}\n</code></pre>\n<p>以 <code class=\"codespan\">day</code> 为例，当一个刻度点的值的小时、分钟、秒、毫秒都为 <code class=\"codespan\">0</code> 时，将采用 <code class=\"codespan\">day</code> 的分级值作为模板。<code class=\"codespan\">none</code> 表示当其他规则都不适用时采用的模板，也就是带有毫秒值的刻度点的模板。</p>\n<p><strong> 富文本 </strong></p>\n<p>以上这三种形式的 formatter 都支持富文本，所以可以做成一些复杂的效果。</p>\n<p>示例：</p>\n<pre><code class=\"lang-js\">xAxis: {\n    type: &#39;time&#39;,\n    axisLabel: {\n        formatter: {\n            // 一年的第一个月显示年度信息和月份信息\n            year: &#39;{yearStyle|{yyyy}}\\n{monthStyle|{MMM}}&#39;,\n            month: &#39;{monthStyle|{MMM}}&#39;\n        },\n        rich: {\n            yearStyle: {\n                // 让年度信息更醒目\n                color: &#39;#000&#39;,\n                fontWeight: &#39;bold&#39;\n            },\n            monthStyle: {\n                color: &#39;#999&#39;\n            }\n        }\n    }\n},\n</code></pre>\n<p>使用回调函数形式实现上面例子同样的效果：</p>\n<p>示例：</p>\n<pre><code class=\"lang-js\">xAxis: {\n    type: &#39;time&#39;,\n    axisLabel: {\n        formatter: function (value) {\n            const date = new Date(value);\n            const yearStart = new Date(value);\n            yearStart.setMonth(0);\n            yearStart.setDate(1);\n            yearStart.setHours(0);\n            yearStart.setMinutes(0);\n            yearStart.setSeconds(0);\n            yearStart.setMilliseconds(0);\n            // 判断一个刻度值知否为一年的开始\n            if (date.getTime() === yearStart.getTime()) {\n                return &#39;{year|&#39; + date.getFullYear() + &#39;}\\n&#39;\n                    + &#39;{month|&#39; + (date.getMonth() + 1) + &#39;月}&#39;;\n            }\n            else {\n                return &#39;{month|&#39; + (date.getMonth() + 1) + &#39;月}&#39;\n            }\n        },\n        rich: {\n            year: {\n                color: &#39;#000&#39;,\n                fontWeight: &#39;bold&#39;\n            },\n            month: {\n                color: &#39;#999&#39;\n            }\n        }\n    }\n},\n</code></pre>\n"
   },
   "axisLabel.showMinLabel": {
     "desc": "\n\n<p>是否显示最小 tick 的 label。可取值 <code class=\"codespan\">true</code>, <code class=\"codespan\">false</code>, <code class=\"codespan\">null</code>。默认自动判定（即如果标签重叠，不会显示最小 tick 的 label）。</p>\n",
@@ -1003,10 +1030,24 @@
     }
   },
   "axisLabel.width": {
-    "desc": "<p>文字块的宽度。一般不用指定，不指定则自动是文字的宽度。在想做表格项或者使用图片（参见 <code class=\"codespan\">backgroundColor</code>）时，可能会使用它。</p>\n<p>注意，文字块的 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code> 指定的是内容高宽，不包含 <code class=\"codespan\">padding</code>。</p>\n<p><code class=\"codespan\">width</code> 也可以是百分比字符串，如 <code class=\"codespan\">&#39;100%&#39;</code>。表示的是所在文本块的 <code class=\"codespan\">contentWidth</code>（即不包含文本块的 <code class=\"codespan\">padding</code>）的百分之多少。之所以以 <code class=\"codespan\">contentWidth</code> 做基数，因为每个文本片段只能基于 <code class=\"codespan\">content box</code> 布局。如果以 <code class=\"codespan\">outerWidth</code> 做基数，则百分比的计算在实用中不具有意义，可能会超出。</p>\n<p>注意，如果不定义 <code class=\"codespan\">rich</code> 属性，则不能指定 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code>。</p>\n"
+    "desc": "\n\n<p>文本显示宽度。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "default": "100",
+      "min": "1",
+      "max": "500",
+      "step": "1"
+    }
   },
   "axisLabel.height": {
-    "desc": "<p>文字块的高度。一般不用指定，不指定则自动是文字的高度。在使用图片（参见 <code class=\"codespan\">backgroundColor</code>）时，可能会使用它。</p>\n<p>注意，文字块的 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code> 指定的是内容高宽，不包含 <code class=\"codespan\">padding</code>。</p>\n<p>注意，如果不定义 <code class=\"codespan\">rich</code> 属性，则不能指定 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code>。</p>\n"
+    "desc": "\n\n<p>文本显示高度。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "default": "50",
+      "min": "1",
+      "max": "500",
+      "step": "1"
+    }
   },
   "axisLabel.textBorderColor": {
     "desc": "\n\n<p>文字本身的描边颜色。</p>\n",
@@ -1050,6 +1091,19 @@
       "type": "number",
       "step": "0.5"
     }
+  },
+  "axisLabel.overflow": {
+    "desc": "\n\n<p>文字超出宽度是否截断或者换行。配置<code class=\"codespan\">width</code>时有效</p>\n<ul>\n<li><code class=\"codespan\">&#39;truncate&#39;</code> 截断，并在末尾显示<code class=\"codespan\">ellipsis</code>配置的文本，默认为<code class=\"codespan\">...</code></li>\n<li><code class=\"codespan\">&#39;break&#39;</code> 换行</li>\n<li><code class=\"codespan\">&#39;breakAll&#39;</code> 换行，跟<code class=\"codespan\">&#39;break&#39;</code>不同的是，在英语等拉丁文中，<code class=\"codespan\">&#39;breakAll&#39;</code>还会强制单词内换行</li>\n</ul>\n",
+    "uiControl": {
+      "type": "enum",
+      "options": "truncate,break,breakAll"
+    }
+  },
+  "axisLabel.ellipsis": {
+    "desc": "<p>在<code class=\"codespan\">overflow</code>配置为<code class=\"codespan\">&#39;truncate&#39;</code>的时候，可以通过该属性配置末尾显示的文本。</p>\n"
+  },
+  "axisLabel.lineOverflow": {
+    "desc": "<p>文本超出高度部分是否截断，配置<code class=\"codespan\">height</code>时有效。</p>\n<ul>\n<li><code class=\"codespan\">&#39;truncate&#39;</code> 在文本行数超出高度部分截断。</li>\n</ul>\n"
   },
   "axisLabel.rich": {
     "desc": "<p>在 <code class=\"codespan\">rich</code> 里面，可以自定义富文本样式。利用富文本样式，可以在标签中做出非常丰富的效果。</p>\n<p>例如：</p>\n<pre><code class=\"lang-js\">label: {\n    // 在文本中，可以对部分文本采用 rich 中定义样式。\n    // 这里需要在文本中使用标记符号：\n    // `{styleName|text content text content}` 标记样式名。\n    // 注意，换行仍是使用 &#39;\\n&#39;。\n    formatter: [\n        &#39;{a|这段文本采用样式a}&#39;,\n        &#39;{b|这段文本采用样式b}这段用默认样式{x|这段用样式x}&#39;\n    ].join(&#39;\\n&#39;),\n\n    rich: {\n        a: {\n            color: &#39;red&#39;,\n            lineHeight: 10\n        },\n        b: {\n            backgroundColor: {\n                image: &#39;xxx/xxx.jpg&#39;\n            },\n            height: 40\n        },\n        x: {\n            fontSize: 18,\n            fontFamily: &#39;Microsoft YaHei&#39;,\n            borderColor: &#39;#449933&#39;,\n            borderRadius: 4\n        },\n        ...\n    }\n}\n</code></pre>\n<p>详情参见教程：<a href=\"tutorial.html#%E5%AF%8C%E6%96%87%E6%9C%AC%E6%A0%87%E7%AD%BE\" target=\"_blank\">富文本标签</a></p>\n"
@@ -1226,7 +1280,7 @@
     }
   },
   "axisLabel.rich.<style_name>.textShadowOffsetY": {
-    "desc": "\n\n<p>文字本身的阴影 Y 偏移。</p>\n",
+    "desc": "\n\n<p>文字本身的阴影 Y 偏移。</p>\n\n",
     "uiControl": {
       "type": "number",
       "step": "0.5"
@@ -1371,10 +1425,24 @@
     }
   },
   "data.textStyle.width": {
-    "desc": "<p>文字块的宽度。一般不用指定，不指定则自动是文字的宽度。在想做表格项或者使用图片（参见 <code class=\"codespan\">backgroundColor</code>）时，可能会使用它。</p>\n<p>注意，文字块的 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code> 指定的是内容高宽，不包含 <code class=\"codespan\">padding</code>。</p>\n<p><code class=\"codespan\">width</code> 也可以是百分比字符串，如 <code class=\"codespan\">&#39;100%&#39;</code>。表示的是所在文本块的 <code class=\"codespan\">contentWidth</code>（即不包含文本块的 <code class=\"codespan\">padding</code>）的百分之多少。之所以以 <code class=\"codespan\">contentWidth</code> 做基数，因为每个文本片段只能基于 <code class=\"codespan\">content box</code> 布局。如果以 <code class=\"codespan\">outerWidth</code> 做基数，则百分比的计算在实用中不具有意义，可能会超出。</p>\n<p>注意，如果不定义 <code class=\"codespan\">rich</code> 属性，则不能指定 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code>。</p>\n"
+    "desc": "\n\n<p>文本显示宽度。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "default": "100",
+      "min": "1",
+      "max": "500",
+      "step": "1"
+    }
   },
   "data.textStyle.height": {
-    "desc": "<p>文字块的高度。一般不用指定，不指定则自动是文字的高度。在使用图片（参见 <code class=\"codespan\">backgroundColor</code>）时，可能会使用它。</p>\n<p>注意，文字块的 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code> 指定的是内容高宽，不包含 <code class=\"codespan\">padding</code>。</p>\n<p>注意，如果不定义 <code class=\"codespan\">rich</code> 属性，则不能指定 <code class=\"codespan\">width</code> 和 <code class=\"codespan\">height</code>。</p>\n"
+    "desc": "\n\n<p>文本显示高度。</p>\n",
+    "uiControl": {
+      "type": "number",
+      "default": "50",
+      "min": "1",
+      "max": "500",
+      "step": "1"
+    }
   },
   "data.textStyle.textBorderColor": {
     "desc": "\n\n<p>文字本身的描边颜色。</p>\n",
@@ -1418,6 +1486,19 @@
       "type": "number",
       "step": "0.5"
     }
+  },
+  "data.textStyle.overflow": {
+    "desc": "\n\n<p>文字超出宽度是否截断或者换行。配置<code class=\"codespan\">width</code>时有效</p>\n<ul>\n<li><code class=\"codespan\">&#39;truncate&#39;</code> 截断，并在末尾显示<code class=\"codespan\">ellipsis</code>配置的文本，默认为<code class=\"codespan\">...</code></li>\n<li><code class=\"codespan\">&#39;break&#39;</code> 换行</li>\n<li><code class=\"codespan\">&#39;breakAll&#39;</code> 换行，跟<code class=\"codespan\">&#39;break&#39;</code>不同的是，在英语等拉丁文中，<code class=\"codespan\">&#39;breakAll&#39;</code>还会强制单词内换行</li>\n</ul>\n",
+    "uiControl": {
+      "type": "enum",
+      "options": "truncate,break,breakAll"
+    }
+  },
+  "data.textStyle.ellipsis": {
+    "desc": "<p>在<code class=\"codespan\">overflow</code>配置为<code class=\"codespan\">&#39;truncate&#39;</code>的时候，可以通过该属性配置末尾显示的文本。</p>\n"
+  },
+  "data.textStyle.lineOverflow": {
+    "desc": "<p>文本超出高度部分是否截断，配置<code class=\"codespan\">height</code>时有效。</p>\n<ul>\n<li><code class=\"codespan\">&#39;truncate&#39;</code> 在文本行数超出高度部分截断。</li>\n</ul>\n"
   },
   "data.textStyle.rich": {
     "desc": "<p>在 <code class=\"codespan\">rich</code> 里面，可以自定义富文本样式。利用富文本样式，可以在标签中做出非常丰富的效果。</p>\n<p>例如：</p>\n<pre><code class=\"lang-js\">label: {\n    // 在文本中，可以对部分文本采用 rich 中定义样式。\n    // 这里需要在文本中使用标记符号：\n    // `{styleName|text content text content}` 标记样式名。\n    // 注意，换行仍是使用 &#39;\\n&#39;。\n    formatter: [\n        &#39;{a|这段文本采用样式a}&#39;,\n        &#39;{b|这段文本采用样式b}这段用默认样式{x|这段用样式x}&#39;\n    ].join(&#39;\\n&#39;),\n\n    rich: {\n        a: {\n            color: &#39;red&#39;,\n            lineHeight: 10\n        },\n        b: {\n            backgroundColor: {\n                image: &#39;xxx/xxx.jpg&#39;\n            },\n            height: 40\n        },\n        x: {\n            fontSize: 18,\n            fontFamily: &#39;Microsoft YaHei&#39;,\n            borderColor: &#39;#449933&#39;,\n            borderRadius: 4\n        },\n        ...\n    }\n}\n</code></pre>\n<p>详情参见教程：<a href=\"tutorial.html#%E5%AF%8C%E6%96%87%E6%9C%AC%E6%A0%87%E7%AD%BE\" target=\"_blank\">富文本标签</a></p>\n"
