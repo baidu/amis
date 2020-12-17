@@ -1789,12 +1789,11 @@ export default class Table extends React.Component<TableProps, object> {
 
             const items = store.data.items;
             // 基于第一行数据来生成列名，所以必须保证第一行数据是完整的
-            const firstRowKeys = Object.keys(items[0]);
+            const firstRowKeys = Object.keys(items[0]).filter(key => {
+              return key in columnNameMap;
+            });
             const firstRowLabels = firstRowKeys.map(key => {
-              if (key in columnNameMap) {
-                return columnNameMap[key].label || key;
-              }
-              return key;
+              return columnNameMap[key].label || key;
             });
             const firstRow = worksheet.getRow(1);
             firstRow.values = firstRowLabels;
@@ -1805,7 +1804,7 @@ export default class Table extends React.Component<TableProps, object> {
               },
               to: {
                 row: 1,
-                column: firstRowKeys.length
+                column: firstRowLabels.length
               }
             };
             // 数据从第二行开始
@@ -1834,7 +1833,7 @@ export default class Table extends React.Component<TableProps, object> {
                   }
                 }
                 const value = row.data[key];
-                const type = columnNameMap[key]?.type || 'plain';
+                const type = columnNameMap[key].type || 'plain';
                 if (type === 'image') {
                   const imageData = await toDataURL(value);
                   const imageDimensions = await getImageDimensions(imageData);

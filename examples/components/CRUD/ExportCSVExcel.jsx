@@ -13,6 +13,7 @@ export default {
           browser: 'Internet Explorer 4.2',
           platform: 'Win 95+',
           version: '4',
+          notExport: '1',
           grade: 'A'
         },
         {
@@ -22,6 +23,7 @@ export default {
           browser: 'Internet Explorer 4.2',
           platform: 'Win 95+',
           version: '4',
+          notExport: '1',
           grade: 'B'
         },
         {
@@ -31,6 +33,7 @@ export default {
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 95+',
           version: '4',
+          notExport: '1',
           grade: 'C'
         },
         {
@@ -40,6 +43,7 @@ export default {
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 98',
           version: '3',
+          notExport: '1',
           grade: 'A'
         },
         {
@@ -49,6 +53,7 @@ export default {
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 98',
           version: '4',
+          notExport: '1',
           grade: 'A'
         },
         {
@@ -58,6 +63,7 @@ export default {
           browser: 'Firefox 1.0',
           platform: 'Win 98+ / OSX.2+',
           version: '4',
+          notExport: '1',
           grade: 'A'
         },
         {
@@ -67,6 +73,7 @@ export default {
           browser: 'Firefox 1.0',
           platform: 'Win 98+ / OSX.2+',
           version: '5',
+          notExport: '1',
           grade: 'A'
         },
         {
@@ -76,6 +83,7 @@ export default {
           browser: 'Firefox 2.0',
           platform: 'Win 98+ / OSX.2+',
           version: '5',
+          notExport: '1',
           grade: 'B'
         },
         {
@@ -85,6 +93,7 @@ export default {
           browser: 'Firefox 2.0',
           platform: 'Win 98+ / OSX.2+',
           version: '5',
+          notExport: '1',
           grade: 'C'
         },
         {
@@ -94,6 +103,7 @@ export default {
           browser: 'Firefox 2.0',
           platform: 'Win 98+ / OSX.2+',
           version: '5',
+          notExport: '1',
           grade: 'D'
         }
       ]
