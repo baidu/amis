@@ -45,7 +45,7 @@
     "desc": "<p>保存为图片。</p>\n"
   },
   "feature.saveAsImage.type": {
-    "desc": "\n\n<p>保存的图片格式。</p>\n<ul>\n<li>如果 <code class=\"codespan\">renderer</code> 的类型在 <a href=\"api.html#echarts.init\" target=\"_blank\">初始化图表</a> 时被设为 <code class=\"codespan\">&#39;canvas&#39;</code>（默认），则支持 <code class=\"codespan\">&#39;png&#39;</code>（默认）和 <code class=\"codespan\">&#39;jpeg&#39;</code>；</li>\n<li>如果 <code class=\"codespan\">renderer</code> 的类型在 <a href=\"api.html#echarts.init\" target=\"_blank\">初始化图表</a> 时被设为 <code class=\"codespan\">&#39;svg&#39;</code>，则 <code class=\"codespan\">type</code> 只支持 <code class=\"codespan\">&#39;svg&#39;</code>（<code class=\"codespan\">&#39;svg&#39;</code> 格式的图片从 <code class=\"codespan\">v4.8.0</code> 开始支持）。</li>\n</ul>\n",
+    "desc": "\n\n<p>保存的图片格式。</p>\n<ul>\n<li>如果 <code class=\"codespan\">renderer</code> 的类型在 <a href=\"api.html#echarts.init\" target=\"_blank\">初始化图表</a> 时被设为 <code class=\"codespan\">&#39;canvas&#39;</code>（默认），则支持 <code class=\"codespan\">&#39;png&#39;</code>（默认）和 <code class=\"codespan\">&#39;jpg&#39;</code>；</li>\n<li>如果 <code class=\"codespan\">renderer</code> 的类型在 <a href=\"api.html#echarts.init\" target=\"_blank\">初始化图表</a> 时被设为 <code class=\"codespan\">&#39;svg&#39;</code>，则 <code class=\"codespan\">type</code> 只支持 <code class=\"codespan\">&#39;svg&#39;</code>（<code class=\"codespan\">&#39;svg&#39;</code> 格式的图片从 <code class=\"codespan\">v4.8.0</code> 开始支持）。</li>\n</ul>\n",
     "uiControl": {
       "type": "enum",
       "options": "png,jpg"
@@ -246,7 +246,7 @@
     }
   },
   "feature.saveAsImage.emphasis.iconStyle.textBorderRadius": {
-    "desc": "\n\n\n<p>文本区域圆角大小。</p>\n",
+    "desc": "\n\n<p>文本区域圆角大小。</p>\n",
     "uiControl": {
       "type": "vector",
       "min": "0",
@@ -447,7 +447,7 @@
     }
   },
   "feature.restore.emphasis.iconStyle.textBorderRadius": {
-    "desc": "\n\n\n<p>文本区域圆角大小。</p>\n",
+    "desc": "\n\n<p>文本区域圆角大小。</p>\n",
     "uiControl": {
       "type": "vector",
       "min": "0",
@@ -639,7 +639,7 @@
     }
   },
   "feature.dataView.emphasis.iconStyle.textBorderRadius": {
-    "desc": "\n\n\n<p>文本区域圆角大小。</p>\n",
+    "desc": "\n\n<p>文本区域圆角大小。</p>\n",
     "uiControl": {
       "type": "vector",
       "min": "0",
@@ -897,7 +897,7 @@
     }
   },
   "feature.dataZoom.emphasis.iconStyle.textBorderRadius": {
-    "desc": "\n\n\n<p>文本区域圆角大小。</p>\n",
+    "desc": "\n\n<p>文本区域圆角大小。</p>\n",
     "uiControl": {
       "type": "vector",
       "min": "0",
@@ -1190,7 +1190,7 @@
     }
   },
   "feature.magicType.emphasis.iconStyle.textBorderRadius": {
-    "desc": "\n\n\n<p>文本区域圆角大小。</p>\n",
+    "desc": "\n\n<p>文本区域圆角大小。</p>\n",
     "uiControl": {
       "type": "vector",
       "min": "0",
@@ -1409,7 +1409,7 @@
     }
   },
   "emphasis.iconStyle.textBorderRadius": {
-    "desc": "\n\n\n<p>文本区域圆角大小。</p>\n",
+    "desc": "\n\n<p>文本区域圆角大小。</p>\n",
     "uiControl": {
       "type": "vector",
       "min": "0",
