@@ -53,12 +53,8 @@
 
   // cxd的ButtonGroup的is-active和:active样式不一样，这里做个兼容
   .#{$ns}Button--primary:not(:disabled):not(.is-disabled).is-active {
-    @if variable-exists('ButtonGroup--primary-isActive-color') {
-      color: var(--ButtonGroup--primary-isActive-color);
-    }
-    @if variable-exists('ButtonGroup--primary-isActive-bg') {
-      background: var(--ButtonGroup--primary-isActive-bg);
-    }
+    color: var(--ButtonGroup--primary-isActive-color);
+    background: var(--ButtonGroup--primary-isActive-bg);
   }
 
   > .#{$ns}Button:not(:last-child),

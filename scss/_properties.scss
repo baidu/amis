@@ -309,6 +309,9 @@
     background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
 
+  --ButtonGroup--primary-isActive-color: var(--white);
+  --ButtonGroup--primary-isActive-bg: var(--primary);
+
   --Calendar-btn-bg: var(--info);
   --Calendar-btn-border: var(--Calendar-btn-bg);
   --Calendar-btn-borderRadius: var(--Button-borderRadius);
