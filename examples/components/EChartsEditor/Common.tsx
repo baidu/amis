@@ -2,8 +2,6 @@
  * @file 生成一些通用的配置项
  */
 
-import {debug} from 'console';
-
 /**
  * 创建一个层级，比如 name 是 title，这里面的子组件 name 就相当于 title.name
  * @param name
