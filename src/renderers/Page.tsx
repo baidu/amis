@@ -525,9 +525,15 @@ export default class Page extends React.Component<PageProps> {
     if (cssVars) {
       for (const key in cssVars) {
         if (key.startsWith('--')) {
+          if (key.indexOf(':') !== -1) {
+            continue;
+          }
           const value = cssVars[key];
           // 这是为了防止 xss，可能还有别的
-          if (value.indexOf('expression(') !== -1) {
+          if (
+            value.indexOf('expression(') !== -1 ||
+            value.indexOf(';') !== -1
+          ) {
             continue;
           }
           cssVarsContent += `${key}: ${value}; \n`;
