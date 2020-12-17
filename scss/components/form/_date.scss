@@ -258,7 +258,6 @@
     font-size: var(--fontSizeSm);
   }
 
-  //  todo: 暂时用不了
   @include button-variant(
     var(--Calendar-btn-bg),
     var(--Calendar-btn-border),
@@ -278,7 +277,6 @@
   }
 
   &Cancel {
-    // todo: 暂时用不了
     @include button-variant(
       var(--Calendar-btnCancel-bg),
       var(--Calendar-btnCancel-border),

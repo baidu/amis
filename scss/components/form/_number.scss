@@ -105,49 +105,48 @@
     }
   }
 
-  // @if var(--Number-handler-mode)==vertical {
-  &-handler-wrap {
-    float: right;
-    border-left: px2rem(1px) solid var(--Form-input-borderColor);
-    width: var(--Number-handler-width);
-    height: 100%;
+  @if $Number-handler-mode==vertical {
+    &-handler-wrap {
+      float: right;
+      border-left: px2rem(1px) solid var(--Form-input-borderColor);
+      width: var(--Number-handler-width);
+      height: 100%;
+    }
+
+    &-handler {
+      line-height: calc((var(--Form-input-height) - #{px2rem(6px)}) / 2);
+      height: calc(
+        (var(--Form-input-height) - var(--Number-borderWidth) * 2) / 2
+      );
+    }
+
+    &-handler-up {
+      border-bottom: var(--Number-handler-borderBottom);
+      padding-top: px2rem(1px);
+    }
+  } @else {
+    position: relative;
+
+    &-input {
+      text-align: center;
+    }
+
+    &-handler-up,
+    &-handler-down {
+      position: absolute;
+      width: var(--Number-handler-width);
+      height: 100%;
+      top: 0;
+    }
+
+    &-handler-down {
+      left: 0;
+    }
+
+    &-handler-up {
+      right: 0;
+    }
   }
-
-  &-handler {
-    line-height: calc((var(--Form-input-height) - #{px2rem(6px)}) / 2);
-    height: calc(
-      (var(--Form-input-height) - var(--Number-borderWidth) * 2) / 2
-    );
-  }
-
-  &-handler-up {
-    border-bottom: var(--Number-handler-borderBottom);
-    padding-top: px2rem(1px);
-  }
-
-  // } @else {
-  //     position: relative;
-
-  //     &-input {
-  //         text-align: center;
-  //     }
-
-  //     &-handler-up,
-  //     &-handler-down {
-  //         position: absolute;
-  //         width: var(--Number-handler-width);
-  //         height: 100%;
-  //         top: 0;
-  //     }
-
-  //     &-handler-down {
-  //         left: 0;
-  //     }
-
-  //     &-handler-up {
-  //         right: 0;
-  //     }
-  // }
 
   &-handler-down-disabled,
   &-handler-up-disabled {

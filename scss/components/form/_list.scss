@@ -47,12 +47,9 @@
       border-color: var(--ListControl-item-onActive-borderColor);
       color: var(--ListControl-item-onActive-color);
 
-      // todo: 暂时不支持
-      // @if variable-exists('ListControl-item-onActive-onHover-bg') {
-      //   &:hover {
-      //     background-color: $ListControl-item-onActive-onHover-bg;
-      //   }
-      // }
+      &:hover {
+        background-color: var(--ListControl-item-onActive-onHover-bg);
+      }
 
       .b-inherit {
         border-color: var(--ListControl-item-onActive-color);
@@ -91,14 +88,8 @@
         background-color: var(--ListControl-item-onDisabled-color);
       }
 
-      // todo:
-      // @if variable-exists('ListControl-item-onDisabled-bg') {
       background-color: var(--ListControl-item-onDisabled-bg);
-      // }
-
-      // @if variable-exists('ListControl-item-onDisabled-color') {
       color: var(--ListControl-item-onDisabled-color);
-      // }
 
       .b-inherit {
         border-color: var(--ListControl-item-onDisabled-borderColor);

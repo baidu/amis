@@ -8,11 +8,7 @@
   border: var(--Button-borderWidth) solid transparent;
   transition: var(--Button-transition);
   white-space: nowrap;
-
-  // todo: 用不了
-  // @if var(--Button-mimWidth) !=auto {
   min-width: var(--Button-mimWidth);
-  // }
 
   &:active,
   &.is-active {

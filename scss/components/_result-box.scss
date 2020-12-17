@@ -16,11 +16,7 @@
     outline: none;
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
-
-    // todo: 暂时没法用
-    // @if var(--Form-input-onFocused-bg) !=var(--Form-input-bg) {
     background-color: var(--Form-input-onFocused-bg);
-    // }
   }
 
   &.is-clickable:not(.is-disabled) {
@@ -29,11 +25,7 @@
     &:hover {
       border-color: var(--Form-input-onFocused-borderColor);
       box-shadow: var(--Form-input-boxShadow);
-
-      // todo: 暂时没法用
-      // @if var(--Form-input-onFocused-bg) !=var(--Form-input-bg) {
       background-color: var(--Form-input-onFocused-bg);
-      // }
     }
   }
 

@@ -614,6 +614,7 @@
   --Form-input-onError-bg: var(--Form-input-bg);
   --Form-input-onError-borderColor: var(--danger);
   --Form-input-onFocus-addOnColor: var(--primary);
+  $Form-input-onFocused-bg: $white !default;
   --Form-input-onFocused-bg: var(--Form-input-bg);
   --Form-input-onFocused-borderColor: var(--info);
   --Form-input-onHover-iconColor: #{darken($gray600, 20%)};
@@ -826,6 +827,7 @@
   --ListControl-item-onActive-bg: var(--primary);
   --ListControl-item-onActive-borderColor: #{darken($primary, 10%)};
   --ListControl-item-onActive-color: var(--white);
+  --ListControl-item-onActive-onHover-bg: var(--white);
   --ListControl-item-onDisabled-bg: var(--ListControl-item-bg);
   --ListControl-item-onDisabled-borderColor: #{lighten($borderColor, 5%)};
   --ListControl-item-onDisabled-color: var(--ListControl-item-color);
@@ -935,7 +937,6 @@
   --Number-handler-color: var(--Form-input-color);
   --Number-handler-fontFamily: inherit;
   --Number-handler-fontSize: var(--fontSizeBase);
-  --Number-handler-mode: 'vertical';
   --Number-handler-onActive-bg: var(--Number-handler-onHover-bg);
   --Number-handler-onDisabled-bg: var(--Form-input-onDisabled-bg);
   --Number-handler-onDisabled-color: var(--text--muted-color);
@@ -1105,7 +1106,7 @@
   --Table-onModified-borderColor: #{darken(#e8f0fe, 5%)};
   --Table-onModified-color: #4285f4;
   --Table-placeholder-height: #{px2rem(100px)};
-  --Table-strip-bg: #{lighten(#f6f8f8, 1%)};
+  --Table-strip-bg: #{$Table-strip-bg};
   --Table-tbody-borderTopColor: #{lighten($borderColor, 2.5%)};
   --Table-thead-bg: #f6f8f8;
   --Table-thead-borderColor: var(--Table-borderColor);
@@ -1161,8 +1162,8 @@
   --Tabs-linkMargin: 0 #{px2rem(3px)} 0 0;
   --Tabs-linkPadding: var(--gap-sm) var(--gap-base);
   --Tabs-onActive-bg: var(--background);
-  --Tabs-onActive-borderColor: #{$gray400};
-  --Tabs-onActive-color: #{gray700};
+  --Tabs-onActive-borderColor: #{$gray300};
+  --Tabs-onActive-color: #{$gray700};
   --Tabs-onDisabled-color: #{$gray600};
   --Tabs-onHover-borderColor: #{$gray200};
 
@@ -1208,7 +1209,7 @@
   --Toast-close--onHover-color: var(--Toast-close-color);
   --Toast-close-color: var(--white);
   --Toast-color: var(--white);
-  --Toast-icon-fillHeight: true;
+
   --Toast-icon-height: var(--Toast-icon-width);
   --Toast-icon-width: #{px2rem(30px)};
   --Toast-opacity: 0.8;

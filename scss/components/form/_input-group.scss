@@ -32,17 +32,13 @@
     }
 
     &:first-child {
-      // @if var(--InputGroup-addOn-borderRadius) {
       border-top-left-radius: var(--InputGroup-addOn-borderRadius);
       border-bottom-left-radius: var(--InputGroup-addOn-borderRadius);
-      // }
     }
 
     &:last-child {
-      // @if var(--InputGroup-addOn-borderRadius) {
       border-top-right-radius: var(--InputGroup-addOn-borderRadius);
       border-bottom-right-radius: var(--InputGroup-addOn-borderRadius);
-      // }
     }
   }
 
@@ -58,17 +54,13 @@
     }
 
     &:first-child .#{$ns}Button {
-      // @if var(--InputGroup-button-borderRadius) {
       border-top-left-radius: var(--InputGroup-button-borderRadius);
       border-bottom-left-radius: var(--InputGroup-button-borderRadius);
-      // }
     }
 
     &:last-child .#{$ns}Button {
-      // @if var(--InputGroup-button-borderRadius) {
       border-top-right-radius: var(--InputGroup-button-borderRadius);
       border-bottom-right-radius: var(--InputGroup-button-borderRadius);
-      // }
     }
   }
 
@@ -90,16 +82,11 @@
   }
 
   .#{$ns}SelectControl {
-    // todo：暂时没法用
-    // @if var(--InputGroup-select-borderWidth) {
     .#{$ns}Select {
       background-color: var(--InputGroup-select-bg);
       border: var(--InputGroup-select-borderWidth) solid
         var(--InputGroup-select-borderColor);
-
-      @if var(--InputGroup-select-color) !=var(--Form-select-color) {
-        color: var(--InputGroup-select-color);
-      }
+      color: var(--InputGroup-select-color);
     }
 
     &:not(:last-child) .#{$ns}Select {
@@ -107,21 +94,14 @@
     }
 
     &:first-child .#{$ns}Select {
-      // todo: 用不了
-      // @if var(--InputGroup-select-borderRadius) {
-      //   border-top-left-radius: var(--InputGroup-select-borderRadius);
-      //   border-bottom-left-radius: var(--InputGroup-select-borderRadius);
-      // }
+      border-top-left-radius: var(--InputGroup-select-borderRadius);
+      border-bottom-left-radius: var(--InputGroup-select-borderRadius);
     }
 
     &:last-child .#{$ns}Select {
-      // todo: 用不了
-      // @if var(--InputGroup-select-borderRadius) {
-      //   border-top-right-radius: var(--InputGroup-select-borderRadius);
-      //   border-bottom-right-radius: var(--InputGroup-select-borderRadius);
-      // }
+      border-top-right-radius: var(--InputGroup-select-borderRadius);
+      border-bottom-right-radius: var(--InputGroup-select-borderRadius);
     }
-    // }
 
     &:not(:first-child) .#{$ns}Select {
       border-top-left-radius: 0;
@@ -135,12 +115,9 @@
     }
   }
 
-  // todo: 暂时没法用
-  // @if var(--InputGroup-select-arrowColor) !=var(--Form-select-caret-iconColor) {
-  //   .#{$ns}Select-arrow {
-  //     color: var(--InputGroup-select-arrowColor);
-  //   }
-  // }
+  .#{$ns}Select-arrow {
+    color: var(--InputGroup-select-arrowColor);
+  }
 
   &.is-focused {
     .#{$ns}InputGroup-addOn,
@@ -150,24 +127,17 @@
       border-color: var(--InputGroup-addOn-onFocused-borderColor);
     }
 
-    // todo: 暂时没法用
-    // @if var(--InputGroup-select-onFocused-bg) !=var(--InputGroup-select-bg) {
-    //   .#{$ns}Select {
-    //     background-color: var(--InputGroup-select-onFocused-bg);
-    //   }
-    // }
+    .#{$ns}Select {
+      background-color: var(--InputGroup-select-onFocused-bg);
+    }
 
-    // @if var(--InputGroup-select-onFocused-color) !=var(--InputGroup-select-color) {
-    //   .#{$ns}Select {
-    //     color: var(--InputGroup-select-onFocused-color);
-    //   }
-    // }
+    .#{$ns}Select {
+      color: var(--InputGroup-select-onFocused-color);
+    }
 
-    // @if var(--InputGroup-select-onFocused-arrowColor) !=var(--Form-select-caret-iconColor) {
-    //   .#{$ns}Select-arrow {
-    //     color: var(--InputGroup-select-onFocused-arrowColor);
-    //   }
-    // }
+    .#{$ns}Select-arrow {
+      color: var(--InputGroup-select-onFocused-arrowColor);
+    }
 
     .#{$ns}InputGroup-addOn {
       color: var(--primary);

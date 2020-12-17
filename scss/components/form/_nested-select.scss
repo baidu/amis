@@ -27,11 +27,7 @@
   &.is-opened {
     border-color: var(--Form-input-onFocused-borderColor);
     // border-bottom: 0;
-
-    // todo: 暂时用不了
-    // @if (var(--Form-select-onFocused-color) !=var(--Form-select-color)) {
-    //   color: var(--Form-select-onFocused-color);
-    // }
+    color: var(--Form-select-onFocused-color);
   }
 
   &.is-opened .#{$ns}Select-arrow > svg {

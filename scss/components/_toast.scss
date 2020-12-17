@@ -64,13 +64,14 @@
   pointer-events: auto;
   margin-bottom: var(--gap-xs);
 
-  // todo: 暂时用不了
-  // @if var(--Toast-icon-fillHeight) {
-  padding: var(--Toast-paddingY) var(--Toast-paddingX) var(--Toast-paddingY)
-    calc(var(--Toast-paddingX) + var(--Toast-paddingL));
-  // } @else {
-  //   padding: var(--Toast-paddingY) var(--Toast-paddingX);
-  // }
+  @if var(--Toast-icon-fillHeight) {
+    padding: var(--Toast-paddingY)
+      var(--Toast-paddingX)
+      var(--Toast-paddingY)
+      calc(var(--Toast-paddingX) + var(--Toast-paddingL));
+  } @else {
+    padding: var(--Toast-paddingY) var(--Toast-paddingX);
+  }
 
   box-shadow: var(--Toast-box-shadow);
   border-radius: var(--Toast-borderRadius);
@@ -129,18 +130,17 @@
     -webkit-font-smoothing: antialiased;
     vertical-align: middle;
 
-    // todo: 暂时用不了
-    // @if var(--Toast-icon-fillHeight) {
-    position: absolute;
-    left: var(--Toast-paddingX);
-    top: var(--Toast-paddingY);
-    width: calc(var(--Toast-paddingL) - var(--Toast-paddingX));
-    height: calc(var(--Toast-paddingL) - var(--Toast-paddingX));
-    align-items: center;
-    justify-content: center;
-    // } @else {
-    //   margin-right: var(--gap-xs);
-    // }
+    @if var(--Toast-icon-fillHeight) {
+      position: absolute;
+      left: var(--Toast-paddingX);
+      top: var(--Toast-paddingY);
+      width: calc(var(--Toast-paddingL) - var(--Toast-paddingX));
+      height: calc(var(--Toast-paddingL) - var(--Toast-paddingX));
+      align-items: center;
+      justify-content: center;
+    } @else {
+      margin-right: var(--gap-xs);
+    }
 
     > svg {
       top: 0;

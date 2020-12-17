@@ -75,6 +75,33 @@ order: 68
 }
 ```
 
+### 水平铺满
+
+```schema:height="300" scope="body"
+{
+    "type": "tabs",
+    "mode": "tiled",
+    "tabs": [
+        {
+            "title": "选项卡1",
+            "body": "选项卡内容1"
+        },
+        {
+            "title": "选项卡2",
+            "body": "选项卡内容2"
+        },
+        {
+            "title": "选项卡3",
+            "body": "选项卡内容3"
+        },
+        {
+            "title": "选项卡4",
+            "body": "选项卡内容4"
+        }
+    ]
+}
+```
+
 ### 选择器型
 
 ```schema:height="300" scope="body"

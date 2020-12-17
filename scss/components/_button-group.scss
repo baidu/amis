@@ -8,8 +8,6 @@
     flex: 0 1 auto;
   }
 
-  // todo: 暂时用不了
-  // @if var(--Button-borderWidth) >0 {
   > .#{$ns}Button {
     @include hover {
       z-index: 1;
@@ -29,18 +27,6 @@
   .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
     margin-left: calc(var(--Button-borderWidth) * -1);
   }
-  // } @else if
-  //   (
-  //     variable-exists('ButtonGroup-divider-width') and
-  //       variable-exists('ButtonGroup-divider-color')
-  //   )
-  // {
-  //   background-color: $ButtonGroup-divider-color;
-
-  //   > .#{$ns}Button + .#{$ns}Button {
-  //     margin-left: $ButtonGroup-divider-width;
-  //   }
-  // }
 
   &--block {
     display: block;
@@ -75,7 +61,6 @@
     }
   }
 
-  // @if var(--Button-borderWidth) >0 {
   > .#{$ns}Button:not(:last-child),
   > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button {
     border-top-right-radius: 0;
@@ -87,7 +72,6 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
-  // }
 }
 
 .#{$ns}ButtonGroup--vertical {

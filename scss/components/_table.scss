@@ -226,12 +226,11 @@
 
       // reset
       > tbody > tr {
-        // todo: 暂时不支持
-        // @if var(--Table-strip-bg) !=transparent {
-        //   &.#{$ns}Table-tr--odd {
-        //     background-color: transparent;
-        //   }
-        // }
+        @if $Table-strip-bg !=transparent {
+          &.#{$ns}Table-tr--odd {
+            background-color: transparent;
+          }
+        }
 
         &:hover {
           background-color: transparent;
@@ -715,7 +714,6 @@
     pointer-events: all;
     position: absolute;
     // background: var(--Table-onHover-bg);
-    // todo: 这里可能会不同
     background: linear-gradient(
       90deg,
       rgba(var(--Table-onHover-bg-rgb), 0) 0%,

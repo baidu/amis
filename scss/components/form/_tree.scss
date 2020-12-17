@@ -137,11 +137,7 @@
       &:focus {
         border-color: var(--Form-input-onFocused-borderColor);
         box-shadow: var(--Form-input-boxShadow);
-
-        // todo: 暂时用不了
-        // @if var(--Form-input-onFocused-bg) !=var(--Form-input-bg) {
-        //   background-color: var(--Form-input-onFocused-bg);
-        // }
+        background-color: var(--Form-input-onFocused-bg);
       }
     }
   }

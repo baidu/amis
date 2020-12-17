@@ -150,7 +150,7 @@
 // @deprecated 不建议用了
 @mixin text-wariant($bg-color, $name) {
   a.bg-#{'' + $name}:hover {
-    // background-color: darken($bg-color, 5%);
+    background-color: darken($bg-color, 5%);
   }
 
   a.text-#{'' + $name}:hover {
@@ -246,6 +246,7 @@
   box-shadow: var(--Button-boxShadow);
 
   @include hover {
+    // todo: 无法支持 css 变量
     // @if ($color != $hover-color) {
     color: $hover-color;
     // }
@@ -327,8 +328,7 @@
   }
 
   &:hover svg {
-    // todo:
-    // fill: darken($color: var(--Form-input-iconColor), $amount: 20%);
+    fill: var(--Form-input-onHover-iconColor);
   }
 }
 
@@ -382,10 +382,7 @@
   &.is-focused > &-input {
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
-
-    @if var(--Form-input-onFocused-bg) !=var(--Form-input-bg) {
-      background-color: var(--Form-input-onFocused-bg);
-    }
+    background-color: var(--Form-input-onFocused-bg);
   }
 
   &.is-error.is-focused > &-input {

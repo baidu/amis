@@ -270,11 +270,7 @@
   &.is-focused,
   &.is-opened {
     border-color: var(--Form-input-onFocused-borderColor);
-
-    // todo: 暂时用不了
-    // @if (var(--Form-select-onFocused-color) !=var(--Form-select-color)) {
-    //   color: var(--Form-select-onFocused-color);
-    // }
+    color: var(--Form-select-onFocused-color);
   }
 
   &-spinner {

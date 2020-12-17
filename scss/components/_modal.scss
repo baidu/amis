@@ -102,12 +102,8 @@
     background-color: var(--Modal-header-bg);
     @include clearfix();
     border-bottom: var(--Modal-body-borderTop);
-
-    // todo: 用不了了
-    // @if var(--Modal-content-borderRadius) {
-    //   border-top-left-radius: var(--Modal-content-borderRadius);
-    //   border-top-right-radius: var(--Modal-content-borderRadius);
-    // }
+    border-top-left-radius: var(--Modal-content-borderRadius);
+    border-top-right-radius: var(--Modal-content-borderRadius);
   }
 
   &-title {
@@ -167,12 +163,8 @@
     padding: var(--Modal-footer-padding);
     border-top: var(--Modal-body-borderBottom);
     margin: var(--Modal-footer-marginY) var(--Modal-footer-marginX);
-
-    // todo: 用不了了
-    // @if var(--Modal-content-borderRadius) {
     border-bottom-left-radius: var(--Modal-content-borderRadius);
     border-bottom-right-radius: var(--Modal-content-borderRadius);
-    // }
 
     .#{$ns}Button {
       margin-left: var(--gap-sm);
