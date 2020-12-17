@@ -590,11 +590,15 @@ function resolveMapping(
     : value;
 }
 
-export function dataMapping(to: any, from: PlainObject): any {
+export function dataMapping(
+  to: any,
+  from: PlainObject,
+  ignoreFunction = false
+): any {
   let ret = {};
 
   if (Array.isArray(to)) {
-    return to.map(item => dataMapping(item, from));
+    return to.map(item => dataMapping(item, from, ignoreFunction));
   } else if (!to) {
     return ret;
   }
@@ -616,7 +620,11 @@ export function dataMapping(to: any, from: PlainObject): any {
         from[keys[0].substring(1)] &&
         Array.isArray(from[keys[0].substring(1)])
           ? from[keys[0].substring(1)].map((raw: object) =>
-              dataMapping(value[keys[0]], createObject(from, raw))
+              dataMapping(
+                value[keys[0]],
+                createObject(from, raw),
+                ignoreFunction
+              )
             )
           : resolveMapping(value, from);
 
@@ -663,19 +671,19 @@ export function dataMapping(to: any, from: PlainObject): any {
       const mapping = value[keys[0]];
 
       (ret as PlainObject)[key] = arr.map((raw: object) =>
-        dataMapping(mapping, createObject(from, raw))
+        dataMapping(mapping, createObject(from, raw), ignoreFunction)
       );
     } else if (isPlainObject(value)) {
-      (ret as PlainObject)[key] = dataMapping(value, from);
+      (ret as PlainObject)[key] = dataMapping(value, from, ignoreFunction);
     } else if (Array.isArray(value)) {
       (ret as PlainObject)[key] = value.map((value: any) =>
         isPlainObject(value)
-          ? dataMapping(value, from)
+          ? dataMapping(value, from, ignoreFunction)
           : resolveMapping(value, from)
       );
     } else if (typeof value == 'string' && ~value.indexOf('$')) {
       (ret as PlainObject)[key] = resolveMapping(value, from);
-    } else if (typeof value === 'function') {
+    } else if (typeof value === 'function' && !ignoreFunction) {
       (ret as PlainObject)[key] = value(from);
     } else {
       (ret as PlainObject)[key] = value;
