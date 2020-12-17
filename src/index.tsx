@@ -136,6 +136,7 @@ import './renderers/Chart';
 import './renderers/Container';
 import './renderers/SearchBox';
 import './renderers/Service';
+import './renderers/SparkLine';
 import './renderers/Video';
 import './renderers/Audio';
 import './renderers/Nav';

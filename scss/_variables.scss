@@ -1822,3 +1822,7 @@ $Picker-onHover-iconColor: $icon-onHover-color !default;
 // Status
 $Satus-icon-width: px2rem(20px) !default;
 $Satus-icon-height: $Satus-icon-width !default;
+
+// SparkLine
+$Sparkline-line-color: $info !default;
+$Sparkline-area-color: rgba($Sparkline-line-color, 0.1) !default;

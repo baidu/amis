@@ -1,0 +1,18 @@
+.#{$ns}Sparkline {
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+
+  &-line {
+    stroke: $Sparkline-line-color;
+    stroke-width: 1px;
+  }
+
+  &-area {
+    fill: $Sparkline-area-color;
+  }
+
+  &--clickable {
+    cursor: pointer;
+  }
+}
