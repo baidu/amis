@@ -347,6 +347,7 @@ $Tabs-linkFontSize: px2rem(14px);
 $Tabs--card-onActive-borderColor: $white;
 $Tabs--card-bg: $Table-thead-bg;
 $Tabs--radio-bg: $white;
+$Tabs-onActive-borderColor: darken($borderColor, 5%);
 
 // Pagination
 $Pagination-fontSize: px2rem(12px);

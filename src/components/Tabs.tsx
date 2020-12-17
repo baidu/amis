@@ -20,6 +20,7 @@ const transitionStyles: {
 export interface TabProps extends ThemeProps {
   title?: string; // 标题
   icon?: string;
+  iconPosition?: 'left' | 'right';
   disabled?: boolean | string;
   eventKey: string | number;
   tab?: Schema;
@@ -111,7 +112,14 @@ export class Tabs extends React.Component<TabsProps> {
     }
 
     const {classnames: cx, activeKey: activeKeyProp} = this.props;
-    const {eventKey, disabled, icon, title, toolbar} = child.props;
+    const {
+      eventKey,
+      disabled,
+      icon,
+      iconPosition,
+      title,
+      toolbar
+    } = child.props;
     const activeKey =
       activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
 
@@ -126,7 +134,19 @@ export class Tabs extends React.Component<TabsProps> {
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
       >
         <a>
-          {icon ? <i className={icon} /> : null} {title}
+          {icon ? (
+            iconPosition === 'right' ? (
+              <>
+                {title} <i className={icon} />
+              </>
+            ) : (
+              <>
+                <i className={icon} /> {title}
+              </>
+            )
+          ) : (
+            title
+          )}
         </a>
         {React.isValidElement(toolbar) ? toolbar : null}
       </li>
