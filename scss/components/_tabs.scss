@@ -219,6 +219,52 @@
     }
   }
 
+  // todo 第一个选中，有一像素的空隙待修复。
+  // 不带眼镜应该看不出来。
+  &--tiled {
+    > .#{$ns}Tabs-links {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      padding-left: $Tabs-borderWidth;
+      border-bottom: 0;
+
+      > li {
+        flex-grow: 1;
+        text-align: center;
+        margin: 0 0 0 (-$Tabs-borderWidth);
+
+        > a:first-child {
+          margin: 0;
+          border-radius: 0;
+          border-style: solid;
+          border-color: $Tabs-borderColor;
+          border-width: $Tabs-borderWidth;
+
+          &:hover,
+          &:focus {
+            position: relative;
+            z-index: 1;
+            border-color: $Tabs-onActive-borderColor;
+            color: $primary;
+          }
+        }
+
+        &.is-active {
+          > a:first-child,
+          > a:first-child:hover,
+          > a:first-child:focus {
+            cursor: default;
+            color: $primary;
+            border-color: $Tabs-borderColor;
+            border-top-color: $primary;
+            border-bottom-color: transparent;
+          }
+        }
+      }
+    }
+  }
+
   &--vertical {
     display: flex;
     min-height: px2rem(200px);
@@ -227,7 +273,7 @@
 
     > .#{$ns}Tabs-links {
       width: px2rem(140px);
-      background: #f5f5f5;
+      background: $Table-thead-bg;
       border: none;
       padding-bottom: px2rem(60px);
 

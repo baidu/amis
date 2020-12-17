@@ -923,6 +923,14 @@ export const docs = [
           })
       },
       {
+        label: 'Sparkline 走势图',
+        path: '/docs/components/sparkline',
+        getComponent: (location, cb) =>
+          require(['../../docs/components/sparkline.md'], doc => {
+            cb(null, makeMarkdownRenderer(doc));
+          })
+      },
+      {
         label: 'Spinner 加载中',
         path: '/docs/components/spinner',
         getComponent: (location, cb) =>

@@ -838,9 +838,8 @@ export default class ComboControl extends React.Component<ComboProps> {
   handleComboTypeChange(index: number, selection: any) {
     const {multiple, onChange, value, flat, submitOnChange} = this.props;
 
-    const conditions: Array<ComboCondition> = this.props.conditions as Array<
-      ComboCondition
-    >;
+    const conditions: Array<ComboCondition> = this.props
+      .conditions as Array<ComboCondition>;
     const condition = find(conditions, item => item.label === selection.label);
 
     if (!condition) {
@@ -1029,7 +1028,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
           const hasUnique =
             Array.isArray(finnalControls) &&
-            finnalControls.some(item => item.unique);
+            finnalControls.some((item: any) => item.unique);
 
           return (
             <Tab

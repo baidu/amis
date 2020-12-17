@@ -152,34 +152,34 @@ $gray50: map-get(
   map-get($colors, gray),
   50
 ); // node-sass 不支持多个参数用法，所以先这么写。
-$gray100: map-get(map-get($colors, gray), 100);
-$gray200: map-get(map-get($colors, gray), 200);
-$gray300: map-get(map-get($colors, gray), 300);
-$gray400: map-get(map-get($colors, gray), 400);
-$gray500: map-get(map-get($colors, gray), 500);
-$gray600: map-get(map-get($colors, gray), 600);
-$gray700: map-get(map-get($colors, gray), 700);
-$gray800: map-get(map-get($colors, gray), 800);
-$gray900: map-get(map-get($colors, gray), 900);
-$gray: $gray500;
-$red: map-get(map-get($colors, red), 500);
-$yellow: map-get(map-get($colors, yellow), 500);
-$green: map-get(map-get($colors, green), 500);
-$blue: map-get(map-get($colors, blue), 500);
-$cyan: map-get(map-get($colors, cyan), 500);
-$indigo: map-get(map-get($colors, indigo), 500);
-$purple: map-get(map-get($colors, purple), 500);
-$pink: map-get(map-get($colors, pink), 500);
-$black: map-get($colors, black);
+$gray100: map-get(map-get($colors, gray), 100) !default;
+$gray200: map-get(map-get($colors, gray), 200) !default;
+$gray300: map-get(map-get($colors, gray), 300) !default;
+$gray400: map-get(map-get($colors, gray), 400) !default;
+$gray500: map-get(map-get($colors, gray), 500) !default;
+$gray600: map-get(map-get($colors, gray), 600) !default;
+$gray700: map-get(map-get($colors, gray), 700) !default;
+$gray800: map-get(map-get($colors, gray), 800) !default;
+$gray900: map-get(map-get($colors, gray), 900) !default;
+$gray: $gray500 !default;
+$red: map-get(map-get($colors, red), 500) !default;
+$yellow: map-get(map-get($colors, yellow), 500) !default;
+$green: map-get(map-get($colors, green), 500) !default;
+$blue: map-get(map-get($colors, blue), 500) !default;
+$cyan: map-get(map-get($colors, cyan), 500) !default;
+$indigo: map-get(map-get($colors, indigo), 500) !default;
+$purple: map-get(map-get($colors, purple), 500) !default;
+$pink: map-get(map-get($colors, pink), 500) !default;
+$black: map-get($colors, black) !default;
 
-$primary: map-get($colors, 'primary');
-$secondary: map-get($colors, 'secondary');
-$success: map-get($colors, 'success');
-$info: map-get($colors, 'info');
-$warning: map-get($colors, 'warning');
-$danger: map-get($colors, 'danger');
-$light: map-get($colors, 'light');
-$dark: map-get($colors, 'dark');
+$primary: map-get($colors, 'primary') !default;
+$secondary: map-get($colors, 'secondary') !default;
+$success: map-get($colors, 'success') !default;
+$info: map-get($colors, 'info') !default;
+$warning: map-get($colors, 'warning') !default;
+$danger: map-get($colors, 'danger') !default;
+$light: map-get($colors, 'light') !default;
+$dark: map-get($colors, 'dark') !default;
 
 $spacing: (
   //
@@ -749,7 +749,7 @@ $Tabs-color: $text-color !default;
 $Tabs-onDisabled-color: $gray600 !default;
 $Tabs-onHover-borderColor: $gray200 !default;
 $Tabs-onActive-color: $gray700 !default;
-$Tabs-onActive-borderColor: $gray300 !default;
+$Tabs-onActive-borderColor: $gray400 !default;
 $Tabs-onActive-bg: $background !default;
 $Tabs-linkPadding: $gap-sm $gap-base !default;
 $Tabs-linkMargin: 0 px2rem(3px) 0 0 !default;
@@ -1822,3 +1822,7 @@ $Picker-onHover-iconColor: $icon-onHover-color !default;
 // Status
 $Satus-icon-width: px2rem(20px) !default;
 $Satus-icon-height: $Satus-icon-width !default;
+
+// SparkLine
+$Sparkline-line-color: $info !default;
+$Sparkline-area-color: rgba($Sparkline-line-color, 0.1) !default;

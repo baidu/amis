@@ -46,6 +46,8 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    */
   icon?: SchemaIcon;
 
+  iconPosition?: 'left' | 'right';
+
   /**
    * 设置以后内容每次都会重新渲染
    */
@@ -79,7 +81,7 @@ export interface TabsSchema extends BaseSchema {
   /**
    * 展示形式
    */
-  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
+  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical' | 'tiled';
 
   /**
    * 内容类名

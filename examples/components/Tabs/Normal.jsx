@@ -164,6 +164,33 @@ export default {
     },
     {
       type: 'tabs',
+      mode: 'tiled',
+      tabs: [
+        {
+          title: '选项卡1',
+          body: '选项卡内容1'
+        },
+        {
+          title: '选项卡2',
+          body: '选项卡内容2'
+        },
+        {
+          title: '选项卡3',
+          body: '选项卡内容3'
+        },
+        {
+          title: '选项卡4',
+          body: '选项卡内容4',
+          icon: 'fa fa-flag',
+          iconPosition: 'right'
+        }
+      ]
+    },
+    {
+      type: 'divider'
+    },
+    {
+      type: 'tabs',
       mode: 'vertical',
       tabs: [
         {
