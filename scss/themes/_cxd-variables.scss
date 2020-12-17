@@ -352,6 +352,7 @@ $text-color: #666;
   --Tabs--card-onActive-borderColor: var(--white);
   --Tabs--card-bg: var(--Table-thead-bg);
   --Tabs--radio-bg: var(--white);
+  --Tabs-onActive-borderColor: #{darken($borderColor, 5%)};
 
   // Pagination
   --Pagination-fontSize: #{px2rem(12px)};
