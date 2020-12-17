@@ -160,7 +160,7 @@
     margin-bottom: 0; // Reset the default from Reboot
     font-size: var(--fontSizeBase);
     color: var(--Tooltip-title-color);
-    background-color: var(--Tooltip-title-bg);
+    background: var(--Tooltip-title-bg);
     border-bottom: var(--Tooltip-borderWidth) solid
       var(--Tooltip-title-borderBottom-color);
     border-top-left-radius: calc(

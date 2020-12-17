@@ -5,7 +5,7 @@
   &.is-focus > &-input {
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
-    background-color: var(--Form-input-onFocused-bg);
+    background: var(--Form-input-onFocused-bg);
   }
 
   &-placeholder {
@@ -69,7 +69,7 @@
     padding: 1px 5px;
 
     &:hover {
-      background-color: var(--Form-selectValue-onHover-bg);
+      background: var(--Form-selectValue-onHover-bg);
     }
   }
 

@@ -25,7 +25,7 @@
 
   &.#{$ns}Carousel--light {
     .#{$ns}Carousel-dot {
-      background-color: var(--Carousel--light-control);
+      background: var(--Carousel--light-control);
     }
 
     svg {
@@ -42,7 +42,7 @@
 
   &.#{$ns}Carousel--dark {
     .#{$ns}Carousel-dot {
-      background-color: var(--Carousel--dark-control);
+      background: var(--Carousel--dark-control);
     }
 
     svg {

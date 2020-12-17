@@ -9,14 +9,14 @@
   outline: none;
   white-space: nowrap;
   color: var(--DatePicker-color);
-  background-color: var(--DatePicker-bg);
+  background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
 
   &:not(.is-disabled) {
     cursor: pointer;
 
     &:hover {
-      background-color: var(--DatePicker-onHover-bg);
+      background: var(--DatePicker-onHover-bg);
       border-color: var(--DatePicker-onHover-borderColor);
 
       .#{$ns}DatePicker-toggler:before {
@@ -140,10 +140,10 @@
     td.rdtMinute,
     td.rdtSecond,
     .rdtTimeToggle {
-      background-color: var(--Calendar-cell-bg);
+      background: var(--Calendar-cell-bg);
 
       &:hover {
-        background-color: var(--Calendar-cell-onHover-bg);
+        background: var(--Calendar-cell-onHover-bg);
       }
     }
 
@@ -166,7 +166,7 @@
 
     td.rdtDisabled,
     td.rdtDisabled:hover {
-      background-color: var(--Calendar-cell-onDisabled-bg);
+      background: var(--Calendar-cell-onDisabled-bg);
     }
   }
 
@@ -379,6 +379,6 @@ td.rdtYear {
 .#{$ns}DateCalendar {
   display: inline-block;
   border: var(--DatePicker-borderWidth) solid var(--DatePicker-borderColor);
-  background-color: var(--DatePicker-bg);
+  background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
 }

@@ -37,18 +37,18 @@
 
     &.is-active {
       color: var(--ListMenu-item--onActive-color);
-      background-color: var(--ListMenu-item--onActive-bg);
+      background: var(--ListMenu-item--onActive-bg);
     }
 
     // &:hover,
     &.is-highlight {
       color: var(--ListMenu-item--onHover-color);
-      background-color: var(--ListMenu-item--onHover-bg);
+      background: var(--ListMenu-item--onHover-bg);
     }
 
     &.is-disabled {
       color: var(--ListMenu-item--onDisabled-color);
-      background-color: var(--ListMenu-item--onDisabled-bg);
+      background: var(--ListMenu-item--onDisabled-bg);
     }
   }
 

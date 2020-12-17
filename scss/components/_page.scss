@@ -73,7 +73,7 @@
 }
 
 .#{$ns}Page-aside {
-  background-color: var(--Page-aside-bg);
+  background: var(--Page-aside-bg);
 }
 
 @include media-breakpoint-up(md) {
@@ -85,7 +85,7 @@
       top: 0;
       bottom: 0;
       z-index: -1;
-      background-color: inherit;
+      background: inherit;
       border: inherit;
     }
 

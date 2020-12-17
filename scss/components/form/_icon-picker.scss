@@ -80,12 +80,12 @@
     cursor: pointer;
 
     &:hover {
-      background-color: var(--Form-select-menu-onHover-bg);
+      background: var(--Form-select-menu-onHover-bg);
     }
 
     &.is-active {
       color: var(--white);
-      background-color: var(--Form-select-menu-onActive-color);
+      background: var(--Form-select-menu-onActive-color);
     }
   }
 

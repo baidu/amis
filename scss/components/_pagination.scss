@@ -31,7 +31,7 @@
     > span:hover,
     > a:focus,
     > span:focus {
-      background-color: transparent;
+      background: transparent;
       color: var(--primary);
     }
   }
@@ -59,7 +59,7 @@
     > span:hover,
     > a:focus,
     > span:focus {
-      background-color: var(--Pagination-onActive-backgroundColor);
+      background: var(--Pagination-onActive-backgroundColor);
       color: var(--Pagination-onActive-color);
       border: var(--Pagination-onActive-border);
     }

@@ -48,7 +48,7 @@
       top: 50%;
       width: 0px;
       height: 0px;
-      background-color: transparent;
+      background: transparent;
       transition: all 0.2s;
       transform-origin: 50% 50%;
       transform: translate(-50%, -50%);
@@ -80,7 +80,7 @@
         cursor: not-allowed;
 
         &:before {
-          // background-color: lighten(var(--Checkbox-color), 5%);
+          // background: lighten(var(--Checkbox-color), 5%);
           border-color: var(--white);
         }
       }
@@ -122,13 +122,13 @@
       //     border-color: lighten(var(--Checkbox-color), 5%);
 
       //     &:before {
-      //         background-color: lighten(var(--Checkbox-color), 5%);
+      //         background: lighten(var(--Checkbox-color), 5%);
       //     }
       // }
 
       &:checked[disabled] + i {
         // border-color: lighten(var(--Checkbox-color), 5%);
-        // background-color: lighten(var(--Checkbox-color), 5%);
+        // background: lighten(var(--Checkbox-color), 5%);
       }
     }
 
@@ -164,7 +164,7 @@
         &:before {
           width: var(--Radio-inner-size);
           height: var(--Radio-inner-size);
-          background-color: var(--Radio-onHover-color);
+          background: var(--Radio-onHover-color);
           border-radius: 50%;
         }
       }
@@ -174,7 +174,7 @@
         cursor: not-allowed;
 
         &:before {
-          // background-color: lighten(var(--Radio-color), 5%);
+          // background: lighten(var(--Radio-color), 5%);
         }
       }
 
@@ -356,11 +356,11 @@
 
     &.is-active {
       color: var(--Form-select-menu-onActive-color);
-      background-color: var(--Form-select-menu-onActive-bg);
+      background: var(--Form-select-menu-onActive-bg);
     }
 
     &:hover {
-      background-color: var(--Tree-item-onHover-bg);
+      background: var(--Tree-item-onHover-bg);
     }
 
     &.is-disabled {
@@ -485,11 +485,11 @@
 
     &.is-active {
       color: var(--Form-select-menu-onActive-color);
-      background-color: var(--Form-select-menu-onActive-bg);
+      background: var(--Form-select-menu-onActive-bg);
     }
 
     &:hover {
-      background-color: var(--Tree-item-onHover-bg);
+      background: var(--Tree-item-onHover-bg);
     }
 
     &.is-disabled {
@@ -548,11 +548,11 @@
 
     &.is-active {
       color: var(--Form-select-menu-onActive-color);
-      background-color: var(--Form-select-menu-onActive-bg);
+      background: var(--Form-select-menu-onActive-bg);
     }
 
     &:hover {
-      background-color: var(--Tree-item-onHover-bg);
+      background: var(--Tree-item-onHover-bg);
     }
 
     &.is-disabled {

@@ -17,7 +17,7 @@
     margin: calc(var(--ListControl-gutterWidth) / 2);
     border: var(--ListControl-item-borderWidth) solid
       var(--ListControl-item-borderColor);
-    background-color: var(--ListControl-item-bg);
+    background: var(--ListControl-item-bg);
     padding: var(--ListControl-item-paddingY) var(--ListControl-item-paddingX);
     color: var(--ListControl-item-color);
     transition: var(--ListControl-item-transition);
@@ -32,7 +32,7 @@
     }
 
     @include hover {
-      background-color: var(--ListControl-item-onHover-bg);
+      background: var(--ListControl-item-onHover-bg);
       border-color: var(--ListControl-item-onHover-borderColor);
       color: var(--ListControl-item-onHover-color);
 
@@ -43,12 +43,12 @@
 
     &:hover:active,
     &.is-active {
-      background-color: var(--ListControl-item-onActive-bg);
+      background: var(--ListControl-item-onActive-bg);
       border-color: var(--ListControl-item-onActive-borderColor);
       color: var(--ListControl-item-onActive-color);
 
       &:hover {
-        background-color: var(--ListControl-item-onActive-onHover-bg);
+        background: var(--ListControl-item-onActive-onHover-bg);
       }
 
       .b-inherit {
@@ -60,7 +60,7 @@
         position: absolute;
         width: px2rem(14px);
         height: px2rem(14px);
-        background-color: var(--ListControl-item-onActive-before-bg);
+        background: var(--ListControl-item-onActive-before-bg);
         right: 0;
         bottom: 0;
       }
@@ -85,10 +85,10 @@
       border-color: var(--ListControl-item-onDisabled-borderColor);
 
       &:before {
-        background-color: var(--ListControl-item-onDisabled-color);
+        background: var(--ListControl-item-onDisabled-color);
       }
 
-      background-color: var(--ListControl-item-onDisabled-bg);
+      background: var(--ListControl-item-onDisabled-bg);
       color: var(--ListControl-item-onDisabled-color);
 
       .b-inherit {

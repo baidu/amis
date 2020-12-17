@@ -1,7 +1,7 @@
 .#{$ns}List {
   border: var(--List-borderWidth) solid var(--List-borderColor);
   border-radius: var(--List-borderRadius);
-  background-color: var(--List-bg);
+  background: var(--List-bg);
   margin-bottom: var(--gap-md);
   position: relative;
 
@@ -93,7 +93,7 @@
     display: block;
     padding: var(--ListItem-paddingY) var(--ListItem-paddingX);
     margin-bottom: px2rem(-1px);
-    background-color: var(--white);
+    background: var(--white);
     border: var(--ListItem-borderWidth) solid var(--List-borderColor);
 
     &:first-child {
@@ -147,7 +147,7 @@
   padding: var(--ListItem-paddingY) var(--ListItem-paddingX);
 
   &:nth-child(even) {
-    background-color: var(--ListItem--strip-bg);
+    background: var(--ListItem--strip-bg);
   }
 
   &-checkBtn {
@@ -199,7 +199,7 @@
   }
 
   &.is-checked {
-    background-color: var(--ListItem-onChecked-bg);
+    background: var(--ListItem-onChecked-bg);
     border-color: var(--ListItem-onChecked-borderColor);
     color: var(--ListItem-onChecked-color);
 
@@ -214,7 +214,7 @@
 
   &.is-modified,
   &.is-moved {
-    background-color: var(--ListItem-onModified-bg);
+    background: var(--ListItem-onModified-bg);
     border-color: var(--ListItem-onModified-borderColor);
     color: var(--ListItem-onModified-color);
 

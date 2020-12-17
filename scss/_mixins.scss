@@ -55,12 +55,12 @@
 
 // @deprecated 不建议用了
 @mixin color-schema($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
-  background-color: saturate(darken($bg-color, $percent), $sat-percent);
+  background: saturate(darken($bg-color, $percent), $sat-percent);
 }
 
 // @deprecated 不建议用了
 @mixin color-schema-lt($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
-  background-color: desaturate(lighten($bg-color, $percent), $sat-percent);
+  background: desaturate(lighten($bg-color, $percent), $sat-percent);
 }
 
 // @deprecated 不建议用了
@@ -71,7 +71,7 @@
   $dk-percent: 10%,
   $dker-percent: 15%
 ) {
-  background-color: $bg-color;
+  background: $bg-color;
 
   &.lt,
   & .lt {
@@ -95,7 +95,7 @@
 
   &.bg,
   & .bg {
-    background-color: $bg-color;
+    background: $bg-color;
   }
 }
 
@@ -135,7 +135,7 @@
   // & .auto {
   //   & .list-group-item {
   //     border-color: darken($bg-color, 5%) !important;
-  //     background-color: transparent;
+  //     background: transparent;
 
   //     &:hover,
   //     &:focus,
@@ -150,7 +150,7 @@
 // @deprecated 不建议用了
 @mixin text-wariant($bg-color, $name) {
   a.bg-#{'' + $name}:hover {
-    background-color: darken($bg-color, 5%);
+    background: darken($bg-color, 5%);
   }
 
   a.text-#{'' + $name}:hover {
@@ -241,7 +241,7 @@
   $active-color: $color
 ) {
   color: $color;
-  background-color: $background;
+  background: $background;
   border-color: $border;
   box-shadow: var(--Button-boxShadow);
 
@@ -251,7 +251,7 @@
     color: $hover-color;
     // }
     // @if ($background != $hover-background) {
-    background-color: $hover-background;
+    background: $hover-background;
     // }
     // @if ($border != $hover-border) {
     border-color: $hover-border;
@@ -260,14 +260,14 @@
 
   // @include focus {
   //   color: $color;
-  //   background-color: $background;
+  //   background: $background;
   //   border-color: $border;
   //   box-shadow: var(--Button-boxShadow);
   // }
 
   @include hover-focus {
     // color: $hover-color;
-    // background-color: $hover-background;
+    // background: $hover-background;
     // border-color: $hover-border;
     box-shadow: var(--Button-boxShadow);
   }
@@ -279,7 +279,7 @@
     }
 
     @if ($active-background != $background) {
-      background-color: $active-background;
+      background: $active-background;
     }
 
     @if ($active-border != $border) {
@@ -293,7 +293,7 @@
       $Button-onDisabled-bg !=
       $background
     {
-      background-color: $Button-onDisabled-bg;
+      background: $Button-onDisabled-bg;
     }
 
     @if variable-exists(Button-onDisabled-color) and
@@ -334,7 +334,7 @@
 
 @mixin input-input {
   display: flex;
-  background-color: var(--Form-input-bg);
+  background: var(--Form-input-bg);
   border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
   border-radius: var(--Form-input-borderRadius);
   // height: var(--Form-input-height);
@@ -376,13 +376,13 @@
 
   &.is-error > &-input {
     border-color: var(--Form-input-onError-borderColor);
-    background-color: var(--Form-input-onError-bg);
+    background: var(--Form-input-onError-bg);
   }
 
   &.is-focused > &-input {
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
-    background-color: var(--Form-input-onFocused-bg);
+    background: var(--Form-input-onFocused-bg);
   }
 
   &.is-error.is-focused > &-input {
@@ -432,12 +432,12 @@
 }
 
 @mixin label-variant($color) {
-  background-color: $color;
+  background: $color;
 
   &[href] {
     &:hover,
     &:focus {
-      background-color: darken($color, 10%);
+      background: darken($color, 10%);
     }
   }
 }

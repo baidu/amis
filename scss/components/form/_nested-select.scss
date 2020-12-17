@@ -142,12 +142,12 @@
 
       &.is-active {
         color: var(--Form-select-menu-onActive-color);
-        background-color: var(--Form-select-menu-onActive-bg);
+        background: var(--Form-select-menu-onActive-bg);
       }
 
       &:hover {
         color: var(--Form-select-menu-onHover-color);
-        background-color: var(--Form-select-menu-onHover-bg);
+        background: var(--Form-select-menu-onHover-bg);
       }
 
       &:hover > .#{$ns}NestedSelect-childrenOuter {

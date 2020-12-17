@@ -6,7 +6,7 @@
   height: var(--Form-input-height);
   display: inline-block;
   vertical-align: middle;
-  background-color: var(--Number-bg);
+  background: var(--Number-bg);
   border: var(--Number-borderWidth) solid var(--Number-borderColor);
   border-radius: var(--Number-borderRadius);
 
@@ -58,7 +58,7 @@
 
   &-input {
     width: 100%;
-    background-color: transparent;
+    background: transparent;
     text-align: left;
     vertical-align: top;
     outline: 0;
@@ -72,18 +72,18 @@
   }
 
   &-handler {
-    background-color: var(--Number-handler-bg);
+    background: var(--Number-handler-bg);
     color: var(--Number-handler-color);
     font-family: var(--Number-handler-fontFamily);
     font-size: var(--Number-handler-fontSize);
 
     &:hover {
-      background-color: var(--Number-handler-onHover-bg);
+      background: var(--Number-handler-onHover-bg);
       color: var(--Number-handler-onHover-color);
     }
 
     &:hover:active {
-      background-color: var(--Number-handler-onActive-bg);
+      background: var(--Number-handler-onActive-bg);
     }
   }
 
@@ -150,7 +150,7 @@
 
   &-handler-down-disabled,
   &-handler-up-disabled {
-    background-color: var(--Number-handler-onDisabled-bg);
+    background: var(--Number-handler-onDisabled-bg);
     pointer-events: none;
     color: var(--Number-handler-onDisabled-color);
   }
@@ -159,7 +159,7 @@
     .#{$ns}Number-input {
       opacity: 0.72;
       cursor: not-allowed;
-      background-color: var(--Number-onDisabled-bg);
+      background: var(--Number-onDisabled-bg);
     }
 
     .#{$ns}Number-handler {

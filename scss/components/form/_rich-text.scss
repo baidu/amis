@@ -38,17 +38,17 @@
   .fr-toolbar .fr-command.fr-btn.fr-active,
   .fr-popup .fr-command.fr-btn.fr-active {
     color: var(--info);
-    background-color: var(--Form-select-onHover-bg);
+    background: var(--Form-select-onHover-bg);
   }
 
   .fr-desktop .fr-command:hover,
   .fr-desktop .fr-command:focus {
-    background-color: var(--Form-select-onHover-bg);
+    background: var(--Form-select-onHover-bg);
   }
 
   .fr-toolbar .fr-command.fr-btn.fr-dropdown.fr-active,
   .fr-popup .fr-command.fr-btn.fr-dropdown.fr-active {
-    background-color: var(--Form-select-onHover-bg);
+    background: var(--Form-select-onHover-bg);
   }
 
   .fr-command.fr-btn
@@ -58,7 +58,7 @@
     ul.fr-dropdown-list
     li
     a.fr-active {
-    background-color: var(--info);
+    background: var(--info);
     color: #fff;
   }
 

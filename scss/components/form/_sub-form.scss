@@ -27,7 +27,7 @@
     margin-top: var(--gap-xs);
 
     &:hover {
-      background-color: var(--Form-selectValue-onHover-bg);
+      background: var(--Form-selectValue-onHover-bg);
     }
 
     &.is-disabled {
@@ -42,7 +42,7 @@
     padding: 1px 5px;
 
     &:hover {
-      background-color: var(--Form-selectValue-onHover-bg);
+      background: var(--Form-selectValue-onHover-bg);
     }
   }
 

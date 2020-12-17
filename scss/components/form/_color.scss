@@ -6,14 +6,14 @@
   border: var(--ColorPicker-borderWidth) solid var(--ColorPicker-borderColor);
   font-size: var(--ColorPicker-fontSize);
   padding: var(--ColorPicker-paddingY) var(--ColorPicker-paddingX);
-  background-color: var(--ColorPicker-bg);
+  background: var(--ColorPicker-bg);
   color: var(--ColorPicker-color);
 
   &:not(.is-disabled) {
     cursor: pointer;
 
     &:hover {
-      background-color: var(--ColorPicker-onHover-bg);
+      background: var(--ColorPicker-onHover-bg);
       border-color: var(--ColorPicker-onHover-borderColor);
     }
   }

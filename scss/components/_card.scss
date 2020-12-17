@@ -1,5 +1,5 @@
 .#{$ns}Card {
-  background-color: var(--Card-bg);
+  background: var(--Card-bg);
   border: var(--Card-borderWidth) solid var(--Card-borderColor);
   border-radius: var(--Card-borderRadius);
   margin-bottom: var(--gap-base);
@@ -67,7 +67,7 @@
   }
 
   &-avtarText {
-    background-color: var(--primary);
+    background: var(--primary);
     color: var(--white);
     width: 50px;
     height: 50px;
@@ -90,7 +90,7 @@
   }
 
   &-highlight {
-    background-color: var(--success);
+    background: var(--success);
     width: px2rem(8px);
     height: px2rem(8px);
     border-radius: 100%;
@@ -137,7 +137,7 @@
     table-layout: fixed;
 
     > a {
-      background-color: transparent;
+      background: transparent;
       flex-grow: 1;
       border-color: var(--Card-actions-borderColor);
       border-style: solid;
@@ -151,7 +151,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: var(--Card-actions-onHover-bg);
+          background: var(--Card-actions-onHover-bg);
           color: var(--Card-actions-onHover-color);
           text-decoration: none;
         }
@@ -172,7 +172,7 @@
   }
 
   &.is-checked {
-    background-color: var(--Card-onChecked-bg);
+    background: var(--Card-onChecked-bg);
     border-color: var(--Card-onChecked-borderColor);
     color: var(--Card-onChecked-color);
 
@@ -187,14 +187,14 @@
     }
 
     .#{$ns}Card-actions > a:hover {
-      background-color: var(--Card-actions-onChecked-onHover-bg);
+      background: var(--Card-actions-onChecked-onHover-bg);
       color: var(--Card-actions-onChecked-onHover-color);
     }
   }
 
   &.is-modified,
   &.is-moved {
-    background-color: var(--Card-onModified-bg);
+    background: var(--Card-onModified-bg);
     border-color: var(--Card-onModified-borderColor);
     color: var(--Card-onModified-color);
 
@@ -209,7 +209,7 @@
     }
 
     .#{$ns}Card-actions > a:hover {
-      background-color: var(--Card-onModified-onHover-bg);
+      background: var(--Card-onModified-onHover-bg);
       color: var(--Card-onModified-onHover-color);
     }
   }

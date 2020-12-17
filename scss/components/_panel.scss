@@ -1,6 +1,6 @@
 .#{$ns}Panel {
   margin-bottom: var(--Panel-marginBottom);
-  background-color: var(--Panel-bg);
+  background: var(--Panel-bg);
   border: var(--Panel-border);
   border-radius: var(--Panel-borderRadius);
   -webkit-box-shadow: var(--Panel-boxShadow);

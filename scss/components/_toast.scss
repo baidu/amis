@@ -154,25 +154,25 @@
   &--error {
     color: var(--Toast--danger-color);
     border-color: var(--Toast--danger-borderColor);
-    background-color: var(--Toast--danger-bgColor);
+    background: var(--Toast--danger-bgColor);
   }
 
   &--warning {
     color: var(--Toast--warning-color);
     border-color: var(--Toast--warning-borderColor);
-    background-color: var(--Toast--warning-bgColor);
+    background: var(--Toast--warning-bgColor);
   }
 
   &--info {
     color: var(--Toast--info-color);
     border-color: var(--Toast--info-borderColor);
-    background-color: var(--Toast--info-bgColor);
+    background: var(--Toast--info-bgColor);
   }
 
   &--success {
     color: var(--Toast--success-color);
     border-color: var(--Toast--success-borderColor);
-    background-color: var(--Toast--success-bgColor);
+    background: var(--Toast--success-bgColor);
   }
 
   // positions

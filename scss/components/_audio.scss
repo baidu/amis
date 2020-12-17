@@ -6,7 +6,7 @@
   background: none;
 
   &::-webkit-slider-runnable-track {
-    background-color: var(--Audio-track-bg);
+    background: var(--Audio-track-bg);
     height: var(--Audio-track-height);
     border-radius: var(--Audio-track-borderRadius);
     border: var(--Audio-track-border);

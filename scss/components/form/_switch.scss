@@ -6,13 +6,13 @@
   height: var(--Switch-height);
   overflow: hidden;
   border-radius: px2rem(30px);
-  background-color: var(--Switch-onActive-bgColor);
+  background: var(--Switch-onActive-bgColor);
   margin: 0;
   vertical-align: middle;
   text-align: left;
 
   &.is-disabled {
-    background-color: var(--Switch-onDisabled-bgColor);
+    background: var(--Switch-onDisabled-bgColor);
   }
 
   i {
@@ -31,7 +31,7 @@
       bottom: px2rem(-1px);
       left: px2rem(-1px);
       right: px2rem(-1px);
-      background-color: var(--Switch-bgColor);
+      background: var(--Switch-bgColor);
       border: px2rem(1px) solid var(--Switch-borderColor);
       border-radius: px2rem(30px);
       transition: all 0.2s;
@@ -40,7 +40,7 @@
     &:after {
       content: '';
       position: absolute;
-      background-color: var(--white);
+      background: var(--white);
       width: calc(var(--Switch-height) - #{px2rem(2px)});
       top: px2rem(1px);
       bottom: px2rem(1px);
@@ -60,12 +60,12 @@
       & + i {
         &:before {
           color: var(--Switch-onDisabled-color);
-          background-color: var(--Switch-onDisabled-bgColor);
+          background: var(--Switch-onDisabled-bgColor);
           cursor: not-allowed;
         }
 
         &:after {
-          background-color: var(--Switch-onDisabled-circle-BackgroundColor);
+          background: var(--Switch-onDisabled-circle-BackgroundColor);
           color: var(--Switch-onDisabled-color);
         }
       }

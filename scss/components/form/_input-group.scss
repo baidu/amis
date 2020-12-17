@@ -83,7 +83,7 @@
 
   .#{$ns}SelectControl {
     .#{$ns}Select {
-      background-color: var(--InputGroup-select-bg);
+      background: var(--InputGroup-select-bg);
       border: var(--InputGroup-select-borderWidth) solid
         var(--InputGroup-select-borderColor);
       color: var(--InputGroup-select-color);
@@ -128,7 +128,7 @@
     }
 
     .#{$ns}Select {
-      background-color: var(--InputGroup-select-onFocused-bg);
+      background: var(--InputGroup-select-onFocused-bg);
     }
 
     .#{$ns}Select {

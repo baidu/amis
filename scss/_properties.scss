@@ -618,6 +618,7 @@
   --Form-input-onFocused-bg: var(--Form-input-bg);
   --Form-input-onFocused-borderColor: var(--info);
   --Form-input-onHover-iconColor: #{darken($gray600, 20%)};
+  --Form-input-onHover-bg: rgba($white, 0.6);
   --Form-input-paddingX: #{px2rem(12px)};
   --Form-input-paddingY: calc(
     (

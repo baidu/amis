@@ -13,7 +13,7 @@
   &-icon {
     color: var(--Remark-iconColor);
     font-size: var(--Remark-icon-fontSize);
-    background-color: var(--Remark-bg);
+    background: var(--Remark-bg);
     border: var(--Remark-borderWidth) solid var(--Remark-borderColor);
     width: var(--Remark-width);
     height: var(--Remark-width);
@@ -37,7 +37,7 @@
 
   &:hover > &-icon {
     color: var(--Remark-onHover-iconColor);
-    background-color: var(--Remark-onHover-bg);
+    background: var(--Remark-onHover-bg);
     border-color: var(--Remark-onHover-borderColor);
   }
 

@@ -20,7 +20,7 @@ body {
     top: 0;
     bottom: 0;
     z-index: -1;
-    background-color: var(--body-bg);
+    background: var(--body-bg);
     border: inherit;
     display: block;
   }
@@ -57,7 +57,7 @@ body {
       font-size: px2rem(16px);
       line-height: calc(var(--Layout-header-height) - #{px2rem(20px)});
       text-decoration: none;
-      background-color: transparent;
+      background: transparent;
       border: none;
     }
   }
@@ -107,7 +107,7 @@ body {
       top: 0;
       bottom: 0;
       z-index: -1;
-      background-color: inherit;
+      background: inherit;
       border: inherit;
     }
   }
@@ -215,7 +215,7 @@ body {
   .#{$ns}Layout--offScreen {
     .#{$ns}Layout-content,
     .#{$ns}Layout-footer {
-      background-color: var(--body-bg);
+      background: var(--body-bg);
       transition: transform 0.2s ease;
       backface-visibility: hidden;
       transform: translate3d(var(--Layout--offscreen-width), 0px, 0px);

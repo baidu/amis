@@ -102,7 +102,7 @@
     overflow: hidden;
     margin-left: px2rem(-20px);
     transition: all 0.2s ease-in-out 0s;
-    background-color: var(--Layout-aside-subList-bg);
+    background: var(--Layout-aside-subList-bg);
 
     .#{$ns}Layout--folded .#{$ns}AsideNav-item > & {
       display: block;
@@ -148,7 +148,7 @@
       &:hover {
         color: var(--Layout-asideLink-onHover-color);
         text-decoration: none;
-        background-color: var(--Layout-aside-onHover-bg);
+        background: var(--Layout-aside-onHover-bg);
 
         .#{$ns}AsideNav-itemIcon {
           color: var(--Layout-asideLink-onHover-iconColor);
@@ -158,11 +158,11 @@
 
     &.is-active {
       > a {
-        background-color: var(--Layout-aside-onAcitve-bg);
+        background: var(--Layout-aside-onAcitve-bg);
         color: var(--Layout-asideLink-onActive-color);
 
         &:hover {
-          background-color: var(--Layout-aside-onHover-bg);
+          background: var(--Layout-aside-onHover-bg);
         }
       }
     }
@@ -253,7 +253,7 @@
     margin: var(--Layout-asideDivider-margin);
     overflow: hidden;
     font-size: 0;
-    background-color: var(--Layout-asideDivider-bg);
+    background: var(--Layout-asideDivider-bg);
   }
 }
 

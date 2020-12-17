@@ -114,7 +114,7 @@
 
 .line-dashed {
   border-style: dashed !important;
-  background-color: transparent;
+  background: transparent;
   border-width: 0;
 }
 
@@ -178,7 +178,7 @@
 }
 
 .no-bg {
-  background-color: transparent;
+  background: transparent;
   color: inherit;
 }
 
@@ -1101,19 +1101,19 @@
     }
 
     &.on {
-      background-color: var(--success);
+      background: var(--success);
     }
 
     &.off {
-      background-color: var(--text--muted-color);
+      background: var(--text--muted-color);
     }
 
     &.busy {
-      background-color: var(--danger);
+      background: var(--danger);
     }
 
     &.away {
-      background-color: var(--warning);
+      background: var(--warning);
     }
   }
 

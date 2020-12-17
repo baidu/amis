@@ -33,10 +33,11 @@
     top: 100%;
     left: 0;
     margin: px2rem(1px) 0 0;
-    background-color: var(--DropDown-menu-bg);
+    background: var(--DropDown-menu-bg);
     list-style: none;
     padding: var(--DropDown-menu-paddingY) var(--DropDown-menu-paddingX);
-    border: var(--DropDown-menu-borderWidth) solid var(--DropDown-menu-borderColor);
+    border: var(--DropDown-menu-borderWidth) solid
+      var(--DropDown-menu-borderColor);
     border-radius: var(--DropDown-menu-borderRadius);
     box-shadow: var(--DropDown-menu-boxShadow);
     min-width: var(--DropDown-menu-minWidth);
@@ -58,7 +59,7 @@
     user-select: none;
 
     &:hover {
-      background-color: var(--DropDown-menuItem-onHover-bg);
+      background: var(--DropDown-menuItem-onHover-bg);
       color: var(--DropDown-menuItem-onHover-color);
     }
 
@@ -71,7 +72,7 @@
       height: px2rem(1px);
       margin: px2rem(9px) 0;
       overflow: hidden;
-      background-color: var(--DropDown-menu-borderColor);
+      background: var(--DropDown-menu-borderColor);
       padding: 0;
     }
   }

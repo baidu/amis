@@ -11,13 +11,13 @@
 
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
-    background-color: var(--Form-input-onError-bg);
+    background: var(--Form-input-onError-bg);
   }
 
   &.is-focused {
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
-    background-color: var(--Form-input-onFocused-bg);
+    background: var(--Form-input-onFocused-bg);
   }
 
   &.is-clickable:hover {

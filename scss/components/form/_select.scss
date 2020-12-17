@@ -108,7 +108,7 @@
     padding: 1px 5px;
 
     &:hover {
-      background-color: var(--Form-selectValue-onHover-bg);
+      background: var(--Form-selectValue-onHover-bg);
     }
 
     &.is-disabled {
@@ -195,17 +195,17 @@
 
     &.is-active {
       color: var(--Form-select-menu-onActive-color);
-      background-color: var(--Form-select-menu-onActive-bg);
+      background: var(--Form-select-menu-onActive-bg);
     }
 
     &.is-highlight {
       color: var(--Form-select-menu-onHover-color);
-      background-color: var(--Form-select-menu-onHover-bg);
+      background: var(--Form-select-menu-onHover-bg);
     }
 
     &.is-disabled {
       color: var(--Form-select-menu-onDisabled-color);
-      background-color: var(--Form-select-menu-onDisabled-bg);
+      background: var(--Form-select-menu-onDisabled-bg);
     }
 
     &--placeholder {

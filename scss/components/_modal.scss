@@ -42,7 +42,7 @@
     width: 100%; // Ensure `.modal-content` extends the full width of the parent `.modal-dialog`
     min-height: var(--Modal-content-minHeight);
     pointer-events: auto;
-    background-color: var(--Modal-bg);
+    background: var(--Modal-bg);
     background-clip: padding-box;
     outline: 0;
     z-index: 2;
@@ -84,7 +84,7 @@
     bottom: 0;
     left: 0;
     z-index: 1;
-    background-color: var(--Modal-overlay-bg);
+    background: var(--Modal-overlay-bg);
     pointer-events: none; // 很重要，如果不设置，弹框虽然滚轮可滚，但是鼠标没办法操作滚动条。
     opacity: 0;
 
@@ -99,7 +99,7 @@
 
   &-header {
     padding: var(--Modal-header-paddingY) var(--Modal-header-paddingX);
-    background-color: var(--Modal-header-bg);
+    background: var(--Modal-header-bg);
     @include clearfix();
     border-bottom: var(--Modal-body-borderTop);
     border-top-left-radius: var(--Modal-content-borderRadius);

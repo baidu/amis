@@ -116,7 +116,7 @@
       flex-grow: 1;
       width: 100%;
       outline: none;
-      background-color: var(--Form-input-bg);
+      background: var(--Form-input-bg);
       border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
       border-radius: var(--Form-input-borderRadius);
       line-height: var(--Form-input-lineHeight);
@@ -137,7 +137,7 @@
       &:focus {
         border-color: var(--Form-input-onFocused-borderColor);
         box-shadow: var(--Form-input-boxShadow);
-        background-color: var(--Form-input-onFocused-bg);
+        background: var(--Form-input-onFocused-bg);
       }
     }
   }

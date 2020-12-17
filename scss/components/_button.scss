@@ -4,7 +4,7 @@
   text-align: center;
   vertical-align: middle;
   user-select: none;
-  background-color: transparent;
+  background: transparent;
   border: var(--Button-borderWidth) solid transparent;
   transition: var(--Button-transition);
   white-space: nowrap;
@@ -47,7 +47,7 @@
     border-color: var(--Button-onDisabled-borderColor);
 
     @if variable-exists(Button-onDisabled-bg) {
-      background-color: $Button-onDisabled-bg;
+      background: $Button-onDisabled-bg;
     }
 
     @if variable-exists(Button-onDisabled-color) {
@@ -57,7 +57,7 @@
     &.is-active,
     &:active {
       @if variable-exists(Button-onDisabledActive-bg) {
-        background-color: $Button-onDisabledActive-bg !important;
+        background: $Button-onDisabledActive-bg !important;
       }
     }
   }
@@ -319,7 +319,7 @@ fieldset:disabled a.#{$ns}Button {
   &.is-disabled {
     color: var(--text--muted-color);
     pointer-events: none;
-    background-color: transparent;
+    background: transparent;
   }
 }
 

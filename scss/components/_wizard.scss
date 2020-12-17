@@ -17,7 +17,7 @@
       text-align: center;
       white-space: nowrap;
       vertical-align: middle;
-      background-color: var(--Wizard-badge-bg);
+      background: var(--Wizard-badge-bg);
       border-radius: var(--Wizard-badge-borderRadius); // font-weight: 700;
       text-shadow: 0 px2rem(1px) 0 rgba(0, 0, 0, 0.2);
       margin-right: var(--Wizard-badge-marginRight);
@@ -25,39 +25,39 @@
       box-sizing: content-box;
 
       // &--primary {
-      //     background-color: var(--primary);
+      //     background: var(--primary);
       // }
 
       // &--secondary {
-      //     background-color: var(--secondary);
+      //     background: var(--secondary);
       // }
 
       // &--success {
-      //     background-color: var(--success);
+      //     background: var(--success);
       // }
 
       // &--info {
-      //     background-color: var(--info);
+      //     background: var(--info);
       // }
 
       // &--warning {
-      //     background-color: var(--warning);
+      //     background: var(--warning);
       // }
 
       // &--danger {
-      //     background-color: var(--danger);
+      //     background: var(--danger);
       // }
 
       // &--light {
-      //     background-color: var(--light);
+      //     background: var(--light);
       // }
 
       // &--dark {
-      //     background-color: var(--dark);
+      //     background: var(--dark);
       // }
       &.is-active {
         color: var(--white);
-        background-color: var(--Wizard-badge-onActive-backgroundColor);
+        background: var(--Wizard-badge-onActive-backgroundColor);
       }
     }
 
@@ -140,7 +140,7 @@
   &-steps {
     font-size: var(--fontSizeBase);
     padding: var(--Wizard-steps-padding);
-    background-color: var(--Wizard-steps-bg);
+    background: var(--Wizard-steps-bg);
     border-bottom: var(--Wizard-steps-borderWidth) solid var(--borderColor);
     text-align: var(--Wizard-steps-textAlign);
     @include clearfix();
@@ -241,7 +241,7 @@
         border-bottom: none;
 
         li {
-          background-color: var(--Wizard-steps-bg);
+          background: var(--Wizard-steps-bg);
         }
 
         ul li {

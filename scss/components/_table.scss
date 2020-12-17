@@ -130,11 +130,11 @@
     color: var(--text--muted-color);
     text-align: center;
     height: var(--Table-placeholder-height);
-    background-color: transparent !important;
+    background: transparent !important;
 
     &:hover {
       color: var(--text--muted-color);
-      background-color: transparent !important;
+      background: transparent !important;
     }
 
     > td {
@@ -208,7 +208,7 @@
     margin-bottom: 0;
     font-size: var(--Table-fontSize);
     color: var(--Table-color);
-    background-color: var(--Table-bg);
+    background: var(--Table-bg);
     border-spacing: 0;
     border-collapse: collapse;
 
@@ -228,12 +228,12 @@
       > tbody > tr {
         @if $Table-strip-bg !=transparent {
           &.#{$ns}Table-tr--odd {
-            background-color: transparent;
+            background: transparent;
           }
         }
 
         &:hover {
-          background-color: transparent;
+          background: transparent;
         }
 
         > td {
@@ -248,7 +248,7 @@
 
     > thead > tr {
       > th {
-        background-color: var(--Table-thead-bg);
+        background: var(--Table-thead-bg);
 
         &[colspan] {
           text-align: center;
@@ -305,7 +305,7 @@
 
       > th {
         text-align: left;
-        background-color: var(--Table-thead-bg);
+        background: var(--Table-thead-bg);
         // font-size: var(--Table-thead-fontSize);
         color: var(--Table-thead-color);
         font-weight: var(--fontWeightNormal);
@@ -329,16 +329,16 @@
       }
 
       @if var(--Table-strip-bg) !=transparent {
-        background-color: transparent;
+        background: transparent;
 
         &.#{$ns}Table-tr--odd {
-          background-color: var(--Table-strip-bg);
+          background: var(--Table-strip-bg);
         }
       }
 
       &:hover,
       &.is-hovered {
-        background-color: var(--Table-onHover-bg);
+        background: var(--Table-onHover-bg);
         border-color: var(--Table-onHover-borderColor);
         color: var(--Table-onHover-color);
 
@@ -348,7 +348,7 @@
       }
 
       &.is-checked {
-        background-color: var(--Table-onChecked-bg);
+        background: var(--Table-onChecked-bg);
         border-color: var(--Table-onChecked-borderColor);
         color: var(--Table-onChecked-color);
 
@@ -359,7 +359,7 @@
 
       &.is-moved,
       &.is-modified {
-        background-color: var(--Table-onModified-bg);
+        background: var(--Table-onModified-bg);
         border-color: var(--Table-onModified-borderColor);
         color: var(--Table-onModified-color);
 
@@ -437,7 +437,7 @@
             bottom: 0;
             left: px2rem(-8px) + px2rem(20px) * ($i - 2);
             height: auto;
-            background-color: var(--Table-tree-borderColor);
+            background: var(--Table-tree-borderColor);
           }
 
           &::after {
@@ -447,7 +447,7 @@
             top: px2rem(18px);
             left: px2rem(-8px) + px2rem(20px) * ($i - 2);
             width: px2rem(10px);
-            background-color: var(--Table-tree-borderColor);
+            background: var(--Table-tree-borderColor);
           }
 
           padding-left: px2rem(20px) * $i - px2rem(20px);
@@ -506,7 +506,7 @@
           top: 0;
           bottom: 0;
           height: 100%;
-          background-color: var(--Table-tree-borderColor);
+          background: var(--Table-tree-borderColor);
           right: px2rem(7px) + px2rem(-20px) * ($i - 1);
         }
       }
@@ -523,7 +523,7 @@
         bottom: 0;
         right: px2rem(7px);
         height: auto;
-        background-color: var(--Table-tree-borderColor);
+        background: var(--Table-tree-borderColor);
       }
     }
 
@@ -678,16 +678,16 @@
         height: var(--TableCell-filterPopOver-dropDownItem-height);
         line-height: var(--TableCell-filterPopOver-dropDownItem-height);
         padding: var(--TableCell-filterPopOver-dropDownItem-padding);
-        background-color: var(--white);
+        background: var(--white);
         margin: 0;
 
         &:hover {
-          background-color: var(--light);
+          background: var(--light);
           color: var(--primary);
         }
 
         &.is-selected {
-          background-color: var(--light);
+          background: var(--light);
           color: var(--primary);
         }
 

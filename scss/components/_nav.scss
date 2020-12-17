@@ -38,7 +38,7 @@
       &.disabled > a,
       &.is-disabled > a {
         color: var(--Tabs-onDisabled-color);
-        background-color: transparent;
+        background: transparent;
         border-color: transparent;
         pointer-events: none;
       }
@@ -46,7 +46,7 @@
       &.active > a,
       &.is-active > a {
         color: var(--Tabs-onActive-color);
-        background-color: var(--Tabs-onActive-bg);
+        background: var(--Tabs-onActive-bg);
         border-color: var(--Tabs-onActive-borderColor);
         border-bottom-color: var(--Tabs-content-bg);
       }
@@ -64,7 +64,7 @@
         text-decoration: none;
         padding: var(--gap-sm) var(--gap-base);
         cursor: pointer;
-        background-color: var(--Nav-item-bg);
+        background: var(--Nav-item-bg);
         border-radius: var(--Nav-item-borderRadius);
       }
 
@@ -72,20 +72,20 @@
       > a:focus {
         border-color: var(--Nav-item-onHover-color);
         text-decoration: none;
-        background-color: var(--Nav-item-onHover-bg);
+        background: var(--Nav-item-onHover-bg);
       }
 
       &.disabled > a,
       &.is-disabled > a {
         color: var(--Nav-item-onDisabled-color);
-        background-color: transparent;
+        background: transparent;
         pointer-events: none;
       }
 
       &.active > a,
       &.is-active > a {
         color: var(--Nav-item-onActive-color);
-        background-color: var(--Nav-item-onActive-bg);
+        background: var(--Nav-item-onActive-bg);
         border-left: var(--Nav-item-onActive-borderLeft);
         padding-left: px2rem(12px);
       }
@@ -134,7 +134,7 @@
           display: inline-block;
           width: px2rem(4px);
           height: px2rem(4px);
-          background-color: #ccc;
+          background: #ccc;
           border-radius: px2rem(500px);
           margin-right: px2rem(8px);
           vertical-align: middle;
@@ -142,7 +142,7 @@
 
         &.active > a:before,
         &.is-active > a:before {
-          background-color: var(--Nav-subItem-onActiveBeforeBg);
+          background: var(--Nav-subItem-onActiveBeforeBg);
         }
       }
     }
