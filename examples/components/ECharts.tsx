@@ -94,7 +94,8 @@ export default {
         {
           type: 'chart',
           source: '${config}',
-          replaceChartOption: true
+          replaceChartOption: true,
+          unMountOnHidden: false
         },
         {
           children: (props: any) => {
