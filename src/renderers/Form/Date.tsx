@@ -338,8 +338,8 @@ export class MonthControlRenderer extends DateControl {
     placeholder: '请选择月份',
     inputFormat: 'YYYY-MM',
     dateFormat: 'MM',
-    timeFormat: 'MM',
+    timeFormat: '',
     viewMode: 'months',
-    closeOnSelect: false
+    closeOnSelect: true
   };
 }
