@@ -11,18 +11,18 @@
     line-height: var(--Form-input-lineHeight);
   }
 
-  &-valueWrap {
-    flex-grow: 1;
-    line-height: 1;
-    white-space: nowrap;
-    display: flex;
+  // &-valueWrap {
+  //   flex-grow: 1;
+  //   line-height: 1;
+  //   flex-wrap: wrap;
+  //   display: flex;
 
-    > input {
-      display: inline-block;
-      width: auto;
-      vertical-align: middle;
-    }
-  }
+  //   > input {
+  //     display: inline-block;
+  //     width: auto;
+  //     vertical-align: middle;
+  //   }
+  // }
 
   &--withAddOn {
     display: flex;
@@ -195,6 +195,16 @@
   &-input--multiple {
     height: auto;
     min-height: var(--Form-input-height);
+    padding: calc(var(--Form-input-paddingY) - #{px2rem(2px)})
+      calc(var(--Form-input-paddingX) - #{px2rem(3px)});
+  }
+
+  &-input--multiple &-placeholder {
+    margin-top: 0;
+  }
+
+  &-input--multiple > input {
+    margin-top: 2px;
   }
 
   &-input--multiple &-valueWrap {
@@ -217,8 +227,7 @@
     background: var(--Form-selectValue-bg);
     border: px2rem(1px) solid var(--Form-selectValue-borderColor);
     border-radius: px2rem(2px);
-    margin-right: var(--gap-xs);
-    margin-bottom: var(--gap-xs);
+    margin: 2px 3px;
   }
 
   &-valueIcon {

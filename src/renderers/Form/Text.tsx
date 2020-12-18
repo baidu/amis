@@ -422,14 +422,19 @@ export default class TextControl extends React.PureComponent<
   }
 
   loadAutoComplete() {
-    const {formItem, autoComplete, data, multiple} = this.props;
+    const {
+      formItem,
+      autoComplete,
+      data,
+      multiple,
+      selectedOptions
+    } = this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       formItem.loadOptions(
         autoComplete,
         createObject(data, {
-          term:
-            this.state.inputValue || (multiple ? '' : formItem.lastSelectValue)
+          term: this.state.inputValue || '' // (multiple ? '' : selectedOptions[selectedOptions.length - 1]?.value)
         })
       );
     }
@@ -516,7 +521,7 @@ export default class TextControl extends React.PureComponent<
               )}
               onClick={this.handleClick}
             >
-              <div className={cx('TextControl-valueWrap')}>
+              <>
                 {placeholder &&
                 !selectedOptions.length &&
                 !this.state.inputValue &&
@@ -560,7 +565,7 @@ export default class TextControl extends React.PureComponent<
                   autoComplete="off"
                   size={10}
                 />
-              </div>
+              </>
 
               {clearable && !disabled && value ? (
                 <a
