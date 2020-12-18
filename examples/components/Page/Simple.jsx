@@ -1,6 +1,5 @@
 export default {
   type: 'page',
-  type: 'page',
   title: '标题',
   remark: {
     title: '标题',
