@@ -1559,27 +1559,27 @@ a.label {
 // Contextual variations (linked labels get darker on :hover)
 
 .label-default {
-  @include label-variant($gray700);
+  @include label-variant(var(--label--default-bg));
 }
 
 .label-primary {
-  @include label-variant($primary);
+  @include label-variant(var(--primary));
 }
 
 .label-success {
-  @include label-variant($success);
+  @include label-variant(var(--success));
 }
 
 .label-info {
-  @include label-variant($info);
+  @include label-variant(var(--info));
 }
 
 .label-warning {
-  @include label-variant($warning);
+  @include label-variant(var(--warning));
 }
 
 .label-danger {
-  @include label-variant($danger);
+  @include label-variant(var(--danger-bg));
 }
 
 @keyframes apearSensor {

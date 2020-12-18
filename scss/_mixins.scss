@@ -434,12 +434,13 @@
 @mixin label-variant($color) {
   background: $color;
 
-  &[href] {
-    &:hover,
-    &:focus {
-      background: darken($color, 10%);
-    }
-  }
+  // todo：不支持了
+  // &[href] {
+  //   &:hover,
+  //   &:focus {
+  //     background: darken($color, 10%);
+  //   }
+  // }
 }
 
 @mixin icon-color {
