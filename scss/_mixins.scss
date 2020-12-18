@@ -341,7 +341,7 @@
   padding: $Form-input-paddingY $Form-input-paddingX;
   font-size: $Form-input-fontSize;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   input {
     flex-basis: px2rem(80px);
