@@ -48,6 +48,7 @@ import {TableSchema} from './renderers/Table';
 import {DialogSchema} from './renderers/Dialog';
 import {DrawerSchema} from './renderers/Drawer';
 import {SearchBoxSchema} from './renderers/SearchBox';
+import {SparkLineSchema} from './renderers/SparkLine';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -107,6 +108,7 @@ export type SchemaType =
   | 'remark'
   | 'search-box'
   | 'service'
+  | 'sparkline'
   | 'status'
   | 'switch'
   | 'table'
@@ -161,6 +163,7 @@ export type SchemaObject =
   | QRCodeSchema
   | SearchBoxSchema
   | ServiceSchema
+  | SparkLineSchema
   | StatusSchema
   | SwitchSchema
   | TableSchema

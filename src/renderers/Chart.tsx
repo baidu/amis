@@ -54,9 +54,14 @@ export interface ChartSchema extends BaseSchema {
   initFetchOn?: SchemaExpression;
 
   /**
-   * 配置echart的config
+   * 配置echart的config，支持数据映射。如果用了数据映射，为了同步更新，请设置 trackExpression
    */
   config?: any;
+
+  /**
+   * 跟踪表达式，如果这个表达式的运行结果发生变化了，则会更新 Echart，当 config 中用了数据映射时有用。
+   */
+  trackExpression?: string;
 
   /**
    * 宽度设置
@@ -214,6 +219,13 @@ export class Chart extends React.Component<ChartProps> {
       }
     } else if (props.config !== prevProps.config) {
       this.renderChart(props.config || {});
+    } else if (
+      props.config &&
+      props.trackExpression &&
+      filter(props.trackExpression, props.data) !==
+        filter(prevProps.trackExpression, prevProps.data)
+    ) {
+      this.renderChart(props.config || {});
     }
   }
 
@@ -354,7 +366,7 @@ export class Chart extends React.Component<ChartProps> {
     if (config) {
       try {
         if (!this.props.disableDataMapping) {
-          config = dataMapping(config, this.props.data);
+          config = dataMapping(config, this.props.data, true);
         }
 
         recoverFunctionType(config!);

@@ -145,6 +145,32 @@ export const filters: {
     return ret;
   },
   raw: input => input,
+  now: () => new Date(),
+  toDate: (input: any, inputFormat = '') => {
+    const data = moment(input, inputFormat);
+    data.add();
+    return data.isValid() ? data.toDate() : undefined;
+  },
+  dateModify: (
+    input: any,
+    modifier: 'add' | 'subtract' | 'endOf' | 'startOf' = 'add',
+    amount = 0,
+    unit = 'days'
+  ) => {
+    if (!(input instanceof Date)) {
+      input = new Date();
+    }
+
+    if (modifier === 'endOf' || modifier === 'startOf') {
+      return moment(input)
+        [modifier === 'endOf' ? 'endOf' : 'startOf'](amount || 'day')
+        .toDate();
+    }
+
+    return moment(input)
+      [modifier === 'add' ? 'add' : 'subtract'](amount, unit)
+      .toDate();
+  },
   date: (input, format = 'LLL', inputFormat = 'X') =>
     moment(input, inputFormat).format(format),
   number: input => {
@@ -214,6 +240,15 @@ export const filters: {
   last: input => input && (input.length ? input[input.length - 1] : null),
   minus: (input, step = 1) => (parseInt(input, 10) || 0) - parseInt(step, 10),
   plus: (input, step = 1) => (parseInt(input, 10) || 0) + parseInt(step, 10),
+  sum: (input, field) =>
+    Array.isArray(input)
+      ? input.reduce(
+          (sum, item) =>
+            sum + (parseFloat(field ? pickValues(field, item) : item) || 0),
+          0
+        )
+      : input,
+  abs: (input: any) => (typeof input === 'number' ? Math.abs(input) : input),
   pick: (input, path = '&') =>
     Array.isArray(input) && !/^\d+$/.test(path)
       ? input.map((item, index) =>
@@ -590,11 +625,15 @@ function resolveMapping(
     : value;
 }
 
-export function dataMapping(to: any, from: PlainObject): any {
+export function dataMapping(
+  to: any,
+  from: PlainObject,
+  ignoreFunction = false
+): any {
   let ret = {};
 
   if (Array.isArray(to)) {
-    return to.map(item => dataMapping(item, from));
+    return to.map(item => dataMapping(item, from, ignoreFunction));
   } else if (!to) {
     return ret;
   }
@@ -616,7 +655,11 @@ export function dataMapping(to: any, from: PlainObject): any {
         from[keys[0].substring(1)] &&
         Array.isArray(from[keys[0].substring(1)])
           ? from[keys[0].substring(1)].map((raw: object) =>
-              dataMapping(value[keys[0]], createObject(from, raw))
+              dataMapping(
+                value[keys[0]],
+                createObject(from, raw),
+                ignoreFunction
+              )
             )
           : resolveMapping(value, from);
 
@@ -663,19 +706,19 @@ export function dataMapping(to: any, from: PlainObject): any {
       const mapping = value[keys[0]];
 
       (ret as PlainObject)[key] = arr.map((raw: object) =>
-        dataMapping(mapping, createObject(from, raw))
+        dataMapping(mapping, createObject(from, raw), ignoreFunction)
       );
     } else if (isPlainObject(value)) {
-      (ret as PlainObject)[key] = dataMapping(value, from);
+      (ret as PlainObject)[key] = dataMapping(value, from, ignoreFunction);
     } else if (Array.isArray(value)) {
       (ret as PlainObject)[key] = value.map((value: any) =>
         isPlainObject(value)
-          ? dataMapping(value, from)
+          ? dataMapping(value, from, ignoreFunction)
           : resolveMapping(value, from)
       );
     } else if (typeof value == 'string' && ~value.indexOf('$')) {
       (ret as PlainObject)[key] = resolveMapping(value, from);
-    } else if (typeof value === 'function') {
+    } else if (typeof value === 'function' && !ignoreFunction) {
       (ret as PlainObject)[key] = value(from);
     } else {
       (ret as PlainObject)[key] = value;

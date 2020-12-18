@@ -1039,6 +1039,9 @@
   --Satus-icon-height: var(--Satus-icon-width);
   --Satus-icon-width: #{px2rem(20px)};
 
+  --Sparkline-line-color: var(--info);
+  --Sparkline-area-color: #{rgba($info, 0.1)};
+
   --Spinner--lg-height: #{px2rem(50px)};
   --Spinner--lg-width: #{px2rem(50px)};
   --Spinner--sm-height: #{px2rem(16px)};

@@ -2,8 +2,6 @@
  * @file 生成一些通用的配置项
  */
 
-import {debug} from 'console';
-
 /**
  * 创建一个层级，比如 name 是 title，这里面的子组件 name 就相当于 title.name
  * @param name
@@ -160,6 +158,7 @@ export const fieldSet = (
     title: label,
     collapsable: true,
     collapsed: collapsed,
+    mountOnEnter: true,
     controls: controls
   };
 };
@@ -347,6 +346,7 @@ export const viewport = (scope: string, label: string) => {
     title: '离容器边距',
     collapsable: true,
     collapsed: true,
+    mountOnEnter: true,
     controls: [
       ...viewportControl(
         `${scope}left`,
@@ -666,6 +666,7 @@ export const shadowControls = (scope: string) => {
     title: '阴影',
     collapsable: true,
     collapsed: true,
+    mountOnEnter: true,
     controls: [
       color(`${scope}shadowColor`, '阴影颜色'),
       number(`${scope}shadowBlur`, '阴影模糊大小'),
