@@ -56,6 +56,10 @@ export default class NumberControl extends React.Component<NumberProps, any> {
   handleChange(inputValue: any) {
     const {classPrefix: ns, onChange, resetValue} = this.props;
 
+    if (inputValue && typeof inputValue !== 'number') {
+      return;
+    }
+
     onChange(typeof inputValue === 'undefined' ? resetValue || '' : inputValue);
   }
 
