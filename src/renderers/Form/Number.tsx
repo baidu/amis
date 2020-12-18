@@ -60,7 +60,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       return;
     }
 
-    onChange(typeof inputValue === 'undefined' ? resetValue || '' : inputValue);
+    onChange(inputValue === null ? resetValue ?? null : inputValue);
   }
 
   filterNum(value: number | string | undefined) {
