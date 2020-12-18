@@ -1558,29 +1558,29 @@ a.label {
 // Colors
 // Contextual variations (linked labels get darker on :hover)
 
-// .label-default {
-//   @include label-variant(var(--label--default-bg));
-// }
+.label-default {
+  @include label-variant($gray700);
+}
 
-// .label-primary {
-//   @include label-variant(var(--label--primary-bg));
-// }
+.label-primary {
+  @include label-variant($primary);
+}
 
-// .label-success {
-//   @include label-variant(var(--label--success-bg));
-// }
+.label-success {
+  @include label-variant($success);
+}
 
-// .label-info {
-//   @include label-variant(var(--label--info-bg));
-// }
+.label-info {
+  @include label-variant($info);
+}
 
-// .label-warning {
-//   @include label-variant(var(--label--warning-bg));
-// }
+.label-warning {
+  @include label-variant($warning);
+}
 
-// .label-danger {
-//   @include label-variant(var(--label--danger-bg));
-// }
+.label-danger {
+  @include label-variant($danger);
+}
 
 @keyframes apearSensor {
   from {
