@@ -247,12 +247,12 @@ export default function (schema) {
                   <div className="Doc-headingList">
                     <div className="Doc-headingList-item">
                       <a onClick={this.toggleCode}>
-                        查看页面配置 <i className="fa fa-code p-l-xs"></i>
+                        查看配置 <i className="fa fa-code p-l-xs"></i>
                       </a>
                     </div>
                     <div className="Doc-headingList-item">
                       <a onClick={this.copyCode}>
-                        复制页面配置 <i className="fa fa-copy p-l-xs"></i>
+                        复制配置 <i className="fa fa-copy p-l-xs"></i>
                       </a>
                     </div>
                   </div>

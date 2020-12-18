@@ -355,7 +355,7 @@ body {
 
   &-toc {
     margin: 30px 0;
-    width: 120px;
+    width: 3em;
   }
 
   &-navigation {
@@ -459,8 +459,6 @@ body {
     user-select: none;
 
     &-item {
-      padding-left: 15px;
-
       a {
         color: #666;
         cursor: pointer;

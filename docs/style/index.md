@@ -14,7 +14,7 @@ title: 快速开始
 
 ## CSS 变量
 
-在 page 下可以设置 cssVars 属性，通过它来动态修改 amis 内的 css 变量
+在 page 下可以设置 cssVars 属性，通过它来动态修改 amis 内的 css 变量。
 
 ```schema:height="300"
 {
