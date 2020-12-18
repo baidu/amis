@@ -468,7 +468,7 @@
   --Combo--vertical-itemToolbar-onHover-color: var(--white);
   --Combo--vertical-itemToolbar-positionRight: #{px2rem(5px)};
   --Combo--vertical-itemToolbar-positionTop: var(
-    ---Combo--vertical-itemToolbar-height
+    --Combo--vertical-itemToolbar-height
   );
   --Combo--vertical-itemToolbar-transion: all 0.25s ease-in-out;
   --Combo-addBtn-bg: var(--Button--info-bg);
@@ -756,8 +756,7 @@
   --InputRange-slider-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
   --InputRange-slider-onFocus-borderRadius: var(--borderRadiusMd);
   --InputRange-slider-onFocus-boxShadow: 0 0 0
-    --InputRange-slider-onFocus-borderRadius
-    transparentize(--InputRange-slider-bg, 0.8);
+    var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
   --InputRange-slider-transition: transform 0.3s ease-out,
     box-shadow 0.3s ease-out;
   --InputRange-slider-width: #{px2rem(18px)};
@@ -937,7 +936,7 @@
   --Number-handler--up-content: '+';
   --Number-handler--up-transform: none;
   --Number-handler-bg: var(--white);
-  --Number-handler-borderBottom: #{px2rem(1px)} solid --Form-input-borderColor;
+  --Number-handler-borderBottom: #{px2rem(1px)} solid var(--Form-input-borderColor);
   --Number-handler-color: var(--Form-input-color);
   --Number-handler-fontFamily: inherit;
   --Number-handler-fontSize: var(--fontSizeBase);
