@@ -31,3 +31,37 @@
     border: none;
   }
 }
+
+.#{$ns}PopOverAble--fixed {
+  position: fixed;
+
+  > * {
+    margin-bottom: 0;
+  }
+}
+
+.#{$ns}PopOverAble--fixed-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.#{$ns}PopOverAble--fixed-left-top {
+  top: 0;
+  left: 0;
+}
+
+.#{$ns}PopOverAble--fixed-right-top {
+  top: 0;
+  right: 0;
+}
+
+.#{$ns}PopOverAble--fixed-left-bottom {
+  bottom: 0;
+  left: 0;
+}
+
+.#{$ns}PopOverAble--fixed-right-bottom {
+  bottom: 0;
+  right: 0;
+}
