@@ -179,6 +179,7 @@ export class Chart extends React.Component<ChartProps> {
   echarts: any;
   unSensor: Function;
   pending?: object;
+  pendingCtx?: any;
   timer: NodeJS.Timeout;
   mounted: boolean;
   reloadCancel?: Function;
@@ -330,7 +331,16 @@ export class Chart extends React.Component<ChartProps> {
           );
         }
         delete this.reloadCancel;
-        this.renderChart(result.data || {});
+
+        const data = result.data || {};
+        // 说明返回的是数据接口。
+        if (!data.series && this.props.config) {
+          const ctx = createObject(this.props.data, data);
+          this.renderChart(this.props.config, ctx);
+        } else {
+          this.renderChart(result.data || {});
+        }
+
         this.echarts && this.echarts.hideLoading();
 
         interval &&
@@ -354,8 +364,10 @@ export class Chart extends React.Component<ChartProps> {
     this.reload();
   }
 
-  renderChart(config?: object) {
+  renderChart(config?: object, data) {
     config && (this.pending = config);
+    data && (this.pendingCtx = data);
+
     if (!this.echarts) {
       return;
     }
@@ -367,6 +379,8 @@ export class Chart extends React.Component<ChartProps> {
     }
 
     config = config || this.pending;
+    data = data || this.pendingCtx || this.props.data;
+
     if (typeof config === 'string') {
       config = new Function('return ' + config)();
     }
@@ -380,7 +394,7 @@ export class Chart extends React.Component<ChartProps> {
     if (config) {
       try {
         if (!this.props.disableDataMapping) {
-          config = dataMapping(config, this.props.data, true);
+          config = dataMapping(config, data, true);
         }
 
         recoverFunctionType(config!);
