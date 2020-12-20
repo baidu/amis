@@ -37,6 +37,11 @@ export interface ChartSchema extends BaseSchema {
   type: 'chart';
 
   /**
+   * Chart 主题配置
+   */
+  chartTheme?: any;
+
+  /**
    * 图表配置接口
    */
   api?: SchemaApi;
@@ -244,6 +249,8 @@ export class Chart extends React.Component<ChartProps> {
 
   refFn(ref: any) {
     const chartRef = this.props.chartRef;
+    const {chartTheme} = this.props;
+
     if (ref) {
       Promise.all([
         import('echarts'),
@@ -259,7 +266,14 @@ export class Chart extends React.Component<ChartProps> {
       ]).then(([echarts, dataTool]: any) => {
         (window as any).echarts = echarts;
         echarts.dataTool = dataTool;
-        this.echarts = echarts.init(ref);
+        let theme = 'default';
+
+        if (chartTheme) {
+          echarts.registerTheme('custom', chartTheme);
+          theme = 'custom';
+        }
+
+        this.echarts = echarts.init(ref, theme);
         this.echarts.on('click', this.handleClick);
         this.unSensor = resizeSensor(ref, () => {
           const width = ref.offsetWidth;
