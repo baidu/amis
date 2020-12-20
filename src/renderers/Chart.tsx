@@ -364,7 +364,7 @@ export class Chart extends React.Component<ChartProps> {
     this.reload();
   }
 
-  renderChart(config?: object, data) {
+  renderChart(config?: object, data?: any) {
     config && (this.pending = config);
     data && (this.pendingCtx = data);
 
