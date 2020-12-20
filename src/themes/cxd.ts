@@ -58,7 +58,7 @@ theme('cxd', {
           '#304069',
           '#c4ccd3'
         ],
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#ffffff',
         textStyle: {},
         title: {
           textStyle: {
