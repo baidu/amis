@@ -119,6 +119,7 @@ import './renderers/Images';
 import './renderers/List';
 import './renderers/Operation';
 import './renderers/Page';
+import './renderers/PaginationWrapper';
 import './renderers/Panel';
 import './renderers/Plain';
 import './renderers/Spinner';

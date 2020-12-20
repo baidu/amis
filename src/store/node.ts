@@ -56,6 +56,30 @@ export const StoreNode = types
         removeChildId(child.id);
       },
 
+      syncProps(
+        props: any,
+        prevProps: any,
+        list: Array<string> = Object.keys(props)
+      ) {
+        const target: any = self;
+        if (!prevProps) {
+          list.forEach(key => {
+            if (typeof target[key] !== 'undefined') {
+              target[key] = props[key];
+            }
+          });
+        } else {
+          list.forEach(key => {
+            if (
+              typeof target[key] !== 'undefined' &&
+              props[key] !== prevProps[key]
+            ) {
+              target[key] = props[key];
+            }
+          });
+        }
+      },
+
       dispose,
       addChildId,
       removeChildId
