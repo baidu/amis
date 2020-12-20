@@ -49,6 +49,8 @@ import {DialogSchema} from './renderers/Dialog';
 import {DrawerSchema} from './renderers/Drawer';
 import {SearchBoxSchema} from './renderers/SearchBox';
 import {SparkLineSchema} from './renderers/SparkLine';
+import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
+import {PaginationSchema} from './renderers/Pagination';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -98,6 +100,8 @@ export type SchemaType =
   | 'mapping'
   | 'nav'
   | 'page'
+  | 'pagination'
+  | 'pagination-wrapper'
   | 'operation'
   | 'panel'
   | 'plain'
@@ -157,6 +161,8 @@ export type SchemaObject =
   | MappingSchema
   | NavSchema
   | OperationSchema
+  | PaginationSchema
+  | PaginationWrapperSchema
   | PanelSchema
   | PlainSchema
   | ProgressSchema

@@ -10,37 +10,36 @@ export const docs = [
       {
         label: '介绍',
         path: '/docs/index',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/index.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/index.md').then(makeMarkdownRenderer)
       },
 
       {
         label: '快速开始',
         path: '/docs/start/getting-started',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/start/getting-started.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/start/getting-started.md').then(
+            makeMarkdownRenderer
+          )
       },
 
       {
         label: '自定义',
         path: '/docs/start/custom',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/start/custom.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/start/custom.md').then(makeMarkdownRenderer)
       },
 
       {
         label: '常见问题',
         path: '/docs/start/faq',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/start/faq.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/start/faq.md').then(makeMarkdownRenderer)
       }
 
       // {
@@ -71,69 +70,62 @@ export const docs = [
       {
         label: '配置与组件',
         path: '/docs/concepts/schema',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/concepts/schema.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/concepts/schema.md').then(makeMarkdownRenderer)
       },
       {
         label: '数据域与数据链',
         path: '/docs/concepts/datascope-and-datachain',
-        getComponent: (location, cb) =>
-          (require as any)(
-            ['../../docs/concepts/datascope-and-datachain.md'],
-            doc => {
-              cb(null, makeMarkdownRenderer(doc));
-            }
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/concepts/datascope-and-datachain.md').then(
+            makeMarkdownRenderer
           )
       },
       {
         label: '模板',
         path: '/docs/concepts/template',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/concepts/template.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/concepts/template.md').then(makeMarkdownRenderer)
       },
       {
         label: '数据映射',
         path: '/docs/concepts/data-mapping',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/concepts/data-mapping.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/concepts/data-mapping.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: '表达式',
         path: '/docs/concepts/expression',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/concepts/expression.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/concepts/expression.md').then(makeMarkdownRenderer)
       },
       {
         label: '联动',
         path: '/docs/concepts/linkage',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/concepts/linkage.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/concepts/linkage.md').then(makeMarkdownRenderer)
       },
       {
         label: '行为',
         path: '/docs/concepts/action',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/concepts/action.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/concepts/action.md').then(makeMarkdownRenderer)
       },
       {
         label: '样式',
         path: '/docs/concepts/style',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/concepts/style.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/concepts/style.md').then(makeMarkdownRenderer)
       }
     ]
   },
@@ -144,26 +136,23 @@ export const docs = [
       {
         label: 'SchemaNode',
         path: '/docs/types/schemanode',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/types/schemanode.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/types/schemanode.md').then(makeMarkdownRenderer)
       },
       {
         label: 'API',
         path: '/docs/types/api',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/types/api.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/types/api.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Definitions',
         path: '/docs/types/definitions',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/types/definitions.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/types/definitions.md').then(makeMarkdownRenderer)
       }
     ]
   },
@@ -174,559 +163,512 @@ export const docs = [
       {
         label: '组件介绍',
         path: '/docs/components/component',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/component.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/component.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Page 页面',
         path: '/docs/components/page',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/page.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/page.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Form 表单',
         path: '/docs/components/form/index',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/form/index.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          }),
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/form/index.md').then(
+            makeMarkdownRenderer
+          ),
         children: [
           {
             label: 'FormItem 表单项',
             path: '/docs/components/form/formitem',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/formitem.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/formitem.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Options 选择器表单项',
             path: '/docs/components/form/options',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/options.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/options.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Array 数组输入框',
             path: '/docs/components/form/array',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/array.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/array.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Button 按钮',
             path: '/docs/components/form/button',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/button.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/button.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Button-Toolbar 按钮工具栏',
             path: '/docs/components/form/button-toolbar',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/button-toolbar.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/button-toolbar.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Button-Group 按钮集合',
             path: '/docs/components/form/button-group',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/button-group.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/button-group.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Chain-Select 链式下拉框',
             path: '/docs/components/form/chain-select',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/chain-select.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/chain-select.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Checkbox 勾选框',
             path: '/docs/components/form/checkbox',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/checkbox.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/checkbox.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Checkboxes 复选框',
             path: '/docs/components/form/checkboxes',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/checkboxes.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/checkboxes.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'City 城市选择器',
             path: '/docs/components/form/city',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/city.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/city.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Color 颜色选择器',
             path: '/docs/components/form/color',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/color.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/color.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Combo 组合',
             path: '/docs/components/form/combo',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/combo.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/combo.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Date 日期选择器',
             path: '/docs/components/form/date',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/date.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/date.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Datetime 日期时间选择器',
             path: '/docs/components/form/datetime',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/datetime.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/datetime.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Month 月份选择器',
             path: '/docs/components/form/month',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/month.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/month.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Date-Range 日期范围选择器',
             path: '/docs/components/form/date-range',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/date-range.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/date-range.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Datetime-Range 日期时间范围',
             path: '/docs/components/form/datetime-range',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/datetime-range.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/datetime-range.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'DiffEditor 对比编辑器',
             path: '/docs/components/form/diff-editor',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/diff-editor.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/diff-editor.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Editor 代码编辑器',
             path: '/docs/components/form/editor',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/editor.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/editor.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'FieldSet 表单项集合',
             path: '/docs/components/form/fieldset',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/fieldset.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/fieldset.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'File 文件上传',
             path: '/docs/components/form/file',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/file.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/file.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Formula 公式',
             path: '/docs/components/form/formula',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/formula.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/formula.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Grid 网格',
             path: '/docs/components/form/grid',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/grid.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/grid.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Group 表单项组',
             path: '/docs/components/form/group',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/group.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/group.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'HBox',
             path: '/docs/components/form/hbox',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/hbox.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/hbox.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Hidden 隐藏字段',
             path: '/docs/components/form/hidden',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/hidden.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/hidden.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Image 图片',
             path: '/docs/components/form/image',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/image.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/image.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Input-Group 输入框组合',
             path: '/docs/components/form/input-group',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/input-group.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/input-group.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'List 列表',
             path: '/docs/components/form/list',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/list.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/list.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Matrix 矩阵',
             path: '/docs/components/form/matrix',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/matrix.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/matrix.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'NestedSelect 级联选择器',
             path: '/docs/components/form/nestedselect',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/nestedselect.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/nestedselect.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Number 数字输入框',
             path: '/docs/components/form/number',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/number.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/number.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Panel 面板',
             path: '/docs/components/form/panel',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/panel.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/panel.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Picker 列表选择器',
             path: '/docs/components/form/picker',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/picker.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/picker.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Radios 单选框',
             path: '/docs/components/form/radios',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/radios.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/radios.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Rating 评分',
             path: '/docs/components/form/rating',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/rating.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/rating.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Range 滑块',
             path: '/docs/components/form/range',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/range.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/range.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Repeat 重复频率选择器',
             path: '/docs/components/form/repeat',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/repeat.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/repeat.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Rich-Text 富文本编辑器',
             path: '/docs/components/form/rich-text',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/rich-text.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/rich-text.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Select 选择器',
             path: '/docs/components/form/select',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/select.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/select.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Service 功能容器',
             path: '/docs/components/form/service',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/service.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/service.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'SubForm 子表单',
             path: '/docs/components/form/subform',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/subform.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/subform.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Switch 开关',
             path: '/docs/components/form/switch',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/switch.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/switch.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Static 静态展示',
             path: '/docs/components/form/static',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/static.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/static.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Tabs 选项卡',
             path: '/docs/components/form/tabs',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/tabs.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/tabs.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Table 表格',
             path: '/docs/components/form/table',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/table.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/table.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Tag 标签选择器',
             path: '/docs/components/form/tag',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/tag.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/tag.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Text 输入框',
             path: '/docs/components/form/text',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/text.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/text.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Textarea 多行输入框',
             path: '/docs/components/form/textarea',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/textarea.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/textarea.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Time 时间',
             path: '/docs/components/form/time',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/time.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/time.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'Transfer 穿梭器',
             path: '/docs/components/form/transfer',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/transfer.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/transfer.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'TabsTransfer 组合穿梭器',
             path: '/docs/components/form/tabs-transfer',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/tabs-transfer.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/tabs-transfer.md').then(
+                makeMarkdownRenderer
               )
           },
           {
             label: 'Tree 树形选择框',
             path: '/docs/components/form/tree',
-            getComponent: (location, cb) =>
-              (require as any)(['../../docs/components/form/tree.md'], doc => {
-                cb(null, makeMarkdownRenderer(doc));
-              })
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/tree.md').then(
+                makeMarkdownRenderer
+              )
           },
           {
             label: 'TreeSelect 树形选择器',
             path: '/docs/components/form/treeselect',
-            getComponent: (location, cb) =>
-              (require as any)(
-                ['../../docs/components/form/treeselect.md'],
-                doc => {
-                  cb(null, makeMarkdownRenderer(doc));
-                }
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/treeselect.md').then(
+                makeMarkdownRenderer
               )
           }
         ]
@@ -734,381 +676,348 @@ export const docs = [
       {
         label: 'CRUD 增删改查',
         path: '/docs/components/crud',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/crud.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/crud.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Table 表格',
         path: '/docs/components/table',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/table.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/table.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Action 行为按钮',
         path: '/docs/components/action',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/action.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/action.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Alert 提示',
         path: '/docs/components/alert',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/alert.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/alert.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Audio 音频',
         path: '/docs/components/audio',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/audio.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/audio.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Button 按钮',
         path: '/docs/components/button',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/button.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/button.md').then(makeMarkdownRenderer)
       },
       {
         label: 'ButtonGroup 按钮组',
         path: '/docs/components/button-group',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/button-group.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/button-group.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Card 卡片',
         path: '/docs/components/card',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/card.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/card.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Cards 卡片组',
         path: '/docs/components/cards',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/cards.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/cards.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Carousel 轮播图',
         path: '/docs/components/carousel',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/carousel.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/carousel.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Chart 图表',
         path: '/docs/components/chart',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/chart.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/chart.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Collapse 折叠器',
         path: '/docs/components/collapse',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/collapse.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/collapse.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Color 颜色',
         path: '/docs/components/color',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/color.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/color.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Container 容器',
         path: '/docs/components/container',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/container.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/container.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Date 日期时间',
         path: '/docs/components/date',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/date.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/date.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Dialog 对话框',
         path: '/docs/components/dialog',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/dialog.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/dialog.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Divider 分割线',
         path: '/docs/components/divider',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/divider.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/divider.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Drawer 抽屉',
         path: '/docs/components/drawer',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/drawer.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/drawer.md').then(makeMarkdownRenderer)
       },
       {
         label: 'DropDownButton',
         path: '/docs/components/dropdown-button',
-        getComponent: (location, cb) =>
-          (require as any)(
-            ['../../docs/components/dropdown-button.md'],
-            doc => {
-              cb(null, makeMarkdownRenderer(doc));
-            }
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/dropdown-button.md').then(
+            makeMarkdownRenderer
           )
       },
       {
         label: 'Each 循环渲染器',
         path: '/docs/components/each',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/each.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/each.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Grid 网格布局',
         path: '/docs/components/grid',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/grid.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/grid.md').then(makeMarkdownRenderer)
       },
       {
         label: 'HBox 布局',
         path: '/docs/components/hbox',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/hbox.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/hbox.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Html',
         path: '/docs/components/html',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/html.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/html.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Icon 图标',
         path: '/docs/components/icon',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/icon.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/icon.md').then(makeMarkdownRenderer)
       },
       {
         label: 'iFrame',
         path: '/docs/components/iframe',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/iframe.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/iframe.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Image 图片',
         path: '/docs/components/image',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/image.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/image.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Images 图片集',
         path: '/docs/components/images',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/images.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/images.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Json',
         path: '/docs/components/json',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/json.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/json.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Link 链接',
         path: '/docs/components/link',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/link.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/link.md').then(makeMarkdownRenderer)
       },
       {
         label: 'List 列表',
         path: '/docs/components/list',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/list.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/list.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Mapping 映射',
         path: '/docs/components/mapping',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/mapping.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/mapping.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Nav 导航',
         path: '/docs/components/nav',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/nav.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/nav.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Panel 面板',
         path: '/docs/components/panel',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/panel.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/panel.md').then(makeMarkdownRenderer)
+      },
+      {
+        label: 'PaginationWrapper',
+        path: '/docs/components/pagination-wrapper',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/pagination-wrapper.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Progress 进度条',
         path: '/docs/components/progress',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/progress.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/progress.md').then(makeMarkdownRenderer)
       },
       {
         label: 'QRCode 二维码',
         path: '/docs/components/qrcode',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/qrcode.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/qrcode.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Remark 标记',
         path: '/docs/components/remark',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/remark.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/remark.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Service 功能型容器',
         path: '/docs/components/service',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/service.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/service.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Sparkline 走势图',
         path: '/docs/components/sparkline',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/sparkline.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/sparkline.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Spinner 加载中',
         path: '/docs/components/spinner',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/spinner.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/spinner.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Status 状态',
         path: '/docs/components/status',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/status.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/status.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Switch 开关',
         path: '/docs/components/switch',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/switch.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/switch.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Tabs 选项卡',
         path: '/docs/components/tabs',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/tabs.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/tabs.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Tasks 任务操作集合',
         path: '/docs/components/tasks',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/tasks.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/tasks.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Tpl 模板',
         path: '/docs/components/tpl',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/tpl.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/tpl.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Video 视频',
         path: '/docs/components/video',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/video.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/video.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Wrapper 包裹容器',
         path: '/docs/components/wrapper',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/wrapper.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/wrapper.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Wizard 向导',
         path: '/docs/components/wizard',
-        getComponent: (location, cb) =>
-          (require as any)(['../../docs/components/wizard.md'], doc => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/wizard.md').then(makeMarkdownRenderer)
       }
     ]
   }

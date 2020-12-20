@@ -2,15 +2,37 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {autobind} from '../utils/helper';
 import {Icon} from '../components/icons';
+import {BaseSchema, SchemaClassName} from '../Schema';
 
-export interface PaginationProps extends RendererProps {
+export interface PaginationSchema extends BaseSchema {
+  type: 'pagination';
+
+  className?: SchemaClassName;
+
+  /**
+   * 是否显示跳转表单
+   */
+  showPageInput?: boolean;
+
+  /**
+   * 模式，默认显示多个分页数字，如果只想简单显示可以配置成 `simple`。
+   */
+  mode?: 'simple' | 'normal';
+
+  /**
+   * 最多显示多少个分页按钮。
+   *
+   * @default 5
+   */
+  maxButtons?: number;
+}
+
+export interface PaginationProps extends RendererProps, PaginationSchema {
   activePage: number;
-  items: number;
-  maxButtons: number;
+  lastPage: number;
   hasNext: boolean;
-  mode: string;
+  maxButtons: number;
   onPageChange: (page: number, perPage?: number) => void;
-  showPageInput: boolean;
 }
 
 export interface PaginationState {
@@ -23,7 +45,7 @@ export default class Pagination extends React.Component<
 > {
   static defaultProps = {
     activePage: 1,
-    items: 1,
+    lastPage: 1,
     maxButtons: 5,
     mode: 'normal',
     hasNext: false,
@@ -81,11 +103,11 @@ export default class Pagination extends React.Component<
 
   @autobind
   handlePageChange(e: React.ChangeEvent<any>) {
-    const {items} = this.props;
+    const {lastPage} = this.props;
     let value = e.currentTarget.value;
 
-    if (/^\d+$/.test(value) && parseInt(value, 10) > items) {
-      value = String(items);
+    if (/^\d+$/.test(value) && parseInt(value, 10) > lastPage) {
+      value = String(lastPage);
     }
 
     this.setState({pageNum: value});
@@ -94,11 +116,12 @@ export default class Pagination extends React.Component<
   renderNormal() {
     let {
       activePage,
-      items,
+      lastPage,
       maxButtons,
       onPageChange,
       classnames: cx,
-      showPageInput
+      showPageInput,
+      className
     } = this.props;
     const pageNum = this.state.pageNum;
 
@@ -110,22 +133,22 @@ export default class Pagination extends React.Component<
       maxButtons = activePage + (maxButtons - 1) / 2;
     }
 
-    if (items - activePage < (maxButtons - 1) / 2 + 2) {
-      maxButtons = items - activePage + (maxButtons - 1) / 2 + 1;
+    if (lastPage - activePage < (maxButtons - 1) / 2 + 2) {
+      maxButtons = lastPage - activePage + (maxButtons - 1) / 2 + 1;
     }
 
-    if (maxButtons && maxButtons < items) {
+    if (maxButtons && maxButtons < lastPage) {
       startPage = Math.max(
         Math.min(
           activePage - Math.floor(maxButtons / 2),
-          items - maxButtons + 1
+          lastPage - maxButtons + 1
         ),
         1
       );
       endPage = startPage + maxButtons - 1;
     } else {
       startPage = 1;
-      endPage = items;
+      endPage = lastPage;
     }
 
     for (let page = startPage; page <= endPage; ++page) {
@@ -164,8 +187,8 @@ export default class Pagination extends React.Component<
       );
     }
 
-    if (endPage < items) {
-      if (items - endPage > 1) {
+    if (endPage < lastPage) {
+      if (lastPage - endPage > 1) {
         pageButtons.push(
           <li
             className={cx('Pagination-ellipsis')}
@@ -181,13 +204,13 @@ export default class Pagination extends React.Component<
 
       pageButtons.push(
         <li
-          onClick={() => onPageChange(items)}
-          key={items}
+          onClick={() => onPageChange(lastPage)}
+          key={lastPage}
           className={cx({
-            'is-active': items === activePage
+            'is-active': lastPage === activePage
           })}
         >
-          <a role="button">{items}</a>
+          <a role="button">{lastPage}</a>
         </li>
       );
     }
@@ -213,10 +236,10 @@ export default class Pagination extends React.Component<
     pageButtons.push(
       <li
         className={cx('Pagination-next', {
-          'is-disabled': activePage === items
+          'is-disabled': activePage === lastPage
         })}
         onClick={
-          activePage === items
+          activePage === lastPage
             ? (e: any) => e.preventDefault()
             : () => onPageChange(activePage + 1)
         }
@@ -229,10 +252,10 @@ export default class Pagination extends React.Component<
     );
 
     return (
-      <div>
+      <div className={cx('Pagination-wrap', className)}>
         <ul className={cx('Pagination', 'Pagination--sm')}>{pageButtons}</ul>
 
-        {items > 9 && showPageInput ? (
+        {lastPage > 9 && showPageInput ? (
           <div className="inline m-l-xs w-xs" key="toPage">
             <span className={cx('Pagination-inputGroup')}>
               <input
@@ -270,7 +293,7 @@ export default class Pagination extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)pagination$/,
+  test: /(^|\/)(?:pagination|pager)$/,
   name: 'pagination'
 })
 export class PaginationRenderer extends Pagination {}

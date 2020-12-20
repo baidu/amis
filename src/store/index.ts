@@ -19,6 +19,7 @@ import find from 'lodash/find';
 import {IStoreNode} from './node';
 import {FormItemStore} from './formItem';
 import {addStore, getStoreById, getStores, removeStore} from './manager';
+import {PaginationStore} from './pagination';
 
 setLivelynessChecking(
   process.env.NODE_ENV === 'production' ? 'ignore' : 'error'
@@ -32,7 +33,8 @@ const allowedStoreList = [
   TableStore,
   ListStore,
   ModalStore,
-  FormItemStore
+  FormItemStore,
+  PaginationStore
 ];
 
 export const RendererStore = types

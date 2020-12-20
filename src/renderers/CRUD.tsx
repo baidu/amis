@@ -1592,7 +1592,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           },
           {
             activePage: page,
-            items: lastPage,
+            lastPage: lastPage,
             hasNext: store.hasNext,
             mode: store.mode,
             onPageChange: this.handleChangePage
