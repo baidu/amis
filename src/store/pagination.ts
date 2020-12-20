@@ -36,7 +36,6 @@ export const PaginationStore = iRendererStore
       });
     },
     get lastPage() {
-      console.log(this.inputItems);
       return Math.ceil(this.inputItems.length / self.perPage);
     }
   }))
