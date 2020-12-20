@@ -127,7 +127,7 @@ class Preview extends React.Component {
           component={CodePreview}
           code={script.innerText}
           scope={props.scope}
-          unMountOnHidden
+          // unMountOnHidden
           height={height}
           placeholder="加载中，请稍后。。。"
         />,

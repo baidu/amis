@@ -39,6 +39,7 @@ import FixedCrudSchema from './CRUD/Fix';
 import AsideCrudSchema from './CRUD/Aside';
 import FieldsCrudSchema from './CRUD/Fields';
 import JumpNextCrudSchema from './CRUD/JumpNext';
+import PopOverCrudSchema from './CRUD/PopOver';
 import KeyboardsCrudSchema from './CRUD/Keyboards';
 import FootableCrudSchema from './CRUD/Footable';
 import NestedCrudSchema from './CRUD/Nested';
@@ -340,6 +341,11 @@ export const examples = [
             label: '操作并下一个',
             path: '/examples/crud/jump-next',
             component: makeSchemaRenderer(JumpNextCrudSchema)
+          },
+          {
+            label: '列展示详情',
+            path: '/examples/crud/popover',
+            component: makeSchemaRenderer(PopOverCrudSchema)
           },
           {
             label: '一次性加载',

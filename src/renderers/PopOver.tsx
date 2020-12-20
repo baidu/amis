@@ -46,6 +46,16 @@ export interface SchemaPopOverObject {
     | 'fixed-right-bottom';
 
   /**
+   * 触发条件，默认是 click
+   */
+  trigger?: 'click' | 'hover';
+
+  /**
+   * 是否显示查看更多的 icon，通常是放大图标。
+   */
+  showIcon?: boolean;
+
+  /**
    * 偏移量
    */
   offset?: {
@@ -78,6 +88,7 @@ export interface PopOverState {
 export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
   Component: React.ComponentType<any>
 ): any => {
+  let lastOpenedInstance: PopOverComponent | null = null;
   class PopOverComponent extends React.Component<PopOverProps, PopOverState> {
     target: HTMLElement;
     static ComposedComponent = Component;
@@ -99,6 +110,8 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
 
     openPopOver() {
       const onPopOverOpened = this.props.onPopOverOpened;
+      lastOpenedInstance?.closePopOver();
+      lastOpenedInstance = this;
       this.setState(
         {
           isOpened: true
@@ -112,6 +125,7 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
         return;
       }
 
+      lastOpenedInstance = null;
       const onPopOverClosed = this.props.onPopOverClosed;
       this.setState(
         {
@@ -194,7 +208,14 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
           disabled={!this.state.isOpened}
           onRootClose={this.closePopOver}
         >
-          <div className={cx(`PopOverAble--fixed PopOverAble--${position}`)}>
+          <div
+            className={cx(`PopOverAble--fixed PopOverAble--${position}`)}
+            onMouseLeave={
+              (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                ? this.closePopOver
+                : undefined
+            }
+          >
             {content}
           </div>
         </RootCloseWrapper>
@@ -211,6 +232,11 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
             classPrefix={ns}
             className={cx('PopOverAble-popover')}
             offset={(popOver as SchemaPopOverObject).offset}
+            onMouseLeave={
+              (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                ? this.closePopOver
+                : undefined
+            }
           >
             {content}
           </PopOver>
@@ -224,11 +250,20 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
         popOverEnabled,
         className,
         noHoc,
-        classnames: cx
+        classnames: cx,
+        showIcon
       } = this.props;
 
       if (!popOver || popOverEnabled === false || noHoc) {
         return <Component {...this.props} />;
+      }
+
+      const triggerProps: any = {};
+      const trigger = (popOver as SchemaPopOverObject)?.trigger;
+      if (trigger === 'hover') {
+        triggerProps.onMouseEnter = this.openPopOver;
+      } else {
+        triggerProps.onClick = this.openPopOver;
       }
 
       return (
@@ -237,21 +272,33 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
           className={cx(`Field--popOverAble`, className, {
             in: this.state.isOpened
           })}
+          ref={this.targetRef}
         >
-          <Component
-            {...this.props}
-            wrapperComponent={''}
-            noHoc
-            ref={this.targetRef}
-          />
-          <span
-            key="popover-btn"
-            className={cx('Field-popOverBtn')}
-            onClick={this.openPopOver}
-          >
-            <Icon icon="zoom-in" className="icon" />
-          </span>
-          {this.state.isOpened ? this.renderPopOver() : null}
+          {(popOver as SchemaPopOverObject)?.showIcon !== false ? (
+            <>
+              <Component {...this.props} wrapperComponent={''} noHoc />
+              <span
+                key="popover-btn"
+                className={cx('Field-popOverBtn')}
+                {...triggerProps}
+              >
+                <Icon icon="zoom-in" className="icon" />
+              </span>
+              {this.state.isOpened ? this.renderPopOver() : null}
+            </>
+          ) : (
+            <>
+              <div className={cx('Field-popOverWrap')} {...triggerProps}>
+                <Component
+                  {...this.props}
+                  wrapperComponent={''}
+                  noHoc
+                  ref={this.targetRef}
+                />
+              </div>
+              {this.state.isOpened ? this.renderPopOver() : null}
+            </>
+          )}
         </Component>
       );
     }

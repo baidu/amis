@@ -497,9 +497,9 @@ order: 67
 }
 ```
 
-### 弹出框
+### 弹出框（popOver）
 
-可以给列上配置`popover`属性，会在该列的内容区里，渲染一个图标，点击会显示弹出框，用于展示内容
+可以给列上配置`popOver`属性，会在该列的内容区里，渲染一个图标，点击会显示弹出框，用于展示内容
 
 ```schema:height="600" scope="body"
 {
@@ -541,6 +541,9 @@ order: 67
             "label": "Rendering engine",
             "tpl": "${engine|truncate:2}",
             "popOver": {
+                "trigger": "hover",
+                "position": "left-top",
+                "showIcon": false,
                 "body": {
                     "type": "tpl",
                     "tpl": "${engine}"
@@ -552,6 +555,17 @@ order: 67
 ```
 
 > 示例内容没那么长，直接配置成 2 个字符了。
+
+`popOver` 配置详情：
+
+- `mode` 可配置成 `popOver`、`dialog` 或者 `drawer`。 默认为 `popOver`。
+- `size` 当配置成 `dialog` 或者 `drawer` 的时候有用。
+- `position` 配置弹出位置，只有 `popOver` 模式有用。可选参数：`center`、`left-top`、`right-top`、`left-bottom`、`right-bottom`、`fixed-center`、`fixed-left-top`、`fixed-right-top`、`fixed-left-bottom`、`fixed-right-bottom`。
+- `offset` 默认 `{top: 0, left: 0}`，如果要来一定的便宜请设置这个。
+- `trigger` 触发弹出的条件。可配置为 `click` 或者 `hover`。默认为 `click`。
+- `showIcon` 是否显示图标。默认会有个放大形状的图标出现在列里面。如果配置成 false，则触发事件出现在列上就会触发弹出。
+- `title` 弹出框的标题。
+- `body` 弹出框的内容。
 
 ### 表头样式
 
