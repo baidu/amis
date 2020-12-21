@@ -144,6 +144,8 @@ export const filters: {
     }
     return ret;
   },
+  toInt: input => (typeof input === 'string' ? parseInt(input, 10) : input),
+  toFloat: input => (typeof input === 'string' ? parseFloat(input) : input),
   raw: input => input,
   now: () => new Date(),
   toDate: (input: any, inputFormat = '') => {
@@ -317,12 +319,12 @@ export const filters: {
   },
   base64Encode(str) {
     return btoa(
-      encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(
-        match,
-        p1
-      ) {
-        return String.fromCharCode(('0x' + p1) as any);
-      })
+      encodeURIComponent(str).replace(
+        /%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+          return String.fromCharCode(('0x' + p1) as any);
+        }
+      )
     );
   },
 
