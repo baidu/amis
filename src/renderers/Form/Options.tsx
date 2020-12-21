@@ -59,6 +59,11 @@ export interface FormOptionsControl extends FormBaseControl {
   source?: SchemaApi | SchemaTokenizeableString;
 
   /**
+   * 默认选择选项第一个值。
+   */
+  selectFirst?: boolean;
+
+  /**
    * 用表达式来配置 source 接口初始要不要拉取
    *
    * @deprecated 建议用 source 接口的 sendOn
@@ -270,7 +275,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         formInited,
         valueField,
         options,
-        value
+        value,
+        selectFirst
       } = this.props;
 
       if (formItem) {
@@ -296,6 +302,21 @@ export function registerOptionsControl(config: OptionsConfig) {
         setPrinstineValue(
           multiple ? selectedOptions.concat() : selectedOptions[0]
         );
+      }
+
+      // 默认选择第一个
+      if (
+        formItem &&
+        selectFirst &&
+        formItem.options.length &&
+        !formItem.selectedOptions.length
+      ) {
+        const list = extractValue
+          ? formItem.options.map(
+              (selectedOption: Option) => selectedOption[valueField || 'value']
+            )
+          : formItem.options;
+        setPrinstineValue(multiple ? list.slice(0, 1) : list[0]);
       }
 
       loadOptions &&
@@ -357,10 +378,11 @@ export function registerOptionsControl(config: OptionsConfig) {
             props.data,
             '| raw'
           );
-          prevOptions !== options &&
-            formItem.setOptions(normalizeOptions(options || []));
 
-          this.normalizeValue();
+          if (prevOptions !== options) {
+            formItem.setOptions(normalizeOptions(options || []));
+            this.normalizeValue();
+          }
         } else if (
           isEffectiveApi(props.source, props.data) &&
           isApiOutdated(
@@ -564,7 +586,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     @autobind
     reloadOptions(setError?: boolean) {
-      const {source, formItem, data, onChange} = this.props;
+      const {source, formItem, data, onChange, selectFirst} = this.props;
 
       if (formItem && isPureVariable(source as string)) {
         formItem.setOptions(
@@ -572,6 +594,16 @@ export function registerOptionsControl(config: OptionsConfig) {
             resolveVariableAndFilter(source as string, data, '| raw') || []
           )
         );
+
+        // 默认选中第一个。
+        if (
+          selectFirst &&
+          formItem.options.length &&
+          !formItem.selectedOptions.length
+        ) {
+          this.handleToggle(formItem.options[0], false, true);
+        }
+
         return;
       } else if (!formItem || !isEffectiveApi(source, data)) {
         return;

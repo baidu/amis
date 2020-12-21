@@ -274,6 +274,36 @@ order: 2
 
 上例我们设置默认值为`b`，则会自动匹配到选项`B`并选中。
 
+如果想默认选择第一个，可以直接配置 `selectFirst` 属性。
+
+```schema:height="260" scope="body"
+{
+    "type": "form",
+    "controls": [
+        {
+            "label": "选项",
+            "type": "select",
+            "name": "select",
+            "selectFirst": true,
+            "options": [
+                {
+                    "label":"A",
+                    "value":"a"
+                },
+                {
+                    "label":"B",
+                    "value":"b"
+                },
+                {
+                    "label":"C",
+                    "value":"c"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ### 动态配置
 
 有时候我们想默认选中一个选项，但是`options`又是远程拉取的，无法确定默认值是啥，这时候，**需要在`source`接口中返回`value`，来动态设置默认值**，**接口返回数据结构**如下：
