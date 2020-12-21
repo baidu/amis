@@ -84,11 +84,7 @@ export default class PlayGround extends React.Component {
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.removeWindowEvents = this.removeWindowEvents.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.schemaProps = {
-      style: {
-        height: '100%'
-      }
-    };
+    this.schemaProps = {};
     this.env = {
       session: 'doc',
       updateLocation: (location, replace) => {

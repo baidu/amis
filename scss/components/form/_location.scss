@@ -2,63 +2,63 @@
   position: relative;
   display: inline-flex;
   flex-wrap: nowrap;
-  border: $DatePicker-borderWidth solid $DatePicker-borderColor;
-  font-size: $DatePicker-fontSize;
-  padding: $DatePicker-paddingY $DatePicker-paddingX;
-  height: $DatePicker-height;
+  border: var(--DatePicker-borderWidth) solid var(--DatePicker-borderColor);
+  font-size: var(--DatePicker-fontSize);
+  padding: var(--DatePicker-paddingY) var(--DatePicker-paddingX);
+  height: var(--DatePicker-height);
   outline: none;
   white-space: nowrap;
-  color: $DatePicker-color;
-  background-color: $DatePicker-bg;
-  border-radius: $DatePicker-borderRadius;
+  color: var(--DatePicker-color);
+  background: var(--DatePicker-bg);
+  border-radius: var(--DatePicker-borderRadius);
 
   &:not(.is-disabled) {
     cursor: pointer;
 
     &:hover {
-      background-color: $DatePicker-onHover-bg;
-      border-color: $DatePicker-onHover-borderColor;
+      background: var(--DatePicker-onHover-bg);
+      border-color: var(--DatePicker-onHover-borderColor);
 
       .#{$ns}DatePicker-toggler:before {
-        color: $DatePicker-onHover-iconColor;
+        color: var(--DatePicker-onHover-iconColor);
       }
     }
   }
 
   &.is-focused,
   &.is-active {
-    border-color: $DatePicker-onFocused-borderColor;
-    box-shadow: $Form-input-boxShadow;
+    border-color: var(--DatePicker-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
   }
 
   &.is-disabled {
     background: $gray200;
 
     > #{$ns}LocationPicker-input {
-      color: $text--muted-color;
+      color: var(--text--muted-color);
     }
   }
 
   &-placeholder {
-    color: $DatePicker-placeholderColor;
+    color: var(--DatePicker-placeholderColor);
     user-select: none;
-    margin-right: $gap-base;
+    margin-right: var(--gap-base);
     flex-basis: 0;
     flex-grow: 1;
   }
 
   &-value {
-    margin-right: $gap-base;
+    margin-right: var(--gap-base);
     flex-basis: 0;
     flex-grow: 1;
   }
 
   &-toggler {
     cursor: pointer;
-    color: $DatePicker-iconColor;
+    color: var(--DatePicker-iconColor);
 
     &:hover {
-      color: $DatePicker-onHover-iconColor;
+      color: var(--DatePicker-onHover-iconColor);
     }
   }
 
@@ -66,7 +66,7 @@
     display: inline-block;
     @include input-clear();
     line-height: 1;
-    margin-right: $gap-xs;
+    margin-right: var(--gap-xs);
   }
 }
 
@@ -84,7 +84,7 @@
   width: 100%;
   max-width: 100%;
   margin-top: -1px;
-  border-color: $Form-input-onFocused-borderColor;
+  border-color: var(--Form-input-onFocused-borderColor);
 }
 
 .#{$ns}MapPicker {
@@ -101,7 +101,7 @@
   &-item {
     padding: 10px 10px;
     position: relative;
-    border-top: 1px solid $borderColor;
+    border-top: 1px solid var(--borderColor);
 
     > svg {
       position: absolute;
@@ -112,22 +112,26 @@
   }
 
   &-itemTitle {
-    font-size: $fontSizeBase;
+    font-size: var(--fontSizeBase);
   }
 
   &-itemDesc {
-    font-size: $fontSizeSm;
+    font-size: var(--fontSizeSm);
   }
 
   &-sugItem {
     cursor: pointer;
-    padding: (
-        $Form-select-menu-height - $Form-input-lineHeight * $Form-input-fontSize
-      )/2 $Form-select-paddingX;
+    padding: calc(
+        (
+            var(--Form-select-menu-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--Form-select-paddingX);
 
     &:hover {
-      color: $Form-select-menu-onActive-color;
-      background-color: $Form-select-menu-onActive-bg;
+      color: var(--Form-select-menu-onActive-color);
+      background: var(--Form-select-menu-onActive-bg);
     }
   }
 }

@@ -24,6 +24,7 @@ function prefixCss(code, prefix) {
 
   function prefixSelector(sel) {
     if (sel.match(/^@/)) return sel;
+    if (sel.match(/^:root/)) return sel;
     var m = sel.match(/(^| )(body|html)($|\W.*)/i);
     if (m) return m[1] + prefix + m[3];
     else if (sel.match(/^\.is\-modalOpened/))

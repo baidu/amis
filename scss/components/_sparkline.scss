@@ -4,12 +4,12 @@
   vertical-align: middle;
 
   &-line {
-    stroke: $Sparkline-line-color;
+    stroke: var(--Sparkline-line-color);
     stroke-width: 1px;
   }
 
   &-area {
-    fill: $Sparkline-area-color;
+    fill: var(--Sparkline-area-color);
   }
 
   &--clickable {

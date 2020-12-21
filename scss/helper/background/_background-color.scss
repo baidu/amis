@@ -16,11 +16,11 @@ title: 背景色
   $suffix: ''
 ) {
   #{$prefix}bg#{$namePrefix}-transparent#{$suffix} {
-    background-color: transparent;
+    background: transparent;
   }
 
   #{$prefix}bg#{$namePrefix}-current#{$suffix} {
-    background-color: currentColor;
+    background: currentColor;
   }
 
   @each $name, $color in $colors {
@@ -29,16 +29,16 @@ title: 背景色
     } @else if $suffix == '.is-active' {
       #{$prefix}bg#{$namePrefix}-#{'' + $name}.is-active,
       #{$prefix}bg#{$namePrefix}-#{'' + $name}:active {
-        background-color: $color;
+        background: $color;
       }
     } @else if $suffix == '.is-disabled' {
       #{$prefix}bg#{$namePrefix}-#{'' + $name}.is-disabled,
       #{$prefix}bg#{$namePrefix}-#{'' + $name}:disabled {
-        background-color: $color;
+        background: $color;
       }
     } @else {
       #{$prefix}bg#{$namePrefix}-#{'' + $name}#{$suffix} {
-        background-color: $color;
+        background: $color;
       }
     }
   }
@@ -46,7 +46,7 @@ title: 背景色
 
 @mixin bg-colors($prefix: '.', $suffix: '') {
   #{$prefix}bg-transparent#{$suffix} {
-    background-color: transparent;
+    background: transparent;
   }
   #{$prefix}bg-none#{$suffix} {
     background: none !important;

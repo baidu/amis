@@ -55,12 +55,12 @@
 
 // @deprecated 不建议用了
 @mixin color-schema($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
-  background-color: saturate(darken($bg-color, $percent), $sat-percent);
+  background: saturate(darken($bg-color, $percent), $sat-percent);
 }
 
 // @deprecated 不建议用了
 @mixin color-schema-lt($bg-color: #555, $percent: 15%, $sat-percent: 100%) {
-  background-color: desaturate(lighten($bg-color, $percent), $sat-percent);
+  background: desaturate(lighten($bg-color, $percent), $sat-percent);
 }
 
 // @deprecated 不建议用了
@@ -71,7 +71,7 @@
   $dk-percent: 10%,
   $dker-percent: 15%
 ) {
-  background-color: $bg-color;
+  background: $bg-color;
 
   &.lt,
   & .lt {
@@ -95,7 +95,7 @@
 
   &.bg,
   & .bg {
-    background-color: $bg-color;
+    background: $bg-color;
   }
 }
 
@@ -124,18 +124,18 @@
   }
 
   & .text-muted {
-    color: darken($font-color, 10%) !important;
+    color: darken($text-color, 10%) !important;
   }
 
   & .text-lt {
-    color: lighten($font-color, 25%) !important;
+    color: lighten($text-color, 25%) !important;
   }
 
   // &.auto,
   // & .auto {
   //   & .list-group-item {
   //     border-color: darken($bg-color, 5%) !important;
-  //     background-color: transparent;
+  //     background: transparent;
 
   //     &:hover,
   //     &:focus,
@@ -150,7 +150,7 @@
 // @deprecated 不建议用了
 @mixin text-wariant($bg-color, $name) {
   a.bg-#{'' + $name}:hover {
-    background-color: darken($bg-color, 5%);
+    background: darken($bg-color, 5%);
   }
 
   a.text-#{'' + $name}:hover {
@@ -241,34 +241,35 @@
   $active-color: $color
 ) {
   color: $color;
-  background-color: $background;
+  background: $background;
   border-color: $border;
-  box-shadow: $Button-boxShadow;
+  box-shadow: var(--Button-boxShadow);
 
   @include hover {
-    @if ($color != $hover-color) {
-      color: $hover-color;
-    }
-    @if ($background != $hover-background) {
-      background-color: $hover-background;
-    }
-    @if ($border != $hover-border) {
-      border-color: $hover-border;
-    }
+    // todo: 无法支持 css 变量
+    // @if ($color != $hover-color) {
+    color: $hover-color;
+    // }
+    // @if ($background != $hover-background) {
+    background: $hover-background;
+    // }
+    // @if ($border != $hover-border) {
+    border-color: $hover-border;
+    // }
   }
 
   // @include focus {
   //   color: $color;
-  //   background-color: $background;
+  //   background: $background;
   //   border-color: $border;
-  //   box-shadow: $Button-boxShadow;
+  //   box-shadow: var(--Button-boxShadow);
   // }
 
   @include hover-focus {
     // color: $hover-color;
-    // background-color: $hover-background;
+    // background: $hover-background;
     // border-color: $hover-border;
-    box-shadow: $Button-boxShadow;
+    box-shadow: var(--Button-boxShadow);
   }
 
   &:active,
@@ -278,7 +279,7 @@
     }
 
     @if ($active-background != $background) {
-      background-color: $active-background;
+      background: $active-background;
     }
 
     @if ($active-border != $border) {
@@ -292,7 +293,7 @@
       $Button-onDisabled-bg !=
       $background
     {
-      background-color: $Button-onDisabled-bg;
+      background: $Button-onDisabled-bg;
     }
 
     @if variable-exists(Button-onDisabled-color) and
@@ -303,10 +304,10 @@
     }
 
     @if variable-exists(Button-onDisabled-borderColor) and
-      $Button-onDisabled-borderColor !=
+      var(--Button-onDisabled-borderColor) !=
       $border
     {
-      border-color: $Button-onDisabled-borderColor;
+      border-color: var(--Button-onDisabled-borderColor);
     }
   }
 }
@@ -320,26 +321,26 @@
   margin-left: auto;
 
   svg {
-    fill: $Form-input-iconColor;
+    fill: var(--Form-input-iconColor);
     top: 0;
     width: px2rem(10px);
     height: px2rem(10px);
   }
 
   &:hover svg {
-    fill: darken($color: $Form-input-iconColor, $amount: 20%);
+    fill: var(--Form-input-onHover-iconColor);
   }
 }
 
 @mixin input-input {
   display: flex;
-  background-color: $Form-input-bg;
-  border: $Form-input-borderWidth solid $Form-input-borderColor;
-  border-radius: $Form-input-borderRadius;
-  // height: $Form-input-height;
-  line-height: $Form-input-lineHeight;
-  padding: $Form-input-paddingY $Form-input-paddingX;
-  font-size: $Form-input-fontSize;
+  background: var(--Form-input-bg);
+  border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+  border-radius: var(--Form-input-borderRadius);
+  // height: var(--Form-input-height);
+  line-height: var(--Form-input-lineHeight);
+  padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  font-size: var(--Form-input-fontSize);
   flex-wrap: wrap;
   justify-content: flex-start;
 
@@ -349,12 +350,12 @@
     outline: none;
     background: transparent;
     border: none;
-    color: $Form-input-color;
+    color: var(--Form-input-color);
     width: 100%;
-    height: $Form-input-lineHeight * $Form-input-fontSize;
+    height: calc(var(--Form-input-lineHeight) * var(--Form-input-fontSize));
 
     &::placeholder {
-      color: $Form-input-placeholderColor;
+      color: var(--Form-input-placeholderColor);
       user-select: none;
     }
   }
@@ -366,7 +367,7 @@
 
   &.is-inline {
     display: inline-block;
-    width: $Form-control-widthBase;
+    width: var(--Form-control-widthBase);
   }
 
   &-input {
@@ -374,31 +375,30 @@
   }
 
   &.is-error > &-input {
-    border-color: $Form-input-onError-borderColor;
-    background-color: $Form-input-onError-bg;
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
   }
 
   &.is-focused > &-input {
-    border-color: $Form-input-onFocused-borderColor;
-    box-shadow: $Form-input-boxShadow;
-
-    @if $Form-input-onFocused-bg !=$Form-input-bg {
-      background-color: $Form-input-onFocused-bg;
-    }
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    background: var(--Form-input-onFocused-bg);
   }
 
   &.is-error.is-focused > &-input {
-    border-color: $Form-input-onError-borderColor;
+    border-color: var(--Form-input-onError-borderColor);
   }
 
   &.is-disabled > &-input {
-    color: $text--muted-color;
-    background: $Form-input-onDisabled-bg;
-    border-color: $Form-input-onDisabled-borderColor;
+    color: var(--text--muted-color);
+    background: var(--Form-input-onDisabled-bg);
+    border-color: var(--Form-input-onDisabled-borderColor);
   }
 
   &-spinner {
-    line-height: $Form-input-lineHeight * $Form-input-fontSize;
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize)
+    );
   }
 
   &-clear {
@@ -418,29 +418,35 @@
 }
 
 @mixin checkboxes-placeholder {
-  height: $Form-input-height;
-  line-height: $Form-input-lineHeight;
-  font-size: $Form-input-fontSize;
-  padding: ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize)/2
-    $gap-sm;
-  color: $text--muted-color;
+  height: var(--Form-input-height);
+  line-height: var(--Form-input-lineHeight);
+  font-size: var(--Form-input-fontSize);
+  padding: calc(
+      (
+          var(--Form-input-height) - var(--Form-input-lineHeight) *
+            var(--Form-input-fontSize)
+        ) / 2
+    )
+    var(--gap-sm);
+  color: var(--text--muted-color);
 }
 
 @mixin label-variant($color) {
-  background-color: $color;
+  background: $color;
 
-  &[href] {
-    &:hover,
-    &:focus {
-      background-color: darken($color, 10%);
-    }
-  }
+  // todo：不支持了
+  // &[href] {
+  //   &:hover,
+  //   &:focus {
+  //     background: darken($color, 10%);
+  //   }
+  // }
 }
 
 @mixin icon-color {
-  color: $icon-color;
+  color: var(--icon-color);
 
   &:hover {
-    color: $icon-onHover-color;
+    color: var(--icon-onHover-color);
   }
 }

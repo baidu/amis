@@ -23,7 +23,7 @@
 
   .#{$ns}InputRange {
     &-input {
-      font-size: $fontSizeSm;
+      font-size: var(--fontSizeSm);
       position: absolute;
       right: px2rem(26px);
       top: px2rem(12px);
@@ -36,7 +36,7 @@
 
         &:focus {
           outline: none;
-          border: $borderWidth solid $info;
+          border: var(--borderWidth) solid var(--info);
         }
       }
 
@@ -68,39 +68,41 @@
 }
 
 .#{$ns}InputRange {
-  height: $InputRange-slider-height;
+  height: var(--InputRange-slider-height);
   position: relative;
   width: 100%;
 
   // slider
   &-slider {
     appearance: none;
-    background: $InputRange-slider-bg;
-    border: $InputRange-slider-border;
+    background: var(--InputRange-slider-bg);
+    border: var(--InputRange-slider-border);
     // border-radius: 100%;
     cursor: pointer;
     display: block;
-    width: $InputRange-slider-width;
-    height: $InputRange-slider-height;
-    margin-left: $InputRange-slider-width / -2;
-    margin-top: $InputRange-slider-height / -2 + $InputRange-track-height / -2;
+    width: var(--InputRange-slider-width);
+    height: var(--InputRange-slider-height);
+    margin-left: calc(var(--InputRange-slider-width) / -2);
+    margin-top: calc(
+      var(--InputRange-slider-height) / -2 + var(--InputRange-track-height) / -2
+    );
     outline: none;
     position: absolute;
     z-index: 2;
     top: 50%;
-    transition: $InputRange-slider-transition;
+    transition: var(--InputRange-slider-transition);
 
     &:active {
-      transform: $InputRange-slider-onActive-transform;
+      transform: var(--InputRange-slider-onActive-transform);
     }
 
     &:focus {
-      box-shadow: $InputRange-slider-onFocus-boxShadow;
+      box-shadow: var(--InputRange-slider-onFocus-boxShadow);
     }
 
     .input-range--disabled & {
-      background: $InputRange-slider-onDisabled-bg;
-      border: $InputRange-slider-onDisabled-border;
+      background: var(--InputRange-slider-onDisabled-bg);
+      border: var(--InputRange-slider-onDisabled-border);
       box-shadow: none;
       transform: none;
     }
@@ -115,14 +117,13 @@
   }
 
   &-sliderContainer {
-    transition: $InputRange-sliderContainer-transition;
+    transition: var(--InputRange-sliderContainer-transition);
   }
 
   // label
   &-label {
-    color: $InputRange-label-color;
-    font-family: $InputRange-fontFamily;
-    font-size: $InputRange-label-fontSize;
+    color: var(--InputRange-label-color);
+    font-size: var(--InputRange-label-fontSize);
     transform: translateZ(0);
     white-space: nowrap;
   }
@@ -130,7 +131,7 @@
   &-label--min,
   &-label--max,
   &-label--mid {
-    bottom: $InputRange-label-positionBottom;
+    bottom: var(--InputRange-label-positionBottom);
     position: absolute;
   }
 
@@ -149,8 +150,8 @@
 
   &-label--value {
     position: absolute;
-    display: $InputRange-label--value-display;
-    top: $InputRange-label--value-positionTop;
+    display: var(--InputRange-label--value-display);
+    top: var(--InputRange-label--value-positionTop);
   }
 
   // label Container
@@ -165,26 +166,26 @@
 
   // track
   &-track {
-    background: $InputRange-track-bg;
+    background: var(--InputRange-track-bg);
     // border-radius: 0;
     cursor: pointer;
     display: block;
-    height: $InputRange-track-height;
+    height: var(--InputRange-track-height);
     position: relative;
-    transition: $InputRange-track-transition;
+    transition: var(--InputRange-track-transition);
 
     .#{$ns}InputRange.is-disabled & {
-      background: $InputRange-track-onDisabled-bg;
+      background: var(--InputRange-track-onDisabled-bg);
     }
 
     &.is-active {
-      background: $InputRange-track-onActive-bg;
+      background: var(--InputRange-track-onActive-bg);
     }
   }
 
   &-track--background {
     left: 0.5rem;
-    margin-top: -0.5 * $InputRange-track-height;
+    margin-top: calc(-0.5 * var(--InputRange-track-height));
     position: absolute;
     right: 0.5rem;
     top: 50%;
@@ -210,6 +211,6 @@
   }
 
   &-track--active {
-    background: $InputRange-track-onActive-bg;
+    background: var(--InputRange-track-onActive-bg);
   }
 }

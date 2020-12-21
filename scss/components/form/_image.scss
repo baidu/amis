@@ -12,20 +12,20 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    border: $borderWidth solid $borderColor;
+    border: var(--borderWidth) solid var(--borderColor);
     cursor: pointer;
-    margin-right: $gap-base;
+    margin-right: var(--gap-base);
 
     @include button-variant(
-      $ImageControl-addBtn-bg,
-      $ImageControl-addBtn-border,
-      $ImageControl-addBtn-color,
-      $ImageControl-addBtn-onHover-bg,
-      $ImageControl-addBtn-onHover-border,
-      $ImageControl-addBtn-onHover-color,
-      $ImageControl-addBtn-onActive-bg,
-      $ImageControl-addBtn-onActive-border,
-      $ImageControl-addBtn-onActive-color
+      var(--ImageControl-addBtn-bg),
+      var(--ImageControl-addBtn-border),
+      var(--ImageControl-addBtn-color),
+      var(--ImageControl-addBtn-onHover-bg),
+      var(--ImageControl-addBtn-onHover-border),
+      var(--ImageControl-addBtn-onHover-color),
+      var(--ImageControl-addBtn-onActive-bg),
+      var(--ImageControl-addBtn-onActive-border),
+      var(--ImageControl-addBtn-onActive-color)
     );
 
     > svg {
@@ -36,9 +36,9 @@
 
     &.is-disabled {
       pointer-events: none;
-      border: px2rem(1px) solid $ImageControl-addBtn-onDisabled-border;
-      background: $ImageControl-addBtn-onDisabled-bg;
-      color: $ImageControl-addBtn-onDisabled-color;
+      border: px2rem(1px) solid var(--ImageControl-addBtn-onDisabled-border);
+      background: var(--ImageControl-addBtn-onDisabled-bg);
+      color: var(--ImageControl-addBtn-onDisabled-color);
     }
   }
 
@@ -48,33 +48,34 @@
     top: 50%;
     transform: translateY(-50%);
     position: absolute;
-    font-size: $Tooltip--attr-fontSize;
-    line-height: $Tooltip--attr-lineHeigt;
+    font-size: var(--Tooltip--attr-fontSize);
+    line-height: var(--Tooltip--attr-lineHeigt);
     text-align: left;
     white-space: nowrap;
-    background: $Tooltip--attr-bg;
-    border: $Tooltip--attr-borderWidth solid $Tooltip--attr-borderColor;
-    border-radius: $Tooltip--attr-borderRadius;
-    box-shadow: $Tooltip--attr-boxShadow;
+    background: var(--Tooltip--attr-bg);
+    border: var(--Tooltip--attr-borderWidth) solid
+      var(--Tooltip--attr-borderColor);
+    border-radius: var(--Tooltip--attr-borderRadius);
+    box-shadow: var(--Tooltip--attr-boxShadow);
     left: 100%;
-    color: $Tooltip--attr-color;
-    padding: $Tooltip--attr-paddingY $Tooltip--attr-paddingX;
-    margin: 30px 0 0 $Tooltip--attr-gap;
+    color: var(--Tooltip--attr-color);
+    padding: var(--Tooltip--attr-paddingY) var(--Tooltip--attr-paddingX);
+    margin: 30px 0 0 var(--Tooltip--attr-gap);
   }
 
   &-dropzone:focus &-addBtn {
-    border-color: $ImageControl-addBtn-onHover-border;
-    background: $ImageControl-addBtn-onHover-bg;
-    color: $ImageControl-addBtn-onHover-color;
+    border-color: var(--ImageControl-addBtn-onHover-border);
+    background: var(--ImageControl-addBtn-onHover-bg);
+    color: var(--ImageControl-addBtn-onHover-color);
   }
 
   &-item {
-    border: $borderWidth solid $borderColor;
+    border: var(--borderWidth) solid var(--borderColor);
     vertical-align: top;
-    padding: $gap-xs;
+    padding: var(--gap-xs);
     display: inline-block;
-    margin-right: $gap-base;
-    margin-bottom: $gap-base;
+    margin-right: var(--gap-base);
+    margin-bottom: var(--gap-base);
     position: relative;
     width: px2rem(120px);
   }
@@ -164,7 +165,7 @@
   &-progressValue {
     height: 5px;
     display: block;
-    background: $info;
+    background: var(--info);
     min-width: 10%;
     transition: ease-out width 0.3s;
   }
@@ -197,13 +198,13 @@
     > p {
       width: 100%;
       text-align: center;
-      color: $danger;
+      color: var(--danger);
       margin: 10px 0 0;
     }
   }
 
   &-errorMsg {
-    color: $danger;
+    color: var(--danger);
     margin: 5px 0 0;
   }
 
@@ -240,14 +241,14 @@
   &-acceptTip {
     height: 120px;
     color: #999;
-    border: 2px dashed $borderColor;
+    border: 2px dashed var(--borderColor);
 
     // &.is-accept {
-    border-color: $info;
+    border-color: var(--info);
     background: #f3f9fe;
     // }
 
-    border-radius: $borderRadius;
+    border-radius: var(--borderRadius);
 
     line-height: 120px;
     text-align: center;

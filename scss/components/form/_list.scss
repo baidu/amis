@@ -1,7 +1,7 @@
 .#{$ns}ListControl {
   &-items {
     display: block;
-    margin: -$ListControl-gutterWidth/2;
+    margin: calc(var(--ListControl-gutterWidth) / -2);
 
     &:empty {
       display: none;
@@ -11,49 +11,48 @@
   &-item {
     position: relative;
     user-select: none;
-    font-size: $ListControl-fontSize;
+    font-size: var(--ListControl-fontSize);
     display: inline-block;
     vertical-align: middle;
-    margin: $ListControl-gutterWidth/2;
-    border: $ListControl-item-borderWidth solid $ListControl-item-borderColor;
-    background-color: $ListControl-item-bg;
-    padding: $ListControl-item-paddingY $ListControl-item-paddingX;
-    color: $ListControl-item-color;
-    transition: $ListControl-item-transition;
-    max-width: px2rem(200px) + 2 * $ListControl-item-paddingX;
+    margin: calc(var(--ListControl-gutterWidth) / 2);
+    border: var(--ListControl-item-borderWidth) solid
+      var(--ListControl-item-borderColor);
+    background: var(--ListControl-item-bg);
+    padding: var(--ListControl-item-paddingY) var(--ListControl-item-paddingX);
+    color: var(--ListControl-item-color);
+    transition: var(--ListControl-item-transition);
+    max-width: calc(#{px2rem(200px)} + 2 * var(--ListControl-item-paddingX));
 
     &:not(.is-disabled) {
       cursor: pointer;
     }
 
     .b-inherit {
-      border-color: $ListControl-item-color;
+      border-color: var(--ListControl-item-color);
     }
 
     @include hover {
-      background-color: $ListControl-item-onHover-bg;
-      border-color: $ListControl-item-onHover-borderColor;
-      color: $ListControl-item-onHover-color;
+      background: var(--ListControl-item-onHover-bg);
+      border-color: var(--ListControl-item-onHover-borderColor);
+      color: var(--ListControl-item-onHover-color);
 
       .b-inherit {
-        border-color: $ListControl-item-onHover-borderColor;
+        border-color: var(--ListControl-item-onHover-borderColor);
       }
     }
 
     &:hover:active,
     &.is-active {
-      background-color: $ListControl-item-onActive-bg;
-      border-color: $ListControl-item-onActive-borderColor;
-      color: $ListControl-item-onActive-color;
+      background: var(--ListControl-item-onActive-bg);
+      border-color: var(--ListControl-item-onActive-borderColor);
+      color: var(--ListControl-item-onActive-color);
 
-      @if variable-exists('ListControl-item-onActive-onHover-bg') {
-        &:hover {
-          background-color: $ListControl-item-onActive-onHover-bg;
-        }
+      &:hover {
+        background: var(--ListControl-item-onActive-onHover-bg);
       }
 
       .b-inherit {
-        border-color: $ListControl-item-onActive-color;
+        border-color: var(--ListControl-item-onActive-color);
       }
 
       &:before {
@@ -61,7 +60,7 @@
         position: absolute;
         width: px2rem(14px);
         height: px2rem(14px);
-        background-color: $ListControl-item-onActive-before-bg;
+        background: var(--ListControl-item-onActive-before-bg);
         right: 0;
         bottom: 0;
       }
@@ -71,7 +70,7 @@
         position: absolute;
         width: px2rem(10px);
         height: px2rem(5px);
-        border-color: $ListControl-item-onActive-after-borderColor;
+        border-color: var(--ListControl-item-onActive-after-borderColor);
         border-style: solid;
         border-width: 0 0 px2rem(2px) px2rem(2px);
         right: px2rem(1px);
@@ -82,29 +81,25 @@
 
     &.is-disabled {
       pointer-events: none;
-      opacity: $ListControl-item-onDisabled-opacity;
-      border-color: $ListControl-item-onDisabled-borderColor;
+      opacity: var(--ListControl-item-onDisabled-opacity);
+      border-color: var(--ListControl-item-onDisabled-borderColor);
 
       &:before {
-        background-color: $ListControl-item-onDisabled-color;
+        background: var(--ListControl-item-onDisabled-color);
       }
 
-      @if variable-exists('ListControl-item-onDisabled-bg') {
-        background-color: $ListControl-item-onDisabled-bg;
-      }
-
-      @if variable-exists('ListControl-item-onDisabled-color') {
-        color: $ListControl-item-onDisabled-color;
-      }
+      background: var(--ListControl-item-onDisabled-bg);
+      color: var(--ListControl-item-onDisabled-color);
 
       .b-inherit {
-        border-color: $ListControl-item-onDisabled-borderColor;
+        border-color: var(--ListControl-item-onDisabled-borderColor);
       }
     }
   }
 
   &-itemImage {
-    margin: $ListControl-item-paddingY * -1 $ListControl-item-paddingX * -1;
+    margin: calc(var(--ListControl-item-paddingY) * -1)
+      calc(var(--ListControl-item-paddingX) * -1);
 
     img {
       display: block;
@@ -117,10 +112,10 @@
   }
 
   &-itemImage + &-itemLabel {
-    margin-top: $ListControl-item-paddingY;
+    margin-top: var(--ListControl-item-paddingY);
   }
 
   &-placeholder {
-    color: $Form-input-placeholderColor;
+    color: var(--Form-input-placeholderColor);
   }
 }

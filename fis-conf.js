@@ -32,7 +32,7 @@ Resource.extend({
 
 fis.set('project.files', [
   'schema.json',
-  '/scss/utilities.scss',
+  '/scss/helper.scss',
   '/scss/themes/*.scss',
   '/examples/*.html',
   '/examples/*.tpl',
@@ -86,25 +86,26 @@ fis.match('_*.scss', {
   parser: [
     parserCodeMarkdown,
     function (contents, file) {
-      return contents.replace(
-        /\bhref=\\('|")(.+?)\\\1/g,
-        function (_, quota, link) {
-          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
-            let parts = link.split('#');
-            parts[0] = parts[0].replace('.md', '');
+      return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
+        _,
+        quota,
+        link
+      ) {
+        if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+          let parts = link.split('#');
+          parts[0] = parts[0].replace('.md', '');
 
-            if (parts[0][0] !== '/') {
-              parts[0] = path
-                .resolve(path.dirname(file.subpath), parts[0])
-                .replace(/^\/docs/, '');
-            }
-
-            return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+          if (parts[0][0] !== '/') {
+            parts[0] = path
+              .resolve(path.dirname(file.subpath), parts[0])
+              .replace(/^\/docs/, '');
           }
 
-          return _;
+          return 'href=\\' + quota + parts.join('#') + '\\' + quota;
         }
-      );
+
+        return _;
+      });
     }
   ],
   isMod: true,
@@ -137,23 +138,24 @@ fis.match('/docs/**.md', {
   parser: [
     parserMarkdown,
     function (contents, file) {
-      return contents.replace(
-        /\bhref=\\('|")(.+?)\\\1/g,
-        function (_, quota, link) {
-          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
-            let parts = link.split('#');
-            parts[0] = parts[0].replace('.md', '');
+      return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
+        _,
+        quota,
+        link
+      ) {
+        if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+          let parts = link.split('#');
+          parts[0] = parts[0].replace('.md', '');
 
-            if (parts[0][0] !== '/') {
-              parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
-            }
-
-            return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+          if (parts[0][0] !== '/') {
+            parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
           }
 
-          return _;
+          return 'href=\\' + quota + parts.join('#') + '\\' + quota;
         }
-      );
+
+        return _;
+      });
     }
   ],
   isMod: true
@@ -273,19 +275,20 @@ if (fis.project.currentMedia() === 'publish') {
       }),
       function (contents) {
         return contents
-          .replace(
-            /(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g,
-            function (_, quote, value) {
-              let str = quote + value + quote;
-              return (
-                '(function(){try {return __uri(' +
-                str +
-                ')} catch(e) {return ' +
-                str +
-                '}})()'
-              );
-            }
-          )
+          .replace(/(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g, function (
+            _,
+            quote,
+            value
+          ) {
+            let str = quote + value + quote;
+            return (
+              '(function(){try {return __uri(' +
+              str +
+              ')} catch(e) {return ' +
+              str +
+              '}})()'
+            );
+          })
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {
@@ -301,25 +304,26 @@ if (fis.project.currentMedia() === 'publish') {
     parser: [
       parserCodeMarkdown,
       function (contents, file) {
-        return contents.replace(
-          /\bhref=\\('|")(.+?)\\\1/g,
-          function (_, quota, link) {
-            if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
-              let parts = link.split('#');
-              parts[0] = parts[0].replace('.md', '');
+        return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
+          _,
+          quota,
+          link
+        ) {
+          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+            let parts = link.split('#');
+            parts[0] = parts[0].replace('.md', '');
 
-              if (parts[0][0] !== '/') {
-                parts[0] = path
-                  .resolve(path.dirname(file.subpath), parts[0])
-                  .replace(/^\/docs/, '/amis');
-              }
-
-              return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+            if (parts[0][0] !== '/') {
+              parts[0] = path
+                .resolve(path.dirname(file.subpath), parts[0])
+                .replace(/^\/docs/, '/amis');
             }
 
-            return _;
+            return 'href=\\' + quota + parts.join('#') + '\\' + quota;
           }
-        );
+
+          return _;
+        });
       }
     ],
     isMod: true,
@@ -592,25 +596,24 @@ if (fis.project.currentMedia() === 'publish') {
     parser: [
       parserMarkdown,
       function (contents, file) {
-        return contents.replace(
-          /\bhref=\\('|")(.+?)\\\1/g,
-          function (_, quota, link) {
-            if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
-              let parts = link.split('#');
-              parts[0] = parts[0].replace('.md', '');
+        return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
+          _,
+          quota,
+          link
+        ) {
+          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+            let parts = link.split('#');
+            parts[0] = parts[0].replace('.md', '');
 
-              if (parts[0][0] !== '/') {
-                parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
-              }
-
-              return (
-                'href=\\' + quota + '/amis' + parts.join('#') + '\\' + quota
-              );
+            if (parts[0][0] !== '/') {
+              parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
             }
 
-            return _;
+            return 'href=\\' + quota + '/amis' + parts.join('#') + '\\' + quota;
           }
-        );
+
+          return _;
+        });
       }
     ]
   });
@@ -715,7 +718,7 @@ if (fis.project.currentMedia() === 'publish') {
         // 要切换主题，不能打在一起。'/scss/*.scss',
         '!/examples/style.scss',
         '!monaco-editor/**',
-        '!/scss/utilities.scss',
+        '!/scss/helper.scss',
         '/examples/style.scss' // 让它在最下面
       ]
     }),
@@ -739,17 +742,18 @@ if (fis.project.currentMedia() === 'publish') {
           DocCSS.getContent(),
           ExampleJs.getContent()
         ].join('\n');
-        source.replace(
-          /\bpath\b\s*\:\s*('|")(.*?)\1/g,
-          function (_, qutoa, path) {
-            if (path === '*') {
-              return;
-            }
-
-            pages.push(path.replace(/^\//, ''));
-            return _;
+        source.replace(/\bpath\b\s*\:\s*('|")(.*?)\1/g, function (
+          _,
+          qutoa,
+          path
+        ) {
+          if (path === '*') {
+            return;
           }
-        );
+
+          pages.push(path.replace(/^\//, ''));
+          return _;
+        });
 
         const contents = indexHtml.getContent();
         pages.forEach(function (path) {
@@ -806,19 +810,20 @@ if (fis.project.currentMedia() === 'publish') {
 
       function (contents) {
         return contents
-          .replace(
-            /(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g,
-            function (_, quote, value) {
-              let str = quote + value + quote;
-              return (
-                '(function(){try {return __uri(' +
-                str +
-                ')} catch(e) {return ' +
-                str +
-                '}})()'
-              );
-            }
-          )
+          .replace(/(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g, function (
+            _,
+            quote,
+            value
+          ) {
+            let str = quote + value + quote;
+            return (
+              '(function(){try {return __uri(' +
+              str +
+              ')} catch(e) {return ' +
+              str +
+              '}})()'
+            );
+          })
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {

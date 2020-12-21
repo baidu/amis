@@ -1,5 +1,3 @@
-// todo
-
 .fr-popup {
   z-index: $zindex-popover !important;
 }
@@ -15,7 +13,7 @@
 
   min-height: px2rem(200px);
   height: auto;
-  border: $Form-input-borderWidth solid $Form-input-borderColor;
+  border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
   width: 100%;
 
   .fr-toolbar.fr-top {
@@ -29,28 +27,28 @@
     max-height: 400px;
     box-shadow: none;
     overflow: auto;
-    border-top: 1px solid $Form-input-borderColor;
+    border-top: 1px solid var(--Form-input-borderColor);
   }
 
   .fr-toolbar .fr-command.fr-btn,
   .fr-popup .fr-command.fr-btn {
-    color: $Button--default-color;
+    color: var(--Button--default-color);
   }
 
   .fr-toolbar .fr-command.fr-btn.fr-active,
   .fr-popup .fr-command.fr-btn.fr-active {
-    color: $info;
-    background-color: $Form-select-onHover-bg;
+    color: var(--info);
+    background: var(--Form-select-onHover-bg);
   }
 
   .fr-desktop .fr-command:hover,
   .fr-desktop .fr-command:focus {
-    background-color: $Form-select-onHover-bg;
+    background: var(--Form-select-onHover-bg);
   }
 
   .fr-toolbar .fr-command.fr-btn.fr-dropdown.fr-active,
   .fr-popup .fr-command.fr-btn.fr-dropdown.fr-active {
-    background-color: $Form-select-onHover-bg;
+    background: var(--Form-select-onHover-bg);
   }
 
   .fr-command.fr-btn
@@ -60,16 +58,17 @@
     ul.fr-dropdown-list
     li
     a.fr-active {
-    background-color: $info;
+    background: var(--info);
     color: #fff;
   }
 
   &.is-focused {
-    border: $Form-input-borderWidth solid $Form-input-onFocused-borderColor;
+    border: var(--Form-input-borderWidth) solid
+      var(--Form-input-onFocused-borderColor);
 
     .fr-box.fr-basic.fr-top .fr-wrapper {
-      border-top: $Form-input-borderWidth solid
-        $Form-input-onFocused-borderColor;
+      border-top: var(--Form-input-borderWidth) solid
+        var(--Form-input-onFocused-borderColor);
     }
   }
 
@@ -82,12 +81,12 @@
   }
 
   &.is-disabled {
-    border-color: $Form-input-onDisabled-borderColor;
+    border-color: var(--Form-input-onDisabled-borderColor);
     pointer-events: none;
     opacity: 0.6;
 
     .fr-box.fr-basic.fr-top .fr-wrapper {
-      border-color: $Form-input-onDisabled-borderColor;
+      border-color: var(--Form-input-onDisabled-borderColor);
     }
   }
 

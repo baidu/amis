@@ -33,6 +33,9 @@ JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releas
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <link rel="stylesheet" href="sdk.css" />
+    <!-- 从 1.0.20 开始默认不支持 IE 11，如果要支持 IE11 请引用这个 css -->
+    <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有不少功能用不了 -->
+    <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
     <style>
       html,
       body,

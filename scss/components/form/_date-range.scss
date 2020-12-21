@@ -2,62 +2,62 @@
   position: relative;
   display: inline-flex;
   flex-wrap: nowrap;
-  border: $DatePicker-borderWidth solid $DatePicker-borderColor;
-  font-size: $DatePicker-fontSize;
-  padding: $DatePicker-paddingY $DatePicker-paddingX;
-  height: $DatePicker-height;
+  border: var(--DatePicker-borderWidth) solid var(--DatePicker-borderColor);
+  font-size: var(--DatePicker-fontSize);
+  padding: var(--DatePicker-paddingY) var(--DatePicker-paddingX);
+  height: var(--DatePicker-height);
   outline: none;
-  border-radius: $DatePicker-borderRadius;
+  border-radius: var(--DatePicker-borderRadius);
 
-  color: $DatePicker-color;
-  background-color: $DatePicker-bg;
+  color: var(--DatePicker-color);
+  background: var(--DatePicker-bg);
 
   &:not(.is-disabled) {
     cursor: pointer;
 
     &:hover {
-      background-color: $DatePicker-onHover-bg;
-      border-color: $DatePicker-onHover-borderColor;
+      background: var(--DatePicker-onHover-bg);
+      border-color: var(--DatePicker-onHover-borderColor);
 
       .#{$ns}DateRangePicker-toggler {
-        color: $DatePicker-onHover-iconColor;
+        color: var(--DatePicker-onHover-iconColor);
       }
     }
   }
 
   &.is-focused {
-    border-color: $DatePicker-onFocused-borderColor;
-    box-shadow: $Form-input-boxShadow;
+    border-color: var(--DatePicker-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
   }
 
   &.is-disabled {
     background: $gray200;
 
     > .#{$ns}DateRangePicker-input {
-      color: $text--muted-color;
+      color: var(--text--muted-color);
     }
   }
 
   &-placeholder {
-    color: $DatePicker-placeholderColor;
+    color: var(--DatePicker-placeholderColor);
     user-select: none;
-    margin-right: $gap-base;
+    margin-right: var(--gap-base);
     flex-basis: 0;
     flex-grow: 1;
   }
 
   &-value {
-    margin-right: $gap-base;
+    margin-right: var(--gap-base);
     flex-basis: 0;
     flex-grow: 1;
   }
 
   &-toggler {
     cursor: pointer;
-    color: $DatePicker-iconColor;
+    color: var(--DatePicker-iconColor);
 
     &:hover {
-      color: $DatePicker-onHover-iconColor;
+      color: var(--DatePicker-onHover-iconColor);
     }
   }
 
@@ -65,13 +65,13 @@
     @include input-clear();
     display: inline-block;
     line-height: 1;
-    margin-right: $gap-xs;
+    margin-right: var(--gap-xs);
   }
 }
 
 .#{$ns}DateRangePicker-wrap {
   width: auto;
-  padding: $gap-sm;
+  padding: var(--gap-sm);
 }
 
 .#{$ns}DateRangePicker-start,
@@ -91,14 +91,14 @@
 }
 
 .#{$ns}DateRangePicker-rangers {
-  margin: 0 0 $gap-sm;
+  margin: 0 0 var(--gap-sm);
   padding: 0;
   list-style: none;
 }
 
 .#{$ns}DateRangePicker-ranger {
   display: inline-block;
-  margin-right: $gap-sm;
+  margin-right: var(--gap-sm);
 
   a {
     cursor: pointer;
@@ -107,7 +107,7 @@
 
 .#{$ns}DateRangePicker-actions {
   text-align: right;
-  margin-top: $gap-sm;
+  margin-top: var(--gap-sm);
 }
 
 .#{$ns}DateRangeControl:not(.is-inline) > .#{$ns}DateRangePicker {
@@ -130,13 +130,13 @@
 
   .#{$ns}DateRangePicker-end {
     margin-top: 0;
-    margin-left: $gap-sm;
+    margin-left: var(--gap-sm);
   }
 }
 
 .#{$ns}DateRangeCalendar {
   display: inline-block;
-  border: $DatePicker-borderWidth solid $DatePicker-borderColor;
-  background-color: $DatePicker-bg;
-  border-radius: $DatePicker-borderRadius;
+  border: var(--DatePicker-borderWidth) solid var(--DatePicker-borderColor);
+  background: var(--DatePicker-bg);
+  border-radius: var(--DatePicker-borderRadius);
 }

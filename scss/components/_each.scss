@@ -1,7 +1,7 @@
 .#{$ns}Each {
   &-placeholder {
-    color: $text--muted-color;
+    color: var(--text--muted-color);
     text-align: center;
-    padding: $gap-sm;
+    padding: var(--gap-sm);
   }
 }

@@ -2,13 +2,13 @@
   @include input-text();
 
   &-placeholder {
-    color: $Form-input-placeholderColor;
+    color: var(--Form-input-placeholderColor);
     user-select: none;
     position: absolute;
-    left: $Form-input-paddingX;
-    top: $Form-input-paddingY;
-    margin-top: 2 * $Form-input-borderWidth;
-    line-height: $Form-input-lineHeight;
+    left: var(--Form-input-paddingX);
+    top: var(--Form-input-paddingY);
+    margin-top: calc(2 * var(--Form-input-borderWidth));
+    line-height: var(--Form-input-lineHeight);
   }
 
   // &-valueWrap {
@@ -50,16 +50,16 @@
     border-radius: 0;
 
     &:first-child {
-      border-top-left-radius: $Form-input-borderRadius;
-      border-bottom-left-radius: $Form-input-borderRadius;
+      border-top-left-radius: var(--Form-input-borderRadius);
+      border-bottom-left-radius: var(--Form-input-borderRadius);
     }
 
     &:last-child {
-      border-top-right-radius: $Form-input-borderRadius;
-      border-bottom-right-radius: $Form-input-borderRadius;
+      border-top-right-radius: var(--Form-input-borderRadius);
+      border-bottom-right-radius: var(--Form-input-borderRadius);
     }
 
-    @if $Form-input-addOnDividerBorderWidth==0 {
+    @if var(--Form-input-addOnDividerBorderWidth) ==0 {
       &:not(:last-child) {
         border-right-width: 0;
       }
@@ -72,9 +72,9 @@
     justify-content: center;
     padding-left: px2rem(10px);
     padding-right: px2rem(10px);
-    background: $Form-input-addOnBg;
-    color: $Form-input-addOnColor;
-    border-color: $Form-input-borderColor;
+    background: var(--Form-input-addOnBg);
+    color: var(--Form-input-addOnColor);
+    border-color: var(--Form-input-borderColor);
     border-style: solid;
     border-width: px2rem(1px) 0;
 
@@ -84,8 +84,8 @@
 
     &:last-child {
       border-right-width: px2rem(1px);
-      border-top-right-radius: $Form-input-borderRadius;
-      border-bottom-right-radius: $Form-input-borderRadius;
+      border-top-right-radius: var(--Form-input-borderRadius);
+      border-bottom-right-radius: var(--Form-input-borderRadius);
     }
   }
 
@@ -94,8 +94,8 @@
       position: relative;
       border-radius: 0;
       margin-left: px2rem(-1px);
-      border: $InputGroup-button-borderWidth solid
-        $InputGroup-button-borderColor;
+      border: var(--InputGroup-button-borderWidth) solid
+        var(--InputGroup-button-borderColor);
     }
 
     &:not(:last-child) .#{$ns}Button {
@@ -103,36 +103,36 @@
     }
 
     &:first-child .#{$ns}Button {
-      @if $InputGroup-button-borderRadius {
-        border-top-left-radius: $InputGroup-button-borderRadius;
-        border-bottom-left-radius: $InputGroup-button-borderRadius;
+      @if var(--InputGroup-button-borderRadius) {
+        border-top-left-radius: var(--InputGroup-button-borderRadius);
+        border-bottom-left-radius: var(--InputGroup-button-borderRadius);
       }
     }
 
     &:last-child .#{$ns}Button {
-      @if $InputGroup-button-borderRadius {
-        border-top-right-radius: $InputGroup-button-borderRadius;
-        border-bottom-right-radius: $InputGroup-button-borderRadius;
+      @if var(--InputGroup-button-borderRadius) {
+        border-top-right-radius: var(--InputGroup-button-borderRadius);
+        border-bottom-right-radius: var(--InputGroup-button-borderRadius);
       }
     }
   }
 
   &--withAddOn.is-focused > &-button .#{$ns}Button {
-    border-color: $Form-input-onFocused-borderColor;
+    border-color: var(--Form-input-onFocused-borderColor);
   }
 
   &--withAddOn.is-error > &-addOn {
-    border-color: $Form-input-onError-borderColor;
+    border-color: var(--Form-input-onError-borderColor);
   }
 
   &--withAddOn.is-focused > &-addOn {
-    border-color: $Form-input-onFocused-borderColor;
-    color: $Form-input-onFocus-addOnColor;
-    box-shadow: $Form-input-boxShadow;
+    border-color: var(--Form-input-onFocused-borderColor);
+    color: var(--Form-input-onFocus-addOnColor);
+    box-shadow: var(--Form-input-boxShadow);
   }
 
   &--withAddOn.is-disabled > &-addOn {
-    color: $text--muted-color;
+    color: var(--text--muted-color);
   }
 
   &-input--withAC {
@@ -141,15 +141,16 @@
 
     input {
       width: auto;
-      color: $Form-input-placeholderColor;
+      color: var(--Form-input-placeholderColor);
     }
   }
 
   &-sugs {
     position: absolute;
-    background: $Form-select-menu-bg;
-    color: $Form-select-menu-color;
-    border: $Form-input-borderWidth solid $Form-input-onFocused-borderColor;
+    background: var(--Form-select-menu-bg);
+    color: var(--Form-select-menu-color);
+    border: var(--Form-input-borderWidth) solid
+      var(--Form-input-onFocused-borderColor);
     left: px2rem(-1px);
     right: px2rem(-1px);
     top: 100%;
@@ -157,16 +158,19 @@
   }
 
   &-sugItem {
-    padding: (
-        $Form-selectOption-height - $Form-input-lineHeight *
-          $Form-input-fontSize - px2rem(2px)
-      )/2 px2rem(12px);
+    padding: calc(
+        (
+            var(--Form-selectOption-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize) - #{px2rem(2px)}
+          ) / 2
+      )
+      px2rem(12px);
 
     svg {
       width: px2rem(16px);
       margin-top: px2rem(4px);
       float: right;
-      fill: darken($color: $Form-input-iconColor, $amount: 20%);
+      fill: var(--Form-input-onHover-iconColor);
     }
 
     &:not(.is-disabled) {
@@ -174,23 +178,25 @@
     }
 
     &.is-highlight {
-      color: $Form-select-menu-onHover-color;
-      background: $Form-select-menu-onHover-bg;
+      color: var(--Form-select-menu-onHover-color);
+      background: var(--Form-select-menu-onHover-bg);
     }
   }
 
   &-value {
     user-select: none;
-    line-height: $Form-input-lineHeight * $Form-input-fontSize;
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize)
+    );
     vertical-align: middle;
     display: inline-block;
   }
 
   &-input--multiple {
     height: auto;
-    min-height: $Form-input-height;
-    padding: ($Form-input-paddingY - px2rem(2px))
-      ($Form-input-paddingX - px2rem(3px));
+    min-height: var(--Form-input-height);
+    padding: calc(var(--Form-input-paddingY) - #{px2rem(2px)})
+      calc(var(--Form-input-paddingX) - #{px2rem(3px)});
   }
 
   &-input--multiple &-placeholder {
@@ -204,35 +210,37 @@
   &-input--multiple &-valueWrap {
     white-space: normal;
 
-    margin-bottom: -$gap-xs;
+    margin-bottom: calc(var(--gap-xs) * -1);
 
     > input {
-      margin-bottom: $gap-xs;
+      margin-bottom: var(--gap-xs);
     }
   }
 
   &-input--multiple &-value {
     white-space: nowrap;
-    line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
-    font-size: $Form-selectValue-fontSize;
-    color: $Form-selectValue-color;
-    background: $Form-selectValue-bg;
-    border: px2rem(1px) solid $Form-selectValue-borderColor;
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
+    );
+    font-size: var(--Form-selectValue-fontSize);
+    color: var(--Form-selectValue-color);
+    background: var(--Form-selectValue-bg);
+    border: px2rem(1px) solid var(--Form-selectValue-borderColor);
     border-radius: px2rem(2px);
     margin: 2px 3px;
   }
 
   &-valueIcon {
     cursor: pointer;
-    border-right: px2rem(1px) solid $Form-selectValue-borderColor;
+    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
     padding: 1px 5px;
 
     &:hover {
-      background-color: darken($Form-selectValue-bg, 5%);
+      background: var(--Form-selectValue-onHover-bg);
     }
   }
 
   &-input--multiple &-valueLabel {
-    padding: 0 $gap-xs;
+    padding: 0 var(--gap-xs);
   }
 }

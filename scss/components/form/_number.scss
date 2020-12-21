@@ -1,18 +1,18 @@
 .#{$ns}Number {
   margin: 0;
   padding: 0;
-  line-height: $Form-input-height;
-  font-size: $Form-input-fontSize;
-  height: $Form-input-height;
+  line-height: var(--Form-input-height);
+  font-size: var(--Form-input-fontSize);
+  height: var(--Form-input-height);
   display: inline-block;
   vertical-align: middle;
-  background-color: $Number-bg;
-  border: $Number-borderWidth solid $Number-borderColor;
-  border-radius: $Number-borderRadius;
+  background: var(--Number-bg);
+  border: var(--Number-borderWidth) solid var(--Number-borderColor);
+  border-radius: var(--Number-borderRadius);
 
   &-focused {
-    border-color: $Form-input-onFocused-borderColor;
-    box-shadow: $Form-input-boxShadow;
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
   }
 
   &-handler {
@@ -34,20 +34,20 @@
   }
 
   &:hover {
-    border-color: $Form-input-onFocused-borderColor;
+    border-color: var(--Form-input-onFocused-borderColor);
 
     .#{$ns}Number-handler-up,
     .#{$ns}Number-handler-wrap {
-      border-color: $Form-input-onFocused-borderColor;
+      border-color: var(--Form-input-onFocused-borderColor);
     }
   }
 
   &-disabled:hover {
-    border-color: $Form-input-borderColor;
+    border-color: var(--Form-input-borderColor);
 
     .#{$ns}Number-handler-up,
     .#{$ns}Number-handler-wrap {
-      border-color: $Form-input-borderColor;
+      border-color: var(--Form-input-borderColor);
     }
   }
 
@@ -58,41 +58,41 @@
 
   &-input {
     width: 100%;
-    background-color: transparent;
+    background: transparent;
     text-align: left;
     vertical-align: top;
     outline: 0;
     -moz-appearance: textfield;
-    line-height: $Form-input-height - $Number-borderWidth * 2;
+    line-height: calc(var(--Form-input-height) - var(--Number-borderWidth) * 2);
     height: 100%;
     transition: all 0.3s ease;
     border: 0;
-    border-radius: $Form-input-borderRadius;
-    padding: 0 $Form-input-paddingX;
+    border-radius: var(--Form-input-borderRadius);
+    padding: 0 var(--Form-input-paddingX);
   }
 
   &-handler {
-    background-color: $Number-handler-bg;
-    color: $Number-handler-color;
-    font-family: $Number-handler-fontFamily;
-    font-size: $Number-handler-fontSize;
+    background: var(--Number-handler-bg);
+    color: var(--Number-handler-color);
+    font-family: var(--Number-handler-fontFamily);
+    font-size: var(--Number-handler-fontSize);
 
     &:hover {
-      background-color: $Number-handler-onHover-bg;
-      color: $Number-handler-onHover-color;
+      background: var(--Number-handler-onHover-bg);
+      color: var(--Number-handler-onHover-color);
     }
 
     &:hover:active {
-      background-color: $Number-handler-onActive-bg;
+      background: var(--Number-handler-onActive-bg);
     }
   }
 
   &-handler-up {
     &-inner {
-      transform: $Number-handler--up-transform;
+      transform: var(--Number-handler--up-transform);
 
       &:after {
-        content: $Number-handler--up-content;
+        content: var(--Number-handler--up-content);
       }
     }
   }
@@ -100,73 +100,74 @@
   &-handler-down {
     &-inner {
       &:after {
-        content: $Number-handler--down-content;
+        content: var(--Number-handler--down-content);
       }
     }
   }
 
-  // @if $Number-handler-mode==vertical {
-  &-handler-wrap {
-    float: right;
-    border-left: px2rem(1px) solid $Form-input-borderColor;
-    width: $Number-handler-width;
-    height: 100%;
+  @if $Number-handler-mode==vertical {
+    &-handler-wrap {
+      float: right;
+      border-left: px2rem(1px) solid var(--Form-input-borderColor);
+      width: var(--Number-handler-width);
+      height: 100%;
+    }
+
+    &-handler {
+      line-height: calc((var(--Form-input-height) - #{px2rem(6px)}) / 2);
+      height: calc(
+        (var(--Form-input-height) - var(--Number-borderWidth) * 2) / 2
+      );
+    }
+
+    &-handler-up {
+      border-bottom: var(--Number-handler-borderBottom);
+      padding-top: px2rem(1px);
+    }
+  } @else {
+    position: relative;
+
+    &-input {
+      text-align: center;
+    }
+
+    &-handler-up,
+    &-handler-down {
+      position: absolute;
+      width: var(--Number-handler-width);
+      height: 100%;
+      top: 0;
+    }
+
+    &-handler-down {
+      left: 0;
+    }
+
+    &-handler-up {
+      right: 0;
+    }
   }
-
-  &-handler {
-    line-height: ($Form-input-height - px2rem(6px)) / 2;
-    height: ($Form-input-height - $Number-borderWidth * 2) / 2;
-  }
-
-  &-handler-up {
-    border-bottom: $Number-handler-borderBottom;
-    padding-top: px2rem(1px);
-  }
-
-  // } @else {
-  //     position: relative;
-
-  //     &-input {
-  //         text-align: center;
-  //     }
-
-  //     &-handler-up,
-  //     &-handler-down {
-  //         position: absolute;
-  //         width: $Number-handler-width;
-  //         height: 100%;
-  //         top: 0;
-  //     }
-
-  //     &-handler-down {
-  //         left: 0;
-  //     }
-
-  //     &-handler-up {
-  //         right: 0;
-  //     }
-  // }
 
   &-handler-down-disabled,
   &-handler-up-disabled {
-    background-color: $Number-handler-onDisabled-bg;
+    background: var(--Number-handler-onDisabled-bg);
     pointer-events: none;
-    color: $Number-handler-onDisabled-color;
+    color: var(--Number-handler-onDisabled-color);
   }
 
   &-disabled {
     .#{$ns}Number-input {
       opacity: 0.72;
       cursor: not-allowed;
-      background-color: $Number-onDisabled-bg;
+      background: var(--Number-onDisabled-bg);
     }
 
     .#{$ns}Number-handler {
       opacity: 0.72;
 
       &:hover {
-        color: $text--muted-color;
-        border-color: $Form-input-borderColor;
+        color: var(--text--muted-color);
+        border-color: var(--Form-input-borderColor);
       }
     }
   }

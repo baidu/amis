@@ -13,12 +13,16 @@
   &-title {
     display: flex;
     align-items: center;
-    background: $Transfer-title-bg;
+    background: var(--Transfer-title-bg);
     height: px2rem(30px);
-    line-height: $Form-input-lineHeight;
-    font-size: $Form-input-fontSize;
-    padding: (px2rem(30px) - $Form-input-lineHeight * $Form-input-fontSize)/2
-      $gap-sm;
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-input-fontSize);
+    padding: calc(
+        (
+            #{px2rem(30px)} - var(--Form-input-lineHeight) * var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--gap-sm);
     flex-direction: row;
 
     &--light {
@@ -36,7 +40,7 @@
     min-width: px2rem(200px);
     max-height: px2rem(400px);
     flex-grow: 1;
-    border: $Form-input-borderWidth solid $Form-input-borderColor;
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
     display: flex;
     flex-direction: column;
   }
@@ -50,7 +54,7 @@
   }
 
   &-search + &-checkboxes {
-    border-top: 1px solid $borderColor;
+    border-top: 1px solid var(--borderColor);
   }
 
   &-checkboxes .#{$ns}ListCheckboxes-placeholder {
@@ -62,7 +66,7 @@
   }
 
   &-search {
-    padding: $gap-sm;
+    padding: var(--gap-sm);
   }
 
   &-mid {
@@ -78,9 +82,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid $borderColor;
+    border: 1px solid var(--borderColor);
     margin: 0 10px;
-    color: $icon-color;
+    color: var(--icon-color);
 
     > svg {
       top: 0;
@@ -96,7 +100,7 @@
 
     &.is-disabled {
       pointer-events: none;
-      color: $text--muted-color;
+      color: var(--text--muted-color);
     }
   }
 

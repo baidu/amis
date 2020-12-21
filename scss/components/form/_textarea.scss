@@ -1,32 +1,32 @@
 .#{$ns}TextareaControl {
-  border: 1px solid $Form-input-borderColor;
-  border-radius: $Form-input-borderRadius;
-  line-height: $Form-input-lineHeight;
-  background: $Form-input-bg;
+  border: 1px solid var(--Form-input-borderColor);
+  border-radius: var(--Form-input-borderRadius);
+  line-height: var(--Form-input-lineHeight);
+  background: var(--Form-input-bg);
   padding: px2rem(6px)
-    (
-      $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize -
-        px2rem(2px)
+    calc(
+      var(--Form-input-height) - var(--Form-input-lineHeight) *
+        var(--Form-input-fontSize) - #{px2rem(2px)}
     );
-  font-size: $Form-input-fontSize;
+  font-size: var(--Form-input-fontSize);
   outline: none;
   resize: none;
   display: block;
   width: 100%;
 
   &.is-error {
-    border-color: $Form-input-onError-borderColor;
+    border-color: var(--Form-input-onError-borderColor);
   }
 
   &:focus,
   &.is-focused {
-    border-color: $Form-input-onFocused-borderColor;
-    box-shadow: $Form-input-boxShadow;
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
   }
 
   &.is-disabled,
   &[disabled] {
     background: $gray200;
-    color: $text--muted-color;
+    color: var(--text--muted-color);
   }
 }

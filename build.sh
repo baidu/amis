@@ -10,6 +10,9 @@ rm -rf lib/node_modules
 # 生成 sdk
 rm -rf sdk && fis3 release publish-sdk -c
 
+# 生成去掉变量的 css
+./node_modules/.bin/postcss sdk/sdk.css > sdk/sdk-ie11.css
+
 # 生成 .d.ts 文件
 ./node_modules/.bin/tsc --allowJs --declaration
 

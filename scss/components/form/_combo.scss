@@ -1,58 +1,58 @@
 .#{$ns}Combo {
   &-placeholder {
-    color: $text--muted-color;
-    padding-top: $Form-label-paddingTop;
+    color: var(--text--muted-color);
+    padding-top: var(--Form-label-paddingTop);
   }
 
   &-toolbarBtn {
-    line-height: $Combo-toolbarBtn-lineHeight;
-    height: $Combo-toolbarBtn-height;
-    color: $Combo-toolbarBtn-color;
-    padding: $Combo-toolbarBtn-paddingY $Combo-toolbarBtn-paddingX;
+    line-height: var(--Combo-toolbarBtn-lineHeight);
+    height: var(--Combo-toolbarBtn-height);
+    color: var(--Combo-toolbarBtn-color);
+    padding: var(--Combo-toolbarBtn-paddingY) var(--Combo-toolbarBtn-paddingX);
     cursor: pointer;
 
     &:hover {
-      color: darken($Combo-toolbarBtn-color, 10%);
+      color: var(--Combo-toolbarBtn-onHover-color);
     }
   }
 
   &-setNullBtn {
-    margin-top: $gap-xs;
+    margin-top: var(--gap-xs);
     display: inline-block;
   }
 
   &-addBtn {
     > svg {
-      width: $Combo-addBtn-fontSize;
-      height: $Combo-addBtn-fontSize;
+      width: var(--Combo-addBtn-fontSize);
+      height: var(--Combo-addBtn-fontSize);
     }
 
-    font-size: $Combo-addBtn-fontSize;
+    font-size: var(--Combo-addBtn-fontSize);
 
     @include button-size(
-      $Combo-addBtn-paddingY,
-      $Combo-addBtn-paddingX,
-      $Combo-addBtn-fontSize,
-      $Combo-addBtn-lineHeight,
-      $Combo-addBtn-borderRadius,
-      $Combo-addBtn-height
+      var(--Combo-addBtn-paddingY),
+      var(--Combo-addBtn-paddingX),
+      var(--Combo-addBtn-fontSize),
+      var(--Combo-addBtn-lineHeight),
+      var(--Combo-addBtn-borderRadius),
+      var(--Combo-addBtn-height)
     );
 
     @include button-variant(
-      $Combo-addBtn-bg,
-      $Combo-addBtn-border,
-      $Combo-addBtn-color,
-      $Combo-addBtn-onHover-bg,
-      $Combo-addBtn-onHover-border,
-      $Combo-addBtn-onHover-color,
-      $Combo-addBtn-onActive-bg,
-      $Combo-addBtn-onActive-border,
-      $Combo-addBtn-onActive-color
+      var(--Combo-addBtn-bg),
+      var(--Combo-addBtn-border),
+      var(--Combo-addBtn-color),
+      var(--Combo-addBtn-onHover-bg),
+      var(--Combo-addBtn-onHover-border),
+      var(--Combo-addBtn-onHover-color),
+      var(--Combo-addBtn-onActive-bg),
+      var(--Combo-addBtn-onActive-border),
+      var(--Combo-addBtn-onActive-color)
     );
 
     &.is-disabled {
       pointer-events: none;
-      opacity: $Button-onDisabled-opacity;
+      opacity: var(--Button-onDisabled-opacity);
     }
   }
 
@@ -61,25 +61,27 @@
       display: none;
 
       + .#{$ns}Combo-toolbar {
-        padding-top: ($Form-input-height - $Combo-addBtn-height) / 2;
+        padding-top: calc(
+          (var(--Form-input-height) - var(--Combo-addBtn-height)) / 2
+        );
       }
     }
 
-    margin-bottom: $Combo-items-marginBottom;
+    margin-bottom: var(--Combo-items-marginBottom);
   }
 
   &-item {
-    background: $Page-main-bg;
+    background: var(--Page-main-bg);
   }
 
   &-itemDrager {
     cursor: move;
 
     > a {
-      color: $icon-color;
+      color: var(--icon-color);
 
       &:hover {
-        color: $icon-onHover-color;
+        color: var(--icon-onHover-color);
       }
     }
 
@@ -96,7 +98,7 @@
     }
 
     .#{$ns}Combo-item + .#{$ns}Combo-item {
-      margin-top: $Combo--horizontal-item-gap;
+      margin-top: var(--Combo--horizontal-item-gap);
     }
 
     .#{$ns}Combo-itemInner {
@@ -105,24 +107,24 @@
     }
 
     .#{$ns}Combo-itemTag {
-      margin-right: $gap-sm;
+      margin-right: var(--gap-sm);
 
       label {
-        color: $info;
-        margin-right: $gap-sm;
+        color: var(--info);
+        margin-right: var(--gap-sm);
       }
     }
 
     .#{$ns}Combo-itemToolbar {
-      margin-left: $gap-xs;
+      margin-left: var(--gap-xs);
       display: flex;
       white-space: nowrap;
       align-items: flex-start;
-      padding-top: $Form-label-paddingTop;
+      padding-top: var(--Form-label-paddingTop);
 
       > .is-disabled {
         pointer-events: none;
-        opacity: $Button-onDisabled-opacity;
+        opacity: var(--Button-onDisabled-opacity);
       }
     }
 
@@ -131,24 +133,25 @@
     }
 
     .#{$ns}Combo-itemDrager {
-      padding: $Combo--horizontal-dragger-top px2rem(6px) 0 0;
+      padding: var(--Combo--horizontal-dragger-top) px2rem(6px) 0 0;
     }
   }
 
   // &--ver {
   //   .#{$ns}Combo-item {
-  //     background: $white;
+  //     background: var(--white);
   //   }
   // }
 
   &--ver:not(&--noBorder) {
     @include clearfix();
     > .#{$ns}Combo-items {
-      margin: (-$Combo--vertical-item-gap * 2) (-$Combo--vertical-item-gap * 2)
-        0 (-$Combo--vertical-item-gap * 2);
+      margin: calc(var(--Combo--vertical-item-gap) * -2)
+        calc(var(--Combo--vertical-item-gap) * -2) 0
+        calc(var(--Combo--vertical-item-gap) * -2);
 
       > .#{$ns}Combo-placeholder {
-        margin: $Combo--vertical-item-gap * 2;
+        margin: calc(var(--Combo--vertical-item-gap) * 2);
       }
     }
 
@@ -156,73 +159,74 @@
       text-align: right;
 
       label {
-        color: $info;
-        margin-right: $gap-sm;
+        color: var(--info);
+        margin-right: var(--gap-sm);
       }
     }
 
     // 不严格点会命中 combo 里面嵌套 combo 的情况，so sad.
     > .#{$ns}Combo-item,
     > .#{$ns}Combo-items > .#{$ns}Combo-item {
-      border: $Combo--vertical-item-borderWidth dashed
-        $Combo--vertical-item-borderColor;
-      padding: $Combo--vertical-item-paddingY $Combo--vertical-item-paddingX;
+      border: var(--Combo--vertical-item-borderWidth) dashed
+        var(--Combo--vertical-item-borderColor);
+      padding: var(--Combo--vertical-item-paddingY)
+        var(--Combo--vertical-item-paddingX);
       position: relative;
     }
 
     > .#{$ns}Combo-items > .#{$ns}Combo-item {
-      margin: $Combo--vertical-item-gap * 2;
+      margin: calc(var(--Combo--vertical-item-gap) * 2);
     }
 
     > .#{$ns}Combo-item > .#{$ns}Combo-itemToolbar,
     > .#{$ns}Combo-items > .#{$ns}Combo-item > .#{$ns}Combo-itemToolbar {
       opacity: 0;
       position: absolute;
-      right: $Combo--vertical-itemToolbar-positionRight;
-      top: $Combo--vertical-itemToolbar-positionTop / 2;
-      transition: $Combo--vertical-itemToolbar-transion;
-      height: $Combo--vertical-itemToolbar-height;
-      line-height: $Combo--vertical-itemToolbar-height;
-      background-color: $Combo--vertical-itemToolbar-bg;
-      color: $Combo--vertical-itemToolbar-color;
-      border-top-left-radius: $Combo--vertical-itemToolbar-borderRadius;
-      border-top-right-radius: $Combo--vertical-itemToolbar-borderRadius;
+      right: var(--Combo--vertical-itemToolbar-positionRight);
+      top: calc(var(--Combo--vertical-itemToolbar-positionTop) / 2);
+      transition: var(--Combo--vertical-itemToolbar-transion);
+      height: var(--Combo--vertical-itemToolbar-height);
+      line-height: var(--Combo--vertical-itemToolbar-height);
+      background: var(--Combo--vertical-itemToolbar-bg);
+      color: var(--Combo--vertical-itemToolbar-color);
+      border-top-left-radius: var(--Combo--vertical-itemToolbar-borderRadius);
+      border-top-right-radius: var(--Combo--vertical-itemToolbar-borderRadius);
       padding: 0 px2rem(3px);
       border-style: solid;
-      border-color: $Combo--vertical-itemToolbar-borderColor;
-      border-width: $Combo--vertical-itemToolbar-borderWidth
-        $Combo--vertical-itemToolbar-borderWidth 0
-        $Combo--vertical-itemToolbar-borderWidth;
+      border-color: var(--Combo--vertical-itemToolbar-borderColor);
+      border-width: var(--Combo--vertical-itemToolbar-borderWidth)
+        var(--Combo--vertical-itemToolbar-borderWidth) 0
+        var(--Combo--vertical-itemToolbar-borderWidth);
       // margin-top: px2rem(-1px);
 
       .#{$ns}Combo-toolbarBtn {
         color: inherit;
-        line-height: $Combo--vertical-itemToolbar-height;
+        line-height: var(--Combo--vertical-itemToolbar-height);
         // font-size: px2rem(14px);
 
         &:hover {
-          color: $Combo--vertical-itemToolbar-onHover-color;
+          color: var(--Combo--vertical-itemToolbar-onHover-color);
         }
       }
 
-      // top: $Combo--vertical-itemToolbar-positionTop;
+      // top: var(--Combo--vertical-itemToolbar-positionTop);
       // opacity: 1;
     }
 
     &:not(.is-disabled) > .#{$ns}Combo-item:hover,
     &:not(.is-disabled) > .#{$ns}Combo-items > .#{$ns}Combo-item:hover {
-      border-color: $Combo--vertical-item-onHover-borderColor;
+      border-color: var(--Combo--vertical-item-onHover-borderColor);
       // border-style: solid;
 
       > .#{$ns}Combo-itemToolbar {
-        top: $Combo--vertical-itemToolbar-positionTop;
+        top: var(--Combo--vertical-itemToolbar-positionTop);
         opacity: 1;
       }
     }
 
     > .#{$ns}Combo-items > .#{$ns}Combo-item > .#{$ns}Combo-itemDrager {
       position: absolute;
-      top: $Combo--horizontal-dragger-top;
+      top: var(--Combo--horizontal-dragger-top);
       left: px2rem(-30px);
     }
 
@@ -264,9 +268,9 @@
 }
 
 .#{$ns}Combo-dragableTip {
-  color: $text--muted-color;
-  font-size: $fontSizeSm;
-  margin-left: $gap-xs;
+  color: var(--text--muted-color);
+  font-size: var(--fontSizeSm);
+  margin-left: var(--gap-xs);
 
   &:empty {
     display: none;
@@ -281,7 +285,7 @@
 
   .#{$ns}Combo--ver .#{$ns}Combo-item {
     display: inline-block;
-    min-width: $Form-control-widthBase;
+    min-width: var(--Form-control-widthBase);
   }
 }
 

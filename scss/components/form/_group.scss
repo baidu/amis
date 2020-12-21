@@ -1,19 +1,19 @@
 .#{$ns}Form-groupColumn {
-  margin-bottom: $gap-sm;
+  margin-bottom: var(--gap-sm);
 }
 
 @include media-breakpoint-up(md) {
   .#{$ns}Form-group {
-    margin-bottom: $Form-item-gap;
+    margin-bottom: var(--Form-item-gap);
 
     .#{$ns}Form-value > & {
-      margin-bottom: $Form-input-marginBottom;
+      margin-bottom: var(--Form-input-marginBottom);
     }
 
     &--hor {
       display: flex;
       flex-wrap: wrap;
-      margin: -$Form-group-gutterWidth / 2;
+      margin: calc(var(--Form-group-gutterWidth) / -2);
       align-items: flex-start;
 
       &.v-middle {
@@ -25,7 +25,7 @@
       }
 
       > * {
-        padding: $Form-group-gutterWidth / 2;
+        padding: calc(var(--Form-group-gutterWidth) / 2);
       }
 
       > .#{$ns}Form-item--inline {
@@ -43,34 +43,34 @@
     }
 
     &--lg {
-      margin: -$Form-group--lg-gutterWidth / 2;
+      margin: calc(var(--Form-group--lg-gutterWidth) / -2);
 
       > * {
-        padding: $Form-group--lg-gutterWidth / 2;
+        padding: calc(var(--Form-group--lg-gutterWidth) / 2);
       }
     }
 
     &--md {
-      margin: -$Form-group--md-gutterWidth / 2;
+      margin: calc(var(--Form-group--md-gutterWidth) / -2);
 
       > * {
-        padding: $Form-group--md-gutterWidth / 2;
+        padding: calc(var(--Form-group--md-gutterWidth) / 2);
       }
     }
 
     &--sm {
-      margin: -$Form-group--sm-gutterWidth / 2;
+      margin: calc(var(--Form-group--sm-gutterWidth) / -2);
 
       > * {
-        padding: $Form-group--sm-gutterWidth / 2;
+        padding: calc(var(--Form-group--sm-gutterWidth) / 2);
       }
     }
 
     &--xs {
-      margin: -$Form-group--xs-gutterWidth / 2;
+      margin: calc(var(--Form-group--xs-gutterWidth) / -2);
 
       > * {
-        padding: $Form-group--xs-gutterWidth / 2;
+        padding: calc(var(--Form-group--xs-gutterWidth) / 2);
       }
     }
   }

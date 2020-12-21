@@ -84,7 +84,7 @@ body {
 
 //   &-schema-preview {
 //     border: 1px solid #ddd;
-//     background: $body-bg;
+//     background: var(--body-bg);
 //     // background: rgb(240, 243, 244);
 //     position: relative;
 //     height: 100%;
@@ -355,7 +355,7 @@ body {
 
   &-toc {
     margin: 30px 0;
-    width: 120px;
+    width: 3em;
   }
 
   &-navigation {
@@ -459,8 +459,6 @@ body {
     user-select: none;
 
     &-item {
-      padding-left: 15px;
-
       a {
         color: #666;
         cursor: pointer;
@@ -971,7 +969,7 @@ body.dark {
 
 .Playgroud {
   border: 1px solid #ddd;
-  background: $body-bg;
+  background: var(--body-bg);
 
   body.dark & {
     background: #191c22;

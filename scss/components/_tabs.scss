@@ -2,26 +2,26 @@
   &-links {
     margin: 0;
     padding: 0;
-    border-bottom: $Tabs-borderWidth solid $Tabs-borderColor;
+    border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
     list-style: none;
     user-select: none;
 
     @include clearfix();
 
     > .#{$ns}Tabs-link {
-      margin-bottom: -$Tabs-borderWidth;
+      margin-bottom: calc(var(--Tabs-borderWidth) * -1);
       display: inline-block;
       position: relative;
 
       > a:first-child {
-        font-size: $Tabs-linkFontSize;
+        font-size: var(--Tabs-linkFontSize);
         outline: none;
-        border: $Tabs-borderWidth solid transparent;
-        border-top-left-radius: $Tabs-borderRadius;
-        border-top-right-radius: $Tabs-borderRadius;
-        color: $Tabs-color;
-        margin: $Tabs-linkMargin;
-        padding: $Tabs-linkPadding;
+        border: var(--Tabs-borderWidth) solid transparent;
+        border-top-left-radius: var(--Tabs-borderRadius);
+        border-top-right-radius: var(--Tabs-borderRadius);
+        color: var(--Tabs-color);
+        margin: var(--Tabs-linkMargin);
+        padding: var(--Tabs-linkPadding);
         text-decoration: none;
         cursor: pointer;
         display: block;
@@ -41,7 +41,7 @@
 
       &:hover > a:first-child,
       > a:first-child:focus {
-        border-color: $Tabs-onHover-borderColor;
+        border-color: var(--Tabs-onHover-borderColor);
         text-decoration: none;
       }
 
@@ -50,8 +50,8 @@
         cursor: not-allowed;
 
         > a:first-child {
-          color: $Tabs-onDisabled-color;
-          background-color: transparent;
+          color: var(--Tabs-onDisabled-color);
+          background: transparent;
           border-color: transparent;
           pointer-events: none;
         }
@@ -59,24 +59,24 @@
 
       &.active > a:first-child,
       &.is-active > a:first-child {
-        color: $Tabs-onActive-color;
-        background-color: $Tabs-onActive-bg;
-        border-color: $Tabs-onActive-borderColor;
+        color: var(--Tabs-onActive-color);
+        background: var(--Tabs-onActive-bg);
+        border-color: var(--Tabs-onActive-borderColor);
         border-bottom-color: transparent;
       }
     }
   }
 
   &-content {
-    background-color: $Tabs-content-bg;
+    background: var(--Tabs-content-bg);
     border-style: solid;
-    border-width: 0 $Tabs-borderWidth $Tabs-borderWidth;
-    border-color: $Tabs-borderColor;
+    border-width: 0 var(--Tabs-borderWidth) var(--Tabs-borderWidth);
+    border-color: var(--Tabs-borderColor);
   }
 
   &-pane {
     display: none;
-    padding: $gap-base;
+    padding: var(--gap-base);
     opacity: 0;
     transition: opacity 0.35s linear;
 
@@ -91,18 +91,18 @@
 
   &--line {
     > .#{$ns}Tabs-links {
-      border-bottom-color: $Tabs--line-borderColor;
+      border-bottom-color: var(--Tabs--line-borderColor);
 
       > li {
         > a:first-child {
-          border-width: 0 0 $Tabs--line-borderWidth 0;
-          padding: $Tabs--line-linkPadding;
-          margin: $Tabs--line-linkMargin;
+          border-width: 0 0 var(--Tabs--line-borderWidth) 0;
+          padding: var(--Tabs--line-linkPadding);
+          margin: var(--Tabs--line-linkMargin);
 
           &:hover,
           &:focus {
             color: #666;
-            background-color: transparent;
+            background: transparent;
             border-color: transparent;
           }
         }
@@ -117,9 +117,9 @@
           > a:first-child,
           > a:first-child:hover,
           > a:first-child:focus {
-            border-color: $Tabs--line-onHover-borderColor;
-            color: $Tabs--line-onHover-color;
-            background-color: transparent;
+            border-color: var(--Tabs--line-onHover-borderColor);
+            color: var(--Tabs--line-onHover-color);
+            background: transparent;
           }
         }
       }
@@ -127,37 +127,37 @@
 
     > .#{$ns}Tabs-content {
       border-width: 0;
-      padding: $Tabs--line-content-padding;
-      background-color: $Tabs--line-content-bg;
+      padding: var(--Tabs--line-content-padding);
+      background: var(--Tabs--line-content-bg);
     }
   }
 
   &--card {
     > .#{$ns}Tabs-links {
-      padding: $Tabs--card-padding;
-      background-color: $Tabs--card-bg;
-      border-top: px2rem(1px) solid $Tabs--card-borderTopColor;
+      padding: var(--Tabs--card-padding);
+      background: var(--Tabs--card-bg);
+      border-top: px2rem(1px) solid var(--Tabs--card-borderTopColor);
 
       > li {
         &.is-active {
           > a:first-child,
           > a:first-child:hover,
           > a:first-child:focus {
-            border-color: $Tabs--card-onActive-borderColor;
-            color: $primary;
-            border-bottom-color: $Tabs--card-onActive-bg;
-            background-color: $Tabs--card-onActive-bg;
+            border-color: var(--Tabs--card-onActive-borderColor);
+            color: var(--primary);
+            border-bottom-color: var(--Tabs--card-onActive-bg);
+            background: var(--Tabs--card-onActive-bg);
           }
         }
 
         > a:first-child {
-          padding: $Tabs--card-linkPadding;
-          margin: $Tabs--card-linkMargin;
+          padding: var(--Tabs--card-linkPadding);
+          margin: var(--Tabs--card-linkMargin);
 
           &:hover,
           &:focus {
             color: #666;
-            background-color: $Tabs--card-onActive-bg;
+            background: var(--Tabs--card-onActive-bg);
             border-bottom-color: transparent;
           }
         }
@@ -179,8 +179,8 @@
 
         > a:first-child {
           border-width: px2rem(1px);
-          border-color: $Tabs-borderColor;
-          font-size: $fontSizeSm;
+          border-color: var(--Tabs-borderColor);
+          font-size: var(--fontSizeSm);
           text-align: center;
           margin: 0;
           padding: 0 px2rem(10px);
@@ -188,11 +188,11 @@
           height: px2rem(30px);
           line-height: px2rem(30px);
           border-radius: 0;
-          background: $Tabs--radio-bg;
+          background: var(--Tabs--radio-bg);
 
           &:hover,
           &:focus {
-            color: $primary;
+            color: var(--primary);
           }
         }
 
@@ -200,9 +200,9 @@
           > a:first-child,
           > a:first-child:hover,
           > a:first-child:focus {
-            color: $Tabs--radio-bg;
-            background-color: $primary;
-            border-color: $primary;
+            color: var(--Tabs--radio-bg);
+            background: var(--primary);
+            border-color: var(--primary);
             position: relative;
             z-index: 1;
           }
@@ -215,7 +215,7 @@
     }
 
     > .#{$ns}Tabs-content {
-      border-top: $Tabs-borderWidth solid $Tabs-borderColor;
+      border-top: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
     }
   }
 
@@ -226,27 +226,27 @@
       width: 100%;
       display: flex;
       flex-direction: row;
-      padding-left: $Tabs-borderWidth;
+      padding-left: var(--Tabs-borderWidth);
       border-bottom: 0;
 
       > li {
         flex-grow: 1;
         text-align: center;
-        margin: 0 0 0 (-$Tabs-borderWidth);
+        margin: 0 0 0 calc(var(--Tabs-borderWidth) * -1);
 
         > a:first-child {
           margin: 0;
           border-radius: 0;
           border-style: solid;
-          border-color: $Tabs-borderColor;
-          border-width: $Tabs-borderWidth;
+          border-color: var(--Tabs-borderColor);
+          border-width: var(--Tabs-borderWidth);
 
           &:hover,
           &:focus {
             position: relative;
             z-index: 1;
-            border-color: $Tabs-onActive-borderColor;
-            color: $primary;
+            border-color: var(--Tabs-onActive-borderColor);
+            color: var(--primary);
           }
         }
 
@@ -255,9 +255,9 @@
           > a:first-child:hover,
           > a:first-child:focus {
             cursor: default;
-            color: $primary;
-            border-color: $Tabs-borderColor;
-            border-top-color: $primary;
+            color: var(--primary);
+            border-color: var(--Tabs-borderColor);
+            border-top-color: var(--primary);
             border-bottom-color: transparent;
           }
         }
@@ -268,12 +268,12 @@
   &--vertical {
     display: flex;
     min-height: px2rem(200px);
-    border: $Tabs-borderWidth solid $Tabs-borderColor;
+    border: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
     border-radius: 0;
 
     > .#{$ns}Tabs-links {
       width: px2rem(140px);
-      background: $Table-thead-bg;
+      background: var(--Table-thead-bg);
       border: none;
       padding-bottom: px2rem(60px);
 
@@ -289,7 +289,7 @@
 
           &:hover,
           &:focus {
-            color: $primary;
+            color: var(--primary);
             border-color: transparent;
           }
         }
@@ -298,8 +298,8 @@
           > a:first-child,
           > a:first-child:hover,
           > a:first-child:focus {
-            color: $primary;
-            border-color: $primary;
+            color: var(--primary);
+            border-color: var(--primary);
           }
         }
       }
@@ -318,6 +318,6 @@
   &-toolbar {
     display: inline-block;
     float: right;
-    padding-top: $gap-xs;
+    padding-top: var(--gap-xs);
   }
 }

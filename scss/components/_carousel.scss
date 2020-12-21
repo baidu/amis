@@ -1,58 +1,58 @@
 @mixin arrow-control {
   width: 10%;
-  min-width: $Carousel-arrowControl-width;
+  min-width: var(--Carousel-arrowControl-width);
   height: 100%;
   cursor: pointer;
   position: absolute;
-  transition-duration: $Carousel-transitionDuration;
+  transition-duration: var(--Carousel-transitionDuration);
   svg {
     position: absolute;
     top: 50%;
     left: 50%;
     right: 50%;
     transform: translate(-50%, -50%);
-    width: $Carousel-svg-width;
-    height: $Carousel-svg-height;
+    width: var(--Carousel-svg-width);
+    height: var(--Carousel-svg-height);
   }
 }
 
 .#{$ns}Carousel {
-  min-width: $Carousel-minWidth;
-  height: $Carousel-height;
+  min-width: var(--Carousel-minWidth);
+  height: var(--Carousel-height);
   position: relative;
   display: block;
-  background: $Carousel-bg;
+  background: var(--Carousel-bg);
 
   &.#{$ns}Carousel--light {
     .#{$ns}Carousel-dot {
-      background-color: $Carousel--light-control;
+      background: var(--Carousel--light-control);
     }
 
     svg {
-      fill: $Carousel--light-control;
+      fill: var(--Carousel--light-control);
     }
 
     .#{$ns}Carousel-item {
       .title,
       .description {
-        color: $Carousel--light-control;
+        color: var(--Carousel--light-control);
       }
     }
   }
 
   &.#{$ns}Carousel--dark {
     .#{$ns}Carousel-dot {
-      background-color: $Carousel--dark-control;
+      background: var(--Carousel--dark-control);
     }
 
     svg {
-      fill: $Carousel--dark-control;
+      fill: var(--Carousel--dark-control);
     }
 
     .#{$ns}Carousel-item {
       .title,
       .description {
-        color: $Carousel--dark-control;
+        color: var(--Carousel--dark-control);
       }
     }
   }
@@ -67,7 +67,7 @@
       width: 100%;
       height: 100%;
       position: absolute;
-      transition: ease-out all $Carousel-transitionDuration;
+      transition: ease-out all var(--Carousel-transitionDuration);
 
       &.fade {
         opacity: 0;
@@ -103,7 +103,7 @@
 
       .title {
         position: absolute;
-        bottom: $Carousel-imageTitle-bottom;
+        bottom: var(--Carousel-imageTitle-bottom);
         text-align: center;
         width: 100%;
         opacity: 0.8;
@@ -111,7 +111,7 @@
 
       .description {
         position: absolute;
-        bottom: $Carousel-imageDescription-bottom;
+        bottom: var(--Carousel-imageDescription-bottom);
         text-align: center;
         width: 100%;
         opacity: 0.8;
@@ -134,11 +134,11 @@
 
     .#{$ns}Carousel-dot {
       display: inline-block;
-      height: $Carousel-dot-width;
-      width: $Carousel-dot-height;
-      border-radius: $Carousel-dot-borderRadius;
-      margin: $Carousel-dot-margin;
-      transition-duration: $Carousel-transitionDuration;
+      height: var(--Carousel-dot-width);
+      width: var(--Carousel-dot-height);
+      border-radius: var(--Carousel-dot-borderRadius);
+      margin: var(--Carousel-dot-margin);
+      transition-duration: var(--Carousel-transitionDuration);
       opacity: 0.3;
 
       &.is-active {

@@ -29,7 +29,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: $Spinner-overlay-bg;
+  background: var(--Spinner-overlay-bg);
   transition: ease-out opacity 0.3s;
 
   opacity: 0;
@@ -40,21 +40,21 @@
 }
 
 .#{$ns}Spinner {
-  width: $Spinner-width;
-  height: $Spinner-height;
+  width: var(--Spinner-width);
+  height: var(--Spinner-height);
   transform: translateZ(0);
   display: inline-block;
-  background: $Spinner-bg;
+  background: var(--Spinner-bg);
   background-size: 100%;
 
   &--lg {
-    width: $Spinner--lg-width;
-    height: $Spinner--lg-height;
+    width: var(--Spinner--lg-width);
+    height: var(--Spinner--lg-height);
   }
 
   &--sm {
-    width: $Spinner--sm-width;
-    height: $Spinner--sm-height;
+    width: var(--Spinner--sm-width);
+    height: var(--Spinner--sm-height);
   }
 
   transition: ease-out all 0.3s;
@@ -77,17 +77,17 @@
 }
 
 .#{$ns}Spinner--overlay.#{$ns}Spinner--lg {
-  width: $Spinner--lg-width;
-  height: $Spinner--lg-height;
-  line-height: $Spinner--lg-height;
+  width: var(--Spinner--lg-width);
+  height: var(--Spinner--lg-height);
+  line-height: var(--Spinner--lg-height);
 }
 
 @include media-breakpoint-up(md) {
   .#{$ns}Layout .#{$ns}Page-body > .#{$ns}Spinner-overlay {
-    left: $Layout-aside-width;
+    left: var(--Layout-aside-width);
   }
 
   .#{$ns}Layout--folded .#{$ns}Page-body > .#{$ns}Spinner-overlay {
-    left: $Layout-aside--folded-width;
+    left: var(--Layout-aside--folded-width);
   }
 }

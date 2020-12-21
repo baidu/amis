@@ -126,6 +126,29 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 }
 ```
 
+## CSS 变量
+
+通过设置 CSS 变量几乎可以修改 amis 中任意组件的展现，具体细节请参考[样式](../../../style)。
+
+```schema:height="300"
+{
+  "type": "page",
+  "cssVars": {
+    "--text-color": "#108cee"
+  },
+  "body": {
+    "type": "form",
+    "controls": [
+      {
+        "type": "text",
+        "label": "文本框",
+        "name": "text"
+      }
+    ]
+  }
+}
+```
+
 ## 属性表
 
 | 属性名              | 类型                              | 默认值                                     | 说明                                                                                  |
@@ -138,6 +161,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | toolbar             | [SchemaNode](../types/schemanode) |                                            | 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部 |
 | body                | [SchemaNode](../types/schemanode) |                                            | 往页面的内容区域加内容                                                                |
 | className           | `string`                          |                                            | 外层 dom 类名                                                                         |
+| cssVars             | `object`                          |                                            | 自定义 CSS 变量，请参考[样式](../../../style)                                         |
 | toolbarClassName    | `string`                          | `v-middle wrapper text-right bg-light b-b` | Toolbar dom 类名                                                                      |
 | bodyClassName       | `string`                          | `wrapper`                                  | Body dom 类名                                                                         |
 | asideClassName      | `string`                          | `w page-aside-region bg-auto`              | Aside dom 类名                                                                        |

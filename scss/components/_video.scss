@@ -3,7 +3,7 @@
 
   &-cursor {
     position: absolute;
-    border: 2px solid $info;
+    border: 2px solid var(--info);
     transition: all 0.5s ease-out;
   }
 
@@ -30,7 +30,7 @@
     display: block;
     width: 100%;
     padding: 5px 10px;
-    color: $danger;
+    color: var(--danger);
     background: rgba(255, 255, 255, 0.4);
     text-align: center;
     top: 0;

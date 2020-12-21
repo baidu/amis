@@ -15,14 +15,14 @@
 
   // &-dropzone:focus {
   //     .#{$ns}FileControl-selectBtn {
-  //         background: $Button--default-onHover-bg;
-  //         border-color: $Button--default-onHover-border;
-  //         color: $Button--default-onHover-color;
+  //         background: var(--Button--default-onHover-bg);
+  //         border-color: var(--Button--default-onHover-border);
+  //         color: var(--Button--default-onHover-color);
   //     }
 
   //     &:after {
   //         content: '当前状态接受从剪切板中粘贴文件。';
-  //         color: $text--muted-color;
+  //         color: var(--text--muted-color);
   //         font-size: 11px;
   //         margin-top: 10px;
   //     }
@@ -132,7 +132,7 @@
 
     > span {
       display: block;
-      background: $info;
+      background: var(--info);
       height: 100%;
       min-width: 10%;
       transition: ease-out width 0.3s;
@@ -142,15 +142,15 @@
   &-acceptTip {
     height: 120px;
     color: #999;
-    border: 2px dashed $info;
-    border-radius: $borderRadius;
+    border: 2px dashed var(--info);
+    border-radius: var(--borderRadius);
     background: #f3f9fe;
     line-height: 120px;
     text-align: center;
   }
 
   &-sum {
-    font-size: $fontSizeSm;
+    font-size: var(--fontSizeSm);
 
     > a {
       cursor: pointer;

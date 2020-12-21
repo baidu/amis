@@ -1,10 +1,10 @@
 .#{$ns}Alert {
-  font-size: $Alert-fontSize;
-  box-shadow: $Alert-boxShadow;
-  padding: $Alert-paddingY $Alert-paddingX;
-  border: $Alert-borderWidth solid $Alert-borderColor;
-  border-radius: $Alert-borderRadius;
-  margin-bottom: $Alert-marginBottom;
+  font-size: var(--Alert-fontSize);
+  box-shadow: var(--Alert-boxShadow);
+  padding: var(--Alert-paddingY) var(--Alert-paddingX);
+  border: var(--Alert-borderWidth) solid var(--Alert-borderColor);
+  border-radius: var(--Alert-borderRadius);
+  margin-bottom: var(--Alert-marginBottom);
 
   &-close {
     outline: none;
@@ -29,26 +29,26 @@
   }
 
   &--danger {
-    color: $Alert--danger-color;
-    background-color: $Alert--danger-bg;
-    border-color: $Alert--danger-borderColor;
+    color: var(--Alert--danger-color);
+    background: var(--Alert--danger-bg);
+    border-color: var(--Alert--danger-borderColor);
   }
 
   &--info {
-    color: $Alert--info-color;
-    background-color: $Alert--info-bg;
-    border-color: $Alert--info-borderColor;
+    color: var(--Alert--info-color);
+    background: var(--Alert--info-bg);
+    border-color: var(--Alert--info-borderColor);
   }
 
   &--success {
-    color: $Alert--success-color;
-    background-color: $Alert--success-bg;
-    border-color: $Alert--success-borderColor;
+    color: var(--Alert--success-color);
+    background: var(--Alert--success-bg);
+    border-color: var(--Alert--success-borderColor);
   }
 
   &--warning {
-    color: $Alert--warning-color;
-    background-color: $Alert--warning-bg;
-    border-color: $Alert--warning-borderColor;
+    color: var(--Alert--warning-color);
+    background: var(--Alert--warning-bg);
+    border-color: var(--Alert--warning-borderColor);
   }
 }
