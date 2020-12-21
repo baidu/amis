@@ -64,7 +64,7 @@
   pointer-events: auto;
   margin-bottom: var(--gap-xs);
 
-  @if var(--Toast-icon-fillHeight) {
+  @if $Toast-icon-fillHeight {
     padding: var(--Toast-paddingY)
       var(--Toast-paddingX)
       var(--Toast-paddingY)
@@ -130,7 +130,7 @@
     -webkit-font-smoothing: antialiased;
     vertical-align: middle;
 
-    @if var(--Toast-icon-fillHeight) {
+    @if $Toast-icon-fillHeight {
       position: absolute;
       left: var(--Toast-paddingX);
       top: var(--Toast-paddingY);

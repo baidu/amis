@@ -411,5 +411,5 @@ $zindex-toast: 2000 !default;
 
 $Form--horizontal-columns: 12;
 $Table-strip-bg: lighten(#f6f8f8, 1%) !default;
-$Toast-icon-fillHeight: true;
+$Toast-icon-fillHeight: true !default;
 $Number-handler-mode: 'vertical';
