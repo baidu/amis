@@ -474,6 +474,22 @@ ${xxx | toJson}
 
 对`Javascript`的直接输出会显示`[object Object]`，你可以使用 [json 过滤器](./data-mapping#json) 来格式化显示`json`文本。
 
+### toInt
+
+字符串转整形数字，如果目标数据不是字符串则不处理。
+
+```
+${xxx | toInt}
+```
+
+### toFloat
+
+字符串转浮点数字，如果目标数据不是字符串则不处理。
+
+```
+${xxx | toFloat}
+```
+
 ### date
 
 日期格式化过滤器，用于把特定时间值按指定格式输出。
@@ -537,6 +553,42 @@ ${xxx | date[:format][:inputFormat]}
 ```
 
 > **注意：** 在过滤器参数中使用`:`字符，需要在前面加`\\`转义字符
+
+### now
+
+返回当前时间，注意这个是个过滤函数，不是变量，所以这个其实会导致前面的变量选择没有意义。
+
+用法：
+
+```
+${_|now}
+```
+
+### dateModify
+
+日期修改，将输入的日期对象修改后返回新的日期对象，支持四种操作符。
+
+- `add` 加 n （秒|分钟|小时|天|月|季度|年）。
+- `subtract` 减 n （秒|分钟|小时|天|月|季度|年）。
+- `startOf` 修改成某个维度的开头。
+- `endOf` 修改成某个纬度的结尾。
+
+比如：
+
+将 xxx 修改成 7 天前，假如值是 10 月 8 号，那么处理完后就是 10 月 1 号。
+
+```
+${xxx | dateModify:substract:-7:day}
+```
+
+来个高级点的，比如我想返回个上个月开头的第一天。
+
+```schema
+{
+  "type": "page",
+  "body": "上个月第一天是：${_|now|dateModify:substract:1:month|dateModify:startOf:month|date:YYYY-MM-DD HH\\:mm\\:ss}"
+}
+```
 
 ### number
 
@@ -952,6 +1004,38 @@ ${xxx | pick[:path]}
 ```
 
 可以用变量 index 来获取下标。
+
+### plus
+
+加法运算比如加 2
+
+```
+${xxx|plus:2}
+```
+
+### minus
+
+减法运算比如减 2
+
+```
+${xxx|minus:2}
+```
+
+### sum
+
+求和，通常操作对象是个数组，比如想把数组中成员对象字段 cost 中的数值求和。
+
+```
+${xxx|pick:cost|sum}
+```
+
+### abs
+
+变成正数。
+
+```
+${xxx|abs}
+```
 
 ### duration
 
