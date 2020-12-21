@@ -170,7 +170,7 @@ export const filters: {
     }
 
     return moment(input)
-      [modifier === 'add' ? 'add' : 'subtract'](amount, unit)
+      [modifier === 'add' ? 'add' : 'subtract'](parseInt(amount, 10) || 0, unit)
       .toDate();
   },
   date: (input, format = 'LLL', inputFormat = 'X') =>
@@ -546,8 +546,8 @@ export const resolveVariableAndFilter = (
 
   let prevConInputChanged = false; // 前一个类三元过滤器生效，则跳过后续类三元过滤器
 
-  return ret == null && !~originalKey.indexOf('default')
-    ? ''
+  return ret == null && !~paths.indexOf('default') && !~paths.indexOf('now')
+    ? ret
     : paths.reduce((input, filter) => {
         let params = filter
           .replace(
