@@ -794,8 +794,8 @@
   --Layout-asideLink-onHover-iconColor: inherit;
   --Layout-asideLink-onHover-iconSize: inherit;
   --Layout-brand-bg: var(--dark);
-  --Layout-brand-color: #{lighten(desaturate(lighten(#000, 40%), 10%), 25%)};
-  --Layout-brandBar-color: #{desaturate(lighten(#000, 40%), 10%)};
+  --Layout-brand-color: #{lighten(desaturate(lighten($dark, 40%), 10%), 25%)};
+  --Layout-brandBar-color: #{desaturate(lighten($dark, 40%), 10%)};
   --Layout-header-bg: var(--white);
   --Layout-header-boxShadow: 0 #{px2rem(2px)} #{px2rem(2px)} rgba(0, 0, 0, 0.05),
     0 1px 0 rgba(0, 0, 0, 0.05);
