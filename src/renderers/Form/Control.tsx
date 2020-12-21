@@ -77,7 +77,7 @@ export default class FormControl extends React.PureComponent<
     trailing: true,
     leading: false
   });
-  state = {value: this.value = this.props.control.value};
+  state = {value: (this.value = this.props.control.value)};
   componentWillMount() {
     const {
       formStore: form,
@@ -96,7 +96,8 @@ export default class FormControl extends React.PureComponent<
         valueField,
         labelField,
         joinValues,
-        extractValue
+        extractValue,
+        selectFirst
       }
     } = this.props;
 
@@ -134,7 +135,8 @@ export default class FormControl extends React.PureComponent<
       valueField,
       labelField,
       joinValues,
-      extractValue
+      extractValue,
+      selectFirst
     });
 
     if (this.model.unique && form.parentStore?.storeType === ComboStore.name) {
@@ -144,11 +146,11 @@ export default class FormControl extends React.PureComponent<
 
     // 同步 value
     this.setState({
-      value: this.value = model.value
+      value: (this.value = model.value)
     });
     this.reaction = reaction(
       () => model.value,
-      value => this.setState({value: this.value = value})
+      value => this.setState({value: (this.value = value)})
     );
   }
 
@@ -368,7 +370,7 @@ export default class FormControl extends React.PureComponent<
     }
 
     this.setState({
-      value: this.value = value
+      value: (this.value = value)
     });
     changeImmediately || conrolChangeImmediately || !formInited
       ? this.emitChange(submitOnChange)
