@@ -19,6 +19,7 @@ $danger-bg: #fff5f5;
 
 $body-bg: #ffffff;
 $text-color: #666;
+$Toast-icon-fillHeight: false;
 
 @import '../variables';
 @import '../properties';
@@ -417,7 +418,6 @@ $text-color: #666;
   --Toast-borderRadius: 0;
   --Toast-paddingY: #{px2rem(5px)};
   --Toast-paddingX: #{px2rem(15px)};
-  $Toast-icon-fillHeight: false;
   --Toast-paddingL: #{px2rem(26px)};
   --Toast--info-paddingL: 0;
   --Toast-border-width: #{px2rem(1px)};
