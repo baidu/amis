@@ -113,7 +113,7 @@
 
 .#{$ns}PaginationWrapper-pager {
   &:first-child {
-    margin-bottom: $gap-sm;
+    margin-bottom: var(--gap-sm);
   }
 
   text-align: right;
