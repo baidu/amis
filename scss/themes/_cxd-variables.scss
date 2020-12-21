@@ -21,6 +21,12 @@ $body-bg: #ffffff;
 $text-color: #666;
 $Toast-icon-fillHeight: false;
 
+$Toast-icon-fillHeight: false;
+$Button-onDisabled-bg: #f5f5f5;
+$Button-onDisabled-borderColor: #ebebeb;
+$Button-onDisabled-color: #aaa;
+$Number-handler-mode: 'horizontal';
+
 @import '../variables';
 @import '../properties';
 
@@ -127,7 +133,7 @@ $Toast-icon-fillHeight: false;
 
   // $Number-bg: #eaf6fe;
   --Number-borderWidth: #{px2rem(1px)};
-  $Number-handler-mode: 'horizontal';
+
   --Number-handler-borderBottom: 0;
   --Number-handler-width: #{px2rem(20px)};
   --Number-handler-color: #666;
@@ -191,12 +197,10 @@ $Toast-icon-fillHeight: false;
   --Button--lg-borderRadius: 0;
   --Button--sm-borderRadius: 0;
   --Button-onDisabled-opacity: 1;
-  $Button-onDisabled-bg: #f5f5f5;
+
   --Button-onDisabled-bg: #{$Button-onDisabled-bg};
   --Button-onDisabledActive-bg: #f5f5f5;
-  $Button-onDisabled-borderColor: #ebebeb;
   --Button-onDisabled-borderColor: #{$Button-onDisabled-borderColor};
-  $Button-onDisabled-color: #aaa;
   --Button-onDisabled-color: #{$Button-onDisabled-color};
   --Button-paddingX: #{px2rem(10px)};
 
@@ -292,7 +296,7 @@ $Toast-icon-fillHeight: false;
 
   // 图片上传
   --ImageControl-addBtn-bg: #fff;
-  --ImageControl-addBtn-border: #{px2rem(1px)} solid #dbdbdb;
+  --ImageControl-addBtn-border: #dbdbdb;
   --ImageControl-addBtn-color: #666;
   --ImageControl-addBtn-onHover-bg: var(--ImageControl-addBtn-bg);
   --ImageControl-addBtn-onHover-border: var(--primary);
