@@ -1346,6 +1346,7 @@ export default class Form extends React.Component<FormProps, object> {
       panelClassName,
       headerClassName,
       footerClassName,
+      footerWrapClassName,
       actionsClassName,
       bodyClassName,
       classnames: cx,
@@ -1378,6 +1379,7 @@ export default class Form extends React.Component<FormProps, object> {
           headerClassName,
           footer,
           footerClassName,
+          footerWrapClassName,
           actionsClassName,
           bodyClassName,
           affixFooter
