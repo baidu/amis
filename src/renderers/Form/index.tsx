@@ -1351,7 +1351,8 @@ export default class Form extends React.Component<FormProps, object> {
       classnames: cx,
       affixFooter,
       lazyLoad,
-      translate: __
+      translate: __,
+      footer
     } = this.props;
 
     // trace(true);
@@ -1375,6 +1376,7 @@ export default class Form extends React.Component<FormProps, object> {
           disabled: store.loading,
           btnDisabled: store.loading || store.validating,
           headerClassName,
+          footer,
           footerClassName,
           actionsClassName,
           bodyClassName,

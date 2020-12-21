@@ -69,6 +69,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     extractValue: false,
     options: types.optional(types.array(types.frozen()), []),
     expressionsInOptions: false,
+    selectFirst: false,
     selectedOptions: types.optional(types.frozen(), []),
     filteredOptions: types.optional(types.frozen(), []),
     dialogSchema: types.frozen(),
@@ -221,7 +222,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       joinValues,
       extractValue,
       type,
-      id
+      id,
+      selectFirst
     }: {
       required?: any;
       unique?: any;
@@ -236,6 +238,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       extractValue?: boolean;
       type?: string;
       id?: string;
+      selectFirst?: boolean;
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -247,6 +250,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       typeof required !== 'undefined' && (self.required = !!required);
       typeof unique !== 'undefined' && (self.unique = !!unique);
       typeof multiple !== 'undefined' && (self.multiple = !!multiple);
+      typeof selectFirst !== 'undefined' && (self.selectFirst = !!selectFirst);
       typeof joinValues !== 'undefined' && (self.joinValues = !!joinValues);
       typeof extractValue !== 'undefined' &&
         (self.extractValue = !!extractValue);
@@ -479,6 +483,26 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       if (json.data && typeof (json.data as any).value !== 'undefined') {
         onChange && onChange((json.data as any).value, false, true);
+      } else if (
+        self.selectFirst &&
+        self.options.length &&
+        !self.selectedOptions.length
+      ) {
+        onChange &&
+          onChange(
+            self.options
+              .slice(0, 1)
+              .map(item => {
+                if (self.extractValue || self.joinValues) {
+                  return item.value;
+                }
+
+                return item;
+              })
+              [self.joinValues ? 'join' : 'concat'](),
+            false,
+            true
+          );
       } else if (clearValue) {
         self.selectedOptions.some((item: any) => item.__unmatched) &&
           onChange &&
