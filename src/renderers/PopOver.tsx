@@ -91,12 +91,15 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
   let lastOpenedInstance: PopOverComponent | null = null;
   class PopOverComponent extends React.Component<PopOverProps, PopOverState> {
     target: HTMLElement;
+    timer: NodeJS.Timeout;
     static ComposedComponent = Component;
     constructor(props: PopOverProps) {
       super(props);
 
       this.openPopOver = this.openPopOver.bind(this);
       this.closePopOver = this.closePopOver.bind(this);
+      this.closePopOverLater = this.closePopOverLater.bind(this);
+      this.clearCloseTimer = this.clearCloseTimer.bind(this);
       this.targetRef = this.targetRef.bind(this);
       // this.handleClickOutside = this.handleClickOutside.bind(this);
       this.state = {
@@ -121,6 +124,7 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
     }
 
     closePopOver() {
+      clearTimeout(this.timer);
       if (!this.state.isOpened) {
         return;
       }
@@ -133,6 +137,15 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
         },
         () => onPopOverClosed && onPopOverClosed(this.props.popOver)
       );
+    }
+
+    closePopOverLater() {
+      // 5s 后自动关闭。
+      this.timer = setTimeout(this.closePopOver, 2000);
+    }
+
+    clearCloseTimer() {
+      clearTimeout(this.timer);
     }
 
     buildSchema() {
@@ -215,6 +228,11 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
                 ? this.closePopOver
                 : undefined
             }
+            onMouseEnter={
+              (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                ? this.clearCloseTimer
+                : undefined
+            }
           >
             {content}
           </div>
@@ -235,6 +253,11 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
             onMouseLeave={
               (popOver as SchemaPopOverObject)?.trigger === 'hover'
                 ? this.closePopOver
+                : undefined
+            }
+            onMouseEnter={
+              (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                ? this.clearCloseTimer
                 : undefined
             }
           >
@@ -262,6 +285,7 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
       const trigger = (popOver as SchemaPopOverObject)?.trigger;
       if (trigger === 'hover') {
         triggerProps.onMouseEnter = this.openPopOver;
+        triggerProps.onMouseLeave = this.closePopOverLater;
       } else {
         triggerProps.onClick = this.openPopOver;
       }
