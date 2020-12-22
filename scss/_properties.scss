@@ -993,7 +993,7 @@
   --Panel-headingBorderRadius: var(--borderRadius) var(--borderRadius) 0 0;
   --Panel-headingPadding: #{px2rem(10px)} #{px2rem(15px)};
   --Panel-marginBottom: #{px2rem(20px)};
-  --Panel-titleColor: var(--text-color);
+  --Panel-titleColor: inherit;
   --Panel-titleFontSize: var(--fontSizeMd);
   --Panel-titleMarginBottom: 0;
   --Panel-titleMarginTop: 0;
