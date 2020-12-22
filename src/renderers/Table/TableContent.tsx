@@ -47,6 +47,9 @@ export interface TableContentProps {
   onAction?: (e: React.UIEvent<any>, action: Action, ctx: object) => void;
   rowClassNameExpr?: string;
   rowClassName?: string;
+  data?: any;
+  prefixRow?: Array<any>;
+  affixRow?: Array<any>;
 }
 
 export class TableContent extends React.Component<TableContentProps> {
@@ -90,7 +93,10 @@ export class TableContent extends React.Component<TableContentProps> {
       checkOnItemClick,
       buildItemProps,
       onAction,
-      rowClassNameExpr
+      rowClassNameExpr,
+      data,
+      prefixRow,
+      affixRow
     } = this.props;
 
     const tableClassName = cx('Table-table', this.props.tableClassName);
@@ -142,6 +148,9 @@ export class TableContent extends React.Component<TableContentProps> {
             rowClassName={rowClassName}
             rows={rows}
             columns={columns}
+            prefixRow={prefixRow}
+            affixRow={affixRow}
+            data={data}
           ></TableBody>
         </table>
       </div>

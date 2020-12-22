@@ -462,6 +462,8 @@ body {
       a {
         color: #666;
         cursor: pointer;
+        text-decoration: none;
+
         &:hover {
           color: #333;
         }

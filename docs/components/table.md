@@ -1107,6 +1107,44 @@ order: 67
 }
 ```
 
+## 总结行
+
+可以通过配置 `prefixRow` 或 `affixRow` 来为表格顶部或底部添加总结行，
+
+```schema:height="530" scope="body"
+{
+    "type": "service",
+    "api": "https://houtai.baidu.com/api/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "columns": [
+                {
+                    "name": "browser",
+                    "label": "Browser"
+                },
+
+                {
+                    "name": "version",
+                    "label": "Version"
+                }
+            ],
+            "affixRow":[
+                {
+                    "type": "text",
+                    "text": "总计"
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "${rows|pick:version|sum}"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名           | 类型                                          | 默认值                    | 说明                                                              |
