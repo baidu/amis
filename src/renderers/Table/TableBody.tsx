@@ -177,7 +177,7 @@ export class TableBody extends React.Component<TableBodyProps> {
   renderSummaryRow(rows?: Array<any>) {
     const {columns, render, data, classnames: cx} = this.props;
 
-    if (!rows || !rows.length) {
+    if (!(Array.isArray(rows) && rows.length)) {
       return null;
     }
 
