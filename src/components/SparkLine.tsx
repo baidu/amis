@@ -28,8 +28,9 @@ export class SparkLine extends React.Component<SparkLineProps> {
       return item;
     } else if (item && typeof item.value === 'number') {
       return item.value;
+    } else {
+      return Number(item) || 0;
     }
-    return 0;
   }
 
   renderLines() {
