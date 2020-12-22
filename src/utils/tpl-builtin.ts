@@ -612,7 +612,7 @@ export const tokenize = (
 
       return escape
         ? _.substring(1)
-        : resolveVariableAndFilter(_, data, defaultFilter);
+        : resolveVariableAndFilter(_, data, defaultFilter) ?? '';
     }
   );
 };
