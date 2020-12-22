@@ -2169,7 +2169,9 @@ export default class Table extends React.Component<TableProps, object> {
       checkOnItemClick,
       buildItemProps,
       rowClassNameExpr,
-      rowClassName
+      rowClassName,
+      prefixRow,
+      affixRow
     } = this.props;
 
     return (
@@ -2198,6 +2200,9 @@ export default class Table extends React.Component<TableProps, object> {
         onAction={this.handleAction}
         rowClassNameExpr={rowClassNameExpr}
         rowClassName={rowClassName}
+        data={store.data}
+        prefixRow={prefixRow}
+        affixRow={affixRow}
       />
     );
   }

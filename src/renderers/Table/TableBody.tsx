@@ -38,6 +38,9 @@ export interface TableBodyProps {
   onAction?: (e: React.UIEvent<any>, action: Action, ctx: object) => void;
   rowClassNameExpr?: string;
   rowClassName?: string;
+  data?: any;
+  prefixRow?: Array<any>;
+  affixRow?: Array<any>;
 }
 
 export class TableBody extends React.Component<TableBodyProps> {
@@ -171,6 +174,47 @@ export class TableBody extends React.Component<TableBodyProps> {
     });
   }
 
+  renderSummaryRow(rows?: Array<any>) {
+    const {columns, render, data, classnames: cx} = this.props;
+
+    if (!rows || !rows.length) {
+      return null;
+    }
+
+    const filterColumns = columns.filter(item => item.toggable);
+    const result: any[] = [];
+
+    for (let index = 0; index < filterColumns.length; index++) {
+      const row = rows[filterColumns[index].rawIndex];
+      result.push(
+        row || {
+          type: 'text',
+          text: ''
+        }
+      );
+    }
+
+    //  如果是勾选栏，让它和下一列合并。
+    if (columns[0].type === '__checkme' && result[0]) {
+      result[0].colSpan = (result[0].colSpan || 1) + 1;
+    }
+
+    return (
+      <tr className={cx('Table-tr', 'is-summary')}>
+        {result.map((item, index) => (
+          <td
+            key={index}
+            colSpan={item.colSpan}
+            style={item.style}
+            className={item.className}
+          >
+            {render(`summary-row/${index}`, item, data)}
+          </td>
+        ))}
+      </tr>
+    );
+  }
+
   render() {
     const {
       placeholder,
@@ -179,13 +223,19 @@ export class TableBody extends React.Component<TableBodyProps> {
       render,
       rows,
       columns,
-      rowsProps
+      rowsProps,
+      prefixRow,
+      affixRow
     } = this.props;
 
     return (
       <tbody className={className}>
         {rows.length ? (
-          this.renderRows(rows, columns, rowsProps)
+          <>
+            {this.renderSummaryRow(prefixRow)}
+            {this.renderRows(rows, columns, rowsProps)}
+            {this.renderSummaryRow(affixRow)}
+          </>
         ) : (
           <tr className={cx('Table-placeholder')}>
             <td colSpan={columns.length}>

@@ -368,6 +368,12 @@
         }
       }
 
+      &.is-summary {
+        background: var(--Table-thead-bg);
+        color: var(--Table-thead-color);
+        font-weight: var(--fontWeightNormal);
+      }
+
       &.bg-light {
         @include color-variant($light, 2%, 3%, 3%, 5%);
         color: $text-color;
