@@ -8,7 +8,7 @@ icon:
 order: 24
 ---
 
-表单项，默认都是一行显示一个，Group 组件用于在一行展示多个表单项
+表单项，默认都是一行显示一个，Group 组件用于在一行展示多个表单项，会自动根据表单项数量均分宽度。
 
 ## 基本用法
 
@@ -16,14 +16,6 @@ order: 24
 {
   "type": "form",
   "controls": [
-    {
-        "type": "text",
-        "name": "text",
-        "label": "文本"
-    },
-    {
-        "type": "divider"
-    },
     {
       "type": "group",
       "controls": [
@@ -36,6 +28,29 @@ order: 24
           "type": "text",
           "name": "text2",
           "label": "文本2"
+        }
+      ]
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "group",
+      "controls": [
+        {
+          "type": "text",
+          "name": "text3",
+          "label": "文本3"
+        },
+        {
+          "type": "text",
+          "name": "text4",
+          "label": "文本4"
+        },
+        {
+          "type": "text",
+          "name": "text5",
+          "label": "文本5"
         }
       ]
     }
@@ -54,12 +69,12 @@ order: 24
   "type": "form",
   "controls": [
     {
-        "type": "text",
-        "name": "text",
-        "label": "文本"
+      "type": "text",
+      "name": "text",
+      "label": "文本"
     },
     {
-        "type": "divider"
+      "type": "divider"
     },
     {
       "type": "group",
