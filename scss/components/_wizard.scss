@@ -173,7 +173,7 @@
           position: absolute;
           bottom: 0;
           right: px2rem(-10px);
-          border: var(--Wizard-steps-liAfterBorder);
+          border: $Wizard-steps-liAfterBorder;
           border-right: 0;
           border-left: px2rem(10px) solid var(--borderColor);
           border-left-color: rgba(0, 0, 0, 0.05);

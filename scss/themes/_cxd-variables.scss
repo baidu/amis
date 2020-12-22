@@ -19,12 +19,13 @@ $danger-bg: #fff5f5;
 
 $body-bg: #ffffff;
 $text-color: #666;
-
 $Toast-icon-fillHeight: false;
 $Button-onDisabled-bg: #f5f5f5;
 $Button-onDisabled-borderColor: #ebebeb;
 $Button-onDisabled-color: #aaa;
 $Number-handler-mode: 'horizontal';
+// css 变量似乎没法用 !important，所以这里用 sass 变量
+$Wizard-steps-liAfterBorder: none !important;
 
 @import '../variables';
 @import '../properties';
@@ -343,7 +344,7 @@ $Number-handler-mode: 'horizontal';
   --Wizard-steps-padding: #{px2rem(10)} 0;
   --Wizard-steps-liVender: 'iconfont';
   --Wizard-steps-liAfterContent: '\e6ee';
-  --Wizard-steps-liAfterBorder: 0 !important;
+
   --Wizard-steps-li-onActive-color: #333333;
   --Wizard-steps-bg--isComplete: #fff;
   --Wizard-badge-size: #{px2rem(26px)};
