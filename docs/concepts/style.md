@@ -12,7 +12,7 @@ amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，
 
 <div class="bg-pink-500 text-light shadow p-4 rounded-md hover:bg-pink-600">
   <div class="text-lg b-b p-b-sm">注意</div>
-  <div class="p-t-xs">CSS辅助类样式做了全新的升级，请前往<a class="text-light underline hover:text-pink-300" href="/style">新版样式</a>查看使用文档。旧版本可以继续，但将不再做迭代更新。</div>
+  <div class="p-t-xs">CSS辅助类样式做了全新的升级，请点击顶部的「样式」查看新版。旧版本可以继续，但将不再更新。</div>
 </div>
 
 ## 基本使用
