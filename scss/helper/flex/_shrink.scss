@@ -4,8 +4,10 @@
 title: Flex Shrink
 ---
 
-待补充
-
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| flex-shrink-0 | flex-shrink: 0 |
+| flex-shrink | flex-shrink: 1 |
 
 */
 @mixin make-flex-shrink($prefix: '.') {
