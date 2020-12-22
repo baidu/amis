@@ -261,6 +261,7 @@ export const TableStore = iRendererStore
     function getFilteredColumns() {
       return self.columns.filter(
         item =>
+          item &&
           isVisible(item.pristine, self.data) &&
           (item.type === '__checkme'
             ? self.selectable &&
@@ -562,7 +563,9 @@ export const TableStore = iRendererStore
         (self.combineNum = parseInt(config.combineNum as any, 10) || 0);
 
       if (config.columns && Array.isArray(config.columns)) {
-        let columns: Array<SColumn> = config.columns.concat();
+        let columns: Array<SColumn> = config.columns
+          .filter(column => column)
+          .concat();
         if (!columns.length) {
           columns.push({
             type: 'text',

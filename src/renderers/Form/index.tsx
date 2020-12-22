@@ -1064,6 +1064,7 @@ export default class Form extends React.Component<FormProps, object> {
       (Array.isArray(controls) &&
         controls.some(
           item =>
+            item &&
             !!~['submit', 'button', 'reset', 'button-group'].indexOf(
               (item as Schema).type
             )
