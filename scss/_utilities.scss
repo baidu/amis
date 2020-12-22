@@ -1563,23 +1563,23 @@ a.label {
 }
 
 .label-primary {
-  @include label-variant(var(--primary));
+  @include label-variant(var(--label--primary-bg));
 }
 
 .label-success {
-  @include label-variant(var(--success));
+  @include label-variant(var(--label--success-bg));
 }
 
 .label-info {
-  @include label-variant(var(--info));
+  @include label-variant(var(--label--info-bg));
 }
 
 .label-warning {
-  @include label-variant(var(--warning));
+  @include label-variant(var(--label--warning-bg));
 }
 
 .label-danger {
-  @include label-variant(var(--danger-bg));
+  @include label-variant(var(--label--danger-bg));
 }
 
 @keyframes apearSensor {
