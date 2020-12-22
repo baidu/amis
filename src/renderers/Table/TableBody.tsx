@@ -202,12 +202,7 @@ export class TableBody extends React.Component<TableBodyProps> {
     return (
       <tr className={cx('Table-tr', 'is-summary')}>
         {result.map((item, index) => (
-          <td
-            key={index}
-            colSpan={item.colSpan}
-            style={item.style}
-            className={item.className}
-          >
+          <td key={index} colSpan={item.colSpan} className={item.cellClassName}>
             {render(`summary-row/${index}`, item, data)}
           </td>
         ))}
