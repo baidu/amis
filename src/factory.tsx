@@ -309,7 +309,8 @@ export function renderChild(
       ? {type: 'tpl', tpl: String(node)}
       : (node as Schema);
   const detectData =
-    schema.detectField === '&' ? props : props[schema.detectField || 'data'];
+    schema &&
+    (schema.detectField === '&' ? props : props[schema.detectField || 'data']);
   const exprProps = detectData
     ? getExprProperties(schema, detectData, undefined, props)
     : null;
@@ -503,8 +504,10 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const props = this.props;
 
     if (
-      props.schema.type !== nextProps.schema.type ||
-      props.schema.$$id !== nextProps.schema.$$id
+      props.schema &&
+      nextProps.schema &&
+      (props.schema.type !== nextProps.schema.type ||
+        props.schema.$$id !== nextProps.schema.$$id)
     ) {
       this.resolveRenderer(nextProps);
     }
@@ -542,7 +545,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     let schema = props.schema;
     let path = props.$path;
 
-    if (schema.$ref) {
+    if (schema && schema.$ref) {
       schema = {
         ...props.resolveDefinitions(schema.$ref),
         ...schema
@@ -577,7 +580,7 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   ) {
     let {schema, $path, env, ...rest} = this.props;
 
-    if (schema.$ref) {
+    if (schema && schema.$ref) {
       const result = this.resolveRenderer(this.props, true);
       schema = result.schema;
       $path = result.path;
@@ -605,6 +608,10 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
   render(): JSX.Element | null {
     let {$path, schema, ...rest} = this.props;
+
+    if (schema === null) {
+      return null;
+    }
 
     if (schema.$ref) {
       const result = this.resolveRenderer(this.props, true);
@@ -635,6 +642,8 @@ class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         forwardedRef: isSFC ? this.refFn : undefined,
         render: this.renderChild
       });
+    } else if (Object.keys(schema).length === 0) {
+      return null;
     } else if (!this.renderer) {
       return (
         <LazyComponent
