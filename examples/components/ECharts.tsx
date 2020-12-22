@@ -71,7 +71,6 @@ const LazyComponent = lazyData(
                   title: '全局',
                   controls: [Global]
                 }
-                // TODO: grid, radar, dataZoom, visualMap, axisPointer, brush, geo, parallel, parallelAxis, singleAxis, timeline, graphic, calendar, dataset, aria,
               ]
             }
           ])
@@ -82,7 +81,8 @@ const LazyComponent = lazyData(
 );
 
 export default {
-  title: 'ECharts 编辑器',
+  title:
+    'ECharts 图表可视化编辑，用于演示如何基于 amis 将任意 json 配置改造成可视化编辑',
   data: {
     config: example
   },
