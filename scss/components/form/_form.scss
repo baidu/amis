@@ -1,3 +1,24 @@
+@mixin setControlWidth() {
+  width: var(--Form-control-widthBase);
+
+  &.#{$ns}Form-control--sizeXs {
+    min-width: auto;
+    width: var(--Form-control-widthXs);
+  }
+  &.#{$ns}Form-control--sizeSm {
+    min-width: auto;
+    width: var(--Form-control-widthSm);
+  }
+  &.#{$ns}Form-control--sizeMd {
+    min-width: auto;
+    width: var(--Form-control-sizeMd);
+  }
+  &.#{$ns}Form-control--sizeLg {
+    min-width: auto;
+    width: var(--Form-control-sizeLg);
+  }
+}
+
 .#{$ns}Form {
   font-size: var(--Form-fontSize);
   position: relative;
@@ -269,7 +290,7 @@
       vertical-align: top;
 
       .#{$ns}TextControl {
-        width: var(--Form-control-widthBase);
+        @include setControlWidth();
       }
 
       > .#{$ns}Form-label {
@@ -297,7 +318,6 @@
 
         > .#{$ns}TextControl--withAddOn {
           display: inline-flex;
-          min-width: var(--Form-control-widthMd);
         }
       }
     }
