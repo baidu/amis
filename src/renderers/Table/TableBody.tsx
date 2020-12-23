@@ -186,18 +186,24 @@ export class TableBody extends React.Component<TableBodyProps> {
 
     for (let index = 0; index < filterColumns.length; index++) {
       const row = rows[filterColumns[index].rawIndex];
-      result.push(
-        row || {
-          type: 'text',
-          text: ''
-        }
-      );
+      row && result.push(row);
     }
 
     //  如果是勾选栏，让它和下一列合并。
     if (columns[0].type === '__checkme' && result[0]) {
       result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
+
+    const appendLen =
+      filterColumns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
+
+    appendLen &&
+      result.push(
+        Array.from({length: appendLen}).map(() => ({
+          type: 'text',
+          text: ''
+        }))
+      );
 
     return (
       <tr className={cx('Table-tr', 'is-summary')}>

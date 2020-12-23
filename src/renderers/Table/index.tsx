@@ -209,6 +209,16 @@ export interface TableSchema extends BaseSchema {
    * 合并单元格配置，配置数字表示从左到右的多少列自动合并单元格。
    */
   combineNum?: number;
+
+  /**
+   * 顶部总结行
+   */
+  prefixRow?: Array<SchemaObject>;
+
+  /**
+   * 底部总结行
+   */
+  affixRow?: Array<SchemaObject>;
 }
 
 export interface TableProps extends RendererProps {

@@ -1145,6 +1145,50 @@ order: 67
 }
 ```
 
+可以配置 `colSpan` 来设置一列所占列数，例如
+
+```schema:height="530" scope="body"
+{
+    "type": "service",
+    "api": "https://houtai.baidu.com/api/sample?perPage=10",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "columns": [
+                {
+                    "name": "id",
+                    "label": "ID"
+                },
+
+                {
+                    "name": "browser",
+                    "label": "Browser"
+                },
+
+                {
+                    "name": "version",
+                    "label": "Version"
+                }
+            ],
+            "affixRow":[
+                {
+                    "type": "text",
+                    "text": "总计",
+                    "colSpan": 2
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "${rows|pick:version|sum}"
+                }
+            ]
+        }
+    ]
+}
+```
+
+上例中我们给 `总计` 列配置了 `"colSpan": 2`，它会独占两个单元格
+
 ## 属性表
 
 | 属性名           | 类型                                          | 默认值                    | 说明                                                              |
@@ -1168,3 +1212,5 @@ order: 67
 | checkOnItemClick | `boolean`                                     | `false`                   | 点击数据行是否可以勾选当前行                                      |
 | rowClassName     | `string`                                      |                           | 给行添加 CSS 类名                                                 |
 | rowClassNameExpr | [模板](../concepts/template)                  |                           | 通过模板给行添加 CSS 类名                                         |
+| prefixRow        | `Array`                                       |                           | 顶部总结行                                                        |
+| affixRow         | `Array`                                       |                           | 底部总结行                                                        |
