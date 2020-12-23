@@ -174,10 +174,10 @@ export class TableBody extends React.Component<TableBodyProps> {
     });
   }
 
-  renderSummaryRow(rows?: Array<any>) {
+  renderSummaryRow(items?: Array<any>) {
     const {columns, render, data, classnames: cx} = this.props;
 
-    if (!(Array.isArray(rows) && rows.length)) {
+    if (!(Array.isArray(items) && items.length)) {
       return null;
     }
 
@@ -185,13 +185,8 @@ export class TableBody extends React.Component<TableBodyProps> {
     const result: any[] = [];
 
     for (let index = 0; index < filterColumns.length; index++) {
-      const row = rows[filterColumns[index].rawIndex];
-      result.push(
-        row || {
-          type: 'text',
-          text: ''
-        }
-      );
+      const item = items[filterColumns[index].rawIndex];
+      item && result.push(item);
     }
 
     //  如果是勾选栏，让它和下一列合并。
@@ -199,15 +194,41 @@ export class TableBody extends React.Component<TableBodyProps> {
       result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
+    // 缺少的单元格补齐
+    const appendLen =
+      filterColumns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
+    if (appendLen) {
+      const item = result.pop();
+      result.push({
+        ...item,
+        colSpan: (item.colSpan || 1) + appendLen
+      });
+    }
+
     return (
       <tr className={cx('Table-tr', 'is-summary')}>
-        {result.map((item, index) => (
-          <td key={index} colSpan={item.colSpan} className={item.cellClassName}>
-            {render(`summary-row/${index}`, item, data)}
-          </td>
-        ))}
+        {result.map((item, index) => {
+          const Com = item.isHead ? 'th' : 'td';
+          return (
+            <Com
+              key={index}
+              colSpan={item.colSpan}
+              className={item.cellClassName}
+            >
+              {render(`summary-row/${index}`, item, data)}
+            </Com>
+          );
+        })}
       </tr>
     );
+  }
+
+  renderSummary(items?: Array<any>) {
+    return Array.isArray(items)
+      ? items.some(i => Array.isArray(i))
+        ? items.map(i => this.renderSummaryRow(Array.isArray(i) ? i : [i]))
+        : this.renderSummaryRow(items)
+      : null;
   }
 
   render() {
@@ -227,9 +248,9 @@ export class TableBody extends React.Component<TableBodyProps> {
       <tbody className={className}>
         {rows.length ? (
           <>
-            {this.renderSummaryRow(prefixRow)}
+            {this.renderSummary(prefixRow)}
             {this.renderRows(rows, columns, rowsProps)}
-            {this.renderSummaryRow(affixRow)}
+            {this.renderSummary(affixRow)}
           </>
         ) : (
           <tr className={cx('Table-placeholder')}>
