@@ -7,8 +7,9 @@
   [文档（国外）](https://baidu.github.io/amis/docs/index) |
   [可视化编辑器](https://github.com/fex-team/amis-editor-demo) |
   [amis-admin](https://github.com/fex-team/amis-admin) |
-  [爱速搭](https://suda.baidu.com/)
-  
+  [爱速搭](https://suda.baidu.com/) |
+  QQ 群: 1147750223 | 
+  [如流](https://infoflow.baidu.com/)群：3395342
 </div>
 
 <div align="center">
@@ -66,9 +67,3 @@ npm run coverage
 - [RickCole21](https://github.com/RickCole21)
 - [catchonme](https://github.com/catchonme)
 - [nwind](https://github.com/nwind)
-
-## 讨论
-
-- Issues: https://github.com/baidu/amis/issues
-- [如流](https://infoflow.baidu.com/)群：3395342
-- QQ 群: 1147750223
