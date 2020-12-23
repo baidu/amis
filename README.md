@@ -2,19 +2,23 @@
   <p>
     <img width="284" src="https://github.com/baidu/amis/raw/master/examples/static/logo.png">
   </p>
+  
   [文档（国内）](https://baidu.gitee.io/amis/docs/index) |
   [文档（国外）](https://baidu.github.io/amis/docs/index) |
   [可视化编辑器](https://github.com/fex-team/amis-editor-demo) |
   [amis-admin](https://github.com/fex-team/amis-admin) |
   [爱速搭](https://suda.baidu.com/)
+  
 </div>
 
 <div align="center">
+  
 ![build](https://api.travis-ci.org/baidu/amis.svg?branch=master)
 ![license](https://img.shields.io/github/license/baidu/amis.svg)
 ![version](https://img.shields.io/npm/v/amis)
 ![language](https://img.shields.io/github/languages/top/baidu/amis)
 ![last](https://img.shields.io/github/last-commit/baidu/amis.svg)
+
 </div>
 
 前端低代码框架，通过 JSON 配置就能生成各种后台页面，极大减少开发成本，甚至可以不需要了解前端。
