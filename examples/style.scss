@@ -459,6 +459,8 @@ body {
     user-select: none;
 
     &-item {
+      padding-left: px2rem(12px);
+
       a {
         color: #666;
         cursor: pointer;
@@ -472,7 +474,11 @@ body {
       &.is-active {
         &::before {
           content: ' ';
-          border-left: 2px solid #108cee;
+          border-left: px2rem(2px) solid #108cee;
+          position: absolute;
+          left: 0;
+          height: px2rem(20px);
+          transform: translateY(px2rem(4px));
         }
         > a {
           color: #108cee;
