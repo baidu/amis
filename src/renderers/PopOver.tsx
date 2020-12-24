@@ -21,6 +21,11 @@ export interface SchemaPopOverObject {
   className?: string;
 
   /**
+   * 弹框外层类名
+   */
+  popOverClassName?: string;
+
+  /**
    * 弹出模式
    */
   mode?: 'dialog' | 'drawer' | 'popOver';
@@ -248,7 +253,10 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
         >
           <PopOver
             classPrefix={ns}
-            className={cx('PopOverAble-popover')}
+            className={cx(
+              'PopOverAble-popover',
+              (popOver as SchemaPopOverObject).popOverClassName
+            )}
             offset={(popOver as SchemaPopOverObject).offset}
             onMouseLeave={
               (popOver as SchemaPopOverObject)?.trigger === 'hover'
