@@ -27,6 +27,20 @@ order: 27
 }
 ```
 
+### 接口返回格式
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "value": "xxxx"
+  }
+}
+```
+
+- value：必须返回该字段用作回显，一般是文件资源地址
+
 ## 限制文件类型
 
 可以配置`accept`来限制可选择的文件类型，格式是文件后缀名`.xxx`
@@ -99,9 +113,13 @@ order: 27
 
 ```json
 {
-  "value": "xxxxxxx",
-  "filename": "xxxx.csv",
-  "url": "http://xxxx.xxx.xxx"
+  "status": 0,
+  "msg": "",
+  "data": {
+    "value": "xxxxxxx",
+    "filename": "xxxx.jpg",
+    "url": "http://xxxx.xxx.xxx"
+  }
 }
 ```
 
