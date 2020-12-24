@@ -4,7 +4,7 @@ title: 自定义
 
 如果默认的组件不能满足需求，可以通过自定义组件来进行扩展，在 amis 中有三种方法：
 
-1. 使用 custom 组件
+1. 使用 custom 组件，可以通过原生 JavaScript、jQuery、Vue 等方式扩展。
 2. React 临时扩展，适合无需复用的组件。
 3. React 注册自定义类型，适合需要在很多地方复用的组件。
 
@@ -15,11 +15,11 @@ title: 自定义
 ```javascript
 {
   label: '使用 custom 组件',
-  name: 'name',  // 如果要放在 form 中，需要设置 name，onChange 将会设置这个值
+  name: 'username',  // 如果要放在 form 中，需要设置 name，onChange 将会设置这个值
   type: 'custom',
   // onMount 将会在组件创建时执行，默认会创建一个空 div 标签，也可以设置 inline: true 来创建 span 标签
-  // dom 是 dom value 是初始数据，比如表单 name 初始拿到的数据，onChange 只有在表单下才会有
-  onMount: (dom,  alue, onChange) => {
+  // dom 是 dom 节点，value 是初始数据，比如表单 name 初始拿到的数据，onChange 只有在表单下才会有
+  onMount: (dom, value, onChange) => {
     const button = document.createElement('button');
     button.innerText = '点击修改姓名';
     button.onclick = event => {
@@ -29,8 +29,8 @@ title: 自定义
     dom.appendChild(button);
   },
   // onUpdate 将会在数据更新时被调用
-  // dom 是 dom 节点、data 将包含表单所有数据变化，获取当前数据需要使用 data.name
-  onUpdate: (dom, data) => {
+  // dom 是 dom 节点、data 将包含表单所有数据，prevData 是之前表单的所有数据
+  onUpdate: (dom, data, prevData) => {
     console.log('数据有变化', data);
   },
   // onUnmount 将会在组件被销毁的时候调用，用于清理资源
@@ -40,31 +40,31 @@ title: 自定义
 }
 ```
 
-这种方式可以写任意 JavaScript
-
-注意上面的代码用到了 JavaScript 函数，所以不能放到 json 中，如果要在编辑器中使用，需要使用字符串的方式，上面的代码需要改成如下形式：
+注意上面的代码用到了 JavaScript 函数，无法转成 json 格式，但这三个函数还支持字符串形式，上面的代码可以改成如下形式，这样就能在可视化编辑器里支持自定义组件了：
 
 ```schema:height="330" scope="body"
 {
-    "type": "form",
-    "title": "custom 组件",
-    "controls": [
-      {
-        "type": "text",
-        "name": "name",
-        "label": "姓名"
-      },
-      {
-        "name": "name",
-        "type": "custom",
-        "label": "自定义组件",
-        "onMount": "const button = document.createElement('button'); button.innerText = '点击修改姓名'; button.onclick = event => { onChange('new name'); event.preventDefault(); }; dom.appendChild(button);"
-      }
-    ]
-  }
+  "type": "form",
+  "title": "custom 组件",
+  "controls": [
+    {
+      "type": "text",
+      "name": "username",
+      "label": "姓名"
+    },
+    {
+      "name": "username",
+      "type": "custom",
+      "label": "自定义组件",
+      "onMount": "const button = document.createElement('button'); button.innerText = '点击修改姓名'; button.onclick = event => { onChange('new name'); event.preventDefault(); }; dom.appendChild(button);"
+    }
+  ]
+}
 ```
 
-注意上面的例子
+注意上面的例子中两个组件的 name 是一样的，这是为了方便示例，因为 amis 中的数据是双向绑定的，因此 onChange 修改自身的时候，另一个「姓名」输入框由于 name 一样，也会同步更新。
+
+关于 custom 组件的更多属性请参考「[Custom 组件](../components/custom)」。
 
 ## React 临时扩展
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import memoize from 'lodash/memoize';
 import {Renderer, RendererProps} from '../factory';
 
 import {anyChanged} from '../utils/helper';
@@ -29,6 +30,11 @@ export interface CustomProps extends RendererProps, CustomSchema {
   inline?: boolean;
 }
 
+// 缓存一下，避免在 crud 中的自定义组件被大量执行
+const getFunction = memoize((...args) => {
+  return new Function(...args);
+});
+
 export class Custom extends React.Component<CustomProps, object> {
   static defaultProps: Partial<CustomProps> = {
     inline: false
@@ -44,21 +50,21 @@ export class Custom extends React.Component<CustomProps, object> {
     this.dom = React.createRef();
     if (props.onMount) {
       if (typeof props.onMount === 'string') {
-        this.onMount = new Function('dom', 'value', 'onChange', props.onMount);
+        this.onMount = getFunction('dom', 'value', 'onChange', props.onMount);
       } else {
         this.onMount = props.onMount;
       }
     }
     if (props.onUpdate) {
       if (typeof props.onUpdate === 'string') {
-        this.onUpdate = new Function('dom', 'data', 'onChange', props.onUpdate);
+        this.onUpdate = getFunction('dom', 'data', 'prevData', props.onUpdate);
       } else {
         this.onUpdate = props.onUpdate;
       }
     }
     if (props.onUnmount) {
       if (typeof props.onUnmount === 'string') {
-        this.onUnmount = new Function(props.onUnmount);
+        this.onUnmount = getFunction(props.onUnmount);
       } else {
         this.onUnmount = props.onUnmount;
       }
@@ -68,7 +74,7 @@ export class Custom extends React.Component<CustomProps, object> {
   componentDidUpdate(prevProps: CustomProps) {
     if (anyChanged(['data'], this.props, prevProps)) {
       const {data} = this.props;
-      this.onUpdate(this.dom, data);
+      this.onUpdate(this.dom, data, prevProps.data);
     }
   }
   componentDidMount() {
