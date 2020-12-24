@@ -41,9 +41,45 @@ export interface SchemaPopOverObject {
   position?:
     | 'center'
     | 'left-top'
+    | 'left-top-left-top'
+    | 'left-top-left-center'
+    | 'left-top-left-bottom'
+    | 'left-top-center-top'
+    | 'left-top-center-center'
+    | 'left-top-center-bottom'
+    | 'left-top-right-top'
+    | 'left-top-right-center'
+    | 'left-top-right-bottom'
     | 'right-top'
+    | 'right-top-left-top'
+    | 'right-top-left-center'
+    | 'right-top-left-bottom'
+    | 'right-top-center-top'
+    | 'right-top-center-center'
+    | 'right-top-center-bottom'
+    | 'right-top-right-top'
+    | 'right-top-right-center'
+    | 'right-top-right-bottom'
     | 'left-bottom'
+    | 'left-bottom-left-top'
+    | 'left-bottom-left-center'
+    | 'left-bottom-left-bottom'
+    | 'left-bottom-center-top'
+    | 'left-bottom-center-center'
+    | 'left-bottom-center-bottom'
+    | 'left-bottom-right-top'
+    | 'left-bottom-right-center'
+    | 'left-bottom-right-bottom'
     | 'right-bottom'
+    | 'right-bottom-left-top'
+    | 'right-bottom-left-center'
+    | 'right-bottom-left-bottom'
+    | 'right-bottom-center-top'
+    | 'right-bottom-center-center'
+    | 'right-bottom-center-bottom'
+    | 'right-bottom-right-top'
+    | 'right-bottom-right-center'
+    | 'right-bottom-right-bottom'
     | 'fixed-center'
     | 'fixed-left-top'
     | 'fixed-right-top'
@@ -90,9 +126,11 @@ export interface PopOverState {
   isOpened: boolean;
 }
 
-export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
-  Component: React.ComponentType<any>
-): any => {
+export const HocPopOver = (
+  config: {
+    targetOutter?: boolean; // 定位目标为整个外层
+  } = {}
+) => (Component: React.ComponentType<any>): any => {
   let lastOpenedInstance: PopOverComponent | null = null;
   class PopOverComponent extends React.Component<PopOverProps, PopOverState> {
     target: HTMLElement;
@@ -304,7 +342,7 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
           className={cx(`Field--popOverAble`, className, {
             in: this.state.isOpened
           })}
-          ref={this.targetRef}
+          ref={config.targetOutter ? this.targetRef : undefined}
         >
           {(popOver as SchemaPopOverObject)?.showIcon !== false ? (
             <>
@@ -313,6 +351,7 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
                 key="popover-btn"
                 className={cx('Field-popOverBtn')}
                 {...triggerProps}
+                ref={config.targetOutter ? undefined : this.targetRef}
               >
                 <Icon icon="zoom-in" className="icon" />
               </span>
@@ -320,13 +359,12 @@ export const HocPopOver = (config: Partial<SchemaPopOverObject> = {}) => (
             </>
           ) : (
             <>
-              <div className={cx('Field-popOverWrap')} {...triggerProps}>
-                <Component
-                  {...this.props}
-                  wrapperComponent={''}
-                  noHoc
-                  ref={this.targetRef}
-                />
+              <div
+                className={cx('Field-popOverWrap')}
+                {...triggerProps}
+                ref={config.targetOutter ? undefined : this.targetRef}
+              >
+                <Component {...this.props} wrapperComponent={''} noHoc />
               </div>
               {this.state.isOpened ? this.renderPopOver() : null}
             </>

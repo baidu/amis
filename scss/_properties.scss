@@ -459,18 +459,7 @@
   --Combo--vertical-item-onHover-borderColor: var(--info);
   --Combo--vertical-item-paddingX: #{px2rem(10px)};
   --Combo--vertical-item-paddingY: #{px2rem(10px)};
-  --Combo--vertical-itemToolbar-bg: var(--info);
-  --Combo--vertical-itemToolbar-borderColor: #{darken($info, 5%)};
-  --Combo--vertical-itemToolbar-borderRadius: #{px2rem(3px)};
-  --Combo--vertical-itemToolbar-borderWidth: var(--borderWidth);
-  --Combo--vertical-itemToolbar-color: #{darken($white, 5%)};
-  --Combo--vertical-itemToolbar-height: #{px2rem(25px)};
-  --Combo--vertical-itemToolbar-onHover-color: var(--white);
-  --Combo--vertical-itemToolbar-positionRight: #{px2rem(5px)};
-  --Combo--vertical-itemToolbar-positionTop: var(
-    --Combo--vertical-itemToolbar-height
-  );
-  --Combo--vertical-itemToolbar-transion: all 0.25s ease-in-out;
+
   --Combo-addBtn-bg: var(--Button--info-bg);
   --Combo-addBtn-border: var(--Button--info-border);
   --Combo-addBtn-borderRadius: var(--Button-borderRadius);

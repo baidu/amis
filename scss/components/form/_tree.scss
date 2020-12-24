@@ -169,7 +169,7 @@
   &-itemArrow {
     cursor: pointer;
     width: var(--Tree-itemArrowWidth);
-    display: inline-block;
+    display: inline-flex;
     margin-right: px2rem(5px);
 
     // &:before {
@@ -180,7 +180,7 @@
     > svg {
       width: var(--Tree-itemArrowWidth);
       height: var(--Tree-itemArrowWidth);
-      display: inline-block;
+      display: block;
       transition: transform 0.2s;
       top: 0;
       transform: rotate(90deg);
@@ -197,7 +197,7 @@
   }
 
   &-itemIcon {
-    display: inline-block;
+    display: inline-flex;
     margin-right: px2rem(5px);
   }
 
@@ -205,6 +205,7 @@
   &-folderIcon,
   &-leafIcon {
     > svg {
+      top: 0;
       width: px2rem(14px);
       height: px2rem(14px);
     }
@@ -223,8 +224,8 @@
     }
 
     > .#{$ns}Checkbox {
-      line-height: 1;
-      display: inline-block;
+      display: inline-flex;
+      align-self: center;
     }
   }
 
