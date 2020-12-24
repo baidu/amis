@@ -2,14 +2,71 @@
 title: 自定义
 ---
 
-如果默认的组件不能满足需求，可以通过自定义组件来进行扩展，在 amis 中有两种方法：
+如果默认的组件不能满足需求，可以通过自定义组件来进行扩展，在 amis 中有三种方法：
 
-1. 临时扩展，适合无需复用的组件。
-2. 注册自定义类型，适合需要在很多地方复用的组件。
+1. 使用 custom 组件，可以通过原生 JavaScript、jQuery、Vue 等方式扩展。
+2. React 临时扩展，适合无需复用的组件。
+3. React 注册自定义类型，适合需要在很多地方复用的组件。
 
-> 注意，自定义组件只支持 React npm 方式，不支持 JS SDK
+## 使用 custom 组件
 
-## 临时扩展
+使用 custom 组件类似如下写法：
+
+```javascript
+{
+  label: '使用 custom 组件',
+  name: 'username',  // 如果要放在 form 中，需要设置 name，onChange 将会设置这个值
+  type: 'custom',
+  // onMount 将会在组件创建时执行，默认会创建一个空 div 标签，也可以设置 inline: true 来创建 span 标签
+  // dom 是 dom 节点，value 是初始数据，比如表单 name 初始拿到的数据，onChange 只有在表单下才会有
+  onMount: (dom, value, onChange) => {
+    const button = document.createElement('button');
+    button.innerText = '点击修改姓名';
+    button.onclick = event => {
+      onChange('new name');
+      event.preventDefault();
+    };
+    dom.appendChild(button);
+  },
+  // onUpdate 将会在数据更新时被调用
+  // dom 是 dom 节点、data 将包含表单所有数据，prevData 是之前表单的所有数据
+  onUpdate: (dom, data, prevData) => {
+    console.log('数据有变化', data);
+  },
+  // onUnmount 将会在组件被销毁的时候调用，用于清理资源
+  onUnmount:() => {
+    console.log('组件被销毁');
+  }
+}
+```
+
+注意上面的代码用到了 JavaScript 函数，无法转成 json 格式，但这三个函数还支持字符串形式，上面的代码可以改成如下形式，这样就能在可视化编辑器里支持自定义组件了：
+
+```schema:height="330" scope="body"
+{
+  "type": "form",
+  "title": "custom 组件",
+  "controls": [
+    {
+      "type": "text",
+      "name": "username",
+      "label": "姓名"
+    },
+    {
+      "name": "username",
+      "type": "custom",
+      "label": "自定义组件",
+      "onMount": "const button = document.createElement('button'); button.innerText = '点击修改姓名'; button.onclick = event => { onChange('new name'); event.preventDefault(); }; dom.appendChild(button);"
+    }
+  ]
+}
+```
+
+注意上面的例子中两个组件的 name 是一样的，这是为了方便示例，因为 amis 中的数据是双向绑定的，因此 onChange 修改自身的时候，另一个「姓名」输入框由于 name 一样，也会同步更新。
+
+关于 custom 组件的更多属性请参考「[Custom 组件](../components/custom)」。
+
+## React 临时扩展
 
 amis 的配置最终会转成 React 组件来执行，所以如果只是想在某个配置中加入定制功能，可以直接在这个 JSON 配置里写 React 代码，比如下面这个例子：
 
@@ -52,7 +109,7 @@ amis 的配置最终会转成 React 组件来执行，所以如果只是想在�
 
 这种扩展方式既简单又灵活，但它是写在配置中的，无法在其他地方复用，也无法在可视化编辑器里编辑，如果需要复用或在可视化编辑器中使用，请使用下面的「注册自定义类型」方式：
 
-## 注册自定义类型
+## React 注册自定义类型
 
 注册自定义类型需要了解 amis 的工作原理。
 
