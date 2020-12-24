@@ -543,20 +543,19 @@ title: Margin
       }
     }
   }
-  #{$prefix}m-auto#{$suffix} {
-    margin: auto;
-  }
 }
 
 @mixin margin-negative-spacing($spacing: $spacing, $prefix: '.', $suffix: '') {
   @each $name, $value in $spacing {
-    @if $name == default {
-      #{$prefix}-m#{$suffix} {
-        margin: $value * -1;
-      }
-    } @else {
-      #{$prefix}-m-#{'' + selector-escape($name)}#{$suffix} {
-        margin: $value * -1;
+    @if (type-of($value) == 'number') {
+      @if $name == default {
+        #{$prefix}-m#{$suffix} {
+          margin: $value * -1;
+        }
+      } @else {
+        #{$prefix}-m-#{'' + selector-escape($name)}#{$suffix} {
+          margin: $value * -1;
+        }
       }
     }
   }
@@ -589,15 +588,17 @@ title: Margin
   $suffix: ''
 ) {
   @each $name, $value in $spacing {
-    @if $name == default {
-      #{$prefix}-mx#{$suffix} {
-        margin-left: $value * -1;
-        margin-right: $value * -1;
-      }
-    } @else {
-      #{$prefix}-mx-#{'' + selector-escape($name)}#{$suffix} {
-        margin-left: $value * -1;
-        margin-right: $value * -1;
+    @if (type-of($value) == 'number') {
+      @if $name == default {
+        #{$prefix}-mx#{$suffix} {
+          margin-left: $value * -1;
+          margin-right: $value * -1;
+        }
+      } @else {
+        #{$prefix}-mx-#{'' + selector-escape($name)}#{$suffix} {
+          margin-left: $value * -1;
+          margin-right: $value * -1;
+        }
       }
     }
   }
@@ -630,15 +631,17 @@ title: Margin
   $suffix: ''
 ) {
   @each $name, $value in $spacing {
-    @if $name == default {
-      #{$prefix}-my#{$suffix} {
-        margin-top: $value * -1;
-        margin-bottom: $value * -1;
-      }
-    } @else {
-      #{$prefix}-my-#{'' + selector-escape($name)}#{$suffix} {
-        margin-top: $value * -1;
-        margin-bottom: $value * -1;
+    @if (type-of($value) == 'number') {
+      @if $name == default {
+        #{$prefix}-my#{$suffix} {
+          margin-top: $value * -1;
+          margin-bottom: $value * -1;
+        }
+      } @else {
+        #{$prefix}-my-#{'' + selector-escape($name)}#{$suffix} {
+          margin-top: $value * -1;
+          margin-bottom: $value * -1;
+        }
       }
     }
   }
@@ -664,13 +667,15 @@ title: Margin
   $suffix: ''
 ) {
   @each $name, $value in $spacing {
-    @if $name == default {
-      #{$prefix}-mt#{$suffix} {
-        margin-top: $value * -1;
-      }
-    } @else {
-      #{$prefix}-mt-#{'' + selector-escape($name)}#{$suffix} {
-        margin-top: $value * -1;
+    @if (type-of($value) == 'number') {
+      @if $name == default {
+        #{$prefix}-mt#{$suffix} {
+          margin-top: $value * -1;
+        }
+      } @else {
+        #{$prefix}-mt-#{'' + selector-escape($name)}#{$suffix} {
+          margin-top: $value * -1;
+        }
       }
     }
   }
@@ -696,13 +701,15 @@ title: Margin
   $suffix: ''
 ) {
   @each $name, $value in $spacing {
-    @if $name == default {
-      #{$prefix}-mr#{$suffix} {
-        margin-right: $value * -1;
-      }
-    } @else {
-      #{$prefix}-mr-#{'' + selector-escape($name)}#{$suffix} {
-        margin-right: $value * -1;
+    @if (type-of($value) == 'number') {
+      @if $name == default {
+        #{$prefix}-mr#{$suffix} {
+          margin-right: $value * -1;
+        }
+      } @else {
+        #{$prefix}-mr-#{'' + selector-escape($name)}#{$suffix} {
+          margin-right: $value * -1;
+        }
       }
     }
   }
@@ -728,13 +735,15 @@ title: Margin
   $suffix: ''
 ) {
   @each $name, $value in $spacing {
-    @if $name == default {
-      #{$prefix}-mb#{$suffix} {
-        margin-bottom: $value * -1;
-      }
-    } @else {
-      #{$prefix}-mb-#{'' + selector-escape($name)}#{$suffix} {
-        margin-bottom: $value * -1;
+    @if (type-of($value) == 'number') {
+      @if $name == default {
+        #{$prefix}-mb#{$suffix} {
+          margin-bottom: $value * -1;
+        }
+      } @else {
+        #{$prefix}-mb-#{'' + selector-escape($name)}#{$suffix} {
+          margin-bottom: $value * -1;
+        }
       }
     }
   }
@@ -760,33 +769,42 @@ title: Margin
   $suffix: ''
 ) {
   @each $name, $value in $spacing {
-    @if $name == default {
-      #{$prefix}-ml#{$suffix} {
-        margin-left: $value * -1;
-      }
-    } @else {
-      #{$prefix}-ml-#{'' + selector-escape($name)}#{$suffix} {
-        margin-left: $value * -1;
+    @if (type-of($value) == 'number') {
+      @if $name == default {
+        #{$prefix}-ml#{$suffix} {
+          margin-left: $value * -1;
+        }
+      } @else {
+        #{$prefix}-ml-#{'' + selector-escape($name)}#{$suffix} {
+          margin-left: $value * -1;
+        }
       }
     }
   }
 }
 
 @mixin make-margins($prefix: '.', $suffix: '') {
-  @include margin-spacing($spacing, $prefix, $suffix);
-  @include margin-negative-spacing($spacing, $prefix, $suffix);
-  @include margin-x-spacing($spacing, $prefix, $suffix);
-  @include margin-negative-x-spacing($spacing, $prefix, $suffix);
-  @include margin-y-spacing($spacing, $prefix, $suffix);
-  @include margin-negative-y-spacing($spacing, $prefix, $suffix);
-  @include margin-top-spacing($spacing, $prefix, $suffix);
-  @include margin-negative-top-spacing($spacing, $prefix, $suffix);
-  @include margin-right-spacing($spacing, $prefix, $suffix);
-  @include margin-negative-right-spacing($spacing, $prefix, $suffix);
-  @include margin-bottom-spacing($spacing, $prefix, $suffix);
-  @include margin-negative-bottom-spacing($spacing, $prefix, $suffix);
-  @include margin-left-spacing($spacing, $prefix, $suffix);
-  @include margin-negative-left-spacing($spacing, $prefix, $suffix);
+  $margins: map-merge(
+    $spacing,
+    (
+      auto: auto
+    )
+  ) !default;
+
+  @include margin-spacing($margins, $prefix, $suffix);
+  @include margin-negative-spacing($margins, $prefix, $suffix);
+  @include margin-x-spacing($margins, $prefix, $suffix);
+  @include margin-negative-x-spacing($margins, $prefix, $suffix);
+  @include margin-y-spacing($margins, $prefix, $suffix);
+  @include margin-negative-y-spacing($margins, $prefix, $suffix);
+  @include margin-top-spacing($margins, $prefix, $suffix);
+  @include margin-negative-top-spacing($margins, $prefix, $suffix);
+  @include margin-right-spacing($margins, $prefix, $suffix);
+  @include margin-negative-right-spacing($margins, $prefix, $suffix);
+  @include margin-bottom-spacing($margins, $prefix, $suffix);
+  @include margin-negative-bottom-spacing($margins, $prefix, $suffix);
+  @include margin-left-spacing($margins, $prefix, $suffix);
+  @include margin-negative-left-spacing($margins, $prefix, $suffix);
 }
 
 @include make-margins();
