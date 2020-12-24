@@ -4,6 +4,7 @@ import Layout from '../../src/components/Layout';
 import AsideNav from '../../src/components/AsideNav';
 import {
   AlertComponent,
+  Button,
   Drawer,
   ToastComponent
 } from '../../src/components/index';
@@ -122,12 +123,15 @@ class BackTop extends React.PureComponent {
     );
   }
 }
-
-@withRouter
-export class App extends React.PureComponent {
+// @ts-ignore
+@withRouter // @ts-ignore
+export class App extends React.PureComponent<{
+  location: Location;
+}> {
   state = {
     viewMode: localStorage.getItem('viewMode') || 'pc',
     offScreen: false,
+    folded: false,
     headerVisible: true,
     themeIndex: 0,
     themes: themes,
@@ -194,7 +198,7 @@ export class App extends React.PureComponent {
     });
   }
 
-  renderHeader() {
+  renderHeader(docPage = true) {
     const location = this.props.location;
     const theme = this.state.theme;
 
@@ -208,31 +212,67 @@ export class App extends React.PureComponent {
 
     return (
       <>
-        <div className={`${theme.ns}Layout-brandBar`}>
+        <div
+          className={`${theme.ns}Layout-brandBar ${
+            docPage ? 'DocLayout-brandBar' : ''
+          }`}
+        >
           <div
             onClick={() => this.setState({offScreen: !this.state.offScreen})}
-            className={`${theme.ns}Layout-offScreen-btn pull-left visible-xs`}
+            className={`${theme.ns}Layout-offScreen-btn ${
+              docPage ? 'DocLayout-offScreen-btn' : ''
+            } pull-left visible-xs`}
           >
             <i className="bui-icon iconfont icon-collapse"></i>
           </div>
 
-          <div className={`${theme.ns}Layout-brand`}>
-            <Link to={`${ContextPath}/docs`}>
-              <div className="logo"></div>
-            </Link>
-          </div>
+          {docPage ? (
+            <div
+              className={`${theme.ns}Layout-brand  ${
+                docPage ? 'DocLayout-brand' : ''
+              }`}
+            >
+              <Link to={`${ContextPath}/docs`}>
+                <div className="logo"></div>
+              </Link>
+            </div>
+          ) : (
+            <div className={`${theme.ns}Layout-brand text-ellipsis`}>
+              <i className="fa fa-paw" />
+              <span className="hidden-folded m-l-sm">AMIS 示例</span>
+            </div>
+          )}
         </div>
 
-        <div className={`${theme.ns}Layout-headerBar`}>
-          <ul className={`${theme.ns}Layout-headerBar-links pull-left`}>
+        <div
+          className={`${theme.ns}Layout-headerBar ${
+            docPage ? 'DocLayout-headerBar' : ''
+          } flex items-center`}
+        >
+          {docPage ? null : (
+            <Button
+              onClick={() => this.setState({folded: !this.state.folded})}
+              type="button"
+              level="link"
+              className="navbar-btn"
+            >
+              <i
+                className={`fa fa-${
+                  this.state.folded ? 'indent' : 'dedent'
+                } fa-fw`}
+              ></i>
+            </Button>
+          )}
+
+          <ul className={`HeaderLinks`}>
             <Link to={`${ContextPath}/docs`} activeClassName="is-active">
               文档
             </Link>
-            <Link to={`${ContextPath}/examples`} activeClassName="is-active">
-              示例
-            </Link>
             <Link to={`${ContextPath}/style`} activeClassName="is-active">
               样式
+            </Link>
+            <Link to={`${ContextPath}/examples`} activeClassName="is-active">
+              示例
             </Link>
             <a
               href="https://github.com/fex-team/amis-editor-demo"
@@ -245,7 +285,7 @@ export class App extends React.PureComponent {
             </a> */}
           </ul>
 
-          <div className="hidden-xs p-t pull-right m-l-sm">
+          <div className="hidden-xs ml-auto">
             <Select
               clearable={false}
               theme={this.state.theme.value}
@@ -259,7 +299,7 @@ export class App extends React.PureComponent {
             />
           </div>
 
-          <div className="hidden-xs p-t pull-right m-l-sm">
+          <div className="hidden-xs ml-2">
             <Select
               clearable={false}
               theme={this.state.theme.value}
@@ -278,7 +318,7 @@ export class App extends React.PureComponent {
             />
           </div>
 
-          <div className="hidden-xs p-t pull-right">
+          <div className="hidden-xs ml-2">
             <Select
               clearable={false}
               theme={this.state.theme.value}
@@ -291,96 +331,171 @@ export class App extends React.PureComponent {
               }}
             />
           </div>
+
+          <div id="Header-toolbar"></div>
         </div>
 
-        <div className={`${theme.ns}Layout-searchBar hidden-xs hidden-sm`}>
-          <DocSearch theme={theme} />
-          <a
-            className="gh-icon"
-            href="https://github.com/baidu/amis"
-            target="_blank"
+        {docPage ? (
+          <div
+            className={`${theme.ns}Layout-searchBar ${
+              docPage ? 'DocLayout-searchBar' : ''
+            } hidden-xs hidden-sm`}
           >
-            <i className="fa fa-github" />
-          </a>
-        </div>
+            <DocSearch theme={theme} />
+            <a
+              className="gh-icon"
+              href="https://github.com/baidu/amis"
+              target="_blank"
+            >
+              <i className="fa fa-github" />
+            </a>
+          </div>
+        ) : null}
       </>
     );
   }
 
   renderNavigation() {
+    return <div className="Doc-navigation">{this.renderAsideNav()}</div>;
+  }
+
+  renderAsideNav() {
     return (
-      <div className="Doc-navigation">
-        <AsideNav
-          navigations={this.state.navigations.map(item => ({
-            ...item,
-            children: item.children
-              ? item.children.map(item => ({
-                  ...item,
-                  className: 'is-top'
-                }))
-              : []
-          }))}
-          renderLink={({
-            link,
-            active,
-            toggleExpand,
-            classnames: cx,
-            depth
-          }: any) => {
-            let children = [];
+      <AsideNav
+        navigations={this.state.navigations.map(item => ({
+          ...item,
+          children: item.children
+            ? item.children.map(item => ({
+                ...item,
+                className: 'is-top'
+              }))
+            : []
+        }))}
+        renderLink={({
+          link,
+          active,
+          toggleExpand,
+          classnames: cx,
+          depth
+        }: any) => {
+          let children = [];
 
-            if (link.children && link.children.length) {
-              children.push(
-                <span
-                  key="expand-toggle"
-                  className={cx('AsideNav-itemArrow')}
-                  onClick={e => toggleExpand(link, e)}
-                ></span>
-              );
-            }
-
+          if (link.children && link.children.length) {
             children.push(
-              <span className={cx('AsideNav-itemLabel')} key="label">
-                {link.label}
-              </span>
+              <span
+                key="expand-toggle"
+                className={cx('AsideNav-itemArrow')}
+                onClick={e => toggleExpand(link, e)}
+              ></span>
+            );
+          }
+
+          link.badge &&
+            children.push(
+              <b
+                key="badge"
+                className={cx(
+                  `AsideNav-itemBadge`,
+                  link.badgeClassName || 'bg-info'
+                )}
+              >
+                {link.badge}
+              </b>
             );
 
-            return link.path ? (
-              /^https?\:/.test(link.path) ? (
-                <a target="_blank" href={link.path} rel="noopener">
-                  {children}
-                </a>
-              ) : (
-                <Link
-                  to={
-                    getPath(link.path) ||
-                    (link.children && getPath(link.children[0].path))
-                  }
-                >
-                  {children}
-                </Link>
-              )
-            ) : (
-              <a onClick={link.children ? () => toggleExpand(link) : undefined}>
+          if (link.icon) {
+            children.push(
+              <i key="icon" className={cx(`AsideNav-itemIcon`, link.icon)} />
+            );
+          } else if (this.state.folded && depth === 1) {
+            children.push(
+              <i
+                key="icon"
+                className={cx(
+                  `AsideNav-itemIcon`,
+                  link.children ? 'fa fa-folder' : 'fa fa-info'
+                )}
+              />
+            );
+          }
+
+          children.push(
+            <span className={cx('AsideNav-itemLabel')} key="label">
+              {link.label}
+            </span>
+          );
+
+          return link.path ? (
+            /^https?\:/.test(link.path) ? (
+              <a target="_blank" href={link.path} rel="noopener">
                 {children}
               </a>
-            );
-          }}
-          isActive={(link: any) => isActive(link, location)}
-        />
-      </div>
+            ) : (
+              <Link
+                to={
+                  getPath(link.path) ||
+                  (link.children && getPath(link.children[0].path))
+                }
+              >
+                {children}
+              </Link>
+            )
+          ) : (
+            <a onClick={link.children ? () => toggleExpand(link) : undefined}>
+              {children}
+            </a>
+          );
+        }}
+        isActive={(link: any) => isActive(link, location)}
+      />
     );
   }
 
-  render() {
+  renderExamples() {
     const theme = this.state.theme;
 
     return (
       <Layout
         theme={theme.value}
+        offScreen={this.state.offScreen}
+        folded={this.state.folded}
+        header={this.renderHeader(false)}
+        aside={this.renderAsideNav()}
+      >
+        <ToastComponent theme={theme.value} locale={this.state.locale} />
+        <AlertComponent theme={theme.value} locale={this.state.locale} />
+
+        {React.cloneElement(this.props.children as any, {
+          key: theme.value,
+          ...(this.props.children as any).props,
+          setNavigations: this.setNavigations,
+          theme: theme.value,
+          classPrefix: theme.ns,
+          viewMode: this.state.viewMode,
+          locale: this.state.locale,
+          offScreen: this.state.offScreen,
+          ContextPath
+        })}
+      </Layout>
+    );
+  }
+
+  render() {
+    const theme = this.state.theme;
+    const location = this.props.location;
+
+    if (/^\/examples/.test(location.pathname)) {
+      return this.renderExamples();
+    }
+
+    return (
+      <Layout
+        className={':DocLayout'}
+        theme={theme.value}
         boxed={true}
         offScreen={this.state.offScreen}
         header={this.state.headerVisible ? this.renderHeader() : null}
+        headerClassName={':DocLayout-header'}
       >
         <ToastComponent theme={theme.value} locale={this.state.locale} />
         <AlertComponent theme={theme.value} locale={this.state.locale} />

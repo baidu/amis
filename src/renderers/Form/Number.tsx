@@ -31,6 +31,11 @@ export interface NumberControlSchema extends FormBaseControl {
    * 精度
    */
   precision?: number;
+
+  /**
+   * 默认当然是
+   */
+  showSteps?: boolean;
 }
 
 export interface NumberProps extends FormControlProps {
@@ -81,7 +86,8 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       max,
       min,
       disabled,
-      placeholder
+      placeholder,
+      showSteps
     } = this.props;
 
     let precisionProps: any = {};
@@ -101,6 +107,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
           disabled={disabled}
           placeholder={placeholder}
           precision={precision}
+          showSteps={showSteps}
         />
       </div>
     );

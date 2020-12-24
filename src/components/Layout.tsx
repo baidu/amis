@@ -20,6 +20,7 @@ import {ClassNamesFn, themeable} from '../theme';
 
 interface LayoutProps {
   header?: boolean | React.ReactNode;
+  headerClassName?: string;
   aside?: boolean | React.ReactNode;
   asideClassName: string;
   boxed?: boolean;
@@ -39,6 +40,7 @@ interface LayoutProps {
 
 export function Layout({
   header,
+  headerClassName,
   aside,
   asideClassName,
   children,
@@ -87,7 +89,9 @@ export function Layout({
         'Layout--noFooter': !footer
       })}
     >
-      {header ? <div className={cx('Layout-header')}>{header}</div> : null}
+      {header ? (
+        <div className={cx('Layout-header', headerClassName)}>{header}</div>
+      ) : null}
       {aside ? (
         <div className={cx(`Layout-aside`, asideClassName)}>
           <div className={cx('Layout-asideWrap')}>

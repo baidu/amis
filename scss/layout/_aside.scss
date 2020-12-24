@@ -70,11 +70,13 @@
   }
 
   &-itemIcon {
+    // margin: ($Layout-nav-height - $lineHeightBase * $Layout-asideLink-fontSize)/-2
+    //   px2rem(-10px);
     margin: calc(
         (
-          var(--Layout-nav-height) - var(--lineHeightBase) *
-            var(--Layout-asideLink-fontSize) / -2
-        )
+            var(--Layout-nav-height) - var(--lineHeightBase) *
+              var(--Layout-asideLink-fontSize)
+          ) / -2
       )
       px2rem(-10px);
     line-height: var(--Layout-nav-height);

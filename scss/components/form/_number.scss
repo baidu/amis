@@ -10,6 +10,10 @@
   border: var(--Number-borderWidth) solid var(--Number-borderColor);
   border-radius: var(--Number-borderRadius);
 
+  &.no-steps > &-handler-wrap {
+    display: none;
+  }
+
   &-focused {
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
