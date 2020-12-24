@@ -681,6 +681,13 @@ export const docs = [
           import('../../docs/components/crud.md').then(makeMarkdownRenderer)
       },
       {
+        label: 'Custom 自定义组件',
+        path: '/docs/components/custom',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/components/custom.md').then(makeMarkdownRenderer)
+      },
+      {
         label: 'Table 表格',
         path: '/docs/components/table',
         getComponent: () =>
