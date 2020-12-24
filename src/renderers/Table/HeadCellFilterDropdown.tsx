@@ -246,12 +246,14 @@ export class HeadCellFilterDropDown extends React.Component<
                           </Checkbox>
                         </li>
                       ))}
-                  <li
-                    key="DropDown-menu-reset"
-                    onClick={this.handleReset.bind(this)}
-                  >
-                    {__('重置')}
-                  </li>
+                  {filterOptions.some((item: any) => item.selected) ? (
+                    <li
+                      key="DropDown-menu-reset"
+                      onClick={this.handleReset.bind(this)}
+                    >
+                      {__('重置')}
+                    </li>
+                  ) : null}
                 </ul>
               ) : null}
             </PopOver>

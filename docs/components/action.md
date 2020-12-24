@@ -225,7 +225,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 ### 请求成功后，刷新目标组件
 
 1. 目标组件需要配置 `name` 属性
-2. Action 上添加 `"reload": "xxx"`，`xxx` 为目标组件的 `name` 属性值，如果配置多个组件，`name` 用逗号分隔
+2. Action 上添加 `"reload": "xxx"`，`xxx` 为目标组件的 `name` 属性值，如果配置多个组件，`name` 用逗号分隔，另外如果想让 reload 的时候再携带些数据可以类似这样配置 `{"reload": "xxx?a=${a}&b=${b}"}`, 这样不仅让目标组件刷新，同时还会把当前环境中的数据 a 和 b 传递给 xxx.
 
 ```schema:height="700"
 {
@@ -506,5 +506,5 @@ Action 行为按钮，是触发页面行为的主要方法之一
 | tooltip          | `string`                     | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                            |
 | disabledTip      | `string`                     | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                    |
 | tooltipPlacement | `string`                     | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                      |
-| close            | `boolean`                    | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。                                                           |
+| close            | `boolean` or `string`                   | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。                                                       |
 | required         | `Array<string>`              | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                          |

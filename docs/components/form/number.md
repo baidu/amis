@@ -34,3 +34,4 @@ order: 32
 | max       | [模板](../../concepts/template) |        | 最大值               |
 | step      | `number`                        |        | 步长                 |
 | precision | `number`                        |        | 精度，即小数点后几位 |
+| showSteps | `boolean`                       |        | 是否显示上下点击按钮 |
