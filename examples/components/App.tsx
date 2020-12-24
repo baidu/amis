@@ -221,7 +221,7 @@ export class App extends React.PureComponent<{
             onClick={() => this.setState({offScreen: !this.state.offScreen})}
             className={`${theme.ns}Layout-offScreen-btn ${
               docPage ? 'DocLayout-offScreen-btn' : ''
-            } pull-left visible-xs`}
+            } pull-right visible-xs`}
           >
             <i className="bui-icon iconfont icon-collapse"></i>
           </div>
@@ -247,7 +247,7 @@ export class App extends React.PureComponent<{
         <div
           className={`${theme.ns}Layout-headerBar ${
             docPage ? 'DocLayout-headerBar' : ''
-          } flex items-center`}
+          } pc:flex items-center`}
         >
           {docPage ? null : (
             <Button

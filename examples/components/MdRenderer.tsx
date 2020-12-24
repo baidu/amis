@@ -196,11 +196,11 @@ export default function (doc) {
       ));
     }
 
-    handlePopOverClick(e: React.MouseEvent<any>) {
+    handlePopOverClick = (e: React.MouseEvent<any>) => {
       this.setState({headingPopover: false});
       e.stopPropagation();
       e.preventDefault();
-    }
+    };
 
     renderHeadingPopover() {
       return this.state.headingPopover ? (
