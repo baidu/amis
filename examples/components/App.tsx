@@ -484,7 +484,7 @@ export class App extends React.PureComponent<{
     const theme = this.state.theme;
     const location = this.props.location;
 
-    if (/^\/examples/.test(location.pathname)) {
+    if (/examples/.test(location.pathname)) {
       return this.renderExamples();
     }
 
