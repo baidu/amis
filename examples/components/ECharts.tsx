@@ -81,6 +81,10 @@ const LazyComponent = lazyData(
 );
 
 export default {
+  type: 'page',
+  cssVars: {
+    '--Form-input-paddingY': '0.25rem'
+  },
   title:
     'ECharts 图表可视化编辑，用于演示如何基于 amis 将任意 json 配置改造成可视化编辑',
   data: {
@@ -92,33 +96,56 @@ export default {
       title: '',
       controls: [
         {
-          type: 'chart',
-          source: '${config}',
-          replaceChartOption: true,
-          unMountOnHidden: false
-        },
-        {
-          children: (props: any) => {
-            return (
-              <React.Suspense
-                fallback={
-                  <Spinner overlay spinnerClassName="m-t-lg" size="lg" />
+          type: 'grid',
+          columns: [
+            {
+              sm: 12,
+              md: 5,
+              columnClassName: 'pl-1 pr-0.5',
+              controls: [
+                {
+                  type: 'chart',
+                  source: '${config}',
+                  replaceChartOption: true,
+                  unMountOnHidden: false
+                },
+                {
+                  type: 'editor',
+                  name: 'config',
+                  language: 'json',
+                  disabled: true,
+                  options: {
+                    lineNumbers: 'off'
+                  },
+                  source: '${config}'
                 }
-              >
-                <LazyComponent {...props} />
-              </React.Suspense>
-            );
-          }
-        },
-        {
-          type: 'editor',
-          name: 'config',
-          language: 'json',
-          disabled: true,
-          options: {
-            lineNumbers: 'off'
-          },
-          source: '${config}'
+              ]
+            },
+            {
+              sm: 12,
+              md: 7,
+              columnClassName: 'pl-0.5 pr-1',
+              controls: [
+                {
+                  children: (props: any) => {
+                    return (
+                      <React.Suspense
+                        fallback={
+                          <Spinner
+                            overlay
+                            spinnerClassName="m-t-lg"
+                            size="lg"
+                          />
+                        }
+                      >
+                        <LazyComponent {...props} />
+                      </React.Suspense>
+                    );
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     }
