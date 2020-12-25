@@ -44,12 +44,6 @@ export default {
       'funnel',
       'gauge'
     ]),
-    buildSerieOptions('line', lineOptions),
-    buildSerieOptions('bar', barOptions),
-    buildSerieOptions('pie', pieOptions),
-    buildSerieOptions('funnel', funnelOptions),
-    buildSerieOptions('gauge', gaugeOptions),
-    buildSerieOptions('radar', radarOptions),
     {
       type: 'array',
       name: 'data', //TODO: 目前只支持一维
@@ -57,6 +51,12 @@ export default {
       items: {
         type: 'number'
       }
-    }
+    },
+    buildSerieOptions('line', lineOptions),
+    buildSerieOptions('bar', barOptions),
+    buildSerieOptions('pie', pieOptions),
+    buildSerieOptions('funnel', funnelOptions),
+    buildSerieOptions('gauge', gaugeOptions),
+    buildSerieOptions('radar', radarOptions)
   ]
 };
