@@ -50,21 +50,33 @@ export class Custom extends React.Component<CustomProps, object> {
     this.dom = React.createRef();
     if (props.onMount) {
       if (typeof props.onMount === 'string') {
-        this.onMount = getFunction('dom', 'value', 'onChange', props.onMount);
+        this.onMount = getFunction(
+          'dom',
+          'value',
+          'onChange',
+          'props',
+          props.onMount
+        );
       } else {
         this.onMount = props.onMount;
       }
     }
     if (props.onUpdate) {
       if (typeof props.onUpdate === 'string') {
-        this.onUpdate = getFunction('dom', 'data', 'prevData', props.onUpdate);
+        this.onUpdate = getFunction(
+          'dom',
+          'data',
+          'prevData',
+          'props',
+          props.onUpdate
+        );
       } else {
         this.onUpdate = props.onUpdate;
       }
     }
     if (props.onUnmount) {
       if (typeof props.onUnmount === 'string') {
-        this.onUnmount = getFunction(props.onUnmount);
+        this.onUnmount = getFunction('props', props.onUnmount);
       } else {
         this.onUnmount = props.onUnmount;
       }
@@ -74,16 +86,17 @@ export class Custom extends React.Component<CustomProps, object> {
   componentDidUpdate(prevProps: CustomProps) {
     if (anyChanged(['data'], this.props, prevProps)) {
       const {data} = this.props;
-      this.onUpdate(this.dom, data, prevProps.data);
+      this.onUpdate(this.dom, data, prevProps.data, this.props);
     }
   }
+
   componentDidMount() {
     const {value, onChange} = this.props;
-    this.onMount(this.dom.current, value, onChange);
+    this.onMount(this.dom.current, value, onChange, this.props);
   }
 
   componentwillUnmount() {
-    this.onUnmount();
+    this.onUnmount(this.props);
   }
 
   render() {

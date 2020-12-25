@@ -21,6 +21,7 @@ order: 26
 - dom，组件加载之后的 dom 节点
 - data，组件初始值，需要设置 name
 - onChange，修改这个组件对应 name 的值
+- props，后面会单独介绍
 
 比如在这样的 form 组件中：
 
@@ -36,7 +37,7 @@ order: 26
         type: 'custom',
         name: 'myName',
         label: '自定义组件',
-        onMount: (dom, value, onChange) => {
+        onMount: (dom, value, onChange, props) => {
           const button = document.createElement('button');
           button.innerText = '点击修改';
           button.onclick = event => {
@@ -78,7 +79,7 @@ onUpdate 是在数据变更的时候调用，注意这个数据变更会包含�
       {
         type: 'custom',
         label: '自定义组件',
-        onUpdate: (dom, data, prevData) => {
+        onUpdate: (dom, data, prevData, props) => {
           console.log('data', data, prevData)
         }
       }
@@ -95,7 +96,7 @@ onUpdate 是在数据变更的时候调用，注意这个数据变更会包含�
 
 ### onUnmount
 
-onUnmount 是在组件销毁的时候执行，可以在这里做资源清理，这个函数没有参数。
+onUnmount 是在组件销毁的时候执行，可以在这里做资源清理，这个函数只有一个 props 参数。
 
 ### Vue.js
 
@@ -120,7 +121,7 @@ onUnmount 是在组件销毁的时候执行，可以在这里做资源清理，�
         </ol>
         `,
         label: '自定义组件',
-        onMount: (dom, data, onChange) => {
+        onMount: (dom, data, onChange, props) => {
           const app = new Vue({
             el: dom,
             data: {
@@ -137,6 +138,37 @@ onUnmount 是在组件销毁的时候执行，可以在这里做资源清理，�
   }
 }
 ```
+
+### props
+
+前面可以看到所有函数最后都有一个 props 参数，在这个参数里能拿到 amis 内部属性和方法，比如弹框
+
+```javascript
+onMount: (dom, data, onChange, props) => {
+  const button = document.createElement('button');
+  button.innerText = '点击修改姓名';
+  button.onclick = event => {
+    onChange('new name');
+    props.onAction(
+      event,
+      {
+        type: 'action',
+        label: '弹个框',
+        actionType: 'dialog',
+        dialog: {
+          title: '弹框',
+          body: 'Hello World!'
+        }
+      },
+      {} // 这是 data
+    );
+    event.preventDefault();
+  };
+  dom.appendChild(button);
+};
+```
+
+或者执行 `props.env.notify('success', '执行成功')` 来在右上角弹出提示等。
 
 ## 属性表
 
