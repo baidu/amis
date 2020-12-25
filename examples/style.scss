@@ -242,14 +242,6 @@ body {
         left: 0;
       }
     }
-
-    &-offScreen-btn {
-      line-height: 64px;
-      padding: 0 20px;
-      cursor: pointer;
-      position: absolute;
-      left: 0;
-    }
   }
 
   .dark-Layout {
@@ -307,6 +299,21 @@ body {
       }
     }
   }
+}
+
+.a-Layout-offScreen-btn,
+.cxd-Layout-offScreen-btn,
+.dark-Layout-offScreen-btn {
+  line-height: 50px;
+  padding: 0 10px;
+}
+
+.DocLayout-offScreen-btn {
+  line-height: 64px;
+  padding: 0 20px;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
 }
 
 .Doc {

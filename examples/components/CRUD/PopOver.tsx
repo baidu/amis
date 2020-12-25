@@ -21,7 +21,8 @@ export default {
           trigger: 'hover',
           showIcon: false,
           body: 'Popover 内容：${platform}',
-          position: 'right-bottom'
+          popOverClassName: 'min-w-0',
+          position: 'left-center-right-center right-center-left-center'
         }
       },
       {

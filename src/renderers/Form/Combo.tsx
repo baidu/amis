@@ -997,7 +997,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 onClick={this.removeItem.bind(this, index)}
                 key="remove"
                 className={cx(
-                  `Combo-toolbarBtn ${!store.removable ? 'is-disabled' : ''}`
+                  `Combo-tab-delBtn ${!store.removable ? 'is-disabled' : ''}`
                 )}
                 data-tooltip={__('删除')}
                 data-position="bottom"
@@ -1163,34 +1163,19 @@ export default class ComboControl extends React.Component<ComboProps> {
         <div className={cx(`Combo-items`)}>
           {Array.isArray(value) && value.length ? (
             value.map((value, index, thelist) => {
-              const toolbar: Array<any> = [];
-
-              // if (!disabled && draggable && thelist.length > 1) {
-              //   toolbar.push(
-              //     <a
-              //       key="drag"
-              //       className={cx(`Combo-toolbarBtn Combo-itemDrager`)}
-              //       data-tooltip="拖拽排序"
-              //       data-position="bottom"
-              //     >
-              //       <i className={dragIcon} />
-              //     </a>
-              //   );
-              // }
+              let delBtn: any = null;
 
               if (
                 finnalRemovable && // 表达式判断单条是否可删除
                 (!itemRemovableOn ||
                   evalExpression(itemRemovableOn, value) !== false)
               ) {
-                toolbar.push(
+                delBtn = (
                   <a
                     onClick={this.removeItem.bind(this, index)}
                     key="remove"
                     className={cx(
-                      `Combo-toolbarBtn ${
-                        !store.removable ? 'is-disabled' : ''
-                      }`
+                      `Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`
                     )}
                     data-tooltip={__('删除')}
                     data-position="bottom"
@@ -1292,9 +1277,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       </Alert2>
                     )}
                   </div>
-                  {toolbar.length ? (
-                    <div className={cx(`Combo-itemToolbar`)}>{toolbar}</div>
-                  ) : null}
+                  {delBtn}
                 </div>
               );
             })

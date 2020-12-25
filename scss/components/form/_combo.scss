@@ -56,6 +56,27 @@
     }
   }
 
+  &-delBtn {
+    color: var(--icon-color);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--icon-onHover-color);
+    }
+  }
+
+  &-tab-delBtn {
+    color: var(--icon-color);
+    cursor: pointer;
+    position: absolute;
+    top: -8px;
+    right: 4px;
+
+    &:hover {
+      color: var(--icon-onHover-color);
+    }
+  }
+
   &-items {
     &:empty {
       display: none;
@@ -115,14 +136,14 @@
       }
     }
 
-    .#{$ns}Combo-itemToolbar {
+    .#{$ns}Combo-delBtn {
       margin-left: var(--gap-xs);
       display: flex;
       white-space: nowrap;
       align-items: flex-start;
       padding-top: var(--Form-label-paddingTop);
 
-      > .is-disabled {
+      &.is-disabled {
         pointer-events: none;
         opacity: var(--Button-onDisabled-opacity);
       }
@@ -178,39 +199,11 @@
       margin: calc(var(--Combo--vertical-item-gap) * 2);
     }
 
-    > .#{$ns}Combo-item > .#{$ns}Combo-itemToolbar,
-    > .#{$ns}Combo-items > .#{$ns}Combo-item > .#{$ns}Combo-itemToolbar {
-      opacity: 0;
+    > .#{$ns}Combo-items > .#{$ns}Combo-item > .#{$ns}Combo-delBtn {
       position: absolute;
-      right: var(--Combo--vertical-itemToolbar-positionRight);
-      top: calc(var(--Combo--vertical-itemToolbar-positionTop) / 2);
-      transition: var(--Combo--vertical-itemToolbar-transion);
-      height: var(--Combo--vertical-itemToolbar-height);
-      line-height: var(--Combo--vertical-itemToolbar-height);
-      background: var(--Combo--vertical-itemToolbar-bg);
-      color: var(--Combo--vertical-itemToolbar-color);
-      border-top-left-radius: var(--Combo--vertical-itemToolbar-borderRadius);
-      border-top-right-radius: var(--Combo--vertical-itemToolbar-borderRadius);
-      padding: 0 px2rem(3px);
-      border-style: solid;
-      border-color: var(--Combo--vertical-itemToolbar-borderColor);
-      border-width: var(--Combo--vertical-itemToolbar-borderWidth)
-        var(--Combo--vertical-itemToolbar-borderWidth) 0
-        var(--Combo--vertical-itemToolbar-borderWidth);
-      // margin-top: px2rem(-1px);
-
-      .#{$ns}Combo-toolbarBtn {
-        color: inherit;
-        line-height: var(--Combo--vertical-itemToolbar-height);
-        // font-size: px2rem(14px);
-
-        &:hover {
-          color: var(--Combo--vertical-itemToolbar-onHover-color);
-        }
-      }
-
-      // top: var(--Combo--vertical-itemToolbar-positionTop);
-      // opacity: 1;
+      opacity: 0;
+      top: var(--gap-xs);
+      right: var(--gap-xs);
     }
 
     &:not(.is-disabled) > .#{$ns}Combo-item:hover,
@@ -218,8 +211,7 @@
       border-color: var(--Combo--vertical-item-onHover-borderColor);
       // border-style: solid;
 
-      > .#{$ns}Combo-itemToolbar {
-        top: var(--Combo--vertical-itemToolbar-positionTop);
+      > .#{$ns}Combo-delBtn {
         opacity: 1;
       }
     }
