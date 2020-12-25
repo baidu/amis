@@ -362,8 +362,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.setState({
       editIndex: index,
       buildItemProps: this.buildItemProps.bind(this),
-      editting: this.editting =
-        editting || (value && value[index]) || scaffold || {},
+      editting: (this.editting =
+        editting || (value && value[index]) || scaffold || {}),
       isCreateMode: isCreate,
       columns:
         this.state.isCreateMode === isCreate
@@ -707,9 +707,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     if (~this.state.editIndex) {
       this.setState({
-        editting: this.editting = {
+        editting: (this.editting = {
           ...rows
-        }
+        })
       });
       return;
     } else if (Array.isArray(rows)) {
@@ -781,7 +781,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       columnsTogglable,
       combineNum,
       translate: __,
-      canAccessSuperData
+      canAccessSuperData,
+      affixRow,
+      prefixRow
     } = this.props;
 
     return (
@@ -792,7 +794,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             type: 'table',
             placeholder: __(placeholder),
             columns: this.state.columns,
-            affixHeader: false
+            affixHeader: false,
+            prefixRow,
+            affixRow
           },
           {
             value: undefined,
