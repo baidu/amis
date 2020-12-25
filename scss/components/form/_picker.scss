@@ -8,6 +8,11 @@
     background: var(--Form-input-onFocused-bg);
   }
 
+  &.is-disabled {
+    pointer-events: none;
+    opacity: var(--Button-onDisabled-opacity);
+  }
+
   &-placeholder {
     color: var(--Form-input-placeholderColor);
     user-select: none;
@@ -56,11 +61,6 @@
     border-radius: 2px;
     margin-right: var(--gap-xs);
     margin-bottom: var(--gap-xs);
-
-    &.is-disabled {
-      pointer-events: none;
-      opacity: var(--Button-onDisabled-opacity);
-    }
   }
 
   .#{$ns}Picker-valueIcon {
