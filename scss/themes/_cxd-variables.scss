@@ -17,7 +17,6 @@ $success-bg: #f1fdeb;
 $warning-bg: #fcf7f1;
 $danger-bg: #fff5f5;
 
-$body-bg: #ffffff;
 $text-color: #666;
 
 $Toast-icon-fillHeight: false;
@@ -33,6 +32,8 @@ $Wizard-steps-liAfterBorder: none !important;
 
 :root {
   --borderColor: #eceff8;
+  --body-bg: #ffffff;
+  --text-color: #666;
 
   --text--muted-color: #999;
   --text--loud-color: #333;

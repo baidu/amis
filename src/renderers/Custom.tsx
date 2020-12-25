@@ -101,7 +101,7 @@ export class Custom extends React.Component<CustomProps, object> {
         ref={this.dom}
         className={cx(className)}
         id={id}
-        dangerouslySetInnerHTML={{__html: html ? html : null}}
+        dangerouslySetInnerHTML={{__html: html ? html : ''}}
       ></Component>
     );
   }
