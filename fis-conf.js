@@ -82,36 +82,6 @@ fis.match('/src/icons/**.svg', {
   ]
 });
 
-fis.match('_*.scss', {
-  parser: [
-    parserCodeMarkdown,
-    function (contents, file) {
-      return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
-        _,
-        quota,
-        link
-      ) {
-        if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
-          let parts = link.split('#');
-          parts[0] = parts[0].replace('.md', '');
-
-          if (parts[0][0] !== '/') {
-            parts[0] = path
-              .resolve(path.dirname(file.subpath), parts[0])
-              .replace(/^\/docs/, '');
-          }
-
-          return 'href=\\' + quota + parts.join('#') + '\\' + quota;
-        }
-
-        return _;
-      });
-    }
-  ],
-  isMod: true,
-  rExt: '.js'
-});
-
 fis.match('/node_modules/**.js', {
   isMod: true
 });
@@ -138,24 +108,23 @@ fis.match('/docs/**.md', {
   parser: [
     parserMarkdown,
     function (contents, file) {
-      return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
-        _,
-        quota,
-        link
-      ) {
-        if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
-          let parts = link.split('#');
-          parts[0] = parts[0].replace('.md', '');
+      return contents.replace(
+        /\bhref=\\('|")(.+?)\\\1/g,
+        function (_, quota, link) {
+          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+            let parts = link.split('#');
+            parts[0] = parts[0].replace('.md', '');
 
-          if (parts[0][0] !== '/') {
-            parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
+            if (parts[0][0] !== '/') {
+              parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
+            }
+
+            return 'href=\\' + quota + parts.join('#') + '\\' + quota;
           }
 
-          return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+          return _;
         }
-
-        return _;
-      });
+      );
     }
   ],
   isMod: true
@@ -233,6 +202,40 @@ fis.hook('commonjs', {
   }
 });
 
+fis.match('_*.scss', {
+  release: false
+});
+
+fis.media('dev').match('_*.scss', {
+  parser: [
+    parserCodeMarkdown,
+    function (contents, file) {
+      return contents.replace(
+        /\bhref=\\('|")(.+?)\\\1/g,
+        function (_, quota, link) {
+          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+            let parts = link.split('#');
+            parts[0] = parts[0].replace('.md', '');
+
+            if (parts[0][0] !== '/') {
+              parts[0] = path
+                .resolve(path.dirname(file.subpath), parts[0])
+                .replace(/^\/docs/, '');
+            }
+
+            return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+          }
+
+          return _;
+        }
+      );
+    }
+  ],
+  release: '$0',
+  isMod: true,
+  rExt: '.js'
+});
+
 fis.media('dev').match('::package', {
   postpackager: fis.plugin('loader', {
     useInlineMap: false,
@@ -275,20 +278,19 @@ if (fis.project.currentMedia() === 'publish') {
       }),
       function (contents) {
         return contents
-          .replace(/(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g, function (
-            _,
-            quote,
-            value
-          ) {
-            let str = quote + value + quote;
-            return (
-              '(function(){try {return __uri(' +
-              str +
-              ')} catch(e) {return ' +
-              str +
-              '}})()'
-            );
-          })
+          .replace(
+            /(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g,
+            function (_, quote, value) {
+              let str = quote + value + quote;
+              return (
+                '(function(){try {return __uri(' +
+                str +
+                ')} catch(e) {return ' +
+                str +
+                '}})()'
+              );
+            }
+          )
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {
@@ -298,36 +300,6 @@ if (fis.project.currentMedia() === 'publish') {
       }
     ],
     preprocessor: null
-  });
-
-  publishEnv.match('_*.scss', {
-    parser: [
-      parserCodeMarkdown,
-      function (contents, file) {
-        return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
-          _,
-          quota,
-          link
-        ) {
-          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
-            let parts = link.split('#');
-            parts[0] = parts[0].replace('.md', '');
-
-            if (parts[0][0] !== '/') {
-              parts[0] = path
-                .resolve(path.dirname(file.subpath), parts[0])
-                .replace(/^\/docs/, '/amis');
-            }
-
-            return 'href=\\' + quota + parts.join('#') + '\\' + quota;
-          }
-
-          return _;
-        });
-      }
-    ],
-    isMod: true,
-    rExt: '.js'
   });
 
   publishEnv.match('*', {
@@ -377,6 +349,10 @@ if (fis.project.currentMedia() === 'publish') {
   });
   // publishEnv.unhook('node_modules');
   publishEnv.hook('relative');
+
+  publishEnv.match('_*.scss', {
+    release: false
+  });
 } else if (fis.project.currentMedia() === 'publish-sdk') {
   const env = fis.media('publish-sdk');
 
@@ -596,26 +572,57 @@ if (fis.project.currentMedia() === 'publish') {
     parser: [
       parserMarkdown,
       function (contents, file) {
-        return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
-          _,
-          quota,
-          link
-        ) {
-          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
-            let parts = link.split('#');
-            parts[0] = parts[0].replace('.md', '');
+        return contents.replace(
+          /\bhref=\\('|")(.+?)\\\1/g,
+          function (_, quota, link) {
+            if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+              let parts = link.split('#');
+              parts[0] = parts[0].replace('.md', '');
 
-            if (parts[0][0] !== '/') {
-              parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
+              if (parts[0][0] !== '/') {
+                parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
+              }
+
+              return (
+                'href=\\' + quota + '/amis' + parts.join('#') + '\\' + quota
+              );
             }
 
-            return 'href=\\' + quota + '/amis' + parts.join('#') + '\\' + quota;
+            return _;
           }
-
-          return _;
-        });
+        );
       }
     ]
+  });
+
+  ghPages.match('_*.scss', {
+    parser: [
+      parserCodeMarkdown,
+      function (contents, file) {
+        return contents.replace(
+          /\bhref=\\('|")(.+?)\\\1/g,
+          function (_, quota, link) {
+            if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+              let parts = link.split('#');
+              parts[0] = parts[0].replace('.md', '');
+
+              if (parts[0][0] !== '/') {
+                parts[0] = path
+                  .resolve(path.dirname(file.subpath), parts[0])
+                  .replace(/^\/docs/, '/amis');
+              }
+
+              return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+            }
+
+            return _;
+          }
+        );
+      }
+    ],
+    isMod: true,
+    rExt: '.js',
+    release: '$0'
   });
 
   ghPages.match('/node_modules/(**)', {
@@ -742,18 +749,17 @@ if (fis.project.currentMedia() === 'publish') {
           DocCSS.getContent(),
           ExampleJs.getContent()
         ].join('\n');
-        source.replace(/\bpath\b\s*\:\s*('|")(.*?)\1/g, function (
-          _,
-          qutoa,
-          path
-        ) {
-          if (path === '*') {
-            return;
-          }
+        source.replace(
+          /\bpath\b\s*\:\s*('|")(.*?)\1/g,
+          function (_, qutoa, path) {
+            if (path === '*') {
+              return;
+            }
 
-          pages.push(path.replace(/^\//, ''));
-          return _;
-        });
+            pages.push(path.replace(/^\//, ''));
+            return _;
+          }
+        );
 
         const contents = indexHtml.getContent();
         pages.forEach(function (path) {
@@ -810,20 +816,19 @@ if (fis.project.currentMedia() === 'publish') {
 
       function (contents) {
         return contents
-          .replace(/(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g, function (
-            _,
-            quote,
-            value
-          ) {
-            let str = quote + value + quote;
-            return (
-              '(function(){try {return __uri(' +
-              str +
-              ')} catch(e) {return ' +
-              str +
-              '}})()'
-            );
-          })
+          .replace(
+            /(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g,
+            function (_, quote, value) {
+              let str = quote + value + quote;
+              return (
+                '(function(){try {return __uri(' +
+                str +
+                ')} catch(e) {return ' +
+                str +
+                '}})()'
+              );
+            }
+          )
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {
