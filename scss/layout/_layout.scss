@@ -213,7 +213,7 @@ body {
   }
 
   .#{$ns}Layout--offScreen {
-    .#{$ns}Layout-content,
+    .#{$ns}Layout-body,
     .#{$ns}Layout-footer {
       background: var(--body-bg);
       transition: transform 0.2s ease;

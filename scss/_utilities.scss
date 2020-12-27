@@ -1646,7 +1646,11 @@ a.label {
 /*phone*/
 @media (max-width: 767px) {
   .visible-xs {
-    display: block;
+    display: block !important;
+  }
+
+  .hidden-xs {
+    display: none !important;
   }
 
   .w-auto-xs {
