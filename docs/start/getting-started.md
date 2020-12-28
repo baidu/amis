@@ -84,7 +84,7 @@ JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releas
 
 ### 控制 amis 的行为
 
-`amis.embed` 函数还支持以下配置项来控制 amis 的行为，比如在 fetcher 的时候加入自己的处理逻辑，这些函数参数的说明在前面也有介绍。
+`amis.embed` 函数还支持以下配置项来控制 amis 的行为，比如在 fetcher 的时候加入自己的处理逻辑，这些函数参数的说明在后面 React 中也有介绍。
 
 ```js
 let amisScoped = amis.embed(
@@ -232,7 +232,7 @@ import * as React from 'react';
 import axios from 'axios';
 import copy from 'copy-to-clipboard';
 
-import {render as renderAmis} from 'amis';
+import {render as renderAmis, ToastComponent, AlertComponent} from 'amis';
 import {alert, confirm} from 'amis/lib/components/Alert';
 import {toast} from 'amis/lib/components/Toast';
 
@@ -241,6 +241,8 @@ class MyComponent extends React.Component<any, any> {
     return (
       <div>
         <p>通过 amis 渲染页面</p>
+        <ToastComponent key="toast" position={'top-right'} />
+        <AlertComponent key="alert" />
         {renderAmis(
           {
             // 这里是 amis 的 Json 配置。

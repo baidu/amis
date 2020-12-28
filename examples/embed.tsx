@@ -15,6 +15,8 @@ import {
   render as renderAmis
 } from '../src/index';
 
+import '../src/locale/en';
+
 export function embed(
   container: string | HTMLElement,
   schema: any,
