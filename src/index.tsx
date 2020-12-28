@@ -85,6 +85,7 @@ import './renderers/Form/Tree';
 import './renderers/Form/TreeSelect';
 import './renderers/Form/Image';
 import './renderers/Form/File';
+import './renderers/Form/UUID';
 import './renderers/Form/Matrix';
 import './renderers/Form/Range';
 import './renderers/Form/Array';

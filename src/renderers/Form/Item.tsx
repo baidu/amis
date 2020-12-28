@@ -74,6 +74,7 @@ import {TagControlSchema} from './Tag';
 import {TransferControlSchema} from './Transfer';
 import {TreeControlSchema} from './Tree';
 import {TreeSelectControlSchema} from './TreeSelect';
+import {UUIDControlSchema} from './UUID';
 import {PlainSchema} from '../Plain';
 import {TplSchema} from '../Tpl';
 import {DividerSchema} from '../Divider';
@@ -178,6 +179,7 @@ export type FormControlType =
   | 'password'
   | 'email'
   | 'url'
+  | 'uuid'
   | 'multi-select'
   | 'textarea'
   | 'transfer'
@@ -222,6 +224,7 @@ export type FormControlSchema =
   | InputGroupControlSchema
   | ListControlSchema
   | LocationControlSchema
+  | UUIDControlSchema
   | MatrixControlSchema
   | NestedSelectControlSchema
   | NumberControlSchema
