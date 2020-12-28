@@ -39,7 +39,7 @@ export class SparkLine extends React.Component<SparkLineProps> {
     const values = value!.map(item => this.normalizeValue(item));
     const max = Math.max(...values);
     const min = Math.min(...values);
-    const duration = max - min;
+    const duration = max - min || 1;
 
     const gap = width / (values.length - 1);
     const points: Array<{
