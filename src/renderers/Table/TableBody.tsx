@@ -6,7 +6,7 @@ import {TableRow} from './TableRow';
 import {filter} from '../../utils/tpl';
 import {observer} from 'mobx-react';
 import {trace, reaction} from 'mobx';
-import {flattenTree} from '../../utils/helper';
+import {createObject, flattenTree} from '../../utils/helper';
 
 export interface TableBodyProps {
   className?: string;
@@ -70,7 +70,9 @@ export class TableBody extends React.Component<TableBodyProps> {
 
     if (
       props.columns !== nextProps.columns ||
-      props.buildItemProps !== nextProps.buildItemProps
+      props.buildItemProps !== nextProps.buildItemProps ||
+      props.prefixRow ||
+      props.affixRow
     ) {
       return true;
     }
@@ -175,7 +177,7 @@ export class TableBody extends React.Component<TableBodyProps> {
   }
 
   renderSummaryRow(items?: Array<any>) {
-    const {columns, render, data, classnames: cx} = this.props;
+    const {columns, render, data, classnames: cx, rows} = this.props;
 
     if (!(Array.isArray(items) && items.length)) {
       return null;
@@ -204,6 +206,9 @@ export class TableBody extends React.Component<TableBodyProps> {
         colSpan: (item.colSpan || 1) + appendLen
       });
     }
+    const ctx = createObject(data, {
+      items: rows.map(row => row.locals)
+    });
 
     return (
       <tr className={cx('Table-tr', 'is-summary')}>
@@ -215,7 +220,9 @@ export class TableBody extends React.Component<TableBodyProps> {
               colSpan={item.colSpan}
               className={item.cellClassName}
             >
-              {render(`summary-row/${index}`, item, data)}
+              {render(`summary-row/${index}`, item, {
+                data: ctx
+              })}
             </Com>
           );
         })}

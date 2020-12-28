@@ -63,7 +63,9 @@ export class TableContent extends React.Component<TableContentProps> {
 
     if (
       props.columns !== nextProps.columns ||
-      props.buildItemProps !== nextProps.buildItemProps
+      props.buildItemProps !== nextProps.buildItemProps ||
+      props.prefixRow ||
+      props.affixRow
     ) {
       return true;
     }
