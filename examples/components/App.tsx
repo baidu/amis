@@ -336,12 +336,14 @@ export class App extends React.PureComponent<{
         </div>
 
         {docPage ? (
-          <div
-            className={`${theme.ns}Layout-searchBar ${
-              docPage ? 'DocLayout-searchBar' : ''
-            } hidden-xs hidden-sm`}
-          >
-            <DocSearch theme={theme} />
+          <>
+            <div
+              className={`${theme.ns}Layout-searchBar ${
+                docPage ? 'DocLayout-searchBar' : ''
+              } hidden-xs hidden-sm`}
+            >
+              <DocSearch theme={theme} />
+            </div>
             <a
               className="gh-icon"
               href="https://github.com/baidu/amis"
@@ -349,7 +351,7 @@ export class App extends React.PureComponent<{
             >
               <i className="fa fa-github" />
             </a>
-          </div>
+          </>
         ) : null}
       </>
     );

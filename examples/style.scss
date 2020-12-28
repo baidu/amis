@@ -134,18 +134,17 @@ body {
         box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
       }
 
-      // .gh-icon {
-      //   position: fixed;
-      //   right: 15px;
-      //   top: 15px;
-      //   font-size: 22px;
-      //   padding: 0 10px;
-      //   color: #333;
+      .gh-icon {
+        position: fixed;
+        right: 20px;
+        top: 15px;
+        font-size: 22px;
+        color: #333;
 
-      //   &:hover {
-      //     color: #333;
-      //   }
-      // }
+        &:hover {
+          color: #333;
+        }
+      }
     }
 
     &-brandBar,
@@ -201,11 +200,14 @@ body {
     }
 
     &-searchBar {
-      width: 55px;
-      align-self: center;
-      padding-left: 10px;
+      // width: 1px;
+      // align-self: center;
+      // padding-left: 10px;
 
       > a {
+        position: absolute;
+        top: 20px;
+        left: 20px;
         cursor: pointer;
         color: #666;
 
@@ -825,6 +827,9 @@ body {
         width: 220px;
         position: fixed;
       }
+      &-searchBar {
+        width: 120px;
+      }
 
       &-searchBar > div {
         width: 220px;
@@ -861,6 +866,10 @@ body {
         > div {
           margin-left: -220px;
         }
+      }
+
+      &-searchBar {
+        width: 1px;
       }
     }
   }
