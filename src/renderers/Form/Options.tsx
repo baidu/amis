@@ -311,12 +311,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         formItem.options.length &&
         !formItem.selectedOptions.length
       ) {
-        const list = extractValue
-          ? formItem.options.map(
-              (selectedOption: Option) => selectedOption[valueField || 'value']
-            )
-          : formItem.options;
-        setPrinstineValue(multiple ? list.slice(0, 1) : list[0]);
+        setPrinstineValue(this.toggleValue(formItem.filteredOptions[0]));
       }
 
       loadOptions &&
@@ -470,61 +465,16 @@ export function registerOptionsControl(config: OptionsConfig) {
       submitOnChange?: boolean,
       changeImmediately?: boolean
     ) {
-      const {
-        onChange,
-        joinValues,
-        extractValue,
-        valueField,
-        delimiter,
-        clearable,
-        resetValue,
-        multiple,
-        formItem,
-        value
-      } = this.props;
+      const {onChange, formItem, value} = this.props;
 
       if (!formItem) {
         return;
       }
 
-      let valueArray = formItem.getSelectedOptions(value).concat();
-      const idx = findIndex(
-        valueArray,
-        optionValueCompare(option[valueField || 'value'], valueField || 'value')
+      let newValue: string | Array<Option> | Option = this.toggleValue(
+        option,
+        value
       );
-      let newValue: string | Array<Option> | Option = '';
-
-      if (multiple) {
-        if (~idx) {
-          valueArray.splice(idx, 1);
-        } else {
-          valueArray.push(option);
-        }
-
-        newValue = valueArray;
-
-        if (joinValues) {
-          newValue = (newValue as Array<any>)
-            .map(item => item[valueField || 'value'])
-            .join(delimiter);
-        } else if (extractValue) {
-          newValue = (newValue as Array<any>).map(
-            item => item[valueField || 'value']
-          );
-        }
-      } else {
-        if (~idx && clearable) {
-          valueArray.splice(idx, 1);
-        } else {
-          valueArray = [option];
-        }
-
-        newValue = valueArray[0] || resetValue;
-
-        if ((joinValues || extractValue) && newValue) {
-          newValue = (newValue as any)[valueField || 'value'];
-        }
-      }
 
       onChange && onChange(newValue, submitOnChange, changeImmediately);
     }
@@ -576,6 +526,64 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       onChange && onChange(newValue);
+    }
+
+    toggleValue(option: Option, originValue?: any) {
+      const {
+        joinValues,
+        extractValue,
+        valueField,
+        delimiter,
+        clearable,
+        resetValue,
+        multiple,
+        formItem
+      } = this.props;
+
+      let valueArray =
+        originValue !== undefined
+          ? formItem!.getSelectedOptions(originValue).concat()
+          : [];
+
+      const idx = findIndex(
+        valueArray,
+        optionValueCompare(option[valueField || 'value'], valueField || 'value')
+      );
+      let newValue: string | Array<Option> | Option = '';
+
+      if (multiple) {
+        if (~idx) {
+          valueArray.splice(idx, 1);
+        } else {
+          valueArray.push(option);
+        }
+
+        newValue = valueArray;
+
+        if (joinValues) {
+          newValue = (newValue as Array<any>)
+            .map(item => item[valueField || 'value'])
+            .join(delimiter);
+        } else if (extractValue) {
+          newValue = (newValue as Array<any>).map(
+            item => item[valueField || 'value']
+          );
+        }
+      } else {
+        if (~idx && clearable) {
+          valueArray.splice(idx, 1);
+        } else {
+          valueArray = [option];
+        }
+
+        newValue = valueArray[0] || resetValue;
+
+        if ((joinValues || extractValue) && newValue) {
+          newValue = (newValue as any)[valueField || 'value'];
+        }
+      }
+
+      return newValue;
     }
 
     // 当有 action 触发，如果指定了 reload 目标组件，有可能会来到这里面来

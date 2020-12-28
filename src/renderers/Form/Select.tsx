@@ -43,7 +43,8 @@ export interface SelectProps extends OptionsControlProps {
 export default class SelectControl extends React.Component<SelectProps, any> {
   static defaultProps: Partial<SelectProps> = {
     clearable: false,
-    searchable: false
+    searchable: false,
+    multiple: false
   };
 
   input: any;

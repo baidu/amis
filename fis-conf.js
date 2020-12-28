@@ -595,7 +595,7 @@ if (fis.project.currentMedia() === 'publish') {
     ]
   });
 
-  ghPages.match('_*.scss', {
+  ghPages.match(/^(\/.*)(_)(.+\.scss)$/, {
     parser: [
       parserCodeMarkdown,
       function (contents, file) {
@@ -622,7 +622,7 @@ if (fis.project.currentMedia() === 'publish') {
     ],
     isMod: true,
     rExt: '.js',
-    release: '$0'
+    release: '$1$3'
   });
 
   ghPages.match('/node_modules/(**)', {
