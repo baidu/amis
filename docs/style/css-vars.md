@@ -8,32 +8,32 @@ title: CSS 变量
 
 ## 基础颜色
 
-| 变量                | 类型 | 说明                           |
-| ------------------- | ---- | ------------------------------ |
-| --black             | 颜色 | 黑色颜色                       |
-| --white             | 颜色 | 白色颜色                       |
-| --light             | 颜色 | 最浅的颜色                     |
-| --dark              | 颜色 | 最深的颜色                     |
-| --body-bg           | 颜色 | 全局背景色                     |
-| --background        | 颜色 | table 等背景色                 |
-| --primary           | 颜色 | 主颜色，会影响主按钮颜色       |
-| --primary-onHover   | 颜色 | 主颜色在鼠标移上去后的颜色     |
-| --primary-onActive  | 颜色 | 主颜色在激活时的颜色，比如选中 |
-| --secondary         | 颜色 | 次颜色，比如第二个按钮的颜色   |
-| --secondary-onHover | 颜色 | 次颜色在鼠标移上去后的颜色     |
-| --secondary-onHover | 颜色 | 次颜色在激活时的颜色           |
-| --success           | 颜色 | 成功时的颜色                   |
-| --success-onHover   | 颜色 | 在鼠标移上去后的颜色           |
-| --success-onHover   | 颜色 | 在激活时的颜色                 |
-| --info              | 颜色 | 显示信息的颜色，一般是蓝色     |
-| --info-onHover      | 颜色 | 在鼠标移上去后的颜色           |
-| --info-onHover      | 颜色 | 在激活时的颜色                 |
-| --warning           | 颜色 | 警告的颜色                     |
-| --warning-onHover   | 颜色 | 在鼠标移上去后的颜色           |
-| --warning-onHover   | 颜色 | 在激活时的颜色                 |
-| --danger            | 颜色 | 错误的颜色                     |
-| --danger-onHover    | 颜色 | 在鼠标移上去后的颜色           |
-| --danger-onHover    | 颜色 | 在激活时的颜色                 |
+| 变量                 | 类型 | 说明                           |
+| -------------------- | ---- | ------------------------------ |
+| --black              | 颜色 | 黑色颜色                       |
+| --white              | 颜色 | 白色颜色                       |
+| --light              | 颜色 | 最浅的颜色                     |
+| --dark               | 颜色 | 最深的颜色                     |
+| --body-bg            | 颜色 | 全局背景色                     |
+| --background         | 颜色 | table 等背景色                 |
+| --primary            | 颜色 | 主颜色，会影响主按钮颜色       |
+| --primary-onHover    | 颜色 | 主颜色在鼠标移上去后的颜色     |
+| --primary-onActive   | 颜色 | 主颜色在激活时的颜色，比如选中 |
+| --secondary          | 颜色 | 次颜色，比如第二个按钮的颜色   |
+| --secondary-onHover  | 颜色 | 次颜色在鼠标移上去后的颜色     |
+| --secondary-onActive | 颜色 | 次颜色在激活时的颜色           |
+| --success            | 颜色 | 成功时的颜色                   |
+| --success-onHover    | 颜色 | 在鼠标移上去后的颜色           |
+| --success-onActive   | 颜色 | 在激活时的颜色                 |
+| --info               | 颜色 | 显示信息的颜色，一般是蓝色     |
+| --info-onHover       | 颜色 | 在鼠标移上去后的颜色           |
+| --info-onActive      | 颜色 | 在激活时的颜色                 |
+| --warning            | 颜色 | 警告的颜色                     |
+| --warning-onHover    | 颜色 | 在鼠标移上去后的颜色           |
+| --warning-onActive   | 颜色 | 在激活时的颜色                 |
+| --danger             | 颜色 | 错误的颜色                     |
+| --danger-onHover     | 颜色 | 在鼠标移上去后的颜色           |
+| --danger-onActive    | 颜色 | 在激活时的颜色                 |
 
 ## 字体相关
 
