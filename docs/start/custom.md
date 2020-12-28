@@ -73,7 +73,7 @@ title: 自定义
 
 ## JS SDK 注册组件
 
-amis 核心实现是 React，所有组件都是 React，所以实现一个简单的 React 组件，可以是函数组件也可以是类组件，下面以函数组件为例，将[快速开始](getting-started)中的代码替换成如下示例：
+amis 组件都是基于 React 的，所以需要使用一个简单的 React 组件来注册，可以是函数组件也可以是类组件，下面以函数组件为例，将[快速开始](getting-started)中的代码替换成如下示例：
 
 ```javascript
 (function () {
