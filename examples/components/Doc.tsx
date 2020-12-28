@@ -447,6 +447,15 @@ export const docs = [
               )
           },
           {
+            label: 'UUID 随机 ID',
+            path: '/docs/components/form/uuid',
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/uuid.md').then(
+                makeMarkdownRenderer
+              )
+          },
+          {
             label: 'Matrix 矩阵',
             path: '/docs/components/form/matrix',
             getComponent: () =>
