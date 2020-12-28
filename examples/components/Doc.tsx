@@ -107,10 +107,10 @@ export const docs = [
     children: [
       {
         label: '工作原理',
-        path: '/docs/extend/inernal',
+        path: '/docs/extend/internal',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/extend/inernal.md').then(makeMarkdownRenderer)
+          import('../../docs/extend/internal.md').then(makeMarkdownRenderer)
       },
       {
         label: '自定义组件 - SDK',

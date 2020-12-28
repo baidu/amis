@@ -1,5 +1,5 @@
 ---
-title: 自定义 React
+title: 自定义组件 - React
 ---
 
 ## React 临时扩展

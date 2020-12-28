@@ -1,5 +1,5 @@
 ---
-title: 自定义 SDK
+title: 自定义组件 - SDK
 ---
 
 ## 使用 custom 组件临时扩展

@@ -5,10 +5,8 @@ description:
 
 amis 有两种使用方法：
 
-- [JS SDK](#SDK)
-- [React](#react)
-
-React 版本可以完整使用 amis 的所有功能。
+- [JS SDK](#SDK)，可以用在任意项目中
+- [React](#react)，可以用在 React 项目中
 
 SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，可以像 Vue/jQuery 那样外链代码就能使用。
 
@@ -33,9 +31,9 @@ JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releas
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <link rel="stylesheet" href="sdk.css" />
-    <!-- 从 1.0.20 开始默认不支持 IE 11，如果要支持 IE11 请引用这个 css -->
-    <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有不少功能用不了 -->
+    <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css -->
     <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
+    <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有不少功能用不了 -->
     <style>
       html,
       body,
@@ -96,38 +94,37 @@ let amisScoped = amis.embed(
   },
   {
     // props 一般不用传。
+    // locale: 'en' // 语言
   },
   {
-    fetcher: (url, method, data, config) => {
-      // 可以不传，用来实现 ajax 请求
-    },
+    // 可以不传，用来实现 ajax 请求
+    fetcher: (url, method, data, config) => {},
 
-    // 全局 api 适配器。
+    // 可以不传，全局 api 适配器。
     // api 自己也可以配置适配器，这里最好只处理通用逻辑。
     responseAdpater(api, response, query, request) {
-      debugger;
       return response;
     }
 
-    // // 可以不传，用来实现页面跳转
+    // 可以不传，用来实现页面跳转
     // jumpTo: location => {},
 
-    // // 可以不传，用来实现地址栏更新
+    // 可以不传，用来实现地址栏更新
     // updateLocation: (location, replace) => {},
 
-    // // 可以不传，用来判断是否目标地址当前地址。
+    // 可以不传，用来判断是否目标地址当前地址。
     // isCurrentUrl: url => {},
 
-    // // 可以不传，用来实现复制到剪切板
+    // 可以不传，用来实现复制到剪切板
     // copy: content => {},
 
-    // // 可以不传，用来实现通知
+    // 可以不传，用来实现通知
     // notify: (type, msg) => {},
 
-    // // 可以不传，用来实现提示
+    // 可以不传，用来实现提示
     // alert: content => {},
 
-    // // 可以不传，用来实现确认框。
+    // 可以不传，用来实现确认框。
     // confirm: content => {}
   }
 );
@@ -252,6 +249,7 @@ class MyComponent extends React.Component<any, any> {
           },
           {
             // props...
+            // locale: 'en' // 请参考「多语言」的文档
           },
           {
             // 下面三个接口必须实现
