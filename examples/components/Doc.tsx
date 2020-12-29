@@ -27,40 +27,12 @@ export const docs = [
       },
 
       {
-        label: '自定义',
-        path: '/docs/start/custom',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/start/custom.md').then(makeMarkdownRenderer)
-      },
-
-      {
         label: '常见问题',
         path: '/docs/start/faq',
         getComponent: () =>
           // @ts-ignore
           import('../../docs/start/faq.md').then(makeMarkdownRenderer)
       }
-
-      // {
-      //   label: '基本用法',
-      //   icon: 'fa fa-file',
-      //   path: '/docs/basic',
-      //   getComponent: (location, cb) =>
-      //     (require as any)(['../../docs/basic.md'], doc => {
-      //       cb(null, makeMarkdownRenderer(doc));
-      //     })
-      // },
-
-      // {
-      //   label: '高级用法',
-      //   icon: 'fa fa-rocket',
-      //   path: '/docs/advanced',
-      //   getComponent: (location, cb) =>
-      //     (require as any)(['../../docs/advanced.md'], doc => {
-      //       cb(null, makeMarkdownRenderer(doc));
-      //     })
-      // }
     ]
   },
 
@@ -126,6 +98,47 @@ export const docs = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/concepts/style.md').then(makeMarkdownRenderer)
+      }
+    ]
+  },
+
+  {
+    label: '💎  高级',
+    children: [
+      {
+        label: '工作原理',
+        path: '/docs/extend/internal',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/extend/internal.md').then(makeMarkdownRenderer)
+      },
+      {
+        label: '自定义组件 - SDK',
+        path: '/docs/extend/custom-sdk',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/extend/custom-sdk.md').then(makeMarkdownRenderer)
+      },
+      {
+        label: '自定义组件 - React',
+        path: '/docs/extend/custom-react',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/extend/custom-react.md').then(makeMarkdownRenderer)
+      },
+      {
+        label: '扩展现有组件',
+        path: '/docs/extend/addon',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/extend/addon.md').then(makeMarkdownRenderer)
+      },
+      {
+        label: '多语言',
+        path: '/docs/extend/i18n',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/extend/i18n.md').then(makeMarkdownRenderer)
       }
     ]
   },

@@ -46,7 +46,7 @@ order: 10
 
 渲染后页面如下：
 
-```schema:height="200"
+```schema:height="50"
 {
   "type": "page",
   "initApi": "https://houtai.baidu.com/api/mock2/page/initData",
@@ -81,7 +81,7 @@ order: 10
 
 毫无疑问，`${text}`将会解析为空白文本，最终渲染的文本是 `Hello`
 
-```schema:height="200"
+```schema:height="50"
 {
   "type": "page",
   "body": "Hello ${text}"
@@ -92,7 +92,7 @@ order: 10
 
 再观察下面这段配置：
 
-```schema:height="200"
+```schema:height="50"
 {
   "data": {
     "text": "World!"
@@ -106,7 +106,7 @@ order: 10
 
 相信你可能已经猜到，**组件的`data`属性值是数据域的一种形式**，实际上当我们没有显式的配置数据域时，可以假想成这样：
 
-```schema:height="200"
+```schema:height="50"
 {
   "data": {}, // 空的数据域
   "type": "page",
@@ -114,8 +114,6 @@ order: 10
 }
 ```
 
-> amis 中大部分组件都具有数据域。
->
 > 而前面我们知道 amis 的特性之一是基于组件树，因此自然数据域也会形成类似于树型结构，如何来处理这些数据域之间的联系呢，这就是我们马上要介绍到的 **[数据链](./datascope-and-datachain#%E6%95%B0%E6%8D%AE%E9%93%BE)**
 
 ## 数据链
@@ -132,7 +130,7 @@ order: 10
 
 继续来看这个例子：
 
-```schema:height="200"
+```schema:height="70"
 {
   "type": "page",
   "data": {
@@ -192,6 +190,67 @@ page
 很明显在`service`数据域中寻找`age`变量会失败，因此向上查找，尝试在`page`数据域中寻找`age`变量，找到为`20`，寻找变量结束，通过数据映射渲染，输出：`my name is lisi, I'm 20 years old`，渲染结束。
 
 > **注意：** 当前例子中，对数据域中数据的获取使用的是 **\${xxx}** 模板语法，但是在不同的组件配置项中，获取数据的语法会有差异，我们会在后续的[模板](./template)和[表达式章节](./expression)中一一介绍。
+
+### 常见误解
+
+需要注意，只有少数几个容器组件会创建新的数据域，除了最顶层的 Page，还有 CRUD、Dialog、IFrame、Form、Serice 等。
+
+常见的错误写法是给容器组件加 data 属性，比如：
+
+```schema:height="70"
+{
+  "type": "page",
+  "data": {
+    "name": "zhangsan"
+  },
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "my name is ${name}"
+    },
+    {
+      "type": "container",
+      "data": {
+        "name": "lisi"
+      },
+      "body":  {
+        "type": "tpl",
+        "tpl": "my name is ${name}"
+      }
+    }
+  ]
+}
+```
+
+这样是不会生效的，正确的做法是使用 Service 包裹一层，如下所示
+
+```schema:height="70"
+{
+  "type": "page",
+  "data": {
+    "name": "zhangsan"
+  },
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "my name is ${name}"
+    },
+    {
+      "type": "service",
+      "data": {
+        "name": "lisi"
+      },
+      "body": {
+        "type": "container",
+        "body":  {
+          "type": "tpl",
+          "tpl": "my name is ${name}"
+        }
+      }
+    }
+  ]
+}
+```
 
 ## 初始化数据域
 
