@@ -154,7 +154,7 @@
     "postcss": "^8.2.1",
     "postcss-cli": "^8.3.1",
     "postcss-custom-properties": "^10.0.0",
-    "prettier": "^2.0.5",
+    "prettier": "2.2.1",
     "prismjs": "^1.20.0",
     "react-frame-component": "^2.0.0",
     "react-router": "3.2.0",

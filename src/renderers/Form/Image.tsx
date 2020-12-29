@@ -370,7 +370,7 @@ export default class ImageControl extends React.Component<
 
     this.state = {
       ...this.state,
-      files: this.files = files,
+      files: (this.files = files),
       crop: this.buildCrop(props)
     };
 
@@ -436,7 +436,7 @@ export default class ImageControl extends React.Component<
       }
 
       this.setState({
-        files: this.files = files
+        files: (this.files = files)
       });
     }
 
@@ -522,14 +522,14 @@ export default class ImageControl extends React.Component<
       {
         uploading: true,
         locked: true,
-        files: this.files = this.files.map(file => {
+        files: (this.files = this.files.map(file => {
           if (retry && file.state === 'error') {
             file.state = 'pending';
             file.progress = 0;
           }
 
           return file;
-        })
+        }))
       },
       this.tick
     );
@@ -564,7 +564,7 @@ export default class ImageControl extends React.Component<
       file.state = 'uploading';
       this.setState(
         {
-          files: this.files = this.files.concat()
+          files: (this.files = this.files.concat())
         },
         () =>
           this.sendFile(
@@ -590,7 +590,7 @@ export default class ImageControl extends React.Component<
 
                   return this.setState(
                     {
-                      files: this.files = files,
+                      files: (this.files = files),
                       error: error
                     },
                     this.tick
@@ -608,7 +608,7 @@ export default class ImageControl extends React.Component<
               this.current = null;
               this.setState(
                 {
-                  files: this.files = files
+                  files: (this.files = files)
                 },
                 () => {
                   const sendTo =
@@ -633,7 +633,7 @@ export default class ImageControl extends React.Component<
               // file 是个非 File 对象，先不copy了直接改。
               file.progress = progress;
               this.setState({
-                files: this.files = files
+                files: (this.files = files)
               });
             }
           )
@@ -667,7 +667,7 @@ export default class ImageControl extends React.Component<
 
     this.setState(
       {
-        files: this.files = files
+        files: (this.files = files)
       },
       this.onChange
     );
@@ -877,7 +877,7 @@ export default class ImageControl extends React.Component<
     this.setState(
       {
         error: undefined,
-        files: this.files = currentFiles.concat(inputFiles),
+        files: (this.files = currentFiles.concat(inputFiles)),
         locked: true
       },
       () => {
@@ -1053,7 +1053,7 @@ export default class ImageControl extends React.Component<
       this.unmounted ||
         this.setState(
           {
-            files: this.files = files
+            files: (this.files = files)
           },
           !needUploading ? this.onChange : undefined
         );

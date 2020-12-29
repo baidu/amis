@@ -582,8 +582,8 @@ export default {
           name: 'year-month',
           inline: true,
           label: '年月',
-          "value": "-1month",
-          "inputFormat": "YYYY-MM"
+          value: '-1month',
+          inputFormat: 'YYYY-MM'
         },
         {
           type: 'divider'
@@ -593,8 +593,8 @@ export default {
           name: 'month',
           inline: true,
           label: '月份',
-          "value": "-1month",
-          "inputFormat": "MM"
+          value: '-1month',
+          inputFormat: 'MM'
         },
         {
           type: 'divider'

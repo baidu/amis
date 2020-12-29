@@ -274,26 +274,26 @@ export const availableLanguages = [
   'yaml'
 ];
 
-export const EditorControls: Array<typeof EditorControl> = availableLanguages.map(
-  (lang: string) => {
-    @FormItem({
-      type: `${lang}-editor`,
-      sizeMutable: false
-    })
-    class EditorControlRenderer extends EditorControl {
-      static lang = lang;
-      static displayName = `${lang[0].toUpperCase()}${lang.substring(
-        1
-      )}EditorControlRenderer`;
-      static defaultProps = {
-        ...EditorControl.defaultProps,
-        language: lang
-      };
-    }
-
-    return EditorControlRenderer;
+export const EditorControls: Array<
+  typeof EditorControl
+> = availableLanguages.map((lang: string) => {
+  @FormItem({
+    type: `${lang}-editor`,
+    sizeMutable: false
+  })
+  class EditorControlRenderer extends EditorControl {
+    static lang = lang;
+    static displayName = `${lang[0].toUpperCase()}${lang.substring(
+      1
+    )}EditorControlRenderer`;
+    static defaultProps = {
+      ...EditorControl.defaultProps,
+      language: lang
+    };
   }
-);
+
+  return EditorControlRenderer;
+});
 
 @FormItem({
   type: 'js-editor',

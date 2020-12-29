@@ -41,7 +41,7 @@ export default class SizeAndPositionManager {
   updateConfig({
     itemCount,
     itemSizeGetter,
-    estimatedItemSize,
+    estimatedItemSize
   }: Partial<Options>) {
     if (itemCount != null) {
       this.itemCount = itemCount;
@@ -67,7 +67,7 @@ export default class SizeAndPositionManager {
   getSizeAndPositionForIndex(index: number) {
     if (index < 0 || index >= this.itemCount) {
       throw Error(
-        `Requested index ${index} is outside of range 0..${this.itemCount}`,
+        `Requested index ${index} is outside of range 0..${this.itemCount}`
       );
     }
 
@@ -85,7 +85,7 @@ export default class SizeAndPositionManager {
 
         this.itemSizeAndPositionData[i] = {
           offset,
-          size,
+          size
         };
 
         offset += size;
@@ -129,7 +129,7 @@ export default class SizeAndPositionManager {
     align = ALIGNMENT.START,
     containerSize,
     currentOffset,
-    targetIndex,
+    targetIndex
   }: {
     align: ALIGNMENT | undefined;
     containerSize: number;
@@ -168,7 +168,7 @@ export default class SizeAndPositionManager {
   getVisibleRange({
     containerSize,
     offset,
-    overscanCount,
+    overscanCount
   }: {
     containerSize: number;
     offset: number;
@@ -204,7 +204,7 @@ export default class SizeAndPositionManager {
 
     return {
       start,
-      stop,
+      stop
     };
   }
 
@@ -240,7 +240,7 @@ export default class SizeAndPositionManager {
       return this.binarySearch({
         high: lastMeasuredIndex,
         low: 0,
-        offset,
+        offset
       });
     } else {
       // If we haven't yet measured this high, fallback to an exponential search with an inner binary search.
@@ -248,7 +248,7 @@ export default class SizeAndPositionManager {
       // The overall complexity for this approach is O(log n).
       return this.exponentialSearch({
         index: lastMeasuredIndex,
-        offset,
+        offset
       });
     }
   }
@@ -256,7 +256,7 @@ export default class SizeAndPositionManager {
   private binarySearch({
     low,
     high,
-    offset,
+    offset
   }: {
     low: number;
     high: number;
@@ -299,7 +299,7 @@ export default class SizeAndPositionManager {
     return this.binarySearch({
       high: Math.min(index, this.itemCount - 1),
       low: Math.floor(index / 2),
-      offset,
+      offset
     });
   }
 }
