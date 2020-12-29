@@ -8,10 +8,7 @@ import type {TooltipObject, Trigger} from '../components/TooltipWrapper';
 import {isVisible, noop} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {Icon} from '../components/icons';
-import {
-  BaseSchema,
-  SchemaClassName
-} from '../Schema';
+import {BaseSchema, SchemaClassName} from '../Schema';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
 
@@ -111,9 +108,7 @@ export default class DropDownButton extends React.Component<
 
   static defaultProps: Pick<
     DropDownButtonProps,
-    | 'placement'
-    | 'tooltipTrigger'
-    | 'tooltipRootClose'
+    'placement' | 'tooltipTrigger' | 'tooltipRootClose'
   > = {
     placement: 'top',
     tooltipTrigger: ['hover', 'focus'],
