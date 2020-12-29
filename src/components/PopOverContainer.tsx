@@ -84,7 +84,7 @@ export class PopOverContainer extends React.Component<
             className={popOverClassName}
             style={{
               minWidth: this.target
-                ? Math.max(this.target.offsetWidth, 100)
+                ? Math.max(this.target.getBoundingClientRect().width, 100)
                 : 'auto'
             }}
             onHide={this.close}
