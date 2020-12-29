@@ -2,9 +2,7 @@
 title: 扩展现有组件
 ---
 
-## 修改组件标签
-
-有些组件可以设置 `wrapperComponent`，大部分情况下都是 div 标签，或者在 Form 下是 form 标签，如果要修改组件容器的标签，可以设置这个值。
+除了新增组件，在 amis 中还能扩展和修改现有组件。
 
 ## 事件扩展
 
@@ -87,7 +85,7 @@ let amisScoped = amis.embed('#root', {
 
 ### 使用 PipeIn/PipeOut 方法
 
-如果不想增加一个新的 name，在 JS SDK 或 React 还有更高级的处理方法，通过一个 name 为 id 的 switch，实现 PipeIn/PipeOut 函数来进行自动识别。
+如果不想增加一个新的 name，在 JS SDK 或 React 还有更高级的处理方法，可以增加一个 name 同样为 id 的 switch，实现 PipeIn/PipeOut 函数来进行自动识别，下面是个示例：
 
 ```javascript
 let amis = amisRequire('amis/embed');
@@ -107,15 +105,15 @@ let amisScoped = amis.embed('#root', {
         type: 'switch',
         label: 'id 是数字',
         name: 'id',
-        // value 默认情况下将会是 undefined，如果有值，就判断这个值
         // pipeIn 返回的应该是这个组件所需的值，比如 switch 的返回值就应该是 true 或 false
+        // 这里的 value 就是初始值，如果不设置将会是 undefined
         pipeIn: (value, data) => {
           if (typeof value === 'undefined') {
             return false;
           }
           return typeof value !== 'string';
         },
-        // value 是点击 switch 之后的值，打开就是 true，关闭就是 false
+        // 这里的 value 是点击 switch 之后的值，比如打开就是 true，关闭就是 false
         pipeOut: (value, oldValue, data) => {
           if (value) {
             return 1; // 切换到数字之后的默认值
@@ -142,4 +140,8 @@ let amisScoped = amis.embed('#root', {
 });
 ```
 
-大部分情况下建议使用第一种方式，这种方式最为直观。
+不过这种写法的复杂度较高
+
+## 修改组件标签
+
+有些组件可以设置 `wrapperComponent`，比如 Form 下默认使用 form 标签，在浏览器中会自带回车提交功能，如果想去掉这个功能，可以将 `wrapperComponent` 设置为 `div`。

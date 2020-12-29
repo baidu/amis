@@ -67,44 +67,75 @@ title: 自定义组件 - SDK
 amis 组件都是基于 React 的，所以需要使用一个简单的 React 组件来注册，可以是函数组件也可以是类组件，下面以函数组件为例，将[快速开始](../start/getting-started)中的代码替换成如下示例：
 
 ```javascript
-(function () {
-  let amis = amisRequire('amis/embed');
-  let amisLib = amisRequire('amis');
-  let React = amisRequire('react');
+let amis = amisRequire('amis/embed');
+let amisLib = amisRequire('amis');
+let React = amisRequire('react');
 
-  // 自定义组件
-  function CustomComponent() {
-    let dom = React.useRef(null);
-    React.useEffect(function () {
-      // 从这里开始写自定义代码，dom.current 就是新创建的 dom 节点
-      // 可以基于这个 dom 节点对接任意 JavaScript 框架，比如 jQuery/Vue 等
-      dom.current.innerHTML = 'custom';
-    });
-    return React.createElement('div', {
-      ref: dom
-    });
+// 自定义组件，props 中可以拿到配置中的所有参数，比如 props.label 是 'Name'
+function CustomComponent(props) {
+  let dom = React.useRef(null);
+  React.useEffect(function () {
+    // 从这里开始写自定义代码，dom.current 就是新创建的 dom 节点
+    // 可以基于这个 dom 节点对接任意 JavaScript 框架，比如 jQuery/Vue 等
+    dom.current.innerHTML = 'custom';
+    // 而 props 中能拿到这个
+  });
+  return React.createElement('div', {
+    ref: dom
+  });
+}
+
+//注册自定义组件，请参考后续对工作原理的介绍
+amisLib.Renderer({
+  test: /(^|\/)my-custom/
+})(CustomComponent);
+
+let amisScoped = amis.embed('#root', {
+  type: 'page',
+  title: '表单页面',
+  body: {
+    type: 'form',
+    mode: 'horizontal',
+    api: '/saveForm',
+    controls: [
+      {
+        label: 'Name',
+        type: 'my-custom', // 注意这个的 type 对应之前注册的 test
+        name: 'custom'
+      }
+    ]
   }
+});
+```
 
-  //注册自定义组件，请参考后续对工作原理的介绍
-  amisLib.Renderer({
-    test: /(^|\/)my-custom/
-  })(CustomComponent);
+### 示例：引入 Element UI
 
-  let amisScoped = amis.embed('#root', {
-    type: 'page',
-    title: '表单页面',
-    body: {
-      type: 'form',
-      mode: 'horizontal',
-      api: '/saveForm',
-      controls: [
-        {
-          label: 'Name',
-          type: 'my-custom', // 注意这个的 type 对应之前注册的 test
-          name: 'custom'
-        }
-      ]
+首先在页面中加入 Element UI 所需的依赖
+
+```html
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"
+/>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+```
+
+然后将前面的 `React.useEffect` 改成如下即可：
+
+```javascript
+React.useEffect(function () {
+  dom.current.innerHTML = `
+      <el-button @click="visible = true">Button</el-button>
+      <el-dialog :visible.sync="visible" title="Hello world">
+        <p>Try Element</p>
+      </el-dialog>
+    `;
+  new Vue({
+    el: dom.current,
+    data: function () {
+      return {visible: false};
     }
   });
-})();
+});
 ```

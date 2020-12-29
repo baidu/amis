@@ -64,6 +64,14 @@ class CustomRenderer extends React.Component {
 }
 ```
 
+> 上面这个语法需要开启 Decorator 功能，如果不支持，可以改成如下写法
+
+```javascript
+Renderer({
+  test: /(^|\/)my\-renderer$/
+})(CustomRenderer);
+```
+
 有了以上这段代码后，就可以这样使用了。
 
 ```json
