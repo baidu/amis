@@ -10,6 +10,8 @@ rm -rf lib/node_modules
 # 生成 sdk
 rm -rf sdk && fis3 release publish-sdk -c
 
+cp -r node_modules/monaco-editor/min/vs/base/browser sdk/thirds/monaco-editor/min/vs/base
+
 # 生成去掉变量的 css
 ./node_modules/.bin/postcss sdk/sdk.css > sdk/sdk-ie11.css
 
