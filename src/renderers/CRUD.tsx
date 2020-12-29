@@ -353,7 +353,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'size',
     'onChange',
     'onInit',
-    'onSaved'
+    'onSaved',
+    'onQuery'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -1939,6 +1940,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onAction,
       popOverContainer,
       translate: __,
+      onQuery,
       ...rest
     } = this.props;
 
