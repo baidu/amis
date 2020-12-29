@@ -918,7 +918,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             <VirtualList
               height={
                 filtedOptions.length > 8
-                  ? 280
+                  ? 266
                   : filtedOptions.length * itemHeight
               }
               itemCount={filtedOptions.length}
