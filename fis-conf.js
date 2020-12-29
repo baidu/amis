@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const package = require('./package.json');
 const parserMarkdown = require('./scripts/md-parser');
+const convertSCSSIE11 = require('./scripts/scss-ie11');
 const parserCodeMarkdown = require('./scripts/code-md-parser');
 fis.get('project.ignore').push('public/**', 'npm/**', 'gh-pages/**');
 // 配置只编译哪些文件。
@@ -58,6 +59,10 @@ fis.match('*.scss', {
     sourceMap: true
   }),
   rExt: '.css'
+});
+
+fis.match('*-ie11.css', {
+  postprocessor: convertSCSSIE11
 });
 
 fis.match('/src/icons/**.svg', {
@@ -802,7 +807,7 @@ if (fis.project.currentMedia() === 'publish') {
     url: 'null',
     useHash: false
   });
-  ghPages.match('{*.jsx,*.tsx,*.ts}', {
+  ghPages.match('{*:scss,*.jsx,*.tsx,*.ts}', {
     moduleId: function (m, path) {
       return fis.util.md5('amis' + path);
     },
