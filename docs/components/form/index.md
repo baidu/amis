@@ -554,7 +554,7 @@ Form 支持轮询初始化接口，步骤如下：
       "method": "put",
       "url": "https://houtai.baidu.com/api/mock2/page/initData",
       "data": {
-        "&": "$$",
+        "&": "$$$$",
         "_from": "browser"
       }
     },
