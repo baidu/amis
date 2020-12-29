@@ -137,7 +137,7 @@
     "fis3-hook-relative": "^2.0.3",
     "fis3-packager-deps-pack": "^0.1.2",
     "fis3-parser-typescript": "^1.3.0",
-    "fis3-postpackager-loader": "^2.1.11",
+    "fis3-postpackager-loader": "^2.1.12",
     "fis3-prepackager-stand-alone-pack": "^1.0.0",
     "fis3-preprocessor-js-require-css": "^0.1.3",
     "font-awesome": "4.7.0",

@@ -8,7 +8,7 @@ import {
   Drawer,
   ToastComponent
 } from '../../src/components/index';
-import {mapTree} from '../../src/utils/helper';
+import {eachTree, mapTree} from '../../src/utils/helper';
 import {Icon} from '../../src/components/icons';
 import '../../src/locale/en';
 import {
@@ -27,6 +27,8 @@ import Doc, {docs} from './Doc';
 import Example, {examples} from './Example';
 import CssDocs, {cssDocs} from './CssDocs';
 import CSSDocs from './CssDocs';
+
+declare const _hmt: any;
 
 let ExamplePathPrefix = '/examples';
 let DocPathPrefix = '/docs';
@@ -145,39 +147,19 @@ export class App extends React.PureComponent<{
     this.setNavigations = this.setNavigations.bind(this);
   }
 
-  componentDidMount() {
-    if (this.state.theme.value !== 'default') {
-      document.querySelectorAll('link[title]').forEach(item => {
-        item.disabled = true;
-      });
-
-      document
-        .querySelectorAll(`link[title="${this.state.theme.value}"]`)
-        .forEach(item => {
-          item.disabled = false;
-        });
-
-      if (this.state.theme.value === 'dark') {
-        document.querySelector('body').classList.add('dark');
-      }
-    }
-  }
-
   componentDidUpdate(preProps, preState) {
     const props = this.props;
 
     if (preState.theme.value !== this.state.theme.value) {
-      document
-        .querySelectorAll(`link[title="${preState.theme.value}"]`)
-        .forEach(item => {
-          item.disabled = true;
+      [].slice
+        .call(document.querySelectorAll('link[title]'))
+        .forEach((item: HTMLLinkElement) => {
+          const theme = item.getAttribute('title');
+          item.disabled = theme !== this.state.theme.value;
         });
-
-      document
-        .querySelectorAll(`link[title="${this.state.theme.value}"]`)
-        .forEach(item => {
-          item.disabled = false;
-        });
+      const body = document.querySelector('body');
+      body.classList.remove(preState.theme.value);
+      body.classList.add(this.state.theme.value);
     }
 
     if (props.location.pathname !== preProps.location.pathname) {
@@ -309,8 +291,9 @@ export class App extends React.PureComponent<{
                 this.setState({theme});
                 localStorage.setItem(
                   'themeIndex',
-                  this.state.themes.indexOf(theme)
+                  `${this.state.themes.indexOf(theme)}`
                 );
+                localStorage.setItem('theme', `${theme.value}`);
                 document
                   .querySelector('body')
                   .classList[theme.value === 'dark' ? 'add' : 'remove']('dark');
@@ -521,9 +504,9 @@ export class App extends React.PureComponent<{
 
           <BackTop />
 
-          {React.cloneElement(this.props.children, {
+          {React.cloneElement(this.props.children as any, {
             key: theme.value,
-            ...this.props.children.props,
+            ...(this.props.children as any).props,
             setNavigations: this.setNavigations,
             theme: theme.value,
             classPrefix: theme.ns,
@@ -547,7 +530,7 @@ function navigations2route(pathPrefix = DocPathPrefix, navigations) {
 
   navigations.forEach(root => {
     root.children &&
-      mapTree(root.children, item => {
+      eachTree(root.children, (item: any) => {
         if (item.path && item.component) {
           routes.push(
             <Route

@@ -17,22 +17,9 @@
     <link rel="stylesheet" href="prismjs/themes/prism.css" />
     <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
     <link rel="stylesheet" href="./doc.css" />
-    <link rel="stylesheet" title="default" href="../scss/themes/default.scss" />
-    <link
-      rel="stylesheet"
-      title="cxd"
-      disabled
-      href="../scss/themes/cxd.scss"
-    />
-    <link
-      rel="stylesheet"
-      title="dark"
-      disabled
-      href="../scss/themes/dark.scss"
-    />
-
     <link rel="stylesheet" href="../scss/helper.scss" />
     <link rel="stylesheet" href="./style.scss" />
+    <!--STYLE_PLACEHOLDER-->
     <style>
       .app-wrapper {
         position: relative;
@@ -40,6 +27,45 @@
         height: 100%;
       }
     </style>
+    <script type="text/x-jsx">
+      const theme = localStorage.getItem('theme') || 'default';
+
+      // 非 IE 模式
+      if (window.navigator.userAgent.indexOf('Trident') === -1) {
+        document.write(
+          `<link rel="stylesheet" title="default" ${
+            theme !== 'default' ? 'disabled' : ''
+          }  href="${__uri('../scss/themes/default.scss')}" />`
+        );
+        document.write(
+          `<link rel="stylesheet" title="cxd" ${
+            theme !== 'cxd' ? 'disabled' : ''
+          } href="${__uri('../scss/themes/cxd.scss')}" />`
+        );
+        document.write(
+          `<link rel="stylesheet" title="dark" ${
+            theme !== 'dark' ? 'disabled' : ''
+          } href="${__uri('../scss/themes/dark.scss')}" />`
+        );
+      } else {
+        document.write(
+          `<link rel="stylesheet" title="default" ${
+            theme !== 'default' ? 'disabled' : ''
+          }  href="${__uri('../scss/themes/default-ie11.css')}" />`
+        );
+        document.write(
+          `<link rel="stylesheet" title="cxd" ${
+            theme !== 'cxd' ? 'disabled' : ''
+          } href="${__uri('../scss/themes/cxd-ie11.css')}" />`
+        );
+        document.write(
+          `<link rel="stylesheet" title="dark" ${
+            theme !== 'dark' ? 'disabled' : ''
+          } href="${__uri('../scss/themes/dark-ie11.css')}" />`
+        );
+      }
+    </script>
+    <!--ignore-->
   </head>
 
   <body>
