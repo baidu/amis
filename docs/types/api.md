@@ -177,7 +177,7 @@ API 还支持配置对象类型
         "method": "post",
         "url": "https://houtai.baidu.com/api/mock2/form/saveForm",
         "data":{
-            "&": "$$" // 获取表单数据域中的所有值
+            "&": "$$$$" // 获取表单数据域中的所有值
         }
     },
     "controls": [
