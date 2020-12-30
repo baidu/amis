@@ -278,7 +278,7 @@ export function isApiOutdated(
 export function isValidApi(api: string) {
   return (
     api &&
-    /^(?:(https?|wss?|taf):\/\/[^\/]+)?(\/[^\s\/\?]*){1,}(\?.*)?$/.test(api)
+    /^(?:(https?|wss?|taf):\/\/[^\/]+)?(\/?[^\s\/\?]*){1,}(\?.*)?$/.test(api)
   );
 }
 
