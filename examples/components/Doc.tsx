@@ -692,6 +692,15 @@ export const docs = [
               import('../../docs/components/form/treeselect.md').then(
                 makeMarkdownRenderer
               )
+          },
+          {
+            label: 'Year 年',
+            path: '/docs/components/form/year',
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/year.md').then(
+                makeMarkdownRenderer
+              )
           }
         ]
       },

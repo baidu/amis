@@ -343,3 +343,18 @@ export class MonthControlRenderer extends DateControl {
     closeOnSelect: true
   };
 }
+
+@FormItem({
+  type: 'year'
+})
+export class YearControlRenderer extends DateControl {
+  static defaultProps = {
+    ...DateControl.defaultProps,
+    placeholder: '请选择年',
+    inputFormat: 'YYYY',
+    dateFormat: 'YYYY',
+    timeFormat: '',
+    viewMode: 'years',
+    closeOnSelect: true
+  };
+}
