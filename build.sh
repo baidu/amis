@@ -14,6 +14,8 @@ cp -r node_modules/monaco-editor/min/vs/base/browser sdk/thirds/monaco-editor/mi
 
 # 生成去掉变量的 css
 ./node_modules/.bin/postcss sdk/sdk.css > sdk/sdk-ie11.css
+./node_modules/.bin/postcss sdk/cxd.css > sdk/cxd-ie11.css
+./node_modules/.bin/postcss sdk/dark.css > sdk/dark-ie11.css
 
 # 生成 .d.ts 文件
 ./node_modules/.bin/tsc --allowJs --declaration
