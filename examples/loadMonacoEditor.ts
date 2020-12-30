@@ -180,6 +180,9 @@ function onLoad(req: any, callback: (result: any) => void) {
       // 'vs/editor/contrib/suggest/media/String_16x.svg': __uri('monaco-editor/min/vs/editor/contrib/suggest/media/String_16x.svg'),
       // 'vs/editor/contrib/suggest/media/String_inverse_16x.svg': __uri('monaco-editor/min/vs/editor/contrib/suggest/media/String_inverse_16x.svg'),
       // 'vs/editor/standalone/browser/quickOpen/symbol-sprite.svg': __uri('monaco-editor/min/vs/editor/standalone/browser/quickOpen/symbol-sprite.svg'),
+      'vs/base/browser/ui/codicons/codicon/codicon.ttf': __uri(
+        'monaco-editor/min/vs/base/browser/ui/codicons/codicon/codicon.ttf'
+      ),
       'vs/language/typescript/tsMode': __uri(
         'monaco-editor/min/vs/language/typescript/tsMode.js'
       ),
