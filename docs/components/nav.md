@@ -36,6 +36,47 @@ order: 58
 }
 ```
 
+## 配置多层级
+
+```schema:height="300" scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "className": "w-md",
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user",
+            "active": true
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers"
+        }
+    ]
+}
+```
+
 ## 横向摆放
 
 ```schema:height="300" scope="body"
@@ -71,5 +112,7 @@ order: 58
 | links[x].label    | `string`                         |         | 名称                                   |
 | links[x].to       | [模板](../concepts/template)     |         | 链接地址                               |
 | links[x].icon     | `string`                         |         | 图标                                   |
+| links[x].children | `Array<link>`                    |         | 子链接                                 |
+| links[x].unfolded | `boolean`                        |         | 初始是否展开                           |
 | links[x].active   | `boolean`                        |         | 是否高亮                               |
 | links[x].activeOn | [表达式](../concepts/expression) |         | 是否高亮的条件，留空将自动分析链接地址 |
