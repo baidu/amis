@@ -1,13 +1,5 @@
-import {
-  types,
-  getParent,
-  flow,
-  getEnv,
-  getRoot,
-  isAlive
-} from 'mobx-state-tree';
+import {types, flow, getEnv, isAlive} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
-import {IRendererStore} from './index';
 import {Api, ApiObject, Payload, fetchOptions} from '../types';
 import {extendObject, isEmpty, isObject} from '../utils/helper';
 import {ServerError} from '../utils/errors';
@@ -139,7 +131,11 @@ export const ServiceStore = iRendererStore
 
         markFetching(false);
         e.stack && console.error(e.stack);
-        env.notify('error', e.message || e);
+        let message = e.message || e;
+        if (e && e.message === 'Network Error') {
+          message = self.__('网络错误，可能是未配置跨域 CORS');
+        }
+        env.notify('error', message);
         return;
       }
     });
@@ -165,9 +161,7 @@ export const ServiceStore = iRendererStore
         }
 
         (options && options.silent) || markFetching(true);
-        const json: Payload = yield ((getEnv(
-          self
-        ) as IRendererStore) as IRendererStore).fetcher(api, data, {
+        const json: Payload = yield getEnv(self).fetcher(api, data, {
           ...options,
           cancelExecutor: (executor: Function) => (fetchCancel = executor)
         });
@@ -230,7 +224,11 @@ export const ServiceStore = iRendererStore
 
         markFetching(false);
         e.stack && console.error(e.stack);
-        env.notify('error', e.message || e);
+        let message = e.message || e;
+        if (e && e.message === 'Network Error') {
+          message = self.__('网络错误，可能是未配置跨域 CORS');
+        }
+        env.notify('error', message);
         return;
       }
     });
@@ -413,7 +411,11 @@ export const ServiceStore = iRendererStore
         }
 
         e.stack && console.error(e.stack);
-        env.notify('error', e.message || e);
+        let message = e.message || e;
+        if (e && e.message === 'Network Error') {
+          message = self.__('网络错误，可能是未配置跨域 CORS');
+        }
+        env.notify('error', message);
       }
     });
 
