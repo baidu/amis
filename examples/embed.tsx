@@ -156,8 +156,10 @@ export function embed(
         position={(env && env.toastPosition) || 'top-right'}
         closeButton={false}
         timeout={5000}
+        theme={env?.theme}
       />
       <AlertComponent
+        theme={env?.theme}
         container={() => env?.getModalContainer?.() || container}
       />
 
