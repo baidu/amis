@@ -61,10 +61,6 @@ fis.match('*.scss', {
   rExt: '.css'
 });
 
-fis.match('*-ie11.scss', {
-  postprocessor: convertSCSSIE11
-});
-
 fis.match('/src/icons/**.svg', {
   rExt: '.js',
   isJsXLike: true,
@@ -561,6 +557,9 @@ if (fis.project.currentMedia() === 'publish') {
     ]
   });
 } else if (fis.project.currentMedia() === 'gh-pages') {
+  fis.match('*-ie11.scss', {
+    postprocessor: convertSCSSIE11
+  });
   const ghPages = fis.media('gh-pages');
 
   ghPages.match('*.scss', {

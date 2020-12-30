@@ -68,7 +68,7 @@
         border-radius: var(--Nav-item-borderRadius);
       }
 
-      &:hover > a,
+      > a:hover,
       > a:focus {
         border-color: var(--Nav-item-onHover-color);
         text-decoration: none;
@@ -90,13 +90,14 @@
         padding-left: px2rem(12px);
       }
 
-      &.is-unfolded {
+      &.is-unfolded > {
         .#{$ns}Nav-itemToggler {
           transform: rotate(180deg) scale(0.8);
         }
 
         .#{$ns}Nav-subItems {
           display: block;
+          margin-left: var(--gap-sm);
         }
       }
 
