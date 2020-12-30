@@ -164,6 +164,9 @@ function recoverFunctionType(config: object) {
 export interface ChartProps extends RendererProps, ChartSchema {
   chartRef?: (echart: any) => void;
   onDataFilter?: (config: any, echarts: any) => any;
+  onChartWillMount?: (echarts: any) => void | Promise<void>;
+  onChartMount?: (chart: echarts.ECharts, echarts: any) => void;
+  onChartUnMount?: (chart: echarts.ECharts, echarts: any) => void;
   store: IServiceStore;
 }
 export class Chart extends React.Component<ChartProps> {
@@ -176,7 +179,7 @@ export class Chart extends React.Component<ChartProps> {
   static propsList: Array<string> = [];
 
   ref: any;
-  echarts: any;
+  echarts: echarts.ECharts;
   unSensor: Function;
   pending?: object;
   pendingCtx?: any;
@@ -250,16 +253,21 @@ export class Chart extends React.Component<ChartProps> {
 
   refFn(ref: any) {
     const chartRef = this.props.chartRef;
-    const {chartTheme} = this.props;
+    const {
+      chartTheme,
+      onChartWillMount,
+      onChartMount,
+      onChartUnMount
+    } = this.props;
 
     if (ref) {
       Promise.all([
         import('echarts'),
         import('echarts/extension/dataTool'),
         import('echarts/extension/bmap/bmap')
-      ]).then(([echarts, dataTool]: any) => {
+      ]).then(async ([echarts, dataTool]) => {
         (window as any).echarts = echarts;
-        echarts.dataTool = dataTool;
+        (echarts as any).dataTool = dataTool;
         let theme = 'default';
 
         if (chartTheme) {
@@ -267,7 +275,12 @@ export class Chart extends React.Component<ChartProps> {
           theme = 'custom';
         }
 
+        if (onChartWillMount) {
+          await onChartWillMount(echarts);
+        }
+
         this.echarts = echarts.init(ref, theme);
+        onChartMount?.(this.echarts, echarts);
         this.echarts.on('click', this.handleClick);
         this.unSensor = resizeSensor(ref, () => {
           const width = ref.offsetWidth;
@@ -284,6 +297,11 @@ export class Chart extends React.Component<ChartProps> {
     } else {
       chartRef && chartRef(null);
       this.unSensor && this.unSensor();
+
+      if (this.echarts) {
+        onChartUnMount?.(this.echarts, (window as any).echarts);
+        this.echarts.dispose();
+      }
     }
 
     this.ref = ref;
