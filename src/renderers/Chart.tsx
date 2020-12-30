@@ -255,15 +255,8 @@ export class Chart extends React.Component<ChartProps> {
     if (ref) {
       Promise.all([
         import('echarts'),
-
-        // @ts-ignore
         import('echarts/extension/dataTool'),
-        // @ts-ignore
-        import('echarts/extension/bmap/bmap'),
-        // @ts-ignore
-        import('echarts/map/js/china'),
-        // @ts-ignore
-        import('echarts/map/js/world')
+        import('echarts/extension/bmap/bmap')
       ]).then(([echarts, dataTool]: any) => {
         (window as any).echarts = echarts;
         echarts.dataTool = dataTool;
