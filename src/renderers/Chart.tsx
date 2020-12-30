@@ -409,7 +409,7 @@ export class Chart extends React.Component<ChartProps> {
         }
 
         recoverFunctionType(config!);
-        this.echarts.setOption(config, this.props.replaceChartOption);
+        this.echarts.setOption(config!, this.props.replaceChartOption);
       } catch (e) {
         console.warn(e);
       }
