@@ -355,9 +355,6 @@ if (fis.project.currentMedia() === 'publish') {
     release: false
   });
 } else if (fis.project.currentMedia() === 'publish-sdk') {
-  fis.match('*-ie11.scss', {
-    postprocessor: convertSCSSIE11
-  });
   const env = fis.media('publish-sdk');
 
   env.get('project.ignore').push('sdk/**');
