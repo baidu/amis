@@ -9,6 +9,7 @@
   [amis-admin](https://github.com/fex-team/amis-admin) |
   [爱速搭](https://suda.baidu.com/) |
   QQ 群: 1147750223 | 
+  QQ 群2: 651547026 |
   [如流](https://infoflow.baidu.com/)群：3395342
 </div>
 
