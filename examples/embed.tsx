@@ -155,10 +155,11 @@ export function embed(
       <ToastComponent
         position={(env && env.toastPosition) || 'top-right'}
         closeButton={false}
-        timeOut={5000}
-        extendedTimeOut={3000}
+        timeout={5000}
       />
-      <AlertComponent container={container} />
+      <AlertComponent
+        container={() => env?.getModalContainer?.() || container}
+      />
 
       {renderAmis(
         schema,
