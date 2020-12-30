@@ -1555,3 +1555,12 @@ registerFilter('my-replace', (input: string, search: string, repalceWith) =>
 ```
 
 用法为 `${xxxx|my-replace:aaaa:bbbb}`
+
+### 在 JS SDK 中自定义过滤器
+
+```javascript
+let amisLib = amisRequire('amis');
+amisLib.registerFilter('count', function (input) {
+  return typeof input === 'string' ? input.length : 0;
+});
+```
