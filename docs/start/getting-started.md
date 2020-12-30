@@ -157,6 +157,27 @@ let amisScoped = amis.embed(
 
 还可以通过 `amisScoped.getComponentByName('page1.form1').setValues({'name1': 'othername'})` 来修改表单中的值。
 
+### 切换主题
+
+jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.scss`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
+
+```js
+amis.embed(
+  '#root',
+  {
+    // amis schema
+  },
+  {
+    // 默认数据
+  },
+  {
+    theme: 'cxd'
+  }
+);
+```
+
+暗黑主题同理，改成引用 'dark.css' 同时主题设置成 `dark`。
+
 ## react
 
 初始项目请参考 <https://github.com/fex-team/amis-react-starter>。
