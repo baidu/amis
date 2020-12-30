@@ -1153,7 +1153,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                             file.state === 'error' ? (
                               <Icon icon="fail" className="icon" />
                             ) : null}
-                            {file.state !== 'uploading' ? (
+                            {file.state !== 'uploading' && !disabled ? (
                               <a
                                 data-tooltip={__('移除')}
                                 className={cx('FileControl-clear')}
