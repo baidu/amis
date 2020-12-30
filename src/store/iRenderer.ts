@@ -21,9 +21,10 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
 
     return {
-      initData(data: object = {}) {
+      initData(data: object = {}, skipSetPristine = false) {
         self.initedAt = Date.now();
-        self.pristine = data;
+
+        !skipSetPristine && (self.pristine = data);
         self.data = data;
       },
 

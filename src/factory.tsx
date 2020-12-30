@@ -868,7 +868,10 @@ export function HocStoreFactory(renderer: {
               createObject(nextProps.data.__super, {
                 ...nextProps.data,
                 ...store.data
-              })
+              }),
+
+              store.storeType === 'FormStore' &&
+                props.store?.storeType === 'CRUDStore'
             );
         } else if (
           nextProps.scope &&

@@ -219,7 +219,9 @@ export interface OtherActionSchema extends ButtonSchema {
     | 'close'
     | 'submit'
     | 'confirm'
-    | 'add';
+    | 'add'
+    | 'reset'
+    | 'reset-and-submit';
   [propName: string]: any;
 }
 
