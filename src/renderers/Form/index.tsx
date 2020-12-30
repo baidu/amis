@@ -794,9 +794,15 @@ export default class Form extends React.Component<FormProps, object> {
     if (
       action.type === 'submit' ||
       action.actionType === 'submit' ||
-      action.actionType === 'confirm'
+      action.actionType === 'confirm' ||
+      action.actionType === 'reset-and-submit'
     ) {
       store.setCurrentAction(action);
+
+      if (action.actionType === 'reset-and-submit') {
+        store.reset(onReset);
+      }
+
       return this.submit((values): any => {
         if (onSubmit && onSubmit(values, action) === false) {
           return Promise.resolve(false);
@@ -897,7 +903,7 @@ export default class Form extends React.Component<FormProps, object> {
             throw reason;
           }
         });
-    } else if (action.type === 'reset') {
+    } else if (action.type === 'reset' || action.actionType === 'reset') {
       store.setCurrentAction(action);
       store.reset(onReset);
     } else if (action.actionType === 'dialog') {
