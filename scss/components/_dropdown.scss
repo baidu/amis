@@ -63,6 +63,10 @@
       color: var(--DropDown-menuItem-onHover-color);
     }
 
+    &.is-active {
+      color: var(--DropDown-menuItem-onActive-color);
+    }
+
     &:not(.is-disabled),
     &:not(.disabled) {
       cursor: pointer;

@@ -228,7 +228,7 @@ export class HeadCellFilterDropDown extends React.Component<
                         <li
                           key={index}
                           className={cx({
-                            'is-selected': option.selected
+                            'is-active': option.selected
                           })}
                           onClick={this.handleClick.bind(this, option.value)}
                         >
