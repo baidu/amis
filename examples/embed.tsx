@@ -157,7 +157,9 @@ export function embed(
         closeButton={false}
         timeout={5000}
       />
-      <AlertComponent container={env?.getModalContainer || container} />
+      <AlertComponent
+        container={() => env?.getModalContainer?.() || container}
+      />
 
       {renderAmis(
         schema,
