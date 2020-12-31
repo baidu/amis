@@ -137,7 +137,9 @@ export class App extends React.PureComponent<{
     headerVisible: true,
     themeIndex: 0,
     themes: themes,
-    theme: themes[localStorage.getItem('themeIndex') || 0],
+    theme:
+      themes.find(item => item?.value === localStorage.getItem('theme')) ||
+      themes[0],
     locale: localStorage.getItem('locale') || '',
     navigations: []
   };
@@ -289,10 +291,6 @@ export class App extends React.PureComponent<{
               options={this.state.themes}
               onChange={theme => {
                 this.setState({theme});
-                localStorage.setItem(
-                  'themeIndex',
-                  `${this.state.themes.indexOf(theme)}`
-                );
                 localStorage.setItem('theme', `${theme.value}`);
                 document
                   .querySelector('body')
