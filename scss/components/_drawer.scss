@@ -22,11 +22,11 @@
     border: var(--Drawer-content-borderWidth) solid
       var(--Drawer-content-borderColor);
     border-radius: var(--Drawer-content-borderRadius);
-    transition: transform ease-in-out 0.3s;
+    transition: transform ease-in-out var(--animation-duration);
   }
 
   &-overlay {
-    transition: ease-out opacity 0.3s;
+    transition: ease-out opacity var(--animation-duration);
     position: fixed;
     top: 0;
     right: 0;

@@ -34,7 +34,7 @@
       background: var(--Switch-bgColor);
       border: px2rem(1px) solid var(--Switch-borderColor);
       border-radius: px2rem(30px);
-      transition: all 0.2s;
+      transition: all var(--animation-duration);
     }
 
     &:after {
@@ -47,7 +47,7 @@
       left: px2rem(1px);
       border-radius: 50%;
       // box-shadow: px2rem(1px) px2rem(1px) px2rem(3px) rgba(0, 0, 0, 0.25);
-      transition: margin-left 0.3s;
+      transition: margin-left var(--animation-duration);
     }
   }
 

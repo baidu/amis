@@ -801,7 +801,8 @@
       display: inline-block;
       text-align: center;
       cursor: pointer;
-      transition: transform ease-in-out 0.2s, top ease-in-out 0.2s;
+      transition: transform ease-in-out var(--animation-duration),
+        top ease-in-out var(--animation-duration);
       position: relative;
       transform-origin: 50% 50%;
     }

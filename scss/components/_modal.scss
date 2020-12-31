@@ -54,15 +54,11 @@
       var(--Modal-content-borderColor);
     border-radius: var(--Modal-content-borderRadius);
 
-    // transition: ease-out all 0.3s;
-    // transform: translateY(-300px) scale(0.2);
-    // opacity: 0;
-
     &.in,
     &.out {
       // opacity: 1;
       // transform: translateY(0) scale(1);
-      animation-duration: 0.35s;
+      animation-duration: var(--animation-duration);
       animation-fill-mode: both;
     }
 
@@ -76,8 +72,7 @@
   }
 
   &-overlay {
-    transition: ease-in-out opacity 0.5s;
-    // transition-delay: 0.2s;
+    transition: ease-in-out opacity var(--animation-duration);
     position: fixed;
     top: 0;
     right: 0;

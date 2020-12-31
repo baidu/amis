@@ -72,7 +72,7 @@
 
   &-item-icons {
     visibility: hidden;
-    transition: visibility 0.1s ease;
+    transition: visibility var(--animation-duration) ease;
     display: inline-block;
     vertical-align: top;
     height: var(--Tree-itemHeight);
@@ -181,7 +181,7 @@
       width: var(--Tree-itemArrowWidth);
       height: var(--Tree-itemArrowWidth);
       display: block;
-      transition: transform 0.2s;
+      transition: transform var(--animation-duration);
       top: 0;
       transform: rotate(90deg);
     }

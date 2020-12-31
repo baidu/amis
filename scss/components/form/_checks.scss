@@ -49,7 +49,7 @@
       width: 0px;
       height: 0px;
       background: transparent;
-      transition: all 0.2s;
+      transition: all var(--animation-duration);
       transform-origin: 50% 50%;
       transform: translate(-50%, -50%);
     }
@@ -144,7 +144,8 @@
         width: 0;
         height: 0;
         border-color: transparent;
-        transition: width 0.2s, height 0.2s, transform 0.2s;
+        transition: width var(--animation-duration),
+          height var(--animation-duration), transform var(--animation-duration);
         border-width: 0 0 px2rem(2px) px2rem(2px);
         transform: translate(-50%, -60%) rotate(-40deg);
         border-style: solid;
