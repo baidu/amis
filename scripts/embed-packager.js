@@ -13,14 +13,7 @@ var createResource = fis.require('postpackager-loader/lib/resource.js');
 function prefixCss(code, prefix) {
   var cssAst = css.parse(code);
   prefixNode(cssAst);
-  return (
-    css.stringify(cssAst) +
-    '\n' +
-    prefix +
-    '{background-color: #f0f3f4;position: relative;} \n' +
-    prefix +
-    ' .app {padding-bottom:0;}'
-  );
+  return css.stringify(cssAst);
 
   function prefixSelector(sel) {
     if (sel.match(/^@/)) return sel;
