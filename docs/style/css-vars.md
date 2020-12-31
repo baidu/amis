@@ -68,3 +68,9 @@ title: CSS 变量
 | --link-decoration         | text-decoration | 可以控制是否显示下划线             |
 | --link-onHover-color      | 颜色            | 链接在鼠标移上去之后的颜色         |
 | --link-onHover-decoration | text-decoration | 可以控制鼠标移上去后是否显示下划线 |
+
+## 动画
+
+| 变量                 | 类型 | 说明                                             |
+| -------------------- | ---- | ------------------------------------------------ |
+| --animation-duration | 时长 | 动画效果时长，默认 0.1s，可以设置为 0 来关闭动画 |
