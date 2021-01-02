@@ -24,7 +24,7 @@ import {
   mapObject
 } from '../utils/helper';
 import isEqual from 'lodash/isEqual';
-import {getStoreById, removeStore} from './manager';
+import {getStoreById, removeStore, getStores} from './manager';
 
 export const FormStore = ServiceStore.named('FormStore')
   .props({
@@ -262,13 +262,28 @@ export const FormStore = ServiceStore.named('FormStore')
             const errors = json.errors;
             Object.keys(errors).forEach((key: string) => {
               const item = self.getItemById(key);
-
-              if (item) {
-                item.setError(errors[key]);
+              const itemsByName = self.getItemsByName(key);
+              //如果本层找不到，而且有子IDs，就从全store找name
+              if (
+                !item &&
+                itemsByName.length === 0 &&
+                self.childrenIds &&
+                self.childrenIds.length
+              ) {
+                let stores = getStores();
+                Object.keys(stores).forEach(storeId => {
+                  //@ts-ignore
+                  if (key === stores[storeId].name) {
+                    //@ts-ignore
+                    stores[storeId].setError(errors[key]);
+                  }
+                });
               } else {
-                self
-                  .getItemsByName(key)
-                  .forEach(item => item.setError(errors[key]));
+                if (item) {
+                  item.setError(errors[key]);
+                } else {
+                  itemsByName.forEach(item => item.setError(errors[key]));
+                }
               }
             });
 
