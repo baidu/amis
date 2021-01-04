@@ -743,6 +743,7 @@ if (fis.project.currentMedia() === 'publish') {
         const indexHtml = ret.src['/examples/index.html'];
         const appJs = ret.src['/examples/components/App.tsx'];
         const DocJs = ret.src['/examples/components/Doc.tsx'];
+        const DocNavCN = ret.src['/examples/components/DocNavCN.ts'];
         const DocCSS = ret.src['/examples/components/CssDocs.tsx'];
         const ExampleJs = ret.src['/examples/components/Example.tsx'];
 
@@ -750,6 +751,7 @@ if (fis.project.currentMedia() === 'publish') {
         const source = [
           appJs.getContent(),
           DocJs.getContent(),
+          DocNavCN.getContent(),
           DocCSS.getContent(),
           ExampleJs.getContent()
         ].join('\n');
