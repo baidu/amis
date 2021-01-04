@@ -53,15 +53,41 @@ export default class DocSearch extends React.Component {
 
     let results = [];
     for (let doc of this.docs) {
-      let index = doc.body.indexOf(query);
+      let bodyTest = new RegExp(query, 'i');
+      const match = bodyTest.exec(doc.body);
 
-      if (index !== -1) {
+      if (match) {
+        // 找最近一个 title 作为 hash
+        const beforeLines = doc.body
+          .substring(0, match.index)
+          .split('\n')
+          .reverse();
+        let hash = '';
+        for (const line of beforeLines) {
+          if (line.startsWith('##')) {
+            hash =
+              '#' +
+              line
+                .trim()
+                .replace(/#/g, '')
+                .trim()
+                .toLowerCase()
+                .replace(/ /g, '-');
+            break;
+          }
+        }
         results.push({
           title: doc.title,
-          path: doc.path,
+          path: doc.path + hash,
           abstract: doc.body
-            .substring(Math.max(0, index - 20), index + 60)
-            .replace(query, `<strong>${query}</strong>`)
+            .substring(Math.max(0, match.index - 20), match.index + 60)
+            .replace(
+              bodyTest,
+              `<strong>${doc.body.substring(
+                match.index,
+                match.index + query.length
+              )}</strong>`
+            )
         });
       } else if (doc.title.toLowerCase().indexOf(query) !== -1) {
         results.push({
