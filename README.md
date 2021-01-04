@@ -3,8 +3,8 @@
     <img width="284" src="https://github.com/baidu/amis/raw/master/examples/static/logo.png">
   </p>
   
-  [文档（国内）](https://baidu.gitee.io/amis/docs/index) |
-  [文档（国外）](https://baidu.github.io/amis/docs/index) |
+  [文档（国内）](https://baidu.gitee.io/amis/) |
+  [文档（国外）](https://baidu.github.io/amis/) |
   [可视化编辑器](https://github.com/fex-team/amis-editor-demo) |
   [amis-admin](https://github.com/fex-team/amis-admin) |
   [爱速搭](https://suda.baidu.com/) |
