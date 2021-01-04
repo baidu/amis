@@ -248,7 +248,23 @@ export interface DateProps extends LocaleProps, ThemeProps {
   minTime?: moment.Moment;
   maxTime?: moment.Moment;
   dateFormat?: string;
-  timeConstraints?: any;
+  timeConstraints?: {
+    hours?: {
+      min: number;
+      max: number;
+      step: number;
+    };
+    minutes?: {
+      min: number;
+      max: number;
+      step: number;
+    };
+    seconds: {
+      min: number;
+      max: number;
+      step: number;
+    };
+  };
   popOverContainer?: any;
 
   // 是否为内嵌模式，如果开启就不是 picker 了，直接页面点选。

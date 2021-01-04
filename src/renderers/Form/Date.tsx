@@ -183,7 +183,23 @@ export interface DateProps extends FormControlProps {
   inputFormat?: string;
   timeFormat?: string;
   format?: string;
-  timeConstraints?: object;
+  timeConstraints?: {
+    hours?: {
+      min: number;
+      max: number;
+      step: number;
+    };
+    minutes?: {
+      min: number;
+      max: number;
+      step: number;
+    };
+    seconds: {
+      min: number;
+      max: number;
+      step: number;
+    };
+  };
   closeOnSelect?: boolean;
   disabled: boolean;
   iconClassName?: string;
@@ -267,19 +283,32 @@ export default class DateControl extends React.PureComponent<
   }
 
   render() {
-    const {
+    let {
       className,
       defaultValue,
       defaultData,
       classnames: cx,
       minDate,
       maxDate,
+      type,
+      format,
+      timeFormat,
       ...rest
     } = this.props;
 
+    if (type === 'time' && timeFormat) {
+      format = timeFormat;
+    }
+
     return (
       <div className={cx(`DateControl`, className)}>
-        <DatePicker {...rest} {...this.state} classnames={cx} />
+        <DatePicker
+          {...rest}
+          timeFormat={timeFormat}
+          format={format}
+          {...this.state}
+          classnames={cx}
+        />
       </div>
     );
   }

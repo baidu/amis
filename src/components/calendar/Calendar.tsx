@@ -45,6 +45,7 @@ class BaseDatePicker extends ReactDatePicker {
   })((this as any).getComponentProps);
 
   setDate = (type: 'month' | 'year') => {
+    // todo 没看懂这个是啥意思，好像没啥用
     const currentShould =
       this.props.viewMode === 'months' &&
       !/^mm$/i.test(this.props.inputFormat || '');
