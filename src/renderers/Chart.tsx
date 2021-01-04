@@ -265,9 +265,8 @@ export class Chart extends React.Component<ChartProps> {
         import('echarts'),
         import('echarts/extension/dataTool'),
         import('echarts/extension/bmap/bmap')
-      ]).then(async ([echarts, dataTool]) => {
+      ]).then(async ([echarts]) => {
         (window as any).echarts = echarts;
-        (echarts as any).dataTool = dataTool;
         let theme = 'default';
 
         if (chartTheme) {
