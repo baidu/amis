@@ -2,36 +2,36 @@ import React from 'react';
 import makeMarkdownRenderer from './MdRenderer';
 import {flattenTree, filterTree, mapTree} from '../../src/utils/helper';
 
-export const docs = [
+export const docsCN = [
   {
     // prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
     label: '📌  开始',
     children: [
       {
         label: '介绍',
-        path: '/docs/index',
+        path: '/zh-CN/docs/index',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/index.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/index.md').then(makeMarkdownRenderer)
       },
 
       {
         label: '快速开始',
-        path: '/docs/start/getting-started',
+        path: '/zh-CN/docs/start/getting-started',
 
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/start/getting-started.md').then(
+          import('../../docs/zh-CN/start/getting-started.md').then(
             makeMarkdownRenderer
           )
       },
 
       {
         label: '常见问题',
-        path: '/docs/start/faq',
+        path: '/zh-CN/docs/start/faq',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/start/faq.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/start/faq.md').then(makeMarkdownRenderer)
       }
     ]
   },
@@ -41,63 +41,75 @@ export const docs = [
     children: [
       {
         label: '配置与组件',
-        path: '/docs/concepts/schema',
+        path: '/zh-CN/docs/concepts/schema',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/concepts/schema.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/concepts/schema.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: '数据域与数据链',
-        path: '/docs/concepts/datascope-and-datachain',
+        path: '/zh-CN/docs/concepts/datascope-and-datachain',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/concepts/datascope-and-datachain.md').then(
+          import('../../docs/zh-CN/concepts/datascope-and-datachain.md').then(
             makeMarkdownRenderer
           )
       },
       {
         label: '模板',
-        path: '/docs/concepts/template',
+        path: '/zh-CN/docs/concepts/template',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/concepts/template.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/concepts/template.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: '数据映射',
-        path: '/docs/concepts/data-mapping',
+        path: '/zh-CN/docs/concepts/data-mapping',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/concepts/data-mapping.md').then(
+          import('../../docs/zh-CN/concepts/data-mapping.md').then(
             makeMarkdownRenderer
           )
       },
       {
         label: '表达式',
-        path: '/docs/concepts/expression',
+        path: '/zh-CN/docs/concepts/expression',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/concepts/expression.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/concepts/expression.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: '联动',
-        path: '/docs/concepts/linkage',
+        path: '/zh-CN/docs/concepts/linkage',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/concepts/linkage.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/concepts/linkage.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: '行为',
-        path: '/docs/concepts/action',
+        path: '/zh-CN/docs/concepts/action',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/concepts/action.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/concepts/action.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: '样式',
-        path: '/docs/concepts/style',
+        path: '/zh-CN/docs/concepts/style',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/concepts/style.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/concepts/style.md').then(
+            makeMarkdownRenderer
+          )
       }
     ]
   },
@@ -107,38 +119,44 @@ export const docs = [
     children: [
       {
         label: '工作原理',
-        path: '/docs/extend/internal',
+        path: '/zh-CN/docs/extend/internal',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/extend/internal.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/extend/internal.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: '自定义组件 - SDK',
-        path: '/docs/extend/custom-sdk',
+        path: '/zh-CN/docs/extend/custom-sdk',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/extend/custom-sdk.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/extend/custom-sdk.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: '自定义组件 - React',
-        path: '/docs/extend/custom-react',
+        path: '/zh-CN/docs/extend/custom-react',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/extend/custom-react.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/extend/custom-react.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: '扩展现有组件',
-        path: '/docs/extend/addon',
+        path: '/zh-CN/docs/extend/addon',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/extend/addon.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/extend/addon.md').then(makeMarkdownRenderer)
       },
       {
         label: '多语言',
-        path: '/docs/extend/i18n',
+        path: '/zh-CN/docs/extend/i18n',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/extend/i18n.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/extend/i18n.md').then(makeMarkdownRenderer)
       }
     ]
   },
@@ -148,24 +166,28 @@ export const docs = [
     children: [
       {
         label: 'SchemaNode',
-        path: '/docs/types/schemanode',
+        path: '/zh-CN/docs/types/schemanode',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/types/schemanode.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/types/schemanode.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'API',
-        path: '/docs/types/api',
+        path: '/zh-CN/docs/types/api',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/types/api.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/types/api.md').then(makeMarkdownRenderer)
       },
       {
         label: 'Definitions',
-        path: '/docs/types/definitions',
+        path: '/zh-CN/docs/types/definitions',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/types/definitions.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/types/definitions.md').then(
+            makeMarkdownRenderer
+          )
       }
     ]
   },
@@ -175,530 +197,532 @@ export const docs = [
     children: [
       {
         label: '组件介绍',
-        path: '/docs/components/component',
+        path: '/zh-CN/docs/components/component',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/component.md').then(
+          import('../../docs/zh-CN/components/component.md').then(
             makeMarkdownRenderer
           )
       },
       {
         label: 'Page 页面',
-        path: '/docs/components/page',
+        path: '/zh-CN/docs/components/page',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/page.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/page.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Form 表单',
-        path: '/docs/components/form/index',
+        path: '/zh-CN/docs/components/form/index',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/form/index.md').then(
+          import('../../docs/zh-CN/components/form/index.md').then(
             makeMarkdownRenderer
           ),
         children: [
           {
             label: 'FormItem 表单项',
-            path: '/docs/components/form/formitem',
+            path: '/zh-CN/docs/components/form/formitem',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/formitem.md').then(
+              import('../../docs/zh-CN/components/form/formitem.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Options 选择器表单项',
-            path: '/docs/components/form/options',
+            path: '/zh-CN/docs/components/form/options',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/options.md').then(
+              import('../../docs/zh-CN/components/form/options.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Array 数组输入框',
-            path: '/docs/components/form/array',
+            path: '/zh-CN/docs/components/form/array',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/array.md').then(
+              import('../../docs/zh-CN/components/form/array.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Button 按钮',
-            path: '/docs/components/form/button',
+            path: '/zh-CN/docs/components/form/button',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/button.md').then(
+              import('../../docs/zh-CN/components/form/button.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Button-Toolbar 按钮工具栏',
-            path: '/docs/components/form/button-toolbar',
+            path: '/zh-CN/docs/components/form/button-toolbar',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/button-toolbar.md').then(
+              import('../../docs/zh-CN/components/form/button-toolbar.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Button-Group 按钮集合',
-            path: '/docs/components/form/button-group',
+            path: '/zh-CN/docs/components/form/button-group',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/button-group.md').then(
+              import('../../docs/zh-CN/components/form/button-group.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Chain-Select 链式下拉框',
-            path: '/docs/components/form/chain-select',
+            path: '/zh-CN/docs/components/form/chain-select',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/chain-select.md').then(
+              import('../../docs/zh-CN/components/form/chain-select.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Checkbox 勾选框',
-            path: '/docs/components/form/checkbox',
+            path: '/zh-CN/docs/components/form/checkbox',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/checkbox.md').then(
+              import('../../docs/zh-CN/components/form/checkbox.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Checkboxes 复选框',
-            path: '/docs/components/form/checkboxes',
+            path: '/zh-CN/docs/components/form/checkboxes',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/checkboxes.md').then(
+              import('../../docs/zh-CN/components/form/checkboxes.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'City 城市选择器',
-            path: '/docs/components/form/city',
+            path: '/zh-CN/docs/components/form/city',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/city.md').then(
+              import('../../docs/zh-CN/components/form/city.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Color 颜色选择器',
-            path: '/docs/components/form/color',
+            path: '/zh-CN/docs/components/form/color',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/color.md').then(
+              import('../../docs/zh-CN/components/form/color.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Combo 组合',
-            path: '/docs/components/form/combo',
+            path: '/zh-CN/docs/components/form/combo',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/combo.md').then(
+              import('../../docs/zh-CN/components/form/combo.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Date 日期选择器',
-            path: '/docs/components/form/date',
+            path: '/zh-CN/docs/components/form/date',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/date.md').then(
+              import('../../docs/zh-CN/components/form/date.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Datetime 日期时间选择器',
-            path: '/docs/components/form/datetime',
+            path: '/zh-CN/docs/components/form/datetime',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/datetime.md').then(
+              import('../../docs/zh-CN/components/form/datetime.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Month 月份选择器',
-            path: '/docs/components/form/month',
+            path: '/zh-CN/docs/components/form/month',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/month.md').then(
+              import('../../docs/zh-CN/components/form/month.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Date-Range 日期范围选择器',
-            path: '/docs/components/form/date-range',
+            path: '/zh-CN/docs/components/form/date-range',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/date-range.md').then(
+              import('../../docs/zh-CN/components/form/date-range.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Datetime-Range 日期时间范围',
-            path: '/docs/components/form/datetime-range',
+            path: '/zh-CN/docs/components/form/datetime-range',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/datetime-range.md').then(
+              import('../../docs/zh-CN/components/form/datetime-range.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'DiffEditor 对比编辑器',
-            path: '/docs/components/form/diff-editor',
+            path: '/zh-CN/docs/components/form/diff-editor',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/diff-editor.md').then(
+              import('../../docs/zh-CN/components/form/diff-editor.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Editor 代码编辑器',
-            path: '/docs/components/form/editor',
+            path: '/zh-CN/docs/components/form/editor',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/editor.md').then(
+              import('../../docs/zh-CN/components/form/editor.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'FieldSet 表单项集合',
-            path: '/docs/components/form/fieldset',
+            path: '/zh-CN/docs/components/form/fieldset',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/fieldset.md').then(
+              import('../../docs/zh-CN/components/form/fieldset.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'File 文件上传',
-            path: '/docs/components/form/file',
+            path: '/zh-CN/docs/components/form/file',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/file.md').then(
+              import('../../docs/zh-CN/components/form/file.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Formula 公式',
-            path: '/docs/components/form/formula',
+            path: '/zh-CN/docs/components/form/formula',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/formula.md').then(
+              import('../../docs/zh-CN/components/form/formula.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Grid 网格',
-            path: '/docs/components/form/grid',
+            path: '/zh-CN/docs/components/form/grid',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/grid.md').then(
+              import('../../docs/zh-CN/components/form/grid.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Group 表单项组',
-            path: '/docs/components/form/group',
+            path: '/zh-CN/docs/components/form/group',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/group.md').then(
+              import('../../docs/zh-CN/components/form/group.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'HBox',
-            path: '/docs/components/form/hbox',
+            path: '/zh-CN/docs/components/form/hbox',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/hbox.md').then(
+              import('../../docs/zh-CN/components/form/hbox.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Hidden 隐藏字段',
-            path: '/docs/components/form/hidden',
+            path: '/zh-CN/docs/components/form/hidden',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/hidden.md').then(
+              import('../../docs/zh-CN/components/form/hidden.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Image 图片',
-            path: '/docs/components/form/image',
+            path: '/zh-CN/docs/components/form/image',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/image.md').then(
+              import('../../docs/zh-CN/components/form/image.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Input-Group 输入框组合',
-            path: '/docs/components/form/input-group',
+            path: '/zh-CN/docs/components/form/input-group',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/input-group.md').then(
+              import('../../docs/zh-CN/components/form/input-group.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'List 列表',
-            path: '/docs/components/form/list',
+            path: '/zh-CN/docs/components/form/list',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/list.md').then(
+              import('../../docs/zh-CN/components/form/list.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'UUID 随机 ID',
-            path: '/docs/components/form/uuid',
+            path: '/zh-CN/docs/components/form/uuid',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/uuid.md').then(
+              import('../../docs/zh-CN/components/form/uuid.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Matrix 矩阵',
-            path: '/docs/components/form/matrix',
+            path: '/zh-CN/docs/components/form/matrix',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/matrix.md').then(
+              import('../../docs/zh-CN/components/form/matrix.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'NestedSelect 级联选择器',
-            path: '/docs/components/form/nestedselect',
+            path: '/zh-CN/docs/components/form/nestedselect',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/nestedselect.md').then(
+              import('../../docs/zh-CN/components/form/nestedselect.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Number 数字输入框',
-            path: '/docs/components/form/number',
+            path: '/zh-CN/docs/components/form/number',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/number.md').then(
+              import('../../docs/zh-CN/components/form/number.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Panel 面板',
-            path: '/docs/components/form/panel',
+            path: '/zh-CN/docs/components/form/panel',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/panel.md').then(
+              import('../../docs/zh-CN/components/form/panel.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Picker 列表选择器',
-            path: '/docs/components/form/picker',
+            path: '/zh-CN/docs/components/form/picker',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/picker.md').then(
+              import('../../docs/zh-CN/components/form/picker.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Radios 单选框',
-            path: '/docs/components/form/radios',
+            path: '/zh-CN/docs/components/form/radios',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/radios.md').then(
+              import('../../docs/zh-CN/components/form/radios.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Rating 评分',
-            path: '/docs/components/form/rating',
+            path: '/zh-CN/docs/components/form/rating',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/rating.md').then(
+              import('../../docs/zh-CN/components/form/rating.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Range 滑块',
-            path: '/docs/components/form/range',
+            path: '/zh-CN/docs/components/form/range',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/range.md').then(
+              import('../../docs/zh-CN/components/form/range.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Repeat 重复频率选择器',
-            path: '/docs/components/form/repeat',
+            path: '/zh-CN/docs/components/form/repeat',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/repeat.md').then(
+              import('../../docs/zh-CN/components/form/repeat.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Rich-Text 富文本编辑器',
-            path: '/docs/components/form/rich-text',
+            path: '/zh-CN/docs/components/form/rich-text',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/rich-text.md').then(
+              import('../../docs/zh-CN/components/form/rich-text.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Select 选择器',
-            path: '/docs/components/form/select',
+            path: '/zh-CN/docs/components/form/select',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/select.md').then(
+              import('../../docs/zh-CN/components/form/select.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Service 功能容器',
-            path: '/docs/components/form/service',
+            path: '/zh-CN/docs/components/form/service',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/service.md').then(
+              import('../../docs/zh-CN/components/form/service.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'SubForm 子表单',
-            path: '/docs/components/form/subform',
+            path: '/zh-CN/docs/components/form/subform',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/subform.md').then(
+              import('../../docs/zh-CN/components/form/subform.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Switch 开关',
-            path: '/docs/components/form/switch',
+            path: '/zh-CN/docs/components/form/switch',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/switch.md').then(
+              import('../../docs/zh-CN/components/form/switch.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Static 静态展示',
-            path: '/docs/components/form/static',
+            path: '/zh-CN/docs/components/form/static',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/static.md').then(
+              import('../../docs/zh-CN/components/form/static.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Tabs 选项卡',
-            path: '/docs/components/form/tabs',
+            path: '/zh-CN/docs/components/form/tabs',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/tabs.md').then(
+              import('../../docs/zh-CN/components/form/tabs.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Table 表格',
-            path: '/docs/components/form/table',
+            path: '/zh-CN/docs/components/form/table',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/table.md').then(
+              import('../../docs/zh-CN/components/form/table.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Tag 标签选择器',
-            path: '/docs/components/form/tag',
+            path: '/zh-CN/docs/components/form/tag',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/tag.md').then(
+              import('../../docs/zh-CN/components/form/tag.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Text 输入框',
-            path: '/docs/components/form/text',
+            path: '/zh-CN/docs/components/form/text',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/text.md').then(
+              import('../../docs/zh-CN/components/form/text.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Textarea 多行输入框',
-            path: '/docs/components/form/textarea',
+            path: '/zh-CN/docs/components/form/textarea',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/textarea.md').then(
+              import('../../docs/zh-CN/components/form/textarea.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Time 时间',
-            path: '/docs/components/form/time',
+            path: '/zh-CN/docs/components/form/time',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/time.md').then(
+              import('../../docs/zh-CN/components/form/time.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Transfer 穿梭器',
-            path: '/docs/components/form/transfer',
+            path: '/zh-CN/docs/components/form/transfer',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/transfer.md').then(
+              import('../../docs/zh-CN/components/form/transfer.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'TabsTransfer 组合穿梭器',
-            path: '/docs/components/form/tabs-transfer',
+            path: '/zh-CN/docs/components/form/tabs-transfer',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/tabs-transfer.md').then(
+              import('../../docs/zh-CN/components/form/tabs-transfer.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Tree 树形选择框',
-            path: '/docs/components/form/tree',
+            path: '/zh-CN/docs/components/form/tree',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/tree.md').then(
+              import('../../docs/zh-CN/components/form/tree.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'TreeSelect 树形选择器',
-            path: '/docs/components/form/treeselect',
+            path: '/zh-CN/docs/components/form/treeselect',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/treeselect.md').then(
+              import('../../docs/zh-CN/components/form/treeselect.md').then(
                 makeMarkdownRenderer
               )
           },
           {
             label: 'Year 年',
-            path: '/docs/components/form/year',
+            path: '/zh-CN/docs/components/form/year',
             getComponent: () =>
               // @ts-ignore
-              import('../../docs/components/form/year.md').then(
+              import('../../docs/zh-CN/components/form/year.md').then(
                 makeMarkdownRenderer
               )
           }
@@ -706,356 +730,444 @@ export const docs = [
       },
       {
         label: 'CRUD 增删改查',
-        path: '/docs/components/crud',
+        path: '/zh-CN/docs/components/crud',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/crud.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/crud.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Custom 自定义组件',
-        path: '/docs/components/custom',
+        path: '/zh-CN/docs/components/custom',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/custom.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/custom.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Table 表格',
-        path: '/docs/components/table',
+        path: '/zh-CN/docs/components/table',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/table.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/table.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Action 行为按钮',
-        path: '/docs/components/action',
+        path: '/zh-CN/docs/components/action',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/action.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/action.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Alert 提示',
-        path: '/docs/components/alert',
+        path: '/zh-CN/docs/components/alert',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/alert.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/alert.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Audio 音频',
-        path: '/docs/components/audio',
+        path: '/zh-CN/docs/components/audio',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/audio.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/audio.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Button 按钮',
-        path: '/docs/components/button',
+        path: '/zh-CN/docs/components/button',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/button.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/button.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'ButtonGroup 按钮组',
-        path: '/docs/components/button-group',
+        path: '/zh-CN/docs/components/button-group',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/button-group.md').then(
+          import('../../docs/zh-CN/components/button-group.md').then(
             makeMarkdownRenderer
           )
       },
       {
         label: 'Card 卡片',
-        path: '/docs/components/card',
+        path: '/zh-CN/docs/components/card',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/card.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/card.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Cards 卡片组',
-        path: '/docs/components/cards',
+        path: '/zh-CN/docs/components/cards',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/cards.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/cards.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Carousel 轮播图',
-        path: '/docs/components/carousel',
+        path: '/zh-CN/docs/components/carousel',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/carousel.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/carousel.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Chart 图表',
-        path: '/docs/components/chart',
+        path: '/zh-CN/docs/components/chart',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/chart.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/chart.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Collapse 折叠器',
-        path: '/docs/components/collapse',
+        path: '/zh-CN/docs/components/collapse',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/collapse.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/collapse.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Color 颜色',
-        path: '/docs/components/color',
+        path: '/zh-CN/docs/components/color',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/color.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/color.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Container 容器',
-        path: '/docs/components/container',
+        path: '/zh-CN/docs/components/container',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/container.md').then(
+          import('../../docs/zh-CN/components/container.md').then(
             makeMarkdownRenderer
           )
       },
       {
         label: 'Date 日期时间',
-        path: '/docs/components/date',
+        path: '/zh-CN/docs/components/date',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/date.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/date.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Dialog 对话框',
-        path: '/docs/components/dialog',
+        path: '/zh-CN/docs/components/dialog',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/dialog.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/dialog.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Divider 分割线',
-        path: '/docs/components/divider',
+        path: '/zh-CN/docs/components/divider',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/divider.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/divider.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Drawer 抽屉',
-        path: '/docs/components/drawer',
+        path: '/zh-CN/docs/components/drawer',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/drawer.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/drawer.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'DropDownButton',
-        path: '/docs/components/dropdown-button',
+        path: '/zh-CN/docs/components/dropdown-button',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/dropdown-button.md').then(
+          import('../../docs/zh-CN/components/dropdown-button.md').then(
             makeMarkdownRenderer
           )
       },
       {
         label: 'Each 循环渲染器',
-        path: '/docs/components/each',
+        path: '/zh-CN/docs/components/each',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/each.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/each.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Grid 网格布局',
-        path: '/docs/components/grid',
+        path: '/zh-CN/docs/components/grid',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/grid.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/grid.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'HBox 布局',
-        path: '/docs/components/hbox',
+        path: '/zh-CN/docs/components/hbox',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/hbox.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/hbox.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Html',
-        path: '/docs/components/html',
+        path: '/zh-CN/docs/components/html',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/html.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/html.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Icon 图标',
-        path: '/docs/components/icon',
+        path: '/zh-CN/docs/components/icon',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/icon.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/icon.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'iFrame',
-        path: '/docs/components/iframe',
+        path: '/zh-CN/docs/components/iframe',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/iframe.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/iframe.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Image 图片',
-        path: '/docs/components/image',
+        path: '/zh-CN/docs/components/image',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/image.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/image.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Images 图片集',
-        path: '/docs/components/images',
+        path: '/zh-CN/docs/components/images',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/images.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/images.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Json',
-        path: '/docs/components/json',
+        path: '/zh-CN/docs/components/json',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/json.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/json.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Link 链接',
-        path: '/docs/components/link',
+        path: '/zh-CN/docs/components/link',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/link.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/link.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'List 列表',
-        path: '/docs/components/list',
+        path: '/zh-CN/docs/components/list',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/list.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/list.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Mapping 映射',
-        path: '/docs/components/mapping',
+        path: '/zh-CN/docs/components/mapping',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/mapping.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/mapping.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Nav 导航',
-        path: '/docs/components/nav',
+        path: '/zh-CN/docs/components/nav',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/nav.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/nav.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Panel 面板',
-        path: '/docs/components/panel',
+        path: '/zh-CN/docs/components/panel',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/panel.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/panel.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'PaginationWrapper',
-        path: '/docs/components/pagination-wrapper',
+        path: '/zh-CN/docs/components/pagination-wrapper',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/pagination-wrapper.md').then(
+          import('../../docs/zh-CN/components/pagination-wrapper.md').then(
             makeMarkdownRenderer
           )
       },
       {
         label: 'Progress 进度条',
-        path: '/docs/components/progress',
+        path: '/zh-CN/docs/components/progress',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/progress.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/progress.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'QRCode 二维码',
-        path: '/docs/components/qrcode',
+        path: '/zh-CN/docs/components/qrcode',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/qrcode.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/qrcode.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Remark 标记',
-        path: '/docs/components/remark',
+        path: '/zh-CN/docs/components/remark',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/remark.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/remark.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Service 功能型容器',
-        path: '/docs/components/service',
+        path: '/zh-CN/docs/components/service',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/service.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/service.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Sparkline 走势图',
-        path: '/docs/components/sparkline',
+        path: '/zh-CN/docs/components/sparkline',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/sparkline.md').then(
+          import('../../docs/zh-CN/components/sparkline.md').then(
             makeMarkdownRenderer
           )
       },
       {
         label: 'Spinner 加载中',
-        path: '/docs/components/spinner',
+        path: '/zh-CN/docs/components/spinner',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/spinner.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/spinner.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Status 状态',
-        path: '/docs/components/status',
+        path: '/zh-CN/docs/components/status',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/status.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/status.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Switch 开关',
-        path: '/docs/components/switch',
+        path: '/zh-CN/docs/components/switch',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/switch.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/switch.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Tabs 选项卡',
-        path: '/docs/components/tabs',
+        path: '/zh-CN/docs/components/tabs',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/tabs.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/tabs.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Tasks 任务操作集合',
-        path: '/docs/components/tasks',
+        path: '/zh-CN/docs/components/tasks',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/tasks.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/tasks.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Tpl 模板',
-        path: '/docs/components/tpl',
+        path: '/zh-CN/docs/components/tpl',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/tpl.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/tpl.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Video 视频',
-        path: '/docs/components/video',
+        path: '/zh-CN/docs/components/video',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/video.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/video.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Wrapper 包裹容器',
-        path: '/docs/components/wrapper',
+        path: '/zh-CN/docs/components/wrapper',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/wrapper.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/wrapper.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'Wizard 向导',
-        path: '/docs/components/wizard',
+        path: '/zh-CN/docs/components/wizard',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/components/wizard.md').then(makeMarkdownRenderer)
+          import('../../docs/zh-CN/components/wizard.md').then(
+            makeMarkdownRenderer
+          )
       }
     ]
   }
@@ -1068,19 +1180,19 @@ export default class Doc extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.props.setNavigations(docs);
+    this.props.setNavigations(docsCN);
     this.setDocFooter();
   }
 
   componentDidUpdate(preProps) {
     if (this.props.location.pathname !== preProps.location.pathname) {
-      this.props.setNavigations(docs);
+      this.props.setNavigations(docsCN);
       this.setDocFooter();
     }
   }
 
   setDocFooter() {
-    const newDocs = mapTree(docs, doc => ({
+    const newDocs = mapTree(docsCN, doc => ({
       ...doc,
       children:
         Array.isArray(doc.children) && doc.children.length

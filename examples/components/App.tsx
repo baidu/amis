@@ -23,7 +23,7 @@ import {
 } from 'react-router';
 import Select from '../../src/components/Select';
 import DocSearch from './DocSearch';
-import Doc, {docs} from './Doc';
+import Doc, {docsCN} from './Doc';
 import Example, {examples} from './Example';
 import CssDocs, {cssDocs} from './CssDocs';
 import CSSDocs from './CssDocs';
@@ -249,7 +249,10 @@ export class App extends React.PureComponent<{
           )}
 
           <ul className={`HeaderLinks`}>
-            <Link to={`${ContextPath}/docs`} activeClassName="is-active">
+            <Link
+              to={`${ContextPath}/zh-CN/docs/index`}
+              activeClassName="is-active"
+            >
               文档
             </Link>
             <Link to={`${ContextPath}/style`} activeClassName="is-active">
@@ -562,13 +565,25 @@ function navigations2route(pathPrefix = DocPathPrefix, navigations) {
 
 export default function entry({pathPrefix}) {
   // PathPrefix = pathPrefix || DocPathPrefix;
+  const locate = 'zh-CN'; // 暂时不支持切换，因为目前只有中文文档
   return (
     <Router history={browserHistory}>
       <Route component={App}>
-        <Redirect from={`${ContextPath}/`} to={`${ContextPath}/docs/index`} />
+        <Redirect
+          from={`${ContextPath}/`}
+          to={`${ContextPath}/${locate}/docs/index`}
+        />
         <Redirect
           from={`${ContextPath}/docs`}
-          to={`${ContextPath}/docs/index`}
+          to={`${ContextPath}/${locate}/docs/index`}
+        />
+        <Redirect
+          from={`${ContextPath}/docs/*`}
+          to={`${ContextPath}/${locate}/docs/*`}
+        />
+        <Redirect
+          from={`${ContextPath}/${locate}/docs`}
+          to={`${ContextPath}/${locate}/docs/index`}
         />
         <Redirect
           from={`${ContextPath}/examples`}
@@ -579,8 +594,8 @@ export default function entry({pathPrefix}) {
           to={`${ContextPath}/style/index`}
         />
 
-        <Route path={`${ContextPath}/docs`} component={Doc}>
-          {navigations2route(DocPathPrefix, docs)}
+        <Route path={`${ContextPath}/${locate}/docs`} component={Doc}>
+          {navigations2route(DocPathPrefix, docsCN)}
         </Route>
         <Route path={`${ContextPath}/examples`} component={Example}>
           {navigations2route(ExamplePathPrefix, examples)}

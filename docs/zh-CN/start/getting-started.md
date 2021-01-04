@@ -106,11 +106,11 @@ let amisScoped = amis.embed(
       return response;
     }
 
-    // 可以不传，用来实现页面跳转
-    // jumpTo: location => {},
+    // 可以不传，用来接管页面跳转，比如用 location.href 或 window.open，或者自己实现 amis 配置更新
+    // jumpTo: to => { location.href = to; },
 
     // 可以不传，用来实现地址栏更新
-    // updateLocation: (location, replace) => {},
+    // updateLocation: (to, replace) => {},
 
     // 可以不传，用来判断是否目标地址当前地址。
     // isCurrentUrl: url => {},
