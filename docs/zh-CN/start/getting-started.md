@@ -464,6 +464,14 @@ class MyComponent extends React.Component<any, any> {
 
 地址替换，跟 jumpTo 类似。
 
+##### blockRouting
+
+设置阻止路由跳转的钩子函数，用来实现 form 未保存提前离开时出现确认框。
+
+```ts
+(fn: (nextLocation:any) => void | string) => () => void;
+```
+
 ##### theme: string
 
 目前支持是三种主题：`default`、`cxd` 和 `dark`

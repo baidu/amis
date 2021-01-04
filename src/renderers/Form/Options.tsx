@@ -593,8 +593,15 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    reloadOptions(setError?: boolean) {
-      const {source, formItem, data, onChange, selectFirst} = this.props;
+    reloadOptions(setError?: boolean, isInit = false) {
+      const {
+        source,
+        formItem,
+        data,
+        onChange,
+        setPrinstineValue,
+        selectFirst
+      } = this.props;
 
       if (formItem && isPureVariable(source as string)) {
         formItem.setOptions(
@@ -622,7 +629,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         data,
         undefined,
         false,
-        onChange,
+        isInit ? setPrinstineValue : onChange,
         setError
       );
     }
@@ -650,7 +657,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     @autobind
     async initOptions(data: any) {
-      await this.reload();
+      await this.reloadOptions(false, true);
       const {formItem, name} = this.props;
       if (!formItem) {
         return;
