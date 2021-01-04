@@ -578,6 +578,10 @@ export default function entry({pathPrefix}) {
           to={`${ContextPath}/${locate}/docs/index`}
         />
         <Redirect
+          from={`${ContextPath}/docs/index`}
+          to={`${ContextPath}/${locate}/docs/index`}
+        />
+        <Redirect
           from={`${ContextPath}/docs/*`}
           to={`${ContextPath}/${locate}/docs/*`}
         />
