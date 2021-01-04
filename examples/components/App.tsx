@@ -23,7 +23,8 @@ import {
 } from 'react-router';
 import Select from '../../src/components/Select';
 import DocSearch from './DocSearch';
-import Doc, {docsCN} from './Doc';
+import Doc from './Doc';
+import DocNavCN from './DocNavCN';
 import Example, {examples} from './Example';
 import CssDocs, {cssDocs} from './CssDocs';
 import CSSDocs from './CssDocs';
@@ -599,7 +600,7 @@ export default function entry({pathPrefix}) {
         />
 
         <Route path={`${ContextPath}/${locate}/docs`} component={Doc}>
-          {navigations2route(DocPathPrefix, docsCN)}
+          {navigations2route(DocPathPrefix, DocNavCN)}
         </Route>
         <Route path={`${ContextPath}/examples`} component={Example}>
           {navigations2route(ExamplePathPrefix, examples)}

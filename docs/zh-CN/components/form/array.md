@@ -8,7 +8,7 @@ icon:
 order: 3
 ---
 
-[普通表单项](./formitem)，其实就是 [Combo](./combo) 的一个 flat 用法。
+Array 是一种简化的 [Combo](./combo)，用于输入多个某种类型的[表单项](./formitem)，提交的时将以数组的形式提交。
 
 ## 基本用法
 

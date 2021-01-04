@@ -8,7 +8,7 @@ icon:
 order: 5
 ---
 
-默认按钮独立配置的时候，是独占一行的，如果想让多个按钮在一起放置，可以使用 `button-toolbar` 组件
+默认按钮会独占一行，如果想让多个按钮并排方式，可以使用 `button-toolbar` 组件包裹起来，另外还有能用 [button-group](./button-group) 来在展现上更紧凑。
 
 ## 基本使用
 

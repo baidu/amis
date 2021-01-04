@@ -8,7 +8,9 @@ icon:
 order: 12
 ---
 
-组合模式，支持自由组合多个表单项。当设置成单选时数据格式为对象，当设置成多选时数据格式为数组，数组成员是对象（flat 模式可以直接是某个表单单项的数值）。
+用于将多个表单项组合到一起，实现深层结构的数据编辑。
+
+比如想提交 `user.name` 这样的数据结构，有两种方法：一种是将表单项的 name 设置为`user.name`，另一种就是使用 combo。
 
 ## 基本使用
 
@@ -17,23 +19,24 @@ order: 12
 ```schema:height="300" scope="body"
 {
   "type": "form",
+  "debug": true,
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
   "controls": [
     {
       "type": "combo",
-      "name": "combo",
-      "label": "Combo",
+      "name": "user",
+      "label": "用户",
       "controls": [
         {
           "name": "text",
-          "label": "文本",
+          "label": "名字",
           "type": "text"
         },
         {
-          "name": "select",
-          "label": "选项",
+          "name": "gender",
+          "label": "性别",
           "type": "select",
-          "options": ["a", "b", "c"]
+          "options": ["男", "女"]
         }
       ]
     }
@@ -97,13 +100,16 @@ order: 12
 
 ## 多选模式
 
-默认，combo 为单选模式，可以配置`"multiple": true`实现多选模式
+默认，combo 为单选模式，可以配置`"multiple": true`实现多选模式。
+
+这时提交的将会是对象数组。
 
 ```schema:height="400" scope="body"
 {
   "type": "form",
   "mode": "horizontal",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "debug": true,
   "controls": [
     {
       "type": "combo",

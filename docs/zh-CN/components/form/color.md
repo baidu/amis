@@ -1,15 +1,16 @@
 ---
 title: Color 颜色选择器
-description: 
+description:
 type: 0
 group: null
 menuName: Color
-icon: 
+icon:
 order: 11
 ---
+
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema:height="250" scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -29,6 +30,25 @@ order: 11
 
 你可以配置`presetColors`数组进行自定义。
 
+## rgba
+
+设置格式为 rgba 就能设置颜色 alpha
+
+```schema:height="250" scope="body"
+{
+    "type": "form",
+    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "controls": [
+        {
+            "type": "color",
+            "name": "color",
+            "label": "颜色",
+            "format": "rgba"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -40,8 +60,3 @@ order: 11
 | allowCustomColor | `boolean`       | `true`                                                                                                 | 为`false`时只能选择颜色，使用 `presetColors` 设定颜色选择范围 |
 | clearable        | `boolean`       | `"label"`                                                                                              | 是否显示清除按钮                                              |
 | resetValue       | `string`        | `""`                                                                                                   | 清除后，表单项值调整成该值                                    |
-
-
-
-
-
