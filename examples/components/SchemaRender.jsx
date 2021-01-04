@@ -9,6 +9,7 @@ import {default as DrawerContainer} from '../../src/components/Drawer';
 import {Portal} from 'react-overlays';
 import {withRouter} from 'react-router';
 import copy from 'copy-to-clipboard';
+
 function loadEditor() {
   return new Promise(resolve =>
     require(['../../src/components/Editor'], component =>
@@ -45,7 +46,7 @@ export default function (schema) {
       constructor(props) {
         super(props);
 
-        const {router} = props;
+        const {router, route} = props;
         this.env = {
           updateLocation: (location, replace) => {
             router[replace ? 'replace' : 'push'](normalizeLink(location));
@@ -110,6 +111,11 @@ export default function (schema) {
           copy: content => {
             copy(content);
             toast.success('内容已复制到粘贴板');
+          },
+          blockRouting: fn => {
+            return router.setRouteLeaveHook(route, nextLocation => {
+              return fn(nextLocation);
+            });
           }
         };
 

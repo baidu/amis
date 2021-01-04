@@ -94,6 +94,10 @@ export const FormStore = ServiceStore.named('FormStore')
 
       get isPristine() {
         return isEqual(self.pristine, self.data);
+      },
+
+      get modified() {
+        return !this.isPristine;
       }
     };
   })
