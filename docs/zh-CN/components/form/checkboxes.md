@@ -8,6 +8,8 @@ icon:
 order: 9
 ---
 
+用于实现多选。
+
 ## 基本用法
 
 ```schema:height="400" scope="body"

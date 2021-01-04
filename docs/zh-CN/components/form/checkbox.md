@@ -1,12 +1,15 @@
 ---
 title: Checkbox 勾选框
-description: 
+description:
 type: 0
 group: null
 menuName: Checkbox
-icon: 
+icon:
 order: 8
 ---
+
+用于实现勾选，功能和 [Switch](./switch) 类似，只是展现上不同。
+
 ## 基本用法
 
 ```schema:height="300" scope="body"
@@ -26,6 +29,7 @@ order: 8
 ## 配置真假值
 
 默认情况：
+
 - 勾选框勾选时，表单项值为：true
 - 勾选框取消勾选时，表单项值为：false
 
@@ -67,13 +71,8 @@ order: 8
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名     | 类型     | 默认值    | 说明                                            ## 二级标题 |
-| ---------- | -------- | --------- | ----------------------------------------------------------- |
-| option     | `string` |           | 选项说明                                                    |
-| trueValue  | `any`    | `true`    | 标识真值                                                    |
-| falseValue | `any`    | `"false"` | 标识假值                                                    |
-
-
-
-
-
+| 属性名     | 类型     | 默认值    | 说明 ## 二级标题 |
+| ---------- | -------- | --------- | ---------------- |
+| option     | `string` |           | 选项说明         |
+| trueValue  | `any`    | `true`    | 标识真值         |
+| falseValue | `any`    | `"false"` | 标识假值         |
