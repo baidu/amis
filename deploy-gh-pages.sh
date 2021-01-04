@@ -14,6 +14,9 @@ npm run build-schemas
 
 fis3 release gh-pages -c
 
+# 拷贝一份兼容之前的访问路径
+cp -r gh-pages/zh-CN/docs/* gh-pages/docs/
+
 cp ./schema.json ./gh-pages
 
 # 不走 cdn 了
