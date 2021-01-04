@@ -46,7 +46,7 @@ export function embed(
       const disposition = response.headers['content-disposition'];
       let filename = '';
       if (disposition && disposition.indexOf('attachment') !== -1) {
-        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/i;
         let matches = filenameRegex.exec(disposition);
         if (matches != null && matches[1]) {
           filename = matches[1].replace(/['"]/g, '');
