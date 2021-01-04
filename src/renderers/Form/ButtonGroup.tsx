@@ -42,13 +42,6 @@ export default class ButtonGroupControl extends React.Component<
   @autobind
   handleToggle(option: Option) {
     const {onToggle, multiple, autoFill, onBulkChange} = this.props;
-
-    const sendTo =
-      !multiple &&
-      autoFill &&
-      !isEmpty(autoFill) &&
-      dataMapping(autoFill, option as Option);
-    sendTo && onBulkChange(sendTo);
     onToggle(option);
   }
 

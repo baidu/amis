@@ -184,9 +184,7 @@ export default class NestedSelectControl extends React.Component<
       onChange,
       joinValues,
       extractValue,
-      valueField,
-      autoFill,
-      onBulkChange
+      valueField
     } = this.props;
 
     if (multiple) {
@@ -194,13 +192,6 @@ export default class NestedSelectControl extends React.Component<
     }
 
     e.stopPropagation();
-
-    const sendTo =
-      !multiple &&
-      autoFill &&
-      !isEmpty(autoFill) &&
-      dataMapping(autoFill, option);
-    sendTo && onBulkChange(sendTo);
 
     onChange(
       joinValues

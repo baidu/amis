@@ -600,6 +600,7 @@ export default class ImageControl extends React.Component<
                 env.notify('error', error || __('图片上传失败，请重试'));
               } else {
                 newFile = {
+                  name: file.name,
                   ...obj,
                   preview: file.preview
                 } as FileValue;
@@ -611,11 +612,12 @@ export default class ImageControl extends React.Component<
                   files: (this.files = files)
                 },
                 () => {
+                  // todo 这个逻辑应该移到 onChange 里面去，因为这个时候并不一定修改了表单项的值。
                   const sendTo =
                     !multiple &&
                     autoFill &&
                     !isEmpty(autoFill) &&
-                    dataMapping(autoFill, obj || {});
+                    dataMapping(autoFill, newFile || {});
                   sendTo && onBulkChange(sendTo);
 
                   this.tick();
