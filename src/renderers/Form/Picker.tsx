@@ -249,9 +249,7 @@ export default class PickerControl extends React.PureComponent<
       multiple,
       options,
       setOptions,
-      onChange,
-      autoFill,
-      onBulkChange
+      onChange
     } = this.props;
 
     let value: any = items;
@@ -281,12 +279,6 @@ export default class PickerControl extends React.PureComponent<
     });
 
     additionalOptions.length && setOptions(options.concat(additionalOptions));
-    const sendTo =
-      !multiple &&
-      autoFill &&
-      !isEmpty(autoFill) &&
-      dataMapping(autoFill, value as Option);
-    sendTo && onBulkChange(sendTo);
     onChange(value);
   }
 

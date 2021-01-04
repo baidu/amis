@@ -38,18 +38,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
 
   @autobind
   handleChange(option: Option) {
-    const {
-      joinValues,
-      extractValue,
-      valueField,
-      onChange,
-      autoFill,
-      onBulkChange
-    } = this.props;
-
-    const sendTo =
-      autoFill && !isEmpty(autoFill) && dataMapping(autoFill, option);
-    sendTo && onBulkChange && onBulkChange(sendTo);
+    const {joinValues, extractValue, valueField, onChange} = this.props;
 
     if (option && (joinValues || extractValue)) {
       option = option[valueField || 'value'];

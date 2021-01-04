@@ -21,7 +21,8 @@ import {
   isObjectShallowModified,
   findTree,
   findTreeIndex,
-  spliceTree
+  spliceTree,
+  isEmpty
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
@@ -31,6 +32,7 @@ import {SimpleMap} from '../utils/SimpleMap';
 import memoize from 'lodash/memoize';
 import {TranslateFn} from '../locale';
 import {StoreNode} from './node';
+import {dataMapping} from '../utils/tpl-builtin';
 
 interface IOption {
   value?: string | number | null;
@@ -70,6 +72,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     options: types.optional(types.array(types.frozen()), []),
     expressionsInOptions: false,
     selectFirst: false,
+    autoFill: types.frozen(),
     selectedOptions: types.optional(types.frozen(), []),
     filteredOptions: types.optional(types.frozen(), []),
     dialogSchema: types.frozen(),
@@ -223,7 +226,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       extractValue,
       type,
       id,
-      selectFirst
+      selectFirst,
+      autoFill
     }: {
       required?: any;
       unique?: any;
@@ -239,6 +243,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       type?: string;
       id?: string;
       selectFirst?: boolean;
+      autoFill?: any;
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -251,6 +256,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       typeof unique !== 'undefined' && (self.unique = !!unique);
       typeof multiple !== 'undefined' && (self.multiple = !!multiple);
       typeof selectFirst !== 'undefined' && (self.selectFirst = !!selectFirst);
+      typeof autoFill !== 'undefined' && (self.autoFill = autoFill);
       typeof joinValues !== 'undefined' && (self.joinValues = !!joinValues);
       typeof extractValue !== 'undefined' &&
         (self.extractValue = !!extractValue);
@@ -292,6 +298,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       } else {
         self.form.setValueByName(self.name, value, isPrintine);
       }
+
+      syncAutoFill(value, isPrintine);
     }
 
     const validate: (hook?: any) => Promise<boolean> = flow(function* validate(
@@ -485,24 +493,27 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         onChange && onChange((json.data as any).value, false, true);
       } else if (
         self.selectFirst &&
-        self.options.length &&
-        !self.selectedOptions.length
+        self.filteredOptions.length &&
+        !self.selectedOptions.length &&
+        onChange
       ) {
-        onChange &&
-          onChange(
-            self.options
-              .slice(0, 1)
-              .map(item => {
-                if (self.extractValue || self.joinValues) {
-                  return item.value;
-                }
+        const list = self.filteredOptions.slice(0, 1).map((item: any) => {
+          if (self.extractValue || self.joinValues) {
+            return item.value;
+          }
 
-                return item;
-              })
-              [self.joinValues ? 'join' : 'concat'](),
-            false,
-            true
-          );
+          return item;
+        });
+
+        onChange(
+          self.joinValues
+            ? list.join(self.delimiter)
+            : self.multiple
+            ? list
+            : list[0],
+          false,
+          true
+        );
       } else if (clearValue) {
         self.selectedOptions.some((item: any) => item.__unmatched) &&
           onChange &&
@@ -747,6 +758,34 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
+    function syncAutoFill(
+      value: any = self.value,
+      isPrintine: boolean = false
+    ) {
+      if (
+        !self.multiple &&
+        self.autoFill &&
+        !isEmpty(self.autoFill) &&
+        self.options.length
+      ) {
+        const selectedOptions = self.getSelectedOptions(value);
+        if (selectedOptions.length !== 1) {
+          return;
+        }
+
+        const toSync = dataMapping(self.autoFill, selectedOptions[0]);
+        Object.keys(toSync).forEach(key => {
+          const value = toSync[key];
+
+          if (typeof value === 'undefined' || value === '__undefined') {
+            self.form.deleteValueByName(key);
+          } else {
+            self.form.setValueByName(key, value, isPrintine);
+          }
+        });
+      }
+    }
+
     return {
       focus,
       blur,
@@ -764,7 +803,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       setSubStore,
       reset,
       openDialog,
-      closeDialog
+      closeDialog,
+      syncAutoFill
     };
   });
 

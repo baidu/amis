@@ -57,14 +57,7 @@ export default class ListControl extends React.Component<ListProps, any> {
       return;
     }
 
-    const {onToggle, multiple, autoFill, onBulkChange} = this.props;
-
-    const sendTo =
-      !multiple &&
-      autoFill &&
-      !isEmpty(autoFill) &&
-      dataMapping(autoFill, option as Option);
-    sendTo && onBulkChange(sendTo);
+    const {onToggle} = this.props;
 
     onToggle(option);
   }
