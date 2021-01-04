@@ -595,6 +595,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   files: files
                 },
                 () => {
+                  // todo 这个逻辑应该移到 onChange 里面去，因为这个时候并不一定修改了表单项的值。
                   const sendTo =
                     !multiple &&
                     autoFill &&

@@ -97,7 +97,8 @@ export default class FormControl extends React.PureComponent<
         labelField,
         joinValues,
         extractValue,
-        selectFirst
+        selectFirst,
+        autoFill
       }
     } = this.props;
 
@@ -136,7 +137,8 @@ export default class FormControl extends React.PureComponent<
       labelField,
       joinValues,
       extractValue,
-      selectFirst
+      selectFirst,
+      autoFill
     });
 
     if (this.model.unique && form.parentStore?.storeType === ComboStore.name) {
@@ -243,7 +245,9 @@ export default class FormControl extends React.PureComponent<
           'valueField',
           'labelField',
           'joinValues',
-          'extractValue'
+          'extractValue',
+          'selectFirst',
+          'autoFill'
         ],
         props.control,
         nextProps.control
@@ -261,7 +265,9 @@ export default class FormControl extends React.PureComponent<
         labelField: nextProps.control.labelField,
         joinValues: nextProps.control.joinValues,
         extractValue: nextProps.control.extractValue,
-        messages: nextProps.control.validationErrors
+        messages: nextProps.control.validationErrors,
+        selectFirst: nextProps.control.selectFirst,
+        autoFill: nextProps.control.autoFill
       });
     }
   }
