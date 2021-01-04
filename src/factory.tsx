@@ -100,6 +100,14 @@ export interface RendererEnv {
   alert: (msg: string) => void;
   confirm: (msg: string, title?: string) => Promise<boolean>;
   updateLocation: (location: any, replace?: boolean) => void;
+
+  /**
+   * 阻止路由跳转，有时候 form 没有保存，但是路由跳转了，导致页面没有更新，
+   * 所以先让用户确认一下。
+   *
+   * 单页模式需要这个，如果非单页模式，不需要处理这个。
+   */
+  blockRouting?: (fn: (targetLocation: any) => void | string) => () => void;
   isCurrentUrl: (link: string) => boolean;
   rendererResolver?: (
     path: string,
