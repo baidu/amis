@@ -33,6 +33,7 @@ export const FormStore = ServiceStore.named('FormStore')
     submited: false,
     submiting: false,
     validating: false,
+    savedData: types.frozen(),
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
     itemsRef: types.optional(types.array(types.string), []),
     canAccessSuperData: true,
@@ -97,6 +98,10 @@ export const FormStore = ServiceStore.named('FormStore')
       },
 
       get modified() {
+        if (self.savedData) {
+          return self.savedData !== self.data;
+        }
+
         return !this.isPristine;
       }
     };
@@ -253,9 +258,11 @@ export const FormStore = ServiceStore.named('FormStore')
 
           setValues(
             json.data,
-            {
-              __saved: Date.now()
-            },
+            json.ok
+              ? {
+                  __saved: Date.now()
+                }
+              : undefined,
             !!(api as ApiObject).replaceData
           );
         }
@@ -291,6 +298,7 @@ export const FormStore = ServiceStore.named('FormStore')
 
           throw new ServerError(self.msg, json);
         } else {
+          updateSavedData();
           if (options && options.onSuccess) {
             const ret = options.onSuccess(json);
 
@@ -487,6 +495,10 @@ export const FormStore = ServiceStore.named('FormStore')
       self.removeChildId(child.id);
     }
 
+    function updateSavedData() {
+      self.savedData = self.data;
+    }
+
     return {
       setInited,
       setValues,
@@ -507,6 +519,7 @@ export const FormStore = ServiceStore.named('FormStore')
       setPersistData,
       clearPersistData,
       onChildStoreDispose,
+      updateSavedData,
       beforeDestroy() {
         syncOptions.cancel();
         setPersistData.cancel();
