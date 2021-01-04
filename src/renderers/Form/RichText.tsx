@@ -167,7 +167,7 @@ export default class RichTextControl extends React.Component<
           'froalaEditor.blur': this.handleBlur
         },
         language:
-          !this.props.locale || this.props.locale === 'zh-cn' ? 'zh_cn' : ''
+          !this.props.locale || this.props.locale === 'zh-CN' ? 'zh_cn' : ''
       };
 
       if (props.buttons) {
