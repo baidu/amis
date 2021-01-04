@@ -531,8 +531,8 @@ export default class Page extends React.Component<PageProps> {
           const value = cssVars[key];
           // 这是为了防止 xss，可能还有别的
           if (
-            value.indexOf('expression(') !== -1 ||
-            value.indexOf(';') !== -1
+            typeof value === 'string' &&
+            (value.indexOf('expression(') !== -1 || value.indexOf(';') !== -1)
           ) {
             continue;
           }
