@@ -30,7 +30,7 @@
   right: 0;
   bottom: 0;
   background: var(--Spinner-overlay-bg);
-  transition: ease-out opacity 0.3s;
+  transition: ease-out opacity var(--animation-duration);
 
   opacity: 0;
 
@@ -57,7 +57,7 @@
     height: var(--Spinner--sm-height);
   }
 
-  transition: ease-out all 0.3s;
+  transition: ease-out all var(--animation-duration);
 
   &--icon {
     background: transparent;

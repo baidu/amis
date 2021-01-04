@@ -130,7 +130,7 @@
     line-height: 1;
 
     > svg {
-      transition: transform 0.3s;
+      transition: transform var(--animation-duration);
       display: inline-block;
       color: var(--Form-select-caret-iconColor);
       width: 10px;

@@ -64,7 +64,7 @@
   }
 
   &-content {
-    transition: height 0.35s ease;
+    transition: height var(--animation-duration) ease;
 
     &.in,
     &.out {
