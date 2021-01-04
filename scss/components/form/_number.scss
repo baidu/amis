@@ -69,7 +69,7 @@
     -moz-appearance: textfield;
     line-height: calc(var(--Form-input-height) - var(--Number-borderWidth) * 2);
     height: 100%;
-    transition: all 0.3s ease;
+    transition: all var(--animation-duration) ease;
     border: 0;
     border-radius: var(--Form-input-borderRadius);
     padding: 0 var(--Form-input-paddingX);

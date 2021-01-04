@@ -86,7 +86,7 @@
   &.in,
   &.out {
     animation-fill-mode: both;
-    animation-duration: 0.75s;
+    animation-duration: var(--animation-duration);
     opacity: 1;
   }
 

@@ -214,7 +214,7 @@
     color: var(--Tooltip--attr-color);
     padding: var(--Tooltip--attr-paddingY) var(--Tooltip--attr-paddingX);
     display: none;
-    animation-duration: 0.2s;
+    animation-duration: var(--animation-duration);
     animation-fill-mode: both;
 
     @media screen and (min-width: 0\0) {

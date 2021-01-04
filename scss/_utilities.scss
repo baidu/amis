@@ -1391,7 +1391,8 @@
 }
 
 .hover-rotate {
-  transition: all 0.2s ease-in-out 0.1s;
+  transition: all var(--animation-duration) ease-in-out
+    var(--animation-duration);
 }
 
 .hover-anchor:hover,
