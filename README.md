@@ -7,7 +7,10 @@
   [文档（国外）](https://baidu.github.io/amis/) |
   [可视化编辑器](https://github.com/fex-team/amis-editor-demo) |
   [amis-admin](https://github.com/fex-team/amis-admin) |
-  [爱速搭](https://suda.baidu.com/) |
+  [爱速搭](https://suda.baidu.com/)
+</div>
+
+<div align="center">
   QQ 群: 1147750223（已满） | 
   QQ 群2: 651547026 |
   [如流](https://infoflow.baidu.com/)群：3395342
