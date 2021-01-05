@@ -147,7 +147,7 @@ function recoverFunctionType(config: object) {
     const objects = findObjectsWithKey(config, key);
     for (const object of objects) {
       const code = object[key];
-      if (typeof code === 'string' && code.trim().startsWith('function ')) {
+      if (typeof code === 'string' && code.trim().startsWith('function')) {
         try {
           if (!(code in EVAL_CACHE)) {
             EVAL_CACHE[code] = eval('(' + code + ')');
@@ -404,7 +404,13 @@ export class Chart extends React.Component<ChartProps> {
     if (config) {
       try {
         if (!this.props.disableDataMapping) {
-          config = dataMapping(config, data, true);
+          config = dataMapping(
+            config,
+            data,
+            (key: string, value: any) =>
+              typeof value === 'function' ||
+              (typeof value === 'string' && value.startsWith('function'))
+          );
         }
 
         recoverFunctionType(config!);
