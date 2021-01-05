@@ -1,4 +1,5 @@
 import React from 'react';
+import Layout from '../components/Layout';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 import {SchemaNode} from '../types';
@@ -108,7 +109,7 @@ export interface AppSchema extends BaseSchema {
   className?: SchemaClassName;
 }
 
-export interface AppProps extends RendererProps, AppSchema {
+export interface AppProps extends RendererProps, Omit<AppSchema, 'type'> {
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
@@ -127,11 +128,7 @@ export default class App extends React.Component<AppProps, object> {
   render() {
     const {className, size, classnames: cx} = this.props;
 
-    return (
-      <div
-        className={cx('Wrapper', size ? `Wrapper--${size}` : '', className)}
-      ></div>
-    );
+    return <Layout>233</Layout>;
   }
 }
 

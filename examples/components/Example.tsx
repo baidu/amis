@@ -78,6 +78,7 @@ import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
+import JSSDK from './JSSDK/index';
 
 export const examples = [
   {
@@ -537,6 +538,13 @@ export const examples = [
         icon: 'fa fa-rocket',
         path: '/examples/sdk',
         component: SdkTest
+      },
+
+      {
+        label: 'JSSDK',
+        icon: 'fa fa-cubes',
+        path: '/examples/jssdk',
+        component: makeSchemaRenderer(JSSDK, false)
       }
 
       // {

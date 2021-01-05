@@ -19,7 +19,7 @@ function loadEditor() {
 
 const viewMode = localStorage.getItem('viewMode') || 'pc';
 
-export default function (schema) {
+export default function (schema, showCode) {
   if (!schema['$schema']) {
     schema = {
       ...schema
@@ -220,11 +220,11 @@ export default function (schema) {
 
       render() {
         const ns = this.props.classPrefix;
-        const showCode = this.props.showCode;
+        const finalShowCode = this.props.showCode ?? showCode;
         return (
           <>
             <div className="schema-wrapper">
-              {showCode !== false ? (
+              {finalShowCode !== false ? (
                 <DrawerContainer
                   classPrefix={ns}
                   size="lg"
@@ -239,7 +239,7 @@ export default function (schema) {
               ) : null}
               {this.renderSchema()}
             </div>
-            {showCode !== false ? (
+            {finalShowCode !== false ? (
               // <div className="schema-toolbar-wrapper">
               //   <div onClick={this.toggleCode}>
               //     查看页面配置 <i className="fa fa-code p-l-xs"></i>
