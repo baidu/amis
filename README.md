@@ -13,7 +13,7 @@
 <div align="center">
   QQ 群: 1147750223（已满） | 
   QQ 群2: 651547026 |
-  [如流](https://infoflow.baidu.com/)群：3395342
+  如流群：3395342
 </div>
 
 <div align="center">
