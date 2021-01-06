@@ -310,17 +310,6 @@ export const FormStore = ServiceStore.named('FormStore')
                   [self]
                 );
 
-                console.log('result', result);
-
-                // const result = paths.reduce((store, path, idx) => {
-                //   if (store && store.getItemByName) {
-                //     const item = store.getItemByName(path);
-                //     const subStore = item?.getSubStore?.();
-                //     return item && idx < len - 1 && subStore ? subStore : item;
-                //   }
-                //   return null;
-                // }, self);
-
                 if (result && result.length) {
                   result.map(item => item.setError(errors[key]));
                   delete errors[key];
