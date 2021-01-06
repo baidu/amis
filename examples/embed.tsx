@@ -20,7 +20,7 @@ import '../src/locale/en';
 export function embed(
   container: string | HTMLElement,
   schema: any,
-  data: any,
+  props: any,
   env: any
 ) {
   if (typeof container === 'string') {
@@ -166,7 +166,7 @@ export function embed(
       {renderAmis(
         schema,
         {
-          ...data,
+          ...props,
           scopeRef: (ref: any) => (scoped = ref)
         },
         {
