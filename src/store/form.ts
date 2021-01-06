@@ -21,9 +21,11 @@ import {
   difference,
   guid,
   isEmpty,
-  mapObject
+  mapObject,
+  keyToPath
 } from '../utils/helper';
 import isEqual from 'lodash/isEqual';
+import flatten from 'lodash/flatten';
 import {getStoreById, removeStore} from './manager';
 
 export const FormStore = ServiceStore.named('FormStore')
@@ -273,19 +275,67 @@ export const FormStore = ServiceStore.named('FormStore')
             const errors = json.errors;
             Object.keys(errors).forEach((key: string) => {
               const item = self.getItemById(key);
+              const items = self.getItemsByName(key);
 
               if (item) {
                 item.setError(errors[key]);
+                delete errors[key];
+              } else if (items.length) {
+                // 通过 name 直接找到的
+                items.forEach(item => item.setError(errors[key]));
+                delete errors[key];
               } else {
-                self
-                  .getItemsByName(key)
-                  .forEach(item => item.setError(errors[key]));
+                // 尝试通过path寻找
+                const paths = keyToPath(key);
+                const len = paths.length;
+
+                const result = paths.reduce(
+                  (stores: any[], path, idx) => {
+                    if (
+                      Array.isArray(stores) &&
+                      stores.every(s => s.getItemsByName)
+                    ) {
+                      const items = flatten(
+                        stores.map(s => s.getItemsByName(path))
+                      );
+                      const subStores = items
+                        .map(item => item?.getSubStore?.())
+                        .filter(i => i);
+                      return subStores.length && idx < len - 1
+                        ? subStores
+                        : items;
+                    }
+                    return null;
+                  },
+                  [self]
+                );
+
+                console.log('result', result);
+
+                // const result = paths.reduce((store, path, idx) => {
+                //   if (store && store.getItemByName) {
+                //     const item = store.getItemByName(path);
+                //     const subStore = item?.getSubStore?.();
+                //     return item && idx < len - 1 && subStore ? subStore : item;
+                //   }
+                //   return null;
+                // }, self);
+
+                if (result && result.length) {
+                  result.map(item => item.setError(errors[key]));
+                  delete errors[key];
+                }
               }
             });
 
+            // 没有映射上的error信息加在msg后显示出来
+            const msg = Object.keys(errors)
+              .map(key => errors[key])
+              .join('\n');
+
             self.updateMessage(
               json.msg ||
-                (options && options.errorMessage) ||
+                `${options && options.errorMessage}${msg && `\n${msg}`}` ||
                 self.__('验证错误'),
               true
             );
@@ -313,7 +363,6 @@ export const FormStore = ServiceStore.named('FormStore')
         }
       } catch (e) {
         self.markSaving(false);
-        // console.error(e.stack);`
 
         if (!isAlive(self) || self.disposed) {
           return;

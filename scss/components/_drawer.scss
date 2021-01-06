@@ -112,6 +112,7 @@
 
     .#{$ns}Drawer-error {
       color: var(--danger);
+      white-space: pre-wrap;
     }
   }
 

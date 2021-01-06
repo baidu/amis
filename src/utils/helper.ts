@@ -159,17 +159,15 @@ export function getVariable(
     return data[key];
   }
 
-  return key
-    .split('.')
-    .reduce(
-      (obj, key) =>
-        obj &&
-        typeof obj === 'object' &&
-        (canAccessSuper ? key in obj : obj.hasOwnProperty(key))
-          ? obj[key]
-          : undefined,
-      data
-    );
+  return keyToPath(key).reduce(
+    (obj, key) =>
+      obj &&
+      typeof obj === 'object' &&
+      (canAccessSuper ? key in obj : obj.hasOwnProperty(key))
+        ? obj[key]
+        : undefined,
+    data
+  );
 }
 
 export function setVariable(
@@ -184,7 +182,7 @@ export function setVariable(
     return;
   }
 
-  const parts = key.split('.');
+  const parts = keyToPath(key);
   const last = parts.pop() as string;
 
   while (parts.length) {
@@ -218,7 +216,7 @@ export function deleteVariable(data: {[propName: string]: any}, key: string) {
     return;
   }
 
-  const parts = key.split('.');
+  const parts = keyToPath(key);
   const last = parts.pop() as string;
 
   while (parts.length) {
@@ -243,7 +241,7 @@ export function hasOwnProperty(
   data: {[propName: string]: any},
   key: string
 ): boolean {
-  const parts = key.split('.');
+  const parts = keyToPath(key);
 
   while (parts.length) {
     let key = parts.shift() as string;
@@ -1312,3 +1310,35 @@ export function loadScript(src: string) {
 }
 
 export class SkipOperation extends Error {}
+
+/**
+ * 将例如像 a.b.c 或 a[1].b 的字符串转换为路径数组
+ *
+ * @param string 要转换的字符串
+ */
+export const keyToPath = (string: string) => {
+  const result = [];
+
+  if (string.charCodeAt(0) === '.'.charCodeAt(0)) {
+    result.push('');
+  }
+
+  string.replace(
+    new RegExp(
+      '[^.[\\]]+|\\[(?:([^"\'][^[]*)|(["\'])((?:(?!\\2)[^\\\\]|\\\\.)*?)\\2)\\]|(?=(?:\\.|\\[\\])(?:\\.|\\[\\]|$))',
+      'g'
+    ),
+    (match, expression, quote, subString) => {
+      let key = match;
+      if (quote) {
+        key = subString.replace(/\\(\\)?/g, '$1');
+      } else if (expression) {
+        key = expression.trim();
+      }
+      result.push(key);
+      return '';
+    }
+  );
+
+  return result;
+};

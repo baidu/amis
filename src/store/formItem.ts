@@ -722,6 +722,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     }
 
     let subStore: any;
+    function getSubStore() {
+      return subStore;
+    }
+
     function setSubStore(store: any) {
       subStore = store;
     }
@@ -801,6 +805,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       syncOptions,
       setLoading,
       setSubStore,
+      getSubStore,
       reset,
       openDialog,
       closeDialog,
