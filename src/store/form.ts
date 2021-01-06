@@ -329,14 +329,14 @@ export const FormStore = ServiceStore.named('FormStore')
             });
 
             // 没有映射上的error信息加在msg后显示出来
-            const msg = Object.keys(errors)
-              .map(key => errors[key])
-              .join('\n');
+            const msgs = Object.keys(errors).map(key => errors[key]);
+
+            if (options && options.errorMessage) {
+              msgs.unshift(options.errorMessage);
+            }
 
             self.updateMessage(
-              json.msg ||
-                `${options && options.errorMessage}${msg && `\n${msg}`}` ||
-                self.__('验证错误'),
+              json.msg || `${msgs.join('\n')}` || self.__('验证错误'),
               true
             );
           } else {
