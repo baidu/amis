@@ -632,7 +632,7 @@ function resolveMapping(
 export function dataMapping(
   to: any,
   from: PlainObject,
-  ignoreFunction = false
+  ignoreFunction: boolean | ((key: string, value: any) => boolean) = false
 ): any {
   let ret = {};
 
@@ -646,7 +646,10 @@ export function dataMapping(
     const value = to[key];
     let keys: Array<string>;
 
-    if (key === '&' && value === '$$') {
+    if (typeof ignoreFunction === 'function' && ignoreFunction(key, value)) {
+      // 如果被ignore，不做数据映射处理。
+      (ret as PlainObject)[key] = value;
+    } else if (key === '&' && value === '$$') {
       ret = {
         ...ret,
         ...from
@@ -722,7 +725,7 @@ export function dataMapping(
       );
     } else if (typeof value == 'string' && ~value.indexOf('$')) {
       (ret as PlainObject)[key] = resolveMapping(value, from);
-    } else if (typeof value === 'function' && !ignoreFunction) {
+    } else if (typeof value === 'function' && ignoreFunction !== true) {
       (ret as PlainObject)[key] = value(from);
     } else {
       (ret as PlainObject)[key] = value;
