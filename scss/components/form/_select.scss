@@ -324,8 +324,15 @@
   }
 }
 
-.#{$ns}SelectControl:not(.is-inline) > .#{$ns}Select {
-  display: flex;
+.#{$ns}SelectControl {
+  &:not(.is-inline) > .#{$ns}Select {
+    display: flex;
+  }
+
+  &.is-error > .#{$ns}Select {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
 }
 
 // 需要能撑开

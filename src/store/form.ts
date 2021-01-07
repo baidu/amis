@@ -286,32 +286,10 @@ export const FormStore = ServiceStore.named('FormStore')
                 delete errors[key];
               } else {
                 // 尝试通过path寻找
-                const paths = keyToPath(key);
-                const len = paths.length;
+                const items = getItemsByPath(key);
 
-                const result = paths.reduce(
-                  (stores: any[], path, idx) => {
-                    if (
-                      Array.isArray(stores) &&
-                      stores.every(s => s.getItemsByName)
-                    ) {
-                      const items = flatten(
-                        stores.map(s => s.getItemsByName(path))
-                      );
-                      const subStores = items
-                        .map(item => item?.getSubStore?.())
-                        .filter(i => i);
-                      return subStores.length && idx < len - 1
-                        ? subStores
-                        : items;
-                    }
-                    return null;
-                  },
-                  [self]
-                );
-
-                if (result && result.length) {
-                  result.map(item => item.setError(errors[key]));
+                if (Array.isArray(items) && items.length) {
+                  items.forEach(item => item.setError(errors[key]));
                   delete errors[key];
                 }
               }
@@ -376,6 +354,25 @@ export const FormStore = ServiceStore.named('FormStore')
         throw e;
       }
     });
+
+    const getItemsByPath = (key: string) => {
+      const paths = keyToPath(key);
+      const len = paths.length;
+
+      return paths.reduce(
+        (stores: any[], path, idx) => {
+          if (Array.isArray(stores) && stores.every(s => s.getItemsByName)) {
+            const items = flatten(stores.map(s => s.getItemsByName(path)));
+            const subStores = items
+              .map(item => item?.getSubStore?.())
+              .filter(i => i);
+            return subStores.length && idx < len - 1 ? subStores : items;
+          }
+          return null;
+        },
+        [self]
+      );
+    };
 
     const submit: (
       fn?: (values: object) => Promise<any>,
@@ -558,6 +555,7 @@ export const FormStore = ServiceStore.named('FormStore')
       clearPersistData,
       onChildStoreDispose,
       updateSavedData,
+      getItemsByPath,
       beforeDestroy() {
         syncOptions.cancel();
         setPersistData.cancel();
