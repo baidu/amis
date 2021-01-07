@@ -12,7 +12,7 @@ order: 58
 
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "nav",
     "stacked": true,
@@ -38,7 +38,7 @@ order: 58
 
 ## 配置多层级
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "nav",
     "stacked": true,
@@ -79,7 +79,7 @@ order: 58
 
 ## 横向摆放
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "nav",
     "stacked": false,

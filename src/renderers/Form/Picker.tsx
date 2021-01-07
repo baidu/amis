@@ -99,7 +99,7 @@ export default class PickerControl extends React.PureComponent<
   static defaultProps: Partial<PickerProps> = {
     modalMode: 'dialog',
     multiple: false,
-    placeholder: '请点击按钮选择',
+    placeholder: '请点击右侧的图标',
     labelField: 'label',
     valueField: 'value',
     pickerSchema: {

@@ -12,7 +12,7 @@ order: 47
 
 ## 基本用法
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -32,7 +32,7 @@ order: 47
 
 注意在下面的编辑器里修改 JSON 配置后不会实时生效。
 
-```schema:height="320" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -59,7 +59,7 @@ order: 47
 
 只需要加一行 `"vendor": "froala"` 配置就行，froala 是付费产品，需要设置 [richTextToken](../../start/getting-started#richtexttoken-string) 才能去掉水印。
 
-```schema:height="430" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

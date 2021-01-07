@@ -1,15 +1,16 @@
 ---
 title: Image 图片
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Image 图片
-icon: 
+icon:
 order: 52
 ---
+
 ## 基本使用
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -21,7 +22,7 @@ order: 52
 
 也可以配置`value`属性
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -33,7 +34,7 @@ order: 52
 
 ## 配置标题和说明
 
-```schema:height="220"
+```schema
 {
     "type": "page",
     "body": {
@@ -49,7 +50,7 @@ order: 52
 
 ### 显示模式
 
-```schema:height="800" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "mode": "horizontal",
@@ -88,7 +89,7 @@ order: 52
 
 ### 显示比例
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "mode": "horizontal",
@@ -123,7 +124,7 @@ order: 52
 
 配置`"enlargeAble": true`，鼠标移动到图片上会显示可点击图标，点击可放大展示
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -136,7 +137,7 @@ order: 52
 
 可以配置`originalSrc`，来指定原图资源地址，作为放大预览的图片地址
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -150,7 +151,7 @@ order: 52
 
 `enlargeTitle`和`enlargeCaption`可以配置放大预览中的标题和描述
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -166,11 +167,11 @@ order: 52
 
 ## 用作 Field 时
 
-当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的Static-XXX 中时，可以设置`name`属性，映射同名变量
+当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量
 
 ### Table 中的列类型
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "table",
     "data": {
@@ -208,7 +209,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ### Form 中静态展示
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -240,9 +241,3 @@ List 的内容、Card 卡片的内容配置同上
 | enlargeCaption | `string`  |           | 放大预览的描述                                                                         |
 | thumbMode      | `string`  | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                       |
 | thumbRatio     | `string`  | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                           |
-
-
-
-
-
-

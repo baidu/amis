@@ -12,7 +12,7 @@ order: 9
 
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -48,7 +48,7 @@ order: 9
 
 可以配置`columnsCount`属性调整展示列的个数
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

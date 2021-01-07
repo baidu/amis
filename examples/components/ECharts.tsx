@@ -86,7 +86,7 @@ export default {
     '--Form-input-paddingY': '0.25rem'
   },
   title:
-    'ECharts 图表可视化编辑，用于演示如何基于 amis 将任意 json 配置改造成可视化编辑',
+    'ECharts 图表可视化编辑，用于演示如何基于 amis 将任意 json 配置改造成可视化编辑，这个例子无法复制配置，实现方式请在源码中寻找',
   data: {
     config: example
   },

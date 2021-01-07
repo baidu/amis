@@ -16,7 +16,7 @@ order: 63
 
 当前例子为静态值，通常你会需要配置成 `name` 与当前环境数据关联。
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -31,7 +31,7 @@ order: 63
 
 可以通过配置`"clickAction": {}`，来指定图表节点的点击行为，支持 amis 的 [行为](./action)。
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {

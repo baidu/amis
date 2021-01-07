@@ -10,7 +10,7 @@ order: 11
 
 ## 基本用法
 
-```schema:height="250" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -32,9 +32,9 @@ order: 11
 
 ## rgba
 
-设置格式为 rgba 就能设置颜色 alpha
+将 `format` 设置为 rgba 就能改变颜色透明度。
 
-```schema:height="250" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

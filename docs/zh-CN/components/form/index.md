@@ -16,7 +16,7 @@ order: 24
 
 如下我们配置姓名和邮箱表单项，并可以填写数据并提交给接口`/api/mock2/form/saveForm`。
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -41,7 +41,7 @@ order: 24
 
 默认展示模式为文字表单项分行显示
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -64,7 +64,7 @@ order: 24
 
 水平模式，左右摆放，左右比率分配。
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "title": "水平模式",
@@ -100,7 +100,7 @@ order: 24
 }
 ```
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "title": "水平模式",
@@ -135,7 +135,7 @@ order: 24
 
 使用内联模式展现表单项
 
-```schema:height="200" scope="body"
+```schema: scope="body"
  {
     "type": "form",
     "title": "内联模式",
@@ -167,7 +167,7 @@ order: 24
 
 使用 group 实现一行显示多个表单项
 
-```schema:height="650" scope="body"
+```schema: scope="body"
  [
     {
       "type": "form",
@@ -246,7 +246,7 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 1. 配置：`"submitText": ""`
 2. 配置：`"actions": []`
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 [
     {
       "type": "form",
@@ -279,7 +279,7 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 
 同样，你可以通过 actions 属性，配置任意你想要的行为按钮。
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "title": "表单",
@@ -324,7 +324,7 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 
 通过配置`"wrapWithPanel": false`，可以去掉默认表单边框（包括标题，按钮栏以及边距样式等）。
 
-```schema:height="250" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "wrapWithPanel": false,
@@ -353,7 +353,7 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 
 表单可以通过配置`initApi`，实现表单初始化时请求接口，用于展示数据或初始化表单项。
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "initApi": "https://houtai.baidu.com/api/mock2/form/initData",
@@ -380,7 +380,7 @@ Form 支持轮询初始化接口，步骤如下：
 1. 配置`initApi`
 2. 配置 `interval`：单位为`ms`，最低值`3000`，低于该值按`3000`处理
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "initApi": "https://houtai.baidu.com/api/mock2/page/initData",
@@ -398,7 +398,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 如果希望在满足某个条件的情况下停止轮询，配置`stopAutoRefreshWhen`表达式。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "initApi": "https://houtai.baidu.com/api/mock2/page/initData",
@@ -419,7 +419,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 我们也可以手动设置 form 的数据域来初始化多个表单项值
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -448,7 +448,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 如果表单初始化的值与表单项配置的数据格式不符合，而且用户没有再次操作该表单项，而直接提交表单，那么会将当前默认值原封不动的提交给后端，也许会导致不一致性的问题，我们看一个例子：
 
-```schema:height="260" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -492,7 +492,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 配置`api`属性，当表单执行提交行为时，会默认将当前表单数据域中的数据使用`post`方式发送给所配置`api`
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "initApi": "https://houtai.baidu.com/api/saveForm",
@@ -547,7 +547,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 下面示例我们更改了请求方法为`PUT`，并在原提交数据的基础上添加一个字段`"_from"`。更多用法查看 [API 文档](../../types/api) 和 [数据映射](../../concepts/data-mapping)文档
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "initApi": {
@@ -584,7 +584,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 通过设置`asyncApi`，当表单提交发送保存接口后，还会继续轮询请求该接口，默认间隔为`3秒`，直到返回 `finished` 属性为 `true` 才 结束。
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "initApi": "https://houtai.baidu.com/api/mock2/page/initData",
@@ -611,7 +611,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 配置`"type": "reset"`或者`"actionType": "reset"`的按钮，可以实现点击重置表单项值。
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -645,7 +645,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 配置`debug:true`可以查看当前表单的数据域数据详情，方便数据映射、表达式等功能调试，如下，你可以修改表单项查看数据域变化
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "title": "用户信息",
@@ -681,7 +681,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 如果想提交表单成功后，重置当前表单至初始状态，可以配置`"resetAfterSubmit": true`。
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -709,7 +709,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 配置`redirect`属性，可以指定表单提交成功后要跳转至的页面
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "initApi": "https://houtai.baidu.com/api/mock2/page/initData",
@@ -734,7 +734,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 配置`reload`属性为其他组件`name`值，可以在表单提交成功之后，刷新指定组件。
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 [
     {
       "type": "form",
@@ -771,7 +771,7 @@ Form 支持轮询初始化接口，步骤如下：
 
 配置`target`属性为目标组件`name`值，可以在触发提交行为后，将当前表单的数据域发送给目标组件。
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 [
     {
       "type": "form",

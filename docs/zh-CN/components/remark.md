@@ -8,11 +8,11 @@ icon:
 order: 62
 ---
 
-用于展示提示文本
+用于展示提示文本，和表单项中的 remark 属性类型。
 
 ## 基本用法
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -24,7 +24,7 @@ order: 62
 
 ## 可配置标题
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -39,7 +39,7 @@ order: 62
 
 ## 弹出位置
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 [
     {
         "type": "remark",

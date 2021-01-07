@@ -9,7 +9,7 @@ icon:
 
 在[穿梭器（Transfer）](./transfer)的基础上扩充了左边的展示形式，支持 Tabs 的形式展示。对应的 options 的顶级数据，顶层 options 的成员支持 selectMode 配置这个 tab 下面的选项怎么展示。title 可以配置 tab 的标题。
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

@@ -1,15 +1,16 @@
 ---
 title: Mapping 映射
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Mapping 映射
-icon: 
+icon:
 order: 57
 ---
+
 ## 基本用法
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -27,7 +28,7 @@ order: 57
 
 ## 渲染 HTML
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -46,11 +47,11 @@ order: 57
 
 ## 用作 Field 时
 
-当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的Static-XXX 中时，可以设置`name`属性，映射同名变量
+当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量
 
 ### Table 中的列类型
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "table",
     "data": {
@@ -95,7 +96,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ### Form 中静态展示
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -126,8 +127,3 @@ List 的内容、Card 卡片的内容配置同上
 | className   | `string` |        | 外层 CSS 类名                                                                          |
 | placeholder | `string` |        | 占位文本                                                                               |
 | map         | `object` |        | 映射配置                                                                               |
-
-
-
-
-

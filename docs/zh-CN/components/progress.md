@@ -1,16 +1,16 @@
 ---
 title: Progress 进度条
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Progress 进度条
-icon: 
+icon:
 order: 60
 ---
 
 ## 基本用法
 
-```schema:height="300"
+```schema
 {
     "type": "page",
     "body": {
@@ -22,11 +22,11 @@ order: 60
 
 ## 颜色映射
 
-可以配置`map`，指定颜色映射，例如，默认的map配置为：`['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success']`
+可以配置`map`，指定颜色映射，例如，默认的 map 配置为：`['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success']`
 
-它意味着将进度条分成了5份，`前20%`将会添加`bg-danger` css 类名到进度条上，`20%~40%`，将会添加`bg-warning`，以此类推，你可以自定义`map`来配置想要的进度效果
+它意味着将进度条分成了 5 份，`前20%`将会添加`bg-danger` css 类名到进度条上，`20%~40%`，将会添加`bg-warning`，以此类推，你可以自定义`map`来配置想要的进度效果
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": [
@@ -49,11 +49,11 @@ order: 60
 
 ## 用作 Field 时
 
-当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的Static-XXX 中时，可以设置`name`属性，映射同名变量
+当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量
 
 ### Table 中的列类型
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "table",
     "data": {
@@ -91,7 +91,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ### Form 中静态展示
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -119,8 +119,3 @@ List 的内容、Card 卡片的内容配置同上
 | placeholder          | `string`        | `-`                                                                  | 占位文本                                                                               |
 | showLabel            | `boolean`       | `true`                                                               | 是否展示进度文本                                                                       |
 | map                  | `Array<string>` | `['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success']` | 进度颜色映射                                                                           |
-
-
-
-
-

@@ -1,15 +1,20 @@
 ---
 title: Range 滑块
-description: 
+description:
 type: 0
 group: null
 menuName: Range 范围
-icon: 
+icon:
 order: 38
 ---
+
+可以用于选择单个数值或数值范围。
+
 ## 基本用法
 
-```schema:height="400" scope="body"
+默认是单个数值，结果是个整数。
+
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -25,7 +30,9 @@ order: 38
 
 ## 选择范围
 
-```schema:height="400" scope="body"
+对于范围的渲染，结果将是个字符串，两个数值通过分隔符来隔开。
+
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -53,13 +60,7 @@ order: 38
 | step       | `number`  |         | 步长                                                                                                                        |
 | multiple   | `boolean` | `false` | 支持选择范围                                                                                                                |
 | joinValuse | `boolean` | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交，开启`multiple`时有效 |
-| delimiter  | `string`  | `,`     | 分隔符                                                                                                                |
+| delimiter  | `string`  | `,`     | 分隔符                                                                                                                      |
 | unit       | `string`  |         | 单位                                                                                                                        |
 | clearable  | `boolean` |         | 是否可清除                                                                                                                  |
 | showInput  | `string`  |         | 是否显示输入框                                                                                                              |
-
-
-
-
-
-

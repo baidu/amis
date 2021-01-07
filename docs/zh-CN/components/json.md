@@ -14,7 +14,7 @@ JSON 展示组件
 
 可以配置 `value` 展示 `json` 格式数据
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -34,7 +34,7 @@ JSON 展示组件
 
 也可以通过配置 `source` 获取数据链中的值
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "data":{
@@ -58,7 +58,7 @@ JSON 展示组件
 
 ### Table 中的列类型
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "table",
     "data": {
@@ -111,7 +111,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ### Form 中静态展示
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -136,7 +136,7 @@ List 的内容、Card 卡片的内容配置同上
 
 可配置`jsonTheme`，指定显示主题，可选`twilight`和`eighties`，默认为`twilight`。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 [
 {
     "type": "json",
@@ -167,7 +167,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 配置默认展开层级
 
-```schema:height="300"
+```schema
 {
     "type": "page",
     "body": {

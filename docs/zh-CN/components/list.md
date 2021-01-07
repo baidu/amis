@@ -12,7 +12,7 @@ order: 56
 
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "service",
   "api": "https://houtai.baidu.com/api/sample?perPage=5",

@@ -10,7 +10,7 @@ order: 81
 
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -30,7 +30,7 @@ order: 81
 
 例如你想显示`01月`这样的格式，查找 moment 文档可知配置格式应为 `MM月`，即：
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -51,7 +51,7 @@ order: 81
 
 选中任意月份，可以看到默认表单项的值格式是像`1582992000`这样的时间戳格式。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -70,7 +70,7 @@ order: 81
 
 例如你调整值为`01`这样的格式，查找 moment 文档可知配置格式应为 `MM`，即：
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -96,7 +96,7 @@ order: 81
 
 配置符合当前 [值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F) 的默认值。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -116,7 +116,7 @@ order: 81
 
 `value` 还支持类似像`"+1hours"`这样的相对值，更加便捷的配置默认值
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,

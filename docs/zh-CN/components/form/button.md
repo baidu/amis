@@ -12,7 +12,7 @@ order: 4
 
 ## 基本用法
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -39,7 +39,7 @@ order: 4
 
 请配置`"actionType": "submit"`或`"type": "submit"`按钮，可以触发表单提交行为，
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -61,7 +61,7 @@ order: 4
 
 请配置`"actionType": "reset"`或`"type": "reset"`按钮，可以触发表单提交行为。
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

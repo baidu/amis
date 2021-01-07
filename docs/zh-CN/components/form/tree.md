@@ -12,7 +12,7 @@ order: 59
 
 配置的`options`中，可以通过`children`字段进行嵌套展示，实现树形选择器
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -54,7 +54,7 @@ order: 59
 
 配置`"type": "tree-select"`可以实现选择器样式
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -96,7 +96,7 @@ order: 59
 
 默认选中父节点会自动选中子节点，可以设置`"cascade": true`，不自动选中子节点
 
-```schema:height="800" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -182,7 +182,7 @@ order: 59
 
 默认选中父节点，是不会带上子节点的值，想要自动带上子节点的值，那么配置`"withChildren": true`
 
-```schema:height="800" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -266,7 +266,7 @@ order: 59
 
 也可以设置`onlyChildren`，实现只包含子节点的值
 
-```schema:height="800" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -352,7 +352,7 @@ order: 59
 
 默认是展开所有子节点的，如果不想默认展开，则配置`"initiallyOpen": false`
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -400,7 +400,7 @@ order: 59
 
 下例中设置`"unfoldedLevel": 1`，默认展开第 1 层
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -463,7 +463,7 @@ order: 59
 
 配置 `creatable`、`removable` 和 `editable` 可以实现树可编辑。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

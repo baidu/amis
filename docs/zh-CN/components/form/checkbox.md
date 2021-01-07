@@ -12,7 +12,7 @@ order: 8
 
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -33,7 +33,7 @@ order: 8
 - 勾选框勾选时，表单项值为：true
 - 勾选框取消勾选时，表单项值为：false
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -49,7 +49,7 @@ order: 8
 
 如果你想调整这个值，可以配置`trueValue`和`falseValue`
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,

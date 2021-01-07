@@ -1,15 +1,16 @@
 ---
 title: Rating 评分
-description: 
+description:
 type: 0
 group: null
 menuName: Rating 评分
-icon: 
+icon:
 order: 37
 ---
+
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -32,9 +33,3 @@ order: 37
 | half     | `boolean` | `false` | 是否使用半星选择   |
 | count    | `number`  | `5`     | 共有多少星可供选择 |
 | readOnly | `boolean` | `false` | 只读               |
-
-
-
-
-
-

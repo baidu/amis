@@ -10,7 +10,7 @@ order: 71
 
 ## 基本用法
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "video",
     "src": "raw:https://amis.bj.bcebos.com/amis/2019-12/1577157317579/trailer_hd.mp4",

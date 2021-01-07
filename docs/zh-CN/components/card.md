@@ -10,7 +10,7 @@ order: 31
 
 ## 基本用法
 
-```schema:height="250" scope="body"
+```schema: scope="body"
 {
     "type": "card",
     "header": {

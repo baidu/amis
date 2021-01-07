@@ -20,7 +20,7 @@ order: 12
 
 ### 通过行为按钮
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "action",
     "label": "发出一个请求",
@@ -37,7 +37,7 @@ order: 12
 
 很简单是吧？我们再来一个例子：
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "action",
     "label": "弹个框",

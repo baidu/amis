@@ -14,7 +14,7 @@ order: 22
 
 ## 基本用法
 
-```schema:height="450" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -47,7 +47,7 @@ order: 22
 
 ## 自动应用
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -82,7 +82,7 @@ order: 22
 
 配置`"autoSet": false`，然后按钮上配置`target`，配置值为`formula`的`id`值，就可以实现手动触发公式应用
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -138,7 +138,7 @@ order: 22
 - 用 tpl 语法，把关联的字段写上如： `${xxx} ${yyy}` 意思是当 xxx 和 yyy 的取值结果变化了就再应用一次公式结果。
 - 自己写判断如: `this.xxx == "a" && this.xxx !== this.__prev.xxx` 当 xxx 变化了，且新的值是字符 "a" 时应用，可以写更加复杂的判断。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [

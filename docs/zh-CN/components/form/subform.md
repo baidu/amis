@@ -10,7 +10,7 @@ order: 50
 
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -45,7 +45,7 @@ order: 50
 
 可以配置`"multiple": true`，实现多选模式
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,

@@ -26,7 +26,7 @@ order: 9
 
 这段配置的效果如下所示：
 
-```schema:height="100"
+```schema
 {
   "type": "page",
   "body": "Hello World!"
@@ -64,7 +64,7 @@ order: 9
 
 该配置渲染页面如下：
 
-```schema:height="100"
+```schema
 {
   "type": "page",
   "body": {
@@ -78,7 +78,7 @@ order: 9
 
 在 `body` 中除了配置对象，还可以是数组，比如下面的例子:
 
-```schema:height="320" scope="body"
+```schema: scope="body"
 [
     {
       "type": "tpl",
@@ -108,7 +108,7 @@ order: 9
 >
 > `Page`是 amis 页面配置中 **必须也是唯一的顶级节点**
 
-### 通过树形来实现复杂页面
+### 通过树形来实现布局
 
 下面这个页面就是通过树形组合出来的，大体结构是这样：
 
@@ -125,7 +125,7 @@ Page
   └── CRUD
 ```
 
-```schema:height="500"
+```schema
 {
   "type": "page",
   "toolbar": [{
@@ -266,3 +266,5 @@ Page
   }]
 }
 ```
+
+> amis 后续将会实现新的布局模式，将更容易实现复杂布局效果

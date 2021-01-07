@@ -10,7 +10,7 @@ order: 48
 
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 [
     {
         "type": "hbox",

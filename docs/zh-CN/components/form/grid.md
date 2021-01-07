@@ -12,7 +12,7 @@ order: 23
 
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

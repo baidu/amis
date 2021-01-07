@@ -8,9 +8,11 @@ icon:
 order: 36
 ---
 
+用于实现单选。
+
 ## 基本用法
 
-```schema:height="260" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [

@@ -1,15 +1,16 @@
 ---
 title: Link 链接
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Link
-icon: 
+icon:
 order: 55
 ---
+
 ## 基本用法
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -22,7 +23,7 @@ order: 55
 
 ## 新标签页打开
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -42,10 +43,4 @@ order: 55
 | body       | `string`  |        | 标签内文本                                                                           |
 | href       | `string`  |        | 链接地址                                                                             |
 | blank      | `boolean` |        | 是否在新标签页打开                                                                   |
-| htmlTarget | `string`  |        | a标签的target                                                                        |
-
-
-
-
-
-
+| htmlTarget | `string`  |        | a 标签的 target                                                                      |

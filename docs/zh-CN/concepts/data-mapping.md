@@ -12,7 +12,7 @@ order: 12
 
 ## 模板字符串
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -27,7 +27,7 @@ order: 12
 
 **tip：** 默认 amis 在解析模板字符串时，遇到`$`字符会尝试去解析该变量并替换改模板变量，如果你想输出纯文本`"${xxx}"`或`"$xxx"`，那么需要在`$`前加转义字符`"\\"`，即`"\\${xxx}"`
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -44,7 +44,7 @@ order: 12
 
 可以使用`.`进行链式取值
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -67,7 +67,7 @@ order: 12
 
 查看下面这种场景：
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -106,7 +106,7 @@ order: 12
 
 这时，除了直接更改你的 姓名表单项 和 邮箱表单项 的`name`属性为相应的字段以外，你可以配置`api`的`data`属性，使用**数据映射**轻松实现**数据格式的自定义：**
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": {
@@ -149,7 +149,7 @@ order: 12
 
 下面例子中，我们想在提交的时候，除了提交 `name` 和 `email` 变量以外，还想添加 `c` 下面的所有变量 `e`,`f`,`g`，但是按照之前所讲的， api 应该这么配置：
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "data": {
@@ -201,7 +201,7 @@ order: 12
 
 但是当变量字段过多的时候，你需要一一映射配置，也许有点麻烦，所以可以使用`"&"`标识符，来展开所配置变量：
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "data": {
@@ -261,7 +261,7 @@ order: 12
 
 ### 数组提取值
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": {
@@ -375,7 +375,7 @@ ${xxx [ |filter1 |filter2...] }
 ${xxx | html}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -400,7 +400,7 @@ ${xxx | html}
 ${xxx | raw}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -429,7 +429,7 @@ ${xxx | raw}
 ${xxx | json[:tabSize]}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -459,7 +459,7 @@ ${xxx|json:4} // 指定缩进为4个空格
 ${xxx | toJson}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -505,7 +505,7 @@ ${xxx | date[:format][:inputFormat]}
 
 具体参数的配置需要参考 [moment](https://momentjs.com/docs/)
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -522,7 +522,7 @@ ${xxx | date[:format][:inputFormat]}
 
 例如你想将某一个时间值，以 `2020-04-14` 这样的格式输出，那么查找 moment 文档可知配置格式应为 `YYYY-MM-DD`，即：
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -539,7 +539,7 @@ ${xxx | date[:format][:inputFormat]}
 
 如果你的数据值默认不是`X`格式（即时间戳格式），那么需要配置`inputformat`参数用于解析当前时间值，例如：
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -600,7 +600,7 @@ ${xxx | dateModify:substract:-7:day}
 ${xxx | number}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -633,7 +633,7 @@ ${xxx | percent[:decimals]}
 
 - **decimals**：指定小数点后`n`位数，默认为`0`
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -648,7 +648,7 @@ ${xxx | percent[:decimals]}
 
 ##### 指定小数点后位数
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -671,7 +671,7 @@ ${xxx | round[:decimals]}
 
 - **decimals**：指定小数点后`n`位小数，默认为`2`
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -687,7 +687,7 @@ ${xxx | round[:decimals]}
 
 ##### 指定小数点后位数
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -713,7 +713,7 @@ ${xxx | truncate[:length][:mask]}
 - **length**：指定多长的字符后省略，默认为`200`
 - **mask**：省略时显示的字符，默认为`"..."`
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -758,7 +758,7 @@ ${xxx | default[:defaultValue]}
 
 - **defaultValue**：显示的默认值
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -783,7 +783,7 @@ ${xxx | split[:delimiter]}
 
 - **delimiter**：分隔值，默认为`,`
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -808,7 +808,7 @@ ${xxx | join[:glue]}
 
 - **glue**：连接符，默认为`空字符`
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -823,7 +823,7 @@ ${xxx | join[:glue]}
 
 ##### 配置连接符
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -846,7 +846,7 @@ ${xxx | join[:glue]}
 ${xxx | first}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -869,7 +869,7 @@ ${xxx | first}
 ${xxx | last}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -894,7 +894,7 @@ ${xxx | nth[:nth]}
 
 - **nth**：指定获取第几个值
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -923,7 +923,7 @@ ${xxx | pick[:path]}
 
 ##### 在对象中获取某个 key 值
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -942,7 +942,7 @@ ${xxx | pick[:path]}
 
 ##### 遍历对象数组获取指定值
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -973,7 +973,7 @@ ${xxx | pick[:path]}
 
 ##### 遍历数组对象，并自定义 key
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1047,7 +1047,7 @@ ${xxx|abs}
 ${xxx | duration}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1088,7 +1088,7 @@ ${xxx | duration}
 ${xxx | bytes}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1129,7 +1129,7 @@ ${xxx | bytes}
 ${xxx | asArray}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1152,7 +1152,7 @@ ${xxx | asArray}
 ${xxx | lowerCase}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1175,7 +1175,7 @@ ${xxx | lowerCase}
 ${xxx | upperCase}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1198,7 +1198,7 @@ base64 加密
 ${xxx | base64Encode}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1221,7 +1221,7 @@ base64 解密
 ${xxx | base64Decode}
 ```
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1251,7 +1251,7 @@ ${xxx | isTrue[:trueValue][:falseValue]
 >
 > 例如 `${xxx|isTrue:'foo':bar}`，当 `xxx` 变量为真，那么会返回 **字符串`'foo'`**，如果不为真，那么返回数据域中 **变量`bar`** 的值。
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1278,7 +1278,7 @@ ${xxx | isTrue[:trueValue][:falseValue]
 
 参数中不添加引号，可以直接返回数据域中变量值
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1331,7 +1331,7 @@ ${xxx | isMatch[:matchParam][:trueValue][:falseValue]
 - **trueValue**: 如果模糊匹配成功，即返回该值；
 - **falseValue**: 如果模糊匹配失败，则返回该值。
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1358,7 +1358,7 @@ ${xxx | isMatch[:matchParam][:trueValue][:falseValue]
 
 参数中不添加引号，可以直接返回数据域中变量值
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1409,7 +1409,7 @@ ${xxx | isEquals[:equalsValue][:trueValue][:falseValue]
 - **trueValue**: 如果模糊匹配成功，即返回该值；
 - **falseValue**: 如果模糊匹配失败，则返回该值。
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1436,7 +1436,7 @@ ${xxx | isEquals[:equalsValue][:trueValue][:falseValue]
 
 参数中不添加引号，可以直接返回数据域中变量值
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -1509,7 +1509,7 @@ ${xxx|filter1|filter2|...}
 
 ##### 先拆分字符串，再获取第 n 个值
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {

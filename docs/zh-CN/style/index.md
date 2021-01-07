@@ -16,7 +16,7 @@ title: 快速开始
 
 在 page 下可以设置 cssVars 属性，通过它来动态修改 amis 内的 css 变量。
 
-```schema:height="300"
+```schema
 {
   "type": "page",
   "cssVars": {
@@ -60,7 +60,7 @@ title: 快速开始
 
 大部分 amis 组件都有 `className` 或者 `xxxClassName` 的配置，比如下面的配置给表单增加了边框、圆角和阴影
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "panelClassName": "border-solid border-2 border-blue-500 rounded-xl shadow-lg",

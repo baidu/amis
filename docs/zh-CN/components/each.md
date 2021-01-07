@@ -10,7 +10,7 @@ order: 45
 
 ## 基本用法
 
-```schema:height="160" scope="page"
+```schema: scope="page"
 {
   "type": "page",
   "data": {
@@ -33,7 +33,7 @@ order: 45
 
 ### Table 中的列类型
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "table",
     "data": {
@@ -75,7 +75,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ### Form 中静态展示
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {

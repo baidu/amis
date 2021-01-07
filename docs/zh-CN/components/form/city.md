@@ -8,11 +8,11 @@ icon:
 order: 10
 ---
 
-城市选择器，可用于让用户输入城市，可以理解为自动配置了国内城市选项的 Select，支持到县级别。
+城市选择器，方便输入城市，可以理解为自动配置了国内城市选项的 Select，支持到县级别。
 
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -34,7 +34,7 @@ order: 10
 
 可以通过设置 `allowDistrict` 和 `allowCity` 设置用户选择级别，例如只选择省份：
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -55,7 +55,7 @@ order: 10
 
 表单项值默认格式是编码（即 `code`），如果你想要详细点的信息，可以把 `extractValue` 设置成 `false`。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,

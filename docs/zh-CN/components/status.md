@@ -1,16 +1,16 @@
 ---
 title: Status 状态
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Status
-icon: 
+icon:
 order: 65
 ---
 
 ## 基本用法
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
     "type": "status",
     "value": 1
@@ -24,8 +24,3 @@ order: 65
 | type        | `string` |        | `"status"` 指定为 Status 渲染器 |
 | className   | `string` |        | 外层 Dom 的类名                 |
 | placeholder | `string` | `-`    | 占位文本                        |
-
-
-
-
-

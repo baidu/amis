@@ -8,9 +8,11 @@ icon:
 order: 29
 ---
 
+List 一般用来实现选择，可以单选也可以多选，和 Radio/Checkboxs 最大的不同是在展现方面支持带图片。
+
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -37,7 +39,7 @@ order: 29
 
 ## 选项带图片
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

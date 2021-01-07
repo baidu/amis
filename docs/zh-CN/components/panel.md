@@ -12,7 +12,7 @@ order: 59
 
 ## 基本用法
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
     "type": "panel",
     "title": "面板标题",
@@ -24,7 +24,7 @@ order: 59
 
 可以通过配置`actions`数组，实现渲染底部按钮栏
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
   "type": "panel",
   "title": "面板标题",
@@ -57,7 +57,7 @@ order: 59
 
 有时 panel 内，内容过多，导致底部操作按钮不是很方便，可以配置`"affixFooter": true`，将底部部分贴在浏览器底部展示。
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
   "type": "panel",
   "title": "面板标题",
