@@ -753,6 +753,10 @@ export class DrawerRenderer extends Drawer {
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
       action.target && scoped.reload(action.target, data);
+      if (action.close) {
+        this.handleSelfClose();
+        this.closeTarget(action.close);
+      }
     } else if (this.tryChildrenToHandle(action, data)) {
       // do nothing
     } else if (action.actionType === 'ajax') {

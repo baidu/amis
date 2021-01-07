@@ -122,6 +122,7 @@
   &-body {
     display: var(--Toast-title-display);
     vertical-align: middle;
+    white-space: pre-wrap;
   }
 
   &-icon {

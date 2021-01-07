@@ -213,6 +213,7 @@
 
 .#{$ns}Dialog-error {
   color: var(--danger);
+  white-space: pre-wrap;
 }
 
 .#{$ns}Modal--full {
