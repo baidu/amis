@@ -133,7 +133,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   'prevquarter': {
-    label: '上个季节',
+    label: '上个季度',
     startDate: (now: moment.Moment) => {
       return now.startOf('quarter').add(-1, 'quarter');
     },
