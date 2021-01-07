@@ -67,7 +67,7 @@ const themes = [
 const locales = [
   {
     label: '中文',
-    value: 'zh-cn'
+    value: 'zh-CN'
   },
 
   {
