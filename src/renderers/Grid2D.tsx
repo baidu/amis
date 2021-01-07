@@ -144,7 +144,7 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
   }
 
   render() {
-    const {grids, cols, gap, width, rowHeight} = this.props;
+    const {grids, cols, gap, gapRow, width, rowHeight} = this.props;
 
     const templateColumns = new Array(cols);
     templateColumns.fill('1fr');
@@ -153,7 +153,7 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
 
     // 计算最大有多少行
     grids.forEach((grid, index) => {
-      let row = grid.y + (grid.h === 'auto' ? 0 : grid.h);
+      let row = grid.y + (grid.h === 'auto' ? 0 : grid.h) - 1;
       if (row > maxRow) {
         maxRow = row;
       }
@@ -165,16 +165,17 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
     // 自适应高宽的情况
     grids.forEach((grid, index) => {
       if (grid.h === 'auto') {
-        templateColumns[grid.y] = 'auto';
+        templateColumns[grid.y - 1] = 'auto';
       }
       if (grid.w === 'auto') {
-        templateColumns[grid.x] = 'auto';
+        templateColumns[grid.x - 1] = 'auto';
       }
     });
 
     const style = {
       display: 'grid',
-      gap,
+      columnGap: gap,
+      rowGap: typeof gapRow === 'undefined' ? gap : gapRow,
       width,
       gridTemplateColumns: templateColumns.join(' '),
       gridTemplateRows: templateRows.join(' ')

@@ -15,14 +15,140 @@ order: 47
   "type": "grid-2d",
   "grids": [
     {
-      "x": 2,
-      "y": 2,
+      "x": 1,
+      "y": 1,
       "h": 1,
       "w": 6,
-      "className": "bg-yellow-300",
+      "className": "bg-green-300",
       "type": "tpl",
       "tpl": "grid 1"
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "h": 1,
+      "w": 6,
+      "className": "bg-blue-300",
+      "type": "tpl",
+      "tpl": "grid 2"
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "h": 2,
+      "w": 4,
+      "className": "bg-red-300",
+      "type": "tpl",
+      "tpl": "grid 3"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "h": 1,
+      "w": 8,
+      "className": "bg-purple-300",
+      "type": "tpl",
+      "tpl": "grid 4"
     }
   ]
 }
 ```
+
+## grid 布局设置
+
+grids 中可以是任意组件，这里为了简化使用 tpl 组件，通过 x/y/h/w 这四个属性来控制格子的位置和大小。
+
+首先看下图示例：
+
+![grid](../../../examples/static/grid-2d.png)
+
+默认水平方向会平分为 12 份。
+
+## 设置每行高度 rowHeight
+
+## 高宽自适应
+
+## gap / rowGap
+
+通过 grip 上的 gap 属性来控制间距，默认包含水平和垂直间距
+
+```schema: scoped="body"
+{
+  "type": "grid-2d",
+  "gap": 10,
+  "gapRow": 5,
+  "grids": [
+    {
+      "x": 1,
+      "y": 1,
+      "h": 1,
+      "w": 6,
+      "className": "bg-green-300",
+      "type": "tpl",
+      "tpl": "grid 1"
+    },
+    {
+      "x": 7,
+      "y": 1,
+      "h": 1,
+      "w": 6,
+      "className": "bg-blue-300",
+      "type": "tpl",
+      "tpl": "grid 2"
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "h": 2,
+      "w": 4,
+      "className": "bg-red-300",
+      "type": "tpl",
+      "tpl": "grid 3"
+    },
+    {
+      "x": 5,
+      "y": 2,
+      "h": 1,
+      "w": 8,
+      "className": "bg-purple-300",
+      "type": "tpl",
+      "tpl": "grid 4"
+    }
+  ]
+}
+```
+
+如果设置 rowGap，则将单独设置行间距。
+
+```schema: scoped="body"
+{
+  "type": "grid-2d",
+  "grids": [
+    {
+      "x": 2,
+      "y": 2,
+      "h": 1,
+      "w": 6,
+      "type": "panel",
+      "title": "面板标题",
+      "body": "面板内容"
+    }
+  ]
+}
+```
+
+## 属性表
+
+| 属性名     | 类型                              | 默认值      | 说明                                      |
+| ---------- | --------------------------------- | ----------- | ----------------------------------------- |
+| type       | `string`                          | `"grid-2d"` | 指定为 Grid 2D 渲染器                     |
+| className  | `string`                          |             | 外层 Dom 的类名                           |
+| gap        | `int`/`string`                    | 0           | 格子间距，包括水平和垂直                  |
+| cols       | `int`                             | 12          | 格子水平划分为几个区域                    |
+| rowGap     | `int`/`string`                    |             | 格子垂直间距                              |
+| grids      | `Array`                           |             | 格子集合                                  |
+| grids[x]   | [SchemaNode](../types/schemanode) |             | 格子可以是其他渲染器                      |
+| grids[x].x | `int`                             |             | 格子起始位置的横坐标                      |
+| grids[x].y | `int`                             |             | 格子起始位置的纵坐标                      |
+| grids[x].w | `int`/'auto'                      |             | 格子横跨几个宽度，auto 是自动根据内容撑开 |
+| grids[x].h | `int`/'auto'                      |             | 格子横跨几个高度，auto 是自动根据内容撑开 |
