@@ -161,7 +161,7 @@ function recoverFunctionType(config: object) {
   });
 }
 
-export interface ChartProps extends RendererProps, ChartSchema {
+export interface ChartProps extends RendererProps, Omit<ChartSchema, 'type'> {
   chartRef?: (echart: any) => void;
   onDataFilter?: (config: any, echarts: any) => any;
   onChartWillMount?: (echarts: any) => void | Promise<void>;
@@ -171,7 +171,6 @@ export interface ChartProps extends RendererProps, ChartSchema {
 }
 export class Chart extends React.Component<ChartProps> {
   static defaultProps: Partial<ChartProps> = {
-    offsetY: 50,
     replaceChartOption: false,
     unMountOnHidden: true
   };
@@ -212,8 +211,6 @@ export class Chart extends React.Component<ChartProps> {
 
   componentDidUpdate(prevProps: ChartProps) {
     const props = this.props;
-    const api: string =
-      (props.api && (props.api as ApiObject).url) || (props.api as string);
 
     if (isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)) {
       this.reload();

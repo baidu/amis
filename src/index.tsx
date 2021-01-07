@@ -68,6 +68,7 @@ import './renderers/Form/Textarea';
 import './renderers/Form/Checkboxes';
 import './renderers/Form/Checkbox';
 import './renderers/Form/City';
+import './renderers/Form/ChartRadios';
 import './renderers/Form/Rating';
 import './renderers/Form/Switch';
 import './renderers/Form/Button';
