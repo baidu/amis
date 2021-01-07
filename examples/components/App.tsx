@@ -141,7 +141,9 @@ export class App extends React.PureComponent<{
     theme:
       themes.find(item => item?.value === localStorage.getItem('theme')) ||
       themes[0],
-    locale: localStorage.getItem('locale') || '',
+    locale: localStorage.getItem('locale')
+      ? localStorage.getItem('locale').replace('zh-cn', 'zh-CN')
+      : '',
     navigations: []
   };
 
@@ -277,7 +279,7 @@ export class App extends React.PureComponent<{
             <Select
               clearable={false}
               theme={this.state.theme.value}
-              value={this.state.locale || 'zh-cn'}
+              value={this.state.locale || 'zh-CN'}
               options={locales}
               onChange={locale => {
                 this.setState({locale: locale.value});
