@@ -371,7 +371,27 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
-    function setOptions(options: Array<object>) {
+    function getFirstAvaibleOption(options: Array<any>): any {
+      if (!Array.isArray(options)) {
+        return;
+      }
+
+      for (let option of options) {
+        if (option.value) {
+          return option;
+        } else if (Array.isArray(option.children)) {
+          const childFirst = getFirstAvaibleOption(option.children);
+          if (childFirst !== undefined) {
+            return childFirst;
+          }
+        }
+      }
+    }
+
+    function setOptions(
+      options: Array<object>,
+      onChange?: (value: any) => void
+    ) {
       if (!Array.isArray(options)) {
         return;
       }
@@ -379,6 +399,39 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       const originOptions = self.options.concat();
       options.length ? self.options.replace(options) : self.options.clear();
       syncOptions(originOptions);
+      let selectedOptions;
+
+      if (
+        self.selectFirst &&
+        self.filteredOptions.length &&
+        (selectedOptions = self.getSelectedOptions(self.value)) &&
+        !selectedOptions.filter(item => !item.__unmatched).length
+      ) {
+        const fistOption = getFirstAvaibleOption(self.filteredOptions);
+        if (!fistOption) {
+          return;
+        }
+
+        const list = [fistOption].map((item: any) => {
+          if (self.extractValue || self.joinValues) {
+            return item.value;
+          }
+
+          return item;
+        });
+
+        const value = self.joinValues
+          ? list.join(self.delimiter)
+          : self.multiple
+          ? list
+          : list[0];
+
+        if (form.inited && onChange) {
+          onChange(value);
+        } else {
+          changeValue(value, !form.inited);
+        }
+      }
     }
 
     let loadCancel: Function | null = null;
@@ -466,8 +519,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       clearValue?: any,
       onChange?: (
         value: any,
-        submitOnChange: boolean,
-        changeImmediately: boolean
+        submitOnChange?: boolean,
+        changeImmediately?: boolean
       ) => void,
       setErrorFlag?: boolean
     ) {
@@ -487,34 +540,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         [];
 
       options = normalizeOptions(options as any);
-      setOptions(options);
+      setOptions(options, onChange);
 
       if (json.data && typeof (json.data as any).value !== 'undefined') {
         onChange && onChange((json.data as any).value, false, true);
-      } else if (
-        self.selectFirst &&
-        self.filteredOptions.length &&
-        !self.selectedOptions.length &&
-        onChange
-      ) {
-        const list = self.filteredOptions.slice(0, 1).map((item: any) => {
-          if (self.extractValue || self.joinValues) {
-            return item.value;
-          }
-
-          return item;
-        });
-
-        onChange(
-          self.joinValues
-            ? list.join(self.delimiter)
-            : self.multiple
-            ? list
-            : list[0],
-          false,
-          true
-        );
-      } else if (clearValue) {
+      } else if (clearValue && !self.selectFirst) {
         self.selectedOptions.some((item: any) => item.__unmatched) &&
           onChange &&
           onChange('', false, true);
