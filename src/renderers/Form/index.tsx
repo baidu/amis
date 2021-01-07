@@ -446,18 +446,18 @@ export default class Form extends React.Component<FormProps, object> {
         if (result && isObject(result)) {
           Object.keys(result).forEach(key => {
             let msg = result[key];
-            const item = store.getItemByName(key);
+            const items = store.getItemsByPath(key);
 
-            // 没有这个 formItem
-            if (!item) {
+            // 没有找到
+            if (!Array.isArray(items) || !items.length) {
               return;
             }
 
             if (msg) {
               msg = Array.isArray(msg) ? msg : [msg];
-              item.addError(msg);
+              items.forEach(item => item.addError(msg));
             } else {
-              item.clearError();
+              items.forEach(item => item.clearError());
             }
           });
         }

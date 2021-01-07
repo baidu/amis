@@ -1,7 +1,13 @@
 import moment from 'moment';
 import {PlainObject} from '../types';
 import isPlainObject from 'lodash/isPlainObject';
-import {createObject, isObject, setVariable, qsstringify} from './helper';
+import {
+  createObject,
+  isObject,
+  setVariable,
+  qsstringify,
+  keyToPath
+} from './helper';
 import {Enginer} from './tpl';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -484,7 +490,7 @@ export const resolveVariable = (path?: string, data: any = {}): any => {
     return data[path];
   }
 
-  let parts = path.replace(/^{|}$/g, '').split('.');
+  let parts = keyToPath(path.replace(/^{|}$/g, ''));
   return parts.reduce((data, path) => {
     if ((isObject(data) || Array.isArray(data)) && path in data) {
       return (data as {[propName: string]: any})[path];

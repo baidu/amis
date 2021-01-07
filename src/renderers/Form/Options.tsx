@@ -276,11 +276,11 @@ export function registerOptionsControl(config: OptionsConfig) {
         valueField,
         options,
         value,
-        selectFirst
+        onChange
       } = this.props;
 
       if (formItem) {
-        formItem.setOptions(normalizeOptions(options));
+        formItem.setOptions(normalizeOptions(options), onChange);
 
         this.reaction = reaction(
           () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
@@ -302,16 +302,6 @@ export function registerOptionsControl(config: OptionsConfig) {
         setPrinstineValue(
           multiple ? selectedOptions.concat() : selectedOptions[0]
         );
-      }
-
-      // 默认选择第一个
-      if (
-        formItem &&
-        selectFirst &&
-        formItem.options.length &&
-        !formItem.selectedOptions.length
-      ) {
-        setPrinstineValue(this.toggleValue(formItem.filteredOptions[0]));
       }
 
       loadOptions &&
@@ -354,7 +344,10 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       if (prevProps.options !== props.options && formItem) {
-        formItem.setOptions(normalizeOptions(props.options || []));
+        formItem.setOptions(
+          normalizeOptions(props.options || []),
+          props.onChange
+        );
         this.normalizeValue();
       } else if (
         config.autoLoadOptionsFromSource !== false &&
@@ -375,7 +368,10 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
 
           if (prevOptions !== options) {
-            formItem.setOptions(normalizeOptions(options || []));
+            formItem.setOptions(
+              normalizeOptions(options || []),
+              props.onChange
+            );
             this.normalizeValue();
           }
         } else if (
@@ -607,18 +603,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         formItem.setOptions(
           normalizeOptions(
             resolveVariableAndFilter(source as string, data, '| raw') || []
-          )
+          ),
+          onChange
         );
-
-        // 默认选中第一个。
-        if (
-          selectFirst &&
-          formItem.options.length &&
-          !formItem.selectedOptions.length
-        ) {
-          this.handleToggle(formItem.options[0], false, true);
-        }
-
         return;
       } else if (!formItem || !isEffectiveApi(source, data)) {
         return;
@@ -676,7 +663,8 @@ export function registerOptionsControl(config: OptionsConfig) {
       const formItem = this.props.formItem as IFormItemStore;
       formItem &&
         formItem.setOptions(
-          skipNormalize ? options : normalizeOptions(options || [])
+          skipNormalize ? options : normalizeOptions(options || []),
+          this.props.onChange
         );
     }
 
@@ -803,7 +791,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             ? options.splice(idx, 0, {...result})
             : options.push({...result});
         }
-        model.setOptions(options);
+        model.setOptions(options, this.props.onChange);
       }
     }
 
@@ -898,7 +886,8 @@ export function registerOptionsControl(config: OptionsConfig) {
             spliceTree(model.options, indexes, 1, {
               ...origin,
               ...result
-            })
+            }),
+            this.props.onChange
           );
         }
       }
@@ -955,7 +944,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
           if (~idx) {
             options.splice(idx, 1);
-            model.setOptions(options);
+            model.setOptions(options, this.props.onChange);
           }
         }
       } catch (e) {

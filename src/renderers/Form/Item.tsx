@@ -87,6 +87,7 @@ export type FormControlType =
   | 'button-group'
   | 'button-toolbar'
   | 'chained-select'
+  | 'chart-radios'
   | 'checkbox'
   | 'checkboxes'
   | 'city'
