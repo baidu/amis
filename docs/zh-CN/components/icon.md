@@ -22,7 +22,7 @@ order: 50
 
 ## 颜色及大小调整
 
-icon 使用 font 的方式实现，所有调整它的颜色和大小就是调整[文字颜色](../../../style/typography/text-color)或[大小](../../../style/typography/font-size)。
+icon 基于字体实现，所以可以通过[文字颜色](../../../style/typography/text-color)或[大小](../../../style/typography/font-size)来控制它。
 
 ```schema
 {
