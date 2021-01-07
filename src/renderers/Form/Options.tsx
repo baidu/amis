@@ -304,16 +304,6 @@ export function registerOptionsControl(config: OptionsConfig) {
         );
       }
 
-      // 默认选择第一个
-      if (
-        formItem &&
-        selectFirst &&
-        formItem.options.length &&
-        !formItem.selectedOptions.length
-      ) {
-        setPrinstineValue(this.toggleValue(formItem.filteredOptions[0]));
-      }
-
       loadOptions &&
         config.autoLoadOptionsFromSource !== false &&
         (formInited
@@ -609,16 +599,6 @@ export function registerOptionsControl(config: OptionsConfig) {
             resolveVariableAndFilter(source as string, data, '| raw') || []
           )
         );
-
-        // 默认选中第一个。
-        if (
-          selectFirst &&
-          formItem.options.length &&
-          !formItem.selectedOptions.length
-        ) {
-          this.handleToggle(formItem.options[0], false, true);
-        }
-
         return;
       } else if (!formItem || !isEffectiveApi(source, data)) {
         return;
