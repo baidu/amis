@@ -179,7 +179,7 @@ export class Chart extends React.Component<ChartProps> {
   static propsList: Array<string> = [];
 
   ref: any;
-  echarts: echarts.ECharts;
+  echarts?: echarts.ECharts;
   unSensor: Function;
   pending?: object;
   pendingCtx?: any;
@@ -284,7 +284,7 @@ export class Chart extends React.Component<ChartProps> {
         this.unSensor = resizeSensor(ref, () => {
           const width = ref.offsetWidth;
           const height = ref.offsetHeight;
-          this.echarts.resize({
+          this.echarts?.resize({
             width,
             height
           });
@@ -300,6 +300,7 @@ export class Chart extends React.Component<ChartProps> {
       if (this.echarts) {
         onChartUnMount?.(this.echarts, (window as any).echarts);
         this.echarts.dispose();
+        delete this.echarts;
       }
     }
 
@@ -319,9 +320,9 @@ export class Chart extends React.Component<ChartProps> {
     if (this.reloadCancel) {
       this.reloadCancel();
       delete this.reloadCancel;
-      this.echarts && this.echarts.hideLoading();
+      this.echarts?.hideLoading();
     }
-    this.echarts && this.echarts.showLoading();
+    this.echarts?.showLoading();
 
     env
       .fetcher(api, store.data, {
@@ -351,7 +352,7 @@ export class Chart extends React.Component<ChartProps> {
           this.renderChart(result.data || {});
         }
 
-        this.echarts && this.echarts.hideLoading();
+        this.echarts?.hideLoading();
 
         interval &&
           this.mounted &&
@@ -363,7 +364,7 @@ export class Chart extends React.Component<ChartProps> {
         }
 
         env.notify('error', reason);
-        this.echarts && this.echarts.hideLoading();
+        this.echarts?.hideLoading();
       });
   }
 
@@ -408,7 +409,7 @@ export class Chart extends React.Component<ChartProps> {
         }
 
         recoverFunctionType(config!);
-        this.echarts.setOption(config!, this.props.replaceChartOption);
+        this.echarts?.setOption(config!, this.props.replaceChartOption);
       } catch (e) {
         console.warn(e);
       }
