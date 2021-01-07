@@ -19,32 +19,67 @@ SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 
 
 默认会提供一个 demo.html 作为示例，双击这个文件打开就能看到效果，其中最重要是如下代码：
 
-```javascript
-let amis = amisRequire('amis/embed');
-// 通过替换下面这个配置来生成不同页面
-let amisJSON = {
-  type: 'page',
-  title: '表单页面',
-  body: {
-    type: 'form',
-    mode: 'horizontal',
-    api: '/saveForm',
-    controls: [
-      {
-        label: 'Name',
-        type: 'text',
-        name: 'name'
-      },
-      {
-        label: 'Email',
-        type: 'email',
-        name: 'email'
+```html
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>amis demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="sdk.css" />
+    <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css，并把前面那个删了 -->
+    <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
+    <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有细节功能用不了，如果发现请报 issue -->
+    <style>
+      html,
+      body,
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
       }
-    ]
-  }
-};
-
-let amisScoped = amis.embed('#root', amisJSON);
+    </style>
+  </head>
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="sdk.js"></script>
+    <script type="text/javascript">
+      (function () {
+        let amis = amisRequire('amis/embed');
+        // 通过替换下面这个配置来生成不同页面
+        let amisJSON = {
+          type: 'page',
+          title: '表单页面',
+          body: {
+            type: 'form',
+            mode: 'horizontal',
+            api: '/saveForm',
+            controls: [
+              {
+                label: 'Name',
+                type: 'text',
+                name: 'name'
+              },
+              {
+                label: 'Email',
+                type: 'email',
+                name: 'email'
+              }
+            ]
+          }
+        };
+        let amisScoped = amis.embed('#root', amisJSON);
+      })();
+    </script>
+  </body>
+</html>
 ```
 
 ### 切换主题
