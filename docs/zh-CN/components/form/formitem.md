@@ -607,6 +607,86 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 }
 ```
 
+### Combo 校验
+
+Combo 类型的表单项，要实现服务端校验，可以使用 `路径key` 来定位要显示报错信息的表单项，例如 `a[0].b` 定位到 a combo 的第一项中 b 表单项。
+
+例如有如下表单，点击提交，查看效果：
+
+```schema:scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "mode": "horizontal",
+  "api": "https://houtai.baidu.com/api/mock2/form/saveFormFailedCombo?waitSeconds=1",
+  "controls": [
+    {
+      "type": "combo",
+      "name": "combo1",
+      "label": "组合多条单行",
+      "multiple": true,
+      "value": [
+        {
+          "a": "a1",
+          "b": "a"
+        },
+        {
+          "a": "a2",
+          "b": "c"
+        }
+      ],
+      "controls": [
+        {
+          "name": "a",
+          "type": "text"
+        },
+        {
+          "name": "b",
+          "type": "select",
+          "options": ["a", "b", "c"]
+        }
+      ]
+    },
+    {
+      "type": "combo",
+      "name": "combo2",
+      "label": "组合单条单行",
+      "value": {
+        "a": "a",
+        "b": "b"
+      },
+      "controls": [
+        {
+          "name": "a",
+          "type": "text"
+        },
+        {
+          "name": "b",
+          "type": "select",
+          "options": ["a", "b", "c"]
+        }
+      ]
+    }
+  ]
+}
+```
+
+接口返回如下
+
+```json
+{
+  "status": 422,
+  "msg": "",
+  "errors": {
+    "combo1": "服务器端说，这个combo1有问题",
+    "combo1[1].a": "服务器端说，这个第二项有问题", // 或 combo1.1.a
+    "combo2": "服务器端说，这个combo2有问题",
+    "combo2.b": "服务器端说，这个combo2中的b有问题"
+  },
+  "data": null
+}
+```
+
 ## 属性表
 
 | 属性名         | 类型                                       | 默认值 | 说明                                                       |
