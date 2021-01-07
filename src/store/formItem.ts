@@ -388,7 +388,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
-    function setOptions(options: Array<object>) {
+    function setOptions(
+      options: Array<object>,
+      onChange?: (value: any) => void
+    ) {
       if (!Array.isArray(options)) {
         return;
       }
@@ -423,7 +426,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           ? list
           : list[0];
 
-        changeValue(value, !form.inited);
+        if (form.inited && onChange) {
+          onChange(value);
+        } else {
+          changeValue(value, !form.inited);
+        }
       }
     }
 
@@ -512,8 +519,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       clearValue?: any,
       onChange?: (
         value: any,
-        submitOnChange: boolean,
-        changeImmediately: boolean
+        submitOnChange?: boolean,
+        changeImmediately?: boolean
       ) => void,
       setErrorFlag?: boolean
     ) {
@@ -533,11 +540,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         [];
 
       options = normalizeOptions(options as any);
-      setOptions(options);
+      setOptions(options, onChange);
 
       if (json.data && typeof (json.data as any).value !== 'undefined') {
         onChange && onChange((json.data as any).value, false, true);
-      } else if (clearValue) {
+      } else if (clearValue && !self.selectFirst) {
         self.selectedOptions.some((item: any) => item.__unmatched) &&
           onChange &&
           onChange('', false, true);
