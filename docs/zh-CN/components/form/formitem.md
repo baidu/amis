@@ -679,7 +679,7 @@ Combo 类型的表单项，要实现服务端校验，可以使用 `路径key` �
   "msg": "",
   "errors": {
     "combo1": "服务器端说，这个combo1有问题",
-    "combo1[1].a": "服务器端说，这个第二项有问题", // 或 combo1.1.a
+    "combo1[1].a": "服务器端说，这个combo1的第二项中的a有问题", // 或 combo1.1.a
     "combo2": "服务器端说，这个combo2有问题",
     "combo2.b": "服务器端说，这个combo2中的b有问题"
   },
