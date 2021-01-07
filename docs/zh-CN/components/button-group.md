@@ -10,7 +10,7 @@ order: 30
 
 ## 基本用法
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
   "type": "button-group",
   "buttons": [
@@ -45,7 +45,7 @@ order: 30
 
 配置`"vertical": true`，实现垂直模式
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 [
   {
     "type": "button-group",

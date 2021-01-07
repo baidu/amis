@@ -1,10 +1,10 @@
 ---
 title: Images 图片集
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Images 图片集合
-icon: 
+icon:
 order: 53
 ---
 
@@ -12,7 +12,7 @@ order: 53
 
 ## 基本用法
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "data": {
@@ -33,7 +33,7 @@ order: 53
 
 也可以直接指定`value`字段：
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -57,7 +57,7 @@ order: 53
 
 需要设置对象中预览图地址的`key`值为`image`
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "data": {
@@ -96,9 +96,9 @@ order: 53
 }
 ```
 
-如果`key`值不是`image`，也可以在 **images组件** 上，通过配置`src`，使用数据映射，来获取图片地址
+如果`key`值不是`image`，也可以在 **images 组件** 上，通过配置`src`，使用数据映射，来获取图片地址
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "data": {
@@ -142,7 +142,7 @@ order: 53
 
 需要设置对象中原图地址的`key`值为`src`
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "data": {
@@ -187,9 +187,9 @@ order: 53
 }
 ```
 
-如果原图数据的`key`值不是`src`，也可以在 **images组件** 上，通过配置`originalSrc`，使用数据映射，来获取原图片地址
+如果原图数据的`key`值不是`src`，也可以在 **images 组件** 上，通过配置`originalSrc`，使用数据映射，来获取原图片地址
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "data": {
@@ -239,7 +239,7 @@ order: 53
 
 设置对象中标题的`key`值为`title`，说明的`key`为`description`或`caption`。
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "data": {
@@ -280,9 +280,9 @@ order: 53
 
 ## 配置放大预览
 
-在 **images组件** 上，配置`enlargeAble`，支持放大预览
+在 **images 组件** 上，配置`enlargeAble`，支持放大预览
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "data": {
@@ -324,11 +324,11 @@ order: 53
 
 ## 用作 Field 时
 
-当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的Static-XXX 中时，可以设置`name`属性，映射同名变量
+当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量
 
 ### Table 中的列类型
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "table",
     "data": {
@@ -384,7 +384,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ### Form 中静态展示
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -415,13 +415,9 @@ List 的内容、Card 卡片的内容配置同上
 | defaultImage | `string`                                   |           | 默认展示图片                                                                             |
 | value        | `string`或`Array<string>`或`Array<object>` |           | 图片数组                                                                                 |
 | source       | `string`                                   |           | 数据源                                                                                   |
-| delimiter    | `string`                                   | `,`       | 分隔符，当value为字符串时，用该值进行分隔拆分                                            |
+| delimiter    | `string`                                   | `,`       | 分隔符，当 value 为字符串时，用该值进行分隔拆分                                          |
 | src          | `string`                                   |           | 预览图地址，支持数据映射获取对象中图片变量                                               |
 | originalSrc  | `string`                                   |           | 原图地址，支持数据映射获取对象中图片变量                                                 |
 | enlargeAble  | `boolean`                                  |           | 支持放大预览                                                                             |
 | thumbMode    | `string`                                   | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                         |
 | thumbRatio   | `string`                                   | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                             |
-
-
-
-

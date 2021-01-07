@@ -10,7 +10,7 @@ order: 43
 
 ## 基本用法
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "label": "弹出",
     "type": "button",
@@ -24,7 +24,7 @@ order: 43
 
 ## 抽屉尺寸
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button-toolbar",
     "className": "block m-t",
@@ -90,7 +90,7 @@ order: 43
 
 ## 指定弹出方向
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button-toolbar",
     "className": "block m-t",
@@ -143,7 +143,7 @@ order: 43
 
 配置`"resizable": true`，可以拖拽调整`drawer`大小
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "可拖拽调整大小",
@@ -159,7 +159,7 @@ order: 43
 
 ## 不显示蒙层
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "不显示蒙层",
@@ -179,7 +179,7 @@ order: 43
 
 ### 显示蒙层
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "点击抽屉外自动关闭",
@@ -195,7 +195,7 @@ order: 43
 
 ### 不显示蒙层
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "点击抽屉外自动关闭",

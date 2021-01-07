@@ -128,7 +128,7 @@ API 还支持配置对象类型
 
 可以配置`data`，配置自定义接口请求数据体。
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": {
@@ -169,7 +169,7 @@ API 还支持配置对象类型
 
 默认是`application/json`，不需要额外配置
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "title": "默认JSON格式",
@@ -199,7 +199,7 @@ API 还支持配置对象类型
 
 配置`"dataType": "form"`，可配置发送体格式为`application/x-www-form-urlencoded`
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": {
@@ -226,7 +226,7 @@ API 还支持配置对象类型
 
 配置`"dataType": "form-data"`，可配置发送体格式为`multipart/form-data`
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": {
@@ -251,7 +251,7 @@ API 还支持配置对象类型
 
 当表单项中文件类型数据，则自动使用`multipart/form-data`数据体
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": {
@@ -280,7 +280,7 @@ API 还支持配置对象类型
 
 可以配置`headers`对象，添加自定义请求头
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": {
@@ -309,7 +309,7 @@ API 还支持配置对象类型
 
 可以配置表达式`sendOn`来实现：当符合某个条件的情况下，接口才触发请求
 
-```schema:height="250" scope="body"
+```schema: scope="body"
 {
     "title": "",
     "type": "form",
@@ -358,7 +358,7 @@ API 还支持配置对象类型
 
 当你在某种情况下，需要非常频繁的请求同一个接口，例如列表中，每一行中都有一个 Service 进行数据拉取操作，
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
@@ -384,7 +384,7 @@ API 还支持配置对象类型
 
 这往往并不理想，你可以设置`cache`来设置缓存时间，单位是毫秒，在设置的缓存时间内，同样的请求将不会重复发起，而是会获取缓存好的请求响应数据。
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
@@ -442,7 +442,7 @@ function (api) {
 
 用法示例：
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": {

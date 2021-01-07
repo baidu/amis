@@ -12,7 +12,7 @@ order: 51
 
 内嵌外部站点，可用 iframe 来实现。
 
-```schema:height="650" scope="body"
+```schema: scope="body"
 {
     "type": "iframe",
     "src": "https://www.baidu.com",

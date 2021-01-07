@@ -1,15 +1,16 @@
 ---
 title: Audio 音频
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Audio 音频
-icon: 
+icon:
 order: 28
 ---
+
 ## 基本使用
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "audio",
     "src": "https://amis.bj.bcebos.com/amis/2019-7/1562137295708/chicane-poppiholla-original-radio-edit%20(1).mp3"
@@ -28,10 +29,3 @@ order: 28
 | autoPlay  | `boolean` | false                                            | 是否自动播放                            |
 | rates     | `array`   | `[]`                                             | 可配置音频播放倍速如：`[1.0, 1.5, 2.0]` |
 | controls  | `array`   | `['rates', 'play', 'time', 'process', 'volume']` | 内部模块定制化                          |
-
-
-
-
-
-
-

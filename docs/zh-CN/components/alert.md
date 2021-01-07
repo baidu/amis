@@ -12,7 +12,7 @@ order: 27
 
 ## 基本使用
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 [
   {
     "type": "alert",
@@ -41,7 +41,7 @@ order: 27
 
 配置`"showCloseButton": true`实现显示关闭按钮。
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 [
   {
     "type": "alert",

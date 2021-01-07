@@ -10,7 +10,7 @@ order: 14
 
 ## 基本用法
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -30,7 +30,7 @@ order: 14
 
 例如你想显示`2020年04月14日 12时20分10秒`这样的格式，查找 [moment 文档](https://momentjs.com/docs/#/displaying/format/) 可知配置格式应为 `YYYY年MM月DD日 HH时mm分ss秒`，即：
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -51,7 +51,7 @@ order: 14
 
 选中任意日期时间，可以看到默认表单项的值格式是像`1591862818`这样的时间戳格式。
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -70,7 +70,7 @@ order: 14
 
 例如你调整值为`2020-04-14 12:20:10`这样的格式，查找 [moment 文档](https://momentjs.com/docs/#/displaying/format/) 可知配置格式应为 `YYYY-MM-DD HH:mm:ss`，即：
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -96,7 +96,7 @@ order: 14
 
 配置符合当前 [值格式](./datetime#%E5%80%BC%E6%A0%BC%E5%BC%8F) 的默认值。
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -116,7 +116,7 @@ order: 14
 
 `value` 还支持类似像`"+1hours"`这样的相对值，更加便捷的配置默认值
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -146,7 +146,7 @@ order: 14
 
 ### 固定时间值
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -174,7 +174,7 @@ order: 14
 
 范围限制也支持设置 [相对值](./date#%E7%9B%B8%E5%AF%B9%E5%80%BC)。
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -197,7 +197,7 @@ order: 14
 
 来一个常见例子，配置两个选择`开始时间`和`结束时间`的时间选择器，需要满足：`开始时间`不能小于`结束时间`，`结束时间`也不能大于`开始时间`，。
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -223,7 +223,7 @@ order: 14
 
 你也可以配置`shortcuts`属性支持快捷选择日期
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -251,7 +251,7 @@ order: 14
 
 ## UTC
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -276,7 +276,7 @@ order: 14
 
 ## 内嵌模式
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

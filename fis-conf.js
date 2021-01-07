@@ -115,11 +115,6 @@ fis.match('/docs/**.md', {
           if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
             let parts = link.split('#');
             parts[0] = parts[0].replace('.md', '');
-
-            if (parts[0][0] !== '/') {
-              parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
-            }
-
             return 'href=\\' + quota + parts.join('#') + '\\' + quota;
           }
 
@@ -582,10 +577,6 @@ if (fis.project.currentMedia() === 'publish') {
             if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
               let parts = link.split('#');
               parts[0] = parts[0].replace('.md', '');
-
-              if (parts[0][0] !== '/') {
-                parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
-              }
 
               return (
                 'href=\\' + quota + '/amis' + parts.join('#') + '\\' + quota

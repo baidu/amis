@@ -10,7 +10,7 @@ order: 56
 
 ## 基本使用
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -28,7 +28,7 @@ order: 56
 
 配置`type`可以支持不同格式的文本输入框
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -70,7 +70,7 @@ order: 56
 
 可以配置`addOn`，附带附加组件
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -92,7 +92,7 @@ order: 56
 
 配置`options`即可支持选择器模式。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

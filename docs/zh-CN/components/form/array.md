@@ -12,7 +12,7 @@ Array 是一种简化的 [Combo](./combo)，用于输入多个某种类型的[�
 
 ## 基本用法
 
-```schema:height="200" scope="form"
+```schema: scope="form"
 [
   {
     "name": "array",

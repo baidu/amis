@@ -12,10 +12,11 @@ order: 30
 
 ## 基本用法
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "debug": true,
   "controls": [
     {
       "type": "matrix",
@@ -47,10 +48,11 @@ order: 30
 
 配置`"multiple": false`可以设置单选，配置`singleSelectMode`可以设置单选模式
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "debug": true,
   "controls": [
     {
       "type": "matrix",
@@ -83,7 +85,7 @@ order: 30
 
 可以配置 source 渲染动态选项
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -161,7 +163,7 @@ order: 30
 
 默认为 column 模式，即每列只能单选某个单元格
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -197,7 +199,7 @@ order: 30
 
 cell 模式，指全部选项中只能单选某个单元格
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -234,7 +236,7 @@ cell 模式，指全部选项中只能单选某个单元格
 
 row 模式，每行只能单选某个单元格
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

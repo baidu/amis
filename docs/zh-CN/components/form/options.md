@@ -16,7 +16,7 @@ order: 2
 
 选择器表单项可以通过配置一组选项(`options`)，可以供给用户选择，如下：
 
-```schema:height="260" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -74,7 +74,7 @@ order: 2
 
 查看下面例子，修改选项你会发现数据域会发发生变化，改数据域中该表单项的值为选中选项的`value`值。
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -106,7 +106,7 @@ order: 2
 
 也可以配置简单的字符串或数字数组，此时默认`label`和`value`保持一致
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -125,7 +125,7 @@ order: 2
 
 可以使用静态方式，配置一组选项组：
 
-```schema:height="260" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -158,7 +158,7 @@ order: 2
 
 你也可以配置`source`属性，利用 [数据映射](../../concepts/data-mapping)，获取当前数据链中的变量
 
-```schema:height="260" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -194,7 +194,7 @@ order: 2
 
 除了可以通过数据映射获取当前数据域中的变量以外，`source`还支持配置接口，格式为 [API](../../types/api)，用于动态返回选项组。
 
-```schema:height="260" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -244,7 +244,7 @@ order: 2
 
 静态配置同表单项默认值配置方式，直接在组件上配置`value`属性。
 
-```schema:height="260" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -276,7 +276,7 @@ order: 2
 
 如果想默认选择第一个，可以直接配置 `selectFirst` 属性。
 
-```schema:height="260" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -338,7 +338,7 @@ order: 2
 
 如果使用 `source` 或 `value` 配置的默认值与当前表单项配置的数据格式不符合，而且用户没有再次操作该表单项，而直接提交表单，那么会将当前默认值原封不动的提交给后端，可能会导致不一致性的问题，我们看一个例子：
 
-```schema:height="260" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -380,7 +380,7 @@ order: 2
 
 大部分选择器组件默认是单选的，可以配置`"multiple": true`支持多选。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -427,7 +427,7 @@ order: 2
 
 多选模式下，默认表单项值为选中的选项的`value`值，用默认拼接符`,`拼接，如下
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -460,7 +460,7 @@ order: 2
 
 你可以设置`delimiter`属性，自定义拼接符，保证不与你选项中的`value`值冲突
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -501,7 +501,7 @@ order: 2
 
 选中下面两个选择器，观察数据域值变化。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -558,7 +558,7 @@ order: 2
 
 单选模式下，配置`"joinValues": false`，该表单项值为选中选项的完整对象值，选中下例中的任意选项，观察数据域变化。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -591,7 +591,7 @@ order: 2
 
 多选模式下，配置`"joinValues": false`，该表单项值为所有选中项的对象数组
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -627,7 +627,7 @@ order: 2
 
 例如下面这个例子，当你给`select`设置了`"joinValues": false`时，选中 B 选项，则该表单项值为`{"label":"B","value":"b"}`，如果你想要默认选中某一项，则也需要设置`value`为完整的对象：`{"label":"B","value":"b"}`
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -664,7 +664,7 @@ order: 2
 
 当`"joinValues": false`时，默认会将选中的所有选项组成的对象数组，作为表单项的值，如果你想只抽取选项中的 value 值，拼成新的数组，那么可以配置`"extractValue": true`
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -703,7 +703,7 @@ order: 2
 
 例如下面这个例子，当你给`select`设置了`"joinValues": false`和`"extractValue": true`时，选中 A、B 选项，则该表单项值为`["a", "b"]`，如果你想要默认选中某一项，则也需要设置`value`为同样格式：`["a", "b"]`
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -739,7 +739,7 @@ order: 2
 
 可以配置 `"searchable": true` 显示前端过滤，适合用于有大量内容的列表。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -769,7 +769,7 @@ order: 2
 
 ## 自动补全 autoComplete
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -794,7 +794,7 @@ order: 2
 
 例如下例中，options 中只有`text`和`value`字段而没有 value 字段，这时点开下拉框，你会发现选项无法正常显示。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -824,7 +824,7 @@ order: 2
 
 这种情况下如果你想自定义该字段，则可以设置`labelField`
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -861,7 +861,7 @@ order: 2
 
 例如下例中，options 中只有`label`和`val`字段而没有`value`字段，这时点开下拉框，你会发现选项无法正常选中。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -891,7 +891,7 @@ order: 2
 
 这种情况下如果你想自定义该字段，则可以设置`valueField`
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -932,7 +932,7 @@ order: 2
 
 ，可以配置`"creatable": true`，支持在前端临时新增选项。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -990,7 +990,7 @@ order: 2
 
 默认只有一个文本框，也就是意味着，默认添加选项后，该选项`label`和`value`是一样的，如果你想自定义该表单中的表单项，你可以通过配置`addControls`属性
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -1041,7 +1041,7 @@ order: 2
 
 默认新增只会暂时把新增的值保存在前端，如果你想前端新增选项后，同时把该选项保存到后端，则可以配置保存接口`addApi`。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -1083,7 +1083,7 @@ order: 2
 
 配置`"editable": true`，支持在前端编辑选项。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -1141,7 +1141,7 @@ order: 2
 
 默认只能修改当前选项的`label`属性，如果你想要修改其他属性，可以配置`editControls`，自定义编辑表单项
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -1188,7 +1188,7 @@ order: 2
 
 默认编辑只会作用在前端，如果你想前端编辑选项后，同时把该选项保存到后端，则可以配置保存接口`editApi`。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -1232,7 +1232,7 @@ order: 2
 
 配置`"removable": true`和`deleteApi`，支持在前端删除选项。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -1267,7 +1267,7 @@ order: 2
 
 一些选择器组件，支持配置`autoFill`，将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，**只在单选时有效**，支持[数据映射](../../concepts/data-mapping)
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

@@ -12,7 +12,7 @@ order: 70
 
 ## 基本用法
 
-```schema:height="200"
+```schema
 {
   "data": {
     "text": "World!"

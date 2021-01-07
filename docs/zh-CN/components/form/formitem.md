@@ -16,7 +16,7 @@ order: 1
 
 最基本的表单项配置像这样：
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -41,7 +41,7 @@ order: 1
 
 通过配置`"mode": "inline"`，标识当前表单项使用内联模式。
 
-```schema:height="320" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -64,7 +64,7 @@ order: 1
 
 可以配置`size`，来调整表单项的尺寸，支持`'xs' | 'sm' | 'md' | 'lg' | 'full'`，如下：
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -110,7 +110,7 @@ order: 1
 
 当表单为水平布局时，左边即便是不设置`label`为了保持对齐也会留空，如果想要去掉空白，请设置成`false`。
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "mode": "horizontal",
@@ -141,7 +141,7 @@ order: 1
 
 配置`labelRemark`可以实现标签描述提示
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "mode": "horizontal",
@@ -175,7 +175,7 @@ order: 1
 
 通过配置`"disabled": true`来禁用表单项
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -198,7 +198,7 @@ order: 1
 
 你也通过[表达式](../../concepts/expression)配置`disabledOn`，来实现在某个条件下禁用当前表单项.
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -226,7 +226,7 @@ order: 1
 
 通过配置`"hidden": true`或者`"visible": false`来禁用表单项
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -252,7 +252,7 @@ order: 1
 
 你也通过[表达式](../../concepts/expression)配置`hiddenOn`，来实现在某个条件下禁用当前表单项.
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -280,7 +280,7 @@ order: 1
 
 表单项值，即表单项通过用户交互发生变化后，更新表单数据域中同`name`变量值.
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -298,7 +298,7 @@ order: 1
 
 也支持链式配置 `name`属性，例如：`aaa.bbb`
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -326,7 +326,7 @@ order: 1
 
 通过配置`value`属性，可以设置表单项的默认值。
 
-```schema:height="320" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -343,7 +343,7 @@ order: 1
 
 `value`不支持数据映射，也就是说不可以直接配置类似于这样的语法：`${xxx}`，如果想要映射当前数据域中的某个变量，那么设置该表单项`name`为该变量名就行，如下：
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "data":{
@@ -368,7 +368,7 @@ order: 1
 
 通过配置`"required": true`来标识该表单项为必填。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -387,7 +387,7 @@ order: 1
 
 你也通过[表达式](../../concepts/expression)配置`requiredOn`，来实现在某个条件下使当前表单项必填。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -416,7 +416,7 @@ order: 1
 
 可以通过对象形式配置
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -436,7 +436,7 @@ order: 1
 
 同样也可以配置多个格式校验
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -459,7 +459,7 @@ order: 1
 
 也可以配置字符串形式来指定，如下例，输入不合法的值，点击提交会报错并显示报错信息
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -477,7 +477,7 @@ order: 1
 
 也可以指定多个格式校验，中间用`逗号`分隔。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -499,7 +499,7 @@ order: 1
 
 amis 会有默认的报错信息，如果你想自定义校验信息，配置`validationErrors`属性
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -522,7 +522,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 
 如果需要获取当前格式校验配置的参数，可以使用`$1`
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -578,7 +578,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 
 也可以通过接口返回错误信息，实现服务端校验
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveFormFailed?waitSeconds=1",

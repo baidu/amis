@@ -12,7 +12,7 @@ order: 39
 
 ## 基本使用
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -28,7 +28,7 @@ order: 39
 
 ### Table 中的列类型
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "table",
     "data": {
@@ -66,7 +66,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ### Form 中静态展示
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -86,7 +86,7 @@ List 的内容、Card 卡片的内容配置同上
 
 例如你想将某一个时间值，以 `xxxx年xx月xx日 xx时xx分xx秒` 这样的格式输出，那么查找 [moment 文档](https://momentjs.com/docs/#/displaying/format/) 可知配置格式应为 `YYYY年MM月DD日 HH时mm分ss秒`，即：
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "data": {
@@ -106,7 +106,7 @@ List 的内容、Card 卡片的内容配置同上
 
 例如下面`value`值为：`"2020/4/14 19:59:50"`，查阅 [moment 文档](https://momentjs.com/docs/#/displaying/format/) 可知，需要配置数据格式为 `"YYYY/MM/DD HH:mm:ss"`，然后我们配置输出格式`format`，输出指定格式日期：
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "body": {

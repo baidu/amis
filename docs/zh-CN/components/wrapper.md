@@ -8,11 +8,11 @@ icon:
 order: 72
 ---
 
-简单的一个包裹容器组件
+简单的一个包裹容器组件，相当于用 div 包含起来，最大的用处是用来配合 css 进行布局。
 
 ## 基本用法
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
     "type": "wrapper",
     "body": "内容",
@@ -20,11 +20,13 @@ order: 72
 }
 ```
 
+> 上面例子中的 `"className": "b"` 是为了增加边框，不然看不出来。
+
 ## 不同内边距
 
 通过配置`size`属性，可以调整内边距
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 [
   {
     "type": "wrapper",

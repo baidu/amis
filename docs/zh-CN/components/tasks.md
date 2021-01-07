@@ -12,7 +12,7 @@ order: 69
 
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "tasks",
     "name": "tasks",
@@ -64,7 +64,7 @@ order: 69
 | statusLabelMap    | `array`             | `["label-warning", "label-info", "label-success", "label-danger", "label-default", "label-danger"]` | 状态显示对应的类名配置                                                                                                                    |
 | statusTextMap     | `array`             | `["未开始", "就绪", "进行中", "出错", "已完成", "出错"]`                                            | 状态显示对应的文字显示配置                                                                                                                |
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 [
 {
     "type": "tasks",

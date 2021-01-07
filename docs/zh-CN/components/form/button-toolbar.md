@@ -12,7 +12,7 @@ order: 5
 
 ## 基本使用
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [

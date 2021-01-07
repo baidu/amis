@@ -10,7 +10,7 @@ order: 45
 
 ## 基本用法
 
-```schema:height="160" scope="page"
+```schema: scope="page"
 {
   "type": "page",
   "data": {
@@ -27,13 +27,34 @@ order: 45
 }
 ```
 
+### 如果是对象数组
+
+如果数组中的数据是对象，可以直接使用 data.xxx 来获取，另外能用 data.index 来获取数组索引，但如果对象本身也有名字为 index 的字段就会覆盖到，获取不到索引了。
+
+```schema:height="160" scope="page"
+{
+  "type": "page",
+  "data": {
+    "arr": [{"name": "a"}, {"name": "b"}, {"name": "c"}]
+  },
+  "body": {
+        "type": "each",
+        "name": "arr",
+        "items": {
+            "type": "tpl",
+            "tpl": "<span class='label label-default m-l-sm'><%= data.name %>:<%= data.index %></span> "
+        }
+    }
+}
+```
+
 ## 用作 Field 时
 
 当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量，然后用可以通过 `item` 变量获取单项值
 
 ### Table 中的列类型
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "table",
     "data": {
@@ -75,7 +96,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ### Form 中静态展示
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {

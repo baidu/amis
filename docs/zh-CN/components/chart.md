@@ -12,7 +12,7 @@ order: 34
 
 ## 基本用法
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "chart",
     "api": "https://houtai.baidu.com/api/mock2/chart/chart",
@@ -24,7 +24,7 @@ order: 34
 
 通过配置`"config": {}`，可以配置`echarts`配置
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "chart",
     "config": {
@@ -138,7 +138,7 @@ order: 34
 
 > 点击下面坐标中的节点查看效果！
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "chart",
     "config": {
@@ -248,7 +248,7 @@ order: 34
 
 配置`api`，来远程拉取图标配置
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "chart",
     "api": "https://houtai.baidu.com/api/mock2/chart/chart1"
@@ -257,7 +257,7 @@ order: 34
 
 ## 通过组件间联动，更新图表
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 [
     {
         "type": "form",
@@ -323,7 +323,7 @@ order: 34
 
 ECharts 中有些配置项可以写函数，比如 formatter 和 sort，但在 JSON 里无法写函数，因此我们做了特殊支持，将看起来像函数的字符串转成了函数：
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "chart",
     "config": {

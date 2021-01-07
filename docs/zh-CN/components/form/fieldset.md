@@ -8,13 +8,13 @@ icon:
 order: 20
 ---
 
-FieldSet 是用于分组展示表单项的一种容器型组件。
+FieldSet 是用于分组展示表单项的一种容器型组件，可以折叠。
 
 ## 基本用法
 
 可以通过配置标题`title`和表单项数组`controls`，实现多个表单项分组展示
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -46,7 +46,7 @@ FieldSet 是用于分组展示表单项的一种容器型组件。
 
 下面`group`我们配置了`"mode": "horizontal"`，观察显示情况
 
-```schema:height="450" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -84,7 +84,7 @@ FieldSet 是用于分组展示表单项的一种容器型组件。
 
 配置`"collapsable": true`可以实现点击标题折叠显隐表单项。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -115,7 +115,7 @@ FieldSet 是用于分组展示表单项的一种容器型组件。
 
 默认是展开的，如果想默认折叠，那么配置`"collapsed": true`默认折叠。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -149,7 +149,7 @@ fieldSet 的另一种标题展现样式，不同的是展开的时候收起文�
 
 设置 `"titlePosition": "bottom"`。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

@@ -16,7 +16,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 
 最基本的使用，是配置初始化接口`api`，将接口返回的数据添加到自身的数据域中，以供子组件通过[数据链](../concepts/datascope-and-datachain#%E6%95%B0%E6%8D%AE%E9%93%BE)进行获取使用。
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/mock2/page/initData",
@@ -47,7 +47,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 
 另外一种使用较为频繁的场景是：serivce + table 进行列表渲染
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/mock2/crud/table?perPage=5",
@@ -185,7 +185,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 
 `Service` 还有个重要的功能就是支持配置 `schemaApi`，通过它可以实现动态渲染页面内容。
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
   "type": "service",
   "schemaApi": "https://houtai.baidu.com/api/mock2/service/schema?type=tabs"
@@ -220,7 +220,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 
 `api`和`schemaApi`都支持[接口联动](../concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "title": "",
     "type": "form",

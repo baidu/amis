@@ -1,10 +1,10 @@
 ---
 title: Static 静态展示
-description: 
+description:
 type: 0
 group: null
 menuName: Static 静态展示
-icon: 
+icon:
 order: 52
 ---
 
@@ -12,7 +12,7 @@ order: 52
 
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -30,12 +30,12 @@ order: 52
 
 除了显式配置`value`属性，来展示数据以外，支持通过配置`name`属性，来自动映射数据域中的相关变量
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
         {
-            "type": "select",            
+            "type": "select",
             "name": "select",
             "label": "select",
             "options": [
@@ -66,7 +66,7 @@ order: 52
 
 支持通过配置`type`为`static-xxx`的形式，展示其他 **非[表单项](./formitem)** 组件，例如：
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -85,7 +85,7 @@ order: 52
 
 理论上可以支持所有非表达项的所有组件，并且支持对应的配置项，下面是一些示例：
 
-```schema:height="1500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -250,8 +250,3 @@ order: 52
 ```
 
 想要调整展示组件的配置，请查阅相应组件的文档。
-
-
-
-
-

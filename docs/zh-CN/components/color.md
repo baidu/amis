@@ -1,17 +1,18 @@
 ---
 title: Color 颜色
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Color
-icon: 
+icon:
 order: 37
 ---
+
 用于展示颜色
 
 ## 基本用法
 
-```schema:height="300"
+```schema
 {
     "type": "page",
     "body": {
@@ -23,11 +24,11 @@ order: 37
 
 ## 用作 Field 时
 
-当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的Static-XXX 中时，可以设置`name`属性，映射同名变量
+当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量
 
 ### Table 中的列类型
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "table",
     "data": {
@@ -65,7 +66,7 @@ List 的内容、Card 卡片的内容配置同上
 
 ### Form 中静态展示
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "data": {
@@ -91,9 +92,3 @@ List 的内容、Card 卡片的内容配置同上
 | name         | `string`  |        | 在其他组件中，时，用作变量映射                                                         |
 | defaultColor | `string`  | `#ccc` | 默认颜色值                                                                             |
 | showValue    | `boolean` | `true` | 是否显示右边的颜色值                                                                   |
-
-
-
-
-
-

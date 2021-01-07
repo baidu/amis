@@ -14,7 +14,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 我们这里简单实现一个点击按钮弹框的交互。
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
   "label": "弹框",
   "type": "action",
@@ -32,7 +32,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 配置`size`，显示不同尺寸
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
   "type": "button-toolbar",
   "buttons": [
@@ -68,7 +68,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 可以配置`level`或者`primary`，显示不同样式。
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
   "type": "button-toolbar",
   "buttons": [
@@ -124,7 +124,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 可以配置`icon`配置项，实现按钮显示图标
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
   "label": "弹框",
   "type": "action",
@@ -139,7 +139,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 如果`label`配置为空字符串，可以只显示`icon`
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
   "label": "",
   "type": "action",
@@ -156,7 +156,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 可以通过配置`confirmText`，实现在任意操作前，弹出提示框确认是否进行该操作。
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "label": "ajax请求",
     "type": "button",
@@ -170,7 +170,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 通过配置`"actionType":"ajax"`和`api`，可以实现 ajax 请求。
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "label": "ajax请求",
     "type": "button",
@@ -183,7 +183,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ##### 配置相对路径，实现单页跳转
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "label": "ajax请求",
     "type": "button",
@@ -195,7 +195,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ##### 配置完整路径，直接跳转指定路径
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "label": "ajax请求",
     "type": "button",
@@ -207,7 +207,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ### 请求成功后，显示反馈弹框
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "ajax 反馈弹框",
@@ -227,7 +227,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 1. 目标组件需要配置 `name` 属性
 2. Action 上添加 `"reload": "xxx"`，`xxx` 为目标组件的 `name` 属性值，如果配置多个组件，`name` 用逗号分隔，另外如果想让 reload 的时候再携带些数据可以类似这样配置 `{"reload": "xxx?a=${a}&b=${b}"}`, 这样不仅让目标组件刷新，同时还会把当前环境中的数据 a 和 b 传递给 xxx.
 
-```schema:height="700"
+```schema
 {
   "type": "page",
   "body": [
@@ -282,7 +282,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 可以通过配置`messages`，自定义接口返回`toast`信息
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "ajax 请求",
@@ -308,7 +308,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ### 单页跳转
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "label": "进入介绍页",
     "type": "button",
@@ -328,7 +328,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ### 直接跳转
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "label": "打开 Baidu",
     "type": "button",
@@ -348,7 +348,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ## 弹框
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
   "label": "Dialog Form",
   "type": "button",
@@ -381,7 +381,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ## 抽屉
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
   "label": "Drawer Form",
   "type": "button",
@@ -412,7 +412,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 ## 复制文本
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "label": "复制一段文本",
     "type": "button",
@@ -447,7 +447,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 在 form 中，配置`"type": "reset"`的按钮，可以实现重置表单数据的功能
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -488,23 +488,23 @@ Action 行为按钮，是触发页面行为的主要方法之一
 
 所有`actionType`都支持的通用配置项
 
-| 属性名           | 类型                         | 默认值      | 说明                                                                                                                                                                  |
-| ---------------- | ---------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type             | `string`                     | `action`    | 指定为 Page 渲染器。                                                                                                                                                  |
-| actionType       | `string`                     | -           | 【必填】这是 action 最核心的配置，来指定该 action 的作用类型，支持：`ajax`、`link`、`url`、`drawer`、`dialog`、`confirm`、`cancel`、`prev`、`next`、`copy`、`close`。 |
-| label            | `string`                     | -           | 按钮文本。可用 `${xxx}` 取值。                                                                                                                                        |
-| level            | `string`                     | `default`   | 按钮样式，支持：`link`、`primary`、`secondary`、`info`、`success`、`warning`、`danger`、`light`、`dark`、`default`。                                                  |
-| size             | `string`                     | -           | 按钮大小，支持：`xs`、`sm`、`md`、`lg`。                                                                                                                              |
-| icon             | `string`                     | -           | 设置图标，例如`fa fa-plus`。                                                                                                                                          |
-| iconClassName    | `string`                     | -           | 给图标上添加类名。                                                                                                                                                    |
-| active           | `boolean`                    | -           | 按钮是否高亮。                                                                                                                                                        |
-| activeLevel      | `string`                     | -           | 按钮高亮时的样式，配置支持同`level`。                                                                                                                                 |
-| activeClassName  | `string`                     | `is-active` | 给按钮高亮添加类名。                                                                                                                                                  |
-| block            | `boolean`                    | -           | 用`display:"block"`来显示按钮。                                                                                                                                       |
-| confirmText      | [模板](../concepts/template) | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                                |
-| reload           | `string`                     | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                         |
-| tooltip          | `string`                     | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                            |
-| disabledTip      | `string`                     | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                    |
-| tooltipPlacement | `string`                     | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                      |
-| close            | `boolean` or `string`                   | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。                                                       |
-| required         | `Array<string>`              | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                          |
+| 属性名           | 类型                         | 默认值      | 说明                                                                                                                                                                        |
+| ---------------- | ---------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type             | `string`                     | `action`    | 指定为 Page 渲染器。                                                                                                                                                        |
+| actionType       | `string`                     | -           | 【必填】这是 action 最核心的配置，来指定该 action 的作用类型，支持：`ajax`、`link`、`url`、`drawer`、`dialog`、`confirm`、`cancel`、`prev`、`next`、`copy`、`close`。       |
+| label            | `string`                     | -           | 按钮文本。可用 `${xxx}` 取值。                                                                                                                                              |
+| level            | `string`                     | `default`   | 按钮样式，支持：`link`、`primary`、`secondary`、`info`、`success`、`warning`、`danger`、`light`、`dark`、`default`。                                                        |
+| size             | `string`                     | -           | 按钮大小，支持：`xs`、`sm`、`md`、`lg`。                                                                                                                                    |
+| icon             | `string`                     | -           | 设置图标，例如`fa fa-plus`。                                                                                                                                                |
+| iconClassName    | `string`                     | -           | 给图标上添加类名。                                                                                                                                                          |
+| active           | `boolean`                    | -           | 按钮是否高亮。                                                                                                                                                              |
+| activeLevel      | `string`                     | -           | 按钮高亮时的样式，配置支持同`level`。                                                                                                                                       |
+| activeClassName  | `string`                     | `is-active` | 给按钮高亮添加类名。                                                                                                                                                        |
+| block            | `boolean`                    | -           | 用`display:"block"`来显示按钮。                                                                                                                                             |
+| confirmText      | [模板](../concepts/template) | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                                      |
+| reload           | `string`                     | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                               |
+| tooltip          | `string`                     | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                                  |
+| disabledTip      | `string`                     | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
+| tooltipPlacement | `string`                     | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                            |
+| close            | `boolean` or `string`        | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
+| required         | `Array<string>`              | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |

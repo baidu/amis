@@ -10,7 +10,7 @@ order: 61
 
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "qr-code",
     "codeSize": 128,
@@ -22,7 +22,7 @@ order: 61
 
 ## 配置背景色
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 [
     {
         "type": "qr-code",
@@ -36,7 +36,7 @@ order: 61
 
 ## 配置前景色
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 [
     {
         "type": "qr-code",
@@ -50,7 +50,7 @@ order: 61
 
 ## 不同复杂度
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "hbox",
   "columns": [

@@ -10,7 +10,7 @@ order: 58
 
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -30,7 +30,7 @@ order: 58
 
 例如你想显示`01时01分`这样的格式，查找 moment 文档可知配置格式应为 `HH时mm分`，即：
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -51,7 +51,7 @@ order: 58
 
 选中任意时间，可以看到默认表单项的值格式是像`1591862818`这样的时间戳格式。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -70,7 +70,7 @@ order: 58
 
 例如你调整值为`01:11`这样的格式，查找 moment 文档可知配置格式应为 `HH:mm`，即：
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -92,7 +92,7 @@ order: 58
 
 默认显示的是时和分，要显示秒请参考以下配置
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -118,7 +118,7 @@ order: 58
 
 配置符合当前 [值格式](./date#%E5%80%BC%E6%A0%BC%E5%BC%8F) 的默认值。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -138,7 +138,7 @@ order: 58
 
 `value` 还支持类似像`"+1hours"`这样的相对值，更加便捷的配置默认值
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,

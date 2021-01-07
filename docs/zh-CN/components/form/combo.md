@@ -16,7 +16,7 @@ order: 12
 
 配置`controls`属性，组合多个表单项
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -48,7 +48,7 @@ order: 12
 
 默认，combo 内表单项是横着展示一排，如果想换行展示，可以配置`"multiLine": true`
 
-```schema:height="450" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "mode": "horizontal",
@@ -104,7 +104,7 @@ order: 12
 
 这时提交的将会是对象数组。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "mode": "horizontal",
@@ -159,7 +159,7 @@ order: 12
 
 多选模式下，可以配置`minLength`和`maxLength`配置该 Combo 可添加的条数
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "mode": "horizontal",
@@ -216,7 +216,7 @@ order: 12
 - 单选模式时，**数据格式为对象**；
 - 多选模式时，**数据格式为数组，数组成员是对象**
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -271,7 +271,7 @@ order: 12
 
 默认多选模式下，数据格式是对象数组的形式，当你配置的组合中只有一个表单项时，可以配置`"flat": true`，将值进行打平处理。
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -354,7 +354,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 可以在配置的`controls`项上，配置`"unique": true`，指定当前表单项不可重复
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -395,7 +395,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 多选模式下，可以配置`"draggable": true`实现拖拽调整排序
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -444,7 +444,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 如下面的例子，定义了两种类型：文本和数字，用户新增的时候可以选择是新增文本还是数字。区分是文字和数字的方式是根据成员数据中的 type 字段来决定。
 
-```schema:height="450" scope="form-item"
+```schema: scope="form-item"
 {
   "type": "combo",
   "name": "combo-conditions2",
@@ -530,7 +530,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 默认成员是一个一个排列的，如果数据比较多有点让人眼花缭乱。所以 Combo 支持了 tabs 的排列方式。
 
-```schema:height="350" scope="form-item"
+```schema: scope="form-item"
 {
   "type": "combo",
   "name": "combo101",
@@ -577,7 +577,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 默认情况下，Combo 内表达项无法获取父级数据域的数据，如下，我们添加 Combo 表单项时，尽管 Combo 内的文本框的`name`与父级数据域中的`super_text`变量同名，但是没有自动映射值。
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -608,7 +608,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 可以配置`"canAccessSuperData": true`开启此特性，如下，配置了该配置项后，添加 Combo 的`text`表单项会自动映射父级数据域的同名变量
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -644,7 +644,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 如下，添加一组 combo，然后可以看到默认会映射父级变量值`123`，但是当你在更改父级数据域`super_text`文本框值后，combo 内部文本框并没有同步更新
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -681,7 +681,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 以上面为例，我们在 combo 上配置`"strictMode": false`和`"syncFields": ["super_text"]`，即可实现同步
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -717,7 +717,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 默认 Combo 数据域中，每一项会有一个隐藏变量`index`，可以利用 Tpl 组件，显示当前项序号
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,

@@ -10,7 +10,7 @@ order: 36
 
 ## 基本用法
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "collapse",
     "title": "标题",

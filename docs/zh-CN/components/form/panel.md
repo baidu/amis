@@ -8,11 +8,11 @@ icon:
 order: 34
 ---
 
-还是为了布局，可以把一部分 [FormItem](./formItem) 合并到一个 panel 里面单独展示。
+展现上将多个 [表单项](./formItem) 放同一个容器下。
 
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

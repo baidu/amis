@@ -12,7 +12,7 @@ order: 30
 
 随机生成一个 id，可以用于防止表单重复提交。
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
