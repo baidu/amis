@@ -372,7 +372,7 @@ export default [
               )
           },
           {
-            label: 'Grid 网格',
+            label: 'Grid 水平布局',
             path: '/zh-CN/docs/components/form/grid',
             getComponent: () =>
               // @ts-ignore
@@ -869,11 +869,20 @@ export default [
           )
       },
       {
-        label: 'Grid 网格布局',
+        label: 'Grid 水平布局',
         path: '/zh-CN/docs/components/grid',
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/grid.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'Grid 2D 布局',
+        path: '/zh-CN/docs/components/grid-2d',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/grid-2d.md').then(
             makeMarkdownRenderer
           )
       },

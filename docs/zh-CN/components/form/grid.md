@@ -1,5 +1,5 @@
 ---
-title: Grid 网格
+title: Grid 水平布局
 description:
 type: 0
 group: null

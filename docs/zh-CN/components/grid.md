@@ -1,9 +1,9 @@
 ---
-title: Grid 网格布局
+title: Grid 水平布局
 description:
 type: 0
 group: ⚙ 组件
-menuName: Grid 格线组件
+menuName: Grid 组件
 icon:
 order: 46
 ---

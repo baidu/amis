@@ -115,6 +115,7 @@ import './renderers/Form/TabsTransfer';
 import './renderers/Form/Group';
 import './renderers/Form/InputGroup';
 import './renderers/Grid';
+import './renderers/Grid2D';
 import './renderers/HBox';
 import './renderers/VBox';
 import './renderers/Image';
