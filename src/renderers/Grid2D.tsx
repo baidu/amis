@@ -158,7 +158,7 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
       <div key={key} style={style} className={grid.gridClassName}>
         {itemRender
           ? itemRender(grid, key, length, this.props)
-          : this.renderChild(`grid2d/${key}`, grid)}
+          : this.renderChild(`grid2d/${key}`, grid as Grid)}
       </div>
     );
   }
