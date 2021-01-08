@@ -177,7 +177,7 @@ export class JSONField extends React.Component<JSONProps, object> {
 
     return (
       <div className={cx('JsonField', className)}>
-        {typeof value === 'undefined' || value === null ? (
+        {typeof data === 'undefined' || data === null ? (
           placeholder
         ) : (
           <JSONTree
