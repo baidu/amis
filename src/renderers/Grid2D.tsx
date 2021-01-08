@@ -16,14 +16,24 @@ export type GridObject = {
   y: number;
 
   /**
-   * 宽度，跨几列，如果设置 auto 会使得那一列变成 auto
+   * 宽度，跨几列
    */
-  w: number | 'auto';
+  w: number;
 
   /**
-   * 高度，跨几行，auto 用于支持高度不确定的容器，最终高度由内容决定
+   * 高度，跨几行
    */
-  h: number | 'auto';
+  h: number;
+
+  /**
+   * 宽度，会影响起始位置对应那一列的宽度
+   */
+  width?: number | string;
+
+  /**
+   * 高度，会影响起始位置那一行的高度，设置为 auto 就会自适应
+   */
+  height?: number | string;
 
   /**
    * 水平展示方式，用于内容宽度比 grid 小的情况，默认是 auto 自动撑满
@@ -34,6 +44,11 @@ export type GridObject = {
    * 垂直展示方式，用于内容高度比 grid 小的情况，默认是 auto 自动撑满
    */
   vAlign?: 'top' | 'bottom' | 'middle' | 'auto';
+
+  /**
+   * 每个格子最外层容器的 className
+   */
+  gridClassName?: string;
 };
 
 export type Grid = GridObject & SchemaObject;
@@ -54,22 +69,17 @@ export interface Grid2DSchema extends BaseSchema {
   cols?: number;
 
   /**
-   * 移动端下的列数量，默认是 1，也就是移动端只有一列，如果加大这个值，比如 6，则两个宽度是 3 的 grid 就能并排展示
-   */
-  colsMobile?: number;
-
-  /**
    * grid 2d 容器宽度，默认是 auto
    */
   width?: number | string | 'auto';
 
   /**
-   * grid 间距，默认 0，包含行和列
+   * 格子间距，默认 0，包含行和列
    */
   gap?: number | string;
 
   /**
-   * grid 行级别的间距，如果不设置就和 gap 一样
+   * 格子行级别的间距，如果不设置就和 gap 一样
    */
   gapRow?: number | string;
 
@@ -79,13 +89,12 @@ export interface Grid2DSchema extends BaseSchema {
   rowHeight?: number | string;
 
   /**
-   * 每个 grid 的配置
+   * 每个格子的配置
    */
   grids: Array<Grid>;
 }
 
 export interface Grid2DProps extends RendererProps, Grid2DSchema {
-  className: string;
   itemRender?: (
     item: any,
     key: number,
@@ -93,6 +102,21 @@ export interface Grid2DProps extends RendererProps, Grid2DSchema {
     props: any
   ) => JSX.Element;
 }
+
+// Grid 布局默认的这个命名方式和其它 CSS 差异太大，所以我们使用更类似其它 CSS 的命名
+const justifySelfMap = {
+  left: 'start',
+  right: 'end',
+  center: 'center',
+  auto: 'stretch'
+};
+
+const alignSelfMap = {
+  top: 'start',
+  bottom: 'end',
+  middle: 'center',
+  auto: 'stretch'
+};
 
 export default class Grid2D extends React.Component<Grid2DProps, object> {
   static propsList: Array<string> = ['grids'];
@@ -115,21 +139,23 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
   }
 
   renderGrid(grid: Grid, key: number, length: number) {
-    const {itemRender, data, className} = this.props;
+    const {itemRender, data} = this.props;
 
     if (!isVisible(grid, data)) {
       return null;
     }
 
-    let style = {
+    let style: any = {
       gridColumnStart: grid.x,
-      gridColumnEnd: grid.w === 'auto' ? 'auto' : grid.x + grid.w,
+      gridColumnEnd: grid.x + grid.w,
       gridRowStart: grid.y,
-      gridRowEnd: grid.h === 'auto' ? 'auto' : grid.y + grid.h
+      gridRowEnd: grid.y + grid.h,
+      justifySelf: grid.align ? justifySelfMap[grid.align] : 'stretch',
+      alignSelf: grid.vAlign ? alignSelfMap[grid.vAlign] : 'stretch'
     };
 
     return (
-      <div key={key} style={style} className={grid.className}>
+      <div key={key} style={style} className={grid.gridClassName}>
         {itemRender
           ? itemRender(grid, key, length, this.props)
           : this.renderChild(`grid2d/${key}`, grid)}
@@ -153,7 +179,7 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
 
     // 计算最大有多少行
     grids.forEach((grid, index) => {
-      let row = grid.y + (grid.h === 'auto' ? 0 : grid.h) - 1;
+      let row = grid.y + grid.h - 1;
       if (row > maxRow) {
         maxRow = row;
       }
@@ -162,13 +188,17 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
     const templateRows = new Array(maxRow);
     templateRows.fill(rowHeight);
 
-    // 自适应高宽的情况
-    grids.forEach((grid, index) => {
-      if (grid.h === 'auto') {
-        templateColumns[grid.y - 1] = 'auto';
+    // 根据 grid 中的设置自动更新行列高度
+    grids.forEach(grid => {
+      if (grid.width) {
+        templateColumns[grid.x - 1] = Number.isInteger(grid.width)
+          ? grid.width + 'px'
+          : grid.width;
       }
-      if (grid.w === 'auto') {
-        templateColumns[grid.x - 1] = 'auto';
+      if (grid.height) {
+        templateRows[grid.y - 1] = Number.isInteger(grid.height)
+          ? grid.height + 'px'
+          : grid.height;
       }
     });
 
