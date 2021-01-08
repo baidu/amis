@@ -1,4 +1,5 @@
 import React from 'react';
+import {match} from 'path-to-regexp';
 import makeSchemaRenderer from './SchemaRender';
 
 import SimplePageSchema from './Page/Simple';
@@ -550,7 +551,7 @@ export const examples = [
           jumpTo: (to: string) => {
             location.hash = to;
           },
-          isCurrentUrl: (to: string) => {
+          isCurrentUrl: (to: string, ctx: any) => {
             if (!to) {
               return false;
             }
@@ -560,6 +561,14 @@ export const examples = [
               pathname,
               hash: ''
             });
+
+            if (~link.indexOf(':')) {
+              return match(link, {
+                decode: decodeURIComponent,
+                strict: ctx?.strict ?? true
+              })(pathname);
+            }
+
             return pathname === link;
           }
         })

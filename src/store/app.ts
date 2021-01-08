@@ -1,6 +1,7 @@
 import {SnapshotIn, types} from 'mobx-state-tree';
 import {Navigation} from '../components/AsideNav';
-import {guid, mapTree} from '../utils/helper';
+import {RendererEnv} from '../factory';
+import {filterTree, findTree, guid, mapTree} from '../utils/helper';
 import {ServiceStore} from './service';
 
 export const AppStore = ServiceStore.named('AppStore')
@@ -18,7 +19,8 @@ export const AppStore = ServiceStore.named('AppStore')
             label: item.label,
             icon: item.icon,
             path: item.path,
-            children: item.children
+            children: item.children,
+            visible: item.visible
           };
         });
       }
@@ -44,44 +46,112 @@ export const AppStore = ServiceStore.named('AppStore')
     },
 
     setPages(pages: any) {
-      if (Array.isArray(pages)) {
-        pages = mapTree(pages, (item, index, level, paths) => {
-          let path = item.link;
+      if (pages && !Array.isArray(pages)) {
+        pages = [pages];
+      } else if (!Array.isArray(pages)) {
+        return;
+      }
 
-          if (!item.isDefaultPage && (item.schema || item.schemaApi)) {
-            path = item.url || guid();
+      pages = mapTree(pages, (item, index, level, paths) => {
+        let path = item.link || item.url;
 
-            if (path && path[0] !== '/') {
-              let parentPath = '/';
-              let index = paths.length;
-              while (index > 0) {
-                const item = paths[index - 1];
+        if (item.schema || item.schemaApi) {
+          path =
+            item.url ||
+            `/${paths
+              .map(item => item.index)
+              .concat(index)
+              .map(index => `page-${index + 1}`)
+              .join('/')}`;
 
-                if (item?.path) {
-                  parentPath = item.path + '/';
-                  break;
-                }
-                index--;
+          if (path && path[0] !== '/') {
+            let parentPath = '/';
+            let index = paths.length;
+            while (index > 0) {
+              const item = paths[index - 1];
+
+              if (item?.path) {
+                parentPath = item.path + '/';
+                break;
               }
-
-              path = parentPath + path;
+              index--;
             }
-          }
 
-          return {
-            ...item,
-            label: item.label,
-            icon: item.icon,
-            path,
-            children: item.children
-          };
-        });
-        self.pages = pages;
+            path = parentPath + path;
+          }
+        }
+
+        return {
+          ...item,
+          index,
+          id: item.id || guid(),
+          label: item.label,
+          icon: item.icon,
+          path
+        };
+      });
+      self.pages = pages;
+    },
+
+    rewrite(to: string, env: RendererEnv) {
+      let bcns: any;
+      let page = findTree(self.pages, (item, index, level, paths) => {
+        if (item.path === to) {
+          bcns = paths;
+          return true;
+        }
+        return false;
+      });
+
+      if (page) {
+        this.setActivePage(page, bcns, env);
       }
     },
 
-    updateActivePage(location: any) {
-      debugger;
+    setActivePage(page: any, bcn: Array<any>, env: RendererEnv) {
+      self.activePage = {
+        ...page,
+        bcn
+      };
+
+      if (page.schema) {
+        self.schema = page.schema;
+      } else if (page.schemaApi) {
+        self.fetchSchema(page.schemaApi, self.activePage);
+      } else if (page.redirect) {
+        env.jumpTo(page.redirect);
+        return;
+      } else if (page.rewrite) {
+        this.rewrite(page.rewrite, env);
+      } else {
+        self.schema = null;
+      }
+    },
+
+    updateActivePage(env: RendererEnv) {
+      if (!Array.isArray(self.pages)) {
+        return;
+      }
+      let matched: any;
+      let bcns: any;
+
+      let page = findTree(self.pages, (item, index, level, paths) => {
+        if (item.path) {
+          matched = env.isCurrentUrl(item.path, item);
+
+          if (matched) {
+            bcns = paths;
+            return true;
+          }
+        }
+        return false;
+      });
+
+      if (page) {
+        this.setActivePage(page, bcns, env);
+      } else {
+        self.activePage = null;
+      }
     }
   }));
 

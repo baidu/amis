@@ -1,5 +1,5 @@
 import React from 'react';
-import {AsideNav, NotFound} from '../components';
+import {AsideNav, NotFound, Spinner} from '../components';
 import Button from '../components/Button';
 import Layout from '../components/Layout';
 import {Renderer, RendererProps} from '../factory';
@@ -23,6 +23,16 @@ export interface AppPage {
    * 路由规则。比如：/banner/:id。当地址以 / 打头，则不继承上层的路径，否则将集成父级页面的路径。
    */
   url?: string;
+
+  /**
+   * 当match url 时跳转到目标地址.没有配置 schema 和 shcemaApi  时有效.
+   */
+  redirect?: string;
+
+  /**
+   * 当match url 转成渲染目标地址的页面.没有配置 schema 和 shcemaApi  时有效.
+   */
+  rewrite?: string;
 
   /**
    * 不要出现多个，如果出现多个只有第一个有用。在路由找不到的时候作为默认页面。
@@ -133,11 +143,20 @@ export default class App extends React.Component<AppProps, object> {
   constructor(props: AppProps) {
     super(props);
 
-    props.store.syncProps(props, undefined, ['pages']);
+    const store = props.store;
+    store.syncProps(props, undefined, ['pages']);
+    store.updateActivePage(props.env);
   }
 
   componentDidUpdate(prevProps: AppProps) {
-    this.props.store.syncProps(this.props, prevProps, ['pages']);
+    const props = this.props;
+    const store = props.store;
+
+    store.syncProps(props, prevProps, ['pages']);
+
+    if (props.location && props.location !== prevProps.location) {
+      store.updateActivePage(props.env);
+    }
   }
 
   @autobind
@@ -181,95 +200,104 @@ export default class App extends React.Component<AppProps, object> {
   }
 
   renderAside() {
-    const {store, env} = this.props;
+    const {store, env, asideBefore, asideAfter, render} = this.props;
 
     return (
-      <AsideNav
-        navigations={store.navigations}
-        renderLink={({
-          link,
-          active,
-          toggleExpand,
-          classnames: cx,
-          depth
-        }: any) => {
-          let children = [];
+      <>
+        {asideBefore ? render('aside-before', asideBefore) : null}
+        <AsideNav
+          navigations={store.navigations}
+          renderLink={({
+            link,
+            active,
+            toggleExpand,
+            classnames: cx,
+            depth
+          }: any) => {
+            let children = [];
 
-          if (link.children && link.children.length) {
+            if (link.visible === false) {
+              return null;
+            }
+
+            if (link.children && link.children.length) {
+              children.push(
+                <span
+                  key="expand-toggle"
+                  className={cx('AsideNav-itemArrow')}
+                  onClick={e => toggleExpand(link, e)}
+                ></span>
+              );
+            }
+
+            link.badge &&
+              children.push(
+                <b
+                  key="badge"
+                  className={cx(
+                    `AsideNav-itemBadge`,
+                    link.badgeClassName || 'bg-info'
+                  )}
+                >
+                  {link.badge}
+                </b>
+              );
+
+            if (link.icon) {
+              children.push(
+                <i key="icon" className={cx(`AsideNav-itemIcon`, link.icon)} />
+              );
+            } else if (store.folded && depth === 1) {
+              children.push(
+                <i
+                  key="icon"
+                  className={cx(
+                    `AsideNav-itemIcon`,
+                    link.children ? 'fa fa-folder' : 'fa fa-info'
+                  )}
+                />
+              );
+            }
+
             children.push(
-              <span
-                key="expand-toggle"
-                className={cx('AsideNav-itemArrow')}
-                onClick={e => toggleExpand(link, e)}
-              ></span>
-            );
-          }
-
-          link.badge &&
-            children.push(
-              <b
-                key="badge"
-                className={cx(
-                  `AsideNav-itemBadge`,
-                  link.badgeClassName || 'bg-info'
-                )}
-              >
-                {link.badge}
-              </b>
+              <span className={cx('AsideNav-itemLabel')} key="label">
+                {link.label}
+              </span>
             );
 
-          if (link.icon) {
-            children.push(
-              <i key="icon" className={cx(`AsideNav-itemIcon`, link.icon)} />
-            );
-          } else if (store.folded && depth === 1) {
-            children.push(
-              <i
-                key="icon"
-                className={cx(
-                  `AsideNav-itemIcon`,
-                  link.children ? 'fa fa-folder' : 'fa fa-info'
-                )}
-              />
-            );
-          }
-
-          children.push(
-            <span className={cx('AsideNav-itemLabel')} key="label">
-              {link.label}
-            </span>
-          );
-
-          return link.path ? (
-            /^https?\:/.test(link.path) ? (
-              <a target="_blank" href={link.path} rel="noopener">
-                {children}
-              </a>
+            return link.path ? (
+              /^https?\:/.test(link.path) ? (
+                <a target="_blank" href={link.path} rel="noopener">
+                  {children}
+                </a>
+              ) : (
+                <a
+                  onClick={this.handleNavClick}
+                  href={link.path || (link.children && link.children[0].path)}
+                >
+                  {children}
+                </a>
+              )
             ) : (
-              <a
-                onClick={this.handleNavClick}
-                href={link.path || (link.children && link.children[0].path)}
-              >
+              <a onClick={link.children ? () => toggleExpand(link) : undefined}>
                 {children}
               </a>
-            )
-          ) : (
-            <a onClick={link.children ? () => toggleExpand(link) : undefined}>
-              {children}
-            </a>
-          );
-        }}
-        isActive={(link: any) => env.isCurrentUrl(link?.path, link)}
-      />
+            );
+          }}
+          isActive={(link: any) => !!env.isCurrentUrl(link?.path, link)}
+        />
+        {asideBefore ? render('aside-before', asideBefore) : null}
+      </>
     );
   }
 
   renderFooter() {
-    return <p>233</p>;
+    const {render, footer} = this.props;
+    return footer ? render('footer', footer) : null;
   }
 
   render() {
-    const {className, size, classnames: cx, store} = this.props;
+    const {className, size, classnames: cx, store, render} = this.props;
 
     return (
       <Layout
@@ -279,7 +307,16 @@ export default class App extends React.Component<AppProps, object> {
         folded={store.folded}
         offScreen={store.offScreen}
       >
-        {store.activePage ? <p>233</p> : <NotFound>页面不存在</NotFound>}
+        {store.activePage && store.schema ? (
+          render('page', store.schema, {
+            key: store.activePage?.id
+          })
+        ) : (
+          <NotFound>
+            <div className="text-center">页面不存在</div>
+          </NotFound>
+        )}
+        <Spinner overlay show={store.loading} size="lg" />
       </Layout>
     );
   }

@@ -36,8 +36,6 @@
     }
   ],
   "dependencies": {
-    "@types/file-saver": "^2.0.1",
-    "@types/papaparse": "^5.2.2",
     "async": "2.6.0",
     "attr-accept": "2.2.2",
     "autobind-decorator": "2.4.0",
@@ -50,7 +48,6 @@
     "file-saver": "^2.0.2",
     "flv.js": "1.5.0",
     "froala-editor": "2.9.6",
-    "history": "4.7.2",
     "hls.js": "0.12.2",
     "hoist-non-react-statics": "3.3.0",
     "immutability-helper": "^3.1.1",
@@ -90,11 +87,15 @@
     "video-react": "0.14.1"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.1",
+    "@types/papaparse": "^5.2.2",
     "@types/async": "^2.0.45",
     "@types/classnames": "^2.2.3",
     "@types/dom-helpers": "^3.4.1",
     "@types/echarts": "^4.9.2",
     "@types/history": "^4.6.0",
+    "history": "4.7.2",
+    "path-to-regexp": "^6.2.0",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^24.9.1",
     "@types/jquery": "^3.3.1",
