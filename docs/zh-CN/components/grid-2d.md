@@ -235,7 +235,7 @@ Grid 2D 是一种二维布局方式，它可以更直观设置组件位置。
       "h": 1,
       "w": 1,
       "align": "center",
-      "vAlign": "middle",
+      "valign": "middle",
       "gridClassName": "bg-blue-300",
       "type": "tpl",
       "tpl": "hello"
@@ -253,7 +253,7 @@ Grid 2D 是一种二维布局方式，它可以更直观设置组件位置。
 }
 ```
 
-在中间的格子中，我们设置了 `"align": "center"` 和 `"vAlign": "middle"`，就使得文字水平和垂直居中显示了。
+在中间的格子中，我们设置了 `"align": "center"` 和 `"valign": "middle"`，就使得文字水平和垂直居中显示了。
 
 ## 属性表
 
@@ -274,4 +274,4 @@ Grid 2D 是一种二维布局方式，它可以更直观设置组件位置。
 | grids[x].width  | `int`/`string`/`auto`             |           | 格子所在列的宽度                |
 | grids[x].height | `int`/`string`/`auto`             |           | 格子所在行的高度，可以设置 auto |
 | grids[x].align  | `left`/`center`/`right`/`auto`    | `auto`    | 格子内容水平布局                |
-| grids[x].vAlign | `top`/`bottom`/`middle`/`auto`    | `auto`    | 格子内容垂直布局                |
+| grids[x].valign | `top`/`bottom`/`middle`/`auto`    | `auto`    | 格子内容垂直布局                |

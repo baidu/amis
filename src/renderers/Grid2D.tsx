@@ -43,7 +43,7 @@ export type GridObject = {
   /**
    * 垂直展示方式，用于内容高度比 grid 小的情况，默认是 auto 自动撑满
    */
-  vAlign?: 'top' | 'bottom' | 'middle' | 'auto';
+  valign?: 'top' | 'bottom' | 'middle' | 'auto';
 
   /**
    * 每个格子最外层容器的 className
@@ -138,10 +138,10 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
     return render(region, node);
   }
 
-  renderGrid(grid: Grid, key: number, length: number) {
+  renderGrid(grid: GridObject, key: number, length: number) {
     const {itemRender, data} = this.props;
 
-    if (!isVisible(grid, data)) {
+    if (!isVisible(grid as Grid, data)) {
       return null;
     }
 
@@ -151,7 +151,7 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
       gridRowStart: grid.y,
       gridRowEnd: grid.y + grid.h,
       justifySelf: grid.align ? justifySelfMap[grid.align] : 'stretch',
-      alignSelf: grid.vAlign ? alignSelfMap[grid.vAlign] : 'stretch'
+      alignSelf: grid.valign ? alignSelfMap[grid.valign] : 'stretch'
     };
 
     return (
