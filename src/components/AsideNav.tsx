@@ -23,7 +23,7 @@ interface LinkItemProps {
   component?: React.ReactType;
 }
 
-interface Navigation {
+export interface Navigation {
   label: string;
   children: Array<LinkItem>;
   prefix?: JSX.Element;
@@ -32,7 +32,7 @@ interface Navigation {
   [propName: string]: any;
 }
 
-interface AsideNavProps {
+export interface AsideNavProps {
   id?: string;
   className?: string;
   classPrefix: string;

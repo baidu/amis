@@ -1,8 +1,12 @@
 import React from 'react';
+import {AsideNav, NotFound} from '../components';
+import Button from '../components/Button';
 import Layout from '../components/Layout';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
+import {AppStore, IAppStore} from '../store/app';
 import {SchemaNode} from '../types';
+import {autobind} from '../utils/helper';
 
 export interface AppPage {
   /**
@@ -96,7 +100,7 @@ export interface AppSchema extends BaseSchema {
   /**
    * 页面集合。
    */
-  pages: Array<AppPage> | AppPage;
+  pages?: Array<AppPage> | AppPage;
 
   /**
    * 底部区域。
@@ -111,6 +115,7 @@ export interface AppSchema extends BaseSchema {
 
 export interface AppProps extends RendererProps, Omit<AppSchema, 'type'> {
   children?: JSX.Element | ((props?: any) => JSX.Element);
+  store: IAppStore;
 }
 
 export default class App extends React.Component<AppProps, object> {
@@ -125,15 +130,164 @@ export default class App extends React.Component<AppProps, object> {
   ];
   static defaultProps = {};
 
-  render() {
-    const {className, size, classnames: cx} = this.props;
+  constructor(props: AppProps) {
+    super(props);
 
-    return <Layout>233</Layout>;
+    props.store.syncProps(props, undefined, ['pages']);
+  }
+
+  componentDidUpdate(prevProps: AppProps) {
+    this.props.store.syncProps(this.props, prevProps, ['pages']);
+  }
+
+  @autobind
+  handleNavClick(e: React.MouseEvent) {
+    e.preventDefault();
+
+    const env = this.props.env;
+    const link = e.currentTarget.getAttribute('href')!;
+    env.jumpTo(link);
+  }
+
+  renderHeader() {
+    const {classnames: cx, brandName, header, render, store} = this.props;
+
+    return (
+      <>
+        <div className={cx('Layout-brandBar')}>
+          <div
+            onClick={store.toggleOffScreen}
+            className={cx('Layout-offScreenBtn')}
+          >
+            <i className="bui-icon iconfont icon-collapse"></i>
+          </div>
+
+          <div className={cx('Layout-brand text-ellipsis')}>
+            <i className="fa fa-paw" />
+            <span className="hidden-folded m-l-sm">{brandName}</span>
+          </div>
+        </div>
+
+        <div className={cx('Layout-headerBar')}>
+          <Button onClick={store.toggleFolded} type="button" level="link">
+            <i
+              className={`fa fa-${store.folded ? 'indent' : 'dedent'} fa-fw`}
+            ></i>
+          </Button>
+          {header ? render('header', header) : null}
+        </div>
+      </>
+    );
+  }
+
+  renderAside() {
+    const {store, env} = this.props;
+
+    return (
+      <AsideNav
+        navigations={store.navigations}
+        renderLink={({
+          link,
+          active,
+          toggleExpand,
+          classnames: cx,
+          depth
+        }: any) => {
+          let children = [];
+
+          if (link.children && link.children.length) {
+            children.push(
+              <span
+                key="expand-toggle"
+                className={cx('AsideNav-itemArrow')}
+                onClick={e => toggleExpand(link, e)}
+              ></span>
+            );
+          }
+
+          link.badge &&
+            children.push(
+              <b
+                key="badge"
+                className={cx(
+                  `AsideNav-itemBadge`,
+                  link.badgeClassName || 'bg-info'
+                )}
+              >
+                {link.badge}
+              </b>
+            );
+
+          if (link.icon) {
+            children.push(
+              <i key="icon" className={cx(`AsideNav-itemIcon`, link.icon)} />
+            );
+          } else if (store.folded && depth === 1) {
+            children.push(
+              <i
+                key="icon"
+                className={cx(
+                  `AsideNav-itemIcon`,
+                  link.children ? 'fa fa-folder' : 'fa fa-info'
+                )}
+              />
+            );
+          }
+
+          children.push(
+            <span className={cx('AsideNav-itemLabel')} key="label">
+              {link.label}
+            </span>
+          );
+
+          return link.path ? (
+            /^https?\:/.test(link.path) ? (
+              <a target="_blank" href={link.path} rel="noopener">
+                {children}
+              </a>
+            ) : (
+              <a
+                onClick={this.handleNavClick}
+                href={link.path || (link.children && link.children[0].path)}
+              >
+                {children}
+              </a>
+            )
+          ) : (
+            <a onClick={link.children ? () => toggleExpand(link) : undefined}>
+              {children}
+            </a>
+          );
+        }}
+        isActive={(link: any) => env.isCurrentUrl(link?.path, link)}
+      />
+    );
+  }
+
+  renderFooter() {
+    return <p>233</p>;
+  }
+
+  render() {
+    const {className, size, classnames: cx, store} = this.props;
+
+    return (
+      <Layout
+        header={this.renderHeader()}
+        aside={this.renderAside()}
+        footer={this.renderFooter()}
+        folded={store.folded}
+        offScreen={store.offScreen}
+      >
+        {store.activePage ? <p>233</p> : <NotFound>页面不存在</NotFound>}
+      </Layout>
+    );
   }
 }
 
 @Renderer({
   test: /(^|\/)app$/,
-  name: 'app'
+  name: 'app',
+  storeType: AppStore.name
 })
 export class AppRenderer extends App {}

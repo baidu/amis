@@ -1,6 +1,5 @@
-export const normalizeLink = (to: string) => {
+export const normalizeLink = (to: string, location = window.location) => {
   to = to || '';
-  const location = window.location;
 
   if (to && to[0] === '#') {
     to = location.pathname + location.search + to;

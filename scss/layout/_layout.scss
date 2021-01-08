@@ -93,6 +93,15 @@ body {
     border-bottom: var(--Layout-headerBar-borderBottom);
     min-height: var(--Layout-header-height);
     padding: 0 var(--gap-sm);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &-offScreenBtn {
+    display: none;
+    float: right;
+    padding: 13px 15px;
   }
 
   &-aside {
@@ -229,6 +238,10 @@ body {
       z-index: 1015;
       padding-top: px2rem(50px);
     }
+  }
+
+  .#{$ns}Layout-offScreenBtn {
+    display: block;
   }
 }
 

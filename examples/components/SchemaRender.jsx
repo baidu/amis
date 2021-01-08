@@ -19,7 +19,7 @@ function loadEditor() {
 
 const viewMode = localStorage.getItem('viewMode') || 'pc';
 
-export default function (schema, showCode) {
+export default function (schema, showCode, envOverrides?: any) {
   if (!schema['$schema']) {
     schema = {
       ...schema
@@ -69,6 +69,9 @@ export default function (schema, showCode) {
             }
           },
           isCurrentUrl: to => {
+            if (!to) {
+              return false;
+            }
             const link = normalizeLink(to);
             return router.isActive(link);
           },
@@ -116,7 +119,8 @@ export default function (schema, showCode) {
             return router.setRouteLeaveHook(route, nextLocation => {
               return fn(nextLocation);
             });
-          }
+          },
+          ...envOverrides
         };
 
         this.handleEditorMount = this.handleEditorMount.bind(this);

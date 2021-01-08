@@ -20,6 +20,7 @@ import {IStoreNode} from './node';
 import {FormItemStore} from './formItem';
 import {addStore, getStoreById, getStores, removeStore} from './manager';
 import {PaginationStore} from './pagination';
+import {AppStore} from './app';
 
 setLivelynessChecking(
   process.env.NODE_ENV === 'production' ? 'ignore' : 'error'
@@ -34,7 +35,8 @@ const allowedStoreList = [
   ListStore,
   ModalStore,
   FormItemStore,
-  PaginationStore
+  PaginationStore,
+  AppStore
 ];
 
 export const RendererStore = types

@@ -79,6 +79,7 @@ import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
 import JSSDK from './JSSDK/index';
+import {normalizeLink} from '../../src/utils/normalizeLink';
 
 export const examples = [
   {
@@ -544,7 +545,24 @@ export const examples = [
         label: 'JSSDK',
         icon: 'fa fa-cubes',
         path: '/examples/jssdk',
-        component: makeSchemaRenderer(JSSDK, false)
+        component: makeSchemaRenderer(JSSDK, false, {
+          session: 'jssdk',
+          jumpTo: (to: string) => {
+            location.hash = to;
+          },
+          isCurrentUrl: (to: string) => {
+            if (!to) {
+              return false;
+            }
+            const pathname = location.hash ? location.hash.substring(1) : '/';
+            const link = normalizeLink(to, {
+              ...location,
+              pathname,
+              hash: ''
+            });
+            return pathname === link;
+          }
+        })
       }
 
       // {

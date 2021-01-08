@@ -62,22 +62,21 @@ export const StoreNode = types
         list: Array<string> = Object.keys(props)
       ) {
         const target: any = self;
-        if (!prevProps) {
-          list.forEach(key => {
-            if (typeof target[key] !== 'undefined') {
-              target[key] = props[key];
-            }
-          });
-        } else {
-          list.forEach(key => {
-            if (
-              typeof target[key] !== 'undefined' &&
-              props[key] !== prevProps[key]
-            ) {
-              target[key] = props[key];
-            }
-          });
-        }
+        list.forEach(key => {
+          if (prevProps && props[key] === prevProps[key]) {
+            return;
+          }
+
+          const setter = `set${key
+            .substring(0, 1)
+            .toUpperCase()}${key.substring(1)}`;
+
+          if (typeof target[setter] === 'function') {
+            target[setter](props[key]);
+          } else if (target.hasOwnProperty(key)) {
+            target[key] = props[key];
+          }
+        });
       },
 
       dispose,
