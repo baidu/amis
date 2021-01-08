@@ -48,6 +48,7 @@ import {
   SchemaReload
 } from '../../Schema';
 import {ActionSchema} from '../Action';
+import {ButtonGroupControlSchema} from './ButtonGroup';
 
 export interface FormSchemaHorizontal {
   left?: number;
@@ -1113,9 +1114,9 @@ export default class Form extends React.Component<FormProps, object> {
         controls.some(
           item =>
             item &&
-            !!~['submit', 'button', 'reset', 'button-group'].indexOf(
-              (item as Schema).type
-            )
+            (!!~['submit', 'button', 'reset'].indexOf(item.type) ||
+              (item.type === 'button-group' &&
+                !(item as ButtonGroupControlSchema).options))
         ))
     ) {
       return actions;
