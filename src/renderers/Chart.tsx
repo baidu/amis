@@ -14,7 +14,7 @@ import {
 } from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
-import {createObject} from '../utils/helper';
+import {createObject, findObjectsWithKey} from '../utils/helper';
 import Spinner from '../components/Spinner';
 import {
   BaseSchema,
@@ -115,24 +115,6 @@ export interface ChartSchema extends BaseSchema {
    * 不可见的时候隐藏
    */
   unMountOnHidden?: boolean;
-}
-
-/**
- * 深度查找具有某个 key 名字段的对象
- * @param obj
- * @param key
- */
-function findObjectsWithKey(obj: any, key: string) {
-  let objects: any[] = [];
-  for (const k in obj) {
-    if (!obj.hasOwnProperty(k)) continue;
-    if (typeof obj[k] === 'object') {
-      objects = objects.concat(findObjectsWithKey(obj[k], key));
-    } else if (k === key) {
-      objects.push(obj);
-    }
-  }
-  return objects;
 }
 
 const EVAL_CACHE: {[key: string]: Function} = {};

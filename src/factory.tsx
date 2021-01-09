@@ -56,6 +56,7 @@ import {
 } from './locale';
 import {SchemaCollection, SchemaObject, SchemaTpl} from './Schema';
 import {result} from 'lodash';
+import {envOverwrite} from './envOverwrite';
 
 export interface TestFunc {
   (
@@ -424,6 +425,9 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           data
         )
       : data;
+
+    // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
+    envOverwrite(schema, locale);
 
     return (
       <RootStoreContext.Provider value={rootStore}>
