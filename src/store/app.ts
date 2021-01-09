@@ -1,7 +1,13 @@
 import {SnapshotIn, types} from 'mobx-state-tree';
 import {Navigation} from '../components/AsideNav';
 import {RendererEnv} from '../factory';
-import {filterTree, findTree, guid, mapTree} from '../utils/helper';
+import {
+  createObject,
+  filterTree,
+  findTree,
+  guid,
+  mapTree
+} from '../utils/helper';
 import {ServiceStore} from './service';
 
 export const AppStore = ServiceStore.named('AppStore')
@@ -14,13 +20,25 @@ export const AppStore = ServiceStore.named('AppStore')
   .views(self => ({
     get navigations(): Array<Navigation> {
       if (Array.isArray(self.pages)) {
-        return mapTree(self.pages, (item, index, level, paths) => {
+        return mapTree(self.pages, item => {
+          let visible = item.visible;
+
+          if (
+            visible !== false &&
+            item.path &&
+            !~item.path.indexOf('http') &&
+            ~item.path.indexOf(':')
+          ) {
+            visible = false;
+          }
+
           return {
             label: item.label,
             icon: item.icon,
             path: item.path,
             children: item.children,
-            visible: item.visible
+            className: item.className,
+            visible
           };
         });
       }
@@ -35,6 +53,15 @@ export const AppStore = ServiceStore.named('AppStore')
           ]
         }
       ];
+    },
+    get bcn() {
+      return self.activePage?.bcn || [];
+    },
+
+    get pageData() {
+      return createObject(self.data, {
+        params: self.activePage?.params || {}
+      });
     }
   }))
   .actions(self => ({
@@ -94,23 +121,42 @@ export const AppStore = ServiceStore.named('AppStore')
     },
 
     rewrite(to: string, env: RendererEnv) {
-      let bcns: any;
-      let page = findTree(self.pages, (item, index, level, paths) => {
+      let page = findTree(self.pages, item => {
         if (item.path === to) {
-          bcns = paths;
           return true;
         }
         return false;
       });
 
       if (page) {
-        this.setActivePage(page, bcns, env);
+        this.setActivePage(page, env);
       }
     },
 
-    setActivePage(page: any, bcn: Array<any>, env: RendererEnv) {
+    setActivePage(page: any, env: RendererEnv, params?: any) {
+      let bcn: Array<any> = [];
+
+      findTree(self.pages, (item, index, level, paths) => {
+        if (item.id === page.id) {
+          bcn = paths.filter(item => item.path && item.label);
+          bcn.push({
+            ...item,
+            path: ''
+          });
+          if (bcn[0].path !== '/') {
+            bcn.unshift({
+              label: '首页',
+              path: '/'
+            });
+          }
+          return true;
+        }
+        return false;
+      });
+
       self.activePage = {
         ...page,
+        params: params || {},
         bcn
       };
 
@@ -133,14 +179,12 @@ export const AppStore = ServiceStore.named('AppStore')
         return;
       }
       let matched: any;
-      let bcns: any;
 
-      let page = findTree(self.pages, (item, index, level, paths) => {
+      let page = findTree(self.pages, item => {
         if (item.path) {
           matched = env.isCurrentUrl(item.path, item);
 
           if (matched) {
-            bcns = paths;
             return true;
           }
         }
@@ -148,9 +192,19 @@ export const AppStore = ServiceStore.named('AppStore')
       });
 
       if (page) {
-        this.setActivePage(page, bcns, env);
+        this.setActivePage(
+          page,
+          env,
+          typeof matched === 'object' ? matched.params : undefined
+        );
       } else {
-        self.activePage = null;
+        const page = findTree(self.pages, item => item.isDefaultPage);
+
+        if (page) {
+          this.setActivePage(page, env);
+        } else {
+          self.activePage = null;
+        }
       }
     }
   }));

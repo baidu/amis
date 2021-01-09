@@ -1,11 +1,17 @@
 import React from 'react';
-import {AsideNav, NotFound, Spinner} from '../components';
+import {AsideNav, Html, NotFound, Spinner} from '../components';
 import Button from '../components/Button';
 import Layout from '../components/Layout';
 import {Renderer, RendererProps} from '../factory';
-import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
+import {
+  BaseSchema,
+  SchemaApi,
+  SchemaClassName,
+  SchemaCollection
+} from '../Schema';
 import {AppStore, IAppStore} from '../store/app';
-import {SchemaNode} from '../types';
+import {Api, SchemaNode} from '../types';
+import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {autobind} from '../utils/helper';
 
 export interface AppPage {
@@ -70,7 +76,7 @@ export interface AppPage {
    * 如果配置成 always 或者配置成 true 则永远展开。
    * 如果配置成 false 则永远不展开。
    */
-  expanded?: 'auto' | 'always' | boolean;
+  // expanded?: 'auto' | 'always' | boolean;
 }
 
 /**
@@ -81,6 +87,8 @@ export interface AppSchema extends BaseSchema {
    * 指定为 app 类型。
    */
   type: 'app';
+
+  api?: SchemaApi;
 
   /**
    * 系统名称
@@ -148,13 +156,32 @@ export default class App extends React.Component<AppProps, object> {
     store.updateActivePage(props.env);
   }
 
-  componentDidUpdate(prevProps: AppProps) {
+  async componentDidMount() {
+    const {api, store, env} = this.props;
+
+    if (isEffectiveApi(api, store.data)) {
+      const json = await store.fetchInitData(api, store.data, {});
+      if (json?.data.pages) {
+        store.setPages(json.data.pages);
+        store.updateActivePage(env);
+      }
+    }
+  }
+
+  async componentDidUpdate(prevProps: AppProps) {
     const props = this.props;
     const store = props.store;
 
     store.syncProps(props, prevProps, ['pages']);
 
-    if (props.location && props.location !== prevProps.location) {
+    if (isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)) {
+      const json = await store.fetchData(props.api as Api, store.data);
+
+      if (json?.data.pages) {
+        store.setPages(json.data.pages);
+        store.updateActivePage(props.env);
+      }
+    } else if (props.location && props.location !== prevProps.location) {
       store.updateActivePage(props.env);
     }
   }
@@ -169,7 +196,7 @@ export default class App extends React.Component<AppProps, object> {
   }
 
   renderHeader() {
-    const {classnames: cx, brandName, header, render, store} = this.props;
+    const {classnames: cx, brandName, header, render, store, logo} = this.props;
 
     return (
       <>
@@ -181,18 +208,28 @@ export default class App extends React.Component<AppProps, object> {
             <i className="bui-icon iconfont icon-collapse"></i>
           </div>
 
-          <div className={cx('Layout-brand text-ellipsis')}>
-            <i className="fa fa-paw" />
+          <div className={cx('Layout-brand')}>
+            {logo && ~logo.indexOf('<svg') ? (
+              <Html className={cx('AppLogo-html')} html={logo} />
+            ) : logo ? (
+              <img className={cx('AppLogo')} src={logo} />
+            ) : (
+              <i className="fa fa-paw" />
+            )}
             <span className="hidden-folded m-l-sm">{brandName}</span>
           </div>
         </div>
 
         <div className={cx('Layout-headerBar')}>
-          <Button onClick={store.toggleFolded} type="button" level="link">
+          <a
+            onClick={store.toggleFolded}
+            type="button"
+            className={cx('AppFoldBtn')}
+          >
             <i
               className={`fa fa-${store.folded ? 'indent' : 'dedent'} fa-fw`}
             ></i>
-          </Button>
+          </a>
           {header ? render('header', header) : null}
         </div>
       </>
@@ -308,15 +345,36 @@ export default class App extends React.Component<AppProps, object> {
         offScreen={store.offScreen}
       >
         {store.activePage && store.schema ? (
-          render('page', store.schema, {
-            key: store.activePage?.id
-          })
-        ) : (
+          <>
+            {store.bcn.length ? (
+              <ul className={cx('AppBcn')}>
+                {store.bcn.map((item: any, index: number) => {
+                  return (
+                    <li key={index} className={cx('AppBcn-item')}>
+                      {item.path ? (
+                        <a href={item.path} onClick={this.handleNavClick}>
+                          {item.label}
+                        </a>
+                      ) : (
+                        item.label
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : null}
+
+            {render('page', store.schema, {
+              key: store.activePage?.id,
+              data: store.pageData
+            })}
+          </>
+        ) : store.pages && !store.activePage ? (
           <NotFound>
             <div className="text-center">页面不存在</div>
           </NotFound>
-        )}
-        <Spinner overlay show={store.loading} size="lg" />
+        ) : null}
+        <Spinner overlay show={store.loading || !store.pages} size="lg" />
       </Layout>
     );
   }

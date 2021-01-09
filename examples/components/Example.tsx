@@ -562,7 +562,7 @@ export const examples = [
               hash: ''
             });
 
-            if (~link.indexOf(':')) {
+            if (!~link.indexOf('http') && ~link.indexOf(':')) {
               return match(link, {
                 decode: decodeURIComponent,
                 strict: ctx?.strict ?? true

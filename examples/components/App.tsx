@@ -472,18 +472,24 @@ export class App extends React.PureComponent<{
     const location = this.props.location;
 
     if (/examples\/jssdk/.test(location.pathname)) {
-      return React.cloneElement(this.props.children as any, {
-        key: theme.value,
-        ...(this.props.children as any).props,
-        setNavigations: this.setNavigations,
-        theme: theme.value,
-        classPrefix: theme.ns,
-        viewMode: this.state.viewMode,
-        locale: this.state.locale,
-        offScreen: this.state.offScreen,
-        ContextPath,
-        showCode: false
-      });
+      return (
+        <>
+          <ToastComponent theme={theme.value} locale={this.state.locale} />
+          <AlertComponent theme={theme.value} locale={this.state.locale} />
+          {React.cloneElement(this.props.children as any, {
+            key: theme.value,
+            ...(this.props.children as any).props,
+            setNavigations: this.setNavigations,
+            theme: theme.value,
+            classPrefix: theme.ns,
+            viewMode: this.state.viewMode,
+            locale: this.state.locale,
+            offScreen: this.state.offScreen,
+            ContextPath,
+            showCode: false
+          })}
+        </>
+      );
     } else if (/examples/.test(location.pathname)) {
       return this.renderExamples();
     }
