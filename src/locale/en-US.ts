@@ -1,6 +1,6 @@
 import {register} from '../locale';
 
-register('en', {
+register('en-US', {
   '确认': 'Confirm',
   '取消': 'Cancel',
   'YYYY年': 'YYYY',

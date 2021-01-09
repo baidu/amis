@@ -156,7 +156,7 @@ export interface RendererConfig extends RendererBasicConfig {
 }
 
 export interface RenderSchemaFilter {
-  (schema: Schema, renderer: RendererConfig, props?: object): Schema;
+  (schema: Schema, renderer: RendererConfig, props?: any): Schema;
 }
 
 export interface RootRenderProps {
@@ -1058,7 +1058,12 @@ export function render(
   options: RenderOptions = {},
   pathPrefix: string = ''
 ): JSX.Element {
-  const locale = props.locale || getDefaultLocale();
+  let locale = props.locale || getDefaultLocale();
+  // 兼容 locale 的不同写法
+  locale = locale.replace('_', '-');
+  locale = locale === 'en' ? 'en-US' : locale;
+  locale = locale === 'zh' ? 'zh-CN' : locale;
+  locale = locale === 'cn' ? 'zh-CN' : locale;
   const translate = props.translate || makeTranslator(locale);
   let store = stores[options.session || 'global'];
 

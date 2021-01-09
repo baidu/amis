@@ -113,7 +113,7 @@ let amisScoped = amis.embed(
   amisJSON,
   {
     // 这里是初始 props，一般不用传。
-    // locale: 'en' // props 中可以设置语言，默认是中文
+    // locale: 'en-US' // props 中可以设置语言，默认是中文
   },
   {
     // 可以不传，用来实现 ajax 请求
@@ -272,7 +272,7 @@ class MyComponent extends React.Component<any, any> {
           },
           {
             // props...
-            // locale: 'en' // 请参考「多语言」的文档
+            // locale: 'en-US' // 请参考「多语言」的文档
           },
           {
             // 下面三个接口必须实现
