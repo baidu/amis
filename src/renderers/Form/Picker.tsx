@@ -152,6 +152,7 @@ export default class PickerControl extends React.PureComponent<
     if (
       !source ||
       !formItem ||
+      (valueField || 'value') === (labelField || 'label') ||
       ((selectedOptions = formItem.getSelectedOptions(value)) &&
         (!selectedOptions.length ||
           selectedOptions[0][valueField || 'value'] !==
