@@ -1128,6 +1128,15 @@ export default [
           import('../../docs/zh-CN/components/wizard.md').then(
             makeMarkdownRenderer
           )
+      },
+      {
+        label: 'App 多页应用',
+        path: '/zh-CN/docs/components/app',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/app.md').then(
+            makeMarkdownRenderer
+          )
       }
     ]
   },

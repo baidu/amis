@@ -43,6 +43,7 @@ export * from './Schema';
 // 注册渲染器
 import './renderers/Action';
 import './renderers/Alert';
+import './renderers/App';
 import './renderers/Remark';
 import './renderers/ButtonGroup';
 import './renderers/ButtonToolbar';

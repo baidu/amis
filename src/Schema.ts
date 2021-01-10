@@ -60,6 +60,7 @@ export type SchemaType =
   | 'submit'
   | 'reset'
   | 'alert'
+  | 'app'
   | 'audio'
   | 'button-group'
   | 'button-toolbar'

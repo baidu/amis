@@ -2,6 +2,7 @@ import './polyfills/index';
 import React from 'react';
 import {render as renderReact} from 'react-dom';
 import axios from 'axios';
+import {match} from 'path-to-regexp';
 import copy from 'copy-to-clipboard';
 import {normalizeLink} from '../src/utils/normalizeLink';
 
@@ -189,7 +190,7 @@ export function embed(
 
             location.href = normalizeLink(to);
           },
-          isCurrentUrl: (to: string) => {
+          isCurrentUrl: (to: string, ctx?: any) => {
             const link = normalizeLink(to);
             const location = window.location;
             let pathname = link;
@@ -213,6 +214,11 @@ export function embed(
               );
             } else if (pathname === location.pathname) {
               return true;
+            } else if (!~pathname.indexOf('http') && ~pathname.indexOf(':')) {
+              return match(link, {
+                decode: decodeURIComponent,
+                strict: ctx?.strict ?? true
+              })(location.pathname);
             }
 
             return false;
