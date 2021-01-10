@@ -12,7 +12,7 @@ order: 27
 
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -45,7 +45,7 @@ order: 27
 
 可以配置`accept`来限制可选择的文件类型，格式是文件后缀名`.xxx`
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -65,7 +65,7 @@ order: 27
 
 ## 支持裁剪
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -86,7 +86,7 @@ order: 27
 
 上传成功后，可以通过配置 `autoFill` 将上传接口返回的值填充到某个表单项中：
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -141,7 +141,7 @@ order: 27
 | ---------------- | ------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------- |
 | reciever         | [API](../../types/api)          |                        | 上传文件接口                                                                                       |
 | accept           | `string`                        | `.jpeg,.jpg,.png,.gif` | 支持的图片类型格式，请配置此属性为图片后缀，例如`.jpg,.png`                                        |
-| maxSize          | `number`                        |                        | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`B`                                   |
+| maxSize          | `number`                        |                        | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`B`                                    |
 | maxLength        | `number`                        |                        | 默认没有限制，当设置后，一次只允许上传指定数量文件。                                               |
 | multiple         | `boolean`                       | `false`                | 是否多选。                                                                                         |
 | joinValues       | `boolean`                       | `true`                 | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                         |

@@ -16,7 +16,7 @@ order: 11
 
 配置一段普通文本并输出
 
-```schema:height="200"
+```schema
 {
   "type": "page",
   "body": "Hello World!" // 输出 Hello World!
@@ -27,7 +27,7 @@ order: 11
 
 可以支持在普通文本中，使用**数据映射**语法：`${xxx}` 获取数据域中变量的值，如下
 
-```schema:height="200"
+```schema
 {
   "data": {
     "text": "World!"
@@ -43,7 +43,7 @@ order: 11
 
 使用**数据映射**语法：`${xxx}` 获取数据域中变量的值，并渲染 HTML
 
-```schema:height="200"
+```schema
 {
   "data": {
     "text": "World!"
@@ -57,7 +57,7 @@ order: 11
 
 amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [lodash template](https://lodash.com/docs/4.17.15#template) 进行实现。
 
-```schema:height="300"
+```schema
 {
     "type": "page",
     "data": {

@@ -10,7 +10,7 @@ order: 17
 
 ## 基本使用
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -30,7 +30,7 @@ order: 17
 
 左侧编辑器始终不可编辑，右侧编辑器可以通过设置`disabled`或`disabledOn`，控制是否禁用
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -56,7 +56,7 @@ order: 17
 
 如下例，左侧编辑器中的值，通过`"diffValue": "${value1}"`获取，右侧编辑器的值，通过设置`"name": "value2"`，自动映射数据域中`value2`的值
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

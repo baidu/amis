@@ -59,7 +59,7 @@ SchemaNode 是指每一个 amis 配置节点的类型，支持`模板`、`Schema
 
 通过配置`"hidden": true`或者`"visible": false`来隐藏组件
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 [
     {
         "type": "form",
@@ -91,7 +91,7 @@ SchemaNode 是指每一个 amis 配置节点的类型，支持`模板`、`Schema
 
 你也通过 [表达式](../concepts/expression) 配置`hiddenOn`，来实现在某个条件下禁用当前组件.
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [

@@ -12,7 +12,7 @@ order: 54
 
 可以用来展示数组类型的数据。配置`columns` 数组，来定义列信息。
 
-```schema:height="700" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": "true",
@@ -58,7 +58,7 @@ order: 54
 
 可以配置`addable`和`editable`指定可以新增且编辑行数据
 
-```schema:height="700" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -87,7 +87,7 @@ order: 54
 
 按钮上配置`"actionType": "add"`和`target`指定表格`name`，可以实现点击按钮添加一行的效果。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "data": {
@@ -139,7 +139,7 @@ order: 54
 
 还可以在列上配置`quickEdit`实现编辑配置，更多配置参考 [快速编辑](../crud#%E5%BF%AB%E9%80%9F%E7%BC%96%E8%BE%91)
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "data": {
@@ -185,7 +185,7 @@ order: 54
 
 配置`"draggable": true`，实现可拖拽调整顺序
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "data": {
@@ -230,7 +230,7 @@ order: 54
 
 配置`"needConfirm": false`，不需要确认，那么就是一直就是处于编辑形态。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "data": {
@@ -278,7 +278,7 @@ order: 54
 
 默认情况下，Table 内表达项无法获取父级数据域的数据，如下，我们添加 Table 表单项时，尽管 Table 内的文本框的`name`与父级数据域中的`super_text`变量同名，但是没有自动映射值。
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -311,7 +311,7 @@ order: 54
 
 可以配置`"canAccessSuperData": true` 同时配置 `"strictMode": false` 开启此特性，如下，配置了该配置项后，添加 Table 的`text`表单项会初始会自动映射父级数据域的同名变量。需要注意的是，这里只会初始会映射，一旦修改过就是当前行数据为主了。也就是说，表单项类型的，只会起到初始值的作用。如果为非表单项则会同步更新，比如这个例子的第二列。同时非表单项字段可以用在表单项字段中做联动。
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,

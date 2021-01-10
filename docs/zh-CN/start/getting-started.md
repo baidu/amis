@@ -5,18 +5,19 @@ description:
 
 amis 有两种使用方法：
 
-- [JS SDK](#SDK)，可以用在任意项目中
+- [JS SDK](#SDK)，可以用在任意页面中
 - [React](#react)，可以用在 React 项目中
 
 SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 webpack，可以像 Vue/jQuery 那样外链代码就能使用。
 
 ## SDK
 
-JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releases) 或 gitee 的[发布](https://gitee.com/baidu/amis/releases)页面下载，文件是 sdk.tar.gz。
+下载方式：
 
-或者可以使用 `npm i amis` 来下载，在 `node_modules\amis\sdk` 目录里就能找到。
+1. github 的 [releases](https://github.com/baidu/amis/releases)，文件是 sdk.tar.gz。
+1. 使用 `npm i amis` 来下载，在 `node_modules\amis\sdk` 目录里就能找到。
 
-新建一个 html 文件，简单示例如下，将其中的 `sdk.css` 和 `sdk.js` 改成实际的路径:
+默认会提供一个 demo.html 作为示例，双击这个文件打开就能看到效果，其中最重要是如下代码：
 
 ```html
 <!DOCTYPE html>
@@ -31,9 +32,9 @@ JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releas
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <link rel="stylesheet" href="sdk.css" />
-    <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css -->
+    <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css，并把前面那个删了 -->
     <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
-    <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有不少功能用不了 -->
+    <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有细节功能用不了，如果发现请报 issue -->
     <style>
       html,
       body,
@@ -53,7 +54,7 @@ JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releas
       (function () {
         let amis = amisRequire('amis/embed');
         // 通过替换下面这个配置来生成不同页面
-        let amisScoped = amis.embed('#root', {
+        let amisJSON = {
           type: 'page',
           title: '表单页面',
           body: {
@@ -73,12 +74,34 @@ JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releas
               }
             ]
           }
-        });
+        };
+        let amisScoped = amis.embed('#root', amisJSON);
       })();
     </script>
   </body>
 </html>
 ```
+
+### 切换主题
+
+jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.scss`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
+
+```js
+amis.embed(
+  '#root',
+  {
+    // amis schema
+  },
+  {
+    // 这里是初始 props
+  },
+  {
+    theme: 'cxd'
+  }
+);
+```
+
+暗黑主题同理，改成引用 'dark.css' 同时主题设置成 `dark`。
 
 ### 控制 amis 的行为
 
@@ -87,21 +110,17 @@ JSSDK 版本可以在 github 的 [releases](https://github.com/baidu/amis/releas
 ```js
 let amisScoped = amis.embed(
   '#root',
+  amisJSON,
   {
-    type: 'page',
-    title: 'amis demo',
-    body: 'This is a simple amis page.'
-  },
-  {
-    // props 一般不用传。
-    // locale: 'en' // 语言
+    // 这里是初始 props，一般不用传。
+    // locale: 'en' // props 中可以设置语言，默认是中文
   },
   {
     // 可以不传，用来实现 ajax 请求
     fetcher: (url, method, data, config) => {},
 
     // 可以不传，全局 api 适配器。
-    // api 自己也可以配置适配器，这里最好只处理通用逻辑。
+    // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
     responseAdpater(api, response, query, request) {
       return response;
     }
@@ -125,7 +144,9 @@ let amisScoped = amis.embed(
     // alert: content => {},
 
     // 可以不传，用来实现确认框。
-    // confirm: content => {}
+    // confirm: content => {},
+
+    // theme: 'cxd' // 主题，默认是 default，还可以设置成 cxd 或 dark，但记得引用它们的 css，比如 sdk 目录下的 cxd.css
   }
 );
 ```
@@ -233,7 +254,9 @@ renderAmis(
     title: '简单页面',
     body: '内容'
   },
-  {},
+  {
+    // props
+  },
   {
     // env...
     theme: 'default' // cxd 或 dark

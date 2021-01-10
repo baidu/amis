@@ -351,9 +351,18 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   componentWillMount() {
-    const {store, value, minLength, maxLength, formItem, addHook} = this.props;
+    const {
+      store,
+      value,
+      multiple,
+      minLength,
+      maxLength,
+      formItem,
+      addHook
+    } = this.props;
 
     store.config({
+      multiple,
       minLength,
       maxLength,
       length: this.getValueAsArray().length
@@ -367,10 +376,11 @@ export default class ComboControl extends React.Component<ComboProps> {
     const props = this.props;
 
     if (anyChanged(['minLength', 'maxLength', 'value'], props, nextProps)) {
-      const {store, minLength, maxLength} = nextProps;
+      const {store, minLength, maxLength, multiple} = nextProps;
       const values = this.getValueAsArray(nextProps);
 
       store.config({
+        multiple,
         minLength,
         maxLength,
         length: values.length

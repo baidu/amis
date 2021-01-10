@@ -25,7 +25,7 @@ order: 14
 
 控制组件的显隐，表单项的禁用状态等，看下面这个例子：
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "controls": [
@@ -79,7 +79,7 @@ order: 14
 
 接口联动是另外一种很常见的场景，查看下面这个例子：
 
-```schema:height="250" scope="body"
+```schema: scope="body"
 {
     "title": "",
     "type": "form",
@@ -149,7 +149,7 @@ order: 14
 
 默认在变量变化时，总是会去请求联动的接口，你也可以配置请求条件，当只有当前数据域中某个值符合特定条件才去请求该接口。
 
-```schema:height="250" scope="body"
+```schema: scope="body"
 {
     "title": "",
     "type": "form",
@@ -198,7 +198,7 @@ order: 14
 
 上面示例有个问题，就是数据一旦变化就会出发重新拉取，而输入框的频繁变化值会导致频繁的拉取？没关系，也可以配置主动拉取如：
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "name": "my_form",
@@ -243,7 +243,7 @@ order: 14
 
 有一个表单`form`组件，还有一个列表组件`crud`，我们想要把`form`提交的数据，可以用作`crud`的查询条件，并请求`crud`的接口，由于`form`和`crud`位于同一层级，因此没法使用数据链的方式进行取值。
 
-```schema:height="800" scope="body"
+```schema: scope="body"
 [
     {
       "title": "查询条件",
@@ -288,7 +288,7 @@ order: 14
 
 现在更改配置如下：
 
-```schema:height="800" scope="body"
+```schema: scope="body"
 [
     {
       "title": "查询条件",
@@ -348,7 +348,7 @@ order: 14
 
 `target`属性支持通过配置参数来发送指定数据，例如：`"target" :"xxx?a=${a}&b=${b}"`，这样就会把当前数据域中的`a`变量和`b`变量发送给目标组件
 
-```schema:height="800" scope="body"
+```schema: scope="body"
 [
   {
     "type": "form",

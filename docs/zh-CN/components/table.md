@@ -12,7 +12,7 @@ order: 67
 
 ## 基本用法
 
-```schema:height="700" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/sample?perPage=5",
@@ -32,25 +32,22 @@ order: 67
                     "label": "Version"
                 }
             ]
-        },
-
-        {
-            "type": "table",
-            "source": "$rows",
-            "columns": [
-                {
-                    "name": "engine",
-                    "label": "Engine"
-                },
-
-                {
-                    "name": "version",
-                    "label": "Version"
-                }
-            ]
         }
     ]
 }
+```
+
+## 数据需求
+
+数据是对象数组，比如前面的例子中 `rows` 的值类似：
+
+```
+[
+    {
+        "engine": "webkie",
+        "version": 1
+    }
+]
 ```
 
 ## 列配置
@@ -61,7 +58,7 @@ order: 67
 
 除了简单展示数据源所返回的数据以外，`list`的列支持除表单项以外所有组件类型，例如：
 
-```schema:height="600"
+```schema
 {
     "$schema": "https://houtai.baidu.com/v2/schemas/table.json#",
     "type": "table",
@@ -310,7 +307,7 @@ order: 67
 
 可以配置数字，用于设置列宽像素，例如下面例子我们给`Rendering engine`列宽设置为`100px`。
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
@@ -332,7 +329,7 @@ order: 67
 
 也可以百分比来指定列宽，例如下面例子我们给`Rendering engine`列宽设置为`50%`。
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
@@ -354,7 +351,7 @@ order: 67
 
 默认 `columnsTogglable` 配置为 `auto`，当列超过 5 列后，就会在工具栏多渲染出来一个列展示与否的开关。你可以设置成 `true` 或者 `false` 来强制开或者关。在列配置中可以通过配置 `toggled` 为 `false` 默认不展示这列，比如下面这个例子中 ID 这一栏。
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/sample?perPage=5",
@@ -404,7 +401,7 @@ order: 67
 
 列太多可以让重要的几列固定，可以配置固定在左侧还是右侧，只需要给需要固定的列上配置 `fixed` 属性，配置 `left` 或者 `right`。
 
-```schema:height="530" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/sample?perPage=5",
@@ -457,7 +454,7 @@ order: 67
 
 可以在列上配置`"copyable": true`，会在该列的内容区里，渲染一个复制内容的图标，点击可复制该显示内容
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
@@ -477,7 +474,7 @@ order: 67
 
 你也可以配置对象形式，可以自定义显示内容
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
@@ -501,7 +498,7 @@ order: 67
 
 可以给列上配置`popOver`属性，会在该列的内容区里，渲染一个图标，点击会显示弹出框，用于展示内容
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
@@ -526,7 +523,7 @@ order: 67
 
 可以结合 truncate 用来优化表格中的长内容展示，比如默认只展示 20 个字符，剩下的点击查看更多出现。
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
@@ -570,7 +567,7 @@ order: 67
   - `left-bottom`
   - `right-bottom`
 
-  atX-atY-myX-myY  
+  atX-atY-myX-myY
   即：对齐目标的位置-对齐自己的位置
 
   - `left-top-right-bottom` 在目标位置的左上角显示。
@@ -599,7 +596,7 @@ order: 67
 2. 配置`combineNum`，合并单元格，实现左侧表头的形式
 3. 列上配置`"isHead": true`，调整样式
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
   "type": "crud",
   "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
@@ -633,7 +630,7 @@ order: 67
 
 还可以配置"offset"，实现弹出框位置调整自定义
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
@@ -663,7 +660,7 @@ order: 67
 
 当行数据中存在 children 属性时，可以自动嵌套显示下去。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "data": {
@@ -846,7 +843,7 @@ order: 67
 
 列太多时，内容没办法全部显示完，可以让部分信息在底部显示，可以让用户展开查看详情。配置很简单，只需要开启 `footable` 属性，同时将想在底部展示的列加个 `breakpoint` 属性为 `*` 即可。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/sample?perPage=5",
@@ -913,7 +910,7 @@ order: 67
 
 只需要配置 `combineNum` 属性即可，他表示从左到右多少列内启动自动合并单元格，只要多行的同一个属性值是一样的，就会自动合并。
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "data": {
@@ -1028,7 +1025,7 @@ order: 67
 
 超级表头意思是，表头还可以再一次进行分组。额外添加个 `groupName` 属性即可。
 
-```schema:height="430" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/sample?perPage=5",
@@ -1086,7 +1083,7 @@ order: 67
 
 例如下例，`"<%= data.id % 2 ? "bg-success" : "" %>"` 表示当行数据的 `id` 变量为 不能被 `2` 整除时，给当前行添加`bg-success` CSS 类名，即绿色背景色
 
-```schema:height="530" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/sample?perPage=10",
@@ -1135,7 +1132,7 @@ order: 67
 
 可以通过配置 `prefixRow` 或 `affixRow` 来为表格顶部或底部添加总结行，
 
-```schema:height="530" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/sample?perPage=10",
@@ -1173,7 +1170,7 @@ order: 67
 
 可以配置 `colSpan` 来设置一列所合并的列数，例如
 
-```schema:height="530" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/sample?perPage=10",
@@ -1219,7 +1216,7 @@ order: 67
 
 可以配置二维数组来配置多行总结行
 
-```schema:height="530" scope="body"
+```schema: scope="body"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/sample?perPage=10",

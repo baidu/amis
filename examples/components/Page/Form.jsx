@@ -1,9 +1,6 @@
 export default {
   type: 'page',
   title: '表单页面',
-  data: {
-    name: 'rick'
-  },
   body: {
     type: 'form',
     mode: 'horizontal',

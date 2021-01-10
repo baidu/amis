@@ -14,7 +14,7 @@ order: 32
 
 这里我们使用手动初始数据域的方式，即配置`data`属性，进行数据域的初始化。
 
-```schema:height="450"
+```schema
 {
   "type": "page",
   "data": {

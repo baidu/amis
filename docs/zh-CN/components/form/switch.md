@@ -1,15 +1,16 @@
 ---
 title: Switch 开关
-description: 
+description:
 type: 0
 group: null
 menuName: Switch
-icon: 
+icon:
 order: 51
 ---
+
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -24,14 +25,14 @@ order: 51
 }
 ```
 
-
 ## 配置真假值
 
 默认情况：
+
 - 开关打开时，表单项值为：true
 - 开关关闭时，表单项值为：false
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -47,7 +48,7 @@ order: 51
 
 如果你想调整这个值，可以配置`trueValue`和`falseValue`
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "debug": true,
@@ -74,8 +75,3 @@ order: 51
 | option     | `string` |           | 选项说明 |
 | trueValue  | `any`    | `true`    | 标识真值 |
 | falseValue | `any`    | `"false"` | 标识假值 |
-
-
-
-
-

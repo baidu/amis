@@ -9,7 +9,7 @@ icon:
 
 ## 基本用法
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -53,7 +53,7 @@ icon:
 
 ### 分组
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -110,7 +110,7 @@ icon:
 
 ### 表格模式
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -169,7 +169,7 @@ icon:
 
 ### 树形模式
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -227,7 +227,7 @@ icon:
 
 ### 级联选择
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -285,7 +285,7 @@ icon:
 
 ### 支持搜索
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -345,7 +345,7 @@ icon:
 
 ### 延时加载
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -395,7 +395,7 @@ icon:
 
 ### 关联选择模式
 
-```schema:height="550" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

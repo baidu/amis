@@ -1,15 +1,16 @@
 ---
 title: Repeat 重复频率选择器
-description: 
+description:
 type: 0
 group: null
 menuName: Repeat 重复频率
-icon: 
+icon:
 order: 39
 ---
+
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -31,8 +32,3 @@ order: 39
 | ----------- | -------- | ----------------------------- | ------------------------------------------------------------------------ |
 | options     | `string` | `hourly,daily,weekly,monthly` | 可用配置 `secondly,minutely,hourly,daily,weekdays,weekly,monthly,yearly` |
 | placeholder | `string` | `不重复`                      | 当不指定值时的说明。                                                     |
-
-
-
-
-

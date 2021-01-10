@@ -1,15 +1,16 @@
 ---
 title: Divider 分割线
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Divider 分割线
-icon: 
+icon:
 order: 42
 ---
+
 ## 基本用法
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
     "type": "divider"
 }
@@ -17,7 +18,7 @@ order: 42
 
 ## 不同样式
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 [
     {
         "type": "divider"
@@ -36,8 +37,3 @@ order: 42
 | type      | `string` |            | `"dialog"` 指定为 Dialog 渲染器     |
 | className | `string` |            | 外层 Dom 的类名                     |
 | lineStyle | `string` | `"dashed"` | 分割线的样式，支持`dashed`和`solid` |
-
-
-
-
-

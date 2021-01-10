@@ -12,7 +12,7 @@ order: 6
 
 用于将多个按钮在展现上合并到一起。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -54,7 +54,7 @@ order: 6
 
 当不配置 `buttons` 属性时，`button-group`还可以作为 [选择类表单项](./options) 使用。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

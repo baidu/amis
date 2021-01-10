@@ -10,11 +10,13 @@ order: 25
 
 CRUD，即增删改查组件，主要用来展现数据列表，并支持各类【增】【删】【改】【查】等操作。
 
+注意 CRUD 所需的数据必须放 items 中，因此如果只是想显示表格类型的数据没有分页，请使用 [Table](./table)。
+
 ## 基本用法
 
 最基本的用法是配置 **数据源接口(api)** 以及 **展示列(columns)**
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -101,7 +103,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 
 其实这个渲染器并没有包含新增功能，新增功能其实还是依靠其他位置放个弹框表单完成，弹框完事了会自动让页面里面的 CRUD 刷新如：
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 [
     {
         "label": "新增",
@@ -168,7 +170,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 
 删除功能主要有三种实现：[单条操作](#单条操作)、[批量操作](#批量操作)或者直接添加一个操作栏，在里面放个类型为 ajax 类型的按钮即可。在这个按钮里面能获得对应的行数据，而且完成后也会自动刷新这个 CRUD 列表。
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "/api/sample?orderBy=id&orderDir=desc",
@@ -207,7 +209,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 
 改和删其实是差不多的，唯一的区别在于，配置不同的 api，按钮类型改成弹框。
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "/api/sample?orderBy=id&orderDir=desc",
@@ -273,7 +275,7 @@ CRUD 支持下面 3 种展示模式，默认为 Table 表格模式。
 
 Table 模式支持 [Table](./table) 中的所有功能。
 
-```schema:height="700" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -307,7 +309,7 @@ Table 模式支持 [Table](./table) 中的所有功能。
 
 List 模式支持 [List](./list) 中的所有功能。
 
-```schema:height="700" scope="body"
+```schema: scope="body"
 {
 "type": "crud",
 "api": "raw:https://houtai.baidu.com/api/mock2/crud/permissions",
@@ -367,7 +369,7 @@ List 模式支持 [List](./list) 中的所有功能。
 
 Cards 模式支持 [Cards](./cards) 中的所有功能。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "crud",
   "api": "https://houtai.baidu.com/api/mock2/crud/users",
@@ -463,7 +465,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 `filter` 配置实际上同 [Form](./form/index) 组件，因此支持绝大部分`form`的功能。
 
-```schema:height="800" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -514,7 +516,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 可以配置`defaultParams`，来指定拉取接口时的默认参数：
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -556,7 +558,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 可以配置`interval`来实现数据接口轮询功能，默认最低为`3000`毫秒，
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -600,7 +602,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 可以在列上配置`"sortable": true`，该列表头右侧会渲染一个可点击的排序图标，可以切换`正序`和`倒序`。
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -633,7 +635,7 @@ amis 只负责生成排序组件，并将排序参数传递给接口，而不会
 
 可以在列上配置`"searchable": true`，该列表头右侧会渲染一个可点击的搜索图标，点击可以输入关键字进行该列的搜索：
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -665,7 +667,7 @@ amis 只负责生成搜索组件，并将搜索参数传递给接口，而不会
 
 可以在列上配置`filterable`属性，该列表头右侧会渲染一个可点击的过滤图标，点击显示下拉框，选中进行过滤：
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -707,7 +709,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 如下`Rendering engine`列的每一行中，会生成可编辑图标，点击后会显示弹框，用于编辑该列的值，
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -730,7 +732,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 `quickEdit`也可以配置对象形式，可以指定编辑表单项的类型，例如`"type": "select"`：
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -762,7 +764,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 配置`quickEdit`的`mode`为`inline`。可以直接将编辑表单项渲染至表格内，可以直接操作编辑。
 
-```schema:height="750" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -796,7 +798,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 如果想编辑完表单项之后，不想点击顶部确认按钮来进行保存，而是即时保存当前标记的数据，则需要配置`quickEdit`中`"saveImmediately": true`，然后配置接口`quickSaveItemApi`。可以直接将编辑表单项渲染至表格内，可以直接操作编辑。
 
-```schema:height="750" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -829,7 +831,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 你也可以在`saveImmediately`中配置 api，实现即时保存
 
-```schema:height="750" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -865,7 +867,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在表格顶部和底部渲染组件，
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -940,7 +942,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 在`headerToolbar`或者`footerToolbar`数组中添加`pagination`字符串，并且在数据源接口中返回了数据总数`count`，即可以渲染分页组件；添加`switch-per-page`字符串，可以渲染切换每页条数组件
 
-```schema:height="700" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -1078,7 +1080,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 > 需要设置`primaryField`用于标识选中状态，配置当前行数据中的某一**唯一标识字段**，例如`id`，否则可能会出现无法选中的问题
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -1158,7 +1160,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 在`headerToolbar`或者`footerToolbar`数组中添加`statistics`字符串，可以实现简单的数据统计功能
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -1196,7 +1198,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 在`headerToolbar`或者`footerToolbar`数组中添加`load-more`字符串，可以实现点击加载更多功能。
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -1250,7 +1252,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 在`headerToolbar`或者`footerToolbar`数组中添加`filter-toggler`字符串，并且在 crud 中配置`"filterTogglable": true`后，可以渲染一个可以切换显示查询表单的功能按钮
 
-```schema:height="800" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -1305,7 +1307,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 实际上，你操作当前行数据，会成为弹框这层节点的父级节点，因此你可以通过 [数据链](../concepts/datascope-and-datachain)，获取到上层，也就是点击的行的数据，具体获取方法和普通组件获取数据域中数据的方法相同，
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
   "type": "crud",
   "api": "https://houtai.baidu.com/api/sample",
@@ -1375,7 +1377,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 通过配置`"draggable": true`和保存排序接口`saveOrderApi`，可以实现拖拽排序功能，
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -1504,7 +1506,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 
 如果你的数据并不是很大，而且后端不方便做分页和条件过滤操作，那么通过配置`loadDataOnce`实现前端一次性加载并支持分页和条件过滤操作
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
@@ -1541,7 +1543,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 
 配置一次性加载后，基本的分页、快速排序操作将会在前端进行完成。如果想实现前端检索，需要用到[数据映射](../concepts/data-mapping)功能：
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",

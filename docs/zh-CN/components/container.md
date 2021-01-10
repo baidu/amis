@@ -12,7 +12,7 @@ Container 是一种容器组件，它可以渲染其他 amis 组件
 
 ## 基本用法
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
     "type": "container",
     "body":"这里是容器内容区"

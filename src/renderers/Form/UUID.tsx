@@ -8,6 +8,10 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
  */
 export interface UUIDControlSchema extends FormBaseControl {
   type: 'uuid';
+  /**
+   * 长度，默认 uuid 的长度是 36，如果不需要那么长，可以设置这个来缩短
+   */
+  length?: number;
 }
 
 export default class UUIDControl extends React.Component<
@@ -16,7 +20,11 @@ export default class UUIDControl extends React.Component<
 > {
   constructor(props: FormControlProps) {
     super(props);
-    props.onChange(uuidv4());
+    let uuid = uuidv4();
+    if (props.length) {
+      uuid = uuid.substring(0, props.length);
+    }
+    props.onChange(uuid);
   }
 
   render() {

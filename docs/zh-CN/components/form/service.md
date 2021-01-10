@@ -10,7 +10,7 @@ order: 49
 
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -44,7 +44,7 @@ order: 49
 
 ### 放在 body 属性下，输出纯展示类组件
 
-```schema:height="200" scope="form-item"
+```schema: scope="form-item"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/mock2/page/initData",
@@ -57,7 +57,7 @@ order: 49
 
 ### 放在 controls 属性下，输出表单项
 
-```schema:height="500" scope="form-item"
+```schema: scope="form-item"
 {
     "type": "service",
     "api": "https://houtai.baidu.com/api/mock2/page/initData",
@@ -78,15 +78,13 @@ order: 49
 }
 ```
 
-
-
 ## 接口联动
 
 Service 中的`api`和`schemaApi`都支持**接口联动**。
 
 下面例子中，`数据模板`下拉框的值变化后，会触发 service 重新拉取 api 接口，从而更新数据源，变化表单项的值，更多用法查看 [接口联动](../../concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "title": "",
   "type": "form",
@@ -163,7 +161,7 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
 
 例如下例：
 
-```schema:height="400" scope="form-item"
+```schema: scope="form-item"
 {
   "type": "service",
   "schemaApi": "https://houtai.baidu.com/api/mock2/service/schema?type=controls"

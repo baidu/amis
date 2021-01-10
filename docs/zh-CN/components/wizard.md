@@ -12,7 +12,7 @@ order: 73
 
 ## 基本使用
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
     "type": "wizard",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=2",

@@ -38,7 +38,7 @@ title: 自定义组件 - SDK
 
 注意上面的代码用到了 JavaScript 函数，无法转成 json 格式，但这三个函数还支持字符串形式，上面的代码可以改成如下形式，这样就能在可视化编辑器里支持自定义组件了：
 
-```schema:height="330" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "title": "custom 组件",

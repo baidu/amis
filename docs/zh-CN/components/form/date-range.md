@@ -10,7 +10,7 @@ order: 15
 
 ## 基本用法
 
-```schema:height="500" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -26,7 +26,7 @@ order: 15
 
 ## 内嵌模式
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -56,4 +56,4 @@ order: 15
 | maxDate     | `string`                  |                                                                 | 限制最大日期，用法同 [限制范围](./date#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4)                                                    |
 | utc         | `boolean`                 | `false`                                                         | [保存 UTC 值](./date#utc)                                                                                                       |
 | clearable   | `boolean`                 | `true`                                                          | 是否可清除                                                                                                                      |
-| embed   | `boolean`                 | `false`                                                          | 是否内联模式                                                                                                                      |
+| embed       | `boolean`                 | `false`                                                         | 是否内联模式                                                                                                                    |

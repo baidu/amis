@@ -12,7 +12,7 @@ order: 24
 
 ## 基本用法
 
-```schema:height="360" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -64,7 +64,7 @@ order: 24
 
 下面`group`我们配置了`"mode": "horizontal"`，观察显示情况
 
-```schema:height="360" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "controls": [
@@ -99,7 +99,7 @@ order: 24
 
 当表单在水平模式下时，如果`group`内表单项设置`"label": false`，会导致布局错乱，如下
 
-```schema:height="360" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "mode": "horizontal",
@@ -133,7 +133,7 @@ order: 24
 
 这时可以给`group`配置`label`属性，保持和其他表单项布局统一
 
-```schema:height="360" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "mode": "horizontal",

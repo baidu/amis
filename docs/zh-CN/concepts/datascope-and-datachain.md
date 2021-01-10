@@ -10,7 +10,7 @@ order: 10
 
 ## 基本的数据展示
 
-我们再看之前的 Hello World 示例：
+我们再看之前的简单示例：
 
 ```json
 {
@@ -19,7 +19,7 @@ order: 10
 }
 ```
 
-目前我们只是在 `Page` 组件中渲染一串固定的文本，如果我们想要 **通过接口拉取想要的数据，并展示到 `Page` 组件的内容区** 呢？
+目前我们只是在 `Page` 组件中渲染一串固定的文本，如何实现 **通过接口拉取想要的数据，并展示到 `Page` 组件的内容区** 呢？
 
 ## 添加初始化接口
 
@@ -31,7 +31,7 @@ order: 10
 }
 ```
 
-接口返回的数据结构如下：
+这个 api 接口返回的数据结构如下：
 
 ```json
 {
@@ -44,9 +44,9 @@ order: 10
 }
 ```
 
-渲染后页面如下：
+渲染后页面效果：
 
-```schema:height="50"
+```schema
 {
   "type": "page",
   "initApi": "https://houtai.baidu.com/api/mock2/page/initData",
@@ -81,7 +81,7 @@ order: 10
 
 毫无疑问，`${text}`将会解析为空白文本，最终渲染的文本是 `Hello`
 
-```schema:height="50"
+```schema
 {
   "type": "page",
   "body": "Hello ${text}"
@@ -92,7 +92,7 @@ order: 10
 
 再观察下面这段配置：
 
-```schema:height="50"
+```schema
 {
   "data": {
     "text": "World!"
@@ -106,7 +106,7 @@ order: 10
 
 相信你可能已经猜到，**组件的`data`属性值是数据域的一种形式**，实际上当我们没有显式的配置数据域时，可以假想成这样：
 
-```schema:height="50"
+```schema
 {
   "data": {}, // 空的数据域
   "type": "page",
@@ -130,7 +130,7 @@ order: 10
 
 继续来看这个例子：
 
-```schema:height="70"
+```schema
 {
   "type": "page",
   "data": {
@@ -197,7 +197,7 @@ page
 
 常见的错误写法是给容器组件加 data 属性，比如：
 
-```schema:height="70"
+```schema
 {
   "type": "page",
   "data": {
@@ -224,7 +224,7 @@ page
 
 这样是不会生效的，正确的做法是使用 Service 包裹一层，如下所示
 
-```schema:height="70"
+```schema
 {
   "type": "page",
   "data": {
@@ -315,7 +315,7 @@ page
 
 另一种初始化当前数据域的方式是显式的设置组件的`data`属性值：
 
-```schema:height="200"
+```schema
 {
   "data": {
     "text": "World!",
@@ -334,7 +334,7 @@ page
 
 部分组件的某些交互或行为会对当前组件的数据域进行更新：
 
-```schema:height="400"
+```schema
 {
   "type": "page",
   "body": {

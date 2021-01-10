@@ -733,7 +733,8 @@
   --InputGroup-select-onFocused-color: var(--Form-select-onFocused-color);
 
   --InputRange-label--value-display: block;
-  --InputRange-label--value-positionTop: #{px2rem(-40px)};
+  --InputRange-label--value-positionTop: #{px2rem(-36px)};
+  --InputRange-label--value-positionLeft: #{px2rem(-3px)};
   --InputRange-label-color: var(--InputRange-neutralColor);
   --InputRange-label-fontSize: 0.8rem;
   --InputRange-label-positionBottom: -1.4rem;
@@ -826,7 +827,7 @@
   --ListControl-item-onActive-bg: var(--primary);
   --ListControl-item-onActive-borderColor: #{darken($primary, 10%)};
   --ListControl-item-onActive-color: var(--white);
-  --ListControl-item-onActive-onHover-bg: var(--white);
+  --ListControl-item-onActive-onHover-bg: var(--primary);
   --ListControl-item-onDisabled-bg: var(--ListControl-item-bg);
   --ListControl-item-onDisabled-borderColor: #{lighten($borderColor, 5%)};
   --ListControl-item-onDisabled-color: var(--ListControl-item-color);

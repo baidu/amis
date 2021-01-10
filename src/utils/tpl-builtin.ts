@@ -1,7 +1,13 @@
 import moment from 'moment';
 import {PlainObject} from '../types';
 import isPlainObject from 'lodash/isPlainObject';
-import {createObject, isObject, setVariable, qsstringify} from './helper';
+import {
+  createObject,
+  isObject,
+  setVariable,
+  qsstringify,
+  keyToPath
+} from './helper';
 import {Enginer} from './tpl';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -484,7 +490,7 @@ export const resolveVariable = (path?: string, data: any = {}): any => {
     return data[path];
   }
 
-  let parts = path.replace(/^{|}$/g, '').split('.');
+  let parts = keyToPath(path.replace(/^{|}$/g, ''));
   return parts.reduce((data, path) => {
     if ((isObject(data) || Array.isArray(data)) && path in data) {
       return (data as {[propName: string]: any})[path];
@@ -632,7 +638,7 @@ function resolveMapping(
 export function dataMapping(
   to: any,
   from: PlainObject,
-  ignoreFunction = false
+  ignoreFunction: boolean | ((key: string, value: any) => boolean) = false
 ): any {
   let ret = {};
 
@@ -646,7 +652,10 @@ export function dataMapping(
     const value = to[key];
     let keys: Array<string>;
 
-    if (key === '&' && value === '$$') {
+    if (typeof ignoreFunction === 'function' && ignoreFunction(key, value)) {
+      // 如果被ignore，不做数据映射处理。
+      (ret as PlainObject)[key] = value;
+    } else if (key === '&' && value === '$$') {
       ret = {
         ...ret,
         ...from
@@ -722,7 +731,7 @@ export function dataMapping(
       );
     } else if (typeof value == 'string' && ~value.indexOf('$')) {
       (ret as PlainObject)[key] = resolveMapping(value, from);
-    } else if (typeof value === 'function' && !ignoreFunction) {
+    } else if (typeof value === 'function' && ignoreFunction !== true) {
       (ret as PlainObject)[key] = value(from);
     } else {
       (ret as PlainObject)[key] = value;

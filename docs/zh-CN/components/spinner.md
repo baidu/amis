@@ -1,16 +1,16 @@
 ---
 title: Spinner 加载中
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Spinner
-icon: 
+icon:
 order: 64
 ---
 
 ## 基本使用
 
-```schema:height="200"
+```schema
 {
     "type": "page",
     "body": {
@@ -18,7 +18,3 @@ order: 64
     }
 }
 ```
-
-
-
-

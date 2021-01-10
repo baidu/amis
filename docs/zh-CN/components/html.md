@@ -1,10 +1,10 @@
 ---
 title: Html
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: Html
-icon: 
+icon:
 order: 49
 ---
 
@@ -12,7 +12,7 @@ order: 49
 
 渲染一段 HTML
 
-```schema:height="200"
+```schema
 {
   "body": {
     "type": "html",
@@ -22,9 +22,3 @@ order: 49
 ```
 
 > 当需要获取数据域中变量时，使用 [Tpl](./tpl) 。
-
-
-
-
-
-

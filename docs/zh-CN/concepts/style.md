@@ -19,7 +19,7 @@ amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，
 
 例如，下面这个例子，我们内容区渲染了两个按钮，但是可以看到，两个按钮紧贴在一起，并不是很美观，于是我们想添加一定的间隔
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 [
   {
     "type": "button",
@@ -46,7 +46,7 @@ amis 中有大量的功能类 class 可以使用，即可以用在 schema 中，
 2. 再查阅当前页面下面 [外边距部分](#%E5%A4%96%E8%BE%B9%E8%B7%9D) 可知，我们可以添加`m-l`类名实现`margin-left: 15px;`的 CSS 效果
 3. 于是我们在`按钮2`的配置中添加`"className": "m-l"`，就能实现间距效果了
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 [
   {
     "type": "button",

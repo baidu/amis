@@ -12,7 +12,7 @@ order: 21
 
 用来负责文件上传，文件上传成功后会返回文件地址，这个文件地址会作为这个表单项的值，整个表单提交的时候，其实提交的是文件地址，文件上传已经在这个控件中完成了。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -46,7 +46,7 @@ order: 21
 
 可以配置`accept`来限制可选择的文件类型，格式是文件后缀名`.xxx`
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -68,7 +68,7 @@ order: 21
 
 如果不希望 File 组件上传，可以配置 `asBlob` 或者 `asBase64`，采用这种方式后，组件不再自己上传了，而是直接把文件数据作为表单项的值，文件内容会在 Form 表单提交的接口里面一起带上。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -95,7 +95,7 @@ order: 21
 
 上传成功后，可以通过配置 `autoFill` 将上传接口返回的值填充到某个表单项中：
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

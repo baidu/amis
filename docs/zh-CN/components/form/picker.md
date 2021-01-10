@@ -8,11 +8,13 @@ icon:
 order: 35
 ---
 
-列表选取。可以静态数据，或者通过接口拉取动态数据。
+列表选取，在功能上和 Select 类似，但它能显示更复杂的信息。
 
 ## 基本用法
 
-```schema:height="400" scope="body"
+默认和 Select 很像，但请看后面的 pickerSchema 设置。
+
+```schema: scope="body"
 {
     "type": "form",
     "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -42,12 +44,13 @@ order: 35
 
 ## 配置 pickerSchema
 
-可以配置 pickerSchema，实现弹框 crud 选择模式，更多 crud 配置可查看 crud 文档
+可以配置 pickerSchema，实现弹框 crud 选择模式，更多 crud 配置可查看 crud 文档，选择之后最终的值通过 `valueField` 来设置。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "debug": true,
   "controls": [
     {
       "type": "picker",
@@ -268,7 +271,7 @@ order: 35
 
 可以配置`"embed": true`，实现内嵌 picker
 
-```schema:height="900" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",

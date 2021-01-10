@@ -37,7 +37,7 @@ let amisScoped = amis.embed('#root', {
 
 在表单编辑中，每个 name 一般对应一种类型，如果这个 name 有多种类型，比如下面的例子中 id 的值有可能是字符串，也有可能是数字，但 type 只能设置为一种类型，这种情况如何处理？
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
     "type": "form",
     "mode": "horizontal",
@@ -55,7 +55,7 @@ let amisScoped = amis.embed('#root', {
 
 ### 使用另一个名称作为状态
 
-```schema:height="250" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "mode": "horizontal",

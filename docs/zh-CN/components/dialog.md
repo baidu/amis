@@ -12,7 +12,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 ## 基本用法
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "label": "点击弹框",
     "type": "button",
@@ -26,7 +26,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 ## 配置尺寸
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button-toolbar",
     "buttons": [
@@ -87,7 +87,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 默认弹框内由于数据链的存在，会自动映射父级同名变量，例如下例：
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
   "type": "crud",
   "api": "https://houtai.baidu.com/api/sample",
@@ -144,7 +144,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 上例弹框中的表单项 `Engine` 会自动映射到父级数据中的 `engine` 变量，如果想调整当前特性，如你想调整父级映射变量的字段，可以利用[数据映射](../concepts/data-mapping)，例如：
 
-```schema:height="600" scope="body"
+```schema: scope="body"
 {
   "type": "crud",
   "api": "https://houtai.baidu.com/api/sample",
@@ -206,7 +206,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 ## 多级弹框
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "多级弹框",
@@ -259,7 +259,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 在弹框中配置行为按钮，可以在按钮上配置`"close": true`，在行为完成后，关闭当前弹框。
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "弹个框",
@@ -289,7 +289,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 ### 基本使用
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "弹个表单",
@@ -329,7 +329,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 弹框中通过配置`form`或`ajax`行为按钮，可以实现`form`提交和`ajax`请求操作。
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "弹个表单",
@@ -384,7 +384,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 
 默认情况下，当弹框中配置了 form 并进行了**提交表单操作（confirm）**或进行了**`ajax`请求**，请求成功后，会自动关闭当前弹框，你可以通过手动设置`"close": true` 来禁止该默认特性。
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "弹个表单",
@@ -442,7 +442,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 
 ### 基本使用
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "Feedback",
@@ -466,7 +466,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 
 `feedback`的`actions`中配置 `"actionType": "close"` 的按钮
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
   "type": "button",
   "label": "弹一个框",
@@ -540,7 +540,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 
 需要在 feedback 的 `body` 中添加 Form 组件，并配置`"actionType": "confirm"`，
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
   "type": "button",
   "label": "弹一个框",
@@ -635,7 +635,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 
 改场景只适用于**不请求接口关闭弹框**的场景，需要在 feedback 层添加`"skipRestOnCancel": true`
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
   "type": "button",
   "label": "弹一个框",
@@ -678,7 +678,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 
 可以根据条件弹出，例如下面这个例子，只有当接口返回的时间戳可以整除 2 时才显示弹框。
 
-```schema:height="100" scope="body"
+```schema: scope="body"
 {
     "type": "button",
     "label": "条件feedback",

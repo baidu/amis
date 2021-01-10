@@ -10,7 +10,7 @@ order: 31
 
 ## 基本用法
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -56,7 +56,7 @@ order: 31
 
 默认选中父节点会自动选中子节点，可以设置`"cascade": true`，不自动选中子节点
 
-```schema:height="450" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,
@@ -142,7 +142,7 @@ order: 31
 
 默认选中父节点，是不会带上子节点的值，想要自动带上子节点的值，那么配置`"withChildren": true`
 
-```schema:height="450" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "debug": true,

@@ -16,8 +16,8 @@ title: 常见问题
 
 ## 有的功能在官网示例中能用，但在 React/SDK 中无法使用
 
-amis 大概每个月发布一个正式版本，但官网是 master 分支的版本，因此很可能是正式版本未更新。
+如果提示找不到渲染器，那肯定是版本较老，尝试以下两种方法解决：
 
-- 可以使用最新 beta 版本，方法是去 [npm](https://www.npmjs.com/package/amis?activeTab=versions) 查看最新版本号，比如最新版本是 1.0.20-beta.18
-  ，就运行运行 `npm i amis@1.0.20-beta.18` 命令，在 `node_modules/amis/sdk` 目录中就能找到。
-- 如果要用 master 分支的最新版本，可以下载项目源码后运行 `fis3 release publish-sdk -c`，在 sdk 目录就能找到。
+1. 使用最新 beta 版本，方法是去 [npm](https://www.npmjs.com/package/amis?activeTab=versions) 查看最新版本号，比如最新版本是 1.0.20-beta.18
+   ，就运行运行 `npm i amis@1.0.20-beta.18` 命令，在 `node_modules/amis/sdk` 目录中也能找到对应的 sdk 代码。
+2. 如果还是报错，可以使用 master 分支的最新版本，下载项目源码后运行 `fis3 release publish-sdk -c`，在 sdk 目录中就能找到。

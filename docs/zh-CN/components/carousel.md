@@ -10,7 +10,7 @@ order: 33
 
 ## 基本用法
 
-```schema:height="350" scope="body"
+```schema: scope="body"
 {
     "type": "carousel",
     "options": [

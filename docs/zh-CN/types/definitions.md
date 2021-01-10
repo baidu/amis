@@ -12,7 +12,7 @@ order: 40
 
 > 注意 definitions 只能在顶级节点中定义。
 
-```schema:height="300"
+```schema
 {
   "definitions": {
           "aa": {
@@ -43,7 +43,7 @@ order: 40
 
 `Definitions` 最大的作用其实是能够实现对数据格式的递归引用，实现无限层级编辑：
 
-```schema:height="800"
+```schema
 {
   "definitions": {
           "options": {

@@ -12,7 +12,7 @@ order: 30
 
 随机生成一个 id，可以用于防止表单重复提交。
 
-```schema:height="400" scope="body"
+```schema: scope="body"
 {
   "type": "form",
   "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
@@ -21,14 +21,28 @@ order: 30
     {
       "type": "uuid",
       "name": "uuid"
-    },
-    {
-      "type": "text",
-      "name": "name",
-      "label": "姓名："
     }
   ]
 }
 ```
 
 这个字段是不显示的，上面这个例子之所以显示是因为加了 `debug: true`。
+
+## length
+
+目前 uuid 的唯一可设置参数是 length，用于生成短随机数
+
+```schema:height="200" scope="body"
+{
+  "type": "form",
+  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "debug": true,
+  "controls": [
+    {
+      "type": "uuid",
+      "name": "uuid",
+      "length": 8
+    }
+  ]
+}
+```

@@ -1,15 +1,16 @@
 ---
 title: DropDownButton
-description: 
+description:
 type: 0
 group: ⚙ 组件
 menuName: DropDownButton
-icon: 
+icon:
 order: 44
 ---
+
 ## 基本用法
 
-```schema:height="300"
+```schema
 {
     "type": "page",
     "body": {
@@ -45,12 +46,6 @@ order: 44
 | align           | `string`        |                   | 位置，可选`'left'`或`'right'`             |
 | buttons         | `Array<action>` |                   | 配置下拉按钮                              |
 | caretIcon       | `string`        |                   | caretIcon                                 |
-| iconOnly        | `boolean`       |                   | 只显示icon                                |
+| iconOnly        | `boolean`       |                   | 只显示 icon                               |
 | defaultIsOpened | `boolean`       |                   | 默认是否打开                              |
 | closeOnOutside  | `boolean`       |                   | 点击外侧区域是否收起                      |
-
-
-
-
-
-

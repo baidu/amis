@@ -10,7 +10,7 @@ order: 68
 
 ## 基本用法
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "tabs",
     "tabs": [
@@ -31,7 +31,7 @@ order: 68
 
 ### 线型
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "tabs",
     "mode": "line",
@@ -54,7 +54,7 @@ order: 68
 
 ### 卡片模式
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "tabs",
     "mode": "card",
@@ -77,7 +77,7 @@ order: 68
 
 ### 水平铺满
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "tabs",
     "mode": "tiled",
@@ -104,7 +104,7 @@ order: 68
 
 ### 选择器型
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "tabs",
     "mode": "radio",
@@ -127,7 +127,7 @@ order: 68
 
 ### 垂直
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "tabs",
     "mode": "vertical",
@@ -152,7 +152,7 @@ order: 68
 
 配置`toolbar`实现顶部工具栏。
 
-```schema:height="200" scope="body"
+```schema: scope="body"
 {
     "type": "tabs",
     "toolbar": [
@@ -184,7 +184,7 @@ order: 68
 
 可以在单个`tab`下，配置`hash`属性，支持地址栏`#xxx`。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "tabs",
     "tabs": [
@@ -209,7 +209,7 @@ order: 68
 
 #### 配置 hash 值
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "tabs",
     "activeKey": "tab2",
@@ -233,7 +233,7 @@ order: 68
 
 单个`tab`上不要配置`hash`属性，配置需要展示的`tab`索引值，`0`代表第一个。
 
-```schema:height="300" scope="body"
+```schema: scope="body"
 {
     "type": "tabs",
     "activeKey": 1,
