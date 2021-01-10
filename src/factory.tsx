@@ -108,7 +108,7 @@ export interface RendererEnv {
    * 单页模式需要这个，如果非单页模式，不需要处理这个。
    */
   blockRouting?: (fn: (targetLocation: any) => void | string) => () => void;
-  isCurrentUrl: (link: string, ctx: any) => boolean | {params?: object};
+  isCurrentUrl: (link: string, ctx?: any) => boolean | {params?: object};
   rendererResolver?: (
     path: string,
     schema: Schema,

@@ -182,6 +182,12 @@ amis.embed(
 
 默认 amis 渲染是单页模式，如果想实现多页应用，请使用 [app 渲染器](../components/app.md)。
 
+### Hash 路由
+
+默认 JSSDK 不是 hash 路由，如果你想改成 hash 路由模式，请查看此处代码实现。只需要修改 env.isCurrentUrl、env.jumpTo 和 env.updateLocation 这几个方法即可。
+
+参考：https://github.com/baidu/amis/blob/master/examples/components/Example.tsx#L551-L575
+
 ## react
 
 初始项目请参考 <https://github.com/fex-team/amis-react-starter>。
