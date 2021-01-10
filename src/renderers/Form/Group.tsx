@@ -139,6 +139,10 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       gap
     } = props;
 
+    if (!Array.isArray(controls)) {
+      return null;
+    }
+
     formMode = mode || formMode;
 
     let horizontalDeeper =
