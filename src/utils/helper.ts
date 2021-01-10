@@ -1342,3 +1342,21 @@ export const keyToPath = (string: string) => {
 
   return result;
 };
+
+/**
+ * 深度查找具有某个 key 名字段的对象
+ * @param obj
+ * @param key
+ */
+export function findObjectsWithKey(obj: any, key: string) {
+  let objects: any[] = [];
+  for (const k in obj) {
+    if (!obj.hasOwnProperty(k)) continue;
+    if (k === key) {
+      objects.push(obj);
+    } else if (typeof obj[k] === 'object') {
+      objects = objects.concat(findObjectsWithKey(obj[k], key));
+    }
+  }
+  return objects;
+}

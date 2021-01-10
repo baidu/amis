@@ -10,7 +10,7 @@ import {
 } from '../../src/components/index';
 import {eachTree, mapTree} from '../../src/utils/helper';
 import {Icon} from '../../src/components/icons';
-import '../../src/locale/en';
+import '../../src/locale/en-US';
 import {
   Router,
   Route,
@@ -72,7 +72,7 @@ const locales = [
 
   {
     label: 'English',
-    value: 'en'
+    value: 'en-US'
   }
 ];
 

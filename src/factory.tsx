@@ -56,6 +56,7 @@ import {
 } from './locale';
 import {SchemaCollection, SchemaObject, SchemaTpl} from './Schema';
 import {result} from 'lodash';
+import {envOverwrite} from './envOverwrite';
 
 export interface TestFunc {
   (
@@ -156,7 +157,7 @@ export interface RendererConfig extends RendererBasicConfig {
 }
 
 export interface RenderSchemaFilter {
-  (schema: Schema, renderer: RendererConfig, props?: object): Schema;
+  (schema: Schema, renderer: RendererConfig, props?: any): Schema;
 }
 
 export interface RootRenderProps {
@@ -424,6 +425,9 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           data
         )
       : data;
+
+    // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
+    envOverwrite(schema, locale);
 
     return (
       <RootStoreContext.Provider value={rootStore}>
@@ -1058,7 +1062,12 @@ export function render(
   options: RenderOptions = {},
   pathPrefix: string = ''
 ): JSX.Element {
-  const locale = props.locale || getDefaultLocale();
+  let locale = props.locale || getDefaultLocale();
+  // 兼容 locale 的不同写法
+  locale = locale.replace('_', '-');
+  locale = locale === 'en' ? 'en-US' : locale;
+  locale = locale === 'zh' ? 'zh-CN' : locale;
+  locale = locale === 'cn' ? 'zh-CN' : locale;
   const translate = props.translate || makeTranslator(locale);
   let store = stores[options.session || 'global'];
 
