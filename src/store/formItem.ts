@@ -33,6 +33,7 @@ import memoize from 'lodash/memoize';
 import {TranslateFn} from '../locale';
 import {StoreNode} from './node';
 import {dataMapping} from '../utils/tpl-builtin';
+import {getStoreById} from './manager';
 
 interface IOption {
   value?: string | number | null;
@@ -61,6 +62,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     name: types.string,
     itemId: '', // 因为 name 可能会重名，所以加个 id 进来，如果有需要用来定位具体某一个
     unsetValueOnInvisible: false,
+    itemsRef: types.optional(types.array(types.string), []),
     validated: false,
     validating: false,
     multiple: false,
@@ -101,6 +103,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     }
 
     return {
+      get subFormItems(): any {
+        return self.itemsRef.map(item => getStoreById(item));
+      },
+
       get form(): any {
         return getForm();
       },
@@ -820,6 +826,17 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
+    function addSubFormItem(item: IFormItemStore) {
+      self.itemsRef.push(item.id);
+    }
+
+    function removeSubFormItem(item: IFormItemStore) {
+      const idx = self.itemsRef.findIndex(a => a === item.id);
+      if (~idx) {
+        self.itemsRef.splice(idx, 1);
+      }
+    }
+
     return {
       focus,
       blur,
@@ -839,7 +856,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       reset,
       openDialog,
       closeDialog,
-      syncAutoFill
+      syncAutoFill,
+      addSubFormItem,
+      removeSubFormItem
     };
   });
 
