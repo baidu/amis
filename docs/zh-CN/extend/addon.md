@@ -6,7 +6,9 @@ title: 扩展现有组件
 
 ## 扩展表单验证
 
-JSSDK 中的用法
+如果默认的表单检测规则不满足需求，还可以通过代码的方式扩展。
+
+JSSDK 中的用法：
 
 ```javascript
 let amisLib = amisRequire('amis');
