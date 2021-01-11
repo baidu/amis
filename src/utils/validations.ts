@@ -1,4 +1,6 @@
+import {createObject} from './helper';
 import {filter} from './tpl';
+import {isPureVariable, resolveVariableAndFilter} from './tpl-builtin';
 const isExisty = (value: any) => value !== null && value !== undefined;
 const isEmpty = (value: any) => value === '';
 const makeRegexp = (reg: string | RegExp) => {
@@ -266,21 +268,23 @@ export function validate(
       }
 
       const fn = validations[ruleName];
+      const args = (Array.isArray(rules[ruleName])
+        ? rules[ruleName]
+        : [rules[ruleName]]
+      ).map((item: any) => {
+        if (typeof item === 'string' && isPureVariable(item)) {
+          return resolveVariableAndFilter(item, values, '|raw');
+        }
 
-      if (
-        !fn(
-          values,
-          value,
-          ...(Array.isArray(rules[ruleName])
-            ? rules[ruleName]
-            : [rules[ruleName]])
-        )
-      ) {
+        return item;
+      });
+
+      if (!fn(values, value, ...args)) {
         errors.push(
           filter(
             __((messages && messages[ruleName]) || validateMessages[ruleName]),
             {
-              ...[''].concat(rules[ruleName])
+              ...[''].concat(args)
             }
           )
         );
