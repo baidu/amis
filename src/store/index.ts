@@ -3,7 +3,8 @@ import {
   getEnv,
   detach,
   setLivelynessChecking,
-  isAlive
+  isAlive,
+  Instance
 } from 'mobx-state-tree';
 import 'setimmediate';
 import {iRendererStore, IIRendererStore, SIRendererStore} from './iRenderer';
@@ -89,7 +90,7 @@ export const RendererStore = types
     }
   }));
 
-export type IRendererStore = typeof RendererStore.Type;
+export type IRendererStore = Instance<typeof RendererStore>;
 export {iRendererStore, IIRendererStore};
 export const RegisterStore = function (store: any) {
   allowedStoreList.push(store as any);

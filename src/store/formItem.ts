@@ -6,7 +6,8 @@ import {
   getRoot,
   hasParent,
   isAlive,
-  getEnv
+  getEnv,
+  Instance
 } from 'mobx-state-tree';
 import {IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
@@ -830,7 +831,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     function changeTmpValue(value: any) {
       self.tmpValue = value;
     }
-    
+
     function addSubFormItem(item: IFormItemStore) {
       self.itemsRef.push(item.id);
     }
@@ -868,5 +869,5 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     };
   });
 
-export type IFormItemStore = typeof FormItemStore.Type;
+export type IFormItemStore = Instance<typeof FormItemStore>;
 export type SFormItemStore = SnapshotIn<typeof FormItemStore>;

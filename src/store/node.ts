@@ -1,4 +1,12 @@
-import {types, destroy, isAlive, detach, getEnv} from 'mobx-state-tree';
+import {
+  types,
+  destroy,
+  isAlive,
+  detach,
+  getEnv,
+  Instance,
+  SnapshotIn
+} from 'mobx-state-tree';
 import {getStoreById} from './manager';
 
 export const StoreNode = types
@@ -85,5 +93,5 @@ export const StoreNode = types
     };
   });
 
-export type IStoreNode = typeof StoreNode.Type;
-export type SIStoreNode = typeof StoreNode.SnapshotType;
+export type IStoreNode = Instance<typeof StoreNode>;
+export type SIStoreNode = SnapshotIn<typeof StoreNode>;

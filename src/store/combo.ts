@@ -1,5 +1,5 @@
-import {types, SnapshotIn, isAlive, onAction} from 'mobx-state-tree';
-import {iRendererStore} from './iRenderer';
+import {types, SnapshotIn, isAlive, onAction, Instance} from 'mobx-state-tree';
+import {IIRendererStore, iRendererStore} from './iRenderer';
 import {FormItemStore} from './formItem';
 import {FormStore, IFormStore, IFormItemStore} from './form';
 import {getStoreById} from './manager';
@@ -48,6 +48,7 @@ export const ComboStore = iRendererStore
       get forms() {
         return getForms();
       },
+
       get addable() {
         if (self.maxLength && self.length >= self.maxLength) {
           return false;
@@ -84,7 +85,7 @@ export const ComboStore = iRendererStore
         return true;
       },
 
-      getItemsByName(name: string) {
+      getItemsByName(name: string): any {
         const forms = getForms();
         return self.multiple
           ? [forms[parseInt(name, 10)]]
@@ -163,5 +164,5 @@ export const ComboStore = iRendererStore
     };
   });
 
-export type IComboStore = typeof ComboStore.Type;
+export type IComboStore = Instance<typeof ComboStore>;
 export type SComboStore = SnapshotIn<typeof ComboStore>;

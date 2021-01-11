@@ -6,7 +6,8 @@ import {
   getEnv,
   getRoot,
   IAnyModelType,
-  isAlive
+  isAlive,
+  Instance
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {resolveVariable} from '../utils/tpl-builtin';
@@ -65,7 +66,7 @@ export const Column = types
     }
   }));
 
-export type IColumn = typeof Column.Type;
+export type IColumn = Instance<typeof Column>;
 export type SColumn = SnapshotIn<typeof Column>;
 
 export const Row = types
@@ -225,7 +226,7 @@ export const Row = types
     }
   }));
 
-export type IRow = typeof Row.Type;
+export type IRow = Instance<typeof Row>;
 export type SRow = SnapshotIn<typeof Row>;
 
 export const TableStore = iRendererStore
@@ -972,5 +973,5 @@ export const TableStore = iRendererStore
     };
   });
 
-export type ITableStore = typeof TableStore.Type;
+export type ITableStore = Instance<typeof TableStore>;
 export type STableStore = SnapshotIn<typeof TableStore>;

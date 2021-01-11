@@ -1,4 +1,4 @@
-import {SnapshotIn, types} from 'mobx-state-tree';
+import {Instance, SnapshotIn, types} from 'mobx-state-tree';
 import {createObject} from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {iRendererStore} from './iRenderer';
@@ -49,5 +49,5 @@ export const PaginationStore = iRendererStore
     }
   }));
 
-export type IPaginationStore = typeof PaginationStore.Type;
+export type IPaginationStore = Instance<typeof PaginationStore>;
 export type SPaginationStore = SnapshotIn<typeof PaginationStore>;

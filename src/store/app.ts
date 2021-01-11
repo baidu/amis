@@ -1,4 +1,4 @@
-import {SnapshotIn, types} from 'mobx-state-tree';
+import {Instance, SnapshotIn, types} from 'mobx-state-tree';
 import {Navigation} from '../components/AsideNav';
 import {RendererEnv} from '../factory';
 import {
@@ -209,5 +209,5 @@ export const AppStore = ServiceStore.named('AppStore')
     }
   }));
 
-export type IAppStore = typeof AppStore.Type;
+export type IAppStore = Instance<typeof AppStore>;
 export type SAppStore = SnapshotIn<typeof AppStore>;

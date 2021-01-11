@@ -5,7 +5,8 @@ import {
   getRoot,
   detach,
   destroy,
-  isAlive
+  isAlive,
+  Instance
 } from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import {ServiceStore} from './service';
@@ -563,5 +564,5 @@ export const FormStore = ServiceStore.named('FormStore')
     };
   });
 
-export type IFormStore = typeof FormStore.Type;
+export type IFormStore = Instance<typeof FormStore>;
 export {IFormItemStore};

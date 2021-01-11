@@ -4,7 +4,8 @@ import {
   SnapshotIn,
   flow,
   getEnv,
-  getRoot
+  getRoot,
+  Instance
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import isEqual from 'lodash/isEqual';
@@ -84,7 +85,7 @@ export const Item = types
     }
   }));
 
-export type IItem = typeof Item.Type;
+export type IItem = Instance<typeof Item>;
 export type SItem = SnapshotIn<typeof Item>;
 
 export const ListStore = iRendererStore
@@ -298,5 +299,5 @@ export const ListStore = iRendererStore
     };
   });
 
-export type IListStore = typeof ListStore.Type;
+export type IListStore = Instance<typeof ListStore>;
 export type SListStore = SnapshotIn<typeof ListStore>;
