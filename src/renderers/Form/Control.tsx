@@ -81,6 +81,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
   componentWillMount() {
     const {
       formStore: form,
+      formItem,
       rootStore,
       control: {
         name,
@@ -123,6 +124,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
     }) as IFormItemStore;
     this.model = model;
     form.addFormItem(model);
+    formItem?.addSubFormItem(model);
     model.config({
       id,
       type,
@@ -287,7 +289,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
   }
 
   disposeModel() {
-    const {formStore: form} = this.props;
+    const {formStore: form, formItem} = this.props;
 
     if (
       this.model &&
@@ -300,6 +302,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
     }
 
     this.model && form.removeFormItem(this.model);
+    this.model && formItem?.removeSubFormItem(this.model);
   }
 
   controlRef(control: any) {
