@@ -11,6 +11,20 @@ export default class Doc extends React.PureComponent {
   };
 
   componentDidMount() {
+    if (location.hash && location.hash.length > 1) {
+      // 禁用自动跳转
+      if (window.history && 'scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'manual';
+      }
+
+      const dom = document.querySelector(
+        `[name="${location.hash.substring(1)}"]`
+      );
+      dom && dom.scrollIntoView();
+    } else {
+      window.scrollTo(0, 0);
+    }
+
     this.props.setNavigations(DocNavCN);
     this.setDocFooter();
   }
