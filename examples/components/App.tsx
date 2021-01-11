@@ -252,10 +252,7 @@ export class App extends React.PureComponent<{
           )}
 
           <ul className={`HeaderLinks`}>
-            <Link
-              to={`${ContextPath}/zh-CN/docs/index`}
-              activeClassName="is-active"
-            >
+            <Link to={`${ContextPath}/zh-CN/docs`} activeClassName="is-active">
               文档
             </Link>
             <Link to={`${ContextPath}/style`} activeClassName="is-active">
