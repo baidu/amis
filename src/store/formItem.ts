@@ -55,6 +55,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     unique: false,
     loading: false,
     required: false,
+    tmpValue: types.frozen(),
     rules: types.optional(types.frozen(), {}),
     messages: types.optional(types.frozen(), {}),
     errorData: types.optional(types.array(ErrorDetail), []),
@@ -820,6 +821,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
+    function changeTmpValue(value: any) {
+      self.tmpValue = value;
+    }
+
     return {
       focus,
       blur,
@@ -839,7 +844,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       reset,
       openDialog,
       closeDialog,
-      syncAutoFill
+      syncAutoFill,
+      changeTmpValue
     };
   });
 

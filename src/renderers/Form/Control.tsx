@@ -22,6 +22,7 @@ import {ScopedContext, IScopedContext} from '../../Scoped';
 import {reaction} from 'mobx';
 import {FormItemStore} from '../../store/formItem';
 import {isAlive} from 'mobx-state-tree';
+import {observer} from 'mobx-react';
 
 export interface ControlProps extends RendererProps {
   control: {
@@ -45,6 +46,8 @@ export interface ControlProps extends RendererProps {
   } & Schema;
   rootStore: IRendererStore;
   formStore: IFormStore;
+  onChange?: (value: any, name: string, submit: boolean) => void;
+  // onTmpValueChange?: (value: any, name: string) => void;
   store: IIRendererStore;
   addHook: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
   removeHook: (fn: () => any, type?: 'validate' | 'init' | 'flush') => void;
@@ -54,10 +57,8 @@ interface ControlState {
   value: any;
 }
 
-export default class FormControl extends React.PureComponent<
-  ControlProps,
-  ControlState
-> {
+@observer
+export default class FormControl extends React.PureComponent<ControlProps> {
   static propsList: any = ['control'];
   public model: IFormItemStore | undefined;
   control: any;
@@ -77,7 +78,6 @@ export default class FormControl extends React.PureComponent<
     trailing: true,
     leading: false
   });
-  state = {value: (this.value = this.props.control.value)};
   componentWillMount() {
     const {
       formStore: form,
@@ -147,12 +147,15 @@ export default class FormControl extends React.PureComponent<
     }
 
     // 同步 value
-    this.setState({
-      value: (this.value = model.value)
-    });
+    model.changeTmpValue(model.value);
     this.reaction = reaction(
       () => model.value,
-      value => this.setState({value: (this.value = value)})
+      value => {
+        if (value === model.tmpValue) {
+          return;
+        }
+        model.changeTmpValue(value);
+      }
     );
   }
 
@@ -366,7 +369,7 @@ export default class FormControl extends React.PureComponent<
       // todo 以后想办法不要強耦合类型。
       ~['service', 'group', 'hbox', 'panel', 'grid'].indexOf(type)
     ) {
-      onChange && onChange(...(arguments as any));
+      onChange && onChange.apply(null, arguments as any);
       return;
     }
 
@@ -375,12 +378,13 @@ export default class FormControl extends React.PureComponent<
       value = pipeOut(value, oldValue, form.data);
     }
 
-    this.setState({
-      value: (this.value = value)
-    });
-    changeImmediately || conrolChangeImmediately || !formInited
-      ? this.emitChange(submitOnChange)
-      : this.lazyEmitChange(submitOnChange);
+    this.model.changeTmpValue(value);
+    if (changeImmediately || conrolChangeImmediately || !formInited) {
+      this.emitChange(submitOnChange);
+    } else {
+      // this.props.onTmpValueChange?.(value, this.model.name);
+      this.lazyEmitChange(submitOnChange);
+    }
   }
 
   emitChange(submitOnChange: boolean = this.props.control.submitOnChange) {
@@ -393,7 +397,7 @@ export default class FormControl extends React.PureComponent<
     if (!this.model) {
       return;
     }
-    const value = this.value; // value 跟 this.state.value 更及时。
+    const value = this.model.tmpValue;
     const oldValue = this.model.value;
 
     if (oldValue === value) {
@@ -413,7 +417,7 @@ export default class FormControl extends React.PureComponent<
     }
 
     onFormItemChange && onFormItemChange(value, oldValue, this.model, form);
-    onChange && onChange(value, name, submitOnChange === true);
+    onChange && onChange(value, name!, submitOnChange === true);
   }
 
   handleBlur(e: any) {
@@ -494,7 +498,7 @@ export default class FormControl extends React.PureComponent<
 
   getValue() {
     const {formStore: form, control} = this.props;
-    let value: any = this.state.value;
+    let value: any = this.model?.tmpValue;
 
     if (control.pipeIn) {
       value = control.pipeIn(value, form.data);
@@ -548,6 +552,7 @@ export default class FormControl extends React.PureComponent<
       formItemValue: value, // 为了兼容老版本的自定义组件
       onChange:
         control.type === 'input-group' ? superOnChange : this.handleChange,
+
       onBlur: this.handleBlur,
       setValue: this.setValue,
       getValue: this.getValue,

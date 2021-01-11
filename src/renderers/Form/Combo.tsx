@@ -1092,7 +1092,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       ref: this.makeFormRef(index),
                       canAccessSuperData,
                       lazyChange: changeImmediately ? false : true,
-                      lazyFormChange: changeImmediately ? false : true,
+                      formLazyChange: false,
                       value: undefined,
                       formItemValue: undefined
                     }
@@ -1274,7 +1274,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                           onAction: this.handleAction,
                           ref: this.makeFormRef(index),
                           lazyChange: changeImmediately ? false : true,
-                          lazyFormChange: changeImmediately ? false : true,
+                          formLazyChange: false,
                           lazyLoad,
                           canAccessSuperData,
                           value: undefined,
