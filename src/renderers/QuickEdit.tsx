@@ -470,6 +470,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
             onSubmit: this.handleSubmit,
             onAction: this.handleAction,
             onChange: null,
+            formLazyChange: false,
             ref: this.formRef,
             popOverContainer: () => this.overlay,
             canAccessSuperData
@@ -528,6 +529,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
               simpleMode: true,
               onInit: this.handleInit,
               onChange: this.handleChange,
+              formLazyChange: false,
               canAccessSuperData
             })}
           </Component>
