@@ -20,6 +20,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 {
     "type": "crud",
     "api": "https://houtai.baidu.com/api/sample",
+    "syncLocation": false,
     "columns": [
         {
             "name": "id",
@@ -134,6 +135,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
     {
         "type": "crud",
         "api": "/api/sample?orderBy=id&orderDir=desc",
+        "syncLocation": false,
         "columns": [
             {
                 "name": "id",
@@ -174,6 +176,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 {
     "type": "crud",
     "api": "/api/sample?orderBy=id&orderDir=desc",
+    "syncLocation": false,
     "columns": [
         {
             "name": "id",
@@ -213,6 +216,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 {
     "type": "crud",
     "api": "/api/sample?orderBy=id&orderDir=desc",
+    "syncLocation": false,
     "columns": [
         {
             "name": "id",
@@ -468,6 +472,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
      "filter": {
         "title": "条件搜索",
@@ -519,6 +524,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "defaultParams": {
         "perPage": 50
@@ -561,6 +567,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "interval": 3000,
     "columns": [
@@ -605,6 +612,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "columns": [
         {
@@ -638,6 +646,7 @@ amis 只负责生成排序组件，并将排序参数传递给接口，而不会
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "columns": [
         {
@@ -670,6 +679,7 @@ amis 只负责生成搜索组件，并将搜索参数传递给接口，而不会
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "columns": [
         {
@@ -712,6 +722,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "quickSaveApi": "https://houtai.baidu.com/api/sample/bulkUpdate",
     "columns": [
@@ -735,6 +746,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "quickSaveApi": "https://houtai.baidu.com/api/sample/bulkUpdate",
     "columns": [
@@ -767,6 +779,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "quickSaveApi": "https://houtai.baidu.com/api/sample/bulkUpdate",
     "columns": [
@@ -801,6 +814,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "quickSaveItemApi": "https://houtai.baidu.com/api/sample/$id",
     "columns": [
@@ -834,6 +848,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "columns": [
         {
@@ -870,6 +885,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "headerToolbar": [
         {
@@ -945,6 +961,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "headerToolbar": [],
     "footerToolbar": ["switch-per-page", "pagination"],
@@ -1083,6 +1100,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "headerToolbar": [
         "bulkActions"
@@ -1163,6 +1181,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "headerToolbar": ["statistics"],
     "columns": [
@@ -1201,6 +1220,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "headerToolbar": ["load-more"],
     "columns": [
@@ -1255,6 +1275,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
      "filter": {
         "title": "条件搜索",
@@ -1310,6 +1331,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema: scope="body"
 {
   "type": "crud",
+  "syncLocation": false,
   "api": "https://houtai.baidu.com/api/sample",
   "draggable": true,
   "columns": [
@@ -1380,6 +1402,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "draggable": true,
     "columns": [
@@ -1496,11 +1519,12 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 
 ## 过滤条件参数同步地址栏
 
-默认 CRUD 会将过滤条件参数同步至浏览器地址栏中，
+默认 CRUD 会将过滤条件参数同步至浏览器地址栏中，比如搜索条件、当前页数，这也做的目的是刷新页面的时候还能进入之前的分页。
 
-不过，如果你了解 [数据链](../concepts/datascope-and-datachain#%E6%95%B0%E6%8D%AE%E9%93%BE) 的话，在开启同步地址栏时，地址栏中的参数数据会合并到顶层的数据链中，可能会造成一些预期中的问题，例如：会自动给某些同名的表单项设置默认值等。可以手动设置`syncLocation: false`来关闭此特性
+但也会导致地址栏中的参数数据合并到顶层的数据链中，例如：自动给同名的表单项设置默认值。如果不希望这个功能，可以设置 `syncLocation: false` 来关闭。
 
-> **注意：** 如果需要使用接口联动，需要设置`syncLocation: false`
+> 本文中的例子为了不相互影响都关闭了这个功能。
+> 另外如果需要使用接口联动，需要设置`syncLocation: false`
 
 ## 前端一次性加载
 
@@ -1509,6 +1533,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "loadDataOnce": true,
     "columns": [
@@ -1546,6 +1571,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 ```schema: scope="body"
 {
     "type": "crud",
+    "syncLocation": false,
     "api": "https://houtai.baidu.com/api/sample",
     "loadDataOnce": true,
     "source": "${rows | filter:engine:match:keywords}",
