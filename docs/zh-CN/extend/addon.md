@@ -4,6 +4,48 @@ title: 扩展现有组件
 
 除了新增组件，在 amis 中还能扩展和修改现有组件。
 
+## 扩展表单验证
+
+如果默认的表单检测规则不满足需求，还可以通过代码的方式扩展。
+
+JSSDK 中的用法：
+
+```javascript
+let amisLib = amisRequire('amis');
+amisLib.addRule(
+  // 校验名
+  'isZXS',
+  // 校验函数，values 是表单里所有表单项的值，可用于做联合校验；value 是当前表单项的值
+  (values, value) => {
+    if (
+      value === '北京' ||
+      value === '上海' ||
+      value === '天津' ||
+      value === '重庆'
+    ) {
+      return true;
+    }
+    return false;
+  },
+  // 出错时的报错信息
+  '输入的不是直辖市'
+);
+```
+
+这样在配置中就能使用下面的验证方法
+
+```
+"validations": {
+  "isZXS": true
+}
+```
+
+在 React 的使用方法是类似的
+
+```javascript
+import {addRule} from 'amis';
+```
+
 ## 事件扩展
 
 amis 默认会将配置项剩余参数都作为 React 的 props 传入对应标签，使得可以添加自己的自定义事件，比如 下面的例子
