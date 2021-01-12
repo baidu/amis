@@ -504,7 +504,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
 
   getValue() {
     const {formStore: form, control} = this.props;
-    let value: any = this.model?.tmpValue;
+    let value: any = this.model?.tmpValue ?? control.value;
 
     if (control.pipeIn) {
       value = control.pipeIn(value, form.data);
