@@ -43,7 +43,7 @@
   --text-color: #{$text-color};
   --button-color: #{$white};
 
-  --animation-duration: 0.1s;
+  --animation-duration: 0.2s;
 
   --text--muted-color: #{lighten($text-color, 25%)};
   --text--loud-color: #{darken($text-color, 10%)};
