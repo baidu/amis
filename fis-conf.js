@@ -126,8 +126,11 @@ fis.match('/docs/**.md', {
   isMod: true
 });
 
-fis.on('compile:parser', function (file) {
-  if (file.subpath === '/src/index.tsx') {
+fis.on('compile:end', function (file) {
+  if (
+    file.subpath === '/src/index.tsx' ||
+    file.subpath === '/examples/mod.js'
+  ) {
     file.setContent(file.getContent().replace('@version', package.version));
   }
 });
