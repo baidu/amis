@@ -296,7 +296,7 @@ export const filters: {
               obj[key] = item[key];
             } else if (
               typeof item[key] === 'number' &&
-              typeof obj[key] === 'string'
+              typeof obj[key] === 'number'
             ) {
               obj[key] += item[key];
             } else if (
@@ -321,15 +321,6 @@ export const filters: {
     }
     return input;
   },
-  // Array.isArray(input)
-  //   ? groupBy(input, (item: any) => {
-  //       const index = input.indexOf(item) + 1;
-  //       return index >= len ? len : index;
-  //     })
-  //     .map((item:any) => {
-
-  //     })
-  //   : input,
   first: input => input && input[0],
   nth: (input, nth = 0) => input && input[nth],
   last: input => input && (input.length ? input[input.length - 1] : null),
