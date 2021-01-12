@@ -110,6 +110,11 @@ export interface RendererEnv {
    */
   blockRouting?: (fn: (targetLocation: any) => void | string) => () => void;
   isCurrentUrl: (link: string, ctx?: any) => boolean | {params?: object};
+
+  /**
+   * 监控路由变化，如果 jssdk 需要做单页跳转需要实现这个。
+   */
+  watchRouteChange?: (fn: () => void) => () => void;
   rendererResolver?: (
     path: string,
     schema: Schema,

@@ -24,7 +24,8 @@ const mapping: {
   'amis/embed': __moduleId('./embed.tsx'),
   'prop-types': __moduleId('prop-types'),
   'async/mapLimit': __moduleId('async/mapLimit'),
-  'qs': __moduleId('qs')
+  'qs': __moduleId('qs'),
+  'path-to-regexp': __moduleId('path-to-regexp')
 };
 
 function amisRequire(...args: Array<any>) {
