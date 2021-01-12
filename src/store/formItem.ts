@@ -385,7 +385,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       for (let option of options) {
-        if (option.value) {
+        if (option[self.valueField || 'value']) {
           return option;
         } else if (Array.isArray(option.children)) {
           const childFirst = getFirstAvaibleOption(option.children);
@@ -422,7 +422,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
         const list = [fistOption].map((item: any) => {
           if (self.extractValue || self.joinValues) {
-            return item.value;
+            return item[self.valueField || 'value'];
           }
 
           return item;

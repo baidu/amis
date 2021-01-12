@@ -20,6 +20,7 @@ export interface ChartRadiosControlSchema extends FormOptionsControl {
   type: 'chart-radios';
   config: any;
   showTooltipOnHighlight?: boolean;
+  chartValueField?: string;
 }
 
 export interface ChartRadiosProps extends OptionsControlProps {
@@ -97,7 +98,13 @@ export default class ChartRadiosControl extends React.Component<
   }
 
   render() {
-    const {options, labelField, valueField, render} = this.props;
+    const {
+      options,
+      labelField,
+      chartValueField,
+      valueField,
+      render
+    } = this.props;
     const config = {
       legend: {
         top: 10
@@ -117,7 +124,10 @@ export default class ChartRadiosControl extends React.Component<
       ],
       ...this.props.config,
       dataset: {
-        dimensions: [labelField || 'label', valueField || 'value'],
+        dimensions: [
+          labelField || 'label',
+          chartValueField || valueField || 'value'
+        ],
         source: options
       }
     };

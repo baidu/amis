@@ -301,8 +301,11 @@ export default class FormControl extends React.PureComponent<ControlProps> {
       combo.unBindUniuqueItem(this.model);
     }
 
+    this.model &&
+      formItem &&
+      isAlive(formItem) &&
+      formItem.removeSubFormItem(this.model);
     this.model && form.removeFormItem(this.model);
-    this.model && formItem?.removeSubFormItem(this.model);
   }
 
   controlRef(control: any) {
