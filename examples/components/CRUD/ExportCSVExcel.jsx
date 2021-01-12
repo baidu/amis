@@ -7,8 +7,8 @@ export default {
     data: {
       items: [
         {
-          icon: __uri('../../static/ie.png'),
           link: 'https://www.microsoft.com/',
+          icon: __uri('../../static/ie.png'),
           engine: 'Trident',
           browser: 'Internet Explorer 4.2',
           platform: 'Win 95+',
@@ -17,8 +17,8 @@ export default {
           grade: 'A'
         },
         {
-          icon: __uri('../../static/ie.png'),
           link: 'https://www.microsoft.com/',
+          icon: __uri('../../static/ie.png'),
           engine: 'Trident',
           browser: 'Internet Explorer 4.2',
           platform: 'Win 95+',
@@ -27,8 +27,8 @@ export default {
           grade: 'B'
         },
         {
-          icon: __uri('../../static/ie.png'),
           link: 'https://www.microsoft.com/',
+          icon: __uri('../../static/ie.png'),
           engine: 'Trident',
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 95+',
@@ -37,8 +37,8 @@ export default {
           grade: 'C'
         },
         {
-          icon: __uri('../../static/ie.png'),
           link: 'https://www.microsoft.com/',
+          icon: __uri('../../static/ie.png'),
           engine: 'Trident',
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 98',
@@ -47,8 +47,8 @@ export default {
           grade: 'A'
         },
         {
-          icon: __uri('../../static/ie.png'),
           link: 'https://www.microsoft.com/',
+          icon: __uri('../../static/ie.png'),
           engine: 'Trident',
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 98',
