@@ -148,6 +148,7 @@ export default class App extends React.Component<AppProps, object> {
     'footer'
   ];
   static defaultProps = {};
+  unWatchRouteChange?: () => void;
 
   constructor(props: AppProps) {
     super(props);
@@ -155,6 +156,12 @@ export default class App extends React.Component<AppProps, object> {
     const store = props.store;
     store.syncProps(props, undefined, ['pages']);
     store.updateActivePage(props.env);
+
+    if (props.env.watchRouteChange) {
+      this.unWatchRouteChange = props.env.watchRouteChange(() =>
+        store.updateActivePage(props.env)
+      );
+    }
   }
 
   async componentDidMount() {
@@ -185,6 +192,10 @@ export default class App extends React.Component<AppProps, object> {
     } else if (props.location && props.location !== prevProps.location) {
       store.updateActivePage(props.env);
     }
+  }
+
+  componentWillUnmount() {
+    this.unWatchRouteChange?.();
   }
 
   @autobind
