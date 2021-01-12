@@ -836,6 +836,26 @@ ${xxx | join[:glue]}
 }
 ```
 
+### sortBy
+
+对目标数组进行排序。
+
+- **key** 字段名，可以是数字，支持层级。
+- **method** 排序方式 `alpha` 或者 `numerical`
+- **dir** 排序方式 `desc` 或者 `asc`
+
+如：`${list|sortBy:value:numerical:desc}` 让 list 按 value 字段的数值倒序。
+
+### topAndOther
+
+取前多少个，身下的归位一组比如：`${list|topAndOther:10:name:Others}`
+
+对数组分为 10 组，前面 9 组分别拿前 9 个，最后一组将剩下的归为一组，并对每项做数字累加。
+
+- **len** 分多少组
+- **labelField** 默认为 `name`
+- **restLabel** 默认为`其他`。
+
 ### first
 
 获取数组中的第一个值

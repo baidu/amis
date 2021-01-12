@@ -111,9 +111,9 @@ export default class ChartRadiosControl extends React.Component<
       },
       tooltip: {
         formatter: (params: any) =>
-          `${params.name}：${params.value[valueField || 'value']}（${
-            params.percent
-          }%）`
+          `${params.name}：${
+            params.value[chartValueField || valueField || 'value']
+          }（${params.percent}%）`
       },
       series: [
         {
