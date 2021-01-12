@@ -1,6 +1,7 @@
 import moment from 'moment';
 import {PlainObject} from '../types';
 import isPlainObject from 'lodash/isPlainObject';
+import groupBy from 'lodash/groupBy';
 import {
   createObject,
   isObject,
@@ -9,6 +10,7 @@ import {
   keyToPath
 } from './helper';
 import {Enginer} from './tpl';
+import Input from '../components/Input';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
@@ -68,6 +70,30 @@ export function formatDuration(value: number): string {
   }
 
   return parts.join('');
+}
+
+function makeSorter(
+  key: string,
+  method?: 'alpha' | 'numerical',
+  order?: 'desc' | 'asc'
+) {
+  return function (a: any, b: any) {
+    if (!a || !b) {
+      return 0;
+    }
+
+    const va = resolveVariable(key, a);
+    const vb = resolveVariable(key, b);
+    let result = 0;
+
+    if (method === 'numerical') {
+      result = (parseFloat(va) || 0) - (parseFloat(vb) || 0);
+    } else {
+      result = String(va).localeCompare(String(vb));
+    }
+
+    return result * (order === 'desc' ? -1 : 1);
+  };
 }
 
 const timeUnitMap: {
@@ -243,6 +269,58 @@ export const filters: {
   join: (input, glue) => (input && input.join ? input.join(glue) : input),
   split: (input, delimiter = ',') =>
     typeof input === 'string' ? input.split(delimiter) : input,
+  sortBy: (
+    input: any,
+    key: string,
+    method: 'alpha' | 'numerical' = 'alpha',
+    order?: 'asc' | 'desc'
+  ) =>
+    Array.isArray(input) ? input.sort(makeSorter(key, method, order)) : input,
+  topAndOther: (
+    input: any,
+    len: number = 10,
+    labelField: string = 'name',
+    restLabel = '其他'
+  ) => {
+    if (Array.isArray(input) && len) {
+      const grouped = groupBy(input, (item: any) => {
+        const index = input.indexOf(item) + 1;
+        return index >= len ? len : index;
+      });
+
+      return Object.keys(grouped).map((key, index) => {
+        const group = grouped[key];
+        const obj = group.reduce((obj, item) => {
+          Object.keys(item).forEach(key => {
+            if (!obj.hasOwnProperty(key) || key === 'labelField') {
+              obj[key] = item[key];
+            } else if (
+              typeof item[key] === 'number' &&
+              typeof obj[key] === 'number'
+            ) {
+              obj[key] += item[key];
+            } else if (
+              typeof item[key] === 'string' &&
+              /^(?:\-|\.)\d/.test(item[key]) &&
+              typeof obj[key] === 'number'
+            ) {
+              obj[key] += parseFloat(item[key]) || 0;
+            } else {
+              obj[key] += `, ${item[key]}`;
+            }
+          });
+
+          return obj;
+        }, {});
+
+        if (index === len - 1) {
+          obj[labelField] = restLabel || '其他';
+        }
+        return obj;
+      });
+    }
+    return input;
+  },
   first: input => input && input[0],
   nth: (input, nth = 0) => input && input[nth],
   last: input => input && (input.length ? input[input.length - 1] : null),
