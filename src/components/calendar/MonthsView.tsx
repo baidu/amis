@@ -47,8 +47,8 @@ export class CustomMonthsView extends MonthsView {
 
     return (
       <div className="rdtMonths">
-        <table>
-          {showYearHead && (
+        {showYearHead && (
+          <table>
             <thead>
               <tr>
                 <th
@@ -78,8 +78,9 @@ export class CustomMonthsView extends MonthsView {
                 </th>
               </tr>
             </thead>
-          )}
-        </table>
+          </table>
+        )}
+
         <table>
           <tbody>{this.renderMonths()}</tbody>
         </table>

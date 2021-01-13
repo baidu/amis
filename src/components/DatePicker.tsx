@@ -228,7 +228,7 @@ export type ShortCuts =
   | ShortCutDateRange;
 
 export interface DateProps extends LocaleProps, ThemeProps {
-  viewMode: 'years' | 'months' | 'days' | 'time';
+  viewMode: 'years' | 'months' | 'days' | 'time' | 'quarters';
   className?: string;
   placeholder?: string;
   inputFormat?: string;
@@ -397,7 +397,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       dateFormat,
       timeFormat,
       closeOnSelect,
-      utc
+      utc,
+      viewMode
     } = this.props;
 
     if (!moment.isMoment(value)) {

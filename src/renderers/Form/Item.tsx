@@ -97,6 +97,7 @@ export type FormControlType =
   | 'date'
   | 'datetime'
   | 'time'
+  | 'quarter'
   | 'month'
   | 'date-range'
   | 'diff'

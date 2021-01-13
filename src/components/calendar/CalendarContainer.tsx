@@ -5,6 +5,7 @@ import CustomDaysView from './DaysView';
 import CustomYearsView from './YearsView';
 import CustomMonthsView from './MonthsView';
 import CustomTimeView from './TimeView';
+import QuartersView from './QuartersView';
 
 export default class CustomCalendarContainer extends CalendarContainer {
   viewComponents: any = {
@@ -12,6 +13,7 @@ export default class CustomCalendarContainer extends CalendarContainer {
     days: CustomDaysView,
     years: CustomYearsView,
     months: CustomMonthsView,
-    time: CustomTimeView
+    time: CustomTimeView,
+    quarters: QuartersView
   };
 }
