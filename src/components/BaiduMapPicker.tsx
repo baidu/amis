@@ -72,7 +72,7 @@ export class BaiduMapPicker extends React.Component<
       this.initMap();
     } else {
       loadScript(
-        `//api.map.baidu.com/api?v=2.0&ak=${this.props.ak}&callback={{callback}}`
+        `//api.map.baidu.com/api?v=3.0&ak=${this.props.ak}&callback={{callback}}`
       ).then(this.initMap);
     }
   }
@@ -98,6 +98,8 @@ export class BaiduMapPicker extends React.Component<
       : new BMap.Point(116.404, 39.915);
     map.centerAndZoom(point, 15);
 
+    map.addControl(new BMap.NavigationControl());
+
     const geolocationControl = new BMap.GeolocationControl();
     geolocationControl.addEventListener('locationSuccess', (e: any) => {
       this.getLocations(e.point);
@@ -116,28 +118,28 @@ export class BaiduMapPicker extends React.Component<
     this.ac = new BMap.Autocomplete({
       input,
       location: map,
-      onSearchComplete: (e: any) => {
+      onSearchComplete: (result: any) => {
         // 说明已经销毁了。
         if (!this.map) {
           return;
         }
 
         const sugs: Array<string> = [];
-        if (Array.isArray(e.Ir)) {
-          e.Ir.forEach((item: any) => {
+
+        const poiLength = result.getNumPois();
+        if (poiLength) {
+          for (let i = 0; i < poiLength; i++) {
+            const poi = result.getPoi(i);
             sugs.push(
               [
-                item.province,
-                item.city,
-                item.district,
-                item.street,
-                item.business
-              ]
-                .filter(item => item)
-                .join(' ')
+                poi.province,
+                poi.city,
+                poi.district,
+                poi.street,
+                poi.business
+              ].join(' ')
             );
-          });
-
+          }
           this.setState({
             sugs
           });
@@ -280,9 +282,6 @@ export class BaiduMapPicker extends React.Component<
               value={inputValue}
               placeholder="搜索地点"
             />
-            <span>
-              <Icon icon="search" className="icon" />
-            </span>
           </div>
         </div>
 
