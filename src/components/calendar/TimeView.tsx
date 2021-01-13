@@ -39,23 +39,26 @@ export class CustomTimeView extends TimeView {
   };
 
   renderDayPart = () => {
-    const {translate: __} = this.props;
+    const {translate: __, classnames: cx} = this.props;
     return (
-      <div key="dayPart" className="rdtCounter">
+      <div
+        key="dayPart"
+        className={cx('CalendarCounter CalendarCounter--daypart')}
+      >
         <span
           key="up"
-          className="rdtBtn"
+          className={cx('CalendarCounter-btn CalendarCounter-btn--up')}
           onClick={this.onStartClicking('toggleDayPart', 'hours')}
           onContextMenu={this.disableContextMenu}
         >
           <Icon icon="right-arrow-bold" />
         </span>
-        <div className="rdtCount" key={this.state.daypart}>
+        <div className={cx('CalendarCounter-value')} key={this.state.daypart}>
           {__(this.state.daypart)}
         </div>
         <span
           key="down"
-          className="rdtBtn"
+          className={cx('CalendarCounter-btn CalendarCounter-btn--down')}
           onClick={this.onStartClicking('toggleDayPart', 'hours')}
           onContextMenu={this.disableContextMenu}
         >
@@ -80,7 +83,7 @@ export class CustomTimeView extends TimeView {
         }
       }
 
-      const {min, max, step} = this.timeConstraints;
+      const {min, max, step} = this.timeConstraints[type];
 
       return (
         <div key={type} className={cx('CalendarCounter')}>
