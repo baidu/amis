@@ -435,6 +435,15 @@ export default [
               )
           },
           {
+            label: 'Location 地理位置',
+            path: '/zh-CN/docs/components/form/location',
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/zh-CN/components/form/location.md').then(
+                makeMarkdownRenderer
+              )
+          },
+          {
             label: 'UUID 随机 ID',
             path: '/zh-CN/docs/components/form/uuid',
             getComponent: () =>
