@@ -6,7 +6,7 @@
     margin-left: var(--DropDown-caret-marginLeft);
     display: inline-block;
     vertical-align: top;
-    transition: transform 0.2s ease;
+    transition: transform var(--animation-duration) ease;
 
     > svg {
       width: px2rem(10px);

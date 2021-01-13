@@ -83,9 +83,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       valueField,
       onChange,
       setOptions,
-      options,
-      autoFill,
-      onBulkChange
+      options
     } = this.props;
 
     let newValue: string | Option | Array<Option> | void = value;
@@ -129,12 +127,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
-    const sendTo =
-      !multiple &&
-      autoFill &&
-      !isEmpty(autoFill) &&
-      dataMapping(autoFill, value as Option);
-    sendTo && onBulkChange(sendTo);
     onChange(newValue);
   }
 

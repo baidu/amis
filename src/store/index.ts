@@ -3,7 +3,8 @@ import {
   getEnv,
   detach,
   setLivelynessChecking,
-  isAlive
+  isAlive,
+  Instance
 } from 'mobx-state-tree';
 import 'setimmediate';
 import {iRendererStore, IIRendererStore, SIRendererStore} from './iRenderer';
@@ -20,6 +21,7 @@ import {IStoreNode} from './node';
 import {FormItemStore} from './formItem';
 import {addStore, getStoreById, getStores, removeStore} from './manager';
 import {PaginationStore} from './pagination';
+import {AppStore} from './app';
 
 setLivelynessChecking(
   process.env.NODE_ENV === 'production' ? 'ignore' : 'error'
@@ -34,7 +36,8 @@ const allowedStoreList = [
   ListStore,
   ModalStore,
   FormItemStore,
-  PaginationStore
+  PaginationStore,
+  AppStore
 ];
 
 export const RendererStore = types
@@ -87,7 +90,7 @@ export const RendererStore = types
     }
   }));
 
-export type IRendererStore = typeof RendererStore.Type;
+export type IRendererStore = Instance<typeof RendererStore>;
 export {iRendererStore, IIRendererStore};
 export const RegisterStore = function (store: any) {
   allowedStoreList.push(store as any);

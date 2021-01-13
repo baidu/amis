@@ -93,6 +93,15 @@ body {
     border-bottom: var(--Layout-headerBar-borderBottom);
     min-height: var(--Layout-header-height);
     padding: 0 var(--gap-sm);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &-offScreenBtn {
+    display: none;
+    float: right;
+    padding: 13px 15px;
   }
 
   &-aside {
@@ -144,7 +153,7 @@ body {
   // }
 
   &-body {
-    padding-bottom: var(--Layout-header-height);
+    padding-bottom: var(--Layout-footer-height);
     width: 100%;
     height: 100%;
   }
@@ -188,7 +197,7 @@ body {
   // }
 
   .#{$ns}Layout-content {
-    transition: transform 0.2s ease;
+    transition: transform var(--animation-duration) ease;
   }
 
   .#{$ns}Layout-aside {
@@ -216,7 +225,7 @@ body {
     .#{$ns}Layout-body,
     .#{$ns}Layout-footer {
       background: var(--body-bg);
-      transition: transform 0.2s ease;
+      transition: transform var(--animation-duration) ease;
       backface-visibility: hidden;
       transform: translate3d(var(--Layout--offscreen-width), 0px, 0px);
       overflow: hidden;
@@ -230,6 +239,10 @@ body {
       padding-top: px2rem(50px);
     }
   }
+
+  .#{$ns}Layout-offScreenBtn {
+    display: block;
+  }
 }
 
 @include media-breakpoint-up(md) {
@@ -237,8 +250,7 @@ body {
     display: flex;
     flex-direction: column;
 
-    &-header,
-    &-footer {
+    &-header {
       width: 100%;
     }
 
@@ -260,7 +272,7 @@ body {
     &-brandBar,
     &-aside {
       width: var(--Layout-aside-width);
-      transition: width 0.3s ease;
+      transition: width var(--animation-duration) ease;
     }
 
     &-brandBar {
@@ -281,7 +293,7 @@ body {
       .#{$ns}Layout-headerBar,
       .#{$ns}Layout-footer {
         margin-left: var(--Layout-aside-width);
-        transition: margin 0.3s ease;
+        transition: margin var(--animation-duration) ease;
       }
     }
 

@@ -1,0 +1,11 @@
+{
+  "status": 422,
+  "msg": "",
+  "errors": {
+    "combo1": "服务器端说，这个combo1有问题",
+    "combo1[1].a": "服务器端说，这个combo1的第二项中的a有问题",
+    "combo2": "服务器端说，这个combo2有问题",
+    "combo2.b": "服务器端说，这个combo2中的b有问题"
+  },
+  "data": null
+}

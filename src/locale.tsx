@@ -9,7 +9,7 @@ interface LocaleConfig {
   [propsName: string]: string;
 }
 
-let defaultLocale: string = 'zh-cn';
+let defaultLocale: string = 'zh-CN';
 
 const locales: {
   [propName: string]: LocaleConfig;

@@ -12,7 +12,7 @@
   width: 30px;
   padding: 0 8px;
 
-  transition: all 0.3s ease-in-out;
+  transition: all var(--animation-duration) ease-in-out;
   border: var(--Form-input-borderWidth) solid transparent;
   border-radius: var(--Form-input-borderRadius);
 

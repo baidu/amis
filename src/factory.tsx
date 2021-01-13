@@ -56,6 +56,7 @@ import {
 } from './locale';
 import {SchemaCollection, SchemaObject, SchemaTpl} from './Schema';
 import {result} from 'lodash';
+import {envOverwrite} from './envOverwrite';
 
 export interface TestFunc {
   (
@@ -100,7 +101,20 @@ export interface RendererEnv {
   alert: (msg: string) => void;
   confirm: (msg: string, title?: string) => Promise<boolean>;
   updateLocation: (location: any, replace?: boolean) => void;
-  isCurrentUrl: (link: string) => boolean;
+
+  /**
+   * 阻止路由跳转，有时候 form 没有保存，但是路由跳转了，导致页面没有更新，
+   * 所以先让用户确认一下。
+   *
+   * 单页模式需要这个，如果非单页模式，不需要处理这个。
+   */
+  blockRouting?: (fn: (targetLocation: any) => void | string) => () => void;
+  isCurrentUrl: (link: string, ctx?: any) => boolean | {params?: object};
+
+  /**
+   * 监控路由变化，如果 jssdk 需要做单页跳转需要实现这个。
+   */
+  watchRouteChange?: (fn: () => void) => () => void;
   rendererResolver?: (
     path: string,
     schema: Schema,
@@ -148,7 +162,7 @@ export interface RendererConfig extends RendererBasicConfig {
 }
 
 export interface RenderSchemaFilter {
-  (schema: Schema, renderer: RendererConfig, props?: object): Schema;
+  (schema: Schema, renderer: RendererConfig, props?: any): Schema;
 }
 
 export interface RootRenderProps {
@@ -416,6 +430,9 @@ export class RootRenderer extends React.Component<RootRendererProps> {
           data
         )
       : data;
+
+    // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
+    envOverwrite(schema, locale);
 
     return (
       <RootStoreContext.Provider value={rootStore}>
@@ -868,7 +885,10 @@ export function HocStoreFactory(renderer: {
               createObject(nextProps.data.__super, {
                 ...nextProps.data,
                 ...store.data
-              })
+              }),
+
+              store.storeType === 'FormStore' &&
+                props.store?.storeType === 'CRUDStore'
             );
         } else if (
           nextProps.scope &&
@@ -1012,6 +1032,10 @@ const defaultOptions: RenderOptions = {
     }
   },
   isCurrentUrl: (to: string) => {
+    if (!to) {
+      return false;
+    }
+
     const link = normalizeLink(to);
     const location = window.location;
     let pathname = link;
@@ -1047,7 +1071,12 @@ export function render(
   options: RenderOptions = {},
   pathPrefix: string = ''
 ): JSX.Element {
-  const locale = props.locale || getDefaultLocale();
+  let locale = props.locale || getDefaultLocale();
+  // 兼容 locale 的不同写法
+  locale = locale.replace('_', '-');
+  locale = locale === 'en' ? 'en-US' : locale;
+  locale = locale === 'zh' ? 'zh-CN' : locale;
+  locale = locale === 'cn' ? 'zh-CN' : locale;
   const translate = props.translate || makeTranslator(locale);
   let store = stores[options.session || 'global'];
 

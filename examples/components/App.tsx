@@ -10,7 +10,7 @@ import {
 } from '../../src/components/index';
 import {eachTree, mapTree} from '../../src/utils/helper';
 import {Icon} from '../../src/components/icons';
-import '../../src/locale/en';
+import '../../src/locale/en-US';
 import {
   Router,
   Route,
@@ -23,7 +23,8 @@ import {
 } from 'react-router';
 import Select from '../../src/components/Select';
 import DocSearch from './DocSearch';
-import Doc, {docs} from './Doc';
+import Doc from './Doc';
+import DocNavCN from './DocNavCN';
 import Example, {examples} from './Example';
 import CssDocs, {cssDocs} from './CssDocs';
 import CSSDocs from './CssDocs';
@@ -66,12 +67,12 @@ const themes = [
 const locales = [
   {
     label: '中文',
-    value: 'zh-cn'
+    value: 'zh-CN'
   },
 
   {
     label: 'English',
-    value: 'en'
+    value: 'en-US'
   }
 ];
 
@@ -137,8 +138,12 @@ export class App extends React.PureComponent<{
     headerVisible: true,
     themeIndex: 0,
     themes: themes,
-    theme: themes[localStorage.getItem('themeIndex') || 0],
-    locale: localStorage.getItem('locale') || '',
+    theme:
+      themes.find(item => item?.value === localStorage.getItem('theme')) ||
+      themes[0],
+    locale: localStorage.getItem('locale')
+      ? localStorage.getItem('locale').replace('zh-cn', 'zh-CN')
+      : '',
     navigations: []
   };
 
@@ -247,7 +252,7 @@ export class App extends React.PureComponent<{
           )}
 
           <ul className={`HeaderLinks`}>
-            <Link to={`${ContextPath}/docs`} activeClassName="is-active">
+            <Link to={`${ContextPath}/zh-CN/docs`} activeClassName="is-active">
               文档
             </Link>
             <Link to={`${ContextPath}/style`} activeClassName="is-active">
@@ -271,7 +276,7 @@ export class App extends React.PureComponent<{
             <Select
               clearable={false}
               theme={this.state.theme.value}
-              value={this.state.locale || 'zh-cn'}
+              value={this.state.locale || 'zh-CN'}
               options={locales}
               onChange={locale => {
                 this.setState({locale: locale.value});
@@ -289,10 +294,6 @@ export class App extends React.PureComponent<{
               options={this.state.themes}
               onChange={theme => {
                 this.setState({theme});
-                localStorage.setItem(
-                  'themeIndex',
-                  `${this.state.themes.indexOf(theme)}`
-                );
                 localStorage.setItem('theme', `${theme.value}`);
                 document
                   .querySelector('body')
@@ -469,7 +470,26 @@ export class App extends React.PureComponent<{
     const theme = this.state.theme;
     const location = this.props.location;
 
-    if (/examples/.test(location.pathname)) {
+    if (/examples\/jssdk/.test(location.pathname)) {
+      return (
+        <>
+          <ToastComponent theme={theme.value} locale={this.state.locale} />
+          <AlertComponent theme={theme.value} locale={this.state.locale} />
+          {React.cloneElement(this.props.children as any, {
+            key: theme.value,
+            ...(this.props.children as any).props,
+            setNavigations: this.setNavigations,
+            theme: theme.value,
+            classPrefix: theme.ns,
+            viewMode: this.state.viewMode,
+            locale: this.state.locale,
+            offScreen: this.state.offScreen,
+            ContextPath,
+            showCode: false
+          })}
+        </>
+      );
+    } else if (/examples/.test(location.pathname)) {
       return this.renderExamples();
     }
 
@@ -564,13 +584,29 @@ function navigations2route(pathPrefix = DocPathPrefix, navigations) {
 
 export default function entry({pathPrefix}) {
   // PathPrefix = pathPrefix || DocPathPrefix;
+  const locate = 'zh-CN'; // 暂时不支持切换，因为目前只有中文文档
   return (
     <Router history={browserHistory}>
       <Route component={App}>
-        <Redirect from={`${ContextPath}/`} to={`${ContextPath}/docs/index`} />
+        <Redirect
+          from={`${ContextPath}/`}
+          to={`${ContextPath}/${locate}/docs/index`}
+        />
         <Redirect
           from={`${ContextPath}/docs`}
-          to={`${ContextPath}/docs/index`}
+          to={`${ContextPath}/${locate}/docs/index`}
+        />
+        <Redirect
+          from={`${ContextPath}/docs/index`}
+          to={`${ContextPath}/${locate}/docs/index`}
+        />
+        <Redirect
+          from={`${ContextPath}/docs/*`}
+          to={`${ContextPath}/${locate}/docs/*`}
+        />
+        <Redirect
+          from={`${ContextPath}/${locate}/docs`}
+          to={`${ContextPath}/${locate}/docs/index`}
         />
         <Redirect
           from={`${ContextPath}/examples`}
@@ -581,8 +617,8 @@ export default function entry({pathPrefix}) {
           to={`${ContextPath}/style/index`}
         />
 
-        <Route path={`${ContextPath}/docs`} component={Doc}>
-          {navigations2route(DocPathPrefix, docs)}
+        <Route path={`${ContextPath}/${locate}/docs`} component={Doc}>
+          {navigations2route(DocPathPrefix, DocNavCN)}
         </Route>
         <Route path={`${ContextPath}/examples`} component={Example}>
           {navigations2route(ExamplePathPrefix, examples)}

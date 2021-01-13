@@ -4,7 +4,8 @@ import {
   flow,
   getEnv,
   getRoot,
-  isAlive
+  isAlive,
+  Instance
 } from 'mobx-state-tree';
 import {IRendererStore} from './index';
 import {ServiceStore} from './service';
@@ -17,7 +18,6 @@ import {
   qsstringify
 } from '../utils/helper';
 import {Api, Payload, fetchOptions, Action, ApiObject} from '../types';
-import qs from 'qs';
 import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 
@@ -466,4 +466,4 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
     };
   });
 
-export type ICRUDStore = typeof CRUDStore.Type;
+export type ICRUDStore = Instance<typeof CRUDStore>;

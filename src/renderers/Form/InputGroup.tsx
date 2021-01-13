@@ -16,7 +16,7 @@ import {
   FormBaseControl,
   FormControlSchema
 } from './Item';
-import {IFormStore} from '../../store/form';
+import {IFormItemStore, IFormStore} from '../../store/form';
 import {SchemaClassName} from '../../Schema';
 
 /**
@@ -96,13 +96,14 @@ export class InputGroup extends React.Component<
   }
 
   validate() {
-    const {formStore, controls} = this.props;
+    const {formItem} = this.props;
 
     const errors: Array<string> = [];
 
-    controls.forEach(({name}) => {
-      const formItem = name ? formStore.getItemByName(name) : null;
-      formItem && formItem.errors.length && errors.push(...formItem.errors);
+    formItem?.subFormItems.forEach((item: IFormItemStore) => {
+      if (item.errors.length) {
+        errors.push(...item.errors);
+      }
     });
 
     return errors.length ? errors : '';

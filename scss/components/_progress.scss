@@ -12,6 +12,6 @@
     color: #fff;
     text-align: center;
     background: var(--primary);
-    transition: width 0.6s ease;
+    transition: width var(--animation-duration) ease;
   }
 }

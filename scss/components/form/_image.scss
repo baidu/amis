@@ -167,7 +167,7 @@
     display: block;
     background: var(--info);
     min-width: 10%;
-    transition: ease-out width 0.3s;
+    transition: ease-out width var(--animation-duration);
   }
 
   &-item.is-invalid &-itemClear {

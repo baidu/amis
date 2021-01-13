@@ -112,7 +112,7 @@
         right: px2rem(2px);
         cursor: pointer;
         transform: scale(0.8);
-        transition: transform 0.3s;
+        transition: transform var(--animation-duration);
 
         > svg {
           width: 10px;

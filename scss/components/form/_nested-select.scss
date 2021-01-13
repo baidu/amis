@@ -110,7 +110,7 @@
 
   &-menu {
     width: px2rem(160px);
-    max-height: px2rem(300px);
+    height: px2rem(175px); // 高度写死，否则有可能会上下闪动
     background: var(--Form-select-menu-bg);
     color: var(--Form-select-menu-color);
     border: var(--Form-select-outer-borderWidth) solid

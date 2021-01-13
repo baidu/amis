@@ -1797,11 +1797,7 @@ export default class Table extends React.Component<TableProps, object> {
             });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
-            const items = store.data.items;
-            // 基于第一行数据来生成列名，所以必须保证第一行数据是完整的
-            const firstRowKeys = Object.keys(items[0]).filter(key => {
-              return key in columnNameMap;
-            });
+            const firstRowKeys = columns.map(column => column.name!);
             const firstRowLabels = firstRowKeys.map(key => {
               return columnNameMap[key].label || key;
             });

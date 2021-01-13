@@ -5,6 +5,8 @@ export interface ApiObject extends SchemaApiObject {
     withCredentials?: boolean;
     cancelExecutor?: (cancel: Function) => void;
   };
+  body?: PlainObject;
+  query?: PlainObject;
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
   requestAdaptor?: (api: ApiObject) => ApiObject;
 }
@@ -91,7 +93,8 @@ export interface Action extends Button {
     | 'cancel'
     | 'next'
     | 'prev'
-    | 'reset';
+    | 'reset'
+    | 'reset-and-submit';
   api?: Api;
   asyncApi?: Api;
   payload?: any;

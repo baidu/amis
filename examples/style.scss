@@ -401,7 +401,7 @@ body {
           font-size: px2rem(14px);
           font-weight: 700;
           color: #666;
-          padding: px2rem(5px) px2rem(20px) px2rem(5px) 0;
+          padding: px2rem(3px) 0;
           background: transparent;
           border-left: 0;
 
@@ -476,7 +476,7 @@ body {
       a {
         color: #666;
         cursor: pointer;
-        text-decoration: none;
+        text-decoration: none !important;
 
         &:hover {
           color: #333;
@@ -589,6 +589,7 @@ body {
         transition: border-color ease-out 0.3s, color ease-out 0.3s;
         box-shadow: #e8ebee 0px 3px 8px 0px;
         color: #666;
+        text-decoration: none;
 
         &:hover {
           border-color: #108cee;
@@ -714,6 +715,9 @@ body {
     }
     &-fixme {
       color: #fff;
+      > a {
+        text-decoration: none;
+      }
     }
   }
 

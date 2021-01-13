@@ -1,4 +1,5 @@
 import React from 'react';
+import {match} from 'path-to-regexp';
 import makeSchemaRenderer from './SchemaRender';
 
 import SimplePageSchema from './Page/Simple';
@@ -78,6 +79,8 @@ import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
+import JSSDK from './JSSDK/index';
+import {normalizeLink} from '../../src/utils/normalizeLink';
 
 export const examples = [
   {
@@ -537,6 +540,38 @@ export const examples = [
         icon: 'fa fa-rocket',
         path: '/examples/sdk',
         component: SdkTest
+      },
+
+      {
+        label: 'JSSDK',
+        icon: 'fa fa-cubes',
+        path: '/examples/jssdk',
+        component: makeSchemaRenderer(JSSDK, false, {
+          session: 'jssdk',
+          jumpTo: (to: string) => {
+            location.hash = to;
+          },
+          isCurrentUrl: (to: string, ctx: any) => {
+            if (!to) {
+              return false;
+            }
+            const pathname = location.hash ? location.hash.substring(1) : '/';
+            const link = normalizeLink(to, {
+              ...location,
+              pathname,
+              hash: ''
+            });
+
+            if (!~link.indexOf('http') && ~link.indexOf(':')) {
+              return match(link, {
+                decode: decodeURIComponent,
+                strict: ctx?.strict ?? true
+              })(pathname);
+            }
+
+            return pathname === link;
+          }
+        })
       }
 
       // {

@@ -115,11 +115,6 @@ fis.match('/docs/**.md', {
           if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
             let parts = link.split('#');
             parts[0] = parts[0].replace('.md', '');
-
-            if (parts[0][0] !== '/') {
-              parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
-            }
-
             return 'href=\\' + quota + parts.join('#') + '\\' + quota;
           }
 
@@ -131,8 +126,11 @@ fis.match('/docs/**.md', {
   isMod: true
 });
 
-fis.on('compile:parser', function (file) {
-  if (file.subpath === '/src/index.tsx') {
+fis.on('compile:end', function (file) {
+  if (
+    file.subpath === '/src/index.tsx' ||
+    file.subpath === '/examples/mod.js'
+  ) {
     file.setContent(file.getContent().replace('@version', package.version));
   }
 });
@@ -512,7 +510,7 @@ if (fis.project.currentMedia() === 'publish') {
     try {
       throw new Error()
     } catch (e) {
-      _path = (/((?:https?|file)\:.*)$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
+      _path = (/((?:https?|file)\:.*)\\n?$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
     }
     function filterUrl(url) {
       return _path + url.substring(1);`;
@@ -582,10 +580,6 @@ if (fis.project.currentMedia() === 'publish') {
             if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
               let parts = link.split('#');
               parts[0] = parts[0].replace('.md', '');
-
-              if (parts[0][0] !== '/') {
-                parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
-              }
 
               return (
                 'href=\\' + quota + '/amis' + parts.join('#') + '\\' + quota
@@ -743,6 +737,7 @@ if (fis.project.currentMedia() === 'publish') {
         const indexHtml = ret.src['/examples/index.html'];
         const appJs = ret.src['/examples/components/App.tsx'];
         const DocJs = ret.src['/examples/components/Doc.tsx'];
+        const DocNavCN = ret.src['/examples/components/DocNavCN.ts'];
         const DocCSS = ret.src['/examples/components/CssDocs.tsx'];
         const ExampleJs = ret.src['/examples/components/Example.tsx'];
 
@@ -750,6 +745,7 @@ if (fis.project.currentMedia() === 'publish') {
         const source = [
           appJs.getContent(),
           DocJs.getContent(),
+          DocNavCN.getContent(),
           DocCSS.getContent(),
           ExampleJs.getContent()
         ].join('\n');

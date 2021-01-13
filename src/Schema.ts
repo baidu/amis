@@ -20,6 +20,7 @@ import {DividerSchema} from './renderers/Divider';
 import {DropdownButtonSchema} from './renderers/DropDownButton';
 import {EachSchema} from './renderers/Each';
 import {GridSchema} from './renderers/Grid';
+import {Grid2DSchema} from './renderers/Grid2D';
 import {HBoxSchema} from './renderers/HBox';
 import {IconSchema} from './renderers/Icon';
 import {IFrameSchema} from './renderers/IFrame';
@@ -59,6 +60,7 @@ export type SchemaType =
   | 'submit'
   | 'reset'
   | 'alert'
+  | 'app'
   | 'audio'
   | 'button-group'
   | 'button-toolbar'
@@ -85,6 +87,7 @@ export type SchemaType =
   | 'drawer'
   | 'each'
   | 'grid'
+  | 'grid-2d'
   | 'hbox'
   | 'icon'
   | 'iframe'
@@ -151,6 +154,7 @@ export type SchemaObject =
   | DropdownButtonSchema
   | EachSchema
   | GridSchema
+  | Grid2DSchema
   | HBoxSchema
   | IconSchema
   | IFrameSchema
@@ -230,6 +234,13 @@ export interface SchemaApiObject {
    * 用来控制携带数据. 当key 为 `&` 值为 `$$` 时, 将所有原始数据打平设置到 data 中. 当值为 $$ 将所有原始数据赋值到对应的 key 中. 当值为 $ 打头时, 将变量值设置到 key 中.
    */
   data?: {
+    [propName: string]: any;
+  };
+
+  /**
+   * 用来做接口返回的数据映射。
+   */
+  responseData?: {
     [propName: string]: any;
   };
 

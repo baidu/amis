@@ -9,7 +9,7 @@ export const cssDocs = [
         label: '快速开始',
         path: '/style/index',
         getComponent: (location: any, cb: any) =>
-          (require as any)(['../../docs/style/index.md'], (doc: any) => {
+          (require as any)(['../../docs/zh-CN/style/index.md'], (doc: any) => {
             cb(null, makeMarkdownRenderer(doc));
           })
       },
@@ -17,16 +17,19 @@ export const cssDocs = [
         label: 'CSS 变量',
         path: '/style/css-vars',
         getComponent: (location: any, cb: any) =>
-          (require as any)(['../../docs/style/css-vars.md'], (doc: any) => {
-            cb(null, makeMarkdownRenderer(doc));
-          })
+          (require as any)(
+            ['../../docs/zh-CN/style/css-vars.md'],
+            (doc: any) => {
+              cb(null, makeMarkdownRenderer(doc));
+            }
+          )
       },
       {
         label: '辅助类 - 响应式设计',
         path: '/style/responsive-design',
         getComponent: (location: any, cb: any) =>
           (require as any)(
-            ['../../docs/style/responsive-design.md'],
+            ['../../docs/zh-CN/style/responsive-design.md'],
             (doc: any) => {
               cb(null, makeMarkdownRenderer(doc));
             }
@@ -36,7 +39,7 @@ export const cssDocs = [
         label: '辅助类 - 状态样式',
         path: '/style/state',
         getComponent: (location: any, cb: any) =>
-          (require as any)(['../../docs/style/state.md'], (doc: any) => {
+          (require as any)(['../../docs/zh-CN/style/state.md'], (doc: any) => {
             cb(null, makeMarkdownRenderer(doc));
           })
       }

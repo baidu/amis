@@ -43,6 +43,8 @@
   --text-color: #{$text-color};
   --button-color: #{$white};
 
+  --animation-duration: 0.2s;
+
   --text--muted-color: #{lighten($text-color, 25%)};
   --text--loud-color: #{darken($text-color, 10%)};
 
@@ -305,9 +307,10 @@
           var(--Button-lineHeight) * var(--Button-fontSize)
       ) / 2
   );
-  --Button-transition: color 0.15s ease-in-out,
-    background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
+  --Button-transition: color var(--animation-duration) ease-in-out,
+    background-color var(--animation-duration) ease-in-out,
+    border-color var(--animation-duration) ease-in-out,
+    box-shadow var(--animation-duration) ease-in-out;
 
   --ButtonGroup--primary-isActive-color: var(--white);
   --ButtonGroup--primary-isActive-bg: var(--primary);
@@ -414,7 +417,7 @@
   --Carousel-minWidth: #{px2rem(100px)};
   --Carousel-svg-height: #{px2rem(20px)};
   --Carousel-svg-width: #{px2rem(20px)};
-  --Carousel-transitionDuration: 0.3s;
+  --Carousel-transitionDuration: var(--animation-duration);
 
   --Checkbox--full-inner-size: #{px2rem(12px)};
   --Checkbox--sm--full-inner-size: #{px2rem(10px)};
@@ -730,7 +733,8 @@
   --InputGroup-select-onFocused-color: var(--Form-select-onFocused-color);
 
   --InputRange-label--value-display: block;
-  --InputRange-label--value-positionTop: #{px2rem(-40px)};
+  --InputRange-label--value-positionTop: #{px2rem(-36px)};
+  --InputRange-label--value-positionLeft: #{px2rem(-3px)};
   --InputRange-label-color: var(--InputRange-neutralColor);
   --InputRange-label-fontSize: 0.8rem;
   --InputRange-label-positionBottom: -1.4rem;
@@ -747,15 +751,17 @@
   --InputRange-slider-onFocus-borderRadius: var(--borderRadiusMd);
   --InputRange-slider-onFocus-boxShadow: 0 0 0
     var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
-  --InputRange-slider-transition: transform 0.3s ease-out,
-    box-shadow 0.3s ease-out;
+  --InputRange-slider-transition: transform var(--animation-duration) ease-out,
+    box-shadow var(--animation-duration) ease-out;
   --InputRange-slider-width: #{px2rem(18px)};
-  --InputRange-sliderContainer-transition: left 0.3s ease-out;
+  --InputRange-sliderContainer-transition: left var(--animation-duration)
+    ease-out;
   --InputRange-track-bg: var(--InputRange-neutralLightColor);
   --InputRange-track-height: #{px2rem(12px)};
   --InputRange-track-onActive-bg: var(--InputRange-primaryColor);
   --InputRange-track-onDisabled-bg: var(--InputRange-neutralLightColor);
-  --InputRange-track-transition: left 0.3s ease-out, width 0.3s ease-out;
+  --InputRange-track-transition: left var(--animation-duration) ease-out,
+    width var(--animation-duration) ease-out;
 
   --Layout--offscreen-width: 75%;
   --Layout-aside--folded-width: #{px2rem(60px)};
@@ -791,6 +797,7 @@
     0 1px 0 rgba(0, 0, 0, 0.05);
   --Layout-header-height: #{px2rem(50px)};
   --Layout-headerBar-borderBottom: none;
+  --Layout-footer-height: #{px2rem(50px)};
   --Layout-nav--folded-height: #{px2rem(50px)};
   --Layout-nav--folded-height: #{px2rem(50px)};
   --Layout-nav-height: #{px2rem(40px)};
@@ -820,7 +827,7 @@
   --ListControl-item-onActive-bg: var(--primary);
   --ListControl-item-onActive-borderColor: #{darken($primary, 10%)};
   --ListControl-item-onActive-color: var(--white);
-  --ListControl-item-onActive-onHover-bg: var(--white);
+  --ListControl-item-onActive-onHover-bg: var(--primary);
   --ListControl-item-onDisabled-bg: var(--ListControl-item-bg);
   --ListControl-item-onDisabled-borderColor: #{lighten($borderColor, 5%)};
   --ListControl-item-onDisabled-color: var(--ListControl-item-color);
@@ -1226,7 +1233,7 @@
   --Tooltip--attr-lineHeigt: var(--lineHeightBase);
   --Tooltip--attr-paddingX: #{px2rem(10px)};
   --Tooltip--attr-paddingY: #{px2rem(2px)};
-  --Tooltip--attr-transition: all 0.15s ease-in-out;
+  --Tooltip--attr-transition: all var(--animation-duration) ease-in-out;
   --Tooltip-arrow-color: var(--Tooltip-bg);
   --Tooltip-arrow-color: var(--Tooltip-bg);
   --Tooltip-arrow-height: #{px2rem(8px)};

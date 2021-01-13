@@ -5,7 +5,8 @@ import {
   getRoot,
   detach,
   destroy,
-  isAlive
+  isAlive,
+  Instance
 } from 'mobx-state-tree';
 import debounce from 'lodash/debounce';
 import {ServiceStore} from './service';
@@ -21,9 +22,11 @@ import {
   difference,
   guid,
   isEmpty,
-  mapObject
+  mapObject,
+  keyToPath
 } from '../utils/helper';
 import isEqual from 'lodash/isEqual';
+import flatten from 'lodash/flatten';
 import {getStoreById, removeStore} from './manager';
 
 export const FormStore = ServiceStore.named('FormStore')
@@ -33,6 +36,7 @@ export const FormStore = ServiceStore.named('FormStore')
     submited: false,
     submiting: false,
     validating: false,
+    savedData: types.frozen(),
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
     itemsRef: types.optional(types.array(types.string), []),
     canAccessSuperData: true,
@@ -94,6 +98,14 @@ export const FormStore = ServiceStore.named('FormStore')
 
       get isPristine() {
         return isEqual(self.pristine, self.data);
+      },
+
+      get modified() {
+        if (self.savedData) {
+          return self.savedData !== self.data;
+        }
+
+        return !this.isPristine;
       }
     };
   })
@@ -249,9 +261,11 @@ export const FormStore = ServiceStore.named('FormStore')
 
           setValues(
             json.data,
-            {
-              __saved: Date.now()
-            },
+            json.ok
+              ? {
+                  __saved: Date.now()
+                }
+              : undefined,
             !!(api as ApiObject).replaceData
           );
         }
@@ -262,20 +276,35 @@ export const FormStore = ServiceStore.named('FormStore')
             const errors = json.errors;
             Object.keys(errors).forEach((key: string) => {
               const item = self.getItemById(key);
+              const items = self.getItemsByName(key);
 
               if (item) {
                 item.setError(errors[key]);
+                delete errors[key];
+              } else if (items.length) {
+                // 通过 name 直接找到的
+                items.forEach(item => item.setError(errors[key]));
+                delete errors[key];
               } else {
-                self
-                  .getItemsByName(key)
-                  .forEach(item => item.setError(errors[key]));
+                // 尝试通过path寻找
+                const items = getItemsByPath(key);
+
+                if (Array.isArray(items) && items.length) {
+                  items.forEach(item => item.setError(errors[key]));
+                  delete errors[key];
+                }
               }
             });
 
+            // 没有映射上的error信息加在msg后显示出来
+            const msgs = Object.keys(errors).map(key => errors[key]);
+
+            if (options && options.errorMessage) {
+              msgs.unshift(options.errorMessage);
+            }
+
             self.updateMessage(
-              json.msg ||
-                (options && options.errorMessage) ||
-                self.__('验证错误'),
+              json.msg || `${msgs.join('\n')}` || self.__('验证错误'),
               true
             );
           } else {
@@ -287,6 +316,7 @@ export const FormStore = ServiceStore.named('FormStore')
 
           throw new ServerError(self.msg, json);
         } else {
+          updateSavedData();
           if (options && options.onSuccess) {
             const ret = options.onSuccess(json);
 
@@ -301,7 +331,6 @@ export const FormStore = ServiceStore.named('FormStore')
         }
       } catch (e) {
         self.markSaving(false);
-        // console.error(e.stack);`
 
         if (!isAlive(self) || self.disposed) {
           return;
@@ -326,6 +355,25 @@ export const FormStore = ServiceStore.named('FormStore')
         throw e;
       }
     });
+
+    const getItemsByPath = (key: string) => {
+      const paths = keyToPath(key);
+      const len = paths.length;
+
+      return paths.reduce(
+        (stores: any[], path, idx) => {
+          if (Array.isArray(stores) && stores.every(s => s.getItemsByName)) {
+            const items = flatten(stores.map(s => s.getItemsByName(path)));
+            const subStores = items
+              .map(item => item?.getSubStore?.())
+              .filter(i => i);
+            return subStores.length && idx < len - 1 ? subStores : items;
+          }
+          return null;
+        },
+        [self]
+      );
+    };
 
     const submit: (
       fn?: (values: object) => Promise<any>,
@@ -483,6 +531,10 @@ export const FormStore = ServiceStore.named('FormStore')
       self.removeChildId(child.id);
     }
 
+    function updateSavedData() {
+      self.savedData = self.data;
+    }
+
     return {
       setInited,
       setValues,
@@ -503,6 +555,8 @@ export const FormStore = ServiceStore.named('FormStore')
       setPersistData,
       clearPersistData,
       onChildStoreDispose,
+      updateSavedData,
+      getItemsByPath,
       beforeDestroy() {
         syncOptions.cancel();
         setPersistData.cancel();
@@ -510,5 +564,5 @@ export const FormStore = ServiceStore.named('FormStore')
     };
   });
 
-export type IFormStore = typeof FormStore.Type;
+export type IFormStore = Instance<typeof FormStore>;
 export {IFormItemStore};

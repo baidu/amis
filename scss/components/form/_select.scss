@@ -130,7 +130,7 @@
     line-height: 1;
 
     > svg {
-      transition: transform 0.3s;
+      transition: transform var(--animation-duration);
       display: inline-block;
       color: var(--Form-select-caret-iconColor);
       width: 10px;
@@ -324,8 +324,15 @@
   }
 }
 
-.#{$ns}SelectControl:not(.is-inline) > .#{$ns}Select {
-  display: flex;
+.#{$ns}SelectControl {
+  &:not(.is-inline) > .#{$ns}Select {
+    display: flex;
+  }
+
+  &.is-error > .#{$ns}Select {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
 }
 
 // 需要能撑开

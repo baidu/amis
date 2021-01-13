@@ -1,4 +1,4 @@
-import {types, flow, getEnv, isAlive} from 'mobx-state-tree';
+import {types, flow, getEnv, isAlive, Instance} from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {Api, ApiObject, Payload, fetchOptions} from '../types';
 import {extendObject, isEmpty, isObject} from '../utils/helper';
@@ -467,4 +467,4 @@ export const ServiceStore = iRendererStore
     };
   });
 
-export type IServiceStore = typeof ServiceStore.Type;
+export type IServiceStore = Instance<typeof ServiceStore>;

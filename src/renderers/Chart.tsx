@@ -14,7 +14,7 @@ import {
 } from '../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
-import {createObject} from '../utils/helper';
+import {createObject, findObjectsWithKey} from '../utils/helper';
 import Spinner from '../components/Spinner';
 import {
   BaseSchema,
@@ -117,24 +117,6 @@ export interface ChartSchema extends BaseSchema {
   unMountOnHidden?: boolean;
 }
 
-/**
- * 深度查找具有某个 key 名字段的对象
- * @param obj
- * @param key
- */
-function findObjectsWithKey(obj: any, key: string) {
-  let objects: any[] = [];
-  for (const k in obj) {
-    if (!obj.hasOwnProperty(k)) continue;
-    if (typeof obj[k] === 'object') {
-      objects = objects.concat(findObjectsWithKey(obj[k], key));
-    } else if (k === key) {
-      objects.push(obj);
-    }
-  }
-  return objects;
-}
-
 const EVAL_CACHE: {[key: string]: Function} = {};
 /**
  * ECharts 中有些配置项可以写函数，但 JSON 中无法支持，为了实现这个功能，需要将看起来像函数的字符串转成函数类型
@@ -147,7 +129,7 @@ function recoverFunctionType(config: object) {
     const objects = findObjectsWithKey(config, key);
     for (const object of objects) {
       const code = object[key];
-      if (typeof code === 'string' && code.trim().startsWith('function ')) {
+      if (typeof code === 'string' && code.trim().startsWith('function')) {
         try {
           if (!(code in EVAL_CACHE)) {
             EVAL_CACHE[code] = eval('(' + code + ')');
@@ -161,7 +143,7 @@ function recoverFunctionType(config: object) {
   });
 }
 
-export interface ChartProps extends RendererProps, ChartSchema {
+export interface ChartProps extends RendererProps, Omit<ChartSchema, 'type'> {
   chartRef?: (echart: any) => void;
   onDataFilter?: (config: any, echarts: any) => any;
   onChartWillMount?: (echarts: any) => void | Promise<void>;
@@ -171,7 +153,6 @@ export interface ChartProps extends RendererProps, ChartSchema {
 }
 export class Chart extends React.Component<ChartProps> {
   static defaultProps: Partial<ChartProps> = {
-    offsetY: 50,
     replaceChartOption: false,
     unMountOnHidden: true
   };
@@ -179,7 +160,7 @@ export class Chart extends React.Component<ChartProps> {
   static propsList: Array<string> = [];
 
   ref: any;
-  echarts: echarts.ECharts;
+  echarts?: echarts.ECharts;
   unSensor: Function;
   pending?: object;
   pendingCtx?: any;
@@ -212,8 +193,6 @@ export class Chart extends React.Component<ChartProps> {
 
   componentDidUpdate(prevProps: ChartProps) {
     const props = this.props;
-    const api: string =
-      (props.api && (props.api as ApiObject).url) || (props.api as string);
 
     if (isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)) {
       this.reload();
@@ -265,9 +244,8 @@ export class Chart extends React.Component<ChartProps> {
         import('echarts'),
         import('echarts/extension/dataTool'),
         import('echarts/extension/bmap/bmap')
-      ]).then(async ([echarts, dataTool]) => {
+      ]).then(async ([echarts]) => {
         (window as any).echarts = echarts;
-        (echarts as any).dataTool = dataTool;
         let theme = 'default';
 
         if (chartTheme) {
@@ -285,7 +263,7 @@ export class Chart extends React.Component<ChartProps> {
         this.unSensor = resizeSensor(ref, () => {
           const width = ref.offsetWidth;
           const height = ref.offsetHeight;
-          this.echarts.resize({
+          this.echarts?.resize({
             width,
             height
           });
@@ -301,6 +279,7 @@ export class Chart extends React.Component<ChartProps> {
       if (this.echarts) {
         onChartUnMount?.(this.echarts, (window as any).echarts);
         this.echarts.dispose();
+        delete this.echarts;
       }
     }
 
@@ -320,9 +299,9 @@ export class Chart extends React.Component<ChartProps> {
     if (this.reloadCancel) {
       this.reloadCancel();
       delete this.reloadCancel;
-      this.echarts && this.echarts.hideLoading();
+      this.echarts?.hideLoading();
     }
-    this.echarts && this.echarts.showLoading();
+    this.echarts?.showLoading();
 
     env
       .fetcher(api, store.data, {
@@ -352,7 +331,7 @@ export class Chart extends React.Component<ChartProps> {
           this.renderChart(result.data || {});
         }
 
-        this.echarts && this.echarts.hideLoading();
+        this.echarts?.hideLoading();
 
         interval &&
           this.mounted &&
@@ -364,7 +343,7 @@ export class Chart extends React.Component<ChartProps> {
         }
 
         env.notify('error', reason);
-        this.echarts && this.echarts.hideLoading();
+        this.echarts?.hideLoading();
       });
   }
 
@@ -405,11 +384,17 @@ export class Chart extends React.Component<ChartProps> {
     if (config) {
       try {
         if (!this.props.disableDataMapping) {
-          config = dataMapping(config, data, true);
+          config = dataMapping(
+            config,
+            data,
+            (key: string, value: any) =>
+              typeof value === 'function' ||
+              (typeof value === 'string' && value.startsWith('function'))
+          );
         }
 
         recoverFunctionType(config!);
-        this.echarts.setOption(config!, this.props.replaceChartOption);
+        this.echarts?.setOption(config!, this.props.replaceChartOption);
       } catch (e) {
         console.warn(e);
       }

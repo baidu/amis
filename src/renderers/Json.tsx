@@ -156,6 +156,7 @@ export class JSONField extends React.Component<JSONProps, object> {
       jsonTheme,
       classnames: cx,
       hideRoot,
+      placeholder,
       source
     } = this.props;
 
@@ -176,13 +177,17 @@ export class JSONField extends React.Component<JSONProps, object> {
 
     return (
       <div className={cx('JsonField', className)}>
-        <JSONTree
-          data={data}
-          theme={theme}
-          shouldExpandNode={this.shouldExpandNode}
-          valueRenderer={this.valueRenderer}
-          hideRoot={hideRoot}
-        />
+        {typeof data === 'undefined' || data === null ? (
+          placeholder
+        ) : (
+          <JSONTree
+            data={data}
+            theme={theme}
+            shouldExpandNode={this.shouldExpandNode}
+            valueRenderer={this.valueRenderer}
+            hideRoot={hideRoot}
+          />
+        )}
       </div>
     );
   }

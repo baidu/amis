@@ -2,6 +2,7 @@ import './polyfills/index';
 import React from 'react';
 import {render as renderReact} from 'react-dom';
 import axios from 'axios';
+import {match} from 'path-to-regexp';
 import copy from 'copy-to-clipboard';
 import {normalizeLink} from '../src/utils/normalizeLink';
 
@@ -15,12 +16,12 @@ import {
   render as renderAmis
 } from '../src/index';
 
-import '../src/locale/en';
+import '../src/locale/en-US';
 
 export function embed(
   container: string | HTMLElement,
   schema: any,
-  data: any,
+  props: any,
   env: any
 ) {
   if (typeof container === 'string') {
@@ -46,7 +47,7 @@ export function embed(
       const disposition = response.headers['content-disposition'];
       let filename = '';
       if (disposition && disposition.indexOf('attachment') !== -1) {
-        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/i;
         let matches = filenameRegex.exec(disposition);
         if (matches != null && matches[1]) {
           filename = matches[1].replace(/['"]/g, '');
@@ -156,15 +157,17 @@ export function embed(
         position={(env && env.toastPosition) || 'top-right'}
         closeButton={false}
         timeout={5000}
+        theme={env?.theme}
       />
       <AlertComponent
+        theme={env?.theme}
         container={() => env?.getModalContainer?.() || container}
       />
 
       {renderAmis(
         schema,
         {
-          ...data,
+          ...props,
           scopeRef: (ref: any) => (scoped = ref)
         },
         {
@@ -187,7 +190,7 @@ export function embed(
 
             location.href = normalizeLink(to);
           },
-          isCurrentUrl: (to: string) => {
+          isCurrentUrl: (to: string, ctx?: any) => {
             const link = normalizeLink(to);
             const location = window.location;
             let pathname = link;
@@ -211,6 +214,11 @@ export function embed(
               );
             } else if (pathname === location.pathname) {
               return true;
+            } else if (!~pathname.indexOf('http') && ~pathname.indexOf(':')) {
+              return match(link, {
+                decode: decodeURIComponent,
+                strict: ctx?.strict ?? true
+              })(location.pathname);
             }
 
             return false;

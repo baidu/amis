@@ -1,5 +1,5 @@
-import {types, SnapshotIn, isAlive, onAction} from 'mobx-state-tree';
-import {iRendererStore} from './iRenderer';
+import {types, SnapshotIn, isAlive, onAction, Instance} from 'mobx-state-tree';
+import {IIRendererStore, iRendererStore} from './iRenderer';
 import {FormItemStore} from './formItem';
 import {FormStore, IFormStore, IFormItemStore} from './form';
 import {getStoreById} from './manager';
@@ -32,58 +32,76 @@ export const ComboStore = iRendererStore
   .named('ComboStore')
   .props({
     uniques: types.map(UniqueGroup),
+    multiple: false,
     formsRef: types.optional(types.array(types.string), []),
     minLength: 0,
     maxLength: 0,
     length: 0,
     activeKey: 0
   })
-  .views(self => ({
-    get forms() {
+  .views(self => {
+    function getForms() {
       return self.formsRef.map(item => getStoreById(item) as IFormStore);
-    },
-    get addable() {
-      if (self.maxLength && self.length >= self.maxLength) {
-        return false;
-      }
+    }
 
-      if (self.uniques.size) {
-        let isFull = false;
-        self.uniques.forEach(item => {
-          if (isFull || !item.items.length) {
-            return;
-          }
+    return {
+      get forms() {
+        return getForms();
+      },
 
-          let total = item.items[0].options.length;
-          let current = item.items.reduce((total, item) => {
-            return total + item.selectedOptions.length;
-          }, 0);
-
-          isFull = total && current >= total ? true : false;
-        });
-
-        if (isFull) {
+      get addable() {
+        if (self.maxLength && self.length >= self.maxLength) {
           return false;
         }
+
+        if (self.uniques.size) {
+          let isFull = false;
+          self.uniques.forEach(item => {
+            if (isFull || !item.items.length) {
+              return;
+            }
+
+            let total = item.items[0].options.length;
+            let current = item.items.reduce((total, item) => {
+              return total + item.selectedOptions.length;
+            }, 0);
+
+            isFull = total && current >= total ? true : false;
+          });
+
+          if (isFull) {
+            return false;
+          }
+        }
+
+        return true;
+      },
+
+      get removable() {
+        if (self.minLength && self.minLength >= self.length) {
+          return false;
+        }
+
+        return true;
+      },
+
+      getItemsByName(name: string): any {
+        const forms = getForms();
+        return self.multiple
+          ? [forms[parseInt(name, 10)]]
+          : forms[0].getItemsByName(name);
       }
-
-      return true;
-    },
-
-    get removable() {
-      if (self.minLength && self.minLength >= self.length) {
-        return false;
-      }
-
-      return true;
-    }
-  }))
+    };
+  })
   .actions(self => {
     function config(setting: {
+      multiple?: boolean;
       minLength?: number;
       maxLength?: number;
       length?: number;
     }) {
+      typeof setting.multiple !== 'undefined' &&
+        (self.multiple = setting.multiple);
       typeof setting.minLength !== 'undefined' &&
         (self.minLength = parseInt(setting.minLength as any, 10));
       typeof setting.maxLength !== 'undefined' &&
@@ -146,5 +164,5 @@ export const ComboStore = iRendererStore
     };
   });
 
-export type IComboStore = typeof ComboStore.Type;
+export type IComboStore = Instance<typeof ComboStore>;
 export type SComboStore = SnapshotIn<typeof ComboStore>;

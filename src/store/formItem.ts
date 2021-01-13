@@ -6,7 +6,8 @@ import {
   getRoot,
   hasParent,
   isAlive,
-  getEnv
+  getEnv,
+  Instance
 } from 'mobx-state-tree';
 import {IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
@@ -21,7 +22,8 @@ import {
   isObjectShallowModified,
   findTree,
   findTreeIndex,
-  spliceTree
+  spliceTree,
+  isEmpty
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
@@ -31,6 +33,8 @@ import {SimpleMap} from '../utils/SimpleMap';
 import memoize from 'lodash/memoize';
 import {TranslateFn} from '../locale';
 import {StoreNode} from './node';
+import {dataMapping} from '../utils/tpl-builtin';
+import {getStoreById} from './manager';
 
 interface IOption {
   value?: string | number | null;
@@ -53,12 +57,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     unique: false,
     loading: false,
     required: false,
+    tmpValue: types.frozen(),
     rules: types.optional(types.frozen(), {}),
     messages: types.optional(types.frozen(), {}),
     errorData: types.optional(types.array(ErrorDetail), []),
     name: types.string,
     itemId: '', // 因为 name 可能会重名，所以加个 id 进来，如果有需要用来定位具体某一个
     unsetValueOnInvisible: false,
+    itemsRef: types.optional(types.array(types.string), []),
     validated: false,
     validating: false,
     multiple: false,
@@ -70,6 +76,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     options: types.optional(types.array(types.frozen()), []),
     expressionsInOptions: false,
     selectFirst: false,
+    autoFill: types.frozen(),
     selectedOptions: types.optional(types.frozen(), []),
     filteredOptions: types.optional(types.frozen(), []),
     dialogSchema: types.frozen(),
@@ -98,6 +105,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     }
 
     return {
+      get subFormItems(): any {
+        return self.itemsRef.map(item => getStoreById(item));
+      },
+
       get form(): any {
         return getForm();
       },
@@ -223,7 +234,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       extractValue,
       type,
       id,
-      selectFirst
+      selectFirst,
+      autoFill
     }: {
       required?: any;
       unique?: any;
@@ -239,6 +251,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       type?: string;
       id?: string;
       selectFirst?: boolean;
+      autoFill?: any;
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -251,6 +264,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       typeof unique !== 'undefined' && (self.unique = !!unique);
       typeof multiple !== 'undefined' && (self.multiple = !!multiple);
       typeof selectFirst !== 'undefined' && (self.selectFirst = !!selectFirst);
+      typeof autoFill !== 'undefined' && (self.autoFill = autoFill);
       typeof joinValues !== 'undefined' && (self.joinValues = !!joinValues);
       typeof extractValue !== 'undefined' &&
         (self.extractValue = !!extractValue);
@@ -292,6 +306,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       } else {
         self.form.setValueByName(self.name, value, isPrintine);
       }
+
+      syncAutoFill(value, isPrintine);
     }
 
     const validate: (hook?: any) => Promise<boolean> = flow(function* validate(
@@ -363,7 +379,27 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
-    function setOptions(options: Array<object>) {
+    function getFirstAvaibleOption(options: Array<any>): any {
+      if (!Array.isArray(options)) {
+        return;
+      }
+
+      for (let option of options) {
+        if (option[self.valueField || 'value']) {
+          return option;
+        } else if (Array.isArray(option.children)) {
+          const childFirst = getFirstAvaibleOption(option.children);
+          if (childFirst !== undefined) {
+            return childFirst;
+          }
+        }
+      }
+    }
+
+    function setOptions(
+      options: Array<object>,
+      onChange?: (value: any) => void
+    ) {
       if (!Array.isArray(options)) {
         return;
       }
@@ -371,6 +407,39 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       const originOptions = self.options.concat();
       options.length ? self.options.replace(options) : self.options.clear();
       syncOptions(originOptions);
+      let selectedOptions;
+
+      if (
+        self.selectFirst &&
+        self.filteredOptions.length &&
+        (selectedOptions = self.getSelectedOptions(self.value)) &&
+        !selectedOptions.filter(item => !item.__unmatched).length
+      ) {
+        const fistOption = getFirstAvaibleOption(self.filteredOptions);
+        if (!fistOption) {
+          return;
+        }
+
+        const list = [fistOption].map((item: any) => {
+          if (self.extractValue || self.joinValues) {
+            return item[self.valueField || 'value'];
+          }
+
+          return item;
+        });
+
+        const value = self.joinValues
+          ? list.join(self.delimiter)
+          : self.multiple
+          ? list
+          : list[0];
+
+        if (form.inited && onChange) {
+          onChange(value);
+        } else {
+          changeValue(value, !form.inited);
+        }
+      }
     }
 
     let loadCancel: Function | null = null;
@@ -458,8 +527,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       clearValue?: any,
       onChange?: (
         value: any,
-        submitOnChange: boolean,
-        changeImmediately: boolean
+        submitOnChange?: boolean,
+        changeImmediately?: boolean
       ) => void,
       setErrorFlag?: boolean
     ) {
@@ -479,31 +548,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         [];
 
       options = normalizeOptions(options as any);
-      setOptions(options);
+      setOptions(options, onChange);
 
       if (json.data && typeof (json.data as any).value !== 'undefined') {
         onChange && onChange((json.data as any).value, false, true);
-      } else if (
-        self.selectFirst &&
-        self.options.length &&
-        !self.selectedOptions.length
-      ) {
-        onChange &&
-          onChange(
-            self.options
-              .slice(0, 1)
-              .map(item => {
-                if (self.extractValue || self.joinValues) {
-                  return item.value;
-                }
-
-                return item;
-              })
-              [self.joinValues ? 'join' : 'concat'](),
-            false,
-            true
-          );
-      } else if (clearValue) {
+      } else if (clearValue && !self.selectFirst) {
         self.selectedOptions.some((item: any) => item.__unmatched) &&
           onChange &&
           onChange('', false, true);
@@ -711,6 +760,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     }
 
     let subStore: any;
+    function getSubStore() {
+      return subStore;
+    }
+
     function setSubStore(store: any) {
       subStore = store;
     }
@@ -747,6 +800,49 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
+    function syncAutoFill(
+      value: any = self.value,
+      isPrintine: boolean = false
+    ) {
+      if (
+        !self.multiple &&
+        self.autoFill &&
+        !isEmpty(self.autoFill) &&
+        self.options.length
+      ) {
+        const selectedOptions = self.getSelectedOptions(value);
+        if (selectedOptions.length !== 1) {
+          return;
+        }
+
+        const toSync = dataMapping(self.autoFill, selectedOptions[0]);
+        Object.keys(toSync).forEach(key => {
+          const value = toSync[key];
+
+          if (typeof value === 'undefined' || value === '__undefined') {
+            self.form.deleteValueByName(key);
+          } else {
+            self.form.setValueByName(key, value, isPrintine);
+          }
+        });
+      }
+    }
+
+    function changeTmpValue(value: any) {
+      self.tmpValue = value;
+    }
+
+    function addSubFormItem(item: IFormItemStore) {
+      self.itemsRef.push(item.id);
+    }
+
+    function removeSubFormItem(item: IFormItemStore) {
+      const idx = self.itemsRef.findIndex(a => a === item.id);
+      if (~idx) {
+        self.itemsRef.splice(idx, 1);
+      }
+    }
+
     return {
       focus,
       blur,
@@ -762,11 +858,16 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       syncOptions,
       setLoading,
       setSubStore,
+      getSubStore,
       reset,
       openDialog,
-      closeDialog
+      closeDialog,
+      syncAutoFill,
+      changeTmpValue,
+      addSubFormItem,
+      removeSubFormItem
     };
   });
 
-export type IFormItemStore = typeof FormItemStore.Type;
+export type IFormItemStore = Instance<typeof FormItemStore>;
 export type SFormItemStore = SnapshotIn<typeof FormItemStore>;

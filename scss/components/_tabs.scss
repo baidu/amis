@@ -78,7 +78,7 @@
     display: none;
     padding: var(--gap-base);
     opacity: 0;
-    transition: opacity 0.35s linear;
+    transition: opacity var(--animation-duration) linear;
 
     &.is-active {
       display: block;

@@ -586,7 +586,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
     const {loadOptions} = this.props;
-
     this.setState(
       {
         inputValue: evt.currentTarget.value
@@ -655,7 +654,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
-    if (e.key === ' ') {
+    if (this.props.multiple && e.key === ' ') {
       this.toggle();
       e.preventDefault();
     }

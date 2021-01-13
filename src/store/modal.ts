@@ -1,5 +1,5 @@
 import {ServiceStore} from './service';
-import {types, SnapshotIn} from 'mobx-state-tree';
+import {types, SnapshotIn, Instance} from 'mobx-state-tree';
 import {createObject} from '../utils/helper';
 
 export const ModalStore = ServiceStore.named('ModalStore')
@@ -21,5 +21,5 @@ export const ModalStore = ServiceStore.named('ModalStore')
     };
   });
 
-export type IModalStore = typeof ModalStore.Type;
+export type IModalStore = Instance<typeof ModalStore>;
 export type SModalStore = SnapshotIn<typeof ModalStore>;

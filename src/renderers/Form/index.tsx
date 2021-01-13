@@ -48,6 +48,7 @@ import {
   SchemaReload
 } from '../../Schema';
 import {ActionSchema} from '../Action';
+import {ButtonGroupControlSchema} from './ButtonGroup';
 
 export interface FormSchemaHorizontal {
   left?: number;
@@ -256,6 +257,16 @@ export interface FormSchema extends BaseSchema {
    * 是否固定底下的按钮在底部。
    */
   affixFooter?: boolean;
+
+  /**
+   * 页面离开提示，为了防止页面不小心跳转而导致表单没有保存。
+   */
+  promptPageLeave?: boolean;
+
+  /**
+   * 具体的提示信息，选填。
+   */
+  promptPageLeaveMessage?: string;
 }
 
 export type FormGroup = FormSchema & {
@@ -363,6 +374,7 @@ export default class Form extends React.Component<FormProps, object> {
     leading: false
   });
   componentCache: SimpleMap = new SimpleMap();
+  unBlockRouting?: () => void;
   constructor(props: FormProps) {
     super(props);
 
@@ -383,6 +395,8 @@ export default class Form extends React.Component<FormProps, object> {
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
     this.initInterval = this.initInterval.bind(this);
+    this.blockRouting = this.blockRouting.bind(this);
+    this.beforePageUnload = this.beforePageUnload.bind(this);
   }
 
   componentWillMount() {
@@ -418,7 +432,9 @@ export default class Form extends React.Component<FormProps, object> {
       initCheckInterval,
       store,
       messages: {fetchSuccess, fetchFailed},
-      onValidate
+      onValidate,
+      promptPageLeave,
+      env
     } = this.props;
 
     this.mounted = true;
@@ -431,18 +447,18 @@ export default class Form extends React.Component<FormProps, object> {
         if (result && isObject(result)) {
           Object.keys(result).forEach(key => {
             let msg = result[key];
-            const item = store.getItemByName(key);
+            const items = store.getItemsByPath(key);
 
-            // 没有这个 formItem
-            if (!item) {
+            // 没有找到
+            if (!Array.isArray(items) || !items.length) {
               return;
             }
 
             if (msg) {
               msg = Array.isArray(msg) ? msg : [msg];
-              item.addError(msg);
+              items.forEach(item => item.addError(msg));
             } else {
-              item.clearError();
+              items.forEach(item => item.clearError());
             }
           });
         }
@@ -475,6 +491,11 @@ export default class Form extends React.Component<FormProps, object> {
     } else {
       setTimeout(this.onInit.bind(this), 4);
     }
+
+    if (promptPageLeave) {
+      window.addEventListener('beforeunload', this.beforePageUnload);
+      this.unBlockRouting = env.blockRouting?.(this.blockRouting) ?? undefined;
+    }
   }
 
   componentDidUpdate(prevProps: FormProps) {
@@ -491,12 +512,14 @@ export default class Form extends React.Component<FormProps, object> {
     ) {
       const {fetchSuccess, fetchFailed} = props;
 
-      store
-        .fetchData(props.initApi as Api, store.data, {
+      store[store.hasRemoteData ? 'fetchData' : 'fetchInitData'](
+        props.initApi as Api,
+        store.data,
+        {
           successMessage: fetchSuccess,
           errorMessage: fetchFailed
-        })
-        .then(this.initInterval);
+        }
+      ).then(this.initInterval);
     }
   }
 
@@ -508,6 +531,26 @@ export default class Form extends React.Component<FormProps, object> {
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
     this.componentCache.dispose();
+    window.removeEventListener('beforeunload', this.beforePageUnload);
+    this.unBlockRouting?.();
+  }
+
+  blockRouting(): any {
+    const store = this.props.store;
+    const {promptPageLeaveMessage, promptPageLeave} = this.props;
+
+    if (promptPageLeave && store.modified) {
+      return promptPageLeaveMessage || '新的修改没有保存，确认要离开？';
+    }
+  }
+
+  beforePageUnload(e: any): any {
+    const blocked = this.blockRouting();
+
+    if (blocked) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
   }
 
   async onInit() {
@@ -794,9 +837,15 @@ export default class Form extends React.Component<FormProps, object> {
     if (
       action.type === 'submit' ||
       action.actionType === 'submit' ||
-      action.actionType === 'confirm'
+      action.actionType === 'confirm' ||
+      action.actionType === 'reset-and-submit'
     ) {
       store.setCurrentAction(action);
+
+      if (action.actionType === 'reset-and-submit') {
+        store.reset(onReset);
+      }
+
       return this.submit((values): any => {
         if (onSubmit && onSubmit(values, action) === false) {
           return Promise.resolve(false);
@@ -897,7 +946,7 @@ export default class Form extends React.Component<FormProps, object> {
             throw reason;
           }
         });
-    } else if (action.type === 'reset') {
+    } else if (action.type === 'reset' || action.actionType === 'reset') {
       store.setCurrentAction(action);
       store.reset(onReset);
     } else if (action.actionType === 'dialog') {
@@ -1065,9 +1114,9 @@ export default class Form extends React.Component<FormProps, object> {
         controls.some(
           item =>
             item &&
-            !!~['submit', 'button', 'reset', 'button-group'].indexOf(
-              (item as Schema).type
-            )
+            (!!~['submit', 'button', 'reset'].indexOf(item.type) ||
+              (item.type === 'button-group' &&
+                !(item as ButtonGroupControlSchema).options))
         ))
     ) {
       return actions;

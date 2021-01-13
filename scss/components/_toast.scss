@@ -86,7 +86,7 @@
   &.in,
   &.out {
     animation-fill-mode: both;
-    animation-duration: 0.75s;
+    animation-duration: var(--animation-duration);
     opacity: 1;
   }
 
@@ -122,6 +122,7 @@
   &-body {
     display: var(--Toast-title-display);
     vertical-align: middle;
+    white-space: pre-wrap;
   }
 
   &-icon {
