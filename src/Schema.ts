@@ -238,6 +238,13 @@ export interface SchemaApiObject {
   };
 
   /**
+   * 用来做接口返回的数据映射。
+   */
+  responseData?: {
+    [propName: string]: any;
+  };
+
+  /**
    * 如果 method 为 get 的接口，设置了 data 信息。
    * 默认 data 会自动附带在 query 里面发送给后端。
    *

@@ -9,7 +9,8 @@ import {
   hasFile,
   object2formData,
   qsstringify,
-  cloneObject
+  cloneObject,
+  createObject
 } from './helper';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
@@ -76,7 +77,7 @@ export function buildApi(
     );
     api.url =
       tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
-      qsstringify(dataMapping(params, data)) +
+      qsstringify((api.query = dataMapping(params, data))) +
       (~hashIdx ? api.url.substring(hashIdx) : '');
   } else {
     api.url = tokenize(api.url, data, '| url_encode');
@@ -87,15 +88,15 @@ export function buildApi(
   }
 
   if (api.data) {
-    api.data = dataMapping(api.data, data);
+    api.body = api.data = dataMapping(api.data, data);
   } else if (api.method === 'post' || api.method === 'put') {
-    api.data = cloneObject(data);
+    api.body = api.data = cloneObject(data);
   }
 
   // get 类请求，把 data 附带到 url 上。
   if (api.method === 'get') {
     if (!~raw.indexOf('$') && !api.data && autoAppend) {
-      api.data = data;
+      api.query = api.data = data;
     } else if (
       api.attachDataToQuery === false &&
       api.data &&
@@ -104,12 +105,13 @@ export function buildApi(
     ) {
       const idx = api.url.indexOf('?');
       if (~idx) {
-        let params = {
+        let params = (api.query = {
           ...qs.parse(api.url.substring(idx + 1)),
           ...data
-        };
+        });
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
       } else {
+        api.query = data;
         api.url += '?' + qsstringify(data);
       }
     }
@@ -117,12 +119,13 @@ export function buildApi(
     if (api.data && api.attachDataToQuery !== false) {
       const idx = api.url.indexOf('?');
       if (~idx) {
-        let params = {
+        let params = (api.query = {
           ...qs.parse(api.url.substring(idx + 1)),
           ...api.data
-        };
+        });
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
       } else {
+        api.query = api.data;
         api.url += '?' + qsstringify(api.data);
       }
       delete api.data;
@@ -162,7 +165,7 @@ function str2function(
   }
 }
 
-function responseAdaptor(ret: fetcherResult) {
+function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   const data = ret.data;
   let hasStatusField = true;
 
@@ -182,6 +185,21 @@ function responseAdaptor(ret: fetcherResult) {
 
   if (payload.status == 422) {
     payload.errors = data.errors;
+  }
+
+  if (payload.ok && api.responseData) {
+    payload.data = dataMapping(
+      api.responseData,
+
+      createObject(
+        {api},
+        (Array.isArray(payload.data)
+          ? {
+              items: payload.data
+            }
+          : payload.data) || {}
+      )
+    );
   }
 
   return payload;
@@ -244,8 +262,8 @@ export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
             data: result
           };
         })
-        .then(responseAdaptor)
-    : promise.then(responseAdaptor);
+        .then(ret => responseAdaptor(ret, api))
+    : promise.then(ret => responseAdaptor(ret, api));
 }
 
 export function isApiOutdated(
