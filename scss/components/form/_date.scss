@@ -193,24 +193,6 @@
         text-align: center;
       }
 
-      input {
-        outline: none;
-        width: 42px;
-        font-size: var(--Calendar-input-fontSize);
-        color: var(--Calendar-input-color);
-        border: 1px solid var(--Calendar-input-borderColor);
-        border-radius: var(--Calendar-input-borderRadius);
-        height: var(--Calendar-input-height);
-        line-height: var(--Calendar-input-lineHeight);
-        padding: var(--Calendar-input-paddingY) var(--Calendar-input-paddingX);
-        box-shadow: none;
-
-        &:focus {
-          border-color: var(--Calendar-input-onFocused-borderColor);
-          box-shadow: none;
-        }
-      }
-
       .rdtActions {
         margin-top: var(--gap-sm);
         text-align: right;
@@ -218,78 +200,128 @@
     }
   }
 
-  .rdtCounter {
-    .rdtBtn {
-      height: 30%;
-      line-height: px2rem(20px);
-    }
+  // .rdtCounter {
+  //   .rdtBtn {
+  //     height: 30%;
+  //     line-height: px2rem(20px);
+  //   }
 
-    .rdtCount {
-      height: 40%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  //   .rdtCount {
+  //     height: 40%;
+  //     display: flex;
+  //     align-items: center;
+  //     justify-content: center;
+  //   }
+  // }
+}
+
+.#{$ns}CalendarInput {
+  outline: none;
+  width: 42px;
+  font-size: var(--Calendar-input-fontSize);
+  color: var(--Calendar-input-color);
+  border: 1px solid var(--Calendar-input-borderColor);
+  border-radius: var(--Calendar-input-borderRadius);
+  height: var(--Calendar-input-height);
+  line-height: var(--Calendar-input-lineHeight);
+  padding: var(--Calendar-input-paddingY) var(--Calendar-input-paddingX);
+  box-shadow: none;
+
+  &:focus {
+    border-color: var(--Calendar-input-onFocused-borderColor);
+    box-shadow: none;
   }
 }
 
-.rdtBtn {
-  line-height: var(--Calendar-btn-lineHeight);
-  padding: var(--Calendar-btn-paddingY) var(--Calendar-btn-paddingX);
-  display: inline-block;
-  vertical-align: middle;
-  text-align: center;
-  user-select: none;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: var(--Calendar-btn-fontSize);
+.#{$ns}CalendarTime {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 
-  &:hover {
-    text-decoration: none;
+.#{$ns}CalendarCounter {
+  &-btn {
+    display: block;
+    text-align: center;
+
+    > svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    &--up > svg {
+      transform: rotate(-90deg);
+    }
+
+    &--down > svg {
+      transform: rotate(90deg);
+    }
   }
 
-  &.is-disabled {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-
-  .fa,
-  .iconfont {
-    font-size: var(--fontSizeSm);
-  }
-
-  @include button-variant(
-    var(--Calendar-btn-bg),
-    var(--Calendar-btn-border),
-    var(--Calendar-btn-color),
-    var(--Calendar-btn-onHover-bg),
-    var(--Calendar-btn-onHover-border),
-    var(--Calendar-btn-onHover-color),
-    var(--Calendar-btn-onActive-bg),
-    var(--Calendar-btn-onActive-border),
-    var(--Calendar-btn-onActive-color)
-  );
-
-  border-radius: var(--Calendar-btn-borderRadius);
-
-  & + .rdtBtn {
-    margin-left: var(--gap-xs);
-  }
-
-  &Cancel {
-    @include button-variant(
-      var(--Calendar-btnCancel-bg),
-      var(--Calendar-btnCancel-border),
-      var(--Calendar-btnCancel-color),
-      var(--Calendar-btnCancel-onHover-bg),
-      var(--Calendar-btnCancel-onHover-border),
-      var(--Calendar-btnCancel-onHover-color),
-      var(--Calendar-btnCancel-onActive-bg),
-      var(--Calendar-btnCancel-onActive-border),
-      var(--Calendar-btnCancel-onActive-color)
-    );
+  &-sep {
+    width: 15px;
+    text-align: center;
   }
 }
+
+// .rdtBtn {
+//   line-height: var(--Calendar-btn-lineHeight);
+//   padding: var(--Calendar-btn-paddingY) var(--Calendar-btn-paddingX);
+//   display: inline-block;
+//   vertical-align: middle;
+//   text-align: center;
+//   user-select: none;
+//   cursor: pointer;
+//   text-decoration: none;
+//   font-size: var(--Calendar-btn-fontSize);
+
+//   &:hover {
+//     text-decoration: none;
+//   }
+
+//   &.is-disabled {
+//     opacity: 0.6;
+//     pointer-events: none;
+//   }
+
+//   .fa,
+//   .iconfont {
+//     font-size: var(--fontSizeSm);
+//   }
+
+//   @include button-variant(
+//     var(--Calendar-btn-bg),
+//     var(--Calendar-btn-border),
+//     var(--Calendar-btn-color),
+//     var(--Calendar-btn-onHover-bg),
+//     var(--Calendar-btn-onHover-border),
+//     var(--Calendar-btn-onHover-color),
+//     var(--Calendar-btn-onActive-bg),
+//     var(--Calendar-btn-onActive-border),
+//     var(--Calendar-btn-onActive-color)
+//   );
+
+//   border-radius: var(--Calendar-btn-borderRadius);
+
+//   & + .rdtBtn {
+//     margin-left: var(--gap-xs);
+//   }
+
+//   &Cancel {
+//     @include button-variant(
+//       var(--Calendar-btnCancel-bg),
+//       var(--Calendar-btnCancel-border),
+//       var(--Calendar-btnCancel-color),
+//       var(--Calendar-btnCancel-onHover-bg),
+//       var(--Calendar-btnCancel-onHover-border),
+//       var(--Calendar-btnCancel-onHover-color),
+//       var(--Calendar-btnCancel-onActive-bg),
+//       var(--Calendar-btnCancel-onActive-border),
+//       var(--Calendar-btnCancel-onActive-color)
+//     );
+//   }
+// }
 
 .rdtBtnPrev:before,
 .rdtBtnNext:before {

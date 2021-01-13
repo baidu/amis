@@ -6,8 +6,11 @@ import React from 'react';
 import CustomCalendarContainer from './CalendarContainer';
 import cx from 'classnames';
 import moment from 'moment';
+import {themeable, ThemeProps} from '../../theme';
 
-interface BaseDatePickerProps extends ReactDatePicker.DatetimepickerProps {
+interface BaseDatePickerProps
+  extends ReactDatePicker.DatetimepickerProps,
+    ThemeProps {
   inputFormat?: string;
   onViewModeChange?: (type: string) => void;
   requiredConfirm?: boolean;
@@ -37,7 +40,8 @@ class BaseDatePicker extends ReactDatePicker {
         'classPrefix',
         'prevIcon',
         'nextIcon',
-        'isEndDate'
+        'isEndDate',
+        'classnames'
       ].forEach(key => (props[key] = (this.props as any)[key]));
 
       return props;
@@ -83,5 +87,7 @@ class BaseDatePicker extends ReactDatePicker {
   }
 }
 
-const Calendar: any = BaseDatePicker;
-export default Calendar as React.ComponentType<BaseDatePickerProps>;
+const Calendar: any = themeable(BaseDatePicker);
+export default Calendar as React.ComponentType<
+  BaseDatePickerProps & ThemeProps
+>;

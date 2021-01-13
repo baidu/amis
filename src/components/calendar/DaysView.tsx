@@ -3,6 +3,7 @@ import moment from 'moment';
 import DaysView from 'react-datetime/src/DaysView';
 import React from 'react';
 import {LocaleProps, localeable} from '../../locale';
+import {ClassNamesFn} from '../../theme';
 
 interface CustomDaysViewProps extends LocaleProps {
   classPrefix?: string;
@@ -35,6 +36,7 @@ interface CustomDaysViewProps extends LocaleProps {
   showView: (view: string) => () => void;
   updateSelectedDate: (event: React.MouseEvent<any>, close?: boolean) => void;
   handleClickOutside: () => void;
+  classnames: ClassNamesFn;
 }
 
 export class CustomDaysView extends DaysView {
@@ -112,7 +114,13 @@ export class CustomDaysView extends DaysView {
   };
 
   renderTimes = () => {
-    const {timeFormat, selectedDate, viewDate, isEndDate} = this.props;
+    const {
+      timeFormat,
+      selectedDate,
+      viewDate,
+      isEndDate,
+      classnames: cx
+    } = this.props;
 
     const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
     const inputs: Array<React.ReactNode> = [];
@@ -131,6 +139,7 @@ export class CustomDaysView extends DaysView {
           key={i + 'input'}
           type="text"
           value={date.format(format)}
+          className={cx('CalendarInput')}
           min={min}
           max={max}
           onChange={e =>
