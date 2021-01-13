@@ -701,6 +701,15 @@ export const docs = [
               import('../../docs/components/form/year.md').then(
                 makeMarkdownRenderer
               )
+          },
+          {
+            label: 'Quarter 季度',
+            path: '/docs/components/form/quarter',
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/components/form/quarter.md').then(
+                makeMarkdownRenderer
+              )
           }
         ]
       },

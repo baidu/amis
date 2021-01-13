@@ -27,6 +27,39 @@ class BaseDatePicker extends ReactDatePicker {
   state: any;
   props: any;
   setState: (state: any) => void;
+  getStateFromProps: any;
+
+  constructor(props: any) {
+    super(props);
+    const state = this.getStateFromProps(this.props);
+
+    if (state.open === undefined) {
+      state.open = !this.props.input;
+    }
+
+    state.currentView = this.props.dateFormat
+      ? this.props.viewMode || state.updateOn || 'days'
+      : 'time';
+
+    this.state = state;
+  }
+
+  static propTypes = {};
+
+  getUpdateOn = (formats: any) => {
+    if (formats.date.match(/[lLD]/)) {
+      return 'days';
+    } else if (formats.date.indexOf('M') !== -1) {
+      return 'months';
+    } else if (formats.date.indexOf('Q') !== -1) {
+      return 'quarters';
+    } else if (formats.date.indexOf('Y') !== -1) {
+      return 'years';
+    }
+
+    return 'days';
+  };
+
   getComponentProps = ((origin: Function) => {
     return () => {
       const props = origin.call(this);
@@ -48,7 +81,7 @@ class BaseDatePicker extends ReactDatePicker {
     };
   })((this as any).getComponentProps);
 
-  setDate = (type: 'month' | 'year' | 'quarter') => {
+  setDate = (type: 'month' | 'year' | 'quarters') => {
     // todo 没看懂这个是啥意思，好像没啥用
     const currentShould =
       this.props.viewMode === 'months' &&
@@ -56,11 +89,11 @@ class BaseDatePicker extends ReactDatePicker {
     const nextViews = {
       month: currentShould ? 'months' : 'days',
       year: currentShould ? 'months' : 'days',
-      quarter: 'days'
+      quarters: ''
     };
 
-    if ((this.props.viewMode as any) === 'quarter') {
-      nextViews.year = 'quarter';
+    if ((this.props.viewMode as any) === 'quarters') {
+      nextViews.year = 'quarters';
     }
 
     return (e: any) => {
@@ -136,20 +169,6 @@ class BaseDatePicker extends ReactDatePicker {
     }
 
     that.props.onChange(date);
-  };
-
-  getUpdateOn = (formats: any) => {
-    if (formats.date.match(/[lLD]/)) {
-      return 'days';
-    } else if (formats.date.indexOf('M') !== -1) {
-      return 'months';
-    } else if (formats.date.indexOf('Q') !== -1) {
-      return 'quarters';
-    } else if (formats.date.indexOf('Y') !== -1) {
-      return 'years';
-    }
-
-    return 'days';
   };
 
   render() {

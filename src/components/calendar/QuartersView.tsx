@@ -17,11 +17,16 @@ export interface QuarterViewProps extends LocaleProps, ThemeProps {
     type: string,
     toSelected?: moment.Moment
   ) => () => void;
+  setDate: (type: string) => () => void;
   showView: (view: string) => () => void;
   updateSelectedDate: (e: any, close?: boolean) => void;
+  renderQuarter: any;
+  isValidDate: any;
 }
 
 export class QuarterView extends React.Component<QuarterViewProps> {
+  alwaysValidDate: any;
+
   renderYear() {
     const __ = this.props.translate;
     const showYearHead = !/^mm$/i.test(this.props.inputFormat || '');
@@ -85,9 +90,12 @@ export class QuarterView extends React.Component<QuarterViewProps> {
         .set({year: year, quarter: i, date: irrelevantDate});
 
       noOfDaysInMonth = currentMonth.endOf('quarter').format('Q');
-      daysInMonth = Array.from({length: noOfDaysInMonth}, function (e, i) {
-        return i + 1;
-      });
+      daysInMonth = Array.from(
+        {length: parseInt(noOfDaysInMonth, 10)},
+        function (e, i) {
+          return i + 1;
+        }
+      );
 
       validDay = daysInMonth.find(function (d) {
         var day = currentMonth.clone().set('date', d);
@@ -135,7 +143,11 @@ export class QuarterView extends React.Component<QuarterViewProps> {
     year: number,
     date: moment.Moment
   ) => {
-    return <td {...props}>Q{quartar}</td>;
+    return (
+      <td {...props}>
+        <span>Q{quartar}</span>
+      </td>
+    );
   };
 
   updateSelectedQuarter = (event: any) => {
@@ -149,7 +161,9 @@ export class QuarterView extends React.Component<QuarterViewProps> {
     return (
       <div className={cx('ClalendarQuarter')}>
         {this.renderYear()}
-        <table>{this.renderQuarters()}</table>
+        <table>
+          <tbody>{this.renderQuarters()}</tbody>
+        </table>
       </div>
     );
   }
