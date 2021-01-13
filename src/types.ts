@@ -5,6 +5,8 @@ export interface ApiObject extends SchemaApiObject {
     withCredentials?: boolean;
     cancelExecutor?: (cancel: Function) => void;
   };
+  body?: PlainObject;
+  query?: PlainObject;
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
   requestAdaptor?: (api: ApiObject) => ApiObject;
 }

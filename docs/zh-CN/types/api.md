@@ -412,6 +412,45 @@ API 还支持配置对象类型
 
 这下我们再打开网络面板，发现只有一条请求了
 
+### 配置返回数据
+
+如果接口返回的数据结构不符合预期，可以通过配置 `responseData`来修改，同样支持[数据映射](../concepts/data-mapping)，可用来映射的数据为接口的实际数据（接口返回的 `data` 部分），额外加 `api` 变量。其中 `api.query` 为接口发送的 query 参数，`api.body` 为接口发送的内容体原始数据。
+
+```json
+{
+  "type": "page",
+  "initApi": {
+    "method": "get",
+    "url": "/api/xxx",
+    "responseData": {
+      "&": "$$",
+      "first": "${items|first}"
+    }
+  }
+}
+```
+
+假如接口实际返回为：
+
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "items": [{"a": 1}, {"a": 2}]
+  }
+}
+```
+
+经过映射，给组件的数据为：
+
+```json
+{
+  "items": [{"a": 1}, {"a": 2}],
+  "first": {"a": 1}
+}
+```
+
 ### 配置请求适配器
 
 amis 的 API 配置，如果无法配置出你想要的请求结构，那么可以配置`requestAdaptor`发送适配器
