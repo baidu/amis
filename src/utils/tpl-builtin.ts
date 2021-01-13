@@ -305,8 +305,13 @@ export const filters: {
               typeof obj[key] === 'number'
             ) {
               obj[key] += parseFloat(item[key]) || 0;
-            } else {
+            } else if (
+              typeof item[key] === 'string' &&
+              typeof obj[key] === 'string'
+            ) {
               obj[key] += `, ${item[key]}`;
+            } else {
+              obj[key] = item[key];
             }
           });
 
