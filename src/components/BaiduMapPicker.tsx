@@ -98,7 +98,10 @@ export class BaiduMapPicker extends React.Component<
       : new BMap.Point(116.404, 39.915);
     map.centerAndZoom(point, 15);
 
-    map.addControl(new BMap.NavigationControl());
+    map.addControl(
+      // @ts-ignore
+      new BMap.NavigationControl({type: BMAP_NAVIGATION_CONTROL_SMALL})
+    );
 
     const geolocationControl = new BMap.GeolocationControl();
     geolocationControl.addEventListener('locationSuccess', (e: any) => {
