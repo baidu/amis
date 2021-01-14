@@ -154,7 +154,7 @@ export interface ChartProps extends RendererProps, Omit<ChartSchema, 'type'> {
 export class Chart extends React.Component<ChartProps> {
   static defaultProps: Partial<ChartProps> = {
     replaceChartOption: false,
-    unMountOnHidden: true
+    unMountOnHidden: false
   };
 
   static propsList: Array<string> = [];
