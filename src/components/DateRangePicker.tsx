@@ -577,6 +577,8 @@ export class DateRangePicker extends React.Component<
       embed
     } = this.props;
     const __ = this.props.translate;
+    let viewMode: 'days' | 'months' | 'years' | 'months' | 'days' | 'time' =
+      'days';
 
     const {startDate, endDate} = this.state;
     return (
@@ -591,7 +593,7 @@ export class DateRangePicker extends React.Component<
           dateFormat={dateFormat}
           timeFormat={timeFormat}
           isValidDate={this.checkStartIsValidDate}
-          viewMode="days"
+          viewMode={viewMode}
           input={false}
           onClose={this.close}
           renderDay={this.renderDay}
@@ -608,7 +610,7 @@ export class DateRangePicker extends React.Component<
           viewDate={this.nextMonth}
           isEndDate
           isValidDate={this.checkEndIsValidDate}
-          viewMode="days"
+          viewMode={viewMode}
           input={false}
           onClose={this.close}
           renderDay={this.renderDay}

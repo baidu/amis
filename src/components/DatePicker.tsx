@@ -228,7 +228,7 @@ export type ShortCuts =
   | ShortCutDateRange;
 
 export interface DateProps extends LocaleProps, ThemeProps {
-  viewMode: 'years' | 'months' | 'days' | 'time';
+  viewMode: 'years' | 'months' | 'days' | 'time' | 'quarters';
   className?: string;
   placeholder?: string;
   inputFormat?: string;
@@ -248,7 +248,23 @@ export interface DateProps extends LocaleProps, ThemeProps {
   minTime?: moment.Moment;
   maxTime?: moment.Moment;
   dateFormat?: string;
-  timeConstraints?: any;
+  timeConstraints?: {
+    hours?: {
+      min: number;
+      max: number;
+      step: number;
+    };
+    minutes?: {
+      min: number;
+      max: number;
+      step: number;
+    };
+    seconds: {
+      min: number;
+      max: number;
+      step: number;
+    };
+  };
   popOverContainer?: any;
 
   // 是否为内嵌模式，如果开启就不是 picker 了，直接页面点选。
@@ -381,7 +397,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       dateFormat,
       timeFormat,
       closeOnSelect,
-      utc
+      utc,
+      viewMode
     } = this.props;
 
     if (!moment.isMoment(value)) {

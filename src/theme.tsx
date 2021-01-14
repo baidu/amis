@@ -123,6 +123,13 @@ export interface ThemeProps {
   theme?: string;
 }
 
+export interface ThemeOutterProps {
+  theme?: string;
+  className?: string;
+  classPrefix?: string;
+  classnames?: ClassNamesFn;
+}
+
 export let defaultTheme: string = 'default';
 export const ThemeContext = React.createContext('');
 
@@ -134,12 +141,8 @@ export function themeable<
   type OuterProps = JSX.LibraryManagedAttributes<
     T,
     Omit<React.ComponentProps<T>, keyof ThemeProps>
-  > & {
-    theme?: string;
-    className?: string;
-    classPrefix?: string;
-    classnames?: ClassNamesFn;
-  };
+  > &
+    ThemeOutterProps;
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {

@@ -193,24 +193,6 @@
         text-align: center;
       }
 
-      input {
-        outline: none;
-        width: 42px;
-        font-size: var(--Calendar-input-fontSize);
-        color: var(--Calendar-input-color);
-        border: 1px solid var(--Calendar-input-borderColor);
-        border-radius: var(--Calendar-input-borderRadius);
-        height: var(--Calendar-input-height);
-        line-height: var(--Calendar-input-lineHeight);
-        padding: var(--Calendar-input-paddingY) var(--Calendar-input-paddingX);
-        box-shadow: none;
-
-        &:focus {
-          border-color: var(--Calendar-input-onFocused-borderColor);
-          box-shadow: none;
-        }
-      }
-
       .rdtActions {
         margin-top: var(--gap-sm);
         text-align: right;
@@ -218,18 +200,87 @@
     }
   }
 
-  .rdtCounter {
-    .rdtBtn {
-      height: 30%;
-      line-height: px2rem(20px);
+  // .rdtCounter {
+  //   .rdtBtn {
+  //     height: 30%;
+  //     line-height: px2rem(20px);
+  //   }
+
+  //   .rdtCount {
+  //     height: 40%;
+  //     display: flex;
+  //     align-items: center;
+  //     justify-content: center;
+  //   }
+  // }
+}
+
+.#{$ns}CalendarInput {
+  outline: none;
+  width: 40px;
+  font-size: var(--Calendar-input-fontSize);
+  color: var(--Calendar-input-color);
+  border: 1px solid var(--Calendar-input-borderColor);
+  border-radius: var(--Calendar-input-borderRadius);
+  height: var(--Calendar-input-height);
+  line-height: var(--Calendar-input-lineHeight);
+  padding: var(--Calendar-input-paddingY) var(--Calendar-input-paddingX);
+  box-shadow: none;
+
+  &:focus {
+    border-color: var(--Calendar-input-onFocused-borderColor);
+    box-shadow: none;
+  }
+}
+
+.#{$ns}CalendarTime {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.#{$ns}CalendarCounter {
+  &-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    text-align: center;
+    color: var(--Button--primary-bg);
+
+    &:hover {
+      color: var(--Button--primary-onActive-bg);
     }
 
-    .rdtCount {
-      height: 40%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    > svg {
+      width: 16px;
+      height: 16px;
     }
+
+    &--up > svg {
+      transform: rotate(-90deg);
+    }
+
+    &--down > svg {
+      transform: rotate(90deg);
+    }
+  }
+
+  &-sep {
+    width: 15px;
+    text-align: center;
+  }
+
+  &--daypart {
+    margin-left: 10px;
+  }
+
+  &--daypart &-value {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
   }
 }
 
@@ -347,7 +398,8 @@
 }
 
 td.rdtMonth,
-td.rdtYear {
+td.rdtYear,
+td.rdtQuarter {
   width: px2rem(50px);
   height: px2rem(40px);
 

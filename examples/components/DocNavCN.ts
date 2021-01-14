@@ -685,6 +685,15 @@ export default [
               import('../../docs/zh-CN/components/form/year.md').then(
                 makeMarkdownRenderer
               )
+          },
+          {
+            label: 'Quarter 年',
+            path: '/zh-CN/docs/components/form/quarter',
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/zh-CN/components/form/quarter.md').then(
+                makeMarkdownRenderer
+              )
           }
         ]
       },

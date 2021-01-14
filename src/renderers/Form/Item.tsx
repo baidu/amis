@@ -36,6 +36,7 @@ import {
   DateControlSchema,
   DateTimeControlSchema,
   MonthControlSchema,
+  QuarterControlSchema,
   TimeControlSchema
 } from './Date';
 import {DateRangeControlSchema} from './DateRange';
@@ -98,6 +99,7 @@ export type FormControlType =
   | 'date'
   | 'datetime'
   | 'time'
+  | 'quarter'
   | 'month'
   | 'date-range'
   | 'diff'
@@ -210,6 +212,8 @@ export type FormControlSchema =
   | DateTimeControlSchema
   | TimeControlSchema
   | MonthControlSchema
+  | MonthControlSchema
+  | QuarterControlSchema
   | DateRangeControlSchema
   | DiffControlSchema
   | EditorControlSchema
