@@ -151,7 +151,6 @@ export class QuarterView extends React.Component<QuarterViewProps> {
   };
 
   updateSelectedQuarter = (event: any) => {
-    debugger;
     this.props.updateSelectedDate(event);
   };
 
