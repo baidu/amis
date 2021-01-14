@@ -385,7 +385,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       for (let option of options) {
-        if (option[self.valueField || 'value']) {
+        if (option[self.valueField || 'value'] && !option.disabled) {
           return option;
         } else if (Array.isArray(option.children)) {
           const childFirst = getFirstAvaibleOption(option.children);
