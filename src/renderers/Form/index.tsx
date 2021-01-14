@@ -1343,15 +1343,12 @@ export default class Form extends React.Component<FormProps, object> {
             <code>{JSON.stringify(store.data, null, 2)}</code>
           </pre>
         ) : null}
-
         <Spinner show={store.loading} overlay />
-
         {this.renderFormItems({
           tabs,
           fieldSet,
           controls
         })}
-
         {render(
           'modal',
           {
@@ -1367,7 +1364,6 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.dialogOpen
           }
         )}
-
         {render(
           'modal',
           {
@@ -1383,6 +1379,8 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.drawerOpen
           }
         )}
+        {/* 实现回车自动提交 */}
+        <input type="submit" style={{display: 'none'}} />
       </WrapperComponent>
     );
   }
