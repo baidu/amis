@@ -19,6 +19,12 @@ cp -r gh-pages/zh-CN/docs/* gh-pages/docs/
 
 cp ./schema.json ./gh-pages
 
+sh build.sh
+
+tar -zcvf sdk.tar.gz sdk
+
+mv sdk.tar.gz gh-pages/
+
 # 不走 cdn 了
 # node ./scripts/upload2cdn.js $1 $2
 
