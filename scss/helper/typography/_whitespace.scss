@@ -6,11 +6,11 @@ title: Whitespace
 
 | Class       | Properties               |
 | ----------- | ------------------------ |
-| align-normal | vertical-align: normal |
-| align-nowrap | vertical-align: nowrap |
-| align-pre | vertical-align: pre |
-| align-pre-line | vertical-align: pre-line |
-| align-pre-wrap | vertical-align: pre-wrap |
+| white-space-normal | align: normal |
+| white-space-nowrap | white-space: nowrap |
+| white-space-pre | white-space: pre |
+| white-space-pre-line | white-space: pre-line |
+| white-space-pre-wrap | white-space: pre-wrap |
 
 
 
@@ -26,8 +26,8 @@ title: Whitespace
         'pre-wrap': pre-wrap
       )
   {
-    #{$prefix}align-#{$name} {
-      vertical-align: $value;
+    #{$prefix}white-space-#{$name} {
+      white-space: $value;
     }
   }
 }
