@@ -1,0 +1,83 @@
+@import './antd-colors';
+@import '../functions';
+
+$remFactor: 16px;
+
+$ns: 'antd-';
+
+$primary: $blue-6;
+$info: $primary;
+$success: $green-6;
+$warning: $gold-6;
+$danger: $red-5;
+$light: #d9d9d9;
+$white: #fff;
+$black: #000;
+
+$info-bg: #eaf6fe;
+$success-bg: #f1fdeb;
+$warning-bg: #fcf7f1;
+$danger-bg: #fff5f5;
+
+// Border color
+$border-color-base: #d9d9d9; // base border outline a component
+$border-color-split: #5d5d5d; // split border inside a component
+$border-color-inverse: $white;
+$border-width-base: 1px; // width of the border for a component
+$border-style-base: solid; // style of a components border
+
+$text-color: opacify($black, 0.85);
+
+$text--muted-color: #6c6c6c;
+$text--loud-color: lighten($text-color, 10%);
+
+$link-color: $info;
+
+@import '../variables';
+@import '../properties';
+
+:root {
+  --borderColor: #eceff8;
+  --body-bg: #ffffff;
+  --text-color: #666;
+
+  --text--muted-color: #999;
+  --text--loud-color: #333;
+  --link-onHover-decoration: none;
+
+  --icon-color: inherit;
+  --icon-onHover-color: var(--primary);
+
+  --borderRadius: 2px;
+
+  --Panel--default-bg: #fff;
+
+  --Modal-header-bg: #fff;
+  --Modal-title-fontWeight: 500;
+
+  --Form-input-onFocused-borderColor: #40a9ff;
+  --Form-input-borderColor: #{$border-color-base};
+  --Form-input-boxShadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+
+  --Form-select-borderWidth: #{px2rem(1px)};
+  --Form-select-borderRadius: 0;
+  --Form-select-borderColor: #{$border-color-base};
+  --Form-select-bg: var(--white);
+  --Form-select-onHover-bg: var(--white);
+  --Form-select-onHover-borderColor: var(--primary);
+  --Form-select-placeholderColor: #999;
+  --Form-select-color: #000;
+  --Form-select-caret-iconColor: #999;
+  --Form-select-caret-onHover-iconColor: var(--primary);
+  --Form-select-caret-fontSize: #{px2rem(12px)};
+  --Form-select-outer-borderWidth: 0;
+  --Form-select-outer-top: #{px2rem(32px)};
+  --Form-select-outer-boxShadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
+  --Form-select-menu-color: #333;
+  --Form-select-menu-onHover-color: #000;
+  --Form-select-menu-onHover-bg: #eaf6fe;
+  --Form-select-menu-height: #{px2rem(24px)};
+  --Form-select-popoverGap: #{px2rem(3px)};
+  --Form-select-search-height: #{px2rem(30px)};
+  --Form-selectValue-color: var(--primary);
+}
