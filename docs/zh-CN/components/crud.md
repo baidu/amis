@@ -1256,7 +1256,40 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 在`headerToolbar`或者`footerToolbar`数组中添加`export-csv`字符串，可以实现点击下载 CSV 的功能，注意这里只包括当前分页的数据，要下载全部数据需要通过后端 API 实现。
 
-可以在[示例](../../../examples/crud/export-excel-csv)中进行测试。
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "https://houtai.baidu.com/api/sample",
+    "headerToolbar": ["export-csv"],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
 
 ### 导出 Excel
 
@@ -1266,7 +1299,40 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 2. 导出 Excel 更重视展现一致，支持合并单元格、链接、mapping 映射、图片（需要加[跨域 Header](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)）。
 3. 导出 Excel 只在 `mode` 为 `table` 时能用。
 
-可以在[示例](../../examples/crud/export-excel-csv)中进行测试。
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "https://houtai.baidu.com/api/sample",
+    "headerToolbar": ["export-excel"],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
 
 ### 显隐显示查询条件表单
 
