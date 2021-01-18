@@ -1256,7 +1256,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 在`headerToolbar`或者`footerToolbar`数组中添加`export-csv`字符串，可以实现点击下载 CSV 的功能，注意这里只包括当前分页的数据，要下载全部数据需要通过后端 API 实现。
 
-可以在[示例](../../examples/crud/export-excel-csv)中进行测试。
+可以在[示例](../../../examples/crud/export-excel-csv)中进行测试。
 
 ### 导出 Excel
 
