@@ -10,7 +10,7 @@ order: 48
 
 ## 基本用法
 
-参考 [Options](./options.md)
+参考 [Options](options)
 
 ## 属性表
 
