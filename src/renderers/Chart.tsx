@@ -25,6 +25,7 @@ import {
   SchemaTokenizeableString
 } from '../Schema';
 import {ActionSchema} from './Action';
+import {isAlive} from 'mobx-state-tree';
 
 /**
  * Chart 图表渲染器。
@@ -303,11 +304,14 @@ export class Chart extends React.Component<ChartProps> {
     }
     this.echarts?.showLoading();
 
+    store.markFetching(true);
     env
       .fetcher(api, store.data, {
         cancelExecutor: (executor: Function) => (this.reloadCancel = executor)
       })
       .then(result => {
+        isAlive(store) && store.markFetching(false);
+
         if (!result.ok) {
           return env.notify(
             'error',
@@ -342,6 +346,7 @@ export class Chart extends React.Component<ChartProps> {
           return;
         }
 
+        isAlive(store) && store.markFetching(false);
         env.notify('error', reason);
         this.echarts?.hideLoading();
       });
@@ -361,6 +366,8 @@ export class Chart extends React.Component<ChartProps> {
     if (!this.echarts) {
       return;
     }
+
+    const store = this.props.store;
     let onDataFilter = this.props.onDataFilter;
     const dataFilter = this.props.dataFilter;
 
@@ -394,6 +401,13 @@ export class Chart extends React.Component<ChartProps> {
         }
 
         recoverFunctionType(config!);
+
+        if (isAlive(store) && store.loading) {
+          this.echarts?.showLoading();
+        } else {
+          this.echarts?.hideLoading();
+        }
+
         this.echarts?.setOption(config!, this.props.replaceChartOption);
       } catch (e) {
         console.warn(e);
