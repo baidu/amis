@@ -126,15 +126,6 @@ fis.match('/docs/**.md', {
   isMod: true
 });
 
-fis.on('compile:end', function (file) {
-  if (
-    file.subpath === '/src/index.tsx' ||
-    file.subpath === '/examples/mod.js'
-  ) {
-    file.setContent(file.getContent().replace('@version', package.version));
-  }
-});
-
 fis.on('compile:optimizer', function (file) {
   if (file.isJsLike && file.isMod) {
     var contents = file.getContent();
@@ -255,6 +246,15 @@ if (fis.project.currentMedia() === 'publish') {
   publishEnv.get('project.ignore').push('lib/**');
   publishEnv.set('project.files', ['/scss/**', '/src/**']);
 
+  fis.on('compile:end', function (file) {
+    if (
+      file.subpath === '/src/index.tsx' ||
+      file.subpath === '/examples/mod.js'
+    ) {
+      file.setContent(file.getContent().replace('@version', package.version));
+    }
+  });
+
   publishEnv.match('/scss/(**)', {
     release: '/$1',
     relative: true
@@ -354,6 +354,15 @@ if (fis.project.currentMedia() === 'publish') {
   });
 } else if (fis.project.currentMedia() === 'publish-sdk') {
   const env = fis.media('publish-sdk');
+
+  fis.on('compile:end', function (file) {
+    if (
+      file.subpath === '/src/index.tsx' ||
+      file.subpath === '/examples/mod.js'
+    ) {
+      file.setContent(file.getContent().replace('@version', package.version));
+    }
+  });
 
   env.get('project.ignore').push('sdk/**');
   env.set('project.files', ['examples/sdk-placeholder.html']);
