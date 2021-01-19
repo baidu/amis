@@ -22,6 +22,13 @@ export interface ContainerSchema extends BaseSchema {
    * body 类名
    */
   bodyClassName?: SchemaClassName;
+
+  /**
+   * 自定义样式
+   */
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export interface ContainerProps extends RendererProps, ContainerSchema {
@@ -54,10 +61,12 @@ export default class Container<T> extends React.Component<
   }
 
   render() {
-    const {className, size, classnames: cx} = this.props;
+    const {className, size, classnames: cx, style} = this.props;
 
     return (
-      <div className={cx('Container', className)}>{this.renderBody()}</div>
+      <div className={cx('Container', className)} style={style}>
+        {this.renderBody()}
+      </div>
     );
   }
 }
