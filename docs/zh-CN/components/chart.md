@@ -15,7 +15,7 @@ order: 34
 ```schema: scope="body"
 {
     "type": "chart",
-    "api": "https://houtai.baidu.com/api/mock2/chart/chart",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart",
     "interval": 5000
 }
 ```
@@ -122,7 +122,7 @@ order: 34
                 },
                 {
                     "type": "chart",
-                    "api": "https://houtai.baidu.com/api/mock2/chart/chart1"
+                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
                 }
             ]
         }
@@ -236,7 +236,7 @@ order: 34
                 },
                 {
                     "type": "chart",
-                    "api": "https://houtai.baidu.com/api/mock2/chart/chart1"
+                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
                 }
             ]
         }
@@ -251,7 +251,7 @@ order: 34
 ```schema: scope="body"
 {
     "type": "chart",
-    "api": "https://houtai.baidu.com/api/mock2/chart/chart1"
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
 }
 ```
 
@@ -306,13 +306,13 @@ order: 34
                 "type": "chart",
                 "name": "chart1",
                 "initFetch": false,
-                "api": "https://houtai.baidu.com/api/mock2/chart/chart?name=$name&starttime=${starttime}&endtime=${endtime}"
+                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart?name=$name&starttime=${starttime}&endtime=${endtime}"
             },
             {
                 "type": "chart",
                 "name": "chart2",
                 "initFetch": false,
-                "api": "https://houtai.baidu.com/api/mock2/chart/chart2?name=$name"
+                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart2?name=$name"
             }
         ]
     }

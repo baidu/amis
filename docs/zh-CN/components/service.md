@@ -19,7 +19,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://houtai.baidu.com/api/mock2/page/initData",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
     "body": {
         "type": "panel",
         "title": "$title",
@@ -50,7 +50,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://houtai.baidu.com/api/mock2/crud/table?perPage=5",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/crud/table?perPage=5",
     "body": [
         {
             "type": "table",
@@ -188,7 +188,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
   "type": "service",
-  "schemaApi": "https://houtai.baidu.com/api/mock2/service/schema?type=tabs"
+  "schemaApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/service/schema?type=tabs"
 }
 ```
 
@@ -224,7 +224,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 {
     "title": "",
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock/saveForm?waitSeconds=1",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock/saveForm?waitSeconds=1",
     "mode": "horizontal",
     "controls": [
         {
@@ -251,7 +251,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
         },
         {
         "type": "service",
-        "api": "https://houtai.baidu.com/api/mock2/form/initData?tpl=${tpl}",
+        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?tpl=${tpl}",
         "controls": [
             {
             "label": "名称",

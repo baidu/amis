@@ -15,14 +15,14 @@ order: 21
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "file",
             "name": "file",
             "label": "File",
             "accept": "*",
-            "reciever": "https://houtai.baidu.com/api/upload/file"
+            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -49,14 +49,14 @@ order: 21
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "file",
             "name": "file",
             "label": "限制只能上传csv文件",
             "accept": ".csv",
-            "reciever": "https://houtai.baidu.com/api/upload/file"
+            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -71,7 +71,7 @@ order: 21
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "debug": true,
     "controls": [
         {
@@ -98,14 +98,14 @@ order: 21
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "controls": [
     {
       "type": "file",
       "name": "file",
       "label": "File",
       "accept": "*",
-      "reciever": "https://houtai.baidu.com/api/upload/file",
+      "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
       "autoFill": {
         "myUrl": "${url}"
       }

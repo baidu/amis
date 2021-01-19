@@ -642,7 +642,9 @@ if (fis.project.currentMedia() === 'publish') {
           /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/mock2?/gi,
           function (_, qutoa, method) {
             return (
-              qutoa + (method || '') + 'https://houtai.baidu.com/api/mock2'
+              qutoa +
+              (method || '') +
+              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2'
             );
           }
         )
@@ -650,7 +652,9 @@ if (fis.project.currentMedia() === 'publish') {
           /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/sample/gi,
           function (_, qutoa, method) {
             return (
-              qutoa + (method || '') + 'https://houtai.baidu.com/api/sample'
+              qutoa +
+              (method || '') +
+              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample'
             );
           }
         );

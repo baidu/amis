@@ -162,7 +162,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "type": "button",
     "actionType": "ajax",
     "confirmText": "确认要发出这个请求？",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm"
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
 }
 ```
 
@@ -175,7 +175,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm"
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
 }
 ```
 
@@ -188,7 +188,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "redirect": "./getting-started"
 }
 ```
@@ -200,7 +200,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "redirect": "https://www.baidu.com/"
 }
 ```
@@ -212,7 +212,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "type": "button",
     "label": "ajax 反馈弹框",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "feedback": {
         "title": "操作成功",
         "body": "xxx 已操作成功"
@@ -235,7 +235,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
       "type": "button",
       "label": "ajax 请求",
       "actionType": "ajax",
-      "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
       "reload": "crud"
     },
     {
@@ -244,7 +244,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     {
       "type": "crud",
       "name": "crud",
-      "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
       "columns": [
         {
             "name": "id",
@@ -287,7 +287,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "type": "button",
     "label": "ajax 请求",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "messages": {
         "success": "成功了！欧耶",
         "failed": "失败了呢。。"
@@ -358,7 +358,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "title": "表单设置",
     "body": {
       "type": "form",
-      "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
       "controls": [
         {
           "type": "text",
@@ -390,7 +390,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "title": "表单设置",
     "body": {
       "type": "form",
-      "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
       "controls": [
         {
           "type": "text",
@@ -450,7 +450,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "text",

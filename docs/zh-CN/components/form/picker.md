@@ -17,7 +17,7 @@ order: 35
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "picker",
@@ -49,7 +49,7 @@ order: 35
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "debug": true,
   "controls": [
     {
@@ -59,15 +59,15 @@ order: 35
       "valueField": "id",
       "labelField": "engine",
       "label": "多选",
-      "source": "https://houtai.baidu.com/api/sample",
+      "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
       "size": "lg",
       "value": "4,5",
       "multiple": true,
       "pickerSchema": {
         "mode": "table",
         "name": "thelist",
-        "quickSaveApi": "https://houtai.baidu.com/api/sample/bulkUpdate",
-        "quickSaveItemApi": "https://houtai.baidu.com/api/sample/$id",
+        "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
+        "quickSaveItemApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id",
         "draggable": true,
         "headerToolbar": {
           "wrapWithPanel": false,
@@ -255,7 +255,7 @@ order: 35
                 "icon": "fa fa-times text-danger",
                 "actionType": "ajax",
                 "confirmText": "您确认要删除?",
-                "api": "delete:https://houtai.baidu.com/api/sample/$id"
+                "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id"
               }
             ],
             "toggled": true
@@ -274,7 +274,7 @@ order: 35
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "controls": [
     {
       "type": "picker",
@@ -284,15 +284,15 @@ order: 35
       "labelField": "engine",
       "label": "Picker",
       "embed": true,
-      "source": "https://houtai.baidu.com/api/sample",
+      "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
       "size": "lg",
       "value": "4,5",
       "multiple": true,
       "pickerSchema": {
         "mode": "table",
         "name": "thelist",
-        "quickSaveApi": "https://houtai.baidu.com/api/sample/bulkUpdate",
-        "quickSaveItemApi": "https://houtai.baidu.com/api/sample/$id",
+        "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
+        "quickSaveItemApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id",
         "draggable": true,
         "headerToolbar": {
           "wrapWithPanel": false,
@@ -480,7 +480,7 @@ order: 35
                 "icon": "fa fa-times text-danger",
                 "actionType": "ajax",
                 "confirmText": "您确认要删除?",
-                "api": "delete:https://houtai.baidu.com/api/sample/$id"
+                "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id"
               }
             ],
             "toggled": true
