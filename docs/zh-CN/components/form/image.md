@@ -15,13 +15,13 @@ order: 27
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "image",
             "name": "image",
             "label": "image",
-            "reciever": "https://houtai.baidu.com/api/upload/file"
+            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -48,14 +48,14 @@ order: 27
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "image",
             "name": "image",
             "label": "限制只能上传jpg图片",
             "accept": ".jpg",
-            "reciever": "https://houtai.baidu.com/api/upload/file"
+            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -68,14 +68,14 @@ order: 27
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "image",
             "name": "image",
             "label": "限制只能上传jpg图片",
             "accept": ".jpg",
-            "reciever": "https://houtai.baidu.com/api/upload/file",
+            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
             "crop": true
         }
     ]
@@ -89,13 +89,13 @@ order: 27
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "controls": [
     {
       "type": "image",
       "name": "image",
       "label": "image",
-      "reciever": "https://houtai.baidu.com/api/upload/file",
+      "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
       "autoFill": {
         "myUrl": "${url}"
       }

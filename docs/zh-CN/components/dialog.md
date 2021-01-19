@@ -90,7 +90,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 ```schema: scope="body"
 {
   "type": "crud",
-  "api": "https://houtai.baidu.com/api/sample",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
   "draggable": true,
   "columns": [
     {
@@ -147,7 +147,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 ```schema: scope="body"
 {
   "type": "crud",
-  "api": "https://houtai.baidu.com/api/sample",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
   "draggable": true,
   "columns": [
     {
@@ -271,13 +271,13 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
             "type": "action",
             "label": "默认的 ajax 请求",
             "actionType": "ajax",
-            "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1"
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1"
           },
           {
             "type": "action",
             "label": "ajax 请求成功后关闭弹框",
             "actionType": "ajax",
-            "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
             "close": true
           }
         ]
@@ -298,7 +298,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
         "title": "在弹框中的表单",
         "body": {
             "type": "form",
-            "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=2",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
             "controls": [
                 {
                     "type": "text",
@@ -348,12 +348,12 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
                 "actionType": "ajax",
                 "primary": true,
                 "type": "button",
-                "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=2"
+                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2"
             }
         ],
         "body": {
             "type": "form",
-            "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=2",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
             "controls": [
                 {
                     "type": "text",
@@ -404,12 +404,12 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
                 "actionType": "ajax",
                 "primary": true,
                 "type": "button",
-                "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=2"
+                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2"
             }
         ],
         "body": {
             "type": "form",
-            "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=2",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
             "controls": [
                 {
                     "type": "text",
@@ -447,7 +447,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
     "type": "button",
     "label": "Feedback",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/initData?waitSeconds=2",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?waitSeconds=2",
     "tooltip": "点击我后会发送一个请求，请求回来后，弹出一个框。",
     "feedback": {
         "title": "操作成功",
@@ -475,7 +475,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
     "title": "提示",
      "body": {
             "type": "form",
-            "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=2",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
             "controls": [
                 {
                     "type": "text",
@@ -519,7 +519,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
         "label": "ajax请求 Feedback",
         "actionType": "ajax",
         "close": true,
-        "api": "https://houtai.baidu.com/api/mock2/form/initData?waitSeconds=1",
+        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?waitSeconds=1",
         "feedback": {
           "body": "feedback弹框中，不请求接口了，直接点击按钮关闭",
           "actions": [
@@ -548,7 +548,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
   "dialog": {
     "body": {
         "type": "form",
-        "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=2",
+        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
         "controls": [
             {
                 "type": "text",
@@ -579,7 +579,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
         "feedback": {
           "body": {
             "type": "form",
-            "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
             "controls": [
               {
                 "type": "tpl",
@@ -602,11 +602,11 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
         "label": "ajax Feedback",
         "actionType": "ajax",
         "close": true,
-        "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
         "feedback": {
           "body": {
             "type": "form",
-            "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
             "controls": [
               {
                 "type": "tpl",
@@ -644,7 +644,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
     "title": "提示",
     "body": {
       "type": "form",
-      "api": "https://houtai.baidu.com/api/mock2/form/initData?waitSeconds=1",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?waitSeconds=1",
       "controls": [
         {
           "type": "tpl",
@@ -683,7 +683,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
     "type": "button",
     "label": "条件feedback",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/initData?waitSeconds=1",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?waitSeconds=1",
     "feedback": {
         "visibleOn": "!(this.date % 2)",
         "title": "操作成功",

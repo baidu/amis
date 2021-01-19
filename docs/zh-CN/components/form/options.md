@@ -202,7 +202,7 @@ order: 2
             "label": "选项",
             "type": "select",
             "name": "select",
-            "source": "https://houtai.baidu.com/api/mock2/form/getOptions?waitSeconds=1"
+            "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1"
         }
     ]
 }
@@ -777,7 +777,7 @@ order: 2
             "name": "select",
             "type": "select",
             "label": "选项自动补全",
-            "autoComplete": "https://houtai.baidu.com/api/mock2/options/autoComplete?term=$term",
+            "autoComplete": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/autoComplete?term=$term",
             "placeholder": "请输入"
         }
     ]
@@ -1049,7 +1049,7 @@ order: 2
             "label": "选项",
             "type": "select",
             "name": "select",
-            "addApi": "https://houtai.baidu.com/api/mock2/form/saveForm",
+            "addApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
             "options": [
                 {
                     "label":"A",
@@ -1196,7 +1196,7 @@ order: 2
             "label": "选项",
             "type": "select",
             "name": "select",
-            "editApi": "https://houtai.baidu.com/api/mock2/form/saveForm",
+            "editApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
             "options": [
                 {
                     "label":"A",
@@ -1241,7 +1241,7 @@ order: 2
             "label": "选项",
             "type": "select",
             "name": "select",
-            "deleteApi": "https://houtai.baidu.com/api/mock2/form/saveForm",
+            "deleteApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
             "options": [
                 {
                     "label":"A",
@@ -1270,7 +1270,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "select",

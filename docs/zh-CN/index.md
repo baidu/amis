@@ -29,7 +29,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
     "type": "crud",
     "draggable": true,
     "syncLocation": false,
-    "api": "https://houtai.baidu.com/api/sample",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
     "keepItemSelectionOnPageChange": true,
     "filter": {
       "title": "筛选",
@@ -51,7 +51,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         "type": "button",
         "label": "批量删除",
         "actionType": "ajax",
-        "api": "delete:https://houtai.baidu.com/api/sample/${ids|raw}",
+        "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/${ids|raw}",
         "confirmText": "确定要批量删除?"
       },
       {
@@ -63,7 +63,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
           "name": "sample-bulk-edit",
           "body": {
             "type": "form",
-            "api": "https://houtai.baidu.com/api/sample/bulkUpdate2",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate2",
             "controls": [
               {
                 "type": "hidden",
@@ -79,8 +79,8 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         }
       }
     ],
-    "quickSaveApi": "https://houtai.baidu.com/api/sample/bulkUpdate",
-    "quickSaveItemApi": "https://houtai.baidu.com/api/sample/$id",
+    "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
+    "quickSaveItemApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id",
     "filterTogglable": true,
     "headerToolbar": [
       "filter-toggler",
@@ -90,7 +90,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         "label": "重置测试数据",
         "actionType": "ajax",
         "size": "sm",
-        "api": "https://houtai.baidu.com/api/sample/reset"
+        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/reset"
       },
       "export-excel",
       {
@@ -161,7 +161,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
             "actionType": "ajax",
             "tooltip": "删除",
             "confirmText": "您确认要删除?",
-            "api": "delete:https://houtai.baidu.com/api/sample/$id"
+            "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id"
           }
         ]
       }

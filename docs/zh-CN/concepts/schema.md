@@ -243,7 +243,7 @@ Page
   }, {
     "type": "crud",
     "className": "m-t-sm",
-    "api": "https://houtai.baidu.com/api/sample",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
     "columns": [{
       "name": "id",
       "label": "ID"
