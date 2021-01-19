@@ -359,16 +359,6 @@ export class Chart extends React.Component<ChartProps> {
     this.reload();
   }
 
-  hasData(config: any): boolean {
-    return (
-      (Array.isArray(config.dataset?.source) && config.dataset.source.length) ||
-      (Array.isArray(config.series) &&
-        config.series.some(
-          (item: any) => Array.isArray(item.data) && item.data.length
-        ))
-    );
-  }
-
   renderChart(config?: object, data?: any) {
     config && (this.pending = config);
     data && (this.pendingCtx = data);
@@ -376,6 +366,8 @@ export class Chart extends React.Component<ChartProps> {
     if (!this.echarts) {
       return;
     }
+
+    const store = this.props.store;
     let onDataFilter = this.props.onDataFilter;
     const dataFilter = this.props.dataFilter;
 
@@ -410,10 +402,10 @@ export class Chart extends React.Component<ChartProps> {
 
         recoverFunctionType(config!);
 
-        if (this.hasData(config)) {
-          this.echarts?.hideLoading();
-        } else {
+        if (isAlive(store) && store.loading) {
           this.echarts?.showLoading();
+        } else {
+          this.echarts?.hideLoading();
         }
 
         this.echarts?.setOption(config!, this.props.replaceChartOption);
