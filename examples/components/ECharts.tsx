@@ -7,7 +7,7 @@ import example from './EChartsEditor/Example';
 
 import {lazyData} from './LazyData';
 import React from 'react';
-import {Spinner} from '../../src';
+import Spinner from '../../src/components/Spinner';
 
 const LazyComponent = lazyData(
   async () =>
@@ -127,7 +127,7 @@ export default {
               columnClassName: 'pl-0.5 pr-1',
               controls: [
                 {
-                  children: (props: any) => {
+                  component(props: any) {
                     return (
                       <React.Suspense
                         fallback={
