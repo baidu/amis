@@ -80,4 +80,11 @@ $link-color: $info;
   --Form-select-popoverGap: #{px2rem(3px)};
   --Form-select-search-height: #{px2rem(30px)};
   --Form-selectValue-color: var(--primary);
+
+  // Tabs
+  --Tabs-linkFontSize: #{px2rem(14px)};
+  --Tabs--card-onActive-borderColor: var(--white);
+  --Tabs--card-bg: var(--Table-thead-bg);
+  --Tabs--radio-bg: var(--white);
+  --Tabs-onActive-borderColor: #{darken($borderColor, 5%)};
 }
