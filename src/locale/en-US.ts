@@ -16,6 +16,7 @@ register('en-US', {
   'Combo.minLength': 'A least {{minLength}} item. Please add more',
   'Combo.type': 'Type',
   'confirm': 'Confirm',
+  'cancle': 'Cancel',
   'Copyable.tip': 'Copy',
   'CRUD.exportCSV': 'Export CSV',
   'CRUD.exportExcel': 'Export Excel',
