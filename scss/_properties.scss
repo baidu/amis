@@ -430,7 +430,7 @@
   --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox-onHover-color: var(--info);
   --Checkbox-onDisabled-gb: #{$gray500};
-  --Checkbxo-onDisabled-color: lighten($info, 5%);
+  --Checkbxo-onDisabled-color: #{lighten($info, 5%)};
   --Checkbox-size: #{px2rem(20px)};
 
   --ColorPicker-bg: var(--white);

@@ -6,7 +6,7 @@ import NumberInput from '../NumberInput';
 import DatePicker from '../DatePicker';
 import Select from '../Select';
 import Switch from '../Switch';
-import {LocaleProps} from '../../locale';
+import {localeable, LocaleProps} from '../../locale';
 
 export interface ValueProps extends ThemeProps, LocaleProps {
   value: any;
@@ -100,4 +100,4 @@ export class Value extends React.Component<ValueProps> {
   }
 }
 
-export default themeable(Value);
+export default themeable(localeable(Value));
