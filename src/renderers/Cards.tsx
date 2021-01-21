@@ -179,7 +179,7 @@ export default class Cards extends React.Component<GridProps, object> {
   ];
   static defaultProps: Partial<GridProps> = {
     className: '',
-    placeholder: '没有数据',
+    placeholder: 'placeholder.noData',
     source: '$items',
     selectable: false,
     headerClassName: '',
@@ -706,7 +706,7 @@ export default class Cards extends React.Component<GridProps, object> {
           {child}
           {store.dragging ? (
             <div className={cx('Cards-dragTip')} ref={this.dragTipRef}>
-              {__('请拖动顶部的按钮进行排序')}
+              {__('Card.dragTip')}
             </div>
           ) : null}
         </div>
@@ -804,7 +804,7 @@ export default class Cards extends React.Component<GridProps, object> {
       <Button
         iconOnly
         key="dragging-toggle"
-        tooltip={__('对卡片进行排序操作')}
+        tooltip={__('Card.toggleDrag')}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }

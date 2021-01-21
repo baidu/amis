@@ -62,11 +62,11 @@ export class CustomMonthsView extends MonthsView {
                     className="rdtSwitch"
                     onClick={this.props.showView('years')}
                   >
-                    {this.props.viewDate.format(__('YYYY年'))}
+                    {this.props.viewDate.format(__('dateformat.year'))}
                   </th>
                 ) : (
                   <th className="rdtSwitch">
-                    {this.props.viewDate.format(__('YYYY年'))}
+                    {this.props.viewDate.format(__('dateformat.year'))}
                   </th>
                 )}
 

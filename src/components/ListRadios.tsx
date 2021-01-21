@@ -31,7 +31,7 @@ export class BaseRadios<
   selected: Option | undefined | null;
 
   static defaultProps = {
-    placeholder: '暂无选项',
+    placeholder: 'placeholder.noOption',
     itemRender: (option: Option) => <span>{option.label}</span>
   };
   static resolveSelected(

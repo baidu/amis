@@ -79,8 +79,8 @@ export interface TransferState {
 
 export class Transfer extends React.Component<TransferProps, TransferState> {
   static defaultProps = {
-    selectTitle: '请选择',
-    resultTitle: '当前选择',
+    selectTitle: 'Select.placeholder',
+    resultTitle: 'Transfer.selectd',
     itemRender: (option: Option) => <span>{option.label}</span>
   };
 
@@ -238,7 +238,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
                 disabled || !options.length ? 'is-disabled' : ''
               )}
             >
-              {__('全选')}
+              {__('Select.placeholder')}
             </a>
           ) : null}
         </div>
@@ -248,7 +248,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
             <InputBox
               value={this.state.inputValue}
               onChange={this.handleSearch}
-              placeholder={__('请输入关键字')}
+              placeholder={__('Transfer.searchKeyword')}
               clearable={false}
               onKeyDown={this.handleSearchKeyDown}
             >
@@ -463,7 +463,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
                 disabled || !this.valueArray.length ? 'is-disabled' : ''
               )}
             >
-              {__('清空')}
+              {__('clear')}
             </a>
           </div>
           <ResultList
@@ -472,7 +472,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
             disabled={disabled}
             value={value}
             onChange={onChange}
-            placeholder={__('请先选择左侧数据')}
+            placeholder={__('Transfer.selectFromLeft')}
           />
         </div>
       </div>

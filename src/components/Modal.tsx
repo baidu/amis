@@ -65,7 +65,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
         <div {...rest} className={cx('Modal-header', className)}>
           {showCloseButton !== false ? (
             <a
-              data-tooltip={__('关闭弹窗')}
+              data-tooltip={__('Dialog.close')}
               data-position="left"
               onClick={onClose}
               className={cx('Modal-close')}

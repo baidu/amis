@@ -209,7 +209,7 @@ export const HocPopOver = (
           type: popOver.mode,
           actions: [
             {
-              label: __('关闭'),
+              label: __('Dialog.close'),
               type: 'button',
               actionType: 'cancel'
             }

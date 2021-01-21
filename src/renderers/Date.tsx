@@ -117,7 +117,7 @@ export class DateField extends React.Component<DateProps, DateState> {
     }
 
     viewValue = !viewValue ? (
-      <span className="text-danger">{__('日期无效')}</span>
+      <span className="text-danger">{__('Date.invalid')}</span>
     ) : (
       viewValue
     );

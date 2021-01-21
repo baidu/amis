@@ -192,7 +192,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg || options.errorMessage || self.__('获取失败'),
+            json.msg || options.errorMessage || self.__('CRUD.fetchFailed'),
             true
           );
           getEnv(self).notify(
@@ -207,9 +207,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           );
         } else {
           if (!json.data) {
-            throw new Error(
-              self.__('返回数据格式不正确，payload.data 没有数据')
-            );
+            throw new Error(self.__('CRUD.invalidData'));
           }
 
           self.updatedAt = Date.now();
@@ -243,9 +241,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           if (!Array.isArray(items)) {
-            throw new Error(
-              self.__('返回数据格式不正确，payload.data.items 必须是数组')
-            );
+            throw new Error(self.__('CRUD.invalidArray'));
           } else {
             // 确保成员是对象。
             items.map((item: any) =>
@@ -375,7 +371,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg || options.errorMessage || self.__('保存失败'),
+            json.msg || options.errorMessage || self.__('saveFailed'),
             true
           );
           getEnv(self).notify(

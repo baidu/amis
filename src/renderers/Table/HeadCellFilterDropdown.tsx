@@ -251,7 +251,7 @@ export class HeadCellFilterDropDown extends React.Component<
                       key="DropDown-menu-reset"
                       onClick={this.handleReset.bind(this)}
                     >
-                      {__('重置')}
+                      {__('reset')}
                     </li>
                   ) : null}
                 </ul>

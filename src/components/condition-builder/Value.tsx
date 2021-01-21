@@ -6,8 +6,9 @@ import NumberInput from '../NumberInput';
 import DatePicker from '../DatePicker';
 import Select from '../Select';
 import Switch from '../Switch';
+import {LocaleProps} from '../../locale';
 
-export interface ValueProps extends ThemeProps {
+export interface ValueProps extends ThemeProps, LocaleProps {
   value: any;
   onChange: (value: any) => void;
   field: FieldSimple;
@@ -16,7 +17,14 @@ export interface ValueProps extends ThemeProps {
 
 export class Value extends React.Component<ValueProps> {
   render() {
-    const {classnames: cx, field, value, onChange, op} = this.props;
+    const {
+      classnames: cx,
+      field,
+      value,
+      onChange,
+      op,
+      translate: __
+    } = this.props;
     let input: JSX.Element | undefined = undefined;
 
     if (field.type === 'text') {
@@ -30,7 +38,7 @@ export class Value extends React.Component<ValueProps> {
     } else if (field.type === 'number') {
       input = (
         <NumberInput
-          placeholder={field.placeholder || '请输入数字'}
+          placeholder={field.placeholder || __('NumberInput.placeholder')}
           min={field.minimum}
           max={field.maximum}
           value={value ?? field.defaultValue}
@@ -40,7 +48,7 @@ export class Value extends React.Component<ValueProps> {
     } else if (field.type === 'date') {
       input = (
         <DatePicker
-          placeholder={field.placeholder || '请选择日期'}
+          placeholder={field.placeholder || __('Date.placeholder')}
           format={field.format || 'YYYY-MM-DD'}
           inputFormat={field.inputFormat || 'YYYY-MM-DD'}
           value={value ?? field.defaultValue}
@@ -52,7 +60,7 @@ export class Value extends React.Component<ValueProps> {
       input = (
         <DatePicker
           viewMode="time"
-          placeholder={field.placeholder || '请选择时间'}
+          placeholder={field.placeholder || 'Time.placeholder'}
           format={field.format || 'HH:mm'}
           inputFormat={field.inputFormat || 'HH:mm'}
           value={value ?? field.defaultValue}

@@ -600,7 +600,7 @@ export default class TextControl extends React.PureComponent<
                       >
                         {option.isNew ? (
                           <span>
-                            {__('新增：{{label}}', {label: option.label})}
+                            {__('Text.add', {label: option.label})}
                             <Icon icon="enter" className="icon" />
                           </span>
                         ) : (

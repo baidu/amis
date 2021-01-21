@@ -400,7 +400,7 @@ export class CityPicker extends React.Component<
             value={street}
             onChange={this.handleStreetChange}
             onBlur={this.handleStreetEnd}
-            placeholder={__('请输入街道信息')}
+            placeholder={__('City.street')}
             disabled={disabled}
           />
         ) : null}

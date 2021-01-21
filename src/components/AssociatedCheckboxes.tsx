@@ -160,9 +160,9 @@ export class AssociatedCheckboxes extends BaseCheckboxes<
                   </div>
 
                   {selectdOption.loading ? (
-                    <p>{__('加载中')}</p>
+                    <p>{__('loading')}</p>
                   ) : (
-                    <p>{__('点击刷新重新加载')}</p>
+                    <p>{__('Transfer.refreshIcon')}</p>
                   )}
                 </div>
               ) : rightMode === 'table' ? (
@@ -202,12 +202,12 @@ export class AssociatedCheckboxes extends BaseCheckboxes<
               )
             ) : (
               <div className={cx('AssociatedCheckboxes-box')}>
-                {__('配置错误，选项无法与左侧选项对应')}
+                {__('Transfer.configError')}
               </div>
             )
           ) : (
             <div className={cx('AssociatedCheckboxes-box')}>
-              {__('请先选择左侧数据')}
+              {__('Transfer.selectFromLeft')}
             </div>
           )}
         </div>

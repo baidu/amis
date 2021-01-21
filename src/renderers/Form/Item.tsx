@@ -1260,7 +1260,6 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
     if (config.validate && !Control.prototype.validate) {
       const fn = config.validate;
       Control.prototype.validate = function () {
-        // console.warn('推荐直接在类中定义，而不是 FormItem HOC 的参数中传入。');
         const host = {
           input: this
         };

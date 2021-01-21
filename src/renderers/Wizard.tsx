@@ -174,10 +174,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     readOnly: false,
     messages: {},
     actionClassName: '',
-    actionPrevLabel: '上一步',
-    actionNextLabel: '下一步',
-    actionNextSaveLabel: '保存并下一步',
-    actionFinishLabel: '完成'
+    actionPrevLabel: 'Wizard.prev',
+    actionNextLabel: 'Wizard.next',
+    actionNextSaveLabel: 'Wizard.saveAndNext',
+    actionFinishLabel: 'Wizard.finish'
   };
 
   static propsList: Array<string> = [
@@ -916,7 +916,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       classPrefix: ns,
       classnames: cx,
       popOverContainer,
-      mode
+      mode,
+      translate: __
     } = this.props;
 
     const currentStep = this.state.currentStep;
@@ -962,9 +963,9 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 }
               )
             ) : currentStep === -1 ? (
-              '初始中。。'
+              __('loading')
             ) : (
-              <p className="text-danger">配置错误</p>
+              <p className="text-danger">{__('Wizard.configError')}</p>
             )}
           </div>
           {this.renderFooter()}

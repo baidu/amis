@@ -37,7 +37,7 @@ export class BaseCheckboxes<
   S = any
 > extends React.Component<T, S> {
   static defaultProps = {
-    placeholder: '暂无选项',
+    placeholder: 'placeholder.noOption',
     itemRender: (option: Option) => <span>{option.label}</span>
   };
 

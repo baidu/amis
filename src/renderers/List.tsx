@@ -254,7 +254,7 @@ export default class List extends React.Component<ListProps, object> {
   ];
   static defaultProps: Partial<ListProps> = {
     className: '',
-    placeholder: '没有数据',
+    placeholder: 'placeholder.noData',
     source: '$items',
     selectable: false,
     headerClassName: '',

@@ -262,7 +262,7 @@ export class TableBody extends React.Component<TableBodyProps> {
         ) : (
           <tr className={cx('Table-placeholder')}>
             <td colSpan={columns.length}>
-              {render('placeholder', placeholder || '暂无数据')}
+              {render('placeholder', placeholder || 'placeholder.noData')}
             </td>
           </tr>
         )}

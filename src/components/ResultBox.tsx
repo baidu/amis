@@ -26,8 +26,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
     'clearable' | 'placeholder' | 'itemRender' | 'inputPlaceholder'
   > = {
     clearable: false,
-    placeholder: '暂无结果',
-    inputPlaceholder: '手动输入内容',
+    placeholder: 'placeholder.noData',
+    inputPlaceholder: 'placeholder.enter',
     itemRender: (option: any) => (
       <span>{`${option.scopeLabel || ''}${option.label}`}</span>
     )
@@ -150,7 +150,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           <span className={cx('ResultBox-singleValue')}>{result}</span>
         ) : allowInput && !disabled ? null : (
           <span className={cx('ResultBox-placeholder')}>
-            {__(placeholder || '无')}
+            {__(placeholder || 'placeholder.noData')}
           </span>
         )}
 
@@ -176,12 +176,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         {clearable &&
         !disabled &&
         (Array.isArray(result) ? result.length : result) ? (
-          <a
-            // data-tooltip="清空"
-            // data-position="bottom"
-            onClick={this.clearValue}
-            className={cx('ResultBox-clear')}
-          >
+          <a onClick={this.clearValue} className={cx('ResultBox-clear')}>
             <Icon icon="close" className="icon" />
           </a>
         ) : null}

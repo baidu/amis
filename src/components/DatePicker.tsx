@@ -19,76 +19,76 @@ import {localeable, LocaleProps, TranslateFn} from '../locale';
 
 const availableShortcuts: {[propName: string]: any} = {
   now: {
-    label: '现在',
+    label: 'Date.now',
     date: (now: moment.Moment) => {
       return now;
     }
   },
   today: {
-    label: '今天',
+    label: 'Date.today',
     date: (now: moment.Moment) => {
       return now.startOf('day');
     }
   },
 
   yesterday: {
-    label: '昨天',
+    label: 'Date.yesterday',
     date: (now: moment.Moment) => {
       return now.add(-1, 'days').startOf('day');
     }
   },
 
   thisweek: {
-    label: '本周一',
+    label: 'Date.monday',
     date: (now: moment.Moment) => {
       return now.startOf('week').startOf('day');
     }
   },
 
   thismonth: {
-    label: '本月初',
+    label: 'Date.startOfMonth',
     date: (now: moment.Moment) => {
       return now.startOf('month');
     }
   },
 
   prevmonth: {
-    label: '上个月初',
+    label: 'Date.startOfLastMonth',
     date: (now: moment.Moment) => {
       return now.startOf('month').add(-1, 'month');
     }
   },
 
   prevquarter: {
-    label: '上个季节初',
+    label: 'Date.startOfLastQuarter',
     date: (now: moment.Moment) => {
       return now.startOf('quarter').add(-1, 'quarter');
     }
   },
 
   thisquarter: {
-    label: '本季度初',
+    label: 'Date.startOfQuarter',
     date: (now: moment.Moment) => {
       return now.startOf('quarter');
     }
   },
 
   tomorrow: {
-    label: '明天',
+    label: 'Date.tomorrow',
     date: (now: moment.Moment) => {
       return now.add(1, 'days').startOf('day');
     }
   },
 
   endofthisweek: {
-    label: '本周日',
+    label: 'Date.endOfWeek',
     date: (now: moment.Moment) => {
       return now.endOf('week');
     }
   },
 
   endofthismonth: {
-    label: '本月底',
+    label: 'Date.endOfMonth',
     date: (now: moment.Moment) => {
       return now.endOf('month');
     }
@@ -100,7 +100,7 @@ const advancedShortcuts = [
     regexp: /^(\d+)hoursago$/,
     resolve: (__: TranslateFn, _: string, hours: string) => {
       return {
-        label: __('{{hours}}小时前', {hours}),
+        label: __('Date.hoursago', {hours}),
         date: (now: moment.Moment) => {
           return now.subtract(hours, 'hours');
         }
@@ -111,7 +111,7 @@ const advancedShortcuts = [
     regexp: /^(\d+)hourslater$/,
     resolve: (__: TranslateFn, _: string, hours: string) => {
       return {
-        label: __('{{hours}}小时后', {hours}),
+        label: __('Date.hourslater', {hours}),
         date: (now: moment.Moment) => {
           return now.add(hours, 'hours');
         }
@@ -122,7 +122,7 @@ const advancedShortcuts = [
     regexp: /^(\d+)daysago$/,
     resolve: (__: TranslateFn, _: string, days: string) => {
       return {
-        label: __('{{days}}天前', {days}),
+        label: __('Date.daysago', {days}),
         date: (now: moment.Moment) => {
           return now.subtract(days, 'days');
         }
@@ -133,7 +133,7 @@ const advancedShortcuts = [
     regexp: /^(\d+)dayslater$/,
     resolve: (__: TranslateFn, _: string, days: string) => {
       return {
-        label: __('{{days}}天后', {days}),
+        label: __('Date.dayslater', {days}),
         date: (now: moment.Moment) => {
           return now.add(days, 'days');
         }
@@ -144,7 +144,7 @@ const advancedShortcuts = [
     regexp: /^(\d+)weeksago$/,
     resolve: (__: TranslateFn, _: string, weeks: string) => {
       return {
-        label: __('{{weeks}}周前', {weeks}),
+        label: __('Date.weeksago', {weeks}),
         date: (now: moment.Moment) => {
           return now.subtract(weeks, 'weeks');
         }
@@ -155,7 +155,7 @@ const advancedShortcuts = [
     regexp: /^(\d+)weekslater$/,
     resolve: (__: TranslateFn, _: string, weeks: string) => {
       return {
-        label: __('{{weeks}}周后', {weeks}),
+        label: __('Date.weekslater', {weeks}),
         date: (now: moment.Moment) => {
           return now.add(weeks, 'weeks');
         }
@@ -166,7 +166,7 @@ const advancedShortcuts = [
     regexp: /^(\d+)monthsago$/,
     resolve: (__: TranslateFn, _: string, months: string) => {
       return {
-        label: __('{{months}}月前', {months}),
+        label: __('Date.monthsago', {months}),
         date: (now: moment.Moment) => {
           return now.subtract(months, 'months');
         }
@@ -177,7 +177,7 @@ const advancedShortcuts = [
     regexp: /^(\d+)monthslater$/,
     resolve: (__: TranslateFn, _: string, months: string) => {
       return {
-        label: __('{{months}}月后', {months}),
+        label: __('Date.monthslater', {months}),
         date: (now: moment.Moment) => {
           return now.add(months, 'months');
         }
@@ -188,7 +188,7 @@ const advancedShortcuts = [
     regexp: /^(\d+)quartersago$/,
     resolve: (__: TranslateFn, _: string, quarters: string) => {
       return {
-        label: __('{{quarters}}季度前', {quarters}),
+        label: __('Date.quartersago', {quarters}),
         date: (now: moment.Moment) => {
           return now.subtract(quarters, 'quarters');
         }
@@ -199,7 +199,7 @@ const advancedShortcuts = [
     regexp: /^(\d+)quarterslater$/,
     resolve: (__: TranslateFn, _: string, quarters: string) => {
       return {
-        label: __('{{quarters}}季度后', {quarters}),
+        label: __('Date.quarterslater', {quarters}),
         date: (now: moment.Moment) => {
           return now.add(quarters, 'quarters');
         }
