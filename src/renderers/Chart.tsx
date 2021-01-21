@@ -126,7 +126,7 @@ const EVAL_CACHE: {[key: string]: Function} = {};
  * @param config ECharts 配置
  */
 function recoverFunctionType(config: object) {
-  ['formatter', 'sort'].forEach((key: string) => {
+  ['formatter', 'sort', 'renderItem'].forEach((key: string) => {
     const objects = findObjectsWithKey(config, key);
     for (const object of objects) {
       const code = object[key];
