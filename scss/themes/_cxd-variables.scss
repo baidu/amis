@@ -151,6 +151,9 @@ $Wizard-steps-liAfterBorder: none !important;
   --Number-handler--up-transform: rotate(180deg);
   --Number-handler--down-content: '\e6dd';
 
+  --Checkbxo-onDisabled-color: #ebebeb;
+  --Checkbox-onDisabled-gb: #cccccc;
+
   --Checkbox-size: #{px2rem(14px)};
   --Checkbox-inner-size: #{px2rem(8px)};
   --Checkbox--full-inner-size: #{px2rem(10px)};
