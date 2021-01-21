@@ -61,12 +61,17 @@ $link-color: $info;
   --Button-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
   // --Button-textShadow: 0 -1px 0 rgb(0 0 0 / 12%);
   --Button--default-border: #d9d9d9;
-  --Button--default-onHover-border: #40a9ff;
+  --Button--default-onHover-border: #{$blue-5};
   --Button--default-onHover-bg: #fff;
-  --Button--default-onHover-color: #40a9ff;
+  --Button--default-onHover-color: #{$blue-5};
 
-  --Button--primary-onHover-bg: #40a9ff;
-  --Button--primary-onHover-border: #40a9ff;
+  --Button--primary-onHover-bg: #{$blue-5};
+  --Button--primary-onHover-border: #{$blue-5};
+
+  --Card-onChecked-bg: #e6f7ff;
+  --Card-onChecked-color: var(--body-color);
+  --Card-onChecked-fieldLabel-color: var(--text--muted-color);
+  --Card-onChecked-borderColor: #{$blue-5};
 
   --Checkbox-onDisabled-color: #d9d9d9;
   --Checkbox-onDisabled-bg: #f5f5f5;
@@ -75,19 +80,31 @@ $link-color: $info;
 
   --Panel--default-bg: #fff;
 
+  --Layout-aside-bg: #001529;
+  --Layout-brand-bg: #001529;
+  --Layout-aside-color: hsla(0, 0%, 100%, 0.65);
+  --Layout-aside-subList-bg: #000c17;
+  --Layout-aside-onHover-bg: none;
+  --Layout-aside-onAcitve-bg: #1890ff;
+
+  --ListControl-item-onHover-color: var(--primary);
+  --ListControl-item-onHover-bg: var(--Button--default-onHover-bg);
+  --ListControl-item-onHover-borderColor: var(--primary);
+
+  --ListItem-onChecked-bg: #e6f7ff;
+
   --Modal-header-bg: #fff;
   --Modal-title-fontWeight: 500;
 
-  --Form-input-onFocused-borderColor: #40a9ff;
+  --Form-input-onFocused-borderColor: #{$blue-5};
   --Form-input-borderColor: #{$border-color-base};
   --Form-input-boxShadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-
   --Form-select-borderWidth: #{px2rem(1px)};
   --Form-select-borderRadius: 0;
   --Form-select-borderColor: #{$border-color-base};
   --Form-select-bg: var(--white);
   --Form-select-onHover-bg: var(--white);
-  --Form-select-onHover-borderColor: var(--primary);
+  --Form-select-onHover-borderColor: #{$blue-5};
   --Form-select-placeholderColor: #999;
   --Form-select-color: #000;
   --Form-select-caret-iconColor: #999;
@@ -99,11 +116,17 @@ $link-color: $info;
     0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%);
   --Form-select-menu-color: #333;
   --Form-select-menu-onHover-color: #000;
-  --Form-select-menu-onHover-bg: #eaf6fe;
+  --Form-select-menu-onHover-bg: #f5f5f5;
   --Form-select-menu-height: #{px2rem(24px)};
   --Form-select-popoverGap: #{px2rem(3px)};
   --Form-select-search-height: #{px2rem(30px)};
   --Form-selectValue-color: var(--primary);
+
+  --body-bg: #f0f2f5;
+
+  --Pagination-onActive-backgroundColor: #fff;
+  --Pagination-onActive-color: rgb(24, 144, 255);
+  --Pagination-onActive-border: #{px2rem(1px)} solid var(--primary);
 
   // Tabs
   --Tabs-linkFontSize: #{px2rem(14px)};
@@ -111,4 +134,10 @@ $link-color: $info;
   --Tabs--card-bg: var(--Table-thead-bg);
   --Tabs--radio-bg: var(--white);
   --Tabs-onActive-borderColor: #{darken($borderColor, 5%)};
+
+  $Table-strip-bg: transparent;
+  --Table-strip-bg: transparent;
+  --Table-thead-bg: #fafafa;
+  --Table-onHover-bg: rgb(250, 250, 250);
+  --Table-onHover-borderColor: var(--Table-borderColor);
 }

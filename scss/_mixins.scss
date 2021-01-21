@@ -351,6 +351,10 @@
       user-select: none;
     }
   }
+
+  &:hover {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
 }
 
 @mixin input-text {

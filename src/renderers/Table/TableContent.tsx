@@ -8,8 +8,9 @@ import {observer} from 'mobx-react';
 import {trace, reaction} from 'mobx';
 import {flattenTree} from '../../utils/helper';
 import {TableBody} from './TableBody';
+import {LocaleProps} from '../../locale';
 
-export interface TableContentProps {
+export interface TableContentProps extends LocaleProps {
   className?: string;
   tableClassName?: string;
   classnames: ClassNamesFn;
@@ -98,6 +99,8 @@ export class TableContent extends React.Component<TableContentProps> {
       rowClassNameExpr,
       data,
       prefixRow,
+      locale,
+      translate,
       affixRow
     } = this.props;
 
@@ -150,6 +153,8 @@ export class TableContent extends React.Component<TableContentProps> {
             rowClassName={rowClassName}
             rows={rows}
             columns={columns}
+            locale={locale}
+            translate={translate}
             prefixRow={prefixRow}
             affixRow={affixRow}
             data={data}

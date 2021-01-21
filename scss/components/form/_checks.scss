@@ -125,7 +125,7 @@
 
       &[disabled]:checked + i {
         &:before {
-          border-color: var(--Checkbox-onDisabled-bg);
+          border-color: var(--Checkbox-onDisabled-color);
         }
       }
 

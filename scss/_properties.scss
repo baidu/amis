@@ -620,6 +620,7 @@
   --Form-input-onFocused-borderColor: var(--info);
   --Form-input-onHover-iconColor: #{darken($gray600, 20%)};
   --Form-input-onHover-bg: #{rgba($white, 0.6)};
+  --Form-input-onHover-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-input-paddingX: #{px2rem(12px)};
   --Form-input-paddingY: calc(
     (
@@ -778,6 +779,7 @@
   --Layout-aside-onAcitve-bg: #{saturate(darken($dark, 5%), 2.5%)};
   --Layout-aside-onHover-bg: #{saturate(darken($dark, 3%), 2.5%)};
   --Layout-aside-subList-bg: #{saturate(darken($dark, 10%), 2.5%)};
+  --Layout-aside-onAcitve-onHover-bg: var(--Layout-aside-onAcitve-bg);
   --Layout-aside-width: #{px2rem(200px)};
   --Layout-asideDivider-bg: #2e3344;
   --Layout-asideDivider-margin: var(--gap-sm) 0;
@@ -809,6 +811,7 @@
   --Layout-nav-height: #{px2rem(40px)};
   --Layout-nav-lgHeight: #{px2rem(50px)};
   --Layout-nav-lgHeight: #{px2rem(50px)};
+  --Layout-body-bg: var(--body-bg);
 
   --List--unsaved-heading-bg: #e8f0fe;
   --List--unsaved-heading-color: #4285f4;

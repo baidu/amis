@@ -1587,6 +1587,7 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       render,
       data,
+      translate,
       checkOnItemClick,
       buildItemProps,
       rowClassNameExpr,
@@ -1652,6 +1653,7 @@ export default class Table extends React.Component<TableProps, object> {
             rowClassName={rowClassName}
             columns={columns}
             rows={rows}
+            translate={translate}
             rowsProps={{
               regionPrefix: 'fixed/',
               renderCell: (
@@ -2174,7 +2176,8 @@ export default class Table extends React.Component<TableProps, object> {
       rowClassNameExpr,
       rowClassName,
       prefixRow,
-      affixRow
+      affixRow,
+      translate
     } = this.props;
 
     return (
@@ -2206,6 +2209,7 @@ export default class Table extends React.Component<TableProps, object> {
         data={store.data}
         prefixRow={prefixRow}
         affixRow={affixRow}
+        translate={translate}
       />
     );
   }
