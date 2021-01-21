@@ -85,15 +85,18 @@
     <div id="root" class="app-wrapper"></div>
     <script src="./mod.js"></script>
     <script type="text/javascript">
-      var _hmt = _hmt || [];
+      if (location.hostname !== 'localhost') {
+        var _hmt = _hmt || [];
 
-      // 百度统计
-      (function () {
-        var hm = document.createElement('script');
-        hm.src = 'https://hm.baidu.com/hm.js?1f80f2c9dbe21dc3af239cf9eee90f1f';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(hm, s);
-      })();
+        // 百度统计
+        (function () {
+          var hm = document.createElement('script');
+          hm.src =
+            'https://hm.baidu.com/hm.js?1f80f2c9dbe21dc3af239cf9eee90f1f';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
 
       /* @require ./index.jsx 标记为同步依赖，提前加载 */
       amis.require(['./index.jsx'], function (app) {

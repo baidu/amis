@@ -291,6 +291,7 @@
   --Button-borderWidth: var(--Form-input-borderWidth);
   --Button-boxShadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
     0 1px 1px rgba(0, 0, 0, 0.075);
+  --Button-textShadow: none;
   --Button-fontSize: var(--Form-input-fontSize);
   --Button-fontWeight: var(--fontWeightNormal);
   --Button-height: var(--Form-input-height);
@@ -429,8 +430,8 @@
   --Checkbox-gb: #fff;
   --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox-onHover-color: var(--info);
-  --Checkbox-onDisabled-gb: #{$gray500};
-  --Checkbxo-onDisabled-color: lighten($info, 5%);
+  --Checkbox-onDisabled-bg: #{$gray500};
+  --Checkbox-onDisabled-color: #{lighten($info, 5%)};
   --Checkbox-size: #{px2rem(20px)};
 
   --ColorPicker-bg: var(--white);
@@ -522,6 +523,8 @@
       ) / 2 - var(--DatePicker-borderWidth)
   );
   --DatePicker-placeholderColor: var(--Form-input-placeholderColor);
+
+  --Divider-borderStyle: dashed;
 
   --Drawer-bg: var(--background);
   --Drawer-body-padding: var(--gap-base);

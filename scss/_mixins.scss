@@ -244,6 +244,7 @@
   background: $background;
   border-color: $border;
   box-shadow: var(--Button-boxShadow);
+  text-shadow: var(--Button-textShadow);
 
   @include hover {
     // todo: 无法支持 css 变量

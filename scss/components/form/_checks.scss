@@ -76,11 +76,11 @@
       }
 
       &[disabled] + i {
-        border-color: var(--Checkbxo-onDisabled-color);
+        border-color: var(--Checkbox-onDisabled-color);
         cursor: not-allowed;
 
         &:before {
-          background: var(--Checkbxo-onDisabled-color);
+          background: var(--Checkbox-onDisabled-bg);
           border-color: var(--Checkbox-gb);
         }
       }
@@ -119,22 +119,19 @@
       }
 
       &[disabled] + i {
-        border-color: var(--Checkbxo-onDisabled-color);
-
-        &:before {
-          background: var(--Checkbxo-onDisabled-color);
-        }
+        border-color: var(--Checkbox-onDisabled-color);
+        background: var(--Checkbox-onDisabled-bg);
       }
 
       &[disabled]:checked + i {
         &:before {
-          border-color: var(--Checkbox-onDisabled-gb);
+          border-color: var(--Checkbox-onDisabled-bg);
         }
       }
 
       &:checked[disabled] + i {
-        border-color: var(--Checkbxo-onDisabled-color);
-        background: var(--Checkbxo-onDisabled-color);
+        border-color: var(--Checkbox-onDisabled-color);
+        background: var(--Checkbox-onDisabled-bg);
       }
     }
 
