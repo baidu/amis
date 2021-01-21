@@ -44,6 +44,7 @@
     "dom-helpers": "^3.3.1",
     "downshift": "3.1.4",
     "echarts": "5.0.0",
+    "echarts-stat": "^1.2.0",
     "exceljs": "^4.2.0",
     "file-saver": "^2.0.2",
     "flv.js": "1.5.0",
@@ -61,6 +62,7 @@
     "moment": "^2.19.3",
     "monaco-editor": "0.21.2",
     "papaparse": "^5.3.0",
+    "path-to-regexp": "^6.2.0",
     "prop-types": "^15.6.1",
     "qrcode.react": "^0.8.0",
     "qs": "6.5.1",
@@ -84,8 +86,7 @@
     "tinymce": "5.6.2",
     "tslib": "^1.10.0",
     "uncontrollable": "7.0.2",
-    "video-react": "0.14.1",
-    "path-to-regexp": "^6.2.0"
+    "video-react": "0.14.1"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.1",
