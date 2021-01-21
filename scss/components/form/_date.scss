@@ -294,6 +294,7 @@
   cursor: pointer;
   text-decoration: none;
   font-size: var(--Calendar-btn-fontSize);
+  border: 1px solid var(--Calendar-btn-border);
 
   &:hover {
     text-decoration: none;

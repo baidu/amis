@@ -174,11 +174,11 @@
       }
 
       &[disabled] + i {
-        // border-color: lighten(var(--Radio-color), 5%);
+        border-color: var(--Radio-onDisabled-color);
         cursor: not-allowed;
 
         &:before {
-          // background: lighten(var(--Radio-color), 5%);
+          background: var(--Radio-onDisabled-color);
         }
       }
 

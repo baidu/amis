@@ -8,7 +8,7 @@
   cursor: pointer;
 
   &.is-active {
-    color: var(--info);
+    color: var(--Rating-onActive-color);
   }
 
   &.is-disabled {
@@ -24,7 +24,7 @@
     left: 0;
     width: 50%;
     content: attr(data-forhalf);
-    color: var(--info);
+    color: var(--Rating-onActive-color);
   }
 }
 

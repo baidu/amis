@@ -219,6 +219,7 @@ export default {
           type: 'radios',
           name: 'radios',
           label: '单选',
+          value: 3,
           options: [
             {
               label: '选项1',

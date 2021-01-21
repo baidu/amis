@@ -337,15 +337,15 @@
       ) / 2
   );
   --Calendar-btnCancel-bg: var(--light);
-  --Calendar-btnCancel-border: var(--Calendar-btnCancel-bg);
+  --Calendar-btnCancel-border: var(--Button--default-border);
   --Calendar-btnCancel-borderRadius: var(--Button-borderRadius);
   --Calendar-btnCancel-color: var(--text-color);
-  --Calendar-btnCancel-onActive-bg: #{darken($light, 10%)};
-  --Calendar-btnCancel-onActive-border: #{darken($light, 12.5%)};
-  --Calendar-btnCancel-onActive-color: var(--Calendar-btnCancel-color);
-  --Calendar-btnCancel-onHover-bg: #{darken($light, 7.5%)};
-  --Calendar-btnCancel-onHover-border: #{darken($light, 10%)};
-  --Calendar-btnCancel-onHover-color: var(--Calendar-btnCancel-color);
+  --Calendar-btnCancel-onActive-bg: var(--Button--default-onActive-bg);
+  --Calendar-btnCancel-onActive-border: var(--Button--default-onActive-border);
+  --Calendar-btnCancel-onActive-color: var(--Button--default-onActive-color);
+  --Calendar-btnCancel-onHover-bg: var(--Button--default-onHover-bg);
+  --Calendar-btnCancel-onHover-border: var(--Button--default-onHover-border);
+  --Calendar-btnCancel-onHover-color: var(--Button--default-onHover-color);
   --Calendar-cell-bg: var(--white);
   --Calendar-cell-onActive-bg: var(--info);
   --Calendar-cell-onBetween-bg: #{rgba($info, 0.1)};
@@ -1021,6 +1021,8 @@
   --Radio-inner-size: calc(var(--Radio-size) / 2);
   --Radio-onHover-color: var(--Checkbox-onHover-color);
   --Radio-size: var(--Checkbox-size);
+  --Radio-onDisabled-bg: #{$gray500};
+  --Radio-onDisabled-color: var(--text--muted-color);
 
   --Remark-bg: #fff;
   --Remark-borderColor: var(--borderColor);
@@ -1040,6 +1042,8 @@
   --ResultBox-value--onHover-bg: #ebebeb;
   --ResultBox-value-bg: #f5f5f5;
   --ResultBox-value-color: #000;
+
+  --Rating-onActive-color: var(--info);
 
   --Satus-icon-height: var(--Satus-icon-width);
   --Satus-icon-width: #{px2rem(20px)};
