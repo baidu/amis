@@ -484,7 +484,7 @@ export default class PickerControl extends React.PureComponent<
             {render(
               'modal',
               {
-                title: __('请选择'),
+                title: __('Select.placeholder'),
                 size: size,
                 type: modalMode,
                 body: {

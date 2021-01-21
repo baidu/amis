@@ -198,7 +198,7 @@ export default class MatrixCheckbox extends React.Component<
             .fetcher(source, data)
             .then(ret => {
               if (!ret.ok) {
-                throw new Error(ret.msg || __('数据请求错误'));
+                throw new Error(ret.msg || __('fetchFailed'));
               }
               if (!this.mounted) {
                 return resolve();

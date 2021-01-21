@@ -133,7 +133,7 @@ export const ServiceStore = iRendererStore
         e.stack && console.error(e.stack);
         let message = e.message || e;
         if (e && e.message === 'Network Error') {
-          message = self.__('网络错误，可能是未配置跨域 CORS');
+          message = self.__('networkError');
         }
         env.notify('error', message);
         return;
@@ -226,7 +226,7 @@ export const ServiceStore = iRendererStore
         e.stack && console.error(e.stack);
         let message = e.message || e;
         if (e && e.message === 'Network Error') {
-          message = self.__('网络错误，可能是未配置跨域 CORS');
+          message = self.__('networkError');
         }
         env.notify('error', message);
         return;
@@ -270,7 +270,7 @@ export const ServiceStore = iRendererStore
           updateMessage(
             json.msg ||
               (options && options.errorMessage) ||
-              self.__('保存失败'),
+              self.__('saveFailed'),
             true
           );
           throw new ServerError(self.msg, json);
@@ -364,7 +364,7 @@ export const ServiceStore = iRendererStore
           updateMessage(
             json.msg ||
               (options && options.errorMessage) ||
-              self.__('获取失败，请重试'),
+              self.__('fetchFailed'),
             true
           );
           getEnv(self).notify(
@@ -413,7 +413,7 @@ export const ServiceStore = iRendererStore
         e.stack && console.error(e.stack);
         let message = e.message || e;
         if (e && e.message === 'Network Error') {
-          message = self.__('网络错误，可能是未配置跨域 CORS');
+          message = self.__('networkError');
         }
         env.notify('error', message);
       }

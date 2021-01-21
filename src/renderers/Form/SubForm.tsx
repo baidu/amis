@@ -100,7 +100,7 @@ export default class SubFormControl extends React.PureComponent<
     addButtonClassName: '',
     editButtonClassName: '',
     labelField: 'label',
-    btnLabel: '设置'
+    btnLabel: 'SubForm.button'
   };
 
   state: SubFormState = {
@@ -230,7 +230,7 @@ export default class SubFormControl extends React.PureComponent<
                 key={key}
               >
                 <span
-                  data-tooltip={__('删除')}
+                  data-tooltip={__('delete')}
                   data-position="bottom"
                   className={`${ns}Select-valueIcon`}
                   onClick={this.removeItem.bind(this, key)}
@@ -240,7 +240,7 @@ export default class SubFormControl extends React.PureComponent<
                 <span
                   onClick={this.open.bind(this, key)}
                   className={`${ns}SubForm-valueLabel`}
-                  data-tooltip={__('编辑详情')}
+                  data-tooltip={__('SubForm.editDetail')}
                   data-position="bottom"
                 >
                   {(value &&
@@ -268,10 +268,10 @@ export default class SubFormControl extends React.PureComponent<
         onClick={this.addItem}
         className={cx(`${ns}Button ${ns}SubForm-addBtn`, addButtonClassName)}
         disabled={disabled}
-        data-tooltip={__('新增一条数据')}
+        data-tooltip={__('Combo.add')}
       >
         <Icon icon="plus" className="icon" />
-        <span>{__('新增')}</span>
+        <span>{__('Combo.add')}</span>
       </button>
     ];
   }
@@ -300,7 +300,7 @@ export default class SubFormControl extends React.PureComponent<
             btnClassName
           )}
           onClick={this.open.bind(this, 0)}
-          data-tooltip={__('编辑详情')}
+          data-tooltip={__('SubForm.editDetail')}
           data-position="bottom"
         >
           <span className={`${ns}SubForm-valueLabel`}>

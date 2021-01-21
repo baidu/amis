@@ -91,14 +91,14 @@ export class HeadCellSearchDropDown extends React.Component<
         {
           type: 'button-group',
           name: 'orderDir',
-          label: __('排序'),
+          label: __('sort'),
           options: [
             {
-              label: __('正序'),
+              label: __('asc'),
               value: 'asc'
             },
             {
-              label: __('降序'),
+              label: __('desc'),
               value: 'desc'
             }
           ]
@@ -123,18 +123,18 @@ export class HeadCellSearchDropDown extends React.Component<
         actions: [
           {
             type: 'button',
-            label: __('重置'),
+            label: __('reset'),
             actionType: 'reset'
           },
 
           {
             type: 'button',
-            label: __('取消'),
+            label: __('cancle'),
             actionType: 'cancel'
           },
 
           {
-            label: __('搜索'),
+            label: __('search'),
             type: 'submit',
             primary: true
           }

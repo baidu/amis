@@ -31,8 +31,8 @@ export interface TabsTransferProps
 
 export class TabsTransfer extends React.Component<TabsTransferProps> {
   static defaultProps = {
-    selectTitle: '请选择',
-    resultTitle: '当前选择',
+    selectTitle: 'Select.placeholder',
+    resultTitle: 'Transfer.selectd',
     itemRender: (option: Option) => <span>{option.label}</span>
   };
 
@@ -115,7 +115,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
     if (!Array.isArray(options) || !options.length) {
       return (
         <div className={cx('TabsTransfer-placeholder')}>
-          {__(placeholder || '暂无选项')}
+          {__(placeholder || 'placeholder.noOption')}
         </div>
       );
     }
@@ -136,7 +136,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       >
         {searchResult !== null
           ? [
-              <Tab title={__('搜索结果')} key={0} eventKey={0}>
+              <Tab title={__('searchResult')} key={0} eventKey={0}>
                 {this.renderSearchResult(searchResult)}
               </Tab>
             ]

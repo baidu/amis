@@ -203,14 +203,14 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     ret.push({
       type: 'button',
       actionType: 'close',
-      label: __('取消')
+      label: __('cancle')
     });
 
     if (confirm) {
       ret.push({
         type: 'button',
         actionType: 'confirm',
-        label: __('确认'),
+        label: __('confirm'),
         primary: true
       });
     }

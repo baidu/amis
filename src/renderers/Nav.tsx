@@ -180,7 +180,7 @@ export class Navigation extends React.Component<
 
         if (!payload.ok) {
           this.setState({
-            error: payload.msg || __('获取链接错误')
+            error: payload.msg || __('Nav.sourceError')
           });
         } else {
           const links = Array.isArray(payload.data)

@@ -57,9 +57,9 @@ export default class CheckboxesControl extends React.Component<
   static defaultProps = {
     columnsCount: 1,
     multiple: true,
-    placeholder: '暂无选项',
+    placeholder: 'placeholder.noOption',
     creatable: false,
-    createBtnLabel: '新增选项'
+    createBtnLabel: 'Select.createLabel'
   };
 
   componentDidMount() {
@@ -141,7 +141,8 @@ export default class CheckboxesControl extends React.Component<
       labelClassName,
       labelField,
       removable,
-      editable
+      editable,
+      translate: __
     } = this.props;
 
     return (
@@ -157,7 +158,7 @@ export default class CheckboxesControl extends React.Component<
       >
         {String(option[labelField || 'label'])}
         {removable ? (
-          <a data-tooltip="移除" data-position="left">
+          <a data-tooltip={__('Select.clear')} data-position="left">
             <Icon
               icon="minus"
               className="icon"

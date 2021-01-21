@@ -87,8 +87,8 @@ export default class TreeSelectControl extends React.Component<
   TreeSelectState
 > {
   static defaultProps = {
-    placeholder: '请选择',
-    optionsPlaceholder: '暂无数据',
+    placeholder: 'Select.placeholder',
+    optionsPlaceholder: 'placeholder.noData',
     multiple: false,
     clearable: true,
     rootLabel: '顶级',

@@ -124,7 +124,7 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
           {enlargeAble ? (
             <div key="overlay" className={cx('Image-overlay')}>
               <a
-                data-tooltip={__('查看大图')}
+                data-tooltip={__('Image.zoomIn')}
                 data-position="bottom"
                 target="_blank"
                 onClick={this.handleEnlarge}

@@ -49,11 +49,11 @@ export class QuarterView extends React.Component<QuarterViewProps> {
             </th>
             {canClick ? (
               <th className="rdtSwitch" onClick={this.props.showView('years')}>
-                {this.props.viewDate.format(__('YYYY年'))}
+                {this.props.viewDate.format(__('dateformat.year'))}
               </th>
             ) : (
               <th className="rdtSwitch">
-                {this.props.viewDate.format(__('YYYY年'))}
+                {this.props.viewDate.format(__('dateformat.year'))}
               </th>
             )}
 

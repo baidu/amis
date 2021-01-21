@@ -337,7 +337,7 @@ export default class Table extends React.Component<TableProps, object> {
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
-    placeholder: '暂无数据',
+    placeholder: 'placeholder.noData',
     tableClassName: '',
     source: '$items',
     selectable: false,
@@ -1162,19 +1162,16 @@ export default class Table extends React.Component<TableProps, object> {
         <div className={cx('Table-heading', headingClassName)} key="heading">
           {!saveImmediately && store.modified && !hideQuickSaveBtn ? (
             <span>
-              {__(
-                '当前有 {{modified}} 条记录修改了内容, 但并没有提交。请选择:',
-                {
-                  modified: store.modified
-                }
-              )}
+              {__('Table.modified', {
+                modified: store.modified
+              })}
               <button
                 type="button"
                 className={cx('Button Button--xs Button--success m-l-sm')}
                 onClick={this.handleSave}
               >
                 <Icon icon="check" className="icon m-r-xs" />
-                {__('提交')}
+                {__('Form.submit')}
               </button>
               <button
                 type="button"
@@ -1182,12 +1179,12 @@ export default class Table extends React.Component<TableProps, object> {
                 onClick={this.reset}
               >
                 <Icon icon="close" className="icon m-r-xs" />
-                {__('放弃')}
+                {__('Table.discard')}
               </button>
             </span>
           ) : store.moved ? (
             <span>
-              {__('当前有 {{moved}} 条记录修改了顺序, 但并没有提交。请选择:', {
+              {__('Table.moved', {
                 moved: store.moved
               })}
               <button
@@ -1196,7 +1193,7 @@ export default class Table extends React.Component<TableProps, object> {
                 onClick={this.handleSaveOrder}
               >
                 <Icon icon="check" className="icon m-r-xs" />
-                {__('提交')}
+                {__('Form.submit')}
               </button>
               <button
                 type="button"
@@ -1204,7 +1201,7 @@ export default class Table extends React.Component<TableProps, object> {
                 onClick={this.reset}
               >
                 <Icon icon="close" className="icon m-r-xs" />
-                {__('放弃')}
+                {__('Table.discard')}
               </button>
             </span>
           ) : title ? (
@@ -1706,7 +1703,7 @@ export default class Table extends React.Component<TableProps, object> {
     return (
       <DropDownButton
         {...rest}
-        tooltip={__('点击选择显示列')}
+        tooltip={__('Table.columnsVisibility')}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
@@ -1744,7 +1741,7 @@ export default class Table extends React.Component<TableProps, object> {
         disabled={!!store.modified}
         classPrefix={ns}
         key="dragging-toggle"
-        tooltip={__('点击开始排序')}
+        tooltip={__('Table.startSort')}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
@@ -1932,7 +1929,7 @@ export default class Table extends React.Component<TableProps, object> {
         }}
         size="sm"
       >
-        {__('导出 Excel')}
+        {__('CRUD.exportExcel')}
       </Button>
     );
   }
@@ -2037,7 +2034,7 @@ export default class Table extends React.Component<TableProps, object> {
           {child}
           {store.dragging ? (
             <div className={cx('Table-dragTip')} ref={this.dragTipRef}>
-              {__('请拖动左边的按钮进行排序')}
+              {__('Table.dragTip')}
             </div>
           ) : null}
         </div>

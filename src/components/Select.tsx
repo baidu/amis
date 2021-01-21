@@ -354,20 +354,20 @@ export class Select extends React.Component<SelectProps, SelectState> {
     multiple: false,
     clearable: true,
     creatable: false,
-    createBtnLabel: '新增选项',
-    searchPromptText: '输入内容进行检索',
-    loadingPlaceholder: '加载中..',
-    noResultsText: '未找到任何结果',
-    clearAllText: '移除所有',
-    clearValueText: '移除',
-    placeholder: '请选择',
+    createBtnLabel: 'Select.createLabel',
+    searchPromptText: 'Select.searchPromptText',
+    loadingPlaceholder: 'loading',
+    noResultsText: 'noResult',
+    clearAllText: 'Select.clearAll',
+    clearValueText: 'Select.clear',
+    placeholder: 'Select.placeholder',
     valueField: 'value',
     labelField: 'label',
     resetValue: '',
     inline: false,
     disabled: false,
     checkAll: false,
-    checkAllLabel: '全选',
+    checkAllLabel: 'Select.checkAll',
     defaultCheckAll: false,
     overlayPlacement: 'auto'
   };
@@ -814,7 +814,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           })}
         >
           {removable ? (
-            <a data-tooltip="移除" data-position="left">
+            <a data-tooltip={__('Select.clear')} data-position="left">
               <Icon
                 icon="minus"
                 className="icon"

@@ -247,7 +247,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       joinValues: true,
       extractValue: false,
       multiple: false,
-      placeholder: '请选择',
+      placeholder: 'Select.placeholder',
       resetValue: '',
       deleteConfirmText: '确定要删除？',
       ...Control.defaultProps
@@ -714,7 +714,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             type: 'text',
             name: labelField || 'label',
             label: false,
-            placeholder: __('请输入名称')
+            placeholder: __('Options.addPlaceholder')
           }
         ];
       }
@@ -825,7 +825,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             type: 'text',
             name: labelField || 'label',
             label: false,
-            placeholder: __('请输入名称')
+            placeholder: __('Options.addPlaceholder')
           }
         ];
       }
@@ -835,8 +835,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         : await onOpenDialog(
             {
               type: 'dialog',
-              title: __('编辑{{label}}', {
-                label: optionLabel || '选项'
+              title: __('Options.editLabel', {
+                label: optionLabel || __('Options.label')
               }),
               body: {
                 type: 'form',
@@ -859,7 +859,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           );
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || __('保存失败，请仔细检查'));
+            env.notify('error', payload.msg || __('saveFailed'));
             result = null;
           } else {
             result = payload.data || result;
@@ -924,7 +924,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       // 通过 deleteApi 删除。
       try {
         if (!deleteApi) {
-          throw new Error(__('请配置 deleteApi'));
+          throw new Error(__('Options.deleteAPI'));
         }
 
         const result = await env.fetcher(deleteApi!, ctx, {
@@ -932,7 +932,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         });
 
         if (!result.ok) {
-          env.notify('error', result.msg || __('删除失败，请重试'));
+          env.notify('error', result.msg || __('deleteFailed'));
         } else if (source) {
           this.reload();
         } else {

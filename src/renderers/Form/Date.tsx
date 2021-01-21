@@ -343,7 +343,7 @@ export default class DateControl extends React.PureComponent<
 export class DateControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
-    placeholder: '请选择日期',
+    placeholder: 'Date.placeholder',
     dateFormat: 'YYYY-MM-DD',
     timeFormat: '',
     strictMode: false
@@ -356,7 +356,7 @@ export class DateControlRenderer extends DateControl {
 export class DatetimeControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
-    placeholder: '请选择日期以及时间',
+    placeholder: 'DateTime.placeholder',
     inputFormat: 'YYYY-MM-DD HH:mm:ss',
     dateFormat: 'LL',
     timeFormat: 'HH:mm:ss',
@@ -371,7 +371,7 @@ export class DatetimeControlRenderer extends DateControl {
 export class TimeControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
-    placeholder: '请选择时间',
+    placeholder: 'Time.placeholder',
     inputFormat: 'HH:mm',
     dateFormat: '',
     timeFormat: 'HH:mm',
@@ -386,7 +386,7 @@ export class TimeControlRenderer extends DateControl {
 export class MonthControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
-    placeholder: '请选择月份',
+    placeholder: 'Month.placeholder',
     inputFormat: 'YYYY-MM',
     dateFormat: 'MM',
     timeFormat: '',
@@ -401,7 +401,7 @@ export class MonthControlRenderer extends DateControl {
 export class QuarterControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
-    placeholder: '请选择季度',
+    placeholder: 'Quarter.placeholder',
     inputFormat: 'YYYY [Q]Q',
     dateFormat: 'YYYY [Q]Q',
     timeFormat: '',
@@ -416,7 +416,7 @@ export class QuarterControlRenderer extends DateControl {
 export class YearControlRenderer extends DateControl {
   static defaultProps = {
     ...DateControl.defaultProps,
-    placeholder: '请选择年',
+    placeholder: 'Year.placeholder',
     inputFormat: 'YYYY',
     dateFormat: 'YYYY',
     timeFormat: '',

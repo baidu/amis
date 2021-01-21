@@ -474,7 +474,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         if (!json.ok) {
           setErrorFlag !== false &&
             setError(
-              self.__('加载选项失败，原因：{{reason}}', {
+              self.__('Form.loadOptionsFailed', {
                 reason: json.msg || (config && config.errorMessage)
               })
             );

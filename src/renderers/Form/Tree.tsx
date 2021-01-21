@@ -62,7 +62,7 @@ export interface TreeProps
 
 export default class TreeControl extends React.Component<TreeProps> {
   static defaultProps: Partial<TreeProps> = {
-    placeholder: '选项加载中...',
+    placeholder: 'loading',
     multiple: false,
     rootLabel: '顶级',
     rootValue: '',

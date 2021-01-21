@@ -24,7 +24,7 @@ export interface ResultListProps extends ThemeProps, LocaleProps {
 
 export class ResultList extends React.Component<ResultListProps> {
   static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender'> = {
-    placeholder: '请先选择数据',
+    placeholder: 'placeholder.selectData',
     itemRender: (option: any) => (
       <span>{`${option.scopeLabel || ''}${option.label}`}</span>
     )

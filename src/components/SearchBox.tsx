@@ -107,7 +107,7 @@ export class SearchBox extends React.Component<SearchBoxProps> {
           disabled={disabled}
           onChange={this.handleChange}
           value={value || ''}
-          placeholder={__(placeholder || '输入关键字')}
+          placeholder={__(placeholder || 'placeholder.enter')}
           ref={this.inputRef}
           autoComplete="off"
           onKeyDown={this.handleKeyDown}

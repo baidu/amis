@@ -8,5 +8,13 @@
   "bracketSpacing": false,
   "quoteProps": "consistent",
   "arrowParens": "avoid",
-  "jsxBracketSameLine": false
+  "jsxBracketSameLine": false,
+  "overrides": [
+    {
+      "files": "src/locale/*.ts",
+      "options": {
+        "printWidth": 800
+      }
+    }
+  ]
 }

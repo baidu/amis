@@ -197,7 +197,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
       <div className="repeat-control hbox">
         {input ? (
           <div className="col v-middle" style={{width: 30}}>
-            <span>{__('每')}</span>
+            <span>{__('Repeat.pre')}</span>
           </div>
         ) : null}
 
