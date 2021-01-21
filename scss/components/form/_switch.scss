@@ -17,7 +17,7 @@
 
   i {
     &:before {
-      content: '\5173';
+      content: var(--Switch-label);
       color: var(--Switch-valueColor);
       text-indent: calc(var(--Switch-width) / 2);
       text-transform: uppercase;
@@ -81,7 +81,7 @@
         &:after {
           margin-left: calc(var(--Switch-width) - var(--Switch-height));
 
-          content: '\5f00';
+          content: var(--Switch-checked-label);
           color: var(--white);
           text-indent: px2rem(-18px); // todo
           text-transform: uppercase;

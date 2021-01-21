@@ -13,7 +13,7 @@ order: 14
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -33,7 +33,7 @@ order: 14
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -55,7 +55,7 @@ order: 14
 {
     "type": "form",
     "debug": true,
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -66,7 +66,7 @@ order: 14
 }
 ```
 
-如果你想要其他格式的日期值，，那么可以配置`format`参数用于调整表单项的值格式。
+如果你想要其他格式的日期值，那么可以配置`format`参数用于调整表单项的值格式。
 
 例如你调整值为`2020-04-14 12:20:10`这样的格式，查找 [moment 文档](https://momentjs.com/docs/#/displaying/format/) 可知配置格式应为 `YYYY-MM-DD HH:mm:ss`，即：
 
@@ -74,7 +74,7 @@ order: 14
 {
     "type": "form",
     "debug": true,
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -100,7 +100,7 @@ order: 14
 {
     "type": "form",
     "debug": true,
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -120,7 +120,7 @@ order: 14
 {
     "type": "form",
     "debug": true,
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -150,7 +150,7 @@ order: 14
 {
     "type": "form",
     "debug": true,
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -178,7 +178,7 @@ order: 14
 {
     "type": "form",
     "debug": true,
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -201,7 +201,7 @@ order: 14
 {
     "type": "form",
     "debug": true,
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -227,7 +227,7 @@ order: 14
 {
     "type": "form",
     "debug": true,
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -255,7 +255,7 @@ order: 14
 {
     "type": "form",
     "debug": true,
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "datetime",
@@ -279,7 +279,7 @@ order: 14
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "static-date",

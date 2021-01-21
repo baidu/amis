@@ -180,10 +180,10 @@ export class CustomDaysView extends DaysView {
             {this.props.requiredConfirm ? (
               <div key="button" className="rdtActions">
                 <a className="rdtBtn rdtBtnConfirm" onClick={this.confirm}>
-                  {__('确认')}
+                  {__('confirm')}
                 </a>
                 <a className="rdtBtn rdtBtnCancel" onClick={this.cancel}>
-                  {__('取消')}
+                  {__('cancle')}
                 </a>
               </div>
             ) : null}
@@ -219,7 +219,7 @@ export class CustomDaysView extends DaysView {
 
               <div className="rdtCenter">
                 <a className="rdtSwitch" onClick={this.props.showView('years')}>
-                  {date.format(__('YYYY年'))}
+                  {date.format(__('dateformat.year'))}
                 </a>
                 <a
                   className="rdtSwitch"

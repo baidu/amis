@@ -53,7 +53,7 @@ export interface DateRangePickerState {
 
 const availableRanges: {[propName: string]: any} = {
   'today': {
-    label: '今天',
+    label: 'Date.today',
     startDate: (now: moment.Moment) => {
       return now.startOf('day');
     },
@@ -63,7 +63,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   'yesterday': {
-    label: '昨天',
+    label: 'Date.yesterday',
     startDate: (now: moment.Moment) => {
       return now.add(-1, 'days').startOf('day');
     },
@@ -73,7 +73,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   '1dayago': {
-    label: '最近1天',
+    label: 'DateRange.lastDay',
     startDate: (now: moment.Moment) => {
       return now.add(-1, 'days');
     },
@@ -83,7 +83,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   '7daysago': {
-    label: '最近7天',
+    label: 'DateRange.last7Days',
     startDate: (now: moment.Moment) => {
       return now.add(-7, 'days').startOf('day');
     },
@@ -93,7 +93,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   '90daysago': {
-    label: '最近90天',
+    label: 'DateRange.last90Days',
     startDate: (now: moment.Moment) => {
       return now.add(-90, 'days').startOf('day');
     },
@@ -103,7 +103,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   'prevweek': {
-    label: '上周',
+    label: 'DateRange.lastWeek',
     startDate: (now: moment.Moment) => {
       return now.startOf('week').add(-1, 'weeks');
     },
@@ -113,7 +113,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   'thismonth': {
-    label: '本月',
+    label: 'DateRange.thisMonth',
     startDate: (now: moment.Moment) => {
       return now.startOf('month');
     },
@@ -123,7 +123,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   'prevmonth': {
-    label: '上个月',
+    label: 'DateRange.lastMonth',
     startDate: (now: moment.Moment) => {
       return now.startOf('month').add(-1, 'month');
     },
@@ -133,7 +133,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   'prevquarter': {
-    label: '上个季度',
+    label: 'DateRange.lastQuarter',
     startDate: (now: moment.Moment) => {
       return now.startOf('quarter').add(-1, 'quarter');
     },
@@ -143,7 +143,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   'thisquarter': {
-    label: '本季度',
+    label: 'DateRange.thisQuarter',
     startDate: (now: moment.Moment) => {
       return now.startOf('quarter');
     },
@@ -158,7 +158,7 @@ export class DateRangePicker extends React.Component<
   DateRangePickerState
 > {
   static defaultProps = {
-    placeholder: '请选择日期范围',
+    placeholder: 'DateRange.placeholder',
     format: 'X',
     inputFormat: 'YYYY-MM-DD',
     joinValues: true,
@@ -577,8 +577,7 @@ export class DateRangePicker extends React.Component<
       embed
     } = this.props;
     const __ = this.props.translate;
-    let viewMode: 'days' | 'months' | 'years' | 'months' | 'days' | 'time' =
-      'days';
+    let viewMode: 'days' | 'months' | 'years' | 'time' = 'days';
 
     const {startDate, endDate} = this.state;
     return (
@@ -625,10 +624,10 @@ export class DateRangePicker extends React.Component<
               })}
               onClick={this.confirm}
             >
-              {__('确认')}
+              {__('confirm')}
             </a>
             <a className="rdtBtn rdtBtnCancel" onClick={this.close}>
-              {__('取消')}
+              {__('cancle')}
             </a>
           </div>
         )}
@@ -707,7 +706,7 @@ export class DateRangePicker extends React.Component<
       >
         {arr.length ? (
           <span className={`${ns}DateRangePicker-value`}>
-            {arr.join(__(' 至 '))}
+            {arr.join(__('DateRange.valueConcat'))}
           </span>
         ) : (
           <span className={`${ns}DateRangePicker-placeholder`}>

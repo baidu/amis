@@ -15,13 +15,13 @@ order: 27
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "image",
             "name": "image",
             "label": "image",
-            "reciever": "https://houtai.baidu.com/api/upload/file"
+            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -48,14 +48,14 @@ order: 27
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "image",
             "name": "image",
             "label": "限制只能上传jpg图片",
             "accept": ".jpg",
-            "reciever": "https://houtai.baidu.com/api/upload/file"
+            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -63,19 +63,42 @@ order: 27
 
 想要限制多个类型，则用逗号分隔，例如：`.jpg,.png`
 
+## 限制文件大小
+
+配置 `limit`，更多属性请参考后面的属性说明。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "controls": [
+        {
+            "type": "image",
+            "name": "image",
+            "label": "限制只能上传宽度大于 1000 的图片",
+            "accept": ".jpg",
+            "limit": {
+              "minWidth": 1000
+            },
+            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+        }
+    ]
+}
+```
+
 ## 支持裁剪
 
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "image",
             "name": "image",
             "label": "限制只能上传jpg图片",
             "accept": ".jpg",
-            "reciever": "https://houtai.baidu.com/api/upload/file",
+            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
             "crop": true
         }
     ]
@@ -89,13 +112,13 @@ order: 27
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "controls": [
     {
       "type": "image",
       "name": "image",
       "label": "image",
-      "reciever": "https://houtai.baidu.com/api/upload/file",
+      "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
       "autoFill": {
         "myUrl": "${url}"
       }

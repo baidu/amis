@@ -35,7 +35,7 @@ export class LocationPicker extends React.Component<
   LocationState
 > {
   static defaultProps = {
-    placeholder: '请选择位置',
+    placeholder: 'LocationPicker.placeholder',
     clearable: false
   };
   domRef: React.RefObject<HTMLDivElement> = React.createRef();

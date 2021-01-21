@@ -110,7 +110,7 @@ order: 14
         "type": "select",
         "size": "sm",
         "name": "b",
-        "source": "https://houtai.baidu.com/api/mock2/options/level2?a=${a}",
+        "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/level2?a=${a}",
         "description": "切换<code>选项1</code>的值，会触发<code>选项2</code>的<code>source</code> 接口重新拉取"
       }
     ],
@@ -182,7 +182,7 @@ order: 14
         "name": "b",
         "source": {
             "method": "get",
-            "url": "https://houtai.baidu.com/api/mock2/options/level2?a=${a}",
+            "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/level2?a=${a}",
             "sendOn": "this.a === 2"
         },
         "description": "只有<code>选项1</code>选择<code>B</code>的时候，才触发<code>选项2</code>的<code>source</code>接口重新拉取"
@@ -219,7 +219,7 @@ order: 14
         "label": "Select",
         "source": {
           "method": "get",
-          "url": "https://houtai.baidu.com/api/mock2/form/getOptions?waitSeconds=1",
+          "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1",
           "data": {
             "a": "${keyword}"
           }
@@ -259,7 +259,7 @@ order: 14
     },
     {
       "type": "crud",
-      "api": "https://houtai.baidu.com/api/sample",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
       "columns": [
             {
                 "name": "id",
@@ -306,7 +306,7 @@ order: 14
     {
       "type": "crud",
       "name": "my_crud",
-      "api": "https://houtai.baidu.com/api/sample",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
       "columns": [
             {
                 "name": "id",

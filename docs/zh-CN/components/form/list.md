@@ -15,7 +15,7 @@ List 一般用来实现选择，可以单选也可以多选，和 Radio/Checkbox
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "controls": [
     {
       "type": "list",
@@ -42,7 +42,7 @@ List 一般用来实现选择，可以单选也可以多选，和 Radio/Checkbox
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
       {
         "type": "list",

@@ -32,7 +32,7 @@ export interface ArrayInputProps extends ThemeProps, LocaleProps {
 
 export class ArrayInput extends React.Component<ArrayInputProps> {
   static defaultProps = {
-    placeholder: '<空>',
+    placeholder: 'empty',
     itemRender: ({
       value,
       onChange
@@ -210,7 +210,7 @@ export class ArrayInput extends React.Component<ArrayInputProps> {
               disabled={disabled}
             >
               <Icon icon="plus" className="icon" />
-              <span>{__('新增一条')}</span>
+              <span>{__('Combo.add')}</span>
             </Button>
           ) : null}
 

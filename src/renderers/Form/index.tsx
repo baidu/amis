@@ -306,8 +306,8 @@ export interface FormProps extends RendererProps, Omit<FormSchema, 'mode'> {
 
 export default class Form extends React.Component<FormProps, object> {
   static defaultProps = {
-    title: '表单',
-    submitText: '提交',
+    title: 'Form.title',
+    submitText: 'Form.submit',
     initFetch: true,
     wrapWithPanel: true,
     mode: 'normal',
@@ -320,9 +320,9 @@ export default class Form extends React.Component<FormProps, object> {
     },
     panelClassName: 'Panel--default',
     messages: {
-      fetchFailed: '初始化失败',
-      saveSuccess: '保存成功',
-      saveFailed: '保存失败'
+      fetchFailed: 'fetchFailed',
+      saveSuccess: 'saveSuccess',
+      saveFailed: 'saveFailed'
     },
     wrapperComponent: '',
     finishedField: 'finished',
@@ -821,7 +821,7 @@ export default class Form extends React.Component<FormProps, object> {
     if (Array.isArray(action.required) && action.required.length) {
       return store.validateFields(action.required).then(result => {
         if (!result) {
-          env.notify('error', __('依赖的部分字段没有通过验证，请注意填写！'));
+          env.notify('error', __('Form.validateFailed'));
         } else {
           this.handleAction(
             e,

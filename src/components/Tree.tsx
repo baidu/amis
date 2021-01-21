@@ -118,14 +118,14 @@ export class TreeSelector extends React.Component<
     extractValue: false,
     delimiter: ',',
     hideRoot: true,
-    rootLabel: '顶级',
+    rootLabel: 'Tree.root',
     rootValue: 0,
     cascade: false,
     selfDisabledAffectChildren: true,
-    rootCreateTip: '添加一级节点',
-    createTip: '添加子节点',
-    editTip: '编辑该节点',
-    removeTip: '移除该节点'
+    rootCreateTip: 'Tree.addRoot',
+    createTip: 'Tree.addChild',
+    editTip: 'Tree.editNode',
+    removeTip: 'Tree.removeNode'
   };
 
   componentWillMount() {
@@ -436,12 +436,12 @@ export class TreeSelector extends React.Component<
           <input
             onChange={this.handleInputChange}
             value={inputValue}
-            placeholder={__('请输入')}
+            placeholder={__('placeholder.enter')}
           />
-          <a data-tooltip={__('取消')} onClick={this.handleCancel}>
+          <a data-tooltip={__('cancle')} onClick={this.handleCancel}>
             <Icon icon="close" className="icon" />
           </a>
-          <a data-tooltip={__('确认')} onClick={this.handleConfirm}>
+          <a data-tooltip={__('confirm')} onClick={this.handleConfirm}>
             <Icon icon="check" className="icon" />
           </a>
         </div>

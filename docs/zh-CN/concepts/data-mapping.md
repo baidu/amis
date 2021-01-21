@@ -70,7 +70,7 @@ order: 12
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
       {
         "type": "text",
@@ -111,7 +111,7 @@ order: 12
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://houtai.baidu.com/api/mock2/form/saveForm",
+        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
         "data": {
             "userName": "${name}",
             "userEmail": "${email}"
@@ -162,7 +162,7 @@ order: 12
     }
   },
   "api": {
-    "url": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "method": "post",
     "data": {
       "name": "${name}",
@@ -214,7 +214,7 @@ order: 12
     }
   },
   "api": {
-    "url": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "method": "post",
     "data": {
       "name": "${name}",
@@ -266,7 +266,7 @@ order: 12
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://houtai.baidu.com/api/mock2/form/saveForm",
+        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
         "data": {
             "items": {
               "$table": {

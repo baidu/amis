@@ -162,7 +162,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "type": "button",
     "actionType": "ajax",
     "confirmText": "确认要发出这个请求？",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm"
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
 }
 ```
 
@@ -175,7 +175,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm"
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
 }
 ```
 
@@ -188,7 +188,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "redirect": "./getting-started"
 }
 ```
@@ -200,7 +200,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "redirect": "https://www.baidu.com/"
 }
 ```
@@ -212,7 +212,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "type": "button",
     "label": "ajax 反馈弹框",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "feedback": {
         "title": "操作成功",
         "body": "xxx 已操作成功"
@@ -235,7 +235,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
       "type": "button",
       "label": "ajax 请求",
       "actionType": "ajax",
-      "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
       "reload": "crud"
     },
     {
@@ -244,7 +244,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     {
       "type": "crud",
       "name": "crud",
-      "api": "https://houtai.baidu.com/api/sample?waitSeconds=1",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
       "columns": [
         {
             "name": "id",
@@ -287,7 +287,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "type": "button",
     "label": "ajax 请求",
     "actionType": "ajax",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "messages": {
         "success": "成功了！欧耶",
         "failed": "失败了呢。。"
@@ -358,7 +358,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "title": "表单设置",
     "body": {
       "type": "form",
-      "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
       "controls": [
         {
           "type": "text",
@@ -370,6 +370,49 @@ Action 行为按钮，是触发页面行为的主要方法之一
   }
 }
 ```
+
+### 弹框结合 reload 刷新下拉框的例子
+
+下面是一种典型场景，有个一个下拉框，然后有个按钮能弹框新增数据，新增了之后需要下拉框重新拉取最新列表（这个例子因为没实现新增功能，所以看不出更新，如果看网络请求会发现重新请求了一次）。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "name": "myForm",
+    "controls": [
+        {
+          "type": "select",
+          "name": "group",
+          "label": "分组",
+          "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions"
+        },
+        {
+          "label": "新增分组",
+          "type": "button",
+          "level": "primary",
+          "actionType": "dialog",
+          "reload": "myForm.group",
+          "dialog": {
+            "title": "新增分组",
+            "body": {
+              "type": "form",
+              "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+              "controls": [
+                {
+                  "type": "text",
+                  "name": "groupName",
+                  "label": "分组名"
+                }
+              ]
+            }
+          }
+        }
+    ]
+}
+```
+
+可以看到 `reload` 是 `myForm.group`，第一个是表单的 name，第二个是下拉框的 name。
 
 **属性表**
 
@@ -390,7 +433,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
     "title": "表单设置",
     "body": {
       "type": "form",
-      "api": "https://houtai.baidu.com/api/mock2/form/saveForm?waitSeconds=1",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
       "controls": [
         {
           "type": "text",
@@ -450,7 +493,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "text",

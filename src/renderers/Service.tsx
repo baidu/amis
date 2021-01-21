@@ -102,7 +102,7 @@ export default class Service extends React.Component<ServiceProps> {
 
   static defaultProps: Partial<ServiceProps> = {
     messages: {
-      fetchFailed: '初始化失败'
+      fetchFailed: 'fetchFailed'
     }
   };
 

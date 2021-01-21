@@ -8,14 +8,14 @@ icon:
 order: 4
 ---
 
-按钮用于实现点击时触发行为，比如弹窗等， 更多请参考 [Action](./action)，在 `form` 中还支持提交和重置功能的按钮。
+按钮用于实现点击时触发行为，比如弹窗等，更多请参考 [Action](../action)，在 `form` 中还支持提交和重置功能的按钮。
 
 ## 基本用法
 
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
       {
         "type": "text",
@@ -42,7 +42,7 @@ order: 4
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
       {
         "type": "text",
@@ -64,7 +64,7 @@ order: 4
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
       {
         "type": "text",

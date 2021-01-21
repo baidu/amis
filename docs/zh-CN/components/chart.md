@@ -15,14 +15,16 @@ order: 34
 ```schema: scope="body"
 {
     "type": "chart",
-    "api": "https://houtai.baidu.com/api/mock2/chart/chart",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart",
     "interval": 5000
 }
 ```
 
-## 配置静态配置项
+api 返回支持两种格式，一种是直接返回完整 echarts 配置，数据包含在配置里，具体格式请参考后面的静态数据写法，另一种是返回纯数据，具体请参考动态数据写法。
 
-通过配置`"config": {}`，可以配置`echarts`配置
+## 静态数据
+
+在 `config` 里填写完整的 echarts 配置，这里的数据是静态的。
 
 ```schema: scope="body"
 {
@@ -122,12 +124,82 @@ order: 34
                 },
                 {
                     "type": "chart",
-                    "api": "https://houtai.baidu.com/api/mock2/chart/chart1"
+                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
                 }
             ]
         }
     }
 }
+```
+
+## 动态数据
+
+如果要实现动态数据，需要在 config 中做调整，比如将前面的例子改成如下写法
+
+```schema: scope="body"
+{
+    "type": "chart",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chartData",
+    "config": {
+        "xAxis": {
+            "type": "category",
+            "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        },
+        "yAxis": {
+            "type": "value"
+        },
+        "series": [{
+            "data": "${line}",
+            "type": "line"
+        }]
+    }
+}
+```
+
+其中 api 返回内容是如下写法，可以看到通过[数据映射](../concepts/data-mapping)语法，我们可以将 api 放回结果中的 line 字段作为折线的数据。
+
+```json
+{
+  "status": 0,
+  "msg": "ok",
+  "data": {
+    "line": [65, 63, 10, 73, 42, 21]
+  }
+}
+```
+
+除了 `config` 中的 `data`，`config` 里的其它属性也都支持数据映射，还能支持数据映射中的各种过滤器。
+
+### 使用上层数据接口
+
+有时候数据是在上层获取的，比如通过 service 中返回了数据，这时需要通过 `trackExpression` 来指定跟踪什么数据，比如下面的例子，数据是从 service 获取的就需要配置 `trackExpression`。
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chartData",
+    "interval": 3000,
+    "body": [
+        {
+            "type": "chart",
+            "trackExpression": "${line}",
+            "config": {
+                "xAxis": {
+                    "type": "category",
+                    "data": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+                },
+                "yAxis": {
+                    "type": "value"
+                },
+                "series": [{
+                    "data": "${line}",
+                    "type": "line"
+                }]
+            }
+        }
+    ]
+}
+
 ```
 
 ## 配置图表点击行为
@@ -236,7 +308,7 @@ order: 34
                 },
                 {
                     "type": "chart",
-                    "api": "https://houtai.baidu.com/api/mock2/chart/chart1"
+                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
                 }
             ]
         }
@@ -251,7 +323,7 @@ order: 34
 ```schema: scope="body"
 {
     "type": "chart",
-    "api": "https://houtai.baidu.com/api/mock2/chart/chart1"
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
 }
 ```
 
@@ -306,13 +378,13 @@ order: 34
                 "type": "chart",
                 "name": "chart1",
                 "initFetch": false,
-                "api": "https://houtai.baidu.com/api/mock2/chart/chart?name=$name&starttime=${starttime}&endtime=${endtime}"
+                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart?name=$name&starttime=${starttime}&endtime=${endtime}"
             },
             {
                 "type": "chart",
                 "name": "chart2",
                 "initFetch": false,
-                "api": "https://houtai.baidu.com/api/mock2/chart/chart2?name=$name"
+                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart2?name=$name"
             }
         ]
     }
@@ -377,3 +449,4 @@ window.echarts = amisRequire('echarts');
 | width              | `string`                             |           | 设置根元素的宽度                                                   |
 | height             | `string`                             |           | 设置根元素的高度                                                   |
 | replaceChartOption | `boolean`                            | `false`   | 每次更新是完全覆盖配置项还是追加？                                 |
+| `trackExpression`  | `string`                             |           | 当这个表达式的值有变化时更新图表                                   |

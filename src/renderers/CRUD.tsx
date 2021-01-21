@@ -1612,7 +1612,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     return (
       <div className={cx('Crud-statistics')}>
-        {__('{{page}}/{{lastPage}} 总共：{{total}} 项。', {
+        {__('CRUD.stat', {
           page: store.page,
           lastPage: store.lastPage,
           total: store.total
@@ -1645,11 +1645,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     return (
       <div className={cx('Crud-pageSwitch')}>
-        {__('每页显示')}
+        {__('CRUD.perPage')}
         <Select
           classPrefix={ns}
           searchable={false}
-          placeholder={__('请选择')}
+          placeholder={__('Select.placeholder')}
           options={perPages}
           value={store.perPage + ''}
           onChange={(value: any) => this.handleChangePage(1, value.value)}
@@ -1672,7 +1672,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           }
           size="sm"
         >
-          {__('加载更多')}
+          {__('CRUD.loadMore')}
         </Button>
       </div>
     ) : (
@@ -1695,7 +1695,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         })}
       >
         <Icon icon="filter" className="icon m-r-xs" />
-        {__('筛选')}
+        {__('CRUD.filter')}
       </button>
     );
   }
@@ -1719,7 +1719,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         }}
         size="sm"
       >
-        {__('导出 CSV')}
+        {__('CRUD.exportCSV')}
       </Button>
     );
   }
@@ -1893,7 +1893,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         {store.selectedItems.map((item, index) => (
           <div key={index} className={cx(`Crud-value`)}>
             <span
-              data-tooltip={__('删除')}
+              data-tooltip={__('delete')}
               data-position="bottom"
               className={cx('Crud-valueIcon')}
               onClick={this.unSelectItem.bind(this, item, index)}
@@ -1911,7 +1911,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           </div>
         ))}
         <a onClick={this.clearSelection} className={cx('Crud-selectionClear')}>
-          {__('清空')}
+          {__('clear')}
         </a>
       </div>
     );
@@ -1954,9 +1954,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           ? render(
               'filter',
               {
-                title: __('条件过滤'),
+                title: __('CRUD.filter'),
                 mode: 'inline',
-                submitText: __('搜索'),
+                submitText: __('search'),
                 ...filter,
                 type: 'form',
                 api: null

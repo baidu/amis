@@ -50,7 +50,7 @@ export default class NestedSelectControl extends React.Component<
   static defaultProps: Partial<NestedSelectProps> = {
     cascade: false,
     withChildren: false,
-    searchPromptText: '输入内容进行检索',
+    searchPromptText: 'Select.searchPromptText',
     checkAll: true,
     checkAllLabel: '全选'
   };
@@ -127,12 +127,13 @@ export default class NestedSelectControl extends React.Component<
       selectedOptions,
       labelField,
       placeholder,
+      translate: __,
       disabled
     } = this.props;
 
     if (!(selectedOptions && selectedOptions.length > 0)) {
       return (
-        <div className={cx('NestedSelect-placeholder')}>{placeholder}</div>
+        <div className={cx('NestedSelect-placeholder')}>{__(placeholder)}</div>
       );
     }
 

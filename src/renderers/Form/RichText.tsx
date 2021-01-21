@@ -41,7 +41,7 @@ export default class RichTextControl extends React.Component<
     imageEditable: true,
     reciever: '/api/upload/image',
     videoReciever: '/api/upload/video',
-    placeholder: '请输入',
+    placeholder: 'placeholder.enter',
     options: {
       toolbarButtonsSM: [
         'paragraphFormat',

@@ -66,9 +66,9 @@ export class Alert extends React.Component<AlertProps, AlertState> {
   }
 
   static defaultProps = {
-    confirmText: '确认',
-    cancelText: '取消',
-    title: '系统消息',
+    confirmText: 'confirm',
+    cancelText: 'cancel',
+    title: 'Alert.info',
     alertBtnLevel: 'primary',
     confirmBtnLevel: 'danger'
   };
@@ -147,8 +147,8 @@ export class Alert extends React.Component<AlertProps, AlertState> {
   prompt(
     controls: any,
     defaultValue?: any,
-    title: string = '请输入',
-    confirmText: string = '确认'
+    title: string = 'placeholder.enter',
+    confirmText: string = 'confirm'
   ) {
     if (typeof controls === 'string') {
       // 兼容浏览器标准用法。

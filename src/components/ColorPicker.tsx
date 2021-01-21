@@ -45,7 +45,7 @@ export class ColorControl extends React.PureComponent<
   static defaultProps = {
     format: 'hex',
     clearable: true,
-    placeholder: '请选择颜色',
+    placeholder: 'ColorPicker.placeholder',
     allowCustomColor: true
     // closeOnSelect: true
   };

@@ -22,7 +22,7 @@ interface RenderResult {
 
 export class ListMenu extends React.Component<ListMenuProps> {
   static defaultProps = {
-    placeholder: '暂无选项',
+    placeholder: 'placeholder.noOption',
     itemRender: (option: Option) => <>{option.label}</>,
     getItemProps: (props: {item: Option; index: number}) => null
   };

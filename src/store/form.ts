@@ -304,7 +304,9 @@ export const FormStore = ServiceStore.named('FormStore')
             }
 
             self.updateMessage(
-              json.msg || `${msgs.join('\n')}` || self.__('验证错误'),
+              json.msg ||
+                `${msgs.join('\n')}` ||
+                self.__('Form.validateFailed'),
               true
             );
           } else {
@@ -391,9 +393,9 @@ export const FormStore = ServiceStore.named('FormStore')
         let valid = yield validate(hooks);
 
         if (!valid) {
-          const msg = failedMessage ?? self.__('表单验证失败，请仔细检查');
+          const msg = failedMessage ?? self.__('Form.validateFailed');
           msg && getEnv(self).notify('error', msg);
-          throw new Error(self.__('验证失败'));
+          throw new Error(self.__('Form.validateFailed'));
         }
 
         if (fn) {

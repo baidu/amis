@@ -13,11 +13,11 @@ order: 49
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://houtai.baidu.com/api/mock2/form/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
             "type": "service",
-            "api": "https://houtai.baidu.com/api/mock2/page/initData",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
             "controls": [
                 {
                     "type": "text",
@@ -47,7 +47,7 @@ order: 49
 ```schema: scope="form-item"
 {
     "type": "service",
-    "api": "https://houtai.baidu.com/api/mock2/page/initData",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
     "body": {
         "type": "text",
         "text": "现在是：${date}"
@@ -60,7 +60,7 @@ order: 49
 ```schema: scope="form-item"
 {
     "type": "service",
-    "api": "https://houtai.baidu.com/api/mock2/page/initData",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
     "controls": [
       {
           "type": "text",
@@ -88,7 +88,7 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
 {
   "title": "",
   "type": "form",
-  "api": "https://houtai.baidu.com/api/mock/saveForm?waitSeconds=1",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock/saveForm?waitSeconds=1",
   "mode": "horizontal",
   "controls": [
     {
@@ -115,7 +115,7 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
     },
     {
       "type": "service",
-      "api": "https://houtai.baidu.com/api/mock2/form/initData?tpl=${tpl}",
+      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?tpl=${tpl}",
       "controls": [
         {
           "label": "名称",
@@ -164,7 +164,7 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
 ```schema: scope="form-item"
 {
   "type": "service",
-  "schemaApi": "https://houtai.baidu.com/api/mock2/service/schema?type=controls"
+  "schemaApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/service/schema?type=controls"
 }
 ```
 

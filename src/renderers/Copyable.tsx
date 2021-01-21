@@ -65,7 +65,7 @@ export const HocCopyable = () => (Component: React.ComponentType<any>): any => {
               <Component {...this.props} wrapperComponent={''} noHoc />
               <a
                 key="edit-btn"
-                data-tooltip={__('点击复制')}
+                data-tooltip={__('Copyable.tip')}
                 className={cx('Field-copyBtn')}
                 onClick={this.handleClick.bind(this, content)}
               >

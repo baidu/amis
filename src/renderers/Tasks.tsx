@@ -157,7 +157,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     className: 'b-a bg-white table-responsive',
     tableClassName: 'table table-striped m-b-none',
     taskNameLabel: '任务名称',
-    operationLabel: '操作',
+    operationLabel: 'Table.operation',
     statusLabel: '状态',
     remarkLabel: '备注说明',
     btnText: '上线',
@@ -370,6 +370,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
       readyStatusCode,
       loadingStatusCode,
       canRetryStatusCode,
+      translate: __,
       render
     } = this.props;
     const items = this.state.items;
@@ -381,7 +382,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
           <thead>
             <tr>
               <th>{taskNameLabel}</th>
-              <th>{operationLabel}</th>
+              <th>{__(operationLabel)}</th>
               <th>{statusLabel}</th>
               <th>{remarkLabel}</th>
             </tr>

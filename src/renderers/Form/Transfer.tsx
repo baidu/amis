@@ -153,7 +153,7 @@ export class BaseTransferRenderer<
         const result =
           payload.data.options || payload.data.items || payload.data;
         if (!Array.isArray(result)) {
-          throw new Error('期望接口返回数组信息');
+          throw new Error('CRUD.invalidArray');
         }
 
         return result.map(item => {
