@@ -290,6 +290,7 @@
 
   &.is-disabled,
   &:disabled {
+    cursor: not-allowed;
     @if variable-exists(Button-onDisabled-bg) {
       background: $Button-onDisabled-bg;
     }

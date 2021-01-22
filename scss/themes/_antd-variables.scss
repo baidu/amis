@@ -33,6 +33,9 @@ $text--loud-color: lighten($text-color, 10%);
 
 $link-color: $info;
 
+$Button-onDisabled-bg: #f5f5f5;
+$Button-onDisabled-color: rgba(0, 0, 0, 0.25);
+
 @import '../variables';
 @import '../properties';
 
@@ -68,6 +71,7 @@ $link-color: $info;
   --Button--default-onActive-bg: #fff;
   --Button--default-onActive-border: #{$blue-7};
   --Button--default-onActive-color: #{$blue-7};
+  --Button-onDisabled-borderColor: #d9d9d9;
 
   --Button--primary-onHover-bg: #{$blue-5};
   --Button--primary-onHover-border: #{$blue-5};

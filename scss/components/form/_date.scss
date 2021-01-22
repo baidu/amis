@@ -301,6 +301,7 @@
   }
 
   &.is-disabled {
+    border-color: var(--Button-onDisabled-borderColor);
     opacity: 0.6;
     pointer-events: none;
   }
