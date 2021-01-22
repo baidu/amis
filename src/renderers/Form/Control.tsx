@@ -2,12 +2,7 @@ import React from 'react';
 import {IFormStore, IFormItemStore} from '../../store/form';
 import debouce from 'lodash/debounce';
 
-import {
-  RendererProps,
-  Renderer,
-  RootStoreContext,
-  withRootStore
-} from '../../factory';
+import {RendererProps, Renderer} from '../../factory';
 import {ComboStore, IComboStore, IUniqueGroup} from '../../store/combo';
 import {
   anyChanged,
@@ -23,6 +18,7 @@ import {reaction} from 'mobx';
 import {FormItemStore} from '../../store/formItem';
 import {isAlive} from 'mobx-state-tree';
 import {observer} from 'mobx-react';
+import {withRootStore} from '../../WithRootStore';
 
 export interface ControlProps extends RendererProps {
   control: {
