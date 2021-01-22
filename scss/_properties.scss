@@ -682,6 +682,7 @@
       saturate(lighten($info, 40%), 2.5%),
       5%
     )};
+  --Form-select-onFocus-boxShadow: none;
 
   --IconPicker-content-maxHeight: #{px2rem(350px)};
   --IconPicker-padding: #{px2rem(5px)};
@@ -1023,6 +1024,7 @@
   --Radio-size: var(--Checkbox-size);
   --Radio-onDisabled-bg: #{$gray500};
   --Radio-onDisabled-color: var(--text--muted-color);
+  --Radio-onFocus-boxShadow: none;
 
   --Remark-bg: #fff;
   --Remark-borderColor: var(--borderColor);

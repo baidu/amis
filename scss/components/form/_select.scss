@@ -34,6 +34,10 @@
     border-color: var(--Form-input-onDisabled-borderColor);
   }
 
+  &:focus {
+    box-shadow: var(--Form-select-onFocus-boxShadow);
+  }
+
   &-valueWrap {
     user-select: none;
     position: relative;

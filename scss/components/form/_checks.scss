@@ -175,6 +175,7 @@
 
       &[disabled] + i {
         border-color: var(--Radio-onDisabled-color);
+        background: var(--Radio-onDisabled-bg);
         cursor: not-allowed;
 
         &:before {
@@ -185,6 +186,10 @@
       &[disabled] + i + span {
         cursor: not-allowed;
         color: var(--text--muted-color);
+      }
+
+      &:focus + i {
+        box-shadow: var(--Radio-onFocus-boxShadow);
       }
     }
 

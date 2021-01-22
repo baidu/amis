@@ -48,7 +48,6 @@ $Button-onDisabled-color: rgba(0, 0, 0, 0.25);
   --lineHeightBase: 1.57;
 
   --borderColor: #eceff8;
-  --body-bg: #ffffff;
   --text-color: #{$text-color};
 
   --text--muted-color: #999;
@@ -57,6 +56,8 @@ $Button-onDisabled-color: rgba(0, 0, 0, 0.25);
 
   --icon-color: inherit;
   --icon-onHover-color: var(--primary);
+
+  --body-bg: #f0f2f5;
 
   --borderRadius: 2px;
 
@@ -89,6 +90,7 @@ $Button-onDisabled-color: rgba(0, 0, 0, 0.25);
 
   --Radio-onDisabled-color: #c4c4c4;
   --Radio-onDisabled-bg: #f5f5f5;
+  --Radio-onFocus-boxShadow: 0 0 0 3px rgb(24 144 255 / 8%);
 
   --Rating-onActive-color: #fadb14;
 
@@ -138,13 +140,13 @@ $Button-onDisabled-color: rgba(0, 0, 0, 0.25);
   --Form-select-popoverGap: #{px2rem(3px)};
   --Form-select-search-height: #{px2rem(30px)};
   --Form-selectValue-color: var(--primary);
-
-  --body-bg: #f0f2f5;
+  --Form-select-onFocus-boxShadow: 0 0 0 3px rgb(24 144 255 / 8%);
 
   --Pagination-onActive-backgroundColor: #fff;
   --Pagination-onActive-color: rgb(24, 144, 255);
   --Pagination-onActive-border: #{px2rem(1px)} solid var(--primary);
 
+  --Transfer-title-bg: #f0f2f5;
   // Tabs
   --Tabs-linkFontSize: #{px2rem(14px)};
   --Tabs--card-onActive-borderColor: var(--white);
