@@ -126,7 +126,7 @@ const EVAL_CACHE: {[key: string]: Function} = {};
  * @param config ECharts 配置
  */
 function recoverFunctionType(config: object) {
-  ['formatter', 'sort'].forEach((key: string) => {
+  ['formatter', 'sort', 'renderItem'].forEach((key: string) => {
     const objects = findObjectsWithKey(config, key);
     for (const object of objects) {
       const code = object[key];
@@ -243,10 +243,12 @@ export class Chart extends React.Component<ChartProps> {
     if (ref) {
       Promise.all([
         import('echarts'),
+        import('echarts-stat'),
         import('echarts/extension/dataTool'),
         import('echarts/extension/bmap/bmap')
-      ]).then(async ([echarts]) => {
+      ]).then(async ([echarts, ecStat]) => {
         (window as any).echarts = echarts;
+        (window as any).ecStat = ecStat;
         let theme = 'default';
 
         if (chartTheme) {
@@ -257,6 +259,14 @@ export class Chart extends React.Component<ChartProps> {
         if (onChartWillMount) {
           await onChartWillMount(echarts);
         }
+
+        (echarts as any).registerTransform(
+          (ecStat as any).transform.regression
+        );
+        (echarts as any).registerTransform((ecStat as any).transform.histogram);
+        (echarts as any).registerTransform(
+          (ecStat as any).transform.clustering
+        );
 
         this.echarts = echarts.init(ref, theme);
         onChartMount?.(this.echarts, echarts);
