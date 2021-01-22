@@ -7,8 +7,9 @@ import {filter} from '../../utils/tpl';
 import {observer} from 'mobx-react';
 import {trace, reaction} from 'mobx';
 import {createObject, flattenTree} from '../../utils/helper';
+import {LocaleProps} from '../../locale';
 
-export interface TableBodyProps {
+export interface TableBodyProps extends LocaleProps {
   className?: string;
   rowsProps?: any;
   tableClassName?: string;
@@ -248,7 +249,8 @@ export class TableBody extends React.Component<TableBodyProps> {
       columns,
       rowsProps,
       prefixRow,
-      affixRow
+      affixRow,
+      translate: __
     } = this.props;
 
     return (
@@ -262,7 +264,7 @@ export class TableBody extends React.Component<TableBodyProps> {
         ) : (
           <tr className={cx('Table-placeholder')}>
             <td colSpan={columns.length}>
-              {render('placeholder', placeholder || 'placeholder.noData')}
+              {render('placeholder', __(placeholder || 'placeholder.noData'))}
             </td>
           </tr>
         )}

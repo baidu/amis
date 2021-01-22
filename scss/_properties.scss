@@ -291,6 +291,7 @@
   --Button-borderWidth: var(--Form-input-borderWidth);
   --Button-boxShadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
     0 1px 1px rgba(0, 0, 0, 0.075);
+  --Button-textShadow: none;
   --Button-fontSize: var(--Form-input-fontSize);
   --Button-fontWeight: var(--fontWeightNormal);
   --Button-height: var(--Form-input-height);
@@ -336,15 +337,15 @@
       ) / 2
   );
   --Calendar-btnCancel-bg: var(--light);
-  --Calendar-btnCancel-border: var(--Calendar-btnCancel-bg);
+  --Calendar-btnCancel-border: var(--Button--default-border);
   --Calendar-btnCancel-borderRadius: var(--Button-borderRadius);
   --Calendar-btnCancel-color: var(--text-color);
-  --Calendar-btnCancel-onActive-bg: #{darken($light, 10%)};
-  --Calendar-btnCancel-onActive-border: #{darken($light, 12.5%)};
-  --Calendar-btnCancel-onActive-color: var(--Calendar-btnCancel-color);
-  --Calendar-btnCancel-onHover-bg: #{darken($light, 7.5%)};
-  --Calendar-btnCancel-onHover-border: #{darken($light, 10%)};
-  --Calendar-btnCancel-onHover-color: var(--Calendar-btnCancel-color);
+  --Calendar-btnCancel-onActive-bg: var(--Button--default-onActive-bg);
+  --Calendar-btnCancel-onActive-border: var(--Button--default-onActive-border);
+  --Calendar-btnCancel-onActive-color: var(--Button--default-onActive-color);
+  --Calendar-btnCancel-onHover-bg: var(--Button--default-onHover-bg);
+  --Calendar-btnCancel-onHover-border: var(--Button--default-onHover-border);
+  --Calendar-btnCancel-onHover-color: var(--Button--default-onHover-color);
   --Calendar-cell-bg: var(--white);
   --Calendar-cell-onActive-bg: var(--info);
   --Calendar-cell-onBetween-bg: #{rgba($info, 0.1)};
@@ -429,8 +430,8 @@
   --Checkbox-gb: #fff;
   --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox-onHover-color: var(--info);
-  --Checkbox-onDisabled-gb: #{$gray500};
-  --Checkbxo-onDisabled-color: #{lighten($info, 5%)};
+  --Checkbox-onDisabled-bg: #{$gray500};
+  --Checkbox-onDisabled-color: #{lighten($info, 5%)};
   --Checkbox-size: #{px2rem(20px)};
 
   --ColorPicker-bg: var(--white);
@@ -522,6 +523,8 @@
       ) / 2 - var(--DatePicker-borderWidth)
   );
   --DatePicker-placeholderColor: var(--Form-input-placeholderColor);
+
+  --Divider-borderStyle: dashed;
 
   --Drawer-bg: var(--background);
   --Drawer-body-padding: var(--gap-base);
@@ -617,6 +620,7 @@
   --Form-input-onFocused-borderColor: var(--info);
   --Form-input-onHover-iconColor: #{darken($gray600, 20%)};
   --Form-input-onHover-bg: #{rgba($white, 0.6)};
+  --Form-input-onHover-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-input-paddingX: #{px2rem(12px)};
   --Form-input-paddingY: calc(
     (
@@ -678,6 +682,7 @@
       saturate(lighten($info, 40%), 2.5%),
       5%
     )};
+  --Form-select-onFocus-boxShadow: none;
 
   --IconPicker-content-maxHeight: #{px2rem(350px)};
   --IconPicker-padding: #{px2rem(5px)};
@@ -775,6 +780,7 @@
   --Layout-aside-onAcitve-bg: #{saturate(darken($dark, 5%), 2.5%)};
   --Layout-aside-onHover-bg: #{saturate(darken($dark, 3%), 2.5%)};
   --Layout-aside-subList-bg: #{saturate(darken($dark, 10%), 2.5%)};
+  --Layout-aside-onAcitve-onHover-bg: var(--Layout-aside-onAcitve-bg);
   --Layout-aside-width: #{px2rem(200px)};
   --Layout-asideDivider-bg: #2e3344;
   --Layout-asideDivider-margin: var(--gap-sm) 0;
@@ -806,6 +812,7 @@
   --Layout-nav-height: #{px2rem(40px)};
   --Layout-nav-lgHeight: #{px2rem(50px)};
   --Layout-nav-lgHeight: #{px2rem(50px)};
+  --Layout-body-bg: var(--body-bg);
 
   --List--unsaved-heading-bg: #e8f0fe;
   --List--unsaved-heading-color: #4285f4;
@@ -906,6 +913,7 @@
   --Modal-overlay-bg: rgba(0, 0, 0, 0.6);
   --Modal-title-color: var(--text--loud-color);
   --Modal-title-fontSize: var(--fontSizeBase);
+  --Modal-title-fontWeight: normal;
   --Modal-title-lineHeight: var(--lineHeightBase);
   --Modal-widthBase: #{px2rem(500px)};
   --Modal-widthLg: #{px2rem(1100px)};
@@ -1014,6 +1022,9 @@
   --Radio-inner-size: calc(var(--Radio-size) / 2);
   --Radio-onHover-color: var(--Checkbox-onHover-color);
   --Radio-size: var(--Checkbox-size);
+  --Radio-onDisabled-bg: #{$gray500};
+  --Radio-onDisabled-color: var(--text--muted-color);
+  --Radio-onFocus-boxShadow: none;
 
   --Remark-bg: #fff;
   --Remark-borderColor: var(--borderColor);
@@ -1033,6 +1044,8 @@
   --ResultBox-value--onHover-bg: #ebebeb;
   --ResultBox-value-bg: #f5f5f5;
   --ResultBox-value-color: #000;
+
+  --Rating-onActive-color: var(--info);
 
   --Satus-icon-height: var(--Satus-icon-width);
   --Satus-icon-width: #{px2rem(20px)};

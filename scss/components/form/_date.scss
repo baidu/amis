@@ -294,12 +294,14 @@
   cursor: pointer;
   text-decoration: none;
   font-size: var(--Calendar-btn-fontSize);
+  border: 1px solid var(--Calendar-btn-border);
 
   &:hover {
     text-decoration: none;
   }
 
   &.is-disabled {
+    border-color: var(--Button-onDisabled-borderColor);
     opacity: 0.6;
     pointer-events: none;
   }

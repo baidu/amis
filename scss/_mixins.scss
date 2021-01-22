@@ -244,6 +244,7 @@
   background: $background;
   border-color: $border;
   box-shadow: var(--Button-boxShadow);
+  text-shadow: var(--Button-textShadow);
 
   @include hover {
     // todo: 无法支持 css 变量
@@ -289,6 +290,7 @@
 
   &.is-disabled,
   &:disabled {
+    cursor: not-allowed;
     @if variable-exists(Button-onDisabled-bg) {
       background: $Button-onDisabled-bg;
     }
@@ -350,6 +352,10 @@
       user-select: none;
     }
   }
+
+  &:hover {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
 }
 
 @mixin input-text {
@@ -368,12 +374,14 @@
   &.is-error > &-input {
     border-color: var(--Form-input-onError-borderColor);
     background: var(--Form-input-onError-bg);
+    transition: all var(--animation-duration);
   }
 
   &.is-focused > &-input {
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
     background: var(--Form-input-onFocused-bg);
+    transition: all var(--animation-duration);
   }
 
   &.is-error.is-focused > &-input {
@@ -384,6 +392,7 @@
     color: var(--text--muted-color);
     background: var(--Form-input-onDisabled-bg);
     border-color: var(--Form-input-onDisabled-borderColor);
+    transition: all var(--animation-duration);
   }
 
   &-spinner {

@@ -166,6 +166,7 @@ import './compat';
 import './themes/default';
 import './themes/cxd';
 import './themes/dark';
+import './themes/antd';
 import {
   registerFilter,
   filterDate,

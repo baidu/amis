@@ -172,6 +172,7 @@ export default {
           type: 'checkboxes',
           name: 'checkboxes',
           label: '多选框',
+          value: 3,
           options: [
             {
               label: '选项1',
@@ -218,6 +219,7 @@ export default {
           type: 'radios',
           name: 'radios',
           label: '单选',
+          value: 3,
           options: [
             {
               label: '选项1',

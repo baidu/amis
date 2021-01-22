@@ -61,6 +61,11 @@ const themes = [
     label: 'Dark',
     ns: 'dark-',
     value: 'dark'
+  },
+  {
+    label: '仿 AntD',
+    ns: 'antd-',
+    value: 'antd'
   }
 ];
 

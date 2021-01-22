@@ -182,7 +182,8 @@ body {
       }
 
       .a-Layout-brand > a,
-      .cxd-Layout-brand > a {
+      .cxd-Layout-brand > a,
+      .antd-Layout-brand > a {
         color: #333;
       }
       .dark-Layout-brand > a {
@@ -260,7 +261,8 @@ body {
   }
 
   .a-Layout,
-  .cxd-Layout {
+  .cxd-Layout,
+  .antd-Layout {
     &::before {
       background-color: #fff;
     }
@@ -305,6 +307,7 @@ body {
 
 .a-Layout-offScreen-btn,
 .cxd-Layout-offScreen-btn,
+.antd-Layout-offScreen-btn,
 .dark-Layout-offScreen-btn {
   line-height: 50px;
   padding: 0 10px;
@@ -373,6 +376,7 @@ body {
   &-navigation {
     .a-AsideNav,
     .cxd-AsideNav,
+    .antd-AsideNav,
     .dark-AsideNav {
       &-subList {
         background: transparent;
@@ -444,7 +448,8 @@ body {
     }
 
     .a-AsideNav,
-    .cxd-AsideNav {
+    .cxd-AsideNav,
+    .antd-AsideNav {
       &-itemArrow:empty:before {
         background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB2aWV3Qm94PSIwIDAgOTkgMTc2IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgoJPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTAuMTMyODEyLCAwLjMwNDY4OCkiIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1ydWxlPSJub256ZXJvIj4KCQk8cGF0aCBkPSJNOTUuNjM1MzY5Nyw3OS40MDMxMzQ2IEM5NS4zNDMzNjc4LDc5LjExMTEzMjYgOTUuMDM3NTc1LDc4Ljg0MTcxNTIgOTQuNzIxOTg5MSw3OC41OTA2ODU0IEwxOS44MTkzNzMsMy4yOTk5MzI2MiBDMTUuNjQ5MjAwNCwtMC44NzAwNDAyMzQgOC44ODgxODQzNywtMC44NzAwNDAyMzQgNC43MTgyMTE3MiwzLjI5OTkzMjYyIEMwLjU0ODIzODg2Nyw3LjQ3MDEwNTI3IDAuNTQ4MjM4ODY3LDE0LjIzMDkyMTUgNC43MTgyMTE3MiwxOC40MDEwOTM5IEw3Mi45MzI5NjIxLDg3LjAwNDE4MTEgTDMuMjUzMjA0ODgsMTU2LjYxNzc4MyBDLTAuOTE2NzY3OTY5LDE2MC43ODc5NTYgLTAuOTE2NzY3OTY5LDE2Ny41NDg3NzIgMy4yNTMyMDQ4OCwxNzEuNzE5MTQ0IEM3LjQyMzE3NzczLDE3NS44ODkxMTcgMTQuMTg0MTkzNywxNzUuODg5MTE3IDE4LjM1NDM2NjIsMTcxLjcxOTE0NCBMOTQuNzIxMTg5NSw5NS40MTgwNzY0IEM5NS4wMzY5NzU0LDk1LjE2Njg0NjcgOTUuMzQyOTY4LDk0Ljg5NzYyOTMgOTUuNjM1MTY5Nyw5NC42MDU0MjczIEM5Ny43MzI5NDc1LDkyLjUwNzY0OTYgOTguNzc0NDQxMiw4OS43NTM5MTY2IDk4Ljc2MTU3MzksODcuMDA0MzgwOSBDOTguNzc0NjQxNCw4NC4yNTQ0NDUzIDk3LjczMzE0NzUsODEuNTAwOTEyMyA5NS42MzUzNjk3LDc5LjQwMzEzNDYgWiIgaWQ9Iui3r+W+hCI+CgkJPC9wYXRoPgoJPC9nPgo8L3N2Zz4K);
         background-position: center center;
@@ -635,6 +640,7 @@ body {
 
     > .a-Page,
     > .cxd-Page,
+    > .antd-Page,
     > .dark-Page {
       position: relative;
       height: 100%;
@@ -643,9 +649,11 @@ body {
 
   .a-AsideNav-item .a-AsideNav-item a,
   .cxd-AsideNav-item .cxd-AsideNav-item a,
+  .antd-AsideNav-item .antd-AsideNav-item a,
   .dark-AsideNav-item .dark-AsideNav-item a,
   .a-AsideNav-item .a-AsideNav-item .a-AsideNav-item a,
   .cxd-AsideNav-item .cxd-AsideNav-item .cxd-AsideNav-item a,
+  .antd-AsideNav-item .antd-AsideNav-item .antd-AsideNav-item a,
   .dark-AsideNav-item .dark-AsideNav-item .dark-AsideNav-item a {
     padding-left: 0 !important;
   }
@@ -654,6 +662,7 @@ body {
 .Doc-navDrawer {
   .a-Drawer,
   .cxd-Drawer,
+  .antd-Drawer,
   .dark-Drawer {
     &-overlay {
       background-color: rgba(25, 35, 60, 0.3);
@@ -884,18 +893,21 @@ body {
 
   .a-Drawer-content,
   .cxd-Drawer-content,
+  .antd-Drawer-content,
   .dark-Drawer-content {
     border: 0;
   }
 
   .a-Drawer-close,
   .cxd-Drawer-close,
+  .antd-Drawer-close,
   .dark-Drawer-close {
     display: none;
   }
 
   .a-Drawer-overlay,
   .cxd-Drawer-overlay,
+  .antd-Drawer-overlay,
   .dark-Drawer-overlay {
     background-color: rgba(25, 35, 60, 0.3);
   }
