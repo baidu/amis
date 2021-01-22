@@ -2187,6 +2187,7 @@ export default class Table extends React.Component<TableProps, object> {
       rowClassNameExpr,
       rowClassName,
       prefixRow,
+      locale,
       affixRow,
       translate
     } = this.props;
@@ -2220,6 +2221,7 @@ export default class Table extends React.Component<TableProps, object> {
         data={store.data}
         prefixRow={prefixRow}
         affixRow={affixRow}
+        locale={locale}
         translate={translate}
       />
     );
