@@ -6,6 +6,7 @@ import ImageGallery from './components/ImageGallery';
 import {envOverwrite} from './envOverwrite';
 import {RendererEnv, RendererProps} from './factory';
 import {LocaleContext, TranslateFn} from './locale';
+import {RootRenderer} from './RootRenderer';
 import {SchemaRenderer} from './SchemaRenderer';
 import Scoped from './Scoped';
 import {IRendererStore} from './store';
@@ -21,7 +22,7 @@ export interface RootRenderProps {
   [propName: string]: any;
 }
 
-export interface RootRendererProps {
+export interface RootProps {
   schema: SchemaNode;
   rootStore: IRendererStore;
   env: RendererEnv;
@@ -32,20 +33,7 @@ export interface RootRendererProps {
   [propName: string]: any;
 }
 
-export class RootRenderer extends React.Component<RootRendererProps> {
-  state = {
-    error: null,
-    errorInfo: null
-  };
-
-  componentDidCatch(error: any, errorInfo: any) {
-    console.error(error);
-    this.setState({
-      error: error,
-      errorInfo: errorInfo
-    });
-  }
-
+export class Root extends React.Component<RootProps> {
   @autobind
   resolveDefinitions(name: string) {
     const definitions = (this.props.schema as Schema).definitions;
@@ -56,10 +44,6 @@ export class RootRenderer extends React.Component<RootRendererProps> {
   }
 
   render() {
-    const {error, errorInfo} = this.state;
-    if (errorInfo) {
-      return errorRenderer(error, errorInfo);
-    }
     const {
       schema,
       rootStore,
@@ -73,21 +57,6 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     } = this.props;
 
     const theme = env.theme;
-    const query =
-      (location && location.query) ||
-      (location && location.search && qs.parse(location.search.substring(1))) ||
-      (window.location.search && qs.parse(window.location.search.substring(1)));
-
-    const finalData = query
-      ? createObject(
-          {
-            ...(data && data.__super ? data.__super : null),
-            ...query,
-            __query: query
-          },
-          data
-        )
-      : data;
 
     // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
     envOverwrite(schema, locale);
@@ -97,28 +66,27 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         <ThemeContext.Provider value={this.props.theme || 'default'}>
           <LocaleContext.Provider value={this.props.locale!}>
             <ImageGallery modalContainer={env.getModalContainer}>
-              {
-                renderChild(
-                  pathPrefix || '',
+              <RootRenderer
+                pathPrefix={pathPrefix || ''}
+                schema={
                   isPlainObject(schema)
                     ? {
                         type: 'page',
                         ...(schema as any)
                       }
-                    : schema,
-                  {
-                    ...rest,
-                    resolveDefinitions: this.resolveDefinitions,
-                    location: location,
-                    data: finalData,
-                    env,
-                    classnames: theme.classnames,
-                    classPrefix: theme.classPrefix,
-                    locale,
-                    translate
-                  }
-                ) as JSX.Element
-              }
+                    : schema
+                }
+                {...rest}
+                rootStore={rootStore}
+                resolveDefinitions={this.resolveDefinitions}
+                location={location}
+                data={data}
+                env={env}
+                classnames={theme.classnames}
+                classPrefix={theme.classPrefix}
+                locale={locale}
+                translate={translate}
+              />
             </ImageGallery>
           </LocaleContext.Provider>
         </ThemeContext.Provider>
@@ -200,14 +168,4 @@ export function renderChild(
   );
 }
 
-function errorRenderer(error: any, errorInfo: any) {
-  return (
-    <Alert level="danger">
-      <p>{error && error.toString()}</p>
-      <pre>
-        <code>{errorInfo.componentStack}</code>
-      </pre>
-    </Alert>
-  );
-}
-export default Scoped(RootRenderer);
+export default Scoped(Root);

@@ -22,6 +22,7 @@ import {FormItemStore} from './formItem';
 import {addStore, getStoreById, getStores, removeStore} from './manager';
 import {PaginationStore} from './pagination';
 import {AppStore} from './app';
+import {RootStore} from './root';
 
 setLivelynessChecking(
   process.env.NODE_ENV === 'production' ? 'ignore' : 'error'
@@ -76,6 +77,10 @@ export const RendererStore = types
       parentId?: string;
       [propName: string]: any;
     }): IStoreNode {
+      if (store.storeType === RootStore.name) {
+        return addStore(RootStore.create(store, getEnv(self)));
+      }
+
       const factory = find(
         allowedStoreList,
         item => item.name === store.storeType
