@@ -430,8 +430,8 @@
   --Checkbox-gb: #fff;
   --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox-onHover-color: var(--info);
-  --Checkbox-onDisabled-bg: #{$gray500};
-  --Checkbox-onDisabled-color: #{lighten($info, 5%)};
+  --Checkbox-onDisabled-bg: #fff;
+  --Checkbox-onDisabled-color: var(--text--muted-color);
   --Checkbox-size: #{px2rem(20px)};
 
   --ColorPicker-bg: var(--white);
@@ -1022,7 +1022,7 @@
   --Radio-inner-size: calc(var(--Radio-size) / 2);
   --Radio-onHover-color: var(--Checkbox-onHover-color);
   --Radio-size: var(--Checkbox-size);
-  --Radio-onDisabled-bg: #{$gray500};
+  --Radio-onDisabled-bg: #fff;
   --Radio-onDisabled-color: var(--text--muted-color);
   --Radio-onFocus-boxShadow: none;
 
