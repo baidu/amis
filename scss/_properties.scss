@@ -1186,6 +1186,14 @@
   --Tabs-onActive-color: #{$gray700};
   --Tabs-onDisabled-color: #{$gray600};
   --Tabs-onHover-borderColor: #{$gray200};
+  --Tabs--vertical-bg: var(--Table-thead-bg);
+  --Tabs--vertical-width: #{px2rem(140px)};
+  --Tabs--vertical-onActive-color: var(--primary);
+  --Tabs--vertical-onActive-border: var(--primary);
+  --Tabs--vertical-onActive-bg: var(--Tabs--vertical-bg);
+  --Tabs--vertical-onActive-borderWidth: 0 0 0 #{px2rem(4px)};
+  --Tabs--vertical-onActive-container-borderRight: none;
+  --Tabs--vertical-onActive-container-bg: var(--Tabs--vertical-bg);
 
   --TagControl-sugBtn-bg: var(--Button--default-bg);
   --TagControl-sugBtn-border: var(--Button--default-border);
