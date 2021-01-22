@@ -272,9 +272,10 @@
     border-radius: 0;
 
     > .#{$ns}Tabs-links {
-      width: px2rem(140px);
-      background: var(--Table-thead-bg);
+      width: var(--Tabs--vertical-width);
+      background: var(--Tabs--vertical-onActive-container-bg);
       border: none;
+      border-right: var(--Tabs--vertical-onActive-container-borderRight);
       padding-bottom: px2rem(60px);
 
       > li {
@@ -284,7 +285,7 @@
         > a:first-child {
           border-color: transparent;
           border-radius: 0;
-          border-width: 0 0 0 px2rem(4px);
+          border-width: var(--Tabs--vertical-onActive-borderWidth);
           margin: 0;
 
           &:hover,
@@ -298,8 +299,9 @@
           > a:first-child,
           > a:first-child:hover,
           > a:first-child:focus {
-            color: var(--primary);
-            border-color: var(--primary);
+            color: var(--Tabs--vertical-onActive-color);
+            background: var(--Tabs--vertical-onActive-bg);
+            border-color: var(--Tabs--vertical-onActive-border);
           }
         }
       }

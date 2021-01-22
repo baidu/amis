@@ -149,10 +149,13 @@ $Button-onDisabled-color: rgba(0, 0, 0, 0.25);
   --Transfer-title-bg: #f0f2f5;
   // Tabs
   --Tabs-linkFontSize: #{px2rem(14px)};
-  --Tabs--card-onActive-borderColor: var(--white);
   --Tabs--card-bg: var(--Table-thead-bg);
   --Tabs--radio-bg: var(--white);
   --Tabs-onActive-borderColor: #{darken($borderColor, 5%)};
+  --Tabs--vertical-onActive-bg: #e7f7ff;
+  --Tabs--vertical-onActive-borderWidth: 0 3px 0 0;
+  --Tabs--vertical-onActive-container-bg: #fff;
+  --Tabs--vertical-onActive-container-borderRight: 1px solid #f0f0f0;
 
   $Table-strip-bg: transparent;
   --Table-strip-bg: transparent;
