@@ -290,7 +290,7 @@ export const FormStore = ServiceStore.named('FormStore')
                 const items = getItemsByPath(key);
 
                 if (Array.isArray(items) && items.length) {
-                  items.forEach(item => item.setError(errors[key]));
+                  items.forEach(item => item.setError(`${errors[key]}`));
                   delete errors[key];
                 }
               }
