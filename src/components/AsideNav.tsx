@@ -197,6 +197,8 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
 
     if (!dom) {
       return;
+    } else if (key === 'subHeader') {
+      return dom;
     }
 
     return (

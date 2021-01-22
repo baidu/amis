@@ -3,10 +3,10 @@ import isEqual from 'lodash/isEqual';
 import uniq from 'lodash/uniq';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
-import {boundMethod} from 'autobind-decorator';
 import qs from 'qs';
 import {IIRendererStore} from '../store';
 import {IFormStore} from '../store/form';
+import {autobindMethod} from './autobind';
 
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
@@ -1141,7 +1141,7 @@ export function pickEventsProps(props: any) {
   return ret;
 }
 
-export const autobind = boundMethod;
+export const autobind = autobindMethod;
 
 export const bulkBindFunctions = function <
   T extends {
