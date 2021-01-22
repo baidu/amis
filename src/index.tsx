@@ -37,7 +37,7 @@ import {
   register as registerLocale
 } from './locale';
 
-import 'locale/zh-CN';
+import './locale/zh-CN';
 
 import animation from './utils/Animation';
 
