@@ -9,100 +9,121 @@ export default {
         {
           link: 'https://www.microsoft.com/',
           icon: __uri('../../static/ie.png'),
-          engine: 'Trident',
           browser: 'Internet Explorer 4.2',
           platform: 'Win 95+',
-          version: '4',
           notExport: '1',
-          grade: 'A'
+          grade: 'A',
+          engine: {
+            name: 'Trident',
+            version: '4'
+          }
         },
         {
           link: 'https://www.microsoft.com/',
           icon: __uri('../../static/ie.png'),
-          engine: 'Trident',
           browser: 'Internet Explorer 4.2',
           platform: 'Win 95+',
-          version: '4',
+
+          engine: {
+            name: 'Trident',
+            version: '4'
+          },
           notExport: '1',
           grade: 'B'
         },
         {
           link: 'https://www.microsoft.com/',
           icon: __uri('../../static/ie.png'),
-          engine: 'Trident',
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 95+',
-          version: '4',
+          engine: {
+            name: 'Trident',
+            version: '4'
+          },
           notExport: '1',
           grade: 'C'
         },
         {
           link: 'https://www.microsoft.com/',
           icon: __uri('../../static/ie.png'),
-          engine: 'Trident',
+          engine: {
+            name: 'Trident',
+            version: '3'
+          },
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 98',
-          version: '3',
           notExport: '1',
           grade: 'A'
         },
         {
           link: 'https://www.microsoft.com/',
           icon: __uri('../../static/ie.png'),
-          engine: 'Trident',
+          engine: {
+            name: 'Trident',
+            version: '4'
+          },
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 98',
-          version: '4',
           notExport: '1',
           grade: 'A'
         },
         {
           icon: __uri('../../static/firefox.png'),
           link: 'https://www.mozilla.org/',
-          engine: 'Gecko',
           browser: 'Firefox 1.0',
           platform: 'Win 98+ / OSX.2+',
-          version: '4',
+          engine: {
+            name: 'Gecko',
+            version: '4'
+          },
           notExport: '1',
           grade: 'A'
         },
         {
           icon: __uri('../../static/firefox.png'),
           link: 'https://www.mozilla.org/',
-          engine: 'Gecko',
           browser: 'Firefox 1.0',
           platform: 'Win 98+ / OSX.2+',
-          version: '5',
+          engine: {
+            name: 'Gecko',
+            version: '5'
+          },
           notExport: '1',
           grade: 'A'
         },
         {
           icon: __uri('../../static/firefox.png'),
           link: 'https://www.mozilla.org/',
-          engine: 'Gecko',
+          engine: {
+            name: 'Gecko',
+            version: '5'
+          },
           browser: 'Firefox 2.0',
           platform: 'Win 98+ / OSX.2+',
-          version: '5',
           notExport: '1',
           grade: 'B'
         },
         {
           icon: __uri('../../static/firefox.png'),
           link: 'https://www.mozilla.org/',
-          engine: 'Gecko',
+          engine: {
+            name: 'Gecko',
+            version: '5'
+          },
           browser: 'Firefox 2.0',
           platform: 'Win 98+ / OSX.2+',
-          version: '5',
           notExport: '1',
           grade: 'C'
         },
         {
           icon: __uri('../../static/firefox.png'),
           link: 'https://www.mozilla.org/',
-          engine: 'Gecko',
+          engine: {
+            name: 'Gecko',
+            version: '5'
+          },
           browser: 'Firefox 2.0',
           platform: 'Win 98+ / OSX.2+',
-          version: '5',
           notExport: '1',
           grade: 'D'
         }
@@ -121,7 +142,7 @@ export default {
         type: 'link'
       },
       {
-        name: 'engine',
+        name: 'engine.name',
         label: '引擎'
       },
       {
@@ -133,8 +154,9 @@ export default {
         label: '操作系统'
       },
       {
-        name: 'version',
-        label: '引擎版本'
+        name: 'engine.version',
+        label: 'CSS版本',
+        tpl: '${engine.version}'
       },
       {
         name: 'grade',

@@ -14,7 +14,8 @@ import {
   difference,
   noop,
   autobind,
-  isArrayChildrenModified
+  isArrayChildrenModified,
+  getVariable
 } from '../../utils/helper';
 import {resolveVariable} from '../../utils/tpl-builtin';
 import debounce from 'lodash/debounce';
@@ -1588,6 +1589,7 @@ export default class Table extends React.Component<TableProps, object> {
       render,
       data,
       translate,
+      locale,
       checkOnItemClick,
       buildItemProps,
       rowClassNameExpr,
@@ -1653,6 +1655,7 @@ export default class Table extends React.Component<TableProps, object> {
             rowClassName={rowClassName}
             columns={columns}
             rows={rows}
+            locale={locale}
             translate={translate}
             rowsProps={{
               regionPrefix: 'fixed/',
@@ -1820,7 +1823,8 @@ export default class Table extends React.Component<TableProps, object> {
               let columIndex = 0;
               for (const key of firstRowKeys) {
                 columIndex += 1;
-                if (!(key in row.data)) {
+                const value = getVariable(row.data, key);
+                if (typeof value === 'undefined' && !columnNameMap[key].tpl) {
                   continue;
                 }
                 // 处理合并单元格
@@ -1837,7 +1841,7 @@ export default class Table extends React.Component<TableProps, object> {
                     );
                   }
                 }
-                const value = row.data[key];
+
                 const type = columnNameMap[key].type || 'plain';
                 if (type === 'image') {
                   const imageData = await toDataURL(value);
@@ -1913,7 +1917,14 @@ export default class Table extends React.Component<TableProps, object> {
                     sheetRow.getCell(columIndex).value = value;
                   }
                 } else {
-                  sheetRow.getCell(columIndex).value = value;
+                  if (columnNameMap[key].tpl) {
+                    sheetRow.getCell(columIndex).value = filter(
+                      columnNameMap[key].tpl,
+                      row.data
+                    );
+                  } else {
+                    sheetRow.getCell(columIndex).value = value;
+                  }
                 }
               }
             }
