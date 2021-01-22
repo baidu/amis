@@ -66,7 +66,15 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
         <ul className={cx('AsideNav-subList')}>
           {link.label ? (
             <li key="subHeader" className={cx('AsideNav-subHeader')}>
-              <a>{link.label}</a>
+              {renderLink(
+                {
+                  ...link,
+                  children: undefined
+                },
+                'subHeader',
+                {},
+                depth
+              )}
             </li>
           ) : null}
           {link.children.map((link, key) =>
@@ -183,6 +191,7 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
       toggleExpand: this.toggleExpand,
       depth,
       classnames: cx,
+      subHeader: key === 'subHeader',
       ...others
     });
 

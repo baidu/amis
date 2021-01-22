@@ -256,20 +256,17 @@ export default class App extends React.Component<AppProps, object> {
         {asideBefore ? render('aside-before', asideBefore) : null}
         <AsideNav
           navigations={store.navigations}
-          renderLink={({
-            link,
-            active,
-            toggleExpand,
-            classnames: cx,
-            depth
-          }: any) => {
+          renderLink={(
+            {link, active, toggleExpand, classnames: cx, depth, subHeader}: any,
+            key: any
+          ) => {
             let children = [];
 
             if (link.visible === false) {
               return null;
             }
 
-            if (link.children && link.children.length) {
+            if (!subHeader && link.children && link.children.length) {
               children.push(
                 <span
                   key="expand-toggle"
@@ -292,11 +289,11 @@ export default class App extends React.Component<AppProps, object> {
                 </b>
               );
 
-            if (link.icon) {
+            if (!subHeader && link.icon) {
               children.push(
                 <i key="icon" className={cx(`AsideNav-itemIcon`, link.icon)} />
               );
-            } else if (store.folded && depth === 1) {
+            } else if (store.folded && depth === 1 && !subHeader) {
               children.push(
                 <i
                   key="icon"
