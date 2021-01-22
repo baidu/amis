@@ -30,6 +30,7 @@ import {
   SchemaMessage
 } from '../Schema';
 import {SchemaRemark} from './Remark';
+import {onAction} from 'mobx-state-tree';
 
 /**
  * amis Page 渲染器。详情请见：https://baidu.gitee.io/amis/docs/components/page
@@ -255,27 +256,9 @@ export default class Page extends React.Component<PageProps> {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {env, store, messages} = this.props;
+    const {env, store, messages, onAction} = this.props;
 
-    if (
-      action.actionType === 'url' ||
-      action.actionType === 'link' ||
-      action.actionType === 'jump'
-    ) {
-      if (!env || !env.jumpTo) {
-        throw new Error('env.jumpTo is required!');
-      }
-
-      env.jumpTo(
-        filter(
-          (action.to || action.url || action.link) as string,
-          ctx,
-          '| raw'
-        ),
-        action,
-        ctx
-      );
-    } else if (action.actionType === 'dialog') {
+    if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(ctx);
     } else if (action.actionType === 'drawer') {
@@ -303,11 +286,8 @@ export default class Page extends React.Component<PageProps> {
           action.reload && this.reloadTarget(action.reload, store.data);
         })
         .catch(() => {});
-    } else if (
-      action.actionType === 'copy' &&
-      (action.content || action.copy)
-    ) {
-      env.copy && env.copy(filter(action.content || action.copy, ctx, '| raw'));
+    } else {
+      onAction(e, action, ctx, throwErrors, delegate || this.context);
     }
   }
 

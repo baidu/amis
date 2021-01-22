@@ -497,12 +497,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       } catch (e) {
         const env = getEnv(self);
 
-        self.loading = false;
-
         if (!isAlive(self) || self.disposed) {
           return;
         }
 
+        self.loading = false;
         if (env.isCancel(e)) {
           return;
         }

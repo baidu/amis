@@ -7,8 +7,7 @@ import {
   RendererProps,
   registerRenderer,
   TestFunc,
-  RendererConfig,
-  HocStoreFactory
+  RendererConfig
 } from '../../factory';
 import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
 import {observer} from 'mobx-react';
@@ -79,6 +78,7 @@ import {UUIDControlSchema} from './UUID';
 import {PlainSchema} from '../Plain';
 import {TplSchema} from '../Tpl';
 import {DividerSchema} from '../Divider';
+import {HocStoreFactory} from '../../WithStore';
 
 export type FormControlType =
   | 'array'
