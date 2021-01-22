@@ -155,6 +155,8 @@
     right: px2rem(-1px);
     top: 100%;
     z-index: 10;
+    max-height: px2rem(300px);
+    overflow: auto;
   }
 
   &-sugItem {
