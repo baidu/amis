@@ -49,6 +49,7 @@ import {
 } from '../../Schema';
 import {ActionSchema} from '../Action';
 import {ButtonGroupControlSchema} from './ButtonGroup';
+import {DialogSchemaBase} from '../Dialog';
 
 export interface FormSchemaHorizontal {
   left?: number;
@@ -160,6 +161,11 @@ export interface FormSchema extends BaseSchema {
    * 详情：https://baidu.gitee.io/amis/docs/components/form/index#%E8%A1%A8%E5%8D%95%E6%8F%90%E4%BA%A4
    */
   api?: SchemaApi;
+
+  /**
+   * Form 也可以配置 feedback。
+   */
+  feedback?: DialogSchemaBase;
 
   /**
    * 设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 finished 属性为 true 才 结束。
@@ -889,16 +895,14 @@ export default class Form extends React.Component<FormProps, object> {
             })
             .then(async response => {
               onSaved && onSaved(values, response);
+              const feedback = action.feedback || this.props.feedback;
 
               // submit 也支持 feedback
-              if (action.feedback && isVisible(action.feedback, store.data)) {
-                const confirmed = await this.openFeedback(
-                  action.feedback,
-                  store.data
-                );
+              if (feedback && isVisible(feedback, store.data)) {
+                const confirmed = await this.openFeedback(feedback, store.data);
 
                 // 如果 feedback 配置了，取消就跳过原有逻辑。
-                if (action.feedback.skipRestOnCancel && !confirmed) {
+                if (feedback.skipRestOnCancel && !confirmed) {
                   throw new SkipOperation();
                 }
               }
