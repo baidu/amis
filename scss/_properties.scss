@@ -1182,7 +1182,7 @@
   --Tabs-linkMargin: 0 #{px2rem(3px)} 0 0;
   --Tabs-linkPadding: var(--gap-sm) var(--gap-base);
   --Tabs-onActive-bg: var(--background);
-  --Tabs-onActive-borderColor: #{$gray300};
+  --Tabs-onActive-borderColor: var(--borderColor);
   --Tabs-onActive-color: #{$gray700};
   --Tabs-onDisabled-color: #{$gray600};
   --Tabs-onHover-borderColor: #{$gray200};
@@ -1194,6 +1194,8 @@
   --Tabs--vertical-onActive-borderWidth: 0 0 0 #{px2rem(4px)};
   --Tabs--vertical-onActive-container-borderRight: none;
   --Tabs--vertical-onActive-container-bg: var(--Tabs--vertical-bg);
+  --Tabs--chrome-onHover-bg: #f6f7f8;
+  --Tabs--chrome-bg: #e7eaed;
 
   --TagControl-sugBtn-bg: var(--Button--default-bg);
   --TagControl-sugBtn-border: var(--Button--default-border);

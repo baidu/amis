@@ -101,7 +101,7 @@
 
           &:hover,
           &:focus {
-            color: #666;
+            color: var(--primary);
             background: transparent;
             border-color: transparent;
           }
@@ -314,6 +314,74 @@
       > .#{$ns}Tabs-pane {
         height: 100%;
       }
+    }
+  }
+
+  &--chrome {
+    > .#{$ns}Tabs-links {
+      background: var(--Tabs--chrome-bg);
+      border-bottom: 0;
+      padding-top: px2rem(8px);
+      > li {
+        position: relative;
+        margin-bottom: 0;
+        margin-right: px2rem(-18px);
+
+        > a:first-child {
+          background: none;
+          border: none;
+          position: relative;
+          z-index: 5;
+          padding: px2rem(7px) px2rem(20px) px2rem(6px);
+        }
+
+        &.is-active {
+          > a:first-child,
+          > a:first-child:hover,
+          > a:first-child:focus {
+            background: none;
+            border: none;
+          }
+        }
+
+        &:hover {
+          .chrome-tab-background {
+            z-index: 3;
+            display: block;
+          }
+          .chrome-tab-background > svg .chrome-tab-geometry {
+            fill: var(--Tabs--chrome-onHover-bg);
+          }
+        }
+
+        &.is-active {
+          .chrome-tab-background {
+            display: block;
+          }
+          .chrome-tab-background > svg .chrome-tab-geometry {
+            fill: var(--Tabs-onActive-bg);
+          }
+        }
+      }
+    }
+
+    .chrome-tab-background {
+      display: none;
+      position: absolute;
+      z-index: 4;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .chrome-tab-background > svg {
+      width: 100%;
+      height: 100%;
+    }
+    .chrome-tab-background > svg .chrome-tab-geometry {
+      fill: #fff;
     }
   }
 

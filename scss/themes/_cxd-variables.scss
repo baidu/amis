@@ -369,7 +369,8 @@ $Wizard-steps-liAfterBorder: none !important;
   --Tabs--card-onActive-borderColor: var(--white);
   --Tabs--card-bg: var(--Table-thead-bg);
   --Tabs--radio-bg: var(--white);
-  --Tabs-onActive-borderColor: #{darken($borderColor, 5%)};
+  --Tabs--chrome-onHover-bg: #fcfcfc;
+  --Tabs--chrome-bg: #f5f5f5;
 
   // Pagination
   --Pagination-fontSize: #{px2rem(12px)};
