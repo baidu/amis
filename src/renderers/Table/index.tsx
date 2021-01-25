@@ -42,6 +42,8 @@ import {SchemaCopyable} from '../Copyable';
 import {SchemaRemark} from '../Remark';
 import {toDataURL, getImageDimensions} from '../../utils/image';
 import {TableBody} from './TableBody';
+import {TplSchema} from '../Tpl';
+import {MappingSchema} from '../Mapping';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -1777,14 +1779,6 @@ export default class Table extends React.Component<TableProps, object> {
       return null;
     }
 
-    // 按名字快速查找列信息
-    const columnNameMap: {[key: string]: any} = {};
-    for (const column of columns) {
-      if (column.name) {
-        columnNameMap[column.name] = column;
-      }
-    }
-
     return (
       <Button
         classPrefix={ns}
@@ -1799,9 +1793,8 @@ export default class Table extends React.Component<TableProps, object> {
             });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
-            const firstRowKeys = columns.map(column => column.name!);
-            const firstRowLabels = firstRowKeys.map(key => {
-              return columnNameMap[key].label || key;
+            const firstRowLabels = columns.map(column => {
+              return column.label;
             });
             const firstRow = worksheet.getRow(1);
             firstRow.values = firstRowLabels;
@@ -1821,28 +1814,32 @@ export default class Table extends React.Component<TableProps, object> {
               rowIndex += 1;
               const sheetRow = worksheet.getRow(rowIndex);
               let columIndex = 0;
-              for (const key of firstRowKeys) {
+              for (const column of columns) {
                 columIndex += 1;
-                const value = getVariable(row.data, key);
-                if (typeof value === 'undefined' && !columnNameMap[key].tpl) {
+                const name = column.name!;
+                const value = getVariable(row.data, name);
+                if (
+                  typeof value === 'undefined' &&
+                  !(column as TplSchema).tpl
+                ) {
                   continue;
                 }
                 // 处理合并单元格
-                if (key in row.rowSpans) {
-                  if (row.rowSpans[key] === 0) {
+                if (name in row.rowSpans) {
+                  if (row.rowSpans[name] === 0) {
                     continue;
                   } else {
                     // start row, start column, end row, end column
                     worksheet.mergeCells(
                       rowIndex,
                       columIndex,
-                      rowIndex + row.rowSpans[key] - 1,
+                      rowIndex + row.rowSpans[name] - 1,
                       columIndex
                     );
                   }
                 }
 
-                const type = columnNameMap[key].type || 'plain';
+                const type = (column as BaseSchema).type || 'plain';
                 if (type === 'image') {
                   const imageData = await toDataURL(value);
                   const imageDimensions = await getImageDimensions(imageData);
@@ -1899,7 +1896,7 @@ export default class Table extends React.Component<TableProps, object> {
                   };
                 } else if (type === 'mapping') {
                   // 拷贝自 Mapping.tsx
-                  const map = columnNameMap[key].map;
+                  const map = (column as MappingSchema).map;
                   if (
                     typeof value !== 'undefined' &&
                     map &&
@@ -1917,9 +1914,9 @@ export default class Table extends React.Component<TableProps, object> {
                     sheetRow.getCell(columIndex).value = value;
                   }
                 } else {
-                  if (columnNameMap[key].tpl) {
+                  if ((column as TplSchema).tpl) {
                     sheetRow.getCell(columIndex).value = filter(
-                      columnNameMap[key].tpl,
+                      (column as TplSchema).tpl,
                       row.data
                     );
                   } else {
