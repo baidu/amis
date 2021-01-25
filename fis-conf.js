@@ -161,9 +161,9 @@ fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
       return content
         .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
         .replace(
-          /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
-          function (_, tslib, quto, value) {
-            return `return new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})});`;
+          /(return|=>)\s*(tslib_\d+)\.__importStar\(require\(('|")(.*?)\3\)\)/g,
+          function (_, r, tslib, quto, value) {
+            return `${r} new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})})`;
           }
         );
     }
