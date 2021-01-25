@@ -684,6 +684,13 @@ const schema = {
 }
 ```
 
+还需要在这个 `/api` 返回的 header 中配置 `content-type` 和 `Content-Disposition`，比如
+
+```
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="download.pdf"
+```
+
 ### replaceData
 
 返回的数据是否替换掉当前的数据，默认为 `false`（即追加），设置为`true`就是完全替换当前数据。
