@@ -16,9 +16,9 @@ cp -r node_modules/monaco-editor/min/vs/base/browser sdk/thirds/monaco-editor/mi
 ./node_modules/.bin/postcss sdk/sdk.css >sdk/sdk-ie11.css
 ./node_modules/.bin/postcss sdk/cxd.css >sdk/cxd-ie11.css
 ./node_modules/.bin/postcss sdk/dark.css >sdk/dark-ie11.css
+./node_modules/.bin/postcss sdk/antd.css >sdk/antd-ie11.css
 
 cp ./lib/helper.css sdk/helper.css
-cp examples/demo.html sdk/
 cp examples/static/iconfont.css sdk/
 cp examples/static/iconfont.eot sdk/
 

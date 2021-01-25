@@ -26,6 +26,12 @@
       disabled
       href="../scss/themes/dark.scss"
     />
+    <link
+      rel="stylesheet"
+      title="antd"
+      disabled
+      href="../scss/themes/antd.scss"
+    />
     <link rel="stylesheet" href="../scss/helper.scss" />
     <style>
       .app-wrapper {
@@ -52,6 +58,10 @@
         {
           label: 'Dark',
           value: 'dark'
+        },
+        {
+          label: 'antd',
+          value: 'antd'
         }
       ];
       const theme = themes[localStorage.getItem('themeIndex') || 0];
