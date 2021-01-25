@@ -194,7 +194,7 @@ module.exports = function (ret, pack, settings, opt) {
   // cssFile.setContent(cssContents);
   // ret.pkg[cssFile.subpath] = cssFile;
 
-  const themes = ['default', 'cxd', 'dark'];
+  const themes = ['default', 'cxd', 'dark', 'antd'];
 
   themes.forEach(function (theme) {
     const rest = themes.filter(a => a !== theme).map(item => item + '.scss');
