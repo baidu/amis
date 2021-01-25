@@ -80,8 +80,10 @@
         cursor: not-allowed;
 
         &:before {
+          width: var(--Checkbox-inner-size);
+          height: calc(var(--Checkbox-inner-size) / 2);
           background: var(--Checkbox-onDisabled-bg);
-          border-color: var(--Checkbox-gb);
+          border-color: var(--Checkbox-onDisabled-color);
         }
       }
 
