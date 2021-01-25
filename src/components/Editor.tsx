@@ -57,6 +57,9 @@ export function monacoFactory(
     minimap: {
       enabled: false
     },
+    scrollbar: {
+      alwaysConsumeMouseWheel: false
+    },
     ...options
   });
 }
