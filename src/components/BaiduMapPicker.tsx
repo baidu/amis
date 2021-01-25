@@ -6,8 +6,29 @@ import {Icon} from './icons';
 
 declare const BMap: any;
 
+/**
+ * 坐标常量说明：
+ * COORDINATES_WGS84 = 1, WGS84坐标
+ * COORDINATES_WGS84_MC = 2, WGS84的平面墨卡托坐标
+ * COORDINATES_GCJ02 = 3，GCJ02坐标
+ * COORDINATES_GCJ02_MC = 4, GCJ02的平面墨卡托坐标
+ * COORDINATES_BD09 = 5, 百度bd09经纬度坐标
+ * COORDINATES_BD09_MC = 6，百度bd09墨卡托坐标
+ * COORDINATES_MAPBAR = 7，mapbar地图坐标
+ * COORDINATES_51 = 8，51地图坐标
+ */
+const COORDINATES_WGS84 = 1;
+const COORDINATES_WGS84_MC = 2;
+const COORDINATES_GCJ02 = 3;
+const COORDINATES_GCJ02_MC = 4;
+const COORDINATES_BD09 = 5;
+const COORDINATES_BD09_MC = 6;
+const COORDINATES_MAPBAR = 7;
+const COORDINATES_51 = 8;
+
 interface MapPickerProps {
   ak: string;
+  coordinatesType: string;
   classnames: ClassNamesFn;
   classPrefix: string;
   value?: {
@@ -66,6 +87,7 @@ export class BaiduMapPicker extends React.Component<
       leading: false
     }
   );
+  convertor: any;
 
   componentDidMount() {
     if ((window as any).BMap) {
@@ -91,12 +113,18 @@ export class BaiduMapPicker extends React.Component<
       enableMapClick: false
     });
     this.map = map;
+    this.convertor = new BMap.Convertor();
 
     const value = this.props.value;
     let point = value
       ? new BMap.Point(value.lng, value.lat)
       : new BMap.Point(116.404, 39.915);
-    map.centerAndZoom(point, 15);
+    if (this.props.coordinatesType == 'gcj02') {
+      point = await this.covertPoint(point, COORDINATES_GCJ02, COORDINATES_BD09);
+      map.centerAndZoom(point, 15);
+    } else {
+      map.centerAndZoom(point, 15);
+    }
 
     map.addControl(
       // @ts-ignore
@@ -201,12 +229,7 @@ export class BaiduMapPicker extends React.Component<
             return;
           }
 
-          this.props?.onChange({
-            address: locs[0].address,
-            lat: locs[0].lat,
-            lng: locs[0].lng,
-            city: locs[0].city
-          });
+          this.triggerOnChange(locs[0]);
         }
       );
     });
@@ -239,14 +262,43 @@ export class BaiduMapPicker extends React.Component<
         this.map.addOverlay(mk);
         this.map.panTo(point);
 
-        this.props?.onChange({
-          address: loc.address.trim() || loc.title,
-          lat: loc.lat,
-          lng: loc.lng,
-          city: loc.city
-        });
+        this.triggerOnChange(loc);
       }
     );
+  }
+
+  covertPoint(point: any, from: number, to: number) {
+    return new Promise((resolve, reject) => {
+      this.convertor.translate([point], from, to, (res:any)=> {
+        if (res.status === 0 && res.points.length) {
+          resolve(new BMap.Point(res.points[0].lng, res.points[0].lat));
+        } else  {
+          reject();
+        }
+      })
+    })
+  }
+
+  triggerOnChange(loc: LocationItem) {
+    const point = new BMap.Point(loc.lng, loc.lat);
+    if (this.props.coordinatesType == 'gcj02') {
+      this.covertPoint(point, COORDINATES_BD09, COORDINATES_GCJ02).then((convertedPoint:any)=>{
+        this.props?.onChange({
+          address: loc.address.trim() || loc.title,
+          lat: convertedPoint.lat,
+          lng: convertedPoint.lng,
+          city: loc.city
+        });
+      })
+    } else {
+      this.props?.onChange({
+        address: loc.address.trim() || loc.title,
+        lat: loc.lat,
+        lng: loc.lng,
+        city: loc.city
+      });
+    }
+
   }
 
   @autobind

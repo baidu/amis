@@ -29,11 +29,13 @@ export interface LocationControlProps
   onChange: (value: any) => void;
   vendor: 'baidu' | 'gaode' | 'tenxun';
   ak: string;
+  coordinatesType: 'bd09' | 'gcj02';
 }
 
 export class LocationControl extends React.Component<LocationControlProps> {
   static defaultProps = {
-    vendor: 'baidu'
+    vendor: 'baidu',
+    coordinatesType: 'bd09'
   };
 
   render() {
