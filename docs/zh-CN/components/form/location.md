@@ -21,9 +21,8 @@ order: 30
     {
       "type": "location",
       "name": "location",
-      "ak": "i6gMVSEGoiRVbCrrkx3ltWjW",
-      "label": "地址",
-      "coordinatesType": "gcj02"
+      "ak": "LiZT5dVbGTsPI91tFGcOlSpe5FDehpf7",
+      "label": "地址"
     }
   ]
 }
