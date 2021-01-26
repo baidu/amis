@@ -38,3 +38,4 @@ order: 30
 | ak          | `string`  | 无           | 百度地图的 ak                  |
 | clearable   | `boolean` | false        | 输入框是否可清空               |
 | placeholder | `string`  | '请选择位置' | 默认提示                       |
+| coordinatesType | `string`  | 'bd09'  | 默为百度坐标，可设置为'gcj02'   |
