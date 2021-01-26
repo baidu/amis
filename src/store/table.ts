@@ -27,6 +27,8 @@ import {
   extendObject
 } from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
+import {IFormStore} from './form';
+import {getStoreById} from './manager';
 
 export const Column = types
   .model('Column', {
@@ -256,9 +258,17 @@ export const TableStore = iRendererStore
     itemCheckableOn: '',
     itemDraggableOn: '',
     hideCheckToggler: false,
-    combineNum: 0
+    combineNum: 0,
+    formsRef: types.optional(types.array(types.frozen()), [])
   })
   .views(self => {
+    function getForms() {
+      return self.formsRef.map(item => ({
+        store: getStoreById(item.id) as IFormStore,
+        rowIndex: item.rowIndex
+      }));
+    }
+
     function getFilteredColumns() {
       return self.columns.filter(
         item =>
@@ -444,6 +454,10 @@ export const TableStore = iRendererStore
     }
 
     return {
+      get forms() {
+        return getForms();
+      },
+
       get filteredColumns() {
         return getFilteredColumns();
       },
@@ -530,6 +544,12 @@ export const TableStore = iRendererStore
 
       getRowById(id: string) {
         return findTree(self.rows, item => item.id === id);
+      },
+
+      getItemsByName(name: string): any {
+        return this.forms
+          .filter(form => form.rowIndex === parseInt(name, 10))
+          .map(item => item.store);
       }
     };
   })
@@ -932,6 +952,13 @@ export const TableStore = iRendererStore
       );
     }
 
+    function addForm(form: IFormStore, rowIndex: number) {
+      self.formsRef.push({
+        id: form.id,
+        rowIndex
+      });
+    }
+
     return {
       update,
       initRows,
@@ -947,6 +974,7 @@ export const TableStore = iRendererStore
       toggleDragging,
       stopDragging,
       exchange,
+      addForm,
 
       persistSaveToggledColumns,
 
