@@ -13,7 +13,7 @@
     &--hor {
       display: flex;
       flex-wrap: wrap;
-      margin: calc(var(--Form-group-gutterWidth) / -2);
+      margin: 0 calc(var(--Form-group-gutterWidth) / -2);
       align-items: flex-start;
 
       &.v-middle {
@@ -25,7 +25,7 @@
       }
 
       > * {
-        padding: calc(var(--Form-group-gutterWidth) / 2);
+        padding: 0 calc(var(--Form-group-gutterWidth) / 2);
       }
 
       > .#{$ns}Form-item--inline {
@@ -43,34 +43,34 @@
     }
 
     &--lg {
-      margin: calc(var(--Form-group--lg-gutterWidth) / -2);
+      margin: 0 calc(var(--Form-group--lg-gutterWidth) / -2);
 
       > * {
-        padding: calc(var(--Form-group--lg-gutterWidth) / 2);
+        padding: 0 calc(var(--Form-group--lg-gutterWidth) / 2);
       }
     }
 
     &--md {
-      margin: calc(var(--Form-group--md-gutterWidth) / -2);
+      margin: 0 calc(var(--Form-group--md-gutterWidth) / -2);
 
       > * {
-        padding: calc(var(--Form-group--md-gutterWidth) / 2);
+        padding: 0 calc(var(--Form-group--md-gutterWidth) / 2);
       }
     }
 
     &--sm {
-      margin: calc(var(--Form-group--sm-gutterWidth) / -2);
+      margin: 0 calc(var(--Form-group--sm-gutterWidth) / -2);
 
       > * {
-        padding: calc(var(--Form-group--sm-gutterWidth) / 2);
+        padding: 0 calc(var(--Form-group--sm-gutterWidth) / 2);
       }
     }
 
     &--xs {
-      margin: calc(var(--Form-group--xs-gutterWidth) / -2);
+      margin: 0 calc(var(--Form-group--xs-gutterWidth) / -2);
 
       > * {
-        padding: calc(var(--Form-group--xs-gutterWidth) / 2);
+        padding: 0 calc(var(--Form-group--xs-gutterWidth) / 2);
       }
     }
   }
