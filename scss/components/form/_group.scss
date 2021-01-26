@@ -25,7 +25,7 @@
       }
 
       > * {
-        padding: calc(var(--Form-group-gutterWidth) / 2);
+        padding: 0 calc(var(--Form-group-gutterWidth) / 2);
       }
 
       > .#{$ns}Form-item--inline {
@@ -46,7 +46,7 @@
       margin: 0 calc(var(--Form-group--lg-gutterWidth) / -2);
 
       > * {
-        padding: calc(var(--Form-group--lg-gutterWidth) / 2);
+        padding: 0 calc(var(--Form-group--lg-gutterWidth) / 2);
       }
     }
 
@@ -54,7 +54,7 @@
       margin: 0 calc(var(--Form-group--md-gutterWidth) / -2);
 
       > * {
-        padding: calc(var(--Form-group--md-gutterWidth) / 2);
+        padding: 0 calc(var(--Form-group--md-gutterWidth) / 2);
       }
     }
 
@@ -62,7 +62,7 @@
       margin: 0 calc(var(--Form-group--sm-gutterWidth) / -2);
 
       > * {
-        padding: calc(var(--Form-group--sm-gutterWidth) / 2);
+        padding: 0 calc(var(--Form-group--sm-gutterWidth) / 2);
       }
     }
 
@@ -70,7 +70,7 @@
       margin: 0 calc(var(--Form-group--xs-gutterWidth) / -2);
 
       > * {
-        padding: calc(var(--Form-group--xs-gutterWidth) / 2);
+        padding: 0 calc(var(--Form-group--xs-gutterWidth) / 2);
       }
     }
   }
