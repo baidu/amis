@@ -691,6 +691,121 @@ Combo 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 }
 ```
 
+### Table 校验
+
+Table 类型的表单项，要实现服务端校验，可以使用 `路径key` 来定位要显示报错信息的表单项，例如 `a[0].b` 定位到 a table 的第一项中 b 表单项。
+
+例如有如下表单，点击提交，查看效果：
+
+```schema:scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "mode": "horizontal",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveFormFailedTable?waitSeconds=1",
+  "controls": [
+    {
+      "label": "Table 服务端校验",
+      "type": "table",
+      "name": "table",
+      "multiple": true,
+      "value": [
+        {
+          "a": "a1",
+          "b": "b1"
+        },
+        {
+          "a": "a2",
+          "b": "b2"
+        }
+      ],
+      "columns": [
+        {
+          "name": "a",
+          "type": "text",
+          "label": "A",
+          "quickEdit": {
+            "mode": "inline"
+          }
+        },
+        {
+          "name": "b",
+          "type": "text",
+          "label": "B",
+          "quickEdit": {
+            "mode": "inline"
+          }
+        }
+      ]
+    },
+
+    {
+      "label": "Combo 内 Table 服务端校验",
+      "type": "combo",
+      "name": "combo",
+      "controls": [
+        {
+          "name": "a",
+          "type": "text",
+          "label": "A"
+        },
+        {
+          "label": "Table",
+          "type": "table",
+          "name": "table",
+          "multiple": true,
+          "value": [
+            {
+              "a": "a1",
+              "b": "b1"
+            },
+            {
+              "a": "a2",
+              "b": "b2"
+            }
+          ],
+          "columns": [
+            {
+              "name": "a",
+              "type": "text",
+              "label": "A",
+              "quickEdit": {
+                "mode": "inline"
+              }
+            },
+            {
+              "name": "b",
+              "type": "text",
+              "label": "B",
+              "quickEdit": {
+                "mode": "inline"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+接口返回如下
+
+```json
+{
+  "status": 422,
+  "msg": "",
+  "errors": {
+    "table": "表格有问题",
+    "table[0].a": "表格的第一项中的 a 有问题",
+    "table[1].b": "表格的第二项中的 b 有问题",
+    "combo.table[0].b": "Combo中表格的第一项中的 b 有问题",
+    "combo.table[1].a": "Combo中表格的第二项中的 a 有问题"
+  },
+  "data": null
+}
+```
+
 ## 属性表
 
 | 属性名         | 类型                                       | 默认值 | 说明                                                       |

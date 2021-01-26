@@ -212,11 +212,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         });
 
         return selectedOptions;
-      },
-      getItemsByName(name: string): any {
-        return (this as any).type === 'table'
-          ? [this.subFormItems[name]]
-          : [this];
       }
     };
   })

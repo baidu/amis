@@ -44,6 +44,7 @@ import {toDataURL, getImageDimensions} from '../../utils/image';
 import {TableBody} from './TableBody';
 import {TplSchema} from '../Tpl';
 import {MappingSchema} from '../Mapping';
+import {isAlive} from 'mobx-state-tree';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -451,7 +452,8 @@ export default class Table extends React.Component<TableProps, object> {
       itemDraggableOn,
       hideCheckToggler,
       combineNum,
-      expandConfig
+      expandConfig,
+      formItem
     } = this.props;
 
     store.update({
@@ -471,6 +473,7 @@ export default class Table extends React.Component<TableProps, object> {
       combineNum
     });
 
+    formItem && isAlive(formItem) && formItem.setSubStore(store);
     Table.syncRows(store, this.props);
     this.syncSelected();
   }
@@ -562,11 +565,15 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   componentWillUnmount() {
+    const {formItem} = this.props;
+
     const parent = this.parentNode;
     parent && parent.removeEventListener('scroll', this.affixDetect);
     window.removeEventListener('resize', this.affixDetect);
     (this.updateTableInfoLazy as any).cancel();
     this.unSensor && this.unSensor();
+
+    formItem && isAlive(formItem) && formItem.setSubStore(null);
   }
 
   subFormRef(form: any, x: number, y: number) {
@@ -574,6 +581,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     quickEditFormRef && quickEditFormRef(form, x, y);
     this.subForms[`${x}-${y}`] = form;
+    this.props.store.addForm(form.props.store, y);
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {

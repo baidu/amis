@@ -85,6 +85,13 @@ export const ComboStore = iRendererStore
         return true;
       },
 
+      /**
+       * name 值有两种类型：
+       * 1. 数字索引，出现在多条模式下，这个时候，需要返回当前索引下的form，并且用于下一层的遍历搜索
+       * 2. 普通的表单项 name 值，出现在单条模式下，当前这层查找已经结束，所以要返回当前找到的items，而不能返回form
+       *
+       * @param name 查找的name
+       */
       getItemsByName(name: string): any {
         const forms = getForms();
         return self.multiple

@@ -365,7 +365,9 @@ export const FormStore = ServiceStore.named('FormStore')
       return paths.reduce(
         (stores: any[], path, idx) => {
           if (Array.isArray(stores) && stores.every(s => s.getItemsByName)) {
-            const items = flatten(stores.map(s => s.getItemsByName(path)));
+            const items = flatten(
+              stores.map(s => s.getItemsByName(path))
+            ).filter(i => i);
             const subStores = items
               .map(item => item?.getSubStore?.())
               .filter(i => i);
