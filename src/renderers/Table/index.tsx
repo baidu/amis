@@ -581,7 +581,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     quickEditFormRef && quickEditFormRef(form, x, y);
     this.subForms[`${x}-${y}`] = form;
-    this.props.store.addForm(form.props.store, y);
+    form && this.props.store.addForm(form.props.store, y);
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
