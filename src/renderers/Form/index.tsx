@@ -15,7 +15,8 @@ import {
   isObject,
   isVisible,
   cloneObject,
-  SkipOperation
+  SkipOperation,
+  isEmpty
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -50,6 +51,7 @@ import {
 import {ActionSchema} from '../Action';
 import {ButtonGroupControlSchema} from './ButtonGroup';
 import {DialogSchemaBase} from '../Dialog';
+import {Alert} from '../../components/Alert2';
 
 export interface FormSchemaHorizontal {
   left?: number;
@@ -403,6 +405,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.initInterval = this.initInterval.bind(this);
     this.blockRouting = this.blockRouting.bind(this);
     this.beforePageUnload = this.beforePageUnload.bind(this);
+    this.handleRestErrorsClose = this.handleRestErrorsClose.bind(this);
   }
 
   componentWillMount() {
@@ -446,9 +449,9 @@ export default class Form extends React.Component<FormProps, object> {
     this.mounted = true;
 
     if (onValidate) {
-      const finnalValidate = promisify(onValidate);
+      const finalValidate = promisify(onValidate);
       this.disposeOnValidate = this.addHook(async () => {
-        const result = await finnalValidate(store.data, store);
+        const result = await finalValidate(store.data, store);
 
         if (result && isObject(result)) {
           Object.keys(result).forEach(key => {
@@ -466,7 +469,13 @@ export default class Form extends React.Component<FormProps, object> {
             } else {
               items.forEach(item => item.clearError());
             }
+
+            delete result[key];
           });
+
+          isEmpty(result)
+            ? store.clearRestErrors()
+            : store.setRestErrors(result);
         }
       });
     }
@@ -1108,6 +1117,10 @@ export default class Form extends React.Component<FormProps, object> {
     });
   }
 
+  handleRestErrorsClose() {
+    this.props.store.clearRestErrors();
+  }
+
   buildActions() {
     const {actions, submitText, controls, translate: __} = this.props;
 
@@ -1329,8 +1342,11 @@ export default class Form extends React.Component<FormProps, object> {
       debug,
       $path,
       store,
-      render
+      render,
+      classPrefix
     } = this.props;
+
+    console.log(store.restErrors);
 
     const WrapperComponent =
       this.props.wrapperComponent ||
@@ -1347,12 +1363,30 @@ export default class Form extends React.Component<FormProps, object> {
             <code>{JSON.stringify(store.data, null, 2)}</code>
           </pre>
         ) : null}
+
         <Spinner show={store.loading} overlay />
+
         {this.renderFormItems({
           tabs,
           fieldSet,
           controls
         })}
+
+        {/* 显示接口返回的 errors 中没有映射上的 */}
+        {store.restErrors ? (
+          <Alert
+            classnames={cx}
+            classPrefix={classPrefix}
+            level="danger"
+            showCloseButton
+            onClose={this.handleRestErrorsClose}
+          >
+            {Object.keys(store.restErrors).map(key => (
+              <div key={key}>{`${key}: ${store.restErrors[key]}`}</div>
+            ))}
+          </Alert>
+        ) : null}
+
         {render(
           'modal',
           {
@@ -1368,6 +1402,7 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.dialogOpen
           }
         )}
+
         {render(
           'modal',
           {

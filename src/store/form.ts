@@ -40,7 +40,8 @@ export const FormStore = ServiceStore.named('FormStore')
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
     itemsRef: types.optional(types.array(types.string), []),
     canAccessSuperData: true,
-    persistData: false
+    persistData: false,
+    restErrors: types.frozen() // 没有映射到表达项上的 errors
   })
   .views(self => {
     function getItems() {
@@ -225,6 +226,14 @@ export const FormStore = ServiceStore.named('FormStore')
       }
     );
 
+    function setRestErrors(errors: any) {
+      self.restErrors = errors;
+    }
+
+    function clearRestErrors() {
+      setRestErrors(null);
+    }
+
     const saveRemote: (
       api: Api,
       data?: object,
@@ -234,6 +243,8 @@ export const FormStore = ServiceStore.named('FormStore')
       data: object,
       options: fetchOptions = {}
     ) {
+      clearRestErrors();
+
       try {
         options = {
           method: 'post', // 默认走 post
@@ -297,21 +308,17 @@ export const FormStore = ServiceStore.named('FormStore')
             });
 
             // 没有映射上的error信息加在msg后显示出来
-            const msgs = Object.keys(errors).map(key => errors[key]);
-
-            if (options && options.errorMessage) {
-              msgs.unshift(options.errorMessage);
-            }
+            !isEmpty(errors) && setRestErrors(errors);
 
             self.updateMessage(
               json.msg ||
-                `${msgs.join('\n')}` ||
+                self.__(options && options.errorMessage) ||
                 self.__('Form.validateFailed'),
               true
             );
           } else {
             self.updateMessage(
-              json.msg || (options && options.errorMessage),
+              json.msg || self.__(options && options.errorMessage),
               true
             );
           }
@@ -327,7 +334,9 @@ export const FormStore = ServiceStore.named('FormStore')
             }
           }
           self.markSaving(false);
-          self.updateMessage(json.msg || (options && options.successMessage));
+          self.updateMessage(
+            json.msg || self.__(options && options.successMessage)
+          );
           self.msg && getEnv(self).notify('success', self.msg);
           return json.data;
         }
@@ -394,7 +403,7 @@ export const FormStore = ServiceStore.named('FormStore')
       try {
         let valid = yield validate(hooks);
 
-        if (!valid) {
+        if (!valid && !self.restErrors) {
           const msg = failedMessage ?? self.__('Form.validateFailed');
           msg && getEnv(self).notify('error', msg);
           throw new Error(self.__('Form.validateFailed'));
@@ -561,6 +570,8 @@ export const FormStore = ServiceStore.named('FormStore')
       onChildStoreDispose,
       updateSavedData,
       getItemsByPath,
+      setRestErrors,
+      clearRestErrors,
       beforeDestroy() {
         syncOptions.cancel();
         setPersistData.cancel();
