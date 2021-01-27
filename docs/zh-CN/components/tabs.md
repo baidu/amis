@@ -52,12 +52,37 @@ order: 68
 }
 ```
 
-### 卡片模式
+### 卡片
 
 ```schema: scope="body"
 {
     "type": "tabs",
     "mode": "card",
+    "tabs": [
+        {
+            "title": "选项卡1",
+            "body": "选项卡内容1"
+        },
+        {
+            "title": "选项卡2",
+            "body": "选项卡内容2"
+        },
+        {
+            "title": "选项卡3",
+            "body": "选项卡内容3"
+        }
+    ]
+}
+```
+
+### 仿 Chrome
+
+仿 Chrome tab 样式
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "mode": "chrome",
     "tabs": [
         {
             "title": "选项卡1",
