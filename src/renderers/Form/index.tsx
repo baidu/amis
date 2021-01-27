@@ -51,7 +51,6 @@ import {
 import {ActionSchema} from '../Action';
 import {ButtonGroupControlSchema} from './ButtonGroup';
 import {DialogSchemaBase} from '../Dialog';
-import {Alert} from '../../components/Alert2';
 
 export interface FormSchemaHorizontal {
   left?: number;
@@ -405,7 +404,6 @@ export default class Form extends React.Component<FormProps, object> {
     this.initInterval = this.initInterval.bind(this);
     this.blockRouting = this.blockRouting.bind(this);
     this.beforePageUnload = this.beforePageUnload.bind(this);
-    this.handleRestErrorsClose = this.handleRestErrorsClose.bind(this);
   }
 
   componentWillMount() {
@@ -769,6 +767,8 @@ export default class Form extends React.Component<FormProps, object> {
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
 
+    store.clearRestErrors();
+
     (submit || submitOnChange) &&
       this.handleAction(
         undefined,
@@ -1117,10 +1117,6 @@ export default class Form extends React.Component<FormProps, object> {
     });
   }
 
-  handleRestErrorsClose() {
-    this.props.store.clearRestErrors();
-  }
-
   buildActions() {
     const {actions, submitText, controls, translate: __} = this.props;
 
@@ -1342,11 +1338,8 @@ export default class Form extends React.Component<FormProps, object> {
       debug,
       $path,
       store,
-      render,
-      classPrefix
+      render
     } = this.props;
-
-    console.log(store.restErrors);
 
     const WrapperComponent =
       this.props.wrapperComponent ||
@@ -1374,17 +1367,11 @@ export default class Form extends React.Component<FormProps, object> {
 
         {/* 显示接口返回的 errors 中没有映射上的 */}
         {store.restErrors ? (
-          <Alert
-            classnames={cx}
-            classPrefix={classPrefix}
-            level="danger"
-            showCloseButton
-            onClose={this.handleRestErrorsClose}
-          >
+          <ul className={cx('Form-restErrors', 'Form-feedback')}>
             {Object.keys(store.restErrors).map(key => (
-              <div key={key}>{`${key}: ${store.restErrors[key]}`}</div>
+              <li key={key}>{store.restErrors[key]}</li>
             ))}
-          </Alert>
+          </ul>
         ) : null}
 
         {render(
