@@ -69,6 +69,7 @@
     color: var(--icon-color);
     cursor: pointer;
     margin-left: var(--gap-sm);
+    display: inline-block;
 
     > svg {
       width: px2rem(11px);

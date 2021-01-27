@@ -1004,7 +1004,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               evalExpression(itemRemovableOn, value) !== false)
           ) {
             toolbar = (
-              <a
+              <div
                 onClick={this.removeItem.bind(this, index)}
                 key="remove"
                 className={cx(
@@ -1018,7 +1018,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 ) : (
                   <Icon icon="close" className="icon" />
                 )}
-              </a>
+              </div>
             );
           }
 
