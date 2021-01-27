@@ -22,7 +22,7 @@ order: 21
             "name": "file",
             "label": "File",
             "accept": "*",
-            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -56,7 +56,7 @@ order: 21
             "name": "file",
             "label": "限制只能上传csv文件",
             "accept": ".csv",
-            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -105,7 +105,7 @@ order: 21
       "name": "file",
       "label": "File",
       "accept": "*",
-      "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+      "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
       "autoFill": {
         "myUrl": "${url}"
       }
@@ -149,7 +149,7 @@ order: 21
 
 | 属性名           | 类型                   | 默认值                                                                                                     | 说明                                                                                                                                 |
 | ---------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| reciever         | [API](../../types/api) |                                                                                                            | 上传文件接口                                                                                                                         |
+| receiver         | [API](../../types/api) |                                                                                                            | 上传文件接口                                                                                                                         |
 | accept           | `string`               | `text/plain`                                                                                               | 默认只支持纯文本，要支持其他类型，请配置此属性为文件后缀`.xxx`                                                                       |
 | asBase64         | `boolean`              | `false`                                                                                                    | 将文件以`base64`的形式，赋值给当前组件                                                                                               |
 | asBlob           | `boolean`              | `false`                                                                                                    | 将文件以二进制的形式，赋值给当前组件                                                                                                 |
