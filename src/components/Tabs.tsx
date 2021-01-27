@@ -147,6 +147,7 @@ export class Tabs extends React.Component<TabsProps> {
           ) : (
             title
           )}
+          {React.isValidElement(toolbar) ? toolbar : null}
         </a>
         {/* svg 来自 https://github.com/adamschwartz/chrome-tabs */}
         {mode === 'chrome' ? (
@@ -184,7 +185,6 @@ export class Tabs extends React.Component<TabsProps> {
             </svg>
           </div>
         ) : null}
-        {React.isValidElement(toolbar) ? toolbar : null}
       </li>
     );
   }
