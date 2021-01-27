@@ -77,7 +77,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     expressionsInOptions: false,
     selectFirst: false,
     autoFill: types.frozen(),
-    deleteOnHidden: false,
+    clearValueOnHidden: false,
     selectedOptions: types.optional(types.frozen(), []),
     filteredOptions: types.optional(types.frozen(), []),
     dialogSchema: types.frozen(),
@@ -237,7 +237,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       id,
       selectFirst,
       autoFill,
-      deleteOnHidden
+      clearValueOnHidden
     }: {
       required?: boolean;
       unique?: boolean;
@@ -254,7 +254,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       id?: string;
       selectFirst?: boolean;
       autoFill?: any;
-      deleteOnHidden?: boolean;
+      clearValueOnHidden?: boolean;
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -277,8 +277,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         (self.valueField = (valueField as string) || 'value');
       typeof labelField !== 'undefined' &&
         (self.labelField = (labelField as string) || 'label');
-      typeof deleteOnHidden !== 'undefined' &&
-        (self.deleteOnHidden = !!deleteOnHidden);
+      typeof clearValueOnHidden !== 'undefined' &&
+        (self.clearValueOnHidden = !!clearValueOnHidden);
 
       rules = rules || {};
       rules = {
