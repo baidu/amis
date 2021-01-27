@@ -50,6 +50,7 @@ import {
 import {ActionSchema} from '../Action';
 import {ButtonGroupControlSchema} from './ButtonGroup';
 import {DialogSchemaBase} from '../Dialog';
+import {Alert} from '../../components/Alert2';
 
 export interface FormSchemaHorizontal {
   left?: number;
@@ -446,9 +447,9 @@ export default class Form extends React.Component<FormProps, object> {
     this.mounted = true;
 
     if (onValidate) {
-      const finnalValidate = promisify(onValidate);
+      const finalValidate = promisify(onValidate);
       this.disposeOnValidate = this.addHook(async () => {
-        const result = await finnalValidate(store.data, store);
+        const result = await finalValidate(store.data, store);
 
         if (result && isObject(result)) {
           Object.keys(result).forEach(key => {
@@ -1329,7 +1330,8 @@ export default class Form extends React.Component<FormProps, object> {
       debug,
       $path,
       store,
-      render
+      render,
+      classPrefix
     } = this.props;
 
     const WrapperComponent =
@@ -1347,12 +1349,29 @@ export default class Form extends React.Component<FormProps, object> {
             <code>{JSON.stringify(store.data, null, 2)}</code>
           </pre>
         ) : null}
+
         <Spinner show={store.loading} overlay />
+
         {this.renderFormItems({
           tabs,
           fieldSet,
           controls
         })}
+
+        {/* 显示接口返回的 errors 中没有映射上的 */}
+        {store.remoteErrors ? (
+          <Alert
+            classnames={cx}
+            classPrefix={classPrefix}
+            level="danger"
+            showCloseButton
+          >
+            {Object.keys(store.remoteErrors).map(key => (
+              <div key={key}>{`${key}: ${store.remoteErrors[key]}`}</div>
+            ))}
+          </Alert>
+        ) : null}
+
         {render(
           'modal',
           {
@@ -1368,6 +1387,7 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.dialogOpen
           }
         )}
+
         {render(
           'modal',
           {

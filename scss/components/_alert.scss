@@ -5,8 +5,10 @@
   border: var(--Alert-borderWidth) solid var(--Alert-borderColor);
   border-radius: var(--Alert-borderRadius);
   margin-bottom: var(--Alert-marginBottom);
+  position: relative;
 
   &-close {
+    position: absolute;
     outline: none;
     padding: 0;
     cursor: pointer;
@@ -18,6 +20,9 @@
     text-shadow: 0 1px 0 #fff;
     filter: alpha(opacity=20);
     opacity: 0.2;
+    right: var(--Alert-paddingX);
+    top: 50%;
+    transform: translateY(-50%);
 
     &:hover {
       color: #000;
