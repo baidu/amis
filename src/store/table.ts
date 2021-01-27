@@ -979,7 +979,7 @@ export const TableStore = iRendererStore
       persistSaveToggledColumns,
 
       // events
-      afterAttach() {
+      afterCreate() {
         setTimeout(() => {
           if (!isAlive(self)) {
             return;
@@ -988,6 +988,7 @@ export const TableStore = iRendererStore
             location.pathname +
             self.path +
             self.toggableColumns.map(item => item.name || item.index).join('-');
+
           const data = localStorage.getItem(key);
 
           if (data) {
