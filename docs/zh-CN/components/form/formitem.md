@@ -362,6 +362,67 @@ order: 1
 
 上例中我们表单数据域中有变量`"text": "hello world!"`，然后我们设置表达项`"name": "text"`，这样就可以自动映射值了。
 
+## 隐藏时删除表单项值
+
+默认情况下，在通过 `hiddenOn` 或 `visibleOn` 配置显隐交互时，被隐藏的表单项值，不会在当前表单数据域中删除，例如：
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug":"true",
+  "controls": [
+    {
+      "type": "number",
+      "label": "数量",
+      "name": "number",
+      "value": 0,
+      "description": "调整数量大小查看效果吧！"
+    },
+    {
+      "type": "text",
+      "label": "文本",
+      "value":"这是一段文本",
+      "name": "text",
+      "hiddenOn": "this.number > 1",
+      "description": "当数量大于1的时候，该文本框会隐藏"
+    }
+  ]
+}
+```
+
+观察上例，在调整 `number` 数量大于 1 时，`文本` 表单项会隐藏，但是对应的表单数据域中的 `text` 变量值仍存在。
+
+如果想要实现隐藏表单项后，在当前表单数据域中删除该表单项对应的值，那么可以在当前表单项上配置 `"clearValueOnHidden": true`。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug":"true",
+  "controls": [
+    {
+      "type": "number",
+      "label": "数量",
+      "name": "number",
+      "value": 0,
+      "description": "调整数量大小查看效果吧！"
+    },
+    {
+      "type": "text",
+      "label": "文本",
+      "value":"这是一段文本",
+      "name": "text",
+      "hiddenOn": "this.number > 1",
+      "description": "当数量大于1的时候，该文本框会隐藏",
+      "clearValueOnHidden": true
+    }
+  ]
+}
+```
+
+再次观察上例，当 `文本` 表单项隐藏时，对应的 `text` 变量也会被删除掉。
+
+> 注意: 如果有其他同 name 的表达项的存在，即使其他表单项值没有隐藏，也会在数据域中删掉该值。
+
 ## 表单项必填
 
 ### 静态配置

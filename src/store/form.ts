@@ -206,7 +206,9 @@ export const FormStore = ServiceStore.named('FormStore')
         });
       }
 
+      console.log('deleteVariable before', data);
       deleteVariable(data, name);
+      console.log('deleteVariable after', data);
       self.data = data;
     }
 
@@ -500,7 +502,7 @@ export const FormStore = ServiceStore.named('FormStore')
     }
 
     function removeFormItem(item: IFormItemStore) {
-      item.deleteOnHidden && deleteValueByName(item.name);
+      item.clearValueOnHidden && deleteValueByName(item.name);
       removeStore(item);
     }
 
