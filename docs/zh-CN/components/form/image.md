@@ -21,7 +21,7 @@ order: 27
             "type": "image",
             "name": "image",
             "label": "image",
-            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -55,7 +55,7 @@ order: 27
             "name": "image",
             "label": "限制只能上传jpg图片",
             "accept": ".jpg",
-            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -80,7 +80,7 @@ order: 27
             "limit": {
               "minWidth": 1000
             },
-            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
         }
     ]
 }
@@ -98,7 +98,7 @@ order: 27
             "name": "image",
             "label": "限制只能上传jpg图片",
             "accept": ".jpg",
-            "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
             "crop": true
         }
     ]
@@ -118,7 +118,7 @@ order: 27
       "type": "image",
       "name": "image",
       "label": "image",
-      "reciever": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+      "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
       "autoFill": {
         "myUrl": "${url}"
       }
@@ -162,7 +162,7 @@ order: 27
 
 | 属性名           | 类型                            | 默认值                 | 说明                                                                                               |
 | ---------------- | ------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------- |
-| reciever         | [API](../../types/api)          |                        | 上传文件接口                                                                                       |
+| receiver         | [API](../../types/api)          |                        | 上传文件接口                                                                                       |
 | accept           | `string`                        | `.jpeg,.jpg,.png,.gif` | 支持的图片类型格式，请配置此属性为图片后缀，例如`.jpg,.png`                                        |
 | maxSize          | `number`                        |                        | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`B`                                    |
 | maxLength        | `number`                        |                        | 默认没有限制，当设置后，一次只允许上传指定数量文件。                                               |

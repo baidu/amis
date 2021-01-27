@@ -13,8 +13,8 @@ export interface RichTextControlSchema extends FormBaseControl {
 
   vendor?: 'froala' | 'tinymce';
 
-  reciever?: string;
-  videoReciever?: string;
+  receiver?: string;
+  videoReceiver?: string;
 
   options?: any;
 }
@@ -39,8 +39,8 @@ export default class RichTextControl extends React.Component<
 > {
   static defaultProps: Partial<RichTextProps> = {
     imageEditable: true,
-    reciever: '/api/upload/image',
-    videoReciever: '/api/upload/video',
+    receiver: '/api/upload/image',
+    videoReceiver: '/api/upload/video',
     placeholder: 'placeholder.enter',
     options: {
       toolbarButtonsSM: [
@@ -153,11 +153,11 @@ export default class RichTextControl extends React.Component<
         ...props.options,
         editorClass: props.editorClass,
         placeholderText: props.placeholder,
-        imageUploadURL: props.reciever,
+        imageUploadURL: props.receiver,
         imageUploadParams: {
           from: 'rich-text'
         },
-        videoUploadURL: props.videoReciever,
+        videoUploadURL: props.videoReceiver,
         videoUploadParams: {
           from: 'rich-text'
         },
@@ -180,7 +180,7 @@ export default class RichTextControl extends React.Component<
       const fetcher = props.env.fetcher;
       this.config = {
         ...props.options,
-        images_upload_url: props.reciever,
+        images_upload_url: props.receiver,
         images_upload_handler: async (
           blobInfo: any,
           ok: (locaiton: string) => void,
@@ -189,7 +189,7 @@ export default class RichTextControl extends React.Component<
           const formData = new FormData();
           formData.append('file', blobInfo.blob(), blobInfo.filename());
           try {
-            const response = await fetcher(props.reciever, formData, {
+            const response = await fetcher(props.receiver, formData, {
               method: 'post'
             });
             if (response.ok) {

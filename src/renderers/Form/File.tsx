@@ -121,7 +121,7 @@ export interface FileControlSchema extends FormBaseControl {
    *
    * @default /api/upload/file
    */
-  reciever?: SchemaApi;
+  receiver?: SchemaApi;
 
   /**
    * 默认 `/api/upload/startChunk` 想自己存储时才需要关注。
@@ -251,7 +251,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     maxSize: 0,
     maxLength: 0,
     placeholder: '',
-    reciever: '/api/upload/file',
+    receiver: '/api/upload/file',
     fileField: 'file',
     joinValues: true,
     extractValue: false,
@@ -646,7 +646,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     onProgress: (progress: number) => void
   ) {
     const {
-      reciever,
+      receiver,
       fileField,
       downloadUrl,
       useChunk,
@@ -699,7 +699,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
     fn(
       file,
-      reciever as string,
+      receiver as string,
       {},
       {
         fieldName: fileField,
@@ -794,13 +794,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
   uploadFile(
     file: FileX,
-    reciever: string,
+    receiver: string,
     params: object,
     config: Partial<FileProps> = {},
     onProgress: (progress: number) => void
   ): Promise<Payload> {
     const fd = new FormData();
-    const api = buildApi(reciever, createObject(config.data, params), {
+    const api = buildApi(receiver, createObject(config.data, params), {
       method: 'post'
     });
 
@@ -819,7 +819,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
   uploadBigFile(
     file: FileX,
-    reciever: string,
+    receiver: string,
     params: object,
     config: Partial<FileProps> = {},
     onProgress: (progress: number) => void
