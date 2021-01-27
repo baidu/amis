@@ -290,7 +290,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     deleteIcon: '',
     tabsMode: false,
     tabsStyle: '',
-    placeholder: 'empty'
+    placeholder: 'placeholder.empty'
   };
   static propsList: Array<string> = [
     'minLength',
