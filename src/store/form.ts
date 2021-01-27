@@ -41,7 +41,7 @@ export const FormStore = ServiceStore.named('FormStore')
     itemsRef: types.optional(types.array(types.string), []),
     canAccessSuperData: true,
     persistData: false,
-    remoteErrors: types.frozen() // 422 返回的 errors中，没有映射到表达项的
+    restErrors: types.frozen() // 没有映射到表达项上的 errors
   })
   .views(self => {
     function getItems() {
@@ -226,12 +226,12 @@ export const FormStore = ServiceStore.named('FormStore')
       }
     );
 
-    function updateRemoteErrors(errors: any) {
-      self.remoteErrors = errors;
+    function setRestErrors(errors: any) {
+      self.restErrors = errors;
     }
 
-    function clearRemoteErrors() {
-      updateRemoteErrors(null);
+    function clearRestErrors() {
+      setRestErrors(null);
     }
 
     const saveRemote: (
@@ -243,7 +243,7 @@ export const FormStore = ServiceStore.named('FormStore')
       data: object,
       options: fetchOptions = {}
     ) {
-      clearRemoteErrors();
+      clearRestErrors();
 
       try {
         options = {
@@ -308,9 +308,7 @@ export const FormStore = ServiceStore.named('FormStore')
             });
 
             // 没有映射上的error信息加在msg后显示出来
-            if (errors && !isEmpty(errors)) {
-              updateRemoteErrors(errors);
-            }
+            !isEmpty(errors) && setRestErrors(errors);
 
             self.updateMessage(
               json.msg ||
@@ -405,7 +403,7 @@ export const FormStore = ServiceStore.named('FormStore')
       try {
         let valid = yield validate(hooks);
 
-        if (!valid) {
+        if (!valid && !self.restErrors) {
           const msg = failedMessage ?? self.__('Form.validateFailed');
           msg && getEnv(self).notify('error', msg);
           throw new Error(self.__('Form.validateFailed'));
@@ -572,7 +570,8 @@ export const FormStore = ServiceStore.named('FormStore')
       onChildStoreDispose,
       updateSavedData,
       getItemsByPath,
-      updateRemoteErrors,
+      setRestErrors,
+      clearRestErrors,
       beforeDestroy() {
         syncOptions.cancel();
         setPersistData.cancel();

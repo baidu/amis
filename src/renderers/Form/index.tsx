@@ -15,7 +15,8 @@ import {
   isObject,
   isVisible,
   cloneObject,
-  SkipOperation
+  SkipOperation,
+  isEmpty
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -404,6 +405,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.initInterval = this.initInterval.bind(this);
     this.blockRouting = this.blockRouting.bind(this);
     this.beforePageUnload = this.beforePageUnload.bind(this);
+    this.handleRestErrorsClose = this.handleRestErrorsClose.bind(this);
   }
 
   componentWillMount() {
@@ -467,7 +469,13 @@ export default class Form extends React.Component<FormProps, object> {
             } else {
               items.forEach(item => item.clearError());
             }
+
+            delete result[key];
           });
+
+          isEmpty(result)
+            ? store.clearRestErrors()
+            : store.setRestErrors(result);
         }
       });
     }
@@ -1109,6 +1117,10 @@ export default class Form extends React.Component<FormProps, object> {
     });
   }
 
+  handleRestErrorsClose() {
+    this.props.store.clearRestErrors();
+  }
+
   buildActions() {
     const {actions, submitText, controls, translate: __} = this.props;
 
@@ -1334,6 +1346,8 @@ export default class Form extends React.Component<FormProps, object> {
       classPrefix
     } = this.props;
 
+    console.log(store.restErrors);
+
     const WrapperComponent =
       this.props.wrapperComponent ||
       (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
@@ -1359,15 +1373,16 @@ export default class Form extends React.Component<FormProps, object> {
         })}
 
         {/* 显示接口返回的 errors 中没有映射上的 */}
-        {store.remoteErrors ? (
+        {store.restErrors ? (
           <Alert
             classnames={cx}
             classPrefix={classPrefix}
             level="danger"
             showCloseButton
+            onClose={this.handleRestErrorsClose}
           >
-            {Object.keys(store.remoteErrors).map(key => (
-              <div key={key}>{`${key}: ${store.remoteErrors[key]}`}</div>
+            {Object.keys(store.restErrors).map(key => (
+              <div key={key}>{`${key}: ${store.restErrors[key]}`}</div>
             ))}
           </Alert>
         ) : null}
