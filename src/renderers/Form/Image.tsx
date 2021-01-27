@@ -171,7 +171,7 @@ export interface ImageControlSchema extends FormBaseControl {
   /**
    * 默认 `/api/upload` 如果想自己存储，请设置此选项。
    */
-  reciever?: SchemaApi;
+  receiver?: SchemaApi;
 
   /**
    * 默认为 false, 开启后，允许用户输入压缩选项。
@@ -278,7 +278,7 @@ export default class ImageControl extends React.Component<
   static defaultProps = {
     limit: undefined,
     accept: 'image/jpeg, image/jpg, image/png, image/gif',
-    reciever: '/api/upload',
+    receiver: '/api/upload',
     hideUploadButton: false,
     placeholder: 'Image.placeholder点击选择图片或者将图片拖入该区域',
     joinValues: true,
@@ -950,7 +950,7 @@ export default class ImageControl extends React.Component<
     onProgress: (progress: number) => void
   ) {
     const __ = this.props.translate;
-    this._send(file, this.props.reciever as string, {}, onProgress)
+    this._send(file, this.props.receiver as string, {}, onProgress)
       .then((ret: Payload) => {
         if (ret.status) {
           throw new Error(ret.msg || __('File.errorRetry'));
@@ -969,13 +969,13 @@ export default class ImageControl extends React.Component<
 
   _send(
     file: Blob,
-    reciever: string,
+    receiver: string,
     params: object,
     onProgress: (progress: number) => void
   ): Promise<Payload> {
     const fd = new FormData();
     const data = this.props.data;
-    const api = buildApi(reciever, createObject(data, params), {
+    const api = buildApi(receiver, createObject(data, params), {
       method: 'post'
     });
     const fileField = this.props.fileField || 'file';

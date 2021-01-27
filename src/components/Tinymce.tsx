@@ -46,7 +46,7 @@ interface TinymceEditorProps extends LocaleProps {
   disabled?: boolean;
   config?: any;
   outputFormat?: 'html' | 'text';
-  reciever?: string;
+  receiver?: string;
 }
 
 export default class TinymceEditor extends React.Component<TinymceEditorProps> {
