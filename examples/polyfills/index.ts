@@ -9,5 +9,6 @@ import 'core-js/es/object/assign';
 import 'core-js/es/object/keys';
 import 'core-js/es/map';
 import 'core-js/es/set';
+import 'core-js/es/symbol';
 
 import './cloest';
