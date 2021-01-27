@@ -36,6 +36,7 @@ export interface ControlProps extends RendererProps {
     valueField?: string;
     labelField?: string;
     unique?: boolean;
+    deleteOnHidden?: boolean;
     pipeIn?: (value: any, data: any) => any;
     pipeOut?: (value: any, originValue: any, data: any) => any;
     validate?: (value: any, values: any, name: string) => any;
@@ -95,7 +96,8 @@ export default class FormControl extends React.PureComponent<ControlProps> {
         joinValues,
         extractValue,
         selectFirst,
-        autoFill
+        autoFill,
+        deleteOnHidden
       }
     } = this.props;
 
@@ -136,7 +138,8 @@ export default class FormControl extends React.PureComponent<ControlProps> {
       joinValues,
       extractValue,
       selectFirst,
-      autoFill
+      autoFill,
+      deleteOnHidden
     });
 
     if (this.model.unique && form.parentStore?.storeType === ComboStore.name) {
@@ -248,7 +251,8 @@ export default class FormControl extends React.PureComponent<ControlProps> {
           'joinValues',
           'extractValue',
           'selectFirst',
-          'autoFill'
+          'autoFill',
+          'deleteOnHidden'
         ],
         props.control,
         nextProps.control
@@ -268,7 +272,8 @@ export default class FormControl extends React.PureComponent<ControlProps> {
         extractValue: nextProps.control.extractValue,
         messages: nextProps.control.validationErrors,
         selectFirst: nextProps.control.selectFirst,
-        autoFill: nextProps.control.autoFill
+        autoFill: nextProps.control.autoFill,
+        deleteOnHidden: nextProps.control.deleteOnHidden
       });
     }
   }
