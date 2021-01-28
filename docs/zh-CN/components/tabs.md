@@ -287,7 +287,7 @@ order: 68
         {
             "title": "Tab 1",
             "tab": "Content 1",
-            "icon": "../../../examples/static/diamond.svg"
+            "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg"
         },
 
         {

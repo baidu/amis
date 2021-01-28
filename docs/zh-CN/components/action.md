@@ -144,7 +144,7 @@ icon 也可以是 url 地址，比如
   "label": "弹框",
   "type": "action",
   "actionType": "dialog",
-  "icon": "../../../examples/static/diamond.svg",
+  "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
   "dialog": {
     "title": "弹框",
     "body": "这是个简单的弹框。"

@@ -81,7 +81,7 @@ order: 56
             "label": "text",
             "addOn": {
                 "type": "button",
-                "icon": "../../../../examples/static/search.svg",
+                "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fsearch.svg",
                 "label": "搜索"
             }
         }
