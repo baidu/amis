@@ -510,6 +510,7 @@ export const FormStore = ServiceStore.named('FormStore')
     }
 
     function removeFormItem(item: IFormItemStore) {
+      item.clearValueOnHidden && deleteValueByName(item.name);
       removeStore(item);
     }
 
