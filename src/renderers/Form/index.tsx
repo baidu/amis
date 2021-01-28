@@ -274,6 +274,14 @@ export interface FormSchema extends BaseSchema {
    * 具体的提示信息，选填。
    */
   promptPageLeaveMessage?: string;
+
+  /**
+   * 组合校验规则，选填
+   */
+  rules: Array<{
+    rule: string;
+    message: string;
+  }>;
 }
 
 export type FormGroup = FormSchema & {
@@ -307,6 +315,10 @@ export interface FormProps extends RendererProps, Omit<FormSchema, 'mode'> {
     saveFailed?: string;
     validateFailed?: string;
   };
+  rules: Array<{
+    rule: string;
+    message: string;
+  }>;
   lazyChange?: boolean; // 表单项的
   formLazyChange?: boolean; // 表单的
 }
@@ -373,6 +385,7 @@ export default class Form extends React.Component<FormProps, object> {
   } = {};
   asyncCancel: () => void;
   disposeOnValidate: () => void;
+  disposeRulesValidate: () => void;
   shouldLoadInitApi: boolean = false;
   timer: NodeJS.Timeout;
   mounted: boolean;
@@ -441,7 +454,8 @@ export default class Form extends React.Component<FormProps, object> {
       messages: {fetchSuccess, fetchFailed},
       onValidate,
       promptPageLeave,
-      env
+      env,
+      rules
     } = this.props;
 
     this.mounted = true;
@@ -461,20 +475,35 @@ export default class Form extends React.Component<FormProps, object> {
               return;
             }
 
+            // 在setError之前，提前把残留的error信息清除掉，否则每次onValidate后都会一直把报错 append 上去
+            items.forEach(item => item.clearError());
+
             if (msg) {
               msg = Array.isArray(msg) ? msg : [msg];
               items.forEach(item => item.addError(msg));
-            } else {
-              items.forEach(item => item.clearError());
             }
 
             delete result[key];
           });
 
           isEmpty(result)
-            ? store.clearRestErrors()
-            : store.setRestErrors(result);
+            ? store.clearRestError()
+            : store.setRestError(Object.keys(result).map(key => result[key]));
         }
+      });
+    }
+
+    if (Array.isArray(rules) && rules.length) {
+      this.disposeRulesValidate = this.addHook(() => {
+        if (!store.valid) {
+          return;
+        }
+
+        rules.forEach(
+          item =>
+            !evalExpression(item.rule, store.data) &&
+            store.addRestError(item.message)
+        );
       });
     }
 
@@ -543,6 +572,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.lazyHandleChange.cancel();
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
+    this.disposeRulesValidate && this.disposeRulesValidate();
     this.componentCache.dispose();
     window.removeEventListener('beforeunload', this.beforePageUnload);
     this.unBlockRouting?.();
@@ -767,7 +797,7 @@ export default class Form extends React.Component<FormProps, object> {
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
 
-    store.clearRestErrors();
+    store.clearRestError();
 
     (submit || submitOnChange) &&
       this.handleAction(
@@ -1341,6 +1371,8 @@ export default class Form extends React.Component<FormProps, object> {
       render
     } = this.props;
 
+    const {restError} = store;
+
     const WrapperComponent =
       this.props.wrapperComponent ||
       (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
@@ -1365,11 +1397,11 @@ export default class Form extends React.Component<FormProps, object> {
           controls
         })}
 
-        {/* 显示接口返回的 errors 中没有映射上的 */}
-        {store.restErrors ? (
-          <ul className={cx('Form-restErrors', 'Form-feedback')}>
-            {Object.keys(store.restErrors).map(key => (
-              <li key={key}>{store.restErrors[key]}</li>
+        {/* 显示没有映射上的 errors */}
+        {restError && restError.length ? (
+          <ul className={cx('Form-restError', 'Form-feedback')}>
+            {restError.map((item, idx) => (
+              <li key={idx}>{item}</li>
             ))}
           </ul>
         ) : null}

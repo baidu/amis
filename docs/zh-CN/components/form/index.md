@@ -495,7 +495,7 @@ Form 支持轮询初始化接口，步骤如下：
 ```schema: scope="body"
 {
     "type": "form",
-    "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/saveForm",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/saveForm",
     "title": "用户信息",
     "controls": [
       {
@@ -606,6 +606,37 @@ Form 支持轮询初始化接口，步骤如下：
 ```
 
 如果决定结束轮询的标识字段名不是 `finished`，请设置`finishedField`属性，比如：`"finishedField": "is_success"`
+
+## 表单校验
+
+一般可以通过在[表单项格式校验](./formitem#%E6%A0%BC%E5%BC%8F%E6%A0%A1%E9%AA%8C)中，配置校验规则完成校验，但是有时候，我们需要组合多个表单项实现一些校验，可以通过配置 `rules` 来实现组合校验。
+
+例如下例，我们想校验 `a` 和 `b` 表单项不可以同时有值，否则就报错，则可以进行如下配置：
+
+```schema:scope="body"
+{
+  "type": "form",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/saveForm",
+  "rules": [
+    {
+      "rule": "!(data.a && data.b)",
+      "message": "a 和 b 不能同时有值"
+    }
+  ],
+  "controls": [
+    {
+      "type": "text",
+      "name": "a",
+      "label": "A"
+    },
+    {
+      "type": "text",
+      "name": "b",
+      "label": "B"
+    }
+  ]
+}
+```
 
 ## 重置表单
 
