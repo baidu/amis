@@ -638,6 +638,8 @@ Form 支持轮询初始化接口，步骤如下：
 }
 ```
 
+> `rule` 编写使用 [表达式](../../concepts/expression)
+
 ## 重置表单
 
 配置`"type": "reset"`或者`"actionType": "reset"`的按钮，可以实现点击重置表单项值。
