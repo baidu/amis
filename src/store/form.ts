@@ -206,9 +206,7 @@ export const FormStore = ServiceStore.named('FormStore')
         });
       }
 
-      console.log('deleteVariable before', data);
       deleteVariable(data, name);
-      console.log('deleteVariable after', data);
       self.data = data;
     }
 
