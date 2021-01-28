@@ -154,16 +154,16 @@ export interface TaskState {
 
 export default class Task extends React.Component<TaskProps, TaskState> {
   static defaultProps: Partial<TaskProps> = {
-    className: 'b-a bg-white table-responsive',
-    tableClassName: 'table table-striped m-b-none',
+    className: '',
+    tableClassName: '',
     taskNameLabel: '任务名称',
     operationLabel: 'Table.operation',
     statusLabel: '状态',
     remarkLabel: '备注说明',
     btnText: '上线',
     retryBtnText: '重试',
-    btnClassName: 'btn-sm btn-default',
-    retryBtnClassName: 'btn-sm btn-danger',
+    btnClassName: '',
+    retryBtnClassName: '',
     statusLabelMap: [
       'label-warning',
       'label-info',
@@ -355,6 +355,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
 
   render() {
     const {
+      classnames: cx,
       className,
       tableClassName,
       taskNameLabel,
@@ -377,8 +378,8 @@ export default class Task extends React.Component<TaskProps, TaskState> {
     const error = this.state.error;
 
     return (
-      <div className={className}>
-        <table className={tableClassName}>
+      <div className={cx('Table-content', className)}>
+        <table className={cx('Table-table', tableClassName)}>
           <thead>
             <tr>
               <th>{taskNameLabel}</th>
@@ -408,16 +409,25 @@ export default class Task extends React.Component<TaskProps, TaskState> {
                     ) : item.status == canRetryStatusCode ? (
                       <a
                         onClick={() => this.submitTask(item, key, true)}
-                        className={cx('btn', retryBtnClassName || btnClassName)}
+                        className={cx(
+                          'Button',
+                          'Button--danger',
+                          retryBtnClassName || btnClassName
+                        )}
                       >
                         {retryBtnText || btnText}
                       </a>
                     ) : (
                       <a
                         onClick={() => this.submitTask(item, key)}
-                        className={cx('btn', btnClassName, {
-                          disabled: item.status !== readyStatusCode
-                        })}
+                        className={cx(
+                          'Button',
+                          'Button--default',
+                          btnClassName,
+                          {
+                            disabled: item.status !== readyStatusCode
+                          }
+                        )}
                       >
                         {btnText}
                       </a>
