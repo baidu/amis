@@ -46,7 +46,7 @@ icon 还可以使用 URL 地址，可以从 [iconfont](https://www.iconfont.cn/)
     "type": "page",
     "body": {
         "type": "icon",
-        "icon": "../../../examples/static/diamond.svg"
+        "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg"
     }
 }
 ```
