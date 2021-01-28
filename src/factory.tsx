@@ -124,7 +124,14 @@ export interface RenderOptions {
   session?: string;
   fetcher?: (config: fetcherConfig) => Promise<fetcherResult>;
   isCancel?: (value: any) => boolean;
-  notify?: (type: 'error' | 'success', msg: string) => void;
+  notify?: (
+    type: 'error' | 'success',
+    msg: string,
+    conf?: {
+      closeButton?: boolean;
+      timeout?: number;
+    }
+  ) => void;
   jumpTo?: (to: string, action?: Action, ctx?: object) => void;
   alert?: (msg: string) => void;
   confirm?: (msg: string, title?: string) => boolean | Promise<boolean>;
@@ -272,9 +279,9 @@ const defaultOptions: RenderOptions = {
   },
   alert,
   confirm,
-  notify: (type, msg) =>
+  notify: (type, msg, conf) =>
     toast[type]
-      ? toast[type](msg, type === 'error' ? 'Error' : 'Info')
+      ? toast[type](msg, type === 'error' ? 'Error' : 'Info', conf)
       : console.warn('[Notify]', type, msg),
 
   jumpTo: (to: string, action?: any) => {
