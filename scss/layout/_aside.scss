@@ -259,6 +259,15 @@
   }
 }
 
+// 图片 icon
+img.#{$ns}AsideNav-itemIcon {
+  float: none;
+  height: var(--Layout-asideLink-fontSize);
+  width: auto;
+  margin-right: var(--gap-xs);
+  vertical-align: middle;
+}
+
 // @include media-device('mobile') {
 
 // }

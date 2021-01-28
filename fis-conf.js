@@ -38,6 +38,7 @@ fis.set('project.files', [
   '/examples/*.html',
   '/examples/*.tpl',
   '/examples/static/*.png',
+  '/examples/static/*.svg',
   '/src/**.html',
   'mock/**'
 ]);

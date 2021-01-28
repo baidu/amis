@@ -9,6 +9,7 @@ import {Schema} from '../types';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {themeable, ThemeProps} from '../theme';
 import {uncontrollable} from 'uncontrollable';
+import {generateIcon} from '../utils/icon';
 
 const transitionStyles: {
   [propName: string]: string;
@@ -123,6 +124,8 @@ export class Tabs extends React.Component<TabsProps> {
     const activeKey =
       activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
 
+    const iconElement = generateIcon(cx, icon, 'Icon');
+
     return (
       <li
         className={cx(
@@ -137,11 +140,11 @@ export class Tabs extends React.Component<TabsProps> {
           {icon ? (
             iconPosition === 'right' ? (
               <>
-                {title} <i className={icon} />
+                {title} {iconElement}
               </>
             ) : (
               <>
-                <i className={icon} /> {title}
+                {iconElement} {title}
               </>
             )
           ) : (

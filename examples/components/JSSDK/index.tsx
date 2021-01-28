@@ -86,7 +86,7 @@ export default {
           label: '列表示例',
           url: '/crud',
           rewrite: '/crud/list',
-          icon: 'fa fa-cube',
+          icon: '../../../examples/static/diamond.svg',
           children: [
             {
               label: '列表',

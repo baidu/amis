@@ -68,7 +68,7 @@ order: 56
 
 ## 附加组件
 
-可以配置`addOn`，附带附加组件
+可以配置`addOn`，附带附加组件，比如 button，还能设置 icon。
 
 ```schema: scope="body"
 {
@@ -81,6 +81,7 @@ order: 56
             "label": "text",
             "addOn": {
                 "type": "button",
+                "icon": "../../../../examples/static/search.svg",
                 "label": "搜索"
             }
         }

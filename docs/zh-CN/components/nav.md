@@ -21,7 +21,7 @@ order: 58
         {
             "label": "Nav 1",
             "to": "/docs/index",
-            "icon": "fa fa-user",
+            "icon": "../../../examples/static/diamond.svg",
             "active": true
         },
         {
