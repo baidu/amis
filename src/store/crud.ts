@@ -192,7 +192,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg || options.errorMessage || self.__('CRUD.fetchFailed'),
+            json.msg ?? options.errorMessage ?? self.__('CRUD.fetchFailed'),
             true
           );
           getEnv(self).notify(
@@ -301,7 +301,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             self.hasNext = !!hasNext;
           }
 
-          self.updateMessage(json.msg || options.successMessage);
+          self.updateMessage(json.msg ?? options.successMessage);
 
           // 配置了获取成功提示后提示，默认是空不会提示。
           options &&
@@ -371,7 +371,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg || options.errorMessage || self.__('saveFailed'),
+            json.msg ?? options.errorMessage ?? self.__('saveFailed'),
             true
           );
           getEnv(self).notify(
@@ -386,8 +386,18 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           );
           throw new ServerError(self.msg);
         } else {
-          self.updateMessage(json.msg || options.successMessage);
-          self.msg && getEnv(self).notify('success', self.msg);
+          self.updateMessage(json.msg ?? options.successMessage);
+          self.msg &&
+            getEnv(self).notify(
+              'success',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         }
         return json.data;
       } catch (e) {

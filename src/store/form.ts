@@ -311,14 +311,14 @@ export const FormStore = ServiceStore.named('FormStore')
             !isEmpty(errors) && setRestErrors(errors);
 
             self.updateMessage(
-              json.msg ||
-                self.__(options && options.errorMessage) ||
+              json.msg ??
+                self.__(options && options.errorMessage) ??
                 self.__('Form.validateFailed'),
               true
             );
           } else {
             self.updateMessage(
-              json.msg || self.__(options && options.errorMessage),
+              json.msg ?? self.__(options && options.errorMessage),
               true
             );
           }
@@ -335,9 +335,19 @@ export const FormStore = ServiceStore.named('FormStore')
           }
           self.markSaving(false);
           self.updateMessage(
-            json.msg || self.__(options && options.successMessage)
+            json.msg ?? self.__(options && options.successMessage)
           );
-          self.msg && getEnv(self).notify('success', self.msg);
+          self.msg &&
+            getEnv(self).notify(
+              'success',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
           return json.data;
         }
       } catch (e) {

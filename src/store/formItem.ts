@@ -475,7 +475,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           setErrorFlag !== false &&
             setError(
               self.__('Form.loadOptionsFailed', {
-                reason: json.msg || (config && config.errorMessage)
+                reason: json.msg ?? (config && config.errorMessage)
               })
             );
           getEnv(self).notify(
