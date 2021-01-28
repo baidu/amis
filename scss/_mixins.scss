@@ -227,6 +227,12 @@
   > .pull-right {
     margin-left: $padding-x;
   }
+
+  // img 需要加一下高度限制
+  img.#{$ns}Button-icon {
+    height: var(--Button-fontSize);
+    vertical-align: middle;
+  }
 }
 
 @mixin button-variant(

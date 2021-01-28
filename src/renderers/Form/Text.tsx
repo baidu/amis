@@ -21,6 +21,7 @@ import Spinner from '../../components/Spinner';
 import {FormBaseControl} from './Item';
 import {ActionSchema} from '../Action';
 import {SchemaApi} from '../../Schema';
+import {generateIcon} from '../../utils/icon';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
 
@@ -672,6 +673,7 @@ export default class TextControl extends React.PureComponent<
 
   render(): JSX.Element {
     const {
+      classnames: cx,
       className,
       classPrefix: ns,
       options,
@@ -696,6 +698,9 @@ export default class TextControl extends React.PureComponent<
       autoComplete !== false && (source || options.length || autoComplete)
         ? this.renderSugestMode()
         : this.renderNormal();
+
+    const iconElement = generateIcon(cx, addOn?.icon, 'Icon');
+
     let addOnDom = addOn ? (
       addOn.actionType ||
       ~['button', 'submit', 'reset', 'action'].indexOf(addOn.type) ? (
@@ -707,7 +712,7 @@ export default class TextControl extends React.PureComponent<
       ) : (
         <div className={cx(`${ns}TextControl-addOn`, addOn.className)}>
           {addOn.label ? filter(addOn.label, data) : null}
-          {addOn.icon && <i className={addOn.icon} />}
+          {iconElement}
         </div>
       )
     ) : null;

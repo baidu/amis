@@ -13,6 +13,7 @@ import {Api} from '../types';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {Icon} from '../components/icons';
 import {BaseSchema, SchemaApi, SchemaIcon, SchemaUrlPath} from '../Schema';
+import {generateIcon} from '../utils/icon';
 
 export type NavItemSchema = {
   /**
@@ -311,7 +312,7 @@ export class Navigation extends React.Component<
         })}
       >
         <a onClick={this.handleClick.bind(this, link)}>
-          {link.icon ? <i className={cx('Nav-itemIcon', link.icon)} /> : null}
+          {generateIcon(cx, link.icon, 'Nav-itemIcon')}
           {link.label}
         </a>
 

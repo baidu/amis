@@ -8,6 +8,11 @@
     margin-right: var(--gap-xs);
   }
 
+  img.#{$ns}Nav-itemIcon {
+    height: var(--Tabs-linkFontSize);
+    vertical-align: middle;
+  }
+
   &--tabs {
     border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
 

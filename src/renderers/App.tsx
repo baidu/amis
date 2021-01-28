@@ -13,6 +13,7 @@ import {AppStore, IAppStore} from '../store/app';
 import {Api, SchemaNode} from '../types';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {autobind} from '../utils/helper';
+import {generateIcon} from '../utils/icon';
 
 export interface AppPage {
   /**
@@ -290,9 +291,7 @@ export default class App extends React.Component<AppProps, object> {
               );
 
             if (!subHeader && link.icon) {
-              children.push(
-                <i key="icon" className={cx(`AsideNav-itemIcon`, link.icon)} />
-              );
+              children.push(generateIcon(cx, link.icon, 'AsideNav-itemIcon'));
             } else if (store.folded && depth === 1 && !subHeader) {
               children.push(
                 <i

@@ -294,6 +294,7 @@ import {
 } from '../Schema';
 import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
+import {generateIcon} from '../utils/icon';
 
 export interface ActionProps
   extends ButtonSchema,
@@ -381,6 +382,8 @@ export class Action extends React.Component<ActionProps> {
       isActive = isCurrentUrl(link);
     }
 
+    const iconElement = generateIcon(cx, icon, 'Button-icon', iconClassName);
+
     return isMenuItem ? (
       <a
         className={cx(className, {
@@ -390,7 +393,7 @@ export class Action extends React.Component<ActionProps> {
         onClick={this.handleAction}
       >
         {label}
-        {icon ? <i className={cx('Button-icon', icon)} /> : null}
+        {iconElement}
       </a>
     ) : (
       <Button
@@ -415,7 +418,7 @@ export class Action extends React.Component<ActionProps> {
         iconOnly={!!(icon && !label && level !== 'link')}
       >
         {label ? <span>{filter(String(label), data)}</span> : null}
-        {icon ? <i className={cx('Button-icon', icon, iconClassName)} /> : null}
+        {iconElement}
       </Button>
     );
   }
