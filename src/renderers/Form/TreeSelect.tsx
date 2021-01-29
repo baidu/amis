@@ -410,10 +410,15 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   renderItem(item: Option) {
-    const {labelField} = this.props;
+    const {labelField, valueField} = this.props;
     // 将所有祖先节点也展现出来
     const ancestors: any[] = [];
-    findAncestorsWithValue(ancestors, this.props.options, item.value);
+    findAncestorsWithValue(
+      ancestors,
+      this.props.options,
+      item[valueField || 'value'],
+      valueField
+    );
     let ancestorsLabel = '';
     if (ancestors.length) {
       ancestorsLabel =

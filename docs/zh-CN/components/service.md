@@ -281,7 +281,71 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 
 ## 定时轮询刷新
 
-设置 `interval` 可以定时刷新，单位是毫秒，最小间隔是 1 秒。
+设置 `interval` 可以定时刷新 api 接口，单位是毫秒，最小间隔是 1 秒。
+
+## 通过 WebSocket 实时获取数据
+
+Service 支持通过 WebSocket 获取数据，只需要设置 ws（由于无示例服务，所以无法在线演示）。
+
+```json
+{
+  "type": "service",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "ws": "ws://localhost:8777",
+  "body": {
+    "type": "panel",
+    "title": "$title",
+    "body": "随机数：${random}"
+  }
+}
+```
+
+可以只设置 ws，通过 ws 来获取所有数据，也可以同时设置 api 和 ws，让 api 用于获取全部数据，而 ws 用于获取实时更新的数据。
+
+后端实现示例，基于 [ws](https://github.com/websockets/ws)：
+
+```javascript
+const WebSocket = require('ws');
+
+const ws = new WebSocket.Server({port: 8777});
+
+ws.on('connection', function connection(ws) {
+  setInterval(() => {
+    const random = Math.floor(Math.random() * Math.floor(100));
+    // 返回给 amis 的数据
+    const data = {
+      random
+    };
+    // 发送前需要转成字符串
+    ws.send(JSON.stringify(data));
+  }, 500);
+});
+```
+
+WebSocket 客户端的默认实现是使用标准 WebSocket，如果后端使用定制的 WebSocket，比如 socket.io，可以通过覆盖 `env.wsFetcher` 来自己实现数据获取方法，默认实现是：
+
+```javascript
+wsFetcher(ws, onMessage, onError) {
+  if (ws) {
+    const socket = new WebSocket(ws);
+    socket.onmessage = (event: any) => {
+      if (event.data) {
+        onMessage(JSON.parse(event.data));
+      }
+    };
+    socket.onerror = onError;
+    return {
+      close: socket.close
+    };
+  } else {
+    return {
+      close: () => {}
+    };
+  }
+}
+```
+
+通过 onMessage 来通知 amis 数据修改了，并返回 close 函数来关闭连接。
 
 ## 属性表
 
@@ -291,6 +355,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 | className             | `string`                          |                | 外层 Dom 的类名                                                               |
 | body                  | [SchemaNode](../types/schemanode) |                | 内容容器                                                                      |
 | api                   | [api](../types/api)               |                | 初始化数据域接口地址                                                          |
+| ws                    | `string`                          |                | WebScocket 地址                                                               |
 | initFetch             | `boolean`                         |                | 是否默认拉取                                                                  |
 | schemaApi             | [api](../types/api)               |                | 用来获取远程 Schema 接口地址                                                  |
 | initFetchSchema       | `boolean`                         |                | 是否默认拉取 Schema                                                           |

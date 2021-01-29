@@ -804,15 +804,21 @@ export class TreeSelector extends React.Component<
 export function findAncestorsWithValue(
   ancestors: any[],
   options: any[],
-  value: any
+  value: any,
+  valueField = 'value'
 ) {
   for (let option of options) {
-    if (option.value === value) {
+    if (option[valueField] === value) {
       return true;
     }
     // 如果没有就在 children 中查找
     if (option.children) {
-      const inChild = findAncestorsWithValue(ancestors, option.children, value);
+      const inChild = findAncestorsWithValue(
+        ancestors,
+        option.children,
+        value,
+        valueField
+      );
       if (inChild) {
         ancestors.unshift(option);
         return true;

@@ -35,6 +35,11 @@ export interface ServiceSchema extends BaseSchema {
   api?: SchemaApi;
 
   /**
+   * WebScocket 地址，用于实时获取数据
+   */
+  ws?: string;
+
+  /**
    * 内容区域
    */
   body?: SchemaCollection;
@@ -100,6 +105,9 @@ export default class Service extends React.Component<ServiceProps> {
   timer: NodeJS.Timeout;
   mounted: boolean;
 
+  // 主要是用于关闭 socket
+  socket: any;
+
   static defaultProps: Partial<ServiceProps> = {
     messages: {
       fetchFailed: 'fetchFailed'
@@ -151,11 +159,21 @@ export default class Service extends React.Component<ServiceProps> {
           errorMessage: fetchFailed
         })
         .then(this.afterSchemaFetch);
+
+    if (props.ws && prevProps.ws !== props.ws) {
+      if (this.socket) {
+        this.socket.close();
+      }
+      this.socket = store.fetchWSData(props.ws, this.afterDataFetch);
+    }
   }
 
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
+    if (this.socket && this.socket.close) {
+      this.socket.close();
+    }
   }
 
   @autobind
@@ -164,6 +182,7 @@ export default class Service extends React.Component<ServiceProps> {
       schemaApi,
       initFetchSchema,
       api,
+      ws,
       initFetch,
       initFetchOn,
       store,
@@ -186,6 +205,10 @@ export default class Service extends React.Component<ServiceProps> {
           errorMessage: fetchFailed
         })
         .then(this.afterDataFetch);
+    }
+
+    if (ws) {
+      this.socket = store.fetchWSData(ws, this.afterDataFetch);
     }
   }
 

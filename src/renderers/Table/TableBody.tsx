@@ -197,9 +197,15 @@ export class TableBody extends React.Component<TableBodyProps> {
       result[0].colSpan = (result[0].colSpan || 1) + 1;
     }
 
+    //  如果是展开栏，让它和下一列合并。
+    if (columns[0].type === '__expandme' && result[0]) {
+      result[0].colSpan = (result[0].colSpan || 1) + 1;
+    }
+
     // 缺少的单元格补齐
     const appendLen =
-      filterColumns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
+      columns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
+
     if (appendLen) {
       const item = result.pop();
       result.push({

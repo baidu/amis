@@ -192,3 +192,7 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
   }
 }
 ```
+
+## 通过 WebSocket 实时更新数据
+
+请参考 [service](../../service) 中的内容。

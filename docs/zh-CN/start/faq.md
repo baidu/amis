@@ -4,7 +4,7 @@ title: 常见问题
 
 ## 如何实现左侧导航栏页面跳转？
 
-在 1.1.1 之后的版本提供了新的 app 组件，可以基于它实现导航功能，请参考 `https://github.com/fex-team/amis-admin` 项目。
+在 1.1.1 之后的版本提供了新的 app 组件，可以基于它实现导航功能，请参考 `https://github.com/aisuda/amis-admin` 项目。
 
 另外 amis 团队还开发了「[爱速搭](http://suda.baidu.com/)」，即便完全不懂前端也能基于它开发应用。
 
