@@ -153,16 +153,16 @@ title: 背景色
     } @else if $suffix == '.is-active' {
       #{$prefix}bg#{$namePrefix}-#{'' + $name}.is-active,
       #{$prefix}bg#{$namePrefix}-#{'' + $name}:active {
-        background: $color;
+        background-color: $color;
       }
     } @else if $suffix == '.is-disabled' {
       #{$prefix}bg#{$namePrefix}-#{'' + $name}.is-disabled,
       #{$prefix}bg#{$namePrefix}-#{'' + $name}:disabled {
-        background: $color;
+        background-color: $color;
       }
     } @else {
       #{$prefix}bg#{$namePrefix}-#{'' + $name}#{$suffix} {
-        background: $color;
+        background-color: $color;
       }
     }
   }

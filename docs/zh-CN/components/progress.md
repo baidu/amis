@@ -107,6 +107,35 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
+## 显示背景间隔
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "progress",
+        "stripe": true,
+        "value": 60
+    }
+}
+```
+
+## 显示动画
+
+需要同时开启显示背景间隔才能看出来
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "progress",
+        "stripe": true,
+        "animate": true,
+        "value": 60
+    }
+}
+```
+
 ## 属性表
 
 | 属性名               | 类型            | 默认值                                                               | 说明                                                                                   |
@@ -118,4 +147,6 @@ List 的内容、Card 卡片的内容配置同上
 | value                | `string`        |                                                                      | 进度值                                                                                 |
 | placeholder          | `string`        | `-`                                                                  | 占位文本                                                                               |
 | showLabel            | `boolean`       | `true`                                                               | 是否展示进度文本                                                                       |
+| strip                | `boolean`       | ` false`                                                             | 背景是否显示条纹                                                                       |
+| animate              | `boolean`       | `false`                                                              | 背景条纹是否有动画                                                                     |
 | map                  | `Array<string>` | `['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success']` | 进度颜色映射                                                                           |
