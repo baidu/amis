@@ -137,6 +137,21 @@ Action 行为按钮，是触发页面行为的主要方法之一
 }
 ```
 
+icon 也可以是 url 地址，比如
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "action",
+  "actionType": "dialog",
+  "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}
+```
+
 如果`label`配置为空字符串，可以只显示`icon`
 
 ```schema: scope="body"

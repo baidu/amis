@@ -40,7 +40,8 @@ export const FormStore = ServiceStore.named('FormStore')
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
     itemsRef: types.optional(types.array(types.string), []),
     canAccessSuperData: true,
-    persistData: false
+    persistData: false,
+    restError: types.optional(types.array(types.string), []) // 没有映射到表达项上的 errors
   })
   .views(self => {
     function getItems() {
@@ -93,7 +94,10 @@ export const FormStore = ServiceStore.named('FormStore')
       },
 
       get valid() {
-        return getItems().every(item => item.valid);
+        return (
+          getItems().every(item => item.valid) &&
+          (!self.restError || !self.restError.length)
+        );
       },
 
       get isPristine() {
@@ -225,6 +229,21 @@ export const FormStore = ServiceStore.named('FormStore')
       }
     );
 
+    function setRestError(errors: string[]) {
+      self.restError.replace(errors);
+    }
+
+    function addRestError(msg: string | Array<string>) {
+      const msgs: Array<string> = Array.isArray(msg) ? msg : [msg];
+      msgs.forEach(msg => {
+        self.restError.push(msg);
+      });
+    }
+
+    function clearRestError() {
+      setRestError([]);
+    }
+
     const saveRemote: (
       api: Api,
       data?: object,
@@ -234,6 +253,8 @@ export const FormStore = ServiceStore.named('FormStore')
       data: object,
       options: fetchOptions = {}
     ) {
+      clearRestError();
+
       try {
         options = {
           method: 'post', // 默认走 post
@@ -297,21 +318,18 @@ export const FormStore = ServiceStore.named('FormStore')
             });
 
             // 没有映射上的error信息加在msg后显示出来
-            const msgs = Object.keys(errors).map(key => errors[key]);
-
-            if (options && options.errorMessage) {
-              msgs.unshift(options.errorMessage);
-            }
+            !isEmpty(errors) &&
+              setRestError(Object.keys(errors).map(key => errors[key]));
 
             self.updateMessage(
-              json.msg ||
-                `${msgs.join('\n')}` ||
+              json.msg ??
+                self.__(options && options.errorMessage) ??
                 self.__('Form.validateFailed'),
               true
             );
           } else {
             self.updateMessage(
-              json.msg || (options && options.errorMessage),
+              json.msg ?? self.__(options && options.errorMessage),
               true
             );
           }
@@ -327,8 +345,20 @@ export const FormStore = ServiceStore.named('FormStore')
             }
           }
           self.markSaving(false);
-          self.updateMessage(json.msg || (options && options.successMessage));
-          self.msg && getEnv(self).notify('success', self.msg);
+          self.updateMessage(
+            json.msg ?? self.__(options && options.successMessage)
+          );
+          self.msg &&
+            getEnv(self).notify(
+              'success',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
           return json.data;
         }
       } catch (e) {
@@ -365,7 +395,9 @@ export const FormStore = ServiceStore.named('FormStore')
       return paths.reduce(
         (stores: any[], path, idx) => {
           if (Array.isArray(stores) && stores.every(s => s.getItemsByName)) {
-            const items = flatten(stores.map(s => s.getItemsByName(path)));
+            const items = flatten(
+              stores.map(s => s.getItemsByName(path))
+            ).filter(i => i);
             const subStores = items
               .map(item => item?.getSubStore?.())
               .filter(i => i);
@@ -489,6 +521,7 @@ export const FormStore = ServiceStore.named('FormStore')
     }
 
     function removeFormItem(item: IFormItemStore) {
+      item.clearValueOnHidden && deleteValueByName(item.name);
       removeStore(item);
     }
 
@@ -559,6 +592,9 @@ export const FormStore = ServiceStore.named('FormStore')
       onChildStoreDispose,
       updateSavedData,
       getItemsByPath,
+      setRestError,
+      addRestError,
+      clearRestError,
       beforeDestroy() {
         syncOptions.cancel();
         setPersistData.cancel();

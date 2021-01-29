@@ -68,9 +68,13 @@
   &-tab-delBtn {
     color: var(--icon-color);
     cursor: pointer;
-    position: absolute;
-    top: -8px;
-    right: 4px;
+    margin-left: var(--gap-sm);
+    display: inline-block;
+
+    > svg {
+      width: px2rem(11px);
+      height: px2rem(11px);
+    }
 
     &:hover {
       color: var(--icon-onHover-color);
@@ -257,6 +261,9 @@
 
 .#{$ns}ComboTabs-addLink {
   float: right;
+  > a svg {
+    margin-right: var(--gap-xs);
+  }
 }
 
 .#{$ns}Combo-dragableTip {

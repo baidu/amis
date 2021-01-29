@@ -80,7 +80,7 @@ export const ServiceStore = iRendererStore
         fetchCancel = null;
 
         if (!json.ok) {
-          updateMessage(json.msg || (options && options.errorMessage), true);
+          updateMessage(json.msg ?? (options && options.errorMessage), true);
           getEnv(self).notify(
             'error',
             json.msg,
@@ -108,7 +108,7 @@ export const ServiceStore = iRendererStore
             }
           }
 
-          updateMessage(json.msg || (options && options.successMessage));
+          updateMessage(json.msg ?? (options && options.successMessage));
 
           // 配置了获取成功提示后提示，默认是空不会提示。
           options &&
@@ -181,7 +181,7 @@ export const ServiceStore = iRendererStore
         }
 
         if (!json.ok) {
-          updateMessage(json.msg || (options && options.errorMessage), true);
+          updateMessage(json.msg ?? (options && options.errorMessage), true);
           getEnv(self).notify(
             'error',
             self.msg,
@@ -201,7 +201,7 @@ export const ServiceStore = iRendererStore
             }
           }
 
-          updateMessage(json.msg || (options && options.successMessage));
+          updateMessage(json.msg ?? (options && options.successMessage));
 
           // 配置了获取成功提示后提示，默认是空不会提示。
           options &&
@@ -268,8 +268,8 @@ export const ServiceStore = iRendererStore
 
         if (!json.ok) {
           updateMessage(
-            json.msg ||
-              (options && options.errorMessage) ||
+            json.msg ??
+              (options && options.errorMessage) ??
               self.__('saveFailed'),
             true
           );
@@ -283,8 +283,18 @@ export const ServiceStore = iRendererStore
             }
           }
 
-          updateMessage(json.msg || (options && options.successMessage));
-          self.msg && getEnv(self).notify('success', self.msg);
+          updateMessage(json.msg ?? (options && options.successMessage));
+          self.msg &&
+            getEnv(self).notify(
+              'success',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         }
 
         markSaving(false);
@@ -362,8 +372,8 @@ export const ServiceStore = iRendererStore
 
         if (!json.ok) {
           updateMessage(
-            json.msg ||
-              (options && options.errorMessage) ||
+            json.msg ??
+              (options && options.errorMessage) ??
               self.__('fetchFailed'),
             true
           );
@@ -388,7 +398,7 @@ export const ServiceStore = iRendererStore
                 !!(api as ApiObject).replaceData
               );
           }
-          updateMessage(json.msg || (options && options.successMessage));
+          updateMessage(json.msg ?? (options && options.successMessage));
 
           // 配置了获取成功提示后提示，默认是空不会提示。
           options &&

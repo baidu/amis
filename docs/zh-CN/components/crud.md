@@ -562,7 +562,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 ## 数据源接口轮询
 
-可以配置`interval`来实现数据接口轮询功能，默认最低为`3000`毫秒，
+可以配置`interval`来实现数据接口轮询功能，最低为`1000`毫秒：
 
 ```schema: scope="body"
 {
@@ -1699,7 +1699,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | filterTogglable                       | `boolean`                 | `false`                         | 是否可显隐过滤器                                                                                                      |
 | filterDefaultVisible                  | `boolean`                 | `true`                          | 设置过滤器默认是否可见。                                                                                              |
 | initFetch                             | `boolean`                 | `true`                          | 是否初始化的时候拉取数据, 只针对有 filter 的情况, 没有 filter 初始都会拉取数据                                        |
-| interval                              | `number`                  | `3000`                          | 刷新时间(最低 3000)                                                                                                   |
+| interval                              | `number`                  | `3000`                          | 刷新时间(最低 1000)                                                                                                   |
 | silentPolling                         | `boolean`                 | `false`                         | 配置刷新时是否隐藏加载动画                                                                                            |
 | stopAutoRefreshWhen                   | `string`                  | `""`                            | 通过[表达式](../concepts/expression)来配置停止刷新的条件                                                              |
 | stopAutoRefreshWhenModalIsOpen        | `boolean`                 | `false`                         | 当有弹框时关闭自动刷新，关闭弹框又恢复                                                                                |

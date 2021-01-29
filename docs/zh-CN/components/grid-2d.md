@@ -14,7 +14,7 @@ Grid 2D 是一种二维布局方式，它可以更直观设置组件位置。
 
 ## 基本用法
 
-```schema: scoped="body"
+```schema: scope="body"
 {
   "type": "grid-2d",
   "grids": [
@@ -82,7 +82,7 @@ Grid 2D 是一种二维布局方式，它可以更直观设置组件位置。
 
 看下面这个例子
 
-```schema: scoped="body"
+```schema: scope="body"
 {
   "type": "grid-2d",
   "cols": 3,
@@ -140,7 +140,7 @@ Grid 2D 是一种二维布局方式，它可以更直观设置组件位置。
 
 如果格子内容高度不确定，想更具内容自动撑开，可以设置 `width` 为 `auto`。
 
-```schema: scoped="body"
+```schema: scope="body"
 {
   "type": "grid-2d",
   "cols": 3,
@@ -163,7 +163,7 @@ Grid 2D 是一种二维布局方式，它可以更直观设置组件位置。
 
 通过 grip 上的 gap 属性来控制间距，默认包含水平和垂直间距
 
-```schema: scoped="body"
+```schema: scope="body"
 {
   "type": "grid-2d",
   "gap": 10,
@@ -215,7 +215,7 @@ Grid 2D 是一种二维布局方式，它可以更直观设置组件位置。
 
 看下面的例子
 
-```schema: scoped="body"
+```schema: scope="body"
 {
   "type": "grid-2d",
   "cols": 3,

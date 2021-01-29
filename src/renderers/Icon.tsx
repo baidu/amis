@@ -28,7 +28,10 @@ export class Icon extends React.Component<IconProps, object> {
   render() {
     const {icon, vendor, classnames: cx, className} = this.props;
 
-    return (
+    const isURLIcon = icon?.indexOf('.') !== -1;
+    return isURLIcon ? (
+      <img className={cx('Icon')} src={icon} />
+    ) : (
       <i
         className={cx(
           vendor === 'iconfont'

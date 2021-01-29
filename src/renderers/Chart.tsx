@@ -349,7 +349,7 @@ export class Chart extends React.Component<ChartProps> {
 
         interval &&
           this.mounted &&
-          (this.timer = setTimeout(this.reload, Math.max(interval, 3000)));
+          (this.timer = setTimeout(this.reload, Math.max(interval, 1000)));
       })
       .catch(reason => {
         if (env.isCancel(reason)) {

@@ -21,7 +21,7 @@ order: 58
         {
             "label": "Nav 1",
             "to": "/docs/index",
-            "icon": "fa fa-user",
+            "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
             "active": true
         },
         {

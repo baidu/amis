@@ -76,7 +76,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --Page-header-paddingX: #{px2rem(20px)};
   --Page-header-paddingY: #{px2rem(10px)};
 
-  --Form-item-gap: #{px2rem(20px)};
+  --Form-item-gap: #{px2rem(15px)};
   --Form-input-height: #{px2rem(30px)};
   --Form-input-onFocused-bg: var(--white);
   --Form-input-borderRadius: 0;
@@ -90,7 +90,6 @@ $Wizard-steps-liAfterBorder: none !important;
   --Form-input-onDisabled-bg: #f5f5f5;
   --Form-input-onDisabled-borderColor: #ebebeb;
   --Form--horizontal-label-whiteSpace: nowrap;
-  --Form--horizontal-label-align: left;
   --Form--horizontal-label-widthXs: #{px2rem(50px)};
   --Form--horizontal-label-widthSm: #{px2rem(70px)};
   --Form--horizontal-label-widthBase: #{px2rem(100px)};
@@ -369,7 +368,8 @@ $Wizard-steps-liAfterBorder: none !important;
   --Tabs--card-onActive-borderColor: var(--white);
   --Tabs--card-bg: var(--Table-thead-bg);
   --Tabs--radio-bg: var(--white);
-  --Tabs-onActive-borderColor: #{darken($borderColor, 5%)};
+  --Tabs--chrome-onHover-bg: #fcfcfc;
+  --Tabs--chrome-bg: #f5f5f5;
 
   // Pagination
   --Pagination-fontSize: #{px2rem(12px)};

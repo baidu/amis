@@ -151,7 +151,6 @@ $Button-onDisabled-color: rgba(0, 0, 0, 0.25);
   --Tabs-linkFontSize: #{px2rem(14px)};
   --Tabs--card-bg: var(--Table-thead-bg);
   --Tabs--radio-bg: var(--white);
-  --Tabs-onActive-borderColor: #{darken($borderColor, 5%)};
   --Tabs--vertical-onActive-bg: #e7f7ff;
   --Tabs--vertical-onActive-borderWidth: 0 3px 0 0;
   --Tabs--vertical-onActive-container-bg: #fff;

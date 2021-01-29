@@ -792,7 +792,7 @@ order: 2
 
 默认渲染选项组，会获取每一项中的`label`变量作为展示文本，如果你的选中项中没有`label`字段，可能会有显示问题
 
-例如下例中，options 中只有`text`和`value`字段而没有 value 字段，这时点开下拉框，你会发现选项无法正常显示。
+例如下例中，options 中只有`text`和`value`字段而没有 `label` 字段，这时点开下拉框，你会发现选项无法正常显示。
 
 ```schema: scope="body"
 {

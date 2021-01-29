@@ -71,7 +71,7 @@
   $dk-percent: 10%,
   $dker-percent: 15%
 ) {
-  background: $bg-color;
+  background-color: $bg-color;
 
   &.lt,
   & .lt {
@@ -95,7 +95,7 @@
 
   &.bg,
   & .bg {
-    background: $bg-color;
+    background-color: $bg-color;
   }
 }
 
@@ -226,6 +226,12 @@
   .#{$ns}Button-icon:last-child:not(:first-child):not(.pull-left),
   > .pull-right {
     margin-left: $padding-x;
+  }
+
+  // img 需要加一下高度限制
+  img.#{$ns}Button-icon {
+    height: var(--Button-fontSize);
+    vertical-align: middle;
   }
 }
 

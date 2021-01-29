@@ -15,7 +15,8 @@ import {
   isObject,
   isVisible,
   cloneObject,
-  SkipOperation
+  SkipOperation,
+  isEmpty
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -273,6 +274,14 @@ export interface FormSchema extends BaseSchema {
    * 具体的提示信息，选填。
    */
   promptPageLeaveMessage?: string;
+
+  /**
+   * 组合校验规则，选填
+   */
+  rules: Array<{
+    rule: string;
+    message: string;
+  }>;
 }
 
 export type FormGroup = FormSchema & {
@@ -306,6 +315,10 @@ export interface FormProps extends RendererProps, Omit<FormSchema, 'mode'> {
     saveFailed?: string;
     validateFailed?: string;
   };
+  rules: Array<{
+    rule: string;
+    message: string;
+  }>;
   lazyChange?: boolean; // 表单项的
   formLazyChange?: boolean; // 表单的
 }
@@ -372,6 +385,7 @@ export default class Form extends React.Component<FormProps, object> {
   } = {};
   asyncCancel: () => void;
   disposeOnValidate: () => void;
+  disposeRulesValidate: () => void;
   shouldLoadInitApi: boolean = false;
   timer: NodeJS.Timeout;
   mounted: boolean;
@@ -440,15 +454,16 @@ export default class Form extends React.Component<FormProps, object> {
       messages: {fetchSuccess, fetchFailed},
       onValidate,
       promptPageLeave,
-      env
+      env,
+      rules
     } = this.props;
 
     this.mounted = true;
 
     if (onValidate) {
-      const finnalValidate = promisify(onValidate);
+      const finalValidate = promisify(onValidate);
       this.disposeOnValidate = this.addHook(async () => {
-        const result = await finnalValidate(store.data, store);
+        const result = await finalValidate(store.data, store);
 
         if (result && isObject(result)) {
           Object.keys(result).forEach(key => {
@@ -460,14 +475,35 @@ export default class Form extends React.Component<FormProps, object> {
               return;
             }
 
+            // 在setError之前，提前把残留的error信息清除掉，否则每次onValidate后都会一直把报错 append 上去
+            items.forEach(item => item.clearError());
+
             if (msg) {
               msg = Array.isArray(msg) ? msg : [msg];
               items.forEach(item => item.addError(msg));
-            } else {
-              items.forEach(item => item.clearError());
             }
+
+            delete result[key];
           });
+
+          isEmpty(result)
+            ? store.clearRestError()
+            : store.setRestError(Object.keys(result).map(key => result[key]));
         }
+      });
+    }
+
+    if (Array.isArray(rules) && rules.length) {
+      this.disposeRulesValidate = this.addHook(() => {
+        if (!store.valid) {
+          return;
+        }
+
+        rules.forEach(
+          item =>
+            !evalExpression(item.rule, store.data) &&
+            store.addRestError(item.message)
+        );
       });
     }
 
@@ -536,6 +572,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.lazyHandleChange.cancel();
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
+    this.disposeRulesValidate && this.disposeRulesValidate();
     this.componentCache.dispose();
     window.removeEventListener('beforeunload', this.beforePageUnload);
     this.unBlockRouting?.();
@@ -670,7 +707,7 @@ export default class Form extends React.Component<FormProps, object> {
       (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data)) &&
       (this.timer = setTimeout(
         silentPolling ? this.silentReload : this.reload,
-        Math.max(interval, 3000)
+        Math.max(interval, 1000)
       ));
     return value;
   }
@@ -759,6 +796,8 @@ export default class Form extends React.Component<FormProps, object> {
 
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
+
+    store.clearRestError();
 
     (submit || submitOnChange) &&
       this.handleAction(
@@ -1332,6 +1371,8 @@ export default class Form extends React.Component<FormProps, object> {
       render
     } = this.props;
 
+    const {restError} = store;
+
     const WrapperComponent =
       this.props.wrapperComponent ||
       (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
@@ -1347,12 +1388,24 @@ export default class Form extends React.Component<FormProps, object> {
             <code>{JSON.stringify(store.data, null, 2)}</code>
           </pre>
         ) : null}
+
         <Spinner show={store.loading} overlay />
+
         {this.renderFormItems({
           tabs,
           fieldSet,
           controls
         })}
+
+        {/* 显示没有映射上的 errors */}
+        {restError && restError.length ? (
+          <ul className={cx('Form-restError', 'Form-feedback')}>
+            {restError.map((item, idx) => (
+              <li key={idx}>{item}</li>
+            ))}
+          </ul>
+        ) : null}
+
         {render(
           'modal',
           {
@@ -1368,6 +1421,7 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.dialogOpen
           }
         )}
+
         {render(
           'modal',
           {

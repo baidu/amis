@@ -77,6 +77,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     expressionsInOptions: false,
     selectFirst: false,
     autoFill: types.frozen(),
+    clearValueOnHidden: false,
     selectedOptions: types.optional(types.frozen(), []),
     filteredOptions: types.optional(types.frozen(), []),
     dialogSchema: types.frozen(),
@@ -212,11 +213,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         });
 
         return selectedOptions;
-      },
-      getItemsByName(name: string): any {
-        return (this as any).type === 'table'
-          ? [this.subFormItems[name]]
-          : [this];
       }
     };
   })
@@ -240,10 +236,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       type,
       id,
       selectFirst,
-      autoFill
+      autoFill,
+      clearValueOnHidden
     }: {
-      required?: any;
-      unique?: any;
+      required?: boolean;
+      unique?: boolean;
       value?: any;
       rules?: string | {[propName: string]: any};
       messages?: {[propName: string]: string};
@@ -257,6 +254,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       id?: string;
       selectFirst?: boolean;
       autoFill?: any;
+      clearValueOnHidden?: boolean;
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -279,6 +277,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         (self.valueField = (valueField as string) || 'value');
       typeof labelField !== 'undefined' &&
         (self.labelField = (labelField as string) || 'label');
+      typeof clearValueOnHidden !== 'undefined' &&
+        (self.clearValueOnHidden = !!clearValueOnHidden);
 
       rules = rules || {};
       rules = {
@@ -480,7 +480,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           setErrorFlag !== false &&
             setError(
               self.__('Form.loadOptionsFailed', {
-                reason: json.msg || (config && config.errorMessage)
+                reason: json.msg ?? (config && config.errorMessage)
               })
             );
           getEnv(self).notify(
