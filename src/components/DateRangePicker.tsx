@@ -29,6 +29,8 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   clearable?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
+  minDuration?: moment.Duration;
+  maxDuration?: moment.Duration;
   joinValues: boolean;
   delimiter: string;
   value?: any;
@@ -369,73 +371,64 @@ export class DateRangePicker extends React.Component<
   }
 
   handleStartChange(newValue: moment.Moment) {
+    const {embed, timeFormat, minDuration, maxDuration} = this.props;
+    const {startDate, endDate} = this.state;
+
     if (
-      this.state.startDate &&
-      !this.state.endDate &&
-      newValue.isSameOrAfter(this.state.startDate)
+      startDate &&
+      !endDate &&
+      newValue.isSameOrAfter(startDate) &&
+      (!minDuration || newValue.isAfter(startDate.clone().add(minDuration))) &&
+      (!maxDuration || newValue.isBefore(startDate.clone().add(maxDuration)))
     ) {
       return this.setState(
         {
-          endDate: this.filterDate(
-            newValue,
-            this.state.endDate,
-            this.props.timeFormat,
-            'end'
-          )
+          endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
         },
         () => {
-          this.props.embed && this.confirm();
+          embed && this.confirm();
         }
       );
     }
 
     this.setState(
       {
-        startDate: this.filterDate(
-          newValue,
-          this.state.startDate,
-          this.props.timeFormat,
-          'start'
-        )
+        startDate: this.filterDate(newValue, startDate, timeFormat, 'start')
       },
       () => {
-        this.props.embed && this.confirm();
+        embed && this.confirm();
       }
     );
   }
 
   handleEndChange(newValue: moment.Moment) {
+    const {embed, timeFormat, minDuration, maxDuration} = this.props;
+    const {startDate, endDate} = this.state;
+
     if (
-      this.state.endDate &&
-      !this.state.startDate &&
-      newValue.isSameOrBefore(this.state.endDate)
+      endDate &&
+      !startDate &&
+      newValue.isSameOrBefore(endDate) &&
+      (!minDuration ||
+        newValue.isBefore(endDate.clone().subtract(minDuration))) &&
+      (!maxDuration || newValue.isAfter(endDate.clone().subtract(maxDuration)))
     ) {
       return this.setState(
         {
-          startDate: this.filterDate(
-            newValue,
-            this.state.startDate,
-            this.props.timeFormat,
-            'start'
-          )
+          startDate: this.filterDate(newValue, startDate, timeFormat, 'start')
         },
         () => {
-          this.props.embed && this.confirm();
+          embed && this.confirm();
         }
       );
     }
 
     this.setState(
       {
-        endDate: this.filterDate(
-          newValue,
-          this.state.endDate,
-          this.props.timeFormat,
-          'end'
-        )
+        endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
       },
       () => {
-        this.props.embed && this.confirm();
+        embed && this.confirm();
       }
     );
   }
@@ -512,9 +505,9 @@ export class DateRangePicker extends React.Component<
   }
 
   checkStartIsValidDate(currentDate: moment.Moment) {
-    let {endDate} = this.state;
+    let {endDate, startDate} = this.state;
 
-    let {minDate, maxDate} = this.props;
+    let {minDate, maxDate, minDuration, maxDuration} = this.props;
 
     maxDate =
       maxDate && endDate
@@ -527,6 +520,19 @@ export class DateRangePicker extends React.Component<
       return false;
     } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
       return false;
+    } else if (
+      // 如果配置了 minDuration 那么 EndDate - minDuration 之后的天数也不能选
+      endDate &&
+      minDuration &&
+      currentDate.isAfter(endDate.clone().subtract(minDuration))
+    ) {
+      return false;
+    } else if (
+      endDate &&
+      maxDuration &&
+      currentDate.isBefore(endDate.clone().subtract(maxDuration))
+    ) {
+      return false;
     }
 
     return true;
@@ -535,7 +541,7 @@ export class DateRangePicker extends React.Component<
   checkEndIsValidDate(currentDate: moment.Moment) {
     let {startDate} = this.state;
 
-    let {minDate, maxDate} = this.props;
+    let {minDate, maxDate, minDuration, maxDuration} = this.props;
 
     minDate =
       minDate && startDate
@@ -547,6 +553,18 @@ export class DateRangePicker extends React.Component<
     if (minDate && currentDate.isBefore(minDate, 'day')) {
       return false;
     } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
+      return false;
+    } else if (
+      startDate &&
+      minDuration &&
+      currentDate.isBefore(startDate.clone().add(minDuration))
+    ) {
+      return false;
+    } else if (
+      startDate &&
+      maxDuration &&
+      currentDate.isAfter(startDate.clone().add(maxDuration))
+    ) {
       return false;
     }
 

@@ -10,7 +10,6 @@ import {
   keyToPath
 } from './helper';
 import {Enginer} from './tpl';
-import Input from '../components/Input';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
@@ -158,6 +157,22 @@ export const filterDate = (
     return mm(value, format);
   }
 };
+
+export function parseDuration(str: string): moment.Duration | undefined {
+  const matches = /^((?:\-|\+)?(?:\d*\.)?\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/.exec(
+    str
+  );
+
+  if (matches) {
+    const duration = moment.duration(parseFloat(matches[1]), matches[2] as any);
+
+    if (moment.isDuration(duration)) {
+      return duration;
+    }
+  }
+
+  return;
+}
 
 export const filters: {
   [propName: string]: (input: any, ...args: any[]) => any;
