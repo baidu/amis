@@ -147,7 +147,7 @@ export const ServiceStore = iRendererStore
         ws,
         (data: any) => {
           self.updateData(data, undefined, false);
-          self.setHasRemoteData();
+          setHasRemoteData();
           // 因为 WebSocket 只会获取纯数据，所以没有 msg 之类的
           afterDataFetch({ok: true, data: data});
         },
