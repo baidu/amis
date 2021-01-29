@@ -44,7 +44,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
     const props = this.props;
 
     if (props.data !== prevProps.data) {
-      this.store.reInitData(props.data);
+      this.store.initData(props.data);
     }
 
     if (props.location !== prevProps.location) {
