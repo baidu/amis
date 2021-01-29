@@ -123,6 +123,11 @@ export interface RenderSchemaFilter {
 export interface RenderOptions {
   session?: string;
   fetcher?: (config: fetcherConfig) => Promise<fetcherResult>;
+  wsFetcher?: (
+    ws: string,
+    onMessage: (data: any) => void,
+    onError: (error: any) => void
+  ) => void;
   isCancel?: (value: any) => boolean;
   notify?: (
     type: 'error' | 'success',
@@ -265,6 +270,25 @@ const defaultOptions: RenderOptions = {
   loadRenderer,
   fetcher() {
     return Promise.reject('fetcher is required');
+  },
+  // 使用 WebSocket 来实时获取数据
+  wsFetcher(ws, onMessage, onError) {
+    if (ws) {
+      const socket = new WebSocket(ws);
+      socket.onmessage = (event: any) => {
+        if (event.data) {
+          onMessage(JSON.parse(event.data));
+        }
+      };
+      socket.onerror = onError;
+      return {
+        close: socket.close
+      };
+    } else {
+      return {
+        close: () => {}
+      };
+    }
   },
   isCancel() {
     console.error(
