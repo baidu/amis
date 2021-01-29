@@ -93,7 +93,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 想要在页面渲染后，轮询请求初始化接口，步骤如下：
 
 1. 配置 initApi；
-2. 配置 interval：单位为 ms，最低值 3000，低于该值按 3000 处理。
+2. 配置 interval：单位为毫秒，最小 1000。
 
 ```schema
 {
@@ -169,6 +169,6 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | initApi             | [API](../types/api)               |                                            | Page 用来获取初始数据的 api。返回的数据可以整个 page 级别使用。                       |
 | initFetch           | `boolean`                         | `true`                                     | 是否起始拉取 initApi                                                                  |
 | initFetchOn         | [表达式](../concepts/expression)  |                                            | 是否起始拉取 initApi, 通过表达式配置                                                  |
-| interval            | `number`                          | `3000`                                     | 刷新时间(最低 3000)                                                                   |
+| interval            | `number`                          | `3000`                                     | 刷新时间(最小 1000)                                                                   |
 | silentPolling       | `boolean`                         | `false`                                    | 配置刷新时是否显示加载动画                                                            |
 | stopAutoRefreshWhen | [表达式](../concepts/expression)  | `""`                                       | 通过表达式来配置停止刷新的条件                                                        |
