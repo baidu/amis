@@ -92,8 +92,9 @@ export default class NumberControl extends React.Component<NumberProps, any> {
 
     let precisionProps: any = {};
 
-    if (typeof precision === 'number') {
-      precisionProps.precision = precision;
+    const finalPrecision = this.filterNum(precision);
+    if (typeof finalPrecision === 'number') {
+      precisionProps.precision = finalPrecision;
     }
 
     return (
@@ -106,7 +107,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
           onChange={this.handleChange}
           disabled={disabled}
           placeholder={placeholder}
-          precision={precision}
+          precision={finalPrecision}
           showSteps={showSteps}
         />
       </div>
