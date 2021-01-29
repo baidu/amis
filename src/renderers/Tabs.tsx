@@ -13,6 +13,7 @@ import {
   SchemaIcon
 } from '../Schema';
 import {ActionSchema} from './Action';
+import {filter} from '../utils/tpl';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -323,6 +324,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           isVisible(tab, data) ? (
             <Tab
               {...(tab as any)}
+              title={filter(tab.title, data)}
               disabled={isDisabled(tab, data)}
               key={index}
               eventKey={tab.hash || index}
