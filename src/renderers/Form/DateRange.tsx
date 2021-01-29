@@ -78,11 +78,8 @@ export interface DateRangeProps
   format: string;
   joinValues: boolean;
 }
-\
 
-export default class DateRangeControl extends React.Component<
-  DateRangeProps
-> {
+export default class DateRangeControl extends React.Component<DateRangeProps> {
   static defaultProps = {
     format: 'X',
     joinValues: true,
