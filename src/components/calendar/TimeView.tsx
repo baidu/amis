@@ -3,7 +3,7 @@ import TimeView from 'react-datetime/src/TimeView';
 import moment from 'moment';
 import React from 'react';
 import {LocaleProps, localeable} from '../../locale';
-import {Icon} from '../..';
+import {Icon} from '../icons';
 import {ClassNamesFn} from '../../theme';
 
 export class CustomTimeView extends TimeView {
