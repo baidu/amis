@@ -815,7 +815,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (stopAutoRefreshWhenModalIsOpen && interval) {
       this.timer = setTimeout(
         silentPolling ? this.silentSearch : this.search,
-        Math.max(interval, 3000)
+        Math.max(interval, 1000)
       );
     }
 
@@ -901,7 +901,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (stopAutoRefreshWhenModalIsOpen && interval) {
       this.timer = setTimeout(
         silentPolling ? this.silentSearch : this.search,
-        Math.max(interval, 3000)
+        Math.max(interval, 1000)
       );
     }
   }
@@ -1004,7 +1004,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                       undefined,
                       true
                     ),
-                Math.max(interval, 3000)
+                Math.max(interval, 1000)
               ));
             return value;
           })
@@ -1356,7 +1356,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       if (stopAutoRefreshWhenModalIsOpen && interval) {
         this.timer = setTimeout(
           silentPolling ? this.silentSearch : this.search,
-          Math.max(interval, 3000)
+          Math.max(interval, 1000)
         );
       }
     }

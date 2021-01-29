@@ -443,7 +443,7 @@ window.echarts = amisRequire('echarts');
 | api                | [api](../types/api)                  |           | 配置项接口地址                                                     |
 | source             | [数据映射](../concepts/data-mapping) |           | 通过数据映射获取数据链中变量值作为配置                             |
 | initFetch          | `boolean`                            |           | 组件初始化时，是否请求接口                                         |
-| interval           | `number`                             |           | 刷新时间(最低 3000)                                                |
+| interval           | `number`                             |           | 刷新时间(最小 1000)                                                |
 | config             | `object` 或 `string`                 |           | 设置 eschars 的配置项,当为`string`的时候可以设置 function 等配置项 |
 | style              | `object`                             |           | 设置根元素的 style                                                 |
 | width              | `string`                             |           | 设置根元素的宽度                                                   |
