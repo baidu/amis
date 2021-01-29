@@ -71,7 +71,7 @@
   $dk-percent: 10%,
   $dker-percent: 15%
 ) {
-  background: $bg-color;
+  background-color: $bg-color;
 
   &.lt,
   & .lt {
@@ -95,7 +95,7 @@
 
   &.bg,
   & .bg {
-    background: $bg-color;
+    background-color: $bg-color;
   }
 }
 

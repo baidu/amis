@@ -42,6 +42,16 @@ export interface ProgressSchema extends BaseSchema {
    * 占位符
    */
   placeholder?: string;
+
+  /**
+   * 是否显示背景间隔
+   */
+  stripe?: boolean;
+
+  /**
+   * 是否显示动画（只有在开启的时候才能看出来）
+   */
+  animate?: boolean;
 }
 
 export interface ProgressProps extends RendererProps, ProgressSchema {
@@ -54,7 +64,9 @@ export class ProgressField extends React.Component<ProgressProps, object> {
     progressClassName: '',
     progressBarClassName: '',
     map: ['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success'],
-    showLabel: true
+    showLabel: true,
+    stripe: false,
+    animate: false
   };
 
   autoClassName(value: number) {
@@ -71,6 +83,8 @@ export class ProgressField extends React.Component<ProgressProps, object> {
       progressClassName,
       progressBarClassName,
       map,
+      stripe,
+      animate,
       showLabel,
       classnames: cx
     } = this.props;
@@ -90,7 +104,9 @@ export class ProgressField extends React.Component<ProgressProps, object> {
           <div
             className={cx(
               'Progress-bar',
-              progressBarClassName || this.autoClassName(value)
+              progressBarClassName || this.autoClassName(value),
+              {'Progress-bar--stripe': stripe},
+              {'Progress-bar--animate': animate}
             )}
             title={`${value}%`}
             style={{
