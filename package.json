@@ -36,6 +36,7 @@
     }
   ],
   "dependencies": {
+    "ansi-to-react": "^6.1.4",
     "async": "2.6.0",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",

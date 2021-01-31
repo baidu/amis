@@ -878,6 +878,12 @@
   --ListMenu-item-color: var(--text-color);
   --ListMenu-item-height: #{px2rem(34px)};
 
+  --Log-bg: #222;
+  --Log-padding: var(--gap-xs) 0;
+  --Log-line-padding: 0 var(--gap-xs);
+  --Log-color: #f1f1f1;
+  --Log-line--onHover-bg: #444;
+
   --Modal-bg: var(--background);
   --Modal-body--noHeader-paddingTop: var(--gap-base);
   --Modal-body-borderBottom: var(--Modal-content-borderWidth) solid #{lighten(
