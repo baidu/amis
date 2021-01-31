@@ -79,6 +79,7 @@ import {PlainSchema} from '../Plain';
 import {TplSchema} from '../Tpl';
 import {DividerSchema} from '../Divider';
 import {HocStoreFactory} from '../../WithStore';
+import {MonthRangeControlSchema} from './MonthRange';
 
 export type FormControlType =
   | 'array'
@@ -160,6 +161,7 @@ export type FormControlType =
   | 'list'
   | 'location'
   | 'matrix'
+  | 'month-range'
   | 'nested-select'
   | 'number'
   | 'panel'
@@ -231,6 +233,7 @@ export type FormControlSchema =
   | LocationControlSchema
   | UUIDControlSchema
   | MatrixControlSchema
+  | MonthRangeControlSchema
   | NestedSelectControlSchema
   | NumberControlSchema
   | PanelControlSchema

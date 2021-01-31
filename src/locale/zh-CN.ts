@@ -62,6 +62,7 @@ register('zh-CN', {
   'DateRange.thisQuarter': '这个季度',
   'DateRange.valueConcat': ' 至 ',
   'DateTime.placeholder': '请选择日期以及时间',
+  'MonthRange.placeholder': '请选择月份范围',
   'delete': '删除',
   'deleteConfirm': '确认要删除？',
   'deleteFailed': '删除失败',

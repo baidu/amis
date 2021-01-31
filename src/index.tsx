@@ -93,6 +93,7 @@ import './renderers/Form/Image';
 import './renderers/Form/File';
 import './renderers/Form/UUID';
 import './renderers/Form/Matrix';
+import './renderers/Form/MonthRange';
 import './renderers/Form/Range';
 import './renderers/Form/Array';
 import './renderers/Form/Combo';
