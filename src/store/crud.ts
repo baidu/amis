@@ -477,6 +477,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           const json = await self.fetchData(
             options.api,
             {
+              ...self.query,
+              page: undefined,
+              perPage: undefined,
               op: 'export-csv'
             },
             {
