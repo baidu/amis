@@ -75,6 +75,7 @@ import IFrameSchema from './IFrame';
 
 import NormalTabSchema from './Tabs/Normal';
 import FormTabSchema from './Tabs/Form';
+import DynamicTabSchema from './Tabs/Dynamic';
 import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
@@ -399,6 +400,12 @@ export const examples = [
             label: '表单中选项卡分组',
             path: '/examples/tabs/form',
             component: makeSchemaRenderer(FormTabSchema)
+          },
+
+          {
+            label: '动态选项卡',
+            path: '/examples/tabs/dynamic',
+            component: makeSchemaRenderer(DynamicTabSchema)
           },
           {
             label: '选项卡页面1',

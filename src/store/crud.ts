@@ -1,3 +1,4 @@
+import {saveAs} from 'file-saver';
 import {
   types,
   getParent,
@@ -468,7 +469,41 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       setSelectedItems,
       setUnSelectedItems,
       setInnerModalOpened,
-      initFromScope
+      initFromScope,
+      async exportAsCSV(options: {loadDataOnce?: boolean; api?: Api} = {}) {
+        let items = options.loadDataOnce ? self.data.itemsRaw : self.data.items;
+
+        if (!options.loadDataOnce && options.api) {
+          const json = await self.fetchData(
+            options.api,
+            {
+              ...self.query,
+              page: undefined,
+              perPage: undefined,
+              op: 'export-csv'
+            },
+            {
+              autoAppend: true
+            }
+          );
+          if (
+            json.ok &&
+            (Array.isArray(json.data.items) || Array.isArray(json.data.rows))
+          ) {
+            items = json.data.items || json.data.rows;
+          }
+        }
+
+        import('papaparse').then((papaparse: any) => {
+          const csvText = papaparse.unparse(items);
+          if (csvText) {
+            const blob = new Blob([csvText], {
+              type: 'text/plain;charset=utf-8'
+            });
+            saveAs(blob, 'data.csv');
+          }
+        });
+      }
     };
   });
 
