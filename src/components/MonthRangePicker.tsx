@@ -1,6 +1,6 @@
 /**
- * @file DateRangePicker
- * @description 自定义日期范围时间选择器组件
+ * @file MonthRangePicker
+ * @description 月份范围选择器
  * @author fex
  */
 
@@ -10,14 +10,14 @@ import {findDOMNode} from 'react-dom';
 import cx from 'classnames';
 import {Icon} from './icons';
 import Overlay from './Overlay';
-import {ShortCuts, ShortCutDateRange} from './DatePicker';
 import Calendar from './calendar/Calendar';
 import PopOver from './PopOver';
-import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import {themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
 import {noop} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import {DateRangePicker} from './DateRangePicker';
+import capitalize from 'lodash/capitalize';
 
 export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -26,7 +26,7 @@ export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   format: string;
   utc?: boolean;
   inputFormat?: string;
-  ranges?: string | Array<ShortCuts>;
+  // ranges?: string | Array<ShortCuts>;
   clearable?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
@@ -40,10 +40,8 @@ export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
   closeOnSelect?: boolean;
   overlayPlacement: string;
-  timeFormat?: string;
   resetValue?: any;
   popOverContainer?: any;
-  dateFormat?: string;
   embed?: boolean;
 }
 
@@ -53,48 +51,6 @@ export interface MonthRangePickerState {
   startDate?: moment.Moment;
   endDate?: moment.Moment;
 }
-
-const availableRanges: {[propName: string]: any} = {
-  thismonth: {
-    label: 'DateRange.thisMonth',
-    startDate: (now: moment.Moment) => {
-      return now.startOf('month');
-    },
-    endDate: (now: moment.Moment) => {
-      return now;
-    }
-  },
-
-  prevmonth: {
-    label: 'DateRange.lastMonth',
-    startDate: (now: moment.Moment) => {
-      return now.startOf('month').add(-1, 'month');
-    },
-    endDate: (now: moment.Moment) => {
-      return now.startOf('month').add(-1, 'day').endOf('day');
-    }
-  },
-
-  prevquarter: {
-    label: 'DateRange.lastQuarter',
-    startDate: (now: moment.Moment) => {
-      return now.startOf('quarter').add(-1, 'quarter');
-    },
-    endDate: (now: moment.Moment) => {
-      return now.startOf('quarter').add(-1, 'day').endOf('day');
-    }
-  },
-
-  thisquarter: {
-    label: 'DateRange.thisQuarter',
-    startDate: (now: moment.Moment) => {
-      return now.startOf('quarter');
-    },
-    endDate: (now: moment.Moment) => {
-      return now;
-    }
-  }
-};
 
 export class MonthRangePicker extends React.Component<
   MonthRangePickerProps,
@@ -107,7 +63,6 @@ export class MonthRangePicker extends React.Component<
     joinValues: true,
     clearable: true,
     delimiter: ',',
-    ranges: '',
     resetValue: '',
     closeOnSelect: true,
     overlayPlacement: 'auto'
@@ -118,7 +73,7 @@ export class MonthRangePicker extends React.Component<
   input?: HTMLInputElement;
 
   dom: React.RefObject<HTMLDivElement>;
-  nextMonth = moment().add(1, 'months');
+  nextMonth = moment().add(1, 'year').startOf('month');
 
   constructor(props: MonthRangePickerProps) {
     super(props);
@@ -137,7 +92,7 @@ export class MonthRangePicker extends React.Component<
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
-    this.renderDay = this.renderDay.bind(this);
+    this.renderMonth = this.renderMonth.bind(this);
     const {format, joinValues, delimiter, value} = this.props;
 
     this.state = {
@@ -257,7 +212,7 @@ export class MonthRangePicker extends React.Component<
   }
 
   handleStartChange(newValue: moment.Moment) {
-    const {embed, timeFormat, minDuration, maxDuration} = this.props;
+    const {embed, minDuration, maxDuration} = this.props;
     const {startDate, endDate} = this.state;
 
     if (
@@ -269,7 +224,7 @@ export class MonthRangePicker extends React.Component<
     ) {
       return this.setState(
         {
-          endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
+          endDate: this.filterDate(newValue, endDate, '', 'end')
         },
         () => {
           embed && this.confirm();
@@ -279,7 +234,7 @@ export class MonthRangePicker extends React.Component<
 
     this.setState(
       {
-        startDate: this.filterDate(newValue, startDate, timeFormat, 'start')
+        startDate: this.filterDate(newValue, startDate, '', 'start')
       },
       () => {
         embed && this.confirm();
@@ -288,7 +243,7 @@ export class MonthRangePicker extends React.Component<
   }
 
   handleEndChange(newValue: moment.Moment) {
-    const {embed, timeFormat, minDuration, maxDuration} = this.props;
+    const {embed, minDuration, maxDuration} = this.props;
     const {startDate, endDate} = this.state;
 
     if (
@@ -301,7 +256,7 @@ export class MonthRangePicker extends React.Component<
     ) {
       return this.setState(
         {
-          startDate: this.filterDate(newValue, startDate, timeFormat, 'start')
+          startDate: this.filterDate(newValue, startDate, '', 'start')
         },
         () => {
           embed && this.confirm();
@@ -311,74 +266,11 @@ export class MonthRangePicker extends React.Component<
 
     this.setState(
       {
-        endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
+        endDate: this.filterDate(newValue, endDate, '', 'end')
       },
       () => {
         embed && this.confirm();
       }
-    );
-  }
-
-  selectRannge(range: PlainObject) {
-    const {closeOnSelect, minDate, maxDate} = this.props;
-    const now = moment();
-    this.setState(
-      {
-        startDate: minDate
-          ? moment.max(range.startDate(now.clone()), minDate)
-          : range.startDate(now.clone()),
-        endDate: maxDate
-          ? moment.min(maxDate, range.endDate(now.clone()))
-          : range.endDate(now.clone())
-      },
-      closeOnSelect ? this.confirm : noop
-    );
-  }
-
-  renderRanges(ranges: string | Array<ShortCuts> | undefined) {
-    if (!ranges) {
-      return null;
-    }
-    const {classPrefix: ns} = this.props;
-    let rangeArr: Array<string | ShortCuts>;
-    if (typeof ranges === 'string') {
-      rangeArr = ranges.split(',');
-    } else {
-      rangeArr = ranges;
-    }
-    const __ = this.props.translate;
-
-    return (
-      <ul className={`${ns}DateRangePicker-rangers`}>
-        {rangeArr.map(item => {
-          if (!item) {
-            return null;
-          }
-          let range: PlainObject = {};
-          if (typeof item === 'string') {
-            range = availableRanges[item];
-            range.key = item;
-          } else if (
-            (item as ShortCutDateRange).startDate &&
-            (item as ShortCutDateRange).endDate
-          ) {
-            range = {
-              ...item,
-              startDate: () => (item as ShortCutDateRange).startDate,
-              endDate: () => (item as ShortCutDateRange).endDate
-            };
-          }
-          return (
-            <li
-              className={`${ns}DateRangePicker-ranger`}
-              onClick={() => this.selectRannge(range)}
-              key={range.key || range.label}
-            >
-              <a>{__(range.label)}</a>
-            </li>
-          );
-        })}
-      </ul>
     );
   }
 
@@ -457,66 +349,69 @@ export class MonthRangePicker extends React.Component<
     return true;
   }
 
-  renderDay(props: any, currentDate: moment.Moment) {
-    let {startDate, endDate} = this.state;
+  renderMonth(props: any, month: number, year: number) {
+    var currentDate = moment().year(year).month(month);
+    var monthStr = currentDate
+      .localeData()
+      .monthsShort(currentDate.month(month));
+    var strLength = 3;
+    var monthStrFixedLength = monthStr.substring(0, strLength);
+    const {startDate, endDate} = this.state;
 
     if (
       startDate &&
       endDate &&
-      currentDate.isBetween(startDate, endDate, 'day', '[]')
+      currentDate.isBetween(startDate, endDate, 'month', '[]')
     ) {
       props.className += ' rdtBetween';
     }
 
-    return <td {...props}>{currentDate.date()}</td>;
+    return (
+      <td {...props}>
+        <span>{capitalize(monthStrFixedLength)}</span>
+      </td>
+    );
   }
 
   renderCalendar() {
-    const {
-      classPrefix: ns,
-      dateFormat,
-      timeFormat,
-      ranges,
-      locale,
-      embed
-    } = this.props;
+    const {classPrefix: ns, locale, embed} = this.props;
     const __ = this.props.translate;
-    let viewMode: 'days' | 'months' | 'years' | 'time' = 'months';
-
+    const viewMode: 'months' = 'months';
+    const dateFormat = 'YYYY-MM';
     const {startDate, endDate} = this.state;
+
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
-        {this.renderRanges(ranges)}
-
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
           onChange={this.handleStartChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
-          timeFormat={timeFormat}
           isValidDate={this.checkStartIsValidDate}
           viewMode={viewMode}
           input={false}
           onClose={this.close}
-          renderDay={this.renderDay}
+          renderMonth={this.renderMonth}
           locale={locale}
         />
 
         <Calendar
           className={`${ns}DateRangePicker-end`}
-          value={endDate}
+          value={
+            // 因为如果最后一天，切换月份的时候会切不了,有的月份有 31 号，有的没有。
+            endDate?.clone().startOf('month')
+          }
           onChange={this.handleEndChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
-          timeFormat={timeFormat}
           viewDate={this.nextMonth}
           isEndDate
           isValidDate={this.checkEndIsValidDate}
           viewMode={viewMode}
           input={false}
           onClose={this.close}
-          renderDay={this.renderDay}
+          renderMonth={this.renderMonth}
           locale={locale}
         />
 
