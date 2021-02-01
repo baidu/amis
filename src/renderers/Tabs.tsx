@@ -349,7 +349,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
         children.push(
           ...tabs.map((tab, tabIndex) =>
-            isVisible(tab, data) ? (
+            isVisible(tab, ctx) ? (
               <Tab
                 {...(tab as any)}
                 title={filter(tab.title, ctx)}
