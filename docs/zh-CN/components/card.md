@@ -46,19 +46,19 @@ order: 31
 
 ## 属性表
 
-| 属性名                 | 类型                         | 默认值                              | 说明                                   |
-| ---------------------- | ---------------------------- | ----------------------------------- | -------------------------------------- |
-| type                   | `string`                     | `"card"`                            | 指定为 Card 渲染器                     |
-| className              | `string`                     | `"panel-default"`                   | 外层 Dom 的类名                        |
-| header                 | `Object`                     |                                     | Card 头部内容设置                      |
-| header.className       | `string`                     |                                     | 头部类名                               |
-| header.title           | [模板](../concepts/template) |                                     | 标题                                   |
-| header.subTitle        | [模板](../concepts/template) |                                     | 副标题                                 |
-| header.desc            | [模板](../concepts/template) |                                     | 描述                                   |
-| header.avatar          | [模板](../concepts/template) |                                     | 图片                                   |
-| header.avatarText      | [模板](../concepts/template) |                                     | 如果不配置图片，则会在图片处显示该文本 |
-| header.highlight       | `boolean`                    |                                     | 是否显示激活样式                       |
-| header.avatarClassName | `string`                     | `"pull-left thumb avatar b-3x m-r"` | 图片类名                               |
-| body                   | `Array`                      |                                     | 内容容器，主要用来放置非表单项组件     |
-| bodyClassName          | `string`                     | `"padder m-t-sm m-b-sm"`            | 内容区域类名                           |
-| actions                | Array<[Action](./action)>    |                                     | 配置按钮集合                           |
+| 属性名                 | 类型                                 | 默认值                              | 说明                                   |
+| ---------------------- | ------------------------------------ | ----------------------------------- | -------------------------------------- |
+| type                   | `string`                             | `"card"`                            | 指定为 Card 渲染器                     |
+| className              | `string`                             | `"panel-default"`                   | 外层 Dom 的类名                        |
+| header                 | `Object`                             |                                     | Card 头部内容设置                      |
+| header.className       | `string`                             |                                     | 头部类名                               |
+| header.title           | [模板](../../docs/concepts/template) |                                     | 标题                                   |
+| header.subTitle        | [模板](../../docs/concepts/template) |                                     | 副标题                                 |
+| header.desc            | [模板](../../docs/concepts/template) |                                     | 描述                                   |
+| header.avatar          | [模板](../../docs/concepts/template) |                                     | 图片                                   |
+| header.avatarText      | [模板](../../docs/concepts/template) |                                     | 如果不配置图片，则会在图片处显示该文本 |
+| header.highlight       | `boolean`                            |                                     | 是否显示激活样式                       |
+| header.avatarClassName | `string`                             | `"pull-left thumb avatar b-3x m-r"` | 图片类名                               |
+| body                   | `Array`                              |                                     | 内容容器，主要用来放置非表单项组件     |
+| bodyClassName          | `string`                             | `"padder m-t-sm m-b-sm"`            | 内容区域类名                           |
+| actions                | Array<[Action](./action)>            |                                     | 配置按钮集合                           |

@@ -35,10 +35,10 @@ container 可以通过 style 来设置样式，比如背景色或背景图，注
 
 ## 属性表
 
-| 属性名        | 类型                              | 默认值    | 说明                |
-| ------------- | --------------------------------- | --------- | ------------------- |
-| type          | `string`                          | `"alert"` | 指定为 alert 渲染器 |
-| className     | `string`                          |           | 外层 Dom 的类名     |
-| bodyClassName | `string`                          |           | 容器内容区的类名    |
-| style         | `Object`                          |           | 自定义样式          |
-| body          | [SchemaNode](../types/schemanode) |           | 容器内容            |
+| 属性名        | 类型                                      | 默认值    | 说明                |
+| ------------- | ----------------------------------------- | --------- | ------------------- |
+| type          | `string`                                  | `"alert"` | 指定为 alert 渲染器 |
+| className     | `string`                                  |           | 外层 Dom 的类名     |
+| bodyClassName | `string`                                  |           | 容器内容区的类名    |
+| style         | `Object`                                  |           | 自定义样式          |
+| body          | [SchemaNode](../../docs/types/schemanode) |           | 容器内容            |

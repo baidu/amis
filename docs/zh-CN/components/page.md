@@ -8,7 +8,7 @@ icon:
 order: 23
 ---
 
-Page 组件是 amis 页面 JSON 配置中，**唯一的** 顶级容器组件，是整个页面配置的入口组件。
+Page 组件是 amis 页面 JSON 配置中顶级容器组件，是整个页面配置的入口组件。
 
 ## 基本用法
 
@@ -86,7 +86,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 }
 ```
 
-具体 API 规范查看 [API 文档](../types/api)。
+具体 API 规范查看 [API 文档](../../docs/types/api)。
 
 ## 轮询初始化接口
 
@@ -151,24 +151,24 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 
 ## 属性表
 
-| 属性名              | 类型                              | 默认值                                     | 说明                                                                                  |
-| ------------------- | --------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------- |
-| type                | `string`                          | `"page"`                                   | 指定为 Page 组件                                                                      |
-| title               | [SchemaNode](../types/schemanode) |                                            | 页面标题                                                                              |
-| subTitle            | [SchemaNode](../types/schemanode) |                                            | 页面副标题                                                                            |
-| remark              | [Remark](./remark)                |                                            | 标题附近会出现一个提示图标，鼠标放上去会提示该内容。                                  |
-| aside               | [SchemaNode](../types/schemanode) |                                            | 往页面的边栏区域加内容                                                                |
-| toolbar             | [SchemaNode](../types/schemanode) |                                            | 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部 |
-| body                | [SchemaNode](../types/schemanode) |                                            | 往页面的内容区域加内容                                                                |
-| className           | `string`                          |                                            | 外层 dom 类名                                                                         |
-| cssVars             | `object`                          |                                            | 自定义 CSS 变量，请参考[样式](../../../style)                                         |
-| toolbarClassName    | `string`                          | `v-middle wrapper text-right bg-light b-b` | Toolbar dom 类名                                                                      |
-| bodyClassName       | `string`                          | `wrapper`                                  | Body dom 类名                                                                         |
-| asideClassName      | `string`                          | `w page-aside-region bg-auto`              | Aside dom 类名                                                                        |
-| headerClassName     | `string`                          | `bg-light b-b wrapper`                     | Header 区域 dom 类名                                                                  |
-| initApi             | [API](../types/api)               |                                            | Page 用来获取初始数据的 api。返回的数据可以整个 page 级别使用。                       |
-| initFetch           | `boolean`                         | `true`                                     | 是否起始拉取 initApi                                                                  |
-| initFetchOn         | [表达式](../concepts/expression)  |                                            | 是否起始拉取 initApi, 通过表达式配置                                                  |
-| interval            | `number`                          | `3000`                                     | 刷新时间(最小 1000)                                                                   |
-| silentPolling       | `boolean`                         | `false`                                    | 配置刷新时是否显示加载动画                                                            |
-| stopAutoRefreshWhen | [表达式](../concepts/expression)  | `""`                                       | 通过表达式来配置停止刷新的条件                                                        |
+| 属性名              | 类型                                      | 默认值                                     | 说明                                                                                  |
+| ------------------- | ----------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------- |
+| type                | `string`                                  | `"page"`                                   | 指定为 Page 组件                                                                      |
+| title               | [SchemaNode](../../docs/types/schemanode) |                                            | 页面标题                                                                              |
+| subTitle            | [SchemaNode](../../docs/types/schemanode) |                                            | 页面副标题                                                                            |
+| remark              | [Remark](./remark)                        |                                            | 标题附近会出现一个提示图标，鼠标放上去会提示该内容。                                  |
+| aside               | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的边栏区域加内容                                                                |
+| toolbar             | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部 |
+| body                | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的内容区域加内容                                                                |
+| className           | `string`                                  |                                            | 外层 dom 类名                                                                         |
+| cssVars             | `object`                                  |                                            | 自定义 CSS 变量，请参考[样式](../../../style)                                         |
+| toolbarClassName    | `string`                                  | `v-middle wrapper text-right bg-light b-b` | Toolbar dom 类名                                                                      |
+| bodyClassName       | `string`                                  | `wrapper`                                  | Body dom 类名                                                                         |
+| asideClassName      | `string`                                  | `w page-aside-region bg-auto`              | Aside dom 类名                                                                        |
+| headerClassName     | `string`                                  | `bg-light b-b wrapper`                     | Header 区域 dom 类名                                                                  |
+| initApi             | [API](../../docs/types/api)               |                                            | Page 用来获取初始数据的 api。返回的数据可以整个 page 级别使用。                       |
+| initFetch           | `boolean`                                 | `true`                                     | 是否起始拉取 initApi                                                                  |
+| initFetchOn         | [表达式](../../docs/concepts/expression)  |                                            | 是否起始拉取 initApi, 通过表达式配置                                                  |
+| interval            | `number`                                  | `3000`                                     | 刷新时间(最小 1000)                                                                   |
+| silentPolling       | `boolean`                                 | `false`                                    | 配置刷新时是否显示加载动画                                                            |
+| stopAutoRefreshWhen | [表达式](../../docs/concepts/expression)  | `""`                                       | 通过表达式来配置停止刷新的条件                                                        |

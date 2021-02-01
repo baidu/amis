@@ -8,13 +8,13 @@ icon:
 order: 63
 ---
 
-amis 中部分组件，作为展示组件，自身没有**使用接口初始化数据域的能力**，例如：[Table](./table)、[Cards](./cards)、[List](./list)等，他们需要使用某些配置项，例如`source`，通过[数据映射](../concepts/data-mapping)功能，在当前的 **数据链** 中获取数据，并进行数据展示。
+amis 中部分组件，作为展示组件，自身没有**使用接口初始化数据域的能力**，例如：[Table](./table)、[Cards](./cards)、[List](./list)等，他们需要使用某些配置项，例如`source`，通过[数据映射](../../docs/concepts/data-mapping)功能，在当前的 **数据链** 中获取数据，并进行数据展示。
 
 而`Service`组件就是专门为该类组件而生，它的功能是：：**配置初始化接口，进行数据域的初始化，然后在`Service`内容器中配置子组件，这些子组件通过数据链的方法，获取`Service`所拉取到的数据**
 
 ## 基本使用
 
-最基本的使用，是配置初始化接口`api`，将接口返回的数据添加到自身的数据域中，以供子组件通过[数据链](../concepts/datascope-and-datachain#%E6%95%B0%E6%8D%AE%E9%93%BE)进行获取使用。
+最基本的使用，是配置初始化接口`api`，将接口返回的数据添加到自身的数据域中，以供子组件通过[数据链](../../docs/concepts/datascope-and-datachain#%E6%95%B0%E6%8D%AE%E9%93%BE)进行获取使用。
 
 ```schema: scope="body"
 {
@@ -218,7 +218,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 
 ## 接口联动
 
-`api`和`schemaApi`都支持[接口联动](../concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)
+`api`和`schemaApi`都支持[接口联动](../../docs/concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)
 
 ```schema: scope="body"
 {
@@ -277,7 +277,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 
 上例可看到，变更**数据模板**的值，会触发 service 重新请求，并更新当前数据域中的数据
 
-更多相关见[接口联动](../concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)
+更多相关见[接口联动](../../docs/concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)
 
 ## 定时轮询刷新
 
@@ -349,19 +349,19 @@ wsFetcher(ws, onMessage, onError) {
 
 ## 属性表
 
-| 属性名                | 类型                              | 默认值         | 说明                                                                          |
-| --------------------- | --------------------------------- | -------------- | ----------------------------------------------------------------------------- |
-| type                  | `string`                          | `"service"`    | 指定为 service 渲染器                                                         |
-| className             | `string`                          |                | 外层 Dom 的类名                                                               |
-| body                  | [SchemaNode](../types/schemanode) |                | 内容容器                                                                      |
-| api                   | [api](../types/api)               |                | 初始化数据域接口地址                                                          |
-| ws                    | `string`                          |                | WebScocket 地址                                                               |
-| initFetch             | `boolean`                         |                | 是否默认拉取                                                                  |
-| schemaApi             | [api](../types/api)               |                | 用来获取远程 Schema 接口地址                                                  |
-| initFetchSchema       | `boolean`                         |                | 是否默认拉取 Schema                                                           |
-| messages              | `Object`                          |                | 消息提示覆写，默认消息读取的是接口返回的 toast 提示文字，但是在此可以覆写它。 |
-| messages.fetchSuccess | `string`                          |                | 接口请求成功时的 toast 提示文字                                               |
-| messages.fetchFailed  | `string`                          | `"初始化失败"` | 接口请求失败时 toast 提示文字                                                 |
-| interval              | `number`                          |                | 轮询时间间隔(最低 3000)                                                       |
-| silentPolling         | `boolean`                         | `false`        | 配置轮询时是否显示加载动画                                                    |
-| stopAutoRefreshWhen   | [表达式](../concepts/expression)  |                | 配置停止轮询的条件                                                            |
+| 属性名                | 类型                                      | 默认值         | 说明                                                                          |
+| --------------------- | ----------------------------------------- | -------------- | ----------------------------------------------------------------------------- |
+| type                  | `string`                                  | `"service"`    | 指定为 service 渲染器                                                         |
+| className             | `string`                                  |                | 外层 Dom 的类名                                                               |
+| body                  | [SchemaNode](../../docs/types/schemanode) |                | 内容容器                                                                      |
+| api                   | [api](../../docs/types/api)               |                | 初始化数据域接口地址                                                          |
+| ws                    | `string`                                  |                | WebScocket 地址                                                               |
+| initFetch             | `boolean`                                 |                | 是否默认拉取                                                                  |
+| schemaApi             | [api](../../docs/types/api)               |                | 用来获取远程 Schema 接口地址                                                  |
+| initFetchSchema       | `boolean`                                 |                | 是否默认拉取 Schema                                                           |
+| messages              | `Object`                                  |                | 消息提示覆写，默认消息读取的是接口返回的 toast 提示文字，但是在此可以覆写它。 |
+| messages.fetchSuccess | `string`                                  |                | 接口请求成功时的 toast 提示文字                                               |
+| messages.fetchFailed  | `string`                                  | `"初始化失败"` | 接口请求失败时 toast 提示文字                                                 |
+| interval              | `number`                                  |                | 轮询时间间隔(最低 3000)                                                       |
+| silentPolling         | `boolean`                                 | `false`        | 配置轮询时是否显示加载动画                                                    |
+| stopAutoRefreshWhen   | [表达式](../../docs/concepts/expression)  |                | 配置停止轮询的条件                                                            |

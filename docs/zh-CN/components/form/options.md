@@ -156,7 +156,7 @@ order: 2
 
 ### 通过数据域中变量配置
 
-你也可以配置`source`属性，利用 [数据映射](../../concepts/data-mapping)，获取当前数据链中的变量
+你也可以配置`source`属性，利用 [数据映射](../../../docs/concepts/data-mapping)，获取当前数据链中的变量
 
 ```schema: scope="body"
 {
@@ -192,7 +192,7 @@ order: 2
 
 ### 远程拉取
 
-除了可以通过数据映射获取当前数据域中的变量以外，`source`还支持配置接口，格式为 [API](../../types/api)，用于动态返回选项组。
+除了可以通过数据映射获取当前数据域中的变量以外，`source`还支持配置接口，格式为 [API](../../../docs/types/api)，用于动态返回选项组。
 
 ```schema: scope="body"
 {
@@ -208,7 +208,7 @@ order: 2
 }
 ```
 
-远程拉取接口时，返回的数据结构除了需要满足 [amis 接口要求的基本数据结构](../../types/api#%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E6%A0%BC%E5%BC%8F-%E9%87%8D%E8%A6%81-) 以外，必须用`"options"`作为选项组的`key`值，如下
+远程拉取接口时，返回的数据结构除了需要满足 [amis 接口要求的基本数据结构](../../../docs/types/api#%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E6%A0%BC%E5%BC%8F-%E9%87%8D%E8%A6%81-) 以外，必须用`"options"`作为选项组的`key`值，如下
 
 ```json
 {
@@ -1265,7 +1265,7 @@ order: 2
 
 ## 自动填充 autoFill
 
-一些选择器组件，支持配置`autoFill`，将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，**只在单选时有效**，支持[数据映射](../../concepts/data-mapping)
+一些选择器组件，支持配置`autoFill`，将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，**只在单选时有效**，支持[数据映射](../../../docs/concepts/data-mapping)
 
 ```schema: scope="body"
 {
@@ -1307,12 +1307,12 @@ order: 2
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名       | 类型                                                              | 默认值    | 说明                                                                   |
-| ------------ | ----------------------------------------------------------------- | --------- | ---------------------------------------------------------------------- |
-| options      | `Array<object>`或`Array<string>`                                  |           | 选项组，供用户选择                                                     |
-| source       | [API](../../types/api) 或 [数据映射](../../concepts/data-mapping) |           | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象          |
-| multiple     | `boolean`                                                         | `false`   | 是否支持多选                                                           |
-| labelField   | `boolean`                                                         | `"label"` | 标识选项中哪个字段是`label`值                                          |
-| valueField   | `boolean`                                                         | `"value"` | 标识选项中哪个字段是`value`值                                          |
-| joinValues   | `boolean`                                                         | `true`    | 是否拼接`value`值                                                      |
-| extractValue | `boolean`                                                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效 |
+| 属性名       | 类型                                                                              | 默认值    | 说明                                                                   |
+| ------------ | --------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------- |
+| options      | `Array<object>`或`Array<string>`                                                  |           | 选项组，供用户选择                                                     |
+| source       | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |           | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象          |
+| multiple     | `boolean`                                                                         | `false`   | 是否支持多选                                                           |
+| labelField   | `boolean`                                                                         | `"label"` | 标识选项中哪个字段是`label`值                                          |
+| valueField   | `boolean`                                                                         | `"value"` | 标识选项中哪个字段是`value`值                                          |
+| joinValues   | `boolean`                                                                         | `true`    | 是否拼接`value`值                                                      |
+| extractValue | `boolean`                                                                         | `false`   | 是否将`value`值抽取出来组成新的数组，只有在`joinValues`是`false`是生效 |

@@ -8,6 +8,8 @@ icon:
 order: 68
 ---
 
+选项卡容器组件。
+
 ## 基本用法
 
 ```schema: scope="body"

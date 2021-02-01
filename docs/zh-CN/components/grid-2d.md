@@ -257,21 +257,21 @@ Grid 2D 是一种二维布局方式，它可以更直观设置组件位置。
 
 ## 属性表
 
-| 属性名          | 类型                              | 默认值    | 说明                            |
-| --------------- | --------------------------------- | --------- | ------------------------------- |
-| type            | `string`                          | `grid-2d` | 指定为 Grid 2D 渲染器           |
-| gridClassName   | `string`                          |           | 外层 Dom 的类名                 |
-| gap             | `int`/`string`                    | 0         | 格子间距，包括水平和垂直        |
-| cols            | `int`                             | 12        | 格子水平划分为几个区域          |
-| rowHeight       | `int`                             | 50        | 每个格子默认垂直高度            |
-| rowGap          | `int`/`string`                    |           | 格子垂直间距                    |
-| grids           | `Array`                           |           | 格子集合                        |
-| grids[x]        | [SchemaNode](../types/schemanode) |           | 格子可以是其他渲染器            |
-| grids[x].x      | `int`                             |           | 格子起始位置的横坐标            |
-| grids[x].y      | `int`                             |           | 格子起始位置的纵坐标            |
-| grids[x].w      | `int`                             |           | 格子横跨几个宽度                |
-| grids[x].h      | `int`                             |           | 格子横跨几个高度                |
-| grids[x].width  | `int`/`string`/`auto`             |           | 格子所在列的宽度                |
-| grids[x].height | `int`/`string`/`auto`             |           | 格子所在行的高度，可以设置 auto |
-| grids[x].align  | `left`/`center`/`right`/`auto`    | `auto`    | 格子内容水平布局                |
-| grids[x].valign | `top`/`bottom`/`middle`/`auto`    | `auto`    | 格子内容垂直布局                |
+| 属性名          | 类型                                      | 默认值    | 说明                            |
+| --------------- | ----------------------------------------- | --------- | ------------------------------- |
+| type            | `string`                                  | `grid-2d` | 指定为 Grid 2D 渲染器           |
+| gridClassName   | `string`                                  |           | 外层 Dom 的类名                 |
+| gap             | `int`/`string`                            | 0         | 格子间距，包括水平和垂直        |
+| cols            | `int`                                     | 12        | 格子水平划分为几个区域          |
+| rowHeight       | `int`                                     | 50        | 每个格子默认垂直高度            |
+| rowGap          | `int`/`string`                            |           | 格子垂直间距                    |
+| grids           | `Array`                                   |           | 格子集合                        |
+| grids[x]        | [SchemaNode](../../docs/types/schemanode) |           | 格子可以是其他渲染器            |
+| grids[x].x      | `int`                                     |           | 格子起始位置的横坐标            |
+| grids[x].y      | `int`                                     |           | 格子起始位置的纵坐标            |
+| grids[x].w      | `int`                                     |           | 格子横跨几个宽度                |
+| grids[x].h      | `int`                                     |           | 格子横跨几个高度                |
+| grids[x].width  | `int`/`string`/`auto`                     |           | 格子所在列的宽度                |
+| grids[x].height | `int`/`string`/`auto`                     |           | 格子所在行的高度，可以设置 auto |
+| grids[x].align  | `left`/`center`/`right`/`auto`            | `auto`    | 格子内容水平布局                |
+| grids[x].valign | `top`/`bottom`/`middle`/`auto`            | `auto`    | 格子内容垂直布局                |
