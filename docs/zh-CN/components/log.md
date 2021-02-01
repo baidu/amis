@@ -56,7 +56,7 @@ app.listen(3000, '127.0.0.1');
 console.log('Node server running on port 3000');
 ```
 
-其它语言请查找 stream 类型的的放回，比如 Spring 的 `StreamingResponseBody`：
+其它语言请查找如何使用 stream 的方式返回内容，比如 Spring 的 `StreamingResponseBody`：
 
 ```java
 @Controller
