@@ -36,6 +36,11 @@ export interface LogSchema extends BaseSchema {
    * 是否自动滚动到最底部
    */
   autoScroll?: boolean;
+
+  /**
+   * 返回内容字符编码
+   */
+  encoding?: string;
 }
 
 export interface LogProps extends RendererProps, LogSchema {}
@@ -49,7 +54,8 @@ export class Log extends React.Component<LogProps, LogState> {
   static defaultProps = {
     height: 500,
     autoScroll: true,
-    placeholder: 'loading'
+    placeholder: 'loading',
+    encoding: 'utf-8'
   };
 
   isDone: boolean = false;
@@ -104,7 +110,7 @@ export class Log extends React.Component<LogProps, LogState> {
   }
 
   async loadLogs() {
-    const {source, env, translate: __} = this.props;
+    const {source, env, translate: __, encoding} = this.props;
     // 因为这里返回结果是流式的，和普通 api 请求不一样，如果直接用 fetcher 经过 responseAdpater 可能会导致出错，所以就直接 fetch 了
     const res = await fetch(source);
     if (res.status === 200) {
@@ -118,7 +124,7 @@ export class Log extends React.Component<LogProps, LogState> {
       for (;;) {
         let {done, value} = await reader.read();
         if (value) {
-          let text = new TextDecoder('utf-8').decode(value, {stream: true});
+          let text = new TextDecoder(encoding).decode(value, {stream: true});
           // 不考虑只有 \r 换行符的情况，几乎没人用
           const lines = text.split('\n');
           // 如果没有换行符就只更新最后一行

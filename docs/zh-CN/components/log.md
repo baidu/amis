@@ -84,9 +84,10 @@ public class StreamingResponseBodyController {
 
 ## 属性表
 
-| 属性名      | 类型      | 默认值 | 说明          |
-| ----------- | --------- | ------ | ------------- |
-| height      | `number`  | 500    | 展示区域高度  |
-| className   | `string`  |        | 外层 CSS 类名 |
-| autoScroll  | `boolean` | true   | 是否自动滚动  |
-| placeholder | `string`  |        | 加载中的文字  |
+| 属性名      | 类型      | 默认值 | 说明               |
+| ----------- | --------- | ------ | ------------------ |
+| height      | `number`  | 500    | 展示区域高度       |
+| className   | `string`  |        | 外层 CSS 类名      |
+| autoScroll  | `boolean` | true   | 是否自动滚动       |
+| placeholder | `string`  |        | 加载中的文字       |
+| encoding    | `string`  | utf-8  | 返回内容的字符编码 |
