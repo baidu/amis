@@ -753,6 +753,7 @@ if (fis.project.currentMedia() === 'publish') {
         const appJs = ret.src['/examples/components/App.tsx'];
         const DocJs = ret.src['/examples/components/Doc.tsx'];
         const DocNavCN = ret.src['/examples/components/DocNavCN.ts'];
+        const Components = ret.src['/examples/components/Components.tsx'];
         const DocCSS = ret.src['/examples/components/CssDocs.tsx'];
         const ExampleJs = ret.src['/examples/components/Example.tsx'];
 
@@ -761,6 +762,7 @@ if (fis.project.currentMedia() === 'publish') {
           appJs.getContent(),
           DocJs.getContent(),
           DocNavCN.getContent(),
+          Components.getContent(),
           DocCSS.getContent(),
           ExampleJs.getContent()
         ].join('\n');
