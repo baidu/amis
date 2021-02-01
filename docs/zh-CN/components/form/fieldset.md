@@ -181,14 +181,14 @@ fieldSet 的另一种标题展现样式，不同的是展开的时候收起文�
 
 ## 属性表
 
-| 属性名           | 类型                                 | 默认值  | 说明                                                                       |
-| ---------------- | ------------------------------------ | ------- | -------------------------------------------------------------------------- |
-| className        | `string`                             |         | CSS 类名                                                                   |
-| headingClassName | `string`                             |         | 标题 CSS 类名                                                              |
-| bodyClassName    | `string`                             |         | 内容区域 CSS 类名                                                          |
-| title            | [SchemaNode](../../types/schemanode) |         | 标题                                                                       |
-| controls         | Array<[表单项](./formitem)>          |         | 表单项集合                                                                 |
-| mode             | `string`                             |         | 展示默认，同 [Form](./index#%E8%A1%A8%E5%8D%95%E5%B1%95%E7%A4%BA) 中的模式 |
-| collapsable      | `boolean`                            | `false` | 是否可折叠                                                                 |
-| collapsed        | `booelan`                            | `false` | 默认是否折叠                                                               |
-| collapseTitle    | [SchemaNode](../../types/schemanode) | `收起`  | 收起的标题                                                                 |
+| 属性名           | 类型                                         | 默认值  | 说明                                                                       |
+| ---------------- | -------------------------------------------- | ------- | -------------------------------------------------------------------------- |
+| className        | `string`                                     |         | CSS 类名                                                                   |
+| headingClassName | `string`                                     |         | 标题 CSS 类名                                                              |
+| bodyClassName    | `string`                                     |         | 内容区域 CSS 类名                                                          |
+| title            | [SchemaNode](../../../docs/types/schemanode) |         | 标题                                                                       |
+| controls         | Array<[表单项](./formitem)>                  |         | 表单项集合                                                                 |
+| mode             | `string`                                     |         | 展示默认，同 [Form](./index#%E8%A1%A8%E5%8D%95%E5%B1%95%E7%A4%BA) 中的模式 |
+| collapsable      | `boolean`                                    | `false` | 是否可折叠                                                                 |
+| collapsed        | `booelan`                                    | `false` | 默认是否折叠                                                               |
+| collapseTitle    | [SchemaNode](../../../docs/types/schemanode) | `收起`  | 收起的标题                                                                 |

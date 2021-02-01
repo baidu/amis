@@ -82,7 +82,7 @@ order: 49
 
 Service 中的`api`和`schemaApi`都支持**接口联动**。
 
-下面例子中，`数据模板`下拉框的值变化后，会触发 service 重新拉取 api 接口，从而更新数据源，变化表单项的值，更多用法查看 [接口联动](../../concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)。
+下面例子中，`数据模板`下拉框的值变化后，会触发 service 重新拉取 api 接口，从而更新数据源，变化表单项的值，更多用法查看 [接口联动](../../../docs/concepts/linkage#%E6%8E%A5%E5%8F%A3%E8%81%94%E5%8A%A8)。
 
 ```schema: scope="body"
 {

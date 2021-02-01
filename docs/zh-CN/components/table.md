@@ -1079,7 +1079,7 @@ order: 67
 
 ## 高亮行
 
-可以通过配置`rowClassNameExpr`来为行添加 CSS 类，支持 [模板](../concepts/template) 语法。
+可以通过配置`rowClassNameExpr`来为行添加 CSS 类，支持 [模板](../../docs/concepts/template) 语法。
 
 例如下例，`"<%= data.id % 2 ? "bg-success" : "" %>"` 表示当行数据的 `id` 变量为 不能被 `2` 整除时，给当前行添加`bg-success` CSS 类名，即绿色背景色
 
@@ -1264,26 +1264,26 @@ order: 67
 
 ## 属性表
 
-| 属性名           | 类型                                          | 默认值                    | 说明                                                              |
-| ---------------- | --------------------------------------------- | ------------------------- | ----------------------------------------------------------------- |
-| type             | `string`                                      |                           | `"type"` 指定为 table 渲染器                                      |
-| title            | `string`                                      |                           | 标题                                                              |
-| source           | `string`                                      | `${items}`                | 数据源, 绑定当前环境变量                                          |
-| affixHeader      | `boolean`                                     | `true`                    | 是否固定表头                                                      |
-| columnsTogglable | `auto` 或者 `boolean`                         | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启           |
-| placeholder      | string                                        | `暂无数据`                | 当没数据的时候的文字提示                                          |
-| className        | `string`                                      | `panel-default`           | 外层 CSS 类名                                                     |
-| tableClassName   | `string`                                      | `table-db table-striped`  | 表格 CSS 类名                                                     |
-| headerClassName  | `string`                                      | `Action.md-table-header`  | 顶部外层 CSS 类名                                                 |
-| footerClassName  | `string`                                      | `Action.md-table-footer`  | 底部外层 CSS 类名                                                 |
-| toolbarClassName | `string`                                      | `Action.md-table-toolbar` | 工具栏 CSS 类名                                                   |
-| columns          | Array<[Column](#%E5%88%97%E9%85%8D%E7%BD%AE)> |                           | 用来设置列信息                                                    |
-| combineNum       | `number`                                      |                           | 自动合并单元格                                                    |
-| itemActions      | Array<[Action](./action-button)>              |                           | 悬浮行操作按钮组                                                  |
-| itemCheckableOn  | [表达式](../concepts/expression)              |                           | 配置当前行是否可勾选的条件，要用 [表达式](../concepts/expression) |
-| itemDraggableOn  | [表达式](../concepts/expression)              |                           | 配置当前行是否可拖拽的条件，要用 [表达式](../concepts/expression) |
-| checkOnItemClick | `boolean`                                     | `false`                   | 点击数据行是否可以勾选当前行                                      |
-| rowClassName     | `string`                                      |                           | 给行添加 CSS 类名                                                 |
-| rowClassNameExpr | [模板](../concepts/template)                  |                           | 通过模板给行添加 CSS 类名                                         |
-| prefixRow        | `Array`                                       |                           | 顶部总结行                                                        |
-| affixRow         | `Array`                                       |                           | 底部总结行                                                        |
+| 属性名           | 类型                                          | 默认值                    | 说明                                                                      |
+| ---------------- | --------------------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
+| type             | `string`                                      |                           | `"type"` 指定为 table 渲染器                                              |
+| title            | `string`                                      |                           | 标题                                                                      |
+| source           | `string`                                      | `${items}`                | 数据源, 绑定当前环境变量                                                  |
+| affixHeader      | `boolean`                                     | `true`                    | 是否固定表头                                                              |
+| columnsTogglable | `auto` 或者 `boolean`                         | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                   |
+| placeholder      | string                                        | `暂无数据`                | 当没数据的时候的文字提示                                                  |
+| className        | `string`                                      | `panel-default`           | 外层 CSS 类名                                                             |
+| tableClassName   | `string`                                      | `table-db table-striped`  | 表格 CSS 类名                                                             |
+| headerClassName  | `string`                                      | `Action.md-table-header`  | 顶部外层 CSS 类名                                                         |
+| footerClassName  | `string`                                      | `Action.md-table-footer`  | 底部外层 CSS 类名                                                         |
+| toolbarClassName | `string`                                      | `Action.md-table-toolbar` | 工具栏 CSS 类名                                                           |
+| columns          | Array<[Column](#%E5%88%97%E9%85%8D%E7%BD%AE)> |                           | 用来设置列信息                                                            |
+| combineNum       | `number`                                      |                           | 自动合并单元格                                                            |
+| itemActions      | Array<[Action](./action-button)>              |                           | 悬浮行操作按钮组                                                          |
+| itemCheckableOn  | [表达式](../../docs/concepts/expression)      |                           | 配置当前行是否可勾选的条件，要用 [表达式](../../docs/concepts/expression) |
+| itemDraggableOn  | [表达式](../../docs/concepts/expression)      |                           | 配置当前行是否可拖拽的条件，要用 [表达式](../../docs/concepts/expression) |
+| checkOnItemClick | `boolean`                                     | `false`                   | 点击数据行是否可以勾选当前行                                              |
+| rowClassName     | `string`                                      |                           | 给行添加 CSS 类名                                                         |
+| rowClassNameExpr | [模板](../../docs/concepts/template)          |                           | 通过模板给行添加 CSS 类名                                                 |
+| prefixRow        | `Array`                                       |                           | 顶部总结行                                                                |
+| affixRow         | `Array`                                       |                           | 底部总结行                                                                |
