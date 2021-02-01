@@ -410,6 +410,14 @@ td.rdtQuarter {
     display: block;
   }
 
+  &.rdtBetween {
+    background: transparent !important;
+
+    > span {
+      background: var(--Calendar-cell-onBetween-bg);
+    }
+  }
+
   &:hover,
   &.rdtActive {
     background: transparent !important;

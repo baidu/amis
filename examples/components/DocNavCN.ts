@@ -327,6 +327,15 @@ export default [
               )
           },
           {
+            label: 'Month-Range 月份范围',
+            path: '/zh-CN/docs/components/form/month-range',
+            getComponent: () =>
+              // @ts-ignore
+              import('../../docs/zh-CN/components/form/month-range.md').then(
+                makeMarkdownRenderer
+              )
+          },
+          {
             label: 'DiffEditor 对比编辑器',
             path: '/zh-CN/docs/components/form/diff-editor',
             getComponent: () =>
