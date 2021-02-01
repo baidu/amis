@@ -83,9 +83,9 @@ order: 72
 
 ## 属性表
 
-| 属性名    | 类型                              | 默认值      | 说明                         |
-| --------- | --------------------------------- | ----------- | ---------------------------- |
-| type      | `string`                          | `"wrapper"` | 指定为 Wrapper 渲染器        |
-| className | `string`                          |             | 外层 Dom 的类名              |
-| size      | `string`                          |             | 支持: `xs`、`sm`、`md`和`lg` |
-| body      | [SchemaNode](../types/schemanode) |             | 内容容器                     |
+| 属性名    | 类型                                      | 默认值      | 说明                         |
+| --------- | ----------------------------------------- | ----------- | ---------------------------- |
+| type      | `string`                                  | `"wrapper"` | 指定为 Wrapper 渲染器        |
+| className | `string`                                  |             | 外层 Dom 的类名              |
+| size      | `string`                                  |             | 支持: `xs`、`sm`、`md`和`lg` |
+| body      | [SchemaNode](../../docs/types/schemanode) |             | 内容容器                     |

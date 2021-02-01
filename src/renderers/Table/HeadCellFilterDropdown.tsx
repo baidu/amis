@@ -9,6 +9,7 @@ import {findDOMNode} from 'react-dom';
 import Checkbox from '../../components/Checkbox';
 import xor from 'lodash/xor';
 import {normalizeOptions} from '../../components/Select';
+import {getVariable} from '../../utils/helper';
 
 export interface QuickFilterConfig {
   options: Array<any>;
@@ -48,42 +49,60 @@ export class HeadCellFilterDropDown extends React.Component<
 
     if (filterable.source) {
       this.fetchOptions();
-    } else if (filterable.options.length > 0) {
+    } else if (filterable.options?.length > 0) {
       this.setState({
         filterOptions: this.alterOptions(filterable.options)
       });
     }
   }
 
-  componentWillReceiveProps(nextProps: HeadCellFilterProps) {
-    const props = this.props;
-
-    if (
-      props.name !== nextProps.name ||
-      props.filterable !== nextProps.filterable ||
-      props.data !== nextProps.data
-    ) {
-      if (nextProps.filterable.source) {
-        this.sourceInvalid = isApiOutdated(
-          props.filterable.source,
-          nextProps.filterable.source,
-          props.data,
-          nextProps.data
-        );
-      } else if (nextProps.filterable.options) {
-        this.setState({
-          filterOptions: this.alterOptions(nextProps.filterable.options || [])
-        });
-      }
-    }
-  }
-
   componentDidUpdate(prevProps: HeadCellFilterProps, prevState: any) {
     const name = this.props.name;
 
+    const props = this.props;
+
+    if (
+      prevProps.name !== props.name ||
+      prevProps.filterable !== props.filterable ||
+      prevProps.data !== props.data
+    ) {
+      if (props.filterable.source) {
+        this.sourceInvalid = isApiOutdated(
+          prevProps.filterable.source,
+          props.filterable.source,
+          prevProps.data,
+          props.data
+        );
+      } else if (props.filterable.options) {
+        this.setState({
+          filterOptions: this.alterOptions(props.filterable.options || [])
+        });
+      } else if (
+        name &&
+        !this.state.filterOptions.length &&
+        Array.isArray(props.store?.data.itemsRaw)
+      ) {
+        const itemsRaw = props.store?.data.itemsRaw;
+        const values: Array<any> = [];
+        itemsRaw.forEach((item: any) => {
+          const value = getVariable(item, name);
+
+          if (!~values.indexOf(value)) {
+            values.push(value);
+          }
+        });
+
+        if (values.length) {
+          this.setState({
+            filterOptions: this.alterOptions(values)
+          });
+        }
+      }
+    }
+
     if (
       this.props.data[name] !== prevProps.data[name] &&
-      this.props.filterable.source &&
+      this.state.filterOptions.length &&
       prevState.filterOptions !== this.props.filterOptions
     ) {
       this.setState({

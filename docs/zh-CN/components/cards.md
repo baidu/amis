@@ -115,14 +115,14 @@ order: 32
 
 ## 属性表
 
-| 属性名          | 类型                                 | 默认值              | 说明                           |
-| --------------- | ------------------------------------ | ------------------- | ------------------------------ |
-| type            | `string`                             |                     | `"cards"` 指定为卡片组。       |
-| title           | [模板](../concepts/template)         |                     | 标题                           |
-| source          | [数据映射](../concepts/data-mapping) | `${items}`          | 数据源, 获取当前数据域中的变量 |
-| placeholder     | [模板](../concepts/template)         | ‘暂无数据’          | 当没数据的时候的文字提示       |
-| className       | `string`                             |                     | 外层 CSS 类名                  |
-| headerClassName | `string`                             | `amis-grid-header`  | 顶部外层 CSS 类名              |
-| footerClassName | `string`                             | `amis-grid-footer`  | 底部外层 CSS 类名              |
-| itemClassName   | `string`                             | `col-sm-4 col-md-3` | 卡片 CSS 类名                  |
-| card            | [Card](./card)                       |                     | 配置卡片信息                   |
+| 属性名          | 类型                                         | 默认值              | 说明                           |
+| --------------- | -------------------------------------------- | ------------------- | ------------------------------ |
+| type            | `string`                                     |                     | `"cards"` 指定为卡片组。       |
+| title           | [模板](../../docs/concepts/template)         |                     | 标题                           |
+| source          | [数据映射](../../docs/concepts/data-mapping) | `${items}`          | 数据源, 获取当前数据域中的变量 |
+| placeholder     | [模板](../../docs/concepts/template)         | ‘暂无数据’          | 当没数据的时候的文字提示       |
+| className       | `string`                                     |                     | 外层 CSS 类名                  |
+| headerClassName | `string`                                     | `amis-grid-header`  | 顶部外层 CSS 类名              |
+| footerClassName | `string`                                     | `amis-grid-footer`  | 底部外层 CSS 类名              |
+| itemClassName   | `string`                                     | `col-sm-4 col-md-3` | 卡片 CSS 类名                  |
+| card            | [Card](./card)                               |                     | 配置卡片信息                   |

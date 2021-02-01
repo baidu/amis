@@ -312,12 +312,12 @@ icon 也可以是 url 地址，比如
 
 **属性表**
 
-| 属性名   | 类型                                                                             | 默认值 | 说明                                                                                                                                      |
-| -------- | -------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| api      | [Api](../types/api)                                                              | -      | 请求地址，参考 [api](../types/api) 格式说明。                                                                                             |
-| redirect | [模板字符串](../concepts/template#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2) | -      | 指定当前请求结束后跳转的路径，可用 `${xxx}` 取值。                                                                                        |
-| feedback | `DialogObject`                                                                   | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog.md) |
-| messages | `object`                                                                         | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                        |
+| 属性名   | 类型                                                                                     | 默认值 | 说明                                                                                                                                      |
+| -------- | ---------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| api      | [Api](../../docs/types/api)                                                              | -      | 请求地址，参考 [api](../../docs/types/api) 格式说明。                                                                                     |
+| redirect | [模板字符串](../../docs/concepts/template#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2) | -      | 指定当前请求结束后跳转的路径，可用 `${xxx}` 取值。                                                                                        |
+| feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog.md) |
+| messages | `object`                                                                                 | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                        |
 
 ## 跳转链接
 
@@ -481,10 +481,10 @@ icon 也可以是 url 地址，比如
 
 **属性表**
 
-| 属性名     | 类型                         | 默认值 | 说明                                 |
-| ---------- | ---------------------------- | ------ | ------------------------------------ |
-| actionType | `string`                     | `copy` | 复制一段内容到粘贴板                 |
-| content    | [模板](../concepts/template) | -      | 指定复制的内容。可用 `${xxx}` 取值。 |
+| 属性名     | 类型                                 | 默认值 | 说明                                 |
+| ---------- | ------------------------------------ | ------ | ------------------------------------ |
+| actionType | `string`                             | `copy` | 复制一段内容到粘贴板                 |
+| content    | [模板](../../docs/concepts/template) | -      | 指定复制的内容。可用 `${xxx}` 取值。 |
 
 ## 刷新其他组件
 
@@ -546,23 +546,23 @@ icon 也可以是 url 地址，比如
 
 所有`actionType`都支持的通用配置项
 
-| 属性名           | 类型                         | 默认值      | 说明                                                                                                                                                                        |
-| ---------------- | ---------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type             | `string`                     | `action`    | 指定为 Page 渲染器。                                                                                                                                                        |
-| actionType       | `string`                     | -           | 【必填】这是 action 最核心的配置，来指定该 action 的作用类型，支持：`ajax`、`link`、`url`、`drawer`、`dialog`、`confirm`、`cancel`、`prev`、`next`、`copy`、`close`。       |
-| label            | `string`                     | -           | 按钮文本。可用 `${xxx}` 取值。                                                                                                                                              |
-| level            | `string`                     | `default`   | 按钮样式，支持：`link`、`primary`、`secondary`、`info`、`success`、`warning`、`danger`、`light`、`dark`、`default`。                                                        |
-| size             | `string`                     | -           | 按钮大小，支持：`xs`、`sm`、`md`、`lg`。                                                                                                                                    |
-| icon             | `string`                     | -           | 设置图标，例如`fa fa-plus`。                                                                                                                                                |
-| iconClassName    | `string`                     | -           | 给图标上添加类名。                                                                                                                                                          |
-| active           | `boolean`                    | -           | 按钮是否高亮。                                                                                                                                                              |
-| activeLevel      | `string`                     | -           | 按钮高亮时的样式，配置支持同`level`。                                                                                                                                       |
-| activeClassName  | `string`                     | `is-active` | 给按钮高亮添加类名。                                                                                                                                                        |
-| block            | `boolean`                    | -           | 用`display:"block"`来显示按钮。                                                                                                                                             |
-| confirmText      | [模板](../concepts/template) | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                                      |
-| reload           | `string`                     | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                               |
-| tooltip          | `string`                     | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                                  |
-| disabledTip      | `string`                     | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
-| tooltipPlacement | `string`                     | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                            |
-| close            | `boolean` or `string`        | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
-| required         | `Array<string>`              | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |
+| 属性名           | 类型                                 | 默认值      | 说明                                                                                                                                                                        |
+| ---------------- | ------------------------------------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type             | `string`                             | `action`    | 指定为 Page 渲染器。                                                                                                                                                        |
+| actionType       | `string`                             | -           | 【必填】这是 action 最核心的配置，来指定该 action 的作用类型，支持：`ajax`、`link`、`url`、`drawer`、`dialog`、`confirm`、`cancel`、`prev`、`next`、`copy`、`close`。       |
+| label            | `string`                             | -           | 按钮文本。可用 `${xxx}` 取值。                                                                                                                                              |
+| level            | `string`                             | `default`   | 按钮样式，支持：`link`、`primary`、`secondary`、`info`、`success`、`warning`、`danger`、`light`、`dark`、`default`。                                                        |
+| size             | `string`                             | -           | 按钮大小，支持：`xs`、`sm`、`md`、`lg`。                                                                                                                                    |
+| icon             | `string`                             | -           | 设置图标，例如`fa fa-plus`。                                                                                                                                                |
+| iconClassName    | `string`                             | -           | 给图标上添加类名。                                                                                                                                                          |
+| active           | `boolean`                            | -           | 按钮是否高亮。                                                                                                                                                              |
+| activeLevel      | `string`                             | -           | 按钮高亮时的样式，配置支持同`level`。                                                                                                                                       |
+| activeClassName  | `string`                             | `is-active` | 给按钮高亮添加类名。                                                                                                                                                        |
+| block            | `boolean`                            | -           | 用`display:"block"`来显示按钮。                                                                                                                                             |
+| confirmText      | [模板](../../docs/concepts/template) | -           | 当设置后，操作在开始前会询问用户。可用 `${xxx}` 取值。                                                                                                                      |
+| reload           | `string`                             | -           | 指定此次操作完后，需要刷新的目标组件名字（组件的`name`值，自己配置的），多个请用 `,` 号隔开。                                                                               |
+| tooltip          | `string`                             | -           | 鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                                  |
+| disabledTip      | `string`                             | -           | 被禁用后鼠标停留时弹出该段文字，也可以配置对象类型：字段为`title`和`content`。可用 `${xxx}` 取值。                                                                          |
+| tooltipPlacement | `string`                             | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                            |
+| close            | `boolean` or `string`                | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
+| required         | `Array<string>`                      | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |

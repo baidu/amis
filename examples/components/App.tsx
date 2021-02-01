@@ -26,18 +26,14 @@ import DocSearch from './DocSearch';
 import Doc from './Doc';
 import DocNavCN from './DocNavCN';
 import Example, {examples} from './Example';
-import CssDocs, {cssDocs} from './CssDocs';
-import CSSDocs from './CssDocs';
+import CSSDocs, {cssDocs} from './CssDocs';
+import Components, {components} from './Components';
 
 declare const _hmt: any;
 
-let ExamplePathPrefix = '/examples';
-let DocPathPrefix = '/docs';
 let ContextPath = '';
 
 if (process.env.NODE_ENV === 'production') {
-  ExamplePathPrefix = '';
-  DocPathPrefix = '';
   ContextPath = '/amis';
 }
 
@@ -259,6 +255,13 @@ export class App extends React.PureComponent<{
           <ul className={`HeaderLinks`}>
             <Link to={`${ContextPath}/zh-CN/docs`} activeClassName="is-active">
               文档
+            </Link>
+
+            <Link
+              to={`${ContextPath}/zh-CN/components`}
+              activeClassName="is-active"
+            >
+              组件
             </Link>
             <Link to={`${ContextPath}/style`} activeClassName="is-active">
               样式
@@ -550,7 +553,7 @@ function isActive(link: any, location: any) {
   return !!(link.path && getPath(link.path) === location.pathname);
 }
 
-function navigations2route(pathPrefix = DocPathPrefix, navigations) {
+function navigations2route(navigations) {
   let routes = [];
 
   navigations.forEach(root => {
@@ -597,6 +600,8 @@ export default function entry({pathPrefix}) {
           from={`${ContextPath}/`}
           to={`${ContextPath}/${locate}/docs/index`}
         />
+
+        {/* docs */}
         <Redirect
           from={`${ContextPath}/docs`}
           to={`${ContextPath}/${locate}/docs/index`}
@@ -613,6 +618,26 @@ export default function entry({pathPrefix}) {
           from={`${ContextPath}/${locate}/docs`}
           to={`${ContextPath}/${locate}/docs/index`}
         />
+
+        {/* components */}
+        <Redirect
+          from={`${ContextPath}/components`}
+          to={`${ContextPath}/${locate}/components/page`}
+        />
+        <Redirect
+          from={`${ContextPath}/components/page`}
+          to={`${ContextPath}/${locate}/components/page`}
+        />
+        <Redirect
+          from={`${ContextPath}/components/*`}
+          to={`${ContextPath}/${locate}/components/*`}
+        />
+        <Redirect
+          from={`${ContextPath}/${locate}/components`}
+          to={`${ContextPath}/${locate}/components/page`}
+        />
+
+        {/* expamles */}
         <Redirect
           from={`${ContextPath}/examples`}
           to={`${ContextPath}/examples/pages/simple`}
@@ -621,15 +646,20 @@ export default function entry({pathPrefix}) {
           from={`${ContextPath}/style`}
           to={`${ContextPath}/style/index`}
         />
-
         <Route path={`${ContextPath}/${locate}/docs`} component={Doc}>
-          {navigations2route(DocPathPrefix, DocNavCN)}
+          {navigations2route(DocNavCN)}
+        </Route>
+        <Route
+          path={`${ContextPath}/${locate}/components`}
+          component={Components}
+        >
+          {navigations2route(components)}
         </Route>
         <Route path={`${ContextPath}/examples`} component={Example}>
-          {navigations2route(ExamplePathPrefix, examples)}
+          {navigations2route(examples)}
         </Route>
         <Route path={`${ContextPath}/style`} component={CSSDocs}>
-          {navigations2route(ExamplePathPrefix, cssDocs)}
+          {navigations2route(cssDocs)}
         </Route>
       </Route>
 

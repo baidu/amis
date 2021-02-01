@@ -108,7 +108,12 @@ export type TableColumnObject = {
   /**
    * todo
    */
-  filterable?: any;
+  filterable?:
+    | boolean
+    | {
+        source?: string;
+        options?: Array<any>;
+      };
 
   /**
    * 结合表格的 footable 一起使用。

@@ -1,5 +1,5 @@
 import React from 'react';
-import {saveAs} from 'file-saver';
+
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
 import {
@@ -1701,22 +1701,24 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderExportCSV() {
-    const {store, classPrefix: ns, classnames: cx, translate: __} = this.props;
+    const {
+      store,
+      classPrefix: ns,
+      classnames: cx,
+      translate: __,
+      loadDataOnce,
+      api
+    } = this.props;
 
     return (
       <Button
         classPrefix={ns}
-        onClick={() => {
-          import('papaparse').then((papaparse: any) => {
-            const csvText = papaparse.unparse(store.data.items);
-            if (csvText) {
-              const blob = new Blob([csvText], {
-                type: 'text/plain;charset=utf-8'
-              });
-              saveAs(blob, 'data.csv');
-            }
-          });
-        }}
+        onClick={() =>
+          store.exportAsCSV({
+            loadDataOnce,
+            api
+          })
+        }
         size="sm"
       >
         {__('CRUD.exportCSV')}

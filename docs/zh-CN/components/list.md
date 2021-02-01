@@ -77,21 +77,21 @@ order: 56
 
 ## 属性表
 
-| 属性名                   | 类型                         | 默认值                | 说明                                                                 |
-| ------------------------ | ---------------------------- | --------------------- | -------------------------------------------------------------------- |
-| type                     | `string`                     |                       | `"list"` 指定为列表展示。                                            |
-| title                    | `string`                     |                       | 标题                                                                 |
-| source                   | `string`                     | `${items}`            | 数据源, 获取当前数据域变量，支持[数据映射](../concepts/data-mapping) |
-| placeholder              | `string`                     | ‘暂无数据’            | 当没数据的时候的文字提示                                             |
-| className                | `string`                     |                       | 外层 CSS 类名                                                        |
-| headerClassName          | `string`                     | `amis-list-header`    | 顶部外层 CSS 类名                                                    |
-| footerClassName          | `string`                     | `amis-list-footer`    | 底部外层 CSS 类名                                                    |
-| listItem                 | `Array`                      |                       | 配置单条信息                                                         |
-| listItem.title           | [模板](../concepts/template) |                       | 标题                                                                 |
-| listItem.titleClassName  | `string`                     | `h5`                  | 标题 CSS 类名                                                        |
-| listItem.subTitle        | [模板](../concepts/template) |                       | 副标题                                                               |
-| listItem.avatar          | [模板](../concepts/template) |                       | 图片地址                                                             |
-| listItem.avatarClassName | `string`                     | `thumb-sm avatar m-r` | 图片 CSS 类名                                                        |
-| listItem.desc            | [模板](../concepts/template) |                       | 描述                                                                 |
-| listItem.body            | `Array`                      |                       | 内容容器，主要用来放置非表单项组件                                   |
-| listItem.actions         | Array<[Action](./action)>    |                       | 按钮区域                                                             |
+| 属性名                   | 类型                                 | 默认值                | 说明                                                                         |
+| ------------------------ | ------------------------------------ | --------------------- | ---------------------------------------------------------------------------- |
+| type                     | `string`                             |                       | `"list"` 指定为列表展示。                                                    |
+| title                    | `string`                             |                       | 标题                                                                         |
+| source                   | `string`                             | `${items}`            | 数据源, 获取当前数据域变量，支持[数据映射](../../docs/concepts/data-mapping) |
+| placeholder              | `string`                             | ‘暂无数据’            | 当没数据的时候的文字提示                                                     |
+| className                | `string`                             |                       | 外层 CSS 类名                                                                |
+| headerClassName          | `string`                             | `amis-list-header`    | 顶部外层 CSS 类名                                                            |
+| footerClassName          | `string`                             | `amis-list-footer`    | 底部外层 CSS 类名                                                            |
+| listItem                 | `Array`                              |                       | 配置单条信息                                                                 |
+| listItem.title           | [模板](../../docs/concepts/template) |                       | 标题                                                                         |
+| listItem.titleClassName  | `string`                             | `h5`                  | 标题 CSS 类名                                                                |
+| listItem.subTitle        | [模板](../../docs/concepts/template) |                       | 副标题                                                                       |
+| listItem.avatar          | [模板](../../docs/concepts/template) |                       | 图片地址                                                                     |
+| listItem.avatarClassName | `string`                             | `thumb-sm avatar m-r` | 图片 CSS 类名                                                                |
+| listItem.desc            | [模板](../../docs/concepts/template) |                       | 描述                                                                         |
+| listItem.body            | `Array`                              |                       | 内容容器，主要用来放置非表单项组件                                           |
+| listItem.actions         | Array<[Action](./action)>            |                       | 按钮区域                                                                     |
