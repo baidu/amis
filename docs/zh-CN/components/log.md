@@ -12,7 +12,7 @@ order: 56
 
 ## 基本用法
 
-通过设置 source 来获取日志，支持 ANSI 基本颜色显示，由于缺少线上服务，所以这个例子无法在线演示。
+通过设置 source 来获取日志，支持 ANSI 基本颜色显示。
 
 ```json
 {
@@ -21,6 +21,10 @@ order: 56
   "source": "http://localhost:3000/"
 }
 ```
+
+由于缺少线上服务，所以这个例子无法在线演，它的运行效果如下图所示
+
+![示例](https://suda.cdn.bcebos.com/images%2Famis%2Flog.gif)
 
 ### 后端实现参考
 
