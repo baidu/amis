@@ -1,8 +1,8 @@
 .#{$ns}Field-quickEditBtn {
   color: var(--QuickEdit-iconColor);
   margin-left: var(--gap-xs);
-  visibility: hidden;
   display: inline-block;
+  vertical-align: text-top;
   cursor: pointer;
   opacity: 0.6;
 
