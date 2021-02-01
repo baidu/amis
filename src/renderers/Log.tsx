@@ -25,7 +25,7 @@ export interface LogSchema extends BaseSchema {
   /**
    * 获取日志的地址
    */
-  url: string;
+  source: string;
 
   /**
    * 控件高度
@@ -41,6 +41,7 @@ export interface LogSchema extends BaseSchema {
 export interface LogProps extends RendererProps, LogSchema {}
 
 export interface LogState {
+  lastLine: string;
   logs: string[];
 }
 
@@ -58,6 +59,7 @@ export class Log extends React.Component<LogProps, LogState> {
   logRef: React.RefObject<HTMLDivElement>;
 
   state: LogState = {
+    lastLine: '',
     logs: []
   };
 
@@ -102,8 +104,9 @@ export class Log extends React.Component<LogProps, LogState> {
   }
 
   async loadLogs() {
-    const {url} = this.props;
-    const res = await fetch(url);
+    const {source, env, translate: __} = this.props;
+    // 因为这里返回结果是流式的，和普通 api 请求不一样，如果直接用 fetcher 经过 responseAdpater 可能会导致出错，所以就直接 fetch 了
+    const res = await fetch(source);
     if (res.status === 200) {
       const body = res.body;
       if (!body) {
@@ -111,44 +114,29 @@ export class Log extends React.Component<LogProps, LogState> {
       }
       const reader = body.getReader();
       let lastline = '';
+      let logs: string[] = [];
       for (;;) {
         let {done, value} = await reader.read();
         if (value) {
           let text = new TextDecoder('utf-8').decode(value, {stream: true});
           // 不考虑只有 \r 换行符的情况，几乎没人用
           const lines = text.split('\n');
-          // 如果没有换行符
+          // 如果没有换行符就只更新最后一行
           if (lines.length === 1) {
-            // 如果之前最后一行是空的或者目前没内容，就新增一行
-            if (lastline === '' || this.state.logs.length === 0) {
-              lastline = lines[0];
-              this.setState({
-                logs: this.state.logs.concat(lastline)
-              });
-            } else {
-              lastline += lines[0];
-              const logs = this.state.logs;
-              logs[logs.length - 1] = lastline;
-              this.setState({
-                logs: logs
-              });
-            }
+            lastline += lines[0];
+            this.setState({
+              lastLine: lastline
+            });
           } else {
-            // 如果最后一个字符是换行符就直接去掉最后一个数组
-            if (text.length > 1 && text.endsWith) {
-              lines.pop();
-            }
             // 将之前的数据补上
             lines[0] = lastline + lines[0];
-            // 如果之前有值，需要去掉最后一行
-            const logs = this.state.logs;
-            if (lastline !== '') {
-              logs.pop();
-            }
+            // 最后一个要么是空，要么是下一行的数据
+            lastline = lines.pop() || '';
+            logs = logs.concat(lines);
             this.setState({
-              logs: logs.concat(lines)
+              logs: logs,
+              lastLine: lastline
             });
-            lastline = '';
           }
         }
 
@@ -158,6 +146,7 @@ export class Log extends React.Component<LogProps, LogState> {
         }
       }
     } else {
+      env.notify('error', __('fetchFailed'));
     }
   }
 
@@ -186,6 +175,9 @@ export class Log extends React.Component<LogProps, LogState> {
         style={{height: height}}
       >
         {lines.length ? lines : __(placeholder)}
+        <div className={cx('Log-line')} key="last">
+          <code>{this.state.lastLine}</code>
+        </div>
       </div>
     );
   }

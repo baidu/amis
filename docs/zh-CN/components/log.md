@@ -12,19 +12,19 @@ order: 56
 
 ## 基本用法
 
-通过设置 url 来获取日志，支持 ANSI 基本颜色显示。
+通过设置 source 来获取日志，支持 ANSI 基本颜色显示，由于缺少线上服务，所以这个例子无法在线演示。
 
-```schema: scope="body"
+```json
 {
   "type": "log",
   "height": 300,
-  "url": "http://localhost:3000/"
+  "source": "http://localhost:3000/"
 }
 ```
 
-### 后端的实现
+### 后端实现参考
 
-后端只需要通过流的方式输出结果就行，只要收到数据就会马上显示，比如 Node 实现示例。
+后端需要通过流的方式输出结果，比如 Node 实现示例：
 
 ```javascript
 const http = require('http');
@@ -51,6 +51,28 @@ let app = http.createServer((req, res) => {
 app.listen(3000, '127.0.0.1');
 console.log('Node server running on port 3000');
 ```
+
+其它语言请查找 stream 类型的的放回，比如 Spring 的 `StreamingResponseBody`：
+
+```java
+@Controller
+public class StreamingResponseBodyController {
+    @GetMapping("/logs")
+    public ResponseEntity<StreamingResponseBody> handleLog() {
+        StreamingResponseBody stream = out -> {
+          for (int i = 0; i < 1000; i++) {
+            String msg = "log" + " @ " + new Date();
+            out.write(msg.getBytes());
+            out.flush();
+          }
+          out.close();
+        };
+        return new ResponseEntity(stream, HttpStatus.OK);
+    }
+}
+```
+
+需要注意有些反向代理有 buffer 设置，比如 nginx 的 [proxy_buffer_size](https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size)，它会使得即便后端返回内容也需要等 buffer 满了才会真正返回前端，如果需要更实时的效果就需要关掉此功能。
 
 ## 自动滚动到底部
 

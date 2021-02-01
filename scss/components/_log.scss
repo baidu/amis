@@ -2,11 +2,12 @@
   background: var(--Log-bg);
   color: var(--Log-color);
   padding: var(--Log-padding);
-  white-space: pre-wrap;
   overflow-y: auto;
   font-family: var(--fontFamilyMonospace);
   &-line {
     padding: var(--Log-line-padding);
+    white-space: pre-wrap;
+    word-wrap: break-word;
     // bootstrap 会修改这些，覆盖掉
     code {
       color: inherit;
