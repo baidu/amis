@@ -3,7 +3,17 @@
 var marked = require('marked');
 let prism = require('prismjs');
 let loadLanguages = require('prismjs/components/');
-loadLanguages(['bash', 'javascript', 'jsx', 'tsx', 'css', 'markup', 'json']);
+loadLanguages([
+  'bash',
+  'javascript',
+  'java',
+  'python',
+  'jsx',
+  'tsx',
+  'css',
+  'markup',
+  'json'
+]);
 var yaml = (yaml = require('js-yaml'));
 var rYml = /^\s*---([\s\S]*?)---\s/;
 var renderer = new marked.Renderer();

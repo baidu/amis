@@ -995,6 +995,15 @@ export default [
           )
       },
       {
+        label: 'Log 实时日志',
+        path: '/zh-CN/docs/components/log',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/log.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Mapping 映射',
         path: '/zh-CN/docs/components/mapping',
         getComponent: () =>

@@ -127,6 +127,7 @@ import './renderers/VBox';
 import './renderers/Image';
 import './renderers/Images';
 import './renderers/List';
+import './renderers/Log';
 import './renderers/Operation';
 import './renderers/Page';
 import './renderers/PaginationWrapper';
