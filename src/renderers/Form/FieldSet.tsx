@@ -118,11 +118,7 @@ export default class FieldSetControl extends React.Component<
           formClassName
         )}
       >
-        {renderFormItems(
-          {controls},
-          ($path as string).replace(/^.*form\//, ''),
-          props
-        )}
+        {renderFormItems({controls}, 'controls', props)}
       </div>
     );
   }
