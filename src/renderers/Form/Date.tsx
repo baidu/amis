@@ -1,7 +1,7 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import { FormItem, FormControlProps, FormBaseControl } from './Item';
 import cx from 'classnames';
-import {filterDate} from '../../utils/tpl-builtin';
+import { filterDate } from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
@@ -31,6 +31,12 @@ export interface DateBaseControlSchema extends FormBaseControl {
    * 设定是否存储 utc 时间。
    */
   utc?: boolean;
+
+  /**
+   * 打开日历时的日期，默认为当天
+   * 文档：https://github.com/arqex/react-datetime/blob/v2.16.1/README.md#api
+   */
+  viewDate?: Date | string | moment.Moment;
 
   /**
    * 是否为内联模式？
@@ -205,6 +211,7 @@ export interface DateProps extends FormControlProps {
   inputFormat?: string;
   timeFormat?: string;
   format?: string;
+  viewDate?: Date | string | moment.Moment;
   timeConstraints?: {
     hours?: {
       min: number;
@@ -238,7 +245,7 @@ interface DateControlState {
 export default class DateControl extends React.PureComponent<
   DateProps,
   DateControlState
-> {
+  > {
   static defaultProps = {
     format: 'X',
     viewMode: 'days',
