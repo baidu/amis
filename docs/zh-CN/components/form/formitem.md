@@ -877,7 +877,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 | labelClassName | `string`                                           |        | label 的类名                                               |
 | name           | `string`                                           |        | 字段名，指定该表单项提交时的 key                           |
 | label          | [模板](../../../docs/concepts/template) 或 `false` |        | 表单项标签                                                 |
-| labelRemark    | [Remark](../../components/remark)                  |        | 表单项标签描述                                             |
+| labelRemark    | [Remark](../remark)                                |        | 表单项标签描述                                             |
 | description    | [模板](../../../docs/concepts/template)            |        | 表单项描述                                                 |
 | placeholder    | `string`                                           |        | 表单项描述                                                 |
 | inline         | `boolean`                                          |        | 是否为 内联 模式                                           |
