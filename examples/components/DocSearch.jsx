@@ -53,7 +53,10 @@ export default class DocSearch extends React.Component {
 
     let results = [];
     for (let doc of this.docs) {
-      let bodyTest = new RegExp(query, 'i');
+      let bodyTest = new RegExp(
+        query.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'),
+        'i'
+      );
       const match = bodyTest.exec(doc.body);
 
       if (match) {
