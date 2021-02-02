@@ -20,6 +20,9 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    - uses: n1hility/cancel-previous-runs@v2
+      with: 
+        token: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/checkout@v2
       with:
           persist-credentials: false
