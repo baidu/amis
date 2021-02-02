@@ -282,7 +282,7 @@ body {
   > a {
     display: inline-block;
     color: #333;
-    padding: 0px 15px;
+    padding: 0px 5px;
     margin: 0 5px;
     font-weight: 500;
     text-decoration: none;
@@ -1004,7 +1004,7 @@ body.dark {
 
 .Playgroud {
   border: 1px solid #ddd;
-  background: #fff;
+  background: var(--body-bg);
 
   body.dark & {
     background: #191c22;
