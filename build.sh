@@ -4,7 +4,7 @@ set -e
 rm -rf lib
 rm -rf output
 
-fis3 release publish -c
+./node_modules/.bin/fis3 release publish -c
 rm -rf lib/node_modules
 
 # 生成 sdk
