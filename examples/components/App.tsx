@@ -263,7 +263,7 @@ export class App extends React.PureComponent<{
             >
               组件
             </Link>
-            <Link to={`${ContextPath}/style`} activeClassName="is-active">
+            <Link to={`${ContextPath}/zh-CN/style`} activeClassName="is-active">
               样式
             </Link>
             <Link to={`${ContextPath}/examples`} activeClassName="is-active">
@@ -643,8 +643,8 @@ export default function entry({pathPrefix}) {
           to={`${ContextPath}/examples/pages/simple`}
         />
         <Redirect
-          from={`${ContextPath}/style`}
-          to={`${ContextPath}/style/index`}
+          from={`${ContextPath}/${locate}/style`}
+          to={`${ContextPath}/${locate}/style/index`}
         />
         <Route path={`${ContextPath}/${locate}/docs`} component={Doc}>
           {navigations2route(DocNavCN)}
@@ -658,7 +658,7 @@ export default function entry({pathPrefix}) {
         <Route path={`${ContextPath}/examples`} component={Example}>
           {navigations2route(examples)}
         </Route>
-        <Route path={`${ContextPath}/style`} component={CSSDocs}>
+        <Route path={`${ContextPath}/${locate}/style`} component={CSSDocs}>
           {navigations2route(cssDocs)}
         </Route>
       </Route>
