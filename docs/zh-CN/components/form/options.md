@@ -1207,7 +1207,7 @@ order: 2
                     "value":"b"
                 },
                 {
-                    "label":"C",## 二级标题
+                    "label":"C",
                     "value":"c"
                 }
             ]
