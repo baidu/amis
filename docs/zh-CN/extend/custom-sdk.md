@@ -60,7 +60,7 @@ title: 自定义组件 - SDK
 
 注意上面的例子中两个组件的 name 是一样的，这是为了方便示例，因为 amis 中的数据是双向绑定的，因此 onChange 修改自身的时候，另一个「姓名」输入框由于 name 一样，也会同步更新。
 
-关于 custom 组件的更多属性请参考「[Custom 组件](../components/custom)」。
+关于 custom 组件的更多属性请参考「[Custom 组件](../../docs/components/custom)」。
 
 ## JS SDK 注册组件
 

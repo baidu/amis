@@ -53,7 +53,7 @@ order: 12
 
 > `dialog`是容器，也就意味着可以在`body`属性中配置其他组件
 
-完整的行为列表可以查看 [action](../components/action)组件
+完整的行为列表可以查看 [action](../../docs/components/action)组件
 
 ### 组件所支持的行为
 
