@@ -278,7 +278,7 @@ export interface FormSchema extends BaseSchema {
   /**
    * 组合校验规则，选填
    */
-  rules: Array<{
+  rules?: Array<{
     rule: string;
     message: string;
   }>;

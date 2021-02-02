@@ -394,12 +394,15 @@ export const filters: {
       arg1 = arg1 ? getStrOrVariable(arg1, this) : '';
       fn = value => arg1 == value;
     } else if (directive === 'isIn') {
-      let list: Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
-      list = Array.isArray(list) ? list : [list];
-      fn = value => !!~list.indexOf(value);
+      let list: any = arg1 ? getStrOrVariable(arg1, this) : [];
+
+      list = str2array(list);
+      list = Array.isArray(list) ? list : list ? [list] : [];
+      fn = value => (list.length ? !!~list.indexOf(value) : true);
     } else if (directive === 'notIn') {
       let list: Array<any> = arg1 ? getStrOrVariable(arg1, this) : [];
-      list = Array.isArray(list) ? list : [list];
+      list = str2array(list);
+      list = Array.isArray(list) ? list : list ? [list] : [];
       fn = value => !~list.indexOf(value);
     } else {
       if (directive !== 'match') {
@@ -514,9 +517,28 @@ function getStrOrVariable(value: string, data: any) {
     ? parseInt(value, 10)
     : /^(-?\d+)\.\d+?$/.test(value)
     ? parseFloat(value)
+    : /^\[.*\]$/.test(value)
+    ? value
+        .substring(1, value.length - 1)
+        .split(/\s*,\s*/)
+        .filter(item => item)
     : /,/.test(value)
-    ? value.split(/\s*,\s*/)
+    ? value.split(/\s*,\s*/).filter(item => item)
     : resolveVariable(value, data);
+}
+
+function str2array(list: any) {
+  if (list && typeof list === 'string') {
+    if (/^\[.*\]$/.test(list)) {
+      return list
+        .substring(1, list.length - 1)
+        .split(/\s*,\s*/)
+        .filter(item => item);
+    } else {
+      return list.split(/\s*,\s*/).filter(item => item);
+    }
+  }
+  return list;
 }
 
 function getConditionValue(

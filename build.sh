@@ -4,11 +4,11 @@ set -e
 rm -rf lib
 rm -rf output
 
-fis3 release publish -c
+./node_modules/.bin/fis3 release publish -c
 rm -rf lib/node_modules
 
 # 生成 sdk
-rm -rf sdk && fis3 release publish-sdk -c
+rm -rf sdk && ./node_modules/.bin/fis3 release publish-sdk -c
 
 cp -r node_modules/monaco-editor/min/vs/base/browser sdk/thirds/monaco-editor/min/vs/base
 
