@@ -7,7 +7,8 @@ import {
   isObject,
   setVariable,
   qsstringify,
-  keyToPath
+  keyToPath,
+  string2regExp
 } from './helper';
 import {Enginer} from './tpl';
 
@@ -416,7 +417,8 @@ export const filters: {
         return input;
       }
 
-      fn = value => new RegExp(arg1, 'i').test(String(value));
+      let reg = string2regExp(arg1, false);
+      fn = value => reg.test(String(value));
     }
 
     keys = keys.split(/\s*,\s*/);
@@ -461,7 +463,7 @@ export const filters: {
     matchArg = getStrOrVariable(matchArg, this as any);
     return getConditionValue(
       input,
-      matchArg && new RegExp(matchArg, 'i').test(String(input)),
+      matchArg && string2regExp(matchArg, false).test(String(input)),
       trueValue,
       falseValue,
       this
@@ -471,7 +473,7 @@ export const filters: {
     matchArg = getStrOrVariable(matchArg, this as any);
     return getConditionValue(
       input,
-      matchArg && !new RegExp(matchArg, 'i').test(String(input)),
+      matchArg && !string2regExp(matchArg, false).test(String(input)),
       trueValue,
       falseValue,
       this
