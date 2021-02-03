@@ -1,60 +1,61 @@
 import React = require('react');
 import {fireEvent, render} from 'react-testing-library';
 import '../../../src/themes/default';
-import {
-    render as amisRender,
-    setIconVendor
-} from '../../../src/index';
-import { makeEnv } from '../../helper';
+import {render as amisRender, setIconVendor} from '../../../src/index';
+import {makeEnv} from '../../helper';
 
 test('Renderer:icon-picker', async () => {
-    const vendors = [
-        {
-            name: 'Font Awesome 4.7',
-            prefix: 'fa fa-',
-            icons: ["address-book", "address-book-o", "address-card"]
-        },
-        {
-            name: 'Glyphicons',
-            prefix: 'glyphicon glyphicon-',
-            icons: ["asterisk", "plus", "euro", "eur", "minus"]
-        }];
-    setIconVendor(vendors);
+  const vendors = [
+    {
+      name: 'Font Awesome 4.7',
+      prefix: 'fa fa-',
+      icons: ['address-book', 'address-book-o', 'address-card']
+    },
+    {
+      name: 'Glyphicons',
+      prefix: 'glyphicon glyphicon-',
+      icons: ['asterisk', 'plus', 'euro', 'eur', 'minus']
+    }
+  ];
+  setIconVendor(vendors);
 
-    const {
-        container,
-        getByText,
-        getByTitle
-    } = render(amisRender({
+  const {container, getByText, getByTitle} = render(
+    amisRender(
+      {
         type: 'form',
         api: '/api/xxx',
         controls: [
-            {
-                type: 'icon-picker',
-                name: 'a',
-                label: 'icon-picker',
-                value: 'address-card'
-            }
+          {
+            type: 'icon-picker',
+            name: 'a',
+            label: 'icon-picker',
+            value: 'address-card'
+          }
         ],
         title: 'The form',
         actions: []
-    }, {}, makeEnv({
-    })));
+      },
+      {},
+      makeEnv({})
+    )
+  );
 
-    const faIcon = container.querySelector('.a-IconPickerControl-value');
-    expect(faIcon.innerHTML.replace(/<\s*i[^>]*><\s*\/\s*i>/g,'')).toEqual('address-card');
+  const faIcon = container.querySelector('.a-IconPickerControl-value');
+  expect(faIcon?.innerHTML.replace(/<\s*i[^>]*><\s*\/\s*i>/g, '')).toEqual(
+    'address-card'
+  );
 
-    const input = container.querySelector('input');
-    input.focus();
-    fireEvent.click(getByText(/Glyphicons/));
+  const input = container.querySelector('input');
+  input?.focus();
+  fireEvent.click(getByText(/Glyphicons/));
 
-    fireEvent.change(input, {
-        target: {
-            value: 'glyphicon glyphicon-plus'
-        }
-    });
+  fireEvent.change(input!, {
+    target: {
+      value: 'glyphicon glyphicon-plus'
+    }
+  });
 
-    fireEvent.click(getByTitle('glyphicon glyphicon-plus'));
+  fireEvent.click(getByTitle('glyphicon glyphicon-plus'));
 
-    expect(container).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });
