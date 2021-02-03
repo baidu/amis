@@ -161,7 +161,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               self.page * self.perPage
             )
           };
-          self.total = parseInt(data.total || data.count, 10) || 0;
+          self.total = parseInt(data.total ?? data.count, 10) || 0;
           self.reInitData(data);
           return;
         }
