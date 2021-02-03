@@ -131,6 +131,45 @@ order: 24
 }
 ```
 
+通过上面的配置可以看出来水平布局其实按比率分配的。实际上有时候固定左侧宽度更好看点。
+
+```
+"horizontal": {
+    "leftFixed": true
+}
+```
+
+也可以直接配置 'xs' | 'sm' | 'md' | 'lg' 来定义左侧 label 的宽度。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "title": "水平模式",
+    "mode": "horizontal",
+    "horizontal": {
+      "leftFixed": "sm"
+    },
+    "controls": [
+      {
+        "type": "email",
+        "name": "email",
+        "label": "邮箱",
+        "required": true
+      },
+      {
+        "type": "password",
+        "name": "password",
+        "label": "密码"
+      },
+      {
+        "type": "checkbox",
+        "name": "rememberMe",
+        "label": "记住登录"
+      }
+    ]
+}
+```
+
 ### 内联模式
 
 使用内联模式展现表单项

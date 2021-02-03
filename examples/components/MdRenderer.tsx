@@ -295,10 +295,9 @@ export default function (doc) {
               <div className="Doc-footer-fixme">
                 文档有误？
                 <a
-                  href={`https://github.com/baidu/amis/tree/master${location.pathname.replace(
-                    ContextPath,
-                    ''
-                  )}.md`}
+                  href={`https://github.com/baidu/amis/blob/master${location.pathname
+                    .replace(ContextPath, '')
+                    .replace(/(zh-CN)\/(docs)/, '$2/$1')}.md`}
                   rel="noopener"
                   target="_blank"
                 >
